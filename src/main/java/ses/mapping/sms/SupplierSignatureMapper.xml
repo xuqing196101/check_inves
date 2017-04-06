@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierSignatureMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierSignature">
+    <id column="ID"  property="id" />
+    <result column="SUPPLIER_ID"  property="supplierId" />
+    <result column="NAME"  property="name" />
+    <result column="COMPANY"  property="company" />
+    <result column="JOB"  property="job" />
+    <result column="CREATED_AT"  property="createdAt" />
+    <result column="UPDATED_AT"  property="updatedAt" />
+		<result column="BATCH"  property="batch" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SUPPLIER_ID, NAME, CREATED_AT, UPDATED_AT, COMPANY, JOB, BATCH
+  </sql>
+  <select id="selectBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from T_SES_SMS_SUPPLIER_AUDIT_SIGN
+    where SUPPLIER_ID = #{supplierId}
+  </select>
+
+  <insert id="insertSelective" parameterType="ses.model.ems.ExpertAudit">
+    insert into T_SES_SMS_SUPPLIER_AUDIT_SIGN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="company != null">
+        COMPANY,
+      </if>
+      <if test="job != null">
+        JOB,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="batch != null">
+        BATCH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId},
+      </if>
+      <if test="job != null">
+        #{job},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="company != null">
+        #{company},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="batch != null">
+        #{batch},
+      </if>
+    </trim>
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+  </insert>
+</mapper>

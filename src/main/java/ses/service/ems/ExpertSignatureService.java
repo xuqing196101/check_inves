@@ -2,7 +2,6 @@ package ses.service.ems;
 
 import java.util.List;
 
-import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertSignature;
 
 public  interface ExpertSignatureService {

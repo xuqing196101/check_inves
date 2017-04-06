@@ -71,14 +71,20 @@
 				//审核
 				function shenhe(id) {
 					if(id == null) {
-						var size = $(":radio:checked").size();
-						if(!size) {
+						var size = $(":checkbox:checked").size();
+						if(size == 0) {
 							layer.msg("请选择供应商 !", {
 								offset: '300px',
 							});
 							return;
 						}
-						var id = $(":radio:checked").val();
+						var id = $(":checkbox:checked").val();
+						if(size > 1){
+							layer.msg("只能选择一项 !", {
+								offset: '100px',
+							});
+							return;
+						}
 					}
 					var state = $("#" + id + "").parents("tr").find("td").eq(7).text();//.trim();
 					state = trim(state);
@@ -175,10 +181,11 @@
 				
 				//发布
 				function publish(){
-			  	var id = $(":radio:checked").val();
+			  	var id = $(":checkbox:checked").val();
+			  	var size = $(":checkbox:checked").size();
 					var state = $("#" + id + "").parents("tr").find("td").eq(7).text();//.trim();
 					state = trim(state);
-					if(id != null){
+					if(size == 1){
 			  			if(state != "待审核" && state != "审核退回" && state != "审核未通过"){
 			  	 			$.ajax({
 			  	 				url:"${pageContext.request.contextPath}/supplierAudit/publish.html",
@@ -206,6 +213,8 @@
 			  		}else{
 			  			layer.alert("只有入库供应商才能发布！",{offset : '100px'});
 			     	}
+			  		}else if(size > 1){
+			  			layer.msg("只能选择一项！",{offset : '100px'});
 			  		}else{
 			  			layer.msg("请选择供应商！",{offset : '100px'});
 			  		}
@@ -234,20 +243,52 @@
 			  	
 			//下载
 			function downloadTable(str) {
-				var size = $(":radio:checked").size();
-				if(!size) {
-					layer.msg("请选供应商 !", {
-						offset: '100px',
-					});
-					return;
+				var size = $(":checkbox:checked").size();
+				if(size == 0) {
+					layer.msg("请选供应商 !", {offset: '100px',});
+				}else if(size > 1){
+					layer.msg("只能选择一项 !", {offset: '100px',});
+				}else{
+					var id = $(":checkbox:checked").val();
+					$("input[name='supplierId']").val(id);
+					$("input[name='tableType']").val(str);
+					$("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/downloadTable.html");
+					$("#shenhe_form_id").submit();
 				}
-
-				var id = $(":radio:checked").val();
-				$("input[name='supplierId']").val(id);
-				$("input[name='tableType']").val(str);
-				$("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/downloadTable.html");
-				$("#shenhe_form_id").submit();
 			}
+			
+			//添加签字人员
+			function tianjia() {
+				var ids=[];
+				$('input[type="checkbox"]:checked').each(function(i){ 
+					ids.push($(this).val()); 
+				});
+				if(ids.length>0){
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplierAudit/signature.do?ids="+ids,
+					type: "post",
+					success: function(result) {
+						if(result == "yes"){
+							layer.open({
+					      	type : 2,
+					        title : '填写签字人员信息',
+					        // skin : 'layui-layer-rim', //加上边框
+					        area : [ '800px', '500px' ], //宽高
+					        offset : '20px',
+					        scrollbar : false,
+					        content : '${pageContext.request.contextPath}/supplierAudit/addSignature.html?ids='+ids, //url
+					        closeBtn : 1, //不显示关闭按钮
+					     });
+						}else{
+							layer.msg(result+"已添加过！", {offset: '100px',});
+								}
+							}
+					});
+				}else{
+					layer.msg("请选择专家 !", {offset: '100px',});
+					}	    	
+		   };
+			
 			</script>
 		</head>
 
@@ -343,8 +384,10 @@
 				       </select> 
 				    </li> --%>
 		        </ul>
+		        
 		        <input type="submit" class="btn fl" value="查询" />
 					  <button onclick="resetForm();" class="btn fl" type="button">重置</button>
+					  <div class="clear"></div>
 		      </form>
     		</h2>
 				<!-- 表格开始-->
@@ -358,6 +401,7 @@
 					<c:if test="${sign == 3}">
 						<a class="btn btn-windows input" onclick='downloadTable(1)' href="javascript:void(0)">下载考察记录表</a>
 						<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载意见函</a>
+						<button class="btn btn-windows check" type="button" onclick="tianjia();">添加</button>
 					</c:if>
 				</div>
 				<div class="content table_box">
@@ -376,7 +420,7 @@
 						</thead>
 						<c:forEach items="${result.list }" var="list" varStatus="page">
 							<tr>
-								<td class="tc w30"><input name="id" type="radio" value="${list.id}"></td>
+								<td class="tc w30"><input name="id" type="checkbox" value="${list.id}"></td>
 								<td class="tc w50" onclick="shenhe('${list.id }');">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
 								<td class="tl pl20" onclick="shenhe('${list.id }');">${list.supplierName }</td>
 								<td class="tc" onclick="shenhe('${list.id }');">${list.mobile }</td>

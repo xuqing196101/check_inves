@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -79,12 +80,14 @@ import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierModifyService;
 import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierSignatureService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.SupplierLevelUtil;
 import ses.util.WordUtil;
+import bss.formbean.PurchaseRequiredFormBean;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -172,6 +175,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	@Autowired
 	private SupplierModifyService supplierModifyService;
 	
+	
+	@Autowired
+	private SupplierSignatureService supplierSignatureService;
 	/**
 	 * 资质类型
 	 */
@@ -2929,6 +2935,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	private String createWordMethod(Supplier supplier, HttpServletRequest request, String tableType) throws Exception {
 		/** 用于组装word页面需要的数据 */
 		Map < String, Object > dataMap = new HashMap < String, Object > ();
+		SupplierSignature supplierSignature = new SupplierSignature();
 		if(tableType.equals("1")){
 			//供应商名称
 			dataMap.put("supplierName", supplier.getSupplierName() == null ? "" : supplier.getSupplierName());
@@ -2954,22 +2961,24 @@ public class SupplierAuditController extends BaseSupplierController {
 				}
 			}
 			dataMap.put("supplierAddress", supplierAddress);
-			
-			
+
 			//考察组成员
-			SupplierSignature supplierSignature = new SupplierSignature();
-			List<SupplierSignature> supplierList= new ArrayList<SupplierSignature>();
-			supplierSignature.setName("张三");
-			supplierSignature.setCompany("阳光");
-			supplierSignature.setJob("JAVA");
-			supplierList.add(supplierSignature);
-			dataMap.put("supplierList", supplierList);
+			supplierSignature.setSupplierId(supplier.getId());
+			List<SupplierSignature> supplierSignatureList = supplierSignatureService.selectBySupplierId(supplierSignature);
+			dataMap.put("supplierList", supplierSignatureList);
 		}
 		
-		
+		//意见函人数和名字
 		if(tableType.equals("2")){
-			dataMap.put("num", 1);
-			dataMap.put("name", "张三，李四");
+			supplierSignature.setSupplierId(supplier.getId());
+			List<SupplierSignature> supplierSignatureList = supplierSignatureService.selectBySupplierId(supplierSignature);
+			StringBuffer name = new StringBuffer();
+			for(SupplierSignature s: supplierSignatureList ){
+				name.append(s.getName() + ",");
+			}
+			name.deleteCharAt(name.length() - 1);
+			dataMap.put("num", supplierSignatureList.size());
+			dataMap.put("name", name);
 		}
 		
 		/** 生成word 返回文件名 */
@@ -2984,5 +2993,80 @@ public class SupplierAuditController extends BaseSupplierController {
 			fileName = new String(("军队供应商实地考察廉政意见函.doc").getBytes("UTF-8"), "UTF-8");
 		}
 		return newFileName;
+	}
+
+	/**
+	 * @Title: signature
+	 * @author XuQing 
+	 * @date 2017-4-3 下午12:18:11  
+	 * @Description:添加签字人员校验唯一
+	 * @param @param signature      
+	 * @return void
+	 */
+	@RequestMapping(value = "/signature", produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String signature(String ids, HttpServletResponse response) {
+		 	List<String> list = new ArrayList<String>();
+		 	String[] split = ids.split(",");
+		 	list = Arrays.asList(split);
+		   //唯一判断
+			SupplierSignature supplierSignature = new SupplierSignature();
+			for(String id : list){
+				supplierSignature.setSupplierId(id);
+				List<SupplierSignature> selectByExpertId = supplierSignatureService.selectBySupplierId(supplierSignature);
+				if(!selectByExpertId.isEmpty()){
+					Supplier supplier = supplierAuditService.supplierById(id);
+				   return supplier.getSupplierName();
+				   
+				}
+			}
+		 return "yes";
+	}
+	
+	
+	/**
+	 * @Title: signature
+	 * @author XuQing 
+	 * @date 2017-4-6 下午2:48:52  
+	 * @Description:跳转添加签字人员页面
+	 * @param @param ids
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value = "/addSignature")
+	public String signature(String ids, Model model) {
+		model.addAttribute("ids", ids);
+		return "ses/sms/supplier_audit/add_auditpersonnel";
+	}
+	
+    
+	/**
+	 * @Title: saveSignature
+	 * @author XuQing 
+	 * @date 2017-4-6 下午1:17:20  
+	 * @Description:添加签字人员
+	 * @param @param purchaseRequiredFormBean
+	 * @param @param batchNo
+	 * @param @param ids
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value = "/saveSignature", produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String saveSignature(PurchaseRequiredFormBean purchaseRequiredFormBean,String batchNo,String ids) {
+		String[] strs = ids.split(",");
+		List<SupplierSignature> list = purchaseRequiredFormBean.getSupplierSignatureList();
+		if(list.size()>0){
+			for(String id : strs){
+				for(SupplierSignature ss:list){
+					ss.setBatch(batchNo);
+					ss.setSupplierId(id);
+					ss.setCreatedAt(new Date());
+					supplierSignatureService.add(ss);
+				}
+			}
+		}
+		return "";
 	}
 }

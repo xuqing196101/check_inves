@@ -163,7 +163,7 @@
 			  	
 			  	
 			  	//禁用F12键及右键
-		  		/* function click(e) {
+		  	 function click(e) {
 					if (document.layers) {
 							if (e.which == 3) {
 							oncontextmenu='return false';
@@ -180,7 +180,7 @@
 							window.event.returnValue=false;
 							return(false); 
 						} 
-					}; */
+					};
 					
 			//添加签字人员
 			function tianjia() {
@@ -196,7 +196,7 @@
 						if(result == "yes"){
 							layer.open({
 					      	type : 2,
-					        title : '选择专家',
+					        title : '填写签字人员信息',
 					        // skin : 'layui-layer-rim', //加上边框
 					        area : [ '800px', '500px' ], //宽高
 					        offset : '20px',
@@ -282,6 +282,7 @@
 					</ul>
 					<input class="btn fl" value="查询" type="submit">
 					<button onclick="resetForm();" class="btn fl" type="button">重置</button>
+					<div class="clear"></div>
 				</form>
 			</h2>
 			<!-- 表格开始-->
