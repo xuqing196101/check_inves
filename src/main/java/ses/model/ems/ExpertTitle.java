@@ -30,6 +30,16 @@ public class ExpertTitle implements Serializable{
 
     private String expertId;
     
+    private String expertTypeId;
+    
+	public String getExpertTypeId() {
+		return expertTypeId;
+	}
+
+	public void setExpertTypeId(String expertTypeId) {
+		this.expertTypeId = expertTypeId;
+	}
+
 	public String getExpertId() {
 		return expertId;
 	}

@@ -922,5 +922,13 @@
      from T_SES_BMS_USER
       where ID=#{id}
     </select>
+    <select id="queryNameAndNote" resultMap="UserBaseMap">
+    select 
+      <include refid="Base_Column_List"/>
+       from T_SES_BMS_USER
+      where LOGIN_NAME=#{loginName} and NET_TYPE=#{note}
+    </select>
+    
+    
     
 </mapper>

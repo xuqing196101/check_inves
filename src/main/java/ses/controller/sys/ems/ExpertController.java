@@ -435,25 +435,62 @@ public class ExpertController extends BaseController {
         }
         Map < String, Object > errorMap = service.Validate(expert, 3, null);
         expert.setExpertsFrom(dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom()).getCode());
-        List<ExpertTitle> proList=expertTitleService.queryByUserId(expert.getId());
-	        ExpertTitle et=new ExpertTitle();
-		    if(proList!=null&&proList.size()<1){
-	        	  et.setQualifcationTitle(expert.getProfessional());
-	        	  et.setTitleTime(expert.getTimeProfessional());
-	        	  et.setExpertId(expert.getId());
-	        	  et.setId(expert.getId()); 
-	        	  proList.add(et);
-	        }
-//		    if(expert.getProfessional()==null){
-//		    	String id = UUID.randomUUID().toString().replaceAll("-", "");
-//		    	 et.setId(id); 
-//		    	 et.setExpertId(expert.getId());
-//		    }
-        	
-        	
-        	expert.setTitles(proList); 
-        
+        List<ExpertTitle> proList=new ArrayList<ExpertTitle>();
+        List<ExpertTitle> ecoList=new ArrayList<ExpertTitle>();
+        	boolean bool=false;
+        	boolean boo2=false;
+		    String id= expert.getExpertsTypeId();
+		    String[] ids = id.split(",");
+			String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
+			String pId = DictionaryDataUtil.getId("PROJECT");
+	
+		    for(String i:ids){
+		    	//工程技术
+		    	if(pId.equals(i)){
+		    		proList=expertTitleService.queryByUserId(expert.getId(),i);
+		    		  ExpertTitle et=new ExpertTitle();
+		  		    if(proList!=null&&proList.size()<1){
+		  	        	  et.setQualifcationTitle(expert.getProfessional());
+		  	        	  et.setTitleTime(expert.getTimeProfessional());
+		  	        	  et.setExpertId(expert.getId());
+		  	        	  et.setId(expert.getId()); 
+		  	        	  proList.add(et);
+		  	        }
+		    		boo2=true;
+		    	}
+		    	//工程经济
+		    	if(gpId.equals(i)){
+		    		ecoList=expertTitleService.queryByUserId(expert.getId(),i);
+		    		  ExpertTitle et=new ExpertTitle();
+		  		      if(proList!=null&&proList.size()<1){
+		  	        	  et.setQualifcationTitle(expert.getProfessional());
+		  	        	  et.setTitleTime(expert.getTimeProfessional());
+		  	        	  et.setExpertId(expert.getId());
+		  	        	  et.setId(expert.getId()); 
+		  	        	  ecoList.add(et);
+		  	        }
+		    		 bool=true;
+		    	}
+		    	
+		    }
+        	 if(bool!=true){
+        		 ExpertTitle et1=new ExpertTitle();
+        		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
+        		 et1.setId(uid);
+        		 ecoList.add(et1);
+        	 }
+        	 if(boo2!=true){
+        		 ExpertTitle et1=new ExpertTitle();
+        		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
+        		 et1.setId(uid);
+        		 proList.add(et1);
+        	 }
+//        	 expert.setTitles(proList);
+			 model.addAttribute("ecoList", ecoList);
+			 model.addAttribute("proList", proList);
         model.addAttribute("expert", expert);
+        
+        
         model.addAttribute("errorMap", errorMap);
         HashMap < String, Object > map = new HashMap < String, Object > ();
         map.put("typeName", "1");
@@ -3238,9 +3275,20 @@ public class ExpertController extends BaseController {
         dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getMakeTechDate()));
 //        dataMap.put("makeTechDate", expert.getTimeToWork() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeToWork()));
         
-        
+        String expertTypeId="";
+        String[] ids = expert.getExpertsTypeId().split(",");
+        String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
+		String pId = DictionaryDataUtil.getId("PROJECT");
+        for(String id:ids){
+        	if(id.equals(gpId)){
+        		expertTypeId=gpId;
+        	}
+        	if(id.equals(gpId)){
+        		expertTypeId=gpId;
+        	}
+        }
        
-        List<ExpertTitle> list = expertTitleService.queryByUserId(expert.getId());
+        List<ExpertTitle> list = expertTitleService.queryByUserId(expert.getId(),expertTypeId);
         List<ExpertTitle> titlesList=new LinkedList<ExpertTitle>();
         if(list.size()>0){
    			 dataMap.put("professional", list.get(0).getQualifcationTitle());
@@ -4283,7 +4331,20 @@ public class ExpertController extends BaseController {
 	@RequestMapping("/addprofessional")
 	@ResponseBody
 	public String add(Expert expert){
-		expertTitleService.addBatch(expert.getTitles());
+		String[] ids = expert.getExpertsTypeId().split(",");
+		String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
+		String pId = DictionaryDataUtil.getId("PROJECT");
+		for(String id:ids){
+			if(id.equals(pId)){
+				expertTitleService.addBatch(expert.getTitles(),id);
+				continue;
+			}
+			if(id.equals(gpId)){
+				expertTitleService.addBatch(expert.getTitles(),id);
+				continue;
+			}
+		}
+		
 		return "";
 	}
 	

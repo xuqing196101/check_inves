@@ -84,4 +84,7 @@ public class Constant {
     
     /** 招标附件文件名称 **/
     public final static String ATTACH_FILE_TENDER = "tender";
+    
+    /** 专家附件文件名称 **/
+    public final static String ATTCH_FILE_EXPERT = "expert";
 }

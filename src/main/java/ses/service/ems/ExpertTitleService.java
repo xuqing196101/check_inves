@@ -21,9 +21,9 @@ public interface ExpertTitleService {
 	public void update(ExpertTitle expertTitle);
 
 	
-	public List<ExpertTitle> queryByUserId(String expertId);
+	public List<ExpertTitle> queryByUserId(String expertId,String typeId);
 	
-	public void addBatch(List<ExpertTitle> list);
+	public void addBatch(List<ExpertTitle> list,String typeId);
 	
 	public void deleteById(String id);
 }

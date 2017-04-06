@@ -57,14 +57,14 @@ public interface ExpertTitleMapper {
     /**
      * 
     * @Title: queeyByExpertId
-    * @Description: 根据专家ID查询
+    * @Description: 根据专家ID查询和专家类型查询
     * author: Li Xiaoxiao 
     * @param @param expertId
     * @param @return     
     * @return List<ExpertTitle>     
     * @throws
      */
-    List<ExpertTitle> queryByExpertId(@Param("expertId")String expertId);
+    List<ExpertTitle> queryByExpertId(@Param("expertId")String expertId,@Param("expertTypeId")String typeId);
     
     
     /**

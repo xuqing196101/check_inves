@@ -36,18 +36,19 @@ public class ExpertTitleServiceImpl implements ExpertTitleService{
 	}
 
 	@Override
-	public List<ExpertTitle> queryByUserId(String expertId) {
+	public List<ExpertTitle> queryByUserId(String expertId,String typeId) {
 		 
-		return expertTitleMapper.queryByExpertId(expertId);
+		return expertTitleMapper.queryByExpertId(expertId,typeId);
 	}
 
 	@Override
-	public void addBatch(List<ExpertTitle> list) {
+	public void addBatch(List<ExpertTitle> list,String typeId) {
 		 for(ExpertTitle ep:list){
 			 ExpertTitle expertTitle = expertTitleMapper.selectByPrimaryKey(ep.getId());
 			 if(expertTitle==null&&ep.getQualifcationTitle()!=null){
 				 ep.setCreatedAt(new Date());
 				 ep.setStatus("1");
+				 ep.setExpertTypeId(typeId);
 				 expertTitleMapper.insertSelective(ep);
 			 }else if(expertTitle!=null){
 				 expertTitleMapper.updateByPrimaryKeySelective(ep);

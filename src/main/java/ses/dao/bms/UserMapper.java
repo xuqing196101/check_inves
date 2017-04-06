@@ -291,4 +291,17 @@ public interface UserMapper {
    */
   User queryById(@Param("id")String id);
   
+  /**
+   * 
+  * @Title: queryNameAndNote
+  * @Description: 根据登录名和标志查询唯一一个 
+  * author: Li Xiaoxiao 
+  * @param @param id
+  * @param @param note
+  * @param @return     
+  * @return User     
+  * @throws
+   */
+  User queryNameAndNote(@Param("loginName")String id,@Param("note")Integer note);
+  
 }

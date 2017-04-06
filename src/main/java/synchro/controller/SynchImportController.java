@@ -177,7 +177,7 @@ public class SynchImportController {
                         attachService.importSupplierAttach(f);
                     }
                     if (f.isDirectory()){
-                        if (f.getName().equals(Constant.ATTACH_FILE_TENDER)){
+                        if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)){
                             OperAttachment.moveFolder(f);
                         }
                     }
@@ -198,7 +198,7 @@ public class SynchImportController {
                         attachService.importExpertAttach(f);
                     }
                     if (f.isDirectory()){
-                        if (f.getName().equals(Constant.ATTACH_FILE_TENDER)){
+                        if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)){
                             OperAttachment.moveFolder(f);
                         }
                     }

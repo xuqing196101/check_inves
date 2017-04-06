@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -314,5 +314,170 @@ public class test2 {
 		 
 		System.out.println(df.format(d));
 	}
+	@Test
+	public void subStr(){
+		String path="E:\\web\\attach\\uploads\\supplier\\20170306";
+//		path.
+		String before = StringUtils.substringBeforeLast( path, "tmp0")+"tmp0";
+		System.out.println(before);
+	}
+	
+//	public void test() throws DocumentException{
+//		//获取reader对象
+//		SAXReader reader = new SAXReader();
+//		//读取文件路径
+//		File file = new File("d:/student.xml");
+//		//读取文件
+//		Document document = reader.read(file);
+//		//获取根节点
+//		Element  studentList= document.getRootElement();
+//		//获取根节点的子标签student,得到的是一个List集合
+//		List<Element> studentElementList = studentList.elements();
+//		//遍历子标签student里的信息
+//		for (Element student : studentElementList) {
+//			//获取student标签id属性的值
+//			String id = student.attributeValue("id");
+//			//获取student标签子标签stuName的值
+//			String stuName = student.elementText("stuName");
+//			//获取student标签子标签stuAge的值
+//			String stuAge = student.elementText("stuAge");
+//			//获取student标签子标签sex的值
+//			String sex = student.elementText("sex");
+//			//输出获取的值
+//			System.out.println(id+":"+stuName+":"+stuAge+":"+sex);
+//		}
+//	}
+//	
+//	@Test
+//	public   void  replace( ) {
+		// TODO Auto-generated method stub
+//		String a ="a'b'c\"";
+//		if(a.indexOf("'")>-1){
+//			a = a.replace("'", "\\'");
+//		} 
+//		if(a.indexOf("\"")>-1){
+//			a = a.replace("\"","\\\"");
+//		}
+//		System.out.println(a);
+//		String str="passwd\"; ";
+//		if(str.indexOf(";")>-1){
+//			str = str.replace(";", "a");
+//			System.out.println(str);
+//		}
+		
+		/*String str="stty -echo";
+		String b64 = getBase64(str);
+		String f64 = getFromBase64(b64);
+		System.out.println(b64);
+		System.out.println(f64);
+	}
+*/
+	
+	/*
+	   public  String getBase64(String str) {  
+	        byte[] b = null;  
+	        String s = null;  
+	        try {  
+	            b = str.getBytes("utf-8");  
+	        } catch (Exception e) {  
+	            e.printStackTrace();  
+	        }  
+	        if (b != null) {  
+	            s = new BASE64Encoder().encode(b);  
+	        }  
+	        return s;  
+	    }
+	   
+	   
+	   // 解密  
+	    public   String getFromBase64(String s) {  
+	        byte[] b = null;  
+	        String result = null;  
+	        if (s != null) {  
+	            BASE64Decoder decoder = new BASE64Decoder();  
+	            try {  
+	                b = decoder.decodeBuffer(s);  
+	                result = new String(b, "utf-8");  
+	            } catch (Exception e) {  
+	                e.printStackTrace();  
+	            }  
+	        }  
+	        return result;  
+	    } */
+	    
+	    @Test
+	    public void testPath(){
+	    String str=	test2.class.getClass().getClassLoader().getResource("/").getPath();
+	    System.out.println(str);
+	    }
 
+	    
+	    @Test
+	    public void file() throws Exception{
+	    	String path="E:\\web\\attach\\uploads\\expert\\20170405\\1491368693948.jpg ";
+	    	
+	  	String fileCopeToPath="E:\\项目需要";
+	  	  	File file =new File(path);
+	    	if(file.exists()){
+	    	FileInputStream fis = new FileInputStream(file);
+	    	int indexOf = path.lastIndexOf("\\");
+	    	int length = path.length();
+	    	System.out.println(length+"============="+path.substring(indexOf, length));
+	    	FileOutputStream fos= new FileOutputStream(fileCopeToPath+ File.separator +path.substring(indexOf, length));
+	    	byte[] b = new byte[fis.available()];
+	    	int len = 0;
+	    	while ((len = fis.read(b)) != -1)
+	    	{
+	    	fos.write(b, 0, len);
+	    	fos.flush();
+	    	}
+	    	fos.close();
+	    	fis.close();
+	    	}
+	    	  /* FileInputStream fis = new FileInputStream(path);
+	           FileOutputStream fos = new FileOutputStream("d:\\01.mp3");
+	    
+	           int len = 0;
+	           byte[] buf = new byte[1024];
+	           while ((len = fis.read(buf)) != -1) {
+	               fos.write(buf, 0, len);
+	           }
+	           fis.close();
+	           fos.close();*/
+	           
+	    }
+//	    @Test
+//	    public void ee() throws DocumentException{
+//	    	File xmlFile = new File("E:/项目需要/student.xml"); 
+//			SAXReader reader = new SAXReader(); 
+//			Document doc = reader.read(xmlFile); 
+//			Element root = doc.getRootElement();
+//			List<Element> nodes = root.elements();
+//			List<Student> list=new ArrayList<Student>();
+//			for(Element e : nodes) { 
+//				Student student=new Student();
+//				String elementText = e.elementText("stuName");
+//				String id = e.attributeValue("id");
+//				student.setId(Integer.valueOf(id));
+//				student.setNaem(elementText);
+//				list.add(student);
+//		 
+//			} 
+//			   Collections.sort(list, new Comparator<Student>(){  
+//		            public int compare(Student o1, Student o2) {  
+//		                if(Integer.valueOf(o1.getId())>Integer.valueOf(o2.getId())){  
+//		                    return 1;  
+//		                }  
+//		                if(o1.getId() == o2.getId()){  
+//		                    return 0;  
+//		                }  
+//		                return -1;  
+//		            }  
+//		        });  
+//			   
+//			   for(Student s:list){
+//				   System.out.println(s.getId());
+//			   }
+//			   
+//	    }
 }

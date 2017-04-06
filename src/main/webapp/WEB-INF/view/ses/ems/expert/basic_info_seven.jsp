@@ -238,7 +238,16 @@
             	if(val.trim()=="工程技术"){	
             	 if ($(this).prop("checked")) {
                      init_web_upload();
-                       $("#tab_div").attr("class", "container");
+                     
+                  	// $("#server_div").attr("class", "tab-pane fades active in");
+                  	$("#server_div").show();
+                  	$("input[name='chkItem_2']").each(function() {
+                		var val=$(this).parent().text();
+                    	if(val.trim()=="工程经济"){	
+                    		$(this).prop("disabled",true);
+                    	}
+            		});
+                  	
                  }  
             	}
     		});
@@ -250,7 +259,15 @@
             	
             	 if ($(this).prop("checked")) {
                      init_web_upload();
-                       $("#tab_div").attr("class", "container");
+                       // $("#pro_div").attr("class", "tab-pane fades active in");
+                    	$("#pro_div").show();
+                       $("input[name='chkItem_1']").each(function() {
+                   		var val=$(this).parent().text();
+                       	if(val.trim()=="工程技术"){	
+                       		$(this).prop("disabled",true);
+                       	}
+               		});
+                       
                  } 
             	}
     		});
@@ -312,35 +329,74 @@
             layer.msg("已暂存");
         }
         function checks(obj){
-        	var flag=true;
         	$("input[name='chkItem_1']").each(function() {
         		var val=$(this).parent().text();
             	if(val.trim()=="工程技术"){	
             	 if ($(this).prop("checked")) {
+            		 flagValue="工程技术";
                      init_web_upload();
-                       $("#tab_div").attr("class", "container");
+                     
+                     $("#server_div").show();
+                 	$("#server_div").attr("class", "tab-pane fades active in");
+                 	$("#server_div").attr("class", "dis_none fades ");
+            		$("input[name='chkItem_2']").each(function() {
+                		var val=$(this).parent().text();
+                    	if(val.trim()=="工程经济"){	
+                    		$(this).prop("disabled",true);
+                    	}
+            		});
+            		
+                    //   $("#tab_div").attr("class", "container");
                  }else {
                 	 flag=false;
-                        $("#tab_div").attr("class", "container opacity_0");
+                		$("#server_div").attr("class", "dis_none fades ");
+                		$("input[name='chkItem_2']").each(function() {
+                    		var val=$(this).parent().text();
+                        	if(val.trim()=="工程经济"){	
+                        		$(this).prop("disabled",false);
+                        	}
+                		});
                  }
             	}
     		});
         	
-        	if(flag==false){
+        	
+        	// if(flag==false){
         		 $("input[name='chkItem_2']").each(function() {
              		var val=$(this).parent().text();
-             		
                  	if(val.trim()=="工程经济"){	
                  	 if ($(this).prop("checked")) {
+                 		  flagValue="工程经济";
                           init_web_upload();
-                            $("#tab_div").attr("class", "container");
+                      	$("#pro_div").attr("class", "tab-pane fades active in");
+                      	$("input[name='chkItem_1']").each(function() {
+                    		var val=$(this).parent().text();
+                        	if(val.trim()=="工程技术"){	
+                        		$(this).prop("disabled",true);
+                        	}
+                		});
+                      	
                       } else {
-                             $("#tab_div").attr("class", "container opacity_0");
+                    		$("#pro_div").attr("class", "dis_none fades ");
+                    		$("input[name='chkItem_1']").each(function() {
+                        		var val=$(this).parent().text();
+                            	if(val.trim()=="工程技术"){	
+                            		$(this).prop("disabled",false);
+                            	}
+                    		});
+                    		
                       }
                  	}
          		}); 
-        	}
-        	 
+        	// }
+        /* 	if(objVal=="工程经济"&&flagValue=="工程技术"){
+        		alert("不能同时选择");
+        		 return false;  
+        	} 
+        	
+        	if(objVal=="工程技术"&&flagValue=="工程经济"){
+        		alert("不能同时选择");
+        	}  */
         	
         }
         
@@ -450,12 +506,14 @@
             </ul>
 
 
-	<div class="container opacity_0" id="tab_div">
-		<div class="tab-pane fades active in" id="production_div">
+		<div class="container" id="tab_div">
+			<div class="magazine-page">
+				<div class="col-md-12 col-sm-12 col-xs-12 p0 tab-v2 job-content">
+	 <div class="tab-pane fades" style="display: none;" id="server_div">
 	 
 		<ul class="list-unstyled f14" id="addUl">
 		
-		<c:forEach items="${expert.titles }" var="t"  varStatus="vs" >
+		<c:forEach items="${proList }" var="t"  varStatus="vs" >
 		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> <!--/执业资格  -->
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -470,11 +528,11 @@
                     <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                exts="${properties['file.picture.type']}" id="expert_${vs.index}" maxcount="1"
+                                exts="${properties['file.picture.type']}" id="pro_${vs.index}" maxcount="1"
                                 groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
                                 multiple="true" businessId="${t.id}" sysKey="${expertKey}"
                                 typeId="9" auto="true"/>
-                        <u:show showId="expert_${vs.index}"     businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+                        <u:show showId="pro_${vs.index}"     businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
@@ -503,9 +561,68 @@
 			  </li>
 			</c:forEach>
 			</ul>	
-		 						
+			
+			
+		 			</div>	
+		 			
+	 <div class="tab-pane fades" style="display: none;" id="pro_div">
+		<ul class="list-unstyled f14" id="addUl">
+		<c:forEach items="${ecoList}" var="t"  varStatus="vs" >
+		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> <!--/执业资格  -->
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                        <input  <c:if test="${fn:contains(errorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
+                                maxlength="20" value="${t.qualifcationTitle}"
+                                name="titles[${vs.index }].qualifcationTitle"  type="text"/>
+                        <span class="add-on">i</span> <span class="input-tip"></span>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 执业资格</span>
+                    <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
+                        <u:upload
+                                singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+                                exts="${properties['file.picture.type']}" id="eco_${vs.index}" maxcount="1"
+                                groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
+                                multiple="true" businessId="${t.id}" sysKey="${expertKey}"
+                                typeId="9" auto="true"/>
+                        <u:show showId="eco_${vs.index}"     businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得执业资格时间</span>
+                    <!--/职业资格时间  -->
+                    <div
+                            class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                        <input
+                                <c:if test="${fn:contains(errorField,t.id.concat('_titleTime'))}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorFileMsg('titleTime','${t.id }')"</c:if>
+                                value="<fmt:formatDate type='date' value="${t.titleTime}" dateStyle='default' pattern='yyyy-MM' />"
+                                readonly="readonly" name="titles[${vs.index }].titleTime"    type="text"
+                                onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span
+                            class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
+                    </div>
+                </li>
+                
+                <li class="col-md-3 col-sm-6 col-xs-12">
+					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
+						<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
+							<input type="button" onclick="addPractice()" class="btn list_btn" value="十" />
+							<input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
+								<input type="hidden" name="titles[${vs.index }].id" value="${t.id}" />
+								<input type="hidden" name="titles[${vs.index }].expertId" value="${t.expertId}" />
+						</div>
+			  </li>
+			</c:forEach>
+			</ul>	
+			
+			
+		 			</div>
+		 			
+		 					
+	        	</div>
+			</div>
 		</div>
-	</div>
  
 	
 	

@@ -356,7 +356,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 //    			   supplierModifyMapper.insertSelective(sh);
     		   }
     	   }
-    	   User us = userMapper.queryById(supplier.getUser().getId());  
+    	   User us = userMapper.queryNameAndNote(supplier.getUser().getLoginName(),supplier.getUser().getNetType());  
     	   if(us==null){
     		   saveUser(supplier.getUser()); 
     	   }

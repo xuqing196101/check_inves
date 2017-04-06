@@ -9,7 +9,7 @@
 	    <result column="UPDATED_AT" property="updatedAt"/>
 	    <result column="STATUS" property="status"/>
 	    <result column="EXPERT_ID" property="expertId"/>
-	    
+	      <result column="EXPERT_TYPE_ID" property="expertTypeId"/>
   	</resultMap>
   	
   	<!-- 表名 -->
@@ -19,7 +19,7 @@
 	
 	<!-- 表中所有列 -->
   	<sql id="Base_Column_List">
-    	ID,QUALIFCATION_TITLE,GET_TITLE_TIME,CREATED_AT,UPDATED_AT,STATUS,EXPERT_ID
+    	ID,QUALIFCATION_TITLE,GET_TITLE_TIME,CREATED_AT,UPDATED_AT,STATUS,EXPERT_ID,EXPERT_TYPE_ID
   	</sql>
   	
   	<!-- 根据主键查询 -->
@@ -34,9 +34,9 @@
   <insert id="insert" parameterType="ses.model.ems.ExpertTitle">
  	
     insert into T_SES_EMS_EXPERT_TITLE (ID,QUALIFCATION_TITLE,GET_TITLE_TIME,
-    	CREATED_AT,UPDATED_AT,STATUS,EXPERT_ID)
+    	CREATED_AT,UPDATED_AT,STATUS,EXPERT_ID,EXPERT_TYPE_ID)
     values (#{id},#{qualifcationTitle},#{titleTime},#{createdAt}, 
-      #{updatedAt}, #{status},#{expertId})
+      #{updatedAt}, #{status},#{expertId},#{expertTypeId})
   </insert>
 	 
 	 <!-- 新增一条不为空记录 -->
@@ -64,6 +64,9 @@
 			<if test="expertId != null">
 				EXPERT_ID,
 			</if>
+			<if test="expertTypeId != null">
+				EXPERT_TYPE_ID,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -86,6 +89,9 @@
 			</if>
 			<if test="expertId != null">
 				#{expertId},
+			</if>
+			<if test="expertTypeId != null">
+				#{expertTypeId},
 			</if>
 		</trim>
   	</insert>
@@ -124,6 +130,9 @@
        <if test="expertId != null">
         EXPERT_ID = #{expertId},
       </if>
+        <if test="expertTypeId != null">
+         EXPERT_TYPE_ID = #{expertTypeId},
+      </if>
     </set>
     where ID = #{id}
   </update>
@@ -132,7 +141,7 @@
   <!--根据专家ID查询  -->
   <select id="queryByExpertId" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
-    from  T_SES_EMS_EXPERT_TITLE  where  EXPERT_ID = #{expertId}
+    from  T_SES_EMS_EXPERT_TITLE  where  EXPERT_ID = #{expertId} and  EXPERT_TYPE_ID = #{expertTypeId}
   
   </select>
   
