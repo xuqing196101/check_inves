@@ -132,8 +132,8 @@
 					certCode = $(obj).val();
 					typeId = $(obj).parent().prev().find("select").val();
 					// 清空等级和附件
-					$(obj).parent().next().find("input[type='text']").val("");
-					
+					///$(obj).parent().next().find("input[type='text']").val("");
+						$(obj).parent().next().children().empty();
 					//清空资质等级
 					$(obj).parent().next().next().find("input[type='text']").val("");
 				    $(obj).parent().next().next().find("input[type='hidden']").val("");
@@ -148,14 +148,14 @@
 						dataType: "json",
 						success: function(data){
 							var select=$(obj).parent().next().children();
-							var html="";
+							var html="<option value=''>请选择</option>";
 							$(data).each(function(i){
-								html="<option value="+data[i]+">"+data[i]+"</option>";
+								html+="<option value="+data[i]+">"+data[i]+"</option>";
 							});
 							$(select).append(html);
 						}
 					});
-					// $(obj).parent().next().next().next().html("");
+					$(obj).parent().next().next().next().html("");
 					// professType=$(obj).parent().next().children().val();
 				}else{
 					 $(obj).parent().next().find("input[type='text']").val("");
