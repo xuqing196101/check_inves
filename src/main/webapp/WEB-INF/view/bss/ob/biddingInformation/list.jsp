@@ -278,14 +278,20 @@
 		  </td>
 		  
 		  <td class="tc">
-		   <c:if test="${list.offerSupplierNumber==0}">
-		   0
-		  </c:if>
-		  <c:if test="${list.offerSupplierNumber==null}">
-		   0
-		  </c:if>
-		   <c:if test="${list.offerSupplierNumber != null && list.offerSupplierNumber != 0}">
+		  <c:if test="${list.status==3 || list.status==4 }">
+		  	<c:if test="${list.offerSupplierNumber==0}">0</c:if>
+		  	<c:if test="${list.offerSupplierNumber==null}">0</c:if>
+		   	<c:if test="${list.offerSupplierNumber != null && list.offerSupplierNumber != 0}">
 		    <a href="${pageContext.request.contextPath}/ob_project/offerSupplierList.html?obProjectId=${list.id}">${list.offerSupplierNumber}</a>
+		 	</c:if>       
+		  </c:if>
+		  
+		   <c:if test="${list.status != 3 && list.status != 4}">
+		  	<c:if test="${list.offerSupplierNumber==0}">0</c:if>
+		  	<c:if test="${list.offerSupplierNumber==null}">0</c:if>
+		   	<c:if test="${list.offerSupplierNumber != null && list.offerSupplierNumber != 0}">
+		   	${list.offerSupplierNumber}
+		 	</c:if>       
 		  </c:if>
 		  
 		  </td>
