@@ -976,7 +976,7 @@
 								</c:if>>
 								<%--图片的大小   图片的类型  --%>
 								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="1" auto="true" />
-								<u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+								<u:show showId="show2" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
 							</div>
 						</li>
 						</c:if>

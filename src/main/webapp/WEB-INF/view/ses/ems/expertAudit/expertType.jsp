@@ -274,7 +274,7 @@
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="tieleFile" onclick="reasonFile(this,'${expertTitle.id}','tieleFile');">执业资格：</span>
-				             	<up:show showId="show9" delete="false" businessId="${expert.id}" sysKey="${expertKey}" typeId="9"/>
+				             	<up:show showId="expter_${vs.index+1 }" delete="false" businessId="${expertTitle.id}" sysKey="${expertKey}" typeId="9"/>
 				          			<a style="visibility:hidden" id="${expertTitle.id}_tieleFile"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 				           			<c:if test="${fn:contains(conditionStr,expertTitle.id.concat('_tieleFile'))}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
 				           	

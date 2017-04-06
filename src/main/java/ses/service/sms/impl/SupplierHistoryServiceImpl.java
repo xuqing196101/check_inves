@@ -345,7 +345,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             
             // 研发部门人数
             historyInfo.setBeforeField("totalResearch");
-            historyInfo.setBeforeContent(supplierMatPro.getTotalResearch().toString());
+            historyInfo.setBeforeContent(supplierMatPro.getTotalResearch() == null? "" : supplierMatPro.getTotalResearch().toString());
             supplierHistoryMapper.insertSelective(historyInfo);
             
             // 研发部门负责人
@@ -430,18 +430,29 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                     
                     // 有效期（起始时间）
                     historyInfo.setBeforeField("expStartDate");
-                    historyInfo.setBeforeContent(format.format(certPro.getExpStartDate()));
+                    if(certPro.getExpStartDate() != null ){
+                    	 historyInfo.setBeforeContent(format.format(certPro.getExpStartDate()));
+                    }else{
+                    	historyInfo.setBeforeContent("");
+                    }
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 有效期（结束时间）
                     historyInfo.setBeforeField("expEndDate");
-                    historyInfo.setBeforeContent(format.format(certPro.getExpEndDate()));
+                    if(certPro.getExpEndDate() != null){
+                    	historyInfo.setBeforeContent(format.format(certPro.getExpEndDate()));
+                    }else{
+                    	historyInfo.setBeforeContent("");
+                    }
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 证书状态
                     historyInfo.setBeforeField("mot");
-                    historyInfo.setBeforeContent(certPro.getMot().toString());
-                    supplierHistoryMapper.insertSelective(historyInfo);
+                	historyInfo.setBeforeContent(certPro.getMot() == null ? "" : certPro.getMot().toString());
+                	supplierHistoryMapper.insertSelective(historyInfo);
+
+                    
+                    
                 }
             }
         }
@@ -524,7 +535,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 
                 //证书状态
                 historyInfo.setBeforeField("mot");
-                historyInfo.setBeforeContent(certSell.getMot().toString());
+                historyInfo.setBeforeContent(certSell.getMot() == null ? "" : certSell.getMot().toString());
                 supplierHistoryMapper.insertSelective(historyInfo);
         	}
         }
@@ -591,7 +602,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                      
                      //注册人名字
                      historyInfo.setBeforeField("regNumber");
-                     historyInfo.setBeforeContent(regPerson.getRegNumber().toString());
+                     historyInfo.setBeforeContent(regPerson.getRegNumber() == null ? "" : regPerson.getRegNumber().toString());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                 }
@@ -671,7 +682,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                     
                     // 证书状态
                     historyInfo.setBeforeField("certStatus");
-                    historyInfo.setBeforeContent(certEng.getCertStatus().toString());
+                    historyInfo.setBeforeContent(certEng.getCertStatus() ==null ? "":certEng.getCertStatus().toString());
                     supplierHistoryMapper.insertSelective(historyInfo);
             	}
             }

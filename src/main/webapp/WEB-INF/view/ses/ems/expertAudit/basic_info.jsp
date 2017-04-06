@@ -260,7 +260,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="recentPhotos" onclick="reasonFile(this);">近期免冠彩色证件照：</span>
-             	<up:show showId="show13" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="13"/>
+             	<up:show showId="show50" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="50"/>
           			<a style="visibility:hidden" id="recentPhotos1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
            		<c:if test="${fn:contains(conditionStr,'近期免冠彩色证件照')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
            	<li>
