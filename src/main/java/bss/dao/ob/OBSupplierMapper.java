@@ -184,4 +184,18 @@ public interface OBSupplierMapper {
 	 * @exception
 	 */
 	Integer yzzsCode(@Param("certCode") String certCode,@Param("id") String id);
+	/**
+	 * 根据时间获取创建数据
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<OBSupplier> selectByCreateDate(@Param("start")String start,@Param("end")String end);
+	/**
+	 * 根据时间获取修改数据
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<OBSupplier> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
 }

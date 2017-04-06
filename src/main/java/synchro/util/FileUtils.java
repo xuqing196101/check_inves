@@ -52,6 +52,9 @@ public class FileUtils {
     /** 正式附件路径 **/
     private final static String BASE_ATTCH_PATH = PropUtil.getProperty("file.base.path");
     
+    /**竞价 文件路径 **/
+    public final static String OB_PRODUCT_PATH=PropUtil.getProperty("file.bidding.system.path");
+    
     /** 新注册供应商文件名称 **/
     public final static String C_SUPPLIER_FILENAME = "_c_supplier.dat"; 
     
@@ -69,6 +72,18 @@ public class FileUtils {
     
     /** 附件文件名称 **/
     public final static String C_ATTACH_FILENAME = "_c_attach.dat";
+    /**竞价 定型产品数据名称 **/
+    public final static String C_OB_PRODUCT_FILENAME="_c_ob_product.dat";
+    /**竞价定型产品更新数据名称**/
+    public final static String M_OB_PRODUCT_FILENAME="_m_ob_product.dat";
+    /**竞价 特殊日期 创建数据名称 **/
+    public final static String C_OB_SPECIAL_DATE_FILENAME="_c_ob_special_date.dat";
+    /**竞价 特殊日期修改数据名称**/
+    public final static String M_OB_SPECIAL_DATE_FILENAME="_m_ob_special_date.dat";
+    /**竞价 供应商数据创建名称 **/
+    public final static String C_OB_SUPPLIER_FILENAME="_c_ob_supplier.dat";
+    /**竞价 供应商数据修改名称**/
+    public final static String M_OB_SUPPLIER_FILENAME="_m_ob_supplier.dat";
     
     /**
      * 
@@ -219,7 +234,19 @@ public class FileUtils {
         final File file = new File(path,fileName);
         return file;
     }
-    
+    /**
+     * 根据传参导出相关的文件
+     * @author YangHongLiang
+     * @param fileNameType 导出文件名称
+     * @param key 对应封装集合
+     * @return
+     */
+    public static final File getExporttFile(String fileNameType,int key){
+        String fileName = System.currentTimeMillis() + fileNameType;
+        String path = createFilePath(BASE_PATH + BACKUP_PATH+getSynchAttachFile(key));
+        final File file = new File(path,fileName);
+        return file;
+    }
     
     /**
      * 
@@ -370,6 +397,7 @@ public class FileUtils {
           case 2 :  filePath = TENDER_ATTFILE_PATH; break;
           case 3 :  filePath = EXPERT_ATTFILE_PATH; break;
           case 4 :  filePath = FORUM_ATTFILE_PATH; break;
+          case 5 :  filePath = OB_PRODUCT_PATH; break;
         }
         return filePath;
     }

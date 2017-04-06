@@ -35,8 +35,11 @@
     <result column="CODE" property="code" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="PROCUREMENT_ID" property="procurementId" jdbcType="VARCHAR" />
-    <result column="CATEGORY_BIG_ID" property="categoryBigId" jdbcType="VARCHAR" />
     <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="CATEGORY_MIDDLE_ID" property="categoryMiddleId" jdbcType="VARCHAR" />
+    <result column="CATEGORY_BIG_ID" property="categoryBigId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CATEGORY_ID" property="productCategoryId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CATEGORY_LEVEL" property="productCategoryLevel" jdbcType="DECIMAL" />
     <result column="STANDARD_MODEL" property="standardModel" jdbcType="VARCHAR" />
     <result column="QUALITY_TECHNICAL_STANDARD" property="qualityTechnicalStandard" jdbcType="VARCHAR" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
@@ -509,5 +512,16 @@
   		AND ID &lt;&gt; #{id,jdbcType=VARCHAR}
   	</if>
   </select>
-  
+  <!-- 根据时间范围 获取创建相关产品数据 -->
+  <select id="selectByCreateDate" parameterType="String" resultMap="BaseResultSignalMap" >
+    select * from T_BSS_OB_PRODUCT where 
+    to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+  </select>
+   <!-- 根据时间范围 获取修改 相关产品数据 -->
+  <select id="selectByUpdateDate" parameterType="String" resultMap="BaseResultSignalMap" >
+    select * from T_BSS_OB_PRODUCT where 
+    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+  </select>
 </mapper>

@@ -1,5 +1,6 @@
 package bss.service.ob;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -147,4 +148,14 @@ public interface OBProjectServer {
 	* @throws
 	 */
 	Map<String, Object> findBiddingInfo(String projectId);
+	/**
+	 * 导出竞价相关的信息
+	 * @author YangHongLiang
+	 * @param start 开始时间
+	 * @param end 结束时间
+	 * @param synchDate同步时间
+	 * @return
+	 */
+	boolean exportProject(String start,String end,Date synchDate);
+
 }

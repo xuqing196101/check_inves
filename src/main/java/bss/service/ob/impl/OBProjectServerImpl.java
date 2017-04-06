@@ -410,9 +410,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 		// 获取当前日期
 		Date date = new Date();
 		// 1.当前时间加上间隔日
-		date = DateUtils.addDayDate(date, intervalWorkday);
+		Date dateG = DateUtils.addDayDate(date, intervalWorkday);
 		// date加上竞价开始时间 计算竞价开始时间 未加特殊节假日
-		Date startdate = DateUtils.changeDate(date, definiteTime);
+		Date startdate = DateUtils.changeDate(dateG, definiteTime);
 
 		// 封装map
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -969,50 +969,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 						 project.setStatus(3);
 					}
 						project.setId(op.getId());
+						project.setUpdatedAt(new Date());
 						OBprojectMapper.updateByPrimaryKeySelective(project);
-						/*// 说明 已发布 的竞价信息 已经超过 确认 时间 获取全部参与报价的供应商 数据
-						List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(op.getId(),null,null);
-						// 临时存储交易比例
-						int temp = 0;
-						if (prlist != null && prlist.size()>0) {
-							for (int i = 0; i < prlist.size(); i++) {
-								String proportionString = prlist.get(i)
-										.getProportion();
-								if (proportionString == null || proportionString == "") {
-									proportionString = "0";
-								}
-								// 累加交易比例
-								if (prlist.get(i).getStatus() == 1) {
-									temp = temp + Integer.valueOf(proportionString);
-								}
-							}
-						}
-						//获取供应商成交数量
-						Integer closingSupplier = OBProjectResultMapper.countByStatus(op.getId());
-						
-						if(closingSupplier==null){
-							closingSupplier=0;
-						}
-						// 根据状态竞价中 修改竞价结束时间
-						OBProject upstatus = new OBProject();
-						if(temp<100 && temp>0){
-							if(closingSupplier<op.getTradedSupplierCount()){
-								// 流拍
-								upstatus.setStatus(4);
-							  }else{
-								// 竞价结束
-								upstatus.setStatus(3);
-							  }
-							} else if (temp == 0) {
-								// 流拍
-								upstatus.setStatus(4);
-							} else {
-								// 竞价结束
-								upstatus.setStatus(3);
-							}
-						upstatus.setId(op.getId());
-						upstatus.setUpdatedAt(new Date());
-						OBprojectMapper.updateByPrimaryKeySelective(upstatus);*/
 					  }
 					break;
 				}
@@ -1238,5 +1196,19 @@ public class OBProjectServerImpl implements OBProjectServer {
 			map.put("obProject", obProject);
 		}
 		return map;
+	}
+    /**
+     * 实现导出竞价信息数据
+     * @author YangHongLiang
+     */
+	@Override
+	public boolean exportProject(String start, String end, Date synchDate) {
+		// TODO Auto-generated method stub
+		boolean boo=false;
+        		
+		
+		
+		
+		return boo;
 	}
 }

@@ -38,5 +38,19 @@ public interface OBSpecialDateMapper {
      * @author Yanghongliang
      */
     List<OBSpecialDate> selectBySpecialDate(Map<String, Object> map);
+    /**
+     * 根据时间获取创建的特殊日期
+     * @param start
+     * @param end
+     * @return
+     */
+    List<OBSpecialDate> selectByCreateDate(@Param("start")String start,@Param("end")String end);
+    /**
+     * 根据时间获取修改的特殊日期
+     * @param start
+     * @param end
+     * @return
+     */
+    List<OBSpecialDate> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
    
 }

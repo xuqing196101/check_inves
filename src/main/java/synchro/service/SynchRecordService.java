@@ -86,6 +86,15 @@ public interface SynchRecordService {
      * @param content 内容
      */
     public void backupInfos(Date time,String content);
+    /**
+     * 同步竞价
+     * @param date
+     * @param content
+     * @param dateCode
+     * @param type
+     * @param commitInfos
+     */
+    public void synchBidding(Date date, String content,String dateCode,int type,String commitInfos);
     
     /**
      * 
