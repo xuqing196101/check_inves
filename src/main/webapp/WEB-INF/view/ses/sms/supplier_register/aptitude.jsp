@@ -113,6 +113,7 @@
 			
 			// 根据证书编号获取附件信息
 			function getFileByCode(obj, number, flag){
+				var supplierId = $("#supplierId").val();
 				var certCode = "";
 				var professType="";
 				if (flag == "1") {
@@ -129,14 +130,33 @@
 					professType=$(obj).parent().next().next().children().val();
 				} else if(flag=="2"){
 					certCode = $(obj).val();
+					typeId = $(obj).parent().prev().find("select").val();
 					// 清空等级和附件
 					$(obj).parent().next().find("input[type='text']").val("");
+					
 					//清空资质等级
 					$(obj).parent().next().next().find("input[type='text']").val("");
 				    $(obj).parent().next().next().find("input[type='hidden']").val("");
 					
+					$.ajax({
+						url : "${pageContext.request.contextPath}/supplier/getProType.do",
+						data: {
+							"typeId": typeId,
+							"certCode": certCode,
+							"supplierId": supplierId
+						},
+						dataType: "json",
+						success: function(data){
+							var select=$(obj).parent().next().children();
+							var html="";
+							$(data).each(function(i){
+								html="<option value="+data[i]+">"+data[i]+"</option>";
+							});
+							$(select).append(html);
+						}
+					});
 					// $(obj).parent().next().next().next().html("");
-					professType=$(obj).parent().next().children().val();
+					// professType=$(obj).parent().next().children().val();
 				}else{
 					 $(obj).parent().next().find("input[type='text']").val("");
 					 $(obj).parent().next().find("input[type='hidden']").val("");
@@ -144,7 +164,7 @@
 					certCode = $(obj).parent().prev().children().val();
 					professType=$(obj).val();
 				}
-				var supplierId = $("#supplierId").val();
+			
 				var typeId = "";
 				if (flag == "1") {
 					typeId = $(obj).val();
@@ -393,7 +413,12 @@
 										        </td>
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
 										     
-										    	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].professType" value="${cate.proName}" onblur="getFileByCode(this, '${vs.index}', '3')"></td>
+										    	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+										    	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType" onchange="getFileByCode(this, '${vs.index}', '3')"">
+										        			<option value="${cate.proName}">${cate.proName}</option>
+										        	</select>
+<%-- 										    	<input type="text" class="border0" name="listSupplierItems[${vs.index}].professType" value="${cate.proName}" onblur="getFileByCode(this, '${vs.index}', '3')">
+ --%>										    	</td>
 										     
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" value="${cate.level.id}" class="w80">

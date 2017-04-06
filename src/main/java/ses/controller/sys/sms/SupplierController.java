@@ -2927,6 +2927,13 @@ public class SupplierController extends BaseSupplierController {
     	supplierTypeRelateService.delete(supplierId, "SALES");
     	return "0";
     }
-    
+    @RequestMapping(value="/getProType",produces = "application/json;charset=utf-8")
+    @ResponseBody
+   public String getProType(String typeId, String certCode, String supplierId){
+    	 SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+   	  List<String> list = supplierAptituteService.getPorType( typeId,matEng.getId(),certCode);
+	   String string = JSON.toJSONString(list);
+	   return string;
+   }
     
 }

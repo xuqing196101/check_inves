@@ -65,4 +65,8 @@ public interface SupplierAptituteMapper {
     
     List<SupplierAptitute> quertByCodeAndName(@Param("certType")String certType,@Param("matEngId")String matEngId,@Param("code")String code,@Param("type")String type); 
     
+    
+    List<String> quertProType(@Param("certType")String certType,@Param("matEngId")String matEngId,@Param("code")String code); 
+    
+    
 }

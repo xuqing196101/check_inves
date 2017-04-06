@@ -51,5 +51,11 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 		return supplierAptituteMapper.quertByCodeAndName(certType,matEngId, code, type);
 	}
 
+	@Override
+	public List<String> getPorType(String typeId, String matEngId, String code) {
+	 
+		return supplierAptituteMapper.quertProType(typeId, matEngId, code);
+	}
+
 	
 }
