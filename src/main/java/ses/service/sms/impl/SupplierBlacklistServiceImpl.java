@@ -35,9 +35,6 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 
 	@Override
 	public List<Supplier> findSupplier(Supplier supplier, int page) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page, Integer.parseInt(config.getString("pageSize")));
-
 		// 过滤到已经添加到黑名单的
 		List<SupplierBlacklist> listSupplierBlacklists = supplierBlacklistMapper.findSupplierBlacklist(new SupplierBlacklist());
 		if (listSupplierBlacklists != null && listSupplierBlacklists.size() > 0) {
@@ -48,7 +45,9 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 			supplier.setItem(list);
 		}
 
-		supplier.setStatus(3);
+		supplier.setStatus(1);
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page, Integer.parseInt(config.getString("pageSize")));
 		List<Supplier> listSuppliers = supplierMapper.findSupplier(supplier);
 		return listSuppliers;
 	}

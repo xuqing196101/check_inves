@@ -100,8 +100,8 @@
 								<td class="tc"><input name="id" type="radio" value="${supplier.id}"></td>
 								<td class="tc">${vs.index + 1}</td>
 								<td class="pl20">${supplier.supplierName}</td>
-								<td class="tc">${supplier.contactName}</td>
 								<td class="tc">${supplier.contactTelephone}</td>
+								<td class="tc">${supplier.contactMobile}</td>
 								<td class="pl20">${supplier.address}</td>
 							</tr>
 						</c:forEach>
