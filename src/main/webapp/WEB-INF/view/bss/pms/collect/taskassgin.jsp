@@ -218,12 +218,12 @@
 				    	
 				    	</span>
 				      </li>
-				   <li>
+				   <%-- <li>
 				    	<label class="fl"> 计划编号：</label><span>
 				  	   <input type="text"  name="" value="${inf.planNo }"/>
 				    	
 				    	</span>
-				      </li>
+				      </li> --%>
 				      <li>
 				    	<label class="fl">    计划类型：</label><span>
 				    	<select name="status">

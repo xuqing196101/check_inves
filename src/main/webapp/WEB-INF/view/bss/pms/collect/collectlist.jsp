@@ -226,10 +226,6 @@
 				}else{
 						$("#collect_form").submit();
 				}
-				
-				
-				
-
 				layer.close(index);
 			}
 
@@ -249,7 +245,6 @@
 					}
 					ids.push($(this).val());
 				});
-
 				if(flag == false) {
 					layer.alert("物资类别需要一样", {
 						offset: ['222px', '390px'],
