@@ -99,7 +99,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 		// 设置创建时间
 		obRule.setCreatedAt(new Date());
 		// 设置修改时间
-		obRule.setUpdatedAt(new Date());
+		//obRule.setUpdatedAt(new Date());
 		// 是否为默认 1:是 0:否
 		obRule.setStatus(0);
 		// 保存
@@ -234,7 +234,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 		// 设置创建时间
 		obSpecialDate.setCreatedAt(new Date());
 		// 设置修改时间
-		obSpecialDate.setUpdatedAt(new Date());
+		//obSpecialDate.setUpdatedAt(new Date());
 		obSpecialDateMapper.insert(obSpecialDate);
 		return JdcgResult.ok("添加成功");
 	}

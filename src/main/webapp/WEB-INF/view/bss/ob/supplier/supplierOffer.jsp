@@ -124,7 +124,7 @@
 			
 			// 获取供应商报价总金额--提交前的提示信息里面需要的数据
 			var quotoTotalPrice = $("#totalPrice").html();
-			layer.confirm("本次竞价项目您的报价总金额为 <b><span style='color:red;font-size:16px'>"+quotoTotalPrice+" 元</span></b>，是否确认提交？", {
+			layer.confirm("本次竞价项目您的报价总金额为 <b><span style='color:red;font-size:16px'>"+quotoTotalPrice+" 万元</span></b>，是否确认提交？", {
 			    btn: ['确定','取消'], //按钮
 			    shade: false //不显示遮罩
 			}, function(index){
@@ -132,7 +132,7 @@
 			    layer.close(index);
 			    $.post("${pageContext.request.contextPath}/supplierQuote/saveQuoteInfo.do", $("#productForm").serialize(), function(data) {
 					if (data.status == 200) {
-						layer.confirm("操作成功，请等待确认结果！本次竞价项目您的报价总金额为 <b><span style='color:red;font-size:16px'>"+data.data+" 元</span></b>,请在报价截止时间后，查看本次中标结果！",{
+						layer.confirm("操作成功，请等待确认结果！本次竞价项目您的报价总金额为 <b><span style='color:red;font-size:16px'>"+data.data+" 万元</span></b>,请在报价截止时间后，查看本次中标结果！",{
 							btn:['确定']
 						},function(){
 								window.location.href="${pageContext.request.contextPath}/supplierQuote/list.html";
