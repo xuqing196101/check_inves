@@ -14,27 +14,28 @@
     <result column="SUGGEST_TYPE" jdbcType="VARCHAR" property="suggestType" />
     <result column="AUDIT_FIELD" jdbcType="VARCHAR" property="auditField" />
     <result column="AUDIT_CONTENT" jdbcType="VARCHAR" property="auditContent" />
+    <result column="AUDIT_FIELD_ID" jdbcType="VARCHAR" property="auditFieldId" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, EXPERT_ID, AUDIT_USER_ID, AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, AUDIT_AT, IS_DELETE, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE
+    ID, EXPERT_ID, AUDIT_USER_ID, AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, AUDIT_AT, IS_DELETE, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE, "AUDIT_FIELD_ID"
   </sql>
   <!-- 根据专家id查询 -->
   <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from T_SES_EMS_EXPERT_AUDIT
     where EXPERT_ID = #{expertId}
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from T_SES_EMS_EXPERT_AUDIT
     where ID = #{id}
   </select>
   <!--根据专家ID查询审核通过的专家  -->
   <select id="findResultByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from T_SES_EMS_EXPERT_AUDIT
     where EXPERT_ID = #{expertId}
     and AUDIT_RESULT = '1'
@@ -43,7 +44,7 @@
   <!-- 查找所有审核通过的专家 -->
   <select id="findAllPassExpert" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from T_SES_EMS_EXPERT_AUDIT
     where AUDIT_RESULT = '1'
     and nvl(IS_DELETE,0) = 0
@@ -52,7 +53,7 @@
   <!-- 查找所有符合条件的专家 -->
   <select id="findConditionPassExpert" parameterType="ses.model.ems.ExpertAudit" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from T_SES_EMS_EXPERT_AUDIT
     where 
     	EXPERT_ID = #{expertId}
@@ -116,6 +117,9 @@
       <if test="type != null">
         TYPE,
       </if>
+      <if test="auditFieldId != null">
+        AUDIT_FIELD_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -153,6 +157,9 @@
       </if>
       <if test="type != null">
         #{type},
+      </if>
+      <if test="auditFieldId != null">
+        #{auditFieldId},
       </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">

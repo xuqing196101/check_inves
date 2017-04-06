@@ -528,7 +528,7 @@ public class ExpertController extends BaseController {
             showCategory(expert, model);
         }
         if("3".equals(expert.getStatus())) {
-            // 如果状态为退回修改则查询没通过的字段 
+           /* // 如果状态为退回修改则查询没通过的字段 
             ExpertAudit expertAudit = new ExpertAudit();
             expertAudit.setExpertId(expertId);
             expertAudit.setSuggestType(stepNumber);
@@ -538,7 +538,24 @@ public class ExpertController extends BaseController {
             for(ExpertAudit audit: auditList) {
                 errorField.append(audit.getAuditField() + ",");
             }
-            model.addAttribute("errorField", errorField);
+            model.addAttribute("errorField", errorField);*/
+        	
+        	
+        	//不通过字段
+        	ExpertAudit expertAuditFor = new ExpertAudit();
+			expertAuditFor.setExpertId(expertId);
+			expertAuditFor.setSuggestType("seven");
+			
+			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
+			StringBuffer errorField = new StringBuffer();
+			if(!reasonsList.isEmpty()){
+				for (ExpertAudit expertAudit2 : reasonsList) {
+					String beforeField = expertAudit2.getAuditFieldId() +"_"+ expertAudit2.getAuditField();
+					errorField.append(beforeField + ",");
+				}
+				model.addAttribute("errorField", errorField);
+			}
+        	
         }
         if("three".equals(stepNumber)) {
             HashMap < String, Object > map1 = new HashMap < String, Object > ();
@@ -602,6 +619,7 @@ public class ExpertController extends BaseController {
         return JSON.toJSONString(audit.get(0));
     }
 
+    
     /**
      *〈简述〉递归获取所有的子节点
      *〈详细描述〉

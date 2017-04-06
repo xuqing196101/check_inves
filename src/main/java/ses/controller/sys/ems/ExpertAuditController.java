@@ -1130,6 +1130,21 @@ public class ExpertAuditController {
 			}
 		}*/
 		
+		//回显修改前的职业资格
+		ExpertEngHistory expertEngHistory = new ExpertEngHistory();
+		expertEngHistory.setExpertId(expertId);
+		List<ExpertEngHistory> list = expertEngModifySerivce.selectByExpertId(expertEngHistory);
+		StringBuffer modifyFiled = new StringBuffer();
+		if(!list.isEmpty()){
+			for(ExpertEngHistory history : list){
+				String beforeField = history.getRelationId() +"_"+ history.getField();
+				modifyFiled.append(beforeField + ",");
+			}
+			model.addAttribute("modifyFiled", modifyFiled);
+				}
+		
+		
+		
 		//执业资格模块
 		List<ExpertTitle> expertTitleList = expertTitleService.queryByUserId(expertId);
 		model.addAttribute("expertTitleList", expertTitleList);
@@ -1153,7 +1168,8 @@ public class ExpertAuditController {
 			StringBuffer conditionStr = new StringBuffer();
 			if(!reasonsList.isEmpty()){
 				for (ExpertAudit expertAudit2 : reasonsList) {
-					conditionStr.append(expertAudit2.getAuditField() + ",");
+					String beforeField = expertAudit2.getAuditFieldId() +"_"+ expertAudit2.getAuditField();
+					conditionStr.append(beforeField + ",");
 				}
 				model.addAttribute("conditionStr", conditionStr);
 			}
@@ -1163,6 +1179,26 @@ public class ExpertAuditController {
 	}
 
 
+	/**
+	 * @Title: showModify
+	 * @author XuQing 
+	 * @date 2016-12-28 上午10:37:47  
+	 * @Description:查询退回修改再次提交审核显示之前的信息
+	 * @param @param supplierHistory
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value = "/showModify", produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String showModify(ExpertEngHistory expertEngHistory, HttpServletRequest request) throws ParseException {
+		List<ExpertEngHistory> modifyList = expertEngModifySerivce.selectByExpertId(expertEngHistory);
+		expertEngHistory = modifyList.get(0);
+		return JSON.toJSONString(expertEngHistory.getContent());
+	}
+	
+	
 	/**
 	 * @Title: reasonsList
 	 * @author XuQing 

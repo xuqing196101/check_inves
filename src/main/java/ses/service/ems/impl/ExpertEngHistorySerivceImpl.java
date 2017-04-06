@@ -39,12 +39,12 @@ public class ExpertEngHistorySerivceImpl implements ExpertEngHistorySerivce{
 				expertEngHistory.setRelationId(e.getId());
 				//插入历史表
 				expertEngHistory.setContent(professional);
-				expertEngHistory.setField("professional");
+				expertEngHistory.setField("qualifcationTitle");
 				expertEngHistoryMapper.insertSelective(expertEngHistory);
 
 				//插入历史表
 				expertEngHistory.setContent(format.format(timeProfessional));
-				expertEngHistory.setField("timeProfessional");
+				expertEngHistory.setField("titleTime");
 				expertEngHistoryMapper.insertSelective(expertEngHistory);
 				
 			}

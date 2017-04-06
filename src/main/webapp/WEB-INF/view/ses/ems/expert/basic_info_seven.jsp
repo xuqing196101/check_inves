@@ -292,7 +292,7 @@
                 }
             });
         }
-
+				
         function zc() {
             layer.msg("已暂存");
         }
@@ -444,8 +444,8 @@
 		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> <!--/执业资格  -->
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input  <c:if test="${fn:contains(errorField,'执业资格职称')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('执业资格职称')"</c:if>
+                        <input  <c:if test="${fn:contains(errorField,expertTitle.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('qualifcationTitle')"</c:if>
                                 maxlength="20" value="${t.qualifcationTitle}"
                                 name="titles[${vs.index }].qualifcationTitle"  type="text"/>
                         <span class="add-on">i</span> <span class="input-tip"></span>
@@ -455,8 +455,8 @@
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 执业资格</span>
                     <div
                             class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-                            <c:if test="${fn:contains(errorField,'执业资格')}">style="border: 1px solid #ef0000;"
-                            onmouseover="errorMsg('执业资格')"</c:if>>
+                            <c:if test="${fn:contains(errorField,expertTitle.id.concat('_titleFile'))}">style="border: 1px solid #ef0000;"
+                            onmouseover="errorMsg('titleFile')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                                 exts="${properties['file.picture.type']}" id="expert_${vs.index}" maxcount="1"
@@ -472,8 +472,8 @@
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,'取得执业资格时间')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('取得执业资格时间')"</c:if>
+                                <c:if test="${fn:contains(errorField,expertTitle.id.concat('_titleTime'))}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('titleTime')"</c:if>
                                 value="<fmt:formatDate type='date' value="${t.titleTime}" dateStyle='default' pattern='yyyy-MM' />"
                                 readonly="readonly" name="titles[${vs.index }].titleTime"    type="text"
                                 onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span

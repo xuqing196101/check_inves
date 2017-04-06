@@ -45,7 +45,7 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 					
 					expertEngHistory.setRelationId(expertTitle.getId());
 					//执业资格
-					if("professional".equals(history.getContent())){
+					if("qualifcationTitle".equals(history.getContent())){
 						if(!history.getContent().equals(expertTitle.getQualifcationTitle())){
 							expertEngHistory.setContent(history.getContent());
 							//插入数据
@@ -54,7 +54,7 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 					}
 					
 					//执业资格时间
-					if("timeProfessional".equals(history.getContent())){
+					if("titleTime".equals(history.getContent())){
 						String ProfessionalTime = format.format(expertTitle.getTitleTime());
 						if(!history.getContent().equals(ProfessionalTime)){
 							expertEngHistory.setContent(history.getContent());
