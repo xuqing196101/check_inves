@@ -67,9 +67,9 @@
 			<thead>
 				<tr>
 					<th class="info w50">序号</th>
-					<th class="info w200">供应商名称</th>
+					<th class="info">供应商名称</th>
 					<th class="info w100">总价(万元)</th>
-					<th class="info">交货期限</th>
+					<th class="info w120">交货期限</th>
 				<!-- 	<th class="info w100">状态</th>
 					<th class="info w100">放弃原因</th> -->
 			    </tr>

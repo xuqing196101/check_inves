@@ -54,15 +54,21 @@
 			// 判断单价输入是否为空
 			if(unitPrice != ''){
 				if(! /^-?\d+$/.test(unitPrice) && ! /^-?\d+\.?\d{0,2}$/.test(unitPrice)){
-					layer.msg("请输入报价(整数或保留两位小数)");
+					layer.msg("请您输入报价(整数或保留两位小数)");
 					$("#"+id).html("");
 					$("#totalPrice").html("");
 					calTotalPrice();
 					return;
 				}
+				// 限制输入价格最低为0.5元
+				/*if(unitPrice < 0.05){
+					layer.msg("报价最低0.05元");
+					$("#"+id).html("");
+					return;
+				}*/
 				var x = parseInt(count) * unitPrice;
 				//var unitPriceFloat = toDecimal(x);
-				$("#"+id).text((x/10000).toFixed(6));
+				$("#"+id).text((x/10000).toFixed(4));
 				calTotalPrice();
 				
 			}else{
@@ -107,7 +113,7 @@
 			if(total == 0){
 				$("#totalPrice").html("");
 			}else{
-				$("#totalPrice").html(total.toFixed(6));
+				$("#totalPrice").html(total.toFixed(4));
 			}
 		}
 		
@@ -117,13 +123,20 @@
 				var id = ids[i];
 				var signalPrice = parseInt($("#"+id).html());
 				if(isNaN(signalPrice)){
-					layer.msg("请输入报价(整数或保留两位小数)");
+					$("#"+id).html("");
+					layer.msg("请您输入报价(整数或保留两位小数)");
 					return;
 				}
 			}
 			
 			// 获取供应商报价总金额--提交前的提示信息里面需要的数据
 			var quotoTotalPrice = $("#totalPrice").html();
+
+			if(quotoTotalPrice == ''){
+				layer.msg("对不起！您的输入有误");
+				return;
+			}
+
 			layer.confirm("本次竞价项目您的报价总金额为 <b><span style='color:red;font-size:16px'>"+quotoTotalPrice+" 万元</span></b>，是否确认提交？", {
 			    btn: ['确定','取消'], //按钮
 			    shade: false //不显示遮罩
