@@ -65,16 +65,16 @@
    </div> 
    <div>
     <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
-    <ul class="ul_list">
+    <div class="ul_list">
 		<%@ include file="/WEB-INF/view/bss/ob/biddingSpectacular/biddingInfoCommon.jsp" %>
-     </ul>
+     </div>
   </div> 
   <div class="clear" ></div>
   <form id="productForm" name="" method="post" >
   	<input type="hidden" name="titleId" value="${ obProject.id }">
 	  <div>
 	    <h2 class="count_flow"><i>2</i>产品信息</h2>
-	    <ul class="ul_list">
+	    <div class="ul_list">
 			<div class="content table_box">
 		    	<table class="table table-bordered table-condensed table-hover table-striped">
 				<thead>
@@ -105,7 +105,7 @@
 				</c:forEach>
 			</table>
 		  </div>
-		 </ul>
+		 </div>
 	  </div>	 
   </form>
  </div>

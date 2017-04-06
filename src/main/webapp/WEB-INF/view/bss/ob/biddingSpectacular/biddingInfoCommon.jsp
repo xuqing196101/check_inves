@@ -2,16 +2,16 @@
 <table class="table table-bordered mt10">
     <tbody>
 	  <tr>
-	    <td class="info"><b>竞价项目编号</b></td>
-	    <td>${ obProject.projectNumber }</td>
-	    <td class="info"><b>竞价项目名称</b></td>
-	    <td>${ obProject.name }</td>
+	    <td class="info" width="20%"><b>竞价项目编号</b></td>
+	    <td width="30%">${ obProject.projectNumber }</td>
+	    <td class="info" width="20%"><b>竞价项目名称</b></td>
+	    <td width="30%">${ obProject.name }</td>
 	  </tr>
 	  <tr>
-	    <td class="info"><b>交货地点</b></td>
-	    <td>${ obProject.deliveryAddress }</td>
-	     <td class="info"><b>交货时间</b></td>
-	    <td><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+	    <td class="info" width="20%"><b>交货地点</b></td>
+	    <td width="30%">${ obProject.deliveryAddress }</td>
+	     <td class="info" width="20%"><b>交货时间</b></td>
+	    <td width="30%"><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	  </tr>
 	  <tr>
 	    <td class="info"><b>参与供应商数</b></td>
