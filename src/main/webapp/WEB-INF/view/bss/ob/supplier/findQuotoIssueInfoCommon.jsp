@@ -5,18 +5,17 @@
 			<thead>
 			<tr>
 			  <th class="info">序号</th>
-			  <th class="info">定型产品名称</th>
+			  <th class="info" width="20%">定型产品名称</th>
 			  <th class="info">限价（元）</th>
 			  <th class="info">采购数量</th>
 			  <th class="info">自报单价（元）</th>
 			  <th class="info">总价（万元）</th>
-			  <th class="info">备注信息</th>
+			  <th class="info" width="25%">备注信息</th>
 			</tr>
 			</thead>
 			<tr>
-			  <td class="tc"></td>
-			  <td class="tc" colspan="4">合计</td>
-			  <td class="tc">${ totalCountPriceBigDecimal }</td>
+			  <td class="tc" colspan="2">合计</td>
+			  <td class="tc" colspan="5">${ totalCountPriceBigDecimal }</td>
 			  <td class="tc"></td>
 			</tr>
 			<c:forEach items="${ oBResultsInfo }" var="oBResultsInfo" varStatus="vs">

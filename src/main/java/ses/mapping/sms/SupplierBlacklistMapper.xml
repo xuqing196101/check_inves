@@ -158,10 +158,10 @@
 				and SUPPLIER_NAME like #{supplierName}
 			</if>
 			<if test="startTime != null and startTime != ''">
-				and START_TIME &gt; #{startTime,jdbcType=TIMESTAMP}
+				and START_TIME &gt;= #{startTime,jdbcType=TIMESTAMP}
 			</if>
 			<if test="endTime != null and endTime != ''">
-				and END_TIME &lt; #{endTime,jdbcType=TIMESTAMP}
+				and END_TIME &lt;= #{endTime,jdbcType=TIMESTAMP}
 			</if>
 		</where>
 		 order by START_TIME desc

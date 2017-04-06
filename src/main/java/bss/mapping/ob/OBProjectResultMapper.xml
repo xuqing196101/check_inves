@@ -447,7 +447,7 @@ r.STATUS,r.REMARK ORDER BY r.RANKING
     <!-- 去重复供应商 根据参数  获取中标供应商数量  -->
   <select id="countProportion" parameterType="java.lang.String" resultType="java.lang.Integer" >
     select count(DISTINCT SUPPLIER_ID) from T_BSS_OB_PROJECT_RESULT
-    where PROJECT_ID=#{projectId,jdbcType=VARCHAR}  and  PROPORTION !=0
+    where PROJECT_ID=#{projectId,jdbcType=VARCHAR}  and  PROPORTION !=0 and status = 1
   </select>
   
   <update id="updateByExampleSelective" parameterType="map" >
@@ -681,6 +681,16 @@ r.STATUS,r.REMARK ORDER BY r.RANKING
 	GROUP BY 
 		PROJECT_ID,SUPPLIER_ID,RANKING,STATUS 
 	ORDER BY RANKING  
+  </select>
+  
+  <!-- 查询供应商确认结果占比 -->
+  <select id="selProportion" resultMap="BaseResultMap">
+  	SELECT *
+	FROM 
+		T_BSS_OB_PROJECT_RESULT 
+	WHERE 
+		PROJECT_ID = #{projectId,jdbcType=VARCHAR} AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+	ORDER BY CREATED_AT
   </select>
   
 </mapper>

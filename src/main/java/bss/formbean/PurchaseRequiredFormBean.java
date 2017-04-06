@@ -3,6 +3,7 @@ package bss.formbean;
 import java.util.List;
 
 import ses.model.ems.ExpertSignature;
+import ses.model.sms.SupplierSignature;
 
 import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseDetail;
@@ -33,6 +34,19 @@ public class PurchaseRequiredFormBean {
 	
 	private List<ExpertSignature> expertSignatureList;
 	
+	private List<SupplierSignature> supplierSignatureList;
+	
+	
+	
+	public List<SupplierSignature> getSupplierSignatureList() {
+		return supplierSignatureList;
+	}
+
+	public void setSupplierSignatureList(
+			List<SupplierSignature> supplierSignatureList) {
+		this.supplierSignatureList = supplierSignatureList;
+	}
+
 	public List<PurchaseRequired> getList() {
 		return list;
 	}

@@ -697,6 +697,14 @@ public class OBProjectController {
 			    		for (OBProjectResult obProjectResult : listss) {
 							if(obProjectResult != null){
 								if(obProjectResult.getStatus() == 1){
+									List<OBProjectResult> prolist = oBProjectResultService.selProportion(obProjectId, obProjectResult.getSupplierId());
+									if(prolist != null && prolist.size() == 1){
+										obProjectResult.setFirstproportion(prolist.get(0).getProportion());
+									}
+									if(prolist != null && prolist.size() == 2){
+										obProjectResult.setFirstproportion(prolist.get(0).getProportion());
+										obProjectResult.setSecondproportion(prolist.get(1).getProportion());
+									}
 									List<OBResultSubtabulation> obResultSubtabulation = obResultSubtabulationService.selectByProjectIdAndSupplierId(obProjectId, obProjectResult.getSupplierId());
 									if(obResultSubtabulation != null && obResultSubtabulation.size() > 0){
 										for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {
@@ -1071,6 +1079,14 @@ public class OBProjectController {
     		for (OBProjectResult obProjectResult : list) {
 				if(obProjectResult != null){
 					if(obProjectResult.getStatus() == 1){
+						List<OBProjectResult> prolist = oBProjectResultService.selProportion(projectId, obProjectResult.getSupplierId());
+						if(prolist != null && prolist.size() == 1){
+							obProjectResult.setFirstproportion(prolist.get(0).getProportion());
+						}
+						if(prolist != null && prolist.size() == 2){
+							obProjectResult.setFirstproportion(prolist.get(0).getProportion());
+							obProjectResult.setSecondproportion(prolist.get(1).getProportion());
+						}
 						List<OBResultSubtabulation> obResultSubtabulation = obResultSubtabulationService.selectByProjectIdAndSupplierId(projectId, obProjectResult.getSupplierId());
 						if(obResultSubtabulation != null && obResultSubtabulation.size() > 0){
 							for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {

@@ -42,6 +42,16 @@ public class OBProjectResult {
     
     // 结果表子表OBResultSubtabulation
     private List<OBResultSubtabulation> obResultSubtabulation;
+    
+    /**
+     * 第一轮占比
+     */
+    private String firstproportion;
+    
+    /**
+     * 第二轮占比
+     */
+    private String secondproportion;
 	/**
 	 * 供应商自报单价总和
 	 */
@@ -62,6 +72,22 @@ public class OBProjectResult {
 	 */
 	private Integer countSupplierProportion;
 	
+	public String getFirstproportion() {
+		return firstproportion;
+	}
+
+	public void setFirstproportion(String firstproportion) {
+		this.firstproportion = firstproportion;
+	}
+
+	public String getSecondproportion() {
+		return secondproportion;
+	}
+
+	public void setSecondproportion(String secondproportion) {
+		this.secondproportion = secondproportion;
+	}
+
 	public Integer getCountSupplierProportion() {
 		return countSupplierProportion;
 	}

@@ -326,7 +326,8 @@
 		  <div class="col-md-12 clear tc mt10">
 			  <input class="btn mt1"  value="查询" type="submit">
 	      <input class="btn mt1" id="button" onclick="clearSearch();" value="重置" type="reset">
-	    </div>  
+	    </div>
+	    <div class="clear"></div>
     </form>
    </h2>
 			<!-- 表格开始-->

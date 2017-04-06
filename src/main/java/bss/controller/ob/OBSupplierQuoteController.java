@@ -770,7 +770,12 @@ public class OBSupplierQuoteController {
 			model.addAttribute("obProject", obProject);
 			model.addAttribute("uploadFiles", uploadFiles);
 			model.addAttribute("oBResultsInfo", oBResultsInfo);
-			model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimal / 10000);
+
+			BigDecimal totalCountPriceBigDecimalAfter = new BigDecimal(totalCountPriceBigDecimal);
+			// 计算总价钱
+			BigDecimal totalCountPriceBigDecimalShow = totalCountPriceBigDecimalAfter.divide(million);
+			model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalShow);
+
 			if(obProject != null){
 				model.addAttribute("fileid", obProject.getAttachmentId());
 			}
