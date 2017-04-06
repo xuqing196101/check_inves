@@ -337,8 +337,8 @@
                      init_web_upload();
                      
                      $("#server_div").show();
-                 	$("#server_div").attr("class", "tab-pane fades active in");
-                 	$("#server_div").attr("class", "dis_none fades ");
+                 // 	$("#server_div").attr("class", "tab-pane fades active in");
+                // 	$("#server_div").attr("class", "dis_none fades ");
             		$("input[name='chkItem_2']").each(function() {
                 		var val=$(this).parent().text();
                     	if(val.trim()=="工程经济"){	
@@ -349,7 +349,7 @@
                     //   $("#tab_div").attr("class", "container");
                  }else {
                 	 flag=false;
-                		$("#server_div").attr("class", "dis_none fades ");
+                		$("#server_div").hide();
                 		$("input[name='chkItem_2']").each(function() {
                     		var val=$(this).parent().text();
                         	if(val.trim()=="工程经济"){	
@@ -361,14 +361,14 @@
     		});
         	
         	
-        	// if(flag==false){
+        	 if(flag==false){
         		 $("input[name='chkItem_2']").each(function() {
              		var val=$(this).parent().text();
                  	if(val.trim()=="工程经济"){	
                  	 if ($(this).prop("checked")) {
                  		  flagValue="工程经济";
                           init_web_upload();
-                      	$("#pro_div").attr("class", "tab-pane fades active in");
+                      	$("#pro_div").show();
                       	$("input[name='chkItem_1']").each(function() {
                     		var val=$(this).parent().text();
                         	if(val.trim()=="工程技术"){	
@@ -377,7 +377,7 @@
                 		});
                       	
                       } else {
-                    		$("#pro_div").attr("class", "dis_none fades ");
+                    		$("#pro_div").hide();
                     		$("input[name='chkItem_1']").each(function() {
                         		var val=$(this).parent().text();
                             	if(val.trim()=="工程技术"){	
@@ -388,7 +388,7 @@
                       }
                  	}
          		}); 
-        	// }
+        	 }
         /* 	if(objVal=="工程经济"&&flagValue=="工程技术"){
         		alert("不能同时选择");
         		 return false;  
@@ -509,7 +509,7 @@
 		<div class="container" id="tab_div">
 			<div class="magazine-page">
 				<div class="col-md-12 col-sm-12 col-xs-12 p0 tab-v2 job-content">
-	 <div class="tab-pane fades" style="display: none;" id="server_div">
+	 <div class="tab-pane fades active in" style="display: none;" id="server_div">
 	 
 		<ul class="list-unstyled f14" id="addUl">
 		
@@ -565,7 +565,7 @@
 			
 		 			</div>	
 		 			
-	 <div class="tab-pane fades" style="display: none;" id="pro_div">
+	 <div class="tab-pane fades active in" style="display: none;" id="pro_div">
 		<ul class="list-unstyled f14" id="addUl">
 		<c:forEach items="${ecoList}" var="t"  varStatus="vs" >
 		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -573,7 +573,7 @@
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input  <c:if test="${fn:contains(errorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
                                 maxlength="20" value="${t.qualifcationTitle}"
-                                name="titles[${vs.index }].qualifcationTitle"  type="text"/>
+                                name="ecoList[${vs.index }].qualifcationTitle"  type="text"/>
                         <span class="add-on">i</span> <span class="input-tip"></span>
                     </div>
                 </li>
@@ -598,7 +598,7 @@
                                 <c:if test="${fn:contains(errorField,t.id.concat('_titleTime'))}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorFileMsg('titleTime','${t.id }')"</c:if>
                                 value="<fmt:formatDate type='date' value="${t.titleTime}" dateStyle='default' pattern='yyyy-MM' />"
-                                readonly="readonly" name="titles[${vs.index }].titleTime"    type="text"
+                                readonly="readonly" name="ecoList[${vs.index }].titleTime"    type="text"
                                 onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span
                             class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
                     </div>
@@ -609,8 +609,8 @@
 						<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
 							<input type="button" onclick="addPractice()" class="btn list_btn" value="十" />
 							<input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
-								<input type="hidden" name="titles[${vs.index }].id" value="${t.id}" />
-								<input type="hidden" name="titles[${vs.index }].expertId" value="${t.expertId}" />
+								<input type="hidden" name="ecoList[${vs.index }].id" value="${t.id}" />
+								<input type="hidden" name="ecoList[${vs.index }].expertId" value="${t.expertId}" />
 						</div>
 			  </li>
 			</c:forEach>

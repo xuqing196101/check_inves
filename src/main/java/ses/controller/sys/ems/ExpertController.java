@@ -2,7 +2,6 @@ package ses.controller.sys.ems;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -113,11 +112,9 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
-import bss.util.FileUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -462,7 +459,7 @@ public class ExpertController extends BaseController {
 		    	if(gpId.equals(i)){
 		    		ecoList=expertTitleService.queryByUserId(expert.getId(),i);
 		    		  ExpertTitle et=new ExpertTitle();
-		  		      if(proList!=null&&proList.size()<1){
+		  		      if(proList!=null&&ecoList.size()<1){
 		  	        	  et.setQualifcationTitle(expert.getProfessional());
 		  	        	  et.setTitleTime(expert.getTimeProfessional());
 		  	        	  et.setExpertId(expert.getId());
@@ -477,12 +474,14 @@ public class ExpertController extends BaseController {
         		 ExpertTitle et1=new ExpertTitle();
         		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
         		 et1.setId(uid);
+        		 et1.setExpertId(expert.getId());
         		 ecoList.add(et1);
         	 }
         	 if(boo2!=true){
         		 ExpertTitle et1=new ExpertTitle();
         		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
         		 et1.setId(uid);
+        		 et1.setExpertId(expert.getId());
         		 proList.add(et1);
         	 }
 //        	 expert.setTitles(proList);
@@ -2170,6 +2169,7 @@ public class ExpertController extends BaseController {
      * @param @return
      * @return String
      */
+    
     @RequestMapping("/findAllExpertShenHe")
     public String findAllExpertShenHe(Expert expert, Integer page,
                                       HttpServletRequest request, HttpServletResponse response) {
@@ -3142,7 +3142,8 @@ public class ExpertController extends BaseController {
      * 证件照
      * @return
      */
-	 private String getImageStr(String imgFile) {
+	 @SuppressWarnings("restriction")
+	private String getImageStr(String imgFile) {
 //		 String imgFile = "d:/2.png";
 		 InputStream in = null;
 		 byte[] data = null;
@@ -4331,19 +4332,22 @@ public class ExpertController extends BaseController {
 	@RequestMapping("/addprofessional")
 	@ResponseBody
 	public String add(Expert expert){
-		String[] ids = expert.getExpertsTypeId().split(",");
-		String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
-		String pId = DictionaryDataUtil.getId("PROJECT");
-		for(String id:ids){
-			if(id.equals(pId)){
-				expertTitleService.addBatch(expert.getTitles(),id);
-				continue;
-			}
-			if(id.equals(gpId)){
-				expertTitleService.addBatch(expert.getTitles(),id);
-				continue;
+		if(expert.getExpertsTypeId().trim().length()!=0){
+			String[] ids = expert.getExpertsTypeId().split(",");
+			String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
+			String pId = DictionaryDataUtil.getId("PROJECT");
+			for(String id:ids){
+				if(id.equals(pId)){
+					expertTitleService.addBatch(expert.getTitles(),id);
+					continue;
+				}
+				if(id.equals(gpId)){
+					expertTitleService.addBatch(expert.getEcoList(),id);
+					continue;
+				}
 			}
 		}
+		
 		
 		return "";
 	}
