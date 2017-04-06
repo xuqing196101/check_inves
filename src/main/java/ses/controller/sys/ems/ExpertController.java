@@ -3310,7 +3310,7 @@ public class ExpertController extends BaseController {
         /** 生成word 返回文件名 */
         String newFileName = WordUtil.createWord(dataMap, "expert3.ftl",
             fileName, request);
-        FileUtil.removeStash(realpath+path.substring(path.lastIndexOf("/"),  path.length()), request);
+      //  FileUtil.removeStash(realpath+path.substring(path.lastIndexOf("/"),  path.length()), request);
         return newFileName;
     }
     /**
