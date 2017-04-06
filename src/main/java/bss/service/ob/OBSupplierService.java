@@ -1,5 +1,6 @@
 package bss.service.ob;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -163,5 +164,13 @@ public interface OBSupplierService {
 	 * @exception
 	 */
 	Integer yzzsCode(String certCode,String id);
+	/**
+	 * 根据时间导出 竞价供应商数据表
+	 * @param start
+	 * @param end
+	 * @param synchDate
+	 * @return
+	 */
+	boolean exportSupplier(String start,String end,Date synchDate);
 
 }

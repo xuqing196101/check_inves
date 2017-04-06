@@ -131,5 +131,21 @@ public interface OBProductMapper {
 	 * @exception
 	 */
 	String selOrgByCategory(@Param("smallPointsId") String smallPointsId,@Param("id") String id);
+	/**
+	 * 获取时间范围的创建数据
+	 * @author YangHongLiang
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<OBProduct> selectByCreateDate(@Param("start")String start,@Param("end")String end);
+	/**
+	 * 根据时间范围获取修改的数据
+	 * @author YangHongLiang
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<OBProduct> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
     
 }

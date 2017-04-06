@@ -128,6 +128,24 @@ public class SynchRecordServiceImpl implements SynchRecordService {
             mapper.save(sr);
         }
     }
+    /**
+     * 实现 保存信息数据
+     * @param date 创建时间
+     * @param content 导出数据的数量
+     * @param dateCode 数据字典的类型
+     * @param type 导入还是导出
+     * @param commitInfos 信息描述
+     */
+    @Override
+	public void synchBidding(Date date, String content,String dateCode,int type,String commitInfos) {
+		// TODO Auto-generated method stub
+    	 DictionaryData dd = DictionaryDataUtil.get(dateCode);
+         if (dd != null && StringUtils.isNotBlank(dd.getId())){
+             SynchRecord sr  = packSynchRecord(dd.getId(), type, 
+            		 commitInfos + content, date);
+             mapper.save(sr);
+         }
+	}
     
     /**
      * 
@@ -213,6 +231,8 @@ public class SynchRecordServiceImpl implements SynchRecordService {
         sr.setDescriptions(desc);
         return sr;
     }
+
+	
     
     
 }

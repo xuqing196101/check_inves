@@ -1,5 +1,6 @@
 package bss.service.ob;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -171,4 +172,13 @@ public interface OBProductService {
 	 * @exception
 	 */
 	String selOrgByCategory(String smallPointsId,String id);
+	/**
+	 * 导出竞价 定型产品数据
+	 * @author YangHongLiang
+	 * @param start
+	 * @param end
+	 * @param synchDate
+	 * @return
+	 */
+	boolean exportProduct(String start,String end,Date synchDate);
 }
