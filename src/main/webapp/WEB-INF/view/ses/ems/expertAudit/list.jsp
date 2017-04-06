@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
 <html>
@@ -86,27 +85,25 @@
 			//下载
 			function downloadTable(str) {
 				var size = $(":checkbox:checked").size();
-				if(!size) {
-					layer.msg("请选择专家 !", {
-						offset: '100px',
-					});
-					return;
+				if(size == 0 ) {
+					layer.msg("请选择专家 !", {offset: '100px',});
+				}else if(size == 1){
+					var id = $(":checkbox:checked").val();
+					var state = $("#" + id + "").parent("tr").find("td").eq(8).text();//.trim();
+					state = trim(state);
+					if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "复审通过" || state == "复审未通过" || state == "复查通过" || state == "复查未通过") {
+						$("input[name='tableType']").val(str);
+						$("input[name='expertId']").val(id);
+						$("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
+						$("#form_id").submit();
+					}else{
+						layer.msg("请选择审核过的专家 !", {
+							offset: '100px',
+						});
+					}
+				}else if(size > 1){
+					layer.msg("只能选择一条 !", {offset: '100px',});
 				}
-
-				var id = $(":checkbox:checked").val();
-				var state = $("#" + id + "").parent("tr").find("td").eq(8).text();//.trim();
-				state = trim(state);
-				if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "复审通过" || state == "复审未通过" || state == "复查通过" || state == "复查未通过") {
-					$("input[name='tableType']").val(str);
-					$("input[name='expertId']").val(id);
-					$("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
-					$("#form_id").submit();
-				}else{
-					layer.msg("请选择审核过的专家 !", {
-						offset: '100px',
-					});
-				}
-				
 			}
 
 			//重置搜索栏
@@ -166,7 +163,7 @@
 			  	
 			  	
 			  	//禁用F12键及右键
-		  		function click(e) {
+		  		/* function click(e) {
 					if (document.layers) {
 							if (e.which == 3) {
 							oncontextmenu='return false';
@@ -183,31 +180,39 @@
 							window.event.returnValue=false;
 							return(false); 
 						} 
-					};
+					}; */
 					
-					
+			//添加签字人员
 			function tianjia() {
 				var ids=[];
 				$('input[type="checkbox"]:checked').each(function(i){ 
 					ids.push($(this).val()); 
-					 
 				});
 				if(ids.length>0){
-					layer.open({
-				      	type : 2,
-				        title : '选择专家',
-				        // skin : 'layui-layer-rim', //加上边框
-				        area : [ '800px', '500px' ], //宽高
-				        offset : '80px',
-				        scrollbar : false,
-				        content : '${pageContext.request.contextPath}/expertAudit/signature.html?ids='+ids, //url
-				        closeBtn : 1, //不显示关闭按钮
-				      });
+				$.ajax({
+					url: "${pageContext.request.contextPath}/expertAudit/signature.do?ids="+ids,
+					type: "post",
+					success: function(result) {
+						if(result == "yes"){
+							layer.open({
+					      	type : 2,
+					        title : '选择专家',
+					        // skin : 'layui-layer-rim', //加上边框
+					        area : [ '800px', '500px' ], //宽高
+					        offset : '20px',
+					        scrollbar : false,
+					        content : '${pageContext.request.contextPath}/expertAudit/addSignature.html?ids='+ids, //url
+					        closeBtn : 1, //不显示关闭按钮
+					     });
+						}else{
+							layer.msg(result+"已添加过！", {offset: '100px',});
+								}
+							}
+					});
 				}else{
-					layer.alert("至少选择一个",{offset: ['222px', '390px'], shade:0.01});
-				}
-		    	
-		  };
+					layer.msg("请选择专家 !", {offset: '100px',});
+					}	    	
+		   };
 		</script>
 
 	</head>
@@ -238,7 +243,7 @@
 			<div class="headline-v2">
 				<h2>专家审核列表</h2>
 			</div>
-			<div class="search_detail">
+			<h2 class="search_detail">
 				<form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
 					<input name="expertId" type="hidden" />
 					<input name="sign" type="hidden" value="${sign }"/>
@@ -278,7 +283,7 @@
 					<input class="btn fl" value="查询" type="submit">
 					<button onclick="resetForm();" class="btn fl" type="button">重置</button>
 				</form>
-			</div>
+			</h2>
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>

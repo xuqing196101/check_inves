@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -78,7 +80,7 @@ import common.constant.StaticVariables;
  */
 @Controller
 @RequestMapping("/expertAudit")
-public class ExpertAuditController {
+public class ExpertAuditController{
 
 	@Autowired
 	private ExpertService expertService;
@@ -1884,35 +1886,77 @@ public class ExpertAuditController {
 	 * @Title: signature
 	 * @author XuQing 
 	 * @date 2017-4-3 下午12:18:11  
-	 * @Description:
+	 * @Description:添加签字人员校验唯一
 	 * @param @param signature      
 	 * @return void
 	 */
-	@RequestMapping(value = "/signature")
-	public String signature(String ids, String expertId, Model model) {
-		  model.addAttribute("ids", ids);
-		 return "ses/ems/expertAudit/add_auditpersonnel";
+	@RequestMapping(value = "/signature", produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String signature(String ids, String expertId, HttpServletResponse response) {
+		 	List<String> list = new ArrayList<String>();
+		 	String[] split = ids.split(",");
+		 	list = Arrays.asList(split);
+		   //唯一判断
+			ExpertSignature expertSignature = new ExpertSignature();
+			for(String id : list){
+				expertSignature.setExpertId(id);
+				List<ExpertSignature> selectByExpertId = expertSignatureService.selectByExpertId(expertSignature);
+				if(!selectByExpertId.isEmpty()){
+				   Expert expert = expertService.selectByPrimaryKey(id);
+				   return expert.getRelName();
+				   
+				}
+			}
+		 return "yes";
 	}
+	
+	/**
+	 * @Title: signature
+	 * @author XuQing 
+	 * @date 2017-4-6 下午2:48:52  
+	 * @Description:跳转添加签字人员页面
+	 * @param @param ids
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value = "/addSignature")
+	public String signature(String ids, Model model) {
+		model.addAttribute("ids", ids);
+		return "ses/ems/expertAudit/add_auditpersonnel";
+	}
+	
     
-	@RequestMapping(value = "/saveSignature")
+	/**
+	 * @Title: saveSignature
+	 * @author XuQing 
+	 * @date 2017-4-6 下午1:17:20  
+	 * @Description:复审表添加签字人员
+	 * @param @param purchaseRequiredFormBean
+	 * @param @param batchNo
+	 * @param @param ids
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value = "/saveSignature", produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String saveSignature(PurchaseRequiredFormBean purchaseRequiredFormBean,String batchNo,String ids) {
 		String[] strs = ids.split(",");
 		List<ExpertSignature> list = purchaseRequiredFormBean.getExpertSignatureList();
 		if(list.size()>0){
-		for(String id:strs){
-			Expert ep=new Expert();
-			ep.setId(id);
-			ep.setIsAddExpert(batchNo);
-			expertService.updateByPrimaryKeySelective(ep);
-			for(ExpertSignature es:list){
-				es.setSignatoryId(batchNo);
-				es.setExpertId(id);
-				expertSignatureService.add(es);
+			for(String id:strs){
+				Expert ep=new Expert();
+				ep.setId(id);
+				ep.setIsAddExpert(batchNo);
+				expertService.updateByPrimaryKeySelective(ep);
+				for(ExpertSignature es:list){
+					es.setBatch(batchNo);
+					es.setExpertId(id);
+					es.setCreatedAt(new Date());
+					expertSignatureService.add(es);
 				}
 			}
 		}
-		
 		return "";
 	}
 }

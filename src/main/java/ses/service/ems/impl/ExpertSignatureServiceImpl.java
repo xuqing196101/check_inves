@@ -34,7 +34,6 @@ public class ExpertSignatureServiceImpl implements ExpertSignatureService{
 		ExpertSignature expertSignature = new ExpertSignature();
 		for(int i=0; i<ids.length; i++){
 			Expert expert = expertMapper.selectByPrimaryKey(ids[i]);
-			expertSignature.setSignatoryId(expert.getId());
 			expertSignature.setExpertId(expertId);
 			expertSignature.setName(expert.getRelName());
 			mapper.insertSelective(expertSignature);
