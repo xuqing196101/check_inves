@@ -43,23 +43,41 @@
 
 	 <c:forEach items="${listres}" var="supplier" varStatus="pi">
 	 <ul class="ul_list">
-	  <li class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+	  <li class="col-md-3 col-sm-6 col-xs-12 p0">
+	<div class="input_group col-md-12 col-sm-12 col-xs-12 p0">
 	  <span class="fl block">供应商名称：${supplier.supplier.supplierName}</span>
-	   </div>
+	 </div>
 	  </li>
 	   <li class="col-md-3 col-sm-6 col-xs-12">
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 	  <span class="fl block">排名：</span><span>第${supplier.ranking}名</span>
 	  </div>
 	  </li>
+	  <%-- <c:if test="${supplier.status == -1 || supplier.status == 0}">0%</c:if> --%>
+	  <c:if test="${supplier.status == 1 || supplier.status == 2 }">
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-	  		<span class="fl block">成交比例：</span><span>
-	  		<c:if test="${supplier.status == -1 || supplier.status == 0}">0%</c:if>
-	  		<c:if test="${supplier.status == 1 || supplier.status == 2 }">${supplier.proportion}%</c:if></span>
+	  		<span class="fl block">第一轮确认成交比例：
+	  			<c:if test="${supplier.firstproportion != null }">${supplier.firstproportion }%</c:if>
+	  			<c:if test="${supplier.firstproportion == null }">0%</c:if>
+	  		</span>
 	  	</div>
-	  </li>
+	  </li></c:if>
+	  <c:if test="${supplier.status == 1 || supplier.status == 2 }">
+	  <li class="col-md-3 col-sm-6 col-xs-12">
+	    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+	  		<span class="fl block">第二轮确认成交比例：
+	  			<c:if test="${supplier.secondproportion != null }">${supplier.secondproportion }%</c:if>
+	  			<c:if test="${supplier.secondproportion == null }">0%</c:if>
+	  		</span>
+	  	</div>
+	  </li></c:if>
+	  <c:if test="${supplier.status == 1 || supplier.status == 2 }">
+	  <li class="col-md-3 col-sm-6 col-xs-12 p0">
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+	  		<span class="fl block">总成交比例：${supplier.proportion}%</span>
+	  </div>
+	  </li></c:if>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
   			<div
   				class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -137,7 +155,7 @@
 			<tr>
 			  <td class="tc"></td>
 			  <td class="tc" colspan="4">合计</td>
-			  <td class="tc">${total }</td>
+			  <td class="tc"><b>${total }</b></td>
 			</tr>
 			<c:forEach items="${supplier.obResultSubtabulation}" var="product" varStatus="va">
 				<c:if test="${product.supplierId == supplier.supplierId}">

@@ -683,4 +683,14 @@ r.STATUS,r.REMARK ORDER BY r.RANKING
 	ORDER BY RANKING  
   </select>
   
+  <!-- 查询供应商确认结果占比 -->
+  <select id="selProportion" resultMap="BaseResultMap">
+  	SELECT *
+	FROM 
+		T_BSS_OB_PROJECT_RESULT 
+	WHERE 
+		PROJECT_ID = #{projectId,jdbcType=VARCHAR} AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+	ORDER BY CREATED_AT
+  </select>
+  
 </mapper>

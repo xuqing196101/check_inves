@@ -268,4 +268,17 @@ public interface OBProjectResultMapper {
      * @exception
      */
     List<OBProjectResult> selResultByProjectId(@Param("projectId") String projectId);
+    
+    /**
+     * 
+     * Description: 查询供应商确认结果占比
+     * 
+     * @author  zhang shubin
+     * @version  2017年4月6日 
+     * @param  @param projectId
+     * @param  @return 
+     * @return List<OBProjectResult> 
+     * @exception
+     */
+    List<OBProjectResult> selProportion(@Param("projectId") String projectId,@Param("supplierId") String supplierId);
 }

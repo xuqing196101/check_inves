@@ -585,4 +585,10 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		return oBProjectResultMapper.selResultByProjectId(projectId);
 	}
 
+	@Override
+	public List<OBProjectResult> selProportion(String projectId,
+			String supplierId) {
+		return oBProjectResultMapper.selProportion(projectId, supplierId);
+	}
+
 }

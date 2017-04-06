@@ -105,7 +105,7 @@
                                 </select>
                                 </div>
                              </li>
-                            <li class="col-md-3 col-sm-6 col-xs-12">
+                            <li class="col-md-3 col-sm-6 col-xs-12 fl" style = "clear : both;">
                                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">发布范围</span>
                                <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                                 <select id="release_type_select_id"  name="releaseType">
@@ -118,8 +118,7 @@
                              <li class="col-md-12 col-sm-12 col-xs-12">
                                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">理由</span>
                               <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                                <textarea class="col-md-12 col-sm-12 col-xs-12" name="reason"  style="height:130px" title="不超过800个字" placeholder="不超过800个字">
-                                ${supplierBlacklist.reason}</textarea>
+                                <textarea class="col-md-12 col-sm-12 col-xs-12" name="reason"  style="height:130px" title="不超过800个字" placeholder="不超过800个字">${supplierBlacklist.reason}</textarea>
                                </div>
                              </li>
                     </ul>
