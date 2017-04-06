@@ -3242,6 +3242,9 @@ public class ExpertController extends BaseController {
         if(list.size()>0){
    			 dataMap.put("professional", list.get(0).getQualifcationTitle());
    		        dataMap.put("timeProfessional",   new SimpleDateFormat("yyyy-MM").format(list.get(0).getTitleTime()));
+        }else{
+       	 dataMap.put("professional", "");
+	        dataMap.put("timeProfessional",  "");
         }
         if(list.size()>1){
         	for(int i=0;i<list.size();i++){
