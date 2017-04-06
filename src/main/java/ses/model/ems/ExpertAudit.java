@@ -34,6 +34,7 @@ public class ExpertAudit implements Serializable{
     
     private String auditFieldId;
     
+    private String auditFieldName;
     public String getId() {
         return id;
     }
@@ -143,6 +144,13 @@ public class ExpertAudit implements Serializable{
 	public void setAuditField(String auditField) {
 		this.auditField = auditField;
 	}
-    
-    
+
+	public String getAuditFieldName() {
+		return auditFieldName;
+	}
+
+	public void setAuditFieldName(String auditFieldName) {
+		this.auditFieldName = auditFieldName;
+	}
+
 }

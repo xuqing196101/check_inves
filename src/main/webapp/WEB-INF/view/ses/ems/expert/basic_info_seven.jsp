@@ -279,12 +279,27 @@
             }) */
         });
 
-        function errorMsg(auditField) {
+        function errorFileMsg(auditFieldName,id) {
             $.ajax({
                 url: "${pageContext.request.contextPath}/expert/findAuditReason.do",
                 data: {
                     "expertId": $("#id").val(),
-                    "auditField": auditField
+                    "auditFieldName": auditFieldName,
+                    "auditFieldId": id
+                },
+                dataType: "json",
+                success: function (response) {
+                    layer.msg("不通过理由:" + response.auditReason);
+                }
+            });
+        }
+				
+				function errorMsg(auditField) {
+            $.ajax({
+                url: "${pageContext.request.contextPath}/expert/findAuditReason.do",
+                data: {
+                    "expertId": $("#id").val(),
+                    "auditField": auditField,
                 },
                 dataType: "json",
                 success: function (response) {
@@ -423,11 +438,11 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 pl10">
                     <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
                         <c:forEach items="${spList}" var="sp">
-                            <span  <c:if test="${fn:contains(errorField,sp.id)}">style="color: #ef0000;"  onmouseover="errorMsg('${sp.id}')"</c:if>  class="margin-left-30">
+                            <span  <c:if test="${fn:contains(typeErrorField,sp.id)}">style="color: #ef0000;"  onmouseover="errorMsg('${sp.id}')"</c:if>  class="margin-left-30">
                             <input  type="checkbox"  onclick="checks(this)" name="chkItem_1" value="${sp.id}"/>${sp.name}技术 </span>
                         </c:forEach>
                         <c:forEach items="${jjList}" var="jj">
-                            <span <c:if test="${fn:contains(errorField,jj.id)}">style="color: #ef0000;"  onmouseover="errorMsg('${jj.id}')"</c:if> class="margin-left-30">
+                            <span <c:if test="${fn:contains(typeErrorField,jj.id)}">style="color: #ef0000;"  onmouseover="errorMsg('${jj.id}')"</c:if> class="margin-left-30">
                             <input onclick="checks(this)"  type="checkbox" name="chkItem_2" value="${jj.id}"/>${jj.name} </span>
                         </c:forEach>
                     </div>
@@ -444,8 +459,7 @@
 		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> <!--/执业资格  -->
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input  <c:if test="${fn:contains(errorField,expertTitle.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('qualifcationTitle')"</c:if>
+                        <input  <c:if test="${fn:contains(errorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
                                 maxlength="20" value="${t.qualifcationTitle}"
                                 name="titles[${vs.index }].qualifcationTitle"  type="text"/>
                         <span class="add-on">i</span> <span class="input-tip"></span>
@@ -453,10 +467,7 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 执业资格</span>
-                    <div
-                            class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-                            <c:if test="${fn:contains(errorField,expertTitle.id.concat('_titleFile'))}">style="border: 1px solid #ef0000;"
-                            onmouseover="errorMsg('titleFile')"</c:if>>
+                    <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                                 exts="${properties['file.picture.type']}" id="expert_${vs.index}" maxcount="1"
@@ -472,8 +483,8 @@
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,expertTitle.id.concat('_titleTime'))}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('titleTime')"</c:if>
+                                <c:if test="${fn:contains(errorField,t.id.concat('_titleTime'))}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorFileMsg('titleTime','${t.id }')"</c:if>
                                 value="<fmt:formatDate type='date' value="${t.titleTime}" dateStyle='default' pattern='yyyy-MM' />"
                                 readonly="readonly" name="titles[${vs.index }].titleTime"    type="text"
                                 onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span

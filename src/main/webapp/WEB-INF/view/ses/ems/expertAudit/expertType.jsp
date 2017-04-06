@@ -62,14 +62,13 @@
 		  	}
 		  	
 		  	//执业资格审核
-				function reasonInput(obj,id){
+				function reasonInput(obj,id,auditFieldName){
 				  var expertId = $("#expertId").val();
 				  var auditField;
 				  var auditContent;
 				  var html = "<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>";
 			    $("#"+obj.id+"").each(function() {
-			      /* auditField = $(this).parents("li").find("span").text().replace("：","").trim(); */
-			      auditField = obj.id;
+			      auditField = $(this).parents("li").find("span").text().replace("：","").trim();
 	          auditContent = $(this).parents("li").find("input").val();
 	    		});
 						var index = layer.prompt({
@@ -82,7 +81,7 @@
 					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 					      type:"post",
 					      dataType:"json",
-					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=1"  +"&auditFieldId="+id ,
+					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=1"  +"&auditFieldId="+id + "&auditFieldName="+auditFieldName,
 						    success:function(result){
 					        result = eval("(" + result + ")");
 					        if(result.msg == "fail"){
@@ -100,10 +99,9 @@
 			  	}
 			  	
 		  	//审核附件
-		  	function reasonFile(obj,id){
+		  	function reasonFile(obj,id,auditFieldName){
 				  var expertId = $("#expertId").val();
-				  var showId =  obj.id + "1";
-				  
+				  var showId =  id+ "_" +obj.id;
 			    $("#"+obj.id+"").each(function() {
 			      auditField = $(this).parents("li").find("span").text().replace("：","");
 	    		});
@@ -118,7 +116,7 @@
 					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 					      type:"post",
 					      dataType:"json",
-					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=1"+"&auditFieldId="+id,
+					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=1"+"&auditFieldId="+id +"&auditFieldName="+auditFieldName,
 					      success:function(result){
 					        result = eval("(" + result + ")");
 					        if(result.msg == "fail"){
@@ -272,16 +270,18 @@
 									<c:forEach items="${expertTitleList }" var="expertTitle" varStatus="vs">
 										<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input class="hand" value="${expertTitle.qualifcationTitle}" readonly="readonly" id="qualifcationTitle" type="text" onclick="reasonInput(this,'${expertTitle.id}');"  <c:if test="${fn:contains(conditionStr,expertTitle.id.concat('_qualifcationTitle'))}">style="border: 1px solid red;"</c:if>  <c:if test="${fn:contains(modifyFiled,expertTitle.id.concat('_qualifcationTitle'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('qualifcationTitle','${expertTitle.id}');"</c:if>/>
+												<input class="hand" value="${expertTitle.qualifcationTitle}" readonly="readonly" id="${expertTitle.id}_qualifcationTitle" type="text" onclick="reasonInput(this,'${expertTitle.id}','qualifcationTitle');"  <c:if test="${fn:contains(conditionStr,expertTitle.id.concat('_qualifcationTitle'))}">style="border: 1px solid red;"</c:if>  <c:if test="${fn:contains(modifyFiled,expertTitle.id.concat('_qualifcationTitle'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('qualifcationTitle','${expertTitle.id}');"</c:if>/>
 											</div>
 										</li>
-										<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="tieleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this,'${expertTitle.id}');">执业资格：</span>
+										<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="tieleFile" onclick="reasonFile(this,'${expertTitle.id}','tieleFile');">执业资格：</span>
 				             	<up:show showId="show9" delete="false" businessId="${expert.id}" sysKey="${expertKey}" typeId="9"/>
-				          			<a style="visibility:hidden" id="tieleFile1"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+				          			<a style="visibility:hidden" id="${expertTitle.id}_tieleFile"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+				           			<c:if test="${fn:contains(conditionStr,expertTitle.id.concat('_tieleFile'))}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+				           	
 				           	<li>
 										<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得执业资格时间：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input class="hand" value="<fmt:formatDate type='date' value='${expertTitle.titleTime}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="titleTime" type="text" onclick="reasonInput(this,'${expertTitle.id}');" <c:if test="${fn:contains(conditionStr,expertTitle.id.concat('_titleTime'))}">style="border: 1px solid red;"</c:if>  <c:if test="${fn:contains(modifyFiled,expertTitle.id.concat('_titleTime'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('titleTime','${expertTitle.id}');"</c:if>/>
+												<input class="hand" value="<fmt:formatDate type='date' value='${expertTitle.titleTime}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="${expertTitle.id}_titleTime" type="text" onclick="reasonInput(this,'${expertTitle.id}','titleTime');" <c:if test="${fn:contains(conditionStr,expertTitle.id.concat('_titleTime'))}">style="border: 1px solid red;"</c:if>  <c:if test="${fn:contains(modifyFiled,expertTitle.id.concat('_titleTime'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('titleTime','${expertTitle.id}');"</c:if>/>
 											</div>
 										</li>
 										<div class="clear"></div>

@@ -15,6 +15,7 @@
     <result column="AUDIT_FIELD" jdbcType="VARCHAR" property="auditField" />
     <result column="AUDIT_CONTENT" jdbcType="VARCHAR" property="auditContent" />
     <result column="AUDIT_FIELD_ID" jdbcType="VARCHAR" property="auditFieldId" />
+    <result column="AUDIT_FIELD_NAME" jdbcType="VARCHAR" property="auditFieldName" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, EXPERT_ID, AUDIT_USER_ID, AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, AUDIT_AT, IS_DELETE, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE, "AUDIT_FIELD_ID"
@@ -120,6 +121,9 @@
       <if test="auditFieldId != null">
         AUDIT_FIELD_ID,
       </if>
+      <if test="auditFieldName != null">
+        AUDIT_FIELD_NAME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -160,6 +164,9 @@
       </if>
       <if test="auditFieldId != null">
         #{auditFieldId},
+      </if>
+      <if test="auditFieldName != null">
+        #{auditFieldName},
       </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -233,6 +240,12 @@
     </if>
     <if test="auditField != '' and auditField != null">
     	and AUDIT_FIELD = #{auditField}
+    </if>
+    <if test="auditFieldId != '' and auditFieldId != null">
+    	and AUDIT_FIELD_ID = #{auditFieldId}
+    </if>
+    <if test="auditFieldName != '' and auditFieldName != null">
+    	and AUDIT_FIELD_NAME = #{auditFieldName}
     </if>
     <if test="type !=null ">
     	and TYPE = #{type}

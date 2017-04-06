@@ -210,7 +210,7 @@
 									<td class="tc">
 										<c:if test="${reasons.suggestType eq 'one'}">基本信息</c:if>
 										<c:if test="${reasons.suggestType eq 'two'}">经历经验</c:if>
-										<c:if test="${reasons.suggestType eq 'seven'}">产品类别</c:if>
+										<c:if test="${reasons.suggestType eq 'seven'}">专家类别</c:if>
 										<c:if test="${reasons.suggestType eq 'six'}">产品目录</c:if>
 										<c:if test="${reasons.suggestType eq 'five'}">附件</c:if>
 									</td>

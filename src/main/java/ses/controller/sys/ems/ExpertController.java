@@ -528,20 +528,20 @@ public class ExpertController extends BaseController {
             showCategory(expert, model);
         }
         if("3".equals(expert.getStatus())) {
-           /* // 如果状态为退回修改则查询没通过的字段 
+            // 如果状态为退回修改则查询没通过的字段 
             ExpertAudit expertAudit = new ExpertAudit();
             expertAudit.setExpertId(expertId);
             expertAudit.setSuggestType(stepNumber);
             List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
             // 所有的不通过字段的名字
-            StringBuffer errorField = new StringBuffer();
+            StringBuffer typeErrorField = new StringBuffer();
             for(ExpertAudit audit: auditList) {
-                errorField.append(audit.getAuditField() + ",");
+            	typeErrorField.append(audit.getAuditField() + ",");
             }
-            model.addAttribute("errorField", errorField);*/
+            model.addAttribute("typeErrorField", typeErrorField);
         	
         	
-        	//不通过字段
+        	//不通过字段（执业资格）
         	ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
@@ -550,7 +550,7 @@ public class ExpertController extends BaseController {
 			StringBuffer errorField = new StringBuffer();
 			if(!reasonsList.isEmpty()){
 				for (ExpertAudit expertAudit2 : reasonsList) {
-					String beforeField = expertAudit2.getAuditFieldId() +"_"+ expertAudit2.getAuditField();
+					String beforeField = expertAudit2.getAuditFieldId() +"_"+ expertAudit2.getAuditFieldName();
 					errorField.append(beforeField + ",");
 				}
 				model.addAttribute("errorField", errorField);
