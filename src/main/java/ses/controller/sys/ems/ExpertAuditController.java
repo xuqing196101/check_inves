@@ -1144,7 +1144,7 @@ public class ExpertAuditController{
 		
 		
 		//执业资格模块
-		List<ExpertTitle> expertTitleList = expertTitleService.queryByUserId(expertId);
+		List<ExpertTitle> expertTitleList = expertTitleService.queryByUserId(expertId,null);
 		model.addAttribute("expertTitleList", expertTitleList);
 		
 		

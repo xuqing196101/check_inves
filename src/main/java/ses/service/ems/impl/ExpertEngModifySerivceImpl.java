@@ -36,7 +36,7 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 		//历史
 		List<ExpertEngHistory> expertEngHistoryList = expertEngHistorySerivce.selectByExpertId(expertEngHistory);
 		//现在
-		List<ExpertTitle> expertTitleList = expertTitleService.queryByUserId(expertId);
+		List<ExpertTitle> expertTitleList = expertTitleService.queryByUserId(expertId,null);
 		//对比
 		expertEngHistory.setCreatedAt(date);
 		for(ExpertEngHistory history :expertEngHistoryList){

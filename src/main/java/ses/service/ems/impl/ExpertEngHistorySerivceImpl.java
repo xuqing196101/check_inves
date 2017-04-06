@@ -29,7 +29,7 @@ public class ExpertEngHistorySerivceImpl implements ExpertEngHistorySerivce{
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String expertId = expertEngHistory.getExpertId();
         
-		List<ExpertTitle> expertTitleList = expertTitleMapper.queryByExpertId(expertId);
+		List<ExpertTitle> expertTitleList = expertTitleMapper.queryByExpertId(expertId,null);
 		if(!expertTitleList.isEmpty()){
 			for(ExpertTitle e : expertTitleList){
 				String professional = e.getQualifcationTitle();
