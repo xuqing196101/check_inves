@@ -81,19 +81,16 @@
 				<tr>
 				  <th class="w30 info"><input alt="" type="checkbox"></th>
 				  <th class="info">序号</th>
-				  <th class="info">定型产品名称</th>
+				  <th class="info" width="25%">定型产品名称</th>
 				  <th class="info">限价（元）</th>
 				  <th class="info">采购数量</th>
 				  <th class="info">总价（元）</th>
-				  <th class="info">备注信息</th>
+				  <th class="info" width="30%">备注信息</th>
 				</tr>
 				</thead>
 				<tr>
-				  <td class="tc"><input type="checkbox" alt=""></td>
-				  <td class="tc"></td>
-				  <td class="tc" colspan="3">合计</td>
-				  <td class="tc">${ totalCountPriceBigDecimal }</td>
-				  <td class="tc"></td>
+				  <td class="tc" colspan="2">合计</td>
+				  <td class="tc" colspan="5">${ totalCountPriceBigDecimal }</td>
 				</tr>
 				<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
 					<tr>
