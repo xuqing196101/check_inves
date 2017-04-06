@@ -96,7 +96,17 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private String isAddExpert;
     
-    public String getIsAddExpert() {
+    private List<ExpertTitle> ecoList=new ArrayList<ExpertTitle>();
+    
+    public List<ExpertTitle> getEcoList() {
+		return ecoList;
+	}
+
+	public void setEcoList(List<ExpertTitle> ecoList) {
+		this.ecoList = ecoList;
+	}
+
+	public String getIsAddExpert() {
 		return isAddExpert;
 	}
 

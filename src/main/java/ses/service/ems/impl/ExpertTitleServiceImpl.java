@@ -51,6 +51,7 @@ public class ExpertTitleServiceImpl implements ExpertTitleService{
 				 ep.setExpertTypeId(typeId);
 				 expertTitleMapper.insertSelective(ep);
 			 }else if(expertTitle!=null){
+				 ep.setExpertTypeId(typeId);
 				 expertTitleMapper.updateByPrimaryKeySelective(ep);
 			 }
 			
