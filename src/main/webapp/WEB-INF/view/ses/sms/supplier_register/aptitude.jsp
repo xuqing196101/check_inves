@@ -140,6 +140,7 @@
 					
 					$.ajax({
 						url : "${pageContext.request.contextPath}/supplier/getProType.do",
+						type:"post",
 						data: {
 							"typeId": typeId,
 							"certCode": certCode,
@@ -177,6 +178,7 @@
 				if (typeId != null && typeId != "" && typeId != "undefined" && certCode != null && certCode != "" && certCode != "undefined"&&professType!=null&&professType!="") {
 					$.ajax({
 						url : "${pageContext.request.contextPath}/supplier/getLevel.do",
+						type:"post",
 						data: {
 							"typeId": typeId,
 							"certCode": certCode,
@@ -196,6 +198,7 @@
 								// 通过append将附件信息追加到指定位置
 								$.ajax({
 									url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
+									type:"post",
 									async : false,
 									dataType : "html",
 									data : {
