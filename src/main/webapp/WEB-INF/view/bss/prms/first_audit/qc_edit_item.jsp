@@ -23,37 +23,50 @@
 	  
 	  //保存更新
 	  function updateItem(){
-		  $.ajax({   
-	            type: "POST",  
-	            url: "${pageContext.request.contextPath}/firstAudit/updateItem.html",        
-	            data : $('#form2').serializeArray(),
-	            dataType:'json',
-	            success:function(result){
-	                if(!result.success){
-	                    layer.msg(result.msg,{offset: ['150px']});
-	                }else{
-	                	 var packageId = $("#packageId").val();
-	                     var projectId = $("#projectId").val();
-	                    parent.window.setTimeout(function(){
-	                    	var flag = $("#isConfirm").val();
-	                    	if (flag == 1) {
-								parent.window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
-							} else {
-	                            parent.window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
-							}
-                        }, 1000);
-	                    layer.msg(result.msg,{offset: ['150px']});
-	                }
-	            },
-	            error: function(result){
-	                layer.msg("修改失败",{offset: ['150px']});
-	            }
-	       });    
+          var pattern = /^[1-9]\d*$/;
+          var _val = $("#itemPosition").val();
+          if(!pattern.test(_val)){
+              layer.msg('请输入正确的序号');
+          }else{
+              $.ajax({
+                  type: "POST",
+                  url: "${pageContext.request.contextPath}/firstAudit/updateItem.html",
+                  data : $('#form2').serializeArray(),
+                  dataType:'json',
+                  success:function(result){
+                      if(!result.success){
+                          layer.msg(result.msg,{offset: ['150px']});
+                      }else{
+                          var packageId = $("#packageId").val();
+                          var projectId = $("#projectId").val();
+                          parent.window.setTimeout(function(){
+                              var flag = $("#isConfirm").val();
+                              if (flag == 1) {
+                                  parent.window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+                              } else {
+                                  parent.window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                              }
+                          }, 1000);
+                          layer.msg(result.msg,{offset: ['150px']});
+                      }
+                  },
+                  error: function(result){
+                      layer.msg("修改失败",{offset: ['150px']});
+                  }
+              });
+          }
 	  }
 	  //关闭弹窗
       function cancel(){
     	  var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
           parent.layer.close(index);
+      }
+      function inputChange(){
+          var pattern = /^[1-9]\d*$/;
+          var _val = $("#itemPosition").val();
+          if(!pattern.test(_val)){
+              layer.msg('请输入正整数序号');
+          }
       }
   </script>
 <body>
@@ -75,7 +88,7 @@
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                     <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>序号</label>
                     <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                       <input  name="position" id="itemPosition" value="${item.position}" maxlength="10" type="text">
+                       <input  name="position" id="itemPosition" value="${item.position}" maxlength="10" type="text" onchange="inputChange()">
                     </div>
                  </li>
                  <li class="col-md-12 col-sm-12 col-xs-12 mb20">
