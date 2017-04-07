@@ -98,7 +98,17 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private List<ExpertTitle> ecoList=new ArrayList<ExpertTitle>();
     
-    public List<ExpertTitle> getEcoList() {
+    private Integer isTitle;
+    
+    public Integer getIsTitle() {
+		return isTitle;
+	}
+
+	public void setIsTitle(Integer isTitle) {
+		this.isTitle = isTitle;
+	}
+
+	public List<ExpertTitle> getEcoList() {
 		return ecoList;
 	}
 

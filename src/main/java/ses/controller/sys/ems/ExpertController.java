@@ -415,7 +415,7 @@ public class ExpertController extends BaseController {
         if(expert.getCoverNote()==null){
         	expert.setCoverNote("2");
         }
-        model.addAttribute("expert", expert);
+//        model.addAttribute("expert", expert);
         String stepNumber;
         if("".equals(expert.getStepNumber()) || expert.getStepNumber() == null) {
             stepNumber = "one";
@@ -434,6 +434,13 @@ public class ExpertController extends BaseController {
         expert.setExpertsFrom(dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom()).getCode());
         List<ExpertTitle> proList=new ArrayList<ExpertTitle>();
         List<ExpertTitle> ecoList=new ArrayList<ExpertTitle>();
+        if(expert.getProfessional()!=null&&expert.getIsTitle()==null){
+        	expert.setIsTitle(1);
+        }
+        if(expert.getProfessional()==null&&expert.getIsTitle()==null){
+        	expert.setIsTitle(2);
+        }
+        
         	boolean bool=false;
         	boolean boo2=false;
    		   String id= expert.getExpertsTypeId();

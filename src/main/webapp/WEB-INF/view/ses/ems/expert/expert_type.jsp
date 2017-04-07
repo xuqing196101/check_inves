@@ -1,6 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+		<li class="col-md-3 col-sm-6 col-xs-12 pl">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> 
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
              
@@ -32,7 +32,7 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
 					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 						<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-							<input type="button" onclick="addPractice(this)" class="btn list_btn" value="十" />
+							<input type="button" onclick="addPractice(1)" class="btn list_btn" value="十" />
 							<input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
 							<input  value="${id }"  name="titles[${index }].id"  type="hidden"/>
 							</div>

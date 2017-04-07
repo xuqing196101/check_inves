@@ -44,16 +44,19 @@ public class ExpertTitleServiceImpl implements ExpertTitleService{
 	@Override
 	public void addBatch(List<ExpertTitle> list,String typeId) {
 		 for(ExpertTitle ep:list){
-			 ExpertTitle expertTitle = expertTitleMapper.selectByPrimaryKey(ep.getId());
-			 if(expertTitle==null&&ep.getQualifcationTitle()!=null){
-				 ep.setCreatedAt(new Date());
-				 ep.setStatus("1");
-				 ep.setExpertTypeId(typeId);
-				 expertTitleMapper.insertSelective(ep);
-			 }else if(expertTitle!=null){
-				 ep.setExpertTypeId(typeId);
-				 expertTitleMapper.updateByPrimaryKeySelective(ep);
+			 if(ep.getId()!=null){
+				 ExpertTitle expertTitle = expertTitleMapper.selectByPrimaryKey(ep.getId());
+				 if(expertTitle==null&&ep.getQualifcationTitle()!=null){
+					 ep.setCreatedAt(new Date());
+					 ep.setStatus("1");
+					 ep.setExpertTypeId(typeId);
+					 expertTitleMapper.insertSelective(ep);
+				 }else if(expertTitle!=null){
+					 ep.setExpertTypeId(typeId);
+					 expertTitleMapper.updateByPrimaryKeySelective(ep);
+				 } 
 			 }
+			
 			
 		 }
 		

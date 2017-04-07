@@ -61,6 +61,7 @@
         <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
         <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
         <result column="IS_ADD_EXPERT" jdbcType="DECIMAL" property="isAddExpert" />
+ 	    <result column="IS_TITLE" property="isTitle" />
 
     </resultMap>
     <sql id="Base_Column_List">
@@ -89,7 +90,7 @@
         IS_REFERENCE_LETTER,
         PROFESSIONAL,
         TIME_PROFESSIONAL,
-        IS_PUBLISH
+        IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -119,7 +120,7 @@
         e.AUDIT_AT,
         e.IS_REFERENCE_LETTER,
         e.PROFESSIONAL,
-        e.TIME_PROFESSIONAL
+        e.TIME_PROFESSIONAL,e.IS_PUBLISH,e.IS_ADD_EXPERT,e.IS_TITLE
     </sql>
     <!-- 获取所有专家,仅用作定时删除无效专家 -->
     <select id="getAllExpert" resultMap="BaseResultMap">
@@ -443,7 +444,10 @@
             <if test="timeProfessional != null">
                 TIME_PROFESSIONAL,
             </if>
-
+            
+			<if test="isTitle != null">
+                IS_TITLE,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -603,9 +607,11 @@
                 #{PROFESSIONAL,jdbcType=VARCHAR},
             </if>
             <if test="timeProfessional != null">
-                #{TIME_PROFESSIONAL,jdbcType=TIMESTAMP},
+                #{timeProfessional,jdbcType=TIMESTAMP},
             </if>
-
+			<if test="isTitle != null">
+                #{isTitle},
+            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.Expert">
@@ -775,6 +781,9 @@
              <if test="isAddExpert != null">
                 IS_ADD_EXPERT = #{isAddExpert},
             </if>
+             <if test="isTitle != null">
+                IS_TITLE = #{isTitle},
+            </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
     </update>
@@ -939,7 +948,15 @@
             <if test="timeProfessional != null and timeProfessional != ''">
                 TIME_PROFESSIONAL = #{timeProfessional,jdbcType=TIMESTAMP},
             </if>
-
+           <if test="isPublish != null">
+                IS_PUBLISH = #{isPublish},
+            </if>
+             <if test="isAddExpert != null">
+                IS_ADD_EXPERT = #{isAddExpert},
+            </if>
+             <if test="isTitle != null">
+                IS_TITLE = #{isTitle},
+            </if>
         </set>
         where
         ID = #{id,jdbcType=VARCHAR}

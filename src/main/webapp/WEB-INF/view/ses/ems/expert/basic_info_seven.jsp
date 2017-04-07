@@ -92,6 +92,63 @@
 
         //function validations=
         function fun() {
+           	var flag=false;
+        	var bool=false;
+        	var val=$("#mySelect").val();
+        	var s=true;
+        	var s2=true;
+       	 $("input[name='chkItem_2']").each(function() {
+       		var val=$(this).parent().text();
+         	if(val.trim()=="工程经济"){	
+         	 if ($(this).prop("checked")) {
+         		  flag=true;
+         			// $("#pro_div").show();
+         	    }else{
+         	    	flag=false;
+         	   	// $("#pro_div").hide();
+         	    }
+         	 }
+       	 });
+        	
+    	 $("input[name='chkItem_1']").each(function() {
+        		var val=$(this).parent().text();
+          	if(val.trim()=="工程技术"){	
+          	 if ($(this).prop("checked")) {
+          		 bool=true;
+          	    }else{
+          	    	bool=false;
+          	    }
+          	 }
+        	 });
+    	 
+    	 if(flag==true&&val==1){
+    		 $("#pro_div").find("input[type='text']").each(
+ 					function(index, element) {
+ 						if (element.value == "") {
+ 							// flag = false;
+ 							 s=false;
+ 						}
+ 						 
+ 			 }); 
+    	 }
+    	 if(bool==true&&val==1){
+    		 $("#server_div").find("input[type='text']").each(
+ 					function(index, element) {
+ 						if (element.value == "") {
+ 							// bool = false;
+ 							/*  layer.msg("请完善执业业资格信息 !");
+ 				    		 return; */
+ 							 s2=false;
+ 						}
+ 						 
+ 			 }); 
+    	 }
+   	   if(s==false||s2==false){
+    		  layer.msg("请完善执业业资格信息 !");
+    		 return;
+    	 }  
+        	
+        	
             //此处是对选中专家进行校验
             if (isIs) {
             	
@@ -123,7 +180,13 @@
                     if (!validateType()) {
                         return;
                     } else{
-                        submitForm2();
+                    	/* var boo=isVal();
+                    	if(boo==true){ */
+                    		  submitForm2();
+                    	/* }else{
+                    		 layer.msg("请完善执业资格信息!");
+                    	} */
+                      
                     }
 
                 }
@@ -205,6 +268,9 @@
         }
         $(function () {
 
+        	var isTitle="${expert.isTitle}";
+        	var flag=false;
+        	var bool=false;
             var bja = [];
 
             $("input").bind("blur", submitformExpert);
@@ -237,10 +303,12 @@
         		var val=$(this).parent().text();
             	if(val.trim()=="工程技术"){	
             	 if ($(this).prop("checked")) {
+            		 flag=true;
                      init_web_upload();
-                     
+            
+                     $("#zhiyezige").show();
                   	// $("#server_div").attr("class", "tab-pane fades active in");
-                  	$("#server_div").show();
+                  	// $("#server_div").show();
                   	$("input[name='chkItem_2']").each(function() {
                 		var val=$(this).parent().text();
                     	if(val.trim()=="工程经济"){	
@@ -258,9 +326,11 @@
             	if(val.trim()=="工程经济"){	
             	
             	 if ($(this).prop("checked")) {
+            		 bool=true;
                      init_web_upload();
+                     $("#zhiyezige").show();
                        // $("#pro_div").attr("class", "tab-pane fades active in");
-                    	$("#pro_div").show();
+                    	// $("#pro_div").show();
                        $("input[name='chkItem_1']").each(function() {
                    		var val=$(this).parent().text();
                        	if(val.trim()=="工程技术"){	
@@ -271,6 +341,13 @@
                  } 
             	}
     		});
+       	 if(isTitle==1&&flag==true){
+    		 $("#server_div").show();
+    	 }
+    
+    	 if(isTitle==1&&bool==true){
+    		 $("#pro_div").show();
+    	 }
         	
         	
 //绑定工程技术的切换事件
@@ -329,6 +406,7 @@
             layer.msg("已暂存");
         }
         function checks(obj){
+        	var flag=true;
         	 var expertId=$("#id").val();
         	$("input[name='chkItem_1']").each(function() {
         		var val=$(this).parent().text();
@@ -336,10 +414,8 @@
             	 if ($(this).prop("checked")) {
             		 flagValue="工程技术";
                      init_web_upload();
-                     
-                     $("#server_div").show();
-                 // 	$("#server_div").attr("class", "tab-pane fades active in");
-                // 	$("#server_div").attr("class", "dis_none fades ");
+                     $("#zhiyezige").show();
+                   //    $("#server_div").show();
             		$("input[name='chkItem_2']").each(function() {
                 		var val=$(this).parent().text();
                     	if(val.trim()=="工程经济"){	
@@ -347,11 +423,12 @@
                     	}
             		});
             		
-                    //   $("#tab_div").attr("class", "container");
                  }else {
+                	 $("#zhiyezige").hide();
                 	 cacel(expertId,$(this).val());
+                	 $("#mySelect option:first").prop("selected", 'selected');
                 	 flag=false;
-                		$("#server_div").hide();
+                		 $("#server_div").hide();
                 		$("input[name='chkItem_2']").each(function() {
                     		var val=$(this).parent().text();
                         	if(val.trim()=="工程经济"){	
@@ -368,9 +445,10 @@
              		var val=$(this).parent().text();
                  	if(val.trim()=="工程经济"){	
                  	 if ($(this).prop("checked")) {
+                 		 $("#zhiyezige").show();
                  		  flagValue="工程经济";
                           init_web_upload();
-                      	$("#pro_div").show();
+                      	// $("#pro_div").show();
                       	$("input[name='chkItem_1']").each(function() {
                     		var val=$(this).parent().text();
                         	if(val.trim()=="工程技术"){	
@@ -379,8 +457,11 @@
                 		});
                       	
                       } else {
+                    	  $("#zhiyezige").hide();
                     	  cacel(expertId,$(this).val());
-                    		$("#pro_div").hide();
+                    	  $("#mySelect option:first").prop("selected", 'selected');
+                    	  
+                    	 	$("#pro_div").hide();
                     		$("input[name='chkItem_1']").each(function() {
                         		var val=$(this).parent().text();
                             	if(val.trim()=="工程技术"){	
@@ -391,7 +472,7 @@
                       }
                  	}
          		}); 
-        	 }
+        	 }  
         /* 	if(objVal=="工程经济"&&flagValue=="工程技术"){
         		alert("不能同时选择");
         		 return false;  
@@ -402,14 +483,62 @@
         	}  */
         	
         }
+        function  isZhiye(obj){
+        	submitformExpert();
+        	var val=$(obj).val();
+        	var flag=false;
+        	var bool=false;
+       	 $("input[name='chkItem_2']").each(function() {
+       		var val=$(this).parent().text();
+         	if(val.trim()=="工程经济"){	
+         	 if ($(this).prop("checked")) {
+         		  flag=true;
+         			// $("#pro_div").show();
+         	    }else{
+         	    	flag=false;
+         	   	// $("#pro_div").hide();
+         	    }
+         	 }
+       	 });
+        	
+    	 $("input[name='chkItem_1']").each(function() {
+        		var val=$(this).parent().text();
+          	if(val.trim()=="工程技术"){	
+          	 if ($(this).prop("checked")) {
+          		 bool=true;
+          		// $("#server_div").show();
+          	    }else{
+          	    	bool=false;
+          	   // 	$("#server_div").hide();
+          	    }
+          	 }
+        	 });
+    
+    	 if(val==1&&flag==true){
+    		 init_web_upload_in("#pro_div");
+    		 $("#pro_div").show();
+    	 }
+    	 if(val==2){
+    		 $("#pro_div").hide();
+    			$("#server_div").hide();
+    	 }
+    	 if(val==1&&bool==true){
+    		 init_web_upload_in("#server_div");
+    		 $("#server_div").show();
+    	 }
+     
+    	 
+        }
+        
         
         function addPractice(val){
         	var detailRow = $("#server_div").find("li");
-			var index = (detailRow.length+1)/4-1;
-			if(val=="2"){
-				var detailRow = $("#pro_div").find("li");
-				  index = detailRow.length/4;
-			}
+       
+			var index = detailRow.length;
+			/* if(val=="2"){
+				var detailRoww = $("#pro_div").find("li");
+				  index = detailRoww.length/4;
+			} */
 			var id=$("#id").val();
 			$.ajax({
 				url: "${pageContext.request.contextPath}/expert/practice.do",
@@ -471,6 +600,7 @@
                  }
              });
         }
+ 
     </script>
 </head>
 
@@ -529,16 +659,24 @@
                 </li>
             </ul>
 
-
-		<div class="container" id="tab_div">
-			<div class="magazine-page">
-				<div class="col-md-12 col-sm-12 col-xs-12 p0 tab-v2 job-content">
+ 			<ul class="ul_list">
+						<li  id="zhiyezige" style="display: none;" class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>有无执业资格</span>
+							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+								<select style="width:100%" name="isTitle" id="mySelect" onchange="isZhiye(this)" >
+									<option  value="2" <c:if test="${expert.isTitle==2}">selected="selected"</c:if> >无 </option>
+									<option  value="1" <c:if test="${expert.isTitle==1}">selected="selected"</c:if> >有 </option>
+								</select>
+							</div>
+						</li>
+					
+					<div class="clear">
+					</div>	
 	 <div class="tab-pane fades active in" style="display: none;" id="server_div">
 	 
 		<ul class="list-unstyled f14" id="addUl">
 		
 		<c:forEach items="${proList }" var="t"  varStatus="vs" >
-		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+		<li class="col-md-3 col-sm-6 col-xs-12 pl">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> <!--/执业资格  -->
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input  <c:if test="${fn:contains(errorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
@@ -585,14 +723,13 @@
 			  </li>
 			</c:forEach>
 			</ul>	
-			
-			
-		 			</div>	
+		 </div>	
 		 			
 	 <div class="tab-pane fades active in" style="display: none;" id="pro_div">
+			
 		<ul class="list-unstyled f14" id="jingji_ul">
 		<c:forEach items="${ecoList}" var="t"  varStatus="vs" >
-		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+		<li class="col-md-3 col-sm-6 col-xs-12 pl">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> <!--/执业资格  -->
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input  <c:if test="${fn:contains(errorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
@@ -644,9 +781,9 @@
 		 			</div>
 		 			
 		 					
-	        	</div>
-			</div>
-		</div>
+		</ul>
+					
+
  
 	
 	
