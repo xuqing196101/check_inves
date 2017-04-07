@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,6 +56,7 @@ import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBResultSubtabulationService;
 import bss.service.ob.OBSupplierQuoteService;
 import bss.util.BiddingStateUtil;
+import bss.util.BigDecimalUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -422,7 +424,7 @@ public class OBSupplierQuoteController {
                      // 成交总价
                      BigDecimal multiply = dealMoney.multiply(resultsNumbers);
                      multiply.setScale(4);
-                     BigDecimal moneyBigDecimal = multiply.divide(million);
+                     BigDecimal moneyBigDecimal = multiply.divide(million, 4, BigDecimal.ROUND_HALF_UP);
                      obResultsInfo.setDealTotalMoney(moneyBigDecimal);
                  }
 
@@ -788,7 +790,7 @@ public class OBSupplierQuoteController {
 						signalCount = new BigDecimal(signalCountInt);
 						BigDecimal multiply = myOfferMoney.multiply(signalCount);
 						/**显示100000样式**/
-						BigDecimal moneyBigDecimal = multiply.divide(million);
+						BigDecimal moneyBigDecimal = BigDecimalUtils.getSignalDecimalScale4(multiply, million);
 						obResultInfo.setDealMoney(moneyBigDecimal);
 						/**显示￥100,000,00样式**/
 						//obResultInfo.setDealMoneyStr(currency.format(multiply));
@@ -812,9 +814,10 @@ public class OBSupplierQuoteController {
 			model.addAttribute("uploadFiles", uploadFiles);
 			model.addAttribute("oBResultsInfo", oBResultsInfo);
 
+			// 保留四位小数
 			BigDecimal totalCountPriceBigDecimalAfter = new BigDecimal(totalCountPriceBigDecimal);
 			// 计算总价钱
-			BigDecimal totalCountPriceBigDecimalShow = totalCountPriceBigDecimalAfter.divide(million);
+			BigDecimal totalCountPriceBigDecimalShow = BigDecimalUtils.getBigDecimalTOScale4(totalCountPriceBigDecimalAfter, million);
 			model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalShow);
 
 			if(obProject != null){
@@ -849,7 +852,7 @@ public class OBSupplierQuoteController {
 					findConfirmResult = oBProjectResultService.findConfirmResult(resultMap);
 					List<OBResultSubtabulation> subtabulationList = findConfirmResult.getObResultSubtabulation();
 					calculateSignalResultTotalPrice(subtabulationList);
-					confirmFirstTotalFigureStr = getTotalFigure(findConfirmResult);
+					confirmFirstTotalFigureStr = BigDecimalUtils.getTotalFigure(findConfirmResult);
 				}
 				
 				/**
@@ -862,21 +865,27 @@ public class OBSupplierQuoteController {
 					findConfirmResult = oBProjectResultService.findConfirmResult(resultMap);
 					List<OBResultSubtabulation> subtabulationList = findConfirmResult.getObResultSubtabulation();
 					calculateSignalResultTotalPrice(subtabulationList);
-					confirmFirstTotalFigureStr = getTotalFigure(findConfirmResult);
+					confirmFirstTotalFigureStr = BigDecimalUtils.getTotalFigure(findConfirmResult);
 					// 第二轮
 					resultMap.put("orderWay", "DESC");
 					findConfirmResultSecond = oBProjectResultService.findConfirmResult(resultMap);
 					List<OBResultSubtabulation> subtabulationSecondList = findConfirmResultSecond.getObResultSubtabulation();
 					calculateSignalResultTotalPrice(subtabulationSecondList);
-					confirmSecondTotalFigureStr = getTotalFigure(findConfirmResultSecond);
+					confirmSecondTotalFigureStr = BigDecimalUtils.getTotalFigure(findConfirmResultSecond);
 					// 封装数据
+					BigDecimal bigDecimal = new BigDecimal(confirmSecondTotalFigureStr);
+					// 单位换算
+					BigDecimal confirmSecondTotalFigureBigDecimal = bigDecimal.setScale(4, BigDecimal.ROUND_HALF_UP);
 					model.addAttribute("confirmResultSecond", findConfirmResultSecond);
-					model.addAttribute("confirmSecondTotalFigureStr", confirmSecondTotalFigureStr);
+					model.addAttribute("confirmSecondTotalFigureStr", confirmSecondTotalFigureBigDecimal);
 				}
 				
+				BigDecimal bigDecimal = new BigDecimal(confirmFirstTotalFigureStr);
+				BigDecimal confirmFirstTotalFigureBigDecimal = bigDecimal.setScale(4, BigDecimal.ROUND_HALF_UP);
 				
 				model.addAttribute("confirmResult", findConfirmResult);
-				model.addAttribute("confirmFirstTotalFigureStr", confirmFirstTotalFigureStr);
+				
+				model.addAttribute("confirmFirstTotalFigureStr", confirmFirstTotalFigureBigDecimal);
 				model.addAttribute("confirmFlag", confirmFlag);
 			}
 			
@@ -902,46 +911,14 @@ public class OBSupplierQuoteController {
 		for (OBResultSubtabulation obResultSubtabulation : subtabulationList) {
 			if(obResultSubtabulation != null){
 				// BigDecimal的除法
-				BigDecimal moneyBigDecimal = obResultSubtabulation.getTotalMoney().divide(millionTotal);
+				BigDecimal totalMoney = obResultSubtabulation.getTotalMoney();
+				BigDecimal moneyBigDecimal = BigDecimalUtils.getSignalDecimalScale4(totalMoney, millionTotal);
 				obResultSubtabulation.setTotalMoney(moneyBigDecimal);
 			}
 		}
 	}
 	
-	/**
-	 * 
-	* @Title: getTotalFigure 
-	* @Description: 计算成交总价
-	* @author Easong
-	* @param @param findConfirmResult
-	* @param @return    设定文件 
-	* @return Double    返回类型 
-	* @throws
-	 */
-	public Double getTotalFigure(OBProjectResult findConfirmResult){
-		//NumberFormat currency = NumberFormat.getNumberInstance();
-		// 定义第一轮成交总价
-		Double confirmFirstTotalFigure = 0.00;
-		if(findConfirmResult != null){
-			List<OBResultSubtabulation> obResultSubtabulationList = findConfirmResult.getObResultSubtabulation();
-			if(obResultSubtabulationList != null && obResultSubtabulationList.size() > 0){
-				for (OBResultSubtabulation obResultSubtabulation : obResultSubtabulationList) {
-					// 获取单件商品的成交总价
-					BigDecimal dealMoney = obResultSubtabulation.getTotalMoney();
-					// 计算成交总价
-					/**计算成交总价 = 单件商品的成交总价 相加**/
-					/** 累加得到总计 **/
-					confirmFirstTotalFigure = dealMoney.add(
-							new BigDecimal(Double
-									.toString(confirmFirstTotalFigure)))
-							.doubleValue();
-					
-				}
-			}
-		}
-		//String confirmFirstTotalFigureStr = currency.format(confirmFirstTotalFigure);
-		return confirmFirstTotalFigure;
-	}
+	
 	
 	/**
 	 * 
