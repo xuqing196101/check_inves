@@ -203,9 +203,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</ul>
 				<input class="btn fl" value="查询" type="submit">
 				<input class="btn fl" value="重置" type="button" onclick="resetForm();">
+				<div class="clear"></div>
    			</form>
    		</div>
-   		<div class="container margin-top-5">
+   		<div class="col-md-12 col-sm-12 col-xs-12 pl20 mt10">
    			<input class="btn fl" value="评审" type="button" onclick="review()">
    		</div>
     	<div class="container margin-top-5">
