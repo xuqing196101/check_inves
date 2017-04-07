@@ -118,4 +118,17 @@ public interface ProjectExtractMapper {
      * @param projectId
      */
     void delPe(String projectId);
+
+    /**
+     * 根据条件查询专家/包关联
+     * @param projectExtract
+     * @return
+     */
+    List<ProjectExtract> findProjectExtractByCondition(ProjectExtract projectExtract);
+
+    /**
+     * 批量插入,必要参数(用于插入临时专家)
+     * @param list
+     */
+    void insertBatch(List<ProjectExtract> list);
 }

@@ -11,15 +11,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import bss.util.EncryptUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.dao.bms.AreaMapper;
@@ -28,23 +33,11 @@ import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.EngCategoryMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
-import ses.dao.ems.ExpertAttachmentMapper;
-import ses.dao.ems.ExpertAuditMapper;
-import ses.dao.ems.ExpertCategoryMapper;
-import ses.dao.ems.ExpertMapper;
-import ses.model.bms.Area;
-import ses.model.bms.Category;
-import ses.model.bms.DictionaryData;
-import ses.model.bms.Role;
-import ses.model.bms.Todos;
-import ses.model.bms.User;
-import ses.model.ems.ExpExtCondition;
-import ses.model.ems.Expert;
-import ses.model.ems.ExpertAttachment;
-import ses.model.ems.ExpertAudit;
-import ses.model.ems.ExpertCategory;
-import ses.model.ems.ExpertHistory;
+import ses.dao.ems.*;
+import ses.model.bms.*;
+import ses.model.ems.*;
 import ses.service.bms.RoleServiceI;
+import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
@@ -61,6 +54,8 @@ import com.github.pagehelper.PageHelper;
 
 @Service("expertService")
 public class ExpertServiceImpl implements ExpertService {
+
+    private static final Logger log = LoggerFactory.getLogger(ExpertServiceImpl.class);
 
 	@Autowired
 	private ExpertMapper mapper;
@@ -88,6 +83,10 @@ public class ExpertServiceImpl implements ExpertService {
 	private PackageExpertMapper packageExpertMapper;
 	@Autowired
 	private AreaMapper areaMapper;
+    @Autowired
+    private ExpExtractRecordService expExtractRecordService;
+    @Autowired
+    private ProjectExtractMapper projectExtractMapper;
 	
 	@Override
 	public void deleteByPrimaryKey(String id) {
@@ -445,8 +444,219 @@ public class ExpertServiceImpl implements ExpertService {
 	public List<Expert> querySelect(String typeId) {
 		return mapper.querySelect(typeId);
 	}
-	
-	/**
+
+    /**
+     * 根据数据保存临时专家,用户,专家/包关联关系,用户/角色关联关系
+     * @param expertList
+     * @param userList
+     * @param packageId
+     * @return
+     */
+    @Override
+    @Transactional
+    public Map<String, Object> saveBatchExpert(List<Expert> expertList, List<User> userList, String packageId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        boolean isSuccess = false;
+        int message = 0;
+        //先校验分配账号名称是否存在
+        List<String> userNameList = new ArrayList<String>();
+        int num = 0,emptyNum = 0;
+        if(null != userList && !userList.isEmpty()){
+            for(User user:userList){
+                userNameList.add(user.getLoginName());
+                if(StringUtils.isEmpty(user.getLoginName()) || StringUtils.isEmpty(user.getPassword())){//如果存在没有填写账号名称或者密码,则返回
+                    emptyNum = emptyNum + 1;
+                    break;
+                }
+            }
+            //如果存在的化,num>0,反之不存在
+            num = userMapper.ajaxUserName(userNameList);
+        }
+        if(num != 0){
+            map.put("isSuccess", true);
+            map.put("messageCode", 12);
+            return map;//账号存在
+        }
+        if(emptyNum != 0){
+            map.put("isSuccess", true);
+            map.put("messageCode", 13);
+            return map;//未填写名称和密码
+        }
+
+        try{
+            List<DictionaryData> ddList = expExtractRecordService.ddList();//专家类型
+            HashMap<String, Object> paramMap = new HashMap<String, Object>();
+            paramMap.put("code","EXPERT_R");
+            List<Role> roleList = roleService.selectByUserIdCode(paramMap);//角色:专家
+            //分别保存专家表,用户表,包/专家关联表,用户/角色关联表
+            if(null != expertList && !expertList.isEmpty()){
+                for(int i=0; i<expertList.size();i++){
+                    //重新封装Expert
+                    Expert expert = expertList.get(i);
+                    String expertTypeName = expert.getExpertsTypeId();
+                    String expertTypeId = "";
+                    //根据所选类型获取id
+                    if(null!=ddList && !ddList.isEmpty()){
+                        for(int j=0;j<ddList.size();j++){
+                            if(!StringUtils.isEmpty(expertTypeName) && expertTypeName.equals(ddList.get(j).getName())){
+                                expertTypeId = ddList.get(j).getId();
+                                break;
+                            }
+                        }
+                    }
+                    expert.setExpertsTypeId(expertTypeId);
+                    //保存专家,并且返回主键ID
+                    mapper.insertBackId(expert);
+                    String expertId = expert.getId();
+                    //重新封装User
+                    User user = userList.get(i);
+                    user.setTypeId(expertId);
+                    String randomCode = EncryptUtil.generateString(15);
+                    String password = EncryptUtil.md5Encrypt(user.getPassword(),randomCode);
+                    user.setPassword(password);
+                    user.setRandomCode(randomCode);
+                    //保存用户,并且返回主键ID
+                    userMapper.insertSelective(user);
+                    //用户和角色绑定
+                    Userrole userrole = new Userrole();
+                    userrole.setRoleId(roleList.get(0));
+                    userrole.setUserId(user);
+                    userMapper.saveRelativity(userrole);
+                    //对包进行拆解
+                    if(!StringUtils.isEmpty(packageId)){
+                        String[] packageIds = packageId.split(",");
+                        for(int k=0;k<packageIds.length;k++){
+                            if(!StringUtils.isEmpty(packageIds[k])){
+                                ProjectExtract projectExtract = new ProjectExtract();
+                                projectExtract.setProjectId(packageIds[k]);
+                                projectExtract.setExpertId(expertId);
+                                projectExtract.setReviewType(expertTypeId);
+                                projectExtract.setIsProvisional((short)1);
+                                projectExtract.setCreatedAt(new Date());
+                                projectExtract.setUpdatedAt(new Date());
+                                projectExtract.setOperatingType((short)1);
+                                //插入包/专家关联表
+                                projectExtractMapper.insertSelective(projectExtract);
+                            }
+                        }
+                    }
+                }
+            }
+            isSuccess = true;
+            message = 20;
+        }catch (Exception e){
+            log.error("临时专家数据处理异常, expertService.saveBatchExpert,error= "+e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            isSuccess = false;
+            message = 1001;
+        }
+
+        map.put("isSuccess", isSuccess);
+        map.put("messageCode", message);
+        return map;
+    }
+    /**
+     * 保存引用临时专家关联数据
+     * @param packageId
+     * @param expertIds
+     * @return
+     */
+    @Override
+    public Map<String, Object> saveCiteTemporaryExpert(String packageId, String expertIds) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        boolean isSuccess = false;
+        int message = 0;
+        List<String> strList = null;
+        if(!StringUtils.isEmpty(expertIds)){
+            String[] ids = expertIds.split(",");
+            strList = new ArrayList<String>();
+            for(String str :ids){
+                strList.add(str);
+            }
+        }
+        try{
+            //数据集合
+            if(null != strList && !strList.isEmpty()){
+                List<ProjectExtract> projectExtractList = new ArrayList<>();
+                Expert expert = new Expert();
+                expert.setIds(strList);
+                List<Expert> expertAll = mapper.findExpertByInList(expert);
+                if(null != expertAll && !expertAll.isEmpty()){
+                    for(Expert expertTo:expertAll){
+                        projectExtractList.add(packProjectExtract(packageId, expertTo));
+                    }
+                }
+                //批量添加
+                if(null != projectExtractList && !projectExtractList.isEmpty()){
+                    projectExtractMapper.insertBatch(projectExtractList);
+                }
+                isSuccess = true;
+                message = 20;
+            }else{
+                isSuccess = false;
+                message = 10;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error("保存引用临时专家数据异常, expertService.saveCiteTemporaryExpert,exception= "+e);
+            isSuccess = false;
+            message = 1001;
+        }
+        map.put("isSuccess", isSuccess);
+        map.put("messageCode", message);
+        return map;
+    }
+    /**
+     * 根据条件分页查询临时专家
+     * @return
+     */
+    @Override
+    public List<Expert> findCiteExpertByCondition(Expert expert, String packageId, Integer page) {
+        List<Expert> experts = null;
+        try{
+            //根据packageId查询出所有已之关联的expertId
+            ProjectExtract projectExtract = new ProjectExtract();
+            projectExtract.setProjectId(packageId);
+            List<ProjectExtract> projectExtracts = projectExtractMapper.findProjectExtractByCondition(projectExtract);
+            List<String> existsExperts = null;
+            if(null != projectExtracts && !projectExtracts.isEmpty()){
+                existsExperts = new ArrayList<>();
+                for(int i=0;i<projectExtracts.size();i++){
+                    existsExperts.add(projectExtracts.get(i).getExpert().getId());
+                }
+            }
+            if(page!=null){
+                PropertiesUtil config = new PropertiesUtil("config.properties");
+                PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+            }
+            experts = mapper.findExpertByCondition(expert, existsExperts);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error("临时专家数据获取失败, expertService.findExpertByCondition,exception= "+e);
+        }
+        return experts;
+    }
+
+    /**
+     * 封装POJO
+     * @param packageId
+     * @param expert
+     * @return
+     */
+    public ProjectExtract packProjectExtract(String packageId, Expert expert){
+        ProjectExtract projectExtract = new ProjectExtract();
+        projectExtract.setProjectId(packageId);
+        projectExtract.setExpertId(expert.getId());
+        projectExtract.setReviewType(expert.getExpertsTypeId());
+        projectExtract.setIsProvisional((short)1);
+        projectExtract.setCreatedAt(new Date());
+        projectExtract.setUpdatedAt(new Date());
+        projectExtract.setOperatingType((short)1);
+        return projectExtract;
+    }
+
+    /**
 	 * 
 	  * @Title: saveOrUpdate
 	  * @author ShaoYangYang

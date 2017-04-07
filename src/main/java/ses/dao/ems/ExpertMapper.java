@@ -199,4 +199,25 @@ public interface ExpertMapper {
      * @return
      */
 	List<Expert> querySelect(String typeId);
+
+    /**
+     * 插入专家数据返回id
+     * @param expert
+     * @return
+     */
+    int insertBackId(Expert expert);
+
+    /**
+     * 根据条件查询专家列表
+     * @param expert
+     * @return
+     */
+    List<Expert> findExpertByCondition(@Param("expert") Expert expert, @Param("list") List<String> list);
+
+    /**
+     * 根据id列表查询专家信息
+     * @param expert
+     * @return
+     */
+    List<Expert> findExpertByInList(Expert expert);
 }

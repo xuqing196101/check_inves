@@ -27,6 +27,49 @@
 		REASON, IS_DELETED,
 		CON_TYPE_ID,STATUS_COUNT,IS_PROVISIONAL,REVIEW_TYPE
 	</sql>
+    <sql id="Base_Where_Condition">
+        <where>
+            <if test="id != null">
+                ID = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="projectId != null">
+                and PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+            </if>
+            <if test="expertConditionId != null">
+                and EXPERT_CONDITION_ID = #{expertConditionId,jdbcType=VARCHAR}
+            </if>
+            <if test="expertId != null">
+                and EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+            </if>
+            <if test="createdAt != null">
+                and CREATED_AT = #{createdAt,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updatedAt != null">
+                and UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+            </if>
+            <if test="operatingType != null">
+                and OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL}
+            </if>
+            <if test="reason != null">
+                and REASON = #{reason,jdbcType=VARCHAR}
+            </if>
+            <if test="isDeleted != null">
+                and IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+            </if>
+            <if test="conTypeId != null">
+                and CON_TYPE_ID = #{conTypeId,jdbcType=VARCHAR}
+            </if>
+            <if test="statusCount != null">
+                and STATUS_COUNT = #{statusCount,jdbcType=DECIMAL}
+            </if>
+            <if test="isProvisional != null">
+                and IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL}
+            </if>
+            <if test="reviewType != null">
+                and REVIEW_TYPE = #{reviewType,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		<!-- @mbggenerated -->
@@ -367,5 +410,30 @@
 		=#{projectId} AND
 		t1.OPERATING_TYPE = 0 )
 	</select>
-
+    <!--根据条件查询专家/包关联-->
+    <select id="findProjectExtractByCondition" parameterType="ses.model.ems.ProjectExtract"
+            resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM
+        T_SES_EMS_PROJECT_EXTRACT
+        <include refid="Base_Where_Condition" />
+    </select>
+    <!-- 批量插入 -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO T_SES_EMS_PROJECT_EXTRACT
+        (PROJECT_ID,REVIEW_TYPE,EXPERT_ID,IS_PROVISIONAL,CREATED_AT,UPDATED_AT,OPERATING_TYPE)
+        <foreach collection="list" item="item" index="index"
+                 separator="union" close=")" open="(">
+            select
+            #{item.projectId,jdbcType=VARCHAR},
+            #{item.reviewType,jdbcType=VARCHAR},
+            #{item.expertId,jdbcType=VARCHAR},
+            #{item.isProvisional,jdbcType=DECIMAL},
+            #{item.createdAt,jdbcType=TIMESTAMP},
+            #{item.updatedAt,jdbcType=TIMESTAMP},
+            #{item.operatingType,jdbcType=DECIMAL}
+            from dual
+        </foreach>
+    </insert>
 </mapper>

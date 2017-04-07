@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bss.util.ExcelRead;
+import net.sf.json.JSONObject;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +35,8 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,6 +47,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -122,6 +127,8 @@ import common.service.UploadService;
 @Controller
 @RequestMapping("/expert")
 public class ExpertController extends BaseController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ExpertController.class);
     @Autowired
     private UserServiceI userService; // 用户管理
     @Autowired
@@ -4396,5 +4403,134 @@ public class ExpertController extends BaseController {
 		expertTitleService.deleteExpertType(expertId, expertTypeId);
 		return "";
 	}
+
+    /**
+     * 下载专家签到模板
+     * @param request
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping("/downloadExpertTemplate")
+    public ResponseEntity<byte[]> downloadExpertTemplate(HttpServletRequest request) throws IOException{
+        HttpHeaders headers = new HttpHeaders();
+        String path = PathUtil.getWebRoot() + "excel/专家签到名单模板.xlsx";
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", new String("专家签到名单模板.xlsx".getBytes("UTF-8"), "iso-8859-1"));
+        return (new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(path)), headers, HttpStatus.CREATED));
+    }
+    /**
+     * 导入临时专家Excel
+     * @param file
+     * @param request
+     * @return
+     */
+    @RequestMapping("/readExcelExpert")
+    @ResponseBody
+    public String readExcelExpert(@RequestParam(value="excelFile") MultipartFile file, HttpServletRequest request, HttpServletResponse response){
+        JSONObject json = new JSONObject();
+        String packageId = request.getParameter("packageId");
+        String resultStr = "";
+        if(null == file){
+            json.put("isSuccess",true);
+            json.put("messageCode",10);
+            resultStr = json.toString();
+            return resultStr;
+        }
+        String fileName = file.getOriginalFilename();
+        long fileSize = file.getSize();
+        if(StringUtils.isEmpty(fileName) && fileSize==0){
+            json.put("isSuccess",true);
+            json.put("messageCode",11);
+            resultStr = json.toString();
+            return resultStr;
+        }
+        //读取Excel数据到List中
+        try {
+            List<ArrayList<String>> list = new ExcelRead().readExcel(file, 3, request.getSession());
+            List<Expert> expertList = new ArrayList<Expert>();
+            List<User> userList = new ArrayList<User>();
+            //对专家/用户进行初始装箱
+            for(ArrayList<String> dataList : list){
+                /**专家表*/
+                Expert expert = new Expert();
+                expert.setRelName(dataList.get(1));//姓名
+                expert.setIdCardNumber(dataList.get(2));//身份证号码
+                expert.setExpertsTypeId(dataList.get(3));//专家类别
+                expert.setAtDuty(dataList.get(4));//职务
+                expert.setMobile(dataList.get(5));//联系方式
+                expert.setIsProvisional((short)1);//临时
+                expert.setIsBlack("0");//未拉黑
+                expert.setStatus("4");//状态:待复审
+                expert.setUpdatedAt(new Date());
+                expert.setCreatedAt(new Date());
+                expert.setRemarks(dataList.get(8));//备注
+                expertList.add(expert);
+                /**用户表*/
+                User user = new User();
+                user.setLoginName(dataList.get(6));//分配账户
+                user.setRelName(dataList.get(1));//姓名
+                user.setPassword(dataList.get(7));//密码
+                user.setMobile(dataList.get(5));//联系方式
+                user.setDuites(dataList.get(4));//职务
+                user.setIdNumber(dataList.get(2));//身份证号码
+                user.setCreatedAt(new Date());
+                user.setUpdatedAt(new Date());
+                userList.add(user);
+            }
+            Map<String, Object> expertMap = service.saveBatchExpert(expertList, userList, packageId);
+            json = JSONObject.fromObject(expertMap);
+        } catch (IOException e) {
+            json.put("isSuccess",false);
+            json.put("messageCode",1001);
+            logger.error("ExpertController.readExcelExpert is error. message= "+e.getMessage());
+        }
+        return json.toString();
+    }
+
+    /**
+     * 引用临时专家列表页面
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/gotoCiteExpertView")
+    public String gotoCiteExpertView(Model model, HttpServletRequest request, HttpServletResponse response){
+        String page = request.getParameter("page");
+        String packageId = request.getParameter("packageId");
+        String selectValue = request.getParameter("selectValue");
+        String expertName = request.getParameter("expertName");
+        String projectId = request.getParameter("projectId");
+        Expert expert = new Expert();
+        expert.setIsProvisional((short)1);//临时
+        expert.setStatus("4");//待审核
+        expert.setRelName(expertName);
+        List<Expert> experts = service.findCiteExpertByCondition(expert, packageId, page == null || page.equals("") ? 1 : Integer.valueOf(page));
+        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+        model.addAttribute("list", new PageInfo<>(experts));
+        model.addAttribute("packageId", packageId);
+        model.addAttribute("ddList", ddList);
+        model.addAttribute("selectValue", selectValue);
+        model.addAttribute("projectId", projectId);
+
+        return "bss/prms/assign_expert/expert_cite_list";
+    }
+
+    /**
+     * 保存引用的临时专家
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/saveCiteExpert")
+    @ResponseBody
+    public String saveCiteExpert(HttpServletRequest request, HttpServletResponse response){
+        String packageId = request.getParameter("packageId");
+        String expertIds = request.getParameter("expertIds");
+
+        Map<String, Object> objectMap = service.saveCiteTemporaryExpert(packageId, expertIds);
+        JSONObject json = JSONObject.fromObject(objectMap);
+        return json.toString();
+    }
 	
 }

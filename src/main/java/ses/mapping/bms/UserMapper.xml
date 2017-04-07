@@ -928,7 +928,16 @@
        from T_SES_BMS_USER
       where LOGIN_NAME=#{loginName} and NET_TYPE=#{note}
     </select>
-    
-    
+
+    <!-- 根据名称集合判断是否已有名称存在 -->
+    <select id="ajaxUserName" resultType="java.lang.Integer">
+        select
+        count(u.id)
+        from T_SES_BMS_USER u
+        where u.LOGIN_NAME in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
     
 </mapper>

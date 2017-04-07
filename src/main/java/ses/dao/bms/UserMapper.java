@@ -303,5 +303,10 @@ public interface UserMapper {
   * @throws
    */
   User queryNameAndNote(@Param("loginName")String id,@Param("note")Integer note);
-  
+    /**
+     * 根据名称集合判断是否已有名称存在
+     * @param userNameList
+     * @return
+     */
+    int ajaxUserName(List<String> userNameList);
 }

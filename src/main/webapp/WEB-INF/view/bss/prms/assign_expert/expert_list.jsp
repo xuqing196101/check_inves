@@ -292,9 +292,81 @@
                 }
             }); */
 	 }
+        $("input[name='excelFile']").on("change",function () {
+            var formData = new FormData($( "#updateExcel" )[0]);
+            $.ajax({
+                url: '${pageContext.request.contextPath}/expert/readExcelExpert.do?packageId='+ $("#_packageId").val(),
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    var obj = eval('('+data+')')
+                    if(obj.isSuccess){
+                        if(obj.messageCode==10){
+                            layer.alert("文件不存在",{offset: '50px', shade:0.01});
+                        }else if(obj.messageCode==11){
+                            layer.alert("文件内容为空",{offset: '50px', shade:0.01});
+                        }else if(obj.messageCode==12){
+                            layer.alert("账号已存在",{offset: '50px', shade:0.01});
+                        }else if(obj.messageCode==13){
+                            layer.alert("未填写名称和密码",{offset: '50px', shade:0.01});
+                        }else if(obj.messageCode==20){
+                            layer.alert("保存成功",{offset: '50px', shade:0.01, time:500});
+                            window.location.reload(true);
+                        }else{
+                            layer.alert("服务器异常",{offset: '50px', shade:0.01});
+                        }
+                    }else{
+                        layer.alert("服务器异常",{offset: '50px', shade:0.01});
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        })
+      $("#packageName").click(function () {
+          showPackageType();
+      })
+    //点击:导入临时专家(先进行包的校验后再运行)
+      $("#exportExpertA").click(function () {
+          var _packageId = $("#_packageId").val();
+          if(_packageId == ""){
+              layer.alert("请先选择包后导入",{offset: '50px', shade:0.01});
+          }else{
+              $("#excel_file").val("");
+              $("#excel_file").click();
+          }
+      })
+      $("#downTemplate").click(function () {
+          window.location.href = "${pageContext.request.contextPath }/expert/downloadExpertTemplate.do";
+      })
+    //点击:引用临时专家
+      $("button[name='citeExp_btn']").click(function () {
+          var packageId = $(this).attr('package-id');
+          var projectId = $("input[name='projectId']").val();
+          var path = "${pageContext.request.contextPath}/expert/gotoCiteExpertView.html?packageId="+packageId+"&projectId="+projectId
+          $("#tab-1").load(path);
+
+      })
   </script>
   <body>
-        <h2 class="list_title">专家签到<button class="btn fr" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button></h2>
+      <div id="packageContent" class="packageContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999; ">
+          <ul id="treePackageType" class="ztree" style="margin-top:0;width: 170px;height: 250px;"></ul>
+      </div>
+        <h2 class="list_title" style="margin-bottom: 30px;">专家签到
+            <form enctype="multipart/form-data" id="updateExcel" >
+                <a href="javascript:;" class="file btn fr" id="exportExpertA">导入临时专家</a>
+                <input type="file" class="btn fr" name="excelFile" id="excel_file" style="display: none"/>
+                <input type="hidden" id="_packageId" name="packageId"/>
+                <input type="text" id="packageName" class="title col-md-12 fr w120" placeholder="请先选择包后导入" style="border-color: #2c9fa6"/>
+            </form>
+            <a href="javascript:;" class="btn btn-windows input fr" id="downTemplate">导出模板</a>
+            <button class="btn fr" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button>
+        </h2>
         <input type="hidden" id="reviewTypeTds">
         <form id="save_sign"  method="post">
         	<input name="projectId" type="hidden" value="${project.id}">
@@ -306,6 +378,7 @@
 	          		<div class="fl mt20 ml10">
 		             <button class="btn" name="addExp_btn" onclick="relate('${pack.id}','${vs.index}','${pack.name}')" type="button">设为组长</button>
 		             <button class="btn" name="viewExp_btn" onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
+		             <button class="btn" name="citeExp_btn"  type="button" package-id="${pack.id}">引用临时专家</button>
 		             <%-- <button class="btn" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button> --%>
 		           	</div>
 		        </div>
@@ -413,3 +486,90 @@
         </table> --%>
   </body>
 </html>
+<script type="text/javascript">
+    function showPackageType() {
+        var setting = {
+            check: {
+                enable: true,
+                chkboxType: {
+                    "Y": "",
+                    "N": ""
+                }
+            },
+            view: {
+                dblClickExpand: false
+            },
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "parentId"
+                }
+            },
+            callback: {
+                beforeClick: beforeClick,
+                onCheck: onCheck
+            }
+        };
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "${pageContext.request.contextPath}/SupplierExtracts/getpackage.do?projectId="+$("#projectId").val(),
+            dataType: "json",
+            success: function(zNodes) {
+                var _json = eval(zNodes);
+                var _packageId = $("#_packageId").val();
+                $.each(_json, function (n, obj) {
+                    if(_packageId!= "" && _packageId.indexOf(obj.id)!=-1){
+                        obj.checked = true;
+                    }
+
+                });
+                tree = $.fn.zTree.init($("#treePackageType"), setting, zNodes);
+                tree.expandAll(true); //全部展开
+            }
+        });
+        var cityObj = $("#packageName");
+        var cityOffset = $("#packageName").offset();
+        $("#packageContent").css({
+            left: (cityOffset.left + 16) + "px",
+            top: cityOffset.top + cityObj.outerHeight() + "px"
+        }).slideDown("fast");
+        $("body").bind("mousedown", onBodyDownPackageType);
+    }
+
+    function onBodyDownPackageType(event) {
+        if(!(event.target.id == "menuBtn" || $(event.target).parents("#packageContent").length > 0)) {
+            hidePackageType();
+        }
+    }
+
+    function hidePackageType() {
+        $("#packageContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDownPackageType);
+
+    }
+
+    function beforeClick(treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("treePackageType");
+        zTree.checkNode(treeNode, !treeNode.checked, null, true);
+        return false;
+    }
+
+    function onCheck(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("treePackageType"),
+            nodes = zTree.getCheckedNodes(true),
+            v = "";
+        var rid = "";
+        for(var i = 0, l = nodes.length; i < l; i++) {
+            v += nodes[i].name + ",";
+            rid += nodes[i].id + ",";
+        }
+        if(v.length > 0) v = v.substring(0, v.length - 1);
+        if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
+        var cityObj = $("#packageName");
+        cityObj.attr("value", v);
+        cityObj.attr("title", v);
+        $("#_packageId").val(rid);
+    }
+</script>

@@ -395,4 +395,27 @@ public interface ExpertService {
      * @return
      */
     List<Expert> querySelect(String expertId);
+
+    /**
+     * 根据数据保存临时专家,用户,专家/包关联关系,用户/角色关联关系
+     * @param expertList
+     * @param userList
+     * @param packageId
+     * @return
+     */
+    Map<String, Object> saveBatchExpert(List<Expert> expertList, List<User> userList, String packageId);
+
+    /**
+     * 保存引用临时专家关联数据
+     * @param packageId
+     * @param expertIds
+     * @return
+     */
+    Map<String, Object> saveCiteTemporaryExpert(String packageId, String expertIds);
+
+    /**
+     * 根据条件分页查询临时专家
+     * @return
+     */
+    List<Expert> findCiteExpertByCondition(Expert expert, String packageId, Integer page);
 }
