@@ -83,10 +83,9 @@
   				class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
   				<span class="fl block">状态：</span>
   				<span>
-  					
 					<c:if test="${supplier.status == -1 && supplier.proportion == 0}">未中标</c:if>
-					<c:if test="${supplier.status == -1 && supplier.proportion != 0}">未确认，已放弃</c:if>
-					<c:if test="${supplier.status == 0}">未接受，已放弃</c:if>
+					<c:if test="${supplier.status == -1 && supplier.proportion != 0}">未中标</c:if>
+					<c:if test="${supplier.status == 0}">未中标</c:if>
 					<c:if test="${supplier.status == 1 || supplier.status == 2 }">已接受</c:if>
 				</span>
   			</div>
