@@ -14,8 +14,9 @@
 			</tr>
 			</thead>
 			<tr>
-			  <td class="tc" colspan="2">合计</td>
-			  <td class="tc" colspan="5">${ totalCountPriceBigDecimal }</td>
+              <td></td>
+			  <td class="tc" colspan="4">合计</td>
+			  <td class="tc"><b>${ totalCountPriceBigDecimal }</b></td>
 			  <td class="tc"></td>
 			</tr>
 			<c:forEach items="${ oBResultsInfo }" var="oBResultsInfo" varStatus="vs">

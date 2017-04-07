@@ -48,15 +48,16 @@
 				layer.msg("对不起，报价不能大于限价");
 				$(obj).val("");
 				$("#"+id).html("");
-				$("#totalPrice").html("");
+				//$("#totalPrice").html("");
+				calTotalPrice();
 				return;
 			}
 			// 判断单价输入是否为空
 			if(unitPrice != ''){
 				if(! /^-?\d+$/.test(unitPrice) && ! /^-?\d+\.?\d{0,2}$/.test(unitPrice)){
 					layer.msg("请您输入报价(整数或保留两位小数)");
+                    $(obj).val("");
 					$("#"+id).html("");
-					$("#totalPrice").html("");
 					calTotalPrice();
 					return;
 				}
