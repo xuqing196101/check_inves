@@ -14,20 +14,26 @@
      ID, EXPERT_ID, FIELD, CREATED_AT, RELATION_ID, CONTENT
   </sql>
   
-  <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByExpertId" parameterType="ses.model.ems.ExpertEngHistory" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from T_SES_EMS_EXPERT_ENG_MODIFY
     where EXPERT_ID = #{expertId}
+    <if test="field != null">
+      and FIELD = #{field}
+    </if>
+    <if test="relationId != null">
+      and	RELATION_ID = #{relationId}
+    </if>
   </select>
 	
-	<delete id="deleteByExpertId" parameterType="java.lang.String">
+	<delete id="deleteByExpertId" parameterType="ses.model.ems.ExpertEngHistory">
         delete from
         T_SES_EMS_EXPERT_ENG_MODIFY
-        where EXPERT_ID = #{id}
+        where EXPERT_ID = #{expertId}
   </delete>
 	
-  <insert id="insertSelective" parameterType="ses.model.ems.ExpertAudit">
+  <insert id="insertSelective" parameterType="ses.model.ems.ExpertEngHistory">
     insert into T_SES_EMS_EXPERT_ENG_MODIFY
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

@@ -10,9 +10,9 @@
 		  var i=0;
 			function openTr() {
 			i++;
-				$("#list_tbody_id").after(
+				$("#list_tbody_id").before(
 					"<tr>" +
-					"<td class='tc'><input type='checkbox' name='expertSignatureList["+i+"].id'/></td>" +
+					/* "<td class='tc'><input type='checkbox' name='expertSignatureList["+i+"].id'/></td>" + */
 					"<td class='tc'><input type='text' name='expertSignatureList["+i+"].name' value=''> </td>" +
 					"<td class='tc'><input type='text' name='expertSignatureList["+i+"].company' value=''> </td>" +
 					"<td class='tc'><input type='text' name='expertSignatureList["+i+"].job' value=''></td>"  +
@@ -20,7 +20,33 @@
 			}
 			function add(){
 				// var index = parent.layer.getFrameIndex(window.name); 
-				$.ajax({
+				//校验
+
+				var batchNo = $("input[name='batchNo']").val();
+				if(batchNo == ""){
+					layer.msg("审核批次不能为空！", {
+						offset: '300px'
+					});
+				}else{
+					var msg = "";
+					var flag = true;
+					$("#financeInfo").find("input[type='text']").each(function(index, element) {
+						if(element.value == "") {
+							msg = "信息不能为空!";
+							flag = false;
+						}
+					});
+	
+					if(!flag){
+						layer.msg(msg, {
+							offset: '300px'
+						});
+					}
+				}
+				
+				
+				if(flag){
+					$.ajax({
 					url: "${pageContext.request.contextPath}/expertAudit/saveSignature.do",
 					type: "post",
 					data:$("#add_form").serialize(),
@@ -36,6 +62,8 @@
 						 // parent.layer.close(index); 
 					}
 				});
+				}
+				
 			}
 		</script>
 		
@@ -58,19 +86,19 @@
 						</li>
 						</ul>
 			
-					<div class="content table_box">
+					<div class="content table_box" id="financeInfo">
 						<table class="table table-bordered table-condensed table-hover table-striped hand">
 							<tr >
-								<th class="info"><input type="checkbox"  />
+								<!-- <th class="info"><input type="checkbox"  /> -->
 								<th class="info">姓名 </th>
 								<th class="info">单位</th>
 								<th class="info">技术职称（职务）</th>
 							</tr>
 							<tr id="list_tbody_id">
-								<td><input type="checkbox" name="list[0].id"/></td>
-								<td class=""><input name="expertSignatureList[0].name" value=""></td>
-								<td class=""><input name="expertSignatureList[0].company" value=""></td>
-								<td class=""><input name="expertSignatureList[0].job" value=""></td>
+								<!-- <td><input type="checkbox" name="list[0].id"/></td> -->
+								<td class=""><input name="expertSignatureList[0].name" value="" type="text"></td>
+								<td class=""><input name="expertSignatureList[0].company" value="" type="text"></td>
+								<td class=""><input name="expertSignatureList[0].job" value="" type="text"></td>
 							</tr>
 						</table>
 					</div>

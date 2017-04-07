@@ -1,6 +1,7 @@
 package ses.service.ems.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,11 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.ems.ExpertEngModifyMapper;
+import ses.dao.ems.ExpertMapper;
+import ses.dao.ems.ExpertTitleMapper;
+import ses.model.ems.Expert;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertTitle;
 import ses.service.ems.ExpertEngHistorySerivce;
 import ses.service.ems.ExpertEngModifySerivce;
 import ses.service.ems.ExpertTitleService;
+import ses.util.DictionaryDataUtil;
 
 @Service("expertEngModifySerivce")
 public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
@@ -24,7 +29,10 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 	private ExpertEngHistorySerivce expertEngHistorySerivce;
 	
 	@Autowired
-	private ExpertTitleService expertTitleService ; 
+	private ExpertTitleMapper expertTitleMapper;
+	
+	@Autowired
+	private ExpertMapper mapper;
 	
 	
 	@Override
@@ -35,8 +43,23 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 		
 		//历史
 		List<ExpertEngHistory> expertEngHistoryList = expertEngHistorySerivce.selectByExpertId(expertEngHistory);
-		//现在
-		List<ExpertTitle> expertTitleList = expertTitleService.queryByUserId(expertId,null);
+		/**
+		 * 现在
+		 */
+		 List<ExpertTitle> expertTitleList = new ArrayList<>();
+		//工程技术
+		String engCodeId = DictionaryDataUtil.getId("PROJECT");
+		//工程经济
+		String goodsProjectId = DictionaryDataUtil.getId("GOODS_PROJECT");
+		
+		Expert expert = mapper.selectByPrimaryKey(expertId);
+		if(expert.getExpertsTypeId().contains(engCodeId)){
+			expertTitleList = expertTitleMapper.queryByExpertId(expertId,engCodeId);
+		}
+		if(expert.getExpertsTypeId().contains(goodsProjectId)){
+			expertTitleList = expertTitleMapper.queryByExpertId(expertId,goodsProjectId);	
+		}
+	        
 		//对比
 		expertEngHistory.setCreatedAt(date);
 		for(ExpertEngHistory history :expertEngHistoryList){
@@ -45,8 +68,9 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 					
 					expertEngHistory.setRelationId(expertTitle.getId());
 					//执业资格
-					if("qualifcationTitle".equals(history.getContent())){
+					if("qualifcationTitle".equals(history.getField())){
 						if(!history.getContent().equals(expertTitle.getQualifcationTitle())){
+							expertEngHistory.setField("qualifcationTitle");
 							expertEngHistory.setContent(history.getContent());
 							//插入数据
 							expertEngModifyMapper.insertSelective(expertEngHistory);
@@ -54,9 +78,10 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 					}
 					
 					//执业资格时间
-					if("titleTime".equals(history.getContent())){
+					if("titleTime".equals(history.getField())){
 						String ProfessionalTime = format.format(expertTitle.getTitleTime());
 						if(!history.getContent().equals(ProfessionalTime)){
+							expertEngHistory.setField("titleTime");
 							expertEngHistory.setContent(history.getContent());
 							//插入数据
 							expertEngModifyMapper.insertSelective(expertEngHistory);
