@@ -59,6 +59,7 @@ import ses.service.ems.ExpertTitleService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
 import bss.formbean.PurchaseRequiredFormBean;
@@ -664,8 +665,15 @@ public class ExpertAuditController{
         }
         model.addAttribute("expertId", expertId);
         model.addAttribute("typeId", typeId);
-        model.addAttribute("result", new PageInfo <ExpertCategory > (expertItems));
+        model.addAttribute("result", new PageInfo < > (expertItems));
         model.addAttribute("itemsList", allTreeList);
+        List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId);
+        
+        model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
+        model.addAttribute("resultTotal", (list == null ? 0 : list.size()));
+        model.addAttribute("resultpageNum", pageNum);
+        model.addAttribute("resultStartRow", (list == null ? 0 : 1));
+        model.addAttribute("resultEndRow", new PageInfo < > (expertItems).getEndRow()+1);
 
         
         //未通过 字段
@@ -682,6 +690,21 @@ public class ExpertAuditController{
         
         return "ses/ems/expertAudit/ajax_items";
 	}
+	
+	public static int totalPages(List<ExpertCategory> list) {
+		int pageSize = PropUtil.getIntegerProperty("pageSize");
+		
+		int totalPages = 0;  //总页数
+		
+		if ((list.size() % pageSize) == 0) {
+            totalPages = list.size() / pageSize;
+        } else {
+            totalPages = list.size() / pageSize + 1;
+        }
+		
+		return totalPages;
+    }
+	
 	
 	/**
      *〈简述〉查询品目信息
