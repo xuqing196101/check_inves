@@ -15,28 +15,25 @@
 			  <th class="tc">自报单价（元）</th>
 			  <th class="tc">成交单价（元）</th>
 			  <th class="tc">成交总价（万元）</th>
-			  <th class="tc">备注信息</th>
 			</tr>
 			</thead>
 			<tr>
 			  <td class="tc"></td>
 			  <td class="tc" colspan="4">合计</td>
-			  <td class="tc">${ confirmFirstTotalFigureStr }</td>
-			  <td class="tc"></td>
+			  <td class="tc"><b>${ confirmFirstTotalFigureStr }</b></td>
 			</tr>
 			<c:forEach items="${confirmResult.obResultSubtabulation }" var="resultSub" varStatus="vs">
 			<tr>
 			  <td class="tc" title="theProductId2" width="5%">
 			  	 ${vs.index + 1 }
 			  </td>
-			  <td class="tc">${resultSub.product.name }</td>
+			  <td class="tc" id="t_${resultSub.id}" onmouseout="closePrompt()" onmouseover="showPrompt('${ resultSub.product.id }', 't_${resultSub.id}')">${resultSub.product.name }</td>
 			  <td class="tc" title="theProductCount2">
 			 	 ${resultSub.resultNumber}
 			  </td>
 			  <td class="tc">${resultSub.myOfferMoney }</td>
 			  <td class="tc">${resultSub.dealMoney}</td>
 			  <td class="tc">${resultSub.totalMoney }</td>
-			  <td class="tc">${resultSub.product.remark }</td>
 			</tr>
 			</c:forEach>
 		</table>

@@ -47,8 +47,6 @@
 			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath="+filePath, true, false, 'word.document');// 异步加载, 服务器文件路径
 			}
 		}
-		
-		
 	}
 	
 	
@@ -448,51 +446,51 @@ function getTaskTime(strDate) {
 		<c:if test="${process == 1 }">
 		 <div class="mt10">
          	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>
-            <c:if test="${pStatus != 'ZBWJYTJ'}">
+            <c:if test="${project.confirmFile != 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${reasons.pcReason}</textarea>
             	<span class="fl">采购管理部门审核意见附件:</span>
-            	<u:show  showId="e" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
+            	<u:show delete="false"  showId="e" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
             </c:if>
-            <c:if test="${pStatus == 'ZBWJYTJ'}">
+            <c:if test="${project.confirmFile == 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${reasons.pcReason}</textarea>
             	<span class="fl">采购管理部门审核意见附件:</span>
             	<u:upload id="r"  buttonName="上传采购管理部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${pcTypeId}" auto="true" />
 			    <u:show  showId="t" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
             </c:if>
             <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">事业部门意见</span>
-            <c:if test="${pStatus != 'ZBWJYTJ'}">
+            <c:if test="${project.confirmFile != 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${reasons.causeReason}</textarea>
           		<span class="fl">事业部门审核意见附件:</span>
-          		<u:show  showId="y" businessId="${project.id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
+          		<u:show delete="false"  showId="y" businessId="${project.id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
           	</c:if>
-          	<c:if test="${pStatus == 'ZBWJYTJ'}">
+          	<c:if test="${project.confirmFile == 1}">
           		<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${reasons.causeReason}</textarea>
           		<span class="fl">事业部门审核意见附件:</span>
           		<u:upload id="u"  buttonName="上传事业部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${causeTypeId}" auto="true" />
 			    <u:show  showId="i" businessId="${project.id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
           	</c:if>
           	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">财务部门意见</span>
-            <c:if test="${pStatus != 'ZBWJYTJ'}">
+            <c:if test="${project.confirmFile != 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${reasons.financeReason}</textarea>
             	<span class="fl">财务部门审核意见附件:</span>
-            	<u:show  showId="o" businessId="${project.id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
+            	<u:show delete="false"  showId="o" businessId="${project.id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
             </c:if>
-            <c:if test="${pStatus == 'ZBWJYTJ'}">
+            <c:if test="${project.confirmFile == 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${reasons.financeReason}</textarea>
             	<span class="fl">财务部门审核意见附件:</span>
             	<u:upload id="p"  buttonName="上传财务部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" />
 			    <u:show  showId="s" businessId="${project.id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
           	</c:if>
             <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">最终意见</span>
-            <c:if test="${pStatus != 'ZBWJYTJ'}">
+            <c:if test="${project.confirmFile != 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb20" disabled="disabled"  id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${reasons.finalReason}</textarea>
             </c:if>
-            <c:if test="${pStatus == 'ZBWJYTJ'}">
+            <c:if test="${project.confirmFile == 1}">
 	            <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb20"  id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${reasons.finalReason}</textarea>
             </c:if>
           </div>
          <div class="clear tc mt50">
-         	<c:if test="${pStatus == 'ZBWJYTJ' && exist == true}">
+         	<c:if test="${exist == true && project.confirmFile == 1}">
 	            <input type="button" class="btn btn-windows check_pass " onclick="updateAudit('3')" value="审核通过"></input>
 	            <input type="button" class="btn btn-windows check_back " onclick="updateAudit('2')" value="退回重报 "></input>
 	            <input type="button" class="btn btn-windows edit " onclick="updateAudit('4')" value="修改报备 "></input> 

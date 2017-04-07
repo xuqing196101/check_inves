@@ -59,12 +59,18 @@
 	 function openMax(){
 	 	window.open("${pageContext.request.contextPath}/open_bidding/viewMingxi.html?projectId=${projectId}");
 	 }; 
+	 
+	 function printCon(projectId, packageId){
+	 	 window.location.href="${pageContext.request.contextPath}/open_bidding/changmingxiWord.html?projectId="+projectId+"&packId="+packageId;
+	 }
 </script>
 </head>
 <body onload="addTotal()">
 <!-- 表格开始-->  
 	   <c:if test="${fn:length(listPackage) != 1 }">
-	   		<div class="tr mt10"><button class="btn" onclick="openMax()">全屏</button></div>
+	   		<div class="tr mt10">
+	   			<button class="btn" onclick="openMax()">全屏</button>
+	   		</div>
 	   </c:if>
        <div class="clear">
 		<input id="projectId" name="projectId" value="${project.id}" type="hidden" />
@@ -72,19 +78,25 @@
 		<c:set value="${vs.index}" var="index"></c:set>
 			   <div>
 				 <c:if test="${vs.index == 0 }">
-				 	<h2 onclick="ycDiv(this,'${index}')" class="count_flow spread hand">包名:<span class="f14 blue">${listPackage.name }</span>
-				 	<span>项目预算报价(万元)：${listPackage.projectBudget}</span>
+				 	<h2 onclick="ycDiv(this,'${index}')" class="count_flow spread hand fl">包名:<span class="f14 blue">${listPackage.name }</span>
+				 		<span>项目预算报价(万元)：${listPackage.projectBudget}</span>
 				 	</h2>
+				 	<div class="fl mt20 ml10">
+					 	<button class="btn" onclick="printCon('${projectId}','${listPackage.id}')">投标报价一览表</button>
+				 	</div>
 				 </c:if>
 				  <c:if test="${vs.index != 0 }">
-				 	<h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${listPackage.name }</span>
-				 	<span>项目预算报价(万元)：${listPackage.projectBudget}</span>
+				 	<h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand fl clear">包名:<span class="f14 blue">${listPackage.name }</span>
+				 		<span>项目预算报价(万元)：${listPackage.projectBudget}</span>
 				 	</h2>
+				 	<div class="fl mt20 ml10">
+					 	<button class="btn" onclick="printCon('${projectId}','${listPackage.id}')">投标报价一览表</button>
+				 	</div>
 				 </c:if>
                </div>
 			<c:forEach items="${listPackage.suList}" var="suList" varStatus="vs">
 				<div class="p0${index}">
-					<span class="fl">供应商名称：<span class="f14 blue">${suList.supplierName}</span></span>
+					<span class="clear fl">供应商名称：<span class="f14 blue">${suList.supplierName}</span></span>
 					<table id="${suList.id}"  class="table table-bordered table-condensed mt5">
 						<thead>
 							<tr>

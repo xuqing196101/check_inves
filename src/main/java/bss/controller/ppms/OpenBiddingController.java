@@ -290,6 +290,7 @@ public class OpenBiddingController {
       //判断各包符合性审查项是否编辑完成
       FirstAudit firstAudit = new FirstAudit();
       firstAudit.setPackageId(p.getId());
+      firstAudit.setIsConfirm((short)0);
       List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
       if (fas == null || fas.size() <= 0) {
         msg = "noFirst";
@@ -347,6 +348,9 @@ public class OpenBiddingController {
               }
           }
         }
+      } else {
+          msg = "noSecond";
+          return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
       }
     }
     Project project = projectService.selectById(id);
@@ -1395,6 +1399,122 @@ public class OpenBiddingController {
     model.addAttribute("dd", dictionaryData);
     return "bss/ppms/open_bidding/bid_file/view_chang_total";
   }
+  
+  @RequestMapping("/changTotalWord")
+  public String changTotalWord(String projectId, String packId, String timestamp, Model model, HttpServletRequest req) throws ParseException{
+    Project project = projectService.selectById(projectId);
+    DictionaryData dictionaryData = null;
+    if (project != null && project.getPurchaseType() != null ){
+      dictionaryData = DictionaryDataUtil.findById(project.getPurchaseType());
+    }
+    //去saletender查出项目对应的所有的包
+    List<Packages> packList = saleTenderService.getPackageIds(projectId);
+    //这里用这个是因为hashMap是无序的
+    TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
+    SaleTender condition = new SaleTender();
+    HashMap<String, Object> map = new HashMap<String, Object>();
+    HashMap<String, Object> map1 = new HashMap<String, Object>();
+    Quote quote2 = new Quote();
+    Quote quote3 = new Quote();
+    List<Packages> listPackage1 = new ArrayList<Packages>();
+    if (packId != null) {
+      for (Packages pack : packList) {
+        if (pack.getId().equals(packId)) {
+          listPackage1.add(pack);
+        }
+      }
+      packList = listPackage1;
+    }
+    if (packList != null && packList.size() == 1 && packId != null) {
+      model.addAttribute("listLength", 1);
+    }
+    for (Packages pack : packList) {
+      condition.setProjectId(projectId);
+      condition.setPackages(pack.getId());
+      condition.setStatusBid(NUMBER_TWO);
+      condition.setStatusBond(NUMBER_TWO);
+      condition.setIsTurnUp(0);
+      List<SaleTender> stList = saleTenderService.find(condition);
+      map1.put("packageId", pack.getId());
+      map1.put("projectId", projectId);
+      List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
+      BigDecimal projectBudget = BigDecimal.ZERO;
+      for (ProjectDetail projectDetail : detailList) {
+        projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+      }
+
+      quote3.setProjectId(projectId);
+      quote3.setPackageId(pack.getId());
+      List<Date> listDate1 = supplierQuoteService.selectQuoteCount(quote3);
+      List<Quote> listQuotebyPackage1 = new ArrayList<Quote>();
+      if (listDate1 != null && listDate1.size() > 1) {
+        //给第二次报价的数据查到
+        if ("JZXTP".equals(dictionaryData.getCode()) || "DYLY".equals(dictionaryData.getCode())) {
+          quote2.setProjectId(projectId);
+          quote2.setPackageId(pack.getId());
+          if (timestamp == null) {
+            quote2.setCreatedAt(new Timestamp(listDate1.get(listDate1.size()-1).getTime()));
+          } else {
+            quote2.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
+          }
+          listQuotebyPackage1 = supplierQuoteService.selectQuoteHistoryList(quote2);
+        }
+      } 
+
+      for (SaleTender saleTender : stList) {
+        Quote quote = new Quote();
+        quote.setProjectId(projectId);
+        quote.setPackageId(pack.getId());
+        quote.setSupplierId(saleTender.getSupplierId());
+        if (listDate1 != null && listDate1.size() > 0) {
+          quote.setCreatedAt(new Timestamp(listDate1.get(0).getTime()));
+        }
+        if ("0".equals(saleTender.getIsRemoved())) {
+          saleTender.setIsRemoved("正常");
+        }
+        if ("2".equals(saleTender.getIsRemoved())) {
+          saleTender.setIsRemoved("放弃报价");
+        }
+        List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
+        if (allQuote != null && allQuote.size() > 0) {
+            for (Quote conditionQuote : allQuote) {
+                if (conditionQuote.getSupplierId().equals(saleTender.getSuppliers().getId()) &&
+                    conditionQuote.getProjectId().equals(saleTender.getProject().getId()) && saleTender.getPackages().equals(conditionQuote.getPackageId())) {
+                    for (Quote qp : listQuotebyPackage1) {
+                        if (qp.getPackageId().equals(conditionQuote.getPackageId()) && qp.getSupplierId().equals(conditionQuote.getSupplierId())) {
+                            conditionQuote.setTotal(qp.getTotal());
+                            conditionQuote.setQuotePrice(qp.getQuotePrice());
+                            conditionQuote.setRemark(qp.getRemark());
+                            conditionQuote.setDeliveryTime(qp.getDeliveryTime());
+                        }
+                    }
+                    saleTender.setTotal(conditionQuote.getTotal());
+                    saleTender.setDeliveryTime(conditionQuote.getDeliveryTime());
+                    saleTender.setIsTurnUp(conditionQuote.getIsTurnUp());
+                    saleTender.setQuoteId(conditionQuote.getId());
+                    break;
+                }
+            }
+        }
+      }
+      map.put("id", pack.getId());
+      if (stList != null && stList.size() > 0) {
+        treeMap.put(pack.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
+      }
+    }
+    model.addAttribute("treeMap", treeMap);
+    model.addAttribute("projectId", projectId);
+    model.addAttribute("project", project);
+    model.addAttribute("dd", dictionaryData);
+    HashMap<String, Object> mapId = new HashMap<String, Object>();
+    mapId.put("projectId", projectId);
+    mapId.put("id", packId);
+    List<Packages> pack = packageService.findPackageById(mapId);
+    if (pack != null && pack.size() > 0) {
+      model.addAttribute("pack", pack.get(0));
+    }
+    return "bss/ppms/open_bidding/bid_file/view_chang_total_word";
+  }
 
   @RequestMapping("/viewChangtotalByPackId")
   public String viewChangtotalByPackId(String projectId, String packId, String timestamp, Model model, HttpServletRequest req) throws ParseException{
@@ -1848,6 +1968,103 @@ public class OpenBiddingController {
     return "bss/ppms/open_bidding/bid_file/changbiao";
   }
 
+  @RequestMapping("/changmingxiWord")
+  public String changmingxiWord(String projectId, String packId, String timestamp, Model model ,HttpServletRequest req) throws ParseException{
+    Project project = projectService.selectById(projectId);
+    DictionaryData dd = null;
+    if (project != null && project.getPurchaseType() != null ){
+      dd = DictionaryDataUtil.findById(project.getPurchaseType());
+    }
+    Quote quote2 = new Quote();
+    Quote quote1 = new Quote();
+    Quote quote=new Quote();
+    HashMap<String, Object> map = new HashMap<String, Object>();
+    map.put("projectId", projectId);
+    SaleTender st = new SaleTender();
+    st.setProjectId(projectId);
+    StringBuilder sb = new StringBuilder("");
+    List<SaleTender> saleTenderList = saleTenderService.find(st);
+    for (SaleTender saleTender : saleTenderList) {
+      sb.append(saleTender.getPackages());
+    }
+    List<Packages> listPack = supplierQuoteService.selectByPrimaryKey(map, null);
+    List<Packages> listPackage = new ArrayList<Packages>();
+    List<Packages> listPackage1 = new ArrayList<Packages>();
+    for (Packages packages : listPack) {
+      if (sb.toString().indexOf(packages.getId()) != -1) {
+        listPackage.add(packages);
+      }
+    }
+    if (packId != null) {
+      for (Packages pack : listPackage) {
+        if (pack.getId().equals(packId)) {
+          listPackage1.add(pack);
+        }
+      }
+      listPackage = listPackage1;
+    }
+    //开始循环包
+    for (Packages pk:listPackage) {
+      map.put("packageId", pk.getId());
+      quote2.setProjectId(projectId);
+      quote2.setPackageId(pk.getId());
+      List<Date> listDate =  supplierQuoteService.selectQuoteCount(quote2);
+      List<Quote> listQuotebyPackage = new ArrayList<Quote>();
+      if (listDate != null && listDate.size() > 1) {
+        if ("JZXTP".equals(dd.getCode()) || "DYLY".equals(dd.getCode())) {
+          quote1.setProjectId(projectId);
+          quote1.setPackageId(pk.getId());
+          if (timestamp == null) {
+            quote1.setCreatedAt(new Timestamp(listDate.get(listDate.size()-1).getTime()));
+          } else {
+            quote1.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
+          }
+          listQuotebyPackage = supplierQuoteService.selectQuoteHistoryList(quote1);
+        } 
+      }
+      quote.setProjectId(projectId);
+      if (listDate != null && listDate.size() > 0) {
+        quote.setCreatedAt(new Timestamp(listDate.get(0).getTime()));
+      }
+      quote.setPackageId(pk.getId());
+      List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
+      List<Supplier> suList = setField(listQuote);
+      //每个包有几个供应商
+      List<Supplier> suListNew = new ArrayList<Supplier>();
+      for (Supplier supplier : suList) {
+          Supplier sup = new Supplier();
+          sup.setId(supplier.getId());
+          sup.setSupplierName(supplier.getSupplierName());
+          sup.setQuoteList(supplier.getQuoteList());
+          suListNew.add(sup);
+      }
+      //每个包有几个供应商
+      pk.setSuList(suListNew);
+      BigDecimal projectBudget = BigDecimal.ZERO;
+      if (pk.getSuList() != null && pk.getSuList().size() > 0) {
+        for (Quote q : pk.getSuList().get(0).getQuoteList()) {
+          if (q.getProjectDetail() != null) {
+            projectBudget = projectBudget.add(new BigDecimal(q.getProjectDetail().getBudget()));
+          }
+        }
+      }
+      //项目预算
+      pk.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
+      setNewQuote(listQuote, listQuotebyPackage);
+    }
+    model.addAttribute("listPackage", listPackage);
+    model.addAttribute("projectId", projectId);
+    model.addAttribute("project", project);
+    HashMap<String, Object> mapId = new HashMap<String, Object>();
+    mapId.put("projectId", projectId);
+    mapId.put("id", packId);
+    List<Packages> pack = packageService.findPackageById(mapId);
+    if (pack != null && pack.size() > 0) {
+      model.addAttribute("pack", pack.get(0));
+    }
+    return "bss/ppms/open_bidding/bid_file/view_changbiao_word";
+  }
+  
   @RequestMapping("/viewMingxi")
   public String viewMingxi(String projectId, String packId, String timestamp, Model model ,HttpServletRequest req) throws ParseException{
     Project project = projectService.selectById(projectId);
@@ -1855,6 +2072,7 @@ public class OpenBiddingController {
     if (project != null && project.getPurchaseType() != null ){
       dd = DictionaryDataUtil.findById(project.getPurchaseType());
     }
+    
     Quote quote2 = new Quote();
     Quote quote1 = new Quote();
     Quote quote=new Quote();

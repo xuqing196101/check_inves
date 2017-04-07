@@ -135,7 +135,7 @@
 						             afterCount = getfloor(changeRatioCounts[index],100,afterInputVal);
 						             }
 							
-							$(this).text((afterCount * productPrices[index]).toFixed(2));
+							$(this).text((afterCount * productPrices[index] / 10000.00).toFixed(4));
 							$("[title='theProductCount']").each(function(indexPc,element) {
 								if(index == indexPc) {
 									$(this).text(afterCount);
@@ -146,7 +146,7 @@
 							});
 							allCount += afterCount * productPrices[index];
 						});
-						$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+						$("[title='allProductTotalPrice']").html('<b>'+(allCount / 10000.00).toFixed(4) +'</b>');
 					}
 				} else if(currentPressKey == 13 || currentPressKey == 18) {
 					//删除键和回车，放行
@@ -189,13 +189,17 @@
 							 //表示全部比例 数量直接显示为剩余数量
 							  afterCount=SurplusNumber[index];
 							}else{
+							  /* if(afterCount == 0){
+								 return;
+							  } */
 							  if(afterCount>SurplusNumber[index]){
-							 //如果比例 不等于剩余 比例 那么判断 比例数量 不能超过 剩余的单个数量 如果超过那么比例初始化
-							  secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount,SurplusNumber);
-							  return;
+								 //如果比例 不等于剩余 比例 那么判断 比例数量 不能超过 剩余的单个数量 如果超过那么比例初始化
+								  secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount,SurplusNumber);
+								  return;
 							  } 
 							}
-						 	var after= (afterCount * productPrices2[index]).toFixed(2);
+						 	var after= (afterCount * productPrices2[index] / 10000.00).toFixed(4);
+						 	
 							$(this).text(after);
 							$("[title='theProductCount2']").each(function(indexPc,element) {
 								if(index == indexPc) {
@@ -206,7 +210,7 @@
 							});
 							allCount += afterCount * productPrices2[index]; 
 						});
-						$("[title='allProductTotalPrice2']").text(allCount.toFixed(2));
+						$("[title='allProductTotalPrice2']").html('<b>'+(allCount / 10000.00).toFixed(4)+'</b>');
 					}
 				} else if(currentPressKey == 13 || currentPressKey == 18) {
 					//删除键和回车，放行
@@ -245,10 +249,10 @@
 			allCount += parseFloat($(this).text());
 		});
 		$("[title='theProductTotalPrice2']").each(function(index,element) {
-			allCount2 += parseInt($(this).text());
+			allCount2 += parseFloat($(this).text());
 		});
-		$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
-		$("[title='allProductTotalPrice2']").text(allCount2.toFixed(2)); 
+		$("[title='allProductTotalPrice']").html('<b>'+allCount.toFixed(4)+'</b>');
+		$("[title='allProductTotalPrice2']").html('<b>'+allCount2.toFixed(4)+'</b>'); 
 	});
 	//判读 偶数 奇数
 	function chk(num){
@@ -257,12 +261,13 @@
 	//第二轮初始化
 	function secoundInit(currentSecondVal,changeRatioCounts2,productPrices2,eachProductCount,SurplusNumber){
 		  var allCount=0;
+		  
 	//第二轮占比改动，调动下面的数据
 						$("[title='theProductTotalPrice2']").each(function(index,element) {
 							//var afterCount = getfloor(changeRatioCounts2[index],100,currentSecondVal);
 							 //表示全部比例 数量直接显示为剩余数量
 							var  afterCount=SurplusNumber[index];
-							$(this).text((afterCount * productPrices2[index]).toFixed(2));
+							$(this).text((afterCount * productPrices2[index] / 10000.00).toFixed(4));
 							$("[title='theProductCount2']").each(function(indexPc,element) {
 								if(index == indexPc) {
 									$(this).text(afterCount);
@@ -272,7 +277,7 @@
 							});
 							allCount += afterCount * productPrices2[index];
 						});
-						$("[title='allProductTotalPrice2']").text(allCount.toFixed(2));
+						$("[title='allProductTotalPrice2']").html('<b>'+(allCount / 10000.00).toFixed(4)+'</b>');
 			}
 	//第一轮初始化
 	function firstInit(first,changeRatioCounts,productPrices,eachProductCount){
@@ -287,7 +292,7 @@
 						             afterCount = getfloor(changeRatioCounts[index],100,first);
 						             }
 							//var afterCount = getDownRatioVal(changeRatioCounts[index],100,first);
-							$(this).text((afterCount * productPrices[index]).toFixed(2));
+							$(this).text(((afterCount * productPrices[index]) / 10000.00).toFixed(4) );
 							$("[title='theProductCount']").each(function(indexPc,element) {
 								if(index == indexPc) {
 									$(this).text(afterCount);
@@ -297,7 +302,7 @@
 							});
 							allCount += afterCount * productPrices[index];
 						});
-						$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+						$("[title='allProductTotalPrice']").text(allCount.toFixed(4) / 10000.00);
 	}
 	
 	//这个暂时不用
@@ -637,7 +642,7 @@
 		  <th class="tc">数量</th>
 		  <th class="tc">自报单价（元）</th>
 		  <th class="tc">成交单价（元）</th>
-		  <th class="tc">成交总价（元）</th>
+		  <th class="tc">成交总价（万元）</th>
 		</tr>
 		</thead>
 		<tr>
@@ -668,7 +673,7 @@
 		 <!--   
 		  <td class="tc" title="theProductTotalPrice">$ { (bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 * bidproduct.dealMoney }</td>
 		   -->
-		  <td class="tc" title="theProductTotalPrice">${bidproduct.dealMoney*bidproduct.resultsNumber }</td>
+		  <td class="tc" title="theProductTotalPrice">${bidproduct.dealTotalMoney}</td>
 		</tr>
 		</c:forEach>
 	</table>
@@ -689,7 +694,7 @@
      		<span id="confirmRatioSecond" style="margin-left: 12px;margin-right: 12px;">0</span>%
      		</c:if>
      		<c:if test="${confirmStatus=='2'}">
-     		<input class="input_group" id="" name="confirmRatioSecond" value="${result.secondRatio }" type="text">%
+     		<input class="input_group" id="confirmRatioSecond" name="confirmRatioSecond" value="${result.secondRatio }" type="text">%
      		</c:if>
      		
      	</h2>
@@ -713,7 +718,7 @@
 		  <th class="tc">数量</th>
 		  <th class="tc">自报单价（元）</th>
 		  <th class="tc">成交单价（元）</th>
-		  <th class="tc">成交总价（元）</th>
+		  <th class="tc">成交总价（万元）</th>
 		</tr>
 		</thead>
 		<tr>
@@ -741,7 +746,7 @@
 		  </td>
 		  <td class="tc">${bidproduct.myOfferMoney }</td>
 		  <td class="tc" title="theProductPrice2">${bidproduct.dealMoney}</td>
-		  <td class="tc" title="theProductTotalPrice2">${bidproduct.dealMoney*bidproduct.resultsNumber } <!--  (bidproduct.productNum - ((bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100)) * bidproduct.dealPrice } --></td>
+		  <td class="tc" title="theProductTotalPrice2">${bidproduct.dealTotalMoney} <!--  (bidproduct.productNum - ((bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100)) * bidproduct.dealPrice } --></td>
 		</tr>
 		</c:forEach>
 	</table>

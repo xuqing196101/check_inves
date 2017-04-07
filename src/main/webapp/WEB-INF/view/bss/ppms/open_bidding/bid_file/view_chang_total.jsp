@@ -41,6 +41,11 @@
 	 function openMax(){
 	 	window.open("${pageContext.request.contextPath}/open_bidding/viewChangtotal.html?projectId=${projectId}");
 	 }; 
+	 
+	 function printCon(projectId, objId){
+	 	 var packageId = $("#packId"+objId).val();
+	 	 window.location.href="${pageContext.request.contextPath}/open_bidding/changTotalWord.html?projectId="+projectId+"&packId="+packageId;
+	 }
 </script>
 </head>
 <body>
@@ -52,14 +57,20 @@
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div>
 			 	<c:if test="${vsKey.index ==0 }">
-				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand fl">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
+				 	<div class="fl mt20 ml10">
+					 	<button class="btn" onclick="printCon('${projectId}','${vsKey.index}')">投标报价一览表</button>
+				 	</div>
 			 	</c:if>
 			 	<c:if test="${vsKey.index != 0 }">
-				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand fl clear">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
 				 	</h2>
+				 	<div class="fl mt20 ml10">
+					 	<button class="btn" onclick="printCon('${projectId}','${vsKey.index}')">投标报价一览表</button>
+				 	</div>
 			 	</c:if>
         </div>
         <div class="p0${vsKey.index}">
@@ -69,12 +80,13 @@
 					<th class="info w50">序号</th>
 					<th class="info">供应商名称</th>
 					<th class="info w100">总价(万元)</th>
-					<th class="info w120">交货期限</th>
+					<th class="info  w120">交货期限</th>
 				<!-- 	<th class="info w100">状态</th>
 					<th class="info w100">放弃原因</th> -->
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
+				<input type="hidden" id="packId${vsKey.index}" value="${treemapValue.packages}"/>
 				<tr>
 				    <td class="tc w50">${vs.index+1 }</td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>

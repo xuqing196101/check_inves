@@ -30,7 +30,7 @@
         }
         if((browser == "Netscape" || browser == "Microsoft Internet Explorer") && (version <= 4) && msie_ver < 9) {
           //注释掉下面这行IE8 或低版本的则可以正常通过进入项目
-          //window.location.href = "${pageContext.request.contextPath}/browser/index.html";
+          window.location.href = "${pageContext.request.contextPath}/browser/index.html";
         } else {
           $("#firstPage").attr("Class", "active dropdown shouye_li mega-menu-fullwidth");
 

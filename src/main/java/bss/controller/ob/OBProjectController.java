@@ -70,6 +70,7 @@ import bss.service.ob.OBResultSubtabulationService;
 import bss.service.ob.OBRuleService;
 import bss.service.ob.OBSupplierQuoteService;
 import bss.service.ob.OBSupplierService;
+import bss.util.BigDecimalUtils;
 import bss.util.CheckUtil;
 import bss.util.ExcelUtil;
 
@@ -139,6 +140,7 @@ public class OBProjectController {
 
 	@Autowired
 	private OBProjectSupplierMapper obProjectSupplierMapper;
+	
 	/***
 	 * 获取竞价信息跳转 list页
 	 * 
@@ -980,8 +982,8 @@ public class OBProjectController {
 			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
 		}
 		Double totalCountPriceBigDecimal = 0.00;
-		NumberFormat currency = NumberFormat.getNumberInstance();
-		currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
+		//NumberFormat currency = NumberFormat.getNumberInstance();
+		//currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
 		/** 计算单个商品的总价以及合计金额 **/
 		BigDecimal million = new BigDecimal(10000);
 		for (OBProductInfo productInfo : oBProductInfo) {
@@ -994,7 +996,7 @@ public class OBProjectController {
 					signalCount = signalCountInt;
 					BigDecimal multiply = limitPrice.multiply(signalCount);
 					// 单位换算成万元
-					BigDecimal moneyBigDecimal = multiply.divide(million);
+					BigDecimal moneyBigDecimal = BigDecimalUtils.getSignalDecimalScale4(multiply, million);
 					/**显示100000样式**/
 					productInfo.setTotalMoney(moneyBigDecimal);
 					/**显示￥100,000,00样式**/
@@ -1011,6 +1013,8 @@ public class OBProjectController {
 		// DecimalFormat df = new DecimalFormat("0.00");
 		//String totalCountPriceBigDecimalStr = df.format(totalCountPriceBigDecimal);
 //		String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
+		BigDecimal bigDecimal = new BigDecimal(totalCountPriceBigDecimal);
+		BigDecimal totalCountPriceBigDecimalAfter = BigDecimalUtils.getBigDecimalTOScale4(bigDecimal, million);
 		// 采购机构
 		model.addAttribute("orgName", orgName);
 		// 需求单位
@@ -1021,7 +1025,7 @@ public class OBProjectController {
 		model.addAttribute("oBProductInfoList", oBProductInfo);
 		model.addAttribute("productIds", productIds);
 		model.addAttribute("uploadFiles", uploadFiles);
-		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimal/10000);
+		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalAfter);
 		
 		// 封装文件下载项
 		model.addAttribute("fileid", obProject.getAttachmentId());
