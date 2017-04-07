@@ -252,15 +252,15 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info">竞价规则名称</th>
-		  <th class="info">间隔工作日（天）</th>
-		  <th class="info">竞价开始时间</th>
+		  <th class="info" width="25%">竞价规则名称</th>
+		  <th class="info">间隔工作日<br>（天）</th>
+		  <th class="info">竞价开始<br>时间</th>
 		  <th class="info">报价时间（分钟）</th>
-		  <th class="info">确认时间（第一轮）（分钟）</th>
-		  <th class="info">确认时间（第二轮）（分钟）</th>
+		  <th class="info">确认时间（第一轮）<br>（分钟）</th>
+		  <th class="info">确认时间（第二轮）<br>（分钟）</th>
 		  <th class="info">最少供应商数量</th>
 		  <th class="info">项目数量</th>
-		  <th class="info">是否为默认</th>
+		  <th class="info">是否为<br>默认</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -268,7 +268,7 @@
 			<tr>
 			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obRule.id }" /></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td class="tc">${obRule.name}</td>
+			  <td class="tl">${obRule.name}</td>
 			  <td class="tc">${obRule.intervalWorkday}</td>
 			  <td class="tc"><fmt:formatDate value="${obRule.definiteTime}" pattern="HH:mm:ss"/></td>
 			  <td class="tc">${obRule.quoteTime}</td>
