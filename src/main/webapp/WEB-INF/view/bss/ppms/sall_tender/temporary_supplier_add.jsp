@@ -169,7 +169,7 @@ function sumbits(){
         </div>
     </li>
      <li class="col-md-3 col-sm-6 col-xs-12 ">
-        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>军队业务联系人姓名：</span>
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>本单位军队业务联系人姓名：</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input class="title col-md-12" id="appendedInput" name="armyBusinessName" value="${supplier.armyBusinessName}" maxlength="10" type="text">
          <span class="add-on">i</span>
@@ -177,7 +177,7 @@ function sumbits(){
         </div>
 	 </li> 
      <li class="col-md-3 col-sm-6 col-xs-12 ">
-       <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>军队业务联系人电话：</span>
+       <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>本单位军队业务联系人电话：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
              <input class="title col-md-12" id="appendedInput" name="armyBuinessTelephone" value="${supplier.armyBuinessTelephone}"  maxlength="11" type="text">
          <span class="add-on">i</span>

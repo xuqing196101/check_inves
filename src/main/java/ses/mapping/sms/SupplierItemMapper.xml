@@ -128,7 +128,7 @@
 				#{certCode},
 			</if>
 			<if test="qualificationType != null">
-				#{qualificationType}
+				#{qualificationType},
 			</if>
 			<if test="professType != null">
 				#{professType}

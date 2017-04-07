@@ -174,7 +174,7 @@
     $(function(){ 
     	if ($("#tipMsg").val() == "noFirst") {
     		$("#tipMsg").val("");
-			layer.msg("请先完成各包资格性、符合性审查项的编写",{offset: '50px'});
+			layer.alert("请先完成各包资格性和符合性审查项的编写",{offset: '50px'});
 		}
     });
 </script>
@@ -239,10 +239,10 @@
                 <td class="tc">${p.name}</td>
                 <td class="tc">
                 	<c:if test="${p.isEditFirst == 0}">
-                		未维护
+                		未维护检查数据
                 	</c:if>
                 	<c:if test="${p.isEditFirst == 1}">
-                		已维护
+                		已维护检查数据
                 	</c:if>
                 </td>
                 <td class="tc">

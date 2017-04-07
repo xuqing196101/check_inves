@@ -122,7 +122,7 @@
     <table class=" table table-condensed table-bordered table-hover table-striped">
 		<thead>
 			<tr>
-				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+				<!-- <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th> -->
 			    <th class="info" >序号</th>
 				<th class="info" >栏目名</th>
 				<th class="info">栏目介绍</th>
@@ -132,7 +132,7 @@
 		
 		<c:forEach items="${list.list}" var="articletype" varStatus="vs">
 			<tr class="pointer">
-				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${articletype.id}" /></td>
+				<%-- <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${articletype.id}" /></td> --%>
 				<td class="tc" onclick="view('${articletype.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<td class="tl pl20" onclick="view('${articletype.id}')">${articletype.name}</td>
 				

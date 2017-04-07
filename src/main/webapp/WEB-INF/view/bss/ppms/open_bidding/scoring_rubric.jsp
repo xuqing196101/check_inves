@@ -10,11 +10,11 @@
     $(function(){
     	if ($("#tipMsg").val() == "noSecond") {
     		$("#tipMsg").val("");
-			layer.msg("请先完成经济、技术审查项的编写",{offset: '50px'});
+			layer.alert("请先完成经济和技术评审细则的编写",{offset: '50px'});
 		}
 		if ($("#tipMsg").val() == "noThired") {
             $("#tipMsg").val("");
-            layer.msg("评审计算价格得分的唯一标识必须要有一个,有且只有一个.",{offset: '50px'});
+            layer.alert("综合评分法必须有且只有一个价格评审数据.",{offset: '50px'});
         }
     	var packageId=	$("input[name='packageId']").val();
     	var flag="${flag}";
@@ -244,15 +244,15 @@
 										请选择评分办法
 								</c:if>
 								<c:if test="${p.isEditSecond == 1}">
-										已维护
+										未维护评审数据
 								</c:if>
 								<c:if test="${p.isEditSecond == 2}">
-										已维护
+										已维护评审数据
 								</c:if>
 								</td>
 								<td class="tc">
 									<c:forEach items="${ddList}" var="list" varStatus="vs">
-										<c:if test="${vs.index == p.bidMethodTypeName }"><a onclick="show('${p.id}','${p.projectId }')" class="pointer">${list.name }</a></c:if>
+										<c:if test="${list.position == p.bidMethodTypeName }"><a onclick="show('${p.id}','${p.projectId }')" class="pointer">${list.name }</a></c:if>
 										
 									</c:forEach>
 								</td>
@@ -264,6 +264,7 @@
 								   <c:if test="${p.isHaveScoreMethod == 2 and project.confirmFile != 1}">
 				                       <button class="btn" type="button" onclick="addScoreMethod('${p.id}','${projectId}')">选择评分办法</button>
 								   </c:if>
+								   <!-- 采购文件提交后不可修改 -->
 								   <c:if test="${project.confirmFile == 1}">
 				                       <button class="btn" type="button" onclick="view('${p.id}','${projectId}')">查看</button>
 								   </c:if>
