@@ -570,11 +570,49 @@
         }
         
         function delPractice(obj){
-        	var detailRow = $("#tab_div").find("li");
-			var index = detailRow.length;
-			/* if(index<4){
-				 layer.msg("不通过理由:" + response.auditReason);
-			}else{ */
+        	var btmCount = 0;
+        	var proCount=0;
+        	var flag=false;
+        	var bool=false;
+       	 $("input[name='chkItem_2']").each(function() {
+       		var val=$(this).parent().text();
+         	if(val.trim()=="工程经济"){	
+         	 if ($(this).prop("checked")) {
+         		  flag=true;
+         	    }
+         	 }
+       	 });
+        	
+    	 $("input[name='chkItem_1']").each(function() {
+        		var val=$(this).parent().text();
+          	if(val.trim()=="工程技术"){	
+          	 if ($(this).prop("checked")) {
+          		 bool=true;
+          	    } 
+          	 }
+        	 });
+    	 
+        	
+			$("#pro_div").find("input[type='button']").each(function() {
+				btmCount++;
+			});
+			$("#server_div").find("input[type='button']").each(function() {
+				proCount++;
+			});
+			
+			if(btmCount == 2&&flag==true) {
+				layer.msg("执业资格信息至少保留一个!", {
+					offset: '300px'
+				});
+			}  
+			
+			else if(proCount == 2&&bool==true) {
+				layer.msg("执业资格信息至少保留一个!", {
+					offset: '300px'
+				});
+			} 
+			
+			else{
 				var id=$(obj).next().val();
 	        	$.ajax({
 					url: "${pageContext.request.contextPath}/expert/deleteprofessional.do",
@@ -587,7 +625,7 @@
 			        	$(obj).parent().parent().remove();
 					}
 				});
-			//}
+			 }
         }
         function tempSave(){
         	 $.ajax({
@@ -613,6 +651,12 @@
              });
         }
  
+        
+        
+        function uploaTitleFile(){
+        	 var expertId=$("#id").val();
+        	 
+        }
     </script>
 </head>
 
@@ -689,7 +733,7 @@
 		
 		<c:forEach items="${proList }" var="t"  varStatus="vs" >
 		<li class="col-md-3 col-sm-6 col-xs-12 pl">
-			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> <!--/执业资格  -->
+			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> <!--/执业资格  -->
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input  <c:if test="${fn:contains(errorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
                                 maxlength="20" value="${t.qualifcationTitle}"
@@ -698,7 +742,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
-                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 执业资格</span>
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格</span>
                     <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
@@ -710,7 +754,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
-                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得执业资格时间</span>
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>取得执业资格时间</span>
                     <!--/职业资格时间  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -742,7 +786,7 @@
 		<ul class="list-unstyled f14" id="jingji_ul">
 		<c:forEach items="${ecoList}" var="t"  varStatus="vs" >
 		<li class="col-md-3 col-sm-6 col-xs-12 pl">
-			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> <!--/执业资格  -->
+			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> <!--/执业资格  -->
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input  <c:if test="${fn:contains(errorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
                                 maxlength="20" value="${t.qualifcationTitle}"
@@ -751,7 +795,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
-                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 执业资格</span>
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格</span>
                     <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
@@ -763,7 +807,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
-                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得执业资格时间</span>
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>取得执业资格时间</span>
                     <!--/职业资格时间  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">

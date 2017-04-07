@@ -115,6 +115,7 @@ import bss.service.prms.ReviewProgressService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -4395,6 +4396,24 @@ public class ExpertController extends BaseController {
 		
 		expertTitleService.deleteExpertType(expertId, expertTypeId);
 		return "";
+	}
+	
+	@RequestMapping("isUpload")
+	@ResponseBody
+	public String isUpload(String expertId,String  typeId){
+		Integer count=0;
+		List<ExpertTitle> list = expertTitleService.queryByUserId(expertId, typeId);
+		for(ExpertTitle q:list){
+			List<UploadFile> files = uploadService.getFilesOther(q.getId(), "9", "3");
+			if(files!=null&&files.size()>0){
+				count++;
+			}
+		}
+		Integer size = list.size();
+		if(!count.equals(size)){
+			return "0";
+		}
+		return "1";
 	}
 	
 }
