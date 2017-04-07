@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -54,14 +55,40 @@ public class SupplierBlacklistController {
 	}
 
 	@RequestMapping(value = "save_or_update_supplier_black")
-	public String saveSupplierBlack(HttpServletRequest request, SupplierBlacklist supplierBlacklist) {
+	public String saveSupplierBlack(Model model,HttpServletRequest request, SupplierBlacklist supplierBlacklist) {
 		User user = (User) request.getSession().getAttribute("loginUser");
-		supplierBlacklistService.saveOrUpdateSupplierBlack(supplierBlacklist, user);
-		return "redirect:list_blacklist.html";
+		Supplier supplier = new Supplier();
+		boolean flag = true;
+		if(supplierBlacklist != null){
+			supplier.setId(supplierBlacklist.getSupplierId());
+			supplier.setSupplierName(supplierBlacklist.getSupplierName());
+			if(null == supplierBlacklist.getSupplierId() || "".equals(supplierBlacklist.getSupplierId())){
+				flag = false;
+				model.addAttribute("error_supplier", "供应商不能为空");
+			}
+			if(null == supplierBlacklist.getStartTime()){
+				flag = false;
+				model.addAttribute("error_startTime", "起始时间不能为空");
+			}
+			if(null == supplierBlacklist.getReason()){
+				if(supplierBlacklist.getReason().length() > 800){
+					flag = false;
+					model.addAttribute("error_reason", "不能超过800字");
+				}
+			}
+		}
+		if(flag == true){
+			supplierBlacklistService.saveOrUpdateSupplierBlack(supplierBlacklist, user);
+			return "redirect:list_blacklist.html";
+		}else{
+			model.addAttribute("supplierBlacklist", supplierBlacklist);
+			model.addAttribute("supplier", supplier);
+			return "ses/sms/supplier_blacklist/add_supplier";
+		}
 	}
 
 	@RequestMapping(value = "list_supplier")
-	public String listSupplier(Model model, Supplier supplier, Integer page) {
+	public String listSupplier(Model model, Supplier supplier, Integer page,SupplierBlacklist supplierBlacklist) {
 		List<Supplier> listSuppliers = supplierBlacklistService.findSupplier(supplier, page == null ? 1 : page);
 		model.addAttribute("listSuppliers", new PageInfo<Supplier>(listSuppliers));
 		model.addAttribute("supplierName", supplier.getSupplierName());

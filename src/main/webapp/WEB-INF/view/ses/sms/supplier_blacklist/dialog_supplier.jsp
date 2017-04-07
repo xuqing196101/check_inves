@@ -53,7 +53,11 @@
 			});
 			return;
 		}
-		$("#check_form_id").submit();		
+		var id = $("#supplier_id_input_id").val();
+		var supplierName = $("#supplier_name_input_id").val();
+		parent.document.getElementById("suppi").value=id;  
+        parent.document.getElementById("suppllier_name_input_id").value=supplierName;
+        parent.layer.closeAll();
 	}
 </script>
 
