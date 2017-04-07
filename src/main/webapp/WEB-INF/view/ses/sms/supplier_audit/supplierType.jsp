@@ -1084,7 +1084,7 @@
 													<th class="info">发证日期</th>
 													<th class="info">有效截止日期</th>
 													<th class="info">证书状态</th>
-													<th class="info">证书图片</th>
+													<!-- <th class="info">证书图片</th> -->
 													<th class="info w50">操作</th>
 												</tr>
 											</thead>
@@ -1108,9 +1108,9 @@
 														<fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd' />
 													</td>
 													<td class="tc" id="certStatus_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certStatus'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certStatus','${s.id }','mat_eng_page');"</c:if>>${s.certStatus}</td>
-													<td class="tc" >
+													<%-- <td class="tc" >
 														<u:show showId="eng_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
-													</td>
+													</td> --%>
 													<td class="tc w50">
 														<p onclick="reasonEngineering('${s.id}','工程-资质证书','${s.certCode}');" id="${s.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
 														<a id="${s.id }_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>

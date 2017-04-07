@@ -1446,24 +1446,33 @@ public class ExpertAuditController{
 			dataMap.put("reason", "无");
 		}
 		
+		
+		//查询品目类型id
+		
+		//工程技术
+		String engCodeId=DictionaryDataUtil.getId("PROJECT");
+		
+		//工程经济和工程技术就有
+		String engInfoId=DictionaryDataUtil.getId("ENG_INFO_ID");
+		
+		//工程经济
+		String goodsProjectId=DictionaryDataUtil.getId("GOODS_PROJECT");
+		
 		// 获取专家类别id
         List < String > expertTypeId = new ArrayList < String > ();
-        List < String > allTypeId = new ArrayList < String > ();
         for(String id: expert.getExpertsTypeId().split(",")) {
-        	allTypeId.add(id);
         	expertTypeId.add(id);
+        	
+        	//有工程技术就带出工程专业信息
+        	if(id.equals(engCodeId)){
+        		expertTypeId.add(engInfoId);
+        	}
+        	
+        	//工程经济
+        	if(id.equals(goodsProjectId)){
+        		expertTypeId.add(engInfoId);
+        	}
         }
-        a: for(int i = 0; i < allTypeId.size(); i++) {
-            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
-            /*if(dictionaryData != null && dictionaryData.getKind() == 19) {
-				allTypeId.remove(i);
-				continue a;
-			};*/
-            
-            expertTypeId.add(dictionaryData.getId().toString());
-        }
-        
-
         List<SupplierCateTree> itemsListAll = new ArrayList<SupplierCateTree>();
         for(String typeId : expertTypeId){
         	List<SupplierCateTree> itemsList = this.getItemsAll(expert.getId(), typeId);

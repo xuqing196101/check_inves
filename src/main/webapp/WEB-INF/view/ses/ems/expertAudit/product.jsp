@@ -150,39 +150,34 @@
 				var goodsProject = $("#goodsProject").val();
 				var goodsEngInfo = $("#goodsEngInfo").val();
 				var engInfo = $("#engInfo").val();
+
 				var matCodeId = $("#matCodeId").val();
 				var engCodeId = $("#engCodeId").val();
 				var serCodeId = $("#serCodeId").val();
 				var goodsProjectId = $("#goodsProjectId").val();
 				var goodsEngInfoId = $("#goodsEngInfoId").val();
 				if(mat == "mat_page"){
-					// 加载已选品目列表
+					// 物资品目信息
 					loading = layer.load(1);
 					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + matCodeId;
 					$("#tbody_category").load(path);
-				}
-				if(eng == "eng_page"){
-					// 加载已选品目列表
+				}else if(eng == "eng_page"){
+					// 工程品目信息
 					loading = layer.load(1);
 					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + engCodeId;
 					$("#tbody_category").load(path);
-				}
-				if(ser == "ser_page"){
-					// 加载已选品目列表
+				}else if(ser == "ser_page"){
+					// 服务
 					loading = layer.load(1);
 					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + serCodeId;
 					$("#tbody_category").load(path);
-				}
-				
- 				if(goodsProject == "goodsProject_page"){
-					// 加载已选品目列表
+				}else if(goodsProject == "goodsProject_page"){
+					// 工程产品类别信息
 					loading = layer.load(1);
 					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsProjectId;
 					$("#tbody_category").load(path);
-				}
-				
-				if(goodsEngInfo == "goodsEngInfo_page"){
-					// 加载已选品目列表
+				}else if(goodsEngInfo == "goodsEngInfo_page"){
+					// 工程专业属性信息
 					loading = layer.load(1);
 					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsEngInfoId;
 					$("#tbody_category").load(path);
@@ -391,7 +386,7 @@
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${engInfoId }');">
 										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程专业属性信息</a>
 										<input type="hidden" id="goodsEngInfo" value="goodsEngInfo_page">
-										<input id=goodsEngInfo type="hidden" value="${engInfoId }">
+										<input id="goodsEngInfoId" type="hidden" value="${engInfoId }">
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
