@@ -1712,6 +1712,9 @@
         <if test="expert.status != null">
             and STATUS = #{expert.status}
         </if>
+        <if test="expert.isDelete != null">
+            and IS_DELETE = #{expert.isDelete}
+        </if>
         <if test="expert.relName != null">
             and REAL_NAME LIKE '%'||#{expert.relName,jdbcType=VARCHAR}||'%'
         </if>

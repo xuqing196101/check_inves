@@ -460,13 +460,22 @@ public class ExpertServiceImpl implements ExpertService {
         int message = 0;
         //先校验分配账号名称是否存在
         List<String> userNameList = new ArrayList<String>();
-        int num = 0,emptyNum = 0;
+        int num = 0,ajaxNum = 0,ajaxMobile = 0,emptyNum = 0;
         if(null != userList && !userList.isEmpty()){
             for(User user:userList){
                 userNameList.add(user.getLoginName());
                 if(StringUtils.isEmpty(user.getLoginName()) || StringUtils.isEmpty(user.getPassword())){//如果存在没有填写账号名称或者密码,则返回
                     emptyNum = emptyNum + 1;
                     break;
+                }
+                List<User> users = userMapper.ajaxIdNumber(user);
+                if(null != users && !users.isEmpty()){
+                    ajaxNum = ajaxNum + 1;
+                    break;
+                }
+                List<User> userAjaxMoblie = userMapper.ajaxMoblie(user);
+                if(null != userAjaxMoblie && !userAjaxMoblie.isEmpty()){
+                    ajaxMobile = ajaxMobile + 1;
                 }
             }
             //如果存在的化,num>0,反之不存在
@@ -482,7 +491,16 @@ public class ExpertServiceImpl implements ExpertService {
             map.put("messageCode", 13);
             return map;//未填写名称和密码
         }
-
+        if(ajaxNum != 0){
+            map.put("isSuccess", true);
+            map.put("messageCode", 14);
+            return map;//居民身份证已存在
+        }
+        if(ajaxMobile != 0){
+            map.put("isSuccess", true);
+            map.put("messageCode", 15);
+            return map;//联系电话已存在
+        }
         try{
             List<DictionaryData> ddList = expExtractRecordService.ddList();//专家类型
             HashMap<String, Object> paramMap = new HashMap<String, Object>();
@@ -535,6 +553,7 @@ public class ExpertServiceImpl implements ExpertService {
                                 projectExtract.setCreatedAt(new Date());
                                 projectExtract.setUpdatedAt(new Date());
                                 projectExtract.setOperatingType((short)1);
+                                projectExtract.setIsDeleted((short)0);
                                 //插入包/专家关联表
                                 projectExtractMapper.insertSelective(projectExtract);
                             }
@@ -653,6 +672,7 @@ public class ExpertServiceImpl implements ExpertService {
         projectExtract.setCreatedAt(new Date());
         projectExtract.setUpdatedAt(new Date());
         projectExtract.setOperatingType((short)1);
+        projectExtract.setIsDeleted((short)0);
         return projectExtract;
     }
 

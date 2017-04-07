@@ -4464,7 +4464,8 @@ public class ExpertController extends BaseController {
                 expert.setStatus("4");//状态:待复审
                 expert.setUpdatedAt(new Date());
                 expert.setCreatedAt(new Date());
-                expert.setRemarks(dataList.get(8));//备注
+                expert.setIsDelete((short)0);
+                if(dataList.size()==9)expert.setRemarks(dataList.get(8));//备注
                 expertList.add(expert);
                 /**用户表*/
                 User user = new User();
@@ -4476,14 +4477,16 @@ public class ExpertController extends BaseController {
                 user.setIdNumber(dataList.get(2));//身份证号码
                 user.setCreatedAt(new Date());
                 user.setUpdatedAt(new Date());
+                user.setIsDeleted(0);
                 userList.add(user);
             }
             Map<String, Object> expertMap = service.saveBatchExpert(expertList, userList, packageId);
             json = JSONObject.fromObject(expertMap);
-        } catch (IOException e) {
+        } catch (Exception e) {
             json.put("isSuccess",false);
             json.put("messageCode",1001);
-            logger.error("ExpertController.readExcelExpert is error. message= "+e.getMessage());
+            logger.error("ExpertController.readExcelExpert is error. message= "+e);
+            e.printStackTrace();
         }
         return json.toString();
     }
@@ -4505,7 +4508,10 @@ public class ExpertController extends BaseController {
         Expert expert = new Expert();
         expert.setIsProvisional((short)1);//临时
         expert.setStatus("4");//待审核
-        expert.setRelName(expertName);
+        if(!StringUtils.isEmpty(expertName)){
+            expert.setRelName(expertName);
+        }
+        expert.setIsDelete((short)0);
         List<Expert> experts = service.findCiteExpertByCondition(expert, packageId, page == null || page.equals("") ? 1 : Integer.valueOf(page));
         List<DictionaryData> ddList = DictionaryDataUtil.find(23);
         model.addAttribute("list", new PageInfo<>(experts));

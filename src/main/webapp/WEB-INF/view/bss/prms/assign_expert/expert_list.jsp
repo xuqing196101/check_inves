@@ -313,6 +313,10 @@
                             layer.alert("账号已存在",{offset: '50px', shade:0.01});
                         }else if(obj.messageCode==13){
                             layer.alert("未填写名称和密码",{offset: '50px', shade:0.01});
+                        }else if(obj.messageCode==14){
+                            layer.alert("居民身份证已存在",{offset: '50px', shade:0.01});
+                        }else if(obj.messageCode==15){
+                            layer.alert("联系电话已存在",{offset: '50px', shade:0.01});
                         }else if(obj.messageCode==20){
                             layer.alert("保存成功",{offset: '50px', shade:0.01, time:500});
                             window.location.reload(true);
