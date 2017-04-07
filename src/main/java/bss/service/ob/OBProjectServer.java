@@ -157,5 +157,14 @@ public interface OBProjectServer {
 	 * @return
 	 */
 	boolean exportProject(String start,String end,Date synchDate);
+	/**
+	 * 导出竞价结果相关数据
+	 * @author YangHongLiang
+	 * @param start
+	 * @param end
+	 * @param synchDate
+	 * @return
+	 */
+	boolean exportProjectResult(String start,String end,Date synchDate);
 
 }

@@ -24,6 +24,9 @@ import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
+import synchro.service.SynchRecordService;
+import synchro.util.FileUtils;
+import synchro.util.OperAttachment;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
@@ -55,6 +58,7 @@ import com.github.pagehelper.PageHelper;
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
+import common.service.UploadService;
 import common.utils.DateUtils;
 
 /**
@@ -79,7 +83,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 
 	@Autowired
 	private OBProjectResultMapper OBProjectResultMapper;
-	
+	/**文件**/
+	@Autowired
+    private UploadService uploadService;
 	@Autowired
 	private OBProjectRuleMapper OBProjectRuleMapper;
 	@Autowired
@@ -102,7 +108,11 @@ public class OBProjectServerImpl implements OBProjectServer {
 	private OBSpecialDateMapper OBSpecialDateMapper;
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
-	
+	 /**
+     * 同步service
+     */
+    @Autowired
+    private SynchRecordService recordService;
 	// 注入竞价规则子表
 	@Autowired
 	private OBProjectRuleMapper obProjectRuleMapper;
@@ -433,13 +443,13 @@ public class OBProjectServerImpl implements OBProjectServer {
 		}
 		// 获取竞价结束时间 竞价开始时间+ 报价
 		Date endDate = DateUtils.getAddDate(startdate, quoteTime);
-		obProject.setCreatedAt(date);
 		obProject.setCreaterId(userid);
 		obProject.setStartTime(startdate);
 		obProject.setEndTime(endDate);
 		List<OBProductInfo> list = new ArrayList<OBProductInfo>();
 		// 如果有 id 更新数据
 		if (StringUtils.isNotBlank(obProject.getId())) {
+			obProject.setUpdatedAt(date);
 			OBprojectMapper.updateByPrimaryKeySelective(obProject);
 			// 组合 集合
 			list = splitList(list, obProject, userid);
@@ -447,16 +457,15 @@ public class OBProjectServerImpl implements OBProjectServer {
 				b.setUpdatedAt(date);
 				OBProductInfoMapper.updateByPrimaryKeySelective(b);
 			}
-			//删除关系
-			OBProjectSupplierMapper.deleteByProjectId(obProject.getId());
-			// 更新关系数据
-			addSupplier(obProject,uuid, 1);
 			if (obProject.getStatus() == 1) {
+				// 更新关系数据
+				addSupplier(obProject,obProject.getId(), 1);
 				//如果发布 更新规则数量 时间
 				OBRuleMapper.updateCount(obProject.getRuleId(),date);
 			}
 		} else {
 			obProject.setId(uuid);
+			obProject.setCreatedAt(date);
 			// 组合 集合
 			list = splitList(list, obProject, userid);
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
@@ -466,13 +475,18 @@ public class OBProjectServerImpl implements OBProjectServer {
 			int countByDate=OBprojectMapper.countByDate(ymd.format(start));
 			BigDecimal big=new BigDecimal(sdf.format(start)+"00000");
 			obProject.setProjectNumber(big.add(new BigDecimal(countByDate+1)));
+			if (obProject.getStatus() == 1) {
+				//如果发布 更新规则数量 时间
+				obProject.setUpdatedAt(date);
+				// 保存关系数据
+				addSupplier(obProject,uuid, 0);
+			}
 			int i = OBprojectMapper.insertSelective(obProject);
 			if (i > 0) {
 				for (OBProductInfo b : list) {
 					OBProductInfoMapper.insertSelective(b);
 				}
-				// 保存关系数据
-				addSupplier(obProject,uuid, 0);
+				
 				if (obProject.getStatus() == 1) {
 					//如果发布 更新规则数量 时间
 					OBRuleMapper.updateCount(obProject.getRuleId(),date);
@@ -1198,17 +1212,56 @@ public class OBProjectServerImpl implements OBProjectServer {
 		return map;
 	}
     /**
-     * 实现导出竞价信息数据
+     * 实现导出竞价信息数据 非暂存信息
      * @author YangHongLiang
      */
 	@Override
 	public boolean exportProject(String start, String end, Date synchDate) {
 		// TODO Auto-generated method stub
 		boolean boo=false;
-        		
-		
-		
-		
+		//获取竞价非暂存信息
+        List<OBProject> createList=obProjectMapper.selectByCreateDate(start, end);
+        List<UploadFile> uploadList=new ArrayList<>();
+        if(createList!=null&&createList.size()>0){
+        for (OBProject obProject : createList) {
+			List<OBProductInfo> product=OBProductInfoMapper.selectByProjectId(obProject.getId());
+			obProject.setObProductInfo(product);
+			List<OBProjectSupplier> projectSupplier=obProjectSupplierMapper.selByProjectId(obProject.getId());
+			obProject.setObProjectSupplier(projectSupplier);
+			if(StringUtils.isNotBlank(obProject.getAttachmentId())){
+			//查询文件路径
+			List<UploadFile> fileList = uploadService.substrBusniessI(obProject.getAttachmentId());
+			uploadList.addAll(fileList);
+			}
+		 }
+        FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_OB_PROJECT_STATUS_FILENAME, 5),JSON.toJSONString(createList));
+        }
+        //同步附件
+        if (uploadList != null && uploadList.size() > 0){
+            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_OB_PROJECT_FILE_FILENAME, 5),JSON.toJSONString(uploadList));
+            String basePath = FileUtils.attachExportPath(Constant.TENDER_SYS_KEY);
+            if (StringUtils.isNotBlank(basePath)){
+                OperAttachment.writeFile(basePath, uploadList);
+                recordService.synchBidding(synchDate, new Integer(uploadList.size()).toString(), synchro.util.Constant.DATA_TYPE_ATTACH_CODE, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.CREATED_COMMIT_ATTACH);
+            }
+        }
+        recordService.synchBidding(synchDate, new Integer(createList.size()).toString(), synchro.util.Constant.DATA_TYPE_BIDDING_CODE, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.OB_PROJECT_COMMIT);
+		boo=true;
+		return boo;
+	}
+    /**
+     * 实现导出竞价结果信息 (竞价结束和流拍的竞价状态数据)
+     */
+	@Override
+	public boolean exportProjectResult(String start, String end, Date synchDate) {
+		// TODO Auto-generated method stub
+		boolean boo=false;
+		//获取竞价非暂存信息
+        List<OBProject> createList=obProjectMapper.selectByUpdateDate(start, end);
+        if(createList!=null&& createList.size()>0){
+        	
+        	
+        }
 		return boo;
 	}
 }

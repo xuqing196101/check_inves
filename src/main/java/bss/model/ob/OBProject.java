@@ -17,6 +17,7 @@ public class OBProject {
 	 */
 	private String ruleId;
 	private OBRule obRule;
+	private OBProjectRule obProjectRule;
 	private String id;
 	/**
 	 * 竞价编号
@@ -170,8 +171,30 @@ public class OBProject {
 	private Integer isDelete;
 
 	private Integer offerSupplierNumber;
-    
-    public Integer getOfferSupplierNumber() {
+    /**竞价供应商 关系 **/
+	private List<OBProjectSupplier> obProjectSupplier;
+	/**竞价 结果**/
+	private List<OBProjectResult> obProjectResult;
+	
+    public List<OBProjectResult> getObProjectResult() {
+		return obProjectResult;
+	}
+	public void setObProjectResult(List<OBProjectResult> obProjectResult) {
+		this.obProjectResult = obProjectResult;
+	}
+	public OBProjectRule getObProjectRule() {
+		return obProjectRule;
+	}
+	public void setObProjectRule(OBProjectRule obProjectRule) {
+		this.obProjectRule = obProjectRule;
+	}
+	public List<OBProjectSupplier> getObProjectSupplier() {
+		return obProjectSupplier;
+	}
+	public void setObProjectSupplier(List<OBProjectSupplier> obProjectSupplier) {
+		this.obProjectSupplier = obProjectSupplier;
+	}
+	public Integer getOfferSupplierNumber() {
 		return offerSupplierNumber;
 	}
 	public void setOfferSupplierNumber(Integer offerSupplierNumber) {

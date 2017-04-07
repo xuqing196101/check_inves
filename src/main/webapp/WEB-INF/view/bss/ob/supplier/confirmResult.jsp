@@ -47,16 +47,10 @@
 	} 
 	//占比下调,返回对应占比后数量@param 值 向上取整
 	function getDownRatioVal(passVal,beforeRatio,afterRatio) {
-	/* 	var br = parseInt(beforeRatio)/100;
-		var ar = parseInt(afterRatio)/100;
-		return Math.ceil((parseInt(passVal) / br) * ar); */
 		return Math.ceil(parseFloat(passVal) * parseFloat(afterRatio) / parseFloat(beforeRatio)); 
 	}
 	//占比下调, 值 向下取整
 	function getfloor(passVal,beforeRatio,afterRatio) {
-	/* 	var br = parseInt(beforeRatio)/100;
-		var ar = parseInt(afterRatio)/100;
-		return Math.ceil((parseInt(passVal) / br) * ar); */
 		return Math.floor(parseFloat(passVal) * parseFloat(afterRatio) / parseFloat(beforeRatio)); 
 	}
 	
@@ -106,7 +100,6 @@
 		$("[title='theProductId2']").each(function(index,element) {
 			SurplusNumber.push($(this).find("input[name='surplusNumber2']").val());
 		});
-		alert(SurplusNumber);
 		//先把不前的各个产品的数量存到全局的一个数组里
 		var eachProductCount = [];
 		$("[title='theProductCount']").each(function(index,element) {
@@ -119,6 +112,7 @@
 				if(currentPressKey >= 48 && currentPressKey <= 57 || currentPressKey == 8) {
 					 if(parseInt(afterInputVal) > parseInt(currentVal)) {
 						$(this).val(currentVal);
+						 firstInit(currentVal,changeRatioCounts,productPrices,eachProductCount);
 						layer.alert("占比只能下调");
 					} else  
 					if(parseInt(afterInputVal) == 0) {
@@ -138,7 +132,7 @@
 						             if(chk(ranking)==1){
 							         afterCount = getDownRatioVal(changeRatioCounts[index],100,afterInputVal);
 						             }else{
-						             afterCount = getfloor(changeRatioCounts2[index],100,afterInputVal);
+						             afterCount = getfloor(changeRatioCounts[index],100,afterInputVal);
 						             }
 							
 							$(this).text((afterCount * productPrices[index]).toFixed(2));
@@ -175,33 +169,33 @@
 				if(currentPressKey >= 48 && currentPressKey <= 57 || currentPressKey == 8) {
 					if(parseInt(afterInputVal) > parseInt(currentSecondVal)) {
 						$(this).val(currentSecondVal);
+						secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount,SurplusNumber);
 						layer.alert("占比只能下调");
 					} else if(parseInt(afterInputVal) == 0) {
 						$(this).val(currentSecondVal);
-						secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount);
+						secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount,SurplusNumber);
 						layer.alert("占比不能为0");
 					 } else if(!afterInputVal){
-					 secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount);
+					 secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount,SurplusNumber);
 					   $(this).val(currentVal);
 						layer.alert("占比不能为空");
 					} else {
 						var allCount = 0;
 						//第二轮占比改动，调动下面的数据
 						$("[title='theProductTotalPrice2']").each(function(index,element) {
-						
-						  
 							var afterCount = getfloor(changeRatioCounts2[index],100,afterInputVal);
 							//如果 输入比例等于 剩余比例
 							if(currentSecondVal==afterInputVal){
-							   afterCount=SurplusNumber[index];
-							}else{
-							 if(afterCount>SurplusNumber[index]){
-							//如果剩余数量 计算比例大于计算那么赋值
+							 //表示全部比例 数量直接显示为剩余数量
 							  afterCount=SurplusNumber[index];
-							  }
+							}else{
+							  if(afterCount>SurplusNumber[index]){
+							 //如果比例 不等于剩余 比例 那么判断 比例数量 不能超过 剩余的单个数量 如果超过那么比例初始化
+							  secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount,SurplusNumber);
+							  return;
+							  } 
 							}
-							
-							var after= (afterCount * productPrices2[index]).toFixed(2);
+						 	var after= (afterCount * productPrices2[index]).toFixed(2);
 							$(this).text(after);
 							$("[title='theProductCount2']").each(function(indexPc,element) {
 								if(index == indexPc) {
@@ -210,19 +204,19 @@
 									$(this).parent().find("input[name='productResultsNumber']").val(afterCount); 
 								}
 							});
-							allCount += afterCount * productPrices2[index];
+							allCount += afterCount * productPrices2[index]; 
 						});
 						$("[title='allProductTotalPrice2']").text(allCount.toFixed(2));
 					}
 				} else if(currentPressKey == 13 || currentPressKey == 18) {
 					//删除键和回车，放行
 				} else {
-				secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount);
+				secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount,SurplusNumber);
 					$(this).val(currentSecondVal);
 					layer.alert("请输入合法数字");
 				}
 			} else {
-			secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount);
+			secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount,SurplusNumber);
 				$(this).val(currentSecondVal);
 				layer.alert("已经在第一轮,不能修改第二轮的数据");
 			}
@@ -245,7 +239,7 @@
 			}
 			if(passStatus==2){
 			//初始化 第二轮
-			secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount);
+			secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount,SurplusNumber);
 			}	
 		$("[title='theProductTotalPrice']").each(function(index,element) {
 			allCount += parseFloat($(this).text());
@@ -261,10 +255,13 @@
       return (num%2 ==0) ?2:1;  //判断是否能整除2
       }
 	//第二轮初始化
-	function secoundInit(currentSecondVal,changeRatioCounts2,productPrices2,eachProductCount){
+	function secoundInit(currentSecondVal,changeRatioCounts2,productPrices2,eachProductCount,SurplusNumber){
+		  var allCount=0;
 	//第二轮占比改动，调动下面的数据
 						$("[title='theProductTotalPrice2']").each(function(index,element) {
-							var afterCount = getfloor(changeRatioCounts2[index],100,currentSecondVal);
+							//var afterCount = getfloor(changeRatioCounts2[index],100,currentSecondVal);
+							 //表示全部比例 数量直接显示为剩余数量
+							var  afterCount=SurplusNumber[index];
 							$(this).text((afterCount * productPrices2[index]).toFixed(2));
 							$("[title='theProductCount2']").each(function(indexPc,element) {
 								if(index == indexPc) {
@@ -281,7 +278,15 @@
 	function firstInit(first,changeRatioCounts,productPrices,eachProductCount){
 	  var allCount=0;
 		$("[title='theProductTotalPrice']").each(function(index,element) {
-							var afterCount = getDownRatioVal(changeRatioCounts[index],100,first);
+		                        var ranking='${result.ranking }';
+						             var afterCount;
+						             //奇入 偶不入 
+						             if(chk(ranking)==1){
+							         afterCount = getDownRatioVal(changeRatioCounts[index],100,first);
+						             }else{
+						             afterCount = getfloor(changeRatioCounts[index],100,first);
+						             }
+							//var afterCount = getDownRatioVal(changeRatioCounts[index],100,first);
 							$(this).text((afterCount * productPrices[index]).toFixed(2));
 							$("[title='theProductCount']").each(function(indexPc,element) {
 								if(index == indexPc) {
@@ -586,7 +591,7 @@
 		    		<c:if test="${result.bidStatus >= 7}">
 		    		未中标
 		    		</c:if>
-		    		</span>
+     	    		</span>
 		    		</h2>
 		    		</li>
 		    		<li  class="col-md-4 col-sm-6 col-xs-12 pl15">
@@ -721,11 +726,13 @@
 		  <td class="tc" title="theProductId2" width="5%">
 		  	 ${vs.index + 1 }
 		  	<input type="hidden" name="surplusNumber2" value="${bidproduct.surplusNumber }"/>
+		  	<input type="hidden" name="ResultsNumber" value="${bidproduct.resultsNumber }"/>
 		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
 		  	<input type="hidden" name="productName" value="${bidproduct.productId }"/>
+		  	<input type="hidden" name="productResultsCount" value=""/>
 		  	<input type="hidden" name="productResultsNumber" value="${bidproduct.resultsNumber }"/>
 		  	<input type="hidden" name="productMyOfferMoney" value="${bidproduct.myOfferMoney }"/>
-		  	<input type="hidden" name="productDealMoney" value=" ${bidproduct.dealMoney }"/>
+		  	<input type="hidden" name="productDealMoney" value="${bidproduct.dealMoney }"/>
 		  </td>
 		  <td class="tc">${bidproduct.productName }</td>
 		  <td class="tc" title="theProductCount2">
