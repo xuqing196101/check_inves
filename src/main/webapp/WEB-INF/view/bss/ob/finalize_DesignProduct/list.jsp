@@ -80,7 +80,7 @@
 		var ids = id.toString();
 		if(id.length > 0) {
 			for(var i=0;i<id.length;i++){
-				if($("#"+id[i]).html().replace(/\s+/g,"") == "发布"){
+				if($("#"+id[i]).html().replace(/\s+/g,"") == "已发布"){
 					layer.msg("不能删除已发布的产品");
 					return false;
 				}

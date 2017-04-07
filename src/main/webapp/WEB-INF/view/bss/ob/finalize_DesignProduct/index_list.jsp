@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<%@ include file="/WEB-INF/view/common.jsp" %>
 	<jsp:include page="/index_head.jsp"></jsp:include>
 	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 	<script type="text/javascript">
@@ -208,9 +209,10 @@
 	   	</div>
 		  <div class="container job-content ">
 		  		<div class="search_box col-md-12 col-sm-12 col-xs-12">
-		         	产品名称：<input name="name" type="text" id="name" value="${product.name }"/>
-		         	产品代码：<input name="code" type="text" id="code" value="${product.code }"/>
-		         	产品目录：<input class="input_group" name="smallPointsId" type="text" id="citySel4" value="${catName }"  onclick=" showMenu(); return false;" readonly="readonly" />
+		         	产品名称：<input name="name" class="m0" type="text" id="name" value="${product.name }"/>
+		         	产品代码：<input name="code" class="m0" type="text" id="code" value="${product.code }"/>
+		         	产品目录：
+		         	<div class="pr inline-block"><input class="m0 w100p" name="smallname" type="text" id="citySel4" value="${catName }"  onclick=" showMenu(); return false;" readonly="readonly" />
 		        	<input id="categorieId4" name="smallPointsId" value="${smallPointsId }" type="hidden">
 		        	<!-- 目录框 -->
 					<div id="menuContent" class="menuContent col-md-12 col-xs-12 col-sm-12 p0 tree_drop" style="z-index:10000;position:absolute;top:30px;left:0px" hidden="hidden">
@@ -220,29 +222,39 @@
 						</div>
 						<ul id="treeDemo" class="ztree slect_option clear" style="max-height: 340px;"></ul>
 					</div>
-		        	
-		        	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
-		        	<button type="button" onclick="res()" class="btn btn-u-light-grey">重置</button>
+		        	</div>
+		        	<div class="inline-block">
+		        		<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
+		        		<button type="button" onclick="res()" class="btn btn-u-light-grey">重置</button>
+		      		</div>
 		      </div>
-          <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
-            <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
-          		<div class="ccol-md-6 col-xs-6 col-sm-5 tc f16">产品名称</div>
-          		<div class="col-md-3 col-xs-3 col-sm-3 tc f16">产品代码</div>
-              <div class="fr mr25 f16 w150">产品目录末节点</div>
-             </h2>
+          <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20 lh35">
+            <div class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+          		<div class="col-md-3 col-xs-4 col-sm-4 tc f16">产品名称</div>
+          		<div class="col-md-2 col-xs-3 col-sm-4 tc f16">产品代码</div>
+          		<div class="col-md-2 col-xs-3 col-sm-4 tc f16">规格型号</div>
+          		<div class="col-md-2 col-xs-3 col-sm-4 tc f16">质量技术标准</div>
+                <div class="col-md-2 col-xs-4 col-sm-4 tc f16">产品目录末节点</div>
+             </div>
              <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0">
                 <c:choose>
                 	<c:when test="${info.list != null }">
                 		<c:forEach items="${info.list}" var="product">
 		                  <li>
-		                  	<div class="col-md-6 col-xs-6 col-sm-5">
-					  		 	<span class="f16 mr5 fl">·</span>${product.name}</a>
+		                  	<div class="col-md-3 col-xs-4 col-sm-4">
+					  		 	<span class="f16 mr5 fl">·</span>${product.name}
 					    	</div>
-					    	<div class="col-md-3 col-xs-3 col-sm-3">
+					    	<div class="col-md-2 col-xs-3 col-sm-4 tc">
 		                   		<span class="f16 mr5">${product.code}</span>
 				  			</div>
-		                   	<span class="hex pull-right col-md-2 col-sm-5 col-xs-12" title="${product.pointsName }">${product.smallPoints.name }</span>
-		                  </li> 
+					    	<div class="col-md-2 col-xs-3 col-sm-4 tc">
+		                   		<span class="f16 mr5">${product.standardModel}</span>
+				  			</div>
+					    	<div class="col-md-2 col-xs-3 col-sm-4 tc">
+		                   		<span class="f16 mr5">${product.qualityTechnicalStandard}</span>
+				  			</div>
+		                   	<div class="col-md-2 col-xs-4 col-sm-4 tc" title="${product.pointsName }">${product.smallPoints.name }</div>
+		                  </li>
 		                </c:forEach> 
                 	</c:when>
                 	<c:otherwise>
