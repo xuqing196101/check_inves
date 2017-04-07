@@ -4513,6 +4513,9 @@ public class ExpertController extends BaseController {
         model.addAttribute("ddList", ddList);
         model.addAttribute("selectValue", selectValue);
         model.addAttribute("projectId", projectId);
+        if(null != expertName){
+            model.addAttribute("expertName", expertName);
+        }
 
         return "bss/prms/assign_expert/expert_cite_list";
     }
