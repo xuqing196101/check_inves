@@ -150,6 +150,13 @@
         $("#punishDate option:selected").attr("selected", false);
         $("#punishType option:selected").attr("selected", false);
     }
+   
+   function resetAll(){
+	   $("#relName").val("");  
+       $("#punishDate").val("");  
+       $("#punishType").val("");
+   }
+   
 </script>
 </head>
     <body>
@@ -206,7 +213,7 @@
 	                 <!-- 
 	                 <button onclick="resetForm();" class="btn fl" type="button">重置</button>
 	                  -->
-	                 <input type="reset" class="btn  fl  mt1 " value="重置" />
+	                 <button onclick="resetAll()" class="btn fl mt1 ml5">重置</button>
 	                 </li>
 	             </ul>
 	             <div class="clear"></div>
