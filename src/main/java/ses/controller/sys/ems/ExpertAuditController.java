@@ -1466,7 +1466,7 @@ public class ExpertAuditController{
 
         List<SupplierCateTree> itemsListAll = new ArrayList<SupplierCateTree>();
         for(String typeId : expertTypeId){
-        	List<SupplierCateTree> itemsList = this.getItems(expert.getId(), typeId, null, null);
+        	List<SupplierCateTree> itemsList = this.getItemsAll(expert.getId(), typeId);
         	for(SupplierCateTree c : itemsList){
         		itemsListAll.add(c);
         	}
@@ -1791,6 +1791,73 @@ public class ExpertAuditController{
         }
         return allTreeList;
 	}
+	
+	/**
+	 * @Title: getItemsAll
+	 * @author XuQing 
+	 * @date 2017-4-7 上午10:28:40  
+	 * @Description:所有的不带分页
+	 * @param @param expertId
+	 * @param @param typeId
+	 * @param @return      
+	 * @return List<SupplierCateTree>
+	 */
+	public List<SupplierCateTree> getItemsAll(String expertId, String typeId) {
+		String code = DictionaryDataUtil.findById(typeId).getCode();
+        String flag = null;
+        if (code != null && code.equals("GOODS_PROJECT")) {
+            code = "PROJECT";
+            typeId = DictionaryDataUtil.getId("PROJECT");
+        }
+        if (code.equals("ENG_INFO_ID")) {
+            flag = "ENG_INFO";
+        }
+        // 查询已选中的节点信息
+        List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId);
+        List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
+        int count=0;
+        for (ExpertCategory expertCategory : items) {
+        	count++;
+        	System.out.println(count);
+            if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
+                Category data = categoryService.findById(expertCategory.getCategoryId());
+                List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                if (findPublishTree.size() == 0) {
+                    expertItems.add(expertCategory);
+                } else if (data != null && data.getCode().length() == 7) {
+                    expertItems.add(expertCategory);
+                }
+            } else {
+                Category data = engCategoryService.findById(expertCategory.getCategoryId());
+                List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                if (findPublishTree.size() == 0) {
+                    expertItems.add(expertCategory);
+                } else if (data != null && data.getCode().length() == 7) {
+                    expertItems.add(expertCategory);
+                }
+            }
+        }
+        List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+        for(ExpertCategory item: expertItems) {
+            String categoryId = item.getCategoryId();
+            SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, flag);
+            if(cateTree != null && cateTree.getRootNode() != null) {
+                cateTree.setItemsId(categoryId);
+                allTreeList.add(cateTree);
+            }
+        }
+        for(SupplierCateTree cate: allTreeList) {
+            cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
+            cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
+            cate.setSecondNode(cate.getSecondNode() == null ? "" : cate.getSecondNode());
+            cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
+            cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
+            cate.setRootNode(cate.getRootNode());
+        }
+        return allTreeList;
+	}
+	
+	
 	
 	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
 		/*ExpertField expertField = new ExpertField();

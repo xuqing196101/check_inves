@@ -305,7 +305,7 @@
 	           <a class="btn"  type="button" onclick="lastStep();">上一步</a>
 	         </div>
           </ul>
-	        <c:if test="${supplierStatus == 5}">
+	        <%-- <c:if test="${supplierStatus == 5}">
 		        <!-- <h2 class="count_flow"><i></i>上传考察表报告</h2> -->
 			      <ul class="ul_list">
 		          <li class="col-md-6 p0 mb25">
@@ -317,7 +317,7 @@
 		            </div>
 		          </li>
 	          </ul>
-	        </c:if>
+	        </c:if> --%>
 	        <div class="col-md-12 add_regist tc">
 	          <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
 	            <input name="supplierId" value="${supplierId}" type="hidden">
