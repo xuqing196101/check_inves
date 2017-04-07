@@ -85,7 +85,7 @@
     		}else if(count==1){
     			index = layer.open({
     		          type: 2, //page层
-    		         area: ['50px', '300px'],
+    		         area: ['500px', '300px'],
     		          title: '修改',
     		          shade:0.01, //遮罩透明度
     		          moveType: 1, //拖拽风格，0是默认，1是传统拖动
