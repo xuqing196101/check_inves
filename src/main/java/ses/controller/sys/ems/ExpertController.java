@@ -436,54 +436,58 @@ public class ExpertController extends BaseController {
         List<ExpertTitle> ecoList=new ArrayList<ExpertTitle>();
         	boolean bool=false;
         	boolean boo2=false;
-		    String id= expert.getExpertsTypeId();
-		    String[] ids = id.split(",");
-			String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
-			String pId = DictionaryDataUtil.getId("PROJECT");
-	
-		    for(String i:ids){
-		    	//工程技术
-		    	if(pId.equals(i)){
-		    		proList=expertTitleService.queryByUserId(expert.getId(),i);
-		    		  ExpertTitle et=new ExpertTitle();
-		  		    if(proList!=null&&proList.size()<1){
-		  	        	  et.setQualifcationTitle(expert.getProfessional());
-		  	        	  et.setTitleTime(expert.getTimeProfessional());
-		  	        	  et.setExpertId(expert.getId());
-		  	        	  et.setId(expert.getId()); 
-		  	        	  proList.add(et);
-		  	        }
-		    		boo2=true;
-		    	}
-		    	//工程经济
-		    	if(gpId.equals(i)){
-		    		ecoList=expertTitleService.queryByUserId(expert.getId(),i);
-		    		  ExpertTitle et=new ExpertTitle();
-		  		      if(proList!=null&&ecoList.size()<1){
-		  	        	  et.setQualifcationTitle(expert.getProfessional());
-		  	        	  et.setTitleTime(expert.getTimeProfessional());
-		  	        	  et.setExpertId(expert.getId());
-		  	        	  et.setId(expert.getId()); 
-		  	        	  ecoList.add(et);
-		  	        }
-		    		 bool=true;
-		    	}
-		    	
-		    }
-        	 if(bool!=true){
-        		 ExpertTitle et1=new ExpertTitle();
-        		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
-        		 et1.setId(uid);
-        		 et1.setExpertId(expert.getId());
-        		 ecoList.add(et1);
-        	 }
-        	 if(boo2!=true){
-        		 ExpertTitle et1=new ExpertTitle();
-        		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
-        		 et1.setId(uid);
-        		 et1.setExpertId(expert.getId());
-        		 proList.add(et1);
-        	 }
+   		   String id= expert.getExpertsTypeId();
+        	if(id!=null){
+        
+     		    String[] ids = id.split(",");
+     			String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
+     			String pId = DictionaryDataUtil.getId("PROJECT");
+     	
+     		    for(String i:ids){
+     		    	//工程技术
+     		    	if(pId.equals(i)){
+     		    		proList=expertTitleService.queryByUserId(expert.getId(),i);
+     		    		  ExpertTitle et=new ExpertTitle();
+     		  		    if(proList!=null&&proList.size()<1){
+     		  	        	  et.setQualifcationTitle(expert.getProfessional());
+     		  	        	  et.setTitleTime(expert.getTimeProfessional());
+     		  	        	  et.setExpertId(expert.getId());
+     		  	        	  et.setId(expert.getId()); 
+     		  	        	  proList.add(et);
+     		  	        }
+     		    		boo2=true;
+     		    	}
+     		    	//工程经济
+     		    	if(gpId.equals(i)){
+     		    		ecoList=expertTitleService.queryByUserId(expert.getId(),i);
+     		    		  ExpertTitle et=new ExpertTitle();
+     		  		      if(proList!=null&&ecoList.size()<1){
+     		  	        	  et.setQualifcationTitle(expert.getProfessional());
+     		  	        	  et.setTitleTime(expert.getTimeProfessional());
+     		  	        	  et.setExpertId(expert.getId());
+     		  	        	  et.setId(expert.getId()); 
+     		  	        	  ecoList.add(et);
+     		  	        }
+     		    		 bool=true;
+     		    	}
+     		    	
+     		    }
+             	 if(bool!=true){
+             		 ExpertTitle et1=new ExpertTitle();
+             		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
+             		 et1.setId(uid);
+             		 et1.setExpertId(expert.getId());
+             		 ecoList.add(et1);
+             	 }
+             	 if(boo2!=true){
+             		 ExpertTitle et1=new ExpertTitle();
+             		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
+             		 et1.setId(uid);
+             		 et1.setExpertId(expert.getId());
+             		 proList.add(et1);
+             	 }
+        	}
+		   
 //        	 expert.setTitles(proList);
 			 model.addAttribute("ecoList", ecoList);
 			 model.addAttribute("proList", proList);
