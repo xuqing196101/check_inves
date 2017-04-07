@@ -169,7 +169,7 @@ public class SynchExportController {
         if (synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)) {
         	outerExpertService.backupCreated(startTime, endTime);
         }
-       /* if(synchType.contains(Constant.DATE_SYNCH_BIDDING_PRODUCT)){
+        if(synchType.contains(Constant.DATE_SYNCH_BIDDING_PRODUCT)){
         	//竞价定型产品导出
         	OBProductService.exportProduct(startTime, endTime, date);
         }
@@ -177,17 +177,18 @@ public class SynchExportController {
         	//竞价特殊日期导出
         	OBSpecialDateServer.exportSpecialDate(startTime, endTime, date);
         }
-        if(synchType.contains(Constant.DATE_SYNCH_BIDDING_SPECIAL_DATE)){
+        if(synchType.contains(Constant.DATE_SYNCH_BIDDING_SUPPLIER)){
         	//竞价供应商导出
         	OBSupplierService.exportSupplier(startTime, endTime, date);
         }
-        if(synchType.contains(Constant.DATE_SYNCH_BIDDING_SPECIAL_DATE)){
+        if(synchType.contains(Constant.DATA_TYPE_BIDDING_CODE)){
         	//竞价信息导出
         	OBProjectServer.exportProject(startTime, endTime, date);
         }
-        if(synchType.contains(Constant.DATE_SYNCH_BIDDING_SPECIAL_DATE)){
+        if(synchType.contains(Constant.DATA_TYPE_BIDDING_RESULT_CODE)){
         	//竞价结果导出
-        }*/
+        	OBProjectServer.exportProjectResult(startTime, endTime, date);
+        }
         bean.setSuccess(true);
         return bean;
     }

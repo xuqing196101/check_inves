@@ -104,6 +104,7 @@
    i.SUPPLIER_ID from T_BSS_OB_RESULTS_INFO i,T_BSS_OB_PRODUCT p
     where i.PRODUCT_ID=p.id and  i.PROJECT_ID = #{projectId,jdbcType=VARCHAR}
      and i.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
+     ORDER BY i.PRODUCT_ID
   </select>  
    <!-- 根据 竞价id 获取竞价 成交金额 -->
   <select id="getDealMoney" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -342,6 +343,7 @@ ORDER BY CREATED_AT) where rownum=1)
 	  FROM T_BSS_OB_RESULTS_INFO R
 	 	WHERE R.PROJECT_ID = #{projectId}
 	   AND R.SUPPLIER_ID = #{supplierId}
+	   ORDER BY R.PRODUCT_ID
   </select>
   
   

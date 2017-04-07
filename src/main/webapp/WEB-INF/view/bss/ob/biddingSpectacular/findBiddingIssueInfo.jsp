@@ -24,6 +24,7 @@
     function showPrompt(id,selectID){
    		  if(id){
    		  $.ajax({
+                async: false,
 				url: "${pageContext.request.contextPath }/product/productType.do",
 				type: "POST",
 				data: {productId:id},
@@ -79,7 +80,6 @@
 		    	<table class="table table-bordered table-condensed table-hover table-striped">
 				<thead>
 				<tr>
-				  <th class="w30 info"><input alt="" type="checkbox"></th>
 				  <th class="info">序号</th>
 				  <th class="info" width="25%">定型产品名称</th>
 				  <th class="info">限价（元）</th>
@@ -89,12 +89,13 @@
 				</tr>
 				</thead>
 				<tr>
-				  <td class="tc" colspan="2">合计</td>
-				  <td class="tc" colspan="5">${ totalCountPriceBigDecimal }</td>
+                  <td></td>
+				  <td class="tc" colspan="3">合计</td>
+				  <td class="tc"><b>${ totalCountPriceBigDecimal }</b></td>
+                  <td></td>
 				</tr>
 				<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
 					<tr>
-					  <td class="tc"><input type="checkbox" alt=""></td>
 					  <td class="tc">${ vs.index+1 }</td>
 					  <td class="tc" id="t_${productInfo.id}" onmousemove="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')">${ productInfo.obProduct.name }</td >
 					  <td class="tc">${ productInfo.limitedPrice }</td>

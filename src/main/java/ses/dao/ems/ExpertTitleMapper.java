@@ -78,5 +78,6 @@ public interface ExpertTitleMapper {
      */
     public void deleteById(@Param("id")String id);
     
+    void deleteExpertType(@Param("expertId")String expertId,@Param("expertTypeId")String typeId);
     
 }

@@ -35,6 +35,8 @@ $(function() {
 
 //重置
 function resetQuery() {
+	$("[name='name']").val("");
+	$("[name='status']").val(0);
 	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 }
 
@@ -130,7 +132,7 @@ function openViewDIvs(id){
 			</select>
 		</li>
 		<button type="submit" class="btn">查询</button>
-		<button type="reset" class="btn" onclick="resetQuery()">重置</button>  	
+		<button type="reset1" class="btn" onclick="resetQuery()">重置</button>  	
 		</ul>
     	  <div class="clear"></div>
        </form>
@@ -144,7 +146,6 @@ function openViewDIvs(id){
     	<table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
-		<th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
 		  <th class="info">供应商名称</th>
 		  <th class="info">产品目录（末节点）</th>
@@ -155,7 +156,6 @@ function openViewDIvs(id){
 		</thead>
 		<c:forEach items="#{info.list}" var="supplier" varStatus="vs">
 			<tr>
-				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${supplier.id }" /></td>
 				<td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 				<td class="tl">${supplier.supplier.supplierName }</td>
 				<td class="tc" title = "${supplier.pointsName }">${supplier.smallPoints.name }</td>

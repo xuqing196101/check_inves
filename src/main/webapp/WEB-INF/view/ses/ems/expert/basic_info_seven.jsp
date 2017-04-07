@@ -329,6 +329,7 @@
             layer.msg("已暂存");
         }
         function checks(obj){
+        	 var expertId=$("#id").val();
         	$("input[name='chkItem_1']").each(function() {
         		var val=$(this).parent().text();
             	if(val.trim()=="工程技术"){	
@@ -348,6 +349,7 @@
             		
                     //   $("#tab_div").attr("class", "container");
                  }else {
+                	 cacel(expertId,$(this).val());
                 	 flag=false;
                 		$("#server_div").hide();
                 		$("input[name='chkItem_2']").each(function() {
@@ -377,6 +379,7 @@
                 		});
                       	
                       } else {
+                    	  cacel(expertId,$(this).val());
                     		$("#pro_div").hide();
                     		$("input[name='chkItem_1']").each(function() {
                         		var val=$(this).parent().text();
@@ -400,16 +403,25 @@
         	
         }
         
-        function addPractice(){
-        	var detailRow = $("#production_div").find("li");
+        function addPractice(val){
+        	var detailRow = $("#server_div").find("li");
 			var index = (detailRow.length+1)/4-1;
+			if(val=="2"){
+				var detailRow = $("#pro_div").find("li");
+				  index = detailRow.length/4;
+			}
 			var id=$("#id").val();
 			$.ajax({
 				url: "${pageContext.request.contextPath}/expert/practice.do",
 				type: "post",
-				data:{"index":index,"expertId":id},
+				data:{"index":index,"expertId":id,"type":val},
 				success: function(data) {
-					$("#addUl").append(data);
+					if(val==2){
+						$("#jingji_ul").append(data);
+						
+					}else{
+						$("#addUl").append(data);
+					}
 					init_web_upload();
 				}
 			});
@@ -440,6 +452,18 @@
         	 $.ajax({
                  url: "${pageContext.request.contextPath}/expert/addprofessional.do",
                  data: $("#formExpert").serialize(),
+                 type: "post",
+                 async: true,
+                 success: function (result) {
+                     //layer.msg("已暂存",{offset: ['300px', '750px']});
+                 }
+             });
+        }
+        
+        function cacel(expterId,expertTypeId){
+        	 $.ajax({
+                 url: "${pageContext.request.contextPath}/expert/deleteExperType.do",
+                 data: {"expertId":expterId,"expertTypeId":expertTypeId},
                  type: "post",
                  async: true,
                  success: function (result) {
@@ -553,7 +577,7 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
 					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 						<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-							<input type="button" onclick="addPractice()" class="btn list_btn" value="十" />
+							<input type="button" onclick="addPractice(1)" class="btn list_btn" value="十" />
 							<input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
 								<input type="hidden" name="titles[${vs.index }].id" value="${t.id}" />
 								<input type="hidden" name="titles[${vs.index }].expertId" value="${t.expertId}" />
@@ -566,7 +590,7 @@
 		 			</div>	
 		 			
 	 <div class="tab-pane fades active in" style="display: none;" id="pro_div">
-		<ul class="list-unstyled f14" id="addUl">
+		<ul class="list-unstyled f14" id="jingji_ul">
 		<c:forEach items="${ecoList}" var="t"  varStatus="vs" >
 		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> <!--/执业资格  -->
@@ -607,7 +631,7 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
 					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 						<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-							<input type="button" onclick="addPractice()" class="btn list_btn" value="十" />
+							<input type="button" onclick="addPractice(2)" class="btn list_btn" value="十" />
 							<input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
 								<input type="hidden" name="ecoList[${vs.index }].id" value="${t.id}" />
 								<input type="hidden" name="ecoList[${vs.index }].expertId" value="${t.expertId}" />

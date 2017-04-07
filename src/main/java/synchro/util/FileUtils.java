@@ -84,6 +84,10 @@ public class FileUtils {
     public final static String C_OB_SUPPLIER_FILENAME="_c_ob_supplier.dat";
     /**竞价 供应商数据修改名称**/
     public final static String M_OB_SUPPLIER_FILENAME="_m_ob_supplier.dat";
+    /**竞价 信息文件名称**/
+    public final static String C_OB_PROJECT_FILE_FILENAME="_c_ob_project_file.dat";
+    /**竞价信息 非暂存 数据名称**/
+    public final static String C_OB_PROJECT_STATUS_FILENAME="_c_ob_project_status.dat";
     
     /**
      * 
@@ -235,7 +239,7 @@ public class FileUtils {
         return file;
     }
     /**
-     * 根据传参导出相关的文件
+     * 根据传参导出相关的数据文件
      * @author YangHongLiang
      * @param fileNameType 导出文件名称
      * @param key 对应封装集合

@@ -436,54 +436,58 @@ public class ExpertController extends BaseController {
         List<ExpertTitle> ecoList=new ArrayList<ExpertTitle>();
         	boolean bool=false;
         	boolean boo2=false;
-		    String id= expert.getExpertsTypeId();
-		    String[] ids = id.split(",");
-			String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
-			String pId = DictionaryDataUtil.getId("PROJECT");
-	
-		    for(String i:ids){
-		    	//工程技术
-		    	if(pId.equals(i)){
-		    		proList=expertTitleService.queryByUserId(expert.getId(),i);
-		    		  ExpertTitle et=new ExpertTitle();
-		  		    if(proList!=null&&proList.size()<1){
-		  	        	  et.setQualifcationTitle(expert.getProfessional());
-		  	        	  et.setTitleTime(expert.getTimeProfessional());
-		  	        	  et.setExpertId(expert.getId());
-		  	        	  et.setId(expert.getId()); 
-		  	        	  proList.add(et);
-		  	        }
-		    		boo2=true;
-		    	}
-		    	//工程经济
-		    	if(gpId.equals(i)){
-		    		ecoList=expertTitleService.queryByUserId(expert.getId(),i);
-		    		  ExpertTitle et=new ExpertTitle();
-		  		      if(proList!=null&&ecoList.size()<1){
-		  	        	  et.setQualifcationTitle(expert.getProfessional());
-		  	        	  et.setTitleTime(expert.getTimeProfessional());
-		  	        	  et.setExpertId(expert.getId());
-		  	        	  et.setId(expert.getId()); 
-		  	        	  ecoList.add(et);
-		  	        }
-		    		 bool=true;
-		    	}
-		    	
-		    }
-        	 if(bool!=true){
-        		 ExpertTitle et1=new ExpertTitle();
-        		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
-        		 et1.setId(uid);
-        		 et1.setExpertId(expert.getId());
-        		 ecoList.add(et1);
-        	 }
-        	 if(boo2!=true){
-        		 ExpertTitle et1=new ExpertTitle();
-        		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
-        		 et1.setId(uid);
-        		 et1.setExpertId(expert.getId());
-        		 proList.add(et1);
-        	 }
+   		   String id= expert.getExpertsTypeId();
+        	if(id!=null){
+        
+     		    String[] ids = id.split(",");
+     			String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
+     			String pId = DictionaryDataUtil.getId("PROJECT");
+     	
+     		    for(String i:ids){
+     		    	//工程技术
+     		    	if(pId.equals(i)){
+     		    		proList=expertTitleService.queryByUserId(expert.getId(),i);
+     		    		  ExpertTitle et=new ExpertTitle();
+     		  		    if(proList!=null&&proList.size()<1){
+     		  	        	  et.setQualifcationTitle(expert.getProfessional());
+     		  	        	  et.setTitleTime(expert.getTimeProfessional());
+     		  	        	  et.setExpertId(expert.getId());
+     		  	        	  et.setId(expert.getId()); 
+     		  	        	  proList.add(et);
+     		  	        }
+     		    		boo2=true;
+     		    	}
+     		    	//工程经济
+     		    	if(gpId.equals(i)){
+     		    		ecoList=expertTitleService.queryByUserId(expert.getId(),i);
+     		    		  ExpertTitle et=new ExpertTitle();
+     		  		      if(proList!=null&&ecoList.size()<1){
+     		  	        	  et.setQualifcationTitle(expert.getProfessional());
+     		  	        	  et.setTitleTime(expert.getTimeProfessional());
+     		  	        	  et.setExpertId(expert.getId());
+     		  	        	  et.setId(expert.getId()); 
+     		  	        	  ecoList.add(et);
+     		  	        }
+     		    		 bool=true;
+     		    	}
+     		    	
+     		    }
+             	 if(bool!=true){
+             		 ExpertTitle et1=new ExpertTitle();
+             		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
+             		 et1.setId(uid);
+             		 et1.setExpertId(expert.getId());
+             		 ecoList.add(et1);
+             	 }
+             	 if(boo2!=true){
+             		 ExpertTitle et1=new ExpertTitle();
+             		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
+             		 et1.setId(uid);
+             		 et1.setExpertId(expert.getId());
+             		 proList.add(et1);
+             	 }
+        	}
+		   
 //        	 expert.setTitles(proList);
 			 model.addAttribute("ecoList", ecoList);
 			 model.addAttribute("proList", proList);
@@ -3230,7 +3234,7 @@ public class ExpertController extends BaseController {
             
             // 图片前缀路径
             String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
-              + "/" + request.getContextPath()+"/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+              + request.getContextPath()+"/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
             
             System.out.println(host+"*********");
         	dataMap.put("image",host);
@@ -3284,8 +3288,8 @@ public class ExpertController extends BaseController {
         	if(id.equals(gpId)){
         		expertTypeId=gpId;
         	}
-        	if(id.equals(gpId)){
-        		expertTypeId=gpId;
+        	if(id.equals(pId)){
+        		expertTypeId=pId;
         	}
         }
        
@@ -4308,7 +4312,7 @@ public class ExpertController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/practice")
-	public ModelAndView createNewPage(String index,String expertId){
+	public ModelAndView createNewPage(String index,String expertId,String type){
 		ModelAndView modelAndView=new ModelAndView("ses/ems/expert/expert_type");
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
@@ -4316,7 +4320,15 @@ public class ExpertController extends BaseController {
 		modelAndView.addObject("index", index);
 		modelAndView.addObject("expertId", expertId);
 		modelAndView.addObject("expertKey", expertKey);
-		return modelAndView;
+		ModelAndView modelAndView2=new ModelAndView("ses/ems/expert/expert_jingji");
+		if(type.equals("2")){
+			modelAndView2.addObject("id", id);
+			modelAndView2.addObject("index", index);
+			modelAndView2.addObject("expertId", expertId);
+			modelAndView2.addObject("expertKey", expertKey);
+			return modelAndView2;
+		}
+		 return modelAndView;
 	}
 	
 	/**
@@ -4370,6 +4382,12 @@ public class ExpertController extends BaseController {
 		return "";
 	}
 	
-	
+	@RequestMapping("deleteExperType")
+	@ResponseBody
+	public String deleleExpterType(String expertId,String expertTypeId){
+		
+		expertTitleService.deleteExpertType(expertId, expertTypeId);
+		return "";
+	}
 	
 }

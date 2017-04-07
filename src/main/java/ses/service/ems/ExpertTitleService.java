@@ -26,4 +26,6 @@ public interface ExpertTitleService {
 	public void addBatch(List<ExpertTitle> list,String typeId);
 	
 	public void deleteById(String id);
+	
+	public void deleteExpertType(String expertId,String expertTypeId);
 }

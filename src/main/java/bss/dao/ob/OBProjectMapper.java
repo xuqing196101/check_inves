@@ -79,4 +79,18 @@ public interface OBProjectMapper {
 	 * @exception
 	 */
 	Integer selOfferSupplierNum(@Param("projectId") String projectId,@Param("smallPointsId") String smallPointsId);
+	/**
+	 * 获取时间范围的 获取非暂存 信息
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<OBProject> selectByCreateDate(@Param("start")String start,@Param("end")String end);
+	/**
+	 * 获取时间范围的 竞价结束和竞价流拍 信息
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<OBProject> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
 }

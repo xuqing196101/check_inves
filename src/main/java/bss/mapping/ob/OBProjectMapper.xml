@@ -29,7 +29,7 @@
      <result column="PROJECT_NUMBER" property="projectNumber" jdbcType="DECIMAL" />
      <result column="IS_DELETE" property="isDelete" jdbcType="DECIMAL" />
      <result column="TRANSPORT_FEES_PRICE" property="transportFeesPrice" jdbcType="DECIMAL" />
-    <association property="obRule" column="RULE_ID" select="bss.dao.ob.OBRuleMapper.selectByPrimaryKey" />
+    <association property="obProjectRule" column="ID" select="bss.dao.ob.OBProjectRuleMapper.selectByPrimaryKey" />
     
   </resultMap>
     <resultMap id="ProjectResultMap"  extends="BaseResultMap" type="bss.model.ob.OBProject">
@@ -45,7 +45,35 @@
     	<result column="pcreaterId" property="remark" jdbcType="VARCHAR" />
 	</collection> 
   </resultMap>
-  
+  <resultMap id="BaseResultItemMap" type="bss.model.ob.OBProject" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DELIVERY_DEADLINE" property="deliveryDeadline" jdbcType="TIMESTAMP" />
+    <result column="DELIVERY_ADDRESS" property="deliveryAddress" jdbcType="VARCHAR" />
+    <result column="TRADED_SUPPLIER_COUNT" property="tradedSupplierCount" jdbcType="DECIMAL" />
+    <result column="TRANSPORT_FEES" property="transportFees" jdbcType="VARCHAR" />
+    <result column="DEMAND_UNIT" property="demandUnit" jdbcType="VARCHAR" />
+    <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="ATTACHMENT_ID" property="attachmentId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
+    <result column="FORM_ID" property="formId" jdbcType="VARCHAR" />
+    <result column="TURNOVER_RATION" property="turnoverRation" jdbcType="DECIMAL" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="CONTACT_TEL" property="contactTel" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="ORG_CONTACT_NAME" property="orgContactName" jdbcType="VARCHAR" />
+    <result column="ORG_CONTACT_TEL" property="orgContactTel" jdbcType="VARCHAR" />
+    <result column="RULE_ID" property="ruleId" jdbcType="VARCHAR" />
+     <result column="PROJECT_NUMBER" property="projectNumber" jdbcType="DECIMAL" />
+     <result column="IS_DELETE" property="isDelete" jdbcType="DECIMAL" />
+     <result column="TRANSPORT_FEES_PRICE" property="transportFeesPrice" jdbcType="DECIMAL" />
+  </resultMap>
   <!--- 根据参数 获取竞价信息  -->  
    <select id="selectData" parameterType="Map" resultMap="BaseResultMap">  
     select <include refid="Base_Column_List" />
@@ -82,7 +110,7 @@
     from T_BSS_OB_PROJECT p LEFT JOIN T_BSS_OB_PRODUCT_INFO i on p.id=i.PROJECT_ID
       where  p.CREATER_ID=#{userId,jdbcType=VARCHAR} and p.IS_DELETE=0
     and p.ID = #{id,jdbcType=VARCHAR}
-      	ORDER BY p.CREATED_AT DESC
+      	ORDER BY p.CREATED_AT DESC,i.PRODUCT_ID
   </select> 
   <sql id="Example_Where_Clause" >
     <where >
@@ -631,6 +659,17 @@
 			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
 		</if>
   </select>
-  
+  <!-- 根据时间范围 获取 非暂存的竞价 数据 -->
+  <select id="selectByCreateDate" parameterType="String" resultMap="BaseResultMap" >
+    select * from T_BSS_OB_PROJECT where STATUS!=0 and 
+    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+  </select>
+   <!-- 根据时间范围 获取修改 竞价是竞价结束 和竞价流拍 -->
+  <select id="selectByUpdateDate" parameterType="String" resultMap="BaseResultItemMap" >
+    select * from T_BSS_OB_PROJECT where STATUS=3 and STATUS=4 and 
+    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+  </select>
   
 </mapper>

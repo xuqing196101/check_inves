@@ -50,11 +50,15 @@ public class Constant {
     
     public final static String DATA_TYPE_EXPERT_CODE = "SYNCH_EXPERT";
     
-    /**
-     *  竞价信息
-     */
+    /**竞价信息**/
     public final static String DATA_TYPE_BIDDING_CODE="SYNCH_BIDDING";
+    /** 竞价 信息描述 **/
+    public final static String OB_PROJECT_COMMIT = "导出竞价信息数量:";
     
+    /**竞价结果**/
+    public final static String DATA_TYPE_BIDDING_RESULT_CODE="SYNCH_BIDDING_RESULT";
+    /**竞价结果描述**/
+    public final static String OB_RESULT_COMMIT="导出竞价结果数量:";
     /** 竞价 定型产品信息描述 **/
     public final static String PRODUCT_COMMIT = "导出竞价定型产品数量:";
     /**竞价 定型产品信息**/
