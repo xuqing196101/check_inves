@@ -693,6 +693,10 @@ width: 780px!important; }
   display: none; }
 .block {
   display: block; }
+  
+.inline-block {
+  display: inline-block; 
+}
 
 .pointer {
   cursor: pointer; }
@@ -727,6 +731,9 @@ border:1px solid #eeeeee;
   
 .lh30 {
   line-height: 30px; }
+  
+.lh35 {
+  line-height: 35px; }
 
 .lh80 {
   line-height: 80px; }

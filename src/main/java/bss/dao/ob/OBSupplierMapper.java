@@ -198,4 +198,10 @@ public interface OBSupplierMapper {
 	 * @return
 	 */
 	List<OBSupplier> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
+	/**
+	 * 根据id 查询数量
+	 * @param id
+	 * @return
+	 */
+	Integer countById(@Param("id")String id);
 }

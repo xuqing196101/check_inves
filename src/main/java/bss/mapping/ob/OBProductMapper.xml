@@ -312,7 +312,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  
+  <!-- 根据id查询数量 -->
+   <select id="countById" parameterType="String" resultType="java.lang.Integer" >
+    select count(*) from T_BSS_OB_PRODUCT
+    where id=#{id,jdbcType=VARCHAR},
+  </select>
   
   <update id="updateByExampleSelective" parameterType="map" >
     update T_BSS_OB_PRODUCT
@@ -538,7 +542,7 @@
     	AND NAME like '%'||#{name}||'%'
     </if>
     <if test="smallPointsId != null and smallPointsId != ''" >
-        AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR},
+        AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
      </if>
     ORDER BY CREATED_AT DESC
   </select>

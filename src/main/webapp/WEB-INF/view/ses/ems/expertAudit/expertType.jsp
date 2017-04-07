@@ -32,9 +32,9 @@
 			});
 			
 			//类型审核
-			function reason(auditField,auditContent){
+			function reason(auditFieldId,auditContent){
 			  var expertId = $("#expertId").val();		
-			  var appear = auditField + "_show";
+			  var appear = auditFieldId + "_show";
 				var index = layer.prompt({
 			    title : '请填写不通过的理由：', 
 			    formType : 2, 
@@ -45,7 +45,7 @@
 				      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 				      type:"post",
 				      dataType:"json",
-				      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField,
+				      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditContent +"&auditFieldId="+ auditFieldId,
 				      success:function(result){
 				        result = eval("(" + result + ")");
 				        if(result.msg == "fail"){
@@ -168,10 +168,10 @@
 				 var expertId = $("#expertId").val();
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expertAudit/showModify.do",
-					data: {"expertId":expertId, "content":field, "relationId":id},
+					data: {"expertId":expertId, "field":field, "relationId":id},
 					async: false,
 					success: function(result) {
-						layer.tips("修改前:" + result, "#" + field, {
+						layer.tips("修改前:" + result, "#" + id + "_" + field, {
 							tips: 3
 						});
 					}

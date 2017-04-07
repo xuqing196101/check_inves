@@ -114,8 +114,10 @@ public class OBProductController {
 							str += category.getName() +"/";
 						}
 					}
-					str+=oBProduct.getSmallPoints().getName();
-					oBProduct.setPointsName(str);
+					if(oBProduct.getSmallPoints() != null){
+						str+=oBProduct.getSmallPoints().getName();
+						oBProduct.setPointsName(str);
+					}
 				}
 			}
 		}
@@ -313,8 +315,10 @@ public class OBProductController {
 						}
 						
 					}
-					str+=obSupplier.getSmallPoints().getName();
-					obSupplier.setPointsName(str);
+					if(obSupplier.getSmallPoints() != null){
+						str+=obSupplier.getSmallPoints().getName();
+						obSupplier.setPointsName(str);
+					}
 				}
 			}
 		}
@@ -787,8 +791,10 @@ public class OBProductController {
 							str += categorys.getName() +"/";
 						}
 					}
-					str+=obProduct.getSmallPoints().getName();
-					obProduct.setPointsName(str);
+					if(obProduct.getSmallPoints() != null){
+						str+=obProduct.getSmallPoints().getName();
+						obProduct.setPointsName(str);
+					}
 				}
 			}
 		model.addAttribute("obProduct", obProduct);
@@ -853,8 +859,10 @@ public class OBProductController {
 							str += category.getName() +"/";
 						}
 					}
-					str+=oBProduct.getSmallPoints().getName();
-					oBProduct.setPointsName(str);
+					if(oBProduct.getSmallPoints() != null){
+						str+=oBProduct.getSmallPoints().getName();
+						oBProduct.setPointsName(str);
+					}
 				}
 			}
 		}

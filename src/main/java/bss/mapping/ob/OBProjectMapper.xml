@@ -427,6 +427,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <!--根据id 获取竞价 数量 -->
+   <select id="countById" parameterType="String" resultType="java.lang.Integer" >
+    select count(*) from T_BSS_OB_PROJECT
+    where id=#{id,jdbcType=VARCHAR}
+  </select>
   <!-- 根据日期查出当前创建竞价数量 -->
    <select id="countByDate" parameterType="java.lang.String" resultType="java.lang.Integer" >
     select count(id) from T_BSS_OB_PROJECT
@@ -667,7 +672,7 @@
   </select>
    <!-- 根据时间范围 获取修改 竞价是竞价结束 和竞价流拍 -->
   <select id="selectByUpdateDate" parameterType="String" resultMap="BaseResultItemMap" >
-    select * from T_BSS_OB_PROJECT where STATUS=3 and STATUS=4 and 
+    select * from T_BSS_OB_PROJECT where (STATUS=3 or STATUS=4) and 
     to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
     and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
   </select>

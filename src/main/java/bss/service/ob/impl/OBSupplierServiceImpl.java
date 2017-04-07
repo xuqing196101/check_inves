@@ -1,5 +1,6 @@
 package bss.service.ob.impl;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import bss.dao.ob.OBSupplierMapper;
+import bss.model.ob.OBSpecialDate;
 import bss.model.ob.OBSupplier;
 import bss.service.ob.OBSupplierService;
 
@@ -117,17 +119,39 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 		if(createlist!=null&& createlist.size()>0){
 			sum=sum+createlist.size();
 			//生成json 并保存
-			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_OB_SUPPLIER_FILENAME, 5),JSON.toJSONString(createlist));
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_OB_SUPPLIER_FILENAME, 8),JSON.toJSONString(createlist));
 		}
 		if(updatelist!=null&&updatelist.size()>0){
 			sum=sum+updatelist.size();
 			//生成json 并保存
-			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.M_OB_SUPPLIER_FILENAME, 5),JSON.toJSONString(updatelist));
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.M_OB_SUPPLIER_FILENAME, 8),JSON.toJSONString(updatelist));
 			
 		}
 		//供应商数据只需导出数据即可 不用导出 附件 只是内网导出数据
 		SynchRecordService.synchBidding(synchDate, sum+"", synchro.util.Constant.DATE_SYNCH_BIDDING_SUPPLIER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.OB_SUPPLIER_COMMIT);
 		boo=true;
+		return boo;
+	}
+    /**
+     * 导入竞价供应商数据
+     */
+	@Override
+	public boolean importSupplier(File file) {
+		// TODO Auto-generated method stub
+		boolean boo=false;
+		 List<OBSupplier> list = FileUtils.getBeans(file, OBSupplier.class); 
+	        if (list != null && list.size() > 0){
+	        	for (OBSupplier item : list) {
+	        	Integer count=	oBSupplierMapper.countById(item.getId());
+	        	  if(count==0){
+	        		  oBSupplierMapper.insertSelective(item);
+	        	  }else{
+	        		  oBSupplierMapper.updateByPrimaryKeySelective(item);
+	        	  }
+				}
+	        	SynchRecordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.DATE_SYNCH_BIDDING_SUPPLIER, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.OB_SUPPLIER_COMMIT_IMPORT);
+	        }
+	        boo=true;
 		return boo;
 	}
 }

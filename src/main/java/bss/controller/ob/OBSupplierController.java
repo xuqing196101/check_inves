@@ -180,8 +180,10 @@ public class OBSupplierController  {
 						}
 						
 					}
-					str+=obSupplier.getSmallPoints().getName();
-					obSupplier.setPointsName(str);
+					if(obSupplier.getSmallPoints() != null){
+						str+=obSupplier.getSmallPoints().getName();
+						obSupplier.setPointsName(str);
+					}
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 		<li class="col-md-3 col-sm-6 col-xs-12 pl">
-			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> 
+			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> 
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
              
                         <input    value="${expertId }"  name="titles[${index }].expertId"  type="hidden"/>
@@ -10,7 +10,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
-                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 执业资格</span>
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">*</i>执业资格</span>
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
@@ -21,7 +21,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
-                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得执业资格时间</span>
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>取得执业资格时间</span>
                     <!--/职业资格时间  -->
                     <div  class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input onblur="tempSave()"   readonly="readonly" name="titles[${index}].titleTime" value=""   type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> 

@@ -18,7 +18,7 @@
     select 
     <include refid="baseExpertSql"/>
     from T_SES_EMS_EXPERT_CATEGORY
-    where LEVELS = '1' AND EXPERT_ID = #{param1,jdbcType=VARCHAR}
+    where   EXPERT_ID = #{param1,jdbcType=VARCHAR}
     <if test="param2 != null">
     and TYPE_ID = #{param2,jdbcType=VARCHAR}
     </if>

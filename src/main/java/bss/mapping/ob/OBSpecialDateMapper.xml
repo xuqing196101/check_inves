@@ -181,6 +181,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="countById" parameterType="String" resultType="java.lang.Integer" >
+    select count(*) from T_BSS_OB_SPECIAL_DATE
+    where id=#{id,jdbcType=VARCHAR}
+  </select>
+  
   <update id="updateByExampleSelective" parameterType="map" >
     update T_BSS_OB_SPECIAL_DATE
     <set >

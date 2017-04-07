@@ -1,5 +1,6 @@
 package bss.service.ob;
 
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -15,4 +16,10 @@ public interface OBSpecialDateServer {
 	 * @return
 	 */
     boolean exportSpecialDate(String startTime,String endTime,Date synchDate);
+    /**
+     * 导入特殊日期
+     * @param file
+     * @return
+     */
+    boolean importSpecialDate(File file);
 }

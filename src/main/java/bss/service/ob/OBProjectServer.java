@@ -1,5 +1,6 @@
 package bss.service.ob;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -158,6 +159,19 @@ public interface OBProjectServer {
 	 */
 	boolean exportProject(String start,String end,Date synchDate);
 	/**
+	 * 导入 竞价信息 文件数据
+	 * @author YangHongLiang
+	 * @param file
+	 * @return
+	 */
+	boolean importProject(File file);
+	/**
+	 * 导入 竞价信息 文件
+	 * @param file
+	 * @return
+	 */
+	boolean importProjectFile(File file);
+	/**
 	 * 导出竞价结果相关数据
 	 * @author YangHongLiang
 	 * @param start
@@ -166,5 +180,12 @@ public interface OBProjectServer {
 	 * @return
 	 */
 	boolean exportProjectResult(String start,String end,Date synchDate);
+	/**
+	 * 导入竞价结果数据
+	 * @author YangHongLiang
+	 * @param file
+	 * @return
+	 */
+	boolean importProjectResult(File file);
 
 }

@@ -553,6 +553,9 @@
 			}
 		}
 		var supplierCount='${supplierCount}';
+		 if(!supplierCount){
+		 supplierCount=0;
+		 }
 		var gyscount=$('#gys_count').html();
 		 if(parseInt(supplierCount)>parseInt(gyscount)){
 		    show("提供当前产品的供应商不能少于"+supplierCount+"家");

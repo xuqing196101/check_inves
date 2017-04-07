@@ -244,6 +244,18 @@ public class ExpertAuditController{
 	 */
 	@RequestMapping("/basicInfo")
 	public String basicInfo(Expert expert, Model model, Integer pageNum, String expertId, Integer sign) {
+		/**
+		 * 退回修改后对比历史记录
+		 */
+		ExpertEngHistory expertEngHistory = new ExpertEngHistory ();
+		expertEngHistory.setExpertId(expertId);
+		//先删除
+		expertEngModifySerivce.deleteByExpertId(expertEngHistory);
+		//插入对比后的
+		expertEngModifySerivce.insertSelective(expertEngHistory);
+		
+		
+		
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
 		
@@ -1081,14 +1093,14 @@ public class ExpertAuditController{
 		
 		String type = expert.getExpertsTypeId();
 
-		//工程下的执业资格
+		/*//工程下的执业资格
 		for(DictionaryData d : spList){
 			if(d.getCode().equals("PROJECT")){
 				if(type.contains(d.getId())){
 					model.addAttribute("isProject", "project");
 				}
 			}
-		}
+		}*/
 		
 		/**
 		 * 修改前的专家类型
@@ -1166,10 +1178,27 @@ public class ExpertAuditController{
 		
 		
 		
-		//执业资格模块
-		List<ExpertTitle> expertTitleList = expertTitleService.queryByUserId(expertId,null);
-		model.addAttribute("expertTitleList", expertTitleList);
+		/**
+		 * 执业资格模块
+		 */
 		
+		List<ExpertTitle> expertTitleList = new ArrayList<>();
+
+		//工程技术
+		String engCodeId = DictionaryDataUtil.getId("PROJECT");
+		
+		//工程经济
+		String goodsProjectId = DictionaryDataUtil.getId("GOODS_PROJECT");
+		
+		if(expert.getExpertsTypeId().contains(engCodeId)){
+			expertTitleList = expertTitleService.queryByUserId(expertId,engCodeId);	
+			model.addAttribute("isProject", "project");
+		}
+		if(expert.getExpertsTypeId().contains(goodsProjectId)){
+			expertTitleList = expertTitleService.queryByUserId(expertId,goodsProjectId);	
+			model.addAttribute("isProject", "project");
+		}
+		model.addAttribute("expertTitleList", expertTitleList);
 		
 		// 专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
@@ -1327,7 +1356,7 @@ public class ExpertAuditController{
 			expertEngModifySerivce.deleteByExpertId(expertEngHistory);
 			
 			// 新增历史记录
-			expertEngModifySerivce.insertSelective(expertEngHistory);
+			expertEngHistorySerivce.insertSelective(expertEngHistory);
 		}
 		
 		return "redirect:list.html";

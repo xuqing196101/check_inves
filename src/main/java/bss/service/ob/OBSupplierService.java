@@ -1,5 +1,6 @@
 package bss.service.ob;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -172,5 +173,11 @@ public interface OBSupplierService {
 	 * @return
 	 */
 	boolean exportSupplier(String start,String end,Date synchDate);
+	/**
+	 * 导入 竞价供应商 数据文件
+	 * @param file
+	 * @return
+	 */
+	boolean importSupplier(File file);
 
 }
