@@ -52,8 +52,17 @@ public class FileUtils {
     /** 正式附件路径 **/
     private final static String BASE_ATTCH_PATH = PropUtil.getProperty("file.base.path");
     
-    /**竞价 文件路径 **/
-    public final static String OB_PRODUCT_PATH=PropUtil.getProperty("file.bidding.system.path");
+    /**竞价 信息 文件路径  5 **/
+    public final static String OB_PROJECT_PATH=PropUtil.getProperty("file.bidding.system.path");
+   
+    /**竞价  #竞价定型产品目录 路径 6**/
+    public final static String OB_PROJECT_PRODUCT_PATH=PropUtil.getProperty("file.bidding_product.system.path");
+    /**竞价   #竞价特殊日期目录路径 7**/
+    public final static String OB_PROJECT_SPECIAL_DATE_PATH=PropUtil.getProperty("file.bidding_special_date.system.path");
+    /**竞价 #竞价供应商管理目录 路径 8**/
+    public final static String OB_PROJECT_SUPPLIER_PATH=PropUtil.getProperty("file.bidding_supplier.system.path");
+    /**竞价  #竞价结果目录 路径 9**/
+    public final static String OB_PROJECT_RESULT_PATH=PropUtil.getProperty("file.bidding_result.system.path");
     
     /** 新注册供应商文件名称 **/
     public final static String C_SUPPLIER_FILENAME = "_c_supplier.dat"; 
@@ -87,7 +96,9 @@ public class FileUtils {
     /**竞价 信息文件名称**/
     public final static String C_OB_PROJECT_FILE_FILENAME="_c_ob_project_file.dat";
     /**竞价信息 非暂存 数据名称**/
-    public final static String C_OB_PROJECT_STATUS_FILENAME="_c_ob_project_status.dat";
+    public final static String C_OB_PROJECT_STATUS_FILENAME="_c_ob_project.dat";
+    /**竞价结果文件名称**/
+    public final static String C_OB_PROJECT_RESULT_FILENAME="_c_ob_project_result.dat";
     
     /**
      * 
@@ -401,7 +412,11 @@ public class FileUtils {
           case 2 :  filePath = TENDER_ATTFILE_PATH; break;
           case 3 :  filePath = EXPERT_ATTFILE_PATH; break;
           case 4 :  filePath = FORUM_ATTFILE_PATH; break;
-          case 5 :  filePath = OB_PRODUCT_PATH; break;
+          case 5 :  filePath = OB_PROJECT_PATH; break;
+          case 6 :  filePath =OB_PROJECT_PRODUCT_PATH;break;
+          case 7 :  filePath =OB_PROJECT_SPECIAL_DATE_PATH;break;
+          case 8 :  filePath =OB_PROJECT_SUPPLIER_PATH;break;
+          case 9 :  filePath =OB_PROJECT_RESULT_PATH;break;
         }
         return filePath;
     }

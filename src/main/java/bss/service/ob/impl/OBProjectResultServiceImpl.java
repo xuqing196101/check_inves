@@ -451,13 +451,17 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		int secoud=rule.getConfirmTimeSecond();
 		//报价信息
 		int quote=rule.getQuoteTime();
-		
+		// 当前的结束时间
 		info.setOBResultsInfo(or);
-		//取到的只是一个竞价的开始时间，下面依次根据取到规则的时间段设置确认各个段的时间值
-		Date date=DateUtils.getAddDate(info.getConfirmStarttime(),quote);
-		 info.setConfirmOvertime(DateUtils.getAddDate(date,time));
-		 date= DateUtils.getAddDate(info.getConfirmOvertime(),secoud);
-		 info.setSecondOvertime(date);
+		if(status.equals("1")){
+			//取到的只是一个竞价的开始时间，下面依次根据取到规则的时间段设置确认各个段的时间值
+			Date date=DateUtils.getAddDate(info.getConfirmStarttime(),quote);
+			 info.setConfirmOvertime(DateUtils.getAddDate(date,time));
+		}
+		if(status.equals("2")){
+			 info.setSecondOvertime(info.getConfirmOvertime());
+		}
+		
 		}
 		return info;
 	}

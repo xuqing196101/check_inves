@@ -51,26 +51,33 @@ public class Constant {
     public final static String DATA_TYPE_EXPERT_CODE = "SYNCH_EXPERT";
     
     /**竞价信息**/
-    public final static String DATA_TYPE_BIDDING_CODE="SYNCH_BIDDING";
+    public final static String DATA_TYPE_BIDDING_CODE="SYNCH_BIDDING_PROJECT";
     /** 竞价 信息描述 **/
     public final static String OB_PROJECT_COMMIT = "导出竞价信息数量:";
-    
+    /** 竞价 信息 同步描述 **/
+    public final static String OB_PROJECT_COMMIT_IMPORT = "同步竞价信息数量:";
     /**竞价结果**/
     public final static String DATA_TYPE_BIDDING_RESULT_CODE="SYNCH_BIDDING_RESULT";
     /**竞价结果描述**/
     public final static String OB_RESULT_COMMIT="导出竞价结果数量:";
     /** 竞价 定型产品信息描述 **/
     public final static String PRODUCT_COMMIT = "导出竞价定型产品数量:";
+    /** 竞价 定型产品信息  导入描述 **/
+    public final static String PRODUCT_COMMIT_IMPORT = "同步竞价定型产品数量:";
     /**竞价 定型产品信息**/
     public final static String DATE_SYNCH_BIDDING_PRODUCT ="SYNCH_BIDDING_PRODUCT";
     
     /** 竞价 特殊信息描述 **/
     public final static String OB_SPECIAL_DATE_COMMIT = "导出竞价特殊日期数量:";
+    /** 竞价 特殊信息 导入 描述 **/
+    public final static String OB_SPECIAL_DATE_COMMIT_IMPORT = "同步竞价特殊日期数量:";
     /**竞价 特殊日期**/
     public final static String DATE_SYNCH_BIDDING_SPECIAL_DATE ="SYNCH_BIDDING_SPECIAL_DATE";
     
     /** 竞价 供应商信息描述 **/
     public final static String OB_SUPPLIER_COMMIT = "导出竞价供应商数量:";
+    /** 竞价 供应商信息 导入描述 **/
+    public final static String OB_SUPPLIER_COMMIT_IMPORT = "同步竞价供应商数量:";
     /**竞价 供应商**/
     public final static String DATE_SYNCH_BIDDING_SUPPLIER ="SYNCH_BIDDING_SUPPLIER";
     
@@ -91,4 +98,15 @@ public class Constant {
     
     /** 专家附件文件名称 **/
     public final static String ATTCH_FILE_EXPERT = "expert";
+    
+    /** 竞价 信息文件名称 **/
+    public final static String PROJECT_FILE_EXPERT = "bidding_project";
+    /** 竞价 产品文件名称 **/
+    public final static String PRODUCT_FILE_EXPERT = "bidding_product";
+    /** 竞价 特殊日期文件名称 **/
+    public final static String SPECIAL_DATE_FILE_EXPERT = "bidding_special_date";
+    /** 竞价 供应商文件名称 **/
+    public final static String SUPPLIER_FILE_EXPERT = "bidding_supplier";
+    /** 竞价 结果文件名称 **/
+    public final static String RESULT_FILE_EXPERT = "bidding_result";
 }

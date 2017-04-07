@@ -1,5 +1,6 @@
 package bss.service.ob;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -181,6 +182,13 @@ public interface OBProductService {
 	 * @return
 	 */
 	boolean exportProduct(String start,String end,Date synchDate);
+	/**
+	 * 导入文件数据
+	 * @author YangHongLiang
+	 * @param file
+	 * @return
+	 */
+	boolean importProduct(File file);
 	
 	/**
 	 * 

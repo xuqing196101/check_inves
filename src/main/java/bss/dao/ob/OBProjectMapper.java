@@ -93,4 +93,10 @@ public interface OBProjectMapper {
 	 * @return
 	 */
 	List<OBProject> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
+	/**
+	 * 根据id 获取竞价 文件数量
+	 * @param id
+	 * @return
+	 */
+	Integer countById(@Param("id")String id);
 }

@@ -111,16 +111,21 @@ function synchExport(){
 		layer.msg("结束时间不能为空");
 		return ;
 	}
-	
+	 var index = layer.load(0, {
+			shade : [ 0.1, '#fff' ],
+			offset : [ '45%', '53%' ]
+		});
 	$.ajax({
 		url: globalPath + "/synchExport/dataExport.do",
 		type:"post",
 		data:{'startTime' : startTime,'endTime': endTime,'synchType': dataType.toString()},
 		success:function(res){
 			if (res.success){
+				layer.close(index);
 				layer.msg("导出成功");
 				list(1);
 			}else{
+				layer.close(index);
 				layer.msg("导出失败");
 			}
 		}

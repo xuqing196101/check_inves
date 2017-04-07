@@ -23,7 +23,7 @@ public class OBProjectResult {
     //总额
 	private BigDecimal totalAmount;
 
-	//是否接受的状态： -1默认		0表示不接受	1表示第一轮接受		2表示第二轮接受		第二轮放弃状态仍为1
+	//是否接受的状态： -1默认		0表示不接受	1表示接受		
 	private Integer status;
 
 	private String createrId;

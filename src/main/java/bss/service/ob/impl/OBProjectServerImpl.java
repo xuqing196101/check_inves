@@ -1,5 +1,6 @@
 package bss.service.ob.impl;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,6 +34,7 @@ import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
+import bss.dao.ob.OBResultSubtabulationMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBRuleMapper;
 import bss.dao.ob.OBSpecialDateMapper;
@@ -43,6 +45,7 @@ import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectRule;
 import bss.model.ob.OBProjectSupplier;
+import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBRule;
 import bss.model.ob.OBRuleTimeInterval;
@@ -88,8 +91,6 @@ public class OBProjectServerImpl implements OBProjectServer {
     private UploadService uploadService;
 	@Autowired
 	private OBProjectRuleMapper OBProjectRuleMapper;
-	@Autowired
-	private OBProjectSupplierMapper mapper;
 	/**
 	 * 上传附件
 	 */
@@ -108,6 +109,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 	private OBSpecialDateMapper OBSpecialDateMapper;
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
+	@Autowired
+	private OBResultSubtabulationMapper OBResultSubtabulationMapper;
 	 /**
      * 同步service
      */
@@ -847,7 +850,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 									users.setTypeId(obresultsList.get(i)
 											.getSupplierId());
 									String remark = "666";
-									BiddingStateUtil.updateRemark(mapper, obProject, users, remark);
+									BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
 								 }
 								rsult.setProportion(String.valueOf(proportion));
 								// 将 参与报价的供应商 插入到结果数据中
@@ -952,7 +955,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 							User users = new User();
 							users.setTypeId(result.getSupplierId());
 							String remark = "32";
-							BiddingStateUtil.updateRemark(mapper, obProject, users, remark);
+							BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
 							if(obresultsList.size()>1){
 							//如果 集合不是最后一条数据 那么 结束时间 在加上 第二轮确定时间
 								project.setEndTime(DateUtils.getAddDate(op.getEndTime(), confirmTimeSecond));
@@ -1259,9 +1262,121 @@ public class OBProjectServerImpl implements OBProjectServer {
 		//获取竞价非暂存信息
         List<OBProject> createList=obProjectMapper.selectByUpdateDate(start, end);
         if(createList!=null&& createList.size()>0){
-        	
-        	
+        	for (OBProject obProject : createList) {
+            List<OBProjectResult> result=OBProjectResultMapper.selectRelationDate(obProject.getId()) ;
+            obProject.setObProjectResult(result);
+             List<OBProjectSupplier> supplier=OBProjectSupplierMapper.selByProjectId(obProject.getId());
+             obProject.setObProjectSupplier(supplier);
+        	}
+            //将封装的 数据 保存
+        	 FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_OB_PROJECT_RESULT_FILENAME, 9),JSON.toJSONString(createList));
         }
+        recordService.synchBidding(synchDate, new Integer(createList.size()).toString(), synchro.util.Constant.DATA_TYPE_BIDDING_RESULT_CODE, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.OB_RESULT_COMMIT);
+		boo=true;
+		return boo;
+	}
+    /**
+     * 实现竞价文件 数据文件导入
+     */
+	@Override
+	public boolean importProject(File file) {
+		// TODO Auto-generated method stub
+		boolean boo=false;
+		 List<OBProject> list = FileUtils.getBeans(file, OBProject.class); 
+	        if (list != null && list.size() > 0){
+	        	for (OBProject item : list) {
+	        	Integer count=	obProjectMapper.countById(item.getId());
+	        	  if(count>0){
+	        		  obProjectMapper.insertSelective(item);
+	        		  List<OBProductInfo> obProductInfo=item.getObProductInfo();
+	        		  if(obProductInfo!=null&&obProductInfo.size()>0){
+	        		  //循环导入竞价产品数据
+	        		  for (OBProductInfo obProductInfo2 : obProductInfo) {
+	        			  OBProductInfoMapper.insertSelective(obProductInfo2);
+					    }
+	        		  }
+	        		  List<OBProjectSupplier> projectSupplier=item.getObProjectSupplier();
+	        		  //循环 导入竞价与供应商关系表
+	        		  if(projectSupplier!=null && projectSupplier.size()>0){
+	        			  for (OBProjectSupplier obProjectSupplier : projectSupplier) {
+	        				  OBProjectSupplierMapper.insertSelective(obProjectSupplier);
+						}
+	        		  }
+	        	    }
+	        	  recordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.DATA_TYPE_BIDDING_CODE, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.OB_PROJECT_COMMIT_IMPORT);
+				}
+	        }
+	        boo=true;
+		return boo;
+	}
+    /**
+     * 实现导入竞价信息文件
+     */
+	@Override
+	public boolean importProjectFile(File file) {
+		// TODO Auto-generated method stub
+		boolean boo=true;
+		 List<UploadFile> list = FileUtils.getBeans(file, UploadFile.class); 
+	        if (list != null && list.size() > 0){
+	            for (UploadFile uploadFile : list){
+	                Integer count = uploadService.findCountById(uploadFile.getId(),Constant.TENDER_SYS_KEY);
+	                if (count > 0){
+	                    uploadService.updateFile(uploadFile, Constant.TENDER_SYS_KEY);
+	                } else {
+	                    uploadService.insertFile(uploadFile,Constant.TENDER_SYS_KEY);
+	                }
+	            }
+	            recordService.importAttach(new Integer(list.size()).toString());
+	        }
+		return boo;
+	}
+    /**
+     * 实现导入竞价结果 数据
+     */
+	@Override
+	public boolean importProjectResult(File file) {
+		// TODO Auto-generated method stub
+		boolean boo=false;
+		 List<OBProject> list = FileUtils.getBeans(file, OBProject.class); 
+		   if(list!=null&& list.size()>0){
+			   for (OBProject obProject : list) {
+				   Integer count=	obProjectMapper.countById(obProject.getId());
+		        	  if(count>0){
+		        		  List<OBProjectResult> result= obProject.getObProjectResult(); 
+		        		  if(result!=null&& result.size()>0){
+		        			  //循环更新结果表
+		        		  for (OBProjectResult obProjectResult : result) {
+							Integer rcount=OBProjectResultMapper.countById(obProjectResult.getId());
+							if(rcount==0){
+								OBProjectResultMapper.insertSelective(obProjectResult);
+							}else{
+								OBProjectResultMapper.updateByPrimaryKey(obProjectResult);
+							}
+							 List<OBResultSubtabulation> slist=obProjectResult.getObResultSubtabulation();
+							 if(slist!=null&& slist.size()>0){
+								 for (OBResultSubtabulation obResultSubtabulation : slist) {
+									OBResultSubtabulationMapper.insertSelective(obResultSubtabulation);
+								}
+								 
+							 }
+						   }
+		        		  }
+		                   List<OBProjectSupplier> supplier=obProject.getObProjectSupplier();
+		                   if(supplier!=null&&supplier.size()>0){
+		                	   //循环 更新关系表
+		                	   for (OBProjectSupplier obProjectSupplier : supplier) {
+		                		   Integer rcount=OBProjectSupplierMapper.countById(obProjectSupplier.getId());
+									if(rcount>0){
+										OBProjectSupplierMapper.updateByPrimaryKey(obProjectSupplier);
+									}else{
+										OBProjectSupplierMapper.insertSelective(obProjectSupplier);
+									}
+							    }
+		                   }
+		                   
+		        	  }
+			 }
+		   }
 		return boo;
 	}
 }

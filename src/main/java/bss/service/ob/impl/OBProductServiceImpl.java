@@ -1,5 +1,6 @@
 package bss.service.ob.impl;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
 import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 import bss.dao.ob.OBProductMapper;
 import bss.model.ob.OBProduct;
 import bss.service.ob.OBProductService;
@@ -110,11 +112,11 @@ public class OBProductServiceImpl implements OBProductService {
 		if(prodcutCList!=null && prodcutCList.size()>0){
 			sum=sum+prodcutCList.size();
 			//生成json 并保存
-			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_OB_PRODUCT_FILENAME, 5),JSON.toJSONString(prodcutCList));
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_OB_PRODUCT_FILENAME, 6),JSON.toJSONString(prodcutCList));
 		}
 		if(prodcutMList!=null && prodcutMList.size()>0){
 			sum=sum+prodcutMList.size();
-			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.M_OB_PRODUCT_FILENAME, 5),JSON.toJSONString(prodcutMList));
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.M_OB_PRODUCT_FILENAME, 6),JSON.toJSONString(prodcutMList));
 		}
 		SynchRecordService.synchBidding(synchDate, sum+"", Constant.DATE_SYNCH_BIDDING_PRODUCT, Constant.OPER_TYPE_EXPORT, Constant.PRODUCT_COMMIT);
 		boo=true;
@@ -127,6 +129,28 @@ public class OBProductServiceImpl implements OBProductService {
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<OBProduct> list = oBProductMapper.selectPublishProduct(example);
 		return list;
+	}
+    /***
+     * 导入 创建 文件数据
+     */
+	@Override
+	public boolean importProduct(File file) {
+		// TODO Auto-generated method stub
+		boolean boo=false;
+		 List<OBProduct> list = FileUtils.getBeans(file, OBProduct.class); 
+	        if (list != null && list.size() > 0){
+	        	for (OBProduct obProduct : list) {
+	        	Integer count=	oBProductMapper.countById(obProduct.getId());
+	        	  if(count==0){
+	        		  oBProductMapper.insertSelective(obProduct);
+	        	  }else{
+	        		  oBProductMapper.updateByPrimaryKeySelective(obProduct);
+	        	  }
+				}
+	        	SynchRecordService.synchBidding(new Date(), list.size()+"", Constant.DATE_SYNCH_BIDDING_PRODUCT, Constant.OPER_TYPE_IMPORT, Constant.PRODUCT_COMMIT_IMPORT);
+	        }
+	        boo=true;
+		return boo;
 	}
 
 }

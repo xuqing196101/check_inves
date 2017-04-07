@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.sun.org.glassfish.gmbal.ParameterNames;
 /**
  * 
 * @ClassName: OBProjectSupplierMapper 
@@ -29,7 +31,12 @@ public interface OBProjectSupplierMapper {
     List<OBProjectSupplier> selectByExample(OBProjectSupplierExample example);
 
     OBProjectSupplier selectByPrimaryKey(String id);
-
+    /**
+     * 根据id 获取数据 的数量
+     * @param id
+     * @return
+     */
+    Integer countById(@Param("id")String id);
     int updateByExampleSelective(@Param("record") OBProjectSupplier record, @Param("example") OBProjectSupplierExample example);
 
     int updateByExample(@Param("record") OBProjectSupplier record, @Param("example") OBProjectSupplierExample example);

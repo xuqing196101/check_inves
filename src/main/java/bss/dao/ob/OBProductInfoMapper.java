@@ -19,7 +19,12 @@ public interface OBProductInfoMapper {
     int insert(OBProductInfo record);
 
     int insertSelective(OBProductInfo record);
-
+    /**
+     * 根据id 获区 数据数量
+     * @param id
+     * @return
+     */
+    Integer countById(@Param("id")String id);
     List<OBProductInfo> selectByExample(OBProductInfoExample example);
 
     OBProductInfo selectByPrimaryKey(String id);

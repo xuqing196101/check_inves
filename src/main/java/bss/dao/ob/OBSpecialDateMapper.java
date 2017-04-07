@@ -17,7 +17,12 @@ public interface OBSpecialDateMapper {
     int deleteByPrimaryKey(String id);
 
     int insert(OBSpecialDate record);
-
+    /**
+     * 根据id 获取数据数量
+     * @param id
+     * @return
+     */
+    Integer countById(@Param("id")String id);
     int insertSelective(OBSpecialDate record);
 
     List<OBSpecialDate> selectByExample(OBSpecialDateExample example);

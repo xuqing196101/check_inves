@@ -18,7 +18,10 @@
     		layer.msg("请选择同步类型");
     		return ;
     	}
-    	
+    	 var index = layer.load(0, {
+			shade : [ 0.1, '#fff' ],
+			offset : [ '45%', '53%' ]
+		});
     	
   	$.ajax({
     		url: globalPath + "/synchImport/dataImport.do",
@@ -27,9 +30,11 @@
     		dataType:"json",
     		success:function(res){
     			if (res.success){
+    			layer.close(index);
     				layer.msg("导入成功");
     				list(1);
     			}else{
+    				layer.close(index);
     				layer.msg("导入失败");
     			}
     		}

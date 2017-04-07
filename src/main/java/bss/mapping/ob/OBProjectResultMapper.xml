@@ -70,6 +70,21 @@
     </collection>
   </resultMap>
   
+      <!-- 定义 查询 关联 全部数据-->
+  <resultMap id="BaseConfirmResultAllQuery" type="bss.model.ob.OBProjectResult" extends="BaseResultMap" >
+    <collection property="obResultSubtabulation" ofType="bss.model.ob.OBResultSubtabulation">
+	<result column="sId" property="id" jdbcType="VARCHAR" />
+    <result column="sProjectResultId" property="projectResultId" jdbcType="VARCHAR" />
+    <result column="sProductId" property="productId" jdbcType="VARCHAR" />
+    <result column="sResultNumber" property="resultNumber" jdbcType="DECIMAL" />
+    <result column="sDealMoney" property="dealMoney" jdbcType="DECIMAL" />
+    <result column="sMyOfferMoney" property="myOfferMoney" jdbcType="DECIMAL" />
+    <result column="sSupplierId" property="supplierId" jdbcType="VARCHAR" />
+    <result column="sTotalMoney" property="totalMoney" jdbcType="DECIMAL" />
+    <result column="sProjectId" property="projectId" jdbcType="VARCHAR" />
+    <result column="sCreatedAt" property="createdAt" jdbcType="TIMESTAMP" />
+    </collection>
+  </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -252,7 +267,7 @@ ORDER BY RANKING
   <!-- 查询供应商结果 基本信息 -->
   <select id="getBasic" resultMap="confirmInfoVo" parameterType="java.lang.String">
   select p.name as quoteName ,p.id as projectId,r.SUPPLIER_ID as supplierId ,r.ranking,r.proportion as firstRatio,
-  r.status as bidStatus,p.start_time as confirmStarttime,r.id as resultId from T_BSS_OB_PROJECT p LEFT JOIN 
+  r.status as bidStatus,p.start_time as confirmStarttime,p.end_time as confirmOvertime,r.id as resultId from T_BSS_OB_PROJECT p LEFT JOIN 
   (select * from (select *  from T_BSS_OB_PROJECT_RESULT where PROJECT_ID =#{projectId,jdbcType=VARCHAR} 
   and SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
   ORDER BY CREATED_AT) where  rownum=1) r 
@@ -416,6 +431,11 @@ r.STATUS,r.REMARK ORDER BY r.RANKING
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
+  </select>
+  <!-- 根据id 获取数据数量 -->
+  <select id="countById" parameterType="String" resultType="java.lang.Integer" >
+    select count(*) from T_BSS_OB_PROJECT_RESULT
+   where id=#{id,jdbcType=VARCHAR}
   </select>
   <!-- 根据供应商和标题的ID查询总条数 mmw -->
   <select id="countByPSID" parameterType="bss.model.ob.OBProjectResult" resultType="java.lang.Integer" >
@@ -692,6 +712,18 @@ r.STATUS,r.REMARK ORDER BY r.RANKING
 	WHERE 
 		PROJECT_ID = #{projectId,jdbcType=VARCHAR} AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
 	ORDER BY CREATED_AT
+  </select>
+  
+  <!-- 根据竞价id 查询全部的关联数据  返回集合-->
+  <select id="selectRelationDate"  parameterType="String" resultMap="BaseConfirmResultAllQuery">
+   select r.*,s.id as sId,s.PROJECT_RESULT_ID as sProjectResultId,
+   s.RESULT_NUMBER as sResultNumber,s.DEAL_MONEY as sDealMoney,
+   s.TOTAL_MONEY as sTotalMoney , s.CREATED_AT as sCreatedAt,
+   s.PROJECT_ID as sProjectId,s.SUPPLIER_ID as sSupplierId,
+   s.MY_OFFER_MONEY as sMyOfferMoney,s.PRODUCT_ID as sProductId 
+   from T_BSS_OB_PROJECT_RESULT r,T_BSS_OB_RESULT_SUBTABULATION s 
+   where r.PROJECT_ID=#{projectId,jdbcType=VARCHAR} and s.PROJECT_ID=r.PROJECT_ID
+   and r.id=s.PROJECT_RESULT_ID and r.SUPPLIER_ID=s.SUPPLIER_ID
   </select>
   
 </mapper>

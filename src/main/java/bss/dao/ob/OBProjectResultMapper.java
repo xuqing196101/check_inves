@@ -281,4 +281,17 @@ public interface OBProjectResultMapper {
      * @exception
      */
     List<OBProjectResult> selProportion(@Param("projectId") String projectId,@Param("supplierId") String supplierId);
+    /**
+     * 根据竞价id 获取结果关联全部数据
+     * @author YangHongLiang
+     * @param projectId
+     * @return
+     */
+    List<OBProjectResult> selectRelationDate(@Param("projectId")String projectId);
+    /**
+     * 根据id 获取数据的 数量
+     * @param id
+     * @return
+     */
+    Integer countById(@Param("id")String id);
 }
