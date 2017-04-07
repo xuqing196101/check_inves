@@ -326,7 +326,8 @@ public class OBSupplierQuoteController {
 			 jdcg.setMsg("竞价已完成");
 		 }else if(confirmStatus=="8"){
 			 jdcg.setStatus(8);
-			 jdcg.setMsg("您是第"+ranking+"名,第"+(ranking-1)+"名第二轮未确定,请耐心等候");
+			 //jdcg.setMsg("您是第"+ranking+"名,第"+(ranking-1)+"名第二轮未确定,请耐心等候");
+			 jdcg.setMsg("您的前一名第二轮未确定,请耐心等候");
 		 }else{
 			 jdcg.setStatus(0);
 			 jdcg.setMsg("错误");
@@ -402,7 +403,24 @@ public class OBSupplierQuoteController {
 		
 		
 		 if(confirmStatus=="1"||confirmStatus=="2"){
+             BigDecimal million = new BigDecimal(10000);
 		  ConfirmInfoVo result=oBProjectResultService.selectSupplierDate(supplierId,projectId,confirmStatus);
+             if(result != null){
+                 List<OBResultsInfo> obResultsInfos = result.getOBResultsInfo();
+                 for (OBResultsInfo obResultsInfo : obResultsInfos){
+                     // 成交价
+                     BigDecimal dealMoney = obResultsInfo.getDealMoney();
+                     // 成交数量
+                     Integer resultsNumber = obResultsInfo.getResultsNumber();
+                     BigDecimal resultsNumbers = new BigDecimal(resultsNumber);
+                     // 成交总价
+                     BigDecimal multiply = dealMoney.multiply(resultsNumbers);
+                     multiply.setScale(4);
+                     BigDecimal moneyBigDecimal = multiply.divide(million);
+                     obResultsInfo.setDealTotalMoney(moneyBigDecimal);
+                 }
+
+             }
 			model.addAttribute("sysCurrentTime", new Date());
 		 	model.addAttribute("result", result);
 		 	model.addAttribute("confirmStatus", confirmStatus);

@@ -157,8 +157,11 @@ public class OBProjectController {
 				page = 1;
 			}
 			String orgId=null;
-			if(user.getOrg().getTypeName().equals("0")){
-				orgId=user.getOrg().getTypeName();
+			Orgnization org = user.getOrg();
+			if(org != null){
+				if(org.getTypeName().equals("0")){
+					orgId=user.getOrg().getTypeName();
+				}
 			}
 			model.addAttribute("orgId", orgId);
 			Map<String, Object> map = new HashMap<String, Object>();

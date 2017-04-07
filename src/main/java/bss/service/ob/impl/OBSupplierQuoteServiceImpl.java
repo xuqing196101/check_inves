@@ -177,7 +177,9 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		// 根据标题id查询该标题下发布的产品信息
 		OBProductInfoExample example = new OBProductInfoExample();
 		Criteria criteria = example.createCriteria();
+		example.setOrderByClause("PRODUCT_ID");
 		criteria.andProjectIdEqualTo(id);
+		
 		// 根据标题的id查询标题下所有的商品信息
 		List<OBProductInfo> list = obProductInfoMapper.selectByExample(example);
 		StringBuilder sb = new StringBuilder();

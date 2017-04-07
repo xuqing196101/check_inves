@@ -58,8 +58,17 @@ public class OBResultsInfo {
      */
     private String projectId;
 
-    
-    
+    private BigDecimal dealTotalMoney;
+
+
+    public void setDealTotalMoney(BigDecimal dealTotalMoney) {
+        this.dealTotalMoney = dealTotalMoney;
+    }
+
+    public BigDecimal getDealTotalMoney() {
+        return dealTotalMoney;
+    }
+
     public Integer getSurplusNumber() {
 		return surplusNumber;
 	}

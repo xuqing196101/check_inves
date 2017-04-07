@@ -110,7 +110,7 @@
     from T_BSS_OB_PROJECT p LEFT JOIN T_BSS_OB_PRODUCT_INFO i on p.id=i.PROJECT_ID
       where  p.CREATER_ID=#{userId,jdbcType=VARCHAR} and p.IS_DELETE=0
     and p.ID = #{id,jdbcType=VARCHAR}
-      	ORDER BY p.CREATED_AT DESC
+      	ORDER BY p.CREATED_AT DESC,i.PRODUCT_ID
   </select> 
   <sql id="Example_Where_Clause" >
     <where >
