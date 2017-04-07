@@ -442,7 +442,23 @@
 					</c:choose>
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 3 }">
-			  		竞价结束
+                    <c:choose>
+	                    <c:when test="${obProject.remark == '32'}">
+                        	中标
+	                    </c:when>
+	                    <c:when test="${obProject.remark == '42'}">
+                        	中标
+	                    </c:when>
+	                    <c:when test="${obProject.remark == '52'}">
+                        	中标
+	                    </c:when>
+	                    <c:when test="${obProject.remark == '3'}">
+                        	未中标
+	                    </c:when>
+	                    <c:otherwise>
+                        	竞价结束
+	                    </c:otherwise>
+                    </c:choose>
 			  	</c:if>
 			  	<c:if test="${ obProject.remark == '666' && obProject.obProjectList[0].status != 3}">
 				  	未中标
@@ -460,10 +476,10 @@
 							结果待确认(第一轮)
 						</c:when>
 						<c:when test="${obProject.remark == '3'}">
-							放弃确认(第一轮)
+                           	未中标
 						</c:when>
 						<c:when test="${obProject.remark == '4'}">
-							第一轮已确认
+							中标
 						</c:when>
 						<c:when test="${obProject.remark == '5'}">
 							第一轮已确认
@@ -485,7 +501,7 @@
 							放弃确认(第二轮)
 						</c:when>
 						<c:when test="${obProject.remark == '3'}">
-							放弃确认(第一轮)
+							未中标
 						</c:when>
 						<%-- <c:when test="${obProject.remark == '4'}">
 							待结束
