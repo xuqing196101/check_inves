@@ -84,57 +84,63 @@
 			</tr>
 			</tbody>
 		   </table> --%>
-	  <table class="table table-bordered mt10">
-	    <tbody>
-	      <tr>
-			<td class="tc" colspan="6" align="center"><br/><b>${ obProject.name }</b><br/>竞价结果信息表<br/><br/></td>
-		  </tr> 
-		  <tr>
-		    <td class="info"><b>竞价项目编号</b></td>
-		    <td>${ obProject.projectNumber }</td>
-		    <td class="info"><b>竞价项目名称</b></td>
-		    <td>${ obProject.name }</td>
-		  </tr>
-		  <tr>
-		    <td class="info"><b>交货地点</b></td>
-		    <td>${ obProject.deliveryAddress }</td>
-		     <td class="info"><b>交货时间</b></td>
-		    <td><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-		  </tr>
-		  <tr>
-		    <td class="info"><b>运杂费</b></td>
-		    <td>${ transportFees }</td>
-		    <c:if test="">
-			    <td colspan="2"></td>
-		    </c:if>
-		    <c:if test="${ empty obProject.transportFeesPrice }">
-			    <td colspan="2"></td>
-		    </c:if>
-		    <c:if test="${ !empty obProject.transportFeesPrice }">
-			    <td class="info"><b>运杂费用（元）</b></td>
-			    <td>${obProject.transportFeesPrice}</td>
-		    </c:if>
-		  </tr>
-		  <tr>
-		    <td class="info"><b>需求单位</b></td>
-		    <td>${ demandUnit }</td>
-		    <td class="info"><b>采购机构</b></td>
-		    <td>${ orgName }</td>
-		  </tr>
-		  <tr>
-		    <td class="info"><b>需求联系人</b></td>
-		    <td>${ obProject.contactName }</td>
-		    <td class="info"><b>采购联系人：</b></td>
-		    <td>${ obProject.orgContactName }</td>
-		  </tr>
-		  <tr>
-		    <td class="info"><b>需求联系电话</b></td>
-		    <td>${ obProject.contactTel }</td>
-		    <td class="info"><b>采购联系电话</b></td>
-		    <td>${ obProject.orgContactTel }</td>
-		  </tr>
-		</tbody>
-	</table>
+	<div>
+		<ul class="ul_list">
+			<ul class="ul_list">
+			  <table class="table table-bordered mt10">
+			    <tbody>
+			      <tr>
+					<td class="tc" colspan="6" align="center"><br/><b>${ obProject.name }</b><br/>竞价结果信息表<br/><br/></td>
+				  </tr> 
+				  <tr>
+				    <td class="info"><b>竞价项目编号</b></td>
+				    <td>${ obProject.projectNumber }</td>
+				    <td class="info"><b>竞价项目名称</b></td>
+				    <td>${ obProject.name }</td>
+				  </tr>
+				  <tr>
+				    <td class="info"><b>交货地点</b></td>
+				    <td>${ obProject.deliveryAddress }</td>
+				     <td class="info"><b>交货时间</b></td>
+				    <td><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				  </tr>
+				  <tr>
+				    <td class="info"><b>运杂费</b></td>
+				    <td>${ transportFees }</td>
+				    <c:if test="">
+					    <td colspan="2"></td>
+				    </c:if>
+				    <c:if test="${ empty obProject.transportFeesPrice }">
+					    <td colspan="2"></td>
+				    </c:if>
+				    <c:if test="${ !empty obProject.transportFeesPrice }">
+					    <td class="info"><b>运杂费用（元）</b></td>
+					    <td>${obProject.transportFeesPrice}</td>
+				    </c:if>
+				  </tr>
+				  <tr>
+				    <td class="info"><b>需求单位</b></td>
+				    <td>${ demandUnit }</td>
+				    <td class="info"><b>采购机构</b></td>
+				    <td>${ orgName }</td>
+				  </tr>
+				  <tr>
+				    <td class="info"><b>需求联系人</b></td>
+				    <td>${ obProject.contactName }</td>
+				    <td class="info"><b>采购联系人：</b></td>
+				    <td>${ obProject.orgContactName }</td>
+				  </tr>
+				  <tr>
+				    <td class="info"><b>需求联系电话</b></td>
+				    <td>${ obProject.contactTel }</td>
+				    <td class="info"><b>采购联系电话</b></td>
+				    <td>${ obProject.orgContactTel }</td>
+				  </tr>
+				</tbody>
+			</table>
+		</ul>
+		</ul>
+	</div>
 	<%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>
 	<div align="center">
 		<span><font size="3">供应商确认中标比例为<b>${countProportion }%</b>，未中标比例为<b>${100 - countProportion }%</b>.</font></span>

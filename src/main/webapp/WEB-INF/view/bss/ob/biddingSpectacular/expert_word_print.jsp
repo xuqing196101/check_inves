@@ -112,14 +112,26 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 					<td colspan="6">供应商名称：${supplier.supplier.supplierName} 排名：第${supplier.ranking}名</td>
 			  	</tr>
 				<tr colspan="6">
-					<td colspan="6">成交比例：
-			  		<c:if test="${supplier.status == -1 || supplier.status == 0}">0%</c:if>
-			  		<c:if test="${supplier.status == 1 || supplier.status == 2 }">${supplier.proportion}%</c:if></span>
+					<td colspan="6">
+					第一轮确认成交比例：
+					<c:if test="${supplier.status == 1 || supplier.status == 2 }">
+			  			<c:if test="${supplier.firstproportion != null }">${supplier.firstproportion }%</c:if>
+			  			<c:if test="${supplier.firstproportion == null }">0%</c:if>
+					</c:if>
+					第二轮确认成交比例：
+					<c:if test="${supplier.status == 1 || supplier.status == 2 }">
+			  			<c:if test="${supplier.secondproportion != null }">${supplier.secondproportion }%</c:if>
+			  			<c:if test="${supplier.secondproportion == null }">0%</c:if>
+					</c:if>
+					<c:if test="${supplier.status == 1 || supplier.status == 2 }">
+					  	<span>总成交比例：${supplier.proportion}%</span>
+					</c:if>
+					
 			 		状态：
 					<c:if test="${supplier.status == -1 && supplier.proportion == 0}">未中标</c:if>
-					<c:if test="${supplier.status == -1 && supplier.proportion != 0}">未确认，已放弃</c:if>
-					<c:if test="${supplier.status == 0}">未接受，已放弃</c:if>
-					<c:if test="${supplier.status == 1 || supplier.status == 2 }">已接受</c:if>
+					<c:if test="${supplier.status == -1 && supplier.proportion != 0}">未中标</c:if>
+					<c:if test="${supplier.status == 0}">未中标</c:if>
+					<c:if test="${supplier.status == 1 || supplier.status == 2 }">中标</c:if>
 					</td>
 				</tr>
 				<tr>

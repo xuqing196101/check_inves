@@ -92,7 +92,14 @@
 										外网发布
 									</c:if>
 								</td>
-								<td class="tl pl20">${log.reason}</td>
+								<td class="tl pl20" title="${log.reason}">
+									<c:if test="${log.reason.length() > 10}">
+									 	${log.reason.substring(0,9)}...
+                    				 </c:if>  
+									 <c:if test="${log.reason.length() <= 10}">
+									 	${log.reason}
+                    				</c:if> 
+								</td>
 								<td class="tc">
 									<c:if test="${log.operationType == 0}">
 										新增

@@ -184,7 +184,7 @@
 							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
 							<th class="info">起始时间</th>
-							<th class="info">期限</th>
+							<th class="info">结束时间</th>
 							<th class="info">处罚类型</th>
 							<th class="info">发布类型</th>
 							<th class="info">状态</th>
@@ -199,12 +199,13 @@
 								<td class="tl pl20" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.supplierName}</td>
 								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')"><fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd"/></td>
 								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">
-									<c:if test="${supplierBlacklist.term == 3}">3个月</c:if>
+									<%-- <c:if test="${supplierBlacklist.term == 3}">3个月</c:if>
 									<c:if test="${supplierBlacklist.term == 6}">6个月</c:if>
 									<c:if test="${supplierBlacklist.term == 12}">1年</c:if>
 									<c:if test="${supplierBlacklist.term == 24}">2年</c:if>
 									<c:if test="${supplierBlacklist.term == 36}">3年</c:if>
-									<c:if test="${supplierBlacklist.term == 0}">永久</c:if>
+									<c:if test="${supplierBlacklist.term == 0}">永久</c:if> --%>
+									<fmt:formatDate value="${supplierBlacklist.endTime}" pattern="yyyy-MM-dd"/>
 								</td>
 								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">
 									<c:if test="${supplierBlacklist.punishType == 0}">警告</c:if>
@@ -232,7 +233,14 @@
 										手动移除
 									</c:if>
 								</td>
-								<td class="tl pl20" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.reason}</td>
+								<td class="tl pl20" onclick="findLog('${supplierBlacklist.supplierId}')" title="${supplierBlacklist.reason}">
+									 <c:if test="${supplierBlacklist.reason.length() > 10}">
+									 	${supplierBlacklist.reason.substring(0,9)}...
+                    				 </c:if>  
+									 <c:if test="${supplierBlacklist.reason.length() <= 10}">
+									 	${supplierBlacklist.reason}
+                    				</c:if>  
+								</td>
 							</tr>
 						</c:forEach>
 					</tbody>

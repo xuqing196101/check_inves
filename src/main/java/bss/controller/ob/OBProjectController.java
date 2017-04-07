@@ -898,39 +898,6 @@ public class OBProjectController {
 		// 运杂费
 		model.addAttribute("transportFees", transportFees);
 		model.addAttribute("obProject", obProject);
-		/*List<OBProjectResult> list = oBProjectResultService.selectByProjectId(
-				id, page);
-		PageInfo<OBProjectResult> info = new PageInfo<>(list);
-		model.addAttribute("info", info);
-		OBProject obProject = OBProjectServer.selectByPrimaryKey(id);
-
-		// 根据标题id查询该标题下发布的产品信息
-		OBProductInfoExample example = new OBProductInfoExample();
-		Criteria criteria = example.createCriteria();
-		criteria.andProjectIdEqualTo(id);
-		// 根据标题的id查询标题下所有的商品信息
-		List<OBProductInfo> obProductInfoList = obProductInfoMapper.selectByExample(example);
-		HashMap<String, Object> selectMap = new HashMap<String, Object>();
-		model.addAttribute("obProductInfoList", obProductInfoList);
-		// 根据采购机构id查询采购机构
-		selectMap.put("id", obProject.getOrgId());
-		List<Orgnization> orgnizationMapperList = orgnizationMapper
-				.selectByPrimaryKey(selectMap);
-		Integer countOfferPricebyOne = 0;
-		if (list != null && list.size() > 0) {
-			Orgnization orgnization = orgnizationMapperList.get(0);
-			model.addAttribute("orgName", orgnization.getName());
-			countOfferPricebyOne = list.get(0).getCountOfferPrice();
-		}
-		model.addAttribute("obProject", obProject);
-		model.addAttribute("countOfferPricebyOne", countOfferPricebyOne);
-		int count = OBProductInfo.selectCount(id);
-		int chengjiao = 0;
-		for (OBProjectResult obProjectResult : list) {
-			chengjiao += obProjectResult.getCountresultCount();
-		}
-		model.addAttribute("count", count);
-		model.addAttribute("chengjiao", chengjiao);*/
 		
 		/*************************************竞价结果信息****************************************/
 		List<OBProjectResult> list = oBProjectResultService.selResultByProjectId(projectId);
@@ -940,6 +907,14 @@ public class OBProjectController {
     		for (OBProjectResult obProjectResult : list) {
 				if(obProjectResult != null){
 					if(obProjectResult.getStatus() == 1){
+						List<OBProjectResult> prolist = oBProjectResultService.selProportion(projectId, obProjectResult.getSupplierId());
+						if(prolist != null && prolist.size() == 1){
+							obProjectResult.setFirstproportion(prolist.get(0).getProportion());
+						}
+						if(prolist != null && prolist.size() == 2){
+							obProjectResult.setFirstproportion(prolist.get(0).getProportion());
+							obProjectResult.setSecondproportion(prolist.get(1).getProportion());
+						}
 						List<OBResultSubtabulation> obResultSubtabulation = obResultSubtabulationService.selectByProjectIdAndSupplierId(projectId, obProjectResult.getSupplierId());
 						if(obResultSubtabulation != null && obResultSubtabulation.size() > 0){
 							for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {
@@ -957,7 +932,6 @@ public class OBProjectController {
 				}
 			}
     	}
-    	
     	model.addAttribute("listres", list);
     	model.addAttribute("countProportion",countProportion);
     	model.addAttribute("size",list.size());

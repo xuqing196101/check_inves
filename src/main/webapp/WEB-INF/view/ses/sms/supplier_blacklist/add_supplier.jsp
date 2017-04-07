@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="container container_box">
-        <form action="${pageContext.request.contextPath}/supplier_blacklist/save_or_update_supplier_black.html" method="post">
+        <form action="${pageContext.request.contextPath}/supplier_blacklist/save_or_update_supplier_black.html" method="post" id = "form1">
             <div>
                  <h2 class="count_flow"><i>1</i>添加供应商</h2>
                     <ul class="ul_list">
@@ -71,9 +71,10 @@
                              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商名称</span>
                                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                   <input name="id" type="hidden" value="${supplierBlacklist.id}">
-                                  <input name="supplierId" type="hidden" value="${supplier.id}">
+                                  <input name="supplierId" id = "suppi" type="hidden" value="${supplier.id}">
                                 <input class="input_group" name="supplierName" readonly="readonly" id="suppllier_name_input_id" type="text" value="${supplier.supplierName}">
                                 <span class="add-on">i</span>
+                                <div class="cue">${error_supplier }</div>
                                </div>
                             </li>
                             <li class="col-md-3 col-sm-6 col-xs-12">
@@ -81,6 +82,7 @@
                                <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
                                     <fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd" var="startTime" />
                                     <input class="input_group" name="startTime" readonly="readonly" onClick="WdatePicker()" type="text" value="${startTime}"> 
+                            		<div class="cue">${error_startTime }</div>	
                                 </div>
                             </li>
                             <li class="col-md-3 col-sm-6 col-xs-12">
@@ -119,6 +121,7 @@
                                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">理由</span>
                               <div class="col-md-12 col-sm-12 col-xs-12 p0">
                                 <textarea class="col-md-12 col-sm-12 col-xs-12" name="reason"  style="height:130px" title="不超过800个字" placeholder="不超过800个字">${supplierBlacklist.reason}</textarea>
+                              <div class="star_red">${error_reason }</div>
                                </div>
                              </li>
                     </ul>

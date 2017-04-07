@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 
 
 
+
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +39,7 @@ import ses.util.DictionaryDataUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
+import bss.dao.ob.OBResultsInfoMapper;
 import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
@@ -96,6 +99,9 @@ public class OBSupplierQuoteController {
 	// 注入竞价项目Service
 	@Autowired
 	private OBProjectServer OBProjectServer;
+	
+	@Autowired
+	private OBResultsInfoMapper obResultsInfoMapper;
 	
 	// 第一轮结果确认
 	private static final String FIRST_CONFIRM = "firstConfirm";
@@ -658,32 +664,49 @@ public class OBSupplierQuoteController {
 		
 		/**************************页面底层供应商信息*************************/
 		// 页面底层供应商信息
-		/*List<OBResultSubtabulation> list = obResultSubtabulationService.selectByProjectId(projectId);
-    	Integer countProportion = 0;
-    	if(list != null){
-    		for (OBResultSubtabulation obr : list) {
-    			if(obr != null){
-    				OBProjectResult projectResult = oBProjectResultService.selectByPrimaryKey(obr.getProjectResultId());
-    				if(projectResult != null){
-    					countProportion += Integer.parseInt(projectResult.getProportion());
-    					obr.setProportion(Integer.parseInt(projectResult.getProportion()));
-    					obr.setStatus(projectResult.getStatus());
-    					obr.setRanking(projectResult.getRanking());
-    				}
-    			}
-        	}
-    	}
-    	OBProject obProjectC = OBProjectServer.selectByPrimaryKey(projectId);
-    	if(obProjectC != null){
-    		String projectName = obProjectC.getName();
-    		model.addAttribute("projectName",projectName);
-    	}
-    	if(list != null){
-    		Collections.sort(list);
-    	}
-    	model.addAttribute("listres", list);
-    	model.addAttribute("countProportion",countProportion);
-    	model.addAttribute("size",list.size());*/
+		//查询参与的供应商==============================================================================================
+		if(projectId != null){
+			List<OBProjectResult> listss = oBProjectResultService.selResultByProjectId(projectId);
+	    	Integer countProportion = 0;
+	    	if(listss != null && listss.size() > 0){
+	    		for (OBProjectResult obProjectResult : listss) {
+					if(obProjectResult != null){
+						if(obProjectResult.getStatus() == 1){
+							List<OBProjectResult> prolist = oBProjectResultService.selProportion(projectId, obProjectResult.getSupplierId());
+							if(prolist != null && prolist.size() == 1){
+								obProjectResult.setFirstproportion(prolist.get(0).getProportion());
+							}
+							if(prolist != null && prolist.size() == 2){
+								obProjectResult.setFirstproportion(prolist.get(0).getProportion());
+								obProjectResult.setSecondproportion(prolist.get(1).getProportion());
+							}
+							List<OBResultSubtabulation> obResultSubtabulation = obResultSubtabulationService.selectByProjectIdAndSupplierId(projectId, obProjectResult.getSupplierId());
+							if(obResultSubtabulation != null && obResultSubtabulation.size() > 0){
+								for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {
+									if(obResultSubtabulation2 != null){
+										obResultSubtabulation2.setTotalMoney(obResultSubtabulation2.getTotalMoney().divide(million));
+									}
+								}
+							}
+							
+							obProjectResult.setObResultSubtabulation(obResultSubtabulation);
+							countProportion += Integer.parseInt(obProjectResult.getProportion());
+						}else{
+							List<OBResultsInfo> listinf = obResultsInfoMapper.selectResult(projectId, obProjectResult.getSupplierId());
+							obProjectResult.setOBResultsInfo(listinf);
+						}
+					}
+				}
+	    	}
+			OBProject obProjectww = OBProjectServer.selectByPrimaryKey(projectId);
+	    	if(obProjectww != null){
+	    		String projectName = obProjectww.getName();
+	    		model.addAttribute("projectName",projectName);
+	    	}
+			model.addAttribute("listres", listss);
+			model.addAttribute("countProportion",countProportion);
+			model.addAttribute("size",listss.size());
+		}
     	
     	/**************************页面底层供应商信息结束*************************/
 		
