@@ -181,4 +181,17 @@ public interface OBProductService {
 	 * @return
 	 */
 	boolean exportProduct(String start,String end,Date synchDate);
+	
+	/**
+	 * 
+	 * Description: 查询已发布的产品
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月7日 
+	 * @param  @param example
+	 * @param  @return 
+	 * @return List<OBProduct> 
+	 * @exception
+	 */
+	List<OBProduct> selectPublishProduct(OBProduct example, Integer page);
 }

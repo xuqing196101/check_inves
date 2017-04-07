@@ -437,7 +437,7 @@
         PRODUCT_CATEGORY_LEVEL = #{productCategoryLevel,jdbcType=DECIMAL},
       </if>
       <if test="smallPointsId != null" >
-        SMALL_POINTS_ID = #{smallPointsId,jdbcType=DECIMAL},
+        SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -523,5 +523,23 @@
     select * from T_BSS_OB_PRODUCT where 
     to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
     and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+  </select>
+  
+  <!-- 门户网查询已发布的产品 -->
+  <select id="selectPublishProduct" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProduct" >
+    SELECT  
+    	<include refid="Base_Column_List"/> 
+    FROM T_BSS_OB_PRODUCT 
+    WHERE STATUS = 2 AND IS_DELETED=0
+    <if test="code != null and code != ''">
+    	AND CODE like '%'||#{code}||'%'
+    </if>
+    <if test="name != null and name != ''">
+    	AND NAME like '%'||#{name}||'%'
+    </if>
+    <if test="smallPointsId != null and smallPointsId != ''" >
+        AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR},
+     </if>
+    ORDER BY CREATED_AT DESC
   </select>
 </mapper>

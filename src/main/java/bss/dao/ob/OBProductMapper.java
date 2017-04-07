@@ -148,4 +148,16 @@ public interface OBProductMapper {
 	 */
 	List<OBProduct> selectByUpdateDate(@Param("start")String start,@Param("end")String end);
     
+	/**
+	 * 
+	 * Description: 查询已发布的产品
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月7日 
+	 * @param  @param example
+	 * @param  @return 
+	 * @return List<OBProduct> 
+	 * @exception
+	 */
+	List<OBProduct> selectPublishProduct(OBProduct example);
 }

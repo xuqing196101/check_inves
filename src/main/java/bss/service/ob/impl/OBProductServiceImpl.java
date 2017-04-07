@@ -121,4 +121,12 @@ public class OBProductServiceImpl implements OBProductService {
 		return boo;
 	}
 
+	@Override
+	public List<OBProduct> selectPublishProduct(OBProduct example, Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<OBProduct> list = oBProductMapper.selectPublishProduct(example);
+		return list;
+	}
+
 }

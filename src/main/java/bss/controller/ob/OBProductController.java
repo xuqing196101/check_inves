@@ -813,5 +813,60 @@ public class OBProductController {
 		String orgId = oBProductService.selOrgByCategory(smallPointsId,null);
 		return orgId;
 	}
+	
+	/**
+	 * 
+	 * Description: 列表查询
+	 * 
+	 * @author zhang shubin
+	 * @version 2017年3月7日
+	 * @param @param example
+	 * @param @param model
+	 * @param @param page
+	 * @param @return
+	 * @return String
+	 * @exception
+	 */
+	@RequestMapping("/index_list")
+	public String headlist(HttpServletRequest request,Model model, Integer page) {
+		if (page == null) {
+			page = 1;
+		}
+		OBProduct example = new OBProduct();
+		String name = request.getParameter("name") == null ? "" : request.getParameter("name");
+		String code = request.getParameter("code") == null ? "" : request.getParameter("code");
+		String smallPointsId = request.getParameter("smallPointsId") == null ? "" : request.getParameter("smallPointsId");
+		example.setName(name);
+		example.setCode(code);
+		example.setSmallPointsId(smallPointsId);
+		List<OBProduct> list = oBProductService.selectPublishProduct(example, page);
+		if(list != null){
+			for (OBProduct oBProduct : list) {
+				String id = oBProduct.getSmallPointsId();
+				if(id != null){
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("id", id);
+					List<Category> clist = categoryService.findCategoryByParentNode(map);
+					String str = "";
+					for (Category category : clist) {
+						if(!oBProduct.getSmallPoints().getName().equals(category.getName())){
+							str += category.getName() +"/";
+						}
+					}
+					str+=oBProduct.getSmallPoints().getName();
+					oBProduct.setPointsName(str);
+				}
+			}
+		}
+		Category cl = categoryService.findById(smallPointsId);
+		if(cl != null){
+			model.addAttribute("catName", cl.getName());
+		}
+		PageInfo<OBProduct> info = new PageInfo<>(list);
+		model.addAttribute("info", info);
+		model.addAttribute("product", example);
+		return "bss/ob/finalize_DesignProduct/index_list";
+	}
+
 
 }

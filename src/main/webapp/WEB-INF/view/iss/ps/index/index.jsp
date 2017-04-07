@@ -43,9 +43,9 @@
         $("#kaptchaImage").hide().attr('src', 'Kaptcha.jpg?' + Math.floor(Math.random() * 100)).fadeIn();
       }
 
-      function setting() {
+/*       function setting() {
         layer.msg("正在建设中");
-      }
+      } */
 
       function drugs() {
         layer.msg("正在建设中");
@@ -1114,7 +1114,7 @@
               </a>
             </div>
             <div class="ywbl_01 col-xs-4 col-sm-4">
-              <a href="javascript:void(0)" onclick="setting()" class="dxcpjj">
+              <a href="${pageContext.request.contextPath }/product/index_list.html" class="dxcpjj"><!--  onclick="setting()" -->
                 <span>定型产品竞价</span>
               </a>
             </div>
