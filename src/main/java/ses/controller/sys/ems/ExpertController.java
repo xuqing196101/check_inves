@@ -3230,7 +3230,7 @@ public class ExpertController extends BaseController {
             
             // 图片前缀路径
             String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
-              + "/" + request.getContextPath()+"/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+              + request.getContextPath()+"/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
             
             System.out.println(host+"*********");
         	dataMap.put("image",host);
@@ -3284,8 +3284,8 @@ public class ExpertController extends BaseController {
         	if(id.equals(gpId)){
         		expertTypeId=gpId;
         	}
-        	if(id.equals(gpId)){
-        		expertTypeId=gpId;
+        	if(id.equals(pId)){
+        		expertTypeId=pId;
         	}
         }
        
@@ -4308,7 +4308,7 @@ public class ExpertController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/practice")
-	public ModelAndView createNewPage(String index,String expertId){
+	public ModelAndView createNewPage(String index,String expertId,String type){
 		ModelAndView modelAndView=new ModelAndView("ses/ems/expert/expert_type");
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
@@ -4316,7 +4316,15 @@ public class ExpertController extends BaseController {
 		modelAndView.addObject("index", index);
 		modelAndView.addObject("expertId", expertId);
 		modelAndView.addObject("expertKey", expertKey);
-		return modelAndView;
+		ModelAndView modelAndView2=new ModelAndView("ses/ems/expert/expert_jingji");
+		if(type.equals("2")){
+			modelAndView2.addObject("id", id);
+			modelAndView2.addObject("index", index);
+			modelAndView2.addObject("expertId", expertId);
+			modelAndView2.addObject("expertKey", expertKey);
+			return modelAndView2;
+		}
+		 return modelAndView;
 	}
 	
 	/**
@@ -4370,6 +4378,12 @@ public class ExpertController extends BaseController {
 		return "";
 	}
 	
-	
+	@RequestMapping("deleteExperType")
+	@ResponseBody
+	public String deleleExpterType(String expertId,String expertTypeId){
+		
+		expertTitleService.deleteExpertType(expertId, expertTypeId);
+		return "";
+	}
 	
 }

@@ -65,6 +65,12 @@ public class ExpertTitleServiceImpl implements ExpertTitleService{
 		expertTitleMapper.deleteById(id);
 	}
 
+	@Override
+	public void deleteExpertType(String expertId, String expertTypeId) {
+		// TODO Auto-generated method stub
+		expertTitleMapper.deleteExpertType(expertId, expertTypeId);
+	}
+
 	
 
 }
