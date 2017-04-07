@@ -532,13 +532,21 @@
         
         
         function addPractice(val){
-        	var detailRow = $("#server_div").find("li");
-       
-			var index = detailRow.length;
-			/* if(val=="2"){
-				var detailRoww = $("#pro_div").find("li");
-				  index = detailRoww.length/4;
-			} */
+        	// var detailRow = $("#server_div").find("li");
+       	
+			  var index = 1;
+			var proIndex =$("#proIndex").val();
+			 
+			var ecoIndex =$("#ecoIndex").val();
+			 
+			
+			 if(val=="2"){
+				 
+				  index =ecoIndex;
+			}else{
+				index =proIndex;;
+			}  
+			
 			var id=$("#id").val();
 			$.ajax({
 				url: "${pageContext.request.contextPath}/expert/practice.do",
@@ -546,9 +554,13 @@
 				data:{"index":index,"expertId":id,"type":val},
 				success: function(data) {
 					if(val==2){
+						ecoIndex++;
+						$("#ecoIndex").val(ecoIndex);
 						$("#jingji_ul").append(data);
 						
 					}else{
+						proIndex++;
+						$("#proIndex").val(proIndex);
 						$("#addUl").append(data);
 					}
 					init_web_upload();
@@ -851,6 +863,8 @@
         </div>
     </div>
 </form>
+<input type="hidden" id="proIndex" value="1">
+<input type="hidden" id="ecoIndex" value="1">
 <jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 

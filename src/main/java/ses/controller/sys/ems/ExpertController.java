@@ -479,22 +479,22 @@ public class ExpertController extends BaseController {
      		    	}
      		    	
      		    }
-             	 if(bool!=true){
-             		 ExpertTitle et1=new ExpertTitle();
-             		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
-             		 et1.setId(uid);
-             		 et1.setExpertId(expert.getId());
-             		 ecoList.add(et1);
-             	 }
-             	 if(boo2!=true){
-             		 ExpertTitle et1=new ExpertTitle();
-             		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
-             		 et1.setId(uid);
-             		 et1.setExpertId(expert.getId());
-             		 proList.add(et1);
-             	 }
+             	
         	}
-		   
+        	 if(bool!=true){
+         		 ExpertTitle et1=new ExpertTitle();
+         		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
+         		 et1.setId(uid);
+         		 et1.setExpertId(expert.getId());
+         		 ecoList.add(et1);
+         	 }
+         	 if(boo2!=true){
+         		 ExpertTitle et1=new ExpertTitle();
+         		 String uid = UUID.randomUUID().toString().replaceAll("-", "");
+         		 et1.setId(uid);
+         		 et1.setExpertId(expert.getId());
+         		 proList.add(et1);
+         	 }
 //        	 expert.setTitles(proList);
 			 model.addAttribute("ecoList", ecoList);
 			 model.addAttribute("proList", proList);
