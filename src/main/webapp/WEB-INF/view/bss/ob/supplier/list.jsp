@@ -503,6 +503,9 @@
 						<c:when test="${obProject.remark == '3'}">
 							未中标
 						</c:when>
+						<c:when test="${obProject.remark == '4'}">
+							中标
+						</c:when>
 						<%-- <c:when test="${obProject.remark == '4'}">
 							待结束
 						</c:when> --%>

@@ -111,7 +111,7 @@
 				   layer.alert("请点击查看结果按钮!");
 				   return;
 			   }
-			   if(status == '1' || status == '2' || status == '4' || status == '5'){
+			   if(status == '1' || status == '2' || status == '4' || status == '5' || status == '6'){
 			   	   // 查看竞价信息
 				   window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?id="+valueArr[0];
 			   }
@@ -189,7 +189,7 @@
 		  <th class="info">竞价开始时间</th>
 		  <th class="info">竞价结束时间</th>
 		  <th class="info">成交供应商</th>
-		  <th class="info">参与供应商</th>
+		  <th class="info">合格供应商</th>
 		  <th class="info">竞价状态</th>
 		  <!-- <th class="info">操作</th> -->
 		</tr>

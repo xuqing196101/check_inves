@@ -86,7 +86,7 @@
 					<c:if test="${supplier.status == -1 && supplier.proportion == 0}">未中标</c:if>
 					<c:if test="${supplier.status == -1 && supplier.proportion != 0}">未中标</c:if>
 					<c:if test="${supplier.status == 0}">未中标</c:if>
-					<c:if test="${supplier.status == 1 || supplier.status == 2 }">已接受</c:if>
+					<c:if test="${supplier.status == 1 || supplier.status == 2 }">中标</c:if>
 				</span>
   			</div>
 	   </li>
