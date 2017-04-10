@@ -18,8 +18,8 @@
 			}
 		});
 	});
-	function downNotice(name){
-		window.location.href="${pageContext.request.contextPath}/expert/downNotice.html?name="+name+"&&doc="+doc;
+	function downNotice(){
+		window.location.href="${pageContext.request.contextPath}/expert/downNotice.html";
 	}
 	function downCategory(){
 		window.location.href="${pageContext.request.contextPath}/expert/downCategory.html";
@@ -36,11 +36,11 @@
 					<!-- <h2 class="tc bbgrey">阅读评审专家须知</h2> -->
 				</div>
 				<div class="tab-content margin-bottom-20 margin-top-20 lh24">
-				<div id = "doc">${doc}</div>
+				${doc}
 					<div class="mt40 col-md-12 col-xs-12 col-sm-12 p0">
 					   	<span class="fl">文件下载：</span>
 						<div class="fl">
-							<span class="ml10">《${docName }》</span><a onclick="downNotice('${docName }')" href="javascript:void(0)" class="download"></a>
+							<span class="ml10">《${docName }》</span><a onclick="downNotice()" href="javascript:void(0)" class="download"></a>
 						</div>
 						<div class="fl">
 							《军队物资工程服务采购评审专家参评产品分类目录》<a href="${pageContext.request.contextPath}/supplier/download_category.html" class="download"></a>

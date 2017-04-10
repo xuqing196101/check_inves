@@ -29,6 +29,7 @@ import javax.servlet.http.HttpSession;
 
 import bss.util.ExcelRead;
 import net.sf.json.JSONObject;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -116,6 +117,7 @@ import bss.service.prms.ReviewProgressService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import com.mysql.jdbc.Blob;
 
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -3105,22 +3107,21 @@ public class ExpertController extends BaseController {
      * @throws Exception
      */
     @RequestMapping("/downNotice")
-    public ResponseEntity < byte[] > downNotice(String name,
-        HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String downNotice(HttpServletRequest request, HttpServletResponse response,Model model) throws Exception {
         //		// 文件存储地址
         //		String filePath = request.getSession().getServletContext()
         //			.getRealPath("/WEB-INF/upload_file/");
         //		// 文件名称
         //		String name = new String(("军队物资工程服务采购评审专家入库须知.doc").getBytes("UTF-8"),
         //			"UTF-8");
-        //		/** 生成word 返回文件名 */
+        //		/** 生成word 返回文件名 */  
         //		String fileName = WordUtil.createWord(null, "expertNotice.ftl",
         //			name, request);
         //		// 下载后的文件名
         //		String downFileName = new String("军队物资工程服务采购评审专家入库须知.doc".getBytes("UTF-8"),
         //			"iso-8859-1"); // 为了解决中文名称乱码问题
         //		return service.downloadFile(fileName, filePath, downFileName);
-        String path = PathUtil.getWebRoot() + "excel/军队物资工程服务采购评审专家入库须知.doc";
+        /*String path = PathUtil.getWebRoot() + "excel/军队物资工程服务采购评审专家入库须知.doc";
         File file = new File(path);
 
         HttpHeaders headers = new HttpHeaders();
@@ -3128,7 +3129,18 @@ public class ExpertController extends BaseController {
         headers.setContentDispositionFormData("attachment", fileName);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         return new ResponseEntity < byte[] > (FileUtils.readFileToByteArray(file),
-            headers, HttpStatus.CREATED);
+            headers, HttpStatus.CREATED);*/
+    	DictionaryData dd = DictionaryDataUtil.get("EXPERT_REGISTER_NOTICE");
+        if(dd != null) {
+            Map < String, Object > param = new HashMap < String, Object > ();
+            param.put("docType", dd.getId());
+            String doc = noticeDocumentService.findDocByMap(param);
+            String docName = noticeDocumentService.findDocNameByMap(param);
+            model.addAttribute("doc", doc);
+            model.addAttribute("docName", docName);
+            request.setAttribute("docName", docName);
+        }
+    	return "ses/ems/expert/expert_word_print";
     }
 
     /**

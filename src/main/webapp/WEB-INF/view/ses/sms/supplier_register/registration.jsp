@@ -41,7 +41,7 @@
 					<div class="mt40 col-md-12 col-sm-12 col-xs-12 p0">
 						<span class="fl">文件下载：</span>
 						<div class="fl">
-							<span class="ml10">《军队物资工程服务供应商入库须知》</span><a href="${pageContext.request.contextPath}/browser/supplierDownload.html" class="download"></a>
+							<span class="ml10">《${docName }》</span><a href="${pageContext.request.contextPath}/browser/supplierDownload.html" class="download"></a>
 						</div>
 						
 						<div class="fl">

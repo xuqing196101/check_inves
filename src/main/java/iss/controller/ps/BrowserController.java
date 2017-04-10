@@ -9,13 +9,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.DictionaryData;
+import ses.service.bms.NoticeDocumentService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
 import common.utils.UploadUtil;
@@ -34,6 +41,8 @@ import common.utils.UploadUtil;
 @RequestMapping("/browser")
 public class BrowserController {
 	
+	@Autowired
+	private NoticeDocumentService noticeDocumentService;
 	
 	@RequestMapping("/index")
 	public String browserIndex(){
@@ -142,12 +151,18 @@ public class BrowserController {
 	  * @throws
 	   */
 	  @RequestMapping("/supplierDownload")
-	  public void supplier(HttpServletRequest request, HttpServletResponse response){
-	     String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.browser.path");
-	     UploadUtil.createDir(path);
-	     String fileName = PropUtil.getProperty("file.doc");
-	     String filePath = path + File.separator + fileName;
-	     downloadFile(request, response, filePath, fileName);
+	  public String supplier(HttpServletRequest request, HttpServletResponse response,Model model){
+		  DictionaryData dd = DictionaryDataUtil.get("SUPPLIER_REGISTER_NOTICE");
+	        if(dd != null) {
+	            Map < String, Object > param = new HashMap < String, Object > ();
+	            param.put("docType", dd.getId());
+	            String doc = noticeDocumentService.findDocByMap(param);
+	            String docName = noticeDocumentService.findDocNameByMap(param);
+	            model.addAttribute("doc", doc);
+	            model.addAttribute("docName", docName);
+	            request.setAttribute("docName", docName);
+	        }
+	    	return "ses/sms/supplier_register/expert_word_print";
 	  }
 	  /**
 	   * 

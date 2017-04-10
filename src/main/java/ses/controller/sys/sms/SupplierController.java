@@ -254,6 +254,7 @@ public class SupplierController extends BaseSupplierController {
 			Map < String, Object > param = new HashMap < String, Object > ();
 			param.put("docType", dd.getId());
 			model.addAttribute("doc", noticeDocumentService.findDocByMap(param));
+			model.addAttribute("docName", noticeDocumentService.findDocNameByMap(param));
 		}
 		return "ses/sms/supplier_register/registration";
 	}
