@@ -92,4 +92,16 @@ public class NoticeDocumentServiceImpl implements NoticeDocumentService{
 		}
 		return null;
 	}
+	
+	/**
+	 * 查询须知文档名称
+	 */
+	@Override
+	public String findDocNameByMap(Map<String, Object> map) {
+		List<String> list = noticeDocumentMapper.findDocNameByMap(map);
+		if (list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
 }

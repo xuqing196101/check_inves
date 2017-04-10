@@ -108,10 +108,8 @@
 
 	 }
 
-	 function reset(){
-		 alert("sss");
-		 $("#tname").val("");
-		 $("#tname").text("");
+	 function resets(){
+		 window.location.href = "${ pageContext.request.contextPath }/noticeDocument/getAll.do";
 	 }
 	 
 	 /* 不知道这个谁写的  也没看懂要干啥 */
@@ -176,7 +174,7 @@
 	  		</span>
 	      </li>
 	    	<button type="submit" class="btn fl mt1">查询</button>
-	    	<button type="reset" onclick="reset()" class="btn fl mt1">重置</button>  	
+	    	<button type="reset" onclick="resets()" class="btn fl mt1">重置</button>  	
     	</ul>
     	</form>
     	  <div class="clear"></div>
