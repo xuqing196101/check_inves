@@ -27,6 +27,8 @@
           <ul class="demand_list">
             <li class="fl"><label class="fl">专家姓名：</label><span><input
                 type="text" id="expertName" class="" value="${expertName}"  name="expertName"/></span></li>
+            <li class="fl"><label class="fl">联系电话：</label><span><input
+                type="text" id="expertMobile" class="" value="${expertMobile}"  name="expertMobile"/></span></li>
           </ul>
             <input type="submit" class="btn fl queryBtn" value="查询"/>
             <input type="reset" class="btn fl resetBtn" value="重置">
@@ -54,9 +56,9 @@
           <td class="tc opinter">${ext.relName }</td>
           <td class="tc opinter">
               <c:forEach var="expertType" items="${ddList}">
-                  <c:if test="${projectExtract.reviewType eq expertType.id}">
+                  <c:if test="${ext.expertsTypeId eq expertType.id}">
                       ${expertType.name}
-                      <input type="hidden" name="packageExperts[${listCount}].reviewTypeId" value="${expertType.id}">
+                      <input type="hidden" name="packageExperts.reviewTypeId" value="${expertType.id}">
                   </c:if>
               </c:forEach>
           </td>
@@ -96,7 +98,8 @@
                     $.ajaxSetup({cache:false});
                     var packageId = "${packageId }";
                     var projectId = "${projectId }";
-                    var path="${pageContext.request.contextPath}/expert/gotoCiteExpertView.html?packageId=" + packageId + "&projectId=" + projectId + "&expertName="+$("#expertName").val()+"&page="+e.curr+"&ix=${ix}"+"&selectValue="+$("#hiddenValue").val();
+                    var path="${pageContext.request.contextPath}/expert/gotoCiteExpertView.html?packageId=" + packageId + "&projectId=" + projectId +
+                        "&expertName="+$("#expertName").val()+"&expertMobile="+$("#expertMobile").val()+"&page="+e.curr+"&ix=${ix}"+"&selectValue="+$("#hiddenValue").val();
                     $("#tab-1").load(path);
 
                 }

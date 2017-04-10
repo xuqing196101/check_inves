@@ -1718,6 +1718,9 @@
         <if test="expert.relName != null">
             and REAL_NAME LIKE '%'||#{expert.relName,jdbcType=VARCHAR}||'%'
         </if>
+        <if test="expert.mobile != null">
+            and MOBILE LIKE '%'||#{expert.mobile,jdbcType=VARCHAR}||'%'
+        </if>
         ORDER BY CREATED_AT DESC
     </select>
     <!-- 根据id列表查询专家信息 -->

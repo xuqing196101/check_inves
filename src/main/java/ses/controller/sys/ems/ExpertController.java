@@ -88,12 +88,7 @@ import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.QualificationService;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
-import ses.service.ems.ExpertAttachmentService;
-import ses.service.ems.ExpertAuditService;
-import ses.service.ems.ExpertCategoryService;
-import ses.service.ems.ExpertService;
-import ses.service.ems.ExpertTitleService;
-import ses.service.ems.ProjectExtractService;
+import ses.service.ems.*;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierQuoteService;
@@ -183,6 +178,9 @@ public class ExpertController extends BaseController {
     private UploadService uploadService;
     @Autowired
     private ExpertTitleService expertTitleService;
+    @Autowired
+    private ExpExtractRecordService expExtractRecordService; //专家抽取记录表
+
     /**
      * 
      * @Title: toExpert
@@ -4514,6 +4512,7 @@ public class ExpertController extends BaseController {
         String packageId = request.getParameter("packageId");
         String selectValue = request.getParameter("selectValue");
         String expertName = request.getParameter("expertName");
+        String expertMobile = request.getParameter("expertMobile");
         String projectId = request.getParameter("projectId");
         Expert expert = new Expert();
         expert.setIsProvisional((short)1);//临时
@@ -4521,18 +4520,24 @@ public class ExpertController extends BaseController {
         if(!StringUtils.isEmpty(expertName)){
             expert.setRelName(expertName);
         }
+        if(!StringUtils.isEmpty(expertMobile)){
+            expert.setMobile(expertMobile);
+        }
         expert.setIsDelete((short)0);
         List<Expert> experts = service.findCiteExpertByCondition(expert, packageId, page == null || page.equals("") ? 1 : Integer.valueOf(page));
-        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+        //专家类型
+        List<DictionaryData>  dd1 = expExtractRecordService.ddList();
         model.addAttribute("list", new PageInfo<>(experts));
         model.addAttribute("packageId", packageId);
-        model.addAttribute("ddList", ddList);
+        model.addAttribute("ddList", dd1);
         model.addAttribute("selectValue", selectValue);
         model.addAttribute("projectId", projectId);
         if(null != expertName){
             model.addAttribute("expertName", expertName);
         }
-
+        if(null != expertMobile){
+            model.addAttribute("expertMobile", expertMobile);
+        }
         return "bss/prms/assign_expert/expert_cite_list";
     }
 

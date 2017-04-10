@@ -6,7 +6,7 @@ $(".queryBtn").click(function () {
     $.ajaxSetup({cache:false});
     var packageId = $("input[name='packageId']").val();
     var projectId = $("input[name='projectId']").val();
-    var path = globalPath + "/expert/gotoCiteExpertView.html?packageId=" + packageId + "&projectId=" + projectId + "&expertName="+$("#expertName").val();
+    var path = globalPath + "/expert/gotoCiteExpertView.html?packageId=" + packageId + "&projectId=" + projectId + "&expertName="+$("#expertName").val() + "&expertMobile="+$("#expertMobile").val();
     $("#tab-1").load(path);
 })
 /**重置按钮*/
