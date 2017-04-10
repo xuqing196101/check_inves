@@ -703,7 +703,20 @@ public class OBProductController {
 			String jsonString = JSON.toJSONString(errMsg);
 			return jsonString;
 		}else{
-			if(list != null){
+			if(list != null && list.size() > 0){
+				for (int i = 0; i < list.size(); i++) {
+					OBProduct obProduct1 = list.get(0);
+					for (int j = 0; j < list.size(); j++) {
+						OBProduct obProduct2 = list.get(j);
+						if(obProduct1.getSmallPointsId().equals(obProduct2.getSmallPointsId())){
+							if(! obProduct1.getProcurementId().equals(obProduct2.getProcurementId())){
+								errMsg = "C列错误，采购机构与目录唯一对应！";
+								String jsonString = JSON.toJSONString(errMsg);
+								return jsonString;
+							}
+						}		
+					}
+				}
 				for (OBProduct obProduct : list) {
 					int i = 2;
 					String smallPointsId = obProduct.getSmallPointsId();
