@@ -68,6 +68,7 @@
 			<mvc:exclude-mapping path="/park/getIndex.*" />
 			<mvc:exclude-mapping path="/userInfo/loginInfo.*" />
 			<mvc:exclude-mapping path="/index/selectsumByDirectory.*" />
+	        <mvc:exclude-mapping path="/article/categoryTree.*" />
 				
 
 <!-- 			首页登录 -->

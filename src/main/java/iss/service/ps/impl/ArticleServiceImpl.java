@@ -917,4 +917,11 @@ public class ArticleServiceImpl implements ArticleService {
       }
   }
 
+  //通过产品目录查询文章
+  @Override
+  public List<Article> findArtByCategory(Map<String, Object> map) {
+	  // TODO Auto-generated method stub
+	  return articleMapper.findArtByCategory(map);
+  }
+
 }

@@ -458,4 +458,8 @@ public interface ArticleMapper {
     * @throws
      */
     List<Article> selectAllArticleByCondition(Map<String, Object> map);
+    
+    //根据产品目录查询文章
+    List<Article> findArtByCategory(Map<String, Object> map);
+    
 }

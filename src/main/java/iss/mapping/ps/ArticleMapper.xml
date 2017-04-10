@@ -1010,6 +1010,9 @@ where 1=1
   	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
     	#{item}
     </foreach>
+    <if test="title!=null and title!=''">
+		and name like '%'||#{title}||'%'
+	</if>
     and status=2
     and IS_DELETED = 0
     order by published_at desc
@@ -1362,5 +1365,21 @@ where
 	</if>
     ORDER BY CREATED_AT DESC
   </select>
+  
+   <!-- 根据产品目录查询信息公告 -->
+	<select id="findArtByCategory" resultMap="ArticleMapper"
+		parameterType="Map">
+		SELECT  
+		<include refid="Article_Column_List"/>
+		FROM T_SES_BMS_ARTICLE_CATEGORY A
+		LEFT JOIN T_ISS_PS_ARTICLE
+		B ON A.CATEGORY_ID=B.ID
+		WHERE IS_DELETED = 0 AND STATUS = 2
+		AND ARTICLE_TYPE_ID = #{articleTypeId}
+		AND SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId}
+		<if test="title!=null and title!=''">
+			and name like '%'||#{title}||'%'
+		</if>
+	</select>
   
 </mapper>

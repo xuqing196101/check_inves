@@ -241,6 +241,9 @@ public interface ArticleService {
 	 */
 	List<Article> selectsumBynews(Map<String, Object> map);
 	
+	//通过产品目录查找文件
+	List<Article> findArtByCategory(Map<String, Object> map);
+	
 	/**
 	* @Title: selectsumBydanNews
 	* @author Qu Jie 

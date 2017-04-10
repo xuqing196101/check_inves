@@ -947,7 +947,9 @@ public class IndexNewsController extends BaseSupplierController{
 			page=1;
 		}
 		map.put("idArray",idArray);
+		map.put("title",RequestTool.getParam(request, "title", ""));
 		map.put("page", page);
+		
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 		List<Article> articleList = null;
 		List<Article> twoArticleList = articleService.selectsumByParId(map);
@@ -958,6 +960,7 @@ public class IndexNewsController extends BaseSupplierController{
 		topNews(indexMapper);
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
+		model.addAttribute("title", RequestTool.getParam(request, "title", ""));
 		model.addAttribute("indexMapper", indexMapper);
 		return "iss/ps/index/sumParId_two";
 	}
@@ -979,19 +982,12 @@ public class IndexNewsController extends BaseSupplierController{
 		Map<String, Object> map = new HashMap<String, Object>();
 		String id = request.getParameter("id");
 		String twoid = request.getParameter("twoid");
-		String title = request.getParameter("title");
-		//解决中文乱码
-		if(title!=null)
-		{
-		   title=new String(title.getBytes("ISO-8859-1"),"UTF-8");
-		}
+		String title = RequestTool.getParam(request, "title", "");
+		String tab=RequestTool.getParam(request, "tab", "");
+		String productType=RequestTool.getParam(request, "productType", "");
+		String categoryName=RequestTool.getParam(request, "productTypeName", "");
+	
 		
-		String productType=request.getParameter("productType");
-		//解决中文乱码
-		if(productType!=null)
-		{
-			productType=new String(productType.getBytes("ISO-8859-1"),"UTF-8");
-		}
 		if(page==null){
 			page=1;
 		}
@@ -999,10 +995,17 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("twoid", twoid);
 		map.put("page", page);
 		map.put("title", title);
-		map.put("productType", productType);
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 		List<Article> articleList = null;
 		List<Article> twoArticleList = articleService.selectsumBynews(map);
+		//通过产品目录查询文章
+		if(!"".equals(productType)){
+			map.put("articleTypeId",twoid);
+			map.put("secondArticleTypeId",twoid);
+			map.put("productType", productType);
+			twoArticleList = articleService.findArtByCategory(map);
+		}
+		//List<Article> twoArticleList = articleService.findArtByCategory(map);
 		if(twoArticleList.size()>0){
 			articleList = twoArticleList;
 		}
@@ -1015,6 +1018,11 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("indexMapper", indexMapper);
 		model.addAttribute("title", title);
 		model.addAttribute("productType", productType);
+		model.addAttribute("tab", tab);
+		model.addAttribute("productTypeName", categoryName);
+		model.addAttribute("categoryNames", categoryName);
+		model.addAttribute("categoryIds", productType);
+		
 		return "iss/ps/index/sumBynews_two";
 	}
 	
