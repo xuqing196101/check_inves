@@ -156,7 +156,7 @@ public class ExpertAuditController{
 		if(user.getLoginName().equals("admin")){
 			expert.setPurchaseDepId(null);
 		}else{
-			String orgId = user.getOrg().getId();
+			String orgId = user.getOrgId();
 			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
 			expert.setPurchaseDepId(depId.getId());	
 		}
