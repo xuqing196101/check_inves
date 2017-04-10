@@ -225,4 +225,13 @@
       EXPERT_ID = #{expertId},
     where ID = #{id}
   </update>
+  
+  <!-- 查询所有正在处罚中的专家黑名单  Easong -->
+  <select id="findAllBlackListExpert" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+	  FROM T_SES_EMS_EXPERT_BLACKLIST BL
+	  WHERE 1 = 1 AND BL.STATUS = #{status}
+	 ORDER BY CREATED_AT DESC
+  </select>
 </mapper>

@@ -105,4 +105,15 @@ public interface ExpertBlackListService {
 	 * @return List<ExpertBlackListLog>
 	 */
 	List<ExpertBlackListLog> findBlackListLog(ExpertBlackListLog expertBlackListHistory,Integer page);
+	
+	/**
+	 * 
+	* @Title: updateExpertBlackStatus 
+	* @Description: 定时修改专家黑名单处罚日期截止时的处罚状态
+	* @author Easong
+	* @param     设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
+	void updateExpertBlackStatus();
 }

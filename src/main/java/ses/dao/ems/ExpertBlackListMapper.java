@@ -57,4 +57,16 @@ public interface ExpertBlackListMapper {
 	 * @return void
 	 */
 	void updateStatus(ExpertBlackList expertBlackList);
+	
+	/**
+	 * 
+	* @Title: findAllBlackListExpert 
+	* @Description: 查询所有正在处罚中的专家黑名单
+	* @author Easong
+	* @param @param status
+	* @param @return    设定文件 
+	* @return List<ExpertBlackList>    返回类型 
+	* @throws
+	 */
+	List<ExpertBlackList> findAllBlackListExpert(Integer status);
 }

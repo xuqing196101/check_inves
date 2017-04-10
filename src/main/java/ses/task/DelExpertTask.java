@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ses.model.ems.Expert;
+import ses.service.ems.ExpertBlackListService;
 import ses.service.ems.ExpertService;
 
 /**
@@ -26,6 +27,10 @@ public class DelExpertTask {
     @Autowired
     private ExpertService expertService;
     
+    /** 黑名单专家 Easong **/
+    @Autowired
+    private ExpertBlackListService expertBlackListService;
+    
     /**
      *〈简述〉定时删除无效的专家
      *〈详细描述〉
@@ -44,5 +49,18 @@ public class DelExpertTask {
                 }
             }
         }
+    }
+    
+    /**
+     * 
+    * @Title: updateExpertBlackStatus 
+    * @Description: 定时修改专家黑名单处罚日期截止时的处罚状态
+    * @author Easong
+    * @param     设定文件 
+    * @return void    返回类型 
+    * @throws
+     */
+    public void updateExpertBlackStatus(){
+    	expertBlackListService.updateExpertBlackStatus();
     }
 }

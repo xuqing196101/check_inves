@@ -25,9 +25,13 @@
 	
 	<task:scheduled-tasks>
 	 <!-- 定时处理竞价业务(每5秒执行一次) -->
-     	<task:scheduled ref="OBProjectTask"  method="handleOBProject" cron="01 * * * * ?"/>
+     	<!-- <task:scheduled ref="OBProjectTask"  method="handleOBProject" cron="01 * * * * ?"/> -->
         <!-- 定时删除无效专家(每天凌晨十二点执行一次) -->
         <task:scheduled ref="delExpertTask" method="delExpert" cron="0 0 0 * * ?"/>
+        
+        <!-- 定时修改专家黑名单处罚日期截止时的处罚状态 -->
+        <task:scheduled ref="delExpertTask" method="updateExpertBlackStatus" cron="0 0 0 * * ?"/>
+        
         <!-- 内网任务 -->
         <!-- <task:scheduled ref="innerInfoExportTask" method="innerInfoExportTask" cron="0 0 5/6 * * ?"/>  
         <task:scheduled ref="innerInfoImportTask" method="innerInfoImportTask" cron="0 0 7/6 * * ?"/>  

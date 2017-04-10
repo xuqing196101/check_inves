@@ -611,8 +611,8 @@ public class OBSupplierQuoteController {
 			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
 		}
 		Double totalCountPriceBigDecimal = 0.00;
-		NumberFormat currency = NumberFormat.getNumberInstance();
-		currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
+		//NumberFormat currency = NumberFormat.getNumberInstance();
+		//currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0)
 		/** 计算单个商品的总价以及合计金额 **/
 		BigDecimal million = new BigDecimal(10000);
 		for (OBProductInfo productInfo : oBProductInfo) {
@@ -624,9 +624,8 @@ public class OBSupplierQuoteController {
 					/** 单个商品的总金额=现价 *采购数量 **/
 					signalCount = signalCountInt;
 					BigDecimal multiply = limitPrice.multiply(signalCount);
-					productInfo.setTotalMoney(multiply);
 					/**显示100000样式**/
-					BigDecimal moneyBigDecimal = multiply.divide(million);
+                    BigDecimal moneyBigDecimal = BigDecimalUtils.getSignalDecimalScale4(multiply,million);
 					productInfo.setTotalMoney(moneyBigDecimal);
 					/**显示￥100,000,00样式**/
 //					productInfo.setTotalMoneyStr(currency.format(multiply));
@@ -639,7 +638,8 @@ public class OBSupplierQuoteController {
 			}
 		}
 		//String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
-		// 采购机构
+        BigDecimal totalCountPriceBigDecimalAfter = BigDecimalUtils.doubleToDecimal(totalCountPriceBigDecimal, million);
+        // 采购机构
 		model.addAttribute("orgName", orgName);
 		// 需求单位
 		model.addAttribute("demandUnit", demandUnit);
@@ -648,7 +648,7 @@ public class OBSupplierQuoteController {
 		model.addAttribute("obProject", obProject);
 		model.addAttribute("oBProductInfoList", oBProductInfo);
 		model.addAttribute("productIds", productIds);
-		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimal / 10000);
+		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalAfter);
 		
 		// 封装文件下载项
 		model.addAttribute("fileid", obProject.getAttachmentId());
@@ -686,7 +686,7 @@ public class OBSupplierQuoteController {
 							if(obResultSubtabulation != null && obResultSubtabulation.size() > 0){
 								for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {
 									if(obResultSubtabulation2 != null){
-										obResultSubtabulation2.setTotalMoney(obResultSubtabulation2.getTotalMoney().divide(million));
+										obResultSubtabulation2.setTotalMoney(BigDecimalUtils.getSignalDecimalScale4(obResultSubtabulation2.getTotalMoney(), million));
 									}
 								}
 							}
@@ -872,18 +872,16 @@ public class OBSupplierQuoteController {
 					List<OBResultSubtabulation> subtabulationSecondList = findConfirmResultSecond.getObResultSubtabulation();
 					calculateSignalResultTotalPrice(subtabulationSecondList);
 					confirmSecondTotalFigureStr = BigDecimalUtils.getTotalFigure(findConfirmResultSecond);
-					// 封装数据
-					BigDecimal bigDecimal = new BigDecimal(confirmSecondTotalFigureStr);
+
 					// 单位换算
-					BigDecimal confirmSecondTotalFigureBigDecimal = bigDecimal.setScale(4, BigDecimal.ROUND_HALF_UP);
-					model.addAttribute("confirmResultSecond", findConfirmResultSecond);
+                    BigDecimal confirmSecondTotalFigureBigDecimal = BigDecimalUtils.doubleToDecimal(confirmSecondTotalFigureStr);
+
+                    model.addAttribute("confirmResultSecond", findConfirmResultSecond);
 					model.addAttribute("confirmSecondTotalFigureStr", confirmSecondTotalFigureBigDecimal);
 				}
 				
-				BigDecimal bigDecimal = new BigDecimal(confirmFirstTotalFigureStr);
-				BigDecimal confirmFirstTotalFigureBigDecimal = bigDecimal.setScale(4, BigDecimal.ROUND_HALF_UP);
-				
-				model.addAttribute("confirmResult", findConfirmResult);
+                BigDecimal confirmFirstTotalFigureBigDecimal = BigDecimalUtils.doubleToDecimal(confirmFirstTotalFigureStr);
+                model.addAttribute("confirmResult", findConfirmResult);
 				
 				model.addAttribute("confirmFirstTotalFigureStr", confirmFirstTotalFigureBigDecimal);
 				model.addAttribute("confirmFlag", confirmFlag);

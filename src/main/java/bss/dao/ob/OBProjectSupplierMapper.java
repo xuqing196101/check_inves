@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.sun.org.glassfish.gmbal.ParameterNames;
 /**
  * 
 * @ClassName: OBProjectSupplierMapper 

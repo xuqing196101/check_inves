@@ -17,6 +17,7 @@ public class ExpertBlackList {
 
     private Integer punishType; //处罚类型
 
+    /**三个月  六个月  一年  两年  三年**/
     private String punishDate; //处罚时限
 
     private String reason; //理由

@@ -18,6 +18,9 @@ import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 
+import bss.controller.sstps.StatisticalController;
+import common.utils.DateUtils;
+
 /**
  * <p>Title:ExpertBlackListServiceImpl </p>
  * <p>Description: 专家黑名单控制类</p>
@@ -26,6 +29,23 @@ import com.github.pagehelper.PageHelper;
  */
 @Service("expertBlackListService")
 public class ExpertBlackListServiceImpl implements ExpertBlackListService{
+	
+	// 专家黑名单状态   0：处罚中  1：过期
+	private static final Integer EXPERT_BLACKLIST_STATUS_0 = 0;
+	private static final Integer EXPERT_BLACKLIST_STATUS_1 = 1;
+	//3个月  6个月  一年  两年  三年 （字符串）
+	private static final String EXPERT_BLACKLIST_TIME_LIMIT_THREE_MONTH_STR = "3个月";
+	private static final String EXPERT_BLACKLIST_TIME_LIMIT_SIX_MONTH_STR = "6个月";
+	private static final String EXPERT_BLACKLIST_TIME_LIMIT_ONE_YEAR_STR = "一年";
+	private static final String EXPERT_BLACKLIST_TIME_LIMIT_TWO_YEAR_STR = "两年";
+	private static final String EXPERT_BLACKLIST_TIME_LIMIT_THREE_YEAR_STR = "三年";
+	//3个月  6个月  一年  两年  三年  （数字）
+	private static final Integer EXPERT_BLACKLIST_TIME_LIMIT_THREE_MONTH_NUM = 3;
+	private static final Integer EXPERT_BLACKLIST_TIME_LIMIT_SIX_MONTH_NUM = 6;
+	private static final Integer EXPERT_BLACKLIST_TIME_LIMIT_ONE_YEAR_NUM = 12;
+	private static final Integer EXPERT_BLACKLIST_TIME_LIMIT_TWO_YEAR_NUM = 24;
+	private static final Integer EXPERT_BLACKLIST_TIME_LIMIT_THREE_YEAR_NUM = 36;
+	
 	@Autowired
 	private ExpertBlackListMapper mapper;
 	
@@ -200,6 +220,55 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<ExpertBlackListLog>  list= expertBlackListHistoryMapper.findBlackListLog(expertBlackListHistory);
 		 return list;
+	}
+
+	/**
+	 * 
+	* @Title: updateExpertBlackStatus 
+	* @Description: 定时修改专家黑名单处罚日期截止时的处罚状态
+	* @author Easong
+	* @param     设定文件 
+	* @throws
+	 */
+	@Override
+	public void updateExpertBlackStatus() {
+		// 查询所有黑名单专家列表
+		List<ExpertBlackList> blackListExpert = mapper.findAllBlackListExpert(EXPERT_BLACKLIST_STATUS_0);
+		// 获取当前系统时间
+		Date currSysTime = new Date();
+		for (ExpertBlackList expertBlackList : blackListExpert) {
+			// 获取专家处罚开始日期
+			Date dateOfPunishment = expertBlackList.getDateOfPunishment();
+			// 获取专家处罚期限时长
+			String punishDate = expertBlackList.getPunishDate();
+			// 计算处罚截止时间
+			Date nMonthAfterDate = null;
+			//3个月  6个月  一年  两年  三年
+			if(EXPERT_BLACKLIST_TIME_LIMIT_THREE_MONTH_STR.equals(punishDate)){
+				nMonthAfterDate = DateUtils.getNMonthAfterDate(dateOfPunishment, EXPERT_BLACKLIST_TIME_LIMIT_THREE_MONTH_NUM);
+			}
+			if(EXPERT_BLACKLIST_TIME_LIMIT_SIX_MONTH_STR.equals(punishDate)){
+				nMonthAfterDate = DateUtils.getNMonthAfterDate(dateOfPunishment, EXPERT_BLACKLIST_TIME_LIMIT_SIX_MONTH_NUM);
+			}
+			if(EXPERT_BLACKLIST_TIME_LIMIT_ONE_YEAR_STR.equals(punishDate)){
+				nMonthAfterDate = DateUtils.getNMonthAfterDate(dateOfPunishment, EXPERT_BLACKLIST_TIME_LIMIT_ONE_YEAR_NUM);
+			}
+			if(EXPERT_BLACKLIST_TIME_LIMIT_TWO_YEAR_STR.equals(punishDate)){
+				nMonthAfterDate = DateUtils.getNMonthAfterDate(dateOfPunishment, EXPERT_BLACKLIST_TIME_LIMIT_TWO_YEAR_NUM);
+			}
+			if(EXPERT_BLACKLIST_TIME_LIMIT_THREE_YEAR_STR.equals(punishDate)){
+				nMonthAfterDate = DateUtils.getNMonthAfterDate(dateOfPunishment, EXPERT_BLACKLIST_TIME_LIMIT_THREE_YEAR_NUM);
+			}
+			
+			// 比较当前系统时间与处罚截止时间
+			int compareDate = DateUtils.compareDate(currSysTime, nMonthAfterDate);
+			// 当前系统时间大于等于处罚截止时间
+			if(compareDate == 1 || compareDate == 0){
+				// 修改状态
+				expertBlackList.setStatus(EXPERT_BLACKLIST_STATUS_1);
+				mapper.updateStatus(expertBlackList);
+			}
+		}
 	}
 
 }

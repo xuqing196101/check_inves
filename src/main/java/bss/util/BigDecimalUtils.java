@@ -16,6 +16,9 @@ import bss.model.ob.OBResultSubtabulation;
  */
 public class BigDecimalUtils {
 
+    // 竞价万元保留小数点位数变量
+    private static final Integer LEAVE_RADIX_POINT = 4;
+
 	/**
 	 * 
 	* @Title: getSignalDecimalScale4 
@@ -28,7 +31,7 @@ public class BigDecimalUtils {
 	* @throws
 	 */
 	public static BigDecimal getSignalDecimalScale4(BigDecimal bigDecimal,BigDecimal million){
-		BigDecimal moneyBigDecimal = bigDecimal.divide(million,4,BigDecimal.ROUND_HALF_UP);
+		BigDecimal moneyBigDecimal = bigDecimal.divide(million,LEAVE_RADIX_POINT,BigDecimal.ROUND_HALF_UP);
 		return moneyBigDecimal;
 	}
 	
@@ -45,7 +48,7 @@ public class BigDecimalUtils {
 	 */
 	public static BigDecimal getBigDecimalTOScale4(BigDecimal totalCountPriceBigDecimal,BigDecimal million){
 		// 保留四位小数
-		BigDecimal bigDecimal = totalCountPriceBigDecimal.divide(million, 4, BigDecimal.ROUND_HALF_UP);
+		BigDecimal bigDecimal = totalCountPriceBigDecimal.divide(million, LEAVE_RADIX_POINT, BigDecimal.ROUND_HALF_UP);
 		return bigDecimal;
 	}
 	
@@ -83,4 +86,29 @@ public class BigDecimalUtils {
 		//String confirmFirstTotalFigureStr = currency.format(confirmFirstTotalFigure);
 		return confirmFirstTotalFigure;
 	}
+
+    /**
+     * @Description: 将double类型的转换成BigDecimal类型，万元为单位
+     * @author Easong
+     * @param value
+     * @return
+     */
+	public static BigDecimal doubleToDecimal(Double value){
+        BigDecimal bigDecimal = new BigDecimal(value);
+        BigDecimal bigDecimalPoint = bigDecimal.setScale(LEAVE_RADIX_POINT, BigDecimal.ROUND_HALF_UP);
+
+        return bigDecimalPoint;
+    }
+
+    /**
+     * @Description: 将double类型的转换成BigDecimal类型，万元为单位
+     * @author Easong
+     * @param value
+     * @return
+     */
+	public static BigDecimal doubleToDecimal(Double value, BigDecimal million){
+        BigDecimal bigDecimal = new BigDecimal(value);
+        BigDecimal bigDecimalPoint = bigDecimal.divide(million, LEAVE_RADIX_POINT, BigDecimal.ROUND_HALF_UP);
+        return bigDecimalPoint;
+    }
 }

@@ -902,6 +902,26 @@ public class OBProjectController {
 		model.addAttribute("obProject", obProject);
 		
 		/*************************************竞价结果信息****************************************/
+		getBiddingResultInfo(model, projectId);
+		
+		if (StringUtils.isNotEmpty(print)) {
+			// 打印结果页面
+			return "bss/ob/biddingSpectacular/expert_word_print";
+		}
+		return "bss/ob/biddingSpectacular/print";
+	}
+	
+	/**
+	 * 获取竞价结果信息
+	* @Title: getBiddingResultInfo 
+	* @Description: 
+	* @author Easong
+	* @param @param model
+	* @param @param projectId    设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
+	private void getBiddingResultInfo(Model model, String projectId) {
 		List<OBProjectResult> list = oBProjectResultService.selResultByProjectId(projectId);
     	Integer countProportion = 0;
     	BigDecimal million = new BigDecimal(10000);
@@ -921,7 +941,7 @@ public class OBProjectController {
 						if(obResultSubtabulation != null && obResultSubtabulation.size() > 0){
 							for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {
 								if(obResultSubtabulation2 != null){
-									obResultSubtabulation2.setTotalMoney(obResultSubtabulation2.getTotalMoney().divide(million));
+									obResultSubtabulation2.setTotalMoney(BigDecimalUtils.getSignalDecimalScale4(obResultSubtabulation2.getTotalMoney(), million));
 								}
 							}
 						}
@@ -938,12 +958,6 @@ public class OBProjectController {
     	model.addAttribute("countProportion",countProportion);
     	model.addAttribute("size",list.size());
 		model.addAttribute("projectId",projectId);
-		
-		if (StringUtils.isNotEmpty(print)) {
-			// 打印结果页面
-			return "bss/ob/biddingSpectacular/expert_word_print";
-		}
-		return "bss/ob/biddingSpectacular/print";
 	}
 
 	/**
@@ -1053,48 +1067,8 @@ public class OBProjectController {
     @RequestMapping("selInfo")
     public String selInfo(Model model, HttpServletRequest request){
     	String projectId = request.getParameter("id") == null ? "" : request.getParameter("id");
-    	List<OBProjectResult> list = oBProjectResultService.selResultByProjectId(projectId);
-    	Integer countProportion = 0;
-    	BigDecimal million = new BigDecimal(10000);
-    	if(list != null && list.size() > 0){
-    		for (OBProjectResult obProjectResult : list) {
-				if(obProjectResult != null){
-					if(obProjectResult.getStatus() == 1){
-						List<OBProjectResult> prolist = oBProjectResultService.selProportion(projectId, obProjectResult.getSupplierId());
-						if(prolist != null && prolist.size() == 1){
-							obProjectResult.setFirstproportion(prolist.get(0).getProportion());
-						}
-						if(prolist != null && prolist.size() == 2){
-							obProjectResult.setFirstproportion(prolist.get(0).getProportion());
-							obProjectResult.setSecondproportion(prolist.get(1).getProportion());
-						}
-						List<OBResultSubtabulation> obResultSubtabulation = obResultSubtabulationService.selectByProjectIdAndSupplierId(projectId, obProjectResult.getSupplierId());
-						if(obResultSubtabulation != null && obResultSubtabulation.size() > 0){
-							for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {
-								if(obResultSubtabulation2 != null){
-									obResultSubtabulation2.setTotalMoney(obResultSubtabulation2.getTotalMoney().divide(million));
-								}
-							}
-						}
-						obProjectResult.setObResultSubtabulation(obResultSubtabulation);
-						countProportion += Integer.parseInt(obProjectResult.getProportion());
-					}else{
-						List<OBResultsInfo> listinf = OBResultsInfoMapper.selectResult(projectId, obProjectResult.getSupplierId());
-						obProjectResult.setOBResultsInfo(listinf);
-					}
-				}
-			}
-    	}
-    	OBProject obProject = OBProjectServer.selectByPrimaryKey(projectId);
-    	if(obProject != null){
-    		String projectName = obProject.getName();
-    		model.addAttribute("projectName",projectName);
-    	}
-    	
-    	model.addAttribute("listres", list);
-    	model.addAttribute("countProportion",countProportion);
-    	model.addAttribute("size",list.size());
-		model.addAttribute("projectId",projectId);
+    	// 调用获取竞价结果信息
+    	getBiddingResultInfo(model, projectId);
     	return "bss/ob/biddingSpectacular/result";
     }
 	

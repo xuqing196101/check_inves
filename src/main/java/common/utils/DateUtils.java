@@ -280,4 +280,26 @@ public class DateUtils {
         String date = dateFormat.format(timeMillis);
         return stringToTime(date);
     }
+    
+    /**
+     * 计算N个月后的日期
+    * @Title: getNMonthAfterDate 
+    * @Description: 
+    * @author Easong
+    * @param @param startDate
+    * @param @param amount
+    * @param @return    设定文件 
+    * @return Date    返回类型 
+    * @throws
+     */
+    public static Date getNMonthAfterDate(Date startDate,Integer amount){
+    	// 创建日历实例
+    	Calendar calendar = Calendar.getInstance();
+    	// 设置起始日期
+    	calendar.setTime(startDate);
+    	// 获取从起始日期后加上N个月后的日期
+    	calendar.add(Calendar.MONTH, amount);
+    	// 得到Date
+    	return calendar.getTime();
+    }
 }
