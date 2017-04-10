@@ -71,7 +71,8 @@ public class NoticeDocumentServiceImpl implements NoticeDocumentService{
 			NoticeDocument noticeDocument) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return noticeDocumentMapper.selectByType(noticeDocument);
+		List<NoticeDocument> list = noticeDocumentMapper.selectByType(noticeDocument);
+		return list;
 	}
 
 	
