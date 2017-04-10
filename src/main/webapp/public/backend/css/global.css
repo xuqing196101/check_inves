@@ -2,6 +2,15 @@
 	font-family: 'Open Sans', sans-serif;
 }
 
+/* 已执行环节背景颜色 */
+.btn_list li a.executed, .btn_list li:hover a{
+	background-color:#99cc33;
+   	color:#ffffff;
+   	border:1px solid #99cc33!important;
+   	
+
+}
+
 body {
 	color: #333;
 	font-size: 13px;

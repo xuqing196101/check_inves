@@ -7,6 +7,7 @@
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
+
 <script type="text/javascript">
 	$(function(){
 	    $("#menu a").click(function() {
@@ -415,20 +416,20 @@
 	                       <c:forEach items="${fds}" var="fd">
 								  <!-- 已执行 -->
 								  <c:if test="${fd.status == 1}">
-		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
-		                       			<a class="son-menu">${fd.name }</a>
+		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active btn_list li"</c:if>>
+		                       			<a class="executed son-menu">${fd.name }</a>
 		                       		</li> 
 								  </c:if> 
 								  <!-- 执行中 -->
 								  <c:if test="${fd.status == 2}">
-		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
+		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active "</c:if>>
 		                       			<a class="son-menu">${fd.name }</a>
 		                       		</li> 
 								  </c:if>
 								  <!-- 环节结束，不可在操作 -->
 								  <c:if test="${fd.status == 3}">
 		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
-		                       			<a class="son-menu">${fd.name }</a>
+		                       			<a class="executed son-menu " >${fd.name }</a>
 		                       		</li> 
 								  </c:if>
 								  <!-- 未执行 -->
