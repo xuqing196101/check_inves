@@ -249,7 +249,7 @@
 						}
 						
 						if(msg=="errIdentity"){
-							layer.msg('身份证号重复，请重新填写！', {
+							layer.msg('统一社会信用代码或身份证号重复，请重新填写！', {
 								offset: '300px'
 							});
 						}

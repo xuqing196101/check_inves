@@ -903,25 +903,25 @@ public class SupplierController extends BaseSupplierController {
 		for(String s: str) {
 			if(s.equals("PRODUCT")) {
 				pro = validatePro(request, supplier.getSupplierMatPro(), model);
-				if(info == true) {
+				if(pro == true) {
 					supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
 				}
 			}
 			if(s.equals("SALES")) {
 				sale = validateSale(request, supplier.getSupplierMatSell(), model);
-				if(info == true) {
+				if(sale == true) {
 					supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
 				}
 			}
 			if(s.equals("PROJECT")) {
 				project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
-				if(info == true) {
+				if(project == true) {
 					supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
 				}
 			}
 			if(s.equals("SERVICE")) {
 				server = validateServer(request, supplier.getSupplierMatSe(), model);
-				if(info == true) {
+				if(server == true) {
 					supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
 				}
 			}
@@ -1893,6 +1893,21 @@ public class SupplierController extends BaseSupplierController {
 			 model.addAttribute("province", "至少选择一个省市!");
 			 bool = false;
 		}
+		
+		Integer count=0;
+    	for(SupplierAptitute sa:listSupplierAptitutes){
+    		String id = DictionaryDataUtil.getId("SUPPLIER_ENG_CERT");
+			List<UploadFile> files = uploadService.getFilesOther(sa.getId(), id, "1");
+			if(files!=null&&files.size()>0){
+				count++;
+			}
+    	}
+    	Integer size=listSupplierAptitutes.size();
+    	if(!count.equals(size)){
+    		bool=false;
+    		 model.addAttribute("eng_aptitutes", "请上传文件！");
+    	}
+    	
 		return bool;
 	}
 	//服务信息校验
@@ -2093,7 +2108,7 @@ public class SupplierController extends BaseSupplierController {
             out.print(builder.toString());
             out.flush();  
             out.close(); 
-        }
+        }else{
 	    
 		Supplier supp = supplierMapper.queryByName(name);
 		Supplier supplier = supplierService.get(supp.getId());
@@ -2175,6 +2190,7 @@ public class SupplierController extends BaseSupplierController {
 
 		model.addAttribute("foregin", foregin);
 		model.addAttribute("audit", errorField);
+		}
 		return "ses/sms/supplier_register/basic_info";
 	}
 
@@ -2514,11 +2530,14 @@ public class SupplierController extends BaseSupplierController {
 		}
 		allInfo.put("isok", isok);
 		 PurchaseDep dep = purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId());
-		 allInfo.put("name", dep.getShortName());
-		 allInfo.put("concat", dep.getSupplierContact());
-		 allInfo.put("phone", dep.getSupplierPhone());
-		 allInfo.put("address", dep.getSupplierAddress());
-		 allInfo.put("code", dep.getSupplierPostcode());
+		 if(dep!=null){
+			 allInfo.put("name", dep.getShortName());
+			 allInfo.put("concat", dep.getSupplierContact());
+			 allInfo.put("phone", dep.getSupplierPhone());
+			 allInfo.put("address", dep.getSupplierAddress());
+			 allInfo.put("code", dep.getSupplierPostcode());
+		 }
+
 		// 查询初审机构信息
 //		HashMap < String, Object > map = new HashMap < String, Object > ();
 //		map.put("id", supplier.getProcurementDepId());
@@ -2935,5 +2954,23 @@ public class SupplierController extends BaseSupplierController {
 	   String string = JSON.toJSONString(list);
 	   return string;
    }
+    
+    
+    public boolean supplierAptituteService(List<SupplierAptitute> list){
+    	boolean bool=true;
+    	Integer count=0;
+    	for(SupplierAptitute sa:list){
+    		String id = DictionaryDataUtil.getId("SUPPLIER_ENG_CERT");
+			List<UploadFile> files = uploadService.getFilesOther(sa.getId(), id, "1");
+			if(files!=null&&files.size()>0){
+				count++;
+			}
+    	}
+    	Integer size=list.size();
+    	if(count.equals(size)){
+    		bool=false;
+    	}
+    	return bool;
+    }
     
 }

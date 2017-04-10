@@ -257,7 +257,7 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 	public void add(List<SupplierFinance> list,String supplierId) {
 		for(SupplierFinance s:list){
 		    
-			SupplierFinance finance = supplierFinanceMapper.selectByPrimaryKey(s.getId());
+			SupplierFinance finance = supplierFinanceMapper.getFinacne(supplierId,s.getYear());
 			if(finance!=null){
 				supplierFinanceMapper.updateByPrimaryKeySelective(s);
 			}else{

@@ -3261,7 +3261,7 @@ public class ExpertController extends BaseController {
         dataMap.put("nation", expert.getNation() == null ? "" : expert.getNation());
         dataMap.put("healthState", expert.getHealthState() == null ? "" : expert.getHealthState());
         dataMap.put("workUnit", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
-        dataMap.put("coverNote", expert.getCoverNote() == null ? "(不必填)" : expert.getCoverNote().equals("1") ? "有" : "无");
+        dataMap.put("coverNote", expert.getCoverNote() == null ? "无" : expert.getCoverNote().equals("1") ? "有" : "无");
         dataMap.put("isReferenceLftter", expert.getIsReferenceLftter() == null ? "无" : expert.getIsReferenceLftter().equals(Integer.valueOf("1")) ? "有" : "无");
         String address = expert.getAddress();
         Area area = areaServiceI.listById(address);
