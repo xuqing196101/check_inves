@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -4412,12 +4413,21 @@ public class ExpertController extends BaseController {
      * @throws IOException
      */
     @RequestMapping("/downloadExpertTemplate")
+    @ResponseBody
     public ResponseEntity<byte[]> downloadExpertTemplate(HttpServletRequest request) throws IOException{
         HttpHeaders headers = new HttpHeaders();
         String path = PathUtil.getWebRoot() + "excel/专家签到名单模板.xlsx";
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", new String("专家签到名单模板.xlsx".getBytes("UTF-8"), "iso-8859-1"));
-        return (new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(path)), headers, HttpStatus.CREATED));
+        String fileName = "专家签到名单模板.xlsx";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            fileName = URLEncoder.encode(fileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
+        }
+        headers.setContentDispositionFormData("attachment", fileName);
+        return (new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(path)), headers, HttpStatus.OK));
     }
     /**
      * 导入临时专家Excel
