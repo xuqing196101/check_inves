@@ -829,29 +829,31 @@ public class ExpertAuditController{
 	 * @param categoryId 
 	 * @return
 	 */
-	public List < Category > getAllParentNode(String categoryId, String flag) {
-		List < Category > categoryList = new ArrayList < Category > ();
-		while(true) {
-			Category cate = categoryService.findById(categoryId);
-			if (flag == null) {
-			    cate = categoryService.findById(categoryId); 
-			} else {
-			    cate = engCategoryService.findById(categoryId); 
-			}
-			if(cate == null) {
-				DictionaryData root = DictionaryDataUtil.findById(categoryId);
-				Category rootNode = new Category();
-				rootNode.setId(root.getId());
-				rootNode.setName(root.getName());
-				categoryList.add(rootNode);
-				break;
-			} else {
-				categoryList.add(cate);
-				categoryId = cate.getParentId();
-			}
-		}
-		return categoryList;
-	}
+	 public List < Category > getAllParentNode(String categoryId, String flag) {
+	        List < Category > categoryList = new ArrayList < Category > ();
+	        while(true) {
+	            Category cate = null;
+	            if (flag == null) {
+	                cate = categoryService.findById(categoryId); 
+	            } else {
+	                cate = engCategoryService.findById(categoryId); 
+	            }
+	            if(cate == null) {
+	                DictionaryData root = DictionaryDataUtil.findById(categoryId);
+	                Category rootNode = new Category();
+	                if (root != null) {
+	                	rootNode.setId(root.getId());
+	                	rootNode.setName(root.getName());
+	                	categoryList.add(rootNode);
+					}
+	                break;
+	            } else {
+	                categoryList.add(cate);
+	                categoryId = cate.getParentId();
+	            }
+	        }
+	        return categoryList;
+	    }
     
 	/**
 	 *〈简述〉
