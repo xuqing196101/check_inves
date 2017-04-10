@@ -14,10 +14,10 @@
 <td class="tc">
 	<input type="text" onblur="tempSave()" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus"/>
 </td>
-<td class="tc w200">
+<%-- <td class="tc w200">
 <div class="w200">
  <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="eng_up_${certEngNumber}" multiple="true" businessId="${id}" typeId="${typeId}" sysKey="${sysKey}"  auto="true" />
  <u:show showId="eng_show_${certEngNumber}" businessId="${id}" typeId="${typeId}" sysKey="${sysKey}" />
 </div>
-</td>
+</td> --%>
 </tr>
