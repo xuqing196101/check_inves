@@ -55,7 +55,7 @@ import com.github.pagehelper.PageHelper;
 @Service("expertService")
 public class ExpertServiceImpl implements ExpertService {
 
-    private static final Logger log = LoggerFactory.getLogger(ExpertServiceImpl.class);
+    private static Logger log = LoggerFactory.getLogger(ExpertServiceImpl.class);
 
 	@Autowired
 	private ExpertMapper mapper;

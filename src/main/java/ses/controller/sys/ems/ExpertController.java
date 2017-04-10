@@ -129,7 +129,7 @@ import common.service.UploadService;
 @RequestMapping("/expert")
 public class ExpertController extends BaseController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ExpertController.class);
+    private static Logger logger = LoggerFactory.getLogger(ExpertController.class);
     @Autowired
     private UserServiceI userService; // 用户管理
     @Autowired
