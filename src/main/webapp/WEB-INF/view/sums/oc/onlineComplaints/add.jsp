@@ -17,8 +17,8 @@
 <title>投诉页面</title>
 <script type="text/javascript">
 $(function(){
-	$("#extensionId").val("bmp,pmg,jpg,gif");
-	$("#idcad #extensionId").val("bmp,pmg,jpg,gif");
+	$("#extensionId").val("bmp,pmg,jpg,gif,png");
+	$("#idcad #extensionId").val("bmp,pmg,jpg,gif,png");
 });
 function open(){
 	var chkObjs=null;

@@ -10,7 +10,7 @@
 	<script type="text/javascript">
 	//加载供应商
 	$(function(){
-		$("#extensionId").val("bmp,pmg,jpg,gif");
+		$("#extensionId").val("bmp,pmg,jpg,gif,png");
 		$.ajax({
 			url: "${pageContext.request.contextPath }/obSupplier/findAllSupplier.do",
 			contentType: "application/json;charset=UTF-8",

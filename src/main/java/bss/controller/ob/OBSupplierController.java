@@ -202,7 +202,7 @@ public class OBSupplierController  {
 
 	/**
 	 * 
-	 * Description: 删除
+	 * Description: 暂停
 	 * 
 	 * @author zhang shubin
 	 * @version 2017年3月7日
@@ -224,6 +224,29 @@ public class OBSupplierController  {
 		}
 	}
 
+	/**
+	 * 
+	 * Description: 恢复
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月10日 
+	 * @param   
+	 * @return void 
+	 * @exception
+	 */
+	@RequestMapping("/restore")
+	@ResponseBody
+	public void restore(HttpServletRequest request){
+		String ids = request.getParameter("ids");
+		String productId = ids.trim();
+		if (productId.length() != 0) {
+			String[] uniqueIds = productId.split(",");
+			for (String str : uniqueIds) {
+				oBSupplierService.restoreByPrimaryKey(str);
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * Description: 查询供应商信息

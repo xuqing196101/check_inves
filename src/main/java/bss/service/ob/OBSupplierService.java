@@ -50,7 +50,7 @@ public interface OBSupplierService {
 
 	/**
 	 * 
-	 * Description: 删除 修改删除状态
+	 * Description:暂停
 	 * 
 	 * @author zhang shubin
 	 * @version 2017年3月7日
@@ -59,6 +59,18 @@ public interface OBSupplierService {
 	 * @exception
 	 */
 	void deleteByPrimaryKey(String id);
+	
+	/**
+	 * 
+	 * Description: 恢复
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月10日 
+	 * @param  @param id 
+	 * @return void 
+	 * @exception
+	 */
+	void restoreByPrimaryKey(String id);
 
 	/**
 	 * 

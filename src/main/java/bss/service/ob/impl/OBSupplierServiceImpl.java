@@ -46,6 +46,8 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 			list = oBSupplierMapper.selectByProductId1(id,supplierName,smallPointsName,smallPointsId);
 		} else if (status == 2) {
 			list = oBSupplierMapper.selectByProductId2(id,supplierName,smallPointsName,smallPointsId);
+		}else if(status == 3){
+			list = oBSupplierMapper.selectByProductId3(id,supplierName,smallPointsName,smallPointsId);
 		}else{
 			list = oBSupplierMapper.selectByProductId(id,supplierName,smallPointsName,smallPointsId);
 		}
@@ -60,6 +62,11 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 	@Override
 	public void deleteByPrimaryKey(String id) {
 		oBSupplierMapper.deleteByPrimaryKey(id);
+	}
+	
+	@Override
+	public void restoreByPrimaryKey(String id) {
+		oBSupplierMapper.restoreByPrimaryKey(id);
 	}
 
 	@Override

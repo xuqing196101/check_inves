@@ -13,7 +13,7 @@ public interface OBSupplierMapper {
 
 	/**
 	 * 
-	 * Description: 删除 改变删除状态
+	 * Description: 暂停
 	 * 
 	 * @author zhang shubin
 	 * @version 2017年3月9日
@@ -22,6 +22,18 @@ public interface OBSupplierMapper {
 	 * @exception
 	 */
 	void deleteByPrimaryKey(@Param("id") String id);
+	
+	/**
+	 * 
+	 * Description: 恢复
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月10日 
+	 * @param  @param id 
+	 * @return void 
+	 * @exception
+	 */
+	void restoreByPrimaryKey(@Param("id") String id);
 
 	int insert(OBSupplier record);
 
@@ -78,6 +90,23 @@ public interface OBSupplierMapper {
 	 */
 
 	List<OBSupplier> selectByProductId2(@Param("productId") String productId,
+			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName,@Param("smallPointsId")String smallPointsId);
+	
+	/**
+	 * 
+	 * Description: 查询已暂停的
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月10日 
+	 * @param  @param productId
+	 * @param  @param supplierName
+	 * @param  @param smallPointsName
+	 * @param  @param smallPointsId
+	 * @param  @return 
+	 * @return List<OBSupplier> 
+	 * @exception
+	 */
+	List<OBSupplier> selectByProductId3(@Param("productId") String productId,
 			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName,@Param("smallPointsId")String smallPointsId);
 	/**
 	 * 

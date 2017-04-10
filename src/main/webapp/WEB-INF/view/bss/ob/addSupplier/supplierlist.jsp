@@ -74,8 +74,8 @@ function check(){
 	   }
 }
 
-/* 删除 */
-function del(){
+/* 暂停 */
+function suspended(){
 	var orgTyp = "${orgTyp}";
 	if(orgTyp != '1'){
 		layer.msg("只有采购机构才能操作");
@@ -87,16 +87,16 @@ function del(){
 	});
 	var ids = id.toString();
 	if(id.length > 0) {
-		var pan = true;
+		var pan = false;
 		for (var i=0;i<id.length;i++){
 			var status = $("#"+id[i]+"status").html();
 			var aa=status.replace(/\s+/g,"");
-			if(aa == "已过期"){
-				pan = false;
+			if(aa == "未过期"){
+				pan = true;
 			}
 		}
 		if(pan == true){
-			layer.confirm('您确定要删除吗?', {
+			layer.confirm('您确定要暂停吗?', {
 				title: '提示',
 				offset: ['222px', '360px'],
 				shade: 0.01
@@ -117,13 +117,69 @@ function del(){
 				});
 			});
 		}else {
-			layer.alert("只能删除未过期的供应商", {
+			layer.alert("只能暂停未过期的供应商", {
 				offset: ['222px', '390px'],
 				shade: 0.01
 			});
 		}
 	} else {
-		layer.alert("请选择要删除的版块", {
+		layer.alert("请选择要暂停的供应商", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		});
+	}
+}
+
+/* 恢复 */
+function restore(){
+	var orgTyp = "${orgTyp}";
+	if(orgTyp != '1'){
+		layer.msg("只有采购机构才能操作");
+		return;
+	}
+	var id = [];
+	$('input[name="chkItem"]:checked').each(function() {
+		id.push($(this).val());
+	});
+	var ids = id.toString();
+	if(id.length > 0) {
+		var pan = false;
+		for (var i=0;i<id.length;i++){
+			var status = $("#"+id[i]+"status").html();
+			var aa=status.replace(/\s+/g,"");
+			if(aa == "已暂停"){
+				pan = true;
+			}
+		}
+		if(pan == true){
+			layer.confirm('您确定要恢复吗?', {
+				title: '提示',
+				offset: ['222px', '360px'],
+				shade: 0.01
+			}, function(index) {
+				layer.close(index);
+				$.ajax({
+					url: "${pageContext.request.contextPath }/obSupplier/restore.html",
+					type: "post",
+					data: {
+						ids: ids
+					},
+					success: function() {
+						window.location.href = "${pageContext.request.contextPath }/obSupplier/supplier.html?prodid=${prodid }";
+					},
+					error: function() {
+
+					}
+				});
+			});
+		}else {
+			layer.alert("只能恢复已暂停的供应商", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		}
+	} else {
+		layer.alert("请选择要恢复的供应商", {
 			offset: ['222px', '390px'],
 			shade: 0.01
 		});
@@ -522,6 +578,7 @@ function fileUpload(){
 				<option value="0" <c:if test="${'0'==status}">selected="selected"</c:if>>-请选择-</option>
 	    	    <option value="1" <c:if test="${'1'==status}">selected="selected"</c:if>>已过期</option>
 	    	    <option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>未过期</option>
+	    	    <option value="2" <c:if test="${'3'==status}">selected="selected"</c:if>>已暂停</option>
 			</select>
 		</li>
 		<button type="submit" class="btn">查询</button>
@@ -535,7 +592,8 @@ function fileUpload(){
 	<div class="col-md-12 pl20 mt10">
 		<button class="btn btn-windows add" type="button" onclick = "addS()">添加</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+		<button class="btn" type="button" onclick="suspended()">暂停</button>
+		<button class="btn" type="button" onclick="restore()">恢复</button>
 		<button class="btn btn-windows btn btn-windows input" type="button" onclick="down()">下载批量导入模板</button>
 		<button class="btn btn-windows btn btn-windows output" type="button" onclick="upload()">批量导入</button>
 		<button class="btn btn-windows btn btn-windows input" type="button" onclick="downCategory()">下载产品目录</button>
@@ -574,11 +632,16 @@ function fileUpload(){
 					</ul>
 				</td>
 				<td class="tc" id = "${supplier.id }status">
+				<c:if test="${supplier.isDeleted == 1 }">
+					已暂停
+				</c:if>
+				<c:if test="${supplier.isDeleted == 0 }">
 				<c:set var="nowDate" value="<%=System.currentTimeMillis()%>"></c:set>
-					<c:choose>  
-         	 			<c:when test="${nowDate-supplier.certValidPeriod.getTime() > 0}">已过期</c:when>  
-          				<c:when test="${nowDate-supplier.certValidPeriod.getTime() < 0}">未过期</c:when>  
-          			</c:choose> 
+					<c:choose>
+       	 				<c:when test="${nowDate-supplier.certValidPeriod.getTime() > 0}">已过期</c:when>  
+        				<c:when test="${nowDate-supplier.certValidPeriod.getTime() < 0}">未过期</c:when>  
+					</c:choose>
+				</c:if>
 				</td>
 			</tr> 
 		</c:forEach>

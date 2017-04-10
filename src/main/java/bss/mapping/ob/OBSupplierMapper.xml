@@ -136,7 +136,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_BSS_OB_SUPPLIER
-		WHERE IS_DELETED = 0
+		WHERE 1 = 1
 		<if test="productId != null and productId != ''">
 			and PRODUCT_ID = #{productId,jdbcType=VARCHAR}
 		</if>
@@ -245,6 +245,27 @@
 		</if>
 		ORDER BY CERT_VALID_PERIOD
 	</select>
+	<!-- 根据id查询供应商列表 已暂停 -->
+	<select id="selectByProductId3" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_BSS_OB_SUPPLIER
+		WHERE
+		IS_DELETED = 1
+		<if test="productId != null and productId != ''">
+			AND PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+		</if>
+		<if test="supplierName != null and supplierName != ''">
+			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
+		</if>
+		<if test="smallPointsName != null and smallPointsName != ''">
+			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE '%${categoryName}%')
+		</if>
+		<if test="smallPointsId != null and smallPointsId != ''">
+			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
+		</if>
+		ORDER BY CERT_VALID_PERIOD
+	</select>
 	<select id="selectByExample" resultMap="BaseResultMap"
 		parameterType="bss.model.ob.OBSupplierExample">
 		select
@@ -276,10 +297,16 @@
 		from T_BSS_OB_SUPPLIER
 		where PRODUCT_ID = #{id,jdbcType=VARCHAR}
 	</select>
-	<!-- 删除 修改删除状态 -->
+	<!-- 暂停 -->
 	<update id="deleteByPrimaryKey" parameterType="String">
 		update
 		T_BSS_OB_SUPPLIER set IS_DELETED = 1 where ID =
+		#{id,jdbcType=VARCHAR}
+	</update>
+	<!-- 恢复 -->
+	<update id="restoreByPrimaryKey" parameterType="String">
+		update
+		T_BSS_OB_SUPPLIER set IS_DELETED = 0 where ID =
 		#{id,jdbcType=VARCHAR}
 	</update>
 
