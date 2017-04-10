@@ -79,5 +79,16 @@ public interface ExpertTitleMapper {
     public void deleteById(@Param("id")String id);
     
     void deleteExpertType(@Param("expertId")String expertId,@Param("expertTypeId")String typeId);
+
+    /**
+     * 
+    * @Title: deleteByExpertId
+    * @Description: 根据专家ID删除
+    * author: Li Xiaoxiao 
+    * @param @param expertId     
+    * @return void     
+    * @throws
+     */
+    void deleteByExpertId(@Param("expertId")String expertId);
     
 }

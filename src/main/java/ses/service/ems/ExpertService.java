@@ -418,4 +418,6 @@ public interface ExpertService {
      * @return
      */
     List<Expert> findCiteExpertByCondition(Expert expert, String packageId, Integer page);
+    
+    public void deleteExpert(String expertId);
 }

@@ -154,5 +154,9 @@
     delete from T_SES_EMS_EXPERT_TITLE  where  EXPERT_ID = #{expertId} and  EXPERT_TYPE_ID = #{expertTypeId}
   
   </delete>
+  <delete id="deleteByExpertId">
+    delete from T_SES_EMS_EXPERT_TITLE  where  EXPERT_ID = #{expertId}
+  </delete>
+  
   
 </mapper>

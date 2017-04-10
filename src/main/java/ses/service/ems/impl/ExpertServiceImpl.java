@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import bss.util.EncryptUtil;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +32,7 @@ import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.EngCategoryMapper;
+import ses.dao.bms.RoleMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.*;
@@ -50,6 +52,7 @@ import bss.model.ppms.ext.ProjectExt;
 import bss.model.prms.PackageExpert;
 
 import com.github.pagehelper.PageHelper;
+import common.dao.FileUploadMapper;
 
 
 @Service("expertService")
@@ -87,7 +90,16 @@ public class ExpertServiceImpl implements ExpertService {
     private ExpExtractRecordService expExtractRecordService;
     @Autowired
     private ProjectExtractMapper projectExtractMapper;
-	
+    @Autowired
+    private RoleMapper roleMapper;
+    
+    
+   @Autowired
+   private FileUploadMapper fileUploadMapper;
+   
+   @Autowired
+   private ExpertTitleMapper expertTitleMapper;
+    
 	@Override
 	public void deleteByPrimaryKey(String id) {
 		mapper.deleteByPrimaryKey(id);
@@ -1218,6 +1230,23 @@ public class ExpertServiceImpl implements ExpertService {
             return projectList;
         }
     }
+
+	@Override
+	public void deleteExpert(String expertId) {
+//		Expert expert = mapper.selectByPrimaryKey(expertId);
+		mapper.deleteByPrimaryKey(expertId);
+		
+		User user = userMapper.findUserByTypeId(expertId);
+    	Userrole userRole=new Userrole();
+    	if(user != null){
+    		userRole.setUserId(user);
+        	roleMapper.deleteRoelUser(userRole);
+        	userMapper.deleteByPrimaryKey(user.getId());
+    	}
+    	expertCategoryMapper.deleteByExpertId(expertId);
+    	fileUploadMapper.deleteByBusinessId(expertId);
+    	expertTitleMapper.deleteByExpertId(expertId);
+	}
     
 }
 
