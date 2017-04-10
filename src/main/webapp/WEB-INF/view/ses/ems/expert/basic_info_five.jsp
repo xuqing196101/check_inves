@@ -212,14 +212,14 @@
             <table class="table table-bordered">
                 <tr>
                 	<td class="bggrey" width="17%"><i class="red">*</i>军队评审专家承诺书：</td>
-                    <td <c:if test="${fn:contains(errorField,'军队评审专家承诺书')}">style="border: 1px solid red;" onmouseover="errorMsg('专家承诺书')"</c:if>>
+                    <td <c:if test="${fn:contains(errorField,'军队评审专家承诺书')}">style="border: 1px solid red;" onmouseover="errorMsg('军队评审专家承诺书')"</c:if>>
                       <div class="w200 fl">
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" id="expert14" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" exts="jpg,jpeg,gif,png,bmp" businessId="${sysId}" multiple="true" sysKey="${expertKey}" typeId="14" maxcount="1"   auto="true" />
                         <u:show showId="show7" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="14" />
                       </div>
                     </td>
                     <td class="bggrey" width="19%"><i class="red">*</i>军队评审专家入库申请表：</td>
-                    <td <c:if test="${fn:contains(errorField,'军队评审专家入库申请表')}">style="border: 1px solid red;" onmouseover="errorMsg('专家申请表')"</c:if>>
+                    <td <c:if test="${fn:contains(errorField,'军队评审专家入库申请表')}">style="border: 1px solid red;" onmouseover="errorMsg('军队评审专家入库申请表')"</c:if>>
                        <div class="w200 fl">
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"  id="expert13" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" exts="jpg,jpeg,gif,png,bmp"  businessId="${sysId}" multiple="true"  sysKey="${expertKey}" typeId="13" maxcount="8" auto="true" />
                         <u:show showId="show6" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="13"  />

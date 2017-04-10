@@ -61,6 +61,9 @@
     <if test="suggestType != '' and suggestType != null">
     	and SUGGEST_TYPE = #{suggestType}
     </if>
+    <if test="type != '' and type != null">
+    	and TYPE = #{type}
+    </if>
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

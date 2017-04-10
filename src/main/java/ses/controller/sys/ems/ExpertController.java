@@ -586,35 +586,55 @@ public class ExpertController extends BaseController {
             showCategory(expert, model);
         }
         if("3".equals(expert.getStatus())) {
-            // 如果状态为退回修改则查询没通过的字段 
-            ExpertAudit expertAudit = new ExpertAudit();
-            expertAudit.setExpertId(expertId);
-            expertAudit.setSuggestType(stepNumber);
-            List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
-            // 所有的不通过字段的名字
-            StringBuffer typeErrorField = new StringBuffer();
-            for(ExpertAudit audit: auditList) {
-            	typeErrorField.append(audit.getAuditFieldId() + ",");
+        	
+        	if(!stepNumber.equals("seven")){
+	    		// 如果状态为退回修改则查询没通过的字段 
+	            ExpertAudit expertAudit = new ExpertAudit();
+	            expertAudit.setExpertId(expertId);
+	            expertAudit.setSuggestType(stepNumber);
+	            List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
+	            // 所有的不通过字段的名字
+	            StringBuffer errorField = new StringBuffer();
+	            for(ExpertAudit audit: auditList) {
+	            	errorField.append(audit.getAuditField() + ",");
+	            }
+	            model.addAttribute("errorField", errorField);
+        	}
+        	
+        	if(stepNumber.equals("seven")){
+        		//不通过字段（专家类型）
+            	ExpertAudit expertAuditFor = new ExpertAudit();
+    			expertAuditFor.setExpertId(expertId);
+    			expertAuditFor.setSuggestType("seven");
+    			expertAuditFor.settype("1");
+    			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
+    			
+    			
+    			StringBuffer typeErrorField = new StringBuffer();
+    			if(!reasonsList.isEmpty()){
+    				for (ExpertAudit expertAudit2 : reasonsList) {
+    					String beforeField = expertAudit2.getAuditFieldId();
+    					typeErrorField.append(beforeField + ",");
+    				}
+    				model.addAttribute("typeErrorField", typeErrorField);
+    			}
+    			
+    			//不通过字段（执业资格）
+    			expertAuditFor.settype("2");
+    			List < ExpertAudit > engReasonsList = expertAuditService.getListByExpert(expertAuditFor);
+    			StringBuffer engErrorField = new StringBuffer();
+    			if(!engReasonsList.isEmpty()){
+    				for (ExpertAudit expertAudit2 : engReasonsList) {
+    					String beforeField = expertAudit2.getAuditFieldId() +"_"+ expertAudit2.getAuditFieldName();
+    					engErrorField.append(beforeField + ",");
+    				}
+    				model.addAttribute("engErrorField", engErrorField);
+    			}
+            	
             }
-            model.addAttribute("typeErrorField", typeErrorField);
+        		
+        	}
         	
-        	
-        	//不通过字段（执业资格）
-        	ExpertAudit expertAuditFor = new ExpertAudit();
-			expertAuditFor.setExpertId(expertId);
-			expertAuditFor.setSuggestType("seven");
-			
-			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
-			StringBuffer errorField = new StringBuffer();
-			if(!reasonsList.isEmpty()){
-				for (ExpertAudit expertAudit2 : reasonsList) {
-					String beforeField = expertAudit2.getAuditFieldId() +"_"+ expertAudit2.getAuditFieldName();
-					errorField.append(beforeField + ",");
-				}
-				model.addAttribute("errorField", errorField);
-			}
-        	
-        }
         if("three".equals(stepNumber)) {
             HashMap < String, Object > map1 = new HashMap < String, Object > ();
             map1.put("typeName", "1");

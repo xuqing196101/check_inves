@@ -66,7 +66,7 @@
 				      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 				      type:"post",
 				      dataType:"json",
-				      data:"suggestType=one"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=1",
+				      data:"suggestType=one"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField,
 					    success:function(result){
 				        result = eval("(" + result + ")");
 				        if(result.msg == "fail"){
@@ -102,7 +102,7 @@
 					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 					      type:"post",
 					      dataType:"json",
-					      data:"suggestType=one"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=1",
+					      data:"suggestType=one"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField,
 					      success:function(result){
 					        result = eval("(" + result + ")");
 					        if(result.msg == "fail"){
@@ -388,9 +388,9 @@
 									<input value="${expert.workUnit}" <c:if test="${fn:contains(conditionStr,'所在单位')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getWorkUnit')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('workUnit','getWorkUnit','0');"</c:if> id="workUnit" type="text" onclick="reason(this);"/>
 								</div>
 							</li>
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">地址：</span>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">地区：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="range" value="${parentName }${sonName }" type="text" onclick="reason(this);" <c:if test="${fn:contains(conditionStr,'地址')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getRange')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('range','getRange','0');"</c:if>/>
+								<input id="range" value="${parentName }${sonName }" type="text" onclick="reason(this);" <c:if test="${fn:contains(conditionStr,'地区')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getRange')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('range','getRange','0');"</c:if>/>
 							</div>
 						  </li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">单位地址：</span>
@@ -433,15 +433,14 @@
 	              <a style="visibility:hidden" id="titleFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
             		<c:if test="${fn:contains(conditionStr,'专业技术职称证书')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
             	</li>
-            	<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">最高学历：</span>
-								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input id="hightEducation" <c:if test="${fn:contains(conditionStr,'最高学历')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getHightEducation')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('hightEducation','getHightEducation','1');"</c:if> value="${hightEducation }" type="text" onclick="reason(this);"/>
-								</div>
-							</li>
-            	
 							<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">毕业院校及专业：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input value="${expert.graduateSchool}" <c:if test="${fn:contains(conditionStr,'毕业院校及专业')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getGraduateSchool')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('graduateSchool','getGraduateSchool','0');"</c:if> id="graduateSchool" type="text" onclick="reason(this);"/>
+								</div>
+							</li>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">最高学历：</span>
+								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+									<input id="hightEducation" <c:if test="${fn:contains(conditionStr,'最高学历')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getHightEducation')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('hightEducation','getHightEducation','1');"</c:if> value="${hightEducation }" type="text" onclick="reason(this);"/>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="academic" onclick="reasonFile(this);">毕业证书：</span>

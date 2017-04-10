@@ -735,7 +735,7 @@
 		<li class="col-md-3 col-sm-6 col-xs-12 pl">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> <!--/执业资格  -->
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input  <c:if test="${fn:contains(errorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
+                        <input  <c:if test="${fn:contains(engErrorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
                                 maxlength="20" value="${t.qualifcationTitle}"
                                 name="titles[${vs.index }].qualifcationTitle"  type="text"/>
                         <span class="add-on">i</span> <span class="input-tip"></span>
@@ -743,7 +743,7 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格</span>
-                    <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
+                    <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                                 exts="${properties['file.picture.type']}" id="pro_${vs.index}" maxcount="1"
@@ -759,7 +759,7 @@
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,t.id.concat('_titleTime'))}">style="border: 1px solid #ef0000;"
+                                <c:if test="${fn:contains(engErrorField,t.id.concat('_titleTime'))}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorFileMsg('titleTime','${t.id }')"</c:if>
                                 value="<fmt:formatDate type='date' value="${t.titleTime}" dateStyle='default' pattern='yyyy-MM' />"
                                 readonly="readonly" name="titles[${vs.index }].titleTime"    type="text"
@@ -788,7 +788,7 @@
 		<li class="col-md-3 col-sm-6 col-xs-12 pl">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> <!--/执业资格  -->
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input  <c:if test="${fn:contains(errorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
+                        <input  <c:if test="${fn:contains(engErrorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
                                 maxlength="20" value="${t.qualifcationTitle}"
                                 name="ecoList[${vs.index }].qualifcationTitle"  type="text"/>
                         <span class="add-on">i</span> <span class="input-tip"></span>
@@ -796,7 +796,7 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格</span>
-                    <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
+                    <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                                 exts="${properties['file.picture.type']}" id="eco_${vs.index}" maxcount="1"
@@ -812,7 +812,7 @@
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,t.id.concat('_titleTime'))}">style="border: 1px solid #ef0000;"
+                                <c:if test="${fn:contains(engErrorField,t.id.concat('_titleTime'))}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorFileMsg('titleTime','${t.id }')"</c:if>
                                 value="<fmt:formatDate type='date' value="${t.titleTime}" dateStyle='default' pattern='yyyy-MM' />"
                                 readonly="readonly" name="ecoList[${vs.index }].titleTime"    type="text"
@@ -851,7 +851,7 @@
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,'专家技术资格')}">style="border: 1px solid #ef0000;"
+                                <c:if test="${fn:contains(typeErrorField,'专家技术资格')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('专家技术资格')"</c:if>
                                 maxlength="20" value="${expert.professTechTitles}"
                                 name="professTechTitles" id="professTechTitles" type="text"/>
@@ -863,7 +863,7 @@
                         class="red"></i> 专家技术资格证书</span>
                     <div
                             class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-                            <c:if test="${fn:contains(errorField,'专家技术资格证书')}">style="border: 1px solid #ef0000;"
+                            <c:if test="${fn:contains(typeErrorField,'专家技术资格证书')}">style="border: 1px solid #ef0000;"
                             onmouseover="errorMsg('专家技术资格证书')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
@@ -884,7 +884,7 @@
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,'证书获取时间')}">style="border: 1px solid #ef0000;"
+                                <c:if test="${fn:contains(typeErrorField,'证书获取时间')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('证书获取时间')"</c:if>
                                 value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM' />"
                                 readonly="readonly" name="timeToWork" id="timeToWork"

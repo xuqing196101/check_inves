@@ -219,8 +219,7 @@
 								"auditReason": text,
 								"expertId": expertId,
 								"auditField": id,
-								"auditContent": auditContent,
-								"type": "2"
+								"auditContent": auditContent
 							},
 							dataType: "json",
 							success: function(result) {

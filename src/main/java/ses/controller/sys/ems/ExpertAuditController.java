@@ -340,7 +340,11 @@ public class ExpertAuditController{
 			if(oldExpert != null) {
 				Map < String, Object > compareMap = compareExpert(oldExpert, (ExpertHistory) expert);
 				// 如果isEdit==1代表没有进行任何修改就进行了二次提交
-				if(compareMap.isEmpty()) {
+				
+				expertEngHistory = new ExpertEngHistory();
+				expertEngHistory.setExpertId(expertId);
+				List<ExpertEngHistory> list = expertEngModifySerivce.selectByExpertId(expertEngHistory);
+				if(compareMap.isEmpty() && list.isEmpty()) {
 					// 没有修改
 					model.addAttribute("isEdit", "0");
 				} else {
@@ -1212,7 +1216,7 @@ public class ExpertAuditController{
 		
 		//回显不通过的字段
 		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
-			ExpertAudit expertAuditFor = new ExpertAudit();
+			/*ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
 			
@@ -1224,7 +1228,38 @@ public class ExpertAuditController{
 					conditionStr.append(beforeField + ",");
 				}
 				model.addAttribute("conditionStr", conditionStr);
-			}
+			}*/
+			
+		
+        		//不通过字段（专家类型）
+            	ExpertAudit expertAuditFor = new ExpertAudit();
+    			expertAuditFor.setExpertId(expertId);
+    			expertAuditFor.setSuggestType("seven");
+    			expertAuditFor.settype("1");
+    			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
+    			
+    			
+    			StringBuffer typeErrorField = new StringBuffer();
+    			if(!reasonsList.isEmpty()){
+    				for (ExpertAudit expertAudit2 : reasonsList) {
+    					String beforeField = expertAudit2.getAuditFieldId();
+    					typeErrorField.append(beforeField + ",");
+    				}
+    				model.addAttribute("typeErrorField", typeErrorField);
+    			}
+    			
+    			//不通过字段（执业资格）
+    			expertAuditFor.settype("2");
+    			List < ExpertAudit > engReasonsList = expertAuditService.getListByExpert(expertAuditFor);
+    			StringBuffer engErrorField = new StringBuffer();
+    			if(!engReasonsList.isEmpty()){
+    				for (ExpertAudit expertAudit2 : engReasonsList) {
+    					String beforeField = expertAudit2.getAuditFieldId() +"_"+ expertAudit2.getAuditFieldName();
+    					engErrorField.append(beforeField + ",");
+    				}
+    				model.addAttribute("engErrorField", engErrorField);
+    			}
+			
 		}
 		
 		return "ses/ems/expertAudit/expertType";
