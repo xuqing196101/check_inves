@@ -144,7 +144,7 @@ function removeFile(ids,key,id){
  */
 var view;
 function openViewDIv(businessId,typeId,key,id,obj){
-	var html ="<ul id='"+id+"showPicId'></ul>";
+	var html ="<iframe frameborder= '0' scrolling='no' style='background-color:transparent; position: absolute; z-index: -1; width: 100%; height: 100%; top: 0; left:0;'></iframe><ul id='"+id+"showPicId'></ul>";
 	var height = document.documentElement.clientHeight;
 	var index = layer.open({
 		  type: 1,
