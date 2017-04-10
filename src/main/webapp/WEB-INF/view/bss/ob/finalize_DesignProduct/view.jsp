@@ -41,12 +41,12 @@
 								value="${obProduct.name }" type="text" class="w230 mb0" disabled="disabled">
 						</tr>
 						<tr>
-							<td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
-							<td width="32%"><input id="code" name=""
-								value="${orgName }" type="text" class="w230 mb0" disabled="disabled">
 							<td class="info" width="18%"><div class="star_red">*</div>产品目录</td>
 							<td width="32%"><input id="name" name="" title="${obProduct.pointsName }"
-								value="${categoryName }" type="text" class="w230 mb0" disabled="disabled">
+								value="${categoryName }" type="text" class="w230 mb0" disabled="disabled"></td>
+								<td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
+							<td width="32%"><input id="code" name=""
+								value="${orgName }" type="text" class="w230 mb0" disabled="disabled"></td>
 						</tr>
 						<tr>
 							<td class="info">规格型号</td>
@@ -71,7 +71,7 @@
 			</div>
 			<div class="col-md-12 clear tc mt10">
 				<button class="btn btn-windows back" type="button"
-					onclick="window.location.href = '${pageContext.request.contextPath}/product/list.html'">返回</button>
+					onclick="javascript:history.go(-1);">返回</button>
 			</div>
 		</div>
 	</div>

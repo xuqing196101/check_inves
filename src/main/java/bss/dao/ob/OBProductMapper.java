@@ -136,7 +136,7 @@ public interface OBProductMapper {
 	 * @return String 
 	 * @exception
 	 */
-	String selOrgByCategory(@Param("smallPointsId") String smallPointsId,@Param("id") String id);
+	List<String> selOrgByCategory(@Param("smallPointsId") String smallPointsId,@Param("id") String id);
 	/**
 	 * 获取时间范围的创建数据
 	 * @author YangHongLiang

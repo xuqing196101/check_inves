@@ -95,7 +95,11 @@ public class OBProductServiceImpl implements OBProductService {
 
 	@Override
 	public String selOrgByCategory(String smallPointsId,String id) {
-		return oBProductMapper.selOrgByCategory(smallPointsId,id);
+		List<String> list = oBProductMapper.selOrgByCategory(smallPointsId,id);
+		if(list != null && list.size() > 0){
+			return list.get(0);
+		}
+		return null;
 	}
     /**
      * 实现导出竞价定型产品数据
