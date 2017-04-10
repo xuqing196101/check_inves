@@ -85,7 +85,9 @@
                   <th class="info w150">预算金额<br/>（万元）</th>
                   <th class="info deliverdate">交货<br/>期限</th>
                   <th class="info purchasetype">采购方式</th>
+                  <c:if test="${obj.supplier ne null}">
                   <th class="info purchasename">供应商名称</th>
+                  </c:if>
                   <th class="info">进度</th>
                 </tr>
               </thead>
@@ -114,13 +116,15 @@
                     <td class="tr pr20">${obj.budget}</td>
                     <td class="tl pl20">${obj.deliverDate}</td>
                     <td class="tl pl20">${obj.purchaseType}</td>
+                    <c:if test="${obj.supplier ne null}">
                     <td title="${obj.supplier}" class="tl pl20">
                       <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
                       <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
                     </td>
+                    </c:if>
                     <td class="tc" onclick="view('${obj.id}')">
                       <c:if test="${obj.price != null}">
-                        <div id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
+                        <div id="p" class="easyui-progressbar" data-options="value:${obj.progressBar}" style="width:80px;" ></div>
                       </c:if>
                     </td>
                   </tr>

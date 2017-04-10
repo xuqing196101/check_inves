@@ -79,7 +79,6 @@
 			 <thead>
 				<tr>
 				 <td class="info w50">序号</td>
-				 <td class="info tc">编号</td>
 				 <td class="info tc">物资名称</td>
 				 <td class="info tc">规格型号</td>
 				 <td class="info tc">计量单位</td>
@@ -94,7 +93,6 @@
 			 </thead>
 			 <c:forEach items="${list.projectDetails}" var="detail" varStatus="vt">
 			    <tr>
-			       <td class="tr pr20 pointer">${vt.index+1}</td>
 			       <td class="tr pr20 pointer">${detail.serialNumber}</td>
 			       <td>${detail.goodsName}</td>
 			       <td>${detail.stand}</td>

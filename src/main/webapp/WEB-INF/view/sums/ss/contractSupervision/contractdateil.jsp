@@ -246,7 +246,9 @@
 				</div>
 			</div>
 		</div>
-
+    <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
+        <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
+      </div>
 
 </body>
 </html>

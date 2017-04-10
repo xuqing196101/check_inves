@@ -52,7 +52,7 @@
               <tr>
                 <td width="25%" class="info">需求状态：</td>
                 <td width="25%">
-				 <c:if test="${demand.status eq '1'}">未提交</c:if>
+				           <c:if test="${demand.status eq '1'}">未提交</c:if>
                    <c:if test="${demand.status eq '4'}">受理退回</c:if> 
                    <c:if test="${demand.status eq '2' || demand.status eq '3' || demand.status eq '5'}">已提交</c:if>
 

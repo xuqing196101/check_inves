@@ -108,6 +108,8 @@ public class ProjectDetail {
      */
     private List<theSubject> subjectList;
     
+    private String progressBar;
+    
 	public List<theSubject> getSubjectList() {
 		return subjectList;
 	}
@@ -412,8 +414,17 @@ public class ProjectDetail {
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
 	}
+	
 
-	@Override
+	public String getProgressBar() {
+        return progressBar;
+    }
+
+    public void setProgressBar(String progressBar) {
+        this.progressBar = progressBar;
+    }
+
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

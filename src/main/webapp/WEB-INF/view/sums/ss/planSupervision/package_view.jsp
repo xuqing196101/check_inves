@@ -133,7 +133,7 @@
                         <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
                       </td>
                       <td class="tc" onclick="view('${obj.id}')">
-                        <div id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
+                        <div id="p" class="easyui-progressbar" data-options="value:${obj.progressBar}" style="width:80px;"></div>
                       </td>
                     </tr>
                   </c:forEach>
@@ -191,7 +191,7 @@
                     <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
                   </td>
                   <td class="tc">
-                    <div id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
+                    <div id="p" class="easyui-progressbar" data-options="value:${obj.progressBar}" style="width:80px;"></div>
                   </td>
                 </tr>
               </c:forEach>
