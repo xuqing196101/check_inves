@@ -1451,6 +1451,9 @@
       <if test="purchaseDep != null">
        and PURCHASE_DEP_ID = #{purchaseDep.id}
       </if>
+      <if test="confirmFile != null">
+          and CONFIRM_FILE = #{confirmFile}
+      </if>
       <if test=" (purchaseDepId != null and purchaseDepId != '' ) or ( principal != null and principal != '')">
        and ( PURCHASE_DEP_ID in (${purchaseDepId}) or principal = #{principal}) 
        <if test="statusArray != null">

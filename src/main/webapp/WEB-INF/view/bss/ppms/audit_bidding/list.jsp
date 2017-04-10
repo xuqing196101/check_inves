@@ -137,12 +137,12 @@
         <label class="fl">审核状态：</label> 
         <span>
         <select class="w178" id="status" name="confirmFile" >
-          <option value="">请选择</option>
-					<option value="1">待审核</option>
-					<option value="2">审核未通过</option>
-					<option value="3">审核通过</option>
-					<option value="4">修改报备</option>
-				</select>
+            <option value="-1">请选择</option>
+            <option value="1">待审核</option>
+            <option value="2">审核未通过</option>
+            <option value="3">审核通过</option>
+            <option value="4">修改报备</option>
+        </select>
         </span>
       </li>
 		</ul>
