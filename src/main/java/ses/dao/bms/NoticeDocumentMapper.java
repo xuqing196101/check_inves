@@ -82,4 +82,17 @@ public interface NoticeDocumentMapper {
      * @return: List<String>
      */
     List<String> findByMap(Map<String, Object> param);
+    
+    /**
+     * 
+     * Description: 查询须知文档名称
+     * 
+     * @author  zhang shubin
+     * @version  2017年4月10日 
+     * @param  @param param
+     * @param  @return 
+     * @return List<String> 
+     * @exception
+     */
+    List<String> findDocNameByMap(Map<String, Object> param);
 }

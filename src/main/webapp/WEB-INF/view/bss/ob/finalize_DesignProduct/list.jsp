@@ -390,7 +390,7 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info">产品名称</th>
+		  <th class="info" width="30%">产品名称</th>
 		  <th class="info">产品代码</th>
 		  <th class="info">产品目录（末节点）</th>
 		  <th class="info">产品状态</th>
@@ -403,7 +403,7 @@
 		  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 		  <td><a href="${pageContext.request.contextPath }/product/view.html?productId=${product.id }">${product.name}</a></td>
 		  <td>${product.code}</td>
-		  <td class="tc" title = "${product.pointsName }">${product.smallPoints.name }</td>
+		  <td class="tc" title = "${product.pointsName }" width="30%">${product.smallPoints.name }</td>
 		  <td class="tc" id = "${product.id }">
 		  	<c:if test="${product.status == 1}">暂存</c:if>
 		  	<c:if test="${product.status == 2}">已发布</c:if>

@@ -120,7 +120,7 @@
     select 
     *
     from T_SES_BMS_NOTICE_DOCUMENT where
-    <if test="docType != null and docType !='-请选择-'">
+    <if test="docType != null and docType !='-请选择-' and docType != ''">
         DOC_TYPE=#{docType} AND 
     </if>
     <if test="name != null and name != ''">
@@ -134,6 +134,18 @@
 	<select id="findByMap" parameterType="java.util.Map" resultType="java.lang.String">
 		select
 			t1.CONTENT
+		from 
+			T_SES_BMS_NOTICE_DOCUMENT t1
+		<where>
+			<if test="docType != null">
+				and t1.DOC_TYPE = #{docType}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findDocNameByMap" parameterType="java.util.Map" resultType="java.lang.String">
+		select
+			t1.NAME
 		from 
 			T_SES_BMS_NOTICE_DOCUMENT t1
 		<where>

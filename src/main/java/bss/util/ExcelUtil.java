@@ -918,6 +918,7 @@ public class ExcelUtil {
         String planName="";
         boolean bool=true;
         for(Row row:sheet){
+        	String orgId = "";
         	OBProduct obp=new OBProduct();
         	for(Cell cell : row){
         		if(cell.getColumnIndex()==0){
@@ -996,7 +997,7 @@ public class ExcelUtil {
 		        				 break;
         					}else{
         						Orgnization orgnization = excelUtil.orgnizationService.selectByShortName(org);
-        						obp.setProcurementId(orgnization.getId());
+        						orgId = orgnization.getId();
         					}
         				}
         			 }
@@ -1012,7 +1013,7 @@ public class ExcelUtil {
 	        				}
         					//验证产品目录是否存在
         					String categoryCode = cell.getRichStringCellValue().toString();
-        					if(null == excelUtil.categoryService.selectByCode(categoryCode)){
+        					if(null == excelUtil.categoryService.selectByCode(categoryCode) || excelUtil.categoryService.selectByCode(categoryCode).size() == 0){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行D列错误，产品目录不存在!";
         						map.put("errMsg", errMsg);
 	        					 bool=false;
@@ -1035,6 +1036,16 @@ public class ExcelUtil {
    	        					 break;
         					}
     						if(list2 != null){
+    							String org = excelUtil.oBProductService.selOrgByCategory(list2.get(0).getId(),null);
+    							if(org != null){
+    								if(! org.equals(orgId)){
+    									errMsg=String.valueOf(row.getRowNum()+1)+"行C列错误，该目录已有采购机构!";
+    	        						map.put("errMsg", errMsg);
+    		        					 bool=false;
+    			        				 break;
+    								}
+    							}
+    							obp.setProcurementId(orgId);
     							obp.setSmallPointsId(list2.get(0).getId());
     						}
     					}
@@ -1306,7 +1317,7 @@ public class ExcelUtil {
 	        				}
         					String str = cell.getRichStringCellValue().toString();
         					List<Category> list2 = excelUtil.categoryService.selectByCode(str);
-        					if(list2.size() == 0){
+        					if(null == list2 || list2.size() == 0){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，目录不存在!";
 	        					 map.put("errMsg", errMsg);
 	        					 bool=false;

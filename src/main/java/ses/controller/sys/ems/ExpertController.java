@@ -289,7 +289,9 @@ public class ExpertController extends BaseController {
             Map < String, Object > param = new HashMap < String, Object > ();
             param.put("docType", dd.getId());
             String doc = noticeDocumentService.findDocByMap(param);
+            String docName = noticeDocumentService.findDocNameByMap(param);
             model.addAttribute("doc", doc);
+            model.addAttribute("docName", docName);
         }
         return "ses/ems/expert/register_notice";
     }
@@ -3105,7 +3107,7 @@ public class ExpertController extends BaseController {
      * @throws Exception
      */
     @RequestMapping("/downNotice")
-    public ResponseEntity < byte[] > downNotice(String id,
+    public ResponseEntity < byte[] > downNotice(String name,
         HttpServletRequest request, HttpServletResponse response) throws Exception {
         //		// 文件存储地址
         //		String filePath = request.getSession().getServletContext()
@@ -3120,11 +3122,11 @@ public class ExpertController extends BaseController {
         //		String downFileName = new String("军队物资工程服务采购评审专家入库须知.doc".getBytes("UTF-8"),
         //			"iso-8859-1"); // 为了解决中文名称乱码问题
         //		return service.downloadFile(fileName, filePath, downFileName);
-        String path = PathUtil.getWebRoot() + "excel/军队物资工程服务采购评审专家入库须知.doc";;
+        String path = PathUtil.getWebRoot() + "excel/军队物资工程服务采购评审专家入库须知.doc";
         File file = new File(path);
 
         HttpHeaders headers = new HttpHeaders();
-        String fileName = new String("军队物资工程服务采购评审专家入库须知.doc".getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
+        String fileName = new String((name+".doc").getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
         headers.setContentDispositionFormData("attachment", fileName);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         return new ResponseEntity < byte[] > (FileUtils.readFileToByteArray(file),
