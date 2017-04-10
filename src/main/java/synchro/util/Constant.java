@@ -52,6 +52,9 @@ public class Constant {
     
     /**竞价信息**/
     public final static String DATA_TYPE_BIDDING_CODE="SYNCH_BIDDING_PROJECT";
+    
+    /**竞价信息 附件 10**/
+    public final static Integer DATA_TYPE_BIDDING_FILE_CODE=10;
     /** 竞价 信息描述 **/
     public final static String OB_PROJECT_COMMIT = "导出竞价信息数量:";
     /** 竞价 信息 同步描述 **/
@@ -60,6 +63,8 @@ public class Constant {
     public final static String DATA_TYPE_BIDDING_RESULT_CODE="SYNCH_BIDDING_RESULT";
     /**竞价结果描述**/
     public final static String OB_RESULT_COMMIT="导出竞价结果数量:";
+    /**竞价结果  同步描述**/
+    public final static String OB_RESULT_COMMIT_IMPORT="导出竞价结果数量:";
     /** 竞价 定型产品信息描述 **/
     public final static String PRODUCT_COMMIT = "导出竞价定型产品数量:";
     /** 竞价 定型产品信息  导入描述 **/
@@ -100,7 +105,9 @@ public class Constant {
     public final static String ATTCH_FILE_EXPERT = "expert";
     
     /** 竞价 信息文件名称 **/
-    public final static String PROJECT_FILE_EXPERT = "bidding_project";
+    public final static String PROJECT_EXPERT = "bidding_project";
+    /** 竞价 信息 附件名称 **/
+    public final static String PROJECT_FILE_EXPERT = "bidding_project_file";
     /** 竞价 产品文件名称 **/
     public final static String PRODUCT_FILE_EXPERT = "bidding_product";
     /** 竞价 特殊日期文件名称 **/

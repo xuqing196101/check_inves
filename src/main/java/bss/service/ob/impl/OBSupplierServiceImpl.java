@@ -131,7 +131,7 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 		if(updatelist!=null&&updatelist.size()>0){
 			sum=sum+updatelist.size();
 			//生成json 并保存
-			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.M_OB_SUPPLIER_FILENAME, 8),JSON.toJSONString(updatelist));
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_OB_SUPPLIER_FILENAME, 8),JSON.toJSONString(updatelist));
 			
 		}
 		//供应商数据只需导出数据即可 不用导出 附件 只是内网导出数据

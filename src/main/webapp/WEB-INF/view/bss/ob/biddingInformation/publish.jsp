@@ -252,6 +252,7 @@
 	}
 	//定义临时产品目录
 	var productM;
+	var width;
 	//初始化产品下拉框
 	function loads(number,id){
 	 if(productInfo){
@@ -263,6 +264,7 @@
 	    });
 	   }
 	  }
+	    
 	$.each(productList, function(i, user) {
 	    var temp=$.inArray(user.id,productTemp);
 	       if(temp==-1){
@@ -276,7 +278,11 @@
 	        }
 	        }
 	     });
-	     $("select[id=\"productName_"+number+"\"]").select2(); 
+	        $("select[id=\"productName_"+number+"\"]").select2(); 
+	        if(!width){
+	        width=$('#tdID').width();
+	        }
+	      $("select[id=\"productName_"+number+"\"]").select2({ width: width });
 	     if(id){
 		 $("#productName_"+number+"").select2('val',id); 
 	     changSelectCount(number);
@@ -292,11 +298,11 @@
 	      productRemark='';
 	      }
 		   $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
-		  "<td class=\"p0\" ><div id=\"selectDiv"+number+"\" onmouseover='showPrompt(\"selectDiv"+number+"\",\"productName_"+number+"\")'  onmouseout=\"closePrompt()\" onblur=\"closePrompt()\" name=\"selectDiv\"><select id=\"productName_"+number+"\"   name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
+		  "<td class=\"p0\" id=\"tdID\" ><div id=\"selectDiv"+number+"\" onmouseover='showPrompt(\"selectDiv"+number+"\",\"productName_"+number+"\")'  onmouseout=\"closePrompt()\" onblur=\"closePrompt()\" name=\"selectDiv\"><select id=\"productName_"+number+"\" class=\"p0\"  name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
 		  "</div></td>"+
-		  "<td class=\"p0\" id=\"t"+number+"\"><input id=\"productMoney\" maxlength=\"20\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
-		  "<td class=\"p0\"><input id=\"productCount\" maxlength=\"38\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
-		  "<td class=\"p0\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" title=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
+		  "<td class=\"p0\" id=\"t"+number+"\" width=\"10%\"><input id=\"productMoney\" maxlength=\"20\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		  "<td class=\"p0\"  width=\"20%\"><input id=\"productCount\" maxlength=\"38\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		  "<td class=\"p0\"  width=\"40%\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" title=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
 		  "  </td>"+
 		"</tr>").clone(true);   
 		//加载数据
@@ -889,11 +895,11 @@
 		</div>   
     	  <table class="table table-bordered left_table" id ="table2">
 			<tr>
-		  		<th class="w50 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+		  		<th class="w50 info" width="1%"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  		<th class="info" width="30%"><span class="red star_red">*</span>定型产品名称</th>
-		  		<th class="info">限价（元）</th>
-		  		<th class="info"><span class="red star_red">*</span>采购数量</th>
-		  		<th class="info" width="30%">备注</th>
+		  		<th class="info" width="10%">限价（元）</th>
+		  		<th class="info" width="19%"><span class="red star_red">*</span>采购数量</th>
+		  		<th class="info" width="40%">备注</th>
 			</tr>
 		  </table>
 		</div>

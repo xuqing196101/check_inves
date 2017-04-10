@@ -38,6 +38,7 @@ import bss.util.FileUtil;
 import com.github.pagehelper.PageInfo;
 
 import common.bean.ResponseBean;
+import common.utils.UploadUtil;
 
 /**
  * 
@@ -226,16 +227,19 @@ public class SynchImportController {
         	/**竞价定型产品导入  只能是外网导入内网**/
         	 if (file != null && file.exists()){
                  File [] files = file.listFiles();
-                 if(files.length<1){
-                 	bean.setSuccess(false);
-                     return bean;
-                 }
                  for (File f : files){
-                	 //判断文件名是否是 竞价产品 创建 数据名称
-                	 //判断是否有竞价产品 更新数据名称
-                     if (f.getName().contains(FileUtils.C_OB_PRODUCT_FILENAME)||f.getName().contains(FileUtils.M_OB_PRODUCT_FILENAME)){
-                    	 OBProductService.importProduct(f);
-                     }
+                	 if (f.isDirectory()){
+                		 if (f.getName().equals(Constant.PRODUCT_FILE_EXPERT)){
+                	      for (File file2 : f.listFiles()) {
+                		   //判断文件名是否是 竞价产品 创建 数据名称
+                      	 //判断是否有竞价产品 更新数据名称
+                           if (file2.getName().contains(FileUtils.C_OB_PRODUCT_FILENAME)||file2.getName().contains(FileUtils.M_OB_PRODUCT_FILENAME)){
+                          	 OBProductService.importProduct(file2);
+                           }
+                		   
+                	      } 
+					     }
+                	   }
                      if (f.isDirectory()){
                          if (f.getName().equals(Constant.PRODUCT_FILE_EXPERT)){
                              OperAttachment.moveFolder(f);
@@ -244,9 +248,8 @@ public class SynchImportController {
                  }
              }
         }
-        if(synchType.contains(Constant.DATE_SYNCH_BIDDING_SPECIAL_DATE)){
-        	/**竞价特殊日期导出  只能是外网导入内网**/
-        	//OBSpecialDateServer.exportSpecialDate(startTime, endTime, date);
+        /*if(synchType.contains(Constant.DATE_SYNCH_BIDDING_SPECIAL_DATE)){
+        	/**竞价特殊日期导出  只能是外网导入内网**//*
         	 if (file != null && file.exists()){
                  File [] files = file.listFiles();
                  if(files.length<1){
@@ -266,72 +269,75 @@ public class SynchImportController {
                      }
                  }
              }
-        }
+        }*/
         if(synchType.contains(Constant.DATE_SYNCH_BIDDING_SUPPLIER)){
         	/**竞价供应商导出  只能是外网导入内网**/
-        	//OBSupplierService.exportSupplier(startTime, endTime, date);
         	 if (file != null && file.exists()){
                  File [] files = file.listFiles();
-                 if(files.length<1){
-                 	bean.setSuccess(false);
-                     return bean;
-                 }
                  for (File f : files){
-                	 //判断文件名是否是 竞价特殊日期 创建 数据名称
-                	 //判断是否有竞价特殊日期 更新数据名称
-                     if (f.getName().contains(FileUtils.C_OB_SUPPLIER_FILENAME)||f.getName().contains(FileUtils.M_OB_SUPPLIER_FILENAME)){
-                    	 OBSupplierService.importSupplier(f);
-                     }
+                	 if (f.isDirectory()){
+                         if (f.getName().equals(Constant.SUPPLIER_FILE_EXPERT)){
+                        	 for (File file3 : f.listFiles()) {
+                        		 if (file3.getName().contains(FileUtils.C_OB_SUPPLIER_FILENAME)||file3.getName().contains(FileUtils.M_OB_SUPPLIER_FILENAME)){
+                                	 OBSupplierService.importSupplier(file3);
+                                 }
+							}
+                         }
+                       }
+                    
                      if (f.isDirectory()){
                          if (f.getName().equals(Constant.SUPPLIER_FILE_EXPERT)){
-                             OperAttachment.moveFolder(f);
+                           OperAttachment.moveFolder(f);
                          }
                      }
                  }
              }
         }
         if(synchType.contains(Constant.DATA_TYPE_BIDDING_CODE)){
-        	/**竞价信息导出  只能是外网导入内网**/
-        	//OBProjectServer.exportProject(startTime, endTime, date);
+        	/**竞价信息导入  只能是外网导入内网**/
         	 if (file != null && file.exists()){
                  File [] files = file.listFiles();
-                 if(files.length<1){
-                 	bean.setSuccess(false);
-                     return bean;
-                 }
                  for (File f : files){
-                	 //判断文件名是否是 竞价信息  数据名称
-                     if (f.getName().contains(FileUtils.C_OB_PROJECT_STATUS_FILENAME)){
-                    	 OBProjectServer.importProject(f);
-                     }
-                     //判断文件是否是竞价信息 附件文件
-                     if (f.getName().contains(FileUtils.C_OB_PROJECT_FILE_FILENAME)){
-                    	 OBProjectServer.importProjectFile(f);
-                     }
-                     //如果文件存在 那么删除
+                	 //如果文件存在 那么删除
                      if (f.isDirectory()){
-                         if (f.getName().equals(Constant.PROJECT_FILE_EXPERT)){
-                             OperAttachment.moveFolder(f);
-                         }
+                    	 if (f.getName().equals(Constant.PROJECT_EXPERT)){
+                    		 for (File file2 : f.listFiles()) {
+                    			 //判断文件名是否是 竞价信息  数据名称
+                    			 if (file2.getName().contains(FileUtils.C_OB_PROJECT_STATUS_FILENAME)){
+                    				 OBProjectServer.importProject(file2);
+                    			 }
+                    			 //判断文件是否是竞价信息 附件文件
+                        		 if (file2.getName().contains(FileUtils.C_OB_PROJECT_FILE_FILENAME)){
+                        			 OBProjectServer.importProjectFile(file2);
+                        		 }
+                    		 }
+                    	 }
+                     if(f.getName().equals(Constant.PROJECT_FILE_EXPERT)){
+                    	 for (File file2 : f.listFiles()) {
+                    		 if (f.isDirectory()){
+                                 OperAttachment.moveToPathFolder(file2,FileUtils.BASE_ATTCH_PATH+FileUtils.TENDER_ATTFILE_PATH);
+                    		 }
+                    	 }
+                     	}
+                    
                      }
                  }
              }
         }
         if(synchType.contains(Constant.DATA_TYPE_BIDDING_RESULT_CODE)){
         	/**竞价结果导出  只能是外网导入内网**/
-        	//OBProjectServer.exportProjectResult(startTime, endTime, date);
         	if (file != null && file.exists()){
                  File [] files = file.listFiles();
-                 if(files.length<1){
-                 	bean.setSuccess(false);
-                     return bean;
-                 }
                  for (File f : files){
-                	 //判断文件名是否是 竞价特殊日期 创建 数据名称
-                	 //判断是否有竞价特殊日期 更新数据名称
-                     if (f.getName().contains(FileUtils.C_OB_PROJECT_RESULT_FILENAME)){
-                    	 OBProjectServer.importProjectResult(f);
-                     }
+                	  if (f.isDirectory()){
+                          if (f.getName().equals(Constant.RESULT_FILE_EXPERT)){
+                        	  for (File file2 : f.listFiles()) {
+                        		  if (file2.getName().contains(FileUtils.C_OB_PROJECT_RESULT_FILENAME)){
+                        			  OBProjectServer.importProjectResult(file2);
+                        		  }
+                        	  }
+                          }
+                	  }
                      if (f.isDirectory()){
                          if (f.getName().equals(Constant.RESULT_FILE_EXPERT)){
                              OperAttachment.moveFolder(f);

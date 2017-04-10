@@ -315,7 +315,7 @@
   <!-- 根据id查询数量 -->
    <select id="countById" parameterType="String" resultType="java.lang.Integer" >
     select count(*) from T_BSS_OB_PRODUCT
-    where id=#{id,jdbcType=VARCHAR},
+    where id=#{id,jdbcType=VARCHAR}
   </select>
   
   <update id="updateByExampleSelective" parameterType="map" >

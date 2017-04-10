@@ -1233,7 +1233,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			obProject.setObProjectSupplier(projectSupplier);
 			if(StringUtils.isNotBlank(obProject.getAttachmentId())){
 			//查询文件路径
-			List<UploadFile> fileList = uploadService.substrBusniessI(obProject.getAttachmentId());
+			List<UploadFile> fileList = uploadService.findBybusinessId(obProject.getAttachmentId(),Constant.TENDER_SYS_KEY);
 			uploadList.addAll(fileList);
 			}
 		 }
@@ -1242,7 +1242,7 @@ public class OBProjectServerImpl implements OBProjectServer {
         //同步附件
         if (uploadList != null && uploadList.size() > 0){
             FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_OB_PROJECT_FILE_FILENAME, 5),JSON.toJSONString(uploadList));
-            String basePath = FileUtils.attachExportPath(Constant.TENDER_SYS_KEY);
+            String basePath = FileUtils.attachExportPath(synchro.util.Constant.DATA_TYPE_BIDDING_FILE_CODE);
             if (StringUtils.isNotBlank(basePath)){
                 OperAttachment.writeFile(basePath, uploadList);
                 recordService.synchBidding(synchDate, new Integer(uploadList.size()).toString(), synchro.util.Constant.DATA_TYPE_ATTACH_CODE, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.CREATED_COMMIT_ATTACH);
@@ -1286,8 +1286,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 	        if (list != null && list.size() > 0){
 	        	for (OBProject item : list) {
 	        	Integer count=	obProjectMapper.countById(item.getId());
-	        	  if(count>0){
+	        	  if(count==0){
 	        		  obProjectMapper.insertSelective(item);
+	        		  obProjectRuleMapper.insertSelective(item.getObProjectRule());
 	        		  List<OBProductInfo> obProductInfo=item.getObProductInfo();
 	        		  if(obProductInfo!=null&&obProductInfo.size()>0){
 	        		  //循环导入竞价产品数据
@@ -1303,8 +1304,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 						}
 	        		  }
 	        	    }
-	        	  recordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.DATA_TYPE_BIDDING_CODE, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.OB_PROJECT_COMMIT_IMPORT);
 				}
+	        	recordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.DATA_TYPE_BIDDING_CODE, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.OB_PROJECT_COMMIT_IMPORT);
 	        }
 	        boo=true;
 		return boo;
@@ -1342,6 +1343,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 			   for (OBProject obProject : list) {
 				   Integer count=	obProjectMapper.countById(obProject.getId());
 		        	  if(count>0){
+		        		  //根系状态
+		        		  obProjectMapper.updateByPrimaryKey(obProject);
+		        		  //获取结果集合
 		        		  List<OBProjectResult> result= obProject.getObProjectResult(); 
 		        		  if(result!=null&& result.size()>0){
 		        			  //循环更新结果表
@@ -1355,7 +1359,12 @@ public class OBProjectServerImpl implements OBProjectServer {
 							 List<OBResultSubtabulation> slist=obProjectResult.getObResultSubtabulation();
 							 if(slist!=null&& slist.size()>0){
 								 for (OBResultSubtabulation obResultSubtabulation : slist) {
-									OBResultSubtabulationMapper.insertSelective(obResultSubtabulation);
+									 Integer rs=OBResultSubtabulationMapper.countById(obResultSubtabulation.getId());
+									 if(rs==0){
+										 OBResultSubtabulationMapper.insertSelective(obResultSubtabulation);
+									 }else{
+										 OBResultSubtabulationMapper.updateByPrimaryKeySelective(obResultSubtabulation);
+									 }
 								}
 								 
 							 }
@@ -1376,6 +1385,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		                   
 		        	  }
 			 }
+			   recordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.DATA_TYPE_BIDDING_RESULT_CODE, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.OB_RESULT_COMMIT_IMPORT);
 		   }
 		return boo;
 	}

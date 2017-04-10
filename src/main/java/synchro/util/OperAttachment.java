@@ -65,6 +65,27 @@ public class OperAttachment {
     
     /**
      * 
+     *〈简述〉移动文件夹
+     *〈详细描述〉
+     * @author myc
+     * @param file 待解析文件
+     */
+    public static final void moveToPathFolder(final File file,String filePath){
+        final String path = FileUtils.createFilePath(filePath);
+        final File destDir = new File(path);
+        if (file.isDirectory()){
+           try {
+            org.apache.commons.io.FileUtils.copyDirectoryToDirectory(file, destDir);
+            org.apache.commons.io.FileUtils.deleteDirectory(file);  
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+       }
+        
+    }
+    
+    /**
+     * 
      *〈简述〉拷贝文件
      *〈详细描述〉
      * @author myc

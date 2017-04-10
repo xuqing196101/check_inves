@@ -120,7 +120,7 @@ public class OBProductServiceImpl implements OBProductService {
 		}
 		if(prodcutMList!=null && prodcutMList.size()>0){
 			sum=sum+prodcutMList.size();
-			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.M_OB_PRODUCT_FILENAME, 6),JSON.toJSONString(prodcutMList));
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_OB_PRODUCT_FILENAME, 6),JSON.toJSONString(prodcutMList));
 		}
 		SynchRecordService.synchBidding(synchDate, sum+"", Constant.DATE_SYNCH_BIDDING_PRODUCT, Constant.OPER_TYPE_EXPORT, Constant.PRODUCT_COMMIT);
 		boo=true;

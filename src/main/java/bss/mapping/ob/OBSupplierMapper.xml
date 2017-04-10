@@ -447,7 +447,7 @@
 	<select id="countById" parameterType="String"
 		resultType="java.lang.Integer">
 		select count(*) from T_BSS_OB_SUPPLIER
-		where id=#{id,jdbcType=VARCHAR},
+		where id=#{id,jdbcType=VARCHAR}
 	</select>
 	<update id="updateByExampleSelective" parameterType="map">
 		update T_BSS_OB_SUPPLIER

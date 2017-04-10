@@ -35,7 +35,12 @@ public interface OBResultSubtabulationMapper {
     OBResultSubtabulation selectByPrimaryKey(String id);
 
     int updateByPrimaryKeySelective(OBResultSubtabulation record);
-
+    /**
+     * 获取当前项目的数量
+     * @param id
+     * @return
+     */
+    Integer countById(@Param("id")String id);
     int updateByPrimaryKey(OBResultSubtabulation record);
     /**
      * 获取目前剩余的数量

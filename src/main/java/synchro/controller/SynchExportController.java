@@ -173,10 +173,10 @@ public class SynchExportController {
         	/**竞价定型产品导出  只能是内网导出外网**/
         	OBProductService.exportProduct(startTime, endTime, date);
         }
-        if(synchType.contains(Constant.DATE_SYNCH_BIDDING_SPECIAL_DATE)){
-        	/**竞价特殊日期导出  只能是内网导出外网**/
+       /* if(synchType.contains(Constant.DATE_SYNCH_BIDDING_SPECIAL_DATE)){
+        	/**竞价特殊日期导出  只能是内网导出外网**//*
         	OBSpecialDateServer.exportSpecialDate(startTime, endTime, date);
-        }
+        }*/
         if(synchType.contains(Constant.DATE_SYNCH_BIDDING_SUPPLIER)){
         	/**竞价供应商导出  只能是内网导出外网**/
         	OBSupplierService.exportSupplier(startTime, endTime, date);

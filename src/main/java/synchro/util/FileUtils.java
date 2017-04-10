@@ -26,13 +26,13 @@ import ses.util.PropUtil;
 public class FileUtils {
     
     /** 文件同步基础目录 **/
-    private final static String BASE_PATH = PropUtil.getProperty("file.sync.base");
+    public final static String BASE_PATH = PropUtil.getProperty("file.sync.base");
     
     /** 文件同步导出目录 **/
     private final static String BACKUP_PATH = PropUtil.getProperty("file.sync.export");
     
     /** 文件同步导入目录 **/
-    private final static String IMPORT_PATH = PropUtil.getProperty("file.sync.import");
+    public final static String IMPORT_PATH = PropUtil.getProperty("file.sync.import");
     
     /** 文件同步完成目录 **/
     private final static String FINISH_PATH = PropUtil.getProperty("file.sync.finish");
@@ -41,7 +41,7 @@ public class FileUtils {
     private final static String SUPPLIER_ATTFILE_PATH = PropUtil.getProperty("file.supplier.system.path");
     
     /** 招标附件文件路径 **/
-    private final static String TENDER_ATTFILE_PATH = PropUtil.getProperty("file.tender.system.path");
+    public final static String TENDER_ATTFILE_PATH = PropUtil.getProperty("file.tender.system.path");
     
     /** 专家附件文件路径 **/
     private final static String EXPERT_ATTFILE_PATH = PropUtil.getProperty("file.expert.system.path");
@@ -50,11 +50,14 @@ public class FileUtils {
     private final static String FORUM_ATTFILE_PATH = PropUtil.getProperty("file.forum.system.path");
     
     /** 正式附件路径 **/
-    private final static String BASE_ATTCH_PATH = PropUtil.getProperty("file.base.path");
+    public final static String BASE_ATTCH_PATH = PropUtil.getProperty("file.base.path");
     
     /**竞价 信息 文件路径  5 **/
     public final static String OB_PROJECT_PATH=PropUtil.getProperty("file.bidding.system.path");
    
+    /**竞价 信息 文件路径  10 **/
+    public final static String OB_PROJECT_FILE_PATH=PropUtil.getProperty("file.bidding_project_file.system.path");
+    
     /**竞价  #竞价定型产品目录 路径 6**/
     public final static String OB_PROJECT_PRODUCT_PATH=PropUtil.getProperty("file.bidding_product.system.path");
     /**竞价   #竞价特殊日期目录路径 7**/
@@ -303,6 +306,33 @@ public class FileUtils {
      * @param file 待读取文件
      * @return 文件
      */
+    public static final String readFileMoveFile(final File file ,String toFilePath){
+        LineIterator it  = null;
+        final StringBuffer sb = new StringBuffer();
+        try {
+            it = org.apache.commons.io.FileUtils.lineIterator(file,"UTF-8");
+            while (it.hasNext()) {
+                sb.append(it.nextLine());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+          if (it != null){
+              LineIterator.closeQuietly(it);
+          }  
+          moveToFile(file,toFilePath);
+        }
+        return sb.toString();
+    }
+    
+    /**
+     * 
+     *〈简述〉读取文件
+     *〈详细描述〉
+     * @author myc
+     * @param file 待读取文件
+     * @return 文件
+     */
     public static final String readFile(final File file ){
         LineIterator it  = null;
         final StringBuffer sb = new StringBuffer();
@@ -331,6 +361,25 @@ public class FileUtils {
      * @param cls 类型
      * @return
      */
+    public static <T> List<T> getBeansMoveFile(final File file, Class<T> cls,String toFilePath) {
+        String jsonString =  readFileMoveFile(file,toFilePath);
+        List<T> list = new ArrayList<T>();  
+        try {  
+          list = JSON.parseArray(jsonString, cls);  
+        } catch (Exception e) {  
+            
+        }  
+        return list;  
+    }  
+    /**
+     * 
+     *〈简述〉获取文件类型
+     *〈详细描述〉
+     * @author myc
+     * @param file 文件
+     * @param cls 类型
+     * @return
+     */
     public static <T> List<T> getBeans(final File file, Class<T> cls) {
         String jsonString =  readFile(file);
         List<T> list = new ArrayList<T>();  
@@ -340,8 +389,19 @@ public class FileUtils {
             
         }  
         return list;  
-    }  
+    } 
     
+    /**
+     * 
+     *〈简述〉移动文件
+     *〈详细描述〉
+     * @author myc
+     * @param file 原文件
+     * @param toFile 目标文件
+     */
+    public static void moveToFile(final File file,String toFilePath){
+        file.renameTo(new File(createFilePath(toFilePath),file.getName()));
+    }
     /**
      * 
      *〈简述〉移动文件
@@ -417,6 +477,7 @@ public class FileUtils {
           case 7 :  filePath =OB_PROJECT_SPECIAL_DATE_PATH;break;
           case 8 :  filePath =OB_PROJECT_SUPPLIER_PATH;break;
           case 9 :  filePath =OB_PROJECT_RESULT_PATH;break;
+          case 10:  filePath=OB_PROJECT_FILE_PATH;break;
         }
         return filePath;
     }
