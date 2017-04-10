@@ -374,7 +374,7 @@
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<button class="btn btn-windows apply" type="button" onclick="fbdxcp()">发布定型产品</button>
+		<button class="btn btn-windows add" type="button" onclick="fbdxcp()">添加定型产品</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
 		<button class="btn btn-windows apply" type="button" onclick="fb()">发布</button>

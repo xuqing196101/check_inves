@@ -11,6 +11,23 @@
     <script type="text/javascript">
       $(function() {
         $("#onmouse").addClass("btmfixs");
+        var cc = $("#main-1").offset().top;
+        var bb = $("#main-8").offset().top;
+         $(".flow_tips").each(function (i){
+            //var aa = $(this).offset().top;
+            if(i == 5){
+              $(this).addClass("round_tips round_l last_r");
+              $(this).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
+              $(this).children(":last").addClass("col-sm-offset-1 col-md-offset-1  col-md-offset-0");
+            }
+            if(i == 6){
+              $(this).children(":last").removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
+            }
+            if(i == 11){
+              $(this).addClass("round_tips round_l last_r");
+              $(this).children(":last").addClass("col-sm-offset-1 col-md-offset-1  col-md-offset-0");
+            }
+         });
       });
       function viewDemand() {
         layer.open({
@@ -317,10 +334,10 @@
             </table>
           </ul>
         </div>
-        <div class="padding-top-10 clear">
+        <div class="padding-top-10 clear" id="clear">
           <h2 class="count_flow"><i>2</i>流程进度</h2>
           <div class="container">
-            <div class="col-md-12 col-xs-12 col-sm-12 flow_more">
+            <div class="col-md-12 col-xs-12 col-sm-12 flow_more" id="main-1">
               <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-1">
@@ -334,7 +351,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn last_small">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn last_small" id="main-2">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-2">
                     <p class="tip_main">采购需求受理</p>
@@ -347,22 +364,22 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <c:if test="${advancedProject != null}">
-                <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn small_r">
+                <c:if test="${advancedProject != null}">
+                <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn small_r" id="main-3">
                   <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                     <a href="#tab-3">
                       <p class="tip_main">预研任务下达</p>
                       <p class="tip_time">
-                        <fmt:formatDate value='${task.giveTime}' pattern='yyyy-MM-dd' />
+                        <fmt:formatDate value='${tasks.giveTime}' pattern='yyyy-MM-dd' />
                       </p>
                     </a>
                   </div>
                   <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
                   <div class="tip_down col-xs-offset-6"></div>
                 </div>
-              </c:if>
+                </c:if>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn small_r">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn small_r" id="main-4">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-4">
                     <p class="tip_main">采购计划审核</p>
@@ -380,7 +397,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn  ">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn" id="main-5">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-5">
                     <p class="tip_main">采购计划下达</p>
@@ -393,19 +410,12 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <c:choose>
-                <c:when test="${advancedProject != null}">
-                  <div class="flow_tips col-md-2 col-sm-2 col-xs-12 current_btn round_tips round_r">
-                </c:when>
-                <c:otherwise>
-                  <div class="flow_tips col-md-2 col-sm-2 col-xs-12 current_btn round_tips">
-                </c:otherwise>
-              </c:choose>
+                  <div class="flow_tips col-md-2 col-sm-2 col-xs-12 current_btn round_tips" id="main-6">
               <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                 <a href="#tab-6">
                   <p class="tip_main">采购任务受领</p>
                   <p class="tip_time">
-                    <fmt:formatDate value='${task.acceptTime}' pattern='yyyy年MM月dd日' />
+                    <fmt:formatDate value='${task.acceptTime}' pattern='yyyy-MM-dd' />
                   </p>
                 </a>
               </div>
@@ -413,9 +423,7 @@
               <div class="tip_down col-xs-offset-6 col-sm-offset-1 col-md-offset-1  col-md-offset-0"></div>
               </div>
 
-              <c:choose>
-                <c:when test="${advancedProject != null}">
-                  <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r">
+                  <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-7">
                     <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                       <a href="#tab-7">
                         <p class="tip_main">采购项目立项</p>
@@ -424,23 +432,8 @@
                     </div>
                     <div class="tip_down col-xs-offset-6"></div>
                   </div>
-                </c:when>
-                <c:otherwise>
-                  <div class="flow_tips col-md-2 col-sm-2 col-xs-12 round_tips round_l last_r">
-                    <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                      <a href="#tab-7">
-                        <p class="tip_main">采购项目立项</p>
-                        <p class="tip_time">
-                          <fmt:formatDate value='${project.createAt}' pattern='yyyy-MM-dd' />
-                        </p>
-                      </a>
-                    </div>
-                    <div class="tip_down col-xs-offset-6 col-sm-offset-1 col-md-offset-0"></div>
-                  </div>
-                </c:otherwise>
-              </c:choose>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-8">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-8">
                     <p class="tip_main">采购文件编报</p>
@@ -449,13 +442,11 @@
                     </p>
                   </a>
                 </div>
-                <c:if test="${advancedProject != null}">
-                  <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                </c:if>
                 <div class="tip_down col-xs-offset-6"></div>
+                <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-9">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-9">
                     <p class="tip_main">采购公告发布</p>
@@ -468,7 +459,8 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r">
+              <c:if test="${'GKZB' ne code.code && 'DYLY' ne code.code}">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-10">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-10">
                     <p class="tip_main">供应商抽取</p>
@@ -478,8 +470,9 @@
                 <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
+              </c:if>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-11">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-11">
                     <p class="tip_main">采购文件发售</p>
@@ -489,7 +482,8 @@
                 <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 round_tips round_l last_r">
+              
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-12">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-12">
                     <p class="tip_main">评审专家抽取</p>
@@ -497,14 +491,10 @@
                   </a>
                 </div>
                 <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                <c:if test="${advancedProject != null}">
-                  <div class="tip_down col-xs-offset-6 col-sm-offset-1 col-md-offset-0"></div>
-                </c:if>
+                <div class="tip_down col-xs-offset-6"></div>
               </div>
-
-              <c:choose>
-                <c:when test="${advancedProject != null}">
-                  <div class="flow_tips col-md-2 col-sm-2 col-xs-12">
+              
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-13">
                     <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                       <a href="#tab-13">
                         <p class="tip_main">开标</p>
@@ -516,24 +506,9 @@
                     <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
                     <div class="tip_down col-xs-offset-6"></div>
                   </div>
-                </c:when>
-                <c:otherwise>
-                  <div class="flow_tips col-md-2 col-sm-2 col-xs-12 round_tips round_l last_r">
-                    <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                      <a href="#tab-13">
-                        <p class="tip_main">开标</p>
-                        <p class="tip_time">
-                          <fmt:formatDate value='${project.bidDate}' pattern='yyyy-MM-dd' />
-                        </p>
-                      </a>
-                    </div>
-                    <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                    <div class="tip_down col-xs-offset-6 col-sm-offset-1 col-md-offset-0"></div>
-                  </div>
-                </c:otherwise>
-              </c:choose>
+              
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-15">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-14">
                     <p class="tip_main">采购项目评审</p>
@@ -544,7 +519,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-16">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-15">
                     <p class="tip_main">中标公示发布</p>
@@ -557,7 +532,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-17">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-16">
                     <p class="tip_main">中标供应商确定</p>
@@ -570,7 +545,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-18">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-17">
                     <p class="tip_main">采购合同签订</p>
@@ -594,7 +569,7 @@
                 <div class="tip_down col-xs-offset-6 col-sm-offset-1 col-md-offset-1  col-md-offset-0"></div>
               </div> -->
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-19">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-18">
                     <p class="tip_main">采购质检验收</p>
@@ -669,10 +644,10 @@
                       <td class="tc">
                         <u:show showId="upload_id" businessId="${advancedProjectId}" sysKey="2" delete="false" typeId="${adviceId}" />
                       </td>
-                      <td>${task.orgId}</td>
-                      <td>${task.createrId}</td>
+                      <td>${tasks.orgId}</td>
+                      <td>${tasks.createrId}</td>
                       <td>
-                        <fmt:formatDate value='${task.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                        <fmt:formatDate value='${tasks.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                       </td>
                     </tr>
                   </tbody>
@@ -789,7 +764,8 @@
                   </tr>
                 </tbody>
               </table>
-
+    
+              <c:if test="${'DYLY' ne code.code}">
               <h2 class="count_flow" id="tab-8"><i>${flag}</i>采购文件编报</h2>
               <c:set var="flag" value="${flag+1}" />
               <table class="table table-bordered mt10">
@@ -820,6 +796,7 @@
                   </tr>
                 </tbody>
               </table>
+              </c:if>
 
               <h2 class="count_flow" id="tab-9"><i>${flag}</i>采购公告发布</h2>
               <c:set var="flag" value="${flag+1}" />
@@ -839,7 +816,8 @@
                   </tr>
                 </tbody>
               </table>
-
+  
+              <c:if test="${'GKZB' ne code.code && 'DYLY' ne code.code}">
               <h2 class="count_flow" id="tab-10"><i>${flag}</i>供应商抽取</h2>
               <c:set var="flag" value="${flag+1}" />
               <table class="table table-bordered mt10">
@@ -859,6 +837,7 @@
                   </tr>
                 </tbody>
               </table>
+              </c:if>
 
               <h2 class="count_flow" id="tab-11"><i>${flag}</i>采购文件发售</h2>
               <c:set var="flag" value="${flag+1}" />
@@ -915,7 +894,7 @@
                   <tr>
                     <td class="tc"><button class="btn" onclick="sell('${packageId}','2')" type="button">查看</button></td>
                     <td class="tc"><button class="btn" onclick="bid('${packageId}')" type="button">查看</button></td>
-                    <td></td>
+                    <td>${operName}</td>
                     <td>
                       <fmt:formatDate value='${project.bidDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                     </td>
@@ -1006,7 +985,7 @@
                     <tr>
                       <td>${obj.supplierId}</td>
                       <td class="tc"><button class="btn" onclick="graded('${obj.supplier.id}','${packageId}')" type="button">查看</button></td>
-                      <td></td>
+                      <td>${operatorName1}</td>
                       <td>
                         <fmt:formatDate value='${obj.confirmTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                       </td>

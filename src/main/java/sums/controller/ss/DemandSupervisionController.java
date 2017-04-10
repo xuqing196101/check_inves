@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
@@ -24,6 +25,7 @@ import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
+import sums.service.ss.SupervisionService;
 import bss.controller.base.BaseController;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
@@ -45,6 +47,8 @@ import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
+import bss.service.ppms.ProjectTaskService;
+import bss.service.ppms.TaskService;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -96,6 +100,16 @@ public class DemandSupervisionController extends BaseController{
     
     @Autowired
     private SupplierService supplierService;
+    
+    @Autowired
+    private TaskService taskService;
+    
+    @Autowired
+    private ProjectTaskService projectTaskService;
+    
+    @Autowired
+    private SupervisionService supervisionService;
+    
 	/**
 	 * 
 	 * 〈简述〉 〈需求列表〉
@@ -111,14 +125,35 @@ public class DemandSupervisionController extends BaseController{
 	 * @return String
 	 */
 	@RequestMapping(value = "/demandSupervisionList", produces = "text/html;charset=UTF-8")
-	public String demandSupervisionList(@CurrentUser User user,
-			PurchaseRequired purchaseRequired, Integer page, Model model)
+	public String demandSupervisionList(@CurrentUser User user, PurchaseRequired purchaseRequired, Integer page, Model model)
 			throws Exception {
 		//是否是详细，1是主要，不是1为明细
 		purchaseRequired.setIsMaster(1);
-		
-		List<PurchaseRequired> list = purchaseRequiredService.query(
-				purchaseRequired, page == null ? 1 : page);
+        
+        if(purchaseRequired.getStatus()==null){
+            purchaseRequired.setStatus("total");
+        } else if(purchaseRequired.getStatus().equals("5")){
+            purchaseRequired.setSign("5");
+        }
+        if(purchaseRequired.getStatus().equals("total")){
+            purchaseRequired.setStatus(null);
+        }
+        if (page == null ){
+            page = StaticVariables.DEFAULT_PAGE;
+        }
+        List<Role> roles = user.getRoles();
+        boolean bool=false;
+        if(roles!=null&&roles.size()>0){
+            for(Role r:roles){
+                if(r.getCode().equals("NEED_M")){
+                    bool=true;
+                }
+            }
+        }
+        if(bool!=true){
+            purchaseRequired.setUserId(user.getId());
+        } 
+        List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page);
 		//获取用户的真实姓名
          for (int i = 0; i < list.size(); i++ ) {
              try {
@@ -128,8 +163,8 @@ public class DemandSupervisionController extends BaseController{
                   list.get(i).setUserName("");
              }
          }
-		model.addAttribute("list", new PageInfo<PurchaseRequired>(list));
-		model.addAttribute("info", purchaseRequired);
+         model.addAttribute("list", new PageInfo<PurchaseRequired>(list));
+		model.addAttribute("purchaseRequired", purchaseRequired);
 		return "sums/ss/demandSupervision/list";
 	}
 	
@@ -144,13 +179,40 @@ public class DemandSupervisionController extends BaseController{
      */
     @RequestMapping("/demandSupervisionView")
     public String view(String id, String type, Model model) {
-    	/*PurchaseRequired purchaseRequired=new PurchaseRequired() ;
-		if (id != null) {
-			purchaseRequired = purchaseRequiredService.queryById(id);
-		}
-       
-		model.addAttribute("purchaseRequired", purchaseRequired);*/
-		model.addAttribute("requiredId", id);
+        if(StringUtils.isNotBlank(id)){
+            PurchaseRequired required = purchaseRequiredService.queryById(id);
+            if(required != null){
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("fileId", required.getFileId());
+                List<PurchaseDetail> details = purchaseDetailService.getByMap(map);
+                if(details != null && details.size() > 0){
+                    map.put("collectId", details.get(0).getUniqueId());
+                    List<Task> listBycollect = taskService.listBycollect(map);
+                    if(listBycollect != null && listBycollect.size() > 0){
+                        for (Task task : listBycollect) {
+                            map.put("taskId", task.getId());
+                            List<ProjectTask> projectTasks = projectTaskService.queryByNo(map);
+                            for (ProjectTask projectTask : projectTasks) {
+                                Project project = projectService.selectById(projectTask.getProjectId());
+                                if(project != null){
+                                    map.put("id", project.getId());
+                                    List<ProjectDetail> selectById = projectDetailService.selectById(map);
+                                    for (ProjectDetail projectDetail : selectById) {
+                                        List<ContractRequired> contractRequireds = contractRequiredService.selectConRequByDetailId(projectDetail.getId());
+                                        if(contractRequireds != null && contractRequireds.size()>0){
+                                            model.addAttribute("contractRequireds", contractRequireds);
+                                        }
+                                    }
+                                    model.addAttribute("project", project);
+                                }
+                            }
+                        }
+                    }
+                    model.addAttribute("details", details);
+                }
+            }
+            model.addAttribute("requiredId", id);
+        }
     	return "sums/ss/demandSupervision/demand_view";
     }
     
@@ -175,6 +237,14 @@ public class DemandSupervisionController extends BaseController{
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("id", required.getId());
             List<PurchaseRequired> list = purchaseRequiredService.selectByParentId(map);
+            for (PurchaseRequired purchaseRequired : list) {
+                if(purchaseRequired.getPrice() != null){
+                    String progressBarPlan = supervisionService.progressBarPlan(purchaseRequired.getId());
+                    purchaseRequired.setProgressBar(progressBarPlan);
+                } else {
+                    purchaseRequired.setPurchaseType(null);
+                }
+            }
             model.addAttribute("list", list);
             model.addAttribute("type", type);
             model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
@@ -207,6 +277,15 @@ public class DemandSupervisionController extends BaseController{
                     User user = userService.getUserById(collectPlan.getUserId());
                     collectPlan.setUserId(user.getRelName());
                     model.addAttribute("collectPlan", collectPlan);
+                    
+                    for (PurchaseDetail purchaseDetail : detail) {
+                        if(purchaseDetail.getPrice() != null){
+                            String progressBarPlan = supervisionService.progressBarPlan(purchaseDetail.getId());
+                            purchaseDetail.setProgressBar(progressBarPlan);
+                        } else {
+                            purchaseDetail.setPurchaseType(null);
+                        }
+                    }
                 }
                 model.addAttribute("list", detail);
                 model.addAttribute("kind", DictionaryDataUtil.find(5));
@@ -305,6 +384,8 @@ public class DemandSupervisionController extends BaseController{
                                 if(packages2.getId().equals(details.get(i).getPackageId())){
                                     DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                                     details.get(i).setPurchaseType(findById.getName());
+                                    String progressBarPlan = supervisionService.progressBarPlan(details.get(i).getRequiredId());
+                                    details.get(i).setProgressBar(progressBarPlan);
                                     list.add(details.get(i));
                                 }
                                 sort(list);//进行排序
@@ -312,7 +393,7 @@ public class DemandSupervisionController extends BaseController{
                             }
                         }
                         for (int i = 0; i < packages.size(); i++ ) {
-                            if(packages.get(i).getProjectDetails().size() > 1){
+                            if(packages.get(i).getProjectDetails().size() > 0){
                                 lists.add(packages.get(i));
                             }
                         }

@@ -118,6 +118,8 @@ public class PurchaseRequired {
   
   private String userName;
   
+  private String progressBar;
+  
   public String getUserName() {
 	return userName;
 }
@@ -541,11 +543,13 @@ public String getSign() {
 	public void setFileId(String fileId) {
 		this.fileId = fileId;
 	}
-	
-	
-	
 
+    public String getProgressBar() {
+        return progressBar;
+    }
+
+    public void setProgressBar(String progressBar) {
+        this.progressBar = progressBar;
+    }
 	
-    
-    
 }

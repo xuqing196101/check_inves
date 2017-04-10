@@ -99,6 +99,7 @@ import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
+import sums.service.ss.SupervisionService;
 
 /**
  * 
@@ -205,6 +206,9 @@ public class PlanSupervisionController {
     @Autowired
     private ExpertScoreService expertScoreService;
     
+    @Autowired
+    private SupervisionService supervisionService;
+    
     
     /**
      * 
@@ -277,6 +281,30 @@ public class PlanSupervisionController {
         if(StringUtils.isNotBlank(id)){
             CollectPlan collectPlan = collectPlanService.queryById(id);
             if(collectPlan != null){
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("collectId", collectPlan.getId());
+                List<Task> listBycollect = taskService.listBycollect(map);
+                for (Task task : listBycollect) {
+                    map.put("taskId", task.getId());
+                    List<ProjectTask> projectTasks = projectTaskService.queryByNo(map);
+                    for (ProjectTask projectTask : projectTasks) {
+                        Project project = projectService.selectById(projectTask.getProjectId());
+                        if(project != null){
+                            map.put("id", project.getId());
+                            List<ProjectDetail> selectById = projectDetailService.selectById(map);
+                            for (ProjectDetail projectDetail : selectById) {
+                                List<ContractRequired> contractRequireds = contractRequiredService.selectConRequByDetailId(projectDetail.getId());
+                                if(contractRequireds != null && contractRequireds.size()>0){
+                                    model.addAttribute("contractRequireds", contractRequireds);
+                                }
+                            }
+                            model.addAttribute("project", project);
+                        }
+                    }
+                }
+                
+                
+                
                 model.addAttribute("collectPlan", collectPlan);
             }
         }
@@ -305,7 +333,7 @@ public class PlanSupervisionController {
                 User user = userService.getUserById(collectPlan.getUserId());
                 map.put("collectId", id);
                 List<Task> listBycollect = taskService.listBycollect(map);
-                if(listBycollect != null){
+                if(listBycollect != null && listBycollect.size() > 0){
                     collectPlan.setOrderAt(listBycollect.get(0).getGiveTime());
                 }
                 collectPlan.setUserId(user.getRelName());
@@ -327,6 +355,8 @@ public class PlanSupervisionController {
                     }else{
                         DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
                         detail.setPurchaseType(findById.getName());
+                        String progressBarPlan = supervisionService.progressBarPlan(detail.getId());
+                        detail.setProgressBar(progressBarPlan);
                     }
                     set.add(detail.getFileId());
                 }
@@ -486,6 +516,8 @@ public class PlanSupervisionController {
                         }else{
                             DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                             details.get(i).setPurchaseType(findById.getName());
+                            String progressBarPlan = supervisionService.progressBarPlan(details.get(i).getId());
+                            details.get(i).setProgressBar(progressBarPlan);
                         }
                     }
                     model.addAttribute("list", details);
@@ -540,6 +572,8 @@ public class PlanSupervisionController {
                                     if(packages2.getId().equals(details.get(i).getPackageId())){
                                         DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                                         details.get(i).setPurchaseType(findById.getName());
+                                        String progressBarPlan = supervisionService.progressBarPlan(details.get(i).getRequiredId());
+                                        details.get(i).setProgressBar(progressBarPlan);
                                         list.add(details.get(i));
                                     }
                                     sort(list);//进行排序
@@ -547,7 +581,7 @@ public class PlanSupervisionController {
                                 }
                             }
                             for (int i = 0; i < packages.size(); i++ ) {
-                                if(packages.get(i).getProjectDetails().size() > 1){
+                                if(packages.get(i).getProjectDetails().size() > 0){
                                     lists.add(packages.get(i));
                                 }
                             }
@@ -567,7 +601,7 @@ public class PlanSupervisionController {
      * 
      *〈项目信息总览页面〉
      *〈详细描述〉
-     * @author Administrator
+     * @author FengTian
      * @param id
      * @param model
      * @return
@@ -594,7 +628,7 @@ public class PlanSupervisionController {
                     HashMap<String, Object> mapTask = new HashMap<>();
                     mapTask.put("collectId", collectPlan.getId());
                     List<Task> listBycollect = taskService.listBycollect(mapTask);
-                    if(listBycollect != null){
+                    if(listBycollect != null && listBycollect.size() > 0){
                         collectPlan.setUpdatedAt(listBycollect.get(0).getGiveTime());
                     }
                     model.addAttribute("collectPlan", collectPlan);
@@ -616,8 +650,10 @@ public class PlanSupervisionController {
                 List<Task> task = taskService.listBycollect(taskMap);
                 if(task != null && task.size() > 0){
                     Orgnization org = orgnizationService.getOrgByPrimaryKey(task.get(0).getPurchaseId());
-                    /*User user = userService.getUserById(task.getUserId());
-                    task.setUserId(user.getRelName());*/
+                    if(task.get(0).getUserId() != null){
+                        User user = userService.getUserById(task.get(0).getUserId());
+                        task.get(0).setUserId(user.getRelName());
+                    }
                     task.get(0).setPurchaseId(org.getName());
                     model.addAttribute("task", task.get(0));
                 }
@@ -643,8 +679,9 @@ public class PlanSupervisionController {
                             model.addAttribute("fileId", files.get(0).getId());
                             model.addAttribute("fileName", files.get(0).getName());
                         }
-                        //获取采购文件的编制人
+                        
                         if(!"DYLY".equals(DictionaryDataUtil.findById(project.getPurchaseType()).getCode())){
+                            //获取采购文件的编制人
                             FlowDefine define = new FlowDefine();
                             define.setPurchaseTypeId(project.getPurchaseType());
                             define.setCode("NZCGWJ");
@@ -694,6 +731,59 @@ public class PlanSupervisionController {
                                     if(execut != null && execut.size() > 0){
                                         model.addAttribute("operatorNames", execut.get(0).getOperatorName());
                                     }
+                                }
+                            }
+                        }
+                        
+                        
+                        //获取开标人
+                        FlowDefine defines = new FlowDefine();
+                        defines.setPurchaseTypeId(project.getPurchaseType());
+                        defines.setCode("KBCB");
+                        List<FlowDefine> finds = flowMangeService.find(defines);
+                        FlowExecute executes = new FlowExecute();
+                        executes.setProjectId(project.getId());
+                        executes.setFlowDefineId(finds.get(0).getId());
+                        executes.setStatus(1);
+                        List<FlowExecute> findFlowExecutes = flowMangeService.findFlowExecute(executes);
+                        if(findFlowExecutes != null && findFlowExecutes.size() > 0){
+                            model.addAttribute("operName", findFlowExecutes.get(0).getOperatorName());
+                        } else {
+                            executes.setStatus(3);
+                            List<FlowExecute> findFlowE = flowMangeService.findFlowExecute(executes);
+                            if(findFlowE != null && findFlowE.size() > 0){
+                                model.addAttribute("operName", findFlowE.get(0).getOperatorName());
+                            } else {
+                                executes.setStatus(2);
+                                List<FlowExecute> execut = flowMangeService.findFlowExecute(executes);
+                                if(execut != null && execut.size() > 0){
+                                    model.addAttribute("operName", execut.get(0).getOperatorName());
+                                }
+                            }
+                        }
+                        
+                        //获取中标供应商操作人
+                        FlowDefine define = new FlowDefine();
+                        define.setPurchaseTypeId(project.getPurchaseType());
+                        define.setCode("QRZBGYS");
+                        List<FlowDefine> find = flowMangeService.find(define);
+                        FlowExecute execute = new FlowExecute();
+                        execute.setProjectId(project.getId());
+                        execute.setFlowDefineId(find.get(0).getId());
+                        execute.setStatus(1);
+                        List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(execute);
+                        if(findFlowExecute != null && findFlowExecute.size() > 0){
+                            model.addAttribute("operatorName1", findFlowExecute.get(0).getOperatorName());
+                        } else {
+                            execute.setStatus(3);
+                            List<FlowExecute> findFlowExecutes1 = flowMangeService.findFlowExecute(execute);
+                            if(findFlowExecutes1 != null && findFlowExecutes1.size() > 0){
+                                model.addAttribute("operatorName1", findFlowExecutes1.get(0).getOperatorName());
+                            } else {
+                                execute.setStatus(2);
+                                List<FlowExecute> executes1 = flowMangeService.findFlowExecute(execute);
+                                if(executes1 != null && executes1.size() > 0){
+                                    model.addAttribute("operatorName1", executes1.get(0).getOperatorName());
                                 }
                             }
                         }
@@ -818,7 +908,9 @@ public class PlanSupervisionController {
                             }
                             model.addAttribute("purchaseContract", purchaseContract);
                         }          
-
+                        
+                        DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+                        model.addAttribute("code", findById);
                         model.addAttribute("expertIdList", expertIdList);
                         model.addAttribute("experts", experts);
                         model.addAttribute("project", project);
@@ -872,7 +964,11 @@ public class PlanSupervisionController {
                     List<ProjectTask> queryByNo = projectTaskService.queryByNo(map);
                     Task task = taskService.selectById(queryByNo.get(0).getTaskId());
                     if(task != null){
-                        model.addAttribute("task", task);//任务
+                        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(task.getOrgId());
+                        task.setOrgName(orgnization.getName());
+                        User user = userService.getUserById(task.getCreaterId());
+                        task.setCreaterId(user.getRelName());
+                        model.addAttribute("tasks", task);//任务
                     }
                     model.addAttribute("advancedProject", advancedProject);//预研项目
                     model.addAttribute("status","1");

@@ -220,8 +220,10 @@ public class OBProjectController {
 							}
 							
 						}
-						str+=obSupplier.getSmallPoints().getName();
-						obSupplier.setPointsName(str);
+						if(obSupplier.getSmallPoints() != null){
+							str+=obSupplier.getSmallPoints().getName();
+							obSupplier.setPointsName(str);
+						}
 					}
 				}
 			}
@@ -287,8 +289,10 @@ public class OBProjectController {
 							}
 							
 						}
-						str+=obSupplier.getSmallPoints().getName();
-						obSupplier.setPointsName(str);
+						if(obSupplier.getSmallPoints() != null){
+							str+=obSupplier.getSmallPoints().getName();
+							obSupplier.setPointsName(str);
+						}
 					}
 				}
 		}

@@ -109,10 +109,13 @@
 	 }
 
 	 function reset(){
+		 alert("sss");
 		 $("#tname").val("");
 		 $("#tname").text("");
 	 }
-	 $(function(){
+	 
+	 /* 不知道这个谁写的  也没看懂要干啥 */
+	 /* $(function(){
 		 $.ajax({
 				contentType: "application/json;charset=UTF-8",
 				  url:"${pageContext.request.contextPath}/pqinfo/selectContract.do?purchaseType="+type,
@@ -131,7 +134,7 @@
 		          }
 
 			});
-	 });
+	 }); */
   </script>
   </head>
   <body>
@@ -158,7 +161,7 @@
     	  <li>
 	    	<label class="fl">须知文档名称：</label>
 	    	<span>
-	    		<input type="text" id="tname" name="name" />
+	    		<input type="text" id="tname" name="name" value="${noticeDocument.name }" />
 	    	</span>
 	      </li>
 	      <li>

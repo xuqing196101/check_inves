@@ -116,6 +116,8 @@ public class PurchaseDetail {
 
   private String sign;
   
+  private String progressBar;
+  
   
   
   public String getSign() {
@@ -533,11 +535,13 @@ public Integer getProjectStatus() {
 	public void setFileId(String fileId) {
 		this.fileId = fileId;
 	}
-	
-	
-	
 
-	
-    
+    public String getProgressBar() {
+        return progressBar;
+    }
+
+    public void setProgressBar(String progressBar) {
+        this.progressBar = progressBar;
+    }
     
 }

@@ -396,7 +396,7 @@ public class ProjectServiceImpl implements ProjectService {
         JSONObject jsonObj = new JSONObject();
         FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
         if(flowDefine != null){
-            if("项目分包".equals(flowDefine.getName())){
+            if("XMFB".equals(flowDefine.getCode())){
                 jsonObj.put("flowType", "XMFB");
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("id", projectId);
@@ -415,7 +415,7 @@ public class ProjectServiceImpl implements ProjectService {
                 for(int i=0;i<bottomDetails.size();i++){
                     if(bottomDetails.get(i).getPackageId()==null){
                         jsonObj.put("success", false);
-                        jsonObj.put("msg", "项目未分包，是否默认为一包");
+                        jsonObj.put("msg", "项目有明细未分包，是否默认为一包");
                         break;
                     }else if(i==bottomDetails.size()-1){
                         jsonObj.put("success", true);

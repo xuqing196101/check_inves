@@ -2689,47 +2689,66 @@ public class ProjectController extends BaseController {
             HashMap<String,Object> pack = new HashMap<String,Object>();
             pack.put("projectId",projectId);
             List<Packages> packList = packageService.findPackageById(pack);
-            Packages pg = new Packages();
-            pg.setName("第"+(packList.size()+1)+"包");
-            pg.setProjectId(projectId);
-            pg.setIsDeleted(0);
-            if(project.getIsImport()==1){
-                pg.setIsImport(1);
-            }else{
-                pg.setIsImport(0);
-            }
-            pg.setPurchaseType(project.getPurchaseType());
-            pg.setCreatedAt(new Date());
-            pg.setUpdatedAt(new Date());
-            packageService.insertSelective(pg);
-            List<Packages> wantPackId = packageService.findPackageById(pack);
-            HashMap<String,Object> maps = new HashMap<String,Object>();
-            maps.put("id", projectId);
-            List<ProjectDetail> detail = detailService.selectById(maps);
-            for (ProjectDetail projectDetail : detail) {
+            if(packList != null && packList.size() > 0){
+                List<Packages> wantPackId = packageService.findPackageById(pack);
+                HashMap<String,Object> maps = new HashMap<String,Object>();
+                maps.put("id", projectId);
+                List<ProjectDetail> detail = detailService.selectById(maps);
+                for (ProjectDetail projectDetail : detail) {
+                    HashMap<String,Object> map = new HashMap<String,Object>();
+                    map.put("id", projectDetail.getRequiredId());
+                    map.put("projectId", projectId);
+                    List<ProjectDetail> list = detailService.selectByParentId(map);
+                    if(list.size()==1){
+                        projectDetail.setPackageId(wantPackId.get(wantPackId.size()-1).getId());
+                        detailService.update(projectDetail);
+                    }
+                }
+                return "1";
+            } else {
+                Packages pg = new Packages();
+                pg.setName("第"+(packList.size()+1)+"包");
+                pg.setProjectId(projectId);
+                pg.setIsDeleted(0);
+                if(project.getIsImport()==1){
+                    pg.setIsImport(1);
+                }else{
+                    pg.setIsImport(0);
+                }
+                pg.setPurchaseType(project.getPurchaseType());
+                pg.setCreatedAt(new Date());
+                pg.setUpdatedAt(new Date());
+                packageService.insertSelective(pg);
+                List<Packages> wantPackId = packageService.findPackageById(pack);
+                HashMap<String,Object> maps = new HashMap<String,Object>();
+                maps.put("id", projectId);
+                List<ProjectDetail> detail = detailService.selectById(maps);
+                for (ProjectDetail projectDetail : detail) {
+                    HashMap<String,Object> map = new HashMap<String,Object>();
+                    map.put("id", projectDetail.getRequiredId());
+                    map.put("projectId", projectId);
+                    List<ProjectDetail> list = detailService.selectByParentId(map);
+                    if(list.size()==1){
+                        projectDetail.setPackageId(wantPackId.get(wantPackId.size()-1).getId());
+                        detailService.update(projectDetail);
+                    }
+                }
                 HashMap<String,Object> map = new HashMap<String,Object>();
-                map.put("id", projectDetail.getRequiredId());
-                map.put("projectId", projectId);
-                List<ProjectDetail> list = detailService.selectByParentId(map);
-                if(list.size()==1){
-                    projectDetail.setPackageId(wantPackId.get(wantPackId.size()-1).getId());
-                    detailService.update(projectDetail);
+                map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
+                List<ProjectDetail> details = detailService.selectById(map);
+                Packages p = new Packages();
+                p.setId(wantPackId.get(wantPackId.size()-1).getId());
+                if(details.get(0).getStatus() == null || "".equals(details.get(0).getStatus()) || details.get(0).getStatus().equals("1")){
+                    p.setStatus(1);
+                    packageService.updateByPrimaryKeySelective(p);
+                }else{
+                    p.setStatus(0);
+                    packageService.updateByPrimaryKeySelective(p);
                 }
             }
-            HashMap<String,Object> map = new HashMap<String,Object>();
-            map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
-            List<ProjectDetail> details = detailService.selectById(map);
-            Packages p = new Packages();
-            p.setId(wantPackId.get(wantPackId.size()-1).getId());
-            if(details.get(0).getStatus() == null || "".equals(details.get(0).getStatus()) || details.get(0).getStatus().equals("1")){
-                p.setStatus(1);
-                packageService.updateByPrimaryKeySelective(p);
-            }else{
-                p.setStatus(0);
-                packageService.updateByPrimaryKeySelective(p);
+            return "1";
             }
-        }
-        return "1";
+            return null;
     }
 
     

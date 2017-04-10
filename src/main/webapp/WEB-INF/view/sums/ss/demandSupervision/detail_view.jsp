@@ -156,7 +156,7 @@
                     </td>
                     <td class="tc" onclick="view('${obj.id}')">
                       <c:if test="${obj.price != null}">
-                        <div id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
+                        <div id="p" class="easyui-progressbar" data-options="value:${obj.progressBar}" style="width:80px;"></div>
                       </c:if>
                     </td>
                   </tr>
