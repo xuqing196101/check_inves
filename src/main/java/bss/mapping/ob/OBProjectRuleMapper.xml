@@ -48,8 +48,8 @@
       #{createrId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{bidingCount,jdbcType=DECIMAL}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
       #{confirmTimeSecond,jdbcType=DECIMAL}, #{leastSupplierNum,jdbcType=DECIMAL},
-      #{quoteTimeSecond,jdbcType=DECIMAL,#{percent,jdbcType=DECIMAL,
-      #{floatPercent,jdbcType=DECIMAL)
+      #{quoteTimeSecond,jdbcType=DECIMAL},#{percent,jdbcType=DECIMAL},
+      #{floatPercent,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ob.OBProjectRule" >
     insert into T_BSS_OB_PROJECT_RULE

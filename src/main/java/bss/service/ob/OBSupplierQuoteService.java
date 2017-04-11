@@ -37,7 +37,7 @@ public interface OBSupplierQuoteService {
 	* @return JdcgResult    返回类型 
 	* @throws
 	 */
-	JdcgResult saveQuoteInfo(Map<String, Object> map);
+	JdcgResult saveQuoteInfo(Map<String, Object> map, String quotoFlag);
 	
 	/**
 	 * 

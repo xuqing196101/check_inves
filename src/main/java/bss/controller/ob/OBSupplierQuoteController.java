@@ -59,6 +59,7 @@ import bss.util.BiddingStateUtil;
 import bss.util.BigDecimalUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.ctc.wstx.util.StringUtil;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -109,6 +110,10 @@ public class OBSupplierQuoteController {
 	private static final String FIRST_CONFIRM = "firstConfirm";
 	// 第二轮结果确认
 	private static final String SECOND_CONFIRM = "secondConfirm";
+	// 第一轮报价
+	private static final String FIRST_QUOTO = "firstQuoto";
+	// 第二轮报价
+	private static final String SECOND_QUOTO = "secondQuoto";
 	
 	/**
 	 * @throws ParseException
@@ -192,21 +197,32 @@ public class OBSupplierQuoteController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/beginQuoteInfo")
 	public String beginQuoteInfo(Model model, HttpServletRequest request) throws ParseException {
-		// 获取报价截止时间
+		// 获取第一次报价截止时间
 		String quotoEndTimeMillStr = request.getParameter("quotoEndTimeMill");
 		Long quotoEndTimeMill = null;
 		if(StringUtils.isNotEmpty(quotoEndTimeMillStr)){
 			quotoEndTimeMill = Long.parseLong(quotoEndTimeMillStr);
 		}
+		
+		// 获取第二次报价截止时间
+		String quotoEndTimeMillStrSecond = request.getParameter("quotoEndTimeMillSecond");
+		Long quotoEndTimeMillSecond = null;
+		if(StringUtils.isNotEmpty(quotoEndTimeMillStrSecond)){
+			quotoEndTimeMillSecond = Long.parseLong(quotoEndTimeMillStrSecond);
+		}
+
+		// 获取报价状态  2：第一次报价   7：第二次报价
+		String status = request.getParameter("status");
+		
 		// 获取标题id
 		String titleId = request.getParameter("id");
-		// 获取报价截止时间
+		/*// 获取报价截止时间
 		String quotoEndTimeStr = request.getParameter("quotoEndTime");
 		DateFormat dateFormat = new SimpleDateFormat();
 		if(StringUtils.isNotEmpty(quotoEndTimeStr)){
 			Date date = dateFormat.parse(quotoEndTimeStr);
 			System.out.println(date);
-		}
+		}*/
 		Map<String, Object> map = obSupplierQuoteService.findQuoteInfo(titleId);
 		// 竞价信息
 		OBProject obProject = (OBProject) map.get("obProject");
@@ -243,8 +259,16 @@ public class OBSupplierQuoteController {
 		// 获取当前系统时间毫秒数
 		long sysCurrentTime = new Date().getTime();
 		// 获取报价倒计时毫秒值
-		Long beginQuotoTime = quotoEndTimeMill - sysCurrentTime;
-		model.addAttribute("beginQuotoTime", beginQuotoTime);
+		if(StringUtils.isNotEmpty(status) && "2".equals(status)){
+			Long beginQuotoTime = quotoEndTimeMill - sysCurrentTime;
+			model.addAttribute("beginQuotoTime", beginQuotoTime);
+			model.addAttribute("quotoFlag", FIRST_QUOTO);
+		}
+		if(StringUtils.isNotEmpty(status) && "7".equals(status)){
+			Long beginQuotoTimeSecond = quotoEndTimeMillSecond - sysCurrentTime;
+			model.addAttribute("beginQuotoTimeSecond", beginQuotoTimeSecond);
+			model.addAttribute("quotoFlag", SECOND_QUOTO);
+		}
 		
 		return "bss/ob/supplier/supplierOffer";
 	}
@@ -456,6 +480,9 @@ public class OBSupplierQuoteController {
 			HttpServletRequest request) {
 		// 获取竞价标题
 		String titleId = request.getParameter("titleId");
+		// 获取报价标识quotoFlag  第一次报价firstQuoto  第二次报价secondQuoto
+		String quotoFlag = request.getParameter("quotoFlag");
+		
 		// 获取报价总金额，回显数据使用
 		String showQuotoTotalPriceStr = request.getParameter("showQuotoTotalPrice");
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -465,7 +492,7 @@ public class OBSupplierQuoteController {
 		// 供应商报价信息
 		map.put("obResultsInfoExtList", obResultsInfoExt);
 		map.put("showQuotoTotalPriceStr", showQuotoTotalPriceStr);
-		return obSupplierQuoteService.saveQuoteInfo(map);
+		return obSupplierQuoteService.saveQuoteInfo(map,quotoFlag);
 	}
 	
 	/**

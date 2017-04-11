@@ -10,22 +10,44 @@
 	
 	<script type="text/javascript">
 		var t = ${beginQuotoTime};
-		var afterTime = t;
+		var ts = ${beginQuotoTimeSecond};
+		var afterTime;
+		if(t != ''){
+			// 第一次报价
+			afterTime = t;
+			// 第二次报价
+			afterTime = ts;
+		}
 		function getRTime(){
-			if(t > 0){
+			if(t > 0 || ts > 0){
 				afterTime = afterTime - 1000;
 				if(afterTime > 0) {
 					var d = Math.floor(afterTime/1000/60/60/24);
 					var h = Math.floor(afterTime/1000/60/60%24);
 					var m = Math.floor(afterTime/1000/60%60);
 					var s = Math.floor(afterTime/1000%60);
-					$("#quotoCountDown").text(d + "天" + h + "时" + m + "分" + s + "秒");
+					if(t != ''){
+						$("#quotoCountDown").text(d + "天" + h + "时" + m + "分" + s + "秒");
+					}
+					if(ts != ''){
+						$("#quotoCountDownSecond").text(d + "天" + h + "时" + m + "分" + s + "秒");
+					}
 				} else {
-					$("#quotoCountDown").text("报价时间已结束");
+					if(t != ''){
+						$("#quotoCountDown").text("报价时间已结束");
+					}
+					if(ts != ''){
+						$("#quotoCountDownSecond").text("报价时间已结束");
+					}
 					clearInterval(downTimer);
 				}
 			}else{
-				$("#quotoCountDown").text("报价时间已结束");
+				if(t != ''){
+					$("#quotoCountDown").text("报价时间已结束");
+				}
+				if(ts != ''){
+					$("#quotoCountDownSecond").text("报价时间已结束");
+				}
 				clearInterval(downTimer);
 			}
 		}
@@ -248,8 +270,14 @@
   	<input type="hidden" name="titleId" value="${ obProject.id }">
   	 <input type="hidden" id="showQuotoTotalPrice" name="showQuotoTotalPrice" value="">
 	  <div>
-	    <h2 class="count_flow"><i>2</i>产品信息 <font style="margin-left: 15px">报价时间倒计时：</font>
-	    <span style="color: red" id="quotoCountDown"></span></h2>
+	  	<c:if test="${ quotoFlag eq 'firstQuoto'}">
+		    <h2 class="count_flow"><i>2</i>产品信息 <font style="margin-left: 15px">第一轮报价时间倒计时：</font>
+		    <span style="color: red" id="quotoCountDown"></span></h2>
+	    </c:if>
+	    <c:if test="${ quotoFlag eq 'secondQuoto'}">
+		    <h2 class="count_flow"><i>2</i>产品信息 <font style="margin-left: 15px">第二轮报价时间倒计时：</font>
+		    <span style="color: red" id="quotoCountDownSecond"></span></h2>
+	    </c:if>
 		<div class="content table_box">
 	    	<table class="table table-bordered table-condensed table-hover table-striped">
 			<thead>
@@ -271,6 +299,7 @@
 			</tr>
 			<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
 				<tr>
+				  <input type="hidden" name="quotoFlag" value="${ quotoFlag }">
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].productId" value="${ productInfo.obProduct.id }">
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].resultsNumber" value="${ productInfo.purchaseCount }">
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].limitPrice" value="${ productInfo.limitedPrice }">

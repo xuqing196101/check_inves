@@ -91,6 +91,10 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	
 	@Autowired
 	private OBProjectRuleMapper obProjectRuleMapper;
+	
+	
+	private static final String QUOTO_STATU = "1";	// 第一轮报价状态
+	private static final String QUOTO_STATU_SECOND = "2"; // 第二轮报价状态
 	/**
 	 * 
 	 * @Title: findQuoteInfo
@@ -213,7 +217,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	 * @param @return 设定文件
 	 */
 	@Override
-	public JdcgResult saveQuoteInfo(Map<String, Object> map) {
+	public JdcgResult saveQuoteInfo(Map<String, Object> map, String quotoFlag) {
 		String titleId = (String) map.get("titleId");
 		String showQuotoTotalPriceStr = (String) map.get("showQuotoTotalPriceStr");
 		// 获取用户
@@ -258,6 +262,15 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				obResultsInfoExt.setCreatedAt(new Date());
 				// 设置修改时间
 				obResultsInfoExt.setUpdatedAt(new Date());
+				
+				// 设置报价状态  1：第一轮报价   2：第二轮报价
+				if("firstQuoto".equals(quotoFlag)){
+					obResultsInfoExt.setBiddingId("1");
+				}
+				if("secondQuoto".equals(quotoFlag)){
+					obResultsInfoExt.setBiddingId("2");
+				}
+				
 				// 保存
 				OBResultsInfo obResultsInfo = new OBResultsInfo();
 				BeanUtils.copyProperties(obResultsInfoExt, obResultsInfo);
@@ -267,26 +280,57 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				OBProject obProject = obProjectMapper
 						.selectByPrimaryKey(titleId);
 				if (obProject != null) {
-					// 获取报价截止时间
-					Date quoteEndTime = BiddingStateUtil
-							.getQuoteEndTime(obProject,obProjectRuleMapper);
-					int compareTo = BiddingStateUtil.compareTo(new Date(),
-							quoteEndTime);
-					// 报价时间截止
-					// systemDate > biddingTime
-					if (compareTo == 2) {
-						// remark 2标识：时间截止，未能及时完成报价
-						String remark = "2";
-						BiddingStateUtil.updateRemark(obProjectSupplierMapper,
-								obProject, user, remark);
-						return JdcgResult.build(500, "抱歉，报价时间已结束，未完成本次报价！");
+					// 第一轮报价
+					if("firstQuoto".equals(quotoFlag)){
+						// 获取第一次报价截止时间
+						Date quoteEndTime = BiddingStateUtil
+								.getQuoteEndTime(obProject,obProjectRuleMapper);
+						int compareTo = BiddingStateUtil.compareTo(new Date(),
+								quoteEndTime);
+						// 报价时间截止
+						// systemDate > biddingTime
+						if (compareTo == 2) {
+							// remark 2标识：时间截止，未能及时完成报价
+							String remark = "2";
+							BiddingStateUtil.updateRemark(obProjectSupplierMapper,
+									obProject, user, remark);
+							return JdcgResult.build(500, "抱歉，第一轮报价时间已结束，未完成本次报价！");
+						}
+						// systemDate < biddingTime
+						if (compareTo == 1) {
+							// remark 1标识：时间还未截止，完成报价
+							String remark = "1";
+							BiddingStateUtil.updateRemark(obProjectSupplierMapper,
+									obProject, user, remark);
+						}
 					}
-					// systemDate < biddingTime
-					if (compareTo == 1) {
-						// remark 1标识：时间还未截止，完成报价
-						String remark = "1";
-						BiddingStateUtil.updateRemark(obProjectSupplierMapper,
-								obProject, user, remark);
+					
+					// 第二轮报价
+					if("secondQuoto".equals(quotoFlag)){
+						// 获取第一次报价截止时间
+						Date quoteEndTime = BiddingStateUtil
+								.getQuoteEndTime(obProject,obProjectRuleMapper);
+						// 获取第二次报价截止时间
+						Date quoteEndTimeSecond = BiddingStateUtil.getQuotoEndTimeSecond(obProject, quoteEndTime, obProjectRuleMapper);
+						
+						int compareTo = BiddingStateUtil.compareTo(new Date(),
+								quoteEndTimeSecond);
+						// 报价时间截止
+						// systemDate > biddingTime
+						if (compareTo == 2) {
+							// remark 2标识：时间截止，未能及时完成报价
+							String remark = "2";
+							BiddingStateUtil.updateRemark(obProjectSupplierMapper,
+									obProject, user, remark);
+							return JdcgResult.build(500, "抱歉，第二轮报价时间已结束，未完成本次报价！");
+						}
+						// systemDate < biddingTime
+						if (compareTo == 1) {
+							// remark 1标识：时间还未截止，完成报价
+							String remark = "1";
+							BiddingStateUtil.updateRemark(obProjectSupplierMapper,
+									obProject, user, remark);
+						}
 					}
 				}
 				// 竞价还没结束已报价，则显示已报价待确认状态

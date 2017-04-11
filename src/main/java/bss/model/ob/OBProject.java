@@ -166,6 +166,8 @@ public class OBProject {
 
 	/** 报价截止时间字段 **/
 	private Date quoteEndTime;
+	/** 二次报价截止时间字段 **/
+	private Date quoteEndTimeSecond;
 
 	/**
 	 * 删除标识 0 正常 1删除
@@ -530,4 +532,12 @@ public class OBProject {
 	public void setTransportFeesPrice(BigDecimal transportFeesPrice) {
 		this.transportFeesPrice = transportFeesPrice;
 	}
+	public Date getQuoteEndTimeSecond() {
+		return quoteEndTimeSecond;
+	}
+	public void setQuoteEndTimeSecond(Date quoteEndTimeSecond) {
+		this.quoteEndTimeSecond = quoteEndTimeSecond;
+	}
+	
+	
 }

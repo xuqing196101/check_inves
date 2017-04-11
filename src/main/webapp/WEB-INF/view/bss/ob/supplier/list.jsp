@@ -82,6 +82,7 @@
 			timeArray.push(ele.quotoTimeDate/1000);
 			// 获取报价结束时间
 			timeArray.push(ele.endQuotoTimeDate/1000);
+			timeArray.push(ele.endQuotoTimeDateSecond/1000);
 			// 获取第一轮确认时间
 			timeArray.push(ele.confirmTime/1000);
 			// 获取第二轮确认时间
@@ -126,8 +127,10 @@
 			   var status = valueArr[1];
 			   var remark = valueArr[2];
 			   var quotoEndTime = valueArr[3];
+			   var quotoEndTimeSecond = valueArr[4];
 			   // 得到报价截止的毫秒数
 			   var quotoEndTimeMill = (new Date(quotoEndTime)).getTime();
+			   var quotoEndTimeMillSecond = (new Date(quotoEndTimeSecond)).getTime();
 			   // 竞价结束
 			   if(status == '3'){
 				   layer.alert("竞价已结束 ！");
@@ -163,9 +166,13 @@
 				   layer.alert("报价已结束 ！");
 				   return;
 			   }
-			   // 开始报价
+			   // 开始报价第一次报价
 			   if(status == '2'){
-				   window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+valueArr[0]+"&&quotoEndTimeMill="+quotoEndTimeMill;
+				   window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+valueArr[0]+"&&quotoEndTimeMill="+quotoEndTimeMill+"&&status="+status;
+			   }
+			   // 二次报价
+			   if(status == '7'){
+				   window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+valueArr[0]+"&&quotoEndTimeMillSecond="+quotoEndTimeMillSecond+"&&status="+status;
 			   }
 	       } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {
@@ -416,7 +423,7 @@
 		</thead>
 		<c:forEach items="${ info.list }" var="obProject" varStatus="vs">
 			<tr>
-			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.obProjectList[0].id},${ obProject.obProjectList[0].status },${obProject.remark},<fmt:formatDate value='${ obProject.obProjectList[0].quoteEndTime }' pattern='yyyy-MM-dd HH:mm:ss'/>"/></td>
+			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.obProjectList[0].id},${ obProject.obProjectList[0].status },${obProject.remark},<fmt:formatDate value='${ obProject.obProjectList[0].quoteEndTime }' pattern='yyyy-MM-dd HH:mm:ss'/>",<fmt:formatDate value='${ obProject.obProjectList[0].quoteEndTimeSecond }' pattern='yyyy-MM-dd HH:mm:ss'/>"/></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tl">
 			  	<a href="javascript:;" onclick="findIssueInfo('${obProject.obProjectList[0].id}',${ obProject.obProjectList[0].status },'${obProject.remark}')">${ obProject.obProjectList[0].name }</a>
@@ -431,16 +438,31 @@
 			  	<c:if test="${ obProject.obProjectList[0].status == 2 }">
 			  		<c:choose>
 						<c:when test="${obProject.remark == '0'}">
-							报价中
+							第一轮报价中
 						</c:when>
 						<c:when test="${obProject.remark == '1'}">
-							已报价待确认
+							第一轮已报价
 						</c:when>
+<%-- 						<c:when test="${obProject.remark == '1'}">
+							已报价待确认
+						</c:when> --%>
 						<c:when test="${obProject.remark == '2'}">
 							未报价
 						</c:when>
 					</c:choose>
 			  	</c:if>
+			  	
+			  	<c:if test="${ obProject.obProjectList[0].status == 7 }">
+			  		<c:choose>
+						<c:when test="${obProject.remark == '2'}">
+							未报价
+						</c:when>
+						<c:when test="${obProject.remark == '1'}">
+							第二轮报价中
+						</c:when>
+					</c:choose>
+			  	</c:if>
+			  	
 			  	<c:if test="${ obProject.obProjectList[0].status == 3 }">
                     <c:choose>
 	                    <c:when test="${obProject.remark == '32'}">

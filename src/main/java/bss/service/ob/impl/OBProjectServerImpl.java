@@ -1077,9 +1077,13 @@ public class OBProjectServerImpl implements OBProjectServer {
 			for (OBProjectSupplier obProjectSupplier : obProjectList) {
 				List<OBProject> obProject = obProjectSupplier.getObProjectList();
 				if (obProject != null && obProject.size() > 0) {
+					// 获取第一轮的报价截止时间
 					Date quoteEndTime = BiddingStateUtil.getQuoteEndTime(obProject.get(0),obProjectRuleMapper);
+					// 获取第二轮的报价截止时间
+					Date quotoEndTimeSecond = BiddingStateUtil.getQuotoEndTimeSecond(obProject.get(0), quoteEndTime, OBProjectRuleMapper);
 					// 调用封装报价截止时间方法
 					obProject.get(0).setQuoteEndTime(quoteEndTime);
+					obProject.get(0).setQuoteEndTimeSecond(quotoEndTimeSecond);
 					
 					// 查询每个竞价信息对应的竞价规则
 					OBProjectRule obProjectRule = obProjectRuleMapper.selectByPrimaryKey(obProject.get(0).getId());
@@ -1089,23 +1093,26 @@ public class OBProjectServerImpl implements OBProjectServer {
 					obRuleTimeInterval.setQuotoTimeDate(obProject.get(0).getStartTime());
 					// 设置报价结束时间
 					obRuleTimeInterval.setEndQuotoTimeDate(quoteEndTime);
-					
+					// 设置二次报价结束时间
+					obRuleTimeInterval.setEndQuotoTimeDateSecond(quotoEndTimeSecond);
 					// 设置第一轮确认时间
 					// 第一轮确认时间=报价结束时间+第一轮确认时间
-					Integer confirmTimeInt = obProjectRule.getConfirmTime();
-					Date confirmTime = DateUtils.getAddDate(quoteEndTime, confirmTimeInt);
-					obRuleTimeInterval.setConfirmTime(confirmTime);
-					
-					// 设置第二轮确认时间
-					// 第二轮确认时间=第一轮确认时间+第二轮确认时间
-					Integer confirmTimeSecondInt = obProjectRule.getConfirmTimeSecond();
-					Date secondConfirmTime = DateUtils.getAddDate(confirmTime, confirmTimeSecondInt);
-					obRuleTimeInterval.setSecondConfirmTime(secondConfirmTime);
-					// 设置竞价项目ID
-					obRuleTimeInterval.setProjectId(obProject.get(0).getId());
-					
-					// 将时间段信息存储到集合中
-					timeList.add(obRuleTimeInterval);
+					if(obProjectRule != null){
+						Integer confirmTimeInt = obProjectRule.getConfirmTime();
+						Date confirmTime = DateUtils.getAddDate(quoteEndTime, confirmTimeInt);
+						obRuleTimeInterval.setConfirmTime(confirmTime);
+						
+						// 设置第二轮确认时间
+						// 第二轮确认时间=第一轮确认时间+第二轮确认时间
+						Integer confirmTimeSecondInt = obProjectRule.getConfirmTimeSecond();
+						Date secondConfirmTime = DateUtils.getAddDate(confirmTime, confirmTimeSecondInt);
+						obRuleTimeInterval.setSecondConfirmTime(secondConfirmTime);
+						// 设置竞价项目ID
+						obRuleTimeInterval.setProjectId(obProject.get(0).getId());
+						
+						// 将时间段信息存储到集合中
+						timeList.add(obRuleTimeInterval);
+					}
 				}
 			}
 		}

@@ -26,6 +26,10 @@ public class OBRuleTimeInterval {
 	 * 报价结束时间
 	 */
 	private Date endQuotoTimeDate;
+	/**
+	 * 二次报价结束时间
+	 */
+	private Date endQuotoTimeDateSecond;
 	
 	/**
 	 * 第一轮确认时间
@@ -76,7 +80,14 @@ public class OBRuleTimeInterval {
 	public void setSecondConfirmTime(Date secondConfirmTime) {
 		this.secondConfirmTime = secondConfirmTime;
 	}
-	
+
+	public Date getEndQuotoTimeDateSecond() {
+		return endQuotoTimeDateSecond;
+	}
+
+	public void setEndQuotoTimeDateSecond(Date endQuotoTimeDateSecond) {
+		this.endQuotoTimeDateSecond = endQuotoTimeDateSecond;
+	}
 	
 	
 	
