@@ -973,7 +973,7 @@
                  </div>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
-                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取总人数：</span>
+                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>抽取总人数：</span>
                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
                   <input class="input_group " maxlength="6" name="expertsCount" value="${sumCount}"  id="eCount" type="text">
                   <span class="add-on">i</span>
