@@ -87,6 +87,8 @@ public class OBProjectRule {
     private Integer percent;
     /**浮动比例**/
     private Integer floatPercent;
+    
+    
     public String getId() {
         return id;
     }

@@ -16,10 +16,15 @@
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="CONFIRM_TIME_SECOND" property="confirmTimeSecond" jdbcType="DECIMAL" />
     <result column="LEAST_SUPPLIER_NUM" property="leastSupplierNum" jdbcType="DECIMAL" />
+    
+    <result column="QUOTE_TIME_SECOND" property="quoteTimeSecond" jdbcType="DECIMAL" />
+    <result column="PERCENT" property="percent" jdbcType="DECIMAL" />
+    <result column="FLOAT_PERCENT" property="floatPercent" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
     ID, INTERVAL_WORKDAY, DEFINITE_TIME, QUOTE_TIME, CONFIRM_TIME, STATUS, CREATER_ID, 
-    REMARK, BIDING_COUNT, CREATED_AT, UPDATED_AT, NAME, CONFIRM_TIME_SECOND, LEAST_SUPPLIER_NUM
+    REMARK, BIDING_COUNT, CREATED_AT, UPDATED_AT, NAME, CONFIRM_TIME_SECOND, LEAST_SUPPLIER_NUM,
+    QUOTE_TIME_SECOND,PERCENT,FLOAT_PERCENT
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -36,12 +41,15 @@
       QUOTE_TIME, CONFIRM_TIME, STATUS, 
       CREATER_ID, REMARK, BIDING_COUNT, 
       CREATED_AT, UPDATED_AT, NAME, 
-      CONFIRM_TIME_SECOND, LEAST_SUPPLIER_NUM)
+      CONFIRM_TIME_SECOND, LEAST_SUPPLIER_NUM,
+      QUOTE_TIME_SECOND,PERCENT,FLOAT_PERCENT)
     values (#{id,jdbcType=VARCHAR}, #{intervalWorkday,jdbcType=DECIMAL}, #{definiteTime,jdbcType=TIMESTAMP}, 
       #{quoteTime,jdbcType=DECIMAL}, #{confirmTime,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
       #{createrId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{bidingCount,jdbcType=DECIMAL}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
-      #{confirmTimeSecond,jdbcType=DECIMAL}, #{leastSupplierNum,jdbcType=DECIMAL})
+      #{confirmTimeSecond,jdbcType=DECIMAL}, #{leastSupplierNum,jdbcType=DECIMAL},
+      #{quoteTimeSecond,jdbcType=DECIMAL,#{percent,jdbcType=DECIMAL,
+      #{floatPercent,jdbcType=DECIMAL)
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ob.OBProjectRule" >
     insert into T_BSS_OB_PROJECT_RULE
