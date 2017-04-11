@@ -19,23 +19,48 @@
 					"</tr>");
 			}
 			function add(){
-				// var index = parent.layer.getFrameIndex(window.name); 
-				$.ajax({
-					url: "${pageContext.request.contextPath}/supplierAudit/saveSignature.do",
-					type: "post",
-					data:$("#add_form").serialize(),
-					//dataType:"json",
-					success: function(result) {
-						  var el = document.createElement("a");
-              document.body.appendChild(el);
-              el.href = "${pageContext.request.contextPath}/supplierAudit/supplierAll.do?sign=3&status=5";  
-              el.target = '_parent'; //指定在新窗口打开
-              el.click();
-              document.body.removeChild(el);   
-						// window.location.href = "${pageContext.request.contextPath}/expertAudit/list.do";
-						 // parent.layer.close(index); 
+				var batchNo = $("input[name='batchNo']").val();
+				if(batchNo == ""){
+					layer.msg("审核批次不能为空！", {
+						offset: '300px'
+					});
+				}else{
+					var msg = "";
+					var flag = true;
+					$("#info").find("input[type='text']").each(function(index, element) {
+						if(element.value == "") {
+							msg = "信息不能为空!";
+							flag = false;
+						}
+					});
+	
+					if(!flag){
+						layer.msg(msg, {
+							offset: '300px'
+						});
 					}
-				});
+				}
+			
+			
+				// var index = parent.layer.getFrameIndex(window.name);
+				if(flag){
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplierAudit/saveSignature.do",
+						type: "post",
+						data:$("#add_form").serialize(),
+						//dataType:"json",
+						success: function(result) {
+							  var el = document.createElement("a");
+	              document.body.appendChild(el);
+	              el.href = "${pageContext.request.contextPath}/supplierAudit/supplierAll.do?sign=3&status=5";  
+	              el.target = '_parent'; //指定在新窗口打开
+	              el.click();
+	              document.body.removeChild(el);   
+							// window.location.href = "${pageContext.request.contextPath}/expertAudit/list.do";
+							 // parent.layer.close(index); 
+							}
+						});
+					}
 			}
 		</script>
 		
@@ -58,7 +83,7 @@
 						</li>
 						</ul>
 			
-					<div class="content table_box">
+					<div class="content table_box" id="info">
 						<table class="table table-bordered table-condensed table-hover table-striped hand">
 							<tr >
 								<th class="info"><input type="checkbox"  />
@@ -75,7 +100,7 @@
 						</table>
 					</div>
 					<div class="tc">
-					<input class="btn btn-windows add" value="保存 "  type="button" onclick="add()"/>
+					<input class="btn btn-windows save" value="保存 "  type="button" onclick="add()"/>
 				</div>
 			</form>
 		</div>

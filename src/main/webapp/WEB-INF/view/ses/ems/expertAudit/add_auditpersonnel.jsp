@@ -30,7 +30,7 @@
 				}else{
 					var msg = "";
 					var flag = true;
-					$("#financeInfo").find("input[type='text']").each(function(index, element) {
+					$("#info").find("input[type='text']").each(function(index, element) {
 						if(element.value == "") {
 							msg = "信息不能为空!";
 							flag = false;
@@ -86,7 +86,7 @@
 						</li>
 						</ul>
 			
-					<div class="content table_box" id="financeInfo">
+					<div class="content table_box" id="info">
 						<table class="table table-bordered table-condensed table-hover table-striped hand">
 							<tr >
 								<!-- <th class="info"><input type="checkbox"  /> -->
@@ -103,7 +103,7 @@
 						</table>
 					</div>
 					<div class="tc">
-					<input class="btn btn-windows add" value="保存 "  type="button" onclick="add()"/>
+					<input class="btn btn-windows save" value="保存 "  type="button" onclick="add()"/>
 				</div>
 			</form>
 		</div>

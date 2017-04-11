@@ -401,7 +401,7 @@
 					<c:if test="${sign == 3}">
 						<a class="btn btn-windows input" onclick='downloadTable(1)' href="javascript:void(0)">下载考察记录表</a>
 						<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载意见函</a>
-						<button class="btn btn-windows check" type="button" onclick="tianjia();">添加</button>
+						<button class="btn btn-windows add" type="button" onclick="tianjia();">添加签字人员</button>
 					</c:if>
 				</div>
 				<div class="content table_box">
