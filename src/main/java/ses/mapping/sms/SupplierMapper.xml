@@ -1672,4 +1672,12 @@
 		FROM T_SES_SMS_SUPPLIER
 		WHERE SUPPLIER_STATUS = 1 AND IS_PROVISIONAL = 0
 	</select>
+	
+	<!-- 注销列表 -->
+	<select id="findLogoutList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER
+		WHERE SUPPLIER_STATUS = -1 or SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 2
+	</select>
 </mapper>

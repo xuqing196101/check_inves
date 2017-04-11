@@ -398,4 +398,14 @@ public interface SupplierMapper {
      * @exception
      */
     List<Supplier> findQualifiedSupplier();
+    
+    /**
+     * @Title: findLogoutList
+     * @author XuQing 
+     * @date 2017-4-11 下午3:08:59  
+     * @Description:注销列表
+     * @param @param supplier      
+     * @return void
+     */
+    List<Supplier> findLogoutList(Supplier supplier);
 }

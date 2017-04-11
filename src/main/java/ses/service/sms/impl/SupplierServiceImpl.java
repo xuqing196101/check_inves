@@ -90,6 +90,7 @@ import ses.util.Encrypt;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
+import common.constant.StaticVariables;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 
@@ -991,6 +992,25 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public List<Supplier> findQualifiedSupplier() {
 		return supplierMapper.findQualifiedSupplier();
+	}
+
+	/**
+    * @Title: findLogoutList
+    * @author XuQing 
+    * @date 2017-4-11 下午3:08:59  
+    * @Description:注销列表
+    * @param @param supplier      
+    * @return void
+    */
+	@Override
+	public List<Supplier> findLogoutList(Supplier supplier, Integer page) {
+		if(page == null) {
+			page = StaticVariables.DEFAULT_PAGE;
+		}
+		
+		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
+        return supplierMapper.findLogoutList(supplier);
+		
 	}
     
 }
