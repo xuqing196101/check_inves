@@ -29,6 +29,7 @@
      <result column="PROJECT_NUMBER" property="projectNumber" jdbcType="DECIMAL" />
      <result column="IS_DELETE" property="isDelete" jdbcType="DECIMAL" />
      <result column="TRANSPORT_FEES_PRICE" property="transportFeesPrice" jdbcType="DECIMAL" />
+     <result column="IS_EMERGENCY" property="isEmergency" jdbcType="DECIMAL" />
     <association property="obProjectRule" column="ID" select="bss.dao.ob.OBProjectRuleMapper.selectByPrimaryKey" />
     
   </resultMap>
@@ -73,6 +74,7 @@
      <result column="PROJECT_NUMBER" property="projectNumber" jdbcType="DECIMAL" />
      <result column="IS_DELETE" property="isDelete" jdbcType="DECIMAL" />
      <result column="TRANSPORT_FEES_PRICE" property="transportFeesPrice" jdbcType="DECIMAL" />
+     <result column="IS_EMERGENCY" property="isEmergency" jdbcType="DECIMAL" />
   </resultMap>
   <!--- 根据参数 获取竞价信息  -->  
    <select id="selectData" parameterType="Map" resultMap="BaseResultMap">  
@@ -174,7 +176,7 @@
     ID, NAME, DELIVERY_DEADLINE, DELIVERY_ADDRESS, TRADED_SUPPLIER_COUNT, TRANSPORT_FEES, 
     DEMAND_UNIT, CONTACT_NAME, START_TIME, END_TIME, CONTENT	, ATTACHMENT_ID, REMARK, 
     STATUS, CREATER_ID, FORM_ID, TURNOVER_RATION, CREATED_AT, UPDATED_AT,IS_DELETE,
-     ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL,RULE_ID,PROJECT_NUMBER,TRANSPORT_FEES_PRICE
+     ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL,RULE_ID,PROJECT_NUMBER,TRANSPORT_FEES_PRICE,IS_EMERGENCY
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectExample" >
     select
@@ -335,6 +337,10 @@
       <if test="transportFeesPrice != null" >
         TRANSPORT_FEES_PRICE,
       </if>
+       <if test="isEmergency != null" >
+        IS_EMERGENCY,
+      </if>
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -418,6 +424,9 @@
       </if>
       <if test="transportFeesPrice != null" >
           #{transportFeesPrice,jdbcType=DECIMAL},
+      </if>
+       <if test="isEmergency != null" >
+         #{isEmergency,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -597,6 +606,9 @@
       </if>
       <if test="transportFeesPrice != null" >
          TRANSPORT_FEES_PRICE= #{transportFeesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isEmergency != null" >
+         IS_EMERGENCY= #{isEmergency,jdbcType=DECIMAL},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

@@ -57,7 +57,6 @@ import bss.util.CheckUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
-
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
@@ -312,7 +311,17 @@ public class OBProjectServerImpl implements OBProjectServer {
 			show = "采购联系人不能为空";
 			return toJsonProject(attribute, show);
 		}
-
+		if (obProject.getIsEmergency()==null) {
+			attribute = "isEmergencyErr";
+			show = "是否为应急采购项目选项不能为空";
+			return toJsonProject(attribute, show);
+		}
+		if (obProject.getIsEmergency()!=-1 && obProject.getIsEmergency()!=0) {
+			attribute = "isEmergencyErr";
+			show = "是否为应急采购项目选项非法";
+			return toJsonProject(attribute, show);
+		}
+		
 		if (StringUtils.isBlank(obProject.getContent())) {
 			attribute = "contentErr";
 			show = "竞价内容不能为空";
@@ -782,7 +791,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 				 //第二轮 确认时间
 				 int confirmTimeSecond=obRule.getConfirmTimeSecond();
 				 
-				/** 竞价状态 0：暂存 1已发布 2竞价中 3：竞价结束 4.流拍 5待确认 **/
+				/** 竞价状态 0：暂存 1已发布 2竞价中 3：竞价结束 4.流拍 5待确认 6第二次确认 7.第二次竞价**/
 				switch (op.getStatus()) {
 				// 已发布
 				case 1:

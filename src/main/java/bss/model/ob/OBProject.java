@@ -98,7 +98,7 @@ public class OBProject {
 	 * @Fields status : 发布状态
 	 */
 
-	/** 竞价状态 0：暂存 1已发布 2报价中 3：竞价结束 4.流拍 5.第一轮待确认 6.第二轮待确认 **/
+	/** 竞价状态 0：暂存 1已发布 2报价中 3：竞价结束 4.流拍 5.第一轮待确认 6.第二轮待确认  7第二次竞价**/
 	/**PROJECT_SUPPLIER表中remark字段：
 	 * 4.第一轮接受  3.放弃   
 	 * 42.第二轮接受  32.第二轮放弃
@@ -113,10 +113,16 @@ public class OBProject {
 	 * @Fields formId : 来源竞价ID
 	 */
 	private String formId;
+	
+	/**
+	 * 是否采用应急采购标识
+	 * 默认-1 不采用应急   0采用应急
+	 */
+	private Integer isEmergency;
 	/**
 	 * @Fields turnoverRation : 成交比例
 	 */
-
+    
 	/** 成交比例 **/
 	private Integer turnoverRation;
 	/**
@@ -174,7 +180,13 @@ public class OBProject {
 	/**竞价 结果**/
 	private List<OBProjectResult> obProjectResult;
 	
-    public List<OBProjectResult> getObProjectResult() {
+    public Integer getIsEmergency() {
+		return isEmergency;
+	}
+	public void setIsEmergency(Integer isEmergency) {
+		this.isEmergency = isEmergency;
+	}
+	public List<OBProjectResult> getObProjectResult() {
 		return obProjectResult;
 	}
 	public void setObProjectResult(List<OBProjectResult> obProjectResult) {
