@@ -73,8 +73,10 @@ public class Orgnization implements Serializable {
     
     private String email;
     
+    @NotBlank(message="不能为空")
     private String provinceId;
     
+    @NotBlank(message="不能为空")
     private String cityId;
     
     private String townId;

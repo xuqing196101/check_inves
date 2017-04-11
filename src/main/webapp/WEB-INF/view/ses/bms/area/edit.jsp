@@ -87,14 +87,14 @@
                dataType: 'json',  
                success:function(result){
                    if(result.msg){
-                    layer.msg("添加成功",{offset: ['150px', '180px']});
+                    layer.msg("修改成功");
                     parent.window.setTimeout(function(){
                             parent.window.location.href = "${pageContext.request.contextPath}/area/list.html";
                         }, 1000);
                    }
                 },
                 error: function(result){
-                    layer.msg("添加失败",{offset: ['150px', '180px']});
+                    layer.msg("添加失败");
                 }
             });
           }

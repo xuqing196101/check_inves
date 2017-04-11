@@ -360,7 +360,7 @@
           <h2 class="count_flow"><i>2</i>流程进度</h2>
           <div class="container">
             <div class="col-md-12 col-xs-12 col-sm-12 flow_more" id="main-1">
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-1">
                     <p class="tip_main">采购需求编报</p>
@@ -373,12 +373,12 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn last_small" id="main-2">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_small" id="main-2">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-2">
                     <p class="tip_main">采购需求受理</p>
                     <p class="tip_time">
-                      <fmt:formatDate value='${auditPerson.createDate}' pattern='yyyy-MM-dd' />
+                     <fmt:formatDate value='${auditPerson.createDate}' pattern='yyyy-MM-dd' />
                     </p>
                   </a>
                 </div>
@@ -387,7 +387,7 @@
               </div>
 
               <c:if test="${advancedProject != null}">
-                <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn small_r" id="main-3">
+                <div class="flow_tips col-md-2 col-sm-2 col-xs-12 small_r" id="main-3">
                   <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                     <a href="#tab-3">
                       <p class="tip_main">预研任务下达</p>
@@ -401,7 +401,7 @@
                 </div>
               </c:if>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn small_r" id="main-4">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 small_r" id="main-4">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-4">
                     <p class="tip_main">采购计划审核</p>
@@ -419,7 +419,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-                <div class="flow_tips col-md-2 col-sm-2 col-xs-12 pre_btn" id="main-5">
+                <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-5">
                   <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                     <a href="#tab-5">
                       <p class="tip_main">采购计划下达</p>
@@ -1104,7 +1104,9 @@
                 <th class="info w80">交货期限</th>
                 <th class="info w100">采购方式</br>建议</th>
                 <th class="info w80">采购机构</th>
+                <c:if test="${required.supplier ne null}">
                 <th class="info w100">供应商名称</th>
+                </c:if>
                 <th class="info w80">是否申请</br>办理免税</th>
                 <th class="info w160">备注</th>
               </tr>
@@ -1143,9 +1145,11 @@
                 </td>
                 <td class="p0">${required.purchaseType }</td>
                 <td class="tc p0">${required.organization }</td>
+                <c:if test="${required.supplier ne null}">
                 <td class="tl">
                   <div class="w80">${required.supplier }</div>
                 </td>
+                </c:if>
                 <td class="tc">
                   <div class="w80">${required.isFreeTax }</div>
                 </td>

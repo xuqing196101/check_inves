@@ -105,7 +105,7 @@ public class SupervisionServiceImpl implements SupervisionService {
     
     
     public String[] progressBar(String status, String id){
-        double number = 100.00/36.00;
+        double number = 100.00/38.00;
         BigDecimal b = new BigDecimal(number);
         double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
         String num = null;
@@ -192,22 +192,32 @@ public class SupervisionServiceImpl implements SupervisionService {
             map.put("contract", contract);
             List<PqInfo> selectByContract = pqInfoMapper.selectByContract(map);
             if(selectByContract != null && selectByContract.size() > 0){
-                
-            }
-            if(contract.getStatus() == 0){
-                int one = 34;
-                num = String.valueOf(Math.round(total*one));
-                name = "未生成合同";
-            }
-            if(contract.getStatus() == 1){
-                int one = 35;
-                num = String.valueOf(Math.round(total*one));
-                name = "已生成合同";
-            }
-            if(contract.getStatus() == 2){
-                int one = 36;
-                num = String.valueOf(Math.round(total*one));
-                name = "暂存合同";
+                if("合格".equals(selectByContract.get(0).getConclusion())){
+                    int one = 37;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "质检合格";
+                }
+                if("不合格".equals(selectByContract.get(0).getConclusion())){
+                    int one = 38;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "质检不合格";
+                }
+            }else{
+                if(contract.getStatus() == 0){
+                    int one = 34;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "未生成合同";
+                }
+                if(contract.getStatus() == 1){
+                    int one = 35;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "已生成合同";
+                }
+                if(contract.getStatus() == 2){
+                    int one = 36;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "暂存合同";
+                }
             }
         }
         String[] names = {num,name};

@@ -242,6 +242,7 @@
 				  <option value="${area.id}">${area.name}</option>
 				</c:forEach>
 			  </select>
+			  <div class="cue"><sf:errors path="provinceId"/></div>
 			</div>
 		  </li>	
 		  
@@ -250,6 +251,7 @@
 			<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			  <select id="cityId" name="cityId"> 
 			  </select>
+			  <div class="cue"><sf:errors path="cityId"/></div>
 			</div>
 		  </li>	
 		  

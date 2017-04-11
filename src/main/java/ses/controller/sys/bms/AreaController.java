@@ -118,8 +118,18 @@ public class AreaController {
 	@RequestMapping("/save")
 	@ResponseBody
 	public String save(Area area){
-		areaService.save(area);
-		String msg = "{\"msg\":\"success\"}";
+	    String msg = null;
+	    Area area2 = new Area();
+	    area2.setParentId(area.getId());
+	    area2.setName(area.getName());
+	    List<Area> listByArea = areaService.listByArea(area2);
+	    if(listByArea != null && listByArea.size() > 0){
+	        msg = "1";
+	    }else{
+	        areaService.save(area);
+	        msg = "0";
+	    }
+		
 		return msg;
 	}
 	/**

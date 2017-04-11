@@ -676,10 +676,9 @@ public class PlanSupervisionController {
                     
                     
                     map.put("collectId", collectPlan.getId());
-                    map.put("type", "4");
                     List<AuditPerson> listAuditPerson = auditPersonService.selectByMap(map);
                     if(listAuditPerson != null && listAuditPerson.size() > 0){
-                        model.addAttribute("listAuditPerson", listAuditPerson.get(0));
+                        model.addAttribute("listAuditPerson", listAuditPerson);
                     }
                     
                 }
@@ -991,13 +990,13 @@ public class PlanSupervisionController {
                 
                 List<PurchaseManagement> queryByPid = managementService.queryByPid(required.getUniqueId());
                 Orgnization org= orgnizationService.getOrgByPrimaryKey(queryByPid.get(0).getManagementId());
-                map.put("collectId", id);
+                map.put("collectId", required.getUniqueId());
                 map.put("type", "4");
                 List<AuditPerson> selectByMap = auditPersonService.selectByMap(map);
                 if(selectByMap != null && selectByMap.size() > 0){
                     User user = userService.getUserById(selectByMap.get(0).getUserId());
                     selectByMap.get(0).setUserId(user.getRelName());
-                    model.addAttribute("auditPerson", selectByMap.get(0).getClass());//受理人和受理时间
+                    model.addAttribute("auditPerson", selectByMap.get(0));//受理人和受理时间
                 }
                 model.addAttribute("management", org.getName());//管理部门
                 model.addAttribute("required", required);//计划明细

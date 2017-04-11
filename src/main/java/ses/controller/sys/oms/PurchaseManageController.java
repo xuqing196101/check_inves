@@ -1213,8 +1213,12 @@ public class PurchaseManageController {
 	@RequestMapping("/verify")
 	@ResponseBody
 	public String verify(Orgnization orgnization){
-	    Boolean flag = orgnizationServiceI.verify(orgnization);
-	    return JSON.toJSONString(flag);
+	    if(StringUtils.isNotBlank(orgnization.getName())){
+	        Boolean flag = orgnizationServiceI.verify(orgnization);
+	        return JSON.toJSONString(flag);
+	    }else{
+	        return "1";
+	    }
 	}
 	
 	

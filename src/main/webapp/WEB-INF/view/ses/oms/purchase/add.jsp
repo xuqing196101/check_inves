@@ -5,6 +5,7 @@
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
+<%@ include file="/WEB-INF/view/common/validate.jsp"%>
 <link href="${pageContext.request.contextPath}/public/ztree/css/ztree-extend.css" type="text/css" rel="stylesheet" >
 <script src="${pageContext.request.contextPath}/js/oms/purchase/jquery.metadata.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
@@ -138,6 +139,12 @@ function onCheck(e, treeId, treeNode) {
                }
          	});
          	return is_error;
+		}
+		
+		
+		function save(){
+		  $("#formID").validForm();
+      $("#formID").submit();
 		}
 		
 		function ajaxIdNumber(){
@@ -505,7 +512,7 @@ function onCheck(e, treeId, treeNode) {
 			<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
 			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>邮箱</span>
 			  <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				<input  name="email" value="${purchaseInfo.email}" maxlength="100" type="text">
+				<input  name="email" value="${purchaseInfo.email}" required  maxlength="100" type="text">
 				<span class="add-on">i</span>
 			    <div class="cue"><sf:errors path="email"/></div>
 			  </div>
@@ -532,7 +539,7 @@ function onCheck(e, treeId, treeNode) {
 		<!-- 伸缩层 -->
 		<div class="col-md-12">
           <div class="mt40 tc  mb50 ">
-            <button type="submit" class="btn btn-windows save" >保存</button>
+            <button type="button" onclick="save();" class="btn btn-windows save" >保存</button>
             <button type="button" class="btn btn-windows cancel" onclick="back();">取消</button>
           </div>
         </div>
