@@ -2,5 +2,5 @@ package sums.service.ss;
 
 public interface SupervisionService {
     
-    String progressBarPlan(String id);
+    String[] progressBarPlan(String id);
 }

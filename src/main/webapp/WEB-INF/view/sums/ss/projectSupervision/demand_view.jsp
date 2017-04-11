@@ -7,8 +7,8 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
-      function view(id,type){
-        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewDetail.html?id="+id+"&type="+type;
+      function view(id){
+        window.location.href = "${pageContext.request.contextPath}/projectSupervision/viewDetail.html?id="+id+"&projectId=${projectId}";
       }
     </script>
   </head>
@@ -50,28 +50,18 @@
               <th>填报人</th>
               <th>填报时间</th>
               <th>金额</th>
-              <th>状态</th>
-              <th>进度</th>
             </tr>
           </thead>
           <tbody id="tbody_id">
             <c:forEach items="${listRequired}" var="obj" varStatus="vs">
               <tr class="pointer">
                 <td class="tc w50">${(vs.index+1)}</td>
-                <td class="tl pl20" onclick="view('${obj.uniqueId}','0')">${obj.planName}</td>
-                <td class="tl pl20" onclick="view('${obj.uniqueId}','0')">${obj.userId}</td>
-                <td class="tl pl20" onclick="view('${obj.uniqueId}','0')">
+                <td class="tl pl20"><a href="javascript:void(0)" onclick="view('${obj.uniqueId}');">${obj.planName}</a></td>
+                <td class="tl pl20" onclick="view('${obj.uniqueId}')">${obj.userId}</td>
+                <td class="tl pl20" onclick="view('${obj.uniqueId}')">
                   <fmt:formatDate type='date' value='${obj.createdAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                 </td>
-                <td class="tl pl20" onclick="view('${obj.uniqueId}','0')">${obj.budget}</td>
-                <td class="tc">
-                   <c:if test="${obj.status eq '1'}">未提交</c:if>
-                   <c:if test="${obj.status eq '4'}">受理退回</c:if> 
-                   <c:if test="${obj.status eq '2' || obj.status eq '3' || obj.status eq '5'}">已提交</c:if>
-                </td>
-                <td class="tc">
-                  <a href="javascript:void(0)" onclick="view('${obj.uniqueId}','0');">查看</a>
-                </td>
+                <td class="tl pl20" onclick="view('${obj.uniqueId}')">${obj.budget}</td>
               </tr>
             </c:forEach>
           </tbody>

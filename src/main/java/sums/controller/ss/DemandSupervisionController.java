@@ -6,8 +6,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +34,7 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
-import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
-import bss.model.pqims.PqInfo;
 import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.pms.CollectPlanService;
@@ -50,7 +46,6 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -239,10 +234,12 @@ public class DemandSupervisionController extends BaseController{
             List<PurchaseRequired> list = purchaseRequiredService.selectByParentId(map);
             for (PurchaseRequired purchaseRequired : list) {
                 if(purchaseRequired.getPrice() != null){
-                    String progressBarPlan = supervisionService.progressBarPlan(purchaseRequired.getId());
-                    purchaseRequired.setProgressBar(progressBarPlan);
+                    String[] progressBarPlan = supervisionService.progressBarPlan(purchaseRequired.getId());
+                    purchaseRequired.setProgressBar(progressBarPlan[0]);
+                    purchaseRequired.setStatus(progressBarPlan[1]);
                 } else {
                     purchaseRequired.setPurchaseType(null);
+                    purchaseRequired.setStatus(null);
                 }
             }
             model.addAttribute("list", list);
@@ -280,10 +277,12 @@ public class DemandSupervisionController extends BaseController{
                     
                     for (PurchaseDetail purchaseDetail : detail) {
                         if(purchaseDetail.getPrice() != null){
-                            String progressBarPlan = supervisionService.progressBarPlan(purchaseDetail.getId());
-                            purchaseDetail.setProgressBar(progressBarPlan);
+                            String[] progressBarPlan = supervisionService.progressBarPlan(purchaseDetail.getId());
+                            purchaseDetail.setProgressBar(progressBarPlan[0]);
+                            purchaseDetail.setStatus(progressBarPlan[1]);
                         } else {
                             purchaseDetail.setPurchaseType(null);
+                            purchaseDetail.setStatus(null);
                         }
                     }
                 }
@@ -384,8 +383,9 @@ public class DemandSupervisionController extends BaseController{
                                 if(packages2.getId().equals(details.get(i).getPackageId())){
                                     DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                                     details.get(i).setPurchaseType(findById.getName());
-                                    String progressBarPlan = supervisionService.progressBarPlan(details.get(i).getRequiredId());
-                                    details.get(i).setProgressBar(progressBarPlan);
+                                    String[] progressBarPlan = supervisionService.progressBarPlan(details.get(i).getRequiredId());
+                                    details.get(i).setProgressBar(progressBarPlan[0]);
+                                    details.get(i).setStatus(progressBarPlan[1]);
                                     list.add(details.get(i));
                                 }
                                 sort(list);//进行排序

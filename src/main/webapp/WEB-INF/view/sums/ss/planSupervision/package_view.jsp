@@ -99,14 +99,17 @@
                     <th class="info w150">预算金额<br/>（万元）</th>
                     <th class="info deliverdate">交货<br/>期限</th>
                     <th class="info purchasetype">采购方式</th>
+                    <c:if test="${obj.supplier ne null}">
                     <th class="info purchasename">供应商名称</th>
+                    </c:if>
+                    <th class="info " width="8%">状态</th>
                     <th class="info">进度</th>
                   </tr>
                 </thead>
                 <tbody id="tbody_id">
                   <c:forEach items="${list.projectDetails}" var="obj" varStatus="vs">
                     <tr class="pointer">
-                      <td class="tc w50">${obj.serialNumber}</td>
+                      <td class="tc w50">${(vs.index+1)}</td>
                       <td title="${obj.goodsName}" class="tl pl20">
                         <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
                         <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
@@ -128,10 +131,13 @@
                       <td class="tr pr20">${obj.budget}</td>
                       <td class="tl pl20">${obj.deliverDate}</td>
                       <td class="tl pl20">${obj.purchaseType}</td>
+                      <c:if test="${obj.supplier ne null}">
                       <td title="${obj.supplier}" class="tl pl20">
                         <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
                         <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
                       </td>
+                      </c:if>
+                      <td class="tl pl20">${obj.status}</td>
                       <td class="tc" onclick="view('${obj.id}')">
                         <div id="p" class="easyui-progressbar" data-options="value:${obj.progressBar}" style="width:80px;"></div>
                       </td>
@@ -157,14 +163,17 @@
                 <th class="info w150">预算金额<br/>（万元）</th>
                 <th class="info deliverdate">交货<br/>期限</th>
                 <th class="info purchasetype">采购方式</th>
+                <c:if test="${obj.supplier ne null}">
                 <th class="info purchasename">供应商名称</th>
+                </c:if>
+                <th class="info " width="8%">状态</th>
                 <th class="info">进度</th>
               </tr>
             </thead>
             <tbody id="tbody_id">
               <c:forEach items="${details}" var="obj" varStatus="vs">
                 <tr class="pointer">
-                  <td class="tc w50">${obj.serialNumber}</td>
+                  <td class="tc w50">${(vs.index+1)}</td>
                   <td title="${obj.goodsName}" class="tl pl20">
                     <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
                     <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
@@ -186,10 +195,13 @@
                   <td class="tr pr20">${obj.budget}</td>
                   <td class="tl pl20">${obj.deliverDate}</td>
                   <td class="tl pl20">${obj.purchaseType}</td>
+                  <c:if test="${obj.supplier ne null}">
                   <td title="${obj.supplier}" class="tl pl20">
                     <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
                     <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
                   </td>
+                  </c:if>
+                  <td class="tl pl20">${obj.status}</td>
                   <td class="tc">
                     <div id="p" class="easyui-progressbar" data-options="value:${obj.progressBar}" style="width:80px;"></div>
                   </td>

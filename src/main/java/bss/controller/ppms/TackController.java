@@ -266,7 +266,7 @@ public class TackController extends BaseController{
                          project.setIsRehearse(0);
                          projectService.update(project);
                      }
-                     List<PurchaseDetail> list2 = purchaseDetailService.getUnique(task.getCollectId());
+                     List<PurchaseDetail> list2 = purchaseDetailService.getUnique(task.getCollectId(),null,null);
                      for (PurchaseDetail purchaseRequired : list2) {
                          purchaseRequired.setDetailStatus(1);
                          purchaseDetailService.updateByPrimaryKeySelective(purchaseRequired);
@@ -389,7 +389,7 @@ public class TackController extends BaseController{
 	public String view(@CurrentUser User user, String id, Model model, HttpServletRequest request){
 		Task task = taskservice.selectById(id);
 		if(task.getCollectId() != null){
-		    List<PurchaseDetail> listp = purchaseDetailService.getUnique(task.getCollectId());
+		    List<PurchaseDetail> listp = purchaseDetailService.getUnique(task.getCollectId(),null,null);
 		    List<PurchaseDetail> list1=new ArrayList<PurchaseDetail>();
             for(int i=0;i<listp.size();i++){
                 if(listp.get(i).getPrice() != null){
@@ -842,7 +842,7 @@ public class TackController extends BaseController{
 	    List<PurchaseDetail> detail =new ArrayList<PurchaseDetail>();
 	    if(StringUtils.isNotBlank(id)){
 	        Task task = taskservice.selectById(id);
-            List<PurchaseDetail> list2 = purchaseDetailService.getUnique(task.getCollectId());
+            List<PurchaseDetail> list2 = purchaseDetailService.getUnique(task.getCollectId(),null,null);
             if(list2 != null && list2.size() > 0){
                 for (PurchaseDetail purchaseRequired : list2) {
                         if(purchaseRequired.getPrice()!=null){

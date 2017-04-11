@@ -21,6 +21,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -96,6 +98,7 @@ import ses.model.sms.SupplierExtracts;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -208,6 +211,9 @@ public class PlanSupervisionController {
     
     @Autowired
     private SupervisionService supervisionService;
+    
+    @Autowired
+    private SupplierExtUserServicel extUserService;
     
     
     /**
@@ -343,7 +349,7 @@ public class PlanSupervisionController {
             
             //需求计划信息
             HashSet<String> set = new HashSet<>();
-            List<PurchaseDetail> details = detailService.getUnique(id);
+            List<PurchaseDetail> details = detailService.getUnique(id,null,null);
             HashMap<String, Object> maps = new HashMap<>();
             List<PurchaseRequired> listRequired = new ArrayList<>();
             if(details != null && details.size() > 0){
@@ -352,11 +358,13 @@ public class PlanSupervisionController {
                     List<PurchaseDetail> purchaseDetails = detailService.selectByParentId(maps);
                     if(purchaseDetails.size() > 1){
                         detail.setPurchaseType("");
+                        detail.setStatus(null);
                     }else{
                         DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
                         detail.setPurchaseType(findById.getName());
-                        String progressBarPlan = supervisionService.progressBarPlan(detail.getId());
-                        detail.setProgressBar(progressBarPlan);
+                        String[] progressBarPlan = supervisionService.progressBarPlan(detail.getId());
+                        detail.setProgressBar(progressBarPlan[0]);
+                        detail.setStatus(progressBarPlan[1]);
                     }
                     set.add(detail.getFileId());
                 }
@@ -389,23 +397,27 @@ public class PlanSupervisionController {
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("taskId", task2.getId());
                     List<ProjectTask> projectTasks = projectTaskService.queryByNo(map);
+                    HashSet<String> sets = new HashSet<>();
                     if(projectTasks != null && projectTasks.size() > 0){
                         for (ProjectTask projectTask : projectTasks) {
-                            Project project = projectService.selectById(projectTask.getProjectId());
-                            if(project != null){
-                                DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
-                                if(StringUtils.isNotBlank(project.getPrincipal())){
-                                    User users = userService.getUserById(project.getPrincipal());
-                                    project.setAppointMan(users.getRelName());
-                                    project.setAddress(users.getAddress());
-                                }
-                                if(StringUtils.isNotBlank(project.getPurchaseDepId())){
-                                    Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
-                                    project.setPurchaseDepId(org.getName());
-                                }
-                                project.setStatus(findById.getName());
-                                listProject.add(project);
+                            sets.add(projectTask.getProjectId());
+                        }
+                    }
+                    for (String string : sets) {
+                        Project project = projectService.selectById(string);
+                        if(project != null){
+                            DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                            if(StringUtils.isNotBlank(project.getPrincipal())){
+                                User users = userService.getUserById(project.getPrincipal());
+                                project.setAppointMan(users.getRelName());
+                                project.setAddress(users.getAddress());
                             }
+                            if(StringUtils.isNotBlank(project.getPurchaseDepId())){
+                                Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
+                                project.setPurchaseDepId(org.getName());
+                            }
+                            project.setStatus(findById.getName());
+                            listProject.add(project);
                         }
                     }
                     if(listProject != null && listProject.size() > 0){
@@ -485,24 +497,47 @@ public class PlanSupervisionController {
      * @return
      */
     @RequestMapping("/viewDetail")
-    public String viewDetail(String id, String type, Model model){
+    public String viewDetail(String id, String type, String projectId, Model model){
         if(StringUtils.isNotBlank(id)){
             //类型为1的是采购计划明细，反之为需求计划明细
             if(StringUtils.isNotBlank(type) && "1".equals(type)){
-                List<PurchaseDetail> details = detailService.getUnique(id);
+                List<PurchaseDetail> details = detailService.getUnique(id,null,null);
                 if(details != null && details.size() > 0){
+                    List<PurchaseDetail> list = new ArrayList<PurchaseDetail>();
                     HashMap<String, Object> map = new HashMap<>();
                     for (int i = 0; i < details.size(); i++ ) {
-                        map.put("id", details.get(i).getId());
-                        List<PurchaseDetail> purchaseDetails = detailService.selectByParentId(map);
-                        if(purchaseDetails.size() > 1){
-                            details.get(i).setPurchaseType("");
-                        }else{
-                            DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
-                            details.get(i).setPurchaseType(findById.getName());
+                        map.put("id", projectId);
+                        List<ProjectDetail> projectDetails = projectDetailService.selectById(map);
+                        for (ProjectDetail projectDetail : projectDetails) {
+                            if(details.get(i).getId().equals(projectDetail.getRequiredId())){
+                                list.add(details.get(i));
+                            }
                         }
                     }
-                    model.addAttribute("list", details);
+                    for (PurchaseDetail detail : list) {
+                        if(detail.getPrice() != null){
+                            DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                            detail.setPurchaseType(findById.getName());
+                            String[] progressBarPlan = supervisionService.progressBarPlan(detail.getId());
+                            detail.setProgressBar(progressBarPlan[0]);
+                            detail.setStatus(progressBarPlan[1]);
+                        }else{
+                            detail.setPurchaseType(null);
+                            detail.setStatus(null);
+                        }
+                    }
+                    CollectPlan collectPlan = collectPlanService.queryById(id);
+                    User user = userService.getUserById(collectPlan.getUserId());
+                    collectPlan.setUserId(user.getRelName());
+                    collectPlan.setPurchaseId(user.getOrgName());
+                    HashMap<String, Object> mapTask = new HashMap<>();
+                    mapTask.put("collectId", collectPlan.getId());
+                    List<Task> listBycollect = taskService.listBycollect(mapTask);
+                    if(listBycollect != null && listBycollect.size() > 0){
+                        collectPlan.setUpdatedAt(listBycollect.get(0).getGiveTime());
+                    }
+                    model.addAttribute("collectPlan", collectPlan);
+                    model.addAttribute("list", list);
                 }
             }else{
                 List<PurchaseRequired> details = requiredService.getUnique(id);
@@ -513,11 +548,13 @@ public class PlanSupervisionController {
                         List<PurchaseRequired> purchaseDetails = requiredService.selectByParentId(map);
                         if(purchaseDetails.size() > 1){
                             details.get(i).setPurchaseType("");
+                            details.get(i).setStatus(null);
                         }else{
                             DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                             details.get(i).setPurchaseType(findById.getName());
-                            String progressBarPlan = supervisionService.progressBarPlan(details.get(i).getId());
-                            details.get(i).setProgressBar(progressBarPlan);
+                            String[] progressBarPlan = supervisionService.progressBarPlan(details.get(i).getId());
+                            details.get(i).setProgressBar(progressBarPlan[0]);
+                            details.get(i).setStatus(progressBarPlan[1]);
                         }
                     }
                     model.addAttribute("list", details);
@@ -543,7 +580,7 @@ public class PlanSupervisionController {
         if(user != null && user.getOrg() != null){
             if(StringUtils.isNotBlank(type) && "1".equals(type)){
                 HashMap<String, Object> map = new HashMap<>();
-                List<PurchaseDetail> purchaseDetails = detailService.getUnique(planId);
+                List<PurchaseDetail> purchaseDetails = detailService.getUnique(planId,null,null);
                 //查询计划明细顶级节点的ID
                 String pid = null;
                 if(purchaseDetails != null && purchaseDetails.size() > 0){
@@ -572,16 +609,19 @@ public class PlanSupervisionController {
                                     if(packages2.getId().equals(details.get(i).getPackageId())){
                                         DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                                         details.get(i).setPurchaseType(findById.getName());
-                                        String progressBarPlan = supervisionService.progressBarPlan(details.get(i).getRequiredId());
-                                        details.get(i).setProgressBar(progressBarPlan);
+                                        String[] progressBarPlan = supervisionService.progressBarPlan(details.get(i).getRequiredId());
+                                        details.get(i).setProgressBar(progressBarPlan[0]);
+                                        details.get(i).setStatus(progressBarPlan[1]);
                                         list.add(details.get(i));
                                     }
-                                    sort(list);//进行排序
-                                    packages2.setProjectDetails(list);
+                                    if(list != null && list.size() > 0){
+                                        packages2.setProjectDetails(list);
+                                    }
                                 }
                             }
                             for (int i = 0; i < packages.size(); i++ ) {
-                                if(packages.get(i).getProjectDetails().size() > 0){
+                                if(packages.get(i).getProjectDetails() != null && packages.get(i).getProjectDetails().size() > 0){
+                                    sort(packages.get(i).getProjectDetails());//进行排序
                                     lists.add(packages.get(i));
                                 }
                             }
@@ -605,9 +645,10 @@ public class PlanSupervisionController {
      * @param id
      * @param model
      * @return
+     * @throws Exception 
      */
     @RequestMapping("/overview")
-    public String overview(String id, Model model){
+    public String overview(String id, Model model, HttpServletRequest request) throws Exception{
         if(StringUtils.isNotBlank(id)){
             ProjectDetail projectDetail = projectDetailService.selectByPrimaryKey(id);
             PurchaseDetail detail = null;
@@ -635,9 +676,10 @@ public class PlanSupervisionController {
                     
                     
                     map.put("collectId", collectPlan.getId());
+                    map.put("type", "4");
                     List<AuditPerson> listAuditPerson = auditPersonService.selectByMap(map);
                     if(listAuditPerson != null && listAuditPerson.size() > 0){
-                        model.addAttribute("listAuditPerson", listAuditPerson);
+                        model.addAttribute("listAuditPerson", listAuditPerson.get(0));
                     }
                     
                 }
@@ -676,6 +718,11 @@ public class PlanSupervisionController {
                         String typeId = DictionaryDataUtil.getId("PROJECT_BID");
                         List<UploadFile> files = uploadService.getFilesOther(project.getId(), typeId, Constant.TENDER_SYS_KEY+"");
                         if(files != null && files.size() > 0){
+                          //调用生成word模板传人 标识0 表示 只是生成 拆包部分模板
+                            String filePath = extUserService.downLoadBiddingDoc(request,project.getId(),1,null);
+                            if (StringUtils.isNotBlank(filePath)){
+                              model.addAttribute("filePath", filePath);
+                            }
                             model.addAttribute("fileId", files.get(0).getId());
                             model.addAttribute("fileName", files.get(0).getName());
                         }
@@ -812,110 +859,113 @@ public class PlanSupervisionController {
                         }
                         
                         //文件发售时间
-                        SaleTender saleTender = new SaleTender();
-                        saleTender.setPackages(selectById.get(0).getPackageId());
-                        List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
-                        TreeSet<Long> set = new TreeSet<Long>();
-                        for (SaleTender saleTender2 : saleTenderList) {
-                            if(saleTender2.getCreatedAt() != null){
-                                Date createdAt = saleTender2.getCreatedAt();
-                                try {
-                                    long simp=new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(createdAt)).getTime();
-                                    set.add(simp);
-                                 } catch (ParseException e) {
-                                    e.printStackTrace();
+                        if(StringUtils.isNotBlank(selectById.get(0).getPackageId())){
+                            SaleTender saleTender = new SaleTender();
+                            saleTender.setPackages(selectById.get(0).getPackageId());
+                            List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+                            TreeSet<Long> set = new TreeSet<Long>();
+                            for (SaleTender saleTender2 : saleTenderList) {
+                                if(saleTender2.getCreatedAt() != null){
+                                    Date createdAt = saleTender2.getCreatedAt();
+                                    try {
+                                        long simp=new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(createdAt)).getTime();
+                                        set.add(simp);
+                                     } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
-                        }
-                        if(set != null && set.size() > 0){
-                            Iterator it = set.iterator();
-                            if(set.size()==1){
-                                model.addAttribute("begin", new SimpleDateFormat("yyyy-MM-dd").format(it.next()));//需求编报
-                            }else{
-                                int sun=0;
-                                while (it.hasNext()) {
-                                    if(sun==0){
-                                        model.addAttribute("begin", new SimpleDateFormat("yyyy-MM-dd").format(it.next()));
-                                    }
-                                    if(sun==(set.size()-1)){
-                                        model.addAttribute("end", new SimpleDateFormat("yyyy-MM-dd").format(it.next()));
-                                    }
-                                    sun++;
-                                }
-                            }
-                        }
-                        
-                        //资格性符合性检查
-                        Map<String, Object> packageExpertmap = new HashMap<String, Object>();
-                        packageExpertmap.put("packageId", selectById.get(0).getPackageId());
-                        packageExpertmap.put("projectId", project.getId());
-                        //查询专家
-                        List<PackageExpert> expertIdList = packageExpertService.selectList(packageExpertmap);
-                        List<Expert> experts = new ArrayList<Expert>();
-                        for (PackageExpert packageExpert : expertIdList) {
-                            Expert expert = expertService.selectByPrimaryKey(packageExpert.getExpertId());
-                            packageExpert.setExpertId(expert.getRelName());
-                            experts.add(expert);
-                        }
-                        if("DYLY".equals(DictionaryDataUtil.findById(project.getPurchaseType()).getCode())){
-                            model.addAttribute("DYLY", "1");
-                        }
-                        
-                        //确认中标供应商
-                        SupplierCheckPass pass = new SupplierCheckPass();
-                        pass.setPackageId(selectById.get(0).getPackageId());
-                        pass.setIsWonBid((short)1);
-                        pass.setProjectId(project.getId());
-                        List<SupplierCheckPass> listCheckPass = checkPassService.listCheckPass(pass);
-                        if(listCheckPass != null && listCheckPass.size() > 0){
-                            for (SupplierCheckPass supplierCheckPass : listCheckPass) {
-                                Supplier supplier = supplierService.selectById(supplierCheckPass.getSupplier().getId());
-                                supplierCheckPass.setSupplierId(supplier.getSupplierName());
-                            }
-                            model.addAttribute("listCheckPass", listCheckPass);
-                        }
-                        
-                        
-                        //合同信息
-                        List<ContractRequired> contractRequireds = contractRequiredService.selectConRequByDetailId(selectById.get(0).getId());
-                        if(contractRequireds!=null&&contractRequireds.size()>0){
-                            PurchaseContract purchaseContract = contractService.selectById(contractRequireds.get(0).getContractId());
-                            if(purchaseContract.getPurchaseDepName()!=null){
-                                Orgnization org1 = orgnizationService.getOrgByPrimaryKey(purchaseContract.getPurchaseDepName());
-                                if(org1!=null){
-                                    purchaseContract.setPurchaseDepName(org1.getName());
-                                    purchaseContract.setPurchaseBankAccount_string(org1.getFax());
+                            if(set != null && set.size() > 0){
+                                Iterator it = set.iterator();
+                                if(set.size()==1){
+                                    model.addAttribute("begin", new SimpleDateFormat("yyyy-MM-dd").format(it.next()));//需求编报
                                 }else{
-                                    purchaseContract.setPurchaseDepName("");
+                                    int sun=0;
+                                    while (it.hasNext()) {
+                                        if(sun==0){
+                                            model.addAttribute("begin", new SimpleDateFormat("yyyy-MM-dd").format(it.next()));
+                                        }
+                                        if(sun==(set.size()-1)){
+                                            model.addAttribute("end", new SimpleDateFormat("yyyy-MM-dd").format(it.next()));
+                                        }
+                                        sun++;
+                                    }
                                 }
-                                
                             }
-                            if(purchaseContract.getSupplierDepName()!=null){
-                                 Supplier supplier = supplierService.selectById(purchaseContract.getSupplierDepName());
-                                 if(supplier!=null){
-                                     purchaseContract.setSupplierDepName(supplier.getSupplierName());
-                                     purchaseContract.setSupplierBankAccount_string(supplier.getContactFax());
-                                 }else{
-                                     purchaseContract.setSupplierDepName("");
-                                 }
-                                 
+                            
+                            //资格性符合性检查
+                            Map<String, Object> packageExpertmap = new HashMap<String, Object>();
+                            packageExpertmap.put("packageId", selectById.get(0).getPackageId());
+                            packageExpertmap.put("projectId", project.getId());
+                            //查询专家
+                            List<PackageExpert> expertIdList = packageExpertService.selectList(packageExpertmap);
+                            List<Expert> experts = new ArrayList<Expert>();
+                            for (PackageExpert packageExpert : expertIdList) {
+                                Expert expert = expertService.selectByPrimaryKey(packageExpert.getExpertId());
+                                packageExpert.setExpertId(expert.getRelName());
+                                experts.add(expert);
                             }
-                            HashMap<String, Object> mapPq = new HashMap<>();
-                            mapPq.put("contract", purchaseContract);
-                            List<PqInfo> selectByCondition = pqInfoService.selectByContract(mapPq);
-                            if(selectByCondition != null && selectByCondition.size() > 0){
-                                model.addAttribute("PqInfo", selectByCondition.get(0).getClass());
+                            if("DYLY".equals(DictionaryDataUtil.findById(project.getPurchaseType()).getCode())){
+                                model.addAttribute("DYLY", "1");
                             }
-                            model.addAttribute("purchaseContract", purchaseContract);
-                        }          
+                            
+                            //确认中标供应商
+                            SupplierCheckPass pass = new SupplierCheckPass();
+                            pass.setPackageId(selectById.get(0).getPackageId());
+                            pass.setIsWonBid((short)1);
+                            pass.setProjectId(project.getId());
+                            List<SupplierCheckPass> listCheckPass = checkPassService.listCheckPass(pass);
+                            if(listCheckPass != null && listCheckPass.size() > 0){
+                                for (SupplierCheckPass supplierCheckPass : listCheckPass) {
+                                    Supplier supplier = supplierService.selectById(supplierCheckPass.getSupplier().getId());
+                                    supplierCheckPass.setSupplierId(supplier.getSupplierName());
+                                }
+                                model.addAttribute("listCheckPass", listCheckPass);
+                            }
+                            
+                            
+                            //合同信息
+                            List<ContractRequired> contractRequireds = contractRequiredService.selectConRequByDetailId(selectById.get(0).getId());
+                            if(contractRequireds!=null&&contractRequireds.size()>0){
+                                PurchaseContract purchaseContract = contractService.selectById(contractRequireds.get(0).getContractId());
+                                if(purchaseContract.getPurchaseDepName()!=null){
+                                    Orgnization org1 = orgnizationService.getOrgByPrimaryKey(purchaseContract.getPurchaseDepName());
+                                    if(org1!=null){
+                                        purchaseContract.setPurchaseDepName(org1.getName());
+                                        purchaseContract.setPurchaseBankAccount_string(org1.getFax());
+                                    }else{
+                                        purchaseContract.setPurchaseDepName("");
+                                    }
+                                    
+                                }
+                                if(purchaseContract.getSupplierDepName()!=null){
+                                     Supplier supplier = supplierService.selectById(purchaseContract.getSupplierDepName());
+                                     if(supplier!=null){
+                                         purchaseContract.setSupplierDepName(supplier.getSupplierName());
+                                         purchaseContract.setSupplierBankAccount_string(supplier.getContactFax());
+                                     }else{
+                                         purchaseContract.setSupplierDepName("");
+                                     }
+                                     
+                                }
+                                HashMap<String, Object> mapPq = new HashMap<>();
+                                mapPq.put("contract", purchaseContract);
+                                List<PqInfo> selectByCondition = pqInfoService.selectByContract(mapPq);
+                                if(selectByCondition != null && selectByCondition.size() > 0){
+                                    model.addAttribute("PqInfo", selectByCondition.get(0).getClass());
+                                }
+                                model.addAttribute("purchaseContract", purchaseContract);
+                            }
+                            model.addAttribute("expertIdList", expertIdList);
+                            model.addAttribute("experts", experts);
+                            model.addAttribute("packageId", selectById.get(0).getPackageId());
+                        }
+                                  
                         
                         DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
                         model.addAttribute("code", findById);
-                        model.addAttribute("expertIdList", expertIdList);
-                        model.addAttribute("experts", experts);
                         model.addAttribute("project", project);
                         model.addAttribute("status", "0");
-                        model.addAttribute("packageId", selectById.get(0).getPackageId());
                     }
                 }
                 

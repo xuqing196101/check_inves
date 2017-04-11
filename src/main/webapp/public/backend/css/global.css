@@ -1505,6 +1505,7 @@ table.lockout .extrafile{
       border-radius:4px!important;
       background-color:#e9e9e5;
       z-index:1000;
+      height:42px;
     }
     .pre_btn a p,.current_btn a p{
       color:#ffffff;

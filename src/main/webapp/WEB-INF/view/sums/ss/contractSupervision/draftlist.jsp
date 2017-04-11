@@ -124,8 +124,7 @@
 				<th class="info">项级预算科目</th>
 				<th class="info">甲方单位</th>
 				<th class="info">供应商</th>
-				<th class="info">状态</th>
-				<th class="info">查看</th>
+				<!-- <th class="info">状态</th> -->
 			</tr>
 		</thead>
 		<c:forEach items="${draftConList}" var="draftCon" varStatus="vs">
@@ -143,10 +142,10 @@
 				<c:set value="${draftCon.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>9}" >
-					<td  class="pointer pl20" title="${name}" onclick="openFile('${draftCon.id}');"><a>${fn:substring(name,0,9)}...</a></td>
+					<td  class="pointer pl20" title="${name}" onclick="openFile('${draftCon.id}');"><a onclick="onclickDetail('${draftCon.id}');">${fn:substring(name,0,9)}...</a></td>
 				</c:if>
 				<c:if test="${length<=9}" >
-					<td  class="pointer pl20" title="${name}" onclick="openFile('${draftCon.id}');"><a>${name}</a></td>
+					<td  class="pointer pl20" title="${name}" onclick="openFile('${draftCon.id}');"><a onclick="onclickDetail('${draftCon.id}');">${name}</a></td>
 				</c:if>
 				<td class="tr pr20 pointer" >${draftCon.money}</td>
 				<td class="tl pl20 pointer" >${draftCon.projectName}</td>
@@ -159,13 +158,12 @@
 				<%--<c:if test="${draftCon.status==0}">
 					<td class="tc pointer" >暂存</td>
 				</c:if>
-				--%><c:if test="${draftCon.status==1}">
+				 <c:if test="${draftCon.status==1}">
 					<td class="tc pointer" >草案</td>
 				</c:if>
 				<c:if test="${draftCon.status==2}">
 					<td class="tc pointer" >正式</td>
-				</c:if>
-				<td class="tl pl20 pointer" ><a onclick="onclickDetail('${draftCon.id}');">进入</a></td>
+				</c:if> --%>
 			</tr>
 		</c:forEach>
 	</table>

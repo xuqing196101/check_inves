@@ -6,7 +6,11 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <script src="${pageContext.request.contextPath}/js/sums/jquery.circliful.min.js"></script>
     <script type="text/javascript">
+      $(function() {
+        $('.circle_box').circliful();
+      });
       function view(id){
         window.location.href = "${pageContext.request.contextPath}/projectSupervision/viewPack.html?projectId="+id;
       }
@@ -58,21 +62,24 @@
           
         </tr>
         <tr>
-          <td class="h365 tc" onclick="demandList('${projectId}')">
-            <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
+          <td class="tc" width="25%"  onclick="demandList('${project.id}')">
+            <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
           </td>
-          <td class="h365 tc" onclick="planList('${projectId}')">
-            <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
+          <td class="tc" width="25%"  onclick="planList('${project.id}')">
+            <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
           </td>
-          <td class="h365 tc"  onclick="view('${projectId}')">
-            <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
+          <td class="tc" width="25%"   onclick="view('${project.id}')">
+            <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
           </td>
-          <td class="h365 tc">
-            <img alt="" onclick="contractList('${projectId}')" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
+          <td class="tc" width="25%" onclick="contractList('${project.id}')">
+            <c:if test="${contractRequireds eq null}">
+                  <div data-dimension="150" data-text="0%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="0" data-fgcolor="#ffffff" data-bgcolor="#eeeeee" class="circle_box"></div>
+                </c:if>
+                <c:if test="${contractRequireds ne null}">
+                  <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
+                </c:if>
           </td>
-          
         </tr>
-
       </tbody>
     </table>
     </div>

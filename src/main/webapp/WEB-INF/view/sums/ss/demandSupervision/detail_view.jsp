@@ -122,7 +122,10 @@
                   <th class="info w120" >预算<br/>金额<br/>（万元）</th>
                   <th class="info " width="10%" >交货期限</th>
                   <th class="info " width="8%">采购方式</th>
+                  <c:if test="${obj.supplier ne null}">
                   <th class="info " width="10%">供应商名称</th>
+                  </c:if>
+                  <th class="info " width="8%">状态</th>
                   <th class="info ">进度</th>
                 </tr>
               </thead>
@@ -151,9 +154,12 @@
 		                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
 		                  </c:forEach>
                     </td>
+                    <c:if test="${obj.supplier ne null}">
                     <td title="${obj.supplier}" class="tl pl20">
                       ${obj.supplier}
                     </td>
+                    </c:if>
+                    <td class="tl pl20">${obj.status}</td>
                     <td class="tc" onclick="view('${obj.id}')">
                       <c:if test="${obj.price != null}">
                         <div id="p" class="easyui-progressbar" data-options="value:${obj.progressBar}" style="width:80px;"></div>

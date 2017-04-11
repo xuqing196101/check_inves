@@ -490,7 +490,7 @@ public class ProjectController extends BaseController {
           //根据采购明细ID，获取项目明细
           Task task = taskservice.selectById(projectId);
           if(task.getCollectId() != null){
-              List<PurchaseDetail> listp = purchaseDetailService.getUnique(task.getCollectId());
+              List<PurchaseDetail> listp = purchaseDetailService.getUnique(task.getCollectId(),null,null);
               List<PurchaseDetail> list1=new ArrayList<PurchaseDetail>();
               for(int i=0;i<listp.size();i++){
                   if(listp.get(i).getPrice() != null){
@@ -784,7 +784,7 @@ public class ProjectController extends BaseController {
     @RequestMapping("/addDeatil")
     public String addDeatil(@CurrentUser User user, Model model, String id, String name,String projectNumber, String checkedIds, HttpServletRequest request) {
         Task task = taskservice.selectById(id);
-        List<PurchaseDetail> listp = purchaseDetailService.getUnique(task.getCollectId());
+        List<PurchaseDetail> listp = purchaseDetailService.getUnique(task.getCollectId(),null,null);
         List<PurchaseDetail> list1=new ArrayList<PurchaseDetail>();
         for(int i=0;i<listp.size();i++){
             if(listp.get(i).getPrice() != null){
@@ -1161,7 +1161,7 @@ public class ProjectController extends BaseController {
                      String ids = request.getParameter("projectId");
                      Task task = taskservice.selectById(ids);
                      if(task.getCollectId() != null){
-                         List<PurchaseDetail> list3 = purchaseDetailService.getUnique(task.getCollectId());
+                         List<PurchaseDetail> list3 = purchaseDetailService.getUnique(task.getCollectId(),null,null);
                          if(list3 != null && list3.size() > 0){
                               
                               List<PurchaseDetail> bottomDetails = new ArrayList<>();
@@ -1307,7 +1307,7 @@ public class ProjectController extends BaseController {
                          String ids = request.getParameter("projectId");
                          Task task = taskservice.selectById(ids);
                          if(task.getCollectId() != null){
-                             List<PurchaseDetail> list3 = purchaseDetailService.getUnique(task.getCollectId());
+                             List<PurchaseDetail> list3 = purchaseDetailService.getUnique(task.getCollectId(),null,null);
                             if(list3 != null && list3.size() > 0){
                                  
                                  List<PurchaseDetail> bottomDetail = new ArrayList<>();

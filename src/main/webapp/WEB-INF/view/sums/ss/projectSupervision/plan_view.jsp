@@ -8,7 +8,7 @@
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
       function view(id,type){
-        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewDetail.html?id="+id+"&type="+type;
+        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewDetail.html?id="+id+"&type="+type+"&projectId=${projectId}";
       }
     </script>
   </head>
@@ -51,15 +51,13 @@
               <th class="info">预算总金额（万元）</th>
               <th class="info">编制人</th>
               <th class="info">编制时间</th>
-              <th class="info">状态</th>
-              <th class="info">查看进度</th>
             </tr>
           </thead>
           <c:forEach items="${list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w50">${(vs.index+1)}</td>
               <td class="tl pl20" width="35%">
-                <a href="javascript:void(0)" onclick="view('${obj.id}','0');">${obj.fileName}</a>
+                <a href="javascript:void(0)" onclick="view('${obj.id}','1');">${obj.fileName}</a>
               </td>
               <td class="tr pr20 w140">
                 <fmt:formatNumber>${obj.budget }</fmt:formatNumber>
@@ -68,7 +66,7 @@
               <td class="tc">
                 <fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd" />
               </td>
-              <td class="tl pl20">
+              <%-- <td class="tl pl20">
                 <c:if test="${obj.status == 1}">审核轮次设置</c:if>
                 <c:if test="${obj.status == 2}">已下达</c:if>
                 <c:if test="${obj.status == 3}">第一轮审核</c:if>
@@ -80,7 +78,7 @@
               </td>
               <td class="tc">
                 <a href="javascript:void(0)" onclick="view('${obj.id}','1');">进入</a>
-              </td>
+              </td> --%>
             </tr>
           </c:forEach>
         </table>

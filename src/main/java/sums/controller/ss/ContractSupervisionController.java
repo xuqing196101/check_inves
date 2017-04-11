@@ -364,8 +364,9 @@ public class ContractSupervisionController {
                     if(packages2.getId().equals(details.get(i).getPackageId())){
                         DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                         details.get(i).setPurchaseType(findById.getName());
-                        String progressBarPlan = supervisionService.progressBarPlan(details.get(i).getRequiredId());
-                        details.get(i).setProgressBar(progressBarPlan);
+                        String[] progressBarPlan = supervisionService.progressBarPlan(details.get(i).getId());
+                        details.get(i).setProgressBar(progressBarPlan[0]);
+                        details.get(i).setStatus(progressBarPlan[1]);
                         list.add(details.get(i));
                     }
                     sort(list);//进行排序
@@ -463,8 +464,9 @@ public class ContractSupervisionController {
 	            for (PurchaseRequired purchaseRequired : requireds) {
 	                DictionaryData findById = DictionaryDataUtil.findById(purchaseRequired.getPurchaseType());
 	                purchaseRequired.setPurchaseType(findById.getName());
-	                String progressBarPlan = supervisionService.progressBarPlan(purchaseRequired.getId());
-	                purchaseRequired.setProgressBar(progressBarPlan);
+	                String[] progressBarPlan = supervisionService.progressBarPlan(purchaseRequired.getId());
+	                purchaseRequired.setProgressBar(progressBarPlan[0]);
+	                purchaseRequired.setStatus(progressBarPlan[1]);
                 }
 	            model.addAttribute("list", requireds);
 	        }
@@ -529,8 +531,9 @@ public class ContractSupervisionController {
                     if(id.equals(purchaseDetail.getUniqueId())){
                         DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
                         purchaseDetail.setPurchaseType(findById.getName());
-                        String progressBarPlan = supervisionService.progressBarPlan(purchaseDetail.getId());
-                        purchaseDetail.setProgressBar(progressBarPlan);
+                        String[] progressBarPlan = supervisionService.progressBarPlan(purchaseDetail.getId());
+                        purchaseDetail.setProgressBar(progressBarPlan[0]);
+                        purchaseDetail.setStatus(progressBarPlan[1]);
                         details.add(purchaseDetail);
                     }
                 }
@@ -567,7 +570,7 @@ public class ContractSupervisionController {
 		Iterator<String> it=set.iterator();
 		   while (it.hasNext()) {  
 			  String str = it.next();  
-			  List<PurchaseDetail> pdetails = purchaseDetailService.getUnique(str);
+			  List<PurchaseDetail> pdetails = purchaseDetailService.getUnique(str,null,null);
 			  deta.addAll(listdata(pdetails, details));
 			}  
         for(int i=0;i<deta.size();i++){

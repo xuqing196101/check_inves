@@ -145,8 +145,7 @@
               <th>采购方式</th>
               <th>创建时间</th>
               <th>创建人</th>
-              <th>项目状态</th>
-              <th class="info">查看进度</th>
+              <!-- <th>项目状态</th> -->
             </tr>
           </thead>
           <tbody id="tbody_id">
@@ -155,7 +154,7 @@
                 
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                 <td class="tl pl20">
-                  <a href="javascript:void(0)" onclick="view('${obj.id}','0');">${obj.name}</a>
+                  <a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a>
                 </td>
                 <td class="tl pl20">${obj.projectNumber}</td>
                 <td class="tl pl20">${obj.purchaseDepId}</td>
@@ -168,16 +167,13 @@
                   <fmt:formatDate type='date' value='${obj.createAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                 </td>
                 <td class="tl pl20">${obj.appointMan}</td>
-                <td>
+                <%-- <td>
                   <c:forEach items="${status}" var="status">
                     <c:if test="${status.id == obj.status}">${status.name}
                     <input type="hidden" value="${status.code}"/>
                     </c:if>
                   </c:forEach>
-                </td>
-                <td class="tc">
-                  <a href="javascript:void(0)" onclick="view('${obj.id}');">进入</a>
-                </td>
+                </td> --%>
               </tr>
             </c:forEach>
           </tbody>
