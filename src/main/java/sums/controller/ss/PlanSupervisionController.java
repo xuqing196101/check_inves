@@ -971,7 +971,11 @@ public class PlanSupervisionController {
             }
             
             HashMap<String, Object> map = new HashMap<>();
-            map.put("id", detail.getId());
+            if(detail != null){
+                map.put("id", detail.getId());
+            }else{
+                map.put("id", id);
+            }
             List<PurchaseRequired> requireds = requiredService.selectByParent(map);
             for (PurchaseRequired purchaseRequired : requireds) {
                 if("1".equals(purchaseRequired.getParentId())){
@@ -982,14 +986,25 @@ public class PlanSupervisionController {
                 }
             }
             
-            PurchaseRequired required = requiredService.queryById(detail.getId());
+            PurchaseRequired required = null;
+            if(detail != null){
+                required = requiredService.queryById(detail.getId());
+            }else{
+                required = requiredService.queryById(id);
+            }
+            
             if(required != null){
-                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getOrganization());
-                required.setOrganization(orgnization.getName());
+                if(StringUtils.isNotBlank(required.getOrganization())){
+                    Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getOrganization());
+                    required.setOrganization(orgnization.getName());
+                }
                 required.setPurchaseType(DictionaryDataUtil.findById(required.getPurchaseType()).getName());
                 
                 List<PurchaseManagement> queryByPid = managementService.queryByPid(required.getUniqueId());
-                Orgnization org= orgnizationService.getOrgByPrimaryKey(queryByPid.get(0).getManagementId());
+                if(queryByPid != null && queryByPid.size() > 0){
+                    Orgnization org= orgnizationService.getOrgByPrimaryKey(queryByPid.get(0).getManagementId());
+                    model.addAttribute("management", org.getName());//管理部门
+                }
                 map.put("collectId", required.getUniqueId());
                 map.put("type", "4");
                 List<AuditPerson> selectByMap = auditPersonService.selectByMap(map);
@@ -998,7 +1013,7 @@ public class PlanSupervisionController {
                     selectByMap.get(0).setUserId(user.getRelName());
                     model.addAttribute("auditPerson", selectByMap.get(0));//受理人和受理时间
                 }
-                model.addAttribute("management", org.getName());//管理部门
+                
                 model.addAttribute("required", required);//计划明细
             }
             

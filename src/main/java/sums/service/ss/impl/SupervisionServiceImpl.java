@@ -140,11 +140,11 @@ public class SupervisionServiceImpl implements SupervisionService {
                             name = "采购计划已下达";
                         }
                     } else {
-                        /*if("1".equals(status)){
+                        if("1".equals(status)){
                             int one = 1;
                             num = String.valueOf(Math.round(total*one));
-                            name = "";
-                        }*/
+                            name = "采购需求未提交";
+                        }
                         if("2".equals(status)){
                             int one = 2;
                             num = String.valueOf(Math.round(total*one));

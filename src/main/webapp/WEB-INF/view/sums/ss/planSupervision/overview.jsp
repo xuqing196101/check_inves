@@ -483,7 +483,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <c:if test="${'GKZB' ne code.code && 'DYLY' ne code.code}">
+              <%-- <c:if test="${'GKZB' ne code.code && 'DYLY' ne code.code}">
                 <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-10">
                   <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                     <a href="#tab-10">
@@ -494,7 +494,7 @@
                   <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
                   <div class="tip_down col-xs-offset-6"></div>
                 </div>
-              </c:if>
+              </c:if> --%>
 
               <c:if test="${'DYLY' ne code.code}">
               <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-11">
@@ -537,7 +537,7 @@
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-14">
                     <p class="tip_main">采购项目评审</p>
-                    <p class="tip_time">2016-08-08</p>
+                    <p class="tip_time"></p>
                   </a>
                 </div>
                 <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>

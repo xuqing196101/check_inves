@@ -142,10 +142,10 @@
 				<c:set value="${draftCon.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>9}" >
-					<td  class="pointer pl20" title="${name}" onclick="openFile('${draftCon.id}');"><a onclick="onclickDetail('${draftCon.id}');">${fn:substring(name,0,9)}...</a></td>
+					<td  class="pointer pl20" title="${name}" onclick="onclickDetail('${draftCon.id}');"><a onclick="onclickDetail('${draftCon.id}');">${fn:substring(name,0,9)}...</a></td>
 				</c:if>
 				<c:if test="${length<=9}" >
-					<td  class="pointer pl20" title="${name}" onclick="openFile('${draftCon.id}');"><a onclick="onclickDetail('${draftCon.id}');">${name}</a></td>
+					<td  class="pointer pl20" title="${name}" onclick="onclickDetail('${draftCon.id}');"><a onclick="onclickDetail('${draftCon.id}');">${name}</a></td>
 				</c:if>
 				<td class="tr pr20 pointer" >${draftCon.money}</td>
 				<td class="tl pl20 pointer" >${draftCon.projectName}</td>
