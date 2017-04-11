@@ -251,16 +251,20 @@
 				type: "POST",
 				data: {productId:productId},
 				success: function(data) {
-				if(data){
-       	  layer.tips("产品规格型号："+data.standardModel+"<br/>"+"质量技术标准："+data.qualityTechnicalStandard, 
-       	    '#'+id, {tips: [2, '#78BA32'],time:-1});
+					if(data){
+						var quality = data.qualityTechnicalStandard;
+						if(quality == null){
+							quality = "无";
+						}
+	   	  			layer.tips("产品规格型号："+data.standardModel+"<br/>"+"质量技术标准："+quality, 
+	   	    		'#'+id, {tips: [1, '#78BA32'],time:-1,area: ['500px', 'auto'],});
 				}else{
 				 inder=layer.tips("", 
-       	    '#'+id, {tips: [2, '#78BA32']});
+       	    '#'+id, {tips: [1, '#78BA32']});
 				}
 		      },error:function(){
 		       layer.tips("错误！", 
-       	    '#'+id, {tips: [2, '#78BA32']});
+       	    '#'+id, {tips: [1, '#78BA32']});
 		      }
            });
            }
@@ -462,9 +466,9 @@
     	  <table class="table table-bordered left_table" id ="table2">
 			<tr>
 		  		<th class="w50 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-		  		<th class="info" width="30%"><span class="red star_red">*</span>定型产品名称</th>
-		  		<th class="info">限价（元）</th>
-		  		<th class="info"><span class="red star_red">*</span>采购数量</th>
+		  		<th class="info" width="45%"><span class="red star_red">*</span>定型产品名称</th>
+		  		<th class="info" width="10%">限价（元）</th>
+		  		<th class="info" width="14%"><span class="red star_red">*</span>采购数量</th>
 		  		<th class="info" width="30%">备注</th>
 			</tr>
 		  </table>

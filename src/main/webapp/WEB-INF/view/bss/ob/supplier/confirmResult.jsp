@@ -637,12 +637,12 @@
     	<table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
-		  <th class="w30 info"  width="10%">序号</th>
-		  <th class="tc" width="20%">产品名称</th>
-		  <th class="tc">数量</th>
-		  <th class="tc">自报单价（元）</th>
-		  <th class="tc">成交单价（元）</th>
-		  <th class="tc">成交总价（万元）</th>
+		  <th class="w30 info"  width="5%">序号</th>
+		  <th class="tc" width="35%">产品名称</th>
+		  <th class="tc" width="15%">数量</th>
+		  <th class="tc" width="15%">自报单价（元）</th>
+		  <th class="tc" width="15%">成交单价（元）</th>
+		  <th class="tc" width="15%">成交总价（万元）</th>
 		</tr>
 		</thead>
 		<tr>
@@ -663,7 +663,7 @@
 		  	<input type="hidden" name="productMyOfferMoney" value="${bidproduct.myOfferMoney }"/>
 		  	<input type="hidden" name="productDealMoney" value="${bidproduct.dealMoney }"/>
 		  </td>
-		  <td class="tc" title="theProductName">${bidproduct.productName }</td>
+		  <td class="tc" width="30%" title="theProductName">${bidproduct.productName }</td>
 		  <td class="tc" title="theProductCount">
 		  ${bidproduct.resultsNumber}
 		  	<%-- <fmt:formatNumber type="number" value="${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 }"/> --%>
@@ -713,12 +713,12 @@
     	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
-		  <th class="w30 info" width="10%">序号</th>
-		  <th class="tc" width="20%">产品名称</th>
-		  <th class="tc">数量</th>
-		  <th class="tc">自报单价（元）</th>
-		  <th class="tc">成交单价（元）</th>
-		  <th class="tc">成交总价（万元）</th>
+		  <th class="w30 info" width="5%">序号</th>
+		  <th class="tc" width="35%">产品名称</th>
+		  <th class="tc" width="15%">数量</th>
+		  <th class="tc" width="15%">自报单价（元）</th>
+		  <th class="tc" width="15%">成交单价（元）</th>
+		  <th class="tc" width="15%">成交总价（万元）</th>
 		</tr>
 		</thead>
 		<tr>
