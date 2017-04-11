@@ -41,6 +41,7 @@ import ses.model.ems.*;
 import ses.service.bms.RoleServiceI;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
 import ses.util.WfUtil;
@@ -52,6 +53,8 @@ import bss.model.ppms.ext.ProjectExt;
 import bss.model.prms.PackageExpert;
 
 import com.github.pagehelper.PageHelper;
+
+import common.constant.StaticVariables;
 import common.dao.FileUploadMapper;
 
 
@@ -1246,6 +1249,26 @@ public class ExpertServiceImpl implements ExpertService {
     	expertCategoryMapper.deleteByExpertId(expertId);
     	fileUploadMapper.deleteByBusinessId(expertId);
     	expertTitleMapper.deleteByExpertId(expertId);
+	}
+
+	/**
+     * @Title: findLogoutList
+     * @author XuQing 
+     * @date 2017-4-11 下午4:08:04  
+     * @Description:注销列表
+     * @param @param expert
+     * @param @return      
+     * @return List<Expert>
+     */
+	@Override
+	public List<Expert> findLogoutList(Expert expert, Integer page) {
+		if(page == null) {
+			page = StaticVariables.DEFAULT_PAGE;
+		}
+	
+		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
+		
+		return mapper.findLogoutList(expert);
 	}
     
 }

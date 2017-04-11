@@ -420,4 +420,16 @@ public interface ExpertService {
     List<Expert> findCiteExpertByCondition(Expert expert, String packageId, Integer page);
     
     public void deleteExpert(String expertId);
+    
+    
+    /**
+     * @Title: findLogoutList
+     * @author XuQing 
+     * @date 2017-4-11 下午4:08:04  
+     * @Description:注销列表
+     * @param @param expert
+     * @param @return      
+     * @return List<Expert>
+     */
+    List<Expert> findLogoutList(Expert expert, Integer page);
 }

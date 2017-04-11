@@ -1752,4 +1752,32 @@
         </if>
         ORDER BY CREATED_AT DESC
     </select>
+    
+    
+    <!-- 注销列表 -->
+	<select id="findLogoutList" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			T_SES_EMS_EXPERT
+		WHERE
+			((IS_SUBMIT = '1' AND STATUS = '0')
+		OR (
+			IS_SUBMIT = '0'
+			AND (STATUS = '-1' OR STATUS = '3')
+		))
+		<if test="mobile != null and mobile !=''">
+        AND MOBILE LIKE '%${mobile}%'
+    </if>
+    <if test="relName != null and relName !=''">
+        AND REAL_NAME LIKE '%${relName}%'
+    </if>
+    <if test="expertsFrom != null and expertsFrom !=''">
+        AND EXPERTS_FROM = #{expertsFrom}
+    </if>
+    <if test="status != null and status !=''">
+        AND STATUS = #{status}
+    </if>
+    ORDER BY CREATED_AT DESC
+	</select>
 </mapper>

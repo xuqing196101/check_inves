@@ -1678,6 +1678,16 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS = -1 or SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 2
+		WHERE (SUPPLIER_STATUS = -1 or SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 2)
+		<if test="supplierName != null and supplierName !=''">
+			AND SUPPLIER_NAME like '%${supplierName}%'
+		</if>
+		<if test="mobile != null and mobile !=''">
+			AND MOBILE like '%${mobile}%'
+		</if>
+		<if test="status != null">
+			AND SUPPLIER_STATUS = #{status}
+		</if>
+		
 	</select>
 </mapper>
