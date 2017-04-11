@@ -5,6 +5,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
+
 	function back(){
 		var kind = $("#k").val();
 		window.location.href = '${pageContext.request.contextPath}/dictionaryData/dictionaryDataList.html?page=1&kind='+kind;
@@ -47,7 +48,7 @@
 				 	<li class="col-md-3 col-sm-6 col-xs-12">
 					   	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>排序</span>
 					   	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-					        <input class="input_group" name="position" value="${dd.position }"  type="text">
+					        <input class="input_group" name="position" value="${dd.position }"  type="text" onkeyup="value=value.replace(/[^\d]/g,'')">
 					        <span class="add-on">i</span>
 					        <div class="cue"><sf:errors path="position"/></div>
 				       	</div>

@@ -107,9 +107,9 @@
     </if>
     <if test="name != null and name != ''">
         NAME LIKE '%'||#{name}||'%' AND
-     </if> 
+    </if> 
     NAME IS NOT NULL 
-    ORDER BY KIND
+    <!-- ORDER BY KIND -->
      
   </select>
 </mapper>

@@ -1556,13 +1556,16 @@ public class ExpertAuditController{
         	String firstNode = cateTree.getFirstNode();
         	String secondNode = cateTree.getSecondNode();
         	String thirdNode = cateTree.getThirdNode();
-        	if(firstNode !=	null){
-        		items.append(rootNode + "—" + firstNode); 
+        	if(rootNode !=null && rootNode !=""){
+        		items.append(rootNode);
         	}
-        	if(secondNode != null){
+        	if(firstNode !=	null && firstNode !=""){
+        		items.append("—" + firstNode); 
+        	}
+        	if(secondNode != null && secondNode !=""){
         		items.append("—" + secondNode); 
         	}
-        	if(thirdNode != null){
+        	if(thirdNode != null && thirdNode !=""){
         		items.append("—" + thirdNode); 
         	}
         	cateTree.setRootNode(items.toString());
@@ -1577,7 +1580,7 @@ public class ExpertAuditController{
     		//查询未通过审核的产品
     		ExpertAudit expertAudit = new ExpertAudit();
     		expertAudit.setExpertId(expert.getId());
-    		expertAudit.settype("2");
+    		expertAudit.setSuggestType("six");
     		expertAudit.setAuditField(cateTree.getItemsId());
     		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
     		ExpertAudit expertAudit1 = new ExpertAudit();
@@ -1602,7 +1605,6 @@ public class ExpertAuditController{
     	if(tableType.equals("1") || tableType.equals("3")){
     		ExpertAudit audit0 = new ExpertAudit();
         	audit0.setExpertId(expert.getId());
-        	audit0.settype("1");
         	List < ExpertAudit > basicList = expertAuditService.selectFailByExpertId(audit0);
 
     		boolean recentPhotos = true, idCard = true, armyIdCard = true, qualification = true, academicDegree = true, coverNote = true , professionalFile = true;
