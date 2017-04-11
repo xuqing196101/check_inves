@@ -1085,7 +1085,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 省</span>
 							<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-								<select id="addr" onchange="func123()" <c:if test="${fn:contains(errorField,'地址')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('地址')"
+								<select id="addr" onchange="func123()" <c:if test="${fn:contains(errorField,'地区')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('地区')"
 									</c:if>>
 									<option value="">-请选择-</option>
 								</select>
@@ -1094,7 +1094,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 市</span>
 							<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-								<select name="address" id="add" <c:if test="${fn:contains(errorField,'地址')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('地址')"
+								<select name="address" id="add" <c:if test="${fn:contains(errorField,'地区')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('地区')"
 									</c:if>>
 									<option value="">-请选择-</option>
 								</select>
@@ -1149,7 +1149,22 @@
 								<div class="cue" id="err_msg_timeStartWork"></div>
 							</div>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+						
+						<c:if test="${expert.expertsFrom eq 'ARMY'}">
+		                    <li class="col-md-3 col-sm-6 col-xs-12"><span
+		                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5" ><i class="red">*</i>有无专业技术职称</span>
+		                        <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+		                            <select name="teachTitle" id="teachTitle"  >
+		                                <option  value="">-请选择-</option>
+		                                    <option <c:if test="${expert.teachTitle == 1}">selected="selected"</c:if>  value="1">有</option>
+		                                     <option <c:if test="${expert.teachTitle == 2}">selected="selected"</c:if>  value="2">无</option>
+		                            </select>
+		                        </div>
+		                    </li>
+		                </c:if>
+                
+                
+					<li class="col-md-3 col-sm-6 col-xs-12" id="profession_title"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i>专业技术职称</span>
 							<!--/执业资格  -->
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -1160,7 +1175,7 @@
 								<div class="cue" id="err_msg_professTechTitles"></div>
 							</div>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+						<li class="col-md-3 col-sm-6 col-xs-12" id="profession_pic"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 专业技术职称证书</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'专业技术职称证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专业技术职称证书')"
 								</c:if>>
@@ -1168,7 +1183,7 @@
 								<u:show showId="show4" groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
 							</div>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+						<li class="col-md-3 col-sm-6 col-xs-12" id="profession_date"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 取得技术职称时间</span>
 							<!--/职业资格时间  -->
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -1388,7 +1403,17 @@
 	</body>
 	<script type="text/javascript">
 		(function() {
-
+			var teachTitle="${expert.teachTitle}";
+			if(teachTitle=="1"){
+				$("#profession_pic").show();
+				 $("#profession_title").show();
+				 $("#profession_date").show();
+			}else if(teachTitle=="2"){
+				$("#profession_pic").hide();
+				 $("#profession_title").hide();
+				 $("#profession_date").hide();
+			}
+			
 			$("#coverNote").change(function() {
 				if($(this).val() == "1") {
 					$("#sbzm").text("缴纳社会保险证明");
@@ -1401,6 +1426,22 @@
 				}
 			});
 
+			
+			$("#teachTitle").change(function() {
+				if($(this).val() == "1") {
+					 $("#profession_pic").show();
+					 $("#profession_title").show();
+					 $("#profession_date").show();
+				} else {
+					$("#profession_pic").hide();
+					 $("#profession_title").hide();
+					 $("#profession_date").hide();
+				}
+			});
+			
+			
+			
+			
 			if($("#isReferenceLftter").val() == "1") {
 				$("#tjx").show();
 				init_web_upload();

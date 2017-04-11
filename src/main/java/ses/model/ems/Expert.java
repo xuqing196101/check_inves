@@ -100,7 +100,17 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private Integer isTitle;
     
-    public Integer getIsTitle() {
+    private Integer teachTitle;
+    
+    public Integer getTeachTitle() {
+		return teachTitle;
+	}
+
+	public void setTeachTitle(Integer teachTitle) {
+		this.teachTitle = teachTitle;
+	}
+
+	public Integer getIsTitle() {
 		return isTitle;
 	}
 

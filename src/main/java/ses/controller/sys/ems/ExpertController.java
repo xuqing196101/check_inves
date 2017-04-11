@@ -352,6 +352,7 @@ public class ExpertController extends BaseController {
                 expert.setExpertsFrom(DictionaryDataUtil.getId("LOCAL"));
                 user.setNetType(1);
             }
+            expert.setTeachTitle(1);
             userService.save(user, null);
 
             expert.setId(expertId);
@@ -415,9 +416,17 @@ public class ExpertController extends BaseController {
                                  Model model) throws Exception {
         login( userId,  response,  request,
             attr) ;
+     
+    	
         model.addAttribute("userId", userId);
         User user = userService.getUserById(userId);
         String typeId = user.getTypeId();
+     	Expert expert2 = service.selectByPrimaryKey(typeId);
+     	if(expert2.getTeachTitle()==null){
+     		expert2.setTeachTitle(1);
+     		service.updateByPrimaryKeySelective(expert2);
+     	}
+    	
         // 生成专家id
         String expertId = "";
         int flag = 0;
@@ -441,6 +450,11 @@ public class ExpertController extends BaseController {
             // 已提交未审核数据
             flag = 1;
         }
+        
+        if(expert.getTeachTitle()==null){
+    		expert.setTeachTitle(1);
+	    }
+        
         Map < String, Object > errorMap = service.Validate(expert, 3, null);
         expert.setExpertsFrom(dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom()).getCode());
         List<ExpertTitle> proList=new ArrayList<ExpertTitle>();
@@ -3326,6 +3340,18 @@ public class ExpertController extends BaseController {
         }
         dataMap.put("professTechTitles", expert.getProfessTechTitles() == null ? "" : expert.getProfessTechTitles());
         dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getMakeTechDate()));
+        
+        dataMap.put("teachTitle", expert.getTeachTitle() == null ? "无" : expert.getTeachTitle().equals(1) ? "有" : "无");
+        dataMap.put("title", expert.getIsTitle() == null ? "无" : expert.getIsTitle().equals(1) ? "有" : "无");
+//        if(expert.getProfessTechTitles()!=null){
+        	 if(expert.getTeachTitle()==1){
+          	   dataMap .put("success", "success");
+             } else{
+            	 dataMap .put("success", "error");
+             }
+//        }
+
+        
 //        dataMap.put("makeTechDate", expert.getTimeToWork() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeToWork()));
         
         String expertTypeId="";
@@ -3341,8 +3367,8 @@ public class ExpertController extends BaseController {
         	}
         }
        
-        List<ExpertTitle> list = expertTitleService.queryByUserId(expert.getId(),expertTypeId);
-        List<ExpertTitle> titlesList=new LinkedList<ExpertTitle>();
+        List<ExpertTitle>  list= expertTitleService.queryByUserId(expert.getId(),expertTypeId);
+     /*   List<ExpertTitle> titlesList=new LinkedList<ExpertTitle>();
         if(list.size()>0){
    			 dataMap.put("professional", list.get(0).getQualifcationTitle());
    		        dataMap.put("timeProfessional",   new SimpleDateFormat("yyyy-MM").format(list.get(0).getTitleTime()));
@@ -3353,11 +3379,11 @@ public class ExpertController extends BaseController {
         if(list.size()>1){
         	for(int i=0;i<list.size();i++){
         		if(i>0){
-        			  titlesList.add(list.get(i));
-        			 dataMap.put("list", titlesList);
-        		}
+        			  titlesList.add(list.get(i));*/
+        			 dataMap.put("list", list);
+     /*   		}
         	}
-        }
+        }*/
         
         StringBuffer expertType = new StringBuffer();
         if(expert.getExpertsTypeId() != null && !"".equals(expert.getExpertsTypeId())) {
@@ -3415,7 +3441,7 @@ public class ExpertController extends BaseController {
         String fileName = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
             "UTF-8");
         /** 生成word 返回文件名 */
-        String newFileName = WordUtil.createWord(dataMap, "expert3.ftl",
+        String newFileName = WordUtil.createWord(dataMap, "expert4.ftl",
             fileName, request);
       //  FileUtil.removeStash(realpath+path.substring(path.lastIndexOf("/"),  path.length()), request);
         return newFileName;

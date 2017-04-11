@@ -392,6 +392,8 @@
 			  <button class="btn btn-windows check" onclick="auditPersonSets()">审核人员设置</button>
 				<button class="btn btn-windows check" onclick="audit()">审核</button>
 				<button class="btn btn-windows input" onclick="down()">下载打印</button>
+			<!-- 	<button class="btn btn-windows input" onclick="org()">采购机构</button>
+				<button class="btn btn-windows input" onclick="xqbm()">需求部门</button> -->
 				<!-- <button class="btn btn-windows print" onclick="print()">打印</button> -->
 			</div>
 			<div class="content table_box">

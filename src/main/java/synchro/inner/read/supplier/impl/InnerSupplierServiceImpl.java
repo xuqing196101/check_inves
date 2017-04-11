@@ -164,22 +164,23 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     	   if(supplier.getListSupplierFinances().size()>0){
     		   for(SupplierFinance sf:supplier.getListSupplierFinances()){
     			   SupplierFinance unfinance = supplierFinanceMapper.selectByPrimaryKey(sf.getId());
-    			   
-    			   if(sf.getListUploadFiles().size()>0){
-    				   for(UploadFile uf:sf.getListUploadFiles()){
-    					   UploadFile ufile = fileUploadMapper.findById(uf.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
-    					   if(ufile==null){
-    						   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
-        	    			   fileUploadMapper.insertFile(uf);
-    					   }
-    	    			   
-    	    		   }
-    			   }
     			   if(unfinance==null){
     				   supplierFinanceMapper.insertSelective(sf);
     			   }
     		   }
     	   }
+    	   
+		   if(supplier.getAttchList().size()>0){
+			   for(UploadFile uf:supplier.getAttchList()){
+				   UploadFile ufile = fileUploadMapper.findById(uf.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+				   if(ufile==null){
+					   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+	    			   fileUploadMapper.insertFile(uf);
+				   }
+    			   
+    		   }
+		   }
+		   
     	   if(supplier.getAddressList().size()>0){
     			   supplierAddressService.addList(supplier.getAddressList(), supplier.getId());
     	   }

@@ -62,7 +62,7 @@
         <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
         <result column="IS_ADD_EXPERT" jdbcType="DECIMAL" property="isAddExpert" />
  	    <result column="IS_TITLE" property="isTitle" />
-
+		<result column="TEACH_TITLE" property="teachTitle" />
     </resultMap>
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
@@ -90,7 +90,7 @@
         IS_REFERENCE_LETTER,
         PROFESSIONAL,
         TIME_PROFESSIONAL,
-        IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE
+        IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -120,7 +120,7 @@
         e.AUDIT_AT,
         e.IS_REFERENCE_LETTER,
         e.PROFESSIONAL,
-        e.TIME_PROFESSIONAL,e.IS_PUBLISH,e.IS_ADD_EXPERT,e.IS_TITLE
+        e.TIME_PROFESSIONAL,e.IS_PUBLISH,e.IS_ADD_EXPERT,e.IS_TITLE,e.TEACH_TITLE
     </sql>
     <!-- 获取所有专家,仅用作定时删除无效专家 -->
     <select id="getAllExpert" resultMap="BaseResultMap">
@@ -448,6 +448,9 @@
 			<if test="isTitle != null">
                 IS_TITLE,
             </if>
+            <if test="teachTitle != null">
+                TEACH_TITLE,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -612,6 +615,10 @@
 			<if test="isTitle != null">
                 #{isTitle},
             </if>
+             <if test="teachTitle != null">
+                #{teachTitle},
+            </if>
+            
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.Expert">
@@ -783,6 +790,9 @@
             </if>
              <if test="isTitle != null">
                 IS_TITLE = #{isTitle},
+            </if>
+             <if test="teachTitle != null">
+                TEACH_TITLE = #{teachTitle},
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
@@ -956,6 +966,9 @@
             </if>
              <if test="isTitle != null">
                 IS_TITLE = #{isTitle},
+            </if>
+             <if test="teachTitle != null">
+                TEACH_TITLE = #{teachTitle},
             </if>
         </set>
         where
