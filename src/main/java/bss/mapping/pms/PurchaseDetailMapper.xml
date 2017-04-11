@@ -940,6 +940,14 @@
 			<if test="uniqueId !=null">
 				and UNIQUE_ID =#{uniqueId}
 			</if>
+			
+			<if test="organization !=null">
+				and ORGANIZATION_ID =#{organization}
+			</if>
+			
+			<if test="department !=null">
+				and DEPARTMENT =#{department}
+			</if>
 		</where>
 			ORDER BY IS_MASTER
 	</select>

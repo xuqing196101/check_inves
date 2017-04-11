@@ -235,9 +235,9 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
     }
 
     @Override
-    public List<PurchaseDetail> getUnique(String unique) {
+    public List<PurchaseDetail> getUnique(String unique,String org,String dep) {
         // TODO Auto-generated method stub
-        return purchaseDetailMapper.getByUinuqeId(unique);
+        return purchaseDetailMapper.getByUinuqeId(unique,org,dep);
     }
 
     @Override
@@ -256,6 +256,15 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 	public List<PurchaseDetail> getUniqueId(String uniqueId) {
 		// TODO Auto-generated method stub
 		return purchaseDetailMapper.getUniqueId(uniqueId);
+	}
+
+	@Override
+	public List<String> queryDepartment(String uniqueId,Integer page) {
+		List<String> list=new ArrayList<String>();
+		list.add(uniqueId);
+		 PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
+		List<String> departMents = purchaseDetailMapper.queryDepartMent(list);
+		return departMents;
 	}
 
 }

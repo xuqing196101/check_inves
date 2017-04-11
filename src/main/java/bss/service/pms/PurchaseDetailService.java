@@ -242,7 +242,7 @@ public interface PurchaseDetailService {
     * @return List<PurchaseDetail>     
     * @throws
      */
-    List<PurchaseDetail> getUnique(String unique); 
+    List<PurchaseDetail> getUnique(String unique,String org,String dep); 
     
     /**
      * 
@@ -281,6 +281,17 @@ public interface PurchaseDetailService {
      */
     List<PurchaseDetail> getUniqueId(String uniqueId);
     
+    /**
+     * 
+    * @Title: queryDepartment
+    * @Description: 查询所有的需求部门 
+    * author: Li Xiaoxiao 
+    * @param @param uniqueId
+    * @param @return     
+    * @return List<String>     
+    * @throws
+     */
+    List<String> queryDepartment(String uniqueId,Integer page);
     
     
 }

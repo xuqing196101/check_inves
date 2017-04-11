@@ -187,7 +187,7 @@ public class TaskAdjustController extends BaseController{
 		
 		
 		//所有明细
-		List<PurchaseDetail> list = purchaseDetailService.getUnique(task.getCollectId());
+		List<PurchaseDetail> list = purchaseDetailService.getUnique(task.getCollectId(),null,null);
 		model.addAttribute("list", list);
 		
 		HashMap<String, Object> map = new HashMap<>();
@@ -348,7 +348,7 @@ public class TaskAdjustController extends BaseController{
    */
   @RequestMapping("/pledit")
   public String planEdit(String planNo,Model model,String id) {
-		List<PurchaseDetail> list = purchaseDetailService.getUnique(id);
+		List<PurchaseDetail> list = purchaseDetailService.getUnique(id,null,null);
 		model.addAttribute("list", list);
 		
 		HashMap<String, Object> map = new HashMap<>();

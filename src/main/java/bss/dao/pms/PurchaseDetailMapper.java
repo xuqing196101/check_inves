@@ -274,7 +274,7 @@ public interface PurchaseDetailMapper {
     * @return List<PurchaseDetail>     
     * @throws
      */
-    List<PurchaseDetail> getByUinuqeId(@Param("uniqueId")String uniqueId);
+    List<PurchaseDetail> getByUinuqeId(@Param("uniqueId")String uniqueId,@Param("organization")String organization,@Param("department")String department);
     
     /**
      * 

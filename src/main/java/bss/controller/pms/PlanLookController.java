@@ -13,6 +13,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.maven.model.Organization;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -191,7 +192,7 @@ public class PlanLookController extends BaseController {
         List<String> list = conllectPurchaseService.getNo(id);
  
         
-    	List<PurchaseDetail> listp = purchaseDetailService.getUnique(id);
+    	List<PurchaseDetail> listp = purchaseDetailService.getUnique(id,null,null);
 		
 		model.addAttribute("list", listp);
 		
@@ -279,7 +280,7 @@ public class PlanLookController extends BaseController {
 		map.put("typeName", 1);
 	 List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		
-	 List<PurchaseDetail> listp = purchaseDetailService.getUnique(id);
+	 List<PurchaseDetail> listp = purchaseDetailService.getUnique(id,null,null);
 //        List<String> list = conllectPurchaseService.getNo(id);
 //        if(list != null && list.size() > 0){
 //            for(String s:list){
@@ -323,7 +324,7 @@ public class PlanLookController extends BaseController {
 		
 		
 		
-		List<PurchaseDetail> list =purchaseDetailService.getUnique(id);
+		List<PurchaseDetail> list =purchaseDetailService.getUnique(id,null,null);
 		
 		model.addAttribute("list", list);
 		HashMap<String,Object> map=new HashMap<String,Object>();
@@ -356,7 +357,7 @@ public class PlanLookController extends BaseController {
 		map.put("typeName", 1);
 		  List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		
-		  List<PurchaseDetail> listO = purchaseDetailService.getUnique(id);
+		  List<PurchaseDetail> listO = purchaseDetailService.getUnique(id,null,null);
 		  PurchaseRequired required = purchaseRequiredService.queryById(listO.get(0).getId());
 
 		   List<PurchaseManagement> pm = purchaseManagementService.queryByPid(required.getUniqueId());
@@ -400,7 +401,7 @@ public class PlanLookController extends BaseController {
 			
 		}*/
 		
-		List<PurchaseDetail> list = purchaseDetailService.getUnique(id);
+		List<PurchaseDetail> list = purchaseDetailService.getUnique(id,null,null);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("org",orgs);
@@ -506,7 +507,7 @@ public class PlanLookController extends BaseController {
 	 */
 	@RequestMapping("/report")
 	public String report(String id,Model model){
-		List<PurchaseDetail> details = purchaseDetailService.getUnique(id);
+		List<PurchaseDetail> details = purchaseDetailService.getUnique(id,null,null);
 //		CollectPlan plan = collectPlanService.queryById(id);
 		model.addAttribute("details", details);
 		return "bss/pms/collect/pdf";
@@ -710,13 +711,35 @@ public class PlanLookController extends BaseController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     } 
 	
+	/**
+	 * 
+	* @Title: print
+	* @Description:  需求部门和采购机构 
+	* author: Li Xiaoxiao 
+	* @param @return     
+	* @return String     
+	* @throws
+	 */
+	@RequestMapping("/organddep")
+	public String print(String uniqueId,Model model,Integer page){
+		List<String> department = purchaseDetailService.queryDepartment(uniqueId,page==null?1:page);
+		PageInfo<String> info = new PageInfo<String>(department);
+		List<String> orgs = purchaseDetailService.queryOrg(uniqueId);
+		List<Orgnization> list=new ArrayList<Orgnization>();
+		for(String org:orgs){
+			Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(org);
+			list.add(orgnization);
+		}
+		model.addAttribute("info", info);
+		model.addAttribute("list", list);
+		model.addAttribute("uniqueId", uniqueId);
+		return "bss/pms/collect/groupdown";
+	}
 	
     @RequestMapping("/excel")
 	@ResponseBody
-	public String excel(HttpServletRequest request,HttpServletResponse response,String uniqueId) throws UnsupportedEncodingException{
-    	List<PurchaseDetail> list = purchaseDetailService.getUnique(uniqueId);
- 
-		
+	public String excel(HttpServletRequest request,HttpServletResponse response,String uniqueId,String flag,String org,String dep) throws UnsupportedEncodingException{
+    	List<PurchaseDetail> list = purchaseDetailService.getUnique(uniqueId,org,dep);
 		String filedisplay = "明细.xls";
 		response.addHeader("Content-Disposition", "attachment;filename="  + new String(filedisplay.getBytes("gb2312"), "iso8859-1"));
 		HSSFWorkbook workbook = new HSSFWorkbook();

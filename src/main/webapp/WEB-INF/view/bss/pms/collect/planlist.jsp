@@ -25,9 +25,6 @@
 						if(!first) { //一定要加此判断，否则初始时会无限刷新
 							$("#page").val(e.curr);
 							$("#add_form").submit();
-
-							<%--  location.href = '<%=basePath%>
-							purchaser / list.do ? page = '+e.curr; --%>
 						}
 					}
 				});
@@ -74,7 +71,23 @@
 					id.push($(this).val());
 				});
 				if(id.length == 1) {
-					window.location.href = "${pageContext.request.contextPath }/set/excel.html?id=" + id;
+					
+					// window.location.href = "${pageContext.request.contextPath }/set/excel.html?id=" + id;
+					
+					  layer.open({
+						  type: 2, //page层
+						  area: ['30%', '50%'],
+						  title: '下载',
+						  closeBtn: 1,
+						  shade:0.01, //遮罩透明度
+						  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+						  shift: 1, //0-6的动画形式，-1不开启
+						  offset: ['100px', '30%'],
+						  content:  "${pageContext.request.contextPath }/look/organddep.html?uniqueId=" + id,
+						});
+					  
+					
+					
 				} else if(id.length > 1) {
 					layer.alert("只能选择一个", {
 						offset: ['222px', '390px'],

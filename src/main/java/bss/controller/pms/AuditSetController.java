@@ -374,8 +374,12 @@ public class AuditSetController {
 	 */
 	@RequestMapping("/excel")
 	@ResponseBody
-	public String excel(HttpServletRequest request,HttpServletResponse response,CollectPlan collectPlan) throws UnsupportedEncodingException{
+	public String excel(HttpServletRequest request,HttpServletResponse response,CollectPlan collectPlan,String org,String dep) throws UnsupportedEncodingException{
 		CollectPlan plan = collectPlanService.queryById(collectPlan.getId());
+		if(dep!=null){
+			dep=new String(dep.getBytes("ISO-8859-1"),"UTF-8");
+		}
+
 //		collectPlan.setPlanNo("001");
 		
 //		List<String> no = collectPurchaseService.getNo(collectPlan.getId());
@@ -412,7 +416,9 @@ public class AuditSetController {
 //				bean.add(s);
 //			}
 //		}
-		List<PurchaseDetail> list = purchaseDetailService.getUnique(plan.getId());
+		List<PurchaseDetail> list = purchaseDetailService.getUnique(plan.getId(),org,dep);
+		
+		
 		
 		String filedisplay = "明细.xls";
 		response.addHeader("Content-Disposition", "attachment;filename="  + new String(filedisplay.getBytes("gb2312"), "iso8859-1"));

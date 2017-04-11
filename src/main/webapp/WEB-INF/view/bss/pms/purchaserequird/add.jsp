@@ -212,7 +212,21 @@
 				var bool= details();
 				
 			      var dy=dyly();  
-			    var ptype=purchaseType();
+			   var ptype=true;
+			    
+			   /*var bool=true; */
+			    $("#table tr").each(function(){
+			    	var  price= $(this).find("td:eq(8)").children(":first").next().val();//上级id
+			    	if($.trim(price) !=""){
+			    		var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
+				    	  if($.trim(type) == "") {
+				    		  ptype=false;
+				    	  }
+			    	}
+			    	
+			    });
+			    
+			    
 				/* var seq=seqs(); */
 			 if(orgType!='0'){
 				 layer.msg("请用需求部门编制采购计划！"); 
@@ -1179,6 +1193,7 @@
 			    	var  price= $(this).parent().parent().find("td:eq(8)").children(":first").next().val();//上级id
 			    	if($.trim(price) !=""){
 			    		var  type= $(this).parent().parent().find("td:eq(11)").children(":first").val();//上级id
+			    		alert(type);
 				    	  if($.trim(type) == "") {
 				    			  bool=false;
 				    	  }
