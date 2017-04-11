@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ses.dao.sms.SMSProductInfoMapper" >
+  <resultMap id="BaseResultMap" type="ses.model.sms.SMSProductInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PICTURE_SUB" property="pictureSub" jdbcType="VARCHAR" />
+    <result column="ARGUMENTS_ID" property="argumentsId" jdbcType="VARCHAR" />
+    <result column="DETAIL_LIST" property="detailList" jdbcType="VARCHAR" />
+    <result column="HISTORY_PRICE" property="historyPrice" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="PROUDCT_BASIC_ID" property="proudctBasicId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="ses.model.sms.SMSProductInfo" extends="BaseResultMap" >
+    <result column="INTRODUCE" property="introduce" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PICTURE_SUB, ARGUMENTS_ID, DETAIL_LIST, HISTORY_PRICE, REMARK, CREATED_AT, UPDATED_AT, 
+    PROUDCT_BASIC_ID
+  </sql>
+  <sql id="Blob_Column_List" >
+    INTRODUCE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from T_SES_SMS_PRODUCT_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_SES_SMS_PRODUCT_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.SMSProductInfo" >
+    insert into T_SES_SMS_PRODUCT_INFO (ID, PICTURE_SUB, ARGUMENTS_ID, 
+      DETAIL_LIST, HISTORY_PRICE, REMARK, 
+      CREATED_AT, UPDATED_AT, PROUDCT_BASIC_ID, 
+      INTRODUCE)
+    values (#{id,jdbcType=VARCHAR}, #{pictureSub,jdbcType=VARCHAR}, #{argumentsId,jdbcType=VARCHAR}, 
+      #{detailList,jdbcType=VARCHAR}, #{historyPrice,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{proudctBasicId,jdbcType=VARCHAR}, 
+      #{introduce,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.SMSProductInfo" >
+    insert into T_SES_SMS_PRODUCT_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="pictureSub != null" >
+        PICTURE_SUB,
+      </if>
+      <if test="argumentsId != null" >
+        ARGUMENTS_ID,
+      </if>
+      <if test="detailList != null" >
+        DETAIL_LIST,
+      </if>
+      <if test="historyPrice != null" >
+        HISTORY_PRICE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+      <if test="proudctBasicId != null" >
+        PROUDCT_BASIC_ID,
+      </if>
+      <if test="introduce != null" >
+        INTRODUCE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureSub != null" >
+        #{pictureSub,jdbcType=VARCHAR},
+      </if>
+      <if test="argumentsId != null" >
+        #{argumentsId,jdbcType=VARCHAR},
+      </if>
+      <if test="detailList != null" >
+        #{detailList,jdbcType=VARCHAR},
+      </if>
+      <if test="historyPrice != null" >
+        #{historyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proudctBasicId != null" >
+        #{proudctBasicId,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        #{introduce,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SMSProductInfo" >
+    update T_SES_SMS_PRODUCT_INFO
+    <set >
+      <if test="pictureSub != null" >
+        PICTURE_SUB = #{pictureSub,jdbcType=VARCHAR},
+      </if>
+      <if test="argumentsId != null" >
+        ARGUMENTS_ID = #{argumentsId,jdbcType=VARCHAR},
+      </if>
+      <if test="detailList != null" >
+        DETAIL_LIST = #{detailList,jdbcType=VARCHAR},
+      </if>
+      <if test="historyPrice != null" >
+        HISTORY_PRICE = #{historyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proudctBasicId != null" >
+        PROUDCT_BASIC_ID = #{proudctBasicId,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null" >
+        INTRODUCE = #{introduce,jdbcType=CLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="ses.model.sms.SMSProductInfo" >
+    update T_SES_SMS_PRODUCT_INFO
+    set PICTURE_SUB = #{pictureSub,jdbcType=VARCHAR},
+      ARGUMENTS_ID = #{argumentsId,jdbcType=VARCHAR},
+      DETAIL_LIST = #{detailList,jdbcType=VARCHAR},
+      HISTORY_PRICE = #{historyPrice,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      PROUDCT_BASIC_ID = #{proudctBasicId,jdbcType=VARCHAR},
+      INTRODUCE = #{introduce,jdbcType=CLOB}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.SMSProductInfo" >
+    update T_SES_SMS_PRODUCT_INFO
+    set PICTURE_SUB = #{pictureSub,jdbcType=VARCHAR},
+      ARGUMENTS_ID = #{argumentsId,jdbcType=VARCHAR},
+      DETAIL_LIST = #{detailList,jdbcType=VARCHAR},
+      HISTORY_PRICE = #{historyPrice,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      PROUDCT_BASIC_ID = #{proudctBasicId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

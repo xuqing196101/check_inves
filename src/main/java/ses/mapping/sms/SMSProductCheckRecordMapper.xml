@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ses.dao.sms.SMSProductCheckRecordMapper" >
+  <resultMap id="BaseResultMap" type="ses.model.sms.SMSProductCheckRecord" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PRODUCT_BASIC_ID" property="productBasicId" jdbcType="VARCHAR" />
+    <result column="CREATED_ID" property="createdId" jdbcType="VARCHAR" />
+    <result column="ADVICE" property="advice" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PRODUCT_BASIC_ID, CREATED_ID, ADVICE, REMARK, CREATED_AT, UPDATED_AT, IS_DELETED
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_PRODUCT_CHECK_RECORD
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_SES_SMS_PRODUCT_CHECK_RECORD
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.SMSProductCheckRecord" >
+    insert into T_SES_SMS_PRODUCT_CHECK_RECORD (ID, PRODUCT_BASIC_ID, CREATED_ID, 
+      ADVICE, REMARK, CREATED_AT, 
+      UPDATED_AT, IS_DELETED)
+    values (#{id,jdbcType=VARCHAR}, #{productBasicId,jdbcType=VARCHAR}, #{createdId,jdbcType=VARCHAR}, 
+      #{advice,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.SMSProductCheckRecord" >
+    insert into T_SES_SMS_PRODUCT_CHECK_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="productBasicId != null" >
+        PRODUCT_BASIC_ID,
+      </if>
+      <if test="createdId != null" >
+        CREATED_ID,
+      </if>
+      <if test="advice != null" >
+        ADVICE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="productBasicId != null" >
+        #{productBasicId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdId != null" >
+        #{createdId,jdbcType=VARCHAR},
+      </if>
+      <if test="advice != null" >
+        #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SMSProductCheckRecord" >
+    update T_SES_SMS_PRODUCT_CHECK_RECORD
+    <set >
+      <if test="productBasicId != null" >
+        PRODUCT_BASIC_ID = #{productBasicId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdId != null" >
+        CREATED_ID = #{createdId,jdbcType=VARCHAR},
+      </if>
+      <if test="advice != null" >
+        ADVICE = #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.SMSProductCheckRecord" >
+    update T_SES_SMS_PRODUCT_CHECK_RECORD
+    set PRODUCT_BASIC_ID = #{productBasicId,jdbcType=VARCHAR},
+      CREATED_ID = #{createdId,jdbcType=VARCHAR},
+      ADVICE = #{advice,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

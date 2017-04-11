@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ses.dao.sms.SMSProductBasicMapper" >
+  <resultMap id="BaseResultMap" type="ses.model.sms.SMSProductBasic" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="TYPE_NUM" property="typeNum" jdbcType="VARCHAR" />
+    <result column="PICTURE_MAJOR" property="pictureMajor" jdbcType="VARCHAR" />
+    <result column="STORE" property="store" jdbcType="DECIMAL" />
+    <result column="SKU" property="sku" jdbcType="VARCHAR" />
+    <result column="PRODUCT_STATUS" property="productStatus" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CATEGORY_ID, BRAND, NAME, PRICE, TYPE_NUM, PICTURE_MAJOR, STORE, SKU, PRODUCT_STATUS, 
+    STATUS, IS_DELETED, REMARK, CREATED_AT, UPDATED_AT, CREATER_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_PRODUCT_BASIC
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_SES_SMS_PRODUCT_BASIC
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.SMSProductBasic" >
+    insert into T_SES_SMS_PRODUCT_BASIC (ID, CATEGORY_ID, BRAND, 
+      NAME, PRICE, TYPE_NUM, 
+      PICTURE_MAJOR, STORE, SKU, 
+      PRODUCT_STATUS, STATUS, IS_DELETED, 
+      REMARK, CREATED_AT, UPDATED_AT, 
+      CREATER_ID)
+    values (#{id,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{typeNum,jdbcType=VARCHAR}, 
+      #{pictureMajor,jdbcType=VARCHAR}, #{store,jdbcType=DECIMAL}, #{sku,jdbcType=VARCHAR}, 
+      #{productStatus,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, #{isDeleted,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{createrId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.SMSProductBasic" >
+    insert into T_SES_SMS_PRODUCT_BASIC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="brand != null" >
+        BRAND,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="typeNum != null" >
+        TYPE_NUM,
+      </if>
+      <if test="pictureMajor != null" >
+        PICTURE_MAJOR,
+      </if>
+      <if test="store != null" >
+        STORE,
+      </if>
+      <if test="sku != null" >
+        SKU,
+      </if>
+      <if test="productStatus != null" >
+        PRODUCT_STATUS,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+      <if test="createrId != null" >
+        CREATER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="typeNum != null" >
+        #{typeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureMajor != null" >
+        #{pictureMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="store != null" >
+        #{store,jdbcType=DECIMAL},
+      </if>
+      <if test="sku != null" >
+        #{sku,jdbcType=VARCHAR},
+      </if>
+      <if test="productStatus != null" >
+        #{productStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SMSProductBasic" >
+    update T_SES_SMS_PRODUCT_BASIC
+    <set >
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        BRAND = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="typeNum != null" >
+        TYPE_NUM = #{typeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureMajor != null" >
+        PICTURE_MAJOR = #{pictureMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="store != null" >
+        STORE = #{store,jdbcType=DECIMAL},
+      </if>
+      <if test="sku != null" >
+        SKU = #{sku,jdbcType=VARCHAR},
+      </if>
+      <if test="productStatus != null" >
+        PRODUCT_STATUS = #{productStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null" >
+        CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.SMSProductBasic" >
+    update T_SES_SMS_PRODUCT_BASIC
+    set CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      BRAND = #{brand,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      TYPE_NUM = #{typeNum,jdbcType=VARCHAR},
+      PICTURE_MAJOR = #{pictureMajor,jdbcType=VARCHAR},
+      STORE = #{store,jdbcType=DECIMAL},
+      SKU = #{sku,jdbcType=VARCHAR},
+      PRODUCT_STATUS = #{productStatus,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      CREATER_ID = #{createrId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

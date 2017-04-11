@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ses.dao.sms.SMSProductArgumentsMapper" >
+  <resultMap id="BaseResultMap" type="ses.model.sms.SMSProductArguments" >
+    <result column="ARGUMENTS_ID" property="argumentsId" jdbcType="VARCHAR" />
+    <result column="CATEGORY_PARAMETER_ID" property="categoryParameterId" jdbcType="VARCHAR" />
+    <result column="PARAMETER_VALUE" property="parameterValue" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <insert id="insert" parameterType="ses.model.sms.SMSProductArguments" >
+    insert into T_SES_SMS_PRODUCT_ARGUMENTS (ARGUMENTS_ID, CATEGORY_PARAMETER_ID, 
+      PARAMETER_VALUE, REMARK, CREATED_AT, 
+      UPDATED_AT)
+    values (#{argumentsId,jdbcType=VARCHAR}, #{categoryParameterId,jdbcType=VARCHAR}, 
+      #{parameterValue,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.SMSProductArguments" >
+    insert into T_SES_SMS_PRODUCT_ARGUMENTS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="argumentsId != null" >
+        ARGUMENTS_ID,
+      </if>
+      <if test="categoryParameterId != null" >
+        CATEGORY_PARAMETER_ID,
+      </if>
+      <if test="parameterValue != null" >
+        PARAMETER_VALUE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="argumentsId != null" >
+        #{argumentsId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryParameterId != null" >
+        #{categoryParameterId,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterValue != null" >
+        #{parameterValue,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>
