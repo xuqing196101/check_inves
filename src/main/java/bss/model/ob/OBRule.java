@@ -47,6 +47,12 @@ public class OBRule {
     /**最少供应商数量**/
     private Integer leastSupplierNum;
     
+    
+    /**二次报价时间**/
+    private Integer quoteTimeSecond;
+    /**有效百分比**/
+    private Integer percent;
+    
     public String getId() {
         return id;
     }
@@ -158,6 +164,21 @@ public class OBRule {
 	public void setLeastSupplierNum(Integer leastSupplierNum) {
 		this.leastSupplierNum = leastSupplierNum;
 	}
-    
+
+	public Integer getQuoteTimeSecond() {
+		return quoteTimeSecond;
+	}
+
+	public void setQuoteTimeSecond(Integer quoteTimeSecond) {
+		this.quoteTimeSecond = quoteTimeSecond;
+	}
+
+	public Integer getPercent() {
+		return percent;
+	}
+
+	public void setPercent(Integer percent) {
+		this.percent = percent;
+	}
     
 }

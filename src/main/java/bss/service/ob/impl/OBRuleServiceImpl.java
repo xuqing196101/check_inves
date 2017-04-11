@@ -41,8 +41,8 @@ public class OBRuleServiceImpl implements OBRuleService {
 	Logger log = LoggerFactory.getLogger(OBRuleServiceImpl.class);
 
 	@Autowired
-	private OBRuleMapper obRuleMapper;
 
+	private OBRuleMapper obRuleMapper;
 	@Autowired
 	private OBSpecialDateMapper obSpecialDateMapper;
 
@@ -80,6 +80,9 @@ public class OBRuleServiceImpl implements OBRuleService {
 		if (obRule.getQuoteTime() == null || "".equals(obRule.getQuoteTime())) {
 			return JdcgResult.build(500, "报价时间不能为空");
 		}
+		if (obRule.getQuoteTimeSecond() == null || "".equals(obRule.getQuoteTimeSecond())) {
+			return JdcgResult.build(500, "二次报价时间不能为空");
+		}
 		// 确认时间(第一轮)
 		if (obRule.getConfirmTime() == null
 				|| "".equals(obRule.getConfirmTime())) {
@@ -89,6 +92,17 @@ public class OBRuleServiceImpl implements OBRuleService {
 		if (obRule.getConfirmTimeSecond() == null
 				|| "".equals(obRule.getConfirmTimeSecond())) {
 			return JdcgResult.build(500, "确认时间(第二轮)不能为空");
+		}
+		if (obRule.getLeastSupplierNum() == null || "".equals(obRule.getLeastSupplierNum())) {
+			return JdcgResult.build(500, "最少供应商数量不能为空");
+		}
+		
+		if (obRule.getPercent() == null || "".equals(obRule.getPercent())) {
+			return JdcgResult.build(500, "有效百分比不能为空");
+		}
+		
+		if ("00".equals(obRule.getPercent().toString().substring(0, 2))) {
+			return JdcgResult.build(500, "输入格式有误");
 		}
 		// 校验表单提交数据结束
 		if (user == null) {

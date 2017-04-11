@@ -256,9 +256,11 @@
 		  <th class="info">间隔工作日<br>（天）</th>
 		  <th class="info">竞价开始<br>时间</th>
 		  <th class="info">报价时间（分钟）</th>
+		  <th class="info">二次报价时间（分钟）</th>
 		  <th class="info">确认时间（第一轮）<br>（分钟）</th>
 		  <th class="info">确认时间（第二轮）<br>（分钟）</th>
 		  <th class="info">最少供应商数量</th>
+		  <th class="info">有效百分比</th>
 		  <th class="info">项目数量</th>
 		  <th class="info">是否为<br>默认</th>
 		</tr>
@@ -272,9 +274,11 @@
 			  <td class="tc">${obRule.intervalWorkday}</td>
 			  <td class="tc"><fmt:formatDate value="${obRule.definiteTime}" pattern="HH:mm:ss"/></td>
 			  <td class="tc">${obRule.quoteTime}</td>
+			  <td class="tc">${obRule.quoteTimeSecond}</td>
 			  <td class="tc">${obRule.confirmTime}</td>
 			  <td class="tc">${obRule.confirmTimeSecond}</td>
 			  <td class="tc">${obRule.leastSupplierNum}</td>
+			  <td class="tc">${obRule.percent}%</td>
 			  <td class="tc">${obRule.bidingCount}</td>
 			  <td class="tc">
 				<c:if test="${ obRule.status == 1 }">

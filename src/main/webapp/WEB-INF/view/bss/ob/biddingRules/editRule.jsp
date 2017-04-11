@@ -15,9 +15,11 @@
 		$("#intervalWorkdayErr").html("");
 		$("#definiteTimeErr").html("");
 		$("#quoteTimeErr").html("");
+		$("#quoteTimeSecondErr").html("");
 		$("#confirmTimeErr").html("");
 		$("#confirmTimeSecondErr").html("");
 		$("#leastSupplierNumErr").html("");
+		$("#percentErr").html("");
 		
 		if($("#name").val()==''){
 			$("#nameErr").html("*请输入竞价规则名称");
@@ -45,6 +47,11 @@
 		var quoteTimeStr = document.getElementById('quoteTime').value.trim();
 		if(quoteTimeStr.length==0){
 			$("#quoteTimeErr").html("*报价时间不能为空");
+			return;
+		}
+		var quoteTimeSecondStr = document.getElementById('quoteTimeSecond').value.trim();
+		if(quoteTimeSecondStr.length==0){
+			$("#quoteTimeSecondErr").html("*二次报价时间不能为空");
 			return;
 		}
 		if(quoteTimeStr.length!=0){
@@ -97,6 +104,28 @@
 				return;
 			}
 		}
+		
+		var percentStr = document.getElementById('percent').value.trim();
+		if(percentStr.length==0){
+			$("#percentErr").html("*有效百分比不能为空");
+			return;
+		}
+		if(percentStr.substr(0,2) == '00'){
+			$("#percentErr").html("*输入格式有误");
+			return;
+		}
+		
+		// 竞价开始时间
+		var beginTime = $("#d242").val();
+		var time = beginTime.split(":");
+		// 报价时间 确认时间第一轮 确认时间第二轮 确认时间第二轮 小时数
+		var totalMinute = parseInt(quoteTimeStr)+parseInt(quoteTimeSecondStr)+parseInt(confirmTimeStr)+parseInt(confirmTimeSecondStr)
+		var hour = toHourMinute(totalMinute);
+		var totalHour = parseInt(time[0]) + hour
+		if(totalHour >= 23){
+			layer.alert("结束时间不能超过23:59:59");
+			return;
+		}
 		 $.post("${pageContext.request.contextPath}/obrule/updateobRule.do", $("#ruleForm").serialize(), function(data) {
 				if (data.status == 200) {
 					layer.confirm(data.data,{
@@ -109,7 +138,14 @@
 				if(data.status == 500){
 					layer.alert(data.msg);
 				}
-			});  
+			});
+		// 分钟转换成时分
+		// 将分钟数量转换为小时和分钟字符串
+		function toHourMinute(minutes){
+			return Math.floor(minutes/60);
+		  // 也可以转换为json，以方便外部使用
+		  // return {hour:Math.floor(minutes/60),minute:(minutes%60)};
+		}
 	}
 </script>
 </head>
@@ -163,10 +199,13 @@
 					<div class="cue"><span><font id="quoteTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
-			 <!--  <td class="bggrey tr">二次报价时间（分钟）：</td>
-			    <td >
-			    	<input id="" name="" value="" type="text" class="mb0 border0">
-			   </td> -->
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>二次报价时间（分钟）：</span>
+			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+				    <input class="input_group" name="quoteTimeSecond" id="quoteTimeSecond" type="text" value="${ obRule.quoteTimeSecond }"  class="mb0 border0">
+					<div class="cue"><span><font id="quoteTimeSecondErr" style="color: red"></font></span></div>
+		       </div>
+			 </li>
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>确认时间（分钟）（第一轮）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
@@ -186,6 +225,13 @@
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
 				    <input class="input_group" name="leastSupplierNum" id="leastSupplierNum" type="text" value="${ obRule.leastSupplierNum }" class="mb0 border0" />
 					<div class="cue"><span><font id="leastSupplierNumErr" style="color: red"></font></span></div>
+		       </div>
+			 </li> 
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>有效百分比</span>
+			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+				    <input onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" value="${ obRule.percent }" id="percent" name="percent"> 
+					<div class="cue"><span><font id="percentErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
 		   </ul>

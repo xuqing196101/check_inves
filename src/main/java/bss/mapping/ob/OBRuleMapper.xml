@@ -16,6 +16,8 @@
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="CONFIRM_TIME_SECOND" property="confirmTimeSecond" jdbcType="DECIMAL" />
     <result column="LEAST_SUPPLIER_NUM" property="leastSupplierNum" jdbcType="DECIMAL" />
+    <result column="QUOTE_TIME_SECOND" property="quoteTimeSecond" jdbcType="DECIMAL" />
+    <result column="PERCENT" property="percent" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -77,7 +79,8 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, INTERVAL_WORKDAY, DEFINITE_TIME, QUOTE_TIME, CONFIRM_TIME, STATUS, CREATER_ID, 
-    REMARK, BIDING_COUNT, CREATED_AT, UPDATED_AT, NAME, CONFIRM_TIME_SECOND,LEAST_SUPPLIER_NUM
+    REMARK, BIDING_COUNT, CREATED_AT, UPDATED_AT, NAME, CONFIRM_TIME_SECOND,LEAST_SUPPLIER_NUM,QUOTE_TIME_SECOND,
+    PERCENT
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBRuleExample" >
     select
@@ -125,12 +128,13 @@
       QUOTE_TIME, CONFIRM_TIME, STATUS, 
       CREATER_ID, REMARK, BIDING_COUNT, 
       CREATED_AT, UPDATED_AT, NAME, 
-      CONFIRM_TIME_SECOND,LEAST_SUPPLIER_NUM)
+      CONFIRM_TIME_SECOND,LEAST_SUPPLIER_NUM,QUOTE_TIME_SECOND,PERCENT)
     values (#{id,jdbcType=VARCHAR}, #{intervalWorkday,jdbcType=DECIMAL}, #{definiteTime,jdbcType=TIMESTAMP}, 
       #{quoteTime,jdbcType=DECIMAL}, #{confirmTime,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
       #{createrId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{bidingCount,jdbcType=DECIMAL}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
-      #{confirmTimeSecond,jdbcType=DECIMAL},#{leastSupplierNum,jdbcType=DECIMAL})
+      #{confirmTimeSecond,jdbcType=DECIMAL},#{leastSupplierNum,jdbcType=DECIMAL},#{quoteTimeSecond,jdbcType=DECIMAL},
+      #{percent,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ob.OBRule" >
     insert into T_BSS_OB_RULE
@@ -319,8 +323,14 @@
       <if test="quoteTime != null" >
         QUOTE_TIME = #{quoteTime,jdbcType=DECIMAL},
       </if>
+      <if test="quoteTimeSecond != null" >
+        QUOTE_TIME_SECOND = #{quoteTimeSecond,jdbcType=DECIMAL},
+      </if>
       <if test="confirmTime != null" >
         CONFIRM_TIME = #{confirmTime,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmTimeSecond != null" >
+        CONFIRM_TIME_SECOND = #{confirmTimeSecond,jdbcType=DECIMAL},
       </if>
       <if test="status != null" >
         STATUS = #{status,jdbcType=DECIMAL},
@@ -343,11 +353,11 @@
       <if test="name != null" >
         NAME = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="confirmTimeSecond != null" >
-        CONFIRM_TIME_SECOND = #{confirmTimeSecond,jdbcType=DECIMAL},
-      </if>
       <if test="leastSupplierNum != null" >
-        LEAST_SUPPLIER_NUM = #{leastSupplierNum,jdbcType=DECIMAL}
+        LEAST_SUPPLIER_NUM = #{leastSupplierNum,jdbcType=DECIMAL},
+      </if>
+      <if test="percent != null" >
+        PERCENT = #{percent,jdbcType=DECIMAL}
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -357,6 +367,7 @@
     set INTERVAL_WORKDAY = #{intervalWorkday,jdbcType=DECIMAL},
       DEFINITE_TIME = #{definiteTime,jdbcType=TIMESTAMP},
       QUOTE_TIME = #{quoteTime,jdbcType=DECIMAL},
+      QUOTE_TIME_SECOND = #{quoteTimeSecond,jdbcType=DECIMAL},
       CONFIRM_TIME = #{confirmTime,jdbcType=DECIMAL},
       STATUS = #{status,jdbcType=DECIMAL},
       CREATER_ID = #{createrId,jdbcType=VARCHAR},
@@ -366,7 +377,8 @@
       UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       NAME = #{name,jdbcType=VARCHAR},
       CONFIRM_TIME_SECOND = #{confirmTimeSecond,jdbcType=DECIMAL},
-      LEAST_SUPPLIER_NUM = #{leastSupplierNum,jdbcType=DECIMAL}
+      LEAST_SUPPLIER_NUM = #{leastSupplierNum,jdbcType=DECIMAL},
+      PERCENT = #{percent,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
