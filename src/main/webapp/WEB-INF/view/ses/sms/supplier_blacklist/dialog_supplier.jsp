@@ -95,7 +95,7 @@
 							<th class="info">供应商名称</th>
 							<th class="info">联系人电话</th>
 							<th class="info">联系人手机</th>
-							<th class="info">公司地址</th>
+							<th class="info">所在地区</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -104,9 +104,9 @@
 								<td class="tc"><input name="id" type="radio" value="${supplier.id}"></td>
 								<td class="tc">${vs.index + 1}</td>
 								<td class="pl20">${supplier.supplierName}</td>
-								<td class="tc">${supplier.contactTelephone}</td>
 								<td class="tc">${supplier.contactMobile}</td>
-								<td class="pl20">${supplier.address}</td>
+								<td class="tc">${supplier.mobile}</td>
+								<td class="pl20">${supplier.area.name}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

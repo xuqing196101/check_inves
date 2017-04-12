@@ -25,7 +25,7 @@
 					//alert(e.curr);
 					$("input[name='page']").val(e.curr);
 					searchSupplierBlacklist(0);
-				}
+				} 
 			}
 		});	
 	});

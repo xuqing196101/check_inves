@@ -70,7 +70,10 @@ public class SupplierBlacklistController {
 				flag = false;
 				model.addAttribute("error_startTime", "起始时间不能为空");
 			}
-			if(null == supplierBlacklist.getReason()){
+			if(null == supplierBlacklist.getReason() || "".equals(supplierBlacklist.getReason())){
+				flag = false;
+				model.addAttribute("error_reason", "理由不能为空");
+			}else{
 				if(supplierBlacklist.getReason().length() > 800){
 					flag = false;
 					model.addAttribute("error_reason", "不能超过800字");

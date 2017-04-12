@@ -401,7 +401,12 @@
 		<tr>
 		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 		  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-		  <td><a href="${pageContext.request.contextPath }/product/view.html?productId=${product.id }">${product.name}</a></td>
+		  <td title="${product.name }">
+			  <a href="${pageContext.request.contextPath }/product/view.html?productId=${product.id }">
+			  	<c:if test="${fn:length(product.name) > 25 }">${fn:substring(product.name, 0, 25)}...</c:if>
+				<c:if test="${fn:length(product.name) <= 25 }">${product.name }</c:if>
+			  </a>
+		  </td>
 		  <td>${product.code}</td>
 		  <td class="tc" title = "${product.pointsName }" width="30%">${product.smallPoints.name }</td>
 		  <td class="tc" id = "${product.id }">

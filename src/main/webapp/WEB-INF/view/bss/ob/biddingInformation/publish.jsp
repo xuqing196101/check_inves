@@ -335,11 +335,15 @@
 		            var opts = $(this).combobox('options');  
 		            return row[opts.textField].indexOf(L) == 0;  
 		        },
-		        onSelect: function (obj) { 
+		        onSelect: function (obj) {
 		        	var list = new Array();
 		        	 if(obj.id != null){
 		        		$.each(productList, function(index, value) {
-		        			if(obj.id != value.id){
+		        			if(obj.id == value.id){
+		        				$("#orgId").select2("val",value.procurementId);
+		        				changSelect();
+		        			}
+		        			if(obj.id != value.id && obj.smallPointsId == value.smallPointsId){
 		        				list.push(value);
 		        			}
 		        			productList = list;
@@ -808,6 +812,7 @@
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>成交供应商数</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 	   <select class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" onchange="tradedCount()" >
 	   <option value="">--请选择--</option>
 	   <option value="1">1</option>
@@ -817,7 +822,7 @@
 	   <option value="5" >5</option>
 	   <option value="6">6</option>
 	   </select>
-        <div class="cue" id="tradedSupplierCountErr">${tradedSupplierCountErr}</div>
+        <div class="cue" id="tradedSupplierCountErr">${tradedSupplierCountErr}</div></div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商成交比例</span>
@@ -886,8 +891,8 @@
 			<select id="transportFees" name="transportFees" onchange="changeTransportFees(this)" >
 				<option value="">--请选择--</option>
 			</select>
-        <div class="cue mt20" id="transportFeesErr">${transportFeesErr}</div>
 	 </div>
+        <div class="cue mt20" id="transportFeesErr">${transportFeesErr}</div>
 	 </li>
 	
 	 <li id="transportFeesPriceLi" class="col-md-3 col-sm-6 col-xs-12" style="display:none;">
@@ -901,10 +906,11 @@
 	 </li>
 	<li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>采购机构</span>
+			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			<select id="orgId" name="orgId" onchange="changSelect()" >
 			  <option value="">--请选择--</option>
 			</select>
-			 <div class="cue" id="orgIdErr">${orgIdErr}</div>
+			 <div class="cue" id="orgIdErr">${orgIdErr}</div></div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>采购联系电话</span>

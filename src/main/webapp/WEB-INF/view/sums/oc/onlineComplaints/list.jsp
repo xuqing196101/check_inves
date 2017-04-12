@@ -194,7 +194,7 @@
 					<c:if test="${complaint.type == 0 }">单位</c:if>
 				</td>
 				<td class="tc">${complaint.complaintObject }</td>
-				<td class="tl" <c:if test="${fn:length(complaint.complaintMatter) > 12 }">title="${complaint.complaintMatter }"</c:if>>  
+				<td class="tl" title="${complaint.complaintMatter }">  
 					<c:if test="${fn:length(complaint.complaintMatter) > 12 }">${fn:substring(complaint.complaintMatter, 0, 12)}...</c:if>
 					<c:if test="${fn:length(complaint.complaintMatter) <= 12 }">${complaint.complaintMatter }</c:if>
 				</td>

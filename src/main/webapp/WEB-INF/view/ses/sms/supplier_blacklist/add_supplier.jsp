@@ -68,7 +68,7 @@
                  <h2 class="count_flow"><i>1</i>添加供应商</h2>
                     <ul class="ul_list">
                             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商名称</span>
+                             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>供应商名称</span>
                                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                   <input name="id" type="hidden" value="${supplierBlacklist.id}">
                                   <input name="supplierId" id = "suppi" type="hidden" value="${supplier.id}">
@@ -78,7 +78,7 @@
                                </div>
                             </li>
                             <li class="col-md-3 col-sm-6 col-xs-12">
-                       <span class="col-md-12  col-sm-12 col-xs-12 padding-left-5">起始时间</span>
+                       <span class="col-md-12  col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>起始时间</span>
                                <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
                                     <fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd" var="startTime" />
                                     <input class="input_group" name="startTime" readonly="readonly" onClick="WdatePicker()" type="text" value="${startTime}"> 
@@ -86,7 +86,7 @@
                                 </div>
                             </li>
                             <li class="col-md-3 col-sm-6 col-xs-12">
-                               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">期限</span>
+                               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>期限</span>
                                <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                                 <select id="term_select_id" name="term">
                                     <option selected="selected" value="3">3个月</option>
@@ -99,7 +99,7 @@
                                 </div>
                              </li>
                              <li class="col-md-3 col-sm-6 col-xs-12">
-                               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">处罚形式</span>
+                               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>处罚形式</span>
                                 <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                                 <select id="punish_type_select_id"  name="punishType">
                                     <option selected="selected" value="0">警告</option>
@@ -108,7 +108,7 @@
                                 </div>
                              </li>
                             <li class="col-md-3 col-sm-6 col-xs-12 fl" style = "clear : both;">
-                               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">发布范围</span>
+                               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>发布范围</span>
                                <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                                 <select id="release_type_select_id"  name="releaseType">
                                     <option selected="selected" value="0">内外网发布</option>
@@ -118,7 +118,7 @@
                                 </div>
                              </li>
                              <li class="col-md-12 col-sm-12 col-xs-12">
-                                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">理由</span>
+                                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>理由</span>
                               <div class="col-md-12 col-sm-12 col-xs-12 p0">
                                 <textarea class="col-md-12 col-sm-12 col-xs-12" name="reason"  style="height:130px" title="不超过800个字" placeholder="不超过800个字">${supplierBlacklist.reason}</textarea>
                               <div class="star_red">${error_reason }</div>
