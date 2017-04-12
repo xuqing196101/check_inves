@@ -364,8 +364,8 @@ public class FirstAuditTemplatController extends BaseController{
                                 sb.append("<tr><td class='w100' rowspan=" + count3 +"><span class='fl'>"+ name +"</span><a class='addItem item_size' onclick=addItem(this,'"+ id +"',1); ></a></td>");
                                 sb.append("<td class='w150' rowspan="+map.get(markKey).size()+">");
                                 sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markValue.getName() + "','" + markKey.getId() + "',1); ></a>");
-                                sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                                sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
+                                sb.append("<div class='fr'><a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');  class='item_size editItem'></a>");
+                                sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)  class='item_size deleteItem'></a></div></td>");
                                 String typeName = getTypeName(markValue.getSmtypename());
                                 sb.append("<td class='tc'>" + markValue.getSmname() + "</td><td class='tc'>" + typeName + "</td>");
                                 Double sscore = markValue.getScscore() ;
@@ -373,8 +373,8 @@ public class FirstAuditTemplatController extends BaseController{
                                     sscore = 0.0;
                                 }
                                 sb.append("<td>"+ markValue.getName());
-                                sb.append("<a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
+                                sb.append("<div class='fr'><a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);  class='item_size editItem'></a>");
+                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)  class='item_size deleteItem'></a></div></td><td>"+sscore+"</td></tr>");
                             } else {
                                 String typeName = getTypeName(markValue.getSmtypename());
                                 sb.append("<tr><td class='tc'>" + markValue.getSmname() + "</td><td class='tc'><span>" + typeName + "</span></td>");
@@ -383,16 +383,16 @@ public class FirstAuditTemplatController extends BaseController{
                                     sscore = 0.0;
                                 }
                                 sb.append("<td>"+ markValue.getName());
-                                sb.append("<a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
+                                sb.append("<div class='fr'><a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);  class='item_size editItem'></a>");
+                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)  class='item_size deleteItem'></a></div></td><td>"+sscore+"</td></tr>");
                             }
                             count1++;
                         }
                     } else {
                         sb.append("<tr><td class='w100' rowspan=" + count3 +"><span class='fl'>"+ name +"</span><a class='addItem item_size' onclick=addItem(this,'"+ id +"',1); ></a></td>");
                         sb.append("<td class='w150'><span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markKey.getName() + "','" + markKey.getId() + "',1); ></a>");
-                        sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                        sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
+                        sb.append("<div class='fr'><a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');  class='item_size editItem'></a>");
+                        sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)  class='item_size deleteItem'></a></div></td>");
                         sb.append("<td></td><td></td><td></td><td></td></tr>");
                     }
                 } else {
@@ -403,8 +403,8 @@ public class FirstAuditTemplatController extends BaseController{
                                 //sb.append("<tr><td rowspan=" + map.get(markKey).size() + ">"+markKey.getName()+"</td>");
                                 sb.append("<tr><td class='w100' rowspan="+map.get(markKey).size()+">");
                                 sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markValue.getName() + "','" + markKey.getId() + "',1); ></a>");
-                                sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                                sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
+                                sb.append("<div class='fr'><a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');  class='item_size editItem'></a>");
+                                sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)  class='item_size deleteItem'></a></div></td>");
                                 
                                 //sb.append("<td>" + markValue.getName() + "</td><td></td><td></td></tr>");
                                 String typeName = getTypeName(markValue.getSmtypename());
@@ -414,8 +414,8 @@ public class FirstAuditTemplatController extends BaseController{
                                     sscore = 0.0;
                                 }
                                 sb.append("<td>"+ markValue.getName());
-                                sb.append("<a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
+                                sb.append("<div class='fr'><a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);  class='item_size editItem'></a>");
+                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)  class='item_size deleteItem'></a></div></td><td>"+sscore+"</td></tr>");
                                 
                             } else {
                                 String typeName = getTypeName(markValue.getSmtypename());
@@ -425,8 +425,8 @@ public class FirstAuditTemplatController extends BaseController{
                                     sscore = 0.0;
                                 }
                                 sb.append("<td>"+ markValue.getName());
-                                sb.append("<a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
+                                sb.append("<div class='fr'><a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);  class='item_size editItem'></a>");
+                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)  class='item_size deleteItem'></a></div></td><td>"+sscore+"</td></tr>");
                                 //sb.append("<tr><td>" + markValue.getName() + "</td><td></td><td></td></tr>");
                             }
                             count2++;
@@ -435,8 +435,8 @@ public class FirstAuditTemplatController extends BaseController{
                         //sb.append("<tr><td>" + markKey.getName() + "</td><td></td><td></td><td></td></tr>");
                         sb.append("<tr><td>");
                         sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markKey.getName() + "','" + markKey.getId() + "',1); ></a>");
-                        sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                        sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
+                        sb.append("<div class='fr'><a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');  class='item_size editItem'></a>");
+                        sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)  class='item_size deleteItem'></a></div></td>");
                         sb.append("<td></td><td></td><td></td><td></td></tr>");
                     }
                 }
