@@ -65,4 +65,17 @@ public interface OBSupplierQuoteService {
 	* @throws
 	 */
 	List<OBResultsInfo> selectQuotoInfoByRound(Map<String, Object> map);
+	
+	/**
+	 * 
+	* @Title: checkQuotoSecond 
+	* @Description: 第二次报价前，两家供应商报价进入第二轮报价时的判断，未报价的不能进入，
+	* 				只能这第一次报价的两家供应商才可以进入
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	JdcgResult checkQuotoSecond(Map<String, Object> map);
 }

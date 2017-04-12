@@ -180,8 +180,25 @@
 			   // 二次报价
 			   // 第二次报价前，两家供应商报价进入第二轮报价时的判断，未报价的不能进入，只能这第一次报价的两家供应商才可以进入
 			   if(status == '7' && remark == '20'){
+				   $.ajax({
+			   		   type:'POST',
+			   		   url:'${pageContext.request.contextPath}/supplierQuote/checkQuotoSecond.do',
+			   		   data:{projectId:valueArr[0]},
+			   		   dataType:'json',
+			   		   success:function(data){
+			   			   if(data.status == 500){
+			   					layer.alert(data.msg);
+			   			   }else{
+			   					quotoSecond();
+			   			   }
+			   		   }
+			   	   });
+			   }
+			   // 进入第二次报价
+			   function quotoSecond(){
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+valueArr[0]+"&&quotoEndTimeMillSecond="+quotoEndTimeMillSecond+"&&status="+status;
 			   }
+			   
 	       } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {
 	            offset: ['222px', '255px'],
@@ -404,7 +421,7 @@
 					</c:choose>
 			  	</c:if>
 			  	
-			  	<c:if test="${ obProject.remark == '666' && obProject.obProjectList[0].status != 3}">
+			  	<c:if test="${ obProject.remark == '666' && obProject.obProjectList[0].status != 3 && obProject.obProjectList[0].status != 4}">
 				  	未中标
 			  	</c:if>
 			  	

@@ -385,4 +385,14 @@ ORDER BY CREATED_AT) where rownum=1)
 	  GROUP BY 
 	  	SUPPLIER_ID,PROJECT_ID,PRODUCT_ID,MY_OFFER_MONEY
   </select>
+  
+  <!--  -->
+  <select id="selectFlagByQuotoSecond" resultType="java.lang.Integer" parameterType="Map">
+  	SELECT COUNT(BIDDING_ID)
+	  FROM T_BSS_OB_RESULTS_INFO RF
+	 WHERE RF.SUPPLIER_ID = #{projectId}
+	   AND RF.PROJECT_ID = #{supplierId}
+	   AND RF.BIDDING_ID = '1'
+  </select>
+
 </mapper>

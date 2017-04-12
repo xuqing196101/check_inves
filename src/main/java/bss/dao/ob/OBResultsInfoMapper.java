@@ -91,4 +91,7 @@ public interface OBResultsInfoMapper {
      * @return
      */
     Integer countByBidding(@Param("projectId")String projectId,@Param("biddingId")String biddingId,@Param("supplierId")String supplierId);
+    
+    
+    Integer selectFlagByQuotoSecond(Map<String, Object> map);
 }
