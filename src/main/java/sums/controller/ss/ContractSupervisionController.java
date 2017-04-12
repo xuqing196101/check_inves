@@ -364,7 +364,7 @@ public class ContractSupervisionController {
                     if(packages2.getId().equals(details.get(i).getPackageId())){
                         DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                         details.get(i).setPurchaseType(findById.getName());
-                        String[] progressBarPlan = supervisionService.progressBarPlan(details.get(i).getId());
+                        String[] progressBarPlan = supervisionService.progressBarPlan(details.get(i).getRequiredId());
                         details.get(i).setProgressBar(progressBarPlan[0]);
                         details.get(i).setStatus(progressBarPlan[1]);
                         list.add(details.get(i));
@@ -378,6 +378,8 @@ public class ContractSupervisionController {
                     lists.add(packages.get(i));
                 }
             }
+            Project project = projectService.selectById(id);
+            model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
             model.addAttribute("packages", lists);
         }
         return "sums/ss/planSupervision/package_view";
@@ -467,6 +469,7 @@ public class ContractSupervisionController {
 	                String[] progressBarPlan = supervisionService.progressBarPlan(purchaseRequired.getId());
 	                purchaseRequired.setProgressBar(progressBarPlan[0]);
 	                purchaseRequired.setStatus(progressBarPlan[1]);
+	                model.addAttribute("code", findById.getCode());
                 }
 	            model.addAttribute("list", requireds);
 	        }
@@ -535,6 +538,7 @@ public class ContractSupervisionController {
                         purchaseDetail.setProgressBar(progressBarPlan[0]);
                         purchaseDetail.setStatus(progressBarPlan[1]);
                         details.add(purchaseDetail);
+                        model.addAttribute("code", findById.getCode());
                     }
                 }
                 if(details != null && details.size() > 0){

@@ -43,8 +43,8 @@
             _last = _last+1;
           }
         });
-        $(".tip_time").eq(_last-1).parent().parent().parent().removeClass("pre_btn");
-        $(".tip_time").eq(_last-1).parent().parent().parent().addClass("current_btn");
+        $(".tip_time").eq(_last).parent().parent().parent().removeClass("pre_btn");
+        $(".tip_time").eq(_last).parent().parent().parent().addClass("current_btn");
         //$(".flow_tips").addClass("pre_btn"); 
         $(".flow_tips").children(":last").hide();
         //$(".flow_tips").children(":last").parent().addClass("current_btn");
@@ -162,23 +162,9 @@
       }
 
       function openFile() {
-        //setTimeout(open_file(fileId), 5000);
-        window.open("${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${project.id}", "采购文件");
+        window.open("${pageContext.request.contextPath}/planSupervision/bidFileView.html?id=${project.id}", "采购文件");
       }
 
-      /* function open_file(fileId) {
-        var obj = document.getElementById("TANGER_OCX");
-        obj.Menubar = true;
-        obj.Caption = "( 双击可放大 ! )";
-        if(fileId != '0') {
-          obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId=" + fileId, true, false, 'word.document'); // 异步加载, 服务器文件路径
-        } else {
-          var filePath = "${filePath}";
-          if(filePath != null && filePath != undefined && filePath != "") {
-            obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath=" + filePath, true, false, 'word.document'); // 异步加载, 服务器文件路径
-          }
-        }
-      } */
 
       function bigImg(x) {
         $(x).removeClass("btmfixs");
@@ -191,106 +177,6 @@
       }
     </script>
 
-    <!-- 打开文档后调用  -->
-    <!-- <script type="text/javascript" for="TANGER_OCX" event="OnDocumentOpened(a,b)">
-      //声明控件
-      var obj = document.getElementById("TANGER_OCX");
-      // 转换日期格式  如果是CST 日期  转换 GMT 日期
-      function getTaskTime(strDate) {
-        if(null == strDate || "" == strDate) {
-          return "";
-        }
-        if(strDate.indexOf("GMT") > 0) {
-          return new Date(strDate).Format("yyyy年MMdd日hh时mm分");
-        }
-        var dateStr = strDate.trim().split(" ");
-        var strGMT = dateStr[0] + " " + dateStr[1] + " " + dateStr[2] + " " + dateStr[5] + " " + dateStr[3] + " GMT+0800";
-        var date = new Date(Date.parse(strGMT));
-        var y = date.getFullYear();
-        var m = date.getMonth() + 1;
-        m = m < 10 ? ('0' + m) : m;
-        var d = date.getDate();
-        d = d < 10 ? ('0' + d) : d;
-        var h = date.getHours();
-        var minute = date.getMinutes();
-        minute = minute < 10 ? ('0' + minute) : minute;
-        var second = date.getSeconds();
-        second = second < 10 ? ('0' + second) : second;
-        return y + "年" + m + "月" + d + "日" + h + "时" + minute + "分";
-      };
-      //通用方法 判断是否存在 存在则行
-      function replaceContent(begin, end, date) {
-        if(obj.ActiveDocument.Bookmarks.Exists(begin) && obj.ActiveDocument.Bookmarks.Exists(end)) {
-          obj.ActiveDocument.Range(ActiveDocument.Bookmarks(begin).Range.End, ActiveDocument.Bookmarks(end).Range.End).Select();
-          obj.ActiveDocument.Application.Selection.Editors.Add(-1); //增加可编辑区域
-          obj.ActiveDocument.Application.Selection.TypeText(date);
-          obj.ActiveDocument.Bookmarks.Add(end);
-        }
-      }
-
-      function loadWord(begin, end, url) {
-        obj.ActiveDocument.Range(ActiveDocument.Bookmarks(begin).Range.End, ActiveDocument.Bookmarks(end).Range.Start).Select();
-        obj.ActiveDocument.Application.Selection.Editors.Add(-1); //增加可编辑区域
-        obj.AddTemplateFromURL(url, false, true);
-
-      }
-      /**
-       * ntko 控件加载玩之后调用
-       * **/
-      $(function() {
-        // 组合word文档
-        var marks = obj.ActiveDocument.Bookmarks; //获取所有的书签
-        var filePath = "${filePath}";
-        if(filePath != null && filePath != "") {
-          var pathArray = filePath.split(",");
-          if(pathArray.length > 1) {
-            //项目名称
-            replaceContent("SYS_1", "SYS_1_1", "${project.name}");
-            //项目编号
-            replaceContent("SYS_2", "SYS_2_2", "${project.projectNumber}");
-            //招标人
-            replaceContent("SYS_3", "SYS_3_1", "${project.sectorOfDemand}");
-            //项目名称
-            replaceContent("SYS_20171200", "SYS_20171201", "${project.name}");
-            //项目编号
-            replaceContent("SYS_20171202", "SYS_20171203", "${project.projectNumber}");
-            //投标截止时间
-            replaceContent("SYS_20171204", "SYS_20171205", "${project.deadline}");
-            // 投标地点
-            replaceContent("SYS_20171206", "SYS_20171207", "${project.bidAddress}");
-            // 开标时间
-            replaceContent("SYS_20171208", "SYS_20171209", "${project.bidDate}");
-            //开标地点
-            replaceContent("SYS_20171210", "SYS_20171211", "${project.bidAddress}");
-            //招标人
-            replaceContent("SYS_20171212", "SYS_20171213", "${project.sectorOfDemand}");
-            //招标人
-            replaceContent("SYS_20171214", "SYS_20171215", "${project.sectorOfDemand}");
-            //招标人
-            replaceContent("SYS_20171216", "SYS_20171217", "${project.sectorOfDemand}");
-
-            //定位定义标签位置
-            loadWord("DW_TWO_TWO", "DW_TWO_THREE", "${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath=" + pathArray[1]);
-            loadWord("DW_THREE_2", "DW_THREE_3", "${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath=" + pathArray[0]);
-            obj.ActiveDocument.DeleteAllEditableRanges(-1); //取消编辑
-          }
-        }
-        for(var i = 1; i <= marks.Count; i++) {
-          // 判读 标签 可编辑
-          if(marks(i).Name.indexOf("EDITOR") == 0) {
-            obj.ActiveDocument.Bookmarks(marks(i).Name).Range.Select(); //选取书签区域保护
-            obj.ActiveDocument.Application.Selection.Editors.Add(-1); //增加可编辑区域
-            //添加 内容标识显示
-            obj.ActiveDocument.ActiveWindow.View.ShadeEditableRanges = true;
-            obj.ActiveDocument.ActiveWindow.View.ShowBookmarks = true;
-          }
-        }
-        if(obj.ActiveDocument.ProtectionType == -1) {
-          obj.ActiveDocument.Protect(3); //实现文档保护
-        }
-        obj.ActiveDocument.Bookmarks("OLE_LINK_TOP").Select();
-      });
-    </script> -->
 
     <body>
       <!--面包屑导航开始-->
@@ -544,7 +430,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 " id="main-16">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-16">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-15">
                     <p class="tip_main">中标公示发布</p>
@@ -1088,8 +974,8 @@
       </div>
 
       <div id="file" class="dnone">
-        <div class="col-md-12 col-sm-12 col-xs-12 p0" id="content">
-          <table id="table" class="table table-bordered table-condensed table-hover">
+        <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
+          <table id="table" class="table table-bordered table-condensed lockout">
             <thead>
               <tr class="space_nowrap">
                 <th class="info w50">序号</th>

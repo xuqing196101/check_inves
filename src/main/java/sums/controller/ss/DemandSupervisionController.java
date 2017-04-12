@@ -234,9 +234,11 @@ public class DemandSupervisionController extends BaseController{
             List<PurchaseRequired> list = purchaseRequiredService.selectByParentId(map);
             for (PurchaseRequired purchaseRequired : list) {
                 if(purchaseRequired.getPrice() != null){
+                    DictionaryData findById = DictionaryDataUtil.findById(purchaseRequired.getPurchaseType());
                     String[] progressBarPlan = supervisionService.progressBarPlan(purchaseRequired.getId());
                     purchaseRequired.setProgressBar(progressBarPlan[0]);
                     purchaseRequired.setStatus(progressBarPlan[1]);
+                    model.addAttribute("code", findById.getCode());
                 } else {
                     purchaseRequired.setPurchaseType(null);
                     purchaseRequired.setStatus(null);
@@ -277,9 +279,11 @@ public class DemandSupervisionController extends BaseController{
                     
                     for (PurchaseDetail purchaseDetail : detail) {
                         if(purchaseDetail.getPrice() != null){
+                            DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
                             String[] progressBarPlan = supervisionService.progressBarPlan(purchaseDetail.getId());
                             purchaseDetail.setProgressBar(progressBarPlan[0]);
                             purchaseDetail.setStatus(progressBarPlan[1]);
+                            model.addAttribute("code", findById.getCode());
                         } else {
                             purchaseDetail.setPurchaseType(null);
                             purchaseDetail.setStatus(null);
@@ -398,6 +402,8 @@ public class DemandSupervisionController extends BaseController{
                             }
                         }
                         model.addAttribute("packages", lists);
+                        Project project = projectService.selectById(id);
+                        model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
                     }
                 }
             }

@@ -440,6 +440,8 @@ public class ProjectSupervisionController {
                         }
                     }
                     model.addAttribute("packages", packages);
+                    Project project = projectService.selectById(projectId);
+                    model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
                 }
             }
         }
@@ -604,6 +606,7 @@ public class ProjectSupervisionController {
                         String[] progressBarPlan = supervisionService.progressBarPlan(detail.getId());
                         detail.setProgressBar(progressBarPlan[0]);
                         detail.setStatus(progressBarPlan[1]);
+                        model.addAttribute("code", findById.getCode());
                     }else{
                         detail.setPurchaseType(null);
                         detail.setStatus(null);

@@ -22,6 +22,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -365,6 +366,7 @@ public class PlanSupervisionController {
                         String[] progressBarPlan = supervisionService.progressBarPlan(detail.getId());
                         detail.setProgressBar(progressBarPlan[0]);
                         detail.setStatus(progressBarPlan[1]);
+                        model.addAttribute("code", findById.getCode());
                     }
                     set.add(detail.getFileId());
                 }
@@ -406,18 +408,20 @@ public class PlanSupervisionController {
                     for (String string : sets) {
                         Project project = projectService.selectById(string);
                         if(project != null){
-                            DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
-                            if(StringUtils.isNotBlank(project.getPrincipal())){
-                                User users = userService.getUserById(project.getPrincipal());
-                                project.setAppointMan(users.getRelName());
-                                project.setAddress(users.getAddress());
+                            if(!"4".equals(project.getStatus())){
+                                DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                                if(StringUtils.isNotBlank(project.getPrincipal())){
+                                    User users = userService.getUserById(project.getPrincipal());
+                                    project.setAppointMan(users.getRelName());
+                                    project.setAddress(users.getAddress());
+                                }
+                                if(StringUtils.isNotBlank(project.getPurchaseDepId())){
+                                    Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
+                                    project.setPurchaseDepId(org.getName());
+                                }
+                                project.setStatus(findById.getName());
+                                listProject.add(project);
                             }
-                            if(StringUtils.isNotBlank(project.getPurchaseDepId())){
-                                Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
-                                project.setPurchaseDepId(org.getName());
-                            }
-                            project.setStatus(findById.getName());
-                            listProject.add(project);
                         }
                     }
                     if(listProject != null && listProject.size() > 0){
@@ -521,6 +525,7 @@ public class PlanSupervisionController {
                             String[] progressBarPlan = supervisionService.progressBarPlan(detail.getId());
                             detail.setProgressBar(progressBarPlan[0]);
                             detail.setStatus(progressBarPlan[1]);
+                            model.addAttribute("code", findById.getCode());
                         }else{
                             detail.setPurchaseType(null);
                             detail.setStatus(null);
@@ -555,6 +560,7 @@ public class PlanSupervisionController {
                             String[] progressBarPlan = supervisionService.progressBarPlan(details.get(i).getId());
                             details.get(i).setProgressBar(progressBarPlan[0]);
                             details.get(i).setStatus(progressBarPlan[1]);
+                            model.addAttribute("code", findById.getCode());
                         }
                     }
                     model.addAttribute("list", details);
@@ -630,6 +636,8 @@ public class PlanSupervisionController {
                             model.addAttribute("details", details);
                         }
                     }
+                    Project project = projectService.selectById(id);
+                    model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
                 }
                 
             }
@@ -1349,6 +1357,21 @@ public class PlanSupervisionController {
             }
         }
         return "sums/ss/planSupervision/viewAuditPerson";
+    }
+    
+    @RequestMapping("/bidFileView")
+    public String bidFileView(HttpServletRequest request, String id, Model model, HttpServletResponse response){
+      Project project = projectService.selectById(id);
+      //判断是否上传招标文件
+      String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+      List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
+      if (files != null && files.size() > 0){
+        model.addAttribute("fileId", files.get(0).getId());
+      } else {
+        model.addAttribute("fileId", "0");
+      }
+      model.addAttribute("project", project);
+      return "sums/ss/planSupervision/add_file";
     }
     
     /**
