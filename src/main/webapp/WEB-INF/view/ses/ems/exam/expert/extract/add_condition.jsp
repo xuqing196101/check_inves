@@ -21,40 +21,40 @@
 
     <script type="text/javascript">
     $(function (){
-    	 selectLikeExpert();
-    var cate="${listCon.conTypes[0].categoryName}";
-    if (cate != null && cate != ''){
-    	 $("#dnone").removeClass("dnone");
-    }else{
-        $("#dnone").addClass("dnone");
-    }
-    var json = '${extConTypeJson}';
-    var extConType = $.parseJSON(json);
-   for(var i= 0 ; i < extConType.length;i++){
-	  if(extConType[i].expertsType != null){
-	   if(extConType[i].expertsType.code == 'GOODS_PROJECT'){
-		   $("#goodsProjectCount").removeClass("dnone");
-		   $("#goodsProject").val(extConType[i].expertsCount);
-	  }
-	  if(extConType[i].expertsType.code == 'GOODS_SERVER'){
-		  $("#goodsServerCount").removeClass("dnone");
-		  $("#goodsServer").val(extConType[i].expertsCount);
-	  }
-	  if(extConType[i].expertsType.code == 'GOODS'){
-		  $("#goodsCount").removeClass("dnone");
-		  $("#goods").val(extConType[i].expertsCount);
-	  }
-	  if(extConType[i].expertsType.code == 'SERVICE'){
-		   $("#serviceCount").removeClass("dnone");
-		   $("#service").val(extConType[i].expertsCount);
-	  }
-	  if(extConType[i].expertsType.code == 'PROJECT'){
-		   $("#projectCount").removeClass("dnone");
-		   $("#project").val(extConType[i].expertsCount);
-	  }
-	  }
-   }
-  
+        selectLikeExpert();
+        var cate="${listCon.conTypes[0].categoryName}";
+        if (cate != null && cate != ''){
+             $("#dnone").removeClass("dnone");
+        }else{
+            $("#dnone").addClass("dnone");
+        }
+        var json = '${extConTypeJson}';
+        var extConType = $.parseJSON(json);
+        for(var i= 0 ; i < extConType.length;i++){
+            if(extConType[i].expertsType != null){
+                if(extConType[i].expertsType.code == 'GOODS_PROJECT'){
+                   $("#goodsProjectCount").removeClass("dnone");
+                   $("#goodsProject").val(extConType[i].expertsCount);
+                }
+                if(extConType[i].expertsType.code == 'GOODS_SERVER'){
+                  $("#goodsServerCount").removeClass("dnone");
+                  $("#goodsServer").val(extConType[i].expertsCount);
+                }
+                if(extConType[i].expertsType.code == 'GOODS'){
+                  $("#goodsCount").removeClass("dnone");
+                  $("#goods").val(extConType[i].expertsCount);
+                }
+                if(extConType[i].expertsType.code == 'SERVICE'){
+                   $("#serviceCount").removeClass("dnone");
+                   $("#service").val(extConType[i].expertsCount);
+                }
+                if(extConType[i].expertsType.code == 'PROJECT'){
+                   $("#projectCount").removeClass("dnone");
+                   $("#project").val(extConType[i].expertsCount);
+                }
+            }
+        }
+        chane();//对人数进行计算
     });
     
 
@@ -161,7 +161,7 @@
     	    $("#expertsCountError").text("");
             var count=   $("#sunCount").val();
              if(count==""){
-                 layer.msg("请选择抽取类型");
+                 layer.msg("请选择专家类型");
                  return false;
              }
             if(positiveRegular(count)){
@@ -309,9 +309,9 @@
                    }
                    }
                    for(var i=0;i<noList.length;i++){
-                       
+                       //"+((i+1)+(k+1))+"
                        tex+="<tr class='cursor'>"+
-                             "<td class='tc' onclick='show();'>"+((i+1)+(k+1))+"</td>"+
+                             "<td class='tc' onclick='show();'>-</td>"+
                              "<td class='tc' onclick='show();'>*****</td>"+
                              "<td class='tc' onclick='show();'>*****</td>"+
                              "<td class='tc' onclick='show();'>*****</td>"+
@@ -968,14 +968,14 @@
 		                <c:forEach items="${conType.expertsTypeSplit}" var="split">
 			                <c:forEach var="project" items="${ddList}">
 			                 <c:if test="${split eq project.id}">
-			                  <c:set value="${typeName},${project.name}" var="typeName"></c:set>
+			                  <c:set value="${typeName},${fn:substring(project.name,0,project.name.length()-2 )}" var="typeName"></c:set>
 			                  <c:set value="${typeId},${project.id}" var="typeId"></c:set>
 			                  <c:set value="${typeCode},${project.code}" var="typeCode"></c:set>
 			                 </c:if>
 			                </c:forEach>
 		                </c:forEach>
                   </c:forEach>
-                   <input   id="expertsTypeName"  type="text" readonly name="expertsTypeName" value="${fn:substring(typeName,1,typeName.length() )}" onclick="showExpertType();" />
+                   <input id="expertsTypeName"  type="text" readonly name="expertsTypeName" value="${fn:substring(typeName,1,typeName.length() )}" onclick="showExpertType();" />
                   <input type="hidden" name="expertsTypeId" id="expertsTypeId" value="${fn:substring(typeId,1,typeId.length() )}"  />
                      <input type="hidden" name="expertsTypeCode" id="expertsTypeCode" value="${fn:substring(typeCode,1,typeCode.length() )}"  />
                   <span class="add-on">i</span>
@@ -1129,7 +1129,7 @@
             </c:forEach>
             <c:forEach items="${extRelateListNo }" var="listno" varStatus="vs">
               <tr class='cursor'>
-                <td class='tc'>${(vs.index+1)+1}</td>
+                <td class='tc'>-</td>
                 <td class='tc'>*****</td>
                 <td class='tc'>*****</td>
                 <td class='tc'>*****</td>

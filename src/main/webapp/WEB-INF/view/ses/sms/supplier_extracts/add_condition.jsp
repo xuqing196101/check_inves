@@ -20,35 +20,6 @@
     type="text/css">
 
 <script type="text/javascript">
-			$(function (){
-				selectLikeSupplier();
-			    var json = '${extConTypeJson}';
-			    var extConType = $.parseJSON(json);
-		
-			   for(var i= 0 ; i < extConType.length;i++){
-			    if(extConType[i].supplierType != null){
-			    if(extConType[i].supplierType.code == 'PROJECT'){
-			      $("#projectCount").removeClass("dnone");
-			      $("#project").val(extConType[i].supplierCount);
-			    }
-			    if(extConType[i].supplierType.code == 'SERVICE'){
-			      $("#serviceCount").removeClass("dnone");
-			      $("#service").val(extConType[i].supplierCount);
-			    }
-			    if(extConType[i].supplierType.code == 'PRODUCT'){
-			       $("#productCount").removeClass("dnone");
-			       $("#product").val(extConType[i].supplierCount);
-			    }
-			    if(extConType[i].supplierType.code == 'SALES'){
-			       $("#salesCount").removeClass("dnone");
-			       $("#sales").val(extConType[i].supplierCount);
-			    }
-			    }
-			   }
-				
-			});
-
-    
     //供应商地区
     function areas(){
       var areas=$("#area").find("option:selected").val();
@@ -96,30 +67,6 @@
    
     }
     
-    /**点击触发事件*/
-    function chane(){
-      var sun="0";
-         var projectCount = $("#project").val();
-         if(projectCount != null && projectCount != ''){
-             sun= parseInt(sun)+parseInt(projectCount);
-           }
-         var serviceCount = $("#service").val();
-         if(serviceCount != null && serviceCount != ''){
-             sun =parseInt(sun) + parseInt(serviceCount);
-           }
-         var productCount = $("#product").val();
-         if(productCount != null && productCount != ''){
-             sun = parseInt(sun) + parseInt(productCount);
-           }
-         var salesCount = $("#sales").val();
-         if(salesCount != null && salesCount != ''){
-             sun = parseInt(sun)+parseInt(salesCount);
-           }
-         $("#sunCount").val(sun);
-    
-    }
-
-    
     function resetQuery(){
         $("#form1").find(":input[type='text']").attr("value","");
         $("#extCategoryName").val("");
@@ -128,75 +75,50 @@
       }
     
     function selectLikeSupplier(){
-    var v = document.getElementById("city").value;  	
-     $("#addressId").val(v);
-     var area = document.getElementById("area").value; 
-     $("#province").val(area);
-     $.ajax({
-         cache: true,
-         type: "POST",
-         dataType : "json",
-         url:'${pageContext.request.contextPath}/SupplierCondition/selectLikeSupplier.do',
-         data:$('#form1').serialize(),// 你的formid
-         async: false,
-         success: function(data) {
-        	$("#count").text(data);
-         }
-     });
-     
-return false;
-}
+        var v = document.getElementById("city").value;
+         $("#addressId").val(v);
+         var area = document.getElementById("area").value;
+         $("#province").val(area);
+         $.ajax({
+             cache: true,
+             type: "POST",
+             dataType : "json",
+             url:'${pageContext.request.contextPath}/SupplierCondition/selectLikeSupplier.do',
+             data:$('#form1').serialize(),// 你的formid
+             async: false,
+             success: function(data) {
+                $("#count").text(data);
+             }
+         });
+        return false;
+    }
 
    
     //ajax提交表单
     function cityt() {
         var  eCount =$("#supplierCount").val();
-        if(eCount != null && eCount != '' ){
-       
-        	   /* var iframeWin;
-            layer.open({
-                   type: 2,
-                   title: "选择",
-                   shadeClose: true,
-                   shade: 0.01,
-                   offset: '20px',
-                   move: false,
-                   area: ['90%', '430px'],
-                   content: '${pageContext.request.contextPath}/SupplierExtracts/reasonnumber.do?supplierTypeId='+$("#supplierTypeId").val()+'&&addressReson='+$("#city option:selected").val()+ $("#area option:selected").val()+'&&eCount='+$("#supplierCount").val(),
-                   success: function(layero, index) {
-                     iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-                   },
-                   btn: ['保存', '关闭'],
-                   yes: function() {
-                     iframeWin.save();
-                     var type=$("#hiddentype").val();
-                     if(type != null && type != '' && type == '1'){
-                       
-                       fax();      
-                         layer.closeAll();
-                     }
-                     
-                
-                   },
-                   btn2: function() {
-                       layer.closeAll();
-                     } //iframe的url
-                 });  */
-                 
-            var count=   $("#sunCount").val();
-            if(parseInt(count) > parseInt(eCount)){
-              layer.msg("数量不能大于总数量");
-            }else if(parseInt(count) < parseInt(eCount)){
-              layer.msg("数量不能小于总数量");
-            }else{
-            	      fax();
-              
+        if(positiveRegular(eCount)){
+            $("#countSupplier").text("");
+            var count = $("#sunCount").val();
+            if(count==""){
+                layer.msg("请选择抽取类型");
+                return false;
             }
-     
-          }else{
-            $("#countSupplier").text("不能为空");
-          }
-            return false;
+            if(positiveRegular(count)){
+                if(parseInt(count) > parseInt(eCount)){
+                    layer.msg("数量不能大于总数量");
+                }else if(parseInt(count) < parseInt(eCount)){
+                    layer.msg("数量不能小于总数量");
+                }else{
+                    fax();
+                }
+            }else{
+                layer.msg("请输入有效人数(正整数)");
+            }
+        }else{
+            $("#countSupplier").text("请输入有效总人数(正整数)");
+        }
+        return false;
     }
     /**点击抽取按钮*/
     function fax(){
@@ -224,6 +146,7 @@ return false;
     	
     } 
     function ext(){
+        $("#tbody").empty();
         $("#addressId").val($("#city option:selected").val());
         var area = document.getElementById("area").value; 
         $("#province").val(area);
@@ -245,8 +168,6 @@ return false;
             		var extConType=map.extConType;
             	var tex="";
             	if (list != null && list.length !=0){
-         		
-            	
             		  for(var i=0;i<list.length;i++){
                           if(list[i]!=null){
                             if(list[0]!=null){
@@ -260,7 +181,13 @@ return false;
                                       html+="<br/>";
                                   }
                                   $("#extcontype").append(html);
-                              } 
+                              }
+                              var _contactTelephone = "";
+                              if(null==list[i].supplier.contactTelephone || ""==list[i].supplier.contactTelephone){
+                                  _contactTelephone = "-";
+                              }else{
+                                  _contactTelephone = list[i].supplier.contactTelephone;
+                              }
                           tex+="<tr class='cursor'>"+
                               "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                               "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
@@ -275,7 +202,7 @@ return false;
                               tex+=st.substring(0, st.length-1);
                              tex+="</td>"+
                               "<td class='tc' onclick='show();'>"+list[i].supplier.contactName+"</td>"+
-                              "<td class='tc' onclick='show();'>"+list[i].supplier.contactTelephone+"</td>"+
+                              "<td class='tc' onclick='show();'>"+_contactTelephone+"</td>"+
                               "<td class='tc' onclick='show();'>"+list[i].supplier.contactMobile+"</td>"+
                           " <td class='tc' >"+
                             "<select id='select' onchange='operation(this);'>";
@@ -303,7 +230,7 @@ return false;
             		  for(var i=0;i<noList.length;i++){
             			  
             			  tex+="<tr class='cursor'>"+
-                          "<td class='tc' onclick='show();'>"+(i+1)+1+"</td>"+
+                          "<td class='tc' onclick='show();'>-</td>"+
                           "<td class='tc' onclick='show();'>*****</td>"+
                           "<td class='tc' onclick='show();'>*****</td>"+
                           "<td class='tc' onclick='show();'>*****</td>"+
@@ -358,10 +285,6 @@ return false;
     	       
     	  }); */
     }
-    
-   
-    
-    
         function opens(cate){
         //  iframe层
           var iframeWin;
@@ -552,6 +475,8 @@ return false;
         $("#service").val(""); 
         $("#product").val(""); 
         $("#sales").val("");
+        //初始化每个选择的值
+          chane();
         
         for(var i = 0, l = nodes.length; i < l; i++) {
           v += nodes[i].name + ",";
@@ -736,74 +661,92 @@ return false;
              dataType: "json",
              success: function(data){
             	   //记录 
-                      	 var strTypes = 0;
-                         list=data;
-                         if('sccuess'==list){
-                         }else{
-                         var tex='';
-                         for(var i=0;i<list.length;i++){
-                             if(list[i]!=null){
-                               if(list[0]!=null){
-                                     var html="";
-                                     $("#extcontype").empty();
-                                     for(var l=0;l<list[0].conType.length;l++){
-                                       if(list[0].conType[l].supplierType != null){
-                                    	   html+="供应商类型:"+list[0].conType[l].supplierType.name;
-                                       }
-                                          html+="抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].supplierCount;
-                                         html+="<br/>";
-                                     }
-                                     $("#extcontype").append(html);
-                                 } 
-                               
-                             tex+="<tr class='cursor'>"+
-                                 "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
-                                 "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
-                                 "<td class='tc' onclick='show();'>";
-			                             var f=list[i].supplier.listSupplierTypeRelates;
-			                             var st="";
-			                             if(f !=null){
-			                              for(var j=0;j < f.length ; j++){
-			                                st += f[j].supplierTypeName + ",";
-			                              }  
-			                             }
-			                             tex+=st.substring(0, st.length-1);
-			                            tex+="</td>"+
-                                 "<td class='tc' onclick='show();'>"+list[i].supplier.contactName+"</td>"+
-                                 "<td class='tc' onclick='show();'>"+list[i].supplier.contactTelephone+"</td>"+
-                                 "<td class='tc' onclick='show();'>"+list[i].supplier.contactMobile+"</td>"+
-                             " <td class='tc' >"+
-                               "<select id='select' onchange='operation(this);'>";
-                               
-                                if(list[i].operatingType==1){
-                                	strTypes = 1;
-                                    tex+="<option value='"+list[i].id+","+list[i].supplierConditionId+",1' selected='selected' disabled='disabled'>能参加</option>";
-                                }else if(list[i].operatingType==2){
-                                	strTypes = 2;
-                                    tex+="<option value='"+list[i].id+","+list[i].supplierConditionId+",1'>能参加</option>"+
+                 var strTypes = 0;
+                 var list=data;
+                 if('sccuess'==list){
+                 }else{
+                 var tex='';
+                 var nonJoin = 0;
+                for(var i=0;i<list.length;i++){
+                    var isUsed = 0;
+                    var neddNum = 0;
+                    if(list[i]!=null){
+                        if(list[0]!=null){
+                             var html="";
+                             $("#extcontype").empty();
+                             for(var l=0;l<list[0].conType.length;l++){
+                               if(list[0].conType[l].supplierType != null){
+                                   html+="供应商类型:"+list[0].conType[l].supplierType.name;
+                               }
+                               html+="抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].supplierCount;
+                               html+="<br/>";
+                               neddNum += list[0].conType[l].supplierCount;
+                                 var _count = list[0].conType[l].supplierCount - list[0].conType[l].alreadyCount;
+                                 if(_count != 0){
+                                     isUsed = isUsed+1;
+                                 }
+                             }
+                             $("#extcontype").append(html);
+                        }
+                        debugger;
+                        if(i < (neddNum + nonJoin)){
+                            var _contactTelephone = "";
+                            if(null==list[i].supplier.contactTelephone || ""==list[i].supplier.contactTelephone){
+                                _contactTelephone = "-";
+                            }else{
+                                _contactTelephone = list[i].supplier.contactTelephone;
+                            }
+                            var _index = i+1;
+                            tex+="<tr class='cursor'>"+
+                                "<td class='tc' onclick='show();'>"+_index+"</td>"+
+                                "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
+                                "<td class='tc' onclick='show();'>";
+                            var f=list[i].supplier.listSupplierTypeRelates;
+                            var st="";
+                            if(f !=null){
+                                for(var j=0;j < f.length ; j++){
+                                    st += f[j].supplierTypeName + ",";
+                                }
+                            }
+                            tex+=st.substring(0, st.length-1);
+                            tex+="</td>"+
+                                "<td class='tc' onclick='show();'>"+list[i].supplier.contactName+"</td>"+
+                                "<td class='tc' onclick='show();'>"+_contactTelephone+"</td>"+
+                                "<td class='tc' onclick='show();'>"+list[i].supplier.contactMobile+"</td>"+
+                                " <td class='tc' >"+
+                                "<select id='select' onchange='operation(this);'>";
+
+                            if(list[i].operatingType==1){
+                                strTypes = 1;
+                                tex+="<option value='"+list[i].id+","+list[i].supplierConditionId+",1' selected='selected' disabled='disabled'>能参加</option>";
+                            }else if(list[i].operatingType==2){
+                                strTypes = 2;
+                                tex+="<option value='"+list[i].id+","+list[i].supplierConditionId+",1'>能参加</option>"+
                                     "<option value='"+list[i].id+","+list[i].supplierConditionId+",3'>不能参加</option>"+
                                     "<option selected='selected' value='"+list[i].id+","+list[i].supplierConditionId+",2'>待定</option>";
-                                }else if(list[i].operatingType==3){
-                                	strTypes = 3;
-                                    tex+="<option value='"+list[i].id+","+list[i].supplierConditionId+",1' selected='selected' disabled='disabled'>不能参加</option>";
-                                }else{
-                                	strTypes = 4;
-                                    tex+= "<option >请选择</option>"+
-                                        "<option value='"+list[i].id+","+list[i].supplierConditionId+",1'>能参加</option>"+
+                            }else if(list[i].operatingType==3){
+                                strTypes = 3;
+                                nonJoin = nonJoin + 1;
+                                tex+="<option value='"+list[i].id+","+list[i].supplierConditionId+",1' selected='selected' disabled='disabled'>不能参加</option>";
+                            }else{
+                                strTypes = 4;
+                                tex+= "<option >请选择</option>"+
+                                    "<option value='"+list[i].id+","+list[i].supplierConditionId+",1'>能参加</option>"+
                                     "<option value='"+list[i].id+","+list[i].supplierConditionId+",3'>不能参加</option>"+
                                     "<option  value='"+list[i].id+","+list[i].supplierConditionId+",2'>待定</option>";
-                                }
-                                tex+="</select>"+
-                              "</td>"+
-                         "</tr>";
-                         }
-                         }
-                         $('#tbody tr:lt('+list.length+')').remove();
-                        $("#tbody").prepend(tex);
-                       }
-                         if(strTypes != 4 && strTypes != 0){
-                             layer.alert("抽取完成,剩余为以满足条件",{offset: ['222px', '222px'], shade:0.01});
-                         }
+                            }
+                            tex+="</select>"+
+                                "</td>"+
+                                "</tr>";
+                        }
+                    }
+                }
+                 $('#tbody tr:lt('+list.length+')').remove();
+                $("#tbody").prepend(tex);
+               }
+                 if((strTypes != 4 && strTypes != 0) || isUsed == 0){
+                     layer.alert("抽取完成,剩余为以满足条件",{offset: ['222px', '222px'], shade:0.01});
+                 }
              }
          });
      }
@@ -932,7 +875,7 @@ return false;
             </div>
           </li>
            <li class="col-md-3 col-sm-6 col-xs-12">
-            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取总数量：</span>
+            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>抽取总数量：</span>
             <div class="input-append input_group col-sm-12 col-xs-12 p0">
               <input class="input_group"  name="supplierCount" id="supplierCount" value="${sumCount}" type="text">
               <span class="add-on">i</span>
@@ -1026,7 +969,14 @@ return false;
                   ${fn:substring(name,1,name.length())}
                   </td>
                   <td class='tc' onclick='show();'>${listyes.supplier.contactName}</td>
-                  <td class='tc' onclick='show();'>${listyes.supplier.contactTelephone}</td>
+                    <c:choose>
+                        <c:when test="${listyes.supplier.contactTelephone==null || listyes.supplier.contactTelephone==''}">
+                            <td class='tc' onclick='show();'>-</td>
+                        </c:when>
+                        <c:otherwise>
+                            <td class='tc' onclick='show();'>${listyes.supplier.contactTelephone}</td>
+                        </c:otherwise>
+                    </c:choose>
                   <td class='tc' onclick='show();'>${listyes.supplier.contactMobile}</td>
                   <td class='tc'><select id='select'
                     onchange='operation(this);'>
@@ -1063,7 +1013,7 @@ return false;
               <c:forEach items="${extRelateListNo }" var="listno"
                 varStatus="vs">
                 <tr class='cursor'>
-                  <td class='tc' onclick='show();'>${(vs.index+1)+1}</td>
+                  <td class='tc' onclick='show();'>-</td>
                   <td class='tc' onclick='show();'>*****</td>
                   <td class='tc' onclick='show();'>*****</td>
                   <td class='tc' onclick='show();'>*****</td>
@@ -1084,3 +1034,54 @@ return false;
   </div>
 </body>
 </html>
+<script type="text/javascript">
+    $(function (){
+        selectLikeSupplier();
+        var json = '${extConTypeJson}';
+        var extConType = $.parseJSON(json);
+
+        for(var i= 0 ; i < extConType.length;i++){
+            if(extConType[i].supplierType != null){
+                if(extConType[i].supplierType.code == 'PROJECT'){
+                    $("#projectCount").removeClass("dnone");
+                    $("#project").val(extConType[i].supplierCount);
+                }
+                if(extConType[i].supplierType.code == 'SERVICE'){
+                    $("#serviceCount").removeClass("dnone");
+                    $("#service").val(extConType[i].supplierCount);
+                }
+                if(extConType[i].supplierType.code == 'PRODUCT'){
+                    $("#productCount").removeClass("dnone");
+                    $("#product").val(extConType[i].supplierCount);
+                }
+                if(extConType[i].supplierType.code == 'SALES'){
+                    $("#salesCount").removeClass("dnone");
+                    $("#sales").val(extConType[i].supplierCount);
+                }
+            }
+        }
+        chane();//对人数进行计算
+    });
+    /**点击触发事件*/
+    function chane(){
+        var sun="0";
+        var projectCount = $("#project").val();
+        if(projectCount != null && projectCount != ''){
+            sun= parseInt(sun)+parseInt(projectCount);
+        }
+        var serviceCount = $("#service").val();
+        if(serviceCount != null && serviceCount != ''){
+            sun =parseInt(sun) + parseInt(serviceCount);
+        }
+        var productCount = $("#product").val();
+        if(productCount != null && productCount != ''){
+            sun = parseInt(sun) + parseInt(productCount);
+        }
+        var salesCount = $("#sales").val();
+        if(salesCount != null && salesCount != ''){
+            sun = parseInt(sun)+parseInt(salesCount);
+        }
+        $("#sunCount").val(sun);
+
+    }
+</script>
