@@ -23,16 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 
-
-
-
-
-
-
-
-
-
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -289,14 +280,20 @@ public class ExpExtractRecordController extends BaseController {
       List<ProExtSupervise>  listUser = projectSupervisorServicel.list(new ProExtSupervise(projectId));
       model.addAttribute("listUser", listUser);
       String userName = "";
+      String superviseId = "";
       if (listUser != null && listUser.size() != 0){
         for (ProExtSupervise ps : listUser) {
           if (ps != null ){
             userName += ps.getRelName()+ ",";
+            superviseId += ps.getId()+",";
           }
         }
         if(!"".equals(userName)){
           model.addAttribute("userName", userName.substring(0, userName.length()-1));
+        }
+        if(!StringUtils.isEmpty(superviseId)){
+            model.addAttribute("superviseId", superviseId.substring(0, superviseId.length()-1));
+
         }
       }
 
@@ -717,72 +714,73 @@ public class ExpExtractRecordController extends BaseController {
 
     if ("1".equals(ids[2]) || "2".equals(ids[2])){
       ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
-      //获取抽取类型
-      List<ExpExtCondition> conList =  conditionService.list(new ExpExtCondition(expExtRelate.getExpertConditionId(), "") , null);
-      String expertTypeId = conList.get(0).getExpertsTypeId();
-      //获取专家类型
-      String expTypeId = expExtRelate.getExpert().getExpertsTypeId();
-      //截取专家类型 如果满足insert
-      if (expertTypeId != null && !"".equals(expertTypeId)){
-        //抽取类型
-        String[] expertTypeIdArray = expertTypeId.split(",");
-        //专家类型
-        String[] expTypeIdAry = expTypeId.split(",");
-        ProjectExtract projectExtrac = new ProjectExtract();
-        for (String typeId : expertTypeIdArray) {
+      if(null != expExtRelate) {
+          //获取抽取类型
+          List<ExpExtCondition> conList = conditionService.list(new ExpExtCondition(expExtRelate.getExpertConditionId(), ""), null);
+          String expertTypeId = conList.get(0).getExpertsTypeId();
+          //获取专家类型
+          String expTypeId = expExtRelate.getExpert().getExpertsTypeId();
+          //截取专家类型 如果满足insert
+          if (expertTypeId != null && !"".equals(expertTypeId)) {
+              //抽取类型
+              String[] expertTypeIdArray = expertTypeId.split(",");
+              //专家类型
+              String[] expTypeIdAry = expTypeId.split(",");
+              ProjectExtract projectExtrac = new ProjectExtract();
+              for (String typeId : expertTypeIdArray) {
 
-          //获取抽取的专家类别
-          projectExtrac.setReviewType(typeId);
-          projectExtrac.setExpertConditionId(ids[1]);
-          List<ProjectExtract> list = extractService.list(projectExtrac);
-          //获取条件进行对比
-          Integer counts = conTypeService.getExpertTypeById(ids[1], typeId) ;
-          if(counts == null ){
-            counts = 0;
-          }
-          if(counts !=0 && list.size() != 0 && list.size() >= counts){
-            continue;
-          }else{
-            int tp = 0;
-            for (String exptypeay : expTypeIdAry) {
-              if(exptypeay.equals(typeId)){
-                //修改为抽取的类型
-                ProjectExtract extract = new ProjectExtract();
-                extract.setReviewType(typeId);
-                extract.setId(ids[0]);
-                extractService.update(extract); 
-                tp = 1;
+                  //获取抽取的专家类别
+                  projectExtrac.setReviewType(typeId);
+                  projectExtrac.setExpertConditionId(ids[1]);
+                  List<ProjectExtract> list = extractService.list(projectExtrac);
+                  //获取条件进行对比
+                  Integer counts = conTypeService.getExpertTypeById(ids[1], typeId);
+                  if (counts == null) {
+                      counts = 0;
+                  }
+                  if (counts != 0 && list.size() != 0 && list.size() >= counts) {
+                      continue;
+                  } else {
+                      int tp = 0;
+                      for (String exptypeay : expTypeIdAry) {
+                          if (exptypeay.equals(typeId)) {
+                              //修改为抽取的类型
+                              ProjectExtract extract = new ProjectExtract();
+                              extract.setReviewType(typeId);
+                              extract.setId(ids[0]);
+                              extractService.update(extract);
+                              tp = 1;
+                          }
+                      }
+
+                      if (tp == 1) {
+                          break;
+                      }
+                  }
+
               }
-            }
 
-            if(tp == 1){
-              break; 
-            }
+          } else {
+              //修改为抽取的类型
+              ProjectExtract projectExtrac = new ProjectExtract();
+              projectExtrac.setExpertConditionId(ids[1]);
+              List<ProjectExtract> list = extractService.list(projectExtrac);
+              if (list != null && list.size() != 0) {
+                  ProjectExtract extract = new ProjectExtract();
+                  int i = 0;
+                  String[] split = list.get(0).getExpert().getExpertsTypeId().split(",");
+                  if (split.length > 1) {
+                      int max = split.length - 1;
+                      int min = 0;
+                      Random random = new Random();
+                      i = random.nextInt(max) % (max - min + 1) + min;
+                  }
+                  extract.setReviewType(split[i]);
+                  extract.setId(ids[0]);
+                  extractService.update(extract);
+              }
           }
-
-        }
-
-      }else{
-        //修改为抽取的类型
-        ProjectExtract projectExtrac = new ProjectExtract();
-        projectExtrac.setExpertConditionId(ids[1]);
-        List<ProjectExtract> list = extractService.list(projectExtrac);
-        if (list != null && list.size() != 0){
-          ProjectExtract extract = new ProjectExtract();
-          int i = 0;
-          String[] split = list.get(0).getExpert().getExpertsTypeId().split(",");
-          if (split.length > 1 ){
-            int max = split.length-1;
-            int min = 0;
-            Random random = new Random();
-            i = random.nextInt(max)%(max-min+1) + min;
-          }
-          extract.setReviewType(split[i]);
-          extract.setId(ids[0]);
-          extractService.update(extract);
-        }
       }
-
 
     }
 
@@ -794,39 +792,40 @@ public class ExpExtractRecordController extends BaseController {
       extractService.update(new ProjectExtract(ids[0], new Short(ids[2]) ,packageId));
     }
     if ("1".equals(ids[2]) || "2".equals(ids[2])){
-      ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
-
-      if ("4".equals(expExtRelate.getExpert().getStatus())){
-        /**
-         * 推送
-         */
-        Todos todos = new Todos();
-        todos.setCreatedAt(new Date());
-        todos.setIsDeleted((short)0);
-        todos.setIsFinish((short)0);
-        //待办名称
-        todos.setName(expExtRelate.getExpert().getRelName()+"专家复查");
-        //todos.setReceiverId();
-        //接受人id
-        todos.setOrgId(expExtRelate.getExpert().getPurchaseDepId());
-        //权限id
-        PropertiesUtil config = new PropertiesUtil("config.properties");
-        todos.setPowerId(config.getString("zjdb"));
-        //发送人id
-        User user = (User)sq.getSession().getAttribute("loginUser");
-        todos.setSenderId(user.getId());
-        //类型
-        todos.setUndoType((short)2);
-        //发送人姓名
-        todos.setSenderName(expExtRelate.getExpert().getRelName());
-        //审核地址
-        todos.setUrl("expertAudit/basicInfo.html?expertId=" + expExtRelate.getExpert().getId());
-        todosService.insert(todos );
-        Expert expert = new Expert();
-        expert.setId(id);
-        expert.setStatus("6");
-        expertServices.updateByPrimaryKeySelective(expert);
-      }
+        ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
+        if(null != expExtRelate){
+            if ("4".equals(expExtRelate.getExpert().getStatus())){
+                /**
+                 * 推送
+                 */
+                Todos todos = new Todos();
+                todos.setCreatedAt(new Date());
+                todos.setIsDeleted((short)0);
+                todos.setIsFinish((short)0);
+                //待办名称
+                todos.setName(expExtRelate.getExpert().getRelName()+"专家复查");
+                //todos.setReceiverId();
+                //接受人id
+                todos.setOrgId(expExtRelate.getExpert().getPurchaseDepId());
+                //权限id
+                PropertiesUtil config = new PropertiesUtil("config.properties");
+                todos.setPowerId(config.getString("zjdb"));
+                //发送人id
+                User user = (User)sq.getSession().getAttribute("loginUser");
+                todos.setSenderId(user.getId());
+                //类型
+                todos.setUndoType((short)2);
+                //发送人姓名
+                todos.setSenderName(expExtRelate.getExpert().getRelName());
+                //审核地址
+                todos.setUrl("expertAudit/basicInfo.html?expertId=" + expExtRelate.getExpert().getId());
+                todosService.insert(todos );
+                Expert expert = new Expert();
+                expert.setId(id);
+                expert.setStatus("6");
+                expertServices.updateByPrimaryKeySelective(expert);
+            }
+        }
     }
 
     List<ProjectExtract> projectExtractListYes = resultProjectExtract(sq, ids);
@@ -887,39 +886,42 @@ public class ExpExtractRecordController extends BaseController {
     ProjectExtract pe = new ProjectExtract();
     pe.setId(ids[0]);
     List<ProjectExtract> list2 = extractService.list(pe);
-    ExtConType extConType = conTypeService.getExtConType(list2.get(0).getConTypeId());
-    Integer sum = conTypeService.getSum(list2.get(0).getExpertConditionId());
-    Integer count = mapcount.get(extConType.getId());
-    if (count != null && count != 0){
-      if (count >= sum){
-        extractService.updateStatusCount("1",extConType.getId());
-        //                删除为抽取的数据
-        Packages packages = new Packages();
-        packages.setId(list2.get(0).getProjectId());
-        List<Packages> find = packagesService.find(packages);
-        extractService.delPe(find.get(0).getProjectId());
-        forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo,1);
-      } else {
-        forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo,1);
-      }
+    if(null != list2 && !list2.isEmpty()){
+        ExtConType extConType = conTypeService.getExtConType(list2.get(0).getConTypeId());
+        Integer sum = conTypeService.getSum(list2.get(0).getExpertConditionId());
+        Integer count = mapcount.get(extConType.getId());
+        if (count != null && count != 0){
+            if (count >= sum){
+                extractService.updateStatusCount("1",extConType.getId());
+                //                删除为抽取的数据
+                Packages packages = new Packages();
+                packages.setId(list2.get(0).getProjectId());
+                List<Packages> find = packagesService.find(packages);
+                extractService.delPe(find.get(0).getProjectId());
+                forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo,1);
+            } else {
+                forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo,1);
+            }
+        }
     }
-    List<ExtConType> conTypes = listCondition.get(0).getConTypes();
+        List<ExtConType> conTypes = listCondition.get(0).getConTypes();
 
 
-    if (conTypes != null && conTypes.size() == 1  &&  ( conTypes.get(0).getExpertsTypeId() == null || !"".equals(conTypes.get(0).getExpertsTypeId())) ){
-      ProjectExtract projectExtrac = new ProjectExtract();
-      projectExtrac.setConTypeId("1");
-      projectExtrac.setExpertConditionId(listCondition.get(0).getId());
-      List<ProjectExtract> peList = extractService.list(projectExtrac);
-      conTypes.get(0).setAlreadyCount(peList == null ? 0 : peList.size());
-    }
-    projectExtractListYes.get(0).setConType(conTypes);
-    if (projectExtractListNo.size() != 0){
-      projectExtractListYes.add(projectExtractListNo.get(0));
-    }else{
-      //已抽取
-      //      conditionService.update(new ExpExtCondition(ids[1],(short)2));
-    }
+        if (conTypes != null && conTypes.size() == 1  &&  ( conTypes.get(0).getExpertsTypeId() == null || !"".equals(conTypes.get(0).getExpertsTypeId())) ){
+            ProjectExtract projectExtrac = new ProjectExtract();
+            projectExtrac.setConTypeId("1");
+            projectExtrac.setExpertConditionId(listCondition.get(0).getId());
+            List<ProjectExtract> peList = extractService.list(projectExtrac);
+            conTypes.get(0).setAlreadyCount(peList == null ? 0 : peList.size());
+        }
+        projectExtractListYes.get(0).setConType(conTypes);
+        if (projectExtractListNo.size() != 0){
+            projectExtractListYes.add(projectExtractListNo.get(0));
+        }else{
+            //已抽取
+            //      conditionService.update(new ExpExtCondition(ids[1],(short)2));
+        }
+
 
     return projectExtractListYes;
   }

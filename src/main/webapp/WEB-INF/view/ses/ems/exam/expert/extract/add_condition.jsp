@@ -157,60 +157,24 @@
       //ajax提交表单
       function cityt() {
     	 var  eCount =$("#eCount").val();
-    	 if(eCount != null && eCount != '' ){
-    	
-    	/*   var iframeWin;
-    	  
-    	  var typeCode = $("#expertsTypeCode").val();
-    	     var addressReson = $("#addressReson").val();
-    	     if(typeCode == '' && addressReson == '' ){
-    	    	 fax();
-    	     }else{
-		    	  layer.open({
-		              type: 2,
-		              title: "选择",
-		              shadeClose: true,
-		              shade: 0.01,
-		              offset: '20px',
-		              area: ['90%', '70%'],
-		              content: '${pageContext.request.contextPath}/ExpExtract/reasonnumber.do?expertsTypeCode='+$("#expertsTypeCode").val()+'&&addressReson='+$("#city option:selected").val()+ $("#area option:selected").val()+'&&eCount='+$("#eCount").val(),
-		              success: function(layero, index) {
-		                iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-		              },
-		              btn: ['保存', '关闭'],
-		              yes: function() {
-		                iframeWin.save();
-		                var type=$("#hiddentype").val();
-		                if(type != null && type != '' && type == '1'){
-		                	fax();     	
-		                    layer.closeAll();
-		                }
-		                
-		           
-		              },
-		              btn2: function() {
-		                  layer.closeAll();
-		                } //iframe的url
-		            });
-    
+    	 if(positiveRegular(eCount)){
+            var count=   $("#sunCount").val();
+            if(positiveRegular(count)){
+                if(parseInt(count) > parseInt(eCount)){
+                    layer.msg("数量不能大于总数量");
+                }else if(parseInt(count) < parseInt(eCount)){
+                    layer.msg("数量不能小于总数量");
+                }else{
+                    fax();
+                }
+            }else{
+                layer.msg("请输入有效人数(正整数)");
+            }
 
-       
-    	     } */
-    	     
-    		    var count=   $("#sunCount").val();
-    		    if(parseInt(count) > parseInt(eCount)){
-    		      layer.msg("数量不能大于总数量");
-    		    }else if(parseInt(count) < parseInt(eCount)){
-    		      layer.msg("数量不能小于总数量");
-    		    }else{
-    	 	 fax();
-    		    	
-    		    }
-    	     
          }else{
-        	 $("#expertsCountError").text("不能为空");
+        	 $("#expertsCountError").text("请输入有效总人数(正整数)");
          }
-    	     return false;
+          return false;
       }
       
       /**点击抽取按钮*/
@@ -312,7 +276,7 @@
 			                             }
 			                           }
 			                         }
-			                         tex+=st.substring(0, st.length-1);
+			                         tex+=st.substring(0, st.length-3);
 			                         tex+="</td>";
 
                            tex+="<td class='tc' onclick='show();'>*****</td>"+
@@ -445,85 +409,94 @@
                data: {id:id,reason:v,packageId:"${packageId}"},
                dataType: "json",
                success: function(data){
-                           var list=data;
-                           var strTypes = 0;
-                           if('sccuess'==list){
-                           }else{
-                           var tex='';
-                           for(var i=0;i<list.length;i++){
-                               if(list[i]!=null){
-                          
-                                if(list[0]!=null){
-                                  var html="";
-                                  $("#extcontype").empty();
-                                  for(var l=0;l<list[0].conType.length;l++){
-                                  html+="";
-                                     if(list[0].conType[l].expertsType != null && list[0].conType[l].expertsType != ''){
-                                    	 if(list[0].conType[l].expertsType.kind == 6){
-                                    		  html+= "专家类别："+list[0].conType[l].expertsType.name+"技术";
-                                    	 }else{
-                                    		   html+= "专家类别："+list[0].conType[l].expertsType.name;
-                                    	 }
-                                     }
-                                     html+="&nbsp;&nbsp;&nbsp;抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].expertsCount;
-                                    html+="<br/>";
-                                  }
-                                  $("#extcontype").append(html);
-                                } 
-                                tex+="<tr class='cursor'>"+
-                                   "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
-                                   "<td class='tc' onclick='show();'>*****</td>"+
-                                   "<td class='tc' onclick='show();'>"+list[i].expert.mobile+"</td>";
-		                                tex+="<td class='tc'>";
-		                                var ddl ='${ddListJson}';
-		                                var listData=$.parseJSON(ddl);//解析json字符串
-		                                 var st='';
-		                                  var split = list[i].expert.expertsTypeId.split(",");
-		                                  for(var c=0; c<split.length;c++){
-		                                    for(var b=0;b<listData.length;b++){
-		                                      if(split[c] == listData[b].id){
-		                                        st+=listData[b].name+",";
-		                                      }
-		                                    }
-		                                  }
-		                                  tex+=st.substring(0, st.length-1);
-		                                  tex+="</td>";
-                                   
-                                   
+                   var list=data;
+                   var strTypes = 0;
+                   if('sccuess'==list){
+                   }else{
+                       var tex='';
+                       var nonJoin = 0;
+                       for(var i=0;i<list.length;i++){
+                           var isUsed = 0;
+                           if(list[i]!=null){
+                               if(list[0]!=null){
+                                   var html="";
+                                   $("#extcontype").empty();
+                                   for(var l=0;l<list[0].conType.length;l++){
+                                       html+="";
+                                       if(list[0].conType[l].expertsType != null && list[0].conType[l].expertsType != ''){
+                                           if(list[0].conType[l].expertsType.kind == 6){
+                                               html+= "专家类别："+list[0].conType[l].expertsType.name+"技术";
+                                           }else{
+                                               html+= "专家类别："+list[0].conType[l].expertsType.name;
+                                           }
+                                       }
+                                       html+="&nbsp;&nbsp;&nbsp;抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].expertsCount;
+                                       html+="<br/>";
+//                                       if(list[i].expert.expertsTypeId == list[0].conType[l].expertsType.id){
+                                           var _count = list[0].conType[l].expertsCount - list[0].conType[l].alreadyCount;
+                                           if(_count != 0){
+                                               isUsed = isUsed+1;
+                                           }
+//                                       }
+                                   }
+                                   $("#extcontype").append(html);
+                               }
+                               if(i < (list[0].conType.length + nonJoin)){
+                                   tex+="<tr class='cursor'>"+
+                                       "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
+                                       "<td class='tc' onclick='show();'>*****</td>"+
+                                       "<td class='tc' onclick='show();'>"+list[i].expert.mobile+"</td>";
+                                   tex+="<td class='tc'>";
+                                   var ddl ='${ddListJson}';
+                                   var listData=$.parseJSON(ddl);//解析json字符串
+                                   var st='';
+                                   var split = list[i].expert.expertsTypeId.split(",");
+                                   for(var c=0; c<split.length;c++){
+                                       for(var b=0;b<listData.length;b++){
+                                           if(split[c] == listData[b].id){
+                                               st+=listData[b].name+",";
+                                           }
+                                       }
+                                   }
+                                   tex+=st.substring(0, st.length-3);//截取"技术"和连接符
+                                   tex+="</td>";
+
+
                                    tex+="<td class='tc' onclick='show();'>*****</td>"+
-                                   "<td class='tc' onclick='show();'>*****</td>"+
-                               " <td class='tc' >"+
-                                 "<select id='select' onchange='operation(this);'>";
-                                  if(list[i].operatingType==1){
-                                	  strTypes = 1;
-                                      tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1' selected='selected' disabled='disabled'>能参加</option>";
-                                  }else if(list[i].operatingType==2){
-                                	  strTypes = 2;
-                                      tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1'>能参加</option>"+
-                                      "<option value='"+list[i].id+","+list[i].expertConditionId+",3'>不能参加</option>"+
-                                      "<option selected='selected' value='"+list[i].id+","+list[i].expertConditionId+",2'>待定</option>";
-                                  }else if(list[i].operatingType==3){
-                                	  strTypes = 3;
-                                      tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1' selected='selected' disabled='disabled'>不能参加</option>";
-                                  }else{
-                                	  strTypes = 4;
-                                      tex+= "<option >请选择</option>"+
-                                          "<option value='"+list[i].id+","+list[i].expertConditionId+",1'>能参加</option>"+
-                                      "<option value='"+list[i].id+","+list[i].expertConditionId+",3'>不能参加</option>"+
-                                      "<option  value='"+list[i].id+","+list[i].expertConditionId+",2'>待定</option>";
-                                  }
-                                  tex+="</select>"+
-                                "</td>"+
-                           "</tr>";
+                                       "<td class='tc' onclick='show();'>*****</td>"+
+                                       " <td class='tc' >"+
+                                       "<select id='select' onchange='operation(this);'>";
+                                   if(list[i].operatingType==1){
+                                       strTypes = 1;
+                                       tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1' selected='selected' disabled='disabled'>能参加</option>";
+                                   }else if(list[i].operatingType==2){
+                                       strTypes = 2;
+                                       tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1'>能参加</option>"+
+                                           "<option value='"+list[i].id+","+list[i].expertConditionId+",3'>不能参加</option>"+
+                                           "<option selected='selected' value='"+list[i].id+","+list[i].expertConditionId+",2'>待定</option>";
+                                   }else if(list[i].operatingType==3){
+                                       strTypes = 3;
+                                       nonJoin = nonJoin + 1;
+                                       tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1' selected='selected' disabled='disabled'>不能参加</option>";
+                                   }else{
+                                       strTypes = 4;
+                                       tex+= "<option >请选择</option>"+
+                                           "<option value='"+list[i].id+","+list[i].expertConditionId+",1'>能参加</option>"+
+                                           "<option value='"+list[i].id+","+list[i].expertConditionId+",3'>不能参加</option>"+
+                                           "<option  value='"+list[i].id+","+list[i].expertConditionId+",2'>待定</option>";
+                                   }
+                                   tex+="</select>"+
+                                       "</td>"+
+                                       "</tr>";
+                               }
                            }
-                           }
-                        	   $('#tbody tr:lt('+list.length+')').remove();
-                               $("#tbody ").prepend(tex);  
-                           
-                         }
-                           if(strTypes != 4 && strTypes != 0){
-                               layer.alert("抽取完成,剩余为以满足条件",{offset: ['222px', '222px'], shade:0.01});
-                           }
+                       }
+                       $('#tbody tr:lt('+list.length+')').remove();
+                       $("#tbody ").prepend(tex);
+                   }
+                   if((strTypes != 4 && strTypes != 0) || isUsed == 0){
+                       layer.alert("抽取完成,剩余为以满足条件",{offset: ['222px', '222px'], shade:0.01});
+                   }
                }
            });
        }

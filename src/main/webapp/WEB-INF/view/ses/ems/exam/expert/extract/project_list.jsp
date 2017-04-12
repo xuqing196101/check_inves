@@ -123,7 +123,7 @@
        <h2 class="search_detail">
      <form  action="${pageContext.request.contextPath}/ExpExtract/projectList.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
-    
+    <input type="hidden" name="typeclassId" value="${typeclassId}"/>
      <li>
        <label>项目名称：</label><input type="hidden" name="page" id="page"><input type="text" name="name" id="proName" value="${projects.name }"/>
        </li>

@@ -363,4 +363,11 @@ function art_alert(msg){
   });
   d.show();
 };
-
+//正整数正则判断
+function positiveRegular(str){
+    var pattern = /^[1-9]\d*$/;
+    if(pattern.test(str)){
+        return true;
+    }
+    return false;
+}

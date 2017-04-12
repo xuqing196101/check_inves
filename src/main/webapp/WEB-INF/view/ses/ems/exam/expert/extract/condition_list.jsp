@@ -41,18 +41,17 @@
 
 				});
 				var typeclassId = "${typeclassId}";
-			
 				if(typeclassId != null && typeclassId != "") {
-					$("#red").each(function(){
-						for(var i = 0; i < 4; i++){
-				            $("#red"+i).removeClass("dnone");
-				 }
-			      });
+                    $("#tenderTimeId").removeAttr("onclick");
+                    for(var i = 0; i < 4; i++){
+                        $("#red"+i).addClass("dnone");
+                    }
 				} else {
-					$("#tenderTimeId").removeAttr("onclick");
-					for(var i = 0; i < 4; i++){
-						$("#red"+i).addClass("dnone");
-					}
+                    $(".red").each(function(){
+                        for(var i = 0; i < 4; i++){
+                            $("#red"+i).removeClass("dnone");
+                        }
+                    });
 				}
 
 				$('#minute').bind('input propertychange', function() {
@@ -142,7 +141,11 @@
 						$("#extractionSitesError").text(map.extractionSitesError);
 					    var projectId = map.projectId;
 					    if(map.error){
-					    	
+                            if(map.packageError != null && map.packageError != ''){
+                                layer.alert("请选择包", {
+                                    shade: 0.01
+                                });
+                            }
 					    }
 					    
 						if(map.status != null && map.status != 0) {
@@ -483,39 +486,42 @@
 							          <tbody id="tbody">
 							          <c:choose>
 							           <c:when test="${typeId == 1}">
-							            <c:forEach items="${list.listProjectExtract}" var="listyes"
-                            varStatus="vs">
-                            <c:if test="${listyes.expert.isProvisional == null || listyes.expert.isProvisional == 0}">
-                            <tr class='cursor '>
-                              <td class='tc'>${vs.index+1}</td>
-                              <td class='tc'>${listyes.expert.relName}</td>
-                              <td class='tc'>${listyes.expert.mobile}</td>
-                              <td class='tc'>
-                              <c:forEach var="expertType" items="${ddList}">
-                                <c:if test="${listyes.reviewType eq expertType.id}">
-                                  ${expertType.name}
-                                </c:if>
-                              </c:forEach>
-                              </td>
-                              <td class='tc'>${listyes.expert.workUnit}</td>
-                              <td class='tc'>${listyes.expert.professTechTitles}</td>
-                            </tr>
-                            </c:if>
-                          </c:forEach>
+                                           <c:set value="${0}" var="_index"></c:set>
+                                            <c:forEach items="${list.listProjectExtract}" var="listyes" varStatus="vs">
+                                                <c:if test="${listyes.expert.isProvisional == null || listyes.expert.isProvisional == 0}">
+                                                    <c:set value="${_index+1}" var="_index"></c:set>
+                                                <tr class='cursor '>
+                                                  <td class='tc'>${_index}</td>
+                                                  <td class='tc'>${listyes.expert.relName}</td>
+                                                  <td class='tc'>${listyes.expert.mobile}</td>
+                                                  <td class='tc'>
+                                                  <c:forEach var="expertType" items="${ddList}">
+                                                    <c:if test="${listyes.reviewType eq expertType.id}">
+                                                      ${expertType.name}
+                                                    </c:if>
+                                                  </c:forEach>
+                                                  </td>
+                                                  <td class='tc'>${listyes.expert.workUnit}</td>
+                                                  <td class='tc'>${listyes.expert.professTechTitles}</td>
+                                                </tr>
+                                                </c:if>
+                                            </c:forEach>
 							           </c:when>
 							           <c:otherwise>
+                                           <c:set value="${0}" var="_index"></c:set>
 							             <c:forEach items="${list.listProjectExtract}" var="listyes"    varStatus="vs">
-							             <c:if test="${listyes.expert.isProvisional == 0 }">
-								           <tr class='cursor '>
-	                              <td class='tc'>${vs.index+1}</td>
-	                              <td class='tc'>******</td>
-	                              <td class='tc'>******</td>
-	                              <td class='tc'>******</td>
-	                              <td class='tc'>******</td>
-	                              <td class='tc'>******</td>
-	                            </tr>
-							             </c:if>
-                          </c:forEach>
+                                             <c:if test="${listyes.expert.isProvisional == 0 }">
+                                                 <c:set value="${_index+1}" var="_index"></c:set>
+                                               <tr class='cursor '>
+                                                  <td class='tc'>${_index}</td>
+                                                  <td class='tc'>******</td>
+                                                  <td class='tc'>******</td>
+                                                  <td class='tc'>******</td>
+                                                  <td class='tc'>******</td>
+                                                  <td class='tc'>******</td>
+                                                </tr>
+                                             </c:if>
+                                          </c:forEach>
 							           </c:otherwise>
 							          </c:choose>
 							          </tbody>
