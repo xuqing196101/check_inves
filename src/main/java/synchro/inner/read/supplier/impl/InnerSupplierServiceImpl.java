@@ -159,8 +159,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     public void importSupplierInfo(final File file) {
        List<Supplier> list = getSupplier(file);
        for (Supplier supplier : list){
-    	   Supplier unSupplier = supplierSerice.selectById(supplier.getId());
-    	   if(unSupplier==null){
+//    	   Supplier unSupplier = supplierSerice.selectById(supplier.getId());
+//    	   if(unSupplier==null){
     	   if(supplier.getListSupplierFinances().size()>0){
     		   for(SupplierFinance sf:supplier.getListSupplierFinances()){
     			   SupplierFinance unfinance = supplierFinanceMapper.selectByPrimaryKey(sf.getId());
@@ -369,7 +369,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 //        	   supplierSerice.u
            }
           
-    	  }
+    	
        }
        synchRecordService.importNewSupplierRecord(new Integer(list.size()).toString());
     }
