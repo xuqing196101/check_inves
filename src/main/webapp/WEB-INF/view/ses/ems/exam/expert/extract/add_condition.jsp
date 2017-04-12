@@ -417,6 +417,7 @@
                        var nonJoin = 0;
                        for(var i=0;i<list.length;i++){
                            var isUsed = 0;
+                           var neddNum = 0;
                            if(list[i]!=null){
                                if(list[0]!=null){
                                    var html="";
@@ -430,6 +431,7 @@
                                                html+= "专家类别："+list[0].conType[l].expertsType.name;
                                            }
                                        }
+                                       neddNum += list[0].conType[l].expertsCount;
                                        html+="&nbsp;&nbsp;&nbsp;抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].expertsCount;
                                        html+="<br/>";
 //                                       if(list[i].expert.expertsTypeId == list[0].conType[l].expertsType.id){
@@ -441,7 +443,7 @@
                                    }
                                    $("#extcontype").append(html);
                                }
-                               if(i < (list[0].conType.length + nonJoin)){
+                               if(i < (neddNum + nonJoin)){
                                    tex+="<tr class='cursor'>"+
                                        "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                                        "<td class='tc' onclick='show();'>*****</td>"+
