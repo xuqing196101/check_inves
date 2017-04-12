@@ -6,12 +6,24 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
-    <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
+      $(function() {
+        $(".progress-bar").each(function() {
+          var progress = $(this).prev().val();
+          $(this).width(progress);
+        });
+      });
+      
       function view(id) {
         window.location.href = "${pageContext.request.contextPath}/planSupervision/overview.html?id=" + id;
+      }
+      
+      function bigImg(obj, x) {
+        $(obj).append("<span>" + x + "%" + "</span>");
+      }
+
+      function normalImg(obj, x) {
+        $(obj).children("span").remove();
       }
     </script>
   </head>
@@ -108,8 +120,8 @@
             <c:otherwise>采购明细</c:otherwise>
           </c:choose>
              </h2>
-          <div class="col-md-12 col-sm-12 col-xs-12 p0">
-            <table class="table table-bordered table-condensed table-hover ">
+          <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
+            <table id="table" class="table table-bordered table-condensed lockout">-hover ">
               <thead>
                 <tr class="info">
                   <th class="w50">序号</th>
@@ -126,7 +138,7 @@
                   <th class="info " width="10%">供应商名称</th>
                   </c:if>
                   <th class="info " width="8%">状态</th>
-                  <th class="info ">进度</th>
+                  <th class="info" width="8%">进度</th>
                 </tr>
               </thead>
               <tbody id="tbody_id">
@@ -162,7 +174,11 @@
                     <td class="tl pl20">${obj.status}</td>
                     <td class="tc" onclick="view('${obj.id}')">
                       <c:if test="${obj.price != null}">
-                        <div id="p" class="easyui-progressbar" data-options="value:${obj.progressBar}" style="width:80px;"></div>
+                        <div class="progress-new">
+                          <input type="hidden" value="${obj.progressBar}" />
+                          <div id="progress" class="progress-bar" style="background:#2c9fa6;" onmouseover="bigImg(this,'${obj.progressBar}')" onmouseout="normalImg(this,'${obj.progressBar}')">
+                          </div>
+                        </div>
                       </c:if>
                     </td>
                   </tr>

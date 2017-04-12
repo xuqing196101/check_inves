@@ -165,7 +165,9 @@
         window.open("${pageContext.request.contextPath}/planSupervision/bidFileView.html?id=${project.id}", "采购文件");
       }
 
-
+      function openContract(id){
+		    location.href="${pageContext.request.contextPath }/contractSupervision/filePage.html?id="+id;
+		  }
       function bigImg(x) {
         $(x).removeClass("btmfixs");
         $(x).addClass("btmfix");
@@ -498,7 +500,7 @@
         <div class="padding-top-10 clear">
           <h2 class="count_flow"><i>3</i>进度详情</h2>
           <ul class="ul_list">
-            <h2 class="list_title" id="tab-1"><i>${flag}</i>采购需求编报</h2>
+            <h2 class="list_son" id="tab-1"><i>${flag}</i>采购需求编报</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -519,7 +521,7 @@
               </tbody>
             </table>
 
-            <h2 class="list_title" id="tab-2"><i>${flag}</i>采购需求受理</h2>
+            <h2 class="list_son" id="tab-2"><i>${flag}</i>采购需求受理</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -541,7 +543,7 @@
             </table>
 
             <c:if test="${advancedProject != null}">
-              <h2 class="list_title" id="tab-3"><i>${flag}</i>预研任务下达</h2>
+              <h2 class="list_son" id="tab-3"><i>${flag}</i>预研任务下达</h2>
               <c:set var="flag" value="${flag+1}" />
               <table class="table table-bordered mt10">
                 <tbody>
@@ -565,7 +567,7 @@
               </table>
             </c:if>
 
-            <h2 class="list_title" id="tab-4"><i>${flag}</i>采购计划审核</h2>
+            <h2 class="list_son" id="tab-4"><i>${flag}</i>采购计划审核</h2>
             <c:set var="flag" value="${flag+1}" />
             <c:choose>
               <c:when test="${listAuditPerson != null}">
@@ -598,7 +600,7 @@
             </c:choose>
 
             <c:if test="${collectPlan.fileName != null}">
-              <h2 class="list_title" id="tab-5"><i>${flag}</i>采购计划下达</h2>
+              <h2 class="list_son" id="tab-5"><i>${flag}</i>采购计划下达</h2>
               <c:set var="flag" value="${flag+1}" />
               <table class="table table-bordered mt10">
                 <tbody>
@@ -623,7 +625,7 @@
             </c:if>
 
             <c:if test="${task ne null}">
-            <h2 class="list_title" id="tab-6"><i>${flag}</i>采购任务受领</h2>
+            <h2 class="list_son" id="tab-6"><i>${flag}</i>采购任务受领</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -651,7 +653,7 @@
             </c:if>
 
             <c:if test="${project ne null}">
-            <h2 class="list_title" id="tab-7"><i>${flag}</i>采购项目立项</h2>
+            <h2 class="list_son" id="tab-7"><i>${flag}</i>采购项目立项</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -682,7 +684,7 @@
 
             <c:if test="${'DYLY' ne code.code}">
               <c:if test="${fileName ne null}">
-              <h2 class="list_title" id="tab-8"><i>${flag}</i>采购文件编报</h2>
+              <h2 class="list_son" id="tab-8"><i>${flag}</i>采购文件编报</h2>
               <c:set var="flag" value="${flag+1}" />
               <table class="table table-bordered mt10">
                 <tbody>
@@ -714,7 +716,7 @@
             </c:if>
 
             <c:if test="${articles ne null}">
-            <h2 class="list_title" id="tab-9"><i>${flag}</i>采购公告发布</h2>
+            <h2 class="list_son" id="tab-9"><i>${flag}</i>采购公告发布</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -735,7 +737,7 @@
             </c:if>
 
             <%-- <c:if test="${'GKZB' ne code.code && 'DYLY' ne code.code}">
-              <h2 class="list_title" id="tab-10"><i>${flag}</i>供应商抽取</h2>
+              <h2 class="list_son" id="tab-10"><i>${flag}</i>供应商抽取</h2>
               <c:set var="flag" value="${flag+1}" />
               <table class="table table-bordered mt10">
                 <tbody>
@@ -758,7 +760,7 @@
 
             <c:if test="${'DYLY' ne code.code}">
             <c:if test="${begin ne null}">
-            <h2 class="list_title" id="tab-11"><i>${flag}</i>采购文件发售</h2>
+            <h2 class="list_son" id="tab-11"><i>${flag}</i>采购文件发售</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -783,7 +785,7 @@
             </c:if>
 
             <c:if test=""></c:if>
-            <%-- <h2 class="list_title" id="tab-12"><i>${flag}</i>评审专家抽取</h2>
+            <%-- <h2 class="list_son" id="tab-12"><i>${flag}</i>评审专家抽取</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -804,7 +806,7 @@
             </table> --%>
 
             <c:if test="${project.bidDate ne null}">
-            <h2 class="list_title" id="tab-13"><i>${flag}</i>开标</h2>
+            <h2 class="list_son" id="tab-13"><i>${flag}</i>开标</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -827,7 +829,7 @@
             </c:if>
 
             <c:if test="${experts ne null}">
-            <h2 class="list_title" id="tab-14"><i>${flag}</i>采购项目评审</h2>
+            <h2 class="list_son" id="tab-14"><i>${flag}</i>采购项目评审</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -879,7 +881,7 @@
             </c:if>
 
             <c:if test="${articleList ne null}">
-            <h2 class="list_title" id="tab-15"><i>${flag}</i>中标公示发布</h2>
+            <h2 class="list_son" id="tab-15"><i>${flag}</i>中标公示发布</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -900,7 +902,7 @@
             </c:if>
 
             <c:if test="${listCheckPass ne null}">
-            <h2 class="list_title" id="tab-16"><i>${flag}</i>中标供应商确定</h2>
+            <h2 class="list_son" id="tab-16"><i>${flag}</i>中标供应商确定</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -925,7 +927,7 @@
             </c:if>
 
             <c:if test="${purchaseContract ne null}">
-            <h2 class="list_title" id="tab-17"><i>${flag}</i>采购合同签订</h2>
+            <h2 class="list_son" id="tab-17"><i>${flag}</i>采购合同签订</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -936,7 +938,7 @@
                   <th class="info">签订时间</th>
                 </tr>
                 <tr>
-                  <td>${purchaseContract.name}</td>
+                  <td><a href="#" onclick="openContract('${purchaseContract.id}');">${purchaseContract.name}</a></td>
                   <td>${purchaseContract.purchaseDepName}</td>
                   <td>${purchaseContract.supplierDepName}</td>
                   <td>
@@ -948,7 +950,7 @@
             </c:if>
 
             <c:if test="${PqInfo ne null}">
-            <h2 class="list_title" id="tab-18"><i>${flag}</i>采购质检验收</h2>
+            <h2 class="list_son" id="tab-18"><i>${flag}</i>采购质检验收</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
