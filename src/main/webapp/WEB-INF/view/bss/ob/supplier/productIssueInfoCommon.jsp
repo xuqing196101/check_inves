@@ -17,7 +17,7 @@
 		  <td class="tc" colspan="3">合计</td>
 		  <td class="tc">
 		  	<b>
-		  	<c:if test="${ totalCountPriceBigDecimal != '00' }">
+		  	<c:if test="${ totalCountPriceBigDecimal != '0.0000' }">
 		  		${ totalCountPriceBigDecimal}
 		  	</b>
 		  	</c:if>

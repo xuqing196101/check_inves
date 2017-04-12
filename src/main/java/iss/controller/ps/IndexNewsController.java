@@ -1523,7 +1523,7 @@ public class IndexNewsController extends BaseSupplierController{
 		String conditionStr = request.getParameter("condition");
 		String condition = null;
 		if(conditionStr != null){
-			condition = new String(request.getParameter("condition").getBytes("ISO8859-1"), "UTF-8");
+			condition = new String(conditionStr.getBytes("ISO8859-1"), "UTF-8").trim();
 		}
 		if(page==null){
 			page=1;

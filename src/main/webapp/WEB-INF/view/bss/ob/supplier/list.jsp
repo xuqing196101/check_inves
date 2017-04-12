@@ -294,7 +294,7 @@
 		//	5.第二轮结果已确认查看的是第二轮结果确认页面】
 		function findIssueInfo(pId,pStatus,pRemark) {
 			// 1.竞价未开始
-			if(pStatus == 1 || (pStatus == 2 && pRemark == '0')){
+			if(pStatus == 1 || pRemark == '0'){
 				window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?flag=1&id="+pId;  
 		    }
 			
@@ -329,6 +329,13 @@
 			}
 			
 	    }
+		
+		//重置按钮事件  
+	    function resetAll(){
+	        $("#name").val("");  
+	        $("#d17").val("");  
+	        $("#remark").val("");
+	    }
 </script>
 </head>
 <body>
@@ -350,14 +357,23 @@
     	<ul class="demand_list">
     	  <li>
 	    	<label class="fl">竞价标题：</label>
-			<input name="name" value="${ name }" type="text" id="topic" class=""/>
+			<input name="name" value="${ name }" type="text" id="name" class=""/>
 	      </li>
     	  <li>
 	    	<label class="fl">发布时间：</label>
 			<input name="createTime" value="${ createTimeStr }"  class="Wdate" type="text" id="d17" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
-	      </li> 
+	      </li>
+	      <li>
+	    	<label class="fl">竞价状态：</label>
+	    	  <select id="remark" name="rematk" class="w178">
+	    	    <option value="">--请选择--</option>
+	    	    <option value="0" <c:if test="${'0' eq remark}">selected</c:if>>竞价未开始</option>
+	    	    <option value="20" <c:if test="${'' eq remark}">selected</c:if>>中标</option>
+	    	    <option value="30" <c:if test="${'' eq remark}">selected</c:if>>未中标</option>
+	    	  </select>
+	      </li>
 	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
+	    	<button onclick="resetAll()" class="btn">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
        </form>
