@@ -228,6 +228,19 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			
 			OBProjectRule obRule = OBProjectRuleMapper.selectByPrimaryKey(projectId);
 			 if(obRule!=null){
+				 OBProjectResult ex=new OBProjectResult();
+				 ex.setProjectId(projectId);
+				 ex.setSupplierId(supplierId);
+				 //判断 第一轮 是否有成交 比例
+				 OBProjectResult ob= oBProjectResultMapper.selectProportionByProject(ex);
+				 String remark="";
+				 if(ob!=null){
+					 if(Integer.valueOf(ob.getProportion())>0){
+						 remark="22";
+					 }else{
+						 remark = "32";
+					 }
+				 }
 			//第二轮 确认时间
 			 int confirmTimeSecond=obRule.getConfirmTimeSecond();
 			String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
@@ -243,7 +256,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			oBProjectMapper.updateByPrimaryKeySelective(obProject);
 			User user = new User();
 			user.setTypeId(supplierId);
-			String remark = "32";
+			remark = "32";
 			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
 			boo=true;
 			 }

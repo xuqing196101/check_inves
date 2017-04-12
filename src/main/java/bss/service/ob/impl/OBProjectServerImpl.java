@@ -828,7 +828,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 					// 比较 竞价信息 如果等于1  那么是竞价 报价结束的时间
 					if (compareDate == 1) {
 						// 竞价id是否在当前报价数量
-						Integer second= OBResultsInfoMapper.countByBidding(projectId, secoundBidding, null);
+						Integer second= OBResultsInfoMapper.countByBidding(op.getId(), secoundBidding, null);
 						List<OBResultsInfo> obresultsList=null;
 						//判断供应商报价数据 是否符合 规则的最少供应商报价数量
 						if(second>=leastSupplierNum){
@@ -852,14 +852,14 @@ public class OBProjectServerImpl implements OBProjectServer {
 							upstatus.setId(op.getId());
 							upstatus.setEndTime(DateUtils.getAddDate(op.getEndTime(), quoteTimeSecond));
 							OBprojectMapper.updateByPrimaryKeySelective(upstatus);
-							//修改关系表 状态 2
-							List<OBResultsInfo> resultsInfoList=OBResultsInfoMapper.selectByBidding(projectId, secoundBidding, null);
+							//修改关系表 状态 20
+							List<OBResultsInfo> resultsInfoList=OBResultsInfoMapper.selectByBidding(op.getId(), secoundBidding, null);
 							for (OBResultsInfo obResultsInfo : resultsInfoList) {
 								OBProject obProject = new OBProject();
 								obProject.setId(op.getId());
 								User users = new User();
 								users.setTypeId(obResultsInfo.getSupplierId());
-								String remark = "2";
+								String remark = "20";
 								BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
 							}
 						}else{
@@ -869,7 +869,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 							 //生成随机 浮动比例 数
 						     Random random = new Random();
 						     int valid = random.nextInt(max)%(max-min+1) + min;
-						     obresultsList=benchmark(projectId, null, valid,secoundBidding);
+						     obresultsList=benchmark(op.getId(), null, valid,secoundBidding);
 						     //修改 规则附表的 浮动比例字段
 						     obRule.setFloatPercent(valid);
 						     obProjectRuleMapper.updateByPrimaryKeySelective(obRule);
@@ -877,7 +877,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 							//三家及以下供应商数量为最低价法
 					    	if(second<=3){
 					    		//供应商报价数据3个的时间 采用 最低价法 计算 排名
-								obresultsList = OBResultsInfoMapper.selectByProjectId(op.getId());
+								obresultsList = OBResultsInfoMapper.selectByProjectId(op.getId(),secoundBidding);
 					    	}
 						// 判断 是否有竞价供应商
 						if (obresultsList != null && obresultsList.size() > 0) {

@@ -118,7 +118,7 @@ ORDER BY CREATED_AT) where rownum=1)
   
     <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select * from(select  SUPPLIER_ID,sum(DEAL_MONEY) as DEAL_MONEY,CREATED_AT from T_BSS_OB_RESULTS_INFO
-	where PROJECT_ID = #{id,jdbcType=VARCHAR}
+	where PROJECT_ID = #{id,jdbcType=VARCHAR} AND BIDDING_ID=#{biddingId,jdbcType=VARCHAR}
     GROUP BY SUPPLIER_ID,CREATED_AT)s
 	ORDER BY s.DEAL_MONEY ASC,s.CREATED_AT ASC
   </select>

@@ -34,8 +34,9 @@ public interface OBResultsInfoMapper {
     /***
      * 根据竞价id 获取 数据
      * @author YangHongLiang
+     * @param secoundBidding 区分第一次报价
      */
-    List<OBResultsInfo> selectByProjectId(String projectId);
+    List<OBResultsInfo> selectByProjectId(@Param("id")String projectId,@Param("biddingId")String secoundBidding);
     /**
      * 根据竞价id 获取竞价成交金额
      * @param projectId
