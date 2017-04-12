@@ -142,7 +142,7 @@
 				  <tbody>
 					<tr>
 					  <td class="col-xs-3 bggrey tl">名称：</td>
-					  <td class="col-xs-3">${orgnization.fullName }</td>
+					  <td class="col-xs-3">${orgnization.name }</td>
 					  <td class="col-xs-3 bggrey tl">简称：</td>
 					  <td class="col-xs-3">${orgnization.shortName }</td>
 					</tr>
@@ -258,7 +258,7 @@
 						<td class="tc">${p.telephone}</td>
 						<td class="tl pl20">${p.provinceName}${p.cityName}</td>
 						<td class="tl pl20">${p.address}</td>
-						<td class="tc">${p.princinpal}</td>
+						<td class="tc">${p.contactName}</td>
 					  </tr>
 					</c:forEach>
 				  </tbody>
