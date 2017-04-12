@@ -70,24 +70,23 @@
 				$('input[name="chkItem"]:checked').each(function() {
 					id.push($(this).val());
 				});
+				var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).find("input").val();
 				if(id.length == 1) {
-					
-					// window.location.href = "${pageContext.request.contextPath }/set/excel.html?id=" + id;
-					
+					if(status == '8' || status == '12'){
 					  layer.open({
-						  type: 2, //page层
-						  area: ['30%', '50%'],
-						  title: '下载',
-						  closeBtn: 1,
-						  shade:0.01, //遮罩透明度
-						  moveType: 1, //拖拽风格，0是默认，1是传统拖动
-						  shift: 1, //0-6的动画形式，-1不开启
-						  offset: ['100px', '30%'],
-						  content:  "${pageContext.request.contextPath }/look/organddep.html?uniqueId=" + id,
-						});
-					  
-					
-					
+              type: 2, //page层
+              area: ['30%', '50%'],
+              title: '下载',
+              closeBtn: 1,
+              shade:0.01, //遮罩透明度
+              moveType: 1, //拖拽风格，0是默认，1是传统拖动
+              shift: 1, //0-6的动画形式，-1不开启
+              offset: ['100px', '30%'],
+              content:  "${pageContext.request.contextPath }/look/organddep.html?uniqueId=" + id,
+            });
+					} else {
+					  window.location.href = "${pageContext.request.contextPath }/set/excel.html?id=" + id;
+					}
 				} else if(id.length > 1) {
 					layer.alert("只能选择一个", {
 						offset: ['222px', '390px'],
@@ -436,6 +435,7 @@
 								<fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd" />
 							</td>
 							<td class="tl pl20" onclick="view('${obj.id}')">
+							 <input type="hidden" value="${obj.status}"/>
 								<c:if test="${obj.status=='1' }">
 									审核轮次设置
 								</c:if>
