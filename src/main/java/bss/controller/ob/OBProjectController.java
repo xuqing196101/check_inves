@@ -958,6 +958,8 @@ public class OBProjectController {
 						}
 						obProjectResult.setObResultSubtabulation(obResultSubtabulation);
 						countProportion += Integer.parseInt(obProjectResult.getProportion());
+						List<OBResultsInfo> listinf = OBResultsInfoMapper.selectResult(projectId, obProjectResult.getSupplierId());
+						obProjectResult.setOBResultsInfo(listinf);
 					}else{
 						List<OBResultsInfo> listinf = OBResultsInfoMapper.selectResult(projectId, obProjectResult.getSupplierId());
 						obProjectResult.setOBResultsInfo(listinf);

@@ -40,7 +40,6 @@
 <c:if test="${size == 0 }">
 	<h2 class="count_flow">无报价信息</h2>
 </c:if>
-
 	 <c:forEach items="${listres}" var="supplier" varStatus="pi">
 	 <ul class="ul_list">
 	  <li class="col-md-3 col-sm-6 col-xs-12 p0">
@@ -160,7 +159,10 @@
 				<c:if test="${product.supplierId == supplier.supplierId}">
 					<tr>
 						<td class="tc">${va.index+1 }</td>
-			  			<td class="tc">${product.product.name }</td>
+			  			<td class="tc" title="${product.product.name }">
+			  				<c:if test="${fn:length(product.product.name) > 20 }">${fn:substring(product.product.name, 0, 20)}...</c:if>
+							<c:if test="${fn:length(product.product.name) <= 20 }">${product.product.name }</c:if>
+			  			</td>
 			  			<td class="tc">${product.resultNumber }</td>
 						<td class="tc">
 							<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
@@ -186,7 +188,10 @@
 				<c:if test="${product.supplierId == supplier.supplierId}">
 				<tr>
 					<td class="tc">${va.index+1 }</td>
-			  		<td class="tc">${product.obProduct.name }</td>
+			  		<td class="tc" title="${product.obProduct.name }">
+			  			<c:if test="${fn:length(product.obProduct.name) > 20 }">${fn:substring(product.obProduct.name, 0, 20)}...</c:if>
+						<c:if test="${fn:length(product.obProduct.name) <= 20 }">${product.obProduct.name }</c:if>
+			  		</td>
 			  		<td class="tc">0</td>
 					<td class="tc">
 						<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
@@ -209,7 +214,10 @@
 				<c:if test="${product.supplierId == supplier.supplierId}">
 				<tr>
 					<td class="tc">${va.index+1 }</td>
-			  		<td class="tc">${product.obProduct.name }</td>
+			  		<td class="tc" title="${product.obProduct.name }">
+			  			<c:if test="${fn:length(product.obProduct.name) > 20 }">${fn:substring(product.obProduct.name, 0, 20)}...</c:if>
+						<c:if test="${fn:length(product.obProduct.name) <= 20 }">${product.obProduct.name }</c:if>
+			  		</td>
 			  		<td class="tc">0</td>
 					<td class="tc">
 						<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
