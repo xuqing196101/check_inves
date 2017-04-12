@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
+import ses.util.PropUtil;
 import synchro.outer.read.infos.OuterInfoImportService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
@@ -48,6 +49,18 @@ public class OuterInfoImportServiceImpl implements OuterInfoImportService {
                 if (count > 0){
                     if (article != null && StringUtils.isNotBlank(article.getId())){
                         articleService.updateArticle(article);
+                        //删除原来图片
+                        String filePath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "zanpic";
+                        String glisteningPath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "glistening";
+                        File glisteningFile = new File(glisteningPath+"/"+article.getId()+".jpg");
+                        File zanPicFile = new File(filePath+"/"+article.getId()+".png");
+                        //判读图片是否存在
+                        if(glisteningFile.exists()){
+                            glisteningFile.delete();
+                        }
+                        if(zanPicFile.exists()){
+                            zanPicFile.delete();
+                        }
                     }
                 } else {
                     articleService.insertArticle(article);
