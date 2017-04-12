@@ -884,8 +884,17 @@ public class OBProductController {
 			model.addAttribute("catName", cl.getName());
 		}
 		PageInfo<OBProduct> info = new PageInfo<>(list);
+		List<OBSupplier> numlist = oBSupplierService.selectSupplierNum();
+		for (OBSupplier ob : numlist) {
+			if(null != ob){
+				if (null == ob.getnCount()) {
+					ob.setnCount(0);
+				}
+			}
+		}
 		model.addAttribute("info", info);
 		model.addAttribute("product", example);
+		model.addAttribute("numlist", numlist);
 		return "bss/ob/finalize_DesignProduct/index_list";
 	}
 

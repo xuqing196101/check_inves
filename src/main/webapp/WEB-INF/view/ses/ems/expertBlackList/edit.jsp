@@ -9,6 +9,7 @@
 		<%@ include file="/WEB-INF/view/common/validate.jsp"%>
 <script type="text/javascript">
 		$().ready(function() {
+			$("#extensionId").val("bmp,pmg,jpg,gif,png");
 		   $("#form1").validForm();
 		});
 		
