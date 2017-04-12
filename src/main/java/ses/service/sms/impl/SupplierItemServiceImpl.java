@@ -351,6 +351,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void updateByPrimaryKeySelective(List<SupplierItem> itemList) {
         for (SupplierItem item : itemList) {
+        	if(item.getLevel()==null){
+        		item.setLevel("");
+        	}
+        	if(item.getProfessType()==null){
+        		item.setProfessType("");
+        	}
             supplierItemMapper.updateByPrimaryKeySelective(item);
         }
     }

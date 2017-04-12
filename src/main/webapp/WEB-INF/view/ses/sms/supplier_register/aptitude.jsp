@@ -85,6 +85,7 @@
 			}
 
 			function prev() {
+				tempSave();
 				$("input[name='flag']").val("1");
 				$("#items_info_form_id").submit();
 			}
