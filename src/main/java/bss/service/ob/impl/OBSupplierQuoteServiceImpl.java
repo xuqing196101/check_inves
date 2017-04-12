@@ -454,6 +454,24 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		List<OBResultsInfo> oBResultsInfo = obResultsInfoMapper.selectQuotoInfo(map);
 		return oBResultsInfo;
 	}
-	
+
+	/**
+	 * 
+	* @Title: checkQuotoSecond 
+	* @Description: 第二次报价前，两家供应商报价进入第二轮报价时的判断，
+	* 				未报价的不能进入，只能这第一次报价的两家供应商才可以进入
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件 
+	* @throws
+	 */
+	@Override
+	public JdcgResult checkQuotoSecond(Map<String, Object> map) {
+		Integer count = obResultsInfoMapper.selectFlagByQuotoSecond(map);
+		if(count > 0){
+			return JdcgResult.build(500, "对不起！您第一轮未参与报价，不能进入第二轮");
+		}
+		return JdcgResult.ok();
+	}
 	
 }

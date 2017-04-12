@@ -1043,6 +1043,31 @@ public class OBSupplierQuoteController {
 	}
 	
 	/**
+	 * 
+	* @Title: checkQuotoSecond 
+	* @Description: 第二次报价前，两家供应商报价进入第二轮报价时的判断，
+	* 				未报价的不能进入，只能这第一次报价的两家供应商才可以进入
+	* @author Easong
+	* @param @param user
+	* @param @param req
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/checkQuotoSecond")
+	@ResponseBody
+	public JdcgResult checkQuotoSecond(@CurrentUser User user, HttpServletRequest req){
+		// 获取竞价id
+		String id = req.getParameter("id");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(user != null){
+			map.put("supplierId", user.getTypeId());
+		}
+		map.put("projectId", id);
+		return obSupplierQuoteService.checkQuotoSecond(map);
+	}
+	
+	/**
      * 
     * @Title: getSysTime 
     * @Description: 获取当前系统时间
