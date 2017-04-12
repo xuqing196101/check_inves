@@ -374,7 +374,7 @@ public class AuditSetController {
 	 */
 	@RequestMapping("/excel")
 	@ResponseBody
-	public String excel(HttpServletRequest request,HttpServletResponse response,CollectPlan collectPlan,String org,String dep) throws UnsupportedEncodingException{
+	public String excel(HttpServletRequest request,HttpServletResponse response,CollectPlan collectPlan,String org,String dep,String flag) throws UnsupportedEncodingException{
 		CollectPlan plan = collectPlanService.queryById(collectPlan.getId());
 		if(dep!=null){
 			dep=new String(dep.getBytes("ISO-8859-1"),"UTF-8");
@@ -600,6 +600,9 @@ public class AuditSetController {
 //	        cell = row.createCell(17);  
 //	        cell.setCellValue("其他建议"); 
 	        int count=3;
+	        if(flag!=null){
+	        	count=2;
+	        }
 //	        PurchaseAudit purchaseAudit=new PurchaseAudit();
 			for(PurchaseDetail p:list){
 	        	row = sheet.createRow(count);
@@ -729,22 +732,22 @@ public class AuditSetController {
 		        style.setWrapText(true);
 		        cell.setCellStyle(style);
 	   	        cell.setCellValue(p.getMemo());  
-	   	        if(plan.getAuditTurn()!=null){
-	   	         cell = row.createCell(14);  
-		   	        cell.setCellValue(p.getOneAdvice()); 
-	   	        }
-	   	     if(plan.getAuditTurn()!=null){
-	   	       if(plan.getAuditTurn()==2||plan.getAuditTurn()==3){
-	   	         cell = row.createCell(15);  
-		   	        cell.setCellValue(p.getTwoAdvice()); 
-	   	        }
-	   	     }
-	   	  if(plan.getAuditTurn()!=null){
-	   	      if(plan.getAuditTurn()!=3){
-	   	         cell = row.createCell(16);  
-		   	        cell.setCellValue(p.getThreeAdvice()); 
-	   	        }
-	   	  }
+//	   	        if(plan.getAuditTurn()!=null){
+//	   	         cell = row.createCell(14);  
+//		   	        cell.setCellValue(p.getOneAdvice()); 
+//	   	        }
+//	   	     if(plan.getAuditTurn()!=null){
+//	   	       if(plan.getAuditTurn()==2||plan.getAuditTurn()==3){
+//	   	         cell = row.createCell(15);  
+//		   	        cell.setCellValue(p.getTwoAdvice()); 
+//	   	        }
+//	   	     }
+//	   	  if(plan.getAuditTurn()!=null){
+//	   	      if(plan.getAuditTurn()!=3){
+//	   	         cell = row.createCell(16);  
+//		   	        cell.setCellValue(p.getThreeAdvice()); 
+//	   	        }
+//	   	  }
 //	   	        int an=13;
 //	   	        for(AuditParam ap:all){
 //	   	        	 
@@ -1096,21 +1099,21 @@ public class AuditSetController {
 	        cell.setCellStyle(style);
 	        cell.setCellValue("备注");
 
-	        if(plan.getAuditTurn()!=null){
-//	        	 if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==12||plan.getStatus()==2){
-		        	 cell = row.createCell(14);  
-		 	        cell.setCellValue("一轮审核建议");  
-//		        }
-		 	        
-		 	       if((plan.getAuditTurn()==2||plan.getAuditTurn()==3)&&(plan.getStatus()==12||plan.getStatus()==2)){
-				        	 cell = row.createCell(15);  
-				 	        cell.setCellValue("二轮轮审核建议");  
-			        }
-		 	       if(plan.getAuditTurn()==3&&(plan.getStatus()==12||plan.getStatus()==2)){
-			        	cell = row.createCell(16);  
-			 	        cell.setCellValue("三轮审核建议");  
-			        }
-	        }
+//	        if(plan.getAuditTurn()!=null){
+////	        	 if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==12||plan.getStatus()==2){
+//		        	 cell = row.createCell(14);  
+//		 	        cell.setCellValue("一轮审核建议");  
+////		        }
+//		 	        
+//		 	       if((plan.getAuditTurn()==2||plan.getAuditTurn()==3)&&(plan.getStatus()==12||plan.getStatus()==2)){
+//				        	 cell = row.createCell(15);  
+//				 	        cell.setCellValue("二轮轮审核建议");  
+//			        }
+//		 	       if(plan.getAuditTurn()==3&&(plan.getStatus()==12||plan.getStatus()==2)){
+//			        	cell = row.createCell(16);  
+//			 	        cell.setCellValue("三轮审核建议");  
+//			        }
+//	        }
 	        
 	        row = sheet.createRow(2);
 	        cell = row.createCell(3); 

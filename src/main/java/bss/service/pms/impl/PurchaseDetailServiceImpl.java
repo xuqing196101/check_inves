@@ -260,10 +260,8 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 
 	@Override
 	public List<String> queryDepartment(String uniqueId,Integer page) {
-		List<String> list=new ArrayList<String>();
-		list.add(uniqueId);
 		 PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
-		List<String> departMents = purchaseDetailMapper.queryDepartMent(list);
+		List<String> departMents = purchaseDetailMapper.getDep(uniqueId);
 		return departMents;
 	}
 

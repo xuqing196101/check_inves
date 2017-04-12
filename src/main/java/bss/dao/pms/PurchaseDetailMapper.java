@@ -312,4 +312,19 @@ public interface PurchaseDetailMapper {
      */
     List<PurchaseDetail> getUniqueId(@Param("uniqueId")String uniqueId);
     
+    
+    /**
+     * 
+    * @Title: getDep
+    * @Description: 查询明细的所有部门
+    * author: Li Xiaoxiao 
+    * @param @param uniqueId
+    * @param @return     
+    * @return List<String>     
+    * @throws
+     */
+    List<String> getDep(@Param("uniqueId")String uniqueId);
+    
+    
+    
 }

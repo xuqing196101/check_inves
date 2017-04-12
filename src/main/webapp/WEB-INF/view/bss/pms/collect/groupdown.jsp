@@ -12,7 +12,7 @@
             cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
             pages: "${info.pages}", //总页数
             skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-            total: "${info.total}",
+          //  total: "需求部门共"+"${info.total}",
             startRow: "${info.startRow}",
             endRow: "${info.endRow}",
             skip: true, //是否开启跳页
@@ -141,7 +141,7 @@
 <!-- 项目戳开始 -->
    <h2 class="search_detail">
     </h2>
-    <form action="">
+    <form id="add_form" action="${pageContext.request.contextPath }/look/organddep.html" method="post">
         <input type="hidden" name="page" id="page">
     </form>
     
@@ -163,7 +163,7 @@
 			<tr class="pointer">
 			  <td class="tc w30">${vs.index+1}</td>
 			  <td class="tc w30">${obj.shortName }</td>
-			  <td class="tc w30"> <a href="${pageContext.request.contextPath }/set/excel.html?id=${uniqueId}&&org=${obj.id}" >下载</td>
+			  <td class="tc w30"> <a href="${pageContext.request.contextPath }/set/excel.html?id=${uniqueId}&&org=${obj.id}&&flag=1" >下载</td>
 			 	  
 		 </tr>
 		 </c:forEach>
@@ -177,7 +177,7 @@
 			<tr class="pointer">
 			  <td class="tc w30">${de.index+1}</td>
 			  <td class="tc w30">${dep}</td>
-			  <td class="tc w30"> <a href="${pageContext.request.contextPath }/set/excel.html?id=${uniqueId}&&dep=${dep}" >下载</td>
+			  <td class="tc w30"> <a href="${pageContext.request.contextPath }/set/excel.html?id=${uniqueId}&&dep=${dep}&&flag=1" >下载</td>
 		 </tr>
 		 </c:forEach>
       </table>

@@ -983,4 +983,13 @@
     </select>
     
     
+     <select id="getDep" resultType="String">
+    select DEPARTMENT
+	      from T_BSS_PMS_PURCHASE_DETAIL where  UNIQUE_ID=#{uniqueId}
+	 group by DEPARTMENT
+ 
+    </select>
+    
+    
+    
 </mapper>
