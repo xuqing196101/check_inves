@@ -116,6 +116,21 @@
 
 	});
 	
+	
+	// 开始报价和确认结果通用验证
+	function statusCommon(){
+		 // 竞价结束
+	   if(status == '3'){
+		   layer.alert("竞价已结束 ！");
+		   return;
+	   }
+	   // 该项目已流拍
+	   if(status == '4'){
+		   layer.alert("对不起，项目已流拍 ！");
+		   return;
+	   }
+	}
+	
 	// 开始报价
 	function beginQuote() {
 	       var id = [];
@@ -131,16 +146,10 @@
 			   // 得到报价截止的毫秒数
 			   var quotoEndTimeMill = (new Date(quotoEndTime)).getTime();
 			   var quotoEndTimeMillSecond = (new Date(quotoEndTimeSecond)).getTime();
-			   // 竞价结束
-			   if(status == '3'){
-				   layer.alert("竞价已结束 ！");
-				   return;
-			   }
-			   // 该项目已流拍
-			   if(status == '4'){
-				   layer.alert("对不起，项目已流拍 ！");
-				   return;
-			   }
+			  
+			   //竞价结束和流拍
+			   statusCommon();
+			   
 			   if(status == '1'){
 				   layer.alert("对不起，报价时间还未开始，请您等待 ！");
 				   return;
@@ -151,27 +160,25 @@
 					   layer.alert("已报价，请等待确认结果 ！");
 					   return;
 				   }
-				   if(remark == '2'){
-					   layer.alert("对不起，您未在规定的时间内完成报价！");
+			   }
+			   if(status == '7'){
+				   if(remark == '21'){
+					   layer.alert("已报价，请等待确认结果 ！");
 					   return;
 				   }
 			   }
 			   
-			   if(status == '5' && remark == '1'){
-				   layer.alert("报价已结束，请您确认结果 ！");
-				   return;
-			   }
 			   // 报价时间已结束
 			   if(status != '2' && status != '7'){
 				   layer.alert("报价已结束 ！");
 				   return;
 			   }
 			   // 开始报价第一次报价
-			   if(status == '2'){
+			   if(status == '2' && remark == '0'){
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+valueArr[0]+"&&quotoEndTimeMill="+quotoEndTimeMill+"&&status="+status;
 			   }
 			   // 二次报价
-			   if(status == '7'){
+			   if(status == '7' && remark == '20'){
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+valueArr[0]+"&&quotoEndTimeMillSecond="+quotoEndTimeMillSecond+"&&status="+status;
 			   }
 	       } else if(id.length > 1) {
@@ -197,83 +204,38 @@
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
 			   var remark = valueArr[2];
-			   // 报价时间还未开始
-			   if(status == '1'){
-				   layer.alert("对不起，报价时间还未开始，请您等待 ！");
+			   
+			   //竞价结束和流拍
+			   statusCommon();
+			   
+			   if(status != '5' && status != '6'){
+				   layer.alert("对不起，确认时间未开始，请您等待 ！");
 				   return;
 			   }
 			   
-			   // 确认结果前做报价判断
-			   if(status == 2){
-				   if(remark == '0'){
-					   layer.alert("对不起，您还未参与报价！");
-					   return;
-				   }
-				   if(remark == '1'){
-					   layer.alert("确认时间未到，请等待确认结果 ！");
-					   return;
-				   }
-			   }
-			   // 竞价结束
-			   if(status == '3'){
-				   layer.alert("竞价已结束 ！");
-				   return;
-			   }
-			   // 该项目已流拍
-			   if(status ==  '4'){
-				   layer.alert("对不起，项目已流拍 ！");
+			   // 未中标提示
+			   if((status == '5' && remark == '0') || (status == '5' && remark == '20')
+					(status == '6' && remark == '0') || (status == '6' && remark == '20')
+					   || (status == '6' && remark == '3')){
+				   layer.alert("对不起，您未中标 ！");
 				   return;
 			   }
 			   
-			   // 第一轮确认时间未到
-			   if((status != '5' && remark == '1')){
-				   layer.alert("对不起，确认时间未到不能确认结果 ！");
+			   // 第一轮已操作
+			   if((status == '5' && remark == '4') || (status == '5' && remark == '3')){
+				   layer.alert("对不起，不能重复确认 ！");
 				   return;
-			   }
+				}
 			   
-			   //-------------------------第一 轮----------------//
-			   // 第一轮确认后，第二轮未开始
-			   if((status == '5' && remark == '5') || (status == '5' && remark == '4')){
-				   layer.alert("第一轮已确认 ！");
+			   // 第二轮已操作
+			   if((status == '6' && remark == '42') || (status == '6' && remark == '32')
+					   || (status == '6' && remark == '22')){
+				   layer.alert("对不起，不能重复确认 ！");
 				   return;
-			   }
-			   // 第二轮开始确认结果，改比接受或者全接受状态都有可能进入第二轮
-			   if(remark == '3'){
-				   layer.alert("对不起，第一轮已放弃不能进入第二轮确认 ！");
-				   return;
-			   }
-			   // 第二轮确认时间未到
-			   if((status != '6' && remark == '4') || (status != '6' && remark == '5')){
-				   layer.alert("对不起，第二轮确认时间未到不能确认结果 ！");
-				   return;
-			   }
-			   
-			   //-------------------------第二轮----------------//
-			   // 第一轮确认后，第二轮未开始
-			   if((status == '6' && remark == '42') || (status == '6' && remark == '52')){
-				   layer.alert("第二轮已确认，请您等待竞价结束 ！");
-				   return;
-			   }
-			   
-			   
-			   // 如果供应商未报价则显示
-			   if(status == '5' && remark == '0'){
-				   layer.alert("对不起，您未报价不能确认结果 ！");
-				   return;
-			   }
-			   //未中标状态
-			   if(remark == '666'){
-				   layer.alert("对不起，本次竞价项目您未中标 ！");
-				   return;
-			   }
-			   
-			   if(status == '6' && remark == '32'){
-				   layer.alert("您已放弃第二轮确认结果 ！");
-				   return;
-			   }
+				}
 			   
 			   // 确认结果
-			   if((status == '5' && remark == '1') || (status == '6' && remark == '5') || (status == '6' && remark == '4')){
+			   if((status == '5' && remark == '21') || (status == '5' && remark == '1') || (status == '6' && remark == '4')){
 			   	   $.ajax({
 			   		   type:'POST',
 			   		   url:'${pageContext.request.contextPath}/supplierQuote/checkConfirmResult.do',
@@ -293,25 +255,6 @@
 			   function confirmResult(){
 				   window.location.href = "${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
 			   }
-			   //-------------------------放弃情况提示----------------//
-			   // 第一轮确认时：点击放弃按钮
-			  /*  if(status == '5' && remark == '3'){
-				   layer.alert("您已放弃第一轮确认结果 ！");
-				   return;
-			   }
-			   if(remark == '3'){
-				   layer.alert("您已放弃第一轮确认结果 ！");
-				   return;
-			   }
-			   if(status == '6' && remark == '32'){
-				   layer.alert("您已放弃第二轮确认结果 ！");
-				   return;
-			   }
-			   if(remark == '32'){
-				   layer.alert("您已放弃第二轮确认结果 ！");
-				   return;
-			   } */
-			   //-------------------------------------------------//
 			   
 	       } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {
@@ -326,24 +269,22 @@
 	        }
 	    }
 		
-		//  1.竞价未开始、已流拍状态查看的是竞价信息页面
+		//  1.竞价未开始状态查看的是竞价信息页面
 		//	2.竞价已结束状态查看的是竞价结果页面
 		//	3.已报价、报价结束、第一轮结果待确认查看的是竞价信息+报价信息页面
 		//	4.第一轮结果已确认、第二轮结果待确认查看的是第一轮结果确认页面
 		//	5.第二轮结果已确认查看的是第二轮结果确认页面】
 		function findIssueInfo(pId,pStatus,pRemark) {
-			// 1.竞价未开始、已流拍状态
-			if(pStatus == 1 || pRemark == '0' || pRemark == '2'){
+			// 1.竞价未开始
+			if(pStatus == 1){
 				window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?flag=1&id="+pId;  
 		    }
 			
 			// 2.待确认状态查看的信息--未中标状态--已报价待确认
-			if(pStatus == 2 && pRemark == '1'){
+			if((pStatus == 2 && pRemark == '1') || (pStatus == 7 && pRemark == '21') || pRemark == '666'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
-			if(pRemark == '666'){
-				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
-			}
+			
 			if(pStatus == 5 && pRemark == '1'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
@@ -359,7 +300,8 @@
 			}
 			
 			// 5.第一轮结果已确认、第二轮结果待确认查看的是第一轮结果确认页面  --第二轮放弃是查看的第一轮确认的结果
-			if((pStatus == 5 && pRemark == '4') || (pStatus == 6 && pRemark == '4') || (pStatus == 6 && pRemark == '32')){
+			if((pStatus == 5 && pRemark == '4') || (pStatus == 6 && pRemark == '4') || (pStatus == 6 && pRemark == '32')
+					|| (pStatus == 6 && pRemark == '22')){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?flag=firstConfirm&&id="+pId;
 			}
 			
@@ -432,7 +374,8 @@
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].quoteEndTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc" id=${ obProject.obProjectList[0].id }>
-			  	<c:if test="${ obProject.obProjectList[0].status == 1 }">
+			  	<!-- 竞价未开始 -->
+			  	<c:if test="${ obProject.obProjectList[0].status == 1 && obProject.remark == '0' }">
 			  		竞价未开始
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 2 }">
@@ -443,102 +386,83 @@
 						<c:when test="${obProject.remark == '1'}">
 							第一轮已报价
 						</c:when>
-<%-- 						<c:when test="${obProject.remark == '1'}">
-							已报价待确认
-						</c:when> --%>
-						<c:when test="${obProject.remark == '2'}">
-							未报价
-						</c:when>
 					</c:choose>
 			  	</c:if>
 			  	
 			  	<c:if test="${ obProject.obProjectList[0].status == 7 }">
 			  		<c:choose>
-						<c:when test="${obProject.remark == '2'}">
+						<c:when test="${obProject.remark == '0'}">
 							未报价
 						</c:when>
-						<c:when test="${obProject.remark == '1'}">
+						<c:when test="${obProject.remark == '21'}">
+							第二轮已报价
+						</c:when>
+						<c:when test="${obProject.remark == '20'}">
 							第二轮报价中
 						</c:when>
 					</c:choose>
 			  	</c:if>
 			  	
-			  	<c:if test="${ obProject.obProjectList[0].status == 3 }">
-                    <c:choose>
-	                    <c:when test="${obProject.remark == '32'}">
-                        	中标
-	                    </c:when>
-	                    <c:when test="${obProject.remark == '42'}">
-                        	中标
-	                    </c:when>
-	                    <c:when test="${obProject.remark == '4'}">
-                        	中标
-	                    </c:when>
-	                    <c:when test="${obProject.remark == '3'}">
-                        	未中标
-	                    </c:when>
-	                    <c:when test="${obProject.remark == '2'}">
-                        	未中标
-	                    </c:when>
-	                    <c:otherwise>
-                        	竞价结束
-	                    </c:otherwise>
-                    </c:choose>
-			  	</c:if>
 			  	<c:if test="${ obProject.remark == '666' && obProject.obProjectList[0].status != 3}">
 				  	未中标
 			  	</c:if>
 			  	
-			  	<c:if test="${ obProject.obProjectList[0].status == 4 }">
-				  	已流拍
-			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 5 }">
 			  		<c:choose>
-						<c:when test="${obProject.remark == '0' || obProject.remark == '5'}">
+						<c:when test="${obProject.remark == '0' || obProject.remark == '20'}">
 							未报价
 						</c:when>
-						<c:when test="${obProject.remark == '1'}">
+						<c:when test="${obProject.remark == '1' || obProject.remark == '21'}">
 							结果待确认(第一轮)
 						</c:when>
 						<c:when test="${obProject.remark == '3'}">
-                           	未中标
+                           	第一轮放弃
 						</c:when>
 						<c:when test="${obProject.remark == '4'}">
-							第一轮已确认
-						</c:when>
-						<c:when test="${obProject.remark == '5'}">
 							第一轮已确认
 						</c:when>
 					</c:choose>
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark != '666'}">
 			  		<c:choose>
-						<c:when test="${obProject.remark == '0'}">
+						<c:when test="${obProject.remark == '0' || obProject.remark == '20'}">
 							未报价
 						</c:when>
 						<c:when test="${obProject.remark == '42'}">
 							第二轮已确认
 						</c:when>
-						<c:when test="${obProject.remark == '52'}">
-							第二轮已确认
-						</c:when>
 						<c:when test="${obProject.remark == '32'}">
-							放弃（第二轮）
+							第二轮放弃
+						</c:when>
+						<c:when test="${obProject.remark == '22'}">
+							第二轮放弃
 						</c:when>
 						<c:when test="${obProject.remark == '3'}">
-							未中标
+							第一轮放弃
 						</c:when>
 						<c:when test="${obProject.remark == '4'}">
 							结果待确认(第二轮)
 						</c:when>
-						<%-- <c:when test="${obProject.remark == '4'}">
-							待结束
-						</c:when> --%>
-						<c:otherwise>
-							结果待确认(第二轮)
-						</c:otherwise>
 					</c:choose>
 			  	</c:if>
+			  	
+			  	<!-- 竞价结束 -->
+			  	<c:if test="${ obProject.obProjectList[0].status == 3 }">
+                    <c:choose>
+	                    <c:when test="${obProject.remark == '0' || obProject.remark == '20' || obProject.remark == '3' || obProject.remark == '32' || obProject.remark == '666' || obProject.remark == '1' || obProject.remark == '21'}">
+                        	未中标
+	                    </c:when>
+	                    <c:when test="${obProject.remark == '4' || obProject.remark == '42' || obProject.remark == '22'}">
+                        	中标
+	                    </c:when>
+                    </c:choose>
+			  	</c:if>
+			  	
+			  	<!-- 流拍 -->
+			  	<c:if test="${ obProject.obProjectList[0].status == 4 }">
+				  	已流拍
+			  	</c:if>
+			  	
 			  </td>
 			</tr>
 		</c:forEach>

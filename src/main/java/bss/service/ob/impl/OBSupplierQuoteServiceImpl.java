@@ -11,12 +11,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ses.dao.bms.DictionaryDataMapper;
-import ses.dao.oms.OrgnizationMapper;
-import ses.model.bms.DictionaryData;
-import ses.model.bms.User;
-import ses.model.oms.Orgnization;
-import ses.util.DictionaryDataUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
@@ -30,7 +24,6 @@ import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
 import bss.model.ob.OBProductInfoExample.Criteria;
 import bss.model.ob.OBProject;
-import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBResultsInfoExt;
@@ -41,6 +34,12 @@ import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.JdcgResult;
+import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.oms.OrgnizationMapper;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
+import ses.model.oms.Orgnization;
+import ses.util.DictionaryDataUtil;
 
 /**
  * 
@@ -294,7 +293,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 						// systemDate > biddingTime
 						if (compareTo == 2) {
 							// remark 2标识：时间截止，未能及时完成报价
-							String remark = "2";
+							String remark = "0";
 							BiddingStateUtil.updateRemark(obProjectSupplierMapper,
 									obProject, user, remark);
 							return JdcgResult.build(500, "抱歉，第一轮报价时间已结束，未完成本次报价！");
@@ -322,7 +321,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 						// systemDate > biddingTime
 						if (compareTo == 2) {
 							// remark 2标识：时间截止，未能及时完成报价
-							String remark = "2";
+							String remark = "20";
 							BiddingStateUtil.updateRemark(obProjectSupplierMapper,
 									obProject, user, remark);
 							return JdcgResult.build(500, "抱歉，第二轮报价时间已结束，未完成本次报价！");
@@ -330,7 +329,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 						// systemDate < biddingTime
 						if (compareTo == 1) {
 							// remark 1标识：时间还未截止，完成报价
-							String remark = "1";
+							String remark = "21";
 							BiddingStateUtil.updateRemark(obProjectSupplierMapper,
 									obProject, user, remark);
 						}
@@ -433,7 +432,11 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		
 		// 查询所有的商品信息
 		List<OBResultsInfo> oBResultsInfo = obResultsInfoMapper.selectQuotoInfo(mapInfo);
+		// 查询第二轮报价信息
+		List<OBResultsInfo> oBResultsInfoSecond = obResultsInfoMapper.selectQuotoInfoSecond(mapInfo);
+		
 		map.put("oBResultsInfo", oBResultsInfo);
+		map.put("oBResultsInfoSecond", oBResultsInfoSecond);
 		return map;
 	}
 	

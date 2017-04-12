@@ -337,9 +337,19 @@ ORDER BY CREATED_AT) where rownum=1)
 	  <include refid="Base_Column_List" />
 	  FROM T_BSS_OB_RESULTS_INFO R
 	 	WHERE R.PROJECT_ID = #{projectId}
-	   AND R.SUPPLIER_ID = #{supplierId}
+	   AND R.SUPPLIER_ID = #{supplierId} AND BIDDING_ID = '1'
 	   ORDER BY R.PRODUCT_ID
   </select>
+  
+   <select id="selectQuotoInfoSecond" parameterType="Map" resultMap="BaseResultMap">
+	  SELECT 
+	  <include refid="Base_Column_List" />
+	  FROM T_BSS_OB_RESULTS_INFO R
+	 	WHERE R.PROJECT_ID = #{projectId}
+	   AND R.SUPPLIER_ID = #{supplierId} AND BIDDING_ID = '2'
+	   ORDER BY R.PRODUCT_ID
+  </select>
+  
   <!-- 根据id/次数/供应商id 获取自报价总和金额 -->
   <select id="selectByBidding" resultMap="BaseResultMap" parameterType="String">
    SELECT * from(select SUM(DEAL_MONEY) as MY_OFFER_MONEY,SUPPLIER_ID,PROJECT_ID,CREATED_AT from T_BSS_OB_RESULTS_INFO 

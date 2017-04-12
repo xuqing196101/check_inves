@@ -12,20 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import javax.validation.constraints.Null;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -800,35 +787,28 @@ public class OBSupplierQuoteController {
 			
 			// 报价产品信息
 			List<OBResultsInfo> oBResultsInfo  = (List<OBResultsInfo>) map.get("oBResultsInfo");
-			Double totalCountPriceBigDecimal = 0.00;
+			// 二次报价产品信息
+			List<OBResultsInfo> oBResultsInfoSecond  = (List<OBResultsInfo>) map.get("oBResultsInfoSecond");
+			
+			
+			BigDecimal million = new BigDecimal(10000);
+			Double totalCountPriceBigDecimal = caculateQuotoProductInfo(oBResultsInfo,million);
+			
+			// 二次报价信息
+			if(oBResultsInfoSecond != null){
+				Double totalCountPriceBigDecimalSecond = caculateQuotoProductInfo(oBResultsInfoSecond,million);
+				// 二次报价保留四位小数
+				BigDecimal totalCountPriceBigDecimalAfterSecond = new BigDecimal(totalCountPriceBigDecimalSecond);
+				// 计算总价钱
+				BigDecimal totalCountPriceBigDecimalShowSecond = BigDecimalUtils.getBigDecimalTOScale4(totalCountPriceBigDecimalAfterSecond, million);
+				model.addAttribute("totalCountPriceBigDecimalSecond", totalCountPriceBigDecimalShowSecond);
+				model.addAttribute("oBResultsInfoSecond", oBResultsInfoSecond);
+			}
 			// 保留两位小数
 			//DecimalFormat df = new DecimalFormat("0.00");
 			//NumberFormat currency = NumberFormat.getNumberInstance();
 			//currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
-			/** 计算单个商品的总价以及合计金额 **/
-			BigDecimal million = new BigDecimal(10000);
-			for (OBResultsInfo obResultInfo : oBResultsInfo) {
-				if (obResultInfo != null) {
-					Integer signalCountInt = obResultInfo.getResultsNumber();
-					BigDecimal myOfferMoney = obResultInfo.getMyOfferMoney();
-					BigDecimal signalCount = null;
-					if (signalCountInt != null && myOfferMoney != null) {
-						/** 单个商品的总金额=报价 *采购数量 **/
-						signalCount = new BigDecimal(signalCountInt);
-						BigDecimal multiply = myOfferMoney.multiply(signalCount);
-						/**显示100000样式**/
-						BigDecimal moneyBigDecimal = BigDecimalUtils.getSignalDecimalScale4(multiply, million);
-						obResultInfo.setDealMoney(moneyBigDecimal);
-						/**显示￥100,000,00样式**/
-						//obResultInfo.setDealMoneyStr(currency.format(multiply));
-						/** 累加得到总计 **/
-						totalCountPriceBigDecimal = multiply.add(
-								new BigDecimal(Double
-										.toString(totalCountPriceBigDecimal)))
-								.doubleValue();
-					}
-				}
-			}
+			
 			//String totalCountPriceBigDecimalStr = df.format(totalCountPriceBigDecimal);
 			//String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
 			// 采购机构
@@ -920,6 +900,45 @@ public class OBSupplierQuoteController {
 		return "bss/ob/supplier/findQuotoIssueInfo";
 	}
 	
+	/**
+	 * 
+	* @Title: caculateQuotoProductInfo 
+	* @Description: 计算单个商品报价信息总金额
+	* @author Easong
+	* @param @param oBResultsInfo
+	* @param @return    设定文件 
+	* @return Double    返回类型 
+	* @throws
+	 */
+	public Double caculateQuotoProductInfo(List<OBResultsInfo> oBResultsInfo, BigDecimal million){
+		Double totalCountPriceBigDecimal = 0.00;
+		if(oBResultsInfo != null){
+			/** 计算单个商品的总价以及合计金额 **/
+			for (OBResultsInfo obResultInfo : oBResultsInfo) {
+				if (obResultInfo != null) {
+					Integer signalCountInt = obResultInfo.getResultsNumber();
+					BigDecimal myOfferMoney = obResultInfo.getMyOfferMoney();
+					BigDecimal signalCount = null;
+					if (signalCountInt != null && myOfferMoney != null) {
+						/** 单个商品的总金额=报价 *采购数量 **/
+						signalCount = new BigDecimal(signalCountInt);
+						BigDecimal multiply = myOfferMoney.multiply(signalCount);
+						/**显示100000样式**/
+						BigDecimal moneyBigDecimal = BigDecimalUtils.getSignalDecimalScale4(multiply, million);
+						obResultInfo.setDealMoney(moneyBigDecimal);
+						/**显示￥100,000,00样式**/
+						//obResultInfo.setDealMoneyStr(currency.format(multiply));
+						/** 累加得到总计 **/
+						totalCountPriceBigDecimal = multiply.add(
+								new BigDecimal(Double
+										.toString(totalCountPriceBigDecimal)))
+								.doubleValue();
+					}
+				}
+			}
+		}
+		return totalCountPriceBigDecimal;
+	}
 	
 	/**
 	 * 

@@ -54,6 +54,17 @@ public interface OBResultsInfoMapper {
      */
     List<OBResultsInfo> selectQuotoInfo(Map<String, Object> map);
     /**
+     * 
+     * @Title: selectQuotoInfo 
+     * @Description: 查询报价结果
+     * @author Easong
+     * @param @param map
+     * @param @return    设定文件 
+     * @return List<OBResultsInfo>    返回类型 
+     * @throws
+     */
+    List<OBResultsInfo> selectQuotoInfoSecond(Map<String, Object> map);
+    /**
      * 查询报价 信息
      * @param projectId
      * @param supplierId

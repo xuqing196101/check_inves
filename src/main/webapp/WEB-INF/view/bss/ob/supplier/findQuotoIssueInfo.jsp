@@ -77,7 +77,14 @@
 	  <div>
 	    <h2 class="count_flow"><i>2</i>产品报价信息</h2>
 	  		<%@ include file="/WEB-INF/view/bss/ob/supplier/findQuotoIssueInfoCommon.jsp" %>
-	  </div>	 
+	  </div>
+	  
+	  <c:if test="${ not empty oBResultsInfoSecond }">
+	  	<div>
+	    <h2 class="count_flow">产品二次报价信息</h2>
+	  		<%@ include file="/WEB-INF/view/bss/ob/supplier/findQuotoIssueInfoCommon.jsp" %>
+	    </div>
+	  </c:if> 
   </form>
   
   <!-- 第一轮确认结果信息 -->
