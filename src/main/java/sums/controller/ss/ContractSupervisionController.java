@@ -473,6 +473,7 @@ public class ContractSupervisionController {
                 }
 	            model.addAttribute("list", requireds);
 	        }
+	        model.addAttribute("type", type);
 	    }
 	    return "sums/ss/planSupervision/detail_view";
 	}
@@ -523,7 +524,7 @@ public class ContractSupervisionController {
 	}
 	
 	@RequestMapping(value="planDateil",produces="text/html;charset=UTF-8")
-	public String planDateil(Model model, String id,String contractId){
+	public String planDateil(Model model, String id,String contractId, String type){
 		if(StringUtils.isNotBlank(contractId)){
 		    List<ContractRequired> findContractRequiredByConId = contractRequiredService.findContractRequiredByConId(contractId);
             List<PurchaseDetail> details = new ArrayList<PurchaseDetail>();
@@ -542,9 +543,24 @@ public class ContractSupervisionController {
                     }
                 }
                 if(details != null && details.size() > 0){
+                    sorts(details);
                     model.addAttribute("list", details);
                 }
             }
+            if(StringUtils.isNotBlank(id)){
+                CollectPlan collectPlan = collectPlanService.queryById(id);
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("collectId", id);
+                List<Task> listBycollect = taskService.listBycollect(map);
+                if(listBycollect != null && listBycollect.size() > 0){
+                    collectPlan.setOrderAt(listBycollect.get(0).getGiveTime());
+                }
+                User user = userService.getUserById(collectPlan.getUserId());
+                collectPlan.setUserId(user.getRelName());
+                collectPlan.setPurchaseId(user.getOrgName());
+                model.addAttribute("collectPlan", collectPlan);
+            }
+            model.addAttribute("type", type);
 		}
 		return "sums/ss/planSupervision/detail_view";
 	}
@@ -1037,4 +1053,21 @@ public class ContractSupervisionController {
         }
         return deta;
 	}
+	
+	/**
+     * 
+     *〈计划重新排序〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param list
+     */
+    public void sorts(List<PurchaseDetail> list){
+        Collections.sort(list, new Comparator<PurchaseDetail>(){
+           @Override
+           public int compare(PurchaseDetail o1, PurchaseDetail o2) {
+              Integer i = o1.getIsMaster() - o2.getIsMaster();
+              return i;
+           }
+        });
+    }
 }

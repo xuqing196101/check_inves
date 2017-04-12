@@ -10,12 +10,9 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
-	<link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
   <script type="text/javascript">
-  function planDateil(id){
-     location.href = "${pageContext.request.contextPath}/contractSupervision/planDateil.html?id="+id+"&contractId=${contractId}";
+  function planDateil(id,type){
+     location.href = "${pageContext.request.contextPath}/contractSupervision/planDateil.html?id="+id+"&type="+type+"&contractId=${contractId}";
     }
     </script>
   </head>
@@ -77,7 +74,7 @@
                 <c:if test="${obj.status == 12}">未下达</c:if>
               </td>
               <td class="tc">
-                <a href="javascript:void(0)" onclick="planDateil('${obj.id}');">进入</a>
+                <a href="javascript:void(0)" onclick="planDateil('${obj.id}','1');">进入</a>
               </td>
             </tr>
           </c:forEach>
