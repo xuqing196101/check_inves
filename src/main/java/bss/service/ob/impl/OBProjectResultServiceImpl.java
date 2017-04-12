@@ -214,6 +214,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			obpro.setSupplierId(supplierId);
 			obpro.setStatus(0);
 			obpro.setId(projectResultId);
+			obpro.setProportion("0");
 			oBProjectResultMapper.updateByPrimaryKeySelective(obpro);
 			
 			OBProject obProject = new OBProject();
@@ -233,7 +234,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 				 ex.setSupplierId(supplierId);
 				 //判断 第一轮 是否有成交 比例
 				 OBProjectResult ob= oBProjectResultMapper.selectProportionByProject(ex);
-				 String remark="";
+				 String remark="32";
 				 if(ob!=null){
 					 if(Integer.valueOf(ob.getProportion())>0){
 						 remark="22";
@@ -247,6 +248,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			OBProjectResult result= oBProjectResultMapper.selectByPrimaryKey(projectResultId);
 			result.setId(uuid);
 			result.setStatus(0);
+			result.setProportion("0");
 			result.setCreatedAt(new Date());
 			oBProjectResultMapper.insertSelective(result);
 			// 第二轮 放弃
@@ -256,7 +258,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			oBProjectMapper.updateByPrimaryKeySelective(obProject);
 			User user = new User();
 			user.setTypeId(supplierId);
-			remark = "32";
 			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
 			boo=true;
 			 }
