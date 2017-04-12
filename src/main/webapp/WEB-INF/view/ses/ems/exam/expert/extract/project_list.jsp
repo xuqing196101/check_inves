@@ -93,10 +93,7 @@
     function record(){
            location.href = '${pageContext.request.contextPath}/ExpExtract/resuleRecordlist.do';
     }
-    function resetQuery(){
-    	$("#projectNumber").val("");
-    	$("#proName").val("");
-    }
+
   </script>
 </head>
 
@@ -133,7 +130,7 @@
       </span>
        </li>
          <button class="btn fl mt1" type="submit">查询</button>
-         <button type="reset" class="btn fl mt1" onclick="resetQuery();">重置</button> 
+         <button type="button" class="btn fl mt1 channelBtn" >重置</button>
      </ul>
      <div class="clear"></div>
     </form>
@@ -186,3 +183,10 @@
 
 </body>
 </html>
+<script type="text/javascript">
+    $(".channelBtn").click(function () {
+        $("#projectNumber").val("");
+        $("#proName").val("");
+        window.location.href = "${pageContext.request.contextPath}/ExpExtract/projectList.html?typeclassId=${typeclassId}";
+    })
+</script>
