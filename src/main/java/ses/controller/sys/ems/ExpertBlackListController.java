@@ -132,6 +132,12 @@ public class ExpertBlackListController extends BaseSupplierController{
 			model.addAttribute("attachmentCert", expertBlackList.getAttachmentCert());
 		}*/
 		
+		//验证附件上传
+		if(service.yzsc(expertBlackList.getId()) < 1){
+			model.addAttribute("err_attachmentCert", "请上传附件！");
+			error = "error";
+		}
+		
 		if(error.equals("error")) {
 			model.addAttribute("relName", expertBlackList.getRelName());
 			model.addAttribute("storageTime", expertBlackList.getStorageTime());
@@ -259,6 +265,12 @@ public class ExpertBlackListController extends BaseSupplierController{
 		
 		if (expertBlackList.getReason() == null || expertBlackList.getReason().equals("")) {
 			model.addAttribute("err_reason", "不能为空！");
+			error = "error";
+		}
+		
+		//验证附件上传
+		if(service.yzsc(expertBlackList.getId()) < 1){
+			model.addAttribute("err_attachmentCert", "请上传附件！");
 			error = "error";
 		}
 		

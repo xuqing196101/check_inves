@@ -271,4 +271,9 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		}
 	}
 
+	@Override
+	public Integer yzsc(String id) {
+		return mapper.yzsc(id);
+	}
+
 }

@@ -5,6 +5,9 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+		<script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
+		<link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
+		<link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
 		<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
 	    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<title>发布竞价信息页面</title>
@@ -63,7 +66,7 @@
 				$('input[name="productId"]:checked').each(function(){ 
 		       $(this).parent().parent().remove(); 
 		       });
-		       gysCount();
+		       gysCount(null);
 			});
 		}else{
 			layer.alert("请选择",{offset: '222px', shade:0.01});
@@ -149,6 +152,7 @@
 				} 
 			}
 		 });
+		  loadProduct(number);
 		  $("#tradedSupplierCount").select2();
 		 $("#tradedSupplierCount").select2('val','${list.tradedSupplierCount}'); 
 		 tradedCount();
@@ -221,9 +225,10 @@
      var productTemp=[];
 	//根据定型产品更新 
 	function changSelectCount(number){
+		alert("ss");
 	 if(productList){
 	   productInfo=$("[name='productName']").val();
-	 	gysCount();
+	 	gysCount(null);
 	  $("#orgId").select2('val',productList[0].procurementId);
 	  changSelect();
 	  }else{
@@ -305,7 +310,7 @@
 	      productRemark='';
 	      }
 		   $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
-		  "<td class=\"p0\" id=\"tdID\" ><div id=\"selectDiv"+number+"\" onmouseover='showPrompt(\"selectDiv"+number+"\",\"productName_"+number+"\")'  onmouseout=\"closePrompt()\" onblur=\"closePrompt()\" name=\"selectDiv\"><select id=\"productName_"+number+"\" class=\"p0\"  name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
+		  "<td class=\"p0\" id=\"tdID\" ><div id=\"selectDiv"+number+"\" onclick=\"loadProduct("+number+")\" onmouseover='showPrompt(\"selectDiv"+number+"\",\"productName_"+number+"\")'  onmouseout=\"closePrompt()\" onblur=\"closePrompt()\" name=\"selectDiv\"><input class=\"easyui-combobox\" id=\"productName_"+number+"\" name=\"productName\" data-options=\"valueField:'id',textField:'name',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100\"  style=\"width: 100%;height: 30px;\"/>"+
 		  "</div></td>"+
 		  "<td class=\"p0\" id=\"t"+number+"\" width=\"10%\"><input id=\"productMoney\" maxlength=\"20\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		  "<td class=\"p0\"  width=\"20%\"><input id=\"productCount\" maxlength=\"38\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
@@ -313,8 +318,37 @@
 		  "  </td>"+
 		"</tr>").clone(true);   
 		//加载数据
-		loads(number,productId);
-	} 
+	//	loads(number,productId);
+		loadProduct(number);
+		
+	}
+	 
+	 function loadProduct(number){
+		 $('#productName_'+number).combobox({  
+		        prompt:'',  
+		        required:false,  
+		        /* url: "${pageContext.request.contextPath }/ob_project/product.html",   */
+		        data:productList,
+		        editable:true,  
+		        hasDownArrow:true,  
+		        filter: function(L, row){  
+		            var opts = $(this).combobox('options');  
+		            return row[opts.textField].indexOf(L) == 0;  
+		        },
+		        onSelect: function (obj) { 
+		        	var list = new Array();
+		        	 if(obj.id != null){
+		        		$.each(productList, function(index, value) {
+		        			if(obj.id != value.id){
+		        				list.push(value);
+		        			}
+		        			productList = list;
+						}); 
+		        	}
+		        	gysCount(obj.id);
+		        },
+		    }); 
+	 }
 	  //关闭
 	function closePrompt(){
 		layer.closeAll('tips');
@@ -667,7 +701,7 @@
      }
 	}
 	// 动态获取供应商 数量
-	function gysCount(){
+	function gysCount(pid){
 	 $("#buttonErr").html("");
 	  var productid=[];
 	  productTemp=[];
@@ -679,7 +713,9 @@
 		      productTemp.push(id);
 			  }
 		  });
-		  
+	    if(pid != null){
+	   	productid.push(pid);
+	    }
 		  if(productid.length>0){
 		     var temp="";
             for(var i=0;i<productid.length;i++) { 
@@ -711,7 +747,7 @@
 				contentType:"application/json",
 				data: JSON.stringify(productid),
 				success: function(data) {
-				if(data){
+				if(data != null){
 				var json = JSON.parse(data);
 				var name = json.attributeName;
 				var context = json.show;
@@ -846,10 +882,12 @@
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费支付方式</span>
+			<div class ="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			<select id="transportFees" name="transportFees" onchange="changeTransportFees(this)" >
 				<option value="">--请选择--</option>
 			</select>
-        <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
+        <div class="cue mt20" id="transportFeesErr">${transportFeesErr}</div>
+	 </div>
 	 </li>
 	
 	 <li id="transportFeesPriceLi" class="col-md-3 col-sm-6 col-xs-12" style="display:none;">

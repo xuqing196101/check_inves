@@ -3,6 +3,8 @@ package ses.dao.ems;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.ems.ExpertBlackList;
 /**
  * <p>Title:ExpertBlackListMapper </p>
@@ -69,4 +71,17 @@ public interface ExpertBlackListMapper {
 	* @throws
 	 */
 	List<ExpertBlackList> findAllBlackListExpert(Integer status);
+	
+	/**
+	 * 
+	 * Description: 验证是否上传文件
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月11日 
+	 * @param  @param id
+	 * @param  @return 
+	 * @return Integer 
+	 * @exception
+	 */
+	Integer yzsc(@Param("id") String id);
 }

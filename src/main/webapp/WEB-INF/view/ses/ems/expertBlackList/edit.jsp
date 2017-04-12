@@ -5,6 +5,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<%@ include file="/WEB-INF/view/common/validate.jsp"%>
 <script type="text/javascript">
 		$().ready(function() {
@@ -112,6 +113,7 @@
                     <a onclick="downloadFile('${expert.attachmentCert}')" style="cursor:pointer" id="attachmentCert">${expert.attachmentCert}</a> --%>
                     <u:upload id="id_up"  businessId="${expert.id}" sysKey="${expertKey}" typeId="${expertDictionaryData.id}" auto="true" /> 
                     <u:show showId="id_show"  businessId="${expert.id}" sysKey="${expertKey}" typeId="${expertDictionaryData.id}" />
+               		<span class=" red">  ${err_attachmentCert }</span>
                 </li>
             </ul>
 	         <div class="margin-bottom-0  categories">

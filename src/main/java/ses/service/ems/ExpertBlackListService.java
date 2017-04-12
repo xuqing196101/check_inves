@@ -2,6 +2,8 @@ package ses.service.ems;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListLog;
@@ -116,4 +118,17 @@ public interface ExpertBlackListService {
 	* @throws
 	 */
 	void updateExpertBlackStatus();
+	
+	/**
+	 * 
+	 * Description: 验证是否上传文件
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月11日 
+	 * @param  @param id
+	 * @param  @return 
+	 * @return Integer 
+	 * @exception
+	 */
+	Integer yzsc(String id);
 }

@@ -234,4 +234,10 @@
 	  WHERE 1 = 1 AND BL.STATUS = #{status}
 	 ORDER BY CREATED_AT DESC
   </select>
+  
+  <!-- 验证是否上传文件 -->
+  <select id="yzsc" parameterType="String" resultType="Integer">
+  	SELECT COUNT(*) FROM T_SES_EMS_EXPERT_ATTACHMENT WHERE BUSINESS_ID = #{id,jdbcType=VARCHAR} AND IS_DELETED = 0
+  </select>
+  
 </mapper>
