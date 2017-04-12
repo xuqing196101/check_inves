@@ -429,9 +429,9 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 					info.setSecondRatio(100-Integer.parseInt(propo));
 				}
 			}
-			Integer second= OBResultsInfoMapper.countByBidding(projectId, "1", supplierId);
+			Integer second= OBResultsInfoMapper.countByBidding(projectId, "2", supplierId);
 			String bidding=null;
-			if(second>0){
+			if(second==0){
 				bidding="1";
 			}else{
 				bidding="2";
@@ -473,8 +473,8 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		// 当前的结束时间
 		info.setOBResultsInfo(or);
 			//取到的只是一个竞价的开始时间，下面依次根据取到规则的时间段设置确认各个段的时间值
-			Date date=DateUtils.getAddDate(info.getConfirmStarttime(),quote);
-			 info.setConfirmOvertime(DateUtils.getAddDate(date,time));
+			//Date date=DateUtils.getAddDate(info.getConfirmStarttime(),quote);
+			 info.setConfirmOvertime(info.getConfirmOvertime());
 			 info.setSecondOvertime(info.getConfirmOvertime());
 		
 		}

@@ -134,7 +134,12 @@
 						             }else{
 						             afterCount = getfloor(changeRatioCounts[index],100,afterInputVal);
 						             }
-							
+							 if(afterCount=='0'){
+							  $("input[name='confirmRatioFirst']").val(currentVal);
+							  //如果比例 不等于剩余 比例 那么判断 比例数量 不能超过 剩余的单个数量 如果超过那么比例初始化
+								 firstInit(currentVal,changeRatioCounts,productPrices,eachProductCount);
+								  return;
+							  }
 							$(this).text((afterCount * productPrices[index] / 10000.00).toFixed(4));
 							$("[title='theProductCount']").each(function(indexPc,element) {
 								if(index == indexPc) {
@@ -189,10 +194,14 @@
 							 //表示全部比例 数量直接显示为剩余数量
 							  afterCount=SurplusNumber[index];
 							}else{
-							  /* if(afterCount == 0){
-								 return;
-							  } */
+							  if(afterCount=='0'){
+							  $("input[name='confirmRatioSecond']").val(currentSecondVal);
+							  //如果比例 不等于剩余 比例 那么判断 比例数量 不能超过 剩余的单个数量 如果超过那么比例初始化
+								  secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount,SurplusNumber);
+								  return;
+							  }
 							  if(afterCount>SurplusNumber[index]){
+							  $("input[name='confirmRatioSecond']").val(currentSecondVal);
 								 //如果比例 不等于剩余 比例 那么判断 比例数量 不能超过 剩余的单个数量 如果超过那么比例初始化
 								  secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount,SurplusNumber);
 								  return;
