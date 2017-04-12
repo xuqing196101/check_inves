@@ -9,15 +9,17 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	
 	<script type="text/javascript">
-		var t = ${beginQuotoTime};
-		var ts = ${beginQuotoTimeSecond};
+		var t = '${beginQuotoTime}';
+		var ts = '${beginQuotoTimeSecond}';
 		var afterTime;
+		var downTimer;
 		if(t != ''){
 			// 第一次报价
 			afterTime = t;
 			// 第二次报价
 			afterTime = ts;
 		}
+
 		function getRTime(){
 			if(t > 0 || ts > 0){
 				afterTime = afterTime - 1000;
@@ -35,20 +37,22 @@
 				} else {
 					if(t != ''){
 						$("#quotoCountDown").text("报价时间已结束");
+						clearInterval(downTimer);
 					}
 					if(ts != ''){
-						$("#quotoCountDownSecond").text("报价时间已结束");
+						$("#quotoCountDownSecond").text("二次报价时间已结束");
+						clearInterval(downTimer);
 					}
-					clearInterval(downTimer);
 				}
 			}else{
 				if(t != ''){
 					$("#quotoCountDown").text("报价时间已结束");
+					clearInterval(downTimer);
 				}
 				if(ts != ''){
-					$("#quotoCountDownSecond").text("报价时间已结束");
+					$("#quotoCountDownSecond").text("二次报价时间已结束");
+					clearInterval(downTimer);
 				}
-				clearInterval(downTimer);
 			}
 		}
 		var ids = [];
@@ -56,7 +60,7 @@
 			var idsStr = '${productIds}';
 			ids = idsStr.split(",");
 			// 报价倒计时
-			var downTimer = setInterval(getRTime, 1000);
+			downTimer = setInterval(getRTime, 1000);
 		})
 		
 		function totalPrice(obj,id,limitedPriceId){
@@ -271,11 +275,11 @@
   	 <input type="hidden" id="showQuotoTotalPrice" name="showQuotoTotalPrice" value="">
 	  <div>
 	  	<c:if test="${ quotoFlag eq 'firstQuoto'}">
-		    <h2 class="count_flow"><i>2</i>产品信息 <font style="margin-left: 15px">第一轮报价时间倒计时：</font>
+		    <h2 class="count_flow"><i>2</i>产品信息 <font style="margin-left: 15px">报价时间倒计时：</font>
 		    <span style="color: red" id="quotoCountDown"></span></h2>
 	    </c:if>
 	    <c:if test="${ quotoFlag eq 'secondQuoto'}">
-		    <h2 class="count_flow"><i>2</i>产品信息 <font style="margin-left: 15px">第二轮报价时间倒计时：</font>
+		    <h2 class="count_flow"><i>2</i>产品信息 <font style="margin-left: 15px">二次报价时间倒计时：</font>
 		    <span style="color: red" id="quotoCountDownSecond"></span></h2>
 	    </c:if>
 		<div class="content table_box">
