@@ -368,7 +368,7 @@
 	    	  <select id="remark" name="rematk" class="w178">
 	    	    <option value="">--请选择--</option>
 	    	    <option value="0" <c:if test="${'0' eq remark}">selected</c:if>>竞价未开始</option>
-	    	    <option value="20" <c:if test="${'' eq remark}">selected</c:if>>中标</option>
+	    	    <option value="4,42,22" <c:if test="${'' eq remark}">selected</c:if>>中标</option>
 	    	    <option value="30" <c:if test="${'' eq remark}">selected</c:if>>未中标</option>
 	    	  </select>
 	      </li>
@@ -450,7 +450,7 @@
 							结果待确认(第一轮)
 						</c:when>
 						<c:when test="${obProject.remark == '3'}">
-                           	第一轮放弃
+                           	第一轮已放弃
 						</c:when>
 						<c:when test="${obProject.remark == '4'}">
 							第一轮已确认
@@ -462,17 +462,20 @@
 						<c:when test="${obProject.remark == '0' || obProject.remark == '20'}">
 							未报价
 						</c:when>
+						<c:when test="${obProject.remark == '1'}">
+							未中标
+						</c:when>
 						<c:when test="${obProject.remark == '42'}">
 							第二轮已确认
 						</c:when>
 						<c:when test="${obProject.remark == '32'}">
-							第二轮放弃
+							第二轮已放弃
 						</c:when>
 						<c:when test="${obProject.remark == '22'}">
-							第二轮放弃
+							第二轮已放弃
 						</c:when>
 						<c:when test="${obProject.remark == '3'}">
-							第一轮放弃
+							第一轮已放弃
 						</c:when>
 						<c:when test="${obProject.remark == '4'}">
 							结果待确认(第二轮)

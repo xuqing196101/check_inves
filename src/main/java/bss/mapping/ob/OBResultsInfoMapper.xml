@@ -390,8 +390,8 @@ ORDER BY CREATED_AT) where rownum=1)
   <select id="selectFlagByQuotoSecond" resultType="java.lang.Integer" parameterType="Map">
   	SELECT COUNT(BIDDING_ID)
 	  FROM T_BSS_OB_RESULTS_INFO RF
-	 WHERE RF.SUPPLIER_ID = #{projectId}
-	   AND RF.PROJECT_ID = #{supplierId}
+	 WHERE RF.SUPPLIER_ID = #{projectId,jdbcType=VARCHAR}
+	   AND RF.PROJECT_ID = #{supplierId,jdbcType=VARCHAR}
 	   AND RF.BIDDING_ID = '1'
   </select>
 

@@ -119,7 +119,7 @@
 		</div>
 	</li>
 	  
-      <li class="col-md-3 col-sm-6 col-xs-12">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12" title="应急采购项目，只有1家供应商报价的，可以成交"><span class="red">*</span>是否为应急采购项目</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
 	   <div class="select_check" id="radio">
@@ -129,7 +129,7 @@
        <div class="cue" id="isEmergencyErr">${isEmergencyErr}</div>
        </div>
 	 </li>
-	<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价文件</span>
 		<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			<div><u:show showId="project" groups="b,c,d"  delete="false" businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" /></div>
