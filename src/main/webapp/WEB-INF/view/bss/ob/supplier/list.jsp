@@ -178,6 +178,7 @@
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+valueArr[0]+"&&quotoEndTimeMill="+quotoEndTimeMill+"&&status="+status;
 			   }
 			   // 二次报价
+			   // 第二次报价前，两家供应商报价进入第二轮报价时的判断，未报价的不能进入，只能这第一次报价的两家供应商才可以进入
 			   if(status == '7' && remark == '20'){
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+valueArr[0]+"&&quotoEndTimeMillSecond="+quotoEndTimeMillSecond+"&&status="+status;
 			   }

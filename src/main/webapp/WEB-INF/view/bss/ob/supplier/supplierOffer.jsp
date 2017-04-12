@@ -274,7 +274,7 @@
   <div class="clear" ></div>
   <c:if test="${ not empty oBResultsInfo }">
   	<div>
-	    <h2 class="count_flow"><i>2</i>产品报价信息</h2>
+	    <h2 class="count_flow"><i>2</i>第一轮产品报价信息</h2>
 	  		<%@ include file="/WEB-INF/view/bss/ob/supplier/findQuotoIssueInfoCommon.jsp" %>
 	  </div>
   </c:if>
