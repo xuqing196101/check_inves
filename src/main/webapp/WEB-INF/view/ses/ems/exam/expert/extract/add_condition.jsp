@@ -158,7 +158,12 @@
       function cityt() {
     	 var  eCount =$("#eCount").val();
     	 if(positiveRegular(eCount)){
+    	    $("#expertsCountError").text("");
             var count=   $("#sunCount").val();
+             if(count==""){
+                 layer.msg("请选择抽取类型");
+                 return false;
+             }
             if(positiveRegular(count)){
                 if(parseInt(count) > parseInt(eCount)){
                     layer.msg("数量不能大于总数量");
@@ -434,12 +439,10 @@
                                        neddNum += list[0].conType[l].expertsCount;
                                        html+="&nbsp;&nbsp;&nbsp;抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].expertsCount;
                                        html+="<br/>";
-//                                       if(list[i].expert.expertsTypeId == list[0].conType[l].expertsType.id){
-                                           var _count = list[0].conType[l].expertsCount - list[0].conType[l].alreadyCount;
-                                           if(_count != 0){
-                                               isUsed = isUsed+1;
-                                           }
-//                                       }
+                                       var _count = list[0].conType[l].expertsCount - list[0].conType[l].alreadyCount;
+                                       if(_count != 0){
+                                           isUsed = isUsed+1;
+                                       }
                                    }
                                    $("#extcontype").append(html);
                                }
