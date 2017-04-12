@@ -266,7 +266,7 @@ public class SupplierItemController extends BaseController {
 					   if(projectData!=null&&projectData.size()>0){
 				        	DictionaryData dd=new DictionaryData();
 				        	dd.setId(projectData.get(0).getCertLevel());
-				        	dd.setName(projectData.get(0).getCertLevel());
+				        	dd.setName(projectData.get(0).getName());
 				        	cateTree.setLevel(dd); 
 				        }
 					   
