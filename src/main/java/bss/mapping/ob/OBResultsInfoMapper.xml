@@ -103,6 +103,7 @@
    select DISTINCT i.id, i.MY_OFFER_MONEY,i.DEAL_MONEY,i.PRODUCT_ID,i.RESULTS_NUMBER,p.name as productName,
    i.SUPPLIER_ID from T_BSS_OB_RESULTS_INFO i,T_BSS_OB_PRODUCT p
     where i.PRODUCT_ID=p.id and  i.PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+    AND i.BIDDING_ID=#{biddingId,jdbcType=VARCHAR}
      and i.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
      ORDER BY i.PRODUCT_ID
   </select>  
