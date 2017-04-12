@@ -429,9 +429,15 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 					info.setSecondRatio(100-Integer.parseInt(propo));
 				}
 			}
-			
+			Integer second= OBResultsInfoMapper.countByBidding(projectId, "1", supplierId);
+			String bidding=null;
+			if(second>0){
+				bidding="1";
+			}else{
+				bidding="2";
+			}
 		//产品 报价  信息
-		List<OBResultsInfo> or=OBResultsInfoMapper.getProductInfo(projectId, supplierId);
+		List<OBResultsInfo> or=OBResultsInfoMapper.getProductInfo(projectId, supplierId,bidding);
 		//第二轮 剩余 数量
 		if(status.equals("2")){
 		List<OBResultSubtabulation> list=OBResultSubtabulationMapper.getNotDealNumber(projectId);	
