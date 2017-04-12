@@ -689,7 +689,14 @@ public class OBProjectController {
 				List<OBProductInfo> plist=obProductInfoMapper.getProductName(obProject.getId());
 				for(OBProjectResult s:resultList){
 					if(s.getStatus()==-1){
-				List<OBResultsInfo> infoList=OBResultsInfoMapper.getProductInfo(obProject.getId(),s.getSupplierId());
+						Integer second= OBResultsInfoMapper.countByBidding(obProject.getId(), "1", null);
+						String bidding=null;
+						if(second>0){
+							bidding="1";
+						}else{
+							bidding="2";
+						}
+				List<OBResultsInfo> infoList=OBResultsInfoMapper.getProductInfo(obProject.getId(),s.getSupplierId(),bidding);
 						s.setOBResultsInfo(infoList);
 					}else{
 						s.setProductInfo(plist);
