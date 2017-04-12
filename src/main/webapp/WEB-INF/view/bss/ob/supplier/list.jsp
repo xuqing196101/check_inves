@@ -423,7 +423,7 @@
 		</thead>
 		<c:forEach items="${ info.list }" var="obProject" varStatus="vs">
 			<tr>
-			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.obProjectList[0].id},${ obProject.obProjectList[0].status },${obProject.remark},<fmt:formatDate value='${ obProject.obProjectList[0].quoteEndTime }' pattern='yyyy-MM-dd HH:mm:ss'/>",<fmt:formatDate value='${ obProject.obProjectList[0].quoteEndTimeSecond }' pattern='yyyy-MM-dd HH:mm:ss'/>"/></td>
+			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.obProjectList[0].id},${ obProject.obProjectList[0].status },${obProject.remark},<fmt:formatDate value='${ obProject.obProjectList[0].quoteEndTime }' pattern='yyyy-MM-dd HH:mm:ss'/>,<fmt:formatDate value='${ obProject.obProjectList[0].quoteEndTimeSecond }' pattern='yyyy-MM-dd HH:mm:ss'/>"/></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tl">
 			  	<a href="javascript:;" onclick="findIssueInfo('${obProject.obProjectList[0].id}',${ obProject.obProjectList[0].status },'${obProject.remark}')">${ obProject.obProjectList[0].name }</a>

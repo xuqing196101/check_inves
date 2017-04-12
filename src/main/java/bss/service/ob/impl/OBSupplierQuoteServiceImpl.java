@@ -232,9 +232,18 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		Map<String, Object> selectMap = new HashMap<String, Object>();
 		selectMap.put("project_id", titleId);
 		selectMap.put("supplier_id", user.getTypeId());
-		OBProjectSupplier selectRemarkBYPS = obProjectSupplierMapper.selectRemarkBYPS(selectMap);
+		String biddingId = "";
+		// 设置报价状态  1：第一轮报价   2：第二轮报价
+		if("firstQuoto".equals(quotoFlag)){
+			biddingId = "1";
+		}
+		if("secondQuoto".equals(quotoFlag)){
+			biddingId = "2";
+		}
+		
 		// 其他用户已完成本次报价
-		if(selectRemarkBYPS != null && "1".equals(selectRemarkBYPS.getRemark())){
+		Integer countByBidding = obResultsInfoMapper.countByBidding(titleId, biddingId, user.getTypeId());
+		if(countByBidding > 0){
 			return JdcgResult.build(500, "其他用户已完成本次报价！");
 		}
 		
@@ -264,13 +273,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				obResultsInfoExt.setUpdatedAt(new Date());
 				
 				// 设置报价状态  1：第一轮报价   2：第二轮报价
-				if("firstQuoto".equals(quotoFlag)){
-					obResultsInfoExt.setBiddingId("1");
-				}
-				if("secondQuoto".equals(quotoFlag)){
-					obResultsInfoExt.setBiddingId("2");
-				}
-				
+				obResultsInfoExt.setBiddingId(biddingId);
 				// 保存
 				OBResultsInfo obResultsInfo = new OBResultsInfo();
 				BeanUtils.copyProperties(obResultsInfoExt, obResultsInfo);
