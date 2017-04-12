@@ -230,22 +230,22 @@
 		      </div>
           <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20 lh35">
             <div class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
-          		<div class="col-md-3 col-xs-4 col-sm-4 tc f16">产品名称</div>
+          		<div class="col-md-2 col-xs-4 col-sm-4 tc f16">产品名称</div>
           		<div class="col-md-2 col-xs-3 col-sm-4 tc f16">产品代码</div>
           		<div class="col-md-2 col-xs-3 col-sm-4 tc f16">规格型号</div>
           		<div class="col-md-2 col-xs-3 col-sm-4 tc f16">质量技术标准</div>
                 <div class="col-md-2 col-xs-4 col-sm-4 tc f16">所属目录</div>
-                <!-- <div class="col-md-2 col-xs-4 col-sm-4 tc f16">合格供应商数量</div> -->
+                <div class="col-md-2 col-xs-4 col-sm-4 tc f16">合格供应商数量</div>
              </div>
              <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0">
                 <c:choose>
                 	<c:when test="${info.list != null }">
                 		<c:forEach items="${info.list}" var="product">
 		                  <li>
-		                  	<div class="col-md-3 col-xs-4 col-sm-4" title="${product.name}">
+		                  	<div class="col-md-2 col-xs-4 col-sm-4" title="${product.name}">
 					  		 	<span class="f16 mr5 fl">·</span>
-					  		 	<c:if test="${fn:length(product.name) > 18 }">${fn:substring(product.name, 0, 18)}...</c:if>
-					  		 	<c:if test="${fn:length(product.name) <= 18 }">${product.name }</c:if>
+					  		 	<c:if test="${fn:length(product.name) > 10 }">${fn:substring(product.name, 0, 10)}...</c:if>
+					  		 	<c:if test="${fn:length(product.name) <= 10 }">${product.name }</c:if>
 					    	</div>
 					    	<div class="col-md-2 col-xs-3 col-sm-4 tc">
 		                   		<span class="f16 mr5">${product.code}</span>
@@ -263,11 +263,11 @@
 		                   		</span>
 				  			</div>
 		                   	<div class="col-md-2 col-xs-4 col-sm-4 tc" title="${product.pointsName }">${product.smallPoints.name }</div>
-		                   	<%-- <div class="col-md-2 col-xs-4 col-sm-4 tc" title="">
+		                   	<div class="col-md-2 col-xs-4 col-sm-4 tc">
 		                   		<c:forEach items="${numlist }" var="num">
 		  							<c:if test="${num.smallPointsId == product.smallPointsId }">${num.nCount }</c:if>
 		  						</c:forEach>
-		                   	</div> --%>
+		                   	</div>
 		                  </li>
 		                </c:forEach> 
                 	</c:when>
