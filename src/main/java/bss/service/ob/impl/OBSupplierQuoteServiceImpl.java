@@ -430,7 +430,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 			map.put("obProject", obProject);
 		}
 		
-		// 查询所有的商品信息
+		// 查询第一轮报价信息
 		List<OBResultsInfo> oBResultsInfo = obResultsInfoMapper.selectQuotoInfo(mapInfo);
 		// 查询第二轮报价信息
 		List<OBResultsInfo> oBResultsInfoSecond = obResultsInfoMapper.selectQuotoInfoSecond(mapInfo);
@@ -438,6 +438,21 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		map.put("oBResultsInfo", oBResultsInfo);
 		map.put("oBResultsInfoSecond", oBResultsInfoSecond);
 		return map;
+	}
+
+	/**
+	 * 
+	* @Title: selectQuotoInfoByRound 
+	* @Description: 通过轮次查询报价信息
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件 
+	* @throws
+	 */
+	@Override
+	public List<OBResultsInfo> selectQuotoInfoByRound(Map<String, Object> map) {
+		List<OBResultsInfo> oBResultsInfo = obResultsInfoMapper.selectQuotoInfo(map);
+		return oBResultsInfo;
 	}
 	
 	

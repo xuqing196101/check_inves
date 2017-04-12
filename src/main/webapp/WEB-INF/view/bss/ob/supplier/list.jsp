@@ -215,7 +215,7 @@
 			   
 			   // 未中标提示
 			   if((status == '5' && remark == '0') || (status == '5' && remark == '20')
-					(status == '6' && remark == '0') || (status == '6' && remark == '20')
+					|| (status == '6' && remark == '0') || (status == '6' && remark == '20')
 					   || (status == '6' && remark == '3')){
 				   layer.alert("对不起，您未中标 ！");
 				   return;
@@ -276,16 +276,16 @@
 		//	5.第二轮结果已确认查看的是第二轮结果确认页面】
 		function findIssueInfo(pId,pStatus,pRemark) {
 			// 1.竞价未开始
-			if(pStatus == 1){
+			if(pStatus == 1 || (pStatus == 2 && pRemark == '0')){
 				window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?flag=1&id="+pId;  
 		    }
 			
 			// 2.待确认状态查看的信息--未中标状态--已报价待确认
-			if((pStatus == 2 && pRemark == '1') || (pStatus == 7 && pRemark == '21') || pRemark == '666'){
+			if((pStatus == 2 && pRemark == '1') || (pStatus == 7 && pRemark == '21') || (pStatus == 7 && pRemark == '20') || pRemark == '666'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
 			
-			if(pStatus == 5 && pRemark == '1'){
+			if((pStatus == 5 && pRemark == '1') || pStatus == 5 && pRemark == '21'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
 			

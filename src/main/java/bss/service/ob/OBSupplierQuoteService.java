@@ -1,8 +1,10 @@
 package bss.service.ob;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import bss.model.ob.OBResultsInfo;
 import common.utils.JdcgResult;
 
 /**
@@ -50,4 +52,17 @@ public interface OBSupplierQuoteService {
 	* @throws
 	 */
 	Map<String, Object> selectQuotoInfo(Map<String, Object> map);
+	
+	
+	/**
+	 * 
+	* @Title: selectQuotoInfoByRound 
+	* @Description: 通过轮次查询报价信息
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件 
+	* @return List<OBResultsInfo>    返回类型 
+	* @throws
+	 */
+	List<OBResultsInfo> selectQuotoInfoByRound(Map<String, Object> map);
 }

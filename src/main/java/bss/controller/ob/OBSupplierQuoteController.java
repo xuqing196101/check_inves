@@ -183,7 +183,7 @@ public class OBSupplierQuoteController {
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/beginQuoteInfo")
-	public String beginQuoteInfo(Model model, HttpServletRequest request) throws ParseException {
+	public String beginQuoteInfo(@CurrentUser User user, Model model, HttpServletRequest request) throws ParseException {
 		// 获取第一次报价截止时间
 		String quotoEndTimeMillStr = request.getParameter("quotoEndTimeMill");
 		Long quotoEndTimeMill = null;
@@ -247,11 +247,28 @@ public class OBSupplierQuoteController {
 		long sysCurrentTime = new Date().getTime();
 		// 获取报价倒计时毫秒值
 		if(StringUtils.isNotEmpty(status) && "2".equals(status)){
+			// 查询第一次报价的信息
 			Long beginQuotoTime = quotoEndTimeMill - sysCurrentTime;
 			model.addAttribute("beginQuotoTime", beginQuotoTime);
 			model.addAttribute("quotoFlag", FIRST_QUOTO);
 		}
 		if(StringUtils.isNotEmpty(status) && "7".equals(status)){
+			// 报价产品信息
+			Map<String, Object> secondRoundQuotoMap = new HashMap<String, Object>();
+			secondRoundQuotoMap.put("projectId", titleId);
+			if(user != null){
+				secondRoundQuotoMap.put("supplierId", user.getTypeId());
+			}
+			BigDecimal million = new BigDecimal(10000);
+			List<OBResultsInfo> selectQuotoInfoByRound = obSupplierQuoteService.selectQuotoInfoByRound(secondRoundQuotoMap);
+			Double totalCountPriceBigDecimal = caculateQuotoProductInfo(selectQuotoInfoByRound, million);
+			// 保留四位小数
+			BigDecimal totalCountPriceBigDecimalAfter = new BigDecimal(totalCountPriceBigDecimal);
+			// 计算总价钱
+			BigDecimal totalCountPriceBigDecimalShow = BigDecimalUtils.getBigDecimalTOScale4(totalCountPriceBigDecimalAfter, million);
+			model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalShow);
+			model.addAttribute("oBResultsInfo", selectQuotoInfoByRound);
+			
 			Long beginQuotoTimeSecond = quotoEndTimeMillSecond - sysCurrentTime;
 			model.addAttribute("beginQuotoTimeSecond", beginQuotoTimeSecond);
 			model.addAttribute("quotoFlag", SECOND_QUOTO);
@@ -795,7 +812,7 @@ public class OBSupplierQuoteController {
 			Double totalCountPriceBigDecimal = caculateQuotoProductInfo(oBResultsInfo,million);
 			
 			// 二次报价信息
-			if(oBResultsInfoSecond != null){
+			if(oBResultsInfoSecond != null && oBResultsInfoSecond.size() > 0){
 				Double totalCountPriceBigDecimalSecond = caculateQuotoProductInfo(oBResultsInfoSecond,million);
 				// 二次报价保留四位小数
 				BigDecimal totalCountPriceBigDecimalAfterSecond = new BigDecimal(totalCountPriceBigDecimalSecond);

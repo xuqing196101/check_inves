@@ -272,6 +272,12 @@
 		</ul>
   </div> 
   <div class="clear" ></div>
+  <c:if test="${ not empty oBResultsInfo }">
+  	<div>
+	    <h2 class="count_flow"><i>2</i>产品报价信息</h2>
+	  		<%@ include file="/WEB-INF/view/bss/ob/supplier/findQuotoIssueInfoCommon.jsp" %>
+	  </div>
+  </c:if>
   <form id="productForm" name="" method="post">
   	<input type="hidden" name="titleId" value="${ obProject.id }">
   	 <input type="hidden" id="showQuotoTotalPrice" name="showQuotoTotalPrice" value="">
