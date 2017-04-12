@@ -286,71 +286,75 @@ public class OpenBiddingController {
     map.put("projectId", id);
     List<Packages> packages = packageService.findPackageById(map);
     String msg = "";
-    for (Packages p : packages) {
-      //判断各包符合性审查项是否编辑完成
-      FirstAudit firstAudit = new FirstAudit();
-      firstAudit.setPackageId(p.getId());
-      firstAudit.setIsConfirm((short)0);
-      List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
-      if (fas == null || fas.size() <= 0) {
-        msg = "noFirst";
-        return "redirect:/firstAudit/toAdd.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
-      }
-      //获取经济技术审查项内容
-      //获取评分办法数据字典编码     
-      String methodCode = bidMethodService.getMethod(id, p.getId());
-      if (methodCode != null && !"".equals(methodCode)) {
-        if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
-          FirstAudit firstAudit2 = new FirstAudit();
-          firstAudit2.setPackageId(p.getId());
-          firstAudit2.setIsConfirm((short)1);
-          List<FirstAudit> fas2 = firstAuditService.findBykind(firstAudit2);
-          if (fas2 == null || fas2.size() <= 0) {
-            msg = "noSecond";
-            return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
-          }
+    if (process != null && process == 1) {
+      //审核页面不用校验是否完成
+    } else {
+      for (Packages p : packages) {
+        //判断各包符合性审查项是否编辑完成
+        FirstAudit firstAudit = new FirstAudit();
+        firstAudit.setPackageId(p.getId());
+        firstAudit.setIsConfirm((short)0);
+        List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
+        if (fas == null || fas.size() <= 0) {
+          msg = "noFirst";
+          return "redirect:/firstAudit/toAdd.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
         }
-        if ("OPEN_ZHPFF".equals(methodCode)) {
-          ScoreModel smMap = new ScoreModel();
-          smMap.setPackageId(p.getId());
-          List<ScoreModel> sms = scoreModelService.findListByScoreModel(smMap);
-          if (sms == null || sms.size() <= 0) {
-            msg = "noSecond";
-            return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+        //获取经济技术审查项内容
+        //获取评分办法数据字典编码     
+        String methodCode = bidMethodService.getMethod(id, p.getId());
+        if (methodCode != null && !"".equals(methodCode)) {
+          if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
+            FirstAudit firstAudit2 = new FirstAudit();
+            firstAudit2.setPackageId(p.getId());
+            firstAudit2.setIsConfirm((short)1);
+            List<FirstAudit> fas2 = firstAuditService.findBykind(firstAudit2);
+            if (fas2 == null || fas2.size() <= 0) {
+              msg = "noSecond";
+              return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+            }
           }
-          if (sms != null && sms.size() >0) {
+          if ("OPEN_ZHPFF".equals(methodCode)) {
+            ScoreModel smMap = new ScoreModel();
+            smMap.setPackageId(p.getId());
+            List<ScoreModel> sms = scoreModelService.findListByScoreModel(smMap);
+            if (sms == null || sms.size() <= 0) {
+              msg = "noSecond";
+              return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+            }
+            if (sms != null && sms.size() >0) {
               List<DictionaryData> ddList = DictionaryDataUtil.find(23);
               int checkCount = 0;
               for (DictionaryData dictionaryData : ddList) {
-                  MarkTerm mt = new MarkTerm();
-                  mt.setTypeName(dictionaryData.getId());
-                  mt.setProjectId(p.getProjectId());
-                  mt.setPackageId(p.getId());
-                  //默认顶级节点为0
-                  mt.setPid("0");
-                  List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
-                  for (MarkTerm mtKey : mtList) {
-                      MarkTerm mt1 = new MarkTerm();
-                      mt1.setPid(mtKey.getId());
-                      mt1.setProjectId(p.getProjectId());
-                      mt1.setPackageId(p.getId());
-                      List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
-                      for (MarkTerm markTerm : mtValue) {
-                          if ("1".equals(markTerm.isChecked())) {
-                              checkCount ++;
-                          }
-                      }
+                MarkTerm mt = new MarkTerm();
+                mt.setTypeName(dictionaryData.getId());
+                mt.setProjectId(p.getProjectId());
+                mt.setPackageId(p.getId());
+                //默认顶级节点为0
+                mt.setPid("0");
+                List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
+                for (MarkTerm mtKey : mtList) {
+                  MarkTerm mt1 = new MarkTerm();
+                  mt1.setPid(mtKey.getId());
+                  mt1.setProjectId(p.getProjectId());
+                  mt1.setPackageId(p.getId());
+                  List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+                  for (MarkTerm markTerm : mtValue) {
+                    if ("1".equals(markTerm.isChecked())) {
+                      checkCount ++;
+                    }
                   }
+                }
               }
               if (checkCount == 0 || checkCount > 1) {
-                  msg = "noThired";
-                  return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+                msg = "noThired";
+                return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
               }
+            }
           }
-        }
-      } else {
+        } else {
           msg = "noSecond";
           return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+        }
       }
     }
     Project project = projectService.selectById(id);
