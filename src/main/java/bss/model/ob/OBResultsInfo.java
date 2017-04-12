@@ -17,6 +17,9 @@ public class OBResultsInfo {
 
     private OBProduct obProduct;
     
+    /**
+     * 标识1 第一次 竞价    2 第二次竞价
+     */
     private String biddingId;
     
     /**

@@ -117,11 +117,6 @@ ORDER BY CREATED_AT) where rownum=1)
  </select>
   
     <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.String" >
-<!-- 	select sum(MY_OFFER_MONEY)as MY_OFFER_MONEY
-	,SUPPLIER_ID,PRODUCT_ID from T_BSS_OB_RESULTS_INFO
-	where PROJECT_ID = 
-	GROUP BY SUPPLIER_ID,PRODUCT_ID,CREATED_AT
-	ORDER BY MY_OFFER_MONEY ASC,CREATED_AT ASC -->
     select * from(select  SUPPLIER_ID,sum(DEAL_MONEY) as DEAL_MONEY,CREATED_AT from T_BSS_OB_RESULTS_INFO
 	where PROJECT_ID = #{id,jdbcType=VARCHAR}
     GROUP BY SUPPLIER_ID,CREATED_AT)s
@@ -345,8 +340,28 @@ ORDER BY CREATED_AT) where rownum=1)
 	   AND R.SUPPLIER_ID = #{supplierId}
 	   ORDER BY R.PRODUCT_ID
   </select>
-  
-  
+  <!-- 根据id/次数/供应商id 获取自报价总和金额 -->
+  <select id="selectByBidding" resultMap="BaseResultMap" parameterType="String">
+   SELECT * from(select SUM(DEAL_MONEY) as MY_OFFER_MONEY,SUPPLIER_ID,PROJECT_ID,CREATED_AT from T_BSS_OB_RESULTS_INFO 
+	where PROJECT_ID=#{projectId,jdbcType=VARCHAR} 
+	and BIDDING_ID=#{biddingId,jdbcType=VARCHAR}
+	<if test="supplierId !=null">
+	 and SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
+	</if>
+	GROUP BY SUPPLIER_ID,PROJECT_ID,CREATED_AT)
+	ORDER BY CREATED_AT ASC
+  </select>
+  <!-- 根据id/次数/供应商id 获取当前报价第几次 -->
+  <select id="countByBidding"  parameterType="String" resultType="java.lang.Integer">
+	 SELECT count(*) from( select SUPPLIER_ID,PROJECT_ID,CREATED_AT 
+	 from T_BSS_OB_RESULTS_INFO  
+	 where BIDDING_ID=#{biddingId,jdbcType=VARCHAR}
+      and PROJECT_ID=#{projectId,jdbcType=VARCHAR} 
+      <if test="supplierId !=null">
+	 and SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
+	</if> 
+     GROUP BY SUPPLIER_ID,PROJECT_ID,CREATED_AT)
+  </select>
   <!-- 查询未中标的结果 -->
  <select id="selectResult" resultMap="BaseResultMap">
 	  SELECT 

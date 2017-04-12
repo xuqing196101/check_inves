@@ -63,4 +63,20 @@ public interface OBResultsInfoMapper {
     
     
     List<OBResultsInfo> selectResult(@Param("projectId")String projectId ,@Param("supplierId")String supplierId);
+    /**
+     *  根据id /次数/供应商id 获取自报价总和金额
+     * @author YnagHongliang
+     * @param projectId
+     * @param biddingId
+     * @return
+     */
+    List<OBResultsInfo>  selectByBidding(@Param("projectId")String projectId,@Param("biddingId")String biddingId,@Param("supplierId")String supplierId);
+    /**
+     * 根据id /次数/供应商id 获取自报价数量
+     * @param projectId
+     * @param biddingId
+     * @param supplierId
+     * @return
+     */
+    Integer countByBidding(@Param("projectId")String projectId,@Param("biddingId")String biddingId,@Param("supplierId")String supplierId);
 }

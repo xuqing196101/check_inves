@@ -76,7 +76,7 @@ public class OBProjectRule {
     private Integer confirmTimeSecond;
 
     /**
-     * 最少供应商数量
+     * 最少供应商报价数量
      */
     private Integer leastSupplierNum;
     

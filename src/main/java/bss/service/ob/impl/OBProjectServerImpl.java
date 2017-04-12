@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -141,7 +142,10 @@ public class OBProjectServerImpl implements OBProjectServer {
 	
 	@Autowired
 	private DictionaryDataMapper dictionaryDataMapper;
-
+	//定义 随机数 范围最大值
+	private int max=5;
+	//定义 随机数 范围最小值
+	private  int min=3;
 	@Override
 	public List<OBProject> list(OBProject op) {
 		// TODO Auto-generated method stub
@@ -421,6 +425,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			BeanUtils.copyProperties(obr, obProjectRules);
 			// 设置竞价子表的ID为竞价的ID
 			obProjectRules.setId(uuid);
+			obProjectRules.setFloatPercent(0);
 			// 将竞价规则存入子表中
 			obProjectRuleMapper.insert(obProjectRules);
 			intervalWorkday = obr.getIntervalWorkday();
@@ -790,7 +795,14 @@ public class OBProjectServerImpl implements OBProjectServer {
 				 int confirmTime=obRule.getConfirmTime();
 				 //第二轮 确认时间
 				 int confirmTimeSecond=obRule.getConfirmTimeSecond();
-				 
+				 //第二次报价
+				 int quoteTimeSecond=obRule.getQuoteTimeSecond();
+				 //最少供应商报价数量
+				 int leastSupplierNum=obRule.getLeastSupplierNum();
+				 //标识第二次竞价
+				 String secoundBidding="1";
+				 //标识 默认0
+				 int type=0;
 				/** 竞价状态 0：暂存 1已发布 2竞价中 3：竞价结束 4.流拍 5待确认 6第二次确认 7.第二次竞价**/
 				switch (op.getStatus()) {
 				// 已发布
@@ -808,14 +820,65 @@ public class OBProjectServerImpl implements OBProjectServer {
 						OBprojectMapper.updateByPrimaryKeySelective(upstatus);
 					}
 					break;
-				case 2:// 竞价中
+				case 7://第二次竞价
+					secoundBidding="2";
+				case 2://第一轮竞价中
 						// 根据竞价id 获取 是否 在规定的时间内 参与报价
-					int compareDate = DateUtils.compareDate(new Date(),
-							op.getEndTime());
+					int compareDate = DateUtils.compareDate(new Date(),op.getEndTime());
 					// 比较 竞价信息 如果等于1  那么是竞价 报价结束的时间
 					if (compareDate == 1) {
-						// 说明 已发布 的竞价信息 已经超过 报价 时间
-						List<OBResultsInfo> obresultsList = OBResultsInfoMapper.selectByProjectId(op.getId());
+						// 竞价id是否在当前报价数量
+						Integer second= OBResultsInfoMapper.countByBidding(projectId, secoundBidding, null);
+						List<OBResultsInfo> obresultsList=null;
+						//判断供应商报价数据 是否符合 规则的最少供应商报价数量
+						if(second>=leastSupplierNum){
+						//两家重新竞价  并且是第一次报价
+						if( secoundBidding.equals("1")){
+				    	if(second==2){
+				    		//第一次 报价只有两家供应商
+				    		type=1;
+				    	 }else{
+				    		 //第一次 报价
+				    		 type=2;
+				    	 }
+				    	}
+						//判断是否第二次 报价
+						if(type==1){
+							 //只有两家供应商报价 那么进行第二次竞价
+				    		// 根据状态竞价中 修改竞价结束时间加上第二次 竞价时间
+							OBProject upstatus = new OBProject();
+							upstatus.setStatus(7);
+							upstatus.setUpdatedAt(new Date());
+							upstatus.setId(op.getId());
+							upstatus.setEndTime(DateUtils.getAddDate(op.getEndTime(), quoteTimeSecond));
+							OBprojectMapper.updateByPrimaryKeySelective(upstatus);
+							//修改关系表 状态 2
+							List<OBResultsInfo> resultsInfoList=OBResultsInfoMapper.selectByBidding(projectId, secoundBidding, null);
+							for (OBResultsInfo obResultsInfo : resultsInfoList) {
+								OBProject obProject = new OBProject();
+								obProject.setId(op.getId());
+								User users = new User();
+								users.setTypeId(obResultsInfo.getSupplierId());
+								String remark = "2";
+								BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
+							}
+						}else{
+						
+				    		//判断供应商报价数量 四家以上供应商基准价
+							if(second>=4){
+							 //生成随机 浮动比例 数
+						     Random random = new Random();
+						     int valid = random.nextInt(max)%(max-min+1) + min;
+						     obresultsList=benchmark(projectId, null, valid,secoundBidding);
+						     //修改 规则附表的 浮动比例字段
+						     obRule.setFloatPercent(valid);
+						     obProjectRuleMapper.updateByPrimaryKeySelective(obRule);
+							}
+							//三家及以下供应商数量为最低价法
+					    	if(second<=3){
+					    		//供应商报价数据3个的时间 采用 最低价法 计算 排名
+								obresultsList = OBResultsInfoMapper.selectByProjectId(op.getId());
+					    	}
 						// 判断 是否有竞价供应商
 						if (obresultsList != null && obresultsList.size() > 0) {
 						//判读报价数量是否 达到竞价成交供应商数量
@@ -866,31 +929,40 @@ public class OBProjectServerImpl implements OBProjectServer {
 								OBProjectResultMapper.insertSelective(rsult);
 							}
 							// 根据状态竞价中 修改竞价结束时间
-							OBProject upstatus = new OBProject();
-							upstatus.setStatus(5);
-							upstatus.setUpdatedAt(new Date());
-							upstatus.setId(op.getId());
-							upstatus.setEndTime(DateUtils.getAddDate(
+							OBProject upstatus1 = new OBProject();
+							upstatus1.setStatus(5);
+							upstatus1.setUpdatedAt(new Date());
+							upstatus1.setId(op.getId());
+							upstatus1.setEndTime(DateUtils.getAddDate(
 									op.getEndTime(), confirmTime));
 							OBprojectMapper
-									.updateByPrimaryKeySelective(upstatus);
+									.updateByPrimaryKeySelective(upstatus1);
 							}else{
 								// 到规定时间  报价人数未达到 竞价成交供应商数量 流拍
-								OBProject upstatus = new OBProject();
-								upstatus.setStatus(4);
-								upstatus.setId(op.getId());
-								upstatus.setUpdatedAt(new Date());
-								OBprojectMapper.updateByPrimaryKeySelective(upstatus);
-							}
-						} else {
+								OBProject upstatus1 = new OBProject();
+								upstatus1.setStatus(4);
+								upstatus1.setId(op.getId());
+								upstatus1.setUpdatedAt(new Date());
+								OBprojectMapper.updateByPrimaryKeySelective(upstatus1);
+							 }
+						 } else {
 							// 到规定时间 如果没有竞价供应商 修改竞状态 流拍
-							OBProject upstatus = new OBProject();
-							upstatus.setStatus(4);
-							upstatus.setId(op.getId());
-							upstatus.setUpdatedAt(new Date());
+							OBProject upstatus1 = new OBProject();
+							upstatus1.setStatus(4);
+							upstatus1.setId(op.getId());
+							upstatus1.setUpdatedAt(new Date());
 							OBprojectMapper
-									.updateByPrimaryKeySelective(upstatus);
+									.updateByPrimaryKeySelective(upstatus1);
+						  }
 						 }
+						}else{
+							// 供应商报价数量 少于 规则供应商报价数量   修改竞状态 流拍
+							OBProject upstatus1 = new OBProject();
+							upstatus1.setStatus(4);
+							upstatus1.setId(op.getId());
+							upstatus1.setUpdatedAt(new Date());
+							OBprojectMapper.updateByPrimaryKeySelective(upstatus1);
+						}
 					}
 					break;
 				case 5:// 第一轮待确认
@@ -1004,7 +1076,49 @@ public class OBProjectServerImpl implements OBProjectServer {
 			}
 		}
 	}
-
+	/**
+	 * 根据需求 计算基准价法的法则 添加排名并保存数据库
+	 * @return 有效的排名 和有效数据
+	 */
+    private List<OBResultsInfo> benchmark(String projectId,String supplierId,Integer valid,String secoundBidding){
+    	
+    	List<OBResultsInfo> resultsInfoList=OBResultsInfoMapper.selectByBidding(projectId, secoundBidding, supplierId);
+    	if(resultsInfoList!=null &&resultsInfoList.size()>0){
+    		//定义临时变量 记录累加
+    		BigDecimal acc=new BigDecimal(0);
+    	  for (OBResultsInfo accinfo : resultsInfoList) {
+    		  acc=acc.add(accinfo.getMyOfferMoney());
+    		}
+    	  //计算平均数据 如果有少数 四舍五入保留两位小数
+    	     BigDecimal pj=acc.divide(new BigDecimal(resultsInfoList.size()),2,BigDecimal.ROUND_HALF_UP);
+    	     //计算有效供应商 平均数 如果供应商报价高于该数 即不入排名 视为无效报价
+    	     BigDecimal validAve=pj.multiply(new BigDecimal(valid/100D)).add(pj).setScale(2, BigDecimal.ROUND_HALF_UP);
+    	      //冒泡 排序  去掉部分 无效数据
+    	      for (int k = 0; k < resultsInfoList.size()-1; k++) {
+    			for (int k2 = 0; k2 < resultsInfoList.size()-1-k; k2++) {
+    				int i1=resultsInfoList.get(k2).getMyOfferMoney().compareTo(validAve);
+    				if (i1!=1) {
+    				double itemD=Math.abs(pj.subtract(resultsInfoList.get(k2).getMyOfferMoney()).doubleValue());
+    				double itemD1=Math.abs(pj.subtract(resultsInfoList.get(k2+1).getMyOfferMoney()).doubleValue());
+    				  if(itemD>itemD1){
+    					  OBResultsInfo info=resultsInfoList.get(k2);
+    					  resultsInfoList.set(k2, resultsInfoList.get(k2+1));
+    					  resultsInfoList.set(k2+1,info);
+    				  }
+    				}else{
+    					resultsInfoList.remove(k2);
+    				}
+    			}
+    		}
+    	    //以上循环主要是排序 无法全部删除无效 数据  末尾的数据 无法删除 在此判断删除
+    	   BigDecimal lastMoney=   resultsInfoList.get(resultsInfoList.size()-1).getMyOfferMoney();
+    	   // 比较 是否是有效数据
+    	   if(lastMoney.compareTo(validAve)==1){
+    		   resultsInfoList.remove(resultsInfoList.size()-1);
+    	   }
+    	}
+    	return resultsInfoList;
+    }
 	/**
 	 * 更新竞价信息
 	 * 

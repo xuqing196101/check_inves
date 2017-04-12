@@ -184,6 +184,9 @@
       <if test="leastSupplierNum != null" >
         LEAST_SUPPLIER_NUM = #{leastSupplierNum,jdbcType=DECIMAL},
       </if>
+      <if test="floatPercent != null" >
+        FLOAT_PERCENT = #{floatPercent,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
