@@ -184,6 +184,13 @@
 		} */
 		 
 		 layer.close(index);
+		  $("#radio [name='isEmergency']").each(function(){
+		  if($(this).val()=='${list.isEmergency}'){
+		  $(this).attr("checked",true);
+		  }
+		 });
+		 
+		 
 	});
 	//根据下拉框信息改变 采购联系人 采购联系电话
 	function changSelect(){
@@ -880,6 +887,18 @@
        </div>
 	 </li>
 	 
+	   
+      <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12" title="应急采购项目，只有1家供应商报价的，可以成交"><span class="red">*</span>是否为应急采购项目</span>
+	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+	   <div class="select_check" id="radio">
+	   <input type="radio" name="isEmergency" id ="isEmergency" value="-1">否
+	   <input type="radio" name="isEmergency" id ="isEmergency" value="0">是
+	 </div>
+	   
+       <div class="cue" id="isEmergencyErr">${isEmergencyErr}</div>
+       </div>
+	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价文件</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -888,18 +907,7 @@
        <div class="cue" id="fileUploadErr">${fileUploadErr}</div>
        </div>
 	 </li> 
-      
-      <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12" title="应急采购项目，只有1家供应商报价的，可以成交"><span class="red">*</span>是否为应急采购项目</span>
-	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
-	   <div class="select_check">
-	   <input type="radio" name="isEmergency" id ="isEmergency" value="-1">否
-	   <input type="radio" name="isEmergency" id ="isEmergency" value="0">是
-	 </div>
-	   
-       <div class="cue" id="isEmergencyErr">${isEmergencyErr}</div>
-       </div>
-	 </li>
+    
       
 	  <li class="col-md-12 col-sm-12 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价内容</span>
