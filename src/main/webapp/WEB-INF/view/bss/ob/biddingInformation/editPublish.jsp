@@ -134,6 +134,11 @@
 			$("#transportFeesPriceLi").css("display","block");
 		} */
 		layer.close(index);
+		  $("#radio [name='isEmergency']").each(function(){
+		  if($(this).val()=='${list.isEmergency}'){
+		  $(this).attr("checked",true);
+		  }
+		 });
 	});
 	
 	//动态改变 比例--数据回显
@@ -444,6 +449,19 @@
         <span class="input-tip">自动生成</span>
        </div>
 	 </li>
+	  <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12" title="应急采购项目，只有1家供应商报价的，可以成交"><span class="red">*</span>是否为应急采购项目</span>
+	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+	   <div class="select_check" id="radio">
+	   <input type="radio" name="isEmergency" id ="isEmergency" disabled="disabled" value="-1">否
+	   <input type="radio" name="isEmergency" id ="isEmergency" disabled="disabled" value="0">是
+	 </div>
+	   
+       <div class="cue" id="isEmergencyErr">${isEmergencyErr}</div>
+       </div>
+	 </li>
+	 
+	 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价文件</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
