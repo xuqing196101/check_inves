@@ -103,9 +103,9 @@ function resetQuery() {
 		</thead>
 		<tbody>
 		<c:forEach items="${info.list }" var="complaint" varStatus="vs">
-			<tr class="tc">
-				<td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-				<td class="tc">${complaint.name }</td>
+			<tr class="tc" onclick="window.location.href = '${pageContext.request.contextPath }/onlineComplaints/view.html?id=${complaint.id }'">
+				<td class="w50" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+				<td class="tc" >${complaint.name }</td>
 				<td class="tc">
 					<c:if test="${complaint.type == 1 }">个人</c:if>
 					<c:if test="${complaint.type == 0 }">单位</c:if>

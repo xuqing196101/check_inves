@@ -412,4 +412,10 @@ public class OnlineComplaintsController {
 		}
 	}
 	
+	@RequestMapping("/view")
+	public String view(Model model, String id){
+		Complaint complaint = complaintService.selectByPrimaryKey(id);
+		model.addAttribute("complaint", complaint);
+		return "sums/oc/onlineComplaints/view";
+	}
 }

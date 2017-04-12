@@ -132,6 +132,10 @@
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 		window.location.href = "${pageContext.request.contextPath }/onlineComplaints/complaints.html";
 	}
+	
+	function doview(id){
+		window.location.href = "${pageContext.request.contextPath }/onlineComplaints/view.html?id="+id;
+	}
 	</script>
 </head>
 <body>
@@ -187,18 +191,18 @@
 		<c:forEach items="${info.list }" var="complaint" varStatus="vs">
 			<tr class="tc">
 				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${complaint.id }" /></td>
-				<td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-				<td class="tc">${complaint.name }</td>
-				<td class="tc">
+				<td class="w50" onclick="doview('${complaint.id }')">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+				<td class="tc" onclick="doview('${complaint.id }')">${complaint.name }</td>
+				<td class="tc" onclick="doview('${complaint.id }')">
 					<c:if test="${complaint.type == 1 }">个人</c:if>
 					<c:if test="${complaint.type == 0 }">单位</c:if>
 				</td>
-				<td class="tc">${complaint.complaintObject }</td>
-				<td class="tl" title="${complaint.complaintMatter }">  
+				<td class="tc" onclick="doview('${complaint.id }')">${complaint.complaintObject }</td>
+				<td class="tl" title="${complaint.complaintMatter }" onclick="doview('${complaint.id }')">  
 					<c:if test="${fn:length(complaint.complaintMatter) > 12 }">${fn:substring(complaint.complaintMatter, 0, 12)}...</c:if>
 					<c:if test="${fn:length(complaint.complaintMatter) <= 12 }">${complaint.complaintMatter }</c:if>
 				</td>
-				<td class="tc">
+				<td class="tc" onclick="doview('${complaint.id }')">
 					<c:if test="${complaint.status == 0 }">未处理</c:if>
 					<c:if test="${complaint.status == 1 }">已立项</c:if>
 					<c:if test="${complaint.status == 2 }">已驳回</c:if>
