@@ -370,6 +370,12 @@ public class SupplierFinanceController extends BaseSupplierController {
 			map.put("year", "不能为空");
 			bool=false;
 		}
+		else{
+			if(supplierFinance.getYear().length()!=4){
+				map.put("year", "年度数据格式不正确！");
+				bool=false;
+			}
+		}
 		if(supplierFinance.getName()==null||supplierFinance.getName().length()>12){
 			map.put("name", "不能为空");
 			bool=false;

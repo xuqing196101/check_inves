@@ -153,7 +153,17 @@ public class Article{
     
     private String lastArticleTypeId;
     
-    private String uploadId;
+    private String lastArticleTypeName;
+    
+    public String getLastArticleTypeName() {
+		return lastArticleTypeName;
+	}
+
+	public void setLastArticleTypeName(String lastArticleTypeName) {
+		this.lastArticleTypeName = lastArticleTypeName;
+	}
+
+	private String uploadId;
     
     private Date submitAt;
     
@@ -177,6 +187,28 @@ public class Article{
     /** 用户Id **/
     private String userId;
     
+    
+    //产品目录id
+    private String categoryId;
+    
+    //产品目录名称
+  	private String categoryName;
+    
+    public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
     
 	public String getUploadId() {
 		return uploadId;

@@ -29,11 +29,15 @@
     <result column="SECOND_ARTICLE_TYPE_ID" property="secondArticleTypeId" />
     <result column="THREE_ARTICLE_TYPE_ID" property="threeArticleTypeId" />
     <result column="FOUR_ARTICLE_TYPE_ID" property="fourArticleTypeId" />
-    
+     <result column="category_id" property="categoryId" />
+     <result column="categoryName" property="categoryName" />
+      <result column="lastArticleTypeName" property="lastArticleTypeName" />
+   
     
     <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
     <association property="articleType" column="ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeByPrimaryKey"/>
     <association property="lastArticleType" column="LAST_ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeByPrimaryKey"/>
+  
   </resultMap> 
   
   <!-- 无关联查询 -->
@@ -1020,9 +1024,12 @@ where 1=1
   
   <select id="selectsumBynews" parameterType="Map" resultMap="ArticleMapper">
   	SELECT
-	*
+	c.*,a.category_id,b.name as categoryName,d.name as lastArticleTypeName
 FROM
-	T_ISS_PS_ARTICLE
+	T_ISS_PS_ARTICLE c 
+	left join  T_SES_BMS_ARTICLE_CATEGORY a on c.id=a.article_id 
+	left join T_SES_BMS_CATEGORY b on a.category_id=b.id
+	left join T_ISS_PS_ARTICLE_TYPE d on c.LAST_ARTICLE_TYPE_ID=d.id
 WHERE
 	LAST_ARTICLE_TYPE_ID IN (
 		SELECT
@@ -1033,10 +1040,24 @@ WHERE
 			PARENT_ID = #{id} or parent_id = #{twoid}
 	)
 	<if test="title!=null and title!=''">
-		and name like '%'||#{title}||'%'
+		and c.name like '%'||#{title}||'%'
 	</if>
-	and status=2
-	and IS_DELETED = 0
+	<if test="productType!=null and productType!=''">
+		and a.category_id = #{productType}
+	</if>
+	<if test="lastArticleTypeName!=null and lastArticleTypeName!=''">
+		and d.name like '%'||#{lastArticleTypeName}||'%'
+	</if>
+	
+	 <if test="publishStartDate != null and publishStartDate!=''">
+        AND to_char(PUBLISHED_AT,'yyyy-mm-dd') &gt;= #{publishStartDate}
+      </if>
+      <if test="publishEndDate != null and publishEndDate!=''">
+        AND to_char(PUBLISHED_AT,'yyyy-mm-dd') &lt;= #{publishEndDate}	
+      </if>
+	
+	and c.status=2
+	and c.IS_DELETED = 0
 	order by published_at desc
   </select>
   

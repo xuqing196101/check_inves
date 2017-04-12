@@ -33,7 +33,10 @@ $(function(){
 	        if(!first){ //一定要加此判断，否则初始时会无限刷新
 	        	var productType=$("#cId").val();
 	            var productTypeName='${productTypeName}';
-	      		window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?page="+e.curr+"&id="+id+"&twoid="+twoid+"&title="+title+"&productType="+productType+"&productTypeName="+productTypeName+"&tab="+tab;
+	            var lastArticleTypeName=$("#lastArticleTypeName").val();
+	            var publishStartDate=$("#publishStartDate").val();
+	       	    var publishEndDate=$("#publishEndDate").val();
+	      		window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?page="+e.curr+"&id="+id+"&twoid="+twoid+"&title="+title+"&productType="+productType+"&productTypeName="+productTypeName+"&tab="+tab+"&lastArticleTypeName="+lastArticleTypeName+"&publishStartDate="+publishStartDate+"&publishEndDate="+publishEndDate;
 	        }
 	    }
 	});
@@ -42,12 +45,15 @@ $(function(){
 function query(){
 	var title = $("#title").val();
 	var productType=$("#cId").val();
+	var lastArticleTypeName=$("#lastArticleTypeName").val();
 	//title = decodeURI(title);
 	//alert(title);
 	 var productTypeName=$("#categorySel").val();
-	window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?id="+id+"&twoid="+twoid+"&title="+title+"&productType="+productType+"&productTypeName="+productTypeName+"&tab="+tab;
+	 var publishStartDate=$("#publishStartDate").val();
+	 var publishEndDate=$("#publishEndDate").val();
+	window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?id="+id+"&twoid="+twoid+"&title="+title+"&productType="+productType+"&productTypeName="+productTypeName+"&tab="+tab+"&lastArticleTypeName="+lastArticleTypeName+"&publishStartDate="+publishStartDate+"&publishEndDate="+publishEndDate;
 }
-function reset(){
+function myReSet(){
 	window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?id="+id+"&twoid="+twoid+"&tab="+tab;
 }
 
@@ -794,6 +800,7 @@ function reset(){
 		<div class="clear"></div>
 	  </div>
    </div>
+  <form action="">
   <div class="container job-content ">
        <div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<div class=" input_group col-md-3 col-sm-6 col-xs-12 col-lg-12 p0">
@@ -807,11 +814,12 @@ function reset(){
 		<div class="search_box col-md-12 col-sm-12 col-xs-12">
 			<span class="fl" >标题：<input
 				name="title" type="text" id="title" value="${title }" /></span>
-				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 fl w150 tr">
+				<span class="fl" > 采购方式：<input
+				name="lastArticleTypeName" type="text" id="lastArticleTypeName" value="${lastArticleTypeName }" /></span>
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 w120 tr" style="padding-right: 0px">
 					选择产品类别：
 				</span>
-			<div class="col-md-3 col-sm-6 col-xs-12 " id="choseCategory">
-				
+			<div class="col-md-3 col-sm-6 col-xs-12 w200 " id="choseCategory" style="text-align: left;padding-left: 0px" >
 				<div
 					class="input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0 fl" >
 					<input id="cId" name="categoryId" type="hidden"
@@ -825,13 +833,20 @@ function reset(){
 					<div class="cue" id="ERR_category">${ERR_category}</div>
 				</div>
 			</div>
+			
+			<span class="fl" > 发布时间：起<input class="w80"
+				name="publishStartDate" type="text" id="publishStartDate" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${publishStartDate }" />
+				止<input class="w80" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+				name="publishEndDate" type="text" id="publishEndDate" value="${publishEndDate }" />
+				</span> 
 			<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
-			<button type="button" onclick="reset()" class="btn btn-u-light-grey">重置</button>
+			<button type="button" onclick="myReSet()" class="btn btn-u-light-grey">重置</button>
 		</div>
 		<div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
             <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
           		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">标题</div>
-                   <div class="fr mr25 f16">发布时间</div>
+          		<div class="fr mr25 f16 w140" style="padding-right: 0px; text-align: right;">发布时间</div>
+          		<div class="fr mr25 f16 w160" >产品类别</div>
              </h2>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
                 <c:forEach items="${indexList}" var="i">
@@ -841,16 +856,19 @@ function reset(){
 	                  </li> 
 	                  --%><c:set value="${i.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>50}">
+					<c:if test="${length>38}">
 						<li>
-						<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>【${i.lastArticleType.name}】${fn:substring(name,0,50)}...</a>
-	                    <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+						<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12 fl" style=" width: 65%;overflow: hidden;text-align: left;"><span class="f18 mr5 fl" >·</span>【${i.lastArticleType.name}】${fn:substring(name,0,38)}...</a>
+	                     <span class="hex pull-right col-md-2 col-sm-5 col-xs-12 fr" style="width: 20%;text-align:right;"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+	                    <span  class="hex pull-right  col-sm-5 col-xs-12 w180 fl tc" style="width: 15% ;text-align: left;;">${i.categoryName }</span>
+	                   
 	                    </li>
 					</c:if>
-					<c:if test="${length<=50}">
+					<c:if test="${length<=38}">
 					   <li>
-					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>【${i.lastArticleType.name}】${i.name }</a>
-	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12 fl" style=" width: 65%;overflow: hidden;text-align: left;"><span class="f18 mr5 fl">·</span>【${i.lastArticleType.name}】${i.name }</a>
+	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12 fr" style=" width: 20% ;text-align:right;"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12  fl tc" style="width: 15%; text-align: left;">${i.categoryName }</span>
 	                   </li>
 					</c:if>
 	                </c:forEach>         
@@ -858,6 +876,7 @@ function reset(){
 	 
         <div id="pagediv" align="right"></div></div>
 	  </div>
+	  </form>
 <!--底部代码开始-->
 <jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>

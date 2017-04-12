@@ -986,8 +986,9 @@ public class IndexNewsController extends BaseSupplierController{
 		String tab=RequestTool.getParam(request, "tab", "");
 		String productType=RequestTool.getParam(request, "productType", "");
 		String categoryName=RequestTool.getParam(request, "productTypeName", "");
-	
-		
+		String lastArticleTypeName=RequestTool.getParam(request, "lastArticleTypeName", "");
+		String publishStartDate=RequestTool.getParam(request, "publishStartDate", "");
+		String publishEndDate=RequestTool.getParam(request, "publishEndDate", "");
 		if(page==null){
 			page=1;
 		}
@@ -997,14 +998,15 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("title", title);
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 		List<Article> articleList = null;
+		//传入参数通过产品目录查询文章
+		map.put("productType", productType);
+		//采购方式
+		map.put("lastArticleTypeName", lastArticleTypeName);
+		//起止时间
+		map.put("publishStartDate", publishStartDate);
+		map.put("publishEndDate", publishEndDate);
+		
 		List<Article> twoArticleList = articleService.selectsumBynews(map);
-		//通过产品目录查询文章
-		if(!"".equals(productType)){
-			map.put("articleTypeId",twoid);
-			map.put("secondArticleTypeId",twoid);
-			map.put("productType", productType);
-			twoArticleList = articleService.findArtByCategory(map);
-		}
 		//List<Article> twoArticleList = articleService.findArtByCategory(map);
 		if(twoArticleList.size()>0){
 			articleList = twoArticleList;
@@ -1022,6 +1024,9 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("productTypeName", categoryName);
 		model.addAttribute("categoryNames", categoryName);
 		model.addAttribute("categoryIds", productType);
+		model.addAttribute("lastArticleTypeName", lastArticleTypeName);
+		model.addAttribute("publishStartDate", publishStartDate);
+		model.addAttribute("publishEndDate", publishEndDate);
 		
 		return "iss/ps/index/sumBynews_two";
 	}

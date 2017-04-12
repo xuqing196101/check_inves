@@ -31,9 +31,12 @@ import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 import ses.util.ValidateUtils;
 
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
+import common.model.UpdateHistory;
 import common.model.UploadFile;
+import common.service.UpdateHistoryService;
 import common.service.UploadService;
 
 /**
@@ -105,6 +108,10 @@ public class SupplierEditController extends BaseSupplierController {
      */
     @Autowired
     private AreaServiceI areaService;
+    
+    
+    @Autowired
+    private UpdateHistoryService updateHistoryService;
 
     /**
      *〈简述〉供应商修改记录列表
@@ -119,7 +126,19 @@ public class SupplierEditController extends BaseSupplierController {
     @RequestMapping(value = "list")
     public String registerStart(SupplierEdit se, HttpServletRequest request, Integer page, Model model){
         User user1 = (User) request.getSession().getAttribute("loginUser");
+        //session过期转到登陆页面
+        if(user1==null)
+        	return "redirect:../index/sign.html";
         se.setRecordId(user1.getTypeId());
+        String supplier_id=user1.getTypeId();
+        //获取供应商修改历史
+        List<UpdateHistory> list= updateHistoryService.queryByUpdateId(supplier_id);
+        //转对象
+        
+        
+     //   JSONArray json1 = JSONArray.fromObject(json);
+  	 // List<PurchaseRequired> list = (List<PurchaseRequired>)JSONArray.toCollection(json1, PurchaseRequired.class);
+        
         List<SupplierEdit> seList = supplierEditService.findAll(se, page == null ? 1 : page);
         request.setAttribute("seList" , new PageInfo<>(seList));
         model.addAttribute("id" , user1.getTypeId());
