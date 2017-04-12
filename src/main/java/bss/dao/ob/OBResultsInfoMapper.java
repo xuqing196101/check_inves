@@ -42,7 +42,7 @@ public interface OBResultsInfoMapper {
      * @param projectId
      * @return
      */
-    List<OBResultsInfo> getDealMoney(@Param("projectId")String projectId);
+    List<OBResultsInfo> getDealMoney(@Param("projectId")String projectId,@Param("biddingId")String secoundBidding);
     /**
      * 
     * @Title: selectQuotoInfo 

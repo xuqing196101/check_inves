@@ -110,7 +110,8 @@
    <!-- 根据 竞价id 获取竞价 成交金额 -->
   <select id="getDealMoney" resultMap="BaseResultMap" parameterType="java.lang.String" >
    select i.MY_OFFER_MONEY,i.PRODUCT_ID,SUPPLIER_ID from T_BSS_OB_RESULTS_INFO i 
-where i.PROJECT_ID=#{projectId,jdbcType=VARCHAR}  and
+where i.PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND i.BIDDING_ID=#{biddingId,jdbcType=VARCHAR}
+ and
  i.SUPPLIER_ID=(select SUPPLIER_ID from 
 (select SUPPLIER_ID from T_BSS_OB_PROJECT_RESULT s where s.PROJECT_ID=#{projectId,jdbcType=VARCHAR} and s.RANKING=1
 ORDER BY CREATED_AT) where rownum=1) 
