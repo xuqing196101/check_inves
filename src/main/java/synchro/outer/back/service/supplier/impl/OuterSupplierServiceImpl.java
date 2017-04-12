@@ -356,6 +356,12 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         //查询基本的和工程的承包范围
         List<UploadFile> attchs = fileUploadMapper.substrBusinessId(supplier.getId());
         
+        //财务信息附件
+        List<SupplierFinance> finances = getFinance(supplier.getId());
+        for(SupplierFinance sf:finances){
+        	 List<UploadFile> sfFiles = fileUploadMapper.substrBusinessId(sf.getId());
+        	  files.addAll(sfFiles);
+        }
         
         files.addAll(attchs);
         SupplierMatPro matPro = getMatPro(supplier.getId());
@@ -379,9 +385,9 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         SupplierMatEng eng = getMatEng(supplier.getId());
         //工程
         if(eng!=null){
-        	 List<SupplierCertEng> certEngs = eng.getListSupplierCertEngs();
-        	for(SupplierCertEng eg:certEngs){
-        		  List<UploadFile> attchsPro = fileUploadMapper.substrBusinessId(eg.getId());
+        	 List<SupplierAptitute> aptitutes = eng.getListSupplierAptitutes();
+        	for(SupplierAptitute ap:aptitutes){
+        		  List<UploadFile> attchsPro = fileUploadMapper.substrBusinessId(ap.getId());
         		  files.addAll(attchsPro);
         	}
         }
@@ -542,10 +548,10 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     	SupplierMatSell sell = supplierMatSellService.getMatSell(supplierId);
     	if(sell!=null){
 	    	List<SupplierCertSell> list = supplierCertSellMapper.findCertSellByMatSellId(sell.getId());
-	    	for(SupplierCertSell sc:list){
+	    	/*for(SupplierCertSell sc:list){
 	    		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
 	    		sc.setFileList(files);
-	    	}
+	    	}*/
 	    	sell.setListSupplierCertSells(list);
     	}
         return sell;
@@ -560,15 +566,15 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      * @return
      */
     private SupplierMatEng getMatEng(String supplierId){
-    	SupplierMatEng eng = supplierMatEngService.getMatEng(supplierId);
+           	SupplierMatEng eng = supplierMatEngService.getMatEng(supplierId);
     	if(eng!=null){
 	    	List<SupplierAptitute> list = supplierAptituteMapper.findAptituteByMatEngId(eng.getId());
 	    	eng.setListSupplierAptitutes(list);
 	    	List<SupplierCertEng> engList = supplierCertEngMapper.findCertEngByMatEngId(eng.getId());
-	    	for(SupplierCertEng sc:engList){
+	    	/*for(SupplierCertEng sc:engList){
 	    		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
 	    		sc.setFileList(files);
-	    	}
+	    	}*/
 	    	eng.setListSupplierCertEngs(engList);
 	    	List<SupplierRegPerson> persons = supplierRegPersonMapper.findRegPersonByMatEngId(eng.getId());
 	    	eng.setListSupplierRegPersons(persons);
