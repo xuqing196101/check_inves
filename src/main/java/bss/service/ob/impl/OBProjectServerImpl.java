@@ -799,6 +799,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 				 int quoteTimeSecond=obRule.getQuoteTimeSecond();
 				 //最少供应商报价数量
 				 int leastSupplierNum=obRule.getLeastSupplierNum();
+				 // 有效百分比
+				 int percent=obRule.getPercent();
 				 //标识第二次竞价
 				 String secoundBidding="1";
 				 //标识 默认0
@@ -869,7 +871,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 							 //生成随机 浮动比例 数
 						     Random random = new Random();
 						     int valid = random.nextInt(max)%(max-min+1) + min;
-						     obresultsList=benchmark(op.getId(), null, valid,secoundBidding);
+						     obresultsList=benchmark(op.getId(), null, valid,secoundBidding,percent);
 						     //修改 规则附表的 浮动比例字段
 						     obRule.setFloatPercent(valid);
 						     obProjectRuleMapper.updateByPrimaryKeySelective(obRule);
@@ -881,6 +883,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 					    	}
 						// 判断 是否有竞价供应商
 						if (obresultsList != null && obresultsList.size() > 0) {
+							if(obresultsList.size()>=leastSupplierNum){
 						//判读报价数量是否 达到竞价成交供应商数量
 						if(op.getTradedSupplierCount()<=obresultsList.size()){
 							for (int i = 0; i < obresultsList.size(); i++) {
@@ -945,6 +948,14 @@ public class OBProjectServerImpl implements OBProjectServer {
 								upstatus1.setUpdatedAt(new Date());
 								OBprojectMapper.updateByPrimaryKeySelective(upstatus1);
 							 }
+							}else{
+								//有效的报价供应商 数量 必须大于等于 规矩最少供应商报价数量 否则流拍
+								OBProject upstatus1 = new OBProject();
+								upstatus1.setStatus(4);
+								upstatus1.setId(op.getId());
+								upstatus1.setUpdatedAt(new Date());
+								OBprojectMapper.updateByPrimaryKeySelective(upstatus1);
+							}
 						 } else {
 							// 到规定时间 如果没有竞价供应商 修改竞状态 流拍
 							OBProject upstatus1 = new OBProject();
@@ -1028,7 +1039,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 						if(!proportion.equals("100")){
 						//获取 结果全部信息  接受42 放弃32
 						List< OBProjectResult> obresultsList = OBProjectResultMapper.getSecond(op.getId());
-						if(obresultsList!=null){
+						if(obresultsList!=null && obresultsList.size()>0){
 						  OBProjectResult result=obresultsList.get(0);
 						  //修改 状态 第二轮 未选择 默认放弃
 						  OBProject obProject = new OBProject();
@@ -1080,7 +1091,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 	 * 根据需求 计算基准价法的法则 添加排名并保存数据库
 	 * @return 有效的排名 和有效数据
 	 */
-    private List<OBResultsInfo> benchmark(String projectId,String supplierId,Integer valid,String secoundBidding){
+    private List<OBResultsInfo> benchmark(String projectId,String supplierId,Integer valid,String secoundBidding,int percent){
     	
     	List<OBResultsInfo> resultsInfoList=OBResultsInfoMapper.selectByBidding(projectId, secoundBidding, supplierId);
     	if(resultsInfoList!=null &&resultsInfoList.size()>0){
@@ -1091,15 +1102,17 @@ public class OBProjectServerImpl implements OBProjectServer {
     		}
     	  //计算平均数据 如果有少数 四舍五入保留两位小数
     	     BigDecimal pj=acc.divide(new BigDecimal(resultsInfoList.size()),2,BigDecimal.ROUND_HALF_UP);
-    	     //计算有效供应商 平均数 如果供应商报价高于该数 即不入排名 视为无效报价
-    	     BigDecimal validAve=pj.multiply(new BigDecimal(valid/100D)).add(pj).setScale(2, BigDecimal.ROUND_HALF_UP);
+    	     //计算有效供应商 平均数 如果供应商报价高于该数 即不入排名 视为无效报价  基准价
+    	     BigDecimal validAve=pj.multiply(new BigDecimal(percent/100D)).add(pj).setScale(2, BigDecimal.ROUND_HALF_UP);
+    	     //中标参考价
+    	     BigDecimal validJ=validAve.multiply(new BigDecimal((100-valid)/100D)).setScale(2, BigDecimal.ROUND_HALF_UP);
     	      //冒泡 排序  去掉部分 无效数据
     	      for (int k = 0; k < resultsInfoList.size()-1; k++) {
     			for (int k2 = 0; k2 < resultsInfoList.size()-1-k; k2++) {
     				int i1=resultsInfoList.get(k2).getMyOfferMoney().compareTo(validAve);
     				if (i1!=1) {
-    				double itemD=Math.abs(pj.subtract(resultsInfoList.get(k2).getMyOfferMoney()).doubleValue());
-    				double itemD1=Math.abs(pj.subtract(resultsInfoList.get(k2+1).getMyOfferMoney()).doubleValue());
+    				double itemD=validJ.subtract(resultsInfoList.get(k2).getMyOfferMoney()).doubleValue();
+    				double itemD1=validJ.subtract(resultsInfoList.get(k2+1).getMyOfferMoney()).doubleValue();
     				  if(itemD>itemD1){
     					  OBResultsInfo info=resultsInfoList.get(k2);
     					  resultsInfoList.set(k2, resultsInfoList.get(k2+1));

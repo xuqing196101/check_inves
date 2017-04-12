@@ -317,6 +317,9 @@
 		     <c:if test="${list.status==6}">
 		              第二轮待确认
 		    </c:if>
+		     <c:if test="${list.status==7}">
+		              第二次  竞价中
+		    </c:if>
 		  
 		  </td>
 		</tr>
