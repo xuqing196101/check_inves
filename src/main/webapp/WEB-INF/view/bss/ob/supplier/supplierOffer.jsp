@@ -16,6 +16,8 @@
 		if(t != ''){
 			// 第一次报价
 			afterTime = t;
+		}
+		if(ts != ''){
 			// 第二次报价
 			afterTime = ts;
 		}

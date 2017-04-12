@@ -162,7 +162,7 @@
 				   return;
 			   }
 			   // 报价时间已结束
-			   if(status != '2'){
+			   if(status != '2' && status != '7'){
 				   layer.alert("报价已结束 ！");
 				   return;
 			   }
