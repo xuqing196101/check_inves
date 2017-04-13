@@ -911,6 +911,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 							for (int i = 0; i < obresultsList.size(); i++) {
 								Integer rk[] = null;
 								int proportion = 0;
+								if(boo==true){
+									op.setTradedSupplierCount(1); 
+								}
 								if (op.getTradedSupplierCount() == 1) {
 									rk = Constant.OB_PROJECT_ONE;
 								} else if (op.getTradedSupplierCount() == 2) {
