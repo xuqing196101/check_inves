@@ -983,12 +983,19 @@ public class IndexNewsController extends BaseSupplierController{
 		String id = request.getParameter("id");
 		String twoid = request.getParameter("twoid");
 		String title = RequestTool.getParam(request, "title", "");
+		title = URLDecoder.decode(title,"utf-8");
 		String tab=RequestTool.getParam(request, "tab", "");
+		tab = URLDecoder.decode(tab,"utf-8");
 		String productType=RequestTool.getParam(request, "productType", "");
+		productType = URLDecoder.decode(productType,"utf-8");
 		String categoryName=RequestTool.getParam(request, "productTypeName", "");
+		categoryName = URLDecoder.decode(categoryName,"utf-8");
 		String lastArticleTypeName=RequestTool.getParam(request, "lastArticleTypeName", "");
+		lastArticleTypeName = URLDecoder.decode(lastArticleTypeName,"utf-8");
 		String publishStartDate=RequestTool.getParam(request, "publishStartDate", "");
+		publishStartDate = URLDecoder.decode(publishStartDate,"utf-8");
 		String publishEndDate=RequestTool.getParam(request, "publishEndDate", "");
+		publishEndDate = URLDecoder.decode(publishEndDate,"utf-8");
 		if(page==null){
 			page=1;
 		}

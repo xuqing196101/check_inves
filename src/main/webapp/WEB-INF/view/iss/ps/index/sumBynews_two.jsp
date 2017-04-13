@@ -36,7 +36,8 @@ $(function(){
 	            var lastArticleTypeName=$("#lastArticleTypeName").val();
 	            var publishStartDate=$("#publishStartDate").val();
 	       	    var publishEndDate=$("#publishEndDate").val();
-	      		window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?page="+e.curr+"&id="+id+"&twoid="+twoid+"&title="+title+"&productType="+productType+"&productTypeName="+productTypeName+"&tab="+tab+"&lastArticleTypeName="+lastArticleTypeName+"&publishStartDate="+publishStartDate+"&publishEndDate="+publishEndDate;
+	      		var url="${pageContext.request.contextPath}/index/selectsumBynews.html?page="+e.curr+"&id="+id+"&twoid="+twoid+"&title="+title+"&productType="+productType+"&productTypeName="+productTypeName+"&tab="+tab+"&lastArticleTypeName="+lastArticleTypeName+"&publishStartDate="+publishStartDate+"&publishEndDate="+publishEndDate;
+	      		window.location.href = encodeURI(encodeURI(url));
 	        }
 	    }
 	});
@@ -51,10 +52,12 @@ function query(){
 	 var productTypeName=$("#categorySel").val();
 	 var publishStartDate=$("#publishStartDate").val();
 	 var publishEndDate=$("#publishEndDate").val();
-	window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?id="+id+"&twoid="+twoid+"&title="+title+"&productType="+productType+"&productTypeName="+productTypeName+"&tab="+tab+"&lastArticleTypeName="+lastArticleTypeName+"&publishStartDate="+publishStartDate+"&publishEndDate="+publishEndDate;
+	 var url="${pageContext.request.contextPath}/index/selectsumBynews.html?id="+id+"&twoid="+twoid+"&title="+title+"&productType="+productType+"&productTypeName="+productTypeName+"&tab="+tab+"&lastArticleTypeName="+lastArticleTypeName+"&publishStartDate="+publishStartDate+"&publishEndDate="+publishEndDate;
+	 window.location.href = encodeURI(encodeURI(url));
 }
 function myReSet(){
-	window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?id="+id+"&twoid="+twoid+"&tab="+tab;
+	var url="${pageContext.request.contextPath}/index/selectsumBynews.html?id="+id+"&twoid="+twoid+"&tab="+tab;
+	window.location.href = encodeURI(encodeURI(url));
 }
 
 </script>
