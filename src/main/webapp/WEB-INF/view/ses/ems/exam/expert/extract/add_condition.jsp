@@ -159,8 +159,8 @@
     	 var  eCount =$("#eCount").val();
     	 if(positiveRegular(eCount)){
     	    $("#expertsCountError").text("");
-            var count=   $("#sunCount").val();
-             if(count==""){
+            var count= $("#sunCount").val();
+             if(count=="" || count=="0"){
                  layer.msg("请选择专家类型");
                  return false;
              }
