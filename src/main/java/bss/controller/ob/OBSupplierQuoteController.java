@@ -127,6 +127,21 @@ public class OBSupplierQuoteController {
 		if(StringUtils.isEmpty(remark)){
 			remark = "0";
 		}
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		// 获取查询条件
+		String queryStatus = request.getParameter("queryStatus");
+		String[] split = null;
+		if(queryStatus != null){
+			split = queryStatus.split(":");
+			if(split.length > 1){
+				// 查询状态
+				map.put("queryStatus", split[0]);
+				// 查询remark
+				map.put("queryRemark", split[1]);
+			}
+		}
+		
 		// 竞价标题
 		String name = request.getParameter("name");
 		// 竞价发布时间
@@ -136,7 +151,6 @@ public class OBSupplierQuoteController {
 		if (StringUtils.isNotBlank(createTimeStr)) {
 			createTime = dateFormat.parse(createTimeStr);
 		}
-		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("page", page);
 		map.put("user", user);
 		map.put("name", name);
@@ -163,6 +177,8 @@ public class OBSupplierQuoteController {
 		// 竞价发布时间回显
 		model.addAttribute("name", name);
 		model.addAttribute("createTimeStr", createTimeStr);
+		// 封装状态查询条件
+		model.addAttribute("queryStatus", queryStatus);
 		// 获取系统时间
 		Date date = new Date();
 		model.addAttribute("sysNowTime", date);

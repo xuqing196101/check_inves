@@ -21,7 +21,7 @@
 	      }(),
 	      jump : function(e, first) { //触发分页后的回调
 	    	if(!first){ //一定要加此判断，否则初始时会无限刷新
-	      		location.href = "${pageContext.request.contextPath }/supplierQuote/list.do?name=${ name }&&createTime=${ createTimeStr }&&page=" + e.curr;
+	      		location.href = "${pageContext.request.contextPath }/supplierQuote/list.do?name=${ name }&&createTime=${ createTimeStr }&&queryStatus=${queryStatus}&&page=" + e.curr;
 	        }
 	      }
 	    });
@@ -338,7 +338,7 @@
 	    function resetAll(){
 	        $("#name").val("");  
 	        $("#d17").val("");  
-	        $("#remark").val("");
+	        $("#queryStatus").val("");
 	    }
 </script>
 </head>
@@ -369,11 +369,11 @@
 	      </li>
 	      <li>
 	    	<label class="fl">竞价状态：</label>
-	    	  <select id="remark" name="rematk" class="w178">
+	    	  <select id="queryStatus" name="queryStatus" class="w178">
 	    	    <option value="">--请选择--</option>
-	    	    <option value="0" <c:if test="${'0' eq remark}">selected</c:if>>竞价未开始</option>
-	    	    <option value="4,42,22" <c:if test="${'4,42,22' eq remark}">selected</c:if>>中标</option>
-	    	    <option value="0,20,3,32,666,1,21" <c:if test="${'0,20,3,32,666,1,21' eq remark}">selected</c:if>>未中标</option>
+	    	    <option value="1:0" <c:if test="${'1:0' eq queryStatus}">selected</c:if>>竞价未开始</option>
+	    	    <option value="3:(4,42,22)" <c:if test="${'3:(4,42,22)' eq queryStatus}">selected</c:if>>中标</option>
+	    	    <option value="3:(0,20,3,32,666,1,21)" <c:if test="${'3:(0,20,3,32,666,1,21)' eq queryStatus}">selected</c:if>>未中标</option>
 	    	  </select>
 	      </li>
 	    	<button type="button" onclick="query()" class="btn">查询</button>
