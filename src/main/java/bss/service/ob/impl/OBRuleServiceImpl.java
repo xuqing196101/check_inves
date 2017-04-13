@@ -348,7 +348,9 @@ public class OBRuleServiceImpl implements OBRuleService {
 		// 竞价规则名称唯一校验
 		OBRule obRuleExist = obRuleMapper.checkNameUnique(obRule.getName());
 		OBRule primaryKey = obRuleMapper.selectByPrimaryKey(obRule.getId());
-		
+		if(obRuleExist == null || primaryKey == null){
+			return JdcgResult.build(500, "竞价规则名称已失效");
+		}
 		if(obRule.getName().equals(obRuleExist.getName()) && !obRule.getName().equals(primaryKey.getName())){
 			return JdcgResult.build(500, "竞价规则名称已存在");
 		}
