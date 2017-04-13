@@ -7,52 +7,8 @@
 	<title>竞价信息查看页面</title>
 	<%@ include file="/WEB-INF/view/common.jsp" %>
 	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+	<%@ include file="/WEB-INF/view/bss/ob/common/obShowProductCommon.jsp"%>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
-	<script type="text/javascript">
-		// 查看文件
-		function findFile(filePath){
-			$.ajax({
-				url: "${pageContext.request.contextPath }/open_bidding/downloadFile.do",
-				type: "POST",
-				data: {
-					filePath: filePath
-				},
-				success: function(data) {
-				}
-			});
-		}
-		
-		function showPrompt(id,selectID){
-	 		  if(id){
-	 		  $.ajax({
-					async: false,
-					url: "${pageContext.request.contextPath }/product/productType.do",
-					type: "POST",
-					data: {productId:id},
-					success: function(data) {
-					if(data){
-						var quality = data.qualityTechnicalStandard;
-						if(quality == null){
-							quality = "无";
-						}
-		   	  			layer.tips("产品规格型号："+data.standardModel+"<br/>"+"质量技术标准："+quality, 
-		   	    		'#'+selectID, {tips: [1, '#78BA32'],time:-1,area: ['500px', 'auto'],});
-							}else{
-							 inder=layer.tips("", 
-			       	    '#'+selectID, {tips: [1, '#78BA32']});
-							}
-					      },error:function(){
-					       layer.tips("错误！", 
-			       	    '#'+selectID, {tips: [1, '#78BA32']});
-					}
-	         });
-	     }
-	 	}
-		  //关闭
-		function closePrompt(){
-			layer.closeAll('tips');
-		}
-	</script>
 </head>
 <body>
 <!--面包屑导航开始-->

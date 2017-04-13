@@ -111,7 +111,7 @@
 				   layer.alert("请点击查看结果按钮!");
 				   return;
 			   }
-			   if(status == '1' || status == '2' || status == '4' || status == '5' || status == '6'){
+			   if(status == '1' || status == '2' || status == '4' || status == '5' || status == '6' || status == '7'){
 			   	   // 查看竞价信息
 				   window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?id="+valueArr[0];
 			   }
@@ -228,7 +228,10 @@
 			  		已发布 
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 2 }">
-			  		竞价中
+			  		报价中
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 7 }">
+			  		报价中
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 }">
 			  		竞价结束
@@ -243,14 +246,6 @@
 			  		待确认(第二轮)
 			  	</c:if>
 			  </td>
-			  <%-- <td class="tc">
-			  	<c:if test="${ obProject.status == 2 }">
-				  	<a href="javascript:void(0)" onclick="findIssueInfo('${obProject.id}')">查看</a>
-			  	</c:if>
-			  	<c:if test="${ obProject.status == 3 }">
-				  	查看结果
-			  	</c:if>
-			  </td> --%>
 			</tr> 
 		</c:forEach>
 	</table>

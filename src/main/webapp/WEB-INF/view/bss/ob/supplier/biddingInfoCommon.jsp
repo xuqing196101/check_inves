@@ -1,12 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <script type="text/javascript">
  $(function(){
- $("#radio [name='isEmergency']").each(function(){
-		  if($(this).val()=='${obProject.isEmergency}'){
-		  $(this).attr("checked",true);
-		  }
-		 });
- });
+	$("#radio [name='isEmergency']").each(function() {
+			if ($(this).val() == '${obProject.isEmergency}') {
+				$(this).attr("checked", true);
+			}
+		});
+	});
 </script>
 <ul class="ul_list">
 	<li class="col-md-3 col-sm-6 col-xs-12 pl15">
