@@ -829,11 +829,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 					int compareDate = DateUtils.compareDate(new Date(),op.getEndTime());
 					// 比较 竞价信息 如果等于1  那么是竞价 报价结束的时间
 					if (compareDate == 1) {
-						// 竞价id是否在当前报价数量
+						//获取全部竞价数量 当前报价数量
 						Integer second= OBResultsInfoMapper.countByBidding(op.getId(), secoundBidding, null);
 						List<OBResultsInfo> obresultsList=null;
-						//判断供应商报价数据 是否符合 规则的最少供应商报价数量
-						if(second>=leastSupplierNum){
 						//两家重新竞价  并且是第一次报价
 						if( secoundBidding.equals("1")){
 				    	if(second==2){
@@ -865,7 +863,11 @@ public class OBProjectServerImpl implements OBProjectServer {
 								BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
 							}
 						}else{
-						
+							//获取全部竞价数量
+					    	Integer allSecond= OBResultsInfoMapper.countBiddingByID(op.getId());
+					    	//总竞价数量 是否符合规则
+					    	if(allSecond>=leastSupplierNum){
+					    	
 				    		//判断供应商报价数量 四家以上供应商基准价
 							if(second>=4){
 							 //生成随机 浮动比例 数
@@ -881,11 +883,31 @@ public class OBProjectServerImpl implements OBProjectServer {
 					    		//供应商报价数据3个的时间 采用 最低价法 计算 排名
 								obresultsList = OBResultsInfoMapper.selectByProjectId(op.getId(),secoundBidding);
 					    	}
-						// 判断 是否有竞价供应商
+				    	//标识竞价 是否可以进行
+				    	boolean boo=false;
+							//判断竞价是否是 应急采购 
+							if(op.getIsEmergency()==0){
+								//报价人数是1人 符合应急竞价
+								if(allSecond==1){
+								 boo=true;
+								}
+							}else{
+								//报价人数 也是1人
+								if(allSecond==1){
+									//获取总价
+								BigDecimal deal=	OBResultsInfoMapper.sumAllDealMoney(op.getId());
+								 if(deal!=null){
+									 //判断总价 小于等于 50000 那么可以进行竞价
+									 if(deal.compareTo(new BigDecimal(50000))==-1){
+										 boo=true;
+									 }
+								 }
+								}
+							}
+						// 判断 是否有报价价供应商
 						if (obresultsList != null && obresultsList.size() > 0) {
-							if(obresultsList.size()>=leastSupplierNum){
-						//判读报价数量是否 达到竞价成交供应商数量
-						if(op.getTradedSupplierCount()<=obresultsList.size()){
+						//判读报价数量是否 达到竞价成交供应商数量   或者 该竞价 是应急竞价
+						if(op.getTradedSupplierCount()<=obresultsList.size()||boo){
 							for (int i = 0; i < obresultsList.size(); i++) {
 								Integer rk[] = null;
 								int proportion = 0;
@@ -949,7 +971,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 								OBprojectMapper.updateByPrimaryKeySelective(upstatus1);
 							 }
 							}else{
-								//有效的报价供应商 数量 必须大于等于 规矩最少供应商报价数量 否则流拍
+								// 到规定时间 如果没有竞价供应商  修改竞状态 流拍
+								
 								OBProject upstatus1 = new OBProject();
 								upstatus1.setStatus(4);
 								upstatus1.setId(op.getId());
@@ -957,7 +980,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 								OBprojectMapper.updateByPrimaryKeySelective(upstatus1);
 							}
 						 } else {
-							// 到规定时间 如果没有竞价供应商 修改竞状态 流拍
+							//有效的报价供应商 数量 必须大于等于 规矩最少供应商报价数量 否则流拍
 							OBProject upstatus1 = new OBProject();
 							upstatus1.setStatus(4);
 							upstatus1.setId(op.getId());
@@ -965,14 +988,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 							OBprojectMapper
 									.updateByPrimaryKeySelective(upstatus1);
 						  }
-						 }
-						}else{
-							// 供应商报价数量 少于 规则供应商报价数量   修改竞状态 流拍
-							OBProject upstatus1 = new OBProject();
-							upstatus1.setStatus(4);
-							upstatus1.setId(op.getId());
-							upstatus1.setUpdatedAt(new Date());
-							OBprojectMapper.updateByPrimaryKeySelective(upstatus1);
 						}
 					}
 					break;

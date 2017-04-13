@@ -104,4 +104,17 @@ public interface OBResultsInfoMapper {
     * @throws
      */
     Integer selectFlagByQuotoSecond(Map<String, Object> map);
+    /**
+     * 获取该竞价的全部报价数量 用于验证
+     * @author YangHongLiang
+     * @param projectId
+     * @return
+     */
+    Integer countBiddingByID(@Param("projectId")String projectId);
+    /**
+     * 获取竞价 全部报价金额
+     * @param projectId
+     * @return
+     */
+    BigDecimal sumAllDealMoney(@Param("projectId")String projectId);
 }

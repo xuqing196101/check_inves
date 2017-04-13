@@ -352,6 +352,8 @@ ORDER BY CREATED_AT) where rownum=1)
 	   ORDER BY R.PRODUCT_ID
   </select>
   
+  
+  
   <!-- 根据id/次数/供应商id 获取自报价总和金额 -->
   <select id="selectByBidding" resultMap="BaseResultMap" parameterType="String">
    SELECT * from(select SUM(DEAL_MONEY) as MY_OFFER_MONEY,SUPPLIER_ID,PROJECT_ID,CREATED_AT from T_BSS_OB_RESULTS_INFO 
@@ -374,6 +376,12 @@ ORDER BY CREATED_AT) where rownum=1)
 	</if> 
      GROUP BY SUPPLIER_ID,PROJECT_ID,CREATED_AT)
   </select>
+  <!-- 获取竞价 报价的全部金额 -->
+    <select id="sumAllDealMoney"  parameterType="String" resultType="java.math.BigDecimal">
+  select sum(DEAL_MONEY) from T_BSS_OB_RESULTS_INFO 
+where PROJECT_ID=#{projectId,jdbcType=VARCHAR} 
+  </select>
+  
   <!-- 查询未中标的结果 -->
  <select id="selectResult" resultMap="BaseResultMap">
 	  SELECT 
@@ -385,7 +393,12 @@ ORDER BY CREATED_AT) where rownum=1)
 	  GROUP BY 
 	  	SUPPLIER_ID,PROJECT_ID,PRODUCT_ID,MY_OFFER_MONEY
   </select>
-  
+  <!-- 根据竞价 id 获取 报价数量 -->
+  <select id="countBiddingByID" parameterType="String" resultType="java.lang.Integer">
+  SELECT count(*) from (select SUPPLIER_ID,PROJECT_ID from T_BSS_OB_RESULTS_INFO 
+where PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+GROUP BY SUPPLIER_ID,PROJECT_ID)
+  </select>
   <!--  -->
   <select id="selectFlagByQuotoSecond" resultType="java.lang.Integer" parameterType="Map">
   	SELECT COUNT(BIDDING_ID)
