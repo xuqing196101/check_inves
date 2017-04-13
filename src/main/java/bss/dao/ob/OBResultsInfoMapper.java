@@ -117,4 +117,17 @@ public interface OBResultsInfoMapper {
      * @return
      */
     BigDecimal sumAllDealMoney(@Param("projectId")String projectId);
+    
+    /**
+     * 
+     * Description: 判断是否为二次竞价项目
+     * 
+     * @author  zhang shubin
+     * @version  2017年4月13日 
+     * @param  @param projectId
+     * @param  @return 
+     * @return List<String> 
+     * @exception
+     */
+    List<String> isSecondBidding(@Param("projectId") String projectId);
 }

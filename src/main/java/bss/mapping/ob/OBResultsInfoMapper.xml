@@ -407,5 +407,9 @@ GROUP BY SUPPLIER_ID,PROJECT_ID)
 	   AND RF.PROJECT_ID = #{supplierId,jdbcType=VARCHAR}
 	   AND RF.BIDDING_ID = '1'
   </select>
-
+  
+  <!-- 判断是否为第二次竞价项目 -->
+  <select id="isSecondBidding" parameterType="String" resultType="List">
+  	SELECT DISTINCT BIDDING_ID FROM T_BSS_OB_RESULTS_INFO WHERE PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+  </select>
 </mapper>
