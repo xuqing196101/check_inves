@@ -382,7 +382,7 @@ public class OBSupplierQuoteController {
 			 jdcg.setMsg("您的前一名第二轮未确定,请耐心等候");
 		 }else{
 			 jdcg.setStatus(0);
-			 jdcg.setMsg("竞价信息有误！");
+			 jdcg.setMsg("该竞价未中标");
 		 }
 		return jdcg;
 	}

@@ -1155,37 +1155,31 @@ public class OBProjectServerImpl implements OBProjectServer {
     	  for (OBResultsInfo accinfo : resultsInfoList) {
     		  acc=acc.add(accinfo.getMyOfferMoney());
     		}
-    	  //计算平均数据 如果有少数 四舍五入保留两位小数
+    	     //计算平均数据 如果有少数 四舍五入保留两位小数    
     	     BigDecimal pj=acc.divide(new BigDecimal(resultsInfoList.size()),2,BigDecimal.ROUND_HALF_UP);
     	     //计算有效供应商 平均数 如果供应商报价高于该数 即不入排名 视为无效报价 
     	     BigDecimal validAve=pj.multiply(new BigDecimal(percent/100D)).add(pj).setScale(2, BigDecimal.ROUND_HALF_UP);
-    	    
-    	     //筛查有效供应商
-    	     /*for (OBResultsInfo obResultsInfo : resultsInfoList) {
-				if(obResultsInfo.getMyOfferMoney().compareTo(validAve)==-1){
-					resultsInfoList.remove(obResultsInfo);
-				}
-			}*/
+    	   
     	     Iterator<OBResultsInfo> iterator = resultsInfoList.iterator();
     	     while(iterator.hasNext()){
     	    	 //如果供应商 报价 金额 大于 有效金额 那么删除
-    	    	 if(iterator.next().getMyOfferMoney().compareTo(validAve)==-1){
+    	    	 if(iterator.next().getMyOfferMoney().compareTo(validAve)!=-1){
  					iterator.remove();
  				}
     	     }
-    	     
     	     //计算筛选后的 平均值
     	     for (OBResultsInfo accinfo : resultsInfoList) {
        		  acc=acc.add(accinfo.getMyOfferMoney());
        		}
     	     pj=acc.divide(new BigDecimal(resultsInfoList.size()),2,BigDecimal.ROUND_HALF_UP);
-    	     //中标参考价
+    	     //中标参考价 排名
     	     BigDecimal validJ=pj.multiply(new BigDecimal((100-valid)/100D)).setScale(2, BigDecimal.ROUND_HALF_UP);
+    	     
     	      //冒泡 排序  去掉部分 无效数据
     	      for (int k = 0; k < resultsInfoList.size()-1; k++) {
     			for (int k2 = 0; k2 < resultsInfoList.size()-1-k; k2++) {
-    				double itemD=validJ.subtract(resultsInfoList.get(k2).getMyOfferMoney()).doubleValue();
-    				double itemD1=validJ.subtract(resultsInfoList.get(k2+1).getMyOfferMoney()).doubleValue();
+    				double itemD=Math.abs(validJ.subtract(resultsInfoList.get(k2).getMyOfferMoney()).doubleValue());
+    				double itemD1=Math.abs(validJ.subtract(resultsInfoList.get(k2+1).getMyOfferMoney()).doubleValue());
     				  if(itemD>itemD1){
     					  OBResultsInfo info=resultsInfoList.get(k2);
     					  resultsInfoList.set(k2, resultsInfoList.get(k2+1));
