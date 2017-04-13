@@ -130,8 +130,10 @@ public class Packages {
   /**每个包下面的供应商*/
   private List<Supplier> suList;
   
+  private Date techniqueTime; //评审技术性时间
   
-
+  private Date qualificationTime; //评审资格性时间
+  
 
 public List<Supplier> getSuList() {
       return suList;
@@ -595,5 +597,20 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
         this.collectPlan = collectPlan;
     }
 
+    public Date getTechniqueTime() {
+        return techniqueTime;
+    }
+
+    public void setTechniqueTime(Date techniqueTime) {
+        this.techniqueTime = techniqueTime;
+    }
+
+    public Date getQualificationTime() {
+        return qualificationTime;
+    }
+
+    public void setQualificationTime(Date qualificationTime) {
+        this.qualificationTime = qualificationTime;
+    }
 
 }
