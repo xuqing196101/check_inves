@@ -43,8 +43,8 @@
             _last = _last+1;
           }
         });
-        $(".tip_time").eq(_last).parent().parent().parent().removeClass("pre_btn");
-        $(".tip_time").eq(_last).parent().parent().parent().addClass("current_btn");
+        $(".tip_time").eq(_last-1).parent().parent().parent().removeClass("pre_btn");
+        $(".tip_time").eq(_last-1).parent().parent().parent().addClass("current_btn");
         //$(".flow_tips").addClass("pre_btn"); 
         $(".flow_tips").children(":last").hide();
         //$(".flow_tips").children(":last").parent().addClass("current_btn");
@@ -413,7 +413,9 @@
                   <a href="#tab-13">
                     <p class="tip_main">开标</p>
                     <p class="tip_time">
+                      <c:if test="${operName ne null}">
                       <fmt:formatDate value='${project.bidDate}' pattern='yyyy-MM-dd' />
+                      </c:if>
                     </p>
                   </a>
                 </div>
@@ -425,7 +427,7 @@
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-14">
                     <p class="tip_main">采购项目评审</p>
-                    <p class="tip_time"></p>
+                    <p class="tip_time">2017-04-10</p>
                   </a>
                 </div>
                 <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
@@ -506,9 +508,9 @@
               <tbody>
                 <tr>
                   <th class="info">采购需求名称</th>
-                  <th class="info">需求部门</th>
-                  <th class="info">编报人</th>
-                  <th class="info">提报时间</th>
+                  <th class="info" width="20%">需求部门</th>
+                  <th class="info" width="15%">编报人</th>
+                  <th class="info" width="20%">提报时间</th>
                 </tr>
                 <tr>
                   <td>${purchaseRequired.planName}</td>
@@ -526,10 +528,10 @@
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
-                  <th class="info">受理结果</th>
-                  <th class="info">采购管理部门</th>
-                  <th class="info">受理人</th>
-                  <th class="info">受理时间</th>
+                  <th class="info" width="25%">受理结果</th>
+                  <th class="info" width="30%">采购管理部门</th>
+                  <th class="info" width="25%">受理人</th>
+                  <th class="info" width="20%">受理时间</th>
                 </tr>
                 <tr>
                   <td class="tc"><button class="btn" onclick="viewDemand();" type="button">查看</button></td>
@@ -549,9 +551,9 @@
                 <tbody>
                   <tr>
                     <th class="info">预研通知书名称</th>
-                    <th class="info">采购管理部门</th>
-                    <th class="info">下达人</th>
-                    <th class="info">下达时间</th>
+                    <th class="info" width="20%">采购管理部门</th>
+                    <th class="info" width="20%">下达人</th>
+                    <th class="info" width="20%">下达时间</th>
                   </tr>
                   <tr>
                     <td class="tc">
@@ -574,10 +576,10 @@
                 <table class="table table-bordered mt10">
                   <thead>
                     <tr>
-                      <th class="info">审核轮次</th>
-                      <th class="info">审核人员</th>
-                      <th class="info">审核意见</th>
-                      <th class="info">审核时间</th>
+                      <th class="info" width="25%">审核轮次</th>
+                      <th class="info" width="25%">审核人员</th>
+                      <th class="info" width="25%">审核意见</th>
+                      <th class="info" width="25%">审核时间</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -607,9 +609,9 @@
                   <tr>
                     <th class="info">采购计划名称</th>
                     <th class="info">计划文号</th>
-                    <th class="info">采购管理部门</th>
-                    <th class="info">下达人</th>
-                    <th class="info">下达时间</th>
+                    <th class="info" width="20%">采购管理部门</th>
+                    <th class="info" width="15%">下达人</th>
+                    <th class="info" width="20%">下达时间</th>
                   </tr>
                   <tr>
                     <td>${collectPlan.fileName}</td>
@@ -631,15 +633,15 @@
               <tbody>
                 <tr>
                   <th class="info">采购任务名称</th>
-                  <th class="info">采购机构</th>
-                  <th class="info">任务性质</th>
-                  <th class="info">受领人</th>
-                  <th class="info">受领时间</th>
+                  <th class="info" width="15%">采购机构</th>
+                  <th class="info" width="10%">任务性质</th>
+                  <th class="info" width="15%">受领人</th>
+                  <th class="info" width="20%">受领时间</th>
                 </tr>
                 <tr>
                   <td>${task.name}</td>
                   <td>${task.purchaseId}</td>
-                  <td>
+                  <td class="tc">
                     <c:if test="${task.taskNature eq '0'}">正常</c:if>
                     <c:if test="${task.taskNature eq '1'}">预研</c:if>
                   </td>
@@ -659,17 +661,17 @@
               <tbody>
                 <tr>
                   <th class="info">采购项目名称</th>
-                  <th class="info">立项审批文件</th>
+                  <th class="info" width="10%">立项审批文件</th>
                   <th class="info">立项部门</th>
-                  <th class="info">项目性质</th>
-                  <th class="info">立项人</th>
-                  <th class="info">立项时间</th>
+                  <th class="info" width="10%">项目性质</th>
+                  <th class="info" width="15%">立项人</th>
+                  <th class="info" width="20%">立项时间</th>
                 </tr>
                 <tr>
                   <td>${project.name}</td>
                   <td class="tc"><button class="btn" onclick="viewUpload('${uploadId}');" type="button">查看</button></td>
                   <td>${project.purchaseDepName}</td>
-                  <td>
+                  <td class="tc">
                     <c:if test="${status eq '0'}">正常</c:if>
                     <c:if test="${status eq '1'}">预研</c:if>
                   </td>
@@ -691,9 +693,9 @@
                   <tr>
                     <th class="info">采购文件名称</th>
                     <th class="info">编制人</th>
-                    <th class="info">提报时间</th>
-                    <th class="info">审核意见</th>
-                    <th class="info">意见批复时间</th>
+                    <th class="info" width="10%">提报时间</th>
+                    <th class="info" width="45%">审核意见</th>
+                    <th class="info" width="10%">意见批复时间</th>
                   </tr>
                   <tr>
                     <td>
@@ -722,8 +724,8 @@
               <tbody>
                 <tr>
                   <th class="info">公告名称</th>
-                  <th class="info">编制人</th>
-                  <th class="info">编制时间</th>
+                  <th class="info" width="20%">编制人</th>
+                  <th class="info" width="20%">编制时间</th>
                 </tr>
                 <tr>
                   <td>${articles.name}</td>
@@ -766,8 +768,8 @@
               <tbody>
                 <tr>
                   <th class="info">文件发售记录</th>
-                  <th class="info">操作人</th>
-                  <th class="info">发售时间</th>
+                  <th class="info" width="20%">操作人</th>
+                  <th class="info" width="20%">发售时间</th>
                 </tr>
                 <tr>
                   <td class="tc"><button class="btn" onclick="sell('${packageId}','1')" type="button">查看</button></td>
@@ -775,7 +777,7 @@
                   <td>
                     ${begin}
                     <c:if test="${end!=null}">
-                      -${end}
+                      —${end}
                     </c:if>
                   </td>
                 </tr>
@@ -805,16 +807,16 @@
               </tbody>
             </table> --%>
 
-            <c:if test="${project.bidDate ne null}">
+            <c:if test="${operName ne null}">
             <h2 class="list_son" id="tab-13"><i>${flag}</i>开标</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
-                  <th class="info">投标记录</th>
-                  <th class="info">开标一览表</th>
-                  <th class="info">开标人</th>
-                  <th class="info">开标时间</th>
+                  <th class="info" width="25%">投标记录</th>
+                  <th class="info" width="25%">开标一览表</th>
+                  <th class="info" width="25%">开标人</th>
+                  <th class="info" width="25%">开标时间</th>
                 </tr>
                 <tr>
                   <td class="tc"><button class="btn" onclick="sell('${packageId}','2')" type="button">查看</button></td>
@@ -837,7 +839,7 @@
                   <th class="info">文件名称</th>
                   <th class="info">查看评审专家打分表</th>
                   <th class="info">查看汇总表</th>
-                  <th class="info">评审时间</th>
+                  <th class="info" width="20%">评审时间</th>
                 </tr>
                 <tr>
                   <td>资格性符合性检查</td>
@@ -887,8 +889,8 @@
               <tbody>
                 <tr>
                   <th class="info">中标公示名称</th>
-                  <th class="info">编制人</th>
-                  <th class="info">编制时间</th>
+                  <th class="info" width="20%">编制人</th>
+                  <th class="info" width="20%">编制时间</th>
                 </tr>
                 <tr>
                   <td>${articleList.name}</td>
@@ -907,10 +909,10 @@
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
-                  <th class="info">中标供应商名称</th>
-                  <th class="info">评分排序</th>
-                  <th class="info">操作人</th>
-                  <th class="info">确定时间</th>
+                  <th class="info" width="25%">中标供应商名称</th>
+                  <th class="info" width="25%">评分排序</th>
+                  <th class="info" width="25%">操作人</th>
+                  <th class="info" width="25%">确定时间</th>
                 </tr>
                 <c:forEach items="${listCheckPass}" var="obj" varStatus="vs">
                   <tr>
@@ -935,7 +937,7 @@
                   <th class="info">合同名称</th>
                   <th class="info">甲方</th>
                   <th class="info">乙方</th>
-                  <th class="info">签订时间</th>
+                  <th class="info" width="20%">签订时间</th>
                 </tr>
                 <tr>
                   <td><a href="#" onclick="openContract('${purchaseContract.id}');">${purchaseContract.name}</a></td>
@@ -958,7 +960,7 @@
                   <th class="info">验收记录</th>
                   <th class="info">质检专家</th>
                   <th class="info">质检单位</th>
-                  <th class="info">验收时间</th>
+                  <th class="info" width="20%">验收时间</th>
                 </tr>
                 <tr>
                   <td class="tc"><button class="btn" onclick="info('${PqInfo.id}'}" type="button">查看</button></td>

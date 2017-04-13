@@ -63,7 +63,7 @@ public class SupervisionServiceImpl implements SupervisionService {
     
 
     @Override
-    public String[] progressBarPlan(String id) {
+    public String[] progressBar(String id) {
         String[] progressBar = null;
         if(StringUtils.isNotBlank(id)){
             HashMap<String, Object> map = new HashMap<>();
@@ -206,22 +206,79 @@ public class SupervisionServiceImpl implements SupervisionService {
                 if(contract.getStatus() == 0){
                     int one = 34;
                     num = String.valueOf(Math.round(total*one));
-                    name = "未生成合同";
+                    name = "暂存合同";
                 }
                 if(contract.getStatus() == 1){
                     int one = 35;
                     num = String.valueOf(Math.round(total*one));
-                    name = "已生成合同";
+                    name = "已生成合同草案";
                 }
                 if(contract.getStatus() == 2){
                     int one = 36;
                     num = String.valueOf(Math.round(total*one));
-                    name = "暂存合同";
+                    name = "正式合同";
                 }
             }
         }
         String[] names = {num,name};
         return names;
+    }
+
+
+
+
+    @Override
+    public String progressBarProject(String status) {
+        String num = null;
+        if(StringUtils.isNotBlank(status)){
+            DictionaryData findById = DictionaryDataUtil.findById(status);
+            if(findById != null){
+                double number = 100.00/22.00;
+                BigDecimal b = new BigDecimal(number);
+                double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+                num = String.valueOf(Math.round(total*findById.getPosition()));
+            }
+        }
+        return num;
+    }
+
+
+
+
+    @Override
+    public Integer progressBarPlan(Integer status) {
+        Integer num = null;
+        if(status == 1){
+            num = 20;
+        }
+        if(status == 3 || status == 4 || status == 5 || status == 6  || status == 7 ){
+            num = 50;
+        }
+        if(status == 12 || status == 13){
+            num = 80;
+        }
+        if(status == 2){
+            num = 100;
+        }
+        return num;
+    }
+
+
+
+
+    @Override
+    public Integer progressBarContract(Integer status) {
+        Integer num = null;
+        if(status == 0){
+            num = 20;
+        }
+        if(status == 1){
+            num = 50;
+        }
+        if(status == 2){
+            num = 100;
+        }
+        return num;
     }
 
 }

@@ -73,11 +73,14 @@
               <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
             </td>
             <td class="tc" width="25%" onclick="contractDateil('${contract.id}')">
-              <c:if test="${contract ne null}">
+              <c:if test="${contractStatus eq 100}">
                 <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
               </c:if>
-              <c:if test="${contract eq null}">
-                <div data-dimension="150" data-text="0%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="0" data-fgcolor="#ffffff" data-bgcolor="#eeeeee" class="circle_box"></div>
+              <c:if test="${contractStatus eq 50}">
+                <div data-dimension="150" data-text="50%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="50" data-fgcolor="#68d6fa" data-bgcolor="#eee" class="circle_box"></div>
+              </c:if>
+              <c:if test="${contractStatus eq 20}">
+                <div data-dimension="150" data-text="20%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="20" data-fgcolor="#ff8641" data-bgcolor="#eee" class="circle_box"></div>
               </c:if>
             </td>
           </tr>

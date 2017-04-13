@@ -427,7 +427,6 @@ public class TaskAdjustController extends BaseController{
 	 */
 	@RequestMapping("/update")
 	public String updateById(PurchaseRequiredFormBean list,String details){
-		HashMap<String,Object> map=new HashMap<String,Object>();
 		List<PurchaseDetail> lists = new ArrayList<>();
 		if(list!=null){
 			if(list.getListDetail()!=null&&list.getListDetail().size()>0){
@@ -497,11 +496,14 @@ public class TaskAdjustController extends BaseController{
 			if(did.trim().length()!=0){
 				maps.put("requiredId", did);
 				List<ProjectDetail> selectById = projectDetailService.selectById(maps);
-				project.setId(selectById.get(0).getProject().getId());
-				project.setStatus(DictionaryDataUtil.getId("YQX"));
-				PurchaseDetail pd = purchaseDetailService.queryById(did);
-				updateHistoryService.add(did, pd);
-				projectService.update(project);
+				if(selectById != null && selectById.size() > 0){
+				    project.setId(selectById.get(0).getProject().getId());
+	                project.setStatus(DictionaryDataUtil.getId("YQX"));
+	                PurchaseDetail pd = purchaseDetailService.queryById(did);
+	                updateHistoryService.add(did, pd);
+	                projectService.update(project);
+				}
+				
 			}
 		
 			
@@ -548,7 +550,6 @@ public class TaskAdjustController extends BaseController{
 	@RequestMapping(value = "/cancel",produces="html/text;chartset=UTF-8")
 	public String updateCancel(String ids){
 	    if (StringUtils.isNotBlank(ids)){
-	        if (ids.contains(StaticVariables.COMMA_SPLLIT)){
 	            String [] strArray = ids.split(StaticVariables.COMMA_SPLLIT);
 	            HashMap<String, Object> map = new HashMap<>(); 
 	            for (String id: strArray){
@@ -565,7 +566,6 @@ public class TaskAdjustController extends BaseController{
 	                    }
 	            	}
 	            }
-	        }  
 	    }
 	    return StaticVariables.SUCCESS;
 	}

@@ -6,9 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,6 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
-import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -202,6 +199,9 @@ public class ProjectSupervisionController {
                         model.addAttribute("contractRequireds", contractRequireds);
                     }
                 }
+                String projectStatus = supervisionService.progressBarProject(project.getStatus());
+                
+                model.addAttribute("projectStatus", Integer.valueOf(projectStatus));
                 model.addAttribute("project", project);
             }
         }
@@ -430,7 +430,7 @@ public class ProjectSupervisionController {
                             if(packages2.getId().equals(selectById.get(i).getPackageId())){
                                 DictionaryData findById = DictionaryDataUtil.findById(selectById.get(i).getPurchaseType());
                                 selectById.get(i).setPurchaseType(findById.getName());
-                                String[] progressBarPlan = supervisionService.progressBarPlan(selectById.get(i).getRequiredId());
+                                String[] progressBarPlan = supervisionService.progressBar(selectById.get(i).getRequiredId());
                                 selectById.get(i).setProgressBar(progressBarPlan[0]);
                                 selectById.get(i).setStatus(progressBarPlan[1]);
                                 list.add(selectById.get(i));
@@ -603,7 +603,7 @@ public class ProjectSupervisionController {
                     if(detail.getPrice() != null){
                         DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
                         detail.setPurchaseType(findById.getName());
-                        String[] progressBarPlan = supervisionService.progressBarPlan(detail.getId());
+                        String[] progressBarPlan = supervisionService.progressBar(detail.getId());
                         detail.setProgressBar(progressBarPlan[0]);
                         detail.setStatus(progressBarPlan[1]);
                         model.addAttribute("code", findById.getCode());

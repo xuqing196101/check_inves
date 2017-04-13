@@ -154,11 +154,11 @@
 			<form action="${pageContext.request.contextPath}/dictionaryType/search.html"
 				method="post" enctype="multipart/form-data" class="mb0">
 				<ul class="demand_list">
-					<li><label class="fl">类型编号：</label>
+					<!-- <li><label class="fl">类型编号：</label>
 						<span>
-							<input type="text" name="code" id="code" class="mb0" />
+							<input type="text" name="code" id="code" onkeyup="this.value=this.value.replace(/\D/g,'')" class="mb0" />
 						</span>
-					</li>
+					</li> -->
 					<li><label class="fl">类型名称：</label>
 						<span>
 							<input type="text" name="name" id="tname" class="mb0" />

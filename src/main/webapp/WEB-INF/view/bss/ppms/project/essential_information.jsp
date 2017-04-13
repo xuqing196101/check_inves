@@ -153,6 +153,12 @@
           }
 
         }
+        var bidDate = $("#bidDate").val();
+        var deadline = $("#deadline").val();
+        if(bidDate < deadline){
+          layer.msg("投标截止时间应小于开标时间")
+          flag = false;
+        }
         if(flag == true) {
           layer.msg("修改成功", {
             shade: 0.01

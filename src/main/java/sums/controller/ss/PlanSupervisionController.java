@@ -311,7 +311,8 @@ public class PlanSupervisionController {
                 }
                 
                 
-                
+                Integer planStatus = supervisionService.progressBarPlan(collectPlan.getStatus());
+                model.addAttribute("planStatus", planStatus);
                 model.addAttribute("collectPlan", collectPlan);
             }
         }
@@ -363,7 +364,7 @@ public class PlanSupervisionController {
                     }else{
                         DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
                         detail.setPurchaseType(findById.getName());
-                        String[] progressBarPlan = supervisionService.progressBarPlan(detail.getId());
+                        String[] progressBarPlan = supervisionService.progressBar(detail.getId());
                         detail.setProgressBar(progressBarPlan[0]);
                         detail.setStatus(progressBarPlan[1]);
                         model.addAttribute("code", findById.getCode());
@@ -522,7 +523,7 @@ public class PlanSupervisionController {
                         if(detail.getPrice() != null){
                             DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
                             detail.setPurchaseType(findById.getName());
-                            String[] progressBarPlan = supervisionService.progressBarPlan(detail.getId());
+                            String[] progressBarPlan = supervisionService.progressBar(detail.getId());
                             detail.setProgressBar(progressBarPlan[0]);
                             detail.setStatus(progressBarPlan[1]);
                             model.addAttribute("code", findById.getCode());
@@ -557,7 +558,7 @@ public class PlanSupervisionController {
                         }else{
                             DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                             details.get(i).setPurchaseType(findById.getName());
-                            String[] progressBarPlan = supervisionService.progressBarPlan(details.get(i).getId());
+                            String[] progressBarPlan = supervisionService.progressBar(details.get(i).getId());
                             details.get(i).setProgressBar(progressBarPlan[0]);
                             details.get(i).setStatus(progressBarPlan[1]);
                             model.addAttribute("code", findById.getCode());
@@ -615,7 +616,7 @@ public class PlanSupervisionController {
                                     if(packages2.getId().equals(details.get(i).getPackageId())){
                                         DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                                         details.get(i).setPurchaseType(findById.getName());
-                                        String[] progressBarPlan = supervisionService.progressBarPlan(details.get(i).getRequiredId());
+                                        String[] progressBarPlan = supervisionService.progressBar(details.get(i).getRequiredId());
                                         details.get(i).setProgressBar(progressBarPlan[0]);
                                         details.get(i).setStatus(progressBarPlan[1]);
                                         list.add(details.get(i));

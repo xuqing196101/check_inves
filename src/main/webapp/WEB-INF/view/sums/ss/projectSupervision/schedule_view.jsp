@@ -69,7 +69,18 @@
             <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
           </td>
           <td class="tc" width="25%"   onclick="view('${project.id}')">
+            <c:if test="${projectStatus gt 90}">
             <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
+            </c:if>
+            <c:if test="${projectStatus gt 79 && projectStatus lt 90}">
+            <div data-dimension="150" data-text="80%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="80" data-fgcolor="#038dbc" data-bgcolor="#eee" class="circle_box"></div>
+            </c:if>
+            <c:if test="${projectStatus gt 49 && projectStatus lt 80}">
+            <div data-dimension="150" data-text="50%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="50" data-fgcolor="#68d6fa" data-bgcolor="#eee" class="circle_box"></div>
+            </c:if>
+            <c:if test="${projectStatus gt 0 && projectStatus lt 50}">
+            <div data-dimension="150" data-text="20%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="20" data-fgcolor="#ff8641" data-bgcolor="#eee" class="circle_box"></div>
+            </c:if>
           </td>
           <td class="tc" width="25%" onclick="contractList('${project.id}')">
             <c:if test="${contractRequireds eq null}">

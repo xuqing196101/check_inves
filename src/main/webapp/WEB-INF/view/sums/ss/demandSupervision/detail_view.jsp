@@ -121,7 +121,7 @@
           </c:choose>
              </h2>
           <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
-            <table id="table" class="table table-bordered table-condensed lockout">-hover ">
+            <table id="table" class="table table-bordered table-condensed lockout">
               <thead>
                 <tr class="info">
                   <th class="w50">序号</th>

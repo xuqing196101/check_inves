@@ -1665,13 +1665,16 @@ table.lockout .extrafile{
     }
     .list_son i{
       display: inline-block;
-	    width: 17px;
-	    height: 17px;
+	    width: 18px;
+	    height: 18px;
 	    border: 1px solid #3498db;
 	    text-align: center;
-	    line-height: 15px;
+	    line-height: 16px;
+	    color:#3498db;
 	    font-style: normal;
 	    font-size: 14px;
+	    font-weight:bold;
+	    border-radius:100%!important;
     }
     
     

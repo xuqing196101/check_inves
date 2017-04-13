@@ -217,6 +217,8 @@ public class ContractSupervisionController {
 	@RequestMapping(value="/contSupervision",produces = "text/html;charset=UTF-8")
 	public String detailContract(Model model, PurchaseContract purCon,Integer page){
 		PurchaseContract purchaseContract = purchaseContractService.selectById(purCon.getId());
+		Integer contractStatus = supervisionService.progressBarContract(purchaseContract.getStatus());
+		model.addAttribute("contractStatus", contractStatus);
 		model.addAttribute("contract",purchaseContract);
 		List<SupplierCheckPass> SupplierCheckPass = supplierCheckPassService.getByContractId(purchaseContract.getId());
 		Project project=null;
@@ -364,7 +366,7 @@ public class ContractSupervisionController {
                     if(packages2.getId().equals(details.get(i).getPackageId())){
                         DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                         details.get(i).setPurchaseType(findById.getName());
-                        String[] progressBarPlan = supervisionService.progressBarPlan(details.get(i).getRequiredId());
+                        String[] progressBarPlan = supervisionService.progressBar(details.get(i).getRequiredId());
                         details.get(i).setProgressBar(progressBarPlan[0]);
                         details.get(i).setStatus(progressBarPlan[1]);
                         list.add(details.get(i));
@@ -466,7 +468,7 @@ public class ContractSupervisionController {
 	            for (PurchaseRequired purchaseRequired : requireds) {
 	                DictionaryData findById = DictionaryDataUtil.findById(purchaseRequired.getPurchaseType());
 	                purchaseRequired.setPurchaseType(findById.getName());
-	                String[] progressBarPlan = supervisionService.progressBarPlan(purchaseRequired.getId());
+	                String[] progressBarPlan = supervisionService.progressBar(purchaseRequired.getId());
 	                purchaseRequired.setProgressBar(progressBarPlan[0]);
 	                purchaseRequired.setStatus(progressBarPlan[1]);
 	                model.addAttribute("code", findById.getCode());
@@ -535,7 +537,7 @@ public class ContractSupervisionController {
                     if(id.equals(purchaseDetail.getUniqueId())){
                         DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
                         purchaseDetail.setPurchaseType(findById.getName());
-                        String[] progressBarPlan = supervisionService.progressBarPlan(purchaseDetail.getId());
+                        String[] progressBarPlan = supervisionService.progressBar(purchaseDetail.getId());
                         purchaseDetail.setProgressBar(progressBarPlan[0]);
                         purchaseDetail.setStatus(progressBarPlan[1]);
                         details.add(purchaseDetail);

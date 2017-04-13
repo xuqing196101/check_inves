@@ -57,7 +57,18 @@
                 <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
               </td>
               <td class="tc" width="25%" onclick="view('${collectPlan.id}','2')">
-                <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
+                <c:if test="${planStatus eq 20}">
+                  <div data-dimension="150" data-text="20%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="20" data-fgcolor="#ff8641" data-bgcolor="#eee" class="circle_box"></div>
+                </c:if>
+                <c:if test="${planStatus eq 50}">
+                  <div data-dimension="150" data-text="50%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="50" data-fgcolor="#68d6fa" data-bgcolor="#eee" class="circle_box"></div>
+                </c:if>
+                <c:if test="${planStatus eq 80}">
+                  <div data-dimension="150" data-text="80%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="80" data-fgcolor="#038dbc" data-bgcolor="#eee" class="circle_box"></div>
+                </c:if>
+                <c:if test="${planStatus eq 100}">
+                  <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
+                </c:if>
               </td>
               <td class="tc" width="25%" onclick="view('${collectPlan.id}','3')">
                 <c:if test="${project ne null}">

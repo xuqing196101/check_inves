@@ -235,7 +235,7 @@ public class DemandSupervisionController extends BaseController{
             for (PurchaseRequired purchaseRequired : list) {
                 if(purchaseRequired.getPrice() != null){
                     DictionaryData findById = DictionaryDataUtil.findById(purchaseRequired.getPurchaseType());
-                    String[] progressBarPlan = supervisionService.progressBarPlan(purchaseRequired.getId());
+                    String[] progressBarPlan = supervisionService.progressBar(purchaseRequired.getId());
                     purchaseRequired.setProgressBar(progressBarPlan[0]);
                     purchaseRequired.setStatus(progressBarPlan[1]);
                     model.addAttribute("code", findById.getCode());
@@ -280,7 +280,7 @@ public class DemandSupervisionController extends BaseController{
                     for (PurchaseDetail purchaseDetail : detail) {
                         if(purchaseDetail.getPrice() != null){
                             DictionaryData findById = DictionaryDataUtil.findById(purchaseDetail.getPurchaseType());
-                            String[] progressBarPlan = supervisionService.progressBarPlan(purchaseDetail.getId());
+                            String[] progressBarPlan = supervisionService.progressBar(purchaseDetail.getId());
                             purchaseDetail.setProgressBar(progressBarPlan[0]);
                             purchaseDetail.setStatus(progressBarPlan[1]);
                             model.addAttribute("code", findById.getCode());
@@ -387,7 +387,7 @@ public class DemandSupervisionController extends BaseController{
                                 if(packages2.getId().equals(details.get(i).getPackageId())){
                                     DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                                     details.get(i).setPurchaseType(findById.getName());
-                                    String[] progressBarPlan = supervisionService.progressBarPlan(details.get(i).getRequiredId());
+                                    String[] progressBarPlan = supervisionService.progressBar(details.get(i).getRequiredId());
                                     details.get(i).setProgressBar(progressBarPlan[0]);
                                     details.get(i).setStatus(progressBarPlan[1]);
                                     list.add(details.get(i));
