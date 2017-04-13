@@ -914,8 +914,13 @@ public class PlanSupervisionController {
                                 experts.add(expert);
                             }
                             if("DYLY".equals(DictionaryDataUtil.findById(project.getPurchaseType()).getCode())){
+                                NegotiationReport report =  reportService.selectByPackageId(selectById.get(0).getPackageId());
+                                if(report != null){
+                                    model.addAttribute("reviewTime", report.getReviewTime());
+                                }
                                 model.addAttribute("DYLY", "1");
                             }
+                            
                             
                             //确认中标供应商
                             SupplierCheckPass pass = new SupplierCheckPass();
@@ -930,6 +935,7 @@ public class PlanSupervisionController {
                                 }
                                 model.addAttribute("listCheckPass", listCheckPass);
                             }
+                            
                             
                             
                             //合同信息
@@ -964,9 +970,12 @@ public class PlanSupervisionController {
                                 }
                                 model.addAttribute("purchaseContract", purchaseContract);
                             }
+                            
+                            Packages packages = packageService.selectByPrimaryKeyId(selectById.get(0).getPackageId());
                             model.addAttribute("expertIdList", expertIdList);
                             model.addAttribute("experts", experts);
                             model.addAttribute("packageId", selectById.get(0).getPackageId());
+                            model.addAttribute("packages", packages);
                         }
                                   
                         

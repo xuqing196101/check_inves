@@ -427,7 +427,16 @@
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-14">
                     <p class="tip_main">采购项目评审</p>
-                    <p class="tip_time">2017-04-10</p>
+                    <p class="tip_time">
+                      <c:choose>
+                        <c:when test="${packages.qualificationTime ne null}">
+                          <fmt:formatDate value='${packages.qualificationTime}' pattern='yyyy-MM-dd' />
+                        </c:when>
+                        <c:otherwise>
+                          <fmt:formatDate value='${packages.techniqueTime}' pattern='yyyy-MM-dd' />
+                        </c:otherwise>
+                      </c:choose>
+                    </p>
                   </a>
                 </div>
                 <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
@@ -851,6 +860,7 @@
                   </td>
                   <td class="tc"><button class="btn" onclick="openPrint('${project.id}','${packageId}')" type="button">查看</button></td>
                   <td>
+                    <fmt:formatDate value='${packages.qualificationTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
                 <tr>
@@ -863,6 +873,7 @@
                   </td>
                   <td class="tc"><button class="btn" onclick="openPrints('${project.id}','${packageId}')" type="button">查看</button></td>
                   <td>
+                    <fmt:formatDate value='${packages.techniqueTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
                 <c:if test="${DYLY != null}">
@@ -875,6 +886,7 @@
                     </td>
                     <td class="tc"><button class="btn" onclick="report('${packageId}')" type="button">查看</button></td>
                     <td>
+                      <fmt:formatDate value='${reviewTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                     </td>
                   </tr>
                 </c:if>
