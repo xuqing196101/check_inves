@@ -1062,6 +1062,11 @@ public class OBProjectController {
 //		String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
 		BigDecimal bigDecimal = new BigDecimal(totalCountPriceBigDecimal);
 		BigDecimal totalCountPriceBigDecimalAfter = BigDecimalUtils.getBigDecimalTOScale4(bigDecimal, million);
+		
+		//竞价规则
+		//竞价规则
+		OBProjectRule oRule= OBProjectRuleMapper.selectByPrimaryKey(obProject.getId());
+		model.addAttribute("obRule", oRule);
 		// 采购机构
 		model.addAttribute("orgName", orgName);
 		// 需求单位
