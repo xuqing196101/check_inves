@@ -312,11 +312,17 @@ public class FirstAuditTemplatController extends BaseController{
                 List<String> list = Arrays.asList(scoreModelList.get(0).getJudgeContent().split("\\|"));
                 scoreModelList.get(0).setModel1BJudgeContent(list);
             }
-            if (scoreModelList.get(0).getUnitScore() != null && scoreModelList.get(0).getUnitScore().indexOf(".") != -1 && scoreModelList.get(0).getUnitScore().length() == 2) {
+            if (scoreModelList.get(0).getUnitScore() != null && scoreModelList.get(0).getUnitScore().startsWith(".")) {
                 scoreModelList.get(0).setUnitScore(scoreModelList.get(0).getUnitScore().replace(".", "0."));
             }
-            if (scoreModelList.get(0).getMinScore() != null && scoreModelList.get(0).getMinScore().indexOf(".") != -1 && scoreModelList.get(0).getMinScore().length() == 2) {
+            if (scoreModelList.get(0).getMinScore() != null && scoreModelList.get(0).getMinScore().startsWith(".")) {
                 scoreModelList.get(0).setMinScore(scoreModelList.get(0).getMinScore().replace(".", "0."));
+            }
+            if (scoreModelList.get(0).getMaxScore() != null && scoreModelList.get(0).getMaxScore().startsWith(".")) {
+                scoreModelList.get(0).setMaxScore(scoreModelList.get(0).getMaxScore().replace(".", "0."));
+            }
+            if (scoreModelList.get(0).getStandardScore() != null && scoreModelList.get(0).getStandardScore().startsWith(".")) {
+                scoreModelList.get(0).setStandardScore(scoreModelList.get(0).getStandardScore().replace(".", "0."));
             }
             scoreModelList.get(0).setIscheck(scoreModelList.get(0).getMarkTerm().isChecked());
             model.addAttribute("scoreModel", scoreModelList.get(0));
