@@ -715,6 +715,15 @@ public class OBProjectController {
 				}
 				//查询参与的供应商==============================================================================================
 				if(obProjectId != null){
+					List<String> biddingIdList = OBResultsInfoMapper.isSecondBidding(obProjectId);
+					Boolean flag = true;
+					if(biddingIdList != null && biddingIdList.size() > 0){
+						for (String string : biddingIdList) {
+							if("2".equals(string)){
+								flag = false;
+							}
+						}
+					}
 					List<OBProjectResult> listss = oBProjectResultService.selResultByProjectId(obProjectId);
 			    	Integer countProportion = 0;
 			    	BigDecimal million = new BigDecimal(10000);
@@ -741,6 +750,8 @@ public class OBProjectController {
 									
 									obProjectResult.setObResultSubtabulation(obResultSubtabulation);
 									countProportion += Integer.parseInt(obProjectResult.getProportion());
+									List<OBResultsInfo> listinf = OBResultsInfoMapper.selectResult(obProjectId, obProjectResult.getSupplierId());
+									obProjectResult.setOBResultsInfo(listinf);
 								}else{
 									List<OBResultsInfo> listinf = OBResultsInfoMapper.selectResult(obProjectId, obProjectResult.getSupplierId());
 									obProjectResult.setOBResultsInfo(listinf);
@@ -753,6 +764,7 @@ public class OBProjectController {
 			    		String projectName = obProjectww.getName();
 			    		model.addAttribute("projectName",projectName);
 			    	}
+			    	model.addAttribute("flag", flag);
 					model.addAttribute("listres", listss);
 					model.addAttribute("countProportion",countProportion);
 					model.addAttribute("size",listss.size());
@@ -943,15 +955,15 @@ public class OBProjectController {
 	 */
 	private void getBiddingResultInfo(Model model, String projectId) {
 		//判断是否有第二次竞价
-				List<String> biddingIdList = OBResultsInfoMapper.isSecondBidding(projectId);
-				Boolean flag = true;
-				if(biddingIdList != null && biddingIdList.size() > 0){
-					for (String string : biddingIdList) {
-						if("2".equals(string)){
-							flag = false;
-						}
-					}
+		List<String> biddingIdList = OBResultsInfoMapper.isSecondBidding(projectId);
+		Boolean flag = true;
+		if(biddingIdList != null && biddingIdList.size() > 0){
+			for (String string : biddingIdList) {
+				if("2".equals(string)){
+					flag = false;
 				}
+			}
+		}
 		List<OBProjectResult> list = oBProjectResultService.selResultByProjectId(projectId);
     	Integer countProportion = 0;
     	BigDecimal million = new BigDecimal(10000);

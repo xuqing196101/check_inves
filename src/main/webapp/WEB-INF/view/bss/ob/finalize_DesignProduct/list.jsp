@@ -81,7 +81,10 @@
 		if(id.length > 0) {
 			for(var i=0;i<id.length;i++){
 				if($("#"+id[i]).html().replace(/\s+/g,"") == "已发布"){
-					layer.msg("不能删除已发布的产品");
+					layer.alert("不能删除已发布的产品", {
+						offset: ['222px', '390px'],
+						shade: 0.01
+					});
 					return false;
 				}
 			}
@@ -147,7 +150,10 @@
 				});
 			});
 		}else{
-			layer.msg("不能发布已发布过的产品");
+			layer.alert("不能重复发布产品", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
 		}
 		} else if(id.length > 1) {
 			layer.alert("只能选择一个", {
@@ -196,7 +202,10 @@
 				});
 			});
 		}else{
-			layer.msg("只能撤回已发布的产品");
+			layer.alert("只能撤回已发布的产品", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
 		}
 		} else if(id.length > 1) {
 			layer.alert("只能选择一个", {
@@ -223,7 +232,14 @@
 			id.push($(this).val());
 		});
 		if(id.length == 1) {
-			window.location.href = "${pageContext.request.contextPath }/product/tiaozhuan.html?proid=" + id + "&&type=1";
+			if($("#"+id).html().replace(/\s+/g,"") != "已发布" ){
+				window.location.href = "${pageContext.request.contextPath }/product/tiaozhuan.html?proid=" + id + "&&type=1";
+			}else{
+				layer.alert("不能修改已发布的产品", {
+					offset: ['222px', '390px'],
+					shade: 0.01
+				});
+			}
 		} else if(id.length > 1) {
 			layer.alert("只能选择一个", {
 				offset: ['222px', '390px'],

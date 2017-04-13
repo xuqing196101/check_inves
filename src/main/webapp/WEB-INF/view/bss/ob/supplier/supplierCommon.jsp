@@ -163,7 +163,8 @@
 		</c:forEach>
 			<tr>
 			  <td class="tc"></td>
-			  <td class="tc" colspan="4">合计</td>
+			  <c:if test="${flag == true }"><td class="tc" colspan="4">合计</td></c:if>
+			  <c:if test="${flag == false }"><td class="tc" colspan="5">合计</td></c:if>
 			  <td class="tc"><b>${total }</b></td>
 			</tr>
 			<c:forEach items="${supplier.obResultSubtabulation}" var="product" varStatus="va">
@@ -212,8 +213,9 @@
 		<c:if test="${supplier.status == -1}">
 			<tr>
 			  <td class="tc"></td>
-			  <td class="tc" colspan="4">合计</td>
-			  <td class="tc">${total }</td>
+			  <c:if test="${flag == true }"><td class="tc" colspan="4">合计</td></c:if>
+			  <c:if test="${flag == false }"><td class="tc" colspan="5">合计</td></c:if>
+			  <td class="tc"><b>${total }</b></td>
 			</tr>
 			<c:forEach items="${supplier.OBResultsInfo}" var="product" varStatus="va">
 				<c:if test="${product.supplierId == supplier.supplierId && product.biddingId == '1'}">
@@ -258,7 +260,8 @@
 		<c:if test="${supplier.status == 0}">
 			<tr>
 			  <td class="tc"></td>
-			  <td class="tc" colspan="4">合计</td>
+			  <c:if test="${flag == true }"><td class="tc" colspan="4">合计</td></c:if>
+			  <c:if test="${flag == false }"><td class="tc" colspan="5">合计</td></c:if>
 			  <td class="tc"></td>
 			</tr>
 			<c:forEach items="${supplier.OBResultsInfo}" var="product" varStatus="va">
