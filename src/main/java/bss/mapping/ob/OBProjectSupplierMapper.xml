@@ -294,7 +294,13 @@
       	<if test="createTime != null and createTime != ''">
         	AND P.CREATED_AT = #{createTime}
       	</if>
-      	AND P.STATUS <![CDATA[ <> ]]> 0
+      		AND P.STATUS <![CDATA[ <> ]]> 0
+      	<if test="queryStatus != null and queryStatus != ''">
+        	AND P.STATUS = #{queryStatus}
+      	</if>
+      	<if test="queryRemark != null and queryRemark != ''">
+        	AND S.REMARK IN ${queryRemark}
+      	</if>
       	ORDER BY P.CREATED_AT DESC
   </select>
   <update id="updateByCondition" parameterType="map" >
