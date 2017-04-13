@@ -128,7 +128,7 @@ function importAdd(){
                 <img src="${pageContext.request.contextPath}/public/portal/images/gpgz.png" width="100%">
               </div>
               <div class="col-md-7 col-xs-12 col-sm-7 search-block-v2 col-md-offset-5 col-sm-offset-5 col-xs-offset-0">
-                  <form id="form1" accept-charset="UTF-8" action="${pageContext.request.contextPath}/index/solrSearch1.html" method="get">
+                  <form id="form1" accept-charset="UTF-8" action="${pageContext.request.contextPath}/index/solrSearch1.html" method="post">
 				    <div style="display:none">
 				     <input name="utf8" value="✓" type="hidden">
 					</div>

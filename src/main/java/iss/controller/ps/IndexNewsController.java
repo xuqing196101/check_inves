@@ -1531,22 +1531,17 @@ public class IndexNewsController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/solrSearch1")
-	public String solrSearch1(Model model,HttpServletRequest request,Integer page) throws Exception{
-		String conditionStr = request.getParameter("condition");
-		/*String condition = null;
-		if(conditionStr != null){
-			condition = new String(conditionStr.getBytes("ISO8859-1"), "UTF-8").trim();
-		}*/
+	public String solrSearch1(Model model,HttpServletRequest request,Integer page, String condition) throws Exception{
 		if(page==null){
 			page=1;
 		}
 		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("title", conditionStr);
+		map.put("title", condition);
 		map.put("page", page);
 		List<Article> articleList = indexNewsService.selectAllByName(map);
 		PageInfo<Article> info = new PageInfo<Article>(articleList);
 		model.addAttribute("indexList", articleList);
-		model.addAttribute("oldCondition", conditionStr);
+		model.addAttribute("oldCondition", condition);
 		model.addAttribute("info", info);
 		return "iss/ps/index/index_alltwo";
 	}
