@@ -141,8 +141,27 @@
 					data: {
 						id:id[0]
 					},
-					success: function() {
-						window.location.href = "${pageContext.request.contextPath }/product/list.html";
+					success: function(data) {
+						if(data == 'success'){
+							window.location.href = "${pageContext.request.contextPath }/product/list.html";
+						}else{
+							if(data == 'error'){
+								layer.alert("产品代码和产品名称不能重复", {
+									offset: ['222px', '390px'],
+									shade: 0.01
+								});
+							}else if(data == 'error1'){
+								layer.alert("产品代码不能重复", {
+									offset: ['222px', '390px'],
+									shade: 0.01
+								});
+							}else if(data == 'error2'){
+								layer.alert("产品名称不能重复", {
+									offset: ['222px', '390px'],
+									shade: 0.01
+								});
+							}
+						}
 					},
 					error: function() {
 						

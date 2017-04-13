@@ -192,9 +192,33 @@ public class OBProductController {
 	 */
 	@RequestMapping("/fab")
 	@ResponseBody
-	public void fab(HttpServletRequest request,Model model) {
+	public String fab(HttpServletRequest request,Model model) {
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
+		OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
+		String code = "";
+		String name = "";
+		if(obProduct != null){
+			code = obProduct.getCode();
+			name = obProduct.getName();
+		}
+		int i = oBProductService.yzProductCode(code, id);
+		int j = oBProductService.yzProductName(name, id);
+		
+		if(i == 0 && j == 0){
 			oBProductService.fab(id);
+			return "success";
+		}else{
+			if(i > 0 && j > 0){
+				return "error";
+			}
+			if(i > 0){
+				return "error1";
+			}
+			if(j > 0){
+				return "error2";
+			}
+		}
+		return "";
 	}
 	
 	/**
