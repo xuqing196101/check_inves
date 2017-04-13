@@ -44,6 +44,7 @@ public interface OBProjectMapper {
      * @exception
      */
     OBProject selectByPrimaryKey(String id);
+   
     
     int updateByExampleSelective(@Param("record") OBProject record, @Param("example") OBProjectExample example);
 
@@ -66,7 +67,12 @@ public interface OBProjectMapper {
 	 * 根据id 获取暂存的信息
 	 */
 	OBProject selectTemporary(Map<String,Object> map);
-	
+	/**
+	 * 根据id 获取暂存的信息
+	 * @param map
+	 * @return
+	 */
+	 OBProject selectTemporaryBy(Map<String,Object> map);
 	/**
 	 * 
 	 * Description: 查询报价供应商的数量

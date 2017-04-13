@@ -89,7 +89,6 @@
 	  var checkID= $('input[name="chkItem"]:checked').val();
 	  var status=$("#"+checkID+"status").html();
 	  if(checkID){
-	    
 	    if($.trim(status)=='暂存'){
 	     window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?obProjectId="+checkID;
 	     }else{

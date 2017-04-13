@@ -114,6 +114,16 @@
     and p.ID = #{id,jdbcType=VARCHAR}
       	ORDER BY p.CREATED_AT DESC,i.PRODUCT_ID
   </select> 
+  <!--- 根据参数 获取 竞价信息  -->  
+   <select id="selectTemporaryBy" parameterType="Map" resultMap="BaseResultMap">  
+    select p.*
+    from T_BSS_OB_PROJECT p 
+      where  p.CREATER_ID=#{userId,jdbcType=VARCHAR} and p.IS_DELETE=0
+    and p.ID = #{id,jdbcType=VARCHAR}
+      	ORDER BY p.CREATED_AT DESC
+  </select> 
+  
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -609,6 +619,15 @@
       </if>
       <if test="isEmergency != null" >
          IS_EMERGENCY= #{isEmergency,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null" >
+         ORG_ID= #{orgId,jdbcType=DECIMAL},
+      </if>
+      <if test="orgContactName != null" >
+         ORG_CONTACT_NAME= #{orgContactName,jdbcType=DECIMAL},
+      </if>
+      <if test="orgContactTel != null" >
+         ORG_CONTACT_TEL= #{orgContactTel,jdbcType=DECIMAL},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

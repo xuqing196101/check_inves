@@ -1201,7 +1201,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 	@Override
 	public OBProject editOBProject(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return OBprojectMapper.selectTemporary(map);
+		return OBprojectMapper.selectTemporaryBy(map);
 	}
 
 	/**

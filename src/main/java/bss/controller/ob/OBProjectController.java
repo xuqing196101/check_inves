@@ -674,6 +674,9 @@ public class OBProjectController {
 			OBProject obProject=OBProjectServer.editOBProject(map);
 			if(obProject !=null){
 				String orgId=null;
+				 List<OBProductInfo> obProductInfo=obProductInfoMapper.selectByProjectId(obProject.getId());
+				 obProject.setObProductInfo(obProductInfo);
+				 
 				//需求部门
 				if(user.getOrg().getTypeName().equals("0")){
 					orgId=user.getOrg().getId();
