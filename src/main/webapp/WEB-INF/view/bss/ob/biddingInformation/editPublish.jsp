@@ -495,6 +495,8 @@
 		</div>
 		<c:if test="${selectInfoByPID!=null and selectInfoByPID.size()>0}">
 	 <h2 class="count_flow"><i>3</i>供应商信息</h2>
+	  <span><font size="4">供应商确认中标比例为${countProportion }%，未中标比例为${100 - countProportion }%.</font></span>
+	 <span style="display: block;height: 20px"><font size="4"></font></span>
 	   <%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>
 		</c:if>
   </form>

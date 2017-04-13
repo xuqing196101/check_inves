@@ -17,6 +17,8 @@
 	  var number=10000001;
 	  //定义选中第一产品
      var productInfo;
+	  
+	  var delProdectList = new Array();
 	  //选择数量
 	  var suppCount=0;
 	/** 全选全不选 */
@@ -147,6 +149,7 @@
           var temp=eval(plists);
   		  $.each( temp, function(i, value) {
 		    addTr(value.productId,value.productId,value.limitedPrice,value.purchaseCount,value.remark);
+		    $("#productName_"+number).combobox('select',value.productId); 
 		  }) ; 
 		  }
 				} 
@@ -310,7 +313,7 @@
 	      productRemark='';
 	      }
 		   $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
-		  "<td class=\"p0\" id=\"tdID\" ><div id=\"selectDiv"+number+"\" onclick=\"loadProduct("+number+")\" onmouseover='showPrompt(\"selectDiv"+number+"\",\"productName_"+number+"\")'  onmouseout=\"closePrompt()\" onblur=\"closePrompt()\" name=\"selectDiv\"><input class=\"easyui-combobox\" id=\"productName_"+number+"\" name=\"productName\" data-options=\"valueField:'id',textField:'name',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100\"  style=\"width: 100%;height: 30px;\"/>"+
+		  "<td class=\"p0\" id=\"tdID\" ><div id=\"selectDiv"+number+"\"  onmouseover='showPrompt(\"selectDiv"+number+"\",\"productName_"+number+"\")'  onmouseout=\"closePrompt()\" onblur=\"closePrompt()\" name=\"selectDiv\"><input class=\"easyui-combobox\" id=\"productName_"+number+"\" name=\"productName\" data-options=\"valueField:'id',textField:'name',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100\"  style=\"width: 100%;height: 30px;\"/>"+
 		  "</div></td>"+
 		  "<td class=\"p0\" id=\"t"+number+"\" width=\"10%\"><input id=\"productMoney\" maxlength=\"20\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		  "<td class=\"p0\"  width=\"20%\"><input id=\"productCount\" maxlength=\"38\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
@@ -322,14 +325,12 @@
 		loadProduct(number);
 		
 	}
-	 
 	 function loadProduct(number){
 		 $('#productName_'+number).combobox({  
 		        prompt:'',  
 		        required:false,  
-		        /* url: "${pageContext.request.contextPath }/ob_project/product.html",   */
+		       // url: "${pageContext.request.contextPath }/ob_project/product.html",
 		        data:productList,
-		        editable:true,  
 		        hasDownArrow:true,  
 		        filter: function(L, row){  
 		            var opts = $(this).combobox('options');  
@@ -346,12 +347,13 @@
 		        			if(obj.id != value.id && obj.smallPointsId == value.smallPointsId){
 		        				list.push(value);
 		        			}
-		        			productList = list;
+		        			productList = list; 
 						}); 
 		        	}
+		        	 loadProduct(++number);
 		        	gysCount(obj.id);
-		        },
-		    }); 
+		        }
+		    });  
 	 }
 	  //关闭
 	function closePrompt(){
@@ -411,6 +413,7 @@
 						       layer.close(index);
 						         $.each(data, function(index, value) {
 									addTr(value.id,value.code,value.standardModel,value.isDeleted,value.remark);
+									
 								}); 
 	                 }
 	             }

@@ -392,7 +392,7 @@ where PROJECT_ID=#{projectId,jdbcType=VARCHAR}
 	  	PROJECT_ID = #{projectId,jdbcType=VARCHAR} AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
 	  GROUP BY 
 	  	SUPPLIER_ID,PROJECT_ID,PRODUCT_ID,MY_OFFER_MONEY,BIDDING_ID
-	  ORDER BY BIDDING_ID
+	  ORDER BY BIDDING_ID,PRODUCT_ID
   </select>
   <!-- 根据竞价 id 获取 报价数量 -->
   <select id="countBiddingByID" parameterType="String" resultType="java.lang.Integer">

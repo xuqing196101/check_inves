@@ -178,6 +178,8 @@ where p.PROJECT_ID=#{projectId,jdbcType=VARCHAR} and s.PRODUCT_ID=p.PRODUCT_ID
   		PROJECT_ID = #{projectId,jdbcType=VARCHAR} AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
   	GROUP BY 
   		SUPPLIER_ID,PRODUCT_ID,DEAL_MONEY,MY_OFFER_MONEY
+  	ORDER BY
+  		PRODUCT_ID
   </select>
     <!--根据id  获取数据 的数量 -->
    <select id="countById" parameterType="String" resultType="java.lang.Integer" >

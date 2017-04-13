@@ -578,7 +578,7 @@ function fileUpload(){
 				<option value="0" <c:if test="${'0'==status}">selected="selected"</c:if>>-请选择-</option>
 	    	    <option value="1" <c:if test="${'1'==status}">selected="selected"</c:if>>已过期</option>
 	    	    <option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>未过期</option>
-	    	    <option value="2" <c:if test="${'3'==status}">selected="selected"</c:if>>已暂停</option>
+	    	    <option value="3" <c:if test="${'3'==status}">selected="selected"</c:if>>已暂停</option>
 			</select>
 		</li>
 		<button type="submit" class="btn">查询</button>
