@@ -351,6 +351,8 @@
 						}); 
 		        	}
 		        	 loadProduct(++number);
+		        },
+		        onChange:function(obj){
 		        	gysCount(obj.id);
 		        }
 		    });  
@@ -711,18 +713,18 @@
 	function gysCount(pid){
 	 $("#buttonErr").html("");
 	  var productid=[];
-	  productTemp=[];
+	  //productTemp=[];
 	    //获取选中全部的产品id
 	   $('*[name="productName"]').each(function(){
 			if($(this).val()){
 			var id=$(this).val();
 		      productid.push(id);
-		      productTemp.push(id);
+		      //productTemp.push(id);
 			  }
 		  });
-	    if(pid != null){
-	   	productid.push(pid);
-	    }
+	   /*  if(pid != null){
+	   		productid.push(pid);
+	    } */
 		  if(productid.length>0){
 		     var temp="";
             for(var i=0;i<productid.length;i++) { 
