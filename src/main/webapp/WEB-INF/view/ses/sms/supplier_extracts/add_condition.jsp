@@ -100,7 +100,7 @@
         if(positiveRegular(eCount)){
             $("#countSupplier").text("");
             var count = $("#sunCount").val();
-            if(count==""){
+            if(count==""||count=="0"){
                 layer.msg("请选择抽取类型");
                 return false;
             }
@@ -688,7 +688,6 @@
                              }
                              $("#extcontype").append(html);
                         }
-                        debugger;
                         if(i < (neddNum + nonJoin)){
                             var _contactTelephone = "";
                             if(null==list[i].supplier.contactTelephone || ""==list[i].supplier.contactTelephone){

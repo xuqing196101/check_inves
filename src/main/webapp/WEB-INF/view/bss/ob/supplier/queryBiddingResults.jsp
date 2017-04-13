@@ -59,7 +59,7 @@
   <div>
 	 <h2 class="count_flow"><i>2</i>产品信息</h2>
 	   <%@ include file="/WEB-INF/view/bss/ob/supplier/productIssueInfoCommon.jsp" %>
-	 </div>
+  </div>
   
 	 <h2 class="count_flow"><i>3</i>供应商信息</h2>
 	   <%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>

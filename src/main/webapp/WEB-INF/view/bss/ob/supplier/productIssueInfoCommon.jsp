@@ -27,11 +27,17 @@
 		<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
 			<tr>
 			  <td class="tc">${ vs.index + 1 }</td>
-			  <td class="tc" id="t_${productInfo.id}" onmouseout="closePrompt()" onmouseover="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')">${ productInfo.obProduct.name } </td>
+			  <td class="tc" id="t_${productInfo.id}" onmouseout="closePrompt()" onmouseover="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')" title="${ productInfo.obProduct.name }">
+				<c:if test="${fn:length(productInfo.obProduct.name) > 15 }">${fn:substring(productInfo.obProduct.name, 0, 15)}...</c:if>
+				<c:if test="${fn:length(productInfo.obProduct.name) <= 15 }">${productInfo.obProduct.name }</c:if>			  
+			  </td>
 			  <td class="tc">${ productInfo.limitedPrice }</td>
 			  <td class="tc">${ productInfo.purchaseCount }</td>
 			  <td class="tc">${ productInfo.totalMoney}</td>
-			  <td class="tc">${ productInfo.remark }</td>
+			  <td class="tc" title="${ productInfo.remark }">
+			  	<c:if test="${fn:length(productInfo.remark) > 15 }">${fn:substring(productInfo.remark, 0, 15)}...</c:if>
+				<c:if test="${fn:length(productInfo.remark) <= 15 }">${productInfo.remark }</c:if>			  
+			  </td>
 			</tr>
 		</c:forEach>
 	</table>

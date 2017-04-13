@@ -412,7 +412,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			confirmTime = obProjectRule.getConfirmTime();
 			confirmTimeSecond = obProjectRule.getConfirmTimeSecond();
 		}
-		// 暂存时或发布时调用的规则
+		// 发布时调用的规则
 		if((obProject.getStatus() == 0 && StringUtils.isEmpty(obProject.getId()))
 		|| (obProject.getStatus() == 1 && StringUtils.isEmpty(obProject.getId()))){
 			obr = OBRuleMapper.selectByPrimaryKey(obProject.getRuleId());
@@ -425,7 +425,11 @@ public class OBProjectServerImpl implements OBProjectServer {
 			BeanUtils.copyProperties(obr, obProjectRules);
 			// 设置竞价子表的ID为竞价的ID
 			obProjectRules.setId(uuid);
-			obProjectRules.setFloatPercent(0);
+			//生成随机 浮动比例 数
+			Random random = new Random();
+			int valid = random.nextInt(max)%(max-min+1) + min;
+			obProjectRules.setFloatPercent(valid);
+		     
 			// 将竞价规则存入子表中
 			obProjectRuleMapper.insert(obProjectRules);
 			intervalWorkday = obr.getIntervalWorkday();
@@ -801,6 +805,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 				 int leastSupplierNum=obRule.getLeastSupplierNum();
 				 // 有效百分比
 				 int percent=obRule.getPercent();
+				 //浮动
+				 int floatPercent=obRule.getFloatPercent();
 				 //标识第二次竞价
 				 String secoundBidding="1";
 				 //标识 默认0
@@ -870,12 +876,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 					    	
 				    		//判断供应商报价数量 四家以上供应商基准价
 							if(second>=4){
-							 //生成随机 浮动比例 数
-						     Random random = new Random();
-						     int valid = random.nextInt(max)%(max-min+1) + min;
-						     obresultsList=benchmark(op.getId(), null, valid,secoundBidding,percent);
+						     obresultsList=benchmark(op.getId(), null, floatPercent,secoundBidding,percent);
 						     //修改 规则附表的 浮动比例字段
-						     obRule.setFloatPercent(valid);
+						     obRule.setFloatPercent(floatPercent);
 						     obProjectRuleMapper.updateByPrimaryKeySelective(obRule);
 							}
 							//三家及以下供应商数量为最低价法
