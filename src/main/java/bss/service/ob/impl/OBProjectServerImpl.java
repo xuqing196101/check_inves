@@ -1064,7 +1064,20 @@ public class OBProjectServerImpl implements OBProjectServer {
 							obProject.setId(op.getId());
 							User users = new User();
 							users.setTypeId(result.getSupplierId());
-							String remark = "32";
+							//------------------------------------------
+							OBProjectResult ex=new OBProjectResult();
+							 ex.setProjectId(op.getId());
+							 ex.setSupplierId(result.getSupplierId());
+							 //判断 第一轮 是否有成交 比例
+							 OBProjectResult ob= OBProjectResultMapper.selectProportionByProject(ex);
+							 String remark="32";
+							 if(ob!=null){
+								 if(Integer.valueOf(ob.getProportion())>0){
+									 remark="22";
+								 }else{
+									 remark = "32";
+								 }
+							 }
 							BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
 							if(obresultsList.size()>1){
 							//如果 集合不是最后一条数据 那么 结束时间 在加上 第二轮确定时间
