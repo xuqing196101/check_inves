@@ -1136,15 +1136,26 @@ public class OBProjectServerImpl implements OBProjectServer {
     		}
     	  //计算平均数据 如果有少数 四舍五入保留两位小数
     	     BigDecimal pj=acc.divide(new BigDecimal(resultsInfoList.size()),2,BigDecimal.ROUND_HALF_UP);
-    	     //计算有效供应商 平均数 如果供应商报价高于该数 即不入排名 视为无效报价  基准价
+    	     //计算有效供应商 平均数 如果供应商报价高于该数 即不入排名 视为无效报价 
     	     BigDecimal validAve=pj.multiply(new BigDecimal(percent/100D)).add(pj).setScale(2, BigDecimal.ROUND_HALF_UP);
+    	    
+    	     //筛查有效供应商
+    	     for (OBResultsInfo obResultsInfo : resultsInfoList) {
+    	    	 //如果供应商 报价 金额 大于 有效金额 那么删除
+				if(obResultsInfo.getMyOfferMoney().compareTo(validAve)==-1){
+					resultsInfoList.remove(obResultsInfo);
+				}
+			}
+    	     //计算筛选后的 平均值
+    	     for (OBResultsInfo accinfo : resultsInfoList) {
+       		  acc=acc.add(accinfo.getMyOfferMoney());
+       		}
+    	     pj=acc.divide(new BigDecimal(resultsInfoList.size()),2,BigDecimal.ROUND_HALF_UP);
     	     //中标参考价
-    	     BigDecimal validJ=validAve.multiply(new BigDecimal((100-valid)/100D)).setScale(2, BigDecimal.ROUND_HALF_UP);
+    	     BigDecimal validJ=pj.multiply(new BigDecimal((100-valid)/100D)).setScale(2, BigDecimal.ROUND_HALF_UP);
     	      //冒泡 排序  去掉部分 无效数据
     	      for (int k = 0; k < resultsInfoList.size()-1; k++) {
     			for (int k2 = 0; k2 < resultsInfoList.size()-1-k; k2++) {
-    				int i1=resultsInfoList.get(k2).getMyOfferMoney().compareTo(validAve);
-    				if (i1!=1) {
     				double itemD=validJ.subtract(resultsInfoList.get(k2).getMyOfferMoney()).doubleValue();
     				double itemD1=validJ.subtract(resultsInfoList.get(k2+1).getMyOfferMoney()).doubleValue();
     				  if(itemD>itemD1){
@@ -1152,17 +1163,8 @@ public class OBProjectServerImpl implements OBProjectServer {
     					  resultsInfoList.set(k2, resultsInfoList.get(k2+1));
     					  resultsInfoList.set(k2+1,info);
     				  }
-    				}else{
-    					resultsInfoList.remove(k2);
-    				}
     			}
     		}
-    	    //以上循环主要是排序 无法全部删除无效 数据  末尾的数据 无法删除 在此判断删除
-    	   BigDecimal lastMoney=   resultsInfoList.get(resultsInfoList.size()-1).getMyOfferMoney();
-    	   // 比较 是否是有效数据
-    	   if(lastMoney.compareTo(validAve)==1){
-    		   resultsInfoList.remove(resultsInfoList.size()-1);
-    	   }
     	}
     	return resultsInfoList;
     }
