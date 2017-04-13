@@ -990,7 +990,7 @@ public class ExcelUtil {
 	        				}
         					//验证产采购机构是否存在
         					String org = cell.getRichStringCellValue().toString();
-        					if(excelUtil.oBProductService.yzorg(org) < 1){
+        					if(null == excelUtil.orgnizationService.selectByShortName(org)){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行C列错误，采购机构不存在!";
         						map.put("errMsg", errMsg);
 	        					 bool=false;
