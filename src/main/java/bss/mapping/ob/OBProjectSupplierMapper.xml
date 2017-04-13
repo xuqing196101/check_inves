@@ -262,7 +262,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
-  <!-- 根据supplier_id查询所有的竞价信息 -->
+  <!-- 根据supplier_id查询所有的竞价信息 Auth:Easong -->
   <select id="selectSupplierOBprojectList" resultMap="OBProjectResultMap" parameterType="Map">
   	SELECT
   	<if test="distinct" >
@@ -285,9 +285,12 @@
    		P.RULE_ID AS RULE_ID,
    		P.PROJECT_NUMBER AS PROJECT_NUMBER
   		FROM T_BSS_OB_PROJECT_SUPPLIER S
-  		LEFT JOIN T_BSS_OB_PROJECT P
-  		ON S.PROJECT_ID = P.ID
- 		WHERE S.SUPPLIER_ID = #{supplier_id}
+	  		LEFT JOIN T_BSS_OB_PROJECT P
+	  		ON S.PROJECT_ID = P.ID
+	  		LEFT JOIN T_BSS_OB_SUPPLIER TS
+	  		ON S.SUPPLIER_PRIMARY_ID = TS.SMALL_POINTS_ID
+ 			WHERE S.SUPPLIER_ID = #{supplier_id} AND TS.CERT_VALID_PERIOD > SYSDATE
+ 			AND TS.SUPPLIER_ID=#{supplier_id}
  		<if test="name != null and name != ''">
         	AND P.NAME LIKE '%${name}%'
       	</if>
