@@ -1144,6 +1144,8 @@
 													<th class="info">资质资格状态变更时间</th>
 													<th class="info">资质资格状态变更原因</th> -->
 													<!-- <th class="info">附件</th> -->
+						
+													<th class="info w50">附件</th>
 													<th class="info w50">操作</th>
 												</tr>
 											</thead>
@@ -1176,11 +1178,12 @@
 													<td class="tc">
 														<fmt:formatDate value="${s.aptituteChangeAt }" pattern='yyyy-MM-dd' />
 													</td>
-													<td class="tc">${s.aptituteChangeReason }</td>
+													<td class="tc">${s.aptituteChangeReason }</td> --%>
 													<td class="tc">
-														 <u:show showId="apt_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCertFile}" sysKey="${sysKey}" />
-													</td> --%>
+														 <u:show showId="apt_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
+													</td>
 														<td class="tc w50">
+														
 															<p onclick="reasonEngineering('${s.id}','工程-资质资格证书','${s.certCode}');" id="${s.id}_hidden1" class="editItem"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
 															<a id="${s.id }_show1" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 														

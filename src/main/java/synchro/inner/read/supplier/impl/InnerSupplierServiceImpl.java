@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
+import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAptituteMapper;
@@ -30,6 +31,7 @@ import ses.dao.sms.SupplierModifyMapper;
 import ses.dao.sms.SupplierRegPersonMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
@@ -151,6 +153,10 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     @Autowired
     private UserMapper userMapper;
     
+    @Autowired
+    private TodosMapper todosMapper;
+    
+    
     /**
      * 
      * @see synchro.inner.read.supplier.InnerSupplierService#importSupplierInfo(java.io.File)
@@ -166,6 +172,15 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     			   SupplierFinance unfinance = supplierFinanceMapper.selectByPrimaryKey(sf.getId());
     			   if(unfinance==null){
     				   supplierFinanceMapper.insertSelective(sf);
+    			   }
+    		   }
+    	   }
+    	   
+    	   if(supplier.getTodoList()!=null&&supplier.getTodoList().size()>0){
+    		   for(Todos to:supplier.getTodoList()){
+    			   Todos td = todosMapper.selectByPrimaryKey(to.getId());
+    			   if(td==null){
+    				   todosMapper.insertSelective(to);
     			   }
     		   }
     	   }
@@ -186,7 +201,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     	   }
     	   if(supplier.getBranchList().size()>0){
     		   for(SupplierBranch sb:supplier.getBranchList()){
-    			   List<SupplierBranch> branch = supplierBranchMapper.selectByPrimaryKey(sb.getId());
+    			   SupplierBranch branch = supplierBranchMapper.queryById(sb.getId());
     			   if(branch==null){
     				   supplierBranchMapper.insertSelective(sb);
     			   }
@@ -409,7 +424,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
      * @return
      */
     private List<Supplier> getSupplier(final File file){
-        List<Supplier> supplierList = FileUtils.getBeans(file, Supplier.class); 
+        List<Supplier> supplierList = FileUtils.getSupplier(file, Supplier.class); 
         return supplierList;
     }
     
