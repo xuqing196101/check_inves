@@ -307,10 +307,10 @@
 					"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].id' value='" + id + "'><input type='hidden' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].supplierId' value=" + supplierId + ">" +
 					"</td>" +
 					"<td class='tc'><input type='text' style='border:0px;' onblur='tempSave()' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].name' value=''> </td>" +
-					"<td class='tc'>  <select onchange='tempSave()' class='w100p border0' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].type'>" +
+					"<td class='tc'> <div class='w120 fl'> <select onchange='tempSave()'  name='listSupplierAfterSaleDep[" + afterSaleIndex + "].type'>" +
 					"<option value='1'>自营</option>" +
 					" <option value='2'>合作</option>" +
-					"</select> </td>" +
+					"</select></div> </td>" +
 					"<td class='tc'><input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].address' value=''> </td>" +
 					"<td class='tc'> <input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].leadName' value=''></td>" +
 					"<td class='tc'> <input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].mobile' value=''> </td>" + "</tr>");
@@ -1733,7 +1733,7 @@
 													 </div> 
 													</td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>>
-													  <div class="w100 fl">
+													  <div class="w120 fl">
 														<select name="listSupplierAfterSaleDep[${dep.index }].type" class="w100p border0">
 															<option value="1" <c:if test="${afterSaleDep.type == 1}"> selected="selected"</c:if> >自营</option>
 															<option value="2" <c:if test="${afterSaleDep.type == 2}"> selected="selected" </c:if> >合作</option>
