@@ -203,7 +203,7 @@ function importAdd(){
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=3&twoid=24&tab=物资">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=3&twoid=24&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-22" class="categories articleover tab-pane fade">
              <ul class="p0_10">   
@@ -218,7 +218,7 @@ function importAdd(){
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=8&twoid=29&tab=工程">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=8&twoid=29&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("工程","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-23" class="categories articleover tab-pane fade">
              <ul class="p0_10">   
@@ -233,7 +233,7 @@ function importAdd(){
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=13&twoid=34&tab=服务">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=13&twoid=34&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("服务","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-24" class="categories articleover tab-pane fade">
              <ul class="p0_10">   
@@ -248,7 +248,7 @@ function importAdd(){
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=18&twoid=39&tab=进口">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=18&twoid=39&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("进口","utf-8"),"utf-8") %>">更多>></a>
         </div>
 	  </div>
 	 </div>
@@ -281,7 +281,7 @@ function importAdd(){
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=46&twoid=67&tab=物资">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=46&twoid=67&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-26" class="categories articleover tab-pane fade">
              <ul class="p0_10">   
@@ -296,7 +296,7 @@ function importAdd(){
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=51&twoid=72&tab=工程">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=51&twoid=72&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("工程","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-27" class="categories articleover tab-pane fade">
              <ul class="p0_10">   
@@ -311,7 +311,7 @@ function importAdd(){
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=56&twoid=77&tab=服务">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=56&twoid=77&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("服务","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-28" class="categories articleover tab-pane fade">
              <ul class="p0_10">   
@@ -326,7 +326,7 @@ function importAdd(){
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=61&twoid=82&tab=进口">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=61&twoid=82&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("进口","utf-8"),"utf-8") %>">更多>></a>
         </div>
 	  </div>
 	 </div>
@@ -358,7 +358,7 @@ function importAdd(){
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=89&twoid=94&tab=物资">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=89&twoid=94&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-30" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -373,7 +373,7 @@ function importAdd(){
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=90&twoid=95&tal=工程">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=90&twoid=95&tal=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("工程","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-31" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -388,7 +388,7 @@ function importAdd(){
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>
-         <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=91&twoid=96&tab=服务">更多>></a>
+         <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=91&twoid=96&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("服务","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-32" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -403,7 +403,7 @@ function importAdd(){
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=92&twoid=97&tab=进口">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=92&twoid=97&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("进口","utf-8"),"utf-8") %>">更多>></a>
         </div>
 	  </div>
 	 </div>
