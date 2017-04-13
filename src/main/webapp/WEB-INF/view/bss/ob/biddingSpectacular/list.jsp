@@ -162,16 +162,17 @@
 	      </li>
     	  <li>
 	    	<label class="fl">竞价开始时间：</label>
-	    	<input value=""
-			 name="startTime" type="text"  readonly="readonly"   maxlength="19" 
-			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<fmt:formatDate value="${startTimeStr}" pattern="yyyy-MM-dd HH:mm:ss"/>" class="Wdate" />
+	    	<input id="startTimeStr" name="startTimeStr" type="text"  readonly="readonly"   maxlength="19" 
+			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+			  value="<fmt:formatDate value="${startTimeStr}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+			   class="Wdate" />
 	    	<%--  <input id="startTime" name="startTime" value="${ startTimeStr }"  class="Wdate" type="text" id="d17" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'d18\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/> --%>
 	      </li>
     	  <li>
 	    	<label class="fl">竞价结束时间：</label>
-	    	<input value=""
-			 name="endTime" type="text"  readonly="readonly"   maxlength="19" 
-			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<fmt:formatDate value="${endTimeStr}" pattern="yyyy-MM-dd HH:mm:ss"/>" class="Wdate" />
+	    	<input id="endTimeStr" name="endTimeStr" type="text"  readonly="readonly"   maxlength="19" 
+			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" 
+			 value="<fmt:formatDate value="${endTimeStr}" pattern="yyyy-MM-dd HH:mm:ss"/>" class="Wdate" />
 			<%-- <input id="endTime" name="endTime" value="${ endTimeStr }" class="Wdate" type="text" id="d18" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'d17\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/> --%>
 	      </li> 
 	    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>

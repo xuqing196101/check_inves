@@ -936,6 +936,7 @@
 	 
 	   
       <li class="col-md-3 col-sm-6 col-xs-12">
+      <span class="red" style="font-size: 11px" >应急采购项目,只有1家供应商报价的,可以成交</span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12" title="应急采购项目，只有1家供应商报价的，可以成交"><span class="red">*</span>是否为应急采购项目</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
 	   <div class="select_check" id="radio">

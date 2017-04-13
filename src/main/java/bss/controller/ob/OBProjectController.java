@@ -20,10 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.experimental.theories.FromDataPoints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -398,30 +400,17 @@ public class OBProjectController {
 	 */
 	@RequestMapping("/biddingInfoList")
 	public String biddingInfoList(@CurrentUser User user, Model model,
-			HttpServletRequest request, Integer page) throws ParseException {
+			HttpServletRequest request, Integer page,@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTimeStr,
+			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date endTimeStr) throws ParseException {
 		if (page == null) {
 			page = 1;
 		}
-
 		// 竞价标题
 		String name = request.getParameter("name");
-		// 竞价开始时间
-		String startTimeStr = request.getParameter("startTime");
-		// 竞价结束时间
-		String endTimeStr = request.getParameter("endTime");
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		Date startTime = null;
-		if (StringUtils.isNotEmpty(startTimeStr)) {
-			startTime = dateFormat.parse(startTimeStr);
-		}
-		Date endTime = null;
-		if (StringUtils.isNotEmpty(endTimeStr)) {
-			endTime = dateFormat.parse(endTimeStr);
-		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", name);
-		map.put("startTime", startTime);
-		map.put("endTime", endTime);
+		map.put("startTime", startTimeStr);
+		map.put("endTime", endTimeStr);
 		map.put("page", page);
 		if (user != null) {
 			map.put("userId", user.getId());
