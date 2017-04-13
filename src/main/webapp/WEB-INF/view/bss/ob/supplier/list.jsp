@@ -166,6 +166,10 @@
 					   layer.alert("已报价，请等待确认结果 ！");
 					   return;
 				   }
+				   if(remark == '0'){
+					   layer.alert("第一轮未报价，不能参与第二轮报价 ！");
+					   return;
+				   }
 			   }
 			   
 			   // 报价时间已结束
@@ -183,7 +187,7 @@
 				   $.ajax({
 			   		   type:'POST',
 			   		   url:'${pageContext.request.contextPath}/supplierQuote/checkQuotoSecond.do',
-			   		   data:{projectId:valueArr[0]},
+			   		   data:{id:valueArr[0]},
 			   		   dataType:'json',
 			   		   success:function(data){
 			   			   if(data.status == 500){
