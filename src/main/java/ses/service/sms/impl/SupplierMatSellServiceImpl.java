@@ -38,8 +38,8 @@ public class SupplierMatSellServiceImpl implements SupplierMatSellService {
 			SupplierMatSell sale = supplierMatSellMapper.getMatSellBySupplierId(supplier.getId());
 			if(sale==null){
 			    String sid = UUID.randomUUID().toString().replaceAll("-", "");
-			    supplier.getSupplierMatPro().setId(sid);
-			    supplier.getSupplierMatPro().setCreatedAt(new Date());
+			    supplier.getSupplierMatSell().setId(sid);
+			    supplier.getSupplierMatSell().setCreatedAt(new Date());
 				supplierMatSellMapper.insertSelective(supplier.getSupplierMatSell());
 			} else {
 			    if (supplier.getSupplierMatSell().getId() == null) {
