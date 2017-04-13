@@ -940,7 +940,7 @@
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12" title="应急采购项目，只有1家供应商报价的，可以成交"><span class="red">*</span>是否为应急采购项目</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
 	   <div class="select_check" id="radio">
-	   <input type="radio" name="isEmergency" id ="isEmergency" value="-1">否
+	   <input type="radio" name="isEmergency" id ="isEmergency" value="-1" checked="checked">否
 	   <input type="radio" name="isEmergency" id ="isEmergency" value="0">是
 	 </div>
 	   
