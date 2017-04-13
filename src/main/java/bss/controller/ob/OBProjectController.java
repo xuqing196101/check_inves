@@ -924,7 +924,9 @@ public class OBProjectController {
 		String orgName = (String) map.get("orgName");
 		String demandUnit = (String) map.get("demandUnit");
 		String transportFees = (String) map.get("transportFees");
-		
+		//获取竞价产品信息
+		List<OBProductInfo> obProductInfoList= obProductInfoMapper.selectByProjectId(projectId);
+		model.addAttribute("obProductInfoList", obProductInfoList);
 		// 采购机构
 		model.addAttribute("orgName", orgName);
 		// 需求单位

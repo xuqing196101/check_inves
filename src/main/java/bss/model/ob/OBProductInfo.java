@@ -4,27 +4,28 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class OBProductInfo {
+	//主键
     private String id;
-
+    //产品id
     private String productId;
-
+    //产品信息表
     private OBProduct obProduct;
-    
+    //限价（元）
     private BigDecimal limitedPrice;
-
+   //采购数量
     private BigDecimal purchaseCount;
-
+    //竞价项目id
     private String projectId;
-
+    //创建时间
     private Date createdAt;
-
+    //更新时间
     private Date updatedAt;
 
     /**备注信息**/
     private String remark;
-    
+    //创建人id
     private String createrId;
-    
+    //竞价信息表
     private OBProject obProject;
     
     //成交供应商 数量
