@@ -487,7 +487,7 @@
 					      		</div>
 					        </div>
                       	  </form>
-                         <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe"  scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="${pageContext.request.contextPath}/${url}"></iframe>
+                         <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe"  scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight('open_bidding_iframe')"  src="${pageContext.request.contextPath}/${url}"></iframe>
                       </div>
 					  <div id="onmouse" onmouseover="bigImg(this)" onmouseout="normalImg(this)">
 					    <div class="mt5 mb5 tc">

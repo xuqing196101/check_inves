@@ -371,3 +371,12 @@ function positiveRegular(str){
     }
     return false;
 }
+//iframe自适应高度宽度
+function iFrameHeight(iframeId) {
+    var ifm= document.getElementById(iframeId);
+    var subWeb = document.frames ? document.frames[iframeId].document : ifm.contentDocument;
+    if(ifm != null && subWeb != null) {
+        ifm.height = subWeb.body.scrollHeight;
+        ifm.width = subWeb.body.scrollWidth;
+    }
+}
