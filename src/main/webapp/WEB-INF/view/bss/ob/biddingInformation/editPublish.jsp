@@ -279,7 +279,9 @@
 			offset : [ '30%', '40%' ]
 		});
 	}
-	
+	function printWord(){
+			window.location.href="${pageContext.request.contextPath}/ob_project/printResult.html?print=print&&id=${list.id}";
+		}
 </script>
 </head>
 <body>
@@ -497,6 +499,9 @@
 		</c:if>
   </form>
   <div class="col-md-12 clear tc mt10">
+  <c:if test="${ list.status==3 }">
+   <button class="btn btn-windows print" onclick="printWord()">打印</button>
+   </c:if>
 	<button class="btn btn-windows back mb20" type="button" onclick="history.go(-1)">返回</button>
    </div>
   
