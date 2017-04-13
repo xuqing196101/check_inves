@@ -481,7 +481,10 @@
        </div>
 	 </li>
 	 </ul>
-	<h2 class="count_flow"><i>2</i>产品信息</h2>
+	 	 <h2 class="count_flow"><i>2</i>竞价规则信息</h2>
+	 <%@ include file ="/WEB-INF/view/bss/ob/biddingRules/ruleCommon.jsp" %>
+	 
+	<h2 class="count_flow"><i>3</i>产品信息</h2>
 	 <div class="ul_list" >
     	  <table class="table table-bordered left_table" id ="table2">
 			<tr>
@@ -494,7 +497,8 @@
 		  </table>
 		</div>
 		<c:if test="${selectInfoByPID!=null and selectInfoByPID.size()>0}">
-	 <h2 class="count_flow"><i>3</i>供应商信息</h2>
+		
+	 <h2 class="count_flow"><i>4</i>供应商信息</h2>
 	  <span><font size="4">供应商确认中标比例为${countProportion }%，未中标比例为${100 - countProportion }%.</font></span>
 	 <span style="display: block;height: 20px"><font size="4"></font></span>
 	   <%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>

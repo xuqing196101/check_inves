@@ -861,8 +861,18 @@ public class OBProjectServerImpl implements OBProjectServer {
 				    		 type=2;
 				    	 }
 				    	}
+						//获取全部竞价数量
+				    	Integer allSecond= OBResultsInfoMapper.countBiddingByID(op.getId());
 						//判断是否第二次 报价
 						if(type==1){
+							//报价数量 大于最少规则报价数量
+							if(allSecond>=leastSupplierNum){
+								OBProject upstatus1 = new OBProject();
+								upstatus1.setStatus(4);
+								upstatus1.setId(op.getId());
+								upstatus1.setUpdatedAt(new Date());
+								OBprojectMapper.updateByPrimaryKeySelective(upstatus1);
+							}else{
 							 //只有两家供应商报价 那么进行第二次竞价
 				    		// 根据状态竞价中 修改竞价结束时间加上第二次 竞价时间
 							OBProject upstatus = new OBProject();
@@ -880,13 +890,11 @@ public class OBProjectServerImpl implements OBProjectServer {
 								users.setTypeId(obResultsInfo.getSupplierId());
 								String remark = "20";
 								BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
+							  }
 							}
 						}else{
-							//获取全部竞价数量
-					    	Integer allSecond= OBResultsInfoMapper.countBiddingByID(op.getId());
 					    	//总竞价数量 是否符合规则
 					    	if(allSecond>=leastSupplierNum){
-					    	
 				    		//判断供应商报价数量 四家以上供应商基准价
 							if(second>=4){
 						     obresultsList=benchmark(op.getId(), null, floatPercent,secoundBidding,percent);
@@ -923,7 +931,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 						// 判断 是否有报价价供应商
 						if (obresultsList != null && obresultsList.size() > 0) {
 						//判读报价数量是否 达到竞价成交供应商数量   或者 该竞价 是应急竞价
-						if(op.getTradedSupplierCount()<=obresultsList.size()||boo){
+						if( leastSupplierNum<=obresultsList.size()||boo){
 							for (int i = 0; i < obresultsList.size(); i++) {
 								Integer rk[] = null;
 								int proportion = 0;
