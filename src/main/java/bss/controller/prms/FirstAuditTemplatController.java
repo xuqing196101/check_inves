@@ -277,6 +277,15 @@ public class FirstAuditTemplatController extends BaseController{
             StringBuilder sb = new StringBuilder("");
             Integer count = 0;
             for (ParamInterval paramInterval : piList) {
+                if (paramInterval.getScore() != null && paramInterval.getScore().startsWith(".")) {
+                  paramInterval.setScore(paramInterval.getScore().replace(".", "0."));
+                }
+                if (paramInterval.getStartParam() != null && paramInterval.getStartParam().startsWith(".")) {
+                  paramInterval.setStartParam(paramInterval.getStartParam().replace(".", "0."));
+                }
+                if (paramInterval.getEndParam() != null && paramInterval.getEndParam().startsWith(".")) {
+                  paramInterval.setEndParam(paramInterval.getEndParam().replace(".", "0."));
+                }
                 count++;
                 String startParam = paramInterval.getStartParam() == null ? "" : paramInterval.getStartParam();
                 sb.append("<tr><td class=tc>" + count + "</td><td class=tc><input style='width:60px' onblur='checkNum()' type='text' value='" + startParam + "'name='pi.startParam'>");
