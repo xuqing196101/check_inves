@@ -346,8 +346,10 @@ public class OBRuleServiceImpl implements OBRuleService {
 			return JdcgResult.build(500, "此竞价规则已失效");
 		}
 		// 竞价规则名称唯一校验
-		JdcgResult result = checkNameUnique(obRule.getName());
-		if(result.getStatus() == 500){
+		OBRule obRuleExist = obRuleMapper.checkNameUnique(obRule.getName());
+		OBRule primaryKey = obRuleMapper.selectByPrimaryKey(obRule.getId());
+		
+		if(obRule.getName().equals(obRuleExist.getName()) && !obRule.getName().equals(primaryKey.getName())){
 			return JdcgResult.build(500, "竞价规则名称已存在");
 		}
 		// 设置修改时间
@@ -404,8 +406,8 @@ public class OBRuleServiceImpl implements OBRuleService {
 	 */
 	@Override
 	public JdcgResult checkNameUnique(String name) {
-		Integer count = obRuleMapper.checkNameUnique(name);
-		if(count != null && count > 0){
+		OBRule obRule = obRuleMapper.checkNameUnique(name);
+		if(obRule != null){
 			return JdcgResult.build(500, "竞价规则名称已存在");
 		}
 		return JdcgResult.ok();

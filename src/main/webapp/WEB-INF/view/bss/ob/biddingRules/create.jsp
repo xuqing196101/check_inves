@@ -217,7 +217,7 @@
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>间隔工作日（天）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-			        <input class="input_group" name="intervalWorkday" id="intervalWorkday" type="text" class="w230 mb0 border0">
+			        <input class="input_group" name="intervalWorkday" id="intervalWorkday" type="text" class="w230 mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
 					<div class="cue"><span><font id="intervalWorkdayErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
@@ -231,35 +231,35 @@
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>报价时间（分钟）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group" name="quoteTime" id="quoteTime" type="text" class="mb0 border0">
+				    <input class="input_group" name="quoteTime" id="quoteTime" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
 					<div class="cue"><span><font id="quoteTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>二次报价时间（分钟）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group" name="quoteTimeSecond" id="quoteTimeSecond" type="text" class="mb0 border0">
+				    <input class="input_group" name="quoteTimeSecond" id="quoteTimeSecond" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
 					<div class="cue"><span><font id="quoteTimeSecondErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>确认时间（分钟）（第一轮）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group" name="confirmTime" id="confirmTime" type="text" class="mb0 border0">
+				    <input class="input_group" name="confirmTime" id="confirmTime" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
 					<div class="cue"><span><font id="confirmTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>确认时间（分钟）（第二轮）</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group" name="confirmTimeSecond" id="confirmTimeSecond" type="text" class="mb0 border0">
+				    <input class="input_group" name="confirmTimeSecond" id="confirmTimeSecond" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
 					<div class="cue"><span><font id="confirmTimeSecondErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>最少供应商数量</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group" name="leastSupplierNum" id="leastSupplierNum" type="text" class="mb0 border0">
+				    <input class="input_group" name="leastSupplierNum" id="leastSupplierNum" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
 					<div class="cue"><span><font id="leastSupplierNumErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 

@@ -56,5 +56,5 @@ public interface OBRuleMapper {
     * @return Integer    返回类型 
     * @throws
      */
-    Integer checkNameUnique(String name);
+    OBRule checkNameUnique(String name);
 }

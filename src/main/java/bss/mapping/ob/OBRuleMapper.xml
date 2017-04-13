@@ -403,8 +403,10 @@
   </select>
   
   <!-- 校验竞价规则名称是否唯一 -->
-  <select id="checkNameUnique" parameterType="java.lang.String" resultType="java.lang.Integer">
-  	SELECT COUNT(ID) FROM T_BSS_OB_RULE WHERE NAME=#{NAME}
+  <select id="checkNameUnique" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT
+  	<include refid="Base_Column_List" />
+  	FROM T_BSS_OB_RULE WHERE NAME=#{NAME}
   </select>
   
 </mapper>
