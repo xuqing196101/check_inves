@@ -45,4 +45,16 @@ public interface OBRuleMapper {
      * @return
      */
     int updateCount(@Param("id")String id,@Param("updatedAt")Date updatedAt);
+    
+    /**
+     * 
+    * @Title: checkNameUnique 
+    * @Description: 校验竞价规则名称是否唯一
+    * @author Easong
+    * @param @param name
+    * @param @return    设定文件 
+    * @return Integer    返回类型 
+    * @throws
+     */
+    Integer checkNameUnique(String name);
 }

@@ -8,6 +8,25 @@
 <title>编辑竞价规则</title>
 
 <script type="text/javascript">
+	$(function(){
+		$("#name").keyup(function(){
+			var name = $("#name").val();
+			$("#nameErr").html("");
+			$.ajax({
+				    url: "${pageContext.request.contextPath }/obrule/checkNameUnique.do",
+				    type: "POST",
+				    dataType: "json",
+				 	data: {
+					name: name
+					},
+			    success: function(data) {
+			    	if(data.status == 500){
+			    		$("#nameErr").html(data.msg);
+			    	}
+			    }
+			});
+		})
+	});
 		
 	function submitForm(){
 		

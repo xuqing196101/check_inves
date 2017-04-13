@@ -9,6 +9,25 @@
 
 <script type="text/javascript">
 		
+	$(function(){
+		$("#name").keyup(function(){
+			var name = $("#name").val();
+			$("#nameErr").html("");
+			$.ajax({
+				    url: "${pageContext.request.contextPath }/obrule/checkNameUnique.do",
+				    type: "POST",
+				    dataType: "json",
+				 	data: {
+					name: name
+					},
+			    success: function(data) {
+			    	if(data.status == 500){
+			    		$("#nameErr").html(data.msg);
+			    	}
+			    }
+			});
+		})
+	});
 	function submitForm(){
 		
 		$("#nameErr").html("");
@@ -49,11 +68,27 @@
 			$("#quoteTimeErr").html("*报价时间不能为空");
 			return;
 		}
+		if(quoteTimeStr.length!=0){
+			reg=/^[-+]?\d*$/; 
+			if(!reg.test(quoteTimeStr)){ 
+				$("#quoteTimeErr").html("*您输入的整数类型格式不正确");
+				return;
+			} 
+		}
+		
 		var quoteTimeSecondStr = document.getElementById('quoteTimeSecond').value.trim();
 		if(quoteTimeSecondStr.length==0){
 			$("#quoteTimeSecondErr").html("*二次报价时间不能为空");
 			return;
 		}
+		if(quoteTimeSecondStr.length!=0){
+			reg=/^[-+]?\d*$/; 
+			if(!reg.test(quoteTimeSecondStr)){ 
+				$("#quoteTimeSecondErr").html("*您输入的整数类型格式不正确");
+				return;
+			} 
+		}
+		
 		if(quoteTimeStr.length!=0){
 			reg=/^[-+]?\d*$/; 
 			if(!reg.test(quoteTimeStr)){ 
@@ -173,7 +208,7 @@
 		   <ul class="ul_list">
 		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>竞价规则名称：</span>
-			   <div class="input-append input_group col-sm-12 col-xs-12 p0" id="supplierselect">
+			   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 					<input class="input_group" name="name" id="name" type="text" class="w230 mb0 border0">
 		        <div class="cue"><span><font id="nameErr" style="color: red"></font></span></div>
 		       </div>

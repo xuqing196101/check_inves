@@ -178,6 +178,16 @@
 	
 	//<!--搜索-->
 	function query(){
+		var quoteTime =  $("#quoteTime").val();
+		if(isNaN(quoteTime)){
+			layer.alert("报价时间请输入整数");
+			return;
+		}
+		var intervalWorkday =  $("#intervalWorkday").val();
+		if(isNaN(intervalWorkday)){
+			layer.alert("间隔工作日请输入整数");
+			return;
+		}
 		$("#queryForm").attr("action","${pageContext.request.contextPath}/obrule/ruleList.html");
 		$("#queryForm").submit();
 	}
@@ -221,16 +231,18 @@
 	      </li>
     	  <li>
 	    	<label class="fl">报价时间（分钟）：</label>
-	    	  <select id="quoteTime" name="quoteTime" class="w178">
+	    	  <%-- <select id="quoteTime" name="quoteTime" class="w178">
 	    	    <option value="">--请选择--</option>
 	    	    <option value="10" <c:if test="${10 eq quoteTime}">selected</c:if>>10分钟</option>
 	    	    <option value="20" <c:if test="${20 eq quoteTime}">selected</c:if>>20分钟</option>
 	    	    <option value="30" <c:if test="${30 eq quoteTime}">selected</c:if>>30分钟</option>
-	    	  </select>
+	    	  </select> --%>
+	    	  <input class="input_group" name="quoteTime" id="quoteTime" value="${ quoteTime }" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"
+				     onafterpaste="this.value=this.value.replace(/\D/g,'')">
 	      </li>
     	  <li>
 	    	<label class="fl">间隔工作日（天）：</label>
-			<input name="intervalWorkday" id="intervalWorkday" type="text" value="${ intervalWorkday }"/>
+			<input name="intervalWorkday" id="intervalWorkday" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" value="${ intervalWorkday }"/>
 	      </li> 
 	    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>
 	    	<button onclick="resetAll()" class="btn fl mt1 ml5">重置</button>  	

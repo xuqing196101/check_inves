@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -1152,12 +1153,19 @@ public class OBProjectServerImpl implements OBProjectServer {
     	     BigDecimal validAve=pj.multiply(new BigDecimal(percent/100D)).add(pj).setScale(2, BigDecimal.ROUND_HALF_UP);
     	    
     	     //筛查有效供应商
-    	     for (OBResultsInfo obResultsInfo : resultsInfoList) {
-    	    	 //如果供应商 报价 金额 大于 有效金额 那么删除
+    	     /*for (OBResultsInfo obResultsInfo : resultsInfoList) {
 				if(obResultsInfo.getMyOfferMoney().compareTo(validAve)==-1){
 					resultsInfoList.remove(obResultsInfo);
 				}
-			}
+			}*/
+    	     Iterator<OBResultsInfo> iterator = resultsInfoList.iterator();
+    	     while(iterator.hasNext()){
+    	    	 //如果供应商 报价 金额 大于 有效金额 那么删除
+    	    	 if(iterator.next().getMyOfferMoney().compareTo(validAve)==-1){
+ 					iterator.remove();
+ 				}
+    	     }
+    	     
     	     //计算筛选后的 平均值
     	     for (OBResultsInfo accinfo : resultsInfoList) {
        		  acc=acc.add(accinfo.getMyOfferMoney());

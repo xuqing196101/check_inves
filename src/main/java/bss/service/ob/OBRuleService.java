@@ -154,5 +154,17 @@ public interface OBRuleService {
 	* @throws
 	 */
 	public JdcgResult updateobSpecialDate(OBSpecialDate obSpecialDate);
+	
+	/**
+	 * 
+	* @Title: checkNameUnique 
+	* @Description: 校验规则名称是否唯一
+	* @author Easong
+	* @param @param name
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	public JdcgResult checkNameUnique(String name);
 
 }

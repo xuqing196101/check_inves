@@ -70,6 +70,9 @@ public class OBRuleController {
 		String quoteTimeStr = request.getParameter("quoteTime");
 		Integer quoteTime = null;
 		if (StringUtils.isNotEmpty(quoteTimeStr)) {
+			if (quoteTimeStr.matches("^[0-9]+$")) {
+				quoteTime = Integer.parseInt(quoteTimeStr);
+			}
 			quoteTime = Integer.parseInt(quoteTimeStr);
 		}
 		Integer intervalWorkday = null;
@@ -94,8 +97,8 @@ public class OBRuleController {
 		model.addAttribute("info", info);
 		// 查询条件回显
 		model.addAttribute("name", name);
-		model.addAttribute("quoteTime", quoteTime);
-		model.addAttribute("intervalWorkday", intervalWorkday);
+		model.addAttribute("quoteTime", quoteTimeStr);
+		model.addAttribute("intervalWorkday", intervalWorkdayStr);
 		return "bss/ob/biddingRules/list";
 	}
 
@@ -323,5 +326,21 @@ public class OBRuleController {
 	@ResponseBody
 	public JdcgResult updateSpecialdate(OBSpecialDate obSpecialDate){
 		return service.updateobSpecialDate(obSpecialDate);
+	}
+	
+	/**
+	 * 
+	* @Title: checkNameUnique 
+	* @Description: 校验竞价规则名称是否唯一
+	* @author Easong
+	* @param @param name
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/checkNameUnique")
+	@ResponseBody
+	public JdcgResult checkNameUnique(String name){
+		return service.checkNameUnique(name);
 	}
 }

@@ -66,6 +66,12 @@ public class OBRuleServiceImpl implements OBRuleService {
 		if (StringUtils.isEmpty(obRule.getName())) {
 			return JdcgResult.build(500, "竞价规则名称不能为空");
 		}
+		// 竞价规则名称唯一校验
+		JdcgResult result = checkNameUnique(obRule.getName());
+		if(result.getStatus() == 500){
+			return JdcgResult.build(500, "竞价规则名称已存在");
+		}
+		
 		// 间隔工作日
 		if (obRule.getIntervalWorkday() == null
 				|| "".equals(obRule.getIntervalWorkday())) {
@@ -339,6 +345,11 @@ public class OBRuleServiceImpl implements OBRuleService {
 		if (obRule == null || obRule.getId() == null) {
 			return JdcgResult.build(500, "此竞价规则已失效");
 		}
+		// 竞价规则名称唯一校验
+		JdcgResult result = checkNameUnique(obRule.getName());
+		if(result.getStatus() == 500){
+			return JdcgResult.build(500, "竞价规则名称已存在");
+		}
 		// 设置修改时间
 		obRule.setUpdatedAt(new Date());
 		obRuleMapper.updateByPrimaryKeySelective(obRule);
@@ -380,4 +391,25 @@ public class OBRuleServiceImpl implements OBRuleService {
 		obSpecialDateMapper.updateByPrimaryKeySelective(obSpecialDate);
 		return JdcgResult.ok("修改成功");
 	}
+
+	/**
+	 * 
+	* @Title: checkNameUnique 
+	* @Description: 校验竞价规则名称是否唯一
+	* @author Easong
+	* @param @param name
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	@Override
+	public JdcgResult checkNameUnique(String name) {
+		Integer count = obRuleMapper.checkNameUnique(name);
+		if(count != null && count > 0){
+			return JdcgResult.build(500, "竞价规则名称已存在");
+		}
+		return JdcgResult.ok();
+	}
+	
+	 
 }
