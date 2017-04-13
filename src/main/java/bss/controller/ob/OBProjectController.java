@@ -47,6 +47,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
 import bss.dao.ob.OBProductInfoMapper;
+import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
@@ -142,7 +143,9 @@ public class OBProjectController {
 	
 	@Autowired
 	private OBResultSubtabulationService obResultSubtabulationService;
-
+    
+	@Autowired
+	private OBProjectMapper OBProjectMapper;
 	@Autowired
 	private OBProjectSupplierMapper obProjectSupplierMapper;
 	
@@ -909,7 +912,7 @@ public class OBProjectController {
 	 * @throws
 	 */
 	@RequestMapping("/printResult")
-	public String printResult(Model model, HttpServletRequest request,
+	public String printResult(Model model, HttpServletRequest request,HttpServletResponse response,
 			Integer page) {
 		if (page == null) {
 			page = 1;
@@ -942,6 +945,7 @@ public class OBProjectController {
 		getBiddingResultInfo(model, projectId);
 		
 		if (StringUtils.isNotEmpty(print)) {
+			request.setAttribute("projectName", obProject.getName());
 			// 打印结果页面
 			return "bss/ob/biddingSpectacular/expert_word_print";
 		}
@@ -1008,6 +1012,7 @@ public class OBProjectController {
     	model.addAttribute("countProportion",countProportion);
     	model.addAttribute("size",list.size());
 		model.addAttribute("projectId",projectId);
+		
 	}
 
 	/**
@@ -1124,6 +1129,10 @@ public class OBProjectController {
     	String projectId = request.getParameter("id") == null ? "" : request.getParameter("id");
     	// 调用获取竞价结果信息
     	getBiddingResultInfo(model, projectId);
+    	OBProject ob=OBProjectMapper.selectByPrimaryKey(projectId);
+    	if(ob!=null){
+    		model.addAttribute("projectName", ob.getName());
+    	}
     	return "bss/ob/biddingSpectacular/result";
     }
 	

@@ -34,7 +34,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <%
 
-String fileName = "竞价结果信息表.doc";
+//String fileName = "竞价结果信息表.doc";
+String fileName=request.getAttribute("projectName")+"_竞价结果信息表.doc";
 
 //对中文文件名编码 
 
