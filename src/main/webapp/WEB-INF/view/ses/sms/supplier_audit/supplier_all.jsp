@@ -411,9 +411,9 @@
 								<th class="info w50">选择</th>
 								<th class="info w50">序号</th>
 								<th class="info">供应商名称</th>
-								<th class="info">手机号</th>
-								<th class="info">企业类型</th>
-								<th class="info">企业性质</th>
+								<th class="info" width="12%">手机号</th>
+								<th class="info" width="25%">企业类型</th>
+								<th class="info" width="12%">企业性质</th>
 								<th class="info w60">发布</th>
 								<th class="info w100">状态</th>
 							</tr>

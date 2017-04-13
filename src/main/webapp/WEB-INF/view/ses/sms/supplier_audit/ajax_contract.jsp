@@ -102,24 +102,36 @@
 				    <td class="">${obj.secondNode}</td>
 				    <td class="">${obj.thirdNode}</td>
 				    <td class="">${obj.fourthNode}</td>
-						<td class="">
+					<td class="">
+						<div class="w90">
 							<u:show showId="${fileShow}${(vs.index + 1)*6-1}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
-						</td>
-						<td class="">
+						</div>
+					</td>
+					<td class="">
+						<div class="w90">
 							<u:show showId="${fileShow}${(vs.index + 1)*6-2}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
-						</td>
-						<td class="">
+						</div>
+					</td>
+					<td class="">
+						<div class="w90">
 							<u:show showId="${fileShow}${(vs.index + 1)*6-3}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
-						</td>
-						<td class="">
+						</div>
+					</td>
+					<td class="">
+						<div class="w90">
 							<u:show showId="${fileShow}${(vs.index + 1)*6-4}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
-						</td>
-						<td class="">
+						</div>
+					</td>
+					<td class="">
+					    <div class="w90">
 							<u:show showId="${fileShow}${(vs.index + 1)*6-5}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
-						</td>
-						<td class="">
+					    </div>
+					</td>
+					<td class="">
+						<div class="w90">
 							<u:show showId="${fileShow}${(vs.index + 1)*6-6}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
-						</td>
+					    </div>
+					</td>
 						<td class="tc w50">
 							<a onclick="reason('${obj.itemsId}','${obj.firstNode}','${obj.secondNode}','${obj.thirdNode}','${obj.fourthNode}');" id="${obj.itemsId}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,obj.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedField,obj.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>
 							<p id="${obj.itemsId}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
