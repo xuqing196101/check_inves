@@ -100,7 +100,14 @@
 		  <th class="w50 info">序号</th>
 		  <th class="info" width="30%">产品名称</th>
 		  <th class="info">数量</th>
-		  <th class="info">自报单价（元）</th>
+		  <c:if test="${flag == true }">
+		  	<th class="info">自报单价（元）</th>
+		  </c:if>
+		  <c:if test="${flag == false }">
+		  	<th class="info">第一次自报单价（元）</th>
+		  	<th class="info">第二次自报单价（元）</th>
+		  </c:if>
+		  
 		  <th class="info">成交单价（元）</th>
 		  <th class="info">成交总价（万元）</th>
 		</tr>
@@ -168,13 +175,33 @@
 							<c:if test="${fn:length(product.product.name) <= 20 }">${product.product.name }</c:if>
 			  			</td>
 			  			<td class="tc">${product.resultNumber }</td>
-						<td class="tc">
-							<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
-						</td>
-			  			<td class="tc">
-			  				<fmt:formatNumber value='${product.dealMoney }' pattern='#,##,###.00'/>
-			  			</td>
-			  			<td class="tc">${product.totalMoney }</td>
+			  			<!-- 只有一次竞价 -->
+			  			<c:if test="${flag == true }">
+			  				<td class="tc">
+								<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
+							</td>
+			  			</c:if>
+			  			<!-- 有两次竞价 -->
+			  			<c:if test="${flag == false }">
+			  				<td class="tc">
+			  				<c:forEach items="${supplier.OBResultsInfo}" var="productri" varStatus="va">
+								<c:if test="${productri.supplierId == supplier.supplierId && productri.biddingId == '1' && productri.productId == product.productId}">
+									<fmt:formatNumber value='${productri.myOfferMoney }' pattern='#,##,###.00'/>
+								</c:if>
+							</c:forEach>
+							</td>
+							<td class="tc">
+			  				<c:forEach items="${supplier.OBResultsInfo}" var="productri" varStatus="va">
+								<c:if test="${productri.supplierId == supplier.supplierId && productri.biddingId == '2' && productri.productId == product.productId}">
+									<fmt:formatNumber value='${productri.myOfferMoney }' pattern='#,##,###.00'/>
+								</c:if>
+							</c:forEach>	
+							</td>
+							</c:if>
+			  				<td class="tc">
+								<fmt:formatNumber value='${product.dealMoney }' pattern='#,##,###.00'/>
+							</td>
+			  				<td class="tc">${product.totalMoney }</td>
 			  		</tr>
 				</c:if>
 			</c:forEach>
@@ -189,7 +216,7 @@
 			  <td class="tc">${total }</td>
 			</tr>
 			<c:forEach items="${supplier.OBResultsInfo}" var="product" varStatus="va">
-				<c:if test="${product.supplierId == supplier.supplierId}">
+				<c:if test="${product.supplierId == supplier.supplierId && product.biddingId == '1'}">
 				<tr>
 					<td class="tc">${va.index+1 }</td>
 			  		<td class="tc" title="${product.obProduct.name }">
@@ -197,9 +224,29 @@
 						<c:if test="${fn:length(product.obProduct.name) <= 20 }">${product.obProduct.name }</c:if>
 			  		</td>
 			  		<td class="tc">0</td>
-					<td class="tc">
-						<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
-					</td>
+			  		<!-- 只有一次竞价 -->
+		  			<c:if test="${flag == true }">
+		  				<td class="tc">
+							<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
+						</td>
+		  			</c:if>
+					<!-- 有两次竞价 -->
+		  			<c:if test="${flag == false }">
+		  				<td class="tc">
+		  				<c:forEach items="${supplier.OBResultsInfo}" var="productri" varStatus="va">
+							<c:if test="${productri.supplierId == supplier.supplierId && productri.biddingId == '1' && productri.productId == product.productId}">
+								<fmt:formatNumber value='${productri.myOfferMoney }' pattern='#,##,###.00'/>
+							</c:if>
+						</c:forEach>
+						</td>
+						<td class="tc">
+		  				<c:forEach items="${supplier.OBResultsInfo}" var="productri" varStatus="va">
+							<c:if test="${productri.supplierId == supplier.supplierId && productri.biddingId == '2' && productri.productId == product.productId}">
+								<fmt:formatNumber value='${productri.myOfferMoney }' pattern='#,##,###.00'/>
+							</c:if>
+						</c:forEach>	
+						</td>
+					</c:if>
 			  		<td class="tc"></td>
 			  		<td class="tc"></td>
 			  	</tr>
@@ -207,7 +254,7 @@
 			</c:forEach>
 		</c:if>
 		
-		<!--  -->
+		<!-- 未中标的 -->
 		<c:if test="${supplier.status == 0}">
 			<tr>
 			  <td class="tc"></td>
@@ -215,17 +262,37 @@
 			  <td class="tc"></td>
 			</tr>
 			<c:forEach items="${supplier.OBResultsInfo}" var="product" varStatus="va">
-				<c:if test="${product.supplierId == supplier.supplierId}">
+				<c:if test="${product.supplierId == supplier.supplierId && product.biddingId == '1'}">
 				<tr>
-					<td class="tc">${va.index+1 }</td>
+					<td class="tc">${va.index+1}</td>
 			  		<td class="tc" title="${product.obProduct.name }">
 			  			<c:if test="${fn:length(product.obProduct.name) > 20 }">${fn:substring(product.obProduct.name, 0, 20)}...</c:if>
 						<c:if test="${fn:length(product.obProduct.name) <= 20 }">${product.obProduct.name }</c:if>
 			  		</td>
 			  		<td class="tc">0</td>
-					<td class="tc">
-						<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
-					</td>
+			  		<!-- 只有一次竞价 -->
+		  			<c:if test="${flag == true }">
+		  				<td class="tc">
+							<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
+						</td>
+		  			</c:if>
+					<!-- 有两次竞价 -->
+		  			<c:if test="${flag == false }">
+		  				<td class="tc">
+		  				<c:forEach items="${supplier.OBResultsInfo}" var="productri" varStatus="va">
+							<c:if test="${productri.supplierId == supplier.supplierId && productri.biddingId == '1' && productri.productId == product.productId}">
+								<fmt:formatNumber value='${productri.myOfferMoney }' pattern='#,##,###.00'/>
+							</c:if>
+						</c:forEach>
+						</td>
+						<td class="tc">
+		  				<c:forEach items="${supplier.OBResultsInfo}" var="productri" varStatus="va">
+							<c:if test="${productri.supplierId == supplier.supplierId && productri.biddingId == '2' && productri.productId == product.productId}">
+								<fmt:formatNumber value='${productri.myOfferMoney }' pattern='#,##,###.00'/>
+							</c:if>
+						</c:forEach>	
+						</td>
+					</c:if>
 			  		<td class="tc"></td>
 			  		<td class="tc">0</td>
 			  	</tr>

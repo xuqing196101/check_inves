@@ -942,6 +942,16 @@ public class OBProjectController {
 	* @throws
 	 */
 	private void getBiddingResultInfo(Model model, String projectId) {
+		//判断是否有第二次竞价
+				List<String> biddingIdList = OBResultsInfoMapper.isSecondBidding(projectId);
+				Boolean flag = true;
+				if(biddingIdList != null && biddingIdList.size() > 0){
+					for (String string : biddingIdList) {
+						if("2".equals(string)){
+							flag = false;
+						}
+					}
+				}
 		List<OBProjectResult> list = oBProjectResultService.selResultByProjectId(projectId);
     	Integer countProportion = 0;
     	BigDecimal million = new BigDecimal(10000);
@@ -976,6 +986,7 @@ public class OBProjectController {
 				}
 			}
     	}
+    	model.addAttribute("flag", flag);
     	model.addAttribute("listres", list);
     	model.addAttribute("countProportion",countProportion);
     	model.addAttribute("size",list.size());
