@@ -965,7 +965,7 @@
                   <c:forEach var="item" items="${listyes.supplier.listSupplierTypeRelates}">
                    <c:set value="${name},${item.supplierTypeName}" var="name"></c:set>
                   </c:forEach>
-                  ${fn:substring(name,1,name.length())}
+                  ${fn:substring(name,1,name.length()-2)}
                   </td>
                   <td class='tc' onclick='show();'>${listyes.supplier.contactName}</td>
                     <c:choose>
@@ -1037,25 +1037,26 @@
     $(function (){
         selectLikeSupplier();
         var json = '${extConTypeJson}';
-        var extConType = $.parseJSON(json);
-
-        for(var i= 0 ; i < extConType.length;i++){
-            if(extConType[i].supplierType != null){
-                if(extConType[i].supplierType.code == 'PROJECT'){
-                    $("#projectCount").removeClass("dnone");
-                    $("#project").val(extConType[i].supplierCount);
-                }
-                if(extConType[i].supplierType.code == 'SERVICE'){
-                    $("#serviceCount").removeClass("dnone");
-                    $("#service").val(extConType[i].supplierCount);
-                }
-                if(extConType[i].supplierType.code == 'PRODUCT'){
-                    $("#productCount").removeClass("dnone");
-                    $("#product").val(extConType[i].supplierCount);
-                }
-                if(extConType[i].supplierType.code == 'SALES'){
-                    $("#salesCount").removeClass("dnone");
-                    $("#sales").val(extConType[i].supplierCount);
+        if(""!=json){
+            var extConType = $.parseJSON(json);
+            for(var i= 0 ; i < extConType.length;i++){
+                if(extConType[i].supplierType != null){
+                    if(extConType[i].supplierType.code == 'PROJECT'){
+                        $("#projectCount").removeClass("dnone");
+                        $("#project").val(extConType[i].supplierCount);
+                    }
+                    if(extConType[i].supplierType.code == 'SERVICE'){
+                        $("#serviceCount").removeClass("dnone");
+                        $("#service").val(extConType[i].supplierCount);
+                    }
+                    if(extConType[i].supplierType.code == 'PRODUCT'){
+                        $("#productCount").removeClass("dnone");
+                        $("#product").val(extConType[i].supplierCount);
+                    }
+                    if(extConType[i].supplierType.code == 'SALES'){
+                        $("#salesCount").removeClass("dnone");
+                        $("#sales").val(extConType[i].supplierCount);
+                    }
                 }
             }
         }

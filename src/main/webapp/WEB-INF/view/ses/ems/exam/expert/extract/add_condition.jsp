@@ -29,28 +29,30 @@
             $("#dnone").addClass("dnone");
         }
         var json = '${extConTypeJson}';
-        var extConType = $.parseJSON(json);
-        for(var i= 0 ; i < extConType.length;i++){
-            if(extConType[i].expertsType != null){
-                if(extConType[i].expertsType.code == 'GOODS_PROJECT'){
-                   $("#goodsProjectCount").removeClass("dnone");
-                   $("#goodsProject").val(extConType[i].expertsCount);
-                }
-                if(extConType[i].expertsType.code == 'GOODS_SERVER'){
-                  $("#goodsServerCount").removeClass("dnone");
-                  $("#goodsServer").val(extConType[i].expertsCount);
-                }
-                if(extConType[i].expertsType.code == 'GOODS'){
-                  $("#goodsCount").removeClass("dnone");
-                  $("#goods").val(extConType[i].expertsCount);
-                }
-                if(extConType[i].expertsType.code == 'SERVICE'){
-                   $("#serviceCount").removeClass("dnone");
-                   $("#service").val(extConType[i].expertsCount);
-                }
-                if(extConType[i].expertsType.code == 'PROJECT'){
-                   $("#projectCount").removeClass("dnone");
-                   $("#project").val(extConType[i].expertsCount);
+        if(""!=json){
+            var extConType = $.parseJSON(json);
+            for(var i= 0 ; i < extConType.length;i++){
+                if(extConType[i].expertsType != null){
+                    if(extConType[i].expertsType.code == 'GOODS_PROJECT'){
+                        $("#goodsProjectCount").removeClass("dnone");
+                        $("#goodsProject").val(extConType[i].expertsCount);
+                    }
+                    if(extConType[i].expertsType.code == 'GOODS_SERVER'){
+                        $("#goodsServerCount").removeClass("dnone");
+                        $("#goodsServer").val(extConType[i].expertsCount);
+                    }
+                    if(extConType[i].expertsType.code == 'GOODS'){
+                        $("#goodsCount").removeClass("dnone");
+                        $("#goods").val(extConType[i].expertsCount);
+                    }
+                    if(extConType[i].expertsType.code == 'SERVICE'){
+                        $("#serviceCount").removeClass("dnone");
+                        $("#service").val(extConType[i].expertsCount);
+                    }
+                    if(extConType[i].expertsType.code == 'PROJECT'){
+                        $("#projectCount").removeClass("dnone");
+                        $("#project").val(extConType[i].expertsCount);
+                    }
                 }
             }
         }
@@ -446,7 +448,7 @@
                                    }
                                    $("#extcontype").append(html);
                                }
-                               if(i < (neddNum + nonJoin)){
+                               if(i < (neddNum + nonJoin)){//当没有满足总共需要的人数时继续获取,否则不再遍历下一条
                                    tex+="<tr class='cursor'>"+
                                        "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                                        "<td class='tc' onclick='show();'>*****</td>"+
@@ -1096,7 +1098,7 @@
                    </c:if>
                   </c:forEach>
                 </c:forEach>
-                ${fn:substring(typeId,1,typeId.length())}
+                ${fn:substring(typeId,1,typeId.length()-2)}
                 </td>
                 <td class='tc'>*****</td>
                 <td class='tc'>*****</td>
