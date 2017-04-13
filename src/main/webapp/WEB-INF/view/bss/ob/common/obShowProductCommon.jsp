@@ -17,19 +17,19 @@
 						}
 						layer.tips("产品规格型号：" + data.standardModel + "<br/>"
 								+ "质量技术标准：" + quality, '#' + selectID, {
-							tips : [ 1, '#78BA32' ],
+							tips : [ 3, '#78BA32' ],
 							time : -1,
 							area : [ '500px', 'auto' ],
 						});
 					} else {
 						inder = layer.tips("", '#' + id, {
-							tips : [ 1, '#78BA32' ]
+							tips : [ 3, '#78BA32' ]
 						});
 					}
 				},
 				error : function() {
 					layer.tips("错误！", '#' + selectID, {
-						tips : [ 1, '#78BA32' ]
+						tips : [ 3, '#78BA32' ]
 					});
 				}
 			});

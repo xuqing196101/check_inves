@@ -267,7 +267,7 @@
 			  <th class="info">定型产品名称</th>
 			  <th class="info">限价（元）</th>
 			  <th class="info">采购数量</th>
-			  <th class="info" width="10px">报价（元）</th>
+			  <th class="info" width="5px">报价（元）</th>
 			  <th class="info">总价（万元）</th>
 			  <th class="info">备注信息</th>
 			</tr>
@@ -286,12 +286,18 @@
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].limitPrice" value="${ productInfo.limitedPrice }">
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].remark" value="${ productInfo.remark }">
 				  <td class="tc">${ vs.index + 1 }</td>
-				  <td class="tc" id="t_${productInfo.id}" onmouseout="closePrompt()" onmouseover="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')">${ productInfo.obProduct.name }</td>
+				  <td class="tc" id="t_${productInfo.id}" onmouseout="closePrompt()" onmouseover="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')" title="${ productInfo.obProduct.name }">
+				  	<c:if test="${fn:length(productInfo.obProduct.name) > 30 }">${fn:substring(productInfo.obProduct.name, 0, 30)}...</c:if>
+					<c:if test="${fn:length(productInfo.obProduct.name) <= 30 }">${productInfo.obProduct.name }</c:if>			  
+				  </td>
 				  <td class="tc" id="${ vs.index }">${ productInfo.limitedPrice }</td>
 				  <td class="tc">${ productInfo.purchaseCount }</td>
 				  <td class="tc" width="3px"><input id="" data-count="${ productInfo.purchaseCount }" name="obResultsInfoExt[${ vs.index }].myOfferMoney" onkeyup="totalPrice(this,'${productInfo.obProduct.id}','${ vs.index }')" type="text" class="w230 mb0 border0" /></td>
 				  <td class="tc" id="${ productInfo.obProduct.id }"></td>
-				  <td class="tc">${ productInfo.remark }</td>
+				  <td class="tc" title="${ productInfo.remark }">
+				  	<c:if test="${fn:length(productInfo.remark) > 30 }">${fn:substring(productInfo.remark, 0, 30)}...</c:if>
+					<c:if test="${fn:length(productInfo.remark) <= 30 }">${productInfo.remark }</c:if>	
+				  </td>
 				</tr>
 			</c:forEach>
 		</table>
