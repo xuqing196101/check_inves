@@ -438,8 +438,7 @@
 		  $("#buttonErr").html("");
 		  $("#transportFeesPriceErr").html("");
 		  $("#isEmergencyErr").html("");
-		  
-		  
+		   if(status==1){
 		   var name=$("#name").val().trim();
 		   if(!name){
 		   $("#nameErr").html("竞价项目名称不能为空");
@@ -637,6 +636,7 @@
    		 	 show("提供当前产品的供应商不能少于"+supplierCount+"家");
 		     return;
 		   }
+		    }
 		  exec(status);
 			
 	}

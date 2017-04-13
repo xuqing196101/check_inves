@@ -85,7 +85,7 @@
      and NAME like '%${name}%'
     </if>
     <if test="startTime != null and startTime !=''">
-     and START_TIME= #{startTime},
+     and START_TIME= #{startTime}
     </if>
       	ORDER BY CREATED_AT DESC
   </select> 

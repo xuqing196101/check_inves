@@ -229,6 +229,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 		// TODO Auto-generated method stub
 		String attribute = "";
 		String show = "";
+		//
+		if(obProject.getStatus()==1){
 		if (StringUtils.isBlank(obProject.getName())) {
 			attribute = "nameErr";
 			show = "竞价标题不能为空";
@@ -378,10 +380,10 @@ public class OBProjectServerImpl implements OBProjectServer {
 		if(!verify.equals("success")){
 			return verify;
 		}
+		}
 		// 生成ID
 		String uuid = UUID.randomUUID().toString().toUpperCase()
 				.replace("-", "");
-				
 		// 默认规则
 		// 暂存修改的时候使用的是子表中的规则
 		// 获取间隔日
@@ -487,8 +489,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 		} else {
 			obProject.setId(uuid);
 			obProject.setCreatedAt(date);
-			// 组合 集合
+			
 			list = splitList(list, obProject, userid);
+			
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
 			SimpleDateFormat ymd=new SimpleDateFormat("yyyy-MM-dd");
 			Date start=new Date();
@@ -497,6 +500,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			BigDecimal big=new BigDecimal(sdf.format(start)+"00000");
 			obProject.setProjectNumber(big.add(new BigDecimal(countByDate+1)));
 			if (obProject.getStatus() == 1) {
+				// 组合 集合
 				//如果发布 更新规则数量 时间
 				obProject.setUpdatedAt(date);
 				// 保存关系数据
@@ -620,6 +624,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		OBProductInfo product = null;
 		// 拆分数组
 		List<String> productName = obProject.getProductName();
+		if(productName!=null){
 		for (int i = 0; i < productName.size(); i++) {
 			String uid = UUID.randomUUID().toString().toUpperCase()
 					.replace("-", "");
@@ -660,6 +665,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			product.setCreatedAt(new Date());
 			product.setCreaterId(userid);
 			list.add(product);
+		}
 		}
 		return list;
 
@@ -735,7 +741,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 				List<String> pidList = new ArrayList<String>();
 				if (slist != null) {
 					for (OBProductInfo obinfo : slist) {
+						if(obinfo!=null){
 						pidList.add(obinfo.getProductId());
+						}
 					}
 					Map<String, Object> maps = new HashMap<String, Object>();
 					maps.put("list", pidList);
@@ -747,14 +755,17 @@ public class OBProjectServerImpl implements OBProjectServer {
 					}
 					obp.setClosingSupplier(closingSupplier);
 					// 获取  供应商数量
-					List<OBSupplier> sulist=OBSupplierMapper.selectSupplierByID(maps);
 					Integer qualifiedSupplier =0;
+					if(obp.getStatus()!=0){
+					List<OBSupplier> sulist=OBSupplierMapper.selectSupplierByID(maps);
 					if(sulist!=null&&sulist.size()>0){
 						qualifiedSupplier=sulist.size();
+					   }
 					}
 					obp.setQualifiedSupplier(qualifiedSupplier);
 				}
 				String smallPointsId = null;
+				if(obp.getStatus()!=0){
 				if(obp.getId() != null){
 					List<OBProjectSupplier> listps = obProjectSupplierMapper.selByProjectId(obp.getId());
 					if(listps != null && listps.size() > 0){
@@ -763,6 +774,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 				}
 				Integer nn = OBprojectMapper.selOfferSupplierNum(obp.getId(),smallPointsId);
 				obp.setOfferSupplierNumber(nn);
+				}
 			}
 		}
 		return list;
