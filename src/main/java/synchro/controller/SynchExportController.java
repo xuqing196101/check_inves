@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import synchro.inner.back.service.infos.InnerInfoExportService;
 import synchro.model.SynchRecord;
 import synchro.outer.back.service.expert.OuterExpertService;
@@ -94,13 +96,42 @@ public class SynchExportController {
        model.addAttribute("operType", Constant.OPER_TYPE_EXPORT);
        List<DictionaryData> templist = DictionaryDataUtil.find(DATA_TYPE_KIND);
        List<DictionaryData> list = new ArrayList<DictionaryData>();
-       
+          list.addAll(templist);
+       //获取是否内网标识 1外网 0内网
+      String ipAddressType= PropUtil.getProperty("ipAddressType");
        //过滤附件类型
        for (int i = 0; i < templist.size(); i++){
            DictionaryData dd = templist.get(i);
-           if (!dd.getCode().equals(Constant.DATA_TYPE_ATTACH_CODE)){
-               list.add(dd);
+           if (dd.getCode().equals(Constant.DATA_TYPE_ATTACH_CODE)){
+               list.remove(dd);
+               continue;
            }
+           //外网时
+           if(ipAddressType.equals("1")){
+        	   //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
+        	   if (dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_PRODUCT)){
+        		   list.remove(dd);
+        		   continue;
+               } 
+        	   //竞价供应商导出  只能是内网导出外网
+        	   if(dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_SUPPLIER)){
+        		   list.remove(dd);
+        		   continue;
+               }
+               if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_CODE)){
+               	/**竞价信息导出  只能是内网导出外网**/
+            	   list.remove(dd);
+            	   continue;
+               }
+           }
+           //内网时
+           if(ipAddressType.equals("0")){
+               if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_RESULT_CODE)){
+               	/**竞价结果导出  只能是外网导出内网**/
+            	   list.remove(dd);
+            	   continue;
+               }
+             }
        }
        
        model.addAttribute("dataTypeList", list);

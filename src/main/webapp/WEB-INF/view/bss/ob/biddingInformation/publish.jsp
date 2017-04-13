@@ -962,7 +962,11 @@
        </div>
 	 </li>
 	 </ul>
-	<h2 class="count_flow"><i>2</i>产品信息</h2>
+	 <h2 class="count_flow"><i>2</i>竞价规则信息</h2>
+	 <%@ include file ="/WEB-INF/view/bss/ob/biddingRules/ruleCommon.jsp" %>
+	 
+	 
+	<h2 class="count_flow"><i>3</i>产品信息</h2>
 	 <div class="ul_list">
   		<div class="col-md-12 col-sm-12 col-xs-12 p0 mt10 mb10">
 			<input type="button" class="btn btn-windows add" onclick="addTr('productId','','','','',0)" value="添加">

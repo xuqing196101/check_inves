@@ -48,6 +48,7 @@ import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectResultMapper;
+import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBRuleMapper;
@@ -57,6 +58,7 @@ import bss.model.ob.OBProductInfoExample;
 import bss.model.ob.OBProductInfoExample.Criteria;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
+import bss.model.ob.OBProjectRule;
 import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.OBResultsInfo;
@@ -117,6 +119,9 @@ public class OBProjectController {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private OBProjectRuleMapper OBProjectRuleMapper;
 
 	// 注入竞价商品详情Mapper
 	@Autowired
@@ -330,10 +335,10 @@ public class OBProjectController {
 		model.addAttribute("ruleId",obRule.getId());
 		model.addAttribute("fileid", uuid);
 		model.addAttribute("userId", user.getId());
+		model.addAttribute("obRule",obRule);
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		// 标识 竞价附件
-		model.addAttribute("typeId",
-				DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
+		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		 }
 		}
 		return "bss/ob/biddingInformation/publish";
@@ -674,6 +679,10 @@ public class OBProjectController {
 					orgId=user.getOrg().getId();
 				}
 				model.addAttribute("orgId", orgId);
+				
+				//竞价规则
+				OBProjectRule oRule= OBProjectRuleMapper.selectByPrimaryKey(obProject.getId());
+				model.addAttribute("obRule", oRule);
 				// 生成ID
 				model.addAttribute("ruleId", obProject.getRuleId());
 				model.addAttribute("userId", user.getId());
