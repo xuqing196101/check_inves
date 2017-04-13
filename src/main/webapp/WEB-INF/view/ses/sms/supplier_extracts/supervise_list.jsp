@@ -61,33 +61,42 @@
   	function view(id){
   		window.location.href="${pageContext.request.contextPath}/user/show.html?id="+id;
   	}
-  	
+  	//保存监督人员
     function add(){
-    	   $.ajax({
-               cache: true,
-               type: "POST",
-               dataType : "json",
-               url:'${pageContext.request.contextPath}/ExpExtract/saveSupervise.do',
-               data:$('#form1').serialize(),// 你的formid
-               async: false,
-               success: function(data) {
-            	   if(data != 'ERROR'){
-            		   parent.$('#supervises').val(data.relName);
-                   parent.$('#supervises').attr(data.relName);
-                   parent.$('#superviseId').val(data.superviseId);
-                   var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-                   parent.layer.close(index);
-            	   }else{
-            		  layer.msg("不能为空");
-            	   }
-               },
-               error:function(data){
-            	   layer.msg("不能为空");
-               }
-           });
-// 			      
-		
-	
+        var _phoneVal = $("input[name='phone']").val();
+        var _relNameVal = $("input[name='relName']").val();
+        var _companyVal = $("input[name='company']").val();
+        var _dutiesVal = $("input[name='duties']").val();
+        if(_relNameVal!=""&&_companyVal!=""&&_dutiesVal!=""){
+            if(!check_mobile(_phoneVal)){
+                layer.msg("请输入正确的手机号码");
+            }else{
+                $.ajax({
+                    cache: true,
+                    type: "POST",
+                    dataType : "json",
+                    url:'${pageContext.request.contextPath}/ExpExtract/saveSupervise.do',
+                    data:$('#form1').serialize(),// 你的formid
+                    async: false,
+                    success: function(data) {
+                        if(data != 'ERROR'){
+                            parent.$('#supervises').val(data.relName);
+                            parent.$('#supervises').attr(data.relName);
+                            parent.$('#superviseId').val(data.superviseId);
+                            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                            parent.layer.close(index);
+                        }else{
+                            layer.msg("请输入必填项");
+                        }
+                    },
+                    error:function(data){
+                        layer.msg("请输入必填项");
+                    }
+                });
+            }
+        }else{
+            layer.msg("请输入必填项");
+        }
     }
     
     /**添加*/
@@ -129,10 +138,10 @@
         <table class="table table-bordered table-condensed table_input left_table">
 		<thead>
 		<tr>
-		  <th class="info ">姓名</th>
-		  <th class="info ">单位</th>
-		  <th class="info ">职务</th>
-		  <th class="info ">手机号</th>
+		  <th class="info "><span class="star_red">*</span>姓名</th>
+		  <th class="info "><span class="star_red">*</span>单位</th>
+		  <th class="info "><span class="star_red">*</span>职务</th>
+		  <th class="info "><span class="star_red">*</span>手机号</th>
 		  <th class="info w100 ">操作</th>
 		</tr>
 		</thead>
@@ -168,3 +177,11 @@
    </div>
   </body>
 </html>
+<script type="text/javascript">
+    $("input[name='phone']").on('change',function () {
+        var _phoneVal = $(this).val();
+        if(!check_mobile(_phoneVal)){
+            layer.msg("请输入正确的手机号码");
+        }
+    })
+</script>
