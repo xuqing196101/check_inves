@@ -82,6 +82,18 @@
  		</c:if>
 		<%@ include file="/WEB-INF/view/bss/ob/supplier/secondResultIssueInfoCommon.jsp" %>
 	</c:if>	
+	
+	 <!-- 第一轮确认结果信息 -->
+ 	<c:if test="${empty confirmResult && not empty confirmResultSecond && confirmFlag=='secondConfirm' }">
+ 		<c:if test="${ not empty oBResultsInfoSecond }">
+ 			<h2 class="count_flow"><i>4</i>第二轮确认结果信息</h2>
+ 		</c:if>
+ 		<c:if test="${ empty oBResultsInfoSecond }">
+ 			<h2 class="count_flow"><i>3</i>第二轮确认结果信息</h2>
+ 		</c:if>
+		<%@ include file="/WEB-INF/view/bss/ob/supplier/secondResultIssueInfoCommon.jsp" %>
+  	</div>
+	</c:if>	
  </div>
 </body>
 </html>

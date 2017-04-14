@@ -65,8 +65,13 @@
 
       function viewUpload(id) {
         var projectId = "${project.id}";
-        var a = "2";
-        openViewDIv(projectId, id, a, null, null);
+        var uploadFile = "${uploadFile}";
+        if(uploadFile == 0){
+          var a = "2";
+          openViewDIv(projectId, id, a, null, null);
+        }else{
+          layer.msg("未上传附件");
+        }
       }
 
       function audit(id, type) {
@@ -246,6 +251,7 @@
         </div>
         <div class="padding-top-10 clear" id="clear">
           <h2 class="count_flow"><i>2</i>流程进度</h2>
+          <ul class="ul_list">
           <div class="container">
             <div class="col-md-12 col-xs-12 col-sm-12 flow_more" id="main-1">
               <div class="flow_tips col-md-2 col-sm-2 col-xs-12">
@@ -506,6 +512,7 @@
               </div>
             </div>
           </div>
+          </ul>
         </div>
         <c:set var="flag" value="1" />
         <div class="padding-top-10 clear">
@@ -756,7 +763,7 @@
                     <th class="info">抽取记录</th>
                     <th class="info">抽取人</th>
                     <th class="info">监督人</th>
-                    <th class="info">编制时间</th>
+                    <th class="info">抽取时间</th>
                   </tr>
                   <tr>
                     <td></td>
@@ -819,79 +826,95 @@
             <c:if test="${operName ne null}">
             <h2 class="list_son" id="tab-13"><i>${flag}</i>开标</h2>
             <c:set var="flag" value="${flag+1}" />
-            <table class="table table-bordered mt10">
-              <tbody>
-                <tr>
-                  <th class="info" width="25%">投标记录</th>
-                  <th class="info" width="25%">开标一览表</th>
-                  <th class="info" width="25%">开标人</th>
-                  <th class="info" width="25%">开标时间</th>
-                </tr>
-                <tr>
-                  <td class="tc"><button class="btn" onclick="sell('${packageId}','2')" type="button">查看</button></td>
-                  <td class="tc"><button class="btn" onclick="bid('${packageId}')" type="button">查看</button></td>
-                  <td>${operName}</td>
-                  <td>
-                    <fmt:formatDate value='${project.bidDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <c:choose>
+              <c:when test="${fes eq '1'}">
+                <p>评审未结束，不可查看</p>
+              </c:when>
+              <c:otherwise>
+                <table class="table table-bordered mt10">
+		              <tbody>
+		                <tr>
+		                  <th class="info" width="25%">投标记录</th>
+		                  <th class="info" width="25%">开标一览表</th>
+		                  <th class="info" width="25%">开标人</th>
+		                  <th class="info" width="25%">开标时间</th>
+		                </tr>
+		                <tr>
+		                  <td class="tc"><button class="btn" onclick="sell('${packageId}','2')" type="button">查看</button></td>
+		                  <td class="tc"><button class="btn" onclick="bid('${packageId}')" type="button">查看</button></td>
+		                  <td>${operName}</td>
+		                  <td>
+		                    <fmt:formatDate value='${project.bidDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+		                  </td>
+		                </tr>
+		              </tbody>
+		            </table>
+              </c:otherwise>
+            </c:choose>
             </c:if>
 
-            <c:if test="${experts ne null}">
+            <c:if test="${packages.qualificationTime ne null}">
             <h2 class="list_son" id="tab-14"><i>${flag}</i>采购项目评审</h2>
             <c:set var="flag" value="${flag+1}" />
-            <table class="table table-bordered mt10">
-              <tbody>
-                <tr>
-                  <th class="info">文件名称</th>
-                  <th class="info">查看评审专家打分表</th>
-                  <th class="info">查看汇总表</th>
-                  <th class="info" width="20%">评审时间</th>
-                </tr>
-                <tr>
-                  <td>资格性符合性检查</td>
-                  <td>
-                    <c:forEach items="${experts}" var="obj" varStatus="vs">
-                      <c:set value="${vs.index}" var="index"></c:set>
-                      <a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${project.id}&packageId=${packageId}&expertId=${experts[index].id}" target="view_window">${experts[index].relName}</a>
-                    </c:forEach>
-                  </td>
-                  <td class="tc"><button class="btn" onclick="openPrint('${project.id}','${packageId}')" type="button">查看</button></td>
-                  <td>
-                    <fmt:formatDate value='${packages.qualificationTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
-                  </td>
-                </tr>
-                <tr>
-                  <td>技术商务评分（审查）</td>
-                  <td>
-                    <c:forEach items="${experts}" var="obj" varStatus="vs">
-                      <c:set value="${vs.index}" var="index"></c:set>
-                      <a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${project.id}&packageId=${packageId}&expertId=${experts[index].id}&auditType=1" target="view_window">${experts[index].relName}</a>
-                    </c:forEach>
-                  </td>
-                  <td class="tc"><button class="btn" onclick="openPrints('${project.id}','${packageId}')" type="button">查看</button></td>
-                  <td>
-                    <fmt:formatDate value='${packages.techniqueTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
-                  </td>
-                </tr>
-                <c:if test="${DYLY != null}">
-                  <tr>
-                    <td>专家评审报告</td>
-                    <td>
-                      <c:forEach items="${expertIdList}" var="obj" varStatus="vs">
-                        <c:if test="${obj.isGroupLeader == 1}">组长:${obj.expertId}</c:if>
-                      </c:forEach>
-                    </td>
-                    <td class="tc"><button class="btn" onclick="report('${packageId}')" type="button">查看</button></td>
-                    <td>
-                      <fmt:formatDate value='${reviewTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
-                    </td>
-                  </tr>
-                </c:if>
-              </tbody>
-            </table>
+            <c:choose>
+              <c:when test="${fes eq '1'}">
+                <p>评审未结束，不可查看</p>
+              </c:when>
+              <c:otherwise>
+                <table class="table table-bordered mt10">
+		              <tbody>
+		                <tr>
+		                  <th class="info">文件名称</th>
+		                  <th class="info">查看评审专家打分表</th>
+		                  <th class="info">查看汇总表</th>
+		                  <th class="info" width="20%">评审时间</th>
+		                </tr>
+		                <tr>
+		                  <td>资格性符合性检查</td>
+		                  <td>
+		                    <c:forEach items="${experts}" var="obj" varStatus="vs">
+		                      <c:set value="${vs.index}" var="index"></c:set>
+		                      <a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${project.id}&packageId=${packageId}&expertId=${experts[index].id}" target="view_window">${experts[index].relName}</a>
+		                    </c:forEach>
+		                  </td>
+		                  <td class="tc"><button class="btn" onclick="openPrint('${project.id}','${packageId}')" type="button">查看</button></td>
+		                  <td>
+		                    <fmt:formatDate value='${packages.qualificationTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+		                  </td>
+		                </tr>
+		                <tr>
+		                  <td>技术商务评分（审查）</td>
+		                  <td>
+		                    <c:forEach items="${experts}" var="obj" varStatus="vs">
+		                      <c:set value="${vs.index}" var="index"></c:set>
+		                      <a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${project.id}&packageId=${packageId}&expertId=${experts[index].id}&auditType=1" target="view_window">${experts[index].relName}</a>
+		                    </c:forEach>
+		                  </td>
+		                  <td class="tc"><button class="btn" onclick="openPrints('${project.id}','${packageId}')" type="button">查看</button></td>
+		                  <td>
+		                    <fmt:formatDate value='${packages.techniqueTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+		                  </td>
+		                </tr>
+		                <c:if test="${DYLY != null}">
+		                  <tr>
+		                    <td>专家评审报告</td>
+		                    <td>
+		                      <c:forEach items="${expertIdList}" var="obj" varStatus="vs">
+		                        <c:if test="${obj.isGroupLeader == 1}">组长:${obj.expertId}</c:if>
+		                      </c:forEach>
+		                    </td>
+		                    <td class="tc"><button class="btn" onclick="report('${packageId}')" type="button">查看</button></td>
+		                    <td>
+		                      <fmt:formatDate value='${reviewTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+		                    </td>
+		                  </tr>
+		                </c:if>
+		              </tbody>
+		            </table>
+              </c:otherwise>
+              
+            </c:choose>
+            
             </c:if>
 
             <c:if test="${articleList ne null}">

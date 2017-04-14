@@ -16,7 +16,7 @@
         <li class="col-md-12 col-sm-6 col-xs-12">
           <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">审核意见</label>
           <span class="col-md-12 col-sm-12 col-xs-12 p0">
-            <textarea class="w100p h80 p0" rows="3" cols="1">${advice}</textarea>
+            <textarea class="w100p h80 p0" rows="3" cols="1" disabled="disabled">${advice}</textarea>
           </span>
         </li>
         <div class="clear"></div>

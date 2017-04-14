@@ -158,10 +158,12 @@
                      </div>
                   </td>
                   <td>
+                    <c:if test="${obj.price != null}">
                    <div class="department">
                     ${obj.department}
                     <input type="hidden" name="listDetail[${vs.index }].department" value="${obj.department }">
                    </div>
+                   </c:if>
                   </td>
                   <td class="tl">
                     <div class="goodsname">

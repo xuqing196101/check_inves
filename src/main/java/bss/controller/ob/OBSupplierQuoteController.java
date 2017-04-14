@@ -876,11 +876,17 @@ public class OBSupplierQuoteController {
 					resultMap.put("orderWay", "ASC");
 					// 第一轮
 					findConfirmResult = oBProjectResultService.findConfirmResult(resultMap);
-					List<OBResultSubtabulation> subtabulationList = findConfirmResult.getObResultSubtabulation();
-					calculateSignalResultTotalPrice(subtabulationList);
-					confirmFirstTotalFigureStr = BigDecimalUtils.getTotalFigure(findConfirmResult);
+					if(findConfirmResult != null){
+						// 有第一轮
+						List<OBResultSubtabulation> subtabulationList = findConfirmResult.getObResultSubtabulation();
+						calculateSignalResultTotalPrice(subtabulationList);
+						confirmFirstTotalFigureStr = BigDecimalUtils.getTotalFigure(findConfirmResult);
+						resultMap.put("orderWay", "DESC");
+					}else{
+						// 如果没有第一轮，只有第二轮
+						resultMap.put("orderWay", "DESC");
+					}
 					// 第二轮
-					resultMap.put("orderWay", "DESC");
 					findConfirmResultSecond = oBProjectResultService.findConfirmResult(resultMap);
 					List<OBResultSubtabulation> subtabulationSecondList = findConfirmResultSecond.getObResultSubtabulation();
 					calculateSignalResultTotalPrice(subtabulationSecondList);

@@ -449,70 +449,64 @@ public class SupplierExtractsController extends BaseController {
             }
             return JSON.toJSONString(map);
         } else {
-            //真实的项目id
-            String projectId = project.getId();
-            if (project.getId() == null || "".equals(project.getId())) {
-                // 创建一个临时项目临时包
-                project.setIsProvisional(1);
-                projectService.add(project);
-                projectId = project.getId();
-                project.setId(projectId);
-                //修改监督人员
-                if (superviseId != null && superviseId.length != 0) {
-                    for (String id : superviseId) {
-                        SupplierExtUser extUser = new SupplierExtUser();
-                        extUser.setProjectId(projectId);
-                        extUser.setId(id);
-                        extUserServicel.update(extUser);
+            try{
+                //真实的项目id
+                String projectId = project.getId();
+                if (project.getId() == null || "".equals(project.getId())) {
+                    // 创建一个临时项目临时包
+                    project.setIsProvisional(1);
+                    projectService.add(project);
+                    projectId = project.getId();
+                    project.setId(projectId);
+                    //修改监督人员
+                    if (superviseId != null && superviseId.length != 0) {
+                        for (String id : superviseId) {
+                            SupplierExtUser extUser = new SupplierExtUser();
+                            extUser.setProjectId(projectId);
+                            extUser.setId(id);
+                            extUserServicel.update(extUser);
+                        }
                     }
                 }
-            }
-            //抽取地址
-            if (extractionSites != null && !"".equals(extractionSites)){
-                SupplierExtracts supplierExtracts = new SupplierExtracts();
-                supplierExtracts.setProjectId(projectId);
-                PageHelper.startPage(1, 1);
-                List<SupplierExtracts> listSe = expExtractRecordService.listExtractRecord(supplierExtracts,0);
-                supplierExtracts.setExtractionSites(extractionSites);
-                User user = (User) sq.getSession().getAttribute("loginUser");
-                if(user != null ){
-                    supplierExtracts.setExtractsPeople(user.getId());
+                //抽取地址
+                if (extractionSites != null && !"".equals(extractionSites)){
+                    SupplierExtracts supplierExtracts = new SupplierExtracts();
+                    supplierExtracts.setProjectId(projectId);
+                    PageHelper.startPage(1, 1);
+                    List<SupplierExtracts> listSe = expExtractRecordService.listExtractRecord(supplierExtracts,0);
+                    supplierExtracts.setExtractionSites(extractionSites);
+                    User user = (User) sq.getSession().getAttribute("loginUser");
+                    if(user != null ){
+                        supplierExtracts.setExtractsPeople(user.getId());
+                    }
+                    if (listSe != null && listSe.size() != 0){
+                        supplierExtracts.setId(listSe.get(0).getId());
+                        expExtractRecordService.update(supplierExtracts);
+                    } else {
+                        supplierExtracts.setProjectCode(project.getProjectNumber());
+                        supplierExtracts.setProjectName(project.getName());
+                        supplierExtracts.setExtractionTime(new Date());
+                        expExtractRecordService.insert(supplierExtracts);
+                    }
                 }
-                if (listSe != null && listSe.size() != 0){
-                    supplierExtracts.setId(listSe.get(0).getId());
-                    expExtractRecordService.update(supplierExtracts);
-                } else {
-                    supplierExtracts.setProjectCode(project.getProjectNumber());
-                    supplierExtracts.setProjectName(project.getName());
-                    supplierExtracts.setExtractionTime(new Date());
-                    expExtractRecordService.insert(supplierExtracts);
-                }
-            }
-            //      监督人员
-            //      if (sids != null && sids.length != 0){
-            //        extUserServicel.deleteProjectId(project.getId());
-            //        for (String id : sids) {
-            //          if (!"".equals(id)){
-            //            SupplierExtUser  record1 = new SupplierExtUser();
-            //            record1.setProjectId(project.getId());
-            //            record1.setUserId(id);
-            //            extUserServicel.insert(record1);
-            //          }
-            //        }
-            //      }
+                //获取抽取条件状态，未抽取不能在抽取
+                map.put("projectId", project.getId());
+                if(packageId != null && !"".equals(packageId) && packageId.length != 0){
+                    String count2 = conditionService.getCount(packageId);
+                    if (count2 != null && !"".equals(count2)){
+                        map.put("status", "1");
+                        map.put("packageId", count2);
+                    } else {
+                        map.put("sccuess", "SCCUESS");
+                    }
 
-            //            获取抽取条件状态，未抽取不能在抽取
-            map.put("projectId", project.getId());
-            if(packageId != null && !"".equals(packageId) && packageId.length != 0){
-                String count2 = conditionService.getCount(packageId);
-                if (count2 != null && !"".equals(count2)){
-                    map.put("status", "1");
-                    map.put("packageId", count2);
-                } else {
-                    map.put("sccuess", "SCCUESS");
                 }
-
+            }catch (Exception ex){
+                map.put("isSuccess","false");
+                map.put("msg","数据更新异常");
+                ex.printStackTrace();
             }
+
         }
         return JSON.toJSONString(map);
 
@@ -978,7 +972,7 @@ public class SupplierExtractsController extends BaseController {
                 model.addAttribute("ExpExtractRecord", showExpExtractRecord);
             }
         }
-        return "ses/sms/supplier_extracts/show_info";
+        return "ses/sms/supplier_extracts/extract_supervise_word";
     }
 
     /**
