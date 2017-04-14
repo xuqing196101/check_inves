@@ -1107,7 +1107,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 							if(obresultsList.size()>1){
 							//如果 集合不是最后一条数据 那么 结束时间 在加上 第二轮确定时间
 								project.setEndTime(DateUtils.getAddDate(op.getEndTime(), confirmTimeSecond));
-							}else{
+							/*}else{
 								//判断竞价 成交供应商是否满足 竞价供应商成交数量
 								Integer closingSupplier = OBProjectResultMapper.countByStatus(op.getId());
 								//成交供应商 必须大于等于 竞价成交供应商数量
@@ -1116,7 +1116,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 								}else{
 									//修改竞价状态
 									project.setStatus(4);
-								}
+								}*/
 							}
 						  }else{
 							//判断竞价 成交供应商是否满足 竞价供应商成交数量

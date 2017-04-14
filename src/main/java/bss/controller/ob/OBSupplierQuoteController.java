@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
 import bss.dao.ob.OBProductInfoMapper;
+import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
 import bss.dao.ob.OBResultsInfoMapper;
@@ -95,6 +96,9 @@ public class OBSupplierQuoteController {
 	
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
+	
+	@Autowired
+	private OBProjectMapper OBProjectMapper;
 	
 	// 第一轮结果确认
 	private static final String FIRST_CONFIRM = "firstConfirm";
@@ -321,11 +325,16 @@ public class OBSupplierQuoteController {
 		  }else{
 		 List<OBProjectResult>	getList= OBProjectResultMapper.selectSupplierStatus(oBProjectResult);
 		 if(getList!=null && getList.size()==1){
+			 
 			 //必须一条数据 状态是-1 表示第一轮
 		    if(getList.get(0).getStatus()==-1 && getList.get(0).getRemark().equals("1")){
 		    	if(getList.get(0).getProportion().equals("0")){
+		    			if(project.getStatus()==6){
+		    				 confirmStatus="2";
+		    			}else if(project.getStatus()==5){
+		    			confirmStatus="5";
+		    			}
 		    		//未中标
-					confirmStatus="5";
 		    	}else{
 		    		//第一轮
 		    		confirmStatus="1";
@@ -419,8 +428,11 @@ public class OBSupplierQuoteController {
 			 //必须一条数据 状态是-1 表示第一轮
 		    if(getList.get(0).getStatus()==-1 && getList.get(0).getRemark().equals("1")){
 		    	if(getList.get(0).getProportion().equals("0")){
-		    		//未中标
-					confirmStatus="5";
+		    			if(project.getStatus()==6){
+		    				 confirmStatus="2";
+		    			}else if(project.getStatus()==5){
+		    			confirmStatus="5";
+		    			}
 		    	}else{
 		    		//第一轮
 		    		confirmStatus="1";
