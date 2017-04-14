@@ -53,7 +53,17 @@ public class OBRule {
     /**有效百分比**/
     private Integer percent;
     
-    public String getId() {
+    private Integer floatPercent;
+    
+    public Integer getFloatPercent() {
+		return floatPercent;
+	}
+
+	public void setFloatPercent(Integer floatPercent) {
+		this.floatPercent = floatPercent;
+	}
+
+	public String getId() {
         return id;
     }
 

@@ -356,25 +356,24 @@ ORDER BY CREATED_AT) where rownum=1)
   
   <!-- 根据id/次数/供应商id 获取自报价总和金额 -->
   <select id="selectByBidding" resultMap="BaseResultMap" parameterType="String">
-   SELECT * from(select SUM(DEAL_MONEY) as MY_OFFER_MONEY,SUPPLIER_ID,PROJECT_ID,CREATED_AT from T_BSS_OB_RESULTS_INFO 
+   SELECT * from(select SUM(DEAL_MONEY) as MY_OFFER_MONEY,SUPPLIER_ID,PROJECT_ID from T_BSS_OB_RESULTS_INFO 
 	where PROJECT_ID=#{projectId,jdbcType=VARCHAR} 
 	and BIDDING_ID=#{biddingId,jdbcType=VARCHAR}
 	<if test="supplierId !=null">
 	 and SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
 	</if>
-	GROUP BY SUPPLIER_ID,PROJECT_ID,CREATED_AT)
-	ORDER BY CREATED_AT ASC
+	GROUP BY SUPPLIER_ID,PROJECT_ID)
   </select>
   <!-- 根据id/次数/供应商id 获取当前报价第几次 -->
   <select id="countByBidding"  parameterType="String" resultType="java.lang.Integer">
-	 SELECT count(*) from( select SUPPLIER_ID,PROJECT_ID,CREATED_AT 
+	 SELECT count(*) from( select SUPPLIER_ID,PROJECT_ID 
 	 from T_BSS_OB_RESULTS_INFO  
 	 where BIDDING_ID=#{biddingId,jdbcType=VARCHAR}
       and PROJECT_ID=#{projectId,jdbcType=VARCHAR} 
       <if test="supplierId !=null">
 	 and SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
 	</if> 
-     GROUP BY SUPPLIER_ID,PROJECT_ID,CREATED_AT)
+     GROUP BY SUPPLIER_ID,PROJECT_ID)
   </select>
   <!-- 获取竞价 报价的全部金额 -->
     <select id="sumAllDealMoney"  parameterType="String" resultType="java.math.BigDecimal">
