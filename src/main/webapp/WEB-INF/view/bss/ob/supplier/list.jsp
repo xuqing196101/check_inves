@@ -118,7 +118,7 @@
 	
 	
 	// 开始报价和确认结果通用验证
-	function statusCommon(){
+	function statusCommon(status){
 		 // 竞价结束
 	   if(status == '3'){
 		   layer.alert("竞价已结束 ！");
@@ -148,7 +148,7 @@
 			   var quotoEndTimeMillSecond = (new Date(quotoEndTimeSecond)).getTime();
 			  
 			   //竞价结束和流拍
-			   statusCommon();
+			   statusCommon(status);
 			   
 			   if(status == '1'){
 				   layer.alert("对不起，报价时间还未开始，请您等待 ！");
@@ -228,7 +228,7 @@
 			   var remark = valueArr[2];
 			   
 			   //竞价结束和流拍
-			   statusCommon();
+			   statusCommon(status);
 			   
 			   if(status != '5' && status != '6'){
 				   layer.alert("对不起，确认时间未开始，请您等待 ！");

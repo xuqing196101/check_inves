@@ -93,6 +93,9 @@ public class OBSupplierQuoteController {
 	@Autowired
 	private OBResultsInfoMapper obResultsInfoMapper;
 	
+	@Autowired
+	private OBResultsInfoMapper OBResultsInfoMapper;
+	
 	// 第一轮结果确认
 	private static final String FIRST_CONFIRM = "firstConfirm";
 	// 第二轮结果确认
@@ -714,51 +717,9 @@ public class OBSupplierQuoteController {
 		/**************************页面底层供应商信息*************************/
 		// 页面底层供应商信息
 		//查询参与的供应商==============================================================================================
-		if(projectId != null){
-			List<OBProjectResult> listss = oBProjectResultService.selResultByProjectId(projectId);
-	    	Integer countProportion = 0;
-	    	if(listss != null && listss.size() > 0){
-	    		for (OBProjectResult obProjectResult : listss) {
-					if(obProjectResult != null){
-						if(obProjectResult.getStatus() == 1){
-							List<OBProjectResult> prolist = oBProjectResultService.selProportion(projectId, obProjectResult.getSupplierId());
-							if(prolist != null && prolist.size() == 1){
-								obProjectResult.setFirstproportion(prolist.get(0).getProportion());
-							}
-							if(prolist != null && prolist.size() == 2){
-								obProjectResult.setFirstproportion(prolist.get(0).getProportion());
-								obProjectResult.setSecondproportion(prolist.get(1).getProportion());
-							}
-							List<OBResultSubtabulation> obResultSubtabulation = obResultSubtabulationService.selectByProjectIdAndSupplierId(projectId, obProjectResult.getSupplierId());
-							if(obResultSubtabulation != null && obResultSubtabulation.size() > 0){
-								for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {
-									if(obResultSubtabulation2 != null){
-										obResultSubtabulation2.setTotalMoney(BigDecimalUtils.getSignalDecimalScale4(obResultSubtabulation2.getTotalMoney(), million));
-									}
-								}
-							}
-							
-							obProjectResult.setObResultSubtabulation(obResultSubtabulation);
-							countProportion += Integer.parseInt(obProjectResult.getProportion());
-						}else{
-							List<OBResultsInfo> listinf = obResultsInfoMapper.selectResult(projectId, obProjectResult.getSupplierId());
-							obProjectResult.setOBResultsInfo(listinf);
-						}
-					}
-				}
-	    	}
-			OBProject obProjectww = OBProjectServer.selectByPrimaryKey(projectId);
-	    	if(obProjectww != null){
-	    		String projectName = obProjectww.getName();
-	    		model.addAttribute("projectName",projectName);
-	    	}
-			model.addAttribute("listres", listss);
-			model.addAttribute("countProportion",countProportion);
-			model.addAttribute("size",listss.size());
-		}
-    	
-    	/**************************页面底层供应商信息结束*************************/
+		BiddingResultCommon.getBiddingResultInfo(model, projectId, OBResultsInfoMapper, oBProjectResultService, obResultSubtabulationService);    	
 		
+		/**************************页面底层供应商信息结束*************************/
 		}
 		return "bss/ob/supplier/queryBiddingResults";
 	}
