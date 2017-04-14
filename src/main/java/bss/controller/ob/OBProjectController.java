@@ -749,7 +749,8 @@ public class OBProjectController {
 			    	if(listss != null && listss.size() > 0){
 			    		for (OBProjectResult obProjectResult : listss) {
 							if(obProjectResult != null){
-								if(obProjectResult.getStatus() == 1){
+								if(obProjectResult.getStatus() == 1 || obProjectResult.getStatus() == 2){
+									obProjectResult.setStatus(1);
 									List<OBProjectResult> prolist = oBProjectResultService.selProportion(obProjectId, obProjectResult.getSupplierId());
 									if(prolist != null && prolist.size() == 1){
 										obProjectResult.setFirstproportion(prolist.get(0).getProportion());

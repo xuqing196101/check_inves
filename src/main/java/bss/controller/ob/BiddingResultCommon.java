@@ -48,7 +48,8 @@ public class BiddingResultCommon {
 		if (list != null && list.size() > 0) {
 			for (OBProjectResult obProjectResult : list) {
 				if (obProjectResult != null) {
-					if (obProjectResult.getStatus() == 1) {
+					if (obProjectResult.getStatus() == 1 || obProjectResult.getStatus() == 2) {
+						obProjectResult.setStatus(1);
 						List<OBProjectResult> prolist = oBProjectResultService
 								.selProportion(projectId,
 										obProjectResult.getSupplierId());
