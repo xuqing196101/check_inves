@@ -107,7 +107,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 			return JdcgResult.build(500, "有效百分比不能为空");
 		}
 		
-		if ("00".equals(obRule.getPercent().toString().substring(0, 2))) {
+		if (obRule.getPercent().toString().length() >=2 && "00".equals(obRule.getPercent().toString().substring(0, 2))) {
 			return JdcgResult.build(500, "输入格式有误");
 		}
 		// 校验表单提交数据结束

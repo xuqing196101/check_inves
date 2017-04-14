@@ -257,7 +257,7 @@
 				}
 			   
 			   // 确认结果
-			   if((status == '5' && remark == '21') || (status == '5' && remark == '1') || (status == '6' && remark == '4')){
+			   if((status == '5' && remark == '21') || (status == '5' && remark == '1') || (status == '6' && remark == '4') || (status == '6' && remark == '666')){
 			   	   $.ajax({
 			   		   type:'POST',
 			   		   url:'${pageContext.request.contextPath}/supplierQuote/checkConfirmResult.do',
@@ -461,7 +461,7 @@
 						</c:when>
 					</c:choose>
 			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark != '666'}">
+			  	<c:if test="${ obProject.obProjectList[0].status == 6 }">
 			  		<c:choose>
 						<c:when test="${obProject.remark == '0' || obProject.remark == '20'}">
 							未报价
@@ -482,6 +482,9 @@
 							第一轮已放弃
 						</c:when>
 						<c:when test="${obProject.remark == '4'}">
+							结果待确认(第二轮)
+						</c:when>
+						<c:when test="${obProject.remark == '666'}">
 							结果待确认(第二轮)
 						</c:when>
 					</c:choose>

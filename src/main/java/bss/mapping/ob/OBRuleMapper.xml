@@ -395,7 +395,7 @@
     <if test="quoteTime != null and quoteTime !=''">
 	  AND QUOTE_TIME = #{quoteTime}
 	</if>
-	<if test="intervalWorkday != null and intervalWorkday !=''">
+	<if test="intervalWorkday != null">
 	  AND INTERVAL_WORKDAY = #{intervalWorkday}
 	</if>
 	ORDER BY

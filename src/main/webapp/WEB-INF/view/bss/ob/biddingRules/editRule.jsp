@@ -68,17 +68,33 @@
 			$("#quoteTimeErr").html("*报价时间不能为空");
 			return;
 		}
-		var quoteTimeSecondStr = document.getElementById('quoteTimeSecond').value.trim();
-		if(quoteTimeSecondStr.length==0){
-			$("#quoteTimeSecondErr").html("*二次报价时间不能为空");
-			return;
-		}
 		if(quoteTimeStr.length!=0){
 			reg=/^[-+]?\d*$/; 
 			if(!reg.test(quoteTimeStr)){ 
 				$("#quoteTimeErr").html("*您输入的整数类型格式不正确");
 				return;
 			} 
+		}
+		if(parseInt(quoteTimeStr) < 1){
+			$("#quoteTimeErr").html("*报价时间需大于0");
+			return;
+		}
+		
+		var quoteTimeSecondStr = document.getElementById('quoteTimeSecond').value.trim();
+		if(quoteTimeSecondStr.length==0){
+			$("#quoteTimeSecondErr").html("*二次报价时间不能为空");
+			return;
+		}
+		if(quoteTimeSecondStr.length!=0){
+			reg=/^[-+]?\d*$/; 
+			if(!reg.test(quoteTimeSecondStr)){ 
+				$("#quoteTimeSecondErr").html("*您输入的整数类型格式不正确");
+				return;
+			} 
+		}
+		if(parseInt(quoteTimeSecondStr) < 1){
+			$("#quoteTimeSecondErr").html("*二次报价时间需大于0");
+			return;
 		}
 		
 		var confirmTimeStr = document.getElementById('confirmTime').value.trim();
@@ -93,6 +109,10 @@
 				return;
 			} 
 		}
+		if(parseInt(confirmTimeStr) < 1){
+			$("#confirmTimeErr").html("*确认时间(第一轮)需大于0");
+			return;
+		}
 		
 		var confirmTimeSecondStr = document.getElementById('confirmTimeSecond').value.trim();
 		if(confirmTimeSecondStr.length==0){
@@ -106,6 +126,11 @@
 				return;
 			} 
 		}
+		if(parseInt(confirmTimeSecondStr) < 1){
+			$("#confirmTimeSecondErr").html("*确认时间(第二轮)需大于0");
+			return;
+		}
+		
 		
 		var leastSupplierNumStr = document.getElementById('leastSupplierNum').value.trim();
 		if(leastSupplierNumStr.length==0){
@@ -131,6 +156,10 @@
 		}
 		if(percentStr.substr(0,2) == '00'){
 			$("#percentErr").html("*输入格式有误");
+			return;
+		}
+		if(parseInt(percentStr) > 100 || parseInt(percentStr) < 0){
+			$("#percentErr").html("*输入有效百分比0-100之间");
 			return;
 		}
 		
