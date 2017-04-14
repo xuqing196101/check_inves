@@ -806,8 +806,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 			for (OBProject op : getOBProject) {
 				OBProjectRule obRule = OBProjectRuleMapper.selectByPrimaryKey(op.getId());
 				if(obRule!=null){
-				 //获取报价时间
-				 int quoteTime=obRule.getQuoteTime();
 				 //确认时间
 				 int confirmTime=obRule.getConfirmTime();
 				 //第二轮 确认时间

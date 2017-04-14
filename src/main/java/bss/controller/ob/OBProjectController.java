@@ -2,7 +2,9 @@ package bss.controller.ob;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -882,6 +884,7 @@ public class OBProjectController {
 	}
 
 	/**
+	 * @throws UnsupportedEncodingException 
 	 * 
 	 * @Title: printResult
 	 * @Description: 打印竞价结果
@@ -894,7 +897,7 @@ public class OBProjectController {
 	 */
 	@RequestMapping("/printResult")
 	public String printResult(Model model, HttpServletRequest request,HttpServletResponse response,
-			Integer page) {
+			Integer page) throws UnsupportedEncodingException {
 		if (page == null) {
 			page = 1;
 		}
@@ -926,7 +929,7 @@ public class OBProjectController {
 		getBiddingResultInfo(model, projectId);
 		
 		if (StringUtils.isNotEmpty(print)) {
-			request.setAttribute("projectName", obProject.getName());
+			request.setAttribute("projectName",obProject.getName()+"_竞价结果信息表");
 			// 打印结果页面
 			return "bss/ob/biddingSpectacular/expert_word_print";
 		}
