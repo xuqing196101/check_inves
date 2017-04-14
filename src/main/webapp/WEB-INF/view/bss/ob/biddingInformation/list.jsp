@@ -191,10 +191,10 @@
 	 }
 	}
 	/**重置**/
-	function reset(){
-	$("#name").val("");
-	$("#startTime").val("");
-	} 
+	function resetAll(){
+		$("#name").val("");
+		$("#startTime").val("");
+	}
 </script>
 </head>
 <body>
@@ -226,12 +226,11 @@
 	      </li>
     	  <li>
 	    	<label class="fl">竞价开始时间：</label>
-			<input value=""
-			 name="startTime" id="startTime" type="text"  readonly="readonly"   maxlength="19" 
-			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<fmt:formatDate value="${startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>" class="Wdate" />
+			<input name="startTime" id="startTime" type="text" maxlength="19" 
+			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value='<fmt:formatDate value="${startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>' class="Wdate" />
 	      </li> 
-	    	<input type="submit" onclick="return query()" class="btn fl mt1" value="查询">
-	    	<input type="reset" class="btn fl mt1 ml5"  value="重置">  	
+	    	<input type="submit" class="btn fl mt1" value="查询">
+	    	<button onclick="resetAll()" class="btn fl mt1 ml5">重置</button>   	
     	</ul>
     	  <div class="clear"></div>
        </form>

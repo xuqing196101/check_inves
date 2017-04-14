@@ -153,7 +153,7 @@ public class OBProjectController {
 	 */
 	@RequestMapping(value = "/list", produces = "text/html;charset=UTF-8")
 	public String list(@CurrentUser User user, Model model,
-			HttpServletRequest request, Integer page, Date startTime,
+			HttpServletRequest request, Integer page, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,
 			String name) {
 		if (user != null) {
 			
