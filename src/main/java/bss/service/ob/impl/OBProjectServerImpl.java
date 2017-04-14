@@ -866,7 +866,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 						//判断是否第二次 报价
 						if(type==1){
 							//报价数量 大于最少规则报价数量
-							if(allSecond>=leastSupplierNum){
+							if(allSecond<leastSupplierNum){
 								OBProject upstatus1 = new OBProject();
 								upstatus1.setStatus(4);
 								upstatus1.setId(op.getId());
