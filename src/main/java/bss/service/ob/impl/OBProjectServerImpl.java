@@ -59,6 +59,7 @@ import bss.util.CheckUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
+
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
@@ -206,9 +207,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 	 * 实现获取竞价产品相关信息
 	 */
 	@Override
-	public String getProduct() {
+	public String getProduct(Map<String,Object> map) {
 		// TODO Auto-generated method stub
-		List<OBProduct> list = OBProductMapper.selectList();
+		List<OBProduct> list = OBProductMapper.selpro(map);
 		return JSON.toJSONString(list);
 
 	}

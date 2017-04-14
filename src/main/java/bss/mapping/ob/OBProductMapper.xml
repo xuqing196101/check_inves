@@ -168,6 +168,24 @@
     where IS_DELETED = 0
     order by CREATED_AT DESC
   </select>
+  
+  <select id="selpro" resultMap="BaseResultMap" parameterType="Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PRODUCT
+    where IS_DELETED = 0
+    <if test="smallPointsId != null" >
+        AND SMALL_POINTS_ID = #{smallPointsId}
+    </if>
+    <if test="size != 0" >
+        AND ID NOT IN 
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+   	     #{item}  
+ 	   </foreach>
+    </if>
+    
+    order by CREATED_AT DESC
+  </select>
   <!-- 删除 修改删除状态 -->
   <update id="deleteByPrimaryKey" parameterType="String" >
     update T_BSS_OB_PRODUCT set IS_DELETED = 1 where ID = #{id,jdbcType=VARCHAR}

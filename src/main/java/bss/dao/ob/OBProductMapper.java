@@ -1,11 +1,12 @@
 package bss.dao.ob;
 
-import bss.model.ob.OBProduct;
-import bss.model.ob.OBProductExample;
-
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+
+import bss.model.ob.OBProduct;
+import bss.model.ob.OBProductExample;
 
 public interface OBProductMapper {
     int countByExample(OBProductExample example);
@@ -40,6 +41,19 @@ public interface OBProductMapper {
      * @author YangHongLiang
      * */
     List<OBProduct> selectList();
+    
+    
+    /**
+     * 
+     * Description: 查询产品信息
+     * 
+     * @author  zhang shubin
+     * @version  2017年4月14日 
+     * @param  @return 
+     * @return List<OBProduct> 
+     * @exception
+     */
+    List<OBProduct> selpro(Map<String,Object> map);
     
     /**
 	 * 

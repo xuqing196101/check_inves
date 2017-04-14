@@ -16,10 +16,12 @@
 	  var number=10000001;
 	  //定义选中第一产品
      var productInfo;
-	  
+	  var productIds;
 	  var delProdectList = new Array();
 	  //选择数量
 	  var suppCount=0;
+	  
+	  var numberArray = [];
 	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("productId");
@@ -67,6 +69,13 @@
 				$('input[name="productId"]:checked').each(function(){ 
 		       $(this).parent().parent().remove(); 
 		       });
+				var hehe = [];
+	        	 $('*[name="productName"]').each(function(){
+	     			if($(this).val()){
+	     		      hehe.push($(this).val());
+	     			  }
+	     		  });
+	        	productIds = hehe.toString();
 		       gysCount(null);
 			});
 		}else{
@@ -303,6 +312,7 @@
 	  
 	 function addTr(productId,productName,productMoney,producCount,productRemark){
 	      ++number;
+	      numberArray.push(number);
 	      if(!productMoney){
 	      productMoney='';
 	      }
@@ -319,6 +329,13 @@
 		"</tr>").clone(true);   
 		//加载数据
 	//	loads(number,productId);
+		/* var hehe = [];
+		        	 $('*[name="productName"]').each(function(){
+		     			if($(this).val()){
+		     		      hehe.push($(this).val());
+		     			  }
+		     		  });
+		        	productIds = hehe.toString(); */
 		loadProduct(number);
 		
 	}
@@ -326,30 +343,52 @@
 		 $('#productName_'+number).combobox({  
 		        prompt:'',  
 		        required:false,  
-		       // url: "${pageContext.request.contextPath }/ob_project/product.html",
-		        data:productList,
+		       	url: "${pageContext.request.contextPath }/ob_project/product.html?ids="+productIds,
+		        //data:productList,
 		        hasDownArrow:true,  
 		        filter: function(L, row){  
 		            var opts = $(this).combobox('options');  
 		            return row[opts.textField].indexOf(L) == 0;  
 		        },
 		        onSelect: function (obj) {
-		        	var list = new Array();
+		        	//var list = new Array();
 		        	 if(obj.id != null){
 		        		$.each(productList, function(index, value) {
 		        			if(obj.id == value.id){
 		        				$("#orgId").select2("val",value.procurementId);
 		        				changSelect();
 		        			}
-		        			if(obj.id != value.id && obj.smallPointsId == value.smallPointsId){
+		        			/* if(obj.id != value.id && obj.smallPointsId == value.smallPointsId){
 		        				list.push(value);
 		        			}
-		        			productList = list; 
+		        			productList = list;  */
 						}); 
 		        	}
-		        	 loadProduct(++number);
+		        	 
+		        	// loadProduct(++number);
+		        	 
 		        },
 		        onChange:function(obj){
+		        	var hehe = [];
+		        	 $('*[name="productName"]').each(function(){
+		     			if($(this).val()){
+		     		      hehe.push($(this).val());
+		     			  }
+		     		  });
+		        	productIds = hehe.toString();
+		        	loadProduct(++number);
+		        	/* $.each(numberArray, function(index, hh) {
+		        		//alert(hh);
+		        		if(hh != number){
+		        		var selval = $('#productName_'+number+'option:selected').text();
+		        		alert(selval)
+		        		loadProduct(hh);
+		        		$("#productName_"+number).combobox('select',selval); 
+		        		} 
+		        	}); */
+		        	/* for(var i = 0;i<numberArray.length;i++){
+		        		loadProduct(numberArray[i]);
+		        	} */
 		        	gysCount(obj.id);
 		        }
 		    });  

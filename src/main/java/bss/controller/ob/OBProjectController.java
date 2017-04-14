@@ -53,6 +53,7 @@ import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBRuleMapper;
+import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
@@ -64,6 +65,7 @@ import bss.model.ob.OBRule;
 import bss.model.ob.OBSupplier;
 import bss.model.pms.PurchaseRequired;
 import bss.service.ob.OBProductInfoServer;
+import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBResultSubtabulationService;
@@ -77,6 +79,7 @@ import bss.util.ExcelUtil;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -96,6 +99,9 @@ public class OBProjectController {
 
 	@Autowired
 	private OBProjectServer OBProjectServer;
+	
+	@Autowired
+	private OBProductService oBProductService;
 	
 	@Autowired
 	private OBSupplierService obSupplierService;
@@ -538,7 +544,31 @@ public class OBProjectController {
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		try {
-			String json = OBProjectServer.getProduct();
+			Map<String ,Object> map = new HashMap<String, Object>();
+			String ids = request.getParameter("ids") == null ? "" : request.getParameter("ids").trim();
+			String[] split = ids.split(",");
+			List<String> list = new ArrayList<String>();
+			if(split.length > 0){
+				for (String string : split) {
+					if(!("".equals(string)))
+					list.add(string);
+				}
+			}
+			int size = 0;
+			if(list != null){
+				size = list.size();
+			}
+			String smallPointsId = null;
+			if(split.length > 0){
+				OBProduct obProduct = oBProductService.selectByPrimaryKey(split[0]);
+				if(obProduct != null){
+					smallPointsId = obProduct.getSmallPointsId();
+				}
+			}
+			map.put("list", list);
+			map.put("size", size);
+			map.put("smallPointsId", smallPointsId);
+			String json = OBProjectServer.getProduct(map);
 			response.getWriter().print(json.toString());
 			response.getWriter().flush();
 		} catch (IOException e) {

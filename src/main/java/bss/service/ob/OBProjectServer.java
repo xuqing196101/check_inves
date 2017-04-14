@@ -7,7 +7,6 @@ import java.util.Map;
 
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProject;
-import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBSupplier;
 
 /***
@@ -69,7 +68,7 @@ public interface OBProjectServer {
 	 * 获取定型产品相关信息 并返回 json
 	 * @author Yanghongliang
 	 * */
-	String getProduct();
+	String getProduct(Map<String ,Object> map);
 	/**
 	 * 获取可编辑竞价信息
 	 * @author YangHongLiang
