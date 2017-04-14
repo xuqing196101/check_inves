@@ -74,6 +74,7 @@
 					<div class="cue"><span><font id="percentErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
+			 
 			    <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>浮动百分比</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" >
