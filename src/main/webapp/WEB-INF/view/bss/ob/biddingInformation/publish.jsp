@@ -142,15 +142,14 @@
 			success: function(data) {
 				if (data) {
 				productList=data;//延迟加载 数据
-   
-       var plists='${listinfo}';
-         if(plists){
-  		  $.each( plists, function(i, value) {
-		    addTr(value.productId,value.productId,value.limitedPrice,value.purchaseCount,value.remark);
-		    $("#productName_"+number).combobox('select',value.productId); 
-		      }) ; 
+         if('${listinfo}' != null){
+        	 <c:forEach items='${listinfo}' var = 'values' >  
+        	 addTr('${values.productId}','${values.obProduct.name}','${values.limitedPrice}','${values.purchaseCount}','${values.remark}');
+		    $("#productName_"+number).combobox('select','${values.productId}'); 
+           
+        	 </c:forEach>
 		      }
-		     } 
+			}
 			}
 		 });
 		  loadProduct(number);
@@ -318,10 +317,9 @@
 		  "<td class=\"p0\"  width=\"40%\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" title=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
 		  "  </td>"+
 		"</tr>").clone(true);   
-		 $("#productName_"+number+"").val(productId); 
 		//加载数据
 	//	loads(number,productId);
-		//loadProduct(number);
+		loadProduct(number);
 		
 	}
 	 function loadProduct(number){

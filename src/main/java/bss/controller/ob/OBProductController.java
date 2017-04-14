@@ -201,8 +201,8 @@ public class OBProductController {
 			code = obProduct.getCode();
 			name = obProduct.getName();
 		}
-		int i = oBProductService.yzProductCode(code, id);
-		int j = oBProductService.yzProductName(name, id);
+		int i = oBProductService.yzProductCode(code.trim(), id);
+		int j = oBProductService.yzProductName(name.trim(), id);
 		
 		if(i == 0 && j == 0){
 			oBProductService.fab(id);
@@ -394,13 +394,13 @@ public class OBProductController {
 	public String add(Model model, HttpServletRequest request) {
 		boolean flag = true;
 		HttpSession session = request.getSession();
-		String code = request.getParameter("code") == null ? "" : request.getParameter("code");
-		String name = request.getParameter("name") == null ? "" :request.getParameter("name");
+		String code = request.getParameter("code") == null ? "" : request.getParameter("code").trim();
+		String name = request.getParameter("name") == null ? "" :request.getParameter("name").trim();
 		String procurementId = request.getParameter("procurementId") == null ? "" :request.getParameter("procurementId");
 		String categoryId = request.getParameter("category") == null ? "" :request.getParameter("category");
 		int categoryLevel = request.getParameter("categoryLevel") == null ? 0 : Integer.parseInt(request.getParameter("categoryLevel"));
-		String standardModel = request.getParameter("standardModel") == null ? "" :request.getParameter("standardModel");
-		String qualityTechnicalStandard = request.getParameter("qualityTechnicalStandard") == null ? "" :request.getParameter("qualityTechnicalStandard");
+		String standardModel = request.getParameter("standardModel") == null ? "" :request.getParameter("standardModel").trim();
+		String qualityTechnicalStandard = request.getParameter("qualityTechnicalStandard") == null ? "" :request.getParameter("qualityTechnicalStandard").trim();
 		int i = Integer.parseInt(request.getParameter("i"));
 		if(procurementId.equals("")){
 			flag = false;
@@ -518,14 +518,14 @@ public class OBProductController {
 	@RequestMapping("/edit")
 	public String edit(Model model, HttpServletRequest request){
 		boolean flag = true;
-		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
-		String code = request.getParameter("code") == null ? "" : request.getParameter("code");
-		String name = request.getParameter("name") == null ? "" :request.getParameter("name");
+		String id = request.getParameter("id") == null ? "" : request.getParameter("id").trim();
+		String code = request.getParameter("code") == null ? "" : request.getParameter("code").trim();
+		String name = request.getParameter("name") == null ? "" :request.getParameter("name").trim();
 		String procurementId = request.getParameter("procurementId") == null ? "" :request.getParameter("procurementId");
 		String categoryId = request.getParameter("category") == null ? "" :request.getParameter("category");
 		int categoryLevel = request.getParameter("categoryLevel") == null ? 0 : Integer.parseInt(request.getParameter("categoryLevel"));
-		String standardModel = request.getParameter("standardModel") == null ? "" :request.getParameter("standardModel");
-		String qualityTechnicalStandard = request.getParameter("qualityTechnicalStandard") == null ? "" :request.getParameter("qualityTechnicalStandard");
+		String standardModel = request.getParameter("standardModel") == null ? "" :request.getParameter("standardModel").trim();
+		String qualityTechnicalStandard = request.getParameter("qualityTechnicalStandard") == null ? "" :request.getParameter("qualityTechnicalStandard").trim();
 		int i = Integer.parseInt(request.getParameter("i"));
 		if(code.equals("")){
 			model.addAttribute("errorCode", "产品代码不能为空");
