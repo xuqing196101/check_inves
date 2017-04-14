@@ -121,10 +121,10 @@
           <thead>
             <tr class="info">
               <th class="w50">序号</th>
-              <th>采购需求名称</th>
+              <th width="25%">采购需求名称</th>
               <th>采购需求文号</th>
-              <th>需求单位</th>
-              <th>预算总金额（万元）</th>
+              <th width="20%">需求单位</th>
+              <th width="13%">预算总金额（万元）</th>
               <th class="info">编制时间</th>
               <th>填报人</th>
               <!-- <th>状态</th> -->
@@ -137,11 +137,11 @@
                 <td class="tl">
                   <a href="javascript:void(0)" onclick="view('${items.id}');">${items.planName}</a>
                 </td>
-                <td class="tl">${items.referenceNo}</td>
+                <td class="tc">${items.referenceNo}</td>
                 <td class="tl">${items.department}</td>
                 <td class="tr">${items.budget}</td>
                 <td class="tc"><fmt:formatDate value="${items.createdAt }" pattern="yyyy-MM-dd"/></td>
-                <td>${items.userName}</td>
+                <td class="tc">${items.userName}</td>
                 <%-- <td>
                   <c:if test="${items.status=='1' }">未提交</c:if>
                   <c:if test="${items.status=='4' }">受理退回</c:if>
