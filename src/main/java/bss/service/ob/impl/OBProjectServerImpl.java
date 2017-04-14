@@ -1176,7 +1176,7 @@ public class OBProjectServerImpl implements OBProjectServer {
     	     pj=acc.divide(new BigDecimal(resultsInfoList.size()),2,BigDecimal.ROUND_HALF_UP);
     	     //中标参考价 排名
     	     BigDecimal validJ=pj.multiply(new BigDecimal((100-valid)/100D)).setScale(2, BigDecimal.ROUND_HALF_UP);
-    	     
+    	   
     	      //冒泡 排序  去掉部分 无效数据
     	      for (int k = 0; k < resultsInfoList.size()-1; k++) {
     			for (int k2 = 0; k2 < resultsInfoList.size()-1-k; k2++) {
@@ -1189,6 +1189,18 @@ public class OBProjectServerImpl implements OBProjectServer {
     				  }
     			}
     		}
+    	     if(resultsInfoList!=null&&resultsInfoList.size()>0){
+    	    	  //选择第一名
+    	      BigDecimal small=resultsInfoList.get(0).getMyOfferMoney();
+    	      small=validJ.subtract(small).setScale(2, BigDecimal.ROUND_HALF_UP);
+    	    Iterator<OBResultsInfo> iter = resultsInfoList.iterator();
+     	     while(iter.hasNext()){
+     	    	 //如果供应商 报价 金额 小于 有效金额 那么删除
+     	    	 if(validJ.subtract(iter.next().getMyOfferMoney()).setScale(2, BigDecimal.ROUND_HALF_UP).compareTo(small)==1){
+     	    		 iter.remove();
+  				}
+     	       }
+    	      }
     	}
     	return resultsInfoList;
     }
