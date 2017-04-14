@@ -863,9 +863,11 @@ public class OBSupplierQuoteController {
 					// 第一轮结果确认信息
 					resultMap.put("orderWay", "ASC");
 					findConfirmResult = oBProjectResultService.findConfirmResult(resultMap);
-					List<OBResultSubtabulation> subtabulationList = findConfirmResult.getObResultSubtabulation();
-					calculateSignalResultTotalPrice(subtabulationList);
-					confirmFirstTotalFigureStr = BigDecimalUtils.getTotalFigure(findConfirmResult);
+					if(findConfirmResult != null){
+						List<OBResultSubtabulation> subtabulationList = findConfirmResult.getObResultSubtabulation();
+						calculateSignalResultTotalPrice(subtabulationList);
+						confirmFirstTotalFigureStr = BigDecimalUtils.getTotalFigure(findConfirmResult);
+					}
 				}
 				
 				/**
@@ -888,9 +890,11 @@ public class OBSupplierQuoteController {
 					}
 					// 第二轮
 					findConfirmResultSecond = oBProjectResultService.findConfirmResult(resultMap);
-					List<OBResultSubtabulation> subtabulationSecondList = findConfirmResultSecond.getObResultSubtabulation();
-					calculateSignalResultTotalPrice(subtabulationSecondList);
-					confirmSecondTotalFigureStr = BigDecimalUtils.getTotalFigure(findConfirmResultSecond);
+					if(findConfirmResultSecond != null){
+						List<OBResultSubtabulation> subtabulationSecondList = findConfirmResultSecond.getObResultSubtabulation();
+						calculateSignalResultTotalPrice(subtabulationSecondList);
+						confirmSecondTotalFigureStr = BigDecimalUtils.getTotalFigure(findConfirmResultSecond);
+					}
 
 					// 单位换算
                     BigDecimal confirmSecondTotalFigureBigDecimal = BigDecimalUtils.doubleToDecimal(confirmSecondTotalFigureStr);
