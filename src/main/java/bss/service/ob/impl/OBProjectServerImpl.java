@@ -1196,7 +1196,7 @@ public class OBProjectServerImpl implements OBProjectServer {
     	    Iterator<OBResultsInfo> iter = resultsInfoList.iterator();
      	     while(iter.hasNext()){
      	    	 //如果供应商 报价 金额 小于 有效金额 那么删除
-     	    	 if(validJ.subtract(iter.next().getMyOfferMoney()).setScale(2, BigDecimal.ROUND_HALF_UP).compareTo(small)==1){
+     	    	 if(validJ.subtract(iter.next().getMyOfferMoney()).setScale(2, BigDecimal.ROUND_HALF_UP).compareTo(small)==-1){
      	    		 iter.remove();
   				}
      	       }

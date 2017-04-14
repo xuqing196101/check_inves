@@ -238,11 +238,8 @@
 			   // 未中标提示
 			   if((status == '5' && remark == '0') || (status == '5' && remark == '20')
 					|| (status == '6' && remark == '0') || (status == '6' && remark == '20')
-<<<<<<< HEAD
-					   || (status == '6' && remark == '3')  || (status == '6' && remark == '1')){
-=======
-					   || (status == '6' && remark == '3') || (status == '5' && remark == '666')){
->>>>>>> f89b07f793a5081bd0d50dd5f82d405bb5f631ec
+					   || (status == '6' && remark == '3')  || (status == '6' && remark == '1')
+					    || (status == '5' && remark == '666')){
 				   layer.alert("对不起，您未中标 ！");
 				   return;
 			   }
