@@ -238,7 +238,7 @@
 			   // 未中标提示
 			   if((status == '5' && remark == '0') || (status == '5' && remark == '20')
 					|| (status == '6' && remark == '0') || (status == '6' && remark == '20')
-					   || (status == '6' && remark == '3')){
+					   || (status == '6' && remark == '3') || (status == '5' && remark == '666')){
 				   layer.alert("对不起，您未中标 ！");
 				   return;
 			   }
