@@ -213,7 +213,7 @@
          		#{categoryName,jdbcType=VARCHAR},
       </if>
          <if test="expertsQualification != null">
-        EXPERTS_QUALIFICATION = #{expertsQualification,jdbcType=VARCHAR},
+        #{expertsQualification,jdbcType=VARCHAR},
       </if>
 		</trim>
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
