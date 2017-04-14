@@ -1037,7 +1037,7 @@ public class ExpExtractRecordController extends BaseController {
       List<ProExtSupervise>  listUser = projectSupervisorServicel.list(new ProExtSupervise(showExpExtractRecord.getProjectId()));
       model.addAttribute("listUser", listUser);
     }
-    return "ses/ems/exam/expert/extract/show_info";
+    return "ses/ems/exam/expert/extract/extract_expert_word";
   }
 
 

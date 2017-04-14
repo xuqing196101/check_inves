@@ -128,6 +128,10 @@
                     $("#dSupervise").text(map.supervise);
                     $("#extractionSitesError").text(map.extractionSitesError);
                     var projectId = map.projectId;
+                    if(map.isSuccess=="false"){
+                        layer.alert(map.msg, {shade: 0.01});
+                        return false;
+                    }
                     if(map.status != null && map.status != 0) {
                         layer.confirm('上次抽取未完成，是否继续上次抽取？', {
                             btn: ['确定','取消'], shade:0.01 //按钮
