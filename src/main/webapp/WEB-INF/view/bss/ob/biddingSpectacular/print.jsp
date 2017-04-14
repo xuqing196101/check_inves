@@ -87,57 +87,72 @@
 	<div>
 		<ul class="ul_list">
 			<ul class="ul_list">
-			  <table class="table table-bordered mt10">
+			<table class="table table-bordered mt10">
 			    <tbody>
-			      <tr>
+			    <tr>
 					<td class="tc" colspan="6" align="center"><br/><b>${ obProject.name }</b><br/>竞价结果信息表<br/><br/></td>
 				  </tr> 
-				  <tr>
-				    <td class="info"><b>竞价项目编号</b></td>
-				    <td>${ obProject.projectNumber }</td>
-				    <td class="info"><b>竞价项目名称</b></td>
-				    <td>${ obProject.name }</td>
+					<tr>
+				    <td  class="info"><b>竞价项目名称</b></td>
+				    <td colspan="2">${ obProject.name }</td>
+				    <td  class="info"><b>竞价项目编号</b></td>
+				    <td  colspan="2">${ obProject.projectNumber }</td>
 				  </tr>
 				  <tr>
-				    <td class="info"><b>交货地点</b></td>
-				    <td>${ obProject.deliveryAddress }</td>
-				     <td class="info"><b>交货时间</b></td>
-				    <td><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				    <td  class="info"><b>成交供应商数</b></td>
+				    <td colspan="2">${ obProject.tradedSupplierCount }</td>
+				    <td  class="info"><b>供应商比例</b></td>
+				    <td  colspan="2">
+				    <c:if test="${obProject.tradedSupplierCount==1 }">100</c:if>
+				    <c:if test="${obProject.tradedSupplierCount==2}">70:30</c:if>
+				    <c:if test="${obProject.tradedSupplierCount==3}">50:30:20</c:if>
+				    <c:if test="${obProject.tradedSupplierCount==4}">40:30:20:10</c:if>
+				    <c:if test="${obProject.tradedSupplierCount==5}">30:25:20:15:10</c:if>
+				    <c:if test="${obProject.tradedSupplierCount==6}">25:21:19:15:12:8</c:if>
+				    </td>
 				  </tr>
 				  <tr>
-				    <td class="info"><b>运杂费</b></td>
-				    <td>${ transportFees }</td>
-				    <c:if test="">
-					    <td colspan="2"></td>
-				    </c:if>
+				     <td  class="info"><b>交货时间</b></td>
+				    <td colspan="2"><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				    <td  class="info"><b>交货地点</b></td>
+				    <td colspan="2">${ obProject.deliveryAddress }</td>
+				  </tr>
+				  <tr>
+				    <td  class="info"><b>需求部门</b></td>
+				    <td colspan="2">${ demandUnit }</td>
+				    <td  class="info"><b>采购机构</b></td>
+				    <td colspan="2">${ orgName }</td>
+				  </tr>
+				  <tr>
+				    <td  class="info"><b>需求部门联系人</b></td>
+				    <td colspan="2">${ obProject.contactName }</td>
+				    <td  class="info"><b>采购机构联系人：</b></td>
+				    <td colspan="2">${ obProject.orgContactName }</td>
+				  </tr>
+				  <tr>
+				    <td  class="info"><b>需求部门联系电话</b></td>
+				    <td colspan="2">${ obProject.contactTel }</td>
+				    <td class="info"><b>采购机构联系电话</b></td>
+				    <td colspan="2">${ obProject.orgContactTel }</td>
+				  </tr>
+				  <tr>
+				    <td class="info"><b>运杂费支付方式</b></td>
+				    <td colspan="2">${ transportFees }</td>
 				    <c:if test="${ empty obProject.transportFeesPrice }">
+				        <td class="info"><b>运杂费金额（元）</b></td>
 					    <td colspan="2"></td>
 				    </c:if>
 				    <c:if test="${ !empty obProject.transportFeesPrice }">
-					    <td class="info"><b>运杂费用（元）</b></td>
-					    <td>${obProject.transportFeesPrice}</td>
+					    <td  class="info"><b>运杂费金额（元）</b></td>
+					    <td colspan="2">${obProject.transportFeesPrice}</td>
 				    </c:if>
 				  </tr>
 				  <tr>
-				    <td class="info"><b>需求单位</b></td>
-				    <td>${ demandUnit }</td>
-				    <td class="info"><b>采购机构</b></td>
-				    <td>${ orgName }</td>
+				   <td  class="info"><b>竞价内容</b></td>
+				    <td colspan="5" style="height:70px">${obProject.content }</td>
 				  </tr>
-				  <tr>
-				    <td class="info"><b>需求联系人</b></td>
-				    <td>${ obProject.contactName }</td>
-				    <td class="info"><b>采购联系人：</b></td>
-				    <td>${ obProject.orgContactName }</td>
-				  </tr>
-				  <tr>
-				    <td class="info"><b>需求联系电话</b></td>
-				    <td>${ obProject.contactTel }</td>
-				    <td class="info"><b>采购联系电话</b></td>
-				    <td>${ obProject.orgContactTel }</td>
-				  </tr>
-				</tbody>
-			</table>
+			</tbody>
+		</table>
 		</ul>
 		</ul>
 	</div>

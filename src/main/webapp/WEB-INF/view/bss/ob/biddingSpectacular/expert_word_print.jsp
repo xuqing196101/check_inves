@@ -171,7 +171,7 @@ background-color: #000000;
 				</tr>
 	</c:forEach>
 	   <tr>
-	 <td colspan="5">供应商确认中标占比为：<b>${countProportion }%</b>，未确认中标占比为：<b>${100 - countProportion }%</b>。</td>
+	 <td colspan="5"><span style='color:red'>供应商确认中标占比为：<b>${countProportion }%</b>，未确认中标占比为：<b>${100 - countProportion }%</b>。</span></td>
 	   </tr>
 			</thead>
       </table>
@@ -222,11 +222,11 @@ background-color: #000000;
 				<c:set value="${ total + product.totalMoney }" var = "total" ></c:set>
 			</c:if>
 			</c:forEach>
-				<tr>
+				<%-- <tr>
 				  <td></td>
 				  <td align="center" colspan="4">合计</td>
 				  <td>${ total }</td>
-				</tr>
+				</tr> --%>
 				<c:forEach items="${supplier.obResultSubtabulation}" var="product" varStatus="va">
 					<c:if test="${product.supplierId == supplier.supplierId}">
 						<tr>
@@ -257,11 +257,11 @@ background-color: #000000;
 		
 			<!-- 放弃的 -->
 			<c:if test="${supplier.status == -1}">
-				<tr>
+				<%-- <tr>
 				  <td></td>
 				  <td align="center" colspan="4">合计</td>
 				  <td>${ total }</td>
-				</tr>
+				</tr> --%>
 				<c:forEach items="${supplier.OBResultsInfo}" var="product" varStatus="va">
 					<c:if test="${product.supplierId == supplier.supplierId && product.biddingId == '1'}" >
 					<tr>
@@ -288,11 +288,11 @@ background-color: #000000;
 			</c:if>
 		<!-- 未中标 -->
 			<c:if test="${supplier.status == 0}">
-				<tr>
+				<!-- <tr>
 				  <td></td>
 				  <td align="center" colspan="4">合计</td>
 				  <td></td>
-				</tr>
+				</tr>-->
 				<c:forEach items="${supplier.OBResultsInfo}" var="product" varStatus="va">
 					<c:if test="${product.supplierId == supplier.supplierId && product.biddingId == '0'}">
 					<tr>
