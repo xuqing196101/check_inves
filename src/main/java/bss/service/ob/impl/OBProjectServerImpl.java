@@ -587,6 +587,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			OBProjectSupplier supplier = null;
 			Map<String,Object> map=new HashMap<String, Object>();
 			map.put("list", obProject.getProductName());
+			Date date=new Date();
 			List<OBSupplier> supList= OBSupplierMapper.selectSupplierByID(map);
 			   for(OBSupplier os:supList){
 				   supplier = new OBProjectSupplier();
@@ -598,7 +599,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 					// 存储 目录
 					supplier.setSupplierPrimaryId(os.getSmallPointsId());
 					if (i == 1) {
-						supplier.setUpdatedAt(new Date());
+						supplier.setUpdatedAt(date);
 					}
 					supplier.setSupplierId(os.getSupplierId());
 					OBProjectSupplierMapper.insertSelective(supplier);
@@ -623,6 +624,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 	private List<OBProductInfo> splitList(List<OBProductInfo> list,
 			OBProject obProject, String userid) {
 		OBProductInfo product = null;
+		Date date=new Date();
 		// 拆分数组
 		List<String> productName = obProject.getProductName();
 		if(productName!=null){
@@ -663,7 +665,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 				
 			}
 			product.setProjectId(obProject.getId());
-			product.setCreatedAt(new Date());
+			product.setCreatedAt(date);
 			product.setCreaterId(userid);
 			list.add(product);
 		}

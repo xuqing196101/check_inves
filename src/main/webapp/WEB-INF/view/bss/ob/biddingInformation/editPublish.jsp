@@ -298,6 +298,9 @@
     <!-- 修改订列表开始-->
   <div class="container container_box">
   <div class="mt10">
+  <c:if test="${ list.status==3 or  list.status==4}">
+   <button class="btn btn-windows print" onclick="printWord()">打印</button>
+   </c:if>
 	   <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
    </div>
   <form id="myForm" action="" method="post" class="mb0">
@@ -525,12 +528,6 @@
 	   <%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>
 		</c:if>
   </form>
-  <div class="col-md-12 clear tc mt10">
-  <c:if test="${ list.status==3 }">
-   <button class="btn btn-windows print" onclick="printWord()">打印</button>
-   </c:if>
-	<button class="btn btn-windows back mb20" type="button" onclick="history.go(-1)">返回</button>
-   </div>
   
 </div>
 </body>
