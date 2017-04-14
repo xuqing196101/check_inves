@@ -329,9 +329,9 @@
                       <input type="hidden" value="${obj.requiredId }">
                       </td>
                       <td class="tl">
-                        <div class="department">
-						   ${obj.department}
-						</div>
+                         <c:if test="${obj.price != null}">
+		                    <div class="department">${obj.department}</div>
+		                    </c:if>
                       </td>
                       <td class="tl">
                          <div class="goodsname">${obj.goodsName}</div>

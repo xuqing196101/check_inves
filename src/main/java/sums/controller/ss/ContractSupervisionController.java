@@ -381,6 +381,13 @@ public class ContractSupervisionController {
                 }
             }
             Project project = projectService.selectById(id);
+            if(project != null){
+                DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                project.setStatus(findById.getName());
+                User user = userService.getUserById(project.getAppointMan());
+                project.setAppointMan(user.getRelName());
+                model.addAttribute("project", project);
+            }
             model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
             model.addAttribute("packages", lists);
         }

@@ -1,6 +1,7 @@
 package sums.controller.ss;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -193,11 +194,26 @@ public class ProjectSupervisionController {
             if(project != null){
                 map.put("id", project.getId());
                 List<ProjectDetail> selectById = detailService.selectById(map);
+                List<Integer> statusContract = new ArrayList<Integer>();
                 for (ProjectDetail projectDetail : selectById) {
                     List<ContractRequired> contractRequireds = contractRequiredService.selectConRequByDetailId(projectDetail.getId());
                     if(contractRequireds != null && contractRequireds.size()>0){
+                        PurchaseContract purchaseContract = contractService.selectById(contractRequireds.get(0).getContractId());
+                        Integer progressBarContract = supervisionService.progressBarContract(purchaseContract.getStatus());
+                        statusContract.add(progressBarContract);
                         model.addAttribute("contractRequireds", contractRequireds);
                     }
+                }
+                
+                if(statusContract != null && statusContract.size() > 0){
+                    Integer num = 0;
+                    for (Integer integer : statusContract) {
+                        double number = integer/statusContract.size();
+                        BigDecimal b = new BigDecimal(number);
+                        double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+                        num += (int)total;
+                    }
+                    model.addAttribute("contractStatus", num);
                 }
                 String projectStatus = supervisionService.progressBarProject(project.getStatus());
                 
@@ -440,9 +456,31 @@ public class ProjectSupervisionController {
                         }
                     }
                     model.addAttribute("packages", packages);
-                    Project project = projectService.selectById(projectId);
-                    model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
+                } else {
+                    for (ProjectDetail detail : selectById) {
+                        if(detail.getPrice() != null){
+                            DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                            detail.setPurchaseType(findById.getName());
+                            String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId());
+                            detail.setProgressBar(progressBarPlan[0]);
+                            detail.setStatus(progressBarPlan[1]);
+                        } else {
+                            detail.setPurchaseType(null);
+                            detail.setStatus(null);
+                        }
+                        
+                    }
+                    model.addAttribute("details", selectById);
                 }
+                Project project = projectService.selectById(projectId);
+                if(project != null){
+                    DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                    project.setStatus(findById.getName());
+                    User user = userService.getUserById(project.getAppointMan());
+                    project.setAppointMan(user.getRelName());
+                    model.addAttribute("project", project);
+                }
+                model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
             }
         }
         return "sums/ss/planSupervision/package_view";

@@ -146,7 +146,11 @@
                 <c:forEach items="${list}" var="obj" varStatus="vs">
                   <tr class="pointer">
                     <td class="tc w50">${obj.seq}</td>
-                    <td><div class="department">${obj.department}</div></td>
+                    <td>
+                    <c:if test="${obj.price eq null}">
+                    <div class="department">${obj.department}</div>
+                    </c:if>
+                    </td>
                     <td title="${obj.goodsName}" class="tl pl20">
                       ${obj.goodsName}
                     </td>

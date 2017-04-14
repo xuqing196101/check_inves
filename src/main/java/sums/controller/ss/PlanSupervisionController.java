@@ -291,25 +291,55 @@ public class PlanSupervisionController {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("collectId", collectPlan.getId());
                 List<Task> listBycollect = taskService.listBycollect(map);
+                List<String> status = new ArrayList<String>();
+                List<Integer> statusContract = new ArrayList<Integer>();
                 for (Task task : listBycollect) {
                     map.put("taskId", task.getId());
                     List<ProjectTask> projectTasks = projectTaskService.queryByNo(map);
                     for (ProjectTask projectTask : projectTasks) {
                         Project project = projectService.selectById(projectTask.getProjectId());
-                        if(project != null){
-                            map.put("id", project.getId());
-                            List<ProjectDetail> selectById = projectDetailService.selectById(map);
-                            for (ProjectDetail projectDetail : selectById) {
-                                List<ContractRequired> contractRequireds = contractRequiredService.selectConRequByDetailId(projectDetail.getId());
-                                if(contractRequireds != null && contractRequireds.size()>0){
-                                    model.addAttribute("contractRequireds", contractRequireds);
+                        if(project != null && !"4".equals(project.getStatus())){
+                            HashMap<String, Object> maps = new HashMap<>();
+                            maps.put("id", project.getId());
+                            List<ProjectDetail> selectById = projectDetailService.selectById(maps);
+                            if(selectById != null && selectById.size() > 0){
+                                for (ProjectDetail projectDetail : selectById) {
+                                    List<ContractRequired> contractRequireds = contractRequiredService.selectConRequByDetailId(projectDetail.getId());
+                                    if(contractRequireds != null && contractRequireds.size()>0){
+                                        PurchaseContract purchaseContract = contractService.selectById(contractRequireds.get(0).getContractId());
+                                        Integer progressBarContract = supervisionService.progressBarContract(purchaseContract.getStatus());
+                                        statusContract.add(progressBarContract);
+                                        model.addAttribute("contractRequireds", contractRequireds);
+                                    }
                                 }
+                                String projectStatus = supervisionService.progressBarProject(project.getStatus());
+                                status.add(projectStatus);
+                                model.addAttribute("project", project);
                             }
-                            model.addAttribute("project", project);
                         }
                     }
                 }
+                if(status != null && status.size() > 0){
+                    Integer num = 0;
+                    for (String string : status) {
+                        double number = Integer.valueOf(string)/status.size();
+                        BigDecimal b = new BigDecimal(number);
+                        double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+                        num += (int)total;
+                    }
+                    model.addAttribute("projectStatus", num);
+                }
                 
+                if(statusContract != null && statusContract.size() > 0){
+                    Integer num = 0;
+                    for (Integer integer : statusContract) {
+                        double number = integer/statusContract.size();
+                        BigDecimal b = new BigDecimal(number);
+                        double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+                        num += (int)total;
+                    }
+                    model.addAttribute("contractStatus", num);
+                }
                 
                 Integer planStatus = supervisionService.progressBarPlan(collectPlan.getStatus());
                 model.addAttribute("planStatus", planStatus);
@@ -634,10 +664,29 @@ public class PlanSupervisionController {
                             }
                             model.addAttribute("packages", lists);
                         }else{
+                            for (ProjectDetail detail : details) {
+                                if(detail.getPrice() != null){
+                                    DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                                    detail.setPurchaseType(findById.getName());
+                                    String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId());
+                                    detail.setProgressBar(progressBarPlan[0]);
+                                    detail.setStatus(progressBarPlan[1]);
+                                } else {
+                                    detail.setPurchaseType(null);
+                                    detail.setStatus(null);
+                                }
+                            }
                             model.addAttribute("details", details);
                         }
                     }
                     Project project = projectService.selectById(id);
+                    if(project != null){
+                        DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                        project.setStatus(findById.getName());
+                        User users = userService.getUserById(project.getAppointMan());
+                        project.setAppointMan(users.getRelName());
+                        model.addAttribute("project", project);
+                    }
                     model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
                 }
                 
@@ -721,7 +770,14 @@ public class PlanSupervisionController {
                         Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
                         project.setPurchaseDepName(org.getName());
                         project.setStatus(DictionaryDataUtil.findById(project.getStatus()).getName());
-                        model.addAttribute("uploadId", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS")); //项目审批文件
+                        String id2 = DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS");
+                        List<UploadFile> list = uploadService.getFilesOther(project.getId(), id2, "2");
+                        if(list != null && list.size() > 0){
+                            model.addAttribute("uploadFile", "0");
+                        }else{
+                            model.addAttribute("uploadFile", "1");
+                        }
+                        model.addAttribute("uploadId", id2); //项目审批文件
                         //判断是否上传招标文件
                         String typeId = DictionaryDataUtil.getId("PROJECT_BID");
                         List<UploadFile> files = uploadService.getFilesOther(project.getId(), typeId, Constant.TENDER_SYS_KEY+"");
@@ -921,6 +977,20 @@ public class PlanSupervisionController {
                                 model.addAttribute("DYLY", "1");
                             }
                             
+                            FlowDefine fd = new FlowDefine();
+                            fd.setPurchaseTypeId(project.getPurchaseType());
+                            fd.setCode("ZZZJPS");
+                            List<FlowDefine> fds = flowMangeService.find(fd);
+                            FlowExecute fe = new FlowExecute();
+                            fe.setProjectId(project.getId());
+                            fe.setFlowDefineId(fds.get(0).getId());
+                            fe.setStatus(3);
+                            List<FlowExecute> fes = flowMangeService.findFlowExecute(fe);
+                            if(fes != null && fes.size() > 0){
+                                model.addAttribute("fes", "0");
+                            } else {
+                                model.addAttribute("fes", "1");
+                            }
                             
                             //确认中标供应商
                             SupplierCheckPass pass = new SupplierCheckPass();
