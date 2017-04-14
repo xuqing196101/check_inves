@@ -171,7 +171,7 @@
 		var totalMinute = parseInt(quoteTimeStr)+parseInt(quoteTimeSecondStr)+parseInt(confirmTimeStr)+parseInt(confirmTimeSecondStr)
 		var hour = toHourMinute(totalMinute);
 		var totalHour = parseInt(time[0]) + hour
-		if(totalHour >= 23){
+		if(totalHour > 23){
 			layer.alert("结束时间不能超过23:59:59");
 			return;
 		}
