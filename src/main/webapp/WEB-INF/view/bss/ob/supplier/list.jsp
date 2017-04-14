@@ -441,7 +441,7 @@
 					</c:choose>
 			  	</c:if>
 			  	
-			  	<c:if test="${ obProject.remark == '666' && obProject.obProjectList[0].status != 3 && obProject.obProjectList[0].status != 4}">
+			  	<c:if test="${ obProject.remark == '666' && obProject.obProjectList[0].status != 6 && obProject.obProjectList[0].status != 3 && obProject.obProjectList[0].status != 4}">
 				  	未中标
 			  	</c:if>
 			  	
