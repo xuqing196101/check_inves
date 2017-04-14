@@ -264,16 +264,16 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info" width="25%">竞价规则名称</th>
+		  <th class="info" width="20%">竞价规则名称</th>
 		  <th class="info">间隔工作日<br>（天）</th>
 		  <th class="info">竞价开始<br>时间</th>
-		  <th class="info">报价时间（分钟）</th>
-		  <th class="info">二次报价时间（分钟）</th>
+		  <th class="info">报价时间<br>（分钟）</th>
+		  <th class="info">二次报价时间<br>（分钟）</th>
 		  <th class="info">确认时间（第一轮）<br>（分钟）</th>
 		  <th class="info">确认时间（第二轮）<br>（分钟）</th>
-		  <th class="info">最少报价供应商数</th>
-		  <th class="info">有效百分比</th>
-		  <th class="info">项目数量</th>
+		  <th class="info">最少报价<br>供应商数</th>
+		  <th class="info">有效<br>百分比</th>
+		  <th class="info">项目<br>数量</th>
 		  <th class="info">是否为<br>默认</th>
 		</tr>
 		</thead>
