@@ -98,13 +98,14 @@
 				if (data) {
 				productList=data;//延迟加载 数据
    
-       var plists='${listinfo}';
+     /*   var plists='${listinfo}';
          if(plists){
-          var temp=eval(plists);
-  		  $.each( temp, function(i, value) {
-		    addTr(value.productId,value.productId,value.limitedPrice,value.purchaseCount,value.remark);
-		      }) ; 
-		     }
+        var i=0;
+  		  $.each( plists, function(i, value) {
+  		    addTr(value.productId,value.productId,value.limitedPrice,value.purchaseCount,value.remark);
+		       $("#productName_"+number).combobox('select',value.productId); 
+		      }) ;  
+		     } */
 			} 
 		   }
 		 });
@@ -240,15 +241,14 @@
 		  "  </td>"+
 		"</tr>").clone(true);   
 		//加载数据
-		loads(number,productId);
 	} 
+	 
 		  //关闭
 	function closePrompt(){
 	layer.closeAll('tips');
 	}
 	  // 显示
-    function showPrompt(id,selectID){
-   		 var productId=$("#"+selectID).val();
+    function showPrompt(id,productId){
    		  if(productId){
    		  $.ajax({
    				async: false,
@@ -488,12 +488,33 @@
 	 <div class="ul_list" >
     	  <table class="table table-bordered left_table" id ="table2">
 			<tr>
-		  		<th class="w50 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  		<th class="info" width="45%"><span class="red star_red">*</span>定型产品名称</th>
 		  		<th class="info" width="10%">限价（元）</th>
 		  		<th class="info" width="14%"><span class="red star_red">*</span>采购数量</th>
 		  		<th class="info" width="30%">备注</th>
 			</tr>
+			<c:forEach  items="${listinfo}" var="va" varStatus="vs">
+			<tr>
+		  <td class="p0" >
+		  <div id="selectDiv_${va.productId}" onmouseover='showPrompt("selectDiv_${va.productId}","${va.productId}")'  
+		  onmouseout="closePrompt()" >
+		  <input id="productMoney" disabled="disabled" 
+		  name="productMoney" value="${va.obProduct.name }" type="text" class="w230 mb0">
+		  </div></td>
+		  <td class="p0" >
+		  <input id="productMoney" maxlength="20" disabled="disabled" 
+		  onkeyup="this.value=this.value.replace(/\\D/g,'')"  
+		  name="productMoney" value="${va.limitedPrice }" type="text" class="w230 mb0"></td>
+		  <td class="p0">
+		  <input id="productCount" maxlength="38" disabled="disabled" 
+		  onkeyup="this.value=this.value.replace(/\\D/g,'')"  
+		   name="productCount" value="${va.purchaseCount }" type="text" class="w230 mb0"></td>
+		  <td class="p0">
+		  <input id="productRemark" maxlength="1000" disabled="disabled"  value="${va.remark }" 
+		   title="${va.remark }" type="text" class="w230 mb0">
+		    </td>
+		</tr>
+		</c:forEach>
 		  </table>
 		</div>
 		<c:if test="${selectInfoByPID!=null and selectInfoByPID.size()>0}">

@@ -677,7 +677,7 @@ public class OBProjectController {
 				// 标识 竞价附件
 				model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 				model.addAttribute("list", obProject);
-				model.addAttribute("listinfo", JSON.toJSONString(obProject.getObProductInfo()));
+				model.addAttribute("listinfo", obProject.getObProductInfo());
 				model.addAttribute("fileid", obProject.getAttachmentId());
 				if(obProject.getStatus()==3||obProject.getStatus()==4){
 				//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)

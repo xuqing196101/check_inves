@@ -749,7 +749,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 					Map<String, Object> maps = new HashMap<String, Object>();
 					maps.put("list", pidList);
 					Integer closingSupplier=0;
-					if(obp.getStatus()!=0){
+					if(obp.getStatus()!=0 && pidList!=null && pidList.size()>0 ){
 					// 获取 中标供应商 数量
 						closingSupplier = OBProjectResultMapper.countProportion(obp.getId());
 					obp.setProductName(pidList);
@@ -757,7 +757,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 					obp.setClosingSupplier(closingSupplier);
 					// 获取  供应商数量
 					Integer qualifiedSupplier =0;
-					if(obp.getStatus()!=0){
+					if(obp.getStatus()!=0 && pidList!=null && pidList.size()>0 ){
 					List<OBSupplier> sulist=OBSupplierMapper.selectSupplierByID(maps);
 					if(sulist!=null&&sulist.size()>0){
 						qualifiedSupplier=sulist.size();
@@ -766,7 +766,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 					obp.setQualifiedSupplier(qualifiedSupplier);
 				}
 				String smallPointsId = null;
-				if(obp.getStatus()!=0){
+				if(obp.getStatus()!=0 && pidList!=null && pidList.size()>0 ){
 				if(obp.getId() != null){
 					List<OBProjectSupplier> listps = obProjectSupplierMapper.selByProjectId(obp.getId());
 					if(listps != null && listps.size() > 0){
@@ -922,7 +922,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 								BigDecimal deal=	OBResultsInfoMapper.sumAllDealMoney(op.getId());
 								 if(deal!=null){
 									 //判断总价 小于等于 50000 那么可以进行竞价
-									 if(deal.compareTo(new BigDecimal(50000))==-1){
+									 if(deal.compareTo(new BigDecimal(50000))!=1){
 										 boo=true;
 									 }
 								 }

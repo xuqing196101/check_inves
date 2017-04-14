@@ -164,11 +164,13 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 						closingSupplier = 0;
 					}
 					obProject.setClosingSupplier(closingSupplier);
+					Integer qualifiedSupplier =0;
+					if(pidList!=null&&pidList.size()>0){
 					// 获取 供应商数量
 					List<OBSupplier> sulist=OBSupplierMapper.selectSupplierByID(maps);
-					Integer qualifiedSupplier =0;
 					if(sulist!=null&&sulist.size()>0){
 						qualifiedSupplier=sulist.size();
+					}
 					}
 					obProject.setQualifiedSupplier(qualifiedSupplier);
 				}

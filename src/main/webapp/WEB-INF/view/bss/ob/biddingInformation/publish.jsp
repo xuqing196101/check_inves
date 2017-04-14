@@ -13,7 +13,6 @@
 	<title>发布竞价信息页面</title>
 <script type="text/javascript">
 	// 获取乙方包干使用运杂费
-
 	  var number=10000001;
 	  //定义选中第一产品
      var productInfo;
@@ -146,13 +145,12 @@
    
        var plists='${listinfo}';
          if(plists){
-          var temp=eval(plists);
-  		  $.each( temp, function(i, value) {
+  		  $.each( plists, function(i, value) {
 		    addTr(value.productId,value.productId,value.limitedPrice,value.purchaseCount,value.remark);
 		    $("#productName_"+number).combobox('select',value.productId); 
-		  }) ; 
-		  }
-				} 
+		      }) ; 
+		      }
+		     } 
 			}
 		 });
 		  loadProduct(number);
@@ -320,9 +318,10 @@
 		  "<td class=\"p0\"  width=\"40%\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" title=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
 		  "  </td>"+
 		"</tr>").clone(true);   
+		 $("#productName_"+number+"").val(productId); 
 		//加载数据
 	//	loads(number,productId);
-		loadProduct(number);
+		//loadProduct(number);
 		
 	}
 	 function loadProduct(number){
