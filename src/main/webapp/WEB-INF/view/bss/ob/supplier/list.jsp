@@ -307,7 +307,7 @@
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
 			
-			if((pStatus == 5 && pRemark == '1') || pStatus == 5 && pRemark == '21'){
+			if((pStatus == 5 && pRemark == '1') || pStatus == 5 && pRemark == '21' || pStatus == 6 && pRemark == '1'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
 			
