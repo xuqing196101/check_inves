@@ -320,13 +320,13 @@
 	      productRemark='';
 	      }
 		   $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
-		  "<td class=\"p0\" id=\"tdID\" ><div id=\"selectDiv"+number+"\"  onmouseover='showPrompt(\"selectDiv"+number+"\",\"productName_"+number+"\")'  onmouseout=\"closePrompt()\" onblur=\"closePrompt()\" name=\"selectDiv\"><input class=\"easyui-combobox\" id=\"productName_"+number+"\" name=\"productName\" data-options=\"valueField:'id',textField:'name',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100\"  style=\"width: 100%;height: 30px;\"/>"+
+		  "<td class=\"p0\" id=\"tdID\" ><div id=\"selectDiv"+number+"\"  onmouseover='showPrompt(\"selectDiv"+number+"\",\"productName_"+number+"\")'  onmouseout=\"closePrompt()\" onblur=\"closePrompt()\" name=\"selectDiv\" class = \"w100p fl\"><input class=\"easyui-combobox\" id=\"productName_"+number+"\" name=\"productName\" data-options=\"valueField:'id',textField:'name',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100\"  style=\"width: 491px;height: 30px;\"/>"+
 		  "</div></td>"+
 		  "<td class=\"p0\" id=\"t"+number+"\" width=\"10%\"><input id=\"productMoney\" maxlength=\"20\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		  "<td class=\"p0\"  width=\"20%\"><input id=\"productCount\" maxlength=\"38\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		  "<td class=\"p0\"  width=\"40%\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" title=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
 		  "  </td>"+
-		"</tr>").clone(true);   
+		"</tr>").clone(true); 
 		//加载数据
 	//	loads(number,productId);
 		/* var hehe = [];

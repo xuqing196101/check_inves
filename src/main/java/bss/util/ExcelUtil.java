@@ -945,7 +945,7 @@ public class ExcelUtil {
 		        				 break;
 	        				}
         					//验证产品代码唯一
-        					String code = cell.getRichStringCellValue().toString();
+        					String code = cell.getRichStringCellValue().toString().trim();
         					if(excelUtil.oBProductService.yzProductCode(code, null) > 0){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，产品代码不能重复!";
         						map.put("errMsg", errMsg);
@@ -967,7 +967,7 @@ public class ExcelUtil {
 		        				 break;
 	        				}
         					//验证产品代码唯一
-        					String name = cell.getRichStringCellValue().toString();
+        					String name = cell.getRichStringCellValue().toString().trim();
         					if(excelUtil.oBProductService.yzProductName(name, null) > 0){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，产品名称不能重复!";
         						map.put("errMsg", errMsg);
@@ -989,7 +989,7 @@ public class ExcelUtil {
 		        				 break;
 	        				}
         					//验证产采购机构是否存在
-        					String org = cell.getRichStringCellValue().toString();
+        					String org = cell.getRichStringCellValue().toString().trim();
         					if(null == excelUtil.orgnizationService.selectByShortName(org)){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行C列错误，采购机构不存在!";
         						map.put("errMsg", errMsg);
@@ -1012,7 +1012,7 @@ public class ExcelUtil {
 		        				 break;
 	        				}
         					//验证产品目录是否存在
-        					String categoryCode = cell.getRichStringCellValue().toString();
+        					String categoryCode = cell.getRichStringCellValue().toString().trim();
         					if(null == excelUtil.categoryService.selectByCode(categoryCode) || excelUtil.categoryService.selectByCode(categoryCode).size() == 0){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行D列错误，产品目录不存在!";
         						map.put("errMsg", errMsg);
@@ -1122,12 +1122,12 @@ public class ExcelUtil {
         			
         			//第五列
     				if(cell.getColumnIndex()==4){
-    					String standardModel = cell.getRichStringCellValue().toString();
+    					String standardModel = cell.getRichStringCellValue().toString().trim();
     					obp.setStandardModel(standardModel);
     				}
     				//第六列
     				if(cell.getColumnIndex()==5){
-    					String qualityTechnicalStandard = cell.getRichStringCellValue().toString();
+    					String qualityTechnicalStandard = cell.getRichStringCellValue().toString().trim();
     					obp.setQualityTechnicalStandard(qualityTechnicalStandard);;
     				}
         		}
@@ -1187,7 +1187,7 @@ public class ExcelUtil {
 	        					 bool=false;
 		        				 break;
 	        				}
-        					String supplierName = cell.getRichStringCellValue().toString();
+        					String supplierName = cell.getRichStringCellValue().toString().trim();
         					List<Supplier> listsupplier = excelUtil.supplierService.selByName(supplierName);
         					//验证供应商是否存在
         					if(listsupplier == null || listsupplier.size() < 1){
@@ -1232,7 +1232,7 @@ public class ExcelUtil {
 	        					 bool=false;
 		        				 break;
 	        				}
-        					String str = cell.getRichStringCellValue().toString();
+        					String str = cell.getRichStringCellValue().toString().trim();
         					obp.setQualityInspectionDep(str);
         				}
         			 }
@@ -1246,7 +1246,7 @@ public class ExcelUtil {
 	        					 bool=false;
 		        				 break;
 	        				}
-        					String str = cell.getRichStringCellValue().toString();
+        					String str = cell.getRichStringCellValue().toString().trim();
         					obp.setContactName(str);
         				}
         			 }
@@ -1273,7 +1273,7 @@ public class ExcelUtil {
 	        					 bool=false;
 		        				 break;
 	        				}else{
-	        					Integer ii = excelUtil.oBSupplierService.yzzsCode(cell.getRichStringCellValue().toString(), null);
+	        					Integer ii = excelUtil.oBSupplierService.yzzsCode(cell.getRichStringCellValue().toString().trim(), null);
 	        					if(ii > 0){
 	        						errMsg=String.valueOf(row.getRowNum()+1)+"行F列错误，资质证书编号不能重复!";
 		        					 map.put("errMsg", errMsg);
@@ -1295,7 +1295,7 @@ public class ExcelUtil {
 	        					 bool=false;
 		        				 break;
 	        				}
-        					String str = cell.getRichStringCellValue().toString();
+        					String str = cell.getRichStringCellValue().toString().trim();
         					if(!str.trim().equals(uscc)){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行G列错误，统一社会信用代码不正确!";
 	        					 map.put("errMsg", errMsg);
@@ -1315,7 +1315,7 @@ public class ExcelUtil {
 	        					 bool=false;
 		        				 break;
 	        				}
-        					String str = cell.getRichStringCellValue().toString();
+        					String str = cell.getRichStringCellValue().toString().trim();
         					List<Category> list2 = excelUtil.categoryService.selectByCode(str);
         					if(null == list2 || list2.size() == 0){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，目录不存在!";
