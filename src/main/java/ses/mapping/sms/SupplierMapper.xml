@@ -1424,8 +1424,8 @@
 	<select id="listExtractionExpert" parameterType="ses.model.sms.SupplierCondition"
 		resultMap="findSupplierMap">
 		select * from(
-		select t1.typeId,t2.* from(
-		select id,wm_concat(DISTINCT(typeId)) as typeId from (
+		select t1.typeId,t1.categoryId,t2.* from(
+		select id,wm_concat(DISTINCT(typeId)) as typeId ,min(CATEGORYID) as categoryId from (
 		SELECT
 		T1.*,t2.CATEGORY_ID as categoryId ,t3.SUPPLIER_TYPE_ID as typeId FROM
 		"T_SES_SMS_SUPPLIER" t1
