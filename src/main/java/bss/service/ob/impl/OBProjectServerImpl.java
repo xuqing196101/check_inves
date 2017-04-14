@@ -1167,6 +1167,7 @@ public class OBProjectServerImpl implements OBProjectServer {
  					iterator.remove();
  				}
     	     }
+    	     acc=new BigDecimal(0);
     	     //计算筛选后的 平均值
     	     for (OBResultsInfo accinfo : resultsInfoList) {
        		  acc=acc.add(accinfo.getMyOfferMoney());
