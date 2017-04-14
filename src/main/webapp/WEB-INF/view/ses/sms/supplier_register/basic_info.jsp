@@ -307,7 +307,7 @@
 					"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].id' value='" + id + "'><input type='hidden' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].supplierId' value=" + supplierId + ">" +
 					"</td>" +
 					"<td class='tc'><input type='text' style='border:0px;' onblur='tempSave()' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].name' value=''> </td>" +
-					"<td class='tc'> <div class='w120 fl'> <select onchange='tempSave()'  name='listSupplierAfterSaleDep[" + afterSaleIndex + "].type'>" +
+					"<td class='tc'> <div class='w120 fl'> <select onchange='tempSave()' class='w100p border0' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].type'>" +
 					"<option value='1'>自营</option>" +
 					" <option value='2'>合作</option>" +
 					"</select></div> </td>" +

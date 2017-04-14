@@ -515,28 +515,31 @@
 					<h2 class="count_flow"><i>3</i>资质资信</h2>
 					<ul class="ul_list hand">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="hand" onclick="reason1(this,'taxCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三个月完税凭证：</span>
-							<u:show showId="taxcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
-							<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
-							
-							<c:if test="${fn:contains(passedField,'taxCert')}">
-								<img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
-							</c:if>
+							<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
+								<u:show showId="taxcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
+								<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+								<c:if test="${fn:contains(passedField,'taxCert')}">
+									<img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+								</c:if>
+							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'billCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三年银行基本账户年末对账单：</span>
-							<u:show showId="billcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
-							<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
-							
-							<c:if test="${fn:contains(passedField,'billCert')}">
-								<img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
-							</c:if>
+							<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
+								<u:show showId="billcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
+								<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+								<c:if test="${fn:contains(passedField,'billCert')}">
+									<img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+								</c:if>
+							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'securityCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三个月缴纳社会保险金凭证：</span>
-							<u:show showId="curitycert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
-							<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
-							
-							<c:if test="${fn:contains(passedField,'securityCert')}">
-								<img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
-							</c:if>
+							<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
+								<u:show showId="curitycert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
+								<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+								<c:if test="${fn:contains(passedField,'securityCert')}">
+									<img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+								</c:if>
+							</div>
 						</li>
 						<%-- <li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'breachCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三年内无重大违法记录声明：</span>
 							<u:show showId="bearchcert_show" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
@@ -563,8 +566,10 @@
 						</c:if>
 						<c:if test="${suppliers.isHavingConCert eq '1'}">
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'supplierBearchCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">保密资格证书：</span>
+								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
 									<u:show showId="bearchcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
 									<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+							    </div>
 							</li>
 						</c:if>
 					</ul>
@@ -605,10 +610,13 @@
 							<u:show showId="identity_down_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
 							<p class="b f18 ml10 red">×</p>
 						</li> --%>
+						
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentityUp');"> 身份证复印件（正反面在一张上）:</span>
-					    <u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
-           		<p><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
-           	</li>
+					  		 <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
+					  			  <u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
+           						  <p><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+           					</div>
+           				</li>
 					</ul>
 
 					<h2 class="count_flow"><i>5</i>注册联系人</h2>
@@ -759,8 +767,10 @@
                 </c:if>
                 <div class="b f18 ml10 fl hand red">×</div>
               </div> --%>
-							<u:show showId="business_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
-							<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+							<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
+								<u:show showId="business_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
+								<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+							</div>
 						</li>
 						<li class="col-md-12 col-sm-12 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业范围（按照营业执照上填写）：</span>

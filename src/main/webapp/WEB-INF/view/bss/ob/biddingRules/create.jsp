@@ -125,7 +125,7 @@
 		
 		var leastSupplierNumStr = document.getElementById('leastSupplierNum').value.trim();
 		if(leastSupplierNumStr.length==0){
-			$("#leastSupplierNumErr").html("*最少供应商数量不能为空");
+			$("#leastSupplierNumErr").html("*最少报价供应商数不能为空");
 			return;
 		}
 		if(leastSupplierNumStr.length!=0){
@@ -257,7 +257,7 @@
 		       </div>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>最少供应商数量</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>最少报价供应商数</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
 				    <input class="input_group" name="leastSupplierNum" id="leastSupplierNum" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
 					<div class="cue"><span><font id="leastSupplierNumErr" style="color: red"></font></span></div>
