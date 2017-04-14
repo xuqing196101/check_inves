@@ -250,6 +250,8 @@
 		MARK_TERM_TREE AS markTermTree,
 		PURCHASE_TYPE AS purchaseType,
 		IS_IMPORT AS isImport,
+		TECHNIQUE_TIME AS techniqueTime,
+		QUALIFICATION_TIME AS qualificationTime,
 		IS_END_PRICE AS isEndPrice
 		FROM
 		T_BSS_PPMS_PACKAGE

@@ -295,7 +295,7 @@
                     <p class="tip_main">采购计划审核</p>
                     <c:if test="${listAuditPerson ne null}">
                       <p class="tip_time">
-                        <fmt:formatDate value='${obj.createDate}' pattern='yyyy-MM-dd' />
+                        <fmt:formatDate value='${listAuditPerson[0].createDate}' pattern='yyyy-MM-dd' />
                       </p>
                     </c:if>
                     <c:if test="${listAuditPerson eq null}">
@@ -312,7 +312,7 @@
                     <a href="#tab-5">
                       <p class="tip_main">采购计划下达</p>
                       <p class="tip_time">
-                        <fmt:formatDate value='${collectPlan.updatedAt}' pattern='yyyy-MM-dd' />
+                        <fmt:formatDate value='${collectPlan.orderAt}' pattern='yyyy-MM-dd' />
                       </p>
                     </a>
                   </div>
@@ -628,7 +628,7 @@
                     <td>${collectPlan.purchaseId}</td>
                     <td>${collectPlan.userId}</td>
                     <td>
-                      <fmt:formatDate value='${collectPlan.updatedAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                      <fmt:formatDate value='${collectPlan.orderAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                     </td>
                   </tr>
                 </tbody>

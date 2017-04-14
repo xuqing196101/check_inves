@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -490,7 +491,7 @@ public class PlanLookController extends BaseController {
 		if(collectPlan.getStatus().equals(7)){
 			collectPlan.setStatus(12);
 		}
-	
+		collectPlan.setOrderAt(new Date());
 		collectPlanService.update(collectPlan);
 		return "redirect:list.html";
 	}

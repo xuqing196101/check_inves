@@ -4,6 +4,7 @@ package bss.controller.prms;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,6 +143,11 @@ public class ReviewFirstAuditController {
 			//放入包信息
 			extension.setPackageId(packages.getId());
 			extension.setPackageName(packages.getName());
+			
+			if(packages != null && packages.getQualificationTime() != null){
+	            packages.setQualificationTime(new Date());
+	            packageService.updateByPrimaryKeySelective(packages);
+	        }
 		}
 		//查询项目信息
 		Project project = projectService.selectById(projectId);
@@ -210,6 +216,10 @@ public class ReviewFirstAuditController {
 		//查询包信息
 		List<Packages> packages = packageService.findPackageById(map2);
 		if(packages!=null && packages.size()>0){
+	        if( packages.get(0).getTechniqueTime() != null){
+	            packages.get(0).setTechniqueTime(new Date());
+	            packageService.updateByPrimaryKeySelective(packages.get(0));
+	        }
 			model.addAttribute("pack", packages.get(0));
 		}
 		//查询评分信息
@@ -639,6 +649,11 @@ public class ReviewFirstAuditController {
       //放入包信息
       extension.setPackageId(packages.getId());
       extension.setPackageName(packages.getName());
+      
+      if(packages.getTechniqueTime() != null){
+          packages.setTechniqueTime(new Date());
+          packageService.updateByPrimaryKeySelective(packages);
+      }
     }
     //查询项目信息
     Project project = projectService.selectById(projectId);

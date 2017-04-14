@@ -2555,11 +2555,6 @@ public class ExpertController extends BaseController {
         User user = (User) session.getAttribute("loginUser");
         String expertId = user.getTypeId();
         reviewProgressService.saveGrade(projectId, packageId, expertId);
-        Packages packages = packageService.selectByPrimaryKeyId(packageId);
-        if(packages != null && packages.getTechniqueTime() != null){
-            packages.setTechniqueTime(new Date());
-            packageService.updateByPrimaryKeySelective(packages);
-        }
         attr.addAttribute("projectId", projectId);
         attr.addAttribute("packageId", packageId);
         return "redirect:projectList.html";
@@ -2618,11 +2613,6 @@ public class ExpertController extends BaseController {
         String expertId = user.getTypeId();
         // 更新进度 保存审核信息
         reviewProgressService.saveProgress(projectId, packageId, expertId);
-        Packages packages = packageService.selectByPrimaryKeyId(packageId);
-        if(packages != null && packages.getQualificationTime() != null){
-            packages.setQualificationTime(new Date());
-            packageService.updateByPrimaryKeySelective(packages);
-        }
         attr.addAttribute("projectId", projectId);
         attr.addAttribute("packageId", packageId);
         return "redirect:projectList.html";

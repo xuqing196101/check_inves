@@ -88,6 +88,7 @@
               <thead>
                 <tr class="info">
                   <th class="w50">序号</th>
+                  <th class="info department">需求部门</th>
                   <th class="info " width="10%">物资类别及名称</th>
                   <th class="info ">规格型号</th>
                   <th class="info " width="15%">质量技术标准<br/>(技术参数)</th>
@@ -108,6 +109,7 @@
                 <c:forEach items="${list}" var="obj" varStatus="vs">
                   <tr class="pointer">
                     <td class="tc w50">${obj.seq}</td>
+                    <td><div class="department">${obj.department}</div></td>
                     <td title="${obj.goodsName}" class="tl pl20">
                       ${obj.goodsName}
                     </td>
