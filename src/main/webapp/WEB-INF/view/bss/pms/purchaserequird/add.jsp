@@ -549,7 +549,12 @@
 			
 			//删除一行
 			function delRowIndex(obj){
+				var detailRow = document.getElementsByName("detailRow");
+				var index = detailRow.length;
 				
+				if(index<3){
+					 layer.alert("至少保留两行！",{offset: ['222px', '390px'], shade:0.01});
+				}else{
 				var tr=$(obj).parent().parent();
 				var nextEle=$(obj).parent().parent().next().children();
 				 var val=$(tr).find("td:eq(8)").children(":first").next().val();
@@ -565,7 +570,7 @@
 					 
 					
 				 }
-				 
+				} 
 				/* 	var detailRow = document.getElementsByName("detailRow");
 				if(detailRow.length!=0){
 					for(var i=0;i<detailRow.length;i++){
@@ -653,11 +658,20 @@
 	                            if(data=="1"){
 					        	   layer.alert("文件格式错误",{offset: ['222px', '390px'], shade:0.01});
 					        	    
-					           } for(var i = 0; i < chars.length ; i ++) {
+					           } 
+	                            if(data=="2"){
+	                            	layer.alert("excel编写错误，请重写编写",{offset: ['222px', '390px'], shade:0.01});
+	                            }
+	                           /*  for(var i = 0; i < chars.length ; i ++) {
 							             if(data.indexOf(chars[i])!=-1){
 							            	 bool=false;
 							             }
-							           }
+							           } */
+	                            
+							      if(data.indexOf("行")!=-1){
+							    	  bool=false;
+							      }
+	                            
 							     if(bool!=true){
 							        	   layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
 							        	  //  layer.msg(data);   
@@ -1351,7 +1365,7 @@
 									<td><div class="seq">1</div></td>
 										<td>
 											<input type="hidden" name="list[0].id" id="purid" value="${id}" class="m0 border0 seq">
-											<input type="text" onblur="getSeq(this)"  name="list[0].seq" required="required" value="一" class="m0 border0 w50 tc">
+											<input type="text" readonly="readonly" onblur="getSeq(this)"  name="list[0].seq" required="required" value="一" class="m0 border0 w90 tc">
 											<input type="hidden" name="list[0].parentId"  value="1">
 										</td>
 										<td name="department">
@@ -1416,6 +1430,79 @@
 								<!--  <td class="tc w100 p0"></td> -->  
 										<td><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>
+									
+									
+								<tr name="detailRow">
+									<td><div class="seq">2</div></td>
+										<td>
+											<input type="hidden" name="list[1].id" id="purid" value="${uid}" class="m0 border0 seq">
+											<input type="text" readonly="readonly" onblur="getSeq(this)"  name="list[1].seq" required="required" value="（一）" class="m0 border0 w90 tc">
+											<input type="hidden" name="list[1].parentId"  value="${id}">
+										</td>
+										<td name="department">
+								  		<input type="text"   name="list[1].department"  readonly="readonly" value="${orgName}" class="department" >
+								  		  
+										<%-- 	<select name="list[0].department" class="pt" id="pType[0]">
+												<option value="">请选择</option>
+												<c:forEach items="${requires }" var="obj">
+													<option value="${obj.id }">${obj.name }</option>
+												</c:forEach>
+											</select> --%>
+										</td>
+										<td>
+											<input type="text" name="list[1].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="goodsname"/>
+										</td>
+										<td><input type="text" name="list[1].stand" class="stand"></td>
+										<td><input type="text" name="list[1].qualitStand" class="qualitstand"></td>
+										<td><input type="text"   name="list[1].item" class="item"></td>
+										<td name="purchaseQuantity">
+											<input type="hidden"    value="${uid}" class="m0 border0">
+											<input type="text" onblur='sum2(this)'  name="list[1].purchaseCount" onkeyup="checkNum(this,1)" class="purchasecount">
+											<input type="hidden"    value="${id}" class="m0 border0">
+										</td>
+										<td name="unitPrice">
+											<input type="hidden"    value="${uid}" class="m0 border0">
+											<input type="text" onblur='sum1(this)'  name="list[1].price" onkeyup="checkNum(this,2)" class="price">
+											<input type="hidden"    value="${id}" class="m0 border0">
+										</td>
+										<td>
+											<input type="hidden"    value="${uid}" class="m0 border0">
+											<input type="text" readonly="readonly" name="list[0].budget" class="budget" >
+											<input type="hidden"    value="${id}" class="m0 border0">
+										</td>
+										<td><input type="text" name="list[1].deliverDate" class="deliverdate"></td>
+										<td>
+											<select required="required" name="list[1].purchaseType" class="purchasetype" onchange="changeType(this)"  >
+												<option value="">请选择</option>
+												<c:forEach items="${list2 }" var="obj">
+													<option value="${obj.name }">${obj.name }</option>
+												</c:forEach>
+											</select>
+										</td>
+										<td>
+										   <%--  <select name="list[0].supplier" class="purchasename" onchange="changeType(this)" id="pType[0]">
+												<option value="">请选择</option>
+												<c:forEach items="${suppliers }" var="sup">
+													<option value="${sup.supplierName }">${sup.supplierName }</option>
+												</c:forEach>
+											</select> --%>
+										<input type="text" name="list[1].supplier" class="m0 w260 border0"></td>
+										<td><input type="text" name="list[1].isFreeTax" class="freetax"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[1].goodsUse" class="goodsuse"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[1].useUnit" class="useunit"></td>
+										<td><input type="text" name="list[1].memo" class="memo"></td>
+										<td>
+											   <div class="extrafile">
+                   							        <u:upload id="pUp1" multiple="true"  businessId="${uid}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
+													<u:show showId="pShow1" businessId="${uid}" sysKey="2" typeId="${typeId}" />
+											   </div>											
+										</td>
+										<!-- <td class="tc w80 p0"></td> -->
+								<!--  <td class="tc w100 p0"></td> -->  
+										<td><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
+									</tr>
+									
+									
 								</c:if>
 				 
 								<c:if test="${plist!=null }" >

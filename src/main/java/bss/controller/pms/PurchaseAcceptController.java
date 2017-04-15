@@ -315,7 +315,7 @@ public class PurchaseAcceptController extends BaseController{
 			String sid = UUID.randomUUID().toString().replaceAll("-", "");
 			sm.setId(sid);
     		sm.setReceiverId(id);
-    		sm.setName(maker.getRelName());
+    		sm.setName(maker.getRelName()+"退回");
     		sm.setSenderId(user.getId());
     		stationMessageService.insertStationMessage(sm);
     	}
