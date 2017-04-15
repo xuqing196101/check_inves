@@ -337,7 +337,7 @@
 							<td class="tr pr20">
 							<%-- <div class="left20" fmt:formatDate >${obj.budget }</fmt:formatNumber></div> --%>
 
-								<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
+								<fmt:formatNumber type="number"  pattern="#,##0.00"  value="${obj.budget}"  />
 							</td>
 							<td class="tc">
 							 
