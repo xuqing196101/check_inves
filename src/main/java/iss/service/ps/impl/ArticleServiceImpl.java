@@ -107,6 +107,12 @@ public class ArticleServiceImpl implements ArticleService {
   public Article selectArticleById(String id) {
     return articleMapper.selectById(id);
   }
+  
+  @Override
+  public Article selectReleaseById(String id) {
+    return articleMapper.selectReleaseById(id);
+  }
+  
 
   @Override
   public void delete(String id) {

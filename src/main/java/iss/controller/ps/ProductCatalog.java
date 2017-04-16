@@ -1,10 +1,12 @@
 package iss.controller.ps;
 
+import iss.bean.IssData;
 import iss.model.ps.DataDownload;
 import iss.service.ps.DataDownloadService;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -54,6 +56,9 @@ public class ProductCatalog {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
 		List<Category> Categorys = categoryService.findCategoryByName(map);
+		Map<String, Object> indexMapper = new HashMap<String, Object>();
+		IssData.topNews(indexMapper);
+		model.addAttribute("indexMapper", indexMapper);
 		model.addAttribute("list", new PageInfo<Category>(Categorys));
 		return "iss/ps/catalog/catalogList";
 	}
@@ -73,6 +78,9 @@ public class ProductCatalog {
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
 		List<Category> Categorys = categoryService.findCategoryByNameOrClassify(map);
 		model.addAttribute("list", new PageInfo<Category>(Categorys));
+		Map<String, Object> indexMapper = new HashMap<String, Object>();
+		IssData.topNews(indexMapper);
+		model.addAttribute("indexMapper", indexMapper);
 		return "iss/ps/catalog/parameterlist";
 	}
 	
