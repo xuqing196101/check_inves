@@ -161,7 +161,7 @@ function resetQuery() {
 		<c:forEach items="${info.list }" var="supplier" varStatus="vs">
 			<tr>
 				<td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-				<td class="tc" width="38%">${supplier.supplier.supplierName }</td>
+				<td class="tl" width="38%">${supplier.supplier.supplierName }</td>
 				<td class="tc">
 					<fmt:formatDate value="${supplier.certValidPeriod }" pattern="yyyy-MM-dd" /> 
 				</td>
