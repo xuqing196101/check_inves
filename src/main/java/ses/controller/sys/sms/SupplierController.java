@@ -1863,7 +1863,7 @@ public class SupplierController extends BaseSupplierController {
                     boolean flag = supplierCertEngService.validateCertCode(supplierCertEng);
                     if (!flag) {
                         bool = false;
-                        model.addAttribute("eng_cert", "证书编号已被占用！");
+                        model.addAttribute("eng_cert", "证书编号【"+supplierCertEng.getCertCode()+"】已被占用！");
                         break;
                     }
                 }
@@ -1875,17 +1875,24 @@ public class SupplierController extends BaseSupplierController {
 		if (listSupplierAptitutes != null && listSupplierAptitutes.size() > 0) {
 		    outer: for (SupplierAptitute supplierAptitute : listSupplierAptitutes) {
                 boolean flag = false;
+                String certCode = "";
+                String parentCertCode = "";
 		        if (supplierAptitute.getCertName() != null && supplierAptitute.getCertCode() != null) {
+                    parentCertCode = "【";
                     inner: for (SupplierCertEng supplierCertEng : listSupplierCertEngs) {
                         if (supplierAptitute.getCertCode().equals(supplierCertEng.getCertCode())) {
                             flag = true;
                             break inner;
+                        }else{
+                            parentCertCode += supplierCertEng.getCertCode() + ",";
                         }
                     }
+                    if(!StringUtils.isEmpty(parentCertCode)) parentCertCode = parentCertCode.substring(0,parentCertCode.length()-1)+"】";
+                    certCode = "【"+supplierAptitute.getCertCode()+"】";
                 }
 		        if (!flag) {
 		            bool = false;
-                    model.addAttribute("eng_aptitutes", "证书编号与资质（认证）证书不匹配！");
+                    model.addAttribute("eng_aptitutes", "证书编号"+certCode+"与资质（认证）证书"+parentCertCode+"不匹配！");
                     break outer;
 		        }
 		    }
