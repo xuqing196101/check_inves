@@ -310,7 +310,7 @@
 		    }
 			
 			// 2.待确认状态查看的信息--未中标状态--已报价待确认
-			if((pStatus == 2 && pRemark == '1') || (pStatus == 7 && pRemark == '21') || (pStatus == 7 && pRemark == '20') || pRemark == '666'){
+			if((pStatus == 2 && pRemark == '1') || (pStatus == 7 && pRemark == '21') || (pStatus == 7 && pRemark == '20') || pRemark == '666' || pRemark == '-1'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
 			
