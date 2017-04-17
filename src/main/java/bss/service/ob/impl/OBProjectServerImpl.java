@@ -1163,16 +1163,19 @@ public class OBProjectServerImpl implements OBProjectServer {
     	   
     	     Iterator<OBResultsInfo> iterator = resultsInfoList.iterator();
     	     while(iterator.hasNext()){
+    	    	 OBResultsInfo info=iterator.next();
+    	    	 if(info!=null){
     	    	 //如果供应商 报价 金额 大于 有效金额 那么删除
-    	    	 if(iterator.next().getMyOfferMoney().compareTo(validAve)!=-1){
- 					iterator.remove();
- 					OBProject obProject = new OBProject();
-					obProject.setId(projectId);
-					User users = new User();
-					users.setTypeId(iterator.next().getSupplierId());
-					String remark = "-1";
-					BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
- 				}
+    	    	 if(info.getMyOfferMoney().compareTo(validAve)!=-1){
+    	    		 iterator.remove();
+    	    		 OBProject obProject = new OBProject();
+ 					obProject.setId(info.getProjectId());
+ 					User users = new User();
+ 					users.setTypeId(info.getSupplierId());
+    	    		 String remark = "-1";
+    	    		 BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
+ 				   }
+    	    	 }
     	     }
     	     acc=new BigDecimal(0);
     	     //计算筛选后的 平均值
@@ -1201,18 +1204,21 @@ public class OBProjectServerImpl implements OBProjectServer {
     	      small=small.subtract(validJ).setScale(2, BigDecimal.ROUND_HALF_UP);
     	    Iterator<OBResultsInfo> iter = resultsInfoList.iterator();
      	     while(iter.hasNext()){
+     	    	OBResultsInfo info=iter.next();
+     	    	if(info!=null){
      	    	 //如果供应商 报价 金额 小于 有效金额 那么删除
-     	    	 if(iter.next().getMyOfferMoney().subtract(validJ).setScale(2, BigDecimal.ROUND_HALF_UP).compareTo(small)==-1){
+     	    	 if(info.getMyOfferMoney().subtract(validJ).setScale(2, BigDecimal.ROUND_HALF_UP).compareTo(small)==-1){
      	    		 iter.remove();
      	    		OBProject obProject = new OBProject();
-					obProject.setId(projectId);
+					obProject.setId(info.getProjectId());
 					User users = new User();
-					users.setTypeId(iterator.next().getSupplierId());
+					users.setTypeId(info.getSupplierId());
 					String remark = "-1";
 					BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
-  				}
-     	       }
-    	      }
+  				 }
+     	    	 }
+     	        }
+    	     }
     	}
     	return resultsInfoList;
     }
