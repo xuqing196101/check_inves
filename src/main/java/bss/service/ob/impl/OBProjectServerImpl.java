@@ -1204,6 +1204,13 @@ public class OBProjectServerImpl implements OBProjectServer {
      	    	 //如果供应商 报价 金额 小于 有效金额 那么删除
      	    	 if(iter.next().getMyOfferMoney().subtract(validJ).setScale(2, BigDecimal.ROUND_HALF_UP).compareTo(small)==-1){
      	    		 iter.remove();
+     	    		OBProject obProject = new OBProject();
+					obProject.setId(projectId);
+					User users = new User();
+					users.setTypeId(supplierId);
+					String remark = "-1";
+					BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
+     	    		 
   				}
      	       }
     	      }
