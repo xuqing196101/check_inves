@@ -461,7 +461,6 @@
 							结果待确认(第一轮)
 						</c:when>
 						
-						<!-- 无效供应商 -->
 						<c:when test="${obProject.remark == '-1'}">
 							未中标
 						</c:when>
@@ -501,7 +500,6 @@
 							结果待确认(第二轮)
 						</c:when>
 						
-						<!-- 无效供应商 -->
 						<c:when test="${obProject.remark == '-1'}">
 							未中标
 						</c:when>
