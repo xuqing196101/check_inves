@@ -617,10 +617,11 @@ public class OBSupplierQuoteController {
 		    if(user!=null){
 			   if(StringUtils.isNotBlank(supplierId)){
 				   if(supplierId.equals(user.getTypeId())){
-						if(uptResult==-1){
+						/*if(uptResult==-1){
 							jdcgResult.setStatus(0);
 							jdcgResult.setMsg("确定时间超出,不能放弃");
-						}else{
+							
+						}else{*/
 							 boolean boo = oBProjectResultService.updateBySupplierId(projectId,supplierId, confirmStatus,projectResultId);
 							 if(uptResult==1){
 								jdcgResult.setStatus(boo==false?1:2);
@@ -632,7 +633,7 @@ public class OBSupplierQuoteController {
 								jdcgResult.setStatus(0);
 								jdcgResult.setMsg("放弃错误");
 							}
-						}
+						/*}*/
 				   }
 			   }else{
 				   jdcgResult.setStatus(0);

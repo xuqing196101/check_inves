@@ -1156,7 +1156,8 @@ public class ExpExtractRecordController extends BaseController {
    */
   @RequestMapping(value="/AddtemporaryExpert",produces = "text/html;charset=UTF-8")
   public  Object addTemporaryExpert(@Valid Expert expert, BindingResult result, Model model, String projectId,String packageId,String packageName, String loginName, String loginPwd,String flowDefineId,HttpServletRequest sq) throws UnsupportedEncodingException{
-    //转码
+    String mobile = sq.getParameter("mobile");
+      //转码
     if (expert != null) {
       if(expert.getRelName() != null && !"".equals(expert.getRelName())){
         expert.setRelName(URLDecoder.decode(expert.getRelName(),"UTF-8"));
@@ -1202,7 +1203,14 @@ public class ExpExtractRecordController extends BaseController {
         model.addAttribute("loginNameError", "用户名已存在");
       }
     }
-
+    if(StringUtils.isEmpty(mobile)){
+        model.addAttribute("mobile", "不能为空");
+    }else{
+        Boolean ajaxMoblie = userService.ajaxMoblie(mobile, null);
+        if(!ajaxMoblie){
+            model.addAttribute("mobile", "联系电话已存在");
+        }
+    }
     if (loginPwd == null || "".equals(loginPwd)) {
       model.addAttribute("loginPwdError", "不能为空");
       if (loginPwd == null || !loginPwd.matches("^\\w{6,20}$")) {

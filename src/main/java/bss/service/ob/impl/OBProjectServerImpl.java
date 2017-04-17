@@ -1107,16 +1107,16 @@ public class OBProjectServerImpl implements OBProjectServer {
 							if(obresultsList.size()>1){
 							//如果 集合不是最后一条数据 那么 结束时间 在加上 第二轮确定时间
 								project.setEndTime(DateUtils.getAddDate(op.getEndTime(), confirmTimeSecond));
-							/*}else{
+							}else{
 								//判断竞价 成交供应商是否满足 竞价供应商成交数量
 								Integer closingSupplier = OBProjectResultMapper.countByStatus(op.getId());
 								//成交供应商 必须大于等于 竞价成交供应商数量
-								if(closingSupplier>=op.getTradedSupplierCount()){
+								if(closingSupplier>=leastSupplierNum){
 									project.setStatus(3);
 								}else{
 									//修改竞价状态
 									project.setStatus(4);
-								}*/
+								}
 							}
 						  }else{
 							//判断竞价 成交供应商是否满足 竞价供应商成交数量
@@ -1163,10 +1163,19 @@ public class OBProjectServerImpl implements OBProjectServer {
     	   
     	     Iterator<OBResultsInfo> iterator = resultsInfoList.iterator();
     	     while(iterator.hasNext()){
+    	    	 OBResultsInfo info=iterator.next();
+    	    	 if(info!=null){
     	    	 //如果供应商 报价 金额 大于 有效金额 那么删除
-    	    	 if(iterator.next().getMyOfferMoney().compareTo(validAve)!=-1){
- 					iterator.remove();
- 				}
+    	    	 if(info.getMyOfferMoney().compareTo(validAve)!=-1){
+    	    		 iterator.remove();
+    	    		 OBProject obProject = new OBProject();
+ 					obProject.setId(info.getProjectId());
+ 					User users = new User();
+ 					users.setTypeId(info.getSupplierId());
+    	    		 String remark = "-1";
+    	    		 BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
+ 				   }
+    	    	 }
     	     }
     	     acc=new BigDecimal(0);
     	     //计算筛选后的 平均值
@@ -1176,12 +1185,12 @@ public class OBProjectServerImpl implements OBProjectServer {
     	     pj=acc.divide(new BigDecimal(resultsInfoList.size()),2,BigDecimal.ROUND_HALF_UP);
     	     //中标参考价 排名
     	     BigDecimal validJ=pj.multiply(new BigDecimal((100-valid)/100D)).setScale(2, BigDecimal.ROUND_HALF_UP);
-    	     
+    	   
     	      //冒泡 排序  去掉部分 无效数据
     	      for (int k = 0; k < resultsInfoList.size()-1; k++) {
     			for (int k2 = 0; k2 < resultsInfoList.size()-1-k; k2++) {
-    				double itemD=Math.abs(validJ.subtract(resultsInfoList.get(k2).getMyOfferMoney()).doubleValue());
-    				double itemD1=Math.abs(validJ.subtract(resultsInfoList.get(k2+1).getMyOfferMoney()).doubleValue());
+    				double itemD=Math.abs(resultsInfoList.get(k2).getMyOfferMoney().subtract(validJ).doubleValue());
+    				double itemD1=Math.abs(resultsInfoList.get(k2+1).getMyOfferMoney().subtract(validJ).doubleValue());
     				  if(itemD>itemD1){
     					  OBResultsInfo info=resultsInfoList.get(k2);
     					  resultsInfoList.set(k2, resultsInfoList.get(k2+1));
@@ -1189,6 +1198,27 @@ public class OBProjectServerImpl implements OBProjectServer {
     				  }
     			}
     		}
+    	     if(resultsInfoList!=null&&resultsInfoList.size()>0){
+    	    	  //选择第一名
+    	      BigDecimal small=resultsInfoList.get(0).getMyOfferMoney();
+    	      small=small.subtract(validJ).setScale(2, BigDecimal.ROUND_HALF_UP);
+    	    Iterator<OBResultsInfo> iter = resultsInfoList.iterator();
+     	     while(iter.hasNext()){
+     	    	OBResultsInfo info=iter.next();
+     	    	if(info!=null){
+     	    	 //如果供应商 报价 金额 小于 有效金额 那么删除
+     	    	 if(info.getMyOfferMoney().subtract(validJ).setScale(2, BigDecimal.ROUND_HALF_UP).compareTo(small)==-1){
+     	    		 iter.remove();
+     	    		OBProject obProject = new OBProject();
+					obProject.setId(info.getProjectId());
+					User users = new User();
+					users.setTypeId(info.getSupplierId());
+					String remark = "-1";
+					BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
+  				 }
+     	    	 }
+     	        }
+    	     }
     	}
     	return resultsInfoList;
     }

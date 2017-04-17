@@ -67,6 +67,7 @@ public interface ArticleMapper {
     * @return Article
      */
     Article selectById(String id);
+    Article selectReleaseById(String id);
     
     /**
      * 

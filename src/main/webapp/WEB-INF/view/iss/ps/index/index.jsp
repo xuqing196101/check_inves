@@ -276,7 +276,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=3">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=3&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
               </div>
 
               <div id="tab-4" class="tab-pane fade">
@@ -296,7 +296,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=8">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=8&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("工程","utf-8"),"utf-8") %>">更多>></a>
               </div>
 
               <div id="tab-5" class="tab-pane fade">
@@ -316,7 +316,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=13">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=13&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("服务","utf-8"),"utf-8") %>">更多>></a>
               </div>
               
               <div id="tabs-6" class="tab-pane fade">
@@ -336,7 +336,7 @@
                       </c:choose>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=18">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=18&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("进口","utf-8"),"utf-8") %>">更多>></a>
               </div>
             </div>
           </div>
@@ -420,7 +420,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=46">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=46&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tab-7" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -439,7 +439,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=51">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=51&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("工程","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tab-8" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -458,7 +458,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=56">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=56&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("服务","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tabs-8" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -477,7 +477,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=61">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=61&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("进口","utf-8"),"utf-8") %>">更多>></a>
               </div>
             </div>
           </div>
@@ -561,7 +561,7 @@
                     <%--</c:if>
                   --%></c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=89">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=89&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tab-10" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -580,7 +580,7 @@
                     <%--</c:if>
                   --%></c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=90">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=90&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("工程","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tab-11" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -599,7 +599,7 @@
                     <%--</c:if>
                   --%></c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=91">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=91&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("服务","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tabs-11" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -618,7 +618,7 @@
                     <%--</c:if>
                   --%></c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=92">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=92&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("进口","utf-8"),"utf-8") %>">更多>></a>
               </div>
             </div>
           </div>
@@ -712,7 +712,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=24">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=24&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tab-13" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -731,7 +731,7 @@
                       </c:choose>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=29">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=29&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("工程","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tab-14" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -750,7 +750,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=34">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=34&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("服务","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tabs-14" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -769,7 +769,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=39">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=39&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("进口","utf-8"),"utf-8") %>">更多>></a>
               </div>
             </div>
           </div>
@@ -853,7 +853,7 @@
                       </c:choose>
                     </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=67">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=67&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tab-16" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -872,7 +872,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=72">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=72&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("工程","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tab-17" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -891,7 +891,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=77">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=77&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("服务","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tabs-17" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -910,7 +910,7 @@
                       </c:choose>  
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=82">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=82&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("进口","utf-8"),"utf-8") %>">更多>></a>
               </div>
             </div>
           </div>
@@ -973,7 +973,7 @@
                     <%--</c:if>
                   --%></c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?articleTypeId=87&secondArticleTypeId=93">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?articleTypeId=87&secondArticleTypeId=93&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
               </div>
             
               <div id="tab-18" class="tab-pane fade">
@@ -993,7 +993,7 @@
                     <%--</c:if>
                   --%></c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=94">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=94&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("工程","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tab-19" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -1012,7 +1012,7 @@
                     <%--</c:if>
                   --%></c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=95">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=95&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("服务","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tab-20" class="tab-pane fade">
                 <ul class="categories articleover">
@@ -1031,7 +1031,7 @@
                     <%--</c:if>
                   --%></c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=96">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=96&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("进口","utf-8"),"utf-8") %>">更多>></a>
               </div>
               <div id="tabs-20" class="tab-pane fade">
                 <ul class="categories articleover">

@@ -369,7 +369,7 @@ function importAdd(){
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						--%><li><a title="{sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">{sl.name}</a></li>
+						--%><li><a title="{sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${sl.name}</a></li>
 					<%--</c:if>
 	          --%></c:forEach>
           </ul>

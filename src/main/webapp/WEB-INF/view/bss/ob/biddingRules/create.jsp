@@ -170,7 +170,7 @@
 		// 报价时间 确认时间第一轮 确认时间第二轮 确认时间第二轮 小时数
 		var totalMinute = parseInt(quoteTimeStr)+parseInt(quoteTimeSecondStr)+parseInt(confirmTimeStr)+parseInt(confirmTimeSecondStr)
 		var hour = toHourMinute(totalMinute);
-		var totalHour = parseInt(time[0]) + hour
+		var totalHour = parseInt(time[0]) + hour;
 		if(totalHour > 23){
 			layer.alert("结束时间不能超过23:59:59");
 			return;

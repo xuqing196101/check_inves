@@ -293,14 +293,18 @@ public class SupplierItemServiceImpl implements SupplierItemService {
              boolean bool = sameCategory(supplierItem.getSupplierId(),parentId,supplierItem.getSupplierTypeRelateId());
              if(bool==false){
 	        	   Category category = categoryService.findById(parentId);
-	        	   List<SupplierItem> bySupplierIdCategoryId = supplierItemMapper.getBySupplierIdCategoryId(supplierItem.getSupplierId(), category.getId(), supplierItem.getSupplierTypeRelateId());
-	        	   if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
-	        		   map.put("categoryId", category.getId());
-	                   supplierItemMapper.deleteByMap(map);
-	                   parentId = category.getParentId();
-	        	   }else{
-	        		   break  ;
-	        	   }
+	        	   if(category != null){
+                       List<SupplierItem> bySupplierIdCategoryId = supplierItemMapper.getBySupplierIdCategoryId(supplierItem.getSupplierId(), category.getId(), supplierItem.getSupplierTypeRelateId());
+                       if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
+                           map.put("categoryId", category.getId());
+                           supplierItemMapper.deleteByMap(map);
+                           parentId = category.getParentId();
+                       }else{
+                           break  ;
+                       }
+                   }else{
+                       break  ;
+                   }
 	           }else{
 	        	   break  ;
 	           } 
