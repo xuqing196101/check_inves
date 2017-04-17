@@ -902,13 +902,35 @@ public class IndexNewsController extends BaseSupplierController{
 	@RequestMapping("/selectIndexNewsByParId")
 	public String selectIndexNewsByParId(Model model,Integer page,String id,HttpServletRequest request) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
-		String title = request.getParameter("title");
+		String title = RequestTool.getParam(request, "title", "");
+		title = URLDecoder.decode(title,"utf-8");
+		String tab=RequestTool.getParam(request, "tab", "");
+		tab = URLDecoder.decode(tab,"utf-8");
+		String productType=RequestTool.getParam(request, "productType", "");
+		productType = URLDecoder.decode(productType,"utf-8");
+		String categoryName=RequestTool.getParam(request, "productTypeName", "");
+		categoryName = URLDecoder.decode(categoryName,"utf-8");
+		String lastArticleTypeName=RequestTool.getParam(request, "lastArticleTypeName", "");
+		lastArticleTypeName = URLDecoder.decode(lastArticleTypeName,"utf-8");
+		String publishStartDate=RequestTool.getParam(request, "publishStartDate", "");
+		publishStartDate = URLDecoder.decode(publishStartDate,"utf-8");
+		String publishEndDate=RequestTool.getParam(request, "publishEndDate", "");
+		publishEndDate = URLDecoder.decode(publishEndDate,"utf-8");
+		
 		if(page==null){
 			page=1;
 		}
 		map.put("parId",id);
 		map.put("page", page);
 		map.put("title", title);
+		//传入参数通过产品目录查询文章
+		map.put("productType", productType);
+		//采购方式
+		map.put("lastArticleTypeName", lastArticleTypeName);
+		//起止时间
+		map.put("publishStartDate", publishStartDate);
+		map.put("publishEndDate", publishEndDate);
+
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 		List<Article> articleList = null;
 		List<Article> twoArticleList = articleService.selectArticleByParIdTwo(map);
@@ -921,7 +943,17 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("id", id);
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
+		
 		model.addAttribute("title", title);
+		model.addAttribute("productType", productType);
+		model.addAttribute("tab", tab);
+		model.addAttribute("productTypeName", categoryName);
+		model.addAttribute("categoryNames", categoryName);
+		model.addAttribute("categoryIds", productType);
+		model.addAttribute("lastArticleTypeName", lastArticleTypeName);
+		model.addAttribute("publishStartDate", publishStartDate);
+		model.addAttribute("publishEndDate", publishEndDate);
+		
 		return "iss/ps/index/parindex_two";
 	}
 	
@@ -1020,11 +1052,12 @@ public class IndexNewsController extends BaseSupplierController{
 		}
 		Map<String, Object> indexMapper = new HashMap<String, Object>();
 		topNews(indexMapper);
+		model.addAttribute("indexMapper", indexMapper);
 		model.addAttribute("id", id);
 		model.addAttribute("twoid", twoid);
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
-		model.addAttribute("indexMapper", indexMapper);
+		
 		model.addAttribute("title", title);
 		model.addAttribute("productType", productType);
 		model.addAttribute("tab", tab);
@@ -1284,7 +1317,9 @@ public class IndexNewsController extends BaseSupplierController{
 	@RequestMapping("/selectArticleNewsById")
 	public String selectArticleNewsById(Article article,Model model,HttpServletRequest request) throws Exception{
 	  String ipAddressType = PropUtil.getProperty("ipAddressType");
-	  Article articleDetail = articleService.selectArticleById(article.getId());
+	 // Article articleDetail = articleService.selectArticleById(article.getId());
+	  //修改已取消发布和删除文章还能显示问题
+	  Article articleDetail = articleService.selectReleaseById(article.getId());
 		Integer showCount = articleDetail.getShowCount();
 		articleDetail.setShowCount(showCount+1);
 		articleService.update(articleDetail);
@@ -1669,18 +1704,36 @@ public class IndexNewsController extends BaseSupplierController{
 	}
 	
 	@RequestMapping("/selectAllByTabs")
-	public String selectAllByTabs(Model model,HttpServletRequest request,Integer page){
+	public String selectAllByTabs(Model model,HttpServletRequest request,Integer page)throws Exception{
 //		String[] idArray = new String[4];
 		String articleTypeId = request.getParameter("articleTypeId");
 		String secondArticleTypeId = request.getParameter("secondArticleTypeId");
+		String title = RequestTool.getParam(request, "title", "");
+		title = URLDecoder.decode(title,"utf-8");
+		String tab=RequestTool.getParam(request, "tab", "");
+		tab = URLDecoder.decode(tab,"utf-8");
+		String productType=RequestTool.getParam(request, "productType", "");
+		productType = URLDecoder.decode(productType,"utf-8");
+		String categoryName=RequestTool.getParam(request, "productTypeName", "");
+		categoryName = URLDecoder.decode(categoryName,"utf-8");
+		String lastArticleTypeName=RequestTool.getParam(request, "lastArticleTypeName", "");
+		lastArticleTypeName = URLDecoder.decode(lastArticleTypeName,"utf-8");
+		String publishStartDate=RequestTool.getParam(request, "publishStartDate", "");
+		publishStartDate = URLDecoder.decode(publishStartDate,"utf-8");
+		String publishEndDate=RequestTool.getParam(request, "publishEndDate", "");
+		publishEndDate = URLDecoder.decode(publishEndDate,"utf-8");
+		
+	
 		if(page==null){
 			page=1;
 		}
+		
+		
+		
 //		String id1 = request.getParameter("id");
 //		String id2 = request.getParameter("id2");
 //		String id3 = request.getParameter("id3");
 //		String id4 = request.getParameter("id4");
-		String title = request.getParameter("title");
 //		idArray[0] = id1;
 //		idArray[1] = id2;
 //		idArray[2] = id3;
@@ -1691,16 +1744,45 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("title", title);
 		map.put("articleTypeId", articleTypeId);
 		map.put("secondArticleTypeId", secondArticleTypeId);
+		
+		//传入参数通过产品目录查询文章
+		map.put("productType", productType);
+		//采购方式
+		map.put("lastArticleTypeName", lastArticleTypeName);
+		//起止时间
+		map.put("publishStartDate", publishStartDate);
+		map.put("publishEndDate", publishEndDate);
+				
+		//List<Article> twoArticleList = articleService.selectsumBynews(map);
+		
+		//xxxxx
+		
 		List<Article> indexList = articleService.selectAllByTabs(map);
 		model.addAttribute("indexList", indexList);
 		model.addAttribute("list", new PageInfo<Article>(indexList));
 		model.addAttribute("articleTypeId", articleTypeId);
 		model.addAttribute("secondArticleTypeId", secondArticleTypeId);
+		
+		Map<String, Object> indexMapper = new HashMap<String, Object>();
+		topNews(indexMapper);
+		model.addAttribute("indexMapper", indexMapper);
+		
+		model.addAttribute("title", title);
+		model.addAttribute("productType", productType);
+		model.addAttribute("tab", tab);
+		model.addAttribute("productTypeName", categoryName);
+		model.addAttribute("categoryNames", categoryName);
+		model.addAttribute("categoryIds", productType);
+		model.addAttribute("lastArticleTypeName", lastArticleTypeName);
+		model.addAttribute("publishStartDate", publishStartDate);
+		model.addAttribute("publishEndDate", publishEndDate);
+		model.addAttribute("pt", tab);
+		
 //		model.addAttribute("id2", id2);
 //		model.addAttribute("id3", id3);
 //		model.addAttribute("id4", id4);
 //		model.addAttribute("id", id1);
-		model.addAttribute("title", title);
+//		model.addAttribute("title", title);
 		return "iss/ps/index/sumBytabs_two";
 	}
 	

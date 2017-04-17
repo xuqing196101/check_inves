@@ -71,6 +71,9 @@ public interface ArticleService {
 	 */
 	Article selectArticleById(String id);
 	
+	Article selectReleaseById(String id);
+	
+	
 	/**
 	* @Title: update
 	* @author szf

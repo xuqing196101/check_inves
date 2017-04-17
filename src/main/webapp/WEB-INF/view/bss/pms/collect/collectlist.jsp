@@ -487,7 +487,7 @@
 			  
 			  </td>
 			  <td class="tc"  onclick="view('${obj.uniqueId}')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tr"  width="10%" onclick="view('${obj.uniqueId}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tr"  width="10%" onclick="view('${obj.uniqueId}')"> <fmt:formatNumber type="number"  pattern="#,##0.00"  value="${obj.budget}"  /> </td>
 			  <td class="tc"  >
 	 
 			                 

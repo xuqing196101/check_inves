@@ -429,7 +429,7 @@
 							<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 							<td class="tl pl20" width="35%" onclick="view('${obj.id}')">${obj.fileName }</td>
 							<td class="tr pr20 w140" onclick="view('${obj.id}')">
-                        		<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
+                        		<fmt:formatNumber type="number"  pattern="#,##0.00"  value="${obj.budget}"  />
 							</td>
 							<td class="tc " onclick="view('${obj.id}')">
 								<fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd" />

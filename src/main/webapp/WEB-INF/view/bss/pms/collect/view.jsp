@@ -84,8 +84,9 @@
 	  
  function ss(){
 	 var value=$("#reson").val();
-
+	alert(value);
 	 if(value!=null&&value!=""){
+		 $("#treson").val(value);
 		 $("#status").val(4);
 		 $("#table").find("#acc_form").submit();
 	 }else{
@@ -374,14 +375,19 @@
 							     ${obj.goodsName }
 							  </div>
 							</td>
-							<td class="tl">
-							    <div class="w80">
-							       ${obj.stand }
-							    </div>
-							</td>
-							<td class="tl">
-							  <div class="w80"> ${obj.qualitStand }</div>
-							</td>
+							<td title="${obj.stand}" class="tl">
+							 <div class="stand">
+							   <c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
+							   <c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
+							 </div>
+							</td >
+							<td title="${obj.qualitStand}" class="tl">
+						  	 <div class="qualitstand">
+							   <c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
+							   <c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
+							 </div>
+							</td >
+							
 							<td class="tc">
 							    <div class="w80">${obj.item }</div>
 							</td>
@@ -389,10 +395,10 @@
 							    <div class="w80">${obj.purchaseCount }</div>
 							</td>
 							<td class="tr">
-							    <div class="w80">${obj.price }</div>
+							    <div class="w80"><fmt:formatNumber  type="number"      pattern="#,##0.00"   value="${obj.price }"/></div>
 							</td>
 							<td class="tr">
-							     <div class="w80">${obj.budget }</div>
+							     <div class="w80"><fmt:formatNumber type="number"      pattern="#,##0.00"  value="${obj.budget}"  /></div>
 							</td>
 							<td> 
 							     <div class="w80">${obj.deliverDate }</div> 
@@ -455,6 +461,7 @@
 					</c:forEach>
 					<input type="hidden" name="planNo" value="${planNo }">
 				    <input type="hidden" id="status" name="status" value="3">
+				     <input type="hidden" id="treson" name="reason" value="3">
 					</form>
 				</table>
 				</div>

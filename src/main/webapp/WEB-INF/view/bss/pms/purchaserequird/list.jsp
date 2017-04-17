@@ -337,7 +337,7 @@
 					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  	</c:forEach> --%>
 			  </td>  
-			  <td class="pr20 tr"><div onclick="view('${obj.uniqueId }')">${obj.budget }</div></td>
+			  <td class="pr20 tr"><div onclick="view('${obj.uniqueId }')"> <fmt:formatNumber type="number"  pattern="#,##0.00"  value="${obj.budget}" /></div></td>
 			  <td class="tc" onclick="view('${obj.uniqueId }')"><fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd"/></td>
 			 <%--  <td class="tc" onclick="view('${obj.uniqueId }')">${obj.deliverDate } </td> --%>
 			  <td class="tc" onclick="view('${obj.uniqueId }')">

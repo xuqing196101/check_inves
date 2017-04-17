@@ -314,6 +314,8 @@ public class PurchaseRequiredController extends BaseController{
 	    String id = UUID.randomUUID().toString().replaceAll("-", "");
 	    model.addAttribute("id", id);
 	   
+	    String uid = UUID.randomUUID().toString().replaceAll("-", "");
+	    model.addAttribute("uid", uid);
 	   /* List<Supplier> suppliers = purchaseRequiredService.queryAllSupplier();
 	    model.addAttribute("suppliers", suppliers);*/
 		return "bss/pms/purchaserequird/add";
@@ -342,8 +344,6 @@ public class PurchaseRequiredController extends BaseController{
 	public String uploadFile(@CurrentUser User user,String planDepName,MultipartFile file,String type,String planName,String planNo,Model model) throws Exception{
         String fileName = file.getOriginalFilename();  
         if(!fileName.endsWith(".xls")&&!fileName.endsWith(".xlsx")){  
-        	
-        	String errors="";
         	return "1";
         }  
         String mark="";
@@ -370,6 +370,17 @@ public class PurchaseRequiredController extends BaseController{
 		          String jsonString = JSON.toJSONString(errMsg);
 					return jsonString;
 			}
+		     if(list.size()<2){
+		    	 return "2";
+		     }
+		     
+		     if(!list.get(0).getSeq().matches("[\u4E00-\u9FA5]")){
+		    	 return "3";
+		     }
+//		     if(!list.get(0).getSeq().matches("[\u4E00-\u9FA5]")){
+//		    	 return "3";
+//		     }
+		     
 		   /*  if(!user.getOrg().getName().equals(list.get(0).getDepartment())){
 		    	 return "2"; 
 		     }*/
@@ -387,6 +398,7 @@ public class PurchaseRequiredController extends BaseController{
 		StringBuffer sbShow=new StringBuffer("");
 		int count=1;
 //		BigDecimal budget=BigDecimal.ZERO;
+		 
 		for(int i=0;i<list.size();i++){
 //			String id = UUID.randomUUID().toString().replaceAll("-", "");
 	 
@@ -426,6 +438,13 @@ public class PurchaseRequiredController extends BaseController{
 					 id = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级id赋值
 					 p.setId(id);//注释
 					 count++;
+					 PurchaseRequired pr = list.get(i+1);
+					 if(pr!=null){
+						 if(!isContainChinese(pr.getSeq())){
+							 errMsg=String.valueOf(i+4)+"行，节点错误";
+							 break;
+						 }
+					 }
 					 continue;
 				 }
 			 //判断是否是二级节点(一)
@@ -435,6 +454,13 @@ public class PurchaseRequiredController extends BaseController{
 					 pid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级pid赋值
 					 p.setId(pid);
 					 count++;
+					 PurchaseRequired pr = list.get(i+1);
+					 if(pr!=null){
+						 if(!pr.getSeq().equals("1")){
+							 errMsg=String.valueOf(i+4)+"行，节点错误";
+							 break;
+						 }
+					 }
 					 continue;	
 				}
 			 	
@@ -482,6 +508,10 @@ public class PurchaseRequiredController extends BaseController{
 				sbUp.append("pUp"+i);
 				sbShow.append("pShow"+i);
 			}
+		}
+		if(errMsg!=null){
+			 String jsonString = JSON.toJSONString(errMsg);
+				return jsonString;
 		}
 		String jsonString = JSON.toJSONString(list);
 		// purchaseRequiredService.batchAdd(list);

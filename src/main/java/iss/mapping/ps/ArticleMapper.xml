@@ -107,7 +107,16 @@
     ,
     <include refid="Article_BlOB_Column_List" />
     from T_ISS_PS_ARTICLE
-    where ID = #{id}
+    where  ID = #{id}
+  </select>
+  
+  <select id="selectReleaseById" parameterType="Object" resultMap="ArticleWithAttach">
+    select 
+    <include refid="Article_Column_List" />
+    ,
+    <include refid="Article_BlOB_Column_List" />
+    from T_ISS_PS_ARTICLE
+    where  STATUS=2 and is_deleted=0 and ID = #{id}
   </select>
   
   <!-- <select id="selectAllArticleToSolr" resultMap="ArticleBlob">
@@ -953,7 +962,7 @@ AND status = 2
 AND IS_DELETED = 0
 AND ROWNUM &lt;= 6
   </select>
-  
+  <!--  
   <select id="selectArticleByParIdTwo" parameterType="Map" resultMap="ArticleMapper">
   	SELECT
 		*
@@ -975,6 +984,43 @@ AND ROWNUM &lt;= 6
 	and IS_DELETED = 0
 	order by published_at desc
   </select>
+  -->
+  
+  <select id="selectArticleByParIdTwo" parameterType="Map" resultMap="ArticleMapper">
+  	SELECT
+	c.*,a.category_id,b.name as categoryName,d.name as lastArticleTypeName
+FROM
+	T_ISS_PS_ARTICLE c 
+	left join  T_SES_BMS_ARTICLE_CATEGORY a on c.id=a.article_id 
+	left join T_SES_BMS_CATEGORY b on a.category_id=b.id
+	left join T_ISS_PS_ARTICLE_TYPE d on c.LAST_ARTICLE_TYPE_ID=d.id
+WHERE
+    1=1 
+    and
+	d.PARENT_ID = #{parId}
+	<if test="title!=null and title!=''">
+		and c.name like '%'||#{title}||'%'
+	</if>
+	<if test="productType!=null and productType!=''">
+		and a.category_id = #{productType}
+	</if>
+	<if test="lastArticleTypeName!=null and lastArticleTypeName!=''">
+		and d.name like '%'||#{lastArticleTypeName}||'%'
+	</if>
+	
+	 <if test="publishStartDate != null and publishStartDate!=''">
+        AND to_char(PUBLISHED_AT,'yyyy-mm-dd') &gt;= #{publishStartDate}
+      </if>
+      <if test="publishEndDate != null and publishEndDate!=''">
+        AND to_char(PUBLISHED_AT,'yyyy-mm-dd') &lt;= #{publishEndDate}	
+      </if>
+	
+	and c.status=2
+	and c.IS_DELETED = 0
+	order by published_at desc
+  </select>
+  
+  
   
   <select id="selectArticleByArticleType" parameterType="Map" resultMap="ArticleMapper">
   	select * from (SELECT
@@ -1238,6 +1284,7 @@ where
 where ROWNUM &lt;=10
   </select>
   
+  <!-- 
   <select id="selectAllByTabs" parameterType="Map" resultMap="ArticleMapper">
   	select * from (SELECT
 		*
@@ -1254,6 +1301,45 @@ where
 		and name like '%'||#{title}||'%'
 		</if>
   </select>
+   -->
+  <select id="selectAllByTabs" parameterType="Map" resultMap="ArticleMapper">
+  	SELECT
+	c.*,a.category_id,b.name as categoryName,d.name as lastArticleTypeName
+FROM
+	T_ISS_PS_ARTICLE c 
+	left join  T_SES_BMS_ARTICLE_CATEGORY a on c.id=a.article_id 
+	left join T_SES_BMS_CATEGORY b on a.category_id=b.id
+	left join T_ISS_PS_ARTICLE_TYPE d on c.LAST_ARTICLE_TYPE_ID=d.id
+WHERE
+    1=1 
+	AND ARTICLE_TYPE_ID = #{articleTypeId}
+	AND SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId}
+	<if test="title!=null and title!=''">
+		and c.name like '%'||#{title}||'%'
+	</if>
+	<if test="productType!=null and productType!=''">
+		and a.category_id = #{productType}
+	</if>
+	<if test="lastArticleTypeName!=null and lastArticleTypeName!=''">
+		and d.name like '%'||#{lastArticleTypeName}||'%'
+	</if>
+	
+	 <if test="publishStartDate != null and publishStartDate!=''">
+        AND to_char(PUBLISHED_AT,'yyyy-mm-dd') &gt;= #{publishStartDate}
+      </if>
+      <if test="publishEndDate != null and publishEndDate!=''">
+        AND to_char(PUBLISHED_AT,'yyyy-mm-dd') &lt;= #{publishEndDate}	
+      </if>
+	
+	and c.status=2
+	and c.IS_DELETED = 0
+	order by published_at desc
+  </select>
+  
+  
+  
+  
+  
   
    <select id="selectAllByTabss" parameterType="Map" resultMap="ArticleMapper">
   	select * from (SELECT
