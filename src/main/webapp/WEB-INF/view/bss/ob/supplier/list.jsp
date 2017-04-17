@@ -380,7 +380,7 @@
 	    	    <option value="">--请选择--</option>
 	    	    <option value="1:0" <c:if test="${'1:0' eq queryStatus}">selected</c:if>>竞价未开始</option>
 	    	    <option value="3:(4,42,22)" <c:if test="${'3:(4,42,22)' eq queryStatus}">selected</c:if>>中标</option>
-	    	    <option value="3:(0,20,3,32,666,1,21)" <c:if test="${'3:(0,20,3,32,666,1,21,-1)' eq queryStatus}">selected</c:if>>未中标</option>
+	    	    <option value="3:(0,20,3,32,666,1,21,-1)" <c:if test="${'3:(0,20,3,32,666,1,21,-1)' eq queryStatus}">selected</c:if>>未中标</option>
 	    	  </select>
 	      </li>
 	    	<button type="button" onclick="query()" class="btn">查询</button>
