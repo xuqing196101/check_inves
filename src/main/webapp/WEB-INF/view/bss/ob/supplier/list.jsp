@@ -230,6 +230,12 @@
 			   //竞价结束和流拍
 			   statusCommon(status);
 			   
+			   // 无效供应商
+			   if(remark == '-1'){
+				   layer.alert("对不起，您未中标 ！");
+				   return;
+			   }
+			   
 			   if(status != '5' && status != '6'){
 				   layer.alert("对不起，确认时间未开始，请您等待 ！");
 				   return;
@@ -374,7 +380,7 @@
 	    	    <option value="">--请选择--</option>
 	    	    <option value="1:0" <c:if test="${'1:0' eq queryStatus}">selected</c:if>>竞价未开始</option>
 	    	    <option value="3:(4,42,22)" <c:if test="${'3:(4,42,22)' eq queryStatus}">selected</c:if>>中标</option>
-	    	    <option value="3:(0,20,3,32,666,1,21)" <c:if test="${'3:(0,20,3,32,666,1,21)' eq queryStatus}">selected</c:if>>未中标</option>
+	    	    <option value="3:(0,20,3,32,666,1,21)" <c:if test="${'3:(0,20,3,32,666,1,21,-1)' eq queryStatus}">selected</c:if>>未中标</option>
 	    	  </select>
 	      </li>
 	    	<button type="button" onclick="query()" class="btn">查询</button>
@@ -454,6 +460,12 @@
 						<c:when test="${obProject.remark == '1' || obProject.remark == '21'}">
 							结果待确认(第一轮)
 						</c:when>
+						
+						<!-- 无效供应商 -->
+						<c:when test="${obProject.remark == '-1'}">
+							未中标
+						</c:when>
+						
 						<c:when test="${obProject.remark == '3'}">
                            	第一轮已放弃
 						</c:when>
@@ -488,13 +500,19 @@
 						<c:when test="${obProject.remark == '666'}">
 							结果待确认(第二轮)
 						</c:when>
+						
+						<!-- 无效供应商 -->
+						<c:when test="${obProject.remark == '-1'}">
+							未中标
+						</c:when>
+						
 					</c:choose>
 			  	</c:if>
 			  	
 			  	<!-- 竞价结束 -->
 			  	<c:if test="${ obProject.obProjectList[0].status == 3 }">
                     <c:choose>
-	                    <c:when test="${obProject.remark == '0' || obProject.remark == '20' || obProject.remark == '3' || obProject.remark == '32' || obProject.remark == '666' || obProject.remark == '1' || obProject.remark == '21'}">
+	                    <c:when test="${obProject.remark == '0' || obProject.remark == '20' || obProject.remark == '3' || obProject.remark == '32' || obProject.remark == '666' || obProject.remark == '1' || obProject.remark == '21' || obProject.remark == '-1'}">
                         	未中标
 	                    </c:when>
 	                    <c:when test="${obProject.remark == '4' || obProject.remark == '42' || obProject.remark == '22'}">
