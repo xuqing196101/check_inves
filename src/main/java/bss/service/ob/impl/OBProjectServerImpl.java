@@ -1163,16 +1163,19 @@ public class OBProjectServerImpl implements OBProjectServer {
     	   
     	     Iterator<OBResultsInfo> iterator = resultsInfoList.iterator();
     	     while(iterator.hasNext()){
+    	    	 OBResultsInfo info=iterator.next();
+    	    	 if(info!=null){
     	    	 //如果供应商 报价 金额 大于 有效金额 那么删除
-    	    	 if(iterator.next().getMyOfferMoney().compareTo(validAve)!=-1){
- 					iterator.remove();
- 					OBProject obProject = new OBProject();
-					obProject.setId(projectId);
-					User users = new User();
-					users.setTypeId(supplierId);
-					String remark = "-1";
-					BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
- 				}
+    	    	 if(info.getMyOfferMoney().compareTo(validAve)!=-1){
+    	    		 iterator.remove();
+    	    		 OBProject obProject = new OBProject();
+ 					obProject.setId(info.getProjectId());
+ 					User users = new User();
+ 					users.setTypeId(info.getSupplierId());
+    	    		 String remark = "-1";
+    	    		 BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
+ 				   }
+    	    	 }
     	     }
     	     acc=new BigDecimal(0);
     	     //计算筛选后的 平均值
@@ -1186,8 +1189,8 @@ public class OBProjectServerImpl implements OBProjectServer {
     	      //冒泡 排序  去掉部分 无效数据
     	      for (int k = 0; k < resultsInfoList.size()-1; k++) {
     			for (int k2 = 0; k2 < resultsInfoList.size()-1-k; k2++) {
-    				double itemD=Math.abs(validJ.subtract(resultsInfoList.get(k2).getMyOfferMoney()).doubleValue());
-    				double itemD1=Math.abs(validJ.subtract(resultsInfoList.get(k2+1).getMyOfferMoney()).doubleValue());
+    				double itemD=Math.abs(resultsInfoList.get(k2).getMyOfferMoney().subtract(validJ).doubleValue());
+    				double itemD1=Math.abs(resultsInfoList.get(k2+1).getMyOfferMoney().subtract(validJ).doubleValue());
     				  if(itemD>itemD1){
     					  OBResultsInfo info=resultsInfoList.get(k2);
     					  resultsInfoList.set(k2, resultsInfoList.get(k2+1));
@@ -1198,15 +1201,24 @@ public class OBProjectServerImpl implements OBProjectServer {
     	     if(resultsInfoList!=null&&resultsInfoList.size()>0){
     	    	  //选择第一名
     	      BigDecimal small=resultsInfoList.get(0).getMyOfferMoney();
-    	      small=validJ.subtract(small).setScale(2, BigDecimal.ROUND_HALF_UP);
+    	      small=small.subtract(validJ).setScale(2, BigDecimal.ROUND_HALF_UP);
     	    Iterator<OBResultsInfo> iter = resultsInfoList.iterator();
      	     while(iter.hasNext()){
+     	    	OBResultsInfo info=iter.next();
+     	    	if(info!=null){
      	    	 //如果供应商 报价 金额 小于 有效金额 那么删除
-     	    	 if(validJ.subtract(iter.next().getMyOfferMoney()).setScale(2, BigDecimal.ROUND_HALF_UP).compareTo(small)==-1){
+     	    	 if(info.getMyOfferMoney().subtract(validJ).setScale(2, BigDecimal.ROUND_HALF_UP).compareTo(small)==-1){
      	    		 iter.remove();
-  				}
-     	       }
-    	      }
+     	    		OBProject obProject = new OBProject();
+					obProject.setId(info.getProjectId());
+					User users = new User();
+					users.setTypeId(info.getSupplierId());
+					String remark = "-1";
+					BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
+  				 }
+     	    	 }
+     	        }
+    	     }
     	}
     	return resultsInfoList;
     }
