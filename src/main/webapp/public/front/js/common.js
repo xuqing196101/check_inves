@@ -373,3 +373,11 @@ $(function(){$(".dropdown .dropdown-menu li").hover(
    			$(this).find(".dropdown-menuson.dropdown-menu").css("display","none");
         });
 });
+//正整数正则判断
+function positiveRegular(str){
+    var pattern = /^[1-9]\d*$/;
+    if(pattern.test(str)){
+        return true;
+    }
+    return false;
+}

@@ -142,6 +142,20 @@
 
 			/** 保存基本信息 */
 			function saveBasicInfo(obj) {
+                //进行出资金额或股份的数据校验
+                var _count = 0;
+                var _inputArray = $('#stockholder_list_tbody_id').find('tr').find("td:eq(4)").find('input');
+                var inputSize = _inputArray.length;
+                for(var i=0;i<inputSize;i++){
+                    var _val = _inputArray[i].value;
+                    if(!positiveRegular(_val)){
+                        _count ++;
+                    }
+                }
+                if(_count > 0){
+                    layer.msg('请输入正确的出资金额或股份数据格式(正整数)', {offset: '300px'});
+                    return false;
+                }
 				var supplierId = $("input[name='id']").val();
 				var msg = "";
 				var flag = true;
@@ -201,25 +215,39 @@
 
 			/** 暂存 */
 			function temporarySave() {
-				$("input[name='flag']").val("");
-				$.ajax({
-					url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
-					type: "post",
-					data: $("#basic_info_form_id").serializeArray(),
-					contextType: "application/x-www-form-urlencoded",
-					success: function(msg) {
-						if(msg == 'ok') {
-							layer.msg('暂存成功', {
-								offset: '300px'
-							});
-						}
-						if(msg == 'failed') {
-							layer.msg('暂存失败', {
-								offset: '300px'
-							});
-						}
-					}
-				});
+			    //进行出资金额或股份的数据校验
+                var _count = 0;
+                var _inputArray = $('#stockholder_list_tbody_id').find('tr').find("td:eq(4)").find('input');
+                var inputSize = _inputArray.length;
+                for(var i=0;i<inputSize;i++){
+                    var _val = _inputArray[i].value;
+                    if(!positiveRegular(_val)){
+                        _count ++;
+                    }
+                }
+                if(_count > 0){
+                    layer.msg('请输入正确的出资金额或股份数据格式(正整数)', {offset: '300px'});
+                }else{
+                    $("input[name='flag']").val("");
+                    $.ajax({
+                        url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
+                        type: "post",
+                        data: $("#basic_info_form_id").serializeArray(),
+                        contextType: "application/x-www-form-urlencoded",
+                        success: function(msg) {
+                            if(msg == 'ok') {
+                                layer.msg('暂存成功', {
+                                    offset: '300px'
+                                });
+                            }
+                            if(msg == 'failed') {
+                                layer.msg('暂存失败', {
+                                    offset: '300px'
+                                });
+                            }
+                        }
+                    });
+                }
 			}
 			$(function() {
 				$("input").bind("blur", tempSave);
@@ -1685,7 +1713,7 @@
 
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' maxlength="18" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" value='${stockholder.identity}'> </td>
-													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].shares' value='${stockholder.shares}'> </td>
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' class="shares" name='listSupplierStockholders[${stockvs.index }].shares' value='${stockholder.shares}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}'></td>
 												</tr>
 											</c:forEach>
@@ -1807,3 +1835,11 @@
    		</div>
 	</body>
 </html>
+<script type="text/javascript">
+    $(".shares").on('change',function () {
+        var _val = $(this).val();
+        if(!positiveRegular(_val)){
+            layer.msg("请输入正确的出资金额或股份数据格式(正整数)", {offset: '300px'});
+        };
+    })
+</script>
