@@ -847,7 +847,7 @@ public class OpenBiddingController {
         } else {
           articelService.addArticle(article);
           //该环节设置为执行中状态
-          flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 2);
+          flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 1);
         }
         
         jsonData.setSuccess(true);
@@ -1237,6 +1237,8 @@ public class OpenBiddingController {
         model.addAttribute("count", listDate1.size());
       }
     }
+    //该环节设置为执行中状态
+    flowMangeService.flowExe(req, flowDefineId, projectId, 2);
     //去saletender查出项目对应的所有的包
     List<Packages> packList = saleTenderService.getPackageIds(projectId);
     List<Packages> listPackage1 = new ArrayList<Packages>();
@@ -1693,7 +1695,9 @@ public class OpenBiddingController {
       }
       quoteLists.add(quote);
     }
-    supplierQuoteService.insert(quoteLists);  
+    supplierQuoteService.insert(quoteLists); 
+    //该环节设置为执行完毕
+    flowMangeService.flowExe(request, jsonQuote.getString("flowDefineId"), jsonQuote.getString("projectId"), 1);
     return "true";
   }
 
@@ -1905,6 +1909,8 @@ public class OpenBiddingController {
     if (listDate != null && listDate.size() > 0) {
         model.addAttribute("listDate", listDate.size());
     }
+    //该环节设置为执行中状态
+    flowMangeService.flowExe(req, flowDefineId, projectId, 2);
     Quote quote2 = new Quote();
     HashMap<String, Object> map = new HashMap<String, Object>();
     map.put("projectId", projectId);
@@ -2235,7 +2241,7 @@ public class OpenBiddingController {
    */
   @ResponseBody
   @RequestMapping(value = "/savemingxi")
-  public String savemingxi(HttpServletRequest req, Quote quote, Model model, String priceStr, String packId, String quoteList) throws Exception {
+  public String savemingxi(HttpServletRequest req, Quote quote, Model model, String priceStr, String flowDefineId, String packId, String quoteList) throws Exception {
     // List<String> listBd = Arrays.asList(priceStr.split(","));
     User user = (User) req.getSession().getAttribute("loginUser");
     List<Quote> listQuote = new ArrayList<Quote>();
@@ -2243,6 +2249,8 @@ public class OpenBiddingController {
     map.put("projectId", quote.getProjectId());
     List<Packages> listPack = supplierQuoteService.selectByPrimaryKey(map, null);
     //
+    //该环节设置为执行完毕
+    flowMangeService.flowExe(req, flowDefineId, quote.getProjectId(), 1);
     SaleTender st = new SaleTender();
     st.setProjectId(quote.getProjectId());
     StringBuilder sb = new StringBuilder("");

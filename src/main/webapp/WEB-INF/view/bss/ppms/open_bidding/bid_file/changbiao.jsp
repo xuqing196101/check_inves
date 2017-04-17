@@ -89,7 +89,7 @@
 			var projectId = $("#projectId").val();
 			 $.ajax({
 			        type: "POST",
-			        url: "${pageContext.request.contextPath}/open_bidding/savemingxi.html?projectId="+projectId + "&packId=${packId}",
+			        url: "${pageContext.request.contextPath}/open_bidding/savemingxi.html?projectId="+projectId + "&packId=${packId}" + "&flowDefineId=${flowDefineId}",
 			        data: {quoteList:JSON.stringify(jsonStr)},
 			        dataType: "json",
 			        success: function (message) {

@@ -37,6 +37,7 @@ import ses.util.DictionaryDataUtil;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
@@ -84,6 +85,9 @@ public class SaleTenderController {
   private UploadService uploadService;
   @Autowired
   private DownloadService downloadService;
+  
+  @Autowired
+  private FlowMangeService flowMangeService;
 
   /**
    * @Fields projectService : 引用项目业务实现接口
@@ -270,7 +274,7 @@ public class SaleTenderController {
    * @return String
    */
   @RequestMapping("/showAllSuppliers")
-  public  String showAllSuppliers(Model model, String projectId,String page,String packId,Supplier supplier,String ix,String selectValue){
+  public  String showAllSuppliers(Model model, String flowDefineId, String projectId,String page,String packId,Supplier supplier,String ix,String selectValue, HttpServletRequest request){
     SaleTender saleTender=new SaleTender();
     Project project = new Project();
     project.setId(projectId);
@@ -287,7 +291,9 @@ public class SaleTenderController {
       if (stsupplierIds != null && stsupplierIds.size() != 0) {
         supplier.setStsupplierIds(stsupplierIds);
       }
-  }
+   }
+  //该环节设置为执行中状态
+  flowMangeService.flowExe(request, flowDefineId, projectId, 2);
   Project projects = projectService.selectById(projectId);
   DictionaryData findById = DictionaryDataUtil.findById(projects.getPurchaseType());
   model.addAttribute("kind", findById.getCode());

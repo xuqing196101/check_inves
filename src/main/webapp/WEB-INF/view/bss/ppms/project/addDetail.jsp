@@ -158,7 +158,7 @@
                      </div>
                   </td>
                   <td>
-                    <c:if test="${obj.price != null}">
+                    <c:if test="${obj.price eq null}">
                    <div class="department">
                     ${obj.department}
                     <input type="hidden" name="listDetail[${vs.index }].department" value="${obj.department }">

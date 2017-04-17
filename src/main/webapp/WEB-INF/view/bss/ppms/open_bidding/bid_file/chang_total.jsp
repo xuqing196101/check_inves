@@ -13,7 +13,7 @@
 	}
 	var count1 = '${count1}';
 	var jsonStr = [];
-	function update(obj, supplierId, packageId, projectId, quoteId){
+	function update(obj, supplierId, packageId, projectId, quoteId, flowDefineId){
 		var reg = /^\d+\.?\d*$/;
 		var flag = false;
 		var x,y;  
@@ -25,7 +25,7 @@
 		var auditReason = $(obj).parent().parent().find("td").eq("5").find("input").val();
 		var isGiveUp = $(obj).parent().parent().find("td").eq("4").find("select").val();
 		var date = '${date}';
-		var json = {"total":total, "supplierId":supplierId, "deliveryTime":deliveryTime, "packageId":packageId, "projectId":projectId, "quoteId":quoteId, "date":date, "auditReason":auditReason, "isGiveUp":isGiveUp};
+		var json = {"total":total, "supplierId":supplierId, "deliveryTime":deliveryTime, "packageId":packageId, "projectId":projectId, "quoteId":quoteId, "date":date, "auditReason":auditReason, "flowDefineId":flowDefineId, "isGiveUp":isGiveUp};
 		jsonStr.push(json);
 		console.log(jsonStr); 
 	}
@@ -172,7 +172,7 @@
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
 				<tr>
 				    <td class="tc w50">${vs.index+1 }
-			    		<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')" />
+			    		<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}','${flowDefineId}')" />
 				    </td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 					<td class="tc"><input   maxlength="16" type="text"/></td>

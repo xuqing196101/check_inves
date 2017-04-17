@@ -329,7 +329,7 @@
                       <input type="hidden" value="${obj.requiredId }">
                       </td>
                       <td class="tl">
-                         <c:if test="${obj.price != null}">
+                         <c:if test="${obj.price eq null}">
 		                    <div class="department">${obj.department}</div>
 		                    </c:if>
                       </td>

@@ -119,7 +119,6 @@ public class FlowManageServiceImpl implements FlowMangeService {
             User currUser = (User) request.getSession().getAttribute("loginUser");
             oldFlowExecute.setOperatorId(currUser.getId());
             oldFlowExecute.setOperatorName(currUser.getRelName());
-            oldFlowExecute.setStatus(status);
             saveExecute(oldFlowExecute);
         } else {
             //如果该项目该环节流程没有执行过

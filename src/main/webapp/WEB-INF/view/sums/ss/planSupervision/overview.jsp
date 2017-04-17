@@ -14,7 +14,6 @@
         /* var cc = $("#main-1").offset().top;
         var bb = $("#main-8").offset().top; */
         $(".flow_tips").each(function(i) {
-          //var aa = $(this).offset().top;
           if(i == 5) {
             $(this).addClass("round_tips round_l last_r");
             $(this).children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
@@ -27,6 +26,10 @@
           if(i == 11) {
             $(this).addClass("round_tips round_l last_r");
             $(this).children(":last").addClass("col-sm-offset-1 col-md-offset-1  col-md-offset-0");
+          }
+          
+          if(i > 5 && i < 12) {
+            $(this).addClass("last_r");
           }
         });
         var flow = $(".flow_tips").length;
@@ -92,7 +95,7 @@
         layer.open({
           type: 2, //page层
           area: ['1000px', '500px'],
-          title: '查看文件发售',
+          title: '查看投标记录',
           shade: 0.01, //遮罩透明度
           moveType: 1, //拖拽风格，0是默认，1是传统拖动
           shift: 1, //0-6的动画形式，-1不开启
@@ -113,6 +116,14 @@
           shadeClose: true,
           content: '${pageContext.request.contextPath}/planSupervision/bidAnnouncement.html?packageId=' + id,
         });
+      }
+      
+      function expertExtract(packageId, projectId) {
+        location.href="${pageContext.request.contextPath }/planSupervision/showRecord.html?packageId="+packageId + "&projectId=" + projectId;
+      }
+      
+      function supplierExtract(packageId, projectId) {
+        location.href="${pageContext.request.contextPath }/planSupervision/showRecords.html?packageId="+packageId + "&projectId=" + projectId;
       }
 
       function openPrint(projectId, packageId) {
@@ -222,7 +233,7 @@
                 <tr>
                   <td width="10%" class="info">计划名称：</td>
                   <td width="25%">${collectPlan.fileName}</td>
-                  <td width="10%" class="info">计划编号：</td>
+                  <td width="10%" class="info">计划文号：</td>
                   <td width="25%">${collectPlan.planNo}</td>
                 </tr>
                 <tr>
@@ -234,17 +245,17 @@
                 <tr>
                   <td width="10%" class="info">项目状态：</td>
                   <td width="25%">${project.status}</td>
-                  <td width="10%" class="info">创建人：</td>
+                  <td width="10%" class="info">项目负责人：</td>
                   <td width="25%">${project.appointMan}</td>
                 </tr>
-                <tr>
+                <%-- <tr>
                   <td width="10%" class="info">创建日期：</td>
                   <td width="25%">
                     <fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                   <td width="10%" class="info"></td>
                   <td width="25%"></td>
-                </tr>
+                </tr> --%>
               </tbody>
             </table>
           </ul>
@@ -351,7 +362,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-8">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-8">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-8">
                     <p class="tip_main">采购文件编报</p>
@@ -364,7 +375,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-9">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-9">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-9">
                     <p class="tip_main">采购公告发布</p>
@@ -377,21 +388,21 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <%-- <c:if test="${'GKZB' ne code.code && 'DYLY' ne code.code}">
+              <c:if test="${'GKZB' ne code.code && 'DYLY' ne code.code}">
                 <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-10">
                   <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                     <a href="#tab-10">
                       <p class="tip_main">供应商抽取</p>
-                      <p class="tip_time">2016-08-08</p>
+                      <p class="tip_time"><fmt:formatDate value='${extUserDate}' pattern='yyyy-MM-dd' /></p>
                     </a>
                   </div>
                   <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
                   <div class="tip_down col-xs-offset-6"></div>
                 </div>
-              </c:if> --%>
+              </c:if>
 
               <c:if test="${'DYLY' ne code.code}">
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-11">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-11">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-11">
                     <p class="tip_main">采购文件发售</p>
@@ -403,18 +414,20 @@
               </div>
               </c:if>
 
-              <!-- <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-12">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-12">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-12">
                     <p class="tip_main">评审专家抽取</p>
-                    <p class="tip_time">2016-08-08</p>
+                    <p class="tip_time">
+                      <fmt:formatDate value='${userDate}' pattern='yyyy-MM-dd' />
+                    </p>
                   </a>
                 </div>
                 <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
                 <div class="tip_down col-xs-offset-6"></div>
-              </div> -->
+              </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-13">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-13">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-13">
                     <p class="tip_main">开标</p>
@@ -429,7 +442,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-15">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-15">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-14">
                     <p class="tip_main">采购项目评审</p>
@@ -449,7 +462,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-16">
+              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-16">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-15">
                     <p class="tip_main">中标公示发布</p>
@@ -465,7 +478,7 @@
               <div class="flow_tips col-md-2 col-sm-2 col-xs-12 " id="main-17">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-16">
-                    <p class="tip_main">中标供应商确定</p>
+                    <p class="tip_main">预中标供应商确定</p>
                     <p class="tip_time">
                       <fmt:formatDate value='${listCheckPass[0].confirmTime}' pattern='yyyy-MM-dd' />
                     </p>
@@ -593,9 +606,9 @@
                   <thead>
                     <tr>
                       <th class="info" width="25%">审核轮次</th>
-                      <th class="info" width="25%">审核人员</th>
+                      <th class="info">审核人员</th>
                       <th class="info" width="25%">审核意见</th>
-                      <th class="info" width="25%">审核时间</th>
+                      <th class="info" width="20%">审核时间</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -711,7 +724,7 @@
                     <th class="info">编制人</th>
                     <th class="info" width="10%">提报时间</th>
                     <th class="info" width="45%">审核意见</th>
-                    <th class="info" width="10%">意见批复时间</th>
+                    <th class="info" width="20%">意见批复时间</th>
                   </tr>
                   <tr>
                     <td>
@@ -722,7 +735,7 @@
                       <fmt:formatDate value='${project.approvalTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                     </td>
                     <td>
-                      <a href="javascript:void(0)" onclick="audit('${project.id}','1')">采购管理部门审核意见、事业部门审核意见、财务部门审核意见、最终意见</a>
+                      <a href="javascript:void(0)" onclick="audit('${project.id}','1')">采购管理部门、事业部门审核、财务部门</a>
                     </td>
                     <td>
                       <fmt:formatDate value='${project.replyTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
@@ -754,7 +767,7 @@
             </table>
             </c:if>
 
-            <%-- <c:if test="${'GKZB' ne code.code && 'DYLY' ne code.code}">
+            <c:if test="${'GKZB' ne code.code && 'DYLY' ne code.code}">
               <h2 class="list_son" id="tab-10"><i>${flag}</i>供应商抽取</h2>
               <c:set var="flag" value="${flag+1}" />
               <table class="table table-bordered mt10">
@@ -763,18 +776,19 @@
                     <th class="info">抽取记录</th>
                     <th class="info">抽取人</th>
                     <th class="info">监督人</th>
-                    <th class="info">抽取时间</th>
+                    <th class="info" width="20%">抽取时间</th>
                   </tr>
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="tc"><button class="btn" onclick="supplierExtract('${packageId}','${project.id}')" type="button">查看</button></td>
+                    <td>${extUserNames}</td>
+                    <td>${extUserName}</td>
                     <td>
+                      <fmt:formatDate value='${extUserDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                     </td>
                   </tr>
                 </tbody>
               </table>
-            </c:if> --%>
+            </c:if>
 
             <c:if test="${'DYLY' ne code.code}">
             <c:if test="${begin ne null}">
@@ -785,7 +799,7 @@
                 <tr>
                   <th class="info">文件发售记录</th>
                   <th class="info" width="20%">操作人</th>
-                  <th class="info" width="20%">发售时间</th>
+                  <th class="info" width="20%">开始发售时间</th>
                 </tr>
                 <tr>
                   <td class="tc"><button class="btn" onclick="sell('${packageId}','1')" type="button">查看</button></td>
@@ -802,8 +816,8 @@
             </c:if>
             </c:if>
 
-            <c:if test=""></c:if>
-            <%-- <h2 class="list_son" id="tab-12"><i>${flag}</i>评审专家抽取</h2>
+            <c:if test="${userNames ne null}">
+            <h2 class="list_son" id="tab-12"><i>${flag}</i>评审专家抽取</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
@@ -811,17 +825,19 @@
                   <th class="info">抽取记录</th>
                   <th class="info">抽取人</th>
                   <th class="info">监督人</th>
-                  <th class="info">抽取时间</th>
+                  <th class="info" width="20%">抽取时间</th>
                 </tr>
                 <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td class="tc"><button class="btn" onclick="expertExtract('${packageId}','${project.id}')" type="button">查看</button></td>
+                  <td>${userNames}</td>
+                  <td>${userName}</td>
                   <td>
+                    <fmt:formatDate value='${userDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
               </tbody>
-            </table> --%>
+            </table>
+            </c:if>
 
             <c:if test="${operName ne null}">
             <h2 class="list_son" id="tab-13"><i>${flag}</i>开标</h2>
@@ -836,8 +852,8 @@
 		                <tr>
 		                  <th class="info" width="25%">投标记录</th>
 		                  <th class="info" width="25%">开标一览表</th>
-		                  <th class="info" width="25%">开标人</th>
-		                  <th class="info" width="25%">开标时间</th>
+		                  <th class="info">开标人</th>
+		                  <th class="info" width="20%">开标时间</th>
 		                </tr>
 		                <tr>
 		                  <td class="tc"><button class="btn" onclick="sell('${packageId}','2')" type="button">查看</button></td>
@@ -853,7 +869,7 @@
             </c:choose>
             </c:if>
 
-            <c:if test="${packages.qualificationTime ne null}">
+            <c:if test="${experts[0].relName ne null}">
             <h2 class="list_son" id="tab-14"><i>${flag}</i>采购项目评审</h2>
             <c:set var="flag" value="${flag+1}" />
             <c:choose>
@@ -939,15 +955,15 @@
             </c:if>
 
             <c:if test="${listCheckPass ne null}">
-            <h2 class="list_son" id="tab-16"><i>${flag}</i>中标供应商确定</h2>
+            <h2 class="list_son" id="tab-16"><i>${flag}</i>预中标供应商确定</h2>
             <c:set var="flag" value="${flag+1}" />
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
-                  <th class="info" width="25%">中标供应商名称</th>
+                  <th class="info">中标供应商名称</th>
                   <th class="info" width="25%">评分排序</th>
                   <th class="info" width="25%">操作人</th>
-                  <th class="info" width="25%">确定时间</th>
+                  <th class="info" width="20%">确定时间</th>
                 </tr>
                 <c:forEach items="${listCheckPass}" var="obj" varStatus="vs">
                   <tr>

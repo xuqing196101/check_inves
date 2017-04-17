@@ -91,15 +91,25 @@ import common.service.UploadService;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
+import ses.model.ems.ExpExtCondition;
+import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.Expert;
+import ses.model.ems.ProExtSupervise;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCondition;
+import ses.model.sms.SupplierExtUser;
 import ses.model.sms.SupplierExtracts;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpExtConditionService;
+import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
+import ses.service.ems.ProjectSupervisorServicel;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.sms.SupplierConditionService;
 import ses.service.sms.SupplierExtUserServicel;
+import ses.service.sms.SupplierExtractsService;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -215,6 +225,21 @@ public class PlanSupervisionController {
     
     @Autowired
     private SupplierExtUserServicel extUserService;
+    
+    @Autowired
+    private ProjectSupervisorServicel projectSupervisorService;
+    
+    @Autowired
+    private ExpExtractRecordService expExtractRecordService;
+    
+    @Autowired
+    ExpExtConditionService conditionService;
+    
+    @Autowired
+    private SupplierExtractsService supplierExtractsService;
+    
+    @Autowired
+    private SupplierConditionService supplierConditionService;
     
     
     /**
@@ -753,7 +778,7 @@ public class PlanSupervisionController {
                         User user = userService.getUserById(task.get(0).getUserId());
                         task.get(0).setUserId(user.getRelName());
                     }
-                    task.get(0).setPurchaseId(org.getName());
+                    task.get(0).setPurchaseId(org.getShortName());
                     model.addAttribute("task", task.get(0));
                 }
                 
@@ -768,7 +793,7 @@ public class PlanSupervisionController {
                             project.setAppointMan(user.getRelName());
                         }
                         Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
-                        project.setPurchaseDepName(org.getName());
+                        project.setPurchaseDepName(org.getShortName());
                         project.setStatus(DictionaryDataUtil.findById(project.getStatus()).getName());
                         String id2 = DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS");
                         List<UploadFile> list = uploadService.getFilesOther(project.getId(), id2, "2");
@@ -977,6 +1002,95 @@ public class PlanSupervisionController {
                                 model.addAttribute("DYLY", "1");
                             }
                             
+                            //获取抽取供应商监督人员
+                            DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+                            if(!"GKZB".equals(findById.getCode()) && !"DYLY".equals(findById.getCode())){
+                                List<SupplierExtUser>  listUsers = extUserService.list(new SupplierExtUser(project.getId()));
+                                String userNames = "";
+                                if (listUsers != null && listUsers.size() != 0){
+                                    for (SupplierExtUser ps : listUsers) {
+                                        if (ps != null ){
+                                            userNames += ps.getRelName()+ ",";
+                                        }
+                                    }
+                                    if(!"".equals(userNames)){
+                                        model.addAttribute("extUserName", userNames.substring(0, userNames.length()-1));
+                                        model.addAttribute("extUserDate", listUsers.get(0).getCreatedAt());
+                                    }
+                                    
+                                    //获取供应商抽取人
+                                    FlowDefine fd = new FlowDefine();
+                                    fd.setPurchaseTypeId(project.getPurchaseType());
+                                    fd.setCode("CQGYS");
+                                    List<FlowDefine> fds = flowMangeService.find(fd);
+                                    FlowExecute fe = new FlowExecute();
+                                    fe.setProjectId(project.getId());
+                                    fe.setFlowDefineId(fds.get(0).getId());
+                                    fe.setStatus(1);
+                                    List<FlowExecute> fes = flowMangeService.findFlowExecute(fe);
+                                    if(fes != null && fes.size() > 0){
+                                        model.addAttribute("extUserNames", fes.get(0).getOperatorName());
+                                    } else {
+                                        fe.setStatus(3);
+                                        List<FlowExecute> findFlowExecutes1 = flowMangeService.findFlowExecute(fe);
+                                        if(findFlowExecutes1 != null && findFlowExecutes1.size() > 0){
+                                            model.addAttribute("extUserNames", findFlowExecutes1.get(0).getOperatorName());
+                                        } else {
+                                            execute.setStatus(2);
+                                            List<FlowExecute> executes1 = flowMangeService.findFlowExecute(execute);
+                                            if(executes1 != null && executes1.size() > 0){
+                                                model.addAttribute("extUserNames", executes1.get(0).getOperatorName());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            model.addAttribute("code", findById);
+                            
+                            //获取抽取专家监督人
+                            List<ProExtSupervise>  listUser = projectSupervisorService.list(new ProExtSupervise(project.getId()));
+                            String userName = "";
+                            if(listUser != null && listUser.size() > 0){
+                                for (ProExtSupervise ps : listUser) {
+                                    if (ps != null ){
+                                      userName += ps.getRelName()+ ",";
+                                    }
+                                  }
+                                  if(!"".equals(userName)){
+                                    model.addAttribute("userName", userName.substring(0, userName.length()-1));
+                                    model.addAttribute("userDate", listUser.get(0).getCreatedAt());
+                                  }
+                                  
+                                  //获取专家抽取人
+                                  FlowDefine fd = new FlowDefine();
+                                  fd.setPurchaseTypeId(project.getPurchaseType());
+                                  fd.setCode("ZZZJPS");
+                                  List<FlowDefine> fds = flowMangeService.find(fd);
+                                  FlowExecute fe = new FlowExecute();
+                                  fe.setProjectId(project.getId());
+                                  fe.setFlowDefineId(fds.get(0).getId());
+                                  fe.setStatus(1);
+                                  List<FlowExecute> fes = flowMangeService.findFlowExecute(fe);
+                                  if(fes != null && fes.size() > 0){
+                                      model.addAttribute("userNames", fes.get(0).getOperatorName());
+                                  } else {
+                                      fe.setStatus(3);
+                                      List<FlowExecute> findFlowExecutes1 = flowMangeService.findFlowExecute(fe);
+                                      if(findFlowExecutes1 != null && findFlowExecutes1.size() > 0){
+                                          model.addAttribute("userNames", findFlowExecutes1.get(0).getOperatorName());
+                                      } else {
+                                          execute.setStatus(2);
+                                          List<FlowExecute> executes1 = flowMangeService.findFlowExecute(execute);
+                                          if(executes1 != null && executes1.size() > 0){
+                                              model.addAttribute("userNames", executes1.get(0).getOperatorName());
+                                          }
+                                      }
+                                  }
+                            }
+                            
+                            
+                            
                             FlowDefine fd = new FlowDefine();
                             fd.setPurchaseTypeId(project.getPurchaseType());
                             fd.setCode("ZZZJPS");
@@ -1049,8 +1163,6 @@ public class PlanSupervisionController {
                         }
                                   
                         
-                        DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
-                        model.addAttribute("code", findById);
                         model.addAttribute("project", project);
                         model.addAttribute("status", "0");
                     }
@@ -1154,6 +1266,7 @@ public class PlanSupervisionController {
         if(StringUtils.isNotBlank(packageId)){
             String fileId = DictionaryDataUtil.getId("OPEN_FILE");
             Packages packages = packageService.selectByPrimaryKeyId(packageId);
+            model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
             SaleTender saleTender = new SaleTender();
             saleTender.setPackages(packageId);
             List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
@@ -1609,6 +1722,128 @@ public class PlanSupervisionController {
             model.addAttribute("pack", pack);
         }
         return "sums/ss/planSupervision/view_graded";
+    }
+    
+    /**
+     * 
+     *〈获取专家抽取记录〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param model
+     * @param projectId
+     * @param packageId
+     * @param typeclassId
+     * @return
+     */
+    @RequestMapping("/showRecord")
+    public String showRecord(Model model,String projectId,String packageId){
+      //专家类型
+      model.addAttribute("ddList", expExtractRecordService.ddList());
+      model.addAttribute("find", DictionaryDataUtil.find(12));
+      model.addAttribute("projectId", projectId);
+      model.addAttribute("packageId", packageId);
+      //获取抽取记录
+      ExpExtractRecord showExpExtractRecord = null;
+      ExpExtractRecord record = new ExpExtractRecord();
+      record.setProjectId(projectId);
+      showExpExtractRecord =  expExtractRecordService.listExtractRecord(record,0).get(0);
+      
+
+      if (packageId != null && !"".equals(packageId)){
+        //已抽取
+        String[] packageIds =  packageId.split(",");
+        if(packageIds.length != 0 ){
+          ExpExtCondition con = null;
+          for (String pckId : packageIds) {
+            if(pckId != null && !"".equals(pckId)){
+              con = new ExpExtCondition();
+              con.setProjectId(pckId);
+              con.setStatus((short)2);
+              conditionService.update(con);
+            }
+          }
+        }
+      }
+
+      model.addAttribute("ExpExtractRecord", showExpExtractRecord);
+      if(showExpExtractRecord !=null){
+        //抽取条件
+        List<Packages> list = new ArrayList<Packages>();
+        List<Packages> conList = packageService.listExpExtCondition(showExpExtractRecord.getProjectId());
+        if(conList != null && conList.size() > 0){
+            for (Packages packages : conList) {
+                if(packageId.equals(packages.getId())){
+                    list.add(packages);
+                }
+            }
+        }
+        model.addAttribute("conditionList", list);
+        //获取监督人员
+        List<ProExtSupervise>  listUser = projectSupervisorService.list(new ProExtSupervise(showExpExtractRecord.getProjectId()));
+        model.addAttribute("listUser", listUser);
+      }
+      return "ses/ems/exam/expert/extract/extract_expert_word";
+    }
+    
+    /**
+     * 
+     *〈供应商抽取记录〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param model
+     * @param id
+     * @param projectId
+     * @param packageId
+     * @return
+     */
+    @RequestMapping("/showRecords")
+    public String showRecords(Model model, String projectId,String packageId){
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("packageId", packageId);
+        SupplierExtracts showExpExtractRecord=null;
+        if (projectId != null && projectId != null){
+            //获取抽取记录
+            SupplierExtracts extracts = new SupplierExtracts();
+            extracts.setProjectId(projectId);
+            List<SupplierExtracts> listExtractRecord = supplierExtractsService.listExtractRecord(extracts,0);
+            if(listExtractRecord != null && listExtractRecord.size() !=0){
+                showExpExtractRecord = listExtractRecord.get(0);
+                model.addAttribute("ExpExtractRecord", showExpExtractRecord);
+                //获取监督人员
+                List<SupplierExtUser> listUser = extUserService.list(new SupplierExtUser(showExpExtractRecord.getProjectId()));
+                model.addAttribute("listUser", listUser);
+                //抽取条件
+                List<Packages> list = new ArrayList<Packages>();
+                List<Packages> conList = packageService.listExpExtCondition(showExpExtractRecord.getProjectId());
+                if(conList != null && conList.size() > 0){
+                    for (Packages packages : conList) {
+                        if(packageId.equals(packages.getId())){
+                            list.add(packages);
+                        }
+                    }
+                }
+                model.addAttribute("conditionList", list);
+
+                if (packageId != null && !"".equals(packageId)){
+                    //已抽取
+                    String[] packageIds =  packageId.split(",");
+                    if(packageIds.length != 0 ){
+                        SupplierCondition con = null;
+                        for (String pckId : packageIds) {
+                            if(pckId != null && !"".equals(pckId)){
+                                con = new SupplierCondition();
+                                con.setProjectId(pckId);
+                                con.setStatus((short)2);
+                                supplierConditionService.update(con);
+                            }
+                        }
+                    }
+                }
+
+            }
+
+        }
+        return "ses/sms/supplier_extracts/extract_supervise_word";
     }
     
     //给每个包的供应商，和物资明细赋值

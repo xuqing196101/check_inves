@@ -56,29 +56,27 @@
               <th>创建时间</th>
               <th>创建人</th>
               <th>项目状态</th>
-              <th>进度</th>
             </tr>
           </thead>
           <tbody id="tbody_id">
             <c:forEach items="${listProject}" var="obj" varStatus="vs">
               <tr class="pointer">
                 <td class="tc w50">${(vs.index+1)}</td>
-                <td class="tl pl20" onclick="view('${obj.id}','0')">${obj.name}</td>
-                <td class="tl pl20" onclick="view('${obj.id}','0')">${obj.projectNumber}</td>
-                <td class="tc " onclick="view('${obj.id}','0')">${obj.purchaseDepId}</td>
-                <td class="tc " onclick="view('${obj.id}')">
+                <td class="tl pl20" onclick="view('${obj.id}','1')">
+                  <a href="javascript:void(0)" onclick="view('${obj.id}','1');">${obj.name}</a>
+                </td>
+                <td class="tl pl20" onclick="view('${obj.id}','1')">${obj.projectNumber}</td>
+                <td class="tc " onclick="view('${obj.id}','1')">${obj.purchaseDepId}</td>
+                <td class="tc " onclick="view('${obj.id}','1')">
                   <c:forEach items="${kind}" var="kind">
                     <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
                 </td>
-                <td class="tl pl20" onclick="view('${obj.id}')">
+                <td class="tl pl20" onclick="view('${obj.id}','1')">
                   <fmt:formatDate type='date' value='${obj.createAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                 </td>
-                <td class="tl pl20" onclick="view('${obj.id}')">${obj.appointMan}</td>
+                <td class="tl pl20" onclick="view('${obj.id}','1')">${obj.appointMan}</td>
                 <td class="tc">${obj.status}</td>
-                <td class="tc">
-                  <a href="javascript:void(0)" onclick="view('${obj.id}','1');">查看</a>
-                </td>
               </tr>
             </c:forEach>
           </tbody>

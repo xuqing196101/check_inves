@@ -46,7 +46,7 @@
                                 layer.msg("只能选一个");
                               
                               }else{
-                                var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId+"&ix="+index;
+                                var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId+"&ix="+index + "&flowDefineId=${flowDefineId}";
                                  $("#tab-1").load(path);
                               }
                               

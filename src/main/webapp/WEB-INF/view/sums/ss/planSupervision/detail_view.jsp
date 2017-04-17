@@ -10,6 +10,7 @@
       $(function() {
         $(".progress-bar").each(function() {
           var progress = $(this).prev().val();
+          progress = progress + "%";
           $(this).width(progress);
         });
       });
@@ -49,11 +50,11 @@
         <div class="clear"></div>
       </div>
     </div>
-    <div class="container">
-      <div class="tab-content">
-        <div class="tab-pane fade in active" id="dep_tab-0">
+    <div class="container container_box">
+      <div>
           <c:if test="${'0' != type}">
-            <h2 class="count_flow jbxx">基本信息</h2>
+            <h2 class="count_flow"><i>1</i>基本信息</h2>
+            <ul class="ul_list">
             <table class="table table-bordered">
               <tbody>
                 <tr>
@@ -76,13 +77,17 @@
                 </tr>
               </tbody>
             </table>
+            </ul>
+            </div>
           </c:if>
-          <h2 class="count_flow jbxx">
+          <div class="padding-top-10 clear" id="clear">
+		        <h2 class="count_flow">
               <c:choose>
-            <c:when test="${'0' eq type}">需求明细</c:when>
-            <c:otherwise>采购明细</c:otherwise>
+            <c:when test="${'0' eq type}"><i>1</i>需求明细</c:when>
+            <c:otherwise><i>2</i>采购明细</c:otherwise>
           </c:choose>
              </h2>
+          <ul class="ul_list">
           <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
             <table id="table" class="table table-bordered table-condensed lockout">
               <thead>
@@ -150,7 +155,7 @@
               </tbody>
             </table>
           </div>
-        </div>
+          </ul>
       </div>
       <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
         <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>

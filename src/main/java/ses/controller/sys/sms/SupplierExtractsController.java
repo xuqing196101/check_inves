@@ -24,6 +24,7 @@ import bss.controller.base.BaseController;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
@@ -132,6 +133,9 @@ public class SupplierExtractsController extends BaseController {
     private SupplierAuditService auditService;
     @Autowired
     private SupplierService supplierService;
+    
+    @Autowired
+    private FlowMangeService flowMangeService;
 
     /**
      *
@@ -1031,7 +1035,9 @@ public class SupplierExtractsController extends BaseController {
      * @param  id 专家id
      */
     @RequestMapping("/showTemporarySupplier")
-    public  String showTemporaryExpert(Model model,String packageId,String projectId,String flowDefineId,String ix){
+    public  String showTemporaryExpert(Model model, HttpServletRequest request, String packageId,String projectId,String flowDefineId,String ix){
+        //该环节设置为执行中状态
+        flowMangeService.flowExe(request, flowDefineId, projectId, 2);
         model.addAttribute("packageId", packageId);
         model.addAttribute("ix", ix);
         model.addAttribute("projectId", projectId);

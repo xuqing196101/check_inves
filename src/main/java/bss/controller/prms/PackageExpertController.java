@@ -1631,10 +1631,11 @@ public class PackageExpertController {
      * @return
      */
     @RequestMapping("/toScoreAudit")
-    public String toScoreAudit(String projectId, Model model, String flowDefineId){
+    public String toScoreAudit(String projectId, Model model, String flowDefineId, HttpServletRequest request){
         // 进度集合
         List<ReviewProgress> reviewProgressList = new ArrayList<ReviewProgress>();
         List<Packages> packages = packageService.listResultExpert(projectId);
+        List<PackageExpert> list = new ArrayList<PackageExpert>();
         for (Packages pg : packages) {
             Map<String, Object> map2 = new HashMap<String, Object>();
             map2.put("projectId", projectId);
@@ -1646,6 +1647,9 @@ public class PackageExpertController {
             pemap.put("packageId", pg.getId());
             // 查询包关联专家实体
             List<PackageExpert> selectList = packageExpertService.selectList(pemap);
+            if(selectList != null && selectList.size() > 0){
+                list.addAll(selectList);
+            }
             Map<String, Object> pemap2 = new HashMap<>();
             pemap2.put("projectId", projectId);
             pemap2.put("packageId", pg.getId());
@@ -1676,6 +1680,16 @@ public class PackageExpertController {
               }
               reviewProgressList.add(reviewProgress);
           }
+        }
+        if(list != null && list.size() > 0){
+            for (int i = 0; i < list.size(); i++ ) {
+                if(list.get(i).getIsGatherGather() == 0){
+                    break;
+                } else if (i == list.size() - 1){
+                    //该环节设置为执行完毕
+                    flowMangeService.flowExe(request, flowDefineId, projectId, 1);
+                }
+            }
         }
         //按包的创建时间排序
         //ListSort(reviewProgressList);
@@ -3199,11 +3213,13 @@ public class PackageExpertController {
      * @throws IOException
      */
     @RequestMapping("/endSignIn")
-    public void endSignIn(HttpServletResponse response, PurchaseRequiredFormBean list, String projectId) throws IOException{
+    public void endSignIn(HttpServletResponse response, HttpServletRequest request, PurchaseRequiredFormBean list, String flowDefineId, String projectId) throws IOException{
       try {
         String msg = "";
         int flag = 0;
         List<PackageExpert> packageExperts = list.getPackageExperts();
+        //该环节设置为执行中
+        flowMangeService.flowExe(request, flowDefineId, projectId, 2);
         // 项目分包信息
         HashMap<String, Object> pack = new HashMap<String, Object>();
         pack.put("projectId", projectId);

@@ -585,7 +585,7 @@ public class WinningSupplierController extends BaseController {
    */
   @ResponseBody
   @RequestMapping("/comparisons")
-  public String comparisons(@CurrentUser User user,String id){
+  public String comparisons(@CurrentUser User user,String id, String projectId, String flowDefineId, HttpServletRequest sq){
       String[] ids= id.split(",");
       for (int i = 0; i < ids.length; i++ ) {
           SupplierCheckPass checkPass = new SupplierCheckPass();
@@ -595,7 +595,9 @@ public class WinningSupplierController extends BaseController {
               supplierCheckPass.setIsWonBid((short)1);
               checkPassService.update(supplierCheckPass);
           }
-    }
+      }
+      //执行完毕
+      flowMangeService.flowExe(sq, flowDefineId, projectId, 1);
       return JSON.toJSONString(SUCCESS);
   } 
 

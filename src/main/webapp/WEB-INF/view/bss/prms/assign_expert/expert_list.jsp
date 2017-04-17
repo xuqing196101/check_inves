@@ -374,6 +374,7 @@
         <input type="hidden" id="reviewTypeTds">
         <form id="save_sign"  method="post">
         	<input name="projectId" type="hidden" value="${project.id}">
+        	<input name="flowDefineId" type="hidden" value="${flowDefineId}"/>
         	<c:set var="listCount" value="0" />
 	        <c:forEach items="${packageList}" var="pack" varStatus="vs">
 		        <div class="over_hideen">

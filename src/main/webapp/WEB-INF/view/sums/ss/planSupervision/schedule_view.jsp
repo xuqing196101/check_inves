@@ -11,14 +11,18 @@
       $(function() {
         $('.circle_box').circliful();
       });
+      
+      function view(id,type){
+        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewTask.html?id=" + id + "&type=" + type;
+      }
 
-      function view(id, type) {
+      function viewProject(id, type) {
         var project = "${project}";
         if(project){
           window.location.href = "${pageContext.request.contextPath}/planSupervision/viewTask.html?id=" + id + "&type=" + type;
         }
       }
-      function views(id, type) {
+      function viewContract(id, type) {
         var contractRequireds = "${contractRequireds}";
         if(contractRequireds){
           window.location.href = "${pageContext.request.contextPath}/planSupervision/viewTask.html?id=" + id + "&type=" + type;
@@ -79,7 +83,7 @@
                   <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
                 </c:if>
               </td>
-              <td class="tc" width="25%" onclick="view('${collectPlan.id}','3')">
+              <td class="tc" width="25%" onclick="viewProject('${collectPlan.id}','3')">
                 <c:if test="${project ne null}">
                   <c:if test="${projectStatus gt 99}">
                   <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
@@ -98,19 +102,22 @@
                   <div data-dimension="150" data-text="0%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="0" data-fgcolor="#ffffff" data-bgcolor="#eeeeee" class="circle_box"></div>
                 </c:if>
               </td>
-              <td class="tc" width="25%" onclick="views('${collectPlan.id}','4')">
+              <td class="tc" width="25%" onclick="viewContract('${collectPlan.id}','4')">
                 <c:if test="${contractRequireds eq null}">
                   <div data-dimension="150" data-text="0%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="0" data-fgcolor="#ffffff" data-bgcolor="#eeeeee" class="circle_box"></div>
                 </c:if>
                 <c:if test="${contractRequireds ne null}">
-                  <c:if test="${contractStatus eq 100}">
-                    <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
+                  <c:if test="${contractStatus gt 99}">
+                    <div data-dimension="150" data-text="${contractStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${contractStatus}" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
                   </c:if>
-                  <c:if test="${contractStatus eq 50}">
-                    <div data-dimension="150" data-text="50%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="50" data-fgcolor="#68d6fa" data-bgcolor="#eee" class="circle_box"></div>
+                  <c:if test="${contractStatus gt 79 && contractStatus lt 99}">
+                  <div data-dimension="150" data-text="${contractStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${contractStatus}" data-fgcolor="#038dbc" data-bgcolor="#eee" class="circle_box"></div>
                   </c:if>
-                  <c:if test="${contractStatus eq 20}">
-                    <div data-dimension="150" data-text="20%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="20" data-fgcolor="#ff8641" data-bgcolor="#eee" class="circle_box"></div>
+                  <c:if test="${contractStatus gt 49 && contractStatus lt 80}">
+                    <div data-dimension="150" data-text="${contractStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${contractStatus}" data-fgcolor="#68d6fa" data-bgcolor="#eee" class="circle_box"></div>
+                  </c:if>
+                  <c:if test="${contractStatus gt 0 && contractStatus lt 50}">
+                    <div data-dimension="150" data-text="${contractStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${contractStatus}" data-fgcolor="#ff8641" data-bgcolor="#eee" class="circle_box"></div>
                   </c:if>
                 </c:if>
               </td>
