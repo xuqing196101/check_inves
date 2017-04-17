@@ -297,7 +297,7 @@
 		     </h2>
 	   	  
    	  <div class="col-md-12 pl20 mt10">
-	    	<button class="btn btn-windows add" onclick="add()">计划录入</button>
+	    	<button class="btn btn-windows add" onclick="add()">需求录入</button>
 	    	<button class="btn btn-windows edit"  onclick="edit()">修改</button>
 				<button class="btn btn-windows input" onclick="exports()">下载</button>
 	   		<button class="btn btn-windows delete" onclick="del()">删除</button>
@@ -310,7 +310,7 @@
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
 		  <th class="info">计划名称</th>
-		  <th class="info">计划编号</th>
+		  <th class="info">采购需求文号</th>
 		  <th class="info">金额（万元）</th>
 		  <th class="info">编制时间</th>
 	<!-- 	  <th class="info">完成时间</th> -->
@@ -329,7 +329,7 @@
 			  	${obj.planName }
 				</td>
 		      <td class="tl pl20" onclick="view('${obj.uniqueId }')">
-		      ${obj.planNo }
+		      ${obj.referenceNo }
 			  <%-- <td class="pl20">
 			     <div onclick="view('${obj.planNo }')">${obj.planName }</div>
 			  </td> --%>

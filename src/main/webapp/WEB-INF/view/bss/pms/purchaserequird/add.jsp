@@ -662,6 +662,12 @@
 	                            if(data=="2"){
 	                            	layer.alert("excel编写错误，请重写编写",{offset: ['222px', '390px'], shade:0.01});
 	                            }
+	                            if(data=="3"){
+	                            	layer.alert("节点错误，请重写编写",{offset: ['222px', '390px'], shade:0.01});
+	                            }
+	                            if(data=="4"){
+	                            	layer.alert("父级节点不能填写数量，采购单价，请重写编写",{offset: ['222px', '390px'], shade:0.01});
+	                            }
 	                           /*  for(var i = 0; i < chars.length ; i ++) {
 							             if(data.indexOf(chars[i])!=-1){
 							            	 bool=false;
@@ -1256,9 +1262,9 @@
 				<h2 class="count_flow"><i>1</i>计划主信息</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>采购需求计划名称</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>采购需求名称</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" name="name" id="jhmc" value="${planName }">
+							<input type="text" class="input_group" name="name" id="jhmc" value="">
 							<span class="add-on">i</span>
 						</div>
 					</li>
@@ -1271,7 +1277,7 @@
 					</li> -->
 					
 					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购需求计划文号</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购需求文号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" name="no" value="" id="referenceNo">
 							<span class="add-on">i</span>

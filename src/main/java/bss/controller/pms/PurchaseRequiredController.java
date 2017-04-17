@@ -377,6 +377,9 @@ public class PurchaseRequiredController extends BaseController{
 		     if(!list.get(0).getSeq().matches("[\u4E00-\u9FA5]")){
 		    	 return "3";
 		     }
+		     if(list.get(0).getSeq().matches("[\u4E00-\u9FA5]")&&list.get(0).getPurchaseCount()!=null){
+		    	 return "4";
+		     }
 //		     if(!list.get(0).getSeq().matches("[\u4E00-\u9FA5]")){
 //		    	 return "3";
 //		     }
@@ -456,7 +459,7 @@ public class PurchaseRequiredController extends BaseController{
 					 count++;
 					 PurchaseRequired pr = list.get(i+1);
 					 if(pr!=null){
-						 if(!pr.getSeq().equals("1")){
+						 if(!pr.getSeq().equals("1")&&!isContainChinese(p.getSeq())){
 							 errMsg=String.valueOf(i+4)+"行，节点错误";
 							 break;
 						 }
@@ -890,7 +893,7 @@ public class PurchaseRequiredController extends BaseController{
 	  @RequestMapping("download")    
 	    public ResponseEntity<byte[]> download(HttpServletRequest request,String filename) throws IOException {
 //	    	filename = new String(filename.getBytes("iso8859-1"),"UTF-8");
-	    	String path = PathUtil.getWebRoot() + "excel/模板.xlsx";;  
+	    	String path = PathUtil.getWebRoot() + "excel/采购需求模板示例.xls"; 
 	        File file=new File(path);
 	        
 	        HttpHeaders headers = new HttpHeaders();    
