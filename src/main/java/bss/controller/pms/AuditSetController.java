@@ -655,9 +655,9 @@ public class AuditSetController {
 	   	        style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
 		        cell.setCellStyle(style);
 	   	        if(p.getPurchaseCount()!=null){
-	   	        	double d=p.getPurchaseCount().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-	   	           
-	   	         cell.setCellValue(dfn.format(d));  
+	   	        //	double d=p.getPurchaseCount().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+	   	        	String of = String.valueOf(p.getPurchaseCount());
+	   	         cell.setCellValue(dfn.format(of));  
 	   	        }
 	   	       
 	   	        
