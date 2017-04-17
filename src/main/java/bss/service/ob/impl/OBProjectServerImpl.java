@@ -1169,7 +1169,7 @@ public class OBProjectServerImpl implements OBProjectServer {
  					OBProject obProject = new OBProject();
 					obProject.setId(projectId);
 					User users = new User();
-					users.setTypeId(supplierId);
+					users.setTypeId(iterator.next().getSupplierId());
 					String remark = "-1";
 					BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
  				}
@@ -1207,10 +1207,9 @@ public class OBProjectServerImpl implements OBProjectServer {
      	    		OBProject obProject = new OBProject();
 					obProject.setId(projectId);
 					User users = new User();
-					users.setTypeId(supplierId);
+					users.setTypeId(iterator.next().getSupplierId());
 					String remark = "-1";
 					BiddingStateUtil.updateRemark(OBProjectSupplierMapper, obProject, users, remark);
-     	    		 
   				}
      	       }
     	      }
