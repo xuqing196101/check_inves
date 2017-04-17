@@ -190,7 +190,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 				   UploadFile ufile = fileUploadMapper.findById(uf.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
 				   if(ufile==null){
 					   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
-	    			   fileUploadMapper.insertFile(uf);
+	    			   fileUploadMapper.saveFile(uf);
 				   }
     			   
     		   }
