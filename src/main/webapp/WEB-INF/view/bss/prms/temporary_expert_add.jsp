@@ -283,7 +283,7 @@
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
              <input class="title col-md-12" id="appendedInput" name="mobile" value="${expert.mobile}"  maxlength="11" type="text">
          <span class="add-on">i</span>
-          <div class="cue"><sf:errors path="mobile"/></div>
+          <div class="cue"><sf:errors path="mobile"/>${mobile}</div>
         </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12 ">
