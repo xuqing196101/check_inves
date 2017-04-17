@@ -604,7 +604,7 @@ public class SupplierItemController extends BaseController {
 				SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, item);
 				if(cateTree != null && cateTree.getRootNode() != null) {
 					cateTree.setItemsId(item.getId());
-					cateTree.setDiyLevel(item.getDiyLevel());
+					cateTree.setDiyLevel(item.getLevel());
 					if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
 					if(cateTree!=null&&cateTree.getProName()!=null){
 						List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
