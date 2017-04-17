@@ -431,6 +431,10 @@
 						<c:when test="${obProject.remark == '1'}">
 							第一轮已报价
 						</c:when>
+						
+						<c:when test="${obProject.remark == '-1'}">
+							未中标
+						</c:when>
 					</c:choose>
 			  	</c:if>
 			  	
@@ -444,6 +448,10 @@
 						</c:when>
 						<c:when test="${obProject.remark == '20'}">
 							第二轮报价中
+						</c:when>
+						
+						<c:when test="${obProject.remark == '-1'}">
+							未中标
 						</c:when>
 					</c:choose>
 			  	</c:if>
