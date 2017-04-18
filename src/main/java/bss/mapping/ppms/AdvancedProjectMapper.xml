@@ -882,7 +882,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_ADVANCED_PROJECTS
-    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
+    where 1=1 and IS_PROVISIONAL=0
      <if test="name != null and name != ''">
        and NAME like '%${name}%'
       </if>
@@ -895,18 +895,21 @@
       <if test="purchaseDep != null">
        and PURCHASE_DEP_ID = #{purchaseDep.id}
       </if>
+      <if test="confirmFile != null">
+          and CONFIRM_FILE = #{confirmFile}
+      </if>
       <if test=" (purchaseDepId != null and purchaseDepId != '' ) or ( principal != null and principal != '')">
        and ( PURCHASE_DEP_ID in (${purchaseDepId}) or principal = #{principal}) 
-       and (
-       <foreach collection="statusArray" item="ay" separator="or" >
-          STATUS like '%${ay}%'
-       </foreach> 
-       )
+       <if test="statusArray != null">
+	       and (
+		       <foreach collection="statusArray" item="ay" separator="or" >
+		          STATUS like '%${ay}%'
+		       </foreach> 
+	       )
+       </if>
       </if>
-      <if test="confirmFile != null and confirmFile != ''">
-         and CONFIRM_FILE = #{confirmFile}
-      </if>
-      ORDER BY CREATED_AT DESC
+      and (CONFIRM_FILE = 1 or CONFIRM_FILE = 2 or CONFIRM_FILE = 3 or CONFIRM_FILE = 4)
+      ORDER BY APPROVAL_TIME DESC
   </select>
   
 </mapper>

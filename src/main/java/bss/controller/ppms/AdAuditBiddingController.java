@@ -94,9 +94,9 @@ public class AdAuditBiddingController extends BaseController {
    */
   @RequestMapping("/list")
   public String list(@CurrentUser User user,Integer page,Model model,AdvancedProject project){
-    //采购机构信息
+  //采购机构信息
     PurchaseDep purchaseDep = purchaseOrgnizationService.selectByOrgId(user.getOrg().getId());
-    project.setStatusArray(new String[]{DictionaryDataUtil.getId("ZBWJYTJ"),DictionaryDataUtil.getId("NZPFBZ"),DictionaryDataUtil.getId("ZBWJYTG"),DictionaryDataUtil.getId("ZBWJXGBB")});
+    project.setStatusArray(null);
     //拿到当前的采购机构获取到组织机构
     List<PurchaseOrg> listOrg = purchaseOrgnizationService.getOrg(purchaseDep.getOrgId());
     String org = "";
@@ -107,6 +107,11 @@ public class AdAuditBiddingController extends BaseController {
       project.setPurchaseDepId(org.substring(0, org.length()-1));
     }else{
       project.setPurchaseDepId("'123456'");
+    }
+    if (null == project.getConfirmFile()){
+        project.setConfirmFile(1);
+    }else if(project.getConfirmFile() == -1){
+        project.setConfirmFile(null);
     }
     project.setPrincipal(user.getId());
     model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
@@ -144,7 +149,7 @@ public class AdAuditBiddingController extends BaseController {
     project.setId(projectId);
     project.setAuditReason(reasonStr);
     //该环节设置为执行中状态
-    flowMangeService.flowExes(request, flowDefineId, projectId, 2);
+    flowMangeService.flowExe(request, flowDefineId, projectId, 2);
     //获取项目信息
     AdvancedProject selectById = projectService.selectById(projectId);
     //修改代办为已办
@@ -152,10 +157,10 @@ public class AdAuditBiddingController extends BaseController {
     
     //修改报备 状态
     if("4".equals(status)){
-    	project.setStatus(DictionaryDataUtil.getId("ZBWJXGBB"));
-    	project.setConfirmFile(4);
-    	project.setReplyTime(new Date());
-    	 //推送待办
+      project.setStatus(DictionaryDataUtil.getId("ZBWJXGBB"));
+      project.setConfirmFile(4);
+      project.setReplyTime(new Date());
+       //推送待办
         Todos todos = new Todos();
         todos.setName(selectById.getName() + "招标文件修改报备");
         todos.setSenderId(user.getId());

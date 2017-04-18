@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseOrg;
@@ -40,6 +41,7 @@ import ses.util.DictionaryDataUtil;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Reason;
 import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAudit;
@@ -49,6 +51,7 @@ import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.BidMethodService;
 import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.MarkTermService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
@@ -103,6 +106,9 @@ public class AdOpenBiddingController {
     
     @Autowired
     private SupplierExtUserServicel extUserServicel;
+    
+    @Autowired
+    private MarkTermService markTermService;
     
     /**
      * @Fields auditService : 引用初审项业务接口
@@ -168,43 +174,72 @@ public class AdOpenBiddingController {
         List<AdvancedPackages> packages = packageService.selectByAll(map);
         String msg = "";
         if (process != null && process == 1) {
-            //审核页面不用校验是否完成
+          //审核页面不用校验是否完成
         } else {
-         for (AdvancedPackages p : packages) {
-             //判断各包符合性审查项是否编辑完成
-             FirstAudit firstAudit = new FirstAudit();
-             firstAudit.setPackageId(p.getId());
-             firstAudit.setIsConfirm((short)0);
-             List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
-            if (fas == null || fas.size() <= 0) {
-              msg = "noFirst";
-              return "redirect:/adFirstAudit/toAdd.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
-            }
-          //获取经济技术审查项内容
-            //获取评分办法数据字典编码     
-            String methodCode = bidMethodService.getMethod(id, p.getId());
-            if (methodCode != null && !"".equals(methodCode)) {
-              if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
-                FirstAudit firstAudit2 = new FirstAudit();
-                firstAudit2.setPackageId(p.getId());
-                firstAudit2.setIsConfirm((short)1);
-                List<FirstAudit> fas2 = firstAuditService.findBykind(firstAudit2);
-                if (fas2 == null || fas2.size() <= 0) {
-                  msg = "noSecond";
-                  return "redirect:/adIntelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+          for (AdvancedPackages p : packages) {
+            //判断各包符合性审查项是否编辑完成
+              FirstAudit firstAudit = new FirstAudit();
+              firstAudit.setPackageId(p.getId());
+              firstAudit.setIsConfirm((short)0);
+              List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
+              if (fas == null || fas.size() <= 0) {
+                msg = "noFirst";
+                return "redirect:/adFirstAudit/toAdd.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+              }
+              //获取资格性审查项内容
+              //获取评分办法数据字典编码     
+              String methodCode = bidMethodService.getMethod(id, p.getId());
+              if (methodCode != null && !"".equals(methodCode)) {
+                if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
+                  FirstAudit firstAudit2 = new FirstAudit();
+                  firstAudit2.setPackageId(p.getId());
+                  firstAudit2.setIsConfirm((short)1);
+                  List<FirstAudit> fas2 = firstAuditService.findBykind(firstAudit2);
+                  if (fas2 == null || fas2.size() <= 0) {
+                    msg = "noSecond";
+                    return "redirect:/adIntelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+                  }
+                }
+                if ("OPEN_ZHPFF".equals(methodCode)) {
+                  ScoreModel smMap = new ScoreModel();
+                  smMap.setPackageId(p.getId());
+                  List<ScoreModel> sms = scoreModelService.findListByScoreModel(smMap);
+                  if (sms == null || sms.size() <= 0) {
+                    msg = "noSecond";
+                    return "redirect:/adIntelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+                  }
+                  if (sms != null && sms.size() >0) {
+                    List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+                    int checkCount = 0;
+                    for (DictionaryData dictionaryData : ddList) {
+                      MarkTerm mt = new MarkTerm();
+                      mt.setTypeName(dictionaryData.getId());
+                      mt.setProjectId(p.getProjectId());
+                      mt.setPackageId(p.getId());
+                      //默认顶级节点为0
+                      mt.setPid("0");
+                      List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
+                      for (MarkTerm mtKey : mtList) {
+                        MarkTerm mt1 = new MarkTerm();
+                        mt1.setPid(mtKey.getId());
+                        mt1.setProjectId(p.getProjectId());
+                        mt1.setPackageId(p.getId());
+                        List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+                        for (MarkTerm markTerm : mtValue) {
+                          if ("1".equals(markTerm.isChecked())) {
+                            checkCount ++;
+                          }
+                        }
+                      }
+                    }
+                    if (checkCount == 0 || checkCount > 1) {
+                      msg = "noThired";
+                      return "redirect:/adIntelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+                    }
+                  }
                 }
               }
-              if ("OPEN_ZHPFF".equals(methodCode)) {
-                ScoreModel smMap = new ScoreModel();
-                smMap.setPackageId(p.getId());
-                List<ScoreModel> sms = scoreModelService.findListByScoreModel(smMap);
-                if (sms == null || sms.size() <= 0) {
-                  msg = "noSecond";
-                  return "redirect:/adIntelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
-                }
-              }
-            }
-        }
+          }
         }
         AdvancedProject project = projectService.selectById(id);
         boolean exist = isExist(project.getPurchaseDepId(),user.getOrg().getId());
@@ -235,21 +270,25 @@ public class AdOpenBiddingController {
              }
          }
         
-        if (user.getId().equals(project.getPrincipal())) {
-            model.addAttribute("isAdmin", 1);
-          }else{
-            model.addAttribute("isAdmin", 2);
-          }
-          model.addAttribute("project", project);
-          model.addAttribute("flowDefineId", flowDefineId);
-          model.addAttribute("reasons", JSON.parseObject(project.getAuditReason(), Reason.class));
-          model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
-          model.addAttribute("ope", "add");
-          model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-          model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
-        
+        model.addAttribute("flowDefineId", flowDefineId);
+        model.addAttribute("project", project);
+        String jsonReason = project.getAuditReason();
+        if (jsonReason != null && !"".equals(jsonReason)) {
+            model.addAttribute("reasons", JSON.parseObject(jsonReason, Reason.class));
+        }
+        model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
+        model.addAttribute("ope", "add");
+        model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+        model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
+        //采购管理部门审核意见附件
+        model.addAttribute("pcTypeId", DictionaryDataUtil.getId("PC_REASON"));
+        //事业部门审核意见附件
+        model.addAttribute("causeTypeId", DictionaryDataUtil.getId("CAUSE_REASON"));
+        //财务部门审核意见附件
+        model.addAttribute("financeTypeId", DictionaryDataUtil.getId("FINANCE_REASON"));
         return "bss/ppms/advanced_project/advanced_bid_file/add_file";
     }
+    
     
     private boolean isExist(String orgId,String userOrgId){
         //拿到当前的采购机构获取到组织机构

@@ -106,7 +106,7 @@
 	    <li><a href="javascript:void(0)">首页</a></li>
 		<li><a href="javascript:void(0)">保障作业系统</a></li>
 		<li><a href="javascript:void(0)">采购项目管理</a></li>
-		<li class="active"><a href="javascript:void(0)">采购文件审核</a></li>
+		<li class="active"><a href="javascript:void(0)">预研采购文件审核</a></li>
 	  </ul>
 	  <div class="clear"></div>
     </div>
@@ -114,7 +114,7 @@
   <!-- 录入采购计划开始-->
   <div class="container">
     <div class="headline-v2">
-	  <h2>采购文件审核</h2>
+	  <h2>预研采购文件审核</h2>
 	</div>
 	<!-- 项目戳开始 -->
     <h2 class="search_detail">
