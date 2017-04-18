@@ -703,7 +703,7 @@ function judge(index) {
     if(s){
       $.ajax({   
               type: "get",  
-              url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}" + "&checked="+isChecked,        
+              url: "${pageContext.request.contextPath}/adIntelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}" + "&checked="+isChecked,        
               dataType:'json',
               success:function(result){
                     if (result == 0){
@@ -711,7 +711,7 @@ function judge(index) {
                     }  else if (result == 2) {
                        layer.msg("每个包必须要有一个评审计算价格得分的唯一标识,有且只能为一个",{offset: ['150px']});    
                     }  else {
-                      $("#formID").attr('action','${pageContext.request.contextPath}/intelligentScore/operatorScoreModel.do').submit();
+                      $("#formID").attr('action','${pageContext.request.contextPath}/adIntelligentScore/operatorScoreModel.do').submit();
                     }
               },
               error: function(result){
