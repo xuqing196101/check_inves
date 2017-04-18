@@ -1249,9 +1249,38 @@ public class TackController extends BaseController{
 
                 String typeId = DictionaryDataUtil.getId("PROJECT_BID");
                 List<UploadFile> files = uploadService.getFilesOther(details.get(0).getAdvancedProject(), typeId, Constant.TENDER_SYS_KEY+"");
-                for (UploadFile uploadFile : files) {
-                    uploadFile.setBusinessId(id);
-                    uploadService.updateLoad(uploadFile);
+                if(files != null && files.size() > 0){
+                    for (UploadFile uploadFile : files) {
+                        uploadFile.setBusinessId(id);
+                        uploadService.updateLoad(uploadFile);
+                    }
+                }
+                
+                String id2 = DictionaryDataUtil.getId("PC_REASON");
+                List<UploadFile> filesPc = uploadService.getFilesOther(details.get(0).getAdvancedProject(), id2, Constant.TENDER_SYS_KEY+"");
+                if(filesPc != null && filesPc.size() > 0){
+                    for (UploadFile uploadFile : filesPc) {
+                        uploadFile.setBusinessId(id);
+                        uploadService.updateLoad(uploadFile);
+                    }
+                }
+                
+                String id3 = DictionaryDataUtil.getId("CAUSE_REASON");
+                List<UploadFile> filesCause = uploadService.getFilesOther(details.get(0).getAdvancedProject(), id3, Constant.TENDER_SYS_KEY+"");
+                if(filesCause != null && filesCause.size() > 0){
+                    for (UploadFile uploadFile : filesCause) {
+                        uploadFile.setBusinessId(id);
+                        uploadService.updateLoad(uploadFile);
+                    }
+                }
+                
+                String id4 = DictionaryDataUtil.getId("FINANCE_REASON");
+                List<UploadFile> filesRe = uploadService.getFilesOther(details.get(0).getAdvancedProject(), id4, Constant.TENDER_SYS_KEY+"");
+                if(filesRe != null && filesRe.size() > 0){
+                    for (UploadFile uploadFile : filesRe) {
+                        uploadFile.setBusinessId(id);
+                        uploadService.updateLoad(uploadFile);
+                    }
                 }
             
                 FlowExecute flowExecute = new FlowExecute();
