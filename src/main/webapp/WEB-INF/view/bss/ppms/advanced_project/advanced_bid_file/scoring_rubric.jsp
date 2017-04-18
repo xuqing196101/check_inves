@@ -130,7 +130,7 @@
       }
 
       function show(packageId, projectId) {
-        window.location.href = "${pageContext.request.contextPath}/adIntelligentScore/showScoreMethod.html?packageId=" + packageId + "&projectId=" + projectId;
+        window.location.href = "${pageContext.request.contextPath}/adIntelligentScore/showScoreMethod.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+'${flowDefineId}';
       }
 
       function view(packageId, projectId) {

@@ -164,14 +164,17 @@ public class AdIntelligentScoringController extends BaseController{
     }
 	
 	@RequestMapping(value = "showScoreMethod")
-    public String showScoreMethod(Model model, BidMethod bm) {
+    public String showScoreMethod(Model model, BidMethod bm, String packageId, String projectId, String flowDefineId) {
 	    List<BidMethod> bidMethod = bidMethodService.findScoreMethod(bm);
         if (bidMethod != null && bidMethod.size() > 0){
             model.addAttribute("bidMethod", bidMethod.get(0));
+            model.addAttribute("packageId", packageId);
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("flowDefineId", flowDefineId);
         }
         List<DictionaryData> ddList = DictionaryDataUtil.find(27);
         model.addAttribute("ddList", ddList);
-        return "bss/ppms/open_bidding/show_score_method";
+        return "bss/ppms/advanced_project/advanced_bid_file/show_score_method";
     }
 	
 	@RequestMapping(value = "updateScoreMethod")
@@ -1298,7 +1301,7 @@ public class AdIntelligentScoringController extends BaseController{
 	 */
 	@RequestMapping("scoreModelList")
     public String scoreModelList(Model model,@ModelAttribute ScoreModel scoreModel,Integer page,HttpServletRequest request){
-	    //每页显示十条
+	  //每页显示十条
         PageHelper.startPage(page == null ? 1 : page,CommonConstant.PAGE_SIZE);
         List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
         model.addAttribute("scoreModelList",scoreModelList);
