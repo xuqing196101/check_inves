@@ -128,7 +128,7 @@
 	  select 
 	    <include refid="Base_Column_List" />
 	    from T_BSS_PMS_PURCHASE_MANAGEMENT
-	    where PURCHASE_ID = #{pid}  and PURCHASE_ID = #{purchaseId}  
+	    where   PURCHASE_ID = #{purchaseId}  and  MANAGEMENT_ID = #{mid} 
   </select>
   
   
