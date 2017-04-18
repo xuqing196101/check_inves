@@ -91,4 +91,16 @@ public interface ExpertTitleMapper {
      */
     void deleteByExpertId(@Param("expertId")String expertId);
     
+    
+    /**
+     * 
+    * @Title: queeyByExpertId
+    * @Description: 根据专家ID查询
+    * author: Li Xiaoxiao 
+    * @param @param expertId
+    * @param @return     
+    * @return List<ExpertTitle>     
+    * @throws
+     */
+    List<ExpertTitle> selectByExpertId(@Param("expertId")String expertId);
 }

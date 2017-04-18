@@ -929,6 +929,16 @@
       where LOGIN_NAME=#{loginName} and NET_TYPE=#{note}
     </select>
 
+
+		<select id="queryByNameAndPw" resultMap="UserBaseMap">
+    select 
+      <include refid="Base_Column_List"/>
+       from T_SES_BMS_USER
+      where LOGIN_NAME=#{loginName} and PASSWORD=#{password}
+    </select>
+    
+    
+    
     <!-- 根据名称集合判断是否已有名称存在 -->
     <select id="ajaxUserName" resultType="java.lang.Integer">
         select
