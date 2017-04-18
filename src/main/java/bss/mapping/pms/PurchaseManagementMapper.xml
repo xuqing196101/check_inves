@@ -89,19 +89,24 @@
     where ID = #{id,jdbcType=DECIMAL}
   </update>
   
-  
+  <!--2是受理成功，3是受理退回，4是待汇总  -->
   <select id="queryByMid"   resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PMS_PURCHASE_MANAGEMENT
   		  where MANAGEMENT_ID = #{mid} 
-	    <if test="status != -1 and status != -2 ">
+	    <if test="status != -1 and status != -2 and status != 3 ">
 	       and STATUS=#{status}
 	    </if>
-	    <if test="status == -2">
+	    <if test="status == 3">
 	       and STATUS in(2,4)
 	    </if>
-	    
+	     <if test="status == -1">
+	       and STATUS in(1,2,3,4)
+	    </if>
+	    <if test="status == -2">
+	       and STATUS=3
+	    </if>
      order By CREATE_AT
   </select>
   
@@ -117,5 +122,14 @@
     set  STATUS =#{status}
    where  PURCHASE_ID = #{purchaseId}
   </update>
+  
+  
+    <select id="queryByMidAndPid"  resultMap="BaseResultMap">
+	  select 
+	    <include refid="Base_Column_List" />
+	    from T_BSS_PMS_PURCHASE_MANAGEMENT
+	    where PURCHASE_ID = #{pid}  and PURCHASE_ID = #{purchaseId}  
+  </select>
+  
   
 </mapper>

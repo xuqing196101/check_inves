@@ -42,6 +42,12 @@ public class PurchaseManagementServiceImpl  implements PurchaseManagementService
 		purchaseManagementMapper.updateStaus(uniqueId,status);
 		
 	}
+
+	@Override
+	public List<PurchaseManagement> queryByMidAndPid(String uniqueId, String mid) {
+		 
+		return purchaseManagementMapper.queryByMidAndPid(uniqueId, mid);
+	}
 	
  
 	

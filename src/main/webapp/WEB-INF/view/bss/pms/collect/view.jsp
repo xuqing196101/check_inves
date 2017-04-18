@@ -84,7 +84,6 @@
 	  
  function ss(){
 	 var value=$("#reson").val();
-	alert(value);
 	 if(value!=null&&value!=""){
 		 $("#treson").val(value);
 		 $("#status").val(4);
@@ -461,7 +460,7 @@
 					</c:forEach>
 					<input type="hidden" name="planNo" value="${planNo }">
 				    <input type="hidden" id="status" name="status" value="3">
-				     <input type="hidden" id="treson" name="reason" value="3">
+				     <input type="hidden" id="treson" name="reason" value="">
 					</form>
 				</table>
 				</div>

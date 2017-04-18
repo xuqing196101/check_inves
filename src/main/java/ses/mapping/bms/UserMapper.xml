@@ -950,8 +950,8 @@
         </foreach>
     </select>
     
-     <insert id="saveUserRole" parameterType="Object">  
-	      insert into T_SES_BMS_USER_ROLE("USER_ID","ROLE_ID")  	
+     <insert id="saveUserRole" parameterType="ses.model.bms.RoleUser">  
+	      insert into T_SES_BMS_USER_ROLE(USER_ID,ROLE_ID)  	
 	      values(#{userId},#{roleId})  
 	  </insert>
     

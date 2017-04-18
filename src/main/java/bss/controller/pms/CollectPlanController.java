@@ -104,7 +104,7 @@ public class CollectPlanController extends BaseController {
 	    public String queryPlan(@CurrentUser User user,PurchaseRequired purchaseRequired,Integer page,Model model,String status){
 			    Map<String,Object> map=new HashMap<String,Object>();
 			    if(purchaseRequired.getStatus()==null){
-			    	map.put("status", "3");
+			    	//map.put("status", 4);
 			    }
 //			    else if(purchaseRequired.getStatus().equals("total")){
 //			    	map.put("sign", "3");
@@ -128,7 +128,7 @@ public class CollectPlanController extends BaseController {
 				}
 			    
 			    if(status.equals("total")){
-					status="-2";
+					status="-1";
 				}
 			   
 				List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page,Integer.valueOf(status));

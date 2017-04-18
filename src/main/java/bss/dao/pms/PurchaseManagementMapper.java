@@ -47,5 +47,9 @@ public interface PurchaseManagementMapper {
     
     public void updateStaus(@Param("purchaseId")String uniqueId,@Param("status")Integer status);
     
+    List<PurchaseManagement> queryByMidAndPid(@Param("purchaseId")String uniqueId,@Param("mid")String  mid);
+    
+    
+    
     
 }

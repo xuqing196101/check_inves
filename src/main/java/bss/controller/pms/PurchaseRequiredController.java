@@ -978,7 +978,10 @@ public class PurchaseRequiredController extends BaseController{
 	    	pm.setPurchaseId(uniqueId);
 	    	pm.setCreateAt(new Date());
 	    	pm.setStatus(1);
-	    	purchaseManagementService.add(pm);
+	    	List<PurchaseManagement> pms = purchaseManagementService.queryByMidAndPid(pm.getPurchaseId(), pm.getManagementId());
+	    	if(pms==null||pms.size()<1){
+	    		purchaseManagementService.add(pm);
+	    	}
 	    	
 	    	PurchaseRequired p=new PurchaseRequired();
 	    	p.setUniqueId(uniqueId);

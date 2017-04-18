@@ -2,6 +2,8 @@ package bss.service.pms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import bss.model.pms.PurchaseManagement;
 
 public interface PurchaseManagementService {
@@ -52,4 +54,7 @@ public interface PurchaseManagementService {
 	* @throws
 	 */
 	void updateStatus(String uniqueId,Integer status);
+	
+	
+	List<PurchaseManagement>  queryByMidAndPid (String uniqueId,String  mid);
 }

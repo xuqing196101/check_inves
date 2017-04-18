@@ -231,7 +231,7 @@
 			 if(orgType!='0'){
 				 layer.msg("请用需求部门编制采购计划！"); 
 			 }else if($.trim(name) == "") {
-					 layer.alert("计划名称不允许为空"); 
+					 layer.alert("采购需求名称不允许为空"); 
 				} else if($.trim(mobile) == "") {
 					 layer.alert("录入人手机号不允许为空"); 
 					//layer.tips("录入人手机号不允许为空", "#mobile");
@@ -685,7 +685,7 @@
 							           else{
 							        	   layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
 							            //  layer.msg("上传成功");
-							              $("#jhmc").val(data[0].planName);
+							              // $("#jhmc").val(data[0].planName);
 							              $("#detailZeroRow").empty();
 							              var count=1;
 							                $.ajax({

@@ -140,20 +140,27 @@ public class PurchaseAcceptController extends BaseController{
 //		purchaseRequired.setIsMaster(1);
 		//所有的需求部门
 		if(status==null){
+			map.put("status", 2);
 			status="2";
 		}
+		if(status!=null){
+//			map.put("status", status);
+		}
+		
 		model.addAttribute("status", status);
 		if(status==null||status.equals("2")){
 			status="1";
 		}
 		
 		if(status.equals("3")){
-			status="2";
+//			map.put("sign", 3);
 		}
 		if(status.equals("4")){
-			status="3";
+//			map.put("status", status);
+			status="-2";
 		}
 		if(status.equals("total")){
+//			map.put("sign", 2);
 			status="-1";
 		}
 		 
@@ -172,7 +179,11 @@ public class PurchaseAcceptController extends BaseController{
 			listDep.add("heheh");
 		}
 		
+//		if(){
+//			
+//		}
 		map.put("list", listDep);
+		
 		List<PurchaseRequired> list = purchaseRequiredService.queryListUniqueId(map);
 		for (PurchaseRequired pur : list) {
 		    pur.setUserId(userServiceI.getUserById(pur.getUserId()).getRelName());
