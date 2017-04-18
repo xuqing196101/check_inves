@@ -31,28 +31,28 @@
 		       </div>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>报价时间（分钟）：</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>第一轮报价时间（分钟）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
 				    <input class="input_group"   disabled="disabled" type="text" value="${ obRule.quoteTime }" class="mb0 border0">
 					<div class="cue"><span><font id="quoteTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
 			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>二次报价时间（分钟）：</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>第二轮报价时间（分钟）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				    <input class="input_group"  disabled="disabled" type="text" value="${ obRule.quoteTimeSecond }"  class="mb0 border0">
 					<div class="cue"><span><font id="quoteTimeSecondErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>确认时间（分钟）（第一轮）：</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>第一轮确认时间（分钟）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
 				    <input class="input_group"  type="text" disabled="disabled" value="${ obRule.confirmTime }" class="mb0 border0">
 					<div class="cue"><span><font id="confirmTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>确认时间（分钟）（第二轮）</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>第二轮确认时间（分钟）</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
 				    <input class="input_group"  disabled="disabled" type="text" value="${ obRule.confirmTimeSecond }" class="mb0 border0" />
 					<div class="cue"><span><font id="confirmTimeSecondErr" style="color: red"></font></span></div>
@@ -67,7 +67,7 @@
 			 </li> 
 			 
 			   <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>有效百分比</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>有效报价百分比</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" >
 				    <input class="input_group"  type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"
 				     onafterpaste="this.value=this.value.replace(/\D/g,'')" disabled="disabled"  value="${ obRule.percent }">

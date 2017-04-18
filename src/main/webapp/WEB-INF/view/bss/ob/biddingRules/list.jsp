@@ -180,7 +180,7 @@
 	function query(){
 		var quoteTime =  $("#quoteTime").val();
 		if(isNaN(quoteTime)){
-			layer.alert("报价时间请输入整数");
+			layer.alert("第一轮报价时间请输入整数");
 			return;
 		}
 		var intervalWorkday =  $("#intervalWorkday").val();
@@ -230,15 +230,12 @@
 			<input id="name" name="name" type="text" value="${ name }"/>
 	      </li>
     	  <li>
-	    	<label class="fl">报价时间（分钟）：</label>
-	    	  <%-- <select id="quoteTime" name="quoteTime" class="w178">
-	    	    <option value="">--请选择--</option>
-	    	    <option value="10" <c:if test="${10 eq quoteTime}">selected</c:if>>10分钟</option>
-	    	    <option value="20" <c:if test="${20 eq quoteTime}">selected</c:if>>20分钟</option>
-	    	    <option value="30" <c:if test="${30 eq quoteTime}">selected</c:if>>30分钟</option>
-	    	  </select> --%>
+	    	<label class="fl">第一轮报价时间（分钟）：</label>
 	    	  <input class="input_group" name="quoteTime" id="quoteTime" value="${ quoteTime }" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"
 				     onafterpaste="this.value=this.value.replace(/\D/g,'')">
+	    	<%-- <label class="fl">第二轮报价时间（分钟）：</label>
+	    	  <input class="input_group" name="quoteTime" id="quoteTime" value="${ quoteTime }" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"
+				     onafterpaste="this.value=this.value.replace(/\D/g,'')"> --%>
 	      </li>
     	  <li>
 	    	<label class="fl">间隔工作日（天）：</label>
@@ -267,12 +264,12 @@
 		  <th class="info" width="20%">竞价规则名称</th>
 		  <th class="info">间隔工作日<br>（天）</th>
 		  <th class="info">竞价开始<br>时间</th>
-		  <th class="info">报价时间<br>（分钟）</th>
-		  <th class="info">二次报价时间<br>（分钟）</th>
-		  <th class="info">确认时间（第一轮）<br>（分钟）</th>
-		  <th class="info">确认时间（第二轮）<br>（分钟）</th>
+		  <th class="info">第一轮报价时间<br>（分钟）</th>
+		  <th class="info">第二轮报价时间<br>（分钟）</th>
+		  <th class="info">第一轮确认时间<br>（分钟）</th>
+		  <th class="info">第二轮确认时间<br>（分钟）</th>
 		  <th class="info">最少报价<br>供应商数</th>
-		  <th class="info">有效<br>百分比</th>
+		  <th class="info">有效报价<br>百分比</th>
 		  <th class="info">项目<br>数量</th>
 		  <th class="info">是否为<br>默认</th>
 		</tr>
