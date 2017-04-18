@@ -105,7 +105,7 @@
     where i.PRODUCT_ID=p.id and  i.PROJECT_ID = #{projectId,jdbcType=VARCHAR}
     AND i.BIDDING_ID=#{biddingId,jdbcType=VARCHAR}
      and i.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
-     ORDER BY i.PRODUCT_ID
+     ORDER BY i.CREATER_ID
   </select>  
    <!-- 根据 竞价id 获取竞价 成交金额 -->
   <select id="getDealMoney" resultMap="BaseResultMap" parameterType="java.lang.String" >
