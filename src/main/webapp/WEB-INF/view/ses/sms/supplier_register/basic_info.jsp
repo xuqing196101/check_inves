@@ -543,7 +543,7 @@
 			function checknums(obj) {
 				var vals = $(obj).val();
 				var reg = /^\d+\.?\d*$/;
-				if(!reg.exec(vals)) {
+				if(!reg.test(vals)) {
 					$(obj).val("");
 					$("#err_fund").text("数字非法");
 				} else {
@@ -551,6 +551,35 @@
 					$("#err_fund").empty();
 				}
 			}
+			function checkNumsSale(obj,nonNum){
+			    var _val = $(obj).val();
+			    if(_val!="" && nonNum!=3){//净资产总额不进行负数校验
+			        if(parseInt(_val)<0){
+                        $(obj).val("");
+                        layer.msg("请输入正确的金额,非负数保留四位小数", {
+                            offset: '300px'
+                        });
+                        return false;
+                    }
+                }
+                if(_val.indexOf('.')!=-1){
+                    var reg = /\d+\.\d{0,4}?$/;
+                    console.log(reg.test(_val));
+                    if(!reg.test(_val)) {
+                        $(obj).val("");
+                        layer.msg("请输入正确的金额,非负数保留四位小数", {
+                            offset: '300px'
+                        });
+                    }
+                }else{
+                    if(!positiveRegular(_val)){
+                        $(obj).val("");
+                        layer.msg("请输入正确的金额,非负数保留四位小数", {
+                            offset: '300px'
+                        });
+                    }
+                }
+            }
 
 			function increaseAddress(obj) {
 				var ind = $("#index").val();
@@ -1604,17 +1633,17 @@
 
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
-															<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalAssets" value="${finance.totalAssets}">
+															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 1)" name="listSupplierFinances[${vs.index }].totalAssets" value="${finance.totalAssets}">
 
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
-															<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalLiabilities" value="${finance.totalLiabilities}">
+															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 2)" name="listSupplierFinances[${vs.index }].totalLiabilities" value="${finance.totalLiabilities}">
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
-															<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalNetAssets" value="${finance.totalNetAssets}">
+															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 3)" name="listSupplierFinances[${vs.index }].totalNetAssets" value="${finance.totalNetAssets}">
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
-															<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].taking" value="${finance.taking}">
+															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 4)" name="listSupplierFinances[${vs.index }].taking" value="${finance.taking}">
 														</td>
 													</tr>
 												</tbody>

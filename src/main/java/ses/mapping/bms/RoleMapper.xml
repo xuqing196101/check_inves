@@ -68,6 +68,7 @@
   <!-- 查询条件 -->
   <sql id="Example_Where_Clause">
     where IS_DELETED=0
+    AND STATUS = 0
     <trim suffixOverrides=",">
       <if test="id != null and id != ''">
         and ID = #{id}
