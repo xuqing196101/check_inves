@@ -269,7 +269,7 @@
 		  <th class="info">第一轮确认时间<br>（分钟）</th>
 		  <th class="info">第二轮确认时间<br>（分钟）</th>
 		  <th class="info">最少报价<br>供应商数</th>
-		  <th class="info">有效报价<br>百分比</th>
+		  <th class="info">有效供应商报价<br>平均值的百分比</th>
 		  <th class="info">项目<br>数量</th>
 		  <th class="info">是否为<br>默认</th>
 		</tr>

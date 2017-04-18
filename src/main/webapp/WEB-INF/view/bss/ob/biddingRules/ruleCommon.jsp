@@ -29,7 +29,7 @@
 				  <td>${ obRule.percent }</td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey ">浮动百分比：</td>
+				  <td class="bggrey ">浮动百分比（%）：</td>
 				  <td>${ obRule.floatPercent }</td>
 				  <td class="bggrey "></td>
 				  <td></td>
