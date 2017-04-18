@@ -292,6 +292,7 @@ public class OpenBiddingController {
       for (Packages p : packages) {
         //判断各包符合性审查项是否编辑完成
         FirstAudit firstAudit = new FirstAudit();
+        firstAudit.setProjectId(id);
         firstAudit.setPackageId(p.getId());
         firstAudit.setIsConfirm((short)0);
         List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
@@ -306,6 +307,7 @@ public class OpenBiddingController {
           if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
             FirstAudit firstAudit2 = new FirstAudit();
             firstAudit2.setPackageId(p.getId());
+            firstAudit2.setProjectId(id);
             firstAudit2.setIsConfirm((short)1);
             List<FirstAudit> fas2 = firstAuditService.findBykind(firstAudit2);
             if (fas2 == null || fas2.size() <= 0) {
@@ -316,6 +318,7 @@ public class OpenBiddingController {
           if ("OPEN_ZHPFF".equals(methodCode)) {
             ScoreModel smMap = new ScoreModel();
             smMap.setPackageId(p.getId());
+            smMap.setProjectId(id);
             List<ScoreModel> sms = scoreModelService.findListByScoreModel(smMap);
             if (sms == null || sms.size() <= 0) {
               msg = "noSecond";
