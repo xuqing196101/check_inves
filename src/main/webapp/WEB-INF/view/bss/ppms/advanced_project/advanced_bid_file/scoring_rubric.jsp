@@ -11,9 +11,13 @@
       $(function() {
           if($("#tipMsg").val() == "noSecond") {
             $("#tipMsg").val("");
-            layer.msg("请先完成经济、技术审查项的编写", {
+            layer.msg("请先完成经济和技术评审细则的编写", {
               offset: '50px'
             });
+          }
+          if ($("#tipMsg").val() == "noThired") {
+            $("#tipMsg").val("");
+            layer.alert("综合评分法必须有且只有一个价格评审数据.",{offset: '50px'});
           }
           var packageId = $("input[name='packageId']").val();
           var flag = "${flag}";
