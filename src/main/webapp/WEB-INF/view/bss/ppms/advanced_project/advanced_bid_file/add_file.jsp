@@ -296,6 +296,7 @@ function getTaskTime(strDate) {
                 <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}">
                   03、采购文件
                 </a>
+                <i></i>
               </li>
               <li>
 			         <a  href="${pageContext.request.contextPath}/AdAuditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>

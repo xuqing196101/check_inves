@@ -25,7 +25,7 @@
 <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script> 
 
     <script type="text/javascript">
-    $(function() {
+    /* $(function() {
         //获取查看或操作权限
           var isOperate = $('#isOperate', window.parent.document).val();
           if(isOperate == 0) {
@@ -34,7 +34,7 @@
           $(this).hide();
               }); 
       }
-      });
+      }); */
     
     
       //表单验证
