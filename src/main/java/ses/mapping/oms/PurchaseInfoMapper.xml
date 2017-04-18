@@ -143,21 +143,22 @@
 		  #{quaCode,jdbcType=VARCHAR},#{quaLevel,jdbcType=VARCHAR},#{quaEdndate,jdbcType=DATE},
 		  #{quaCert,jdbcType=VARCHAR},#{quaRank,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
 		  #{postCode,jdbcType=VARCHAR},#{quaStartDate,jdbcType=DATE},#{age,jdbcType=NUMERIC},
-		  sysdate,#{userId,jdbcType=VARCHAR},#{isDeleted,jdbcType=NUMERIC}
+		  #{createdAt,jdbcType=TIMESTAMP},#{userId,jdbcType=VARCHAR},#{isDeleted,jdbcType=NUMERIC}
 		 )
 	</insert>
 		<!-- 更新人员-->
 	<update id="updatePurchase" parameterType="ses.model.oms.PurchaseInfo">
 			 update T_SES_OMS_PURCHASER s
 	     set 
-	         UPDATED_AT=sysdate
-	         <!-- -->
 	        <if test="nation != null">
 		 		,NATION=#{nation,jdbcType=VARCHAR}
 		 	</if>
 		 	<if test="purchaseDepId != null">                
 		 		,PURCHASE_DEP_ID=#{purchaseDepId,jdbcType=VARCHAR}
 		 	</if>
+		 	<if test="updatedAt != null">                
+        ,UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP}
+      </if>
 		 	<if test="political != null">
 		 		,POLITICAL=#{political,jdbcType=VARCHAR}
 		 	</if>

@@ -764,11 +764,12 @@ li:first-child {
 
 .btn_list{
   list-style-type:none;
+  padding:0px;
 }
 .btn_list li{
    width:100%;
-   height:40px;
-   line-height:40px;
+   height:41px;
+   line-height:41px;
    text-align:center;
    border-bottom:1px dashed #e0e7e7!important;
    border:1px solid #dddddd;
@@ -782,28 +783,36 @@ li:first-child {
    line-height:40px;
 }
 .btn_list li:last-child{
-	border-bottom:1px solid #dddddd!important;
+  border-bottom:1px solid #dddddd!important;
 }
+
 .btn_list li.active a,.btn_list li:focus a{
    background:#2c9fa6;
    color:#ffffff;
+   padding:4px 9px;
    border:1px solid #2c9fa6!important;
 }
-.btn_list li:hover,.btn_list li:hover a{
+.btn_list li:hover{
+  background-color:#99cc33;
+    color:#ffffff;
+}
+.btn_list li:hover a{
    background-color:#99cc33;
    color:#ffffff;
    border:1px solid #99cc33!important;
+   padding:4px 9px;
 }
 .btn_list li a{
-	display: block;
-	width:100%;
-	height:40px;
-	padding:5px 10px;
-	line-height: 30px;
+  display: block;
+  width:100%;
+  height:40px;
+  padding:5px 10px;
+  line-height: 30px;
 }
 .btn_list li:focus{
-	background-color: #2c9fa6;
+  background-color: #2c9fa6;
 }
+
 
 .flow_step{
   list-style-type:none;

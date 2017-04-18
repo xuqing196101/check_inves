@@ -3,7 +3,6 @@
 
 <!DOCTYPE HTML>
 <html>
-
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
@@ -216,6 +215,7 @@
           <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}">
             03、采购文件
           </a>
+          <i></i>
         </li>
         <li>
          <a  href="${pageContext.request.contextPath}/AdAuditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>
@@ -239,9 +239,8 @@
           <td class="tc w30">${vs.count}</td>
           <td class="tc">${p.name}</td>
           <td class="tc">
-            <c:if test="${project.confirmFile != 1 && p.isEditFirst == 0}">未维护</c:if>
-            <c:if test="${project.confirmFile != 1 && p.isEditFirst == 1}">已维护</c:if>
-            <c:if test="${project.confirmFile == 1}">已维护</c:if>
+            <c:if test="${p.isEditFirst == 0}">未维护检查数据</c:if>
+            <c:if test="${p.isEditFirst == 1}">已维护检查数据</c:if>
           </td>
           <td class="tc">
             <c:if test="${project.confirmFile == 1}">

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -677,6 +678,7 @@ public class PurchaseManageController {
 	@RequestMapping("save")
 	public String save(HttpServletRequest request,Deparent deparent){
 		deparent.setIsDeleted(0);
+		deparent.setCreatedAt(new Date());
 		//User currUser=(User) request.getSession().getAttribute("loginUser");
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("", deparent.getName()==null?"":deparent.getName());

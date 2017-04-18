@@ -147,10 +147,11 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		
 		HashMap<String, Object> orgmap = new HashMap<String, Object>();
 		HashMap<String, Object> deporgmap = new HashMap<String, Object>();//机构对多对map
-		
+		orgnization.setCreatedAt(new Date());
 		orgmap.put("name", orgnization.getName()==null?"":orgnization.getName());
 		orgmap.put("type_name", orgnization.getTypeName());
 		orgmap.put("parent_id", orgnization.getParentId());
+		orgmap.put("createdAt", orgnization.getCreatedAt());
 		orgmap.put("parentName", orgnization.getParentName());
 		orgmap.put("describtion", orgnization.getDescribtion());
 		orgmap.put("address", orgnization.getAddress()==null?"":orgnization.getAddress());
@@ -166,7 +167,6 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		orgmap.put("princinpalIdCard", orgnization.getPrincinpalIdCard());
 		orgmap.put("nature", orgnization.getNature());
 		orgmap.put("orgLevel", orgnization.getOrgLevel());
-		
 		orgmap.put("shortName", orgnization.getShortName());
 		orgmap.put("parentName", orgnization.getParentName());
 		orgmap.put("pid", orgnization.getProvinceId());
@@ -230,6 +230,8 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		HashMap<String, Object> delmap = new HashMap<String, Object>();//机构对多对map
 		HashMap<String, Object> deporgmap = new HashMap<String, Object>();//机构对多对map
 		
+		orgnization.setUpdatedAt(new Date());
+		orgmap.put("updatedAt", orgnization.getUpdatedAt());
 		orgmap.put("id", orgnization.getId()==null?"":orgnization.getId());
 		orgmap.put("name", orgnization.getName()==null?"":orgnization.getName());
 		orgmap.put("typeName", orgnization.getTypeName());
@@ -316,6 +318,7 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 	@Override
 	public void updateOrgnizationById(Orgnization orgnization) {
 		// TODO Auto-generated method stub
+	    orgnization.setUpdatedAt(new Date());
 		 orgniztionMapper.updateOrgnizationById(orgnization);
 	}
 

@@ -778,6 +778,11 @@ public class PlanSupervisionController {
                         User user = userService.getUserById(task.get(0).getUserId());
                         task.get(0).setUserId(user.getRelName());
                     }
+                    if(task.get(0).getCreaterId() != null){
+                        User user = userService.getUserById(task.get(0).getCreaterId());
+                        task.get(0).setCreaterId(user.getRelName());
+                        task.get(0).setMaterialsType(user.getMobile());
+                    }
                     task.get(0).setPurchaseId(org.getShortName());
                     model.addAttribute("task", task.get(0));
                 }
@@ -791,6 +796,7 @@ public class PlanSupervisionController {
                         if(StringUtils.isNotBlank(project.getAppointMan())){
                             User user = userService.getUserById(project.getAppointMan());
                             project.setAppointMan(user.getRelName());
+                            project.setIpone(user.getMobile());
                         }
                         Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
                         project.setPurchaseDepName(org.getShortName());
@@ -1129,7 +1135,7 @@ public class PlanSupervisionController {
                                 if(purchaseContract.getPurchaseDepName()!=null){
                                     Orgnization org1 = orgnizationService.getOrgByPrimaryKey(purchaseContract.getPurchaseDepName());
                                     if(org1!=null){
-                                        purchaseContract.setPurchaseDepName(org1.getName());
+                                        purchaseContract.setPurchaseDepName(org1.getShortName());
                                         purchaseContract.setPurchaseBankAccount_string(org1.getFax());
                                     }else{
                                         purchaseContract.setPurchaseDepName("");
@@ -1181,11 +1187,13 @@ public class PlanSupervisionController {
                 if("1".equals(purchaseRequired.getParentId())){
                     User user = userService.getUserById(purchaseRequired.getUserId());
                     purchaseRequired.setUserId(user.getRelName());
+                    purchaseRequired.setCode(user.getMobile());
                     model.addAttribute("purchaseRequired", purchaseRequired);
                     break;
                 }
             }
             
+            //采购需求
             PurchaseRequired required = null;
             if(detail != null){
                 required = requiredService.queryById(detail.getId());
@@ -1196,14 +1204,14 @@ public class PlanSupervisionController {
             if(required != null){
                 if(StringUtils.isNotBlank(required.getOrganization())){
                     Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getOrganization());
-                    required.setOrganization(orgnization.getName());
+                    required.setOrganization(orgnization.getShortName());
                 }
                 required.setPurchaseType(DictionaryDataUtil.findById(required.getPurchaseType()).getName());
                 
                 List<PurchaseManagement> queryByPid = managementService.queryByPid(required.getUniqueId());
                 if(queryByPid != null && queryByPid.size() > 0){
                     Orgnization org= orgnizationService.getOrgByPrimaryKey(queryByPid.get(0).getManagementId());
-                    model.addAttribute("management", org.getName());//管理部门
+                    model.addAttribute("management", org.getShortName());//管理部门
                 }
                 map.put("collectId", required.getUniqueId());
                 map.put("type", "4");
@@ -1214,7 +1222,7 @@ public class PlanSupervisionController {
                     model.addAttribute("auditPerson", selectByMap.get(0));//受理人和受理时间
                 }
                 
-                model.addAttribute("required", required);//计划明细
+                model.addAttribute("required", required);
             }
             
             
@@ -1229,7 +1237,7 @@ public class PlanSupervisionController {
                     Task task = taskService.selectById(queryByNo.get(0).getTaskId());
                     if(task != null){
                         Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(task.getOrgId());
-                        task.setOrgName(orgnization.getName());
+                        task.setOrgName(orgnization.getShortName());
                         User user = userService.getUserById(task.getCreaterId());
                         task.setCreaterId(user.getRelName());
                         model.addAttribute("tasks", task);//任务
@@ -1845,6 +1853,27 @@ public class PlanSupervisionController {
         }
         return "ses/sms/supplier_extracts/extract_supervise_word";
     }
+    
+    /**
+     * 
+     *〈查看公告〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewArticle")
+    public String viewArticle(String id, Model model){
+        if(StringUtils.isNotBlank(id)){
+            Article article = articleService.selectArticleById(id);
+            model.addAttribute("article", article);
+            model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+            model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+        }
+        return "sums/ss/planSupervision/view_article";
+    }
+    
     
     //给每个包的供应商，和物资明细赋值
     public List<Supplier> setField(List<Quote> listQuote) {

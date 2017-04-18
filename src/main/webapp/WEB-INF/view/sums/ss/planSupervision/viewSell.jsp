@@ -11,7 +11,7 @@
   </head>
 
   <body>
-    <div class="clear">
+    <div class="col-md-12 col-xs-12 col-sm-12 mt20">
       <div class="over_hideen">
         <h2>包名:<span class="f15 blue">${packages.name}</span></h2>
       </div>

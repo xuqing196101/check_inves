@@ -167,16 +167,20 @@ public class AdOpenBiddingController {
         map.put("projectId", id);
         List<AdvancedPackages> packages = packageService.selectByAll(map);
         String msg = "";
-        for (AdvancedPackages p : packages) {
-          //判断各包符合性审查项是否编辑完成
-            FirstAudit firstAudit = new FirstAudit();
-            firstAudit.setPackageId(p.getId());
-            List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
+        if (process != null && process == 1) {
+            //审核页面不用校验是否完成
+        } else {
+         for (AdvancedPackages p : packages) {
+             //判断各包符合性审查项是否编辑完成
+             FirstAudit firstAudit = new FirstAudit();
+             firstAudit.setPackageId(p.getId());
+             firstAudit.setIsConfirm((short)0);
+             List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
             if (fas == null || fas.size() <= 0) {
               msg = "noFirst";
               return "redirect:/adFirstAudit/toAdd.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
             }
-            //获取资格性审查项内容
+          //获取经济技术审查项内容
             //获取评分办法数据字典编码     
             String methodCode = bidMethodService.getMethod(id, p.getId());
             if (methodCode != null && !"".equals(methodCode)) {
@@ -200,6 +204,7 @@ public class AdOpenBiddingController {
                 }
               }
             }
+        }
         }
         AdvancedProject project = projectService.selectById(id);
         boolean exist = isExist(project.getPurchaseDepId(),user.getOrg().getId());

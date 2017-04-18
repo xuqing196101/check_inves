@@ -158,6 +158,8 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
     if (org != null){
       orgId = org.getId();
       HashMap<String, Object> map = new HashMap<>();
+      org.setUpdatedAt(new Date());
+      map.put("updatedAt", org.getUpdatedAt());
       map.put("telephone", purchaseDep.getDutyRoomPhone());
       map.put("id", org.getId());
       map.put("name", purchaseDep.getName());
@@ -226,6 +228,7 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
     }
     purchaseDep.setId(orgId);
     purchaseDep.setQuaStatus(0);
+    purchaseDep.setUpdatedAt(new Date());
     return purchaseDepMapper.update(purchaseDep);
   }
 

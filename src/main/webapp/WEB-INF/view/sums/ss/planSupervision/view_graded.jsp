@@ -11,7 +11,7 @@
   </head>
 
   <body>
-    <div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
+    <div class="col-md-12 col-xs-12 col-sm-12 mt20">
       <c:if test="${'PBFF_JZJF' eq methodCode}">
         基准价：
         <fmt:formatNumber type="number" value="${supplier.jzjf.benchmarkPrice}" pattern="0.0000" maxFractionDigits="4" /> 浮动比例：

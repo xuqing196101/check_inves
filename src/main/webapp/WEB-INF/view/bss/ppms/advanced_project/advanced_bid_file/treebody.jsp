@@ -153,6 +153,7 @@ function judge(index) {
   
   
   function choseModel(){
+      $("#biaoshi").addClass("hide");
     var model = $("#model").val();
     console.dir(model);
     $("#showParamButton").hide();
@@ -189,6 +190,7 @@ function judge(index) {
       $("#model5 tbody tr").clone().appendTo("#show_table tbody");
       $("#showbutton").show();
     }else if(model=="5"){
+        $("#biaoshi").removeClass("hide");
       $("#show_table tbody tr").remove();
       $("#model6 tbody tr").clone().appendTo("#show_table tbody");
       $("#showbutton").show();
@@ -441,7 +443,7 @@ function judge(index) {
             } else {
               checkScore ++;
               layer.msg("区间重复,请重新录入"); 
-              console.dir(checkScore);
+              //console.dir(checkScore);
               break labe;
             };
           }
@@ -455,7 +457,7 @@ function judge(index) {
     //$(obj).parent.remove();//删除当前行   
     var num = $("#model73 tbody tr").length;
     var trs = $("#model73 tbody tr");
-    console.dir(trs.find("td:eq(0)"));
+    //console.dir(trs.find("td:eq(0)"));
     for (i = 0; i < num; i++) {
       trs.find("td:eq(0)").each(function(i) {
         $(this).text(i + 1);
@@ -524,7 +526,7 @@ function judge(index) {
       if (relation == "0") {
         var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，大于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余依次递减" + unitScore + "分,最低分为" + minScore + "分";
       } else {
-        var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，小于等于"+ standScores + unit + "得最低分" + minScore +"分,其余从最高分依次递减" + unitScore + "分,最高分为" + minScore + "分";
+        var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，小于等于"+ standScores + unit + "得最低分" + minScore +"分,其余从最高分依次递减" + unitScore + "分,最高分为" + maxScore + "分";
       }
       $("#easyUnderstandContent3").text(str);
     }
@@ -543,11 +545,11 @@ function judge(index) {
     var addSubtractTypeName = $("#addSubtractTypeName").val();
     if (isHave == "1") {
       if(addSubtractTypeName=="0"){
-        var str = "加分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+ minScore + "分,其余依次递增" + unitScore + "分,最高分为" + maxScore + "分";
+        var str = "加分实例:以"+reviewParam+"以最低值为基准值排序递增，第一名得"+ minScore + "分,其余依次递增" + unitScore + "分,最高分为" + maxScore + "分";
         $("#easyUnderstandContent4").text(str);
         return;
       } else {
-        var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+ maxScore + "分,其余依次递减" + unitScore + "分,最低分为" + minScore + "分";
+        var str = "减分实例:以"+reviewParam+"以最低值为基准值排序递增，第一名得"+ maxScore + "分,其余依次递减" + unitScore + "分,最低分为" + minScore + "分";
         $("#easyUnderstandContent4").text(str);
         return;
       }
@@ -697,11 +699,11 @@ function judge(index) {
       var id = $("#id").val();
       var isChecked = $("#check").val();
     var s = validteModel().form();
-    console.dir(s);
+    //console.dir(s);
     if(s){
       $.ajax({   
               type: "get",  
-              url: "${pageContext.request.contextPath}/adIntelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}" + "&checked="+isChecked,        
+              url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}" + "&checked="+isChecked,        
               dataType:'json',
               success:function(result){
                     if (result == 0){
@@ -709,7 +711,7 @@ function judge(index) {
                     }  else if (result == 2) {
                        layer.msg("每个包必须要有一个评审计算价格得分的唯一标识,有且只能为一个",{offset: ['150px']});    
                     }  else {
-                      $("#formID").attr('action','${pageContext.request.contextPath}/adIntelligentScore/operatorScoreModel.do').submit();
+                      $("#formID").attr('action','${pageContext.request.contextPath}/intelligentScore/operatorScoreModel.do').submit();
                     }
               },
               error: function(result){
@@ -773,6 +775,7 @@ function judge(index) {
       $("#showbutton").show();
       gernerator();
     }else if(model=="5"){
+        $("#biaoshi").removeClass("hide");
       $("#show_table tbody tr").remove();
       if('${addStatus}' !=1){
         $("#model6 tbody tr").clone().appendTo("#show_table tbody");
@@ -1020,7 +1023,7 @@ function judge(index) {
                      <input name="name" id="name" value="${scoreModel.name}" type="text">
                   </div>
                   </li>
-                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                   <li id ="biaoshi" class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15 hide">
                     <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>是否标识(评审计算价格得分的唯一标识) ：</div>
                   <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
                        <select id="check" name="ischeck">
@@ -1253,7 +1256,7 @@ function judge(index) {
       </tr>
       <tr>
         <td class="w180 tc"><span class="star_red">*</span>分差</td>
-        <td><input name="unitScore" onkeyup="gernerator();" id="score" value="${scoreModel.unitScore }"></td>
+        <td><input name="unitScore" onkeyup="gernerator();" id="unitScore" value="${scoreModel.unitScore }"></td>
         <td><span class="blue">依次排序递减/递增分值</span></td>
       </tr>
       <tr>
@@ -1290,7 +1293,7 @@ function judge(index) {
             <option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option>
           </select>
         </td>
-        <td><span class="blue">以最高值为基准值排序递减,是加分还是减分</span></td>
+        <td><span class="blue">以最低值为基准值排序递增,是加分还是减分</span></td>
       </tr>
        <tr>
           <td class="w180 tc"><span class="star_red">*</span>是否有基准数额</td>
@@ -1340,7 +1343,7 @@ function judge(index) {
       </tr>
       <tr>
         <td class="w180 tc"><span class="star_red">*</span>分差</td>
-        <td><input name="unitScore" id="score" onkeyup="gernerator();" value="${scoreModel.unitScore }"></td>
+        <td><input name="unitScore" id="unitScore" onkeyup="gernerator();" value="${scoreModel.unitScore }"></td>
         <td><span class="blue">依次排序递减/递增分值</span></td>
       </tr>
       <tr>

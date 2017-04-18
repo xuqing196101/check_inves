@@ -8,7 +8,7 @@
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <script type="text/javascript">
   	function ycDiv(obj, index) {
-    	  if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
+        if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
               $(obj).removeClass("shrink");
               $(obj).addClass("spread");
             } else {

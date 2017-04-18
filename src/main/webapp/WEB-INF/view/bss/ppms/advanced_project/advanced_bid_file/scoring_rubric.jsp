@@ -149,13 +149,14 @@
           </li>
 
           <li class="active">
-            <a href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
+            <a href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
             <i></i>
           </li>
           <li>
             <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}">
               03、采购文件
             </a>
+            <i></i>
           </li>
           <li>
 		         <a  href="${pageContext.request.contextPath}/AdAuditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>
@@ -212,14 +213,13 @@
                 <td class="tc w50">${vs.index+1 }</td>
                 <td class="tc">${p.name}</td>
                 <td class="tc">
-                <c:if test="${p.isEditSecond == 0 and project.confirmFile != 1}">请选择评分办法</c:if>
-                <c:if test="${p.isEditSecond == 1 and project.confirmFile != 1}">已维护</c:if>
-                <c:if test="${p.isEditSecond == 2}">已维护</c:if>
+                <c:if test="${p.isEditSecond == 0}">请选择评分办法</c:if>
+                <c:if test="${p.isEditSecond == 1}">未维护评审数据</c:if>
+                <c:if test="${p.isEditSecond == 2}">已维护评审数据</c:if>
                 </td>
                 <td class="tc">
                   <c:forEach items="${ddList}" var="list" varStatus="vs">
                     <c:if test="${vs.index == p.bidMethodTypeName }"><a onclick="show('${p.id}','${p.projectId }')" class="pointer">${list.name }</a></c:if>
-                    
                   </c:forEach>
                 </td>
                  <td class="tc">

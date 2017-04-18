@@ -54,6 +54,7 @@
               $("#remark").val(result.remark);
               $("#name").val(result.name);
               $("#id").val(result.id);
+              $("#typeName").val(result.type);
               layer.open({
                     type: 1,
                     title: '添加评审项信息',
@@ -132,6 +133,7 @@
     function loadTemplat(projectId, packageId){
       var fatId = $("#fatId").val();
       if (fatId != null && fatId != "") {
+        $('#loadTemp').attr("disabled",true); 
 	      $.ajax({   
 	            type: "POST",  
 	            url: "${pageContext.request.contextPath}/adIntelligentScore/loadTemplat.html",   
@@ -139,10 +141,11 @@
 	            dataType:'json',
 	            success:function(result){
 	                if(!result.success){
-	                    layer.msg(result.msg,{offset: ['150px']});
-	                }else{
-	                    var packageId = $("#packageId").val();
-	                    var projectId = $("#projectId").val();
+                      layer.msg(result.msg,{offset: ['150px']});
+                  }else{
+                      $('#loadTemp').removeAttr("disabled");
+                      var packageId = $("#packageId").val();
+                      var projectId = $("#projectId").val();
 	                    window.location.href = '${pageContext.request.contextPath}/adIntelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
 	                    layer.closeAll();
 	                    layer.msg(result.msg,{offset: ['150px']});
@@ -152,7 +155,9 @@
 	                layer.msg("添加失败",{offset: ['150px']});
 	            }
 	       });
-	   } 
+	   } else {
+       layer.msg("请选择模板",{offset: ['150px']});
+     }
     }
     
     
@@ -190,7 +195,8 @@
  </script>
 <body onload="getTotal()">  
     <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>
-  <div class="search_detail">
+    <c:if test="${project.confirmFile != 1 }">
+  <div class="search_detail ml0">
           <ul class="demand_list">
             <li>
               <label class="fl">选择模板：</label>
@@ -201,15 +207,19 @@
                   </c:forEach>
                 </select>
              </li>
-             <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定</button>
+             <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" id="loadTemp" class="btn">确定</button>
+            <%--  <div class="pull-right">
+                <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
+             </div> --%>
           </ul>
           <div class="clear"></div>
        </div>
+      </c:if>
     <div class="content">
         <table class="table table-bordered table-condensed table-hover">
             <thead>
                <tr>
-                  <th class="info" width="15%">评审类别</th>
+                   <th class="info" width="15%">评审类别</th>
                   <th class="info" width="20%">评审项目</th>
                   <th class="info" width="15%">评审指标</th>
                   <th class="info" width="10%">所属模型</th>
@@ -217,15 +227,13 @@
                   <th class="info" width="10%">分值</th>
                </tr>
             </thead>
-            <tbody>
-               ${str}
-            </tbody>
+                 ${str}
         </table>
         <div class="tr col-md-12 col-sm-12 col-xs-12">
           <div ><b>总分:</b><span class="red f16" id="totalScore"></span></div>
         </div>
     </div>
-    <div class="mt40 tc mb50">
+      <div class="mt40 tc mb50">
       <c:if test="${project.confirmFile != 1 }">
           <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}'">返回</button>
           </c:if>
@@ -239,7 +247,7 @@
               <input type="hidden" name="id" id="id">
               <ul class="list-unstyled">
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
-                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审名称</label>
+                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审项目</label>
                   <span class="col-md-12 col-sm-12 col-xs-12 p0">
                      <input name="name" id="name" maxlength="30" type="text">
                   </span>
@@ -251,7 +259,7 @@
                   </div>
                  </li>
                  <li class="col-md-12 col-sm-12 col-xs-12 mb20">
-                   <label class="col-md-12 pl20 col-xs-12 padding-left-5"><div class="star_red">*</div>评审内容</label>
+                   <label class="col-md-12 pl20 col-xs-12 padding-left-5">评审内容</label>
                    <span class="col-md-12 col-sm-12 col-xs-12 p0">
                     <textarea class="col-md-12 col-sm-12 col-xs-12 h80" id="remark" name="remark" maxlength="200" title="" placeholder=""></textarea>
                    </span>

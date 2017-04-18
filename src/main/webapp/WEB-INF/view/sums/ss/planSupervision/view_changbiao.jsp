@@ -27,7 +27,7 @@
 
   <body onload="addTotal()">
     <!-- 表格开始-->
-    <div class="clear">
+    <div class="col-md-12 col-xs-12 col-sm-12 mt20">
       <div>
         <h2 class="count_flow shrink hand">包名:<span class="f14 blue">${packages.name }</span>
           <span>项目预算报价(万元)：${packages.projectBudget}</span>

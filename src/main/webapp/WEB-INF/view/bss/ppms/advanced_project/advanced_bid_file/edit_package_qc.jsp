@@ -4,16 +4,23 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
+    <title>符合性审查项</title>
+    
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">    
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page"> 
   </head>
   <script type="text/javascript">
     //新增一个评审项
     function addItem(obj,kindId){
-    	//得到点击坐标。
+      //得到点击坐标。
         var y;  
         oRect = obj.getBoundingClientRect();  
         y=oRect.top-150;  
-    	$("#faKind").val(kindId);
-    	layer.open({
+      $("#faKind").val(kindId);
+      layer.open({
             type: 1,
             title: '添加评审项信息',
             area: ['500px', '300px'],
@@ -29,7 +36,7 @@
     
     //修改评审项
     function editItem(obj,id){
-    	//得到点击坐标。
+      //得到点击坐标。
         var y;  
         oRect = obj.getBoundingClientRect();  
         y=oRect.top-150; 
@@ -49,26 +56,26 @@
     
     //删除评审项 
     function delItem(id){
-    	layer.confirm('您确定要删除吗?', {title:'提示',offset: '50px',shade:0.01}, function(index){
-	    	$.ajax({   
-	            type: "POST",  
-	            url: "${pageContext.request.contextPath}/adFirstAudit/delItem.html?id="+id,        
-	            dataType:'json',
-	            success:function(result){
-	                if(!result.success){
-	                    layer.msg(result.msg,{offset: ['150px']});
-	                }else{
-	                	 var packageId = $("#packageId").val();
-	                	 var projectId = $("#projectId").val();
-	                     window.location.href = '${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId; 
-	                    layer.msg(result.msg,{offset: ['150px']});
-	                    layer.close(index);
-	                }
-	            },
-	            error: function(result){
-	                layer.msg("删除失败",{offset: ['150px']});
-	            }
-	       });       	
+      layer.confirm('您确定要删除吗?', {title:'提示',offset: '50px',shade:0.01}, function(index){
+        $.ajax({   
+              type: "POST",  
+              url: "${pageContext.request.contextPath}/adFirstAudit/delItem.html?id="+id,         
+              dataType:'json',
+              success:function(result){
+                  if(!result.success){
+                      layer.msg(result.msg,{offset: ['150px']});
+                  }else{
+                     var packageId = $("#packageId").val();
+                     var projectId = $("#projectId").val();
+                     window.location.href = '${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                      layer.msg(result.msg,{offset: ['150px']});
+                      layer.close(index);
+                  }
+              },
+              error: function(result){
+                  layer.msg("删除失败",{offset: ['150px']});
+              }
+         });        
         });
     }
     
@@ -79,14 +86,14 @@
     
     //返回模板列表
     function goBack(){
-    	
+      
     }
     
     //保存评审项
     function saveItem(){
-    	$.ajax({   
+      $.ajax({   
             type: "POST",  
-            url: "${pageContext.request.contextPath}/adFirstAudit/savePackageFirstAudit.html",        
+            url: "${pageContext.request.contextPath}/adFirstAudit/savePackageFirstAudit.html",       
             data : $('#form2').serializeArray(),
             dataType:'json',
             success:function(result){
@@ -108,37 +115,36 @@
     
     //引入模板内容
     function loadTemplat(projectId, packageId){
-    	var fatId = $("#fatId").val();
-    	if (fatId != null && fatId != "") {
-			$.ajax({   
-	            type: "POST",  
-	            url: "${pageContext.request.contextPath}/adFirstAudit/loadTemplat.html?isConfirm=0",   
-	            data:{"id":fatId,"projectId":projectId,"packageId":packageId},
-	            dataType:'json',
-	            success:function(result){
-	                if(!result.success){
-	                    layer.msg(result.msg,{offset: ['150px']});
-	                }else{
-	                    var packageId = $("#packageId").val();
-	                    var projectId = $("#projectId").val();
-	                    window.location.href = '${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
-	                    layer.closeAll();
-	                    layer.msg(result.msg,{offset: ['150px']});
-	                }
-	            },
-	            error: function(result){
-	                layer.msg("添加失败",{offset: ['150px']});
-	            }
-	       });
-		} else {
-			layer.msg("请选择模板",{offset: ['150px']});
-		}
-    	 
+      var fatId = $("#fatId").val();
+      if (fatId != null && fatId != '') {
+        $.ajax({   
+              type: "POST",  
+              url: "${pageContext.request.contextPath}/adFirstAudit/loadTemplat.html?isConfirm=0",   
+              data:{"id":fatId,"projectId":projectId,"packageId":packageId},
+              dataType:'json',
+              success:function(result){
+                  if(!result.success){
+                      layer.msg(result.msg,{offset: ['150px']});
+                  }else{
+                      var packageId = $("#packageId").val();
+                      var projectId = $("#projectId").val();
+                      window.location.href = '${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                      layer.closeAll();
+                      layer.msg(result.msg,{offset: ['150px']});
+                  }
+              },
+              error: function(result){
+                  layer.msg("添加失败",{offset: ['150px']});
+              }
+         }); 
+       }else {
+      layer.msg("请选择模板",{offset: ['150px']});
+    }
     }
     
     //引入其他项目包的评审项
     function loadOtherPackage(packageId,projectId){
-    	layer.open({
+      layer.open({
             type: 2,
             title: '引入模板',
             area: ['800px', '600px'],

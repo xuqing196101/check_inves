@@ -361,7 +361,7 @@
           )
 		values(
 	      #{id},#{name,jdbcType=VARCHAR},#{type_name,jdbcType=NUMERIC},
-		  #{dep_id,jdbcType=VARCHAR},#{parent_id,jdbcType=VARCHAR},sysdate,
+		  #{dep_id,jdbcType=VARCHAR},#{parent_id,jdbcType=VARCHAR},#{createdAt,jdbcType=TIMESTAMP},
 		  #{describtion,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{mobile,jdbcType=INTEGER},
 		  #{postCode,jdbcType=INTEGER},#{orgCode,jdbcType=VARCHAR},#{telephone,jdbcType=VARCHAR},
 		  #{areaId,jdbcType=VARCHAR},#{detailAddr,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
@@ -391,10 +391,8 @@
 	<update id="updateOrgnization" parameterType="java.util.Map">
 			 update T_SES_OMS_ORG s
 	     set 
-	         UPDATED_AT=sysdate
-	         <!-- -->
-	        <if test="name != null">
-		 		,NAME=#{name}
+	    <if test="name != null">
+		 		NAME=#{name}
 		 	</if>
 		 	<if test="typeName != null">
 		 		,TYPE_NAME=#{typeName}
@@ -402,6 +400,9 @@
 		 	<if test="parentId != null">
 		 		,PARENT_ID=#{parentId}
 		 	</if>
+		 	<if test="updatedAt != null">
+        ,UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP}
+      </if>
 		 	<if test="parentName != null">
 		 		,PARENT_NAME=#{parentName}
 		 	</if>
@@ -495,9 +496,7 @@
 	<update id="updateOrgnizationById" parameterType="ses.model.oms.Orgnization">
 			  update T_SES_OMS_ORG 
 	     <set> 
-	         UPDATED_AT=sysdate,
-	         <!-- -->
-	        <if test="name != null and name != ''">
+	    <if test="name != null and name != ''">
 		 		NAME=#{name},
 		 	</if>
 		 	<if test="typeName != null">
@@ -512,7 +511,9 @@
 		 	<if test="describtion != null and describtion != ''">
 		 		DESCRIBTION=#{describtion},
 		 	</if>
-		 	
+		 	<if test="updatedAt != null">
+		 	  UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP},
+		 	</if>
 		 	 <if test="address != null and address != ''">
 		 		ADDRESS=#{address},
 		 	</if>

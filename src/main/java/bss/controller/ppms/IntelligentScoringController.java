@@ -578,7 +578,7 @@ public class IntelligentScoringController extends BaseController{
     	        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
     	        String str ="";
     	        for (DictionaryData dictionaryData : ddList) {
-    	          str += getTable(request, dictionaryData.getId(), dictionaryData.getName(), projectId, packageId);
+    	            str += getTable(request, dictionaryData.getId(), dictionaryData.getName(), projectId, packageId);
     	        }
     	        //页面需要显示包
     	        HashMap<String, Object> condition = new HashMap<String, Object>();

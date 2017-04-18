@@ -125,6 +125,10 @@
       function supplierExtract(packageId, projectId) {
         location.href="${pageContext.request.contextPath }/planSupervision/showRecords.html?packageId="+packageId + "&projectId=" + projectId;
       }
+      
+      function viewArticle(id){
+        window.open("${pageContext.request.contextPath}/planSupervision/viewArticle.html?id=" + id, "采购公告");
+      }
 
       function openPrint(projectId, packageId) {
         window.open("${pageContext.request.contextPath}/packageExpert/openPrint.html?packageId=" + packageId + "&projectId=" + projectId, "打印检查汇总表");
@@ -231,31 +235,41 @@
                   <td width="25%">${project.projectNumber}</td>
                 </tr>
                 <tr>
-                  <td width="10%" class="info">计划名称：</td>
+                  <td width="10%" class="info">采购计划名称：</td>
                   <td width="25%">${collectPlan.fileName}</td>
                   <td width="10%" class="info">计划文号：</td>
                   <td width="25%">${collectPlan.planNo}</td>
                 </tr>
                 <tr>
                   <td width="10%" class="info">需求部门：</td>
-                  <td width="25%">${detail.department}</td>
+                  <td width="25%">${required.department}</td>
                   <td width="10%" class="info">采购管理部门：</td>
                   <td width="25%">${collectPlan.purchaseId}</td>
                 </tr>
                 <tr>
+                  <td width="10%" class="info">采购机构：</td>
+                  <td width="25%">${project.purchaseDepName}</td>
                   <td width="10%" class="info">项目状态：</td>
                   <td width="25%">${project.status}</td>
+                </tr>
+                <tr>
+                  <td width="10%" class="info">需求提报人：</td>
+                  <td width="25%">${purchaseRequired.userId}</td>
+                  <td width="10%" class="info">提报人电话：</td>
+                  <td width="25%">${purchaseRequired.code}</td>
+                </tr>
+                <tr>
+                  <td width="10%" class="info">计划下达人：</td>
+                  <td width="25%">${task.createrId}</td>
+                  <td width="10%" class="info">下达人电话：</td>
+                  <td width="25%">${task.materialsType}</td>
+                </tr>
+                <tr>
                   <td width="10%" class="info">项目负责人：</td>
                   <td width="25%">${project.appointMan}</td>
+                  <td width="10%" class="info">负责人电话：</td>
+                  <td width="25%">${project.ipone}</td>
                 </tr>
-                <%-- <tr>
-                  <td width="10%" class="info">创建日期：</td>
-                  <td width="25%">
-                    <fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
-                  </td>
-                  <td width="10%" class="info"></td>
-                  <td width="25%"></td>
-                </tr> --%>
               </tbody>
             </table>
           </ul>
@@ -536,16 +550,16 @@
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
-                  <th class="info">采购需求名称</th>
-                  <th class="info" width="20%">需求部门</th>
-                  <th class="info" width="15%">编报人</th>
+                  <th class="info" width="25%">采购需求名称</th>
+                  <th class="info" width="35%">需求部门</th>
+                  <th class="info" width="20%">编报人</th>
                   <th class="info" width="20%">提报时间</th>
                 </tr>
                 <tr>
                   <td>${purchaseRequired.planName}</td>
                   <td>${purchaseRequired.department}</td>
-                  <td>${purchaseRequired.userId}</td>
-                  <td>
+                  <td class="tc">${purchaseRequired.userId}</td>
+                  <td class="tc">
                     <fmt:formatDate value='${purchaseRequired.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
@@ -558,15 +572,15 @@
               <tbody>
                 <tr>
                   <th class="info" width="25%">受理结果</th>
-                  <th class="info" width="30%">采购管理部门</th>
-                  <th class="info" width="25%">受理人</th>
+                  <th class="info">采购管理部门</th>
+                  <th class="info" width="20%">受理人</th>
                   <th class="info" width="20%">受理时间</th>
                 </tr>
                 <tr>
                   <td class="tc"><button class="btn" onclick="viewDemand();" type="button">查看</button></td>
                   <td>${management}</td>
-                  <td>${auditPerson.userId}</td>
-                  <td>
+                  <td class="tc">${auditPerson.userId}</td>
+                  <td class="tc">
                     <fmt:formatDate value='${auditPerson.createDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
@@ -579,8 +593,8 @@
               <table class="table table-bordered mt10">
                 <tbody>
                   <tr>
-                    <th class="info">预研通知书名称</th>
-                    <th class="info" width="20%">采购管理部门</th>
+                    <th class="info" width="25%">预研通知书名称</th>
+                    <th class="info">采购管理部门</th>
                     <th class="info" width="20%">下达人</th>
                     <th class="info" width="20%">下达时间</th>
                   </tr>
@@ -589,8 +603,8 @@
                       <u:show showId="upload_id" businessId="${advancedProjectId}" sysKey="2" delete="false" typeId="${adviceId}" />
                     </td>
                     <td>${tasks.orgId}</td>
-                    <td>${tasks.createrId}</td>
-                    <td>
+                    <td class="tc">${tasks.createrId}</td>
+                    <td class="tc">
                       <fmt:formatDate value='${tasks.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                     </td>
                   </tr>
@@ -606,8 +620,8 @@
                   <thead>
                     <tr>
                       <th class="info" width="25%">审核轮次</th>
-                      <th class="info">审核人员</th>
-                      <th class="info" width="25%">审核意见</th>
+                      <th class="info" width="35%">审核人员</th>
+                      <th class="info" width="20%">审核意见</th>
                       <th class="info" width="20%">审核时间</th>
                     </tr>
                   </thead>
@@ -615,9 +629,9 @@
                     <c:forEach items="${listAuditPerson}" var="obj" varStatus="vs">
                       <tr>
                         <td class="tc">第${(vs.index+1)}轮</td>
-                        <td>${obj.name}</td>
+                        <td class="tc">${obj.name}</td>
                         <td class="tc"><button class="btn" onclick="viewAuditPerson('${detailId}','${(vs.index+1)}');" type="button">查看</button> </td>
-                        <td>
+                        <td class="tc">
                           <fmt:formatDate value='${obj.createDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                         </td>
                       </tr>
@@ -636,18 +650,18 @@
               <table class="table table-bordered mt10">
                 <tbody>
                   <tr>
-                    <th class="info">采购计划名称</th>
+                    <th class="info" width="25%">采购计划名称</th>
                     <th class="info">计划文号</th>
                     <th class="info" width="20%">采购管理部门</th>
-                    <th class="info" width="15%">下达人</th>
+                    <th class="info" width="20%">下达人</th>
                     <th class="info" width="20%">下达时间</th>
                   </tr>
                   <tr>
                     <td>${collectPlan.fileName}</td>
                     <td>${collectPlan.planNo}</td>
                     <td>${collectPlan.purchaseId}</td>
-                    <td>${collectPlan.userId}</td>
-                    <td>
+                    <td class="tc">${collectPlan.userId}</td>
+                    <td class="tc">
                       <fmt:formatDate value='${collectPlan.orderAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                     </td>
                   </tr>
@@ -661,10 +675,10 @@
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
-                  <th class="info">采购任务名称</th>
-                  <th class="info" width="15%">采购机构</th>
-                  <th class="info" width="10%">任务性质</th>
-                  <th class="info" width="15%">受领人</th>
+                  <th class="info" width="25%">采购任务名称</th>
+                  <th class="info" width="20%">采购机构</th>
+                  <th class="info" width="15%">任务性质</th>
+                  <th class="info" width="20%">受领人</th>
                   <th class="info" width="20%">受领时间</th>
                 </tr>
                 <tr>
@@ -674,8 +688,8 @@
                     <c:if test="${task.taskNature eq '0'}">正常</c:if>
                     <c:if test="${task.taskNature eq '1'}">预研</c:if>
                   </td>
-                  <td>${task.userId}</td>
-                  <td>
+                  <td class="tc">${task.userId}</td>
+                  <td class="tc">
                     <fmt:formatDate value='${task.acceptTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
@@ -689,11 +703,11 @@
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
-                  <th class="info">采购项目名称</th>
+                  <th class="info" width="25%">采购项目名称</th>
                   <th class="info" width="10%">立项审批文件</th>
-                  <th class="info">立项部门</th>
+                  <th class="info" width="15%">立项部门</th>
                   <th class="info" width="10%">项目性质</th>
-                  <th class="info" width="15%">立项人</th>
+                  <th class="info" width="20%">立项人</th>
                   <th class="info" width="20%">立项时间</th>
                 </tr>
                 <tr>
@@ -704,8 +718,8 @@
                     <c:if test="${status eq '0'}">正常</c:if>
                     <c:if test="${status eq '1'}">预研</c:if>
                   </td>
-                  <td>${project.appointMan}</td>
-                  <td>
+                  <td class="tc">${project.appointMan}</td>
+                  <td class="tc">
                     <fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
@@ -720,10 +734,10 @@
               <table class="table table-bordered mt10">
                 <tbody>
                   <tr>
-                    <th class="info">采购文件名称</th>
-                    <th class="info">编制人</th>
-                    <th class="info" width="10%">提报时间</th>
-                    <th class="info" width="45%">审核意见</th>
+                    <th class="info" width="25%">采购文件名称</th>
+                    <th class="info" width="10%">编制人</th>
+                    <th class="info" width="25%">提报时间</th>
+                    <th class="info" width="20%">审核意见</th>
                     <th class="info" width="20%">意见批复时间</th>
                   </tr>
                   <tr>
@@ -731,13 +745,13 @@
                       <a href="javascript:void(0)" onclick="openFile()">${fileName}</a>
                     </td>
                     <td class="tc">${operatorName}</td>
-                    <td>
+                    <td class="tc">
                       <fmt:formatDate value='${project.approvalTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                     </td>
                     <td>
                       <a href="javascript:void(0)" onclick="audit('${project.id}','1')">采购管理部门、事业部门审核、财务部门</a>
                     </td>
-                    <td>
+                    <td class="tc">
                       <fmt:formatDate value='${project.replyTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                     </td>
                   </tr>
@@ -752,14 +766,14 @@
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
-                  <th class="info">公告名称</th>
+                  <th class="info" >公告名称</th>
                   <th class="info" width="20%">编制人</th>
                   <th class="info" width="20%">编制时间</th>
                 </tr>
                 <tr>
-                  <td>${articles.name}</td>
-                  <td>${articles.userId}</td>
-                  <td>
+                  <td><a href="#" onclick="viewArticle('${articles.id}')">${articles.name}</a></td>
+                  <td class="tc">${articles.userId}</td>
+                  <td class="tc">
                     <fmt:formatDate value='${articles.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
@@ -773,16 +787,16 @@
               <table class="table table-bordered mt10">
                 <tbody>
                   <tr>
-                    <th class="info">抽取记录</th>
+                    <th class="info" width="25%">抽取记录</th>
                     <th class="info">抽取人</th>
-                    <th class="info">监督人</th>
+                    <th class="info" width="20%">监督人</th>
                     <th class="info" width="20%">抽取时间</th>
                   </tr>
                   <tr>
                     <td class="tc"><button class="btn" onclick="supplierExtract('${packageId}','${project.id}')" type="button">查看</button></td>
-                    <td>${extUserNames}</td>
-                    <td>${extUserName}</td>
-                    <td>
+                    <td class="tc">${extUserNames}</td>
+                    <td class="tc">${extUserName}</td>
+                    <td class="tc">
                       <fmt:formatDate value='${extUserDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                     </td>
                   </tr>
@@ -803,8 +817,8 @@
                 </tr>
                 <tr>
                   <td class="tc"><button class="btn" onclick="sell('${packageId}','1')" type="button">查看</button></td>
-                  <td>${operatorNames}</td>
-                  <td>
+                  <td class="tc">${operatorNames}</td>
+                  <td class="tc">
                     ${begin}
                     <c:if test="${end!=null}">
                       —${end}
@@ -822,16 +836,16 @@
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
-                  <th class="info">抽取记录</th>
+                  <th class="info" width="25%">抽取记录</th>
                   <th class="info">抽取人</th>
-                  <th class="info">监督人</th>
+                  <th class="info" width="20%">监督人</th>
                   <th class="info" width="20%">抽取时间</th>
                 </tr>
                 <tr>
                   <td class="tc"><button class="btn" onclick="expertExtract('${packageId}','${project.id}')" type="button">查看</button></td>
                   <td>${userNames}</td>
-                  <td>${userName}</td>
-                  <td>
+                  <td width="20%">${userName}</td>
+                  <td class="tc">
                     <fmt:formatDate value='${userDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
@@ -851,15 +865,15 @@
 		              <tbody>
 		                <tr>
 		                  <th class="info" width="25%">投标记录</th>
-		                  <th class="info" width="25%">开标一览表</th>
-		                  <th class="info">开标人</th>
+		                  <th class="info" width="35%">开标一览表</th>
+		                  <th class="info" width="20%">开标人</th>
 		                  <th class="info" width="20%">开标时间</th>
 		                </tr>
 		                <tr>
 		                  <td class="tc"><button class="btn" onclick="sell('${packageId}','2')" type="button">查看</button></td>
 		                  <td class="tc"><button class="btn" onclick="bid('${packageId}')" type="button">查看</button></td>
-		                  <td>${operName}</td>
-		                  <td>
+		                  <td class="tc">${operName}</td>
+		                  <td class="tc">
 		                    <fmt:formatDate value='${project.bidDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
 		                  </td>
 		                </tr>
@@ -880,9 +894,9 @@
                 <table class="table table-bordered mt10">
 		              <tbody>
 		                <tr>
-		                  <th class="info">文件名称</th>
-		                  <th class="info">查看评审专家打分表</th>
-		                  <th class="info">查看汇总表</th>
+		                  <th class="info" width="25%">文件名称</th>
+		                  <th class="info" width="35%">查看评审专家打分表</th>
+		                  <th class="info" width="20%">查看汇总表</th>
 		                  <th class="info" width="20%">评审时间</th>
 		                </tr>
 		                <tr>
@@ -894,7 +908,7 @@
 		                    </c:forEach>
 		                  </td>
 		                  <td class="tc"><button class="btn" onclick="openPrint('${project.id}','${packageId}')" type="button">查看</button></td>
-		                  <td>
+		                  <td class="tc">
 		                    <fmt:formatDate value='${packages.qualificationTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
 		                  </td>
 		                </tr>
@@ -907,7 +921,7 @@
 		                    </c:forEach>
 		                  </td>
 		                  <td class="tc"><button class="btn" onclick="openPrints('${project.id}','${packageId}')" type="button">查看</button></td>
-		                  <td>
+		                  <td class="tc">
 		                    <fmt:formatDate value='${packages.techniqueTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
 		                  </td>
 		                </tr>
@@ -920,7 +934,7 @@
 		                      </c:forEach>
 		                    </td>
 		                    <td class="tc"><button class="btn" onclick="report('${packageId}')" type="button">查看</button></td>
-		                    <td>
+		                    <td class="tc">
 		                      <fmt:formatDate value='${reviewTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
 		                    </td>
 		                  </tr>
@@ -944,9 +958,9 @@
                   <th class="info" width="20%">编制时间</th>
                 </tr>
                 <tr>
-                  <td>${articleList.name}</td>
-                  <td>${articleList.userId}</td>
-                  <td>
+                  <td><a href="#" onclick="viewArticle('${articleList.id}')">${articleList.name}</a></td>
+                  <td class="tc">${articleList.userId}</td>
+                  <td class="tc">
                     <fmt:formatDate value='${articleList.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
@@ -962,15 +976,15 @@
                 <tr>
                   <th class="info">中标供应商名称</th>
                   <th class="info" width="25%">评分排序</th>
-                  <th class="info" width="25%">操作人</th>
+                  <th class="info" width="20%">操作人</th>
                   <th class="info" width="20%">确定时间</th>
                 </tr>
                 <c:forEach items="${listCheckPass}" var="obj" varStatus="vs">
                   <tr>
                     <td>${obj.supplierId}</td>
                     <td class="tc"><button class="btn" onclick="graded('${obj.supplier.id}','${packageId}')" type="button">查看</button></td>
-                    <td>${operatorName1}</td>
-                    <td>
+                    <td class="tc">${operatorName1}</td>
+                    <td class="tc">
                       <fmt:formatDate value='${obj.confirmTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                     </td>
                   </tr>
@@ -994,7 +1008,7 @@
                   <td><a href="#" onclick="openContract('${purchaseContract.id}');">${purchaseContract.name}</a></td>
                   <td>${purchaseContract.purchaseDepName}</td>
                   <td>${purchaseContract.supplierDepName}</td>
-                  <td>
+                  <td class="tc">
                     <fmt:formatDate value='${purchaseContract.formalAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
@@ -1017,7 +1031,7 @@
                   <td class="tc"><button class="btn" onclick="info('${PqInfo.id}'}" type="button">查看</button></td>
                   <td>${PqInfo.inspectors}</td>
                   <td>${PqInfo.unit}</td>
-                  <td>
+                  <td class="tc">
                     <fmt:formatDate value='${PqInfo.date}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
@@ -1029,7 +1043,7 @@
       </div>
 
       <div id="file" class="dnone">
-        <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
+        <div id="content" class="col-md-12 col-sm-12 col-xs-12 over_scroll mt20" id="content">
           <table id="table" class="table table-bordered table-condensed lockout">
             <thead>
               <tr class="space_nowrap">

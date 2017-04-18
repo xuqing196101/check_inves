@@ -689,7 +689,6 @@
 	<update id="update" parameterType="ses.model.oms.PurchaseDep">
 		update T_SES_OMS_PURCHASE_DEP
 		<set>
-			UPDATED_AT=sysdate,
 			<if test="levelDep != null and levelDep != ''">
 				LEVEL_DEP = #{levelDep},
 			</if>
@@ -802,8 +801,8 @@
 				IS_DELETED = #{isDeleted},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt},
-			</if>
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
 			<if test="createdAt != null">
 				CREATED_AT = #{createdAt},
 			</if>

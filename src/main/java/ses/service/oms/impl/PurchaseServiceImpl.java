@@ -86,7 +86,7 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 		    purchaseInfo.setUserId(user.getId());
 		    purchaseInfo.setIsDeleted(StaticVariables.ISNOT_DELETED);
 		}
-		
+		purchaseInfo.setCreatedAt(new Date());
 		return purchaseInfoMapper.savePurchase(purchaseInfo);
 	}
 	
@@ -127,6 +127,7 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 		}
 		purchaseInfo.setIsDeleted(StaticVariables.ISNOT_DELETED);
 		purchaseInfo.setPurchaseDepId(purchaseInfo.getOrgId());
+		purchaseInfo.setUpdatedAt(new Date());
 		return purchaseInfoMapper.updatePurchase(purchaseInfo);
 	}
 
@@ -296,7 +297,8 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 
     @Override
     public void update(PurchaseInfo purchaseInfo) {
-      purchaseInfoMapper.updatePurchase(purchaseInfo);
+        purchaseInfo.setUpdatedAt(new Date());
+        purchaseInfoMapper.updatePurchase(purchaseInfo);
     }
 	
 }

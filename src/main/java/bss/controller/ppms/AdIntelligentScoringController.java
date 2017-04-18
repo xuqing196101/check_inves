@@ -174,6 +174,14 @@ public class AdIntelligentScoringController extends BaseController{
         return "bss/ppms/open_bidding/show_score_method";
     }
 	
+	@RequestMapping(value = "updateScoreMethod")
+    public String updateScoreMethod(BidMethod bm, String packageId, String projectId, String flowDefineId) {
+        bm.setProjectId(projectId);
+        bm.setPackageId(packageId);
+        bidMethodService.updateBidMethod(bm);
+        return "redirect:packageList.html?flowDefineId=" + flowDefineId + "&projectId=" + projectId;
+    }
+	
 	
 	@RequestMapping(value = "saveScoreMethod")
 	public String saveScoreMethod(BidMethod bm, String packageId, String projectId, String flowDefineId) {
@@ -436,24 +444,24 @@ public class AdIntelligentScoringController extends BaseController{
 	}
 	
 	@RequestMapping(value = "editScore")
-	@ResponseBody
+    @ResponseBody
     public BidMethod editScore(HttpServletResponse response, BidMethod bm) throws IOException {
-	    MarkTerm mt = markTermService.findMarkTermById(bm.getId());
-	      bm.setId(mt.getBidMethodId());
-	      List<BidMethod> bmList = bidMethodService.findListByBidMethod(bm);
-	      if (bmList != null && bmList.size() >0 ){
-	          return bmList.get(0);
-	      } else {
-	          return bm;
-	      }
+      MarkTerm mt = markTermService.findMarkTermById(bm.getId());
+      bm.setId(mt.getBidMethodId());
+      List<BidMethod> bmList = bidMethodService.findListByBidMethod(bm);
+      if (bmList != null && bmList.size() >0 ){
+          return bmList.get(0);
+      } else {
+          return bm;
+      }
     }
 	
 	@RequestMapping("/editPackageScore")
 	public String editPackageScore(HttpServletRequest request, String packageId, Model model, String projectId, String flowDefineId){
-	    //获取评分办法数据字典编码
+	  //获取评分办法数据字典编码
         String methodCode = bidMethodService.getMethod(projectId, packageId);
         if (methodCode != null && !"".equals(methodCode)) {
-            if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
+          if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
                 List<DictionaryData> dds = DictionaryDataUtil.find(23);
                 //经济审查项
                 FirstAudit firstAudit1 = new FirstAudit();
@@ -482,8 +490,8 @@ public class AdIntelligentScoringController extends BaseController{
                 model.addAttribute("items2", items2);
                 model.addAttribute("packageId", packageId);
                 model.addAttribute("projectId", projectId);
-                model.addAttribute("flowDefineId", flowDefineId);
                 model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+                model.addAttribute("flowDefineId", flowDefineId);
                 AdvancedProject project = projectService.selectById(projectId);
                 model.addAttribute("flag", project.getConfirmFile());
                 return "bss/ppms/advanced_project/advanced_bid_file/edit_package_check";
@@ -698,7 +706,27 @@ public class AdIntelligentScoringController extends BaseController{
             if (bl != null && bl.size() > 1) {
                 packages2.setIsEditSecond(2);
             } else if (bl != null && bl.size() == 1){
-                packages2.setIsEditSecond(1);
+                //获取该包的评分办法
+                String methodCode = bidMethodService.getMethod(packages2.getProjectId(), packages2.getId());
+                if (methodCode != null && !"".equals(methodCode)) {
+                    if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
+                      //基准价法和最低价法
+                      FirstAudit firstAudit = new FirstAudit();
+                      firstAudit.setPackageId(packages2.getId());
+                      firstAudit.setIsConfirm((short)1);
+                      List<FirstAudit> fas = auditService.findBykind(firstAudit);
+                      if (fas != null && fas.size() > 0) {
+                          //已维护经济技术评审数据
+                          packages2.setIsEditSecond(2);
+                      } else {
+                          packages2.setIsEditSecond(1);
+                      }
+                    }
+                    if ("OPEN_ZHPFF".equals(methodCode)) {
+                      //综合评分法 
+                      packages2.setIsEditSecond(1);
+                    }
+                }
             } else {
                 packages2.setIsEditSecond(0);
             }
@@ -1066,8 +1094,7 @@ public class AdIntelligentScoringController extends BaseController{
 	 */
 	@RequestMapping("gettreebody")
 	public String gettreebody(@ModelAttribute MarkTerm markTerm,Model model,HttpServletRequest request ,String addStatus) throws UnsupportedEncodingException {
-
-        String packageId = request.getParameter("packageId");
+	    String packageId = request.getParameter("packageId");
         ScoreModel scoreModel = new ScoreModel();
         scoreModel.setName(URLDecoder.decode(markTerm.getName(), "UTF-8"));
         scoreModel.setMarkTermId(markTerm.getId()==null?"":markTerm.getId());
@@ -1081,6 +1108,15 @@ public class AdIntelligentScoringController extends BaseController{
             StringBuilder sb = new StringBuilder("");
             Integer count = 0;
             for (ParamInterval paramInterval : piList) {
+              if (paramInterval.getScore() != null && paramInterval.getScore().startsWith(".")) {
+            paramInterval.setScore(paramInterval.getScore().replace(".", "0."));
+          }
+          if (paramInterval.getStartParam() != null && paramInterval.getStartParam().startsWith(".")) {
+            paramInterval.setStartParam(paramInterval.getStartParam().replace(".", "0."));
+          }
+          if (paramInterval.getEndParam() != null && paramInterval.getEndParam().startsWith(".")) {
+            paramInterval.setEndParam(paramInterval.getEndParam().replace(".", "0."));
+          }
                 count++;
                 String startParam = paramInterval.getStartParam() == null ? "" : paramInterval.getStartParam();
                 sb.append("<tr><td class=tc>" + count + "</td><td class=tc><input style='width:60px' onblur='checkNum()' type='text' value='" + startParam + "'name='pi.startParam'>");
@@ -1108,15 +1144,27 @@ public class AdIntelligentScoringController extends BaseController{
         model.addAttribute("packageId", packageId);
         model.addAttribute("markTermId", markTerm.getId());
         String markTermName ="";
+        /*if(markTerm.getName()!=null && !markTerm.getName().equals("")){
+            markTermName = URLDecoder.decode(markTerm.getName(), "UTF-8");
+        }*/
         model.addAttribute("markTermName",markTermName );
         if(scoreModelList!=null && scoreModelList.size()>0){
             if (scoreModelList.get(0).getJudgeContent() != null && !"".equals(scoreModelList.get(0).getJudgeContent())) {
                 List<String> list = Arrays.asList(scoreModelList.get(0).getJudgeContent().split("\\|"));
                 scoreModelList.get(0).setModel1BJudgeContent(list);
             }
-            if (scoreModelList.get(0).getUnitScore() != null && scoreModelList.get(0).getUnitScore().indexOf(".") != -1 && scoreModelList.get(0).getUnitScore().length() == 2) {
-                scoreModelList.get(0).setUnitScore(scoreModelList.get(0).getUnitScore().replace(".", "0."));
-            }
+            if (scoreModelList.get(0).getUnitScore() != null && scoreModelList.get(0).getUnitScore().startsWith(".")) {
+            scoreModelList.get(0).setUnitScore(scoreModelList.get(0).getUnitScore().replace(".", "0."));
+        }
+        if (scoreModelList.get(0).getMinScore() != null && scoreModelList.get(0).getMinScore().startsWith(".")) {
+            scoreModelList.get(0).setMinScore(scoreModelList.get(0).getMinScore().replace(".", "0."));
+        }
+        if (scoreModelList.get(0).getMaxScore() != null && scoreModelList.get(0).getMaxScore().startsWith(".")) {
+            scoreModelList.get(0).setMaxScore(scoreModelList.get(0).getMaxScore().replace(".", "0."));
+        }
+        if (scoreModelList.get(0).getStandardScore() != null && scoreModelList.get(0).getStandardScore().startsWith(".")) {
+            scoreModelList.get(0).setStandardScore(scoreModelList.get(0).getStandardScore().replace(".", "0."));
+        }
             scoreModelList.get(0).setIscheck(scoreModelList.get(0).getMarkTerm().isChecked());
             model.addAttribute("scoreModel", scoreModelList.get(0));
         }

@@ -48,7 +48,7 @@
   </head>
 
   <body>
-    <div id="showDiv" class="clear">
+    <div id="showDiv" class="col-md-12 col-xs-12 col-sm-12 mt20">
       <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
         <c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
           <div>

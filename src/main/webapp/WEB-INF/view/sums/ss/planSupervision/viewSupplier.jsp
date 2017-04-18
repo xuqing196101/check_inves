@@ -30,7 +30,7 @@
   </head>
 
   <body>
-    <div class="content table_box">
+    <div class="col-md-12 col-xs-12 col-sm-12 mt20">
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr>

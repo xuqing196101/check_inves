@@ -42,7 +42,7 @@
 		  #{postCode,jdbcType=VARCHAR},#{orgCode,jdbcType=VARCHAR},#{tel,jdbcType=VARCHAR},
 		  #{area,jdbcType=VARCHAR},#{detailAddr,jdbcType=VARCHAR},
 		  #{fax,jdbcType=VARCHAR},#{site,jdbcType=VARCHAR},#{princinpal,jdbcType=VARCHAR},
-		  #{princinpalIdcard,jdbcType=VARCHAR},#{NATURE,jdbcType=INTEGER},sysdate
+		  #{princinpalIdcard,jdbcType=VARCHAR},#{NATURE,jdbcType=INTEGER},#{createdAt,jdbcType=TIMESTAMP}
 		 )
 	</insert>
 </mapper>

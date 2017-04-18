@@ -273,13 +273,13 @@ public class AdFirstAuditController {
 	public String editPackageFirstAudit(String packageId, Model model, String projectId, String flag, String flowDefineId){	  
 	    List<DictionaryData> dds = DictionaryDataUtil.find(22);
 	    //符合性审查项
-	    FirstAudit firstAudit1 = new FirstAudit();
+	      FirstAudit firstAudit1 = new FirstAudit();
 	      firstAudit1.setKind(DictionaryDataUtil.getId("COMPLIANCE"));
 	      firstAudit1.setPackageId(packageId);
 	      firstAudit1.setIsConfirm((short)0);
 	      List<FirstAudit> items1 = service.findBykind(firstAudit1);
 	    //资格性审查项
-	    FirstAudit firstAudit2 = new FirstAudit();
+	      FirstAudit firstAudit2 = new FirstAudit();
 	    firstAudit2.setKind(DictionaryDataUtil.getId("QUALIFICATION"));
 	    firstAudit2.setPackageId(packageId);
 	    firstAudit2.setIsConfirm((short)0);
@@ -299,8 +299,8 @@ public class AdFirstAuditController {
         model.addAttribute("items2", items2);
         model.addAttribute("packageId", packageId);
         model.addAttribute("projectId", projectId);
-        model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+        model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("flag", flag);
 	  return "bss/ppms/advanced_project/advanced_bid_file/edit_package_qc";
 	}
