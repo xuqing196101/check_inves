@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertTitleMapper;
-import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
