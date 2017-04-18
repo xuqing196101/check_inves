@@ -102,9 +102,6 @@
       <if test="user != null">
         and u.USER_ID = #{user.id}
       </if> 
-      <if test="mobile != null and mobile != ''">
-        and u.MOBILE = #{mobile}
-      </if>
       <if test="gender != null and gender != ''">
         and u.GENDER = #{gender}
       </if>
@@ -119,6 +116,9 @@
       </if>
       <if test="duties != null and duties != ''">
         and u.DUTIES = #{duties} 
+      </if>
+      <if test="mobile != null and mobile != ''">
+        and u.MOBILE like CONCAT(CONCAT('%', #{mobile}), '%')
       </if>
       <if test="roleIdList != null and roleIdList != '' ">
             <foreach item="roleIdList" index="index" collection="roleIdList"
