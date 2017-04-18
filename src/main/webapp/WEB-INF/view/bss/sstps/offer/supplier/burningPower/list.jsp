@@ -91,22 +91,39 @@
   		return val;
       }
       function html(num,serial,parentId){
-    	  var html="<tr id='add'>"
-      	+"<td class='tc '><input  checked='checked' type='checkbox' name='chkItem' /></td>"
-      	+"<td>"+serial+"</td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].firsetProduct'  value=''><input type='hidden' name='listBurn["+num+"].contractProduct.id'  value='${proId}'><input type='hidden' name='listBurn["+num+"].serialNumber'  value='"+serial+"'><input type='hidden' name='listBurn["+num+"].parentId'  value='"+parentId+"'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].unit'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].tyaAcount'  value='' onblur='moneys(this,\"2\");'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].tyaAvgPrice'  value='' onblur='moneys(this,\"1\");'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].tyaMoney'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].oyaAcount'  value='' onblur='moneys(this,\"2\");'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].oyaAvgPrice'  value='' onblur='moneys(this,\"1\");'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].oyaMoney'  value='' ></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].newAcount'  value='' onblur='moneys(this,\"2\");'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].newAvgPrice'  value='' onblur='moneys(this,\"1\");'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].newMoney'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].remark'  value=''></td>"
-      	+"</tr>";
+    	  var html="<tr id='add'>";
+    	  if((serial+"").split(".").length>2){
+    		  html+="<td class='tc '><input   type='checkbox' name='chkItem' /></td>"
+    	      	+"<td>"+serial+"</td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].firsetProduct'  value=''><input type='hidden' name='listBurn["+num+"].contractProduct.id'  value='${proId}'><input type='hidden' name='listBurn["+num+"].serialNumber'  value='"+serial+"'><input type='hidden' name='listBurn["+num+"].parentId'  value='"+parentId+"'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].unit'  value=''></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].tyaAcount'  value='' onblur='moneys(this,\"2\",\"6\");'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].tyaAvgPrice'  value='' onblur='moneys(this,\"1\",\"6\");'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].tyaMoney'  value='' readonly='readonly'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].oyaAcount'  value='' onblur='moneys(this,\"2\",\"9\");'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].oyaAvgPrice'  value='' onblur='moneys(this,\"1\",\"9\");'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].oyaMoney'  value='' readonly='readonly'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].newAcount'  value='' onblur='moneys(this,\"2\",\"12\");'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].newAvgPrice'  value='' onblur='moneys(this,\"1\",\"12\");'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].newMoney'  value='' readonly='readonly'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].remark'  value=''></td>";
+    	  }else{
+    		  html+="<td class='tc '><input  type='checkbox' name='chkItem' /></td>"
+      	      	+"<td>"+serial+"</td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].firsetProduct'  value=''><input type='hidden' name='listBurn["+num+"].contractProduct.id'  value='${proId}'><input type='hidden' name='listBurn["+num+"].serialNumber'  value='"+serial+"'><input type='hidden' name='listBurn["+num+"].parentId'  value='"+parentId+"'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].unit'  value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].tyaAcount'  value='' readonly='readonly' ></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].tyaAvgPrice'  value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].tyaMoney'  value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].oyaAcount'  value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].oyaAvgPrice'  value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].oyaMoney'  value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].newAcount'  value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].newAvgPrice'  value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].newMoney'  value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].remark'  value='' readonly='readonly'></td>";
+    	  }
+      	html+="</tr>";
       	return html;
       }
       var num=100;
@@ -117,11 +134,9 @@
         var flg=true;
         var obj;
         $('input[name="chkItem"]:checked').each(function() {
-        	if($(this).next().val()!=3){
-        	    if($(this).val()!="on"){
+        	if($(this).parent().next().text().split(".").length<3){
         	    	obj=this;
         			ids.push($(this).val());
-        		 }
         	 }else{
         		 layer.alert("请选择一个父节点", {
                      offset: ['222px', '390px'],
@@ -217,9 +232,57 @@
              });
        }
       }
-      function moneys(obj,type){
+    function sumMoney(trs,indx){
+    	var objSumValue; 
+        var objTrs;
+        var number;
+        var flgOne=true;
+        var flgTwo=true;
+    	for(var i=0;i<trs.length;i++){
+    		if(flgOne==true){
+	    		if($($(trs[i]).children()[1]).text().split(".").length==2){
+		    		objSumValue=$($(trs[i]).children()[indx]).children(":first");
+		    		objTrs=$(trs[i]).nextAll();
+		    		number=$($(trs[i]).children()[1]).text();
+		    		var money=0;
+		    		for(var j=0;j<objTrs.length;j++){
+		    			if($($(objTrs[j]).children()[1]).text().substring(0,$($(objTrs[j]).children()[1]).text().lastIndexOf("."))==number){
+		    				if($($(objTrs[j]).children()[indx]).children(":first").val()!=""){
+		    					money+=parseFloat($($(objTrs[j]).children()[indx]).children(":first").val());
+		    				}else{
+		    					money+=0;
+		    				}
+		    			}
+		        	}
+		    		objSumValue.val(money.toFixed(2));
+		    		flgOne=false;
+	    		}
+    	   }
+    		if(flgTwo==true){
+	    		if($($(trs[i]).children()[1]).text().split(".").length==1){
+	    			objSumValue=$($(trs[i]).children()[indx]).children(":first");
+		    		objTrs=$(trs[i]).nextAll();
+		    		number=$($(trs[i]).children()[1]).text();
+		    		var money=0;
+		    		for(var j=0;j<objTrs.length;j++){
+		    			if($($(objTrs[j]).children()[1]).text().substring(0,$($(objTrs[j]).children()[1]).text().lastIndexOf("."))==number){
+		    				if($($(objTrs[j]).children()[indx]).children(":first").val()!=""){
+		    					money+=parseFloat($($(objTrs[j]).children()[indx]).children(":first").val());
+		    				}else{
+		    					money+=0;
+		    				}
+		    			}
+		        	}
+		    		objSumValue.val(money.toFixed(2));
+		    		flgTwo=false;
+	    		}
+    	    }
+    	}
+    }
+      function moneys(obj,type,indx){
     	  var num=0;
     	  var price=0;
+    	  var trs=$(obj).parent().parent().prevAll();
     	    if(type==1){
     	    	if($(obj).parent().prev().children(":first").val()!=""){
     	    		num=parseFloat($(obj).parent().prev().children(":first").val());
@@ -228,6 +291,7 @@
     	    		price =parseFloat($(obj).val());
     	    	}
     	    	$(obj).parent().next().children(":first").val((num*price).toFixed(2));
+    	    	sumMoney(trs,indx);
     	    }else{
     	    	if($(obj).val()!=""){
     	    		num =parseFloat($(obj).val());
@@ -236,9 +300,8 @@
     	    		price=parseFloat($(obj).parent().next().children(":first").val());
     	    	}
     	    	$(obj).parent().next().next().children(":first").val((price*num).toFixed(2));
+    	    	sumMoney(trs,indx);
     	    }
-            
-    	  
       }
       function del() {
         var proId = $("#proId").val();
@@ -407,22 +470,42 @@
             </tr>
             <c:forEach items="${list}" var="bp" varStatus="vs">
               <tr id="${bp.id}">
+                <c:if test="${fn:length(fn:split(bp.serialNumber,'.'))>2}">
                 <td class="tc"><input  type="checkbox" name="chkItem" value="${bp.id }" /><input  type="hidden"  value="${bp.parentLevel }" /></td>
                 <td class="tl">${bp.serialNumber }</td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listBurn[${vs.index}].firsetProduct'  value='${bp.firsetProduct}'><input type='hidden' class='m0 p0  border0 w80' name='listBurn[${vs.index}].id'  value='${bp.id }'></td>
                 <%-- <td class="tc">${bp.secondProduct }</td>
                 <td class="tc">${bp.thirdProduct }</td> --%>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listBurn[${vs.index}].unit'  value='${bp.unit }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].tyaAcount'  value='${bp.tyaAcount }' onchange="update(this);" onblur='moneys(this,"2");'></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].tyaAvgPrice'  value='${bp.tyaAvgPrice }' onblur='moneys(this,"1");' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].tyaMoney'  value='${bp.tyaMoney }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].oyaAcount'  value='${bp.oyaAcount }' onchange="update(this);" onblur='moneys(this,"2");'></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].oyaAvgPrice'  value='${bp.oyaAvgPrice }' onblur='moneys(this,"1");' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].oyaMoney'  value='${bp.oyaMoney }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].newAcount'  value='${bp.newAcount }' onchange="update(this);" onblur='moneys(this,"2");'></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].newAvgPrice'  value='${bp.newAvgPrice }' onblur='moneys(this,"1");' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].newMoney'  value='${bp.newMoney }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].tyaAcount'  value='${bp.tyaAcount }' onchange="update(this);" onblur='moneys(this,"2","6");'></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].tyaAvgPrice'  value='${bp.tyaAvgPrice }' onblur='moneys(this,"1","6");' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].tyaMoney'  value='${bp.tyaMoney }' readonly="readonly"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].oyaAcount'  value='${bp.oyaAcount }' onchange="update(this);" onblur='moneys(this,"2","9");'></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].oyaAvgPrice'  value='${bp.oyaAvgPrice }' onblur='moneys(this,"1","9");' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].oyaMoney'  value='${bp.oyaMoney }'  readonly="readonly"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].newAcount'  value='${bp.newAcount }' onchange="update(this);" onblur='moneys(this,"2","12");'></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].newAvgPrice'  value='${bp.newAvgPrice }' onblur='moneys(this,"1","12");' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].newMoney'  value='${bp.newMoney }'   readonly="readonly"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listBurn[${vs.index}].remark'  value='${bp.remark }' onchange="update(this);"></td>
+                </c:if>
+                <c:if test="${fn:length(fn:split(bp.serialNumber,'.'))<=2}">
+                <td class="tc"><input  type="checkbox" name="chkItem" value="${bp.id }" /><input  type="hidden"  value="${bp.parentLevel }" /></td>
+                <td class="tl">${bp.serialNumber }</td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listBurn[${vs.index}].firsetProduct'  value='${bp.firsetProduct}' onchange="update(this);" ><input type='hidden' class='m0 p0  border0 w80' name='listBurn[${vs.index}].id'  value='${bp.id }'></td>
+                <%-- <td class="tc">${bp.secondProduct }</td>
+                <td class="tc">${bp.thirdProduct }</td> --%>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listBurn[${vs.index}].unit'  value='${bp.unit }' readonly="readonly" onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].tyaAcount'  value='${bp.tyaAcount }' onchange="update(this);" readonly="readonly" ></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].tyaAvgPrice'  value='${bp.tyaAvgPrice }'  readonly="readonly" onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].tyaMoney'  value='${bp.tyaMoney }' onchange="update(this);" readonly="readonly"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].oyaAcount'  value='${bp.oyaAcount }' onchange="update(this);" readonly="readonly" ></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].oyaAvgPrice'  value='${bp.oyaAvgPrice }'  readonly="readonly" onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].oyaMoney'  value='${bp.oyaMoney }' onchange="update(this);" readonly="readonly"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].newAcount'  value='${bp.newAcount }' onchange="update(this);" readonly="readonly" ></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].newAvgPrice'  value='${bp.newAvgPrice }' readonly="readonly" onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].newMoney'  value='${bp.newMoney }' onchange="update(this);" readonly="readonly"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listBurn[${vs.index}].remark'  value='${bp.remark }' onchange="update(this);" readonly="readonly"></td>
+                </c:if>
               </tr>
             </c:forEach>
             <tr>

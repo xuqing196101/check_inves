@@ -40,6 +40,9 @@ import com.alibaba.fastjson.JSON;
 
 
 
+
+
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -51,12 +54,14 @@ import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.theSubject;
 import bss.service.ppms.AduitQuotaService;
+import bss.service.ppms.BidMethodService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.theSubjectService;
+import bss.service.ppms.impl.BidMethodServiceImpl;
 import bss.service.ppms.impl.theSubjectServiceImpl;
 
 /**
@@ -111,9 +116,10 @@ public class WinningSupplierController extends BaseController {
   
   @Autowired
   private ProjectService projectService;
-	@Autowired
-	private theSubjectService theSubjectService;
-
+  @Autowired
+  private theSubjectService theSubjectService;
+  @Autowired
+  private BidMethodService bidMethodService;
   /**
    * 文件上传
    */
@@ -178,6 +184,15 @@ public class WinningSupplierController extends BaseController {
           quote.setSupplierId(supplierCheckPass.getSupplier().getId());
           List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
           supplierCheckPass.getSupplier().setListQuote(quoteList);
+          String method = bidMethodService.getMethod(supplierCheckPass.getProjectId(),supplierCheckPass.getPackageId());
+          if(method!=null&&"".equals(method)){
+        	  if("PBFF_JZJF".equals(method)||"PBFF_ZDJF".equals(method)){
+        		  supplierCheckPass.setTotalScoreString("");
+        	  }else if("OPEN_ZHPFF".equals(method)){
+        		  supplierCheckPass.setTotalScoreString(supplierCheckPass.getTotalScore()+"");
+        	  }
+        	  
+          }
         }
       }
 
@@ -308,6 +323,16 @@ public class WinningSupplierController extends BaseController {
         quote.setSupplierId(supplierCheckPass.getSupplier().getId());
         List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
         supplierCheckPass.getSupplier().setListQuote(quoteList);
+
+         String method = bidMethodService.getMethod(supplierCheckPass.getProjectId(),supplierCheckPass.getPackageId());
+          if(method!=null&&!"".equals(method)){
+        	  if("PBFF_JZJF".equals(method)||"PBFF_ZDJF".equals(method)){
+        		  supplierCheckPass.setTotalScoreString("");
+        	  }else if("OPEN_ZHPFF".equals(method)){
+        		  supplierCheckPass.setTotalScoreString(supplierCheckPass.getTotalScore()+"");
+        	  }
+        	  
+          }
       }
     }
 

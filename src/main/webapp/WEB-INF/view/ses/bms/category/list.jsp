@@ -130,7 +130,7 @@
 					$("#codes").html(cate.code);
 					$("#fileIds_downBsId").val(cate.id);
 					showInit();
-					if (node.classify && node.classify == "PROJECT" && level == 3){
+					if (node.classify && node.classify == "PROJECT" ){
 						showQuas(cate, node.classify);
 					}
 					if (node.classify && node.classify == "GOODS"){
@@ -312,7 +312,7 @@
 					$("#posId").val(cate.code);
 					$("#descId").val(cate.description);
 					showInit();
-					if (node.classify && node.classify == "PROJECT" && level == 3){
+					if (node.classify && node.classify == "PROJECT"){
 						showQua(cate, node.classify);
 					}
 					if (node.classify && node.classify == "GOODS"){

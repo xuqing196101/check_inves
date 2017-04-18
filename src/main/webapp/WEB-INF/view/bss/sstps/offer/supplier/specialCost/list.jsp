@@ -291,8 +291,8 @@
 
       function nextStep() {
         var proId = $("#proId").val();
-        var total = $("#total").val();
-        window.location.href = "${pageContext.request.contextPath}/burningPower/select.do?proId=" + proId + "&total=" + total;
+        /* var total = $("#total").val(); */
+        window.location.href = "${pageContext.request.contextPath}/burningPower/select.do?proId=" + proId;
       }
        var index=0;
        jQuery.fn.rowspan = function(colIdx) { //把td相同的数据行合并

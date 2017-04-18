@@ -68,7 +68,7 @@
 	  SELECT
 	  <include refid="BASE_COLUMN_SQL"/>
 	  FROM T_SES_BMS_QUALIFICATION
-	  WHERE ID = #{id}
+	  WHERE ID = #{id} and IS_DELETED=0
 	</select>
 	
 </mapper>

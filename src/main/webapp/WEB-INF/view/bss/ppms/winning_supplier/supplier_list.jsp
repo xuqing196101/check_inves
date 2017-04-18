@@ -37,6 +37,13 @@
 				$(singQuotelist[i]).attr("disabled", true);
 			}
 		}
+		var trs=$("tr[name='trId']");
+		for(var i=0;i<trs.length;i++){
+			if($($(trs[i]).children()[2]).text()==""){
+				$($($(trs[i]).parent().prev().children()[0]).children()[2]).remove();
+				$($($(trs[i]).parent().children()[0]).children()[2]).remove();
+			}
+		}
 	});
 
 	/** 全选全不选 */
@@ -818,8 +825,8 @@
 					<%--                 <fmt:formatDate value='${checkpass.joinTime}' pattern="yyyy-MM-dd " /> --%>
 					<!--               </td> -->
 					<td class="tc opinter" id="totalPrice" onclick="">${checkpass.totalPrice}</td>
-					<td class="tc opinter" onclick="">${checkpass.totalScore}</td>
-					<td class="tc opinter" onclick="">${(vs.index+1)}</td>
+					<td class="tc opinter" onclick="">${checkpass.totalScoreString}</td>
+					<td class="tc opinter" onclick="">${checkpass.ranking}</td>
 					<c:if test="${view == 1}">
 						<c:if test="${checkpass.isWonBid != 1}">
 							<td class="tc opinter">未中标</td>

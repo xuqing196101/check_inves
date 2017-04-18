@@ -13,6 +13,7 @@ public class SupplierCheckPass {
 	private Project project;
 	private Packages packages;
 	private String purchaseDep;
+	private String totalScoreString;
 	private List<theSubject> subjects;
 
   /**
@@ -561,6 +562,14 @@ public List<theSubject> getSubjects() {
 
 public void setSubjects(List<theSubject> subjects) {
 	this.subjects = subjects;
+}
+
+public String getTotalScoreString() {
+	return totalScoreString;
+}
+
+public void setTotalScoreString(String totalScoreString) {
+	this.totalScoreString = totalScoreString;
 }
   
   
