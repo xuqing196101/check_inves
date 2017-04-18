@@ -340,7 +340,7 @@ ORDER BY CREATED_AT) where rownum=1)
 	  FROM T_BSS_OB_RESULTS_INFO R
 	 	WHERE R.PROJECT_ID = #{projectId}
 	   AND R.SUPPLIER_ID = #{supplierId} AND BIDDING_ID = '1'
-	   ORDER BY R.PRODUCT_ID
+	   ORDER BY R.CREATER_ID
   </select>
   
    <select id="selectQuotoInfoSecond" parameterType="Map" resultMap="BaseResultMap">
@@ -349,7 +349,7 @@ ORDER BY CREATED_AT) where rownum=1)
 	  FROM T_BSS_OB_RESULTS_INFO R
 	 	WHERE R.PROJECT_ID = #{projectId}
 	   AND R.SUPPLIER_ID = #{supplierId} AND BIDDING_ID = '2'
-	   ORDER BY R.PRODUCT_ID
+	   ORDER BY R.CREATER_ID
   </select>
   
   
@@ -386,7 +386,7 @@ where PROJECT_ID=#{projectId,jdbcType=VARCHAR}
 	  SELECT 
 	  	SUPPLIER_ID,PROJECT_ID,PRODUCT_ID,MY_OFFER_MONEY,BIDDING_ID 
 	  FROM 
-	  	T_BSS_OB_RESULTS_INFO 
+	  	T_BSS_OB_RESULTS_INFO
 	  WHERE 
 	  	PROJECT_ID = #{projectId,jdbcType=VARCHAR} AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
 	  GROUP BY 

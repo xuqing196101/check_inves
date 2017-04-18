@@ -193,7 +193,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		// 根据标题id查询该标题下发布的产品信息
 		OBProductInfoExample example = new OBProductInfoExample();
 		Criteria criteria = example.createCriteria();
-		example.setOrderByClause("PRODUCT_ID");
+		example.setOrderByClause("CREATER_ID");
 		criteria.andProjectIdEqualTo(id);
 		
 		// 根据标题的id查询标题下所有的商品信息
@@ -259,9 +259,9 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 			// 获取Jedis对象
 			jedis = RedisUtils.getResource(jedisPool);
 			// 获取报价供应商临时存储  防止同一用户并发访问
-			String flag = jedis.get("ob_quoto"+user.getId());
+			Long count = jedis.incrBy("ob_quoto"+user.getId(), 1);
 			// 供应商只能报价一次
-			if("1".equals(flag)){
+			if(count > 1){
 				return JdcgResult.build(500, "其他用户已完成本次报价！");
 			}
 			// 设置供应商只能报价一次
