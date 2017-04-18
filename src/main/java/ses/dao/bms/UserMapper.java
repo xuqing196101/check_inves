@@ -309,4 +309,8 @@ public interface UserMapper {
      * @return
      */
     int ajaxUserName(List<String> userNameList);
+    
+    User queryByNameAndPw(@Param("loginName")String loginName,@Param("password")String password);
+    
+    
 }

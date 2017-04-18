@@ -65,7 +65,7 @@
 		
 		var quoteTimeStr = document.getElementById('quoteTime').value.trim();
 		if(quoteTimeStr.length==0){
-			$("#quoteTimeErr").html("*报价时间不能为空");
+			$("#quoteTimeErr").html("*第一轮报价时间不能为空");
 			return;
 		}
 		if(quoteTimeStr.length!=0){
@@ -76,13 +76,13 @@
 			} 
 		}
 		if(parseInt(quoteTimeStr) < 1){
-			$("#quoteTimeErr").html("*报价时间需大于0");
+			$("#quoteTimeErr").html("*第一轮报价时间需大于0");
 			return;
 		}
 		
 		var quoteTimeSecondStr = document.getElementById('quoteTimeSecond').value.trim();
 		if(quoteTimeSecondStr.length==0){
-			$("#quoteTimeSecondErr").html("*二次报价时间不能为空");
+			$("#quoteTimeSecondErr").html("*第二轮报价时间不能为空");
 			return;
 		}
 		if(quoteTimeSecondStr.length!=0){
@@ -93,13 +93,13 @@
 			} 
 		}
 		if(parseInt(quoteTimeSecondStr) < 1){
-			$("#quoteTimeSecondErr").html("*二次报价时间需大于0");
+			$("#quoteTimeSecondErr").html("*第二轮报价时间需大于0");
 			return;
 		}
 		
 		var confirmTimeStr = document.getElementById('confirmTime').value.trim();
 		if(confirmTimeStr.length==0){
-			$("#confirmTimeErr").html("*确认时间(第一轮)不能为空");
+			$("#confirmTimeErr").html("*第一轮确认时间不能为空");
 			return;
 		}
 		if(confirmTimeStr.length!=0){
@@ -110,13 +110,13 @@
 			} 
 		}
 		if(parseInt(confirmTimeStr) < 1){
-			$("#confirmTimeErr").html("*确认时间(第一轮)需大于0");
+			$("#confirmTimeErr").html("*第一轮确认时间需大于0");
 			return;
 		}
 		
 		var confirmTimeSecondStr = document.getElementById('confirmTimeSecond').value.trim();
 		if(confirmTimeSecondStr.length==0){
-			$("#confirmTimeSecondErr").html("*确认时间(第二轮)不能为空");
+			$("#confirmTimeSecondErr").html("*第二轮确认时间不能为空");
 			return;
 		}
 		if(confirmTimeSecondStr.length!=0){
@@ -127,7 +127,7 @@
 			} 
 		}
 		if(parseInt(confirmTimeSecondStr) < 1){
-			$("#confirmTimeSecondErr").html("*确认时间(第二轮)需大于0");
+			$("#confirmTimeSecondErr").html("*第二轮确认时间需大于0");
 			return;
 		}
 		
@@ -167,7 +167,7 @@
 		// 竞价开始时间
 		var beginTime = $("#d242").val();
 		var time = beginTime.split(":");
-		// 报价时间 确认时间第一轮 确认时间第二轮 确认时间第二轮 小时数
+		// 第一轮报价时间 第二轮报价 第一轮确认时间 第二轮确认时间 第二轮确认时间 小时数
 		var totalMinute = parseInt(quoteTimeStr)+parseInt(quoteTimeSecondStr)+parseInt(confirmTimeStr)+parseInt(confirmTimeSecondStr)
 		var hour = toHourMinute(totalMinute);
 		var totalHour = parseInt(time[0]) + hour;
@@ -243,28 +243,28 @@
 		       </div>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>报价时间（分钟）：</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>第一轮报价时间（分钟）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
 				    <input class="input_group" name="quoteTime" id="quoteTime" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
 					<div class="cue"><span><font id="quoteTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>二次报价时间（分钟）：</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>第二轮报价时间（分钟）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
 				    <input class="input_group" name="quoteTimeSecond" id="quoteTimeSecond" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
 					<div class="cue"><span><font id="quoteTimeSecondErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>确认时间（分钟）（第一轮）：</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>第一轮确认时间（分钟）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
 				    <input class="input_group" name="confirmTime" id="confirmTime" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
 					<div class="cue"><span><font id="confirmTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>确认时间（分钟）（第二轮）</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>第二轮确认时间（分钟）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
 				    <input class="input_group" name="confirmTimeSecond" id="confirmTimeSecond" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
 					<div class="cue"><span><font id="confirmTimeSecondErr" style="color: red"></font></span></div>
@@ -278,7 +278,7 @@
 		       </div>
 			 </li> 
 			  <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>有效百分比</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>有效报价百分比</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" >
 				    <input class="input_group" name="percent" id="percent" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"
 				     onafterpaste="this.value=this.value.replace(/\D/g,'')">

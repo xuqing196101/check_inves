@@ -6,10 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.bms.UserMapper;
+import ses.dao.ems.ExpertTitleMapper;
 import ses.model.bms.User;
+import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertHistory;
+import ses.model.ems.ExpertTitle;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
@@ -46,14 +50,35 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     @Autowired
     private ExpertCategoryService expertCategoryService;
     
+    @Autowired
+    private ExpertTitleMapper expertTitleMapper;
+    
+    @Autowired
+    private UserMapper userMapper;
     /**
      * 
      * @see synchro.inner.read.expert.InnerExpertService#readNewExpertInfo(java.io.File)
      */
     @Override
     public void readNewExpertInfo(final File file) {
+      
        List<Expert> list = getExpert(file);
        for (Expert expert : list) {
+    	   List<ExpertTitle> titles = expert.getTitles();
+    	   for(ExpertTitle et:titles){
+    		   ExpertTitle ets = expertTitleMapper.selectByPrimaryKey(et.getId());
+    		   if(ets==null){
+    			   expertTitleMapper.insertSelective(et);
+    		   }
+    		 
+    	   }
+    	   List<Userrole> roles = expert.getUserRoles();
+    	   for(Userrole ur:roles){
+//    		   RoleUser us=new RoleUser();
+//    		   us.setRoleId(ur.getRoleId());
+//    		   userMapper.queryByUserId(ur.getUserId().getId(), ur.getRoleId());
+//    		   userMapper.saveRelativity(us);
+    	   }
            saveUser(expert.getUser());
            saveExpert(expert);
            saveCategory(expert.getExpertCategory());
@@ -85,7 +110,10 @@ public class InnerExpertServiceImpl implements InnerExpertService {
      */
     private void saveUser(User user) {
         if (user != null) {
-            userService.saveUser(user);
+        	User user2 = userMapper.queryByNameAndPw(user.getLoginName(), user.getPassword());
+        	if(user2==null){
+        		 userService.saveUser(user);
+        	}
         }
     }
     
@@ -97,7 +125,11 @@ public class InnerExpertServiceImpl implements InnerExpertService {
      */
     public void saveExpert(Expert expert) {
         if (expert != null) {
-            expertService.insertSelective(expert);
+        	Expert ep = expertService.selectByPrimaryKey( expert.getId());
+        	if(ep==null){
+        		expertService.insertSelective(expert);
+        	}
+            
         }
     }
     
@@ -111,7 +143,11 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         if (categories != null && categories.size() > 0) {
             Expert expert = expertService.selectByPrimaryKey(categories.get(0).getExpertId());
             for (ExpertCategory expertCategory : categories) {
-                expertCategoryService.save(expert, expertCategory.getCategoryId(), expertCategory.getTypeId(), null);
+            	ExpertCategory category = expertCategoryService.getExpertCategory(expert.getId(), expertCategory.getCategoryId());
+            	if(category==null){
+            		 expertCategoryService.save(expert, expertCategory.getCategoryId(), expertCategory.getTypeId(), null);
+            	}
+               
             }
         }
     }
@@ -124,6 +160,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
      */
     public void saveHistory(ExpertHistory history) {
         if (history != null) {
+        	
             expertService.insertExpertHistory(history);
         }
     }

@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.bms.UserMapper;
+import ses.dao.ems.ExpertTitleMapper;
 import ses.model.bms.User;
+import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertHistory;
+import ses.model.ems.ExpertTitle;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
@@ -18,8 +23,13 @@ import synchro.outer.back.service.expert.OuterExpertService;
 import synchro.service.SynchRecordService;
 import synchro.util.DateUtils;
 import synchro.util.FileUtils;
+import synchro.util.OperAttachment;
 
 import com.alibaba.fastjson.JSON;
+
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 
 /**
  * 版权：(C) 版权所有 
@@ -57,9 +67,18 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     @Autowired
     private ExpertCategoryService expertCategoryService;
     
+    
+    @Autowired
+    private ExpertTitleMapper expertTitleMapper;
+    
+    @Autowired
+    private FileUploadMapper fileUploadMapper;
     /**
      * @see synchro.outer.back.service.supplier.OuterReadExpertService#backupCreated()
      */
+    
+    @Autowired
+    private UserMapper userMapper;
     @Override
     public void backupCreated(String startTime, String endTime) {
         getCreatedData(startTime,  endTime);
@@ -120,10 +139,25 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     public void getCreatedData(String startTime, String endTime) {
         List<Expert> expertList = expertService.getCommitExpertByDate(startTime,endTime);
         List<Expert> list = getNewExpertList(expertList);
+        List<UploadFile> attachList = new ArrayList<>();
+        for(Expert e:list){
+        	attachList.addAll(e.getAttchList());
+        }
         if (list != null && list.size() > 0){
             FileUtils.writeFile(FileUtils.getNewExpertBackUpFile(),JSON.toJSONString(list));
+            String basePath = FileUtils.attachExportPath(Constant.EXPERT_SYS_KEY);
+            if (StringUtils.isNotBlank(basePath)){
+                OperAttachment.writeFile(basePath, attachList);
+                recordService.backupAttach(new Integer(attachList.size()).toString());
+            }
         }
-        recordService.backNewExpertRecord(new Integer(list.size()).toString());
+        recordService.commitSupplierRecord(new Integer(list.size()).toString(), new Date());
+        
+        
+//        if (list != null && list.size() > 0){
+//            FileUtils.writeFile(FileUtils.getNewExpertBackUpFile(),JSON.toJSONString(list));
+//        }
+//        recordService.backNewExpertRecord(new Integer(list.size()).toString());
     }
     
     /**
@@ -168,6 +202,8 @@ public class OuterExpertServiceImpl implements OuterExpertService {
         for (Expert expert : expertList){
             expert.setUser(getUser(expert.getId()));
             expert.setExpertCategory(getCategory(expert.getId()));
+            expert.setAttchList(getAttch(expert.getId()));
+            expert.setTitles(getTitle(expert.getId()));
             list.add(expert);
         }
         return list;
@@ -184,6 +220,8 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     private List<Expert> getModifyExpertList(List<Expert> expertList) {
         List <Expert> list = new ArrayList<Expert>();
         for (Expert expert : expertList){
+        	List<Userrole> userRoles = userMapper.queryByUserId(expert.getUser().getId(), null);
+        	expert.setUserRoles(userRoles);
             expert.setUser(getUser(expert.getId()));
             expert.setExpertCategory(getCategory(expert.getId()));
             expert.setHistory(getHistory(expert.getId()));
@@ -191,4 +229,42 @@ public class OuterExpertServiceImpl implements OuterExpertService {
         }
         return list;
     }
+    
+    
+    /**
+     * 
+    * @Title: getTitle
+    * @Description: 专家刚才类型
+    * author: Li Xiaoxiao 
+    * @param @param expertId
+    * @param @return     
+    * @return List<ExpertTitle>     
+    * @throws
+     */
+    public List<ExpertTitle> getTitle(String expertId){
+    	List<ExpertTitle> list = expertTitleMapper.selectByExpertId(expertId);
+    	return list;
+    }
+    
+    /**
+     * 
+    * @Title: getAttch
+    * @Description:专家附件
+    * author: Li Xiaoxiao 
+    * @param @param expertId
+    * @param @return     
+    * @return List<UploadFile>     
+    * @throws
+     */
+    public  List<UploadFile> getAttch(String expertId){
+        List<UploadFile> attchs = fileUploadMapper.substrBusinessId(expertId);
+    	List<ExpertTitle> list = expertTitleMapper.selectByExpertId(expertId);
+	    	for(ExpertTitle ep:list){
+	    	     List<UploadFile> titleFile = fileUploadMapper.substrBusinessId(ep.getId());
+	    	     attchs.addAll(titleFile);
+	    	}
+    	 return attchs;
+    }
+    
+    
 }

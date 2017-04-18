@@ -3,13 +3,16 @@ package ses.model.ems;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import common.model.UploadFile;
 import ses.model.bms.User;
+import ses.model.bms.Userrole;
 /**
  * 
   * <p>Title:Expert </p>
@@ -102,7 +105,28 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private Integer teachTitle;
     
-    public Integer getTeachTitle() {
+    /**专家附件表**/
+    private List<UploadFile> attchList=new ArrayList<UploadFile>();
+    
+    private  List<Userrole> userRoles=new LinkedList<Userrole>();
+    
+    public List<Userrole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(List<Userrole> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+	public List<UploadFile> getAttchList() {
+		return attchList;
+	}
+
+	public void setAttchList(List<UploadFile> attchList) {
+		this.attchList = attchList;
+	}
+
+	public Integer getTeachTitle() {
 		return teachTitle;
 	}
 
