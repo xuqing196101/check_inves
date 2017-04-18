@@ -667,9 +667,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 			}
 			product.setProjectId(obProject.getId());
 			product.setCreatedAt(date);
-			product.setCreaterId(userid);
+			product.setCreaterId(String.valueOf(i));
 			list.add(product);
-		}
+		 }
 		}
 		return list;
 

@@ -43,11 +43,14 @@
   </select>
   
   <!-- 查询产品对应的列表信息 -->
-  <select id="selectProduct" parameterType="Object" resultMap="AccessoriesConMap">
+  <select id="selectProduct" parameterType="bss.model.sstps.AccessoriesCon" resultMap="AccessoriesConMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_SSTPS_ACCESSORIES_CON
     where PRODUCT_ID = #{contractProduct.id}
+     <if test="productNature != null">
+        and PRODUCT_NATURE=#{productNature}
+      </if>
   </select>
   
   <delete id="delete" parameterType="java.lang.String">

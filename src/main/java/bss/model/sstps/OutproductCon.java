@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -24,25 +25,25 @@ public class OutproductCon {
     @NotBlank(message = "图纸位置号(代号)不能为空")
     private String paperCode;
 
-    private String workAmout;
+    private BigDecimal workAmout;
 
-    private Integer workWeight;
+    private BigDecimal workWeight;
 
-    private Integer workWeightTotal;
+    private BigDecimal workWeightTotal;
 
-    private Integer workPrice;
+    private BigDecimal workPrice;
 
-    private Integer workMoney;
+    private BigDecimal workMoney;
 
-    private Integer consumeAmout;
+    private BigDecimal consumeAmout;
 
-    private Integer consumePrice;
+    private BigDecimal consumePrice;
 
-    private Integer consumeMoney;
+    private BigDecimal consumeMoney;
 
-    private Integer subtractMoney;
+    private BigDecimal subtractMoney;
 
-    private Integer checkMoney;
+    private BigDecimal checkMoney;
 
     private String supplyUnit;
 
@@ -92,83 +93,85 @@ public class OutproductCon {
 		this.paperCode = paperCode;
 	}
 
-	public String getWorkAmout() {
+	
+
+	public BigDecimal getWorkAmout() {
 		return workAmout;
 	}
 
-	public void setWorkAmout(String workAmout) {
+	public void setWorkAmout(BigDecimal workAmout) {
 		this.workAmout = workAmout;
 	}
 
-	public Integer getWorkWeight() {
+	public BigDecimal getWorkWeight() {
 		return workWeight;
 	}
 
-	public void setWorkWeight(Integer workWeight) {
+	public void setWorkWeight(BigDecimal workWeight) {
 		this.workWeight = workWeight;
 	}
 
-	public Integer getWorkWeightTotal() {
+	public BigDecimal getWorkWeightTotal() {
 		return workWeightTotal;
 	}
 
-	public void setWorkWeightTotal(Integer workWeightTotal) {
+	public void setWorkWeightTotal(BigDecimal workWeightTotal) {
 		this.workWeightTotal = workWeightTotal;
 	}
 
-	public Integer getWorkPrice() {
+	public BigDecimal getWorkPrice() {
 		return workPrice;
 	}
 
-	public void setWorkPrice(Integer workPrice) {
+	public void setWorkPrice(BigDecimal workPrice) {
 		this.workPrice = workPrice;
 	}
 
-	public Integer getWorkMoney() {
+	public BigDecimal getWorkMoney() {
 		return workMoney;
 	}
 
-	public void setWorkMoney(Integer workMoney) {
+	public void setWorkMoney(BigDecimal workMoney) {
 		this.workMoney = workMoney;
 	}
 
-	public Integer getConsumeAmout() {
+	public BigDecimal getConsumeAmout() {
 		return consumeAmout;
 	}
 
-	public void setConsumeAmout(Integer consumeAmout) {
+	public void setConsumeAmout(BigDecimal consumeAmout) {
 		this.consumeAmout = consumeAmout;
 	}
 
-	public Integer getConsumePrice() {
+	public BigDecimal getConsumePrice() {
 		return consumePrice;
 	}
 
-	public void setConsumePrice(Integer consumePrice) {
+	public void setConsumePrice(BigDecimal consumePrice) {
 		this.consumePrice = consumePrice;
 	}
 
-	public Integer getConsumeMoney() {
+	public BigDecimal getConsumeMoney() {
 		return consumeMoney;
 	}
 
-	public void setConsumeMoney(Integer consumeMoney) {
+	public void setConsumeMoney(BigDecimal consumeMoney) {
 		this.consumeMoney = consumeMoney;
 	}
 
-	public Integer getSubtractMoney() {
+	public BigDecimal getSubtractMoney() {
 		return subtractMoney;
 	}
 
-	public void setSubtractMoney(Integer subtractMoney) {
+	public void setSubtractMoney(BigDecimal subtractMoney) {
 		this.subtractMoney = subtractMoney;
 	}
 
-	public Integer getCheckMoney() {
+	public BigDecimal getCheckMoney() {
 		return checkMoney;
 	}
 
-	public void setCheckMoney(Integer checkMoney) {
+	public void setCheckMoney(BigDecimal checkMoney) {
 		this.checkMoney = checkMoney;
 	}
 

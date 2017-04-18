@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -30,19 +31,19 @@ public class SpecialCost {
 
     private String measuringUnit;
 
-    private Integer amount;
+    private BigDecimal amount;
 
-    private Integer price;
+    private BigDecimal price;
 
-    private Integer money;
+    private BigDecimal money;
 
-    private Integer proportionAmout;
+    private BigDecimal proportionAmout;
 
-    private Integer proportionPrice;
+    private BigDecimal proportionPrice;
 
-    private Integer subtractMoney;
+    private BigDecimal subtractMoney;
 
-    private Integer checkMoney;
+    private BigDecimal checkMoney;
 
     private String remark;
 
@@ -53,6 +54,8 @@ public class SpecialCost {
     private Integer approvedMoney;
     
     private Integer checkApprovedMoney;
+    private String parentId;
+    private String serialNumber;
 
     public String getId() {
         return id;
@@ -110,59 +113,59 @@ public class SpecialCost {
 		this.measuringUnit = measuringUnit;
 	}
 
-	public Integer getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Integer amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 
-	public Integer getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
-	public Integer getMoney() {
+	public BigDecimal getMoney() {
 		return money;
 	}
 
-	public void setMoney(Integer money) {
+	public void setMoney(BigDecimal money) {
 		this.money = money;
 	}
 
-	public Integer getProportionAmout() {
+	public BigDecimal getProportionAmout() {
 		return proportionAmout;
 	}
 
-	public void setProportionAmout(Integer proportionAmout) {
+	public void setProportionAmout(BigDecimal proportionAmout) {
 		this.proportionAmout = proportionAmout;
 	}
 
-	public Integer getProportionPrice() {
+	public BigDecimal getProportionPrice() {
 		return proportionPrice;
 	}
 
-	public void setProportionPrice(Integer proportionPrice) {
+	public void setProportionPrice(BigDecimal proportionPrice) {
 		this.proportionPrice = proportionPrice;
 	}
 
-	public Integer getSubtractMoney() {
+	public BigDecimal getSubtractMoney() {
 		return subtractMoney;
 	}
 
-	public void setSubtractMoney(Integer subtractMoney) {
+	public void setSubtractMoney(BigDecimal subtractMoney) {
 		this.subtractMoney = subtractMoney;
 	}
 
-	public Integer getCheckMoney() {
+	public BigDecimal getCheckMoney() {
 		return checkMoney;
 	}
 
-	public void setCheckMoney(Integer checkMoney) {
+	public void setCheckMoney(BigDecimal checkMoney) {
 		this.checkMoney = checkMoney;
 	}
 
@@ -204,6 +207,22 @@ public class SpecialCost {
 
 	public void setCheckApprovedMoney(Integer checkApprovedMoney) {
 		this.checkApprovedMoney = checkApprovedMoney;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 
 }

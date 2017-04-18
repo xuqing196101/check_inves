@@ -2,9 +2,11 @@ package bss.controller.sstps;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,10 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.util.ValidateUtils;
-
 import bss.model.sstps.ContractProduct;
+import bss.model.sstps.PeriodCost;
 import bss.model.sstps.ProductQuota;
+import bss.model.sstps.TrialPriceBean;
 import bss.service.sstps.ComprehensiveCostService;
 import bss.model.sstps.ProductQuotaList;
 import bss.service.sstps.ProductQuotaService;
@@ -24,7 +28,7 @@ import bss.service.sstps.ProductQuotaService;
 @Controller
 @Scope
 @RequestMapping("/productQuota")
-public class ProductQuotaController {
+public class ProductQuotaController extends BaseSupplierController {
 	
 	@Autowired
 	private ProductQuotaService productQuotaService;
@@ -132,7 +136,7 @@ public class ProductQuotaController {
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/save")
+	/*@RequestMapping("/save")
 	public String save(Model model,@Valid ProductQuota productQuota,BindingResult result){
 		String proId = productQuota.getContractProduct().getId();
 		model.addAttribute("proId",proId);
@@ -168,7 +172,26 @@ public class ProductQuotaController {
 			url = "bss/sstps/offer/supplier/productQuota/list";
 		}
 		return url;
+	}*/
+	
+	@RequestMapping("/save")
+	public void save(Model model,TrialPriceBean listPro, HttpServletRequest request,HttpServletResponse response){
+		List<ProductQuota> listProductQuota = listPro.getListPro();
+		for(ProductQuota productQuota:listProductQuota){
+			if(productQuota.getPartsName()!=null){
+				if(productQuota.getId()!=null){
+					productQuota.setUpdatedAt(new Date());
+					productQuotaService.update(productQuota);
+				}else{ 
+					productQuota.setCreatedAt(new Date());
+					productQuota.setUpdatedAt(new Date());
+					productQuotaService.insert(productQuota);
+				}
+			}
+		}
+		super.writeJson(response, "ok");
 	}
+	
 	
 	/**
 	* @Title: update

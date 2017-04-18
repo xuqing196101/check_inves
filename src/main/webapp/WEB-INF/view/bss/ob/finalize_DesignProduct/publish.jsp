@@ -62,7 +62,13 @@
 					smallPointsId:treeNode.id
 				},
 				success: function(data) {
+				if(data){
 					$("#orgId").select2("val", data);
+					$("#orgId").attr("disabled","true");
+				   }else{
+				  	$("#orgId").select2("val", data);
+				   $("#orgId").removeAttr("disabled");
+				   }
 				},
 				error: function() {
 					
@@ -222,7 +228,7 @@
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a href="javascript:void(0)"> 首页</a></li>
+				<li><a href="javascript:void(0)" > 首页</a></li>
 				<li><a href="javascript:void(0)">保障作业</a></li>
 				<li><a href="javascript:void(0)">定型产品竞价</a></li>
 				<li class="active"><a href="javascript:void(0)">定型产品管理</a></li>

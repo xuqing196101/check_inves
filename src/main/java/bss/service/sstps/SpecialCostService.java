@@ -15,5 +15,7 @@ public interface SpecialCostService {
 	public void update(SpecialCost specialCost);
 	
 	public void delete(String id);
-
+	List<SpecialCost> selectProjectNameByProId(String proId);
+	
+	List<SpecialCost> selectByIdAndParentId(String id);
 }

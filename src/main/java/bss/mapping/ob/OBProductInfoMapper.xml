@@ -10,7 +10,7 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
-    <result column="CREATER_ID" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
     <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectSignalByPrimaryKey"></association>
     <!-- <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectByPrimaryKey"/>
     <association property="obProject" column="PROJECT_ID" select="bss.dao.ob.OBProjectMapper.selectByPrimaryKey"/> --> 
@@ -111,13 +111,7 @@
   		T_BSS_OB_PRODUCT_INFO 
   	WHERE 
   		PROJECT_ID = #{id,jdbcType=VARCHAR}
-  </select>
-  
-   <select id="selectByCreaterId" resultMap="BaseResultMap" parameterType="Map" >
-    select 
-    <include refid="Base_Column_List" />
-    from T_BSS_OB_PRODUCT_INFO
-    where CREATER_ID = #{id,jdbcType=VARCHAR}
+  	 ORDER BY CREATER_ID ASC
   </select>
   <!--根据竞价id 查询产品名称 -->
    <select id="getProductName" resultMap="BaseResultMap" parameterType="Map" >
@@ -176,6 +170,9 @@
       <if test="remark != null" >
         REMARK,
       </if>
+       <if test="createrId != null" >
+        CREATER_ID,
+      </if> 
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -202,6 +199,9 @@
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
+       <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if> 
     </trim>
   </insert>
   <select id="countByExample" parameterType="bss.model.ob.OBProductInfoExample" resultType="java.lang.Integer" >

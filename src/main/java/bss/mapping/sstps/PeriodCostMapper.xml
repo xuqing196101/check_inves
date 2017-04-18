@@ -12,12 +12,14 @@
     <result column="REMARK"  property="remark" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="PARENT_ID"  property="parentId"  />
+    <result column="SERIAL_NUMBER"  property="serialNumber"  />
     <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.ContractProductMapper.selectByPrimaryKey"/>
   </resultMap>
   
   <sql id="Base_Column_List">
     ID, PRODUCT_ID, PROJECT_NAME, TYA_QUOTEPRICE, OYA_QUOTEPRICE, NEW_QUOTEPRICE, AUDIT_APPROVAL, 
-    CHECK_APPROVAL, REMARK, CREATED_AT, UPDATED_AT
+    CHECK_APPROVAL, REMARK, CREATED_AT, UPDATED_AT,PARENT_Id,SERIAL_NUMBER
   </sql>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="PeriodCostMap">
@@ -27,11 +29,86 @@
     where ID = #{id}
   </select>
   
-  <select id="selectProduct" parameterType="Object" resultMap="PeriodCostMap">
+  <select id="selectProduct" flushCache="true" parameterType="Object" resultMap="PeriodCostMap">
     select 
     <include refid="Base_Column_List" />
   	from T_BSS_SSTPS_PERIOD_COST
-    where PRODUCT_ID = #{contractProduct.id}
+    where PRODUCT_ID = #{contractProduct.id} 
+     ORDER BY
+	DECODE (
+		LENGTH (SERIAL_NUMBER),
+		1,
+		TO_NUMBER (
+			CONCAT (SERIAL_NUMBER, '000000')
+		),
+		3,
+		TO_NUMBER (
+			CONCAT (
+				REPLACE (SERIAL_NUMBER, '.', ''),
+				'00000'
+			)
+		),
+		4,
+		TO_NUMBER (
+			CONCAT (
+				CONCAT (
+					SUBSTR (
+						SERIAL_NUMBER,
+						0,
+						INSTR (SERIAL_NUMBER, '.') - 1
+					),
+					'9'
+				),
+				CONCAT (
+					SUBSTR (
+						SERIAL_NUMBER,
+						INSTR (SERIAL_NUMBER, '.') + 1
+					),
+					'000'
+				)
+			)
+		),
+		5,
+		TO_NUMBER (
+			CONCAT (
+				CONCAT (
+					REPLACE (
+						SUBSTR (SERIAL_NUMBER, 0, 3),
+						'.',
+						''
+					),
+					'00'
+				),
+				CONCAT (
+					SUBSTR (
+						SERIAL_NUMBER,
+						LENGTH (SERIAL_NUMBER)
+					),
+					'00'
+				)
+			)
+		),
+		6,
+		TO_NUMBER (
+			CONCAT (
+				CONCAT (
+					REPLACE (
+						SUBSTR (SERIAL_NUMBER, 0, 3),
+						'.',
+						''
+					),
+					'00'
+				),
+				CONCAT (
+					'9',
+					SUBSTR (
+						SERIAL_NUMBER,
+						LENGTH (SERIAL_NUMBER) - 1
+					)
+				)
+			)
+		)
+	)
   </select>
   
   <delete id="delete" parameterType="java.lang.String">
@@ -40,7 +117,7 @@
   </delete>
   
   <insert id="insert" parameterType="bss.model.sstps.PeriodCost">
-  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+  	<selectKey keyProperty="ids" resultType="String" order="BEFORE">
         select sys_guid() from dual
     </selectKey>
     insert into T_BSS_SSTPS_PERIOD_COST
@@ -78,6 +155,12 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="parentId != null">
+        PARENT_ID,
+      </if>
+      <if test="serialNumber != null">
+        SERIAL_NUMBER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -112,6 +195,12 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt},
+      </if>
+      <if test="parentId != null">
+        #{parentId},
+      </if>
+      <if test="serialNumber != null">
+        #{serialNumber},
       </if>
     </trim>
   </insert>
@@ -148,6 +237,12 @@
       </if>
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="parentId != null">
+        PARENT_ID=#{parentId},
+      </if>
+       <if test="serialNumber != null">
+        SERIAL_NUMBER=#{serialNumber},
       </if>
     </set>
     where ID = #{id}

@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -16,15 +17,15 @@ public class PeriodCost {
 
     private String projectName;
 
-    private Integer tyaQuoteprice;
+    private BigDecimal tyaQuoteprice;
 
-    private Integer oyaQuoteprice;
+    private BigDecimal oyaQuoteprice;
 
-    private Integer newQuoteprice;
+    private BigDecimal newQuoteprice;
 
-    private Integer auditApproval;
+    private BigDecimal auditApproval;
 
-    private Integer checkApproval;
+    private BigDecimal checkApproval;
 
     private String remark;
 
@@ -32,6 +33,8 @@ public class PeriodCost {
 
     private Date updatedAt;
 
+    private String parentId;
+    private String serialNumber;
     public String getId() {
         return id;
     }
@@ -56,46 +59,7 @@ public class PeriodCost {
 		this.projectName = projectName;
 	}
 
-	public Integer getTyaQuoteprice() {
-		return tyaQuoteprice;
-	}
-
-	public void setTyaQuoteprice(Integer tyaQuoteprice) {
-		this.tyaQuoteprice = tyaQuoteprice;
-	}
-
-	public Integer getOyaQuoteprice() {
-		return oyaQuoteprice;
-	}
-
-	public void setOyaQuoteprice(Integer oyaQuoteprice) {
-		this.oyaQuoteprice = oyaQuoteprice;
-	}
-
-	public Integer getNewQuoteprice() {
-		return newQuoteprice;
-	}
-
-	public void setNewQuoteprice(Integer newQuoteprice) {
-		this.newQuoteprice = newQuoteprice;
-	}
-
-	public Integer getAuditApproval() {
-		return auditApproval;
-	}
-
-	public void setAuditApproval(Integer auditApproval) {
-		this.auditApproval = auditApproval;
-	}
-
-	public Integer getCheckApproval() {
-		return checkApproval;
-	}
-
-	public void setCheckApproval(Integer checkApproval) {
-		this.checkApproval = checkApproval;
-	}
-
+	
 	public String getRemark() {
 		return remark;
 	}
@@ -119,4 +83,62 @@ public class PeriodCost {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+	public BigDecimal getTyaQuoteprice() {
+		return tyaQuoteprice;
+	}
+
+	public void setTyaQuoteprice(BigDecimal tyaQuoteprice) {
+		this.tyaQuoteprice = tyaQuoteprice;
+	}
+
+	public BigDecimal getOyaQuoteprice() {
+		return oyaQuoteprice;
+	}
+
+	public void setOyaQuoteprice(BigDecimal oyaQuoteprice) {
+		this.oyaQuoteprice = oyaQuoteprice;
+	}
+
+	public BigDecimal getNewQuoteprice() {
+		return newQuoteprice;
+	}
+
+	public void setNewQuoteprice(BigDecimal newQuoteprice) {
+		this.newQuoteprice = newQuoteprice;
+	}
+
+	public BigDecimal getAuditApproval() {
+		return auditApproval;
+	}
+
+	public void setAuditApproval(BigDecimal auditApproval) {
+		this.auditApproval = auditApproval;
+	}
+
+	public BigDecimal getCheckApproval() {
+		return checkApproval;
+	}
+
+	public void setCheckApproval(BigDecimal checkApproval) {
+		this.checkApproval = checkApproval;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+    
+    
 }

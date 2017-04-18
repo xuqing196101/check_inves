@@ -37,11 +37,6 @@ public interface OBProductInfoMapper {
 
     int updateByPrimaryKey(OBProductInfo record);
     /**
-     * 获取 产品相关数据
-     * @author YangHongLiang
-     */
-    List<OBProductInfo> selectByCreaterId(Map<String, Object> map);
-    /**
      * 根据竞价id 获取数据
      */
     List<OBProductInfo> selectByProjectId(String id);

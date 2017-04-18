@@ -78,6 +78,16 @@ public class OfferController {
 	@RequestMapping("/list")
 	public String list(Model model,Integer page,AppraisalContract appraisalContract){
 		List<AppraisalContract> list = appraisalContractService.selectDistribution(appraisalContract,page==null?1:page);
+		if(list!=null&&list.size()>0){
+			for(AppraisalContract appCont:list){
+				Supplier supplier = supplierService.selectById(appCont.getSupplierName());
+				if(supplier!=null){
+					appCont.setSupplierName(supplier.getSupplierName());
+				}else{
+					appCont.setSupplierName("");
+				}
+			}
+		}
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
 		return "bss/sstps/offer/supplier/list";
@@ -258,8 +268,8 @@ public class OfferController {
 	
 	/**
 	* @Title: selectProductInfo
-	* @author Shen Zhenfei 
-	* @date 2016-10-13 上午9:41:57  
+	* @author Li WanLin
+	* @date 2017-04-06 上午9:41:57  
 	* @Description: TODO 
 	* @param @return      
 	* @return String

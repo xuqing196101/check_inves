@@ -40,4 +40,14 @@ public class SpecialCostServiceImpl implements SpecialCostService {
 		specialCostMapper.delete(id);
 	}
 
+	@Override
+	public List<SpecialCost> selectProjectNameByProId(String proId) {
+		return specialCostMapper.selectProjectNameByProId(proId);
+	}
+
+	@Override
+	public List<SpecialCost> selectByIdAndParentId(String id) {
+		return specialCostMapper.selectByIdAndParentId(id);
+	}
+
 }

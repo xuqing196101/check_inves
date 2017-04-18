@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -25,61 +26,63 @@ public class WagesPayable {
     @NotBlank(message = "二级项目不能为空")
     private String secondProduct;
 
-    private Integer tyaProduceUser;
+    private BigDecimal tyaProduceUser;
 
-    private Integer tyaWorkshopUser;
+    private BigDecimal tyaWorkshopUser;
 
-    private Integer tyaManageUser;
+    private BigDecimal tyaManageUser;
 
-    private Integer tyaOtherUser;
+    private BigDecimal tyaOtherUser;
 
-    private Integer tyaTotal;
+    private BigDecimal tyaTotal;
 
-    private Integer oyaProduceUser;
+    private BigDecimal oyaProduceUser;
 
-    private Integer oyaWorkshopUser;
+    private BigDecimal oyaWorkshopUser;
 
-    private Integer oyaManageUser;
+    private BigDecimal oyaManageUser;
 
-    private Integer oyaOtherUser;
+    private BigDecimal oyaOtherUser;
 
-    private Integer oyaTotal;
+    private BigDecimal oyaTotal;
 
-    private Integer newProduceUser;
+    private BigDecimal newProduceUser;
 
-    private Integer newWorkshopUser;
+    private BigDecimal newWorkshopUser;
 
-    private Integer newManageUser;
+    private BigDecimal newManageUser;
 
-    private Integer newOtherUser;
+    private BigDecimal newOtherUser;
 
-    private Integer newTotal;
+    private BigDecimal newTotal;
 
-    private Integer approvedProduceUser;
+    private BigDecimal approvedProduceUser;
 
-    private Integer approvedWorkshopUser;
+    private BigDecimal approvedWorkshopUser;
 
-    private Integer approvedManageUser;
+    private BigDecimal approvedManageUser;
 
-    private Integer approvedOtherUser;
+    private BigDecimal approvedOtherUser;
 
-    private Integer approvedTotal;
+    private BigDecimal approvedTotal;
 
-    private Integer checkProduceUser;
+    private BigDecimal checkProduceUser;
 
-    private Integer checkWorkshopUser;
+    private BigDecimal checkWorkshopUser;
 
-    private Integer checkManageUser;
+    private BigDecimal checkManageUser;
 
-    private Integer checkOtherUser;
+    private BigDecimal checkOtherUser;
 
-    private Integer checkTotal;
+    private BigDecimal checkTotal;
 
     private String remark;
 
     private Date createdAt;
 
     private Date updatedAt;
+    private String parentId;
+    private String serialNumber;
 
     public String getId() {
         return id;
@@ -122,203 +125,205 @@ public class WagesPayable {
         this.secondProduct = secondProduct == null ? null : secondProduct.trim();
     }
 
-	public Integer getTyaProduceUser() {
+	
+
+	public BigDecimal getTyaProduceUser() {
 		return tyaProduceUser;
 	}
 
-	public void setTyaProduceUser(Integer tyaProduceUser) {
+	public void setTyaProduceUser(BigDecimal tyaProduceUser) {
 		this.tyaProduceUser = tyaProduceUser;
 	}
 
-	public Integer getTyaWorkshopUser() {
+	public BigDecimal getTyaWorkshopUser() {
 		return tyaWorkshopUser;
 	}
 
-	public void setTyaWorkshopUser(Integer tyaWorkshopUser) {
+	public void setTyaWorkshopUser(BigDecimal tyaWorkshopUser) {
 		this.tyaWorkshopUser = tyaWorkshopUser;
 	}
 
-	public Integer getTyaManageUser() {
+	public BigDecimal getTyaManageUser() {
 		return tyaManageUser;
 	}
 
-	public void setTyaManageUser(Integer tyaManageUser) {
+	public void setTyaManageUser(BigDecimal tyaManageUser) {
 		this.tyaManageUser = tyaManageUser;
 	}
 
-	public Integer getTyaOtherUser() {
+	public BigDecimal getTyaOtherUser() {
 		return tyaOtherUser;
 	}
 
-	public void setTyaOtherUser(Integer tyaOtherUser) {
+	public void setTyaOtherUser(BigDecimal tyaOtherUser) {
 		this.tyaOtherUser = tyaOtherUser;
 	}
 
-	public Integer getTyaTotal() {
+	public BigDecimal getTyaTotal() {
 		return tyaTotal;
 	}
 
-	public void setTyaTotal(Integer tyaTotal) {
+	public void setTyaTotal(BigDecimal tyaTotal) {
 		this.tyaTotal = tyaTotal;
 	}
 
-	public Integer getOyaProduceUser() {
+	public BigDecimal getOyaProduceUser() {
 		return oyaProduceUser;
 	}
 
-	public void setOyaProduceUser(Integer oyaProduceUser) {
+	public void setOyaProduceUser(BigDecimal oyaProduceUser) {
 		this.oyaProduceUser = oyaProduceUser;
 	}
 
-	public Integer getOyaWorkshopUser() {
+	public BigDecimal getOyaWorkshopUser() {
 		return oyaWorkshopUser;
 	}
 
-	public void setOyaWorkshopUser(Integer oyaWorkshopUser) {
+	public void setOyaWorkshopUser(BigDecimal oyaWorkshopUser) {
 		this.oyaWorkshopUser = oyaWorkshopUser;
 	}
 
-	public Integer getOyaManageUser() {
+	public BigDecimal getOyaManageUser() {
 		return oyaManageUser;
 	}
 
-	public void setOyaManageUser(Integer oyaManageUser) {
+	public void setOyaManageUser(BigDecimal oyaManageUser) {
 		this.oyaManageUser = oyaManageUser;
 	}
 
-	public Integer getOyaOtherUser() {
+	public BigDecimal getOyaOtherUser() {
 		return oyaOtherUser;
 	}
 
-	public void setOyaOtherUser(Integer oyaOtherUser) {
+	public void setOyaOtherUser(BigDecimal oyaOtherUser) {
 		this.oyaOtherUser = oyaOtherUser;
 	}
 
-	public Integer getOyaTotal() {
+	public BigDecimal getOyaTotal() {
 		return oyaTotal;
 	}
 
-	public void setOyaTotal(Integer oyaTotal) {
+	public void setOyaTotal(BigDecimal oyaTotal) {
 		this.oyaTotal = oyaTotal;
 	}
 
-	public Integer getNewProduceUser() {
+	public BigDecimal getNewProduceUser() {
 		return newProduceUser;
 	}
 
-	public void setNewProduceUser(Integer newProduceUser) {
+	public void setNewProduceUser(BigDecimal newProduceUser) {
 		this.newProduceUser = newProduceUser;
 	}
 
-	public Integer getNewWorkshopUser() {
+	public BigDecimal getNewWorkshopUser() {
 		return newWorkshopUser;
 	}
 
-	public void setNewWorkshopUser(Integer newWorkshopUser) {
+	public void setNewWorkshopUser(BigDecimal newWorkshopUser) {
 		this.newWorkshopUser = newWorkshopUser;
 	}
 
-	public Integer getNewManageUser() {
+	public BigDecimal getNewManageUser() {
 		return newManageUser;
 	}
 
-	public void setNewManageUser(Integer newManageUser) {
+	public void setNewManageUser(BigDecimal newManageUser) {
 		this.newManageUser = newManageUser;
 	}
 
-	public Integer getNewOtherUser() {
+	public BigDecimal getNewOtherUser() {
 		return newOtherUser;
 	}
 
-	public void setNewOtherUser(Integer newOtherUser) {
+	public void setNewOtherUser(BigDecimal newOtherUser) {
 		this.newOtherUser = newOtherUser;
 	}
 
-	public Integer getNewTotal() {
+	public BigDecimal getNewTotal() {
 		return newTotal;
 	}
 
-	public void setNewTotal(Integer newTotal) {
+	public void setNewTotal(BigDecimal newTotal) {
 		this.newTotal = newTotal;
 	}
 
-	public Integer getApprovedProduceUser() {
+	public BigDecimal getApprovedProduceUser() {
 		return approvedProduceUser;
 	}
 
-	public void setApprovedProduceUser(Integer approvedProduceUser) {
+	public void setApprovedProduceUser(BigDecimal approvedProduceUser) {
 		this.approvedProduceUser = approvedProduceUser;
 	}
 
-	public Integer getApprovedWorkshopUser() {
+	public BigDecimal getApprovedWorkshopUser() {
 		return approvedWorkshopUser;
 	}
 
-	public void setApprovedWorkshopUser(Integer approvedWorkshopUser) {
+	public void setApprovedWorkshopUser(BigDecimal approvedWorkshopUser) {
 		this.approvedWorkshopUser = approvedWorkshopUser;
 	}
 
-	public Integer getApprovedManageUser() {
+	public BigDecimal getApprovedManageUser() {
 		return approvedManageUser;
 	}
 
-	public void setApprovedManageUser(Integer approvedManageUser) {
+	public void setApprovedManageUser(BigDecimal approvedManageUser) {
 		this.approvedManageUser = approvedManageUser;
 	}
 
-	public Integer getApprovedOtherUser() {
+	public BigDecimal getApprovedOtherUser() {
 		return approvedOtherUser;
 	}
 
-	public void setApprovedOtherUser(Integer approvedOtherUser) {
+	public void setApprovedOtherUser(BigDecimal approvedOtherUser) {
 		this.approvedOtherUser = approvedOtherUser;
 	}
 
-	public Integer getApprovedTotal() {
+	public BigDecimal getApprovedTotal() {
 		return approvedTotal;
 	}
 
-	public void setApprovedTotal(Integer approvedTotal) {
+	public void setApprovedTotal(BigDecimal approvedTotal) {
 		this.approvedTotal = approvedTotal;
 	}
 
-	public Integer getCheckProduceUser() {
+	public BigDecimal getCheckProduceUser() {
 		return checkProduceUser;
 	}
 
-	public void setCheckProduceUser(Integer checkProduceUser) {
+	public void setCheckProduceUser(BigDecimal checkProduceUser) {
 		this.checkProduceUser = checkProduceUser;
 	}
 
-	public Integer getCheckWorkshopUser() {
+	public BigDecimal getCheckWorkshopUser() {
 		return checkWorkshopUser;
 	}
 
-	public void setCheckWorkshopUser(Integer checkWorkshopUser) {
+	public void setCheckWorkshopUser(BigDecimal checkWorkshopUser) {
 		this.checkWorkshopUser = checkWorkshopUser;
 	}
 
-	public Integer getCheckManageUser() {
+	public BigDecimal getCheckManageUser() {
 		return checkManageUser;
 	}
 
-	public void setCheckManageUser(Integer checkManageUser) {
+	public void setCheckManageUser(BigDecimal checkManageUser) {
 		this.checkManageUser = checkManageUser;
 	}
 
-	public Integer getCheckOtherUser() {
+	public BigDecimal getCheckOtherUser() {
 		return checkOtherUser;
 	}
 
-	public void setCheckOtherUser(Integer checkOtherUser) {
+	public void setCheckOtherUser(BigDecimal checkOtherUser) {
 		this.checkOtherUser = checkOtherUser;
 	}
 
-	public Integer getCheckTotal() {
+	public BigDecimal getCheckTotal() {
 		return checkTotal;
 	}
 
-	public void setCheckTotal(Integer checkTotal) {
+	public void setCheckTotal(BigDecimal checkTotal) {
 		this.checkTotal = checkTotal;
 	}
 
@@ -344,6 +349,22 @@ public class WagesPayable {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 
 }

@@ -255,18 +255,18 @@
 		       		<input type="hidden" name="page" id="page">
 			    	<ul class="demand_list">
 			    	  <li>
-				    	<label class="fl">用户名：</label><span><input type="text" id="loginName" value="${user.loginName}" name="loginName" class=""/></span>
+				    	<label class="fl">用户名：</label><span><input type="text" id="loginName" value="${user.loginName}" name="loginName" class="w220"/></span>
 				      </li>
 			    	  <li>
-				    	<label class="fl">姓名：</label><span><input type="text" id="relName" value="${user.relName}" name="relName" class=""/></span>
+				    	<label class="fl">姓名：</label><span><input type="text" id="relName" value="${user.relName}" name="relName" class="w220"/></span>
 				      </li>
 				      <li>
-				    	<label class="fl">单位：</label><span><input type="text" id="orgName" value="${user.orgName}" name="orgName" class=""/></span>
+				    	<label class="fl">单位：</label><span><input type="text" id="orgName" value="${user.orgName}" name="orgName" class="w220"/></span>
 				      </li>
 			    	  <li>
 				    	<label class="fl">角色：</label>
-				    	   <span>
-					        <select id="" name="roleId">
+				    	   <span class="fl">
+					        <select id="" name="roleId" class="w220">
 					        	<option value="">全部</option>
 					        	<c:forEach items="${roles}" var="r" varStatus="vs">
 					        		<c:if test="${r.code != 'SUPPLIER_R' && r.code != 'EXPERT_R' && r.code != 'IMPORT_AGENT_R'}">
@@ -275,10 +275,15 @@
 					        	</c:forEach>
 					        </select>
 					        </span>
-				      </li> 
-				    	<button type="submit"  class="btn fl mt1">查询</button>
-				    	<button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>  	
+				      </li>
+				      <li>
+				    	<label class="fl">联系电话：</label><span><input type="text" id="mobile" value="${user.mobile}" name="mobile" class="w220"/></span>
+				      </li>
 			    	</ul>
+			    	<div class="col-md-12 col-xs-12 col-sm-12 tc">
+				      	<button type="submit"  class="btn mt1">查询</button>
+				    		<button type="button" onclick="resetQuery()" class="btn mt1">重置</button>  	
+				      </div>
 		    	  	<div class="clear"></div>
 		        </form>
 		     </h2>

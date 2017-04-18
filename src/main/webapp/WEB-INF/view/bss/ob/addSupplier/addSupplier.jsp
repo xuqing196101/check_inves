@@ -238,48 +238,7 @@
 		<div class="cue">${errorName }</div>
 		</div>
 	 </li>
-	 
-     <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>证书有效期至</span>
-	   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="" value="<fmt:formatDate value="${obSupplier.certValidPeriod }" pattern="yyyy-MM-dd" /> " name = "certValidPeriod" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly">
-        <span class="add-on">i</span>
-        <div class="cue">${errorCertValidPeriod }</div>
-       </div>
-	 </li>
-     <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>质检机构</span>
-	   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-        <input class="input_group" name = "qualityInspectionDep" id="" type="text" value="${obSupplier.qualityInspectionDep }">
-        <span class="add-on">i</span>
-        <div class="cue">${errorQualityInspectionDep }</div>
-       </div>
-	 </li> 
-     <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>联系人姓名</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" name = "contactName" id="" type="text" value="${obSupplier.contactName }">
-        <span class="add-on">i</span>
-        <div class="cue">${errorContactName }</div>
-       </div>
-	 </li> 
-     <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>联系人电话</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="" name = "contactTel" type="text" value="${obSupplier.contactTel }">
-        <span class="add-on">i</span>
-        <div class="cue">${errorContactTel }</div>
-       </div>
-	 </li> 
-     <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>资质证书编号</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="" name = "certCode" type="text" value="${obSupplier.certCode }">
-        <span class="add-on">i</span>
-        <div class="cue">${errorCertCode }</div>
-       </div>
-	 </li> 
-     <li class="col-md-3 col-sm-6 col-xs-12">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div class="red star_red">*</div>统一社会信用代码</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" name = "uscc" id="uscc" type="text" readonly="readonly" value="${obSupplier.uscc }">
@@ -287,8 +246,33 @@
         <div class="cue">${errorUscc }</div>
        </div>
 	 </li>
+	  <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>供应商联系人姓名</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" name = "contactName" id="" type="text" value="${obSupplier.contactName }">
+        <span class="add-on">i</span>
+        <div class="cue">${errorContactName }</div>
+       </div>
+	 </li> 
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>供应商联系人电话</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" id="" name = "contactTel" type="text" value="${obSupplier.contactTel }">
+        <span class="add-on">i</span>
+        <div class="cue">${errorContactTel }</div>
+       </div>
+	 </li> 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
-	 	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div class="red star_red">*</div>产品目录</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>资质证书编号</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" id="" name = "certCode" type="text" value="${obSupplier.certCode }">
+        <span class="add-on">i</span>
+        <div class="cue">${errorCertCode }</div>
+       </div>
+	 </li> 
+	 
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	 	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div class="red star_red">*</div>所属产品目录</span>
 	 	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         	<input class="input_group" id="citySel4" type="text" value="${catName }" onclick=" showMenu(); return false;" readonly="readonly" >
         	<input id="categorieId4" name="smallPointsId" value="${obSupplier.smallPointsId }" type="hidden">
@@ -304,6 +288,26 @@
 		</div>
         </div>
 	 </li>
+	 
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>证书有效期</span>
+	   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+        <input class="input_group" id="" value="<fmt:formatDate value="${obSupplier.certValidPeriod }" pattern="yyyy-MM-dd" /> " name = "certValidPeriod" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly">
+        <span class="add-on">i</span>
+        <div class="cue">${errorCertValidPeriod }</div>
+       </div>
+	 </li>
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>质检机构</span>
+	   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+        <input class="input_group" name = "qualityInspectionDep" id="" type="text" value="${obSupplier.qualityInspectionDep }">
+        <span class="add-on">i</span>
+        <div class="cue">${errorQualityInspectionDep }</div>
+       </div>
+	 </li> 
+    
+     
+     
 	<li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>资质证书：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0 " onmousedown="yichu()">

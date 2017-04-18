@@ -34,7 +34,8 @@
     <result column="REMARK"  property="remark" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
-    
+    <result column="PARENT_ID"  property="parentId"  />
+    <result column="SERIAL_NUMBER"  property="serialNumber"  />
     <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.ContractProductMapper.selectByPrimaryKey"/>
     
   </resultMap>
@@ -44,7 +45,7 @@
     OYA_MANAGE_USER, OYA_OTHER_USER, OYA_TOTAL, NEW_PRODUCE_USER, NEW_WORKSHOP_USER, 
     NEW_MANAGE_USER, NEW_OTHER_USER, NEW_TOTAL, APPROVED_PRODUCE_USER, APPROVED_WORKSHOP_USER, 
     APPROVED_MANAGE_USER, APPROVED_OTHER_USER, APPROVED_TOTAL, CHECK_PRODUCE_USER, CHECK_WORKSHOP_USER, 
-    CHECK_MANAGE_USER, CHECK_OTHER_USER, CHECK_TOTAL, REMARK, CREATED_AT, UPDATED_AT
+    CHECK_MANAGE_USER, CHECK_OTHER_USER, CHECK_TOTAL, REMARK, CREATED_AT, UPDATED_AT,PARENT_Id,SERIAL_NUMBER
   </sql>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="WagesPayableMap">
@@ -55,11 +56,11 @@
   </select>
   
     <!-- 查询产品对应的列表信息 -->
-  <select id="selectProduct" parameterType="Object" resultMap="WagesPayableMap">
+  <select id="selectProduct" flushCache="true" parameterType="Object" resultMap="WagesPayableMap">
     select 
     <include refid="Base_Column_List" />
   	 from T_BSS_SSTPS_WAGES_PAYABLE
-    where PRODUCT_ID = #{contractProduct.id}
+    where PRODUCT_ID = #{contractProduct.id} order by SERIAL_NUMBER
   </select>
   
   <delete id="delete" parameterType="java.lang.String">
@@ -68,7 +69,7 @@
   </delete>
   
   <insert id="insert" parameterType="bss.model.sstps.WagesPayable">
-  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+  	<selectKey keyProperty="ids" resultType="String" order="BEFORE">
         select sys_guid() from dual
     </selectKey>
     insert into T_BSS_SSTPS_WAGES_PAYABLE
@@ -172,6 +173,12 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="parentId != null">
+        PARENT_ID,
+      </if>
+      <if test="serialNumber != null">
+        SERIAL_NUMBER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -272,6 +279,12 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt},
+      </if>
+      <if test="parentId != null">
+        #{parentId},
+      </if>
+      <if test="serialNumber != null">
+        #{serialNumber},
       </if>
     </trim>
   </insert>
@@ -374,6 +387,12 @@
       </if>
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="parentId != null">
+        PARENT_ID=#{parentId},
+      </if>
+       <if test="serialNumber != null">
+        SERIAL_NUMBER=#{serialNumber},
       </if>
     </set>
     where ID = #{id}

@@ -43,7 +43,7 @@
     select 
     <include refid="Base_Column_List" />
   	 from T_BSS_SSTPS_OUTSOURCING_CON
-    where PRODUCT_ID = #{contractProduct.id}
+    where PRODUCT_ID = #{contractProduct.id} order by CREATED_AT
   </select>
   
   <delete id="delete" parameterType="java.lang.String">

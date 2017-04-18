@@ -319,7 +319,7 @@
 			}
 			
 			// 3.第一轮放弃查看的是报价信息页面
-			if((pStatus == 5 && pRemark == '3') || (pStatus == 6 && pRemark == '3')){
+			if((pStatus == 5 && pRemark == '3') || (pStatus == 6 && pRemark == '3') || (pStatus == 6 && pRemark == '21')){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
 			
@@ -506,6 +506,10 @@
 						</c:when>
 						<c:when test="${obProject.remark == '666'}">
 							结果待确认(第二轮)
+						</c:when>
+						
+						<c:when test="${obProject.remark == '21'}">
+							未中标
 						</c:when>
 						
 						<c:when test="${obProject.remark == '-1'}">

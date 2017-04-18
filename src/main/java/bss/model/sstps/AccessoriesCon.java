@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -25,29 +26,29 @@ public class AccessoriesCon {
     @NotBlank(message = "图纸位置号不能为空")
     private String paperCode;
 
-    private Integer workAmout;
+    private BigDecimal workAmout;
 
-    private Integer workWeight;
+    private BigDecimal workWeight;
 
-    private Integer workWeightTotal;
+    private BigDecimal workWeightTotal;
 
-    private Integer workPrice;
+    private BigDecimal workPrice;
 
-    private Integer workMoney;
+    private BigDecimal workMoney;
 
-    private Integer consumeAmout;
+    private BigDecimal consumeAmout;
 
-    private Integer consumeWeight;
+    private BigDecimal consumeWeight;
 
-    private Integer consumeWeightTotal;
+    private BigDecimal consumeWeightTotal;
 
-    private Integer consumePrice;
+    private BigDecimal consumePrice;
 
-    private Integer consumeMoney;
+    private BigDecimal consumeMoney;
 
-    private Integer subtractMoney;
+    private BigDecimal subtractMoney;
 
-    private Integer checkMoney;
+    private BigDecimal checkMoney;
 
     @NotBlank(message = "供货单位不能为空")
     private String supplyUnit;
@@ -101,99 +102,101 @@ public class AccessoriesCon {
         this.paperCode = paperCode == null ? null : paperCode.trim();
     }
 
-	public Integer getWorkAmout() {
+	
+
+	public BigDecimal getWorkAmout() {
 		return workAmout;
 	}
 
-	public void setWorkAmout(Integer workAmout) {
+	public void setWorkAmout(BigDecimal workAmout) {
 		this.workAmout = workAmout;
 	}
 
-	public Integer getWorkWeight() {
+	public BigDecimal getWorkWeight() {
 		return workWeight;
 	}
 
-	public void setWorkWeight(Integer workWeight) {
+	public void setWorkWeight(BigDecimal workWeight) {
 		this.workWeight = workWeight;
 	}
 
-	public Integer getWorkWeightTotal() {
+	public BigDecimal getWorkWeightTotal() {
 		return workWeightTotal;
 	}
 
-	public void setWorkWeightTotal(Integer workWeightTotal) {
+	public void setWorkWeightTotal(BigDecimal workWeightTotal) {
 		this.workWeightTotal = workWeightTotal;
 	}
 
-	public Integer getWorkPrice() {
+	public BigDecimal getWorkPrice() {
 		return workPrice;
 	}
 
-	public void setWorkPrice(Integer workPrice) {
+	public void setWorkPrice(BigDecimal workPrice) {
 		this.workPrice = workPrice;
 	}
 
-	public Integer getWorkMoney() {
+	public BigDecimal getWorkMoney() {
 		return workMoney;
 	}
 
-	public void setWorkMoney(Integer workMoney) {
+	public void setWorkMoney(BigDecimal workMoney) {
 		this.workMoney = workMoney;
 	}
 
-	public Integer getConsumeAmout() {
+	public BigDecimal getConsumeAmout() {
 		return consumeAmout;
 	}
 
-	public void setConsumeAmout(Integer consumeAmout) {
+	public void setConsumeAmout(BigDecimal consumeAmout) {
 		this.consumeAmout = consumeAmout;
 	}
 
-	public Integer getConsumeWeight() {
+	public BigDecimal getConsumeWeight() {
 		return consumeWeight;
 	}
 
-	public void setConsumeWeight(Integer consumeWeight) {
+	public void setConsumeWeight(BigDecimal consumeWeight) {
 		this.consumeWeight = consumeWeight;
 	}
 
-	public Integer getConsumeWeightTotal() {
+	public BigDecimal getConsumeWeightTotal() {
 		return consumeWeightTotal;
 	}
 
-	public void setConsumeWeightTotal(Integer consumeWeightTotal) {
+	public void setConsumeWeightTotal(BigDecimal consumeWeightTotal) {
 		this.consumeWeightTotal = consumeWeightTotal;
 	}
 
-	public Integer getConsumePrice() {
+	public BigDecimal getConsumePrice() {
 		return consumePrice;
 	}
 
-	public void setConsumePrice(Integer consumePrice) {
+	public void setConsumePrice(BigDecimal consumePrice) {
 		this.consumePrice = consumePrice;
 	}
 
-	public Integer getConsumeMoney() {
+	public BigDecimal getConsumeMoney() {
 		return consumeMoney;
 	}
 
-	public void setConsumeMoney(Integer consumeMoney) {
+	public void setConsumeMoney(BigDecimal consumeMoney) {
 		this.consumeMoney = consumeMoney;
 	}
 
-	public Integer getSubtractMoney() {
+	public BigDecimal getSubtractMoney() {
 		return subtractMoney;
 	}
 
-	public void setSubtractMoney(Integer subtractMoney) {
+	public void setSubtractMoney(BigDecimal subtractMoney) {
 		this.subtractMoney = subtractMoney;
 	}
 
-	public Integer getCheckMoney() {
+	public BigDecimal getCheckMoney() {
 		return checkMoney;
 	}
 
-	public void setCheckMoney(Integer checkMoney) {
+	public void setCheckMoney(BigDecimal checkMoney) {
 		this.checkMoney = checkMoney;
 	}
 

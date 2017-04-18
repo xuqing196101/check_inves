@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -28,33 +29,36 @@ public class BurningPower {
     @NotBlank(message = "计量单位不能为空")
     private String unit;
 
-    private Integer tyaAcount;
+    private BigDecimal tyaAcount;
 
-    private Integer tyaAvgPrice;
+    private BigDecimal tyaAvgPrice;
 
-    private Integer tyaMoney;
+    private BigDecimal tyaMoney;
 
-    private Integer oyaAcount;
+    private BigDecimal oyaAcount;
 
-    private Integer oyaAvgPrice;
+    private BigDecimal oyaAvgPrice;
 
-    private Integer oyaMoney;
+    private BigDecimal oyaMoney;
 
-    private Integer newAcount;
+    private BigDecimal newAcount;
 
-    private Integer newAvgPrice;
+    private BigDecimal newAvgPrice;
 
-    private Integer newMoney;
+    private BigDecimal newMoney;
 
-    private Integer approvedMoney;
+    private BigDecimal approvedMoney;
 
-    private Integer checkMoney;
+    private BigDecimal checkMoney;
 
     private String remark;
 
     private Date createdAt;
 
     private Date updatedAt;
+    private Integer parentLevel;
+    private String parentId;
+    private String serialNumber;
 
     public String getId() {
         return id;
@@ -104,94 +108,7 @@ public class BurningPower {
 		this.unit = unit;
 	}
 
-	public Integer getTyaAcount() {
-		return tyaAcount;
-	}
-
-	public void setTyaAcount(Integer tyaAcount) {
-		this.tyaAcount = tyaAcount;
-	}
-
-	public Integer getTyaAvgPrice() {
-		return tyaAvgPrice;
-	}
-
-	public void setTyaAvgPrice(Integer tyaAvgPrice) {
-		this.tyaAvgPrice = tyaAvgPrice;
-	}
-
-	public Integer getTyaMoney() {
-		return tyaMoney;
-	}
-
-	public void setTyaMoney(Integer tyaMoney) {
-		this.tyaMoney = tyaMoney;
-	}
-
-	public Integer getOyaAcount() {
-		return oyaAcount;
-	}
-
-	public void setOyaAcount(Integer oyaAcount) {
-		this.oyaAcount = oyaAcount;
-	}
-
-	public Integer getOyaAvgPrice() {
-		return oyaAvgPrice;
-	}
-
-	public void setOyaAvgPrice(Integer oyaAvgPrice) {
-		this.oyaAvgPrice = oyaAvgPrice;
-	}
-
-	public Integer getOyaMoney() {
-		return oyaMoney;
-	}
-
-	public void setOyaMoney(Integer oyaMoney) {
-		this.oyaMoney = oyaMoney;
-	}
-
-	public Integer getNewAcount() {
-		return newAcount;
-	}
-
-	public void setNewAcount(Integer newAcount) {
-		this.newAcount = newAcount;
-	}
-
-	public Integer getNewAvgPrice() {
-		return newAvgPrice;
-	}
-
-	public void setNewAvgPrice(Integer newAvgPrice) {
-		this.newAvgPrice = newAvgPrice;
-	}
-
-	public Integer getNewMoney() {
-		return newMoney;
-	}
-
-	public void setNewMoney(Integer newMoney) {
-		this.newMoney = newMoney;
-	}
-
-	public Integer getApprovedMoney() {
-		return approvedMoney;
-	}
-
-	public void setApprovedMoney(Integer approvedMoney) {
-		this.approvedMoney = approvedMoney;
-	}
-
-	public Integer getCheckMoney() {
-		return checkMoney;
-	}
-
-	public void setCheckMoney(Integer checkMoney) {
-		this.checkMoney = checkMoney;
-	}
-
+	
 	public String getRemark() {
 		return remark;
 	}
@@ -214,6 +131,118 @@ public class BurningPower {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public BigDecimal getTyaAcount() {
+		return tyaAcount;
+	}
+
+	public void setTyaAcount(BigDecimal tyaAcount) {
+		this.tyaAcount = tyaAcount;
+	}
+
+	public BigDecimal getTyaAvgPrice() {
+		return tyaAvgPrice;
+	}
+
+	public void setTyaAvgPrice(BigDecimal tyaAvgPrice) {
+		this.tyaAvgPrice = tyaAvgPrice;
+	}
+
+	public BigDecimal getTyaMoney() {
+		return tyaMoney;
+	}
+
+	public void setTyaMoney(BigDecimal tyaMoney) {
+		this.tyaMoney = tyaMoney;
+	}
+
+	public BigDecimal getOyaAcount() {
+		return oyaAcount;
+	}
+
+	public void setOyaAcount(BigDecimal oyaAcount) {
+		this.oyaAcount = oyaAcount;
+	}
+
+	public BigDecimal getOyaAvgPrice() {
+		return oyaAvgPrice;
+	}
+
+	public void setOyaAvgPrice(BigDecimal oyaAvgPrice) {
+		this.oyaAvgPrice = oyaAvgPrice;
+	}
+
+	public BigDecimal getOyaMoney() {
+		return oyaMoney;
+	}
+
+	public void setOyaMoney(BigDecimal oyaMoney) {
+		this.oyaMoney = oyaMoney;
+	}
+
+	public BigDecimal getNewAcount() {
+		return newAcount;
+	}
+
+	public void setNewAcount(BigDecimal newAcount) {
+		this.newAcount = newAcount;
+	}
+
+	public BigDecimal getNewAvgPrice() {
+		return newAvgPrice;
+	}
+
+	public void setNewAvgPrice(BigDecimal newAvgPrice) {
+		this.newAvgPrice = newAvgPrice;
+	}
+
+	public BigDecimal getNewMoney() {
+		return newMoney;
+	}
+
+	public void setNewMoney(BigDecimal newMoney) {
+		this.newMoney = newMoney;
+	}
+
+	public BigDecimal getApprovedMoney() {
+		return approvedMoney;
+	}
+
+	public void setApprovedMoney(BigDecimal approvedMoney) {
+		this.approvedMoney = approvedMoney;
+	}
+
+	public BigDecimal getCheckMoney() {
+		return checkMoney;
+	}
+
+	public void setCheckMoney(BigDecimal checkMoney) {
+		this.checkMoney = checkMoney;
+	}
+
+	public Integer getParentLevel() {
+		return parentLevel;
+	}
+
+	public void setParentLevel(Integer parentLevel) {
+		this.parentLevel = parentLevel;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 
 }

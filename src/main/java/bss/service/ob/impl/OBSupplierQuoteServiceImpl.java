@@ -7,10 +7,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.oms.OrgnizationMapper;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
+import ses.model.oms.Orgnization;
+import ses.util.DictionaryDataUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
@@ -34,12 +44,7 @@ import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.JdcgResult;
-import ses.dao.bms.DictionaryDataMapper;
-import ses.dao.oms.OrgnizationMapper;
-import ses.model.bms.DictionaryData;
-import ses.model.bms.User;
-import ses.model.oms.Orgnization;
-import ses.util.DictionaryDataUtil;
+import common.utils.RedisUtils;
 
 /**
  * 
@@ -91,9 +96,15 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	@Autowired
 	private OBProjectRuleMapper obProjectRuleMapper;
 	
+	@Autowired
+	private JedisPool jedisPool;
+	
+	private Logger log = LoggerFactory.getLogger(OBSupplierQuoteServiceImpl.class);
+	
 	
 	private static final String QUOTO_STATU = "1";	// 第一轮报价状态
 	private static final String QUOTO_STATU_SECOND = "2"; // 第二轮报价状态
+	private static final Integer JEDIS_QUOTO_TIME = 50; // 存放报价用户缓存时间
 	/**
 	 * 
 	 * @Title: findQuoteInfo
@@ -182,7 +193,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		// 根据标题id查询该标题下发布的产品信息
 		OBProductInfoExample example = new OBProductInfoExample();
 		Criteria criteria = example.createCriteria();
-		example.setOrderByClause("PRODUCT_ID");
+		example.setOrderByClause("CREATER_ID");
 		criteria.andProjectIdEqualTo(id);
 		
 		// 根据标题的id查询标题下所有的商品信息
@@ -217,6 +228,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	 * @param @param map
 	 * @param @return 设定文件
 	 */
+	@SuppressWarnings("null")
 	@Override
 	public JdcgResult saveQuoteInfo(Map<String, Object> map, String quotoFlag) {
 		String titleId = (String) map.get("titleId");
@@ -241,11 +253,30 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		if("secondQuoto".equals(quotoFlag)){
 			biddingId = "2";
 		}
-		
 		// 其他用户已完成本次报价
-		Integer countByBidding = obResultsInfoMapper.countByBidding(titleId, biddingId, user.getTypeId());
-		if(countByBidding > 0){
-			return JdcgResult.build(500, "其他用户已完成本次报价！");
+		Jedis jedis = null;
+		try {
+			// 获取Jedis对象
+			jedis = RedisUtils.getResource(jedisPool);
+			// 获取报价供应商临时存储  防止同一用户并发访问
+			Long count = jedis.incrBy("ob_quoto"+user.getId(), 1);
+			// 供应商只能报价一次
+			if(count > 1){
+				return JdcgResult.build(500, "其他用户已完成本次报价！");
+			}
+			// 设置供应商只能报价一次
+			jedis.set("ob_quoto"+user.getId(), "1");
+			// 设置缓存有效时间
+			jedis.expire("ob_quoto"+user.getId(), JEDIS_QUOTO_TIME);
+		} catch (Exception e) {
+			log.info("redis连接异常...");
+			// Redis连接异常的情况下
+			Integer countByBidding = obResultsInfoMapper.countByBidding(titleId, biddingId, user.getTypeId());
+			if(countByBidding > 0){
+				return JdcgResult.build(500, "其他用户已完成本次报价！");
+			}
+		} finally{
+			RedisUtils.returnResource(jedis, jedisPool);
 		}
 		
 		if (obResultInfoList != null) {

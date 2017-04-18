@@ -1375,41 +1375,27 @@ public class ExcelUtil {
         					obp.setSupplierId(supplier.getId());
         				}
         			}
-        			//第二列
-    				if(cell.getColumnIndex()==1){
+        			//第二列  统一信用代码
+        			if(cell.getColumnIndex()==6){
     					if(cell.getCellType()==1){
         					//判断是否为空
         					if(cell.getStringCellValue().trim().length()<1){
-	        					errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，不能为空!";
-	        					 map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-	        				}
-        				}else if(HSSFDateUtil.isCellDateFormatted(cell)){
-        					Date time = cell.getDateCellValue();
-        					obp.setCertValidPeriod(time);
-        				}else{
-        					errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，日期格式错误!";
-       					 map.put("errMsg", errMsg);
-       					 bool=false;
-	        				 break;
-        				}
-        			 }
-        			//第三列
-    				if(cell.getColumnIndex()==2){
-    					if(cell.getCellType()==1){
-        					//判断是否为空
-        					if(cell.getStringCellValue().trim().length()<1){
-	        					errMsg=String.valueOf(row.getRowNum()+1)+"行C列错误，不能为空!";
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行G列错误，不能为空!";
 	        					 map.put("errMsg", errMsg);
 	        					 bool=false;
 		        				 break;
 	        				}
         					String str = cell.getRichStringCellValue().toString().trim();
-        					obp.setQualityInspectionDep(str);
+        					if(!str.trim().equals(uscc)){
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行G列错误，统一社会信用代码不正确!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+        					}
+        					obp.setUscc(str);
+        					}
         				}
-        			 }
-        			//第四列
+        			// 第三列  供应商联系人姓名
     				if(cell.getColumnIndex()==3){
     					if(cell.getCellType()==1){
         					//判断是否为空
@@ -1423,7 +1409,7 @@ public class ExcelUtil {
         					obp.setContactName(str);
         				}
         			 }
-    				//第五列
+    				//第四列  供应商联系人电话
     				if(cell.getColumnIndex()==4){
     					if(cell.getCellType()==0){
     						int i = (int) cell.getNumericCellValue();
@@ -1436,7 +1422,7 @@ public class ExcelUtil {
 	        				 break;
 	        			}
         			 }
-    				//第六列
+    				//第五例  资质证书编号
     				if(cell.getColumnIndex()==5){
     					if(cell.getCellType()==1){
         					//判断是否为空
@@ -1458,27 +1444,7 @@ public class ExcelUtil {
         					obp.setCertCode(str);
         				}
         			 }
-    				//第七列
-    				if(cell.getColumnIndex()==6){
-    					if(cell.getCellType()==1){
-        					//判断是否为空
-        					if(cell.getStringCellValue().trim().length()<1){
-	        					errMsg=String.valueOf(row.getRowNum()+1)+"行G列错误，不能为空!";
-	        					 map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-	        				}
-        					String str = cell.getRichStringCellValue().toString().trim();
-        					if(!str.trim().equals(uscc)){
-        						errMsg=String.valueOf(row.getRowNum()+1)+"行G列错误，统一社会信用代码不正确!";
-	        					 map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-        					}
-        					obp.setUscc(str);
-        					}
-        				}
-    				//第八列
+    				//第六列  所属产品目录
     				if(cell.getColumnIndex()==7){
     					if(cell.getCellType()==1){
         					//判断是否为空
@@ -1514,6 +1480,42 @@ public class ExcelUtil {
         					obp.setSmallPointsId(list2.get(0).getId());
         					}
         				}
+    				//第七列  证书有效期
+    				if(cell.getColumnIndex()==1){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        				}else if(HSSFDateUtil.isCellDateFormatted(cell)){
+        					Date time = cell.getDateCellValue();
+        					obp.setCertValidPeriod(time);
+        				}else{
+        					errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，日期格式错误!";
+       					 map.put("errMsg", errMsg);
+       					 bool=false;
+	        				 break;
+        				}
+        			 }
+    				//第八列 质检机构
+    				if(cell.getColumnIndex()==2){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行C列错误，不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        					String str = cell.getRichStringCellValue().toString().trim();
+        					obp.setQualityInspectionDep(str);
+        				}
+        			 }
+    				
+    				
         		}
         		if(bool==false)break;
         		list.add(obp);

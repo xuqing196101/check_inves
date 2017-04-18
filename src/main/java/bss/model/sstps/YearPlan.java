@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -25,41 +26,43 @@ public class YearPlan {
     @NotBlank(message = "计量单位不能为空")
     private String measuringUnit;
 
-    private Integer tyaHourUnit;
+    private BigDecimal tyaHourUnit;
 
-    private Integer tyaInvestAcount;
+    private BigDecimal tyaInvestAcount;
 
-    private Integer tyaHourTotal;
+    private BigDecimal tyaHourTotal;
 
-    private Integer oyaHourUnit;
+    private BigDecimal oyaHourUnit;
 
-    private Integer oyaInvestAcount;
+    private BigDecimal oyaInvestAcount;
 
-    private Integer oyaHourTotal;
+    private BigDecimal oyaHourTotal;
 
-    private Integer newHourUnit;
+    private BigDecimal newHourUnit;
 
-    private Integer newInvestAcount;
+    private BigDecimal newInvestAcount;
 
-    private Integer newHourTotal;
+    private BigDecimal newHourTotal;
 
-    private Integer approvedHourUnit;
+    private BigDecimal approvedHourUnit;
 
-    private Integer approvedInvestAcount;
+    private BigDecimal approvedInvestAcount;
 
-    private Integer approvedHourTotal;
+    private BigDecimal approvedHourTotal;
 
-    private Integer checkHourUnit;
+    private BigDecimal checkHourUnit;
 
-    private Integer checkInvestAcount;
+    private BigDecimal checkInvestAcount;
 
-    private Integer checkHourTotal;
+    private BigDecimal checkHourTotal;
 
     private String remark;
 
     private Date createdAt;
 
     private Date updatedAt;
+    private String parentId;
+    private String serialNumber;
 
     public String getId() {
         return id;
@@ -101,116 +104,122 @@ public class YearPlan {
 		this.measuringUnit = measuringUnit;
 	}
 
-	public Integer getTyaHourUnit() {
+	
+
+	public BigDecimal getTyaHourUnit() {
 		return tyaHourUnit;
 	}
 
-	public void setTyaHourUnit(Integer tyaHourUnit) {
+	public void setTyaHourUnit(BigDecimal tyaHourUnit) {
 		this.tyaHourUnit = tyaHourUnit;
 	}
 
-	public Integer getTyaHourTotal() {
+	public BigDecimal getTyaHourTotal() {
 		return tyaHourTotal;
 	}
 
-	public void setTyaHourTotal(Integer tyaHourTotal) {
+	public void setTyaHourTotal(BigDecimal tyaHourTotal) {
 		this.tyaHourTotal = tyaHourTotal;
 	}
 
-	public Integer getOyaHourUnit() {
+	public BigDecimal getOyaHourUnit() {
 		return oyaHourUnit;
 	}
 
-	public void setOyaHourUnit(Integer oyaHourUnit) {
+	public void setOyaHourUnit(BigDecimal oyaHourUnit) {
 		this.oyaHourUnit = oyaHourUnit;
 	}
 
-	public Integer getOyaInvestAcount() {
+	public BigDecimal getOyaInvestAcount() {
 		return oyaInvestAcount;
 	}
 
-	public void setOyaInvestAcount(Integer oyaInvestAcount) {
+	public void setOyaInvestAcount(BigDecimal oyaInvestAcount) {
 		this.oyaInvestAcount = oyaInvestAcount;
 	}
 
-	public Integer getOyaHourTotal() {
+	public BigDecimal getOyaHourTotal() {
 		return oyaHourTotal;
 	}
 
-	public void setOyaHourTotal(Integer oyaHourTotal) {
+	public void setOyaHourTotal(BigDecimal oyaHourTotal) {
 		this.oyaHourTotal = oyaHourTotal;
 	}
 
-	public Integer getNewHourUnit() {
+	public BigDecimal getNewHourUnit() {
 		return newHourUnit;
 	}
 
-	public void setNewHourUnit(Integer newHourUnit) {
+	public void setNewHourUnit(BigDecimal newHourUnit) {
 		this.newHourUnit = newHourUnit;
 	}
 
-	public Integer getNewInvestAcount() {
+	public BigDecimal getNewInvestAcount() {
 		return newInvestAcount;
 	}
 
-	public void setNewInvestAcount(Integer newInvestAcount) {
+	public void setNewInvestAcount(BigDecimal newInvestAcount) {
 		this.newInvestAcount = newInvestAcount;
 	}
 
-	public Integer getNewHourTotal() {
+	public BigDecimal getNewHourTotal() {
 		return newHourTotal;
 	}
 
-	public void setNewHourTotal(Integer newHourTotal) {
+	public void setNewHourTotal(BigDecimal newHourTotal) {
 		this.newHourTotal = newHourTotal;
 	}
 
-	public Integer getApprovedHourUnit() {
+	public BigDecimal getApprovedHourUnit() {
 		return approvedHourUnit;
 	}
 
-	public void setApprovedHourUnit(Integer approvedHourUnit) {
+	public void setApprovedHourUnit(BigDecimal approvedHourUnit) {
 		this.approvedHourUnit = approvedHourUnit;
 	}
 
-	public Integer getApprovedInvestAcount() {
+	public BigDecimal getApprovedInvestAcount() {
 		return approvedInvestAcount;
 	}
 
-	public void setApprovedInvestAcount(Integer approvedInvestAcount) {
+	public void setApprovedInvestAcount(BigDecimal approvedInvestAcount) {
 		this.approvedInvestAcount = approvedInvestAcount;
 	}
 
-	public Integer getApprovedHourTotal() {
+	public BigDecimal getApprovedHourTotal() {
 		return approvedHourTotal;
 	}
 
-	public void setApprovedHourTotal(Integer approvedHourTotal) {
+	public void setApprovedHourTotal(BigDecimal approvedHourTotal) {
 		this.approvedHourTotal = approvedHourTotal;
 	}
 
-	public Integer getCheckHourUnit() {
+	public BigDecimal getCheckHourUnit() {
 		return checkHourUnit;
 	}
 
-	public void setCheckHourUnit(Integer checkHourUnit) {
+	public void setCheckHourUnit(BigDecimal checkHourUnit) {
 		this.checkHourUnit = checkHourUnit;
 	}
 
-	public Integer getCheckInvestAcount() {
+	public BigDecimal getCheckInvestAcount() {
 		return checkInvestAcount;
 	}
 
-	public void setCheckInvestAcount(Integer checkInvestAcount) {
+	public void setCheckInvestAcount(BigDecimal checkInvestAcount) {
 		this.checkInvestAcount = checkInvestAcount;
 	}
 
-	public Integer getCheckHourTotal() {
+	public BigDecimal getCheckHourTotal() {
 		return checkHourTotal;
 	}
 
-	public void setCheckHourTotal(Integer checkHourTotal) {
+	public void setCheckHourTotal(BigDecimal checkHourTotal) {
 		this.checkHourTotal = checkHourTotal;
+	}
+
+	public void setTyaInvestAcount(BigDecimal tyaInvestAcount) {
+		this.tyaInvestAcount = tyaInvestAcount;
 	}
 
 	public String getRemark() {
@@ -237,13 +246,26 @@ public class YearPlan {
 		this.updatedAt = updatedAt;
 	}
 
-	public Integer getTyaInvestAcount() {
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
+	public BigDecimal getTyaInvestAcount() {
 		return tyaInvestAcount;
 	}
 
-	public void setTyaInvestAcount(Integer tyaInvestAcount) {
-		this.tyaInvestAcount = tyaInvestAcount;
-	}
 	
    
 }
