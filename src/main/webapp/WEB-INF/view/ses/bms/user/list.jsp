@@ -265,8 +265,8 @@
 				      </li>
 			    	  <li>
 				    	<label class="fl">角色：</label>
-				    	   <span>
-					        <select id="" name="roleId">
+				    	   <span class="fl">
+					        <select id="" name="roleId" class="">
 					        	<option value="">全部</option>
 					        	<c:forEach items="${roles}" var="r" varStatus="vs">
 					        		<c:if test="${r.code != 'SUPPLIER_R' && r.code != 'EXPERT_R' && r.code != 'IMPORT_AGENT_R'}">
@@ -276,9 +276,11 @@
 					        </select>
 					        </span>
 				      </li> 
-				    	<button type="submit"  class="btn fl mt1">查询</button>
-				    	<button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>  	
 			    	</ul>
+			    	<div class="col-md-12 col-xs-12 col-sm-12 tc">
+				      	<button type="submit"  class="btn mt1">查询</button>
+				    		<button type="button" onclick="resetQuery()" class="btn mt1">重置</button>  	
+				      </div>
 		    	  	<div class="clear"></div>
 		        </form>
 		     </h2>
