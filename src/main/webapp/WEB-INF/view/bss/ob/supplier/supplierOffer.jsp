@@ -99,7 +99,7 @@
 				var x = parseInt(count) * unitPrice;
 				//var unitPriceFloat = toDecimal(x);
 				// 判断用户输入的（数量*单价）是否等于计算出的单个商品的总价
-				if(x != (x/10000).toFixed(4)){
+				if(x/10000 != (x/10000).toFixed(4)){
 					layer.msg("您的输入有误，请重新输入");
 					$(obj).val("");
 					$("#"+id).html("");
