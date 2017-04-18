@@ -142,7 +142,6 @@ public interface OBProjectResultMapper {
     int updateByExample(@Param("record") OBProjectResult record, @Param("example") OBProjectResultExample example);
 
     int updateByPrimaryKeySelective(OBProjectResult record);
-
     int updateByPrimaryKey(OBProjectResult record);
     
     /**

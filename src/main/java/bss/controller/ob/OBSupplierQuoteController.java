@@ -622,7 +622,7 @@ public class OBSupplierQuoteController {
 							jdcgResult.setMsg("确定时间超出,不能放弃");
 							
 						}else{*/
-							 boolean boo = oBProjectResultService.updateBySupplierId(projectId,supplierId, confirmStatus,projectResultId);
+							 boolean boo = oBProjectResultService.updateBySupplierId(user,projectId,supplierId, confirmStatus,projectResultId);
 							 if(uptResult==1){
 								jdcgResult.setStatus(boo==false?1:2);
 								jdcgResult.setMsg("第一轮放弃成功");

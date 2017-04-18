@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import ses.model.bms.User;
 import ses.util.PropertiesUtil;
 
@@ -36,6 +40,8 @@ import bss.service.ob.OBProjectResultService;
 import bss.util.BiddingStateUtil;
 import common.annotation.CurrentUser;
 import common.utils.DateUtils;
+import common.utils.JdcgResult;
+import common.utils.RedisUtils;
 import bss.dao.ob.OBRuleMapper;
 /**
  * 
@@ -59,12 +65,14 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	private OBProjectMapper oBProjectMapper;
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
-	
+	@Autowired
+	private JedisPool jedisPool;
 	@Autowired
 	private OBResultSubtabulationMapper OBResultSubtabulationMapper;
-	
 	@Autowired
 	private OBProjectRuleMapper OBProjectRuleMapper;
+	private Logger log = LoggerFactory.getLogger(OBProjectResultServiceImpl.class);
+	private static final Integer JEDIS_QUOTO_TIME = 50; // 存放报价用户缓存时间
 	@Override
 	public int countByExample(OBProjectResultExample example) {
 		// TODO Auto-generated method stub
@@ -159,34 +167,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	public ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult,String confirmStatus) {
 		// TODO Auto-generated method stub
 		ConfirmInfoVo confirmInfoVo = oBProjectResultMapper.selectInfoByPSId(obProjectResult);
-		
-		/*if(confirmInfoVo != null) {
-			//根据confirmStatus当前的状态进行查询显示的是第一轮还是第二轮
-			List<BidProductVo> productList = null;
-			if("-1".equals(confirmStatus)) {
-				productList = oBProjectResultMapper.selectProductBySupplierId(obProjectResult);
-			} else if("1".equals(confirmStatus)) {
-				OBProjectResult item=oBProjectResultMapper.selectProportionByProject(obProjectResult);
-				 if(item.getProportion()==null){
-					 item.setProportion("0");
-				 }
-				Integer proportion2 =Integer.valueOf(item.getProportion());
-				proportion2 = 100 - (proportion2);
-				confirmInfoVo.setBidRatio(proportion2);
-				productList = oBProjectResultMapper.selectResultProductBySupplierId(obProjectResult);
-			}
-			//取到的只是一个竞价的开始时间，下面依次根据取到规则的时间段设置确认各个段的时间值
-			GregorianCalendar gc = new GregorianCalendar();
-			gc.setTime(confirmInfoVo.getConfirmOvertime());
-			gc.add(Calendar.MINUTE, confirmInfoVo.getQuoteTime().intValue());
-			confirmInfoVo.setConfirmStarttime(gc.getTime());
-			gc.add(Calendar.MINUTE, confirmInfoVo.getConfirmTime().intValue());
-			confirmInfoVo.setConfirmOvertime(gc.getTime());
-			gc.add(Calendar.MINUTE, confirmInfoVo.getConfirmTimeSecond().intValue());
-			confirmInfoVo.setSecondOvertime(gc.getTime());
-			
-			confirmInfoVo.setBidProductList(productList);*/
-		//}
 		return confirmInfoVo;
 	}
 
@@ -204,9 +184,30 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      * @return 竞价管理-结果查询 
      */
 	@Override
-	public boolean updateBySupplierId(String projectId,String supplierId, String confirmStatus,String projectResultId) {
+	public boolean updateBySupplierId(User users,String projectId,String supplierId, String confirmStatus,String projectResultId) {
 		// TODO Auto-generated method stub
 		boolean boo=false;
+		Jedis jedis = null;
+		try {
+			// 获取Jedis对象
+			jedis = RedisUtils.getResource(jedisPool);
+			// 获取供应商临时存储  防止同一用户并发访问
+			long count = jedis.incrBy("ob_confirmDrop"+users.getId(),1);
+			// 供应商只能操作一次
+			if(count>1){
+				return false;
+			}
+			// 设置供应商只能报价一次
+			jedis.set("ob_confirmDrop"+users.getId(), "1");
+			// 设置缓存有效时间
+			jedis.expire("ob_confirmDrop"+users.getId(), JEDIS_QUOTO_TIME);
+		} catch (Exception e) {
+			log.info("redis连接异常...");
+		} finally{
+			RedisUtils.returnResource(jedis, jedisPool);
+		}
+	 
+		
 		//第一轮 放弃
 		if("1".equals(confirmStatus)) {
 			OBProjectResult obpro=new OBProjectResult();
@@ -489,8 +490,29 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		// TODO Auto-generated method stub
 		String reslt="";
 		 if(projectResultList!=null){
-			 String uuid = UUID.randomUUID().toString().toUpperCase()
-					 .replace("-", "");
+			 
+			 String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+				Jedis jedis = null;
+				try {
+					// 获取Jedis对象
+					jedis = RedisUtils.getResource(jedisPool);
+					// 获取供应商临时存储  防止同一用户并发访问
+					long flag = jedis.incrBy("ob_confirm"+user.getId(),1);
+					// 供应商只能操作一次
+					if(flag>1){
+						return "其他用户已完成本次报价！";
+					}
+					// 设置供应商只能报价一次
+					jedis.set("ob_confirm"+user.getId(), "1");
+					// 设置缓存有效时间
+					jedis.expire("ob_confirm"+user.getId(), JEDIS_QUOTO_TIME);
+				} catch (Exception e) {
+					log.info("redis连接异常...");
+				} finally{
+					RedisUtils.returnResource(jedis, jedisPool);
+				}
+			 
+			 
 			 if(acceptNum.equals("1")&& projectResultList.get(0).getStatus()==1){
 				//封装 更新 结果表
 				 OBProjectResult obresulit=new OBProjectResult();

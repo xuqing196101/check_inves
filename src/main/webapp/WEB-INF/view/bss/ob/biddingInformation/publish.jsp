@@ -151,13 +151,10 @@
 			success: function(data) {
 				if (data) {
 				productList=data;//延迟加载 数据
-         if('${listinfo}' != null){
-        	 <c:forEach items='${listinfo}' var = 'values' >  
+        	 <c:forEach items='${list.obProductInfo}' var = 'values' >  
         	 addTr('${values.productId}','${values.obProduct.name}','${values.limitedPrice}','${values.purchaseCount}','${values.remark}');
 		    $("#productName_"+number).combobox('select','${values.productId}'); 
-           
         	 </c:forEach>
-		      }
 			}
 			}
 		 });

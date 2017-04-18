@@ -689,6 +689,13 @@
   
  <%--  </c:if> --%>
     </ul>
+    <c:if test="${confirmStatus==1 }">
+  <div class="col-md-12 clear tc mt10">
+  <button class="btn" onclick="confirmAccept('${confirmStatus }')">接受</button>
+  <input type="hidden" value=" ${confirmStatus }" id="currentConfirmStatus"/>
+  <button class="btn" onclick="cancelAccept('${confirmStatus }')">放弃</button>
+  </div>
+  </c:if>
   <!-- 
   <c:if test="${confirmInfoVo.bidStatus=='-1' || confirmInfoVo.bidStatus==null || confirmInfoVo.bidStatus=='2'}">
   </c:if>
@@ -761,13 +768,13 @@
 	</table>
   <%-- 	</c:if> --%>
     </ul>
-  
+  <c:if test="${confirmStatus==2 }">
   <div class="col-md-12 clear tc mt10">
   <button class="btn" onclick="confirmAccept('${confirmStatus }')">接受</button>
   <input type="hidden" value=" ${confirmStatus }" id="currentConfirmStatus"/>
   <button class="btn" onclick="cancelAccept('${confirmStatus }')">放弃</button>
   </div>
-  
+  </c:if>
   <div class="rule_search" id = "serr" onclick = "showRule()">
   	<a href="javaScript:void(0);">查看规则</a>     
  	<div class="rule_desc" id = "rule" style="display: none;"> 
