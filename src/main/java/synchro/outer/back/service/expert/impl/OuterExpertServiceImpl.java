@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertTitleMapper;
+import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
@@ -200,6 +201,8 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     private List<Expert> getNewExpertList(List<Expert> expertList) {
         List <Expert> list = new ArrayList<Expert>();
         for (Expert expert : expertList){
+        	List<RoleUser> userRoles = userMapper.queryByUserId(expert.getUser().getId(), null);
+        	expert.setUserRoles(userRoles);
             expert.setUser(getUser(expert.getId()));
             expert.setExpertCategory(getCategory(expert.getId()));
             expert.setAttchList(getAttch(expert.getId()));
@@ -220,7 +223,7 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     private List<Expert> getModifyExpertList(List<Expert> expertList) {
         List <Expert> list = new ArrayList<Expert>();
         for (Expert expert : expertList){
-        	List<Userrole> userRoles = userMapper.queryByUserId(expert.getUser().getId(), null);
+        	List<RoleUser> userRoles = userMapper.queryByUserId(expert.getUser().getId(), null);
         	expert.setUserRoles(userRoles);
             expert.setUser(getUser(expert.getId()));
             expert.setExpertCategory(getCategory(expert.getId()));

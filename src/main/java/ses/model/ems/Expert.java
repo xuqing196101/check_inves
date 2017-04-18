@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import common.model.UploadFile;
+import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
 /**
@@ -108,13 +109,23 @@ public class Expert extends ExpertHistory implements Serializable {
     /**专家附件表**/
     private List<UploadFile> attchList=new ArrayList<UploadFile>();
     
-    private  List<Userrole> userRoles=new LinkedList<Userrole>();
+    private  List<RoleUser> userRoles=new LinkedList<RoleUser>();
     
-    public List<Userrole> getUserRoles() {
+    private RoleUser roleUser;
+    
+    public RoleUser getRoleUser() {
+		return roleUser;
+	}
+
+	public void setRoleUser(RoleUser roleUser) {
+		this.roleUser = roleUser;
+	}
+
+	public List<RoleUser> getUserRoles() {
 		return userRoles;
 	}
 
-	public void setUserRoles(List<Userrole> userRoles) {
+	public void setUserRoles(List<RoleUser> userRoles) {
 		this.userRoles = userRoles;
 	}
 

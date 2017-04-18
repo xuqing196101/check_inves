@@ -23,6 +23,7 @@ import ses.dao.sms.SupplierModifyMapper;
 import ses.dao.sms.SupplierRegPersonMapper;
 import ses.formbean.ContractBean;
 import ses.model.bms.Category;
+import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
@@ -63,6 +64,7 @@ import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
 
 import com.alibaba.fastjson.JSON;
+
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
@@ -205,14 +207,14 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         List<SupplierFinance> listSupplierFinances = new ArrayList<SupplierFinance>();
         List<SupplierCertPro> listSupplierCertPros = new ArrayList<SupplierCertPro>();
         List<SupplierMatEng> matEngs=new ArrayList<SupplierMatEng>();
-        List<SupplierCertEng> listSupplierCertEngs = new ArrayList<SupplierCertEng>();
+        List<SupplierAptitute> listSupplierCertEngs = new ArrayList<SupplierAptitute>();
         List<SupplierCertSell> listSupplierCertSells = new ArrayList<SupplierCertSell>();
         List<SupplierCertServe> listSupplierCertSes = new ArrayList<SupplierCertServe>();
         List < Category > category = new ArrayList < Category > ();
         for (Supplier supp : list){
         	   //代办导入
            List<Todos> todos = todosMapper.getTodos(supp.getUser().getId());
-           List<Userrole> userRoles = userMapper.queryByUserId(supp.getUser().getId(), null);
+           List<RoleUser> userRoles = userMapper.queryByUserId(supp.getUser().getId(), null);
            supp.setUserRoles(userRoles);
             supp.setTodoList(todos);
             List<UploadFile> fileList = uploadService.substrBusniessI(supp.getId());
@@ -223,7 +225,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
             }
             if(supp.getSupplierMatEng()!=null){
             	matEngs.add(supp.getSupplierMatEng());
-            	listSupplierCertEngs.addAll(supp.getSupplierMatEng().getListSupplierCertEngs());
+            	listSupplierCertEngs.addAll(supp.getSupplierMatEng().getListSupplierAptitutes());
             }
             if(supp.getSupplierMatSell()!=null){
             	listSupplierCertSells.addAll(supp.getSupplierMatSell().getListSupplierCertSells());
@@ -263,7 +265,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         
         //工程资质信息附件
          
-        for(SupplierCertEng eng:listSupplierCertEngs){
+        for(SupplierAptitute eng:listSupplierCertEngs){
         	List<UploadFile> fileList = uploadService.findBybusinessId(eng.getId(), Constant.SUPPLIER_SYS_KEY);
             attachList.addAll(fileList);
         }

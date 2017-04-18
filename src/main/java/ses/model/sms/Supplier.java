@@ -9,6 +9,7 @@ import java.util.List;
 
 import ses.model.bms.Area;
 import ses.model.bms.CategoryParameter;
+import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
@@ -679,13 +680,13 @@ public class Supplier implements Serializable {
     
     private  List<Todos> todoList=new LinkedList<Todos>();
     
-    private  List<Userrole> userRoles=new LinkedList<Userrole>();
+    private  List<RoleUser> userRoles=new LinkedList<RoleUser>();
     
-    public List<Userrole> getUserRoles() {
+    public List<RoleUser> getUserRoles() {
 		return userRoles;
 	}
 
-	public void setUserRoles(List<Userrole> userRoles) {
+	public void setUserRoles(List<RoleUser> userRoles) {
 		this.userRoles = userRoles;
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
@@ -277,7 +278,7 @@ public interface UserMapper {
   * @return List<Userrole>     
   * @throws
    */
-  List<Userrole> queryByUserId(@Param("userId")String userId,@Param("roleId")String roleId);
+  List<RoleUser> queryByUserId(@Param("userId")String userId,@Param("roleId")String roleId);
   
   /**
    * 
@@ -312,5 +313,17 @@ public interface UserMapper {
     
     User queryByNameAndPw(@Param("loginName")String loginName,@Param("password")String password);
     
+    
+	/**
+	 * Description: 保存用户和角色之间的关系信息
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param userrole
+	 * @exception IOException
+	 */
+	void saveUserRole(RoleUser roleUser);
+	
+	
     
 }

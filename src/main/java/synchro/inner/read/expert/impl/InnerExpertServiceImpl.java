@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertTitleMapper;
+import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
@@ -70,14 +71,16 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     		   if(ets==null){
     			   expertTitleMapper.insertSelective(et);
     		   }
-    		 
     	   }
-    	   List<Userrole> roles = expert.getUserRoles();
-    	   for(Userrole ur:roles){
-//    		   RoleUser us=new RoleUser();
-//    		   us.setRoleId(ur.getRoleId());
-//    		   userMapper.queryByUserId(ur.getUserId().getId(), ur.getRoleId());
-//    		   userMapper.saveRelativity(us);
+    	   List<RoleUser> roles = expert.getUserRoles();
+    	   for(RoleUser ur:roles){
+    		   RoleUser us=new RoleUser();
+    		   us.setRoleId(ur.getRoleId());
+    		   us.setUserId(us.getUserId());
+    		   List<RoleUser> queryByUserId = userMapper.queryByUserId(ur.getUserId(), ur.getRoleId());
+    		   if(queryByUserId.size()<1){
+    			   userMapper.saveUserRole(us);
+    		   }
     	   }
            saveUser(expert.getUser());
            saveExpert(expert);
