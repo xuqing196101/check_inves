@@ -108,11 +108,11 @@ public class AdAuditBiddingController extends BaseController {
     }else{
       project.setPurchaseDepId("'123456'");
     }
-    if (null == project.getConfirmFile()){
+    /*if (null == project.getConfirmFile()){
         project.setConfirmFile(1);
     }else if(project.getConfirmFile() == -1){
         project.setConfirmFile(null);
-    }
+    }*/
     project.setPrincipal(user.getId());
     model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
     model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
