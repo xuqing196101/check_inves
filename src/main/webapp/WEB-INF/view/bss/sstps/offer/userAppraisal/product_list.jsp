@@ -136,7 +136,7 @@ function offer(){
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${list.list}" var="product" varStatus="vs">
-	  			<c:if test="${product.offer==1 }"> <!-- 只显示已报价的进行审价 -->
+	  			<%-- <c:if test="${product.offer==1 }"> --%> <!-- 只显示已报价的进行审价 -->
 	  			<tr>
 	  				<td class="tc" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 	  				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
@@ -151,11 +151,11 @@ function offer(){
 	  					<td class="tc pointer">已复审</td>
 	  				</c:if>
 	  			</tr>
-	  			</c:if>
+	  			<%-- </c:if> --%>
 	  		</c:forEach>
 		  </table>
 	  	<div id="pagediv" align="right"></div>
   </div>
-	
+	</div>
   </body>
 </html>

@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -19,15 +20,15 @@ public class ManufacturingCost {
     @NotBlank(message = "项目名称不能为空")
     private String projectName;
 
-    private Integer tyaQuoteprice;
+    private BigDecimal tyaQuoteprice;
 
-    private Integer oyaQuoteprice;
+    private BigDecimal oyaQuoteprice;
 
-    private Integer newQuoteprice;
+    private BigDecimal newQuoteprice;
 
-    private Integer auditApproval;
+    private BigDecimal auditApproval;
 
-    private Integer checkApproval;
+    private BigDecimal checkApproval;
 
     private String remark;
 
@@ -59,43 +60,45 @@ public class ManufacturingCost {
 		this.projectName = projectName;
 	}
 
-	public Integer getTyaQuoteprice() {
+
+
+	public BigDecimal getTyaQuoteprice() {
 		return tyaQuoteprice;
 	}
 
-	public void setTyaQuoteprice(Integer tyaQuoteprice) {
+	public void setTyaQuoteprice(BigDecimal tyaQuoteprice) {
 		this.tyaQuoteprice = tyaQuoteprice;
 	}
 
-	public Integer getOyaQuoteprice() {
+	public BigDecimal getOyaQuoteprice() {
 		return oyaQuoteprice;
 	}
 
-	public void setOyaQuoteprice(Integer oyaQuoteprice) {
+	public void setOyaQuoteprice(BigDecimal oyaQuoteprice) {
 		this.oyaQuoteprice = oyaQuoteprice;
 	}
 
-	public Integer getNewQuoteprice() {
+	public BigDecimal getNewQuoteprice() {
 		return newQuoteprice;
 	}
 
-	public void setNewQuoteprice(Integer newQuoteprice) {
+	public void setNewQuoteprice(BigDecimal newQuoteprice) {
 		this.newQuoteprice = newQuoteprice;
 	}
 
-	public Integer getAuditApproval() {
+	public BigDecimal getAuditApproval() {
 		return auditApproval;
 	}
 
-	public void setAuditApproval(Integer auditApproval) {
+	public void setAuditApproval(BigDecimal auditApproval) {
 		this.auditApproval = auditApproval;
 	}
 
-	public Integer getCheckApproval() {
+	public BigDecimal getCheckApproval() {
 		return checkApproval;
 	}
 
-	public void setCheckApproval(Integer checkApproval) {
+	public void setCheckApproval(BigDecimal checkApproval) {
 		this.checkApproval = checkApproval;
 	}
 

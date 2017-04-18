@@ -14,6 +14,16 @@
         var proId = $("#proId").val();
         window.location.href = "${pageContext.request.contextPath }/accessoriesCon/select.html?proId=" + proId;
       }
+      function workWeightTotals(){
+    	  var workAmout=$("#workAmout").val();
+    	  var workWeight=$("#workWeight").val();
+    	  $("#workWeightTotal").val((workAmout*workWeight).toFixed(2));
+      }
+      function workMoneys(){
+    	  var workPrice=$("#workPrice").val();
+    	  var workWeightTotal=$("#workWeightTotal").val();
+    	  $("#workMoney").val((workPrice*workWeightTotal).toFixed(2));
+      }
     </script>
   </head>
 
@@ -49,7 +59,7 @@
           <h2 class="f16 count_flow mt40"><i>01</i>材料信息</h2>
           <ul class="ul_list mb20">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">材料性质：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>材料性质：</span>
               <div class="select_common input_group col-sm-12 col-xs-12 p0">
                 <select class="col-md-12" id="productNature" name="productNature">
                   <option value="0">主要材料</option>
@@ -90,45 +100,50 @@
           <h2 class="f16 count_flow mt40"><i>02</i>所属加工生产装配工艺消耗定额（数量、质量、含税金额）</h2>
           <ul class="ul_list mb20">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">数量：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>数量：</span>
               <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                 <input type="text" id="workAmout" name="workAmout" value="${acc.workAmout }" class="">
                 <span class="add-on">i</span>
+                <div class="cue">${ERR_workAmout}</div>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单件重：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>单件重：</span>
               <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                <input type="text" id="workWeight" name="workWeight" value="${acc.workWeight }" class="">
+                <input type="text" id="workWeight" name="workWeight" value="${acc.workWeight }" class="" onblur="workWeightTotals();">
                 <span class="add-on">i</span>
+                <div class="cue">${ERR_workWeight}</div>
               </div>
             </li>
 
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">重量小计：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>重量小计：</span>
               <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                 <input type="text" id="workWeightTotal" name="workWeightTotal" value="${acc.workWeightTotal }" class="">
                 <span class="add-on">i</span>
+                <div class="cue">${ERR_workWeightTotal}</div>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单价(元)：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>单价(元)：</span>
               <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                <input type="text" id="workPrice" name="workPrice" value="${acc.workPrice }" class="">
+                <input type="text" id="workPrice" name="workPrice" value="${acc.workPrice }" class="" onblur="workMoneys();">
                 <span class="add-on">i</span>
+                <div class="cue">${ERR_workPrice}</div>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">金额：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>金额(元)：</span>
               <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                 <input type="text" id="workMoney" name="workMoney" value="${acc.workMoney }" class="">
                 <span class="add-on">i</span>
+                <div class="cue">${ERR_workMoney}</div>
               </div>
             </li>
           </ul>
         </div>
 
-        <div class="padding-top-10 clear">
+        <%-- <div class="padding-top-10 clear">
           <h2 class="f16 count_flow mt40"><i>03</i>消耗定额审核核准数（含税金额）</h2>
           <ul class="ul_list mb20">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -168,10 +183,10 @@
               </div>
             </li>
           </ul>
-        </div>
+        </div> --%>
 
         <div class="padding-top-10 clear">
-          <h2 class="f16 count_flow mt40"><i>04</i>其他</h2>
+          <h2 class="f16 count_flow mt40"><i>03</i>其他</h2>
           <ul class="ul_list mb20">
             <li class="col-md-4 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>供货单位：</span>

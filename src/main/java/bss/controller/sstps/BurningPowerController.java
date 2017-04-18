@@ -1,10 +1,16 @@
 package bss.controller.sstps;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.TreeMap;
+import java.util.UUID;
 
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -13,25 +19,102 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.util.ValidateUtils;
-
+import bss.echarts.Data;
 import bss.model.sstps.BurningPower;
 import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.BurningPowerList;
 import bss.model.sstps.ContractProduct;
+import bss.model.sstps.TrialPriceBean;
 import bss.service.sstps.BurningPowerService;
 import bss.service.sstps.ComprehensiveCostService;
 
 @Controller
 @Scope
 @RequestMapping("/burningPower")
-public class BurningPowerController {
+public class BurningPowerController extends BaseSupplierController {
 	
 	@Autowired
 	private BurningPowerService burningPowerService;
 	
 	@Autowired
 	private ComprehensiveCostService comprehensiveCostService;
+	
+	
+	
+	public void initBurningPower(ContractProduct contractProduct){
+		Hashtable<String, Hashtable<String, String[]>> map1=null;
+		Hashtable<String, String[]> map2=null;
+		List<Hashtable<String, Hashtable<String,String[]>>> hashtables=new ArrayList<Hashtable<String,Hashtable<String,String[]>>>();
+		map2=new Hashtable<String, String[]>();
+		map1=new Hashtable<String, Hashtable<String,String[]>>();
+		map2.put("外购动力开支", new String[]{"电","水","煤","油","气"});
+		map2.put("自制动力开支", new String[]{});
+		map1.put("燃料动力费", map2);
+		hashtables.add(map1);
+		map2=new Hashtable<String, String[]>();
+		map1=new Hashtable<String, Hashtable<String,String[]>>();
+		map2.put("计入基本生产成本", new String[]{});
+		map2.put("计入制造费用", new String[]{});
+		map2.put("计入管理费用", new String[]{});
+		map2.put("计入其他", new String[]{});
+		map1.put("燃动费分配", map2);
+		hashtables.add(map1);
+		BurningPower burningPower=null;
+		int i=1;
+		for(int h=0;h<hashtables.size();h++){
+			Hashtable<String, Hashtable<String, String[]>> hashtable = hashtables.get(h);
+		 for (String key : hashtable.keySet()) {
+			String parentId=UUID.randomUUID().toString().replaceAll("-", "");
+			burningPower=new BurningPower();
+			burningPower.setId(parentId);
+			burningPower.setParentId("0");
+			burningPower.setFirsetProduct(key);
+			burningPower.setContractProduct(contractProduct);
+			burningPower.setParentLevel(1);
+			burningPower.setCreatedAt(new Date());
+			burningPower.setSerialNumber(""+i);
+			burningPowerService.insert(burningPower);
+			Hashtable<String, String[]> hashMap = hashtable.get(key);
+			if(hashMap!=null){
+				int j=1;
+				for (String keys : hashMap.keySet()) {
+					String[] strings = hashMap.get(keys);
+					String parentIds=UUID.randomUUID().toString().replaceAll("-", "");
+					burningPower=new BurningPower();
+					burningPower.setId(parentIds);
+					burningPower.setParentId(parentId);
+					burningPower.setFirsetProduct(keys);
+					burningPower.setContractProduct(contractProduct);
+					burningPower.setParentLevel(2);
+					burningPower.setCreatedAt(new Date());
+					burningPower.setSerialNumber(i+"."+j);
+					burningPowerService.insert(burningPower);
+					if(strings!=null){
+						int k=1;
+						for(String str:strings){
+							String parentIdDetal=UUID.randomUUID().toString().replaceAll("-", "");
+							burningPower=new BurningPower();
+							burningPower.setId(parentIdDetal);
+							burningPower.setParentId(parentIds);
+							burningPower.setFirsetProduct(str);
+							burningPower.setContractProduct(contractProduct);
+							burningPower.setParentLevel(3);
+							burningPower.setCreatedAt(new Date());
+							burningPower.setSerialNumber(i+"."+j+"."+k);
+							burningPowerService.insert(burningPower);
+							k++;
+						}
+					}
+					j++;
+				}
+			}
+			i++;
+		}
+		}
+		
+	}
 	
 	
 	/**
@@ -51,7 +134,13 @@ public class BurningPowerController {
 		contractProduct.setId(proId);
 		burningPower.setContractProduct(contractProduct);
 		List<BurningPower> list = burningPowerService.selectProduct(burningPower);
-		model.addAttribute("list", list);
+		if(list==null||list.size()<=0){
+			initBurningPower(contractProduct);
+			List<BurningPower> lists = burningPowerService.selectProduct(burningPower);
+			model.addAttribute("list", lists);
+		}else{
+			model.addAttribute("list", list);
+		}
 		model.addAttribute("proId", proId);
 		if(total!=null){
 			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
@@ -123,7 +212,7 @@ public class BurningPowerController {
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/save")
+	/*@RequestMapping("/save")
 	public String save(Model model,@Valid BurningPower burningPower,BindingResult result){
 		String proId = burningPower.getContractProduct().getId();
 		model.addAttribute("proId",proId);
@@ -166,8 +255,26 @@ public class BurningPowerController {
 			url = "bss/sstps/offer/supplier/burningPower/list";
 		}
 		return url;
+	}*/
+	@RequestMapping("/save")
+	public void save(Model model,TrialPriceBean listBurn, HttpServletRequest request,HttpServletResponse response){
+		List<BurningPower> listBurningPower = listBurn.getListBurn();
+		for(BurningPower burningPower:listBurningPower){
+			if(burningPower.getFirsetProduct()!=null){
+				if(burningPower.getId()!=null){
+					burningPower.setUpdatedAt(new Date());
+					burningPowerService.update(burningPower);
+				}else{
+					String id=UUID.randomUUID().toString().replaceAll("-", "");
+					burningPower.setId(id);
+					burningPower.setCreatedAt(new Date());
+					burningPower.setUpdatedAt(new Date());
+					burningPowerService.insert(burningPower);
+				}
+			}
+		}
+		super.writeJson(response, "ok");
 	}
-	
 	/**
 	* @Title: update
 	* @author Shen Zhenfei 

@@ -1,10 +1,15 @@
 package bss.controller.sstps;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -13,10 +18,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.util.ValidateUtils;
-
 import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
+import bss.model.sstps.PeriodCost;
+import bss.model.sstps.TrialPriceBean;
 import bss.model.sstps.YearPlan;
 import bss.service.sstps.ComprehensiveCostService;
 import bss.service.sstps.YearPlanService;
@@ -24,7 +31,7 @@ import bss.service.sstps.YearPlanService;
 @Controller
 @Scope
 @RequestMapping("/yearPlan")
-public class YearPlanController {
+public class YearPlanController extends BaseSupplierController {
 	
 	@Autowired
 	private YearPlanService yearPlanService;
@@ -32,6 +39,41 @@ public class YearPlanController {
 	@Autowired
 	private ComprehensiveCostService comprehensiveCostService;
 	
+	
+	
+	public void initYearPlan(ContractProduct contractProduct){
+		List<Map<String, String[]>> list=new ArrayList<Map<String,String[]>>();
+		Map<String, String[]> map=null;
+		map=new HashMap<String, String[]>();
+		map.put("一、民品项目", new String[]{});
+		list.add(map);
+		map=new HashMap<String, String[]>();
+		map.put("二、军品项目", new String[]{});
+		list.add(map);
+		map=new HashMap<String, String[]>();
+		map.put("三、其他项目", new String[]{});
+		list.add(map);
+		YearPlan yearPlan=null;
+		int j=1;
+		for(int i=0;i<list.size();i++){
+			Map<String, String[]> map2 = list.get(i);
+			for(String key:map2.keySet()){
+				yearPlan=new YearPlan();
+				String id=UUID.randomUUID().toString().replaceAll("-", "");
+				yearPlan.setId(id);
+				yearPlan.setParentId("0");
+				yearPlan.setProjectName(key);
+				yearPlan.setSerialNumber(j+"");
+				yearPlan.setCreatedAt(new Date());
+				yearPlan.setUpdatedAt(new Date());
+				yearPlan.setContractProduct(contractProduct);
+				yearPlanService.insert(yearPlan);
+				j++;
+			}
+		}
+		
+		
+	}
 	/**
 	* @Title: select
 	* @author Shen Zhenfei 
@@ -49,16 +91,22 @@ public class YearPlanController {
 		contractProduct.setId(proId);
 		yearPlan.setContractProduct(contractProduct);
 		List<YearPlan> list = yearPlanService.selectProduct(yearPlan);
-		model.addAttribute("list", list);
+		if(list!=null&&list.size()>0){
+			model.addAttribute("list", list);
+		}else{
+			initYearPlan(contractProduct);
+			List<YearPlan> lists = yearPlanService.selectProduct(yearPlan);
+			model.addAttribute("list", lists);
+		}
 		model.addAttribute("proId", proId);
-		if(total!=null){
+		/*if(total!=null){
 			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
 			comprehensiveCost.setContractProduct(contractProduct);
 			comprehensiveCost.setSingleOffer(total);
 			comprehensiveCost.setProjectName("期间费用");
 			comprehensiveCost.setSecondProject("合计");
 			comprehensiveCostService.updateInfo(comprehensiveCost);
-		}
+		}*/
 		return "bss/sstps/offer/supplier/yearPlan/list";
 	}
 	
@@ -131,7 +179,7 @@ public class YearPlanController {
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/save")
+	/*@RequestMapping("/save")
 	public String save(Model model,@Valid YearPlan yearPlan,BindingResult result){
 		String proId = yearPlan.getContractProduct().getId();
 		model.addAttribute("proId",proId);
@@ -170,8 +218,28 @@ public class YearPlanController {
 			url = "bss/sstps/offer/supplier/yearPlan/list";
 		}
 		return url;
-	}
+	}*/
 	
+	
+	@RequestMapping("/save")
+	public void save(Model model,TrialPriceBean listYear, HttpServletRequest request,HttpServletResponse response){
+		List<YearPlan> listYearPlan = listYear.getListYear();
+		for(YearPlan yearPlan:listYearPlan){
+			if(yearPlan.getProjectName()!=null){
+				if(yearPlan.getId()!=null){
+					yearPlan.setUpdatedAt(new Date());
+					yearPlanService.update(yearPlan);
+				}else{ 
+					String id=UUID.randomUUID().toString().replaceAll("-", "");
+					yearPlan.setId(id);
+					yearPlan.setCreatedAt(new Date());
+					yearPlan.setUpdatedAt(new Date());
+					yearPlanService.insert(yearPlan);
+				}
+			}
+		}
+		super.writeJson(response, "ok");
+	}
 	/**
 	* @Title: update
 	* @author Shen Zhenfei 

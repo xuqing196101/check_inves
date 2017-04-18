@@ -1,6 +1,7 @@
 package bss.controller.sstps;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.util.ValidateUtils;
 import bss.model.sstps.AccessoriesCon;
 import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
@@ -41,10 +43,39 @@ public class OfferProductController {
 	private ComprehensiveCostService comprehensiveCostService;
 	
 	
+	
+	public HashMap<String, Object> VerificationSave(Model model,ProductInfo productInfo){
+		Boolean flg=true;
+		HashMap<String, Object> hashMap=new HashMap<String, Object>();
+		if(ValidateUtils.isNull(productInfo.getDesignDepartment())){
+			model.addAttribute("ERR_designDepartment", "设计单位不能为空");
+			flg=false;
+		}
+		if(ValidateUtils.isNull(productInfo.getProductOverview())){
+			model.addAttribute("ERR_productOverview", "产品概述不能为空");
+			flg=false;
+		}
+		if(ValidateUtils.isNull(productInfo.getProductProcess())){
+			model.addAttribute("ERR_productProcess", "产品生产过程概述不能为空");
+			flg=false;
+		}
+		if(ValidateUtils.isNull(productInfo.getProductSkill())){
+			model.addAttribute("ERR_productSkill", "产品技术状况概述不能为空");
+			flg=false;
+		}
+		if(ValidateUtils.isNull(productInfo.getConclusion())){
+			model.addAttribute("ERR_conclusion", "结论不能为空");
+			flg=false;
+		}
+		hashMap.put("model", model);
+		hashMap.put("flg", flg);
+		return hashMap;
+	}
+	
 	/**
 	* @Title: save
-	* @author Shen Zhenfei 
-	* @date 2016-10-22 上午9:38:49  
+	* @author Li WanLin 
+	* @date 2017-04-06 上午9:38:49  
 	* @Description: 保存
 	* @param @param model
 	* @param @param productInfo
@@ -57,6 +88,17 @@ public class OfferProductController {
 		String id = request.getParameter("id");
 		String proId = request.getParameter("contractProduct.id");
 		productInfo.setUpdatedAt(new Date());
+		HashMap<String, Object> verificationSave = VerificationSave(model, productInfo);
+		Boolean flg=(Boolean) verificationSave.get("flg");
+		model=(Model) verificationSave.get("model");
+		if(flg==false){
+			ContractProduct contractProduct=new ContractProduct();
+			contractProduct.setId(proId);
+			contractProduct.setName(productInfo.getName());
+			model.addAttribute("productInfo", productInfo);
+			model.addAttribute("contractProduct", contractProduct);
+			return "bss/sstps/offer/supplier/product_Info";
+		}
 		if(id!=null && !id.equals("")){
 			productInfoService.update(productInfo);
 		}else{
@@ -68,9 +110,12 @@ public class OfferProductController {
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		accessoriesCon.setContractProduct(contractProduct);
+		accessoriesCon.setProductNature(0);
 		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
-		model.addAttribute("list", list);
-		
+		model.addAttribute("list0", list);
+		accessoriesCon.setProductNature(1);
+		List<AccessoriesCon> list1 = accessoriesConService.selectProduct(accessoriesCon);
+		model.addAttribute("list1", list1);
 		comprehensiveCost.setContractProduct(contractProduct);
 		List<ComprehensiveCost> lists = comprehensiveCostService.select(comprehensiveCost);
 		if(lists.size()<1){

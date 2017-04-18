@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -25,75 +26,75 @@ public class ProductQuota {
     @NotBlank(message = "工序名称不能为空")
     private String processName;
 
-    private Integer offer;
+    private BigDecimal offer;
 
     /*
      * 核定-准结工时
      */
-    private Integer ratify;
+    private BigDecimal ratify;
 
     /*
      * 复核-准结工时
      */
-    private Integer check;
+    private BigDecimal check;
 
-    private Integer processingOffer;
+    private BigDecimal processingOffer;
 
     /*
      * 核定-加工工时
      */
-    private Integer processingRatify;
+    private BigDecimal processingRatify;
 
     /*
      * 复核-加工工时
      */
-    private Integer processingCheck;
+    private BigDecimal processingCheck;
 
-    private Integer assemblyOffer;
+    private BigDecimal assemblyOffer;
 
-    private Integer assemblyRatify;
+    private BigDecimal assemblyRatify;
 
-    private Integer assemblyCheck;
+    private BigDecimal assemblyCheck;
 
-    private Integer debuggingOffer;
+    private BigDecimal debuggingOffer;
 
-    private Integer debuggingRatify;
+    private BigDecimal debuggingRatify;
 
-    private Integer debuggingCheck;
+    private BigDecimal debuggingCheck;
 
-    private Integer testOffer;
+    private BigDecimal testOffer;
 
-    private Integer testRatify;
+    private BigDecimal testRatify;
 
-    private Integer testCheck;
+    private BigDecimal testCheck;
 
-    private Integer otherOffer;
+    private BigDecimal otherOffer;
 
-    private Integer otherRatify;
+    private BigDecimal otherRatify;
 
-    private Integer otherCheck;
+    private BigDecimal otherCheck;
 
-    private Integer subtotalOffer;
+    private BigDecimal subtotalOffer;
 
-    private Integer subtotalRatify;
+    private BigDecimal subtotalRatify;
 
-    private Integer subtotalCheck;
+    private BigDecimal subtotalCheck;
 
-    private String measuringUnit;
+    private BigDecimal measuringUnit;
 
-    private Integer assortOffer;
+    private BigDecimal assortOffer;
 
-    private Integer assortRatify;
+    private BigDecimal assortRatify;
 
-    private Integer assortCheck;
+    private BigDecimal assortCheck;
 
-    private Integer approvedOffer;
+    private BigDecimal approvedOffer;
 
-    private Integer approvedRatify;
+    private BigDecimal approvedRatify;
 
-    private Integer approvedSubtract;
+    private BigDecimal approvedSubtract;
 
-    private Integer approvedCheck;
+    private BigDecimal approvedCheck;
 
     private String remark;
 
@@ -141,235 +142,236 @@ public class ProductQuota {
 		this.processName = processName;
 	}
 
-	public Integer getOffer() {
+	
+	public BigDecimal getOffer() {
 		return offer;
 	}
 
-	public void setOffer(Integer offer) {
+	public void setOffer(BigDecimal offer) {
 		this.offer = offer;
 	}
 
-	public Integer getRatify() {
+	public BigDecimal getRatify() {
 		return ratify;
 	}
 
-	public void setRatify(Integer ratify) {
+	public void setRatify(BigDecimal ratify) {
 		this.ratify = ratify;
 	}
 
-	public Integer getCheck() {
+	public BigDecimal getCheck() {
 		return check;
 	}
 
-	public void setCheck(Integer check) {
+	public void setCheck(BigDecimal check) {
 		this.check = check;
 	}
 
-	public Integer getProcessingOffer() {
+	public BigDecimal getProcessingOffer() {
 		return processingOffer;
 	}
 
-	public void setProcessingOffer(Integer processingOffer) {
+	public void setProcessingOffer(BigDecimal processingOffer) {
 		this.processingOffer = processingOffer;
 	}
 
-	public Integer getProcessingRatify() {
+	public BigDecimal getProcessingRatify() {
 		return processingRatify;
 	}
 
-	public void setProcessingRatify(Integer processingRatify) {
+	public void setProcessingRatify(BigDecimal processingRatify) {
 		this.processingRatify = processingRatify;
 	}
 
-	public Integer getProcessingCheck() {
+	public BigDecimal getProcessingCheck() {
 		return processingCheck;
 	}
 
-	public void setProcessingCheck(Integer processingCheck) {
+	public void setProcessingCheck(BigDecimal processingCheck) {
 		this.processingCheck = processingCheck;
 	}
 
-	public Integer getAssemblyOffer() {
+	public BigDecimal getAssemblyOffer() {
 		return assemblyOffer;
 	}
 
-	public void setAssemblyOffer(Integer assemblyOffer) {
+	public void setAssemblyOffer(BigDecimal assemblyOffer) {
 		this.assemblyOffer = assemblyOffer;
 	}
 
-	public Integer getAssemblyRatify() {
+	public BigDecimal getAssemblyRatify() {
 		return assemblyRatify;
 	}
 
-	public void setAssemblyRatify(Integer assemblyRatify) {
+	public void setAssemblyRatify(BigDecimal assemblyRatify) {
 		this.assemblyRatify = assemblyRatify;
 	}
 
-	public Integer getAssemblyCheck() {
+	public BigDecimal getAssemblyCheck() {
 		return assemblyCheck;
 	}
 
-	public void setAssemblyCheck(Integer assemblyCheck) {
+	public void setAssemblyCheck(BigDecimal assemblyCheck) {
 		this.assemblyCheck = assemblyCheck;
 	}
 
-	public Integer getDebuggingOffer() {
+	public BigDecimal getDebuggingOffer() {
 		return debuggingOffer;
 	}
 
-	public void setDebuggingOffer(Integer debuggingOffer) {
+	public void setDebuggingOffer(BigDecimal debuggingOffer) {
 		this.debuggingOffer = debuggingOffer;
 	}
 
-	public Integer getDebuggingRatify() {
+	public BigDecimal getDebuggingRatify() {
 		return debuggingRatify;
 	}
 
-	public void setDebuggingRatify(Integer debuggingRatify) {
+	public void setDebuggingRatify(BigDecimal debuggingRatify) {
 		this.debuggingRatify = debuggingRatify;
 	}
 
-	public Integer getDebuggingCheck() {
+	public BigDecimal getDebuggingCheck() {
 		return debuggingCheck;
 	}
 
-	public void setDebuggingCheck(Integer debuggingCheck) {
+	public void setDebuggingCheck(BigDecimal debuggingCheck) {
 		this.debuggingCheck = debuggingCheck;
 	}
 
-	public Integer getTestOffer() {
+	public BigDecimal getTestOffer() {
 		return testOffer;
 	}
 
-	public void setTestOffer(Integer testOffer) {
+	public void setTestOffer(BigDecimal testOffer) {
 		this.testOffer = testOffer;
 	}
 
-	public Integer getTestRatify() {
+	public BigDecimal getTestRatify() {
 		return testRatify;
 	}
 
-	public void setTestRatify(Integer testRatify) {
+	public void setTestRatify(BigDecimal testRatify) {
 		this.testRatify = testRatify;
 	}
 
-	public Integer getTestCheck() {
+	public BigDecimal getTestCheck() {
 		return testCheck;
 	}
 
-	public void setTestCheck(Integer testCheck) {
+	public void setTestCheck(BigDecimal testCheck) {
 		this.testCheck = testCheck;
 	}
 
-	public Integer getOtherOffer() {
+	public BigDecimal getOtherOffer() {
 		return otherOffer;
 	}
 
-	public void setOtherOffer(Integer otherOffer) {
+	public void setOtherOffer(BigDecimal otherOffer) {
 		this.otherOffer = otherOffer;
 	}
 
-	public Integer getOtherRatify() {
+	public BigDecimal getOtherRatify() {
 		return otherRatify;
 	}
 
-	public void setOtherRatify(Integer otherRatify) {
+	public void setOtherRatify(BigDecimal otherRatify) {
 		this.otherRatify = otherRatify;
 	}
 
-	public Integer getOtherCheck() {
+	public BigDecimal getOtherCheck() {
 		return otherCheck;
 	}
 
-	public void setOtherCheck(Integer otherCheck) {
+	public void setOtherCheck(BigDecimal otherCheck) {
 		this.otherCheck = otherCheck;
 	}
 
-	public Integer getSubtotalOffer() {
+	public BigDecimal getSubtotalOffer() {
 		return subtotalOffer;
 	}
 
-	public void setSubtotalOffer(Integer subtotalOffer) {
+	public void setSubtotalOffer(BigDecimal subtotalOffer) {
 		this.subtotalOffer = subtotalOffer;
 	}
 
-	public Integer getSubtotalRatify() {
+	public BigDecimal getSubtotalRatify() {
 		return subtotalRatify;
 	}
 
-	public void setSubtotalRatify(Integer subtotalRatify) {
+	public void setSubtotalRatify(BigDecimal subtotalRatify) {
 		this.subtotalRatify = subtotalRatify;
 	}
 
-	public Integer getSubtotalCheck() {
+	public BigDecimal getSubtotalCheck() {
 		return subtotalCheck;
 	}
 
-	public void setSubtotalCheck(Integer subtotalCheck) {
+	public void setSubtotalCheck(BigDecimal subtotalCheck) {
 		this.subtotalCheck = subtotalCheck;
 	}
 
-	public String getMeasuringUnit() {
+	public BigDecimal getMeasuringUnit() {
 		return measuringUnit;
 	}
 
-	public void setMeasuringUnit(String measuringUnit) {
+	public void setMeasuringUnit(BigDecimal measuringUnit) {
 		this.measuringUnit = measuringUnit;
 	}
 
-	public Integer getAssortOffer() {
+	public BigDecimal getAssortOffer() {
 		return assortOffer;
 	}
 
-	public void setAssortOffer(Integer assortOffer) {
+	public void setAssortOffer(BigDecimal assortOffer) {
 		this.assortOffer = assortOffer;
 	}
 
-	public Integer getAssortRatify() {
+	public BigDecimal getAssortRatify() {
 		return assortRatify;
 	}
 
-	public void setAssortRatify(Integer assortRatify) {
+	public void setAssortRatify(BigDecimal assortRatify) {
 		this.assortRatify = assortRatify;
 	}
 
-	public Integer getAssortCheck() {
+	public BigDecimal getAssortCheck() {
 		return assortCheck;
 	}
 
-	public void setAssortCheck(Integer assortCheck) {
+	public void setAssortCheck(BigDecimal assortCheck) {
 		this.assortCheck = assortCheck;
 	}
 
-	public Integer getApprovedOffer() {
+	public BigDecimal getApprovedOffer() {
 		return approvedOffer;
 	}
 
-	public void setApprovedOffer(Integer approvedOffer) {
+	public void setApprovedOffer(BigDecimal approvedOffer) {
 		this.approvedOffer = approvedOffer;
 	}
 
-	public Integer getApprovedRatify() {
+	public BigDecimal getApprovedRatify() {
 		return approvedRatify;
 	}
 
-	public void setApprovedRatify(Integer approvedRatify) {
+	public void setApprovedRatify(BigDecimal approvedRatify) {
 		this.approvedRatify = approvedRatify;
 	}
 
-	public Integer getApprovedSubtract() {
+	public BigDecimal getApprovedSubtract() {
 		return approvedSubtract;
 	}
 
-	public void setApprovedSubtract(Integer approvedSubtract) {
+	public void setApprovedSubtract(BigDecimal approvedSubtract) {
 		this.approvedSubtract = approvedSubtract;
 	}
 
-	public Integer getApprovedCheck() {
+	public BigDecimal getApprovedCheck() {
 		return approvedCheck;
 	}
 
-	public void setApprovedCheck(Integer approvedCheck) {
+	public void setApprovedCheck(BigDecimal approvedCheck) {
 		this.approvedCheck = approvedCheck;
 	}
 

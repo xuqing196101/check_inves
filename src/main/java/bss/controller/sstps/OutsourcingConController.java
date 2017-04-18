@@ -1,9 +1,11 @@
 package bss.controller.sstps;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.util.ValidateUtils;
-
+import bss.model.sstps.AccessoriesCon;
 import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
+import bss.model.sstps.OutproductCon;
 import bss.model.sstps.OutsourcingCon;
+import bss.model.sstps.TrialPriceBean;
 import bss.service.sstps.ComprehensiveCostService;
 import bss.model.sstps.OutsourcingConList;
 import bss.service.sstps.OutsourcingConService;
@@ -25,7 +30,7 @@ import bss.service.sstps.OutsourcingConService;
 @Controller
 @Scope
 @RequestMapping("/outsourcingCon")
-public class OutsourcingConController {
+public class OutsourcingConController extends BaseSupplierController {
 	
 	@Autowired
 	private OutsourcingConService outsourcingConService;
@@ -35,8 +40,8 @@ public class OutsourcingConController {
 	
 	/**
 	* @Title: select
-	* @author Shen Zhenfei 
-	* @date 2016-10-14 下午2:23:31  
+	* @author Li WanLin 
+	* @date 2017-04-06 下午5:36:08    
 	* @Description: 列表
 	* @param @param model
 	* @param @param proId
@@ -52,21 +57,21 @@ public class OutsourcingConController {
 		List<OutsourcingCon> list = outsourcingConService.selectProduct(outsourcingCon);
 		model.addAttribute("list", list);
 		model.addAttribute("proId", proId);
-		if(total!=null){
+		/*if(total!=null){
 			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
 			comprehensiveCost.setContractProduct(contractProduct);
 			comprehensiveCost.setSingleOffer(total);
 			comprehensiveCost.setProjectName("专项试验费");
 			comprehensiveCost.setSecondProject("外购成件");
 			comprehensiveCostService.updateInfo(comprehensiveCost);
-		}
+		}*/
 		return "bss/sstps/offer/supplier/outsourcing/list";
 	}
 	
 	/**
 	* @Title: view
-	* @author Shen Zhenfei 
-	* @date 2016-10-22 上午10:45:16  
+	* @author Li WanLin 
+	* @date 2017-04-06 下午5:36:08    
 	* @Description: 查看
 	* @param @return      
 	* @return String
@@ -84,8 +89,8 @@ public class OutsourcingConController {
 	
 	/**
 	* @Title: add
-	* @author Shen Zhenfei 
-	* @date 2016-10-14 下午2:23:48  
+	* @author Li WanLin 
+	* @date 2017-04-06 下午5:36:08  
 	* @Description: 新增页面
 	* @param @param model
 	* @param @param proId
@@ -100,8 +105,8 @@ public class OutsourcingConController {
 	
 	/**
 	* @Title: edit
-	* @author Shen Zhenfei 
-	* @date 2016-10-14 下午2:23:57  
+	* @author Li WanLin 
+	* @date 2017-04-06 下午5:36:08    
 	* @Description: 修改页面
 	* @param @param model
 	* @param @param proId
@@ -116,35 +121,92 @@ public class OutsourcingConController {
 		model.addAttribute("proId", proId);
 		return "bss/sstps/offer/supplier/outsourcing/edit";
 	}
-	
+	public HashMap<String, Object> VerificationSave(Model model,OutsourcingCon outsourcingCon){
+		Boolean flg=true;
+		HashMap<String, Object> hashMap=new HashMap<String, Object>();
+		if(ValidateUtils.isNull(outsourcingCon.getOutsourcingName())){
+			flg = false;
+			model.addAttribute("ERR_outsourcingName", "外协加工件名称不能为空");
+		}
+		if(ValidateUtils.isNull(outsourcingCon.getNorm())){
+			flg = false;
+			model.addAttribute("ERR_norm", "材料名称不能为空");
+		}
+		if(ValidateUtils.isNull(outsourcingCon.getPaperCode())){
+			flg = false;
+			model.addAttribute("ERR_paperCode", "图纸位置号(代号)不能为空");
+		}
+		if(ValidateUtils.isNull(outsourcingCon.getSupplyUnit())){
+			flg = false;
+			model.addAttribute("ERR_supplyUnit", "供货单位不能为空");
+		}
+		if(ValidateUtils.isNull(outsourcingCon.getWorkAmout())){
+			flg = false;
+			model.addAttribute("ERR_workAmout", "数量不能为空");
+		}else{
+			if(!ValidateUtils.Number(outsourcingCon.getWorkAmout()+"")){
+				flg = false;
+				model.addAttribute("ERR_workAmout", "数量不是数字");
+			}
+		}
+		if(ValidateUtils.isNull(outsourcingCon.getWorkWeight())){
+			flg = false;
+			model.addAttribute("ERR_workWeight", "单件重不能为空");
+		}else{
+			if(!ValidateUtils.Money(outsourcingCon.getWorkWeight()+"")){
+				flg = false;
+				model.addAttribute("ERR_workWeight", "单件重输入错误");
+			}
+		}
+		if(ValidateUtils.isNull(outsourcingCon.getWorkWeightTotal())){
+			flg = false;
+			model.addAttribute("ERR_workWeightTotal", "重量小计不能为空");
+		}else{
+			if(!ValidateUtils.Money(outsourcingCon.getWorkWeightTotal()+"")){
+				flg = false;
+				model.addAttribute("ERR_workWeightTotal", "重量小计输入错误");
+			}
+		}
+		if(ValidateUtils.isNull(outsourcingCon.getWorkPrice())){
+			flg = false;
+			model.addAttribute("ERR_workPrice", "单价不能为空");
+		}else{
+			if(!ValidateUtils.Money(outsourcingCon.getWorkPrice()+"")){
+				flg = false;
+				model.addAttribute("ERR_workPrice", "单价输入错误");
+			}
+		}
+		if(ValidateUtils.isNull(outsourcingCon.getWorkMoney())){
+			flg = false;
+			model.addAttribute("ERR_workMoney", "金额不能为空");
+		}else{
+			if(!ValidateUtils.Money(outsourcingCon.getWorkMoney()+"")){
+				flg = false;
+				model.addAttribute("ERR_workMoney", "金额输入错误");
+			}
+		}
+		hashMap.put("model", model);
+		hashMap.put("flg", flg);
+		return hashMap;
+	}
 	/**
 	* @Title: save
-	* @author Shen Zhenfei 
-	* @date 2016-10-14 下午2:24:15  
+	* @author Li WanLin 
+	* @date 2017-04-06 下午5:36:08   
 	* @Description: 保存
 	* @param @param model
 	* @param @param outsourcingCon
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/save")
+	/*@RequestMapping("/save")
 	public String save(Model model,@Valid OutsourcingCon outsourcingCon,BindingResult result,HttpServletRequest request){
 		String proId = outsourcingCon.getContractProduct().getId();
 		model.addAttribute("proId",proId);
 		String url = "";
-		boolean flag = true;
-		if(ValidateUtils.isNull(outsourcingCon.getOutsourcingName())){
-			flag = false;
-			model.addAttribute("ERR_outsourcingName", "外协加工件名称不能为空");
-		}
-		if(ValidateUtils.isNull(outsourcingCon.getNorm())){
-			flag = false;
-			model.addAttribute("ERR_norm", "材料名称不能为空");
-		}
-		if(ValidateUtils.isNull(outsourcingCon.getPaperCode())){
-			flag = false;
-			model.addAttribute("ERR_paperCode", "图纸位置号(代号)不能为空");
-		}
+		HashMap<String, Object> verificationSave = VerificationSave(model, outsourcingCon);
+	    Boolean flag=(Boolean) verificationSave.get("flg");
+	    model=(Model) verificationSave.get("model");
 		if(flag==false){
 			model.addAttribute("out", outsourcingCon);
 			url = "bss/sstps/offer/supplier/outsourcing/add";
@@ -163,12 +225,29 @@ public class OutsourcingConController {
 			url = "bss/sstps/offer/supplier/outsourcing/list";
 		}
 		return url;
+	}*/
+	@RequestMapping("/save")
+	public void save(Model model,TrialPriceBean listOutSou, HttpServletRequest request,HttpServletResponse response){
+		List<OutsourcingCon> listOutsourcingCon = listOutSou.getListOutSou();
+		for(OutsourcingCon outsourcingCon:listOutsourcingCon){
+			if(outsourcingCon.getOutsourcingName()!=null){
+				if(outsourcingCon.getId()!=null){
+					outsourcingCon.setUpdatedAt(new Date());
+					outsourcingConService.update(outsourcingCon);
+				}else{
+					outsourcingCon.setCreatedAt(new Date());
+					outsourcingCon.setUpdatedAt(new Date());
+					outsourcingConService.insert(outsourcingCon);
+				}
+			}
+			
+		}
+		super.writeJson(response, "ok");
 	}
-	
 	/**
 	* @Title: update
-	* @author Shen Zhenfei 
-	* @date 2016-10-14 下午2:24:21  
+	* @author Li WanLin 
+	* @date 2017-04-06 下午5:36:08   
 	* @Description: 修改 
 	* @param @param model
 	* @param @param outsourcingCon
@@ -180,19 +259,9 @@ public class OutsourcingConController {
 		String proId = outsourcingCon.getContractProduct().getId();
 		model.addAttribute("proId",proId);
 		String url = "";
-		boolean flag = true;
-		if(ValidateUtils.isNull(outsourcingCon.getOutsourcingName())){
-			flag = false;
-			model.addAttribute("ERR_outsourcingName", "外协加工件名称不能为空");
-		}
-		if(ValidateUtils.isNull(outsourcingCon.getNorm())){
-			flag = false;
-			model.addAttribute("ERR_norm", "材料名称不能为空");
-		}
-		if(ValidateUtils.isNull(outsourcingCon.getPaperCode())){
-			flag = false;
-			model.addAttribute("ERR_paperCode", "图纸位置号(代号)不能为空");
-		}
+		HashMap<String, Object> verificationSave = VerificationSave(model, outsourcingCon);
+	    Boolean flag=(Boolean) verificationSave.get("flg");
+	    model=(Model) verificationSave.get("model");
 		if(flag==false){
 			model.addAttribute("out", outsourcingCon);
 			url = "bss/sstps/offer/supplier/outsourcing/edit";
@@ -209,8 +278,8 @@ public class OutsourcingConController {
 	
 	/**
 	* @Title: delete
-	* @author Shen Zhenfei 
-	* @date 2016-10-14 下午2:24:28  
+	* @author Li WanLin 
+	* @date 2017-04-06 下午5:36:08    
 	* @Description: 删除
 	* @param @param model
 	* @param @param proId
