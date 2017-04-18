@@ -111,7 +111,7 @@
   		T_BSS_OB_PRODUCT_INFO 
   	WHERE 
   		PROJECT_ID = #{id,jdbcType=VARCHAR}
-  	 ORDER BY CREATER_ID ASC
+  	 ORDER BY PRODUCT_ID ASC
   </select>
   <!--根据竞价id 查询产品名称 -->
    <select id="getProductName" resultMap="BaseResultMap" parameterType="Map" >

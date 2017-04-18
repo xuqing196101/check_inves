@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<ul class="ul_list">
-	<div class="content table_box">
-    	<table class="table table-bordered table-condensed table-hover table-striped">
+<div class="tab-content padding-left-20 padding-right-20">
+	    	<table class="table table-bordered">
 		<thead>
 		<tr>
 		  <th class="info">序号</th>
@@ -42,4 +41,3 @@
 		</c:forEach>
 	</table>
   </div>
- </ul>

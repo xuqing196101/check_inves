@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-	<ul class="ul_list">
+<div class="tab-content padding-left-20 padding-right-20">
 		<h2 class="count_flow">
 			<span class="font_sblck">名次：</span>  
 		    <span class="margin-left-10 font_sblck">第${confirmResultSecond.ranking }名</span>
@@ -37,4 +37,4 @@
 			</tr>
 			</c:forEach>
 		</table>
- </ul>
+</div>

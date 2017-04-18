@@ -151,7 +151,7 @@
 		
 		var percentStr = document.getElementById('percent').value.trim();
 		if(percentStr.length==0){
-			$("#percentErr").html("*有效百分比不能为空");
+			$("#percentErr").html("*有效供应商报价平均值的百分比不能为空");
 			return;
 		}
 		if(percentStr.substr(0,2) == '00'){
@@ -278,7 +278,7 @@
 		       </div>
 			 </li> 
 			  <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>有效报价百分比</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>有效供应商报价平均值的百分比（%）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" >
 				    <input class="input_group" name="percent" id="percent" type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"
 				     onafterpaste="this.value=this.value.replace(/\D/g,'')">

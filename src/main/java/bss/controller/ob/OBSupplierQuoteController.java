@@ -27,6 +27,7 @@ import ses.util.DictionaryDataUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBProjectResultMapper;
+import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.model.ob.ConfirmInfoVo;
@@ -34,6 +35,7 @@ import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
+import bss.model.ob.OBProjectRule;
 import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultSubtabulation;
@@ -81,24 +83,14 @@ public class OBSupplierQuoteController {
 		
 	@Autowired
 	private OBProjectResultMapper OBProjectResultMapper;
-	@Autowired
-	private OBProjectSupplierMapper mapper;
 	
+	@Autowired
+	private OBProjectRuleMapper OBProjectRuleMapper;
 	// 出入结果Service
 	@Autowired
 	private OBResultSubtabulationService obResultSubtabulationService;
-	// 注入竞价项目Service
-	@Autowired
-	private OBProjectServer OBProjectServer;
-	
-	@Autowired
-	private OBResultsInfoMapper obResultsInfoMapper;
-	
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
-	
-	@Autowired
-	private OBProjectMapper OBProjectMapper;
 	
 	// 第一轮结果确认
 	private static final String FIRST_CONFIRM = "firstConfirm";
@@ -249,7 +241,9 @@ public class OBSupplierQuoteController {
 		if (object != null) {
 			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
 		}
-		
+		//竞价规则
+		OBProjectRule oRule= OBProjectRuleMapper.selectByPrimaryKey(obProject.getId());
+		model.addAttribute("obRule", oRule);
 		// 采购机构
 		model.addAttribute("orgName", orgName);
 		// 需求单位
@@ -466,8 +460,6 @@ public class OBSupplierQuoteController {
 		 }else{
 			 confirmStatus="4";
 		 }
-		
-		
 		
 		 if(confirmStatus=="1"||confirmStatus=="2"){
              BigDecimal million = new BigDecimal(10000);
@@ -702,6 +694,9 @@ public class OBSupplierQuoteController {
 		}
 		//String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
         BigDecimal totalCountPriceBigDecimalAfter = BigDecimalUtils.doubleToDecimal(totalCountPriceBigDecimal, million);
+      //竞价规则
+      	OBProjectRule oRule= OBProjectRuleMapper.selectByPrimaryKey(obProject.getId());
+      	model.addAttribute("obRule", oRule);
         // 采购机构
 		model.addAttribute("orgName", orgName);
 		// 需求单位
@@ -796,7 +791,9 @@ public class OBSupplierQuoteController {
 			List<OBResultsInfo> oBResultsInfo  = (List<OBResultsInfo>) map.get("oBResultsInfo");
 			// 二次报价产品信息
 			List<OBResultsInfo> oBResultsInfoSecond  = (List<OBResultsInfo>) map.get("oBResultsInfoSecond");
-			
+			//竞价规则
+			OBProjectRule oRule= OBProjectRuleMapper.selectByPrimaryKey(obProject.getId());
+			model.addAttribute("obRule", oRule);
 			
 			BigDecimal million = new BigDecimal(10000);
 			Double totalCountPriceBigDecimal = caculateQuotoProductInfo(oBResultsInfo,million);

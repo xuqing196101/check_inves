@@ -244,14 +244,16 @@
    <div class="star_red">提示：报价一旦提交将不能修改，请谨慎提交！</div>
    <div>
     <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
-    	<ul class="ul_list">
 			<%@ include file="/WEB-INF/view/bss/ob/supplier/biddingInfoCommon.jsp" %>
-		</ul>
   </div> 
+   <div>
+	 <h2 class="count_flow"><i>2</i>竞价规则详情</h2>
+	   <%@ include file="/WEB-INF/view/bss/ob/biddingRules/ruleCommon.jsp" %>
+  </div>
   <div class="clear" ></div>
   <c:if test="${ not empty oBResultsInfo }">
   	<div>
-	    <h2 class="count_flow"><i>2</i>第一轮产品报价信息</h2>
+	    <h2 class="count_flow"><i>3</i>第一轮产品报价信息</h2>
 	  		<%@ include file="/WEB-INF/view/bss/ob/supplier/findQuotoIssueInfoCommon.jsp" %>
 	  </div>
   </c:if>
@@ -260,14 +262,14 @@
   	 <input type="hidden" id="showQuotoTotalPrice" name="showQuotoTotalPrice" value="">
 	  <div>
 	  	<c:if test="${ quotoFlag eq 'firstQuoto'}">
-		    <h2 class="count_flow"><i>2</i>产品信息 <font style="margin-left: 15px">报价时间倒计时：</font>
+		    <h2 class="count_flow"><i>3</i>产品信息 <font style="margin-left: 15px">报价时间倒计时：</font>
 		    <span style="color: red" id="quotoCountDown"></span></h2>
 	    </c:if>
 	    <c:if test="${ quotoFlag eq 'secondQuoto'}">
-		    <h2 class="count_flow"><i>2</i>产品信息 <font style="margin-left: 15px">二次报价时间倒计时：</font>
+		    <h2 class="count_flow"><i>3</i>产品信息 <font style="margin-left: 15px">二次报价时间倒计时：</font>
 		    <span style="color: red" id="quotoCountDownSecond"></span></h2>
 	    </c:if>
-		<div class="content table_box">
+		<div class="tab-content padding-left-20 padding-right-20">
 	    	<table class="table table-bordered table-condensed table-hover table-striped">
 			<thead>
 			<tr>

@@ -1038,7 +1038,7 @@ public class OBProjectController {
 		BigDecimal bigDecimal = new BigDecimal(totalCountPriceBigDecimal);
 		BigDecimal totalCountPriceBigDecimalAfter = BigDecimalUtils.getBigDecimalTOScale4(bigDecimal, million);
 		
-		//竞价规则
+		
 		//竞价规则
 		OBProjectRule oRule= OBProjectRuleMapper.selectByPrimaryKey(obProject.getId());
 		model.addAttribute("obRule", oRule);

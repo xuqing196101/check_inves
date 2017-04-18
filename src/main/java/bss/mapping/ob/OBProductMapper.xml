@@ -142,6 +142,7 @@
     <include refid="Base_Column_List" />
     from T_BSS_OB_PRODUCT
     where ID = #{id,jdbcType=VARCHAR}
+    ORDER BY id
   </select>
   
   <select id="selectInId" parameterType="java.util.List" resultMap="BaseResultSignalMap">
@@ -183,8 +184,7 @@
    	     #{item}  
  	   </foreach>
     </if>
-    
-    order by CREATED_AT DESC
+      ORDER BY id
   </select>
   <!-- 删除 修改删除状态 -->
   <update id="deleteByPrimaryKey" parameterType="String" >

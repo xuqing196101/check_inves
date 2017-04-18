@@ -40,7 +40,7 @@
     	}
     }
 </script>
-<div class="ul_list" onmouseover="closePrompts()">
+<div onmouseover="closePrompts()">
 <c:if test="${size == 0 }">
 	<h2 class="count_flow">无报价信息</h2>
 </c:if>

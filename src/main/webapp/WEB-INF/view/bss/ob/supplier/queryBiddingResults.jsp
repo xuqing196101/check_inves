@@ -28,12 +28,16 @@
     <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
 		<%@ include file="/WEB-INF/view/bss/ob/supplier/biddingInfoCommon.jsp" %>
   </div>
+   <div>
+	 <h2 class="count_flow"><i>2</i>竞价规则详情</h2>
+	   <%@ include file="/WEB-INF/view/bss/ob/biddingRules/ruleCommon.jsp" %>
+  </div>
   <div>
-	 <h2 class="count_flow"><i>2</i>产品信息</h2>
+	 <h2 class="count_flow"><i>3</i>产品信息</h2>
 	   <%@ include file="/WEB-INF/view/bss/ob/supplier/productIssueInfoCommon.jsp" %>
   </div>
   
-	 <h2 class="count_flow"><i>3</i>供应商信息</h2>
+	 <h2 class="count_flow"><i>4</i>供应商信息</h2>
 	   <%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>
   </div>
  </div>

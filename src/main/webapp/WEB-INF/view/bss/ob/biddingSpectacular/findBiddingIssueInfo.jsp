@@ -32,7 +32,7 @@
   </div> 
   <div class="clear" ></div>
   <div>
-	 <h2 class="count_flow"><i>2</i>竞价规则信息</h2>
+	 <h2 class="count_flow"><i>2</i>竞价规则详情</h2>
 	   <%@ include file="/WEB-INF/view/bss/ob/biddingRules/ruleCommon.jsp" %>
   </div>
   <div>

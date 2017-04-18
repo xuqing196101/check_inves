@@ -30,11 +30,15 @@
 			<%@ include file="/WEB-INF/view/bss/ob/supplier/biddingInfoCommon.jsp" %>
 		</ul>
   </div> 
+  <div>
+	 <h2 class="count_flow"><i>2</i>竞价规则详情</h2>
+	   <%@ include file="/WEB-INF/view/bss/ob/biddingRules/ruleCommon.jsp" %>
+  </div>
   <div class="clear" ></div>
   <form id="productForm" name="" method="post">
   	<input type="hidden" name="titleId" value="${ obProject.id }">
 	  <div>
-	    <h2 class="count_flow"><i>2</i>产品信息</h2>
+	    <h2 class="count_flow"><i>3</i>产品信息</h2>
     		<%@ include file="/WEB-INF/view/bss/ob/supplier/productIssueInfoCommon.jsp" %>
 	  </div>	 
   </form>

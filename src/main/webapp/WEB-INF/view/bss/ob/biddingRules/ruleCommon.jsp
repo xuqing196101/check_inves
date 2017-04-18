@@ -1,91 +1,78 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-
-<script type="text/javascript">
-</script>
 </head>
 <body>
-   <!-- 发布定型产品页面开始 -->
-  		  <input name="ruleCommonid" type="hidden" value="${ obRule.id }" />
-		  <div>
-		   <ul class="ul_list">
-		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>竞价规则名称：</span>
-			   <div class="input-append input_group col-sm-12 col-xs-12 p0" id="supplierselect">
-					<input class="input_group"  type="text" disabled="disabled" value="${obRule.name }" class="w230 mb0 border0">
-		        <div class="cue"><span><font id="nameErr" style="color: red"></font></span></div>
-		       </div>
+  		  <div class="tab-content padding-left-20 padding-right-20">
+				<table class="table table-bordered">
+				 <tbody>
+				 <tr>
+				  <td class="bggrey"> 竞价规则名称：</td>
+				  <td >${obRule.name}</td>
+				  <td class="bggrey ">间隔工作日（天）：</td>
+				  <td width="10%">${ obRule.intervalWorkday }</td>
+				  <td class="bggrey ">竞价开始时间：</td>
+				  <td width="10%"><fmt:formatDate value="${ obRule.definiteTime }" pattern="HH:mm:ss"/></td>
+				 </tr> 
+				 <tr>
+				  <td class="bggrey ">第一轮报价时间（分钟）：</td>
+				  <td>${ obRule.quoteTime }</td>
+				  <td class="bggrey ">第二轮报价时间（分钟）：</td>
+				  <td>${ obRule.quoteTimeSecond }</td>
+				  <td class="bggrey ">第一轮确认时间（分钟）：</td>
+				  <td>${ obRule.confirmTime }</td>
+				 </tr> 
+				 <tr>
+				  <td class="bggrey ">第二轮确认时间（分钟）：</td>
+				  <td>${ obRule.confirmTimeSecond }</td>
+				  <td class="bggrey ">最少报价供应商数：</td>
+				  <td>${ obRule.leastSupplierNum }</td>
+				  <td class="bggrey ">有效供应商报价平均值的百分比（%）：</td>
+				  <td>${ obRule.percent }</td>
+				 </tr> 
+				 <tr>
+				  <td class="bggrey ">浮动百分比：</td>
+				  <td>${ obRule.floatPercent }</td>
+				  <td class="bggrey "></td>
+				  <td></td>
+				  <td class="bggrey "></td>
+				  <td></td>
+				 </tr> 
+				</tbody>
+			   </table>
+  		  </div>
+		   <%--   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span >
+			          竞价规则名称：${obRule.name }</span>
 			 </li>
-			 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>间隔工作日（天）：</span>
-			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-			        <input class="input_group"  type="text" disabled="disabled" value="${ obRule.intervalWorkday }"  class="w230 mb0 border0">
-					<div class="cue"><span><font id="intervalWorkdayErr" style="color: red"></font></span></div>
-		       </div>
+			   <span >间隔工作日（天）：${ obRule.intervalWorkday }</span>
 			 </li>
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>竞价开始时间：</span>
-			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input type="text"  maxlength="100" disabled="disabled" value='<fmt:formatDate value="${ obRule.definiteTime }" pattern="HH:mm:ss"/>' id="d242" onclick="WdatePicker({dateFmt:'HH:mm:ss'})"  class="Wdate" />
-					<div class="cue"><span><font id="definiteTimeErr" style="color: red"></font></span></div>
-		       </div>
+			   <span >竞价开始时间：<fmt:formatDate value="${ obRule.definiteTime }" pattern="HH:mm:ss"/></span>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>第一轮报价时间（分钟）：</span>
-			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group"   disabled="disabled" type="text" value="${ obRule.quoteTime }" class="mb0 border0">
-					<div class="cue"><span><font id="quoteTimeErr" style="color: red"></font></span></div>
-		       </div>
+			   <span >第一轮报价时间（分钟）：${ obRule.quoteTime }</span>
 			 </li>
 			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>第二轮报价时间（分钟）：</span>
-			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-				    <input class="input_group"  disabled="disabled" type="text" value="${ obRule.quoteTimeSecond }"  class="mb0 border0">
-					<div class="cue"><span><font id="quoteTimeSecondErr" style="color: red"></font></span></div>
-		       </div>
+			   <span >第二轮报价时间（分钟）：${ obRule.quoteTimeSecond }</span>
 			 </li>
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>第一轮确认时间（分钟）：</span>
-			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group"  type="text" disabled="disabled" value="${ obRule.confirmTime }" class="mb0 border0">
-					<div class="cue"><span><font id="confirmTimeErr" style="color: red"></font></span></div>
-		       </div>
+			   <span >第一轮确认时间（分钟）：${ obRule.confirmTime }</span>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>第二轮确认时间（分钟）</span>
-			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group"  disabled="disabled" type="text" value="${ obRule.confirmTimeSecond }" class="mb0 border0" />
-					<div class="cue"><span><font id="confirmTimeSecondErr" style="color: red"></font></span></div>
-		       </div>
+			   <span >第二轮确认时间（分钟）：${ obRule.confirmTimeSecond }</span>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>最少报价供应商数</span>
-			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group"  disabled="disabled" type="text" value="${ obRule.leastSupplierNum }" class="mb0 border0" />
-					<div class="cue"><span><font id="leastSupplierNumErr" style="color: red"></font></span></div>
-		       </div>
+			   <span >最少报价供应商数：${ obRule.leastSupplierNum }</span>
 			 </li> 
-			 
 			   <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>有效报价百分比</span>
-			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" >
-				    <input class="input_group"  type="text" class="mb0 border0" onkeyup="this.value=this.value.replace(/\D/g,'')"
-				     onafterpaste="this.value=this.value.replace(/\D/g,'')" disabled="disabled"  value="${ obRule.percent }">
-					<div class="cue"><span><font id="percentErr" style="color: red"></font></span></div>
-		       </div>
+			   <span >有效报价百分比：${ obRule.percent }</span>
 			 </li> 
 			  <c:if test="${not empty obRule.floatPercent}">
 			    <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>浮动百分比</span>
-			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" >
-				    <input class="input_group"  type="text" class="mb0 border0" 
-				     disabled="disabled"  value="${ obRule.floatPercent }">
-					<div class="cue"><span><font id="percentErr" style="color: red"></font></span></div>
-		       </div>
+			   <span >浮动百分比：${ obRule.floatPercent }</span>
 			 </li> 
 			 </c:if>
 		   </ul>
-		       <div class="clear"></div> 
-		  </div> 
+		       <div class="clear"></div>  --%>
 </body>
 </html>
