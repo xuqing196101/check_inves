@@ -178,7 +178,7 @@
 
 			layer.confirm("本次竞价项目您的报价总金额为 <b><span style='color:red;font-size:16px'>"+quotoTotalPrice+" 万元</span></b>，是否确认提交？", {
 			    btn: ['确定','取消'], //按钮
-			    shade: false //不显示遮罩
+			    shade: true //不显示遮罩
 			}, function(index){
 				$("#showQuotoTotalPrice").val(quotoTotalPrice);
 			    layer.close(index);
