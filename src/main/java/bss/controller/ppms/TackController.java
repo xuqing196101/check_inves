@@ -54,6 +54,7 @@ import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
+import bss.model.ppms.ParamInterval;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
@@ -73,6 +74,7 @@ import bss.service.ppms.BidMethodService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
+import bss.service.ppms.ParamIntervalService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
@@ -154,6 +156,9 @@ public class TackController extends BaseController{
     
     @Autowired
     private FlowMangeService flowMangeService;    
+    
+    @Autowired
+    private ParamIntervalService intervalService;
 	/**
 	 * 
 	* @Title: listAll
@@ -989,6 +994,7 @@ public class TackController extends BaseController{
             project.setIsProvisional(advancedProject.getIsProvisional());
             project.setPlanType(advancedProject.getPlanType());
             project.setAppointMan(advancedProject.getAppointMan());
+            project.setAuditReason(advancedProject.getAuditReason());
             projectService.add(project);
             
             advancedProject.setStatus(DictionaryDataUtil.getId("YYYBYY"));
@@ -1136,6 +1142,9 @@ public class TackController extends BaseController{
                     bidMethod1.setRemark(bidMethod2.getRemark());
                     bidMethod1.setRemainScore(bidMethod2.getRemainScore());
                     bidMethod1.setPackageId(bidMethod2.getPackageId());
+                    bidMethod1.setFloatingRatio(bidMethod2.getFloatingRatio());
+                    bidMethod1.setBusiness(bidMethod2.getBusiness());
+                    bidMethod1.setValid(bidMethod2.getValid());
                     bidMethodService.save(bidMethod1);
                     String bidMethodId = bidMethod1.getId();
                     
@@ -1222,8 +1231,37 @@ public class TackController extends BaseController{
                                                 model1.setIntervalNumber(scoreModel2.getIntervalNumber());
                                                 model1.setIsDeleted(scoreModel2.getIsDeleted());
                                                 model1.setCreatedAt(scoreModel2.getCreatedAt());
+                                                model1.setIscheck(scoreModel2.getIscheck());
+                                                model1.setIntervalTypeName(scoreModel2.getIntervalTypeName());
                                                 scoreModelService.saveScoreModel(model1);
+                                                String scoreId = model1.getId();
+                                                
+                                                ParamInterval paramInterval = new ParamInterval();
+                                                paramInterval.setScoreModelId(scoreModel2.getId());
+                                                paramInterval.setProjectId(details.get(0).getAdvancedProject());
+                                                paramInterval.setPackageId(scoreModel2.getPackageId());
+                                                List<ParamInterval> intervals = intervalService.findListByParamInterval(paramInterval);
+                                                if(intervals != null && intervals.size() > 0){
+                                                    for (ParamInterval paramInterval2 : intervals) {
+                                                        ParamInterval interval = new ParamInterval();
+                                                        interval.setCreatedAt(new Date());
+                                                        interval.setEndParam(paramInterval2.getEndParam());
+                                                        interval.setEndRelation(paramInterval2.getEndRelation());
+                                                        interval.setExplain(paramInterval2.getExplain());
+                                                        interval.setIsDeleted(paramInterval2.getIsDeleted());
+                                                        interval.setPackageId(paramInterval2.getPackageId());
+                                                        interval.setProjectId(id);
+                                                        interval.setScore(paramInterval2.getScore());
+                                                        interval.setScoreModelId(scoreId);
+                                                        interval.setStartParam(paramInterval2.getStartParam());
+                                                        interval.setStartRelation(paramInterval2.getStartRelation());
+                                                        interval.setUpdatedAt(new Date());
+                                                        intervalService.saveParamInterval(interval);
+                                                    }
+                                                }
                                             }
+                                            
+                                            
                                             }
                                         
                                         
