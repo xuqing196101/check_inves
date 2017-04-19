@@ -76,18 +76,25 @@
 		var timeArray = [];
 		var projectArr = [];
 		var timeListObject = ${timeListObject};
+		var projectid=[];
 		// 遍历获取当前页面时间段
 		$.each(timeListObject,function(index,ele){
 			// 获取报价开始时间
 			timeArray.push(ele.quotoTimeDate/1000);
+			projectid.push(ele.projectId);
 			// 获取报价结束时间
 			timeArray.push(ele.endQuotoTimeDate/1000);
+			projectid.push(ele.projectId);
 			timeArray.push(ele.endQuotoTimeDateSecond/1000);
+			projectid.push(ele.projectId);
 			// 获取第一轮确认时间
 			timeArray.push(ele.confirmTime/1000);
+			projectid.push(ele.projectId);
 			// 获取第二轮确认时间
 			timeArray.push(ele.secondConfirmTime/1000);
+			projectid.push(ele.projectId);
 		})
+		
 		$("#aaa").val(timeArray);
 		// 获取系统当前时间
 		$.ajax({
@@ -104,17 +111,27 @@
 			var times = $.inArray(sysDateInt, timeArray);
 			if(times >= 0){
 				// 刷新页面
-				reloadPage();
+				reloadPage(projectid[times]);
 			}
        	},1000);
-		
-		function reloadPage(){
-			// 刷新页面
+	function reloadPage(id){
+		//刷新状态
+		$.ajax({
+			url:"${pageContext.request.contextPath}/ob_project/changeStatus.do",
+			type: "POST",
+			dateType:"JSON",
+			date:{projectId:id},
+			async: false,
+			success:function(data){
+			
+			}
+		});
+		// 刷新页面
 			layer.msg("自动刷新页面");
 			window.location.reload();
 		}
-
 	});
+		
 	
 	
 	// 开始报价和确认结果通用验证
@@ -314,7 +331,7 @@
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
 			
-			if((pStatus == 5 && pRemark == '1') || pStatus == 5 && pRemark == '21' || pStatus == 6 && pRemark == '1'){
+			if((pStatus == 5 && pRemark == '1') || pStatus == 5 && pRemark == '21' || pStatus == 5 && pRemark == '20' || pStatus == 6 && pRemark == '1'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
 			

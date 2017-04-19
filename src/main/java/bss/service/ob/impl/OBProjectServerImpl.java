@@ -181,6 +181,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 						}
 						Map<String, Object> maps = new HashMap<String, Object>();
 						maps.put("list", pidList);
+						maps.put("date", new Date());
 						// 获取 成交供应商 数量
 						Integer closingSupplier = OBProjectResultMapper.countByStatus(obp.getId());
 						obp.setProductName(pidList);
@@ -529,7 +530,7 @@ public class OBProjectServerImpl implements OBProjectServer {
      private String verifyProduct(List<String> productName,Integer count){
     	  int tempCount=0;
     	 for (int i = 0; i < productName.size(); i++) {
-    	   tempCount=OBSupplierMapper.countProductId(productName.get(i));
+    	   tempCount=OBSupplierMapper.countProductId(productName.get(i),new Date());
     	   tempCount=tempCount/4;
     		 if(tempCount<count){
     			 return toJsonProject("pName", productName.get(i));
@@ -588,6 +589,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			OBProjectSupplier supplier = null;
 			Map<String,Object> map=new HashMap<String, Object>();
 			map.put("list", obProject.getProductName());
+			map.put("date", new Date());
 			Date date=new Date();
 			List<OBSupplier> supList= OBSupplierMapper.selectSupplierByID(map);
 			   for(OBSupplier os:supList){
@@ -751,6 +753,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 					}
 					Map<String, Object> maps = new HashMap<String, Object>();
 					maps.put("list", pidList);
+					maps.put("date", new Date());
 					Integer closingSupplier=0;
 					if(obp.getStatus()!=0 && pidList!=null && pidList.size()>0 ){
 					// 获取 中标供应商 数量
@@ -1259,6 +1262,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", productID);
 		map.put("count", productID.size());
+		map.put("date",new Date());
 		return OBSupplierMapper.selecUniontSupplier(map);
 	}
 
@@ -1284,6 +1288,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		if (user != null) {
 			map.put("supplier_id", user.getTypeId());
 		}
+		map.put("date", new Date());
 		// 查询符合自己需求的竞价项目
 		List<OBProjectSupplier> obProjectList = obProjectSupplierMapper
 				.selectSupplierOBprojectList(map);
@@ -1294,6 +1299,12 @@ public class OBProjectServerImpl implements OBProjectServer {
 			for (OBProjectSupplier obProjectSupplier : obProjectList) {
 				List<OBProject> obProject = obProjectSupplier.getObProjectList();
 				if (obProject != null && obProject.size() > 0) {
+					 for (OBProject obProject2 : obProject) {
+						if(obProject2.getStatus()!=0 || obProject2.getStatus()!=3 ||obProject2.getStatus()!=4){
+							changeStatus(obProject2.getId());
+						}
+					}
+					
 					// 获取第一轮的报价截止时间
 					Date quoteEndTime = BiddingStateUtil.getQuoteEndTime(obProject.get(0),obProjectRuleMapper);
 					// 获取第二轮的报价截止时间
@@ -1351,6 +1362,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", page);
 		map.put("projectId", projectid);
+		map.put("date",new Date());
 		if(StringUtils.isNotBlank(status)){
 		//已过期
 		if(status.equals("1")){

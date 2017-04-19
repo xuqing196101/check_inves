@@ -64,9 +64,6 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	private OBProductInfoMapper obProductInfoMapper;
 
 	@Autowired
-	private OBProductMapper obProductMapper;
-	
-	@Autowired
 	private OBSupplierMapper OBSupplierMapper;
 
 	// 注入采购机构Mapper
@@ -167,6 +164,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 					}
 					Map<String, Object> maps = new HashMap<String, Object>();
 					maps.put("list", pidList);
+					maps.put("date", new Date());
 					// 获取 成交供应商 数量
 					Integer closingSupplier = obProjectResultMapper
 							.countByStatus(obProject.getId());
@@ -441,6 +439,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 					}
 					Map<String, Object> maps = new HashMap<String, Object>();
 					maps.put("list", pidList);
+					maps.put("date", new Date());
 					// 获取 成交供应商 数量
 					Integer closingSupplier = obProjectResultMapper
 							.countByStatus(obProject.getId());

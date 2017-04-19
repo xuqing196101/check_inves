@@ -243,15 +243,17 @@ public class SupplierItemController extends BaseController {
 		}
 		// 加入末级节点
 		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
-			for(int i = 0; i < parentNodeList.size(); i++) {
-				Category cate = categoryService.findById(parentNodeList.get(i).getId());
-				if(cate != null && cate.getParentId() != null) {
-					Category parentNode = categoryService.findById(cate.getParentId());
-					if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
-						cateTree.setFourthNode(cate.getName());
-					}
-				}
-			}
+		    if(parentNodeList.size()>4){
+                for(int i = 0; i < parentNodeList.size(); i++) {
+                    Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                    if(cate != null && cate.getParentId() != null) {
+                        Category parentNode = categoryService.findById(cate.getParentId());
+                        if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+                            cateTree.setFourthNode(cate.getName());
+                        }
+                    }
+                }
+            }
 		}
 
 		// 工程类等级
@@ -783,7 +785,7 @@ public class SupplierItemController extends BaseController {
 			if(s != null) {
 				if(s.equals("PROJECT")) {
 					categoryId = DictionaryDataUtil.getId("PROJECT");
-					return supplierItemService.getCategory(supplierId, categoryId, s);
+                    return supplierItemService.getCategoryOther(supplierId, categoryId, s);
 				}
 			}
 

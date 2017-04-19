@@ -289,7 +289,7 @@
 	  		ON S.PROJECT_ID = P.ID
 	  		LEFT JOIN T_BSS_OB_SUPPLIER TS
 	  		ON S.SUPPLIER_PRIMARY_ID = TS.SMALL_POINTS_ID
- 			WHERE S.SUPPLIER_ID = #{supplier_id} AND TS.CERT_VALID_PERIOD > SYSDATE
+ 			WHERE S.SUPPLIER_ID = #{supplier_id} AND TS.CERT_VALID_PERIOD > #{date}
  			AND TS.SUPPLIER_ID=#{supplier_id}
  		<if test="name != null and name != ''">
         	AND P.NAME LIKE '%${name}%'
