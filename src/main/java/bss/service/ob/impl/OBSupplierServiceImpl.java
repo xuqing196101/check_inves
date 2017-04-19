@@ -43,9 +43,9 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 				Integer.parseInt(config.getString("pageSize")));
 		List<OBSupplier> list = null;
 		if (status == 1) {
-			list = oBSupplierMapper.selectByProductId1(id,supplierName,smallPointsName,smallPointsId);
+			list = oBSupplierMapper.selectByProductId1(id,supplierName,smallPointsName,smallPointsId,new Date());
 		} else if (status == 2) {
-			list = oBSupplierMapper.selectByProductId2(id,supplierName,smallPointsName,smallPointsId);
+			list = oBSupplierMapper.selectByProductId2(id,supplierName,smallPointsName,smallPointsId,new Date());
 		}else if(status == 3){
 			list = oBSupplierMapper.selectByProductId3(id,supplierName,smallPointsName,smallPointsId);
 		}else{
@@ -105,6 +105,7 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage((Integer)map.get("page"),
 				Integer.parseInt(config.getString("pageSize")));
+		map.put("date", new Date());
 		List<OBSupplier> list = oBSupplierMapper.selOfferSupplier(map);
 		return list;
 	}

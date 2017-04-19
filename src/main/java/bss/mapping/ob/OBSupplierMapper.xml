@@ -121,7 +121,7 @@
 	<select id="selecUniontSupplier" resultMap="BaseResultItemMap" parameterType="Map">
  	SELECT p.id as id ,COUNT(DISTINCT s.supplier_id) as supplierId
 		FROM T_BSS_OB_SUPPLIER s LEFT JOIN T_BSS_OB_PRODUCT p on  s.SMALL_POINTS_ID=p.SMALL_POINTS_ID
-		WHERE s.CERT_VALID_PERIOD > SYSDATE
+		WHERE s.CERT_VALID_PERIOD > #{date}
 		AND s.IS_DELETED = 0
 		AND p.ID IN 
       <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
@@ -158,7 +158,7 @@
 		<include refid="Base_Column_List" />
 		FROM T_BSS_OB_SUPPLIER
 		WHERE
-		CERT_VALID_PERIOD &lt; SYSDATE
+		CERT_VALID_PERIOD &lt; #{date,jdbcType=TIMESTAMP}
 		AND
 		IS_DELETED = 0
 		<if test="productId != null and productId != ''">
@@ -180,7 +180,7 @@
 		parameterType="Map">
 		SELECT count(DISTINCT s.SUPPLIER_ID)
 		FROM T_BSS_OB_SUPPLIER s LEFT JOIN T_BSS_OB_PRODUCT p on  s.SMALL_POINTS_ID=p.SMALL_POINTS_ID and p.SMALL_POINTS_ID is not null
-		WHERE s.CERT_VALID_PERIOD > SYSDATE
+		WHERE s.CERT_VALID_PERIOD > #{date,jdbcType=TIMESTAMP}
 		AND s.IS_DELETED = 0
 		AND p.ID =#{productId,jdbcType=VARCHAR}
 	</select>
@@ -188,7 +188,7 @@
 	<select id="selectSupplierByID" resultMap="BaseResultItemMap" parameterType="Map">
  	SELECT DISTINCT s.supplier_id,s.SMALL_POINTS_ID as smallPointsId
 		FROM T_BSS_OB_SUPPLIER s LEFT JOIN T_BSS_OB_PRODUCT p on  s.SMALL_POINTS_ID=p.SMALL_POINTS_ID
-		WHERE s.IS_DELETED = 0 and s.CERT_VALID_PERIOD > SYSDATE
+		WHERE s.IS_DELETED = 0 and s.CERT_VALID_PERIOD > #{date}
 		AND p.ID IN 
       <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
    	     #{item}  
@@ -203,11 +203,11 @@
 		WHERE s.IS_DELETED = 0 and p.IS_DELETED = 0 and s.SMALL_POINTS_ID=p.SMALL_POINTS_ID and p.SMALL_POINTS_ID is not null
 		<!-- 大于当前日期  未过期 -->
 		<if test="notDate != null and notDate != ''">
-		AND s.CERT_VALID_PERIOD &gt; SYSDATE
+		AND s.CERT_VALID_PERIOD &gt; #{date}
 		</if>
 		<!-- 小于当前日期  已过期 -->
 		<if test="inDate != null and inDate != ''">
-		AND s.CERT_VALID_PERIOD &lt; SYSDATE
+		AND s.CERT_VALID_PERIOD &lt; #{date}
 		</if>
 		<if test="name != null and name != ''">
 		AND  s.SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%'||#{name}||'%')
@@ -228,7 +228,7 @@
 		<include refid="Base_Column_List" />
 		FROM T_BSS_OB_SUPPLIER
 		WHERE
-		CERT_VALID_PERIOD &gt; SYSDATE
+		CERT_VALID_PERIOD &gt; #{date}
 		AND
 		IS_DELETED = 0
 		<if test="productId != null and productId != ''">
@@ -647,11 +647,11 @@
 		</if>
 		<!-- 过期 -->
   		<if test="status == 1">
-  			AND CERT_VALID_PERIOD &lt; SYSDATE
+  			AND CERT_VALID_PERIOD &lt; #{date,jdbcType=TIMESTAMP}
   		</if>
 		<!-- 未过期 -->
   		<if test="status == 2">
-  			AND CERT_VALID_PERIOD &gt; SYSDATE
+  			AND CERT_VALID_PERIOD &gt; #{date,jdbcType=TIMESTAMP}
   		</if>
 	</select>
 	
