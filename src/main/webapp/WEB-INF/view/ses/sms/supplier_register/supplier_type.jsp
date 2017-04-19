@@ -1010,7 +1010,6 @@
 								//obj.parent().next().next().next().find("select").append(optionDOM);
 							}
 						}
-					
 						if(enterWay == "addBtn") {
 							if(flag_certGrade == 0) {
 								easyuiData[0].selected = true;
@@ -1892,6 +1891,7 @@
 										<div class="col-md-12 col-md-12 col-xs-12 col-sm-12 p0">
 											<button type="button" class="btn" onclick="openAptitute()">新增</button>
 											<button type="button" class="btn" onclick="deleteAptitute()">删除</button>
+											<button type="button" class="btn" id="huoqu">取值</button>
 											<span class="red">${eng_aptitutes }</span>
 										</div>
 										<div
@@ -1982,7 +1982,12 @@
 																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
 																 -->
 																<select id="certGrade_select${certAptNumber}" title="cnjewfnGrade" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
-																	<c:if test="${tempForShowOption eq 'go' }">
+																	<c:choose>
+                                                                        <c:when test="${aptitute.aptituteLevel}">
+
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                    <c:if test="${tempForShowOption eq 'go' }">
 																		<option selected="selected">${aptitute.aptituteLevel}</option>
 																	</c:if>
 																	<c:set var="tempForShowOption" value="notgo"/>
@@ -2003,8 +2008,19 @@
 																	$("select[title='cnjewfnGrade']").each(function() {
 																		var $obj = $(this);
 																		$obj.combobox({
+                                                                            onChange : function() {
+                                                                                //console.log($obj.combobox("getText"));
+                                                                                tempSave();
+                                                                            },
 																		});
 																	});
+																	var _obj${certAptNumber} = $("select[name='supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel']")
+                                                                    _obj${certAptNumber}.combobox({
+                                                                        /*onChange : function() {
+                                                                            var _text = _obj${certAptNumber}.combobox("getText");
+                                                                            $("input[name='supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel']").val(_text);
+                                                                        },*/
+                                                                    });
 																</script>
 															</td>
 															<td class="tc"
@@ -2208,3 +2224,16 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/commons.js"></script>
 
 </html>
+<script type="text/javascript">
+    $(function(){
+        var _$select = $("select[title='cnjewfnGrade']");
+        $("#huoqu").bind('click',function () {
+            console.log(_$select.combobox('getText'));
+        })
+//        _$select.combobox({
+//            onChange: function (n,o) {
+//                console.log(_$select.combobox('getText'));
+//            }
+//        });
+    })
+</script>

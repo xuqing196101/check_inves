@@ -116,19 +116,23 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
                 supplierAptituteMapper.updateByPrimaryKeySelective(aptitute);
                 if(aptituteBean.getCertType()!=null){
                 	Qualification qualification = qualificationMapper.getQualification(aptituteBean.getCertType());
-                	List<SupplierPorjectQua> sQua = supplierPorjectQuaMapper.queryByNameAndSupplierId(aptituteBean.getCertType(), supplier.getId());
-                	if(sQua.size()<1&&qualification==null){
+                	String _name = aptituteBean.getCertType();
+                    List<SupplierPorjectQua> sQua = supplierPorjectQuaMapper.queryByNameAndSupplierId(_name, supplier.getId());
+                    if(sQua.size()<1 && qualification==null){
                 		SupplierPorjectQua projectQua=new SupplierPorjectQua();
                 		projectQua.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-                		projectQua.setName(aptituteBean.getCertType());
+                		projectQua.setName(_name);
                 		projectQua.setSupplierId(supplier.getId());
                 		projectQua.setIsDelete(0);
+                        if(aptituteBean.getAptituteLevel()!=null){
+                            projectQua.setCertLevel(aptituteBean.getAptituteLevel());
+                        }
                 		supplierPorjectQuaMapper.insert(projectQua);
                 	}
                 	if(sQua!=null&&sQua.size()>0){
                 		
                 		SupplierPorjectQua projectQua=new SupplierPorjectQua();
-                		projectQua.setName(aptituteBean.getCertType());
+                		projectQua.setName(_name);
                 		projectQua.setSupplierId(supplier.getId());
                 		if(aptituteBean.getAptituteLevel()==null){
                 			projectQua.setCertLevel("");

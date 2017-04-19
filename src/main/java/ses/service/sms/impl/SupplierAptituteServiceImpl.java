@@ -2,6 +2,7 @@ package ses.service.sms.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +29,11 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 
 	@Override
 	public void deleteAptitute(String aptituteIds) {
-		for (String id : aptituteIds.split(",")) {
-			supplierAptituteMapper.deleteById(id);
-		}
+	    if(!StringUtils.isEmpty(aptituteIds)){
+            for (String id : aptituteIds.split(",")) {
+                supplierAptituteMapper.deleteById(id);
+            }
+        }
 	}
 
 	@Override

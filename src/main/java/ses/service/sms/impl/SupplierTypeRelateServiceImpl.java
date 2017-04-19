@@ -1,13 +1,12 @@
 package ses.service.sms.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
@@ -74,6 +73,7 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	@Override
+    @Transactional
 	public void saveSupplierTypeRelate(Supplier supplier) {
 		List<DictionaryData> dlist=new ArrayList<DictionaryData>();
 		DictionaryData dd=new DictionaryData();
@@ -84,52 +84,53 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
 		List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
 		dlist.addAll(wlist);
 		dlist.addAll(list);
-		
-		supplierTypeRelateMapper.deleteBySupplierId(supplier.getId());
-		String supplierTypeIds = supplier.getSupplierTypeIds().trim();
-		for (String str : supplierTypeIds.split(",")) {
-			SupplierTypeRelate supplierTypeRelate = new SupplierTypeRelate();
-			supplierTypeRelate.setSupplierId(supplier.getId());
-			supplierTypeRelate.setSupplierTypeId(str);
-			supplierTypeRelate.setCreatedAt(new Date());
-			supplierTypeRelateMapper.insertSelective(supplierTypeRelate);
-		}
-		List<DictionaryData> rlist=new LinkedList<DictionaryData>();
-		for(DictionaryData d:dlist){
-			for (String str : supplierTypeIds.split(",")) {
-				 if(d.getCode().equals(str)){
-					 rlist.add(d);
-				 }
-			}
-			
-		}
-		dlist.removeAll(rlist);
-	 
-		
-		
-		if(dlist!=null&&dlist.size()>0){
-			for(DictionaryData d:dlist){
-				if(d.getCode().equals("sc")){
+		try{
+            supplierTypeRelateMapper.deleteBySupplierId(supplier.getId());
+            String supplierTypeIds = supplier.getSupplierTypeIds().trim();
+            for (String str : supplierTypeIds.split(",")) {
+                SupplierTypeRelate supplierTypeRelate = new SupplierTypeRelate();
+                supplierTypeRelate.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+                supplierTypeRelate.setSupplierId(supplier.getId());
+                supplierTypeRelate.setSupplierTypeId(str);
+                supplierTypeRelate.setCreatedAt(new Date());
+                supplierTypeRelateMapper.insertSelective(supplierTypeRelate);
+            }
+            List<DictionaryData> rlist=new LinkedList<DictionaryData>();
+            for(DictionaryData d:dlist){
+                for (String str : supplierTypeIds.split(",")) {
+                    if(d.getCode().equals(str)){
+                        rlist.add(d);
+                    }
+                }
+            }
+            dlist.removeAll(rlist);
+            if(dlist!=null&&dlist.size()>0){
+                for(DictionaryData d:dlist){
+                    if(d.getCode().equals("sc")){
 //					supplierMatProMapper.
-					supplierMatProMapper.deleteByPrimaryKey(supplier.getId());
-					supplierCertProMapper.deleteByPrimaryKey(supplier.getSupplierMatPro().getId());
-				}
-				if(d.getCode().equals("xs")){
-					supplierMatSellMapper.deleteByPrimaryKey(supplier.getId());
-					supplierCertSellMapper.deleteByPrimaryKey(supplier.getSupplierMatSell().getId()); 
-				}
-				if(d.getCode().equals("gc")){
-					supplierMatEngMapper.deleteByPrimaryKey(supplier.getId());
-					supplierCertEngMapper.deleteByPrimaryKey(supplier.getSupplierMatEng().getId());
-					supplierAptituteMapper.deleteByPrimaryKey(supplier.getSupplierMatEng().getId());
-				}
-				if(d.getCode().equals("fw")){
-					supplierMatServeMapper.deleteByPrimaryKey(supplier.getId());
-					supplierCertServeMapper.deleteByPrimaryKey(supplier.getSupplierMatSe().getId());
-				}
-			}
-		}
-	 
+                        supplierMatProMapper.deleteByPrimaryKey(supplier.getId());
+                        supplierCertProMapper.deleteByPrimaryKey(supplier.getSupplierMatPro().getId());
+                    }
+                    if(d.getCode().equals("xs")){
+                        supplierMatSellMapper.deleteByPrimaryKey(supplier.getId());
+                        supplierCertSellMapper.deleteByPrimaryKey(supplier.getSupplierMatSell().getId());
+                    }
+                    if(d.getCode().equals("gc")){
+                        supplierMatEngMapper.deleteByPrimaryKey(supplier.getId());
+                        supplierCertEngMapper.deleteByPrimaryKey(supplier.getSupplierMatEng().getId());
+                        supplierAptituteMapper.deleteByPrimaryKey(supplier.getSupplierMatEng().getId());
+                    }
+                    if(d.getCode().equals("fw")){
+                        supplierMatServeMapper.deleteByPrimaryKey(supplier.getId());
+                        supplierCertServeMapper.deleteByPrimaryKey(supplier.getSupplierMatSe().getId());
+                    }
+                }
+            }
+        }catch (Exception ex){
+		    ex.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+
 	}
 
 	@Override

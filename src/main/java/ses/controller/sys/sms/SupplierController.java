@@ -2932,14 +2932,19 @@ public class SupplierController extends BaseSupplierController {
             DictionaryData data = DictionaryDataUtil.findById(level);
             if (data != null) {
                 return JSON.toJSONString(data);
-            } 
+            }
     	  }
 
         List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(typeId, supplierId);
         if(projectData!=null&&projectData.size()>0){
+            Qualification qualification = qualificationService.getQualification(projectData.get(0).getName());
         	DictionaryData dd=new DictionaryData();
         	dd.setId(projectData.get(0).getCertLevel());
-        	dd.setName(projectData.get(0).getCertLevel());
+        	if(null!=qualification){
+                dd.setName(qualification.getName());
+            }else{
+                dd.setName(projectData.get(0).getCertLevel());
+            }
         	 return JSON.toJSONString(dd);
         }
         return null;
