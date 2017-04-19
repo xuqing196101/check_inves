@@ -442,17 +442,17 @@
       <c:if test="${!empty list}">
         <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
           <!-- <table id="table" class="table table-bordered table-condensed"  style="width: 1600px; color: #000000; font-size: medium;"> -->
-          <table class="table table-bordered table-condensed">
+          <table class="table table-bordered table-condensed lockout">
             <thead>
               <tr class="space_nowrap">
                 <th class="choose"><input type="checkbox" id="selectAll" onclick="selectAll()"></th>
                 <th class="seq">序号</th>
                 <th class="department">需求部门</th>
-                <th class="w80">物资名称</th>
-                <th class="w80">规格型号</th>
-                <th class="w80">质量技术<br>标准</th>
-                <th class="w80">计量<br>单位</th>
-                <th class="w80">采购<br>数量</th>
+                <th class="goodsname">物资名称</th>
+                <th class="stand">规格型号</th>
+                <th class="qualitstand">质量技术<br>标准</th>
+                <th class="item">计量<br>单位</th>
+                <th class="purchasecount">采购<br>数量</th>
                 <th class="deliverdate">交货<br>期限</th>
                 <th class="purchasetype">采购方式</th>
                 <th class="purchasename">供应商名称</th>
