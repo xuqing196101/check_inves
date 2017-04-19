@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -218,10 +219,11 @@ public class AdvancedProjectController extends BaseController {
         HashMap<String, Object> map = new HashMap<>();
         map.put("planNo", id);
         List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
-        HashMap<String, Object> maps = new HashMap<>();
-        maps.put("typeName", "1");
-        List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(maps);
-        model.addAttribute("list2",orgnizations);
+        for (PurchaseRequired purchaseRequired : list) {
+            Orgnization org = orgnizationService.getOrgByPrimaryKey(purchaseRequired.getOrganization());
+            purchaseRequired.setOrganization(org.getName());
+            purchaseRequired.setOneOrganiza(org.getId());
+        }
         model.addAttribute("lists", list);
         model.addAttribute("user", list.get(0).getUserId());
         model.addAttribute("kind", DictionaryDataUtil.find(5));
@@ -281,33 +283,45 @@ public class AdvancedProjectController extends BaseController {
         project.setProjectNumber(projectNumber);
         project.setPurchaseType(purchaseType);
         project.setPlanType(planType);
-        project.setPurchaseDep(new PurchaseDep(organization));
+        //project.setPurchaseDep(new PurchaseDep(organization));
         project.setCreateAt(new Date());
         project.setStatus("0");
         advancedProjectService.save(project);
         
         //下达
-        Task task = new Task();
-        task.setId(WfUtil.createUUID());
-        task.setName(name);
-        task.setDocumentNumber(documentNumber);
-        task.setPurchaseRequiredId(department);
-        task.setPurchaseId(organization);
-        task.setStatus(0);
-        task.setIsDeleted(0);
-        task.setGiveTime(new Date());
-        task.setProcurementMethod(purchaseType);
-        task.setTaskNature(1);
-        task.setNotDetail(0);
-        task.setCreaterId(user.getId());
-        task.setOrgId(user.getOrg().getId());
-        taskService.add(task);
+        HashSet<String> set = new HashSet<>();
+        String[] orgId = organization.split(",");
+        for (int i = 0; i < orgId.length; i++ ) {
+            Orgnization org= orgnizationService.getOrgByPrimaryKey(orgId[i]);
+            if(org != null){
+                set.add(org.getId());
+            }
+        }
+        for (String string : set) {
+            Task task = new Task();
+            task.setId(WfUtil.createUUID());
+            task.setName(name);
+            task.setDocumentNumber(documentNumber);
+            task.setPurchaseRequiredId(department);
+            task.setPurchaseId(string);
+            task.setStatus(0);
+            task.setIsDeleted(0);
+            task.setGiveTime(new Date());
+            task.setProcurementMethod(purchaseType);
+            task.setTaskNature(1);
+            task.setNotDetail(0);
+            task.setCreaterId(user.getId());
+            task.setOrgId(user.getOrg().getId());
+            taskService.add(task);
+            
+            //中间表
+            ProjectTask projectTask = new ProjectTask();
+            projectTask.setProjectId(id);
+            projectTask.setTaskId(task.getId());
+            projectTaskService.insertSelective(projectTask);
+        }
         
-        //中间表
-        ProjectTask projectTask = new ProjectTask();
-        projectTask.setProjectId(id);
-        projectTask.setTaskId(task.getId());
-        projectTaskService.insertSelective(projectTask);
+        
         
         //项目明细
         int j = 1;
@@ -397,12 +411,26 @@ public class AdvancedProjectController extends BaseController {
         User user = userService.getUserById(userId);
         String userNames = users.getRelName();
         String userphone = users.getMobile();
-        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(orgId);
+        String name = null;
+        String[] ids = orgId.split(",");
+        HashSet<String> set = new HashSet<>();
+        for (int i = 0; i < ids.length; i++ ) {
+            set.add(ids[i]);
+        }
+        for (String string : set) {
+            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(string);
+            if(StringUtils.isNotBlank(name)){
+                name = name + "," + orgnization.getName();
+            } else {
+                name = orgnization.getName();
+            }
+        }
+        
         // 文件存储地址
         String filePath = request.getSession().getServletContext()
                 .getRealPath("/WEB-INF/upload_file/");
         // 文件名称
-        String fileName = createWordMethod(user, proName,userNames,userphone, orgName,orgnization, kindName, seq, request);
+        String fileName = createWordMethod(user, proName,userNames,userphone, orgName,name, kindName, seq, request);
         // 下载后的文件名
         String downFileName = new String("预研通知书.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
@@ -1801,7 +1829,7 @@ public class AdvancedProjectController extends BaseController {
      * @return: String
      * @throws Exception
      */
-    private String createWordMethod(User user, String proName, String userNames, String userphone,String seq, Orgnization orgnization, String kindName, String orgName,HttpServletRequest request) throws Exception {
+    private String createWordMethod(User user, String proName, String userNames, String userphone,String seq, String name, String kindName, String orgName,HttpServletRequest request) throws Exception {
         /** 用于组装word页面需要的数据 */
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("seq", orgName == null ? "" : orgName);
@@ -1811,7 +1839,7 @@ public class AdvancedProjectController extends BaseController {
         dataMap.put("projectName", proName == null ? "" : proName);
         dataMap.put("purchaseType", kindName == null ? "" : kindName);
         dataMap.put("mobile", user.getMobile() == null ? "" : user.getMobile());
-        dataMap.put("purchase", orgnization.getName() == null ? "" : orgnization.getName());
+        dataMap.put("purchase", name == null ? "" : name);
         dataMap.put("phone", user.getTelephone() == null ? "" : user.getTelephone());
         dataMap.put("department", seq == null ? "" : seq);
         dataMap.put("agent", userNames == null ? "" : userNames);

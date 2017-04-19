@@ -279,6 +279,7 @@ public class TackController extends BaseController{
 	                     AdvancedProject project = advancedProjectService.selectById(projectTask.get(0).getProjectId());
 	                     project.setStatus(DictionaryDataUtil.getId("YJLX"));
 	                     project.setAppointMan(user.getId());
+	                     project.setPurchaseDep(new PurchaseDep(task.getPurchaseId()));
 	                     advancedProjectService.update(project);
 	                 }
 	             }
