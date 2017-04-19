@@ -173,5 +173,36 @@ public interface RoleMapper {
    * @return
    */
   List<String> getByMid(String id);
-
+  
+  /**
+   *〈简述〉查询拥有该菜单权限的角色
+   *〈详细描述〉角色id查询用户
+   * @param roleId
+   * @return
+   */
+  List<String> getByRoleId(String roleId);
+  
+  /**
+   *〈简述〉查询拥有该菜单权限的角色
+   *〈详细描述〉菜单id查询用户 
+   * @param id
+   * @return
+   */
+  List<String> getByPermenuId(String roleId);
+  
+  /**
+   *〈简述〉查询拥有该菜单权限的角色
+   *〈详细描述〉用户id查询减去的菜单
+   * @param id
+   * @return
+   */
+  List<String> getByUserId(String userId);
+  
+  /**
+   *〈简述〉查询拥有该菜单权限的角色
+   *〈详细描述〉菜单id查询用户 
+   * @param 用户id查询增加的菜单
+   * @return
+   */
+  List<String> getByKind(String userId);
 }

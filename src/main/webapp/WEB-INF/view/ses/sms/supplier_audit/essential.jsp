@@ -34,7 +34,7 @@
 			//隐藏叉 
 			$(function() {
 				 $(":input").each(function() {
-					$(this).parent("div").find("div").hide();
+					/* $(this).parent("div").find("div").hide(); */
 					var onMouseMove = "this.style.background='#E8E8E8'";
 					var onmouseout = "this.style.background='#FFFFFF'";
 					$(this).attr("onMouseMove", onMouseMove);

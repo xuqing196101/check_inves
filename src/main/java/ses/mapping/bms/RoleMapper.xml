@@ -431,4 +431,39 @@
     PERMENU_ID = #{mid}
   </select>
   
+  <!-- 角色id查询用户 -->
+  <select id="getByRoleId" resultType="java.lang.String"  parameterType="Object">
+    select
+    USER_ID
+    from T_SES_BMS_USER_ROLE  
+    WHERE
+    ROLE_ID = #{roleId}
+  </select>
+  
+  <!-- 菜单id查询用户 -->
+  <select id="getByPermenuId" resultType="java.lang.String"  parameterType="Object">
+   SELECT 
+   	USER_ID 
+   FROM 
+   	T_SES_BMS_USER_PERMISSION
+	 WHERE PERMENU_ID = #{permenuId}
+  </select>
+  
+  <!-- 用户id查询减去的菜单 -->
+  <select id="getByUserId" resultType="java.lang.String"  parameterType="Object">
+   SELECT 
+   	USER_ID 
+   FROM 
+   	T_SES_BMS_USER_PERMISSION
+	 WHERE USER_ID = #{userId} AND KIND = 1
+  </select>
+  <!-- 用户id查询增加的菜单 -->
+  <select id="getByKind" resultType="java.lang.String"  parameterType="Object">
+   SELECT 
+   	USER_ID 
+   FROM 
+   	T_SES_BMS_USER_PERMISSION
+	 WHERE USER_ID = #{userId} AND KIND = 0
+  </select>
+
 </mapper>

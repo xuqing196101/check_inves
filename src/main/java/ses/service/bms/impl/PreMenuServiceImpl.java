@@ -1,6 +1,7 @@
 package ses.service.bms.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
+import common.constant.StaticVariables;
 
 import ses.controller.sys.bms.UserManageController;
 import ses.dao.bms.PreMenuMapper;
@@ -213,23 +215,68 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
     }
 
     @Override
-    public List<User> getUserByMid(String id, Integer pageNum) {
+    public List<User> getUserByMid(String permenuId, Integer page) {
+    	if(page == null) {
+			page = StaticVariables.DEFAULT_PAGE;
+		}
+    	PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
+        //查询拥有该菜单权限的角色id
+        List<String> roleIds = roleMapper.getByMid(permenuId);
         
-        //查询拥有该菜单权限的角色
-        List<String> roleIds = roleMapper.getByMid(id);
-        PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
+        //查询拥有该菜单权限的用户id（用户自定义的菜单）
+        List<String> getUserIdByPermenuId = roleMapper.getByPermenuId(permenuId);
+
         //查询拥有该角色的用户
-        List<User> users = new ArrayList<User>();
-        for (String rId : roleIds) {
-            User user = new User();
+        List<String> userIdList = new ArrayList<String>();
+        for (String roleId : roleIds) {
+            /*User user = new User();
             user.setRoleId(rId);
             List<String> rIds = new ArrayList<String>();
             rIds.add(rId);
             user.setRoleIdList(rIds);
-            users = userMapper.findUserRole(user);
+            users = userMapper.findUserRole(user);*/
+        	List<String> userId = roleMapper.getByRoleId(roleId);
+        	userIdList.addAll(userId);
+        	
         }
-        //剔除个性化去掉改菜单的用户 
-        return users;
+       
+        /**
+         * 删除去掉菜单的用户
+         */
+        Iterator<String> itr = getUserIdByPermenuId.iterator();
+        while(itr.hasNext()) {
+        	String id = itr.next();
+        	List<String> byUserId = roleMapper.getByUserId(id);
+        	List<String> byUserId1 = roleMapper.getByKind(id);
+        	if(byUserId.size() > 0 && byUserId1.isEmpty()){
+                itr.remove();
+              }
+        }
+        
+        Iterator<String> itr1 = userIdList.iterator();
+        while(itr1.hasNext()) {
+        	String userId = itr1.next();
+        	List<String> byUserId = roleMapper.getByUserId(userId);
+        	if(byUserId.size() > 0){
+                itr1.remove();
+              }
+        }
+        
+		 /**
+		  * 查询用户信息
+		  */
+        List<User> userList = new ArrayList<User>();
+        
+        for(String userId: userIdList){
+           List<User> findById = userMapper.findById(userId);
+           userList.addAll(findById);
+        }
+        for(String userId : getUserIdByPermenuId){
+        	List<User> findById = userMapper.findById(userId);
+        	userList.addAll(findById);
+        }
+        
+        return userList;
     }
 
 }

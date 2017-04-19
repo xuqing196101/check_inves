@@ -36,6 +36,9 @@
 			$("#checkedAll").attr("checked",false);
 			getDetail(treeNode.id);
 			$("#mid").val(treeNode.id);
+			
+
+			loadTab(treeNode.id);
 		};
 		
 		function getDetail(id){
@@ -165,6 +168,13 @@
 		  content: '${pageContext.request.contextPath}/preMenu/add.html?pid='+pid
 		});
     }
+    
+    
+    function loadTab(id) {
+					var path = "${pageContext.request.contextPath}/preMenu/getUserByMid.html?mid=" +id;
+					$("#tbody_user").load(path);
+			};
+    
   </script>
 <body>
 	<!--面包屑导航开始-->
@@ -190,6 +200,8 @@
 							<ul id="ztree_show" class="ztree">
 								<!-- 菜单树-->
 								<div id="menuTree" class="ztree fl"></div>
+								
+								
 							</ul>
 						</div>
 					</div>
@@ -199,13 +211,10 @@
 						<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 					</div>
 					<input type="hidden" id="mid">
-					<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
-		                
-			        </div>
-			        <%-- <iframe id="userTable" name="treeframe" src="${pageContext.request.contextPath}/purchaseManage/gettreebody.html" frameborder="0" style="width: 100%;height: 100%;">
-						
-					</iframe> --%>
-             	 </div>
+					<div class="tag-box tag-box-v4 col-md-9" id="show_content_div"></div> 
+			    </div>
+			    <div class="mt20" id="tbody_user"></div>
+		<!-- <div id="pagediv" align="right" class="mb50"></div> -->
        </div>
    </div>
 </body>
