@@ -84,7 +84,7 @@
 		
 		
 	});
-	
+    var loading;
 	//加载默认的页签
 	function defaultLoadTab(id){
 		if (id == "li_id_1"){
@@ -103,8 +103,10 @@
 	
 	//加载对应的节点数据
 	function loadZtree(code, kind, status) {
+        // 加载中的菊花图标
+        loading = layer.load(1);
 		var setting = {
- 	    	async : {
+ 	    	/*async : {
 				autoParam: ["id","code"],
 				enable : true,
 				url : "${pageContext.request.contextPath}/supplier/category_type.do",
@@ -115,7 +117,7 @@
 				},
 				dataType : "json",
 				type : "post",
-			}, 
+			},*/
 			check : {
 				enable : true,
 				chkStyle:"checkbox",  
@@ -138,16 +140,70 @@
 				showLine: true
 			}
 	 	};
-		$.fn.zTree.init($("#" + kind), setting, zNodes);
+		$.ajax({
+            url:'${pageContext.request.contextPath}/supplier/loadCategory.do',
+            type:'POST', //GET
+            data:{
+                'code':code,supplierId:"${currSupplier.id}",status:status
+            },
+            dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+            success:function(data){
+                var _obj = eval(data);
+                console.log(_obj);
+                var setting = {
+                    check : {
+                        enable : true,
+                        chkStyle:"checkbox",
+                        chkboxType:{"Y" : "ps", "N" : "ps"},
+                    },
+                    data : {
+                        simpleData : {
+                            enable : true,
+                            idKey: "id",
+                            pIdKey: "parentId",
+                        }
+                    },
+                    callback: {
+                        onCheck: saveCategory,
+                        onAsyncSuccess: zTreeOnAsyncSuccess,
+                        onExpand: zTreeOnExpand,
+                        beforeCheck: zTreeBeforeCheck
+                    },
+                    view: {
+                        showLine: true
+                    }
+                };
+                $.fn.zTree.init($("#" + kind), setting, _obj);
+                zTreeOnAsyncSuccess(null, kind, null, null);
+            }
+        })
 	}
 	
 	function zTreeBeforeCheck(treeId, treeNode) {
-	    if (treeNode.isParent == true) {
-	    	layer.msg("请在末节点上进行操作！");
-	    	return false;
-	    } else {
-			return true;	    	
-	    }
+        // 加载中的菊花图标
+        loading = layer.load(1);
+        //对工程下工程勘察和工程设计进行特殊处理
+	    if(treeId == 'tree_ul_id_3'){
+	        if(treeNode.code.indexOf('B02') == 0 || treeNode.code.indexOf('B03') == 0){
+	            return true;
+            }else {
+                if (treeNode.isParent == true) {
+                    layer.msg("请在末节点上进行操作！");
+                    layer.close(loading);
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }else{
+            if (treeNode.isParent == true) {
+                layer.msg("请在末节点上进行操作！");
+                layer.close(loading);
+                return false;
+            } else {
+                return true;
+            }
+        }
 	}
 	
 	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
@@ -166,10 +222,11 @@
 			if (treeId == 'tree_ul_id_4') {
 				code = "SERVICE";
 			}
-			loading = layer.load(1);
 			var supplierId = "${currSupplier.id}";
 			var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + code;
 			$("#tbody_category").load(path);
+            // 关闭加载中的菊花图标
+            layer.close(loading);
 		}
 	};
 	
@@ -236,9 +293,40 @@
 		$("#categoryId").val(ids);
 	 	return ids;
 	}
-	var loading;
+	function loadChildrenStr(treeNode){
+	    var _str = "";
+	    if(!treeNode.isParent){//末节点
+	        return _str;
+        }
+        if(treeNode.children.length>0){
+            for(var i = 0;i<treeNode.children.length;i++){
+                var endStr = loadChildrenStr(treeNode.children[i]);
+                _str += treeNode.children[i].id + "," + endStr;
+            }
+        }
+        return _str;
+    }
 	function saveCategory(event, treeId, treeNode){
-		loading = layer.load(1);
+	    //对工程下工程勘察和工程设计进行特殊处理
+        if(treeId == 'tree_ul_id_3'){
+            if(treeNode.code.indexOf('B02') == 0 || treeNode.code.indexOf('B03') == 0){
+                var categoryIds = "";
+                //工程勘察不展开且勾选时,加载子节点
+                if(treeNode.children.length>0){
+                    categoryIds = loadChildrenStr(treeNode);
+                }else{
+                    categoryIds = treeNode.id;
+                }
+                if(categoryIds.indexOf(",")!=-1){
+                    categoryIds = categoryIds.substring(0, categoryIds.length-1);
+                }
+                $("#categoryId").val(categoryIds);
+            }else{
+                $("#categoryId").val(treeNode.id);
+            }
+        }else{
+            $("#categoryId").val(treeNode.id);
+        }
 		var clickFlag;
 		if (treeNode.checked) {
 			clickFlag = "1";
@@ -247,8 +335,9 @@
 		}
 		$("#clickFlag").val(clickFlag);	 	
 		
-		var tree = $.fn.zTree.getZTreeObj(treeId);
-		$("#categoryId").val(treeNode.id);
+		var treeObj = $.fn.zTree.getZTreeObj(treeId);
+        var nodes = treeObj.getSelectedNodes();
+
 		var attr1=$("#li_id_1").attr("class");
 		if(attr1=='active'){
 			$("#supplierTypeRelateId").val("PRODUCT");
@@ -268,13 +357,27 @@
 		$("#flag").val("4");
 		var supplierId="${currSupplier.id}";
 		var type = $("#supplierTypeRelateId").val();
+        var index_loading = layer.load(1);
 		$.ajax({
 			url: "${pageContext.request.contextPath}/supplier_item/saveCategory.do",
 			async: false,
 			data: $("#items_info_form_id").serialize(),
+            beforeSend: function () {
+                // 禁用按钮防止重复提交，发送前响应
+                // 加载中的菊花图标
+                for (var i=0, l=nodes.length; i < l; i++) {
+                    treeObj.setChkDisabled(nodes[i], true);
+                }
+            },
 			success: function() {
 				zTreeOnAsyncSuccess(null, treeId, null, null);
-			}
+			},
+            complete: function () {//完成响应
+                for (var i=0, l=nodes.length; i < l; i++) {
+                    treeObj.setChkDisabled(nodes[i], false);
+                }
+                layer.close(index_loading);
+            },
 		});
 	}
 	

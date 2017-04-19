@@ -49,6 +49,17 @@ public interface SupplierItemService {
 	* @throws
 	 */
 	public List<SupplierItem> getCategory(String supplierId,String categoryId,String type);
+
+    /**
+     * 查询供应商选择的三级品目
+     * 增加工程设计/工程勘察类别判断,当全部勾选子节点,则只显示父节点
+     * 除此之外,正常显示
+     * @param supplierId
+     * @param categoryId
+     * @param type
+     * @return
+     */
+    public List<SupplierItem> getCategoryOther(String supplierId,String categoryId,String type);
 	/**
 	 * 
 	* @Title: getCategory

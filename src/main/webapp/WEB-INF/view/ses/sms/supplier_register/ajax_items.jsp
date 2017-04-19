@@ -65,7 +65,7 @@
 		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.itemsId)}">style="border: 1px solid red;" </c:if>>${item.firstNode}</td>
 		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.itemsId)}">style="border: 1px solid red;" </c:if>>${item.secondNode}</td>
 		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.itemsId)}">style="border: 1px solid red;" </c:if>>${item.thirdNode}</td>
-		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.itemsId)}">style="border: 1px solid red;" </c:if>>${item.fourthNode}</td>
+		    <td class="tl pl20" data-id="${item.itemsId}" <c:if test="${fn:contains(audit,item.itemsId)}">style="border: 1px solid red;" </c:if>>${item.fourthNode}</td>
       </tr>
     </c:forEach>
   </table> 
