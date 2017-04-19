@@ -64,9 +64,6 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	private OBProductInfoMapper obProductInfoMapper;
 
 	@Autowired
-	private OBProductMapper obProductMapper;
-	
-	@Autowired
 	private OBSupplierMapper OBSupplierMapper;
 
 	// 注入采购机构Mapper

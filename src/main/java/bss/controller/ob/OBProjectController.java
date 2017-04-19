@@ -45,6 +45,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectMapper;
@@ -430,10 +431,15 @@ public class OBProjectController {
 	 * 更新一个竞价信息的业务逻辑
 	 * @param request
 	 * @param projectId
+	 *  #内外网判定 1外网 0内网
 	 */
 	@RequestMapping("/changeStatus")
     public void changeStatus( HttpServletRequest request,String projectId){
-		OBProjectServer.changeStatus(projectId);
+			 //获取是否内网标识 1外网 0内网
+		// String ipAddressType= PropUtil.getProperty("ipAddressType");
+			//if("1".equals(ipAddressType)){
+			OBProjectServer.changeStatus(projectId);
+		//}
     }
 	/**
 	 * 

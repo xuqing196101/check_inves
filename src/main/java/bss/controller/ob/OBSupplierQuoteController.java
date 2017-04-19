@@ -91,6 +91,8 @@ public class OBSupplierQuoteController {
 	private OBResultSubtabulationService obResultSubtabulationService;
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
+	@Autowired
+	private OBProjectServer OBProjectServer;
 	
 	// 第一轮结果确认
 	private static final String FIRST_CONFIRM = "firstConfirm";
@@ -347,7 +349,13 @@ public class OBSupplierQuoteController {
 			  if(obresultsList!=null){
 				  OBProjectResult result=obresultsList.get(0);
 				  if(result.getSupplierId().equals(supplierId)){
-					  confirmStatus="2";
+					//获取比例是否完成
+						String proportion= OBProjectResultMapper.getProportionSum(projectId);
+						if(!proportion.equals("100")){
+					      confirmStatus="2";
+						}else{
+							confirmStatus="9";
+						}
 				  }else{
 					  //顺推 前一名第二轮未确定
 						 ranking=result.getRanking();
@@ -384,16 +392,16 @@ public class OBSupplierQuoteController {
 			 jdcg.setMsg("竞价已完成");
 		 }else if(confirmStatus=="8"){
 			 jdcg.setStatus(8);
-			 //jdcg.setMsg("您是第"+ranking+"名,第"+(ranking-1)+"名第二轮未确定,请耐心等候");
 			 jdcg.setMsg("您的前一名第二轮未确定,请耐心等候");
+		 }else if(confirmStatus=="9"){
+			 jdcg.setStatus(9);
+			 jdcg.setMsg("成交金额已完成,请耐心等候竞价结束");
 		 }else{
 			 jdcg.setStatus(0);
 			 jdcg.setMsg("该竞价未中标");
 		 }
 		return jdcg;
 	}
-	
-	
 	/**
 	 * @author Ma Mingwei
 	 * @param model 
@@ -445,7 +453,13 @@ public class OBSupplierQuoteController {
 			  if(obresultsList!=null){
 				  OBProjectResult result=obresultsList.get(0);
 				  if(result.getSupplierId().equals(supplierId)){
-					  confirmStatus="2";
+					//获取比例是否完成
+						String proportion= OBProjectResultMapper.getProportionSum(projectId);
+						if(proportion.equals("100")){
+					      confirmStatus="9";
+						}else{
+							confirmStatus="2";
+						}
 				  }else{
 					  //顺推 前一名第二轮未确定
 						 ranking=result.getRanking();
@@ -519,6 +533,9 @@ public class OBSupplierQuoteController {
 		// 供应商报价信息
 		map.put("obResultsInfoExtList", obResultsInfoExt);
 		map.put("showQuotoTotalPriceStr", showQuotoTotalPriceStr);
+		if(StringUtils.isNotBlank(titleId)){
+			OBProjectServer.changeStatus(titleId);
+		}
 		return obSupplierQuoteService.saveQuoteInfo(map,quotoFlag);
 	}
 	
@@ -560,6 +577,10 @@ public class OBSupplierQuoteController {
 			return JdcgResult.build(0, "确定时间超出,不能确定");
 		}else{
 			oBProjectResultService.updateResult(user,projectResultList,acceptNum);
+			
+			if(projectResultList!=null&& projectResultList.size()>0){
+				OBProjectServer.changeStatus(projectResultList.get(0).getProjectId());
+			}
 			if(type==1){
 				return JdcgResult.build(1, "第一轮确定成功");
 			}else if(type==2){
@@ -615,6 +636,9 @@ public class OBSupplierQuoteController {
 							
 						}else{*/
 							 boolean boo = oBProjectResultService.updateBySupplierId(user,projectId,supplierId, confirmStatus,projectResultId);
+							 if(StringUtils.isNotBlank(projectId)){
+									OBProjectServer.changeStatus(projectId);
+							  }
 							 if(uptResult==1){
 								jdcgResult.setStatus(boo==false?1:2);
 								jdcgResult.setMsg("第一轮放弃成功");

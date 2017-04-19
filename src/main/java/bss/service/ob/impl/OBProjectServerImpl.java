@@ -1288,7 +1288,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		if (user != null) {
 			map.put("supplier_id", user.getTypeId());
 		}
-		map.put("data", new Date());
+		map.put("date", new Date());
 		// 查询符合自己需求的竞价项目
 		List<OBProjectSupplier> obProjectList = obProjectSupplierMapper
 				.selectSupplierOBprojectList(map);
@@ -1299,6 +1299,12 @@ public class OBProjectServerImpl implements OBProjectServer {
 			for (OBProjectSupplier obProjectSupplier : obProjectList) {
 				List<OBProject> obProject = obProjectSupplier.getObProjectList();
 				if (obProject != null && obProject.size() > 0) {
+					 for (OBProject obProject2 : obProject) {
+						if(obProject2.getStatus()!=0 || obProject2.getStatus()!=3 ||obProject2.getStatus()!=4){
+							changeStatus(obProject2.getId());
+						}
+					}
+					
 					// 获取第一轮的报价截止时间
 					Date quoteEndTime = BiddingStateUtil.getQuoteEndTime(obProject.get(0),obProjectRuleMapper);
 					// 获取第二轮的报价截止时间
