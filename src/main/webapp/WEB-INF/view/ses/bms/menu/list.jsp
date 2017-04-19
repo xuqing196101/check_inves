@@ -38,7 +38,7 @@
 			$("#mid").val(treeNode.id);
 			
 
-			loadTab(treeNode.id);
+			/* loadTab(treeNode.id); */
 		};
 		
 		function getDetail(id){
