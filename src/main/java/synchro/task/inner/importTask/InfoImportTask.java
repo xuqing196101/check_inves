@@ -33,6 +33,7 @@ public class InfoImportTask {
      */
     public void innerInfoImportTask(){
         fileRepeater.initFiles();
+        /**内网导入**/
     }
     
 }

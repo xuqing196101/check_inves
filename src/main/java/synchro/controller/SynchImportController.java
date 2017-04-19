@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -102,45 +103,44 @@ public class SynchImportController {
     @RequestMapping("/initImport")
     public String initImport(Model model, HttpServletRequest request){
        model.addAttribute("operType", Constant.OPER_TYPE_IMPORT);
-       List<DictionaryData> list =new LinkedList<DictionaryData>();
-       List<DictionaryData> templist = DictionaryDataUtil.find(DATA_TYPE_KIND); 
-       list.addAll(templist);
+       List<DictionaryData> list =DictionaryDataUtil.find(DATA_TYPE_KIND);
        //获取是否内网标识 1外网 0内网
        String ipAddressType= PropUtil.getProperty("ipAddressType");
        //过滤附件类型
-       for(DictionaryData dd:templist){
-    	   if (dd.getCode().equals(Constant.DATA_TYPE_ATTACH_CODE)){
-               list.remove(dd);
-               continue;
-           }
-    	   //内网时
-           if(ipAddressType.equals("0")){
-        	   //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
-        	   if (dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_PRODUCT)){
-        		   list.remove(dd);
-                   continue;
-               } 
-        	   //竞价供应商导出  只能是内网导出外网
-        	   if(dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_SUPPLIER)){
-        		   list.remove(dd);
-                   continue;
-               }
-               if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_CODE)){
-               	/**竞价信息导出  只能是内网导出外网**/
-            	   list.remove(dd);
-                   continue;
-               }
-           }
-             //外网时   
-           if(ipAddressType.equals("1")){
-               if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_RESULT_CODE)){
-               	/**竞价结果导出  只能是外网导出内网**/
-            	   list.remove(dd);
-                   continue;
-               }
-             }
-           
-       }
+       Iterator<DictionaryData> iter= list.iterator();
+       while (iter.hasNext()) {
+		DictionaryData dd = (DictionaryData) iter.next();
+		if (dd.getCode().equals(Constant.DATA_TYPE_ATTACH_CODE)){
+			iter.remove();
+            continue;
+        }
+ 	   //内网时
+        if(ipAddressType.equals("0")){
+     	   //过滤外网导出  	竞价定型产品导出  只能是内网导出外网
+     	   if (dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_PRODUCT)){
+     		  iter.remove();
+                continue;
+            } 
+     	   //竞价供应商导出  只能是内网导出外网
+     	   if(dd.getCode().equals(Constant.DATE_SYNCH_BIDDING_SUPPLIER)){
+     		  iter.remove();
+                continue;
+            }
+            if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_CODE)){
+            	/**竞价信息导出  只能是内网导出外网**/
+            	iter.remove();
+                continue;
+            }
+        }
+          //外网时   
+        if(ipAddressType.equals("1")){
+            if(dd.getCode().equals(Constant.DATA_TYPE_BIDDING_RESULT_CODE)){
+            	/**竞价结果导出  只能是外网导出内网**/
+            	iter.remove();
+                continue;
+            }
+          }
+	  }
        model.addAttribute("dataTypeList", list);
        return "/synch/import";
     }

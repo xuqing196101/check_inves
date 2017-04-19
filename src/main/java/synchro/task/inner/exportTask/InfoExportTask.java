@@ -52,5 +52,8 @@ public class InfoExportTask {
             Date synchDate = DateUtils.stringToTime(endTime);
             infoService.backUpInfos(startTime, endTime, synchDate);
         }
+        /**
+         * 内网导出 竞价信息
+         */
     }
 }

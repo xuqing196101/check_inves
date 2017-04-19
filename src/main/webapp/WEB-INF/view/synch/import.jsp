@@ -37,7 +37,10 @@
     				layer.close(index);
     				layer.msg("导入失败");
     			}
-    		}
+    		},error:function(){
+			layer.close(index);
+			layer.msg("导入错误！");
+		}
     	});
     }
     

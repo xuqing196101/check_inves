@@ -128,6 +128,10 @@ function synchExport(){
 				layer.close(index);
 				layer.msg("导出失败");
 			}
+		},
+		error:function(){
+			layer.close(index);
+			layer.msg("导出错误！");
 		}
 	});
 }
