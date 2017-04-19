@@ -217,7 +217,7 @@ public class AdOpenBiddingController {
                     for (DictionaryData dictionaryData : ddList) {
                       MarkTerm mt = new MarkTerm();
                       mt.setTypeName(dictionaryData.getId());
-                      mt.setProjectId(p.getProjectId());
+                      mt.setProjectId(id);
                       mt.setPackageId(p.getId());
                       //默认顶级节点为0
                       mt.setPid("0");
@@ -225,7 +225,7 @@ public class AdOpenBiddingController {
                       for (MarkTerm mtKey : mtList) {
                         MarkTerm mt1 = new MarkTerm();
                         mt1.setPid(mtKey.getId());
-                        mt1.setProjectId(p.getProjectId());
+                        mt1.setProjectId(id);
                         mt1.setPackageId(p.getId());
                         List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
                         for (MarkTerm markTerm : mtValue) {
