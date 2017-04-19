@@ -1446,6 +1446,9 @@ public class IntelligentScoringController extends BaseController{
         if (scoreModelList.get(0).getStandardScore() != null && scoreModelList.get(0).getStandardScore().startsWith(".")) {
             scoreModelList.get(0).setStandardScore(scoreModelList.get(0).getStandardScore().replace(".", "0."));
         }
+        if (scoreModelList.get(0).getIntervalNumber() != null && scoreModelList.get(0).getIntervalNumber().startsWith(".")) {
+            scoreModelList.get(0).setIntervalNumber(scoreModelList.get(0).getIntervalNumber().replace(".", "0."));
+        }
 		    scoreModelList.get(0).setIscheck(scoreModelList.get(0).getMarkTerm().isChecked());
 			model.addAttribute("scoreModel", scoreModelList.get(0));
 		}
