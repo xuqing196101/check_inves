@@ -379,9 +379,11 @@
 											<thead>
 												<tr>
 											      <th class="info tc w50">序号</th>
-											      <th class="info tc w50">类别</th>
+											      <%--<th class="info tc w50">类别</th>
 											      <th class="info tc">大类</th>
 											      <th class="info tc">中类</th>
+											      <th class="info tc">小类</th>--%>
+											      <th class="info tc">产品类别</th>
 											      <th class="info tc w200">资质类型</th>
 											      <th class="info tc w100">证书编号</th>
 											       <th class="info tc w100">专业类别</th>
@@ -395,7 +397,7 @@
 										        <div class="w50"> ${vs.index + 1}</div>
 										          <input type="hidden" name="listSupplierItems[${vs.index}].id" value="${cate.itemsId}">
 										        </td>
-										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+										        <%--<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										        	<div class="w80 lh30"> ${cate.rootNode}</div>
 										        </td>
 										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
@@ -403,6 +405,35 @@
 										        </td>
 										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										            <div class="w200 lh30">${cate.secondNode}</div>
+										        </td>
+										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+										            <div class="w200 lh30">${cate.thirdNode}</div>
+										        </td>--%>
+										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+										            <div class="w200 lh30">
+                                                        <c:choose>
+                                                            <c:when test="${cate.fourthNode!=null}">
+                                                                ${cate.fourthNode}
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <c:choose>
+                                                                    <c:when test="${cate.thirdNode!=null}">
+                                                                        ${cate.thirdNode}
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <c:choose>
+                                                                            <c:when test="${cate.secondNode!=null}">
+                                                                                ${cate.secondNode}
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                ${cate.firstNode}
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
 										        </td>
 										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										        	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')">

@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import ses.dao.sms.ProductParamMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierProductsMapper;
@@ -25,6 +27,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
 import com.github.pagehelper.PageHelper;
+import ses.util.StringUtil;
 
 @Service(value = "supplierItemService")
 public class SupplierItemServiceImpl implements SupplierItemService {
@@ -74,15 +77,35 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	}
 
 	@Override
+    @Transactional
 	public void saveOrUpdate(SupplierItem supplierItem) {
 	    String categoryId = supplierItem.getCategoryId();
-	    List<Category> categoryList = new ArrayList<Category>();
-	    //categoryList.addAll(getChildrenNodes(categoryId));
-	    categoryList.addAll(getAllParentNode(categoryId));
-	    Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("supplierId", supplierItem.getSupplierId());
-	    map.put("type", supplierItem.getSupplierTypeRelateId());
-	    for (Category cate : categoryList) {
+	    try{
+            if(!StringUtils.isEmpty(categoryId)){
+                if(categoryId.indexOf(",")!=-1){
+                    String[] strArray = categoryId.split(",");
+                    for(int i=0;i<strArray.length;i++){
+                        if(!StringUtils.isEmpty(strArray[i])){
+                            saveOrUpdateOperation(strArray[i], supplierItem);
+                        }
+                    }
+                }else{
+                    saveOrUpdateOperation(categoryId, supplierItem);
+                }
+            }
+        }catch (Exception e){
+	        e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+	}
+	public void saveOrUpdateOperation(String categoryId, SupplierItem supplierItem) throws Exception {
+        List<Category> categoryList = new ArrayList<Category>();
+        //categoryList.addAll(getChildrenNodes(categoryId));
+        categoryList.addAll(getAllParentNode(categoryId));
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("supplierId", supplierItem.getSupplierId());
+        map.put("type", supplierItem.getSupplierTypeRelateId());
+        for (Category cate : categoryList) {
             map.put("categoryId", cate.getId());
             // 查询是否数据库已存在
             List<SupplierItem> result = supplierItemMapper.findByMap(map);
@@ -95,8 +118,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                 item.setCreatedAt(new Date());
                 supplierItemMapper.insertSelective(item);
             }
-	    }
-	}
+        }
+    }
 		
 	/**
      *〈简述〉获取当前节点的所有父级节点(包括根节点)
@@ -111,10 +134,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
             Category cate = categoryService.findById(categoryId);
             if (cate == null) {
                 DictionaryData root = DictionaryDataUtil.findById(categoryId);
-                Category rootNode = new Category();
-                rootNode.setId(root.getId());
-                rootNode.setName(root.getName());
-                categoryList.add(rootNode);
+                if(null != root){
+                    Category rootNode = new Category();
+                    rootNode.setId(root.getId());
+                    rootNode.setName(root.getName());
+                    categoryList.add(rootNode);
+                }
                 break;
             } else {
                 categoryList.add(cate);
@@ -195,21 +220,183 @@ public class SupplierItemServiceImpl implements SupplierItemService {
     	   //二级节点
     	   List<Category> categorylist = categoryService.findPublishTree(s.getCategoryId(),null);
     	   for( Category c:categorylist){
-    		   //查询所有的三级节点
-    		   List<Category> cateThree = categoryService.findPublishTree(c.getId(),null);
-    		   //去中间表查是否存在
-    		   for(Category cs:cateThree){
-    			   List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
-    			   //list.addAll(cateLst);
-    			   // 判断是否为空,不为空加入子节点
-    			   if (cateLst != null && cateLst.size() > 0) {
-    			       list.add(cateLst.get(0));
-    			   }
-    		   }
+               list = commonCategoryList(supplierId, type, c);
     	   }
     	}
     	return list;		
 	}
+    @Override
+    public List<SupplierItem> getCategoryOther(String supplierId,String categoryId,String type){
+        List<SupplierItem> list=new ArrayList<SupplierItem>();
+        //全选标识
+        boolean fiveAllEx = false;
+        boolean fourAllEx = false;
+        boolean threeAllEx = false;
+        boolean twoAllEx = false;
+        //一级节点
+        List<SupplierItem> cateLIst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId, type);
+
+        for(SupplierItem s:cateLIst){
+            //二级节点
+            List<Category> categorylist = categoryService.findPublishTree(s.getCategoryId(),null);
+            if(null != categorylist && !categorylist.isEmpty()){
+                int secondRevanceNum = 0;
+                for( Category c:categorylist){
+                    if(c.getCode().equals("B02")||c.getCode().equals("B03")){//工程设计/工程勘察
+                        //查询所有的三级节点
+                        List<Category> cateThree = categoryService.findPublishTree(c.getId(),null);
+                        if(null != cateThree && !cateThree.isEmpty()){
+                            List<SupplierItem> supThreeListexists = new ArrayList<>();
+                            for(Category cs:cateThree){
+                                //查询四级节点
+                                List<Category> cateFour = categoryService.findPublishTree(cs.getId(),null);
+                                if(null != cateFour && !cateFour.isEmpty()){
+                                    List<SupplierItem> supFourListexists = new ArrayList<>();
+                                    for(int i=0;i<cateFour.size();i++){
+                                        //查询五级节点
+                                        List<Category> cateFive = categoryService.findPublishTree(cateFour.get(i).getId(),null);
+                                        if(null != cateFive && !cateFive.isEmpty()){
+                                            List<SupplierItem> supListexists = new ArrayList<>();
+                                            for(int j=0;j<cateFive.size();j++){
+                                                //去中间表查是否存在
+                                                List<SupplierItem> cateLs = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFive.get(j).getId(),type);
+                                                // 判断是否为空,不为空加入子节点
+                                                if (cateLs != null && !cateLs.isEmpty()) {
+                                                    list.add(cateLs.get(0));
+                                                    supListexists.add(cateLs.get(0));
+                                                }
+                                            }
+                                            //如果本节点下所有子节点都已勾选存在,则删除已添加的本级所有子节点,然后添加本节点
+                                            if(supListexists.size()==cateFive.size()){
+                                                fiveAllEx = true;
+                                                for(int j=0;j<supListexists.size();j++){
+                                                    list.remove(supListexists.get(j));
+                                                }
+                                                //去中间表查是否存在
+                                                List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFour.get(i).getId(),type);
+                                                // 判断是否为空,不为空加入子节点
+                                                if (cates != null && !cates.isEmpty()) {
+                                                    list.add(cates.get(0));
+                                                    supFourListexists.add(cates.get(0));
+                                                }
+                                            }
+                                        }else{//没有子节点时显示本节点
+                                            fiveAllEx = true;
+                                            //去中间表查是否存在
+                                            List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFour.get(i).getId(),type);
+                                            // 判断是否为空,不为空加入子节点
+                                            if (cates != null && !cates.isEmpty()) {
+                                                list.add(cates.get(0));
+                                                supFourListexists.add(cates.get(0));
+                                            }
+                                        }
+                                    }
+                                    //如果本节点下所有子节点都已勾选存在,则删除已添加的本级所有子节点,然后添加本节点
+                                    if(supFourListexists.size()==cateFour.size() && fiveAllEx){
+                                        fourAllEx = true;
+                                        for(int i=0;i<supFourListexists.size();i++){
+                                            list.remove(supFourListexists.get(i));
+                                        }
+                                        //去中间表查是否存在
+                                        List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
+                                        // 判断是否为空,不为空加入子节点
+                                        if (cateLst != null && cateLst.size() > 0) {
+                                            list.add(cateLst.get(0));
+                                            supThreeListexists.add(cateLst.get(0));
+                                        }
+                                    }
+                                }else{
+                                    fourAllEx = true;
+                                    //去中间表查是否存在
+                                    List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
+                                    // 判断是否为空,不为空加入子节点
+                                    if (cateLst != null && cateLst.size() > 0) {
+                                        list.add(cateLst.get(0));
+                                        supThreeListexists.add(cateLst.get(0));
+                                    }
+                                }
+                            }
+                            //如果本节点下所有子节点都已勾选存在,则删除已添加的本级所有子节点,然后添加本节点
+                            if(supThreeListexists.size()==cateThree.size() && fourAllEx){
+                                threeAllEx = true;
+                                for(int i=0;i<supThreeListexists.size();i++){
+                                    list.remove(supThreeListexists.get(i));
+                                }
+                                //去中间表查是否存在
+                                List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, c.getId(),type);
+                                // 判断是否为空,不为空加入子节点
+                                if (cateLst != null && cateLst.size() > 0) {
+                                    list.add(cateLst.get(0));
+                                    secondRevanceNum ++;
+                                }
+                            }
+                        }else{
+                            threeAllEx = true;
+                            //去中间表查是否存在
+                            List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, c.getId(),type);
+                            // 判断是否为空,不为空加入子节点
+                            if (cateLst != null && cateLst.size() > 0) {
+                                list.add(cateLst.get(0));
+                                secondRevanceNum ++;
+                            }
+                        }
+                    }else{
+                        list.addAll(commonCategoryList(supplierId, type, c));
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 工程设计/工程勘察类别以外,当全部勾选子节点,则全部显示
+     * @param supplierId
+     * @param type
+     * @param c
+     * @return
+     */
+    public List<SupplierItem> commonCategoryList(String supplierId, String type, Category c){
+        List<SupplierItem> list=new ArrayList<SupplierItem>();
+        //查询所有的三级节点
+        List<Category> cateThree = categoryService.findPublishTree(c.getId(),null);
+        for(Category cs:cateThree){
+            //查询四级节点
+            List<Category> cateFour = categoryService.findPublishTree(cs.getId(),null);
+            if(null != cateFour && !cateFour.isEmpty()){
+                for(int i=0;i<cateFour.size();i++){
+                    //查询五级节点
+                    List<Category> cateFive = categoryService.findPublishTree(cateFour.get(i).getId(),null);
+                    if(null != cateFive && !cateFive.isEmpty()){
+                        for(int j=0;j<cateFive.size();j++){
+                            //去中间表查是否存在
+                            List<SupplierItem> cateLs = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFive.get(j).getId(),type);
+                            // 判断是否为空,不为空加入子节点
+                            if (cateLs != null && !cateLs.isEmpty()) {
+                                list.add(cateLs.get(0));
+                            }
+                        }
+                    }else{
+                        //去中间表查是否存在
+                        List<SupplierItem> cates = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cateFour.get(i).getId(),type);
+                        // 判断是否为空,不为空加入子节点
+                        if (cates != null && !cates.isEmpty()) {
+                            list.add(cates.get(0));
+                        }
+                    }
+                }
+            }else{
+                //去中间表查是否存在
+                List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
+                //list.addAll(cateLst);
+                // 判断是否为空,不为空加入子节点
+                if (cateLst != null && cateLst.size() > 0) {
+                    list.add(cateLst.get(0));
+                }
+            }
+        }
+        return list;
+    }
 	
 	@Override
 	public List<Category> getCategory(String supplierId,String type) {
@@ -264,8 +451,28 @@ public class SupplierItemServiceImpl implements SupplierItemService {
      * @see ses.service.sms.SupplierItemService#deleteItems(ses.model.sms.SupplierItem)
      */
     @Override
+    @Transactional
     public void deleteItems(SupplierItem supplierItem) {
         String categoryId = supplierItem.getCategoryId();
+        try{
+            if(!StringUtils.isEmpty(categoryId)){
+                if(categoryId.indexOf(",")!=-1){
+                    String[] strArray = categoryId.split(",");
+                    for(int i=0;i<strArray.length;i++){
+                        if(!StringUtils.isEmpty(strArray[i])){
+                            deleteItemsOpertion(strArray[i], supplierItem);
+                        }
+                    }
+                }else{
+                    deleteItemsOpertion(categoryId, supplierItem);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+    }
+    public void deleteItemsOpertion(String categoryId, SupplierItem supplierItem) throws Exception{
         List<Category> categoryList = new ArrayList<Category>();
         categoryList.addAll(getChildrenNodes(categoryId));
         Category current = categoryService.findById(categoryId);
@@ -287,28 +494,37 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 //            List<SupplierItem> allCategory = supplierItemMapper.findByMap(param);
             String parentId = current.getParentId();
 //            boolean pflag = false;
-             while(true){
-            	 
+            while(true){
+
 //            没有同级节点删除父级节点
-             boolean bool = sameCategory(supplierItem.getSupplierId(),parentId,supplierItem.getSupplierTypeRelateId());
-             if(bool==false){
-	        	   Category category = categoryService.findById(parentId);
-	        	   if(category != null){
-                       List<SupplierItem> bySupplierIdCategoryId = supplierItemMapper.getBySupplierIdCategoryId(supplierItem.getSupplierId(), category.getId(), supplierItem.getSupplierTypeRelateId());
-                       if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
-                           map.put("categoryId", category.getId());
-                           supplierItemMapper.deleteByMap(map);
-                           parentId = category.getParentId();
-                       }else{
-                           break  ;
-                       }
-                   }else{
-                       break  ;
-                   }
-	           }else{
-	        	   break  ;
-	           } 
-            }  
+                boolean bool = sameCategory(supplierItem.getSupplierId(),parentId,supplierItem.getSupplierTypeRelateId());
+                if(bool==false){
+                    Category category = categoryService.findById(parentId);
+                    if(category != null){
+                        List<SupplierItem> bySupplierIdCategoryId = supplierItemMapper.getBySupplierIdCategoryId(supplierItem.getSupplierId(), category.getId(), supplierItem.getSupplierTypeRelateId());
+                        if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
+                            map.put("categoryId", category.getId());
+                            supplierItemMapper.deleteByMap(map);
+                            parentId = category.getParentId();
+                        }else{
+                            break  ;
+                        }
+                    }else{
+                        //如果该类型下没有子节点,删除关联的根节点
+                        String rootCategoryId = DictionaryDataUtil.getId(supplierItem.getSupplierTypeRelateId());
+                        List<SupplierItem> supplierItemList = this.getSupplierId(supplierItem.getSupplierId());
+                        if(null != supplierItemList && supplierItemList.size()==1){
+                            if(!StringUtils.isEmpty(rootCategoryId) && rootCategoryId.equals(supplierItemList.get(0).getCategoryId())){
+                                map.put("categoryId", rootCategoryId);
+                                supplierItemMapper.deleteByMap(map);
+                            }
+                        }
+                        break  ;
+                    }
+                }else{
+                    break  ;
+                }
+            }
 //            if (parentId != null) {
 //                out:while (true) {
 //                    boolean flag = false;
