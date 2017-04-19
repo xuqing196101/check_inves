@@ -657,7 +657,7 @@ public class AuditSetController {
 	   	        if(p.getPurchaseCount()!=null){
 	   	        //	double d=p.getPurchaseCount().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 	   	        	String of = String.valueOf(p.getPurchaseCount());
-	   	         cell.setCellValue(dfn.format(of));  
+	   	         cell.setCellValue(of);  
 	   	        }
 	   	       
 	   	        
