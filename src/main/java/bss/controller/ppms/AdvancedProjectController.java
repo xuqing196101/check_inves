@@ -406,8 +406,8 @@ public class AdvancedProjectController extends BaseController {
      * @throws Exception
      */
     @RequestMapping("download")
-    public ResponseEntity<byte[]> download(@CurrentUser User users,String proName, String userId,String seq, String orgName, String orgId, String kindName,
-            HttpServletRequest request) throws Exception {
+    public ResponseEntity<byte[]> download(@CurrentUser User users, String projectNumber, String proName, String userId, String department, String orgId, String kindName,
+         String planNo, HttpServletRequest request) throws Exception {
         User user = userService.getUserById(userId);
         String userNames = users.getRelName();
         String userphone = users.getMobile();
@@ -430,7 +430,7 @@ public class AdvancedProjectController extends BaseController {
         String filePath = request.getSession().getServletContext()
                 .getRealPath("/WEB-INF/upload_file/");
         // 文件名称
-        String fileName = createWordMethod(user, proName,userNames,userphone, orgName,name, kindName, seq, request);
+        String fileName = createWordMethod(user, projectNumber, proName, userNames, userphone, department,name, kindName, planNo, request);
         // 下载后的文件名
         String downFileName = new String("预研通知书.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
@@ -1829,19 +1829,20 @@ public class AdvancedProjectController extends BaseController {
      * @return: String
      * @throws Exception
      */
-    private String createWordMethod(User user, String proName, String userNames, String userphone,String seq, String name, String kindName, String orgName,HttpServletRequest request) throws Exception {
+    private String createWordMethod(User user, String projectNumber, String proName, String userNames,String userphone, String department, String name, String kindName, String planNo, HttpServletRequest request) throws Exception {
         /** 用于组装word页面需要的数据 */
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put("seq", orgName == null ? "" : orgName);
-        dataMap.put("linkman", user.getRelName() == null ? "" : user.getRelName());
+        dataMap.put("projectNumber", projectNumber == null ? "" : projectNumber);
         Date time = new Date();
         dataMap.put("time",time == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(time));
+        dataMap.put("department", department == null ? "" : department);
         dataMap.put("projectName", proName == null ? "" : proName);
+        dataMap.put("planNo", planNo == null ? "" : planNo);
         dataMap.put("purchaseType", kindName == null ? "" : kindName);
+        dataMap.put("linkman", user.getRelName() == null ? "" : user.getRelName());
         dataMap.put("mobile", user.getMobile() == null ? "" : user.getMobile());
         dataMap.put("purchase", name == null ? "" : name);
         dataMap.put("phone", user.getTelephone() == null ? "" : user.getTelephone());
-        dataMap.put("department", seq == null ? "" : seq);
         dataMap.put("agent", userNames == null ? "" : userNames);
         dataMap.put("Iphone", userphone == null ? "" : userphone);
         // 文件名称

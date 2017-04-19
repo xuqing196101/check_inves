@@ -105,6 +105,8 @@ public class AdvancedDetail {
     private String organization;
     
     private String uniqueId;
+    
+    private String progressBar;
 
 	public String getSupplierId() {
         return supplierId;
@@ -401,6 +403,14 @@ public class AdvancedDetail {
 
     public void setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
+    }
+    
+    public String getProgressBar() {
+        return progressBar;
+    }
+
+    public void setProgressBar(String progressBar) {
+        this.progressBar = progressBar;
     }
 
     @Override

@@ -704,7 +704,7 @@ public class AdIntelligentScoringController extends BaseController{
                 typeName = "模型三";
             }
             if (typename == 3) {
-                typeName = "模型四";
+                typeName = "模型四A";
             }
             if (typename == 4) {
                 typeName = "模型五";
@@ -717,6 +717,12 @@ public class AdIntelligentScoringController extends BaseController{
             }
             if (typename == 7) {
                 typeName = "模型八";
+            }
+            if (typename == 8) {
+                typeName = "模型一B";
+            }
+            if (typename == 9) {
+                typeName = "模型四B";
             }
         }
         return typeName;

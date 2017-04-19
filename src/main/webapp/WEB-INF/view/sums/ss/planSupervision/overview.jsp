@@ -602,7 +602,7 @@
                     <td class="tc">
                       <u:show showId="upload_id" businessId="${advancedProjectId}" sysKey="2" delete="false" typeId="${adviceId}" />
                     </td>
-                    <td>${tasks.orgId}</td>
+                    <td>${tasks.orgName}</td>
                     <td class="tc">${tasks.createrId}</td>
                     <td class="tc">
                       <fmt:formatDate value='${tasks.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />

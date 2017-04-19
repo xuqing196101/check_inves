@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import ses.model.bms.DictionaryData;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 

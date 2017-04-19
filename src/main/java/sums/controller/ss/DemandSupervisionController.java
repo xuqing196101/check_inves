@@ -31,6 +31,9 @@ import bss.model.cs.PurchaseContract;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.AdvancedPackages;
+import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -41,6 +44,9 @@ import bss.service.cs.PurchaseContractService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
+import bss.service.ppms.AdvancedDetailService;
+import bss.service.ppms.AdvancedPackageService;
+import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
@@ -98,13 +104,16 @@ public class DemandSupervisionController extends BaseController{
     private SupplierService supplierService;
     
     @Autowired
-    private TaskService taskService;
-    
-    @Autowired
-    private ProjectTaskService projectTaskService;
-    
-    @Autowired
     private SupervisionService supervisionService;
+    
+    @Autowired
+    private AdvancedDetailService advancedDetailService;
+    
+    @Autowired
+    private AdvancedProjectService advancedProjectService;
+    
+    @Autowired
+    private AdvancedPackageService advancedPackageService;
     
 	/**
 	 * 
@@ -241,6 +250,19 @@ public class DemandSupervisionController extends BaseController{
                         }
                         model.addAttribute("contractStatus", num);
                     }
+                } else {
+                    //如果采购计划为空的话，查一下有没有预研
+                    AdvancedDetail detail = advancedDetailService.selectByRequiredId(required.getId());
+                    if(detail != null){
+                        AdvancedProject project = advancedProjectService.selectById(detail.getAdvancedProject());
+                        if(project != null && !"0".equals(project.getStatus())){
+                            String projectStatus = supervisionService.progressBarProject(project.getStatus());
+                            if(StringUtils.isNotBlank(projectStatus)){
+                                model.addAttribute("projectStatus", projectStatus);
+                            }
+                            model.addAttribute("project", project);
+                        }
+                    }
                 }
             }
             model.addAttribute("requiredId", id);
@@ -353,6 +375,7 @@ public class DemandSupervisionController extends BaseController{
     	if(requireds != null && requireds.size()>0){
     	    HashSet<String> set = new HashSet<>();
     	    List<Project> list = new ArrayList<>();
+    	    List<AdvancedProject> lists = new ArrayList<>();
     	    //根据采购需求ID可能会有N个项目
     	    for (PurchaseRequired purchaseRequired : requireds) {
     	        if(purchaseRequired.getPrice() != null){
@@ -363,21 +386,43 @@ public class DemandSupervisionController extends BaseController{
                         for (ProjectDetail projectDetail : selectById) {
                             set.add(projectDetail.getProject().getId());
                         }
+                    } else {
+                        AdvancedDetail advancedDetail = advancedDetailService.selectByRequiredId(purchaseRequired.getId());
+                        if(advancedDetail != null){
+                            set.add(advancedDetail.getAdvancedProject());
+                        }
                     }
     	        }
             }
     	    for (String string : set) {
                 Project project = projectService.selectById(string);
-                User user = userService.getUserById(project.getAppointMan());
-                project.setAppointMan(user.getRelName());
-                Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
-                project.setPurchaseDepId(org.getName());
-                DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
-                project.setStatus(findById.getName());
-                list.add(project);
+                if(project != null){
+                    User user = userService.getUserById(project.getAppointMan());
+                    project.setAppointMan(user.getRelName());
+                    Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
+                    project.setPurchaseDepId(org.getName());
+                    DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                    project.setStatus(findById.getName());
+                    list.add(project);
+                    
+                } else {
+                    AdvancedProject advancedProject = advancedProjectService.selectById(string);
+                    if(advancedProject != null && !"0".equals(advancedProject.getStatus())){
+                        User user = userService.getUserById(advancedProject.getAppointMan());
+                        advancedProject.setAppointMan(user.getRelName());
+                        Orgnization org = orgnizationService.getOrgByPrimaryKey(advancedProject.getPurchaseDepId());
+                        advancedProject.setPurchaseDepId(org.getName());
+                        DictionaryData findById = DictionaryDataUtil.findById(advancedProject.getStatus());
+                        advancedProject.setStatus(findById.getName());
+                        lists.add(advancedProject);
+                    }
+                    model.addAttribute("list", lists);
+                }
+                if(list != null && list.size() > 0){
+                    model.addAttribute("list", list);
+                }
             }
     	    model.addAttribute("requiredId", requiredId);
-    	    model.addAttribute("list", list);
     	    model.addAttribute("kind", DictionaryDataUtil.find(5));
     	}
     	
@@ -403,6 +448,7 @@ public class DemandSupervisionController extends BaseController{
             if(requireds != null && requireds.size()>0){
                 HashMap<String, Object> mapDetail = new HashMap<String, Object>();
                 List<ProjectDetail> details = new ArrayList<ProjectDetail>();
+                List<AdvancedDetail> adList = new ArrayList<AdvancedDetail>();
                 //根据采购需求ID可能会有N个项目
                 for (PurchaseRequired purchaseRequired : requireds) {
                     mapDetail.put("id", id);
@@ -410,9 +456,15 @@ public class DemandSupervisionController extends BaseController{
                     List<ProjectDetail> selectById = projectDetailService.selectById(mapDetail);
                     if(selectById != null && selectById.size() > 0){
                         details.addAll(selectById);
+                    } else {
+                        List<AdvancedDetail> advancedDetails = advancedDetailService.selectByAll(mapDetail);
+                        if(advancedDetails != null && advancedDetails.size() > 0){
+                            adList.addAll(advancedDetails);
+                        }
                     }
                 }
                 if(details != null && details.size() > 0){
+                    //正式项目
                     HashMap<String, Object> maps = new HashMap<String, Object>();
                     maps.put("projectId", id);
                     List<Packages> packages = packageService.findByID(maps);
@@ -458,17 +510,74 @@ public class DemandSupervisionController extends BaseController{
                         }
                         model.addAttribute("details", details);
                     }
+                    
+                    Project project = projectService.selectById(id);
+                    if(project != null){
+                        DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                        project.setStatus(findById.getName());
+                        User user = userService.getUserById(project.getAppointMan());
+                        project.setAppointMan(user.getRelName());
+                        model.addAttribute("project", project);
+                    }
+                    return "sums/ss/planSupervision/package_view";
+                } else {
+                    //如果没有正式项目，查一下又没有预研项目
+                    HashMap<String, Object> maps = new HashMap<String, Object>();
+                    maps.put("projectId", id);
+                    List<AdvancedPackages> packages = advancedPackageService.selectByAll(maps);
+                    List<AdvancedPackages> lists = new ArrayList<AdvancedPackages>();
+                    //判断有没有分包，没有分包进else
+                    if(packages != null && packages.size() > 0){
+                        for (AdvancedPackages packages2 : packages) {
+                            List<AdvancedDetail> list = new ArrayList<AdvancedDetail>();
+                            for (int i = 0; i < adList.size(); i++ ) {
+                                if(packages2.getId().equals(adList.get(i).getPackageId())){
+                                    DictionaryData findById = DictionaryDataUtil.findById(adList.get(i).getPurchaseType());
+                                    adList.get(i).setPurchaseType(findById.getName());
+                                    String[] progressBarPlan = supervisionService.adProgressBar(adList.get(i).getRequiredId());
+                                    adList.get(i).setProgressBar(progressBarPlan[0]);
+                                    adList.get(i).setStatus(progressBarPlan[1]);
+                                    list.add(adList.get(i));
+                                }
+                                //sort(list);//进行排序
+                                packages2.setAdvancedDetails(list);
+                            }
+                        }
+                        for (int i = 0; i < packages.size(); i++ ) {
+                            if(packages.get(i).getAdvancedDetails().size() > 0){
+                                lists.add(packages.get(i));
+                            }
+                        }
+                        model.addAttribute("packages", lists);
+                        AdvancedProject project = advancedProjectService.selectById(id);
+                        model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
+                    } else {
+                        for (AdvancedDetail detail : adList) {
+                            if(detail.getPrice() != null){
+                                DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                                detail.setPurchaseType(findById.getName());
+                                String[] progressBarPlan = supervisionService.adProgressBar(detail.getRequiredId());
+                                detail.setProgressBar(progressBarPlan[0]);
+                                detail.setStatus(progressBarPlan[1]);
+                            } else {
+                                detail.setPurchaseType(null);
+                                detail.setStatus(null);
+                            }
+                            
+                        }
+                        model.addAttribute("details", adList);
+                    }
+                    AdvancedProject project = advancedProjectService.selectById(id);
+                    if(project != null){
+                        DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                        project.setStatus(findById.getName());
+                        User user = userService.getUserById(project.getAppointMan());
+                        project.setAppointMan(user.getRelName());
+                        model.addAttribute("project", project);
+                    }
+                    return "sums/ss/planSupervision/adPackage_view";
                 }
             }
-            Project project = projectService.selectById(id);
-            if(project != null){
-                DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
-                project.setStatus(findById.getName());
-                User user = userService.getUserById(project.getAppointMan());
-                project.setAppointMan(user.getRelName());
-                model.addAttribute("project", project);
-            }
-            
         }
         return "sums/ss/planSupervision/package_view";
     }

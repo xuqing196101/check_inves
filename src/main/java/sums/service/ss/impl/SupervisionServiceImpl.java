@@ -12,6 +12,9 @@ import bss.dao.cs.ContractRequiredMapper;
 import bss.dao.cs.PurchaseContractMapper;
 import bss.dao.pms.CollectPlanMapper;
 import bss.dao.pms.PurchaseDetailMapper;
+import bss.dao.ppms.AdvancedDetailMapper;
+import bss.dao.ppms.AdvancedPackageMapper;
+import bss.dao.ppms.AdvancedProjectMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
 import bss.dao.ppms.TaskMapper;
@@ -21,6 +24,9 @@ import bss.model.cs.PurchaseContract;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.AdvancedPackages;
+import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.Task;
@@ -60,6 +66,12 @@ public class SupervisionServiceImpl implements SupervisionService {
     
     @Autowired
     private PqInfoMapper pqInfoMapper;
+    
+    @Autowired
+    private AdvancedDetailMapper advancedDetailMapper;
+    
+    @Autowired
+    private AdvancedProjectMapper advancedProjectMapper;
     
 
     @Override
@@ -279,6 +291,24 @@ public class SupervisionServiceImpl implements SupervisionService {
             num = 100;
         }
         return num;
+    }
+
+
+
+
+    @Override
+    public String[] adProgressBar(String id) {
+        String[] progressBar = null;
+        if(StringUtils.isNotBlank(id)){
+            AdvancedDetail detail = advancedDetailMapper.selectByRequiredId(id);
+            if(detail != null){
+                AdvancedProject project = advancedProjectMapper.selectAdvancedProjectByPrimaryKey(detail.getAdvancedProject());
+                if(project != null && !"0".equals(project.getStatus())){
+                    progressBar = progressBar(project.getStatus(),id);
+                }
+            }
+        }
+        return progressBar;
     }
 
 }

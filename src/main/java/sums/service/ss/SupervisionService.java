@@ -14,6 +14,16 @@ public interface SupervisionService {
     
     /**
      * 
+     *〈查询预研状态的进度〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param id
+     * @return
+     */
+    String[] adProgressBar(String id);
+    
+    /**
+     * 
      *〈项目状态的进度〉
      *〈详细描述〉
      * @author Administrator

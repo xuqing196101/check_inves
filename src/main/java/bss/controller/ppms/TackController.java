@@ -967,6 +967,7 @@ public class TackController extends BaseController{
             Task task2 = taskservice.selectById(projectTask.get(0).getTaskId());
             Task task = taskservice.selectById(taskId);
             task.setStatus(task2.getStatus());
+            task.setUserId(task2.getUserId());
             task.setNotDetail(1);
             task.setAcceptTime(new Date());
             taskservice.update(task);
@@ -995,6 +996,8 @@ public class TackController extends BaseController{
             project.setPlanType(advancedProject.getPlanType());
             project.setAppointMan(advancedProject.getAppointMan());
             project.setAuditReason(advancedProject.getAuditReason());
+            project.setApprovalTime(advancedProject.getApprovalTime());
+            project.setReplyTime(advancedProject.getReplyTime());
             projectService.add(project);
             
             advancedProject.setStatus(DictionaryDataUtil.getId("YYYBYY"));

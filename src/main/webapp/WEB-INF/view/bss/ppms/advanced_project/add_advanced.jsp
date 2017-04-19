@@ -41,17 +41,18 @@
         }
 
       function download() {
+        var projectNumber = $("#projectNumber").val();
+        var department = $("#department").val();
         var proName = $("#proName").val();
         var userId = $("#userId").val();
-        var orgName = $("#orgName").val();
+        var planNo = $("#planNo").val();
         var orgId = [];
         $("input[name='organization']").each(function() {
           orgId.push($(this).val());
         });
         var kindName = $("#kindName").val();
-        var seq = $("#projectNumber").val();
-        window.location.href = "${pageContext.request.contextPath}/advancedProject/download.html?proName=" + proName + "&userId=" + userId +
-          "&orgName=" + orgName + "&orgId=" + orgId + "&kindName=" + kindName + "&seq=" + seq;
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/download.html?projectNumber=" + projectNumber + "&department=" + department +
+          "&proName=" + proName + "&orgId=" + orgId + "&kindName=" + kindName + "&userId=" + userId + "&planNo=" + planNo;
       }
 
       function upload() {
@@ -184,7 +185,7 @@
                       <td>
                         <div class="department">
                            ${obj.department}
-                           <input type="hidden" id="orgName" name="department" value="${obj.department}" />
+                           <input type="hidden" id="department" name="department" value="${obj.department}" />
                            <input type="hidden" id="id" name="id" value="${obj.id}" />
                         </div>
                       </td>
