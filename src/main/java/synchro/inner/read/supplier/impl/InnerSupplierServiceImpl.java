@@ -364,15 +364,18 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 //    	   }
     	   
     	   List<RoleUser> roles = supplier.getUserRoles();
-    	   for(RoleUser ur:roles){
-    		   RoleUser us=new RoleUser();
-    		   us.setRoleId(ur.getRoleId());
-    		   us.setUserId(ur.getUserId());
-    		   List<RoleUser> queryByUserId = userMapper.queryByUserId(ur.getUserId(), ur.getRoleId());
-    		   if(queryByUserId.size()<1){
-    			  userMapper.saveUserRole(us);
-    		   }
+    	   if(roles.size()>0){
+    		   for(RoleUser ur:roles){
+        		   RoleUser us=new RoleUser();
+        		   us.setRoleId(ur.getRoleId());
+        		   us.setUserId(ur.getUserId());
+        		   List<RoleUser> queryByUserId = userMapper.queryByUserId(ur.getUserId(), ur.getRoleId());
+        		   if(queryByUserId.size()<1){
+        			  userMapper.saveUserRole(us);
+        		   }
+        	   }  
     	   }
+    	
 		   
     	   if(supplier.getHistorys().size()>0){
     		   for(SupplierHistory sh:supplier.getHistorys()){

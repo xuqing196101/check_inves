@@ -4528,6 +4528,7 @@ public class ExpertController extends BaseController {
                 expert.setAtDuty(dataList.get(4));//职务
                 expert.setMobile(dataList.get(5));//联系方式
                 expert.setIsProvisional((short)1);//临时
+                expert.setIsSubmit("1");//提交
                 expert.setIsBlack("0");//未拉黑
                 expert.setStatus("4");//状态:待复审
                 expert.setUpdatedAt(new Date());
