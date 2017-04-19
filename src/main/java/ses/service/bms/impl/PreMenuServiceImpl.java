@@ -223,6 +223,14 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
         //查询拥有该菜单权限的角色id
         List<String> roleIds = roleMapper.getByMid(permenuId);
         
+        for(int i = 0; i < roleIds.size() - 1; i++) {
+			for(int j = roleIds.size() - 1; j > i; j--) {
+				if(roleIds.equals(roleIds)) {
+					roleIds.remove(j);
+				}
+			}
+		}
+        
         //查询拥有该菜单权限的用户id（用户自定义的菜单）
         List<String> getUserIdByPermenuId = roleMapper.getByPermenuId(permenuId);
 
