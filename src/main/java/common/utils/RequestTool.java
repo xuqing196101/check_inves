@@ -1,6 +1,7 @@
 package common.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,7 +40,8 @@ public class RequestTool {
 		if (null != result) {
 			try {
 				//统一转换编码
-				result=new String(result.trim().getBytes("ISO-8859-1"),"UTF-8");
+				//result=new String(result.trim().getBytes("ISO-8859-1"),"UTF-8");
+				result=URLDecoder.decode(result,"utf-8");
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

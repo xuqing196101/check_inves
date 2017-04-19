@@ -14,8 +14,8 @@ import iss.service.ps.IndexNewsService;
 import iss.service.ps.SearchService;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Font;
+//import java.awt.Color;
+//import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -31,8 +31,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
+//import java.net.URLDecoder;
+//import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,10 +57,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 
-import bss.model.pms.PurchaseRequired;
+//import bss.model.pms.PurchaseRequired;
 import common.constant.Constant;
 import common.model.UploadFile;
-import common.service.DownloadService;
+//import common.service.DownloadService;
 import common.service.UploadService;
 import common.utils.CommonStringUtil;
 import common.utils.JdcgResult;
@@ -903,19 +903,17 @@ public class IndexNewsController extends BaseSupplierController{
 	public String selectIndexNewsByParId(Model model,Integer page,String id,HttpServletRequest request) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
 		String title = RequestTool.getParam(request, "title", "");
-		title = URLDecoder.decode(title,"utf-8");
 		String tab=RequestTool.getParam(request, "tab", "");
-		tab = URLDecoder.decode(tab,"utf-8");
 		String productType=RequestTool.getParam(request, "productType", "");
-		productType = URLDecoder.decode(productType,"utf-8");
+	
 		String categoryName=RequestTool.getParam(request, "productTypeName", "");
-		categoryName = URLDecoder.decode(categoryName,"utf-8");
+		
 		String lastArticleTypeName=RequestTool.getParam(request, "lastArticleTypeName", "");
-		lastArticleTypeName = URLDecoder.decode(lastArticleTypeName,"utf-8");
+		
 		String publishStartDate=RequestTool.getParam(request, "publishStartDate", "");
-		publishStartDate = URLDecoder.decode(publishStartDate,"utf-8");
+		
 		String publishEndDate=RequestTool.getParam(request, "publishEndDate", "");
-		publishEndDate = URLDecoder.decode(publishEndDate,"utf-8");
+		
 		
 		if(page==null){
 			page=1;
@@ -1015,19 +1013,19 @@ public class IndexNewsController extends BaseSupplierController{
 		String id = request.getParameter("id");
 		String twoid = request.getParameter("twoid");
 		String title = RequestTool.getParam(request, "title", "");
-		title = URLDecoder.decode(title,"utf-8");
+	
 		String tab=RequestTool.getParam(request, "tab", "");
-		tab = URLDecoder.decode(tab,"utf-8");
+	
 		String productType=RequestTool.getParam(request, "productType", "");
-		productType = URLDecoder.decode(productType,"utf-8");
+		
 		String categoryName=RequestTool.getParam(request, "productTypeName", "");
-		categoryName = URLDecoder.decode(categoryName,"utf-8");
+		
 		String lastArticleTypeName=RequestTool.getParam(request, "lastArticleTypeName", "");
-		lastArticleTypeName = URLDecoder.decode(lastArticleTypeName,"utf-8");
+	
 		String publishStartDate=RequestTool.getParam(request, "publishStartDate", "");
-		publishStartDate = URLDecoder.decode(publishStartDate,"utf-8");
+	
 		String publishEndDate=RequestTool.getParam(request, "publishEndDate", "");
-		publishEndDate = URLDecoder.decode(publishEndDate,"utf-8");
+		
 		if(page==null){
 			page=1;
 		}
@@ -1149,7 +1147,8 @@ public class IndexNewsController extends BaseSupplierController{
 			page=1;
 		}
 		String articleTypeId = request.getParameter("id");
-		String title = request.getParameter("title");
+		//String title = request.getParameter("title");
+		String title = RequestTool.getParam(request, "title","");
 		map.put("articleTypeId", articleTypeId);
 		map.put("page", page);
 		map.put("pageSize", pageSize);
@@ -1709,26 +1708,22 @@ public class IndexNewsController extends BaseSupplierController{
 		String articleTypeId = request.getParameter("articleTypeId");
 		String secondArticleTypeId = request.getParameter("secondArticleTypeId");
 		String title = RequestTool.getParam(request, "title", "");
-		title = URLDecoder.decode(title,"utf-8");
-		String tab=RequestTool.getParam(request, "tab", "");
-		tab = URLDecoder.decode(tab,"utf-8");
-		String productType=RequestTool.getParam(request, "productType", "");
-		productType = URLDecoder.decode(productType,"utf-8");
-		String categoryName=RequestTool.getParam(request, "productTypeName", "");
-		categoryName = URLDecoder.decode(categoryName,"utf-8");
-		String lastArticleTypeName=RequestTool.getParam(request, "lastArticleTypeName", "");
-		lastArticleTypeName = URLDecoder.decode(lastArticleTypeName,"utf-8");
-		String publishStartDate=RequestTool.getParam(request, "publishStartDate", "");
-		publishStartDate = URLDecoder.decode(publishStartDate,"utf-8");
-		String publishEndDate=RequestTool.getParam(request, "publishEndDate", "");
-		publishEndDate = URLDecoder.decode(publishEndDate,"utf-8");
 		
+		String tab=RequestTool.getParam(request, "tab", "");
+	
+		String productType=RequestTool.getParam(request, "productType", "");
+	
+		String categoryName=RequestTool.getParam(request, "productTypeName", "");
+		
+		String lastArticleTypeName=RequestTool.getParam(request, "lastArticleTypeName", "");
+	
+		String publishStartDate=RequestTool.getParam(request, "publishStartDate", "");
+	
+		String publishEndDate=RequestTool.getParam(request, "publishEndDate", "");
 	
 		if(page==null){
 			page=1;
 		}
-		
-		
 		
 //		String id1 = request.getParameter("id");
 //		String id2 = request.getParameter("id2");
@@ -1826,7 +1821,7 @@ public class IndexNewsController extends BaseSupplierController{
       page=1;
     }
     String articleTypeId = request.getParameter("id");
-    String title = request.getParameter("title");
+    String title = RequestTool.getParam(request, "title","");
     map.put("articleTypeId", articleTypeId);
     map.put("page", page);
     map.put("pageSize", pageSize);

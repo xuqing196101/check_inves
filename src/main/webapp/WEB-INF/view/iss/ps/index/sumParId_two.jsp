@@ -21,14 +21,16 @@ $(function(){
 	    }(), 
 	    jump: function(e, first){ //触发分页后的回调
 	        if(!first){ //一定要加此判断，否则初始时会无限刷新
-	      		window.location.href="${pageContext.request.contextPath}/index/selectsumByParId.html?page="+e.curr;
+	      		var url="${pageContext.request.contextPath}/index/selectsumByParId.html?page="+e.curr;
+	      		window.location.href = encodeURI(encodeURI(url));
 	        }
 	    }
 	});
 });
 function query(){
 	var title = $("#title").val();
-	window.location.href="${pageContext.request.contextPath}/index/selectsumByParId.html?title="+title;
+	var url="${pageContext.request.contextPath}/index/selectsumByParId.html?title="+title;
+	window.location.href = encodeURI(encodeURI(url));
 }
 </script>
 </head>

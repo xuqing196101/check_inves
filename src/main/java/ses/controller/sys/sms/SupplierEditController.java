@@ -2,6 +2,7 @@ package ses.controller.sys.sms;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
+
+import bss.model.pms.PurchaseRequired;
+import common.constant.Constant;
+import common.model.UpdateHistory;
+import common.model.UploadFile;
+import common.service.UpdateHistoryService;
+import common.service.UploadService;
+//import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import ses.model.bms.Area;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
@@ -30,14 +41,6 @@ import ses.service.sms.SupplierEditService;
 import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 import ses.util.ValidateUtils;
-
-import com.alibaba.fastjson.JSONArray;
-import com.github.pagehelper.PageInfo;
-import common.constant.Constant;
-import common.model.UpdateHistory;
-import common.model.UploadFile;
-import common.service.UpdateHistoryService;
-import common.service.UploadService;
 
 /**
  * 版权：(C) 版权所有 
@@ -130,12 +133,36 @@ public class SupplierEditController extends BaseSupplierController {
         if(user1==null)
         	return "redirect:../index/sign.html";
         se.setRecordId(user1.getTypeId());
-        String supplier_id=user1.getTypeId();
+        //String supplier_id=user1.getTypeId();
+        String supplier_id="3f91fd68bece49d09eabcb8d1e7a79ad";
+        
         //获取供应商修改历史
         List<UpdateHistory> list= updateHistoryService.queryByUpdateId(supplier_id);
         //转对象
-        
-        
+        List<PurchaseRequired> listpr=new ArrayList<PurchaseRequired>();
+        String json="";
+        for (UpdateHistory updateHistory : list) {
+        	json=updateHistory.getObject();
+        	new JSONObject();
+			JSONObject obj = JSONObject.fromObject(json);
+			
+//			 if(jsonStr.indexOf("[") != -1){  
+//		            jsonStr = jsonStr.replace("[", "");  
+//		        }  
+//		        if(jsonStr.indexOf("]") != -1){  
+//		            jsonStr = jsonStr.replace("]", "");  
+//		        }  
+			
+        	PurchaseRequired purchaseRequired = (PurchaseRequired)JSONObject.toBean(obj,PurchaseRequired.class);
+        	listpr.add(purchaseRequired);
+        	
+        	//JSONArray json1 = JSONArray.fromObject(json);
+        	//JSONArray.toCollection(jsonArray, objectClass)
+        	//JSONArray.toList(jsonArray, objectClass)
+        	//List pur= JSONArray.toCollection(json1, PurchaseRequired.class);
+		}
+        //JSONObject obj = new JSONObject().fromObject(jsonStr);//将json字符串转换为json对象  
+       // Person jb = (Person)JSONObject.toBean(obj,Person.class);//将建json对象转换为Person对象  
      //   JSONArray json1 = JSONArray.fromObject(json);
   	 // List<PurchaseRequired> list = (List<PurchaseRequired>)JSONArray.toCollection(json1, PurchaseRequired.class);
         

@@ -46,6 +46,7 @@ public class IssData {
 	      return "Hello " + name;  
 	 }
 	 
+	 //临时复制过来，解决首页公告信息不能显示
 	 public static void topNews(Map<String, Object> indexMapper){
 		 ArticleService articleService=SpringBeanUtil.getBean(ArticleService.class);
 			Map<String, Object> map = new HashMap<String, Object>();
