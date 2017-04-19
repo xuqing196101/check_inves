@@ -13,7 +13,7 @@
     <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head_two.js" ></script> --%>
       <script type = "text/javascript" >
 
-        function check(ele) {
+        function chkItems(ele) {
           var flag = $(ele).prop("checked");
           var id = $(ele).val();
           $.ajax({
@@ -44,9 +44,12 @@
         var proName = $("#proName").val();
         var userId = $("#userId").val();
         var orgName = $("#orgName").val();
-        var orgId = $("#orgIds").val();
+        var orgId = [];
+        $("input[name='organization']").each(function() {
+          orgId.push($(this).val());
+        });
         var kindName = $("#kindName").val();
-        var seq = $("#planNo").val();
+        var seq = $("#projectNumber").val();
         window.location.href = "${pageContext.request.contextPath}/advancedProject/download.html?proName=" + proName + "&userId=" + userId +
           "&orgName=" + orgName + "&orgId=" + orgId + "&kindName=" + kindName + "&seq=" + seq;
       }
@@ -57,8 +60,10 @@
         var department = $("#department").val();
         var purchaseType = $("#purchaseType").val();
         var planType = $("#planType").val();
-        var organization = $("#orgIds").val();
-
+        var organization = [];
+        $("input[name='organization']").each(function() {
+          organization.push($(this).val());
+        });
         var ids = [];
         $('input[name="chkItem"]:checked').each(function() {
           ids.push($(this).val());
@@ -170,7 +175,7 @@
                 <tbody id="task_id">
                   <c:forEach items="${lists}" var="obj" varStatus="vs">
                     <tr>
-                      <td class="tc choose"><input type="checkbox" value="${obj.id }" id="clll" name="chkItem" onclick="check(this)"></td>
+                      <td class="tc choose"><input type="checkbox" value="${obj.id }" id="clll" name="chkItem" onclick="chkItems(this)" /></td>
                       <td>
                         <div class="seq">
                            ${obj.seq} <input type="hidden" id="planNo" name="planNo" value="${obj.planNo}" />
@@ -217,14 +222,10 @@
                         </div>
                       </td>
                       <td>
-                         <div class="organization">
-                          <c:if test="${list2 != null}">
-                           <c:forEach items="${list2}" var="list" varStatus="vs">
-                            <c:if test="${obj.organization eq list.id}">${list.name}</c:if>
-                            <input type="hidden" id="orgIds" name="organization" value="${list.id}" />
-                           </c:forEach>
-                          </c:if>
-                        </div>
+                         <c:if test="${obj.price ne null}">
+                         <div class="organization">${obj.organization}</div>
+                         <input type="hidden" name="organization" value="${obj.oneOrganiza}"/>
+                        </c:if>
                       </td>
                       <td><div class="purchasename">${obj.supplier}</div></td>
                       <td><div class="freetax">${obj.isFreeTax}</div></td>

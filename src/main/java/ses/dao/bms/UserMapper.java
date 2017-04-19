@@ -324,6 +324,6 @@ public interface UserMapper {
 	 */
 	void saveUserRole(RoleUser roleUser);
 	
-	
+	List<User> findById (String id);
     
 }

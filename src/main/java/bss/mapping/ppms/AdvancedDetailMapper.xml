@@ -424,7 +424,7 @@
   </update>
   
   
-  <select id="selectByParentId"  resultMap="BaseResultMap">
+  <select id="selectByParentId"  resultMap="BaseResultMap" flushCache="true">
     SELECT
     <include refid="Base_Column_List" />
     FROM
@@ -433,7 +433,7 @@
   </select>
   
   
-    <select id="selectByParent"  resultMap="BaseResultMap">
+    <select id="selectByParent"  resultMap="BaseResultMap" flushCache="true">
       SELECT
 			<include refid="Base_Column_List" />
 			FROM

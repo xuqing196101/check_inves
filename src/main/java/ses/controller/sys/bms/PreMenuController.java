@@ -26,6 +26,7 @@ import ses.model.bms.Role;
 import ses.model.bms.RolePreMenu;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
+import ses.model.ems.Expert;
 import ses.model.oms.PurchaseInfo;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
@@ -331,11 +332,23 @@ public class PreMenuController {
 		}
 	}
 	
+	/**
+	 * @Title: getUserByMid
+	 * @author XuQing 
+	 * @date 2017-4-19 上午10:44:10  
+	 * @Description:根据菜单id查询用户
+	 * @param @param model
+	 * @param @param page
+	 * @param @param mid
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping("getUserByMid")
 	public String getUserByMid(Model model, Integer page, String mid){
-	    List<User> users = preMenuService.getUserByMid(mid, page == null ? 1 : page);
+	    List<User> users = preMenuService.getUserByMid(mid, page);
+		PageInfo < User > pageInfo = new PageInfo < User > (users);
 	    model.addAttribute("users", users);
-	    model.addAttribute("list", new PageInfo<User>(users));
+	    model.addAttribute("result", pageInfo);
 	    return "ses/bms/menu/user_list";
 	  
 	}

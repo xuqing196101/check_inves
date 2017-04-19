@@ -955,4 +955,12 @@
 	      values(#{userId},#{roleId})  
 	  </insert>
     
+    
+    <select id="findById" resultMap="UserBaseMap" parameterType="java.lang.String">
+    	select 
+      <include refid="Base_Column_List"/>
+       from T_SES_BMS_USER
+      where ID = #{id}
+    </select>
+    
 </mapper>

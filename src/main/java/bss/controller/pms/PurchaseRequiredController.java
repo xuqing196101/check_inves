@@ -982,6 +982,9 @@ public class PurchaseRequiredController extends BaseController{
 	    	if(pms==null||pms.size()<1){
 	    		purchaseManagementService.add(pm);
 	    	}
+	    	if(pms.size()>1){
+	    		purchaseManagementService.updateStatus(uniqueId, 1);
+	    	}
 	    	
 	    	PurchaseRequired p=new PurchaseRequired();
 	    	p.setUniqueId(uniqueId);

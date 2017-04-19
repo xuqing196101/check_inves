@@ -23,6 +23,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.model.Organization;
@@ -2266,6 +2268,7 @@ public class SupplierController extends BaseSupplierController {
 				ct1.setName(c.getName());
 				ct1.setParentId(c.getParentId());
 				ct1.setId(c.getId());
+                ct1.setCode(c.getCode());
 				List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, c.getId(), code);
 				if(items != null && items.size() > 0) {
 					ct1.setChecked(true);
@@ -2291,7 +2294,91 @@ public class SupplierController extends BaseSupplierController {
 		}
 	}
 
-	@RequestMapping("/audit_org")
+    @ResponseBody
+    @RequestMapping(value = "/loadCategory", produces = "application/json;charset=UTF-8")
+    public String loadCategory(HttpServletRequest request){
+	    JSONArray jsonArray = new JSONArray();
+	    String id = request.getParameter("id");
+        String typeId = "";
+        String code = request.getParameter("code");
+        String supplierId = request.getParameter("supplierId");
+        String status = request.getParameter("status");
+        Integer statusInt = null;
+        if(!StringUtils.isEmpty(status)){
+            statusInt = Integer.parseInt(status);
+        }
+        //初始化根节点
+        if(StringUtils.isEmpty(id)) {
+            if(StringUtils.isNotBlank(code)) {
+                JSONObject jsonObject = new JSONObject();
+                DictionaryData type = DictionaryDataUtil.get(code);
+                if(type != null) {
+                    if(type.getCode().equals("PRODUCT")) {
+                        DictionaryData dd = DictionaryDataUtil.get("GOODS");
+                        jsonObject.put("code","PRODUCT");
+                        typeId = dd.getId();
+                    } else if(type.getCode().equals("SALES")) {
+                        DictionaryData dd = DictionaryDataUtil.get("GOODS");
+                        jsonObject.put("code","SALES");
+                        typeId = dd.getId();
+                    } else {
+                        jsonObject.put("code",code);
+                        typeId = type.getId();
+                    }
+                }
+                jsonObject.put("name",type.getName());
+                jsonObject.put("id", typeId);
+                jsonObject.put("open",true);//默认打开根节点
+                List < SupplierItem > s = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
+                if(s != null && s.size() > 0) {
+                    jsonObject.put("checked", true);
+                }
+                jsonObject.put("isParent", true);
+                jsonObject.put("children", loadChildCategory(typeId, statusInt, supplierId, code));
+                jsonArray.add(jsonObject);
+            }
+        }
+	    return jsonArray.toString();
+    }
+    public JSONArray loadChildCategory(String id, Integer status, String supplierId, String code){
+        JSONArray jsonArray = new JSONArray();
+
+        List < Category > child = categoryService.findPublishTree(id, status);
+        if(null == child || child.isEmpty()){
+            return jsonArray;
+        }
+        Integer level = SupplierLevelUtil.getLevel(supplierId, code);
+        if (level != null) {
+            for (int i = 0; i < child.size(); i++) {
+                Category cate = child.get(i);
+                if (cate.getLevel() != null && Integer.parseInt(cate.getLevel()) < level) {
+                    child.remove(i);
+                }
+            }
+        }
+        for(Category c: child) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name", c.getName());
+            jsonObject.put("parentId", c.getParentId());
+            jsonObject.put("id", c.getId());
+            jsonObject.put("code", c.getCode());
+            List < SupplierItem > items = supplierItemService.getSupplierIdCategoryId(supplierId, c.getId(), code);
+            if(items != null && items.size() > 0) {
+                jsonObject.put("checked", true);
+            }
+            List < Category > cList = categoryService.findTreeByPid(c.getId());
+            if(cList != null && cList.size() > 0) {
+                jsonObject.put("isParent", true);
+            } else {
+                jsonObject.put("isParent", false);
+            }
+            jsonObject.put("children", loadChildCategory(c.getId(), status, supplierId, code));
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
+    }
+
+    @RequestMapping("/audit_org")
 	public String audit_org(Model model, String name) {
 		Supplier supp = supplierMapper.queryByName(name);
 		Supplier supplier = supplierService.get(supp.getId());
