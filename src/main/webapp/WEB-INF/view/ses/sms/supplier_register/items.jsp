@@ -105,78 +105,82 @@
 	function loadZtree(code, kind, status) {
         // 加载中的菊花图标
         loading = layer.load(1);
-		var setting = {
- 	    	/*async : {
-				autoParam: ["id","code"],
-				enable : true,
-				url : "${pageContext.request.contextPath}/supplier/category_type.do",
-				otherParam : {
-					"code":code,
-					"supplierId": "${currSupplier.id}",
-					"status" : status
-				},
-				dataType : "json",
-				type : "post",
-			},*/
-			check : {
-				enable : true,
-				chkStyle:"checkbox",  
-				chkboxType:{"Y" : "ps", "N" : "ps"},
-			},
-			data : {
-				simpleData : {
-					enable : true,
-					idKey: "id",
-					pIdKey: "parentId",
-				}
-			},
-			callback: {
-				onCheck: saveCategory,
-				onAsyncSuccess: zTreeOnAsyncSuccess,
-				onExpand: zTreeOnExpand,
-				beforeCheck: zTreeBeforeCheck
-			},
-			view: {
-				showLine: true
-			}
-	 	};
-		$.ajax({
-            url:'${pageContext.request.contextPath}/supplier/loadCategory.do',
-            type:'POST', //GET
-            data:{
-                'code':code,supplierId:"${currSupplier.id}",status:status
-            },
-            dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-            success:function(data){
-                var _obj = eval(data);
-                console.log(_obj);
-                var setting = {
-                    check : {
+        if(code != 'PROJECT'){
+            var setting = {
+                async : {
+                     autoParam: ["id","code"],
+                     enable : true,
+                     url : "${pageContext.request.contextPath}/supplier/category_type.do",
+                     otherParam : {
+                     "code":code,
+                     "supplierId": "${currSupplier.id}",
+                     "status" : status
+                     },
+                     dataType : "json",
+                     type : "post",
+                 },
+                check : {
+                    enable : true,
+                    chkStyle:"checkbox",
+                    chkboxType:{"Y" : "ps", "N" : "ps"},
+                },
+                data : {
+                    simpleData : {
                         enable : true,
-                        chkStyle:"checkbox",
-                        chkboxType:{"Y" : "ps", "N" : "ps"},
-                    },
-                    data : {
-                        simpleData : {
-                            enable : true,
-                            idKey: "id",
-                            pIdKey: "parentId",
-                        }
-                    },
-                    callback: {
-                        onCheck: saveCategory,
-                        onAsyncSuccess: zTreeOnAsyncSuccess,
-                        onExpand: zTreeOnExpand,
-                        beforeCheck: zTreeBeforeCheck
-                    },
-                    view: {
-                        showLine: true
+                        idKey: "id",
+                        pIdKey: "parentId",
                     }
-                };
-                $.fn.zTree.init($("#" + kind), setting, _obj);
-                zTreeOnAsyncSuccess(null, kind, null, null);
-            }
-        })
+                },
+                callback: {
+                    onCheck: saveCategory,
+                    onAsyncSuccess: zTreeOnAsyncSuccess,
+                    onExpand: zTreeOnExpand,
+                    beforeCheck: zTreeBeforeCheck
+                },
+                view: {
+                    showLine: true
+                }
+            };
+            $.fn.zTree.init($("#" + kind), setting, zNodes);
+        }else{
+            $.ajax({
+                url:'${pageContext.request.contextPath}/supplier/loadCategory.do',
+                type:'POST', //GET
+                data:{
+                    'code':code,supplierId:"${currSupplier.id}",status:status
+                },
+                dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success:function(data){
+                    var _obj = eval(data);
+                    console.log(_obj);
+                    var setting = {
+                        check : {
+                            enable : true,
+                            chkStyle:"checkbox",
+                            chkboxType:{"Y" : "ps", "N" : "ps"},
+                        },
+                        data : {
+                            simpleData : {
+                                enable : true,
+                                idKey: "id",
+                                pIdKey: "parentId",
+                            }
+                        },
+                        callback: {
+                            onCheck: saveCategory,
+                            onAsyncSuccess: zTreeOnAsyncSuccess,
+                            onExpand: zTreeOnExpand,
+                            beforeCheck: zTreeBeforeCheck
+                        },
+                        view: {
+                            showLine: true
+                        }
+                    };
+                    $.fn.zTree.init($("#" + kind), setting, _obj);
+                    zTreeOnAsyncSuccess(null, kind, null, null);
+                }
+            })
+        }
 	}
 	
 	function zTreeBeforeCheck(treeId, treeNode) {
