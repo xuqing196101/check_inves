@@ -2946,7 +2946,7 @@ public class SupplierController extends BaseSupplierController {
         if(projectData!=null&&projectData.size()>0){
             Qualification qualification = qualificationService.getQualification(projectData.get(0).getName());
         	DictionaryData dd=new DictionaryData();
-        	dd.setId(projectData.get(0).getCertLevel());
+        	dd.setId(projectData.get(0).getId());
         	if(null!=qualification){
                 dd.setName(qualification.getName());
             }else{

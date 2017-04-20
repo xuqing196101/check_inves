@@ -267,8 +267,8 @@ public class SupplierItemController extends BaseController {
 					List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(item.getQualificationType(), item.getSupplierId());
 					   if(projectData!=null&&projectData.size()>0){
 				        	DictionaryData dd=new DictionaryData();
-				        	dd.setId(projectData.get(0).getCertLevel());
-				        	dd.setName(projectData.get(0).getName());
+				        	dd.setName(projectData.get(0).getCertLevel());
+				        	dd.setId(projectData.get(0).getId());
 				        	cateTree.setLevel(dd); 
 				        }
 					   
