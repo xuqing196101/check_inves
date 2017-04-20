@@ -5,7 +5,7 @@
 
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-		<title>供应商列表</title>
+		<title>供应商注销列表</title>
 		<script type="text/javascript">
 			$(function() {
 				laypage({
@@ -102,6 +102,8 @@
 			
 			function resetForm() {
 				$("input[name='supplierName']").val("");
+				$("input[name='loginName']").val("");
+				$("input[name='mobile']").val("");
 				$("#form1").submit();
 			}
 		</script>
@@ -137,6 +139,14 @@
 			      <label class="fl">供应商名称：</label> 
 			      <input class="" name="supplierName" type="text" value="${supplier.supplierName }">
 		      </li>
+		      <li class="fl">
+			      <label class="fl">用户名：</label> 
+			      <input class="" name="loginName" type="text" value="${supplier.loginName }">
+		      </li>
+		      <li class="fl">
+			      <label class="fl">手机号：</label> 
+			      <input class="" name="mobile" type="text" value="${supplier.mobile }">
+		      </li>
 	      </ul>
 	        
 	        <input type="submit" class="btn fl" value="查询" />
@@ -155,6 +165,8 @@
 							<th class="info w50">选择</th>
 							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
+							<th class="info">用户名</th>
+							<th class="info">联系人</th>
 							<th class="info">手机号</th>
 							<th class="info w100">状态</th>
 						</tr>
@@ -164,6 +176,8 @@
 							<td class="tc w30"><input name="id" type="checkbox" value="${list.id}"></td>
 							<td class="tc w50">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tl pl20">${list.supplierName }</td>
+							<td class="">${list.loginName }</td>
+								<td class="">${list.contactName }</td>
 							<td class="tc">${list.mobile }</td>
 							<td class="tc w100" id="${list.id}">
 								<c:if test="${list.status == -1}"><span class="label rounded-2x label-dark">暂存</span></c:if>

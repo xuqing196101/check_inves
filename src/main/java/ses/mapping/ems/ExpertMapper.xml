@@ -1760,27 +1760,34 @@
     <!-- 注销列表 -->
 	<select id="findLogoutList" resultMap="BaseResultMap">
 		SELECT
-			*
+			t1.*,
+			t2.LOGIN_NAME AS loginName,
+			t3.NAME AS sex
 		FROM
-			T_SES_EMS_EXPERT
+			T_SES_EMS_EXPERT t1
+		LEFT JOIN T_SES_BMS_USER t2 ON t2.TYPE_ID = t1.ID
+		LEFT JOIN T_SES_BMS_DICTIONARY_DATA t3 ON t1.GENDER = t3.ID
 		WHERE
-			((IS_SUBMIT = '1' AND STATUS = '0')
+			((t1.IS_SUBMIT = '1' AND t1.STATUS = '0')
 		OR (
-			IS_SUBMIT = '0'
-			AND (STATUS = '-1' OR STATUS = '3')
+			t1.IS_SUBMIT = '0'
+			AND (t1.STATUS = '-1' OR t1.STATUS = '3')
 		))
 		<if test="mobile != null and mobile !=''">
-        AND MOBILE LIKE '%${mobile}%'
+        AND t1.MOBILE LIKE '%${mobile}%'
     </if>
     <if test="relName != null and relName !=''">
-        AND REAL_NAME LIKE '%${relName}%'
+        AND t1.REAL_NAME LIKE '%${relName}%'
+    </if>
+    <if test="loginName != null and loginName !=''">
+        AND t2.LOGIN_NAME LIKE '%${loginName}%'
     </if>
     <if test="expertsFrom != null and expertsFrom !=''">
-        AND EXPERTS_FROM = #{expertsFrom}
+        AND t1.EXPERTS_FROM = #{expertsFrom}
     </if>
     <if test="status != null and status !=''">
-        AND STATUS = #{status}
+        AND t1.STATUS = #{status}
     </if>
-    ORDER BY CREATED_AT DESC
+    ORDER BY t1.CREATED_AT DESC
 	</select>
 </mapper>

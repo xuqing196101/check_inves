@@ -360,7 +360,7 @@
 							<td class="tc w50" onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.relName}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.loginName}</td>
-							<td class="tc w50" onclick="view('${e.id}');" class="tc">${e.gender}</td>
+							<td class="tc w50" onclick="view('${e.id}');">${e.gender}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.expertsTypeId}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.graduateSchool }</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.mobile }</td>

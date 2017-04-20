@@ -333,11 +333,14 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		request.setAttribute("suppliers", supplier);
 		List < SupplierBranch > supplierBranchList = supplierBranchService.findSupplierBranch(supplierId);
-		for(SupplierBranch sb:supplierBranchList){
-			DictionaryData dd = DictionaryDataUtil.findById(sb.getCountry());
-			sb.setCountryName(dd.getName());
-			
+		if(!supplierBranchList.isEmpty()){
+			for(SupplierBranch sb:supplierBranchList){
+				DictionaryData dd = DictionaryDataUtil.findById(sb.getCountry());
+				sb.setCountryName(dd.getName());
+				
+			}
 		}
+		
 		request.setAttribute("supplierBranchList", supplierBranchList);
 
 		/**

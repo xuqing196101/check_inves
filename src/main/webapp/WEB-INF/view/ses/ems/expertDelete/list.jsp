@@ -103,6 +103,8 @@
 
 			function resetForm() {
 				$("input[name='relName']").val("");
+				$("input[name='loginName']").val("");
+				$("input[name='mobile']").val("");
 				$("#form1").submit();
 			}
 		</script>
@@ -138,6 +140,14 @@
 			      <label class="fl">专家姓名：</label> 
 			      <input class="" name="relName" type="text" value="${expert.relName }">
 		      </li>
+		      <li class="fl">
+			      <label class="fl">用户名：</label> 
+			      <input class="" name="loginName" type="text" value="${expert.loginName }">
+		      </li>
+		      <li class="fl">
+			      <label class="fl">手机号：</label> 
+			      <input class="" name="mobile" type="text" value="${expert.mobile }">
+		      </li>
 	      </ul>
 	        <input type="submit" class="btn fl" value="查询" />
 				  <button onclick="resetForm();" class="btn fl" type="button">重置</button>
@@ -155,6 +165,8 @@
 							<th class="info w50">选择</th>
 							<th class="info w50">序号</th>
 							<th class="info">专家姓名</th>
+							<th class="info">用户名</th>
+							<th class="info w50">性别</th>
 							<th class="info">手机号</th>
 							<th class="info w100">状态</th>
 						</tr>
@@ -164,6 +176,8 @@
 							<td class="tc w30"><input name="id" type="checkbox" value="${list.id}"></td>
 							<td class="tc w50">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tl pl20">${list.relName }</td>
+							<td class="tl pl20">${list.loginName}</td>
+							<td class="tc w50">${list.sex}</td>
 							<td class="tc">${list.mobile }</td>
 							<td class="tc w100" id="${list.id}">
 								<c:if test="${list.status == -1}"><span class="label rounded-2x label-dark">暂存</span></c:if>

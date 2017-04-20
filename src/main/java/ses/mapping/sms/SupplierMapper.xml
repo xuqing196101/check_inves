@@ -1682,6 +1682,12 @@
 		<if test="supplierName != null and supplierName !=''">
 			AND SUPPLIER_NAME like '%${supplierName}%'
 		</if>
+		<if test="supplierName != null and supplierName !=''">
+			AND SUPPLIER_NAME like '%${supplierName}%'
+		</if>
+		<if test="loginName != null and loginName !=''">
+			AND LOGIN_NAME like '%${loginName}%'
+		</if>
 		<if test="mobile != null and mobile !=''">
 			AND MOBILE like '%${mobile}%'
 		</if>
