@@ -578,6 +578,10 @@ public class SupplierController extends BaseSupplierController {
 		} else {
 			//保存基本信息
 			try {
+                List<Supplier> suppliers = supplierService.selByName(supplier.getSupplierName());
+                if(null != suppliers && !suppliers.isEmpty()){
+                    return "supplierNameExists";
+                }
 				Supplier before = supplierService.get(supplier.getId());
 				if(before.getStatus().equals(2)) {
 					record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容

@@ -281,7 +281,12 @@
 								offset: '300px'
 							});
 						}
-						
+						if(msg=="supplierNameExists"){
+						    $("#supplierName_input_id").val("");
+                            layer.msg('供应商名称已存在，请重新填写！', {
+                                offset: '300px'
+                            });
+                        }
 					}
 				});
 			}
