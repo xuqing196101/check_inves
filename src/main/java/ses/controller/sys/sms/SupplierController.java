@@ -1614,7 +1614,7 @@ public class SupplierController extends BaseSupplierController {
 				}
 				if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
 					count++;
-					model.addAttribute("stock", "统一社会信用代码或身份证号码为空或者格式不正确!");
+					model.addAttribute("stock", "统一社会信用代码或身份证号码不能为空或者格式不正确!");
 					
 				}
 				if(stocksHolder.getShares() == null || stocksHolder.getShares() == "") {
