@@ -214,6 +214,19 @@ public class DemandSupervisionController extends BaseController{
                                     model.addAttribute("contractRequireds", contractRequireds);
                                 }
                                 set.add(selectById.get(0).getProject().getId());
+                            } else {
+                                //如果项目明细为空的话，查一下有没有预研明细
+                                AdvancedDetail detail = advancedDetailService.selectByRequiredId(required.getId());
+                                if(detail != null){
+                                    AdvancedProject project = advancedProjectService.selectById(detail.getAdvancedProject());
+                                    if(project != null && !"0".equals(project.getStatus())){
+                                        String projectStatus = supervisionService.progressBarProject(project.getStatus());
+                                        if(StringUtils.isNotBlank(projectStatus)){
+                                            model.addAttribute("projectStatus", projectStatus);
+                                        }
+                                        model.addAttribute("project", project);
+                                    }
+                                }
                             }
                         }
                     }
@@ -447,6 +460,7 @@ public class DemandSupervisionController extends BaseController{
             List<PurchaseRequired> requireds = purchaseRequiredService.selectByParentId(map);
             if(requireds != null && requireds.size()>0){
                 HashMap<String, Object> mapDetail = new HashMap<String, Object>();
+                HashMap<String, Object> mapAdetail = new HashMap<String, Object>();
                 List<ProjectDetail> details = new ArrayList<ProjectDetail>();
                 List<AdvancedDetail> adList = new ArrayList<AdvancedDetail>();
                 //根据采购需求ID可能会有N个项目
@@ -457,7 +471,9 @@ public class DemandSupervisionController extends BaseController{
                     if(selectById != null && selectById.size() > 0){
                         details.addAll(selectById);
                     } else {
-                        List<AdvancedDetail> advancedDetails = advancedDetailService.selectByAll(mapDetail);
+                        mapAdetail.put("advancedProject", id);
+                        mapAdetail.put("requiredId", purchaseRequired.getId());
+                        List<AdvancedDetail> advancedDetails = advancedDetailService.selectByAll(mapAdetail);
                         if(advancedDetails != null && advancedDetails.size() > 0){
                             adList.addAll(advancedDetails);
                         }

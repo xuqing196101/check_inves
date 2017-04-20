@@ -125,7 +125,7 @@
             <c:otherwise>采购明细</c:otherwise>
           </c:choose>
              </h2>
-        <ul class="ul_list"     
+        <ul class="ul_list">    
         <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
           <table id="table" class="table table-bordered table-condensed lockout">
             <thead>

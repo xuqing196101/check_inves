@@ -172,7 +172,7 @@
                         </td>
                       </c:if>
                       <td class="tl pl20">${obj.status}</td>
-                      <td class="tc" onclick="view('${obj.id}')">
+                      <td class="tc" onclick="view('${obj.requiredId}')">
                         <div class="progress-new">
                           <input type="hidden" value="${obj.progressBar}" />
                           <div id="progress" class="progress-bar" style="background:#2c9fa6;" onmouseover="bigImg(this,'${obj.progressBar}')" onmouseout="normalImg(this,'${obj.progressBar}')">
@@ -242,7 +242,7 @@
                       </td>
                     </c:if>
                     <td class="tl pl20">${obj.status}</td>
-                    <td class="tc" onclick="view('${obj.id}')">
+                    <td class="tc" onclick="view('${obj.requiredId}')">
                       <c:if test="${obj.price != null}">
                         <div class="progress-new">
                           <input type="hidden" value="${obj.progressBar}" />

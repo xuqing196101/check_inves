@@ -61,9 +61,7 @@ import bss.model.ppms.ProjectTask;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.Task;
 import bss.model.prms.FirstAudit;
-import bss.model.prms.PackageExpert;
 import bss.model.prms.PackageFirstAudit;
-import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
@@ -149,8 +147,6 @@ public class TackController extends BaseController{
     @Autowired
     private PackageService packageService;
     
-    @Autowired
-    private CollectPlanService collectPlanService;
     @Autowired
     private PurchaseDetailService purchaseDetailService;
     
@@ -1201,6 +1197,7 @@ public class TackController extends BaseController{
                                         mtChildren.setProjectId(id);
                                         mtChildren.setRemainScore(markTerm2.getRemainScore());
                                         mtChildren.setTypeName(markTerm2.getTypeName());
+                                        mtChildren.setChecked(markTerm2.isChecked());
                                         markTermService.saveMarkTerm(mtChildren);
                                         
                                         
@@ -1234,7 +1231,7 @@ public class TackController extends BaseController{
                                                 model1.setIntervalNumber(scoreModel2.getIntervalNumber());
                                                 model1.setIsDeleted(scoreModel2.getIsDeleted());
                                                 model1.setCreatedAt(scoreModel2.getCreatedAt());
-                                                model1.setIscheck(scoreModel2.getIscheck());
+                                                //model1.setIscheck(scoreModel2.getMarkTerm().isChecked());
                                                 model1.setIntervalTypeName(scoreModel2.getIntervalTypeName());
                                                 scoreModelService.saveScoreModel(model1);
                                                 String scoreId = model1.getId();

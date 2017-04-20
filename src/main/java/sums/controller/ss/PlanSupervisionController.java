@@ -41,6 +41,7 @@ import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
@@ -64,6 +65,7 @@ import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.AdvancedDetailService;
+import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.BidMethodService;
 import bss.service.ppms.FlowMangeService;
@@ -97,6 +99,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtUser;
 import ses.model.sms.SupplierExtracts;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpExtConditionService;
 import ses.service.ems.ExpExtractRecordService;
@@ -236,6 +239,12 @@ public class PlanSupervisionController {
     
     @Autowired
     private SupplierConditionService supplierConditionService;
+    
+    @Autowired
+    private DictionaryDataServiceI dataService;
+    
+    @Autowired
+    private AdvancedPackageService advancedPackageService;
     
     
     /**
@@ -473,6 +482,7 @@ public class PlanSupervisionController {
             mapTask.put("collectId", id);
             List<Task> task = taskService.listBycollect(mapTask);
             List<Project> listProject = new ArrayList<Project>();
+            List<AdvancedProject> listAdProject = new ArrayList<AdvancedProject>();
             if(task != null && task.size() > 0){
                 for (Task task2 : task) {
                     HashMap<String, Object> map = new HashMap<>();
@@ -551,6 +561,30 @@ public class PlanSupervisionController {
                     }
                 }
                 model.addAttribute("task", task);
+            } else {
+              //查询有没有预研项目
+                AdvancedDetail advancedDetail = advancedDetailService.selectByRequiredId(listRequired.get(0).getId());
+                if(advancedDetail != null){
+                    AdvancedProject advancedProject = advancedProjectService.selectById(advancedDetail.getAdvancedProject());
+                    if(advancedProject != null && !"0".equals(advancedProject.getStatus())){
+                        DictionaryData findById = DictionaryDataUtil.findById(advancedProject.getStatus());
+                        if(StringUtils.isNotBlank(advancedProject.getPrincipal())){
+                            User users = userService.getUserById(advancedProject.getPrincipal());
+                            advancedProject.setAppointMan(users.getRelName());
+                            advancedProject.setAddress(users.getAddress());
+                        }
+                        if(StringUtils.isNotBlank(advancedProject.getPurchaseDepId())){
+                            Orgnization org = orgnizationService.getOrgByPrimaryKey(advancedProject.getPurchaseDepId());
+                            advancedProject.setPurchaseDepId(org.getName());
+                        }
+                        advancedProject.setStatus(findById.getName());
+                        listAdProject.add(advancedProject);
+                    }
+                    if(listAdProject != null && listAdProject.size() > 0){
+                        model.addAttribute("listProject", listAdProject);
+                        model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+                    }
+                }
             }
             model.addAttribute("planId", id);
             model.addAttribute("type", type);
@@ -726,16 +760,83 @@ public class PlanSupervisionController {
                             }
                             model.addAttribute("details", details);
                         }
+                        
+                        Project project = projectService.selectById(id);
+                        if(project != null){
+                            DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                            project.setStatus(findById.getName());
+                            User users = userService.getUserById(project.getAppointMan());
+                            project.setAppointMan(users.getRelName());
+                            model.addAttribute("project", project);
+                        }
+                        model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
+                        return "sums/ss/planSupervision/package_view";
+                    } else {
+                        //如果没有正式项目，查一下又没有预研项目
+                        HashMap<String, Object> mapAdProject = new HashMap<String, Object>();
+                        mapAdProject.put("projectId", id);
+                        List<AdvancedPackages> packages = advancedPackageService.selectByAll(mapAdProject);
+                        
+                        
+                        HashMap<String, Object> mapAdetail = new HashMap<String, Object>();
+                        mapAdetail.put("advancedProject", id);
+                        List<AdvancedDetail> adList = advancedDetailService.selectByAll(mapAdetail);
+                        
+                        
+                        List<AdvancedPackages> lists = new ArrayList<AdvancedPackages>();
+                        //判断有没有分包，没有分包进else
+                        if(packages != null && packages.size() > 0){
+                            for (AdvancedPackages packages2 : packages) {
+                                List<AdvancedDetail> list = new ArrayList<AdvancedDetail>();
+                                for (int i = 0; i < adList.size(); i++ ) {
+                                    if(packages2.getId().equals(adList.get(i).getPackageId())){
+                                        DictionaryData findById = DictionaryDataUtil.findById(adList.get(i).getPurchaseType());
+                                        adList.get(i).setPurchaseType(findById.getName());
+                                        String[] progressBarPlan = supervisionService.adProgressBar(adList.get(i).getRequiredId());
+                                        adList.get(i).setProgressBar(progressBarPlan[0]);
+                                        adList.get(i).setStatus(progressBarPlan[1]);
+                                        list.add(adList.get(i));
+                                    }
+                                    //sort(list);//进行排序
+                                    packages2.setAdvancedDetails(list);
+                                }
+                            }
+                            for (int i = 0; i < packages.size(); i++ ) {
+                                if(packages.get(i).getAdvancedDetails().size() > 0){
+                                    lists.add(packages.get(i));
+                                }
+                            }
+                            model.addAttribute("packages", lists);
+                            AdvancedProject project = advancedProjectService.selectById(id);
+                            model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
+                        } else {
+                            for (AdvancedDetail detail : adList) {
+                                if(detail.getPrice() != null){
+                                    DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                                    detail.setPurchaseType(findById.getName());
+                                    String[] progressBarPlan = supervisionService.adProgressBar(detail.getRequiredId());
+                                    detail.setProgressBar(progressBarPlan[0]);
+                                    detail.setStatus(progressBarPlan[1]);
+                                } else {
+                                    detail.setPurchaseType(null);
+                                    detail.setStatus(null);
+                                }
+                                
+                            }
+                            model.addAttribute("details", adList);
+                        }
+                        AdvancedProject project = advancedProjectService.selectById(id);
+                        if(project != null){
+                            DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                            project.setStatus(findById.getName());
+                            User users = userService.getUserById(project.getAppointMan());
+                            project.setAppointMan(users.getRelName());
+                            model.addAttribute("project", project);
+                        }
+                        return "sums/ss/planSupervision/adPackage_view";
+                    
                     }
-                    Project project = projectService.selectById(id);
-                    if(project != null){
-                        DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
-                        project.setStatus(findById.getName());
-                        User users = userService.getUserById(project.getAppointMan());
-                        project.setAppointMan(users.getRelName());
-                        model.addAttribute("project", project);
-                    }
-                    model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
+                    
                 }
                 
             }
@@ -1196,9 +1297,11 @@ public class PlanSupervisionController {
                         model.addAttribute("status", "0");
                     }
                 } else {
+                    //如果有采购计划但没有立项还是查看预研项目
                     //假如没有采购计划，查一下有没有预研项目
                     AdvancedDetail advancedDetail = advancedDetailService.selectByRequiredId(id);
                     if(advancedDetail != null){
+                        //预研项目
                         AdvancedProject project = advancedProjectService.selectById(advancedDetail.getAdvancedProject());
                         if(project != null && !"0".equals(project.getStatus())){
                             DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
@@ -1208,30 +1311,167 @@ public class PlanSupervisionController {
                             project.setIpone(user.getMobile());
                             project.setPurchaseDepName(org.getShortName());
                             project.setStatus(findById.getName());
+                            //项目审批文件
+                            String id2 = DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS");
+                            List<UploadFile> list = uploadService.getFilesOther(project.getId(), id2, "2");
+                            if(list != null && list.size() > 0){
+                                model.addAttribute("uploadFile", "0");
+                            }else{
+                                model.addAttribute("uploadFile", "1");
+                            }
+                            model.addAttribute("uploadId", id2); 
+                            model.addAttribute("code", findById);
+                            model.addAttribute("project", project);
+                            model.addAttribute("status","1");
+                            
+                            
+                            //根据预研项目ID查询预研任务
+                            HashMap<String, Object> mapTask = new HashMap<>();
+                            mapTask.put("projectId", project.getId());
+                            List<ProjectTask> projectTasks = projectTaskService.queryByNo(mapTask);
+                            if(projectTasks != null && projectTasks.size() > 0){
+                                Task task2 = taskService.selectById(projectTasks.get(0).getTaskId());
+                                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(task2.getPurchaseId());
+                                task2.setPurchaseId(orgnization.getShortName());
+                                User user2 = userService.getUserById(task2.getUserId());
+                                task2.setUserId(user2.getRelName());
+                                model.addAttribute("task", task2);
+                            }
+                            
+                            //根据预研项目ID查询采购文件
+                            //判断是否上传招标文件
+                            String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+                            List<UploadFile> files = uploadService.getFilesOther(project.getId(), typeId, Constant.TENDER_SYS_KEY+"");
+                            if(files != null && files.size() > 0){
+                              //调用生成word模板传人 标识0 表示 只是生成 拆包部分模板
+                                String filePath = extUserService.downLoadBiddingDocs(request,project.getId(),1,null);
+                                if (StringUtils.isNotBlank(filePath)){
+                                  model.addAttribute("filePath", filePath);
+                                }
+                                model.addAttribute("fileId", files.get(0).getId());
+                                model.addAttribute("fileName", files.get(0).getName());
+                            }
+                            
+                            if(!"DYLY".equals(DictionaryDataUtil.findById(project.getPurchaseType()).getCode())){
+                                //获取采购文件的编制人
+                                DictionaryData dd = new DictionaryData();
+                                dd.setPosition(3);
+                                dd.setCode(project.getPurchaseType());
+                                List<DictionaryData> lists = dataService.list(dd);
+                                FlowExecute execute = new FlowExecute();
+                                execute.setProjectId(project.getId());
+                                execute.setFlowDefineId(lists.get(0).getId());
+                                execute.setStatus(1);
+                                List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(execute);
+                                if(findFlowExecute != null && findFlowExecute.size() > 0){
+                                    model.addAttribute("operatorName", findFlowExecute.get(0).getOperatorName());
+                                } else {
+                                    execute.setStatus(3);
+                                    List<FlowExecute> findFlowExecutes = flowMangeService.findFlowExecute(execute);
+                                    if(findFlowExecutes != null && findFlowExecutes.size() > 0){
+                                        model.addAttribute("operatorName", findFlowExecutes.get(0).getOperatorName());
+                                    } else {
+                                        execute.setStatus(2);
+                                        List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
+                                        if(executes != null && executes.size() > 0){
+                                            model.addAttribute("operatorName", executes.get(0).getOperatorName());
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
                 
-            }
-            
-            HashMap<String, Object> map = new HashMap<>();
-            if(detail != null){
-                map.put("id", detail.getId());
-            }else{
-                map.put("id", id);
-            }
-            List<PurchaseRequired> requireds = requiredService.selectByParent(map);
-            for (PurchaseRequired purchaseRequired : requireds) {
-                if("1".equals(purchaseRequired.getParentId())){
-                    User user = userService.getUserById(purchaseRequired.getUserId());
-                    purchaseRequired.setUserId(user.getRelName());
-                    purchaseRequired.setCode(user.getMobile());
-                    model.addAttribute("purchaseRequired", purchaseRequired);
-                    break;
+            } else {
+
+                //假如没有采购计划，查一下有没有预研项目
+                AdvancedDetail advancedDetail = advancedDetailService.selectByRequiredId(id);
+                if(advancedDetail != null){
+                    //预研项目
+                    AdvancedProject project = advancedProjectService.selectById(advancedDetail.getAdvancedProject());
+                    if(project != null && !"0".equals(project.getStatus())){
+                        DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                        Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
+                        User user = userService.getUserById(project.getPrincipal());
+                        project.setAppointMan(user.getRelName());
+                        project.setIpone(user.getMobile());
+                        project.setPurchaseDepName(org.getShortName());
+                        project.setStatus(findById.getName());
+                        //项目审批文件
+                        String id2 = DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS");
+                        List<UploadFile> list = uploadService.getFilesOther(project.getId(), id2, "2");
+                        if(list != null && list.size() > 0){
+                            model.addAttribute("uploadFile", "0");
+                        }else{
+                            model.addAttribute("uploadFile", "1");
+                        }
+                        model.addAttribute("uploadId", id2); 
+                        model.addAttribute("code", findById);
+                        model.addAttribute("project", project);
+                        model.addAttribute("status","1");
+                        
+                        
+                        //根据预研项目ID查询预研任务
+                        HashMap<String, Object> mapTask = new HashMap<>();
+                        mapTask.put("projectId", project.getId());
+                        List<ProjectTask> projectTasks = projectTaskService.queryByNo(mapTask);
+                        if(projectTasks != null && projectTasks.size() > 0){
+                            Task task2 = taskService.selectById(projectTasks.get(0).getTaskId());
+                            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(task2.getPurchaseId());
+                            task2.setPurchaseId(orgnization.getShortName());
+                            User user2 = userService.getUserById(task2.getUserId());
+                            task2.setUserId(user2.getRelName());
+                            model.addAttribute("task", task2);
+                        }
+                        
+                        //根据预研项目ID查询采购文件
+                        //判断是否上传招标文件
+                        String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+                        List<UploadFile> files = uploadService.getFilesOther(project.getId(), typeId, Constant.TENDER_SYS_KEY+"");
+                        if(files != null && files.size() > 0){
+                          //调用生成word模板传人 标识0 表示 只是生成 拆包部分模板
+                            String filePath = extUserService.downLoadBiddingDoc(request,project.getId(),1,null);
+                            if (StringUtils.isNotBlank(filePath)){
+                              model.addAttribute("filePath", filePath);
+                            }
+                            model.addAttribute("fileId", files.get(0).getId());
+                            model.addAttribute("fileName", files.get(0).getName());
+                        }
+                        
+                        if(!"DYLY".equals(DictionaryDataUtil.findById(project.getPurchaseType()).getCode())){
+                            //获取采购文件的编制人
+                            DictionaryData dd = new DictionaryData();
+                            dd.setPosition(3);
+                            dd.setCode(project.getPurchaseType());
+                            List<DictionaryData> lists = dataService.list(dd);
+                            FlowExecute execute = new FlowExecute();
+                            execute.setProjectId(project.getId());
+                            execute.setFlowDefineId(lists.get(0).getId());
+                            execute.setStatus(1);
+                            List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(execute);
+                            if(findFlowExecute != null && findFlowExecute.size() > 0){
+                                model.addAttribute("operatorName", findFlowExecute.get(0).getOperatorName());
+                            } else {
+                                execute.setStatus(3);
+                                List<FlowExecute> findFlowExecutes = flowMangeService.findFlowExecute(execute);
+                                if(findFlowExecutes != null && findFlowExecutes.size() > 0){
+                                    model.addAttribute("operatorName", findFlowExecutes.get(0).getOperatorName());
+                                } else {
+                                    execute.setStatus(2);
+                                    List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
+                                    if(executes != null && executes.size() > 0){
+                                        model.addAttribute("operatorName", executes.get(0).getOperatorName());
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
+            
             }
             
-            //采购需求
+            //需求监督进到这里
             PurchaseRequired required = null;
             if(detail != null){
                 required = requiredService.queryById(detail.getId());
@@ -1240,6 +1480,23 @@ public class PlanSupervisionController {
             }
             
             if(required != null){
+                //查询采购需求
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("id", required.getId());
+                List<PurchaseRequired> requireds = requiredService.selectByParent(map);
+                if(requireds != null && requireds.size() > 0){
+                    for (PurchaseRequired purchaseRequired : requireds) {
+                        if("1".equals(purchaseRequired.getParentId())){
+                            User user = userService.getUserById(purchaseRequired.getUserId());
+                            purchaseRequired.setUserId(user.getRelName());
+                            purchaseRequired.setCode(user.getMobile());
+                            model.addAttribute("purchaseRequired", purchaseRequired);
+                            break;
+                        }
+                    }
+                }
+                
+                
                 if(StringUtils.isNotBlank(required.getOrganization())){
                     Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getOrganization());
                     required.setOrganization(orgnization.getShortName());
@@ -1251,9 +1508,10 @@ public class PlanSupervisionController {
                     Orgnization org= orgnizationService.getOrgByPrimaryKey(queryByPid.get(0).getManagementId());
                     model.addAttribute("management", org.getShortName());//管理部门
                 }
-                map.put("collectId", required.getUniqueId());
-                map.put("type", "4");
-                List<AuditPerson> selectByMap = auditPersonService.selectByMap(map);
+                HashMap<String, Object> mapAudit = new HashMap<>();
+                mapAudit.put("collectId", required.getUniqueId());
+                mapAudit.put("type", "4");
+                List<AuditPerson> selectByMap = auditPersonService.selectByMap(mapAudit);
                 if(selectByMap != null && selectByMap.size() > 0){
                     User user = userService.getUserById(selectByMap.get(0).getUserId());
                     selectByMap.get(0).setUserId(user.getRelName());
@@ -1261,6 +1519,7 @@ public class PlanSupervisionController {
                 }
                 
                 model.addAttribute("required", required);
+                
                 
                 
                 //预研信息
@@ -1280,13 +1539,68 @@ public class PlanSupervisionController {
                             model.addAttribute("tasks", task);//任务
                         }
                         model.addAttribute("advancedProject", advancedProject);//预研项目
-                        model.addAttribute("status","1");
                     }
-                    model.addAttribute("advancedProjectId", advancedDetail.getAdvancedProject());//预研项目ID
+                }
+            } else {
+                //预研明细ID
+                AdvancedDetail selectById = advancedDetailService.selectByRequiredId(id);
+                PurchaseRequired requireds = requiredService.queryById(selectById.getRequiredId());
+                if(requireds != null){
+                    HashMap<String, Object> maps = new HashMap<>();
+                    maps.put("id", requireds.getId());
+                    List<PurchaseRequired> req = requiredService.selectByParent(maps);
+                    for (PurchaseRequired purchaseRequired : req) {
+                        if("1".equals(purchaseRequired.getParentId())){
+                            User user = userService.getUserById(purchaseRequired.getUserId());
+                            purchaseRequired.setUserId(user.getRelName());
+                            purchaseRequired.setCode(user.getMobile());
+                            model.addAttribute("purchaseRequired", purchaseRequired);
+                            break;
+                        }
+                    }
+                    
+                    if(StringUtils.isNotBlank(requireds.getOrganization())){
+                        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(requireds.getOrganization());
+                        requireds.setOrganization(orgnization.getShortName());
+                    }
+                    requireds.setPurchaseType(DictionaryDataUtil.findById(requireds.getPurchaseType()).getName());
+                    
+                    List<PurchaseManagement> queryByPid = managementService.queryByPid(requireds.getUniqueId());
+                    if(queryByPid != null && queryByPid.size() > 0){
+                        Orgnization org= orgnizationService.getOrgByPrimaryKey(queryByPid.get(0).getManagementId());
+                        model.addAttribute("management", org.getShortName());//管理部门
+                    }
+                    HashMap<String, Object> mapAudit = new HashMap<>();
+                    mapAudit.put("collectId", requireds.getUniqueId());
+                    mapAudit.put("type", "4");
+                    List<AuditPerson> selectByMap = auditPersonService.selectByMap(mapAudit);
+                    if(selectByMap != null && selectByMap.size() > 0){
+                        User user = userService.getUserById(selectByMap.get(0).getUserId());
+                        selectByMap.get(0).setUserId(user.getRelName());
+                        model.addAttribute("auditPerson", selectByMap.get(0));//受理人和受理时间
+                    }
+                    
+                    model.addAttribute("required", requireds);
+                }
+                
+                
+                //预研项目信息
+                AdvancedProject advancedProject = advancedProjectService.selectById(selectById.getAdvancedProject());
+                if(advancedProject != null){
+                    HashMap<String, Object> maps = new HashMap<>();
+                    maps.put("projectId", advancedProject.getId());
+                    List<ProjectTask> queryByNo = projectTaskService.queryByNo(maps);
+                    Task task = taskService.selectById(queryByNo.get(0).getTaskId());
+                    if(task != null){
+                        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(task.getOrgId());
+                        task.setOrgName(orgnization.getShortName());
+                        User user = userService.getUserById(task.getCreaterId());
+                        task.setCreaterId(user.getRelName());
+                        model.addAttribute("tasks", task);//任务
+                    }
+                    model.addAttribute("advancedProject", advancedProject);//预研项目
                 }
             }
-            
-            
             
             String adviceId = DictionaryDataUtil.getId("ADVANCED_ADVICE");
             

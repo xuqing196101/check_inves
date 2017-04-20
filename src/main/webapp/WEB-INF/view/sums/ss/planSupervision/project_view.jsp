@@ -56,6 +56,7 @@
               <th>创建时间</th>
               <th>创建人</th>
               <th>项目状态</th>
+              <!-- <th>项目性质</th> -->
             </tr>
           </thead>
           <tbody id="tbody_id">
@@ -77,6 +78,14 @@
                 </td>
                 <td class="tl pl20" onclick="view('${obj.id}','1')">${obj.appointMan}</td>
                 <td class="tc">${obj.status}</td>
+                <%-- <td class="tc">
+                  <c:if test="${projectNature eq '1' }">
+                    <span class="label rounded-2x label-orange">预研项目</span>
+                  </c:if>
+                  <c:if test="${projectNature eq '0' }">
+                    <span class="label rounded-2x label-u">正常项目</span>
+                  </c:if>
+                </td> --%>
               </tr>
             </c:forEach>
           </tbody>

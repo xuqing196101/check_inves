@@ -17,6 +17,7 @@ import bss.dao.ppms.AdvancedPackageMapper;
 import bss.dao.ppms.AdvancedProjectMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
+import bss.dao.ppms.ProjectTaskMapper;
 import bss.dao.ppms.TaskMapper;
 import bss.dao.pqims.PqInfoMapper;
 import bss.model.cs.ContractRequired;
@@ -29,6 +30,7 @@ import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
 import bss.model.pqims.PqInfo;
 import bss.service.pms.PurchaseRequiredService;
@@ -73,6 +75,9 @@ public class SupervisionServiceImpl implements SupervisionService {
     @Autowired
     private AdvancedProjectMapper advancedProjectMapper;
     
+    @Autowired
+    private ProjectTaskMapper projectTaskMapper;
+    
 
     @Override
     public String[] progressBar(String id) {
@@ -99,12 +104,26 @@ public class SupervisionServiceImpl implements SupervisionService {
                     if(listBycollect != null && listBycollect.size() > 0){
                         progressBar = progressBar(String.valueOf(listBycollect.get(0).getStatus()),listBycollect.get(0).getId());
                     } else {
-                        progressBar = progressBar(detail.getStatus(),detail.getUniqueId());
+                        HashMap<String, Object> maps = new HashMap<>();
+                        maps.put("requiredId", detail.getId());
+                        List<ProjectDetail> selectById2 = projectDetailMapper.selectById(maps);
+                        if(selectById2 != null && selectById2.size() > 0){
+                            progressBar = progressBar(detail.getStatus(),detail.getUniqueId());
+                        }else{
+                            PurchaseRequired purchaseRequired = requiredService.queryById(detail.getId());
+                            progressBar = adProgressBar(purchaseRequired.getId());
+                        }
+                        
                     }
                 } else {
                     PurchaseRequired purchaseRequired = requiredService.queryById(id);
                     if(purchaseRequired != null){
-                        progressBar = progressBar(purchaseRequired.getStatus(),purchaseRequired.getUniqueId());
+                        String[] adProgressBar = adProgressBar(purchaseRequired.getId());
+                        if(adProgressBar != null){
+                            progressBar = adProgressBar(purchaseRequired.getId());
+                        }else{
+                            progressBar = progressBar(purchaseRequired.getStatus(),purchaseRequired.getUniqueId());
+                        }
                     }
                 }
                 
@@ -117,7 +136,7 @@ public class SupervisionServiceImpl implements SupervisionService {
     
     
     public String[] progressBar(String status, String id){
-        double number = 100.00/38.00;
+        double number = 100.00/39.00;
         BigDecimal b = new BigDecimal(number);
         double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
         String num = null;
@@ -179,17 +198,17 @@ public class SupervisionServiceImpl implements SupervisionService {
                         }
                     }
                 } else {
-                    if("0".equals(status)){
+                    if(task.getStatus() == 0){
                         int one = 9;
                         num = String.valueOf(Math.round(total*one));
                         name = "采购任务未受领";
                     }
-                    if("1".equals(status)){
+                    if(task.getStatus() == 1){
                         int one = 10;
                         num = String.valueOf(Math.round(total*one));
                         name = "采购任务已受领";
                     }
-                    if("2".equals(status)){
+                    if(task.getStatus() == 2){
                         int one = 11;
                         num = String.valueOf(Math.round(total*one));
                         name = "采购任务已取消";
@@ -303,12 +322,76 @@ public class SupervisionServiceImpl implements SupervisionService {
             AdvancedDetail detail = advancedDetailMapper.selectByRequiredId(id);
             if(detail != null){
                 AdvancedProject project = advancedProjectMapper.selectAdvancedProjectByPrimaryKey(detail.getAdvancedProject());
-                if(project != null && !"0".equals(project.getStatus())){
-                    progressBar = progressBar(project.getStatus(),id);
+                if(project != null){
+                    progressBar = adBar(project.getStatus(),project.getId());
                 }
             }
         }
         return progressBar;
+    }
+    
+    
+    public String[] adBar(String status, String id){
+        double number = 100.00/30.00;
+        BigDecimal b = new BigDecimal(number);
+        double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+        String num = null;
+        String name = null;
+        DictionaryData findById = DictionaryDataUtil.findById(status);
+        if(findById != null){
+            num = String.valueOf(Math.round(total*(findById.getPosition() + 8)));
+            name = findById.getName();
+        } else {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("projectId", id);
+            List<ProjectTask> queryByNo = projectTaskMapper.queryByNo(map);
+            Task task = taskMapper.selectByPrimaryKey(queryByNo.get(0).getTaskId());
+            if(task == null){
+                if("1".equals(status)){
+                    int one = 1;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "采购需求未提交";
+                }
+                if("2".equals(status)){
+                    int one = 2;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "采购需求待受理";
+                }
+                if("3".equals(status)){
+                    int one = 3;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "采购需求已受理";
+                }
+                if("4".equals(status)){
+                    int one = 4;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "采购需求受理退回";
+                }
+                if("5".equals(status)){
+                    int one = 5;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "采购需求已受理";
+                }
+            } else {
+                if(task.getStatus() == 0){
+                    int one = 6;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "采购任务未受领";
+                }
+                if(task.getStatus() == 1){
+                    int one = 7;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "采购任务已受领";
+                }
+                if(task.getStatus() == 2){
+                    int one = 8;
+                    num = String.valueOf(Math.round(total*one));
+                    name = "采购任务已取消";
+                }
+            }
+        }
+        String[] names = {num,name};
+        return names;
     }
 
 }

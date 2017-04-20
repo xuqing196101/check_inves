@@ -37,20 +37,16 @@
           $(".flow_tips").children(":last").parent().removeClass("last_r");
           $(".flow_tips").children(":last").prev().removeClass("tip_line col-md-5 col-sm-3 col-xs-4");
         }
-        var _last = 0;
         $(".tip_time").each(function() {
           var time = $(this).text();
           time = $.trim(time);
           if(time){
             $(this).parent().parent().parent().addClass("pre_btn");
-            _last = _last+1;
           }
         });
-        $(".tip_time").eq(_last-1).parent().parent().parent().removeClass("pre_btn");
-        $(".tip_time").eq(_last-1).parent().parent().parent().addClass("current_btn");
-        //$(".flow_tips").addClass("pre_btn"); 
+        $('.pre_btn').last().addClass("current_btn");
+        $('.pre_btn').last().removeClass("pre_btn");
         $(".flow_tips").children(":last").hide();
-        //$(".flow_tips").children(":last").parent().addClass("current_btn");
       });
       
       function viewDemand() {
@@ -338,6 +334,7 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
 
+                <c:if test="${collectPlan ne null}">
                 <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-5">
                   <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                     <a href="#tab-5">
@@ -350,6 +347,7 @@
                   <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
                   <div class="tip_down col-xs-offset-6"></div>
                 </div>
+                </c:if>
 
               <div class="flow_tips col-md-2 col-sm-2 col-xs-12  round_tips" id="main-6">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
@@ -403,6 +401,7 @@
               </div>
 
               <c:if test="${'GKZB' ne code.code && 'DYLY' ne code.code}">
+                <c:if test="${extUserNames ne null}">
                 <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-10">
                   <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                     <a href="#tab-10">
@@ -413,6 +412,7 @@
                   <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
                   <div class="tip_down col-xs-offset-6"></div>
                 </div>
+                </c:if>
               </c:if>
 
               <c:if test="${'DYLY' ne code.code}">
@@ -600,7 +600,7 @@
                   </tr>
                   <tr>
                     <td class="tc">
-                      <u:show showId="upload_id" businessId="${advancedProjectId}" sysKey="2" delete="false" typeId="${adviceId}" />
+                      <u:show showId="upload_id" businessId="${advancedProject.id}" sysKey="2" delete="false" typeId="${adviceId}" />
                     </td>
                     <td>${tasks.orgName}</td>
                     <td class="tc">${tasks.createrId}</td>
@@ -782,6 +782,7 @@
             </c:if>
 
             <c:if test="${'GKZB' ne code.code && 'DYLY' ne code.code}">
+              <c:if test="${extUserNames ne null}">
               <h2 class="list_son" id="tab-10"><i>${flag}</i>供应商抽取</h2>
               <c:set var="flag" value="${flag+1}" />
               <table class="table table-bordered mt10">
@@ -802,6 +803,7 @@
                   </tr>
                 </tbody>
               </table>
+              </c:if>
             </c:if>
 
             <c:if test="${'DYLY' ne code.code}">
