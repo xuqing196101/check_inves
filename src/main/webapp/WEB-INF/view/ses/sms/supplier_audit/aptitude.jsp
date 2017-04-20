@@ -281,7 +281,7 @@
 								</li>
 								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '工程') and fn:length(allTreeList) > 0}">
+							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 								<li id="li_id_3" class='<c:if test="${liCount == 0}">active</c:if>'>
 									<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程资质信息</a>
 									<c:set value="${liCount+1}" var="liCount"/>

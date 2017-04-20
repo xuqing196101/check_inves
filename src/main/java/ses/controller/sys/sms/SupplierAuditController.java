@@ -2151,6 +2151,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	public String aptitude(Model model, String supplierId, Integer supplierStatus, Integer sign) {
 		model.addAttribute("supplierStatus", supplierStatus);
 		model.addAttribute("sign", sign);
+		model.addAttribute("supplierId", supplierId);
 		String supplierTypeIds = supplierTypeRelateService.findBySupplier(supplierId);
 
 		//勾选的供应商类型
@@ -2164,57 +2165,40 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 
+		//查询所有的三级品目生产
+		List < Category > listPro = getSupplier(supplierId, supplierTypeIds);
+		removeSame(listPro);
 		//根据品目id查询所有的证书信息
-		List < QualificationBean > list3 = supplierService.queryCategoyrId(list2, 2);
+		List < QualificationBean > list3 = supplierService.queryCategoyrId(listPro, 2);
 
 		//查询所有的三级品目销售
 		List < Category > listSlae = getSale(supplierId, supplierTypeIds);
 		removeSame(listSlae);
-
 		//根据品目id查询所有的证书信息
 		List < QualificationBean > saleQua = supplierService.queryCategoyrId(listSlae, 3);
-
-		//查询所有的三级目录工程
-		/*List < Category > listProject = getProject(supplierId, supplierTypeIds);
-		removeSame(listProject);*/
-
-		//根据品目id查询所有的工证书
-		/*List < QualificationBean > projectQua = supplierService.queryCategoyrId(listProject, 1);*/
 
 		//查询所有的三级品目服务
 		List < Category > listService = getServer(supplierId, supplierTypeIds);
 		removeSame(listService);
-
 		//根据品目id查询所有的服务证书信息
 		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 1);
 
 		//生产证书
 		List < Qualification > qaList = new ArrayList < Qualification > ();
 		List < Qualification > saleList = new ArrayList < Qualification > ();
-		List < Qualification > projectList = new ArrayList < Qualification > ();
 		List < Qualification > serviceList = new ArrayList < Qualification > ();
 
-		//生产
 		if(list3 != null && list3.size() > 0) {
 			for(QualificationBean qb: list3) {
 				qaList.addAll(qb.getList());
 			}
 		}
-
 		//销售
 		if(saleQua != null && saleQua.size() > 0) {
 			for(QualificationBean qb: saleQua) {
 				saleList.addAll(qb.getList());
 			}
 		}
-
-		//工程
-		/*if(projectQua != null && projectQua.size() > 0) {
-			for(QualificationBean qb: projectQua) {
-				projectList.addAll(qb.getList());
-			}
-		}*/
-
 		//服务
 		if(serviceQua != null && serviceQua.size() > 0) {
 			for(QualificationBean qb: serviceQua) {
@@ -2223,36 +2207,41 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 
 		//生产
+		StringBuffer sbUp = new StringBuffer("");
 		StringBuffer sbShow = new StringBuffer("");
 		int len = qaList.size() + 1;
 		for(int i = 1; i < len; i++) {
+			sbUp.append("pUp" + i + ",");
 			sbShow.append("pShow" + i + ",");
 
 		}
-
 		//销售
 		int slaelen = saleList.size() + 1;
 		for(int i = 1; i < slaelen; i++) {
+			sbUp.append("saleUp" + i + ",");
 			sbShow.append("saleShow" + i + ",");
+
 		}
 
-		//工程
-		/*if(projectList != null && projectList.size() > 0) {
-			int projectlen = projectList.size() + 1;
-			for(int i = 1; i < projectlen; i++) {
-				sbShow.append("projectShow" + i + ",");
-			}
-		}*/
-
-		//服务
 		if(serviceList != null && serviceList.size() > 0) {
 			int serverlen = serviceList.size() + 1;
 			for(int i = 1; i < serverlen; i++) {
+				sbUp.append("serverUp" + i + ",");
 				sbShow.append("serverShow" + i + ",");
+
 			}
 		}
-		
-		//工程
+		model.addAttribute("saleUp", sbUp.toString());
+		model.addAttribute("saleShow", sbShow.toString());
+		model.addAttribute("cateList", list3);
+		model.addAttribute("saleQua", saleQua);
+		model.addAttribute("serviceQua", serviceQua);
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		model.addAttribute("businessId", supplierId);
+		 String id = DictionaryDataUtil.getId("SUPPLIER_APTITUD");
+		model.addAttribute("typeId", id);
+
+		// 工程
 		String[] typeIds = supplierTypeIds.split(",");
 		boolean isEng = false;
 		for(String type: typeIds) {
@@ -2270,16 +2259,16 @@ public class SupplierAuditController extends BaseSupplierController {
 				SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, item);
 				if(cateTree != null && cateTree.getRootNode() != null) {
 					cateTree.setItemsId(item.getId());
-					cateTree.setDiyLevel(item.getDiyLevel());
+					cateTree.setDiyLevel(item.getLevel());
 					if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
 					if(cateTree!=null&&cateTree.getProName()!=null){
 						List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
-//						List < SupplierCertEng > certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supId);
+//								List < SupplierCertEng > certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supId);
 						if(certEng != null && certEng.size() > 0) {
-//							String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supId).getSupplierMatEng().getId());
-//							if(level != null) {
+//									String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supId).getSupplierMatEng().getId());
+//									if(level != null) {
 								cateTree.setFileId(certEng.get(0).getId());
-//							}
+//									}
 						}	
 					}
 					
@@ -2290,15 +2279,6 @@ public class SupplierAuditController extends BaseSupplierController {
 			model.addAttribute("allTreeList", allTreeList);
 			model.addAttribute("engTypeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
 		}
-
-		model.addAttribute("saleShow", sbShow);
-		model.addAttribute("cateList", list3);
-		model.addAttribute("saleQua", saleQua);
-		/*model.addAttribute("projectQua", projectQua);*/
-		model.addAttribute("serviceQua", serviceQua);
-		model.addAttribute("supplierId", supplierId);
-		model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
-		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
 		//回显未通过字段
 		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 7){
@@ -2317,7 +2297,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		return "ses/sms/supplier_audit/aptitude";
 	}
 
-	//生产
+	//生产所有的三级目录
 	public List < Category > getSupplier(String supplierId, String code) {
 		List < Category > categoryList = new ArrayList < Category > ();
 		String[] types = code.split(",");
@@ -2325,28 +2305,26 @@ public class SupplierAuditController extends BaseSupplierController {
 			String categoryId = "";
 			if(s != null) {
 				if(s.equals("PRODUCT")) {
-					// categoryId = DictionaryDataUtil.getId("GOODS");
-				     Map<String, Object> searchMap = new HashMap<String, Object>();
-	                    searchMap.put("supplierId", supplierId);
-	                    searchMap.put("type", s);
-					    List < SupplierItem > category = supplierItemService.findByMap(searchMap);
-					    for(SupplierItem c: category) {
-							Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
-							if (cate == null) {
-							    cate = new Category();
-							    DictionaryData data = DictionaryDataUtil.findById(c.getCategoryId());
-							    if(data != null){
-							    	cate.setId(data.getId());
-								    cate.setParentId(data.getId());
-								    cate.setName(data.getName());
-							    }
-							    
-							} else {
-								//供应商中间表的id和资质证书的id
-							    cate.setParentId(c.getId());
-							}
-							categoryList.add(cate);
+					/*categoryId = DictionaryDataUtil.getId("GOODS");
+					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);*/
+                    Map<String, Object> searchMap = new HashMap<String, Object>();
+                    searchMap.put("supplierId", supplierId);
+                    searchMap.put("type", s);
+				    List < SupplierItem > category = supplierItemService.findByMap(searchMap);
+					for(SupplierItem c: category) {
+						Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
+						if (cate == null) {
+						    cate = new Category();
+						    DictionaryData data = DictionaryDataUtil.findById(c.getCategoryId());
+						    cate.setId(data.getId());
+						    cate.setParentId(data.getId());
+						    cate.setName(data.getName());
+						} else {
+							//供应商中间表的id和资质证书的id
+						    cate.setParentId(c.getId());
 						}
+						categoryList.add(cate);
+					}
 				}
 			}
 		}
@@ -2362,35 +2340,46 @@ public class SupplierAuditController extends BaseSupplierController {
 			String categoryId = "";
 			if(s != null) {
 				if(s.equals("SALES")) {
-					categoryId = DictionaryDataUtil.getId("GOODS");
-					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);
+					/*categoryId = DictionaryDataUtil.getId("GOODS");
+					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);*/
+				    Map<String, Object> searchMap = new HashMap<String, Object>();
+                    searchMap.put("supplierId", supplierId);
+                    searchMap.put("type", s);
+                    List < SupplierItem > category = supplierItemService.findByMap(searchMap);
 					for(SupplierItem c: category) {
-						Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
-						cate.setParentId(c.getId());
-						categoryList.add(cate);
+					    Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
+                        if (cate == null) {
+                            cate = new Category();
+                            DictionaryData data = DictionaryDataUtil.findById(c.getCategoryId());
+                            cate.setId(data.getId());
+                            cate.setParentId(data.getId());
+                            cate.setName(data.getName());
+                        } else {
+                            cate.setParentId(c.getId());
+                        }
+                        categoryList.add(cate);
 					}
 				}
 			}
 		}
-
 		return categoryList;
 	}
 
 	//工程
-		public List<SupplierItem> getProject(String supplierId, String code) {
-			String[] types = code.split(",");
-			for(String s: types) {
-				String categoryId = "";
-				if(s != null) {
-					if(s.equals("PROJECT")) {
-						categoryId = DictionaryDataUtil.getId("PROJECT");
-						return supplierItemService.getCategory(supplierId, categoryId, s);
-					}
+	public List < SupplierItem > getProject(String supplierId, String code) {
+		String[] types = code.split(",");
+		for(String s: types) {
+			String categoryId = "";
+			if(s != null) {
+				if(s.equals("PROJECT")) {
+					categoryId = DictionaryDataUtil.getId("PROJECT");
+                    return supplierItemService.getCategoryOther(supplierId, categoryId, s);
 				}
-
 			}
-			return null;
+
 		}
+		return null;
+	}
 
 	//服务
 	public List < Category > getServer(String supplierId, String code) {
@@ -2401,12 +2390,24 @@ public class SupplierAuditController extends BaseSupplierController {
 			String categoryId = "";
 			if(s != null) {
 				if(s.equals("SERVICE")) {
-					categoryId = DictionaryDataUtil.getId("SERVICE");
-					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);
+					/*categoryId = DictionaryDataUtil.getId("SERVICE");
+					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);*/
+				    Map<String, Object> searchMap = new HashMap<String, Object>();
+                    searchMap.put("supplierId", supplierId);
+                    searchMap.put("type", s);
+                    List < SupplierItem > category = supplierItemService.findByMap(searchMap);
 					for(SupplierItem c: category) {
-						Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
-						cate.setParentId(c.getId());
-						categoryList.add(cate);
+					    Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
+                        if (cate == null) {
+                            cate = new Category();
+                            DictionaryData data = DictionaryDataUtil.findById(c.getCategoryId());
+                            cate.setId(data.getId());
+                            cate.setParentId(data.getId());
+                            cate.setName(data.getName());
+                        } else {
+                            cate.setParentId(c.getId());
+                        }
+                        categoryList.add(cate);
 					}
 				}
 			}
