@@ -384,13 +384,16 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		//生产经营地址
 		List < SupplierAddress > supplierAddress = supplierAddressService.queryBySupplierId(supplierId);
-		for(Area a: privnce) {
-			for(SupplierAddress s: supplierAddress) {
-				if(a.getId().equals(s.getParentId())) {
-					s.setParentName(a.getName());
+		if(!supplierAddress.isEmpty()){
+			for(Area a: privnce) {
+				for(SupplierAddress s: supplierAddress) {
+					if(a.getId().equals(s.getParentId())) {
+						s.setParentName(a.getName());
+					}
 				}
 			}
 		}
+		
 		request.setAttribute("supplierAddress", supplierAddress);
 		
 		//售后服务机构一览表
