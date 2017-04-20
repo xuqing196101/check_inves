@@ -193,16 +193,21 @@
 			};   
 			
 			function reason(firstNode, secondNode, thirdNode, fourthNode, id) {
-				var auditContent;;
+				var auditContent;
+				var auditField;
 				var expertId = $("#expertId").val();
 				if(fourthNode != null && fourthNode !=""){
 					auditContent = fourthNode + "目录信息";
+					auditField = fourthNode;
 				}else if(thirdNode !=null && thirdNode!=""){
 					auditContent = thirdNode + "目录信息";
+					auditField = thirdNode;
 				}else if(secondNode !=null && secondNode !=""){
 					auditContent = secondNode + "目录信息";
+					auditField = secondNode;
 				}else{
 					auditContent = firstNode + "目录信息";
+					auditField = firstNode;
 				}
 				
 				var index = layer.prompt({
@@ -218,8 +223,9 @@
 								"suggestType": "six",
 								"auditReason": text,
 								"expertId": expertId,
-								"auditField": id,
-								"auditContent": auditContent
+								"auditField": auditField,
+								"auditContent": auditContent,
+								"auditFieldId": id
 							},
 							dataType: "json",
 							success: function(result) {

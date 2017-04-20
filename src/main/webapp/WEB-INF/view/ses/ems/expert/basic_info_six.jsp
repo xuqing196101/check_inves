@@ -311,12 +311,12 @@
         window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
       }
 
-      function errorMsg(auditField) {
+      function errorMsg(auditFieldId) {
         $.ajax({
           url: "${pageContext.request.contextPath}/expert/findAuditReason.do",
           data: {
             "expertId": $("#id").val(),
-            "auditField": auditField
+            "auditFieldId": auditFieldId
           },
           dataType: "json",
           success: function(response) {

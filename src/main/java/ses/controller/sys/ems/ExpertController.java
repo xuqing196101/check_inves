@@ -4041,7 +4041,7 @@ public class ExpertController extends BaseController {
         // 所有的不通过字段的名字
         StringBuffer errorField = new StringBuffer();
         for(ExpertAudit audit: auditList) {
-            errorField.append(audit.getAuditField() + ",");
+            errorField.append(audit.getAuditFieldId() + ",");
         }
         model.addAttribute("errorField", errorField);
 

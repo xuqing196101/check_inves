@@ -700,7 +700,7 @@ public class ExpertAuditController{
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
 		StringBuffer conditionStr = new StringBuffer();
 		for (ExpertAudit expertAudit2 : reasonsList) {
-			conditionStr.append(expertAudit2.getAuditField() + ",");
+			conditionStr.append(expertAudit2.getAuditFieldId() + ",");
 		}
 		model.addAttribute("conditionStr", conditionStr);
         
