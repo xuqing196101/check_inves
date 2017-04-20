@@ -552,14 +552,18 @@
 
 			function checknums(obj) {
 				var vals = $(obj).val();
-				var reg = /^\d+\.?\d*$/;
-				if(!reg.test(vals)) {
-					$(obj).val("");
-					$("#err_fund").text("数字非法");
-				} else {
-					$("#err_fund").text();
-					$("#err_fund").empty();
-				}
+				if(vals!=""){
+                    var reg = /^\d+\.?\d*$/;
+                    if(!reg.test(vals)) {
+                        $(obj).val("");
+                        $("#err_fund").text("数字非法");
+                        //解决多提示信息显示问题
+                        $(obj).nextAll().last().html("");
+                    } else {
+                        $("#err_fund").text();
+                        $("#err_fund").empty();
+                    }
+                }
 			}
 			/**对于金额的小数判断*/
 			function checkNumsSale(obj,nonNum){
