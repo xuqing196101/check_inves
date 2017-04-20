@@ -53,104 +53,109 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 	@Override
 	public void saveOrUpdateSupplierMatPro(Supplier supplier) {
 		String id = supplier.getSupplierMatEng().getId();
-		if (id != null && !"".equals(id)) {
-			supplier.getSupplierMatEng().setUpdatedAt(new Date());
-			supplierMatEngMapper.updateByPrimaryKeySelective(supplier.getSupplierMatEng());
-		} else {
-			SupplierMatEng eng = supplierMatEngMapper.getMatEngBySupplierId(supplier.getId());
-			if(eng==null){
-			    String sid = UUID.randomUUID().toString().replaceAll("-", "");
-			    supplier.getSupplierMatEng().setId(sid);
-			    supplier.getSupplierMatEng().setCreatedAt(new Date());
-				supplierMatEngMapper.insertSelective(supplier.getSupplierMatEng());
-			} else {
-			    if (supplier.getSupplierMatEng().getId() == null) {
-                    supplier.getSupplierMatEng().setId(eng.getId());
+		try{
+            if (id != null && !"".equals(id)) {
+                supplier.getSupplierMatEng().setUpdatedAt(new Date());
+                supplierMatEngMapper.updateByPrimaryKeySelective(supplier.getSupplierMatEng());
+            } else {
+                SupplierMatEng eng = supplierMatEngMapper.getMatEngBySupplierId(supplier.getId());
+                if(eng==null){
+                    String sid = UUID.randomUUID().toString().replaceAll("-", "");
+                    supplier.getSupplierMatEng().setId(sid);
+                    supplier.getSupplierMatEng().setCreatedAt(new Date());
+                    supplierMatEngMapper.insertSelective(supplier.getSupplierMatEng());
+                } else {
+                    if (supplier.getSupplierMatEng().getId() == null) {
+                        supplier.getSupplierMatEng().setId(eng.getId());
+                    }
+                    supplierMatEngMapper.updateByPrimaryKeySelective(supplier.getSupplierMatEng());
                 }
-			    supplierMatEngMapper.updateByPrimaryKeySelective(supplier.getSupplierMatEng());
-			}
-			
-		}
-		SupplierMatEng supplierMatEng = supplierMatEngMapper.getMatEngBySupplierId(supplier.getId());
-        // 供应商注册人员登记
-        List<SupplierRegPerson> listRegPersons = supplier.getSupplierMatEng().getListSupplierRegPersons();
-        for (SupplierRegPerson regPerson : listRegPersons) {
-            SupplierRegPerson regPersonBean = supplierRegPersonMapper.selectByPrimaryKey(regPerson.getId());
-            // 判断是否已经存在,来选择insert还是update
-            if (regPersonBean != null) {
-                // 修改
-                regPerson.setMatEngId(supplierMatEng.getId());
-                supplierRegPersonMapper.updateByPrimaryKeySelective(regPerson);
-            } else {
-                // 新增
-                regPerson.setMatEngId(supplierMatEng.getId());
-                supplierRegPersonMapper.insertSelective(regPerson);
+
             }
-        }
-        // 供应商工程证书信息
-        List<SupplierCertEng> listCertEngs = supplier.getSupplierMatEng().getListSupplierCertEngs();
-        for (SupplierCertEng certEng : listCertEngs) {
-            SupplierCertEng certEngBean = supplierCertEngMapper.selectByPrimaryKey(certEng.getId());
-            // 判断是否已经存在,来选择insert还是update
-            if (certEngBean != null) {
-                // 修改
-                certEng.setMatEngId(supplierMatEng.getId());
-                supplierCertEngMapper.updateByPrimaryKeySelective(certEng);
-            } else {
-                // 新增
-                certEng.setMatEngId(supplierMatEng.getId());
-                supplierCertEngMapper.insertSelective(certEng);
+            SupplierMatEng supplierMatEng = supplierMatEngMapper.getMatEngBySupplierId(supplier.getId());
+            // 供应商注册人员登记
+            List<SupplierRegPerson> listRegPersons = supplier.getSupplierMatEng().getListSupplierRegPersons();
+            for (SupplierRegPerson regPerson : listRegPersons) {
+                SupplierRegPerson regPersonBean = supplierRegPersonMapper.selectByPrimaryKey(regPerson.getId());
+                // 判断是否已经存在,来选择insert还是update
+                if (regPersonBean != null) {
+                    // 修改
+                    regPerson.setMatEngId(supplierMatEng.getId());
+                    supplierRegPersonMapper.updateByPrimaryKeySelective(regPerson);
+                } else {
+                    // 新增
+                    regPerson.setMatEngId(supplierMatEng.getId());
+                    supplierRegPersonMapper.insertSelective(regPerson);
+                }
             }
-        }
-        // 供应商资质资格信息
-        List<SupplierAptitute> listAptitutes = supplier.getSupplierMatEng().getListSupplierAptitutes();
-        for (SupplierAptitute aptitute : listAptitutes) {
-            SupplierAptitute aptituteBean = supplierAptituteMapper.selectByPrimaryKey(aptitute.getId());
- 
-            
-            
-            // 判断是否已经存在,来选择insert还是update
-            if (aptituteBean != null) {
-                // 修改
-                aptitute.setMatEngId(supplierMatEng.getId());
-                supplierAptituteMapper.updateByPrimaryKeySelective(aptitute);
-                if(aptituteBean.getCertType()!=null){
-                	Qualification qualification = qualificationMapper.getQualification(aptituteBean.getCertType());
-                	String _name = aptituteBean.getCertType();
-                    List<SupplierPorjectQua> sQua = supplierPorjectQuaMapper.queryByNameAndSupplierId(_name, supplier.getId());
-                    if(sQua.size()<1 && qualification==null){
-                		SupplierPorjectQua projectQua=new SupplierPorjectQua();
-                		projectQua.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-                		projectQua.setName(_name);
-                		projectQua.setSupplierId(supplier.getId());
-                		projectQua.setIsDelete(0);
-                        if(aptituteBean.getAptituteLevel()!=null){
-                            projectQua.setCertLevel(aptituteBean.getAptituteLevel());
+            // 供应商工程证书信息
+            List<SupplierCertEng> listCertEngs = supplier.getSupplierMatEng().getListSupplierCertEngs();
+            for (SupplierCertEng certEng : listCertEngs) {
+                SupplierCertEng certEngBean = supplierCertEngMapper.selectByPrimaryKey(certEng.getId());
+                // 判断是否已经存在,来选择insert还是update
+                if (certEngBean != null) {
+                    // 修改
+                    certEng.setMatEngId(supplierMatEng.getId());
+                    supplierCertEngMapper.updateByPrimaryKeySelective(certEng);
+                } else {
+                    // 新增
+                    certEng.setMatEngId(supplierMatEng.getId());
+                    supplierCertEngMapper.insertSelective(certEng);
+                }
+            }
+            // 供应商资质资格信息
+            List<SupplierAptitute> listAptitutes = supplier.getSupplierMatEng().getListSupplierAptitutes();
+            for (SupplierAptitute aptitute : listAptitutes) {
+                SupplierAptitute aptituteBean = supplierAptituteMapper.selectByPrimaryKey(aptitute.getId());
+
+
+
+                // 判断是否已经存在,来选择insert还是update
+                if (aptituteBean != null) {
+                    // 修改
+                    aptitute.setMatEngId(supplierMatEng.getId());
+                    supplierAptituteMapper.updateByPrimaryKeySelective(aptitute);
+                    if(aptituteBean.getCertType()!=null){
+                        Qualification qualification = qualificationMapper.getQualification(aptituteBean.getCertType());
+                        String _name = aptituteBean.getCertType();
+                        List<SupplierPorjectQua> sQua = supplierPorjectQuaMapper.queryByNameAndSupplierId(_name, supplier.getId());
+                        if(sQua.size()<1 && qualification==null){
+                            SupplierPorjectQua projectQua=new SupplierPorjectQua();
+                            projectQua.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+                            projectQua.setName(_name);
+                            projectQua.setSupplierId(supplier.getId());
+                            projectQua.setIsDelete(0);
+                            if(aptituteBean.getAptituteLevel()!=null){
+                                projectQua.setCertLevel(aptituteBean.getAptituteLevel());
+                            }
+                            supplierPorjectQuaMapper.insert(projectQua);
                         }
-                		supplierPorjectQuaMapper.insert(projectQua);
-                	}
-                	if(sQua!=null&&sQua.size()>0){
-                		
-                		SupplierPorjectQua projectQua=new SupplierPorjectQua();
-                		projectQua.setName(_name);
-                		projectQua.setSupplierId(supplier.getId());
-                		if(aptituteBean.getAptituteLevel()==null){
-                			projectQua.setCertLevel("");
-                		}
-                		if(aptituteBean.getAptituteLevel()!=null){
-                			projectQua.setCertLevel(aptituteBean.getAptituteLevel());
-                		}
-                		supplierPorjectQuaMapper.updateBysupplierIdAndName(projectQua);
-                	}
+                        if(sQua!=null&&sQua.size()>0){
+
+                            SupplierPorjectQua projectQua=new SupplierPorjectQua();
+                            projectQua.setName(_name);
+                            projectQua.setSupplierId(supplier.getId());
+                            if(aptituteBean.getAptituteLevel()==null){
+                                projectQua.setCertLevel("");
+                            }
+                            if(aptituteBean.getAptituteLevel()!=null){
+                                projectQua.setCertLevel(aptituteBean.getAptituteLevel());
+                            }
+                            supplierPorjectQuaMapper.updateBysupplierIdAndName(projectQua);
+                        }
+                    }
+
+
+                } else {
+                    // 新增
+                    aptitute.setMatEngId(supplierMatEng.getId());
+                    supplierAptituteMapper.insertSelective(aptitute);
                 }
-                
-                
-            } else {
-                // 新增
-                aptitute.setMatEngId(supplierMatEng.getId());
-                supplierAptituteMapper.insertSelective(aptitute);
             }
+        }catch (Exception e){
+		    e.printStackTrace();
         }
+
 	}
 	
 	/**
