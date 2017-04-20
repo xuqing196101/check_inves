@@ -910,55 +910,58 @@ public class SupplierController extends BaseSupplierController {
 		boolean server = true;
 		boolean project = true;
 		String[] str = supplier.getSupplierTypeIds().trim().split(",");
-		
-		List<Area> areaList = areaService.findRootArea();
-		for(String s: str) {
-			if(s.equals("PRODUCT")) {
-				pro = validatePro(request, supplier.getSupplierMatPro(), model);
-				if(pro == true) {
-					supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
-				}
-			}
-			if(s.equals("SALES")) {
-				sale = validateSale(request, supplier.getSupplierMatSell(), model);
-				if(sale == true) {
-					supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
-				}
-			}
-			if(s.equals("PROJECT")) {
-				project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
-				if(project == true) {
-					supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
-				}
-			}
-			if(s.equals("SERVICE")) {
-				server = validateServer(request, supplier.getSupplierMatSe(), model);
-				if(server == true) {
-					supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
-				}
-			}
-		}
-		supplierTypeRelateService.saveSupplierTypeRelate(supplier);
-		String[] split = supplier.getSupplierTypeIds().split(",");
-		int length = split.length;
-		model.addAttribute("length", length);
-		model.addAttribute("supplierTypeIds", supplier.getSupplierTypeIds());
+        List<Area> areaList = areaService.findRootArea();
+        try{
+            for(String s: str) {
+                if(s.equals("PRODUCT")) {
+                    pro = validatePro(request, supplier.getSupplierMatPro(), model);
+                    if(pro == true) {
+                        supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+                    }
+                }
+                if(s.equals("SALES")) {
+                    sale = validateSale(request, supplier.getSupplierMatSell(), model);
+                    if(sale == true) {
+                        supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+                    }
+                }
+                if(s.equals("PROJECT")) {
+                    project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
+                    if(project == true) {
+                        supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+                    }
+                }
+                if(s.equals("SERVICE")) {
+                    server = validateServer(request, supplier.getSupplierMatSe(), model);
+                    if(server == true) {
+                        supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+                    }
+                }
+            }
+            supplierTypeRelateService.saveSupplierTypeRelate(supplier);
+            String[] split = supplier.getSupplierTypeIds().split(",");
+            int length = split.length;
+            model.addAttribute("length", length);
+            model.addAttribute("supplierTypeIds", supplier.getSupplierTypeIds());
 
-		if(old!=null&&old.equals("old")){
-				String[] strs = supplier.getSupplierTypeIds().split(",");
-				StringBuffer sb=new StringBuffer();
-				for(String s:strs){
-					if(!s.equals("SALES")){
-						sb.append(s).append(",");
-					}
-				}
-				supplier.setSupplierTypeIds(sb.toString());
-			}
-			model.addAttribute("currSupplier", supplier);
-			if(old!=null&&old.equals("old")){
-				supplierTypeRelateService.delete(supplier.getId(), "SALES");
-			}
-			
+            if(old!=null&&old.equals("old")){
+                String[] strs = supplier.getSupplierTypeIds().split(",");
+                StringBuffer sb=new StringBuffer();
+                for(String s:strs){
+                    if(!s.equals("SALES")){
+                        sb.append(s).append(",");
+                    }
+                }
+                supplier.setSupplierTypeIds(sb.toString());
+            }
+            model.addAttribute("currSupplier", supplier);
+            if(old!=null&&old.equals("old")){
+                supplierTypeRelateService.delete(supplier.getId(), "SALES");
+            }
+        }catch (Exception e){
+		    e.printStackTrace();
+        }
+
 			
 		if(pro == true && server == true && project == true && sale == true) {
 			return "ses/sms/supplier_register/items";
