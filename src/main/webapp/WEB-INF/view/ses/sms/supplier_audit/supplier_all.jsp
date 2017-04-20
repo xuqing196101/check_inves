@@ -314,7 +314,7 @@
 									<a href="#">供应商审核</a>
 								</li>
 							</c:otherwise>
-						   </c:choose>
+						</c:choose>
 						
 							<c:if test="${sign == 1}">
 							<li class="active">

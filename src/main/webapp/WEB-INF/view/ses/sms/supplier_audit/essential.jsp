@@ -316,7 +316,15 @@
 						<a href="#">供应商管理</a>
 					</li>
 					<li>
-						<a href="#">供应商审核</a>
+						<c:if test="${sign == 1}">
+							<a href="#">供应商审核</a>
+						</c:if>
+						<c:if test="${sign == 2}">
+							<a href="#">供应商复核</a>
+						</c:if>
+						<c:if test="${sign == 3}">
+							<a href="#">供应商实地考察</a>
+						</c:if>
 					</li>
 				</ul>
 			</div>
@@ -412,6 +420,7 @@
 					<form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/financial.html" method="post">
 						<input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
 						<input name="supplierStatus" value="${suppliers.status }" type="hidden">
+						<input type="hidden" name="sign" value="${sign}">
 					</form>
 
 					<h2 class="count_flow"><i>1</i>供应商信息</h2>
@@ -665,7 +674,7 @@
 						</li>
 					</ul>
 
-					<h2 class="count_flow"><i>6</i>军队业务联系人</h2>
+					<h2 class="count_flow"><i>6</i>本单位军队业务联系人</h2>
 					<ul class="ul_list">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名：</span>

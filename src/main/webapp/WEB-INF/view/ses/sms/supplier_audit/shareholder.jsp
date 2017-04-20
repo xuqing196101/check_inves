@@ -158,9 +158,18 @@
 					</li>
 	        <li>
 	          <a href="#">供应商管理</a>
-	        </li><li>
-	          <a href="#">供应商审核</a>
 	        </li>
+	        <li>
+						<c:if test="${sign == 1}">
+							<a href="#">供应商审核</a>
+						</c:if>
+						<c:if test="${sign == 2}">
+							<a href="#">供应商复核</a>
+						</c:if>
+						<c:if test="${sign == 3}">
+							<a href="#">供应商实地考察</a>
+						</c:if>
+					</li>
 	      </ul>
 	    </div>
 	  </div> 
@@ -254,6 +263,7 @@
         <form id="form_id" action="" method="post" >
             <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
             <input name="supplierStatus" value="${supplierStatus}" type="hidden">
+            <input type="hidden" name="sign" value="${sign}">
         </form>
         <ul class="ul_list count_flow">
         	<h5>出资人（股东）信息 （说明：出资人（股东）多于10人的，可以列出出资金额前十位的信息，但所列的出资比例应高于50%）</h5>

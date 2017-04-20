@@ -214,7 +214,15 @@
 						<a href="#">供应商管理</a>
 					</li>
 					<li>
-						<a href="#">供应商审核</a>
+						<c:if test="${sign == 1}">
+							<a href="#">供应商审核</a>
+						</c:if>
+						<c:if test="${sign == 2}">
+							<a href="#">供应商复核</a>
+						</c:if>
+						<c:if test="${sign == 3}">
+							<a href="#">供应商实地考察</a>
+						</c:if>
 					</li>
 				</ul>
 			</div>
@@ -323,6 +331,7 @@
 		<form id="form_id" action="" method="post">
 			<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
 			<input name="supplierStatus" value="${supplierStatus}" type="hidden">
+			<input type="hidden" name="sign" value="${sign}">
 		</form>
 	</body>
 

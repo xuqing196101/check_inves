@@ -228,7 +228,15 @@
 						<a href="#">供应商管理</a>
 					</li>
 					<li>
-						<a href="#">供应商审核</a>
+						<c:if test="${sign == 1}">
+							<a href="#">供应商审核</a>
+						</c:if>
+						<c:if test="${sign == 2}">
+							<a href="#">供应商复核</a>
+						</c:if>
+						<c:if test="${sign == 3}">
+							<a href="#">供应商实地考察</a>
+						</c:if>
 					</li>
 				</ul>
 			</div>
@@ -324,6 +332,7 @@
 					<form id="form_id" action="" method="post">
 						<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
 						<input name="supplierStatus" value="${supplierStatus}" type="hidden">
+						<input type="hidden" name="sign" value="${sign}">
 					</form>
 
 					<c:forEach items="${financial}" var="f" varStatus="vs">
@@ -371,9 +380,9 @@
 							<thead>
 								<tr>
 									<th class="w50 info">年份</th>
-									<th class="info">财务利润表</th>
 									<th class="info">审计报告的审计意见</th>
 									<th class="info">资产负债表</th>
+									<th class="info">财务利润表</th>
 									<th class="info">现金流量表</th>
 									<th class="info">所有者权益变动表</th>
 									<th class="info w50">操作</th>
@@ -383,13 +392,13 @@
 								<tr class="tc">
 									<td class="tc w50" id="${f.id }_file">${f.year}</td>
 									<td class="tc">
-										<u:show showId="fina_${vs.index}_pro" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierProfit}" sysKey="${sysKey}" />
-									</td>
-									<td class="tc">
 										<u:show showId="fina_${vs.index}_audit" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierAuditOpinion}" sysKey="${sysKey}" />
 									</td>
 									<td class="tc">
 										<u:show showId="fina_${vs.index}_lia" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierLiabilities}" sysKey="${sysKey}" />
+									</td>
+									<td class="tc">
+										<u:show showId="fina_${vs.index}_pro" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierProfit}" sysKey="${sysKey}" />
 									</td>
 									<td class="tc">
 										<u:show showId="fina_${vs.index}_cash" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierCashFlow}" sysKey="${sysKey}" />

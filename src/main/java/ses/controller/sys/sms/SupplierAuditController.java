@@ -292,7 +292,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("essential")
 	public String essentialInformation(HttpServletRequest request, Supplier supplier, String supplierId, Integer sign) {
-		
+		request.setAttribute("sign", sign);
 		/**
 		 * 插入对比后的数据
 		 */
@@ -468,7 +468,8 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("financial")
-	public String financialInformation(HttpServletRequest request, String supplierId, Integer supplierStatus) {
+	public String financialInformation(HttpServletRequest request, String supplierId, Integer supplierStatus, Integer sign) {
+		request.setAttribute("sign", sign);
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("supplierStatus", supplierStatus);
 		
@@ -525,9 +526,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("shareholder")
-	public String shareholderInformation(HttpServletRequest request, SupplierStockholder supplierStockholder , Integer supplierStatus) {
+	public String shareholderInformation(HttpServletRequest request, SupplierStockholder supplierStockholder , Integer supplierStatus, Integer sign) {
 		String supplierId = supplierStockholder.getSupplierId();
 		request.setAttribute("supplierStatus", supplierStatus);
+		request.setAttribute("sign", sign);
 		
 		List < SupplierStockholder > list = supplierAuditService.ShareholderBySupplierId(supplierId);
 		//勾选的供应商类型
@@ -820,9 +822,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	}
 
 	@RequestMapping("supplierType")
-	public String supplierType(HttpServletRequest request, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus) {
+	public String supplierType(HttpServletRequest request, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus, Integer sign) {
 		request.setAttribute("supplierStatus", supplierStatus);
-		
+		request.setAttribute("sign", sign);
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierId", supplierId);
@@ -1224,7 +1226,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("reasonsList")
-	public String reasonsList(HttpServletRequest request, SupplierAudit supplierAudit, Integer supplierStatus) {
+	public String reasonsList(HttpServletRequest request, SupplierAudit supplierAudit, Integer supplierStatus, Integer sign) {
+		request.setAttribute("sign", sign);
+		
 		String supplierId = supplierAudit.getSupplierId();
 		if(supplierId == null) {
 			supplierId = (String) request.getSession().getAttribute("supplierId");
@@ -1558,7 +1562,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("applicationForm")
-	public String applicationForm(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier, Integer supplierStatus) throws IOException {
+	public String applicationForm(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier, Integer supplierStatus, Integer sign) throws IOException {
+		request.setAttribute("sign", sign);
+		
 		String supplierId = supplierAudit.getSupplierId();
 		supplier = supplierAuditService.supplierById(supplierId);
 		request.setAttribute("applicationForm", supplier);
@@ -2143,8 +2149,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value = "aptitude")
-	public String aptitude(Model model, String supplierId, Integer supplierStatus) {
+	public String aptitude(Model model, String supplierId, Integer supplierStatus, Integer sign) {
 		model.addAttribute("supplierStatus", supplierStatus);
+		model.addAttribute("sign", sign);
 		String supplierTypeIds = supplierTypeRelateService.findBySupplier(supplierId);
 
 		//勾选的供应商类型
@@ -2153,7 +2160,10 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		//查询所有的三级品目生产
 		List < Category > list2 = getSupplier(supplierId, supplierTypeIds);
-		removeSame(list2);
+		if(!list2.isEmpty()){
+			removeSame(list2);
+		}
+		
 
 		//根据品目id查询所有的证书信息
 		List < QualificationBean > list3 = supplierService.queryCategoyrId(list2, 2);
@@ -2326,9 +2336,12 @@ public class SupplierAuditController extends BaseSupplierController {
 							if (cate == null) {
 							    cate = new Category();
 							    DictionaryData data = DictionaryDataUtil.findById(c.getCategoryId());
-							    cate.setId(data.getId());
-							    cate.setParentId(data.getId());
-							    cate.setName(data.getName());
+							    if(data != null){
+							    	cate.setId(data.getId());
+								    cate.setParentId(data.getId());
+								    cate.setName(data.getName());
+							    }
+							    
 							} else {
 								//供应商中间表的id和资质证书的id
 							    cate.setParentId(c.getId());
@@ -2767,7 +2780,8 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value = "/contract")
-	public String contractUp(String supplierId, Model model, Integer supplierStatus) {
+	public String contractUp(String supplierId, Model model, Integer supplierStatus, Integer sign) {
+		model.addAttribute("sign", sign);
 		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
 		String supplierTypeIds = "";
 		for(SupplierTypeRelate s: typeIds) {
