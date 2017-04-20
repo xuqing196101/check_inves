@@ -431,8 +431,8 @@
 								  </c:forEach>
 								</td>
 								<td class="tl w60" onclick="shenhe('${list.id }');">
-									<c:if test="${list.isPublish == 1 }">已发布</c:if>
-									<c:if test="${list.isPublish == 0 }">未发布</c:if>
+									<c:if test="${list.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
+									<c:if test="${list.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
 								</td>
 								<td class="tc w100" id="${list.id}" onclick="shenhe('${list.id }');">
 									<c:if test="${list.status == 0}"><span class="label rounded-2x label-u">待审核</span></c:if>

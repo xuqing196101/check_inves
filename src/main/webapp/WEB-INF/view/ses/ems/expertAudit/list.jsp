@@ -325,8 +325,8 @@
 							<th class="info">工作单位</th>
 							<!-- <th class="info">创建时间</th> -->
 							<!-- <th class="info">诚信积分</th> -->
-							<th class="info">发布</th>
-							<th class="info">审核状态</th>
+							<th class="info w70">发布</th>
+							<th class="info w100">审核状态</th>
 						</tr>
 					</thead>
 					<c:forEach items="${expertList}" var="expert" varStatus="vs">
@@ -344,8 +344,8 @@
 							</td> --%>
 							<%-- <td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">${expert.honestyScore }</td> --%>
 							<td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">
-								<c:if test="${expert.isPublish == 1 }">已发布</c:if>
-								<c:if test="${expert.isPublish == 0 }">未发布</c:if>
+								<c:if test="${expert.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
+								<c:if test="${expert.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
 							</td>
 							<c:if test="${(sign == 1 and expert.status eq '0')}">
 								<td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待初审</span></td>
