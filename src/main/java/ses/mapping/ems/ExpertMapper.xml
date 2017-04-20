@@ -1216,9 +1216,12 @@
         <if test="status != null and status !=''">
             AND STATUS = #{status}
         </if>
-        <if test="purchaseDepId !=null">
+        <if test="sign == 1 or sign == 3">
+        	<if test="purchaseDepId !=null">
             AND PURCHASE_DEP_ID = #{purchaseDepId}
+        	</if>
         </if>
+        
         ORDER BY t1.AUDIT_AT DESC NULLS LAST
     </select>
 

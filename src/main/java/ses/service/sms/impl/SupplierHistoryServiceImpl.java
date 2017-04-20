@@ -502,52 +502,56 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         }*/
         
         //资质证书信息
-        List<SupplierCertSell> listSupplierCertSells = supplierMatSell.getListSupplierCertSells();
-        if (listSupplierCertSells != null && listSupplierCertSells.size() > 0) {
-        	for (SupplierCertSell certSell : listSupplierCertSells) {
-                historyInfo = new SupplierHistory();
-                historyInfo.setSupplierId(supplierId);
-                historyInfo.setmodifyType("mat_sell_page");
-                historyInfo.setCreatedAt(date);
-                historyInfo.setRelationId(certSell.getId());
-                historyInfo.setListType(CERT_SALES_LIST);
-                
-                // 资质证书名称
-                historyInfo.setBeforeField("name");
-                historyInfo.setBeforeContent(certSell.getName());
-                supplierHistoryMapper.insertSelective(historyInfo);
-                
-                // 证书编号
-                historyInfo.setBeforeField("code");
-                historyInfo.setBeforeContent(certSell.getCode());
-                supplierHistoryMapper.insertSelective(historyInfo);
-                
-                // 资质等级
-                historyInfo.setBeforeField("levelCert");
-                historyInfo.setBeforeContent(certSell.getLevelCert());
-                supplierHistoryMapper.insertSelective(historyInfo);
-                
-                // 发证机关
-                historyInfo.setBeforeField("licenceAuthorith");
-                historyInfo.setBeforeContent(certSell.getLicenceAuthorith());
-                supplierHistoryMapper.insertSelective(historyInfo);
-                
-                // 有效期（起始时间）
-                historyInfo.setBeforeField("expStartDate");
-                historyInfo.setBeforeContent(format.format(certSell.getExpStartDate()));
-                supplierHistoryMapper.insertSelective(historyInfo);
-                
-                // 有效期（结束时间）
-                historyInfo.setBeforeField("expEndDate");
-                historyInfo.setBeforeContent(format.format(certSell.getExpEndDate()));
-                supplierHistoryMapper.insertSelective(historyInfo);
-                
-                //证书状态
-                historyInfo.setBeforeField("mot");
-                historyInfo.setBeforeContent(certSell.getMot() == null ? "" : certSell.getMot().toString());
-                supplierHistoryMapper.insertSelective(historyInfo);
-        	}
+        if(supplierMatSell !=null){
+        	List<SupplierCertSell> listSupplierCertSells = supplierMatSell.getListSupplierCertSells();
+            if (listSupplierCertSells != null && listSupplierCertSells.size() > 0) {
+            	for (SupplierCertSell certSell : listSupplierCertSells) {
+                    historyInfo = new SupplierHistory();
+                    historyInfo.setSupplierId(supplierId);
+                    historyInfo.setmodifyType("mat_sell_page");
+                    historyInfo.setCreatedAt(date);
+                    historyInfo.setRelationId(certSell.getId());
+                    historyInfo.setListType(CERT_SALES_LIST);
+                    
+                    // 资质证书名称
+                    historyInfo.setBeforeField("name");
+                    historyInfo.setBeforeContent(certSell.getName());
+                    supplierHistoryMapper.insertSelective(historyInfo);
+                    
+                    // 证书编号
+                    historyInfo.setBeforeField("code");
+                    historyInfo.setBeforeContent(certSell.getCode());
+                    supplierHistoryMapper.insertSelective(historyInfo);
+                    
+                    // 资质等级
+                    historyInfo.setBeforeField("levelCert");
+                    historyInfo.setBeforeContent(certSell.getLevelCert());
+                    supplierHistoryMapper.insertSelective(historyInfo);
+                    
+                    // 发证机关
+                    historyInfo.setBeforeField("licenceAuthorith");
+                    historyInfo.setBeforeContent(certSell.getLicenceAuthorith());
+                    supplierHistoryMapper.insertSelective(historyInfo);
+                    
+                    // 有效期（起始时间）
+                    historyInfo.setBeforeField("expStartDate");
+                    historyInfo.setBeforeContent(format.format(certSell.getExpStartDate()));
+                    supplierHistoryMapper.insertSelective(historyInfo);
+                    
+                    // 有效期（结束时间）
+                    historyInfo.setBeforeField("expEndDate");
+                    historyInfo.setBeforeContent(format.format(certSell.getExpEndDate()));
+                    supplierHistoryMapper.insertSelective(historyInfo);
+                    
+                    //证书状态
+                    historyInfo.setBeforeField("mot");
+                    historyInfo.setBeforeContent(certSell.getMot() == null ? "" : certSell.getMot().toString());
+                    supplierHistoryMapper.insertSelective(historyInfo);
+            	}
+            }
+        	
         }
+        
         
         // 工程--信息
         SupplierMatEng supplierMatEng = supplier.getSupplierMatEng();

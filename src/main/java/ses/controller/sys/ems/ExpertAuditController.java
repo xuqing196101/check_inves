@@ -153,13 +153,13 @@ public class ExpertAuditController{
 		}
 		//获取登录人的机构id
 		User user = (User) request.getSession().getAttribute("loginUser");
-		if(user.getLoginName().equals("admin")){
+		/*if(user.getLoginName().equals("admin")){
 			expert.setPurchaseDepId(null);
-		}else{
+		}else{*/
 			String orgId = user.getOrg().getId();
 			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
 			expert.setPurchaseDepId(depId.getId());	
-		}
+		/*}*/
 		/*List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum == null ? 0 : pageNum);*/
 		
 		
