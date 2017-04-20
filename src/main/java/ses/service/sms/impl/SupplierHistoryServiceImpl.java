@@ -145,29 +145,38 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 historyInfo.setRelationId(address.getId());
                 historyInfo.setListType(ADDRESS_LIST);
                 // 邮编
+                if(address.getCode() !=null){
+                	
+                	
+                }
                 historyInfo.setBeforeField("code");
                 historyInfo.setBeforeContent(address.getCode());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 //生产经营地址：
-                List < Area > privnce = areaService.findRootArea();
-				Area area = new Area();
-				area = areaService.listById(address.getAddress());
-				String sonAddress = area.getName();
-				String parentAddress = null;
-				for(int i = 0; i < privnce.size(); i++) {
-					if(area.getParentId().equals(privnce.get(i).getId())) {
-						parentAddress = privnce.get(i).getName();
+				if(address.getCode() !=null){
+					List < Area > privnce = areaService.findRootArea();
+					Area area = new Area();
+					area = areaService.listById(address.getAddress());
+					String sonAddress = area.getName();
+					String parentAddress = null;
+					for(int i = 0; i < privnce.size(); i++) {
+						if(area.getParentId().equals(privnce.get(i).getId())) {
+							parentAddress = privnce.get(i).getName();
+						}
 					}
+	                historyInfo.setBeforeField("address");
+	                historyInfo.setBeforeContent(parentAddress + sonAddress);
+	                supplierHistoryMapper.insertSelective(historyInfo);             	            	
 				}
-                historyInfo.setBeforeField("address");
-                historyInfo.setBeforeContent(parentAddress + sonAddress);
-                supplierHistoryMapper.insertSelective(historyInfo);
-                
+
                 //生产经营详细地址
-                historyInfo.setBeforeField("detailAddress");
-                historyInfo.setBeforeContent(address.getDetailAddress());
-                supplierHistoryMapper.insertSelective(historyInfo);
+				if(address.getCode() !=null){
+					historyInfo.setBeforeField("detailAddress");
+	                historyInfo.setBeforeContent(address.getDetailAddress());
+	                supplierHistoryMapper.insertSelective(historyInfo);              	          	
+				}
+                
             }
         }
         

@@ -179,7 +179,6 @@
 					layer.msg("请选择专家！", {offset: '100px'});
 				} else {
 					var state = $("#" + id + "").parents("tr").find("td").eq(9).text().trim();
-					alert(state);
 					if(state == "复审通过" || state == "复审未通过" || state == "待复查" || state == "复查通过" || state == "复查未通过") {
 						index = layer.open({
 							type: 2, //page层
@@ -335,7 +334,7 @@
 				<%-- <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
 				<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
 			  <button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>--%>
-				<button class="btn btn-windows git" type="button" onclick="creadible();">诚信登记</button>
+				<!-- <button class="btn btn-windows git" type="button" onclick="creadible();">诚信登记</button> -->
 				<button class="btn btn-windows edit" type="button" onclick="resetPwd()">重置密码</button>
 			</div>
 
