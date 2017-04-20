@@ -187,8 +187,10 @@ public class TaskAdjustController extends BaseController{
 		
 		
 		//所有明细
-		List<PurchaseDetail> list = purchaseDetailService.getUnique(task.getCollectId(),null,null);
-		model.addAttribute("list", list);
+		if(StringUtils.isNotBlank(task.getCollectId())){
+		    List<PurchaseDetail> list = purchaseDetailService.getUnique(task.getCollectId(),null,null);
+		    model.addAttribute("list", list);
+		}
 		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("typeName", 1);

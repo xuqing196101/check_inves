@@ -91,13 +91,20 @@
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){   
-		  window.location.href="${pageContext.request.contextPath}/adjust/all.html?id="+id;
-	  	}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		var taskNature = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
+		taskNature = $.trim(taskNature);
+		if(taskNature == "1"){
+		  layer.msg("预研任务不能修改！");
 		}else{
-			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
+		  if(id.length==1){   
+      window.location.href="${pageContext.request.contextPath}/adjust/all.html?id="+id;
+      }else if(id.length>1){
+      layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+    }else{
+      layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
+    }
 		}
+		
 	}
 	function show(id){
 		window.location.href="${pageContext.request.contextPath}/adjust/all.html?id="+id;
@@ -228,6 +235,7 @@
               <th>采购管理部门</th>
               <th>采购任务文号</th>
               <th>状态</th>
+              <th>任务性质</th>
               <th>下达时间</th>
             </tr>
           </thead>
@@ -258,6 +266,15 @@
                 <c:if test="${'2'==obj.status}">
                  		 已取消 
                 </c:if>
+              </td>
+              <td class="tc">
+                <c:if test="${'1'==obj.taskNature}">
+                  <span class="label rounded-2x label-orange">预研任务</span>
+                </c:if>
+                <c:if test="${'0'==obj.taskNature}">
+                  <span class="label rounded-2x label-u">正常任务</span>
+                </c:if>
+                <input type="hidden" value="${obj.taskNature}"/>
               </td>
               <td class="tc">
                 <fmt:formatDate value="${obj.giveTime }" pattern="yyyy-MM-dd"/>
