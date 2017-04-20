@@ -250,9 +250,13 @@
 //                }
 			}
 			$(function() {
-				$("input").bind("blur", tempSave);
+				$("input").not("#supplierName_input_id").bind("blur", tempSave);
 				$("textarea").bind("blur", tempSave);
 				$("select").bind("change", tempSave);
+				$("#supplierName_input_id").change(function () {
+				    $("#name_span").val(1);
+                    tempSave();
+                })
 			});
 			/** 无提示实时保存 */
 			function tempSave() {
@@ -845,7 +849,8 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<%--<input id="supplierName_input_id" type="text" name="supplierName" required="required" onkeyup="value=value.replace(/[^\u4e00-\u9fa5（）()\w]/g,'')" manlength="50" value="${currSupplier.supplierName}" <c:if test="${fn:contains(audit,'supplierName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierName')"</c:if> />--%>
 										<input id="supplierName_input_id" type="text" name="supplierName" required="required" onkeyup="replaceAndSetPos(this,/[^\u4e00-\u9fa5（）()\w]/g,'')" manlength="50" value="${currSupplier.supplierName}" <c:if test="${fn:contains(audit,'supplierName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierName')"</c:if> />
-										<span class="add-on">i</span>
+										<input type="hidden" id="name_span" name="name_flag"/>
+                                            <span class="add-on">i</span>
 										<span class="input-tip">不能为空</span>
 										<div class="cue"> ${err_msg_supplierName } </div>
 										<div class="cue">

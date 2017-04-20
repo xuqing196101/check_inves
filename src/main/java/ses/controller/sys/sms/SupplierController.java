@@ -563,6 +563,7 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "/temporarySave", produces = "html/text;charset=UTF-8")
 	public String temporarySave(HttpServletRequest request, Supplier supplier, String flag) {
 		String res = StaticVariables.SUCCESS;
+		String name_flag = request.getParameter("name_flag");
 
 		//如果是附件上传页面
 		if(flag != null && flag.equals("file")) {
@@ -578,9 +579,11 @@ public class SupplierController extends BaseSupplierController {
 		} else {
 			//保存基本信息
 			try {
-                List<Supplier> suppliers = supplierService.selByName(supplier.getSupplierName());
-                if(null != suppliers && !suppliers.isEmpty()){
-                    return "supplierNameExists";
+			    if(!StringUtils.isEmpty(name_flag) && name_flag.equals("1")){
+                    List<Supplier> suppliers = supplierService.selByName(supplier.getSupplierName());
+                    if(null != suppliers && !suppliers.isEmpty()){
+                        return "supplierNameExists";
+                    }
                 }
 				Supplier before = supplierService.get(supplier.getId());
 				if(before.getStatus().equals(2)) {
