@@ -268,6 +268,7 @@
 					data: $("#basic_info_form_id").serializeArray(),
 					contextType: "application/x-www-form-urlencoded",
 					success: function(msg) {
+                        $("#name_span").val("");//名称校验标识初始化
 						if(msg=="notPass"){
 							layer.msg('近3年加权平均净资产不足100万元，不满足注册要求！', {
 								offset: '300px'

@@ -579,14 +579,16 @@ public class SupplierController extends BaseSupplierController {
 		} else {
 			//保存基本信息
 			try {
-			    if(!StringUtils.isEmpty(name_flag) && name_flag.equals("1")){
+				Supplier before = supplierService.get(supplier.getId());
+                if(!StringUtils.isEmpty(name_flag) && name_flag.equals("1")){
                     List<Supplier> suppliers = supplierService.selByName(supplier.getSupplierName());
                     if(null != suppliers && !suppliers.isEmpty()){
-                        return "supplierNameExists";
+                        if(null== before || !before.getSupplierName().equals(suppliers.get(0).getSupplierName())){
+                            return "supplierNameExists";
+                        }
                     }
                 }
-				Supplier before = supplierService.get(supplier.getId());
-				if(before.getStatus().equals(2)) {
+                if(before.getStatus().equals(2)) {
 					record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
 				}
 				
