@@ -2,14 +2,10 @@ package bss.dao.ob;
 
 import bss.model.ob.OBSupplier;
 import bss.model.ob.OBSupplierExample;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
-
-import com.sun.org.glassfish.gmbal.ParameterNames;
 
 public interface OBSupplierMapper {
 	int countByExample(OBSupplierExample example);
