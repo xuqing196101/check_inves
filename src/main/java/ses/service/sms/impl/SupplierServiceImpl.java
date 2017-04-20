@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
@@ -400,72 +401,77 @@ public class SupplierServiceImpl implements SupplierService {
      * @return: void
      */
     @Override
+    @Transactional
     public void perfectBasic(Supplier supplier) {
-        
-        //更新供应商
-        supplier.setUpdatedAt(new Date());
-        
-        // 供应商分级要素得分
+        try{
+            //更新供应商
+            supplier.setUpdatedAt(new Date());
+
+            // 供应商分级要素得分
         /*supplier.setLevelScoreProduct(SupplierLevelUtil.getScore(supplier.getId(), "PRODUCT"));
         supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
         supplier.setLevelScoreService(SupplierLevelUtil.getScore(supplier.getId(), "SERVICE"));*/
-        if(supplier.getWebsite()==null){
-        	supplier.setWebsite("");
-        }
-        if(supplier.getBranchName()==null){
-        	supplier.setBranchName("0");
-        }
-        
-        supplierMapper.updateByPrimaryKeySelective(supplier);
-        
-        //更新用户
-        User user = userService.findByTypeId(supplier.getId());
-        user.setRelName(supplier.getContactName());
-        user.setAddress(supplier.getContactAddress());
-        user.setEmail(supplier.getContactEmail());
-        user.setMobile(supplier.getContactTelephone());
-        user.setTelephone(supplier.getContactTelephone());
-        userService.update(user);
-        
-        //更新地址
-    	if(supplier.getAddressList()!=null && supplier.getAddressList().size()>0){
-			supplierAddressService.addList(supplier.getAddressList(),supplier.getId());
-		}
-    	//更新供应商境外分支
-		if(supplier.getBranchList()!=null && supplier.getBranchList().size()>0){
-			supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
-		}
-		//财务信息
-		if(supplier.getListSupplierFinances()!=null && supplier.getListSupplierFinances().size()>0){
-			supplierFinanceService.add(supplier.getListSupplierFinances(),supplier.getId());
-		}
-		if(supplier.getListSupplierStockholders()!=null&&supplier.getListSupplierStockholders().size()>0){
-			 for(SupplierStockholder s:supplier.getListSupplierStockholders()){
-			     if (s != null && s.getId() != null) {
-			         SupplierStockholder stockHolder = supplierStockholderMapper.selectByPrimaryKey(s.getId());
-			         if(stockHolder==null){
-			             supplierStockholderMapper.insertSelective(s); 
-			         }else{
-			             supplierStockholderMapper.updateByPrimaryKeySelective(s);
-			         }
-			     }
-					
-			 }
-		 }
-		
-		//售后服务机构
-		if(supplier.getListSupplierAfterSaleDep() != null && supplier.getListSupplierAfterSaleDep().size() > 0){
-            for(SupplierAfterSaleDep s : supplier.getListSupplierAfterSaleDep()){
-                if (s != null && s.getId() != null) {
-                    SupplierAfterSaleDep afterSaleDep = supplierAfterSaleDepMapper.selectByPrimaryKey(s.getId());
-                    if(afterSaleDep == null){
-                        supplierAfterSaleDepMapper.insertSelective(s); 
-                    }else{
-                        supplierAfterSaleDepMapper.updateByPrimaryKeySelective(s);
-                    }
-                }
-                   
+            if(supplier.getWebsite()==null){
+                supplier.setWebsite("");
             }
+            if(supplier.getBranchName()==null){
+                supplier.setBranchName("0");
+            }
+
+            supplierMapper.updateByPrimaryKeySelective(supplier);
+
+            //更新用户
+            User user = userService.findByTypeId(supplier.getId());
+            user.setRelName(supplier.getContactName());
+            user.setAddress(supplier.getContactAddress());
+            user.setEmail(supplier.getContactEmail());
+            user.setMobile(supplier.getContactTelephone());
+            user.setTelephone(supplier.getContactTelephone());
+            userService.update(user);
+
+            //更新地址
+            if(supplier.getAddressList()!=null && supplier.getAddressList().size()>0){
+                supplierAddressService.addList(supplier.getAddressList(),supplier.getId());
+            }
+            //更新供应商境外分支
+            if(supplier.getBranchList()!=null && supplier.getBranchList().size()>0){
+                supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
+            }
+            //财务信息
+            if(supplier.getListSupplierFinances()!=null && supplier.getListSupplierFinances().size()>0){
+                supplierFinanceService.add(supplier.getListSupplierFinances(),supplier.getId());
+            }
+            if(supplier.getListSupplierStockholders()!=null&&supplier.getListSupplierStockholders().size()>0){
+                for(SupplierStockholder s:supplier.getListSupplierStockholders()){
+                    if (s != null && s.getId() != null) {
+                        SupplierStockholder stockHolder = supplierStockholderMapper.selectByPrimaryKey(s.getId());
+                        if(stockHolder==null){
+                            supplierStockholderMapper.insertSelective(s);
+                        }else{
+                            supplierStockholderMapper.updateByPrimaryKeySelective(s);
+                        }
+                    }
+
+                }
+            }
+
+            //售后服务机构
+            if(supplier.getListSupplierAfterSaleDep() != null && supplier.getListSupplierAfterSaleDep().size() > 0){
+                for(SupplierAfterSaleDep s : supplier.getListSupplierAfterSaleDep()){
+                    if (s != null && s.getId() != null) {
+                        SupplierAfterSaleDep afterSaleDep = supplierAfterSaleDepMapper.selectByPrimaryKey(s.getId());
+                        if(afterSaleDep == null){
+                            supplierAfterSaleDepMapper.insertSelective(s);
+                        }else{
+                            supplierAfterSaleDepMapper.updateByPrimaryKeySelective(s);
+                        }
+                    }
+
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
     }
 

@@ -1754,7 +1754,7 @@
 
 													</td>
 
-													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'> </td>
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' maxlength="10" name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' maxlength="18" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" value='${stockholder.identity}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' class="shares" name='listSupplierStockholders[${stockvs.index }].shares' onchange="checkNumsSale(this, 3)" value='${stockholder.shares}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}'></td>
