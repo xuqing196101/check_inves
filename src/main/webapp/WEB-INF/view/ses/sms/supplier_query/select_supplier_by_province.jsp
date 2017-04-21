@@ -377,7 +377,7 @@
 	               }
             	});
         	}else{
-            layer.msg("请选择专家！",{offset: '100px'});
+            layer.msg("请选择供应商！",{offset: '100px'});
         	}
 	 		}
 		</script>
@@ -512,28 +512,26 @@
 	        </ul>
 	          <div class="col-md-12 clear tc mt10">
             	<button type="button" onclick="submit()" class="btn">查询</button>
-              <button type="reset" onclick="chongzhi()" class="btn">重置</button> 
+              <button type="reset" onclick="chongzhi()" class="btn">重置</button>
+              <c:choose>
+								<c:when test="${sign == 1 }">
+								 		<a href="${pageContext.request.contextPath}/supplierQuery/highmaps.html" class="btn">切换到地图</a>
+								</c:when>
+								<c:otherwise>
+										<button class="btn btn-windows back" type="button" onclick="location.href='${pageContext.request.contextPath}/supplierQuery/highmaps.html'">返回</button>
+										<!-- <button class="btn btn-windows delete" type="button" onclick="cancellation();">注销</button> -->
+								</c:otherwise>
+							</c:choose>
+							<button class="btn btn-windows edit" type="button" onclick="resetPwd()">重置密码</button>
+							<!-- <button class="btn btn-windows delete" type="button" onclick="cancellation();">注销</button> -->
 	          </div>
 	          <div class="clear"></div>
 	       </form>
      </h2>
 			
-				<c:choose>
-					<c:when test="${sign == 1 }">
-						<div class="col-md-12 tc">
-					 		<a href="${pageContext.request.contextPath}/supplierQuery/highmaps.html" class="btn">切换到地图</a>
-					 	</div>
-					</c:when>
-					<c:otherwise>
-						<div class="col-md-12 pl20 mt10">
-							<button class="btn btn-windows back" type="button" onclick="location.href='${pageContext.request.contextPath}/supplierQuery/highmaps.html'">返回</button>
-							<button class="btn btn-windows delete" type="button" onclick="cancellation();">注销</button>
-						</div>
-					</c:otherwise>
-				</c:choose>
+				
 			<div class="col-md-12 pl20 mt10">
-				<button class="btn btn-windows edit" type="button" onclick="resetPwd()">重置密码</button>
-				<button class="btn btn-windows delete" type="button" onclick="cancellation();">注销</button>
+				
 			</div>
 
 			<div class="content table_box">

@@ -434,23 +434,20 @@
 		       <div class="col-md-12 clear tc mt10">
 	           <button type="button" onclick="submit()" class="btn">查询</button>
 	           <button type="button" class="btn" onclick="chongzhi()">重置</button> 
+	           <c:choose>
+				 			<c:when test="${sign == 2 }">
+					 				<button class="btn" type="button" onclick="fanhui();">切换到地图</button>
+				 			</c:when>
+				 			<c:otherwise>
+				 					<button class="btn btn-windows back" type="button" onclick="fanhui();">返回</button>
+				 			</c:otherwise>
+				 		</c:choose>
            </div>
            <div class="clear"></div>
 		     </form>
 		   </h2>
 	
-		 		<c:choose>
-		 			<c:when test="${sign == 2 }">
-			 			<div class="col-md-12 tc">
-			 				<button class="btn" type="button" onclick="fanhui();">切换到地图</button>
-			 			</div>
-		 			</c:when>
-		 			<c:otherwise>
-		 				<div class="col-md-12 pl20 mt10">
-		 					<button class="btn btn-windows back" type="button" onclick="fanhui();">返回</button>
-		 				</div>
-		 			</c:otherwise>
-		 		</c:choose>
+		 		
 		 		
 			<div class="content table_box">
 				<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">

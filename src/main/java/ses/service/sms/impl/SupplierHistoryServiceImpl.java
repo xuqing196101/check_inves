@@ -307,26 +307,33 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                     supplierHistoryMapper.insertSelective(historyInfo);
                 }
                 
-                
                 // 出资人姓名
-                historyInfo.setBeforeField("name");
-                historyInfo.setBeforeContent(holder.getName());
-                supplierHistoryMapper.insertSelective(historyInfo);
+                if(holder.getName() !=null){
+                	historyInfo.setBeforeField("name");
+                    historyInfo.setBeforeContent(holder.getName());
+                    supplierHistoryMapper.insertSelective(historyInfo);
+                }
                 
                 // 出资人社会统一信用代码
-                historyInfo.setBeforeField("identity");
-                historyInfo.setBeforeContent(holder.getIdentity());
-                supplierHistoryMapper.insertSelective(historyInfo);
+                if(holder.getIdentity() !=null){
+                	historyInfo.setBeforeField("identity");
+                    historyInfo.setBeforeContent(holder.getIdentity());
+                    supplierHistoryMapper.insertSelective(historyInfo);
+                }
                 
                 // 出资人股份
-                historyInfo.setBeforeField("shares");
-                historyInfo.setBeforeContent(holder.getShares());
-                supplierHistoryMapper.insertSelective(historyInfo);
+                if(holder.getShares() !=null){
+                	historyInfo.setBeforeField("shares");
+                    historyInfo.setBeforeContent(holder.getShares());
+                    supplierHistoryMapper.insertSelective(historyInfo);
+                }
                 
                 // 比例
-                historyInfo.setBeforeField("proportion");
-                historyInfo.setBeforeContent(holder.getProportion());
-                supplierHistoryMapper.insertSelective(historyInfo);
+                if(holder.getProportion() !=null){
+                	 historyInfo.setBeforeField("proportion");
+                     historyInfo.setBeforeContent(holder.getProportion());
+                     supplierHistoryMapper.insertSelective(historyInfo);
+                }
             }
         }
         
@@ -365,39 +372,54 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             supplierHistoryMapper.insertSelective(historyInfo);*/
             
             // 技术人员数量比例
-            historyInfo.setBeforeField("scaleTech");
-            historyInfo.setBeforeContent(supplierMatPro.getScaleTech());
-            supplierHistoryMapper.insertSelective(historyInfo);
+            if(supplierMatPro.getScaleTech() !=null){
+            	historyInfo.setBeforeField("scaleTech");
+                historyInfo.setBeforeContent(supplierMatPro.getScaleTech());
+                supplierHistoryMapper.insertSelective(historyInfo);
+            }
             
             // 高级技术人员数量比例
-            historyInfo.setBeforeField("scaleHeightTech");
-            historyInfo.setBeforeContent(supplierMatPro.getScaleHeightTech());
-            supplierHistoryMapper.insertSelective(historyInfo);
+            if(supplierMatPro.getScaleHeightTech() !=null){
+            	historyInfo.setBeforeField("scaleHeightTech");
+                historyInfo.setBeforeContent(supplierMatPro.getScaleHeightTech());
+                supplierHistoryMapper.insertSelective(historyInfo);
+            }
             
             // 研发部门名称
-            historyInfo.setBeforeField("researchName");
-            historyInfo.setBeforeContent(supplierMatPro.getResearchName());
-            supplierHistoryMapper.insertSelective(historyInfo);
+            if(supplierMatPro.getResearchName() !=null){
+            	historyInfo.setBeforeField("researchName");
+                historyInfo.setBeforeContent(supplierMatPro.getResearchName());
+                supplierHistoryMapper.insertSelective(historyInfo);
+            }
             
             // 研发部门人数
-            historyInfo.setBeforeField("totalResearch");
-            historyInfo.setBeforeContent(supplierMatPro.getTotalResearch() == null? "" : supplierMatPro.getTotalResearch().toString());
-            supplierHistoryMapper.insertSelective(historyInfo);
+            if(supplierMatPro.getTotalResearch() !=null){
+            	historyInfo.setBeforeField("totalResearch");
+                historyInfo.setBeforeContent(supplierMatPro.getTotalResearch().toString());
+                supplierHistoryMapper.insertSelective(historyInfo);
+            }
             
             // 研发部门负责人
-            historyInfo.setBeforeField("researchLead");
-            historyInfo.setBeforeContent(supplierMatPro.getResearchLead());
-            supplierHistoryMapper.insertSelective(historyInfo);
+            if(supplierMatPro.getResearchLead() !=null){
+            	historyInfo.setBeforeField("researchLead");
+                historyInfo.setBeforeContent(supplierMatPro.getResearchLead());
+                supplierHistoryMapper.insertSelective(historyInfo);
+            }
             
             // 国家军队科研项目
-            historyInfo.setBeforeField("countryPro");
-            historyInfo.setBeforeContent(supplierMatPro.getCountryPro());
-            supplierHistoryMapper.insertSelective(historyInfo);
+            if(supplierMatPro.getCountryPro() !=null){
+            	historyInfo.setBeforeField("countryPro");
+                historyInfo.setBeforeContent(supplierMatPro.getCountryPro());
+                supplierHistoryMapper.insertSelective(historyInfo);
+            }
             
             // 国家军队科技奖项
-            historyInfo.setBeforeField("countryReward");
-            historyInfo.setBeforeContent(supplierMatPro.getCountryReward());
-            supplierHistoryMapper.insertSelective(historyInfo);
+            if(supplierMatPro.getCountryReward() !=null){
+            	historyInfo.setBeforeField("countryReward");
+                historyInfo.setBeforeContent(supplierMatPro.getCountryReward());
+                supplierHistoryMapper.insertSelective(historyInfo);
+            }
+            
             
             /*// 生产线数量
             historyInfo.setBeforeField("totalBeltline");
@@ -444,16 +466,21 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                     historyInfo.setCreatedAt(date);
                     historyInfo.setRelationId(certPro.getId());
                     historyInfo.setListType(CERT_PRO_LIST);
+                    
                     // 资质证书名称
-                    historyInfo.setBeforeField("name");
-                    historyInfo.setBeforeContent(certPro.getName());
-                    supplierHistoryMapper.insertSelective(historyInfo);
+                    if(certPro.getName() !=null){
+                    	historyInfo.setBeforeField("name");
+                        historyInfo.setBeforeContent(certPro.getName());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
                     
                     // 证书编号
-                    historyInfo.setBeforeField("code");
-                    historyInfo.setBeforeContent(certPro.getCode());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
+                    if(certPro.getCode() !=null){
+                    	 historyInfo.setBeforeField("code");
+                         historyInfo.setBeforeContent(certPro.getCode());
+                         supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                   
                     // 资质等级
                     historyInfo.setBeforeField("levelCert");
                     historyInfo.setBeforeContent(certPro.getLevelCert());
