@@ -807,6 +807,7 @@ public class CategoryParamContrller extends BaseSupplierController {
         }
         model.addAttribute("cate",orgList);
         model.addAttribute("name", name);
+        model.addAttribute("princinpal", princinpal);
         model.addAttribute("list",new PageInfo<Orgnization>(cate));
         return "ses/ppms/categoryparam/allocate";
     }

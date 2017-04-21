@@ -218,6 +218,10 @@
 						loadRadioHtml("");
 					}
 				});
+				var expertTypes = document.getElementsByName("expertType");
+          if(expertTypes){
+            expertTypes[0].checked=true;
+          }
 				$("#pid").val(node.id);
 				$("#parentNameId").text(node.name);
 				$("#uploadBtnId").removeClass("dis_none");

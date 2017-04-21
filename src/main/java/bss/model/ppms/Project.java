@@ -134,6 +134,8 @@ public class Project {
     
     private String appointMan; // 立项人
     
+    private String isCharge; //采购文件是否收费  0：是 ，1：否
+    
     /**
      * @return Returns the auditReason.
      */
@@ -658,6 +660,14 @@ public class Project {
 
     public void setAppointMan(String appointMan) {
         this.appointMan = appointMan;
+    }
+    
+    public String getIsCharge() {
+        return isCharge;
+    }
+
+    public void setIsCharge(String isCharge) {
+        this.isCharge = isCharge;
     }
 
 }

@@ -231,7 +231,7 @@
   		and CODE like '%'||#{code}||'%'
   	</if>
   	<if test="supplierDepName != null and supplierDepName != ''">
-  		and SUPPLIER_DEP_NAME like '%'||#{supplierDepName}||'%'
+  		and SUPPLIER_DEP_NAME IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME like '%'||#{supplierDepName}||'%') 
   	</if>
   	<if test="purchaseDepName != null and purchaseDepName != ''">
   		and PURCHASE_DEP_NAME like '%'||#{purchaseDepName}||'%'
@@ -246,7 +246,7 @@
   		and DEMAND_SECTOR = #{deptname}
   	</if>
   	<if test="year != null and year != ''">
-  		and YEAR = #{year}
+  		and YEAR like '%'||#{year}||'%'
   	</if>
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
   		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'

@@ -248,7 +248,7 @@
             <a href="javascript:void(0)">采购项目管理</a>
           </li>
           <li class="active">
-            <a href="javascript:void(0)">立项管理</a>
+            <a href="javascript:void(0)">项目实施</a>
           </li>
         </ul>
         <div class="clear"></div>

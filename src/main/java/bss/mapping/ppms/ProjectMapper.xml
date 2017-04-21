@@ -56,6 +56,7 @@
     <result column="AUDIT_REASON" property="auditReason"/>
     <result column="PURCHASE_DEP_ID" property="purchaseDepId"/>
     <result column="APPOINT_MAN" property="appointMan"/>
+    <result column="IS_CHARGE" property="isCharge"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.findByOrgId"/>
     <association property="dictionary" column="PURCHASE_TYPE" select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryKey"/>
@@ -129,7 +130,7 @@
     AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE,APPROVAL_TIME,REPLY_TIME,
     DEMAND_FROM_TIME,IS_REHEARSE,CREATED_AT,START_TIME,NOTICE_NEWS_TIME,APP_TIME,SIGN_UP_TIME,
     APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME,IS_IMPORT,
-    IS_PROVISIONAL,PLAN_TYPE,CONFIRM_FILE,AUDIT_REASON,APPOINT_MAN
+    IS_PROVISIONAL,PLAN_TYPE,CONFIRM_FILE,AUDIT_REASON,APPOINT_MAN,IS_CHARGE
   </sql>
   
   <sql id="Example_Where_Clause">
@@ -525,7 +526,9 @@
       <if test="appointMan != null">
         APPOINT_MAN,
       </if>
-      
+      <if test="isCharge != null">
+        IS_CHARGE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -693,6 +696,9 @@
       <if test="appointMan != null">
         #{appointMan},
       </if>
+      <if test="isCharge != null">
+        #{isCharge},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Project">
@@ -859,6 +865,9 @@
       </if>
       <if test="appointMan != null">
         APPOINT_MAN = #{appointMan},
+      </if>
+      <if test="isCharge != null">
+        IS_CHARGE = #{isCharge},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -1104,6 +1113,9 @@
       <if test="appointMan != null">
         APPOINT_MAN,
       </if>
+      <if test="isCharge != null">
+        IS_CHARGE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -1270,6 +1282,9 @@
       </if>
       <if test="appointMan != null">
         #{appointMan},
+      </if>
+      <if test="isCharge != null">
+        #{isCharge},
       </if>
     </trim>
   </insert>

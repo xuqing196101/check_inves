@@ -370,7 +370,7 @@
 					    	<label class="fl">需求部门：</label><span><input type="text" id="orgId" value="${name}" name="name"  /></span>
 					     </li>
 					     <li>
-					    	<label class="fl">负责人：</label><span><input type="text" id="leadId" name="princinpal"  /></span>
+					    	<label class="fl">负责人：</label><span><input type="text" id="leadId" name="princinpal"  value="${princinpal}"/></span>
 					     </li>
 			        </ul>
 			        <button type="button"  onclick="query();"  class="btn">查询</button>

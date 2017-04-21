@@ -30,12 +30,16 @@ import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
 
+import bss.model.cs.PurchaseContract;
 import bss.model.dms.ArchiveBorrow;
 import bss.model.dms.ProbationaryArchive;
 import bss.model.dms.PurchaseArchive;
+import bss.model.ppms.Project;
+import bss.service.cs.PurchaseContractService;
 import bss.service.dms.ArchiveBorrowServiceI;
 import bss.service.dms.ProbationaryArchiveServiceI;
 import bss.service.dms.PurchaseArchiveServiceI;
+import bss.service.ppms.ProjectService;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
@@ -66,6 +70,12 @@ public class PurchaseArchiveController extends BaseSupplierController{
 	private DownloadService downloadService;
 	@Autowired
 	private ProbationaryArchiveServiceI probationaryArchiveService;
+	
+	@Autowired
+	private ProjectService projectService;
+	
+	@Autowired
+	private PurchaseContractService contractService;
 
 	
 	/**
@@ -180,6 +190,20 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<PurchaseArchive> archiveList = purchaseArchiveService.selectArchiveList(map);
+		for (PurchaseArchive purchaseArchive : archiveList) {
+            Project project = projectService.selectById(purchaseArchive.getProjectId());
+            if(project != null){
+                purchaseArchive.setReportAt(project.getApprovalTime());
+                purchaseArchive.setApplyAt(project.getReplyTime());
+            }
+            PurchaseContract contract = contractService.selectById(purchaseArchive.getContractId());
+            if(contract != null){
+                purchaseArchive.setFormalGitAt(contract.getFormalGitAt());
+                purchaseArchive.setDraftGitAt(contract.getDraftGitAt());
+                purchaseArchive.setDraftReviewedAt(contract.getDraftReviewedAt());
+                purchaseArchive.setFormalReviewedAt(contract.getFormalReviewedAt());
+            }
+        }
 		model.addAttribute("archiveList", new PageInfo<PurchaseArchive>(archiveList));
 		model.addAttribute("name", name);
 		model.addAttribute("archiveCode", archiveCode);

@@ -62,6 +62,7 @@ import ses.util.WordUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseDetail;
+import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Negotiation;
@@ -1710,36 +1711,38 @@ public class ProjectController extends BaseController {
         return "bss/ppms/project/editDetail";
     }
     
-    @RequestMapping("/addProject")
-    public String addProject(@CurrentUser User user,Project project,String id, String bidAddress, String flowDefineId,String deadline, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
-        String status = DictionaryDataUtil.getId("XMXXWHZ");
-        String userId = request.getParameter("userId");
-        project.setPrincipal(userId);
-        project.setLinkman(linkman);
-        project.setLinkmanIpone(linkmanIpone);
-        project.setSupplierNumber(supplierNumber);
-        project.setBidAddress(bidAddress);
-        project.setStatus(status);
-        Date date = new Date();   
-        Date date1 = new Date();
-        //注意format的格式要与日期String的格式相匹配   
-        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
-        try {   
-            date = sdf.parse(bidDate); 
-            date1 = sdf.parse(deadline);
-            project.setBidDate(date);
-            project.setDeadline(date1);
-        } catch (Exception e) {   
-            e.printStackTrace();   
-        }  
-        projectService.update(project);
-        //该环节设置为执行完状态
-        flowMangeService.flowExe(request, flowDefineId, project.getId(), 1);
-        if(user.getId().equals(userId)){
-            return "redirect:mplement.html?projectId="+id;
-        }else{
-            return "bss/ppms/project/temporary";
+    
+    @RequestMapping("/updateProject")
+    public String updateProject(@CurrentUser User user, Project project, String bidDate, String deadline, String userId, String flowDefineId, HttpServletRequest request){
+        if(project != null){
+            DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+            if(findById.getPosition() < 3){
+                String status = DictionaryDataUtil.getId("XMXXWHZ");
+                project.setStatus(status);
+            }
+            project.setPrincipal(userId);
+            Date date = new Date();   
+            Date date1 = new Date();
+            //注意format的格式要与日期String的格式相匹配   
+            DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
+            try {   
+                date = sdf.parse(bidDate); 
+                date1 = sdf.parse(deadline);
+                project.setBidDate(date);
+                project.setDeadline(date1);
+            } catch (Exception e) {   
+                e.printStackTrace();   
+            }  
+            projectService.update(project);
+            //该环节设置为执行完状态
+            flowMangeService.flowExe(request, flowDefineId, project.getId(), 1);
+            if(user.getId().equals(userId)){
+                return "redirect:mplement.html?projectId="+project.getId();
+            }else{
+                return "bss/ppms/project/temporary";
+            }
         }
+        return null;
     }
 
     /**
@@ -1820,124 +1823,131 @@ public class ProjectController extends BaseController {
         return "redirect:list.html";
     }
     
+    /**
+     * 
+     *〈项目基本信息页面〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param user
+     * @param projectId
+     * @param flowDefineId
+     * @param model
+     * @param page
+     * @return
+     */
     @RequestMapping("/mplement")
-    public String starts(String projectId, String flowDefineId, Model model, Integer page) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("projectId", projectId);
-        Project project = projectService.selectById(projectId);
-        DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
-        if("GYSQD".equals(findById.getCode())){
-            model.addAttribute("number", "1");
-        }
-        User user = null;
-        if(project.getPrincipal()!=null){
-            try {
-                user = userService.getUserById(project.getPrincipal());
-                if(user.getOrg()!=null){
-                    Project pj = new Project();
-                    pj.setId(projectId);
-                    pj.setPurchaseDepId(user.getOrg().getId());
-                    projectService.updatePurchaseDep(pj);
+    public String starts(@CurrentUser User user,String projectId, String flowDefineId, Model model, Integer page) {
+        if(StringUtils.isNotBlank(projectId)){
+            Project project = projectService.selectById(projectId);
+            if(project != null && StringUtils.isNotBlank(project.getPrincipal())){
+                String purchaseType = DictionaryDataUtil.getId("DYLY");
+                if(project.getPurchaseType().equals(purchaseType)){
+                    project.setSupplierNumber(1);//单一来源的项目，最少供应商人数默认一人；
                 }
-            } catch (Exception e) {
-                user = null;
-            }
-        }
-        String id = DictionaryDataUtil.getId("DYLY");
-        Project pr = projectService.selectById(projectId);
-        if(pr.getPurchaseType().equals(id)){
-            if(pr.getSupplierNumber() == null){
-                pr.setSupplierNumber(1);
-            }
-        }
-        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(pr.getPurchaseDepId());
-        List<ProjectTask> tasks = projectTaskService.queryByNo(map);
-        List<Task> list1 = new ArrayList<Task>();
-        for (ProjectTask projectTask : tasks) {
-            Task task = taskservice.selectById(projectTask.getTaskId());
-            if(task != null && task.getAcceptTime() != null){
-                list1.add(task);
-            }
-        }  
-        if(list1 != null && list1.size() > 0){
-            sortDate(list1);
-        }
-        if(list1 != null && list1.size() > 0){
-            Task task = taskservice.selectById(list1.get(list1.size()-1).getId());
-            model.addAttribute("task", task);
-        }
-        map.put("projectId", projectId);
-        HashMap<String, Object> map1 = new HashMap<String, Object>();
-        map1.put("id", projectId);
-        List<ProjectDetail> details = detailService.selectById(map1);
-        List<String> ss = new ArrayList<String>();
-        if(details != null && details.size() > 0){
-            for (ProjectDetail projectDetail : details) {
-                if("1".equals(projectDetail.getParentId())){
-                    ss.add(projectDetail.getRequiredId());
+                DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
+                project.setPurchaseDepId(orgnization.getName());
+                project.setPurchaseType(findById.getName());
+                
+                //获取任务的受领时间
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("projectId", project.getId());
+                List<ProjectTask> tasks = projectTaskService.queryByNo(map);
+                List<Task> listTask = new ArrayList<Task>();
+                if(tasks != null && tasks.size() > 0){
+                    for (ProjectTask projectTask : tasks) {
+                        Task task = taskservice.selectById(projectTask.getTaskId());
+                        if(task != null && task.getAcceptTime() != null){
+                            listTask.add(task);
+                        }
+                    }
                 }
+                if(listTask != null && listTask.size() > 0){
+                    sortDate(listTask);//将时间进行排序
+                    Task task = taskservice.selectById(listTask.get(listTask.size() - 1).getId());
+                    model.addAttribute("task", task);
+                }
+                
+                //获取需求提报时间
+                HashMap<String, Object> map1 = new HashMap<String, Object>();
+                map1.put("id", projectId);
+                List<ProjectDetail> details = detailService.selectById(map1);
+                HashSet<String> set = new HashSet<>();
+                if(details != null && details.size() > 0){
+                    for (ProjectDetail projectDetail : details) {
+                        PurchaseDetail detail = purchaseDetailService.queryById(projectDetail.getRequiredId());
+                        set.add(detail.getFileId());
+                    }
+                }
+                List<PurchaseRequired> requireds = new ArrayList<PurchaseRequired>();
+                for (String string : set) {
+                    HashMap<String, Object> st = new HashMap<>();
+                    st.put("fileId", string);
+                    List<PurchaseRequired> byMap = purchaseRequiredService.getByMap(st);
+                    for (PurchaseRequired purchaseRequired : byMap) {
+                        if("1".equals(purchaseRequired.getParentId())){
+                            requireds.add(purchaseRequired);
+                            break;
+                        }
+                    }
+                }
+                if(requireds != null && requireds.size() > 0){
+                    sortDated(requireds);
+                    model.addAttribute("auditDate", requireds.get(requireds.size()-1).getCreatedAt());
+                }
+                
+                //查看项目分包信息，没有进else
+                List<Packages> packages = packageService.findPackageById(map);
+                if(packages != null && packages.size() > 0){
+                    for(Packages ps : packages){
+                        HashMap<String,Object> packageId = new HashMap<String,Object>();
+                        packageId.put("packageId", ps.getId());
+                        List<ProjectDetail> detailList = detailService.selectById(packageId);
+                        ps.setProjectDetails(detailList);
+                    }
+                    model.addAttribute("packageList", packages);
+                }else{
+                    HashMap<String, Object> mapNew = new HashMap<>();
+                    List<ProjectDetail> detail = detailService.selectById(map1);
+                    if(detail != null && detail.size() > 0){
+                        for (ProjectDetail projectDetail : detail) {
+                            mapNew.put("id",projectDetail.getRequiredId());
+                            mapNew.put("projectId", projectId);
+                            List<ProjectDetail> listNews = detailService.selectByParentId(mapNew);
+                            if(listNews.size() > 1){
+                                listNews.remove(projectDetail);
+                            } else if (listNews.size() == 1){
+                                if("合计".equals(projectDetail.getStand())){
+                                    projectDetail.setStand(null);
+                                }
+                            }
+                        }
+                    }
+                    model.addAttribute("lists", detail);
+                }
+                
+                //查看项目附件
+                List<UploadFile> uploadFiles = uploadService.getFilesOther(project.getId(), DictionaryDataUtil.getId("PROJECT_IMPLEMENT"), "2");
+                if(uploadFiles != null && uploadFiles.size() > 0){
+                    model.addAttribute("uploadFiles", uploadFiles);
+                }
+                
+                
+                //如果项目状态为供应商签到，就不让他保存
+                if(StringUtils.isNotBlank(project.getStatus()) && !"4".equals(project.getStatus())){
+                    DictionaryData findById2 = DictionaryDataUtil.findById(project.getStatus());
+                    if("GYSQD".equals(findById2.getCode())){
+                        model.addAttribute("erro", "erro");
+                    }
+                }
+                model.addAttribute("findById", findById);
+                model.addAttribute("project", project);
             }
         }
-        List<PurchaseDetail> det = new ArrayList<PurchaseDetail>();
-        for (String string : ss) {
-            PurchaseDetail detail = purchaseDetailService.queryById(string);
-            if(detail != null){
-                det.add(detail);
-            }
-        }
-        if(det != null && det.size() > 0){
-            sortDated(det);
-            model.addAttribute("auditDate", det.get(det.size()-1).getAuditDate());
-        }
-        List<Packages> list = packageService.findPackageById(map);
-        if(list != null && list.size()>0){
-            for(Packages ps:list){
-                HashMap<String,Object> packageId = new HashMap<String,Object>();
-                packageId.put("packageId", ps.getId());
-                List<ProjectDetail> detailList = detailService.selectById(packageId);
-                ps.setProjectDetails(detailList);
-            }
-        }
-        String id2 = DictionaryDataUtil.getId("PROJECT_IMPLEMENT");
-        List<UploadFile> listD = uploadService.getFilesOther(pr.getId(), id2, "2");
-        //查看项目明细
-        HashMap<String, Object> maps = new HashMap<String, Object>();
-        HashMap<String, Object> mapNew = new HashMap<String, Object>();
-        maps.put("id", projectId);
-        List<ProjectDetail> list2 = detailService.selectById(maps);
-        List<ProjectDetail> listNew = new ArrayList<ProjectDetail>();
-        for (ProjectDetail projectDetail : list2) {
-            mapNew.put("id",projectDetail.getRequiredId());
-            mapNew.put("projectId", projectId);
-            List<ProjectDetail> listNews = detailService.selectByParentId(mapNew);
-            if(listNews.size() > 1){
-                listNew.add(projectDetail);
-            }
-            if("合计".equals(projectDetail.getStand())){
-                projectDetail.setStand(null);
-            }
-        }
-        model.addAttribute("user", user);
-        model.addAttribute("kind", DictionaryDataUtil.find(5));
-        if(list != null && list.size() > 0){
-            model.addAttribute("packageList", list);
-            list2.removeAll(listNew);
-        }else{
-            model.addAttribute("lists", list2);
-        }
-        model.addAttribute("listd", listD);
-        model.addAttribute("project", pr);
-        if(StringUtils.isNotBlank(pr.getPrincipal())){
-            User user2 = userService.getUserById(pr.getPrincipal());
-            if(user2 != null){
-                model.addAttribute("relName", user2);
-            }
-        }
-        model.addAttribute("orgnization", orgnization);
-        model.addAttribute("flowDefineId", flowDefineId);
-        model.addAttribute("budgetAmount", details.get(0).getBudget());
         model.addAttribute("dataId", DictionaryDataUtil.getId("PROJECT_IMPLEMENT"));
         model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
+        model.addAttribute("flowDefineId", flowDefineId);
+        model.addAttribute("user", user);
         return "bss/ppms/project/essential_information";
     }
     
@@ -1952,13 +1962,13 @@ public class ProjectController extends BaseController {
         });
     }
     
-    public void sortDated(List<PurchaseDetail> list){
-        Collections.sort(list, new Comparator<PurchaseDetail>(){
+    public void sortDated(List<PurchaseRequired> list){
+        Collections.sort(list, new Comparator<PurchaseRequired>(){
            @Override
-           public int compare(PurchaseDetail o1, PurchaseDetail o2) {
-               PurchaseDetail task = (PurchaseDetail) o1;
-               PurchaseDetail task2 = (PurchaseDetail) o2;
-              return task.getAuditDate().compareTo(task2.getAuditDate());
+           public int compare(PurchaseRequired o1, PurchaseRequired o2) {
+               PurchaseRequired task = (PurchaseRequired) o1;
+               PurchaseRequired task2 = (PurchaseRequired) o2;
+              return task.getCreatedAt().compareTo(task2.getCreatedAt());
            }
         });
     }

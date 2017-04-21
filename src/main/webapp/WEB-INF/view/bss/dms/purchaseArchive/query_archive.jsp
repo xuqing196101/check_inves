@@ -180,12 +180,24 @@
 								</td>
 								<td class="tl pl20">${archive.productName }</td>
 								<td class="tl pl20">${archive.supplierName }</td>
-								<td class="tl pl20">${archive.reportAt }</td>
-								<td class="tl pl20">${archive.applyAt }</td>
-								<td class="tl pl20">${archive.draftGitAt }</td>
-								<td class="tl pl20">${archive.draftReviewedAt }</td>
-								<td class="tl pl20">${archive.formalGitAt }</td>
-								<td class="tl pl20">${archive.formalReviewedAt }</td>
+								<td class="tl pl20">
+								  <fmt:formatDate value='${archive.reportAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								</td>
+								<td class="tl pl20">
+								  <fmt:formatDate value='${archive.applyAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								</td>
+								<td class="tl pl20">
+								  <fmt:formatDate value='${archive.draftGitAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								</td>
+								<td class="tl pl20">
+								  <fmt:formatDate value='${archive.draftReviewedAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								</td>
+								<td class="tl pl20">
+								  <fmt:formatDate value='${archive.formalGitAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								</td>
+								<td class="tl pl20">
+								  <fmt:formatDate value='${archive.formalReviewedAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								</td>
 								<td></td>
 								<td></td>
 								<c:if test="${archive.status==1 }">
