@@ -743,7 +743,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">有效期 ：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="businessStartDate" class="hand " onclick="reason(this)" value="<c:if test="${suppliers.branchName eq '1'}">长期有效</c:if><c:if test="${suppliers.branchName eq '0'}"><fmt:formatDate value='${suppliers.businessStartDate}' pattern='yyyy-MM-dd'/></c:if>" type="text" <c:if test="${fn:contains(field,'businessStartDate')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessStartDate');"</c:if> <c:if test="${fn:contains(passedField,'businessStartDate')}">style="border: 1px solid red;"</c:if>/>
+								<input id="businessStartDate" class="hand " onclick="reason(this)" value="<c:choose><c:when test="${suppliers.branchName eq '1'}">长期有效</c:when><c:otherwise> <fmt:formatDate value='${suppliers.businessStartDate}' pattern='yyyy-MM-dd'/></c:otherwise></c:choose>" type="text" <c:if test="${fn:contains(field,'businessStartDate')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessStartDate');"</c:if> <c:if test="${fn:contains(passedField,'businessStartDate')}">style="border: 1px solid red;"</c:if>/>
 							</div>
 						</li>
 						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
