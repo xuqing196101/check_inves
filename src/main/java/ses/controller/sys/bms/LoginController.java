@@ -31,6 +31,7 @@ import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.TodosService;
+import ses.service.bms.UserDataRuleService;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExamQuestionServiceI;
 import ses.service.ems.ExpertService;
@@ -76,6 +77,9 @@ public class LoginController {
     private SupplierService supplierService;
     
     @Autowired PreMenuServiceI preMenuService;
+    //数据权限
+    @Autowired
+    private UserDataRuleService UserDataRuleService;
 
     private static Logger logger = Logger.getLogger(LoginController.class); 
 
@@ -123,6 +127,11 @@ public class LoginController {
                 out.print("errorcode");
             } else if (u != null) {
                 req.getSession().setAttribute("register", true);
+                //查询数据 权限信息
+               List<String> dataRule= UserDataRuleService.getOrgID(u.getId());
+               if(dataRule!=null&& dataRule.size()>0){
+                 u.setUserDataRule(userService.getUserId(dataRule,u.getTypeName()));
+               }
                 //查询该用户的供应商角色
                 HashMap<String, Object> supplierMap = new HashMap<String, Object>();
                 supplierMap.put("userId", u.getId());

@@ -158,6 +158,14 @@
 	                               AND DD.NAME = '军队')
 	   AND TSBU.ID = #{id,jdbcType=VARCHAR}
   </select>
+  <!-- 根据 orgid 集合 获取用户id 集合 -->
+  <select id="getUserId" resultType="String">
+    select id from T_SES_BMS_USER where 
+    ORG_ID in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+     #{item}  
+    </foreach>  
+  </select>
   
   <!-- 2.根据id删除 -->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

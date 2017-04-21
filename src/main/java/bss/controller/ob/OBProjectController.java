@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -45,7 +44,6 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
-import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectMapper;
@@ -182,6 +180,15 @@ public class OBProjectController {
 			map.put("uid", user.getId());
 			map.put("startTime", startTime);
 			map.put("name", name);
+			List<String> uidList=user.getUserDataRule();
+			if(uidList!=null&& uidList.size()>0){
+				if(uidList.contains(user.getId())){
+					uidList.add(user.getId());
+				}
+			}else{
+				uidList.add(user.getId());
+			}
+			map.put("createId",uidList);
 			PropertiesUtil config = new PropertiesUtil("config.properties");
 			PageHelper.startPage((Integer) (map.get("page")),
 					Integer.parseInt(config.getString("pageSize")));
@@ -699,12 +706,6 @@ public class OBProjectController {
 				 List<OBProductInfo> obProductInfo=obProductInfoMapper.selectByProjectId(obProject.getId());
 				 obProject.setObProductInfo(obProductInfo);
 				 
-				//需求部门
-				if(user.getOrg().getTypeName().equals("0")){
-					orgId=user.getOrg().getId();
-				}
-				model.addAttribute("orgId", orgId);
-				
 				//竞价规则
 				OBProjectRule oRule= OBProjectRuleMapper.selectByPrimaryKey(obProject.getId());
 				model.addAttribute("obRule", oRule);
@@ -800,6 +801,11 @@ public class OBProjectController {
 					return "bss/ob/biddingInformation/editPublish";
 				}else{
 				if(obProject.getStatus()==0){
+					//需求部门
+					if(user.getOrg().getTypeName().equals("0")){
+						orgId=user.getOrg().getId();
+					}
+					model.addAttribute("orgId", orgId);
 					model.addAttribute("type", "2");
 					return "bss/ob/biddingInformation/publish";
 				}else{

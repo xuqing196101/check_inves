@@ -142,8 +142,20 @@ public class User implements Serializable{
      * @Fields netType : 1:外网 0：内网
      */
     private Integer netType;
+    /**
+     * 数据 权限 用户id集合
+     */
+    private List<String> userDataRule;
     
-    public List<String> getRoleIdList() {
+    public List<String> getUserDataRule() {
+		return userDataRule;
+	}
+
+	public void setUserDataRule(List<String> userDataRule) {
+		this.userDataRule = userDataRule;
+	}
+
+	public List<String> getRoleIdList() {
         return roleIdList;
     }
 

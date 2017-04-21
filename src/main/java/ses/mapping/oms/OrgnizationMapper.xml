@@ -681,6 +681,14 @@
 	 AND IS_DELETED = 0
 	 AND PARENT_ID = #{pid} 
 	</select>
+	<!-- 获取  0:需求部门  2:管理部门 类型查询 -->
+	<select id="selectByType" resultMap="baseOrgnization" parameterType="String">
+	 SELECT  ID,TYPE_NAME,NAME,PARENT_ID,PARENT_NAME
+	 FROM T_SES_OMS_ORG
+	 WHERE TYPE_NAME !=1
+	 AND IS_DELETED = 0
+	</select>
+	
 	
 	<!-- 保存后返回主键 -->
 	<insert id="saveOrg"   parameterType="ses.model.oms.Orgnization" >

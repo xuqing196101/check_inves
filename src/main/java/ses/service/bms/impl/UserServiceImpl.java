@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -18,10 +19,12 @@ import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.service.bms.UserServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
+import common.constant.StaticVariables;
 
 
 /**
@@ -328,8 +331,20 @@ public class UserServiceImpl implements UserServiceI {
     List<User> users = userMapper.findUserRoleOther(user);
     return users;
   }
-	  
-  
-    
+/**
+ * 实现根据机构表的id集合 获取用户的id集合
+ */
+@Override
+public List<String> getUserId(List<String> OrgID,String typeName) {
+	// TODO Auto-generated method stub
+	//判断 该用户是否是其他部门
+	if(typeName.equals("3")){
+		String qt=DictionaryDataUtil.getId(StaticVariables.ORG_TYPE_OT);
+		if(StringUtils.isNotBlank(qt)){
+			OrgID.add(qt);
+		}
+	}
+	return userMapper.getUserId(OrgID);
+ }
 }
 

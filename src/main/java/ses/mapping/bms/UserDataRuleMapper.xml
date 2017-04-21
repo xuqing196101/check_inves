@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ses.dao.bms.UserDataRuleMapper" >
+  <resultMap id="BaseResultMap" type="ses.model.bms.UserDataRule" >
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <insert id="insert" parameterType="ses.model.bms.UserDataRule" >
+    insert into T_SES_BMS_USER_DATA_RULE (USER_ID, ORG_ID, CREATER_ID, 
+      CREATED_AT)
+    values (#{userId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP})
+  </insert>
+  <delete id="deleteByUserId" parameterType="String" >
+  delete from T_SES_BMS_USER_DATA_RULE where USER_ID=#{userId,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectByUserId" parameterType="String"  resultMap="BaseResultMap">
+  select USER_ID, ORG_ID from T_SES_BMS_USER_DATA_RULE where USER_ID=#{userId,jdbcType=VARCHAR}
+  </select>
+  <select id="getOrgID" parameterType="String"  resultType="String">
+  select ORG_ID from T_SES_BMS_USER_DATA_RULE where USER_ID=#{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="insertSelective" parameterType="ses.model.bms.UserDataRule" >
+    insert into T_SES_BMS_USER_DATA_RULE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="createrId != null" >
+        CREATER_ID,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

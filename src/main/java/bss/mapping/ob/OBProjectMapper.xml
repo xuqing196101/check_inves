@@ -80,12 +80,18 @@
    <select id="selectData" parameterType="Map" resultMap="BaseResultMap">  
     select <include refid="Base_Column_List" />
     from T_BSS_OB_PROJECT 
-      	where  CREATER_ID = #{uid} and IS_DELETE=0
+      	where  IS_DELETE=0
     <if test="name != null and  name !=''">
      and NAME like '%${name}%'
     </if>
     <if test="startTime != null and startTime !=''">
      and START_TIME= #{startTime}
+    </if>
+     <if test="createId != null">
+     and CREATER_ID IN
+       <foreach item="item" index="index" collection="createId" open="(" separator="," close=")">  
+       #{item}  
+      </foreach>  
     </if>
       	ORDER BY CREATED_AT DESC
   </select> 

@@ -12,7 +12,6 @@ public interface OrgnizationServiceI {
 	
 	
     public List<Orgnization> findOrgnizationList(HashMap<String,Object> map);
-    
     /***
      * 
      *〈简述〉根据父级Id和类型进行查询
@@ -182,4 +181,10 @@ public interface OrgnizationServiceI {
     Orgnization selectByShortName(String shortName);
 
     String selectById(String id);
+    /**
+     * 获取需求产品 管理部门 相关数据
+     * @author YangHongliang
+     * @return
+     */
+    public List<Orgnization> selectByType();
 }

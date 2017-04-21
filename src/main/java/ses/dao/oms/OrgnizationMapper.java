@@ -211,7 +211,14 @@ public interface OrgnizationMapper {
     List<Orgnization>  getNext(@Param("parentId")String id,@Param("position")Integer position,@Param("last")Integer last);
     
     List<Orgnization>  getPrev(@Param("parentId")String id,@Param("position")Integer position,@Param("last")Integer last);
-
+    /**
+     * 根据类型查询 相关数据
+     * @author YangHongliang
+     * @param typeName
+     * @return
+     */
+    List<Orgnization> selectByType();
+    
     /**
      * 获取全部可用的采购机构信息
      */

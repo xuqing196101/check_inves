@@ -325,5 +325,11 @@ public interface UserMapper {
 	void saveUserRole(RoleUser roleUser);
 	
 	List<User> findById (String id);
-    
+	/**
+	 * 根据 orgid 集合 获取用户id 集合 
+	 * @param orgIdList
+	 * @return
+	 */
+	List<String> getUserId(List<String> orgIdList);
+     
 }

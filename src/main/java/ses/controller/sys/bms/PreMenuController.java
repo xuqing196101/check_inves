@@ -2,7 +2,6 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JsonConfig;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -21,24 +21,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.RolePreMenu;
 import ses.model.bms.User;
+import ses.model.bms.UserDataRule;
 import ses.model.bms.UserPreMenu;
-import ses.model.ems.Expert;
-import ses.model.oms.PurchaseInfo;
+import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
+import ses.service.bms.UserDataRuleService;
 import ses.service.bms.UserServiceI;
+import ses.service.oms.OrgnizationServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.JsonDateValueProcessor;
 
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
-import common.annotation.CurrentUser;
+import common.constant.StaticVariables;
 
 /**
  * Description: 权限菜单控制类
@@ -63,7 +67,11 @@ public class PreMenuController {
 	
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataService;
+	@Autowired
+	private OrgnizationServiceI OrgnizationServiceI;
 	
+	@Autowired
+	private UserDataRuleService UserDataRuleService;
 	private final static String NAV_MENU = "0";
 
 	private static Logger logger = Logger.getLogger(RoleManageController.class);
@@ -180,10 +188,95 @@ public class PreMenuController {
 		} finally{
 			response.getWriter().close();
 		}
-		
-		
 	}
 	
+	/**
+	 * 数据权限数
+	 * @author YangHongLiang
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param r
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping("dataTree")
+	@ResponseBody
+	public List<Map<String,Object>> dataTree(HttpServletRequest request,
+			HttpServletResponse response, Model model, Role r, String userId){
+		List<Map<String,Object>> list=new ArrayList<>();
+		//获取 0:需求部门 1:采购机构 2:管理部门
+		List<Orgnization> demandAndManage= OrgnizationServiceI.selectByType();
+		List<Orgnization> purchase=OrgnizationServiceI.initOrgByType("1");
+		Map<String,Object> map=null;
+		//需求部门头
+		DictionaryData demandT=  DictionaryDataUtil.get(StaticVariables.ORG_TYPE_DEMAND);
+		//管理部门头
+		DictionaryData manageT=  DictionaryDataUtil.get(StaticVariables.ORG_TYPE_MANAGER);
+		//采购机构
+		DictionaryData cgjg=  DictionaryDataUtil.get(StaticVariables.ORG_TYPE_JG_CGJG);
+		//其他
+		DictionaryData qt=  DictionaryDataUtil.get(StaticVariables.ORG_TYPE_OT);
+		//管理头
+		map=new HashMap<String, Object>();
+		map.put("id", manageT.getId());
+		map.put("pId", 0);
+		map.put("name", "管理部门");
+		list.add(map);
+		//需求 头
+		map=new HashMap<String, Object>();
+		map.put("id", demandT.getId());
+		map.put("pId", 0);
+		map.put("name", "需求部门");
+		list.add(map);
+		// 采购 头
+		map=new HashMap<String, Object>();
+		map.put("id", cgjg.getId());
+		map.put("pId", 0);
+		map.put("name", "采购机构");
+		list.add(map);
+		// 其他 头
+		map=new HashMap<String, Object>();
+		map.put("id", qt.getId());
+		map.put("pId", 0);
+		map.put("name", "其他");
+		list.add(map);
+		for(Orgnization de:purchase){
+			map=new HashMap<String, Object>();
+			map.put("id", de.getId());
+			map.put("pId", cgjg.getId());
+			map.put("name", de.getName());
+			list.add(map);
+		}
+		for(Orgnization de:demandAndManage){
+			map=new HashMap<String, Object>();
+			map.put("id", de.getId());
+			// 0:需求部门 1:采购机构 2:管理部门
+			if(de.getTypeName().equals("0")){
+				map.put("pId", de.getParentId() != null ? de.getParentId(): demandT.getId());
+			}else if(de.getTypeName().equals("2")){
+				map.put("pId", de.getParentId() != null ? de.getParentId(): manageT.getId());
+			}else{
+				map.put("pId", de.getParentId() != null ? de.getParentId():0);
+			}
+			map.put("name", de.getName());
+			list.add(map);
+		}
+		
+		if(StringUtils.isNotBlank(userId)){
+			List<UserDataRule> dataRuleList=UserDataRuleService.selectByUserId(userId);
+			if(dataRuleList!=null&& dataRuleList.size()>0){
+			for (UserDataRule userDataRule : dataRuleList) {
+			for (Map<String, Object> maps : list) {
+				if(userDataRule.getOrgId().equals(maps.get("id"))){
+					maps.put("checked", true);
+				}
+			  }
+			 }
+			}
+		}
+		return list;
+	}
 	/**
 	 *〈简述〉查询用户权限
 	 *〈详细描述〉
@@ -221,6 +314,81 @@ public class PreMenuController {
 	}
 	
 	/**
+	 *〈简述〉查询用户 数据权限
+	 *〈详细描述〉
+	 * @author YangHongLiang
+	 * @param request
+	 * @param response
+	 * @param userId
+	 * @throws IOException
+	 */
+	@RequestMapping("/dataViewTree")
+	@ResponseBody
+  public List<Map<String, Object>> dataViewTree(HttpServletRequest request, HttpServletResponse response, String userId){
+	      List<String> menuIds = UserDataRuleService.getOrgID(userId);
+	      List<Map<String, Object>> mapList  = new ArrayList<Map<String,Object>>();
+	      int type0=0,type1=0,type2=0;
+	      if(menuIds!=null&& menuIds.size()>0){
+	      for (String menuId : menuIds) {
+	        Orgnization org = OrgnizationServiceI.getOrgByPrimaryKey(menuId);
+			Map<String, Object> map =null;
+			//获取 0:需求部门 1:采购机构 2:管理部门     else 其他
+	        if (org != null) {
+	        	if(org.getTypeName().equals("0")&&type0==0){
+	        		//需求部门头
+	    			DictionaryData demandT=  DictionaryDataUtil.get(StaticVariables.ORG_TYPE_DEMAND);
+	    			//需求 头
+	    			map=new HashMap<String, Object>();
+	    			map.put("id", demandT.getId());
+	    			map.put("pId", 0);
+	    			map.put("name", "需求部门");
+	    			mapList.add(map);
+	    			type0=2;
+	        	}else if(org.getTypeName().equals("1")&&type1==0){
+	        		//采购机构
+	    			DictionaryData cgjg=  DictionaryDataUtil.get(StaticVariables.ORG_TYPE_JG_CGJG);
+	    			// 采购 头
+	    			map=new HashMap<String, Object>();
+	    			map.put("id", cgjg.getId());
+	    			map.put("pId", 0);
+	    			map.put("name", "采购机构");
+	    			mapList.add(map);
+	    			type0=2;
+	        	}else if(org.getTypeName().equals("2")&&type2==0){
+	        		//管理部门头
+	    			DictionaryData manageT=  DictionaryDataUtil.get(StaticVariables.ORG_TYPE_MANAGER);
+	    			//管理头
+	    			map=new HashMap<String, Object>();
+	    			map.put("id", manageT.getId());
+	    			map.put("pId", 0);
+	    			map.put("name", "管理部门");
+	    			mapList.add(map);
+	    			type2=2;
+	        	}
+	          map= new HashMap<String, Object>();
+	          map.put("id", org.getId());
+	          map.put("pId", org.getParentId() != null ? org.getParentId() : 0);
+	          map.put("name", org.getName());
+	          mapList.add(map);
+	        }else{
+	        	//其他
+	        	DictionaryData qt=  DictionaryDataUtil.get(StaticVariables.ORG_TYPE_OT);
+	        	if(qt!=null&&menuId.equals(qt.getId())){
+				// 其他 头
+				map=new HashMap<String, Object>();
+				map.put("id", qt.getId());
+				map.put("pId", 0);
+				map.put("name", "其他");
+				mapList.add(map);
+				
+	        	}
+	        }
+	      }
+	    }
+	    return mapList;
+	}
+	
+	/**
 	 *〈简述〉用户查看权限的条件搜索
 	 *〈详细描述〉
 	 * @author Ye MaoLin
@@ -237,6 +405,31 @@ public class PreMenuController {
           preMenus.add(preMenu);
       }
       return preMenus;
+  }
+	
+	/**
+	 *〈简述〉用户查看数据权限的条件搜索
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/findForViewDataSelect" ) 
+  @ResponseBody
+  public List<Orgnization> findForViewDataSelect(String userId) {
+		List<Orgnization> list=new ArrayList<>();
+		if(StringUtils.isNotBlank(userId)){
+		List<String> menuIds = UserDataRuleService.getOrgID(userId);
+	      if(menuIds!=null&& menuIds.size()>0){
+	      for (String menuId : menuIds) {
+	        Orgnization org = OrgnizationServiceI.getOrgByPrimaryKey(menuId);
+	        if(org!=null){
+	        	list.add(org);
+	        }
+	      }
+	     }
+		}
+      return list;
   }
 	
 	/**
@@ -540,5 +733,19 @@ public class PreMenuController {
           preMenus = preMenuService.find(menu);
       }
       return preMenus;
+  }
+	/**
+	 * 获取组织机构数据
+	 * @param userId
+	 * @return
+	 */
+  @RequestMapping(value="/findDataSelect" ) 
+  @ResponseBody
+  public List<Orgnization> getDataTree(String userId){
+	  
+	    List<Orgnization> demand= OrgnizationServiceI.selectByType();
+		List<Orgnization> purchase=OrgnizationServiceI.initOrgByType("1");
+		demand.addAll(purchase);
+	 return demand;
   }
 }

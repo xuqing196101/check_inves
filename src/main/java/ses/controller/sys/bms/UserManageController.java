@@ -28,6 +28,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.User;
+import ses.model.bms.UserDataRule;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
@@ -37,6 +38,7 @@ import ses.model.oms.util.Ztree;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
+import ses.service.bms.UserDataRuleService;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
@@ -50,6 +52,7 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 
 /**
  * Description: 用户管理控制类 
@@ -79,10 +82,13 @@ public class UserManageController extends BaseController{
 	private DictionaryDataServiceI dictionaryDataService;
 	
 	@Autowired
-  private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+    private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
 	
 	@Autowired
-  private PurchaseServiceI purchaseServiceI;
+    private PurchaseServiceI purchaseServiceI;
+	
+	@Autowired
+	private UserDataRuleService UserDataRuleService;
 
 	private Logger logger = Logger.getLogger(UserManageController.class);
 
@@ -660,7 +666,20 @@ public class UserManageController extends BaseController{
 		model.addAttribute("uid", id);
 		return "ses/bms/user/add_menu";
 	}
-	
+	/**
+	 * Description: 弹出数据权限分配页面
+	 * 
+	 * @author YangHongLiang
+	 * @param model
+	 * @param id
+	 * @return String
+	 * @exception IOException
+	 */
+	@RequestMapping("/openDataMenu")
+	public String openDataMenu(Model model,String id){
+		model.addAttribute("uid", id);
+		return "ses/bms/user/add_data_menu";
+	}
 	/**
 	 *〈简述〉查看用户权限
 	 *〈详细描述〉
@@ -673,6 +692,18 @@ public class UserManageController extends BaseController{
   public String viewPreMenu(Model model,String id){
     model.addAttribute("uid", id);
     return "ses/bms/user/view_menu";
+  }
+	/**
+	 *〈简述〉查看用户数据权限
+	 *〈详细描述〉
+	 * @param model
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/viewDataMenu")
+  public String viewDataMenu(Model model,String id){
+    model.addAttribute("uid", id);
+    return "ses/bms/user/view_data_menu";
   }
 	
 	/**
@@ -781,7 +812,51 @@ public class UserManageController extends BaseController{
 		}
 
 	}
-	
+	/**
+	 * 保存数据权限 数据
+	 * @param request
+	 * @param userId
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping("saveUserDate")
+	@ResponseBody
+	public JdcgResult saveUserDate(@CurrentUser User user,HttpServletRequest request,String userId, String ids){
+		JdcgResult result=new JdcgResult();
+		if(StringUtils.isNotBlank(userId)){
+			if(StringUtils.isNotBlank(ids)){
+			String [] tiems=ids.split(",");
+			UserDataRule rule=null;
+			Date date=new Date();
+			if(tiems!=null &&tiems.length>0){
+				UserDataRuleService.deleteByUserId(userId);
+			for (String string : tiems) {
+				rule=new UserDataRule();
+				rule.setOrgId(string);
+				rule.setUserId(userId);
+				rule.setCreaterId(user.getId());
+				rule.setCreatedAt(date);
+				UserDataRuleService.insertSelective(rule);
+			 }
+			result.setMsg("权限配置完成");
+			}else{
+			result.setMsg("没有选择项");
+			}
+		}else{
+			List<UserDataRule> data=UserDataRuleService.selectByUserId(userId);
+			if(data!=null && data.size()>0){
+				UserDataRuleService.deleteByUserId(userId);
+				result.setMsg("权限配置完成");
+			}else{
+				result.setMsg("没有选择项");
+			}
+		}
+		}else{
+			result.setMsg("设置错误");
+		}
+		
+		return result;
+	}
 	/**
 	 * Description: 获取机构树
 	 * 

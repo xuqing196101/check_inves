@@ -289,4 +289,11 @@ public interface UserServiceI {
    * @return
    */
   List<User> findUserRoleOther(User user, int i);
+  /**
+   * 根据机构表的id集合 获取用户的id集合
+   * @author YangHongLiang
+   * @param OrgID
+   * @return
+   */
+  List<String> getUserId(List<String> OrgID,String typeName);
 }

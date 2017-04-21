@@ -164,7 +164,43 @@
 		}
 	
 	}
+	//设置数据权限
+	 function openDataMenu(){
+		var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length==1){
+			var iframeWin;
+			layer.open({
+			  type: 2, //page层
+			  area: ['300px', '420px'],
+			  title: '配置数据权限',
+			  closeBtn: 1,
+			  shade:0.01, //遮罩透明度
+			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			  shift: 1, //0-6的动画形式，-1不开启
+			  offset: '60px',
+			  shadeClose: false,
+			  content: '${pageContext.request.contextPath}/user/openDataMenu.html?id='+ids,
+			  success: function(layero, index){
+			    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+			  },
+			  btn: ['保存', '关闭'] 
+			  ,yes: function(){
+			    iframeWin.onCheck(ids);
+			  }
+			  ,btn2: function(){
+			    layer.closeAll();
+			  }
+			});
+		}else if(ids.length>1){
+			layer.alert("只能同时选择一个用户",{offset: '222px', shade:0.01});
+		}else{
+			layer.alert("请选择一个用户",{offset: '222px', shade:0.01});
+		}
 	
+	}
 	function resetPaw(){
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -234,6 +270,22 @@
 			  content: '${pageContext.request.contextPath}/user/viewPreMenu.html?id='+id
 		});
 	}
+	//查看数据权限
+	function dataViewPermission(id){
+		layer.open({
+			  type: 2, //page层
+			  area: ['300px', '420px'],
+			  title: '用户权限',
+			  closeBtn: 1,
+			  shade:0.01, //遮罩透明度
+			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			  shift: 1, //0-6的动画形式，-1不开启
+			  offset: '60px',
+			  shadeClose: false,
+			  content: '${pageContext.request.contextPath}/user/viewDataMenu.html?id='+id
+		});
+	}
+	
   </script>
   </head>
   <body>
@@ -294,6 +346,7 @@
 			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 			<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
+			<button class="btn btn-windows edit" type="button" onclick="openDataMenu()">设置数据权限</button>
 			<button class="btn btn-windows edit" type="button" onclick="resetPaw()">重置密码</button>
 	  </div>
 	  
@@ -309,6 +362,7 @@
 					  <th class="info">联系电话</th>
 					  <th class="info">角色</th>
 					  <th class="info w80">权限</th>
+					  <th class="info w80">数据权限</th>
 					</tr>
 		      </thead>
 		      <tbody>
@@ -344,6 +398,9 @@
 					  </td>
 					  <td class="tc">
 					  	<a href="#" onclick="viewPermission('${user.id}');">查看</a>
+					  </td>
+					   <td class="tc">
+					  	<a href="#" onclick="dataViewPermission('${user.id}');">查看</a>
 					  </td>
 					</tr>
 				</c:forEach>

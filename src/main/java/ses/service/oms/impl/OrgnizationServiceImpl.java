@@ -855,4 +855,14 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 	public String selectById(String id) {
 		return orgniztionMapper.selectById(id);
 	}
+	 /**
+     *  获取需求产品 管理部门 相关数据
+     * @author YangHongliang
+     * @return
+     */
+	@Override
+	public List<Orgnization> selectByType() {
+		// TODO Auto-generated method stub
+		return orgniztionMapper.selectByType();
+	}
 }
