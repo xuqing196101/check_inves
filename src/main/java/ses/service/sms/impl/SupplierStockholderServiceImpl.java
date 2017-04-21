@@ -2,6 +2,7 @@ package ses.service.sms.impl;
 
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +33,11 @@ public class SupplierStockholderServiceImpl implements SupplierStockholderServic
 
 	@Override
 	public void deleteStockholder(String stockholderIds) {
-		for (String id : stockholderIds.split(",")) {
-			supplierStockholderMapper.deleteByPrimaryKey(id);
-		}
+	    if(!StringUtils.isEmpty(stockholderIds)){
+            for (String id : stockholderIds.split(",")) {
+                supplierStockholderMapper.deleteByPrimaryKey(id);
+            }
+        }
 	}
 
 	public SupplierStockholder queryById(String id) {
