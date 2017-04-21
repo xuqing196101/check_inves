@@ -177,18 +177,18 @@ public class OBProjectController {
 			model.addAttribute("orgId", orgId);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("page", page);
-			map.put("uid", user.getId());
 			map.put("startTime", startTime);
 			map.put("name", name);
+			//处理是否有数据权限
 			List<String> uidList=user.getUserDataRule();
 			if(uidList!=null&& uidList.size()>0){
 				if(uidList.contains(user.getId())){
 					uidList.add(user.getId());
 				}
+				map.put("createId",uidList);
 			}else{
-				uidList.add(user.getId());
+				map.put("uid", user.getId());
 			}
-			map.put("createId",uidList);
 			PropertiesUtil config = new PropertiesUtil("config.properties");
 			PageHelper.startPage((Integer) (map.get("page")),
 					Integer.parseInt(config.getString("pageSize")));
