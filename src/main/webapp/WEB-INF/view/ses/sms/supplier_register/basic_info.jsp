@@ -316,7 +316,7 @@
 					"<option value='1'>法人</option>" +
 					" <option value='2'>自然人</option>" +
 					"</select> </td>" +
-					"<td class='tc'><input type='text' style='border:0px;'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].name' value=''> </td>" +
+					"<td class='tc'><input type='text' style='border:0px;' maxlength='10'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].name' value=''> </td>" +
 					"<td class='tc'><input type='text' style='border:0px;'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].identity' maxlength='18' onkeyup='validateIdentity(this)' value=''> </td>" +
 					"<td class='tc'> <input type='text' style='border:0px;'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].shares' value=''></td>" +
 					"<td class='tc'> <input type='text' style='border:0px;'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].proportion' value=''> </td>" + "</tr>");
@@ -344,13 +344,13 @@
 				$("#afterSaleDep_list_tbody_id").append("<tr>" +
 					"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].id' value='" + id + "'><input type='hidden' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].supplierId' value=" + supplierId + ">" +
 					"</td>" +
-					"<td class='tc'><input type='text' style='border:0px;' onblur='tempSave()' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].name' value=''> </td>" +
+					"<td class='tc'><input type='text' style='border:0px;' onblur='tempSave()' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].name' maxlength='90' value=''> </td>" +
 					"<td class='tc'> <div class='w120 fl'> <select onchange='tempSave()' class='w100p border0' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].type'>" +
 					"<option value='1'>自营</option>" +
 					" <option value='2'>合作</option>" +
 					"</select></div> </td>" +
-					"<td class='tc'><input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].address' value=''> </td>" +
-					"<td class='tc'> <input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].leadName' value=''></td>" +
+					"<td class='tc'><input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].address' maxlength='30' value=''> </td>" +
+					"<td class='tc'> <input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].leadName' maxlength='20' value=''></td>" +
 					"<td class='tc'> <input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].mobile' value=''> </td>" + "</tr>");
 
 				afterSaleIndex++;
@@ -1815,7 +1815,7 @@
 													</td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>>
 													 <div class="w300 fl">
-													 	<input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].name' value='${afterSaleDep.name}'> 
+													 	<input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].name' maxlength="90" value='${afterSaleDep.name}'>
 													 </div> 
 													</td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>>
@@ -1828,12 +1828,12 @@
 													</td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> 
 													  <div class="fl w200">
-													  	<input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].address' value='${afterSaleDep.address}'>
+													  	<input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].address' maxlength="30" value='${afterSaleDep.address}'>
 													  </div>
 												    </td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> 
 													 <div class="fl w200">
-													    <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].leadName' value='${afterSaleDep.leadName}'>
+													    <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].leadName' maxlength="20" value='${afterSaleDep.leadName}'>
 													 </div>
 												    </td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> 
