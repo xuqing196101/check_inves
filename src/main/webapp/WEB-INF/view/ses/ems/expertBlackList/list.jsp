@@ -79,11 +79,15 @@
 	//更新
    function update(){
     	var id=[]; 
+    	var e_status;
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
+			e_status=$(this).parent("td").parent("tr").find("td").eq(7).text().trim();
 		}); 
 		if(id.length==1){
-			window.location.href="${pageContext.request.contextPath}/expertBlacklist/editBlacklist.html?id="+id;
+		      if(e_status!="手动移除"){
+			   window.location.href="${pageContext.request.contextPath}/expertBlacklist/editBlacklist.html?id="+id;
+		      }
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset:'200px'});
 		}else{
