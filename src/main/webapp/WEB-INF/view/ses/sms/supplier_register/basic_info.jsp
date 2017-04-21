@@ -579,7 +579,6 @@
                 }
                 if(_val.indexOf('.')!=-1){
                     var reg = /\d+\.\d{0,4}?$/;
-                    console.log(reg.test(_val));
                     if(!reg.test(_val)) {
                         $(obj).val("");
                         if(nonNum==3){
@@ -1481,7 +1480,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 注册资本（人民币：万元）</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="registFund" onkeyup="checknums(this)" required value="${currSupplier.registFund}" <c:if test="${fn:contains(audit,'registFund')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('registFund')"</c:if>/>
+										<input type="text" name="registFund" onchange="checkNumsSale(this, 5)" required value="${currSupplier.registFund}" <c:if test="${fn:contains(audit,'registFund')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('registFund')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，值不可小于零</span>
 										<div class="cue" id="err_fund"> ${err_fund } </div>
@@ -1772,7 +1771,7 @@
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' maxlength="10" name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' maxlength="18" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" value='${stockholder.identity}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' class="shares" name='listSupplierStockholders[${stockvs.index }].shares' onchange="checkNumsSale(this, 3)" value='${stockholder.shares}'> </td>
-													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}'></td>
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' class="proportion_vali" name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}'></td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -1894,10 +1893,30 @@
 	</body>
 </html>
 <script type="text/javascript">
-//    $(".shares").on('change',function () {
-//        var _val = $(this).val();
-//        if(!positiveRegular(_val)){
-//            layer.msg("请输入正确的出资金额或股份数据格式(正整数)", {offset: '300px'});
-//        };
-//    })
+    //对比例进行数据校验
+    $(".proportion_vali").on('change',function () {
+        var _val = $(this).val();
+        if(_val.indexOf('.')!=-1){
+            if(parseFloat(_val)>100){
+                $(this).val("");
+                layer.msg("请输入正确的比例数据格式,不能超过100", {offset: '300px'});
+            }else{
+                var reg = /\d+\.\d{0,2}?$/;
+                if(!reg.test(_val)) {
+                    $(this).val("");
+                    layer.msg("请输入正确的金额,保留两位小数", {
+                        offset: '300px'
+                    });
+                }
+            }
+        }else{
+            if(!positiveRegular(_val)){
+                $(this).val("");
+                layer.msg("请输入正确的比例数据格式,保留两位小数", {offset: '300px'});
+            }else if(parseInt(_val)>100){
+                $(this).val("");
+                layer.msg("请输入正确的比例数据格式,不能超过100", {offset: '300px'});
+            };
+        }
+    })
 </script>
