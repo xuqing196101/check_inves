@@ -30,6 +30,7 @@ import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListLog;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertBlackListService;
+import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
@@ -73,12 +74,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 		model.addAttribute("expertId", expertId);
 		
 		//文件
-		DictionaryData dd = new  DictionaryData();
-		dd.setCode("EXPERT_BLACK_LIST");
-		if(  dictionaryDataServiceI.find(dd) != null && dictionaryDataServiceI.find(dd).size()>0){
-			 DictionaryData dictionaryData = dictionaryDataServiceI.find(dd).get(0);
-			 model.addAttribute("expertDictionaryData", dictionaryData);
-		}
+		model.addAttribute("typeId", DictionaryDataUtil.getId("EXPERT_BLACK_LIST"));
 		model.addAttribute("expertKey", Constant.EXPERT_SYS_KEY);
 		model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
 		
@@ -209,7 +205,8 @@ public class ExpertBlackListController extends BaseSupplierController{
 		/*//所有专家
 		List<Expert> expertList = service.findExpertList();
 		model.addAttribute("expertList", expertList);*/
-		
+		if(expertBlackList !=null){
+			 if(expertBlackList.getStatus()!=2){
 		
 		//选择的专家
 		String relName = expertBlackList.getRelName();
@@ -224,9 +221,13 @@ public class ExpertBlackListController extends BaseSupplierController{
 			 model.addAttribute("expertDictionaryData", dictionaryData);
 		}
 		model.addAttribute("expertKey", Constant.EXPERT_SYS_KEY);
-		
-		
 		return "ses/ems/expertBlackList/edit";
+		  }else{
+			 return "redirect:/ blacklist "; 
+		   }
+		 }else{
+		  return "redirect:/ blacklist "; 
+		}
 	}
 	/**
 	 * @Title: update
