@@ -70,6 +70,12 @@ public class FileUtils {
     /** 新注册供应商文件名称 **/
     public final static String C_SUPPLIER_FILENAME = "_c_supplier.dat"; 
     
+    /** 所有审核不通过的 **/
+    public final static String C_SUPPLIER_ALL_FILE="_c_supplier_not.dat";
+    
+    /** 临时供应商的导入导出 **/
+    public final static String C_TMEP_SUPPLIER_FILE="_c_temp_supplier.dat";
+    
     /** 修改供应商文件名称 **/
     public final static String M_SUPPLIER_FILENAME = "_m_supplier.dat";
     
@@ -206,6 +212,36 @@ public class FileUtils {
      */
     public static final File getNewSupperBackUpFile(){
         String fileName = System.currentTimeMillis() + C_SUPPLIER_FILENAME;
+        String path = getBackUpPath();
+        final File file = new File(path,fileName);
+        return file;
+    }
+    
+    
+    /**
+     * 
+     *〈简述〉获取所有审核不通过的
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    public static final File getSupperAuidtNotFile(){
+        String fileName = System.currentTimeMillis() + C_SUPPLIER_ALL_FILE;
+        String path = getBackUpPath();
+        final File file = new File(path,fileName);
+        return file;
+    }
+    
+    
+    /**
+     * 
+     *〈简述〉获取所有临时供应商
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    public static final File getTempSupperFile(){
+        String fileName = System.currentTimeMillis() + C_TMEP_SUPPLIER_FILE;
         String path = getBackUpPath();
         final File file = new File(path,fileName);
         return file;

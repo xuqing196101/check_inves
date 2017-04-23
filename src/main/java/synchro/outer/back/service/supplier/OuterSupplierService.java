@@ -53,5 +53,6 @@ public interface OuterSupplierService {
     public void auditPass(String startTime, String endTime);
     
     
+    public void tempSupplier(String startTime, String endTime);
     
 }

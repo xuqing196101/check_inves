@@ -135,9 +135,6 @@
         #{isDeleted},
       </if>
     </trim>
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-      select sys_guid() from dual
-  </selectKey>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierAudit">
     update T_SES_SMS_SUPPLIER_AUDIT
@@ -226,4 +223,12 @@
 	 	</if>
 	 </where>
 	</update>
+	
+	<select id="selectById" resultMap="BaseResultMap">
+	 select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_AUDIT
+    where ID = #{id} 
+	</select>
+	
 </mapper>

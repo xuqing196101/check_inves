@@ -79,13 +79,13 @@ public class SupplierTask {
 	/**
 	 * 
 	* @Title: handlerAudit
-	* @Description: 审核通过的
+	* @Description: 审核不通过的
 	* author: Li Xiaoxiao 
 	* @param      
 	* @return void     
 	* @throws
 	 */
-	public void handlerAudit(){
+	public void handlerAuditNotExportInner(){
 		Date date=new Date();
 		Date addDate = supplierService.addDate(date, 3, -1);
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -95,6 +95,84 @@ public class SupplierTask {
 		outerSupplierService.auditPass(startTime, endTime);
 	}
 	
+	/**
+	 * 
+	* @Title: handlerAudit
+	* @Description: 审核通过的
+	* author: Li Xiaoxiao 
+	* @param      
+	* @return void     
+	* @throws
+	 */
+	public void handlerAuditInner(){
+		 File file = FileUtils.getImportFile();
+     	if (file != null && file.exists()){
+             File [] files = file.listFiles();
+             for (File f : files){
+                 if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)){
+                	 innerSupplierService.immportInner(f);
+                 	
+                 }
+//                 if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
+//                     attachService.importSupplierAttach(f);
+//                 }
+                 if (f.isDirectory()){
+                     if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)){
+                         OperAttachment.moveFolder(f);
+                     }
+                 }
+             }
+      } 
+	}
 	
+	/**
+	 * 
+	* @Title: tempExportSupplier
+	* @Description: T导出临时供应商
+	* author: Li Xiaoxiao 
+	* @param      
+	* @return void     
+	* @throws
+	 */
+	public void tempExportSupplier(){
+		Date date=new Date();
+		Date addDate = supplierService.addDate(date, 3, -1);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		String fat = sdf.format(addDate);
+		String startTime=fat+" 00:00:00";
+		String endTime=fat+" 23:59:59";
+		outerSupplierService.tempSupplier(startTime, endTime);
+	}
+	
+	
+	/**
+	 * 
+	* @Title: handlerAudit
+	* @Description: 审核通过的
+	* author: Li Xiaoxiao 
+	* @param      
+	* @return void     
+	* @throws
+	 */
+	public void tempImportSupplier(){
+		 File file = FileUtils.getImportFile();
+     	if (file != null && file.exists()){
+             File [] files = file.listFiles();
+             for (File f : files){
+                 if (f.getName().contains(FileUtils.C_TMEP_SUPPLIER_FILE)){
+                	 innerSupplierService.importTempSupplier(f);
+                 	
+                 }
+//                 if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
+//                     attachService.importSupplierAttach(f);
+//                 }
+                 if (f.isDirectory()){
+                     if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)){
+                         OperAttachment.moveFolder(f);
+                     }
+                 }
+             }
+      } 
+	}
 	
 }

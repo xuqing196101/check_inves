@@ -438,7 +438,15 @@ public interface SupplierMapper {
     
     
     
-    
+    /**
+     * 
+     *〈简述〉根据供应商状态查询
+     *〈详细描述〉
+     * @author myc
+     * @param creteDate 创建日期
+     * @return
+     */
+    List<Supplier> tempExportSupplier(@Param("startTime")String startTime, @Param("endTime")String endTime);
     
     
     

@@ -691,10 +691,29 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 		}
 		
 		  if (list != null && list.size() > 0){
-	            FileUtils.writeFile(FileUtils.getNewSupperBackUpFile(),JSON.toJSONString(supplierAudits));
+	            FileUtils.writeFile(FileUtils.getSupperAuidtNotFile(),JSON.toJSONString(supplierAudits));
 	        }
 		   
 	        recordService.commitSupplierRecord(new Integer(list.size()).toString(), new Date() );
+	}
+
+	@Override
+	public void tempSupplier(String startTime, String endTime) {
+	 
+		List<Supplier> list = supplierMapper.tempExportSupplier(startTime, endTime);
+		 for (Supplier supp : list){
+			    List<RoleUser> userRoles = userMapper.queryByUserId(supp.getUser().getId(), null);
+		        supp.setUserRoles(userRoles);
+		        User user = userService.findByTypeId(supp.getId());
+		        supp.setUser(user);
+		 }
+		  
+		 if (list != null && list.size() > 0){
+	            FileUtils.writeFile(FileUtils.getTempSupperFile(),JSON.toJSONString(list));
+	        }
+	        recordService.commitSupplierRecord(new Integer(list.size()).toString(), new Date());
+	        
+	        
 	}
     
 }

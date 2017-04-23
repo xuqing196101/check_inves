@@ -22,4 +22,8 @@ public interface SupplierSignatureMapper {
 	* @throws
 	 */
 	List<SupplierSignature> queryBySupplierId(@Param("supplierId")String supplierId);
+	
+	SupplierSignature queryById(@Param("id")String id);
+	
+	
 }

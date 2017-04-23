@@ -34,5 +34,7 @@ public interface SupplierHistoryMapper {
      */
     List<SupplierHistory> queryBySupplierId(@Param("supplierId")String supplierId);
     
+    SupplierHistory queryById(@Param("id")String id);
+    
     
 }

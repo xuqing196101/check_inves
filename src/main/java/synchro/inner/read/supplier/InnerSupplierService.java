@@ -22,4 +22,10 @@ public interface InnerSupplierService {
      * @param file 新注册的供应商文件
      */
     public void importSupplierInfo(final File file);
+    
+    
+    public void immportInner(final File file);
+    
+    
+    public void importTempSupplier(final File file);
 }

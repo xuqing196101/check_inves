@@ -3,6 +3,8 @@ package ses.dao.sms;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierAudit;
 
 public interface SupplierAuditMapper {
@@ -58,4 +60,15 @@ public interface SupplierAuditMapper {
      * @return void
      */
     void deleteBySupplierId(String supplierId);
+    /**
+     * 
+    * @Title: selectById
+    * @Description: 根据ID查询
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @return     
+    * @return SupplierAudit     
+    * @throws
+     */
+    SupplierAudit selectById(@Param("id")String id);
 } 

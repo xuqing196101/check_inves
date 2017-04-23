@@ -1722,4 +1722,17 @@
 	</select>
 	
 	
+		<!-- 根据创建日期查询已提交的供应商 -->
+	<select id="tempExportSupplier" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER
+		WHERE IS_PROVISIONAL=1
+		AND SUBMIT_AT &gt;=
+		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+		AND
+		SUBMIT_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd
+		hh24:mi:ss')
+	</select>
+	
 </mapper>

@@ -30,6 +30,17 @@ public interface SupplierAuditNotMapper {
      */
     SupplierAuditNot selectByPrimaryKey(SupplierAuditNot record);
     
+    /** 
+     * @Title: selectByPrimaryKey
+     * @author 根据地id查询
+     * @date 2017-1-10 下午4:19:52  
+     * @Description:查询
+     * @param @param record
+     * @param @return      
+     * @return List<SupplierAudit>
+     */
+    SupplierAuditNot selectById(@Param("id")String id);
+    
     /**
      * 
     * @Title: selectQueryBySupplierId

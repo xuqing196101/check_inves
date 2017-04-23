@@ -193,4 +193,14 @@
   
   </select>
   
+   <select id="selectById" resultMap="BaseResultMap">
+   select 
+    	<include refid="Base_Column_List"/>
+    from 
+    	T_SES_SMS_SUPPLIER_MODIFY
+    where 
+    	ID = #{id} 
+  
+  </select>
+  
 </mapper>

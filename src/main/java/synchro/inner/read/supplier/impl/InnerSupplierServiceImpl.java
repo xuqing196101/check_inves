@@ -3,18 +3,16 @@ package synchro.inner.read.supplier.impl;
 import java.io.File;
 import java.util.List;
 
+import org.aspectj.internal.lang.annotation.ajcDeclareAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAptituteMapper;
+import ses.dao.sms.SupplierAuditMapper;
+import ses.dao.sms.SupplierAuditNotMapper;
 import ses.dao.sms.SupplierBranchMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
@@ -23,21 +21,25 @@ import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierHistoryMapper;
 import ses.dao.sms.SupplierItemMapper;
+import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierMatProMapper;
 import ses.dao.sms.SupplierMatSellMapper;
 import ses.dao.sms.SupplierMatServeMapper;
 import ses.dao.sms.SupplierModifyMapper;
 import ses.dao.sms.SupplierRegPersonMapper;
+import ses.dao.sms.SupplierSignatureMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.formbean.SupplierAuditFormBean;
 import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
-import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierAuditNot;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
@@ -52,15 +54,17 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierRegPerson;
+import ses.model.sms.SupplierSignature;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierService;
-import ses.service.sms.SupplierTypeRelateService;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 
 /**
  * 
@@ -156,6 +160,19 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     
     @Autowired
     private TodosMapper todosMapper;
+    
+    @Autowired
+    private SupplierMapper supplierMapper;
+    
+    @Autowired
+    private SupplierAuditMapper supplierAuditMapper;
+    
+    
+    @Autowired
+    private SupplierAuditNotMapper supplierAuditNotMapper;
+    
+    @Autowired
+    private SupplierSignatureMapper supplierSignatureMapper;
     
     
     /**
@@ -442,6 +459,93 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
         List<Supplier> supplierList = FileUtils.getSupplier(file, Supplier.class); 
         return supplierList;
     }
+
+	@Override
+	public void immportInner(File file) {
+		  List<SupplierAuditFormBean> list = getSupplierFormBaean(file);
+		  for(SupplierAuditFormBean sb:list){
+			  supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus());
+			  List<SupplierAuditNot> auditNots = sb.getSupplierAuditNot();
+			  for(SupplierAuditNot sa:auditNots){
+				  SupplierAuditNot not = supplierAuditNotMapper.selectById(sa.getId());
+				  if(not==null){
+					  supplierAuditNotMapper.insertSelective(not);
+				  }
+				  if(not!=null){
+//					  supplierAuditNotMapper
+				  }
+			  }
+			  List<SupplierAudit> supplierAudits = sb.getSupplierAudits();
+			  for(SupplierAudit sat:supplierAudits){
+				  SupplierAudit audit = supplierAuditMapper.selectById(sat.getId());
+				  if(audit==null){
+					  supplierAuditMapper.insertSelective(sat);
+				  }else{
+					  supplierAuditMapper.updateByPrimaryKeySelective(sat);
+				  }
+			  }
+			  List<SupplierModify> supplierModify = sb.getSupplierModify();
+			  for(SupplierModify sm:supplierModify){
+				  SupplierModify smf = supplierModifyMapper.selectById(sm.getId());
+				  if(smf==null){
+//					  supplierModifyMapper.insertSelective(sm);
+				  }else{
+//					  supplierModifyMapper.
+				  }
+			  }
+			  List<SupplierHistory> historys = sb.getSupplierHistory();
+			  for(SupplierHistory sh:historys){
+				  SupplierHistory history = supplierHistoryMapper.queryById(sh.getId());
+				  if(history==null){
+					  supplierHistoryMapper.insertSelective(history);
+				  }
+			  }
+			  List<SupplierSignature> signatures = sb.getSupplierSignature();
+			  for(SupplierSignature ss:signatures){
+				  SupplierSignature singature = supplierSignatureMapper.queryById(ss.getId());
+				  if(singature==null){
+					  supplierSignatureMapper.insertSelective(singature);
+				  }else{
+//					  supplierSignatureMapper.
+				  }
+			  }
+				
+		  }
+		  
+		
+	}
     
 
+   private List<SupplierAuditFormBean> getSupplierFormBaean(final File file){
+	    List<SupplierAuditFormBean> supplierList = FileUtils.getSupplier(file, SupplierAuditFormBean.class); 
+	   
+	    return supplierList;
+	  }
+
+	@Override
+	public void importTempSupplier(File file) {
+		 List<Supplier> list = getSupplier(file);
+	       for (Supplier supplier : list){
+	    	   List<RoleUser> roles = supplier.getUserRoles();
+	    	   if(roles.size()>0){
+	    		   for(RoleUser ur:roles){
+	        		   RoleUser us=new RoleUser();
+	        		   us.setRoleId(ur.getRoleId());
+	        		   us.setUserId(ur.getUserId());
+	        		   List<RoleUser> queryByUserId = userMapper.queryByUserId(ur.getUserId(), ur.getRoleId());
+	        		   if(queryByUserId.size()<1){
+	        			  userMapper.saveUserRole(us);
+	        		   }
+	        	   }  
+	    	   }
+	    	   
+	    	   User us = userMapper.queryNameAndNote(supplier.getUser().getLoginName(),supplier.getUser().getNetType());  
+	    	   if(us==null){
+	    		   saveUser(supplier.getUser()); 
+	    	   }
+	       }
+		
+	}
+
+	   
 }

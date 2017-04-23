@@ -81,5 +81,8 @@ public interface SupplierModifyMapper {
     * @throws
      */
 	List<SupplierModify> queryBySupplierId (@Param("supplierId")String supplierId);
+	
+	
+	SupplierModify selectById (@Param("id")String id);
     
 }
