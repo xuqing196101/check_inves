@@ -63,6 +63,15 @@
     where PRODUCT_ID = #{contractProduct.id} order by SERIAL_NUMBER
   </select>
   
+  <select id="selectProductIdName"  parameterType="Map" resultMap="WagesPayableMap">
+    select 
+    <include refid="Base_Column_List" />
+  	 from T_BSS_SSTPS_WAGES_PAYABLE
+    where PRODUCT_ID = #{id} and FIRSET_PRODUCT=#{name}
+  </select>
+  <select id="selectProductIdSumUser"  parameterType="java.lang.String" resultMap="WagesPayableMap">
+   select sum(OYA_PRODUCE_USER) as OYA_PRODUCE_USER ,sum(NEW_PRODUCE_USER) as NEW_PRODUCE_USER  from T_BSS_SSTPS_WAGES_PAYABLE where PARENT_ID=#{id} and SERIAL_NUMBER!='0'
+  </select>
   <delete id="delete" parameterType="java.lang.String">
     delete from T_BSS_SSTPS_WAGES_PAYABLE
     where ID = #{id}

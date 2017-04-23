@@ -45,6 +45,11 @@
     where PRODUCT_ID = #{contractProduct.id} order by CREATED_AT
   </select>
   
+  <select id="selectProductIdSum" parameterType="java.lang.String" resultMap="OutproductConMap">
+    select sum(WORK_MONEY) as WORK_MONEY from T_BSS_SSTPS_OUTPRODUCT_CON
+    where PRODUCT_ID = #{id}
+  </select>
+  
   <delete id="delete" parameterType="java.lang.String">
     delete from T_BSS_SSTPS_OUTPRODUCT_CON
     where ID = #{id}

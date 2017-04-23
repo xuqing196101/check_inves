@@ -184,4 +184,19 @@ public class TodosServiceImpl implements TodosService {
     // TODO Auto-generated method stub
     return mapper.listUrlTodo(todos);
   }
+
+@Override
+public List<Todos> listUrlTodoPage(Todos todos,Short types,Integer page) {
+	
+	List<String> listUserPermission = getPermisssion(todos.getReceiverId());
+      Map<String, Object> map = new HashMap<String, Object>();
+      todos.setUndoType(types);
+      map = new HashMap<String, Object>();
+      map.put("todos", todos);
+      map.put("permission", listUserPermission);
+      PropertiesUtil config = new PropertiesUtil("config.properties");
+	  PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+      List<Todos> list = mapper.listTodos(map);
+      return list;
+     }
 }

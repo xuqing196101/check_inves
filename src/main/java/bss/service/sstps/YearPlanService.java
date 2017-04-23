@@ -15,5 +15,6 @@ public interface YearPlanService {
 	public void update(YearPlan yearPlan);
 	
 	public void delete(String id);
+	List<YearPlan> selectByParentIdZero(String record);
 
 }

@@ -265,4 +265,9 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return checkPassMapper.listsupplier(map);
 	}
+
+	@Override
+	public List<SupplierCheckPass> listCheckPassOrderRanking(String packId) {
+		return checkPassMapper.listCheckPassOrderRanking(packId);
+	}
 }

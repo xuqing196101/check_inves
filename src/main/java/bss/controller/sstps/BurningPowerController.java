@@ -142,14 +142,14 @@ public class BurningPowerController extends BaseSupplierController {
 			model.addAttribute("list", list);
 		}
 		model.addAttribute("proId", proId);
-		if(total!=null){
+		/*if(total!=null){
 			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
 			comprehensiveCost.setContractProduct(contractProduct);
 			comprehensiveCost.setSingleOffer(total);
 			comprehensiveCost.setProjectName("专项试验费");
 			comprehensiveCost.setSecondProject("专用费用");
 			comprehensiveCostService.updateInfo(comprehensiveCost);
-		}
+		}*/
 		return "bss/sstps/offer/supplier/burningPower/list";
 	}
 	

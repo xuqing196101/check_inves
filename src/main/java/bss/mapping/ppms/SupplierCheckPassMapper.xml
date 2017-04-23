@@ -366,7 +366,7 @@
 		</if>
 
 		ORDER BY
-		CP.ID
+		RANKING
 
 	</select>
 	
@@ -400,13 +400,12 @@
 		</if>
 
 		ORDER BY
-		CP.ID
+		RANKING
 
 	</select>
 <!-- @author Ma Mingwei -->
 	<select id="listsupplier" parameterType="Map"
 		resultMap="BaseResultMap">
-
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM
@@ -488,5 +487,19 @@
 		cp.IS_DELETED=0 and 
 		cp.PACKAGE_ID = #{packageId}
 	</select>
-	
+	<select id="listCheckPassOrderRanking" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_BSS_PPMS_SUPPLIER_CHECK_PASS cp
+		WHERE
+		1=1
+	    AND CP.PACKAGE_ID =#{packageId}
+	    and cp.IS_WON_BID=1
+		ORDER BY
+		RANKING
+
+	</select>
 </mapper>

@@ -1,5 +1,6 @@
 package bss.dao.sstps;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.sstps.ComCostDis;
@@ -15,5 +16,7 @@ public interface ComCostDisMapper {
     int update(ComCostDis record);
     
     List<ComCostDis> selectProduct(ComCostDis record);
+    
+    List<ComCostDis> selectProductIdAndName(HashMap<String, Object> hashMap);
     
 }

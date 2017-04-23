@@ -238,6 +238,8 @@
         var number;
         var flgOne=true;
         var flgTwo=true;
+        var sumPrice=0;
+        var tr0=$("#tr0").nextAll();
     	for(var i=0;i<trs.length;i++){
     		if(flgOne==true){
 	    		if($($(trs[i]).children()[1]).text().split(".").length==2){
@@ -278,6 +280,21 @@
 	    		}
     	    }
     	}
+    	for(var i=1;i<tr0.length-1;i++){
+    		if($($(tr0[i]).children()[1]).text().split(".").length==1&&$($(tr0[i]).children()[indx]).children(":first").val()!=""){
+    			sumPrice+=parseFloat($($(tr0[i]).children()[indx]).children(":first").val());
+    		}else{
+    			sumPrice+=0;
+    		}
+    	}
+    	if(indx==6){
+    		$($(tr0[tr0.length-1]).children()[1]).children(":first").val(sumPrice.toFixed(2));
+    	}else if(indx==9){
+    		$($(tr0[tr0.length-1]).children()[3]).children(":first").val(sumPrice.toFixed(2));
+    	}else if(indx==12){
+    		$($(tr0[tr0.length-1]).children()[5]).children(":first").val(sumPrice.toFixed(2));
+    	}
+    	
     }
       function moneys(obj,type,indx){
     	  var num=0;
@@ -375,18 +392,18 @@
         var totalRow2 = 0;
         var totalRow3 = 0;
         $("#table1 tr:not(:last)").each(function() {
-          $(this).find("td:eq(8)").each(function() {
-        	  if($(this.firstChild).val()!=null&&$(this.firstChild).val()!=""){
+          $(this).find("td:eq(6)").each(function() {
+        	  if($(this.firstChild).val()!=null&&$(this.firstChild).val()!=""&&$($(this).prevAll()[4].firstChild).text().split(".").length==1){
                  totalRow1 += parseFloat($(this.firstChild).val());
         	  }
           });
-          $(this).find("td:eq(11)").each(function() {
-        	  if($(this.firstChild).val()!=null&&$(this.firstChild).val()!=""){
+          $(this).find("td:eq(9)").each(function() {
+        	  if($(this.firstChild).val()!=null&&$(this.firstChild).val()!=""&&$($(this).prevAll()[7].firstChild).text().split(".").length==1){
                  totalRow2 += parseFloat($(this.firstChild).val());
         	  }
           });
           $(this).find("td:eq(12)").each(function() {
-        	  if($(this.firstChild).val()!=null&&$(this.firstChild).val()!=""){
+        	  if($(this.firstChild).val()!=null&&$(this.firstChild).val()!=""&&$($(this).prevAll()[10].firstChild).text().split(".").length==1){
                  totalRow3 += parseFloat($(this.firstChild).val());
         	  }
           });
@@ -510,11 +527,11 @@
             </c:forEach>
             <tr>
               <td class="tc" colspan="6">总计：</td>
-              <td class="tr"><input type="text" id="total1" class="border0 tc w50 mb0 tr" readonly="readonly"></td>
+              <td class="tr"><input type="text" id="total1" class="border0 tc w80 mb0 tr" readonly="readonly"></td>
               <td colspan="2"></td>
-              <td class="tr"><input type="text" id="total2" class="border0 tc w50 mb0 tr" readonly="readonly"></td>
+              <td class="tr"><input type="text" id="total2" class="border0 tc w80 mb0 tr" readonly="readonly"></td>
               <td colspan="2"></td>
-              <td class="tr"><input type="text" id="total3" class="border0 tc w50 mb0 tr" readonly="readonly"></td>
+              <td class="tr"><input type="text" id="total3" class="border0 tc w80 mb0 tr" readonly="readonly"></td>
               <td class="tc"></td>
             </tr>
         </table>

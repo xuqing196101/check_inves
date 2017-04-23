@@ -14,4 +14,5 @@ public interface OutsourcingConMapper {
     int update(OutsourcingCon record);
     
     List<OutsourcingCon> selectProduct(OutsourcingCon record);
+    List<OutsourcingCon> selectProductIdSum(String id);
 }

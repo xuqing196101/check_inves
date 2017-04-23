@@ -15,5 +15,6 @@ public interface ManufacturingCostMapper {
     int update(ManufacturingCost record);
     
     List<ManufacturingCost> selectProduct(ManufacturingCost record);
+    List<ManufacturingCost> selectProductIdSum(String id);
     
 }

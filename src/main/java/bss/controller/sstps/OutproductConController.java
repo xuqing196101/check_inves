@@ -51,7 +51,7 @@ public class OutproductConController extends BaseSupplierController {
 	* @return String
 	 */
 	@RequestMapping("/select")
-	public String select(Model model,String proId,OutproductCon outproductCon,Integer total){
+	public String select(Model model,String proId,OutproductCon outproductCon,Double total){
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		outproductCon.setContractProduct(contractProduct);

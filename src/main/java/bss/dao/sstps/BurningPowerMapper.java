@@ -1,5 +1,6 @@
 package bss.dao.sstps;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.sstps.BurningPower;
@@ -15,4 +16,5 @@ public interface BurningPowerMapper {
     int update(BurningPower record);
     
     List<BurningPower> selectProduct(BurningPower record);
+    List<BurningPower> selectProductIdAndName(HashMap<String, Object> map);
 }

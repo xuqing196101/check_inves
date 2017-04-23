@@ -29,6 +29,14 @@
     where ID = #{id}
   </select>
   
+  <select id="selectProductIdAndName"  parameterType="Map" resultMap="PeriodCostMap">
+  
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_PERIOD_COST
+    where PRODUCT_ID = #{id} and PROJECT_NAME=#{name}
+  </select>
+  
   <select id="selectProduct" flushCache="true" parameterType="Object" resultMap="PeriodCostMap">
     select 
     <include refid="Base_Column_List" />

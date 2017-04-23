@@ -41,11 +41,18 @@
     where ID = #{id}
   </select>
   
-  <select id="selectProduct" parameterType="Object" resultMap="ComCostDisMap">
+  <select id="selectProduct" flushCache="true" parameterType="Object" resultMap="ComCostDisMap">
     select 
     <include refid="Base_Column_List" />
   	from T_BSS_SSTPS_COM_COST_DIS
-    where PRODUCT_ID = #{contractProduct.id}
+    where PRODUCT_ID = #{contractProduct.id} order by CREATED_AT
+  </select>
+  
+  <select id="selectProductIdAndName"  parameterType="Map" resultMap="ComCostDisMap">
+    select 
+    <include refid="Base_Column_List" />
+  	from T_BSS_SSTPS_COM_COST_DIS
+    where PRODUCT_ID = #{id} and PROJECT_NAME=#{name}
   </select>
   
   <delete id="delete" parameterType="java.lang.String">

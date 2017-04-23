@@ -14,6 +14,30 @@
         var proId = $("#proId").val();
         window.location.href = "${pageContext.request.contextPath}/comCostDis/select.do?proId=" + proId;
       }
+      jQuery.fn.rowspan = function(colIdx) {
+    	  return this.each(function(){
+	    	  var that;
+	    	  $('tr', this).each(function(row) {
+		    	  $('td:eq('+colIdx+')', this).filter(':visible').each(function(col) {
+		    		  if (that!=null && $(this).html() == $(that).html()) {
+				    	  rowspan = $(that).attr("rowSpan");
+				    	  if (rowspan == undefined) {
+				    	  	$(that).attr("rowSpan",1);
+				    	  	rowspan = $(that).attr("rowSpan");
+				    	  }
+				    	  rowspan = Number(rowspan)+1;
+				    	  $(that).attr("rowSpan",rowspan);
+				    	  $(this).hide(); 
+				    	  } else {
+				    	  	that = this;
+				    	  }
+			    	  });
+		    	  });
+	    	  });
+    	  }
+      $(document).ready(function() {
+          $("#table1").rowspan(1);
+      })
     </script>
 
   </head>
@@ -68,40 +92,34 @@
               <th class="info">计量单位</th>
               <td><input type="text" name="measuringUnit" class="m0" value="${ap.measuringUnit }" /></td>
             </tr>
-            <tr>
+            <%-- <tr>
               <th class="info">审核人员</th>
               <td><input type="text" name="auditUser" class="m0" value="${ap.auditUser }" /></td>
-            </tr>
+            </tr> --%>
           </table>
         </div>
       </div>
 
-      <div class="container margin-top-5">
         <div class="container padding-left-25 padding-right-25">
-          <table class="table table-bordered table-condensed">
-            <thead>
+          <table id="table1" class="table table-bordered table-condensed" >
               <tr>
                 <th class="info">序号</th>
-                <th class="info">项目类型</th>
-                <th class="info">项目名称</th>
-                <th class="info">单台报价</th>
-                <th class="info">备注</th>
+                <th class="info" colspan="2" >项目名称</th>
+                <th class="info" >单台报价</th>
+                <th class="info" >备注</th>
               </tr>
-            </thead>
-            <tbody>
               <c:forEach items="${list}" var="cc" varStatus="vs">
                 <tr>
                   <td class="tc">
                     <input type="hidden" name="plcc[${(vs.index)}].id" value="${cc.id }" />${vs.index+1 }
                     <input type="hidden" name="plcc[${(vs.index)}].status" value="${cc.status }" />
                   </td>
-                  <td class="tc"><input type="text" class="border0 m0 tc" name="plcc[${(vs.index)}].projectName" value="${cc.projectName }" / readonly></td>
-                  <td class="tc"><input type="text" class="border0 m0 tc" name="plcc[${(vs.index)}].secondProject" value="${cc.secondProject }" readonly/></td>
+                  <td class="tc">${cc.projectName }</td>
+                  <td class="tc">${cc.secondProject }</td>
                   <td class="tc"><input type="text" class="m0" name="plcc[${(vs.index)}].singleOffer" value="${cc.singleOffer }" /></td>
                   <td class="tc"><input type="text" class="m0" name="plcc[${(vs.index)}].remark" value="${cc.remark }" /></td>
                 </tr>
               </c:forEach>
-            </tbody>
           </table>
         </div>
 

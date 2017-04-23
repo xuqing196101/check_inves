@@ -1,5 +1,6 @@
 package bss.service.sstps;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.sstps.WagesPayable;
@@ -15,5 +16,5 @@ public interface WagesPayableService {
 	public void update(WagesPayable wagesPayable);
 	
 	public void delete(String id);
-
+	List<WagesPayable> selectProductIdName(HashMap<String, Object> hashMap);
 }

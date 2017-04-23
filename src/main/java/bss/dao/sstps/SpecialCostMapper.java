@@ -19,5 +19,6 @@ public interface SpecialCostMapper {
     List<SpecialCost> selectProjectNameByProId(String proId);
     
     List<SpecialCost> selectByIdAndParentId(String id);
+    List<SpecialCost> selectByParentIdSum(String id);
     
 }

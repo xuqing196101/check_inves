@@ -158,7 +158,7 @@
 				if($(this).parent().parent().find(":input[name='goodsName']").val() == null || $(this).parent().parent().find(":input[name='goodsName']").val() == "") {
 					validateFlag = "goodsName";
 				}
-				if($(this).parent().parent().find(":input[name='stand']").val() == null || $(this).parent().parent().find(":input[name='stand']").val() == "") {
+				/* if($(this).parent().parent().find(":input[name='stand']").val() == null || $(this).parent().parent().find(":input[name='stand']").val() == "") {
 					validateFlag = "stand";
 				}
 				if($(this).parent().parent().find(":input[name='qualitStand']").val() == null || $(this).parent().parent().find(":input[name='qualitStand']").val() == "") {
@@ -166,7 +166,7 @@
 				}
 				if($(this).parent().parent().find(":input[name='purchaseCount']").val() == null || $(this).parent().parent().find(":input[name='purchaseCount']").val() == "") {
 					validateFlag = "purchaseCount";
-				}
+				} */
 				if($(this).parent().parent().find(":input[name='unitPrice']").val() == null || $(this).parent().parent().find(":input[name='unitPrice']").val() == "") {
 					validateFlag = "unitPrice";
 				}
@@ -191,7 +191,7 @@
 				if($(this).parent().parent().find(":input[name='goodsName']").val() == null || $(this).parent().parent().find(":input[name='goodsName']").val() == "") {
 					validateFlag = "goodsName";
 				}
-				if($(this).parent().parent().find(":input[name='stand']").val() == null || $(this).parent().parent().find(":input[name='stand']").val() == "") {
+				/* if($(this).parent().parent().find(":input[name='stand']").val() == null || $(this).parent().parent().find(":input[name='stand']").val() == "") {
 					validateFlag = "stand";
 				}
 				if($(this).parent().parent().find(":input[name='qualitStand']").val() == null || $(this).parent().parent().find(":input[name='qualitStand']").val() == "") {
@@ -199,7 +199,7 @@
 				}
 				if($(this).parent().parent().find(":input[name='purchaseCount']").val() == null || $(this).parent().parent().find(":input[name='purchaseCount']").val() == "") {
 					validateFlag = "purchaseCount";
-				}
+				} */
 				if($(this).parent().parent().find(":input[name='unitPrice']").val() == null || $(this).parent().parent().find(":input[name='unitPrice']").val() == "") {
 					validateFlag = "unitPrice";
 				}
@@ -247,7 +247,7 @@
 					});
 				});
 			} else {
-				layer.alert("填写内容不可以为空");
+				layer.alert("单价不可以为空");
 			}
 		} else if(btnVal == "修改") {
 			
@@ -311,7 +311,8 @@
 						value="<fmt:formatNumber type="number" value="${detail.purchaseCount*pass.priceRatio/100}" pattern="0.00" maxFractionDigits="2"/>" readonly="readonly"></td>
 					<td>
 					<%-- <c:if test="${quote == 0 }"> --%>
-					<input type="text" name='unitPrice' value="" onkeyup="this.value=this.value.replace(/\D/g,'')">
+					
+					<input type="text" name='unitPrice' value="${detail.budget }" onkeyup="this.value=this.value.replace(/\D/g,'')">
 					<%-- </c:if>
 					<c:if test="${quote == 1 }">
 					<input type="text" name='unitPrice' value="${detail.price}" readonly="readonly"/>

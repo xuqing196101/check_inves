@@ -15,5 +15,6 @@ public interface YearPlanMapper {
     int update(YearPlan record);
     
     List<YearPlan> selectProduct(YearPlan record);
+    List<YearPlan> selectByParentIdZero(String record);
 
 }

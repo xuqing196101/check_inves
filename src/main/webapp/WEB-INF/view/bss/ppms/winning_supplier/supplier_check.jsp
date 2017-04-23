@@ -47,6 +47,7 @@
 		if (checkAll.checked) {
 			for (var i = 0; i < checklist.length; i++) {
 				checklist[i].checked = true;
+				$($($(checklist[i]).parent().nextAll()[$(checklist[i]).parent().nextAll().length-1]).children()[0]).attr("readonly",false).attr("style","width: 32px;");
 				var associate = document.getElementsByName("associate"
 						+ checklist[i].value);
 				for (var k = 0; k < associate.length; k++) {
@@ -58,6 +59,7 @@
 		} else {
 			for (var j = 0; j < checklist.length; j++) {
 				checklist[j].checked = false;
+				$($($(checklist[j]).parent().nextAll()[$(checklist[j]).parent().nextAll().length-1]).children()[0]).attr("readonly",true).attr("style","width: 32px;border:none;");
 				var associate = document.getElementsByName("associate"
 						+ checklist[j].value);
 				for (var k = 0; k < associate.length; k++) {
@@ -70,13 +72,12 @@
 	}
 
 	/** 单选 */
-	function check(index) {
+	function check(index,objs) {
 		var count = 0;
 		var checklist = document.getElementsByName("chkItem");
 		var checkAll = document.getElementById("checkAll");
 		for (var i = 0; i < checklist.length; i++) {
 			if (checklist[i].checked == false) {
-
 				checkAll.checked = false;
 				break;
 			}
@@ -88,7 +89,11 @@
 
 			}
 		}
-
+		if(objs.checked == true){
+			$($($(objs).parent().nextAll()[$(objs).parent().nextAll().length-1]).children()[0]).attr("readonly",false).attr("style","width: 32px;");
+		}else{
+			$($($(objs).parent().nextAll()[$(objs).parent().nextAll().length-1]).children()[0]).attr("readonly",true).attr("style","width: 32px;border:none;");
+		}
 		var associate = document.getElementsByName("associate" + index);
 		for (var i = 0; i < associate.length; i++) {
 			if ($("#rela" + index).prop("checked")) {
@@ -168,7 +173,7 @@
 		var quote = "${quote}";
 		var checklist = document.getElementsByName("chkItem");
 		for (var j = 0; j < checklist.length; j++) {
-			$("#" + checklist[j].value).find("#priceRatio").text("");
+			$($("#" + checklist[j].value).find("#priceRatio").children()[0]).val("");
 			$("#" + checklist[j].value).find("#wonPrice").text("");
 			if (quote == 0) {
 				$("#" + checklist[j].value).find("#singQuote").val("");
@@ -205,8 +210,8 @@
 			//算出实际成交金额
 			$('input[name="chkItem"]:checked').each(
 					function() {
-						$("#" + $(this).val()).find("#priceRatio").text(
-								ratio[i]);
+						$($("#" + $(this).val()).find("#priceRatio").children()[0]).val(
+								ratio[i]).attr("attr",ratio[i]);
 						//                var totalprice = $("#"+id[0]).find("#totalPrice").text();
 						var price = 0;
 
@@ -273,7 +278,7 @@
 		f = Math.round(x * 100) / 100;
 		return f;
 	}
-
+	
 	function save() {
 		var id = "";
 		var wonPrice = [];
@@ -281,17 +286,20 @@
 		var priceRatio = [];
 		var quote = "${quote}";
 		var supplierIds = [];
-
+        var flg=false;
 		$('input[name="chkItem"]:checked').each(function() {
 			id += $(this).val() + ",";
 			supplierIds.push($(this).attr("class"));
-			priceRatio.push($(this).parent().parent().find("[title='priceRatio']").text());
-
+			priceRatio.push($($(this).parent().parent().find("[title='priceRatio']").children()[0]).val());
+			if($($(this).parent().parent().find("[title='priceRatio']").children()[0]).val()==""||$($(this).parent().parent().find("[title='priceRatio']").children()[0]).val()=="0"){
+				flg=true;
+				return false;
+			}
 			var sq = 0;
 			if (quote == 0) {
 				sq = $("#" + $(this).val()).find("#singQuote").val();
 				if (isNull == 0) {
-					if (sq == null || sq == '') {
+			     	if (sq == null || sq == '') {
 						isNull = 1;
 					}
 				}
@@ -300,23 +308,71 @@
 			}
 			wonPrice.push(sq);
 		});
+        if(flg==true){
+        	layer.alert("选择占比不能为0!");
+        	return false;
+        }
 		id = id.substring(0, id.length - 1);
-
 		if (id.length >= 1) {
-			layer.confirm(
-				'确定后将跳转到录入标的,是否确定',
-				{
-					title : '提示',
-					offset : [ '100px', '300px' ],
-					shade : 0.01
-				},
-				function(index) {
-					//var json = '${supplierCheckPassJosn}';
-					var json = '';
-					layer.close(index);
-					window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + supplierIds + "&&ids=" + id + "&&flowDefineId=${flowDefineId}&&passquote=${quote}&&pid=${packageId}&&projectId=${projectId}&&priceRatios="+priceRatio;
+			var checklist = document.getElementsByName("chkItem");
+			var passId="";
+			var ratio="";
+			for(var i=0;i<checklist.length;i++){
+				if(checklist[i].checked==true){
+					passId+=$(checklist[i]).parent().parent().attr("id")+",";
+					ratio+=$($($(checklist[i]).parent().nextAll()[$(checklist[i]).parent().nextAll().length-1]).children()[0]).val()+",";
 				}
-			);
+				
+			}
+			passId=passId.substring(0,passId.length-1);
+			ratio=ratio.substring(0,ratio.length-1);
+			$.ajax({
+				type : "POST",
+				dataType : "text",
+				//traditional: true,
+				url : "${pageContext.request.contextPath }/winningSupplier/changeRatioByCheckpassId.do?ids=" + passId + "&priceRatios=" + ratio,
+				success : function(data) {
+					if(data=="no"){
+						layer.confirm('成交数量将会出现小数，是否确定此占比分配？', {
+							  btn: ['确认','取消'] 
+							}, function(){
+								layer.confirm(
+										'确定后将跳转到录入标的,是否确定',
+										{
+											title : '提示',
+											offset : [ '100px', '300px' ],
+											shade : 0.01
+										},
+										function(index) {
+											//var json = '${supplierCheckPassJosn}';
+											var json = '';
+											layer.close(index);
+											window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + supplierIds + "&&ids=" + id + "&&flowDefineId=${flowDefineId}&&passquote=${quote}&&pid=${packageId}&&projectId=${projectId}&&priceRatios="+priceRatio;
+										}
+									); 
+								
+							});
+					}else{
+						layer.confirm(
+								'确定后将跳转到录入标的,是否确定',
+								{
+									title : '提示',
+									offset : [ '100px', '300px' ],
+									shade : 0.01
+								},
+								function(index) {
+									//var json = '${supplierCheckPassJosn}';
+									var json = '';
+									layer.close(index);
+									window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + supplierIds + "&&ids=" + id + "&&flowDefineId=${flowDefineId}&&passquote=${quote}&&pid=${packageId}&&projectId=${projectId}&&priceRatios="+priceRatio;
+								}
+							); 
+					}
+				}
+			});
+			
+			
+			
 			/*
 			if (isNull == 1) {
 				layer.alert("请选择填写实际成交金额", {
@@ -342,7 +398,6 @@
 			url : '${pageContext.request.contextPath}/winningSupplier/deleFile.do?packageId=${packageId}',
 			success : function(data) {
 				var map = data;
-				alert(map);
 				if (map == "SCCUESS") {
 					window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}';
 				} else {
@@ -498,8 +553,76 @@
 			}
 		});
 	}
+	
+	var tempTextValue = 0;
+	function priceRatioFocus(obj) {
+		tempTextValue = parseInt($(obj).attr("attr"));
+	}
+	function priceRatioConfirm(obj) {
+		var $obj = $(obj);
+		var objVal = $obj.val();
+		var objTitleValue = $obj.attr("title");
+		var currentStatus = 0;
+		var ids = [];
+		var priceRatios = [];
+		if($($(obj).parent().prevAll()[$(obj).parent().prevAll().length-1]).children()[0].checked==false){
+			return false;
+		}
+		for(var i = 0;i < objTitleValue.length;i++) {
+			if(objTitleValue.charAt(i) > 0 && objTitleValue.charAt(i) < 10) {
+				currentStatus = parseInt(objTitleValue.substr(i,objTitleValue.length));
+				//changeStatusJudge = changeStatus.substr(0,i);
+				break;
+			}
+		}
+		if(objVal >= 0 && objVal <= tempTextValue) {
+			/* var diffCount = parseInt(tempTextValue) - parseInt(objVal);
+			$("input[class^='forChangeRatio']").each(function() {
+				var tempStr = $(this).attr("title");
+				var tempStatus = 0;
+				for(var i = 0;i < tempStr.length;i++) {
+					if(tempStr.charAt(i) > 0 && tempStr.charAt(i) < 10) {
+						tempStatus = parseInt(tempStr.substr(i,tempStr.length));
+						//changeStatusJudge = changeStatus.substr(0,i);
+						break;
+					}
+				}
+				if(currentStatus == 1) {
+					if(tempStatus == (currentStatus + 1)) {
+						$(this).val(parseInt($(this).val()) + diffCount);
+					}
+				} else if(currentStatus > 1) {
+					if(tempStatus == (currentStatus - 1)) {
+						$(this).val(parseInt($(this).val()) + diffCount);
+					}
+				}
+				//把checkpassId和当前占比存到上面定义的变量
+				priceRatios.push($(this).val());
+				ids.push($(this).parent().parent().find("input[class='checkpassId']").val());
+			}); */
+			/* $.ajax({
+				type : "POST",
+				dataType : "text",
+				//traditional: true,
+				url : "${pageContext.request.contextPath }/winningSupplier/changeRatioByCheckpassId.do?ids=" + ids + "&priceRatios=" + priceRatios,
+				success : function(data) {
+					if(data=="no"){
+						layer.alert("成交数量将会出现小数，是否确定此占比分配？");
+					}
+				},
+				error : function(data) {
+				}
+			}); */
+		} else {
+			layer.alert("请输入小于当前数的值");
+			$obj.val(tempTextValue);
+		}
+	}
 	function hrefGO(){
 		location.href="${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}";
+	}
+	function openDetail(packageId){
+		location.href="${pageContext.request.contextPath}/winningSupplier/openPackage.do?packageId=${packageId}&&flowDefineId=${flowDefineId}";
 	}
 </script>
 
@@ -511,6 +634,7 @@
 		<div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">
 			<button class="btn " onclick="save();" type="button">确定</button>
 			<button class="btn " onclick="del(this);" type="button">移除</button>
+			<button class="btn " onclick="openDetail('${packageId}');" type="button">查看明细</button>
 		</div>
 	</c:if>
 	<div class="content table_box pl0">
@@ -540,7 +664,7 @@
 						<td class="tc opinter"><c:if
 								test="${checkpass.isDeleted == 0 }">
 
-								<input onclick="check('${checkpass.id}');"
+								<input onclick="check('${checkpass.id}',this);"
 									id="rela${checkpass.id}" type="checkbox" name="chkItem" class="${checkpass.supplier.id}"
 									value="${checkpass.id}" />
 								</c:if>
@@ -570,7 +694,9 @@
 							<td class="tc opinter">已中标</td>
 						</c:if>
 					</c:if>
-					<td class="tc opinter" id="priceRatio" title="priceRatio">${checkpass.priceRatio}</td>
+					<td class="tc opinter" id="priceRatio" title="priceRatio">
+					   <input type="text" class="forChangeRatio${(vs.index+1)}" onfocus="priceRatioFocus(this)" onchange="priceRatioConfirm(this)" title="unchanged${(vs.index+1) }" style="width: 32px;border:none;" readonly="readonly"  value="${checkpass.priceRatio}"/>
+					</td>
 				</tr>
 			</c:forEach>
 		</table>

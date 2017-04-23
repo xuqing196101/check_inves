@@ -97,4 +97,8 @@ public interface TodosService {
      * @return
      */
     List<Todos> listUrlTodo(Todos todos);
+    
+    List<Todos> listUrlTodoPage(Todos todos,Short types,Integer page);
+    
+    
 }

@@ -1,5 +1,6 @@
 package bss.dao.sstps;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.sstps.ComprehensiveCost;
@@ -17,5 +18,6 @@ public interface ComprehensiveCostMapper {
     List<ComprehensiveCost> selectProduct(ComprehensiveCost record);
     
     int updateInfo(ComprehensiveCost record);
+    List<ComprehensiveCost> selectProductIdAndName(HashMap<String, Object> hashMap);
 
 }

@@ -15,5 +15,6 @@ public interface OutproductConMapper {
     int update(OutproductCon record);
     
     List<OutproductCon> selectProduct(OutproductCon record);
+    List<OutproductCon> selectProductIdSum(String id);
 
 }

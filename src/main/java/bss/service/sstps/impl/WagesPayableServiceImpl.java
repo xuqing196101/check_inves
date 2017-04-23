@@ -1,5 +1,6 @@
 package bss.service.sstps.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,12 @@ public class WagesPayableServiceImpl implements WagesPayableService {
 	@Override
 	public void delete(String id) {
 		wagesPayableMapper.delete(id);
+	}
+
+	@Override
+	public List<WagesPayable> selectProductIdName(
+			HashMap<String, Object> hashMap) {
+		return wagesPayableMapper.selectProductIdName(hashMap);
 	}
 
 }

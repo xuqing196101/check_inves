@@ -42,7 +42,9 @@
     from T_BSS_SSTPS_YEAR_PLAN
     where ID = #{id}
   </select>
-  
+  <select id="selectByParentIdZero" parameterType="java.lang.String" resultMap="YearPlanMap">
+    select sum(TYA_HOUR_TOTAL) as TYA_HOUR_TOTAL,sum(OYA_HOUR_TOTAL) as OYA_HOUR_TOTAL,sum(NEW_HOUR_TOTAL) as NEW_HOUR_TOTAL from  T_BSS_SSTPS_YEAR_PLAN where PARENT_Id= #{id}
+  </select>
   <select id="selectProduct" flushCache="true" parameterType="Object" resultMap="YearPlanMap">
     select 
     <include refid="Base_Column_List" />

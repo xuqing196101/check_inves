@@ -13,7 +13,8 @@ public interface ProductQuotaMapper {
     ProductQuota selectByPrimaryKey(String id);
 
     int update(ProductQuota record);
-
+    
     List<ProductQuota> selectProduct(ProductQuota record);
+    List<ProductQuota> selectProductIdSum(String id);
     
 }

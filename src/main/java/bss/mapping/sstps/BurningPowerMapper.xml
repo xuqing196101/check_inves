@@ -49,7 +49,12 @@
   	 from T_BSS_SSTPS_BURNING_POWER
     where PRODUCT_ID = #{contractProduct.id} order by SERIAL_NUMBER
   </select>
-  
+  <select id="selectProductIdAndName"  parameterType="Map" resultMap="BurningPowertMap">
+    select 
+    <include refid="Base_Column_List" />
+  	 from T_BSS_SSTPS_BURNING_POWER
+    where PRODUCT_ID = #{id} and FIRSET_PRODUCT=#{name}
+  </select>
   <delete id="delete" parameterType="java.lang.String">
     delete from T_BSS_SSTPS_BURNING_POWER
     where ID = #{id}

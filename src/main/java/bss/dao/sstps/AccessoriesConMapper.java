@@ -15,5 +15,6 @@ public interface AccessoriesConMapper {
     int update(AccessoriesCon record);
     
     List<AccessoriesCon> selectProduct(AccessoriesCon record);
+    List<AccessoriesCon> selectProductIdAndParentId(String id);
     
 }

@@ -36,6 +36,13 @@
     where PRODUCT_ID = #{contractProduct.id} order by CREATED_AT
   </select>
   
+  <select id="selectProductIdSum"  parameterType="java.lang.String" resultMap="ManufacturingCostMap">
+    select 
+     sum(TYA_QUOTEPRICE) as TYA_QUOTEPRICE,sum(OYA_QUOTEPRICE) as OYA_QUOTEPRICE,sum(NEW_QUOTEPRICE) as NEW_QUOTEPRICE
+  	  from T_BSS_SSTPS_MANUFACTURING_COST
+    where PRODUCT_ID = #{id}
+  </select>
+  
   <delete id="delete" parameterType="java.lang.String">
     delete from T_BSS_SSTPS_MANUFACTURING_COST
     where ID = #{id}

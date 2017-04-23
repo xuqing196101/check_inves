@@ -40,4 +40,9 @@ public class YearPlanServiceImpl implements YearPlanService {
 		yearPlanMapper.delete(id);
 	}
 
+	@Override
+	public List<YearPlan> selectByParentIdZero(String record) {
+		return yearPlanMapper.selectByParentIdZero(record);
+	}
+
 }

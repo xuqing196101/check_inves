@@ -33,7 +33,7 @@
     where ID = #{id}
   </select>
   
-  <select id="selectProduct" parameterType="Object" resultMap="AuditOpinionMap">
+  <select id="selectProduct" flushCache="true" parameterType="Object" resultMap="AuditOpinionMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_SSTPS_AUDIT_OPINION

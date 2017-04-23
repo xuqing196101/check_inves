@@ -40,7 +40,7 @@
 		<include refid="Base_Column_List" />
 		from T_BSS_PPMS_THE_SUBJECT
 		where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR} and 
-		PACKAGE_ID=#{packageId,jdbcType=VARCHAR}
+		PACKAGE_ID=#{packageId,jdbcType=VARCHAR} order by DETAIL_ID
 	</select>
 	
 	<select id="selectByPackagesId" parameterType="String"

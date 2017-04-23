@@ -1,6 +1,9 @@
 package bss.controller.sstps;
 
+import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +19,14 @@ import bss.model.sstps.ComCostDis;
 import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.PlComCostDis;
+import bss.model.sstps.WagesPayable;
+import bss.model.sstps.YearPlan;
 import bss.service.sstps.AuditOpinionService;
+import bss.service.sstps.BurningPowerService;
 import bss.service.sstps.ComCostDisService;
 import bss.service.sstps.ComprehensiveCostService;
+import bss.service.sstps.WagesPayableService;
+import bss.service.sstps.YearPlanService;
 
 @Controller
 @Scope
@@ -34,6 +42,22 @@ public class ComCostDisController {
 	@Autowired
 	private ComprehensiveCostService comprehensiveCostService;
 	
+	@Autowired
+	private WagesPayableService wagesPayableService;
+	@Autowired
+	private YearPlanService yearPlanService;
+	@Autowired
+	private BurningPowerService burningPowerService;
+	
+	
+	
+	
+	public static Date addSecond(Date date, int seconds) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.SECOND, seconds);
+		return calendar.getTime();
+		}
 	/**
 	* @Title: select
 	* @author Shen Zhenfei 
@@ -47,19 +71,19 @@ public class ComCostDisController {
 	 */
 	@RequestMapping("/select")
 	public String select(Model model,String proId,ComCostDis comCostDis){
-		
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		comCostDis.setContractProduct(contractProduct);
+		comCostDisService.appendSumComCostDis(contractProduct);
 		List<ComCostDis> list = comCostDisService.selectProduct(comCostDis);
-		
 		if(list.size()>0){
 			model.addAttribute("list", list);
 		}else{
-			comCostDis.setCreatedAt(new Date());
-			comCostDis.setUpdatedAt(new Date());
-			String[] name = {"外购动力开支","直接人工费","制造费用","管理费用","财务费用"};
+			String[] name = {"燃料动力费","直接人工费","制造费用","管理费用","财务费用"};
+			Date date=new Date();
 			for(int i = 0;i<name.length;i++){
+				comCostDis.setCreatedAt(addSecond(date,i));
+				comCostDis.setUpdatedAt(addSecond(date,i));
 				comCostDis.setProjectName(name[i]);
 				comCostDis.setStatus(0);
 				comCostDisService.insert(comCostDis);
@@ -67,13 +91,16 @@ public class ComCostDisController {
 			String[] names= {"制度总工时","计划任务总工时"};
 			for(int j=0;j<names.length;j++){
 				comCostDis.setStatus(1);
+				comCostDis.setCreatedAt(addSecond(date,j));
+				comCostDis.setUpdatedAt(addSecond(date,j));
 				comCostDis.setProjectName(names[j]);
 				comCostDisService.insert(comCostDis);
 			}
-			
+			comCostDisService.appendSumComCostDis(contractProduct);
 			List<ComCostDis> listN = comCostDisService.selectProduct(comCostDis);
 			model.addAttribute("list", listN);
 		}
+		
 		
 		model.addAttribute("proId", proId);
 		
@@ -138,6 +165,54 @@ public class ComCostDisController {
 		return url;
 	}
 	
+	public void initcomprehensiveCost(ContractProduct contractProduct){
+		String[] name1={"原辅材料","外购成件","外协部件","燃料动力","直接人工","专用费用","制造费用","小计"};
+		ComprehensiveCost comprehensiveCost=null;
+		Date date=new Date();
+		for(int i =0;i<name1.length;i++){
+			date=addSecond(date, i+1);
+			comprehensiveCost=new ComprehensiveCost();
+			comprehensiveCost.setProjectName("生产成本");
+			comprehensiveCost.setSecondProject(name1[i]);
+			comprehensiveCost.setStatus(0);
+			comprehensiveCost.setCreatedAt(date);
+			comprehensiveCost.setContractProduct(contractProduct);
+			comprehensiveCostService.insert(comprehensiveCost);
+		}
+		String[] name2={"管理费用","财务费用","销售费用","小计"};
+		for(int i =0;i<name2.length;i++){
+			date=addSecond(date, i+1);
+			comprehensiveCost=new ComprehensiveCost();
+			comprehensiveCost.setProjectName("期间费用");
+			comprehensiveCost.setSecondProject(name2[i]);
+			comprehensiveCost.setStatus(1);
+			comprehensiveCost.setCreatedAt(date);
+			comprehensiveCost.setContractProduct(contractProduct);
+			comprehensiveCostService.insert(comprehensiveCost);
+		}
+		String[] name3={"成本","利润","税金","价格"};
+		for(int i =0;i<name3.length;i++){
+			date=addSecond(date, i+1);
+			comprehensiveCost=new ComprehensiveCost();
+			comprehensiveCost.setProjectName("价格方案");
+			comprehensiveCost.setSecondProject(name3[i]);
+			comprehensiveCost.setStatus(2);
+			comprehensiveCost.setCreatedAt(date);
+			comprehensiveCost.setContractProduct(contractProduct);
+			comprehensiveCostService.insert(comprehensiveCost);
+		}
+		String[] name4={"本产品定额工时","工时分配率合计","直接人工","燃料动力","制造费用","期间费用"};
+		for(int i =0;i<name4.length;i++){
+			date=addSecond(date, i+1);
+			comprehensiveCost=new ComprehensiveCost();
+			comprehensiveCost.setProjectName("工时及分配率");
+			comprehensiveCost.setSecondProject(name4[i]);
+			comprehensiveCost.setStatus(3);
+			comprehensiveCost.setCreatedAt(date);
+			comprehensiveCost.setContractProduct(contractProduct);
+			comprehensiveCostService.insert(comprehensiveCost);
+		}
+	}
 	
 	/**
 	* @Title: next
@@ -155,17 +230,23 @@ public class ComCostDisController {
 		
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
-		
 		auditOpinion.setContractProduct(contractProduct);
-		AuditOpinion ap = new AuditOpinion();
-		ap = auditOpinionService.selectProduct(auditOpinion);
+		AuditOpinion ap = auditOpinionService.selectProduct(auditOpinion);
 		if(ap==null){
 			auditOpinionService.insert(auditOpinion);
 			ap = auditOpinionService.selectProduct(auditOpinion);
 		}
-		
 		comprehensiveCost.setContractProduct(contractProduct);
+		comprehensiveCostService.appendSumComprehensiveCost(contractProduct);
 		List<ComprehensiveCost> list = comprehensiveCostService.select(comprehensiveCost);
+		if(list==null||list.size()<=0){
+			initcomprehensiveCost(contractProduct);
+			comprehensiveCostService.appendSumComprehensiveCost(contractProduct);
+			list = comprehensiveCostService.select(comprehensiveCost);
+		}
+		
+		
+		
 		//if(list.size()>0){
 			model.addAttribute("list", list);
 //		}else{

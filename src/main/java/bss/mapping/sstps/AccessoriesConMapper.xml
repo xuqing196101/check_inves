@@ -57,6 +57,10 @@
     delete from T_BSS_SSTPS_ACCESSORIES_CON
     where ID = #{id}
   </delete>
+  <select id="selectProductIdAndParentId" parameterType="java.lang.String" resultMap="AccessoriesConMap">
+    select sum(WORK_MONEY) as WORK_MONEY from T_BSS_SSTPS_ACCESSORIES_CON
+    where PRODUCT_ID = #{id}
+  </select>
   
   <insert id="insert" parameterType="bss.model.sstps.AccessoriesCon">
   	<selectKey keyProperty="id" resultType="String" order="BEFORE">

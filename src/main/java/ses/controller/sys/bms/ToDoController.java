@@ -31,9 +31,8 @@ import com.github.pagehelper.PageInfo;
 @Scope("prototype")
 @RequestMapping("/todo")
 public class ToDoController {
-
-    @Autowired
-    private TodosService todosService;
+  @Autowired
+  private TodosService todosService;
     
     @Autowired
     private PurchaseOrgnizationServiceI purchaseOrgnizationService;
@@ -47,7 +46,7 @@ public class ToDoController {
      * @return 地址
      */
     @RequestMapping("/todos")
-    public String todos(HttpServletRequest req, String type, String id){
+    public String todos(HttpServletRequest req, String type, String id,Integer projectPage,Integer expertPage,Integer supplierPage){
         User user = (User) req.getSession().getAttribute("loginUser");
         if (user != null ){
             //代办事项
@@ -70,6 +69,26 @@ public class ToDoController {
             if (user.getRoles() != null && user.getRoles().size() != 0){
                 todos.setRoleIdArray(user.getRoles());
             }
+            //List<String> listUserPermission = getPermisssion(todos.getReceiverId());
+            if(projectPage==null){
+            	projectPage=1;
+            }
+            if(expertPage==null){
+            	expertPage=1;
+            }
+            if(supplierPage==null){
+            	supplierPage=1;
+            }
+            List<Todos> supplierlist = todosService.listUrlTodoPage(todos, (short)1,supplierPage);
+            PageInfo<Todos> supplierTodos = new PageInfo<Todos>(supplierlist);
+            List<Todos> expertlist = todosService.listUrlTodoPage(todos, (short)2,expertPage);
+            PageInfo<Todos> expertTodos = new PageInfo<Todos>(expertlist);
+            List<Todos> projectlist = todosService.listUrlTodoPage(todos, (short)3,projectPage);
+            PageInfo<Todos> projectTodos = new PageInfo<Todos>(projectlist);
+            req.setAttribute("supplierTodos", supplierTodos);
+            req.setAttribute("expertTodos", expertTodos);
+            req.setAttribute("projectTodos",projectTodos);
+            req.setAttribute("type", type);
             req.setAttribute("listTodos", todosService.listTodos(todos));
         }
         return "ses/bms/todo/todos";

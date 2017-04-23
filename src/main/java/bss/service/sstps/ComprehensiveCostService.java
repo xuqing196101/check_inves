@@ -3,6 +3,7 @@ package bss.service.sstps;
 import java.util.List;
 
 import bss.model.sstps.ComprehensiveCost;
+import bss.model.sstps.ContractProduct;
 
 public interface ComprehensiveCostService {
 	
@@ -13,5 +14,7 @@ public interface ComprehensiveCostService {
 	public List<ComprehensiveCost> select(ComprehensiveCost comprehensiveCost);
 	
 	public void updateInfo(ComprehensiveCost comprehensiveCost);
+	
+	public void appendSumComprehensiveCost(ContractProduct contractProduct);
 
 }

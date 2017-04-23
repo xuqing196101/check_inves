@@ -111,12 +111,12 @@
                       <input type="hidden" name="plccd[${(vs.index)}].status" value="${ccd.status }" /> ${vs.index+1 }
                     </td>
                     <td class="tc"><input type="text" name="plccd[${(vs.index)}].projectName" value="${ccd.projectName }" readonly class="border0 mb0 w100" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].tyaAmount" value="${ccd.tyaAmount }" class="w50 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].tyaFee" value="${ccd.tyaFee }" class="w50 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].oyaAmout" value="${ccd.oyaAmout }" class="w50 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].oyaFee" value="${ccd.oyaFee }" class="w50 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].newAmount" value="${ccd.newAmount }" class="w50 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].newFee" value="${ccd.newFee }" class="w50 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].tyaAmount" value="${ccd.tyaAmount }" class="w80 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].tyaFee" value="${ccd.tyaFee }" class="w80 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].oyaAmout" value="${ccd.oyaAmout }" class="w80 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].oyaFee" value="${ccd.oyaFee }" class="w80 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].newAmount" value="${ccd.newAmount }" class="w80 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].newFee" value="${ccd.newFee }" class="w80 mb0" /></td>
                     <td class="tc"><input type="text" name="plccd[${(vs.index)}].remark" value="${ccd.remark }" class="mb0" /></td>
                   </tr>
                 </c:if>
@@ -148,12 +148,12 @@
                   <tr>
                     <td class="tc" class="w30">
                       <input type="hidden" name="plccd[${(vss.index)}].id" value="${ccd.id }" />
-                      <input type="hidden" name="plccd[${(vss.index)}].status" value="${ccd.status }" /> ${vs.index+1 }
+                      <input type="hidden" name="plccd[${(vss.index)}].status" value="${ccd.status }" /> ${vss.index+1 }
                     </td>
                     <td class="tc"><input type="text" name="plccd[${(vss.index)}].projectName" value="${ccd.projectName }" readonly class="border0 mb0 w120" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vss.index)}].tyaActual" value="${ccd.tyaActual }" class="w50 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vss.index)}].oyaActual" value="${ccd.oyaActual }" class="w50 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vss.index)}].newActual" value="${ccd.newActual }" class="w50 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vss.index)}].tyaActual" value="${ccd.tyaActual }" class="w100 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vss.index)}].oyaActual" value="${ccd.oyaActual }" class="w100 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vss.index)}].newActual" value="${ccd.newActual }" class="w100 mb0" /></td>
                     <td class="tc"><input type="text" name="plccd[${(vss.index)}].remark" value="${ccd.remark }" class="mb0" /></td>
                   </tr>
                 </c:if>

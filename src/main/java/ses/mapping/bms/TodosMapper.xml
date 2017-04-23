@@ -285,6 +285,116 @@
 		</if>
 		ORDER BY UNDO_TYPE,bt.CREATED_AT desc
 	</select>
+	<!-- 分页 -->
+	<select id="listTodosPage" parameterType="Map" resultMap="BaseResultMapList">
+		SELECT
+		bt.*, BU.REL_NAME AS SENDER_NAME
+		FROM
+		T_SES_BMS_USER bu
+		RIGHT JOIN
+		T_SES_BMS_TODOS bt ON BT.SENDER_ID = BU."ID"
+		WHERE BT.IS_DELETED = 0
+		AND BT.IS_FINISH =#{todos.isFinish,jdbcType=DECIMAL}
+		<if test="todos.undoType != null and todos.undoType != ''  ">
+			AND BT.UNDO_TYPE = #{todos.undoType,jdbcType=DECIMAL}
+		</if>
+		<if test="todos.receiverId != null and todos.receiverId != ''">
+			AND (bt.RECEIVER_ID = #{todos.receiverId,jdbcType=VARCHAR}
+		</if>
+		<if test="todos.roleIdArray != null and todos.roleIdArray != ''">
+			OR
+			<foreach collection="todos.roleIdArray" open="(" close=")"
+				separator="OR" item="array">
+				BT.ROLE_ID = #{array.id}
+			</foreach>
+		</if>
+		<choose>
+			<when
+				test="permission != null and permission != '' and todos.orgId != null and todos.orgId != '' ">
+				OR (bt.ORG_ID = #{todos.orgId,jdbcType=VARCHAR}
+				AND
+				<foreach collection="permission" open="(" close=")"
+					separator="OR" item="permission">
+					BT.POWER_ID = #{permission}
+				</foreach>
+				)
+			</when>
+			<otherwise>
+				<if test="permission != null and permission != ''">
+					OR
+					<foreach collection="permission" open="(" close=")"
+						separator="OR" item="permission">
+						BT.POWER_ID = #{permission}
+					</foreach>
+				</if>
+				<if test="todos.orgId != null and todos.orgId != ''">
+					OR bt.ORG_ID = #{todos.orgId,jdbcType=VARCHAR}
+				</if>
+			</otherwise>
+		</choose>
+		<if test="todos.receiverId != null and todos.receiverId != ''">
+			)
+		</if>
+		<if test="todos.name != null and todos.name != ''">
+			AND BT.NAME like '%${todos.name}%'
+		</if>
+		ORDER BY UNDO_TYPE,bt.CREATED_AT desc
+	</select>
+	<!-- 总数 -->
+	<select id="listTodosPageCount" parameterType="Map" resultType="java.lang.String">
+		SELECT
+		count(*)
+		FROM
+		T_SES_BMS_USER bu
+		RIGHT JOIN
+		T_SES_BMS_TODOS bt ON BT.SENDER_ID = BU."ID"
+		WHERE BT.IS_DELETED = 0
+		AND BT.IS_FINISH =#{todos.isFinish,jdbcType=DECIMAL}
+		<if test="todos.undoType != null and todos.undoType != ''  ">
+			AND BT.UNDO_TYPE = #{todos.undoType,jdbcType=DECIMAL}
+		</if>
+		<if test="todos.receiverId != null and todos.receiverId != ''">
+			AND (bt.RECEIVER_ID = #{todos.receiverId,jdbcType=VARCHAR}
+		</if>
+		<if test="todos.roleIdArray != null and todos.roleIdArray != ''">
+			OR
+			<foreach collection="todos.roleIdArray" open="(" close=")"
+				separator="OR" item="array">
+				BT.ROLE_ID = #{array.id}
+			</foreach>
+		</if>
+		<choose>
+			<when
+				test="permission != null and permission != '' and todos.orgId != null and todos.orgId != '' ">
+				OR (bt.ORG_ID = #{todos.orgId,jdbcType=VARCHAR}
+				AND
+				<foreach collection="permission" open="(" close=")"
+					separator="OR" item="permission">
+					BT.POWER_ID = #{permission}
+				</foreach>
+				)
+			</when>
+			<otherwise>
+				<if test="permission != null and permission != ''">
+					OR
+					<foreach collection="permission" open="(" close=")"
+						separator="OR" item="permission">
+						BT.POWER_ID = #{permission}
+					</foreach>
+				</if>
+				<if test="todos.orgId != null and todos.orgId != ''">
+					OR bt.ORG_ID = #{todos.orgId,jdbcType=VARCHAR}
+				</if>
+			</otherwise>
+		</choose>
+		<if test="todos.receiverId != null and todos.receiverId != ''">
+			)
+		</if>
+		<if test="todos.name != null and todos.name != ''">
+			AND BT.NAME like '%${todos.name}%'
+		</if>
+		ORDER BY UNDO_TYPE,bt.CREATED_AT desc
+	</select>
 	<!-- 查询出任务类型 -->
 	<select id="listUndoType" resultType="java.lang.String">
 		SELECT UNDO_TYPE FROM

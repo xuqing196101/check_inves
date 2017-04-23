@@ -19,19 +19,19 @@ public class ComprehensiveCost {
 
     private String secondProject;
 
-    private Integer singleOffer;
+    private BigDecimal singleOffer;
 
-    private String additResult;
+    private BigDecimal additResult;
 
-    private Integer difference;
+    private BigDecimal difference;
 
     private BigDecimal reduce;
 
-    private Integer checkResult;
+    private BigDecimal checkResult;
 
-    private Integer checkDifference;
+    private BigDecimal checkDifference;
 
-    private Integer checkReduce;
+    private BigDecimal checkReduce;
 
     private String remark;
 
@@ -73,29 +73,6 @@ public class ComprehensiveCost {
         this.secondProject = secondProject == null ? null : secondProject.trim();
     }
 
-    public Integer getSingleOffer() {
-		return singleOffer;
-	}
-
-	public void setSingleOffer(Integer singleOffer) {
-		this.singleOffer = singleOffer;
-	}
-
-	public String getAdditResult() {
-		return additResult;
-	}
-
-	public void setAdditResult(String additResult) {
-		this.additResult = additResult;
-	}
-
-	public Integer getDifference() {
-		return difference;
-	}
-
-	public void setDifference(Integer difference) {
-		this.difference = difference;
-	}
 
 	public BigDecimal getReduce() {
 		return reduce;
@@ -105,27 +82,53 @@ public class ComprehensiveCost {
 		this.reduce = reduce;
 	}
 
-	public Integer getCheckResult() {
+	
+
+	public BigDecimal getSingleOffer() {
+		return singleOffer;
+	}
+
+	public void setSingleOffer(BigDecimal singleOffer) {
+		this.singleOffer = singleOffer;
+	}
+
+	public BigDecimal getAdditResult() {
+		return additResult;
+	}
+
+	public void setAdditResult(BigDecimal additResult) {
+		this.additResult = additResult;
+	}
+
+	public BigDecimal getDifference() {
+		return difference;
+	}
+
+	public void setDifference(BigDecimal difference) {
+		this.difference = difference;
+	}
+
+	public BigDecimal getCheckResult() {
 		return checkResult;
 	}
 
-	public void setCheckResult(Integer checkResult) {
+	public void setCheckResult(BigDecimal checkResult) {
 		this.checkResult = checkResult;
 	}
 
-	public Integer getCheckDifference() {
+	public BigDecimal getCheckDifference() {
 		return checkDifference;
 	}
 
-	public void setCheckDifference(Integer checkDifference) {
+	public void setCheckDifference(BigDecimal checkDifference) {
 		this.checkDifference = checkDifference;
 	}
 
-	public Integer getCheckReduce() {
+	public BigDecimal getCheckReduce() {
 		return checkReduce;
 	}
 
-	public void setCheckReduce(Integer checkReduce) {
+	public void setCheckReduce(BigDecimal checkReduce) {
 		this.checkReduce = checkReduce;
 	}
 

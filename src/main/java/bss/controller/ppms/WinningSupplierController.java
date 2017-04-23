@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,6 +24,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
 import ses.model.sms.Quote;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierQuoteService;
@@ -29,6 +32,9 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
 import com.alibaba.fastjson.JSON;
+
+
+
 
 
 
@@ -76,7 +82,7 @@ import bss.service.ppms.impl.theSubjectServiceImpl;
 @RequestMapping("/winningSupplier")
 public class WinningSupplierController extends BaseController {
   /** OK */
-  private final static String OK = "ok";
+  private static final String OK = "ok";
   /** SCCUESS */
   private static final String SUCCESS = "SCCUESS";
   /** ERROR */
@@ -120,6 +126,8 @@ public class WinningSupplierController extends BaseController {
   private theSubjectService theSubjectService;
   @Autowired
   private BidMethodService bidMethodService;
+  @Autowired
+  private DictionaryDataServiceI dictionaryDataServiceI;
   /**
    * 文件上传
    */
@@ -279,7 +287,7 @@ public class WinningSupplierController extends BaseController {
     SupplierCheckPass checkPass = new SupplierCheckPass();
     //checkPass.setPackageId(packageId);
     //把传过来的supplierid即packageId，切割处理放到一个字符串里适宜sql语句
-    String pids[] = packageId.split(",");
+    String[] pids = packageId.split(",");
     String str_id = "";
     for (String id : pids) {
 		str_id += "'" + id + "',";
@@ -433,8 +441,21 @@ public class WinningSupplierController extends BaseController {
 				  BigDecimal pRa=new BigDecimal(pRatios[i]);
 				  BigDecimal multiply = flg.multiply(pRa);
 				  BigDecimal divide = multiply.divide(new BigDecimal("100"));
-				  if((divide+"").indexOf(".")>0){
-					  bool=false;
+				  char[] charArray = (divide+"").toCharArray();
+				  Boolean flgs=false;
+				  for(int j=0;j<charArray.length;j++){
+					  if(flgs==false){
+						  if((charArray[j]+"".trim()).equals(".")){
+							  flgs=true;
+							  continue;
+						  }
+					  }
+					  if(flgs==true){
+						 if(!(charArray[j]+"".trim()).equals("0")){
+							 bool=false;
+						 } 
+					  }
+					  
 				  }
 			  }
 		  }
@@ -996,14 +1017,78 @@ public class WinningSupplierController extends BaseController {
     model.addAttribute("projectId", projectId);
     model.addAttribute("quote", quote);
     model.addAttribute("pid", pid);
+    List<SupplierCheckPass> listCheckPass = checkPassService.listCheckPassOrderRanking(pid);
+    String supplierIds="";
+    if(listCheckPass!=null&&listCheckPass.size()>0){
+    	supplierIds=listCheckPass.get(0).getSupplierId();
+    }
+    HashMap<String, Object> hashMap=new HashMap<String, Object>();
+    hashMap.put("supplierId", supplierIds);
+    hashMap.put("packageId", pid);
+    List<theSubject> theSubjects = theSubjectService.selectBysupplierIdAndPackagesId(hashMap);
+   
     //获取明细
     HashMap<String,Object> map = new HashMap<>();
     map.put("packageId", pid);
     List<ProjectDetail> detailList = detailService.selectById(map);
     SupplierCheckPass findByPrimaryKey = checkPassService.findByPrimaryKey(passId);
+    if(detailList!=null&&detailList.size()>0){
+    		for(ProjectDetail  details:detailList){
+    			if(theSubjects!=null&&theSubjects.size()>0){
+	    			for(theSubject ts:theSubjects){
+	    				if(ts.getDetailId()!=null&&!"".equals(ts.getDetailId())){
+	    					if(ts.getDetailId().equals(details.getId())){
+	    						details.setBudget(ts.getUnitPrice().doubleValue());
+	        				}
+	    				}
+	    			}
+    		}else{
+				details.setBudget(null);
+			}
+    	}
+    }
     model.addAttribute("detailList", detailList);
     model.addAttribute("pass", findByPrimaryKey);
     return "bss/ppms/winning_supplier/add_list";
+  }
+  
+  @RequestMapping("/openPackage")
+  public String openPackage(Model model, String packageId){
+	  Packages packages=packageService.selectByPrimaryKeyId(packageId);
+	  List<ProjectDetail> projectDetails=null;
+	  if(packages!=null){
+		  projectDetails= detailService.selectByPackageId(packages.getId());
+		  if(projectDetails!=null&&projectDetails.size()>0){
+			  for(ProjectDetail projectDeta:projectDetails){
+				  DictionaryData types = dictionaryDataServiceI.getDictionaryData(projectDeta.getPurchaseType());
+						if(types!=null){
+							projectDeta.setPurchaseType(types.getName());
+					    }else{
+					    	projectDeta.setPurchaseType("");
+					    } 
+			  }
+		  }
+	  }
+	  model.addAttribute("pack",packages);
+	  model.addAttribute("projectDetails",projectDetails);
+	  
+	  return "bss/ppms/winning_supplier/package_list";
+  }
+  @RequestMapping("/openTheDetail")
+  public String openTheDetail(Model model, String passId){
+	  
+	  SupplierCheckPass supplierCheckPass = checkPassService.findByPrimaryKey(passId);
+	  List<theSubject> theSubject=null;
+	  if(supplierCheckPass!=null){
+		  HashMap<String, Object> map=new HashMap<String, Object>();
+		  map.put("supplierId", supplierCheckPass.getSupplierId());
+		  map.put("packageId", supplierCheckPass.getPackageId());
+		  theSubject = theSubjectService.selectBysupplierIdAndPackagesId(map);
+		  
+	  }
+	  
+	  model.addAttribute("theSubject",theSubject);
+	  return "bss/ppms/winning_supplier/thedetail_list";
   }
   
 }

@@ -37,13 +37,13 @@
 				$(singQuotelist[i]).attr("disabled", true);
 			}
 		}
-		var trs=$("tr[name='trId']");
+		/* var trs=$("tr[name='trId']");
 		for(var i=0;i<trs.length;i++){
 			if($($(trs[i]).children()[2]).text()==""){
 				$($($(trs[i]).parent().prev().children()[0]).children()[2]).remove();
 				$($($(trs[i]).parent().children()[0]).children()[2]).remove();
 			}
-		}
+		} */
 	});
 
 	/** 全选全不选 */
@@ -748,13 +748,21 @@
 		});
 	}
 	function hrefGo(){
-		var trids=document.getElementsByName("trId");
+		/* var trids=document.getElementsByName("trId");
 		var passId="";
 		for(var i=0;i<trids.length;i++){
 			passId+=trids[i].id+",";
 		}
-		passId=passId.substring(0,passId.length-1);
-		location.href="${pageContext.request.contextPath }/winningSupplier/changeRatioNull.do?ids=" + passId+"&projectId=${projectId}&flowDefineId=${flowDefineId}";
+		passId=passId.substring(0,passId.length-1); */
+		location.href="${pageContext.request.contextPath }/winningSupplier/selectSupplier.html?projectId=${projectId}&flowDefineId=${flowDefineId}";
+	}
+	function openTheDetail(passId,type){
+		var dis=$($($(type).parent().nextAll()[$(type).parent().nextAll().length-1]).children()[0]).attr("disabled");
+		if(dis!="disabled"){
+			layer.alert("请先录入标的");
+		}else{
+			location.href="${pageContext.request.contextPath }/winningSupplier/openTheDetail.do?passId=" + passId;
+		}
 	}
 </script>
 
@@ -811,13 +819,13 @@
 					<td class="opinter" title="${checkpass.supplier.supplierName }">
 						<input type="hidden" class="supplierId" value="${checkpass.supplier.id }"/>
 						<input type="hidden" class="checkpassId" value="${checkpass.id}"/>
-						<span onclick="ycDiv(this,'${checkpass.id}')"
-						class="count_flow shrink hand"></span> <c:choose>
+						<%-- <span onclick="ycDiv(this,'${checkpass.id}')"
+						class="count_flow shrink hand"></span>  --%><c:choose>
 							<c:when test="${fn:length(checkpass.supplier.supplierName) >10}">
-                    ${fn:substring(checkpass.supplier.supplierName , 0, 10)}...
+                    <a href="javascript:void(0)" onclick="openTheDetail('${checkpass.id}',this)">${fn:substring(checkpass.supplier.supplierName , 0, 10)}...</a>
                  </c:when>
 							<c:otherwise>
-                  ${checkpass.supplier.supplierName}
+                  <a href="javascript:void(0)" onclick="openTheDetail('${checkpass.id}',this)">${checkpass.supplier.supplierName}</a>
                  </c:otherwise>
 						</c:choose>
 					</td>
@@ -835,9 +843,12 @@
 							<td class="tc opinter">已中标</td>
 						</c:if>
 					</c:if>
-					<td class="tc opinter" title="双击单元格 修改占比" id="priceRatio" ondblclick="changePriceRatio(this)">
+					<%-- <td class="tc opinter"  id="priceRatio" ondblclick="changePriceRatio(this)">
 						<input type="text" class="forChangeRatio${(vs.index+1)}" onfocus="priceRatioFocus(this)" onchange="priceRatioConfirm(this)" title="unchanged${(vs.index+1) }" style="width: 32px;height: 26px;text-align: center;border: none;margin-top: 8px;" readonly="readonly" value="${checkpass.priceRatio}"/>
-					</td>
+					</td> --%>
+					<td class="tc opinter"  >
+						${checkpass.priceRatio}
+					</td> 
 					<c:if test="${quote==0 }">
 					   
 						<td class="tc opinter">
@@ -857,7 +868,8 @@
 					<%-- <c:if test="${inputSubjectBtn=='no' }">disabled='disabled'</c:if> --%>
 					<td class="tc opinter"><button class="btn btn-windows add" 
 					<c:if test="${checkpass.subjects!=null}">disabled='disabled'</c:if>
-							onclick="InputBD(this);" type="button">录入标的</button></td>
+							onclick="InputBD(this);" type="button">录入标的</button>
+					
 				</tr>
 				<tr class="tc hide">
 					<td colspan="10">
@@ -965,18 +977,14 @@
 			<button class="btn btn-windows add" onclick="ratioPrice()"
 				type="button">生成总价</button>
 			</c:if> -->
-			<button class="btn btn-windows add" onclick="SaveRatio()"
+			<%-- <button class="btn btn-windows add" onclick="SaveRatio()"
             <c:if test="${flg=='ok'}">
 			disabled='disabled'
 			</c:if>
-				type="button">保存占比</button>
+				type="button">保存占比</button> --%>
 			
 			
-			<button class="btn btn-windows back"  onclick="hrefGo();"
-				<c:if test="${flg=='ok'}">
-					disabled='disabled'
-				</c:if>
-				type="button">返回</button>
+			<button class="btn btn-windows back"  onclick="hrefGo();" type="button">返回</button>
 		</div>
 	</div>
 </body>

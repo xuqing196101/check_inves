@@ -64,6 +64,13 @@
     WHERE PRODUCT_ID = #{contractProduct.id}
   </select>
   
+  <select id="selectProductIdSum" parameterType="java.lang.String" resultMap="ProductQuotaMap">
+    select 
+     sum(SUBTOTAL_OFFER) as SUBTOTAL_OFFER
+  	 from T_BSS_SSTPS_PRODUCT_QUOTA
+    WHERE PRODUCT_ID = #{id}
+  </select>
+  
   <delete id="delete" parameterType="java.lang.String">
     delete from T_BSS_SSTPS_PRODUCT_QUOTA
     where ID = #{id}

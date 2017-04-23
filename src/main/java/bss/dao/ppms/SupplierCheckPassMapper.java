@@ -106,4 +106,5 @@ public interface SupplierCheckPassMapper {
     List<SupplierCheckPass> getByContractId(String contractId);
     List<SupplierCheckPass> selectPackageIdWonBid(String packageId);
     List<SupplierCheckPass> listsupplier(HashMap<String, Object> map);
+    List<SupplierCheckPass> listCheckPassOrderRanking(String packId);
 }

@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -16,25 +17,25 @@ public class ComCostDis {
 
     private String projectName;
 
-    private Integer tyaAmount;
+    private BigDecimal tyaAmount;
 
-    private Integer tyaFee;
+    private BigDecimal tyaFee;
 
-    private Integer oyaAmout;
+    private BigDecimal oyaAmout;
 
-    private Integer oyaFee;
+    private BigDecimal oyaFee;
 
-    private Integer newAmount;
+    private BigDecimal newAmount;
 
-    private Integer newFee;
+    private BigDecimal newFee;
 
-    private Integer subtractWentDutch;
+    private BigDecimal subtractWentDutch;
 
-    private Integer subtractFee;
+    private BigDecimal subtractFee;
 
-    private Integer checkWentDutch;
+    private BigDecimal checkWentDutch;
 
-    private Integer checkFee;
+    private BigDecimal checkFee;
 
     private String remark;
 
@@ -42,15 +43,15 @@ public class ComCostDis {
 
     private Date updatedAt;
     
-    private Integer tyaActual;
+    private BigDecimal tyaActual;
     
-    private Integer oyaActual;
+    private BigDecimal oyaActual;
     
-    private Integer newActual;
+    private BigDecimal newActual;
     
-    private Integer subtractActual;
+    private BigDecimal subtractActual;
     
-    private Integer checkActual;
+    private BigDecimal checkActual;
     
     private Integer status;
     
@@ -78,85 +79,7 @@ public class ComCostDis {
 		this.projectName = projectName;
 	}
 
-	public Integer getTyaAmount() {
-		return tyaAmount;
-	}
-
-	public void setTyaAmount(Integer tyaAmount) {
-		this.tyaAmount = tyaAmount;
-	}
-
-	public Integer getTyaFee() {
-		return tyaFee;
-	}
-
-	public void setTyaFee(Integer tyaFee) {
-		this.tyaFee = tyaFee;
-	}
-
-	public Integer getOyaAmout() {
-		return oyaAmout;
-	}
-
-	public void setOyaAmout(Integer oyaAmout) {
-		this.oyaAmout = oyaAmout;
-	}
-
-	public Integer getOyaFee() {
-		return oyaFee;
-	}
-
-	public void setOyaFee(Integer oyaFee) {
-		this.oyaFee = oyaFee;
-	}
-
-	public Integer getNewAmount() {
-		return newAmount;
-	}
-
-	public void setNewAmount(Integer newAmount) {
-		this.newAmount = newAmount;
-	}
-
-	public Integer getNewFee() {
-		return newFee;
-	}
-
-	public void setNewFee(Integer newFee) {
-		this.newFee = newFee;
-	}
-
-	public Integer getSubtractWentDutch() {
-		return subtractWentDutch;
-	}
-
-	public void setSubtractWentDutch(Integer subtractWentDutch) {
-		this.subtractWentDutch = subtractWentDutch;
-	}
-
-	public Integer getSubtractFee() {
-		return subtractFee;
-	}
-
-	public void setSubtractFee(Integer subtractFee) {
-		this.subtractFee = subtractFee;
-	}
-
-	public Integer getCheckWentDutch() {
-		return checkWentDutch;
-	}
-
-	public void setCheckWentDutch(Integer checkWentDutch) {
-		this.checkWentDutch = checkWentDutch;
-	}
-
-	public Integer getCheckFee() {
-		return checkFee;
-	}
-
-	public void setCheckFee(Integer checkFee) {
-		this.checkFee = checkFee;
-	}
+	
 
 	public String getRemark() {
         return remark;
@@ -182,45 +105,7 @@ public class ComCostDis {
         this.updatedAt = updatedAt;
     }
 
-	public Integer getTyaActual() {
-		return tyaActual;
-	}
-
-	public void setTyaActual(Integer tyaActual) {
-		this.tyaActual = tyaActual;
-	}
-
-	public Integer getOyaActual() {
-		return oyaActual;
-	}
-
-	public void setOyaActual(Integer oyaActual) {
-		this.oyaActual = oyaActual;
-	}
-
-	public Integer getNewActual() {
-		return newActual;
-	}
-
-	public void setNewActual(Integer newActual) {
-		this.newActual = newActual;
-	}
-
-	public Integer getSubtractActual() {
-		return subtractActual;
-	}
-
-	public void setSubtractActual(Integer subtractActual) {
-		this.subtractActual = subtractActual;
-	}
-
-	public Integer getCheckActual() {
-		return checkActual;
-	}
-
-	public void setCheckActual(Integer checkActual) {
-		this.checkActual = checkActual;
-	}
+	
 
 	public Integer getStatus() {
 		return status;
@@ -228,6 +113,126 @@ public class ComCostDis {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public BigDecimal getTyaAmount() {
+		return tyaAmount;
+	}
+
+	public void setTyaAmount(BigDecimal tyaAmount) {
+		this.tyaAmount = tyaAmount;
+	}
+
+	public BigDecimal getTyaFee() {
+		return tyaFee;
+	}
+
+	public void setTyaFee(BigDecimal tyaFee) {
+		this.tyaFee = tyaFee;
+	}
+
+	public BigDecimal getOyaAmout() {
+		return oyaAmout;
+	}
+
+	public void setOyaAmout(BigDecimal oyaAmout) {
+		this.oyaAmout = oyaAmout;
+	}
+
+	public BigDecimal getOyaFee() {
+		return oyaFee;
+	}
+
+	public void setOyaFee(BigDecimal oyaFee) {
+		this.oyaFee = oyaFee;
+	}
+
+	public BigDecimal getNewAmount() {
+		return newAmount;
+	}
+
+	public void setNewAmount(BigDecimal newAmount) {
+		this.newAmount = newAmount;
+	}
+
+	public BigDecimal getNewFee() {
+		return newFee;
+	}
+
+	public void setNewFee(BigDecimal newFee) {
+		this.newFee = newFee;
+	}
+
+	public BigDecimal getSubtractWentDutch() {
+		return subtractWentDutch;
+	}
+
+	public void setSubtractWentDutch(BigDecimal subtractWentDutch) {
+		this.subtractWentDutch = subtractWentDutch;
+	}
+
+	public BigDecimal getSubtractFee() {
+		return subtractFee;
+	}
+
+	public void setSubtractFee(BigDecimal subtractFee) {
+		this.subtractFee = subtractFee;
+	}
+
+	public BigDecimal getCheckWentDutch() {
+		return checkWentDutch;
+	}
+
+	public void setCheckWentDutch(BigDecimal checkWentDutch) {
+		this.checkWentDutch = checkWentDutch;
+	}
+
+	public BigDecimal getCheckFee() {
+		return checkFee;
+	}
+
+	public void setCheckFee(BigDecimal checkFee) {
+		this.checkFee = checkFee;
+	}
+
+	public BigDecimal getTyaActual() {
+		return tyaActual;
+	}
+
+	public void setTyaActual(BigDecimal tyaActual) {
+		this.tyaActual = tyaActual;
+	}
+
+	public BigDecimal getOyaActual() {
+		return oyaActual;
+	}
+
+	public void setOyaActual(BigDecimal oyaActual) {
+		this.oyaActual = oyaActual;
+	}
+
+	public BigDecimal getNewActual() {
+		return newActual;
+	}
+
+	public void setNewActual(BigDecimal newActual) {
+		this.newActual = newActual;
+	}
+
+	public BigDecimal getSubtractActual() {
+		return subtractActual;
+	}
+
+	public void setSubtractActual(BigDecimal subtractActual) {
+		this.subtractActual = subtractActual;
+	}
+
+	public BigDecimal getCheckActual() {
+		return checkActual;
+	}
+
+	public void setCheckActual(BigDecimal checkActual) {
+		this.checkActual = checkActual;
 	}
     
 }
