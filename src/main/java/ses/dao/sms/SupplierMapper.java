@@ -408,4 +408,39 @@ public interface SupplierMapper {
      * @return void
      */
     List<Supplier> findLogoutList(Supplier supplier);
+    
+    
+    
+    /**
+     * 
+    * @Title: updateSupplierStatus
+    * @Description: 根据供应商ID修改供应商状态
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @param status     
+    * @return void     
+    * @throws
+     */
+    void updateSupplierStatus(@Param("id")String id,@Param("status")Integer status);
+    
+    
+    
+    
+    /**
+     * 
+     *〈简述〉根据供应商状态查询
+     *〈详细描述〉
+     * @author myc
+     * @param creteDate 创建日期
+     * @return
+     */
+    List<Supplier> getByTime(@Param("startTime")String startTime, @Param("endTime")String endTime,@Param("status")Integer status);
+    
+    
+    
+    
+    
+    
+    
+    
 }

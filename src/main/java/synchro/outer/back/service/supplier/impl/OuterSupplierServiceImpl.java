@@ -3,8 +3,10 @@ package synchro.outer.back.service.supplier.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,23 +16,29 @@ import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAptituteMapper;
+import ses.dao.sms.SupplierAuditMapper;
+import ses.dao.sms.SupplierAuditNotMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
 import ses.dao.sms.SupplierCertSellMapper;
 import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierHistoryMapper;
+import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierModifyMapper;
 import ses.dao.sms.SupplierRegPersonMapper;
+import ses.dao.sms.SupplierSignatureMapper;
 import ses.formbean.ContractBean;
+import ses.formbean.SupplierAuditFormBean;
 import ses.model.bms.Category;
 import ses.model.bms.RoleUser;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
-import ses.model.bms.Userrole;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierAuditNot;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
@@ -45,6 +53,7 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierRegPerson;
+import ses.model.sms.SupplierSignature;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.CategoryService;
@@ -186,6 +195,19 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     
     @Autowired
     private UserMapper userMapper;
+    
+    @Autowired
+    private SupplierMapper supplierMapper;
+    
+    @Autowired
+    private SupplierAuditMapper supplierAuditMapper;
+    
+    
+    @Autowired
+    private SupplierAuditNotMapper supplierAuditNotMapper;
+    
+    @Autowired
+    private SupplierSignatureMapper supplierSignatureMapper;
     /**
      * 
      * @see synchro.outer.back.service.supplier.OuterSupplierService#exportCommitSupplier(java.lang.String, java.lang.String, java.util.Date)
@@ -641,6 +663,38 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 		
 		
 		recordService.importModifySupplierRecord(new Integer(list.size()).toString(), synchDate);
+	}
+
+	@Override
+	public void auditPass(String startTime, String endTime) {
+		Map<String, Object> map=new HashMap<String,Object>();
+		List<Supplier> list = supplierMapper.getByTime(startTime, endTime, null);
+		List<SupplierAuditFormBean> supplierAudits=new LinkedList<SupplierAuditFormBean>();
+		for(Supplier s:list){
+			SupplierAuditFormBean saf=new SupplierAuditFormBean();
+				saf.setSupplierId(s.getId());
+				saf.setStatus(s.getStatus());
+				saf.setAuditDate(s.getAuditDate());
+				map.put("supplierId", s.getId());
+				List<SupplierAudit> sa = supplierAuditMapper.findByMap(map);
+				saf.setSupplierAudits(sa);
+				List<SupplierModify> supplierModifys = supplierModifyMapper.queryBySupplierId(s.getId());
+				saf.setSupplierModify(supplierModifys);
+				List<SupplierHistory> historys = supplierHistoryMapper.queryBySupplierId(s.getId());
+				saf.setSupplierHistory(historys);
+				List<SupplierAuditNot> supplierAuditNots = supplierAuditNotMapper.selectQueryBySupplierId(s.getId());
+				saf.setSupplierAuditNot(supplierAuditNots);
+				List<SupplierSignature> ss = supplierSignatureMapper.queryBySupplierId(s.getId());
+				saf.setSupplierSignature(ss);
+				supplierAudits.add(saf);
+			
+		}
+		
+		  if (list != null && list.size() > 0){
+	            FileUtils.writeFile(FileUtils.getNewSupperBackUpFile(),JSON.toJSONString(supplierAudits));
+	        }
+		   
+	        recordService.commitSupplierRecord(new Integer(list.size()).toString(), new Date() );
 	}
     
 }

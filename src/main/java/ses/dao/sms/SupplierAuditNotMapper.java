@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditNot;
 
@@ -27,4 +29,16 @@ public interface SupplierAuditNotMapper {
      * @return List<SupplierAudit>
      */
     SupplierAuditNot selectByPrimaryKey(SupplierAuditNot record);
+    
+    /**
+     * 
+    * @Title: selectQueryBySupplierId
+    * @Description:根据供应商ID查询 
+    * author: Li Xiaoxiao 
+    * @param @param supplierId
+    * @param @return     
+    * @return List<SupplierAuditNot>     
+    * @throws
+     */
+    List<SupplierAuditNot> selectQueryBySupplierId(@Param("supplierId")String supplierId);
 } 

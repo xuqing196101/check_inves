@@ -38,4 +38,20 @@ public interface OuterSupplierService {
      */
     public void modify(String startTime, String endTime, Date synchDate);
     
+    
+    
+    /**
+     * 
+    * @Title: auditPass
+    * @Description: 审核通过 
+    * author: Li Xiaoxiao 
+    * @param @param startTime
+    * @param @param endTime     
+    * @return void     
+    * @throws
+     */
+    public void auditPass(String startTime, String endTime);
+    
+    
+    
 }

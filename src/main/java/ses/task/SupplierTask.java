@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import ses.service.sms.SupplierService;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.outer.back.service.expert.OuterExpertService;
+import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.outer.read.att.OuterAttachService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
@@ -26,8 +27,10 @@ import synchro.util.OperAttachment;
 @Component("SupplierTask")
 public class SupplierTask {
 
-	@Autowired
-	private OuterExpertService outerExpertService;
+//	@Autowired
+//	private OuterExpertService outerExpertService;
+	 @Autowired
+	 private OuterSupplierService outerSupplierService;
 	
 	@Autowired
 	private SupplierService supplierService;
@@ -46,7 +49,7 @@ public class SupplierTask {
 		String fat = sdf.format(addDate);
 		String startTime=fat+" 00:00:00";
 		String endTime=fat+" 23:59:59";
-		outerExpertService.backupCreated(startTime, endTime);
+		outerSupplierService.exportCommitSupplier(startTime, endTime,new Date());
 	}
 	
 	
@@ -70,4 +73,28 @@ public class SupplierTask {
 	                }
 	         } 
 	}
+	
+	
+	
+	/**
+	 * 
+	* @Title: handlerAudit
+	* @Description: 审核通过的
+	* author: Li Xiaoxiao 
+	* @param      
+	* @return void     
+	* @throws
+	 */
+	public void handlerAudit(){
+		Date date=new Date();
+		Date addDate = supplierService.addDate(date, 3, -1);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		String fat = sdf.format(addDate);
+		String startTime=fat+" 00:00:00";
+		String endTime=fat+" 23:59:59";
+		outerSupplierService.auditPass(startTime, endTime);
+	}
+	
+	
+	
 }

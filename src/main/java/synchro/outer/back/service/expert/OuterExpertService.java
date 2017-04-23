@@ -1,6 +1,5 @@
 package synchro.outer.back.service.expert;
 
-import java.util.Date;
 
 /**
  * 
@@ -20,7 +19,7 @@ public interface OuterExpertService {
      *〈详细描述〉
      * @author WangHuijie
      */
-    public void backupCreated(String startTime, String endTime);
+    public void backupCreated(String startTime, String endTime);    
     
     /**
      * 

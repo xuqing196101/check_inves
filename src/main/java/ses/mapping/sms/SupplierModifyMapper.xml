@@ -163,9 +163,6 @@
         #{relationId},
       </if>
     </trim>
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-      select sys_guid() from dual
-  </selectKey>
   </insert>
   
   <!-- 删除历史记录 -->
@@ -185,4 +182,15 @@
   	 where SUPPLIER_ID = #{supplierId}
   	 	and LIST_TYPE != '0'
   </delete>
+  
+  <select id="queryBySupplierId" resultMap="BaseResultMap">
+   select 
+    	<include refid="Base_Column_List"/>
+    from 
+    	T_SES_SMS_SUPPLIER_MODIFY
+    where 
+    	SUPPLIER_ID = #{supplierId} 
+  
+  </select>
+  
 </mapper>

@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierHistory;
 
 public interface SupplierHistoryMapper {
@@ -20,4 +22,17 @@ public interface SupplierHistoryMapper {
      * @param supplierHistory
      */
     void delete(SupplierHistory supplierHistory);
+    /**
+     * 
+    * @Title: selectAllBySupplierId
+    * @Description: 根据供应商ID查询
+    * author: Li Xiaoxiao 
+    * @param @param supplierId
+    * @param @return     
+    * @return List<SupplierHistory>     
+    * @throws
+     */
+    List<SupplierHistory> queryBySupplierId(@Param("supplierId")String supplierId);
+    
+    
 }

@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierModify;
 
 public interface SupplierModifyMapper {
@@ -67,5 +69,17 @@ public interface SupplierModifyMapper {
 	 * @return void
 	 */
     void deleteByType (SupplierModify supplierModify);
+    
+    /**
+     * 
+    * @Title: queryBySupplierId
+    * @Description: 根据供应商的ID查询所有的修改
+    * author: Li Xiaoxiao 
+    * @param @param supplierId
+    * @param @return     
+    * @return List<SupplierModify>     
+    * @throws
+     */
+	List<SupplierModify> queryBySupplierId (@Param("supplierId")String supplierId);
     
 }

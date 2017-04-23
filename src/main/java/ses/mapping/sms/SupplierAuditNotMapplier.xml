@@ -59,8 +59,15 @@
         #{createdAt},
       </if>
     </trim>
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-      select sys_guid() from dual
-  	</selectKey>
   </insert>
+  
+  <select id="selectQueryBySupplierId" resultMap="BaseResultMap">
+      select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_AUDIT_Not
+    where 
+    SUPPLIER_ID = #{supplierId}
+  </select>
+  
+  
 </mapper>
