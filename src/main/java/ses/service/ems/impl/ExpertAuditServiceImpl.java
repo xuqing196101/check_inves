@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,10 +14,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertAuditFileModify;
 import ses.service.ems.ExpertAuditService;
 import ses.util.WfUtil;
 /**
@@ -28,6 +32,8 @@ import ses.util.WfUtil;
 public class ExpertAuditServiceImpl implements ExpertAuditService {
 	@Autowired
 	private ExpertAuditMapper mapper;
+	@Autowired
+	private ExpertAuditFileModifyMapper fileModifyMapper;
 	
 	/**
 	 * 
@@ -256,4 +262,36 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	public List<ExpertAudit> selectbyAuditType(ExpertAudit expertAudit){
 		return mapper.selectbyAuditType(expertAudit);
 	}
+	
+	
+	/**
+	 * @Title: selectByExpertId
+	 * @author XuQing 
+	 * @date 2017-4-21 下午6:27:57  
+	 * @Description:查询附件修改记录
+	 * @param @param expertId
+	 * @param @return      
+	 * @return List<ExpertAuditFileModify>
+	 */
+	@Override
+	public List<ExpertAuditFileModify> selectFileModifyByExpertId(ExpertAuditFileModify expertAuditFileModify) {
+		return fileModifyMapper.selectByExpertId(expertAuditFileModify);
+	}
+	
+	/**
+	 * @Title: deleteByExpertId
+	 * @author XuQing 
+	 * @date 2017-4-21 下午6:28:24  
+	 * @Description:删除附件修改记录
+	 * @param @param expertId      
+	 * @return void
+	 */
+	@Override
+	public void delFileModifyByExpertId(String expertId) {
+		fileModifyMapper.delByExpertId(expertId);
+		
+	}
+
+	
+	
 }

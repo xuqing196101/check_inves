@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertAuditFileModifyMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExpertAuditFileModify">
+    <id column="ID"  property="id" />
+    <result column="EXPERT_ID"  property="expertId" />
+    <result column="TYPE_ID"  property="typeId" />
+    <result column="LIST_ID"  property="listId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+     ID, EXPERT_ID, TYPE_ID
+  </sql>
+  
+  <select id="selectByExpertId" parameterType="ses.model.ems.ExpertAuditFileModify" resultMap="BaseResultMap">
+    select 
+    *
+    from T_SES_EMS_EXPERT_FILE_MODIFY
+    where EXPERT_ID = #{expertId}
+    <if test="typeId !=null">
+    	AND TYPE_ID = #{typeId}
+    </if>
+  </select>
+	
+	<delete id="delByExpertId" parameterType="ses.model.ems.ExpertAuditFileModify">
+  delete from
+  T_SES_EMS_EXPERT_FILE_MODIFY
+  where EXPERT_ID = #{expertId}
+  </delete>
+</mapper>

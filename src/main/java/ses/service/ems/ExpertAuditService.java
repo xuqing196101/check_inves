@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertAuditFileModify;
 /**
  * 
   * <p>Title:ExpertAuditService </p>
@@ -175,4 +176,25 @@ public interface ExpertAuditService {
     
 	List<ExpertAudit> selectbyAuditType(ExpertAudit expertAudit);
     
+	
+	/**
+	 * @Title: selectByExpertId
+	 * @author XuQing 
+	 * @date 2017-4-21 下午6:27:57  
+	 * @Description:查询附件修改记录
+	 * @param @param expertId
+	 * @param @return      
+	 * @return List<ExpertAuditFileModify>
+	 */
+	List<ExpertAuditFileModify> selectFileModifyByExpertId(ExpertAuditFileModify expertAuditFileModify);
+
+	/**
+	 * @Title: deleteByExpertId
+	 * @author XuQing 
+	 * @date 2017-4-21 下午6:28:24  
+	 * @Description:删除附件修改记录
+	 * @param @param expertId      
+	 * @return void
+	 */
+	void delFileModifyByExpertId (String expertId);
 }

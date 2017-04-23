@@ -126,13 +126,13 @@
 					
 					<ul class="ul_list hand count_flow">
 						<li class="col-md-6 p0 mt10 mb25">
-							<span class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="application" onclick="reason(this);">军队评审专家承诺书：</span>
+							<span <c:if test="${fn:contains(fileModify,'14')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="application" onclick="reason(this);">军队评审专家承诺书：</span>
 								<up:show showId="14" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="14" />
 								<a style="visibility:hidden" id="application1"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 								<c:if test="${fn:contains(conditionStr,'军队评审专家承诺书')}"> <img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
 						</li>
 						<li class="col-md-6 p0 mt10 mb25">
-							<span class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="contract" onclick="reason(this);">军队评审专家入库申请表：</span>
+							<span <c:if test="${fn:contains(fileModify,'13')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="contract" onclick="reason(this);">军队评审专家入库申请表：</span>
 								<up:show showId="13"  delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="13" />
 								<a style="visibility:hidden" id="contract1"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 								<c:if test="${fn:contains(conditionStr,'军队评审专家入库申请表')}"> <img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>

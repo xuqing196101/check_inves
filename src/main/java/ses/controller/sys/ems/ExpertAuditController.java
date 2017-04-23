@@ -35,6 +35,7 @@ import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertAuditFileModify;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
@@ -360,8 +361,11 @@ public class ExpertAuditController{
 			}
 		}
 		
-		//回显未通过的字段
+		
 		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+			/**
+			 * 回显未通过的字段
+			 */
 			ExpertAudit expertAudit = new ExpertAudit();
 			expertAudit.setExpertId(expertId);
 			expertAudit.setSuggestType("one");
@@ -373,8 +377,21 @@ public class ExpertAuditController{
 				}
 			}
 			model.addAttribute("conditionStr", conditionStr);
+			
+			/**
+			 * 附件退回修改
+			 */
+			ExpertAuditFileModify expertAuditFileModify = new ExpertAuditFileModify();
+			expertAuditFileModify.setExpertId(expertId);
+			List<ExpertAuditFileModify> selectFileModifyByExpertId = expertAuditService.selectFileModifyByExpertId(expertAuditFileModify);
+			StringBuffer fileModify = new StringBuffer();
+			if(!selectFileModifyByExpertId.isEmpty()){
+				for(ExpertAuditFileModify m : selectFileModifyByExpertId){
+					fileModify.append(m.getTypeId() + ",");
+				}
+				model.addAttribute("fileModify", fileModify);
+			}
 		}
-		
 
 		return "ses/ems/expertAudit/basic_info";
 	}
@@ -999,6 +1016,20 @@ public class ExpertAuditController{
 				}
 			}
 			model.addAttribute("conditionStr", conditionStr);
+			
+			/**
+			 * 附件退回修改
+			 */
+			ExpertAuditFileModify expertAuditFileModify = new ExpertAuditFileModify();
+			expertAuditFileModify.setExpertId(expertId);
+			List<ExpertAuditFileModify> selectFileModifyByExpertId = expertAuditService.selectFileModifyByExpertId(expertAuditFileModify);
+			StringBuffer fileModify = new StringBuffer();
+			if(!selectFileModifyByExpertId.isEmpty()){
+				for(ExpertAuditFileModify m : selectFileModifyByExpertId){
+					fileModify.append(m.getTypeId() + ",");
+				}
+				model.addAttribute("fileModify", fileModify);
+			}
 		}
 		return "ses/ems/expertAudit/expertFile";
 	}
@@ -1231,37 +1262,50 @@ public class ExpertAuditController{
 			}*/
 			
 		
-        		//不通过字段（专家类型）
-            	ExpertAudit expertAuditFor = new ExpertAudit();
-    			expertAuditFor.setExpertId(expertId);
-    			expertAuditFor.setSuggestType("seven");
-    			expertAuditFor.settype("1");
-    			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
-    			
-    			
-    			StringBuffer typeErrorField = new StringBuffer();
-    			if(!reasonsList.isEmpty()){
-    				for (ExpertAudit expertAudit2 : reasonsList) {
-    					String beforeField = expertAudit2.getAuditFieldId();
-    					typeErrorField.append(beforeField + ",");
-    				}
-    				model.addAttribute("typeErrorField", typeErrorField);
-    			}
-    			
-    			//不通过字段（执业资格）
-    			expertAuditFor.settype("2");
-    			List < ExpertAudit > engReasonsList = expertAuditService.getListByExpert(expertAuditFor);
-    			StringBuffer engErrorField = new StringBuffer();
-    			if(!engReasonsList.isEmpty()){
-    				for (ExpertAudit expertAudit2 : engReasonsList) {
-    					String beforeField = expertAudit2.getAuditFieldId() +"_"+ expertAudit2.getAuditFieldName();
-    					engErrorField.append(beforeField + ",");
-    				}
-    				model.addAttribute("engErrorField", engErrorField);
-    			}
+    		//不通过字段（专家类型）
+        	ExpertAudit expertAuditFor = new ExpertAudit();
+			expertAuditFor.setExpertId(expertId);
+			expertAuditFor.setSuggestType("seven");
+			expertAuditFor.settype("1");
+			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
 			
+			
+			StringBuffer typeErrorField = new StringBuffer();
+			if(!reasonsList.isEmpty()){
+				for (ExpertAudit expertAudit2 : reasonsList) {
+					String beforeField = expertAudit2.getAuditFieldId();
+					typeErrorField.append(beforeField + ",");
+				}
+				model.addAttribute("typeErrorField", typeErrorField);
+			}
+			
+			//不通过字段（执业资格）
+			expertAuditFor.settype("2");
+			List < ExpertAudit > engReasonsList = expertAuditService.getListByExpert(expertAuditFor);
+			StringBuffer engErrorField = new StringBuffer();
+			if(!engReasonsList.isEmpty()){
+				for (ExpertAudit expertAudit2 : engReasonsList) {
+					String beforeField = expertAudit2.getAuditFieldId() +"_"+ expertAudit2.getAuditFieldName();
+					engErrorField.append(beforeField + ",");
+				}
+				model.addAttribute("engErrorField", engErrorField);
+			}
+			
+			/**
+			 * 附件退回修改
+			 */
+			ExpertAuditFileModify expertAuditFileModify = new ExpertAuditFileModify();
+;			expertAuditFileModify.setTypeId("9");
+			expertAuditFileModify.setExpertId(expertId);
+			List<ExpertAuditFileModify> selectFileModifyByExpertId = expertAuditService.selectFileModifyByExpertId(expertAuditFileModify);
+			StringBuffer fileModify = new StringBuffer();
+			if(!selectFileModifyByExpertId.isEmpty()){
+				for(ExpertAuditFileModify m : selectFileModifyByExpertId){
+					fileModify.append(m.getListId() + ",");
+				}
+				model.addAttribute("fileModify", fileModify);
+			}
 		}
-		
 		return "ses/ems/expertAudit/expertType";
 	}
 
@@ -1292,6 +1336,7 @@ public class ExpertAuditController{
 	 * @date 2016-12-19 下午7:38:05  
 	 * @Description:问题汇总
 	 * @param @param expertAudit
+、
 	 * @param @param model
 	 * @param @param expertId
 	 * @param @return      
@@ -1328,11 +1373,30 @@ public class ExpertAuditController{
 	 */
 	@RequestMapping("/updateStatus")
 	public String updateStatus(Expert expert, Model model, HttpServletRequest request) {
-		// 如果是退回修改就保存历史信息
+		/**
+		 *  如果是退回修改就保存历史信息
+		 */
 		if("3".equals(expert.getStatus())) {
+			//删除旧的专家input信息
 			service.deleteExpertHistory(expert.getId());
+			//重新插入新的信息
 			Expert exp = service.selectByPrimaryKey(expert.getId());
 			service.insertExpertHistory(exp);
+			
+			/**
+			 * 删除工程下的职业资格之前的历史记录
+			 */
+			ExpertEngHistory expertEngHistory = new ExpertEngHistory();
+			expertEngHistory.setExpertId(expert.getId());
+			expertEngHistorySerivce.deleteByExpertId(expertEngHistory);
+						
+			// 新增历史记录
+			expertEngHistorySerivce.insertSelective(expertEngHistory);
+			
+			//删除附件修改的记录
+			expertAuditService.delFileModifyByExpertId(expert.getId());
+			
+			
 			expert.setIsSubmit("0");
 		}
 		//提交审核，更新状态
@@ -1382,19 +1446,6 @@ public class ExpertAuditController{
 	        todos.setUrl("expertAudit/basicInfo.html?expertId=" + expert.getId());
 	        todosService.insert(todos );
 	      }
-
-		if ("3".equals(expert.getStatus())) {
-			// 删除之前的历史记录
-			ExpertEngHistory expertEngHistory = new ExpertEngHistory();
-			expertEngHistory.setExpertId(expertId);
-			expertEngHistorySerivce.deleteByExpertId(expertEngHistory);
-			
-			//删除该供应商对比后的数据
-			expertEngModifySerivce.deleteByExpertId(expertEngHistory);
-			
-			// 新增历史记录
-			expertEngHistorySerivce.insertSelective(expertEngHistory);
-		}
 		
 		return "redirect:list.html";
 	}
