@@ -113,7 +113,17 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private RoleUser roleUser;
     
-    public RoleUser getRoleUser() {
+    private Integer netType;
+    
+    public Integer getNetType() {
+		return netType;
+	}
+
+	public void setNetType(Integer netType) {
+		this.netType = netType;
+	}
+
+	public RoleUser getRoleUser() {
 		return roleUser;
 	}
 

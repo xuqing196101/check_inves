@@ -346,11 +346,13 @@ public class ExpertController extends BaseController {
                 //内网用户
                 user.setNetType(0);
                 expert.setExpertsFrom(DictionaryDataUtil.getId("ARMY"));
+                expert.setNetType(0);
             }
             if ("1".equals(ipAddressType)) {
                 //外网用户
                 expert.setExpertsFrom(DictionaryDataUtil.getId("LOCAL"));
                 user.setNetType(1);
+                expert.setNetType(1);
             }
             expert.setTeachTitle(1);
             userService.save(user, null);

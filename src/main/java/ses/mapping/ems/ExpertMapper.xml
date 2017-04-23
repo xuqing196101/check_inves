@@ -63,6 +63,7 @@
         <result column="IS_ADD_EXPERT" jdbcType="DECIMAL" property="isAddExpert" />
  	    <result column="IS_TITLE" property="isTitle" />
 		<result column="TEACH_TITLE" property="teachTitle" />
+		<result column="NET_TYPE" property="netType" />
     </resultMap>
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
@@ -451,6 +452,10 @@
             <if test="teachTitle != null">
                 TEACH_TITLE,
             </if>
+            <if test="netType != null">
+                NET_TYPE,
+            </if>
+            
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -617,6 +622,9 @@
             </if>
              <if test="teachTitle != null">
                 #{teachTitle},
+            </if>
+            <if test="netType != null">
+                #{netType},
             </if>
             
         </trim>
@@ -794,6 +802,9 @@
              <if test="teachTitle != null">
                 TEACH_TITLE = #{teachTitle},
             </if>
+             <if test="netType != null">
+                NET_TYPE = #{netType},
+            </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
     </update>
@@ -970,6 +981,10 @@
              <if test="teachTitle != null">
                 TEACH_TITLE = #{teachTitle},
             </if>
+             <if test="netType != null">
+                NET_TYPE = #{netType},
+            </if>
+            
         </set>
         where
         ID = #{id,jdbcType=VARCHAR}

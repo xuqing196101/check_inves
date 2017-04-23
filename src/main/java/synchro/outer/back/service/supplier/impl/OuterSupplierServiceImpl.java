@@ -448,9 +448,9 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         supplier.setAttchList(files);
         
         
-        SupplierHistory sh=new SupplierHistory();
-        sh.setSupplierId(supplier.getId());
-        supplierHistoryMapper.selectAllBySupplierId(sh);
+//        SupplierHistory sh=new SupplierHistory();
+//        sh.setSupplierId(supplier.getId());
+//        supplierHistoryMapper.selectAllBySupplierId(sh);
         SupplierModify supplierModify=new SupplierModify();
         supplierModify.setSupplierId(supplier.getId());
         supplierModifyMapper.selectBySupplierId(supplierModify);
