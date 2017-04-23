@@ -3,6 +3,7 @@ package ses.service.sms.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -121,6 +122,8 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         List<SupplierTypeRelate> supplierType = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(supplierId);
         for(SupplierTypeRelate type : supplierType){
         	 historyInfo = new SupplierHistory();
+        	 String id = UUID.randomUUID().toString().replaceAll("-", "");
+        	 historyInfo.setId(id);
              historyInfo.setSupplierId(supplierId);
              historyInfo.setmodifyType("supplier_type");
              historyInfo.setListType(12);

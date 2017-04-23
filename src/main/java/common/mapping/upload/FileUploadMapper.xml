@@ -206,7 +206,6 @@
 	T_SES_SMS_SUPPLIER_ATTACHMENT
 	WHERE
 		SUBSTR (BUSINESS_ID, 0, 32) = #{businessId}
- 	AND IS_DELETED = 0
   </select>
  
 </mapper>

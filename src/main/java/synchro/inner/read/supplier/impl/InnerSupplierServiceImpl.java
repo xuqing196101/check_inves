@@ -394,11 +394,11 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     	   }
     	
 		   
-    	   if(supplier.getHistorys().size()>0){
-    		   for(SupplierHistory sh:supplier.getHistorys()){
+//    	   if(supplier.getHistorys().size()>0){
+//    		   for(SupplierHistory sh:supplier.getHistorys()){
 //    			   supplierHistoryMapper.insertSelective(sh);
-    		   }
-    	   }
+//    		   }
+//    	   }
     	   if(supplier.getModifys().size()>0){
     		   for(SupplierModify sh:supplier.getModifys()){
 //    			   supplierModifyMapper.insertSelective(sh);
