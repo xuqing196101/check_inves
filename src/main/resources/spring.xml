@@ -25,12 +25,10 @@
 	
 	<task:scheduled-tasks>
 	     <!-- 每天凌晨12点半导出供应商 -->
-<!--      	 <task:scheduled ref="SupplierTask"  method="handlerExportSupplier" cron="0 30 0 * * ?"/> 
- -->     	 
+     	 <task:scheduled ref="SupplierTask"  method="handlerExportSupplier" cron="0 30 0 * * ?"/> 
+     	 
      	 <!-- 每天凌晨5点导入供应商 -->
-<!--      	 <task:scheduled ref="SupplierTask"  method="handlerImportSupplier" cron="0 0 5 * * ?"/> 
- -->     	 
-     	  
+     	 <task:scheduled ref="SupplierTask"  method="handlerImportSupplier" cron="0 0 5 * * ?"/> 
      	  
      	  <!-- 每天凌晨12点半导出专家 -->
 <!--      	 <task:scheduled ref="ExpertTask"  method="handlerExportExpert" cron="0 30 0 * * ?"/> 
