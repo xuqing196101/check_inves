@@ -154,22 +154,19 @@ public class ExpertAuditController{
 		}
 		//获取登录人的机构id
 		User user = (User) request.getSession().getAttribute("loginUser");
-		/*if(user.getLoginName().equals("admin")){
-			expert.setPurchaseDepId(null);
-		}else{*/
-			String orgId = user.getOrg().getId();
-			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
-			expert.setPurchaseDepId(depId.getId());
-			
-			//抽取时的机构
-			expert.setExtractOrgid(orgId);
-			
-		/*}*/
-		/*List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum == null ? 0 : pageNum);*/
 		
+		String orgId = user.getOrg().getId();
+		PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
+		expert.setPurchaseDepId(depId.getId());
 		
+		//抽取时的机构
+		expert.setExtractOrgid(orgId);
+
 		//查询列表
 		List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum);
+		if(user.getLoginName().equals("admin")){
+			expertList.clear();
+		}
 		PageInfo< Expert > result = new PageInfo < Expert > (expertList);
 		
 		model.addAttribute("result",result);

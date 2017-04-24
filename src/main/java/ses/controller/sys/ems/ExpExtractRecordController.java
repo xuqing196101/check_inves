@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 
+import common.annotation.CurrentUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -48,6 +49,7 @@ import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExtConType;
 import ses.model.ems.ProExtSupervise;
 import ses.model.ems.ProjectExtract;
+import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtPackage;
@@ -69,6 +71,7 @@ import ses.service.ems.ExpertService;
 import ses.service.ems.ExtConTypeService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.ems.ProjectSupervisorServicel;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierTypeService;
 import ses.util.DateUtil;
@@ -164,6 +167,8 @@ public class ExpExtractRecordController extends BaseController {
 
   @Autowired
   private SupplierExtUserServicel extUserServicel; //监督人员
+    @Autowired
+    private OrgnizationServiceI orgnizationService;
 
 
   /**
@@ -229,7 +234,7 @@ public class ExpExtractRecordController extends BaseController {
    * @return String
    */
   @RequestMapping("/Extraction")  
-  public String listExtraction(Model model,String projectId,String page,String typeclassId,String packageId){
+  public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
     if (packageId != null && !"".equals(packageId)){
       //已抽取
       String[] packageIds =  packageId.split(",");
@@ -332,7 +337,19 @@ public class ExpExtractRecordController extends BaseController {
     }
     List<DictionaryData> find = DictionaryDataUtil.find(12);
     model.addAttribute("stemFrom", find);
-
+    String isCurment = "0";//是否为采购机构人员,默认:0-不是
+    //根据当前用户获取机构信息
+    if(null != user && null != user.getOrg()){
+      Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(user.getOrg().getId());
+      if(null != orgnization && null!=orgnization.getTypeName() && orgnization.getTypeName().equals("1")){
+          isCurment = "1";
+      }
+    }
+    //如果不是本系统也就是菜单下进行抽取,则不作判断(设为1-是通过判断)
+    if(!StringUtils.isEmpty(typeclassId)){
+      isCurment = "1";
+    }
+    model.addAttribute("isCurment", isCurment);
     return "ses/ems/exam/expert/extract/condition_list";
   }
   /**
@@ -821,9 +838,17 @@ public class ExpExtractRecordController extends BaseController {
                 todos.setUrl("expertAudit/basicInfo.html?expertId=" + expExtRelate.getExpert().getId());
                 todosService.insert(todos );
                 Expert expert = new Expert();
-                expert.setId(id);
+                expert.setId(expExtRelate.getExpert().getId());
                 expert.setStatus("6");
                 expertServices.updateByPrimaryKeySelective(expert);
+                //根据当前用户获取机构信息
+                if(null != user && null != user.getOrg()){
+                    Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(user.getOrg().getId());
+                    if(null != orgnization && null!=orgnization.getTypeName() && orgnization.getTypeName().equals("1")){
+                        expert.setExtractOrgid(orgnization.getId());
+                        expertServices.updateExtractOrgidById(expert);//更新机构ID
+                    }
+                }
             }
         }
     }

@@ -174,5 +174,54 @@ public class SupplierTask {
              }
       } 
 	}
+	/**
+	 * 
+	* @Title: tuihui
+	* @Description: 退回修改导出
+	* author: Li Xiaoxiao 
+	* @param      
+	* @return void     
+	* @throws
+	 */
+	public void backSupplierExport(){
+		Date date=new Date();
+		Date addDate = supplierService.addDate(date, 3, -1);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		String fat = sdf.format(addDate);
+		String startTime=fat+" 00:00:00";
+		String endTime=fat+" 23:59:59";
+		outerSupplierService.backSupplierExport(startTime, endTime);
+	}
+	
+	
+	/**
+	 * 
+	* @Title: backSupplierImport
+	* @Description:退回导入内网
+	* author: Li Xiaoxiao 
+	* @param      
+	* @return void     
+	* @throws
+	 */
+	public void backSupplierImport(){
+		 File file = FileUtils.getImportFile();
+    	if (file != null && file.exists()){
+            File [] files = file.listFiles();
+            for (File f : files){
+                if (f.getName().contains(FileUtils.C_SUPPLIER_BACK_FILENAME)){
+               	 innerSupplierService.importTempSupplier(f);
+                	
+                }
+                if (f.isDirectory()){
+                    if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)){
+                        OperAttachment.moveFolder(f);
+                    }
+                }
+            }
+     } 
+	}
+	
+	
+	
 	
 }

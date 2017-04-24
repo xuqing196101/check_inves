@@ -1176,20 +1176,26 @@
 		FROM t_ses_sms_supplier
 		WHERE
 		IS_PROVISIONAL = '0'
-		<if test="procurementDepId !=null">
-			and PROCUREMENT_DEP_ID = #{procurementDepId}
-		</if>
 		<if test="sign == 1">
 			and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or
 			SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3)
+			<if test="procurementDepId !=null">
+				and PROCUREMENT_DEP_ID = #{procurementDepId}
+			</if>
 		</if>
 		<if test="sign == 2">
 			and (SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or
 			SUPPLIER_STATUS = 6)
+			<if test="extractOrgid !=null">
+				and EXTRACT_ORGID = #{extractOrgid}
+			</if>
 		</if>
 		<if test="sign == 3">
 			and (SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7 or
 			SUPPLIER_STATUS = 8)
+			<if test="extractOrgid !=null">
+				and EXTRACT_ORGID = #{extractOrgid}
+			</if>
 		</if>
 		<if test="supplierName != null and supplierName !=''">
 			AND SUPPLIER_NAME like CONCAT(CONCAT('%',
@@ -1593,7 +1599,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS = 0
+		WHERE SUPPLIER_STATUS = 2
 	<!-- 	AND
 		TO_CHAR(UPDATED_AT, 'yyyy-MM-dd') = #{modifyDate} -->
 		AND UPDATED_AT &gt;=
@@ -1728,10 +1734,10 @@
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
 		WHERE IS_PROVISIONAL=1
-		AND SUBMIT_AT &gt;=
+		AND AUDIT_DATE &gt;=
 		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND
-		SUBMIT_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd
+		AUDIT_DATE &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd
 		hh24:mi:ss')
 	</select>
 	

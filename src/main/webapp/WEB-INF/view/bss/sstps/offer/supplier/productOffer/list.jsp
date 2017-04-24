@@ -116,7 +116,7 @@
                   </td>
                   <td class="tc">${cc.projectName }</td>
                   <td class="tc">${cc.secondProject }</td>
-                  <td class="tc"><input type="text" class="m0" name="plcc[${(vs.index)}].singleOffer" value="${cc.singleOffer }" /></td>
+                  <td class="tc"><input type="text" class="m0" name="plcc[${(vs.index)}].singleOffer" onkeyup="if(isNaN(value))execCommand('undo')" value="${cc.singleOffer }" /></td>
                   <td class="tc"><input type="text" class="m0" name="plcc[${(vs.index)}].remark" value="${cc.remark }" /></td>
                 </tr>
               </c:forEach>

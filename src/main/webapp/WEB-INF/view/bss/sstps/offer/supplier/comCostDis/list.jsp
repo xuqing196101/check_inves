@@ -111,12 +111,12 @@
                       <input type="hidden" name="plccd[${(vs.index)}].status" value="${ccd.status }" /> ${vs.index+1 }
                     </td>
                     <td class="tc"><input type="text" name="plccd[${(vs.index)}].projectName" value="${ccd.projectName }" readonly class="border0 mb0 w100" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].tyaAmount" value="${ccd.tyaAmount }" class="w80 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].tyaFee" value="${ccd.tyaFee }" class="w80 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].oyaAmout" value="${ccd.oyaAmout }" class="w80 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].oyaFee" value="${ccd.oyaFee }" class="w80 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].newAmount" value="${ccd.newAmount }" class="w80 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].newFee" value="${ccd.newFee }" class="w80 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].tyaAmount" onkeyup="if(isNaN(value))execCommand('undo')" value="${ccd.tyaAmount }" class="w80 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].tyaFee" onkeyup="if(isNaN(value))execCommand('undo')" value="${ccd.tyaFee }" class="w80 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].oyaAmout" onkeyup="if(isNaN(value))execCommand('undo')" value="${ccd.oyaAmout }" class="w80 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].oyaFee" onkeyup="if(isNaN(value))execCommand('undo')" value="${ccd.oyaFee }" class="w80 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].newAmount" onkeyup="if(isNaN(value))execCommand('undo')" value="${ccd.newAmount }" class="w80 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vs.index)}].newFee" onkeyup="if(isNaN(value))execCommand('undo')" value="${ccd.newFee }" class="w80 mb0" /></td>
                     <td class="tc"><input type="text" name="plccd[${(vs.index)}].remark" value="${ccd.remark }" class="mb0" /></td>
                   </tr>
                 </c:if>
@@ -151,9 +151,9 @@
                       <input type="hidden" name="plccd[${(vss.index)}].status" value="${ccd.status }" /> ${vss.index+1 }
                     </td>
                     <td class="tc"><input type="text" name="plccd[${(vss.index)}].projectName" value="${ccd.projectName }" readonly class="border0 mb0 w120" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vss.index)}].tyaActual" value="${ccd.tyaActual }" class="w100 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vss.index)}].oyaActual" value="${ccd.oyaActual }" class="w100 mb0" /></td>
-                    <td class="tc"><input type="text" name="plccd[${(vss.index)}].newActual" value="${ccd.newActual }" class="w100 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vss.index)}].tyaActual" onkeyup="if(isNaN(value))execCommand('undo')" value="${ccd.tyaActual }" class="w100 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vss.index)}].oyaActual" onkeyup="if(isNaN(value))execCommand('undo')" value="${ccd.oyaActual }" class="w100 mb0" /></td>
+                    <td class="tc"><input type="text" name="plccd[${(vss.index)}].newActual" onkeyup="if(isNaN(value))execCommand('undo')" value="${ccd.newActual }" class="w100 mb0" /></td>
                     <td class="tc"><input type="text" name="plccd[${(vss.index)}].remark" value="${ccd.remark }" class="mb0" /></td>
                   </tr>
                 </c:if>

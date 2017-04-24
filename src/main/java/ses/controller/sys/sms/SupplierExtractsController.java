@@ -13,6 +13,8 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import common.annotation.CurrentUser;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -44,6 +46,7 @@ import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
+import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierConType;
@@ -57,6 +60,7 @@ import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierConTypeService;
 import ses.service.sms.SupplierConditionService;
@@ -136,6 +140,8 @@ public class SupplierExtractsController extends BaseController {
     
     @Autowired
     private FlowMangeService flowMangeService;
+    @Autowired
+    private OrgnizationServiceI orgnizationService;
 
     /**
      *
@@ -198,7 +204,7 @@ public class SupplierExtractsController extends BaseController {
      * @return String
      */
     @RequestMapping("/Extraction")
-    public String listExtraction(Model model,String projectId,String page,String typeclassId,String packageId){
+    public String listExtraction(@CurrentUser User user, Model model, String projectId, String page, String typeclassId, String packageId){
 
         if (packageId != null && !"".equals(packageId)){
             //已抽取
@@ -216,10 +222,6 @@ public class SupplierExtractsController extends BaseController {
                 }
             }
         }
-
-
-
-
         List<Area> listArea = areaService.findTreeByPid("0",null);
         model.addAttribute("listArea", listArea);
         model.addAttribute("typeclassId",typeclassId);
@@ -278,7 +280,19 @@ public class SupplierExtractsController extends BaseController {
             List<DictionaryData> findByMap = dictionaryDataMapper.findByMap(map);
             model.addAttribute("findByMap", findByMap);
         }
-
+        String isCurment = "0";//是否为采购机构人员,默认:0-不是
+        //根据当前用户获取机构信息
+        if(null != user && null != user.getOrg()){
+            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(user.getOrg().getId());
+            if(null != orgnization && null!=orgnization.getTypeName() && orgnization.getTypeName().equals("1")){
+                isCurment = "1";
+            }
+        }
+        //如果不是本系统也就是菜单下进行抽取,则不作判断(设为1-是通过判断)
+        if(!StringUtils.isEmpty(typeclassId)){
+            isCurment = "1";
+        }
+        model.addAttribute("isCurment", isCurment);
         return "ses/sms/supplier_extracts/condition_list";
     }
 
@@ -754,6 +768,14 @@ public class SupplierExtractsController extends BaseController {
                     supplier.setId(supplierExtRelate.getSupplier().getId());
                     supplier.setStatus(4);
                     supplierAuditService.updateStatus(supplier);
+                    //根据当前用户获取机构信息
+                    if(null != user && null != user.getOrg()){
+                        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(user.getOrg().getId());
+                        if(null != orgnization && null!=orgnization.getTypeName() && orgnization.getTypeName().equals("1")){
+                            supplier.setExtractOrgid(orgnization.getId());
+                            supplierService.updateExtractOrgidById(supplier);//更新机构ID
+                        }
+                    }
                 }
             }
         }
