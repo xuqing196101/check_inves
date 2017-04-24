@@ -419,7 +419,7 @@
             		$("input[name='chkItem_2']").each(function() {
                 		var val=$(this).parent().text();
                     	if(val.trim()=="工程经济"){	
-                    		$(this).prop("disabled",true);
+                    	// $(this).prop("disabled",true);
                     	}
             		});
             		
@@ -452,7 +452,8 @@
                       	$("input[name='chkItem_1']").each(function() {
                     		var val=$(this).parent().text();
                         	if(val.trim()=="工程技术"){	
-                        		$(this).prop("disabled",true);
+                        		
+                        		// $(this).prop("disabled",true);
                         	}
                 		});
                       	
