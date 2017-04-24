@@ -68,6 +68,15 @@
             $(divObj).removeClass("hide");
             $("#package").removeClass("shrink");
             $("#package").addClass("spread");
+            //对于采购机构人员进行判断
+            var isCurment = '${isCurment}';
+            if(isCurment == '1'){
+                $('.isCurment_div').removeClass('hide');
+                $('.isCurment_div').addClass('block');
+            }else if(isCurment == '0'){
+                $('.isCurment_div').removeClass('block');
+                $('.isCurment_div').addClass('hide');
+            }
 
         });
 
@@ -394,7 +403,7 @@
             <div class="count_flow "><i>2</i>
                 <div class="ww50 fl">抽取信息</div>
         </div>
-        <div align="right" class=" pl20 mb10 " >
+        <div align="right" class=" pl20 mb10 hide isCurment_div" >
             <c:if test="${typeclassId!=null && typeclassId !='' }">
                 <button class="btn mb10" onclick="add(1);" type="button">添加包</button>
             </c:if>
