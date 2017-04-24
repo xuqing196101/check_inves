@@ -131,10 +131,10 @@
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listSpec["+num+"].name'  value=''></td>"
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listSpec["+num+"].norm'  value=''></td>"
       	+"<td><input type='text' class='m0 p0  border0 w50' name='listSpec["+num+"].measuringUnit'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listSpec["+num+"].amount'  value='' onblur='moneys(this,\"3\");' ></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listSpec["+num+"].price'  value='' onblur='moneys(this,\"1\");' ></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w50' name='listSpec["+num+"].amount' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='moneys(this,\"3\");' ></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w50' name='listSpec["+num+"].price' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='moneys(this,\"1\");' ></td>"
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listSpec["+num+"].money'  value='' readonly='readonly'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listSpec["+num+"].proportionAmout'  value='' onblur='moneys(this,\"2\");'></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w50' name='listSpec["+num+"].proportionAmout' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='moneys(this,\"2\");'></td>"
       	+"<td><input type='text' class='m0 p0  border0 w100' name='listSpec["+num+"].proportionPrice'  value='' readonly='readonly'></td>"
       	+"<td><input type='text' class='m0 p0  border0 w100' name='listSpec["+num+"].remark'  value=''></td>"
       	+"</tr>";
@@ -418,10 +418,10 @@
 	                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listSpec[${vs.index}].name'  value='${sc.name }' onchange="update(this);"></td>
 	                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listSpec[${vs.index}].norm'  value='${sc.norm }' onchange="update(this);"></td>
 	                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listSpec[${vs.index}].measuringUnit'  value='${sc.measuringUnit }' onchange="update(this);"></td>
-	                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listSpec[${vs.index}].amount'  value='${sc.amount }'  onchange="update(this);" onblur='moneys(this,"3");'></td>
-	                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listSpec[${vs.index}].price'  value='${sc.price }' onblur='moneys(this,"1");' onchange="update(this);"></td>
+	                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listSpec[${vs.index}].amount' onkeyup="if(isNaN(value))execCommand('undo')" value='${sc.amount }'  onchange="update(this);" onblur='moneys(this,"3");'></td>
+	                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listSpec[${vs.index}].price' onkeyup="if(isNaN(value))execCommand('undo')" value='${sc.price }' onblur='moneys(this,"1");' onchange="update(this);"></td>
 	                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listSpec[${vs.index}].money'  value='${sc.money }'  onchange="update(this);" readonly="readonly"></td>
-	                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listSpec[${vs.index}].proportionAmout'  value='${sc.proportionAmout }' onchange="update(this);" onblur='moneys(this,"2");'></td>
+	                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listSpec[${vs.index}].proportionAmout' onkeyup="if(isNaN(value))execCommand('undo')" value='${sc.proportionAmout }' onchange="update(this);" onblur='moneys(this,"2");'></td>
 	                <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listSpec[${vs.index}].proportionPrice'  value='${sc.proportionPrice }' onchange="update(this);" readonly="readonly"></td>
 	                <td><input type='text' class='m0 p0  border0 w100' name='listSpec[${vs.index}].remark'  value='${sc.remark }' onchange="update(this);"></td>
 	              </tr>

@@ -76,10 +76,10 @@
       	html+="<td><input type='text' class='m0 p0  border0 w80' name='listAcc["+num+"].stuffName'  value=''></td>"
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listAcc["+num+"].norm'  value=''></td>"
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listAcc["+num+"].paperCode'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listAcc["+num+"].workAmout'  value='' onblur='workWeightTotals(this,\"3\");' ></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listAcc["+num+"].workWeight' onblur='workWeightTotals(this,\"1\");'  value=''></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w50' name='listAcc["+num+"].workAmout' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='workWeightTotals(this,\"3\");' ></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w50' name='listAcc["+num+"].workWeight' onblur='workWeightTotals(this,\"1\");' onkeyup='if(isNaN(value))execCommand(\"undo\")'  value=''></td>"
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listAcc["+num+"].workWeightTotal' readonly='readonly'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listAcc["+num+"].workPrice'  onblur='workWeightTotals(this,\"2\");' value='' ></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w50' name='listAcc["+num+"].workPrice' onkeyup='if(isNaN(value))execCommand(\"undo\")' onblur='workWeightTotals(this,\"2\");' value='' ></td>"
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listAcc["+num+"].workMoney' readonly='readonly'  value=''></td>"
       	+"<td><input type='text' class='m0 p0  border0 w100' name='listAcc["+num+"].supplyUnit'  value=''></td>"
       	+"<td><input type='text' class='m0 p0  border0 w100' name='listAcc["+num+"].remark'  value=''></td>"
@@ -413,10 +413,10 @@
                 <td><input type='text' class='m0 p0  border0 w80' name='listAcc[${vs.index}].stuffName'  value='${acc.stuffName }'></td>
                 <td><input type='text' class='m0 p0  border0 w80' name='listAcc[${vs.index}].norm' value='${acc.norm }' onchange="update(this);"></td>
                 <td><input type='text' class='m0 p0  border0 w80'  name='listAcc[${vs.index}].paperCode' value='${acc.paperCode }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listAcc[${vs.index}].workAmout'  value='${acc.workAmout }' onblur='workWeightTotals(this,"3");' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr'  name='listAcc[${vs.index}].workWeight' value='${acc.workWeight }' onblur='workWeightTotals(this,"1");' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listAcc[${vs.index}].workAmout' onkeyup="if(isNaN(value))execCommand('undo')"  value='${acc.workAmout }' onblur='workWeightTotals(this,"3");' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr'  name='listAcc[${vs.index}].workWeight' value='${acc.workWeight }' onkeyup="if(isNaN(value))execCommand('undo')" onblur='workWeightTotals(this,"1");' onchange="update(this);"></td>
                 <td class="tc" name="workWeightTotal0"><input type='text' class='m0 p0  border0 w80 tr' name='listAcc[${vs.index}].workWeightTotal' value='${acc.workWeightTotal }' readonly="readonly" onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listAcc[${vs.index}].workPrice' value='${acc.workPrice }' onblur='workWeightTotals(this,"2");' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listAcc[${vs.index}].workPrice' value='${acc.workPrice }' onkeyup="if(isNaN(value))execCommand('undo')" onblur='workWeightTotals(this,"2");' onchange="update(this);"></td>
                 <td class="tc" name="workMoney0"><input type='text' class='m0 p0  border0 w80 tr' name='listAcc[${vs.index}].workMoney'  value='${acc.workMoney }' readonly="readonly" onchange="update(this);"></td>
                 <%-- <td class="tc">${acc.consumeAmout }</td>
                 <td class="tc">${acc.consumeWeight }</td>
@@ -464,10 +464,10 @@
                 <td><input type='text' class='m0 p0  border0 w80' name='listAcc[${fn:length(list0)+vs.index+1}].stuffName'  value='${acc.stuffName }' onchange="update(this);"></td>
                 <td><input type='text' class='m0 p0  border0 w80' name='listAcc[${fn:length(list0)+vs.index+1}].norm' value='${acc.norm }' onchange="update(this);"></td>
                 <td><input type='text' class='m0 p0  border0 w80'  name='listAcc[${fn:length(list0)+vs.index+1}].paperCode' value='${acc.paperCode }' onchange="update(this);"></td>
-                <td ><input type='text' class='m0 p0  border0 w50 tr' name='listAcc[${fn:length(list0)+vs.index+1}].workAmout'  value='${acc.workAmout }' onchange="update(this);" onblur='workWeightTotals(this,"3");'></td>
-                <td ><input type='text' class='m0 p0  border0 w50 tr'  name='listAcc[${fn:length(list0)+vs.index+1}].workWeight'  value='${acc.workWeight }' onblur='workWeightTotals(this,"1");' onchange="update(this);"></td>
+                <td ><input type='text' class='m0 p0  border0 w50 tr' name='listAcc[${fn:length(list0)+vs.index+1}].workAmout'  value='${acc.workAmout }' onkeyup="if(isNaN(value))execCommand('undo')" onchange="update(this);" onblur='workWeightTotals(this,"3");'></td>
+                <td ><input type='text' class='m0 p0  border0 w50 tr'  name='listAcc[${fn:length(list0)+vs.index+1}].workWeight'  value='${acc.workWeight }' onkeyup="if(isNaN(value))execCommand('undo')" onblur='workWeightTotals(this,"1");' onchange="update(this);"></td>
                 <td name="workWeightTotal1"><input type='text' class='m0 p0  border0 w80 tr' name='listAcc[${fn:length(list0)+vs.index+1}].workWeightTotal' value='${acc.workWeightTotal }' readonly="readonly" onchange="update(this);"></td>
-                <td ><input type='text' class='m0 p0  border0 w50 tr' name='listAcc[${fn:length(list0)+vs.index+1}].workPrice' value='${acc.workPrice }' onblur='workWeightTotals(this,"2");' onchange="update(this);"></td>
+                <td ><input type='text' class='m0 p0  border0 w50 tr' name='listAcc[${fn:length(list0)+vs.index+1}].workPrice' value='${acc.workPrice }' onkeyup="if(isNaN(value))execCommand('undo')" onblur='workWeightTotals(this,"2");' onchange="update(this);"></td>
                 <td class="tr" name="workMoney1"><input type='text' class='m0 p0  border0 w80 tr' name='listAcc[${fn:length(list0)+vs.index+1}].workMoney'  value='${acc.workMoney }' readonly="readonly" onchange="update(this);"></td>
                 <%-- <td class="tc">${acc.consumeAmout }</td>
                 <td class="tc">${acc.consumeWeight }</td>

@@ -113,16 +113,16 @@
       	+"<td class='tc '><input   type='checkbox' name='chkItem' /><input  type='hidden'  value='"+serial+"' /></td>"
       	+"<td class='tc'>"+serial+"</td>"
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listWages["+num+"].firsetProduct'  value=''><input type='hidden' name='listWages["+num+"].contractProduct.id'  value='${proId}'><input type='hidden' name='listWages["+num+"].serialNumber'  value='"+serial+"'><input type='hidden' name='listWages["+num+"].parentId'  value='"+parentId+"'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listWages["+num+"].oyaProduceUser'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listWages["+num+"].oyaWorkshopUser'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listWages["+num+"].oyaManageUser'  value='' ></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listWages["+num+"].oyaOtherUser'  value='' onblur='moneys(this);'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listWages["+num+"].oyaTotal'  value='' ></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listWages["+num+"].newProduceUser'  value='' ></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listWages["+num+"].newWorkshopUser'  value='' ></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listWages["+num+"].newManageUser'  value='' ></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w50' name='listWages["+num+"].newOtherUser'  value='' onblur='moneys(this);'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listWages["+num+"].newTotal'  value='' ></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listWages["+num+"].oyaProduceUser' onkeyup='this.value=this.value.replace(/\D/g,'')' value=''></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w50' name='listWages["+num+"].oyaWorkshopUser' onkeyup='this.value=this.value.replace(/\D/g,'')' value=''></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w50' name='listWages["+num+"].oyaManageUser' onkeyup='this.value=this.value.replace(/\D/g,'')' value='' ></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listWages["+num+"].oyaOtherUser' onkeyup='this.value=this.value.replace(/\D/g,'')' value='' onblur='moneys(this);'></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w50' name='listWages["+num+"].oyaTotal' onkeyup='this.value=this.value.replace(/\D/g,'')' value='' ></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w50' name='listWages["+num+"].newProduceUser' onkeyup='this.value=this.value.replace(/\D/g,'')' value='' ></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listWages["+num+"].newWorkshopUser' onkeyup='this.value=this.value.replace(/\D/g,'')' value='' ></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w50' name='listWages["+num+"].newManageUser' onkeyup='this.value=this.value.replace(/\D/g,'')' value='' ></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w50' name='listWages["+num+"].newOtherUser' onkeyup='this.value=this.value.replace(/\D/g,'')' value='' onblur='moneys(this);'></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listWages["+num+"].newTotal' onkeyup='this.value=this.value.replace(/\D/g,'')' value='' ></td>"
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listWages["+num+"].remark'  value=''></td>"
       	+"</tr>";
       	return html;
@@ -426,16 +426,16 @@
                 <td class="tc">${wp.tyaManageUser }</td>
                 <td class="tc">${wp.tyaOtherUser }</td>
                 <td class="tc">${wp.tyaTotal }</td> --%>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listWages[${vs.index}].oyaProduceUser'  value='${wp.oyaProduceUser }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].oyaWorkshopUser'  value='${wp.oyaWorkshopUser }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].oyaManageUser'  value='${wp.oyaManageUser }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listWages[${vs.index}].oyaOtherUser'  value='${wp.oyaOtherUser }' onblur='moneys(this);' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].oyaTotal'  value='${wp.oyaTotal }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].newProduceUser'  value='${wp.newProduceUser }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listWages[${vs.index}].newWorkshopUser'  value='${wp.newWorkshopUser }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].newManageUser'  value='${wp.newManageUser }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].newOtherUser'  value='${wp.newOtherUser }' onchange="update(this);" onblur='moneys(this);'></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listWages[${vs.index}].newTotal'  value='${wp.newTotal }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listWages[${vs.index}].oyaProduceUser' onkeyup="this.value=this.value.replace(/\D/g,'')" value='${wp.oyaProduceUser }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].oyaWorkshopUser' onkeyup="this.value=this.value.replace(/\D/g,'')" value='${wp.oyaWorkshopUser }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].oyaManageUser' onkeyup="this.value=this.value.replace(/\D/g,'')" value='${wp.oyaManageUser }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listWages[${vs.index}].oyaOtherUser' onkeyup="this.value=this.value.replace(/\D/g,'')" value='${wp.oyaOtherUser }' onblur='moneys(this);' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].oyaTotal' onkeyup="this.value=this.value.replace(/\D/g,'')" value='${wp.oyaTotal }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].newProduceUser' onkeyup="this.value=this.value.replace(/\D/g,'')" value='${wp.newProduceUser }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listWages[${vs.index}].newWorkshopUser'onkeyup="this.value=this.value.replace(/\D/g,'')"  value='${wp.newWorkshopUser }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].newManageUser' onkeyup="this.value=this.value.replace(/\D/g,'')" value='${wp.newManageUser }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].newOtherUser' onkeyup="this.value=this.value.replace(/\D/g,'')" value='${wp.newOtherUser }' onchange="update(this);" onblur='moneys(this);'></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listWages[${vs.index}].newTotal' onkeyup="this.value=this.value.replace(/\D/g,'')" value='${wp.newTotal }' onchange="update(this);"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listWages[${vs.index}].remark'  value='${wp.remark }' onchange="update(this);"></td>
               </tr>
             </c:forEach>

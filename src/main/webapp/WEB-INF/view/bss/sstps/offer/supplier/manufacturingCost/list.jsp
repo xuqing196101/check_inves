@@ -72,9 +72,9 @@
       	+"<td class='tc '><input   type='checkbox' name='chkItem' /></td>"
       	+"<td class='tc'>"+index+"</td>"
       	+"<td><input type='text' class='m0 p0  border0 w130' name='listManu["+num+"].projectName'  value=''><input type='hidden' name='listManu["+num+"].contractProduct.id'  value='${proId}'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w100' name='listManu["+num+"].tyaQuoteprice'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w100' name='listManu["+num+"].oyaQuoteprice'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w100' name='listManu["+num+"].newQuoteprice'  value=''></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w100' name='listManu["+num+"].tyaQuoteprice' onkeyup='if(isNaN(value))execCommand(\"undo\")' value=''></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w100' name='listManu["+num+"].oyaQuoteprice' onkeyup='if(isNaN(value))execCommand(\"undo\")' value=''></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w100' name='listManu["+num+"].newQuoteprice' onkeyup='if(isNaN(value))execCommand(\"undo\")' value=''></td>"
       	+"<td><input type='text' class='m0 p0  border0 w130' name='listManu["+num+"].remark'  value='' ></td>"
         +"</tr>";
       	return html;
@@ -288,9 +288,9 @@
                 <td class="tc"><input type="checkbox" name="chkItem" value="${mc.id }" /></td>
                 <td class="tc">${vs.index+1 }</td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w130' name='listManu[${vs.index}].projectName'  value='${mc.projectName }' onchange="update(this);"><input type="hidden" name='listManu[${vs.index}].id' value="${mc.id }"/></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listManu[${vs.index}].tyaQuoteprice'  value='${mc.tyaQuoteprice }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listManu[${vs.index}].oyaQuoteprice'  value='${mc.oyaQuoteprice }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listManu[${vs.index}].newQuoteprice'  value='${mc.newQuoteprice }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listManu[${vs.index}].tyaQuoteprice' onkeyup="if(isNaN(value))execCommand('undo')" value='${mc.tyaQuoteprice }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listManu[${vs.index}].oyaQuoteprice' onkeyup="if(isNaN(value))execCommand('undo')" value='${mc.oyaQuoteprice }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listManu[${vs.index}].newQuoteprice' onkeyup="if(isNaN(value))execCommand('undo')" value='${mc.newQuoteprice }' onchange="update(this);"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w130' name='listManu[${vs.index}].remark'  value='${mc.remark }' onchange="update(this);"></td>
               </tr>
             </c:forEach>

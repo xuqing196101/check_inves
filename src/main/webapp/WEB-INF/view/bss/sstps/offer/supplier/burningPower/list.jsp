@@ -97,14 +97,14 @@
     	      	+"<td>"+serial+"</td>"
     	      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].firsetProduct'  value=''><input type='hidden' name='listBurn["+num+"].contractProduct.id'  value='${proId}'><input type='hidden' name='listBurn["+num+"].serialNumber'  value='"+serial+"'><input type='hidden' name='listBurn["+num+"].parentId'  value='"+parentId+"'></td>"
     	      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].unit'  value=''></td>"
-    	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].tyaAcount'  value='' onblur='moneys(this,\"2\",\"6\");'></td>"
-    	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].tyaAvgPrice'  value='' onblur='moneys(this,\"1\",\"6\");'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].tyaAcount' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='moneys(this,\"2\",\"6\");'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].tyaAvgPrice' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='moneys(this,\"1\",\"6\");'></td>"
     	      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].tyaMoney'  value='' readonly='readonly'></td>"
-    	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].oyaAcount'  value='' onblur='moneys(this,\"2\",\"9\");'></td>"
-    	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].oyaAvgPrice'  value='' onblur='moneys(this,\"1\",\"9\");'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].oyaAcount' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='moneys(this,\"2\",\"9\");'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].oyaAvgPrice' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='moneys(this,\"1\",\"9\");'></td>"
     	      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].oyaMoney'  value='' readonly='readonly'></td>"
-    	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].newAcount'  value='' onblur='moneys(this,\"2\",\"12\");'></td>"
-    	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].newAvgPrice'  value='' onblur='moneys(this,\"1\",\"12\");'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].newAcount' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='moneys(this,\"2\",\"12\");'></td>"
+    	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].newAvgPrice' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='moneys(this,\"1\",\"12\");'></td>"
     	      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].newMoney'  value='' readonly='readonly'></td>"
     	      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].remark'  value=''></td>";
     	  }else{
@@ -112,14 +112,14 @@
       	      	+"<td>"+serial+"</td>"
       	      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].firsetProduct'  value=''><input type='hidden' name='listBurn["+num+"].contractProduct.id'  value='${proId}'><input type='hidden' name='listBurn["+num+"].serialNumber'  value='"+serial+"'><input type='hidden' name='listBurn["+num+"].parentId'  value='"+parentId+"'></td>"
       	      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].unit'  value='' readonly='readonly'></td>"
-      	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].tyaAcount'  value='' readonly='readonly' ></td>"
-      	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].tyaAvgPrice'  value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].tyaAcount' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' readonly='readonly' ></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].tyaAvgPrice' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' readonly='readonly'></td>"
       	      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].tyaMoney'  value='' readonly='readonly'></td>"
-      	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].oyaAcount'  value='' readonly='readonly'></td>"
-      	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].oyaAvgPrice'  value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].oyaAcount' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].oyaAvgPrice' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' readonly='readonly'></td>"
       	      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].oyaMoney'  value='' readonly='readonly'></td>"
-      	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].newAcount'  value='' readonly='readonly'></td>"
-      	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].newAvgPrice'  value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w50' name='listBurn["+num+"].newAcount' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' readonly='readonly'></td>"
+      	      	+"<td><input type='text' class='m0 p0  border0 w50 tr' name='listBurn["+num+"].newAvgPrice' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' readonly='readonly'></td>"
       	      	+"<td><input type='text' class='m0 p0  border0 w80 tr' name='listBurn["+num+"].newMoney'  value='' readonly='readonly'></td>"
       	      	+"<td><input type='text' class='m0 p0  border0 w80' name='listBurn["+num+"].remark'  value='' readonly='readonly'></td>";
     	  }
@@ -494,14 +494,14 @@
                 <%-- <td class="tc">${bp.secondProduct }</td>
                 <td class="tc">${bp.thirdProduct }</td> --%>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listBurn[${vs.index}].unit'  value='${bp.unit }' onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].tyaAcount'  value='${bp.tyaAcount }' onchange="update(this);" onblur='moneys(this,"2","6");'></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].tyaAvgPrice'  value='${bp.tyaAvgPrice }' onblur='moneys(this,"1","6");' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].tyaAcount' onkeyup="if(isNaN(value))execCommand('undo')" value='${bp.tyaAcount }' onchange="update(this);" onblur='moneys(this,"2","6");'></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].tyaAvgPrice' onkeyup="if(isNaN(value))execCommand('undo')" value='${bp.tyaAvgPrice }' onblur='moneys(this,"1","6");' onchange="update(this);"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].tyaMoney'  value='${bp.tyaMoney }' readonly="readonly"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].oyaAcount'  value='${bp.oyaAcount }' onchange="update(this);" onblur='moneys(this,"2","9");'></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].oyaAvgPrice'  value='${bp.oyaAvgPrice }' onblur='moneys(this,"1","9");' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].oyaAcount' onkeyup="if(isNaN(value))execCommand('undo')" value='${bp.oyaAcount }' onchange="update(this);" onblur='moneys(this,"2","9");'></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].oyaAvgPrice' onkeyup="if(isNaN(value))execCommand('undo')" value='${bp.oyaAvgPrice }' onblur='moneys(this,"1","9");' onchange="update(this);"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].oyaMoney'  value='${bp.oyaMoney }'  readonly="readonly"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].newAcount'  value='${bp.newAcount }' onchange="update(this);" onblur='moneys(this,"2","12");'></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].newAvgPrice'  value='${bp.newAvgPrice }' onblur='moneys(this,"1","12");' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].newAcount' onkeyup="if(isNaN(value))execCommand('undo')" value='${bp.newAcount }' onchange="update(this);" onblur='moneys(this,"2","12");'></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].newAvgPrice' onkeyup="if(isNaN(value))execCommand('undo')" value='${bp.newAvgPrice }' onblur='moneys(this,"1","12");' onchange="update(this);"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].newMoney'  value='${bp.newMoney }'   readonly="readonly"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listBurn[${vs.index}].remark'  value='${bp.remark }' onchange="update(this);"></td>
                 </c:if>
@@ -512,14 +512,14 @@
                 <%-- <td class="tc">${bp.secondProduct }</td>
                 <td class="tc">${bp.thirdProduct }</td> --%>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listBurn[${vs.index}].unit'  value='${bp.unit }' readonly="readonly" onchange="update(this);"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].tyaAcount'  value='${bp.tyaAcount }' onchange="update(this);" readonly="readonly" ></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].tyaAvgPrice'  value='${bp.tyaAvgPrice }'  readonly="readonly" onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].tyaAcount' onkeyup="if(isNaN(value))execCommand('undo')" value='${bp.tyaAcount }' onchange="update(this);" readonly="readonly" ></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].tyaAvgPrice' onkeyup="if(isNaN(value))execCommand('undo')" value='${bp.tyaAvgPrice }'  readonly="readonly" onchange="update(this);"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].tyaMoney'  value='${bp.tyaMoney }' onchange="update(this);" readonly="readonly"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].oyaAcount'  value='${bp.oyaAcount }' onchange="update(this);" readonly="readonly" ></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].oyaAvgPrice'  value='${bp.oyaAvgPrice }'  readonly="readonly" onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].oyaAcount' onkeyup="if(isNaN(value))execCommand('undo')" value='${bp.oyaAcount }' onchange="update(this);" readonly="readonly" ></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].oyaAvgPrice' onkeyup="if(isNaN(value))execCommand('undo')" value='${bp.oyaAvgPrice }'  readonly="readonly" onchange="update(this);"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].oyaMoney'  value='${bp.oyaMoney }' onchange="update(this);" readonly="readonly"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].newAcount'  value='${bp.newAcount }' onchange="update(this);" readonly="readonly" ></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].newAvgPrice'  value='${bp.newAvgPrice }' readonly="readonly" onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50' name='listBurn[${vs.index}].newAcount' onkeyup="if(isNaN(value))execCommand('undo')" value='${bp.newAcount }' onchange="update(this);" readonly="readonly" ></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listBurn[${vs.index}].newAvgPrice' onkeyup="if(isNaN(value))execCommand('undo')" value='${bp.newAvgPrice }' readonly="readonly" onchange="update(this);"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listBurn[${vs.index}].newMoney'  value='${bp.newMoney }' onchange="update(this);" readonly="readonly"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listBurn[${vs.index}].remark'  value='${bp.remark }' onchange="update(this);" readonly="readonly"></td>
                 </c:if>

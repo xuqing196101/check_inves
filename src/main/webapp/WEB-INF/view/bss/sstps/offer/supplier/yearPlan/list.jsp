@@ -97,10 +97,10 @@
       	+"<td><input type='text' class='m0 p0  border0 w100' name='listYear["+num+"].projectName'  value=''><input type='hidden' name='listYear["+num+"].contractProduct.id'  value='${proId}'><input type='hidden' name='listYear["+num+"].parentId'  value='"+parentId+"'><input type='hidden' name='listYear["+num+"].serialNumber'  value='"+index+"'></td>"
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listYear["+num+"].measuringUnit'  value=''></td>"
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listYear["+num+"].oyaHourUnit'  value='' onblur='totalHours(this,\"1\")'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listYear["+num+"].oyaInvestAcount'  value='' onblur='totalHours(this,\"2\")'></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listYear["+num+"].oyaInvestAcount' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='totalHours(this,\"2\")'></td>"
       	+"<td><input type='text' class='m0 p0  border0 w100' name='listYear["+num+"].oyaHourTotal'  value='' readonly='readonly'></td>"
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listYear["+num+"].newHourUnit'  value='' onblur='totalHours(this,\"1\")'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listYear["+num+"].newInvestAcount'  value='' onblur='totalHours(this,\"2\")'></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listYear["+num+"].newInvestAcount' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='totalHours(this,\"2\")'></td>"
       	+"<td><input type='text' class='m0 p0  border0 w100' name='listYear["+num+"].newHourTotal'  value='' readonly='readonly'></td>"
       	+"<td><input type='text' class='m0 p0  border0 w100' name='listYear["+num+"].remark'  value='' ></td>"
         +"</tr>";
@@ -417,11 +417,11 @@
                 <td class="tc" id="tyaHourTotal">${yp.tyaHourTotal }</td> --%>
 
                 <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listYear[${vs.index }].oyaHourUnit'  value='${yp.oyaHourUnit }' onchange="update(this);" onblur="totalHours(this,'1')"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listYear[${vs.index }].oyaInvestAcount'  value='${yp.oyaInvestAcount }' onchange="update(this);" onblur="totalHours(this,'2')"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listYear[${vs.index }].oyaInvestAcount' onkeyup="if(isNaN(value))execCommand('undo')" value='${yp.oyaInvestAcount }' onchange="update(this);" onblur="totalHours(this,'2')"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listYear[${vs.index }].oyaHourTotal'  value='${yp.oyaHourTotal }' onchange="update(this);" readonly="readonly"></td>
 
                 <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listYear[${vs.index }].newHourUnit'  value='${yp.newHourUnit }' onchange="update(this);" onblur="totalHours(this,'1')"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listYear[${vs.index }].newInvestAcount'  value='${yp.newInvestAcount }' onchange="update(this);" onblur="totalHours(this,'2')"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listYear[${vs.index }].newInvestAcount' onkeyup="if(isNaN(value))execCommand('undo')" value='${yp.newInvestAcount }' onchange="update(this);" onblur="totalHours(this,'2')"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listYear[${vs.index }].newHourTotal'  value='${yp.newHourTotal }' onchange="update(this);" readonly="readonly"></td>
 
                 <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listYear[${vs.index }].remark'  value='${yp.remark }' onchange="update(this);"></td>

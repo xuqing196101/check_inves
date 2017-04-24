@@ -74,15 +74,15 @@
       	+"<td><input type='text' class='m0 p0  border0 w100' name='listPro["+num+"].partsName'  value=''><input type='hidden' name='listPro["+num+"].contractProduct.id'  value='${proId}'></td>"
       	+"<td><input type='text' class='m0 p0  border0 w100' name='listPro["+num+"].partsDrawingCode'  value=''></td>"
       	+"<td><input type='text' class='m0 p0  border0 w100' name='listPro["+num+"].processName'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].offer'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].processingOffer'  value='' onblur='workWeightTotals(this);'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].assemblyOffer'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].debuggingOffer'  value='' onblur='workMoneys(this);'></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].testOffer'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].otherOffer'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].subtotalOffer'  value=''></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].offer' onkeyup='if(isNaN(value))execCommand(\"undo\")' value=''></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].processingOffer' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='workWeightTotals(this);'></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].assemblyOffer' onkeyup='if(isNaN(value))execCommand(\"undo\")' value=''></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].debuggingOffer' onkeyup='if(isNaN(value))execCommand(\"undo\")' value='' onblur='workMoneys(this);'></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].testOffer' onkeyup='if(isNaN(value))execCommand(\"undo\")' value=''></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].otherOffer' onkeyup='if(isNaN(value))execCommand(\"undo\")' value=''></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].subtotalOffer' onkeyup='if(isNaN(value))execCommand(\"undo\")' value=''></td>"
       	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].measuringUnit'  value=''></td>"
-      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].assortOffer'  value=''></td>"
+      	+"<td><input type='text' class='m0 p0  border0 w80' name='listPro["+num+"].assortOffer' onkeyup='if(isNaN(value))execCommand(\"undo\")' value=''></td>"
       	+"<td><input type='text' class='m0 p0  border0 w100' name='listPro["+num+"].remark'  value=''></td>"
       	+"</tr>";
       	return html;
@@ -486,17 +486,17 @@
                 <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listPro[${vs.index}].partsDrawingCode'  value='${yp.partsDrawingCode }' onchange="update(this);"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listPro[${vs.index}].processName'  value='${yp.processName }' onchange="update(this);"></td>
 
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].offer'  value='${yp.offer }' onchange="update(this);" onblur="totalOffer(this,'1')"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].processingOffer'  value='${yp.processingOffer }' onchange="update(this);" onblur="totalOffer(this,'2')"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].assemblyOffer'  value='${yp.assemblyOffer }' onchange="update(this);" onblur="totalOffer(this,'3')"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].debuggingOffer'  value='${yp.debuggingOffer }' onchange="update(this);" onblur="totalOffer(this,'4')"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].testOffer'  value='${yp.testOffer }' onchange="update(this);" onblur="totalOffer(this,'5')"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].otherOffer'  value='${yp.otherOffer }' onchange="update(this);" onblur="totalOffer(this,'6')"></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].subtotalOffer'  value='${yp.subtotalOffer }' onchange="update(this);" readonly="readonly"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].offer' onkeyup="if(isNaN(value))execCommand('undo')" value='${yp.offer }' onchange="update(this);" onblur="totalOffer(this,'1')"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].processingOffer' onkeyup="if(isNaN(value))execCommand('undo')" value='${yp.processingOffer }' onchange="update(this);" onblur="totalOffer(this,'2')"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].assemblyOffer' onkeyup="if(isNaN(value))execCommand('undo')" value='${yp.assemblyOffer }' onchange="update(this);" onblur="totalOffer(this,'3')"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].debuggingOffer' onkeyup="if(isNaN(value))execCommand('undo')" value='${yp.debuggingOffer }' onchange="update(this);" onblur="totalOffer(this,'4')"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].testOffer' onkeyup="if(isNaN(value))execCommand('undo')" value='${yp.testOffer }' onchange="update(this);" onblur="totalOffer(this,'5')"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].otherOffer' onkeyup="if(isNaN(value))execCommand('undo')" value='${yp.otherOffer }' onchange="update(this);" onblur="totalOffer(this,'6')"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].subtotalOffer' onkeyup="if(isNaN(value))execCommand('undo')" value='${yp.subtotalOffer }' onchange="update(this);" readonly="readonly"></td>
 
                 <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].measuringUnit'  value='${yp.measuringUnit }' onchange="update(this);"></td>
 
-                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].assortOffer'  value='${yp.assortOffer }' onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listPro[${vs.index}].assortOffer' onkeyup="if(isNaN(value))execCommand('undo')" value='${yp.assortOffer }' onchange="update(this);"></td>
                 <%-- <td class="tc">${yp.approvedOffer }</td> --%>
                 <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listPro[${vs.index}].remark'  value='${yp.remark }' onchange="update(this);"></td>
               </tr>
