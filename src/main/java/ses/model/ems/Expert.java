@@ -296,6 +296,8 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private Integer sign; //1：专家:初审 2:专家复查，3复审
     
+    private String extractOrgid;//抽取的机构id
+    
     private String  sex;
     
     /** 专家提交审核时间 **/
@@ -771,6 +773,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
+	}
+
+	public String getExtractOrgid() {
+		return extractOrgid;
+	}
+
+	public void setExtractOrgid(String extractOrgid) {
+		this.extractOrgid = extractOrgid;
 	}
 
     

@@ -1270,6 +1270,20 @@ public class ExpertServiceImpl implements ExpertService {
 		
 		return mapper.findLogoutList(expert);
 	}
+
+	 /**
+     * @Title: updateExtractOrgidById
+     * @author XuQing 
+     * @date 2017-4-24 下午1:45:35  
+     * @Description:抽取的机构id
+     * @param @param expert      
+     * @return void
+     */
+	@Override
+	public void updateExtractOrgidById(Expert expert) {
+		mapper.updateExtractOrgidById(expert);
+		
+	}
     
 }
 

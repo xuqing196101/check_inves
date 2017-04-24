@@ -449,6 +449,14 @@ public interface SupplierMapper {
     List<Supplier> tempExportSupplier(@Param("startTime")String startTime, @Param("endTime")String endTime);
     
     
-    
+    /**
+     * @Title: updateExtractOrgidById
+     * @author XuQing 
+     * @date 2017-4-24 下午1:45:35  
+     * @Description:抽取的机构id
+     * @param @param supplier      
+     * @return void
+     */
+    void updateExtractOrgidById(Supplier supplier);
     
 }

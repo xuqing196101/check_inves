@@ -336,7 +336,7 @@ public interface SupplierService {
     * @author XuQing 
     * @date 2017-4-24 下午1:45:35  
     * @Description:抽取的机构id
-    * @param @param supplierId      
+    * @param @param supplier      
     * @return void
     */
    void updateExtractOrgidById(Supplier supplier);

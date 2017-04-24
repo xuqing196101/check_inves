@@ -15,6 +15,7 @@ import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertHistory;
+import ses.model.sms.Supplier;
 import bss.model.ppms.Packages;
 import bss.model.ppms.ext.ProjectExt;
 
@@ -432,4 +433,15 @@ public interface ExpertService {
      * @return List<Expert>
      */
     List<Expert> findLogoutList(Expert expert, Integer page);
+    
+    
+    /**
+     * @Title: updateExtractOrgidById
+     * @author XuQing 
+     * @date 2017-4-24 下午1:45:35  
+     * @Description:抽取的机构id
+     * @param @param expert      
+     * @return void
+     */
+    void updateExtractOrgidById(Expert expert);
 }

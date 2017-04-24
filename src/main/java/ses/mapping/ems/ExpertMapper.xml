@@ -64,6 +64,7 @@
  	    <result column="IS_TITLE" property="isTitle" />
 		<result column="TEACH_TITLE" property="teachTitle" />
 		<result column="NET_TYPE" property="netType" />
+		<result column="EXTRACT_ORGID" property="extractOrgid" />
     </resultMap>
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
@@ -91,7 +92,7 @@
         IS_REFERENCE_LETTER,
         PROFESSIONAL,
         TIME_PROFESSIONAL,
-        IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE
+        IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE, EXTRACT_ORGID
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -1805,4 +1806,16 @@
     </if>
     ORDER BY t1.CREATED_AT DESC
 	</select>
+	
+	
+	<!-- 记录抽取的机构id -->
+	<update id="updateExtractOrgidById" parameterType="ses.model.ems.Expert">
+		update
+			T_SES_EMS_EXPERT
+		SET
+			EXTRACT_ORGID =#{extractOrgid}
+		WHERE
+			ID = #{id}
+	</update>
+	
 </mapper>
