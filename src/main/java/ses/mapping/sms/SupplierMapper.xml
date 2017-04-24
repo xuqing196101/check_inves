@@ -1176,20 +1176,26 @@
 		FROM t_ses_sms_supplier
 		WHERE
 		IS_PROVISIONAL = '0'
-		<if test="procurementDepId !=null">
-			and PROCUREMENT_DEP_ID = #{procurementDepId}
-		</if>
 		<if test="sign == 1">
 			and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or
 			SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3)
+			<if test="procurementDepId !=null">
+				and PROCUREMENT_DEP_ID = #{procurementDepId}
+			</if>
 		</if>
 		<if test="sign == 2">
 			and (SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or
 			SUPPLIER_STATUS = 6)
+			<if test="extractOrgid !=null">
+				and EXTRACT_ORGID = #{extractOrgid}
+			</if>
 		</if>
 		<if test="sign == 3">
 			and (SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7 or
 			SUPPLIER_STATUS = 8)
+			<if test="extractOrgid !=null">
+				and EXTRACT_ORGID = #{extractOrgid}
+			</if>
 		</if>
 		<if test="supplierName != null and supplierName !=''">
 			AND SUPPLIER_NAME like CONCAT(CONCAT('%',
