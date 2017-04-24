@@ -46,6 +46,7 @@
 			<c:forEach  items="${dataTypeList}" var="type">
 			  <input type="checkbox" name="dataType" value="${type.code}"/> ${type.name}
 			</c:forEach> 
+			  <input type="checkbox" name="dataType" value="inner_out"/> 供应商内网导出外网
 		  </div>
 		</li>
 		

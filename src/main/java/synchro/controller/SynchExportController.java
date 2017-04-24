@@ -197,6 +197,10 @@ public class SynchExportController {
         if (synchType.contains(Constant.DATA_TYPE_SUPPLIER_CODE)) {
             outerSupplierService.exportCommitSupplier(startTime, endTime, date);
         }
+        if (synchType.contains("inner_out")) {
+            outerSupplierService.auditPass(startTime, endTime);
+        }
+        
         if (synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)) {
         	outerExpertService.backupCreated(startTime, endTime);
         }
