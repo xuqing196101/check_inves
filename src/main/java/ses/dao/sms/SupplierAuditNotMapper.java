@@ -19,6 +19,17 @@ public interface SupplierAuditNotMapper {
      */
     int insertSelective(SupplierAuditNot record);
     
+    /**
+     * 
+    * @Title: insertAcitive
+    * @Description: 无主键插入
+    * author: Li Xiaoxiao 
+    * @param @param record     
+    * @return void     
+    * @throws
+     */
+    void insertAcitive(SupplierAuditNot record);
+    
     /** 
      * @Title: selectByPrimaryKey
      * @author XuQing 

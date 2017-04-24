@@ -148,94 +148,95 @@
 	</insert>
 		<!-- 更新人员-->
 	<update id="updatePurchase" parameterType="ses.model.oms.PurchaseInfo">
-			 update T_SES_OMS_PURCHASER s
-	     set 
+			 update T_SES_OMS_PURCHASER 
+	     <set> 
 	        <if test="nation != null">
-		 		,NATION=#{nation,jdbcType=VARCHAR}
+		 		NATION=#{nation,jdbcType=VARCHAR},
 		 	</if>
 		 	<if test="purchaseDepId != null">                
-		 		,PURCHASE_DEP_ID=#{purchaseDepId,jdbcType=VARCHAR}
+		 		PURCHASE_DEP_ID=#{purchaseDepId,jdbcType=VARCHAR},
 		 	</if>
 		 	<if test="updatedAt != null">                
-        ,UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP}
+        UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP},
       </if>
 		 	<if test="political != null">
-		 		,POLITICAL=#{political,jdbcType=VARCHAR}
+		 		POLITICAL=#{political,jdbcType=VARCHAR},
 		 	</if>
 		 	<if test="purcahserType != null">
-		 		,PURCAHSER_TYPE=#{purcahserType,jdbcType=NUMERIC}
+		 		PURCAHSER_TYPE=#{purcahserType,jdbcType=NUMERIC},
 		 	</if>
 		 	 <if test="birthAt != null">
-		 		,BIRTH_AT=#{birthAt,jdbcType=DATE}  
+		 		BIRTH_AT=#{birthAt,jdbcType=DATE},  
 		 	</if>
 		 	 <if test="area != null">
-		 		,AREA=#{area,jdbcType=VARCHAR}
+		 		AREA=#{area,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="provinceId != null">
-		 		,PROVINCE_ID=#{provinceId,jdbcType=VARCHAR}
+		 		PROVINCE_ID=#{provinceId,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="cityId != null">
-		 		,CITY_ID=#{cityId,jdbcType=VARCHAR}
+		 		CITY_ID=#{cityId,jdbcType=VARCHAR},
 		 	</if>
 	        <if test="townId != null">
-		 		,TOWN_ID=#{townId,jdbcType=VARCHAR}
+		 		TOWN_ID=#{townId,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="detailAddr != null">
-		 		,DETAIL_ADDR=#{detailAddr,jdbcType=VARCHAR}
+		 		DETAIL_ADDR=#{detailAddr,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="idCard != null">
-		 		,ID_CARD=#{idCard,jdbcType=VARCHAR}
+		 		ID_CARD=#{idCard,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="professional != null">
-		 		,PROFESSIONAL=#{professional,jdbcType=VARCHAR}
+		 		PROFESSIONAL=#{professional,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="topStudy != null">
-		 		,TOP_STUDY=#{topStudy,jdbcType=VARCHAR}
+		 		TOP_STUDY=#{topStudy,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="graduateSchool != null">
-		 		,GRADUATE_SCHOOL=#{graduateSchool,jdbcType=VARCHAR}
+		 		GRADUATE_SCHOOL=#{graduateSchool,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="workExperience != null">
-		 		,WORK_EXPERIENCE=#{workExperience,jdbcType=VARCHAR}
+		 		WORK_EXPERIENCE=#{workExperience,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="trainExperience != null">
-		 		,TRAIN_EXPERIENCE=#{trainExperience,jdbcType=VARCHAR}
+		 		TRAIN_EXPERIENCE=#{trainExperience,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="quaCode != null">
-		 		,QUA_CODE=#{quaCode,jdbcType=VARCHAR}
+		 		QUA_CODE=#{quaCode,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="quaLevel != null">
-		 		,QUA_LEVEL=#{quaLevel,jdbcType=VARCHAR}
+		 		QUA_LEVEL=#{quaLevel,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="quaEdndate != null">
-		 		,QUA_EDNDATE= #{quaEdndate,jdbcType=DATE}  
+		 		QUA_EDNDATE= #{quaEdndate,jdbcType=DATE},  
 		 	</if>
 		 	 <if test="quaCert != null">
-		 		,QUA_CERT=#{quaCert,jdbcType=VARCHAR}
+		 		QUA_CERT=#{quaCert,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="isDeleted != null">
-		 		,IS_DELETED=#{isDeleted,jdbcType=NUMERIC}
+		 		IS_DELETED=#{isDeleted,jdbcType=NUMERIC},
 		 	</if>
 		 	 <if test="quaRank != null">
-		 		,QUA_RANK=#{quaRank,jdbcType=VARCHAR}
+		 		QUA_RANK=#{quaRank,jdbcType=VARCHAR},
 		 	</if>
 		 	
 		 	 <if test="fax != null">
-		 		,FAX=#{fax,jdbcType=VARCHAR}
+		 		FAX=#{fax,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="postCode != null">
-		 		,POST_CODE=#{postCode,jdbcType=VARCHAR}
+		 		POST_CODE=#{postCode,jdbcType=VARCHAR},
 		 	</if>
 		 	 <if test="quaStartDate != null">
-		 		,QUA_START_DATE= #{quaStartDate,jdbcType=DATE} 
+		 		QUA_START_DATE= #{quaStartDate,jdbcType=DATE}, 
 		 	</if>
 		 	 <if test="age != null">
-		 		,AGE=#{age,jdbcType=NUMERIC}
+		 		AGE=#{age,jdbcType=NUMERIC},
 		 	</if>
 		 	<if test="userId != null">
-		 		,USER_ID=#{userId,jdbcType=VARCHAR}
+		 		USER_ID=#{userId,jdbcType=VARCHAR},
 		 	</if>
-	     where s.id=#{id}    
+		 	</set>
+	     where ID =#{id}    
 	</update>
 	<!-- 删除人员-->
 	<delete id="delPurchaseByMap" parameterType="java.util.Map">

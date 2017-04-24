@@ -27,6 +27,17 @@ public interface SupplierAuditMapper {
     int insertSelective(SupplierAudit record);
     
     /**
+     * 
+    * @Title: inserActive
+    * @Description: 无主键插入
+    * author: Li Xiaoxiao 
+    * @param @param record     
+    * @return void     
+    * @throws
+     */
+    void inserActive(SupplierAudit record);
+    
+    /**
      * @Title: selectByPrimaryKey
      * @author Xu Qing
      * @date 2016-9-20 下午5:12:26  

@@ -139,6 +139,91 @@
         select sys_guid() from dual
      </selectKey>
   </insert>
+  
+  
+    <!-- 插入审核记录 -->
+  <insert id="inserActive" parameterType="ses.model.sms.SupplierAudit">
+    insert into T_SES_SMS_SUPPLIER_AUDIT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="suggest != null">
+        SUGGEST,
+      </if>
+      <if test="auditType != null">
+        AUDIT_TYPE,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="auditField != null">
+        AUDIT_FIELD,
+      </if>
+      <if test="auditContent != null">
+        AUDIT_CONTENT,
+      </if>
+      <if test="auditFieldName != null">
+        AUDIT_FIELD_NAME,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="suggest != null">
+        #{suggest},
+      </if>
+      <if test="auditType != null">
+        #{auditType},
+      </if>
+      <if test="userId != null">
+        #{userId},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditField != null">
+        #{auditField},
+      </if>
+      <if test="auditContent != null">
+        #{auditContent},
+      </if>
+      <if test="auditFieldName != null">
+        #{auditFieldName},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierAudit">
     update T_SES_SMS_SUPPLIER_AUDIT
     <set>

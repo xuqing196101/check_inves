@@ -148,7 +148,7 @@ public class SupplierTask {
 	/**
 	 * 
 	* @Title: handlerAudit
-	* @Description: 审核通过的
+	* @Description:导入临时供应商
 	* author: Li Xiaoxiao 
 	* @param      
 	* @return void     

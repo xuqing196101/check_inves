@@ -5,8 +5,8 @@
 <input type="checkbox" class="border0" value="${id}" />
 <input type="hidden" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].id" value="${id}">
 </td>
-<td class="tc"><input type="text" class="border0" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certName"/></td>
-<td class="tc"><input type="text" class="border0" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode"/></td>
+<td class="tc"><input type="text" class="border0" maxlength="30" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certName"/></td>
+<td class="tc"><input type="text" class="border0" maxlength="150" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode"/></td>
 <td class="tc">
 	<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" id="certType_select${certAptNumber }" title="cnjewfnAdd1" class="w100p border0" onchange="getAptLevel(this)">
 		<c:forEach items="${typeList}" var="type">
@@ -15,8 +15,8 @@
 	</select>
 	<input type="hidden" value="">
 </td>
-<td class="tc"><input type="text" class="border0" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteSequence"/></td>
-<td class="tc"><input type="text" class="border0" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType"/></td>
+<td class="tc"><input type="text" class="border0" maxlength="80" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteSequence"/></td>
+<td class="tc"><input type="text" class="border0" maxlength="30" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType"/></td>
 <td class="tc">
 	<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" id="certGrade_addSelect${certAptNumber }" title="cnjewfnAdd2" class="w100p border0" onchange="tempSave()"></select>
 </td>

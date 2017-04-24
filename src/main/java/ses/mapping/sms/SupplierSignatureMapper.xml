@@ -81,6 +81,65 @@
 			select sys_guid() from dual
 		</selectKey>
   </insert>
+  
+  
+  <insert id="insertActive" parameterType="ses.model.ems.ExpertAudit">
+    insert into T_SES_SMS_SUPPLIER_AUDIT_SIGN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="company != null">
+        COMPANY,
+      </if>
+      <if test="job != null">
+        JOB,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="batch != null">
+        BATCH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId},
+      </if>
+      <if test="job != null">
+        #{job},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="company != null">
+        #{company},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="batch != null">
+        #{batch},
+      </if>
+    </trim>
+  </insert>
+  
+  
   <select id="queryBySupplierId"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List"/>

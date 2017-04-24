@@ -438,6 +438,7 @@ public class ProjectSupervisionController {
             if(selectById != null && selectById.size() > 0){
                 map.put("projectId", projectId);
                 List<Packages> packages = packageService.findByID(map);
+                List<Packages> lists = new ArrayList<Packages>();
                 //判断有没有分包，没有分包进else
                 if(packages != null && packages.size() > 0){
                     for (Packages packages2 : packages) {
@@ -451,11 +452,18 @@ public class ProjectSupervisionController {
                                 selectById.get(i).setStatus(progressBarPlan[1]);
                                 list.add(selectById.get(i));
                             }
-                            sort(list);//进行排序
-                            packages2.setProjectDetails(list);
+                            if(list != null && list.size() > 0){
+                                packages2.setProjectDetails(list);
+                            }
                         }
                     }
-                    model.addAttribute("packages", packages);
+                    for (int i = 0; i < packages.size(); i++ ) {
+                        if(packages.get(i).getProjectDetails() != null && packages.get(i).getProjectDetails().size() > 0){
+                            sort(packages.get(i).getProjectDetails());//进行排序
+                            lists.add(packages.get(i));
+                        }
+                    }
+                    model.addAttribute("packages", lists);
                 } else {
                     for (ProjectDetail detail : selectById) {
                         if(detail.getPrice() != null){
