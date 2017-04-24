@@ -469,7 +469,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 			  for(SupplierAuditNot sa:auditNots){
 				  SupplierAuditNot not = supplierAuditNotMapper.selectById(sa.getId());
 				  if(not==null){
-					  supplierAuditNotMapper.insertSelective(not);
+					  supplierAuditNotMapper.insertAcitive(not);
 				  }
 				  if(not!=null){
 //					  supplierAuditNotMapper
@@ -479,7 +479,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 			  for(SupplierAudit sat:supplierAudits){
 				  SupplierAudit audit = supplierAuditMapper.selectById(sat.getId());
 				  if(audit==null){
-					  supplierAuditMapper.insertSelective(sat);
+					  supplierAuditMapper.insert(sat);
 				  }else{
 					  supplierAuditMapper.updateByPrimaryKeySelective(sat);
 				  }
@@ -497,14 +497,16 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 			  for(SupplierHistory sh:historys){
 				  SupplierHistory history = supplierHistoryMapper.queryById(sh.getId());
 				  if(history==null){
-					  supplierHistoryMapper.insertSelective(history);
+					  supplierHistoryMapper.inserActive(history);
+				  }else{
+//					  supplierHistoryMapper.u
 				  }
 			  }
 			  List<SupplierSignature> signatures = sb.getSupplierSignature();
 			  for(SupplierSignature ss:signatures){
 				  SupplierSignature singature = supplierSignatureMapper.queryById(ss.getId());
 				  if(singature==null){
-					  supplierSignatureMapper.insertSelective(singature);
+					  supplierSignatureMapper.insertActive(singature);
 				  }else{
 //					  supplierSignatureMapper.
 				  }

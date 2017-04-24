@@ -8,6 +8,16 @@ import ses.model.sms.SupplierSignature;
 
 public interface SupplierSignatureMapper {
 	void insertSelective (SupplierSignature SupplierSignature );
+	/**
+	 * 
+	* @Title: insertActive
+	* @Description：插入
+	* author: Li Xiaoxiao 
+	* @param @param supplierSignature     
+	* @return void     
+	* @throws
+	 */
+	void insertActive(SupplierSignature supplierSignature);
 
 	List<SupplierSignature> selectBySupplierId (SupplierSignature SupplierSignature );
 	

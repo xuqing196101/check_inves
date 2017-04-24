@@ -65,6 +65,47 @@
   </insert>
   
   
+    <!-- 插入审核记录 -->
+  <insert id="insertAcitive" parameterType="ses.model.sms.SupplierAuditNot">
+    insert into T_SES_SMS_SUPPLIER_AUDIT_NOT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="creditCode != null">
+        CREDIT_CODE,
+      </if>
+      <if test="reason != null">
+        REASON,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId},
+      </if>
+      <if test="creditCode != null">
+        #{creditCode},
+      </if>
+      <if test="reason != null">
+        #{reason},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  
    <select id="selectById" resultMap="BaseResultMap">
       select 
     <include refid="Base_Column_List" />

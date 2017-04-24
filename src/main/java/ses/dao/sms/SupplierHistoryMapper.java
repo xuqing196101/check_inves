@@ -9,6 +9,17 @@ import ses.model.sms.SupplierHistory;
 public interface SupplierHistoryMapper {
 	void insertSelective (SupplierHistory supplierHistory);
 	
+	/**
+	 * 
+	* @Title: inserActive
+	* @Description: 无自动生成主键
+	* author: Li Xiaoxiao 
+	* @param @param supplierHistory     
+	* @return void     
+	* @throws
+	 */
+	void inserActive(SupplierHistory supplierHistory);
+	
 	SupplierHistory selectBySupplierId(SupplierHistory supplierHistory);
 	
 	List<SupplierHistory> selectAllBySupplierId(SupplierHistory supplierHistory);
