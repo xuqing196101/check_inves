@@ -159,7 +159,11 @@ public class ExpertAuditController{
 		}else{*/
 			String orgId = user.getOrg().getId();
 			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
-			expert.setPurchaseDepId(depId.getId());	
+			expert.setPurchaseDepId(depId.getId());
+			
+			//抽取时的机构
+			expert.setExtractOrgid(orgId);
+			
 		/*}*/
 		/*List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum == null ? 0 : pageNum);*/
 		
