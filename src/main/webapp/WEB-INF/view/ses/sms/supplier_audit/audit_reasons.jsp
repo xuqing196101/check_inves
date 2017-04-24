@@ -45,25 +45,45 @@
 	   function shenhe(status){
 	   			var supplierId = $("input[name='supplierId']").val();
 	   			if(status == 6){
-	   				var index = layer.prompt({
-						title: '请填写理由：',
-						formType: 2,
-						offset: '100px',
-						}, function(text) {
-							$.ajax({
-								url: "${pageContext.request.contextPath}/supplierAudit/recordNotPassed.html",
-								data: {"reason" : text , "supplierId" : supplierId},
-								success: function() {
-									//提交审核
-									$("#status").val(status);
-								  $("#form_shen").submit();
-								}
+	   				//询问框
+						layer.confirm('您确认吗？', {
+							skin: 'layui-layer-molv', 
+							closeBtn: 0,
+							offset: '100px',
+							shift: 4,
+						  btn: ['确认','取消']
+						}, function(){
+							var index = layer.prompt({
+							title: '请填写理由：',
+							formType: 2,
+							offset: '100px',
+							}, function(text) {
+								$.ajax({
+									url: "${pageContext.request.contextPath}/supplierAudit/recordNotPassed.html",
+									data: {"reason" : text , "supplierId" : supplierId},
+									success: function() {
+											//提交审核
+										  $("#status").val(status);
+						   				$("#status").val(status);
+											$("#form_shen").submit();
+									},
+								});
 							});
 						});
 	   			}else{
-	   				$("#status").val(status);
-	   				$("#status").val(status);
-						$("#form_shen").submit();
+		   			//询问框
+						layer.confirm('您确认吗？', {
+							skin: 'layui-layer-molv', 
+							closeBtn: 0,
+							offset: '100px',
+							shift: 4,
+						  btn: ['确认','取消']
+						}, function(){
+							//提交审核
+						  $("#status").val(status);
+		   				$("#status").val(status);
+							$("#form_shen").submit();
+						});
 	   			};
 				}
 			

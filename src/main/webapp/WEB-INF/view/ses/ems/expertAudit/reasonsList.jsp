@@ -32,7 +32,15 @@
 					updateStepNumber("one");
 				}
 				if(status == 2 || status == 3 || status == 5 || status == 7 || status == 8){
-					var index = layer.prompt({
+					//询问框
+					layer.confirm('您确认吗？', {
+						skin: 'layui-layer-molv', 
+						closeBtn: 0,
+						offset: '100px',
+						shift: 4,
+					  btn: ['确认','取消']
+					}, function(){
+						var index = layer.prompt({
 						title: '请填写最终意见：',
 						formType: 2,
 						offset: '100px',
@@ -42,15 +50,25 @@
 								data: {"opinion" : text , "expertId" : expertId},
 								success: function() {
 									//提交审核
-									$("#status").val(status);
-									$("#form_shenhe").submit();
-								}
-						});
+										$("#status").val(status);
+										$("#form_shenhe").submit();
+									}
+							});
+						});	
 					});
 				}else{
-					//提交审核
-					$("#status").val(status);
-					$("#form_shenhe").submit();
+					//询问框
+					layer.confirm('您确认吗？', {
+						skin: 'layui-layer-molv', 
+						closeBtn: 0,
+						offset: '100px',
+						shift: 4,
+					  btn: ['确认','取消']
+					}, function(){
+						//提交审核
+						$("#status").val(status);
+						$("#form_shenhe").submit();
+					});	
 				}
 			}
 			
