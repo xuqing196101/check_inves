@@ -1215,9 +1215,6 @@
 	        (IS_SUBMIT = '1'
 	        AND (STATUS = '0' OR STATUS = '1' OR STATUS = '2'))
 	        OR (IS_SUBMIT = '0' AND status = '3')
-		        <if test="purchaseDepId !=null">
-		            AND PURCHASE_DEP_ID = #{purchaseDepId}
-		        </if>
    		  </if>
         <if test="sign == 2">
             (IS_SUBMIT = '1'
@@ -1226,12 +1223,19 @@
         <if test="sign == 3">
             (IS_SUBMIT = '1'
             AND (STATUS = '6' OR STATUS = '7' OR STATUS = '8'))
-            <if test="extractOrgid !=null">
-            	AND EXTRACT_ORGID = #{extractOrgid}
-        		</if>
         </if>
         )
         AND IS_PROVISIONAL = '0'
+        <if test="sign == 1">
+        	<if test="purchaseDepId !=null">
+		          AND PURCHASE_DEP_ID = #{purchaseDepId}
+		       </if>
+        </if>
+        <if test="sign == 3">
+        	<if test="extractOrgid !=null">
+            AND EXTRACT_ORGID = #{extractOrgid}
+        	</if>
+        </if>
         <if test="relName != null and relName !=''">
             AND REAL_NAME LIKE #{relName}
         </if>
