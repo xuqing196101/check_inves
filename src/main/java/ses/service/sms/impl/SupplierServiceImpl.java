@@ -1020,5 +1020,19 @@ public class SupplierServiceImpl implements SupplierService {
         return supplierMapper.findLogoutList(supplier);
 		
 	}
+
+	/**
+     * @Title: updateExtractOrgidById
+     * @author XuQing 
+     * @date 2017-4-24 下午1:45:35  
+     * @Description:抽取的机构id
+     * @param @param supplierId      
+     * @return void
+     */
+	@Override
+	public void updateExtractOrgidById(Supplier supplier) {
+		supplierMapper.updateExtractOrgidById(supplier);
+		
+	}
     
 }

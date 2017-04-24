@@ -565,6 +565,8 @@ public class Supplier implements Serializable {
 	private String businessTypeName; //营业执照类型名字
 	
 	private String isExtract; //是否抽取
+
+	private String extractOrgid;//抽取的机构id
 	
 	/**获取所有数据库address的省级单位名称*/
 	private String name;
@@ -1869,6 +1871,18 @@ public class Supplier implements Serializable {
 	public void setJudge(Integer judge) {
 		this.judge = judge;
 	}
+
+	public String getExtractOrgid() {
+		return extractOrgid;
+	}
+
+	public void setExtractOrgid(String extractOrgid) {
+		this.extractOrgid = extractOrgid;
+	}
+
+
+	
+
 	
 	
 	
