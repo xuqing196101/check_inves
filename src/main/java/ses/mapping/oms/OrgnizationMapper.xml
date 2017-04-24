@@ -390,106 +390,107 @@
 	<!-- 更新机构   需求部门  监管部门 -->
 	<update id="updateOrgnization" parameterType="java.util.Map">
 			 update T_SES_OMS_ORG s
-	     set 
+	     <set> 
 	    <if test="name != null">
-		 		NAME=#{name}
+		 		NAME=#{name},
 		 	</if>
 		 	<if test="typeName != null">
-		 		,TYPE_NAME=#{typeName}
+		 		TYPE_NAME=#{typeName},
 		 	</if>
 		 	<if test="parentId != null">
-		 		,PARENT_ID=#{parentId}
+		 		PARENT_ID=#{parentId},
 		 	</if>
 		 	<if test="updatedAt != null">
-        ,UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP}
+        UPDATED_AT=#{updatedAt,jdbcType=TIMESTAMP},
       </if>
 		 	<if test="parentName != null">
-		 		,PARENT_NAME=#{parentName}
+		 		PARENT_NAME=#{parentName},
 		 	</if>
 		 	<if test="describtion != null">
-		 		,DESCRIBTION=#{describtion}
+		 		DESCRIBTION=#{describtion},
 		 	</if>
 		 	<if test="address != null">
-		 		,ADDRESS=#{address}
+		 		ADDRESS=#{address},
 		 	</if>
 		 	 <if test="mobile != null">
-		 		,MOBILE=#{mobile,jdbcType=NUMERIC}
+		 		MOBILE=#{mobile,jdbcType=NUMERIC},
 		 	</if>
 		 	 <if test="postCode != null">
-		 		,POST_CODE=#{postCode}
+		 		POST_CODE=#{postCode},
 		 	</if>
 		 	 <if test="orgCode != null">
-		 		,ORG_CODE=#{orgCode}
+		 		ORG_CODE=#{orgCode},
 		 	</if>
 	        <if test="shortName != null">
-		 		,SHORT_NAME=#{shortName}
+		 		SHORT_NAME=#{shortName},
 		 	</if>
 		 	 <if test="telephone != null">
-		 		,TELEPHONE=#{telephone}
+		 		TELEPHONE=#{telephone},
 		 	</if>
 		 	 <if test="areaId != null">
-		 		,AREA_ID=#{areaId}
+		 		AREA_ID=#{areaId},
 		 	</if>
 		 	 <if test="detailAddr != null">
-		 		,DETAIL_ADDR=#{detailAddr}
+		 		DETAIL_ADDR=#{detailAddr},
 		 	</if>
 		 	 <if test="fax != null">
-		 		,FAX=#{fax}
+		 		FAX=#{fax},
 		 	</if>
 		 	 <if test="website != null">
-		 		,WEBSITE=#{website}
+		 		WEBSITE=#{website},
 		 	</if>
 		 	 <if test="princinpal != null">
-		 		,PRINCINPAL=#{princinpal}
+		 		PRINCINPAL=#{princinpal},
 		 	</if>
 		 	 <if test="princinpalIdCard != null">
-		 		,PRINCINPAL_ID_CARD=#{princinpalIdCard}
+		 		PRINCINPAL_ID_CARD=#{princinpalIdCard},
 		 	</if>
 		 	<if test="nature != null">
-		 	 	,NATURE=#{nature}
+		 	 	NATURE=#{nature},
 		 	</if>
 		 	 <if test="orgLevel != null">
-		 		,ORG_LEVEL=#{orgLevel,jdbcType=INTEGER}
+		 		ORG_LEVEL=#{orgLevel,jdbcType=INTEGER},
 		 	</if>
 		 	 <if test="position != null">
-		 		,POSITION=#{position,jdbcType=INTEGER}
+		 		POSITION=#{position,jdbcType=INTEGER},
 		 	</if>
 		 	<if test="isroot != null">
-		 	 	,IS_ROOT=#{isroot,jdbcType=INTEGER}
+		 	 	IS_ROOT=#{isroot,jdbcType=INTEGER},
 		 	</if>
 		 	 <if test="pid != null">
-		 		,PROVINCE_ID=#{pid}
+		 		PROVINCE_ID=#{pid},
 		 	</if>
 		 	 <if test="cid != null">
-		 		,CITY_ID=#{cid}
+		 		CITY_ID=#{cid},
 		 	</if>
 		 	 <if test="is_deleted != null">
-		 		,IS_DELETED=#{is_deleted,jdbcType=NUMERIC}
+		 		IS_DELETED=#{is_deleted,jdbcType=NUMERIC},
 		 	</if>
 		 	 <if test="isroot != null">
-		 		,IS_ROOT=#{isroot,jdbcType=NUMERIC}
+		 		IS_ROOT=#{isroot,jdbcType=NUMERIC},
 		 	</if>
 		 	 <if test="quaStatus != null">
-		 		,QUA_STATUS=#{quaStatus}
+		 		QUA_STATUS=#{quaStatus},
 		 	</if>
 		 	<if test="quaStashReason != null">
-		 		,QUA_STASH_REASON=#{quaStashReason}
+		 		QUA_STASH_REASON=#{quaStashReason},
 		 	</if>
 		 	<if test="quaNormalReason != null">
-		 		,QUA_NORMAL_REASON=#{quaNormalReason}
+		 		QUA_NORMAL_REASON=#{quaNormalReason},
 		 	</if>
 		 	<if test="quaTerminalReason != null">
-		 		,QUA_TERMINAL_REASON=#{quaTerminalReason}
+		 		QUA_TERMINAL_REASON=#{quaTerminalReason},
 		 	</if>
 		 	<if test="contactName != null">
-        		,CONTACT_NAME=#{contactName}
+        		CONTACT_NAME=#{contactName},
       		</if>
       		<if test="contactMobile != null">
-		        ,CONTACT_MOBILE=#{contactMobile}
+		        CONTACT_MOBILE=#{contactMobile},
 		    </if>
 		    <if test="fullName !=null and fullName !=''">
-		       ,FULL_NAME = #{fullName}
+		       FULL_NAME = #{fullName},
 		    </if>
+		    </set>
 	     where s.id=#{id}    
 	</update>
 	<!-- 更新人员-->
