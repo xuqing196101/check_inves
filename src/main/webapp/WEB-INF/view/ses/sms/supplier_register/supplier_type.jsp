@@ -1814,7 +1814,7 @@
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200">
 																	<input
-																type="text" required="required" class="border0"
+																type="text" required="required" class="border0" maxlength="60"
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType"
 																value="${certEng.certType}" />
 																</div>
@@ -1823,14 +1823,14 @@
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w150">
 																	<input
-																class="w120 border0" required="required" type="text"
+																class="w120 border0" required="required" type="text" maxlength="150"
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode"
 																value="${certEng.certCode}" />
 																</div>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0"
+																type="text" required="required" class="border0" maxlength="10"
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel"
 																value="${certEng.certMaxLevel}" />
 															</td>
@@ -1838,7 +1838,7 @@
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
 																 <div class="w200">
 																 	<input
-																type="text" required="required" class="border0"
+																type="text" required="required" class="border0" maxlength="30"
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith"
 																value="${certEng.licenceAuthorith}" />
 															     </div>
@@ -1859,7 +1859,7 @@
 																pattern="yyyy-MM-dd" />
 															</td>
 															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
-																<input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus" value="${certEng.certStatus}" />
+																<input type="text" required="required" class="border0" maxlength="15" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus" value="${certEng.certStatus}" />
 															</td>
 															<%-- <td class="tc">
 																<div class="w200 fl">
@@ -1929,7 +1929,7 @@
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																 <div class="w200">
 																 	<input
-																type="text" required="required" class="border0"
+																type="text" required="required" class="border0" maxlength="30"
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certName"
 																value="${aptitute.certName}" />
 																  </div>
@@ -1937,7 +1937,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																  <div class="w150"><input
-																type="text" required="required" class="border0"
+																type="text" required="required" class="border0" maxlength="150"
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode"
 																value="${aptitute.certCode}" />
 																</div>
@@ -1967,13 +1967,13 @@
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0"
+																type="text" required="required" class="border0" maxlength="80"
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteSequence"
 																value="${aptitute.aptituteSequence}" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0"
+																type="text" required="required" class="border0" maxlength="30"
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType"
 																value="${aptitute.professType}" />
 															</td>
