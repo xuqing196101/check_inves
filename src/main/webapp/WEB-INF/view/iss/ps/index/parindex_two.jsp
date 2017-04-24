@@ -862,10 +862,11 @@ function myReSet(){
 		<div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
             <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
           		<div class="col-md-6 col-xs-4 col-sm-6 tc f16 p0">标题</div>
-          		<div class="col-md-3 col-xs-4 col-sm-3 f16 tc p0" >产品类别</div>
+          	    <div class="col-md-3 col-xs-4 col-sm-3 f16 tc p0" >产品类别</div>
           		<div class="col-md-3 col-xs-4 col-sm-3 f16 tr p0" >发布时间</div>
+          			
              </h2>
-                <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
+                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
                 <c:forEach items="${indexList}" var="i">
 	                  <%--<li>
 	                   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self"><span class="f18 mr5">·</span>${i.name }</a>
@@ -875,16 +876,17 @@ function myReSet(){
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>36}">
 						<li>
-						<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-6 col-sm-3 col-xs-12 fl" ><span class="f18 mr5 fl" >·</span>【${i.lastArticleType.name}】${fn:substring(name,0,36)}...</a>
-	                    <span  class="hex pull-right col-md-3 col-sm-3 col-xs-12 p0 tc">${i.categoryName }</span>
-	                     <span class="hex pull-right col-md-3 col-sm-3 col-xs-12 tr" ><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>                   
+						<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12 fl" style=" width: 65%;overflow: hidden;text-align: left;"><span class="f18 mr5 fl" >·</span>【${i.lastArticleType.name}】${fn:substring(name,0,36)}...</a>
+	                     <span class="hex pull-right col-md-2 col-sm-5 col-xs-12 fr" style="width: 15%;text-align:right;" ><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+	                    <span  class="hex pull-right  col-sm-5 col-xs-12 w180 fl tc" style="width: 20% ;text-align: left;">${i.categoryName }</span>
+	                   
 	                    </li>
 					</c:if>
 					<c:if test="${length<=36}">
 					   <li>
-					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-6 col-sm-6 col-xs-12 fl"><span class="f18 mr5 fl">·</span>【${i.lastArticleType.name}】${i.name }</a>
-	                   <span class="pull-right col-md-3 col-sm-3 col-xs-12 p0 tc">${i.categoryName }</span>
-	                   <span class="pull-right col-md-3 col-sm-3 col-xs-12 tr"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>   
+					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12 fl" style=" width: 65%;overflow: hidden;text-align: left;"><span class="f18 mr5 fl">·</span>【${i.lastArticleType.name}】${i.name }</a>
+	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12 fr" style=" width: 15% ;text-align:right;"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12  fl tc" style="width: 20%; text-align: left;">${i.categoryName }</span>
 	                   </li>
 					</c:if>
 	                </c:forEach>         
