@@ -1599,7 +1599,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS = 0
+		WHERE SUPPLIER_STATUS = 2
 	<!-- 	AND
 		TO_CHAR(UPDATED_AT, 'yyyy-MM-dd') = #{modifyDate} -->
 		AND UPDATED_AT &gt;=

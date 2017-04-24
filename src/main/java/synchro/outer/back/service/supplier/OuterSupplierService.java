@@ -55,4 +55,8 @@ public interface OuterSupplierService {
     
     public void tempSupplier(String startTime, String endTime);
     
+    
+    
+    public void backSupplierExport(String startTime, String endTime);
+    
 }

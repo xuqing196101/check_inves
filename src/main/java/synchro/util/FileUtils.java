@@ -70,6 +70,11 @@ public class FileUtils {
     /** 新注册供应商文件名称 **/
     public final static String C_SUPPLIER_FILENAME = "_c_supplier.dat"; 
     
+    
+    /** 新注册供应商文件名称 **/
+    public final static String C_SUPPLIER_BACK_FILENAME = "_c_back_supplier.dat"; 
+    
+    
     /** 所有审核不通过的 **/
     public final static String C_SUPPLIER_ALL_FILE="_c_supplier_not.dat";
     
@@ -212,6 +217,21 @@ public class FileUtils {
      */
     public static final File getNewSupperBackUpFile(){
         String fileName = System.currentTimeMillis() + C_SUPPLIER_FILENAME;
+        String path = getBackUpPath();
+        final File file = new File(path,fileName);
+        return file;
+    }
+    
+    
+    /**
+     * 
+     *〈简述〉获取新注册供应商导出文件
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    public static final File getBackSupplierFile(){
+        String fileName = System.currentTimeMillis() + C_SUPPLIER_BACK_FILENAME;
         String path = getBackUpPath();
         final File file = new File(path,fileName);
         return file;
