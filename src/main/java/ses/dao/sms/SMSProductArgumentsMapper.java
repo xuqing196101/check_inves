@@ -17,7 +17,7 @@ public interface SMSProductArgumentsMapper {
 	int insert(SMSProductArguments record);
 
 	int insertSelective(SMSProductArguments record);
-
+	int insertBySelective(SMSProductArguments record);
 	SMSProductArguments selectByPrimaryKey(String id);
 
 	int updateByPrimaryKeySelective(SMSProductArguments record);

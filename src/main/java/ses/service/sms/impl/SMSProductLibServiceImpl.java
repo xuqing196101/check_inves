@@ -849,7 +849,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 						for (SMSProductArguments smsProductArguments : arguments) {
 							int argumentsCount=smsProductArgumentsMapper.countById(smsProductArguments.getId());
 							if(argumentsCount==0){
-								smsProductArgumentsMapper.insertSelective(smsProductArguments);
+								smsProductArgumentsMapper.insertBySelective(smsProductArguments);
 							}
 						}
 					}

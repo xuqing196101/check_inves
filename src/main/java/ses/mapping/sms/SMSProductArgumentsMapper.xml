@@ -96,6 +96,62 @@
       </if>
     </trim>
   </insert>
+  
+   <insert id="insertBySelective" parameterType="ses.model.sms.SMSProductArguments" >
+    insert into T_SES_SMS_PRODUCT_ARGUMENTS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="argumentsId != null" >
+        ARGUMENTS_ID,
+      </if>
+      <if test="categoryParameterId != null" >
+        CATEGORY_PARAMETER_ID,
+      </if>
+      <if test="parameterValue != null" >
+        PARAMETER_VALUE,
+      </if>
+      <if test="parameterType != null" >
+        PARAMETER_TYPE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="argumentsId != null" >
+        #{argumentsId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryParameterId != null" >
+        #{categoryParameterId,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterValue != null" >
+        #{parameterValue,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterType != null" >
+        #{parameterType,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SMSProductArguments" >
     update T_SES_SMS_PRODUCT_ARGUMENTS
     <set >
