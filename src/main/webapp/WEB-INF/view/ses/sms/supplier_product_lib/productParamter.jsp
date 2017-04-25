@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<%@ include file="/WEB-INF/view/common.jsp" %>
+	<%-- <%@ include file="/WEB-INF/view/common.jsp" %> --%>
 	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -90,7 +90,7 @@
 	              	<input name="productArguments[${ vs.index }].paramName" value='${ categoryParam.paramName }' type="hidden">
 	                <input name="productArguments[${ vs.index }].categoryParameterId" value='${ categoryParam.id }' type="hidden">
 	                <input name="productArguments[${ vs.index }].parameterType" value='${ categoryParam.paramTypeName }' type="hidden">
-	                <input id="${ categoryParam.id }" name="productArguments[${ vs.index }].parameterValue" value='' type="text">
+	                <input id="${ categoryParam.id }" name="productArguments[${ vs.index }].parameterValue" value='' onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
 	                 <input name="productArguments[${ vs.index }].required" value='${ categoryParam.paramRequired }' type="hidden">
 	                <span class="add-on">i</span>
 	                <span class="input-tip">${ categoryParam.paramName }</span>
