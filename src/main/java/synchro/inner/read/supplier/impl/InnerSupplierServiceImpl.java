@@ -549,5 +549,283 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 		
 	}
 
+	@Override
+	public void importBackSupplier(File file) {
+		List<Supplier> list = getSupplier(file);
+	       for (Supplier supplier : list){
+//	    	   Supplier unSupplier = supplierSerice.selectById(supplier.getId());
+//	    	   if(unSupplier==null){
+	    	   if(supplier.getListSupplierFinances().size()>0){
+	    		   for(SupplierFinance sf:supplier.getListSupplierFinances()){
+	    			   SupplierFinance unfinance = supplierFinanceMapper.selectByPrimaryKey(sf.getId());
+	    			   if(unfinance==null){
+//	    				   supplierFinanceMapper.insertSelective(sf);
+	    			   }else{
+	    				   supplierFinanceMapper.updateByPrimaryKeySelective(sf);
+	    			   }
+	    		   }
+	    	   }
+	    	   
+	    	   if(supplier.getTodoList()!=null&&supplier.getTodoList().size()>0){
+	    		   for(Todos to:supplier.getTodoList()){
+	    			   Todos td = todosMapper.selectByPrimaryKey(to.getId());
+	    			   if(td==null){
+//	    				   todosMapper.insertSelective(to);
+	    			   }else{
+	    				   todosMapper.updateByPrimaryKey(to);
+	    			   }
+	    		   }
+	    	   }
+	    	   
+			   if(supplier.getAttchList().size()>0){
+				   for(UploadFile uf:supplier.getAttchList()){
+					   UploadFile ufile = fileUploadMapper.findById(uf.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+					   if(ufile==null){
+//						   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+//		    			   fileUploadMapper.saveFile(uf);
+					   }else{
+						   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+						   fileUploadMapper.updateFileById(uf);
+					   }
+	    			   
+	    		   }
+			   }
+			   
+	    	   if(supplier.getAddressList().size()>0){
+	    			   supplierAddressService.addList(supplier.getAddressList(), supplier.getId());
+	    	   }
+	    	   if(supplier.getBranchList().size()>0){
+	    		   for(SupplierBranch sb:supplier.getBranchList()){
+	    			   SupplierBranch branch = supplierBranchMapper.queryById(sb.getId());
+	    			   if(branch==null){
+//	    				   supplierBranchMapper.insertSelective(sb);
+	    			   }else{
+	    				   supplierBranchMapper.updateByPrimaryKeySelective(sb);
+	    			   }
+	    		   }
+	    	   }
+	    	   if(supplier.getListSupplierStockholders().size()>0){
+	    		   for(SupplierStockholder ss:supplier.getListSupplierStockholders()){
+	    			   SupplierStockholder stockholder = supplierStockholderMapper.selectByPrimaryKey(ss.getId());
+	    			   if(stockholder==null){
+//	    				   supplierStockholderMapper.insertSelective(ss); 
+	    			   }else{
+	    				   supplierStockholderMapper.updateByPrimaryKeySelective(ss);
+	    			   }
+	    		   }
+	    	   }
+	    	   if(supplier.getListSupplierAfterSaleDep().size()>0){
+	    		   for(SupplierAfterSaleDep sa:supplier.getListSupplierAfterSaleDep()){
+	    			   SupplierAfterSaleDep saleDep = supplierAfterSaleDepMapper.selectByPrimaryKey(sa.getId());
+	    			   if(saleDep==null){
+//	    				   supplierAfterSaleDepMapper.insertSelective(sa);
+	    			   }else{
+	    				   supplierAfterSaleDepMapper.updateByPrimaryKeySelective(sa);
+	    			   }
+	    		   }
+	    	   }
+	    	   if(supplier.getListSupplierTypeRelates().size()>0){
+	    		   supplierTypeRelateMapper.deleteBySupplierId(supplier.getId());
+	    		   for(SupplierTypeRelate str:supplier.getListSupplierTypeRelates()){
+	    			   SupplierTypeRelate relate = supplierTypeRelateMapper.selectByPrimaryKey(str.getId());
+	    			   if(relate==null){
+	    				   supplierTypeRelateMapper.insertSelective(str);
+	    			   }else{
+//	    				   supplierTypeRelateMapper.updateByPrimaryKeySelective(str);
+	    			   }
+	    		   }
+	    	   }
+	    	   if(supplier.getSupplierMatPro()!=null){
+	    		   SupplierMatPro matPro = supplierMatProMapper.getMatProBySupplierId(supplier.getId());
+		    		   if(matPro==null){
+		    			   supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
+		    		   }else{
+		    			   supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
+		    		   }
+	    		   		if(supplier.getSupplierMatPro().getListSupplierCertPros().size()>0){
+	    		   			for(SupplierCertPro sc:supplier.getSupplierMatPro().getListSupplierCertPros()){
+//	    		   				if(sc.getFileList().size()>0){
+//	    		   				 for(UploadFile uf:sc.getFileList()){
+//	    	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+//	    	    	    			   fileUploadMapper.insertFile(uf);
+//	    	    	    		   }
+//	    		   				}
+	    		   				SupplierCertPro certPro = supplierCertProMapper.selectByPrimaryKey(sc.getId());
+	    		   				if(certPro==null){
+//	    		   					supplierCertProMapper.insertSelective(sc);
+	    		   				}else{
+	    		   					supplierCertProMapper.updateByPrimaryKeySelective(sc);
+	    		   				}
+	    		   			
+	    		   			}
+	    		   		}
+	    		   		
+	    	   }
+	    	   
+	    	   if(supplier.getSupplierMatSell()!=null){
+	    		   SupplierMatSell matSell = supplierMatSellMapper.getMatSellBySupplierId(supplier.getId());
+	    		   if(matSell==null){
+	    			   supplierMatSellMapper.insertSelective(supplier.getSupplierMatSell());
+	    		   }else{
+	    			   supplierMatSellMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSell());
+	    		   }
+	    		   if(supplier.getSupplierMatSell().getListSupplierCertSells().size()>0){
+	    			   for(SupplierCertSell sc:supplier.getSupplierMatSell().getListSupplierCertSells()){
+//	    				   if(sc.getFileList().size()>0){
+//	  		   				 for(UploadFile uf:sc.getFileList()){
+//	  	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+//	  	    	    			   fileUploadMapper.insertFile(uf);
+//	  	    	    		   }
+//	  		   				}
+	    				   SupplierCertSell certSell = supplierCertSellMapper.selectByPrimaryKey(sc.getId());
+	    				   if(certSell==null){
+	    					   supplierCertSellMapper.insertSelective(sc);
+	    				   }
+			   			}
+	    		   }
+	    	   }
+	    	   if(supplier.getSupplierMatEng()!=null){
+	    		   SupplierMatEng matEng = supplierMatEngMapper.getMatEngBySupplierId(supplier.getId());
+	    		   if(matEng==null){
+	    			   supplierMatEngMapper.insertSelective(supplier.getSupplierMatEng());
+	    		   }else{
+	    			   supplierMatEngMapper.updateByPrimaryKeySelective(supplier.getSupplierMatEng());
+	    		   }
+	    		   if(supplier.getSupplierMatEng().getListSupplierAptitutes().size()>0){
+	    			   for(SupplierAptitute sb:supplier.getSupplierMatEng().getListSupplierAptitutes()){
+	    				   SupplierAptitute ap = supplierAptituteMapper.selectByPrimaryKey(sb.getId());
+	    				   if(ap==null){
+	    					   supplierAptituteMapper.insertSelective(sb);
+	    				   }else{
+	    					   supplierAptituteMapper.updateByPrimaryKeySelective(sb);
+	    				   }
+	    				   
+	    			   }
+	    		   }
+	    		   if(supplier.getSupplierMatEng().getListSupplierCertEngs().size()>0){
+	    			   for(SupplierCertEng sce:supplier.getSupplierMatEng().getListSupplierCertEngs()){
+//	    				   if(sce.getFileList().size()>0){
+//	  		   				 for(UploadFile uf:sce.getFileList()){
+//	  	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+//	  	    	    			   fileUploadMapper.insertFile(uf);
+//	  	    	    		   }
+//	  		   				}
+	    				   SupplierCertEng certEng = supplierCertEngMapper.selectByPrimaryKey(sce.getId());
+	    				   if(certEng==null){
+	    					   supplierCertEngMapper.insertSelective(sce); 
+	    				   }else{
+	    					   supplierCertEngMapper.updateByPrimaryKeySelective(sce);
+	    				   }
+	    				   
+	    			   }
+	    		   }
+	    		   if(supplier.getSupplierMatEng().getListSupplierRegPersons().size()>0){
+	    			   for(SupplierRegPerson sp:supplier.getSupplierMatEng().getListSupplierRegPersons()){
+	    				   SupplierRegPerson regPerson = supplierRegPersonMapper.selectByPrimaryKey(sp.getId());
+	    				   if(regPerson==null){
+	    					   supplierRegPersonMapper.insertSelective(sp);
+	    				   }else{
+	    					   supplierRegPersonMapper.updateByPrimaryKeySelective(sp); 
+	    				   }
+	    				
+	    			   }
+	    		   }
+	    	   }
+	    	   if(supplier.getSupplierMatSe()!=null){
+	    		   SupplierMatServe serve = supplierMatServeMapper.selectByPrimaryKey(supplier.getSupplierMatSe().getId());
+	    		   if(serve==null){
+	    			   supplierMatServeMapper.insertSelective(supplier.getSupplierMatSe());
+	    		   }else if(serve!=null){
+	    			   supplierMatServeMapper.updateByPrimaryKey(supplier.getSupplierMatSe());
+	    		   }
+	    		   
+				   if(supplier.getSupplierMatSe().getListSupplierCertSes().size()>0){
+					  for(SupplierCertServe sc:supplier.getSupplierMatSe().getListSupplierCertSes()){
+//						  if(sc.getFileList().size()>0){
+//	 		   				 for(UploadFile uf:sc.getFileList()){
+//	 	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+//	 	    	    			   fileUploadMapper.insertFile(uf);
+//	 	    	    		   }
+//	 		   				}
+						  SupplierCertServe certServe = supplierCertServeMapper.selectByPrimaryKey(sc.getId());
+						  if(certServe==null){
+							  supplierCertServeMapper.insertSelective(sc); 
+						  }else{
+							  supplierCertServeMapper.updateByPrimaryKeySelective(sc);
+						  }
+						  
+					  } 
+				   }
+			   }
+	    	   if(supplier.getListSupplierItems()!=null&&supplier.getListSupplierItems().size()>0){
+	    		   supplierItemMapper.deleteBySupplierId(supplier.getId());
+	    		   for(SupplierItem st:supplier.getListSupplierItems()){
+//	    			   if(st.getFileList().size()>0){
+//			   				 for(UploadFile uf:st.getFileList()){
+//		    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+//		    	    			   fileUploadMapper.insertFile(uf);
+//		    	    		   }
+//			   				}
+	    			   SupplierItem item = supplierItemMapper.selectByPrimaryKey(st.getId());
+	    			   if(item==null){
+	    				   supplierItemMapper.insertSelective(st);
+	    			   }
+	    			   
+//	    			   else if(item!=null){
+//	    				   supplierItemMapper.updateByPrimaryKeySelective(item);
+//	    			   }
+	    			   
+	    		   }
+	    	   }
+	    	   
+//	    	   if(supplier.getAttchList().size()>0){
+//	    		   for(UploadFile uf:supplier.getAttchList()){
+//	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+//	    			   fileUploadMapper.insertFile(uf);
+//	    		   }
+//	    	   }
+	    	   
+	    	   List<RoleUser> roles = supplier.getUserRoles();
+	    	   if(roles.size()>0){
+	    		   for(RoleUser ur:roles){
+	        		   RoleUser us=new RoleUser();
+	        		   us.setRoleId(ur.getRoleId());
+	        		   us.setUserId(ur.getUserId());
+	        		   List<RoleUser> queryByUserId = userMapper.queryByUserId(ur.getUserId(), ur.getRoleId());
+	        		   if(queryByUserId.size()<1){
+	        			  userMapper.saveUserRole(us);
+	        		   }
+	        	   }  
+	    	   }
+	    	
+			   
+//	    	   if(supplier.getHistorys().size()>0){
+//	    		   for(SupplierHistory sh:supplier.getHistorys()){
+//	    			   supplierHistoryMapper.insertSelective(sh);
+//	    		   }
+//	    	   }
+	    	   if(supplier.getModifys().size()>0){
+	    		   for(SupplierModify sh:supplier.getModifys()){
+	    			   supplierModifyMapper.insertSelective(sh);
+	    		   }
+	    	   }
+	    	   User us = userMapper.queryNameAndNote(supplier.getUser().getLoginName(),supplier.getUser().getNetType());  
+	    	   if(us==null){
+	    		   saveUser(supplier.getUser()); 
+	    	   }
+	           
+	           Supplier supp = supplierSerice.selectById(supplier.getId());
+	           if(supp==null){
+//	        	   saveSupplier(supplier);
+	           }else{
+	        	   supplierMapper.updateByPrimaryKey(supplier);
+	           }
+	          
+	    	
+	       }
+	       synchRecordService.importNewSupplierRecord(new Integer(list.size()).toString());
+		
+	}
+
 	   
 }

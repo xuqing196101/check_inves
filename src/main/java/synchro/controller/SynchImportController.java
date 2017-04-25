@@ -225,6 +225,94 @@ public class SynchImportController {
                 }
             } 
         }
+        
+        
+        /**
+         * 退回修改，不通过，导入到外网
+         */
+        if(synchType.contains("inner_out")){
+        	if (file != null && file.exists()){
+                File [] files = file.listFiles();
+                if(files.length<1){
+                	bean.setSuccess(false);
+                    return bean;
+                }
+                for (File f : files){
+                    if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)){
+                    	innerSupplierService.importSupplierInfo(f);
+                    	
+                    }
+                    if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
+                        attachService.importSupplierAttach(f);
+                    }
+                    if (f.isDirectory()){
+                        if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)){
+                            OperAttachment.moveFolder(f);
+                        }
+                    }
+                }
+            } 
+        }
+        /**
+         * 供应商退回修改之后导入到内网
+         */
+        
+        if(synchType.contains("outter_in")){
+        	if (file != null && file.exists()){
+                File [] files = file.listFiles();
+                if(files.length<1){
+                	bean.setSuccess(false);
+                    return bean;
+                }
+                for (File f : files){
+                    if (f.getName().contains(FileUtils.C_SUPPLIER_BACK_FILENAME)){
+                    	innerSupplierService.importBackSupplier(f);
+                    	
+                    }
+                    if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
+                        attachService.importSupplierAttach(f);
+                    }
+                    if (f.isDirectory()){
+                        if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)){
+                            OperAttachment.moveFolder(f);
+                        }
+                    }
+                }
+            } 
+        }
+        
+        
+        /**
+         * 临时供应商导入到外网
+         */
+        if(synchType.contains("temp_in")){
+        	if (file != null && file.exists()){
+                File [] files = file.listFiles();
+                if(files.length<1){
+                	bean.setSuccess(false);
+                    return bean;
+                }
+                for (File f : files){
+                    if (f.getName().contains(FileUtils.C_TMEP_SUPPLIER_FILE)){
+                    	innerSupplierService.importBackSupplier(f);
+                    	
+                    }
+                    if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
+                        attachService.importSupplierAttach(f);
+                    }
+                    if (f.isDirectory()){
+                        if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)){
+                            OperAttachment.moveFolder(f);
+                        }
+                    }
+                }
+            } 
+        }
+        
+        
+        
+        
+        
         if(synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)){
         	if (file != null && file.exists()){
                 File [] files = file.listFiles();

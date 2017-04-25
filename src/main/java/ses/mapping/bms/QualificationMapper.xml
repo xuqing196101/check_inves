@@ -71,4 +71,12 @@
 	  WHERE ID = #{id} and IS_DELETED=0
 	</select>
 	
+	<select id="getIdByName" resultType="String">
+	select id 
+	  FROM T_SES_BMS_QUALIFICATION
+	  WHERE NAME = #{name} and IS_DELETED=0
+	</select>
+	
+	
+	
 </mapper>

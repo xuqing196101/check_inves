@@ -289,4 +289,7 @@ public interface CategoryMapper {
 	public List<Category> selectByCode(String code);
 	
 	public List<Category> listByKeywordIsPublish(HashMap<String, Object> map);
+	
+	
+	String getId(@Param("name")String name,@Param("code")String code);
 }

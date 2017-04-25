@@ -586,4 +586,17 @@
 			and PARENT_ID= #{parentId}
 		</if>
 	</select>
+	<select id="getId" resultType="String">
+	select id 
+    	from T_SES_BMS_CATEGORY
+		where 	 
+			  NAME =#{name}
+		 
+			AND CODE =#{code}
+	
+	</select>
+	
+	
+	
+	
 </mapper>

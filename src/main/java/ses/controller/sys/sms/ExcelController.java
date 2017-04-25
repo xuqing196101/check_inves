@@ -13,9 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.dao.bms.CategoryMapper;
+import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.EngCategoryMapper;
 import ses.dao.bms.QualificationLevelMapper;
 import ses.dao.bms.QualificationMapper;
+import ses.model.bms.CategoryQua;
 import ses.model.bms.Qualification;
 import ses.model.bms.QualificationLevel;
 
@@ -27,11 +30,16 @@ public class ExcelController {
 //	private DictionaryTypeMapper dictionaryTypeMapper;
 	@Autowired
 	private QualificationMapper qualificationMapper;
+//	@Autowired
+//	private EngCategoryMapper engCategoryMapper;
 	@Autowired
-	private EngCategoryMapper engCategoryMapper;
+	private CategoryMapper categoryMapper;
 	
 	@Autowired
 	private QualificationLevelMapper qualificationLevelMapper;
+	
+	@Autowired
+	private CategoryQuaMapper categoryQuaMapper;
 	
 	@RequestMapping("/app")
 	public String exlce() throws Exception{
@@ -44,6 +52,7 @@ public class ExcelController {
 	        Sheet sheet = workbook.getSheetAt(0);
 	        
 	        StringBuffer sb=new StringBuffer();
+	        StringBuffer sbf=new StringBuffer();
 	        for (Row row : sheet) {
 	        	
 	        		for (Cell cell : row) {
@@ -57,12 +66,16 @@ public class ExcelController {
 	        					String[] strs = value.split("或");
 		        				
 	        					for(String s:strs){
-	        						System.out.println(cate+"*********"+code);
-//	        						String cid = engCategoryMapper.getId(cate,code);
-//		        					String id = UUID.randomUUID().toString().replaceAll("-", "");
-//		        					String qid = qualificationMapper.getIdByName(s);
-//		        					String str="insert into  T_SES_BMS_CATEGORY_QUA (ID, QUALIFCATION_ID ,GRADE ) values ('"+id+"', '"+cid+"','"+qid+"','4')";
-//		        					sb.append(str).append(";");
+	        						String cid = categoryMapper.getId(cate.trim(),code.trim());
+		        					String id = UUID.randomUUID().toString().replaceAll("-", "");
+		        					String qid = qualificationMapper.getIdByName(s);
+		        					List<CategoryQua> list = categoryQuaMapper.findListSupplier(cid,4);
+		        					if(list.size()<1){
+		        						sbf.append(cate).append(";");
+		        						String str="insert into  T_SES_BMS_CATEGORY_QUA (ID, CATEGORY_ID,QUA_ID ,QUA_TYPE )  values ('"+id+"', '"+cid+"','"+qid+"','4')";
+			        					sb.append(str).append(";");
+		        					}	
+		        				
 		        				}
 	        				}
 	        				
@@ -72,7 +85,7 @@ public class ExcelController {
 	    			}
         			
         	}
-	        System.out.println(count+"**********************");
+	        System.out.println(sbf.toString()+"--");
 	        System.out.println(sb.toString()+"--");
 		return "";
 	}
@@ -118,18 +131,18 @@ public class ExcelController {
 //        	}
 //	        System.out.println(snb.toString()+"--");
 //	        System.out.println(sb.toString()+"--");
-		List<Qualification> list = qualificationMapper.findList(null, null);
-		for(Qualification q:list){
-			List<QualificationLevel> ql = qualificationLevelMapper.findList(q.getId());
-			if(ql.size()<1){
-			String id = UUID.randomUUID().toString().replaceAll("-", "");
-			String str="insert into  T_SES_BMS_QUALIFCATE_LEVEL (ID, QUALIFCATION_ID ,GRADE ) values ('"+id+"', '"+q.getId()+"','7AFF91A26FB046ECAD6CA751490BD098')";
-			sb.append(str).append(";");
+//		List<Qualification> list = qualificationMapper.findList(null, null);
+//		for(Qualification q:list){
+//			List<QualificationLevel> ql = qualificationLevelMapper.findList(q.getId());
+//			if(ql.size()<1){
+//			String id = UUID.randomUUID().toString().replaceAll("-", "");
+//			String str="insert into  T_SES_BMS_QUALIFCATE_LEVEL (ID, QUALIFCATION_ID ,GRADE ) values ('"+id+"', '"+q.getId()+"','7AFF91A26FB046ECAD6CA751490BD098')";
+//			sb.append(str).append(";");
 //			snb.append(q.getName()).append(";");
-		       }
+//		       }
 //			}
-		}
-		System.out.println(sb.toString()+"--");
+//		}
+//		System.out.println(sb.toString()+"--");
 		
 		
 		return "";

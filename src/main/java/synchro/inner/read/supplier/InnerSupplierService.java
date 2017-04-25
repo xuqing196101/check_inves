@@ -28,4 +28,7 @@ public interface InnerSupplierService {
     
     
     public void importTempSupplier(final File file);
+    
+    
+    public void importBackSupplier(final File file);
 }

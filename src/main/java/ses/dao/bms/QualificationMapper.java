@@ -56,7 +56,7 @@ public interface QualificationMapper {
      */
     public Qualification getQualification(@Param("id")String id);
     
-    
+    String getIdByName(@Param("name")String name);
     
     
 }

@@ -195,13 +195,25 @@ public class SynchExportController {
         Date date=new Date();
         if (synchType.contains(Constant.DATA_TYPE_INFOS_CODE)){
             infoService.backUpInfos(startTime, endTime, date);
-        } 
+        }
+        /**供应商提交*/
         if (synchType.contains(Constant.DATA_TYPE_SUPPLIER_CODE)) {
             outerSupplierService.exportCommitSupplier(startTime, endTime, date);
         }
+        /**内网退回修改*/
         if (synchType.contains("inner_out")) {
             outerSupplierService.auditPass(startTime, endTime);
         }
+        /**外网供应商退回修改*/
+        if (synchType.contains("back_out")) {
+            outerSupplierService.backSupplierExport(startTime, endTime);
+        }
+        
+        if (synchType.contains("temp_out")) {
+            outerSupplierService.tempSupplier(startTime, endTime);
+        }
+        
+        
         
         if (synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)) {
         	outerExpertService.backupCreated(startTime, endTime);

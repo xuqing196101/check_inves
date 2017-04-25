@@ -76,7 +76,7 @@ public class FileUtils {
     public final static String C_SUPPLIER_FILENAME = "_c_supplier.dat"; 
     
     
-    /** 新注册供应商文件名称 **/
+    /** 外网供应商退回修改 **/
     public final static String C_SUPPLIER_BACK_FILENAME = "_c_back_supplier.dat"; 
     
     
