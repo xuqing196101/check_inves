@@ -476,6 +476,13 @@ public class SynchImportController {
                        			 }
                        		 }
                        	 }
+                     		 if(f.getName().equals(Constant.INNER_PRODUCT_LIBRARY_EXPERT)){
+                            	 for (File file2 : f.listFiles()) {
+                            		 if (f.isDirectory()){
+                                         OperAttachment.moveToPathFolder(file2,FileUtils.BASE_ATTCH_PATH+FileUtils.TENDER_ATTFILE_PATH);
+                            		 }
+                            	  }
+                             	}
                      	}else{
                      	// 内网 只能 导入 外网 导出的 产品录入需要审核 的数据
                      		if (f.getName().equals(Constant.OUTER_PRODUCT_LIBRARY_EXPERT)){
@@ -490,14 +497,16 @@ public class SynchImportController {
                            		 }
                        		 }
                        	 }
+                     		//图片移动
+                     		 if(f.getName().equals(Constant.OUTER_FILE_PRODUCT_LIBRARY_EXPERT)){
+                            	 for (File file2 : f.listFiles()) {
+                            		 if (f.isDirectory()){
+                                         OperAttachment.moveToPathFolder(file2,FileUtils.BASE_ATTCH_PATH+FileUtils.TENDER_ATTFILE_PATH);
+                            		 }
+                            	  }
+                             	}
                      	}
-                     if(f.getName().equals(Constant.OUTER_FILE_PRODUCT_LIBRARY_EXPERT)){
-                    	 for (File file2 : f.listFiles()) {
-                    		 if (f.isDirectory()){
-                                 OperAttachment.moveToPathFolder(file2,FileUtils.BASE_ATTCH_PATH+FileUtils.TENDER_ATTFILE_PATH);
-                    		 }
-                    	  }
-                     	}
+                    
                      }
                  }
              }

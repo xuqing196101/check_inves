@@ -793,7 +793,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		 }
 		 //同步附件
 	        if (uploadList != null && uploadList.size() > 0){
-	            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_OUTER_FILE_PRODUCT_LIBRARY, 13),JSON.toJSONString(uploadList));
+	            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_OUTER_FILE_PRODUCT_LIBRARY, 12),JSON.toJSONString(uploadList));
 	            String basePath = FileUtils.attachExportPath(13);
 	            if (StringUtils.isNotBlank(basePath)){
 	                OperAttachment.writeFile(basePath, uploadList);

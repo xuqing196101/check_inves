@@ -1556,7 +1556,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		return boo;
 	}
     /**
-     * 实现导入文件
+     * 实现导入竞价信息文件
      */
 	@Override
 	public boolean importFile(File file) {
