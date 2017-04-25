@@ -111,7 +111,8 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 				"SUPPLIER_BANK",
 				"SUPPLIER_CON_ACH",
 				"SUPPLIER_PRO_CONTRACT",
-				"INDENTITY_UP"
+				"INDENTITY_UP",
+                "HOUSE_PROPERTY"//房产证明或租赁协议
 			};
 		param.put("strs", strs);
 		param.put("isDeleted", 0);
@@ -247,6 +248,10 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 			}
 			if("SUPPLIER_PRO_CONTRACT".equals(dictionaryData.getCode())){
 			    supplierDictionaryData.setSupplierProContract(dictionaryData.getId());
+			    continue;
+			}
+			if("HOUSE_PROPERTY".equals(dictionaryData.getCode())){
+			    supplierDictionaryData.setSupplierHousePoperty(dictionaryData.getId());
 			    continue;
 			}
 		}

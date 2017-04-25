@@ -1620,6 +1620,19 @@ public class SupplierController extends BaseSupplierController {
 		    count++;
 		    model.addAttribute("err_identityUp", "请上传文件!");
 		}
+		//房产证明或租赁协议
+        List<SupplierAddress> addressList = supplier.getAddressList();
+		if(null != addressList && !addressList.isEmpty()){
+		    for(int i=0;i<addressList.size();i++){
+                List < UploadFile > houseList = uploadService.getFilesOther(addressList.get(i).getId(), supplierDictionary.getSupplierHousePoperty(), Constant.SUPPLIER_SYS_KEY.toString());
+                if(houseList != null && houseList.size() <= 0) {
+                    count++;
+                    model.addAttribute("err_house", "请上传文件!");
+                    model.addAttribute("err_house_token", i);
+                    break;
+                }
+            }
+        }
 		if(supplier.getListSupplierStockholders() == null || supplier.getListSupplierStockholders().size() < 1) {
 			count++;
 			model.addAttribute("stock", "请添加股东信息!");
@@ -2679,7 +2692,22 @@ public class SupplierController extends BaseSupplierController {
 		return UUID.randomUUID().toString().toUpperCase().replace("-", "");
 	}
 
-	@ResponseBody
+    @RequestMapping("/addAddress")
+    public ModelAndView addAddress(HttpServletRequest request, Model model){
+	    String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+	    String ind = request.getParameter("ind");
+        //初始化省份
+        List < Area > privnce = areaService.findRootArea();
+        //初始化供应商注册附件类型
+        model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierProCert());
+        model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+        model.addAttribute("privnce", privnce);
+        model.addAttribute("id", id);
+        model.addAttribute("ind", ind);
+	    return new ModelAndView("ses/sms/supplier_register/add_house_addr");
+    }
+
+    @ResponseBody
 	@RequestMapping("/validateCreditCode")
 	public String validateCreditCode(String creditCode, String supplierId) {
 		List < Supplier > list = supplierService.validateCreditCode(creditCode);
