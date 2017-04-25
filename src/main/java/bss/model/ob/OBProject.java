@@ -1,5 +1,6 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,11 @@ import org.springframework.format.annotation.DateTimeFormat;
  *  @Title:BidAnnouncementAttach   @Description: 存储竞价信息的内容  @author 注释--Ma
  * Mingwei
  */
-public class OBProject {
+public class OBProject implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 竞价规则id
 	 */

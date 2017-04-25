@@ -3,6 +3,8 @@ package ses.model.sms;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
 import ses.model.bms.Category;
 /**
  * 
@@ -21,6 +23,11 @@ import ses.model.bms.Category;
 *
  */
 public class SMSProductBasic implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 主键
 	 */
@@ -93,9 +100,29 @@ public class SMSProductBasic implements Serializable{
     private String createrId;
     
     private Supplier supplier;
+    //产品信息 详情
+    private SMSProductInfo info;
+    //产品目录 对应参数集合
+    private List<SMSProductArguments> arguments;
     
     
-    public String getId() {
+    public SMSProductInfo getInfo() {
+		return info;
+	}
+
+	public void setInfo(SMSProductInfo info) {
+		this.info = info;
+	}
+
+	public List<SMSProductArguments> getArguments() {
+		return arguments;
+	}
+
+	public void setArguments(List<SMSProductArguments> arguments) {
+		this.arguments = arguments;
+	}
+
+	public String getId() {
         return id;
     }
 

@@ -15,6 +15,11 @@
     ID, ARGUMENTS_ID, CATEGORY_PARAMETER_ID, PARAMETER_VALUE, PARAMETER_TYPE, REMARK, 
     CREATED_AT, UPDATED_AT
   </sql>
+   <!--根据id 获取 数量 -->
+   <select id="countById" parameterType="String" resultType="java.lang.Integer" >
+    select count(*) from T_SES_SMS_PRODUCT_ARGUMENTS
+    where id=#{id,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

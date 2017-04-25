@@ -1,7 +1,6 @@
 package bss.model.ob;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * 

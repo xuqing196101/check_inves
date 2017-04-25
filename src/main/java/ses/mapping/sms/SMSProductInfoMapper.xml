@@ -36,7 +36,11 @@
   <sql id="Blob_Column_List" >
     INTRODUCE
   </sql>
-  
+   <!--根据id 获取 数量 -->
+   <select id="countById" parameterType="String" resultType="java.lang.Integer" >
+    select count(*) from T_SES_SMS_PRODUCT_INFO
+    where id=#{id,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -59,6 +63,13 @@
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{proudctBasicId,jdbcType=VARCHAR}, 
       #{introduce,jdbcType=CLOB})
   </insert>
+   <!--根据 产品主信息 id 查询数据 PROUDCT_BASIC_ID -->
+  <select id="selectByBasicId" parameterType="String" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List" />
+  from T_SES_SMS_PRODUCT_INFO where 
+  PROUDCT_BASIC_ID=#{proudctBasicId,jdbcType=VARCHAR}
+  </select>
+  
   <insert id="insertSelective" parameterType="ses.model.sms.SMSProductInfo" >
   	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual

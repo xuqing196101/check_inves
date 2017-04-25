@@ -1,11 +1,8 @@
 package synchro.controller;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
-import ses.service.sms.SupplierService;
+import ses.service.sms.SMSProductLibService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import synchro.inner.read.expert.InnerExpertService;
@@ -32,14 +29,11 @@ import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSpecialDateServer;
 import bss.service.ob.OBSupplierService;
-import bss.util.FileUtil;
 
 import com.github.pagehelper.PageInfo;
 
 import common.bean.ResponseBean;
-import common.utils.UploadUtil;
 
 /**
  * 
@@ -69,9 +63,6 @@ public class SynchImportController {
     /**同步 竞价定型产品**/
     @Autowired
     private OBProductService OBProductService;
-    /**竞价特殊日期**/
-    @Autowired
-    private OBSpecialDateServer OBSpecialDateServer;
     /**竞价供应商**/
     @Autowired
     private OBSupplierService OBSupplierService;
@@ -81,9 +72,9 @@ public class SynchImportController {
     /** 同步供应商数据service **/
     @Autowired
     private InnerSupplierService innerSupplierService;
-    
+    /**产品库**/
     @Autowired
-    private SupplierService supplierService;
+    private SMSProductLibService smsProductLibService;
    
     @Autowired
     private InnerExpertService innerExpertService;
@@ -190,6 +181,8 @@ public class SynchImportController {
             bean.setSuccess(false);
             return bean;
         }
+        //获取是否内网标识 1外网 0内网
+        String ipAddressType= PropUtil.getProperty("ipAddressType");
         File file = FileUtils.getImportFile();
         if(synchType.contains(Constant.DATA_TYPE_INFOS_CODE)){
             if (file != null && file.exists()){
@@ -339,7 +332,7 @@ public class SynchImportController {
                     			 }
                     			 //判断文件是否是竞价信息 附件文件
                         		 if (file2.getName().contains(FileUtils.C_OB_PROJECT_FILE_FILENAME)){
-                        			 OBProjectServer.importProjectFile(file2);
+                        			 OBProjectServer.importFile(file2);
                         		 }
                     		 }
                     	 }
@@ -377,69 +370,50 @@ public class SynchImportController {
                  }
              }
         }
-        
-       /* if(synchType.equals(Constant.DATA_TYPE_INFOS_CODE)){
-            if (file != null && file.exists()){
-                File [] files = file.listFiles();
-                for (File f : files){
-                    if (f.getName().contains(FileUtils.C_INFOS_FILENAME)){
-                        infoService.importInfos(f);
-                    }
-                    if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
-                        attachService.importAttach(f);
-                    }
-                    if (f.isDirectory()){
-                        if (f.getName().equals(Constant.ATTACH_FILE_TENDER)){
-                            OperAttachment.moveFolder(f);
-                        }
-                    }
-                }
-            }
-        }else  if(synchType.equals(Constant.DATA_TYPE_SUPPLIER_CODE)){
-        	if (file != null && file.exists()){
-                File [] files = file.listFiles();
-                if(files.length<1){
-                	bean.setSuccess(false);
-                    return bean;
-                }
-                for (File f : files){
-                    if (f.getName().contains(FileUtils.C_SUPPLIER_FILENAME)){
-                    	innerSupplierService.importSupplierInfo(f);
-                    	
-                    }
-                    if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
-                        attachService.importSupplierAttach(f);
-                    }
-                    if (f.isDirectory()){
-                        if (f.getName().equals(Constant.ATTACH_FILE_SUPPLIER)){
-                            OperAttachment.moveFolder(f);
-                        }
-                    }
-                }
-            } 
-        }else  if(synchType.equals(Constant.DATA_TYPE_EXPERT_CODE)){
-        	if (file != null && file.exists()){
-                File [] files = file.listFiles();
-                if(files.length<1){
-                	bean.setSuccess(false);
-                    return bean;
-                }
-                for (File f : files){
-                    if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)){
-                    	innerExpertService.readNewExpertInfo(f);
-                    }
-                    if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)){
-                        attachService.importExpertAttach(f);
-                    }
-                    if (f.isDirectory()){
-                        if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)){
-                            OperAttachment.moveFolder(f);
-                        }
-                    }
-                }
-            } 
-        }*/
-       
+        if(synchType.contains(Constant.SYNCH_PRODUCT_LIBRARY)){
+        	/**产品库 **/
+        	 if (file != null && file.exists()){
+                 File [] files = file.listFiles();
+                 for (File f : files){
+                	 //如果文件存在 那么删除
+                     if (f.isDirectory()){
+                    	 /**产品库管理导入   1外网 0内网**/
+                     	if(ipAddressType.equals("1")){
+                     	// 外网 只能导入  内网导出的 产品审核过的数据
+                     		if (f.getName().equals(Constant.INNER_PRODUCT_LIBRARY_EXPERT)){
+                       		 for (File file2 : f.listFiles()) {
+                       			 //判断文件名是否是  数据名称
+                       			 if (file2.getName().contains(FileUtils.C_SYNCH_INNER_PRODUCT_LIBRARY)){
+                       				 smsProductLibService.importCheckProjectData(file2);
+                       			 }
+                       		 }
+                       	 }
+                     	}else{
+                     	// 内网 只能 导入 外网 导出的 产品录入需要审核 的数据
+                     		if (f.getName().equals(Constant.OUTER_PRODUCT_LIBRARY_EXPERT)){
+                       		 for (File file2 : f.listFiles()) {
+                       			 //判断文件名是否是  数据名称
+                       			 if (file2.getName().contains(FileUtils.C_SYNCH_OUTER_PRODUCT_LIBRARY)){
+                       				smsProductLibService.importAddProjectData(file2);
+                       			 }
+                       			 //判断文件是否是  附件文件
+                           		 if (file2.getName().contains(FileUtils.C_SYNCH_OUTER_FILE_PRODUCT_LIBRARY)){
+                           			 OBProjectServer.importFile(file2);
+                           		 }
+                       		 }
+                       	 }
+                     	}
+                     if(f.getName().equals(Constant.OUTER_FILE_PRODUCT_LIBRARY_EXPERT)){
+                    	 for (File file2 : f.listFiles()) {
+                    		 if (f.isDirectory()){
+                                 OperAttachment.moveToPathFolder(file2,FileUtils.BASE_ATTCH_PATH+FileUtils.TENDER_ATTFILE_PATH);
+                    		 }
+                    	  }
+                     	}
+                     }
+                 }
+             }
+        }
         bean.setSuccess(true);
         return bean;
     }

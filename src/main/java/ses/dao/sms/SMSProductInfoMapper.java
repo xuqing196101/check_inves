@@ -16,7 +16,12 @@ public interface SMSProductInfoMapper {
     int updateByPrimaryKeyWithBLOBs(SMSProductInfo record);
 
     int updateByPrimaryKey(SMSProductInfo record);
-    
+    /**
+     * 根据id 查询 数量
+     * @param id
+     * @return
+     */
+    int countById(String id);
     /**
      * 
     * @Title: findSMSProdcutInfo 
@@ -28,4 +33,10 @@ public interface SMSProductInfoMapper {
     * @throws
      */
     SMSProductInfo findSMSProdcutInfo(String pid);
+    /**
+     * 根据 产品主信息 id 查询数据
+     * @param proudctBasicId
+     * @return
+     */
+    SMSProductInfo selectByBasicId(String proudctBasicId);
 }

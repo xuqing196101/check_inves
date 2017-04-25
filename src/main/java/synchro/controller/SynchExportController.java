@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
+import ses.service.sms.SMSProductLibService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import synchro.inner.back.service.infos.InnerInfoExportService;
@@ -26,13 +26,12 @@ import synchro.service.SynchRecordService;
 import synchro.service.SynchService;
 import synchro.util.Constant;
 
-import bss.model.ob.OBSupplier;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectServer;
-import bss.service.ob.OBSpecialDateServer;
 import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
+
 import common.bean.ResponseBean;
 
 /**
@@ -68,8 +67,8 @@ public class SynchExportController {
     @Autowired
     private OBProductService OBProductService;
     /**竞价特殊日期**/
-    @Autowired
-    private OBSpecialDateServer OBSpecialDateServer;
+   /* @Autowired
+    private OBSpecialDateServer OBSpecialDateServer;*/
     /**竞价供应商**/
     @Autowired
     private OBSupplierService OBSupplierService;
@@ -78,8 +77,9 @@ public class SynchExportController {
     private OBProjectServer OBProjectServer;
     @Autowired
     private OuterExpertService outerExpertService;
-    
-    
+     /**产品库**/
+    @Autowired
+    private SMSProductLibService smsProductLibService;
     /** 设置数据类型 **/
     private static final Integer DATA_TYPE_KIND = 29;
     
@@ -190,6 +190,8 @@ public class SynchExportController {
             bean.setSuccess(false);
             return bean;
         }
+        //获取是否内网标识 1外网 0内网
+        String ipAddressType= PropUtil.getProperty("ipAddressType");
         Date date=new Date();
         if (synchType.contains(Constant.DATA_TYPE_INFOS_CODE)){
             infoService.backUpInfos(startTime, endTime, date);
@@ -223,6 +225,16 @@ public class SynchExportController {
         if(synchType.contains(Constant.DATA_TYPE_BIDDING_RESULT_CODE)){
         	/**竞价结果导出  只能是外网导出内网**/
         	OBProjectServer.exportProjectResult(startTime, endTime, date);
+        }
+        if(synchType.contains(Constant.SYNCH_PRODUCT_LIBRARY)){
+        	/**产品库管理导出  只能是外网导出内网   1外网 0内网**/
+        	if(ipAddressType.equals("1")){
+        	//外网时 到出 产品库录入的未审核的数据  
+        	smsProductLibService.exportAddProjectData(startTime, endTime, date);
+        	}else{
+        	//内网时 导出 产品库审核的 相关数据	
+        	smsProductLibService.exportCheckProjectData(startTime, endTime, date);
+        	}
         }
         bean.setSuccess(true);
         return bean;

@@ -23,7 +23,12 @@ public interface SMSProductArgumentsMapper {
 	int updateByPrimaryKeySelective(SMSProductArguments record);
 
 	int updateByPrimaryKey(SMSProductArguments record);
-
+	 /**
+     * 根据id 查询 数量
+     * @param id
+     * @return
+     */
+    int countById(String id);
 	/**
 	 * 
 	 * @Title: addProductArgumentsBatch

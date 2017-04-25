@@ -14,6 +14,11 @@
   <sql id="Base_Column_List" >
     ID, PRODUCT_BASIC_ID, CREATED_ID, ADVICE, REMARK, CREATED_AT, UPDATED_AT, IS_DELETED
   </sql>
+   <!--根据id 获取 数量 -->
+   <select id="countById" parameterType="String" resultType="java.lang.Integer" >
+    select count(*) from T_SES_SMS_PRODUCT_CHECK_RECORD
+    where id=#{id,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -36,6 +41,62 @@
   	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
     </selectKey>
+    insert into T_SES_SMS_PRODUCT_CHECK_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="productBasicId != null" >
+        PRODUCT_BASIC_ID,
+      </if>
+      <if test="createdId != null" >
+        CREATED_ID,
+      </if>
+      <if test="advice != null" >
+        ADVICE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="productBasicId != null" >
+        #{productBasicId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdId != null" >
+        #{createdId,jdbcType=VARCHAR},
+      </if>
+      <if test="advice != null" >
+        #{advice,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert id="insertBySelective" parameterType="ses.model.sms.SMSProductCheckRecord" >
     insert into T_SES_SMS_PRODUCT_CHECK_RECORD
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -138,4 +199,12 @@
     where CR.PRODUCT_BASIC_ID = #{productBasicId,jdbcType=VARCHAR}
     AND CR.IS_DELETED = 0
   </select>
+  
+  <!-- 根据创建时间范围获取数据  -->
+   <select id="selectByCreatedAt" parameterType="String" resultMap="BaseResultMap">
+   select <include refid="Base_Column_List" />
+   from T_SES_SMS_PRODUCT_CHECK_RECORD where IS_DELETED=0 and 
+    to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+   </select>
 </mapper>

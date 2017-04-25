@@ -64,7 +64,7 @@ public class Constant {
     /**竞价结果描述**/
     public final static String OB_RESULT_COMMIT="导出竞价结果数量:";
     /**竞价结果  同步描述**/
-    public final static String OB_RESULT_COMMIT_IMPORT="导出竞价结果数量:";
+    public final static String OB_RESULT_COMMIT_IMPORT="导入竞价结果数量:";
     /** 竞价 定型产品信息描述 **/
     public final static String PRODUCT_COMMIT = "导出竞价定型产品数量:";
     /** 竞价 定型产品信息  导入描述 **/
@@ -118,4 +118,16 @@ public class Constant {
     public final static String RESULT_FILE_EXPERT = "bidding_result";
     /** 产品库 参数管理附件 **/
     public final static String PRODUCT_LIB_FILE = "PRODUCT_LIB_FILE";
+    /**产品库 管理 **/
+    public final static String SYNCH_PRODUCT_LIBRARY="SYNCH_PRODUCT_LIBRARY";
+    /** 产品库 管理  外网 导出信息描述 **/
+    public final static String OUTER_PRODUCT_LIBRARY_COMMIT = "导出产品库信息数量:";
+    /**产品库 管理 同步描述**/
+    public final static String OUTER_PRODUCT_LIBRARY_IMPORT="导入产品库信息数量:";
+    /**产品库  信息文件名称  外网**/
+    public final static String OUTER_PRODUCT_LIBRARY_EXPERT = "outer_product_library";
+    /**产品库  信息文件名称 内网 **/
+    public final static String INNER_PRODUCT_LIBRARY_EXPERT = "inner_product_library";
+    /**产品库  信息文件 附件文件**/
+    public final static String OUTER_FILE_PRODUCT_LIBRARY_EXPERT = "outer_file_product_library";
 }

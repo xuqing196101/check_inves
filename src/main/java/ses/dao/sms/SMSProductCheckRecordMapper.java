@@ -1,5 +1,9 @@
 package ses.dao.sms;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SMSProductCheckRecord;
 /**
  * 
@@ -15,13 +19,19 @@ public interface SMSProductCheckRecordMapper {
     int insert(SMSProductCheckRecord record);
 
     int insertSelective(SMSProductCheckRecord record);
+    int insertBySelective(SMSProductCheckRecord record);
 
     SMSProductCheckRecord selectByPrimaryKey(String id);
 
     int updateByPrimaryKeySelective(SMSProductCheckRecord record);
 
     int updateByPrimaryKey(SMSProductCheckRecord record);
-    
+    /**
+     * 根据id 查询 数量
+     * @param id
+     * @return
+     */
+    int countById(String id);
     /**
      * 
     * @Title: selectByProductBasicId 
@@ -33,4 +43,12 @@ public interface SMSProductCheckRecordMapper {
     * @throws
      */
     SMSProductCheckRecord selectByProductBasicId(String productBasicId);
+    /**
+     * 根据创建时间范围获取数据
+     * @param start
+     * @param end
+     * @return
+     */
+    List<SMSProductCheckRecord> selectByCreatedAt(@Param("start")String start,@Param("end")String end);
+    
 }

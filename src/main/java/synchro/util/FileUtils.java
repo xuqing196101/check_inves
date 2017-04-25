@@ -57,7 +57,12 @@ public class FileUtils {
    
     /**竞价 信息 文件路径  10 **/
     public final static String OB_PROJECT_FILE_PATH=PropUtil.getProperty("file.bidding_project_file.system.path");
-    
+    /**产品 库管理 内网 文件路径**/
+    public final static String SYNCH_INNER_PRODUCT_LIBRARY_PATH=PropUtil.getProperty("file.inner_product_library.system.path");
+    /**产品 库管理 外网 文件路径**/
+    public final static String SYNCH_OUTER_PRODUCT_LIBRARY_PATH=PropUtil.getProperty("file.outer_product_library.system.path");
+    /**产品 库管理 外网  附件文件路径**/
+    public final static String SYNCH_OUTER_FILE_PRODUCT_LIBRARY_PATH=PropUtil.getProperty("file.outer_file_product_library.system.path");
     /**竞价  #竞价定型产品目录 路径 6**/
     public final static String OB_PROJECT_PRODUCT_PATH=PropUtil.getProperty("file.bidding_product.system.path");
     /**竞价   #竞价特殊日期目录路径 7**/
@@ -113,7 +118,12 @@ public class FileUtils {
     public final static String C_OB_PROJECT_STATUS_FILENAME="_c_ob_project.dat";
     /**竞价结果文件名称**/
     public final static String C_OB_PROJECT_RESULT_FILENAME="_c_ob_project_result.dat";
-    
+    /***产品库管理 导出 名称 内网**/
+    public final static String C_SYNCH_INNER_PRODUCT_LIBRARY="_c_synch_inner_productLibrary.dat";
+    /***产品库管理 导出 数据名称 外网**/
+    public final static String C_SYNCH_OUTER_PRODUCT_LIBRARY="_c_synch_outer_productLibrary.dat";
+    /***产品库管理 导出 附件数据名称 外网**/
+    public final static String C_SYNCH_OUTER_FILE_PRODUCT_LIBRARY="_c_synch_outer_file_productLibrary.dat";
     /**
      * 
      *〈简述〉创建根目录
@@ -586,6 +596,9 @@ public class FileUtils {
           case 8 :  filePath =OB_PROJECT_SUPPLIER_PATH;break;
           case 9 :  filePath =OB_PROJECT_RESULT_PATH;break;
           case 10:  filePath=OB_PROJECT_FILE_PATH;break;
+          case 11:  filePath=SYNCH_INNER_PRODUCT_LIBRARY_PATH;break;
+          case 12:  filePath=SYNCH_OUTER_PRODUCT_LIBRARY_PATH;break;
+          case 13:  filePath=SYNCH_OUTER_FILE_PRODUCT_LIBRARY_PATH;break;
         }
         return filePath;
     }

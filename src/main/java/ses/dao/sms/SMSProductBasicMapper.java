@@ -3,6 +3,8 @@ package ses.dao.sms;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SMSProductBasic;
 /**
  * 
@@ -20,11 +22,17 @@ public interface SMSProductBasicMapper {
     int insertSelective(SMSProductBasic record);
 
     SMSProductBasic selectByPrimaryKey(String id);
+    SMSProductBasic getByPrimaryKey(String id);
 
     int updateByPrimaryKeySelective(SMSProductBasic record);
 
     int updateByPrimaryKey(SMSProductBasic record);
-    
+    /**
+     * 根据id 查询 数量
+     * @param id
+     * @return
+     */
+    int countById(String id);
     /**
      * 
     * @Title: findAllProductLibBasicInfo 
@@ -59,4 +67,10 @@ public interface SMSProductBasicMapper {
     * @throws
      */
     String vertifyUniqueSKU(String sku);
+    /**
+     * 根据时间获取相关的数据
+     * @param start
+     * @return
+     */
+    List<SMSProductBasic> selectByCreatedAt(@Param("start")String start,@Param("end")String end);
 }

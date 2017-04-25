@@ -32,6 +32,14 @@
     from T_SES_SMS_PRODUCT_BASIC
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+    <select id="getByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    id, STATUS, IS_DELETED, REMARK, CREATED_AT, UPDATED_AT
+    from T_SES_SMS_PRODUCT_BASIC
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from T_SES_SMS_PRODUCT_BASIC
     where ID = #{id,jdbcType=VARCHAR}
@@ -238,7 +246,11 @@
     </if>
     ORDER BY SP.CREATED_AT DESC
   </select>
-  
+    <!--根据id 获取 数量 -->
+   <select id="countById" parameterType="String" resultType="java.lang.Integer" >
+    select count(*) from T_SES_SMS_PRODUCT_BASIC
+    where id=#{id,jdbcType=VARCHAR}
+  </select>
   <!-- 审核 查询商品基本信息 -->
   <select id="findAllWaitCheck" parameterType="Map" resultMap="BaseResultMap" >
     SELECT 
@@ -261,4 +273,11 @@
 	  	WHERE PB.SKU=#{sku}
   </select>
   
+   <!-- 根据创建时间范围获取数据  并且有效数据 的待审核-->
+   <select id="selectByCreatedAt" parameterType="String" resultMap="BaseResultMap">
+   select <include refid="Base_Column_List" />
+   from T_SES_SMS_PRODUCT_BASIC where IS_DELETED=0 and status=1 and 
+    to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+   </select>
 </mapper>

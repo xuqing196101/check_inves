@@ -22,7 +22,7 @@ import ses.model.sms.SMSProductInfo;
 import ses.model.sms.SMSProductQueryVO;
 import ses.model.sms.SMSProductVO;
 import ses.service.bms.CategoryParameterService;
-import ses.service.sms.impl.SMSProductLibService;
+import ses.service.sms.SMSProductLibService;
 import ses.util.DictionaryDataUtil;
 import synchro.util.Constant;
 

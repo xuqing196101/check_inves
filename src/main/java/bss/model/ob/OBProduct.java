@@ -1,5 +1,6 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -15,8 +16,15 @@ import ses.model.bms.Category;
  * @date 2017年3月7日 下午6:11:25
  * 
  */
-public class OBProduct {
+public class OBProduct implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	private OBProduct obProduct;
 	private List<OBSupplier> obSupplierList;
 	private String id;

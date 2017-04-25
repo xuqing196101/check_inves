@@ -169,7 +169,7 @@ public interface OBProjectServer {
 	 * @param file
 	 * @return
 	 */
-	boolean importProjectFile(File file);
+	boolean importFile(File file);
 	/**
 	 * 导出竞价结果相关数据
 	 * @author YangHongLiang

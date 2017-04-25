@@ -12,6 +12,11 @@ import java.util.Date;
  */
 public class SMSProductCheckRecord implements Serializable{
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * 产品审核记录表ID
 	 */
     private String id;
@@ -54,8 +59,18 @@ public class SMSProductCheckRecord implements Serializable{
      * 批量审核ids
      */
     private String productBasicIds;
+    /**产品 信息 表 **/
+    private SMSProductBasic basic;
+    
+    public SMSProductBasic getBasic() {
+		return basic;
+	}
 
-    public String getId() {
+	public void setBasic(SMSProductBasic basic) {
+		this.basic = basic;
+	}
+
+	public String getId() {
         return id;
     }
 

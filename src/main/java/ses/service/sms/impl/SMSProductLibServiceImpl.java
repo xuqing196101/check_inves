@@ -1,5 +1,7 @@
 package ses.service.sms.impl;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,15 +22,23 @@ import ses.model.sms.SMSProductBasic;
 import ses.model.sms.SMSProductCheckRecord;
 import ses.model.sms.SMSProductInfo;
 import ses.model.sms.SMSProductVO;
+import ses.service.sms.SMSProductLibService;
 import ses.util.PropertiesUtil;
 import ses.util.SMSProductLibConstant;
 import ses.util.UUIDUtils;
+import synchro.service.SynchRecordService;
+import synchro.util.FileUtils;
+import synchro.util.OperAttachment;
 
+import bss.model.ob.OBProject;
+
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
+import common.service.UploadService;
 import common.utils.JdcgResult;
 
 /**
@@ -68,6 +78,15 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 
 	// 定义图片表名称
 	private String tableName = Constant.TENDER_SYS_VALUE;
+	
+	/**文件**/
+	@Autowired
+    private UploadService uploadService;
+	 /**
+     * 同步service
+     */
+    @Autowired
+    private SynchRecordService recordService;
 	/**
 	 * 
 	 * @Title: addProductLibInfo
@@ -701,6 +720,144 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		smsProductCheckRecord.setUpdatedAt(new Date());
 		// 保存审核信息
 		smsProductCheckRecordMapper.insertSelective(smsProductCheckRecord);
+	}
+    /**
+     * 实现 产品库录入的未审核的数据   外网  导出 
+     */
+	@Override
+	public boolean exportAddProjectData(String start, String end, Date synchDate) {
+		// TODO Auto-generated method stub
+		boolean boo=false;
+		List<SMSProductBasic>basic= smsProductBasicMapper.selectByCreatedAt(start,end);
+		// 定义 文件收集
+		 List<UploadFile> uploadList=new ArrayList<>();
+		 if(basic!=null && basic.size()>0){
+		 for(SMSProductBasic ba: basic){
+			 // 获取产品 详情 
+			 SMSProductInfo info= smsProductInfoMapper.selectByBasicId(ba.getId());
+			 ba.setInfo(info);
+			 if(ba.getPictureMajor()!=null){
+			  //根据主图 id 获取图片
+			 List<UploadFile> major= uploadService.findBybusinessId(ba.getPictureMajor(), Constant.TENDER_SYS_KEY);
+			 uploadList.addAll(major);
+			 }
+			 if(info!=null){
+				 if(info.getPictureSub()!=null){
+				 //根据 info 子图 id 获取图片
+				 List<UploadFile> sub= uploadService.findBybusinessId(info.getPictureSub(), Constant.TENDER_SYS_KEY);
+				 uploadList.addAll(sub);
+				 }
+				// 获取 产品 参数 详情
+				 List<SMSProductArguments> arguments=smsProductArgumentsMapper.selectByArgumentId(info.getArgumentsId());
+				 if(arguments!=null && arguments.size()>0){
+			    for (SMSProductArguments smsProductArguments : arguments) {
+			    	if(smsProductArguments.getParameterType().equals("附件")){
+			    		 if(smsProductArguments.getParameterValue()!=null){
+			    	//根据 info 子图 id 获取图片
+					 List<UploadFile> value= uploadService.findBybusinessId(smsProductArguments.getParameterValue(), Constant.TENDER_SYS_KEY);
+					 uploadList.addAll(value);
+			    		 }
+			    	}
+				}
+			    ba.setArguments(arguments);
+			    }
+			 }
+		 }
+		 FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_OUTER_PRODUCT_LIBRARY, 12),JSON.toJSONString(basic));
+		 }
+		 //同步附件
+	        if (uploadList != null && uploadList.size() > 0){
+	            FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_OUTER_FILE_PRODUCT_LIBRARY, 13),JSON.toJSONString(uploadList));
+	            String basePath = FileUtils.attachExportPath(13);
+	            if (StringUtils.isNotBlank(basePath)){
+	                OperAttachment.writeFile(basePath, uploadList);
+	                recordService.synchBidding(synchDate, new Integer(uploadList.size()).toString(), synchro.util.Constant.DATA_TYPE_ATTACH_CODE, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.CREATED_COMMIT_ATTACH);
+	            }
+	        }
+	        recordService.synchBidding(synchDate, new Integer(basic.size()).toString(), synchro.util.Constant.SYNCH_PRODUCT_LIBRARY, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.OUTER_PRODUCT_LIBRARY_COMMIT);
+		boo=true;
+		return boo;
+	}
+    /***
+     * 实现 管理员 产品库审核的 相关数据 内网
+     */
+	@Override
+	public boolean exportCheckProjectData(String start, String end,
+			Date synchDate) {
+		// TODO Auto-generated method stub
+	    boolean boo=false;
+	    List<SMSProductCheckRecord> check=smsProductCheckRecordMapper.selectByCreatedAt(start, end);
+	    if(check!=null && check.size()>0){
+	    	for (SMSProductCheckRecord smsProductCheckRecord : check) {
+	    		SMSProductBasic basic= smsProductBasicMapper.getByPrimaryKey(smsProductCheckRecord.getProductBasicId());
+	    		smsProductCheckRecord.setBasic(basic);
+			}
+	      FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_INNER_PRODUCT_LIBRARY, 11),JSON.toJSONString(check));
+	    }
+	    recordService.synchBidding(synchDate, new Integer(check.size()).toString(), synchro.util.Constant.SYNCH_PRODUCT_LIBRARY, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.OUTER_PRODUCT_LIBRARY_COMMIT);
+	    boo=true;
+		return boo;
+	}
+    /**
+     * 实现  导入产品库录入的未审核的数据
+     */
+	@Override
+	public boolean importAddProjectData(File file) {
+		// TODO Auto-generated method stub
+		boolean boo=false;
+		 List<SMSProductBasic> list = FileUtils.getBeans(file, SMSProductBasic.class); 
+		 if(list!=null && list.size()>0){
+			 for (SMSProductBasic smsProductBasic : list) {
+				int basicCount=smsProductBasicMapper.countById(smsProductBasic.getId());
+				if(basicCount==0){
+					smsProductBasicMapper.insertSelective(smsProductBasic);
+					SMSProductInfo info=smsProductBasic.getInfo();
+					if(info!=null){
+						int infoCount=smsProductInfoMapper.countById(info.getId());
+						if(infoCount==0){
+							smsProductInfoMapper.insertSelective(info);
+						}
+					}
+					List<SMSProductArguments> arguments=smsProductBasic.getArguments();
+					if(arguments!=null && arguments.size()>0){
+						for (SMSProductArguments smsProductArguments : arguments) {
+							int argumentsCount=smsProductArgumentsMapper.countById(smsProductArguments.getId());
+							if(argumentsCount==0){
+								smsProductArgumentsMapper.insertSelective(smsProductArguments);
+							}
+						}
+					}
+					
+				}
+			}
+			  recordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.SYNCH_PRODUCT_LIBRARY, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.OUTER_PRODUCT_LIBRARY_IMPORT);
+		 }
+		return boo;
+	}
+    /***
+     * 实现导入    管理员 产品库审核的 相关数据
+     */
+	@Override
+	public boolean importCheckProjectData(File file) {
+		// TODO Auto-generated method stub
+		boolean boo=false;
+		 List<SMSProductCheckRecord> list = FileUtils.getBeans(file, SMSProductCheckRecord.class); 
+		 if(list!=null && list.size()>0){
+			 for (SMSProductCheckRecord smsProductCheckRecord : list) {
+				 int count=smsProductCheckRecordMapper.countById(smsProductCheckRecord.getId());
+				if(count==0){
+					smsProductCheckRecordMapper.insertBySelective(smsProductCheckRecord);
+				}else{
+					smsProductCheckRecordMapper.updateByPrimaryKeySelective(smsProductCheckRecord);
+				}
+				SMSProductBasic basic=smsProductCheckRecord.getBasic();
+				if(basic!=null){
+					smsProductBasicMapper.updateByPrimaryKeySelective(basic);
+				}
+			}
+		 recordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.SYNCH_PRODUCT_LIBRARY, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.OUTER_PRODUCT_LIBRARY_IMPORT);
+		 }
+		return boo;
 	}
 
 	
