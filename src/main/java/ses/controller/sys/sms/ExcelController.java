@@ -58,11 +58,11 @@ public class ExcelController {
 		        				
 	        					for(String s:strs){
 	        						System.out.println(cate+"*********"+code);
-	        						String cid = engCategoryMapper.getId(cate,code);
-		        					String id = UUID.randomUUID().toString().replaceAll("-", "");
-		        					String qid = qualificationMapper.getIdByName(s);
-		        					String str="insert into  T_SES_BMS_CATEGORY_QUA (ID, QUALIFCATION_ID ,GRADE ) values ('"+id+"', '"+cid+"','"+qid+"','4')";
-		        					sb.append(str).append(";");
+//	        						String cid = engCategoryMapper.getId(cate,code);
+//		        					String id = UUID.randomUUID().toString().replaceAll("-", "");
+//		        					String qid = qualificationMapper.getIdByName(s);
+//		        					String str="insert into  T_SES_BMS_CATEGORY_QUA (ID, QUALIFCATION_ID ,GRADE ) values ('"+id+"', '"+cid+"','"+qid+"','4')";
+//		        					sb.append(str).append(";");
 		        				}
 	        				}
 	        				
