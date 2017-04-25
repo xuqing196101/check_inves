@@ -65,7 +65,8 @@
   </insert>
    <!--根据 产品主信息 id 查询数据 PROUDCT_BASIC_ID -->
   <select id="selectByBasicId" parameterType="String" resultMap="BaseResultMap">
-  select <include refid="Base_Column_List" />
+  select  <include refid="Base_Column_List" />,
+    <include refid="Blob_Column_List" />
   from T_SES_SMS_PRODUCT_INFO where 
   PROUDCT_BASIC_ID=#{proudctBasicId,jdbcType=VARCHAR}
   </select>
