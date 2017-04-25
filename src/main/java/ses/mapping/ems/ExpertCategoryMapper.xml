@@ -22,6 +22,9 @@
     <if test="param2 != null">
     and TYPE_ID = #{param2,jdbcType=VARCHAR}
     </if>
+    <if test="param3 != null">
+    and LEVELS = #{param3,jdbcType=VARCHAR}
+    </if>
   </select>
   
   <!-- 根据专家id查询品目id集合 -->

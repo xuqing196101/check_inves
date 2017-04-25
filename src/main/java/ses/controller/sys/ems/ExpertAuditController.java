@@ -701,7 +701,7 @@ public class ExpertAuditController{
         model.addAttribute("typeId", typeId);
         model.addAttribute("result", new PageInfo < > (expertItems));
         model.addAttribute("itemsList", allTreeList);
-        List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId);
+        List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId, null);
         
         model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
         model.addAttribute("resultTotal", (list == null ? 0 : list.size()));

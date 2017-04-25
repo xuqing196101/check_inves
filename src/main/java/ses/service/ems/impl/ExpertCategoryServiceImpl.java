@@ -92,7 +92,7 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
      */
 	@Override
 	public List<ExpertCategory> getListByExpertId(String expertId, String typeId) {
-		List<ExpertCategory> list = mapper.selectListByExpertId(expertId, typeId);
+		List<ExpertCategory> list = mapper.selectListByExpertId(expertId, typeId, null);
 		return list;
 	}
 	
@@ -101,14 +101,14 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	    if (pageNum != null) {
             PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
         }
-        List<ExpertCategory> list = mapper.selectListByExpertId(expertId, typeId);
+        List<ExpertCategory> list = mapper.selectListByExpertId(expertId, typeId, "1");
         return list;
     }
 	
 	@Override
-	public List<ExpertCategory> getListCount(String expertId, String typeId) {
+	public List<ExpertCategory> getListCount(String expertId, String typeId, String level) {
 		// TODO Auto-generated method stub
-		return mapper.selectListByExpertId(expertId, typeId);
+		return mapper.selectListByExpertId(expertId, typeId, level);
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	@Override
 	public List<ExpertCategory> selectListByExpertId(String expertId) {
 		// TODO Auto-generated method stub
-		return mapper.selectListByExpertId(expertId, null);
+		return mapper.selectListByExpertId(expertId, null, null);
 	}
 	
 	/**

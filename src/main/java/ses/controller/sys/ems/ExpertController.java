@@ -811,14 +811,29 @@ public class ExpertController extends BaseController {
                boolean bool = sameCategory(expertId,parentId,typeId);
                if(bool==false){
   	        	   Category category = categoryService.findById(parentId);
-  	        	   List<ExpertCategory> bySupplierIdCategoryId = expertCategoryService.getListCategory(expertId, category.getId(), typeId);
-  	        	   if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
-  	        		   map.put("categoryId", category.getId());
-  	        		   expertCategoryService.deleteByMap(map);
-  	                   parentId = category.getParentId();
-  	        	   }else{
-  	        		   break  ;
-  	        	   }
+  	        	   if(null != category){
+                       List<ExpertCategory> bySupplierIdCategoryId = expertCategoryService.getListCategory(expertId, category.getId(), typeId);
+                       if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
+                           map.put("categoryId", category.getId());
+                           expertCategoryService.deleteByMap(map);
+                           parentId = category.getParentId();
+                       }else{
+                           break  ;
+                       }
+                   }else{
+                       //如果该类型下没有子节点,删除关联的根节点
+                       String rootCategoryId = DictionaryDataUtil.getId(code);
+                       List<ExpertCategory> expertCategories = expertCategoryService.findByExpertId(expertId);
+                       if(null!=expertCategories && !expertCategories.isEmpty()){
+                           for(int i=0;i<expertCategories.size();i++){
+                               if(!StringUtils.isEmpty(rootCategoryId) && rootCategoryId.equals(expertCategories.get(i).getCategoryId())){
+                                   map.put("categoryId", rootCategoryId);
+                                   expertCategoryService.deleteByMap(map);
+                               }
+                           }
+                       }
+                       break  ;
+                   }
   	           }else{
   	        	   break  ;
   	           } 
@@ -3980,13 +3995,12 @@ public class ExpertController extends BaseController {
         if (code.equals("ENG_INFO_ID")) {
             flag = "ENG_INFO";
         }
-        // 查询已选中的节点信息
+        // 查询已选中的节点信息(所有子节点)
         List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
         for (ExpertCategory expertCategory : items) {
         	count++;
-        	System.out.println(count);
             if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
                 Category data = categoryService.findById(expertCategory.getCategoryId());
                 List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
@@ -4024,15 +4038,15 @@ public class ExpertController extends BaseController {
         }
         model.addAttribute("expertId", expertId);
         model.addAttribute("typeId", typeId);
-        model.addAttribute("result", new PageInfo < > (expertItems));
+        model.addAttribute("result", new PageInfo < > (items));
         model.addAttribute("itemsList", allTreeList);
-        List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId);
+        List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId, "1");//设置level为1是为了过滤掉父节点,只统计子节点个数
         
         model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
         model.addAttribute("resultTotal", (list == null ? 0 : list.size()));
         model.addAttribute("resultpageNum", pageNum);
         model.addAttribute("resultStartRow", (list == null ? 0 : 1));
-        model.addAttribute("resultEndRow", new PageInfo < > (expertItems).getEndRow()+1);
+        model.addAttribute("resultEndRow", new PageInfo < > (items).getEndRow()+1);
         
         
         // 如果状态为退回修改则查询没通过的字段 
