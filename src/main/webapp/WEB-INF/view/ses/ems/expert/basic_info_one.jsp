@@ -547,7 +547,7 @@
 
 				var professTechTitles = $("#professTechTitles").val();
 				if(!professTechTitles) {
-					layer.msg("请填写专家技术职称!");
+					layer.msg("请填写专业技术职称!");
 					return false;
 				}
 
