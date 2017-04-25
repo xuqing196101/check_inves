@@ -7,6 +7,7 @@
 	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/productLibManage/commons.js"></script>
 	<title>产品录入</title>
 	<script type="text/javascript">
 			//加载产品类别下拉框
@@ -33,7 +34,27 @@
 						layer.msg("格式有误");
 						$("#price").val("");
 					}
-				})
+				});
+				
+				// 校验SKU是否唯一
+				$("#sku").keyup(function(){
+					// 获取用户输入的sku
+					var sku=$("#sku").val();
+					 $.ajax({
+						    url: "${pageContext.request.contextPath }/product_lib/vartifyUniqueSKU.do",
+						    type: "POST",
+						    dataType: "json",
+						 	data: {
+						 		"sku": sku
+							},
+					    success: function(data) {
+					    	if(data.status==500){
+					    		layer.msg("SKU已存在,请重新输入");
+					    		$("#sku").val("")
+					    	}
+					    }
+			          });
+				});
 			});
 			
 			/** 判断是否为根节点 */
@@ -190,81 +211,37 @@
 			$("#err_store").html("");
 			$("#err_sku").html("");
 			$("#err_introduce").html("");
-			
+			var msg;
 			if(flag == 1){
 				// 提交时做校验
-				// 表单校验代码
-				// 类别
-				if($("#citySel4").val()==''){
-					$("#err_category").html("*请选择类别");
+				// 提交时做校验
+				if(!vertifySubmitForm()){
 					return;
 				}
-				// 类别
-				if($("#name").val()==''){
-					$("#err_name").html("*请输入名称");
-					return;
-				}
-				// 价格
-				var priceStr = $("#price").val();
-				if(priceStr==''){
-					$("#err_price").html("*请输入价格");
-					return;
-				}
-				if(isNaN(priceStr)){
-					$("#err_price").html("*格式错误");
-					return;
-				}
-				// 品牌
-				if($("#brand").val()==''){
-					$("#err_brand").html("*请输入品牌");
-					return;
-				}
-				// 型号
-				if($("#typeNum").val()==''){
-					$("#err_typeNum").html("*请输入型号");
-					return;
-				}
-				// 库存
-				var storeStr = $("#store").val();
-				if(storeStr==''){
-					$("#err_store").html("*请输入库存");
-					return;
-				}
-				if(isNaN(storeStr)){
-					$("#err_store").html("*格式错误");
-					return;
-				}
-				
-				// SKU
-				if($("#sku").val()==''){
-					$("#err_sku").html("*请输入SKU");
-					return;
-				}
-				// 商品介绍
-				var ue = UE.getEditor('introduce');
-				if(ue.getContentTxt()==''){
-					$("#err_introduce").html("*请输入商品介绍")
-					return;
-				}
-				
+				msg="您确认提交吗？";
+			}else{
+				msg="您确认要暂存吗？"
 			}
-			// 保存时不做校验
-			
-			$("#flag").val(flag);
-			// 表单提交
-			$.post("${pageContext.request.contextPath}/product_lib/addProductLibInfo.do?", $("#smsProductLibForm").serialize(), function(data) {
-				if (data.status == 200) {
-					layer.confirm("操作成功",{
-						btn:['确定']
-					},function(){
-							// 确认后加载商品信息 
-							window.location.href="${pageContext.request.contextPath}/product_lib/findAllProductLibBasicInfo.html";
-						}
-					) 
-				}
-				if(data.status == 500){
-					layer.alert(data.msg);
-				}
+			layer.confirm(msg, {
+			    btn: ['确定','取消'], //按钮
+			}, function(index){
+				// 保存时不做校验
+				$("#flag").val(flag);
+				// 表单提交
+				$.post("${pageContext.request.contextPath}/product_lib/addProductLibInfo.do?", $("#smsProductLibForm").serialize(), function(data) {
+					if (data.status == 200) {
+						layer.confirm("操作成功",{
+							btn:['确定']
+						},function(){
+								// 确认后加载商品信息 
+								window.location.href="${pageContext.request.contextPath}/product_lib/findAllProductLibBasicInfo.html";
+							}
+						) 
+					}
+					if(data.status == 500){
+						layer.alert(data.msg);
+					}
+				});
 			});
 		}
 		
@@ -412,11 +389,11 @@
 	            
             </span>
             <h2 class="count_flow" id="changeNum"><i>2</i>产品介绍信息</h2>
-    		<ul class="ul_list" id="paramter">
+    		<ul class="ul_list">
 	            <li class="col-md-12 col-sm-12 col-xs-12">
 		            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>产品介绍</span>
 		            <div class="col-md-12 col-sm-12 col-xs-12 p0">
-					 	<script id="introduce"  name="smsProductInfo.introduce" type="text/plain"></script>
+					 	<script id="introduce" name="smsProductInfo.introduce" type="text/plain"></script>
 		   			</div>
 	   				<div id="err_introduce" class="clear red"></div>
 				</li>
@@ -430,9 +407,9 @@
         </div>
       </form>
     </div>
-	<!-- 加载富文本编辑器 -->
-	<script type="text/javascript">
-	    var ue = UE.getEditor('introduce');
-	</script>
 </body>
+<!-- 加载富文本编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor('introduce');
+</script>
 </html>

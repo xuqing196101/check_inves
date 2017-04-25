@@ -183,7 +183,8 @@ public class SMSProductLibController {
 	 */
 	@RequestMapping("/deleteProductLibInfo")
 	@ResponseBody
-	public JdcgResult deleteProductLibInfo(@RequestParam(value = "idss[]") String[] idss) {
+	public JdcgResult deleteProductLibInfo(
+			@RequestParam(value = "idss[]") String[] idss) {
 		return smsProductLibService.deleteProductLibInfo(idss);
 	}
 
@@ -322,8 +323,24 @@ public class SMSProductLibController {
 		return smsProductLibService.checkProductInfo(user, productCheckRecord);
 	}
 
-	/*
-	 * @RequestMapping("/test") public String test(String aaa){
-	 * System.out.println(""); return null; }
+	/**
+	 * 
+	 * @Title: vartifyUniqueSKU
+	 * @Description: SKU唯一校验
+	 * @author Easong
+	 * @param @param sku
+	 * @param @return 设定文件
+	 * @return JdcgResult 返回类型
+	 * @throws
 	 */
+	@RequestMapping("/vartifyUniqueSKU")
+	@ResponseBody
+	public JdcgResult vartifyUniqueSKU(String sku) {
+		return smsProductLibService.vertifyUniqueSKU(sku);
+	}
+
+	@RequestMapping("/test")
+	public String test(String aaa) {
+		return null;
+	}
 }

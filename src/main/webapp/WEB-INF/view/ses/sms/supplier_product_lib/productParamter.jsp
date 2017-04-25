@@ -9,13 +9,31 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert title here</title>
-<script type="text/javascript">
-
-</script>
+	<script type="text/javascript">
+		// 产品参数的校验
+		/* var arrayObj = new Array();
+		var requireArray = new Array();
+		<c:forEach items="${ categoryParamlist }" var="argu" varStatus="vs">
+			arrayObj[${vs.index}] = '${argu.id}';
+			<c:if test="${argu.paramRequired == 1}">
+				requireArray[${vs.index}]  = '${argu.id}';
+			</c:if>
+		</c:forEach> */
+		
+		// 判断
+		/* for(var i=0;i<requireArray.length;i++){
+			if()
+		}
+		
+		function vartigyArgu(){
+			
+		} */
+		
+	</script>
 </head>
 <body>
 	<h2 class="count_flow"><i>2</i>产品参数信息</h2>
-    <ul class="ul_list" id="paramter">
+    <ul class="ul_list">
 		<c:forEach items="${ categoryParamlist }" var="categoryParam" varStatus="vs">
 	        <c:if test="${'字符' eq categoryParam.paramTypeName }">
 				<li class="col-md-3 col-sm-6 col-xs-12">
@@ -30,11 +48,11 @@
 	              	<input name="productArguments[${ vs.index }].paramName" value='${ categoryParam.paramName }' type="hidden">
 	                <input name="productArguments[${ vs.index }].categoryParameterId" value='${ categoryParam.id }' type="hidden">
 	                <input name="productArguments[${ vs.index }].parameterType" value='${ categoryParam.paramTypeName }' type="hidden">
-	                <input name="productArguments[${ vs.index }].parameterValue" value='' type="text">
+	                <input id="${ categoryParam.id }" name="productArguments[${ vs.index }].parameterValue" value='' type="text">
 	                <input name="productArguments[${ vs.index }].required" value='${ categoryParam.paramRequired }' type="hidden">
 	                <span class="add-on">i</span>
 	                <span class="input-tip">${ categoryParam.paramName }</span>
-	                <div class="cue"></div>
+	                <div class="cue" id=""></div>
 	              </div>
 	            </li>
 	        </c:if>
@@ -51,7 +69,7 @@
 	              	<input name="productArguments[${ vs.index }].paramName" value='${ categoryParam.paramName }' type="hidden">
 	                <input name="productArguments[${ vs.index }].categoryParameterId" value='${ categoryParam.id }' type="hidden">
 	                <input name="productArguments[${ vs.index }].parameterType" value='${ categoryParam.paramTypeName }' type="hidden">
-	                <input name="productArguments[${ vs.index }].parameterValue" id="productArguments[${ vs.index }].parameterValue" class="Wdate w200 mb0" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
+	                <input name="productArguments[${ vs.index }].parameterValue" id="productArguments[${ vs.index }].parameterValue" class="Wdate w200 mb0" type="text" id="${ categoryParam.id }" onfocus="WdatePicker({firstDayOfWeek:1})"/>
 	                <input name="productArguments[${ vs.index }].required" value='${ categoryParam.paramRequired }' type="hidden">
 	                <span class="add-on">i</span>
 	                <span class="input-tip">${ categoryParam.paramName }</span>
@@ -72,7 +90,7 @@
 	              	<input name="productArguments[${ vs.index }].paramName" value='${ categoryParam.paramName }' type="hidden">
 	                <input name="productArguments[${ vs.index }].categoryParameterId" value='${ categoryParam.id }' type="hidden">
 	                <input name="productArguments[${ vs.index }].parameterType" value='${ categoryParam.paramTypeName }' type="hidden">
-	                <input name="productArguments[${ vs.index }].parameterValue" value='' type="text">
+	                <input id="${ categoryParam.id }" name="productArguments[${ vs.index }].parameterValue" value='' type="text">
 	                 <input name="productArguments[${ vs.index }].required" value='${ categoryParam.paramRequired }' type="hidden">
 	                <span class="add-on">i</span>
 	                <span class="input-tip">${ categoryParam.paramName }</span>

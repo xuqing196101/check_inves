@@ -47,4 +47,16 @@ public interface SMSProductBasicMapper {
     * @throws
      */
     List<SMSProductBasic> findAllWaitCheck(Map<String, Object> map);
+    
+    /**
+     * 
+    * @Title: vartifyUniqueSKU 
+    * @Description: SKU唯一校验
+    * @author Easong
+    * @param @param sku
+    * @param @return    设定文件 
+    * @return String    返回类型 
+    * @throws
+     */
+    String vertifyUniqueSKU(String sku);
 }

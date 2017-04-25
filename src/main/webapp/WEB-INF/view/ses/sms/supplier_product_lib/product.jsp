@@ -43,19 +43,15 @@
 		<!-- 加载审核信息 -->
 		<c:if test="${ not empty productCheckRecord.advice }">
 			  <div>
-			    <h2 class="count_flow"><i>4</i>审核意见</h2>
+			  	<c:if test="${ not empty smsProductInfo.smsProductArguments }">
+			    	<h2 class="count_flow"><i>4</i>审核意见</h2>
+			    </c:if>
+			    <c:if test="${ empty smsProductInfo.smsProductArguments }">
+			    	<h2 class="count_flow"><i>3</i>审核意见</h2>
+			    </c:if>
 				<%@ include file="/WEB-INF/view/ses/sms/supplier_product_lib/check/productCheckCommon.jsp" %>
 			  </div> 
 		</c:if>
-		<%-- <c:if test="${ not empty productCheckRecord.advice }">
-		  <c:if test="${ empty smsProductInfo.smsProductArguments }">
-			  <div>
-			    <h2 class="count_flow"><i>3</i>审核意见</h2>
-				<%@ include file="/WEB-INF/view/ses/sms/supplier_product_lib/check/productCheckCommon.jsp" %>
-			  </div> 
-		  </c:if>
-		</c:if> --%>
     </div>
-
 </body>
 </html>

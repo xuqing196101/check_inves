@@ -35,4 +35,7 @@ public final class SMSProductLibConstant {
 	public static final Integer PRODUCT_LIB_ARGU_NOT_REQUIRED = 0;
 	public static final Integer PRODUCT_LIB_ARGU_REQUIRED = 1;
 	
+	/**参数类型**/
+	public static final String PRODUCT_LIB_ARGU_TYPE="附件";
+	
 }

@@ -61,7 +61,12 @@
   		</div>
   		<div>
   		<form action="" id="smsProductCheckForm" method="post">
-    		<h2 class="count_flow"><i>2</i>审核意见</h2>
+  			<c:if test="${ not empty smsProductInfo.smsProductArguments }">
+    			<h2 class="count_flow"><i>4</i>审核意见</h2>
+    		</c:if>
+  			<c:if test="${ empty smsProductInfo.smsProductArguments }">
+    			<h2 class="count_flow"><i>3</i>审核意见</h2>
+    		</c:if>
     		<input name="productBasicIds" value="${ smsProductBasic.id }" type="hidden">
     		<input id="flag" name="flag" type="hidden" value="">
     		<ul class="ul_list">

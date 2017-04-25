@@ -105,4 +105,17 @@ public interface SMSProductLibService {
 	 */
 	public JdcgResult checkProductInfo(User user,
 			SMSProductCheckRecord smsProductCheckRecord);
+	
+	
+	/**
+	 * 
+	* @Title: vartifyUniqueSKU 
+	* @Description: SKU唯一校验
+	* @author Easong
+	* @param @param sku
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	public JdcgResult vertifyUniqueSKU(String sku);
 }

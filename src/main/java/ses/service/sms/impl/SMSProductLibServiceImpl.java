@@ -25,6 +25,7 @@ import ses.util.SMSProductLibConstant;
 import ses.util.UUIDUtils;
 
 import com.github.pagehelper.PageHelper;
+
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
@@ -145,7 +146,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 			if (arguments != null) {
 				for (SMSProductArguments argument : arguments) {
 					// 如果参数是图片且不是必填写的则如果没上传则置为空
-					if ("附件".equals(argument.getParameterType())) {
+					if (SMSProductLibConstant.PRODUCT_LIB_ARGU_TYPE.equals(argument.getParameterType())) {
 						List<UploadFile> parameterValuePictureType = fileDao
 								.findBybusinessId(argument.getParameterValue(),
 										tableName);
@@ -230,7 +231,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 				// 1填写，0可以不填 required自定义字段，只做表单填写校验
 				for (SMSProductArguments argument : arguments) {
 					// 如果参数是图片且不是必填写的则如果没上传则置为空
-					if ("附件".equals(argument.getParameterType())) {
+					if (SMSProductLibConstant.PRODUCT_LIB_ARGU_TYPE.equals(argument.getParameterType())) {
 						List<UploadFile> parameterValuePictureType = fileDao
 								.findBybusinessId(argument.getParameterValue(),
 										tableName);
@@ -242,7 +243,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 					}
 					if (StringUtils.isEmpty(argument.getParameterValue())
 							&& argument.getRequired() == SMSProductLibConstant.PRODUCT_LIB_ARGU_REQUIRED) {
-						return JdcgResult.build(500, argument.getParamName()
+						return JdcgResult.build(500, "参数:" + argument.getParamName()
 								+ "不能为空");
 					}
 					argument.setArgumentsId(paramId);
@@ -420,7 +421,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 				for (SMSProductArguments argument : arguments) {
 					if (StringUtils.isEmpty(argument.getParameterValue())
 							&& argument.getRequired() == SMSProductLibConstant.PRODUCT_LIB_ARGU_REQUIRED) {
-						return JdcgResult.build(500, argument.getParamName()
+						return JdcgResult.build(500, "参数:" + argument.getParamName()
 								+ "不能为空");
 					}
 					// 修改时间
@@ -435,7 +436,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 				// 1填写，0可以不填 required自定义字段，只做表单填写校验
 				for (SMSProductArguments argument : arguments) {
 					// 如果参数是图片且不是必填写的则如果没上传则置为空
-					if ("附件".equals(argument.getParameterType())) {
+					if (SMSProductLibConstant.PRODUCT_LIB_ARGU_TYPE.equals(argument.getParameterType())) {
 						List<UploadFile> parameterValuePictureType = fileDao
 								.findBybusinessId(argument.getParameterValue(),
 										tableName);
@@ -447,7 +448,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 					}
 					if (StringUtils.isEmpty(argument.getParameterValue())
 							&& argument.getRequired() == SMSProductLibConstant.PRODUCT_LIB_ARGU_REQUIRED) {
-						return JdcgResult.build(500, argument.getParamName()
+						return JdcgResult.build(500, "参数:" + argument.getParamName()
 								+ "不能为空");
 					}
 					argument.setArgumentsId(smsProductInfo.getArgumentsId());
@@ -467,7 +468,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 			for (SMSProductArguments argument : arguments) {
 				if (StringUtils.isEmpty(argument.getParameterValue())
 						&& argument.getRequired() == SMSProductLibConstant.PRODUCT_LIB_ARGU_REQUIRED) {
-					return JdcgResult.build(500, argument.getParamName()
+					return JdcgResult.build(500, "参数:" + argument.getParamName()
 							+ "不能为空");
 				}
 				// 修改时间
@@ -522,6 +523,14 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 				return JdcgResult.build(500, "请填写商品库存");
 			}
 			// 判断用户输入的SKU是否唯一
+			if (StringUtils.isEmpty(productBasic.getSku())) {
+				return JdcgResult.build(500, "请填写SKU");
+			}
+			// 查询SKU是否已存在
+			String uniqueSKU = smsProductBasicMapper.vertifyUniqueSKU(productBasic.getSku());
+			if(uniqueSKU != null){
+				return JdcgResult.build(500, "SKU已存在，请重新输入");
+			}
 		}
 		return null;
 	}
@@ -656,6 +665,13 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 			SMSProductBasic smsProductBasic) {
 		// 修改审核状态
 		smsProductBasicMapper.updateByPrimaryKeySelective(smsProductBasic);
+		// 审核前判断该商品是否是再次审核，如果是再次审核，删除已经审核的信息，添加信息审核信息
+		SMSProductCheckRecord productCheckRecord = smsProductCheckRecordMapper.selectByProductBasicId(smsProductBasic.getId());
+		if(productCheckRecord != null){
+			// 说明是再次审核，删除之前的审核意见，加入新的审核意见
+			productCheckRecord.setIsDeleted(SMSProductLibConstant.PRODUCT_LIB_ITEM_DELETE);
+			smsProductCheckRecordMapper.updateByPrimaryKeySelective(productCheckRecord);
+		}
 		// 设置是否删除
 		smsProductCheckRecord
 				.setIsDeleted(SMSProductLibConstant.PRODUCT_LIB_ITEM_NOT_DELETE);
@@ -667,6 +683,27 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		smsProductCheckRecord.setUpdatedAt(new Date());
 		// 保存审核信息
 		smsProductCheckRecordMapper.insertSelective(smsProductCheckRecord);
+	}
+
+	
+	/**
+	 * 
+	* @Title: vartifyUniqueSKU 
+	* @Description: SKU唯一校验
+	* @author Easong
+	* @param @param sku
+	* @param @return    设定文件 
+	* @throws
+	 */
+	@Override
+	public JdcgResult vertifyUniqueSKU(String sku) {
+		String uniqueSKU = smsProductBasicMapper.vertifyUniqueSKU(sku);
+		if(uniqueSKU != null){
+			// SKU已存在
+			return JdcgResult.status(500);
+		}
+		// 不存在
+		return JdcgResult.status(200);
 	}
 
 }

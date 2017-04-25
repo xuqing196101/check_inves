@@ -7,6 +7,7 @@
 	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/productLibManage/commons.js"></script>
 	<title>产品修改</title>
 	<script type="text/javascript">
 			//加载产品类别下拉框
@@ -24,7 +25,35 @@
 					var cityOffset = $("#citySel4").offset();
 					$("#menuContent").css({}).slideDown("fast");
 					$("body").bind("mousedown", onBodyDown);
-				})
+				});
+				// 价格输入格式验证
+				$("#price").keyup(function(){
+					var price = $("#price").val();
+					if(! /^-?\d+$/.test(price) && ! /^-?\d+\.?\d{0,2}$/.test(price)){
+						layer.msg("格式有误");
+						$("#price").val("");
+					}
+				});
+				
+				// 校验SKU是否唯一
+				$("#sku").keyup(function(){
+					// 获取用户输入的sku
+					var sku=$("#sku").val();
+					 $.ajax({
+						    url: "${pageContext.request.contextPath }/product_lib/vartifyUniqueSKU.do",
+						    type: "POST",
+						    dataType: "json",
+						 	data: {
+						 		"sku": sku
+							},
+					    success: function(data) {
+					    	if(data.status==500){
+					    		layer.msg("SKU已存在,请重新输入");
+					    		$("#sku").val("")
+					    	}
+					    }
+			          });
+				});
 			});
 			
 			/** 判断是否为根节点 */
@@ -192,77 +221,30 @@
 			
 			if(flag == 1){
 				// 提交时做校验
-				// 表单校验代码
-				// 类别
-				if($("#citySel4").val()==''){
-					$("#err_category").html("*请选择类别");
+				if(!vertifySubmitForm()){
 					return;
 				}
-				// 类别
-				if($("#name").val()==''){
-					$("#err_name").html("*请输入名称");
-					return;
-				}
-				// 价格
-				var priceStr = $("#price").val();
-				if(priceStr==''){
-					$("#err_price").html("*请输入价格");
-					return;
-				}
-				if(isNaN(priceStr)){
-					$("#err_price").html("*格式错误");
-					return;
-				}
-				// 品牌
-				if($("#brand").val()==''){
-					$("#err_brand").html("*请输入品牌");
-					return;
-				}
-				// 型号
-				if($("#typeNum").val()==''){
-					$("#err_typeNum").html("*请输入型号");
-					return;
-				}
-				// 库存
-				var storeStr = $("#store").val();
-				if(storeStr==''){
-					$("#err_store").html("*请输入库存");
-					return;
-				}
-				if(isNaN(storeStr)){
-					$("#err_store").html("*格式错误");
-					return;
-				}
-				
-				// SKU
-				if($("#sku").val()==''){
-					$("#err_sku").html("*请输入SKU");
-					return;
-				}
-				// 商品介绍
-				var ue = UE.getEditor('introduce');
-				if(ue.getContentTxt()==''){
-					$("#err_introduce").html("*请输入商品介绍")
-					return;
-				}
-				
 			}
 			
-			$("#flag").val(flag);
-			// 表单提交
-			$.post("${pageContext.request.contextPath}/product_lib/updateSignalProductInfo.do", $("#smsProductLibForm").serialize(), function(data) {
-				if (data.status == 200) {
-					layer.confirm("修改成功",{
-						btn:['确定']
-					},function(){
-							// 确认后加载商品信息 
-							window.location.href="${pageContext.request.contextPath}/product_lib/findAllProductLibBasicInfo.html";
-						}
-					) 
-				}
-				if(data.status == 500){
-					layer.alert(data.msg);
-				}
+			layer.confirm("您确认修改吗？", {
+			    btn: ['确定','取消'], //按钮
+			}, function(index){
+				$("#flag").val(flag);
+				// 表单提交
+				$.post("${pageContext.request.contextPath}/product_lib/updateSignalProductInfo.do", $("#smsProductLibForm").serialize(), function(data) {
+					if (data.status == 200) {
+						layer.confirm("修改成功",{
+							btn:['确定']
+						},function(){
+								// 确认后加载商品信息 
+								window.location.href="${pageContext.request.contextPath}/product_lib/findAllProductLibBasicInfo.html";
+							}
+						) 
+					}
+					if(data.status == 500){
+						layer.alert(data.msg);
+					}
+				});
 			});
 		}
 	
@@ -373,7 +355,12 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>SKU：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="sku" name="productBasic.sku" value='${smsProductBasic.sku}' type="text" />
+              	<c:if test="${not empty smsProductBasic.sku}">
+	                <input id="sku" name="productBasic.sku" value='${smsProductBasic.sku}' type="text" readonly="readonly"/>
+              	</c:if>
+              	<c:if test="${empty smsProductBasic.sku}">
+	                <input id="sku" name="productBasic.sku" value='${smsProductBasic.sku}' type="text" />
+              	</c:if>
                 <span class="add-on">i</span>
                 <span class="input-tip">SKU</span>
                 <div class="cue" id="err_sku"></div>
@@ -385,7 +372,7 @@
 	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 	              <input name="productBasic.pictureMajor" type="hidden" value="${ smsProductBasic.pictureMajor }">
 	              <u:upload id="param_picture${ vs.index }" businessId="${ smsProductBasic.pictureMajor }" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="附件上传" auto="true"/>
-	              <u:show showId="major_picture" businessId="${ smsProductBasic.pictureMajor }" sysKey="${sysKey}" typeId="${typeId }" delete="false" />
+	              <u:show showId="major_picture" businessId="${ smsProductBasic.pictureMajor }" sysKey="${sysKey}" typeId="${typeId }" />
 	            </div>
             </li>
             
@@ -394,7 +381,7 @@
 	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 >
 	              <input name="smsProductInfo.pictureSub" type="hidden" value="${ smsProductInfo.pictureSub }">
 	              <u:upload id="sub__picture" businessId="${ smsProductInfo.pictureSub }" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="附件上传" auto="true"/>
-	              <u:show showId="sub__picture" businessId="${ smsProductInfo.pictureSub }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
+	              <u:show showId="sub__picture" businessId="${ smsProductInfo.pictureSub }" sysKey="${ sysKey }" typeId="${typeId }" />
 	            </div>
             </li>
             
@@ -420,11 +407,11 @@
             
             <c:if test="${not empty smsProductInfo.smsProductArguments }">
 	            <h2 class="count_flow" id="changeNum"><i>3</i>产品介绍信息</h2>
-	    		<ul class="ul_list" id="paramter">
+	    		<ul class="ul_list">
 		            <li class="col-md-12 col-sm-12 col-xs-12">
 			            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>产品介绍</span>
 			            <div class="col-md-12 col-sm-12 col-xs-12 p0">
-						 	<script id="introduce"  name="smsProductInfo.introduce" type="text/plain"></script>
+						 	<script id="introduce" name="smsProductInfo.introduce" type="text/plain"></script>
 			   			</div>
 		   				<div id="err_introduce" class="clear red"></div>
 					</li>
@@ -444,7 +431,7 @@
 			</c:if>
 			
           <div class="col-md-12 col-sm-12 col-xs-12 tc mt20">
-            <button class="btn btn-windows save" type="button" onclick="submitForm(1)">提交</button>
+            <button class="btn btn-windows save" type="button" onclick="submitForm(1)">修改</button>
             <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
           </div>
         </div>

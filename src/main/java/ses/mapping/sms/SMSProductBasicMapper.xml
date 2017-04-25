@@ -254,4 +254,11 @@
     ORDER BY B.CREATED_AT DESC
   </select>
   
+  <!-- SKU唯一校验 -->
+  <select id="vertifyUniqueSKU" resultType="java.lang.String" parameterType="java.lang.String">
+  	SELECT PB.SKU 
+	  	FROM T_SES_SMS_PRODUCT_BASIC PB 
+	  	WHERE PB.SKU=#{sku}
+  </select>
+  
 </mapper>
