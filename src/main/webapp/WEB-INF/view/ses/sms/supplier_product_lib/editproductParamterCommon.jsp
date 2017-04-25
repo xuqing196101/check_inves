@@ -16,6 +16,7 @@
 	                <input name="productArguments[${ vs.index }].id" value='${ categoryParam.id }' type="hidden" />
 	                <input name="productArguments[${ vs.index }].paramName" value='${ categoryParam.categoryParameter.paramName }' type="hidden"/>
 	                <input name="productArguments[${ vs.index }].parameterValue" value='${ categoryParam.parameterValue }' type="text" />
+	                <input name="productArguments[${ vs.index }].parameterType" type="hidden" value="${ categoryParam.parameterType }">
 	                <input name="productArguments[${ vs.index }].required" value='${ categoryParam.categoryParameter.paramRequired }' type="hidden" />
 	                <span class="add-on">i</span>
 	                <span class="input-tip">${ categoryParam.categoryParameter.paramName }</span>
@@ -36,6 +37,7 @@
 	                <input name="productArguments[${ vs.index }].id" value='${ categoryParam.id }' type="hidden">
 	                <input name="productArguments[${ vs.index }].paramName" value='${ categoryParam.categoryParameter.paramName }' type="hidden"/>
 	              	<input class="Wdate w200 mb0" value="<fmt:formatDate value="${ categoryParam.parameterValue }" pattern="yyyy-MM-dd"/>" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
+	              	<input name="productArguments[${ vs.index }].parameterType" type="hidden" value="${ categoryParam.parameterType }">
 	                <input name="productArguments[${ vs.index }].required" value='${ categoryParam.categoryParameter.paramRequired }' type="hidden">
 	                <span class="add-on">i</span>
 	                <span class="input-tip">${ categoryParam.categoryParameter.paramName }</span>
@@ -56,6 +58,7 @@
 	              	<input name="productArguments[${ vs.index }].id" value='${ categoryParam.id }' type="hidden" />
 	              	<input name="productArguments[${ vs.index }].paramName" value='${ categoryParam.categoryParameter.paramName }' type="hidden"/>
 	                <input name="productArguments[${ vs.index }].parameterValue" value='${ categoryParam.parameterValue }' type="text" />
+	                <input name="productArguments[${ vs.index }].parameterType" type="hidden" value="${ categoryParam.parameterType }">
 	                <input name="productArguments[${ vs.index }].required" value='${ categoryParam.categoryParameter.paramRequired }' type="hidden">
 	                <input value='${ categoryParam.parameterValue }' type="text" />
 	                <span class="add-on">i</span>
@@ -76,6 +79,7 @@
 	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 " >
 	                <input name="productArguments[${ vs.index }].paramName" value='${ categoryParam.categoryParameter.paramName }' type="hidden"/>
 	              	<input name="productArguments[${ vs.index }].parameterValue" type="hidden" value="${ categoryParam.parameterValue }">
+	              	<input name="productArguments[${ vs.index }].parameterType" type="hidden" value="${ categoryParam.parameterType }">
 	              	<input name="productArguments[${ vs.index }].id" value='${ categoryParam.id }' type="hidden" />
 	                <input name="productArguments[${ vs.index }].required" value='${ categoryParam.categoryParameter.paramRequired }' type="hidden">
 	                <u:upload id="param_picture${ vs.index }" businessId="${ categoryParam.parameterValue }" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="附件上传" auto="true"/>

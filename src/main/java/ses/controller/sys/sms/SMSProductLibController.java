@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +25,6 @@ import ses.util.DictionaryDataUtil;
 import synchro.util.Constant;
 
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.utils.JdcgResult;
 
@@ -335,8 +332,8 @@ public class SMSProductLibController {
 	 */
 	@RequestMapping("/vartifyUniqueSKU")
 	@ResponseBody
-	public JdcgResult vartifyUniqueSKU(String sku) {
-		return smsProductLibService.vertifyUniqueSKU(sku);
+	public JdcgResult vartifyUniqueSKU(String sku, String pid) {
+		return smsProductLibService.vertifyUniqueSKU(sku, pid);
 	}
 
 	@RequestMapping("/test")
