@@ -520,6 +520,11 @@ public class SupplierController extends BaseSupplierController {
 		}
 		for(PurchaseDep purchaseDep: list) {
 		    if (purchaseDep.getIsAuditSupplier() == 1) {
+                Area pro = areaService.listById(purchaseDep.getProvinceId());
+                Area city = areaService.listById(purchaseDep.getCityId());
+                if(pro != null && city != null) {
+                    purchaseDep.setAddress(pro.getName() + city.getName());
+                }
 		        purList.add(purchaseDep);
 		    }
 		}
@@ -1035,6 +1040,11 @@ public class SupplierController extends BaseSupplierController {
 			}
 			for(PurchaseDep purchaseDep: list) {
 			    if (purchaseDep.getIsAuditSupplier() == 1) {
+                    Area pro = areaService.listById(purchaseDep.getProvinceId());
+                    Area city = areaService.listById(purchaseDep.getCityId());
+                    if(pro != null && city != null) {
+                        purchaseDep.setAddress(pro.getName() + city.getName());
+                    }
 			        purList.add(purchaseDep);
 			    }
 			}
@@ -1126,6 +1136,11 @@ public class SupplierController extends BaseSupplierController {
 			}
 			for(PurchaseDep purchaseDep: list) {
 			    if (purchaseDep.getIsAuditSupplier() == 1) {
+                    Area pro = areaService.listById(purchaseDep.getProvinceId());
+                    Area city = areaService.listById(purchaseDep.getCityId());
+                    if(pro != null && city != null) {
+                        purchaseDep.setAddress(pro.getName() + city.getName());
+                    }
 			        purList.add(purchaseDep);
 			    }
 			}
