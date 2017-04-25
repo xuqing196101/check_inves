@@ -50,11 +50,13 @@ import bss.dao.pms.PurchaseRequiredMapper;
 import bss.formbean.AuditParamBean;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.AuditParam;
+import bss.model.pms.AuditPerson;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.AuditParameService;
+import bss.service.pms.AuditPersonService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseAuditService;
@@ -133,6 +135,8 @@ public class PlanLookController extends BaseController {
 	@Autowired
 	private PurchaseManagementService purchaseManagementService;
 	
+	@Autowired
+	private AuditPersonService auditPersonService;
 	/**
 	 * 
 	 * 
@@ -445,7 +449,7 @@ public class PlanLookController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/audit")
-	public String audit(PurchaseRequiredFormBean list,CollectPlan collectPlan){
+	public String audit(PurchaseRequiredFormBean list,CollectPlan collectPlan,@CurrentUser User user){
 		if(list!=null){
 			if(list.getListDetail()!=null&&list.getListDetail().size()>0){
 				for(PurchaseDetail p:list.getListDetail()){
@@ -455,6 +459,13 @@ public class PlanLookController extends BaseController {
 				}
 			}
 		}
+		List<AuditPerson> person = auditPersonService.queryByUserIdAndCid(user.getId(), collectPlan.getId());
+		if(person!=null&&person.size()>0){
+			AuditPerson auditPerson = person.get(0);
+			auditPerson.setCreateDate(new Date());
+			auditPersonService.updateByPrimaryKeySelective(auditPerson);
+		}
+		
 //		Map<String,Object> map=new HashMap<String,Object>();
 //		if(list!=null){
 //			if(list.getList()!=null){

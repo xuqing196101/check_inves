@@ -51,4 +51,16 @@ public class AuditPersonServiceImpl implements AuditPersonService{
         return auditPersonMapper.selectByMap(map);
     }
 
+	@Override
+	public List<AuditPerson> queryByUserIdAndCid(String userId, String collectId) {
+		// TODO Auto-generated method stub
+		return auditPersonMapper.queryByUserIdAndCid(userId, collectId);
+	}
+
+	@Override
+	public void updateByPrimaryKeySelective(AuditPerson record) {
+		 
+		auditPersonMapper.updateByPrimaryKeySelective(record);
+	}
+
 }

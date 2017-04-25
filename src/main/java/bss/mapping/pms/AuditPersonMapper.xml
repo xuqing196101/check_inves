@@ -112,7 +112,7 @@
         #{duty,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null">
-        #{createDate,jdbcType=VARCHAR},
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -150,7 +150,7 @@
         DUTY = #{duty,jdbcType=VARCHAR},
       </if>
        <if test="createDate != null">
-        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+        CREATE_DATE = #{createDate},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -203,5 +203,23 @@
     </if>
     ORDER BY CREATE_DATE ASC
   </select>
+  
+  
+  
+   <select id="queryByUserIdAndCid" resultMap="AuditPerson_Map">
+    SELECT 
+    <include refid="Base_Column_List" />
+    from T_BSS_PMS_AUDIT_PERSON
+    where 1=1
+    <if test="collectId != null">
+     and COLLECT_ID = #{collectId} 
+    </if>
+    <if test="userId != null">
+    AND USER_ID = #{userId}
+    </if>
+    ORDER BY CREATE_DATE ASC
+  </select>
+  
+  
   
 </mapper>

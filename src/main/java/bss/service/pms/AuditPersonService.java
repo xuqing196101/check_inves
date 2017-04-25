@@ -3,6 +3,8 @@ package bss.service.pms;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import bss.model.pms.AuditPerson;
 
 /**
@@ -58,4 +60,20 @@ public interface AuditPersonService {
 	 * @return
 	 */
 	List<AuditPerson> selectByMap(HashMap<String,Object> map);
+	
+	
+	/**
+	 * 
+	* @Title: queryByUserIdAndCid
+	* @Description: 根据userid和计划id查询对应的审核人
+	* author: Li Xiaoxiao 
+	* @param @param userId
+	* @param @param collectId
+	* @param @return     
+	* @return List<AuditPerson>     
+	* @throws
+	 */
+	List<AuditPerson> queryByUserIdAndCid(String userId,String collectId);
+	
+    public void updateByPrimaryKeySelective(AuditPerson record);
 }
