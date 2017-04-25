@@ -280,14 +280,15 @@ public class OutproductConController extends BaseSupplierController {
 	}
 	
 	@RequestMapping("/userUpdate")
-	public String userUpdate(Model model,OutproductConList OutproductConList,HttpServletRequest request){
+	public String userUpdate(Model model,TrialPriceBean listOutPro,HttpServletRequest request){
 		String proID = request.getParameter("productId");
-		List<OutproductCon> outproductCons = OutproductConList.getOutproductCons();
-		if(outproductCons!=null){
-			for (OutproductCon outproductCon : outproductCons) {
-				outproductCon.setUpdatedAt(new Date());
-				outproductConService.update(outproductCon);
-			}
+		List<OutproductCon> listOutproductCon=listOutPro.getListOutPro();
+		for(OutproductCon outproductCon:listOutproductCon){
+				if(outproductCon.getId()!=null){
+					outproductCon.setUpdatedAt(new Date());
+					outproductConService.update(outproductCon);
+				}
+			
 		}
 		model.addAttribute("proId",proID);
 		return "redirect:/outsourcingCon/userGetAll.html?productId="+proID;
@@ -308,14 +309,15 @@ public class OutproductConController extends BaseSupplierController {
 	}
 	
 	@RequestMapping("/userUpdateCheck")
-	public String userUpdateCheck(Model model,OutproductConList OutproductConList,HttpServletRequest request){
+	public String userUpdateCheck(Model model,TrialPriceBean listOutPro,HttpServletRequest request){
 		String proID = request.getParameter("productId");
-		List<OutproductCon> outproductCons = OutproductConList.getOutproductCons();
-		if(outproductCons!=null){	
-			for (OutproductCon outproductCon : outproductCons) {
-				outproductCon.setUpdatedAt(new Date());
-				outproductConService.update(outproductCon);
-			}
+		List<OutproductCon> listOutproductCon=listOutPro.getListOutPro();
+		for(OutproductCon outproductCon:listOutproductCon){
+				if(outproductCon.getId()!=null){
+					outproductCon.setUpdatedAt(new Date());
+					outproductConService.update(outproductCon);
+				}
+			
 		}
 		model.addAttribute("proId",proID);
 		return "redirect:/outsourcingCon/userGetAllCheck.html?productId="+proID;

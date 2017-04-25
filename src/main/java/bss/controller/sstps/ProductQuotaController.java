@@ -21,6 +21,7 @@ import bss.model.sstps.ContractProduct;
 import bss.model.sstps.PeriodCost;
 import bss.model.sstps.ProductQuota;
 import bss.model.sstps.TrialPriceBean;
+import bss.service.sstps.ComCostDisService;
 import bss.service.sstps.ComprehensiveCostService;
 import bss.model.sstps.ProductQuotaList;
 import bss.service.sstps.ProductQuotaService;
@@ -35,6 +36,10 @@ public class ProductQuotaController extends BaseSupplierController {
 	
 	@Autowired
 	private ComprehensiveCostService comprehensiveCostService;
+	
+	@Autowired
+	private ComCostDisService comCostDisService;
+	
 	
 	/**
 	* @Title: select
@@ -274,14 +279,17 @@ public class ProductQuotaController extends BaseSupplierController {
 	}
 	
 	@RequestMapping("/userUpdate")
-	public String userUpdate(Model model,ProductQuotaList ProductQuotaList,String productId){
-		List<ProductQuota> ProductQuotas = ProductQuotaList.getProductQuotaList();
-		if(ProductQuotas!=null){
-			for (ProductQuota productQuota : ProductQuotas) {
-				productQuota.setUpdatedAt(new Date());
-				productQuotaService.update(productQuota);
-			}
+	public String userUpdate(Model model,TrialPriceBean listPro,String productId){
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		List<ProductQuota> listProductQuota = listPro.getListPro();
+		for(ProductQuota productQuota:listProductQuota){
+				if(productQuota.getId()!=null){
+					productQuota.setUpdatedAt(new Date());
+					productQuotaService.update(productQuota);
+				}
 		}
+		comCostDisService.appendSumApprovedComCostDis(contractProduct);
 		model.addAttribute("proId",productId);
 		return "redirect:/comCostDis/userGetAll.html?productId="+productId;
 	}
@@ -299,14 +307,17 @@ public class ProductQuotaController extends BaseSupplierController {
 	}
 	
 	@RequestMapping("/userUpdateCheck")
-	public String userUpdateCheck(Model model,ProductQuotaList ProductQuotaList,String productId){
-		List<ProductQuota> ProductQuotas = ProductQuotaList.getProductQuotaList();
-		if(ProductQuotas!=null){
-			for (ProductQuota productQuota : ProductQuotas) {
-				productQuota.setUpdatedAt(new Date());
-				productQuotaService.update(productQuota);
-			}
+	public String userUpdateCheck(Model model,TrialPriceBean listPro,String productId){
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		List<ProductQuota> listProductQuota = listPro.getListPro();
+		for(ProductQuota productQuota:listProductQuota){
+				if(productQuota.getId()!=null){
+					productQuota.setUpdatedAt(new Date());
+					productQuotaService.update(productQuota);
+				}
 		}
+		comCostDisService.appendSumCheckComCostDis(contractProduct);
 		model.addAttribute("proId",productId);
 		return "redirect:/comCostDis/userGetAllCheck.html?productId="+productId;
 	}

@@ -40,7 +40,7 @@
    where PRODUCT_ID = #{contractProduct.id} order by CREATED_AT
   </select>
   
-  <select id="selectProductIdAndName"  parameterType="Map" resultMap="ComprehensiveCostMap">
+  <select id="selectProductIdAndName" flushCache="true"  parameterType="Map" resultMap="ComprehensiveCostMap">
     select 
     <include refid="Base_Column_List" />
    from T_BSS_SSTPS_COMPREHENSIVE_COST

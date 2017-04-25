@@ -51,7 +51,7 @@ function onStep(){
 						<th colspan="2" class="info">报价前1年</th>
 						<th colspan="2" class="info">报价当年</th>
 						<th colspan="2" class="info">审核核准数</th>
-						<th colspan="2" class="info">复审核准数</th>
+						<!-- <th colspan="2" class="info">复审核准数</th> -->
 						<th rowspan="2" class="info">备   注</th>
 					</tr>
 					<tr>
@@ -63,8 +63,8 @@ function onStep(){
 						<th class="info">费用率(元/小时)</th>
 						<th class="info">发生额</th>
 						<th class="info">费用率(元/小时)</th>
-						<th class="info">发生额</th>
-						<th class="info">费用率(元/小时)</th>
+						<!-- <th class="info">发生额</th>
+						<th class="info">费用率(元/小时)</th> -->
 					</tr>
 				</thead>
 				
@@ -88,8 +88,8 @@ function onStep(){
 						<td class="tc">${ccd.newFee }</td>
 						<td class="tc">${ccd.subtractWentDutch }</td>
 						<td class="tc">${ccd.subtractFee }</td>
-						<td class="tc"><input type="text" name="plccd[${(vs.index)}].checkWentDutch" value="${ccd.checkWentDutch }" class="border0 mb0"/></td>
-						<td class="tc"><input type="text" name="plccd[${(vs.index)}].checkFee" value="${ccd.checkFee }" class="border0 mb0"/></td>
+						<%-- <td class="tc"><input type="text" name="plccd[${(vs.index)}].checkWentDutch" value="${ccd.checkWentDutch }" class="border0 mb0 w80"/></td>
+						<td class="tc"><input type="text" name="plccd[${(vs.index)}].checkFee" value="${ccd.checkFee }" class="border0 mb0 w80"/></td> --%>
 						<td class="tc">${ccd.remark }</td>
 					</tr>
 					</c:if>
@@ -111,28 +111,28 @@ function onStep(){
 						<th class="info">报价前1年</th>
 						<th class="info">报价当年</th>
 						<th class="info">审核核准数</th>
-						<th class="info">复审核准数</th>
+						<!-- <th class="info">复审核准数</th> -->
 						<th class="info">备   注</th>
 					</tr>
 				</thead>
 				
-				<input type="hidden" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
+				<input type="hidden" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly/>
 				<tbody>
 				<c:forEach items="${list}" var="ccd" varStatus="vss">
 				<c:if test="${ccd.status==1 }">
 					<tr>
-						<td class="tc" class="w30">
+						<td class="tc" class="w50">
 							<input type="hidden" name="plccd[${(vss.index)}].id" value="${ccd.id }"/>
 							<input type="hidden" name="plccd[${(vss.index)}].status" value="${ccd.status }"  />
 							${vss.index+1 }
 						</td>
-						<td class="tc">${ccd.projectName }</td>
-						<td class="tc">${ccd.tyaActual }</td>
-						<td class="tc">${ccd.oyaActual }</td>
-						<td class="tc">${ccd.newActual }</td>
-						<td class="tc">${ccd.subtractActual }</td>
-						<td class="tc"><input type="text" name="plccd[${(vss.index)}].checkActual" value="${ccd.checkActual }" class="border0 mb0"/></td>
-						<td class="tc">${ccd.remark }</td>
+						<td class="tc w280">${ccd.projectName }</td>
+						<td class="tc w100">${ccd.tyaActual }</td>
+						<td class="tc w100">${ccd.oyaActual }</td>
+						<td class="tc w100">${ccd.newActual }</td>
+						<td class="tc w100">${ccd.subtractActual }</td>
+						<%-- <td class="tc w100"><input type="text" name="plccd[${(vss.index)}].checkActual" value="${ccd.checkActual }" class="border0 mb0 w80"/></td> --%>
+						<td class="tc w280">${ccd.remark }</td>
 					</tr>
 					</c:if>
 				</c:forEach>

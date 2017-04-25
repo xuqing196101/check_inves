@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bss.dao.sstps.AccessoriesConMapper;
+import bss.dao.sstps.AuditOpinionMapper;
 import bss.dao.sstps.ComCostDisMapper;
 import bss.dao.sstps.ComprehensiveCostMapper;
 import bss.dao.sstps.OutproductConMapper;
@@ -15,6 +16,7 @@ import bss.dao.sstps.OutsourcingConMapper;
 import bss.dao.sstps.ProductQuotaMapper;
 import bss.dao.sstps.SpecialCostMapper;
 import bss.model.sstps.AccessoriesCon;
+import bss.model.sstps.AuditOpinion;
 import bss.model.sstps.ComCostDis;
 import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
@@ -22,6 +24,7 @@ import bss.model.sstps.OutproductCon;
 import bss.model.sstps.OutsourcingCon;
 import bss.model.sstps.ProductQuota;
 import bss.model.sstps.SpecialCost;
+import bss.service.sstps.AuditOpinionService;
 import bss.service.sstps.ComprehensiveCostService;
 
 @Service("/comprehensiveCostService")
@@ -42,6 +45,8 @@ public class ComprehensiveCostServiceImpl implements ComprehensiveCostService {
 	private OutsourcingConMapper outsourcingConMapper;
 	@Autowired
 	private SpecialCostMapper specialCostMapper;
+	@Autowired
+	private AuditOpinionMapper auditOpinionMapper;
 
 	@Override
 	public void insert(ComprehensiveCost comprehensiveCost) {
@@ -65,7 +70,6 @@ public class ComprehensiveCostServiceImpl implements ComprehensiveCostService {
 
 	@Override
 	public void appendSumComprehensiveCost(ContractProduct contractProduct) {
-		ComprehensiveCost comprehensiveCost = null;
 		BigDecimal subtotalOffer = new BigDecimal(0);// 本产品定额工时
 		BigDecimal oyaFeeRg = new BigDecimal(0);// 工时及分配率、直接人工
 		BigDecimal oyaFeeRl = new BigDecimal(0);// 工时及分配率、燃料动力
@@ -651,7 +655,441 @@ public class ComprehensiveCostServiceImpl implements ComprehensiveCostService {
 		comprehensiveCostMapper.update(comprehensiveCost);
 	}
 
-	public void updateComprehensiveCost() {
-
+	@Override
+	public void appendSumApprovedComprehensiveCost(
+			ContractProduct contractProduct) {
+		BigDecimal addit = new BigDecimal(0);// 本产品定额工时
+		BigDecimal additRg = new BigDecimal(0);// 工时及分配率、直接人工
+		BigDecimal additRl = new BigDecimal(0);// 工时及分配率、燃料动力
+		BigDecimal additZz = new BigDecimal(0);// 工时及分配率、制造费用
+		BigDecimal additQj = new BigDecimal(0);// 工时及分配率、期间费用
+		BigDecimal additHj = new BigDecimal(0);// 工时及分配率、工时分配率合计
+		BigDecimal additScYf = new BigDecimal(0);// 生产成本、原辅材料
+		BigDecimal additScWg = new BigDecimal(0);// 生产成本、外购成件
+		BigDecimal additScWx = new BigDecimal(0);// 生产成本、外协成件
+		BigDecimal additScRl = new BigDecimal(0);// 生产成本、燃料动力
+		BigDecimal additScRg = new BigDecimal(0);// 生产成本、直接人工
+		BigDecimal additScZy = new BigDecimal(0);// 生产成本、专用费用
+		BigDecimal additScZz = new BigDecimal(0);// 生产成本、制造费用
+		BigDecimal additScXj = new BigDecimal(0);// 生产成本、小计
+		BigDecimal additQjGl = new BigDecimal(0);// 期间费用、管理费用
+		BigDecimal additQjCw = new BigDecimal(0);// 期间费用、财务费用
+		BigDecimal additQjXs = new BigDecimal(0);// 期间费用、销售费用
+		BigDecimal additQjXj = new BigDecimal(0);// 期间费用、小计
+		BigDecimal additJGCb = new BigDecimal(0);// 价格方案、成本
+		BigDecimal additJGLr = new BigDecimal(0);// 价格方案、利润
+		BigDecimal additJGSj = new BigDecimal(0);// 价格方案、税金
+		BigDecimal additJGJg = new BigDecimal(0);// 价格方案、价格
+		ComprehensiveCost comprehensiveCost=null;
+		HashMap<String, Object> map=null;
+		List<ComprehensiveCost> cc=null;
+		// 本产品定额工时
+		map= new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "本产品定额工时");
+		map.put("parentName", "工时及分配率");
+		cc = comprehensiveCostMapper
+				.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			List<ProductQuota> pq = productQuotaMapper
+					.selectProductIdSum(contractProduct.getId());
+			if(pq!=null&&pq.size()>0&&pq.get(0)!=null){
+				addit=pq.get(0).getApprovedRatify();
+				if(addit!=null){
+					addit=new BigDecimal(addit+"");
+				}else{
+					addit=new BigDecimal(0);
+				}
+			}
+			updateComprehensiveCostAddit(addit, cc);
+		}
+		// 工时及分配率、直接人工
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "直接人工");
+		map.put("parentName", "工时及分配率");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			map = new HashMap<String, Object>();
+			map.put("id", contractProduct.getId());
+			map.put("name", "直接人工费");
+			List<ComCostDis> ccd = comCostDisMapper.selectProductIdAndName(map);
+			if (ccd != null && ccd.size() > 0) {
+				additRg=ccd.get(0).getSubtractFee();
+				if(additRg!=null){
+					additRg=new BigDecimal(additRg+"");
+				}else{
+					additRg=new BigDecimal(0);
+				}
+			}
+			updateComprehensiveCostAddit(additRg, cc);
+		}
+		// 工时及分配率、燃料动力
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "燃料动力");
+		map.put("parentName", "工时及分配率");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			map = new HashMap<String, Object>();
+			map.put("id", contractProduct.getId());
+			map.put("name", "燃料动力费");
+			List<ComCostDis> ccd = comCostDisMapper.selectProductIdAndName(map);
+			if (ccd != null && ccd.size() > 0) {
+				additRl=ccd.get(0).getSubtractFee();
+				if(additRl!=null){
+					additRl=new BigDecimal(additRl+"");
+				}else{
+					additRl=new BigDecimal(0);
+				}
+			}
+			updateComprehensiveCostAddit(additRl, cc);
+		}
+		// 工时及分配率、制造费用
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "制造费用");
+		map.put("parentName", "工时及分配率");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			map = new HashMap<String, Object>();
+			map.put("id", contractProduct.getId());
+			map.put("name", "制造费用");
+			List<ComCostDis> ccd = comCostDisMapper.selectProductIdAndName(map);
+			if (ccd != null && ccd.size() > 0) {
+				additZz=ccd.get(0).getSubtractFee();
+				if(additZz!=null){
+					additZz=new BigDecimal(additZz+"");
+				}else{
+					additZz=new BigDecimal(0);
+				}
+			}
+			updateComprehensiveCostAddit(additZz, cc);
+		}
+		// 工时及分配率、期间费用
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "期间费用");
+		map.put("parentName", "工时及分配率");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			map = new HashMap<String, Object>();
+			map.put("id", contractProduct.getId());
+			map.put("name", "财务费用");
+			List<ComCostDis> ccd = comCostDisMapper.selectProductIdAndName(map);
+			map = new HashMap<String, Object>();
+			map.put("id", contractProduct.getId());
+			map.put("name", "管理费用");
+			List<ComCostDis> ccdGl = comCostDisMapper
+					.selectProductIdAndName(map);
+			BigDecimal additFeeGl = new BigDecimal(0);
+			BigDecimal additFeeCw = new BigDecimal(0);
+			if (ccdGl != null && ccdGl.size() > 0) {
+				additFeeGl = ccdGl.get(0).getSubtractFee();
+				if (additFeeGl != null) {
+					additFeeGl = new BigDecimal(additFeeGl + "");
+				} else {
+					additFeeGl = new BigDecimal(0);
+				}
+			}
+			if (ccd != null && ccd.size() > 0) {
+				additFeeCw = ccd.get(0).getSubtractFee();
+				if (additFeeCw != null) {
+					additFeeCw = new BigDecimal(additFeeCw + "");
+				} else {
+					additFeeCw = new BigDecimal(0);
+				}
+			}
+			additQj=additFeeCw.add(additFeeGl);
+			updateComprehensiveCostAddit(additQj, cc);
+		}
+		// 工时及分配率、工时分配率合计
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "工时分配率合计");
+		map.put("parentName", "工时及分配率");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			additHj=additRg.add(additRl).add(additZz).add(additQj);
+			updateComprehensiveCostAddit(additHj, cc);
+		}
+		//生产成本、原辅材料
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "原辅材料");
+		map.put("parentName", "生产成本");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			List<AccessoriesCon> ac = accessoriesConMapper
+					.selectProductIdAndParentId(contractProduct.getId());
+			if(ac!=null&&ac.size()>0&&ac.get(0)!=null){
+				additScYf=ac.get(0).getConsumeMoney();
+				if(additScYf!=null){
+					additScYf=new BigDecimal(additScYf+"");
+				}else{
+					additScYf=new BigDecimal(0);
+				}
+			}
+			updateComprehensiveCostAddit(additScYf, cc);
+		}
+		//生产成本、外购成件
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "外购成件");
+		map.put("parentName", "生产成本");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			List<OutproductCon> oc = outproductConMapper
+					.selectProductIdSum(contractProduct.getId());
+			if (oc != null && oc.size() > 0) {
+				additScWg=oc.get(0).getConsumeMoney();
+				if(additScWg!=null){
+					additScWg=new BigDecimal(additScWg+"");
+				}else{
+					additScWg=new BigDecimal(0);
+				}
+			}
+			updateComprehensiveCostAddit(additScWg, cc);
+		}
+		 //生产成本、外协部件
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "外协部件");
+		map.put("parentName", "生产成本");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			List<OutsourcingCon> oc = outsourcingConMapper
+					.selectProductIdSum(contractProduct.getId());
+			if (oc != null && oc.size() > 0) {
+				additScWx=oc.get(0).getConsumeMoney();
+				if(additScWx!=null){
+					additScWx=new BigDecimal(additScWx+"");
+				}else{
+					additScWx=new BigDecimal(0);
+				}
+			}
+			updateComprehensiveCostAddit(additScWx, cc);
+		}
+		// 生产成本、燃料动力
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "燃料动力");
+		map.put("parentName", "生产成本");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			additScRl = addit.multiply(additRl);
+			updateComprehensiveCostAddit(additScRl, cc);
+		}
+		//生产成本、直接人工
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "直接人工");
+		map.put("parentName", "生产成本");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			additScRg = addit.multiply(additRg);
+			updateComprehensiveCostAddit(additScRg, cc);
+		}
+		// 生产成本、专用费用
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "专用费用");
+		map.put("parentName", "生产成本");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			List<SpecialCost> sc = specialCostMapper
+					.selectByParentIdSum(contractProduct.getId());
+			if (sc != null && sc.size() > 0&&sc.get(0)!=null) {
+				additScZy=sc.get(0).getApprovedMoney();
+				if(additScZy!=null){
+					additScZy=new BigDecimal(additScZy+"");
+				}else{
+					additScZy=new BigDecimal(0);
+				}
+			}
+			updateComprehensiveCostAddit(additScZy, cc);
+		}
+		// 生产成本、制造费用
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "制造费用");
+		map.put("parentName", "生产成本");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			additScZz = addit.multiply(additZz);
+			updateComprehensiveCostAddit(additScZz, cc);
+		}
+		// 生产成本、小计
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "小计");
+		map.put("parentName", "生产成本");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			additScXj=additScYf.add(additScWg).add(additScWx).add(additScRl).add(additScRg).add(additScZy).add(additScZz);
+			updateComprehensiveCostAddit(additScXj, cc);
+		}
+		// 期间费用、管理费用
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "管理费用");
+		map.put("parentName", "期间费用");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			map = new HashMap<String, Object>();
+			map.put("id", contractProduct.getId());
+			map.put("name", "管理费用");
+			List<ComCostDis> ccdGl = comCostDisMapper
+					.selectProductIdAndName(map);
+			BigDecimal feeGl = new BigDecimal(0);
+			if(ccdGl!=null&&ccdGl.size()>0){
+				feeGl=ccdGl.get(0).getSubtractFee();
+				if(feeGl!=null){
+					feeGl=new BigDecimal(feeGl+"");
+				}else{
+					feeGl=new BigDecimal(0);
+				}
+			}
+			additQjGl=addit.multiply(feeGl);
+			updateComprehensiveCostAddit(additQjGl, cc);
+		}
+		// 期间费用、财务费用
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "财务费用");
+		map.put("parentName", "期间费用");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			map = new HashMap<String, Object>();
+			map.put("id", contractProduct.getId());
+			map.put("name", "财务费用");
+			List<ComCostDis> ccd = comCostDisMapper.selectProductIdAndName(map);
+			BigDecimal feeCw = new BigDecimal(0);
+			if (ccd != null && ccd.size() > 0) {
+				feeCw=ccd.get(0).getSubtractFee();
+				if(feeCw!=null){
+					feeCw=new BigDecimal(feeCw+"");
+				}else{
+					feeCw=new BigDecimal(0);
+				}
+			}
+			additQjCw=addit.multiply(feeCw);
+			updateComprehensiveCostAddit(additQjCw, cc);
+		}
+		// 期间费用、销售费用
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "销售费用");
+		map.put("parentName", "期间费用");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			additQjXs = cc.get(0).getAdditResult();
+			if(additQjXs!=null){
+				additQjXs=new BigDecimal(additQjXs+"");
+			}else{
+				additQjXs=new BigDecimal(0);
+			}
+			updateComprehensiveCostAddit(additQjXs, cc);
+		}
+		// 期间费用、小计
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "小计");
+		map.put("parentName", "期间费用");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			additQjXj=additQjGl.add(additQjCw).add(additQjXs);
+			updateComprehensiveCostAddit(additQjXj, cc);
+		}
+		// 价格方案、成本
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "成本");
+		map.put("parentName", "价格方案");
+		cc = comprehensiveCostMapper.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			additJGCb=additScXj.add(additQjXj);
+			updateComprehensiveCostAddit(additJGCb, cc);
+		}
+		// 价格方案、利润
+		map.put("id", contractProduct.getId());
+		map.put("name", "利润");
+		map.put("parentName", "价格方案");
+		cc = comprehensiveCostMapper
+				.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			additJGLr=additJGCb.multiply(new BigDecimal(0.05+""));
+			updateComprehensiveCostAddit(additJGLr, cc);
+		}
+		// 价格方案、税金
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "税金");
+		map.put("parentName", "价格方案");
+		cc = comprehensiveCostMapper
+				.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			additJGSj = cc.get(0).getAdditResult();
+			if(additJGSj!=null){
+				additJGSj=new BigDecimal(additJGSj+"");
+			}else{
+				additJGSj=new BigDecimal(0);
+			}
+			updateComprehensiveCostAddit(additJGSj, cc);
+		}
+		// 价格方案、价格
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "价格");
+		map.put("parentName", "价格方案");
+		cc = comprehensiveCostMapper
+				.selectProductIdAndName(map);
+		if (cc != null && cc.size() > 0) {
+			additJGJg=additJGCb.add(additJGLr).add(additJGSj);
+			updateComprehensiveCostAddit(additJGJg, cc);
+		}
+		//审核结果
+		
+		map = new HashMap<String, Object>();
+		map.put("id", contractProduct.getId());
+		map.put("name", "价格");
+		map.put("parentName", "价格方案");
+		cc = comprehensiveCostMapper
+				.selectProductIdAndName(map);
+		BigDecimal so=new BigDecimal(0);
+		if (cc != null && cc.size() > 0) {
+			so=cc.get(0).getSingleOffer();
+			if(so!=null){
+				so=new BigDecimal(so+"");
+			}else{
+				so=new BigDecimal(0);
+			}
+		}
+		AuditOpinion ap = new AuditOpinion();
+		ap.setContractProduct(contractProduct);
+		ap = auditOpinionMapper.selectProduct(ap);
+		ap.setCompanyPrice(so);
+		ap.setAuditOpinion(additJGJg);
+		ap.setUnitSubtract(so.subtract(additJGJg));
+		if(ap.getOrderAcount()!=null){
+			ap.setAcountSubtract(so.subtract(additJGJg).multiply(ap.getOrderAcount()));
+		}else{
+			ap.setAcountSubtract(new BigDecimal(0));
+		}
+		
+		auditOpinionMapper.update(ap);
+		
 	}
+
+	private void updateComprehensiveCostAddit(BigDecimal addit,
+			List<ComprehensiveCost> cc) {
+		ComprehensiveCost comprehensiveCost;
+		comprehensiveCost=new ComprehensiveCost();
+		comprehensiveCost.setId(cc.get(0).getId());
+		comprehensiveCost.setAdditResult(addit);
+		comprehensiveCostMapper.update(comprehensiveCost);
+	}
+
+	
+	
 }

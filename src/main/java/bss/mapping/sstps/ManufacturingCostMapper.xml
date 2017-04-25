@@ -38,7 +38,7 @@
   
   <select id="selectProductIdSum"  parameterType="java.lang.String" resultMap="ManufacturingCostMap">
     select 
-     sum(TYA_QUOTEPRICE) as TYA_QUOTEPRICE,sum(OYA_QUOTEPRICE) as OYA_QUOTEPRICE,sum(NEW_QUOTEPRICE) as NEW_QUOTEPRICE
+     sum(TYA_QUOTEPRICE) as TYA_QUOTEPRICE,sum(OYA_QUOTEPRICE) as OYA_QUOTEPRICE,sum(NEW_QUOTEPRICE) as NEW_QUOTEPRICE,sum(AUDIT_APPROVAL) as AUDIT_APPROVAL,sum(CHECK_APPROVAL) as CHECK_APPROVAL  
   	  from T_BSS_SSTPS_MANUFACTURING_COST
     where PRODUCT_ID = #{id}
   </select>

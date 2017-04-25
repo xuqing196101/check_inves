@@ -46,7 +46,7 @@
   </select>
   
   <select id="selectProductIdSum" parameterType="java.lang.String" resultMap="OutproductConMap">
-    select sum(WORK_MONEY) as WORK_MONEY from T_BSS_SSTPS_OUTPRODUCT_CON
+    select sum(WORK_MONEY) as WORK_MONEY,sum(CONSUME_MONEY) as CONSUME_MONEY from T_BSS_SSTPS_OUTPRODUCT_CON
     where PRODUCT_ID = #{id}
   </select>
   

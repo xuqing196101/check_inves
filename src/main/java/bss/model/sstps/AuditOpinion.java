@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -16,27 +17,27 @@ public class AuditOpinion {
 
     private String produceUnit;
 
-    private Integer orderAcount;
+    private BigDecimal orderAcount;
 
     private String measuringUnit;
 
     private String auditUser;
 
-    private Integer companyPrice;
+    private BigDecimal companyPrice;
 
-    private String auditOpinion;
+    private BigDecimal auditOpinion;
 
-    private String unitSubtract;
+    private BigDecimal unitSubtract;
 
-    private String acountSubtract;
+    private BigDecimal acountSubtract;
 
-    private Integer checkCompanyPrice;
+    private BigDecimal checkCompanyPrice;
 
-    private String checkAuditOpinion;
+    private BigDecimal checkAuditOpinion;
 
-    private String checkUnitSubtract;
+    private BigDecimal checkUnitSubtract;
 
-    private String checkAcountSubtract;
+    private BigDecimal checkAcountSubtract;
 
     private Date createdAt;
 
@@ -74,61 +75,6 @@ public class AuditOpinion {
         this.auditUser = auditUser == null ? null : auditUser.trim();
     }
 
-    public String getAuditOpinion() {
-        return auditOpinion;
-    }
-
-    public void setAuditOpinion(String auditOpinion) {
-        this.auditOpinion = auditOpinion == null ? null : auditOpinion.trim();
-    }
-
-    public String getUnitSubtract() {
-        return unitSubtract;
-    }
-
-    public void setUnitSubtract(String unitSubtract) {
-        this.unitSubtract = unitSubtract == null ? null : unitSubtract.trim();
-    }
-
-    public String getAcountSubtract() {
-        return acountSubtract;
-    }
-
-    public void setAcountSubtract(String acountSubtract) {
-        this.acountSubtract = acountSubtract == null ? null : acountSubtract.trim();
-    }
-
-    public Integer getCheckCompanyPrice() {
-		return checkCompanyPrice;
-	}
-
-	public void setCheckCompanyPrice(Integer checkCompanyPrice) {
-		this.checkCompanyPrice = checkCompanyPrice;
-	}
-
-	public String getCheckAuditOpinion() {
-        return checkAuditOpinion;
-    }
-
-    public void setCheckAuditOpinion(String checkAuditOpinion) {
-        this.checkAuditOpinion = checkAuditOpinion == null ? null : checkAuditOpinion.trim();
-    }
-
-    public String getCheckUnitSubtract() {
-        return checkUnitSubtract;
-    }
-
-    public void setCheckUnitSubtract(String checkUnitSubtract) {
-        this.checkUnitSubtract = checkUnitSubtract == null ? null : checkUnitSubtract.trim();
-    }
-
-    public String getCheckAcountSubtract() {
-        return checkAcountSubtract;
-    }
-
-    public void setCheckAcountSubtract(String checkAcountSubtract) {
-        this.checkAcountSubtract = checkAcountSubtract == null ? null : checkAcountSubtract.trim();
-    }
 
     public Date getCreatedAt() {
         return createdAt;
@@ -154,20 +100,77 @@ public class AuditOpinion {
 		this.contractProduct = contractProduct;
 	}
 
-	public Integer getOrderAcount() {
+	public BigDecimal getOrderAcount() {
 		return orderAcount;
 	}
 
-	public void setOrderAcount(Integer orderAcount) {
+	public void setOrderAcount(BigDecimal orderAcount) {
 		this.orderAcount = orderAcount;
 	}
 
-	public Integer getCompanyPrice() {
+	public BigDecimal getCompanyPrice() {
 		return companyPrice;
 	}
 
-	public void setCompanyPrice(Integer companyPrice) {
+	public void setCompanyPrice(BigDecimal companyPrice) {
 		this.companyPrice = companyPrice;
 	}
-    
+
+	public BigDecimal getAuditOpinion() {
+		return auditOpinion;
+	}
+
+	public void setAuditOpinion(BigDecimal auditOpinion) {
+		this.auditOpinion = auditOpinion;
+	}
+
+	public BigDecimal getUnitSubtract() {
+		return unitSubtract;
+	}
+
+	public void setUnitSubtract(BigDecimal unitSubtract) {
+		this.unitSubtract = unitSubtract;
+	}
+
+	public BigDecimal getAcountSubtract() {
+		return acountSubtract;
+	}
+
+	public void setAcountSubtract(BigDecimal acountSubtract) {
+		this.acountSubtract = acountSubtract;
+	}
+
+	public BigDecimal getCheckCompanyPrice() {
+		return checkCompanyPrice;
+	}
+
+	public void setCheckCompanyPrice(BigDecimal checkCompanyPrice) {
+		this.checkCompanyPrice = checkCompanyPrice;
+	}
+
+	public BigDecimal getCheckAuditOpinion() {
+		return checkAuditOpinion;
+	}
+
+	public void setCheckAuditOpinion(BigDecimal checkAuditOpinion) {
+		this.checkAuditOpinion = checkAuditOpinion;
+	}
+
+	public BigDecimal getCheckUnitSubtract() {
+		return checkUnitSubtract;
+	}
+
+	public void setCheckUnitSubtract(BigDecimal checkUnitSubtract) {
+		this.checkUnitSubtract = checkUnitSubtract;
+	}
+
+	public BigDecimal getCheckAcountSubtract() {
+		return checkAcountSubtract;
+	}
+
+	public void setCheckAcountSubtract(BigDecimal checkAcountSubtract) {
+		this.checkAcountSubtract = checkAcountSubtract;
+	}
+
+	
 }

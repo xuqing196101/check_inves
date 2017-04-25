@@ -17,5 +17,7 @@ public interface ComCostDisService {
 	
 	
 	public void appendSumComCostDis(ContractProduct contractProduct);
+	public void appendSumApprovedComCostDis(ContractProduct contractProduct);
+	public void appendSumCheckComCostDis(ContractProduct contractProduct);
 
 }

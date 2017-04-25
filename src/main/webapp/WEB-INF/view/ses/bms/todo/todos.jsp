@@ -8,7 +8,14 @@
 <html>
 
   <head>
-  <%@ include file="../../../common.jsp"%>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
+<link href="${pageContext.request.contextPath}/public/backend/images/favicon.ico"  rel="shortcut icon" type="image/x-icon" />
+<link href="${pageContext.request.contextPath}/public/backend/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/backend/css/common.css" media="screen" rel="stylesheet" type="text/css">  
+<link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/backend/css/btn.css" media="screen" rel="stylesheet" type="text/css"> 
     <link href="${pageContext.request.contextPath}/public/accordion/SpryAccordion.css" rel="stylesheet" type="text/css">
     <script src="${pageContext.request.contextPath}/public/accordion/SpryAccordion.js"></script>
     <title>待办事项</title>
@@ -158,7 +165,7 @@
                     </tr>
                     <c:forEach items="${supplierTodos.list}" var="agents" varStatus="s">
                       <tr class="cursor" onclick="view('${pageContext.request.contextPath}/${ agents.url}');">
-                        <td class="tc w50">${s.index+1}</td>
+                        <td class="tc w50">${(s.index+1)+(supplierTodos.pageNum-1)*(supplierTodos.pageSize)}</td>
                         <td class="tl pl20" title="${agents.name }">
                           <c:choose>
                             <c:when test="${fn:length(agents.name) > 20}">
@@ -194,7 +201,7 @@
                     </tr>
                     <c:forEach items="${expertTodos.list}" var="agents" varStatus="s">
                       <tr class="cursor" onclick="view('${pageContext.request.contextPath}/${ agents.url}');">
-                        <td class="tc w50">${s.index+1}</td>
+                        <td class="tc w50">${(s.index+1)+(expertTodos.pageNum-1)*(expertTodos.pageSize)}</td>
                         <td class="tl pl20" title="${agents.name }">
                           <c:choose>
                             <c:when test="${fn:length(agents.name) > 20}">
@@ -228,9 +235,9 @@
                       <th class="info">发送人</th>
                       <th class="info">创建时间</th>
                     </tr>
-                    <c:forEach items="${expertTodos.list}" var="agents" varStatus="s">
+                    <c:forEach items="${projectTodos.list}" var="agents" varStatus="s">
                       <tr class="cursor" onclick="view('${pageContext.request.contextPath}/${ agents.url}');">
-                        <td class="tc w50">${s.index+1}</td>
+                        <td class="tc w50">${(s.index+1)+(projectTodos.pageNum-1)*(projectTodos.pageSize)}</td>
                         <td class="tl pl20" title="${agents.name }">
                           <c:choose>
                             <c:when test="${fn:length(agents.name) > 20}">

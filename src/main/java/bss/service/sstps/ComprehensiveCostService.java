@@ -16,5 +16,7 @@ public interface ComprehensiveCostService {
 	public void updateInfo(ComprehensiveCost comprehensiveCost);
 	
 	public void appendSumComprehensiveCost(ContractProduct contractProduct);
+	public void appendSumApprovedComprehensiveCost(ContractProduct contractProduct);
+
 
 }

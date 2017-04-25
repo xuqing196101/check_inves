@@ -418,13 +418,13 @@ public class SpecialCostController extends BaseSupplierController {
 	}
 	
 	@RequestMapping("/userUpdate")
-	public String userUpdate(Model model,SpecialCostList SpecialCostList,String productId){
-		List<SpecialCost> SpecialCosts = SpecialCostList.getSpecialCosts();
-		if(SpecialCosts!=null){
-			for (SpecialCost specialCost : SpecialCosts) {
-				specialCost.setUpdatedAt(new Date());
-				specialCostService.update(specialCost);
-			}
+	public String userUpdate(Model model,TrialPriceBean listSpec,String productId){
+		List<SpecialCost> listSpecialCost = listSpec.getListSpec();
+		for(SpecialCost specialCost:listSpecialCost){
+				if(specialCost.getId()!=null){
+					specialCost.setUpdatedAt(new Date());
+					specialCostService.update(specialCost);
+				}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/burningPower/userGetAll.html?productId="+productId;
@@ -443,13 +443,13 @@ public class SpecialCostController extends BaseSupplierController {
 	}
 	
 	@RequestMapping("/userUpdateCheck")
-	public String userUpdateCheck(Model model,SpecialCostList SpecialCostList,String productId){
-		List<SpecialCost> SpecialCosts = SpecialCostList.getSpecialCosts();
-		if(SpecialCosts!=null){
-			for (SpecialCost specialCost : SpecialCosts) {
-				specialCost.setUpdatedAt(new Date());
-				specialCostService.update(specialCost);
-			}
+	public String userUpdateCheck(Model model,TrialPriceBean listSpec,String productId){
+		List<SpecialCost> listSpecialCost = listSpec.getListSpec();
+		for(SpecialCost specialCost:listSpecialCost){
+				if(specialCost.getId()!=null){
+					specialCost.setUpdatedAt(new Date());
+					specialCostService.update(specialCost);
+				}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/burningPower/userGetAllCheck.html?productId="+productId;

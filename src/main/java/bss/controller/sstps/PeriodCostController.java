@@ -338,15 +338,14 @@ public class PeriodCostController extends BaseSupplierController {
 	}
 	
 	@RequestMapping("/userUpdate")
-	public String userUpdate(Model model,PeriodCostList PeriodCostList,String productId){
-		List<PeriodCost> PeriodCosts = PeriodCostList.getPeriodCosts();
-		if(PeriodCosts!=null){
-			for (PeriodCost periodCost : PeriodCosts) {
-				periodCost.setUpdatedAt(new Date());
-				periodCostService.update(periodCost);
-			}
+	public String userUpdate(Model model,TrialPriceBean listPerio,String productId){
+		List<PeriodCost> listPeriodCost = listPerio.getListPerio();
+		for(PeriodCost periodCost:listPeriodCost){
+				if(periodCost.getId()!=null){
+					periodCost.setUpdatedAt(new Date());
+					periodCostService.update(periodCost);
+				}
 		}
-
 		model.addAttribute("proId",productId);
 		return "redirect:/yearPlan/userGetAll.html?productId="+productId;
 	}
@@ -364,13 +363,13 @@ public class PeriodCostController extends BaseSupplierController {
 	}
 	
 	@RequestMapping("/userUpdateCheck")
-	public String userUpdateCheck(Model model,PeriodCostList PeriodCostList,String productId){
-		List<PeriodCost> PeriodCosts = PeriodCostList.getPeriodCosts();
-		if(PeriodCosts!=null){
-			for (PeriodCost periodCost : PeriodCosts) {
-				periodCost.setUpdatedAt(new Date());
-				periodCostService.update(periodCost);
-			}
+	public String userUpdateCheck(Model model,TrialPriceBean listPerio,String productId){
+		List<PeriodCost> listPeriodCost = listPerio.getListPerio();
+		for(PeriodCost periodCost:listPeriodCost){
+				if(periodCost.getId()!=null){
+					periodCost.setUpdatedAt(new Date());
+					periodCostService.update(periodCost);
+				}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/yearPlan/userGetAllCheck.html?productId="+productId;

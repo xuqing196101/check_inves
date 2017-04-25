@@ -170,8 +170,12 @@ public class OfferProductController {
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		accessoriesCon.setContractProduct(contractProduct);
+		accessoriesCon.setProductNature(0);
 		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
-		model.addAttribute("list", list);
+		model.addAttribute("list0", list);
+		accessoriesCon.setProductNature(1);
+		List<AccessoriesCon> list1 = accessoriesConService.selectProduct(accessoriesCon);
+		model.addAttribute("list1", list1);
 		return "bss/sstps/offer/userAppraisal/list/accessories_list";
 	}
 	
@@ -216,8 +220,12 @@ public class OfferProductController {
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		accessoriesCon.setContractProduct(contractProduct);
+		accessoriesCon.setProductNature(0);
 		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
-		model.addAttribute("list", list);
+		model.addAttribute("list0", list);
+		accessoriesCon.setProductNature(1);
+		List<AccessoriesCon> list1 = accessoriesConService.selectProduct(accessoriesCon);
+		model.addAttribute("list1", list1);
 		return "bss/sstps/offer/checkAppraisal/list/accessories_list";
 	}
 

@@ -56,35 +56,35 @@
 				 <li class="col-md-6 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>设计单位：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <input id="designDepartment" name="designDepartment" type="text" class="col-md-8 m0 col-sm-12 col-xs-12" value="${productInfo.designDepartment }" >
+			        <input id="designDepartment" name="designDepartment" type="text" class="col-md-8 m0 col-sm-12 col-xs-12" value="${productInfo.designDepartment }" readonly >
 			        <div class="cue">${ERR_designDepartment}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-6 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>产品概述：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <textarea class="col-md-12 col-sm-12 col-xs-12 h100" id="productOverview" name="productOverview" title="不超过4000个字" placeholder="不超过4000个字">${productInfo.productOverview }</textarea>
+			        <textarea class="col-md-12 col-sm-12 col-xs-12 h100" id="productOverview" name="productOverview" title="不超过4000个字" placeholder="不超过4000个字" readonly>${productInfo.productOverview }</textarea>
 			        <div class="cue mt70">${ERR_productOverview}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-6 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>产品生产过程概述：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <textarea class="col-md-12 col-sm-12 col-xs-12 h100" id="productProcess" name="productProcess"  title="不超过4000个字" placeholder="不超过4000个字">${productInfo.productProcess }</textarea>
+			        <textarea class="col-md-12 col-sm-12 col-xs-12 h100" id="productProcess" name="productProcess"  title="不超过4000个字" placeholder="不超过4000个字" readonly>${productInfo.productProcess }</textarea>
 			        <div class="cue mt70">${ERR_productProcess}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-6 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>产品技术状况概述：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <textarea class="col-md-12 col-sm-12 col-xs-12 h100" id="productSkill" name="productSkill"  title="不超过4000个字" placeholder="不超过4000个字">${productInfo.productSkill }</textarea>
+			        <textarea class="col-md-12 col-sm-12 col-xs-12 h100" id="productSkill" name="productSkill"  title="不超过4000个字" placeholder="不超过4000个字" readonly>${productInfo.productSkill }</textarea>
 			        <div class="cue mt70">${ERR_productSkill}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-6 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>结论：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <textarea class="col-md-12 col-sm-12 col-xs-12 h100" id="conclusion" name="conclusion"  title="不超过4000个字" placeholder="不超过4000个字">${productInfo.conclusion }</textarea>
+			        <textarea class="col-md-12 col-sm-12 col-xs-12 h100" id="conclusion" name="conclusion"  title="不超过4000个字" placeholder="不超过4000个字" readonly>${productInfo.conclusion }</textarea>
 			        <div class="cue mt70">${ERR_conclusion}</div>
 			       </div>
 				 </li>

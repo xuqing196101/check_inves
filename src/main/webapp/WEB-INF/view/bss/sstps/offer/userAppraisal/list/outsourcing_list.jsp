@@ -14,7 +14,60 @@ function onStep(){
 	window.location.href="${pageContext.request.contextPath}/outproductCon/userGetAll.do?productId="+proId;
 }
 
+function workWeightTotals(obj,type){
+    if(type==2){
+        var num=0;
+       	var price=0;
+       	var prev=0;
+   		if($(obj).parent().prev().children(":first").val()!=""){
+   			num=parseFloat($(obj).parent().prev().children(":first").val());
+   		 }
+       	 if($(obj).val()!=""){
+       		 price=parseFloat($(obj).val());
+       	 }
+       	 if($(obj).parent().prev().prev().text()!=""){
+       		 prev=parseFloat($(obj).parent().prev().prev().text());
+       	 }
+       	  $(obj).parent().next().children(":first").val((num*price).toFixed(2));
+       	$(obj).parent().next().next().children(":first").val((prev-num*price).toFixed(2));
+    }else if(type==3){
+    	var num=0;
+       	var price=0;
+       	var prev=0;
+       	if($(obj).val()!=""){
+       		num =parseFloat($(obj).val());
+         }
+       	if($(obj).parent().next().children(":first").val()){
+       		price=parseFloat($(obj).parent().next().children(":first").val());
+       	}
+        if($(obj).parent().prev().text()!=""){
+      		 prev=parseFloat($(obj).parent().prev().text());
+      	 }
+       	$(obj).parent().next().next().children(":first").val((num*price).toFixed(2));
+       	$(obj).parent().next().next().next().children(":first").val((prev-num*price).toFixed(2));
+    }
+}
 
+
+$(document).ready(function() {
+    var totalRow = 0;
+    var totalRow1 = 0;
+    $('#table1 tr:not(:last)').each(function() {
+      $(this).find('td:eq(8)').each(function() {
+          if($(this).text()!=''){
+        	  totalRow += parseFloat($(this).text());
+          }
+      });
+      $(this).find('td:eq(11)').each(function() {
+          if($(this.firstChild).val()!=''){
+        	  totalRow1 += parseFloat($(this.firstChild).val());
+          }
+      });
+    });
+    $('#total').text(totalRow.toFixed(2));
+    $('#total1').text(totalRow1.toFixed(2));
+    $('#total2').text((parseFloat($('#total').text())-parseFloat($('#total1').text())).toFixed(2));
+  });
 </script>
 
   </head>
@@ -41,9 +94,8 @@ function onStep(){
 	
 	<div class="container margin-top-5">
 	 	<form action="${pageContext.request.contextPath}/outsourcingCon/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
-	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered table-condensed">
-				<thead>
+	 	<div class="content table_box over_auto table_wrap">
+			<table id="table1" class="table table-bordered table-condensed">
 					<tr>
 						<th rowspan="2" class="info">序号</th>
 						<th rowspan="2" class="info">外协加工工件名称</th>
@@ -56,21 +108,18 @@ function onStep(){
 						<th rowspan="2" class="info">备   注</th>
 					</tr>
 					<tr>
-						<th class="info">单位</th>
+						<th class="info">数量</th>
 						<th class="info">单件重</th>
 						<th class="info">重量小计</th>
 						<th class="info">单价</th>
 						<th class="info">金额</th>
-						<th class="info">单位</th>
+						<th class="info">数量</th>
 						<th class="info">单价</th>
 						<th class="info">金额</th>
 					</tr>
-				</thead>
-				<tbody>
 				<c:forEach items="${list}" var="out" varStatus="vs">
 					<tr>
-						<td><input type="hidden" /></td>
-						<td>${vs.index+1 }<input type="hidden" name="outsourcingCons['${vs.index }'].id" value="${out.id }" /></td>
+						<td>${vs.index+1 }<input type="hidden" name="listOutSou[${vs.index }].id" value="${out.id }" /></td>
 						<td class="tc">${out.outsourcingName }</td>
 						<td class="tc">${out.norm }</td>
 						<td class="tc">${out.paperCode }</td>
@@ -79,15 +128,23 @@ function onStep(){
 						<td class="tc">${out.workWeightTotal }</td>
 						<td class="tc">${out.workPrice }</td>
 						<td class="tc">${out.workMoney }</td>
-						<td class="tc">${out.consumeAmout }</td>
-						<td class="tc">${out.consumePrice }</td>
-						<td class="tc">${out.consumeMoney }</td>
-						<td class="tc"><input type="text" value='${out.subtractMoney }' name="outsourcingCons['${vs.index }'].subtractMoney"></td>
+						<td class="tc"><input type='text' class='m0 p0  border0 w50' name='listOutSou[${vs.index}].consumeAmout'  value='${out.consumeAmout }'  onblur='workWeightTotals(this,"3");'></td>
+						<td class="tc"><input type='text' class='m0 p0  border0 w50 tr' name='listOutSou[${vs.index}].consumePrice'  value='${out.consumePrice }'  onblur='workWeightTotals(this,"2");'></td>
+						<td class="tc"><input type='text' class='m0 p0  border0 w80 tr' name='listOutSou[${vs.index}].consumeMoney'  value='${out.consumeMoney }'  readonly="readonly"></td>
+						<td class="tc"><input type="text" class='m0 p0  border0 w80 tr' value='${out.subtractMoney }' name="listOutSou[${vs.index }].subtractMoney"></td>
 						<td class="tc">${out.supplyUnit }</td>
 						<td class="tc">${out.remark }</td>
 					</tr>
 				</c:forEach>
-				</tbody>
+				<tr id="totalRow">
+	              <td class="tc" colspan="4">总计：</td>
+	              <td colspan="4"></td>
+	              <td class="tr" id="total"></td>
+	              <td colspan="2"></td>
+	              <td class="tr" id="total1"></td>
+	              <td class="tr" id="total2"></td>
+	              <td colspan="2"></td>
+	            </tr>
 			</table>
 		</div>
 		

@@ -304,12 +304,15 @@ public class ComCostDisController {
 	@RequestMapping("/userUpdate")
 	public String userUpdate(Model model,PlComCostDis plccd,String productId){
 		List<ComCostDis> ComCostDis = plccd.getPlccd();
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
 		if(ComCostDis!=null){
 			for (ComCostDis ccd : ComCostDis) {
 				ccd.setUpdatedAt(new Date());
 				comCostDisService.update(ccd);
 			}
 		}
+		comprehensiveCostService.appendSumApprovedComprehensiveCost(contractProduct);
 		model.addAttribute("proId",productId);
 		return "redirect:/auditSummary/userGetAll.html?productId="+productId;
 	}

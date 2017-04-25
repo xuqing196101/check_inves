@@ -360,13 +360,13 @@ public class BurningPowerController extends BaseSupplierController {
 	}
 	
 	@RequestMapping("/userUpdate")
-	public String userUpdate(Model model,BurningPowerList BurningPowerList,String productId){
-		List<BurningPower> BurningPowers = BurningPowerList.getBurningPowers();
-		if(BurningPowers!=null){
-			for (BurningPower burningPower : BurningPowers) {
-				burningPower.setUpdatedAt(new Date());
-				burningPowerService.update(burningPower);
-			}
+	public String userUpdate(Model model,TrialPriceBean listBurn,String productId){
+		List<BurningPower> listBurningPower = listBurn.getListBurn();
+		for(BurningPower burningPower:listBurningPower){
+				if(burningPower.getId()!=null){
+					burningPower.setUpdatedAt(new Date());
+					burningPowerService.update(burningPower);
+				}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/wagesPayable/userGetAll.html?productId="+productId;
@@ -385,13 +385,13 @@ public class BurningPowerController extends BaseSupplierController {
 	}
 	
 	@RequestMapping("/userUpdateCheck")
-	public String userUpdateCheck(Model model,BurningPowerList BurningPowerList,String productId){
-		List<BurningPower> BurningPowers = BurningPowerList.getBurningPowers();
-		if(BurningPowers!=null){
-			for (BurningPower burningPower : BurningPowers) {
-				burningPower.setUpdatedAt(new Date());
-				burningPowerService.update(burningPower);
-			}
+	public String userUpdateCheck(Model model,TrialPriceBean listBurn,String productId){
+		List<BurningPower> listBurningPower = listBurn.getListBurn();
+		for(BurningPower burningPower:listBurningPower){
+				if(burningPower.getId()!=null){
+					burningPower.setUpdatedAt(new Date());
+					burningPowerService.update(burningPower);
+				}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/wagesPayable/userGetAllCheck.html?productId="+productId;

@@ -263,6 +263,31 @@ public class WagesPayableController extends BaseSupplierController {
 		}
 		super.writeJson(response, "ok");
 	}
+	@RequestMapping("/userUpdate")
+	public String userUpdate(Model model,TrialPriceBean listBurn,String productId, HttpServletRequest request,HttpServletResponse response){
+		List<WagesPayable> listWagesPayable = listBurn.getListWages();
+		for(WagesPayable wagesPayable:listWagesPayable){
+				if(wagesPayable.getId()!=null){
+					wagesPayable.setUpdatedAt(new Date());
+					wagesPayableService.update(wagesPayable);
+				}
+		}
+		model.addAttribute("proId",productId);
+		return "redirect:/manufacturingCost/userGetAll.html?productId="+productId;
+	}
+	
+	@RequestMapping("/userUpdateCheck")
+	public String userUpdateCheck(Model model,TrialPriceBean listBurn,String productId, HttpServletRequest request,HttpServletResponse response){
+		List<WagesPayable> listWagesPayable = listBurn.getListWages();
+		for(WagesPayable wagesPayable:listWagesPayable){
+				if(wagesPayable.getId()!=null){
+					wagesPayable.setUpdatedAt(new Date());
+					wagesPayableService.update(wagesPayable);
+				}
+		}
+		model.addAttribute("proId",productId);
+		return "redirect:/manufacturingCost/userGetAllCheck.html?productId="+productId;
+	}
 	/**
 	* @Title: update
 	* @author Shen Zhenfei 

@@ -16,6 +16,74 @@ function onStep(){
 }
 
 
+jQuery.fn.rowspan = function(colIdx) { //把td相同的数据行合并
+	  return this.each(function(){
+  	  var that;
+  	  $('tr', this).each(function(row) {
+	    	  $('td:eq('+colIdx+')', this).filter(':visible').each(function(col) {
+		    	  if (that!=null && $(this).html() == $(that).html()) {
+			    	  rowspan = $(that).attr("rowSpan");
+			    	  if (rowspan == undefined) {
+			    	  	$(that).attr("rowSpan",1);
+			    	  	rowspan = $(that).attr("rowSpan");
+			    	  }
+			    	  rowspan = Number(rowspan)+1;
+			    	  $(that).attr("rowSpan",rowspan);
+			    	  $(this).hide(); 
+			    	  } else {
+			    	  	that = this;
+			    	  }
+		    	  });
+	    	  });
+  	  });
+	 }
+function moneys(obj){
+	var money=0;
+	var prevMoney=0;
+	if($(obj).val()!=""){
+		money=parseFloat($(obj).val());
+	}
+	if($(obj).parent().prev().prev().prev().text()!=""){
+		prevMoney=parseFloat($(obj).parent().prev().prev().prev().text());
+	}
+	$(obj).parent().next().children(":first").val((prevMoney-money).toFixed(2));
+}
+$(document).ready(function() {
+	$("#table1").rowspan(1);
+	var totalRow = 0;
+	  var total = 0;
+	  var total3 = 0;
+	  var total4 = 0;
+	  $('#table1 tr:not(:last)').each(function() {
+	    $(this).find('td:eq(9)').each(function() {
+	  	  if($(this).text()!=""){
+	  		  totalRow += parseFloat($(this).text());
+	  	  }
+	      
+	    });
+	    $(this).find('td:eq(10)').each(function() {
+	  	  if($(this).text()!=""){
+	  	    total += parseFloat($(this).text());
+	  	  }
+	      });
+	    $(this).find('td:eq(11)').each(function() {
+	    	  if($(this).text()!=""){
+	    		  total3 += parseFloat($(this).text());
+	    	  }
+	        });
+	    /* $(this).find('td:eq(13)').each(function() {
+	    	  if($(this.firstChild).val()!=""){
+	    		  total4 += parseFloat($(this.firstChild).val());
+	    	  }
+	        }); */
+	  });
+	  $('#total').text(totalRow.toFixed(2));
+	  $('#total2').text(total.toFixed(2));
+	  $('#total3').text(total3.toFixed(2));
+	 /*  $('#total5').text(total4.toFixed(2));
+	  $('#total6').text((total-total4).toFixed(2)); */
+	  $('#total4').text((parseFloat($('#total2').text())-parseFloat($('#total3').text())).toFixed(2));
+})
 </script>
 
   </head>
@@ -42,8 +110,8 @@ function onStep(){
 	<div class="container margin-top-5">
 	 	<form action="${pageContext.request.contextPath}/specialCost/userUpdateCheck.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered table-condensed">
-				<thead>
+			
+			<table id="table1" class="table table-bordered table-condensed">
 					<tr>
 						<th class="info">序号</th>
 						<th class="info">项目名称</th>
@@ -58,16 +126,23 @@ function onStep(){
 						<th class="info">单位产品分摊额</th>
 						<th class="info">核准金额</th>
 						<th class="info">核减金额</th>
-						<th class="info">复核准金额</th>
-						<th class="info">复核减金额</th>
+						<!-- <th class="info">复核准金额</th>
+						<th class="info">复核减金额</th> -->
 						<th class="info">备   注</th>
 					</tr>
-				</thead>
-				<tbody>
+				<c:set value="" var="id"></c:set>
+	            <c:set value="" var="value"></c:set>
+	            <c:set value="" var="num"></c:set>
 				<c:forEach items="${list}" var="sc" varStatus="vs">
+					<c:if test="${sc.parentId=='0'}">
+		              <c:set value="${sc.projectName }" var="value"></c:set>
+		              <c:set value="${sc.id }" var="id"></c:set>
+		              <c:set value="${sc.serialNumber }" var="num"></c:set>
+	                </c:if>
+	                <c:if test="${sc.parentId!='0'}">
 					<tr>
-						<td><input type="hidden" value="${sc.id }" name="specialCosts['${vs.index }'].id"  />${vs.index+1 }</td>
-						<td class="tc">${sc.projectName }</td>
+						<td><input type="hidden" value="${sc.id }" name="listSpec[${vs.index }].id"  />${vs.index+1 }</td>
+						<td class="tc">${value }</td>
 						<td class="tc">${sc.productDetal }</td>
 						<td class="tc">${sc.name }</td>
 						<td class="tc">${sc.norm }</td>
@@ -79,12 +154,22 @@ function onStep(){
 						<td class="tc">${sc.proportionPrice }</td>
 						<td class="tc">${sc.approvedMoney }</td>
 						<td class="tc">${sc.subtractMoney }</td>
-						<td class="tc"><input type="text" value='${sc.checkApprovedMoney }' name="specialCosts['${vs.index }'].checkApprovedMoney"></td>
-						<td class="tc"><input type="text" value='${sc.checkMoney }' name="specialCosts['${vs.index }'].checkMoney"></td>
+						<%-- <td class="tc"><input type="text" class='m0 p0  border0 w80' value='${sc.checkApprovedMoney }' name="listSpec[${vs.index }].checkApprovedMoney" onblur="moneys(this)"></td>
+						<td class="tc"><input type="text" class='m0 p0  border0 w80' value='${sc.checkMoney }' name="listSpec[${vs.index }].checkMoney" readonly="readonly"></td> --%>
 						<td class="tc">${sc.remark }</td>
 					</tr>
+					</c:if>
 				</c:forEach>
-				</tbody>
+				<tr id="totalRow">
+	              <td class="tc" colspan="9">总计：</td>
+	              <td class="tc" id="total" ></td>
+	              <td id="total2"></td>
+	              <td id="total3"></td>
+	              <td id="total4"></td>
+	             <!--  <td id="total5"></td>
+	              <td id="total6"></td> -->
+	              <td></td>
+            	</tr>
 			</table>
 		</div>
 		
