@@ -48,7 +48,7 @@
 						 		"sku": sku
 							},
 					    success: function(data) {
-					    	if(data.status==500){
+					    	if(data.data==500){
 					    		layer.msg("SKU已存在,请重新输入");
 					    		$("#sku").val("")
 					    	}

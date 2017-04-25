@@ -60,10 +60,6 @@ public class JdcgResult implements Serializable {
 	public static JdcgResult ok() {
 		return new JdcgResult(null);
 	}
-
-	public static JdcgResult status(Integer status){
-		return new JdcgResult(status);
-	}
 	
 	public JdcgResult() {
 
@@ -85,9 +81,9 @@ public class JdcgResult implements Serializable {
 		this.data = data;
 	}
 
-	public JdcgResult(Integer status){
+	/*public JdcgResult(Integer status){
 		this.status = status;
-	}
+	}*/
 	
 	public Integer getStatus() {
 		return status;

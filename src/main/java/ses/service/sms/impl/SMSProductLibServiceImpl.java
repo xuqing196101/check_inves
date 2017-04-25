@@ -903,15 +903,15 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		SMSProductBasic smsProductBasic = smsProductBasicMapper.selectByPrimaryKey(pid);
 		if(uniqueSKU != null && smsProductBasic == null){
 			// SKU已存在
-			return JdcgResult.status(500);
+			return JdcgResult.ok(500);
 		}
 		// 暂存状态的判断
 		if(uniqueSKU != null && smsProductBasic != null && smsProductBasic.getSku() == null){
 			// SKU已存在
-			return JdcgResult.status(500);
+			return JdcgResult.ok(500);
 		}
 		// 不存在
-		return JdcgResult.status(200);
+		return JdcgResult.ok(200);
 	}
 
 }
