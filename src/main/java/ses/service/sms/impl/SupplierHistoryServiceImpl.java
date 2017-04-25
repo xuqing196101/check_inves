@@ -121,19 +121,24 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         //供应商类型
         List<SupplierTypeRelate> supplierType = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(supplierId);
         for(SupplierTypeRelate type : supplierType){
-        	 historyInfo = new SupplierHistory();
-        	 String id = UUID.randomUUID().toString().replaceAll("-", "");
-        	 historyInfo.setId(id);
-             historyInfo.setSupplierId(supplierId);
-             historyInfo.setmodifyType("supplier_type");
-             historyInfo.setListType(12);
-             historyInfo.setCreatedAt(date);
+        	if(type !=null){
+        		historyInfo = new SupplierHistory();
+	           	String id = UUID.randomUUID().toString().replaceAll("-", "");
+	           	historyInfo.setId(id);
+                historyInfo.setSupplierId(supplierId);
+                historyInfo.setmodifyType("supplier_type");
+                historyInfo.setListType(12);
+                historyInfo.setCreatedAt(date);
 
-             // 名称
-             historyInfo.setBeforeField(type.getSupplierTypeId());
-             historyInfo.setBeforeContent(type.getSupplierTypeName());
-             historyInfo.setRelationId(type.getId());
-             supplierHistoryMapper.insertSelective(historyInfo);
+                // 名称
+                if(type.getSupplierTypeName() !=null){
+               	 	historyInfo.setBeforeField(type.getSupplierTypeId());
+                    historyInfo.setBeforeContent(type.getSupplierTypeName());
+                    historyInfo.setRelationId(type.getId());
+                    supplierHistoryMapper.insertSelective(historyInfo);
+                }
+        		
+        	}   
         }
         
         
@@ -141,44 +146,45 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         List<SupplierAddress> addressList = supplier.getAddressList();
         if (addressList != null && addressList.size() > 0) {
             for (SupplierAddress address : addressList) {
-                historyInfo = new SupplierHistory();
-                historyInfo.setSupplierId(supplierId);
-                historyInfo.setmodifyType("basic_page");
-                historyInfo.setCreatedAt(date);
-                historyInfo.setRelationId(address.getId());
-                historyInfo.setListType(ADDRESS_LIST);
-                // 邮编
-                if(address.getCode() !=null){
-                	historyInfo.setBeforeField("code");
-                    historyInfo.setBeforeContent(address.getCode());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                	
-                }
-                
-                //生产经营地址：
-				if(address.getCode() !=null){
-					List < Area > privnce = areaService.findRootArea();
-					Area area = new Area();
-					area = areaService.listById(address.getAddress());
-					String sonAddress = area.getName();
-					String parentAddress = null;
-					for(int i = 0; i < privnce.size(); i++) {
-						if(area.getParentId().equals(privnce.get(i).getId())) {
-							parentAddress = privnce.get(i).getName();
-						}
-					}
-	                historyInfo.setBeforeField("address");
-	                historyInfo.setBeforeContent(parentAddress + sonAddress);
-	                supplierHistoryMapper.insertSelective(historyInfo);             	            	
-				}
+            	if(address !=null){
+            		historyInfo = new SupplierHistory();
+                    historyInfo.setSupplierId(supplierId);
+                    historyInfo.setmodifyType("basic_page");
+                    historyInfo.setCreatedAt(date);
+                    historyInfo.setRelationId(address.getId());
+                    historyInfo.setListType(ADDRESS_LIST);
+                    // 邮编
+                    if(address.getCode() !=null){
+                    	historyInfo.setBeforeField("code");
+                        historyInfo.setBeforeContent(address.getCode());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    	
+                    }
+                    
+                    //生产经营地址：
+    				if(address.getCode() !=null){
+    					List < Area > privnce = areaService.findRootArea();
+    					Area area = new Area();
+    					area = areaService.listById(address.getAddress());
+    					String sonAddress = area.getName();
+    					String parentAddress = null;
+    					for(int i = 0; i < privnce.size(); i++) {
+    						if(area.getParentId().equals(privnce.get(i).getId())) {
+    							parentAddress = privnce.get(i).getName();
+    						}
+    					}
+    	                historyInfo.setBeforeField("address");
+    	                historyInfo.setBeforeContent(parentAddress + sonAddress);
+    	                supplierHistoryMapper.insertSelective(historyInfo);             	            	
+    				}
 
-                //生产经营详细地址
-				if(address.getCode() !=null){
-					historyInfo.setBeforeField("detailAddress");
-	                historyInfo.setBeforeContent(address.getDetailAddress());
-	                supplierHistoryMapper.insertSelective(historyInfo);              	          	
-				}
-                
+                    //生产经营详细地址
+    				if(address.getCode() !=null){
+    					historyInfo.setBeforeField("detailAddress");
+    	                historyInfo.setBeforeContent(address.getDetailAddress());
+    	                supplierHistoryMapper.insertSelective(historyInfo);              	          	
+    				}
+            	} 
             }
         }
         
@@ -186,41 +192,42 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         List<SupplierBranch> branchList = supplier.getBranchList();
         if (branchList != null && branchList.size() > 0) {
             for (SupplierBranch branch : branchList) {
-                historyInfo = new SupplierHistory();
-                historyInfo.setSupplierId(supplierId);
-                historyInfo.setmodifyType("basic_page");
-                historyInfo.setCreatedAt(date);
-                historyInfo.setRelationId(branch.getId());
-                historyInfo.setListType(BRANCH_LIST);
+            	if(branch !=null){
+            		historyInfo = new SupplierHistory();
+                    historyInfo.setSupplierId(supplierId);
+                    historyInfo.setmodifyType("basic_page");
+                    historyInfo.setCreatedAt(date);
+                    historyInfo.setRelationId(branch.getId());
+                    historyInfo.setListType(BRANCH_LIST);
 
-                // 名称
-                if(branch.getOrganizationName() !=null){
-                	historyInfo.setBeforeField("organizationName");
-                    historyInfo.setBeforeContent(branch.getOrganizationName());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
-                
-                // 国家
-                if(branch.getCountryName() !=null){
-                	historyInfo.setBeforeField("countryName");
-                    historyInfo.setBeforeContent(branch.getCountryName());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
+                    // 名称
+                    if(branch.getOrganizationName() !=null){
+                    	historyInfo.setBeforeField("organizationName");
+                        historyInfo.setBeforeContent(branch.getOrganizationName());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                    
+                    // 国家
+                    if(branch.getCountryName() !=null){
+                    	historyInfo.setBeforeField("countryName");
+                        historyInfo.setBeforeContent(branch.getCountryName());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
 
-                // 地址
-                if(branch.getDetailAddress() !=null){
-                	historyInfo.setBeforeField("detailAddress");
-                    historyInfo.setBeforeContent(branch.getDetailAddress());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
-                   
-                // 生产经营范围
-                if(branch.getBusinessSope() !=null){
-                	historyInfo.setBeforeField("businessSope");
-                    historyInfo.setBeforeContent(branch.getBusinessSope());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
-                
+                    // 地址
+                    if(branch.getDetailAddress() !=null){
+                    	historyInfo.setBeforeField("detailAddress");
+                        historyInfo.setBeforeContent(branch.getDetailAddress());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                       
+                    // 生产经营范围
+                    if(branch.getBusinessSope() !=null){
+                    	historyInfo.setBeforeField("businessSope");
+                        historyInfo.setBeforeContent(branch.getBusinessSope());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+            	}  
             }
         }
         
@@ -228,67 +235,69 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         List<SupplierFinance> listSupplierFinances = supplier.getListSupplierFinances();
         if (listSupplierFinances != null && listSupplierFinances.size() > 0) {
             for (SupplierFinance finances : listSupplierFinances) {
-                historyInfo = new SupplierHistory();
-                historyInfo.setSupplierId(supplierId);
-                historyInfo.setmodifyType("finance_page");
-                historyInfo.setCreatedAt(date);
-                historyInfo.setRelationId(finances.getId());
-                historyInfo.setListType(FINANCES_LIST);
-                // 年份
-                if(finances.getYear() !=null){
-                	historyInfo.setBeforeField("year");
-                    historyInfo.setBeforeContent(finances.getYear());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
-                
-                // 名称
-                if(finances.getName() !=null){
-                	historyInfo.setBeforeField("name");
-                    historyInfo.setBeforeContent(finances.getName());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
+            	if(finances !=null){
+            		historyInfo = new SupplierHistory();
+                    historyInfo.setSupplierId(supplierId);
+                    historyInfo.setmodifyType("finance_page");
+                    historyInfo.setCreatedAt(date);
+                    historyInfo.setRelationId(finances.getId());
+                    historyInfo.setListType(FINANCES_LIST);
+                    // 年份
+                    if(finances.getYear() !=null){
+                    	historyInfo.setBeforeField("year");
+                        historyInfo.setBeforeContent(finances.getYear());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                    
+                    // 名称
+                    if(finances.getName() !=null){
+                    	historyInfo.setBeforeField("name");
+                        historyInfo.setBeforeContent(finances.getName());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
 
-                // 联系电话
-                if(finances.getTelephone() !=null){
-                	 historyInfo.setBeforeField("telephone");
-                     historyInfo.setBeforeContent(finances.getTelephone());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                }
-               
-                // 姓名
-                if(finances.getAuditors() !=null){
-                	historyInfo.setBeforeField("auditors");
-                    historyInfo.setBeforeContent(finances.getAuditors());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
-                
-                // 资产总额
-                if(finances.getTotalAssets().toString() !=null){
-                	historyInfo.setBeforeField("totalAssets");
-                    historyInfo.setBeforeContent(finances.getTotalAssets().toString());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
-                
-                // 负债总额
-                if(finances.getTotalLiabilities() !=null){
-                	 historyInfo.setBeforeField("totalLiabilities");
-                     historyInfo.setBeforeContent(finances.getTotalLiabilities().toString());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                }
-               
-                // 净资产总额
-                if(finances.getTotalNetAssets() !=null){
-                	 historyInfo.setBeforeField("totalNetAssets");
-                     historyInfo.setBeforeContent(finances.getTotalNetAssets().toString());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                }
-               
-                // 营业收入
-                if(finances.getTaking() !=null){
-                	historyInfo.setBeforeField("taking");
-                    historyInfo.setBeforeContent(finances.getTaking().toString());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
+                    // 联系电话
+                    if(finances.getTelephone() !=null){
+                    	 historyInfo.setBeforeField("telephone");
+                         historyInfo.setBeforeContent(finances.getTelephone());
+                         supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                   
+                    // 姓名
+                    if(finances.getAuditors() !=null){
+                    	historyInfo.setBeforeField("auditors");
+                        historyInfo.setBeforeContent(finances.getAuditors());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                    
+                    // 资产总额
+                    if(finances.getTotalAssets().toString() !=null){
+                    	historyInfo.setBeforeField("totalAssets");
+                        historyInfo.setBeforeContent(finances.getTotalAssets().toString());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                    
+                    // 负债总额
+                    if(finances.getTotalLiabilities() !=null){
+                    	 historyInfo.setBeforeField("totalLiabilities");
+                         historyInfo.setBeforeContent(finances.getTotalLiabilities().toString());
+                         supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                   
+                    // 净资产总额
+                    if(finances.getTotalNetAssets() !=null){
+                    	 historyInfo.setBeforeField("totalNetAssets");
+                         historyInfo.setBeforeContent(finances.getTotalNetAssets().toString());
+                         supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                   
+                    // 营业收入
+                    if(finances.getTaking() !=null){
+                    	historyInfo.setBeforeField("taking");
+                        historyInfo.setBeforeContent(finances.getTaking().toString());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+            	}  
             }
         }
      
@@ -296,47 +305,49 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         List<SupplierStockholder> listSupplierStockholders = supplier.getListSupplierStockholders();
         if (listSupplierStockholders != null && listSupplierStockholders.size() > 0) {
             for (SupplierStockholder holder : listSupplierStockholders) {
-                historyInfo = new SupplierHistory();
-                historyInfo.setSupplierId(supplierId);
-                historyInfo.setmodifyType("shareholder_page");
-                historyInfo.setCreatedAt(date);
-                historyInfo.setRelationId(holder.getId());
-                historyInfo.setListType(HOLDER_LIST);
-    
-                // 出资人性质
-                if(holder.getNature() !=null){
-                	historyInfo.setBeforeField("nature");
-                    historyInfo.setBeforeContent(holder.getNature());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
-                
-                // 出资人姓名
-                if(holder.getName() !=null){
-                	historyInfo.setBeforeField("name");
-                    historyInfo.setBeforeContent(holder.getName());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
-                
-                // 出资人社会统一信用代码
-                if(holder.getIdentity() !=null){
-                	historyInfo.setBeforeField("identity");
-                    historyInfo.setBeforeContent(holder.getIdentity());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
-                
-                // 出资人股份
-                if(holder.getShares() !=null){
-                	historyInfo.setBeforeField("shares");
-                    historyInfo.setBeforeContent(holder.getShares());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                }
-                
-                // 比例
-                if(holder.getProportion() !=null){
-                	 historyInfo.setBeforeField("proportion");
-                     historyInfo.setBeforeContent(holder.getProportion());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                }
+            	if(holder !=null){
+            		historyInfo = new SupplierHistory();
+                    historyInfo.setSupplierId(supplierId);
+                    historyInfo.setmodifyType("shareholder_page");
+                    historyInfo.setCreatedAt(date);
+                    historyInfo.setRelationId(holder.getId());
+                    historyInfo.setListType(HOLDER_LIST);
+        
+                    // 出资人性质
+                    if(holder.getNature() !=null){
+                    	historyInfo.setBeforeField("nature");
+                        historyInfo.setBeforeContent(holder.getNature());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                    
+                    // 出资人姓名
+                    if(holder.getName() !=null){
+                    	historyInfo.setBeforeField("name");
+                        historyInfo.setBeforeContent(holder.getName());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                    
+                    // 出资人社会统一信用代码
+                    if(holder.getIdentity() !=null){
+                    	historyInfo.setBeforeField("identity");
+                        historyInfo.setBeforeContent(holder.getIdentity());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                    
+                    // 出资人股份
+                    if(holder.getShares() !=null){
+                    	historyInfo.setBeforeField("shares");
+                        historyInfo.setBeforeContent(holder.getShares());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                    
+                    // 比例
+                    if(holder.getProportion() !=null){
+                    	 historyInfo.setBeforeField("proportion");
+                         historyInfo.setBeforeContent(holder.getProportion());
+                         supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+            	} 
             }
         }
         
@@ -463,62 +474,63 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             List<SupplierCertPro> listSupplierCertPros = supplierMatPro.getListSupplierCertPros();
             if (listSupplierCertPros != null && listSupplierCertPros.size() > 0) {
                 for (SupplierCertPro certPro : listSupplierCertPros) {
-                    historyInfo = new SupplierHistory();
-                    historyInfo.setSupplierId(supplierId);
-                    historyInfo.setmodifyType("mat_pro_page");
-                    historyInfo.setCreatedAt(date);
-                    historyInfo.setRelationId(certPro.getId());
-                    historyInfo.setListType(CERT_PRO_LIST);
-                    
-                    // 资质证书名称
-                    if(certPro.getName() !=null){
-                    	historyInfo.setBeforeField("name");
-                        historyInfo.setBeforeContent(certPro.getName());
-                        supplierHistoryMapper.insertSelective(historyInfo);
-                    }
-                    
-                    // 证书编号
-                    if(certPro.getCode() !=null){
-                    	 historyInfo.setBeforeField("code");
-                         historyInfo.setBeforeContent(certPro.getCode());
-                         supplierHistoryMapper.insertSelective(historyInfo);
-                    }
-                   
-                    // 资质等级
-                    historyInfo.setBeforeField("levelCert");
-                    historyInfo.setBeforeContent(certPro.getLevelCert());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 发证机关
-                    historyInfo.setBeforeField("licenceAuthorith");
-                    historyInfo.setBeforeContent(certPro.getLicenceAuthorith());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 有效期（起始时间）
-                    historyInfo.setBeforeField("expStartDate");
-                    if(certPro.getExpStartDate() != null ){
-                    	 historyInfo.setBeforeContent(format.format(certPro.getExpStartDate()));
-                    }else{
-                    	historyInfo.setBeforeContent("");
-                    }
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 有效期（结束时间）
-                    historyInfo.setBeforeField("expEndDate");
-                    if(certPro.getExpEndDate() != null){
-                    	historyInfo.setBeforeContent(format.format(certPro.getExpEndDate()));
-                    }else{
-                    	historyInfo.setBeforeContent("");
-                    }
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 证书状态
-                    historyInfo.setBeforeField("mot");
-                	historyInfo.setBeforeContent(certPro.getMot() == null ? "" : certPro.getMot().toString());
-                	supplierHistoryMapper.insertSelective(historyInfo);
+                	if(certPro !=null){
+                		historyInfo = new SupplierHistory();
+                        historyInfo.setSupplierId(supplierId);
+                        historyInfo.setmodifyType("mat_pro_page");
+                        historyInfo.setCreatedAt(date);
+                        historyInfo.setRelationId(certPro.getId());
+                        historyInfo.setListType(CERT_PRO_LIST);
+                        
+                        // 资质证书名称
+                        if(certPro.getName() !=null){
+                        	historyInfo.setBeforeField("name");
+                            historyInfo.setBeforeContent(certPro.getName());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        // 证书编号
+                        if(certPro.getCode() !=null){
+                        	 historyInfo.setBeforeField("code");
+                             historyInfo.setBeforeContent(certPro.getCode());
+                             supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                       
+                        // 资质等级
+                        if(certPro.getLevelCert() !=null){
+                        	historyInfo.setBeforeField("levelCert");
+                            historyInfo.setBeforeContent(certPro.getLevelCert());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        // 发证机关
+                        if(certPro.getLicenceAuthorith() !=null){
+                        	historyInfo.setBeforeField("licenceAuthorith");
+                            historyInfo.setBeforeContent(certPro.getLicenceAuthorith());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        // 有效期（起始时间）
+                        if(certPro.getExpStartDate() != null ){
+                        	historyInfo.setBeforeField("expStartDate");
+                        	 historyInfo.setBeforeContent(format.format(certPro.getExpStartDate()));
+                        	 supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                       
+                        // 有效期（结束时间）
+                        if(certPro.getExpEndDate() != null){
+                        	historyInfo.setBeforeContent(format.format(certPro.getExpEndDate()));
+                        	supplierHistoryMapper.insertSelective(historyInfo);
+                        	historyInfo.setBeforeField("expEndDate");
+                        }
 
-                    
-                    
+                        // 证书状态
+                        if(certPro.getMot() !=null){
+                        	historyInfo.setBeforeField("mot");
+                        	historyInfo.setBeforeContent(certPro.getMot().toString());
+                        	supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                	}     
                 }
             }
         }
@@ -563,50 +575,65 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         	List<SupplierCertSell> listSupplierCertSells = supplierMatSell.getListSupplierCertSells();
             if (listSupplierCertSells != null && listSupplierCertSells.size() > 0) {
             	for (SupplierCertSell certSell : listSupplierCertSells) {
-                    historyInfo = new SupplierHistory();
-                    historyInfo.setSupplierId(supplierId);
-                    historyInfo.setmodifyType("mat_sell_page");
-                    historyInfo.setCreatedAt(date);
-                    historyInfo.setRelationId(certSell.getId());
-                    historyInfo.setListType(CERT_SALES_LIST);
-                    
-                    // 资质证书名称
-                    historyInfo.setBeforeField("name");
-                    historyInfo.setBeforeContent(certSell.getName());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 证书编号
-                    historyInfo.setBeforeField("code");
-                    historyInfo.setBeforeContent(certSell.getCode());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 资质等级
-                    historyInfo.setBeforeField("levelCert");
-                    historyInfo.setBeforeContent(certSell.getLevelCert());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 发证机关
-                    historyInfo.setBeforeField("licenceAuthorith");
-                    historyInfo.setBeforeContent(certSell.getLicenceAuthorith());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 有效期（起始时间）
-                    historyInfo.setBeforeField("expStartDate");
-                    historyInfo.setBeforeContent(format.format(certSell.getExpStartDate()));
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 有效期（结束时间）
-                    historyInfo.setBeforeField("expEndDate");
-                    historyInfo.setBeforeContent(format.format(certSell.getExpEndDate()));
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    //证书状态
-                    historyInfo.setBeforeField("mot");
-                    historyInfo.setBeforeContent(certSell.getMot() == null ? "" : certSell.getMot().toString());
-                    supplierHistoryMapper.insertSelective(historyInfo);
+            		if(certSell !=null){
+            			historyInfo = new SupplierHistory();
+                        historyInfo.setSupplierId(supplierId);
+                        historyInfo.setmodifyType("mat_sell_page");
+                        historyInfo.setCreatedAt(date);
+                        historyInfo.setRelationId(certSell.getId());
+                        historyInfo.setListType(CERT_SALES_LIST);
+                        
+                        // 资质证书名称
+                        if(certSell.getName() !=null){
+                        	historyInfo.setBeforeField("name");
+                            historyInfo.setBeforeContent(certSell.getName());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+
+                        // 证书编号
+                        if(certSell.getCode() !=null){
+                        	historyInfo.setBeforeField("code");
+                            historyInfo.setBeforeContent(certSell.getCode());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        // 资质等级
+                        if(certSell.getLevelCert() !=null){
+                        	historyInfo.setBeforeField("levelCert");
+                            historyInfo.setBeforeContent(certSell.getLevelCert());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        // 发证机关
+                        if(certSell.getLicenceAuthorith() !=null){
+                        	historyInfo.setBeforeField("licenceAuthorith");
+                            historyInfo.setBeforeContent(certSell.getLicenceAuthorith());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        // 有效期（起始时间）
+                        if(certSell.getExpStartDate() !=null){
+                        	historyInfo.setBeforeField("expStartDate");
+                            historyInfo.setBeforeContent(format.format(certSell.getExpStartDate()));
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        // 有效期（结束时间）
+                        if(certSell.getExpEndDate() !=null){
+                        	historyInfo.setBeforeField("expEndDate");
+                            historyInfo.setBeforeContent(format.format(certSell.getExpEndDate()));
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        //证书状态
+                        if(certSell.getMot() !=null){
+                        	historyInfo.setBeforeField("mot");
+                            historyInfo.setBeforeContent(certSell.getMot().toString());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+            		}  
             	}
             }
-        	
         }
         
         
@@ -645,115 +672,140 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             supplierHistoryMapper.insertSelective(historyInfo);*/
             
             //国家或军队保密工程业绩
-            historyInfo.setBeforeField("confidentialAchievement");
-            historyInfo.setBeforeContent(supplierMatEng.getConfidentialAchievement());
-            supplierHistoryMapper.insertSelective(historyInfo);
+            if(supplierMatEng.getConfidentialAchievement() !=null){
+            	historyInfo.setBeforeField("confidentialAchievement");
+                historyInfo.setBeforeContent(supplierMatEng.getConfidentialAchievement());
+                supplierHistoryMapper.insertSelective(historyInfo);
+            }
             
             //是否有国家或军队保密工程业绩
-            historyInfo.setBeforeField("isHavingConAchi");
-            historyInfo.setBeforeContent(supplierMatEng.getIsHavingConAchi());
-            supplierHistoryMapper.insertSelective(historyInfo);
+            if(supplierMatEng.getIsHavingConAchi() !=null){
+            	historyInfo.setBeforeField("isHavingConAchi");
+                historyInfo.setBeforeContent(supplierMatEng.getIsHavingConAchi());
+                supplierHistoryMapper.insertSelective(historyInfo);
+            }
             
             //注册人员信息
             List<SupplierRegPerson> listSupplierRegPersons = supplierMatEng.getListSupplierRegPersons();
             if(listSupplierRegPersons !=null && listSupplierRegPersons.size() >0){
             	for(SupplierRegPerson regPerson : listSupplierRegPersons){
-            		 historyInfo = new SupplierHistory();
-                     historyInfo.setSupplierId(supplierId);
-                     historyInfo.setmodifyType("mat_eng_page");
-                     historyInfo.setCreatedAt(date);
-                     historyInfo.setRelationId(regPerson.getId());
-                     historyInfo.setListType(REG_PERSON_LIST);
-                     
-                     //注册资格名称
-                     historyInfo.setBeforeField("regType");
-                     historyInfo.setBeforeContent(regPerson.getRegType());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     //注册人名字
-                     historyInfo.setBeforeField("regNumber");
-                     historyInfo.setBeforeContent(regPerson.getRegNumber() == null ? "" : regPerson.getRegNumber().toString());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                }
-            	
+            		if(regPerson !=null){
+            			historyInfo = new SupplierHistory();
+                        historyInfo.setSupplierId(supplierId);
+                        historyInfo.setmodifyType("mat_eng_page");
+                        historyInfo.setCreatedAt(date);
+                        historyInfo.setRelationId(regPerson.getId());
+                        historyInfo.setListType(REG_PERSON_LIST);
+                        
+                        //注册资格名称
+                        if(regPerson.getRegType() !=null){
+                       	 historyInfo.setBeforeField("regType");
+                            historyInfo.setBeforeContent(regPerson.getRegType());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        //注册人名字
+                        if(regPerson.getRegNumber() !=null){
+                       	 historyInfo.setBeforeField("regNumber");
+                            historyInfo.setBeforeContent(regPerson.getRegNumber().toString());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+            		}	   
+                }	
             }
             
             //证书信息
             List<SupplierCertEng> listSupplierCertEngs = supplierMatEng.getListSupplierCertEngs();
             if(listSupplierCertEngs !=null && listSupplierCertEngs.size() >0){
             	for(SupplierCertEng certEng : listSupplierCertEngs){
-            		historyInfo = new SupplierHistory();
-                    historyInfo.setSupplierId(supplierId);
-                    historyInfo.setmodifyType("mat_eng_page");
-                    historyInfo.setCreatedAt(date);
-                    historyInfo.setRelationId(certEng.getId());
-                    historyInfo.setListType(CERT_ENGS_LIST);
-                    
-            		 // 证书名称
-                    historyInfo.setBeforeField("certType");
-                    historyInfo.setBeforeContent(certEng.getCertType());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 证书编号
-                    historyInfo.setBeforeField("certCode");
-                    historyInfo.setBeforeContent(certEng.getCertCode());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 资质资格最高等级
-                    historyInfo.setBeforeField("certMaxLevel");
-                    historyInfo.setBeforeContent(certEng.getCertMaxLevel());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    /*// 技术负责人姓名
-                    historyInfo.setBeforeField("techName");
-                    historyInfo.setBeforeContent(certEng.getTechName());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 技术负责人职称
-                    historyInfo.setBeforeField("techPt");
-                    historyInfo.setBeforeContent(certEng.getTechPt());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 技术负责人职务
-                    historyInfo.setBeforeField("techJop");
-                    historyInfo.setBeforeContent(certEng.getTechJop());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 单位负责人姓名
-                    historyInfo.setBeforeField("depName");
-                    historyInfo.setBeforeContent(certEng.getDepName());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 单位负责人职称
-                    historyInfo.setBeforeField("depPt");
-                    historyInfo.setBeforeContent(certEng.getDepPt());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    //单位负责人职务
-                    historyInfo.setBeforeField("depJop");
-                    historyInfo.setBeforeContent(certEng.getDepJop());
-                    supplierHistoryMapper.insertSelective(historyInfo);*/
-                    
-                    // 发证机关
-                    historyInfo.setBeforeField("licenceAuthorith");
-                    historyInfo.setBeforeContent(certEng.getLicenceAuthorith());
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 发证日期	
-                    historyInfo.setBeforeField("expStartDate");
-                    historyInfo.setBeforeContent(format.format(certEng.getExpStartDate()));
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 证书有效期截止日期
-                    historyInfo.setBeforeField("expEndDate");
-                    historyInfo.setBeforeContent(format.format(certEng.getExpEndDate()));
-                    supplierHistoryMapper.insertSelective(historyInfo);
-                    
-                    // 证书状态
-                    historyInfo.setBeforeField("certStatus");
-                    historyInfo.setBeforeContent(certEng.getCertStatus() ==null ? "":certEng.getCertStatus().toString());
-                    supplierHistoryMapper.insertSelective(historyInfo);
+            		if(certEng !=null){
+            			historyInfo = new SupplierHistory();
+                        historyInfo.setSupplierId(supplierId);
+                        historyInfo.setmodifyType("mat_eng_page");
+                        historyInfo.setCreatedAt(date);
+                        historyInfo.setRelationId(certEng.getId());
+                        historyInfo.setListType(CERT_ENGS_LIST);
+                        
+                		 // 证书名称
+                        if(certEng.getCertType() !=null){
+                        	historyInfo.setBeforeField("certType");
+                            historyInfo.setBeforeContent(certEng.getCertType());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        if(certEng.getCertCode() !=null){
+                        	// 证书编号
+                            historyInfo.setBeforeField("certCode");
+                            historyInfo.setBeforeContent(certEng.getCertCode());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        // 资质资格最高等级
+                        if(certEng.getCertMaxLevel() !=null){
+                        	historyInfo.setBeforeField("certMaxLevel");
+                            historyInfo.setBeforeContent(certEng.getCertMaxLevel());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        
+                        /*// 技术负责人姓名
+                        historyInfo.setBeforeField("techName");
+                        historyInfo.setBeforeContent(certEng.getTechName());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                        
+                        // 技术负责人职称
+                        historyInfo.setBeforeField("techPt");
+                        historyInfo.setBeforeContent(certEng.getTechPt());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                        
+                        // 技术负责人职务
+                        historyInfo.setBeforeField("techJop");
+                        historyInfo.setBeforeContent(certEng.getTechJop());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                        
+                        // 单位负责人姓名
+                        historyInfo.setBeforeField("depName");
+                        historyInfo.setBeforeContent(certEng.getDepName());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                        
+                        // 单位负责人职称
+                        historyInfo.setBeforeField("depPt");
+                        historyInfo.setBeforeContent(certEng.getDepPt());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                        
+                        //单位负责人职务
+                        historyInfo.setBeforeField("depJop");
+                        historyInfo.setBeforeContent(certEng.getDepJop());
+                        supplierHistoryMapper.insertSelective(historyInfo);*/
+                        
+                        // 发证机关
+                        if(certEng.getLicenceAuthorith() !=null){
+                        	 historyInfo.setBeforeField("licenceAuthorith");
+                             historyInfo.setBeforeContent(certEng.getLicenceAuthorith());
+                             supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                       
+                        // 发证日期
+                        if(certEng.getExpStartDate() !=null){
+                        	historyInfo.setBeforeField("expStartDate");
+                            historyInfo.setBeforeContent(format.format(certEng.getExpStartDate()));
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        // 证书有效期截止日期
+                        if(certEng.getExpEndDate() !=null ){
+                        	historyInfo.setBeforeField("expEndDate");
+                            historyInfo.setBeforeContent(format.format(certEng.getExpEndDate()));
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        // 证书状态
+                        if(certEng.getCertStatus() !=null){
+                        	historyInfo.setBeforeField("certStatus");
+                            historyInfo.setBeforeContent(certEng.getCertStatus().toString());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+            		}  
             	}
             }
             
@@ -761,78 +813,92 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             List<SupplierAptitute> listSupplierAptitutes = supplierMatEng.getListSupplierAptitutes();
             if(listSupplierAptitutes != null && listSupplierAptitutes.size() >0){
             	for(SupplierAptitute aptitute : listSupplierAptitutes){
-            		 historyInfo = new SupplierHistory();
-                     historyInfo.setSupplierId(supplierId);
-                     historyInfo.setmodifyType("mat_eng_page");
-                     historyInfo.setCreatedAt(date);
-                     historyInfo.setRelationId(aptitute.getId());
-                     historyInfo.setListType(CERT_APT_LIST);
-                     
-                     //证书名称
-                     historyInfo.setBeforeField("certType");
-                     historyInfo.setBeforeContent(aptitute.getCertType());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     //资质类型
-                     historyInfo.setBeforeField("certCode");
-                     historyInfo.setBeforeContent(aptitute.getCertCode());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     //资质序列
-                     historyInfo.setBeforeField("aptituteSequence");
-                     historyInfo.setBeforeContent(aptitute.getAptituteSequence());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     //专业类别
-                     historyInfo.setBeforeField("professType");
-                     historyInfo.setBeforeContent(aptitute.getProfessType());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     //资质资格等级
-                     historyInfo.setBeforeField("aptituteLevel");
-                     historyInfo.setBeforeContent(aptitute.getAptituteLevel());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     //是否主项资质
-                     historyInfo.setBeforeField("isMajorFund");
-                     historyInfo.setBeforeContent(aptitute.getIsMajorFund().toString());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     /*//批准资质资格内容
-                     historyInfo.setBeforeField("aptituteContent");
-                     historyInfo.setBeforeContent(aptitute.getAptituteContent());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     //首次批准资质资格文号
-                     historyInfo.setBeforeField("aptituteCode");
-                     historyInfo.setBeforeContent(aptitute.getAptituteCode());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     //首次批准资质资格日期
-                     historyInfo.setBeforeField("aptituteDate");
-                     historyInfo.setBeforeContent(format.format(aptitute.getAptituteDate()));
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     //资质资格取得方式
-                     historyInfo.setBeforeField("aptituteWay");
-                     historyInfo.setBeforeContent(aptitute.getAptituteWay());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     //资质资格状态
-                     historyInfo.setBeforeField("aptituteStatus");
-                     historyInfo.setBeforeContent(aptitute.getAptituteStatus().toString());
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     //资质资格状态变更时间
-                     historyInfo.setBeforeField("aptituteChangeAt");
-                     historyInfo.setBeforeContent(format.format(aptitute.getAptituteChangeAt()));
-                     supplierHistoryMapper.insertSelective(historyInfo);
-                     
-                     //资质资格状态变更原因
-                     historyInfo.setBeforeField("aptituteChangeReason");
-                     historyInfo.setBeforeContent(aptitute.getAptituteChangeReason());
-                     supplierHistoryMapper.insertSelective(historyInfo);*/
-            	}
+            		if(aptitute !=null){
+            			historyInfo = new SupplierHistory();
+                        historyInfo.setSupplierId(supplierId);
+                        historyInfo.setmodifyType("mat_eng_page");
+                        historyInfo.setCreatedAt(date);
+                        historyInfo.setRelationId(aptitute.getId());
+                        historyInfo.setListType(CERT_APT_LIST);
+                        
+                        //证书名称
+                        if(aptitute.getCertType() !=null){
+                       	 historyInfo.setBeforeField("certType");
+                            historyInfo.setBeforeContent(aptitute.getCertType());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        //资质类型
+                        if(aptitute.getCertCode() !=null){
+                       	 historyInfo.setBeforeField("certCode");
+                            historyInfo.setBeforeContent(aptitute.getCertCode());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        //资质序列
+                        if(aptitute.getAptituteSequence() !=null){
+                       	 historyInfo.setBeforeField("aptituteSequence");
+                            historyInfo.setBeforeContent(aptitute.getAptituteSequence());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        //专业类别
+                        if(aptitute.getProfessType() !=null){
+                       	 historyInfo.setBeforeField("professType");
+                            historyInfo.setBeforeContent(aptitute.getProfessType());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        //资质资格等级
+                        if(aptitute.getAptituteLevel() !=null){
+                       	 historyInfo.setBeforeField("aptituteLevel");
+                            historyInfo.setBeforeContent(aptitute.getAptituteLevel());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        //是否主项资质
+                        if(aptitute.getIsMajorFund() !=null){
+                       	 historyInfo.setBeforeField("isMajorFund");
+                            historyInfo.setBeforeContent(aptitute.getIsMajorFund().toString());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        /*//批准资质资格内容
+                        historyInfo.setBeforeField("aptituteContent");
+                        historyInfo.setBeforeContent(aptitute.getAptituteContent());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                        
+                        //首次批准资质资格文号
+                        historyInfo.setBeforeField("aptituteCode");
+                        historyInfo.setBeforeContent(aptitute.getAptituteCode());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                        
+                        //首次批准资质资格日期
+                        historyInfo.setBeforeField("aptituteDate");
+                        historyInfo.setBeforeContent(format.format(aptitute.getAptituteDate()));
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                        
+                        //资质资格取得方式
+                        historyInfo.setBeforeField("aptituteWay");
+                        historyInfo.setBeforeContent(aptitute.getAptituteWay());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                        
+                        //资质资格状态
+                        historyInfo.setBeforeField("aptituteStatus");
+                        historyInfo.setBeforeContent(aptitute.getAptituteStatus().toString());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                        
+                        //资质资格状态变更时间
+                        historyInfo.setBeforeField("aptituteChangeAt");
+                        historyInfo.setBeforeContent(format.format(aptitute.getAptituteChangeAt()));
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                        
+                        //资质资格状态变更原因
+                        historyInfo.setBeforeField("aptituteChangeReason");
+                        historyInfo.setBeforeContent(aptitute.getAptituteChangeReason());
+                        supplierHistoryMapper.insertSelective(historyInfo);*/
+            		}
+            	}		 
             }
         }
         
@@ -874,63 +940,64 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             List<SupplierCertServe> listSupplierCertSes = supplierMatSe.getListSupplierCertSes();
             if (listSupplierCertSes != null && listSupplierCertSes.size() > 0) {
                 for (SupplierCertServe matSe : listSupplierCertSes) {
-                    historyInfo = new SupplierHistory();
-                    historyInfo.setSupplierId(supplierId);
-                    historyInfo.setmodifyType("mat_serve_page");
-                    historyInfo.setCreatedAt(date);
-                    historyInfo.setRelationId(matSe.getId());
-                    historyInfo.setListType(CERT_SE_LIST);
-                    
-                    // 资质证书名称
-                    if(matSe.getName() !=null){
-                    	historyInfo.setBeforeField("name");
-                        historyInfo.setBeforeContent(matSe.getName());
-                        supplierHistoryMapper.insertSelective(historyInfo);
-                    }
-                    
-                    // 证书编号
-					if(matSe.getCode() !=null){
-						historyInfo.setBeforeField("code");
-	                    historyInfo.setBeforeContent(matSe.getCode());
-	                    supplierHistoryMapper.insertSelective(historyInfo);                	
-					}
+                	if(matSe !=null){
+                		historyInfo = new SupplierHistory();
+                        historyInfo.setSupplierId(supplierId);
+                        historyInfo.setmodifyType("mat_serve_page");
+                        historyInfo.setCreatedAt(date);
+                        historyInfo.setRelationId(matSe.getId());
+                        historyInfo.setListType(CERT_SE_LIST);
+                        
+                        // 资质证书名称
+                        if(matSe.getName() !=null){
+                        	historyInfo.setBeforeField("name");
+                            historyInfo.setBeforeContent(matSe.getName());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        // 证书编号
+    					if(matSe.getCode() !=null){
+    						historyInfo.setBeforeField("code");
+    	                    historyInfo.setBeforeContent(matSe.getCode());
+    	                    supplierHistoryMapper.insertSelective(historyInfo);                	
+    					}
 
-                    // 资质等级
-					if(matSe.getLevelCert() !=null){
-						historyInfo.setBeforeField("levelCert");
-	                    historyInfo.setBeforeContent(matSe.getLevelCert());
-	                    supplierHistoryMapper.insertSelective(historyInfo);
-					}
-                    
-                    // 发证机关
-					if(matSe.getLicenceAuthorith() !=null){
-						historyInfo.setBeforeField("licenceAuthorith");
-	                    historyInfo.setBeforeContent(matSe.getLicenceAuthorith());
-	                    supplierHistoryMapper.insertSelective(historyInfo);
-					}
-                    
-                    // 有效期（起始时间
-					if(matSe.getExpStartDate() !=null){
-						historyInfo.setBeforeField("expStartDate");
-	                    historyInfo.setBeforeContent(format.format(matSe.getExpStartDate()));
-	                    supplierHistoryMapper.insertSelective(historyInfo);
-					}
-                    
-                    // 有效期（结束时间）
-					if(matSe.getExpEndDate() !=null){
-						historyInfo.setBeforeField("expEndDate");
-	                    historyInfo.setBeforeContent(format.format(matSe.getExpEndDate()));
-	                    supplierHistoryMapper.insertSelective(historyInfo);
-					}
-                    
-                    
-                    //证书状态
-					if(matSe.getMot() !=null){
-						historyInfo.setBeforeField("mot");
-	                    historyInfo.setBeforeContent(matSe.getMot().toString());
-	                    supplierHistoryMapper.insertSelective(historyInfo);
-					}
-                    
+                        // 资质等级
+    					if(matSe.getLevelCert() !=null){
+    						historyInfo.setBeforeField("levelCert");
+    	                    historyInfo.setBeforeContent(matSe.getLevelCert());
+    	                    supplierHistoryMapper.insertSelective(historyInfo);
+    					}
+                        
+                        // 发证机关
+    					if(matSe.getLicenceAuthorith() !=null){
+    						historyInfo.setBeforeField("licenceAuthorith");
+    	                    historyInfo.setBeforeContent(matSe.getLicenceAuthorith());
+    	                    supplierHistoryMapper.insertSelective(historyInfo);
+    					}
+                        
+                        // 有效期（起始时间
+    					if(matSe.getExpStartDate() !=null){
+    						historyInfo.setBeforeField("expStartDate");
+    	                    historyInfo.setBeforeContent(format.format(matSe.getExpStartDate()));
+    	                    supplierHistoryMapper.insertSelective(historyInfo);
+    					}
+                        
+                        // 有效期（结束时间）
+    					if(matSe.getExpEndDate() !=null){
+    						historyInfo.setBeforeField("expEndDate");
+    	                    historyInfo.setBeforeContent(format.format(matSe.getExpEndDate()));
+    	                    supplierHistoryMapper.insertSelective(historyInfo);
+    					}
+                        
+                        
+                        //证书状态
+    					if(matSe.getMot() !=null){
+    						historyInfo.setBeforeField("mot");
+    	                    historyInfo.setBeforeContent(matSe.getMot().toString());
+    	                    supplierHistoryMapper.insertSelective(historyInfo);
+    					}
+                	}
                 }
             }
         }
@@ -940,40 +1007,50 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplier.getListSupplierAfterSaleDep();
         if (listSupplierStockholders != null && listSupplierStockholders.size() > 0) {
             for (SupplierAfterSaleDep afterSaleDep : listSupplierAfterSaleDep) {
-                historyInfo = new SupplierHistory();
-                historyInfo.setSupplierId(supplierId);
-                historyInfo.setmodifyType("basic_page");
-                historyInfo.setCreatedAt(date);
-                historyInfo.setRelationId(afterSaleDep.getId());
-                historyInfo.setListType(AFTER_SALE_SERVICE);
-    
-                // 分支（或服务）机构名称
-                historyInfo.setBeforeField("name");
-                historyInfo.setBeforeContent(afterSaleDep.getName());
-                supplierHistoryMapper.insertSelective(historyInfo);
-                
-                // 类别
-                historyInfo.setBeforeField("type");
-                historyInfo.setBeforeContent(afterSaleDep.getType().toString());
-                supplierHistoryMapper.insertSelective(historyInfo);
-                
-                //所在县市
-                historyInfo.setBeforeField("address");
-                historyInfo.setBeforeContent(afterSaleDep.getAddress());
-                supplierHistoryMapper.insertSelective(historyInfo);
-                
-                //负责人
-                historyInfo.setBeforeField("leadName");
-                historyInfo.setBeforeContent(afterSaleDep.getLeadName());
-                supplierHistoryMapper.insertSelective(historyInfo);
-                
-                //联系电话
-                historyInfo.setBeforeField("mobile");
-                historyInfo.setBeforeContent(afterSaleDep.getMobile());
-                supplierHistoryMapper.insertSelective(historyInfo);
-            }
-        }
+            	if(afterSaleDep !=null){
+            		historyInfo = new SupplierHistory();
+                    historyInfo.setSupplierId(supplierId);
+                    historyInfo.setmodifyType("basic_page");
+                    historyInfo.setCreatedAt(date);
+                    historyInfo.setRelationId(afterSaleDep.getId());
+                    historyInfo.setListType(AFTER_SALE_SERVICE);
         
-    }
-    
+                    // 分支（或服务）机构名称
+                    if(afterSaleDep.getName() !=null){
+                    	historyInfo.setBeforeField("name");
+                        historyInfo.setBeforeContent(afterSaleDep.getName());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                    
+                    // 类别
+                    if(afterSaleDep.getType() !=null){
+                    	historyInfo.setBeforeField("type");
+                        historyInfo.setBeforeContent(afterSaleDep.getType().toString());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                    
+                    //所在县市
+                    if(afterSaleDep.getAddress() !=null){
+                    	historyInfo.setBeforeField("address");
+                        historyInfo.setBeforeContent(afterSaleDep.getAddress());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                    
+                    //负责人
+                    if(afterSaleDep.getLeadName() !=null){
+                    	historyInfo.setBeforeField("leadName");
+                        historyInfo.setBeforeContent(afterSaleDep.getLeadName());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+                    
+                    //联系电话
+                    if(afterSaleDep.getMobile() !=null){
+                    	historyInfo.setBeforeField("mobile");
+                        historyInfo.setBeforeContent(afterSaleDep.getMobile());
+                        supplierHistoryMapper.insertSelective(historyInfo);
+                    }
+            	} 
+            }
+        } 
+    }   
 }
