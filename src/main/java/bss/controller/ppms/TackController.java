@@ -865,31 +865,34 @@ public class TackController extends BaseController{
                     map.put("taskId", task2.getId());
                     List<ProjectTask> projectTask = projectTaskService.queryByNo(map);
                     if(projectTask != null && projectTask.size()>0){
-                        map.put("advancedProject", projectTask.get(0).getProjectId());
-                        List<AdvancedDetail> details = detailService.selectByAll(map);
-                        for (AdvancedDetail purchaseRequired : details) {
-                            if(purchaseRequired.getPrice()!=null){
-                                detailss.add(purchaseRequired);
+                        AdvancedProject project = advancedProjectService.selectById(projectTask.get(0).getProjectId());
+                        if(project != null && !"0".equals(project.getStatus())){
+                            map.put("advancedProject", project.getId());
+                            List<AdvancedDetail> details = detailService.selectByAll(map);
+                            for (AdvancedDetail purchaseRequired : details) {
+                                if(purchaseRequired.getPrice()!=null){
+                                    detailss.add(purchaseRequired);
+                                }
                             }
-                        }
-                        if(detailss != null && detailss.size() > 0){
-                            for(AdvancedDetail ad:detailss){
-                                for(PurchaseDetail p:detail){
-                                    if(ad.getRequiredId().equals(p.getId())){
-                                        Boolean flag = reflect(p, ad);
-                                        if(flag == true){
-                                            count++;
+                            if(detailss != null && detailss.size() > 0){
+                                for(AdvancedDetail ad:detailss){
+                                    for(PurchaseDetail p:detail){
+                                        if(ad.getRequiredId().equals(p.getId())){
+                                            Boolean flag = reflect(p, ad);
+                                            if(flag == true){
+                                                count++;
+                                            }
+                                            
                                         }
-                                        
                                     }
+                                    
                                 }
                                 
-                            }
-                            
-                            if(count==detailss.size()){
-                                request.getSession().setAttribute("detail", detail);
-                                request.getSession().setAttribute("details", detailss);
-                                return num;
+                                if(count==detailss.size()){
+                                    request.getSession().setAttribute("detail", detail);
+                                    request.getSession().setAttribute("details", detailss);
+                                    return num;
+                                }
                             }
                         }
                     }
@@ -1292,6 +1295,17 @@ public class TackController extends BaseController{
                     for (UploadFile uploadFile : files) {
                         uploadFile.setBusinessId(id);
                         uploadService.updateLoad(uploadFile);
+                        /*UploadFile file = new UploadFile();
+                        file.setId(WfUtil.createUUID());
+                        file.setBusinessId(id);
+                        file.setCreateDate(new Date());
+                        file.setIsDelete(uploadFile.getIsDelete());
+                        file.setName(uploadFile.getName());
+                        file.setPath(uploadFile.getPath());
+                        file.setSize(uploadFile.getSize());
+                        file.setStatus(uploadFile.getStatus());
+                        file.setTypeId(uploadFile.getTypeId());
+                        uploadService.insertFile(uploadFile, 2);*/
                     }
                 }
                 
