@@ -128,6 +128,6 @@ public class Constant {
     public final static String OUTER_PRODUCT_LIBRARY_EXPERT = "outer_product_library";
     /**产品库  信息文件名称 内网 **/
     public final static String INNER_PRODUCT_LIBRARY_EXPERT = "inner_product_library";
-    /**产品库  信息文件 附件文件**/
+    /**产品库  信息文件名称 文件 内网 **/
     public final static String OUTER_FILE_PRODUCT_LIBRARY_EXPERT = "outer_file_product_library";
 }
