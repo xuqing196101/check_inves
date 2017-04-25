@@ -513,10 +513,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                         //如果该类型下没有子节点,删除关联的根节点
                         String rootCategoryId = DictionaryDataUtil.getId(supplierItem.getSupplierTypeRelateId());
                         List<SupplierItem> supplierItemList = this.getSupplierId(supplierItem.getSupplierId());
-                        if(null != supplierItemList && supplierItemList.size()==1){
-                            if(!StringUtils.isEmpty(rootCategoryId) && rootCategoryId.equals(supplierItemList.get(0).getCategoryId())){
-                                map.put("categoryId", rootCategoryId);
-                                supplierItemMapper.deleteByMap(map);
+                        if(null != supplierItemList && !supplierItemList.isEmpty()){
+                            for(int i=0;i<supplierItemList.size();i++){
+                                if(!StringUtils.isEmpty(rootCategoryId) && rootCategoryId.equals(supplierItemList.get(i).getCategoryId())){
+                                    map.put("categoryId", rootCategoryId);
+                                    supplierItemMapper.deleteByMap(map);
+                                }
                             }
                         }
                         break  ;
