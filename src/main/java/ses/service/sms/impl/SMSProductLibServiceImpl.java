@@ -66,6 +66,8 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 	@Autowired
 	private CategoryParameterMapper cateParamterMapper;
 
+	// 定义图片表名称
+	private String tableName = Constant.TENDER_SYS_VALUE;
 	/**
 	 * 
 	 * @Title: addProductLibInfo
@@ -93,8 +95,6 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		String id = UUIDUtils.getUUID32();
 		// 生成产品参数ID
 		String paramId = UUIDUtils.getUUID32();
-		// 判断用户是否上传主图
-		String tableName = Constant.TENDER_SYS_VALUE;
 
 		/****** 用户点击保存时，不做表单校验 ******/
 		if (flag != null && flag == SMSProductLibConstant.PRODUCT_LIB_SAVE_FLAG) {
@@ -110,12 +110,8 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 				// 设置产品是否删除
 				productBasic
 						.setIsDeleted(SMSProductLibConstant.PRODUCT_LIB_ITEM_NOT_DELETE);
-				List<UploadFile> pictureMajor = fileDao.findBybusinessId(
-						productBasic.getPictureMajor(), tableName);
-				// 主图未上传
-				if (pictureMajor != null && pictureMajor.size() == 0) {
-					productBasic.setPictureMajor(null);
-				}
+				// 校验图片是否已上传
+				vertifyMajorPictureUpload(productBasic, tableName);
 				
 				// 设置创建人ID
 				productBasic.setCreaterId(user.getTypeId());
@@ -130,12 +126,8 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 				smsProductInfo.setArgumentsId(paramId);
 				// 设置商品基本信息ID
 				smsProductInfo.setProudctBasicId(id);
-				List<UploadFile> pictureSub = fileDao.findBybusinessId(
-						smsProductInfo.getPictureSub(), tableName);
-				// 子图未上传
-				if (pictureSub != null && pictureSub.size() == 0) {
-					smsProductInfo.setPictureSub(null);
-				}
+				// 校验子图是否上传
+				vertifySubPictureUpload(smsProductInfo);
 				// 设置创建时间和修改时间
 				smsProductInfo.setUpdatedAt(new Date());
 				smsProductInfo.setCreatedAt(new Date());
@@ -147,14 +139,8 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 				for (SMSProductArguments argument : arguments) {
 					// 如果参数是图片且不是必填写的则如果没上传则置为空
 					if (SMSProductLibConstant.PRODUCT_LIB_ARGU_TYPE.equals(argument.getParameterType())) {
-						List<UploadFile> parameterValuePictureType = fileDao
-								.findBybusinessId(argument.getParameterValue(),
-										tableName);
-						// 子图未上传
-						if (parameterValuePictureType != null
-								&& parameterValuePictureType.size() == 0) {
-							argument.setParameterValue(null);
-						}
+						// 校验参数图片是否上传
+						vertifyArguPictureUpload(argument);
 					}
 					argument.setArgumentsId(paramId);
 					// 设置创建时间和修改时间
@@ -189,12 +175,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 			productBasic
 					.setIsDeleted(SMSProductLibConstant.PRODUCT_LIB_ITEM_NOT_DELETE);
 
-			List<UploadFile> pictureMajor = fileDao.findBybusinessId(
-					productBasic.getPictureMajor(), tableName);
-			// 主图未上传
-			if (pictureMajor != null && pictureMajor.size() == 0) {
-				productBasic.setPictureMajor(null);
-			}
+			vertifyMajorPictureUpload(productBasic, tableName);
 
 			// 设置创建人ID
 			productBasic.setCreaterId(user.getTypeId());
@@ -208,12 +189,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 					// 校验失败
 					return resultInfo;
 				}
-				List<UploadFile> pictureSub = fileDao.findBybusinessId(
-						smsProductInfo.getPictureSub(), tableName);
-				// 子图未上传
-				if (pictureSub != null && pictureSub.size() == 0) {
-					smsProductInfo.setPictureSub(null);
-				}
+				vertifySubPictureUpload(smsProductInfo);
 				// 设置产品参数ID
 				smsProductInfo.setArgumentsId(paramId);
 				// 设置历史价格
@@ -232,14 +208,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 				for (SMSProductArguments argument : arguments) {
 					// 如果参数是图片且不是必填写的则如果没上传则置为空
 					if (SMSProductLibConstant.PRODUCT_LIB_ARGU_TYPE.equals(argument.getParameterType())) {
-						List<UploadFile> parameterValuePictureType = fileDao
-								.findBybusinessId(argument.getParameterValue(),
-										tableName);
-						// 子图未上传
-						if (parameterValuePictureType != null
-								&& parameterValuePictureType.size() == 0) {
-							argument.setParameterValue(null);
-						}
+						vertifyArguPictureUpload(argument);
 					}
 					if (StringUtils.isEmpty(argument.getParameterValue())
 							&& argument.getRequired() == SMSProductLibConstant.PRODUCT_LIB_ARGU_REQUIRED) {
@@ -271,6 +240,46 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 
 		}
 		return JdcgResult.ok();
+	}
+
+	private void vertifyArguPictureUpload(SMSProductArguments argument) {
+		List<UploadFile> parameterValuePictureType = fileDao
+				.findBybusinessId(argument.getParameterValue(),
+						tableName);
+		// 子图未上传
+		if (parameterValuePictureType != null
+				&& parameterValuePictureType.size() == 0) {
+			argument.setParameterValue(null);
+		}
+	}
+
+	private void vertifySubPictureUpload(SMSProductInfo smsProductInfo) {
+		List<UploadFile> pictureSub = fileDao.findBybusinessId(
+				smsProductInfo.getPictureSub(), tableName);
+		// 子图未上传
+		if (pictureSub != null && pictureSub.size() == 0) {
+			smsProductInfo.setPictureSub(null);
+		}
+	}
+
+	/**
+	 * 
+	* @Title: vertifyMajorPictureUpload 
+	* @Description: 校验主图是否上传
+	* @author Easong
+	* @param @param productBasic
+	* @param @param tableName    设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
+	private void vertifyMajorPictureUpload(SMSProductBasic productBasic,
+			String tableName) {
+		List<UploadFile> pictureMajor = fileDao.findBybusinessId(
+				productBasic.getPictureMajor(), tableName);
+		// 主图未上传
+		if (pictureMajor != null && pictureMajor.size() == 0) {
+			productBasic.setPictureMajor(null);
+		}
 	}
 
 	/**
@@ -323,10 +332,18 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (smsProductBasic != null) {
 			// 封装商品的基本信息
+			// 修改时主图片上传bussiness_id
+			if(smsProductBasic.getPictureMajor() == null){
+				smsProductBasic.setPictureMajor(UUIDUtils.getUUID32());
+			}
 			map.put("smsProductBasic", smsProductBasic);
 		}
 
 		if (smsProdcutInfo != null) {
+			// 修改时子图片上传bussiness_id
+			if(smsProdcutInfo.getPictureSub() == null){
+				smsProdcutInfo.setPictureSub(UUIDUtils.getUUID32());
+			}
 			// 封装商品的参数信息
 			map.put("smsProdcutInfo", smsProdcutInfo);
 		}
@@ -387,12 +404,16 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		// 修改
 		// 保存商品基本信息
 		if (productBasic != null) {
+			// 判断主图片是否上传
+			vertifyMajorPictureUpload(productBasic, tableName);
 			// 暂存状态-待审核状态
 			productBasic.setStatus(SMSProductLibConstant.PRODUCT_LIB_ITEM_STATUS_WAIT_CHECK);
 			smsProductBasicMapper.updateByPrimaryKeySelective(productBasic);
 		}
 		// 保存商品描述信息
 		if (smsProductInfo != null) {
+			// 判断子图片是否上传
+			vertifySubPictureUpload(smsProductInfo);
 			smsProductInfoMapper.updateByPrimaryKeySelective(smsProductInfo);
 		}
 
@@ -424,6 +445,10 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 						return JdcgResult.build(500, "参数:" + argument.getParamName()
 								+ "不能为空");
 					}
+					// 判断有没有上传图片
+					if (SMSProductLibConstant.PRODUCT_LIB_ARGU_TYPE.equals(argument.getParameterType())) {
+						vertifyArguPictureUpload(argument);
+					}
 					// 修改时间
 					argument.setUpdatedAt(new Date());
 					// 保存商品参数信息
@@ -437,14 +462,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 				for (SMSProductArguments argument : arguments) {
 					// 如果参数是图片且不是必填写的则如果没上传则置为空
 					if (SMSProductLibConstant.PRODUCT_LIB_ARGU_TYPE.equals(argument.getParameterType())) {
-						List<UploadFile> parameterValuePictureType = fileDao
-								.findBybusinessId(argument.getParameterValue(),
-										tableName);
-						// 子图未上传
-						if (parameterValuePictureType != null
-								&& parameterValuePictureType.size() == 0) {
-							argument.setParameterValue(null);
-						}
+						vertifyArguPictureUpload(argument);
 					}
 					if (StringUtils.isEmpty(argument.getParameterValue())
 							&& argument.getRequired() == SMSProductLibConstant.PRODUCT_LIB_ARGU_REQUIRED) {

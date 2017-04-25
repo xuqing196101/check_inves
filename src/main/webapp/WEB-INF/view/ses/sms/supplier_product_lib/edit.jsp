@@ -369,19 +369,19 @@
             
             <li class="col-md-3 col-sm-6 col-xs-12">
             <span class="fl">产品主图 </span>
-	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-	              <input name="productBasic.pictureMajor" type="hidden" value="${ smsProductBasic.pictureMajor }">
-	              <u:upload id="param_picture${ vs.index }" businessId="${ smsProductBasic.pictureMajor }" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="附件上传" auto="true"/>
+	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	              <input name="productBasic.pictureMajor" type="hidden" value="${ smsProductBasic.pictureMajor }" />
+	              <u:upload id="major_picture" businessId="${ smsProductBasic.pictureMajor }" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="附件上传" auto="true"/>
 	              <u:show showId="major_picture" businessId="${ smsProductBasic.pictureMajor }" sysKey="${sysKey}" typeId="${typeId }" />
 	            </div>
             </li>
             
             <li class="col-md-3 col-sm-6 col-xs-12">
             	<span class="fl">产品子图 </span>
-	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 >
-	              <input name="smsProductInfo.pictureSub" type="hidden" value="${ smsProductInfo.pictureSub }">
-	              <u:upload id="sub__picture" businessId="${ smsProductInfo.pictureSub }" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="附件上传" auto="true"/>
-	              <u:show showId="sub__picture" businessId="${ smsProductInfo.pictureSub }" sysKey="${ sysKey }" typeId="${typeId }" />
+	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0" >
+	              <input name="smsProductInfo.pictureSub" type="hidden" value="${ smsProductInfo.pictureSub }" />
+	              <u:upload id="sub_picture" businessId="${ smsProductInfo.pictureSub }" sysKey="${ sysKey }" typeId="${ typeId }" multiple="true" buttonName="附件上传" auto="true"/>
+	              <u:show showId="sub_picture" businessId="${ smsProductInfo.pictureSub }" sysKey="${ sysKey }" typeId="${typeId }" />
 	            </div>
             </li>
             
