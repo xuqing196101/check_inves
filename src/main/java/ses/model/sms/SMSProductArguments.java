@@ -2,6 +2,9 @@ package ses.model.sms;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import ses.model.bms.CategoryParameter;
+import ses.model.bms.DictionaryData;
 /**
  * 
 * @ClassName: ProductArguments 
@@ -11,24 +14,56 @@ import java.util.Date;
 *
  */
 public class SMSProductArguments implements Serializable{
+	/**
+	 * 主键ID
+	 */
+	private String id;
 	
 	/**
-	 * 产品参数主键
+	 * 产品参数ID
 	 */
     private String argumentsId;
     /**
-	 * 产品参数ID
+	 * 产品类型ID
 	 */
     private String categoryParameterId;
+    // 参数类型
+    private CategoryParameter categoryParameter;
     /**
 	 * 产品参数值
 	 */
     private String parameterValue;
+    
+    /**
+	 * 产品参数类型
+	 */
+    private String parameterType;
+    
+    
     /**
 	 * 备注
 	 */
     private String remark;
+    
     /**
+     * 是否是必填   1填写，0可以不填
+     */
+    private Integer required;
+    
+    /**
+     * 参数名
+     */
+    private String paramName;
+    
+    public String getParameterType() {
+		return parameterType;
+	}
+
+	public void setParameterType(String parameterType) {
+		this.parameterType = parameterType;
+	}
+
+	/**
 	 * 创建时间
 	 */
     private Date createdAt;
@@ -84,4 +119,38 @@ public class SMSProductArguments implements Serializable{
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+	public Integer getRequired() {
+		return required;
+	}
+
+	public void setRequired(Integer required) {
+		this.required = required;
+	}
+
+	public String getParamName() {
+		return paramName;
+	}
+
+	public void setParamName(String paramName) {
+		this.paramName = paramName;
+	}
+
+	public CategoryParameter getCategoryParameter() {
+		return categoryParameter;
+	}
+
+	public void setCategoryParameter(CategoryParameter categoryParameter) {
+		this.categoryParameter = categoryParameter;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+    
 }

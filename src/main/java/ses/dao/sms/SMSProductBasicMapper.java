@@ -1,7 +1,17 @@
 package ses.dao.sms;
 
-import ses.model.sms.SMSProductBasic;
+import java.util.List;
+import java.util.Map;
 
+import ses.model.sms.SMSProductBasic;
+/**
+ * 
+* @ClassName: SMSProductBasicMapper 
+* @Description: 商品基本信息Mapper
+* @author Easong
+* @date 2017年4月20日 下午3:15:07 
+*
+ */
 public interface SMSProductBasicMapper {
     int deleteByPrimaryKey(String id);
 
@@ -14,4 +24,27 @@ public interface SMSProductBasicMapper {
     int updateByPrimaryKeySelective(SMSProductBasic record);
 
     int updateByPrimaryKey(SMSProductBasic record);
+    
+    /**
+     * 
+    * @Title: findAllProductLibBasicInfo 
+    * @Description: 查询产品的基本信息
+    * @author Easong
+    * @param @return    设定文件 
+    * @return List<SMSProductBasic>    返回类型 
+    * @throws
+     */
+    List<SMSProductBasic> findAllProductLibBasicInfo(Map<String, Object> map);
+    
+    /**
+     * 
+    * @Title: findAllWaitCheck 
+    * @Description: 审核查询信息
+    * @author Easong
+    * @param @param map
+    * @param @return    设定文件 
+    * @return List<SMSProductBasic>    返回类型 
+    * @throws
+     */
+    List<SMSProductBasic> findAllWaitCheck(Map<String, Object> map);
 }

@@ -18,7 +18,10 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
+    <association column="CATEGORY_ID" property="category" select="ses.dao.bms.CategoryMapper.findById" />
+    <association column="CREATER_ID" property="supplier" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
   </resultMap>
+  
   <sql id="Base_Column_List" >
     ID, CATEGORY_ID, BRAND, NAME, PRICE, TYPE_NUM, PICTURE_MAJOR, STORE, SKU, PRODUCT_STATUS, 
     STATUS, IS_DELETED, REMARK, CREATED_AT, UPDATED_AT, CREATER_ID
@@ -220,4 +223,35 @@
       CREATER_ID = #{createrId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 查询商品基本信息 -->
+  <select id="findAllProductLibBasicInfo" parameterType="Map" resultMap="BaseResultMap" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_PRODUCT_BASIC SP
+    where SP.IS_DELETED = 0 AND SP.CREATER_ID =#{userId} 
+    <if test="name != null and name !=''" >
+        AND NAME like '%${name}%'
+    </if>
+    <if test="status != null" >
+        AND STATUS = #{status,jdbcType=VARCHAR}
+    </if>
+    ORDER BY SP.CREATED_AT DESC
+  </select>
+  
+  <!-- 审核 查询商品基本信息 -->
+  <select id="findAllWaitCheck" parameterType="Map" resultMap="BaseResultMap" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_PRODUCT_BASIC B
+    where B.IS_DELETED = 0 AND B.STATUS <![CDATA[<>]]> 0 
+    <if test="name != null and name !=''" >
+        AND NAME like '%${name}%'
+    </if>
+    <if test="status != null" >
+        AND STATUS = #{status,jdbcType=VARCHAR}
+    </if>
+    ORDER BY B.CREATED_AT DESC
+  </select>
+  
 </mapper>

@@ -3,6 +3,15 @@ package ses.model.sms;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import ses.model.bms.Category;
+/**
+ * 
+* @ClassName: ProductBasic 
+* @Description: 产品库管理  --产品信息
+* @author Easong
+* @date 2017年4月10日 下午5:02:07 
+*
+ */
 /**
  * 
 * @ClassName: ProductBasic 
@@ -21,6 +30,8 @@ public class SMSProductBasic implements Serializable{
 	 * 商品类别ID
 	 */
     private String categoryId;
+    // 商品类目名称
+    private Category category;
 
     /**
 	 * 产品品牌
@@ -52,16 +63,16 @@ public class SMSProductBasic implements Serializable{
      */
     private String sku;
     /**
-     * 产品状态
+     * 产品状态   1：上架   2.下架
      */
     private Integer productStatus;
     /**
      * 审核状态
-     * 1：待审核   2：审核不通过  3：审核通过
+     * 0:暂存    1：待审核   2：审核未通过  3：审核通过
      */
     private Integer status;
     /**
-     * 是否删除
+     * 是否删除  0：否   1：是
      */
     private Integer isDeleted;
     /**
@@ -77,12 +88,13 @@ public class SMSProductBasic implements Serializable{
      */
     private Date updatedAt;
     /**
-     * 
-     */
-    private String createrId;
-    /**
      * 创建人
      */
+    private String createrId;
+    
+    private Supplier supplier;
+    
+    
     public String getId() {
         return id;
     }
@@ -210,4 +222,21 @@ public class SMSProductBasic implements Serializable{
     public void setCreaterId(String createrId) {
         this.createrId = createrId == null ? null : createrId.trim();
     }
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+	
 }

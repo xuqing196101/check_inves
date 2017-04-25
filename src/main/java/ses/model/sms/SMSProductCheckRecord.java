@@ -1,5 +1,6 @@
 package ses.model.sms;
 
+import java.io.Serializable;
 import java.util.Date;
 /**
  * 
@@ -9,7 +10,7 @@ import java.util.Date;
 * @date 2017年4月10日 下午6:22:06 
 *
  */
-public class SMSProductCheckRecord {
+public class SMSProductCheckRecord implements Serializable{
 	/**
 	 * 产品审核记录表ID
 	 */
@@ -43,6 +44,16 @@ public class SMSProductCheckRecord {
      * 
      */
     private Integer isDeleted;
+    
+    /**
+     * 审核通过1/审核不通过0
+     */
+    private Integer flag;
+    
+    /**
+     * 批量审核ids
+     */
+    private String productBasicIds;
 
     public String getId() {
         return id;
@@ -107,4 +118,23 @@ public class SMSProductCheckRecord {
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
+
+	public Integer getFlag() {
+		return flag;
+	}
+
+	public void setFlag(Integer flag) {
+		this.flag = flag;
+	}
+
+	public String getProductBasicIds() {
+		return productBasicIds;
+	}
+
+	public void setProductBasicIds(String productBasicIds) {
+		this.productBasicIds = productBasicIds;
+	}
+
+
+    
 }

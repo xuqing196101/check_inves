@@ -15,6 +15,20 @@
   <resultMap id="ResultMapWithBLOBs" type="ses.model.sms.SMSProductInfo" extends="BaseResultMap" >
     <result column="INTRODUCE" property="introduce" jdbcType="CLOB" />
   </resultMap>
+  
+  <!-- 商品参数集合 -->
+  <resultMap type="ses.model.sms.SMSProductInfo" id="ResultMapWithBLOBWithArgus" extends="ResultMapWithBLOBs">
+  	<collection property="smsProductArguments" ofType="ses.model.sms.SMSProductArguments">
+		<result column="AID" property="id" jdbcType="VARCHAR" />
+		<result column="AARGUMENTS_ID" property="argumentsId" jdbcType="VARCHAR" />
+	    <result column="ACATEGORY_PARAMETER_ID" property="categoryParameterId" jdbcType="VARCHAR" />
+	    <result column="APARAMETER_VALUE" property="parameterValue" jdbcType="VARCHAR" />
+	    <result column="APARAMETER_TYPE" property="parameterType" jdbcType="VARCHAR" />
+	    <association column="ACATEGORY_PARAMETER_ID" property="categoryParameter" select="ses.dao.bms.CategoryParameterMapper.getParameterById" />
+	</collection> 
+  </resultMap>
+ 	
+ 	  
   <sql id="Base_Column_List" >
     ID, PICTURE_SUB, ARGUMENTS_ID, DETAIL_LIST, HISTORY_PRICE, REMARK, CREATED_AT, UPDATED_AT, 
     PROUDCT_BASIC_ID
@@ -22,6 +36,7 @@
   <sql id="Blob_Column_List" >
     INTRODUCE
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -45,6 +60,9 @@
       #{introduce,jdbcType=CLOB})
   </insert>
   <insert id="insertSelective" parameterType="ses.model.sms.SMSProductInfo" >
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_SES_SMS_PRODUCT_INFO
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -169,4 +187,20 @@
       PROUDCT_BASIC_ID = #{proudctBasicId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+  <!-- 查询商品的描述信息，带出商品的参数 -->
+ <select id="findSMSProdcutInfo" parameterType="java.lang.String" resultMap="ResultMapWithBLOBWithArgus">
+  	SELECT 
+    PI.ID AS ID, PI.PICTURE_SUB AS PICTURE_SUB, PI.ARGUMENTS_ID AS ARGUMENTS_ID, 
+    PI.DETAIL_LIST AS DETAIL_LIST, 
+    PI.HISTORY_PRICE AS HISTORY_PRICE, PI.REMARK AS REMARK, 
+    PI.PROUDCT_BASIC_ID AS PROUDCT_BASIC_ID,PI.INTRODUCE AS INTRODUCE,
+    PA.ID AS AID, PA.ARGUMENTS_ID AS AARGUMENTS_ID,PA.CATEGORY_PARAMETER_ID AS ACATEGORY_PARAMETER_ID,
+    PA.PARAMETER_VALUE AS APARAMETER_VALUE,PA.PARAMETER_TYPE AS APARAMETER_TYPE
+	     FROM T_SES_SMS_PRODUCT_INFO PI
+	     LEFT JOIN T_SES_SMS_PRODUCT_ARGUMENTS PA
+	       ON PI.ARGUMENTS_ID = PA.ARGUMENTS_ID
+	    WHERE PI.PROUDCT_BASIC_ID = #{pid}
+  </select>
 </mapper>

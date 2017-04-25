@@ -2,24 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ses.dao.sms.SMSProductArgumentsMapper" >
   <resultMap id="BaseResultMap" type="ses.model.sms.SMSProductArguments" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
     <result column="ARGUMENTS_ID" property="argumentsId" jdbcType="VARCHAR" />
     <result column="CATEGORY_PARAMETER_ID" property="categoryParameterId" jdbcType="VARCHAR" />
     <result column="PARAMETER_VALUE" property="parameterValue" jdbcType="VARCHAR" />
+    <result column="PARAMETER_TYPE" property="parameterType" jdbcType="VARCHAR" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
   </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ARGUMENTS_ID, CATEGORY_PARAMETER_ID, PARAMETER_VALUE, PARAMETER_TYPE, REMARK, 
+    CREATED_AT, UPDATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_PRODUCT_ARGUMENTS
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_SES_SMS_PRODUCT_ARGUMENTS
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="ses.model.sms.SMSProductArguments" >
-    insert into T_SES_SMS_PRODUCT_ARGUMENTS (ARGUMENTS_ID, CATEGORY_PARAMETER_ID, 
-      PARAMETER_VALUE, REMARK, CREATED_AT, 
-      UPDATED_AT)
-    values (#{argumentsId,jdbcType=VARCHAR}, #{categoryParameterId,jdbcType=VARCHAR}, 
-      #{parameterValue,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedAt,jdbcType=TIMESTAMP})
+    insert into T_SES_SMS_PRODUCT_ARGUMENTS (ID, ARGUMENTS_ID, CATEGORY_PARAMETER_ID, 
+      PARAMETER_VALUE, PARAMETER_TYPE, REMARK, 
+      CREATED_AT, UPDATED_AT)
+    values (#{id,jdbcType=VARCHAR}, #{argumentsId,jdbcType=VARCHAR}, #{categoryParameterId,jdbcType=VARCHAR}, 
+      #{parameterValue,jdbcType=VARCHAR}, #{parameterType,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="ses.model.sms.SMSProductArguments" >
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_SES_SMS_PRODUCT_ARGUMENTS
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
       <if test="argumentsId != null" >
         ARGUMENTS_ID,
       </if>
@@ -28,6 +50,9 @@
       </if>
       <if test="parameterValue != null" >
         PARAMETER_VALUE,
+      </if>
+      <if test="parameterType != null" >
+        PARAMETER_TYPE,
       </if>
       <if test="remark != null" >
         REMARK,
@@ -40,6 +65,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
       <if test="argumentsId != null" >
         #{argumentsId,jdbcType=VARCHAR},
       </if>
@@ -48,6 +76,9 @@
       </if>
       <if test="parameterValue != null" >
         #{parameterValue,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterType != null" >
+        #{parameterType,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -60,4 +91,58 @@
       </if>
     </trim>
   </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SMSProductArguments" >
+    update T_SES_SMS_PRODUCT_ARGUMENTS
+    <set >
+      <if test="argumentsId != null" >
+        ARGUMENTS_ID = #{argumentsId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryParameterId != null" >
+        CATEGORY_PARAMETER_ID = #{categoryParameterId,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterValue != null" >
+        PARAMETER_VALUE = #{parameterValue,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterType != null" >
+        PARAMETER_TYPE = #{parameterType,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.SMSProductArguments" >
+    update T_SES_SMS_PRODUCT_ARGUMENTS
+    set ARGUMENTS_ID = #{argumentsId,jdbcType=VARCHAR},
+      CATEGORY_PARAMETER_ID = #{categoryParameterId,jdbcType=VARCHAR},
+      PARAMETER_VALUE = #{parameterValue,jdbcType=VARCHAR},
+      PARAMETER_TYPE = #{parameterType,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据ARGUMENTS_ID查询所对应的参数 -->
+  <select id="selectByArgumentId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT 
+  	<include refid="Base_Column_List" />
+  	FROM T_SES_SMS_PRODUCT_ARGUMENTS ARGU
+  	WHERE ARGU.ARGUMENTS_ID=#{argumentId}
+  </select>
+  
+  <!-- 根据ARGUMENTS_ID删除所对应的参数 -->
+  <delete id="deleteByArgumentId" parameterType="java.lang.String">
+  	DELETE 
+  	FROM T_SES_SMS_PRODUCT_ARGUMENTS ARGU 
+  	WHERE ARGU.ARGUMENTS_ID=#{argumentId}
+  </delete>
+  
 </mapper>

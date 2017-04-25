@@ -7,7 +7,7 @@
 	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
-	<title>产品录入</title>
+	<title>产品修改</title>
 	<script type="text/javascript">
 			//加载产品类别下拉框
 			$(function(){
@@ -24,15 +24,6 @@
 					var cityOffset = $("#citySel4").offset();
 					$("#menuContent").css({}).slideDown("fast");
 					$("body").bind("mousedown", onBodyDown);
-				});
-				
-				// 价格输入格式验证
-				$("#price").keyup(function(){
-					var price = $("#price").val();
-					if(! /^-?\d+$/.test(price) && ! /^-?\d+\.?\d{0,2}$/.test(price)){
-						layer.msg("格式有误");
-						$("#price").val("");
-					}
 				})
 			});
 			
@@ -66,12 +57,14 @@
 				    success: function(data) {
 				    	if(data != ''){
 					          $("#paramter").load("${pageContext.request.contextPath}/product_lib/productParamterUI.html?categoryId="+treeNode.id)
+					          $("#showArgu").html("");
 					          $("#paramter").css("display","block");
 					          $("#changeNum").html("<i>3</i>产品介绍信息");
 				    	}else{
-				    		$("#paramter").html();
+				    		$("#paramter").html("");
+				            $("#showArgu").html("");
 				    		$("#paramter").css("display","none");
-				            $("#changeNum").html("<i>2</i>产品介绍信息");
+				    		$("#changeNum").html("<i>2</i>产品介绍信息");
 				    	}
 				    }
 		          });
@@ -117,16 +110,22 @@
 			    $.fn.zTree.init($("#treeDemo"),setting,datas);
 		  }
 		 
-			   
-	    function hideMenu() {
-			$("#menuContent").fadeOut("fast");
-			$("body").unbind("mousedown", onBodyDown);
-		}
-		function onBodyDown(event) {
-			if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
-				hideMenu();
-			}
-		} 
+			    function showMenu() {
+			    	$("#pcategory").html("");
+					var cityObj = $("#citySel4");
+					var cityOffset = $("#citySel4").offset();
+					$("#menuContent").css({}).slideDown("fast");
+					$("body").bind("mousedown", onBodyDown);
+				}
+			    function hideMenu() {
+					$("#menuContent").fadeOut("fast");
+					$("body").unbind("mousedown", onBodyDown);
+				}
+				function onBodyDown(event) {
+					if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+						hideMenu();
+					}
+				} 
 
 		// 产品目录搜索
 		function searchs(){
@@ -161,8 +160,8 @@
 						async: false,
 						dataType: "json",
 						success: function(data){
-							if (data.length == 3) {
-								layer.msg("没有符合查询条件品目信息！");
+							if (data.length == 1) {
+								layer.msg("没有符合查询条件的产品类别信息！");
 							} else {
 								zNodes = data;
 								zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
@@ -248,13 +247,12 @@
 				}
 				
 			}
-			// 保存时不做校验
 			
 			$("#flag").val(flag);
 			// 表单提交
-			$.post("${pageContext.request.contextPath}/product_lib/addProductLibInfo.do?", $("#smsProductLibForm").serialize(), function(data) {
+			$.post("${pageContext.request.contextPath}/product_lib/updateSignalProductInfo.do", $("#smsProductLibForm").serialize(), function(data) {
 				if (data.status == 200) {
-					layer.confirm("操作成功",{
+					layer.confirm("修改成功",{
 						btn:['确定']
 					},function(){
 							// 确认后加载商品信息 
@@ -267,7 +265,6 @@
 				}
 			});
 		}
-		
 	
 </script>
 </head>
@@ -287,25 +284,29 @@
             <a href="javascript:void(0)">产品库管理</a>
           </li>
           <li class="active">
-            <a href="javascript:void(0)">产品录入</a>
+            <a href="javascript:void(0)">产品修改</a>
           </li>
         </ul>
         <div class="clear"></div>
       </div>
     </div>
 
-    <!-- 新增模板开始-->
+     <!-- 新增模板开始-->
     <div class="container container_box">
+    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
       <form action="" id="smsProductLibForm" method="post" enctype="multipart/form-data">
       	<input id="flag" name="flag" type="hidden" value="">
+      	<input name="productBasic.id" type="hidden" value="${ smsProductBasic.id }">
+      	<input name="smsProductInfo.id" type="hidden" value="${ smsProductInfo.id }">
+      	<input name="smsProductInfo.argumentsId" type="hidden" value="${ smsProductInfo.argumentsId }">
         <div class="padding-top-10 clear">
-          <h2 class="count_flow"><i>1</i>产品基本信息</h2>
+	      <h2 class="count_flow"><i>1</i>产品基本信息</h2>
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>选择类别：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="citySel4" name="" placeholder="点击选择" value="" type="text" readonly> 
-					<input id="categorieId4" name="productBasic.categoryId" value="${cId}" type="hidden" class="w230 mb0 border0"> 
+                <input id="citySel4" name="" placeholder="点击选择" value="${ smsProductBasic.category.name }" type="text" readonly> 
+					<input id="categorieId4" name="productBasic.categoryId" value="${smsProductBasic.categoryId}" type="hidden" class="w230 mb0 border0"> 
 					<input id="categoryLevel" name="categoryLevel" value="${obProduct.productCategoryLevel}" type="hidden" class="w230 mb0 border0">
 					<!-- 目录框 -->
 					<div id="menuContent" class="menuContent col-md-12 col-xs-12 col-sm-12 p0 tree_drop" style="z-index:10000;position:absolute;top:30px;left:0px" hidden="hidden">
@@ -316,7 +317,7 @@
 						<ul id="treeDemo" class="ztree slect_option clear" style="max-height: 400px;"></ul>
 					</div>
                 <span class="add-on">i</span>
-                <span class="input-tip">商品类别</span>
+                <span class="input-tip">商品类目</span>
                 <div class="cue" id="err_category"></div>
               </div>
             </li>
@@ -324,7 +325,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>名称：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="name" name="productBasic.name" value='${pqinfo.place}' type="text">
+                <input id="name" name="productBasic.name" value='${smsProductBasic.name}' type="text" />
                 <span class="add-on">i</span>
                 <span class="input-tip">名称</span>
                 <div class="cue" id="err_name"></div>
@@ -334,7 +335,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>价格：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="price" name="productBasic.price" type="text" />
+                <input id="price" name="productBasic.price" value='${smsProductBasic.price}' type="text" />
                 <span class="add-on">i</span>
                 <span class="input-tip">价格</span>
                 <div class="cue" id="err_price"></div>
@@ -344,7 +345,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>品牌：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="brand" class="span5" name="productBasic.brand"  type="text">
+                <input id="brand" class="span5" name="productBasic.brand" value='${smsProductBasic.brand}' type="text" />
                 <span class="add-on">i</span>
                 <span class="input-tip">输入品牌</span>
                 <div class="cue" id="err_brand"></div>
@@ -354,7 +355,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>型号：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="typeNum" name="productBasic.typeNum" value='${pqinfo.inspectors}' type="text">
+                <input id="typeNum" name="productBasic.typeNum" value='${smsProductBasic.typeNum}' type="text" />
                 <span class="add-on">i</span>
                 <span class="input-tip">型号</span>
                 <div class="cue" id="err_typeNum"></div>
@@ -363,7 +364,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>库存：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="store" name="productBasic.store" value='${pqinfo.inspectors}' type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" />
+                <input id="store" name="productBasic.store" value='${smsProductBasic.store}' type="text" />
                 <span class="add-on">i</span>
                 <span class="input-tip">库存</span>
                 <div class="cue" id="err_store"></div>
@@ -372,7 +373,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>SKU：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="sku" name="productBasic.sku" type="text" />
+                <input id="sku" name="productBasic.sku" value='${smsProductBasic.sku}' type="text" />
                 <span class="add-on">i</span>
                 <span class="input-tip">SKU</span>
                 <div class="cue" id="err_sku"></div>
@@ -380,50 +381,69 @@
             </li>
             
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="fl">上传产品主图 </span>
-              <!-- <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 "><span class="red">*注意：图片尺寸300*300(px);大小在100k以内</span></div> -->
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-	              <% String uuidmajor = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
-	              <input name="productBasic.pictureMajor" type="hidden" value="<%=uuidmajor %>" />
-	              <u:upload id="major_picture" businessId="<%=uuidmajor %>" sysKey="${sysKey}" typeId="${typeId }" buttonName="添加主图" auto="true" exts="png,jpeg,jpg,bmp,git" />
-	              <u:show showId="major_picture" businessId="<%=uuidmajor %>" sysKey="${sysKey}" typeId="${typeId }" />
-              </div>
+            <span class="fl">产品主图 </span>
+	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
+	              <input name="productBasic.pictureMajor" type="hidden" value="${ smsProductBasic.pictureMajor }">
+	              <u:upload id="param_picture${ vs.index }" businessId="${ smsProductBasic.pictureMajor }" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="附件上传" auto="true"/>
+	              <u:show showId="major_picture" businessId="${ smsProductBasic.pictureMajor }" sysKey="${sysKey}" typeId="${typeId }" delete="false" />
+	            </div>
             </li>
+            
             <li class="col-md-3 col-sm-6 col-xs-12">
-	          <span class="fl">上传产品子图 </span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-	              <% String uuidsub = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
-	              <input name="smsProductInfo.pictureSub" type="hidden" value="<%=uuidsub %>" />
-	              <u:upload id="sub__picture" businessId="<%=uuidsub %>" sysKey="${ sysKey }" typeId="${typeId }" buttonName="添加子图" multiple="true" auto="true" exts="png,jpeg,jpg,bmp,git" />
-	              <u:show showId="sub__picture" businessId="<%=uuidsub %>" sysKey="${ sysKey }" typeId="${typeId }" />
-              </div>
+            	<span class="fl">产品子图 </span>
+	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 >
+	              <input name="smsProductInfo.pictureSub" type="hidden" value="${ smsProductInfo.pictureSub }">
+	              <u:upload id="sub__picture" businessId="${ smsProductInfo.pictureSub }" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="附件上传" auto="true"/>
+	              <u:show showId="sub__picture" businessId="${ smsProductInfo.pictureSub }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
+	            </div>
             </li>
+            
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red"></div>包装清单：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea class="h80 col-md-12 col-sm-12 col-xs-12 " name="smsProductInfo.detailList" title="" placeholder="" ></textarea>
+                <textarea class="h80 col-md-12 col-sm-12 col-xs-12 " name="smsProductInfo.detailList" title="" placeholder="" >${ smsProductInfo.detailList }</textarea>
               </div>
-              <div class="clear red"></div>
+              <div class="clear red">${err_detailList}</div>
             </li>
-            </ul>
-            
+           </ul>
             <!-- 产品参数加载 -->
+            
+            <c:if test="${not empty smsProductInfo.smsProductArguments }">
+	            <span id="showArgu">
+	            	<%@ include file="/WEB-INF/view/ses/sms/supplier_product_lib/editproductParamterCommon.jsp" %>
+	            </span>
+            </c:if>
+           	<!-- 产品参数加载 -->
             <span id="paramter" style="display: none">
 	            
             </span>
-            <h2 class="count_flow" id="changeNum"><i>2</i>产品介绍信息</h2>
-    		<ul class="ul_list" id="paramter">
-	            <li class="col-md-12 col-sm-12 col-xs-12">
-		            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>产品介绍</span>
-		            <div class="col-md-12 col-sm-12 col-xs-12 p0">
-					 	<script id="introduce"  name="smsProductInfo.introduce" type="text/plain"></script>
-		   			</div>
-	   				<div id="err_introduce" class="clear red"></div>
-				</li>
-			</ul>
-         
+            
+            <c:if test="${not empty smsProductInfo.smsProductArguments }">
+	            <h2 class="count_flow" id="changeNum"><i>3</i>产品介绍信息</h2>
+	    		<ul class="ul_list" id="paramter">
+		            <li class="col-md-12 col-sm-12 col-xs-12">
+			            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>产品介绍</span>
+			            <div class="col-md-12 col-sm-12 col-xs-12 p0">
+						 	<script id="introduce"  name="smsProductInfo.introduce" type="text/plain"></script>
+			   			</div>
+		   				<div id="err_introduce" class="clear red"></div>
+					</li>
+				</ul>
+			</c:if>
+            <c:if test="${empty smsProductInfo.smsProductArguments }">
+	            <h2 class="count_flow" id="changeNum"><i>2</i>产品介绍信息</h2>
+	    		<ul class="ul_list" id="paramter">
+		            <li class="col-md-12 col-sm-12 col-xs-12">
+			            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>产品介绍</span>
+			            <div class="col-md-12 col-sm-12 col-xs-12 p0">
+						 	<script id="introduce"  name="smsProductInfo.introduce" type="text/plain"></script>
+			   			</div>
+		   				<div id="err_introduce" class="clear red"></div>
+					</li>
+				</ul>
+			</c:if>
+			
           <div class="col-md-12 col-sm-12 col-xs-12 tc mt20">
-            <button class="btn btn-windows save" type="button" onclick="submitForm(0)">暂存</button>
             <button class="btn btn-windows save" type="button" onclick="submitForm(1)">提交</button>
             <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
           </div>
@@ -432,7 +452,11 @@
     </div>
 	<!-- 加载富文本编辑器 -->
 	<script type="text/javascript">
-	    var ue = UE.getEditor('introduce');
+		var ue = UE.getEditor('introduce');
+	    var content='${smsProductInfo.introduce}';
+		ue.ready(function(){
+	  		ue.setContent(content);
+		});
 	</script>
 </body>
 </html>

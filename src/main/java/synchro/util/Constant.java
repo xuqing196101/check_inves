@@ -116,4 +116,6 @@ public class Constant {
     public final static String SUPPLIER_FILE_EXPERT = "bidding_supplier";
     /** 竞价 结果文件名称 **/
     public final static String RESULT_FILE_EXPERT = "bidding_result";
+    /** 产品库 参数管理附件 **/
+    public final static String PRODUCT_LIB_FILE = "PRODUCT_LIB_FILE";
 }

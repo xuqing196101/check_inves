@@ -33,6 +33,9 @@
       #{updatedAt,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="ses.model.sms.SMSProductCheckRecord" >
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_SES_SMS_PRODUCT_CHECK_RECORD
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -125,4 +128,14 @@
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+  <!-- 根据商品id查询审核记录信息 -->
+  <select id="selectByProductBasicId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_PRODUCT_CHECK_RECORD CR
+    where CR.PRODUCT_BASIC_ID = #{productBasicId,jdbcType=VARCHAR}
+    AND CR.IS_DELETED = 0
+  </select>
 </mapper>

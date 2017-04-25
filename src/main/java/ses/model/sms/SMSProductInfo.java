@@ -1,7 +1,9 @@
 package ses.model.sms;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 
@@ -11,7 +13,7 @@ import java.util.Date;
 * @date 2017年4月10日 下午5:38:37 
 *
  */
-public class SMSProductInfo {
+public class SMSProductInfo implements Serializable{
 	/**
 	 * 主键
 	 */
@@ -24,6 +26,8 @@ public class SMSProductInfo {
 	 * 产品参数
 	 */
     private String argumentsId;
+    // 参数集合
+    private List<SMSProductArguments> smsProductArguments;
     /**
 	 * 产品包装清单
 	 */
@@ -132,4 +136,14 @@ public class SMSProductInfo {
     public void setIntroduce(String introduce) {
         this.introduce = introduce == null ? null : introduce.trim();
     }
+
+	public List<SMSProductArguments> getSmsProductArguments() {
+		return smsProductArguments;
+	}
+
+	public void setSmsProductArguments(List<SMSProductArguments> smsProductArguments) {
+		this.smsProductArguments = smsProductArguments;
+	}
+    
+    
 }
