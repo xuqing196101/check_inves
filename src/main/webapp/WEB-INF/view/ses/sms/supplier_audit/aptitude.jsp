@@ -25,7 +25,7 @@
 			//上一步
 			function lastStep() {
 				/*$("#form_id").attr("action", lastUrl);*/
-				var action = "${pageContext.request.contextPath}/supplierAudit/items.html";
+				var action = "${pageContext.request.contextPath}/supplierAudit/supplierType.html";
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
