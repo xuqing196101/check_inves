@@ -52,6 +52,9 @@
 							url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
 							type: "post",
 							data: $("#item_form").serializeArray(),
+                            success: function(msg) {
+                                return "0";
+                            }
 						});
 					}
 				});
@@ -68,12 +71,27 @@
 					 	if(msg=="0"){
 					 		layer.alert("资质文件没有上传完毕，请继续上传！");
 					 	}else{
-					 		tempSave();
 							$("input[name='flag']").val("2");
 							sessionStorage.formE=JSON.stringify($("#items_info_form_id").serializeArray());
 							var flag=isAptitue();
 							if(flag==true){
-								$("#items_info_form_id").submit();
+                                $("input[name='flag']").val("file");
+                                $.ajax({
+                                    url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
+                                    type: "post",
+                                    data: $("#items_info_form_id").serializeArray(),
+                                    contextType: "application/x-www-form-urlencoded",
+                                    success: function(msg) {
+                                        $.ajax({
+                                            url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
+                                            type: "post",
+                                            data: $("#item_form").serializeArray(),
+                                            success: function(msg) {
+                                                $("#items_info_form_id").submit();
+                                            }
+                                        });
+                                    }
+                                });
 							}else{
 								layer.alert("请完善工程资质证书信息！");
 							}
