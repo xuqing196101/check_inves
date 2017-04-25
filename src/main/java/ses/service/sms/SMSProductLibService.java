@@ -119,7 +119,7 @@ public interface SMSProductLibService {
 	* @return JdcgResult    返回类型 
 	* @throws
 	 */
-	public JdcgResult vertifyUniqueSKU(String sku);
+	public JdcgResult vertifyUniqueSKU(String sku, String pid);
 	  /**
      * 实现 产品库录入的未审核的数据   外网  导出 
      */

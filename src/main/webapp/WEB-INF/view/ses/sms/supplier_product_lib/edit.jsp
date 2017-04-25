@@ -39,12 +39,14 @@
 				$("#sku").keyup(function(){
 					// 获取用户输入的sku
 					var sku=$("#sku").val();
+					var pid = $("#pid").val();
 					 $.ajax({
 						    url: "${pageContext.request.contextPath }/product_lib/vartifyUniqueSKU.do",
 						    type: "POST",
 						    dataType: "json",
 						 	data: {
-						 		"sku": sku
+						 		"sku": sku,
+						 		"pid":pid
 							},
 					    success: function(data) {
 					    	if(data.status==500){
@@ -229,6 +231,7 @@
 			layer.confirm("您确认修改吗？", {
 			    btn: ['确定','取消'], //按钮
 			}, function(index){
+				layer.close(index);
 				$("#flag").val(flag);
 				// 表单提交
 				$.post("${pageContext.request.contextPath}/product_lib/updateSignalProductInfo.do", $("#smsProductLibForm").serialize(), function(data) {
@@ -278,7 +281,7 @@
     <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
       <form action="" id="smsProductLibForm" method="post" enctype="multipart/form-data">
       	<input id="flag" name="flag" type="hidden" value="">
-      	<input name="productBasic.id" type="hidden" value="${ smsProductBasic.id }">
+      	<input id="pid" name="productBasic.id" type="hidden" value="${ smsProductBasic.id }">
       	<input name="smsProductInfo.id" type="hidden" value="${ smsProductInfo.id }">
       	<input name="smsProductInfo.argumentsId" type="hidden" value="${ smsProductInfo.argumentsId }">
         <div class="padding-top-10 clear">
@@ -356,7 +359,8 @@
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>SKU：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
               	<c:if test="${not empty smsProductBasic.sku}">
-	                <input id="sku" name="productBasic.sku" value='${smsProductBasic.sku}' type="text" readonly="readonly"/>
+	                <input value='${smsProductBasic.sku}' type="text" disabled="disabled"/>
+	                <input name="productBasic.sku" value='${smsProductBasic.sku}' type="hidden"/>
               	</c:if>
               	<c:if test="${empty smsProductBasic.sku}">
 	                <input id="sku" name="productBasic.sku" value='${smsProductBasic.sku}' type="text" />

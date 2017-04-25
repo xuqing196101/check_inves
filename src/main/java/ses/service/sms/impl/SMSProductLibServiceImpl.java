@@ -30,11 +30,8 @@ import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
 
-import bss.model.ob.OBProject;
-
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
-
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
@@ -261,6 +258,15 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		return JdcgResult.ok();
 	}
 
+	/**
+	 * 
+	* @Title: vertifyArguPictureUpload 
+	* @Description: 校验参数图片是否上传
+	* @author Easong
+	* @param @param argument    设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
 	private void vertifyArguPictureUpload(SMSProductArguments argument) {
 		List<UploadFile> parameterValuePictureType = fileDao
 				.findBybusinessId(argument.getParameterValue(),
@@ -272,6 +278,15 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		}
 	}
 
+	/**
+	 * 
+	* @Title: vertifySubPictureUpload 
+	* @Description: 校验子图是否上传
+	* @author Easong
+	* @param @param smsProductInfo    设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
 	private void vertifySubPictureUpload(SMSProductInfo smsProductInfo) {
 		List<UploadFile> pictureSub = fileDao.findBybusinessId(
 				smsProductInfo.getPictureSub(), tableName);
@@ -363,6 +378,18 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 			if(smsProdcutInfo.getPictureSub() == null){
 				smsProdcutInfo.setPictureSub(UUIDUtils.getUUID32());
 			}
+			// 获取参数信息
+			List<SMSProductArguments> arguments = smsProdcutInfo.getSmsProductArguments();
+			if(arguments != null && arguments.size() > 0){
+				for (SMSProductArguments smsProductArguments : arguments) {
+					if(SMSProductLibConstant.PRODUCT_LIB_ARGU_TYPE.equals(smsProductArguments.getParameterType())
+							&& smsProductArguments.getParameterValue() == null){
+						// 修改时参数值为空并且是附件，设置bussiness_id
+						smsProductArguments.setParameterValue(UUIDUtils.getUUID32());
+					}
+				}
+			}
+			
 			// 封装商品的参数信息
 			map.put("smsProdcutInfo", smsProdcutInfo);
 		}
@@ -444,7 +471,6 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		// List<SMSProductArguments> selectByArgumentId =
 		// smsProductArgumentsMapper.selectByArgumentId(smsProductInfo.getArgumentsId());
 		// 用户修改参数信息时，先删除后增加
-		String tableName = Constant.TENDER_SYS_VALUE;
 		List<SMSProductArguments> arguments = smsProductVO
 				.getProductArguments();
 		// 判断如果用户第一次录入没有参数，修改后出现参数
@@ -564,8 +590,8 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 				return JdcgResult.build(500, "请填写SKU");
 			}
 			// 查询SKU是否已存在
-			String uniqueSKU = smsProductBasicMapper.vertifyUniqueSKU(productBasic.getSku());
-			if(uniqueSKU != null){
+			JdcgResult jdcgResult = vertifyUniqueSKU(productBasic.getSku(), productBasic.getId());
+			if(jdcgResult.getStatus() == 500){
 				return JdcgResult.build(500, "SKU已存在，请重新输入");
 			}
 		}
@@ -871,9 +897,16 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 	* @throws
 	 */
 	@Override
-	public JdcgResult vertifyUniqueSKU(String sku) {
+	public JdcgResult vertifyUniqueSKU(String sku, String pid) {
 		String uniqueSKU = smsProductBasicMapper.vertifyUniqueSKU(sku);
-		if(uniqueSKU != null){
+		// 查询该商品
+		SMSProductBasic smsProductBasic = smsProductBasicMapper.selectByPrimaryKey(pid);
+		if(uniqueSKU != null && smsProductBasic == null){
+			// SKU已存在
+			return JdcgResult.status(500);
+		}
+		// 暂存状态的判断
+		if(uniqueSKU != null && smsProductBasic != null && smsProductBasic.getSku() == null){
 			// SKU已存在
 			return JdcgResult.status(500);
 		}

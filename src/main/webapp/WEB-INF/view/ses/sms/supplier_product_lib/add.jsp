@@ -225,6 +225,7 @@
 			layer.confirm(msg, {
 			    btn: ['确定','取消'], //按钮
 			}, function(index){
+				layer.close(index);
 				// 保存时不做校验
 				$("#flag").val(flag);
 				// 表单提交
