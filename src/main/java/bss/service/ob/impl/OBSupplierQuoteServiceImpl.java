@@ -226,7 +226,6 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	 * @param @param map
 	 * @param @return 设定文件
 	 */
-	@SuppressWarnings("null")
 	@Override
 	public JdcgResult saveQuoteInfo(Map<String, Object> map, String quotoFlag) {
 		String titleId = (String) map.get("titleId");

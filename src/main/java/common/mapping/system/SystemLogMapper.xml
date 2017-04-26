@@ -150,7 +150,7 @@
   </select>
   
   <!-- 根据主键查询 -->
-  <select id="findById" parameterType="java.lang.String" resultType="common.model.SystemLog">
+  <select id="findById" parameterType="java.lang.String" resultMap="baseResultMap">
   	SELECT 
   	 <include refid="baseSql" />,
   	 PARAMS 
