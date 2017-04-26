@@ -250,11 +250,19 @@
 //                }
 			}
 			$(function() {
-				$("input").not("#supplierName_input_id").bind("blur", tempSave);
+				$("input").not("#supplierName_input_id").not("input[name='legalName']").not("input[name='contactName']").bind("blur", tempSave);
 				$("textarea").bind("blur", tempSave);
 				$("select").bind("change", tempSave);
 				$("#supplierName_input_id").change(function () {
 				    $("#name_span").val(1);
+                    tempSave();
+                });
+				$("input[name='legalName']").change(function () {
+                    $("#name_span").val(2);
+                    tempSave();
+                });
+				$("input[name='contactName']").change(function () {
+                    $("#name_span").val(3);
                     tempSave();
                 })
 			});
@@ -289,6 +297,18 @@
 						if(msg=="supplierNameExists"){
 						    $("#supplierName_input_id").val("");
                             layer.msg('供应商名称已存在，请重新填写！', {
+                                offset: '300px'
+                            });
+                        }
+                        if(msg=="legalNameExists"){
+                            $("input[name='legalName']").val("");
+                            layer.msg('姓名已存在，请重新填写！', {
+                                offset: '300px'
+                            });
+                        }
+                        if(msg=="contactNameExists"){
+                            $("input[name='contactName']").val("");
+                            layer.msg('姓名已存在，请重新填写！', {
                                 offset: '300px'
                             });
                         }

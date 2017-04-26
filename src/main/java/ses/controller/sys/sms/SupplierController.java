@@ -48,11 +48,7 @@ import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.formbean.ContractBean;
-import ses.model.bms.Area;
-import ses.model.bms.Category;
-import ses.model.bms.CategoryTree;
-import ses.model.bms.DictionaryData;
-import ses.model.bms.Qualification;
+import ses.model.bms.*;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
@@ -585,11 +581,34 @@ public class SupplierController extends BaseSupplierController {
 			//保存基本信息
 			try {
 				Supplier before = supplierService.get(supplier.getId());
+				//校验供应商名称是否存在
                 if(!StringUtils.isEmpty(name_flag) && name_flag.equals("1")){
                     List<Supplier> suppliers = supplierService.selByName(supplier.getSupplierName());
                     if(null != suppliers && !suppliers.isEmpty()){
-                        if(null== before || !before.getSupplierName().equals(suppliers.get(0).getSupplierName())){
+                        if(null== before || null==before.getSupplierName() || !before.getSupplierName().equals(suppliers.get(0).getSupplierName())){
                             return "supplierNameExists";
+                        }
+                    }
+                }
+                //校验法定代表人名称是否存在
+                if(!StringUtils.isEmpty(name_flag) && name_flag.equals("2")){
+                    User user = new User();
+                    user.setRelName(supplier.getLegalName());
+                    List<User> userList = userService.find(user);
+                    if(null != userList && !userList.isEmpty()){
+                        if(null==before || null==before.getLegalName() || !before.getLegalName().equals(userList.get(0).getRelName())){
+                            return "legalNameExists";
+                        }
+                    }
+                }
+                //校验注册联系人名称是否存在
+                if(!StringUtils.isEmpty(name_flag) && name_flag.equals("3")){
+                    User user = new User();
+                    user.setRelName(supplier.getContactName());
+                    List<User> userList = userService.find(user);
+                    if(null != userList && !userList.isEmpty()){
+                        if(null==before || null==before.getContactName() || !before.getContactName().equals(userList.get(0).getRelName())){
+                            return "contactNameExists";
                         }
                     }
                 }
