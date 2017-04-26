@@ -72,13 +72,20 @@ function check(){
 }
 
 function offer(){
-	var id=[]; 
+	var id=[];
+	var obj;
 	$('input[name="chkItem"]:checked').each(function(){ 
 		id.push($(this).val());
+		obj=this;
 	}); 
 	
 	if(id.length==1){
-		window.location.href="${pageContext.request.contextPath}/offer/userSelectProductInfo.do?productId="+id;
+		if($(obj).next().val()=='1'){
+			window.location.href="${pageContext.request.contextPath}/offer/userSelectProductInfo.do?productId="+id;
+		}else{
+			layer.alert("供应商还没有报价",{offset: ['222px', '390px'], shade:0.01});
+		}
+		
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{
@@ -132,26 +139,44 @@ function offer(){
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 	  				<th class="info">序号</th>
 	  				<th class="info">产品名称</th>
-	  				<th class="info">状态</th>
+	  				<th class="info">品牌商标</th>
+	  				<th class="info">规格型号</th>
+	  				<th class="info">采购数量</th>
+	  				<th class="info">计量单位</th>
+	  				<th class="info">审核状态</th>
+	  				<th class="info">报价状态</th>
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${list.list}" var="product" varStatus="vs">
 	  			<%-- <c:if test="${product.offer==1 }"> --%> <!-- 只显示已报价的进行审价 -->
 	  			<tr>
-	  				<td class="tc" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
-	  				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-	  				<td class="tc pointer">${product.name }</td>
+	  				<td class="tc w50" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /><input type="hidden" value="${product.offer}"/></td>
+	  				<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+	  				<td class="tc w200">${product.name }</td>
+	  				<td class="tl w200">${product.contractRequired.brand }</td>
+	  				<td class="tl w200">${product.contractRequired.stand }</td>
+	  				<td class="tc w80">${product.contractRequired.purchaseCount }</td>
+	  				<td class="tc w80">${product.contractRequired.item }</td>
+	  				<td class="tc w50">
 	  				<c:if test="${product.auditOffer == 0 }">
-	  					<td class="tc pointer">未审核</td>
+	  					未审核
 	  				</c:if>
 	  				<c:if test="${product.auditOffer == 1 }">
-	  					<td class="tc pointer">已审价</td>
+	  					已审价
 	  				</c:if>
 	  				<c:if test="${product.auditOffer == 2 }">
-	  					<td class="tc pointer">已复审</td>
+	  					已复审
 	  				</c:if>
+	  				</td>
+	  				<td class="tc w50">
+	  				<c:if test="${product.offer=='0'}">
+	  					未报价
+	  				</c:if>
+	  				<c:if test="${product.offer=='1'}">
+	  					已报价
+	  				</c:if>
+	  				</td>
 	  			</tr>
-	  			<%-- </c:if> --%>
 	  		</c:forEach>
 		  </table>
 	  	<div id="pagediv" align="right"></div>

@@ -316,13 +316,13 @@
           /* $(this).find("td:eq(9)").each(function() {
             totalRow1 += parseFloat($(this).text());
           }); */
-          $(this).find("td:eq(8)").each(function() {
+          $(this).find("td:eq(7)").each(function() {
         	  if($(this.firstChild).val()!=null&&$(this.firstChild).val()!=""){
         		  totalRow2 += parseFloat($(this.firstChild).val());
         	  }
             
           });
-          $(this).find("td:eq(13)").each(function() {
+          $(this).find("td:eq(12)").each(function() {
         	  if($(this.firstChild).val()!=null&&$(this.firstChild).val()!=""){
         		  totalRow3 += parseFloat($(this.firstChild).val());
         	  }

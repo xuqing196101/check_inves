@@ -29,9 +29,11 @@ import ses.model.ppms.CategoryParam;
 import ses.model.sms.Supplier;
 import ses.service.sms.SupplierService;
 import ses.util.PropertiesUtil;
+import bss.model.cs.ContractRequired;
 import bss.model.sstps.AppraisalContract;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.ProductInfo;
+import bss.service.cs.ContractRequiredService;
 import bss.service.sstps.AppraisalContractService;
 import bss.service.sstps.ContractProductService;
 import bss.service.sstps.ProductInfoService;
@@ -56,6 +58,9 @@ public class OfferController {
 	
 	@Autowired
 	private ContractProductService contractProductService;
+	
+	@Autowired
+	private ContractRequiredService contractRequiredService;
 	
 	@Autowired
 	private ProductInfoService productInfoService;
@@ -194,6 +199,10 @@ public class OfferController {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<ContractProduct> list = contractProductService.select(map);
+		for(ContractProduct cp:list){
+			ContractRequired contractRequired = contractRequiredService.selectConRequByPrimaryKey(cp.getRequirdeId());
+			cp.setContractRequired(contractRequired);
+		}
 		model.addAttribute("list", new PageInfo<ContractProduct>(list));
 		model.addAttribute("name", name);
 		model.addAttribute("id", contractId);
@@ -227,6 +236,10 @@ public class OfferController {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<ContractProduct> list = contractProductService.select(map);
+		for(ContractProduct cp:list){
+			ContractRequired contractRequired = contractRequiredService.selectConRequByPrimaryKey(cp.getRequirdeId());
+			cp.setContractRequired(contractRequired);
+		}
 		model.addAttribute("list", new PageInfo<ContractProduct>(list));
 		model.addAttribute("name", name);
 		model.addAttribute("id", contractId);
@@ -319,6 +332,10 @@ public class OfferController {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<ContractProduct> list = contractProductService.select(map); 
+		for(ContractProduct cp:list){
+			ContractRequired contractRequired = contractRequiredService.selectConRequByPrimaryKey(cp.getRequirdeId());
+			cp.setContractRequired(contractRequired);
+		}
 		model.addAttribute("list", new PageInfo<ContractProduct>(list));
 		model.addAttribute("name", name);
 		model.addAttribute("id", contractId);
@@ -377,6 +394,10 @@ public class OfferController {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<ContractProduct> list = contractProductService.select(map); 
+		for(ContractProduct cp:list){
+			ContractRequired contractRequired = contractRequiredService.selectConRequByPrimaryKey(cp.getRequirdeId());
+			cp.setContractRequired(contractRequired);
+		}
 		model.addAttribute("list", new PageInfo<ContractProduct>(list));
 		model.addAttribute("name", name);
 		model.addAttribute("id", contractId);

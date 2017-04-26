@@ -120,9 +120,7 @@ public class AuditSummaryController {
 		Integer page=1;
 		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
-		
-		String url = "bss/sstps/offer/supplier/list";
-		return url;
+		return "redirect:/offer/selectProduct.html?contractId="+contract.getAppraisalContract().getId();
 	}
 	
 	
@@ -193,7 +191,7 @@ public class AuditSummaryController {
 					}
 				}
 				if (flag) {*/
-					AppraisalContract appraisalContract = new AppraisalContract();
+					/*AppraisalContract appraisalContract = new AppraisalContract();
 					appraisalContract.setId(contractProduct.getAppraisalContract().getId());
 					appraisalContract.setAppraisal(2);
 					appraisalContract.setUpdatedAt(new Date());
@@ -219,15 +217,14 @@ public class AuditSummaryController {
 					//采购文件批复时间
 					probationaryArchive.setCreatedAt(new Date());//创建时间
 					probationaryArchive.setContractCode(purchaseContract.getId());//单一来源合同ID
-					//插入预备档案表
+*/					//插入预备档案表
 				/*}*/
 				
 		Integer page=1;
 		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		
-		String url = "bss/sstps/offer/userAppraisal/list";
-		return url;
+		return "redirect:/offer/userSelectProduct.html?contractId="+contractProduct.getAppraisalContract().getId();
 	}
 	
 	@RequestMapping("/userGetAllCheck")

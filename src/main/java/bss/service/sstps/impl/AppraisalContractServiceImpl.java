@@ -205,6 +205,10 @@ public class AppraisalContractServiceImpl implements AppraisalContractService {
 			for(int i=0;i<list.size();i++){
 			//	ContractProduct.setId(app.getId());
 				//关联审价编号
+				if(list.get(i).getDetailId()==null||"".equals(list.get(i).getDetailId())){
+					continue;
+				}
+				contractProduct.setRequirdeId(list.get(i).getId());
 				contractProduct.setAppraisalContract(appc);
 				//获取合同产品
 				contractProduct.setName(list.get(i).getGoodsName());

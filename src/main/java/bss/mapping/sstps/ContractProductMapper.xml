@@ -9,13 +9,13 @@
     
     <result column="OFFER" property="offer" />
     <result column="AUDIT_OFFER" property="auditOffer" />
-    
+    <result column="REQUIRDEID" property="requirdeId" />
     <association property="appraisalContract" column="CONTRACT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
     
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, CONTRACT_ID, NAME, CREATED_AT, UPDATED_AT,OFFER,AUDIT_OFFER
+    ID, CONTRACT_ID, NAME, CREATED_AT, UPDATED_AT,OFFER,AUDIT_OFFER,REQUIRDEID
   </sql>
   
   <!-- 根据ID查询 -->
@@ -65,6 +65,9 @@
       <if test="auditOffer != null">
         AUDIT_OFFER,
       </if>
+      <if test="requirdeId != null">
+        REQUIRDEID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -87,6 +90,9 @@
       </if>
       <if test="auditOffer != null">
        #{auditOffer},
+      </if>
+      <if test="requirdeId != null">
+       #{requirdeId},
       </if>
     </trim>
   </insert>

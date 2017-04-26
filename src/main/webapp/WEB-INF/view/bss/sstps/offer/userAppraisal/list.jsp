@@ -160,7 +160,7 @@ function exports(){
 							</tr>
 						</thead>
 						<c:forEach items="${list.list}" var="contract" varStatus="vs">
-							<c:if test="${contract.appraisal=='1' }">
+							
 				  			<tr>
 				  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
 				  				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
@@ -168,9 +168,14 @@ function exports(){
 				  				<td class="tc pointer">${contract.code }</td>
 				  				<td class="tr">${contract.money }</td>
 				  				<td class="tc pointer">${contract.supplier.supplierName }</td>
-				  				<td class="tc pointer">审价中</td>
-				  			</tr>
-				  			</c:if>
+				  				<c:if test="${contract.appraisal=='1' }">
+				  				  <td class="tc pointer">审价中</td>
+				  				</c:if>
+					  			<c:if test="${contract.appraisal=='2' }">
+				  				  <td class="tc pointer">	审价完成</td>
+				  				</c:if>
+					  			</tr>
+				  			
 						</c:forEach>
 					</table>
 				<div id="pagediv" align="right"></div>

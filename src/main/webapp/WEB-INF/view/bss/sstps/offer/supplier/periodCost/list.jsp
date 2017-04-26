@@ -366,7 +366,7 @@
                 <td class="tc"><input  type="checkbox" name="chkItem" value="${pc.id }" /></td>
                 <td class="">${pc.serialNumber}</td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w130' name='listPerio[${vs.index}].projectName'  value='${pc.projectName }' onchange="update(this);"><input type="hidden" name='listPerio[${vs.index}].id' value="${pc.id }"/></td>
-                <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listPerio[${vs.index}].tyaQuoteprice' onkeyup="if(isNaN(value))execCommand('undo')" onchange="update(this);"></td>
+                <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listPerio[${vs.index}].tyaQuoteprice' value='${pc.tyaQuoteprice }'  onkeyup="if(isNaN(value))execCommand('undo')" onchange="update(this);"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listPerio[${vs.index}].oyaQuoteprice' onkeyup="if(isNaN(value))execCommand('undo')" value='${pc.oyaQuoteprice }' onchange="update(this);"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w100' name='listPerio[${vs.index}].newQuoteprice' onkeyup="if(isNaN(value))execCommand('undo')" value='${pc.newQuoteprice }' onchange="update(this);"></td>
                 <td class="tc"><input type='text' class='m0 p0  border0 w130' name='listPerio[${vs.index}].remark'  value='${pc.remark }' onchange="update(this);"></td>

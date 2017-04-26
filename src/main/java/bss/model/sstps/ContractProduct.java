@@ -2,6 +2,8 @@ package bss.model.sstps;
 
 import java.util.Date;
 
+import bss.model.cs.ContractRequired;
+
 /**
 * @Title:ContractProduct 
 * @Description: 审价产品表
@@ -23,6 +25,9 @@ public class ContractProduct {
     private Integer offer;
     
     private Integer auditOffer;
+    private String requirdeId;
+    
+    private ContractRequired contractRequired;
 
     public String getId() {
         return id;
@@ -78,6 +83,22 @@ public class ContractProduct {
 
 	public void setAuditOffer(Integer auditOffer) {
 		this.auditOffer = auditOffer;
+	}
+
+	public String getRequirdeId() {
+		return requirdeId;
+	}
+
+	public void setRequirdeId(String requirdeId) {
+		this.requirdeId = requirdeId;
+	}
+
+	public ContractRequired getContractRequired() {
+		return contractRequired;
+	}
+
+	public void setContractRequired(ContractRequired contractRequired) {
+		this.contractRequired = contractRequired;
 	}
     
 }

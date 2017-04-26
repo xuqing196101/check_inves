@@ -153,6 +153,9 @@ function resetQuery(){
 	  				<c:if test="${contract.appraisal=='1' }">
 	  					审价中
 	  				</c:if>
+	  				<c:if test="${contract.appraisal=='2' }">
+	  					审价完成
+	  				</c:if>
 	  				</td>
 	  			</tr>
 	  		</c:forEach>
