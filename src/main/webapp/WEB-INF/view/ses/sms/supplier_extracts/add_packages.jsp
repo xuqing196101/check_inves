@@ -99,9 +99,9 @@
             <c:if test="${fn:length(list)==0}">
                 <tr>
                     <td class="tc"><input type="text" name="packagesName"  /> </td>
-                    <td class="textc">
-                        <input type="button" onclick="addBranch(this)" class="btn tl" value="十"/>
-                        <input type="button" onclick="delBranch(this)" class="btn" value="一"/>
+                    <td class="tc w90">
+                        <input type="button" onclick="addBranch(this)" class="btn list_btn" value="十"/>
+                        <input type="button" onclick="delBranch(this)" class="btn list_btn" value="一"/>
                     </td>
                 </tr>
             </c:if>
