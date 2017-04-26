@@ -216,7 +216,7 @@ public class DemandSupervisionController extends BaseController{
                                 set.add(selectById.get(0).getProject().getId());
                             } else {
                                 //如果项目明细为空的话，查一下有没有预研明细
-                                AdvancedDetail detail = advancedDetailService.selectByRequiredId(required.getId());
+                                /*AdvancedDetail detail = advancedDetailService.selectByRequiredId(required.getId());
                                 if(detail != null){
                                     AdvancedProject project = advancedProjectService.selectById(detail.getAdvancedProject());
                                     if(project != null && !"0".equals(project.getStatus())){
@@ -226,7 +226,7 @@ public class DemandSupervisionController extends BaseController{
                                         }
                                         model.addAttribute("project", project);
                                     }
-                                }
+                                }*/
                             }
                         }
                     }
@@ -265,7 +265,7 @@ public class DemandSupervisionController extends BaseController{
                     }
                 } else {
                     //如果采购计划为空的话，查一下有没有预研
-                    AdvancedDetail detail = advancedDetailService.selectByRequiredId(required.getId());
+                    /*AdvancedDetail detail = advancedDetailService.selectByRequiredId(required.getId());
                     if(detail != null){
                         AdvancedProject project = advancedProjectService.selectById(detail.getAdvancedProject());
                         if(project != null && !"0".equals(project.getStatus())){
@@ -275,7 +275,7 @@ public class DemandSupervisionController extends BaseController{
                             }
                             model.addAttribute("project", project);
                         }
-                    }
+                    }*/
                 }
             }
             model.addAttribute("requiredId", id);
@@ -388,7 +388,7 @@ public class DemandSupervisionController extends BaseController{
     	if(requireds != null && requireds.size()>0){
     	    HashSet<String> set = new HashSet<>();
     	    List<Project> list = new ArrayList<>();
-    	    List<AdvancedProject> lists = new ArrayList<>();
+    	    //List<AdvancedProject> lists = new ArrayList<>();
     	    //根据采购需求ID可能会有N个项目
     	    for (PurchaseRequired purchaseRequired : requireds) {
     	        if(purchaseRequired.getPrice() != null){
@@ -400,10 +400,10 @@ public class DemandSupervisionController extends BaseController{
                             set.add(projectDetail.getProject().getId());
                         }
                     } else {
-                        AdvancedDetail advancedDetail = advancedDetailService.selectByRequiredId(purchaseRequired.getId());
+                       /* AdvancedDetail advancedDetail = advancedDetailService.selectByRequiredId(purchaseRequired.getId());
                         if(advancedDetail != null){
                             set.add(advancedDetail.getAdvancedProject());
-                        }
+                        }*/
                     }
     	        }
             }
@@ -419,7 +419,7 @@ public class DemandSupervisionController extends BaseController{
                     list.add(project);
                     
                 } else {
-                    AdvancedProject advancedProject = advancedProjectService.selectById(string);
+                   /* AdvancedProject advancedProject = advancedProjectService.selectById(string);
                     if(advancedProject != null && !"0".equals(advancedProject.getStatus())){
                         User user = userService.getUserById(advancedProject.getAppointMan());
                         advancedProject.setAppointMan(user.getRelName());
@@ -429,7 +429,7 @@ public class DemandSupervisionController extends BaseController{
                         advancedProject.setStatus(findById.getName());
                         lists.add(advancedProject);
                     }
-                    model.addAttribute("list", lists);
+                    model.addAttribute("list", lists);*/
                 }
                 if(list != null && list.size() > 0){
                     model.addAttribute("list", list);
@@ -460,9 +460,9 @@ public class DemandSupervisionController extends BaseController{
             List<PurchaseRequired> requireds = purchaseRequiredService.selectByParentId(map);
             if(requireds != null && requireds.size()>0){
                 HashMap<String, Object> mapDetail = new HashMap<String, Object>();
-                HashMap<String, Object> mapAdetail = new HashMap<String, Object>();
+                //HashMap<String, Object> mapAdetail = new HashMap<String, Object>();
                 List<ProjectDetail> details = new ArrayList<ProjectDetail>();
-                List<AdvancedDetail> adList = new ArrayList<AdvancedDetail>();
+                //List<AdvancedDetail> adList = new ArrayList<AdvancedDetail>();
                 //根据采购需求ID可能会有N个项目
                 for (PurchaseRequired purchaseRequired : requireds) {
                     mapDetail.put("id", id);
@@ -471,12 +471,12 @@ public class DemandSupervisionController extends BaseController{
                     if(selectById != null && selectById.size() > 0){
                         details.addAll(selectById);
                     } else {
-                        mapAdetail.put("advancedProject", id);
+                        /*mapAdetail.put("advancedProject", id);
                         mapAdetail.put("requiredId", purchaseRequired.getId());
                         List<AdvancedDetail> advancedDetails = advancedDetailService.selectByAll(mapAdetail);
                         if(advancedDetails != null && advancedDetails.size() > 0){
                             adList.addAll(advancedDetails);
-                        }
+                        }*/
                     }
                 }
                 if(details != null && details.size() > 0){
@@ -538,7 +538,7 @@ public class DemandSupervisionController extends BaseController{
                     return "sums/ss/planSupervision/package_view";
                 } else {
                     //如果没有正式项目，查一下又没有预研项目
-                    HashMap<String, Object> maps = new HashMap<String, Object>();
+                    /*HashMap<String, Object> maps = new HashMap<String, Object>();
                     maps.put("projectId", id);
                     List<AdvancedPackages> packages = advancedPackageService.selectByAll(maps);
                     List<AdvancedPackages> lists = new ArrayList<AdvancedPackages>();
@@ -591,7 +591,7 @@ public class DemandSupervisionController extends BaseController{
                         project.setAppointMan(user.getRelName());
                         model.addAttribute("project", project);
                     }
-                    return "sums/ss/planSupervision/adPackage_view";
+                    return "sums/ss/planSupervision/adPackage_view";*/
                 }
             }
         }

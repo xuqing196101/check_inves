@@ -326,7 +326,7 @@
                       </p>
                     </c:if>
                     <c:if test="${listAuditPerson eq null}">
-                      <p class="tip_time">计划未审核</p>
+                      <p class="tip_time"><fmt:formatDate value='${collectPlan.createdAt}' pattern='yyyy-MM-dd' /></p>
                     </c:if>
                   </a>
                 </div>
@@ -693,6 +693,18 @@
                     <fmt:formatDate value='${task.acceptTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
+                <c:if test="${tasks ne null}">
+                <tr>
+                  <td>${tasks.name}</td>
+                  <td>${tasks.purchaseId}</td>
+                  <td class="tc">预研<c:if test="${YYYBYY eq '0'}">(已终止)</c:if><c:if test="${YYYBYY eq '1'}">(已引用)</c:if>
+                  </td>
+                  <td class="tc">${tasks.userId}</td>
+                  <td class="tc">
+                    <fmt:formatDate value='${tasks.acceptTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                  </td>
+                </tr>
+                </c:if>
               </tbody>
             </table>
             </c:if>
@@ -723,6 +735,18 @@
                     <fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
+                <c:if test="${advancedProject ne null}">
+                <tr>
+                  <td>${advancedProject.name}</td>
+                  <td class="tc"><button class="btn" onclick="viewUpload('${uploadId}');" type="button">查看</button></td>
+                  <td>${advancedProject.purchaseDepName}</td>
+                  <td class="tc">预研<c:if test="${YYYBYY eq '0'}">(已终止)</c:if><c:if test="${YYYBYY eq '1'}">(已引用)</c:if></td>
+                  <td class="tc">${advancedProject.appointMan}</td>
+                  <td class="tc">
+                    <fmt:formatDate value='${advancedProject.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                  </td>
+                </tr>
+                </c:if>
               </tbody>
             </table>
             </c:if>

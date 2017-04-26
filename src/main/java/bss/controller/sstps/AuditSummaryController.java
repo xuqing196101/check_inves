@@ -180,7 +180,7 @@ public class AuditSummaryController {
 				contractProduct = contractProductService.selectById(productId);
 				//遍历项目所有条目是否已审核
 				List<ContractProduct> ContractProducts = contractProductService.selectProjectList(contractProduct);
-				boolean flag = true;
+				/*boolean flag = true;
 				for (ContractProduct cp : ContractProducts) {
 					if(cp.getOffer()==1){ //如果已报价
 						if (cp.getAuditOffer()!=1) {//如果条目已审核
@@ -192,7 +192,7 @@ public class AuditSummaryController {
 						break;
 					}
 				}
-				if (flag) {
+				if (flag) {*/
 					AppraisalContract appraisalContract = new AppraisalContract();
 					appraisalContract.setId(contractProduct.getAppraisalContract().getId());
 					appraisalContract.setAppraisal(2);
@@ -220,7 +220,7 @@ public class AuditSummaryController {
 					probationaryArchive.setCreatedAt(new Date());//创建时间
 					probationaryArchive.setContractCode(purchaseContract.getId());//单一来源合同ID
 					//插入预备档案表
-				}
+				/*}*/
 				
 		Integer page=1;
 		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);

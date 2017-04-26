@@ -250,11 +250,19 @@
 //                }
 			}
 			$(function() {
-				$("input").not("#supplierName_input_id").bind("blur", tempSave);
+				$("input").not("#supplierName_input_id").not("input[name='legalName']").not("input[name='contactName']").bind("blur", tempSave);
 				$("textarea").bind("blur", tempSave);
 				$("select").bind("change", tempSave);
 				$("#supplierName_input_id").change(function () {
 				    $("#name_span").val(1);
+                    tempSave();
+                });
+				$("input[name='legalName']").change(function () {
+                    $("#name_span").val(2);
+                    tempSave();
+                });
+				$("input[name='contactName']").change(function () {
+                    $("#name_span").val(3);
                     tempSave();
                 })
 			});
@@ -289,6 +297,18 @@
 						if(msg=="supplierNameExists"){
 						    $("#supplierName_input_id").val("");
                             layer.msg('供应商名称已存在，请重新填写！', {
+                                offset: '300px'
+                            });
+                        }
+                        if(msg=="legalNameExists"){
+                            $("input[name='legalName']").val("");
+                            layer.msg('姓名已存在，请重新填写！', {
+                                offset: '300px'
+                            });
+                        }
+                        if(msg=="contactNameExists"){
+                            $("input[name='contactName']").val("");
+                            layer.msg('姓名已存在，请重新填写！', {
                                 offset: '300px'
                             });
                         }
@@ -616,7 +636,7 @@
 					async: false,
 					success: function(data) {
 						id = data;
-						$(li).after("<li class='col-md-3 col-sm-6 col-xs-12 pl10'>" +
+						$(li).after("<li class='col-md-2 col-sm-6 col-xs-12 pl10'>" +
 								"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产或经营地址邮编</span>" +
 								"<div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 								"<input type='text' name='addressList[" + ind + "].code' value='' / onblur='tempSave()'>" +
@@ -644,7 +664,7 @@
 								"</div>" +
 								" </li> " +
 
-								" <li class='col-md-3 col-sm-6 col-xs-12'>" +
+								" <li class='col-md-2 col-sm-6 col-xs-12'>" +
 								"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产或经营详细地址</span>" +
 								" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 								"<input type='text' name='addressList[" + ind + "].detailAddress'  value='' onblur='tempSave()'>" +
@@ -652,7 +672,7 @@
 								"<div class='cue'>  </div>" +
 								"</div>" +
 								"</li>" +
-								"<li class='col-md-3 col-sm-6 col-xs-12'>" +
+								"<li class='col-md-2 col-sm-6 col-xs-12'>" +
 								"	<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5 white'>操作</span>" +
 								"<div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>" +
 								"	<input type='button' onclick='increaseAddress(this)' class='btn list_btn' value='十'/>" +
@@ -666,7 +686,26 @@
 				});
 				
 			}
-			function delAddress(obj) {
+			function increaseAddHouseAddress(obj) {
+				var ind = $("#certSaleNumber").val();
+				var li = $(obj).parent().parent();
+                $.ajax({
+                    url : "${pageContext.request.contextPath}/supplier/addAddress.do",
+                    async : false,
+                    dataType : "html",
+                    data : {
+                        "ind" : ind
+                    },
+                    success : function(data) {
+                        $(li).after(data);
+                        init_web_upload();
+                    }
+                });
+                ind++;
+                $("#certSaleNumber").val(ind);
+
+			}
+			function delAddress(obj,id) {
 				var btmCount = 0;
 				$("#address_list_body").find("input[type='button']").each(function() {
 					btmCount++;
@@ -676,22 +715,33 @@
 						offset: '300px'
 					});
 				} else {
-					var id = $(obj).next().val();
-					var tag = $(obj).parent().parent();
-					var li_1 = $(obj).parent().parent().prev();
-					$(li_1).prev().prev().remove(); //邮编
-					$(li_1).prev().remove(); //省市
-					$(li_1).remove(); //详细地址
-					$(tag).remove(); //按钮  
+//                    $(li_1).prev().prev().remove(); //邮编
+//                    $(li_1).prev().remove(); //省市
+//                    $(li_1).remove(); //详细地址
+//                    $(tag).remove(); //按钮
 					$.ajax({
 						url: "${pageContext.request.contextPath}/supplier/delAddress.do",
 						data: {
 							"id": id
 						},
-						success: function() {
-							layer.msg("删除成功!", {
-								offset: '300px'
-							});
+						success: function(data) {
+						    if(data=="ok"){
+                                layer.msg("删除成功!", {
+                                    offset: '300px'
+                                });
+                                var id = $(obj).next().val();
+                                var tag = $(obj).parent().parent();
+                                var li_1 = $(obj).parent().parent().prev();//房产证明
+                                $(li_1).prev().prev().prev().remove(); //邮编
+                                $(li_1).prev().prev().remove(); //省市
+                                $(li_1).prev().remove(); //详细地址
+                                $(li_1).remove();
+                                $(tag).remove(); //按钮
+                            }else{
+                                layer.msg("删除失败!", {
+                                    offset: '300px'
+                                });
+                            }
 						},
 						error: function() {
 							layer.msg("删除失败!", {
@@ -843,7 +893,7 @@
 				<form id="basic_info_form_id" action="${pageContext.request.contextPath}/supplier/perfect_basic.html" method="post">
 					<input name="id" value="${currSupplier.id}" type="hidden" />
 					<input name="flag" type="hidden" />
-					<div class="col-md-12 col-xs-12 col-sm-12 p0">
+					<legend class="col-md-12 col-xs-12 col-sm-12 p0">
 						<h2 class="count_flow"> <i>1</i> 基本信息</h2>
 						<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 							<legend>供应商信息</legend>
@@ -1013,10 +1063,10 @@
 									<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
 									</div>
 								</li>
-
 								<div id="address_list_body">
+                                    <c:set var="certSaleNumber" value="0" />
 									<c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
-										<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+										<li class="col-md-2 col-sm-6 col-xs-12 pl10">
 											<span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 生产或经营地址邮编</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input type="text" required isZipCode="true" name="addressList[${vs.index }].code" value="${addr.code}" <c:if test="${fn:contains(audit,'code_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('code_${addr.id }')"</c:if>/>
@@ -1061,7 +1111,7 @@
 											</div>
 										</li>
 
-										<li class="col-md-3 col-sm-6 col-xs-12">
+										<li class="col-md-2 col-sm-6 col-xs-12">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产或经营详细地址</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input type="text" name="addressList[${vs.index }].detailAddress" required="required" maxlength="50" value="${addr.detailAddress }" <c:if test="${fn:contains(audit,'detailAddress_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress_${addr.id }')"</c:if>>
@@ -1072,15 +1122,27 @@
 												</div>
 											</div>
 										</li>
-										<li class="col-md-3 col-sm-6 col-xs-12">
+                                        <li class="col-md-3 col-sm-6 col-xs-12">
+                                            <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(audit,'supplierIdentityUp')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierHousePoperty')"</c:if>><i class="red">*</i> 房产证明或租赁协议 </span>
+                                            <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
+                                                <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" maxcount="3" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
+                                                <u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+                                                <c:if test="${vs.index == err_house_token}">
+                                                    <div class="cue"> ${err_house } </div>
+                                                </c:if>
+                                            </div>
+                                        </li>
+										<li class="col-md-2 col-sm-6 col-xs-12">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 											<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-												<input type="button" onclick="increaseAddress(this)" class="btn list_btn" value="十" />
+												<input type="button" onclick="increaseAddHouseAddress(this)" class="btn list_btn" value="十" />
 												<input type="button" onclick="delAddress(this, '${addr.id}')" class="btn list_btn" value="一" />
 												<input type="hidden" name="addressList[${vs.index }].id" value="${addr.id}" />
 											</div>
 										</li>
+                                        <c:set var="certSaleNumber" value="${certSaleNumber + 1}" />
 									</c:forEach>
+                                    <input type="hidden" id="certSaleNumber" value=${certSaleNumber}>
 								</div>
 							</ul>
 						</fieldset>

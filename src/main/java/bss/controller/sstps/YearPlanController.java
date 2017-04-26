@@ -240,6 +240,33 @@ public class YearPlanController extends BaseSupplierController {
 		}
 		super.writeJson(response, "ok");
 	}
+	@RequestMapping("/userUpdate")
+	public String userUpdate(Model model,TrialPriceBean listYear, HttpServletRequest request,HttpServletResponse response){
+		String proID = request.getParameter("productId");
+		List<YearPlan> listYearPlan = listYear.getListYear();
+		for(YearPlan yearPlan:listYearPlan){
+				if(yearPlan.getId()!=null){
+					yearPlan.setUpdatedAt(new Date());
+					yearPlanService.update(yearPlan);
+				}
+		}
+		model.addAttribute("proId",proID);
+		return "redirect:/productQuota/userGetAll.do?productId="+proID;
+	}
+	
+	@RequestMapping("/userUpdateCheck")
+	public String userUpdateCheck(Model model,TrialPriceBean listYear, HttpServletRequest request,HttpServletResponse response){
+		String proID = request.getParameter("productId");
+		List<YearPlan> listYearPlan = listYear.getListYear();
+		for(YearPlan yearPlan:listYearPlan){
+				if(yearPlan.getId()!=null){
+					yearPlan.setUpdatedAt(new Date());
+					yearPlanService.update(yearPlan);
+				}
+		}
+		model.addAttribute("proId",proID);
+		return "redirect:/productQuota/userGetAllCheck.do?productId="+proID;
+	}
 	/**
 	* @Title: update
 	* @author Shen Zhenfei 

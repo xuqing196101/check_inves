@@ -57,7 +57,7 @@
 	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 	              	<input name="productArguments[${ vs.index }].id" value='${ categoryParam.id }' type="hidden" />
 	              	<input name="productArguments[${ vs.index }].paramName" value='${ categoryParam.categoryParameter.paramName }' type="hidden"/>
-	                <input name="productArguments[${ vs.index }].parameterValue" value='${ categoryParam.parameterValue }' type="text" />
+	                <input name="productArguments[${ vs.index }].parameterValue" value='${ categoryParam.parameterValue }' onkeyup="this.value=this.value.replace(/\D/g,'')" type="text" />
 	                <input name="productArguments[${ vs.index }].parameterType" type="hidden" value="${ categoryParam.parameterType }">
 	                <input name="productArguments[${ vs.index }].required" value='${ categoryParam.categoryParameter.paramRequired }' type="hidden">
 	                <input value='${ categoryParam.parameterValue }' type="text" />

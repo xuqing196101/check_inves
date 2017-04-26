@@ -299,8 +299,12 @@ public class AccessoriesConController extends BaseSupplierController {
 		contractProduct.setId(productId);
 		AccessoriesCon accessoriesCon = new AccessoriesCon();
 		accessoriesCon.setContractProduct(contractProduct);
+		accessoriesCon.setProductNature(0);
 		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
-		model.addAttribute("list", list);
+		model.addAttribute("list0", list);
+		accessoriesCon.setProductNature(1);
+		List<AccessoriesCon> list1 = accessoriesConService.selectProduct(accessoriesCon);
+		model.addAttribute("list1", list1);
 		model.addAttribute("proId", productId);
 		
 		return "bss/sstps/offer/userAppraisal/list/accessories_list";
@@ -317,14 +321,14 @@ public class AccessoriesConController extends BaseSupplierController {
 	 */
 	
 	@RequestMapping("/userUpdate")
-	public String userUpdate(Model model,AccessoriesConList AccessoriesConList,HttpServletRequest request){
+	public String userUpdate(Model model,TrialPriceBean listAcc,HttpServletRequest request){
 		String proID = request.getParameter("productId");
-		List<AccessoriesCon> accessoriesCons = AccessoriesConList.getAccessoriesCons();
-		if(accessoriesCons!=null){
-			for (AccessoriesCon accessoriesCon : accessoriesCons) {
-				accessoriesCon.setUpdatedAt(new Date());
-				accessoriesConService.update(accessoriesCon);
-			}
+		List<AccessoriesCon> listAccessoriesCon = listAcc.getListAcc();
+		for(AccessoriesCon accessoriesCon:listAccessoriesCon){
+				if(accessoriesCon.getId()!=null){
+					accessoriesCon.setUpdatedAt(new Date());
+					accessoriesConService.update(accessoriesCon);
+				}
 		}
 		model.addAttribute("proId",proID);
 		return "redirect:/outproductCon/userGetAll.html?productId="+proID;
@@ -341,14 +345,14 @@ public class AccessoriesConController extends BaseSupplierController {
 	 */
 	
 	@RequestMapping("/userUpdateCheck")
-	public String userUpdateCheck(Model model,AccessoriesConList AccessoriesConList,HttpServletRequest request){
+	public String userUpdateCheck(Model model,TrialPriceBean listAcc,HttpServletRequest request){
 		String proID = request.getParameter("productId");
-		List<AccessoriesCon> accessoriesCons = AccessoriesConList.getAccessoriesCons();
-		if(accessoriesCons!=null){
-			for (AccessoriesCon accessoriesCon : accessoriesCons) {
-				accessoriesCon.setUpdatedAt(new Date());
-				accessoriesConService.update(accessoriesCon);
-			}
+		List<AccessoriesCon> listAccessoriesCon = listAcc.getListAcc();
+		for(AccessoriesCon accessoriesCon:listAccessoriesCon){
+				if(accessoriesCon.getId()!=null){
+					accessoriesCon.setUpdatedAt(new Date());
+					accessoriesConService.update(accessoriesCon);
+				}
 		}
 		model.addAttribute("proId",proID);
 		return "redirect:/outproductCon/userGetAllCheck.html?productId="+proID;
@@ -360,8 +364,12 @@ public class AccessoriesConController extends BaseSupplierController {
 		contractProduct.setId(productId);
 		AccessoriesCon accessoriesCon = new AccessoriesCon();
 		accessoriesCon.setContractProduct(contractProduct);
+		accessoriesCon.setProductNature(0);
 		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
-		model.addAttribute("list", list);
+		model.addAttribute("list0", list);
+		accessoriesCon.setProductNature(1);
+		List<AccessoriesCon> list1 = accessoriesConService.selectProduct(accessoriesCon);
+		model.addAttribute("list1", list1);
 		model.addAttribute("proId", productId);
 		
 		return "bss/sstps/offer/checkAppraisal/list/accessories_list";

@@ -14,6 +14,34 @@ function onStep(){
 }
 
 
+$(document).ready(function() {
+    var totalRow = 0;
+    var totalRow1 = 0;
+    var totalRow2 = 0;
+    $('#table1 tr:not(:last)').each(function() {
+      $(this).find('td:eq(8)').each(function() {
+          if($(this).text()!=''){
+        	  totalRow += parseFloat($(this).text());
+          }
+      });
+      $(this).find('td:eq(11)').each(function() {
+          if($(this).text()!=''){
+        	  totalRow1 += parseFloat($(this).text());
+          }
+      });
+      /* $(this).find('td:eq(13)').each(function() {
+          if($(this.firstChild).val()!=''){
+        	  totalRow2 += parseFloat($(this.firstChild).val());
+          }
+      }); */
+      
+      
+    });
+    $('#total').text(totalRow.toFixed(2));
+    $('#total1').text(totalRow1.toFixed(2));
+   /*  $('#total3').text(totalRow2.toFixed(2)); */
+    $('#total2').text((parseFloat($('#total').text())-parseFloat($('#total1').text())).toFixed(2));
+  });
 </script>
 
   </head>
@@ -41,8 +69,7 @@ function onStep(){
 	<div class="container margin-top-5">
 	 	<form action="${pageContext.request.contextPath}/outsourcingCon/userUpdateCheck.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered table-condensed">
-				<thead>
+			<table id="table1" class="table table-bordered table-condensed">
 					<tr>
 						<th rowspan="2" class="info">序号</th>
 						<th rowspan="2" class="info">外协加工工件名称</th>
@@ -51,26 +78,23 @@ function onStep(){
 						<th colspan="5" class="info">所属加工生产装配工艺消耗定额（数量、质量、含税金额）</th>
 						<th colspan="3" class="info">消耗定额审核核准数（含税金额）</th>
 						<th rowspan="2" class="info">核减金额</th>
-						<th rowspan="2" class="info">复核减金额</th>
+						<!-- <th rowspan="2" class="info">复核减金额</th> -->
 						<th rowspan="2" class="info">供货单位</th>
 						<th rowspan="2" class="info">备   注</th>
 					</tr>
 					<tr>
-						<th class="info">单位</th>
+						<th class="info">数量</th>
 						<th class="info">单件重</th>
 						<th class="info">重量小计</th>
 						<th class="info">单价</th>
 						<th class="info">金额</th>
-						<th class="info">单位</th>
+						<th class="info">数量</th>
 						<th class="info">单价</th>
 						<th class="info">金额</th>
 					</tr>
-				</thead>
-				<tbody>
 				<c:forEach items="${list}" var="out" varStatus="vs">
 					<tr>
-						<td><input type="hidden"
-						<td>${vs.index+1 }<input type="hidden" name="outsourcingCons['${vs.index }'].id" value="${out.id }" /></td>
+						<td>${vs.index+1 }<input type="hidden" name="listOutSou[${vs.index+1 }].id" value="${out.id }" /></td>
 						<td class="tc">${out.outsourcingName }</td>
 						<td class="tc">${out.norm }</td>
 						<td class="tc">${out.paperCode }</td>
@@ -83,12 +107,21 @@ function onStep(){
 						<td class="tc">${out.consumePrice }</td>
 						<td class="tc">${out.consumeMoney }</td>
 						<td class="tc">${out.subtractMoney }</td>
-						<td class="tc"><input type="text" value='${out.checkMoney }' name="outsourcingCons['${vs.index }'].checkMoney"></td>
+						<%-- <td class="tc"><input type="text" value='${out.checkMoney }' class='m0 p0  border0 w80 tr' name="listOutSou[${vs.index+1 }].checkMoney"></td> --%>
 						<td class="tc">${out.supplyUnit }</td>
 						<td class="tc">${out.remark }</td>
 					</tr>
 				</c:forEach>
-				</tbody>
+				<tr id="totalRow">
+	              <td class="tc" colspan="4">总计：</td>
+	              <td colspan="4"></td>
+	              <td class="tr" id="total"></td>
+	              <td colspan="2"></td>
+	              <td class="tr" id="total1"></td>
+	              <td class="tr" id="total2"></td>
+	             <!--  <td class="tr" id="total3"></td> -->
+	              <td colspan="2"></td>
+	            </tr>
 			</table>
 		</div>
 		

@@ -313,7 +313,7 @@
 										</thead> -->
 										<c:forEach items="${cateList }" var="obj" varStatus="vs">
 											<tr >
-												<td class="tc info">${obj.categoryName } </td>
+												<td class="tc info w120">${obj.categoryName } </td>
 												<c:forEach items="${obj.list }" var="quaPro">
 													<td>
 														<c:set value="${prolength+1}" var="prolength"></c:set>

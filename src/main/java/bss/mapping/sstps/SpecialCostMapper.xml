@@ -40,7 +40,7 @@
     where ID = #{id}
   </select>
   <select id="selectByParentIdSum" parameterType="java.lang.String" resultMap="SpecialCostMap">
-    select sum(PROPORTION_PRICE) as PROPORTION_PRICE from T_BSS_SSTPS_SPECIAL_COST where PARENT_ID !='0' and PRODUCT_ID=#{id}
+    select sum(PROPORTION_PRICE) as PROPORTION_PRICE,sum(APPROVED_MONEY) as APPROVED_MONEY from T_BSS_SSTPS_SPECIAL_COST where PARENT_ID !='0' and PRODUCT_ID=#{id}
   </select>
   <select id="selectByIdAndParentId" parameterType="java.lang.String" resultMap="SpecialCostMap">
     select 

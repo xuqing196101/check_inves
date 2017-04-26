@@ -10,43 +10,27 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
 <head>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
-
-
+ <script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
+<link href="${pageContext.request.contextPath}/public/backend/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/backend/css/common.css" media="screen" rel="stylesheet" type="text/css">  
+<link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
+ 
+  
+ 
+ 
+ 
 <script type="text/javascript">
-$(function(){
-    laypage({
-          cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-          pages: "${listTodosf.pages}", //总页数
-          skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-          skip: true, //是否开启跳页
-          total: "${listTodosf.total}",
-          startRow: "${listTodosf.startRow}",
-          endRow: "${listTodosf.endRow}",
-          groups: "${listTodosf.pages}">=5?5:"${listTodosf.pages}", //连续显示分页数
-          curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-              var page = location.search.match(/page=(\d+)/);
-              return page ? page[1] : 1;
-          }(), 
-          jump: function(e, first){ //触发分页后的回调
-              if(!first){ //一定要加此判断，否则初始时会无限刷新
-                $("#page").val(e.curr);
-               $("#form2").submit();
-              }
-          }
-      });
-    $("#default").parent().addClass('active');
-    var el=document.getElementById('default');
-    el.click();//触发打开事件
-    
-    $("#menu a").click(function() {
+
+  
+$(function(){$("#menu a").click(function() {
         $('#menu li').each(function(index) {
             $(this).removeClass('active');  // 删除其他兄弟元素的样式
           });
         $(this).parent().addClass('active');                            // 添加当前元素的样式
-    });
-    
-});
+      })
+    })
+
 
 //点击url
 function clickuri(url){
@@ -106,7 +90,7 @@ if('downloadabiddocument' == uri[0] ){
             <div class="col-md-9 col-sm-8 col-xs-12 padding-0">
                 <div class="col-md-12 col-sm-12 col-xs-12 tab-v2 job-content">
                         <ul class="nav nav-tabs" id="menu">
-                            <li class=""><a  href="${pageContext.request.contextPath}/todo/todos.html" id="default" target="open_main" class=" f18">待办事项</a></li>
+                            <li class="active"><a  href="${pageContext.request.contextPath}/todo/todos.html" id="default" target="open_main" class=" f18">待办事项</a></li>
                             <li class=""><a  href="${pageContext.request.contextPath}/todo/havetodo.html" target="open_main"  class=" f18">已办事项</a></li>
                         </ul>
                          <script type="text/javascript" language="javascript">   

@@ -21,6 +21,31 @@ function cancel(){
 function printz(){
 	window.print();
 }
+
+jQuery.fn.rowspan = function(colIdx) {
+	  return this.each(function(){
+	  var that;
+	  $('tr', this).each(function(row) {
+	    	  $('td:eq('+colIdx+')', this).filter(':visible').each(function(col) {
+	    		  if (that!=null && $(this).html() == $(that).html()) {
+			    	  rowspan = $(that).attr("rowSpan");
+			    	  if (rowspan == undefined) {
+			    	  	$(that).attr("rowSpan",1);
+			    	  	rowspan = $(that).attr("rowSpan");
+			    	  }
+			    	  rowspan = Number(rowspan)+1;
+			    	  $(that).attr("rowSpan",rowspan);
+			    	  $(this).hide(); 
+			    	  } else {
+			    	  	that = this;
+			    	  }
+		    	  });
+	    	  });
+	  });
+	  }
+$(document).ready(function() {
+    $("#table1").rowspan(1);
+})
 </script>
     
   </head>
@@ -52,46 +77,42 @@ function printz(){
 			<table class="table table-bordered table-condensed">
 				<tr>
 					<th class="info">产品名称</th>
-					<td class="tc"><input type="text" name="contractProduct.name"  class="" value="${ap.contractProduct.name }" readonly/></td>
-					<th class="info" rowspan="5">审核结果</th>
+					<td class="tc">${ap.contractProduct.name }</td>
+					<th class="info" rowspan="4">审核结果</th>
 					<th class="info">企业报价</th>
-					<td class="tc"><input type="text" name="companyPrice"  class="" value="${ap.companyPrice }"/></td>
-					<th class="info" rowspan="5">复审结果</th>
+					<td class="tc">${ap.companyPrice }</td>
+					<%-- <th class="info" rowspan="4">复审结果</th>
 					<th class="info">企业报价</th>
 					<td class="tc"><input type="text" name="checkCompanyPrice"  class="" value="${ap.checkCompanyPrice }"/></td>
-					
+					 --%>
 				</tr>
 				<tr>
 					<th class="info">生产单位</th>
-					<td class="tc"><input type="text" name="produceUnit"  class="" value="${ap.produceUnit }"></td>
+					<td class="tc">${ap.produceUnit }</td>
 					<th class="info">审核意见</th>
-					<td class="tc"><input type="text" name="auditOpinion"  class="" value="${ap.auditOpinion }"/></td>
-					<th class="info">审核意见</th>
-					<td class="tc"><input type="text" name="checkAuditOpinion"  class="" value="${ap.checkAuditOpinion }"/></td>
+					<td class="tc">${ap.auditOpinion }</td>
+					<%-- <th class="info">审核意见</th>
+					<td class="tc"><input type="text" name="checkAuditOpinion"  class="" value="${ap.checkAuditOpinion }"/></td> --%>
 				</tr>
 				<tr>
 					<th class="info">订货数量</th>
-					<td class="tc"><input type="text" name="orderAcount"  class="" value="${ap.orderAcount }"/></td>
+					<td class="tc">${ap.orderAcount }</td>
 					<th class="info">单位核减</th>
-					<td class="tc"><input type="text" name="unitSubtract"  class="" value="${ap.unitSubtract }"/></td>
-					<th class="info">单位核减</th>
-					<td class="tc"><input type="text" name="checkUnitSubtract"  class="" value="${ap.checkUnitSubtract }"/></td>
+					<td class="tc">${ap.unitSubtract }</td>
+					<%-- <th class="info">单位核减</th>
+					<td class="tc"><input type="text" name="checkUnitSubtract"  class="" value="${ap.checkUnitSubtract }"/></td> --%>
 				</tr>
 				<tr>
 					<th class="info">计量单位</th>
-					<td class="tc"><input type="text" name="measuringUnit"  class="" value="${ap.measuringUnit }"/></td>
+					<td class="tc">${ap.measuringUnit }</td>
 					<th class="info">总量核减</th>
-					<td class="tc"><input type="text" name="acountSubtract"  class="" value="${ap.acountSubtract}"/></td>
-					<th class="info">总量核减</th>
-					<td class="tc"><input type="text" name="checkAcountSubtract"  class="" value="${ap.checkAcountSubtract}"/></td>
+					<td class="tc">${ap.acountSubtract}</td>
+					<%-- <th class="info">总量核减</th>
+					<td class="tc"><input type="text" name="checkAcountSubtract"  class="" value="${ap.checkAcountSubtract}"/></td> --%>
 				</tr>
 				<tr>
 					<th class="info">审核人员</th>
-					<td class="tc"><input type="text" name="auditUser"  class="" value="${ap.auditUser }"/></td>
-					<th class="info"></th>
-					<td class="tc"></td>
-					<th class="info"></th>
-					<td class="tc"></td>
+					<td class="tl" colspan="4">${ap.auditUser }</td>
 				</tr>
 			</table>
 		</div>
@@ -99,8 +120,7 @@ function printz(){
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered table-condensed">
-				<tobdy>
+			<table id="table1" class="table table-bordered table-condensed">
 					<tr>
 						<th class="info">序号</th>
 						<th class="info">项目类型</th>
@@ -109,32 +129,32 @@ function printz(){
 						<th class="info">审核结果</th>
 						<th class="info">审核差额</th>
 						<th class="info">审减率</th>
-						<th class="info">复审结果</th>
+						<!-- <th class="info">复审结果</th>
 						<th class="info">复审差额</th>
-						<th class="info">复审减率</th>
+						<th class="info">复审减率</th> -->
 						<th class="info">备注</th>
 					</tr>
-				</tobdy>
 				<c:forEach items="${list}" var="cc" varStatus="vs">
 					<tr>
-						<td class="tc">
+						<td class="tc w50">
 							<input type="hidden" name="plcc[${(vs.index)}].id" value="${cc.id }" />${vs.index+1 }
 							<input type="hidden" name="plcc[${(vs.index)}].status" value="${cc.status }" />
 						</td>
-						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].projectName" value="${cc.projectName }"/ readonly></td>
-						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].secondProject" value="${cc.secondProject }" readonly/></td>
-						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].singleOffer" value="${cc.singleOffer }" readonly/></td>
-						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].additResult" value="${cc.additResult}" readonly/></td>
-						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].difference" value="${cc.difference }" readonly/></td>
-						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].reduce" value="${cc.reduce }" readonly/></td>
-						<td class="tc"><input type="text" class="" name="plcc[${(vs.index)}].checkResult" value="${cc.checkResult}" /></td>
-						<td class="tc"><input type="text" class="" name="plcc[${(vs.index)}].checkDifference" value="${cc.checkDifference }" /></td>
-						<td class="tc"><input type="text" class="" name="plcc[${(vs.index)}].checkReduce" value="${cc.checkReduce }" /></td>
-						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].remark" value="${cc.remark }" readonly/></td>
+						<td class="tc w80">${cc.projectName }</td>
+						<td class="tc w200">${cc.secondProject }</td>
+						<td class="tc w80" >${cc.singleOffer }</td>
+						<td class="tc w80">${cc.additResult}</td>
+						<td class="tc w80">${cc.difference }</td>
+						<td class="tc w80">${cc.reduce }</td>
+						<%-- <td class="tc w80"><input type="text" class="w80" name="plcc[${(vs.index)}].checkResult" value="${cc.checkResult}" /></td>
+						<td class="tc w80"><input type="text" class="w80" name="plcc[${(vs.index)}].checkDifference" value="${cc.checkDifference }" /></td>
+						<td class="tc w80"><input type="text" class="w80" name="plcc[${(vs.index)}].checkReduce" value="${cc.checkReduce }" /></td> --%>
+						<td class="tc w80">${cc.remark }</td>
 					</tr>
 				</c:forEach>
 			</table>
 		</div>
+	</div>
 	
    
    	<div  class="col-md-12">

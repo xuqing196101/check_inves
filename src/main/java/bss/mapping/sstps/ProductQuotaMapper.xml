@@ -66,7 +66,7 @@
   
   <select id="selectProductIdSum" parameterType="java.lang.String" resultMap="ProductQuotaMap">
     select 
-     sum(SUBTOTAL_OFFER) as SUBTOTAL_OFFER
+     sum(SUBTOTAL_OFFER) as SUBTOTAL_OFFER, sum(APPROVED_RATIFY) as APPROVED_RATIFY 
   	 from T_BSS_SSTPS_PRODUCT_QUOTA
     WHERE PRODUCT_ID = #{id}
   </select>

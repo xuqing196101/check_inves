@@ -25,17 +25,18 @@
             }); 
 		}
     })
-	function removeSupplier (supplierId, packageId) {
+	function removeSupplier(supplierId, packageId){
 		var projectId = "${projectId}";
 		var removedReason = layer.prompt({
 		    title : '请填写移除的理由：', 
 		    formType : 2, 
 		    offset : '100px',
+		    maxlength: 300,
 		},function(text){
 			//$("tab-8").load("${pageContext.request.contextPath}/packageExpert/removeSaleTender.html?supplierId="+supplierId+"&packageId="+packageId+"&projectId="+projectId);
 			$.ajax({
 				url: "${pageContext.request.contextPath}/packageExpert/removeSaleTender.do",
-				data: {"supplierId": supplierId, "packageId": packageId, "projectId": projectId},
+				data: {"supplierId": supplierId, "packageId": packageId, "projectId": projectId, "removedReason": text},
 				success: function (response) {
 					$("#"+supplierId+"_"+packageId).text('已移除');
 					$("#"+supplierId+"_"+packageId).next().children().attr("disabled","disabled");
@@ -48,6 +49,20 @@
 				}
 			});
 		});
+	}
+	
+	function removed(id,name,removedReason){
+	  $("#removedReason").val(removedReason);
+	  layer.open({
+          type: 1, //page层
+          area: ['300px', '300px'],
+          title: id+name+'移除理由',
+          shade: 0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          shadeClose: true,
+          content: $("#file")
+        });
 	}
   </script>
   <body>
@@ -78,7 +93,7 @@
 					    <c:if test="${supp.isFirstPass == 0 && supp.isRemoved eq '0'}">不合格</c:if>
 					    <c:if test="${supp.isFirstPass == 1 && supp.isRemoved eq '0'}">合格</c:if>
 					    <c:if test="${supp.isFirstPass == null && supp.isRemoved eq '0'}">符合性和资格性审查未结束</c:if>
-					    <c:if test="${supp.isRemoved eq '1'}">已移除</c:if>
+					    <c:if test="${supp.isRemoved eq '1'}"><a href="javascript:void(0)" onclick="removed('${supp.packageNames}','${supp.suppliers.supplierName}','${supp.removedReason}')">已移除</a></c:if>
 					    <c:if test="${supp.isRemoved eq '2'}">已放弃报价</c:if>
 					    </td>
 					    <td class="tc"><input <c:if test="${supp.isFirstPass != 1 or supp.isRemoved ne '0' or supp.isFinish == 1}">disabled="disabled"</c:if> type="button" value="移除" onclick="removeSupplier('${supp.suppliers.id}','${supp.packages}')" class="btn"></td>
@@ -88,5 +103,15 @@
 			</c:forEach>
 			</tbody>
 		</table>
+		<div id="file" class="drop_window dnone">
+      <ul class="list-unstyled">
+        <li class="col-md-12 col-sm-6 col-xs-12">
+          <span class="col-md-12 col-sm-12 col-xs-12 p0">
+            <textarea style="height: 200px;width: 250px" rows="3" cols="1" id="removedReason" disabled="disabled"></textarea>
+          </span>
+        </li>
+        <div class="clear"></div>
+      </ul>
+    </div>
   </body>
 </html>

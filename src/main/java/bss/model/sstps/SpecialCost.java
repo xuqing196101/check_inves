@@ -51,9 +51,9 @@ public class SpecialCost {
 
     private Date updatedAt;
     
-    private Integer approvedMoney;
+    private BigDecimal approvedMoney;
     
-    private Integer checkApprovedMoney;
+    private BigDecimal checkApprovedMoney;
     private String parentId;
     private String serialNumber;
 
@@ -193,19 +193,21 @@ public class SpecialCost {
 		this.updatedAt = updatedAt;
 	}
 
-	public Integer getApprovedMoney() {
+	
+
+	public BigDecimal getApprovedMoney() {
 		return approvedMoney;
 	}
 
-	public void setApprovedMoney(Integer approvedMoney) {
+	public void setApprovedMoney(BigDecimal approvedMoney) {
 		this.approvedMoney = approvedMoney;
 	}
 
-	public Integer getCheckApprovedMoney() {
+	public BigDecimal getCheckApprovedMoney() {
 		return checkApprovedMoney;
 	}
 
-	public void setCheckApprovedMoney(Integer checkApprovedMoney) {
+	public void setCheckApprovedMoney(BigDecimal checkApprovedMoney) {
 		this.checkApprovedMoney = checkApprovedMoney;
 	}
 

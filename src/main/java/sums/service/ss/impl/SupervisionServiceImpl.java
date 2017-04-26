@@ -104,16 +104,17 @@ public class SupervisionServiceImpl implements SupervisionService {
                     if(listBycollect != null && listBycollect.size() > 0){
                         progressBar = progressBar(String.valueOf(listBycollect.get(0).getStatus()),listBycollect.get(0).getId());
                     } else {
-                        HashMap<String, Object> maps = new HashMap<>();
+                        progressBar = progressBar(detail.getStatus(),detail.getUniqueId());
+                       /* HashMap<String, Object> maps = new HashMap<>();
                         maps.put("requiredId", detail.getId());
                         List<ProjectDetail> selectById2 = projectDetailMapper.selectById(maps);
                         if(selectById2 != null && selectById2.size() > 0){
-                            progressBar = progressBar(detail.getStatus(),detail.getUniqueId());
+                            
                         }else{
+                            
                             PurchaseRequired purchaseRequired = requiredService.queryById(detail.getId());
                             progressBar = adProgressBar(purchaseRequired.getId());
-                        }
-                        
+                        }*/
                     }
                 } else {
                     PurchaseRequired purchaseRequired = requiredService.queryById(id);

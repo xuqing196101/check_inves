@@ -304,13 +304,13 @@ public class ManufacturingCostController extends BaseSupplierController {
 	}
 	
 	@RequestMapping("/userUpdate")
-	public String userUpdate(Model model,ManufacturingCostList ManufacturingCostList,String productId){
-		List<ManufacturingCost> ManufacturingCosts = ManufacturingCostList.getManufacturingCosts();
-		if(ManufacturingCosts!=null){
-			for (ManufacturingCost manufacturingCost : ManufacturingCosts) {
-				manufacturingCost.setUpdatedAt(new Date());
-				manufacturingCostService.update(manufacturingCost);
-			}
+	public String userUpdate(Model model,TrialPriceBean listManu,String productId){
+		List<ManufacturingCost> listManufacturingCost = listManu.getListManu();
+		for(ManufacturingCost manufacturingCost:listManufacturingCost){
+				if(manufacturingCost.getId()!=null){
+					manufacturingCost.setUpdatedAt(new Date());
+					manufacturingCostService.update(manufacturingCost);
+				}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/periodCost/userGetAll.html?productId="+productId;
@@ -329,13 +329,13 @@ public class ManufacturingCostController extends BaseSupplierController {
 	}
 	
 	@RequestMapping("/userUpdateCheck")
-	public String userUpdateCheck(Model model,ManufacturingCostList ManufacturingCostList,String productId){
-		List<ManufacturingCost> ManufacturingCosts = ManufacturingCostList.getManufacturingCosts();
-		if(ManufacturingCosts!=null){
-			for (ManufacturingCost manufacturingCost : ManufacturingCosts) {
-				manufacturingCost.setUpdatedAt(new Date());
-				manufacturingCostService.update(manufacturingCost);
-			}
+	public String userUpdateCheck(Model model,TrialPriceBean listManu,String productId){
+		List<ManufacturingCost> listManufacturingCost = listManu.getListManu();
+		for(ManufacturingCost manufacturingCost:listManufacturingCost){
+				if(manufacturingCost.getId()!=null){
+					manufacturingCost.setUpdatedAt(new Date());
+					manufacturingCostService.update(manufacturingCost);
+				}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/periodCost/userGetAllCheck.html?productId="+productId;

@@ -3329,11 +3329,14 @@ public class ExpertController extends BaseController {
         String address = expert.getAddress();
         Area area = areaServiceI.listById(address);
         if(area != null) {
-            String province = areaServiceI.listById(area.getParentId()).getName();
-            String city = area.getName();
-            String pc=province + city;
-            expert.setCompanyAddress(pc); 
-            expert.setUnitAddress(pc+expert.getUnitAddress());  //具体街道   expert.getUnitAddress()
+            Area areaCity = areaServiceI.listById(area.getParentId());
+            if(null != areaCity){
+                String province = areaCity.getName();
+                String city = area.getName();
+                String pc=province + city;
+                expert.setCompanyAddress(pc);
+                expert.setUnitAddress(pc+expert.getUnitAddress());  //具体街道   expert.getUnitAddress()
+            }
         }
         dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getUnitAddress());
         dataMap.put("postCode", expert.getPostCode() == null ? "" : expert.getPostCode());

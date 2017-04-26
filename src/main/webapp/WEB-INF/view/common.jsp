@@ -20,6 +20,7 @@
 <script>
 	var globalPath = "${contextPath}";
 </script>
+
 <script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/backend/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/backend/js/common.js"></script>

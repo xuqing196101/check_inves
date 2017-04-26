@@ -15,6 +15,17 @@ function onStep(){
 	var proId = $("#proId").val();
 	window.location.href="${pageContext.request.contextPath}/yearPlan/userGetAll.do?productId="+proId;
 }
+function approvedRatify(obj){
+	var money=0;
+	var moneyPrev=0;
+	if($(obj).val()!=""){
+		money=parseFloat($(obj).val());
+	}
+	if($(obj).parent().prev().children(":first").val()!=""){
+		moneyPrev=parseFloat($(obj).parent().prev().children(":first").val());
+	}
+	$(obj).parent().next().children(":first").val((moneyPrev-money).toFixed(2));
+}
 
 </script>
 
@@ -42,9 +53,8 @@ function onStep(){
 	
 	<div class="container margin-top-5">
 	 	<form action="${pageContext.request.contextPath}/productQuota/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
-	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered table-condensed">
-				<thead>
+	 	<div class="content table_box over_auto table_wrap">
+			<table id="table1" class="table table-bordered table-condensed">
 					<tr>
 						<th rowspan="3" class="info">序号</th>
 						<th rowspan="3" class="info">零组部件名称</th>
@@ -86,41 +96,43 @@ function onStep(){
 						<th class="info">核定</th>
 						<th class="info">核减</th>
 					</tr>
-				</thead>
-				<tbody>
 				<c:forEach items="${list}" var="yp" varStatus="vs">
 					<tr>
-						<td class="tc"><input type="hidden" name="productQuotaList['${vs.index }'].id" value="${yp.id }" />${vs.index+1 }</td>
+						<td class="tc"><input type="hidden" name="listPro[${vs.index }].id" value="${yp.id }" />${vs.index+1 }</td>
 						<td class="tc">${yp.partsName }</td>
 						<td class="tc">${yp.partsDrawingCode }</td>
 						<td class="tc">${yp.processName }</td>
 						
 						<td class="tc">${yp.offer }</td>
-						<td class="tc"><input type="text" value='${yp.ratify }' name="productQuotaList['${vs.index }'].ratify"></td>
+						<td class="tc"><input type="text" class='m0 p0  border0 w80' value='${yp.ratify }' name="listPro[${vs.index }].ratify"></td>
 						<td class="tc">${yp.processingOffer }</td>
-						<td class="tc"><input type="text" value='${yp.processingRatify }' name="productQuotaList['${vs.index }'].processingRatify"></td>
+						<td class="tc"><input type="text" class='m0 p0  border0 w80' value='${yp.processingRatify }' name="listPro[${vs.index }].processingRatify"></td>
 						<td class="tc">${yp.assemblyOffer }</td>
-						<td class="tc"><input type="text" value='${yp.assemblyRatify }' name="productQuotaList['${vs.index }'].assemblyRatify"></td>
+						<td class="tc"><input type="text" class='m0 p0  border0 w80' value='${yp.assemblyRatify }' name="listPro[${vs.index }].assemblyRatify"></td>
 						<td class="tc">${yp.debuggingOffer }</td>
-						<td class="tc"><input type="text" value='${yp.debuggingRatify }' name="productQuotaList['${vs.index }'].debuggingRatify"></td>
+						<td class="tc"><input type="text"  class='m0 p0  border0 w80' value='${yp.debuggingRatify }' name="listPro[${vs.index }].debuggingRatify"></td>
 						<td class="tc">${yp.testOffer }</td>
-						<td class="tc"><input type="text" value='${yp.testRatify }' name="productQuotaList['${vs.index }'].testRatify"></td>
+						<td class="tc"><input type="text"  class='m0 p0  border0 w80' value='${yp.testRatify }' name="listPro[${vs.index }].testRatify"></td>
 						<td class="tc">${yp.otherOffer }</td>
-						<td class="tc"><input type="text" value='${yp.otherRatify }' name="productQuotaList['${vs.index }'].otherRatify"></td>
+						<td class="tc"><input type="text" class='m0 p0  border0 w80' value='${yp.otherRatify }' name="listPro[${vs.index }].otherRatify"></td>
 						<td class="tc">${yp.subtotalOffer }</td>
-						<td class="tc"><input type="text" value='${yp.subtotalRatify }' name="productQuotaList['${vs.index }'].subtotalRatify"></td>
-						
+						<td class="tc"><input type="text" class='m0 p0  border0 w80' value='${yp.subtotalRatify }' name="listPro[${vs.index }].subtotalRatify"></td>
 						<td class="tc">${yp.measuringUnit }</td>
-						
 						<td class="tc">${yp.assortOffer }</td>
-						<td class="tc"><input type="text" value='${yp.assortRatify }' name="productQuotaList['${vs.index }'].assortRatify"></td>
-						<td class="tc">${yp.approvedOffer }</td>
-						<td class="tc"><input type="text" value='${yp.approvedRatify }' name="productQuotaList['${vs.index }'].approvedRatify"></td>
-						<td class="tc"><input type="text" value='${yp.approvedSubtract }' name="productQuotaList['${vs.index }'].approvedSubtract"></td>
+						<td class="tc"><input type="text" class='m0 p0  border0 w80' value='${yp.assortRatify }' name="listPro[${vs.index }].assortRatify"></td>
+						<td class="tc"><input type="text" class='m0 p0  border0 w80' value='${yp.assortOffer*yp.subtotalOffer}' name="listPro[${vs.index }].approvedOffer" readonly="readonly"></td>
+						<td class="tc"><input type="text" class='m0 p0  border0 w80' value='${yp.approvedRatify }' name="listPro[${vs.index }].approvedRatify" onblur="approvedRatify(this);"></td>
+						<td class="tc"><input type="text" class='m0 p0  border0 w80' value='${yp.approvedSubtract }' name="listPro[${vs.index }].approvedSubtract"></td>
 						<td class="tc">${yp.remark }</td>
 					</tr>
 				</c:forEach>
-				</tbody>
+				<tr>
+              <td class="tc" colspan="4">总计：</td>
+              <td colspan="12"></td>
+              <td id="total0"></td>
+              <td id="total1"></td>
+              <td colspan="7"></td>
+            </tr>
 			</table>
 		</div>
 		
