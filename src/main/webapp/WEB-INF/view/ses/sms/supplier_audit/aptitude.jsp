@@ -300,7 +300,7 @@
 							<!-- 物资生产型 -->
 							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 								<c:set value="0" var="prolength" />
-								<div class="tab-pane fade active in height-300" id="tab-1">
+								<div class="tab-pane fade active in" id="tab-1">
 									<table class="table table-bordered">
 										<!-- <thead>
 											<tr>
