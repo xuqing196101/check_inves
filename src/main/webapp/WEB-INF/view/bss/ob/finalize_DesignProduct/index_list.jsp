@@ -244,8 +244,8 @@
 		                  <li>
 		                  	<div class="col-md-2 col-xs-4 col-sm-4" title="${product.name}">
 					  		 	<span class="f16 mr5 fl">·</span>
-					  		 	<c:if test="${fn:length(product.name) > 10 }">${fn:substring(product.name, 0, 10)}...</c:if>
-					  		 	<c:if test="${fn:length(product.name) <= 10 }">${product.name }</c:if>
+					  		 	<c:if test="${fn:length(product.name) > 8 }">${fn:substring(product.name, 0, 8)}...</c:if>
+					  		 	<c:if test="${fn:length(product.name) <= 8 }">${product.name }</c:if>
 					    	</div>
 					    	<div class="col-md-2 col-xs-3 col-sm-4 tc">
 		                   		<span class="f16 mr5">${product.code}</span>
