@@ -4622,18 +4622,31 @@ public class ExpertController extends BaseController {
         JSONObject json = JSONObject.fromObject(objectMap);
         return json.toString();
     }
-	
+
+    /**
+     * 执业资格文件校验
+     * @param expertId
+     * @param typeId
+     * @return
+     */
 	@RequestMapping("isUpload")
 	@ResponseBody
 	public String isUpload(String expertId,String  typeId){
 		Integer count=0;
-		List<ExpertTitle> list = expertTitleService.queryByUserId(expertId, typeId);
-		for(ExpertTitle q:list){
-			List<UploadFile> files = uploadService.getFilesOther(q.getId(), "9", "3");
-			if(files!=null&&files.size()>0){
-				count++;
-			}
-		}
+        List<ExpertTitle> list = new ArrayList<>();
+		if(!StringUtils.isEmpty(typeId)){
+            typeId = typeId.substring(0, typeId.length()-1);
+            String[] typeIds = typeId.split(",");
+            for(int i=0;i<typeIds.length;i++){
+                list = expertTitleService.queryByUserId(expertId, typeIds[i]);
+                for(ExpertTitle q:list){
+                    List<UploadFile> files = uploadService.getFilesOther(q.getId(), "9", "3");
+                    if(files!=null&&files.size()>0){
+                        count++;
+                    }
+                }
+            }
+        }
 		Integer size = list.size();
 		if(!count.equals(size)){
 			return "0";
