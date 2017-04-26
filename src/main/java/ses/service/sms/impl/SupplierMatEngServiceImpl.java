@@ -14,6 +14,7 @@ import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierPorjectQuaMapper;
 import ses.dao.sms.SupplierRegPersonMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
@@ -24,6 +25,7 @@ import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierPorjectQua;
 import ses.model.sms.SupplierRegPerson;
+import ses.service.bms.QualificationLevelService;
 import ses.service.sms.SupplierMatEngService;
 import ses.util.WfUtil;
 
@@ -50,6 +52,8 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 	
 	@Autowired
 	private QualificationMapper qualificationMapper;
+	@Autowired
+    private QualificationLevelService qualificationLevelService;
 	@Override
 	public void saveOrUpdateSupplierMatPro(Supplier supplier) {
 		String id = supplier.getSupplierMatEng().getId();
@@ -112,14 +116,20 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 
                 // 判断是否已经存在,来选择insert还是update
                 if (aptituteBean != null) {
-                    // 修改
-                    aptitute.setMatEngId(supplierMatEng.getId());
-                    supplierAptituteMapper.updateByPrimaryKeySelective(aptitute);
                     if(aptituteBean.getCertType()!=null){
                         Qualification qualification = qualificationMapper.getQualification(aptituteBean.getCertType());
+                        List<DictionaryData> byQuaId = new ArrayList<>();
+                        byQuaId = qualificationLevelService.getByQuaId(aptitute.getAptituteLevel());
                         String _name = aptituteBean.getCertType();
+                        if(null != qualification){
+                            _name = qualification.getName();
+                        }
+                        // 修改
+                        aptitute.setMatEngId(supplierMatEng.getId());
+                        aptitute.setCertType(_name);
+                        supplierAptituteMapper.updateByPrimaryKeySelective(aptitute);
                         List<SupplierPorjectQua> sQua = supplierPorjectQuaMapper.queryByNameAndSupplierId(_name, supplier.getId());
-                        if(sQua.size()<1 && qualification==null){
+                        if(sQua.size()<1 && byQuaId.isEmpty()){
                             SupplierPorjectQua projectQua=new SupplierPorjectQua();
                             projectQua.setId(UUID.randomUUID().toString().replaceAll("-", ""));
                             projectQua.setName(_name);

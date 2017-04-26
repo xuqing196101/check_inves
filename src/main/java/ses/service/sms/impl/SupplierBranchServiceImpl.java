@@ -25,22 +25,27 @@ public class SupplierBranchServiceImpl implements SupplierBranchService{
 	
 	@Override
 	public void addBatch(List<SupplierBranch> list,String supplierId) {
-//		supplierBranchMapper.deleteBySupplierId(supplierId);
+		supplierBranchMapper.deleteBySupplierId(supplierId);
 		 for(SupplierBranch s:list){
 			 if(s.getId()!=null){
-			 SupplierBranch branch = supplierBranchMapper.queryById(s.getId());
-			 if(branch!=null){
-				if(s.getOrganizationName()==null){
-					 s.setOrganizationName("");
-				}
-				 supplierBranchMapper.updateByPrimaryKeySelective(s);
-			 }else if(s.getOrganizationName()!=null){
-//				 String id = WfUtil.createUUID();
-//				 s.setId(id);
-				 s.setSupplierId(supplierId);
-				 supplierBranchMapper.insertSelective(s);  
-			 }
-		 }
+                 SupplierBranch branch = supplierBranchMapper.queryById(s.getId());
+                 if(branch!=null){
+                    if(s.getOrganizationName()==null){
+                         s.setOrganizationName("");
+                    }
+                     supplierBranchMapper.updateByPrimaryKeySelective(s);
+                 }else if(s.getOrganizationName()!=null){
+    //				 String id = WfUtil.createUUID();
+    //				 s.setId(id);
+                     s.setSupplierId(supplierId);
+                     supplierBranchMapper.insertSelective(s);
+                 }
+             }else{
+                 String id = WfUtil.createUUID();
+                 s.setId(id);
+                 s.setSupplierId(supplierId);
+                 supplierBranchMapper.insertSelective(s);
+             }
 		 }
 	}
 

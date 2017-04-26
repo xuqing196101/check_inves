@@ -251,6 +251,7 @@
 			}
 			$(function() {
 				$("input").not("#supplierName_input_id").not("input[name='legalName']").not("input[name='contactName']").bind("blur", tempSave);
+//				$("input").not("#supplierName_input_id").not("input[name='legalName']").not("input[name='contactName']").bind("blur", tempSave);
 				$("textarea").bind("blur", tempSave);
 				$("select").bind("change", tempSave);
 				/**供应商名称校验*/
@@ -265,41 +266,41 @@
                     }
                 });
 				/**法定代表人姓名校验*/
-                $("input[name='legalName']").focus(function(){
-                    $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
-                }).blur(function(){
-                    var oldVal=($(this).attr("data-oval")); //获取原值
-                    var newVal=($(this).val()); //获取当前值
-                    if (oldVal!=newVal){
-                        if(newVal==$("input[name='contactName']").val()){
-                            $(this).val("");
-                            layer.msg('姓名已存在，请重新填写！', {
-                                offset: '300px'
-                            });
-                        }else{
-                            $("#name_span").val(2);
-                            tempSave();
-                        }
-                    }
-                });
+//                $("input[name='legalName']").focus(function(){
+//                    $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
+//                }).blur(function(){
+//                    var oldVal=($(this).attr("data-oval")); //获取原值
+//                    var newVal=($(this).val()); //获取当前值
+//                    if (oldVal!=newVal){
+//                        if(newVal==$("input[name='contactName']").val()){
+//                            $(this).val("");
+//                            layer.msg('姓名已存在，请重新填写！', {
+//                                offset: '300px'
+//                            });
+//                        }else{
+//                            $("#name_span").val(2);
+//                            tempSave();
+//                        }
+//                    }
+//                });
                 /**联系人姓名校验*/
-                $("input[name='contactName']").focus(function(){
-                    $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
-                }).blur(function(){
-                    var oldVal=($(this).attr("data-oval")); //获取原值
-                    var newVal=($(this).val()); //获取当前值
-                    if (oldVal!=newVal){
-                        if(newVal==$("input[name='legalName']").val()){
-                            $(this).val("");
-                            layer.msg('姓名已存在，请重新填写！', {
-                                offset: '300px'
-                            });
-                        }else{
-                            $("#name_span").val(3);
-                            tempSave();
-                        }
-                    }
-                });
+//                $("input[name='contactName']").focus(function(){
+//                    $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
+//                }).blur(function(){
+//                    var oldVal=($(this).attr("data-oval")); //获取原值
+//                    var newVal=($(this).val()); //获取当前值
+//                    if (oldVal!=newVal){
+//                        if(newVal==$("input[name='legalName']").val()){
+//                            $(this).val("");
+//                            layer.msg('姓名已存在，请重新填写！', {
+//                                offset: '300px'
+//                            });
+//                        }else{
+//                            $("#name_span").val(3);
+//                            tempSave();
+//                        }
+//                    }
+//                });
 			});
 			/** 无提示实时保存 */
 			function tempSave() {
@@ -335,18 +336,18 @@
                                 offset: '300px'
                             });
                         }
-                        if(msg=="legalNameExists"){
-                            $("input[name='legalName']").val("");
-                            layer.msg('姓名已存在，请重新填写！', {
-                                offset: '300px'
-                            });
-                        }
-                        if(msg=="contactNameExists"){
-                            $("input[name='contactName']").val("");
-                            layer.msg('姓名已存在，请重新填写！', {
-                                offset: '300px'
-                            });
-                        }
+//                        if(msg=="legalNameExists"){
+//                            $("input[name='legalName']").val("");
+//                            layer.msg('姓名已存在，请重新填写！', {
+//                                offset: '300px'
+//                            });
+//                        }
+//                        if(msg=="contactNameExists"){
+//                            $("input[name='contactName']").val("");
+//                            layer.msg('姓名已存在，请重新填写！', {
+//                                offset: '300px'
+//                            });
+//                        }
 					}
 				});
 			}
