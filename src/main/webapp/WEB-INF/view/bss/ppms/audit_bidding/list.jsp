@@ -137,7 +137,7 @@
         <label class="fl">审核状态：</label> 
         <span>
         <select class="w178" id="status" name="confirmFile" >
-            <option value="-1">请选择</option>
+            <option value="">全部</option>
             <option value="1">待审核</option>
             <option value="2">审核未通过</option>
             <option value="3">审核通过</option>
@@ -177,7 +177,7 @@
 			  <td class="tc w30">
 			    <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
 			  </td>
-			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+			  <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  <td class="tl w320" title="${obj.name}">
 			  	 <c:if test="${fn:length(obj.name)>20}">
 			  	 ${fn:substring(obj.name,0,20)}...
