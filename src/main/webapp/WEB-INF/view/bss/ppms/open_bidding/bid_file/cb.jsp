@@ -17,13 +17,6 @@
 				$(this).hide();
             }); 
 		}
-		
-		/* var aa = "${executes}";
-		alert(aa);
-		if(aa){
-		  layer.alert("环节未结束");
-		  window.history.go(-1);
-		} */
     });	
 	$(function(){
 	   if('${date}'>0){

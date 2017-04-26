@@ -1578,41 +1578,6 @@ public class OpenBiddingController {
   @RequestMapping("/changbiao")
   public String chooseChangBiaoType(String projectId, String flowDefineId, Model model) {
       Project project = projectService.selectById(projectId);
-      //判断前面的环节是否完成
-      //先获取当前环节的步骤是多少
-      FlowDefine define = flowMangeService.getFlowDefine(flowDefineId);
-      //根据采购方式获取当前所有的流程
-      FlowDefine fd = new FlowDefine();
-      fd.setPurchaseTypeId(project.getPurchaseType());
-      List<FlowDefine> defines = flowMangeService.find(fd);
-      List<FlowDefine> list = new ArrayList<FlowDefine>();
-      if(defines != null && defines.size() > 0){
-          for (FlowDefine flowDefine : defines) {
-              if(flowDefine.getStep() < define.getStep()){
-                  list.add(flowDefine);
-              }
-          }
-      }
-      
-      //获取到所有小于当前环节的流程
-      if(list != null && list.size() > 0){
-          aa:for (FlowDefine flowDefine : list) {
-              FlowExecute execute = new FlowExecute();
-              execute.setProjectId(projectId);
-              execute.setFlowDefineId(flowDefine.getId());
-              List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
-              if(executes != null && executes.size() > 0){
-                  for (int i = 0; i < executes.size(); i++ ) {
-                      if(executes.get(i).getStatus() == 3){
-                          break;
-                      } else if (i == executes.size() - 1){
-                          model.addAttribute("executes", "1");
-                          break aa;
-                      }
-                  }
-              }
-          }
-      }
       
       //开标时间
       long bidDate = 0;
