@@ -433,7 +433,7 @@
 	function sum1(){
 		var budget = $("#univalent").val()-0;
 		var other = $("#purNum").val()-0;
-		var sum = budget*other;
+		var sum = budget*other/10000;
 		$("#purBudgetSum").val(sum);
 	}
 	
@@ -939,7 +939,7 @@
 							<td class="tc">${subject.purchaseCount}<input type="hidden" name="proList[${(vs.index)}].purchaseCount" value="${subject.purchaseCount}" /></td>
 							<td class="tc">${subject.item}<input type="hidden" name="proList[${(vs.index)}].item" value="${subject.item}" /></td>
 							<td class="tc">${subject.unitPrice}<input type="hidden" name="proList[${(vs.index)}].price" value="${subject.unitPrice}" /></td>
-							<td class="tc">${subject.unitPrice*subject.purchaseCount}<input type="hidden" name="proList[${(vs.index)}].amount" value="${subject.unitPrice*subject.purchaseCount}" /></td>
+							<td class="tc">${subject.unitPrice*subject.purchaseCount/10000}<input type="hidden" name="proList[${(vs.index)}].amount" value="${subject.unitPrice*subject.purchaseCount/10000}" /></td>
 							<td class="tc">${reque.deliverDate}<input type="hidden" name="proList[${(vs.index)}].deliverDate" value="${reque.deliverDate}" /></td>
 							<td class="tc">${reque.memo}<input type="hidden" name="proList[${(vs.index)}].memo" value="${reque.memo}" /></td>
 						</tr>

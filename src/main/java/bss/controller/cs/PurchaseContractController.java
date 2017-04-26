@@ -46,6 +46,7 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.AfterSaleSerService;
 import ses.service.sms.SupplierService;
 import ses.util.ValidateUtils;
+import bss.dao.ppms.theSubjectMapper;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 import bss.model.ppms.Packages;
@@ -63,6 +64,7 @@ import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
 import bss.service.sstps.AppraisalContractService;
+
 
 
 
@@ -128,6 +130,8 @@ public class PurchaseContractController extends BaseSupplierController{
     private OrgnizationServiceI orgnizationService;
     @Autowired
     private AfterSaleSerService saleSerService;
+    @Autowired
+    private theSubjectMapper theSubjectMapper;
 	/**
 	 * 
 	* 〈简述〉 〈详细描述〉
