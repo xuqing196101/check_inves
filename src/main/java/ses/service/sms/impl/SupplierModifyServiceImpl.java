@@ -1050,7 +1050,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
      * @return void
      */
 	@Override
-	public void addFileInfo(Integer systemKey, String businessId, String fileTypeId) {
+	public void addFileInfo(String businessId, String fileTypeId) {
 		SupplierModify supplierModify = new SupplierModify();
 		Supplier supplier;
 		

@@ -197,4 +197,15 @@ public interface ExpertAuditService {
 	 * @return void
 	 */
 	void delFileModifyByExpertId (String expertId);
+	
+	
+	/**
+	 * @Title: addFileInfo
+	 * @author XuQing 
+	 * @date 2017-4-26 下午5:30:54  
+	 * @Description:插入附件退回后修改记录
+	 * @param @param expertAuditFileModify      
+	 * @return void
+	 */
+	void addFileInfo (String businessId, String fileTypeId);
 }

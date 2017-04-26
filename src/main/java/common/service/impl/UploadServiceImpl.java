@@ -34,6 +34,7 @@ import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.MultipartFileUploadUtil;
 import common.utils.UploadUtil;
+import ses.service.ems.ExpertAuditService;
 import ses.service.sms.SupplierModifyService;
 import ses.util.PropUtil;
 
@@ -68,8 +69,13 @@ public class UploadServiceImpl implements UploadService {
     @Autowired
     private FileUploadMapper uploadDao;
     
+    /**供应商修改记录*/
     @Autowired
     private SupplierModifyService supplierModifyService;
+    
+    /**专家修改记录*/
+    @Autowired
+    private ExpertAuditService expertAuditService;
 
     /**
      * 
@@ -172,7 +178,14 @@ public class UploadServiceImpl implements UploadService {
          * 插入供应商审核退回后修改的附件
          */
         if(systemKey == 1){
-        	supplierModifyService.addFileInfo(systemKey, businessId, fileTypeId);
+        	supplierModifyService.addFileInfo(businessId, fileTypeId);
+        }
+        
+        /**
+         * 插入专家审核退回后修改的附件
+         */
+        if(systemKey == 3){
+        	expertAuditService.addFileInfo(businessId, fileTypeId);
         }
         
         /**

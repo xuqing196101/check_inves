@@ -2,8 +2,6 @@ package ses.dao.ems;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
 import ses.model.ems.ExpertAuditFileModify;
 
 /**
@@ -33,4 +31,14 @@ public interface ExpertAuditFileModifyMapper {
 	 * @return void
 	 */
 	void delByExpertId (String expertId);
+	
+	/**
+	 * @Title: insert
+	 * @author XuQing 
+	 * @date 2017-4-26 下午5:24:04  
+	 * @Description:添加
+	 * @param @param expertAuditFileModify      
+	 * @return void
+	 */
+	void insert (ExpertAuditFileModify expertAuditFileModify);
 }

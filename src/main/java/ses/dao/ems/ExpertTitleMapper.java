@@ -103,4 +103,15 @@ public interface ExpertTitleMapper {
     * @throws
      */
     List<ExpertTitle> selectByExpertId(@Param("expertId")String expertId);
+    
+    /**
+     * @Title: findExpertIdById
+     * @author XuQing 
+     * @date 2017-4-26 下午5:48:27  
+     * @Description:查询专家id
+     * @param @param id
+     * @param @return      
+     * @return String
+     */
+    String findExpertIdById (String id);
 }

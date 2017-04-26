@@ -522,7 +522,7 @@
 										<!-- <button class="btn btn-windows delete" type="button" onclick="cancellation();">注销</button> -->
 								</c:otherwise>
 							</c:choose>
-							<button class="btn btn-windows edit" type="button" onclick="resetPwd()">重置密码</button>
+							<!-- <button class="btn btn-windows edit" type="button" onclick="resetPwd()">重置密码</button> -->
 							<!-- <button class="btn btn-windows delete" type="button" onclick="cancellation();">注销</button> -->
 	          </div>
 	          <div class="clear"></div>

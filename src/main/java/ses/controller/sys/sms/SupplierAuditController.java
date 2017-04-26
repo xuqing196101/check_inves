@@ -380,7 +380,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		String sonArmyBuinessProvince = area.getName();
 		request.setAttribute("sonArmyBuinessProvince", sonArmyBuinessProvince);
 		for(int i = 0; i < privnce.size(); i++) {
-			if(area.getParentId().equals(privnce.get(i).getId())) {
+			if(privnce.get(i).getId() !=null && area.getParentId().equals(privnce.get(i).getId())) {
 				String parentArmyBuinessProvince = privnce.get(i).getName();
 				request.setAttribute("parentArmyBuinessProvince", parentArmyBuinessProvince);
 			}
@@ -388,7 +388,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		//生产经营地址
 		List < SupplierAddress > supplierAddress = supplierAddressService.queryBySupplierId(supplierId);
-		if(!supplierAddress.isEmpty()){
+		if(!supplierAddress.isEmpty() && supplierAddress.size() > 0 ){
 			for(Area a: privnce) {
 				for(SupplierAddress s: supplierAddress) {
 					if(a.getId().equals(s.getParentId())) {

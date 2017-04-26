@@ -78,5 +78,5 @@ public interface SupplierModifyService {
      * @param @param businessId      
      * @return void
      */
-    void addFileInfo (Integer systemKey ,String businessId, String fileTypeId);
+    void addFileInfo (String businessId, String fileTypeId);
 }
