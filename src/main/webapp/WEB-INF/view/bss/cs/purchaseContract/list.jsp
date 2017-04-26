@@ -166,7 +166,14 @@
   	function cancel(){
   		layer.close(ind);
   	}
-  	
+  	function showDraftContract(id,type,status){
+  		if(type=='1'){
+  			window.location.href="${pageContext.request.contextPath}/purchaseContract/showDraftContract.html?ids="+id+"&status="+status;
+  		}else{
+  			alert("还没有生成合同");
+  		}
+  		
+  	}
   	/*function save(){
   		var supid = $("#delSele").val();
   		var ids =[]; 
@@ -343,24 +350,24 @@
 				<c:set value="${pass.project.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td class="tl pl20 pointer" title="${name}">${fn:substring(name,0,10)}...</td>
+					<td class="tl pl20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${name}">${fn:substring(name,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td class="tl pl20 pointer" title="${name}">${name}</td>
+					<td class="tl pl20 pointer"onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${name}">${name}</td>
 				</c:if>
 				<c:set value="${pass.project.projectNumber}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td class=" tl pl20 pointer" title="${code}" >${fn:substring(code,0,10)}...</td>
+					<td class=" tl pl20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${code}" >${fn:substring(code,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td class=" tl pl20 pointer" title="${code}">${code}</td>
+					<td class=" tl pl20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${code}">${code}</td>
 				</c:if>
-				<td class="tc pointer">${pass.packages.name}</td>
-				<td class="tr pr20 pointer">${pass.packages.wonPrice}</td>
-				<td class="tl pl20 pointer">${pass.supplier.supplierName}</td>
-				<td class="tc pointer">${pass.purchaseDep}</td>
-				<td class="tc">
+				<td class="tc pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.packages.name}</td>
+				<td class="tr pr20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.packages.wonPrice}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.supplier.supplierName}</td>
+				<td class="tc pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.purchaseDep}</td>
+				<td class="tc" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">
 					<%-- <c:if test="${pass.isCreateContract==2}">暂存</c:if> --%>
 					<c:if test="${pass.isCreateContract==1}">已生成</c:if>
 					<c:if test="${pass.isCreateContract!=1}">未生成</c:if>
