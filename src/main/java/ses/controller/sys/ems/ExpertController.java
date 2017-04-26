@@ -801,63 +801,48 @@ public class ExpertController extends BaseController {
             
             //遍历循环只要存在一个父节点相同的就不删除，否则删除
             
-            Category cate1 = categoryService.findById(categoryId);
-           
-            String parentId = cate1.getParentId(); 
-            
-            while(true){
-           	 
+            Category cate1 = null;
+            if(StringUtils.isEmpty(flag)){
+                cate1 = categoryService.findById(categoryId);
+            }else{//工程专业属性
+                cate1 = engCategoryService.findById(categoryId);
+            }
+            if(null != cate1){
+                String parentId = cate1.getParentId();
+                while(true){
 //              没有同级节点删除父级节点
-               boolean bool = sameCategory(expertId,parentId,typeId);
-               if(bool==false){
-  	        	   Category category = categoryService.findById(parentId);
-  	        	   if(null != category){
-                       List<ExpertCategory> bySupplierIdCategoryId = expertCategoryService.getListCategory(expertId, category.getId(), typeId);
-                       if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
-                           map.put("categoryId", category.getId());
-                           expertCategoryService.deleteByMap(map);
-                           parentId = category.getParentId();
-                       }else{
-                           break  ;
-                       }
-                   }else{
-                       //如果该类型下没有子节点,删除关联的根节点
-                       String rootCategoryId = DictionaryDataUtil.getId(code);
-                       List<ExpertCategory> expertCategories = expertCategoryService.findByExpertId(expertId);
-                       if(null!=expertCategories && !expertCategories.isEmpty()){
-                           for(int i=0;i<expertCategories.size();i++){
-                               if(!StringUtils.isEmpty(rootCategoryId) && rootCategoryId.equals(expertCategories.get(i).getCategoryId())){
-                                   map.put("categoryId", rootCategoryId);
-                                   expertCategoryService.deleteByMap(map);
-                               }
-                           }
-                       }
-                       break  ;
-                   }
-  	           }else{
-  	        	   break  ;
-  	           } 
-              }  
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+                    boolean bool = sameCategory(expertId,parentId,typeId);
+                    if(!bool){
+                        Category category = categoryService.findById(parentId);
+                        if(null != category){
+                            List<ExpertCategory> bySupplierIdCategoryId = expertCategoryService.getListCategory(expertId, category.getId(), typeId);
+                            if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
+                                map.put("categoryId", category.getId());
+                                expertCategoryService.deleteByMap(map);
+                                parentId = category.getParentId();
+                            }else{
+                                break  ;
+                            }
+                        }else{
+                            //如果该类型下没有子节点,删除关联的根节点
+                            String rootCategoryId = DictionaryDataUtil.getId(code);
+                            List<ExpertCategory> expertCategories = expertCategoryService.findByExpertId(expertId);
+                            if(null!=expertCategories && !expertCategories.isEmpty()){
+                                for(int i=0;i<expertCategories.size();i++){
+                                    if(!StringUtils.isEmpty(rootCategoryId) && rootCategoryId.equals(expertCategories.get(i).getCategoryId())){
+                                        map.put("categoryId", rootCategoryId);
+                                        expertCategoryService.deleteByMap(map);
+                                    }
+                                }
+                            }
+                            break  ;
+                        }
+                    }else{
+                        break  ;
+                    }
+                }
+            }
+
             
             
            /* Category cata11 = engCategoryService.selectByPrimaryKey(categoryId);
