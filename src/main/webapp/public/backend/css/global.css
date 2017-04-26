@@ -6,9 +6,6 @@
 .btn_list li a.executed, .btn_list li:hover a{
 	background-color:#99cc33;
    	color:#ffffff;
-   	border:1px solid #99cc33!important;
-   	
-
 }
 
 body {
@@ -779,8 +776,8 @@ li:first-child {
 }
 .btn_list li:first-child{
    border:1px solid #dddddd;
-   height:40px;
-   line-height:40px;
+   height:42px;
+   line-height:42px;
 }
 .btn_list li:last-child{
   border-bottom:1px solid #dddddd!important;

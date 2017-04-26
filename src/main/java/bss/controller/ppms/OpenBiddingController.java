@@ -57,6 +57,7 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
+import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Negotiation;
@@ -1575,46 +1576,83 @@ public class OpenBiddingController {
 
 
   @RequestMapping("/changbiao")
-  public String chooseChangBiaoType(String projectId, Model model) {
-    //开标时间
-    Project project = projectService.selectById(projectId);
-    long bidDate = 0;
-    if (project.getBidDate() != null) {
-      bidDate = project.getBidDate().getTime();
-    }
-    long nowDate = new Date().getTime();
-    long date = bidDate - nowDate;
-    model.addAttribute("date", date);
-    model.addAttribute("project", project);
-
-    if (date < 0) {
-      //去saletender查出项目对应的所有的包
-      List<Packages> packList = saleTenderService.getPackageIds(projectId);
-      if (packList != null && packList.size() > 0) {
-        SaleTender condition = new SaleTender();
-        condition.setProjectId(projectId);
-        condition.setPackages(packList.get(0).getId());
-        condition.setStatusBid(NUMBER_TWO);
-        condition.setStatusBond(NUMBER_TWO);
-        condition.setIsTurnUp(0);
-        List<SaleTender> stList = saleTenderService.find(condition);
-        if (stList != null && stList.size() > 0) {
-          Quote quote = new Quote();
-          quote.setProjectId(projectId);
-          quote.setPackageId(packList.get(0).getId());
-          quote.setSupplierId(stList.get(0).getSupplierId());
-          List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
-          if (allQuote != null && allQuote.size() > 0) {
-            if (allQuote.get(0).getQuotePrice() == null) {
-              return "redirect:changtotal.html?projectId=" + projectId;
-            } else {
-              return "redirect:changmingxi.html?projectId=" + projectId;
-            }
+  public String chooseChangBiaoType(String projectId, String flowDefineId, Model model) {
+      Project project = projectService.selectById(projectId);
+      //判断前面的环节是否完成
+      //先获取当前环节的步骤是多少
+      FlowDefine define = flowMangeService.getFlowDefine(flowDefineId);
+      //根据采购方式获取当前所有的流程
+      FlowDefine fd = new FlowDefine();
+      fd.setPurchaseTypeId(project.getPurchaseType());
+      List<FlowDefine> defines = flowMangeService.find(fd);
+      List<FlowDefine> list = new ArrayList<FlowDefine>();
+      if(defines != null && defines.size() > 0){
+          for (FlowDefine flowDefine : defines) {
+              if(flowDefine.getStep() < define.getStep()){
+                  list.add(flowDefine);
+              }
           }
-        }
       }
-    }
-    return "bss/ppms/open_bidding/bid_file/cb";
+      
+      //获取到所有小于当前环节的流程
+      if(list != null && list.size() > 0){
+          aa:for (FlowDefine flowDefine : list) {
+              FlowExecute execute = new FlowExecute();
+              execute.setProjectId(projectId);
+              execute.setFlowDefineId(flowDefine.getId());
+              List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
+              if(executes != null && executes.size() > 0){
+                  for (int i = 0; i < executes.size(); i++ ) {
+                      if(executes.get(i).getStatus() == 3){
+                          break;
+                      } else if (i == executes.size() - 1){
+                          model.addAttribute("executes", "1");
+                          break aa;
+                      }
+                  }
+              }
+          }
+      }
+      
+      //开标时间
+      long bidDate = 0;
+      if (project.getBidDate() != null) {
+          bidDate = project.getBidDate().getTime();
+      }
+      long nowDate = new Date().getTime();
+      long date = bidDate - nowDate;
+      model.addAttribute("date", date);
+      model.addAttribute("project", project);
+      model.addAttribute("flowDefineId", flowDefineId);
+
+      if (date < 0) {
+          //去saletender查出项目对应的所有的包
+          List<Packages> packList = saleTenderService.getPackageIds(projectId);
+          if (packList != null && packList.size() > 0) {
+              SaleTender condition = new SaleTender();
+              condition.setProjectId(projectId);
+              condition.setPackages(packList.get(0).getId());
+              condition.setStatusBid(NUMBER_TWO);
+              condition.setStatusBond(NUMBER_TWO);
+              condition.setIsTurnUp(0);
+              List<SaleTender> stList = saleTenderService.find(condition);
+              if (stList != null && stList.size() > 0) {
+                  Quote quote = new Quote();
+                  quote.setProjectId(projectId);
+                  quote.setPackageId(packList.get(0).getId());
+                  quote.setSupplierId(stList.get(0).getSupplierId());
+                  List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
+                  if (allQuote != null && allQuote.size() > 0) {
+                      if (allQuote.get(0).getQuotePrice() == null) {
+                          return "redirect:changtotal.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
+                      } else {
+                          return "redirect:changmingxi.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
+                      }
+                  }
+              }
+          }
+      }
+      return "bss/ppms/open_bidding/bid_file/cb";
   }
 
   @RequestMapping("/openNewWidow")
@@ -1697,6 +1735,36 @@ public class OpenBiddingController {
         quote.setGiveUpReason(jsonQuote.getString("auditReason"));
       }
       quoteLists.add(quote);
+      
+      //查是否是单一来源的项目
+      Project project = projectService.selectById(quote.getProjectId());
+      if(project != null){
+        DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+        if("DYLY".equals(findById.getCode())){
+          SupplierCheckPass pass = new SupplierCheckPass();
+          pass.setPackageId(quote.getPackageId());
+          List<SupplierCheckPass> listCheckPass = supplierCheckPassService.listCheckPass(pass);
+          if(listCheckPass != null && listCheckPass.size() > 0){
+            for (SupplierCheckPass supplierCheckPass : listCheckPass) {
+              if(supplierCheckPass != null){
+                supplierCheckPassService.delete(supplierCheckPass.getId());
+              }
+            }
+
+          }
+
+          SupplierCheckPass record = new SupplierCheckPass();
+          record.setId(WfUtil.createUUID());
+          record.setPackageId(quote.getPackageId());
+          record.setProjectId(quote.getProjectId());
+          record.setSupplierId(jsonQuote.getString("supplierId"));
+          record.setTotalPrice(quote.getTotal());
+          record.setRanking(1);
+          record.setIsWonBid((short)0);
+          supplierCheckPassService.insert(record);
+        }
+      }
+      
     }
     supplierQuoteService.insert(quoteLists); 
     //该环节设置为执行完毕
