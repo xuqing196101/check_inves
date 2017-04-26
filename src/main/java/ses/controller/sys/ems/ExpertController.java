@@ -4271,7 +4271,7 @@ public class ExpertController extends BaseController {
             out.close(); 
         }
 
-        if(!loginName.equals(userId)){
+        if(null!=loginName && !loginName.equals(userId)){
             response.setContentType("textml;charset=utf-8");
             String path = request.getContextPath();
             String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
