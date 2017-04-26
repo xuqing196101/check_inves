@@ -591,7 +591,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 			}
 			// 查询SKU是否已存在
 			JdcgResult jdcgResult = vertifyUniqueSKU(productBasic.getSku(), productBasic.getId());
-			if(jdcgResult.getStatus() == 500){
+			if("500".equals(jdcgResult.getData())){
 				return JdcgResult.build(500, "SKU已存在，请重新输入");
 			}
 		}
@@ -747,12 +747,12 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		// 保存审核信息
 		smsProductCheckRecordMapper.insertSelective(smsProductCheckRecord);
 	}
+	
     /**
      * 实现 产品库录入的未审核的数据   外网  导出 
      */
 	@Override
 	public boolean exportAddProjectData(String start, String end, Date synchDate) {
-		// TODO Auto-generated method stub
 		boolean boo=false;
 		List<SMSProductBasic>basic= smsProductBasicMapper.selectByCreatedAt(start,end);
 		// 定义 文件收集
@@ -804,13 +804,13 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		boo=true;
 		return boo;
 	}
+	
     /***
      * 实现 管理员 产品库审核的 相关数据 内网
      */
 	@Override
 	public boolean exportCheckProjectData(String start, String end,
 			Date synchDate) {
-		// TODO Auto-generated method stub
 	    boolean boo=false;
 	    List<SMSProductCheckRecord> check=smsProductCheckRecordMapper.selectByCreatedAt(start, end);
 	    if(check!=null && check.size()>0){
@@ -824,12 +824,12 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 	    boo=true;
 		return boo;
 	}
+	
     /**
      * 实现  导入产品库录入的未审核的数据
      */
 	@Override
 	public boolean importAddProjectData(File file) {
-		// TODO Auto-generated method stub
 		boolean boo=false;
 		 List<SMSProductBasic> list = FileUtils.getBeans(file, SMSProductBasic.class); 
 		 if(list!=null && list.size()>0){
@@ -860,12 +860,12 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		 }
 		return boo;
 	}
+	
     /***
      * 实现导入    管理员 产品库审核的 相关数据
      */
 	@Override
 	public boolean importCheckProjectData(File file) {
-		// TODO Auto-generated method stub
 		boolean boo=false;
 		 List<SMSProductCheckRecord> list = FileUtils.getBeans(file, SMSProductCheckRecord.class); 
 		 if(list!=null && list.size()>0){
