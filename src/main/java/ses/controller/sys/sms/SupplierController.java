@@ -2733,8 +2733,12 @@ public class SupplierController extends BaseSupplierController {
 	@ResponseBody
 	@RequestMapping("/delAddress")
 	public String delAddress(String id) {
-		supplierAddressService.delAddressByPrimaryId(id);
-		return "ok";
+	    String str = "failed";
+        int del = supplierAddressService.delAddressByPrimaryId(id);
+        if(del==1){
+            str = "ok";
+        }
+        return str;
 	}
 
 	/**

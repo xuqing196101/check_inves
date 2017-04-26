@@ -685,7 +685,7 @@
                 $("#certSaleNumber").val(ind);
 
 			}
-			function delAddress(obj) {
+			function delAddress(obj,id) {
 				var btmCount = 0;
 				$("#address_list_body").find("input[type='button']").each(function() {
 					btmCount++;
@@ -695,14 +695,6 @@
 						offset: '300px'
 					});
 				} else {
-					var id = $(obj).next().val();
-					var tag = $(obj).parent().parent();
-					var li_1 = $(obj).parent().parent().prev();//房产证明
-					$(li_1).prev().prev().prev().remove(); //邮编
-					$(li_1).prev().prev().remove(); //省市
-					$(li_1).prev().remove(); //详细地址
-                    $(li_1).remove();
-					$(tag).remove(); //按钮
 //                    $(li_1).prev().prev().remove(); //邮编
 //                    $(li_1).prev().remove(); //省市
 //                    $(li_1).remove(); //详细地址
@@ -712,10 +704,24 @@
 						data: {
 							"id": id
 						},
-						success: function() {
-							layer.msg("删除成功!", {
-								offset: '300px'
-							});
+						success: function(data) {
+						    if(data=="ok"){
+                                layer.msg("删除成功!", {
+                                    offset: '300px'
+                                });
+                                var id = $(obj).next().val();
+                                var tag = $(obj).parent().parent();
+                                var li_1 = $(obj).parent().parent().prev();//房产证明
+                                $(li_1).prev().prev().prev().remove(); //邮编
+                                $(li_1).prev().prev().remove(); //省市
+                                $(li_1).prev().remove(); //详细地址
+                                $(li_1).remove();
+                                $(tag).remove(); //按钮
+                            }else{
+                                layer.msg("删除失败!", {
+                                    offset: '300px'
+                                });
+                            }
 						},
 						error: function() {
 							layer.msg("删除失败!", {
