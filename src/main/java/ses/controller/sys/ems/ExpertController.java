@@ -2643,8 +2643,15 @@ public class ExpertController extends BaseController {
         // 文件名称
         String fileName = createWordMethod(expert, request);
         // 下载后的文件名
-        String downFileName = new String("军队评标专家申请表.doc".getBytes("UTF-8"),
-            "iso-8859-1"); // 为了解决中文名称乱码问题
+        String downFileName = "军队评标专家申请表.doc";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+        }
+
         return service.downloadFile(fileName, filePath, downFileName);
     }
 
@@ -2686,8 +2693,15 @@ public class ExpertController extends BaseController {
         File file=new File(path);
 
         HttpHeaders headers = new HttpHeaders();    
-        String fileName=new String("军队评标专家承诺书.pdf".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
-        headers.setContentDispositionFormData("attachment", fileName);   
+        String fileName="军队评标专家承诺书.pdf";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            fileName = URLEncoder.encode(fileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
+        }
+        headers.setContentDispositionFormData("attachment", fileName);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
             headers, HttpStatus.OK);    
@@ -2703,12 +2717,20 @@ public class ExpertController extends BaseController {
    	 */
    	@RequestMapping("/downloadReghandbook")
    	public ResponseEntity < byte[] > downloadRegHandbook(HttpServletRequest request, String filename) throws IOException {
-   		 String path = PathUtil.getWebRoot() + "excel/军队评审专家注册操作手册.docx";;
-   	        File file = new File(path);
+   		String path = PathUtil.getWebRoot() + "excel/军队评审专家注册操作手册.docx";;
+        File file = new File(path);
 
-   	        HttpHeaders headers = new HttpHeaders();
-   	        String fileName = new String("军队评审专家注册操作手册.docx".getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
-   	        headers.setContentDispositionFormData("attachment", fileName);
+        HttpHeaders headers = new HttpHeaders();
+        String fileName = "军队评审专家注册操作手册.docx";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            fileName = URLEncoder.encode(fileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
+        }
+
+        headers.setContentDispositionFormData("attachment", fileName);
    	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
    	        return new ResponseEntity < byte[] > (FileUtils.readFileToByteArray(file),
    	            headers, HttpStatus.CREATED);
@@ -2760,8 +2782,14 @@ public class ExpertController extends BaseController {
         String fileName = WordUtil.createWord(supplier, "supplier.ftl",
             name, request);
         // 下载后的文件名
-        String downFileName = new String("军队供应商库入库申请表.doc".getBytes("UTF-8"),
-            "iso-8859-1"); // 为了解决中文名称乱码问题
+        String downFileName = "军队供应商库入库申请表.doc";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+        }
         return service.downloadFile(fileName, filePath, downFileName);
     }
 
@@ -3085,8 +3113,14 @@ public class ExpertController extends BaseController {
         String fileName = WordUtil.createWord(null, "supplierNotice.ftl",
             name, request);
         // 下载后的文件名
-        String downFileName = new String("供应商承诺书.doc".getBytes("UTF-8"),
-            "iso-8859-1"); // 为了解决中文名称乱码问题
+        String downFileName = "供应商承诺书.doc";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+        }
         return service.downloadFile(fileName, filePath, downFileName);
     }
 
@@ -3111,9 +3145,14 @@ public class ExpertController extends BaseController {
         String fileName = WordUtil.createWord(null, "supplierNotice.ftl",
             name, request);
         // 下载后的文件名
-        String downFileName = new String("供应商承诺书.doc".getBytes("UTF-8"),
-            "iso-8859-1"); // 为了解决中文名称乱码问题
-
+        String downFileName = "供应商承诺书.doc";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+        }
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("品目类别表");
         HSSFRow row = sheet.createRow((int) 0);
@@ -3201,8 +3240,14 @@ public class ExpertController extends BaseController {
         String fileName = WordUtil.createWord(null, "supplierNotices.ftl",
             name, request);
         // 下载后的文件名
-        String downFileName = new String("供应商注册须知.doc".getBytes("UTF-8"),
-            "iso-8859-1"); // 为了解决中文名称乱码问题
+        String downFileName = "供应商注册须知.doc";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+        }
         return service.downloadFile(fileName, filePath, downFileName);
     }
     
