@@ -6,11 +6,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierHistoryMapper;
+import ses.dao.sms.SupplierItemMapper;
+import ses.dao.sms.SupplierMatEngMapper;
+import ses.dao.sms.SupplierMatProMapper;
+import ses.dao.sms.SupplierMatSellMapper;
+import ses.dao.sms.SupplierMatServeMapper;
 import ses.dao.sms.SupplierModifyMapper;
-import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.Area;
-import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
@@ -22,18 +26,17 @@ import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
+import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.sms.SupplierModifyService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
-import ses.util.DictionaryDataUtil;
 
 @Service(value = "supplierModifyService")
 public class SupplierModifyServiceImpl implements SupplierModifyService{
@@ -53,8 +56,28 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	@Autowired
 	private SupplierTypeRelateService supplierTypeRelateService;
 	
+	//财务
 	@Autowired
-	private  SupplierTypeRelateMapper supplierTypeRelateMapper;
+	private  SupplierFinanceMapper supplierFinanceMapper;
+	
+	//生产
+	@Autowired
+	private SupplierMatProMapper supplierMatProMapper;
+	
+	@Autowired
+	private SupplierItemMapper supplierItemMapper;
+	
+	//销售
+	@Autowired
+	private SupplierMatSellMapper supplierMatSellMapper;
+	
+	//工程
+	@Autowired
+	private SupplierMatEngMapper supplierMatEngMapper;
+	
+	//工程
+	@Autowired
+	private SupplierMatServeMapper supplierMatServeMapper;
 	
 	/**
 	 * @Title: selectField
@@ -175,43 +198,45 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierModify.setmodifyType("basic_page");
 		for(SupplierHistory history : addressList){
 			for(SupplierAddress address: supplierAddress){
-				if(history.getRelationId().equals(address.getId())){
-					supplierModify.setRelationId(address.getId());
-					if(history.getBeforeField() != null && history.getBeforeContent() !=null){
-						//生产经营地址邮编：
-						if (history.getBeforeField().equals("code") && !history.getBeforeContent().equals(address.getCode())) {
-							supplierModify.setBeforeField("code");
-							supplierModify.setBeforeContent(history.getBeforeContent());
-							supplierModifyMapper.insertSelective(supplierModify);
-						}
-						
-						//生产经营地址：
-						if(history.getBeforeField().equals("address")){
-							List < Area > privnce = areaService.findRootArea();
-							Area area = new Area();
-							area = areaService.listById(address.getAddress());
-							String sonAddress = area.getName();
-							String parentAddress = null;
-							for(int i = 0; i < privnce.size(); i++) {
-								if(area.getParentId().equals(privnce.get(i).getId())) {
-									parentAddress = privnce.get(i).getName();
+				if(address.getId() !=null){
+					if(history.getRelationId().equals(address.getId())){
+						supplierModify.setRelationId(address.getId());
+						if(history.getBeforeField() != null && history.getBeforeContent() !=null){
+							//生产经营地址邮编：
+							if (history.getBeforeField().equals("code") && !history.getBeforeContent().equals(address.getCode())) {
+								supplierModify.setBeforeField("code");
+								supplierModify.setBeforeContent(history.getBeforeContent());
+								supplierModifyMapper.insertSelective(supplierModify);
+							}
+							
+							//生产经营地址：
+							if(history.getBeforeField().equals("address")){
+								List < Area > privnce = areaService.findRootArea();
+								Area area = new Area();
+								area = areaService.listById(address.getAddress());
+								String sonAddress = area.getName();
+								String parentAddress = null;
+								for(int i = 0; i < privnce.size(); i++) {
+									if(area.getParentId().equals(privnce.get(i).getId())) {
+										parentAddress = privnce.get(i).getName();
+									}
+								}
+								if (!history.getBeforeContent().equals(parentAddress + sonAddress)) {
+									supplierModify.setBeforeField("address");
+									supplierModify.setBeforeContent(history.getBeforeContent());
+									supplierModifyMapper.insertSelective(supplierModify);
 								}
 							}
-							if (!history.getBeforeContent().equals(parentAddress + sonAddress)) {
-								supplierModify.setBeforeField("address");
+		
+							//生产经营详细地址：
+							if (history.getBeforeField().equals("detailAddress") && !history.getBeforeContent().equals(address.getDetailAddress())) {
+								supplierModify.setBeforeField("detailAddress");
 								supplierModify.setBeforeContent(history.getBeforeContent());
 								supplierModifyMapper.insertSelective(supplierModify);
 							}
 						}
-	
-						//生产经营详细地址：
-						if (history.getBeforeField().equals("detailAddress") && !history.getBeforeContent().equals(address.getDetailAddress())) {
-							supplierModify.setBeforeField("detailAddress");
-							supplierModify.setBeforeContent(history.getBeforeContent());
-							supplierModifyMapper.insertSelective(supplierModify);
-						}
 					}
-				}
+				}	
 			}
 		}
 		
@@ -1015,6 +1040,123 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	public void deleteByType(SupplierModify supplierModify) {
 		supplierModifyMapper.deleteByType(supplierModify);
 	}
-
 	
+	/**
+     * @Title: add
+     * @author XuQing 
+     * @date 2017-4-26 下午2:48:40  
+     * @Description:插入审核退回后修改的附件
+     * @param @param supplierModify      
+     * @return void
+     */
+	@Override
+	public void addFileInfo(Integer systemKey, String businessId, String fileTypeId) {
+		SupplierModify supplierModify = new SupplierModify();
+		Supplier supplier;
+		
+		/**
+		 * 基本信息附件
+		 */
+		supplier = supplierService.selectById(businessId);
+		if(supplier !=null){
+			if(supplier != null && supplier.getStatus() == 2){
+				supplierModify.setmodifyType("file");
+				supplierModify.setBeforeField(fileTypeId);
+				supplierModify.setSupplierId(businessId);
+				supplierModifyMapper.add(supplierModify);
+			}
+		}
+		
+		
+		/**
+		 * 财务附件
+		 */
+		
+		String financeSupplierId = supplierFinanceMapper.findSupplierIdById(businessId);
+		if(financeSupplierId !=null){
+			supplier = supplierService.selectById(financeSupplierId);
+			if(supplier != null && supplier.getStatus() == 2){
+				supplierModify.setmodifyType("file");
+				supplierModify.setBeforeField(fileTypeId);
+				supplierModify.setSupplierId(financeSupplierId);
+				supplierModify.setRelationId(businessId);
+				supplierModifyMapper.add(supplierModify);
+			}
+		}
+		
+		/**
+		 * 供应商类型
+		 */
+		//生产
+		String proSupplierId = supplierMatProMapper.findSupplierId(businessId);
+		if(proSupplierId !=null){
+			supplier = supplierService.selectById(proSupplierId);
+			if(supplier != null && supplier.getStatus() == 2){
+				supplierModify.setmodifyType("file");
+				supplierModify.setBeforeField(fileTypeId);
+				supplierModify.setSupplierId(proSupplierId);
+				supplierModify.setRelationId(businessId);
+				supplierModifyMapper.add(supplierModify);
+			}
+		}
+		
+		//销售
+		String sellSupplierId = supplierMatSellMapper.findSupplierIdById(businessId);
+		if(sellSupplierId !=null){
+			supplier = supplierService.selectById(sellSupplierId);
+			if(supplier != null && supplier.getStatus() == 2){
+				supplierModify.setmodifyType("file");
+				supplierModify.setBeforeField(fileTypeId);
+				supplierModify.setSupplierId(sellSupplierId);
+				supplierModify.setRelationId(businessId);
+				supplierModifyMapper.add(supplierModify);
+			}
+		}
+		
+		//工程
+		String engSupplierId  = supplierMatEngMapper.findSupplierIdById(businessId);
+		if(engSupplierId !=null){
+			supplier = supplierService.selectById(engSupplierId);
+			if(supplier != null && supplier.getStatus() == 2){
+				supplierModify.setmodifyType("file");
+				supplierModify.setBeforeField(fileTypeId);
+				supplierModify.setSupplierId(engSupplierId);
+				supplierModify.setRelationId(businessId);
+				supplierModifyMapper.add(supplierModify);
+			}
+		}
+		
+		//服务
+		String serSupplierId  = supplierMatServeMapper.findSupplierIdById(businessId);
+		if(serSupplierId !=null){
+			supplier = supplierService.selectById(serSupplierId);
+			if(supplier != null && supplier.getStatus() == 2){
+				supplierModify.setmodifyType("file");
+				supplierModify.setBeforeField(fileTypeId);
+				supplierModify.setSupplierId(serSupplierId);
+				supplierModify.setRelationId(businessId);
+				supplierModifyMapper.add(supplierModify);
+			}
+		}
+		
+		/**
+		 * 资质文件/销售和同
+		 */
+		String obj = businessId.substring(0, 32);
+		String lsitId = businessId.substring(32, businessId.length());
+		SupplierItem supplierItem = supplierItemMapper.selectByPrimaryKey(obj);
+		if(supplierItem!=null){
+			String supplierId = supplierItem.getSupplierId();
+			if(supplierId !=null){
+				supplier = supplierService.selectById(supplierId);
+				if(supplier != null && supplier.getStatus() == 2){
+					supplierModify.setmodifyType("file");
+					supplierModify.setBeforeField(businessId);
+					supplierModify.setSupplierId(supplierId);
+					supplierModify.setRelationId(lsitId);
+					supplierModifyMapper.add(supplierModify);
+				}
+			}
+		}		
+	}	
 }

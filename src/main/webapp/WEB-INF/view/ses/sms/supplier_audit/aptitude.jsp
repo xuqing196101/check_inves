@@ -317,7 +317,7 @@
 												<c:forEach items="${obj.list }" var="quaPro">
 													<td>
 														<c:set value="${prolength+1}" var="prolength"></c:set>
-														<span class="hand" onclick="reason('${quaPro.flag}','${obj.categoryName }','生产-${quaPro.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${quaPro.name}：</span>
+														<span <c:if test="${fn:contains(fileModifyField,quaPro.flag)}">style="border: 1px solid #FF8C00;"</c:if> class="hand" onclick="reason('${quaPro.flag}','${obj.categoryName }','生产-${quaPro.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${quaPro.name}：</span>
 													  <u:show showId="pShow${prolength}" groups="${saleShow}" delete="false" businessId="${quaPro.flag}" sysKey="${sysKey }" typeId="${typeId}" />
 														<p id="${quaPro.flag}" ><img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 														
@@ -356,7 +356,7 @@
 												<c:forEach items="${sale.list }" var="saua" varStatus="vs">
 													<td>
 														<c:set value="${length+1}" var="length"></c:set>
-														<span class="hand" onclick="reason('${saua.flag}','${sale.categoryName }','销售-${saua.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${saua.name}：</span>
+														<span <c:if test="${fn:contains(fileModifyField,saua.flag)}">style="border: 1px solid #FF8C00;"</c:if> class="hand" onclick="reason('${saua.flag}','${sale.categoryName }','销售-${saua.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${saua.name}：</span>
 														<u:show showId="saleShow${length}" groups="${saleShow}" delete="false" businessId="${saua.flag}" sysKey="${sysKey }" typeId="${typeId}" />							
 														<p id="${saua.flag}" ><img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 													
@@ -467,7 +467,7 @@
 													<c:forEach items="${server.list }" var="ser" varStatus="vs">
 														<td>
 															<c:set value="${slength+1}" var="slength"></c:set>
-															<span class="hand" onclick="reason('${ser.flag}','${server.categoryName }','服务-${ser.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${ser.name}：</span>
+															<span <c:if test="${fn:contains(fileModifyField,ser.flag)}">style="border: 1px solid #FF8C00;"</c:if> class="hand" onclick="reason('${ser.flag}','${server.categoryName }','服务-${ser.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${ser.name}：</span>
 															<u:show showId="serverShow${plength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey }" typeId="${typeId}" />
 															<p id="${ser.flag}"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 															

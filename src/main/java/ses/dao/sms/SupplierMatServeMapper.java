@@ -44,4 +44,16 @@ public interface SupplierMatServeMapper {
     int updateByPrimaryKey(SupplierMatServe record);
     
     SupplierMatServe getMatSeBySupplierId(String supplierId);
+    
+    /**
+     * @Title: findSupplierIdById
+     * @author XuQing 
+     * @date 2017-4-26 下午3:36:32  
+     * @Description:查询供应商id
+     * @param @param id
+     * @param @return      
+     * @return String
+     */
+    String findSupplierIdById (String id);
+    
 }

@@ -339,4 +339,14 @@
 			GROUP BY ID
 			) a 
 	</select>
+	
+	
+	<select id="findSupplierIdById" parameterType="java.lang.String" resultType="java.lang.String">
+		select 
+			SUPPLIER_ID
+		from 
+			T_SES_SMS_SUPPLIER_FINANCE
+		where 
+			ID = #{id}
+	</select>
 </mapper>
