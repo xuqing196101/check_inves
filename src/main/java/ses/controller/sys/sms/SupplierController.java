@@ -475,6 +475,14 @@ public class SupplierController extends BaseSupplierController {
             stock.setSupplierId(supplier.getId());
             supplier.setListSupplierAfterSaleDep(afterSaleDep);
         }
+        //地址信息
+        List<SupplierAddress> supplierAddressList = supplier.getAddressList();
+        if(supplierAddressList == null || supplierAddressList.isEmpty()){
+            SupplierAddress address = new SupplierAddress();
+            address.setId(WfUtil.createUUID());
+            supplierAddressList.add(address);
+            supplier.setAddressList(supplierAddressList);
+        }
 		model.addAttribute("currSupplier", supplier);
 		//初始化供应商注册附件类型
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
