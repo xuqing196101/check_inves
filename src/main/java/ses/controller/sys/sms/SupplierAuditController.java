@@ -292,6 +292,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("essential")
 	public String essentialInformation(HttpServletRequest request, Supplier supplier, String supplierId, Integer sign) {
+		
 		request.setAttribute("sign", sign);
 		
 		SupplierModify supplierModify= new SupplierModify();
@@ -379,7 +380,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		String sonArmyBuinessProvince = area.getName();
 		request.setAttribute("sonArmyBuinessProvince", sonArmyBuinessProvince);
 		for(int i = 0; i < privnce.size(); i++) {
-			if(area.getParentId().equals(privnce.get(i).getId())) {
+			if(privnce.get(i).getId() !=null && area.getParentId().equals(privnce.get(i).getId())) {
 				String parentArmyBuinessProvince = privnce.get(i).getName();
 				request.setAttribute("parentArmyBuinessProvince", parentArmyBuinessProvince);
 			}
@@ -387,7 +388,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		//生产经营地址
 		List < SupplierAddress > supplierAddress = supplierAddressService.queryBySupplierId(supplierId);
-		if(!supplierAddress.isEmpty()){
+		if(!supplierAddress.isEmpty() && supplierAddress.size() > 0 ){
 			for(Area a: privnce) {
 				for(SupplierAddress s: supplierAddress) {
 					if(a.getId().equals(s.getParentId())) {
@@ -403,7 +404,9 @@ public class SupplierAuditController extends BaseSupplierController {
 		List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplierService.get(supplierId).getListSupplierAfterSaleDep();
 		request.setAttribute("listSupplierAfterSaleDep",listSupplierAfterSaleDep);
 		
-		//查出修改前的信息
+		/**
+		 * 查出修改前的信息
+		 */
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
 			//地址信息
 			supplierModify.setListType(1);
@@ -450,6 +453,20 @@ public class SupplierAuditController extends BaseSupplierController {
 			request.setAttribute("fieldBranch", fieldBranch);
 		}
 		
+		/**
+		 * 退回修改后的附件
+		 */
+		SupplierModify supplierFileModify= new SupplierModify();
+		supplierFileModify.setSupplierId(supplierId);
+		supplierFileModify.setmodifyType("file");
+		StringBuffer fileModifyField = new StringBuffer();
+		List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+		for(SupplierModify m : fileModify){
+			fileModifyField.append(m.getBeforeField() + ",");
+		}
+		request.setAttribute("fileModifyField", fileModifyField);
+		
+
 		//回显未通过字段
 		if(supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 7){
 			SupplierAudit supplierAudit = new SupplierAudit();
@@ -522,6 +539,19 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			request.setAttribute("passedField", passedField);
 		}
+		
+		/**
+		 * 退回修改后的附件
+		 */
+		SupplierModify supplierFileModify= new SupplierModify();
+		supplierFileModify.setSupplierId(supplierId);
+		supplierFileModify.setmodifyType("file");
+		StringBuffer fileModifyField = new StringBuffer();
+		List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+		for(SupplierModify m : fileModify){
+			fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
+		}
+		request.setAttribute("fileModifyField", fileModifyField);
 		return "ses/sms/supplier_audit/financial";
 	}
 
@@ -547,7 +577,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("shareholder", list);
 		
 		//查出财务修改前的信息
-		if(supplierStatus != null || supplierStatus == 0) {
+		if(supplierStatus != null && supplierStatus == 0) {
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
 			supplierModify.setmodifyType("shareholder_page");
@@ -559,6 +589,20 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			request.setAttribute("field", field);
 		}
+		
+		/**
+		 * 退回修改后的附件
+		 */
+		SupplierModify supplierFileModify= new SupplierModify();
+		supplierFileModify.setSupplierId(supplierId);
+		supplierFileModify.setmodifyType("file");
+		StringBuffer fileModifyField = new StringBuffer();
+		List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+		for(SupplierModify m : fileModify){
+			fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
+		}
+		request.setAttribute("fileModifyField", fileModifyField);
+		
 		
 		//下一步的跳转页面
 		String url = null;
@@ -1160,13 +1204,29 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			request.setAttribute("passedServeField", passedServeField);
 		}
+		supplierAudit.setSupplierId(supplierId);
 		supplierAudit.setAuditType("supplierType_page");
 		List < SupplierAudit > reasonstTypeList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		StringBuffer passedTypeField = new StringBuffer();
-		for(SupplierAudit a : reasonstTypeList){
-			passedTypeField.append(a.getAuditField() + ",");
+		if(!reasonstTypeList.isEmpty()){
+			for(SupplierAudit a : reasonstTypeList){
+				passedTypeField.append(a.getAuditField() + ",");
+			}
+			request.setAttribute("passedTypeField", passedTypeField);
 		}
-		request.setAttribute("passedTypeField", passedTypeField);
+
+		/**
+		 * 退回修改后的附件
+		 */
+		SupplierModify supplierFileModify= new SupplierModify();
+		supplierFileModify.setSupplierId(supplierId);
+		supplierFileModify.setmodifyType("file");
+		StringBuffer fileModifyField = new StringBuffer();
+		List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+		for(SupplierModify m : fileModify){
+			fileModifyField.append(m.getRelationId() + m.getBeforeField() + "," );
+		}
+		request.setAttribute("fileModifyField", fileModifyField);
 		return "ses/sms/supplier_audit/supplierType";
 	}
 
@@ -1440,13 +1500,15 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierHistory.setSupplierId(supplierId);
 			supplierHistoryService.delete(supplierHistory);
 			
+			// 新增历史记录
+		    supplierHistoryService.insertHistoryInfo(supplierId);
+			
 			//删除该供应商对比后的数据
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
 			supplierModifyService.delete(supplierModify);
 			
-			// 新增历史记录
-		    supplierHistoryService.insertHistoryInfo(supplierId);
+			
 		}
 		return "redirect:supplierAll.html";
 	}
@@ -1598,6 +1660,22 @@ public class SupplierAuditController extends BaseSupplierController {
 				}
 			}
 			request.setAttribute("passedField", passedField);
+			
+			
+			/**
+			 * 退回修改后的附件
+			 */
+			SupplierModify supplierFileModify= new SupplierModify();
+			supplierFileModify.setSupplierId(supplierId);
+			supplierFileModify.setmodifyType("file");
+			StringBuffer fileModifyField = new StringBuffer();
+			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+			if(!fileModify.isEmpty()){
+				for(SupplierModify m : fileModify){
+					fileModifyField.append(m.getBeforeField() + ",");
+				}
+				request.setAttribute("fileModifyField", fileModifyField);
+			}
 		}
 		return "ses/sms/supplier_audit/application_form";
 	}
@@ -2004,6 +2082,9 @@ public class SupplierAuditController extends BaseSupplierController {
 			String orgId = user.getOrg().getId();
 			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
 			supplier.setProcurementDepId(depId.getId());
+			
+			//抽取时的机构
+			supplier.setExtractOrgid(orgId);
 		/*}*/
 		//查询列表
 		List < Supplier > supplierList = supplierAuditService.getAuditSupplierList(supplier, page);
@@ -2302,6 +2383,21 @@ public class SupplierAuditController extends BaseSupplierController {
 				}
 			}
 			model.addAttribute("passedField", passedField);
+			
+			
+			/**
+			 * 退回修改后的附件
+			 */
+			SupplierModify supplierFileModify= new SupplierModify();
+			supplierFileModify.setSupplierId(supplierId);
+			supplierFileModify.setmodifyType("file");
+			StringBuffer fileModifyField = new StringBuffer();
+			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+			for(SupplierModify m : fileModify){
+				fileModifyField.append(m.getBeforeField() + ",");
+			}
+			model.addAttribute("fileModifyField", fileModifyField);
+			
 		}
 		return "ses/sms/supplier_audit/aptitude";
 	}
@@ -2775,6 +2871,21 @@ public class SupplierAuditController extends BaseSupplierController {
 			passedField.append(a.getAuditField() + ",");
 		}
 		model.addAttribute("passedField", passedField);
+		
+		
+		/**
+		 * 退回修改后的附件
+		 */
+		/*SupplierModify supplierFileModify= new SupplierModify();
+		supplierFileModify.setSupplierId(supplierId);
+		supplierFileModify.setmodifyType("file");
+		StringBuffer fileModifyField = new StringBuffer();
+		List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
+		for(SupplierModify m : fileModify){
+			fileModifyField.append(m.getBeforeField() + ",");
+		}
+		model.addAttribute("fileModifyField", fileModifyField);*/
+		
 		return "ses/sms/supplier_audit/ajax_contract";
 	}
 

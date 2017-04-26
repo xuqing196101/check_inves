@@ -130,26 +130,34 @@ function offer(){
 				  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 				  				<th class="info">序号</th>
 				  				<th class="info">产品名称</th>
-				  				<th class="info">状态</th>
+				  				<th class="info">品牌商标</th>
+				  				<th class="info">规格型号</th>
+				  				<th class="info">采购数量</th>
+				  				<th class="info">计量单位</th>
+				  				<th class="info">审核状态</th>
 	  						</tr>
 						</thead>
 				  		<c:forEach items="${list.list}" var="product" varStatus="vs">
 				  			<c:if test="${product.offer==1 }"> 
 				  			<tr>
-				  				<td class="tc" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
-				  				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				  				<td class="tc pointer">${product.name }</td>
-				  				<c:choose>
-    								<c:when test="${product.auditOffer==1 }">
-				  						<td class="tc pointer" name="auditOffer">已审价</td>
-				  					</c:when>
-				  					<c:when test="${product.auditOffer==2 }">
-				  						<td class="tc pointer" name="auditOffer">已复审</td>
-				  					</c:when>
-				  					<c:otherwise>
-				  						<td class="tc pointer" name="auditOffer">已报价</td>
-				  					</c:otherwise>
-				  				</c:choose>
+				  				<td class="tc w50" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
+				  				<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				  				<td class="tc w200">${product.name }</td>
+				  				<td class="tl w200">${product.contractRequired.brand }</td>
+				  				<td class="tl w200">${product.contractRequired.stand }</td>
+				  				<td class="tc w80">${product.contractRequired.purchaseCount }</td>
+				  				<td class="tc w80">${product.contractRequired.item }</td>
+				  				<td class="tc w50">
+				  				<c:if test="${product.auditOffer == 0 }">
+				  					未审核
+				  				</c:if>
+				  				<c:if test="${product.auditOffer == 1 }">
+				  					已审价
+				  				</c:if>
+				  				<c:if test="${product.auditOffer == 2 }">
+				  					已复审
+				  				</c:if>
+				  				</td>
 				  			</tr>
 				  			</c:if>
 						</c:forEach>

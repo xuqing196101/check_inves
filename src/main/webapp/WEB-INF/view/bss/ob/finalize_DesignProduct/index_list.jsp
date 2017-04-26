@@ -244,19 +244,19 @@
 		                  <li>
 		                  	<div class="col-md-2 col-xs-4 col-sm-4" title="${product.name}">
 					  		 	<span class="f16 mr5 fl">·</span>
-					  		 	<c:if test="${fn:length(product.name) > 10 }">${fn:substring(product.name, 0, 10)}...</c:if>
-					  		 	<c:if test="${fn:length(product.name) <= 10 }">${product.name }</c:if>
+					  		 	<c:if test="${fn:length(product.name) > 8 }">${fn:substring(product.name, 0, 8)}...</c:if>
+					  		 	<c:if test="${fn:length(product.name) <= 8 }">${product.name }</c:if>
 					    	</div>
 					    	<div class="col-md-2 col-xs-3 col-sm-4 tc">
 		                   		<span class="f16 mr5">${product.code}</span>
 				  			</div>
-					    	<div class="col-md-2 col-xs-3 col-sm-4" title="${product.standardModel }">
+					    	<div class="col-md-2 col-xs-3 col-sm-4 tc" title="${product.standardModel }">
 		                   		<span class="f16 mr5">
 		                   			<c:if test="${fn:length(product.standardModel) > 9 }">${fn:substring(product.standardModel, 0, 9)}...</c:if>
 					  		 		<c:if test="${fn:length(product.standardModel) <= 9 }">${product.standardModel }</c:if>
 		                   		</span>
 				  			</div>
-					    	<div class="col-md-2 col-xs-3 col-sm-4" title="${product.qualityTechnicalStandard}">
+					    	<div class="col-md-2 col-xs-3 col-sm-4 tc" title="${product.qualityTechnicalStandard}">
 		                   		<span class="f16 mr5">
 		                   			<c:if test="${fn:length(product.qualityTechnicalStandard) > 9 }">${fn:substring(product.qualityTechnicalStandard, 0, 9)}...</c:if>
 					  		 		<c:if test="${fn:length(product.qualityTechnicalStandard) <= 9 }">${product.qualityTechnicalStandard }</c:if>

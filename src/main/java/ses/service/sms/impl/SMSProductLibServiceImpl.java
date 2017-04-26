@@ -32,6 +32,8 @@ import synchro.util.OperAttachment;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
+
+import common.annotation.SystemServiceLog;
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
@@ -95,7 +97,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 	 */
 	@Override
 	public JdcgResult addProductLibInfo(SMSProductVO smsProductVO,
-			Integer flag, User user) {
+			Integer flag, User user) throws Exception{
 		/** -----用户未输入信息 **/
 		if (smsProductVO == null) {
 			return JdcgResult.build(500, "请填写表单信息");
@@ -418,7 +420,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 	 * @throws
 	 */
 	@Override
-	public JdcgResult updateSignalProductInfo(SMSProductVO smsProductVO) {
+	public JdcgResult updateSignalProductInfo(SMSProductVO smsProductVO) throws Exception{
 
 		/****************** 获取商品的基本信息 ******************/
 		SMSProductBasic productBasic = smsProductVO.getProductBasic();
@@ -625,7 +627,8 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 	 * @throws
 	 */
 	@Override
-	public JdcgResult deleteProductLibInfo(String ids[]) {
+	public JdcgResult deleteProductLibInfo(String ids[]) throws Exception{
+		
 		if (ids != null) {
 			for (int i = 0; i < ids.length; i++) {
 				// 先查询该商品是否存在

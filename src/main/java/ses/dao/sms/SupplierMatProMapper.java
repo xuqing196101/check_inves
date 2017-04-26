@@ -55,4 +55,7 @@ public interface SupplierMatProMapper {
     * @throws
      */
     void deleteBySupplierId(String supplierId);
+    
+    
+    String findSupplierId (String cartProId);
 }

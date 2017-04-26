@@ -143,5 +143,16 @@ public interface SupplierFinanceMapper {
      * @return maxTaking
      */
     BigDecimal getMaxTaking();
+    
+    /**
+     * @Title: findSupplierIdById
+     * @author XuQing 
+     * @date 2017-4-26 下午2:05:24  
+     * @Description:根据主键查供应商 
+     * @param @param id
+     * @param @return      
+     * @return String
+     */
+    String findSupplierIdById (String id);
 	
 }

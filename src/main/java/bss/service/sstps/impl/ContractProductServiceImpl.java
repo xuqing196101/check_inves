@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bss.dao.sstps.AppraisalContractMapper;
 import bss.dao.sstps.ContractProductMapper;
+import bss.model.sstps.AppraisalContract;
 import bss.model.sstps.ContractProduct;
 import bss.service.sstps.ContractProductService;
 
@@ -22,6 +24,8 @@ public class ContractProductServiceImpl implements ContractProductService {
 	@Autowired
 	private ContractProductMapper contractProductMapper;
 	
+	@Autowired
+	private AppraisalContractMapper appraisalContractMapper;
 	/**
 	 * 根据ID查询
 	 */
@@ -67,4 +71,6 @@ public class ContractProductServiceImpl implements ContractProductService {
 	public List<ContractProduct> selectProjectList(ContractProduct contractProduct) {
 		return contractProductMapper.selectProjectList(contractProduct);
 	}
+
+
 }

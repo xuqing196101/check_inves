@@ -16,11 +16,13 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
+import ses.dao.ems.ExpertTitleMapper;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
 import ses.service.ems.ExpertAuditService;
+import ses.service.ems.ExpertService;
 import ses.util.WfUtil;
 /**
  * <p>Title:ExpertAuditServiceImpl </p>
@@ -32,8 +34,15 @@ import ses.util.WfUtil;
 public class ExpertAuditServiceImpl implements ExpertAuditService {
 	@Autowired
 	private ExpertAuditMapper mapper;
+	
 	@Autowired
 	private ExpertAuditFileModifyMapper fileModifyMapper;
+	
+	@Autowired
+	private ExpertService expertService;
+	
+	@Autowired
+	private ExpertTitleMapper expertTitleMapper;
 	
 	/**
 	 * 
@@ -292,6 +301,33 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		
 	}
 
-	
-	
+	/**
+	 * @Title: addFileInfo
+	 * @author XuQing 
+	 * @date 2017-4-26 下午5:30:54  
+	 * @Description:插入附件退回后修改记录
+	 * @param @param expertAuditFileModify      
+	 * @return void
+	 */
+	public void addFileInfo(String businessId, String fileTypeId){
+		ExpertAuditFileModify expertAuditFileModify = new ExpertAuditFileModify();
+		Expert expert;
+		expert = expertService.selectByPrimaryKey(businessId);
+		if(expert !=null && expert.getStatus().equals("3")){
+			expertAuditFileModify.setExpertId(businessId);
+			expertAuditFileModify.setTypeId(fileTypeId);
+			fileModifyMapper.insert(expertAuditFileModify);
+		}
+		
+		String expertId = expertTitleMapper.findExpertIdById(businessId);
+		if(expertId !=null){
+			expert = expertService.selectByPrimaryKey(expertId);
+			if(expert !=null && expert.getStatus().equals("3")){
+				expertAuditFileModify.setExpertId(expertId);
+				expertAuditFileModify.setTypeId(fileTypeId);
+				expertAuditFileModify.setListId(businessId);
+				fileModifyMapper.insert(expertAuditFileModify);
+			}
+		}
+	}
 }

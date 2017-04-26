@@ -17,7 +17,14 @@
 				$(this).hide();
             }); 
 		}
-    })	
+		
+		/* var aa = "${executes}";
+		alert(aa);
+		if(aa){
+		  layer.alert("环节未结束");
+		  window.history.go(-1);
+		} */
+    });	
 	$(function(){
 	   if('${date}'>0){
 	   	setTimeout("openNewWindow()", 500);
@@ -126,7 +133,7 @@
 			data:{projectId:projectId},
 			success:function(data){
 				if (data == "1") {
-					window.location.href = "${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=" + projectId;
+					window.location.href = "${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=" + projectId + "&flowDefineId=${flowDefineId}";
 					return;
 				} else if (data == "2") {
 					layer.msg("报价已完成,且是唱明细",{offset: [y, x]});
@@ -135,7 +142,7 @@
 					layer.confirm('确认后将不可修改此次操作？', {title: '提示',offset: [y,x],shade: 0.01}, 
 					function(index) {
 						layer.close(index);
-						window.location.href = "${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=" + projectId;
+						window.location.href = "${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=" + projectId + "&flowDefineId=${flowDefineId}";
 					});
 				}
 			}
@@ -158,13 +165,13 @@
 					layer.msg("报价已完成,且是唱总价",{offset: [y, x]});
 					return;
 				} else if (data == "2") {
-					window.location.href = "${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId=" + projectId;
+					window.location.href = "${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId=" + projectId + "&flowDefineId=${flowDefineId}";
 					return;
 				} else {
 					layer.confirm('确认后将不可修改此次操作？', {title: '提示',offset: [y,x],shade: 0.01}, 
 					function(index) {
 						layer.close(index);
-						window.location.href = "${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId=" + projectId;
+						window.location.href = "${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId=" + projectId + "&flowDefineId=${flowDefineId}";
 					});
 				}
 			}

@@ -2154,7 +2154,7 @@ public class SupplierController extends BaseSupplierController {
             out.close(); 
         }
      
-        if(!user.equals(name)){
+        if(null != user && !user.equals(name)){
             String path = request.getContextPath();
             String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
             PrintWriter out = response.getWriter();

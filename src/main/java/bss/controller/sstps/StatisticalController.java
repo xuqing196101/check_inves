@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.oms.Orgnization;
+import ses.service.oms.OrgnizationServiceI;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
@@ -45,7 +47,8 @@ public class StatisticalController {
 	
 	@Autowired
 	private AppraisalContractService appraisalContractService;
-	
+	@Autowired
+    private OrgnizationServiceI orgnizationServiceI;
 	@ResponseBody
 	@RequestMapping("/echarts")
 	public Option echarts(HttpServletRequest request, HttpServletResponse response,AppraisalContract appraisalContract){
@@ -107,7 +110,12 @@ public class StatisticalController {
         List<String> datax = new ArrayList<String>();
         List<AppraisalContract> list = appraisalContractService.selectStatisical(appraisalContract);
         for(int i=0;i<list.size();i++){
-        	datax.add(list.get(i).getPurchaseDepName());
+        	Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(list.get(0).getPurchaseDepName());
+			if(org!=null){
+				datax.add(org.getName());
+			}else{
+				datax.add("");
+			}
         }
         xAxis.setData(datax);
         xAxis.setBoundaryGap(true);
@@ -201,6 +209,15 @@ public class StatisticalController {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<AppraisalContract> list = appraisalContractService.selectAppraisal(map,page);
+		for(AppraisalContract ac:list){
+			Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(ac.getPurchaseDepName());
+			if(org!=null){
+				ac.setPurchaseDepName(org.getName());
+			}else{
+				ac.setPurchaseDepName("");
+			}
+			
+		}
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		model.addAttribute("name", name);
 		model.addAttribute("code", code);

@@ -349,8 +349,11 @@ public class CategoryServiceImpl implements CategoryService {
         	
             
             if (category != null) {
-            	Category ParentCategory = selectByPrimaryKey(category.getParentId());
-            	ParentCategory.setName(parentName);
+            	Category parentCategory = selectByPrimaryKey(category.getParentId());
+            	if(parentCategory!=null){
+            		 updateByPrimaryKeySelective(parentCategory);
+            	}
+            	
                 category.setCode(code);
                 category.setDescription(desc);
                 category.setName(name);
@@ -363,7 +366,7 @@ public class CategoryServiceImpl implements CategoryService {
                 if (isPublished != null){
                     category.setIsPublish(isPublished);;
                 }
-                updateByPrimaryKeySelective(ParentCategory);
+               
                 updateByPrimaryKeySelective(category);
                 delCategoryQua(id);
                 saveGeneral(id, generalIds);

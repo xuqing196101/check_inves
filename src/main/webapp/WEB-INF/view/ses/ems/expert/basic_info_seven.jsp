@@ -97,12 +97,15 @@
         	var val=$("#mySelect").val();
         	var s=true;
         	var s2=true;
+            var _expertId = $("#id").val();
+            var _expertsTypeId = "";
        	 $("input[name='chkItem_2']").each(function() {
        		var val=$(this).parent().text();
          	if(val.trim()=="工程经济"){	
          	 if ($(this).prop("checked")) {
          		  flag=true;
          			// $("#pro_div").show();
+                 _expertsTypeId += $(this).val()+",";
          	    }else{
          	    	flag=false;
          	   	// $("#pro_div").hide();
@@ -110,48 +113,47 @@
          	 }
        	 });
         	
-    	 $("input[name='chkItem_1']").each(function() {
-        		var val=$(this).parent().text();
-          	if(val.trim()=="工程技术"){	
-          	 if ($(this).prop("checked")) {
-          		 bool=true;
-          	    }else{
-          	    	bool=false;
-          	    }
-          	 }
-        	 });
+        $("input[name='chkItem_1']").each(function() {
+            var val=$(this).parent().text();
+            if(val.trim()=="工程技术"){
+                if ($(this).prop("checked")) {
+                    bool=true;
+                    _expertsTypeId += $(this).val()+",";
+                }else{
+                    bool=false;
+                }
+            }
+         });
     	 
     	 if(flag==true&&val==1){
     		 $("#pro_div").find("input[type='text']").each(
- 					function(index, element) {
- 						if (element.value == "") {
- 							// flag = false;
- 							 s=false;
- 						}
+                function(index, element) {
+                    if (element.value.trim() == "") {
+                        // flag = false;
+                         s=false;
+                    }
  						 
  			 }); 
     	 }
     	 if(bool==true&&val==1){
     		 $("#server_div").find("input[type='text']").each(
- 					function(index, element) {
- 						if (element.value == "") {
- 							// bool = false;
- 							/*  layer.msg("请完善执业业资格信息 !");
- 				    		 return; */
- 							 s2=false;
- 						}
+                function(index, element) {
+                    if (element.value == "") {
+                        // bool = false;
+                        /*  layer.msg("请完善执业业资格信息 !");
+                         return; */
+                         s2=false;
+                    }
  						 
  			 }); 
     	 }
    	   if(s==false||s2==false){
     		  layer.msg("请完善执业业资格信息 !");
     		 return;
-    	 }  
-        	
-        	
-            //此处是对选中专家进行校验
-            if (isIs) {
-            	
+       }
+        //此处是对选中专家进行校验
+        if (isIs) {
+
 //             	var checklists = document.getElementsByName("chkItem_1");
 // 				if (checklists[1].checked) {
 // 					if (!$("#professional").val()) {
@@ -163,44 +165,79 @@
 // 	                    return false;
 // 	                }
 // 				}
-                var asx = mmm();
+            var asx = mmm();
 
-                /*if (!$("#professTechTitles").val()) {
-                    layer.msg("请填写执业资格职称 !");
-                    return false;
-                }
-                if (!$("#timeToWork").val()) {
-                    layer.msg("请填写获取专家证书的时间 !");
-                    return false;
-                }*/
-                if ((typeof asx) == "undefined") {
-                    asx = true;
-                }
-                if (asx && isIs ) {
-                    if (!validateType()) {
-                        return;
-                    } else{
-                    	/* var boo=isVal();
-                    	if(boo==true){ */
-                    		  submitForm2();
-                    	/* }else{
-                    		 layer.msg("请完善执业资格信息!");
-                    	} */
-                      
-                    }
-
-                }
-
-            }else{
+            /*if (!$("#professTechTitles").val()) {
+                layer.msg("请填写执业资格职称 !");
+                return false;
+            }
+            if (!$("#timeToWork").val()) {
+                layer.msg("请填写获取专家证书的时间 !");
+                return false;
+            }*/
+            if ((typeof asx) == "undefined") {
+                asx = true;
+            }
+            if (asx && isIs ) {
                 if (!validateType()) {
                     return;
                 } else{
-                    submitForm2();
+                    //校验执照图片是否上传
+                    $.ajax({
+                        url: "${pageContext.request.contextPath}/expert/isUpload.do",
+                        data: {
+                            "expertId": _expertId,
+                            "typeId":_expertsTypeId
+                        },
+                        async: false,
+                        dataType: "json",
+                        success: function (data) {
+                            if(data=="1"){
+                                submitForm2();
+                            }else{
+                                layer.msg("请完善执业业资格信息 !");
+                                return;
+                            }
+                        }
+                    });
+                    /* var boo=isVal();
+                    if(boo==true){ */
+
+                    /* }else{
+                         layer.msg("请完善执业资格信息!");
+                    } */
+
                 }
 
             }
-            //暂存无提示
+
+        }else{
+            if (!validateType()) {
+                return;
+            } else{
+                //校验执照图片是否上传
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/expert/isUpload.do",
+                    data: {
+                        "expertId": _expertId,
+                        "typeId":_expertsTypeId
+                    },
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if(data=="1"){
+                            submitForm2();
+                        }else{
+                            layer.msg("请完善执业业资格信息 !");
+                            return;
+                        }
+                    }
+                });
+            }
+
         }
+        //暂存无提示
+    }
 
         function updateStepNumber(stepNumber) {
             $.ajax({

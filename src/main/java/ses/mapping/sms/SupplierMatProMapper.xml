@@ -309,4 +309,15 @@
 		
 		where SUPPLIER_ID = #{supplierId}
 	</delete>
+	
+	
+	<select id="findSupplierId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT
+			t1.SUPPLIER_ID
+		FROM
+			T_SES_SMS_SUPPLIER_MAT_PRO t1
+		LEFT JOIN T_SES_SMS_SUPPLIER_CERT_PRO t2 ON t2.MAT_PRO_ID = t1. ID
+		WHERE
+			t2.ID = #{id}
+	</select>
 </mapper>

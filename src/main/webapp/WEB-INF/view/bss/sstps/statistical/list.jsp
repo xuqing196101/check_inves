@@ -33,7 +33,6 @@
       function showCharts() {
         var myChart = echarts.init(document.getElementById("chart"));
         $.getJSON("${pageContext.request.contextPath}/statistical/echarts.do", function(json) {
-          console.log(json);
           myChart.setOption(json);
           myChart.hideLoading();
         });

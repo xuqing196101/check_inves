@@ -190,4 +190,35 @@ public class CacheManageController {
 			RedisUtils.returnResource(jedis, jedisPool);
 		}
 	}
+	
+	/**
+	 * 
+	* @Title: getValueByKey 
+	* @Description: 通过建获取值
+	* @author Easong
+	* @param @param cacheKey
+	* @param @param cacheType
+	* @param @param model
+	* @param @return    设定文件 
+	* @return String    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/getValueByKey")
+	public String getValueByKey(String cacheKey, String cacheType, Model model){
+		Jedis jedis = null;
+		Cache cache = new Cache();
+		try {
+			jedis = RedisUtils.getResource(jedisPool);
+			String cacheValue = jedis.get(cacheKey);
+			cache.setContent(cacheValue);
+			cache.setName(cacheKey);
+		} catch (Exception e) {
+			log.info("redis连接异常...");
+		} finally {
+			// 释放资源
+			RedisUtils.returnResource(jedis, jedisPool);
+		}
+		model.addAttribute("cache", cache);
+		return "iss/ps/cache/detail";
+	}
 }

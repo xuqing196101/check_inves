@@ -256,8 +256,6 @@ public class ExpertAuditController{
 		//插入对比后的
 		expertEngModifySerivce.insertSelective(expertEngHistory);
 		
-		
-		
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
 		
@@ -378,7 +376,9 @@ public class ExpertAuditController{
 				}
 			}
 			model.addAttribute("conditionStr", conditionStr);
-			
+		}
+		
+		if( expert.getStatus().equals("0")){
 			/**
 			 * 附件退回修改
 			 */
@@ -1291,12 +1291,14 @@ public class ExpertAuditController{
 				}
 				model.addAttribute("engErrorField", engErrorField);
 			}
-			
+		}
+		
+		if( expert.getStatus().equals("0")){
 			/**
 			 * 附件退回修改
 			 */
 			ExpertAuditFileModify expertAuditFileModify = new ExpertAuditFileModify();
-;			expertAuditFileModify.setTypeId("9");
+			expertAuditFileModify.setTypeId("9");
 			expertAuditFileModify.setExpertId(expertId);
 			List<ExpertAuditFileModify> selectFileModifyByExpertId = expertAuditService.selectFileModifyByExpertId(expertAuditFileModify);
 			StringBuffer fileModify = new StringBuffer();

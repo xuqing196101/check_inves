@@ -6,7 +6,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-		<title>销售合同</title>
+		<title>品目合同</title>
 		<script type="text/javascript">
 			$(function() {
 				var product = $("#a_id_1").text();

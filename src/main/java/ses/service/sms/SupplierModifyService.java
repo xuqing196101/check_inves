@@ -68,4 +68,15 @@ public interface SupplierModifyService {
 	 */
     void deleteByType (SupplierModify supplierModify);
 
+    
+    /**
+     * @Title: addFileInfo
+     * @author XuQing 
+     * @date 2017-4-26 上午10:25:38  
+     * @Description:附件修改信息
+     * @param @param systemKey
+     * @param @param businessId      
+     * @return void
+     */
+    void addFileInfo (String businessId, String fileTypeId);
 }

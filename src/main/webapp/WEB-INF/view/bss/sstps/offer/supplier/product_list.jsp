@@ -130,22 +130,30 @@ function resetQuery(){
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 	  				<th class="info">序号</th>
 	  				<th class="info">产品名称</th>
+	  				<th class="info">品牌商标</th>
+	  				<th class="info">规格型号</th>
+	  				<th class="info">采购数量</th>
+	  				<th class="info">计量单位</th>
 	  				<th class="info">状态</th>
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${list.list}" var="product" varStatus="vs">
 	  			<tr class="pointer">
-	  				<td class="tc" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
-	  				<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-	  				<td class="tc">${product.name }</td>
-	  				<c:if test="${product.offer==0 }">
-	  					<td class="tc" name="offer">未报价</td>
+	  				<td class="tc w50" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
+	  				<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+	  				<td class="tl w200">${product.name }</td>
+	  				<td class="tl w200">${product.contractRequired.brand }</td>
+	  				<td class="tl w200">${product.contractRequired.stand }</td>
+	  				<td class="tc w80">${product.contractRequired.purchaseCount }</td>
+	  				<td class="tc w80">${product.contractRequired.item }</td>
+	  				<c:if test="${product.offer=='0'}">
+	  					<td class="tc w50" >未报价</td>
 	  				</c:if>
-	  				<c:if test="${product.offer==1 }">
-	  					<td class="tc" name="offer">已报价</td>
+	  				<c:if test="${product.offer=='1'}">
+	  					<td class="tc w50" >已报价</td>
 	  				</c:if>
 	  			</tr>
-	  		</c:forEach>
+            </c:forEach>
 		</table>
      </div>
      

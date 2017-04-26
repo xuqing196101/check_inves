@@ -77,20 +77,20 @@
         <div class="container padding-left-25 padding-right-25">
           <table class="table table-bordered table-condensed">
             <tr>
-              <th class="info">产品名称</th>
-              <td><input type="text" name="contractProduct.name" class="m0" value="${ap.contractProduct.name }" /></td>
+              <th class="info w100">产品名称</th>
+              <td><input type="text" name="contractProduct.name" class="m0 border0" value="${ap.contractProduct.name }" /></td>
             </tr>
             <tr>
               <th class="info">生产单位</th>
-              <td><input type="text" name="produceUnit" class="m0" value="${ap.produceUnit }"></td>
+              <td><input type="text" name="produceUnit" class="m0 border0" value="${ap.produceUnit }"></td>
             </tr>
             <tr>
               <th class="info">订货数量</th>
-              <td><input type="text" name="orderAcount" class="m0" value="${ap.orderAcount }" /></td>
+              <td><input type="text" name="orderAcount" class="m0 border0" value="${ap.orderAcount }" /></td>
             </tr>
             <tr>
               <th class="info">计量单位</th>
-              <td><input type="text" name="measuringUnit" class="m0" value="${ap.measuringUnit }" /></td>
+              <td><input type="text" name="measuringUnit" class="m0 border0" value="${ap.measuringUnit }" /></td>
             </tr>
             <%-- <tr>
               <th class="info">审核人员</th>
@@ -100,8 +100,9 @@
         </div>
       </div>
 
+        <div class="container margin-top-5">
         <div class="container padding-left-25 padding-right-25">
-          <table id="table1" class="table table-bordered table-condensed" >
+          <table class="table table-bordered table-condensed">
               <tr>
                 <th class="info">序号</th>
                 <th class="info" colspan="2" >项目名称</th>
@@ -110,19 +111,19 @@
               </tr>
               <c:forEach items="${list}" var="cc" varStatus="vs">
                 <tr>
-                  <td class="tc">
+                  <td class="tc w50">
                     <input type="hidden" name="plcc[${(vs.index)}].id" value="${cc.id }" />${vs.index+1 }
                     <input type="hidden" name="plcc[${(vs.index)}].status" value="${cc.status }" />
                   </td>
-                  <td class="tc">${cc.projectName }</td>
-                  <td class="tc">${cc.secondProject }</td>
-                  <td class="tc"><input type="text" class="m0" name="plcc[${(vs.index)}].singleOffer" onkeyup="if(isNaN(value))execCommand('undo')" value="${cc.singleOffer }" /></td>
-                  <td class="tc"><input type="text" class="m0" name="plcc[${(vs.index)}].remark" value="${cc.remark }" /></td>
+                  <td class="tc w200">${cc.projectName }</td>
+                  <td class="tc w300">${cc.secondProject }</td>
+                  <td class="tr w100"><input type="text" class="m0 border0 tr" name="plcc[${(vs.index)}].singleOffer" onkeyup="if(isNaN(value))execCommand('undo')" value="${cc.singleOffer }" /></td>
+                  <td class="tc w500"><input type="text" class="m0 border0 w500" name="plcc[${(vs.index)}].remark" value="${cc.remark }" /></td>
                 </tr>
               </c:forEach>
           </table>
         </div>
-
+       </div>
         <div class="col-md-12 col-xs-12 col-sm-12 mt20 tc">
           <button class="btn" type="button" onclick="onStep()">上一步</button>
           <button class="btn btn-windows git" type="submit">提交</button>

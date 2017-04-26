@@ -33,7 +33,7 @@ public class SystemLog {
     private String operateIp;
     
     /** 日志类型,1:操作日志,2:异常日志 **/
-    private int logType;
+    private Integer logType;
     
     /** 操作开始时间 **/
     private Date operateStartTime;
@@ -104,15 +104,15 @@ public class SystemLog {
         this.operateIp = operateIp;
     }
 
-    public int getLogType() {
-        return logType;
-    }
+    public Integer getLogType() {
+		return logType;
+	}
 
-    public void setLogType(int logType) {
-        this.logType = logType;
-    }
+	public void setLogType(Integer logType) {
+		this.logType = logType;
+	}
 
-    public Date getOperateStartTime() {
+	public Date getOperateStartTime() {
         return operateStartTime;
     }
 

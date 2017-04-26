@@ -195,6 +195,15 @@
           }
       } ();
     
+      // 获取对应的值
+      function detail(key){
+    		layer.open({
+    			type: 2,
+    			title: '详情',
+    			area: [$(document).width() - 100 +'px', '400px'],
+    			content: globalPath+'/cacheManage/getValueByKey.html?cacheKey=' + key
+    		});
+    	}
     </script>
 
   </head>
@@ -246,12 +255,12 @@
           <c:forEach items="${info.list}" var="cache" varStatus="vs">
            	<tr>
 		        <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${cache.name},${cache.type}" /></td>
-           		<td class="tc" w20>${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+           		<td class="tc" width="8%">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 	          	<td class="tl">
-	          		<a href="javascript:;">${cache.name}</a>
+	          		<a href="javascript:;" onclick="detail('${cache.name}')">${cache.name}</a>
 	          	</td>
 	          	<td class="tc">${cache.type}</td>
-	          	<td class="tc" id=${ cache.name }>
+	          	<td class="tc" width="20%" id=${ cache.name }>
 	          		<c:if test="${cache.time == -1}">
 	          			无
 	          		</c:if>

@@ -11,6 +11,41 @@
      ID, EXPERT_ID, TYPE_ID
   </sql>
   
+  <insert id="insert" parameterType="ses.model.ems.ExpertAuditFileModify">
+    insert into T_SES_EMS_EXPERT_FILE_MODIFY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="typeId != null">
+        TYPE_ID,
+      </if>
+      <if test="listId != null">
+        LIST_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="expertId != null">
+        #{expertId},
+      </if>
+      <if test="typeId != null">
+        #{typeId},
+      </if>
+      <if test="listId != null">
+        #{listId},
+      </if>
+    </trim>
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select sys_guid() from dual
+  </selectKey>
+  </insert>
+  
   <select id="selectByExpertId" parameterType="ses.model.ems.ExpertAuditFileModify" resultMap="BaseResultMap">
     select 
     *

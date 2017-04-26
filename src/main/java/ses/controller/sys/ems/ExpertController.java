@@ -801,63 +801,48 @@ public class ExpertController extends BaseController {
             
             //遍历循环只要存在一个父节点相同的就不删除，否则删除
             
-            Category cate1 = categoryService.findById(categoryId);
-           
-            String parentId = cate1.getParentId(); 
-            
-            while(true){
-           	 
+            Category cate1 = null;
+            if(StringUtils.isEmpty(flag)){
+                cate1 = categoryService.findById(categoryId);
+            }else{//工程专业属性
+                cate1 = engCategoryService.findById(categoryId);
+            }
+            if(null != cate1){
+                String parentId = cate1.getParentId();
+                while(true){
 //              没有同级节点删除父级节点
-               boolean bool = sameCategory(expertId,parentId,typeId);
-               if(bool==false){
-  	        	   Category category = categoryService.findById(parentId);
-  	        	   if(null != category){
-                       List<ExpertCategory> bySupplierIdCategoryId = expertCategoryService.getListCategory(expertId, category.getId(), typeId);
-                       if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
-                           map.put("categoryId", category.getId());
-                           expertCategoryService.deleteByMap(map);
-                           parentId = category.getParentId();
-                       }else{
-                           break  ;
-                       }
-                   }else{
-                       //如果该类型下没有子节点,删除关联的根节点
-                       String rootCategoryId = DictionaryDataUtil.getId(code);
-                       List<ExpertCategory> expertCategories = expertCategoryService.findByExpertId(expertId);
-                       if(null!=expertCategories && !expertCategories.isEmpty()){
-                           for(int i=0;i<expertCategories.size();i++){
-                               if(!StringUtils.isEmpty(rootCategoryId) && rootCategoryId.equals(expertCategories.get(i).getCategoryId())){
-                                   map.put("categoryId", rootCategoryId);
-                                   expertCategoryService.deleteByMap(map);
-                               }
-                           }
-                       }
-                       break  ;
-                   }
-  	           }else{
-  	        	   break  ;
-  	           } 
-              }  
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+                    boolean bool = sameCategory(expertId,parentId,typeId);
+                    if(!bool){
+                        Category category = categoryService.findById(parentId);
+                        if(null != category){
+                            List<ExpertCategory> bySupplierIdCategoryId = expertCategoryService.getListCategory(expertId, category.getId(), typeId);
+                            if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
+                                map.put("categoryId", category.getId());
+                                expertCategoryService.deleteByMap(map);
+                                parentId = category.getParentId();
+                            }else{
+                                break  ;
+                            }
+                        }else{
+                            //如果该类型下没有子节点,删除关联的根节点
+                            String rootCategoryId = DictionaryDataUtil.getId(code);
+                            List<ExpertCategory> expertCategories = expertCategoryService.findByExpertId(expertId);
+                            if(null!=expertCategories && !expertCategories.isEmpty()){
+                                for(int i=0;i<expertCategories.size();i++){
+                                    if(!StringUtils.isEmpty(rootCategoryId) && rootCategoryId.equals(expertCategories.get(i).getCategoryId())){
+                                        map.put("categoryId", rootCategoryId);
+                                        expertCategoryService.deleteByMap(map);
+                                    }
+                                }
+                            }
+                            break  ;
+                        }
+                    }else{
+                        break  ;
+                    }
+                }
+            }
+
             
             
            /* Category cata11 = engCategoryService.selectByPrimaryKey(categoryId);
@@ -2658,8 +2643,15 @@ public class ExpertController extends BaseController {
         // 文件名称
         String fileName = createWordMethod(expert, request);
         // 下载后的文件名
-        String downFileName = new String("军队评标专家申请表.doc".getBytes("UTF-8"),
-            "iso-8859-1"); // 为了解决中文名称乱码问题
+        String downFileName = "军队评标专家申请表.doc";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+        }
+
         return service.downloadFile(fileName, filePath, downFileName);
     }
 
@@ -2701,8 +2693,15 @@ public class ExpertController extends BaseController {
         File file=new File(path);
 
         HttpHeaders headers = new HttpHeaders();    
-        String fileName=new String("军队评标专家承诺书.pdf".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
-        headers.setContentDispositionFormData("attachment", fileName);   
+        String fileName="军队评标专家承诺书.pdf";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            fileName = URLEncoder.encode(fileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
+        }
+        headers.setContentDispositionFormData("attachment", fileName);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
             headers, HttpStatus.OK);    
@@ -2718,12 +2717,20 @@ public class ExpertController extends BaseController {
    	 */
    	@RequestMapping("/downloadReghandbook")
    	public ResponseEntity < byte[] > downloadRegHandbook(HttpServletRequest request, String filename) throws IOException {
-   		 String path = PathUtil.getWebRoot() + "excel/军队评审专家注册操作手册.docx";;
-   	        File file = new File(path);
+   		String path = PathUtil.getWebRoot() + "excel/军队评审专家注册操作手册.docx";;
+        File file = new File(path);
 
-   	        HttpHeaders headers = new HttpHeaders();
-   	        String fileName = new String("军队评审专家注册操作手册.docx".getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
-   	        headers.setContentDispositionFormData("attachment", fileName);
+        HttpHeaders headers = new HttpHeaders();
+        String fileName = "军队评审专家注册操作手册.docx";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            fileName = URLEncoder.encode(fileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            fileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
+        }
+
+        headers.setContentDispositionFormData("attachment", fileName);
    	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
    	        return new ResponseEntity < byte[] > (FileUtils.readFileToByteArray(file),
    	            headers, HttpStatus.CREATED);
@@ -2775,8 +2782,14 @@ public class ExpertController extends BaseController {
         String fileName = WordUtil.createWord(supplier, "supplier.ftl",
             name, request);
         // 下载后的文件名
-        String downFileName = new String("军队供应商库入库申请表.doc".getBytes("UTF-8"),
-            "iso-8859-1"); // 为了解决中文名称乱码问题
+        String downFileName = "军队供应商库入库申请表.doc";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+        }
         return service.downloadFile(fileName, filePath, downFileName);
     }
 
@@ -3100,8 +3113,14 @@ public class ExpertController extends BaseController {
         String fileName = WordUtil.createWord(null, "supplierNotice.ftl",
             name, request);
         // 下载后的文件名
-        String downFileName = new String("供应商承诺书.doc".getBytes("UTF-8"),
-            "iso-8859-1"); // 为了解决中文名称乱码问题
+        String downFileName = "供应商承诺书.doc";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+        }
         return service.downloadFile(fileName, filePath, downFileName);
     }
 
@@ -3126,9 +3145,14 @@ public class ExpertController extends BaseController {
         String fileName = WordUtil.createWord(null, "supplierNotice.ftl",
             name, request);
         // 下载后的文件名
-        String downFileName = new String("供应商承诺书.doc".getBytes("UTF-8"),
-            "iso-8859-1"); // 为了解决中文名称乱码问题
-
+        String downFileName = "供应商承诺书.doc";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+        }
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("品目类别表");
         HSSFRow row = sheet.createRow((int) 0);
@@ -3216,8 +3240,14 @@ public class ExpertController extends BaseController {
         String fileName = WordUtil.createWord(null, "supplierNotices.ftl",
             name, request);
         // 下载后的文件名
-        String downFileName = new String("供应商注册须知.doc".getBytes("UTF-8"),
-            "iso-8859-1"); // 为了解决中文名称乱码问题
+        String downFileName = "供应商注册须知.doc";
+        if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            //解决IE下文件名乱码
+            downFileName = URLEncoder.encode(downFileName, "UTF-8");
+        } else {
+            //解决非IE下文件名乱码
+            downFileName = new String(downFileName.getBytes("UTF-8"), "ISO8859-1");
+        }
         return service.downloadFile(fileName, filePath, downFileName);
     }
     
@@ -4271,7 +4301,7 @@ public class ExpertController extends BaseController {
             out.close(); 
         }
 
-        if(!loginName.equals(userId)){
+        if(null!=loginName && !loginName.equals(userId)){
             response.setContentType("textml;charset=utf-8");
             String path = request.getContextPath();
             String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
@@ -4637,18 +4667,31 @@ public class ExpertController extends BaseController {
         JSONObject json = JSONObject.fromObject(objectMap);
         return json.toString();
     }
-	
+
+    /**
+     * 执业资格文件校验
+     * @param expertId
+     * @param typeId
+     * @return
+     */
 	@RequestMapping("isUpload")
 	@ResponseBody
 	public String isUpload(String expertId,String  typeId){
 		Integer count=0;
-		List<ExpertTitle> list = expertTitleService.queryByUserId(expertId, typeId);
-		for(ExpertTitle q:list){
-			List<UploadFile> files = uploadService.getFilesOther(q.getId(), "9", "3");
-			if(files!=null&&files.size()>0){
-				count++;
-			}
-		}
+        List<ExpertTitle> list = new ArrayList<>();
+		if(!StringUtils.isEmpty(typeId)){
+            typeId = typeId.substring(0, typeId.length()-1);
+            String[] typeIds = typeId.split(",");
+            for(int i=0;i<typeIds.length;i++){
+                list = expertTitleService.queryByUserId(expertId, typeIds[i]);
+                for(ExpertTitle q:list){
+                    List<UploadFile> files = uploadService.getFilesOther(q.getId(), "9", "3");
+                    if(files!=null&&files.size()>0){
+                        count++;
+                    }
+                }
+            }
+        }
 		Integer size = list.size();
 		if(!count.equals(size)){
 			return "0";

@@ -25,7 +25,10 @@ import ses.util.DictionaryDataUtil;
 import synchro.util.Constant;
 
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
+import common.annotation.SystemControllerLog;
+import common.annotation.SystemServiceLog;
 import common.utils.JdcgResult;
 
 /**
@@ -45,6 +48,9 @@ public class SMSProductLibController {
 
 	@Autowired
 	private CategoryParameterService categoryParameterService;
+	
+	// 定义用户类型
+	private final static String USER_TYPE_SUPPLIER= "供应商";
 
 	/**
 	 * 
@@ -151,6 +157,7 @@ public class SMSProductLibController {
 	}
 
 	/**
+	 * @throws Exception 
 	 * 
 	 * @Title: addProductLibInfo
 	 * @Description: 供应商后台录入产品信息
@@ -159,10 +166,12 @@ public class SMSProductLibController {
 	 * @return JdcgResult 返回类型
 	 * @throws
 	 */
+	@SystemControllerLog(description= USER_TYPE_SUPPLIER,operType = 1)
+	@SystemServiceLog(description = USER_TYPE_SUPPLIER,operType = 1)
 	@RequestMapping("/addProductLibInfo")
 	@ResponseBody
 	public JdcgResult addProductLibInfo(@CurrentUser User user,
-			SMSProductVO smsProductVO, Integer flag) {
+			SMSProductVO smsProductVO, Integer flag) throws Exception {
 		if (user == null) {
 			return JdcgResult.build(500, "请先登录");
 		}
@@ -170,6 +179,7 @@ public class SMSProductLibController {
 	}
 
 	/**
+	 * @throws Exception 
 	 * 
 	 * @Title: deleteProductLibInfo
 	 * @Description: 供应商后台删除暂存的产品信息
@@ -178,10 +188,12 @@ public class SMSProductLibController {
 	 * @return JdcgResult 返回类型
 	 * @throws
 	 */
+	@SystemControllerLog(description=USER_TYPE_SUPPLIER,operType = 1)
+	@SystemServiceLog(description = USER_TYPE_SUPPLIER,operType = 1)
 	@RequestMapping("/deleteProductLibInfo")
 	@ResponseBody
 	public JdcgResult deleteProductLibInfo(
-			@RequestParam(value = "idss[]") String[] idss) {
+			@RequestParam(value = "idss[]") String[] idss) throws Exception {
 		return smsProductLibService.deleteProductLibInfo(idss);
 	}
 
@@ -212,6 +224,7 @@ public class SMSProductLibController {
 	}
 
 	/**
+	 * @throws Exception 
 	 * 
 	 * @Title: updateSignalProductInfo
 	 * @Description: 供应商后台修改产品信息
@@ -223,10 +236,12 @@ public class SMSProductLibController {
 	 * @return String 返回类型
 	 * @throws
 	 */
+	@SystemControllerLog(description= USER_TYPE_SUPPLIER,operType = 1)
+	@SystemServiceLog(description = USER_TYPE_SUPPLIER,operType = 1)
 	@RequestMapping("/updateSignalProductInfo")
 	@ResponseBody
 	public JdcgResult updateSignalProductInfo(@CurrentUser User user,
-			SMSProductVO smsProductVO) {
+			SMSProductVO smsProductVO) throws Exception {
 		return smsProductLibService.updateSignalProductInfo(smsProductVO);
 	}
 
@@ -307,7 +322,7 @@ public class SMSProductLibController {
 	/**
 	 * 
 	 * @Title: checkProductInfo
-	 * @Description: 供应商审核产品信息
+	 * @Description: 监管部门审核产品信息
 	 * @author Easong
 	 * @param @return 设定文件
 	 * @return JdcgResult 返回类型

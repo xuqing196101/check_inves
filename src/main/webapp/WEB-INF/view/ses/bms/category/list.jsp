@@ -202,7 +202,7 @@
 			var node = nodes[0];
 			var nodes = getCurrentRoot(node);
 			$("#operaFlag").val('add');
-			if (nodes.classify && nodes.classify == "PROJECT" && level == 2){
+			if (nodes.classify && nodes.classify == "PROJECT"){
 				showQua(null, nodes.classify);
 			}
 			if (nodes.classify && nodes.classify == "GOODS"){

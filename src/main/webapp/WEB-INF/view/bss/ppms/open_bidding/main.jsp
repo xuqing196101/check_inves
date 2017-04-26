@@ -336,6 +336,7 @@
 			          success : function(data2) {
 			            if(data2.success) {
 			              layer.msg("提交成功",{offset: '100px'});
+			              jumpLoad(data2.url, projectId, currFlowDefineId);
 			            }
 			          },
 			          error : function() {
@@ -416,7 +417,7 @@
 	                       <c:forEach items="${fds}" var="fd">
 								  <!-- 已执行 -->
 								  <c:if test="${fd.status == 1}">
-		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active btn_list li"</c:if>>
+		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active "</c:if>>
 		                       			<a class="executed son-menu">${fd.name }</a>
 		                       		</li> 
 								  </c:if> 

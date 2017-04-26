@@ -869,10 +869,10 @@
 														<fmt:formatDate value="${m.expEndDate }" pattern='yyyy-MM-dd' />
 													</td>
 													<td class="tc" id="mot_${m.id}" <c:if test="${fn:contains(fieldProTwo,m.id.concat('_mot'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('mot','${m.id }','mat_pro_page');"</c:if>>${m.mot}</td>
-													<td class="tc">
+													<td class="tc" <c:if test="${fn:contains(fileModifyField,m.id.concat(supplierDictionaryData.supplierProCert))}">style="border: 1px solid #FF8C00;"</c:if>>
 														<u:show showId="pro_show${vs.index+1}" delete="false" businessId="${m.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" />
 													</td>
-													<td class="tc w50">
+													<td class="tc w50" >
 														<p onclick="reasonProduction('${m.id}','${m.name}');" id="${m.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedProField,m.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if> <c:if test="${fn:contains(passedProField,m.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
 														<a id="${m.id }_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 														
@@ -954,7 +954,7 @@
 														<fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd' />
 													</td>
 													<td class="tc" id="mot_${s.id }" <c:if test="${fn:contains(fieldSell,s.id.concat('_mot'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('mot','${s.id }','mat_sell_page');"</c:if>>${s.mot}</td>
-													<td class="tc">
+													<td class="tc" <c:if test="${fn:contains(fileModifyField,s.id.concat(supplierDictionaryData.supplierSellCert))}">style="border: 1px solid #FF8C00;"</c:if>>
 													  <u:show showId="sale_show_${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
@@ -1020,7 +1020,7 @@
 										</c:if>
 										<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
+												<span <c:if test="${fn:contains(fileModifyField,s.id.concat(supplierId))}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
 												<u:show showId="conAch_show" delete="false" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
 												<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 											</li>
@@ -1153,7 +1153,7 @@
 													<th class="info">资质资格状态变更原因</th> -->
 													<!-- <th class="info">附件</th> -->
 						
-													<th class="info w50">附件</th>
+													<th class="info w50">证书图片</th>
 													<th class="info w50">操作</th>
 												</tr>
 											</thead>
@@ -1187,7 +1187,7 @@
 														<fmt:formatDate value="${s.aptituteChangeAt }" pattern='yyyy-MM-dd' />
 													</td>
 													<td class="tc">${s.aptituteChangeReason }</td> --%>
-													<td class="tc">
+													<td class="tc" <c:if test="${fn:contains(fileModifyField,s.id.concat(supplierDictionaryData.supplierEngCert))}">style="border: 1px solid #FF8C00;"</c:if>>
 														 <u:show showId="apt_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
 													</td>
 														<td class="tc w50">
@@ -1272,7 +1272,7 @@
 														<fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd' />
 													</td>
 													<td class="tc" id="mot_${s.id}" <c:if test="${fn:contains(fieldServe,s.id.concat('_mot'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('mot','${s.id }','mat_serve_page');"</c:if>>${s.mot}</td>
-													<td class="tc" >
+													<td class="tc" <c:if test="${fn:contains(fileModifyField,s.id.concat(supplierDictionaryData.supplierServeCert))}">style="border: 1px solid #FF8C00;"</c:if>>
 														<u:show showId="ser_show${vs.index+1}" businessId="${s.id}" delete="false" typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">

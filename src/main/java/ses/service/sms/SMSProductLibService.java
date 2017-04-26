@@ -9,6 +9,7 @@ import ses.model.bms.User;
 import ses.model.sms.SMSProductBasic;
 import ses.model.sms.SMSProductCheckRecord;
 import ses.model.sms.SMSProductVO;
+import common.annotation.SystemServiceLog;
 import common.utils.JdcgResult;
 
 /**
@@ -32,7 +33,7 @@ public interface SMSProductLibService {
 	 * @throws
 	 */
 	public JdcgResult addProductLibInfo(SMSProductVO smsProductVO,
-			Integer flag, User user);
+			Integer flag, User user) throws Exception;
 
 	/**
 	 * 
@@ -68,7 +69,7 @@ public interface SMSProductLibService {
 	 * @return JdcgResult 返回类型
 	 * @throws
 	 */
-	public JdcgResult updateSignalProductInfo(SMSProductVO smsProductVO);
+	public JdcgResult updateSignalProductInfo(SMSProductVO smsProductVO) throws Exception;
 
 	/**
 	 * 
@@ -80,7 +81,7 @@ public interface SMSProductLibService {
 	 * @return JdcgResult 返回类型
 	 * @throws
 	 */
-	public JdcgResult deleteProductLibInfo(String ids[]);
+	public JdcgResult deleteProductLibInfo(String ids[]) throws Exception;
 
 	/**
 	 * 

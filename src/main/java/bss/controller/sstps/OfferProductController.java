@@ -117,7 +117,7 @@ public class OfferProductController {
 		List<AccessoriesCon> list1 = accessoriesConService.selectProduct(accessoriesCon);
 		model.addAttribute("list1", list1);
 		comprehensiveCost.setContractProduct(contractProduct);
-		List<ComprehensiveCost> lists = comprehensiveCostService.select(comprehensiveCost);
+		/*List<ComprehensiveCost> lists = comprehensiveCostService.select(comprehensiveCost);
 		if(lists.size()<1){
 			String[] name1={"原辅材料","外购成件","外协部件","燃料动力","直接人工","专用费用","制造费用","合计"};
 			for(int i =0;i<name1.length;i++){
@@ -148,7 +148,7 @@ public class OfferProductController {
 				comprehensiveCostService.insert(comprehensiveCost);
 			}
 		}
-		
+		*/
 		return "bss/sstps/offer/supplier/accessories/list";
 	}
 	
