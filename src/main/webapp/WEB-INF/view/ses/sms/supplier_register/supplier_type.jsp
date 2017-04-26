@@ -531,7 +531,7 @@
 			}
 			certProIds += $(this).val();
             var certPropName = $(this).parent().next().find("input").val();
-            if(certPropName.indexOf('质量管理体系认证证书')!=-1){
+            if(certPropName == '质量管理体系认证证书'){
                 delFlag = false;
             }
 		});
@@ -1418,7 +1418,7 @@
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	 <div class="w200 fl"><input
-																	required="required" type="text" maxlength="30"
+                                                                             required="required" type="text" maxlength="30" <c:if test="${certPro.name == '质量管理体系认证证书'}">readonly="readonly"</c:if>
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].name"
 																	value="${certPro.name}" class="border0" />
 																	</div>
