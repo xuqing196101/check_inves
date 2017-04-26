@@ -524,29 +524,41 @@
 		var checkboxs = $("#cert_pro_list_tbody_id").find(":checkbox:checked");
 		var certProIds = "";
 		var supplierId = $("input[name='id']").val();
+		var delFlag = true;
 		$(checkboxs).each(function(index) {
 			if (index > 0) {
 				certProIds += ",";
 			}
 			certProIds += $(this).val();
+            var certPropName = $(this).parent().next().find("input").val();
+            if(certPropName.indexOf('质量管理体系认证证书')!=-1){
+                delFlag = false;
+            }
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
-			layer
-					.confirm(
-							"已勾选" + size + "条记录, 确定删除 !",
-							{
-								offset : '200px',
-								scrollbar : false,
-							},
-							function(index) {
-								window.location.href = "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.html?certProIds="
-										+ certProIds
-										+ "&supplierId="
-										+ supplierId;
-								layer.close(index);
+		    var _certProNumber = $("#certProNumber").val();
+		    if(delFlag){//含有资质证书信息-质量管理体系认证证书不能删除(物资类型)
+                layer.confirm(
+                    "已勾选" + size + "条记录, 确定删除 !",
+                    {
+                        offset : '200px',
+                        scrollbar : false,
+                    },
+                    function(index) {
+                        window.location.href = "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.html?certProIds="
+                            + certProIds
+                            + "&supplierId="
+                            + supplierId;
+                        layer.close(index);
 
-							});
+                    });
+            }else{
+                layer.alert("质量管理体系认证证书不能删除!", {
+                    offset : '200px',
+                    scrollbar : false,
+                });
+            }
 		} else {
 			layer.alert("请至少勾选一条记录 !", {
 				offset : '200px',
