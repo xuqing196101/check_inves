@@ -159,7 +159,7 @@
                 <table  class="hand table table-striped table-bordered">
                     <tr>
                       <th class="info w50">序号</th>
-                      <th class="info">标题</th>
+                      <th class="info w300">标题</th>
                       <th class="info">发送人</th>
                       <th class="info">创建时间</th>
                     </tr>
@@ -195,7 +195,7 @@
                 <table  class="hand table table-striped table-bordered">
                     <tr>
                       <th class="info w50">序号</th>
-                      <th class="info">标题</th>
+                      <th class="info w300">标题</th>
                       <th class="info">发送人</th>
                       <th class="info">创建时间</th>
                     </tr>
@@ -231,7 +231,7 @@
                 <table  class="hand table table-striped table-bordered">
                     <tr>
                       <th class="info w50">序号</th>
-                      <th class="info">标题</th>
+                      <th class="info w300">标题</th>
                       <th class="info">发送人</th>
                       <th class="info">创建时间</th>
                     </tr>
