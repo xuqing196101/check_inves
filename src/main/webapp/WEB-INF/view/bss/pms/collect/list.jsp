@@ -307,7 +307,7 @@
 							<th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()" alt=""></th>
 							<th class="w50">序号</th>
 							<th>需求部门</th>
-							<th style="width: 55%"> 采购需求名称</th>
+							<th style="width: 50%"> 采购需求名称</th>
 							<th>编报人</th>
 							<th>提交日期</th>
 							<th>预算总金额（万元）</th>
