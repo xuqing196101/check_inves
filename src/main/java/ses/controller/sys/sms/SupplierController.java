@@ -1647,14 +1647,26 @@ public class SupplierController extends BaseSupplierController {
 		    count++;
 		    model.addAttribute("err_identityUp", "请上传文件!");
 		}
-		//房产证明或租赁协议
+		//地址信息-房产证明或租赁协议
         List<SupplierAddress> addressList = supplier.getAddressList();
 		if(null != addressList && !addressList.isEmpty()){
 		    for(int i=0;i<addressList.size();i++){
+		        if(StringUtils.isEmpty(addressList.get(i).getCode())){
+                    count++;
+                    model.addAttribute("err_address_token", "邮政编码不能为空");
+                }
+                if(StringUtils.isEmpty(addressList.get(i).getAddress())){
+                    count++;
+                    model.addAttribute("err_address_token", "不能为空");
+                }
+                if(StringUtils.isEmpty(addressList.get(i).getDetailAddress())){
+                    count++;
+                    model.addAttribute("err_address_token", "不能为空");
+                }
                 List < UploadFile > houseList = uploadService.getFilesOther(addressList.get(i).getId(), supplierDictionary.getSupplierHousePoperty(), Constant.SUPPLIER_SYS_KEY.toString());
                 if(houseList != null && houseList.size() <= 0) {
                     count++;
-                    model.addAttribute("err_house", "请上传文件!");
+                    model.addAttribute("err_address_token", "请上传文件!");
                     model.addAttribute("err_house_token", i);
                     break;
                 }
@@ -2761,8 +2773,12 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping("/delAddress")
 	public String delAddress(String id) {
 	    String str = "failed";
-        int del = supplierAddressService.delAddressByPrimaryId(id);
-        if(del==1){
+//        int del = supplierAddressService.delAddressByPrimaryId(id);
+//        if(del==1){
+//            str = "ok";
+//        }
+        boolean isSuccess = supplierAddressService.deleteAddressByIds(id);
+        if(isSuccess){
             str = "ok";
         }
         return str;

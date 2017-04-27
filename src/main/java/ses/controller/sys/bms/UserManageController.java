@@ -1177,7 +1177,7 @@ public class UserManageController extends BaseController{
 	  * @Title: setPassword
 	  * @author XuQing 
 	  * @date 2017-3-29 下午4:53:10  
-	  * @Description:重置密码（专家列表，供应商查询）
+	  * @Description:重置密码（专家,供应商）
 	  * @param @param model
 	  * @param @param user
 	  * @param @return      
@@ -1187,7 +1187,7 @@ public class UserManageController extends BaseController{
 	  @ResponseBody
 	  public String setPassword(Model model, User user){
 	      List<User> queryByList = userService.queryByList(user);
-	      if (queryByList != null && queryByList.size() != 0){
+	      if (queryByList != null && queryByList.size() > 0){
 	    	  String id = queryByList.get(0).getId();
 	    	  user.setId(id);
 	    	  user.setPassword("123456");

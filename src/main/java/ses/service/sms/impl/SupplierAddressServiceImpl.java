@@ -2,9 +2,12 @@ package ses.service.sms.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import ses.dao.sms.SupplierAddressMapper;
 import ses.model.sms.SupplierAddress;
 import ses.service.sms.SupplierAddressService;
@@ -59,4 +62,31 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
     public int delAddressByPrimaryId(String id) {
 	    return supplierAddressMapper.deleteByPrimaryKey(id);
 	}
+
+    @Override
+    @Transactional
+    public boolean deleteAddressByIds(String ids) {
+	    boolean isSuccess = false;
+	    try{
+            if(StringUtils.isNotBlank(ids)){
+                String[] idArray = ids.split(",");
+                int delCount = 0;
+                for(int i=0;i<idArray.length;i++){
+                    if(StringUtils.isNotBlank(idArray[i])){
+                        int key = supplierAddressMapper.deleteByPrimaryKey(idArray[i]);
+                        if(key == 1){
+                            delCount++;
+                        }
+                    }
+                }
+                if(delCount==idArray.length){
+                    isSuccess = true;
+                }
+            }
+        }catch (Exception e){
+	        e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+        return isSuccess;
+    }
 }
