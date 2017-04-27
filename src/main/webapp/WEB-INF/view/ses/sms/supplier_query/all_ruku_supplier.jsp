@@ -105,7 +105,7 @@
 
 			function chongzhi() {
 				$("#supplierName").val('');
-				$("#loginName").val('');
+				/* $("#loginName").val(''); */
 				$("#startDate").val('');
 				$("#endDate").val('');
 				$("#contactName").val('');
@@ -420,9 +420,9 @@
              <li>
                <label class="fl">供应商名称：</label><span><input id="supplierName"  class="w220" name="supplierName" value="${supplier.supplierName }" type="text"></span>
              </li>
-             <li>
+             <%-- <li>
 		          <label class="fl">用户名：</label><span><input class="w220" id="loginName" name="loginName" value="${supplier.loginName }" type="text"></span>
-		         </li>
+		         </li> --%>
              <li>
                <label class="fl">联系人：</label><span><input id="contactName"  class="w220" name="contactName" value="${supplier.contactName }" type="text"></span>
              </li>

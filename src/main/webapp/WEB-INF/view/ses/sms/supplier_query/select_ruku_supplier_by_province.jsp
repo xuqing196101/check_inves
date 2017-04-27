@@ -37,7 +37,7 @@
 
 			function chongzhi() {
 				$("#supplierName").val('');
-				$("#loginName").val('');
+				/* $("#loginName").val(''); */
 				$("#startDate").val('');
 				$("#endDate").val('');
 				$("#contactName").val('');
@@ -352,9 +352,9 @@
 		      	<li>
             	<label class="fl">供应商名称：</label><span><input id="supplierName" class="w220" name="supplierName" value="${supplier.supplierName }" type="text"></span>
             </li>
-            <li>
+            <%-- <li>
 		          <label class="fl">用户名：</label><span><input class="w220" id="loginName" name="loginName" value="${supplier.loginName }" type="text"></span>
-		        </li>
+		        </li> --%>
             <li>
               <label class="fl">联系人：</label><span><input id="contactName" class="w220" name="contactName" value="${supplier.contactName }" type="text"></span>
             </li>
@@ -455,7 +455,7 @@
 						<tr>
 							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
-							<th class="info">用户名</th>
+							<!-- <th class="info">用户名</th> -->
 							<th class="info">联系人</th>
 							<th class="info">手机号</th>
 							<!-- <th class="info">供应商级别</th> -->
@@ -473,7 +473,7 @@
 								<td>
 									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
 								</td>
-								<td class="">${list.loginName }</td>
+								<%-- <td class="">${list.loginName }</td> --%>
 								<td class="">${list.contactName }</td>
 								<td class="tc">${list.mobile }</td>
 								<%-- <td class="tc">${list.level }</td> --%>
