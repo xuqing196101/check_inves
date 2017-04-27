@@ -396,6 +396,7 @@
 			    </ul>
 	   	 		<input class="btn fl mt1" type="submit" value="查询" /> 
 				<input class="btn fl mt1" type="button" value="重置" onclick="resetQuery()"  />	
+				<div class="clear"></div>
    		</form>
  		</h2>
 

@@ -167,7 +167,8 @@
 				      </li>
 			    </ul>
 	   	 		<input class="btn fl" type="submit" value="查询" /> 
-				<input class="btn fl" type="button" value="重置" onclick="resetQuery()"  />	
+				<input class="btn fl" type="button" value="重置" onclick="resetQuery()"  />
+				<div class="clear"></div>	
    		</form>
  		</h2>
  		

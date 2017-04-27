@@ -290,8 +290,11 @@
 		  		</ul>
  					<input class="btn fl mt1" type="submit" value="查询" /> 
  					<input class="btn fl mt1" type="button" onclick="resetQuery()" value="重置"/>	
+ 					<div class="clear"></div>
    			</form>
+   			
  			</h2>
+
 
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows git" onclick="sub()">受理</button>
@@ -304,7 +307,7 @@
 							<th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()" alt=""></th>
 							<th class="w50">序号</th>
 							<th>需求部门</th>
-							<th>采购需求名称</th>
+							<th style="width: 55%"> 采购需求名称</th>
 							<th>编报人</th>
 							<th>提交日期</th>
 							<th>预算总金额（万元）</th>
