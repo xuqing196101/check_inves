@@ -195,6 +195,7 @@
 //     	turns=$("#audit_turn").val();
      	var type="${type }";
      	var tp = 0;
+     	 nature=$.trim(nature);
      if(nature==null || nature==''){
     	 layer.alert("请填写审核人员性质", {
 				offset: ['30%', '40%']
@@ -271,6 +272,7 @@
 //    	 turns=$("#audit_turn").val();
     	    var tp=0;
     	    var type="${type }";
+    	    nature=$.trim(nature);
         if(nature==null || nature == ''){
        	 layer.alert("请填写审核人员性质", {
    				offset: ['30%', '40%']

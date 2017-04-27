@@ -448,15 +448,14 @@
         <table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
 		<tr>
-		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
-		  <th class="info w50">序号</th>
-		  <th class="info" width="25%">需求部门</th>
-		  <th class="info" width="25%">采购需求名称</th>
-		  <!-- <th class="info">编报人</th> -->
-		  <th class="info">物资类别</th> 
-		  <th class="info">提交日期</th>
+		  <th class="info"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+		  <th class="info"width="5%">序号</th>
+		  <th class="info" style="width: 200px">需求部门</th>
+		  <th class="info" width="30%">采购需求名称</th>
+		  <th class="info"width="10%">物资类别</th> 
+		  <th class="info"width="10%">提交日期</th>
 		  <th class="info" width="10%">预算总金额</br>（万元）</th>
-		  <th class="info">状态</th>
+		  <th class="info"width="10%">状态</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">

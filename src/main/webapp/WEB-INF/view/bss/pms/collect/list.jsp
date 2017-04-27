@@ -65,7 +65,7 @@
 			}
 
 			function view(no) {
-				window.location.href = "${pageContext.request.contextPath }/purchaser/queryByNo.html?planNo=" + no + "&&type=1";
+				window.location.href = "${pageContext.request.contextPath }/purchaser/queryByNo.html?planNo=" + no + "&&type=1&&fileView=1";
 			}
 
 			function edit() {

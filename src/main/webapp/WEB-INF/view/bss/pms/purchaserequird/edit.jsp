@@ -343,7 +343,7 @@
              <li class="col-md-3 col-sm-6 col-xs-12">
                      <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>
                        <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${fileId}" sysKey="2" typeId="${typeId}" auto="true" />
-                        <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${typeId}" />
+                        <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${detailId}" />
              </li>
           
 	   </ul>
