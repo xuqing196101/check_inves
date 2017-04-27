@@ -1373,7 +1373,7 @@
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                                   exts="${properties['file.picture.type']}" id="expert7"
                                   groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
-                                  multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1"
+                                  multiple="true" businessId="${sysId}" sysKey="${expertKey}"
                                   typeId="7" auto="true"/>
                         <u:show showId="show7" groups="show1,show2,show3,show4,show5,show6,show7,show8"
                                 businessId="${sysId}" sysKey="${expertKey}" typeId="7"/>
