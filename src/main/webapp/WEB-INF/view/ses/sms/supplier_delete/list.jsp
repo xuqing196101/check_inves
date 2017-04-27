@@ -66,7 +66,7 @@
 
 			//撤销
 			function cancellation() {
-				var ids = $(":checkbox:checked").val();
+				var ids = $(":radio:checked").val();
 				if(ids != null) {
 					layer.confirm('您确定要注销吗?', {
 						title: '提示！',
@@ -106,6 +106,30 @@
 				$("input[name='mobile']").val("");
 				$("#form1").submit();
 			}
+			
+			
+			
+			/**重置密码*/
+	 		function resetPwd(){
+ 	   		var id = $(":radio:checked").val();
+        if(id !=null){
+     	  	$.ajax({
+	          url: "${pageContext.request.contextPath}/user/setPassword.do",
+	          data: {"typeId":id},
+	          type: "post",
+	          dataType: "json",
+	          success: function(data){
+	      	    if("sccuess" == data){
+	              layer.alert("重置成功！默认密码：123456",{offset: '100px'});
+	                 }else{
+	               	   layer.msg("重置失败！",{offset: '100px'});
+	                 }
+	               }
+            	});
+        	}else{
+            layer.msg("请选择供应商！",{offset: '100px'});
+        	}
+	 		}
 		</script>
 	</head>
 
@@ -157,6 +181,7 @@
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows check" type="button" onclick="cancellation();">注销</button>
+				<button class="btn btn-windows edit" type="button" onclick="resetPwd()">重置密码</button>
 			</div>
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover hand">
@@ -173,7 +198,7 @@
 					</thead>
 					<c:forEach items="${result.list }" var="list" varStatus="page">
 						<tr>
-							<td class="tc w30"><input name="id" type="checkbox" value="${list.id}"></td>
+							<td class="tc w30"><input name="id" type="radio" value="${list.id}"></td>
 							<td class="tc w50">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tl pl20">${list.supplierName }</td>
 							<td class="">${list.loginName }</td>

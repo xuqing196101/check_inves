@@ -47,7 +47,6 @@
 	   			if(status == 6){
 	   				//询问框
 						layer.confirm('您确认吗？', {
-							skin: 'layui-layer-molv', 
 							closeBtn: 0,
 							offset: '100px',
 							shift: 4,
@@ -73,7 +72,6 @@
 	   			}else{
 		   			//询问框
 						layer.confirm('您确认吗？', {
-							skin: 'layui-layer-molv', 
 							closeBtn: 0,
 							offset: '100px',
 							shift: 4,

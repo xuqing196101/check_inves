@@ -264,9 +264,9 @@
 									</tr>
 									<tr>
 										<td class="bggrey" width="20%">固定电话：</td>
-										<td width="30%">${suppliers.legalTelephone}</td>
+										<td width="30%">${suppliers.legalMobile}</td>
 										<td class="bggrey" width="20%">手机：</td>
-										<td width="30%">${suppliers.legalMobile }</td>
+										<td width="30%">${suppliers.legalTelephone }</td>
 									</tr>
 									<tr>
 										<td class="bggrey" width="20%">身份证复印件:</td>

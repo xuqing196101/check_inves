@@ -160,7 +160,7 @@
 							<i></i>
 						</li>
 						<li onclick="jump('expertFile')" >
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">附件</a>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">承诺书和申请表</a>
 							<i></i>
 						</li>
 						<li onclick="jump('reasonsList')" >

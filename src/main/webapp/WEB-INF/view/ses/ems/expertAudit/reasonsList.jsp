@@ -34,7 +34,6 @@
 				if(status == 2 || status == 3 || status == 5 || status == 7 || status == 8){
 					//询问框
 					layer.confirm('您确认吗？', {
-						skin: 'layui-layer-molv', 
 						closeBtn: 0,
 						offset: '100px',
 						shift: 4,
@@ -58,8 +57,7 @@
 					});
 				}else{
 					//询问框
-					layer.confirm('您确认吗？', {
-						skin: 'layui-layer-molv', 
+					layer.confirm('您确认吗？', { 
 						closeBtn: 0,
 						offset: '100px',
 						shift: 4,
@@ -201,7 +199,7 @@
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品类别</a><i></i>
 						</li>
 						<li onclick="jump('expertFile')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">附件</a><i></i>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">承诺书和申请表</a><i></i>
 						</li>
 						<li class="active">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>

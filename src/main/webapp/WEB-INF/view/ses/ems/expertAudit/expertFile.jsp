@@ -117,7 +117,7 @@
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品类别</a><i></i>
 						</li>
 						<li class="active">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">附件</a><i></i>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">承诺书和申请表</a><i></i>
 						</li>
 						<li onclick="jump('reasonsList')">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
