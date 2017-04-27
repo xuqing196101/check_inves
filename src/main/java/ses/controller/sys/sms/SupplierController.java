@@ -1508,7 +1508,7 @@ public class SupplierController extends BaseSupplierController {
 		//			model.addAttribute("err_catTelphone", "格式不正确 !");
 		//			count++;
 		//		}
-		if(supplier.getContactEmail() == null || !supplier.getContactEmail().matches("^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$")) {
+		if(supplier.getContactEmail() == null) {// || !supplier.getContactEmail().matches("^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$")
 			model.addAttribute("err_catEmail", "格式不正确 !");
 			count++;
 		}
