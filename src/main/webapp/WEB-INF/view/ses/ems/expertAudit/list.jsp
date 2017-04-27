@@ -110,6 +110,7 @@
 
 			function resetForm() {
 				$("input[name='relName']").val("");
+				$("input[name='auditAt']").val("");
 				//还原select下拉列表只需要这一句
 				//$("#status option:selected").removeAttr("selected");
 				//这里下标1，写的定值，当然可以根据需要得到加载页面过来的值
@@ -287,10 +288,18 @@
 								</c:if>
 							</select>
 						</li>
+						<li>
+	          	<label class="fl">审核时间：</label>
+	          		<span>
+	          			<input id="auditAt" name="auditAt" class="Wdate w178 fl" value='<fmt:formatDate value="${auditAt}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()" />
+		            </span>
+	          </li>
 					</ul>
-					<input class="btn fl" value="查询" type="submit">
-					<button onclick="resetForm();" class="btn fl" type="button">重置</button>
-					<div class="clear"></div>
+					<div class="col-md-12 clear tc mt10">
+					  <input class="btn" value="查询" type="submit">
+					<button onclick="resetForm();" class="btn" type="button">重置</button>
+			    </div>
+			    <div class="clear"></div>
 				</form>
 			</h2>
 			<!-- 表格开始-->

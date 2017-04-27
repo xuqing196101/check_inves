@@ -170,11 +170,13 @@
 				//重置搜索栏
 				function resetForm() {
 					$("input[name='supplierName']").val("");
+					$("input[name='auditDate']").val("");
+					
 					//还原select下拉列表只需要这一句-//但是这一句话不支持IE8即
 					//$("#status option:selected").removeAttr("selected");
 					//$("#businessType option:selected").removeAttr("selected");
 					//都改成js代码,测试IE8也行的通
-					document.getElementById("status")[1].selected = true;
+					document.getElementById("status")[0].selected = true;
 					document.getElementById("businessType")[0].selected = true;
 					$("#form1").submit();
 				}
@@ -374,6 +376,12 @@
 				          </c:forEach>
 				       </select> 
 				    </li>
+				    <li>
+	          	<label class="fl">审核时间：</label>
+	          		<span>
+	          			<input id="auditDate" name="auditDate" class="Wdate w110 fl" value='<fmt:formatDate value="${auditDate}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()" />
+		            </span>
+	          </li>
 				   <%-- <li class="fl">
 				      <label class="fl">企业类型：</label> 
 				        <select name="supplierType" class="mb0 mt5">
@@ -384,9 +392,10 @@
 				       </select> 
 				    </li> --%>
 		        </ul>
-		        
-		        <input type="submit" class="btn fl" value="查询" />
-					  <button onclick="resetForm();" class="btn fl" type="button">重置</button>
+		        <div class="col-md-12 clear tc mt10">
+						  <input type="submit" class="btn" value="查询" />
+						  <button onclick="resetForm();" class="btn" type="button">重置</button>
+						</div>
 					  <div class="clear"></div>
 		      </form>
     		</h2>

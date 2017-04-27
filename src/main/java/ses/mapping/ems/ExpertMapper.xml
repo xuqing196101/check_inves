@@ -1242,6 +1242,9 @@
         <if test="status != null and status !=''">
             AND STATUS = #{status}
         </if>
+        <if test="auditAt !=null and auditAt!=''">
+        	AND TO_CHAR(AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
+        </if>
         
         ORDER BY t1.AUDIT_AT DESC NULLS LAST
     </select>

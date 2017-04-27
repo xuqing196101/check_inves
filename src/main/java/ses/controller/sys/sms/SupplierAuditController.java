@@ -2103,6 +2103,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierName", supplierName);
 		request.setAttribute("state", status);
 		request.setAttribute("businessTypeId", supplier.getBusinessType());
+		request.setAttribute("auditDate", supplier.getAuditDate());
 
 		//审核、复核、实地考察的标识
 		request.setAttribute("sign", supplier.getSign());
