@@ -397,22 +397,31 @@ public class SupplierQueryController extends BaseSupplierController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        getSupplierType(supplier);
+        /*getSupplierType(supplier);*/
+        //在数据字典里查询营业执照类型
+  		List < DictionaryData > list = DictionaryDataUtil.find(17);
+  		for(int i = 0; i < list.size(); i++) {
+  			if(supplier.getBusinessType().equals(list.get(i).getId())) {
+  				String businessType = list.get(i).getName();
+  				supplier.setBusinessType(businessType);
+  			}
+  		}
+        
+        
         request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
         request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
         
-        //在数据字典里查询企业性质
-        List < DictionaryData > list = DictionaryDataUtil.find(17);
-		List < DictionaryData > businessList = DictionaryDataUtil.find(32);
-		String businessNature = supplier.getBusinessNature();
-		if(businessNature !=null){
-			for(int i = 0; i < businessList.size(); i++) {
-				if(businessNature.equals(businessList.get(i).getId())) {
-					businessNature = list.get(i).getName();
-					supplier.setBusinessNature(businessNature);
-				}
-			}
-		}
+      //在数据字典里查询企业性质
+  		List < DictionaryData > businessList = DictionaryDataUtil.find(32);
+  		String businessNature = supplier.getBusinessNature();
+  		if(businessNature !=null){
+  			for(int i = 0; i < businessList.size(); i++) {
+  				if(businessNature.equals(businessList.get(i).getId())) {
+  					String business = businessList.get(i).getName();
+  					supplier.setBusinessNature(business);
+  				}
+  			}
+  		}
 		
         model.addAttribute("suppliers", supplier);
         

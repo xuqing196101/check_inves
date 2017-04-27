@@ -1020,7 +1020,8 @@
 										</c:if>
 										<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-												<span <c:if test="${fn:contains(fileModifyField,s.id.concat(supplierId))}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
+											${fileModifyField }
+												<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierConAch)}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
 												<u:show showId="conAch_show" delete="false" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
 												<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 											</li>
