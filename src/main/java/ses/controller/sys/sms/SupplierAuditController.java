@@ -2876,15 +2876,15 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 退回修改后的附件
 		 */
-		/*SupplierModify supplierFileModify= new SupplierModify();
+		SupplierModify supplierFileModify= new SupplierModify();
 		supplierFileModify.setSupplierId(supplierId);
 		supplierFileModify.setmodifyType("file");
 		StringBuffer fileModifyField = new StringBuffer();
 		List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 		for(SupplierModify m : fileModify){
-			fileModifyField.append(m.getBeforeField() + ",");
+			fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
 		}
-		model.addAttribute("fileModifyField", fileModifyField);*/
+		model.addAttribute("fileModifyField", fileModifyField);
 		
 		return "ses/sms/supplier_audit/ajax_contract";
 	}

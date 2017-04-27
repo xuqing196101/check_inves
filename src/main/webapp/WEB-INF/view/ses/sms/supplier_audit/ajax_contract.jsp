@@ -102,32 +102,32 @@
 				    <td class="">${obj.secondNode}</td>
 				    <td class="">${obj.thirdNode}</td>
 				    <td class="">${obj.fourthNode}</td>
-					<td class="">
-						<div class="w90" <c:if test="${fn:contains(fileModifyField,obj.itemsId)}">style="border: 1px solid #FF8C00;"</c:if>>
+					<td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.oneContract))}">style="border: 1px solid #FF8C00;"</c:if>>
+						<div class="w90">
 							<u:show showId="${fileShow}${(vs.index + 1)*6-1}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 						</div>
 					</td>
-					<td class="">
-						<div class="w90" <c:if test="${fn:contains(fileModifyField,obj.itemsId)}">style="border: 1px solid #FF8C00;"</c:if>>
+					<td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.twoContract))}">style="border: 1px solid #FF8C00;"</c:if>>
+						<div class="w90">
 							<u:show showId="${fileShow}${(vs.index + 1)*6-2}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 						</div>
 					</td>
-					<td class="">
-						<div class="w90" <c:if test="${fn:contains(fileModifyField,obj.itemsId)}">style="border: 1px solid #FF8C00;"</c:if>>
+					<td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.threeContract))}">style="border: 1px solid #FF8C00;"</c:if>>
+						<div class="w90">
 							<u:show showId="${fileShow}${(vs.index + 1)*6-3}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 						</div>
 					</td>
-					<td class="">
-						<div class="w90" <c:if test="${fn:contains(fileModifyField,obj.itemsId)}">style="border: 1px solid #FF8C00;"</c:if>>
+					<td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.oneBil))}">style="border: 1px solid #FF8C00;"</c:if>>
+						<div class="w90" >
 							<u:show showId="${fileShow}${(vs.index + 1)*6-4}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 						</div>
 					</td>
-					<td class="">
-					    <div class="w90" <c:if test="${fn:contains(fileModifyField,obj.itemsId)}">style="border: 1px solid #FF8C00;"</c:if>>
+					<td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.twoBil))}">style="border: 1px solid #FF8C00;"</c:if>>
+					    <div class="w90" >
 							<u:show showId="${fileShow}${(vs.index + 1)*6-5}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 					    </div>
 					</td>
-					<td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId)}">style="border: 1px solid #FF8C00;"</c:if>>
+					<td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.threeBil))}">style="border: 1px solid #FF8C00;"</c:if>>
 						<div class="w90">
 							<u:show showId="${fileShow}${(vs.index + 1)*6-6}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 					    </div>
