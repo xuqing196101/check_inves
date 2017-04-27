@@ -27,7 +27,7 @@
 	
 	
 	<!-- 前端js -->
-<%-- 	<script src="${pageContext.request.contextPath}/public/front/js/jquery.min.js"></script> --%>
+    <script src="${pageContext.request.contextPath}/public/front/js/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/public/front/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/public/front/js/common.js"></script>
 	<script src="${pageContext.request.contextPath}/public/front/js/main-menu.js"></script>
