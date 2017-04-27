@@ -755,7 +755,6 @@
                     $("#address_list_tbody_id").find("tr").each(function() {
                         btmCount++;
                     });
-                    debugger;
                     if(btmCount==size){//勾选的和总共数量对比
                         layer.msg("生产或经营地址必须至少保留一个!", {
                             offset: '300px'
