@@ -332,8 +332,7 @@
 							<!-- <th class="info">类型</th> -->
 							<th class="info">毕业院校及专业</th>
 							<th class="info">工作单位</th>
-							<!-- <th class="info">创建时间</th> -->
-							<!-- <th class="info">诚信积分</th> -->
+							<th class="info">审核时间</th>
 							<th class="info w70">发布</th>
 							<th class="info w100">审核状态</th>
 						</tr>
@@ -348,10 +347,9 @@
 							<%--<td class="tl pl20">${expert.expertsTypeId}</td>--%>
 							<td class="tl pl20" onclick="shenhe('${expert.id}');">${expert.graduateSchool }</td>
 							<td class="tl pl20" onclick="shenhe('${expert.id}');">${expert.workUnit }</td>
-							<%-- <td class="tc" onclick="shenhe('${expert.id}');">
-								<fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
-							</td> --%>
-							<%-- <td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">${expert.honestyScore }</td> --%>
+							<td class="tc" onclick="shenhe('${expert.id}');">
+								<fmt:formatDate type='date' value='${expert.auditAt }' dateStyle="default" pattern="yyyy-MM-dd" />
+							</td>
 							<td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">
 								<c:if test="${expert.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
 								<c:if test="${expert.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>

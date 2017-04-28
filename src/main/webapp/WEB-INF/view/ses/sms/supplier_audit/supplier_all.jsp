@@ -423,6 +423,7 @@
 								<th class="info" width="12%">手机号</th>
 								<th class="info" width="25%">企业类型</th>
 								<th class="info" width="12%">企业性质</th>
+								<th class="info" width="12%">审核时间</th>
 								<th class="info w60">发布</th>
 								<th class="info w100">状态</th>
 							</tr>
@@ -438,6 +439,9 @@
 								  <c:forEach items="${enterpriseTypeList}" var="type">
 								  	 <c:if test="${list.businessType == type.id}">${type.name}</c:if>
 								  </c:forEach>
+								</td>
+								<td class="tc" onclick="shenhe('${list.id }');">
+									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
 								<td class="tl w60" onclick="shenhe('${list.id }');">
 									<c:if test="${list.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
