@@ -22,6 +22,7 @@ public   interface  QualificationService {
      *〈详细描述〉
      * @author myc
      * @param  pageNum 当前页
+     * @param pageSize 每页显示条数(默认为配置文件数据,支持自定义条数)
      * @param  name 查询条件
      * @param  type 类型
      * @return Qualification 集合

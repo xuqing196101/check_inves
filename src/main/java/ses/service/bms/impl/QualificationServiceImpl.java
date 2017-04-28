@@ -35,9 +35,6 @@ public class QualificationServiceImpl implements QualificationService {
     /**
      * 
      * @see ses.service.bms.QualificationService#findList(java.lang.Integer, ses.model.bms.Qualification)
-     */
-    /**
-     *
      * @param  pageNum 当前页
      * @param pageSize 每页显示条数(默认为配置文件数据,支持自定义条数)
      * @param  name 查询条件
