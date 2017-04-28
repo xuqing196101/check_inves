@@ -6,7 +6,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-		<title>品目合同</title>
+		<title>销售合同</title>
 		<script type="text/javascript">
 			function tijiao(str) {
 				var action;
@@ -69,24 +69,24 @@
 				var project = $("#a_id_3").text();
 				var service = $("#a_id_4").text();
 				//加载默认的页签
-				if(product == "物资-生产型品目信息") {
-					loadPageOne('tab-1', 'supplierQuery/ajaxContract.html', 'PRODUCT');
+				if(product == "物资-生产型合同信息") {
+					loadPageOne('tab-1','supplierAudit/ajaxContract.html','PRODUCT');
 					return;
 				}
-				if(sales == "物资-销售型品目信息") {
-					loadPageTwo('tab-2', 'supplierQuery/ajaxContract.html', 'SALES');
+		  		if(sales == "物资-销售型合同信息") {
+					loadPageTwo('tab-2','supplierAudit/ajaxContract.html','SALES');
 					return;
 				}
-				if(project == "工程品目信息") {
-					loadPageThree('tab-3', 'supplierQuery/ajaxContract.html', 'PROJECT');
+				if(project == "工程合同信息") {
+					loadPageThree('tab-3','supplierAudit/ajaxContract.html','PROJECT');
 					return;
 				}
-				if(service == "服务品目信息") {
-					loadPageFour('tab-4', 'supplierQuery/ajaxContract.html', 'SERVICE');
+				if(service == "服务合同信息") {
+					loadPageFour('tab-4','supplierAudit/ajaxContract.html','SERVICE');
 					return;
 				}
 			});
-
+			
 			function reason(auditField, auditFieldName) {
 				var supplierId = $("#supplierId").val();
 				var product = $("#pro_val").val();
@@ -216,24 +216,24 @@
 							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT')}">
 								<c:set value="${liCount+1}" var="liCount" />
 								<li id="li_id_1" class="active" onclick="loadPageOne('tab-1','supplierQuery/ajaxContract.html','PRODUCT')">
-									<a aria-expanded="true" href="#tab-1" data-toggle="tab" id="a_id_1">物资-生产型品目信息</a>
+									<a aria-expanded="true" href="#tab-1" data-toggle="tab" id="a_id_1">物资-生产型合同信息</a>
 								</li>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeIds, 'SALES')}">
 								<li id="li_id_2" class='<c:if test="${liCount == 0}">active</c:if>' onclick="loadPageTwo('tab-2','supplierQuery/ajaxContract.html','SALES')">
-									<a aria-expanded="false" href="#tab-2" data-toggle="tab" id="a_id_2">物资-销售型品目信息</a>
+									<a aria-expanded="false" href="#tab-2" data-toggle="tab" id="a_id_2">物资-销售型合同信息</a>
 								</li>
 								<c:set value="${liCount+1}" var="liCount" />
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
+							<%-- <c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
 								<li id="li_id_3" class="<c:if test=" ${liCount==0 } ">active</c:if>" onclick="loadPageThree('tab-3','supplierQuery/ajaxContract.html','PROJECT')">
-									<a aria-expanded="false" href="#tab-3" data-toggle="tab" id="a_id_3">工程品目信息</a>
+									<a aria-expanded="false" href="#tab-3" data-toggle="tab" id="a_id_3">工程合同信息</a>
 								</li>
 								<c:set value="${liCount+1}" var="liCount" />
-							</c:if>
+							</c:if> --%>
 							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE')}">
 								<li id="li_id_4" class="<c:if test=" ${liCount==0 } ">active</c:if>" onclick="loadPageFour('tab-4','supplierQuery/ajaxContract.html','SERVICE')">
-									<a aria-expanded="false" href="#tab-4" data-toggle="tab" id="a_id_4">服务品目信息</a>
+									<a aria-expanded="false" href="#tab-4" data-toggle="tab" id="a_id_4">服务合同信息</a>
 								</li>
 								<c:set value="${liCount+1}" var="liCount" />
 							</c:if>

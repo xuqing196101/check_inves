@@ -223,7 +223,7 @@
 										</li>
 										</ul>
 
-										<h2 class="count_flow"><i>2</i>供应商物资生产资质证书</h2>
+										<h2 class="count_flow"><i>2</i>资质证书信息</h2>
 										<div class="ul_list count_flow">
 											<table class="table table-bordered table-condensed table-hover">
 												<thead>
@@ -340,7 +340,7 @@
 													</c:forEach>
 												</ul>
 
-												<h2 class="count_flow"><i>3</i>注册人员信息</h2>
+												<h2 class="count_flow"><i>3</i>取得注册资质的人员信息</h2>
 												<ul class="ul_list count_flow">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
@@ -360,7 +360,7 @@
 													</table>
 												</ul>
 
-												<h2 class="count_flow"><i>4</i>供应商工程证书</h2>
+												<h2 class="count_flow"><i>4</i>供应商资质（认证）证书信息</h2>
 												<div class="ul_list count_flow">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
@@ -396,7 +396,7 @@
 													</table>
 												</div>
 
-												<h2 class="count_flow"><i>5</i>供应商资质资格</h2>
+												<h2 class="count_flow"><i>5</i>供应商资质证书详细信息</h2>
 												<ul class="ul_list count_flow">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>

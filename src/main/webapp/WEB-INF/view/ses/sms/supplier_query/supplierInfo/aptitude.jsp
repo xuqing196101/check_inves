@@ -120,29 +120,29 @@
 					</ul>
 					<ul class="count_flow ul_list count_flow">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
-							<c:set value="0" var="liCount" />
-							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
-								<c:set value="${liCount+1}" var="liCount" />
+						<c:set value="0" var="liCount"/>
+							<c:if test="${fn:contains(supplierTypeNames, '生产') and fn:length(cateList) > 0}">
+							<c:set value="${liCount+1}" var="liCount"/>
 								<li id="li_id_1" class="active">
-									<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型品目信息</a>
+									<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型资质信息</a>
 								</li>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '销售')}">
+							<c:if test="${fn:contains(supplierTypeNames, '销售') and fn:length(saleQua) > 0}">
 								<li id="li_id_2" class='<c:if test="${liCount == 0}">active</c:if>'>
-									<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型品目信息</a>
+									<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型资质信息</a>
 								</li>
-								<c:set value="${liCount+1}" var="liCount" />
+								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 								<li id="li_id_3" class='<c:if test="${liCount == 0}">active</c:if>'>
-									<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程品目信息</a>
-									<c:set value="${liCount+1}" var="liCount" />
+									<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程资质信息</a>
+									<c:set value="${liCount+1}" var="liCount"/>
 								</li>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
+							<c:if test="${fn:contains(supplierTypeNames, '服务') and fn:length(serviceQua) > 0}">
 								<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>'>
-									<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务品目信息</a>
-									<c:set value="${liCount+1}" var="liCount" />
+									<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务资质信息</a>
+									<c:set value="${liCount+1}" var="liCount"/>
 								</li>
 							</c:if>
 						</ul>
