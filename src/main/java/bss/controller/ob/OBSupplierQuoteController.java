@@ -24,14 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
-import bss.dao.ob.OBProductInfoMapper;
-import bss.dao.ob.OBProjectMapper;
-import bss.dao.ob.OBProjectResultMapper;
-import bss.dao.ob.OBProjectRuleMapper;
-import bss.dao.ob.OBProjectSupplierMapper;
-import bss.dao.ob.OBResultsInfoMapper;
 import bss.model.ob.ConfirmInfoVo;
-import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
@@ -47,11 +40,9 @@ import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBResultSubtabulationService;
 import bss.service.ob.OBRuleService;
 import bss.service.ob.OBSupplierQuoteService;
-import bss.util.BiddingStateUtil;
 import bss.util.BigDecimalUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.ctc.wstx.util.StringUtil;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -414,7 +405,6 @@ public class OBSupplierQuoteController {
 		oBProjectResult.setProjectId(projectId);
 		oBProjectResult.setSupplierId(supplierId);
 		OBProject project=obProjectServer.selectByPrimaryKey(projectId);
-		int ranking=0;
 		 if(project!=null){
 			 //竞价结束时间 和当前时间比较
 		  if(project.getEndTime().getTime()<new Date().getTime()){
@@ -457,7 +447,6 @@ public class OBSupplierQuoteController {
 						}
 				  }else{
 					  //顺推 前一名第二轮未确定
-						 ranking=result.getRanking();
 						 confirmStatus="8";
 				}
 		     }else{
@@ -759,7 +748,6 @@ public class OBSupplierQuoteController {
 	 */
 	@RequestMapping("saveConfirmQuoteInfo")
 	public String saveConfirmQuoteInfo(Model model, HttpServletRequest request){
-		
 		return "";
 	}
 	
@@ -779,12 +767,9 @@ public class OBSupplierQuoteController {
 	public String findQuotoIssueInfo(@CurrentUser User user, Model model, HttpServletRequest request){
 		// 获取标题id
 		String projectId = request.getParameter("id");
-		
 		// 获取第一轮确认结果标识
 		String confirmFlag = request.getParameter("flag");
-		
 		Map<String, Object> mapInfo = new HashMap<String, Object>();
-		
 		// 获取供应商ID
 		String typeIdString = null;
 		if(user != null){

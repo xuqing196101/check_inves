@@ -121,6 +121,7 @@ public class OBProjectController {
 	private OBSupplierQuoteService obSupplierQuoteService;
 	
 	/**竞价 规则**/
+	@Autowired
 	private OBRuleService obRuleService;
 	/**竞价 关联 产品**/
 	@Autowired
