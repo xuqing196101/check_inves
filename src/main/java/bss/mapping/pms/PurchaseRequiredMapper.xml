@@ -648,7 +648,7 @@
 		<where>
 			HISTORY_STATUS='0'  and IS_DELETE='0' 
 			<if test="createdAt!=null">
-				and CREATED_AT like '%${createdAt}%'
+				and  to_char(CREATED_AT,'yyyy-mm-dd') =to_char(#{createdAt},'yyyy-mm-dd')
 			</if>
 			<if test="planName!=null">
 				and PLAN_NAME like '%${planName}%'

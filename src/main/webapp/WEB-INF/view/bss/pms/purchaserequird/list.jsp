@@ -265,7 +265,7 @@
 				    	</span>
 				      </li>
 				      <li>
-				    		<label class="fl">采购需求编号：</label><span>
+				    		<label class="fl">采购需求文号：</label><span>
 				  	   	<input  type="text" name="planNo" value="${inf.planNo }" /> 
 				    	</span>
 				      </li>
