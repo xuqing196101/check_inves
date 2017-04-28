@@ -399,7 +399,7 @@
 	  AND INTERVAL_WORKDAY = #{intervalWorkday}
 	</if>
 	ORDER BY
-	UPDATED_AT DESC
+	UPDATED_AT DESC,CREATED_AT DESC
   </select>
   
   <!-- 校验竞价规则名称是否唯一 -->

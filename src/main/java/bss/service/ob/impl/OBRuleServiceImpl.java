@@ -126,7 +126,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 		// 设置创建时间
 		obRule.setCreatedAt(new Date());
 		// 设置修改时间
-		//obRule.setUpdatedAt(new Date());
+		obRule.setUpdatedAt(new Date());
 		// 是否为默认 1:是 0:否
 		obRule.setStatus(0);
 		// 保存

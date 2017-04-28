@@ -181,8 +181,13 @@
 			}, function(index){
 				$("#showQuotoTotalPrice").val(quotoTotalPrice);
 			    layer.close(index);
+			    var inde = layer.load(0, {
+					shade : [ 0.1, '#fff' ],
+					offset : [ '45%', '53%' ]
+				});
 			    $.post("${pageContext.request.contextPath}/supplierQuote/saveQuoteInfo.do", $("#productForm").serialize(), function(data) {
 					if (data.status == 200) {
+						layer.close(inde);
 						layer.confirm("操作成功，请等待确认结果！本次竞价项目您的报价总金额为 <b><span style='color:red;font-size:16px'>"+data.data+" 万元</span></b>,请在报价截止时间后，查看本次中标结果！",{
 							btn:['确定']
 						},function(){
@@ -191,6 +196,7 @@
 						) 
 					}
 					if(data.status == 500){
+						layer.close(inde);
 						layer.confirm(data.msg,{
 							btn:['确定']
 						},function(){
