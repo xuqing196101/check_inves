@@ -34,6 +34,7 @@ import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
 import bss.model.ob.OBProductInfoExample.Criteria;
 import bss.model.ob.OBProject;
+import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBResultsInfoExt;
@@ -503,6 +504,14 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 			return JdcgResult.build(500, "对不起！您第一轮未参与报价，不能进入第二轮");
 		}
 		return JdcgResult.ok();
+	}
+    /**
+     * 实现  根据竞价id 获取 与该竞价相关的 供应商数据
+     */
+	@Override
+	public List<OBProjectSupplier> selByProjectId(String obProjectId) {
+		// TODO Auto-generated method stub
+		return obProjectSupplierMapper.selByProjectId(obProjectId);
 	}
 	
 }

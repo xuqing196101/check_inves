@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import ses.model.bms.User;
+import bss.model.ob.OBProjectRule;
 import bss.model.ob.OBRule;
 import bss.model.ob.OBSpecialDate;
 import common.utils.JdcgResult;
@@ -166,5 +167,11 @@ public interface OBRuleService {
 	* @throws
 	 */
 	public JdcgResult checkNameUnique(String name);
+	/**
+	 * 根据 竞价id 获取 竞价关联 规则
+	 * @param projectId
+	 * @return
+	 */
+	public OBProjectRule selectByPrimaryKey(String projectId);
 
 }

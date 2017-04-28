@@ -107,48 +107,32 @@ public class OBProjectController {
 
 	@Autowired
 	private OrgnizationServiceI orgnizationService;
-	@Autowired
-	private OBRuleService OBRuleService;
 
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataService;
 	
 	@Autowired
 	private OBProjectResultService oBProjectResultService;
-
-	@Autowired
-	private OBProductInfoServer OBProductInfo;
 	
 	@Autowired
 	private CategoryService categoryService;
 	
 	@Autowired
-	private OBProjectRuleMapper OBProjectRuleMapper;
-
-	// 注入竞价商品详情Mapper
-	@Autowired
-	private OBProductInfoMapper obProductInfoMapper;
-    
-	@Autowired
-	private OBResultsInfoMapper OBResultsInfoMapper;
-	@Autowired
-	private OBProjectResultMapper OBProjectResultMapper;
-	@Autowired
-	private OrgnizationMapper orgnizationMapper;
-
-	@Autowired
 	private OBSupplierQuoteService obSupplierQuoteService;
 	
+	/**竞价 规则**/
+	private OBRuleService obRuleService;
+	/**竞价 关联 产品**/
 	@Autowired
-	private OBRuleMapper OBRuleMapper;
-	
+	private OBProductInfoServer oBProductInfoService;
+	@Autowired
+	private OBProjectResultService obProjectResultService;
+	/*@Autowired
+	private OBProjectRuleMapper OBProjectRuleMapper;*/
+
 	@Autowired
 	private OBResultSubtabulationService obResultSubtabulationService;
     
-	@Autowired
-	private OBProjectMapper OBProjectMapper;
-	@Autowired
-	private OBProjectSupplierMapper obProjectSupplierMapper;
 	
 	/***
 	 * 获取竞价信息跳转 list页
@@ -217,7 +201,6 @@ public class OBProjectController {
 			if (page == null) {
 				page = 1;
 			}
-			String ss = request.getParameter("obProjectId");
 			List<OBSupplier> lists = OBProjectServer.supplierList(page,obProjectId,
 					 name, status,result);
 			model.addAttribute("obProjectId",obProjectId);
@@ -281,7 +264,7 @@ public class OBProjectController {
 			map1.put("status", status);
 			String smallPointsId = null;
 			if(obProjectId != null){
-				List<OBProjectSupplier> listps = obProjectSupplierMapper.selByProjectId(obProjectId);
+				List<OBProjectSupplier> listps = obSupplierQuoteService.selByProjectId(obProjectId);
 				if(listps != null && listps.size() > 0){
 					smallPointsId = listps.get(0).getSupplierPrimaryId();
 				}
@@ -336,7 +319,7 @@ public class OBProjectController {
 		model.addAttribute("type", 2);
 		model.addAttribute("orgId", orgId);
 		// 获取当前 默认规则
-		 OBRule obRule = OBRuleMapper.selectByStatus();
+		 OBRule obRule = obRuleService.selectByStatus();
 		 if(obRule==null){
 			 model.addAttribute("supplierCount",null);
 		 }else{
@@ -528,8 +511,8 @@ public class OBProjectController {
 			model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));*/
 			
 			//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
-			List<OBProjectResult> resultList=OBProjectResultMapper.selectByPID(id);
-			List<OBProductInfo> plist=obProductInfoMapper.getProductName(id);
+			List<OBProjectResult> resultList=obProjectResultService.selectByPID(id);
+			List<OBProductInfo> plist=oBProductInfoService.getProductName(id);
 			for(OBProjectResult s:resultList){
 				s.setProductInfo(plist);
 			}
@@ -703,11 +686,11 @@ public class OBProjectController {
 			OBProject obProject=OBProjectServer.editOBProject(map);
 			if(obProject !=null){
 				String orgId=null;
-				 List<OBProductInfo> obProductInfo=obProductInfoMapper.selectByProjectId(obProject.getId());
+				 List<OBProductInfo> obProductInfo=oBProductInfoService.selectByProjectId(obProject.getId());
 				 obProject.setObProductInfo(obProductInfo);
 				 
 				//竞价规则
-				OBProjectRule oRule= OBProjectRuleMapper.selectByPrimaryKey(obProject.getId());
+				OBProjectRule oRule= obRuleService.selectByPrimaryKey(obProject.getId());
 				model.addAttribute("obRule", oRule);
 				// 生成ID
 				model.addAttribute("ruleId", obProject.getRuleId());
@@ -720,18 +703,18 @@ public class OBProjectController {
 				model.addAttribute("fileid", obProject.getAttachmentId());
 				if(obProject.getStatus()==3||obProject.getStatus()==4){
 				//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
-				List<OBProjectResult> resultList=OBProjectResultMapper.selectByPID(obProject.getId());
-				List<OBProductInfo> plist=obProductInfoMapper.getProductName(obProject.getId());
+				List<OBProjectResult> resultList=obProjectResultService.selectByPID(obProject.getId());
+				List<OBProductInfo> plist=oBProductInfoService.getProductName(obProject.getId());
 				for(OBProjectResult s:resultList){
 					if(s.getStatus()==-1){
-						Integer second= OBResultsInfoMapper.countByBidding(obProject.getId(), "1", null);
+						Integer second= obProjectResultService.countByBidding(obProject.getId(), "1", null);
 						String bidding=null;
 						if(second>0){
 							bidding="1";
 						}else{
 							bidding="2";
 						}
-				List<OBResultsInfo> infoList=OBResultsInfoMapper.getProductInfo(obProject.getId(),s.getSupplierId(),bidding);
+				List<OBResultsInfo> infoList=obProjectResultService.getProductInfo(obProject.getId(),s.getSupplierId(),bidding);
 						s.setOBResultsInfo(infoList);
 					}else{
 						s.setProductInfo(plist);
@@ -741,7 +724,7 @@ public class OBProjectController {
 				}
 				//查询参与的供应商==============================================================================================
 				if(obProjectId != null){
-					List<String> biddingIdList = OBResultsInfoMapper.isSecondBidding(obProjectId);
+					List<String> biddingIdList = obProjectResultService.isSecondBidding(obProjectId);
 					Boolean flag = true;
 					if(biddingIdList != null && biddingIdList.size() > 0){
 						for (String string : biddingIdList) {
@@ -777,10 +760,10 @@ public class OBProjectController {
 									
 									obProjectResult.setObResultSubtabulation(obResultSubtabulation);
 									countProportion += Integer.parseInt(obProjectResult.getProportion());
-									List<OBResultsInfo> listinf = OBResultsInfoMapper.selectResult(obProjectId, obProjectResult.getSupplierId());
+									List<OBResultsInfo> listinf = oBProjectResultService.selectResult(obProjectId, obProjectResult.getSupplierId());
 									obProjectResult.setOBResultsInfo(listinf);
 								}else{
-									List<OBResultsInfo> listinf = OBResultsInfoMapper.selectResult(obProjectId, obProjectResult.getSupplierId());
+									List<OBResultsInfo> listinf = oBProjectResultService.selectResult(obProjectId, obProjectResult.getSupplierId());
 									obProjectResult.setOBResultsInfo(listinf);
 								}
 							}
@@ -958,7 +941,7 @@ public class OBProjectController {
 		String demandUnit = (String) map.get("demandUnit");
 		String transportFees = (String) map.get("transportFees");
 		//获取竞价产品信息
-		List<OBProductInfo> obProductInfoList= obProductInfoMapper.selectByProjectId(projectId);
+		List<OBProductInfo> obProductInfoList= oBProductInfoService.selectByProjectId(projectId);
 		model.addAttribute("obProductInfoList", obProductInfoList);
 		// 采购机构
 		model.addAttribute("orgName", orgName);
@@ -969,7 +952,7 @@ public class OBProjectController {
 		model.addAttribute("obProject", obProject);
 		
 		/*************************************竞价结果信息****************************************/
-		BiddingResultCommon.getBiddingResultInfo(model, projectId, OBResultsInfoMapper, oBProjectResultService, obResultSubtabulationService);
+		BiddingResultCommon.getBiddingResultInfo(model, projectId, oBProjectResultService, obResultSubtabulationService);
 		
 		if (StringUtils.isNotEmpty(print)) {
 			request.setAttribute("projectName",obProject.getName()+"_竞价结果信息表");
@@ -1052,7 +1035,7 @@ public class OBProjectController {
 		
 		
 		//竞价规则
-		OBProjectRule oRule= OBProjectRuleMapper.selectByPrimaryKey(obProject.getId());
+		OBProjectRule oRule= obRuleService.selectByPrimaryKey(obProject.getId());
 		model.addAttribute("obRule", oRule);
 		// 采购机构
 		model.addAttribute("orgName", orgName);
@@ -1093,8 +1076,8 @@ public class OBProjectController {
     public String selInfo(Model model, HttpServletRequest request){
     	String projectId = request.getParameter("id") == null ? "" : request.getParameter("id");
     	// 调用获取竞价结果信息
-    	BiddingResultCommon.getBiddingResultInfo(model, projectId, OBResultsInfoMapper, oBProjectResultService, obResultSubtabulationService);
-    	OBProject ob=OBProjectMapper.selectByPrimaryKey(projectId);
+    	BiddingResultCommon.getBiddingResultInfo(model, projectId,  oBProjectResultService, obResultSubtabulationService);
+    	OBProject ob=OBProjectServer.selectByPrimaryKey(projectId);
     	if(ob!=null){
     		model.addAttribute("projectName", ob.getName());
     	}

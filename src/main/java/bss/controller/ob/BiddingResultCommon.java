@@ -27,11 +27,10 @@ public class BiddingResultCommon {
 	 * @throws
 	 */
 	public static void getBiddingResultInfo(Model model, String projectId,
-			OBResultsInfoMapper OBResultsInfoMapper,
 			OBProjectResultService oBProjectResultService,
 			OBResultSubtabulationService obResultSubtabulationService) {
 		// 判断是否有第二次竞价
-		List<String> biddingIdList = OBResultsInfoMapper
+		List<String> biddingIdList = oBProjectResultService
 				.isSecondBidding(projectId);
 		Boolean flag = true;
 		if (biddingIdList != null && biddingIdList.size() > 0) {
@@ -82,12 +81,12 @@ public class BiddingResultCommon {
 								.setObResultSubtabulation(obResultSubtabulation);
 						countProportion += Integer.parseInt(obProjectResult
 								.getProportion());
-						List<OBResultsInfo> listinf = OBResultsInfoMapper
+						List<OBResultsInfo> listinf = oBProjectResultService
 								.selectResult(projectId,
 										obProjectResult.getSupplierId());
 						obProjectResult.setOBResultsInfo(listinf);
 					} else {
-						List<OBResultsInfo> listinf = OBResultsInfoMapper
+						List<OBResultsInfo> listinf = oBProjectResultService
 								.selectResult(projectId,
 										obProjectResult.getSupplierId());
 						obProjectResult.setOBResultsInfo(listinf);

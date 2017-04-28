@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 import ses.model.bms.User;
 import ses.util.PropertiesUtil;
+import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBRuleMapper;
 import bss.dao.ob.OBSpecialDateMapper;
+import bss.model.ob.OBProjectRule;
 import bss.model.ob.OBRule;
 import bss.model.ob.OBRuleExample;
 import bss.model.ob.OBRuleExample.Criteria;
@@ -46,6 +48,8 @@ public class OBRuleServiceImpl implements OBRuleService {
 	@Autowired
 	private OBRuleMapper obRuleMapper;
 	
+	@Autowired
+	private OBProjectRuleMapper obProjectRuleMapper;
 	@Autowired
 	private OBSpecialDateMapper obSpecialDateMapper;
 
@@ -416,6 +420,14 @@ public class OBRuleServiceImpl implements OBRuleService {
 			return JdcgResult.build(500, "竞价规则名称已存在");
 		}
 		return JdcgResult.ok();
+	}
+    /**
+     *实现 根据 竞价id 获取 竞价关联 规则
+     */
+	@Override
+	public OBProjectRule selectByPrimaryKey(String projectId) {
+		// TODO Auto-generated method stub
+		return obProjectRuleMapper.selectByPrimaryKey(projectId);
 	}
 	
 	 
