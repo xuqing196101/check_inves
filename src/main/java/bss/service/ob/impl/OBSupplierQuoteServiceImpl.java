@@ -277,6 +277,65 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 			RedisUtils.returnResource(jedis, jedisPool);
 		}
 		
+		// 报价前，判断截止时间是否已到
+		// 查询竞价标题信息
+		OBProject obProject = obProjectMapper
+				.selectByPrimaryKey(titleId);
+		if (obProject != null) {
+			// 第一轮报价
+			if("firstQuoto".equals(quotoFlag)){
+				// 获取第一次报价截止时间
+				Date quoteEndTime = BiddingStateUtil
+						.getQuoteEndTime(obProject,obProjectRuleMapper);
+				int compareTo = BiddingStateUtil.compareTo(new Date(),
+						quoteEndTime);
+				// 报价时间截止
+				// systemDate > biddingTime
+				if (compareTo == 2) {
+					// remark 2标识：时间截止，未能及时完成报价
+					String remark = "0";
+					BiddingStateUtil.updateRemark(obProjectSupplierMapper,
+							obProject, user, remark);
+					return JdcgResult.build(500, "抱歉，第一轮报价时间已结束，未完成本次报价！");
+				}
+				// systemDate < biddingTime
+				if (compareTo == 1) {
+					// remark 1标识：时间还未截止，完成报价
+					String remark = "1";
+					BiddingStateUtil.updateRemark(obProjectSupplierMapper,
+							obProject, user, remark);
+				}
+			}
+			
+			// 第二轮报价
+			if("secondQuoto".equals(quotoFlag)){
+				// 获取第一次报价截止时间
+				Date quoteEndTime = BiddingStateUtil
+						.getQuoteEndTime(obProject,obProjectRuleMapper);
+				// 获取第二次报价截止时间
+				Date quoteEndTimeSecond = BiddingStateUtil.getQuotoEndTimeSecond(obProject, quoteEndTime, obProjectRuleMapper);
+				
+				int compareTo = BiddingStateUtil.compareTo(new Date(),
+						quoteEndTimeSecond);
+				// 报价时间截止
+				// systemDate > biddingTime
+				if (compareTo == 2) {
+					// remark 2标识：时间截止，未能及时完成报价
+					String remark = "20";
+					BiddingStateUtil.updateRemark(obProjectSupplierMapper,
+							obProject, user, remark);
+					return JdcgResult.build(500, "抱歉，第二轮报价时间已结束，未完成本次报价！");
+				}
+				// systemDate < biddingTime
+				if (compareTo == 1) {
+					// remark 1标识：时间还未截止，完成报价
+					String remark = "21";
+					BiddingStateUtil.updateRemark(obProjectSupplierMapper,
+							obProject, user, remark);
+				}
+			}
+		}
+		
 		if (obResultInfoList != null) {
 			List<OBResultsInfoExt> obResultsInfoExtList = obResultInfoList
 					.getObResultsInfoExt();
@@ -289,9 +348,13 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				// 单个商品的采购数量
 				Integer signalCountInt = obResultsInfoExt.getResultsNumber();
 				BigDecimal myOfferMoney = obResultsInfoExt.getMyOfferMoney();
+				
 				BigDecimal signalCount = null;
 				
 				if (signalCountInt != null && myOfferMoney != null) {
+					if(myOfferMoney.toString().length() > 20){
+						return JdcgResult.build(500, "报价输入长度过长"); 
+					}
 					// 单个商品的报价
 					signalCount = new BigDecimal(signalCountInt);
 					obResultsInfoExt.setDealMoney(myOfferMoney
@@ -307,65 +370,6 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				// 保存
 				OBResultsInfo obResultsInfo = new OBResultsInfo();
 				BeanUtils.copyProperties(obResultsInfoExt, obResultsInfo);
-
-				// 报价前，判断截止时间是否已到
-				// 查询竞价标题信息
-				OBProject obProject = obProjectMapper
-						.selectByPrimaryKey(titleId);
-				if (obProject != null) {
-					// 第一轮报价
-					if("firstQuoto".equals(quotoFlag)){
-						// 获取第一次报价截止时间
-						Date quoteEndTime = BiddingStateUtil
-								.getQuoteEndTime(obProject,obProjectRuleMapper);
-						int compareTo = BiddingStateUtil.compareTo(new Date(),
-								quoteEndTime);
-						// 报价时间截止
-						// systemDate > biddingTime
-						if (compareTo == 2) {
-							// remark 2标识：时间截止，未能及时完成报价
-							String remark = "0";
-							BiddingStateUtil.updateRemark(obProjectSupplierMapper,
-									obProject, user, remark);
-							return JdcgResult.build(500, "抱歉，第一轮报价时间已结束，未完成本次报价！");
-						}
-						// systemDate < biddingTime
-						if (compareTo == 1) {
-							// remark 1标识：时间还未截止，完成报价
-							String remark = "1";
-							BiddingStateUtil.updateRemark(obProjectSupplierMapper,
-									obProject, user, remark);
-						}
-					}
-					
-					// 第二轮报价
-					if("secondQuoto".equals(quotoFlag)){
-						// 获取第一次报价截止时间
-						Date quoteEndTime = BiddingStateUtil
-								.getQuoteEndTime(obProject,obProjectRuleMapper);
-						// 获取第二次报价截止时间
-						Date quoteEndTimeSecond = BiddingStateUtil.getQuotoEndTimeSecond(obProject, quoteEndTime, obProjectRuleMapper);
-						
-						int compareTo = BiddingStateUtil.compareTo(new Date(),
-								quoteEndTimeSecond);
-						// 报价时间截止
-						// systemDate > biddingTime
-						if (compareTo == 2) {
-							// remark 2标识：时间截止，未能及时完成报价
-							String remark = "20";
-							BiddingStateUtil.updateRemark(obProjectSupplierMapper,
-									obProject, user, remark);
-							return JdcgResult.build(500, "抱歉，第二轮报价时间已结束，未完成本次报价！");
-						}
-						// systemDate < biddingTime
-						if (compareTo == 1) {
-							// remark 1标识：时间还未截止，完成报价
-							String remark = "21";
-							BiddingStateUtil.updateRemark(obProjectSupplierMapper,
-									obProject, user, remark);
-						}
-					}
-				}
 				// 竞价还没结束已报价，则显示已报价待确认状态
 				obResultsInfoMapper.insert(obResultsInfo);
 			}

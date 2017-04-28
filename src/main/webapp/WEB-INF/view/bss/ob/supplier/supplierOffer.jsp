@@ -106,6 +106,14 @@
 					calTotalPrice();
 					return ;
 				}  */
+				// 判断输入长度
+				if(unitPrice.length > 20){
+					$(obj).val("");
+					$("#"+id).html("");
+					calTotalPrice();
+					layer.msg("您输入报价长度过长");
+					return;
+				}
 				
 				$("#"+id).text((x/10000).toFixed(4));
 				calTotalPrice();
@@ -308,7 +316,7 @@
 				  </td>
 				  <td class="tc" id="${ vs.index }">${ productInfo.limitedPrice }</td>
 				  <td class="tc">${ productInfo.purchaseCount }</td>
-				  <td class="tc" width="3px"><input id="" data-count="${ productInfo.purchaseCount }" name="obResultsInfoExt[${ vs.index }].myOfferMoney" onkeyup="totalPrice(this,'${productInfo.obProduct.id}','${ vs.index }')" type="text" class="w230 mb0 border0" /></td>
+				  <td class="tc" width="3px"><input id="" data-count="${ productInfo.purchaseCount }" name="obResultsInfoExt[${ vs.index }].myOfferMoney" maxlength="20" onkeyup="totalPrice(this,'${productInfo.obProduct.id}','${ vs.index }')" type="text" class="w230 mb0 border0" /></td>
 				  <td class="tc" id="${ productInfo.obProduct.id }"></td>
 				  <td class="tc" title="${ productInfo.remark }">
 				  	<c:if test="${fn:length(productInfo.remark) > 30 }">${fn:substring(productInfo.remark, 0, 30)}...</c:if>
