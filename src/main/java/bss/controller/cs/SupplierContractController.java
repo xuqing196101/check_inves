@@ -95,7 +95,13 @@ public class SupplierContractController {
 	        List<PurchaseContract> PurchaseContracts = purchaseContractService.selectAllContractBySupplierId(map);
 	        if(PurchaseContracts.size()>0){
 	            for(int i=0;i<PurchaseContracts.size();i++){
-	                if(PurchaseContracts.get(i)!=null){
+	            	Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(PurchaseContracts.get(i).getPurchaseDepName());
+	                if(org!=null){
+	                	PurchaseContracts.get(i).setPurchaseDepName(org.getName());
+	                }else{
+	                	PurchaseContracts.get(i).setPurchaseDepName("");
+	                }
+	            	if(PurchaseContracts.get(i)!=null){
 	                    if(PurchaseContracts.get(i).getMoney()!=null){
 	                        contractSum = contractSum.add(PurchaseContracts.get(i).getMoney());
 	                    }

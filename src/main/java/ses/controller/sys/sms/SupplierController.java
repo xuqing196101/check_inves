@@ -475,6 +475,14 @@ public class SupplierController extends BaseSupplierController {
             stock.setSupplierId(supplier.getId());
             supplier.setListSupplierAfterSaleDep(afterSaleDep);
         }
+        //地址信息
+        List<SupplierAddress> supplierAddressList = supplier.getAddressList();
+        if(supplierAddressList == null || supplierAddressList.isEmpty()){
+            SupplierAddress address = new SupplierAddress();
+            address.setId(WfUtil.createUUID());
+            supplierAddressList.add(address);
+            supplier.setAddressList(supplierAddressList);
+        }
 		model.addAttribute("currSupplier", supplier);
 		//初始化供应商注册附件类型
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
@@ -591,27 +599,27 @@ public class SupplierController extends BaseSupplierController {
                     }
                 }
                 //校验法定代表人名称是否存在
-                if(!StringUtils.isEmpty(name_flag) && name_flag.equals("2")){
-                    User user = new User();
-                    user.setRelName(supplier.getLegalName());
-                    List<User> userList = userService.find(user);
-                    if(null != userList && !userList.isEmpty()){
-                        if(null==before || null==before.getLegalName() || !before.getLegalName().equals(userList.get(0).getRelName())){
-                            return "legalNameExists";
-                        }
-                    }
-                }
-                //校验注册联系人名称是否存在
-                if(!StringUtils.isEmpty(name_flag) && name_flag.equals("3")){
-                    User user = new User();
-                    user.setRelName(supplier.getContactName());
-                    List<User> userList = userService.find(user);
-                    if(null != userList && !userList.isEmpty()){
-                        if(null==before || null==before.getContactName() || !before.getContactName().equals(userList.get(0).getRelName())){
-                            return "contactNameExists";
-                        }
-                    }
-                }
+//                if(!StringUtils.isEmpty(name_flag) && name_flag.equals("2")){
+//                    User user = new User();
+//                    user.setRelName(supplier.getLegalName());
+//                    List<User> userList = userService.find(user);
+//                    if(null != userList && !userList.isEmpty()){
+//                        if(null==before || null==before.getLegalName() || !before.getLegalName().equals(userList.get(0).getRelName())){
+//                            return "legalNameExists";
+//                        }
+//                    }
+//                }
+//                //校验注册联系人名称是否存在
+//                if(!StringUtils.isEmpty(name_flag) && name_flag.equals("3")){
+//                    User user = new User();
+//                    user.setRelName(supplier.getContactName());
+//                    List<User> userList = userService.find(user);
+//                    if(null != userList && !userList.isEmpty()){
+//                        if(null==before || null==before.getContactName() || !before.getContactName().equals(userList.get(0).getRelName())){
+//                            return "contactNameExists";
+//                        }
+//                    }
+//                }
                 if(before.getStatus().equals(2)) {
 					record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
 				}
@@ -1500,7 +1508,7 @@ public class SupplierController extends BaseSupplierController {
 		//			model.addAttribute("err_catTelphone", "格式不正确 !");
 		//			count++;
 		//		}
-		if(supplier.getContactEmail() == null || !supplier.getContactEmail().matches("^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$")) {
+		if(supplier.getContactEmail() == null) {// || !supplier.getContactEmail().matches("^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$")
 			model.addAttribute("err_catEmail", "格式不正确 !");
 			count++;
 		}
@@ -1639,14 +1647,26 @@ public class SupplierController extends BaseSupplierController {
 		    count++;
 		    model.addAttribute("err_identityUp", "请上传文件!");
 		}
-		//房产证明或租赁协议
+		//地址信息-房产证明或租赁协议
         List<SupplierAddress> addressList = supplier.getAddressList();
 		if(null != addressList && !addressList.isEmpty()){
 		    for(int i=0;i<addressList.size();i++){
+		        if(StringUtils.isEmpty(addressList.get(i).getCode())){
+                    count++;
+                    model.addAttribute("err_address_token", "邮政编码不能为空");
+                }
+                if(StringUtils.isEmpty(addressList.get(i).getAddress())){
+                    count++;
+                    model.addAttribute("err_address_token", "不能为空");
+                }
+                if(StringUtils.isEmpty(addressList.get(i).getDetailAddress())){
+                    count++;
+                    model.addAttribute("err_address_token", "不能为空");
+                }
                 List < UploadFile > houseList = uploadService.getFilesOther(addressList.get(i).getId(), supplierDictionary.getSupplierHousePoperty(), Constant.SUPPLIER_SYS_KEY.toString());
                 if(houseList != null && houseList.size() <= 0) {
                     count++;
-                    model.addAttribute("err_house", "请上传文件!");
+                    model.addAttribute("err_address_token", "请上传文件!");
                     model.addAttribute("err_house_token", i);
                     break;
                 }
@@ -2753,8 +2773,12 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping("/delAddress")
 	public String delAddress(String id) {
 	    String str = "failed";
-        int del = supplierAddressService.delAddressByPrimaryId(id);
-        if(del==1){
+//        int del = supplierAddressService.delAddressByPrimaryId(id);
+//        if(del==1){
+//            str = "ok";
+//        }
+        boolean isSuccess = supplierAddressService.deleteAddressByIds(id);
+        if(isSuccess){
             str = "ok";
         }
         return str;

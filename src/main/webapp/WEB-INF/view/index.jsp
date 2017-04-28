@@ -20,9 +20,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" language="javascript">   
      function getContentSize() {
 		var he = document.documentElement.clientHeight;
-		var footer = $("#footer-v2").outerHeight();
-	    var nav = $("#nav").outerHeight() ;
-		ch = (he - footer - nav) + "px";
+	    var nav = $("#nav").height();
+		ch = (he - nav - 5) + "px";
 		document.getElementById("iframepage").style.height = ch;
 	}
 	window.onload = getContentSize;

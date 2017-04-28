@@ -238,6 +238,7 @@
 		 
 	   	 <input class="btn fl"   type="submit" name="" value="查询" />
 	  <input type="button" onclick="resetQuery()" class="btn fl" value="重置"/>
+	  <div class="clear"></div>
    </form>
   </h2>
  

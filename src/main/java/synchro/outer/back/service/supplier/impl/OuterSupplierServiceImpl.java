@@ -267,6 +267,19 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     			}
     			 attachList.addAll(itemFiles);
     		}
+    		
+    		List<SupplierAddress> addressList = supp.getAddressList();
+    		
+    		if(addressList!=null&&addressList.size()>0){
+    			for(SupplierAddress sa:addressList){
+        			List<UploadFile> addrFiles = uploadService.substrBusniessI(sa.getId());
+                    attachList.addAll(addrFiles);
+        		}
+    		}
+    		
+    		
+    		
+    		
         }
         //财务信息附件
         for(SupplierFinance fiance:listSupplierFinances){

@@ -868,7 +868,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
               } else {
                   BigDecimal totalPrice2 = BigDecimal.ZERO;
                   for (Quote q : allQuote) {
-                      totalPrice2 = q.getQuotePrice().add(totalPrice2);
+                      totalPrice2 = q.getTotal().add(totalPrice2);
                   }
                   totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
               }

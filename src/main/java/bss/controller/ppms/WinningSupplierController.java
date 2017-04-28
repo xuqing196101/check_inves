@@ -177,6 +177,7 @@ public class WinningSupplierController extends BaseController {
   public String packageSuppliers(Model model, String id, String flowDefineId, String projectId, HttpServletRequest sq){
       SupplierCheckPass checkPass = new SupplierCheckPass();
       checkPass.setPackageId(id);
+      checkPass.setIsWonBid((short)1);
       //根据包ID获取ID
       List<SupplierCheckPass> listCheckPass = checkPassService.listCheckPass(checkPass);
       SupplierCheckPass pass = new SupplierCheckPass();
@@ -187,6 +188,32 @@ public class WinningSupplierController extends BaseController {
       for (SupplierCheckPass supplierCheckPass : listSupplierCheckPass) {
         //查询报价历史记录
         if(supplierCheckPass != null && supplierCheckPass.getSupplier() != null ){
+        	HashMap<String, Object> map=new HashMap<String, Object>();
+      	  map.put("supplierId", supplierCheckPass.getSupplierId());
+      	  map.put("packageId", supplierCheckPass.getPackageId());
+      	  List<theSubject> theSubjects = theSubjectService.selectBysupplierIdAndPackagesId(map);
+      	  if(theSubjects!=null&&theSubjects.size()>0){
+      		  BigDecimal totalAmount = new BigDecimal(0+"");
+      		  for(theSubject thesub:theSubjects){
+      			  if(thesub.getDetailId()!=null){
+      				  Double sum= thesub.getPurchaseCount()==null?0.0:Double.parseDouble(thesub.getPurchaseCount());
+          			  BigDecimal price=thesub.getUnitPrice()==null?new BigDecimal(0):thesub.getUnitPrice();
+          			  BigDecimal sumB = new BigDecimal(Double.toString(sum));  
+          			  BigDecimal multiply = sumB.multiply(new BigDecimal(price+""));
+          			  totalAmount=totalAmount.add(new BigDecimal(multiply+""));
+      			  }
+      			  
+      		  }
+      		  /*totalAmount=totalAmount.multiply(new BigDecimal(supplierCheckPass.getPriceRatio()+""));*/
+      		  totalAmount=totalAmount.divide(new BigDecimal(10000+""));
+      		  supplierCheckPass.setMoney(totalAmount);
+      		  supplierCheckPass.setSubjects(theSubjects);
+      	  }
+        	
+        	
+        	
+        	
+        	
           Quote quote = new Quote();
           quote.setPackageId(id);
           quote.setSupplierId(supplierCheckPass.getSupplier().getId());
@@ -265,7 +292,6 @@ public class WinningSupplierController extends BaseController {
 			  checkPassService.changeSupplierWonTheBidding(ids,priceRatios);
 		  }
 	  }
-	  
     if (view != null && view == 1) {
       SupplierCheckPass scp = new SupplierCheckPass();
       scp.setPackageId(packageId);
@@ -274,7 +300,7 @@ public class WinningSupplierController extends BaseController {
       String[] rat = ratio(listCheck.size());
       for (int i = 0,l = listCheck.size(); i < l; i++ ) {
         if (listCheck.get(i).getIsWonBid() == 1 && listCheck.get(i).getWonPrice() == null && listCheck.get(i).getPriceRatio() ==null ){
-          Double  price = (Double.parseDouble(rat[i])/100)*Double.parseDouble(listCheck.get(0).getTotalPrice().toString());
+        	Double  price = (Double.parseDouble(rat[i])/100)*Double.parseDouble(listCheck.get(0).getTotalPrice().toString());
           SupplierCheckPass supplierCheckPass = listCheck.get(i);
           supplierCheckPass.setWonPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_HALF_UP));
           supplierCheckPass.setPriceRatio(rat[i]);
@@ -391,8 +417,25 @@ public class WinningSupplierController extends BaseController {
     model.addAttribute("detailList", detailList);*/
    List<theSubject> detailList = theSubjectService.selectByPackagesId(pid);
     model.addAttribute("detailList", detailList);
-    return "bss/ppms/winning_supplier/supplier_list";
+    Project pro = projectService.selectById(projectId);
+    String url="bss/ppms/winning_supplier/supplier_list";
+    if(pro!=null){
+    	DictionaryData dic = DictionaryDataUtil.findById(pro.getPurchaseType());
+    	if(dic!=null&&"DYLY".equals(dic.getCode())){
+    		return "redirect:/winningSupplier/packageSuppliers.html?id="+pid;
+    	}else{
+    		url= "bss/ppms/winning_supplier/supplier_list";
+    	}
+    }else{
+    	url= "bss/ppms/winning_supplier/supplier_list";
+    }
+   
+    return url;
+    
   }
+  
+  
+  
   @RequestMapping("/changeRatioNull")
   public String changeRatioNull(String ids,Model model,String packageId, String flowDefineId,String projectId,Integer view){
 	  
@@ -639,6 +682,7 @@ public class WinningSupplierController extends BaseController {
           List<SupplierCheckPass> listCheckPass = checkPassService.listCheckPass(checkPass);
           for (SupplierCheckPass supplierCheckPass : listCheckPass) {
               supplierCheckPass.setIsWonBid((short)1);
+              supplierCheckPass.setPriceRatio(100+"");
               checkPassService.update(supplierCheckPass);
           }
       }

@@ -200,7 +200,7 @@
 			}
 			
 			/**重置密码*/
-	 		function resetPwd(){
+	 		/* function resetPwd(){
  	   		var id = $(":radio:checked").val();
         if(id !=null){
      	  	$.ajax({
@@ -219,7 +219,7 @@
         	}else{
             layer.msg("请选择专家！",{offset: '100px'});
         	}
-	 		}
+	 		} */
 	 		
 	 		//禁用F12键及右键
 	  		function click(e) {
@@ -335,7 +335,7 @@
 				<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
 			  <button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>--%>
 				<!-- <button class="btn btn-windows git" type="button" onclick="creadible();">诚信登记</button> -->
-				<button class="btn btn-windows edit" type="button" onclick="resetPwd()">重置密码</button>
+				<!-- <button class="btn btn-windows edit" type="button" onclick="resetPwd()">重置密码</button> -->
 			</div>
 
 			<div class="content table_box">
@@ -345,7 +345,7 @@
 							<th class="info w50">选择</th>
 							<th class="info w50">序号</th>
 							<th class="info">专家姓名</th>
-							<th class="info">用户名</th>
+							<!-- <th class="info">用户名</th> -->
 							<th class="info w50">性别</th>
 							<th class="info">类别</th>
 							<th class="info">毕业院校及专业</th>
@@ -359,7 +359,7 @@
 							<td class="tc w30"><input type="radio" name="check" id="checked" alt="" value="${e.id }"></td>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.relName}</td>
-							<td class="tl pl20" onclick="view('${e.id}');">${e.loginName}</td>
+							<%-- <td class="tl pl20" onclick="view('${e.id}');">${e.loginName}</td> --%>
 							<td class="tc w50" onclick="view('${e.id}');">${e.gender}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.expertsTypeId}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.graduateSchool }</td>

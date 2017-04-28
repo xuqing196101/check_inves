@@ -46,6 +46,7 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.AfterSaleSerService;
 import ses.service.sms.SupplierService;
 import ses.util.ValidateUtils;
+import bss.dao.ppms.theSubjectMapper;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 import bss.model.ppms.Packages;
@@ -63,6 +64,7 @@ import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
 import bss.service.sstps.AppraisalContractService;
+
 
 
 
@@ -128,6 +130,8 @@ public class PurchaseContractController extends BaseSupplierController{
     private OrgnizationServiceI orgnizationService;
     @Autowired
     private AfterSaleSerService saleSerService;
+    @Autowired
+    private theSubjectMapper theSubjectMapper;
 	/**
 	 * 
 	* 〈简述〉 〈详细描述〉
@@ -196,6 +200,11 @@ public class PurchaseContractController extends BaseSupplierController{
 								Packages packages = packageService.selectByPrimaryKeyId(pass.getPackageId());
 								Supplier supplier = supplierService.selectOne(pass.getSupplierId());
 								Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(project.getPurchaseDepId());
+								PurchaseContract pcs=null;
+								if(pass.getContractId()!=null&&"".equals(pass.getContractId())){
+									pcs = purchaseContractService.selectById(pass.getContractId());
+								}
+								pass.setPc(pcs);
 								pass.setProject(project);
 								pass.setPackages(packages);
 								pass.setSupplier(supplier);
@@ -1975,6 +1984,55 @@ public class PurchaseContractController extends BaseSupplierController{
             url = "bss/cs/purchaseContract/showDraftContract";
         }else if(status.equals("2")){
             url = "bss/cs/purchaseContract/showFormalContract";
+        }
+        return url;
+    }
+    @RequestMapping("/showDraftContracts")
+    public String showDraftContracts(HttpServletRequest request,Model model) throws Exception{
+        String ids = request.getParameter("ids");
+        String status = request.getParameter("status");
+        String url = "";
+        PurchaseContract draftCon = purchaseContractService.selectDraftById(ids);
+        List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
+        draftCon.setContractReList(conRequList);
+        Supplier su = supplierService.selectOne(draftCon.getSupplierDepName());
+        //		PurchaseDep purdep = purchaseOrgnizationServiceI.selectPurchaseById(draftCon.getBingDepName());
+        Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(draftCon.getPurchaseDepName());
+        draftCon.setShowDemandSector(org.getName());
+        draftCon.setShowSupplierDepName(su.getSupplierName());
+        //		draftCon.setShowPurchaseDepName(purdep.getDepName());
+        model.addAttribute("draftCon", draftCon);
+        model.addAttribute("attachuuid", ids);
+        DictionaryData dd=new DictionaryData();
+        dd.setCode("DRAFT_REVIEWED");
+        List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+        request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
+        if(datas.size()>0){
+            model.addAttribute("attachtypeId", datas.get(0).getId());
+        }
+        
+        /*授权书*/
+		DictionaryData ddbook=new DictionaryData();
+		ddbook.setCode("CONTRACT_WARRANT");
+		List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+		request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+		if(bookdata.size()>0){
+			model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+		}
+        
+        DictionaryData dds=new DictionaryData();
+        dds.setCode("CONTRACT_APPROVE_ATTACH");
+        List<DictionaryData> datass = dictionaryDataServiceI.find(dds);
+        request.getSession().setAttribute("contractattachsysKey", Constant.TENDER_SYS_KEY);
+        if(datas.size()>0){
+            model.addAttribute("contractattachId", datass.get(0).getId());
+        }
+        if(status.equals("0")){
+            url = "bss/cs/purchaseContract/showRoughContract";
+        }else if(status.equals("1")){
+            url = "bss/cs/purchaseContract/showDraftContract";
+        }else if(status.equals("2")){
+            url = "bss/cs/purchaseContract/showFormalContracts";
         }
         return url;
     }

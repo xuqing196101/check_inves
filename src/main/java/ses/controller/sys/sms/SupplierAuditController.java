@@ -2075,17 +2075,19 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		//获取登录人机构id
 		User user = (User) request.getSession().getAttribute("loginUser");
-		/*if(user.getLoginName().equals("admin")){
-			//admin能查看所有的供应商
-			supplier.setProcurementDepId(null);
-		}else{*/
+
+		if(user !=null && user.getOrg() !=null){
 			String orgId = user.getOrg().getId();
 			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
 			supplier.setProcurementDepId(depId.getId());
 			
 			//抽取时的机构
 			supplier.setExtractOrgid(orgId);
-		/*}*/
+		}else{
+			supplier.setProcurementDepId("");
+			supplier.setExtractOrgid("");
+		}
+
 		//查询列表
 		List < Supplier > supplierList = supplierAuditService.getAuditSupplierList(supplier, page);
 		PageInfo < Supplier > pageInfo = new PageInfo < Supplier > (supplierList);
@@ -2101,6 +2103,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierName", supplierName);
 		request.setAttribute("state", status);
 		request.setAttribute("businessTypeId", supplier.getBusinessType());
+		request.setAttribute("auditDate", supplier.getAuditDate());
 
 		//审核、复核、实地考察的标识
 		request.setAttribute("sign", supplier.getSign());
@@ -2876,15 +2879,15 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 退回修改后的附件
 		 */
-		/*SupplierModify supplierFileModify= new SupplierModify();
+		SupplierModify supplierFileModify= new SupplierModify();
 		supplierFileModify.setSupplierId(supplierId);
 		supplierFileModify.setmodifyType("file");
 		StringBuffer fileModifyField = new StringBuffer();
 		List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 		for(SupplierModify m : fileModify){
-			fileModifyField.append(m.getBeforeField() + ",");
+			fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
 		}
-		model.addAttribute("fileModifyField", fileModifyField);*/
+		model.addAttribute("fileModifyField", fileModifyField);
 		
 		return "ses/sms/supplier_audit/ajax_contract";
 	}

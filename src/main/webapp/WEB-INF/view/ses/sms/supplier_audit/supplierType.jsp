@@ -597,23 +597,23 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="#"> 首页</a>
+						<a> 首页</a>
 					</li>
 					<li>
-						<a href="#">支撑环境</a>
+						<a>支撑环境</a>
 					</li>
 					<li>
-						<a href="#">供应商管理</a>
+						<a>供应商管理</a>
 					</li>
 					<li>
 						<c:if test="${sign == 1}">
-							<a href="#">供应商审核</a>
+							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1" >供应商审核</a>
 						</c:if>
 						<c:if test="${sign == 2}">
-							<a href="#">供应商复核</a>
+							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2">供应商复核</a>
 						</c:if>
 						<c:if test="${sign == 3}">
-							<a href="#">供应商实地考察</a>
+							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3">供应商实地考察</a>
 						</c:if>
 					</li>
 				</ul>
@@ -1020,7 +1020,8 @@
 										</c:if>
 										<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-												<span <c:if test="${fn:contains(fileModifyField,s.id.concat(supplierId))}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
+											${fileModifyField }
+												<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierConAch)}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
 												<u:show showId="conAch_show" delete="false" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
 												<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 											</li>

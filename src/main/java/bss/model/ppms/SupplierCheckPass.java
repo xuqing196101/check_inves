@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import bss.model.cs.PurchaseContract;
 import ses.model.sms.Supplier;
 
 public class SupplierCheckPass {
@@ -15,8 +16,19 @@ public class SupplierCheckPass {
 	private String purchaseDep;
 	private String totalScoreString;
 	private List<theSubject> subjects;
+	private PurchaseContract pc;
+	
+	
 
-  /**
+  public PurchaseContract getPc() {
+		return pc;
+	}
+
+	public void setPc(PurchaseContract pc) {
+		this.pc = pc;
+	}
+
+/**
    * 是否刪除
    */
   private Integer isDeleted;

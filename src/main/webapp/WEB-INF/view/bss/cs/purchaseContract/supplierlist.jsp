@@ -151,7 +151,7 @@
   	}
   	
   	function showDraftContract(id,status){
-  		window.location.href="${pageContext.request.contextPath}/purchaseContract/showDraftContract.html?ids="+id+"&status="+status;
+  		window.location.href="${pageContext.request.contextPath}/purchaseContract/showDraftContracts.html?ids="+id+"&status="+status;
   	}
   	
   	var ind;
@@ -376,7 +376,7 @@
 				<th class="info">年度</th>
 				<th class="info">项级预算科目</th>
 				<th class="info">甲方单位</th>
-				<th class="info">供应商</th>
+				<!-- <th class="info">供应商</th> -->
 				<th class="info">状态</th>
 			</tr>
 		</thead>
@@ -407,8 +407,8 @@
 				<td class="tr pr20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budget}</td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.year}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budgetSubjectItem}</td>
-				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showDemandSector}</td>
-				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showSupplierDepName}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.purchaseDepName}</td>
+				<%-- <td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showSupplierDepName}</td> --%>
 				<%--<c:if test="${draftCon.status==0}">
 					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">暂存</td>
 				</c:if>

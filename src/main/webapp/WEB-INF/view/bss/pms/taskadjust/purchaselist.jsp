@@ -231,6 +231,7 @@
    	  <div class="col-md-12 pl20 mt10">
 <!-- 	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="add()">采购需求录入</button> -->
 	    <button class="btn btn-windows edit"  onclick="edit()">修改</button>
+	    <div class="clear"></div>
 	    <input type="button"  class="btn btn-windows back" value="返回"  onclick="goback()"> 
 	<!-- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="exports()">下载</button>
 	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="del()">删除</button>

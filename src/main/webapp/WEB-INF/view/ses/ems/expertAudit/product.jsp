@@ -299,7 +299,15 @@
 						<a href="javascript:void(0)">专家管理</a>
 					</li>
 					<li>
-						<a href="javascript:void(0)">专家审核</a>
+						<c:if test="${sign == 1}">
+							<a href="${pageContext.request.contextPath}/expertAudit/list.html?sign=1">专家初审</a>
+						</c:if>
+						<c:if test="${sign == 2}">
+							<a href="${pageContext.request.contextPath}/expertAudit/list.html?sign=2">专家复审</a>
+						</c:if>
+						<c:if test="${sign == 3}">
+							<a href="${pageContext.request.contextPath}/expertAudit/list.html?sign=3">专家复查</a>
+						</c:if>
 					</li>
 				</ul>
 				<div class="clear"></div>
@@ -331,7 +339,7 @@
 							<i></i>
 						</li>
 						<li onclick="jump('expertFile')">
-							<a aria-expanded="false" data-toggle="tab">附件</a>
+							<a aria-expanded="false" data-toggle="tab">承诺书和申请表</a>
 							<i></i>
 						</li>
 						<li onclick="jump('reasonsList')">

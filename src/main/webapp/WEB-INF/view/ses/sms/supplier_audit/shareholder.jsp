@@ -150,27 +150,27 @@
 	  <div class="margin-top-10 breadcrumbs ">
 	    <div class="container">
 	      <ul class="breadcrumb margin-left-0">
-	        <li>
-	          <a href="#"> 首页</a>
-	        </li>
-	        <li>
-						<a href="#">支撑环境</a>
+					<li>
+						<a> 首页</a>
 					</li>
-	        <li>
-	          <a href="#">供应商管理</a>
-	        </li>
-	        <li>
+					<li>
+						<a>支撑环境</a>
+					</li>
+					<li>
+						<a>供应商管理</a>
+					</li>
+					<li>
 						<c:if test="${sign == 1}">
-							<a href="#">供应商审核</a>
+							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1" >供应商审核</a>
 						</c:if>
 						<c:if test="${sign == 2}">
-							<a href="#">供应商复核</a>
+							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2">供应商复核</a>
 						</c:if>
 						<c:if test="${sign == 3}">
-							<a href="#">供应商实地考察</a>
+							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3">供应商实地考察</a>
 						</c:if>
 					</li>
-	      </ul>
+				</ul>
 	    </div>
 	  </div> 
     <div class="container container_box">

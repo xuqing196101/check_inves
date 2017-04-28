@@ -1909,21 +1909,21 @@ public class ProjectController extends BaseController {
                 }else{
                     HashMap<String, Object> mapNew = new HashMap<>();
                     List<ProjectDetail> detail = detailService.selectById(map1);
+                    List<ProjectDetail> details2 = new ArrayList<ProjectDetail>();
                     if(detail != null && detail.size() > 0){
                         for (ProjectDetail projectDetail : detail) {
                             mapNew.put("id",projectDetail.getRequiredId());
                             mapNew.put("projectId", projectId);
                             List<ProjectDetail> listNews = detailService.selectByParentId(mapNew);
-                            if(listNews.size() > 1){
-                                listNews.remove(projectDetail);
-                            } else if (listNews.size() == 1){
+                            if (listNews.size() == 1){
                                 if("合计".equals(projectDetail.getStand())){
                                     projectDetail.setStand(null);
                                 }
+                                details2.add(projectDetail);
                             }
                         }
                     }
-                    model.addAttribute("lists", detail);
+                    model.addAttribute("lists", details2);
                 }
                 
                 //查看项目附件

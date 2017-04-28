@@ -201,9 +201,9 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     private List<Expert> getNewExpertList(List<Expert> expertList) {
         List <Expert> list = new ArrayList<Expert>();
         for (Expert expert : expertList){
-        	List<RoleUser> userRoles = userMapper.queryByUserId(expert.getUser().getId(), null);
-        	expert.setUserRoles(userRoles);
             expert.setUser(getUser(expert.getId()));
+            List<RoleUser> userRoles = userMapper.queryByUserId(expert.getUser().getId(), null);
+        	expert.setUserRoles(userRoles);
             expert.setExpertCategory(getCategory(expert.getId()));
             expert.setAttchList(getAttch(expert.getId()));
             expert.setTitles(getTitle(expert.getId()));

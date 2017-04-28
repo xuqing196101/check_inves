@@ -45,4 +45,11 @@ public interface SupplierAddressService {
 	 * @param id
 	 */
 	public int delAddressByPrimaryId(String id);
+
+    /**
+     * 多主键批量删除Address
+     * @param ids
+     * @return
+     */
+	public boolean deleteAddressByIds(String ids);
 }

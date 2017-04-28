@@ -250,7 +250,8 @@
 //                }
 			}
 			$(function() {
-				$("input").not("#supplierName_input_id").not("input[name='legalName']").not("input[name='contactName']").bind("blur", tempSave);
+				$("input").not("#supplierName_input_id").not(".address_zip_code").bind("blur", tempSave);
+//				$("input").not("#supplierName_input_id").not("input[name='legalName']").not("input[name='contactName']").bind("blur", tempSave);
 				$("textarea").bind("blur", tempSave);
 				$("select").bind("change", tempSave);
 				/**供应商名称校验*/
@@ -264,42 +265,41 @@
                         tempSave();
                     }
                 });
-				/**法定代表人姓名校验*/
-                $("input[name='legalName']").focus(function(){
+				/**邮编校验*/
+                $(".address_zip_code").focus(function(){
                     $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
                 }).blur(function(){
                     var oldVal=($(this).attr("data-oval")); //获取原值
                     var newVal=($(this).val()); //获取当前值
                     if (oldVal!=newVal){
-                        if(newVal==$("input[name='contactName']").val()){
-                            $(this).val("");
-                            layer.msg('姓名已存在，请重新填写！', {
+                        var tel = /^[0-9]{6}$/;
+                        if(!tel.test(newVal)){
+                            layer.msg('请输入正确的邮政编码！', {
                                 offset: '300px'
                             });
                         }else{
-                            $("#name_span").val(2);
                             tempSave();
                         }
                     }
                 });
                 /**联系人姓名校验*/
-                $("input[name='contactName']").focus(function(){
-                    $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
-                }).blur(function(){
-                    var oldVal=($(this).attr("data-oval")); //获取原值
-                    var newVal=($(this).val()); //获取当前值
-                    if (oldVal!=newVal){
-                        if(newVal==$("input[name='legalName']").val()){
-                            $(this).val("");
-                            layer.msg('姓名已存在，请重新填写！', {
-                                offset: '300px'
-                            });
-                        }else{
-                            $("#name_span").val(3);
-                            tempSave();
-                        }
-                    }
-                });
+//                $("input[name='contactName']").focus(function(){
+//                    $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
+//                }).blur(function(){
+//                    var oldVal=($(this).attr("data-oval")); //获取原值
+//                    var newVal=($(this).val()); //获取当前值
+//                    if (oldVal!=newVal){
+//                        if(newVal==$("input[name='legalName']").val()){
+//                            $(this).val("");
+//                            layer.msg('姓名已存在，请重新填写！', {
+//                                offset: '300px'
+//                            });
+//                        }else{
+//                            $("#name_span").val(3);
+//                            tempSave();
+//                        }
+//                    }
+//                });
 			});
 			/** 无提示实时保存 */
 			function tempSave() {
@@ -335,18 +335,18 @@
                                 offset: '300px'
                             });
                         }
-                        if(msg=="legalNameExists"){
-                            $("input[name='legalName']").val("");
-                            layer.msg('姓名已存在，请重新填写！', {
-                                offset: '300px'
-                            });
-                        }
-                        if(msg=="contactNameExists"){
-                            $("input[name='contactName']").val("");
-                            layer.msg('姓名已存在，请重新填写！', {
-                                offset: '300px'
-                            });
-                        }
+//                        if(msg=="legalNameExists"){
+//                            $("input[name='legalName']").val("");
+//                            layer.msg('姓名已存在，请重新填写！', {
+//                                offset: '300px'
+//                            });
+//                        }
+//                        if(msg=="contactNameExists"){
+//                            $("input[name='contactName']").val("");
+//                            layer.msg('姓名已存在，请重新填写！', {
+//                                offset: '300px'
+//                            });
+//                        }
 					}
 				});
 			}
@@ -732,7 +732,7 @@
                         "ind" : ind
                     },
                     success : function(data) {
-                        $(li).after(data);
+                        $(address_list_tbody_id).after(data);
                         init_web_upload();
                     }
                 });
@@ -741,7 +741,59 @@
 
 			}
 			function delAddress(obj,id) {
-				var btmCount = 0;
+                var checkboxs = $("#address_list_tbody_id").find(":checkbox:checked");
+                var addressIds = "";
+                $(checkboxs).each(function(index) {
+                    if(index > 0) {
+                        addressIds += ",";
+                    }
+                    addressIds += $(this).val();
+                });
+                var size = checkboxs.length;
+                if(size > 0) {
+                    var btmCount = 0;
+                    $("#address_list_tbody_id").find("tr").each(function() {
+                        btmCount++;
+                    });
+                    if(btmCount==size){//勾选的和总共数量对比
+                        layer.msg("生产或经营地址必须至少保留一个!", {
+                            offset: '300px'
+                        });
+                    }else{
+                        /*$.ajax({
+                            url: "${pageContext.request.contextPath}/supplier/delAddress.do",
+                            data: {
+                                "id": addressIds
+                            },
+                            success: function(data) {
+                                if(data=="ok"){
+                                    layer.msg("删除成功!", {
+                                        offset: '300px'
+                                    });
+                                    $(checkboxs).each(function(index) {
+                                        var tr = $(this).parent().parent();
+                                        $(tr).remove();
+                                    });
+                                }else{
+                                    layer.msg("删除失败!", {
+                                        offset: '300px'
+                                    });
+                                }
+                            },
+                            error: function() {
+                                layer.msg("删除失败!", {
+                                    offset: '300px'
+                                });
+                            }
+                        });*/
+                    }
+                }else{
+                    layer.alert("请至少勾选一条记录 !", {
+                        offset: '200px',
+                        scrollbar: false,
+                    });
+                }
+				/*var btmCount = 0;
 				$("#address_list_body").find("input[type='button']").each(function() {
 					btmCount++;
 				});
@@ -784,7 +836,7 @@
 							});
 						}
 					});
-				}
+				}*/
 			}
 
 			function addBranch(obj) {
@@ -1099,85 +1151,78 @@
 									</div>
 								</li>
 								<div id="address_list_body">
-                                    <c:set var="certSaleNumber" value="0" />
-									<c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
-										<li class="col-md-2 col-sm-6 col-xs-12 pl10">
-											<span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 生产或经营地址邮编</span>
-											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input type="text" required isZipCode="true" name="addressList[${vs.index }].code" value="${addr.code}" <c:if test="${fn:contains(audit,'code_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('code_${addr.id }')"</c:if>/>
-												<span class="add-on cur_point">i</span>
-												<span class="input-tip">不能为空，长度为6位</span>
-												<div class="cue">
-													<sf:errors path="addressList[${vs.index }].code" />
-												</div>
-											</div>
-										</li>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
+                                        <button class="btn btn-windows add" type="button" onclick="increaseAddHouseAddress()">新增</button>
+                                        <button class="btn btn-windows delete" type="button" onclick="delAddress()">删除</button>
+                                        <span class="red">${err_address_token}</span>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
+                                        <table id="address_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="info"><input type="checkbox" onchange="checkAll(this, 'address_list_tbody_id')" /></th>
+                                                    <th class="info"><font color="red">*</font>生产或经营地址邮编</th>
+                                                    <th class="info"><font color="red">*</font>生产或经营地址（填写所有地址）</th>
+                                                    <th class="info"><font color="red">*</font>生产或经营详细地址</th>
+                                                    <th class="info"><font color="red">*</font>房产证明或租赁协议</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="address_list_tbody_id">
+                                            <c:set var="certSaleNumber" value="0" />
+                                            <c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
+                                                <tr>
+                                                    <td class="tc"><input type="checkbox" value="${addr.id}" /></td>
+                                                    <td class="tc">
+                                                        <input type="text" required class="w200 border0 address_zip_code" name="addressList[${vs.index }].code" value="${addr.code}" <c:if test="${fn:contains(audit,'code_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('code_${addr.id }')"</c:if>/>
+                                                        <input type='hidden' name='addressList[${vs.index }].id' value='${addr.id}'>
+                                                    </td>
+                                                    <td class="tc">
+                                                        <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0 ml20">
+                                                            <select id="root_area_select_id_${vs.index }" class="w100p" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId" <c:if test="${fn:contains(audit,'address_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address_${addr.id }')"</c:if>>
+                                                                <option value="">请选择</option>
+                                                                <c:forEach items="${privnce }" var="prin">
+                                                                    <c:if test="${prin.id==addr.provinceId }">
+                                                                        <option value="${prin.id }" selected="selected">${prin.name }</option>
+                                                                    </c:if>
+                                                                    <c:if test="${prin.id!=addr.provinceId }">
+                                                                        <option value="${prin.id }">${prin.name }</option>
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
+                                                            <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address" <c:if test="${fn:contains(audit,'address_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address_${addr.id }')"</c:if>>
+                                                                <c:forEach items="${addr.areaList }" var="city">
+                                                                    <c:if test="${city.id==addr.address }">
+                                                                        <option value="${city.id }" selected="selected">${city.name }</option>
+                                                                    </c:if>
+                                                                    <c:if test="${city.id!=addr.address }">
+                                                                        <option value="${city.id }">${city.name }</option>
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td class="tc">
+                                                        <input type="text" class="w200 border0" name="addressList[${vs.index }].detailAddress" required maxlength="50" value="${addr.detailAddress }" <c:if test="${fn:contains(audit,'detailAddress_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress_${addr.id }')"</c:if>>
 
-										<li class="col-md-3 col-sm-6 col-xs-12">
-											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产或经营地址（填写所有地址）</span>
-											<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
-												<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-													<select id="root_area_select_id" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId" <c:if test="${fn:contains(audit,'address_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address_${addr.id }')"</c:if>>
-														<option value="">请选择</option>
-														<c:forEach items="${privnce }" var="prin">
-															<c:if test="${prin.id==addr.provinceId }">
-																<option value="${prin.id }" selected="selected">${prin.name }</option>
-															</c:if>
-															<c:if test="${prin.id!=addr.provinceId }">
-																<option value="${prin.id }">${prin.name }</option>
-															</c:if>
-														</c:forEach>
-
-													</select>
-												</div>
-												<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-													<select id="children_area_select_id" name="addressList[${vs.index }].address" <c:if test="${fn:contains(audit,'address_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address_${addr.id }')"</c:if>>
-														<c:forEach items="${addr.areaList }" var="city">
-															<c:if test="${city.id==addr.address }">
-																<option value="${city.id }" selected="selected">${city.name }</option>
-															</c:if>
-															<c:if test="${city.id!=addr.address }">
-																<option value="${city.id }">${city.name }</option>
-															</c:if>
-														</c:forEach>
-													</select>
-												</div>
-												<div class="cue"> </div>
-											</div>
-										</li>
-
-										<li class="col-md-2 col-sm-6 col-xs-12">
-											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产或经营详细地址</span>
-											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input type="text" name="addressList[${vs.index }].detailAddress" required="required" maxlength="50" value="${addr.detailAddress }" <c:if test="${fn:contains(audit,'detailAddress_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress_${addr.id }')"</c:if>>
-												<span class="add-on cur_point">i</span>
-												<span class="input-tip">不能为空</span>
-												<div class="cue">
-													<sf:errors path="addressList[${vs.index }].detailAddress" />
-												</div>
-											</div>
-										</li>
-                                        <li class="col-md-3 col-sm-6 col-xs-12">
-                                            <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(audit,'supplierIdentityUp')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierHousePoperty')"</c:if>><i class="red">*</i> 房产证明或租赁协议 </span>
-                                            <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
-                                                <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" maxcount="3" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
-                                                <u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
-                                                <c:if test="${vs.index == err_house_token}">
-                                                    <div class="cue"> ${err_house } </div>
-                                                </c:if>
-                                            </div>
-                                        </li>
-										<li class="col-md-2 col-sm-6 col-xs-12">
-											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
-											<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-												<input type="button" onclick="increaseAddHouseAddress(this)" class="btn list_btn" value="十" />
-												<input type="button" onclick="delAddress(this, '${addr.id}')" class="btn list_btn" value="一" />
-												<input type="hidden" name="addressList[${vs.index }].id" value="${addr.id}" />
-											</div>
-										</li>
-                                        <c:set var="certSaleNumber" value="${certSaleNumber + 1}" />
-									</c:forEach>
-                                    <input type="hidden" id="certSaleNumber" value=${certSaleNumber}>
+                                                    </td>
+                                                    <td class="tc">
+                                                        <div class="w200 fl">
+                                                            <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
+                                                            <u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+                                                            <c:if test="${vs.index == err_house_token}">
+                                                                <div class="cue"> ${err_house } </div>
+                                                            </c:if>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <c:set var="certSaleNumber" value="${certSaleNumber + 1}" />
+                                            </c:forEach>
+                                            <input type="hidden" id="certSaleNumber" value=${certSaleNumber}>
+                                            </tbody>
+                                        </table>
+                                    </div>
 								</div>
 							</ul>
 						</fieldset>

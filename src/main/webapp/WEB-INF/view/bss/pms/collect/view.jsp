@@ -6,14 +6,18 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+		
       <!--  <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
 	  <!-- script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script -->
+	  
+	  
 <title>采购需求管理</title>
-<meta http-equiv="pragma" content="no-cache">
+<!-- <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
+<meta http-equiv="description" content="This is my page"> -->
 
 <script type="text/javascript">
 	/** 全选全不选 */
@@ -320,7 +324,6 @@
           
              <li class="col-md-3 col-sm-6 col-xs-12">
                      <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>
-                       <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${list[0].fileId}" sysKey="2" typeId="${typeId}" auto="true" />
                         <u:show showId="detailshow"  businessId="${list[0].fileId}" sysKey="2" typeId="${typeId}" />
              </li>
           

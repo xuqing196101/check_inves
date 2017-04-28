@@ -1335,7 +1335,7 @@
 						<div class="padding-top-10 clear">
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'获奖证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('获奖证书')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="7" auto="true" />
+								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="7" auto="true" />
 								<u:show showId="show7" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
 							</div>
 						</div>

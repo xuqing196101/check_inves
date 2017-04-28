@@ -24,27 +24,27 @@
 	<script>
 		var globalPath = "${pageContext.request.contextPath}";
 	</script>
-	
-	
+
+      <%@ include file="/WEB-INF/view/portal.jsp" %>
 	<!-- 前端js -->
-<%-- 	<script src="${pageContext.request.contextPath}/public/front/js/jquery.min.js"></script> --%>
+    <%--<script src="${pageContext.request.contextPath}/public/front/js/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/public/front/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/public/front/js/common.js"></script>
-	<script src="${pageContext.request.contextPath}/public/front/js/main-menu.js"></script>
-	<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-	<script src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-	<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-	
+      <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+      <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>--%>
+      <script src="${pageContext.request.contextPath}/public/front/js/common.js"></script>
+      <script src="${pageContext.request.contextPath}/public/front/js/main-menu.js"></script>
+      <script src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
+
 	<!-- 文本编辑器 -->  
 	<script src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
 	<script src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.js"> </script>
 	<script src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
 	<script src="${pageContext.request.contextPath}/public/validate/jquery.validate.min.js"></script>
-	<script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>
+	<%--<script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>--%>
   
     <!--导航js-->
 
-    <%@ include file="/WEB-INF/view/portal.jsp" %>
+
 <script type="text/javascript"> 
   		$(function(){
 		   $("#close").click(function(){

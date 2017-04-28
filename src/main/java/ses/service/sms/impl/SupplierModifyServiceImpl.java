@@ -131,16 +131,17 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		List<SupplierHistory> historyList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
 		
 		String findBySupplier = supplierTypeRelateService.findBySupplier(supplierId);
-		for(SupplierHistory h : historyList){
-			if(!findBySupplier.contains(h.getBeforeField())){
-				supplierModify.setBeforeField(h.getBeforeField());
-				supplierModify.setmodifyType("supplier_type");
-				supplierModify.setListType(12);
-				supplierModifyMapper.insertSelective(supplierModify);
+		if(!findBySupplier.isEmpty() && findBySupplier.length() > 0){
+			for(SupplierHistory h : historyList){
+				if(!findBySupplier.contains(h.getBeforeField())){
+					supplierModify.setBeforeField(h.getBeforeField());
+					supplierModify.setmodifyType("supplier_type");
+					supplierModify.setListType(12);
+					supplierModifyMapper.insertSelective(supplierModify);
+				}
 			}
 		}
 		
-		 
         /*//修改后的类型、
 		 StringBuffer editAudit = new StringBuffer();
 		
@@ -1140,23 +1141,42 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		}
 		
 		/**
-		 * 资质文件/销售和同
+		 * 资质文件
 		 */
-		String obj = businessId.substring(0, 32);
-		String lsitId = businessId.substring(32, businessId.length());
-		SupplierItem supplierItem = supplierItemMapper.selectByPrimaryKey(obj);
-		if(supplierItem!=null){
-			String supplierId = supplierItem.getSupplierId();
+		if(businessId.length() > 32){
+			String obj = businessId.substring(0, 32);
+			String lsitId = businessId.substring(32, businessId.length());
+			SupplierItem supplierItem = supplierItemMapper.selectByPrimaryKey(obj);
+			if(supplierItem!=null){
+				String supplierId = supplierItem.getSupplierId();
+				if(supplierId !=null){
+					supplier = supplierService.selectById(supplierId);
+					if(supplier != null && supplier.getStatus() == 2){
+						supplierModify.setmodifyType("file");
+						supplierModify.setBeforeField(businessId);
+						supplierModify.setSupplierId(supplierId);
+						supplierModify.setRelationId(lsitId);
+						supplierModifyMapper.add(supplierModify);
+					}
+				}
+			}
+		}
+		/**
+		 * 销售和同
+		 */
+		SupplierItem items = supplierItemMapper.selectByPrimaryKey(businessId);
+		if(items !=null){
+			String supplierId = items.getSupplierId();
 			if(supplierId !=null){
 				supplier = supplierService.selectById(supplierId);
 				if(supplier != null && supplier.getStatus() == 2){
 					supplierModify.setmodifyType("file");
-					supplierModify.setBeforeField(businessId);
+					supplierModify.setBeforeField(fileTypeId);
 					supplierModify.setSupplierId(supplierId);
-					supplierModify.setRelationId(lsitId);
+					supplierModify.setRelationId(businessId);
 					supplierModifyMapper.add(supplierModify);
 				}
 			}
-		}		
+		}
 	}	
 }

@@ -4,10 +4,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <html>
-
   <head>
+     <title>待办事项</title>
 <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
 <link href="${pageContext.request.contextPath}/public/backend/images/favicon.ico"  rel="shortcut icon" type="image/x-icon" />
@@ -16,9 +16,8 @@
 <link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/backend/css/btn.css" media="screen" rel="stylesheet" type="text/css"> 
-    <link href="${pageContext.request.contextPath}/public/accordion/SpryAccordion.css" rel="stylesheet" type="text/css">
-    <script src="${pageContext.request.contextPath}/public/accordion/SpryAccordion.js"></script>
-    <title>待办事项</title>
+<link href="${pageContext.request.contextPath}/public/accordion/SpryAccordion.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/public/accordion/SpryAccordion.js"></script>
     <script type="text/javascript">
     $(function(){
   	  laypage({
@@ -121,27 +120,7 @@
         el.click(); //触发打开事件
       }
 
-      function del() {
-        var ids = [];
-        $('input[name="chkItem"]:checked').each(function() {
-          ids.push($(this).val());
-        });
-        if(ids.length > 0) {
-          layer.confirm('您确定要删除吗?', {
-            title: '提示',
-            offset: ['222px', '360px'],
-            shade: 0.01
-          }, function(index) {
-            layer.close(index);
-            window.location.href = "${pageContext.request.contextPath}/StationMessage/deleteSoftSMIsDelete.do?ids=" + ids;
-          });
-        } else {
-          layer.alert("请选择要删除的用户", {
-            offset: ['222px', '390px'],
-            shade: 0.01
-          });
-        }
-      }
+      
       
       
     </script>
@@ -151,7 +130,7 @@
       <div id="con_one_2" class="dnonev">
         <div id="Accordion2" class="Accordion" >
         <div  class="AccordionPanel AccordionPanelOpen">
-              <div class="AccordionPanelTab" onclick="view(this,'supplierTodos')">
+              <div class="AccordionPanelTab" onclick="viewHidden(this,'supplierTodos')">
                                   供应商待办(${supplierTodos.total})
               </div>
               <div class=""  id="agentslist0" style="width: 100%;height:300px; overflow:auto; ">
@@ -159,7 +138,7 @@
                 <table  class="hand table table-striped table-bordered">
                     <tr>
                       <th class="info w50">序号</th>
-                      <th class="info">标题</th>
+                      <th class="info w300">标题</th>
                       <th class="info">发送人</th>
                       <th class="info">创建时间</th>
                     </tr>
@@ -187,15 +166,14 @@
               </div>
          </div>
          <div  class="AccordionPanel">
-              <div class="AccordionPanelTab" onclick="view(this,'expertTodos')">
+              <div class="AccordionPanelTab" onclick="viewHidden(this,'expertTodos')">
                                   专家待办(${expertTodos.total})
               </div>
               <div class=""  id="agentslist1" style="width: 100%;height:300px; overflow:auto;display: none; ">
-                <a id="a" href="#" target="_parent"></a>
                 <table  class="hand table table-striped table-bordered">
                     <tr>
                       <th class="info w50">序号</th>
-                      <th class="info">标题</th>
+                      <th class="info w300">标题</th>
                       <th class="info">发送人</th>
                       <th class="info">创建时间</th>
                     </tr>
@@ -223,15 +201,14 @@
               </div>
          </div>
         <div  class="AccordionPanel">
-              <div class="AccordionPanelTab" onclick="view(this,'projectTodos')">
+              <div class="AccordionPanelTab" onclick="viewHidden(this,'projectTodos')">
                                   项目待办(${projectTodos.total})
               </div>
               <div class=""  id="agentslist1" style="width: 100%;height:300px; overflow:auto;display: none; ">
-                <a id="a" href="#" target="_parent"></a>
                 <table  class="hand table table-striped table-bordered">
                     <tr>
                       <th class="info w50">序号</th>
-                      <th class="info">标题</th>
+                      <th class="info w300">标题</th>
                       <th class="info">发送人</th>
                       <th class="info">创建时间</th>
                     </tr>
@@ -320,7 +297,7 @@
         		commNum(0);
         	}
         }
-        function view(obj,name){
+        function viewHidden(obj,name){
         		if(name=="projectTodos"){
         			commObj(obj,2);
         		}else if(name=="expertTodos"){

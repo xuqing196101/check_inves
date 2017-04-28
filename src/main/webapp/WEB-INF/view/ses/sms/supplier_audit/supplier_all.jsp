@@ -170,11 +170,13 @@
 				//重置搜索栏
 				function resetForm() {
 					$("input[name='supplierName']").val("");
+					$("input[name='auditDate']").val("");
+					
 					//还原select下拉列表只需要这一句-//但是这一句话不支持IE8即
 					//$("#status option:selected").removeAttr("selected");
 					//$("#businessType option:selected").removeAttr("selected");
 					//都改成js代码,测试IE8也行的通
-					document.getElementById("status")[1].selected = true;
+					document.getElementById("status")[0].selected = true;
 					document.getElementById("businessType")[0].selected = true;
 					$("#form1").submit();
 				}
@@ -374,6 +376,12 @@
 				          </c:forEach>
 				       </select> 
 				    </li>
+				    <li>
+	          	<label class="fl">审核时间：</label>
+	          		<span>
+	          			<input id="auditDate" name="auditDate" class="Wdate w110 fl" value='<fmt:formatDate value="${auditDate}" pattern="YYYY-MM-dd"/>' type="text" onClick="WdatePicker()" />
+		            </span>
+	          </li>
 				   <%-- <li class="fl">
 				      <label class="fl">企业类型：</label> 
 				        <select name="supplierType" class="mb0 mt5">
@@ -384,9 +392,10 @@
 				       </select> 
 				    </li> --%>
 		        </ul>
-		        
-		        <input type="submit" class="btn fl" value="查询" />
-					  <button onclick="resetForm();" class="btn fl" type="button">重置</button>
+		        <div class="col-md-12 clear tc mt10">
+						  <input type="submit" class="btn" value="查询" />
+						  <button onclick="resetForm();" class="btn" type="button">重置</button>
+						</div>
 					  <div class="clear"></div>
 		      </form>
     		</h2>
@@ -414,6 +423,7 @@
 								<th class="info" width="12%">手机号</th>
 								<th class="info" width="25%">企业类型</th>
 								<th class="info" width="12%">企业性质</th>
+								<th class="info" width="12%">审核时间</th>
 								<th class="info w60">发布</th>
 								<th class="info w100">状态</th>
 							</tr>
@@ -429,6 +439,9 @@
 								  <c:forEach items="${enterpriseTypeList}" var="type">
 								  	 <c:if test="${list.businessType == type.id}">${type.name}</c:if>
 								  </c:forEach>
+								</td>
+								<td class="tc" onclick="shenhe('${list.id }');">
+									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
 								<td class="tl w60" onclick="shenhe('${list.id }');">
 									<c:if test="${list.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>

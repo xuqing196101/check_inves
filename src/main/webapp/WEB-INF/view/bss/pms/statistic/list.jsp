@@ -401,7 +401,7 @@
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购需求管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购计划汇总统计</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -409,7 +409,7 @@
 <!-- 录入采购计划开始-->
  <div class="container">
    <div class="headline-v2">
-      <h2>采购需求列表
+      <h2>采购计划列表
 	  </h2>
    </div> 
    
@@ -446,7 +446,7 @@
 	   	 
 	   	    	<ul class="demand_list">
 			    	  <li>
-				    	<label class="fl"> 物资类别：</label><span>
+				    	<label class="fl"> 计划类别：</label><span>
 				  	   <select name="planType" style="width: 152px;" >
 				  	     <option value="" >请选择</option>
 						  	<option value="1" <c:if test="${inf.planType=='1'}"> selected</c:if> >物资</option>
@@ -474,7 +474,7 @@
 		                            <option value="公开招标" <c:if test="${'公开招标'==inf.purchaseType}">selected="selected"</c:if>>公开招标</option>
 		                            <option value="邀请招标" <c:if test="${'邀请招标'==inf.purchaseType}">selected="selected"</c:if>>邀请招标</option>
 		                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==inf.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
-		                            <option value="询价采购" <c:if test="${'询价采购'==inf.purchaseType}">selected="selected"</c:if>>询价采购</option>
+		                            <option value="询价采购" <c:if test="${'询价'==inf.purchaseType}">selected="selected"</c:if>>询价</option>
 		                            <option value="单一来源" <c:if test="${'单一来源'==inf.purchaseType}">selected="selected"</c:if>>单一来源</option>
 				              </select>
 				    	

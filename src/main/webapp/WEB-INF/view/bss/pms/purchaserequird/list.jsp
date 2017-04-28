@@ -303,13 +303,14 @@
 	   		<button class="btn btn-windows delete" onclick="del()">删除</button>
 				<button class="btn btn-windows git" onclick="sub()">提交采购管理部门</button>
 	  	</div>
+	  	<div class="clear"></div>
    	<div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped" >
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">计划名称</th>
+		  <th class="info" style="width: 60%">计划名称</th>
 		  <th class="info">采购需求文号</th>
 		  <th class="info">金额（万元）</th>
 		  <th class="info">编制时间</th>

@@ -12,21 +12,26 @@
 		// 提交表单
 		function checkSubmit(flag){
 			// 判断用户点击(审核通过/审核不通过)
-			$("#flag").val(flag);
-			// 表单提交
-			$.post("${pageContext.request.contextPath}/product_lib/checkProductInfo.do?", $("#smsProductCheckForm").serialize(), function(data) {
-				if (data.status == 200) {
-					layer.confirm("操作成功",{
-						btn:['确定']
-					},function(){
-							// 成功后加载商品信息 
-							window.location.href="${pageContext.request.contextPath}/product_lib/findAllWaitCheck.html";
-						}
-					) 
-				}
-				if(data.status == 500){
-					layer.alert(data.msg);
-				}
+			layer.confirm("是否执行此操作？", {
+			    btn: ['确定','取消'], //按钮
+			}, function(index){
+				layer.close(index);
+				$("#flag").val(flag);
+				// 表单提交
+				$.post("${pageContext.request.contextPath}/product_lib/checkProductInfo.do?", $("#smsProductCheckForm").serialize(), function(data) {
+					if (data.status == 200) {
+						layer.confirm("操作成功",{
+							btn:['确定']
+						},function(){
+								// 成功后加载商品信息 
+								window.location.href="${pageContext.request.contextPath}/product_lib/findAllWaitCheck.html";
+							}
+						) 
+					}
+					if(data.status == 500){
+						layer.alert(data.msg);
+					}
+				});
 			});
 		}
 	</script>
