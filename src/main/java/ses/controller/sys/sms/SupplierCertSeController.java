@@ -137,7 +137,7 @@ public class SupplierCertSeController extends BaseSupplierController {
         model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
         List<Area> areaList = areaService.findRootArea();
         model.addAttribute("rootArea", areaList);
-        model.addAttribute("typeList", qualificationService.findList(null, null, 4));
+        model.addAttribute("typeList", qualificationService.findList(null, Integer.MAX_VALUE,null, 4));
 		return "ses/sms/supplier_register/supplier_type";	
 	}
 	

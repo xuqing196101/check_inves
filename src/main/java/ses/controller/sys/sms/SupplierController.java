@@ -832,7 +832,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 			model.addAttribute("rootArea", areaService.findRootArea());
-			List<Qualification> findList = qualificationService.findList(null, null, 4);
+			List<Qualification> findList = qualificationService.findList(null, Integer.MAX_VALUE, null, 4);
 			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplier.getId());
 	         for(SupplierPorjectQua qua:supplierQua){
 	            	Qualification	q=new Qualification();
@@ -1016,7 +1016,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
             model.addAttribute("rootArea", areaList);
-            List<Qualification> findList = qualificationService.findList(null, null, 4);
+            List<Qualification> findList = qualificationService.findList(null, Integer.MAX_VALUE,null, 4);
             List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplier.getId());
             for(SupplierPorjectQua qua:supplierQua){
             	Qualification	q=new Qualification();
@@ -2857,7 +2857,7 @@ public class SupplierController extends BaseSupplierController {
 		//初始化供应商注册附件类型
 		model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCertFile());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-		model.addAttribute("typeList", qualificationService.findList(null, null, 4));
+		model.addAttribute("typeList", qualificationService.findList(null, Integer.MAX_VALUE, null, 4));
 		return new ModelAndView("ses/sms/supplier_register/add_apt_cert");
 	}
 

@@ -36,13 +36,24 @@ public class QualificationServiceImpl implements QualificationService {
      * 
      * @see ses.service.bms.QualificationService#findList(java.lang.Integer, ses.model.bms.Qualification)
      */
+    /**
+     *
+     * @param  pageNum 当前页
+     * @param pageSize 每页显示条数(默认为配置文件数据,支持自定义条数)
+     * @param  name 查询条件
+     * @param  type 类型
+     * @return
+     */
     @Override
-    public List<Qualification> findList(Integer pageNum, String name, Integer type) {
+    public List<Qualification> findList(Integer pageNum, Integer pageSize, String name, Integer type) {
         
         if (pageNum == null){
             pageNum = 1;
         }
-        PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
+        if(pageSize==null){
+            pageSize = Integer.parseInt(PropUtil.getProperty("pageSize"));
+        }
+        PageHelper.startPage(pageNum, pageSize);
         return mapper.findList(name, type);
     }
     

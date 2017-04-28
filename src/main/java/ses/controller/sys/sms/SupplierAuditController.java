@@ -1059,7 +1059,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				}
 			}
 			//资质类型
-			request.setAttribute("typeList", qualificationService.findList(null, null, 4));
+			request.setAttribute("typeList", qualificationService.findList(null, Integer.MAX_VALUE,null, 4));
 			request.setAttribute("supplierAptitutes", supplierAptitute);
 
 			//组织结构

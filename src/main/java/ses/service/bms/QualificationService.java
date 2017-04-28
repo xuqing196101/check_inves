@@ -26,7 +26,7 @@ public   interface  QualificationService {
      * @param  type 类型
      * @return Qualification 集合
      */
-    public List<Qualification> findList(Integer pageNum, String name, Integer type);
+    public List<Qualification> findList(Integer pageNum, Integer pageSize, String name, Integer type);
     
     /**
      * 

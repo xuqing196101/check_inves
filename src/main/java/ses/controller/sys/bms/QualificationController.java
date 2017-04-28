@@ -82,7 +82,7 @@ public class QualificationController {
         ResponseBean res = new ResponseBean();
         if (StringUtils.isNotBlank(type)){
             Integer typeInteger = Integer.parseInt(type);
-            List<Qualification> list = quaService.findList(page, name, typeInteger);
+            List<Qualification> list = quaService.findList(page, null, name, typeInteger);
             PageInfo<Qualification> pageInfo = new PageInfo<Qualification> (list);
             res.setSuccess(true);
             res.setObj(pageInfo);
