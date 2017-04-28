@@ -76,7 +76,7 @@
 			}
 
 			function add() {
-				window.location.href = "${pageContext.request.contextPath}/supplier_edit/add.html?id=" + '${id}';
+				window.location.href = "${pageContext.request.contextPath}/supplier/login.html?name=" + '${loginName}';
 			}
 		</script>
 	</head>

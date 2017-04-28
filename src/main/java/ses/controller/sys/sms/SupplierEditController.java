@@ -135,7 +135,7 @@ public class SupplierEditController extends BaseSupplierController {
         se.setRecordId(user1.getTypeId());
         //String supplier_id=user1.getTypeId();
         String supplier_id="3f91fd68bece49d09eabcb8d1e7a79ad";
-        
+        request.setAttribute("loginName", user1.getLoginName());
         //获取供应商修改历史
         List<UpdateHistory> list= updateHistoryService.queryByUpdateId(supplier_id);
         //转对象
