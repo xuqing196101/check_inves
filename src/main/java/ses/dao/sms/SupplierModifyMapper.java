@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierModify;
 
 public interface SupplierModifyMapper {
@@ -84,5 +85,16 @@ public interface SupplierModifyMapper {
 	
 	
 	SupplierModify selectById (@Param("id")String id);
+	
+	
+	/**
+     * @Title: updateIsDeleteBySupplierId
+     * @author XuQing 
+     * @date 2017-4-28 下午3:50:56  
+     * @Description:软删除历史记录
+     * @param @param SupplierModify      
+     * @return void
+     */
+    void updateIsDeleteBySupplierId(SupplierModify supplierModify);
     
 }

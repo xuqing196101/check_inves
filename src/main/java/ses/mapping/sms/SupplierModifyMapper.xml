@@ -9,9 +9,10 @@
     <result column="BEFORE_CONTENT" property="beforeContent" />
     <result column="LIST_TYPE" property="listType" />
     <result column="RELATION_ID" property="relationId" />
+    <result column="IS_DELETED" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, LIST_TYPE, RELATION_ID
+    ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, LIST_TYPE, RELATION_ID, IS_DELETED
   </sql>
   
   <select id="selectBySupplierId"   parameterType="ses.model.sms.SupplierModify" resultMap="BaseResultMap">
@@ -19,8 +20,9 @@
     	<include refid="Base_Column_List"/>
     from 
     	T_SES_SMS_SUPPLIER_MODIFY
-    where 
-    	SUPPLIER_ID = #{supplierId} 
+    where
+    	SUPPLIER_ID = #{supplierId}
+    	and IS_DELETED = 0
     <if test="modifyType != null">
       and MODIFY_TYPE = #{modifyType}
     </if>
@@ -184,6 +186,7 @@
   	 delete from T_SES_SMS_SUPPLIER_MODIFY
   	 where SUPPLIER_ID = #{supplierId}
   	 	and LIST_TYPE != '0'
+  	 	and IS_DELETED = 0
   </delete>
   
   <select id="queryBySupplierId" resultMap="BaseResultMap">
@@ -203,7 +206,17 @@
     	T_SES_SMS_SUPPLIER_MODIFY
     where 
     	ID = #{id} 
-  
   </select>
   
+  
+  <!-- 软删除历史记录 -->
+  <update id="updateIsDeleteBySupplierId" parameterType="ses.model.sms.SupplierModify">
+  	update
+  		T_SES_SMS_SUPPLIER_MODIFY
+  	set
+  		IS_DELETED = 1
+  	where 
+  		SUPPLIER_ID =#{supplierId}
+  		and IS_DELETED = 0
+  </update>
 </mapper>

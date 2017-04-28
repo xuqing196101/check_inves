@@ -1210,7 +1210,10 @@ public class SupplierController extends BaseSupplierController {
 		//更新审核时间
 		supplier.setAuditDate(new Date());
 		//刪除上次的審核記錄
-		supplierAuditService.deleteBySupplierId(supplier.getId());
+		/*supplierAuditService.deleteBySupplierId(supplier.getId());*/
+		SupplierAudit supplierAudit = new SupplierAudit();
+		supplierAudit.setSupplierId(supplier.getId());
+		supplierAuditService.updateIsDeleteBySupplierId(supplierAudit);
 				
 		supplierAuditService.updateStatus(supplier);
 		request.getSession().removeAttribute("currSupplier");
@@ -2664,7 +2667,7 @@ public class SupplierController extends BaseSupplierController {
 					supplierModify.setBeforeContent(ss[1]);
 					// sh.setAfterContent(ss[1]);
 					/*sh.setCreatedAt(new Date());*/
-					supplierModify.setmodifyType("basic_page");
+					supplierModify.setModifyType("basic_page");
 					supplierModify.setListType(0);
 					SupplierModify mo = supplierModifyService.findBySupplierId(supplierModify);
 					// 删除之前的记录

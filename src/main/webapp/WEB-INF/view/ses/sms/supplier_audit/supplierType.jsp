@@ -684,13 +684,13 @@
 
 					<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow">
 						<c:set value="0" var="liCount"/>
-						<c:if test="${fn:contains(supplierTypeNames, '生产')}">
-						<c:set value="${liCount+1}" var="liCount"/>
+						<c:if test="${fn:contains(supplierTypeNames, '物资生产')}">
 							<li class="active">
 								<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型专业信息</a>
+								<c:set value="${liCount+1}" var="liCount"/>
 							</li>
 						</c:if>
-						<c:if test="${fn:contains(supplierTypeNames, '销售')}">
+						<c:if test="${fn:contains(supplierTypeNames, '物资销售')}">
 							<li class='<c:if test="${liCount == 0}">active</c:if>'>
 								<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型专业信息</a>
 							</li>
@@ -709,7 +709,6 @@
 							<c:set value="${liCount+1}" var="liCount"/>
 						</c:if>
 					</ul>
-
 					<div class="count_flow">
 						<div class="tab-content padding-top-20" id="tab_content_div_id">
 							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
@@ -888,7 +887,7 @@
 							</c:if>
 
 							<c:if test="${fn:contains(supplierTypeNames, '销售')}">
-								<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade  in height-200" id="tab-2">
+								<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade in height-200" id="tab-2">
 									<%-- <h2 class="count_flow"><i>1</i>供应商组织结构和人员</h2>
 									<ul class="ul_list">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -1020,7 +1019,6 @@
 										</c:if>
 										<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-											${fileModifyField }
 												<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierConAch)}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
 												<u:show showId="conAch_show" delete="false" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
 												<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>

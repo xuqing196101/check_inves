@@ -342,5 +342,15 @@ public interface SupplierAuditService {
      * @param @return      
      * @return ResponseEntity<byte[]>
      */
-    ResponseEntity<byte[]> downloadFile(String fileName, String filePath, String downFileName); 
+    ResponseEntity<byte[]> downloadFile(String fileName, String filePath, String downFileName);
+
+    /**
+     * @Title: updateIsDeleteBySupplierId
+     * @author XuQing 
+     * @date 2017-4-28 下午3:50:56  
+     * @Description:软删除历史记录
+     * @param @param supplierHistory      
+     * @return void
+     */
+    void updateIsDeleteBySupplierId(SupplierAudit supplierAudit);
 } 

@@ -28,4 +28,14 @@ public interface SupplierHistoryService {
 	 * @param supplierId 供应商Id
 	 */
 	public void insertHistoryInfo(String supplierId);
+	
+	/**
+     * @Title: updateIsDeleteBySupplierId
+     * @author XuQing 
+     * @date 2017-4-28 下午3:50:56  
+     * @Description:软删除历史记录
+     * @param @param supplierId      
+     * @return void
+     */
+    void updateIsDeleteBySupplierId(SupplierHistory supplierHistory);
 }

@@ -10,9 +10,10 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
     <result column="RELATION_ID" property="relationId" />
     <result column="LIST_TYPE" property="listType" />
+    <result column="IS_DELETED" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, CREATED_AT, RELATION_ID, LIST_TYPE
+    ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, CREATED_AT, RELATION_ID, LIST_TYPE, IS_DELETED
   </sql>
   
   <select id="selectBySupplierId"   parameterType="ses.model.sms.SupplierHistory" resultMap="BaseResultMap">
@@ -36,7 +37,8 @@
     from 
     	T_SES_SMS_SUPPLIER_HISTORY
     where 
-    	SUPPLIER_ID = #{supplierId} 
+    	SUPPLIER_ID = #{supplierId}
+    	 and IS_DELETED = 0
     <if test="modifyType != null">
       and MODIFY_TYPE = #{modifyType}
     </if>
@@ -142,7 +144,7 @@
   </select>
   
   
-      <select id="queryById"   resultMap="BaseResultMap">
+  <select id="queryById"   resultMap="BaseResultMap">
     select 
     	<include refid="Base_Column_List"/>
     from 
@@ -152,5 +154,15 @@
  
   </select>
   
+  <!-- 软删除历史记录 -->
+  <update id="updateIsDeleteBySupplierId" parameterType="ses.model.sms.SupplierHistory">
+  	update
+  		T_SES_SMS_SUPPLIER_HISTORY
+  	set
+  		IS_DELETED = 1
+  	where 
+  		SUPPLIER_ID =#{supplierId}
+  	and IS_DELETED = 0
+  </update>
   
 </mapper>

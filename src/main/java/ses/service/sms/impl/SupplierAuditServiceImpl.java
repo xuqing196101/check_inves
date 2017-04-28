@@ -725,5 +725,20 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			return null;
 		}
     }
+
+    
+    /**
+     * @Title: updateIsDeleteBySupplierId
+     * @author XuQing 
+     * @date 2017-4-28 下午3:50:56  
+     * @Description:软删除历史记录
+     * @param @param supplierHistory      
+     * @return void
+     */
+	@Override
+	public void updateIsDeleteBySupplierId(SupplierAudit supplierAudit) {
+		supplierAuditMapper.updateIsDeleteBySupplierId(supplierAudit);
+		
+	}
 	
 }

@@ -458,7 +458,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		 */
 		SupplierModify supplierFileModify= new SupplierModify();
 		supplierFileModify.setSupplierId(supplierId);
-		supplierFileModify.setmodifyType("file");
+		supplierFileModify.setModifyType("file");
 		StringBuffer fileModifyField = new StringBuffer();
 		List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 		for(SupplierModify m : fileModify){
@@ -515,7 +515,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(supplierStatus != null && supplierStatus == 0) {
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
-			supplierModify.setmodifyType("finance_page");
+			supplierModify.setModifyType("finance_page");
 			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer field = new StringBuffer();
 			for(int i = 0; i < editList.size(); i++) {
@@ -545,7 +545,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		 */
 		SupplierModify supplierFileModify= new SupplierModify();
 		supplierFileModify.setSupplierId(supplierId);
-		supplierFileModify.setmodifyType("file");
+		supplierFileModify.setModifyType("file");
 		StringBuffer fileModifyField = new StringBuffer();
 		List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 		for(SupplierModify m : fileModify){
@@ -580,7 +580,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(supplierStatus != null && supplierStatus == 0) {
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
-			supplierModify.setmodifyType("shareholder_page");
+			supplierModify.setModifyType("shareholder_page");
 			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer field = new StringBuffer();
 			for(int i = 0; i < editList.size(); i++) {
@@ -595,7 +595,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		 */
 		SupplierModify supplierFileModify= new SupplierModify();
 		supplierFileModify.setSupplierId(supplierId);
-		supplierFileModify.setmodifyType("file");
+		supplierFileModify.setModifyType("file");
 		StringBuffer fileModifyField = new StringBuffer();
 		List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 		for(SupplierModify m : fileModify){
@@ -893,7 +893,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
-			supplierModify.setmodifyType("mat_pro_page");
+			supplierModify.setModifyType("mat_pro_page");
 			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
 			//产品研发能力
 			StringBuffer fieldProOne = new StringBuffer();
@@ -912,7 +912,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			
 			
 			//供应商类型
-			supplierModify.setmodifyType("supplier_type");
+			supplierModify.setModifyType("supplier_type");
 			StringBuffer fieldType = new StringBuffer();
 			List<SupplierModify> typeList = supplierModifyService.selectBySupplierId(supplierModify);
 			for(SupplierModify m : typeList){
@@ -1002,7 +1002,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
-			supplierModify.setmodifyType("mat_sell_page");
+			supplierModify.setModifyType("mat_sell_page");
 			supplierModify.setListType(6);
 			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer fieldSell = new StringBuffer();
@@ -1091,7 +1091,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
-			supplierModify.setmodifyType("mat_eng_page");
+			supplierModify.setModifyType("mat_eng_page");
 			supplierModify.setListType(5);
 			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer fieldSecrecy = new StringBuffer();
@@ -1106,7 +1106,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
-			supplierModify.setmodifyType("mat_eng_page");
+			supplierModify.setModifyType("mat_eng_page");
 			supplierModify.setListType(7);
 			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer fieldRegPersons = new StringBuffer();
@@ -1121,7 +1121,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
-			supplierModify.setmodifyType("mat_eng_page");
+			supplierModify.setModifyType("mat_eng_page");
 			supplierModify.setListType(8);
 			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer fieldCertEngs = new StringBuffer();
@@ -1136,7 +1136,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
-			supplierModify.setmodifyType("mat_eng_page");
+			supplierModify.setModifyType("mat_eng_page");
 			supplierModify.setListType(9);
 			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer fieldAptitutes = new StringBuffer();
@@ -1181,7 +1181,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
-			supplierModify.setmodifyType("mat_serve_page");
+			supplierModify.setModifyType("mat_serve_page");
 			supplierModify.setListType(10);
 			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer fieldServe = new StringBuffer();
@@ -1220,7 +1220,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		 */
 		SupplierModify supplierFileModify= new SupplierModify();
 		supplierFileModify.setSupplierId(supplierId);
-		supplierFileModify.setmodifyType("file");
+		supplierFileModify.setModifyType("file");
 		StringBuffer fileModifyField = new StringBuffer();
 		List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 		for(SupplierModify m : fileModify){
@@ -1498,7 +1498,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			// 删除之前的历史记录
 			SupplierHistory supplierHistory = new SupplierHistory();
 			supplierHistory.setSupplierId(supplierId);
-			supplierHistoryService.delete(supplierHistory);
+			/*supplierHistoryService.delete(supplierHistory);*/
+			supplierHistoryService.updateIsDeleteBySupplierId(supplierHistory);
 			
 			// 新增历史记录
 		    supplierHistoryService.insertHistoryInfo(supplierId);
@@ -1506,7 +1507,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			//删除该供应商对比后的数据
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
-			supplierModifyService.delete(supplierModify);
+			/*supplierModifyService.delete(supplierModify);*/
+			supplierModifyService.updateIsDeleteBySupplierId(supplierModify);
 			
 			
 		}
@@ -1667,7 +1669,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			 */
 			SupplierModify supplierFileModify= new SupplierModify();
 			supplierFileModify.setSupplierId(supplierId);
-			supplierFileModify.setmodifyType("file");
+			supplierFileModify.setModifyType("file");
 			StringBuffer fileModifyField = new StringBuffer();
 			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 			if(!fileModify.isEmpty()){
@@ -2168,7 +2170,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	public String showModify(SupplierModify supplierModify, HttpServletRequest request) throws ParseException {
 		supplierModify = supplierModifyService.findBySupplierId(supplierModify);
 
-		if(supplierModify.getmodifyType().equals("basic_page") && supplierModify.getListType() == 0){
+		if(supplierModify.getModifyType().equals("basic_page") && supplierModify.getListType() == 0){
 			//在数据字典里查询营业执照类型
 			if(supplierModify.getBeforeField() != null && supplierModify.getBeforeField().equals("businessType")) {
 				String showModify = "";
@@ -2393,7 +2395,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			 */
 			SupplierModify supplierFileModify= new SupplierModify();
 			supplierFileModify.setSupplierId(supplierId);
-			supplierFileModify.setmodifyType("file");
+			supplierFileModify.setModifyType("file");
 			StringBuffer fileModifyField = new StringBuffer();
 			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 			for(SupplierModify m : fileModify){
@@ -2881,7 +2883,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		 */
 		SupplierModify supplierFileModify= new SupplierModify();
 		supplierFileModify.setSupplierId(supplierId);
-		supplierFileModify.setmodifyType("file");
+		supplierFileModify.setModifyType("file");
 		StringBuffer fileModifyField = new StringBuffer();
 		List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 		for(SupplierModify m : fileModify){

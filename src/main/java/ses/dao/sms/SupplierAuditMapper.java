@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierHistory;
 
 public interface SupplierAuditMapper {
     int deleteByPrimaryKey(String id);
@@ -82,4 +83,14 @@ public interface SupplierAuditMapper {
     * @throws
      */
     SupplierAudit selectById(@Param("id")String id);
+    
+    /**
+     * @Title: updateIsDeleteBySupplierId
+     * @author XuQing 
+     * @date 2017-4-28 下午3:50:56  
+     * @Description:软删除历史记录
+     * @param @param supplierHistory      
+     * @return void
+     */
+    void updateIsDeleteBySupplierId(SupplierAudit supplierAudit);
 } 

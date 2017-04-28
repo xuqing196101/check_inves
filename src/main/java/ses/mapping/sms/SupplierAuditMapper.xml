@@ -24,7 +24,8 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_AUDIT
-    where SUPPLIER_ID = #{supplierId} 
+    where SUPPLIER_ID = #{supplierId}
+    and IS_DELETED = 0
     <if test="auditField!=null">
 		and  AUDIT_FIELD=#{auditField}
     </if>
@@ -318,5 +319,15 @@
     from T_SES_SMS_SUPPLIER_AUDIT
     where ID = #{id} 
 	</select>
+	
+	 <!-- 软删除历史记录 -->
+  <update id="updateIsDeleteBySupplierId" parameterType="ses.model.sms.SupplierAudit">
+  	update
+  		T_SES_SMS_SUPPLIER_AUDIT
+  	set
+  		IS_DELETED = 1
+  	where 
+  		SUPPLIER_ID =#{supplierId}
+  </update>
 	
 </mapper>

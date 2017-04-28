@@ -126,7 +126,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
 	           	String id = UUID.randomUUID().toString().replaceAll("-", "");
 	           	historyInfo.setId(id);
                 historyInfo.setSupplierId(supplierId);
-                historyInfo.setmodifyType("supplier_type");
+                historyInfo.setModifyType("supplier_type");
                 historyInfo.setListType(12);
                 historyInfo.setCreatedAt(date);
 
@@ -149,7 +149,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             	if(address !=null){
             		historyInfo = new SupplierHistory();
                     historyInfo.setSupplierId(supplierId);
-                    historyInfo.setmodifyType("basic_page");
+                    historyInfo.setModifyType("basic_page");
                     historyInfo.setCreatedAt(date);
                     historyInfo.setRelationId(address.getId());
                     historyInfo.setListType(ADDRESS_LIST);
@@ -195,7 +195,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             	if(branch !=null){
             		historyInfo = new SupplierHistory();
                     historyInfo.setSupplierId(supplierId);
-                    historyInfo.setmodifyType("basic_page");
+                    historyInfo.setModifyType("basic_page");
                     historyInfo.setCreatedAt(date);
                     historyInfo.setRelationId(branch.getId());
                     historyInfo.setListType(BRANCH_LIST);
@@ -238,7 +238,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             	if(finances !=null){
             		historyInfo = new SupplierHistory();
                     historyInfo.setSupplierId(supplierId);
-                    historyInfo.setmodifyType("finance_page");
+                    historyInfo.setModifyType("finance_page");
                     historyInfo.setCreatedAt(date);
                     historyInfo.setRelationId(finances.getId());
                     historyInfo.setListType(FINANCES_LIST);
@@ -308,7 +308,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             	if(holder !=null){
             		historyInfo = new SupplierHistory();
                     historyInfo.setSupplierId(supplierId);
-                    historyInfo.setmodifyType("shareholder_page");
+                    historyInfo.setModifyType("shareholder_page");
                     historyInfo.setCreatedAt(date);
                     historyInfo.setRelationId(holder.getId());
                     historyInfo.setListType(HOLDER_LIST);
@@ -356,7 +356,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         if (supplierMatPro != null) {
             historyInfo = new SupplierHistory();
             historyInfo.setSupplierId(supplierId);
-            historyInfo.setmodifyType("mat_pro_page");
+            historyInfo.setModifyType("mat_pro_page");
             historyInfo.setCreatedAt(date);
             historyInfo.setRelationId(supplierMatPro.getId());
             
@@ -477,7 +477,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 	if(certPro !=null){
                 		historyInfo = new SupplierHistory();
                         historyInfo.setSupplierId(supplierId);
-                        historyInfo.setmodifyType("mat_pro_page");
+                        historyInfo.setModifyType("mat_pro_page");
                         historyInfo.setCreatedAt(date);
                         historyInfo.setRelationId(certPro.getId());
                         historyInfo.setListType(CERT_PRO_LIST);
@@ -578,7 +578,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             		if(certSell !=null){
             			historyInfo = new SupplierHistory();
                         historyInfo.setSupplierId(supplierId);
-                        historyInfo.setmodifyType("mat_sell_page");
+                        historyInfo.setModifyType("mat_sell_page");
                         historyInfo.setCreatedAt(date);
                         historyInfo.setRelationId(certSell.getId());
                         historyInfo.setListType(CERT_SALES_LIST);
@@ -642,7 +642,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         if (supplierMatEng != null) {
             historyInfo = new SupplierHistory();
             historyInfo.setSupplierId(supplierId);
-            historyInfo.setmodifyType("mat_eng_page");
+            historyInfo.setModifyType("mat_eng_page");
             historyInfo.setCreatedAt(date);
             historyInfo.setRelationId(supplierMatEng.getId());
             
@@ -692,7 +692,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             		if(regPerson !=null){
             			historyInfo = new SupplierHistory();
                         historyInfo.setSupplierId(supplierId);
-                        historyInfo.setmodifyType("mat_eng_page");
+                        historyInfo.setModifyType("mat_eng_page");
                         historyInfo.setCreatedAt(date);
                         historyInfo.setRelationId(regPerson.getId());
                         historyInfo.setListType(REG_PERSON_LIST);
@@ -721,7 +721,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             		if(certEng !=null){
             			historyInfo = new SupplierHistory();
                         historyInfo.setSupplierId(supplierId);
-                        historyInfo.setmodifyType("mat_eng_page");
+                        historyInfo.setModifyType("mat_eng_page");
                         historyInfo.setCreatedAt(date);
                         historyInfo.setRelationId(certEng.getId());
                         historyInfo.setListType(CERT_ENGS_LIST);
@@ -816,7 +816,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             		if(aptitute !=null){
             			historyInfo = new SupplierHistory();
                         historyInfo.setSupplierId(supplierId);
-                        historyInfo.setmodifyType("mat_eng_page");
+                        historyInfo.setModifyType("mat_eng_page");
                         historyInfo.setCreatedAt(date);
                         historyInfo.setRelationId(aptitute.getId());
                         historyInfo.setListType(CERT_APT_LIST);
@@ -907,7 +907,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         if (supplierMatSe != null) {
             historyInfo = new SupplierHistory();
             historyInfo.setSupplierId(supplierId);
-            historyInfo.setmodifyType("mat_serve_page");
+            historyInfo.setModifyType("mat_serve_page");
             historyInfo.setCreatedAt(date);
             historyInfo.setRelationId(supplierMatSe.getId());
             
@@ -943,7 +943,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 	if(matSe !=null){
                 		historyInfo = new SupplierHistory();
                         historyInfo.setSupplierId(supplierId);
-                        historyInfo.setmodifyType("mat_serve_page");
+                        historyInfo.setModifyType("mat_serve_page");
                         historyInfo.setCreatedAt(date);
                         historyInfo.setRelationId(matSe.getId());
                         historyInfo.setListType(CERT_SE_LIST);
@@ -1010,7 +1010,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             	if(afterSaleDep !=null){
             		historyInfo = new SupplierHistory();
                     historyInfo.setSupplierId(supplierId);
-                    historyInfo.setmodifyType("basic_page");
+                    historyInfo.setModifyType("basic_page");
                     historyInfo.setCreatedAt(date);
                     historyInfo.setRelationId(afterSaleDep.getId());
                     historyInfo.setListType(AFTER_SALE_SERVICE);
@@ -1051,6 +1051,20 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                     }
             	} 
             }
-        } 
-    }   
+        }
+    }
+
+	/**
+	 * @Title: updateIsDeleteBySupplierId
+	 * @author XuQing 
+	 * @date 2017-4-28 下午3:50:56  
+	 * @Description:软删除历史记录
+	 * @param @param supplierId      
+	 * @return void
+	 */
+	@Override
+	public void updateIsDeleteBySupplierId(SupplierHistory supplierHistory) {
+		supplierHistoryMapper.updateIsDeleteBySupplierId(supplierHistory);
+		
+	} 
 }

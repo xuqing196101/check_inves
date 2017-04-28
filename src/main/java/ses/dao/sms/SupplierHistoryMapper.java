@@ -47,5 +47,14 @@ public interface SupplierHistoryMapper {
     
     SupplierHistory queryById(@Param("id")String id);
     
+    /**
+     * @Title: updateIsDeleteBySupplierId
+     * @author XuQing 
+     * @date 2017-4-28 下午3:50:56  
+     * @Description:软删除历史记录
+     * @param @param supplierHistory      
+     * @return void
+     */
+    void updateIsDeleteBySupplierId(SupplierHistory supplierHistory);
     
 }

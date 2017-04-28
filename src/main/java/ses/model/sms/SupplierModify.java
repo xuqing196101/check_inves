@@ -9,6 +9,13 @@ public class SupplierModify {
 	private String beforeContent;  //修改之前内容
 	private String relationId;  //关联ID
 	private Integer listType; //列表类型
+	private Integer isDeleted;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getSupplierId() {
 		return supplierId;
 	}
@@ -21,10 +28,10 @@ public class SupplierModify {
 	public void setBeforeField(String beforeField) {
 		this.beforeField = beforeField;
 	}
-	public String getmodifyType() {
+	public String getModifyType() {
 		return modifyType;
 	}
-	public void setmodifyType(String modifyType) {
+	public void setModifyType(String modifyType) {
 		this.modifyType = modifyType;
 	}
 	public String getBeforeContent() {
@@ -39,17 +46,20 @@ public class SupplierModify {
 	public void setRelationId(String relationId) {
 		this.relationId = relationId;
 	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public Integer getListType() {
 		return listType;
 	}
 	public void setListType(Integer listType) {
 		this.listType = listType;
 	}
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	
+	
 	
 }

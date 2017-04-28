@@ -86,7 +86,7 @@
 							return;
 						}
 					}
-					var state = $("#" + id + "").parents("tr").find("td").eq(7).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(8).text();//.trim();
 					state = trim(state);
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
@@ -185,7 +185,7 @@
 				function publish(){
 			  	var id = $(":checkbox:checked").val();
 			  	var size = $(":checkbox:checked").size();
-					var state = $("#" + id + "").parents("tr").find("td").eq(7).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(8).text();//.trim();
 					state = trim(state);
 					if(size == 1){
 			  			if(state != "待审核" && state != "审核退回" && state != "审核未通过"){

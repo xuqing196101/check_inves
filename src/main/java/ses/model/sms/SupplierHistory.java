@@ -11,6 +11,13 @@ public class SupplierHistory {
 	private String relationId;  //关联ID
 	private Date createdAt;  // 创建时间
 	private Integer listType; //列表类型
+	private Integer isDeleted;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getSupplierId() {
 		return supplierId;
 	}
@@ -23,10 +30,10 @@ public class SupplierHistory {
 	public void setBeforeField(String beforeField) {
 		this.beforeField = beforeField;
 	}
-	public String getmodifyType() {
+	public String getModifyType() {
 		return modifyType;
 	}
-	public void setmodifyType(String modifyType) {
+	public void setModifyType(String modifyType) {
 		this.modifyType = modifyType;
 	}
 	public String getBeforeContent() {
@@ -47,18 +54,21 @@ public class SupplierHistory {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public Integer getListType() {
 		return listType;
 	}
 	public void setListType(Integer listType) {
 		this.listType = listType;
 	}
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	
+
 
 	
 }

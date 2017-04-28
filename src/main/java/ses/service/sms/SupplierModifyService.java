@@ -79,4 +79,15 @@ public interface SupplierModifyService {
      * @return void
      */
     void addFileInfo (String businessId, String fileTypeId);
+    
+    
+    /**
+     * @Title: updateIsDeleteBySupplierId
+     * @author XuQing 
+     * @date 2017-4-28 下午3:50:56  
+     * @Description:软删除历史记录
+     * @param @param SupplierModify      
+     * @return void
+     */
+    void updateIsDeleteBySupplierId(SupplierModify supplierModify);
 }

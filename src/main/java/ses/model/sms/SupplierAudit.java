@@ -25,7 +25,7 @@ public class SupplierAudit {
 
     private String auditFieldName;
     
-    private Integer isDeleted = 0;
+    private Integer isDeleted;
     
     public String getId() {
         return id;
