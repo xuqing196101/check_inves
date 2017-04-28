@@ -102,7 +102,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	
 	private static final String QUOTO_STATU = "1";	// 第一轮报价状态
 	private static final String QUOTO_STATU_SECOND = "2"; // 第二轮报价状态
-	private static final Integer JEDIS_QUOTO_TIME = 50; // 存放报价用户缓存时间
+	private static final Integer JEDIS_QUOTO_TIME = 6; // 存放报价用户缓存时间
 	/**
 	 * 
 	 * @Title: findQuoteInfo
@@ -246,10 +246,10 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		String biddingId = "";
 		// 设置报价状态  1：第一轮报价   2：第二轮报价
 		if("firstQuoto".equals(quotoFlag)){
-			biddingId = "1";
+			biddingId = QUOTO_STATU;
 		}
 		if("secondQuoto".equals(quotoFlag)){
-			biddingId = "2";
+			biddingId = QUOTO_STATU_SECOND;
 		}
 		// 其他用户已完成本次报价
 		Jedis jedis = null;
@@ -263,7 +263,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				return JdcgResult.build(500, "其他用户已完成本次报价！");
 			}
 			// 设置供应商只能报价一次
-			jedis.set("ob_quoto"+user.getId(), "1");
+			jedis.set("ob_quoto"+user.getId(), QUOTO_STATU);
 			// 设置缓存有效时间
 			jedis.expire("ob_quoto"+user.getId(), JEDIS_QUOTO_TIME);
 		} catch (Exception e) {
