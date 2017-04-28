@@ -16,12 +16,14 @@ import ses.dao.sms.SMSProductArgumentsMapper;
 import ses.dao.sms.SMSProductBasicMapper;
 import ses.dao.sms.SMSProductCheckRecordMapper;
 import ses.dao.sms.SMSProductInfoMapper;
+import ses.dao.sms.SupplierMapper;
 import ses.model.bms.User;
 import ses.model.sms.SMSProductArguments;
 import ses.model.sms.SMSProductBasic;
 import ses.model.sms.SMSProductCheckRecord;
 import ses.model.sms.SMSProductInfo;
 import ses.model.sms.SMSProductVO;
+import ses.model.sms.Supplier;
 import ses.service.sms.SMSProductLibService;
 import ses.util.PropertiesUtil;
 import ses.util.SMSProductLibConstant;
@@ -75,6 +77,9 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 	@Autowired
 	private CategoryParameterMapper cateParamterMapper;
 
+	@Autowired
+	private SupplierMapper supplierMapper;
+	
 	// 定义图片表名称
 	private String tableName = Constant.TENDER_SYS_VALUE;
 	
@@ -915,6 +920,20 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 		}
 		// 不存在
 		return JdcgResult.ok(200);
+	}
+
+	
+	/**
+	 * 
+	* @Title: findAllSupplier 
+	* @Description: 查询所有供应商
+	* @author Easong
+	* @param @return    设定文件 
+	* @throws
+	 */
+	@Override
+	public List<Supplier> findAllSupplier() {
+		return supplierMapper.findQualifiedSupplier();
 	}
 
 }

@@ -1,5 +1,6 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.util.Date;
 /**
  * 
@@ -9,7 +10,12 @@ import java.util.Date;
 * @date 2017年3月29日 上午10:13:47 
 *
  */
-public class OBProjectRule {
+public class OBProjectRule implements Serializable {
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 竞价项目ID
 	 */

@@ -1,5 +1,6 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -11,8 +12,12 @@ import java.util.List;
  * 		在OBProjectResultMapper.xml里映射
  *
  */
-public class SupplierProductVo {
+public class SupplierProductVo implements Serializable {
 
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
 	//供应商id
 	private String supplierId;
 	//供应商名称

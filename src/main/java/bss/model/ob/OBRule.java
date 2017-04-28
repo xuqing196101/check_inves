@@ -1,5 +1,6 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,8 +12,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 * @date 2017年3月20日 下午1:16:59 
 *
  */
-public class OBRule {
-    private String id;
+public class OBRule implements Serializable {
+    /** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
+	private String id;
     /**间隔工作日**/
     private Integer intervalWorkday;
     /**竞价开始时间**/

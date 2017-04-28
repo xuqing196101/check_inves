@@ -1,5 +1,6 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,8 +11,13 @@ import java.util.Date;
 * @date 2017年3月31日 上午9:59:55 
 *
  */
-public class OBRuleTimeInterval {
+public class OBRuleTimeInterval implements Serializable {
 	
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 竞价项目ID
 	 */

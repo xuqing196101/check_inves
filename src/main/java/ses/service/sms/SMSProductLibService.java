@@ -9,6 +9,7 @@ import ses.model.bms.User;
 import ses.model.sms.SMSProductBasic;
 import ses.model.sms.SMSProductCheckRecord;
 import ses.model.sms.SMSProductVO;
+import ses.model.sms.Supplier;
 import common.annotation.SystemServiceLog;
 import common.utils.JdcgResult;
 
@@ -109,6 +110,17 @@ public interface SMSProductLibService {
 	public JdcgResult checkProductInfo(User user,
 			SMSProductCheckRecord smsProductCheckRecord);
 	
+	
+	/**
+	 * 
+	* @Title: findAllSupplier 
+	* @Description: 查询所有供应商
+	* @author Easong
+	* @param @return    设定文件 
+	* @return List<Supplier>    返回类型 
+	* @throws
+	 */
+	public List<Supplier> findAllSupplier();
 	
 	/**
 	 * 

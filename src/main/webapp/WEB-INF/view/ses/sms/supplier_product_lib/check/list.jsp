@@ -4,6 +4,7 @@
 <html>
   <head>
 	<%@ include file="/WEB-INF/view/common.jsp" %>
+	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/webupload/js/display.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />  
@@ -32,6 +33,31 @@
 	    });
 	    
 	  });
+  
+  
+  // 加载供应商
+  $(function(){
+		$.ajax({
+			url: "${pageContext.request.contextPath }/product_lib/findAllSupplier.do",
+			contentType: "application/json;charset=UTF-8",
+			dataType: "json", //返回格式为json
+			type: "POST", //请求方式           
+			success: function(data) {
+				if (data) {
+					$.each(data, function(i, supplier) {
+						if(supplier.supplierName != null){
+							$("#supplierId").append("<option value=" + supplier.id + ">" + supplier.supplierName + "</option>");
+						}
+					});
+				} 
+				$("#supplierId").show();
+				$("#supplierId").select2();
+				// 设置被选中的值
+				$("#supplierId").select2("val","${createrId}");
+			}
+		});
+	});
+  	
   	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -93,6 +119,7 @@
 		}
     }
 	
+	// 批量审核弹出框
     function showPic(url,name){
     	var pic = $("#"+url.toString());
 		layer.open({
@@ -112,13 +139,6 @@
 		$("#queryForm").attr("action","${pageContext.request.contextPath}/product_lib/findAllWaitCheck.html");
 		$("#queryForm").submit();
 	}
-	
-	//重置按钮事件  
-    function resetAll(){
-        $("#name").val("");  
-        $("#status").val("");  
-    }
-	
 	
  	// 批量审核
 	function checkedBatch(){
@@ -181,6 +201,12 @@
 		});
 	}
 	
+	//重置按钮事件  
+    function resetAll(){
+        $("#name").val("");  
+        $("#status").val("");  
+        $("#supplierId").val("");  
+    }
   </script>
   <body>
 	<!--面包屑导航开始-->
@@ -206,13 +232,19 @@
 			   <li><label class="fl">名称：</label><span><input type="text" value="${ name }" name="name" id="name" class="mb0" /></span></li>
 			   <li>
 			   	<label class="fl">审核状态：</label>
-		    	  <select id="status" name="status" class="w178">
+		    	  <select style="width: 150px" id="status" name="status" class="w178">
 		    	    <option value="">--请选择--</option>
 		    	    <option value="1" <c:if test="${'1' eq status}">selected</c:if>>待审核</option>
 		    	    <option value="2" <c:if test="${'2' eq status}">selected</c:if>>审核未通过</option>
 		    	    <option value="3" <c:if test="${'3' eq status}">selected</c:if>>审核通过</option>
 		   	  	  </select>
 			   </li>
+			   <li>
+			   		<label class="fl">供应商名称：</label>
+					<select style="width: 200px" id="supplierId" name="createrId" class="hide">
+			  			<option value="">--请选择--</option>
+					</select>
+				</li>
 			   <button type="button" onclick="query()" class="btn fl mt1">查询</button>
 	    	   <button onclick="resetAll()" class="btn fl ml5 mt1">重置</button> 
 			 </ul>

@@ -1,10 +1,16 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class OBResultsInfo {
-    private String id;
+public class OBResultsInfo implements Serializable {
+    /** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 
     /**
      * 定型产品ID

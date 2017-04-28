@@ -38,11 +38,14 @@ import common.utils.JdcgResult;
 @Service
 public class OBRuleServiceImpl implements OBRuleService {
 
+	/**
+	 * 日志记录
+	 */
 	Logger log = LoggerFactory.getLogger(OBRuleServiceImpl.class);
 
 	@Autowired
-
 	private OBRuleMapper obRuleMapper;
+	
 	@Autowired
 	private OBSpecialDateMapper obSpecialDateMapper;
 
@@ -57,7 +60,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 	 * @throws
 	 */
 	@Override
-	public JdcgResult addRule(OBRule obRule, User user) {
+	public JdcgResult addRule(OBRule obRule, User user) throws Exception{
 		if (obRule == null) {
 			return JdcgResult.build(500, "请填写竞价规则相关信息");
 		}
@@ -386,7 +389,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 	 * @param @return 设定文件
 	 */
 	@Override
-	public JdcgResult updateobSpecialDate(OBSpecialDate obSpecialDate) {
+	public JdcgResult updateobSpecialDate(OBSpecialDate obSpecialDate) throws Exception{
 		if (obSpecialDate == null || obSpecialDate.getId() == null) {
 			return JdcgResult.build(500, "此特殊节假日已失效");
 		}

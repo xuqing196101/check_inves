@@ -1,9 +1,14 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class OBProductInfo {
+public class OBProductInfo implements Serializable {
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
 	//主键
     private String id;
     //产品id

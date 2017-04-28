@@ -30,7 +30,7 @@ public interface OBRuleService {
 	 * @return JdcgResult 返回类型
 	 * @throws
 	 */
-	public JdcgResult addRule(OBRule obRule, User user);
+	public JdcgResult addRule(OBRule obRule, User user) throws Exception;
 
 	/**
 	 * 
@@ -51,7 +51,7 @@ public interface OBRuleService {
 	 * @return JdcgResult 返回类型
 	 * @throws
 	 */
-	public JdcgResult delete(String ids[]);
+	public JdcgResult delete(String ids[]) throws Exception;
 
 	/**
 	 * 
@@ -62,7 +62,7 @@ public interface OBRuleService {
 	 * @return JdcgResult 返回类型
 	 * @throws
 	 */
-	public JdcgResult updateDefaultRule(String id);
+	public JdcgResult updateDefaultRule(String id) throws Exception;
 
 	/**
 	 * 
@@ -75,7 +75,7 @@ public interface OBRuleService {
 	 * @throws
 	 */
 	public JdcgResult addSpecialdate(OBSpecialDate obSpecialDate,
-			HttpServletRequest request, User user);
+			HttpServletRequest request, User user) throws Exception;
 	
 	/**
 	 * 
@@ -96,7 +96,7 @@ public interface OBRuleService {
 	* @return JdcgResult    返回类型 
 	* @throws
 	 */
-	public JdcgResult deleteSpecialDate(String[] ids);
+	public JdcgResult deleteSpecialDate(String[] ids) throws Exception;
 	/**
 	* @Title: selectByStatus 
 	* @Description: 获取默认规则
@@ -129,7 +129,7 @@ public interface OBRuleService {
 	* @return JdcgResult    返回类型 
 	* @throws
 	 */
-	public JdcgResult updateobRule(OBRule obRule);
+	public JdcgResult updateobRule(OBRule obRule) throws Exception;
 	
 	/**
 	 * 
@@ -153,7 +153,7 @@ public interface OBRuleService {
 	* @return JdcgResult    返回类型 
 	* @throws
 	 */
-	public JdcgResult updateobSpecialDate(OBSpecialDate obSpecialDate);
+	public JdcgResult updateobSpecialDate(OBSpecialDate obSpecialDate) throws Exception;
 	
 	/**
 	 * 

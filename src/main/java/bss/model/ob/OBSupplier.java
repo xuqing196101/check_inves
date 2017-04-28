@@ -1,5 +1,6 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,7 +18,12 @@ import ses.model.sms.Supplier;
  * @date 2017年3月7日 下午6:10:44
  * 
  */
-public class OBSupplier {
+public class OBSupplier implements Serializable {
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
+
 	private String id;
 
 	private String supplierId;
