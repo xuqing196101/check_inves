@@ -592,9 +592,9 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	}
 
 	@Override
-	public String selectSupplierStatus(OBProjectResult oBProjectResult) {
+	public  List<OBProjectResult> selectSupplierStatus(OBProjectResult oBProjectResult) {
 		// TODO Auto-generated method stub
-		return null;
+		return oBProjectResultMapper.selectSupplierStatus(oBProjectResult);
 	}
 
 	@Override
@@ -631,6 +631,64 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	public List<OBProjectResult> selProportion(String projectId,
 			String supplierId) {
 		return oBProjectResultMapper.selProportion(projectId, supplierId);
+	}
+    /**
+     * 根据 竞价id 获取 结果信息
+     */
+	@Override
+	public List<OBProjectResult> selectByPID(String projectId) {
+		// TODO Auto-generated method stub
+		return oBProjectResultMapper.selectByPID(projectId);
+	}
+    /**
+     * 根据id /次数/供应商id 获取自报价数量
+     */
+	@Override
+	public Integer countByBidding(String projectId, String biddingId,
+			String supplierId) {
+		// TODO Auto-generated method stub
+		return OBResultsInfoMapper.countByBidding(projectId, biddingId, supplierId);
+	}
+    /**
+     * 查询报价 信息
+     */
+	@Override
+	public List<OBResultsInfo> getProductInfo(String projectId,
+			String supplierId, String bidding) {
+		// TODO Auto-generated method stub
+		return OBResultsInfoMapper.getProductInfo(projectId, supplierId, bidding);
+	}
+    /**
+     * 判断是否为二次竞价项目
+     */
+	@Override
+	public List<String> isSecondBidding(String projectId) {
+		// TODO Auto-generated method stub
+		return OBResultsInfoMapper.isSecondBidding(projectId);
+	}
+    /**
+     * 获取 该竞价的供应商数据
+     */
+	@Override
+	public List<OBResultsInfo> selectResult(String projectId, String supplierId) {
+		// TODO Auto-generated method stub
+		return OBResultsInfoMapper.selectResult(projectId, supplierId);
+	}
+    /**
+     *  全部状态 和现实 状态
+     */
+	@Override
+	public List<OBProjectResult> getSecond(String projectId) {
+		// TODO Auto-generated method stub
+		return oBProjectResultMapper.getSecond(projectId);
+	}
+    /**
+     * 获取成交的比例
+     */
+	@Override
+	public String getProportionSum(String projectId) {
+		// TODO Auto-generated method stub
+		return oBProjectResultMapper.getProportionSum(projectId);
 	}
 
 }

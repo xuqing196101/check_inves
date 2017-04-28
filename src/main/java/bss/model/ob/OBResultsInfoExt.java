@@ -1,6 +1,13 @@
 package bss.model.ob;
 
-public class OBResultsInfoExt extends OBResultsInfo {
+import java.io.Serializable;
+
+public class OBResultsInfoExt extends OBResultsInfo implements Serializable {
+
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
 	
 	// 定性产品采购数量
 	/*private Integer purchaseCount;

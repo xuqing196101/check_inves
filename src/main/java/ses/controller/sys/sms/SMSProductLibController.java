@@ -19,6 +19,7 @@ import ses.model.sms.SMSProductCheckRecord;
 import ses.model.sms.SMSProductInfo;
 import ses.model.sms.SMSProductQueryVO;
 import ses.model.sms.SMSProductVO;
+import ses.model.sms.Supplier;
 import ses.service.bms.CategoryParameterService;
 import ses.service.sms.SMSProductLibService;
 import ses.util.DictionaryDataUtil;
@@ -308,6 +309,10 @@ public class SMSProductLibController {
 		// 获取查询的状态
 		Integer status = smsProductQueryVO.getStatus();
 		map.put("status", status);
+		// 获取供应商ID
+		String createrId = smsProductQueryVO.getCreaterId();
+		map.put("createrId", createrId);
+		
 
 		map.put("page", page);
 		List<SMSProductBasic> list = smsProductLibService.findAllWaitCheck(map);
@@ -316,6 +321,7 @@ public class SMSProductLibController {
 		// 查询信息回显
 		model.addAttribute("name", name);
 		model.addAttribute("status", status);
+		model.addAttribute("createrId", createrId);
 		return "ses/sms/supplier_product_lib/check/list";
 	}
 
@@ -349,6 +355,22 @@ public class SMSProductLibController {
 	@ResponseBody
 	public JdcgResult vartifyUniqueSKU(String sku, String pid) {
 		return smsProductLibService.vertifyUniqueSKU(sku, pid);
+	}
+	
+	
+	/**
+	 * 
+	* @Title: findAllSupplier 
+	* @Description: 查询所有供应商
+	* @author Easong
+	* @param     设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/findAllSupplier")
+	@ResponseBody
+	public List<Supplier> findAllSupplier(){
+		return smsProductLibService.findAllSupplier();
 	}
 
 	@RequestMapping("/test")

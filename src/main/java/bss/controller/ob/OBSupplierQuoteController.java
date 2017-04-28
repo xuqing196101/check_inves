@@ -41,9 +41,11 @@ import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBRuleTimeInterval;
+import bss.service.ob.OBProductInfoServer;
 import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBResultSubtabulationService;
+import bss.service.ob.OBRuleService;
 import bss.service.ob.OBSupplierQuoteService;
 import bss.util.BiddingStateUtil;
 import bss.util.BigDecimalUtils;
@@ -76,24 +78,17 @@ public class OBSupplierQuoteController {
 
 	@Autowired
 	private OBProjectResultService oBProjectResultService;
-	
-	// 注入竞价商品详情Mapper
-	@Autowired
-	private OBProductInfoMapper obProductInfoMapper;
-		
-	@Autowired
-	private OBProjectResultMapper OBProjectResultMapper;
-	
-	@Autowired
-	private OBProjectRuleMapper OBProjectRuleMapper;
 	// 出入结果Service
 	@Autowired
 	private OBResultSubtabulationService obResultSubtabulationService;
 	@Autowired
-	private OBResultsInfoMapper OBResultsInfoMapper;
-	@Autowired
 	private OBProjectServer OBProjectServer;
 	
+	@Autowired
+	private OBProductInfoServer obProductInfoServer;
+	
+	@Autowired
+	private OBRuleService obRuleService;
 	// 第一轮结果确认
 	private static final String FIRST_CONFIRM = "firstConfirm";
 	// 第二轮结果确认
@@ -244,7 +239,7 @@ public class OBSupplierQuoteController {
 			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
 		}
 		//竞价规则
-		OBProjectRule oRule= OBProjectRuleMapper.selectByPrimaryKey(obProject.getId());
+		OBProjectRule oRule= obRuleService.selectByPrimaryKey(obProject.getId());
 		model.addAttribute("obRule", oRule);
 		// 采购机构
 		model.addAttribute("orgName", orgName);
@@ -319,7 +314,7 @@ public class OBSupplierQuoteController {
 		  if(project.getEndTime().getTime()<new Date().getTime()){
 			  confirmStatus="4";
 		  }else{
-		 List<OBProjectResult>	getList= OBProjectResultMapper.selectSupplierStatus(oBProjectResult);
+		 List<OBProjectResult>	getList= oBProjectResultService.selectSupplierStatus(oBProjectResult);
 		 if(getList!=null && getList.size()==1){
 			 
 			 //必须一条数据 状态是-1 表示第一轮
@@ -345,12 +340,12 @@ public class OBSupplierQuoteController {
 		 }
 		  if(confirmStatus=="2"){
 			  //获取 可以进行第一轮 供应商
-			  List< OBProjectResult> obresultsList = OBProjectResultMapper.getSecond(projectId);
+			  List< OBProjectResult> obresultsList = oBProjectResultService.getSecond(projectId);
 			  if(obresultsList!=null){
 				  OBProjectResult result=obresultsList.get(0);
 				  if(result.getSupplierId().equals(supplierId)){
 					//获取比例是否完成
-						String proportion= OBProjectResultMapper.getProportionSum(projectId);
+						String proportion= oBProjectResultService.getProportionSum(projectId);
 						if(!proportion.equals("100")){
 					      confirmStatus="2";
 						}else{
@@ -425,7 +420,7 @@ public class OBSupplierQuoteController {
 		  if(project.getEndTime().getTime()<new Date().getTime()){
 			  confirmStatus="4";
 		  }else{
-		 List<OBProjectResult>	getList= OBProjectResultMapper.selectSupplierStatus(oBProjectResult);
+		 List<OBProjectResult>	getList= oBProjectResultService.selectSupplierStatus(oBProjectResult);
 		 if(getList!=null && getList.size()==1){
 			 //必须一条数据 状态是-1 表示第一轮
 		    if(getList.get(0).getStatus()==-1 && getList.get(0).getRemark().equals("1")){
@@ -449,12 +444,12 @@ public class OBSupplierQuoteController {
 		 }
 		  if(confirmStatus=="2"){
 			  //获取 可以进行第一轮 供应商
-			  List< OBProjectResult> obresultsList = OBProjectResultMapper.getSecond(projectId);
+			  List< OBProjectResult> obresultsList = oBProjectResultService.getSecond(projectId);
 			  if(obresultsList!=null){
 				  OBProjectResult result=obresultsList.get(0);
 				  if(result.getSupplierId().equals(supplierId)){
 					//获取比例是否完成
-						String proportion= OBProjectResultMapper.getProportionSum(projectId);
+						String proportion= oBProjectResultService.getProportionSum(projectId);
 						if(proportion.equals("100")){
 					      confirmStatus="9";
 						}else{
@@ -719,7 +714,7 @@ public class OBSupplierQuoteController {
 		//String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
         BigDecimal totalCountPriceBigDecimalAfter = BigDecimalUtils.doubleToDecimal(totalCountPriceBigDecimal, million);
       //竞价规则
-      	OBProjectRule oRule= OBProjectRuleMapper.selectByPrimaryKey(obProject.getId());
+      	OBProjectRule oRule= obRuleService.selectByPrimaryKey(obProject.getId());
       	model.addAttribute("obRule", oRule);
         // 采购机构
 		model.addAttribute("orgName", orgName);
@@ -749,7 +744,7 @@ public class OBSupplierQuoteController {
 		/**************************页面底层供应商信息*************************/
 		// 页面底层供应商信息
 		//查询参与的供应商==============================================================================================
-		BiddingResultCommon.getBiddingResultInfo(model, projectId, OBResultsInfoMapper, oBProjectResultService, obResultSubtabulationService);    	
+		BiddingResultCommon.getBiddingResultInfo(model, projectId, oBProjectResultService, obResultSubtabulationService);    	
 		
 		/**************************页面底层供应商信息结束*************************/
 		}
@@ -816,7 +811,7 @@ public class OBSupplierQuoteController {
 			// 二次报价产品信息
 			List<OBResultsInfo> oBResultsInfoSecond  = (List<OBResultsInfo>) map.get("oBResultsInfoSecond");
 			//竞价规则
-			OBProjectRule oRule= OBProjectRuleMapper.selectByPrimaryKey(obProject.getId());
+			OBProjectRule oRule= obRuleService.selectByPrimaryKey(obProject.getId());
 			model.addAttribute("obRule", oRule);
 			
 			BigDecimal million = new BigDecimal(10000);
@@ -1017,8 +1012,8 @@ public class OBSupplierQuoteController {
 		String projectId = request.getParameter("id");
 		
 		//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
-		List<OBProjectResult> resultList=OBProjectResultMapper.selectByPID(projectId);
-		List<OBProductInfo> plist=obProductInfoMapper.getProductName(projectId);
+		List<OBProjectResult> resultList=oBProjectResultService.selectByPID(projectId);
+		List<OBProductInfo> plist=obProductInfoServer.getProductName(projectId);
 		for(OBProjectResult s:resultList){
 			s.setProductInfo(plist);
 		}

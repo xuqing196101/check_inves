@@ -1,6 +1,11 @@
 package bss.service.ob;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import bss.model.ob.OBProduct;
+import bss.model.ob.OBProductInfo;
 
 /***
  * 竞价信息相关的产品 接口
@@ -26,4 +31,17 @@ public interface OBProductInfoServer {
 	 * @exception
 	 */
 	int selectCount(String id);
+	/**
+	 * 根据竞价 id 获取 产品 集合
+	 * @param projectId
+	 * @return
+	 */
+	List<OBProductInfo> selectByProjectId(String projectId);
+	/**
+	 * 根据竞价 id 获取 产品 名称
+	 * @param projectId
+	 * @return
+	 */
+	List<OBProductInfo> getProductName(String projectId);
+
 }

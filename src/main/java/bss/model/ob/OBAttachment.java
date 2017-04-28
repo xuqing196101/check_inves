@@ -2,6 +2,7 @@ package bss.model.ob;
 
 import iss.model.ps.Article;
 
+import java.io.Serializable;
 import java.util.Date;
 /**
 
@@ -9,7 +10,11 @@ import java.util.Date;
 * @Description: 网上竞价附件实体类
 * @author YangHongLiang
  */
-public class OBAttachment {
+public class OBAttachment implements Serializable {
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
 	/**
      * @Fields id : 主键
      */

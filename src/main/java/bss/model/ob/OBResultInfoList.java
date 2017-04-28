@@ -1,5 +1,6 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,8 +12,12 @@ import java.util.List;
  * @date 2017年3月10日 下午6:00:42
  * 
  */
-public class OBResultInfoList {
+public class OBResultInfoList implements Serializable {
 
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
 	List<OBResultsInfoExt> obResultsInfoExt;
 
 	public List<OBResultsInfoExt> getObResultsInfoExt() {

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultsInfo;
 import common.utils.JdcgResult;
 
@@ -78,4 +79,10 @@ public interface OBSupplierQuoteService {
 	* @throws
 	 */
 	JdcgResult checkQuotoSecond(Map<String, Object> map);
+	/**
+	 * 根据 竞价id 获取到 与该竞价相关的 供应商id
+	 * @param obProjectId
+	 * @return
+	 */
+	List<OBProjectSupplier> selByProjectId(String obProjectId);
 }

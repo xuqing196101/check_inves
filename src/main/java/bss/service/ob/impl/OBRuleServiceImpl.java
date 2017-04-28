@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 import ses.model.bms.User;
 import ses.util.PropertiesUtil;
+import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBRuleMapper;
 import bss.dao.ob.OBSpecialDateMapper;
+import bss.model.ob.OBProjectRule;
 import bss.model.ob.OBRule;
 import bss.model.ob.OBRuleExample;
 import bss.model.ob.OBRuleExample.Criteria;
@@ -38,11 +40,16 @@ import common.utils.JdcgResult;
 @Service
 public class OBRuleServiceImpl implements OBRuleService {
 
+	/**
+	 * 日志记录
+	 */
 	Logger log = LoggerFactory.getLogger(OBRuleServiceImpl.class);
 
 	@Autowired
-
 	private OBRuleMapper obRuleMapper;
+	
+	@Autowired
+	private OBProjectRuleMapper obProjectRuleMapper;
 	@Autowired
 	private OBSpecialDateMapper obSpecialDateMapper;
 
@@ -57,7 +64,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 	 * @throws
 	 */
 	@Override
-	public JdcgResult addRule(OBRule obRule, User user) {
+	public JdcgResult addRule(OBRule obRule, User user) throws Exception{
 		if (obRule == null) {
 			return JdcgResult.build(500, "请填写竞价规则相关信息");
 		}
@@ -386,7 +393,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 	 * @param @return 设定文件
 	 */
 	@Override
-	public JdcgResult updateobSpecialDate(OBSpecialDate obSpecialDate) {
+	public JdcgResult updateobSpecialDate(OBSpecialDate obSpecialDate) throws Exception{
 		if (obSpecialDate == null || obSpecialDate.getId() == null) {
 			return JdcgResult.build(500, "此特殊节假日已失效");
 		}
@@ -413,6 +420,14 @@ public class OBRuleServiceImpl implements OBRuleService {
 			return JdcgResult.build(500, "竞价规则名称已存在");
 		}
 		return JdcgResult.ok();
+	}
+    /**
+     *实现 根据 竞价id 获取 竞价关联 规则
+     */
+	@Override
+	public OBProjectRule selectByPrimaryKey(String projectId) {
+		// TODO Auto-generated method stub
+		return obProjectRuleMapper.selectByPrimaryKey(projectId);
 	}
 	
 	 

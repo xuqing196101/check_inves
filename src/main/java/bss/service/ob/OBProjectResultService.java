@@ -10,6 +10,7 @@ import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
 import bss.model.ob.OBResultSubtabulation;
+import bss.model.ob.OBResultsInfo;
 import bss.model.ob.SupplierProductVo;
 import common.annotation.CurrentUser;
 import ses.model.bms.User;
@@ -70,7 +71,7 @@ public interface OBProjectResultService {
      * @return 查找到的状态
      * @description 查找符合当前竞标的供应商在 竞价结果表 中的status
      */
-	String selectSupplierStatus(OBProjectResult oBProjectResult);
+    List<OBProjectResult> selectSupplierStatus(OBProjectResult oBProjectResult);
 	/**
 	 * 封装供应商 竞价结果 页面数据 
 	 * @author Yanghongliang
@@ -79,6 +80,18 @@ public interface OBProjectResultService {
 	 * @return
 	 */
 	ConfirmInfoVo selectSupplierDate(String supplierId,String projectId,String status);
+	/**
+     * 全部状态 和现实 状态
+     * @param projectId
+     * @return
+     */
+    List<OBProjectResult> getSecond(String projectId);
+    /**
+     * 获取成交的比例
+     * @param projectId
+     * @return
+     */
+    String getProportionSum(String projectId);
 	
 	/**
      * <p>Description 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id</p>
@@ -170,6 +183,12 @@ public interface OBProjectResultService {
      * @exception
      */
     List<OBProjectResult> selResultByProjectId(String projectId);
+    /**
+     * 根据 竞价id 获取 结果信息
+     * @param projectId
+     * @return
+     */
+    List<OBProjectResult> selectByPID(String projectId);
     
     /**
      * 
@@ -183,4 +202,40 @@ public interface OBProjectResultService {
      * @exception
      */
     List<OBProjectResult> selProportion(@Param("projectId") String projectId,@Param("supplierId") String supplierId);
+	/**
+	 * 根据id /次数/供应商id 获取自报价数量
+	 * @param projectId
+	 * @param biddingId
+	 * @param supplierId
+	 * @return
+	 */
+	 Integer countByBidding(String projectId,String biddingId,String supplierId);
+	 
+	 /**
+	     * 查询报价 信息
+	     * @param projectId
+	     * @param supplierId
+	     * @return
+	     */
+	List<OBResultsInfo> getProductInfo(String projectId ,String supplierId,String bidding);
+
+    /**
+     * 
+     * Description: 判断是否为二次竞价项目
+     * 
+     * @author  zhang shubin
+     * @version  2017年4月13日 
+     * @param  @param projectId
+     * @param  @return 
+     * @return List<String> 
+     * @exception
+     */
+    List<String> isSecondBidding(String projectId);
+    /**
+     * 获取 该竞价的供应商数据
+     * @param projectId
+     * @param supplierId
+     * @return
+     */
+    List<OBResultsInfo> selectResult(String projectId ,String supplierId);
 }

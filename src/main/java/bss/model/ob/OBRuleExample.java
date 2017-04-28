@@ -1,11 +1,17 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class OBRuleExample {
-    protected String orderByClause;
+public class OBRuleExample implements Serializable {
+    /** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
+
+	protected String orderByClause;
 
     protected boolean distinct;
 

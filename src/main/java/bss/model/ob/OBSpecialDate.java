@@ -13,7 +13,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 *
  */
 public class OBSpecialDate implements Serializable{
-    private String id;
+    /** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 
     /**
      * 创建人

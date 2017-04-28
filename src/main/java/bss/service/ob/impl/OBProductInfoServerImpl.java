@@ -1,11 +1,14 @@
 package bss.service.ob.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.model.ob.OBProduct;
+import bss.model.ob.OBProductInfo;
 import bss.service.ob.OBProductInfoServer;
 @Service("OBProductInfo")
 public class OBProductInfoServerImpl implements OBProductInfoServer {
@@ -26,5 +29,15 @@ public class OBProductInfoServerImpl implements OBProductInfoServer {
 	@Override
 	public int selectCount(String id) {
 		return obProductInfoMapper.selectCount(id);
+	}
+	@Override
+	public List<OBProductInfo> selectByProjectId(String projectId) {
+		// TODO Auto-generated method stub
+		return obProductInfoMapper.selectByProjectId(projectId);
+	}
+	@Override
+	public List<OBProductInfo> getProductName(String projectId) {
+		// TODO Auto-generated method stub
+		return obProductInfoMapper.getProductName(projectId);
 	}
 }

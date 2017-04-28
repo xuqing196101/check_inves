@@ -27,6 +27,7 @@ import bss.model.ob.OBRule;
 import bss.model.ob.OBSpecialDate;
 import bss.service.ob.OBRuleService;
 import common.annotation.CurrentUser;
+import common.annotation.SystemControllerLog;
 import common.utils.JdcgResult;
 
 /**
@@ -116,6 +117,7 @@ public class OBRuleController {
 	}
 
 	/**
+	 * @throws Exception 
 	 * 
 	 * @Title: addRule
 	 * @Description: 添加规则
@@ -126,11 +128,12 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/addRule", method = RequestMethod.POST)
 	@ResponseBody
-	public JdcgResult addRule(OBRule obRule, @CurrentUser User user) {
+	public JdcgResult addRule(OBRule obRule, @CurrentUser User user) throws Exception {
 		return service.addRule(obRule, user);
 	}
 
 	/**
+	 * @throws Exception 
 	 * 
 	 * @Title: delete
 	 * @Description: 刪除规则
@@ -141,13 +144,14 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public JdcgResult delete(HttpServletRequest request) {
+	public JdcgResult delete(HttpServletRequest request) throws Exception {
 		String id = request.getParameter("id");
 		String[] ids = id.split(",");
 		return service.delete(ids);
 	}
 
 	/**
+	 * @throws Exception 
 	 * 
 	 * @Title: setDefaultRule
 	 * @Description: 默认规则设置
@@ -158,7 +162,7 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/setDefaultRule", method = RequestMethod.POST)
 	@ResponseBody
-	public JdcgResult setDefaultRule(HttpServletRequest request) {
+	public JdcgResult setDefaultRule(HttpServletRequest request) throws Exception {
 		String id = request.getParameter("id");
 		return service.updateDefaultRule(id);
 	}
@@ -220,6 +224,7 @@ public class OBRuleController {
 	}
 
 	/**
+	 * @throws Exception 
 	 * 
 	 * @Title: addSpecialdate
 	 * @Description: 创建特殊日期
@@ -232,11 +237,12 @@ public class OBRuleController {
 	@RequestMapping(value = "addSpecialdate", method = RequestMethod.POST)
 	@ResponseBody
 	public JdcgResult addSpecialdate(@CurrentUser User user,
-			OBSpecialDate obSpecialDate, HttpServletRequest request) {
+			OBSpecialDate obSpecialDate, HttpServletRequest request) throws Exception {
 		return service.addSpecialdate(obSpecialDate, request, user);
 	}
 
 	/**
+	 * @throws Exception 
 	 * 
 	 * @Title: deleteSpecialDate
 	 * @Description: 删除特殊假期
@@ -247,7 +253,7 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/deleteSpecialDate", method = RequestMethod.POST)
 	@ResponseBody
-	public JdcgResult deleteSpecialDate(HttpServletRequest request) {
+	public JdcgResult deleteSpecialDate(HttpServletRequest request) throws Exception {
 		String id = request.getParameter("id");
 		String[] ids = id.split(",");
 		return service.deleteSpecialDate(ids);
@@ -275,6 +281,7 @@ public class OBRuleController {
 	}
 	
 	/**
+	 * @throws Exception 
 	 * 
 	* @Title: updateobRule 
 	* @Description: 修改规则
@@ -287,7 +294,7 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/updateobRule", method = RequestMethod.POST)
 	@ResponseBody
-	public JdcgResult updateobRule(OBRule obRule) {
+	public JdcgResult updateobRule(OBRule obRule) throws Exception {
 		return service.updateobRule(obRule);
 	}
 	
@@ -313,6 +320,7 @@ public class OBRuleController {
 	}
 	
 	/**
+	 * @throws Exception 
 	 * 
 	* @Title: updateSpecialdate 
 	* @Description: 修改特殊日期
@@ -324,7 +332,7 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/updateSpecialdate", method = RequestMethod.POST)
 	@ResponseBody
-	public JdcgResult updateSpecialdate(OBSpecialDate obSpecialDate){
+	public JdcgResult updateSpecialdate(OBSpecialDate obSpecialDate) throws Exception{
 		return service.updateobSpecialDate(obSpecialDate);
 	}
 	
