@@ -62,7 +62,6 @@
               <th class="info">甲方单位</th>
               <th class="info">供应商</th>
               <th class="info">状态</th>
-              <th class="info">查看</th>
             </tr>
           </thead>
           <c:forEach items="${listContract}" var="draftCon" varStatus="vs">
@@ -80,12 +79,12 @@
               <c:set value="${draftCon.name}" var="name"></c:set>
               <c:set value="${fn:length(name)}" var="length"></c:set>
               <c:if test="${length>9}">
-                <td class="pointer pl20" title="${name}" onclick="openFile('${draftCon.id}');">
+                <td class="pointer pl20" title="${name}" onclick="onclickDetail('${draftCon.id}');">
                   <a>${fn:substring(name,0,9)}...</a>
                 </td>
               </c:if>
               <c:if test="${length<=9}">
-                <td class="pointer pl20" title="${name}" onclick="openFile('${draftCon.id}');">
+                <td class="pointer pl20" title="${name}" onclick="onclickDetail('${draftCon.id}');">
                   <a>${name}</a>
                 </td>
               </c:if>
@@ -103,9 +102,6 @@
               <c:if test="${draftCon.status==2}">
                 <td class="tc pointer">正式</td>
               </c:if>
-              <td class="tl pl20 pointer">
-                <a onclick="onclickDetail('${draftCon.id}');">进入</a>
-              </td>
             </tr>
           </c:forEach>
         </table>

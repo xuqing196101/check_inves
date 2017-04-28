@@ -3359,4 +3359,76 @@ public class OpenBiddingController {
   }
   
   
+  /**
+   * 
+   *〈简述〉查看开标前所有流程是否完成
+   *〈详细描述〉
+   * @author FengTian
+   * @param flowDefineId
+   * @param url
+   * @param projectId
+   * @return
+   */
+  @RequestMapping("/getNextKb")
+  @ResponseBody
+  public JSONObject getNextKb(String flowDefineId, String projectId){
+      JSONObject jsonObj = new JSONObject();
+      if(StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(flowDefineId)){
+          //判断是否要进入开标环节
+          int count = 0;
+          Project project = projectService.selectById(projectId);
+          FlowDefine fds = new FlowDefine();
+          fds.setPurchaseTypeId(project.getPurchaseType());
+          List<FlowDefine> find = flowMangeService.find(fds);
+          for (FlowDefine flowDefine : find) {
+              if("KBCB".equals(flowDefine.getCode())){
+                  count = flowDefine.getStep();
+                  break;
+              }
+          }
+          FlowDefine define = flowMangeService.getFlowDefine(flowDefineId);
+          if(define != null && define.getStep() >= count){
+              //根据采购方式获取当前所有的环节
+              FlowDefine fd = new FlowDefine();
+              fd.setPurchaseTypeId(project.getPurchaseType());
+              List<FlowDefine> defines = flowMangeService.find(fd);
+              List<FlowDefine> list = new ArrayList<FlowDefine>();
+              if(defines != null && defines.size() > 0){
+                 //根据当前环节的步骤获取前面的环节
+                  for (FlowDefine flowDefine : defines) {
+                      if(flowDefine.getStep() < define.getStep()){
+                          list.add(flowDefine);
+                      }
+                  }
+              }
+              
+              //获取到所有小于当前环节的流程
+              if(list != null && list.size() > 0){
+                  for (FlowDefine flowDefine : list) {
+                      FlowExecute execute = new FlowExecute();
+                      execute.setProjectId(projectId);
+                      execute.setFlowDefineId(flowDefine.getId());
+                      List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
+                      if(executes != null && executes.size() > 0){
+                          for (int i = 0; i < executes.size(); i++ ) {
+                              //判断每一个环节是否有环节结束的状态，有的话跳出循环
+                              if(executes.get(i).getStatus() == 3){
+                                  break;
+                              } else if (i == executes.size() - 1){
+                                  FlowDefine define2 = flowMangeService.getFlowDefine(executes.get(i).getFlowDefineId());
+                                  jsonObj.put("name", define2.getName());
+                                  jsonObj.put("next", ONE);
+                                  return jsonObj;
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+      jsonObj.put("next", TWO);
+      return jsonObj;
+  }
+  
+  
 }

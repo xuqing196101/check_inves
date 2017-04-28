@@ -307,6 +307,21 @@ public class ProjectServiceImpl implements ProjectService {
 	          jsonObj.put("success", true);
 	          jsonObj.put("isEnd", true);
 	      }
+	      
+	      //获取环节是否结束
+	      FlowExecute fe = new FlowExecute();
+	      fe.setFlowDefineId(flowDefine.getId());
+	      fe.setProjectId(projectId);
+	      fe.setStatus(3);
+          List<FlowExecute> fes = flowExecuteMapper.findList(fe);
+          if(fes != null && fes.size() > 0){
+              jsonObj.put("isFes", 1);
+          }else{
+              jsonObj.put("isFes", 0);
+          }
+	      
+	      
+	      
 	      List<PurchaseInfo> purchaseInfo = new ArrayList<>();
          //获取当前项目所属机构人员
          String orgId = project.getPurchaseDepId();
@@ -530,7 +545,7 @@ public class ProjectServiceImpl implements ProjectService {
             flowExecute.setProjectId(projectId);
             flowExecute.setFlowDefineId(flowDefine.getId());
             //获取该项目该环节的执行情况
-            List<FlowExecute> flowExecutes2 = flowExecuteMapper.findExecuted(flowExecute);
+            List<FlowExecute> flowExecutes2 = flowExecuteMapper.findStatusDesc(flowExecute);
             if (flowExecutes2 != null && flowExecutes2.size() > 0) {
                 Integer s = flowExecutes2.get(0).getStatus();
                 if (s == 1) {

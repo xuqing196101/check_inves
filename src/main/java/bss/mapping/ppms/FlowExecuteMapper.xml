@@ -193,13 +193,14 @@
     ORDER BY fe.step DESC
   </select>
   
-  <!-- 根据条件查询状态为0的-->
-  <select id="findLists" parameterType="java.lang.String" resultMap="FlowExecuteResult">
+  
+  <!-- 6.根据条件查询状态不为0的 -->
+  <select id="findExecuted" parameterType="java.lang.String" resultMap="FlowExecuteResult">
     select 
     <include refid="Base_Column_List" />
-    from T_BSS_PPMS_FLOW_EXECUTE  fe
-    where fe.STATUS = 0 and fe.IS_DELETED = 0
-    <if test="id != null and id != ''">
+    from T_BSS_PPMS_FLOW_EXECUTE fe
+    where fe.STATUS != 0 
+      <if test="id != null and id != ''">
         and fe.ID = #{id} 
       </if>
       <if test=" flowDefineId != null and flowDefineId != ''">
@@ -229,13 +230,49 @@
     ORDER BY fe.step DESC
   </select>
   
-  <!-- 6.根据条件查询状态不为0的 -->
-  <select id="findExecuted" parameterType="java.lang.String" resultMap="FlowExecuteResult">
+  <!-- 7.根据状态倒序-->
+  <select id="findStatusDesc" parameterType="java.lang.String" resultMap="FlowExecuteResult">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_FLOW_EXECUTE fe
     where fe.STATUS != 0 
       <if test="id != null and id != ''">
+        and fe.ID = #{id} 
+      </if>
+      <if test=" flowDefineId != null and flowDefineId != ''">
+        and fe.FLOW_DEFINE_ID = #{flowDefineId}
+      </if>
+      <if test=" projectId != null and projectId != ''">
+        and fe.PROJECT_ID = #{projectId}
+      </if>
+      <if test=" packageId != null and packageId != ''">
+        and fe.PACKAGE_ID = #{packageId}
+      </if>
+      <if test="createdAt != null">
+        and fe.CREATED_AT = #{createdAt} 
+      </if>
+      <if test="updatedAt != null">
+        and fe.UPDATED_AT = #{updatedAt} 
+      </if>
+      <if test="operatorId != null and operatorId !='' ">
+        and fe.OPERATOR_ID = #{operatorId} 
+      </if>
+      <if test="operatorName != null and operatorName !='' ">
+        and fe.OPERATOR_NAME = #{operatorName} 
+      </if>
+      <if test="step != null">
+        and fe.STEP = #{step} 
+      </if>
+    ORDER BY fe.STATUS DESC
+  </select>
+  
+  <!-- 8.根据条件查询状态为0的-->
+  <select id="findLists" parameterType="java.lang.String" resultMap="FlowExecuteResult">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_FLOW_EXECUTE  fe
+    where fe.STATUS = 0 and fe.IS_DELETED = 0
+    <if test="id != null and id != ''">
         and fe.ID = #{id} 
       </if>
       <if test=" flowDefineId != null and flowDefineId != ''">

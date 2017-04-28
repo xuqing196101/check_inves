@@ -144,7 +144,7 @@ public class ReviewFirstAuditController {
 			extension.setPackageId(packages.getId());
 			extension.setPackageName(packages.getName());
 			
-			if(packages != null && packages.getQualificationTime() != null){
+			if(packages != null && packages.getQualificationTime() == null){
 	            packages.setQualificationTime(new Date());
 	            packageService.updateByPrimaryKeySelective(packages);
 	        }
@@ -216,7 +216,7 @@ public class ReviewFirstAuditController {
 		//查询包信息
 		List<Packages> packages = packageService.findPackageById(map2);
 		if(packages!=null && packages.size()>0){
-	        if( packages.get(0).getTechniqueTime() != null){
+	        if( packages.get(0).getTechniqueTime() == null){
 	            packages.get(0).setTechniqueTime(new Date());
 	            packageService.updateByPrimaryKeySelective(packages.get(0));
 	        }

@@ -46,7 +46,7 @@
               <tr>
               <td class="tc">${vs.index+1}</td>
               <td class="tl">${list.suppliers.supplierName}</td>
-              <td class="tl">${packages.name}</td>
+              <td class="tc">${packages.name}</td>
               <td class="tc">
                 <c:if test="${empty list.suppliers.isturnUp}">请选择</c:if>
                 <c:if test="${not empty list.suppliers.isturnUp and list.suppliers.isturnUp == 0}">已到场</c:if>

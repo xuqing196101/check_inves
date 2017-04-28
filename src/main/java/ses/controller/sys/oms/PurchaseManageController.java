@@ -513,7 +513,7 @@ public class PurchaseManageController {
         PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("typeName", 1);
-        if(purchaseDep != null){
+        if(purchaseDep != null && StringUtils.isNotBlank(purchaseDep.getName())){
             map.put("name", purchaseDep.getName());
         }
         List<PurchaseDep> purchaseDepList = purchaseOrgnizationServiceI.findPurchaseDepList(map);

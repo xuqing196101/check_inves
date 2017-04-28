@@ -181,7 +181,7 @@ public class ProjectController extends BaseController {
 
     /**
      * 〈简述〉 
-     * 〈详细描述〉.
+     * 〈详细描述〉
      * @author FengTian
      * @param page 分页
      * @param model 内置对象

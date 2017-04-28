@@ -427,7 +427,8 @@
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
               </c:if>
-
+              
+              <c:if test="${userNames ne null}">
               <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-12">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-12">
@@ -440,7 +441,8 @@
                 <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
-
+              </c:if>
+              
               <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-13">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="#tab-13">

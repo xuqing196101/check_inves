@@ -19,4 +19,6 @@ public interface FlowExecuteMapper {
     List<FlowExecute> findExecuted(FlowExecute temp);
     
     List<FlowExecute> findLists(FlowExecute fe);
+    
+    List<FlowExecute> findStatusDesc(FlowExecute fe);
 }

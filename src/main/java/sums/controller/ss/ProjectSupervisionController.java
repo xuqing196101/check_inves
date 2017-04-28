@@ -269,6 +269,7 @@ public class ProjectSupervisionController {
                             }
                         }
                     }
+                    listContract.add(contract);
                 }
             }
             model.addAttribute("listContract", listContract);

@@ -28,15 +28,8 @@
         <tbody>
           <c:forEach items="${packages.saleTenderList}" var="obj" varStatus="vs">
             <tr>
-              <td class="tc opinter " title="${obj.suppliers.supplierName}">
-                <c:choose>
-                  <c:when test="${fn:length(obj.suppliers.supplierName) > 12}">
-                    ${fn:substring(obj.suppliers.supplierName, 0, 10)}......
-                  </c:when>
-                  <c:otherwise>
+              <td class="opinter ">
                     ${obj.suppliers.supplierName}
-                  </c:otherwise>
-                </c:choose>
               </td>
               <td class="tc opinter w150">
                 ${obj.suppliers.armyBusinessName}

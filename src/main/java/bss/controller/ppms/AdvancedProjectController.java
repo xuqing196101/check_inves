@@ -47,7 +47,6 @@ import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
-import ses.util.ComparatorDetail;
 import ses.util.ComparatorDetails;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
@@ -59,16 +58,12 @@ import common.service.UploadService;
 
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
-import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
-import bss.model.ppms.Project;
-import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
-import bss.model.prms.FirstAudit;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.AdvancedDetailService;
 import bss.service.ppms.AdvancedPackageService;
@@ -76,7 +71,6 @@ import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
-import bss.service.prms.FirstAuditService;
 
 @Controller
 @Scope("prototype")
@@ -1666,7 +1660,7 @@ public class AdvancedProjectController extends BaseController {
     public String execute(String id, Model model) {
         AdvancedProject project = advancedProjectService.selectById(id);
         if(project != null){
-            String id2 = DictionaryDataUtil.getId("JYLX");
+            String id2 = DictionaryDataUtil.getId("YJLX");
             if(id2.equals(project.getStatus())){
                 project.setStatus(DictionaryDataUtil.getId("SSZ_WWSXX"));
                 advancedProjectService.update(project);
@@ -1690,46 +1684,47 @@ public class AdvancedProjectController extends BaseController {
     }
     
     @RequestMapping("/mplement")
-    public String starts(String projectId, String flowDefineId, Model model) {
-        String number = "";
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("projectId", projectId);
-        AdvancedProject project = advancedProjectService.selectById(projectId);
-        User user = null;
-        if(project.getPrincipal()!=null){
-            try {
-                user = userService.getUserById(project.getPrincipal());
-            } catch (Exception e) {
-                user = null;
+    public String starts(@CurrentUser User user,String projectId, String flowDefineId, Model model) {
+        if(StringUtils.isNotBlank(projectId)){
+            AdvancedProject project = advancedProjectService.selectById(projectId);
+            if(project != null && StringUtils.isNotBlank(project.getPrincipal())){
+                DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
+                project.setPurchaseDepId(orgnization.getName());
+                project.setPurchaseType(findById.getName());
+                
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("projectId", project.getId());
+                List<AdvancedPackages> list = packageService.selectByAll(map);
+                if(list != null && list.size()>0){
+                    for(AdvancedPackages ps:list){
+                        HashMap<String,Object> packageId = new HashMap<String,Object>();
+                        packageId.put("packageId", ps.getId());
+                        List<AdvancedDetail> detailList = detailService.selectByAll(packageId);
+                        ps.setAdvancedDetails(detailList);
+                    }
+                    model.addAttribute("packageList", list);
+                }else{
+                    List<AdvancedDetail> list2 = new ArrayList<AdvancedDetail>();
+                    HashMap<String, Object> map1 = new HashMap<String, Object>();
+                    map1.put("advancedProject", projectId);
+                    List<AdvancedDetail> details = detailService.selectByAll(map1);
+                    if(details != null && details.size() > 0){
+                        for (AdvancedDetail advancedDetail : details) {
+                            if(advancedDetail.getPrice() != null){
+                                list2.add(advancedDetail);
+                            }
+                        }
+                    }
+                    model.addAttribute("lists", list2);
+                }
+                String id2 = DictionaryDataUtil.getId("PROJECT_IMPLEMENT");
+                List<UploadFile> files = uploadService.getFilesOther(project.getId(), id2, "2");
+                model.addAttribute("project", project);
+                model.addAttribute("files", files);
             }
         }
-        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
-        map.put("projectId", projectId);
-        HashMap<String, Object> map1 = new HashMap<String, Object>();
-        map1.put("advancedProject", projectId);
-        List<AdvancedDetail> details = detailService.selectByAll(map1);
-        List<AdvancedPackages> list = packageService.selectByAll(map);
-        if(list != null && list.size()>0){
-            for(AdvancedPackages ps:list){
-                HashMap<String,Object> packageId = new HashMap<String,Object>();
-                packageId.put("packageId", ps.getId());
-                List<AdvancedDetail> detailList = detailService.selectByAll(packageId);
-                ps.setAdvancedDetails(detailList);
-            }
-        }
-        model.addAttribute("kind", DictionaryDataUtil.find(5));
-        if(list != null && list.size() > 0){
-            model.addAttribute("packageList", list);
-        }else{
-            model.addAttribute("lists", details);
-        }
-        String id2 = DictionaryDataUtil.getId("PROJECT_IMPLEMENT");
-        List<UploadFile> files = uploadService.getFilesOther(project.getId(), id2, "2");
         model.addAttribute("user", user);
-        model.addAttribute("project", project);
-        model.addAttribute("files", files);
-        model.addAttribute("orgnization", orgnization);
-        model.addAttribute("budgetAmount", details.get(0).getBudget());
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("dataId", DictionaryDataUtil.getId("PROJECT_IMPLEMENT"));
         model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
