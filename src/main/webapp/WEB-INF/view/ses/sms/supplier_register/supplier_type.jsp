@@ -1903,7 +1903,6 @@
 										<div class="col-md-12 col-md-12 col-xs-12 col-sm-12 p0">
 											<button type="button" class="btn" onclick="openAptitute()">新增</button>
 											<button type="button" class="btn" onclick="deleteAptitute()">删除</button>
-											<button type="button" class="btn" id="huoqu">取值</button>
 											<span class="red">${eng_aptitutes }</span>
 										</div>
 										<div
@@ -2022,7 +2021,7 @@
 																		$obj.combobox({
                                                                             onChange : function() {
                                                                                 //console.log($obj.combobox("getText"));
-                                                                                tempSave();
+                                                                                //tempSave();
                                                                             },
 																		});
 																	});
