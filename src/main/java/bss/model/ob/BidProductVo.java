@@ -1,5 +1,6 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -8,8 +9,12 @@ import java.math.BigDecimal;
  * @description 竞价商品的信息
  *
  */
-public class BidProductVo {
+public class BidProductVo implements Serializable{
 
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
 	//产品Id
 	private String id;
 	//产品名称

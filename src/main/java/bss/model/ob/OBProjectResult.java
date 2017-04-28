@@ -1,12 +1,18 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import ses.model.sms.Supplier;
 
-public class OBProjectResult {
+public class OBProjectResult implements Serializable {
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
+
 	private String id;
 
 	//竞价ID

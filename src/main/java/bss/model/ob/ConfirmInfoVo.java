@@ -1,5 +1,6 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,8 +13,12 @@ import java.util.List;
  *         </p>
  * 
  */
-public class ConfirmInfoVo {
+public class ConfirmInfoVo implements Serializable {
 	
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
 	//供应商结果 id
     private String resultId;
 	// 竞价id

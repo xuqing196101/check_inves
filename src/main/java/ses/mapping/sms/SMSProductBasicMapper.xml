@@ -263,6 +263,9 @@
     <if test="status != null" >
         AND STATUS = #{status,jdbcType=VARCHAR}
     </if>
+    <if test="createrId != null and createrId !=''" >
+        AND CREATER_ID = #{createrId,jdbcType=VARCHAR}
+    </if>
     ORDER BY B.CREATED_AT DESC
   </select>
   

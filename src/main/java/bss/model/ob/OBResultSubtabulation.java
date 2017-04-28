@@ -1,5 +1,6 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,7 +14,11 @@ import ses.model.sms.Supplier;
 * @date 2017年3月28日 下午8:15:10 
 *
  */
-public class OBResultSubtabulation implements Comparable<OBResultSubtabulation>{
+public class OBResultSubtabulation implements Comparable<OBResultSubtabulation>,Serializable{
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
 	//比例
 	private Integer proportion;
 	//状态
