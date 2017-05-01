@@ -3211,6 +3211,24 @@ public class SupplierController extends BaseSupplierController {
     	supplierTypeRelateService.delete(supplierId, "SALES");
     	return "0";
     }
+    
+    
+	@RequestMapping("/download_report")
+	public ResponseEntity<byte[]> download(HttpServletRequest request) throws IOException {
+		// filename = new String(filename.getBytes("iso8859-1"),"UTF-8");
+		String path = PathUtil.getWebRoot() + "excel/申明.doc";
+		File file = new File(path);
+
+		HttpHeaders headers = new HttpHeaders();
+		String fileName = new String("申明.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+		headers.setContentDispositionFormData("attachment", fileName);
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.OK);
+	}
+
+	
+	
+    
     @RequestMapping(value="/getProType",produces = "application/json;charset=utf-8")
     @ResponseBody
    public String getProType(String typeId, String certCode, String supplierId){
