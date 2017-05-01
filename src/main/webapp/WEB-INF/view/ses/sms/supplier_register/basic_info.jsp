@@ -1867,7 +1867,7 @@
 							</ul>
 						</fieldset>
 						<!-- 财务信息 -->
-						<h2 class="count_flow clear pt20"> <i>3</i> 近三年财务信息 <span class="red">注：由于采购网调整，近三年财务信息延迟到7月底。</span>
+						<h2 class="count_flow clear pt20"> <i>3</i> 近三年财务信息
 	  					<span class="red"> ${err_bearchFile}</span></h2>
 						<div class="padding-top-10 clear" id="financeInfo">
 							<c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
