@@ -732,13 +732,12 @@
                         "ind" : ind
                     },
                     success : function(data) {
-                        $(address_list_tbody_id).after(data);
+                        $("#address_list_tbody_id").append(data);
                         init_web_upload();
+                        ind++;
+                        $("#certSaleNumber").val(ind);
                     }
                 });
-                ind++;
-                $("#certSaleNumber").val(ind);
-
 			}
 			function delAddress(obj,id) {
                 var checkboxs = $("#address_list_tbody_id").find(":checkbox:checked");
@@ -760,7 +759,7 @@
                             offset: '300px'
                         });
                     }else{
-                        /*$.ajax({
+                        $.ajax({
                             url: "${pageContext.request.contextPath}/supplier/delAddress.do",
                             data: {
                                 "id": addressIds
@@ -785,7 +784,7 @@
                                     offset: '300px'
                                 });
                             }
-                        });*/
+                        });
                     }
                 }else{
                     layer.alert("请至少勾选一条记录 !", {
