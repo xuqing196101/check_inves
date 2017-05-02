@@ -87,6 +87,7 @@
 		<result column="IS_PROVISIONAL" property="isProvisional" />
 		<result column="IS_PUBLISH" property="isPublish" />
 		<result column="EXTRACT_ORGID" property="extractOrgid" />
+		<result column="ORGNAME" property="orgName" />
         <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -1223,7 +1224,8 @@
 				SELECT
 					"NVL" (T4. NAME, T3. NAME) AS NAME,
 					t1.typeId,
-					t2.*
+					t2.*,
+					T6.NAME AS orgName
 				FROM
 					(
 						SELECT
@@ -1243,7 +1245,9 @@
 					) t1
 				LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1. ID = t2. ID 
 				LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS = T3. ID
-				LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4. ID 
+				LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4. ID
+				LEFT JOIN T_SES_OMS_PURCHASE_DEP T5 ON t2.PROCUREMENT_DEP_ID = T5.ID
+				LEFT JOIN T_SES_OMS_ORG T6 ON T6.ID = T5.ORG_ID
 				<if test="item != null and item!= ''">
 				 RIGHT  JOIN (
 						select supplier_id as id from T_SES_SMS_SUPPLIER_ITEM where category_id in (

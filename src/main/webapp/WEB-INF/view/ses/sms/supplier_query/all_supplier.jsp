@@ -412,14 +412,14 @@
 							<%-- <li>
 		          	<label class="fl">用户名：</label><span><input class="w220" id="loginName" name="loginName" value="${supplier.loginName }" type="text"></span>
 		          </li> --%>
-							<li>
+							<%-- <li>
 								<label class="fl">联系人：</label>
 								<input id="contactName" class="w220" name="contactName" value="${supplier.contactName }" type="text">
 							</li>
 							<li>
 								<label class="fl">手机号：</label>
 								<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
-							</li>
+							</li> --%>
 							<li>
 	            	<label class="fl">企业性质：</label>
 		            <select name="businessType" id="businessType" class="w220">
