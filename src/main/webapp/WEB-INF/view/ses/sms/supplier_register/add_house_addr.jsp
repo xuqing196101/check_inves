@@ -4,7 +4,7 @@
 
 <tr>
     <td class="tc" style="border: 1px solid #ddd;"><input type="checkbox" value="${id}" /></td>
-    <td class="tc">
+    <td class="tc" style="border: 1px solid #ddd;">
         <input type="text" required class="w200 border0 address_zip_code" name="addressList[${ind }].code" value="" onblur='tempSave()' />
         <input type='hidden' name='addressList[${ind }].id' value='${id}'>
     </td>
