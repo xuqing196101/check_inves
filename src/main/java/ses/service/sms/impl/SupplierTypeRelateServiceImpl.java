@@ -2,6 +2,7 @@ package ses.service.sms.impl;
 
 import java.util.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,24 +87,26 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
 		dlist.addAll(list);
 		try{
             supplierTypeRelateMapper.deleteBySupplierId(supplier.getId());
-            String supplierTypeIds = supplier.getSupplierTypeIds().trim();
-            for (String str : supplierTypeIds.split(",")) {
-                SupplierTypeRelate supplierTypeRelate = new SupplierTypeRelate();
-                supplierTypeRelate.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-                supplierTypeRelate.setSupplierId(supplier.getId());
-                supplierTypeRelate.setSupplierTypeId(str);
-                supplierTypeRelate.setCreatedAt(new Date());
-                supplierTypeRelateMapper.insertSelective(supplierTypeRelate);
-            }
-            List<DictionaryData> rlist=new LinkedList<DictionaryData>();
-            for(DictionaryData d:dlist){
+            if(StringUtils.isNotBlank(supplier.getSupplierTypeIds())){
+                String supplierTypeIds = supplier.getSupplierTypeIds().trim();
                 for (String str : supplierTypeIds.split(",")) {
-                    if(d.getCode().equals(str)){
-                        rlist.add(d);
+                    SupplierTypeRelate supplierTypeRelate = new SupplierTypeRelate();
+                    supplierTypeRelate.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+                    supplierTypeRelate.setSupplierId(supplier.getId());
+                    supplierTypeRelate.setSupplierTypeId(str);
+                    supplierTypeRelate.setCreatedAt(new Date());
+                    supplierTypeRelateMapper.insertSelective(supplierTypeRelate);
+                }
+                List<DictionaryData> rlist=new LinkedList<DictionaryData>();
+                for(DictionaryData d:dlist){
+                    for (String str : supplierTypeIds.split(",")) {
+                        if(d.getCode().equals(str)){
+                            rlist.add(d);
+                        }
                     }
                 }
+                dlist.removeAll(rlist);
             }
-            dlist.removeAll(rlist);
             if(dlist!=null&&dlist.size()>0){
                 for(DictionaryData d:dlist){
                     if(d.getCode().equals("sc")){
