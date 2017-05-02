@@ -1961,9 +1961,9 @@ public class ExpertController extends BaseController {
                     /*expertAuditService.updateIsDeleteByExpertId(expertId);*/
                     expertAuditService.deleteByExpertId(expertId);
                     //未审核
-                    expert.setStatus("0");
                     /*expert.setIsDelete((short) 1);*/
                 }
+                expert.setStatus("0");
                 //修改时间
                 expert.setSubmitAt(new Date());
                 expert.setAuditAt(new Date());
