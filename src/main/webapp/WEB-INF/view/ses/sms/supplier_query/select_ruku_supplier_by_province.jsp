@@ -363,7 +363,7 @@
 							<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
 						</li>
 						<li>
-            	<label class="fl">企业性质:</label>
+            	<label class="fl">企业性质：</label>
 	            <select name="businessType" id="businessType" class="w220">
 	              <option value=''>全部</option>
 	              <c:forEach items="${businessType}" var="list">
@@ -371,9 +371,9 @@
 	              </c:forEach>
 	            </select>
 	          </li>
-            <c:if test ="${sign == 2 }">
+            <%-- <c:if test ="${sign == 2 }">
             	<li>
-	            	<label class="fl">地区:</label>
+	            	<label class="fl">地区：</label>
 		            <select name="address" id="address" class="w220">
 		              <option value=''>全部</option>
 		              <c:forEach items="${privnce}" var="list">
@@ -381,7 +381,7 @@
 		              </c:forEach>
 		            </select>
 		          </li>
-            </c:if>
+            </c:if> --%>
             <li>
               <label class="fl">供应商类型：</label><span><input id="supplierType" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" class="w220"/>
               <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
@@ -416,20 +416,20 @@
 								<option value="9">考察不合格</option>
 							</select>
 						 </li>
-		         <li>
-            	 <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w100" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
-               <span class="f14">至</span>
-               <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>'  class="Wdate w110" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-               </span>
-             </li>
              <li>
-            	<label class="fl">临时供应商:</label>
+            	<label class="fl">临时供应商：</label>
 	            <select name="isProvisional" id="isProvisional" class="w220">
 	              <option value=''>全部</option>
 	              <option value='1' <c:if test="${supplier.isProvisional eq '1' }">selected</c:if>>是</option>
 	              <option value='0' <c:if test="${supplier.isProvisional eq '0' }">selected</c:if>>否</option>
 	            </select>
 	         	</li>
+	         	<li>
+            	 <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w100" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
+               <span class="f14">至</span>
+               <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>'  class="Wdate w110" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+               </span>
+             </li>
 		       </ul>
 		       <div class="col-md-12 clear tc mt10">
 	           <button type="button" onclick="submit()" class="btn">查询</button>

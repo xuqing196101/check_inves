@@ -436,12 +436,8 @@
 							<label class="fl">手机号：</label>
 							<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
 						</li>
-						<li>
-              <label class="fl">供应商类型：</label><span><input  class="w220" id="supplierType" class="span2 mt5" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
-              <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
-            </li>
             <li>
-            	<label class="fl">企业性质:</label>
+            	<label class="fl">企业性质：</label>
 	            <select name="businessType" id="businessType" class="w220">
 	              <option value=''>全部</option>
 	              <c:forEach items="${businessType}" var="list">
@@ -449,8 +445,12 @@
 	              </c:forEach>
 	            </select>
          	  </li>
+         	  <li>
+              <label class="fl">供应商类型：</label><span><input  class="w220" id="supplierType" class="span2 mt5" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
+              <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
+            </li>
 	          <li>
-              <label class="fl">供应商状态:</label>
+              <label class="fl">供应商状态：</label>
               <span>
                 <select id="status" name="status" class="w220">
 	                <option  selected="selected" value=''>全部</option>
@@ -485,9 +485,9 @@
 			            </select>
 			       	 </span>
 	      		</li> -->
-	      		<c:if test ="${sign == 1 }">
+	      		<%-- <c:if test ="${sign == 1 }">
             	<li>
-	            	<label class="fl">地区:</label>
+	            	<label class="fl">地区：</label>
 		            <select name="address" id="address" class="w220">
 		              <option value=''>全部</option>
 		              <c:forEach items="${privnce}" var="list">
@@ -495,21 +495,21 @@
 		              </c:forEach>
 		            </select>
 		          </li>
-            </c:if>
-	      		<li>
-	          	<label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
-	            <span class="f14">至</span>
-	            <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-	            </span>
-	          </li>
+            </c:if> --%>
 	          <li>
-            	<label class="fl">临时供应商:</label>
+            	<label class="fl">临时供应商：</label>
 	            <select name="isProvisional" id="isProvisional" class="w220">
 	              <option value=''>全部</option>
 	              <option value='1' <c:if test="${supplier.isProvisional eq '1' }">selected</c:if>>是</option>
 	              <option value='0' <c:if test="${supplier.isProvisional eq '0' }">selected</c:if>>否</option>
 	            </select>
 	         	</li>
+	         	<li>
+	          	<label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
+	            <span class="f14">至</span>
+	            <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+	            </span>
+	          </li>
 	        </ul>
 	          <div class="col-md-12 clear tc mt10">
             	<button type="button" onclick="submit()" class="btn">查询</button>
@@ -539,7 +539,7 @@
 				<table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>
-							<th class="info w50">选择</th>
+							<!-- <th class="info w50">选择</th> -->
 							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
 							<!-- <th class="info">用户名</th> -->
@@ -556,7 +556,7 @@
 					<tbody>
 						<c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 							<tr>
-								<td class="tc w30"><input type="radio" value="${list.id }" name="chkItem"  id="${list.id}"></td>
+								<%-- <td class="tc w30"><input type="radio" value="${list.id }" name="chkItem"  id="${list.id}"></td> --%>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
 									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
