@@ -21,7 +21,13 @@
 				$(this).prop("checked", true);
 			}
 		});
-		showJiGou($("#children_area_select_id"));
+//		showJiGou($("#children_area_select_id"));
+		//根据状态来判断是否可选择
+        var _status = '${currSupplier.status}';
+        if('-1' !=_status){//提交审核后,禁用radio
+            var _radio_checked = $(".isStatusFlag").find(":radio:checked");
+            $("#procurementDepId").val(_radio_checked.val());
+        }
 	});
 	
 	/** 保存基本信息 */
@@ -121,7 +127,7 @@
 						</form>
 						<div class="tab-content padding-top-20">
 							<div class="tab-pane fade active in height-300" id="tab-1">
-								<div class="margin-bottom-0 categories mb50">
+								<div class="margin-bottom-0 categories mb50 isStatusFlag">
 									<h2 class="f16  ">
 								      	<font color="red">*</font> 选择采购机构
 									</h2>
@@ -142,7 +148,7 @@
 											<c:forEach items="${allPurList}" var="org1" varStatus="vs1">
 											  <c:if test="${org1.cityId eq currSupplier.address}">
 												<tr>
-													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
+													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${-1!=currSupplier.status}"> disabled="disabled" </c:if> <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs}</td>
 													<td class="tc">${org1.shortName}</td>
 													<td class="tc">${org1.address}</td>
@@ -169,7 +175,7 @@
 											<c:forEach items="${allPurList}" var="org1">
 												<c:if test="${org1.cityId ne currSupplier.address}">
 												<tr>
-													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
+													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${-1!=currSupplier.status}"> disabled="disabled" </c:if> <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs}</td>
 													<td class="tc">${org1.shortName}</td>
 													<td class="tc">${org1.address}</td>

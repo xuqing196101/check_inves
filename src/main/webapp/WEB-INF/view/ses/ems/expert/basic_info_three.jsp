@@ -202,7 +202,7 @@
             <span id="jg5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span>
             <div class="clear"></div>
         </h2>
-        <div class="container container_box">
+        <div class="container container_box isStatusFlag">
             <h2 class="list_title">推荐采购机构（以单位所在地址作为推荐采购机构依据）</h2>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <thead>
@@ -220,7 +220,7 @@
                 <c:forEach items="${allPurList}" var="org1" varStatus="vs">
                     <c:if test="${org1.cityId eq expert.address}">
                         <tr>
-                            <td class="tc"><input  name="procurementDepId" type="radio" value="${org1.id}" onclick="checkDep(this)"
+                            <td class="tc"><input  name="procurementDepId" type="radio" value="${org1.id}" onclick="checkDep(this)" <c:if test="${-1!=expert.status}"> disabled="disabled" </c:if>
                                     <c:if test="${org1.id==expert.purchaseDepId}"> checked='checked' </c:if> />
                             </td>
                             <td class="tc">${vs.index + 1}</td>
@@ -250,9 +250,8 @@
                 <c:forEach items="${allPurList}" var="org1" varStatus="vs">
                     <c:if test="${org1.cityId ne expert.address}">
                         <tr>
-                            <td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)"
-                                                  name="procurementDepId" <c:if
-                                    test="${org1.id ==expert.purchaseDepId}"> checked='checked' </c:if> /></td>
+                            <td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" <c:if test="${-1!=expert.status}"> disabled="disabled" </c:if>
+                                                  name="procurementDepId" <c:if test="${org1.id ==expert.purchaseDepId}"> checked='checked' </c:if> /></td>
                             <td class="tc">${vs.index + 1}</td>
                             <td class="tc">${org1.shortName}</td>
                                 <%-- <td class="tc">${org1.supplierContact}</td>
@@ -279,6 +278,13 @@
 <jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 <script>
+    $(function () {
+        var _status = '${expert.status}';
+        if('-1' !=_status){//提交审核后,禁用radio
+            var _radio_checked = $(".isStatusFlag").find(":radio:checked");
+            $("#formExpert").append('<input type="hidden" name="procurementDepId" id="procurementDepId" value="'+_radio_checked.val()+'"/>');
+        }
+    })
     var isClick = (function ($) {
         var is = false;
         $("input:radio").each(function () {
