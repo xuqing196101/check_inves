@@ -1433,14 +1433,14 @@
 																</td>
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>><input
-																	required="required" type="text" maxlength="10"
+																	required="required" type="text" maxlength="150"
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert"
 																	value="${certPro.levelCert}" class="border0" /></td>
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	  <div class="w200 fl">
 																	  <input
-																	required="required" type="text" maxlength="30"
+																	required="required" type="text" maxlength="150"
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith"
 																	value="${certPro.licenceAuthorith}" class="border0" />
 																	 </div>
