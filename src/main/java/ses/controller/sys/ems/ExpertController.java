@@ -4467,23 +4467,23 @@ public class ExpertController extends BaseController {
 	@RequestMapping("/addprofessional")
 	@ResponseBody
 	public String add(Expert expert){
-		if(expert.getExpertsTypeId().trim().length()!=0){
-			String[] ids = expert.getExpertsTypeId().split(",");
-			String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
-			String pId = DictionaryDataUtil.getId("PROJECT");
-			for(String id:ids){
-				if(id.equals(pId)){
-					expertTitleService.addBatch(expert.getTitles(),id);
-					continue;
-				}
-				if(id.equals(gpId)){
-					expertTitleService.addBatch(expert.getEcoList(),id);
-					continue;
-				}
-			}
-		}
-		
-		
+	    if(null != expert && null != expert.getExpertsTypeId()){
+            if(expert.getExpertsTypeId().trim().length()!=0){
+                String[] ids = expert.getExpertsTypeId().split(",");
+                String gpId = DictionaryDataUtil.getId("GOODS_PROJECT");
+                String pId = DictionaryDataUtil.getId("PROJECT");
+                for(String id:ids){
+                    if(id.equals(pId)){
+                        expertTitleService.addBatch(expert.getTitles(),id);
+                        continue;
+                    }
+                    if(id.equals(gpId)){
+                        expertTitleService.addBatch(expert.getEcoList(),id);
+                        continue;
+                    }
+                }
+            }
+        }
 		return "";
 	}
 	
