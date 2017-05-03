@@ -2781,10 +2781,10 @@ public class SupplierController extends BaseSupplierController {
 //            str = "ok";
 //        }
         boolean isSuccess = supplierAddressService.deleteAddressByIds(id);
-        if(isSuccess){
-            str = "ok";
-        }
-        return str;
+//        if(isSuccess){
+//            str = "ok";
+//        }
+        return "ok";
 	}
 
 	/**

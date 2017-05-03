@@ -773,10 +773,6 @@
                                         var tr = $(this).parent().parent();
                                         $(tr).remove();
                                     });
-                                }else{
-                                    layer.msg("删除失败!", {
-                                        offset: '300px'
-                                    });
                                 }
                             },
                             error: function() {
