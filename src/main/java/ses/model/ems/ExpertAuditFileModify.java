@@ -5,7 +5,7 @@ public class ExpertAuditFileModify {
 	private String expertId;
 	private String typeId;
 	private String listId;
-	
+	private String isDeleted;
 	
 	public String getId() {
 		return id;
@@ -30,6 +30,12 @@ public class ExpertAuditFileModify {
 	}
 	public void setListId(String listId) {
 		this.listId = listId;
+	}
+	public String getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(String isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 	
 	

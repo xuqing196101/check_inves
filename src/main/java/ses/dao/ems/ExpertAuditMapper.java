@@ -107,16 +107,7 @@ public interface ExpertAuditMapper {
     List<ExpertAudit> findAllPassExpert();
     
     List<ExpertAudit> selectFailByExpertId (ExpertAudit expertAudit);
-    
-    /**
-     * @Title: updateByExpertId
-     * @author XuQing 
-     * @date 2016-12-27 上午11:00:46  
-     * @Description:更新isdelete
-     * @param @param expertId      
-     * @return void
-     */
-    void updateIsDeleteByExpertId (String expertId); 
+     
     
     /**
      * @Title: deleteByExpertId
@@ -138,4 +129,15 @@ public interface ExpertAuditMapper {
 	
 	
 	List<ExpertAudit> selectbyAuditType(ExpertAudit expertAudit);
+	
+	
+	/**
+     * @Title: updateIsDeleteByExpertId
+     * @author XuQing 
+     * @date 2017-5-2 下午4:11:56  
+     * @Description:软删除
+     * @param @param expertId      
+     * @return void
+     */
+    void updateIsDeleteByExpertId (String expertId);
 }

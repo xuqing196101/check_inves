@@ -25,7 +25,6 @@
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_AUDIT
     where SUPPLIER_ID = #{supplierId}
-    and IS_DELETED = 0
     <if test="auditField!=null">
 		and  AUDIT_FIELD=#{auditField}
     </if>

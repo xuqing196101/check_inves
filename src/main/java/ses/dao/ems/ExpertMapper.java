@@ -242,4 +242,14 @@ public interface ExpertMapper {
      * @return void
      */
     void updateExtractOrgidById(Expert expert);
+    
+    /**
+     * @Title: updateIsDeleteById
+     * @author XuQing 
+     * @date 2017-5-2 下午5:25:39  
+     * @Description:软删除历史信息
+     * @param @param expertId      
+     * @return void
+     */
+    void updateIsDeleteById(String expertId);
 }

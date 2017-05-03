@@ -8,7 +8,7 @@
     <result column="CREATED_AT"  property="createdAt" />
     <result column="RELATION_ID"  property="relationId" />
 	  <result column="CONTENT"  property="content" />
-
+		<result column="IS_DELETED"  property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
      ID, EXPERT_ID, FIELD, CREATED_AT, RELATION_ID, CONTENT
@@ -19,6 +19,7 @@
     *
     from T_SES_EMS_EXPERT_ENG_MODIFY
     where EXPERT_ID = #{expertId}
+    	and IS_DELETED = 0
     <if test="field != null">
       and FIELD = #{field}
     </if>
@@ -27,10 +28,21 @@
     </if>
   </select>
 	
+	 <!-- 软删除 -->
+  <update id="updateIsDeletedByExpertId" parameterType="java.lang.String">
+  	update
+  		T_SES_EMS_EXPERT_ENG_MODIFY
+  	set
+  		IS_DELETED = 1
+  	where
+  		EXPERT_ID = #{expertId}
+  </update>
+	
 	<delete id="deleteByExpertId" parameterType="ses.model.ems.ExpertEngHistory">
         delete from
         T_SES_EMS_EXPERT_ENG_MODIFY
         where EXPERT_ID = #{expertId}
+        and IS_DELETED = 0
   </delete>
 	
   <insert id="insertSelective" parameterType="ses.model.ems.ExpertEngHistory">

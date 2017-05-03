@@ -102,6 +102,8 @@ public class ExpertHistory implements Serializable{
     private String professional;
     /*省+地区*/
     private String range;
+    
+    private String expertId;
 
     public String getRange() {
         return range;
@@ -358,5 +360,13 @@ public class ExpertHistory implements Serializable{
     public void setRelName(String relName) {
         this.relName = relName;
     }
+
+	public String getExpertId() {
+		return expertId;
+	}
+
+	public void setExpertId(String expertId) {
+		this.expertId = expertId;
+	}
     
 }

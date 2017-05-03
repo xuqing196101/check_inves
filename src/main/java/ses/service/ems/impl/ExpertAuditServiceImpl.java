@@ -330,4 +330,19 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 			}
 		}
 	}
+	
+	
+	/**
+	 * @Title: updateIsDeletedByExpertId
+	 * @author XuQing 
+	 * @date 2017-5-2 下午5:03:13  
+	 * @Description:软删除附件历史信息
+	 * @param @param expertId      
+	 * @return void
+	 */
+	@Override
+	public void updateIsDeleted(String expertId) {
+		fileModifyMapper.updateIsDeletedByExpertId(expertId);
+		
+	}
 }

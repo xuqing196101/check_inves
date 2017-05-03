@@ -10,7 +10,7 @@
     <result column="AUDIT_RESULT" jdbcType="VARCHAR" property="auditResult" />
     <result column="AUDIT_AT" property="auditAt" jdbcType="TIMESTAMP"/>
     <result column="TYPE" jdbcType="VARCHAR" property="type" />
-    <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <result column="SUGGEST_TYPE" jdbcType="VARCHAR" property="suggestType" />
     <result column="AUDIT_FIELD" jdbcType="VARCHAR" property="auditField" />
     <result column="AUDIT_CONTENT" jdbcType="VARCHAR" property="auditContent" />
@@ -18,7 +18,7 @@
     <result column="AUDIT_FIELD_NAME" jdbcType="VARCHAR" property="auditFieldName" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, EXPERT_ID, AUDIT_USER_ID, AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, AUDIT_AT, IS_DELETE, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE, "AUDIT_FIELD_ID"
+    ID, EXPERT_ID, AUDIT_USER_ID, AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, AUDIT_AT, IS_DELETED, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE, "AUDIT_FIELD_ID"
   </sql>
   <!-- 根据专家id查询 -->
   <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -26,6 +26,7 @@
     *
     from T_SES_EMS_EXPERT_AUDIT
     where EXPERT_ID = #{expertId}
+    and IS_DELETED = 0
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -40,7 +41,7 @@
     from T_SES_EMS_EXPERT_AUDIT
     where EXPERT_ID = #{expertId}
     and AUDIT_RESULT = '1'
-    and nvl(IS_DELETE,0) = 0
+    and nvl(IS_DELETED,0) = 0
   </select>
   <!-- 查找所有审核通过的专家 -->
   <select id="findAllPassExpert" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -48,7 +49,7 @@
     *
     from T_SES_EMS_EXPERT_AUDIT
     where AUDIT_RESULT = '1'
-    and nvl(IS_DELETE,0) = 0
+    and nvl(IS_DELETED,0) = 0
   </select>
   
   <!-- 查找所有符合条件的专家 -->
@@ -58,6 +59,7 @@
     from T_SES_EMS_EXPERT_AUDIT
     where 
     	EXPERT_ID = #{expertId}
+    and IS_DELETED = 0
     <if test="suggestType != '' and suggestType != null">
     	and SUGGEST_TYPE = #{suggestType}
     </if>
@@ -73,11 +75,11 @@
   <insert id="insert" parameterType="ses.model.ems.ExpertAudit">
     insert into T_SES_EMS_EXPERT_AUDIT (ID, EXPERT_ID, AUDIT_USER_ID, 
       AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, 
-      AUDIT_AT, IS_DELETE, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE
+      AUDIT_AT, IS_DELETED, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE
       )
     values (#{id}, #{expertId}, #{auditUserId}, 
       #{auditUserName}, #{auditReason}, #{auditResult}, 
-      #{auditAt,jdbcType=TIMESTAMP}, #{isDelete}, #{suggestType}, #{auditField}, #{auditContent}, #{type}
+      #{auditAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{suggestType}, #{auditField}, #{auditContent}, #{type}
       )
   </insert>
   
@@ -106,8 +108,8 @@
       <if test="auditAt != null">
         AUDIT_AT,
       </if>
-      <if test="isDelete != null">
-        IS_DELETE,
+      <if test="isDeleted != null">
+        IS_DELETED,
       </if>
       <if test="suggestType != null">
         SUGGEST_TYPE,
@@ -150,8 +152,8 @@
       <if test="auditAt != null">
         #{auditAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="isDelete != null">
-        #{isDelete},
+      <if test="isDeleted != null">
+        #{isDeleted},
       </if>
       <if test="suggestType != null">
         #{suggestType},
@@ -197,8 +199,8 @@
       <if test="auditAt != null">
         AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="isDelete != null">
-        IS_DELETE = #{isDelete},
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
       </if>
       <if test="suggestType != null">
         SUGGEST_TYPE = #{suggestType},
@@ -224,7 +226,7 @@
       AUDIT_RESULT = #{auditResult},
       AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
       TYPE = #{type},
-      IS_DELETE = #{isDelete}
+      IS_DELETED = #{isDeleted}
       SUGGEST_TYPE = #{suggestType},
       AUDIT_FIELD = #{auditField},
       AUDIT_CONTENT = #{auditContent}
@@ -238,6 +240,7 @@
     	T_SES_EMS_EXPERT_AUDIT
     where 
     	EXPERT_ID = #{expertId}
+    	and IS_DELETED = 0
     <if test="suggestType != '' and suggestType != null">
     	and SUGGEST_TYPE = #{suggestType}
     </if>
@@ -271,15 +274,25 @@
   </select>
   
   
-  <update id="updateIsDeleteByExpertId">
+  <!-- <update id="updateIsDeleteByExpertId">
   	delete
   		T_SES_EMS_EXPERT_AUDIT
     where
     	EXPERT_ID = #{expertId}
-  </update>
+  </update> -->
   
   <delete id="deleteByExpertId" parameterType="java.lang.String">
     delete from T_SES_EMS_EXPERT_AUDIT
     where EXPERT_ID = #{expertId}
   </delete>
+  
+  <!-- 软删除历史记录 -->
+  <update id="updateIsDeleteByExpertId" parameterType="java.lang.String">
+  	update
+  		T_SES_EMS_EXPERT_AUDIT
+  	set
+  		IS_DELETED = 1
+  	where 
+  		EXPERT_ID =#{expertId}
+  </update>
 </mapper>

@@ -984,7 +984,7 @@ public class ExpertServiceImpl implements ExpertService {
       if(auditList!=null && auditList.size()>0){
         for (ExpertAudit expertAudit : auditList) {
           //修改之前的审核信息为删除 和历史状态
-          expertAudit.setIsDelete(1);
+          expertAudit.setIsDeleted(1);
 //          expertAudit.setIsHistory("1");
           expertAuditMapper.updateByPrimaryKeySelective(expertAudit);
         }
@@ -1101,6 +1101,7 @@ public class ExpertServiceImpl implements ExpertService {
      */
     @Override
     public void insertExpertHistory(ExpertHistory expert) {
+    	expert.setExpertId(expert.getId());
         mapper.insertExpertHistory(expert);
     }
     
@@ -1282,6 +1283,20 @@ public class ExpertServiceImpl implements ExpertService {
 	@Override
 	public void updateExtractOrgidById(Expert expert) {
 		mapper.updateExtractOrgidById(expert);
+		
+	}
+
+	/**
+     * @Title: updateIsDeleteById
+     * @author XuQing 
+     * @date 2017-5-2 下午5:25:39  
+     * @Description:软删除历史信息
+     * @param @param expertId      
+     * @return void
+     */
+	@Override
+	public void updateIsDeleteById(String expertId) {
+		mapper.updateIsDeleteById(expertId);
 		
 	}
     

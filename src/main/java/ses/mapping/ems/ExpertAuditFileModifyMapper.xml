@@ -6,6 +6,7 @@
     <result column="EXPERT_ID"  property="expertId" />
     <result column="TYPE_ID"  property="typeId" />
     <result column="LIST_ID"  property="listId" />
+    <result column="IS_DELETED"  property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
      ID, EXPERT_ID, TYPE_ID
@@ -53,8 +54,20 @@
     where EXPERT_ID = #{expertId}
     <if test="typeId !=null">
     	AND TYPE_ID = #{typeId}
+    	and IS_DELETED = 0
     </if>
   </select>
+  
+  
+   <!-- 软删除 -->
+  <update id="updateIsDeletedByExpertId" parameterType="java.lang.String">
+  	update
+  		T_SES_EMS_EXPERT_FILE_MODIFY
+  	set
+  		IS_DELETED = 1
+  	where
+  		EXPERT_ID = #{expertId}
+  </update>
 	
 	<delete id="delByExpertId" parameterType="ses.model.ems.ExpertAuditFileModify">
   delete from

@@ -9,6 +9,7 @@ public class ExpertEngHistory {
 	private String content;
 	private String relationId;
 	private Date createdAt;
+	private String isDeleted;
 	public String getId() {
 		return id;
 	}
@@ -45,6 +46,12 @@ public class ExpertEngHistory {
 	}
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	public String getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(String isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 	
 	

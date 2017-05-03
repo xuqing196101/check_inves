@@ -19,6 +19,11 @@ import ses.service.ems.ExpertEngHistorySerivce;
 import ses.service.ems.ExpertTitleService;
 import ses.util.DictionaryDataUtil;
 
+/**
+ * <p>Title:ExpertEngHistoryMapper </p>
+ * <p>Description: 工程下的职业资格历史记录</p>
+ * @date 2017-5-2下午4:29:48
+ */
 @Service("expertEngHistorySerivce")
 public class ExpertEngHistorySerivceImpl implements ExpertEngHistorySerivce{
 
@@ -31,6 +36,9 @@ public class ExpertEngHistorySerivceImpl implements ExpertEngHistorySerivce{
 	@Autowired
 	private ExpertMapper mapper;
 	
+	/**
+	 * 插入历史数据
+	 */
 	@Override
 	public void insertSelective(ExpertEngHistory expertEngHistory) {
 		Date date = new Date();
@@ -72,7 +80,10 @@ public class ExpertEngHistorySerivceImpl implements ExpertEngHistorySerivce{
 			}
 		}
 	}
-
+	
+	/**
+	 * 查询历史数据
+	 */
 	@Override
 	public List<ExpertEngHistory> selectByExpertId(ExpertEngHistory expertEngHistory) {
 		return expertEngHistoryMapper.selectByExpertId(expertEngHistory);
@@ -81,6 +92,20 @@ public class ExpertEngHistorySerivceImpl implements ExpertEngHistorySerivce{
 	@Override
 	public void deleteByExpertId(ExpertEngHistory expertEngHistory) {
 		expertEngHistoryMapper.deleteByExpertId(expertEngHistory);
+		
+	}
+
+	/**
+	 * @Title: updateIsDeletedByExpertId
+	 * @author XuQing 
+	 * @date 2017-5-2 下午4:31:09  
+	 * @Description:软删除历史数据
+	 * @param @param expertId      
+	 * @return void
+	 */
+	@Override
+	public void updateIsDeletedByExpertId(ExpertEngHistory expertEngHistory){
+		expertEngHistoryMapper.updateIsDeletedByExpertId(expertEngHistory);
 		
 	}
 	

@@ -1334,8 +1334,11 @@ public class ExpertAuditController{
 	@ResponseBody
 	public String showModify(ExpertEngHistory expertEngHistory, HttpServletRequest request) throws ParseException {
 		List<ExpertEngHistory> modifyList = expertEngModifySerivce.selectByExpertId(expertEngHistory);
-		expertEngHistory = modifyList.get(0);
-		return JSON.toJSONString(expertEngHistory.getContent());
+		if(!modifyList.isEmpty()  && modifyList.size() > 0){
+			expertEngHistory = modifyList.get(0);
+			return JSON.toJSONString(expertEngHistory.getContent());
+		}
+		return null;
 	}
 	
 	
@@ -1387,7 +1390,9 @@ public class ExpertAuditController{
 		 */
 		if("3".equals(expert.getStatus())) {
 			//删除旧的专家input信息
-			service.deleteExpertHistory(expert.getId());
+			/*service.deleteExpertHistory(expert.getId());*/
+			service.updateIsDeleteById(expert.getId());
+			
 			//重新插入新的信息
 			Expert exp = service.selectByPrimaryKey(expert.getId());
 			service.insertExpertHistory(exp);
@@ -1397,14 +1402,17 @@ public class ExpertAuditController{
 			 */
 			ExpertEngHistory expertEngHistory = new ExpertEngHistory();
 			expertEngHistory.setExpertId(expert.getId());
-			expertEngHistorySerivce.deleteByExpertId(expertEngHistory);
-						
+			/*expertEngHistorySerivce.deleteByExpertId(expertEngHistory);*/
+			//软删除历史信息
+			expertEngHistorySerivce.updateIsDeletedByExpertId(expertEngHistory);
 			// 新增历史记录
 			expertEngHistorySerivce.insertSelective(expertEngHistory);
+			//软删除之前的对比记录
+			expertEngModifySerivce.updateIsDeletedByExpertId(expert.getId());
 			
-			//删除附件修改的记录
-			expertAuditService.delFileModifyByExpertId(expert.getId());
-			
+			//软删除附件修改的记录
+			/*expertAuditService.delFileModifyByExpertId(expert.getId());*/
+			expertAuditService.updateIsDeleted(expert.getId());
 			
 			expert.setIsSubmit("0");
 		}

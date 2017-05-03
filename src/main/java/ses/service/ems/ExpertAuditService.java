@@ -132,15 +132,6 @@ public interface ExpertAuditService {
     
     List<ExpertAudit> selectFailByExpertId (ExpertAudit expertAudit);
     
-    /**
-     * @Title: updateByExpertId
-     * @author XuQing 
-     * @date 2016-12-27 上午11:00:46  
-     * @Description:更新isdelete
-     * @param @param expertId      
-     * @return void
-     */
-    void updateIsDeleteByExpertId (String expertId);
     
    /**
     * @Title: downloadFile
@@ -208,4 +199,25 @@ public interface ExpertAuditService {
 	 * @return void
 	 */
 	void addFileInfo (String businessId, String fileTypeId);
+	
+	/**
+     * @Title: updateIsDeleteByExpertId
+     * @author XuQing 
+     * @date 2017-5-2 下午4:11:56  
+     * @Description:软删除
+     * @param @param expertId      
+     * @return void
+     */
+    void updateIsDeleteByExpertId (String expertId);
+    
+    
+    /**
+	 * @Title: updateIsDeletedByExpertId
+	 * @author XuQing 
+	 * @date 2017-5-2 下午5:03:13  
+	 * @Description:软删除附件历史信息
+	 * @param @param expertId      
+	 * @return void
+	 */
+	void updateIsDeleted (String expertId);
 }

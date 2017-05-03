@@ -105,4 +105,18 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 		
 	}
 	
+	/**
+	 * @Title: updateIsDeletedByExpertId
+	 * @author XuQing 
+	 * @date 2017-5-2 下午5:03:13  
+	 * @Description:软删除
+	 * @param @param expertId      
+	 * @return void
+	 */
+	@Override
+	public void updateIsDeletedByExpertId(String expertId) {
+		expertEngModifyMapper.updateIsDeletedByExpertId(expertId);
+		
+	}
+	
 }

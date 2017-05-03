@@ -1958,9 +1958,10 @@ public class ExpertController extends BaseController {
                 Expert temp = service.selectByPrimaryKey(expertId);
                 if("3".equals(temp.getStatus())) {
                     //删除之前的审核信息
-                    /*expertAuditService.updateIsDeleteByExpertId(expertId);*/
-                    expertAuditService.deleteByExpertId(expertId);
+                    expertAuditService.updateIsDeleteByExpertId(expertId);
+                   /* expertAuditService.deleteByExpertId(expertId);*/
                     //未审核
+                    expert.setStatus("0");
                     /*expert.setIsDelete((short) 1);*/
                 }
                 expert.setStatus("0");

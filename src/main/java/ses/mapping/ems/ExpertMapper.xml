@@ -1274,7 +1274,7 @@
         AVOIDANCE_SITUATION,
         IS_REFERENCE_LETTER,
         PROFESSIONAL,
-        TIME_PROFESSIONAL
+        TIME_PROFESSIONAL, EXPERT_ID
         )
         values
         (#{id,jdbcType=VARCHAR},
@@ -1316,12 +1316,16 @@
         #{avoidanceSituation,jdbcType=VARCHAR},
         #{isReferenceLftter,jdbcType=CHAR},
         #{professional,jdbcType=VARCHAR},
-        #{timeProfessional,jdbcType=TIMESTAMP}
+        #{timeProfessional,jdbcType=TIMESTAMP},
+        #{expertId}
         )
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+					select sys_guid() from dual
+				</selectKey>
     </insert>
 
     <delete id="deleteExpertHistory">
-        delete from T_SES_EMS_EXPERT_History
+        delete from T_SES_EMS_EXPERT_HISTORY
         where ID =
         #{_parameter}
     </delete>
@@ -1367,9 +1371,11 @@
     IS_REFERENCE_LETTER isReferenceLftter,
     PROFESSIONAL professional,
     TIME_PROFESSIONAL timeProfessional,
-    RANGE range
-		from T_SES_EMS_EXPERT_History
-		where ID = #{_parameter}
+    RANGE range,
+    EXPERT_ID expertId
+		from T_SES_EMS_EXPERT_HISTORY
+		where EXPERT_ID = #{expertId}
+		and IS_DELETED = 0
 	</select>
 
     <!-- 根据创建时间获取已提交的专家 -->
@@ -1825,5 +1831,16 @@
 		WHERE
 			ID = #{id}
 	</update>
+	
+	
+	 <!-- 软删除历史记录 -->
+  <update id="updateIsDeleteById" parameterType="java.lang.String">
+  	update
+  		T_SES_EMS_EXPERT_HISTORY
+  	set
+  		IS_DELETED = 1
+  	where 
+  		EXPERT_ID = #{expertId}
+  </update>
 	
 </mapper>
