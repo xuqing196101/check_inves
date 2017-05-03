@@ -237,12 +237,12 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     /**
      * 
     * @Title: getTitle
-    * @Description: 专家刚才类型
+    * @Description: 专家职业类型
     * author: Li Xiaoxiao 
     * @param @param expertId
     * @param @return     
     * @return List<ExpertTitle>     
-    * @throws
+    * @throwsRS
      */
     public List<ExpertTitle> getTitle(String expertId){
     	List<ExpertTitle> list = expertTitleMapper.selectByExpertId(expertId);
@@ -260,7 +260,7 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     * @throws
      */
     public  List<UploadFile> getAttch(String expertId){
-        List<UploadFile> attchs = fileUploadMapper.substrBusinessId(expertId);
+        List<UploadFile> attchs = fileUploadMapper.quyerExpertAttchment(expertId);
     	List<ExpertTitle> list = expertTitleMapper.selectByExpertId(expertId);
 	    	for(ExpertTitle ep:list){
 	    	     List<UploadFile> titleFile = fileUploadMapper.substrBusinessId(ep.getId());

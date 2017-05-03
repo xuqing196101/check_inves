@@ -165,9 +165,6 @@
         #{relationId},
       </if>
     </trim>
-    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-			select sys_guid() from dual
-		</selectKey>
   </insert>
   
   <!-- 删除历史记录 -->

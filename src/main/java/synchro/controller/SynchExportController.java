@@ -204,11 +204,11 @@ public class SynchExportController {
         if (synchType.contains("inner_out")) {
             outerSupplierService.auditPass(startTime, endTime);
         }
-        /**外网供应商退回修改*/
+        /**外网供应商退回修改重新提交*/
         if (synchType.contains("back_out")) {
-            outerSupplierService.backSupplierExport(startTime, endTime);
+            outerSupplierService.exportCommitSupplier(startTime, endTime,date);
         }
-        
+        /**临时供应商导入导出*/
         if (synchType.contains("temp_out")) {
             outerSupplierService.tempSupplier(startTime, endTime);
         }

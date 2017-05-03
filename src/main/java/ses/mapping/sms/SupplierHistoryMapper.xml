@@ -123,6 +123,64 @@
   
   </insert>
   
+  
+  <insert id="inserActive" parameterType="ses.model.sms.SupplierHistory">
+    insert into T_SES_SMS_SUPPLIER_HISTORY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="beforeField != null">
+        BEFORE_FIELD,
+      </if>
+      <if test="modifyType != null">
+        MODIFY_TYPE,
+      </if>
+      <if test="beforeContent != null">
+        BEFORE_CONTENT,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="relationId != null">
+        RELATION_ID,
+      </if>
+      <if test="listType != null">
+        LIST_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId},
+      </if>
+      <if test="beforeField != null">
+        #{beforeField},
+      </if>
+      <if test="modifyType != null">
+        #{modifyType},
+      </if>
+      <if test="beforeContent != null">
+        #{beforeContent},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="relationId != null">
+        #{relationId},
+      </if>
+      <if test="listType != null">
+        #{listType},
+      </if>
+    </trim>
+  </insert>
+  
+  
   <!-- 删除历史记录 -->
   <delete id="delete" parameterType="ses.model.sms.SupplierHistory">
   	 delete from T_SES_SMS_SUPPLIER_HISTORY

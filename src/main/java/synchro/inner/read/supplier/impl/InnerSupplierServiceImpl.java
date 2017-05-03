@@ -190,6 +190,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     			   SupplierFinance unfinance = supplierFinanceMapper.selectByPrimaryKey(sf.getId());
     			   if(unfinance==null){
     				   supplierFinanceMapper.insertSelective(sf);
+    			   }else{
+//    				   supplierFinanceMapper.updateByPrimaryKeySelective(record)
     			   }
     		   }
     	   }
@@ -488,7 +490,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 			  for(SupplierModify sm:supplierModify){
 				  SupplierModify smf = supplierModifyMapper.selectById(sm.getId());
 				  if(smf==null){
-//					  supplierModifyMapper.insertSelective(sm);
+					  supplierModifyMapper.add(sm);
 				  }else{
 //					  supplierModifyMapper.
 				  }

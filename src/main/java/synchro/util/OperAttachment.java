@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
+import bss.util.FileUtil;
 import common.model.UploadFile;
 
 /**
@@ -22,7 +24,7 @@ import common.model.UploadFile;
  * @see
  */
 public class OperAttachment {
-    
+	private static Logger log = Logger.getLogger(OperAttachment.class);
     /**
      * 
      *〈简述〉写文件
@@ -57,6 +59,7 @@ public class OperAttachment {
             org.apache.commons.io.FileUtils.copyDirectoryToDirectory(file, destDir);
             org.apache.commons.io.FileUtils.deleteDirectory(file);  
             } catch (IOException e) {
+            	log.info(e.getMessage());
                 e.printStackTrace();
             }
        }

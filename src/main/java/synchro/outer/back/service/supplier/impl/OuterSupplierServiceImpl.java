@@ -454,7 +454,8 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 		// 查询品目合同信息
 		List < ContractBean > contract = supplierService.getContract(category);
 	      for(ContractBean con:contract){
-	    	  List<UploadFile> fileList = uploadService.findBybusinessId(con.getId(), Constant.SUPPLIER_SYS_KEY);
+	    	  List<UploadFile> fileList = uploadService.substrBusniessI(con.getId());
+//	    	  List<UploadFile> fileList = uploadService.substrBusinessId(con.getId());
 	    	  files.addAll(fileList);
 	      }
 	      

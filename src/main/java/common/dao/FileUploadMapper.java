@@ -173,7 +173,7 @@ public interface FileUploadMapper {
 	/**
 	 * 
 	* @Title: substr
-	* @Description:截取字符窜查询
+	* @Description:截取字符窜查询供应商附件
 	* author: Li Xiaoxiao 
 	* @param @param businessId
 	* @param @return     
@@ -181,4 +181,19 @@ public interface FileUploadMapper {
 	* @throws
 	 */
     List<UploadFile> substrBusinessId(@Param("businessId")String businessId);
+    
+    
+    
+    /**
+	 * 
+	* @Title: quyerExpertAttchment
+	* @Description:查询专家附件
+	* author: Li Xiaoxiao 
+	* @param @param businessId
+	* @param @return     
+	* @return List<UploadFile>     
+	* @throws
+	 */
+    List<UploadFile> quyerExpertAttchment(@Param("businessId")String businessId);
+    
 }

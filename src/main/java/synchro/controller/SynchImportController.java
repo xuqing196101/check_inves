@@ -202,6 +202,7 @@ public class SynchImportController {
                 }
             }
         }
+        //供应商新注册提交
         if(synchType.contains(Constant.DATA_TYPE_SUPPLIER_CODE)){
         	if (file != null && file.exists()){
                 File [] files = file.listFiles();
@@ -228,7 +229,7 @@ public class SynchImportController {
         
         
         /**
-         * 退回修改，不通过，导入到外网
+         * 退回修改，导入到外网
          */
         if(synchType.contains("inner_out")){
         	if (file != null && file.exists()){
@@ -239,7 +240,7 @@ public class SynchImportController {
                 }
                 for (File f : files){
                     if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)){
-                    	innerSupplierService.importSupplierInfo(f);
+                    	innerSupplierService.immportInner(f);
                     	
                     }
                     if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
@@ -265,7 +266,7 @@ public class SynchImportController {
                     return bean;
                 }
                 for (File f : files){
-                    if (f.getName().contains(FileUtils.C_SUPPLIER_BACK_FILENAME)){
+                    if (f.getName().contains(FileUtils.C_SUPPLIER_FILENAME)){
                     	innerSupplierService.importBackSupplier(f);
                     	
                     }

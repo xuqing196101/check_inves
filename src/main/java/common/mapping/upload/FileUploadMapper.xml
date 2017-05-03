@@ -208,4 +208,17 @@
 		SUBSTR (BUSINESS_ID, 0, 32) = #{businessId}
   </select>
  
+ 
+ 
+  <select id="quyerExpertAttchment"   resultMap="BaseResultMap_File">
+     SELECT 
+     <include refid="BASE_FILE_LIST" />
+     FROM
+	T_SES_EMS_EXPERT_ATTACHMENT
+	WHERE
+		SUBSTR (BUSINESS_ID, 0, 32) = #{businessId}
+  </select>
+  
+  
+  
 </mapper>

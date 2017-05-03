@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.model.sms.DeleteLogMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.DeleteLog">
+    <id column="ID"  property="id" />
+    <result column="TYPE_ID"  property="typeId" />
+     <result column="UNIQUE_CODE"  property="uniqueCode" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, TYPE_ID, CREATE_AT,UNIQUE_CODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_DELETE_LOG
+    where ID = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="String">
+    delete from  T_SES_SMS_DELETE_LOG
+    where ID = #{id}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.DeleteLog">
+    insert into  T_SES_SMS_DELETE_LOG (ID, TYPE_ID, CREATE_AT,UNIQUE_CODE
+      )
+    values (#{id}, #{typeId}, #{createAt,jdbcType=TIMESTAMP}, #{uniqueCode}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.DeleteLog">
+    insert into  T_SES_SMS_DELETE_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="typeId != null">
+        TYPE_ID,
+      </if>
+      <if test="createAt != null">
+        CREATE_AT,
+      </if>
+      <if test="uniqueCode != null">
+        UNIQUE_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="typeId != null">
+        #{typeId},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+       <if test="uniqueCode != null">
+        #{uniqueCode},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.DeleteLog">
+    update  T_SES_SMS_DELETE_LOG
+    <set>
+      <if test="typeId != null">
+        TYPE_ID = #{typeId},
+      </if>
+      <if test="createAt != null">
+        CREATE_AT = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+       <if test="uniqueCode != null">
+        UNIQUE_CODE = #{uniqueCode},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.DeleteLog">
+    update T_SES_SMS_DELETE_LOG
+    set TYPE_ID = #{typeId},
+      CREATE_AT = #{createAt,jdbcType=TIMESTAMP},
+       UNIQUE_CODE = #{uniqueCode}
+    where ID = #{id}
+  </update>
+  
+    <select id="queryByTypeId"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from   T_SES_SMS_DELETE_LOG
+    where TYPE_ID = #{typeId}
+  </select>
+  
+  
+  
+</mapper>
