@@ -49,6 +49,14 @@
 			});
 			return;
 		}
+		var v = $("input[name='checkbox']:checked").parents("tr").find("td").eq(7).text();
+			v = $.trim(v);
+		if(v=='手动移除'){
+		layer.msg("不能修改手动移除!", {
+				offset : '300px',
+			});
+			return;
+		}
 		var id = checkbox.val();
 		$("input[name='supplierBlacklistId']").val(id);
 		$("#edit_form_id").submit();

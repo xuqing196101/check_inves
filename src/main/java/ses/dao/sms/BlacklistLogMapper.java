@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.BlacklistLog;
 
 public interface BlacklistLogMapper {
@@ -45,5 +47,5 @@ public interface BlacklistLogMapper {
      */
     int updateByPrimaryKey(BlacklistLog record);
     
-    List<BlacklistLog> findBlacklistLogBySupplierId(String supplierId);
+    List<BlacklistLog> findBlacklistLogBySupplierId(@Param("supplierId")String supplierId);
 }

@@ -173,6 +173,9 @@
 		from T_SES_SMS_BLACKLIST_LOG t1
 		join T_SES_SMS_SUPPLIER t2
 		on t1.SUPPLIER_ID = t2.id
+		<if test="supplierId != null">
+		where t1.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
+		</if>
 		order by t1.OPERATION_DATE asc
 	</select>
 </mapper>

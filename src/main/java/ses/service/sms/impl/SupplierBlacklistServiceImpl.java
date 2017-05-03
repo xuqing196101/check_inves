@@ -35,14 +35,10 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 
 	@Override
 	public List<Supplier> findSupplier(Supplier supplier, int page) {
-		// 过滤到已经添加到黑名单的
-		List<SupplierBlacklist> listSupplierBlacklists = supplierBlacklistMapper.findSupplierBlacklist(new SupplierBlacklist());
+		// 过滤到已经添加到黑名单的  不包含 手动移除
+		List<String> listSupplierBlacklists = supplierBlacklistMapper.findByStatus("2");
 		if (listSupplierBlacklists != null && listSupplierBlacklists.size() > 0) {
-			List<String> list = new ArrayList<String>();
-			for (SupplierBlacklist blacklist : listSupplierBlacklists) {
-				list.add(blacklist.getSupplierId());
-			}
-			supplier.setItem(list);
+			supplier.setItem(listSupplierBlacklists);
 		}
 
 		supplier.setStatus(1);

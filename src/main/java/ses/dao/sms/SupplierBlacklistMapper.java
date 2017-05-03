@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierBlacklist;
 
 public interface SupplierBlacklistMapper {
@@ -46,6 +48,12 @@ public interface SupplierBlacklistMapper {
     int updateByPrimaryKey(SupplierBlacklist record);
     
     List<SupplierBlacklist> findSupplierBlacklist(SupplierBlacklist supplierBlacklist);
+    /**
+     * 获取 不等于 status 状态的 供应商id集合
+     * @param status
+     * @return
+     */
+    List<String> findByStatus(@Param("status")String status);
     
     int updateStatusById(SupplierBlacklist supplierBlacklist);
 }

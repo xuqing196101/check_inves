@@ -167,6 +167,15 @@
 		 order by START_TIME desc
 	</select>
 	
+	<select id="findByStatus" parameterType="String" resultType="String">
+		select SUPPLIER_ID from T_SES_SMS_SUPPLIER_BLACKLIST
+		<where>
+			<if test="status != null">
+				and STATUS != #{status,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	
 	<update id="updateStatusById" parameterType="ses.model.sms.SupplierBlacklist">
 		update T_SES_SMS_SUPPLIER_BLACKLIST set STATUS = #{status} where ID = #{id}
 	</update>

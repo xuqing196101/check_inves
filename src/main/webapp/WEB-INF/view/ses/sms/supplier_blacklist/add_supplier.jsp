@@ -57,7 +57,12 @@
                     <li><a href="#"> 首页</a></li>
                     <li><a href="#">业务管理</a></li>
                     <li><a href="#">供应商黑名单</a></li>
-                    <li class="active"><a href="#">添加供应商</a></li>
+                    <c:if test="${supplier.id==null}">
+                    <li class="active"><a href="#">添加供应商黑名单</a></li>
+                    </c:if>
+                    <c:if test="${supplier.id!=null}">
+                    <li class="active"><a href="#">编辑供应商黑名单</a></li>
+                    </c:if>
                 </ul>
                 <div class="clear"></div>
             </div>
@@ -65,11 +70,18 @@
         <div class="container container_box">
         <form action="${pageContext.request.contextPath}/supplier_blacklist/save_or_update_supplier_black.html" method="post" id = "form1">
             <div>
-                 <h2 class="count_flow"><i>1</i>添加供应商</h2>
+             <c:if test="${supplier.id==null}">
+                 <h2 class="count_flow"><i>1</i>添加供应商黑名单</h2> 
+                 </c:if>
+                 <c:if test="${supplier.id!=null}">
+                  <h2 class="count_flow"><i>1</i>编辑供应商黑名单</h2> 
+                 </c:if>
+                
                     <ul class="ul_list">
                             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>供应商名称</span>
                                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                                <input type="hidden" name="status"  value="${supplierBlacklist.status}" />
                                   <input name="id" type="hidden" value="${supplierBlacklist.id}">
                                   <input name="supplierId" id = "suppi" type="hidden" value="${supplier.id}">
                                 <input class="input_group" name="supplierName" readonly="readonly" id="suppllier_name_input_id" type="text" value="${supplier.supplierName}">
@@ -127,6 +139,7 @@
                     </ul>
                 </div>
                 <div class="col-md-12 tc col-sm-12 col-xs-12 mt10">
+                   
                     <input class="btn btn-windows save" type="submit" value="保存" />
                     <input class="btn btn-windows back" onclick="location='${pageContext.request.contextPath}/supplier_blacklist/list_blacklist.html'" type="button" value="返回">
                 </div>
