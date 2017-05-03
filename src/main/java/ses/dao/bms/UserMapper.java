@@ -332,4 +332,13 @@ public interface UserMapper {
 	 */
 	List<String> getUserId(List<String> orgIdList);
      
+	
+	/**
+	 * @Title: selectByTypeId
+	 * @Description根据类型id查
+	 * @param @param typeId
+	 * @param @return      
+	 * @return List<User>
+	 */
+	List<User> selectByTypeId(String typeId);
 }

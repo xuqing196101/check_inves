@@ -1186,15 +1186,45 @@ public class UserManageController extends BaseController{
 	  @RequestMapping(value = "/setPassword", produces = "text/html;charset=UTF-8")
 	  @ResponseBody
 	  public String setPassword(Model model, User user){
-	      List<User> queryByList = userService.queryByList(user);
-	      if (queryByList != null && queryByList.size() > 0){
-	    	  String id = queryByList.get(0).getId();
-	    	  user.setId(id);
-	    	  user.setPassword("123456");
-	    	  userService.resetPwd(user);
-	      }else{
-	        return JSON.toJSONString("error");
-	      }
-	    return JSON.toJSONString("sccuess");
-	  }
+		  String typeId = user.getTypeId();
+		  int count = 0;
+		  String msg = "";
+		  String pwd = user.getPassword();
+		  String pwd2 = user.getPassword2();
+		  if(typeId != null && typeId != ""){
+			  List<User> selectByTypeId = userService.selectByTypeId(typeId);
+			  if(!selectByTypeId.isEmpty() && selectByTypeId.size() > 0){
+				  if (pwd == null || "".equals(pwd)) {
+		            msg = "请输入密码";
+		            count ++;
+		          }
+				  if (pwd2 == null || "".equals(pwd2)) {
+		              if (count > 0) {
+		                  msg = "请输入密码和确认密码";
+		                  count ++;
+		              } else {
+		                  msg = "请输入确认密码";
+		                  count ++;
+		              }
+		          }
+				  if (count > 0) {
+					  return JSON.toJSONString(msg);
+		          }
+			      if (count == 0) {
+			    	  if (!pwd.equals(pwd2)) {
+		                  msg = "两次密码不一致";
+		                  return JSON.toJSONString(msg);
+		              } else {
+		            	  String id = selectByTypeId.get(0).getId();
+		            	  user.setId(id);
+		                  userService.resetPwd(user);
+		                  msg = "重置密码成功";
+		                  return JSON.toJSONString(msg);
+		              }
+		          }  
+			  }
+		  }
+		  msg = "重置失败";
+		  return JSON.toJSONString(msg);
+	 }
 }

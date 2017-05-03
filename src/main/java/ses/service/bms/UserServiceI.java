@@ -296,4 +296,14 @@ public interface UserServiceI {
    * @return
    */
   List<String> getUserId(List<String> OrgID,String typeName);
+  
+  
+  /**
+	 * @Title: selectByTypeId
+	 * @Description根据类型id查
+	 * @param @param typeId
+	 * @param @return      
+	 * @return List<User>
+	 */
+	List<User> selectByTypeId(String typeId);
 }

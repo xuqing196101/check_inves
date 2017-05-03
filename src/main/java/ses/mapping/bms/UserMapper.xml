@@ -971,4 +971,13 @@
       where ID = #{id}
     </select>
     
+
+     <select id="selectByTypeId" parameterType="java.lang.String" resultMap="UserBaseMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from T_SES_BMS_USER 
+	    where IS_DELETED = 0 
+	    and TYPE_ID = #{typeId}
+	  </select>
+    
 </mapper>
