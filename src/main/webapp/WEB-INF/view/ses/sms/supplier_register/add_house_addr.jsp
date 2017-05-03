@@ -26,7 +26,7 @@
         </div>
     </td>
     <td class="tc" style="border: 1px solid #ddd;">
-        <input type="text" class="w200 border0" name="addressList[${ind }].detailAddress" onblur='tempSave()' maxlength="50" value="" >
+        <input type="text" class="w200 border0" name="addressList[${ind }].detailAddress" placeholder="街道名称，门牌号。" onblur='tempSave()' maxlength="50" value="" >
 
     </td>
     <td class="tc" style="border: 1px solid #ddd;">

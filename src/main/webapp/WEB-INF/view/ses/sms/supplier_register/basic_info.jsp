@@ -1159,11 +1159,11 @@
                                         <table id="address_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table">
                                             <thead>
                                                 <tr>
-                                                    <th class="info"><input type="checkbox" onchange="checkAll(this, 'address_list_tbody_id')" /></th>
-                                                    <th class="info"><font color="red">*</font>生产或经营地址邮编</th>
-                                                    <th class="info"><font color="red">*</font>生产或经营地址（填写所有地址）</th>
+                                                    <th class="info" style="width:3%;"><input type="checkbox" onchange="checkAll(this, 'address_list_tbody_id')" /></th>
+                                                    <th class="info" style="width:13%;"><font color="red">*</font>生产或经营地址邮编</th>
+                                                    <th class="info" style="width:23%;"><font color="red">*</font>生产或经营地址（填写所有地址）</th>
                                                     <th class="info"><font color="red">*</font>生产或经营详细地址</th>
-                                                    <th class="info"><font color="red">*</font>房产证明或租赁协议</th>
+                                                    <th class="info" style="width:22%;"><font color="red">*</font>房产证明或租赁协议</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="address_list_tbody_id">
@@ -1203,7 +1203,7 @@
                                                         </div>
                                                     </td>
                                                     <td class="tc">
-                                                        <input type="text" class="w200 border0" name="addressList[${vs.index }].detailAddress" required maxlength="50" value="${addr.detailAddress }" <c:if test="${fn:contains(audit,'detailAddress_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress_${addr.id }')"</c:if>>
+                                                        <input type="text" class="w200 border0" placeholder="街道名称，门牌号。" name="addressList[${vs.index }].detailAddress" required maxlength="50" value="${addr.detailAddress }" <c:if test="${fn:contains(audit,'detailAddress_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress_${addr.id }')"</c:if>>
 
                                                     </td>
                                                     <td class="tc">
