@@ -25,6 +25,7 @@ import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
+import ses.model.ems.Expert;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.service.bms.PreMenuServiceI;
@@ -150,34 +151,43 @@ public class LoginController {
                 //进入专家后台
                 if (ers != null && ers.size() > 0) {
                     try {
-                        Map<String, Object> map = expertService.loginRedirect(u);
-                        Object object = map.get("expert");
-                        if (object != null) {
-                        	req.getSession().setAttribute("loginName", u.getId());
-                            // 拉黑 阻止登录
-                            if (object.equals("1")) {
-                                out.print("black");
-                            } else if(object.equals("5")){
-                                out.print("reject");
-                            }else if (object.equals("2")) {
-                                out.print("reset," + u.getId());
-                            } else if (object.equals("3")) {
-                                out.print("auditExp," + u.getId());
-                            } else if (object.equals("4")) {
-                                out.print("firset," + u.getId());
-                            } else if (object.equals("6")) {
-                                out.print("weed");
-                            } else if (object.equals("7")) {
-                                out.print("notLogin");
+                        // 根据userId查询出Expert
+                        Expert expert = expertService.selectByPrimaryKey(u.getTypeId());
+                        //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
+                        int validateDay = expertService.logoutExpertByDay(expert);
+                        if(0==validateDay){//通过
+                            Map<String, Object> map = expertService.loginRedirect(u);
+                            Object object = map.get("expert");
+                            if (object != null) {
+                                req.getSession().setAttribute("loginName", u.getId());
+                                // 拉黑 阻止登录
+                                if (object.equals("1")) {
+                                    out.print("black");
+                                } else if(object.equals("5")){
+                                    out.print("reject");
+                                }else if (object.equals("2")) {
+                                    out.print("reset," + u.getId());
+                                } else if (object.equals("3")) {
+                                    out.print("auditExp," + u.getId());
+                                } else if (object.equals("4")) {
+                                    out.print("firset," + u.getId());
+                                } else if (object.equals("6")) {
+                                    out.print("weed");
+                                } else if (object.equals("7")) {
+                                    out.print("notLogin");
+                                }
+                            } else {
+                                req.getSession().setAttribute("loginUser", u);
+                                List<PreMenu> resource = preMenuService.getMenu(u);
+                                req.getSession().setAttribute("resource", resource);
+                                //req.getSession().setAttribute("resource", u.getMenus());
+                                req.getSession().setAttribute("loginUserType", "expert");
+                                out.print("scuesslogin");
                             }
-                        } else {
-                            req.getSession().setAttribute("loginUser", u);
-                            List<PreMenu> resource = preMenuService.getMenu(u);
-                            req.getSession().setAttribute("resource", resource);
-                            //req.getSession().setAttribute("resource", u.getMenus());
-                            req.getSession().setAttribute("loginUserType", "expert");
-                            out.print("scuesslogin");
+                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
+                            out.print("expert_logout," + validateDay);
                         }
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

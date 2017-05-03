@@ -1315,7 +1315,37 @@ public class ExpertServiceImpl implements ExpertService {
 		
 		return mapper.selectRuKuExpert(expert);
 	}
-    
+
+    @Override
+    public int logoutExpertByDay(Expert expert) throws Exception {
+        String ex_status = expert.getStatus();
+        if(StringUtils.isNotBlank(ex_status)){
+            Date createAt = expert.getCreatedAt();
+            Date auditAt = expert.getAuditAt();
+            //注册后,90天内未提交审核
+            if("-1".equals(ex_status)){
+                //根据创建注册信息时间计算间隔天数
+                int betweenDays = this.daysBetween(createAt);
+                int days = Integer.parseInt(PropUtil.getProperty("logout.expert.first.overdue"));
+                if(betweenDays > days){
+                    this.deleteExpert(expert.getId());
+                    return days;
+                }
+            }
+            //退回修改后,60天未重新提交审核
+            if("3".equals(ex_status)){
+                //根据审核时间计算间隔天数
+                int betweenDays = this.daysBetween(auditAt);
+                int days = Integer.parseInt(PropUtil.getProperty("logout.expert.back.overdue"));
+                if(betweenDays > days){
+                    this.deleteExpert(expert.getId());
+                    return days;
+                }
+            }
+        }
+        return 0;
+    }
+
 }
 
 

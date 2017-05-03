@@ -466,4 +466,11 @@ public interface ExpertService {
      * @return List<Expert>
      */
     List<Expert> selectRuKuExpert (Expert expert, Integer page);
+
+    /**
+     * 根据提供天数和操作类型判断是否注销专家
+     * @param expert
+     * @return 逾期天数
+     */
+    int logoutExpertByDay(Expert expert) throws Exception;
 }

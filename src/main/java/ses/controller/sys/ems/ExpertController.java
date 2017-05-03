@@ -1954,27 +1954,33 @@ public class ExpertController extends BaseController {
                 String expertId = sysId;
                 // 正常提交
                 User user = (User) session.getAttribute("loginUser");
-                // 用户信息处理
-                service.userManager(user, userId, expert, expertId);
-                // 调用service逻辑代码 实现提交
-                service.saveOrUpdate(expert, expertId, categoryId, gitFlag, userId);
-                expert.setIsDo("0");
-                //已提交
-                expert.setIsSubmit("1");
                 Expert temp = service.selectByPrimaryKey(expertId);
-                if("3".equals(temp.getStatus())) {
-                    //删除之前的审核信息
-                    expertAuditService.updateIsDeleteByExpertId(expertId);
+                //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
+                int validateDay = service.logoutExpertByDay(temp);
+                if(0==validateDay){//通过审核时间校验
+                    // 用户信息处理
+                    service.userManager(user, userId, expert, expertId);
+                    // 调用service逻辑代码 实现提交
+                    service.saveOrUpdate(expert, expertId, categoryId, gitFlag, userId);
+                    expert.setIsDo("0");
+                    //已提交
+                    expert.setIsSubmit("1");
+                    if("3".equals(temp.getStatus())) {
+                        //删除之前的审核信息
+                        expertAuditService.updateIsDeleteByExpertId(expertId);
                    /* expertAuditService.deleteByExpertId(expertId);*/
-                    //未审核
-                    expert.setStatus("0");
+                        //未审核
+                        expert.setStatus("0");
                     /*expert.setIsDelete((short) 1);*/
+                    }
+                    expert.setStatus("0");
+                    //修改时间
+                    expert.setSubmitAt(new Date());
+                    expert.setAuditAt(new Date());
+                    service.updateByPrimaryKeySelective(expert);
+                }else if(0 < validateDay){//未按规定时间提交审核,注销信息
+                    return "expert_logout," + validateDay;
                 }
-                expert.setStatus("0");
-                //修改时间
-                expert.setSubmitAt(new Date());
-                expert.setAuditAt(new Date());
-                service.updateByPrimaryKeySelective(expert);
             } catch(Exception e) {
                 e.printStackTrace();
                 // 未做异常处理

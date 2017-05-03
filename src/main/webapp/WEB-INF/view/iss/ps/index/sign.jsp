@@ -82,6 +82,10 @@
     						$("#divPrompt").removeClass("hide");
     					  	$("#spanPrompt").text("对不起，您的审核没有通过!");
     						layer.close(index);
+                        } else if (flag[0] == "expert_logout") {
+                            $("#divPrompt").removeClass("hide");
+                            $("#spanPrompt").text("您未在 "+flag[1]+" 天内提交审核,注册信息已失效");
+                            layer.close(index);
     					} else if (flag[0] == "firset") {
     						//询问框
     						layer.confirm('您还未完善个人信息，是否前去完善？', {

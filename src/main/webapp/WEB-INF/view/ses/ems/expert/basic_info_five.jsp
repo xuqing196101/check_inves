@@ -49,6 +49,7 @@
                     async: false,
                     data: $('#formExpert').serialize(),
                     success: function(data) {
+                        var flag = data.split(",");
                         if(data == "0") {
                         	queryXinXi();
 //                             layer.confirm('您已成功提交,请等待审核结果!', {
@@ -58,6 +59,14 @@
 //                             }, function() {
 //                                 window.location.href = '${pageContext.request.contextPath}/';
 //                             });
+                        }else if(flag[0] == "expert_logout"){
+                            layer.confirm("您未在 "+flag[1]+" 天内提交审核,注册信息已失效", {
+                                btn: ['确定'],
+                                shade: false //不显示遮罩
+                                //按钮
+                            }, function() {
+                                window.location.href = '${pageContext.request.contextPath}/';
+                            });
                         } else {
                             layer.confirm('您已提交,请勿重复操作!', {
                                 btn: ['确定'],
