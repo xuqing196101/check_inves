@@ -455,4 +455,15 @@ public interface ExpertService {
      * @return void
      */
     void updateIsDeleteById(String expertId);
+    
+    /**
+     * @Title: selectRuKuExpert
+     * @author XuQing 
+     * @date 2017-5-3 下午2:24:06  
+     * @Description:入库专家查询
+     * @param @param expert
+     * @param @return      
+     * @return List<Expert>
+     */
+    List<Expert> selectRuKuExpert (Expert expert, Integer page);
 }

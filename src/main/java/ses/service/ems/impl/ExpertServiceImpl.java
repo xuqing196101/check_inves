@@ -1299,6 +1299,22 @@ public class ExpertServiceImpl implements ExpertService {
 		mapper.updateIsDeleteById(expertId);
 		
 	}
+
+	@Override
+	public List<Expert> selectRuKuExpert(Expert expert, Integer page) {
+		if(page == null) {
+			page = StaticVariables.DEFAULT_PAGE;
+		}
+		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
+		if(expert.getRelName() != null && !"".equals(expert.getRelName())){
+			expert.setRelName("%"+expert.getRelName()+"%");
+		}
+		if(expert.getMobile() != null && !"".equals(expert.getMobile())){
+			expert.setMobile("%"+expert.getMobile()+"%");
+		}
+		
+		return mapper.selectRuKuExpert(expert);
+	}
     
 }
 

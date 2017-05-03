@@ -1843,5 +1843,38 @@
   	where 
   		EXPERT_ID = #{expertId}
   </update>
+  
+  <!-- 入库专家查询 -->
+  <select id="selectRuKuExpert" resultMap="BaseResultMap">
+		select
+ 			T1.*,
+ 			T2.LOGIN_NAME AS loginName
+		from
+	    	T_SES_EMS_EXPERT t1
+		LEFT JOIN
+			T_SES_BMS_USER t2
+		ON
+			T1.ID = T2.TYPE_ID
+    where (STATUS = 4 or STATUS = 5 or STATUS = 6 or STATUS = 7 or STATUS = 8)
+    <if test="relName != null and relName !=''">
+        AND T1.REAL_NAME like #{relName}
+    </if>
+    <if test="mobile != null and mobile !=''">
+        AND T1.MOBILE like #{mobile}
+    </if>
+    <if test="expertsFrom != null and expertsFrom !=''">
+        AND T1.EXPERTS_FROM = '${expertsFrom}'
+    </if>
+    <if test="status != null and status !=''">
+    	<if test="status == 4">
+    		AND IS_PROVISIONAL = '0'
+    	</if>
+        AND T1.STATUS = '${status}'
+    </if>
+    <if test="expertsTypeId != null and expertsTypeId !=''">
+        AND instr(T1.EXPERTS_TYPE_ID, '${expertsTypeId}' )>0
+    </if>
+	    ORDER BY T1.STATUS ASC, T1.CREATED_AT DESC
+	</select>
 	
 </mapper>

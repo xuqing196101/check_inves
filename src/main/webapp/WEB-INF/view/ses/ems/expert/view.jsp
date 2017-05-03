@@ -1,18 +1,16 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
+
 
 <!DOCTYPE HTML>
 <html>
 
 	<head>
 		<%@ include file="/WEB-INF/view/front.jsp"%>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
-		<%
-//表单标示
-String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
-session.setAttribute("tokenSession", tokenValue);
-%>
 		<script type="text/javascript">
 			function backOld() {
 				window.location.href = "${pageContext.request.contextPath}/expert/findAllExpert.html";
@@ -56,9 +54,6 @@ session.setAttribute("tokenSession", tokenValue);
 						<a href="javascript:void(0)">专家管理</a>
 					</li>
 					<li>
-						<a href="javascript:void(0)">专家列表</a>
-					</li>
-					<li>
 						<a href="javascript:void(0)">查看详细</a>
 					</li>
 				</ul>
@@ -70,37 +65,43 @@ session.setAttribute("tokenSession", tokenValue);
 				<h2>查看详细</h2>
 			</div>
 			<input type="hidden" name="id" id="id" value="${expert.id}" />
+			<h2 class="count_flow"><i>1</i>专家个人信息</h2>
 			<table class="table table-bordered table-condensed ">
 				<div class="margin-top-30"></div>
 				<tr>
-					<td width="12%" class="bggrey">姓名</td>
-					<td width="25%" id="tName">${expert.relName}</td>
-					<td width="12%" class="bggrey">性别</td>
-					<td width="25%" id="tSex"></td>
+					<td width="12%" class="bggrey">专家姓名</td>
+					<td width="25%">${expert.relName}</td>
+					
+					<td width="12%" class="bggrey">近期免冠彩色证件照</td>
+					<td width="25%">
+						<up:show showId="show50" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="50"/>
+					</td>
 				</tr>
 				<tr>
+					<td width="12%" class="bggrey">性别</td>
+					<td width="25%" id="tSex"></td>
 					<td width="12%" class="bggrey">出生日期</td>
 					<td width="25%" id="tBirthday">
 						<fmt:formatDate value="${expert.birthday}" pattern="yyyy-MM-dd" />
 					</td>
+				</tr>
+				<tr>
 					<td width="12%" class="bggrey">政治面貌</td>
 					<td width="25%" id="tFace"></td>
-				</tr>
-				<tr>
 					<td width="12%" class="bggrey">民族</td>
 					<td width="25%">${expert.nation}</td>
+				</tr>
+				<tr>
 					<td width="12%" class="bggrey">居民身份证号码</td>
 					<td width="25%">${expert.idCardNumber}</td>
+					<td width="12%" class="bggrey">身份证复印件</td>
+					<td width="25%">
+						<up:show showId="show3" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="3"/>
+					</td>
 				</tr>
 				<tr>
-					<td width="12%" class="bggrey">军队人员身份证件类型</td>
-					<td width="25%" id="idType"></td>
-					<td width="12%" class="bggrey">证件号码</td>
-					<td width="25%">${expert.idNumber}</td>
-				</tr>
-				<tr>
-					<td width="12%" class="bggrey">手机</td>
-					<td width="25%">${expert.mobile}</td>
+					<td width="12%" class="bggrey">健康状态</td>
+					<td width="25%">${expert.healthState}</td>
 					<td width="12%" class="bggrey">固定电话</td>
 					<td width="25%">${expert.telephone}</td>
 				</tr>
@@ -110,25 +111,52 @@ session.setAttribute("tokenSession", tokenValue);
 					<td width="12%" class="bggrey">个人邮箱</td>
 					<td width="25%">${expert.email}</td>
 				</tr>
+				
+				<c:if test="${froms eq 'LOCAL'}">
+					<tr>
+						<td width="12%" class="bggrey">是否缴纳社会保险</td>
+						<td width="25%">
+							<c:if test="${expert.coverNote eq '1'}">是</c:if>
+							<c:if test="${expert.coverNote eq '2'}">否</c:if>
+						</td>
+						<c:if test="${expert.coverNote eq '1'}">
+							<td width="12%" class="bggrey">缴纳社保证明</td>
+							<td width="25%">
+								<up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="2"/>
+							</td>
+						</c:if>
+					</tr>
+				</c:if>
+				<c:if test="${froms eq 'ARMY'}">
+					<tr>
+						<td width="12%" class="bggrey">军队人员身份证件类型</td>
+						<td width="25%">${idType }</td>
+						<td width="12%" class="bggrey">证件号码</td>
+						<td width="25%">${expert.idNumber }</td>
+					</tr>
+					<tr>
+						<td width="12%" class="bggrey">军队人员身份证件</td>
+						<td width="25%">
+							<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1"/>
+						</td>
+					</tr>
+				</c:if>
+			</table>
+			
+			<h2 class="count_flow"><i>2</i>专业信息（包括学历和专业）</h2>
+			<table class="table table-bordered table-condensed ">
 				<tr>
 					<td width="12%" class="bggrey">所在单位</td>
-					<td width="25%" id="tTimeStartWork">${expert.workUnit}</td>
-					<td width="12%" class="bggrey">所在地区</td>
-					<td width="25%" id="Taddress"></td>
+					<td width="25%">${expert.workUnit}</td>
+					<td width="12%" class="bggrey">地区</td>
+					<td width="25%">${parentName }${sonName }</td>
 				</tr>
 				<tr>
-					<td width="12%" class="bggrey">缴纳社会保险证明</td>
-					<td width="25%">${expert.coverNote}</td>
-					<td width="12%" class="bggrey">健康状况</td>
-					<td width="25%">${expert.healthState}</td>
-				</tr>
-				<tr>
-					<td width="12%" class="bggrey">单位邮编</td>
-					<td width="25%">${expert.postCode}</td>
 					<td width="12%" class="bggrey">单位地址</td>
 					<td width="25%">${expert.unitAddress}</td>
+					<td width="12%" class="bggrey">单位邮编</td>
+					<td width="25%">${expert.postCode}</td>
 				</tr>
-				
 				<tr>
 					<td width="12%" class="bggrey">现任职务</td>
 					<td width="25%">${expert.atDuty}</td>
@@ -137,57 +165,88 @@ session.setAttribute("tokenSession", tokenValue);
 				</tr>
 				<tr>
 					<td width="12%" class="bggrey">从事专业起始年月</td>
-					<td width="25%">
-						<fmt:formatDate value="${expert.timeStartWork}" pattern="yyyy-MM" />
-					</td>
-					<td width="12%" class="bggrey">专家来源</td>
-					<td width="25%" id="expertsFrom"></td>
+					<td width="25%"><fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/></td>
 				</tr>
-				<tr>
-					<td width="12%" class="bggrey">专业技术职称</td>
-					<td width="25%">${expert.professTechTitles}</td>
-					<td width="12%" class="bggrey">取得技术职称时间</td>
-					<td width="25%">
-						<fmt:formatDate value="${expert.makeTechDate}" pattern="yyyy-MM" />
-					</td>
-				</tr>
+				<c:if test="${expert.teachTitle eq '1'}">
+					<tr>
+						<td width="12%" class="bggrey">专家技术职称</td>
+						<td width="25%">${expert.professTechTitles}</td>
+						<td width="12%" class="bggrey">专业技术职称证书</td>
+						<td width="25%">
+							<up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4"/>
+						</td>
+					</tr>
+					<tr>
+						<td width="12%" class="bggrey">取得技术职称时间</td>
+						<td width="25%"><fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd'/></td>
+					</tr>
+				</c:if>
 				<tr>
 					<td width="12%" class="bggrey">毕业院校及专业</td>
 					<td width="25%">${expert.graduateSchool}</td>
-					<td width="12%" class="bggrey">最高学位</td>
-					<td width="25%" id="degree"></td>
-				</tr>
-				<tr>
-					<td width="12%" class="bggrey">专业技术职称/执业资格</td>
-					<td width="25%" id="tHey">${expert.professTechTitles}</td>
 					<td width="12%" class="bggrey">最高学历</td>
-					<td width="25%" id="tHight"></td>
-				</tr>
-				<%--<tr>
-					<td width="12%" class="bggrey">专家类别</td>
-					<td width="25%" id="expertsType"></td>
-				</tr>
-				 <tr>
-					<td width="12%" class="bggrey">参评的产品类别 </td>
-					<td colspan="3">${expert.productCategories}</td>
+					<td width="25%">${hightEducation}</td>
 				</tr>
 				<tr>
-					<td width="12%" class="bggrey">主要工作经历</td>
-					<td colspan="3">${expert.productCategories}</td>
+					<td width="12%" class="bggrey">毕业证书</td>
+					<td width="25%"><up:show showId="show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="5"/></td>
+					<td width="12%" class="bggrey">最高学位</td>
+					<td width="25%">${degree}</td>
 				</tr>
 				<tr>
-					<td width="12%" class="bggrey">专业学术成果</td>
-					<td colspan="3">${expert.academicAchievement}</td>
+					<td width="12%" class="bggrey">学位证书</td>
+					<td width="25%"><up:show showId="show6" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="6"/></td>
+					<td width="12%" class="bggrey">参加工作时间</td>
+					<td width="25%"><fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM-dd'/></td>
 				</tr>
-				<tr>
-					<td width="12%" class="bggrey">参加军队地方采购评审情况 </td>
-					<td colspan="3">${expert.reviewSituation}</td>
-				</tr>
-				<tr>
-					<td width="12%" class="bggrey">需要申请回避的情况 </td>
-					<td colspan="3">${expert.avoidanceSituation}</td>
-				</tr> --%>
 			</table>
+			
+			<h2 class="count_flow"><i>3</i>推荐信</h2>
+			<table class="table table-bordered table-condensed ">
+				<tr>
+					<td width="25%">
+						<c:if test="${expert.isReferenceLftter eq '2'}">否</c:if>
+						<c:if test="${expert.isReferenceLftter eq '1'}">
+							<up:show showId="show8" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="8"/>
+						</c:if>
+					</td>
+				</tr>
+			</table>
+				
+			<h2 class="count_flow"><i>4</i>主要工作经历</h2>
+			<table class="table table-bordered table-condensed ">
+				<tr>
+					<td>${expert.jobExperiences}</td>
+				</tr>
+			</table>
+			<table class="table table-bordered table-condensed ">
+				<tr>
+					<td class="bggrey" width="50%">获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</td>
+					<td><up:show showId="show7" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="7"/></td>
+				</tr>
+			</table>
+			
+			<h2 class="count_flow"><i>5</i>专业学术成果</h2>
+			<table class="table table-bordered table-condensed ">
+				<tr>
+					<td>${expert.academicAchievement}</td>
+				</tr>
+			</table>
+			
+			<h2 class="count_flow"><i>6</i>参加军队地方采购评审情况</h2>
+			<table class="table table-bordered table-condensed ">
+				<tr>
+					<td>${expert.reviewSituation}</td>
+				</tr>
+			</table>
+			
+			<h2 class="count_flow"><i>7</i>需要申请回避的情况</h2>
+			<table class="table table-bordered table-condensed ">
+				<tr>
+					<td>${expert.avoidanceSituation}</td>
+				</tr>
+			</table>
+			
 			<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
 				<div class="padding-10" align="center">
 					<button class="btn btn-windows reset" type="button" onclick="location.href='javascript:history.go(-1);'"> 返回</button>

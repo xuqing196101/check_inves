@@ -357,15 +357,17 @@
 					<c:forEach items="${result.list }" var="e" varStatus="vs">
 						<tr class="pointer">
 							<td class="tc w30"><input type="radio" name="check" id="checked" alt="" value="${e.id }"></td>
-							<td class="tc w50" onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
-							<td class="tl pl20" onclick="view('${e.id}');">${e.relName}</td>
-							<%-- <td class="tl pl20" onclick="view('${e.id}');">${e.loginName}</td> --%>
-							<td class="tc w50" onclick="view('${e.id}');">${e.gender}</td>
-							<td class="tl pl20" onclick="view('${e.id}');">${e.expertsTypeId}</td>
-							<td class="tl pl20" onclick="view('${e.id}');">${e.graduateSchool }</td>
-							<td class="tl pl20" onclick="view('${e.id}');">${e.mobile }</td>
-							<td class="tc" onclick="view('${e.id}');" class="tc">${e.honestyScore }</td>
-							<td onclick="view('${e.id}');" class="tc" id="${e.id}">
+							<td class="tc w50"  class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
+							<td class="tl pl20" >
+								<a href="${pageContext.request.contextPath}/expert/view.html?id=${e.id}">${e.relName}</a>
+							</td>
+							<%-- <td class="tl pl20" >${e.loginName}</td> --%>
+							<td class="tc w50" >${e.gender}</td>
+							<td class="tl pl20" >${e.expertsTypeId}</td>
+							<td class="tl pl20" >${e.graduateSchool }</td>
+							<td class="tl pl20" >${e.mobile }</td>
+							<td class="tc"  class="tc">${e.honestyScore }</td>
+							<td  class="tc" id="${e.id}">
 								<c:if test="${e.status eq '4' and e.isProvisional eq '1'}">
 									<span class="label rounded-2x label-dark">临时</span>
 								</c:if>
@@ -385,7 +387,7 @@
 									<span class="label rounded-2x label-dark">退回修改</span>
 								</c:if>
 								<%-- <c:if test="${e.status eq '1' }">
-									<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待复审</span></td>
+									<td  class="tc"><span class="label rounded-2x label-dark">待复审</span></td>
 								</c:if> --%>
 								<c:if test="${e.status eq '4' and e.isProvisional eq '0'}">
 									<span class="label rounded-2x label-u">复审通过</span>

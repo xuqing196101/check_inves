@@ -182,7 +182,6 @@ public class ExpertController extends BaseController {
     private ExpertTitleService expertTitleService;
     @Autowired
     private ExpExtractRecordService expExtractRecordService; //专家抽取记录表
-
     /**
      * 
      * @Title: toExpert
@@ -225,51 +224,58 @@ public class ExpertController extends BaseController {
     public String view(@RequestParam("id") String id, Model model) {
         // 查询出专家
         Expert expert = service.selectByPrimaryKey(id);
-        HashMap < String, Object > map = new HashMap < String, Object > ();
-        map.put("id", expert.getPurchaseDepId());
-        map.put("typeName", "1");
-        // 查询出采购机构
-        List < PurchaseDep > depList = purchaseOrgnizationService
-            .findPurchaseDepList(map);
-        if(depList != null && depList.size() > 0) {
-            PurchaseDep purchaseDep = depList.get(0);
-            model.addAttribute("purchase", purchaseDep);
-        }
-        // 查询数据字典中的证件类型配置数据
-        List < DictionaryData > idTypeList = DictionaryDataUtil.find(9);
-        model.addAttribute("idTypeList", idTypeList);
-        // 查询数据字典中的政治面貌配置数据
-        List < DictionaryData > zzList = DictionaryDataUtil.find(10);
-        model.addAttribute("zzList", zzList);
-        // 查询数据字典中的最高学历配置数据
-        List < DictionaryData > xlList = DictionaryDataUtil.find(11);
-        model.addAttribute("xlList", xlList);
-        // 查询数据字典中的专家来源配置数据
-        List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
-        model.addAttribute("lyTypeList", lyTypeList);
-        // 查询数据字典中的性别配置数据
-        List < DictionaryData > sexList = DictionaryDataUtil.find(13);
-        model.addAttribute("sexList", sexList);
-        // 产品类型数据字典
-        List < DictionaryData > spList = DictionaryDataUtil.find(6);
-        model.addAttribute("spList", spList);
-        // 货物类型数据字典
-        List < DictionaryData > hwList = DictionaryDataUtil.find(8);
-        model.addAttribute("hwList", hwList);
-        // 经济类型数据字典
-        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
-        model.addAttribute("jjList", jjTypeList);
         // 专家系统key
-        Integer expertKey = Constant.EXPERT_SYS_KEY;
-        Map < String, Object > typeMap = getTypeId();
-        // typrId集合
-        model.addAttribute("typeMap", typeMap);
-        // 业务id就是专家id
-        model.addAttribute("sysId", id);
-        // Constant.EXPERT_SYS_VALUE;
-        model.addAttribute("expertKey", expertKey);
+		Integer expertKey = Constant.EXPERT_SYS_KEY;
+		Map < String, Object > typeMap = getTypeId();
+		// typrId集合
+		model.addAttribute("typeMap", typeMap);
+		// 业务id就是专家id
+		model.addAttribute("sysId", id);
+		// Constant.EXPERT_SYS_VALUE;
+		model.addAttribute("expertKey", expertKey);
         model.addAttribute("expert", expert);
+        
+        
+        //专家来源
+		if(expert.getExpertsFrom() != null) {
+			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
+			model.addAttribute("expertsFrom", expertsFrom.getName());
+			// 专家来源
+			model.addAttribute("froms", expertsFrom.getCode());
+		}
+		//军队人员身份证件类型
+		if(expert.getIdType() != null) {
+			DictionaryData idType = dictionaryDataServiceI.getDictionaryData(expert.getIdType());
+			model.addAttribute("idType", idType.getName());
+		}
+		
+		//地区查询
+		List < Area > privnce = areaServiceI.findRootArea();
+		model.addAttribute("privnce", privnce);
 
+		Area area = areaServiceI.listById(expert.getAddress());
+		String sonName = area.getName();
+		model.addAttribute("sonName", sonName);
+		for(int i = 0; i < privnce.size(); i++) {
+			if(area.getParentId().equals(privnce.get(i).getId())) {
+				String parentName = privnce.get(i).getName();
+				model.addAttribute("parentName", parentName);
+			}
+		}
+		
+		//最高学历
+		if(expert.getHightEducation() != null) {
+			DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(expert.getHightEducation());
+			model.addAttribute("hightEducation", hightEducation.getName());
+		}
+		
+		//最高学位
+		if(expert.getDegree() != null) {
+			DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
+			if(degree != null){
+				model.addAttribute("degree", degree.getName());
+			}
+		}
         return "ses/ems/expert/view";
     }
 
