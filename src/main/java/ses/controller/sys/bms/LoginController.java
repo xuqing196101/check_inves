@@ -28,6 +28,7 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.sms.Supplier;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.StationMessageService;
@@ -191,40 +192,51 @@ public class LoginController {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                } else if (srs != null  && srs.size() > 0) { 
-                    Map<String, Object> map = supplierService.checkLogin(u);
-                    String msg = (String) map.get("status");
-                    String date = (String) map.get("date");
-                    PurchaseDep orgnization = ( PurchaseDep ) map.get("orgnization");
-                    
-//                    req.getSession().setAttribute("loginSupplier", map.get("supplier"));
-//                    req.getSession().setAttribute("loginUser", u);
-                    req.getSession().setAttribute("loginName", u.getLoginName());
-                    if ("success".equals(msg)) {
-                        req.getSession().setAttribute("loginSupplier", map.get("supplier"));
-                        req.getSession().setAttribute("loginUser", u);
-                        List<PreMenu> resource = preMenuService.getMenu(u);
-                        req.getSession().setAttribute("resource", resource);
-                        //req.getSession().setAttribute("resource", u.getMenus());
-                        req.getSession().setAttribute("loginUserType", "supplier");
-                        out.print("scuesslogin");
-                    } else  if("unperfect".equals(msg)){
-                    	if(orgnization!=null){
-                          out.print("unperfect," + u.getLoginName()+","+orgnization.getShortName()+","+orgnization.getSupplierContact()+","+orgnization.getSupplierPhone()+","+orgnization.getSupplierAddress()+","+orgnization.getSupplierPostcode());
-                    	}else{
-                    		 out.print("unperfect," + u.getLoginName());
-                    	}
-                    	
-                    	} else  if("初审未通过".equals(msg)){
-                        out.print("firstNotPass");
-                    } else  if("考察不合格".equals(msg)){
-                        out.print("thirdNotPass");
-                    } else  if("复核未通过".equals(msg)){
-                        out.print("secondNotPass");
-                    } else  if("commit".equals(msg)){
-                        out.print("commit," + u.getId());
-                    } else  if("reject".equals(msg)){
-                        out.print("reject," + u.getLoginName());
+                } else if (srs != null  && srs.size() > 0) {
+                    try{
+                        // 根据userId查询出Supplier
+                        Supplier supplier = supplierService.selectById(u.getTypeId());
+                        //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
+                        int validateDay = supplierService.logoutSupplierByDay(supplier);
+                        if(0==validateDay) {//通过
+                            Map<String, Object> map = supplierService.checkLogin(u);
+                            String msg = (String) map.get("status");
+                            String date = (String) map.get("date");
+                            PurchaseDep orgnization = ( PurchaseDep ) map.get("orgnization");
+
+                            req.getSession().setAttribute("loginName", u.getLoginName());
+                            if ("success".equals(msg)) {
+                                req.getSession().setAttribute("loginSupplier", map.get("supplier"));
+                                req.getSession().setAttribute("loginUser", u);
+                                List<PreMenu> resource = preMenuService.getMenu(u);
+                                req.getSession().setAttribute("resource", resource);
+                                //req.getSession().setAttribute("resource", u.getMenus());
+                                req.getSession().setAttribute("loginUserType", "supplier");
+                                out.print("scuesslogin");
+                            } else  if("unperfect".equals(msg)){
+                                if(orgnization!=null){
+                                    out.print("unperfect," + u.getLoginName()+","+orgnization.getShortName()+","+orgnization.getSupplierContact()+","+orgnization.getSupplierPhone()+","+orgnization.getSupplierAddress()+","+orgnization.getSupplierPostcode());
+                                }else{
+                                    out.print("unperfect," + u.getLoginName());
+                                }
+
+                            } else  if("初审未通过".equals(msg)){
+                                out.print("firstNotPass");
+                            } else  if("考察不合格".equals(msg)){
+                                out.print("thirdNotPass");
+                            } else  if("复核未通过".equals(msg)){
+                                out.print("secondNotPass");
+                            } else  if("commit".equals(msg)){
+                                out.print("commit," + u.getId());
+                            } else  if("reject".equals(msg)){
+                                out.print("reject," + u.getLoginName());
+                            }
+                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
+                            out.print("supplier_logout," + validateDay);
+                        }
+
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
                 } else {
                     /*if (adminRoles != null && adminRoles.size() > 0) {

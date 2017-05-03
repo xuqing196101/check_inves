@@ -1,6 +1,7 @@
 package ses.service.sms.impl;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1038,5 +1039,56 @@ public class SupplierServiceImpl implements SupplierService {
 		supplierMapper.updateExtractOrgidById(supplier);
 		
 	}
-    
+
+    @Override
+    public int daysBetween(Date date) throws ParseException {
+        // 获取当前时间
+        Date nowDate = new Date();
+        // SimpleDateFormat
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        date = sdf.parse(sdf.format(date));
+        nowDate = sdf.parse(sdf.format(nowDate));
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        long time1 = cal.getTimeInMillis();
+        cal.setTime(nowDate);
+        long time2 = cal.getTimeInMillis();
+        // 算出两个时间差,单位毫秒所以除以(1000*3600*24)
+        long betweenDays = (time2 - time1)/(1000*3600*24);
+        // 精确小数
+        return Integer.parseInt(String.valueOf(betweenDays));
+    }
+
+    @Override
+    public int logoutSupplierByDay(Supplier supplier) throws Exception {
+	    if(null != supplier){
+            Integer supplierStatus = supplier.getStatus();
+            if(null != supplierStatus){
+                Date createdAt = supplier.getCreatedAt();
+                Date auditDate = supplier.getAuditDate();
+                //注册后,90天内未提交审核
+                if(-1==supplierStatus){
+                    //根据创建注册信息时间计算间隔天数
+                    int betweenDays = this.daysBetween(createdAt);
+                    int days = Integer.parseInt(PropUtil.getProperty("logout.supplier.first.overdue"));
+                    if(betweenDays > days){
+                        this.deleteSupplier(supplier.getId());
+                        return days;
+                    }
+                }
+                //退回修改后,30天未重新提交审核
+                if(2==supplierStatus){
+                    //根据创建注册信息时间计算间隔天数
+                    int betweenDays = this.daysBetween(auditDate);
+                    int days = Integer.parseInt(PropUtil.getProperty("logout.supplier.back.overdue"));
+                    if(betweenDays > days){
+                        this.deleteSupplier(supplier.getId());
+                        return days;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
 }

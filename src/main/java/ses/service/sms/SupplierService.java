@@ -1,6 +1,7 @@
 package ses.service.sms;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -340,4 +341,22 @@ public interface SupplierService {
     * @return void
     */
    void updateExtractOrgidById(Supplier supplier);
+
+    /**
+     *〈简述〉
+     * 计算时间差
+     *〈详细描述〉
+     * @author Dell
+     * @param date
+     * @return
+     * @throws Exception
+     */
+    int daysBetween(Date date) throws ParseException;
+
+    /**
+     * 根据提供天数判断是否注销供应商
+     * @param supplier
+     * @return 逾期天数
+     */
+   int logoutSupplierByDay(Supplier supplier) throws Exception;
 }

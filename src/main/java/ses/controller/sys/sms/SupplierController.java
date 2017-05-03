@@ -1229,14 +1229,26 @@ public class SupplierController extends BaseSupplierController {
 	public String isCommit(Model model, Supplier supplier) {
 		boolean bool = validateUpload(model, supplier.getId());
 		Supplier supp = supplierService.selectOne(supplier.getId());
-		  PurchaseDep dep = purchaseOrgnizationService.selectPurchaseById(supp.getProcurementDepId());
-		String json = JSON.toJSONString(dep);
-		if(bool != true) {
-			// 返回
-			return "1";
-		} else {
-			return json;
-		}
+        //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
+        try {
+            int validateDay = supplierService.logoutSupplierByDay(supp);
+            if(0==validateDay) {//通过审核时间校验
+                PurchaseDep dep = purchaseOrgnizationService.selectPurchaseById(supp.getProcurementDepId());
+                String json = JSON.toJSONString(dep);
+                if(bool != true) {
+                    // 返回
+                    return "1";
+                } else {
+                    return json;
+                }
+            }else if(0 < validateDay) {//未按规定时间提交审核,注销信息
+                return "supplier_logout," + validateDay;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return "0";
+        }
+        return "0";
 	}
 
 	/**

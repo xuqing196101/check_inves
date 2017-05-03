@@ -22,29 +22,39 @@
 				async: false,
 				dataType:"json",
 				success: function(response){
-					if (response != 1) {
-						$("input[name='jsp']").val(flag);
-						if (flag == "commit") {
-							layer.confirm("<span style='margin-left:26px;'> 您已成功提交,请等待审核结果！</span>"+"<br/><span style='margin-left:26px;'> 您选择的采购机构："+response.shortName+"；联系人姓名："+response.supplierContact+"；"+"联系方式："+response.supplierPhone+"；联系地址："+response.supplierAddress+"；邮编："+response.supplierPostcode, {
-								btn : [ '确定' ],
-								shade: false 
-							}, function() { 
-								count++;
-								if(count==1){
-									$("#template_upload_form_id").submit();
-								}
-							
-								
-						 	});	 
-						}
+                    var flag = data.split(",");
+					if (response == "1") {
+                        layer.msg("还有附件未上传!", {offset: ['300px', '750px']});
+                    }else if(response == "0"){
+                        layer.msg("数据异常!", {offset: ['300px', '750px']});
+                    }else if(flag[0]=="supplier_logout"){
+                        layer.confirm("您未在 "+flag[1]+" 天内提交审核,注册信息已失效", {
+                            btn: ['确定'],
+                            shade: false //不显示遮罩
+                            //按钮
+                        }, function() {
+                            window.location.href = '${pageContext.request.contextPath}/';
+                        });
 					} else {
-						layer.msg("还有附件未上传!",{offset: ['300px', '750px']});
+                        $("input[name='jsp']").val(flag);
+                        if (flag == "commit") {
+                            layer.confirm("<span style='margin-left:26px;'> 您已成功提交,请等待审核结果！</span>" + "<br/><span style='margin-left:26px;'> 您选择的采购机构：" + response.shortName + "；联系人姓名：" + response.supplierContact + "；" + "联系方式：" + response.supplierPhone + "；联系地址：" + response.supplierAddress + "；邮编：" + response.supplierPostcode, {
+                                btn: ['确定'],
+                                shade: false
+                            }, function () {
+                                count++;
+                                if (count == 1) {
+                                    $("#template_upload_form_id").submit();
+                                }
+
+
+                            });
+                        }
 					}
 				}
 			});
 		} else {
 			$("input[name='jsp']").val(flag);
-			
 			$("#template_upload_form_id").submit();
 		}
 	}
