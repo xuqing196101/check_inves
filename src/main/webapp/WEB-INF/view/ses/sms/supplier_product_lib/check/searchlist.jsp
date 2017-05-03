@@ -27,7 +27,7 @@
 	      }(),
 	      jump : function(e, first) { //触发分页后的回调
 	    	if(!first){ //一定要加此判断，否则初始时会无限刷新
-	      		location.href = "${pageContext.request.contextPath }/product_lib/findAllWaitCheck.html?name=${name}&&status=${status}&&page=" + e.curr;
+	      		location.href = "${pageContext.request.contextPath }/product_lib/findAllCheckProduct.html?name=${name}&&status=${status}&&page=" + e.curr;
 	        }
 	      }
 	    });
@@ -99,106 +99,11 @@
   		window.location.href="${pageContext.request.contextPath}/product_lib/findSignalProductInfo.html?id="+id;
   	}
 	
-	// 审核
-    function checked(){
-    	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){
-			var flag = id[0].split(':');
-			if(flag[1] !=1){
-				layer.alert("请选择待审核的产品信息");
-				return;
-			}
-			window.location.href="${pageContext.request.contextPath}/product_lib/findSignalProductInfo.html?flag=check&&id="+flag[0];
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择需要审核的产品",{offset: ['222px', '390px'], shade:0.01});
-		}
-    }
-	
-	// 批量审核弹出框
-    function showPic(url,name){
-    	var pic = $("#"+url.toString());
-		layer.open({
-			  type: 1,
-			  title: false,
-			  closeBtn: 0,
-			  area: '516px',
-			  skin: 'layui-layer-nobg', //没有背景色
-			  shadeClose: true,
-			  content: pic
-			});
-	};
-	
 	
 	//!--搜索-->
 	function query(){
-		$("#queryForm").attr("action","${pageContext.request.contextPath}/product_lib/findAllWaitCheck.html");
+		$("#queryForm").attr("action","${pageContext.request.contextPath}/product_lib/findAllCheckProduct.html");
 		$("#queryForm").submit();
-	}
-	
- 	// 批量审核
-	function checkedBatch(){
-		var ids =[];
-    	var idss=[];
-		$('input[name="chkItem"]:checked').each(function(){
-			ids.push($(this).val()); 
-		});
-		if(ids.length>1){
-		    for(var i=0; i< ids.length;i++){
-		    	var flag = ids[i].split(':');
-		    	if(flag[1] != 1){
-		    		layer.alert("请选择待审核的产品");
-		    		return;
-		    	}
-		    	idss.push(flag[0]);
-			}
-		}else if(ids.length == 1){
-			layer.alert("请选择多个待审核的产品",{offset: ['222px', '390px'], shade:0.01});
-			return;
-		}else{
-			layer.alert("请选择要待审核的产品",{offset: ['222px', '390px'], shade:0.01});
-			return;
-		}
-		// 将商品的id存入
-		$("#productBasicIds").val(idss);
-		
-		layer.open({
-			  type: 1,
-			  title: '批量审核',
-			  skin: 'layui-layer-rim',
-			  shadeClose: true,
-			  area: ['580px','280px'],
-			  content: $("#checkedBatch")
-			});
-	}
-	function cancel(){
-		layer.closeAll();
-	}
-	
-	
-	// 提交表单
-	function batchCheckSubmit(flag){
-		// 判断用户点击(审核通过/审核不通过)
-		$("#flag").val(flag);
-		// 表单提交
-		$.post("${pageContext.request.contextPath}/product_lib/checkProductInfo.do?", $("#smsProductBatchCheckForm").serialize(), function(data) {
-			if (data.status == 200) {
-				layer.confirm("操作成功",{
-					btn:['确定']
-				},function(){
-						// 成功后加载商品信息 
-						window.location.href="${pageContext.request.contextPath}/product_lib/findAllWaitCheck.html";
-					}
-				) 
-			}
-			if(data.status == 500){
-				layer.alert(data.msg);
-			}
-		});
 	}
 	
 	//重置按钮事件  
@@ -220,12 +125,7 @@
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<c:if test="${ empty type }">
-	   			<h2>供应商商品审核</h2>
-	   		</c:if>
-	   		<c:if test="${not empty type }">
-	   			<h2>供应商产品查询</h2>
-	   		</c:if>
+   			<h2>供应商商品查询</h2>
 	   </div>
 
    
@@ -258,14 +158,7 @@
     </div>
 
    
-<!-- 表格开始-->
-
-    <div class="col-md-12 pl20 mt10">
-    	<c:if test="${ empty type }">
-	   		<button class="btn btn-windows check" type="button" onclick="checked()">审核</button>
-			<button class="btn btn-windows check" type="button" onclick="checkedBatch()">批量审核</button>
-		</c:if>
-    </div>
+   <!-- 表格开始-->
    <div class="content table_box">
     	<table class="table table-bordered table-condensed">
 		<thead>
@@ -308,27 +201,5 @@
      </div>
    <div id="pagediv" align="right"></div>
   </div>
-  <form action="" name="smsProductBatchCheckForm" id="smsProductBatchCheckForm" method="post">
-  	<input id="productBasicIds" name="productBasicIds" type="hidden">
- 	<input id="flag" name="flag" type="hidden" value="">
-  	<div id="checkedBatch" class="dnone layui-layer-wrap" >
-	  <div class="drop_window">
-		  <ul class="list-unstyled">
-		    <li class="col-md-12 col-sm-6 col-xs-12">
-    	      <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">审核意见</label>
-    	      <span class="col-md-12 col-sm-12 col-xs-12 p0">
-                 	<textarea id="advice" name="advice" class="w100p h80 p0" rows="7" cols="1"></textarea>
-                 </span>
-            </li>
-            <div class="clear"></div>
-		  </ul>
-             <div class="tc mt10 col-md-12 col-sm-12 col-xs-12">
-               <button class="btn btn-windows check" type="button" onclick="batchCheckSubmit(3)">审核通过</button>
-	           <button class="btn btn-windows check" type="button" onclick="batchCheckSubmit(2)">审核不通过</button>
-			   <input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
-             </div>
-	    </div>
-	  </div>
-  </form>
   </body>
 </html>

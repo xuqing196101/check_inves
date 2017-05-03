@@ -289,7 +289,7 @@ public class SMSProductLibController {
 	/**
 	 * 
 	 * @Title: findAllWaitCheck
-	 * @Description: 供应商审核查询信息
+	 * @Description: 供应商审核列表
 	 * @author Easong
 	 * @param @return 设定文件
 	 * @return String 返回类型
@@ -297,7 +297,40 @@ public class SMSProductLibController {
 	 */
 	@RequestMapping("/findAllWaitCheck")
 	public String findAllWaitCheck(Model model, Integer page,
-			SMSProductQueryVO smsProductQueryVO, String type) {
+			SMSProductQueryVO smsProductQueryVO) {
+		checkList(model, page, smsProductQueryVO);
+		return "ses/sms/supplier_product_lib/check/checklist";
+	}
+	
+	/**
+	 * 
+	 * @Title: findAllCheckProduct
+	 * @Description: 供应商审核查询信息
+	 * @author Easong
+	 * @param @return 设定文件
+	 * @return String 返回类型
+	 * @throws
+	 */
+	@RequestMapping("/findAllCheckProduct")
+	public String findAllCheckProduct(Model model, Integer page,
+			SMSProductQueryVO smsProductQueryVO) {
+		checkList(model, page, smsProductQueryVO);
+		return "ses/sms/supplier_product_lib/check/searchlist";
+	}
+
+	/**
+	 * 
+	* @Title: checkList 
+	* @Description: 抽取审核列表
+	* @author Easong
+	* @param @param model
+	* @param @param page
+	* @param @param smsProductQueryVO    设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
+	private void checkList(Model model, Integer page,
+			SMSProductQueryVO smsProductQueryVO) {
 		if (page == null) {
 			page = 1;
 		}
@@ -322,9 +355,8 @@ public class SMSProductLibController {
 		model.addAttribute("name", name);
 		model.addAttribute("status", status);
 		model.addAttribute("createrId", createrId);
-		model.addAttribute("type", type);
-		return "ses/sms/supplier_product_lib/check/list";
 	}
+	
 
 	/**
 	 * 
