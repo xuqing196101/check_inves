@@ -1478,7 +1478,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			obProject.setObProjectSupplier(projectSupplier);
 			if(StringUtils.isNotBlank(obProject.getAttachmentId())){
 			//查询文件路径
-			List<UploadFile> fileList = uploadService.findBybusinessId(obProject.getAttachmentId(),Constant.TENDER_SYS_KEY);
+			List<UploadFile> fileList = uploadService.findBybusinessId(obProject.getAttachmentId(),Constant.OB_PROJECT_SYS_KEY);
 			uploadList.addAll(fileList);
 			}
 		 }
@@ -1565,11 +1565,11 @@ public class OBProjectServerImpl implements OBProjectServer {
 		 List<UploadFile> list = FileUtils.getBeans(file, UploadFile.class); 
 	        if (list != null && list.size() > 0){
 	            for (UploadFile uploadFile : list){
-	                Integer count = uploadService.findCountById(uploadFile.getId(),Constant.TENDER_SYS_KEY);
+	                Integer count = uploadService.findCountById(uploadFile.getId(),Constant.OB_PROJECT_SYS_KEY);
 	                if (count > 0){
-	                    uploadService.updateFile(uploadFile, Constant.TENDER_SYS_KEY);
+	                    uploadService.updateFile(uploadFile, Constant.OB_PROJECT_SYS_KEY);
 	                } else {
-	                    uploadService.insertFile(uploadFile,Constant.TENDER_SYS_KEY);
+	                    uploadService.insertFile(uploadFile,Constant.OB_PROJECT_SYS_KEY);
 	                }
 	            }
 	            recordService.importAttach(new Integer(list.size()).toString());

@@ -245,7 +245,7 @@ public class OBSupplierQuoteController {
 		model.addAttribute("uploadFiles", uploadFiles);
 		// 封装文件下载项
 		model.addAttribute("fileid", obProject.getAttachmentId());
-		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		model.addAttribute("sysKey", Constant.OB_PROJECT_SYS_KEY);
 		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		
 		// 获取当前系统时间毫秒数
@@ -718,7 +718,7 @@ public class OBSupplierQuoteController {
 		
 		// 封装文件下载项
 		model.addAttribute("fileid", obProject.getAttachmentId());
-		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		model.addAttribute("sysKey", Constant.OB_PROJECT_SYS_KEY);
 		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		
 		/**********************竞价信息结束****************************/
@@ -838,7 +838,7 @@ public class OBSupplierQuoteController {
 			if(obProject != null){
 				model.addAttribute("fileid", obProject.getAttachmentId());
 			}
-			model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+			model.addAttribute("sysKey", Constant.OB_PROJECT_SYS_KEY);
 			model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 			
 			

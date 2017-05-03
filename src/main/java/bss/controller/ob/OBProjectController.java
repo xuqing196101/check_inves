@@ -333,7 +333,7 @@ public class OBProjectController {
 		model.addAttribute("fileid", uuid);
 		model.addAttribute("userId", user.getId());
 		model.addAttribute("obRule",obRule);
-		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		model.addAttribute("sysKey", Constant.OB_PROJECT_SYS_KEY);
 		// 标识 竞价附件
 		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		 }
@@ -696,7 +696,7 @@ public class OBProjectController {
 				// 生成ID
 				model.addAttribute("ruleId", obProject.getRuleId());
 				model.addAttribute("userId", user.getId());
-				model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+				model.addAttribute("sysKey", Constant.OB_PROJECT_SYS_KEY);
 				// 标识 竞价附件
 				model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 				model.addAttribute("list", obProject);
@@ -1052,7 +1052,7 @@ public class OBProjectController {
 		
 		// 封装文件下载项
 		model.addAttribute("fileid", obProject.getAttachmentId());
-		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		model.addAttribute("sysKey", Constant.OB_PROJECT_SYS_KEY);
 		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		// 供应商查看竞价未开始、已流拍状态
 		if(StringUtils.isNotEmpty(flag) && "1".equals(flag)){
