@@ -220,7 +220,12 @@
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>供应商商品审核</h2>
+	   		<c:if test="${ empty type }">
+	   			<h2>供应商商品审核</h2>
+	   		</c:if>
+	   		<c:if test="${not empty type }">
+	   			<h2>供应商产品查询</h2>
+	   		</c:if>
 	   </div>
 
    
@@ -256,9 +261,11 @@
 <!-- 表格开始-->
 
     <div class="col-md-12 pl20 mt10">
-    		<button class="btn btn-windows check" type="button" onclick="checked()">审核</button>
+    	<c:if test="${ empty type }">
+	   		<button class="btn btn-windows check" type="button" onclick="checked()">审核</button>
 			<button class="btn btn-windows check" type="button" onclick="checkedBatch()">批量审核</button>
-   </div>
+		</c:if>
+    </div>
    <div class="content table_box">
     	<table class="table table-bordered table-condensed">
 		<thead>

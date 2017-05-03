@@ -297,7 +297,7 @@ public class SMSProductLibController {
 	 */
 	@RequestMapping("/findAllWaitCheck")
 	public String findAllWaitCheck(Model model, Integer page,
-			SMSProductQueryVO smsProductQueryVO) {
+			SMSProductQueryVO smsProductQueryVO, String type) {
 		if (page == null) {
 			page = 1;
 		}
@@ -322,6 +322,7 @@ public class SMSProductLibController {
 		model.addAttribute("name", name);
 		model.addAttribute("status", status);
 		model.addAttribute("createrId", createrId);
+		model.addAttribute("type", type);
 		return "ses/sms/supplier_product_lib/check/list";
 	}
 
