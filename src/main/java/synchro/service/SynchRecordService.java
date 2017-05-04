@@ -16,14 +16,23 @@ public interface SynchRecordService {
     
     /**
      * 
-     *〈简述〉记录新增的供应商信息
+     *〈简述〉记录新增的供应商导出信息
      *〈详细描述〉
      * @param  content 内容
      * @param  synchDate 同步时间
      * @author myc
      */
     public void commitSupplierRecord(String content, Date synchDate);
-    
+
+    /**
+     *
+     *〈简述〉记录新增的专家导出信息
+     *〈详细描述〉
+     * @param  content 内容
+     * @author myc
+     */
+    public void commitExpertRecord(String content);
+
     /**
      * 
      *〈简述〉记录新增供应商导入信息

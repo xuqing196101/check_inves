@@ -48,7 +48,17 @@ public class SynchRecordServiceImpl implements SynchRecordService {
         mapper.save(sr);
       }
     }
-    
+
+    @Override
+    public void commitExpertRecord(String content) {
+        DictionaryData dd = DictionaryDataUtil.get(Constant.DATA_TYPE_EXPERT_CODE);
+        if (dd != null && StringUtils.isNotBlank(dd.getId())){
+            SynchRecord sr  = getSynchRecord(dd.getId() +"", Constant.OPER_TYPE_EXPORT,
+                    Constant.NEW_COMMIT_EXPERT + content);
+            mapper.save(sr);
+        }
+    }
+
     /**
      * 
      * @see synchro.record.service.SynchRecordService#newExpertRecord(java.lang.String)
@@ -77,9 +87,12 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      */
     @Override
     public void importNewSupplierRecord(String content) {
-        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_SUPPLIER_REG +"", Constant.OPER_TYPE_IMPORT, 
-                Constant.NEW_COMMIT_SUPPLIER + content);
-        mapper.save(sr);
+        DictionaryData dd = DictionaryDataUtil.get(Constant.DATA_TYPE_SUPPLIER_CODE);
+        if (dd != null && StringUtils.isNotBlank(dd.getId())){
+            SynchRecord sr  = getSynchRecord(dd.getId() +"", Constant.OPER_TYPE_IMPORT,
+                    Constant.NEW_COMMIT_SUPPLIER_IMPORT + content);
+            mapper.save(sr);
+        }
     }
     
     /**
@@ -99,9 +112,12 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      */
     @Override
     public void importNewExpertRecord(String content) {
-        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_EXPERT_REG +"", Constant.OPER_TYPE_IMPORT, 
-                        Constant.NEW_COMMIT_EXPERT + content);
-        mapper.save(sr);
+        DictionaryData dd = DictionaryDataUtil.get(Constant.DATA_TYPE_EXPERT_CODE);
+        if (dd != null && StringUtils.isNotBlank(dd.getId())){
+            SynchRecord sr  = getSynchRecord(dd.getId() +"", Constant.OPER_TYPE_IMPORT,
+                    Constant.NEW_COMMIT_EXPERT + content);
+            mapper.save(sr);
+        }
     }
     
     /**

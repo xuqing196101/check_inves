@@ -152,7 +152,7 @@ public class OuterExpertServiceImpl implements OuterExpertService {
                 recordService.backupAttach(new Integer(attachList.size()).toString());
             }
         }
-        recordService.commitSupplierRecord(new Integer(list.size()).toString(), new Date());
+        recordService.commitExpertRecord(new Integer(list.size()).toString());
         
         
 //        if (list != null && list.size() > 0){

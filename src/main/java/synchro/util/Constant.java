@@ -26,7 +26,9 @@ public class Constant {
     public final static Integer OPER_TYPE_IMPORT = 2;
     /** 新提交供应商描述 **/
     public final static String NEW_COMMIT_SUPPLIER = "导出供应商数量:";
-    
+    /** 新提交供应商描述 **/
+    public final static String NEW_COMMIT_SUPPLIER_IMPORT = "导入供应商数量:";
+
     /** 数据类型-专家注册 **/
     public final static Integer DATA_TYPE_EXPERT_REG = 3;
     
