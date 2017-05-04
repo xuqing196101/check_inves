@@ -322,14 +322,16 @@ public class ExpertAuditController{
 		//地区查询
 		List < Area > privnce = areaService.findRootArea();
 		model.addAttribute("privnce", privnce);
-
-		Area area = areaService.listById(expert.getAddress());
-		String sonName = area.getName();
-		model.addAttribute("sonName", sonName);
-		for(int i = 0; i < privnce.size(); i++) {
-			if(area.getParentId().equals(privnce.get(i).getId())) {
-				String parentName = privnce.get(i).getName();
-				model.addAttribute("parentName", parentName);
+		
+		if(expert.getAddress() !=null){
+			Area area = areaService.listById(expert.getAddress());
+			String sonName = area.getName();
+			model.addAttribute("sonName", sonName);
+			for(int i = 0; i < privnce.size(); i++) {
+				if(area.getParentId().equals(privnce.get(i).getId())) {
+					String parentName = privnce.get(i).getName();
+					model.addAttribute("parentName", parentName);
+				}
 			}
 		}
 
@@ -666,13 +668,12 @@ public class ExpertAuditController{
         if (code.equals("ENG_INFO_ID")) {
             flag = "ENG_INFO";
         }
-        // 查询已选中的节点信息
+        // 查询已选中的节点信息(所有子节点)
         List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
         for (ExpertCategory expertCategory : items) {
         	count++;
-        	System.out.println(count);
             if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
                 Category data = categoryService.findById(expertCategory.getCategoryId());
                 List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
@@ -710,15 +711,15 @@ public class ExpertAuditController{
         }
         model.addAttribute("expertId", expertId);
         model.addAttribute("typeId", typeId);
-        model.addAttribute("result", new PageInfo < > (expertItems));
+        model.addAttribute("result", new PageInfo < > (items));
         model.addAttribute("itemsList", allTreeList);
-        List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId, null);
+        List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId, "1");//设置level为1是为了过滤掉父节点,只统计子节点个数
         
         model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
         model.addAttribute("resultTotal", (list == null ? 0 : list.size()));
         model.addAttribute("resultpageNum", pageNum);
         model.addAttribute("resultStartRow", (list == null ? 0 : 1));
-        model.addAttribute("resultEndRow", new PageInfo < > (expertItems).getEndRow()+1);
+        model.addAttribute("resultEndRow", new PageInfo < > (items).getEndRow()+1);
 
         
         //未通过 字段

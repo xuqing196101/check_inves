@@ -210,40 +210,48 @@
 					auditField = firstNode;
 				}
 				
+				function trim(str){ //删除左右两端的空格
+				return str.replace(/(^\s*)|(\s*$)/g, "");
+				}
+				
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
 						offset: '100px'
 					},
 					function(text) {
-						$.ajax({
-							url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
-							type: "post",
-							data: {
-								"suggestType": "six",
-								"auditReason": text,
-								"expertId": expertId,
-								"auditField": auditField,
-								"auditContent": auditContent,
-								"auditFieldId": id
-							},
-							dataType: "json",
-							success: function(result) {
-								result = eval("(" + result + ")");
-								if(result.msg == "fail") {
-									layer.msg('该条信息已审核过！', {
-										shift: 6, //动画类型
-										offset: '300px'
-									});
+						var text = trim(text);
+				  	if(text != null && text !=""){
+							$.ajax({
+								url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+								type: "post",
+								data: {
+									"suggestType": "six",
+									"auditReason": text,
+									"expertId": expertId,
+									"auditField": auditField,
+									"auditContent": auditContent,
+									"auditFieldId": id
+								},
+								dataType: "json",
+								success: function(result) {
+									result = eval("(" + result + ")");
+									if(result.msg == "fail") {
+										layer.msg('该条信息已审核过！', {
+											shift: 6, //动画类型
+											offset: '300px'
+										});
+									}
 								}
-							}
-						});
-						$("#" + id + "_hidden").hide();
-						$("#" + id + "_show").show();
-						
-						layer.close(index);
+							});
+							$("#" + id + "_hidden").hide();
+							$("#" + id + "_show").show();
+							layer.close(index);
+						}else{
+							layer.msg('不能为空！', {offset:'100px'});
+						}
 					});
-			}
+				}
 		</script>
 		<script type="text/javascript">
 			function jump(str) {

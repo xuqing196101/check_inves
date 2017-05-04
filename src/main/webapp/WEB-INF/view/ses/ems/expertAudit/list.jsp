@@ -77,7 +77,7 @@
 					$("#form_id").submit();
 				});
 			}
-			//Ma Mingwei
+
 			function trim(str){ //删除左右两端的空格
 				return str.replace(/(^\s*)|(\s*$)/g, "");
 			}
@@ -282,7 +282,7 @@
 									<option <c:if test="${state eq '5'}">selected</c:if> value="5">复审未通过</option>
 								</c:if>
 								<c:if test="${sign == 3}">
-									<option <c:if test="${state eq '6'}">selected</c:if> value="5">待复查</option>
+									<option <c:if test="${state eq '6'}">selected</c:if> value="6">待复查</option>
 									<option <c:if test="${state eq '7'}">selected</c:if> value="7">复查通过</option>
 									<option <c:if test="${state eq '8'}">selected</c:if> value="8">复查未通过</option>
 								</c:if>

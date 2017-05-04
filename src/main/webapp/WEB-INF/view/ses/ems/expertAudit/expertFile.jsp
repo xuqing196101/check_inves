@@ -44,6 +44,10 @@
 			}
 		</script>
 		<script type="text/javascript">
+			function trim(str){ //删除左右两端的空格
+				return str.replace(/(^\s*)|(\s*$)/g, "");
+				}
+
 			function reason(obj,str){
 			  var expertId = $("#expertId").val();
 			  var showId =  obj.id+"1";
@@ -57,6 +61,8 @@
 			    offset : '100px',
 				}, 
 		    function(text){
+		    	var text = trim(text);
+				  if(text != null && text !=""){
 				    $.ajax({
 				      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 				      type:"post",
@@ -72,8 +78,11 @@
 				        }
 				      }
 				    });
-					 $("#"+showId+"").css('visibility', 'visible');
-		      layer.close(index);
+						$("#"+showId+"").css('visibility', 'visible');
+			      layer.close(index);
+			      }else{
+			      	layer.msg('不能为空！', {offset:'100px'});
+			      }
 			    });
 		  	}
 		</script>

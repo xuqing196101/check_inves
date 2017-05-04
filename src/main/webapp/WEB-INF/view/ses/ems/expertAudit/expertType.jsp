@@ -31,6 +31,10 @@
 				}
 			});
 			
+			function trim(str){ //删除左右两端的空格
+				return str.replace(/(^\s*)|(\s*$)/g, "");
+			}
+			
 			//类型审核
 			function reason(auditFieldId,auditContent){
 			  var expertId = $("#expertId").val();		
@@ -41,6 +45,8 @@
 			    offset : '100px',
 				}, 
 		    function(text){
+		    	var text = trim(text);
+				  if(text != null && text !=""){
 				    $.ajax({
 				      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 				      type:"post",
@@ -57,7 +63,10 @@
 				      }
 				    });
 				    $("#"+appear+"").css('visibility', 'visible');
-		      layer.close(index);
+		      	layer.close(index);
+		      }else{
+		      	layer.msg('不能为空！', {offset:'100px'});
+		      }
 			    });
 		  	}
 		  	
@@ -77,6 +86,8 @@
 					    offset : '100px',
 					}, 
 			    function(text){
+			    	var text = trim(text);
+				  	if(text != null && text !=""){
 					    $.ajax({
 					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 					      type:"post",
@@ -92,9 +103,12 @@
 					        }
 					      }
 					    });
-					   $("#"+obj.id+"").css('border-color','#FF0000');
-							$(obj).after(html);
-			      	layer.close(index);
+						    $("#"+obj.id+"").css('border-color','#FF0000');
+								$(obj).after(html);
+				      	layer.close(index);
+			      	}else{
+			      		layer.msg('不能为空！', {offset:'100px'});
+			      	}
 				    });
 			  	}
 			  	
@@ -112,6 +126,8 @@
 				    offset : '100px',
 					}, 
 			    function(text){
+			    	var text = trim(text);
+				  	if(text != null && text !=""){
 					    $.ajax({
 					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 					      type:"post",
@@ -127,8 +143,11 @@
 					        }
 					      }
 					    });
-						 $("#"+showId+"").css('visibility', 'visible');
-			       layer.close(index);
+							 $("#"+showId+"").css('visibility', 'visible');
+				       layer.close(index);
+			       }else{
+			       	layer.msg('不能为空！', {offset:'100px'});
+			       }
 				  });
 		  	}
 		  	
