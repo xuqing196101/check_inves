@@ -22,13 +22,17 @@
 				async: false,
 				dataType:"json",
 				success: function(response){
-                    var flag = data.split(",");
+                    var token = "";
+//                    if(response.indexOf(',')!=-1){
+//                        response.split(",");
+//                    }
+                    debugger;
 					if (response == "1") {
                         layer.msg("还有附件未上传!", {offset: ['300px', '750px']});
                     }else if(response == "0"){
                         layer.msg("数据异常!", {offset: ['300px', '750px']});
-                    }else if(flag[0]=="supplier_logout"){
-                        layer.confirm("您未在 "+flag[1]+" 天内提交审核,注册信息已失效", {
+                    }else if(token[0]=="supplier_logout"){
+                        layer.confirm("您未在 "+token[1]+" 天内提交审核,注册信息已失效", {
                             btn: ['确定'],
                             shade: false //不显示遮罩
                             //按钮
