@@ -23,10 +23,9 @@
 				dataType:"json",
 				success: function(response){
                     var token = "";
-//                    if(response.indexOf(',')!=-1){
-//                        response.split(",");
-//                    }
-                    debugger;
+                    if(!response instanceof Object){//如果不是JSON对象
+                        response.split(",");
+                    }
 					if (response == "1") {
                         layer.msg("还有附件未上传!", {offset: ['300px', '750px']});
                     }else if(response == "0"){
