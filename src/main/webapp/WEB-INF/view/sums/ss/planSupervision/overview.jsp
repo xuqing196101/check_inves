@@ -340,7 +340,7 @@
                     <a href="#tab-5">
                       <p class="tip_main">采购计划下达</p>
                       <p class="tip_time">
-                        <fmt:formatDate value='${collectPlan.orderAt}' pattern='yyyy-MM-dd' />
+                        <fmt:formatDate value='${collectPlan.updatedAt}' pattern='yyyy-MM-dd' />
                       </p>
                     </a>
                   </div>
