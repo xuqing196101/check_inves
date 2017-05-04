@@ -1204,8 +1204,8 @@
                                                     </td>
                                                     <td class="tc">
                                                         <div class="w200 fl">
-                                                            <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}_${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
-                                                            <u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}_${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+                                                            <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
+                                                            <u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
                                                             <c:if test="${vs.index == err_house_token}">
                                                                 <div class="cue"> ${err_house } </div>
                                                             </c:if>
