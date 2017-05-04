@@ -1757,4 +1757,10 @@
 		WHERE
 			ID = #{id}
 	</update>
+	
+	<!-- 统计注册供应商数 -->
+	<select id="getRegisterSupplierCountByEmp" resultType="java.lang.Long">
+	    SELECT count(id)
+	    from T_SES_SMS_SUPPLIER
+	</select>
 </mapper>

@@ -2,6 +2,11 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +43,14 @@ import ses.service.bms.UserServiceI;
 import ses.service.ems.ExamQuestionServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
+import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.impl.SupplierAuditServiceImpl;
+import ses.util.PropUtil;
+import common.aspect.SystemLogAspect;
 import common.constant.Constant;
+import common.model.LoginLog;
+import common.service.LoginLogService;
 import common.utils.AuthUtil;
 
 
@@ -77,6 +88,11 @@ public class LoginController {
 
     @Autowired
     private SupplierService supplierService;
+    
+    @Autowired
+    private SupplierAuditService supplierAuditService;
+    @Autowired
+    private LoginLogService loginLogService;
     
     @Autowired PreMenuServiceI preMenuService;
     //数据权限
@@ -179,6 +195,8 @@ public class LoginController {
                                 }
                             } else {
                                 req.getSession().setAttribute("loginUser", u);
+                                // 记录专家登录日志
+                                loginLog(u, req);
                                 List<PreMenu> resource = preMenuService.getMenu(u);
                                 req.getSession().setAttribute("resource", resource);
                                 //req.getSession().setAttribute("resource", u.getMenus());
@@ -188,7 +206,6 @@ public class LoginController {
                         }else if(0 < validateDay){//未按规定时间提交审核,注销信息
                             out.print("expert_logout," + validateDay);
                         }
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -208,6 +225,8 @@ public class LoginController {
                             if ("success".equals(msg)) {
                                 req.getSession().setAttribute("loginSupplier", map.get("supplier"));
                                 req.getSession().setAttribute("loginUser", u);
+                                // 记录供应商登录日志
+                                loginLog(u, req);
                                 List<PreMenu> resource = preMenuService.getMenu(u);
                                 req.getSession().setAttribute("resource", resource);
                                 //req.getSession().setAttribute("resource", u.getMenus());
@@ -255,6 +274,9 @@ public class LoginController {
                       }
                     } else {*/
                       req.getSession().setAttribute("loginUser", u);
+                      // 记录后台人员日志
+                      loginLog(u, req);
+                      
                       List<PreMenu> resource = preMenuService.getMenu(u);
                       req.getSession().setAttribute("resource", resource);
                       //req.getSession().setAttribute("resource", u.getMenus());
@@ -273,7 +295,89 @@ public class LoginController {
         //权限解析
         AuthUtil.setAuth(req);
     }
+    
+    /**
+     * 
+    * @Title: loginLog 
+    * @Description: 登录日志记录
+    * @author Easong
+    * @param @param user    设定文件 
+    * @return void    返回类型 
+    * @throws
+     */
+    public void loginLog(User user, HttpServletRequest req){
+    	Integer typeFlag = null;
+    	 // 查询此用户所属类型 /** 1：后台 2：供应商 3：专家 **/
+		User expertUser = expertService.getUserById(user
+				.getTypeId());
+		Supplier supplierUser = supplierAuditService.supplierById(user.getTypeId());
+		LoginLog loginLog = new LoginLog();
+		if (expertUser != null) {
+			// 专家登录
+			typeFlag = 3;
+			loginLog.setLoginType(typeFlag);
+		} else if (supplierUser != null) {
+			// 供应商登录
+			typeFlag = 2;
+			loginLog.setLoginType(typeFlag);
+		} else {
+			// 后台登录
+			typeFlag = 1;
+			loginLog.setLoginType(typeFlag);
+		}
+		// 设置登录ID
+		loginLog.setLoginId(user.getId());
+		// 设置登录名
+		loginLog.setLoginName(user.getLoginName());
+		// 设置登录时间
+		loginLog.setLoginTime(new Date());
+		// 设置登录ip
+		loginLog.setLoginIp(getIpAddress(req));
+		// 保存登录信息
+		loginLogService.saveOnlineUser(loginLog);
+    }
 
+    /**
+     * 
+    * @Title: getIpAddress 
+    * @Description: 获取登录真实ip
+    * @author Easong
+    * @param @param request
+    * @param @return    设定文件 
+    * @return String    返回类型 
+    * @throws
+     */
+    public static String getIpAddress(HttpServletRequest request) {
+    	// 获取代理ip
+    	String ipAddress = request.getHeader("x-forwarded-for");
+        if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("Proxy-Client-IP");
+        }  
+        if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getRemoteAddr();
+            if(ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")){
+                //根据网卡取本机配置的IP
+                InetAddress inet=null;
+                try {
+                    inet = InetAddress.getLocalHost();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+                ipAddress= inet.getHostAddress();
+            }
+        }
+        //对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割 
+        if(ipAddress!=null && ipAddress.length()>15){ //"***.***.***.***".length() = 15
+            if(ipAddress.indexOf(",")>0){
+                ipAddress = ipAddress.substring(0,ipAddress.indexOf(","));
+            }
+        }
+        return ipAddress;
+     }
+    
     /**   
      * @Title: index
      * @author yyyml
@@ -328,6 +432,10 @@ public class LoginController {
             req.setAttribute("stationMessage", listStationMessage);
             Integer tenderKey = Constant.TENDER_SYS_KEY;
             req.setAttribute("sysId", tenderKey);
+            // 判断内外网1外网 0内网
+            String ipAddressType= PropUtil.getProperty("ipAddressType");
+            //过滤附件类型
+            model.addAttribute("ipAddressType", ipAddressType);
         }
         return "backend";
     }

@@ -183,7 +183,6 @@ public interface FileUploadMapper {
     List<UploadFile> substrBusinessId(@Param("businessId")String businessId);
     
     
-    
     /**
 	 * 
 	* @Title: quyerExpertAttchment
@@ -196,4 +195,15 @@ public interface FileUploadMapper {
 	 */
     List<UploadFile> quyerExpertAttchment(@Param("businessId")String businessId);
     
+    /**
+     * 
+    * @Title: getFileCountByEmp 
+    * @Description: 统计供应商、专家、后台管理人员文件上传数量
+    * @author Easong
+    * @param @param tableName
+    * @param @return    设定文件 
+    * @return Long    返回类型 
+    * @throws
+     */
+    public Long getFileCountByEmp(@Param("tableName")String tableName);
 }

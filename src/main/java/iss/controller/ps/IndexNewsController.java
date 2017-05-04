@@ -834,7 +834,7 @@ public class IndexNewsController extends BaseSupplierController{
 ////				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
 ////			}
 //		}
-		request.getSession().setAttribute("key", Constant.TENDER_SYS_KEY);
+		//request.getSession().setAttribute("key", Constant.TENDER_SYS_KEY);
 		model.addAttribute("indexMapper", indexMapper);
 //		model.addAttribute("isIndex", "true");
 		

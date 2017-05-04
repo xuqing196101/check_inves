@@ -331,6 +331,17 @@ public interface UserMapper {
 	 * @return
 	 */
 	List<String> getUserId(List<String> orgIdList);
+	
+	/**
+	 * 
+	* @Title: getRegisterTenderCountByEmp 
+	* @Description: 统计注册用户注册总数量
+	* @author Easong
+	* @param @return    设定文件 
+	* @return Long    返回类型 
+	* @throws
+	 */
+	Long getRegisterTenderCountByEmp();
      
 	
 	/**

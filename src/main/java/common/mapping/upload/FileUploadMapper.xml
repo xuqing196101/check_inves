@@ -208,8 +208,6 @@
 		SUBSTR (BUSINESS_ID, 0, 32) = #{businessId}
   </select>
  
- 
- 
   <select id="quyerExpertAttchment"   resultMap="BaseResultMap_File">
      SELECT 
      <include refid="BASE_FILE_LIST" />
@@ -219,6 +217,11 @@
 		SUBSTR (BUSINESS_ID, 0, 32) = #{businessId}
   </select>
   
-  
-  
+  <!-- 统计查询 -->
+  <select id="getFileCountByEmp" resultType="java.lang.Long">
+    SELECT count(id)
+    from ${tableName}
+    WHERE IS_DELETED = 0 
+  </select>
+ 
 </mapper>

@@ -263,4 +263,14 @@ public interface ExpertMapper {
      * @return List<Expert>
      */
     List<Expert> selectRuKuExpert (Expert expert);
+    
+    /** 
+    * @Title: getRegisterExpertCountByEmp 
+    * @Description: 统计注册专家数
+    * @author Easong
+    * @param @return    设定文件 
+    * @return Long    返回类型 
+    * @throws
+     */
+    Long getRegisterExpertCountByEmp();
 }

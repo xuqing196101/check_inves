@@ -1877,4 +1877,9 @@
 	    ORDER BY T1.STATUS ASC, T1.CREATED_AT DESC
 	</select>
 	
+	<!-- 统计注册专家数 -->
+	<select id="getRegisterExpertCountByEmp" resultType="java.lang.Long">
+	    SELECT count(id)
+	    from T_SES_EMS_EXPERT
+	</select>
 </mapper>

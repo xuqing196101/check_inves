@@ -459,4 +459,16 @@ public interface SupplierMapper {
      */
     void updateExtractOrgidById(Supplier supplier);
     
+    
+    /**
+     * 
+    * @Title: getSupplierCountByEmp 
+    * @Description: 统计供应商注册数量
+    * @author Easong
+    * @param @return    设定文件 
+    * @return Long    返回类型 
+    * @throws
+     */
+    public Long getRegisterSupplierCountByEmp();
+    
 }

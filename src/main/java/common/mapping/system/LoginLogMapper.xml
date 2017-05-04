@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="common.dao.LoginLogMapper" >
+  <resultMap id="BaseResultMap" type="common.model.LoginLog" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+    <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
+    <result column="LOGIN_TYPE" property="loginType" jdbcType="DECIMAL" />
+    <result column="LOGIN_IP" property="loginIp" jdbcType="VARCHAR" />
+    <result column="LOGIN_TIME" property="loginTime" jdbcType="TIMESTAMP" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, LOGIN_ID, LOGIN_NAME, LOGIN_TYPE, LOGIN_IP, LOGIN_TIME, IS_DELETED, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYSTEM_LOGIN_LOG
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_SYSTEM_LOGIN_LOG
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="common.model.LoginLog" >
+    insert into T_SYSTEM_LOGIN_LOG (ID, LOGIN_ID, LOGIN_NAME, 
+      LOGIN_TYPE, LOGIN_IP, LOGIN_TIME, 
+      IS_DELETED, REMARK)
+    values (#{id,jdbcType=VARCHAR}, #{loginId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
+      #{loginType,jdbcType=DECIMAL}, #{loginIp,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="common.model.LoginLog" >
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SYSTEM_LOGIN_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="loginId != null" >
+        LOGIN_ID,
+      </if>
+      <if test="loginName != null" >
+        LOGIN_NAME,
+      </if>
+      <if test="loginType != null" >
+        LOGIN_TYPE,
+      </if>
+      <if test="loginIp != null" >
+        LOGIN_IP,
+      </if>
+      <if test="loginTime != null" >
+        LOGIN_TIME,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="loginId != null" >
+        #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginType != null" >
+        #{loginType,jdbcType=DECIMAL},
+      </if>
+      <if test="loginIp != null" >
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null" >
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="common.model.LoginLog" >
+    update T_SYSTEM_LOGIN_LOG
+    <set >
+      <if test="loginId != null" >
+        LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null" >
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginType != null" >
+        LOGIN_TYPE = #{loginType,jdbcType=DECIMAL},
+      </if>
+      <if test="loginIp != null" >
+        LOGIN_IP = #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null" >
+        LOGIN_TIME = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="common.model.LoginLog" >
+    update T_SYSTEM_LOGIN_LOG
+    set LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      LOGIN_TYPE = #{loginType,jdbcType=DECIMAL},
+      LOGIN_IP = #{loginIp,jdbcType=VARCHAR},
+      LOGIN_TIME = #{loginTime,jdbcType=TIMESTAMP},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据用户的的ID删除登录信息 -->
+  <delete id="deleteByUserId" parameterType="java.lang.String">
+  	delete from T_SYSTEM_LOGIN_LOG
+    where LOGIN_ID = #{loginId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 统计用户日登录量 -->
+  <select id="getLoginCountByEmp" resultType="java.lang.Long" parameterType="Map">
+    SELECT COUNT(DISTINCT L.LOGIN_IP)
+    FROM T_SYSTEM_LOGIN_LOG L
+   		WHERE L.IS_DELETED = 0
+     	AND TO_CHAR(L.LOGIN_TIME, 'yyyy-MM-dd') = #{loginTime}
+     	AND L.LOGIN_TYPE = #{loginType}
+  </select>
+</mapper>

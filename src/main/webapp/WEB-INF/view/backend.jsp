@@ -10,16 +10,13 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
 <head>
- <script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
-<link href="${pageContext.request.contextPath}/public/backend/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/backend/css/common.css" media="screen" rel="stylesheet" type="text/css">  
-<link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
- 
-  
- 
- 
- 
+<%@ include file="/WEB-INF/view/common.jsp"%>
+	<script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/ses/bms/analyze/backgroundAnalyze.js"></script>
+	<link href="${pageContext.request.contextPath}/public/backend/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="${pageContext.request.contextPath}/public/backend/css/common.css" media="screen" rel="stylesheet" type="text/css">  
+	<link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 
   
@@ -112,6 +109,34 @@ if('downloadabiddocument' == uri[0] ){
         </div>
     </div>
 
-
+	<div class="container content job-content ">
+        <div class="row magazine-page">
+            <div class="col-md-12 col-sm-12 col-xs-12 padding-0">
+                <div class="col-md-12 p0_10 margin-bottom-20">
+                    <div class="tag-box tag-box-v3 margin-0 p0_10">
+                        <div class="margin-0">
+                        	<c:if test="${'0' eq ipAddressType }">
+                        		<h2 class="margin-0 news total">内网统计</h2>
+                        	</c:if>
+                        	<c:if test="${'1' eq ipAddressType }">
+                        		<h2 class="margin-0 news total">外网统计</h2>
+                        	</c:if>
+                        </div>
+                        <ul class="backend_new">
+                        	<li class="col-md-4 col-sm-6 col-xs-12">
+	                            <div id="login" style="width: 400px;height:200px;"></div>
+                        	</li>
+                        	<li class="col-md-4 col-sm-6 col-xs-12">
+	                            <div id="register" style="width: 400px;height:200px;"></div>
+                        	</li>
+                        	<li class="col-md-4 col-sm-6 col-xs-12">
+	                            <div id="uploadPic" style="width: 400px;height:200px;"></div>
+                        	</li>
+                       	</ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
