@@ -71,12 +71,12 @@
 		from T_BSS_PMS_PURCHASE_DETAIL
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
-	<select id="selectByParentId"  resultMap="PurchaseRequired_Map">
+	<select id="selectByParentId"  resultMap="PurchaseRequired_Map" flushCache="true">
         select * from T_BSS_PMS_PURCHASE_DETAIL 
         start with ID = #{id} 
         connect by prior ID = PARENT_ID ORDER BY IS_MASTER 
     </select>
-    <select id="selectByParent"  resultMap="PurchaseRequired_Map">
+    <select id="selectByParent"  resultMap="PurchaseRequired_Map" flushCache="true">
         select * from T_BSS_PMS_PURCHASE_DETAIL 
         start with ID = #{id} 
         connect by prior PARENT_ID = ID ORDER BY IS_MASTER 

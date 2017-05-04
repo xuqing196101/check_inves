@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import bss.util.EncryptUtil;
 
@@ -36,8 +37,11 @@ import ses.dao.bms.RoleMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.*;
+import ses.dao.sms.DeleteLogMapper;
 import ses.model.bms.*;
 import ses.model.ems.*;
+import ses.model.sms.DeleteLog;
+import ses.model.sms.Supplier;
 import ses.service.bms.RoleServiceI;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
@@ -103,6 +107,9 @@ public class ExpertServiceImpl implements ExpertService {
    @Autowired
    private ExpertTitleMapper expertTitleMapper;
     
+   @Autowired
+   private DeleteLogMapper deleteLogMapper;
+   
 	@Override
 	public void deleteByPrimaryKey(String id) {
 		mapper.deleteByPrimaryKey(id);
@@ -1238,6 +1245,17 @@ public class ExpertServiceImpl implements ExpertService {
 	@Override
 	public void deleteExpert(String expertId) {
 //		Expert expert = mapper.selectByPrimaryKey(expertId);
+		
+		DeleteLog dlog=new DeleteLog();
+    	String id = UUID.randomUUID().toString().replaceAll("-", "");
+          Expert expert = mapper.selectByPrimaryKey(expertId);
+    	dlog.setId(id);
+    	dlog.setTypeId(expertId);
+    	dlog.setCreateAt(new Date());
+    	dlog.setUniqueCode(expert.getIdCardNumber());
+    	deleteLogMapper.insertSelective(dlog);
+    	
+    	
 		mapper.deleteByPrimaryKey(expertId);
 		
 		User user = userMapper.findUserByTypeId(expertId);

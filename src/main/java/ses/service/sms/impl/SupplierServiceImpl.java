@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
@@ -31,6 +33,7 @@ import ses.dao.bms.QualificationMapper;
 import ses.dao.bms.RoleMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
+import ses.dao.sms.DeleteLogMapper;
 import ses.dao.sms.SupplierAddressMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAptituteMapper;
@@ -63,6 +66,7 @@ import ses.model.bms.User;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.sms.DeleteLog;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
@@ -221,6 +225,9 @@ public class SupplierServiceImpl implements SupplierService {
     
     @Autowired
     private PurchaseOrgnizationServiceI purchaseOrgnizationService;
+    
+    @Autowired
+    private DeleteLogMapper  deleteLogMapper;
     
     @Override
     public Supplier get(String id) {
@@ -943,6 +950,15 @@ public class SupplierServiceImpl implements SupplierService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteSupplier(String supplierId) {
     	
+    	DeleteLog dlog=new DeleteLog();
+    	String id = UUID.randomUUID().toString().replaceAll("-", "");
+    	
+    	Supplier selectOne = supplierMapper.selectOne(supplierId);
+    	dlog.setId(id);
+    	dlog.setTypeId(supplierId);
+    	dlog.setCreateAt(new Date());
+    	dlog.setUniqueCode(selectOne.getCreditCode());
+    	deleteLogMapper.insertSelective(dlog);
     	User user = userMapper.findUserByTypeId(supplierId);
     	Userrole userRole=new Userrole();
     	if(user != null){

@@ -313,7 +313,7 @@ public class SynchImportController {
         
         
         
-        
+        //专家导入内外网
         if(synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)){
         	if (file != null && file.exists()){
                 File [] files = file.listFiles();

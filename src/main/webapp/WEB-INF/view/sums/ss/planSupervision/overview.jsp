@@ -664,7 +664,7 @@
                     <td>${collectPlan.purchaseId}</td>
                     <td class="tc">${collectPlan.userId}</td>
                     <td class="tc">
-                      <fmt:formatDate value='${collectPlan.orderAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                      <fmt:formatDate value='${collectPlan.updatedAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                     </td>
                   </tr>
                 </tbody>

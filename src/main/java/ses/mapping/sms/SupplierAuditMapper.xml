@@ -141,7 +141,7 @@
   </insert>
   
   
-    <!-- 插入审核记录 -->
+  <!-- 插入审核记录 -->
   <insert id="inserActive" parameterType="ses.model.sms.SupplierAudit">
     insert into T_SES_SMS_SUPPLIER_AUDIT
     <trim prefix="(" suffix=")" suffixOverrides=",">

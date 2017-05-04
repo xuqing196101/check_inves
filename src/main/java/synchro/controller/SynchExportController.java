@@ -214,7 +214,7 @@ public class SynchExportController {
         }
         
         
-        
+        //专家内网，外网数据导出
         if (synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)) {
         	outerExpertService.backupCreated(startTime, endTime);
         }

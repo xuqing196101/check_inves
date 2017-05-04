@@ -84,7 +84,15 @@
     select 
     <include refid="Base_Column_List" />
     from   T_SES_SMS_DELETE_LOG
-    where TYPE_ID = #{typeId}
+    where 1=1 
+    <if test="typeId !=null">
+      and  TYPE_ID = #{typeId}
+    </if>
+    <if test="uniqueCode !=null">
+      and  UNIQUE_CODE = #{uniqueCode}
+    </if>
+    
+    
   </select>
   
   

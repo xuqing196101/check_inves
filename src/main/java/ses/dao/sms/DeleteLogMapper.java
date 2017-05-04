@@ -18,5 +18,7 @@ public interface DeleteLogMapper {
 
     int updateByPrimaryKey(DeleteLog record);
     
-    DeleteLog queryByTypeId(@Param("typeId")String typeId);
+    DeleteLog queryByTypeId(@Param("typeId")String typeId,@Param("uniqueCode")String uniqueCode);
+    
+    
 }

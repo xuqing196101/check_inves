@@ -6,6 +6,6 @@ public interface DeleteLogService {
 	
 	public void add(DeleteLog deleteLog);
 	
-	public DeleteLog queryByTypeId(String typeId);
+	public DeleteLog queryByTypeId(String typeId,String uniqueCode);
 
 }

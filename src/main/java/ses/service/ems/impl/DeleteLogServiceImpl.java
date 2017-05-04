@@ -20,9 +20,8 @@ public class DeleteLogServiceImpl implements DeleteLogService{
 	}
 
 	@Override
-	public DeleteLog queryByTypeId(String typeId) {
-		// TODO Auto-generated method stub
-		return null;
+	public DeleteLog queryByTypeId(String typeId,String uniqueCode) {
+		return deleteLogMapper.queryByTypeId(typeId, uniqueCode);
 	}
 
 	
