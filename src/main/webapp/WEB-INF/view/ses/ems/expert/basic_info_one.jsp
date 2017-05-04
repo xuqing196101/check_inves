@@ -88,7 +88,7 @@
 				var idCardNumber = $("#idCardNumber").val().trim();
 				// 身份证唯一性验证
 				if(idCardNumber != "") {
-					$.ajax({
+					/*$.ajax({
 						url: '${pageContext.request.contextPath}/user/ajaxIdNumber.do',
 						type: "post",
 						dataType: "json",
@@ -105,7 +105,24 @@
 							}
 
 						}
-					});
+					});*/
+                    //校验专家表身份证
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/expert/validateIdNumber.do',
+                        type: "post",
+                        async: false,
+                        data: {
+                            "idNumber": idCardNumber,
+                            "expertId": $("#id").val()
+                        },
+                        success: function(obj) {
+                            if(obj == '1') {
+                                return false;
+                            }else{
+                                validateIdCard();
+                            }
+                        }
+                    });
 
 				} else {
 					validateIdCard();
@@ -335,7 +352,7 @@
 				var idCardNumber = $("#idCardNumber").val().trim();
 				// 身份证唯一性验证
 				if(idCardNumber != "") {
-					$.ajax({
+					/*$.ajax({
 						url: '${pageContext.request.contextPath}/user/ajaxIdNumber.do',
 						type: "post",
 						dataType: "json",
@@ -353,8 +370,26 @@
 							}
 
 						}
-					});
-
+					});*/
+                    //校验专家表身份证
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/expert/validateIdNumber.do',
+                        type: "post",
+                        async: false,
+                        data: {
+                            "idNumber": idCardNumber,
+                            "expertId": $("#id").val()
+                        },
+                        success: function(obj) {
+                            if(obj == '1') {
+                                layer.msg("居民身份证号码已被占用!");
+                                return false;
+                            }else{
+                                supplierRegist();
+                                editTable();
+                            }
+                        }
+                    });
 				} else {
 					supplierRegist();
 					editTable();
