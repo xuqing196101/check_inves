@@ -421,7 +421,7 @@ public class SynchImportController {
                     			 }
                     			 //判断文件是否是竞价信息 附件文件
                         		 if (file2.getName().contains(FileUtils.C_OB_PROJECT_FILE_FILENAME)){
-                        			 OBProjectServer.importFile(file2);
+                        			 OBProjectServer.importFile(file2,common.constant.Constant.OB_PROJECT_SYS_KEY);
                         		 }
                     		 }
                     	 }
@@ -494,7 +494,7 @@ public class SynchImportController {
                        			 }
                        			 //判断文件是否是  附件文件
                            		 if (file2.getName().contains(FileUtils.C_SYNCH_OUTER_FILE_PRODUCT_LIBRARY)){
-                           			 OBProjectServer.importFile(file2);
+                           			 OBProjectServer.importFile(file2, common.constant.Constant.SUPPLIER_SYS_KEY);
                            		 }
                        		 }
                        	 }

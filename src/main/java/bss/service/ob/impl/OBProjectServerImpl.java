@@ -1559,17 +1559,17 @@ public class OBProjectServerImpl implements OBProjectServer {
      * 实现导入竞价信息文件
      */
 	@Override
-	public boolean importFile(File file) {
+	public boolean importFile(File file,Integer sysKey) {
 		// TODO Auto-generated method stub
 		boolean boo=true;
 		 List<UploadFile> list = FileUtils.getBeans(file, UploadFile.class); 
 	        if (list != null && list.size() > 0){
 	            for (UploadFile uploadFile : list){
-	                Integer count = uploadService.findCountById(uploadFile.getId(),Constant.OB_PROJECT_SYS_KEY);
+	                Integer count = uploadService.findCountById(uploadFile.getId(),sysKey);
 	                if (count > 0){
-	                    uploadService.updateFile(uploadFile, Constant.OB_PROJECT_SYS_KEY);
+	                    uploadService.updateFile(uploadFile, sysKey);
 	                } else {
-	                    uploadService.insertFile(uploadFile,Constant.OB_PROJECT_SYS_KEY);
+	                    uploadService.insertFile(uploadFile,sysKey);
 	                }
 	            }
 	            recordService.importAttach(new Integer(list.size()).toString());

@@ -315,24 +315,24 @@ public class LoginController {
 		if (expertUser != null) {
 			// 专家登录
 			typeFlag = 3;
-			loginLog.setLoginType(typeFlag);
+			loginLog.setType(typeFlag);
 		} else if (supplierUser != null) {
 			// 供应商登录
 			typeFlag = 2;
-			loginLog.setLoginType(typeFlag);
+			loginLog.setType(typeFlag);
 		} else {
 			// 后台登录
 			typeFlag = 1;
-			loginLog.setLoginType(typeFlag);
+			loginLog.setType(typeFlag);
 		}
 		// 设置登录ID
 		loginLog.setLoginId(user.getId());
 		// 设置登录名
-		loginLog.setLoginName(user.getLoginName());
+		loginLog.setName(user.getLoginName());
 		// 设置登录时间
-		loginLog.setLoginTime(new Date());
+		loginLog.setLoginAt(new Date());
 		// 设置登录ip
-		loginLog.setLoginIp(getIpAddress(req));
+		loginLog.setIp(getIpAddress(req));
 		// 保存登录信息
 		loginLogService.saveOnlineUser(loginLog);
     }

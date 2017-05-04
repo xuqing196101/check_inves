@@ -4,15 +4,15 @@
   <resultMap id="BaseResultMap" type="common.model.LoginLog" >
     <id column="ID" property="id" jdbcType="VARCHAR" />
     <result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
-    <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
-    <result column="LOGIN_TYPE" property="loginType" jdbcType="DECIMAL" />
-    <result column="LOGIN_IP" property="loginIp" jdbcType="VARCHAR" />
-    <result column="LOGIN_TIME" property="loginTime" jdbcType="TIMESTAMP" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="LOGIN_AT" property="loginAt" jdbcType="TIMESTAMP" />
     <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, LOGIN_ID, LOGIN_NAME, LOGIN_TYPE, LOGIN_IP, LOGIN_TIME, IS_DELETED, REMARK
+    ID, LOGIN_ID, NAME, TYPE, IP, LOGIN_AT, IS_DELETED, REMARK
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -25,11 +25,11 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="common.model.LoginLog" >
-    insert into T_SYSTEM_LOGIN_LOG (ID, LOGIN_ID, LOGIN_NAME, 
-      LOGIN_TYPE, LOGIN_IP, LOGIN_TIME, 
+    insert into T_SYSTEM_LOGIN_LOG (ID, LOGIN_ID, NAME, 
+      TYPE, IP, LOGIN_AT, 
       IS_DELETED, REMARK)
-    values (#{id,jdbcType=VARCHAR}, #{loginId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
-      #{loginType,jdbcType=DECIMAL}, #{loginIp,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=VARCHAR}, #{loginId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=DECIMAL}, #{ip,jdbcType=VARCHAR}, #{loginAt,jdbcType=TIMESTAMP}, 
       #{isDeleted,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="common.model.LoginLog" >
@@ -44,17 +44,17 @@
       <if test="loginId != null" >
         LOGIN_ID,
       </if>
-      <if test="loginName != null" >
-        LOGIN_NAME,
+      <if test="name != null" >
+        NAME,
       </if>
-      <if test="loginType != null" >
-        LOGIN_TYPE,
+      <if test="type != null" >
+        TYPE,
       </if>
-      <if test="loginIp != null" >
-        LOGIN_IP,
+      <if test="ip != null" >
+        IP,
       </if>
-      <if test="loginTime != null" >
-        LOGIN_TIME,
+      <if test="loginAt != null" >
+        LOGIN_AT,
       </if>
       <if test="isDeleted != null" >
         IS_DELETED,
@@ -70,17 +70,17 @@
       <if test="loginId != null" >
         #{loginId,jdbcType=VARCHAR},
       </if>
-      <if test="loginName != null" >
-        #{loginName,jdbcType=VARCHAR},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="loginType != null" >
-        #{loginType,jdbcType=DECIMAL},
+      <if test="type != null" >
+        #{type,jdbcType=DECIMAL},
       </if>
-      <if test="loginIp != null" >
-        #{loginIp,jdbcType=VARCHAR},
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="loginTime != null" >
-        #{loginTime,jdbcType=TIMESTAMP},
+      <if test="loginAt != null" >
+        #{loginAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null" >
         #{isDeleted,jdbcType=DECIMAL},
@@ -96,17 +96,17 @@
       <if test="loginId != null" >
         LOGIN_ID = #{loginId,jdbcType=VARCHAR},
       </if>
-      <if test="loginName != null" >
-        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="loginType != null" >
-        LOGIN_TYPE = #{loginType,jdbcType=DECIMAL},
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=DECIMAL},
       </if>
-      <if test="loginIp != null" >
-        LOGIN_IP = #{loginIp,jdbcType=VARCHAR},
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="loginTime != null" >
-        LOGIN_TIME = #{loginTime,jdbcType=TIMESTAMP},
+      <if test="loginAt != null" >
+        LOGIN_AT = #{loginAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null" >
         IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
@@ -120,10 +120,10 @@
   <update id="updateByPrimaryKey" parameterType="common.model.LoginLog" >
     update T_SYSTEM_LOGIN_LOG
     set LOGIN_ID = #{loginId,jdbcType=VARCHAR},
-      LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
-      LOGIN_TYPE = #{loginType,jdbcType=DECIMAL},
-      LOGIN_IP = #{loginIp,jdbcType=VARCHAR},
-      LOGIN_TIME = #{loginTime,jdbcType=TIMESTAMP},
+      NAME = #{name,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      IP = #{ip,jdbcType=VARCHAR},
+      LOGIN_AT = #{loginAt,jdbcType=TIMESTAMP},
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
       REMARK = #{remark,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
@@ -137,10 +137,10 @@
   
   <!-- 统计用户日登录量 -->
   <select id="getLoginCountByEmp" resultType="java.lang.Long" parameterType="Map">
-    SELECT COUNT(DISTINCT L.LOGIN_IP)
+    SELECT COUNT(DISTINCT L.IP)
     FROM T_SYSTEM_LOGIN_LOG L
    		WHERE L.IS_DELETED = 0
-     	AND TO_CHAR(L.LOGIN_TIME, 'yyyy-MM-dd') = #{loginTime}
-     	AND L.LOGIN_TYPE = #{loginType}
+     	AND TO_CHAR(L.LOGIN_AT, 'yyyy-MM-dd') = #{loginTime}
+     	AND L.TYPE = #{loginType}
   </select>
 </mapper>

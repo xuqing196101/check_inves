@@ -122,7 +122,7 @@ public class InfoImportTask {
                     			 }
                     			 //判断文件是否是竞价信息 附件文件
                         		 if (file2.getName().contains(FileUtils.C_OB_PROJECT_FILE_FILENAME)){
-                        			 OBProjectServer.importFile(file2);
+                        			 OBProjectServer.importFile(file2, common.constant.Constant.OB_PROJECT_SYS_KEY);
                         		 }
                     		 }
                     	 }

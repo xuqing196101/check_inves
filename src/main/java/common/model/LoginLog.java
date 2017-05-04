@@ -19,19 +19,19 @@ public class LoginLog {
 	private String loginId;
 
 	/** 登录名称 **/
-	private String loginName;
+	private String name;
 
 	/** 1：后台 2：供应商 3：专家 **/
-	private Integer loginType;
+	private Integer type;
 
 	/** 登录人IP **/
-	private String loginIp;
+    private String ip;
 
-	/** 登录时间 **/
-	private Date loginTime;
-
+    /** 登录时间 **/
+    private Date loginAt;
+    
 	/** 0：未删除 1：删除 **/
-	private Integer isDeleted;
+    private Integer isDeleted;
 
 	private String remark;
 
@@ -43,44 +43,12 @@ public class LoginLog {
 		this.id = id;
 	}
 
-	public Date getLoginTime() {
-		return loginTime;
-	}
-
-	public void setLoginTime(Date loginTime) {
-		this.loginTime = loginTime;
-	}
-
 	public String getLoginId() {
 		return loginId;
 	}
 
 	public void setLoginId(String loginId) {
 		this.loginId = loginId;
-	}
-
-	public String getLoginName() {
-		return loginName;
-	}
-
-	public void setLoginName(String loginName) {
-		this.loginName = loginName;
-	}
-
-	public String getLoginIp() {
-		return loginIp;
-	}
-
-	public void setLoginIp(String loginIp) {
-		this.loginIp = loginIp;
-	}
-
-	public Integer getLoginType() {
-		return loginType;
-	}
-
-	public void setLoginType(Integer loginType) {
-		this.loginType = loginType;
 	}
 
 	public Integer getIsDeleted() {
@@ -99,4 +67,36 @@ public class LoginLog {
 		this.remark = remark;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public Date getLoginAt() {
+		return loginAt;
+	}
+
+	public void setLoginAt(Date loginAt) {
+		this.loginAt = loginAt;
+	}
+	
 }

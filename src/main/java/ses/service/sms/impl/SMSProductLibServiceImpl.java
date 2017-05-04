@@ -772,13 +772,13 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 			 ba.setInfo(info);
 			 if(ba.getPictureMajor()!=null){
 			  //根据主图 id 获取图片
-			 List<UploadFile> major= uploadService.findBybusinessId(ba.getPictureMajor(), Constant.TENDER_SYS_KEY);
+			 List<UploadFile> major= uploadService.findBybusinessId(ba.getPictureMajor(), Constant.SUPPLIER_SYS_KEY);
 			 uploadList.addAll(major);
 			 }
 			 if(info!=null){
 				 if(info.getPictureSub()!=null){
 				 //根据 info 子图 id 获取图片
-				 List<UploadFile> sub= uploadService.findBybusinessId(info.getPictureSub(), Constant.TENDER_SYS_KEY);
+				 List<UploadFile> sub= uploadService.findBybusinessId(info.getPictureSub(), Constant.SUPPLIER_SYS_KEY);
 				 uploadList.addAll(sub);
 				 }
 				// 获取 产品 参数 详情
@@ -788,7 +788,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 			    	if(smsProductArguments.getParameterType().equals("附件")){
 			    		 if(smsProductArguments.getParameterValue()!=null){
 			    	//根据 info 子图 id 获取图片
-					 List<UploadFile> value= uploadService.findBybusinessId(smsProductArguments.getParameterValue(), Constant.TENDER_SYS_KEY);
+					 List<UploadFile> value= uploadService.findBybusinessId(smsProductArguments.getParameterValue(), Constant.SUPPLIER_SYS_KEY);
 					 uploadList.addAll(value);
 			    		 }
 			    	}

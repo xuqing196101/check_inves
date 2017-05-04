@@ -102,3 +102,4 @@ $(function() {
 			uploadPic.setOption(uploadPicOption);
 	});
 });
+

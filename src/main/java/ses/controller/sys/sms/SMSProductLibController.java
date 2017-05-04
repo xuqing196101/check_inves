@@ -276,7 +276,7 @@ public class SMSProductLibController {
 	 */
 	public void fileUploadItem(Model model) {
 		// 定义招标采购系统key文件上传key
-		Integer sysKey = common.constant.Constant.TENDER_SYS_KEY;
+		Integer sysKey = common.constant.Constant.SUPPLIER_SYS_KEY;
 		// 定义文件上传类型
 		DictionaryData dictionaryData = DictionaryDataUtil
 				.get(Constant.PRODUCT_LIB_FILE);
