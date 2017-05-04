@@ -1156,10 +1156,10 @@
                                             <thead>
                                                 <tr>
                                                     <th class="info" style="width:3%;"><input type="checkbox" onchange="checkAll(this, 'address_list_tbody_id')" /></th>
-                                                    <th class="info" style="width:13%;"><font color="red">*</font>生产或经营地址邮编</th>
-                                                    <th class="info" style="width:23%;"><font color="red">*</font>生产或经营地址（填写所有地址）</th>
-                                                    <th class="info"><font color="red">*</font>生产或经营详细地址</th>
-                                                    <th class="info" style="width:22%;"><font color="red">*</font>房产证明或租赁协议</th>
+                                                    <th class="info" style="width:13%;"><font color="red">*</font> 生产或经营地址邮编</th>
+                                                    <th class="info" style="width:23%;"><font color="red">*</font> 生产或经营地址（填写所有地址）</th>
+                                                    <th class="info"><font color="red">*</font> 生产或经营详细地址</th>
+                                                    <th class="info" style="width:22%;"><font color="red">*</font> 房产证明或租赁协议</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="address_list_tbody_id">
