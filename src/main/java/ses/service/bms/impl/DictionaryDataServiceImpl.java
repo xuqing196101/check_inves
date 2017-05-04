@@ -28,6 +28,12 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
     }
 
     @Override
+    public List<DictionaryData> findByNotDefinedLevel(DictionaryData dd) {
+        List<DictionaryData> dds = dictionaryDataMapper.findListByNotDefinedLevel(dd);
+        return dds;
+    }
+
+    @Override
     public void delete(String id) {
         dictionaryDataMapper.delete(id);
     }

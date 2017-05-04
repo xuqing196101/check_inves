@@ -15,6 +15,13 @@ public interface DictionaryDataMapper {
 
     List<DictionaryData> findList(DictionaryData dd);
 
+    /**
+     * 不等于等级查询
+     * @param dd
+     * @return
+     */
+    List<DictionaryData> findListByNotDefinedLevel(DictionaryData dd);
+
     int update(DictionaryData dd);
     
     DictionaryData selectByPrimaryKey(String id);

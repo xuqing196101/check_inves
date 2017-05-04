@@ -88,7 +88,22 @@ public class DictionaryDataUtil {
         List<DictionaryData> dds= dictionaryDataUtil.dictionaryDataService.find(dictionaryData);
         return dds;
     }
-    
+
+    /**
+     *〈简述〉根据类型查询数据字典集合
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param kind
+     * @return
+     */
+    public static List<DictionaryData> findDataByNotDefinedLevel(Integer kind){
+    	DictionaryData dictionaryData = new DictionaryData();
+        dictionaryData.setKind(kind);
+        dictionaryData.setCode("DEFINED_LEVEL");
+        List<DictionaryData> dds= dictionaryDataUtil.dictionaryDataService.findByNotDefinedLevel(dictionaryData);
+        return dds;
+    }
+
     /**
      * 
      *〈简述〉

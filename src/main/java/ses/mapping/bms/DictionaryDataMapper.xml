@@ -47,7 +47,36 @@
       </if>
     </trim>
   </sql>  
-  
+  <sql id="Example_Where_Clause_NotLevel">
+    where dd.IS_DELETED = 0
+    <trim suffixOverrides=",">
+      <if test="id != null and id != ''">
+        and dd.ID = #{id}
+      </if>
+      <if test="code != null and code != ''">
+        and dd.CODE &lt;&gt; #{code}
+      </if>
+      <if test="name!= null and name != ''">
+        and dd.NAME  like CONCAT(CONCAT('%', #{name}), '%')
+      </if>
+      <if test="description != null and description != ''">
+        and dd.DESCRIPTION  like CONCAT(CONCAT('%', #{description}), '%')
+      </if>
+      <if test="createdAt != null">
+        and dd.CREATED_AT = #{createdAt}
+      </if>
+      <if test="updatedAt != null">
+        and dd.UPDATED_AT = #{updatedAt}
+      </if>
+      <if test="kind != null">
+        and dd.KIND = #{kind}
+      </if>
+      <if test="position != null">
+        and dd.POSITION = #{position}
+      </if>
+    </trim>
+  </sql>
+
   <!-- 1.根据条件查询 -->
   <select id="findList" parameterType="java.lang.String" resultMap="DictionaryDataMap">
     select 
@@ -56,7 +85,14 @@
     <include refid="Example_Where_Clause"/>
     ORDER BY dd.POSITION
   </select>
-  
+  <select id="findListByNotDefinedLevel" parameterType="java.lang.String" resultMap="DictionaryDataMap">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_DICTIONARY_DATA dd
+    <include refid="Example_Where_Clause_NotLevel"/>
+    ORDER BY dd.POSITION
+  </select>
+
   <!-- 2.根据id删除 -->
   <delete id="delete" parameterType="java.lang.String">
     delete from T_SES_BMS_DICTIONARY_DATA dd

@@ -203,7 +203,7 @@ public class QualificationController {
     	for(QualificationLevel q:list){
     		str+=q.getGrade()+",";
     	}
-        List<DictionaryData> kind = DictionaryDataUtil.find(31);
+        List<DictionaryData> kind = DictionaryDataUtil.findDataByNotDefinedLevel(31);
         model.addAttribute("kind", kind);
         model.addAttribute("list", str);
         model.addAttribute("id", id);

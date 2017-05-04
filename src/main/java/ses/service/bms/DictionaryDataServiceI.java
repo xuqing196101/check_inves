@@ -8,6 +8,8 @@ import ses.model.sms.SupplierDictionaryData;
 public interface DictionaryDataServiceI {
     
     List<DictionaryData> find(DictionaryData dd);
+
+    List<DictionaryData> findByNotDefinedLevel(DictionaryData dd);
     
     void delete(String id);
     
