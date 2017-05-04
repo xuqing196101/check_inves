@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditNot;
@@ -31,7 +32,16 @@ public class SupplierAuditFormBean {
 
 	private List<SupplierSignature> supplierSignature=new ArrayList<SupplierSignature>();
 	
+	private User user;
 	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public List<SupplierSignature> getSupplierSignature() {
 		return supplierSignature;
 	}

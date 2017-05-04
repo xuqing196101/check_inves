@@ -689,6 +689,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 				saf.setSupplierId(s.getId());
 				saf.setStatus(s.getStatus());
 				saf.setAuditDate(s.getAuditDate());
+				saf.setUser(getUser(s.getId()));
 				map.put("supplierId", s.getId());
 				List<SupplierAudit> sa = supplierAuditMapper.findByMap(map);
 				saf.setSupplierAudits(sa);
