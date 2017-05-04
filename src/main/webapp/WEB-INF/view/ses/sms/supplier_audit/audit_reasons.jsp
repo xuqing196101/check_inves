@@ -44,7 +44,7 @@
 	   //审核
 	   function shenhe(status){
 	   			var supplierId = $("input[name='supplierId']").val();
-	   			if(status == 6){
+	   			if(status == 3){
 	   				//询问框
 						layer.confirm('您确认吗？', {
 							closeBtn: 0,

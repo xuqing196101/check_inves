@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertAuditNotMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExpertAuditNot">
+    <id column="ID" property="id" />
+    <result column="EXPERT_ID" property="expertId" />
+    <result column="EXPERT_NAME" property="expertName" />
+    <result column="ID_CARD" property="idCard" />
+    <result column="CREATED_AT" property="createdAt"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, EXPERT_ID, EXPERT_NAME, ID_CARD, CREATED_AT
+  </sql>
+  
+  <!-- 插入审核记录 -->
+  <insert id="insertSelective" parameterType="ses.model.ems.ExpertAuditNot">
+    insert into T_SES_EMS_EXPERT_AUDIT_NOT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="expertName != null">
+        EXPERT_NAME,
+      </if>
+      <if test="idCard != null">
+        ID_CARD,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="expertId != null">
+        #{expertId},
+      </if>
+      <if test="expertName != null">
+        #{expertName},
+      </if>
+      <if test="idCard != null">
+        #{idCard},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+    </trim>
+     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select sys_guid() from dual
+  	</selectKey>
+  </insert>
+</mapper>

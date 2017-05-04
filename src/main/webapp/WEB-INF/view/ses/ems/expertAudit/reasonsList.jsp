@@ -28,6 +28,7 @@
 			function shenhe(status) {
 			var expertId = $("input[name='expertId']").val();
 			
+				//退回
 				if(status == 3){
 					updateStepNumber("one");
 				}
@@ -53,7 +54,12 @@
 										$("#form_shenhe").submit();
 									}
 							});
-						});	
+						});
+						
+						//初审不通过
+						if(status == 2){
+							window.location.href="${pageContext.request.contextPath}/expertAudit/saveAuditNot.html?expertId="+expertId;
+						}
 					});
 				}else{
 					//询问框

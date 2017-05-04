@@ -2980,7 +2980,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @Title: recordNotPassed
 	 * @author XuQing 
 	 * @date 2017-1-11 下午1:53:18  
-	 * @Description:记录未通过的审核的
+	 * @Description:记录审核未通过的
 	 * @param @param supplierAuditNot      
 	 * @return void
 	 */

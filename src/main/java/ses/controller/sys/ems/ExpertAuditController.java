@@ -36,6 +36,7 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
+import ses.model.ems.ExpertAuditNot;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
@@ -49,6 +50,7 @@ import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
 import ses.service.bms.TodosService;
+import ses.service.ems.ExpertAuditNotService;
 import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
@@ -129,6 +131,9 @@ public class ExpertAuditController{
 	
 	@Autowired
 	private ExpertTitleService expertTitleService;
+	
+	@Autowired
+	private ExpertAuditNotService expertAuditNotService;
 	/**
 	 * @Title: expertAuditList
 	 * @author XuQing 
@@ -2189,5 +2194,24 @@ public class ExpertAuditController{
 			}
 		}
 		return "";
+	}
+	
+	/**
+	 * @Title: saveAuditNot
+	 * @author XuQing 
+	 * @date 2017-5-3 下午7:12:17  
+	 * @Description:记录审核未通过的
+	 * @param       
+	 * @return void
+	 */
+	@RequestMapping(value="/saveAuditNot")
+	public void saveAuditNot(String expertId){
+		ExpertAuditNot expertAuditNot = new ExpertAuditNot();
+		Expert expert = expertService.selectByPrimaryKey(expertId);
+		expertAuditNot.setCreatedAt(new Date());
+		expertAuditNot.setExpertId(expertId);
+		expertAuditNot.setExpertName(expert.getRelName());
+		expertAuditNot.setIdCard(expert.getIdCardNumber());
+		expertAuditNotService.insertSelective(expertAuditNot);
 	}
 }
