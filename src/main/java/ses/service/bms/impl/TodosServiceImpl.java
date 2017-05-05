@@ -188,7 +188,7 @@ public class TodosServiceImpl implements TodosService {
 @Override
 public List<Todos> listUrlTodoPage(Todos todos,Short types,Integer page) {
 	
-	List<String> listUserPermission = getPermisssion(todos.getReceiverId());
+	  List<String> listUserPermission = getPermisssion(todos.getReceiverId());
       Map<String, Object> map = new HashMap<String, Object>();
       todos.setUndoType(types);
       map = new HashMap<String, Object>();

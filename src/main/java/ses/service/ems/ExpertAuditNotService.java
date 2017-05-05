@@ -10,5 +10,24 @@ import ses.model.ems.ExpertAuditNot;
  */
 public interface ExpertAuditNotService {
 	
+	/**
+	 * @Title: insertSelective
+	 * @author XuQing 
+	 * @date 2017-5-4 下午4:45:50  
+	 * @Description:记录初审未通过的专家
+	 * @param @param expertAuditNot      
+	 * @return void
+	 */
 	void insertSelective(ExpertAuditNot expertAuditNot);
+	
+	/**
+	 * @Title: selectByIdCard
+	 * @author XuQing 
+	 * @date 2017-5-4 下午4:45:31  
+	 * @Description:根据身份证号查询初审未通过的专家
+	 * @param @param idCard
+	 * @param @return      
+	 * @return ExpertAuditNot
+	 */
+	ExpertAuditNot selectByIdCard(String idCard);
 }

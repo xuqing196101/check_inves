@@ -1252,9 +1252,10 @@ public class ExpertServiceImpl implements ExpertService {
     	dlog.setId(id);
     	dlog.setTypeId(expertId);
     	dlog.setCreateAt(new Date());
-    	dlog.setUniqueCode(expert.getIdCardNumber());
-    	deleteLogMapper.insertSelective(dlog);
-    	
+    	if(expert.getIdCardNumber() !=null){
+    		dlog.setUniqueCode(expert.getIdCardNumber());
+    	}
+    	/*deleteLogMapper.insertSelective(dlog);*/
     	
 		mapper.deleteByPrimaryKey(expertId);
 		
@@ -1345,25 +1346,35 @@ public class ExpertServiceImpl implements ExpertService {
                 if("-1".equals(ex_status)){
                     //根据创建注册信息时间计算间隔天数
                     int betweenDays = this.daysBetween(createAt);
-                    int days = Integer.parseInt(PropUtil.getProperty("logout.expert.first.overdue"));
-                    if(betweenDays > days){
+//                    int days = Integer.parseInt(PropUtil.getProperty("logout.expert.first.overdue"));
+                    if(betweenDays > 90){
                         this.deleteExpert(expert.getId());
-                        return days;
+                        return 90;
                     }
                 }
                 //退回修改后,60天内未重新提交审核
                 if("3".equals(ex_status)){
                     //根据审核时间计算间隔天数
                     int betweenDays = this.daysBetween(auditAt);
-                    int days = Integer.parseInt(PropUtil.getProperty("logout.expert.back.overdue"));
-                    if(betweenDays > days){
+//                    int days = Integer.parseInt(PropUtil.getProperty("logout.expert.back.overdue"));
+                    if(betweenDays > 60){
                         this.deleteExpert(expert.getId());
-                        return days;
+                        return 60;
                     }
                 }
             }
         }
         return 0;
+    }
+
+    @Override
+    public ExpertHistory selectOldExpertByPrimaryKey(String id) {
+        return mapper.selectOldExpertByPrimaryKey(id);
+    }
+
+    @Override
+    public void insertExpertHistoryById(ExpertHistory expertHistory) {
+        mapper.insertExpertHistoryById(expertHistory);
     }
 
 }

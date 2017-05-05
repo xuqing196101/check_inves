@@ -425,12 +425,8 @@
 			AND TP.project_Number like '%'||#{projectCode}||'%'
 		</if>
 		<if test="isCreateContract !=null and isCreateContract !='' ">
-		   <if test="isCreateContract ==0 ">
-		    AND CP.IS_CREATE_CONTRACT is null 
-		   </if>
-			<if test="isCreateContract ==1 ">
+		   
 			AND CP.IS_CREATE_CONTRACT=#{isCreateContract}
-			</if>
 			
 		</if>
 		ORDER BY CP.IS_CREATE_CONTRACT 

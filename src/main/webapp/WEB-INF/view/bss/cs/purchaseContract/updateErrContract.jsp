@@ -357,7 +357,7 @@
 			var num1 = $(tds[i]).val()-0;
 			sum2 = sum2+num1;
 		}
-		var sumAll = sum1+sum2;
+		var sumAll = (sum1+sum2)/10000;
 		if(sumAll>sumbudget){
 			layer.close(index);
 			layer.alert("明细总价不得超过预算",{offset: ['50%', '40%'], shade:0.01});
@@ -415,7 +415,7 @@
 	function sum1(){
 		var budget = $("#univalent").val()-0;
 		var other = $("#purNum").val()-0;
-		var sum = budget*other/10000;
+		var sum = budget*other;
 		$("#purBudgetSum").val(sum);
 	}
 	
@@ -927,7 +927,7 @@
 							<th class="info">计量单位</th>
 							<th class="info">数量</th>
 							<th class="info">单价(元)</th>
-							<th class="info">合计金额(万元)</th>
+							<th class="info">合计金额(元)</th>
 							<th class="info">交付时间</th>
 							<th class="info">备注</th>
 						</tr>

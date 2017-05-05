@@ -71,6 +71,7 @@ import bss.service.sstps.AppraisalContractService;
 
 
 
+
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -152,8 +153,6 @@ public class PurchaseContractController extends BaseSupplierController{
 		String projectCode = request.getParameter("projectCode");
 		String isCreate = request.getParameter("isCreate");
 		String purchaseDep = request.getParameter("purchaseDep");
-		SupplierCheckPass checkPass=new SupplierCheckPass();
-		checkPass.setIsWonBid((short)1);
 		if(page==null){
 			page=1;
 		}
@@ -166,11 +165,12 @@ public class PurchaseContractController extends BaseSupplierController{
 		hashMap.put("page", page);
 		
 		List<SupplierCheckPass> listpass=new ArrayList<SupplierCheckPass>();
+		List<SupplierCheckPass> listCheckPassBD=null;
 		Orgnization or = user.getOrg();
 		if(or!=null){
 			if(or.getTypeName().equals("1")){
 				hashMap.put("purchaseDepId", or.getId());
-				List<SupplierCheckPass> listCheckPassBD = supplierCheckPassService.listsupplier(hashMap);
+				listCheckPassBD= supplierCheckPassService.listsupplier(hashMap);
 				if(listCheckPassBD!=null&&listCheckPassBD.size()>0){
 				for(SupplierCheckPass pass:listCheckPassBD){
 					Project project = projectService.selectById(pass.getProjectId());
@@ -181,8 +181,6 @@ public class PurchaseContractController extends BaseSupplierController{
 					pass.setPackages(packages);
 					pass.setSupplier(supplier);
 					pass.setPurchaseDep(orgnization.getName());
-					listpass.add(pass);
-						
 				}
 			   }
 			}
@@ -193,7 +191,7 @@ public class PurchaseContractController extends BaseSupplierController{
 				if(list!=null&&list.size()>0){
 					for(PurchaseOrg po:list){
 						hashMap.put("purchaseDepId", po.getPurchaseDepId());
-						List<SupplierCheckPass> listCheckPassBD = supplierCheckPassService.listsupplier(hashMap);
+						listCheckPassBD = supplierCheckPassService.listsupplier(hashMap);
 						if(listCheckPassBD!=null&&listCheckPassBD.size()>0){
 							for(SupplierCheckPass pass:listCheckPassBD){
 								Project project = projectService.selectById(pass.getProjectId());
@@ -254,13 +252,13 @@ public class PurchaseContractController extends BaseSupplierController{
 		model.addAttribute("projectCode", projectCode);
 		model.addAttribute("purchaseDep", purchaseDep);
 		model.addAttribute("isCreate", isCreate);*/
-	    PageInfo<SupplierCheckPass> list = new PageInfo<SupplierCheckPass>(listpass);
+	    PageInfo<SupplierCheckPass> list = new PageInfo<SupplierCheckPass>(listCheckPassBD);
 	    model.addAttribute("projectName", projectName);
 		model.addAttribute("projectCode", projectCode);
 		model.addAttribute("purchaseDep", purchaseDep);
 		model.addAttribute("isCreate", isCreate);
 	    model.addAttribute("list",list);
-		model.addAttribute("listpass", listpass);
+		model.addAttribute("listpass", listCheckPassBD);
 		return "bss/cs/purchaseContract/list";
 	}
 	

@@ -20,7 +20,7 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 	$(document).ready(function(){ 
 	    	  var obj = document.getElementById("TANGER_OCX");
 			  obj.SetReadOnly(false);
@@ -35,7 +35,7 @@
 				+"/purchaseContract/loadFile.html?id="+projectId,true,false, 'word.document');// 异步加载, 服务器文件路径
 			
 		}
-	</script>
+	</script> -->
   </head>
 <body>
 <!--面包屑导航开始-->
@@ -257,19 +257,6 @@
 	</table>
 	</div>
 	
-	<div class="tab-pane fade" id="tab-3">
-	    <div class="mt10 mb10">
-	        <input type="button" class="btn btn-windows save" onclick="saveFile()" value="存至服务器"></input>
-	    	</div>
-            <form id="MyFile" method="post"  >
-				<input type="hidden" id="ope" value="view">
-    			<input type="hidden" id="contractId" value="${id}">
-    			<input type="hidden" id="contractName" value="">
-				<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
-			</form>
-	 
-	</div> 
-	  </form>
   	<div class="col-md-12 tc mt20">
    		<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   	</div>

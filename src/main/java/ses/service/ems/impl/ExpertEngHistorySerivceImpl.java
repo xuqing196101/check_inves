@@ -14,9 +14,7 @@ import ses.dao.ems.ExpertTitleMapper;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertTitle;
-import ses.model.sms.SupplierHistory;
 import ses.service.ems.ExpertEngHistorySerivce;
-import ses.service.ems.ExpertTitleService;
 import ses.util.DictionaryDataUtil;
 
 /**
@@ -60,23 +58,26 @@ public class ExpertEngHistorySerivceImpl implements ExpertEngHistorySerivce{
 			expertTitleList = expertTitleMapper.queryByExpertId(expertId,goodsProjectId);	
 		}
         
-		if(!expertTitleList.isEmpty()){
+		if(!expertTitleList.isEmpty() && expertTitleList.size() > 0){
 			for(ExpertTitle e : expertTitleList){
-				String professional = e.getQualifcationTitle();
-				Date timeProfessional = e.getTitleTime();
-				expertEngHistory.setCreatedAt(date);
-				expertEngHistory.setExpertId(expertId);
-				expertEngHistory.setRelationId(e.getId());
-				//插入历史表
-				expertEngHistory.setContent(professional);
-				expertEngHistory.setField("qualifcationTitle");
-				expertEngHistoryMapper.insertSelective(expertEngHistory);
-
-				//插入历史表
-				expertEngHistory.setContent(format.format(timeProfessional));
-				expertEngHistory.setField("titleTime");
-				expertEngHistoryMapper.insertSelective(expertEngHistory);
-				
+				if(e !=null ){
+					expertEngHistory.setCreatedAt(date);
+					expertEngHistory.setExpertId(expertId);
+					expertEngHistory.setRelationId(e.getId());
+					//插入历史表
+					if(e.getQualifcationTitle() !=null){
+						expertEngHistory.setContent(e.getQualifcationTitle());
+						expertEngHistory.setField("qualifcationTitle");
+						expertEngHistoryMapper.insertSelective(expertEngHistory);
+					}
+					
+					if(e.getTitleTime() !=null){
+						//插入历史表
+						expertEngHistory.setContent(format.format(e.getTitleTime()));
+						expertEngHistory.setField("titleTime");
+						expertEngHistoryMapper.insertSelective(expertEngHistory);
+					}
+				}
 			}
 		}
 	}

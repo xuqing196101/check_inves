@@ -93,6 +93,8 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
                 if (regPersonBean != null) {
                     // 修改
                     regPerson.setMatEngId(supplierMatEng.getId());
+                    if(null==regPerson.getRegType()) regPerson.setRegType("");
+                    if(null==regPerson.getRegNumber()) regPerson.setRegNumber("");
                     supplierRegPersonMapper.updateByPrimaryKeySelective(regPerson);
                 } else {
                     // 新增

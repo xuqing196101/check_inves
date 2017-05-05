@@ -63,7 +63,13 @@
 	<!-- 根据pid生成列表 -->
 	<!-- <select id="listByParent" parameterType="Object" resultMap="CateMap"> 
 		select where PARENT_ID=#{pid} </select> -->
-
+    <!-- 根据pid查询生成树 -->
+	<select id="findTreeByPidIsPublish" parameterType="Object" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_CATEGORY
+		where IS_DELETED=0 and PARENT_ID=#{id} and IS_PUBLISH=0 order by CODE
+	</select>
 	<!-- 根据pid查询生成树 -->
 	<select id="findTreeByPid" parameterType="Object" resultMap="CateMap">
 		select
