@@ -195,8 +195,6 @@ public class LoginController {
                                 }
                             } else {
                                 req.getSession().setAttribute("loginUser", u);
-                                // 记录专家登录日志
-                                loginLog(u, req);
                                 List<PreMenu> resource = preMenuService.getMenu(u);
                                 req.getSession().setAttribute("resource", resource);
                                 //req.getSession().setAttribute("resource", u.getMenus());
@@ -225,8 +223,6 @@ public class LoginController {
                             if ("success".equals(msg)) {
                                 req.getSession().setAttribute("loginSupplier", map.get("supplier"));
                                 req.getSession().setAttribute("loginUser", u);
-                                // 记录供应商登录日志
-                                loginLog(u, req);
                                 List<PreMenu> resource = preMenuService.getMenu(u);
                                 req.getSession().setAttribute("resource", resource);
                                 //req.getSession().setAttribute("resource", u.getMenus());
@@ -274,8 +270,6 @@ public class LoginController {
                       }
                     } else {*/
                       req.getSession().setAttribute("loginUser", u);
-                      // 记录后台人员日志
-                      loginLog(u, req);
                       
                       List<PreMenu> resource = preMenuService.getMenu(u);
                       req.getSession().setAttribute("resource", resource);
