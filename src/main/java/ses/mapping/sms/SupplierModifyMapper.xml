@@ -43,7 +43,8 @@
     from 
     	T_SES_SMS_SUPPLIER_MODIFY
     where 
-    	SUPPLIER_ID = #{supplierId} 
+    	SUPPLIER_ID = #{supplierId}
+    	and IS_DELETED = 0
     <if test="modifyType != null">
       and MODIFY_TYPE = #{modifyType}
     </if>

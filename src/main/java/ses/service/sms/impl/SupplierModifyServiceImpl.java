@@ -212,7 +212,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 							}
 							
 							//生产经营地址：
-							if(history.getBeforeField().equals("address")){
+							if(history.getBeforeField().equals("residence")){
 								List < Area > privnce = areaService.findRootArea();
 								Area area = new Area();
 								area = areaService.listById(address.getAddress());
@@ -224,15 +224,15 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 									}
 								}
 								if (!history.getBeforeContent().equals(parentAddress + sonAddress)) {
-									supplierModify.setBeforeField("address");
+									supplierModify.setBeforeField("residence");
 									supplierModify.setBeforeContent(history.getBeforeContent());
 									supplierModifyMapper.insertSelective(supplierModify);
 								}
 							}
 		
 							//生产经营详细地址：
-							if (history.getBeforeField().equals("detailAddress") && !history.getBeforeContent().equals(address.getDetailAddress())) {
-								supplierModify.setBeforeField("detailAddress");
+							if (history.getBeforeField().equals("detailedResidence") && !history.getBeforeContent().equals(address.getDetailAddress())) {
+								supplierModify.setBeforeField("detailedResidence");
 								supplierModify.setBeforeContent(history.getBeforeContent());
 								supplierModifyMapper.insertSelective(supplierModify);
 							}

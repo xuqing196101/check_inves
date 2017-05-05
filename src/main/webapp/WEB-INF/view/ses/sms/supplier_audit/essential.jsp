@@ -508,15 +508,25 @@
 							<li class="col-md-3 col-sm-6 col-xs-12">
 								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">生产或经营地址：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input type="text" id="address_${supplierAddress.id }" value="${supplierAddress.parentName }${supplierAddress.subAddressName }" class="hand " onclick="reason(this)" <c:if test="${fn:contains(fieldAddress,supplierAddress.id.concat('_address'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('address','${supplierAddress.id}','1');"</c:if> <c:if test="${fn:contains(passedField,'address_'.concat(supplierAddress.id))}">style="border: 1px solid red;"</c:if>>
+									<input type="text" id="residence_${supplierAddress.id }" value="${supplierAddress.parentName }${supplierAddress.subAddressName }" class="hand " onclick="reason(this)" <c:if test="${fn:contains(fieldAddress,supplierAddress.id.concat('_residence'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('residence','${supplierAddress.id}','1');"</c:if> <c:if test="${fn:contains(passedField,'residence_'.concat(supplierAddress.id))}">style="border: 1px solid red;"</c:if>>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">生产或经营详细地址：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input type="text" id="detailAddress_${supplierAddress.id }" value="${supplierAddress.detailAddress}" class="hand " onclick="reason(this)"  <c:if test="${fn:contains(fieldAddress,supplierAddress.id.concat('_detailAddress'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('detailAddress','${supplierAddress.id}','1');"</c:if> <c:if test="${fn:contains(passedField,'detailAddress_'.concat(supplierAddress.id))}">style="border: 1px solid red;"</c:if>>
+									<input type="text" id="detailedResidence_${supplierAddress.id }" value="${supplierAddress.detailAddress}" class="hand " onclick="reason(this)"  <c:if test="${fn:contains(fieldAddress,supplierAddress.id.concat('_detailedResidence'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('detailedResidence','${supplierAddress.id}','1');"</c:if> <c:if test="${fn:contains(passedField,'detailedResidence_'.concat(supplierAddress.id))}">style="border: 1px solid red;"</c:if>>
 								</div>
 							</li>
+							<li class="col-md-3 col-sm-6 col-xs-12 pl10" >
+							<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierHousePoperty)}">style="border: 1px solid #FF8C00;"</c:if> class="hand" onclick="reason1(this,'supplierHousePoperty_${supplierAddress.id}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">房产证明或租赁协议：</span>
+							<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
+								<u:show showId="house_show_${vs.index+1}" businessId="${supplierAddress.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+								<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+								<c:if test="${fn:contains(passedField,'supplierHousePoperty_'.concat(supplierAddress.id))}">
+									<img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+								</c:if>
+							</div>
+						</li>
 							<div class="clear"></div>
 						</c:forEach>
 					</ul>
