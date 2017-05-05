@@ -157,5 +157,12 @@
 		WHERE  SUPPLIER_ID =#{supplierId}
   </select>
   
+  <!-- 根据id查询 -->
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT
+		<include refid="Base_Column_List"/>
+		from T_SES_SMS_SUPPLIER_ADDRESS
+		WHERE  ID = #{id}
+  </select>
   
 </mapper>
