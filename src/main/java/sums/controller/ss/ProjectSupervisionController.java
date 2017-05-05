@@ -660,6 +660,7 @@ public class ProjectSupervisionController {
                     }
                 }
                 model.addAttribute("list", list);
+                model.addAttribute("planId", id);
                 model.addAttribute("type", "0");
             }
         }

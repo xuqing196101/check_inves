@@ -23,13 +23,18 @@ import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import bss.formbean.Jzjf;
@@ -112,6 +117,7 @@ import ses.service.sms.SupplierExtractsService;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import sums.service.ss.SupervisionService;
 
 /**
@@ -420,7 +426,7 @@ public class PlanSupervisionController {
      * @return
      */
     @RequestMapping("/viewTask")
-    public String viewTask(String id, String type, Model model){
+    public String viewTask(String id, String type, Integer page, Model model){
         if(StringUtils.isNotBlank(id)){
             CollectPlan collectPlan = collectPlanService.queryById(id);
             if(collectPlan != null){
@@ -438,6 +444,10 @@ public class PlanSupervisionController {
             
             //需求计划信息
             HashSet<String> set = new HashSet<>();
+            if(page == null){
+                page = 1;
+            }
+            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
             List<PurchaseDetail> details = detailService.getUnique(id,null,null);
             HashMap<String, Object> maps = new HashMap<>();
             List<PurchaseRequired> listRequired = new ArrayList<>();
@@ -450,7 +460,11 @@ public class PlanSupervisionController {
                         detail.setStatus(null);
                     }else{
                         DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
-                        detail.setPurchaseType(findById.getName());
+                        if(findById == null){
+                            System.out.println("----------------------------------"+detail.getId()+"-----------------------------------------------");
+                        } else {
+                            detail.setPurchaseType(findById.getName());
+                        }
                         String[] progressBarPlan = supervisionService.progressBar(detail.getId());
                         detail.setProgressBar(progressBarPlan[0]);
                         detail.setStatus(progressBarPlan[1]);
@@ -466,7 +480,9 @@ public class PlanSupervisionController {
                         for (PurchaseRequired purchaseRequired : details3) {
                             if("1".equals(purchaseRequired.getParentId())){
                                 User user = userService.getUserById(purchaseRequired.getUserId());
-                                purchaseRequired.setUserId(user.getRelName());
+                                if(user != null){
+                                    purchaseRequired.setUserId(user.getRelName());
+                                }
                                 listRequired.add(purchaseRequired);
                                 break;
                             }
@@ -474,7 +490,7 @@ public class PlanSupervisionController {
                     }
                 }
                 model.addAttribute("listRequired", listRequired);
-                model.addAttribute("list", details);
+                //model.addAttribute("list", new PageInfo<PurchaseDetail>(details));
             }
             
             //任务信息
@@ -680,6 +696,7 @@ public class PlanSupervisionController {
                 }
             }
             model.addAttribute("type", type);
+            model.addAttribute("planId", id);
         }
         return "sums/ss/planSupervision/detail_view";
     }
@@ -918,6 +935,10 @@ public class PlanSupervisionController {
                             User user = userService.getUserById(project.getAppointMan());
                             project.setAppointMan(user.getRelName());
                             project.setIpone(user.getMobile());
+                        }
+                        if(StringUtils.isNotBlank(project.getPrincipal())){
+                            User user = userService.getUserById(project.getPrincipal());
+                            project.setPrincipal(user.getRelName());
                         }
                         Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
                         project.setPurchaseDepName(org.getShortName());
@@ -1484,8 +1505,10 @@ public class PlanSupervisionController {
                     for (PurchaseRequired purchaseRequired : requireds) {
                         if("1".equals(purchaseRequired.getParentId())){
                             User user = userService.getUserById(purchaseRequired.getUserId());
-                            purchaseRequired.setUserId(user.getRelName());
-                            purchaseRequired.setCode(user.getMobile());
+                            if(user != null){
+                                purchaseRequired.setUserId(user.getRelName());
+                                purchaseRequired.setCode(user.getMobile());
+                            }
                             model.addAttribute("purchaseRequired", purchaseRequired);
                             break;
                         }
@@ -2318,6 +2341,64 @@ public class PlanSupervisionController {
               return i;
            }
         });
+    }
+    
+    @RequestMapping(value="/paixu",produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String paixu(Model model, String id, Integer page){
+        JSONObject jsonObj = new JSONObject();
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+        List<PurchaseDetail> details = detailService.getUnique(id,null,null);
+        if(details != null && details.size() > 0){
+            for (PurchaseDetail detail : details) { 
+                /*HashMap<String, Object> map = new HashMap<>();
+                map.put("id", detail.getId());
+                List<PurchaseDetail> purchaseDetails = detailService.selectByParentId(map);*/
+                if(detail.getPrice() == null){
+                    detail.setPurchaseType("");
+                    detail.setStatus(null);
+                }else{
+                    DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                    if(findById != null){
+                        detail.setPurchaseType(findById.getName());
+                    }
+                    String[] progressBarPlan = supervisionService.progressBar(detail.getId());
+                    detail.setProgressBar(progressBarPlan[0]);
+                    detail.setStatus(progressBarPlan[1]);
+                    detail.setOneAdvice(findById.getCode());
+                }
+            }
+            PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(details);
+            jsonObj.put("pages", pageInfo.getPages());
+            jsonObj.put("data", pageInfo.getList());
+        } else {
+            List<PurchaseRequired> purchaseRequireds = requiredService.getUnique(id);
+            if(purchaseRequireds != null && purchaseRequireds.size() > 0){
+                for (PurchaseRequired purchaseRequired : purchaseRequireds) {
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("id", purchaseRequired.getId());
+                    List<PurchaseRequired> purchaseDetails = requiredService.selectByParentId(map);
+                    if(purchaseDetails.size() > 1){
+                        purchaseRequired.setPurchaseType("");
+                        purchaseRequired.setStatus(null);
+                    }else{
+                        DictionaryData findById = DictionaryDataUtil.findById(purchaseRequired.getPurchaseType());
+                        if(findById != null){
+                            purchaseRequired.setPurchaseType(findById.getName());
+                        }
+                        String[] progressBarPlan = supervisionService.progressBar(purchaseRequired.getId());
+                        purchaseRequired.setProgressBar(progressBarPlan[0]);
+                        purchaseRequired.setStatus(progressBarPlan[1]);
+                        purchaseRequired.setOneAdvice(findById.getCode());
+                    }
+                }
+            }
+            PageInfo<PurchaseRequired> pageInfo = new PageInfo<PurchaseRequired>(purchaseRequireds);
+            jsonObj.put("pages", pageInfo.getPages());
+            jsonObj.put("data", pageInfo.getList());
+        }
+        
+        return jsonObj.toString();
     }
 
 }

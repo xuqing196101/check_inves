@@ -481,6 +481,7 @@ public class ContractSupervisionController {
 	                model.addAttribute("code", findById.getCode());
                 }
 	            model.addAttribute("list", requireds);
+	            model.addAttribute("planId", requireds.get(0).getUniqueId());
 	        }
 	        model.addAttribute("type", type);
 	    }
@@ -554,6 +555,7 @@ public class ContractSupervisionController {
                 if(details != null && details.size() > 0){
                     sorts(details);
                     model.addAttribute("list", details);
+                    model.addAttribute("planId", details.get(0).getUniqueId());
                 }
             }
             if(StringUtils.isNotBlank(id)){

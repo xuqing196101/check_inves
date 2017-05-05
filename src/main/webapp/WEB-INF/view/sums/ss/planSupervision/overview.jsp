@@ -262,7 +262,7 @@
                 </tr>
                 <tr>
                   <td width="10%" class="info">项目负责人：</td>
-                  <td width="25%">${project.appointMan}</td>
+                  <td width="25%">${project.principal}</td>
                   <td width="10%" class="info">负责人电话：</td>
                   <td width="25%">${project.ipone}</td>
                 </tr>

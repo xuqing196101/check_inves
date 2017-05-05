@@ -121,8 +121,11 @@ public class UserServiceImpl implements UserServiceI {
 	@Override
 	public User getUserById(String id) {
 		List<User> users = userMapper.selectByPrimaryKey(id);
-		User user = users.get(0);
-		return user;
+		if(users != null && users.size() > 0){
+		    User user = users.get(0);
+		    return user;
+		}
+		return null;
 	}
 
 	@Override

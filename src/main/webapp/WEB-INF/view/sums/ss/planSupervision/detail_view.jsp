@@ -6,14 +6,16 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <script src="${pageContext.request.contextPath}/public/webuploadFT/layui/layui.js"></script>
     <script type="text/javascript">
-      $(function() {
+      /* $(function() {
         $(".progress-bar").each(function() {
           var progress = $(this).prev().val();
           progress = progress + "%";
           $(this).width(progress);
         });
-      });
+      }); */
+      
 
       function view(id) {
         window.location.href = "${pageContext.request.contextPath}/planSupervision/overview.html?id=" + id;
@@ -26,6 +28,54 @@
       function normalImg(obj, x) {
         $(obj).children("span").remove();
       }
+      
+      
+     $(function() { 
+      layui.use('flow', function(){
+        var flow = layui.flow;
+        flow.load({
+		    elem: '#tbody_id' //指定列表容器
+		    ,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+		      var lis = [];
+		      //以jQuery的Ajax请求为例，请求下一页数据
+		      $.ajax({
+		        url: "${pageContext.request.contextPath}/planSupervision/paixu.do?id=${planId}&page=" + page,
+	          type: "get",
+	          dataType: "json",
+	          success: function(res) {
+	               layui.each(res.data, function(index, item){
+		                var department = "";
+		                var progress = "";
+		                if(item.price == null){
+		                  department = "<div class='department'>"+item.department+"</div>";
+		                }else if(item.price != 0){
+		                  progress = "<div class='progress-new'><input type='hidden' value='"+item.progressBar+"'/><div id='progress' class='progress-bar' style='background:#2c9fa6;width:"+item.progressBar+"%"+"'"+
+		                  "onmouseover='bigImg(this,\""+item.progressBar+"\")' onmouseout='normalImg(this,\""+item.progressBar+"\")'></div></div>";
+		                }
+		                var code = "";
+		                if(item.oneAdvice == "DYLY"){
+		                  code = item.supplier;
+		                }
+		                if(item.purchaseCount == 0){
+		                  item.purchaseCount = "";
+		                }
+		                if(item.price == 0){
+                      item.price = "";
+                    }
+		                var html="<tr class='pointer'><td class='tc w50'>"+item.seq+"</td><td>"+
+		                  department+"</td><td class='tl pl20'>"+item.goodsName+"</td><td class='tl pl20'>"+item.stand+"</td><td class='tl pl20'>"+
+		                  item.qualitStand+"</td><td class='tl pl20'>"+item.item+"</td><td class='tl pl20'>"+item.purchaseCount+"</td><td class='tr pr20'>"+item.price+"</td><td class='tr pr20'>"+
+		                  item.budget+"</td><td class='tl pl20'>"+item.deliverDate+"</td><td class='tl pl20'>"+item.purchaseType+"</td><td class='tl pl20'>"+
+		                  code+"</td><td class='tl pl20'>"+item.status+"</td><td class='tc' onclick='view(\""+item.id+"\")'>"+progress+"</td></tr>";
+		                lis.push(html);
+		              }); 
+		              next(lis.join(''), page < res.pages);
+	          },
+		      });
+		    }
+		  });
+      });
+      });
     </script>
   </head>
 
@@ -103,15 +153,13 @@
                   <th class="info w120">预算<br/>金额<br/>（万元）</th>
                   <th class="info " width="10%">交货期限</th>
                   <th class="info " width="8%">采购方式</th>
-                  <c:if test="${code eq 'DYLY'}">
-                    <th class="info " width="10%">供应商名称</th>
-                  </c:if>
+                  <th class="info " width="10%">供应商名称</th>
                   <th class="info " width="8%">状态</th>
                   <th class="info " width="8%">进度</th>
                 </tr>
               </thead>
               <tbody id="tbody_id">
-                <c:forEach items="${list}" var="obj" varStatus="vs">
+                <%-- <c:forEach items="${list.list}" var="obj" varStatus="vs">
                   <tr class="pointer">
                     <td class="tc w50">${obj.seq}</td>
                     <td><c:if test="${obj.price eq null}">
@@ -134,11 +182,11 @@
                     <td class="tr pr20">${obj.budget}</td>
                     <td class="tl pl20">${obj.deliverDate}</td>
                     <td class="tl pl20">${obj.purchaseType}</td>
-                    <c:if test="${code eq 'DYLY'}">
-                      <td title="${obj.supplier}" class="tl pl20">
+                    <td title="${obj.supplier}" class="tl pl20">
+                      <c:if test="${code eq 'DYLY'}">
                         ${obj.supplier}
-                      </td>
-                    </c:if>
+                      </c:if>
+                    </td>
                     <td class="tl pl20">${obj.status}</td>
                     <td class="tc" onclick="view('${obj.id}')">
                       <c:if test="${obj.price != null}">
@@ -147,11 +195,11 @@
                           <div id="progress" class="progress-bar" style="background:#2c9fa6;" onmouseover="bigImg(this,'${obj.progressBar}')" onmouseout="normalImg(this,'${obj.progressBar}')">
                           </div>
                         </div>
-                        <%-- <div id="p" class="easyui-progressbar" data-options="value:${obj.progressBar}" style="width:80px;"></div> --%>
+                        <div id="p" class="easyui-progressbar" data-options="value:${obj.progressBar}" style="width:80px;"></div>
                       </c:if>
                     </td>
                   </tr>
-                </c:forEach>
+                </c:forEach> --%>
               </tbody>
             </table>
           </div>
