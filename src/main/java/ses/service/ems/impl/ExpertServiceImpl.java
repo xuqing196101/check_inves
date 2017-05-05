@@ -1377,6 +1377,10 @@ public class ExpertServiceImpl implements ExpertService {
         mapper.insertExpertHistoryById(expertHistory);
     }
 
+    @Override
+    public List<Expert> getAuditExpertByDate(String startDate, String endDate) {
+        return mapper.getAuditExpertByDate(startDate, endDate);
+    }
 }
 
 

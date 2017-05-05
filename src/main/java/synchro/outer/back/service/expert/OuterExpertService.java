@@ -28,4 +28,11 @@ public interface OuterExpertService {
      * @author WangHuijie
      */
     public void backupModified();
+
+    /**
+     * 退回修改专家导出到文件待入库
+     * @param startTime
+     * @param endTime
+     */
+    void backModifyExpert(String startTime, String endTime);
 }

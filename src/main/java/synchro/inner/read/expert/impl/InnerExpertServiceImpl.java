@@ -6,15 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import ses.dao.bms.UserMapper;
-import ses.dao.ems.ExpertTitleMapper;
+import ses.dao.ems.*;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
-import ses.model.ems.Expert;
-import ses.model.ems.ExpertCategory;
-import ses.model.ems.ExpertHistory;
-import ses.model.ems.ExpertTitle;
+import ses.model.ems.*;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
@@ -56,6 +55,15 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private ExpertAuditMapper expertAuditMapper;
+    @Autowired
+    private ExpertEngHistoryMapper expertEngHistoryMapper;
+    @Autowired
+    private ExpertEngModifyMapper expertEngModifyMapper;
+    @Autowired
+    private ExpertAuditFileModifyMapper expertAuditFileModifyMapper;
     /**
      * 
      * @see synchro.inner.read.expert.InnerExpertService#readNewExpertInfo(java.io.File)
@@ -104,7 +112,78 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         }
         synchRecordService.importModifyExpertRecord(new Integer(list.size()).toString());
     }
-    
+
+    @Override
+    public void saveBackModifyExpertForOut(File file) {
+        List<Expert> expertList = getExpert(file);
+        if(null != expertList && !expertList.isEmpty()){
+            try{
+                for(Expert expert:expertList){
+                    //入库是对每个表进行插入数据
+                    saveBackModifyOperation(expert);
+                }
+            }catch (RuntimeException e){
+                e.printStackTrace();
+            }
+
+        }
+    }
+    @Transactional
+    public void saveBackModifyOperation(Expert expert) throws RuntimeException{
+        //专家审核记录表
+        List<ExpertAudit> expertAudits = expert.getExpertAuditList();
+        if(null != expertAudits && !expertAudits.isEmpty()){
+            ExpertAudit audit = null;
+            for(ExpertAudit expertAudit:expertAudits){
+                audit = expertAuditMapper.selectByPrimaryKey(expertAudit.getId());
+                if(null == audit){
+                    expertAuditMapper.insertSelective(expertAudit);
+                }
+            }
+        }
+        //工程执业资格历史表
+        List<ExpertEngHistory> expertEngHistoryList = expert.getExpertEngHistoryList();
+        if(null != expertEngHistoryList && !expertEngHistoryList.isEmpty()){
+            ExpertEngHistory engHistory = null;
+            for(ExpertEngHistory expertEngHistory:expertEngHistoryList){
+                engHistory = expertEngHistoryMapper.selectByPrimaryKey(expertEngHistory.getId());
+                if(null == engHistory){
+                    expertEngHistoryMapper.insertSelectiveById(expertEngHistory);
+                }
+            }
+        }
+        //工程执业资格修改表
+        List<ExpertEngHistory> expertEngModifyList = expert.getExpertEngModifyList();
+        if(null != expertEngModifyList && !expertEngModifyList.isEmpty()){
+            ExpertEngHistory engHistory = null;
+            for(ExpertEngHistory expertEngModify:expertEngModifyList){
+                engHistory = expertEngModifyMapper.selectByPrimaryKey(expertEngModify.getId());
+                if(null == engHistory){
+                    expertEngModifyMapper.insertSelectiveById(expertEngModify);
+                }
+            }
+        }
+        //专家历史表
+        ExpertHistory expertHistory = expert.getHistory();
+        if(null != expertHistory){
+            ExpertHistory history = expertService.selectOldExpertByPrimaryKey(expertHistory.getId());
+            if(null == history){
+                expertService.insertExpertHistoryById(expertHistory);
+            }
+        }
+        //工程执业资格文件修改表
+        List<ExpertAuditFileModify> expertAuditFileModifyList = expert.getExpertAuditFileModifyList();
+        if(null != expertAuditFileModifyList && !expertAuditFileModifyList.isEmpty()){
+            ExpertAuditFileModify auditFileModify = null;
+            for(ExpertAuditFileModify expertAuditFileModify:expertAuditFileModifyList){
+                auditFileModify = expertAuditFileModifyMapper.selectByPrimaryKey(expertAuditFileModify.getId());
+                if(null == auditFileModify){
+                    expertAuditFileModifyMapper.insertSelectiveById(expertAuditFileModify);
+                }
+            }
+        }
+    }
+
     /**
      *〈简述〉保存用户
      *〈详细描述〉

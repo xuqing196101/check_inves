@@ -310,6 +310,15 @@ public class Expert extends ExpertHistory implements Serializable {
     
     //用户名
     private String loginName;
+
+    /**专家审核记录表*/
+    private List<ExpertAudit> expertAuditList;
+    /**工程执业资格历史表*/
+    private List<ExpertEngHistory> expertEngHistoryList;
+    /**工程执业资格修改表*/
+    private List<ExpertEngHistory> expertEngModifyList;
+    /**工程执业资格文件修改表*/
+    private  List<ExpertAuditFileModify> expertAuditFileModifyList;
     
     public String getStepNumber() {
         return stepNumber;
@@ -783,5 +792,35 @@ public class Expert extends ExpertHistory implements Serializable {
 		this.extractOrgid = extractOrgid;
 	}
 
-    
+    public List<ExpertAudit> getExpertAuditList() {
+        return expertAuditList;
+    }
+
+    public void setExpertAuditList(List<ExpertAudit> expertAuditList) {
+        this.expertAuditList = expertAuditList;
+    }
+
+    public List<ExpertEngHistory> getExpertEngHistoryList() {
+        return expertEngHistoryList;
+    }
+
+    public void setExpertEngHistoryList(List<ExpertEngHistory> expertEngHistoryList) {
+        this.expertEngHistoryList = expertEngHistoryList;
+    }
+
+    public List<ExpertEngHistory> getExpertEngModifyList() {
+        return expertEngModifyList;
+    }
+
+    public void setExpertEngModifyList(List<ExpertEngHistory> expertEngModifyList) {
+        this.expertEngModifyList = expertEngModifyList;
+    }
+
+    public List<ExpertAuditFileModify> getExpertAuditFileModifyList() {
+        return expertAuditFileModifyList;
+    }
+
+    public void setExpertAuditFileModifyList(List<ExpertAuditFileModify> expertAuditFileModifyList) {
+        this.expertAuditFileModifyList = expertAuditFileModifyList;
+    }
 }

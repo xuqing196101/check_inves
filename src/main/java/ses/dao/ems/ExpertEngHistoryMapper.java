@@ -42,5 +42,17 @@ public interface ExpertEngHistoryMapper {
 	 * @return void
 	 */
 	void updateIsDeletedByExpertId(ExpertEngHistory expertEngHistory);
-	
+
+    /**
+     * 根据id获取历史数据
+     * @param id
+     * @return
+     */
+    ExpertEngHistory selectByPrimaryKey(String id);
+
+    /**
+     * 插入历史数据(主键赋值,不自动生成主键)
+     * @param expertEngHistory
+     */
+    void insertSelectiveById (ExpertEngHistory expertEngHistory);
 }

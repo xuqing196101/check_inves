@@ -74,4 +74,42 @@
   T_SES_EMS_EXPERT_FILE_MODIFY
   where EXPERT_ID = #{expertId}
   </delete>
+    <!--自定义-->
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        *
+        from T_SES_EMS_EXPERT_FILE_MODIFY
+        where ID = #{id}
+    </select>
+    <insert id="insertSelectiveById" parameterType="ses.model.ems.ExpertAuditFileModify">
+        insert into T_SES_EMS_EXPERT_FILE_MODIFY
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="expertId != null">
+                EXPERT_ID,
+            </if>
+            <if test="typeId != null">
+                TYPE_ID,
+            </if>
+            <if test="listId != null">
+                LIST_ID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="expertId != null">
+                #{expertId},
+            </if>
+            <if test="typeId != null">
+                #{typeId},
+            </if>
+            <if test="listId != null">
+                #{listId},
+            </if>
+        </trim>
+    </insert>
 </mapper>

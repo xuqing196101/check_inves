@@ -29,4 +29,11 @@ public interface InnerExpertService {
      * @param file 修改的专家文件
      */
     public void readModifyExpertInfo(final File file);
+
+    /**
+     * 将退回修改专家导出的文件数据入库到外网
+     * @param file
+     */
+    void saveBackModifyExpertForOut(final File file);
+
 }

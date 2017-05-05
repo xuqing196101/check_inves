@@ -214,10 +214,16 @@ public class SynchExportController {
         }
         
         
-        //专家内网，外网数据导出
+        /**专家内网，外网数据导出*/
         if (synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)) {
         	outerExpertService.backupCreated(startTime, endTime);
         }
+        /**内网专家退回修改*/
+        if (synchType.contains("expert_out")) {
+            outerExpertService.backModifyExpert(startTime, endTime);
+        }
+
+
         if(synchType.contains(Constant.DATE_SYNCH_BIDDING_PRODUCT)){
         	/**竞价定型产品导出  只能是内网导出外网**/
         	OBProductService.exportProduct(startTime, endTime, date);

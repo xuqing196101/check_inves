@@ -286,4 +286,13 @@ public interface ExpertMapper {
      * @param expertHistory
      */
     void insertExpertHistoryById(ExpertHistory expertHistory);
+
+    /**
+     *〈简述〉根据审核日期获取退回修改专家信息
+     *〈详细描述〉
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @return 专家集合
+     */
+    List<Expert> getAuditExpertByDate(@Param("startDate")String startDate,@Param("endDate")String endDate);
 }

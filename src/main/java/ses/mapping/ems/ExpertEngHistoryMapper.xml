@@ -84,4 +84,54 @@
 			select sys_guid() from dual
 		</selectKey>
   </insert>
+    <!--自定义-->
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        *
+        from T_SES_EMS_EXPERT_ENG_HISTORY
+        where ID = #{id}
+    </select>
+    <insert id="insertSelectiveById" parameterType="ses.model.ems.ExpertEngHistory">
+        insert into T_SES_EMS_EXPERT_ENG_HISTORY
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="expertId != null">
+                EXPERT_ID,
+            </if>
+            <if test="field != null">
+                FIELD,
+            </if>
+            <if test="createdAt != null">
+                CREATED_AT,
+            </if>
+            <if test="relationId != null">
+                RELATION_ID,
+            </if>
+            <if test="content != null">
+                CONTENT,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="expertId != null">
+                #{expertId},
+            </if>
+            <if test="field != null">
+                #{field},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt},
+            </if>
+            <if test="relationId != null">
+                #{relationId},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+        </trim>
+    </insert>
 </mapper>

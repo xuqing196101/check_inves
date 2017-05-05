@@ -9,14 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.UserMapper;
-import ses.dao.ems.ExpertTitleMapper;
+import ses.dao.ems.*;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
-import ses.model.ems.Expert;
-import ses.model.ems.ExpertCategory;
-import ses.model.ems.ExpertHistory;
-import ses.model.ems.ExpertTitle;
+import ses.model.ems.*;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
@@ -74,6 +71,16 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     
     @Autowired
     private FileUploadMapper fileUploadMapper;
+
+    @Autowired
+    private ExpertAuditMapper expertAuditMapper;
+    @Autowired
+    private ExpertEngHistoryMapper expertEngHistoryMapper;
+    @Autowired
+    private ExpertEngModifyMapper expertEngModifyMapper;
+    @Autowired
+    private ExpertAuditFileModifyMapper expertAuditFileModifyMapper;
+
     /**
      * @see synchro.outer.back.service.supplier.OuterReadExpertService#backupCreated()
      */
@@ -92,7 +99,67 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     public void backupModified() {
         getModifiedData();
     }
-    
+
+    @Override
+    public void backModifyExpert(String startTime, String endTime) {
+        List<Expert> expertList = expertService.getAuditExpertByDate(startTime,endTime);
+        List<Expert> experts = new ArrayList<Expert>();
+        if(null != expertList && !expertList.isEmpty()){
+            ExpertEngHistory expertEngHistory = null;
+            ExpertAuditFileModify expertAuditFileModify = null;
+            for(Expert expert : expertList){
+                //专家审核记录表
+                List<ExpertAudit> expertAuditList = expertAuditMapper.selectByExpertId(expert.getId());
+                if(null != expertAuditList){
+                    expert.setExpertAuditList(expertAuditList);
+                }
+                //工程执业资格历史表
+                expertEngHistory = new ExpertEngHistory();
+                expertEngHistory.setExpertId(expert.getId());
+                List<ExpertEngHistory> expertEngHistoryList = expertEngHistoryMapper.selectByExpertId(expertEngHistory);
+                if(null != expertEngHistoryList){
+                    expert.setExpertEngHistoryList(expertEngHistoryList);
+                }
+                //工程执业资格修改表
+                List<ExpertEngHistory> expertEngModifyList = expertEngModifyMapper.selectByExpertId(expertEngHistory);
+                if(null != expertEngModifyList){
+                    expert.setExpertEngModifyList(expertEngModifyList);
+                }
+                //专家历史表
+                ExpertHistory expertHistory = expertService.selectOldExpertById(expert.getId());
+                if(null != expertHistory){
+                    expert.setHistory(expertHistory);
+                }
+                //工程执业资格文件修改表
+                expertAuditFileModify = new ExpertAuditFileModify();
+                expertAuditFileModify.setExpertId(expert.getId());
+                List<ExpertAuditFileModify> expertAuditFileModifyList = expertAuditFileModifyMapper.selectByExpertId(expertAuditFileModify);
+                if(null != expertAuditFileModifyList){
+                    expert.setExpertAuditFileModifyList(expertAuditFileModifyList);
+                }
+                expert.setAttchList(getAttch(expert.getId()));
+                experts.add(expert);
+            }
+        }
+        //将数据写入文件
+        if(!experts.isEmpty()){
+            FileUtils.writeFile(FileUtils.getExpertAuidtNot(),JSON.toJSONString(experts));
+            //附件处理
+            List<UploadFile> attachList = new ArrayList<>();
+            for(Expert expert:experts){
+                if(null!=expert.getAttchList() && !expert.getAttchList().isEmpty()){
+                    attachList.addAll(expert.getAttchList());
+                }
+            }
+            String basePath = FileUtils.attachExportPath(Constant.EXPERT_SYS_KEY);
+            if (StringUtils.isNotBlank(basePath)){
+                OperAttachment.writeFile(basePath, attachList);
+                recordService.backupAttach(new Integer(attachList.size()).toString());
+            }
+        }
+        recordService.commitExpertRecord(new Integer(experts.size()).toString());
+    }
+
     /**
      * 
      *〈简述〉获取专家与用户信息

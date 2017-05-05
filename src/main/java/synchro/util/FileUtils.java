@@ -94,6 +94,9 @@ public class FileUtils {
     
     /** 修改专家文件名称 **/
     public final static String M_EXPERT_FILENAME = "_m_expert.dat";
+
+    /** 所有专家审核不通过的 **/
+    public final static String C_EXPERT_ALL_NOT="_c_expert_not.dat";
     
     /** 信息文件名称 **/
     public final static String C_INFOS_FILENAME = "_c_infos.dat";
@@ -257,6 +260,20 @@ public class FileUtils {
      */
     public static final File getSupperAuidtNotFile(){
         String fileName = System.currentTimeMillis() + C_SUPPLIER_ALL_FILE;
+        String path = getBackUpPath();
+        final File file = new File(path,fileName);
+        return file;
+    }
+
+    /**
+     *
+     *〈简述〉获取所有专家审核不通过的
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    public static final File getExpertAuidtNot(){
+        String fileName = System.currentTimeMillis() + C_EXPERT_ALL_NOT;
         String path = getBackUpPath();
         final File file = new File(path,fileName);
         return file;

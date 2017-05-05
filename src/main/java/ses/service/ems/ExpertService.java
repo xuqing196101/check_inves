@@ -486,4 +486,12 @@ public interface ExpertService {
      * @param expertHistory
      */
     void insertExpertHistoryById(ExpertHistory expertHistory);
+
+    /**
+     * 根据审核时间获取退回修改专家
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    List<Expert> getAuditExpertByDate(String startDate,String endDate);
 }

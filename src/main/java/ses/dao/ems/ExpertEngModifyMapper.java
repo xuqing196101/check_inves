@@ -20,4 +20,16 @@ public interface ExpertEngModifyMapper {
 	 * @return void
 	 */
 	void updateIsDeletedByExpertId (String expertId);
+
+    /**
+     * 根据主键查询
+     * @param id
+     */
+    ExpertEngHistory selectByPrimaryKey(String id);
+
+    /**
+     * 插入数据(主键赋值,不自动生成)
+     * @param expertEngHistory
+     */
+    void insertSelectiveById (ExpertEngHistory expertEngHistory);
 }

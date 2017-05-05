@@ -51,4 +51,8 @@ public interface ExpertAuditFileModifyMapper {
 	 * @return void
 	 */
 	void updateIsDeletedByExpertId (String expertId);
+
+    ExpertAuditFileModify selectByPrimaryKey(String id);
+
+    void insertSelectiveById(ExpertAuditFileModify expertAuditFileModify);
 }
