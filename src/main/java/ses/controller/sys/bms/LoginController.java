@@ -146,10 +146,10 @@ public class LoginController {
             } else if (u != null) {
                 req.getSession().setAttribute("register", true);
                 //查询数据 权限信息
-               List<String> dataRule= UserDataRuleService.getOrgID(u.getId());
+               /*List<String> dataRule= UserDataRuleService.getOrgID(u.getId());
                if(dataRule!=null&& dataRule.size()>0){
                  u.setUserDataRule(userService.getUserId(dataRule,u.getTypeName()));
-               }
+               }*/
                 //查询该用户的供应商角色
                 HashMap<String, Object> supplierMap = new HashMap<String, Object>();
                 supplierMap.put("userId", u.getId());
