@@ -1882,4 +1882,124 @@
 	    SELECT count(id)
 	    from T_SES_EMS_EXPERT
 	</select>
+
+    <!--历史数据-->
+    <select id="selectOldExpertByPrimaryKey" resultType="ses.model.ems.ExpertHistory">
+        select
+        ID id, GENDER
+        gender,
+        MOBILE mobile, BIRTHDAY birthday,
+        ID_NUMBER
+        idNumber, ID_TYPE
+        idType, EXPERTS_FROM expertsFrom,
+        POLITICS_STATUS
+        politicsStatus,
+        NATION
+        nation, GRADUATE_SCHOOL graduateSchool,
+        LAST_EDUCATION hightEducation,
+        MAJOR major, WORK_UNIT workUnit,
+        TELEPHONE telephone,
+        FAX fax,
+        MAKE_TECH_DATE makeTechDate,
+        HEALTH_STATE
+        healthState, ADDRESS address,
+        PROFESS_TECH_TITLES professTechTitles,
+        TIME_TO_WORK timeToWork,
+        TIME_START_WORK timeStartWork, UNIT_ADDRESS
+        unitAddress,
+        POST_CODE
+        postCode, DEGREE degree,
+        AT_DUTY atDuty,
+        EXPERTS_TYPE_ID expertsTypeId,
+        PURCHASE_DEP_ID purchaseDepId,
+        REAL_NAME relName, IS_PROVISIONAL
+        isProvisional, EMAIL email,
+        JOB_EXPERIENCES jobExperiences,
+        ID_CARD_NUMBER idCardNumber,
+        COVER_NOTE coverNote, PRODUCT_CATEGORIES
+        productCategories,
+        ACADEMIC_ACHIEVEMENT academicAchievement,
+        REVIEW_SITUATION
+        reviewSituation,
+        AVOIDANCE_SITUATION avoidanceSituation,
+        IS_REFERENCE_LETTER isReferenceLftter,
+        PROFESSIONAL professional,
+        TIME_PROFESSIONAL timeProfessional,
+        RANGE range,
+        EXPERT_ID expertId
+        from T_SES_EMS_EXPERT_HISTORY
+        where ID = #{id}
+        and IS_DELETED = 0
+    </select>
+    <insert id="insertExpertHistoryById" parameterType="ses.model.ems.ExpertHistory">
+        insert into
+        T_SES_EMS_EXPERT_History
+        (ID, GENDER,
+        MOBILE, BIRTHDAY,
+        ID_NUMBER,
+        ID_TYPE, EXPERTS_FROM,
+        POLITICS_STATUS,
+        NATION, GRADUATE_SCHOOL,
+        LAST_EDUCATION, MAJOR, WORK_UNIT,
+        TELEPHONE,
+        FAX, MAKE_TECH_DATE,
+        HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES,
+        TIME_TO_WORK,
+        TIME_START_WORK, UNIT_ADDRESS,
+        POST_CODE, DEGREE,
+        AT_DUTY,
+        EXPERTS_TYPE_ID, PURCHASE_DEP_ID,
+        REAL_NAME, IS_PROVISIONAL, EMAIL,
+        JOB_EXPERIENCES, ID_CARD_NUMBER,
+        COVER_NOTE, PRODUCT_CATEGORIES,
+        ACADEMIC_ACHIEVEMENT, REVIEW_SITUATION,
+        AVOIDANCE_SITUATION,
+        IS_REFERENCE_LETTER,
+        PROFESSIONAL,
+        TIME_PROFESSIONAL, EXPERT_ID
+        )
+        values
+        (#{id,jdbcType=VARCHAR},
+        #{gender,jdbcType=CHAR},
+        #{mobile,jdbcType=VARCHAR},
+        #{birthday,jdbcType=TIMESTAMP},
+        #{idNumber,jdbcType=VARCHAR},
+        #{idType,jdbcType=VARCHAR},
+        #{expertsFrom,jdbcType=VARCHAR},
+        #{politicsStatus,jdbcType=VARCHAR},
+        #{nation,jdbcType=VARCHAR},
+        #{graduateSchool,jdbcType=VARCHAR},
+        #{hightEducation,jdbcType=VARCHAR},
+        #{major,jdbcType=VARCHAR},
+        #{workUnit,jdbcType=VARCHAR},
+        #{telephone,jdbcType=VARCHAR},
+        #{fax,jdbcType=VARCHAR},
+        #{makeTechDate,jdbcType=TIMESTAMP},
+        #{healthState,jdbcType=VARCHAR},
+        #{address,jdbcType=VARCHAR},
+        #{professTechTitles,jdbcType=VARCHAR},
+        #{timeToWork,jdbcType=TIMESTAMP},
+        #{timeStartWork,jdbcType=TIMESTAMP},
+        #{unitAddress,jdbcType=VARCHAR},
+        #{postCode,jdbcType=VARCHAR},
+        #{degree,jdbcType=VARCHAR},
+        #{atDuty,jdbcType=VARCHAR},
+        #{expertsTypeId,jdbcType=VARCHAR},
+        #{purchaseDepId,jdbcType=DECIMAL},
+        #{relName,jdbcType=VARCHAR},
+        #{isProvisional,jdbcType=DECIMAL},
+        #{email,jdbcType=VARCHAR},
+        #{jobExperiences,jdbcType=VARCHAR},
+        #{idCardNumber,jdbcType=VARCHAR},
+        #{coverNote,jdbcType=VARCHAR},
+        #{productCategories,jdbcType=VARCHAR},
+        #{academicAchievement,jdbcType=VARCHAR},
+        #{reviewSituation,jdbcType=VARCHAR},
+        #{avoidanceSituation,jdbcType=VARCHAR},
+        #{isReferenceLftter,jdbcType=CHAR},
+        #{professional,jdbcType=VARCHAR},
+        #{timeProfessional,jdbcType=TIMESTAMP},
+        #{expertId}
+        )
+    </insert>
 </mapper>
