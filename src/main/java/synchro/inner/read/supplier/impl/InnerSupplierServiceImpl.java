@@ -207,10 +207,13 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     	   
 		   if(supplier.getAttchList().size()>0){
 			   for(UploadFile uf:supplier.getAttchList()){
-				   UploadFile ufile = fileUploadMapper.findById(uf.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+				   UploadFile ufile = fileUploadMapper.queryById(uf.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
 				   if(ufile==null){
 					   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
 	    			   fileUploadMapper.saveFile(uf);
+				   }else{
+					   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+	    			   fileUploadMapper.updateFileById(uf);
 				   }
     			   
     		   }
@@ -466,10 +469,6 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 	public void immportInner(File file) {
 		  List<SupplierAuditFormBean> list = getSupplierFormBaean(file);
 		  for(SupplierAuditFormBean sb:list){
-			  User user = sb.getUser();
-			  if(user!=null){
-				  userMapper.updateByPrimaryKeySelective(user);
-			  }
 			  supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus());
 			  List<SupplierAuditNot> auditNots = sb.getSupplierAuditNot();
 			  for(SupplierAuditNot sa:auditNots){
