@@ -224,4 +224,14 @@
     WHERE IS_DELETED = 0 
   </select>
  
+ 
+  <!-- 根据Id查询 -->
+  <select id="queryById"  parameterType="java.lang.String" resultMap="BaseResultMap_File">
+  	 SELECT 
+  	 <include refid="BASE_FILE_LIST" />
+  	 FROM ${tableName}
+  	 WHERE 
+  	 AND ID = #{id}
+  </select>
+  
 </mapper>

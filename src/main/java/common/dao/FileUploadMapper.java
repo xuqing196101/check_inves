@@ -206,4 +206,19 @@ public interface FileUploadMapper {
     * @throws
      */
     public Long getFileCountByEmp(@Param("tableName")String tableName);
+    
+    /**
+     * 
+    * @Title: queryById
+    * @Description: 根据ID查询 
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @param tableName
+    * @param @return     
+    * @return UploadFile     
+    * @throws
+     */
+    UploadFile queryById(@Param("id")String id,@Param("tableName")String tableName);
+    
+    
 }
