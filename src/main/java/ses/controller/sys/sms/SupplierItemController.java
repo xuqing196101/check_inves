@@ -296,13 +296,14 @@ public class SupplierItemController extends BaseController {
 			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
 				typeList = type.get(0).getList();
 			}
-			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, item.getSupplierId());
-			for(SupplierPorjectQua qua:supplierQua){
-				Qualification q=new Qualification();
-				q.setId(qua.getName());
-				q.setName(qua.getName());
-				typeList.add(q);
-			}
+			//自定义等级
+//			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, item.getSupplierId());
+//			for(SupplierPorjectQua qua:supplierQua){
+//				Qualification q=new Qualification();
+//				q.setId(qua.getName());
+//				q.setName(qua.getName());
+//				typeList.add(q);
+//			}
 			
 			cateTree.setTypeList(typeList);
 		}
@@ -607,8 +608,8 @@ public class SupplierItemController extends BaseController {
 				if(cateTree != null && cateTree.getRootNode() != null) {
 					cateTree.setItemsId(item.getId());
 					cateTree.setDiyLevel(item.getLevel());
-					if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
-					if(cateTree!=null&&cateTree.getProName()!=null){
+                    List < Qualification > typeList = new ArrayList < Qualification > ();
+					if(cateTree!=null && cateTree.getCertCode() != null && cateTree.getQualificationType() != null && cateTree.getProName()!=null) {
 						List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
 //						List < SupplierCertEng > certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supId);
 						if(certEng != null && certEng.size() > 0) {
@@ -616,9 +617,27 @@ public class SupplierItemController extends BaseController {
 //							if(level != null) {
 								cateTree.setFileId(certEng.get(0).getId());
 //							}
-						}	
-					}
-					
+                            //根据选择的资质文件类型获取对应的类型
+//                            if(null != certEng.get(0).getCertType()){
+//                                Qualification qualification = qualificationService.getQualification(certEng.get(0).getCertType());
+//                                if(null != qualification){
+//                                    typeList.add(qualification);
+//                                }else{
+//                                    List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, item.getSupplierId());
+//                                    if(null != supplierQua && !supplierQua.isEmpty()){
+//                                        for(SupplierPorjectQua qua:supplierQua){
+//                                            if(certEng.get(0).getCertType().equals(qua.getName())){
+//                                                Qualification q=new Qualification();
+//                                                q.setId(qua.getName());
+//                                                q.setName(qua.getName());
+//                                                typeList.add(q);
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                                cateTree.setTypeList(typeList);
+//                            }
+						}
 					}
 					allTreeList.add(cateTree);
 				}
