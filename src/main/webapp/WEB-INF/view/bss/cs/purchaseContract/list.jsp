@@ -339,14 +339,14 @@
 				<th class="info">状态</th>
 			</tr>
 		</thead>
-		<c:forEach items="${listpass}" var="pass" varStatus="vs">
+		<c:forEach items="${list.list}" var="pass" varStatus="vs">
 		<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${pass.packages.id}" /></td>
 				<td class="tnone">${pass.supplierId}</td>
 				<td class="tnone">${pass.id}</td>
 				<td class="tnone">${pass.isCreateContract}</td>
 				<td class="tnone">${pass.packages.wonPrice}</td>
-				<td class="tc pointer">${(vs.index+1)}</td>
+				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${pass.project.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>10}">

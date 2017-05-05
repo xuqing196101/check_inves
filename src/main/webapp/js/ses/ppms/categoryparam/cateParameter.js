@@ -56,6 +56,10 @@ var itemId = "";
  */
 var classified = false;
 function zTreeOnClick(event,treeId,treeNode){
+	if(treeNode.isParent==true){
+		return false;
+	}
+	$('#name').empty();
 	if (treeNode.pId !=0) {
 		showul();
 		selectedTreeId = treeNode.id;
@@ -67,7 +71,11 @@ function zTreeOnClick(event,treeId,treeNode){
 			treeNode.auditDate = currentObj.auditDate;
 			treeNode.auditAdvise = currentObj.auditAdvise;
 		}
+		if(treeNode.status>=2){
+			$("#submitId").hide();
+		}
 		findParams(selectedTreeId,treeNode);
+		
 	} else {
 		selectedTreeId = null;
 		hidden();
@@ -194,9 +202,9 @@ function submitParams(){
 	var isOpen = "";
 	var smallClassify = [];
 	
-	var paramLength = $("#uListId > li").length;
+	/*var paramLength = $("#uListId > li").length;*/
 	
-	if (classified){
+	/*if (classified){
 		if (paramLength == 2){
 			layer.msg("参数不能为空");
 			return ;
@@ -206,17 +214,17 @@ function submitParams(){
 			layer.msg("参数不能为空");
 			return ;
 		}
-	}
+	}*/
 	
-	$("input[name='isOPen']:checked").each(function(){
+	/*$("input[name='isOPen']:checked").each(function(){
 		isOpen = $(this).val();
-	});
+	});*/
 	if (classified){
-		$("input[name='smallClass']:checked").each(function(){
+		$("input[name='chkItem']:checked").each(function(){
 			smallClassify.push($(this).val());
 		});
-		if (smallClassify.length == 0){
-			layer.msg("请选择类型");
+		if (smallClassify==""){
+			layer.alert("请选择要提交的参数");
 			return false;
 		}
 	}
@@ -236,7 +244,7 @@ function delParameter(id){
 			if (msg == 'ok'){
 				layer.msg("删除成功");
 				$('input[name="chkItem"]:checked').each(function(){ 
-					$(this).parents("li").remove();
+					$(this).parent().parent().remove();
 				});
 			}
 		}
@@ -291,7 +299,15 @@ function submit(isOpen,smallClassify, id){
 function findParams(cateId, treeNode){
 	
 	$("#uListId").empty();
-	
+	$('#name').empty();
+	$('#check').empty();
+	var html="<h2 class='f16 count_flow'><i>01</i>基本信息</h2><div class='content table_box'><table class='table table-bordered'>";
+	html+="<tr id='trs'>";
+	html+="<td class='bggrey w100'>产品目录:</td>";
+	html+="<td colspan='3'>"+treeNode.name+"</td>";
+	html+="</tr>";
+	html+="</table></div>";
+	$('#name').append(html);
 	$.ajax({
 		type:"post",
 		dataType:"json",
@@ -338,18 +354,38 @@ function initTypes(){
 
 
 
-
+function selectAll(){
+	 var checklist = document.getElementsByName ("chkItem");
+	 var checkAll = document.getElementById("checkAll");
+	 if(checkAll.checked){
+		   for(var i=0;i<checklist.length;i++)
+		   {
+		      checklist[i].checked = true;
+		   } 
+		 }else{
+		  for(var j=0;j<checklist.length;j++)
+		  {
+		     checklist[j].checked = false;
+		  }
+	 }
+}
 /**
  * 加载参数数据
  * @param data
  */
 function calledback(data){
-	
+	var html="<h2 class='f16 count_flow '><i>02</i>参数信息</h2><div class='content table_box'>";
+		html+="<table class='table table-bordered table-condensed table-hover table-striped' >";
+		html+="<thead><tr><td class='info w50 tc'><input id='checkAll' type='checkbox' onclick='selectAll()'></td><td class='info tc'>参数名称</td><td class='info tc'>参数类型</td><td class='info tc'>是否必填</td></tr><thead/><tbody>";
+
 	if (data != null && data.length > 0){
 		for (var i=0;i<data.length;i++){
-			loadHtml(data[i].id,data[i].paramName,data[i].paramTypeName,data[i].paramRequired);
+			html+=loadHtml(data[i].id,data[i].paramName,data[i].paramTypeName,data[i].paramRequired);
 		}
 	}
+	html+="</tbody></table>";
+	html+="</div>";
+	$("#uListId").append(html);
 }
 
 /**
@@ -372,13 +408,10 @@ function openDiv(){
  */
 function loadHtml(id,paramName, paramTypeName,paramRequired){
 	var html="<tr>" +
-	        "<td width=\"5%\"><input name='chkItem' value='"+id+"' type=\"checkbox\" class=\"mt10\"/></td>"+
-			"<td width=\"15%\" class=\"info\">参数名称：</td>" +
-			"<td width=\"15%\">"+paramName+"</td>" +
-			"<td width=\"15%\" class=\"info\">参数类型：</td>" +
-			"<td width=\"15%\" >"+paramTypeName+"</td>" +
-			"<td width=\"15%\" class=\"info\">是否必填：</td>" +
-			"<td width=\"15%\" >"+(paramRequired==1?"是":"否")+"</td>" +
+	        "<td class='tc'><input name='chkItem' value='"+id+"' type='checkbox' class='mt10'/></td>"+
+			"<td class='tc'>"+paramName+"</td>" +
+			"<td class='tc' >"+paramTypeName+"</td>" +
+			"<td class='tc' >"+(paramRequired==1?"是":"否")+"</td>" +
 			"</tr>";
 	/*var html ="<li>"
 	        + "  <div class=\"col-md-1 col-xs-6 col-sm-4 tc\">"
@@ -387,7 +420,8 @@ function loadHtml(id,paramName, paramTypeName,paramRequired){
 	        + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\">" + paramName +"</div>"
 	        + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\"> 参数类型: " + paramTypeName + "</div>" 
 	        +"</li>"*/
-	$("#uListId").append(html);
+	return html;
+	/*$("#uListId").append(html);*/
 }
 
 /**
@@ -428,13 +462,24 @@ function selectedClass(treeNode){
  * @param redioChecked 选中的值
  */
 function loadRadioHtml(redioChecked){
-	
+	var pub="";
+	if (redioChecked == 0){
+		pub="公开";
+	}else if(redioChecked == 1){
+		pub="不公开";
+	}else{
+		
+	}
+	var html="<tr>";
+	html+="<td class='bggrey w100'>是否公开：</td>";
+	html+="<td id='tds'>"+pub+"</td>";
+	html+="</tr>";
 	/*var html = "<li> "
 		     + "  <div class='col-md-4 col-sm-4 col-xs-6 tr'>"
 		     + "    <span class='red'>*</span>是否公开:"
 		     + " </div>"
 		     + " <div class='col-md-8 col-sm-8 col-xs-6'> ";*/
-	var html="<tr>" +
+	/*var html="<tr>" +
 			"<td colspan=\"2\" width=\"20%\" class=\"info\">" +
 			"<span class='red'>*</span>是否公开：" +
 			"</td>" +
@@ -448,11 +493,11 @@ function loadRadioHtml(redioChecked){
 	} else {
 		html +=  " <input type='radio'  name='isOPen'  value='0'/>是     ";
 		html +=  " 　　<input type='radio'  name='isOPen'  value='1'/>否";
-	}/*
+	}
 		html+= " </div>"
-		html+= " </li>";*/
-		html+= " </td></tr>";
-	$("#uListId").append(html);
+		html+= " </li>";
+		html+= " </td></tr>";*/
+	$(html).insertAfter($("#trs"));
 }
 
 /***
@@ -460,31 +505,40 @@ function loadRadioHtml(redioChecked){
  * @param checkedVal type值
  */
 function loadCheckbox(checkedVal){
+	var html="";
+	html+="<td class='bggrey w100'>类型：</td>";
+	html+="<td>";
 	/*var html = "<li  id='typeId'>"
 	         + " <div class='col-md-4 col-sm-4 col-xs-5 tr'>"
 	      	 + "  <span class='red'>*</span>类型: "
 	      	 + " </div>"
 	 		 + " <div class='col-md-8 col-sm-8 col-xs-7'>";*/
-	var html="<tr>" +
+	/*var html="<tr>" +
 			"<td  colspan=\"2\" width=\"20%\" class=\"info\">" +
 			"<span class='red'>*</span>类型：" +
 			"</td>" +
-			"<td  colspan=\"5\">";
+			"<td  colspan=\"5\">";*/
+	 var types="";
 	 for (var i =0;i<typesObj.length;i++){
 		 if (checkedVal == 1 && typesObj[i].code == 'PRODUCT'){
-			 html+="<input name='smallClass' type='checkbox' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
+			 types+=typesObj[i].name+",";
 		 } else if (checkedVal == 2 && typesObj[i].code == 'SALES'){
-			 html+="<input name='smallClass' type='checkbox' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
+			 types+=typesObj[i].name+",";
 		 }else if (checkedVal == 3){
-			 html+="<input name='smallClass' type='checkbox' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
+			 types+=typesObj[i].name+",";
 		 } else {
-			 html+="<input name='smallClass' type='checkbox'  value='"+typesObj[i].code+"' />" +typesObj[i].name;
+			 types+=typesObj[i].name+",";
 		 }
 		
 	 }
+	 if(types.length>0){
+		 types=types.substring(0, types.length-1);
+	 }
+	 html+=types;
+	 html+="</td>";
 	   /* html+= "</div></li>";*/
-	 html+= " </td></tr>";
-	  $("#uListId").append(html);
+	 /*html+= " </td></tr>";*/
+	  $(html).insertAfter($("#tds"));
 }
 
 /**
@@ -502,6 +556,14 @@ function loadAuditHtml(auditStatus,auditAdvise){
 	}
 	
 	if (statusText !=""){
+		var html="<h2 class='f16 count_flow'><i>03</i>审核信息</h2><div class='content table_box'><table class='table table-bordered'>";
+		html+="<tr>";
+		html+="<td class='bggrey w100'>审核状态:</td>";
+		html+="<td colspan='3'>"+statusText+"</td>";
+		html+="</tr>";
+		html+="<tr >";
+		html+="<td class='bggrey w100'>审核意见:</td>";
+		
 		/*var html = "<li id='auditId'>"
 			  + " <div class='col-md-4 col-sm-4 col-xs-5 tr'>"
 			  + "  审核状态: " 
@@ -509,7 +571,7 @@ function loadAuditHtml(auditStatus,auditAdvise){
 			  + " <div class='col-md-8 col-sm-8 col-xs-7'>"
 	          + statusText ;
 			  + " </div>"
-			  + "</li>";*/
+			  + "</li>";
 		var html="<tr>" +
 					"<td width=\"20%\" colspan=\"2\" class=\"info\">" +
 					"审核状态：" +
@@ -519,18 +581,23 @@ function loadAuditHtml(auditStatus,auditAdvise){
  		"审核意见：" +
  		"</td>"; 
 		if (auditAdvise !=null && auditAdvise != ""){
-			/* html += "<li id='adviseId'>";
+			 html += "<li id='adviseId'>";
 			   html += "<div class='col-md-12 col-sm-4 col-xs-5 tr'>";
 			   html	+= "  审核意见: "  + auditAdvise ;
 			   html += "</div>"
-		     html += "</li>"*/
+		     html += "</li>"
 			 
 			 html+="<td  colspan=\"3\">" +auditAdvise+"</td>";
 		 }else{
 			 html+="<td  colspan=\"3\"></td>";
-		 }
+		 }*/
+		html+="<td colspan='3'>"+auditAdvise+"</td>";
 		html+="</tr>";
-		$("#uListId").append(html);
+		html+="</table></div>";
+		$('#check').append(html);
+		if ($("#check")){
+			$("#check").show();
+		}
 	}
 }
 
@@ -538,12 +605,13 @@ function loadAuditHtml(auditStatus,auditAdvise){
  * 隐藏审核信息
  */
 function hiddenAudit(){
-	if ($("#auditId")){
-		$("#auditId").hide();
+	if ($("#check")){
+		$("#check").hide();
 	}
-	if ($("#adviseId")){
-		$("#adviseId").hide();
+	if($("#submitId")){
+		$("#submitId").hide();
 	}
+	
 }
 
 /**

@@ -377,7 +377,7 @@
 			var num1 = $(tds[i]).val()-0;
 			sum2 = sum2+num1;
 		}
-		var sumAll = sum1+sum2;
+		var sumAll = (sum1+sum2)/10000;
 		if(sumAll>sumbudget){
 			layer.close(index);
 			layer.alert("明细总价不得超过预算",{offset: ['50%', '40%'], shade:0.01});
@@ -435,7 +435,7 @@
 	function sum1(){
 		var budget = $("#univalent").val()-0;
 		var other = $("#purNum").val()-0;
-		var sum = budget*other/10000;
+		var sum = budget*other;
 		$("#purBudgetSum").val(sum);
 	}
 	
@@ -972,8 +972,8 @@
 							<th class="info">规格型号</th>
 							<th class="info">计量单位</th>
 							<th class="info">数量</th>
-							<th class="info">单价</th>
-							<th class="info">合计金额(万元)</th>
+							<th class="info">单价(元)</th>
+							<th class="info">合计金额(元)</th>
 							<th class="info">交付时间</th>
 							<th class="info">备注</th>
 						</tr>
@@ -1065,7 +1065,7 @@
 		              </div>
 		            </li>
 				    <li class="col-md-3">
-		    	      <label class="col-md-12 padding-left-5">合计(万元)</label>
+		    	      <label class="col-md-12 padding-left-5">合计(元)</label>
 	                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
 	                   <input id="purBudgetSum" name="amount_string" value="" readonly="readonly" type="text" class="col-md-12 p0">
 		              </div>
@@ -1113,7 +1113,9 @@
    			--%><input type="button" class="btn btn-windows cancel mb20" onclick="abandoned()" value="取消">
   		</div>
   		
-  		<ul class="list-unstyled mt10 dnone" id="numberWin">
+  		<ul class="list-unstyled mt10 dnone"  id="numberWin">
+  		<iframe style="position: absolute; z-index: -1; width: 100%; height: 100%; top: 0;left:0;scrolling:no;" frameborder="0"></iframe>
+  		
 	  		    <li class="col-md-6 col-sm-12 col-xs-12 pl15">
 				   <span class="col-md-12 col-sm-12 col-xs-12"><div class="red star_red">*</div>草案合同上报时间：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12">

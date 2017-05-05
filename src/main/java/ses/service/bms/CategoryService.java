@@ -348,4 +348,10 @@ import ses.model.sms.SupplierTypeTree;
 		 * @exception
 		 */
 		public List<Category> selectByCode(String code);
+		/**
+		 * 门户网查询公开产品
+		 * @param pid
+		 * @return
+		 */
+		public List<Category> findTreeByPidIsPublish(String pid);
 }

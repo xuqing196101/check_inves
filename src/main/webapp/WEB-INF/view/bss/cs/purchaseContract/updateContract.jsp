@@ -418,7 +418,7 @@
 	function sum1(){
 		var budget = $("#univalent").val()-0;
 		var other = $("#purNum").val()-0;
-		var sum = budget*other/10000;
+		var sum = budget*other;
 		$("#purBudgetSum").val(sum);
 	}
 	
@@ -943,7 +943,7 @@
 							<th class="info">计量单位</th>
 							<th class="info">数量</th>
 							<th class="info">单价(元)</th>
-							<th class="info">合计金额(万元)</th>
+							<th class="info">合计金额(元)</th>
 							<th class="info">交付时间</th>
 							<th class="info">备注</th>
 						</tr>

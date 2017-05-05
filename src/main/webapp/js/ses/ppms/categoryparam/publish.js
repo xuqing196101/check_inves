@@ -156,6 +156,10 @@ function initTypes(){
  * @param data
  */
 function calledback(data){
+	var html="<div class='content table_box'>";
+		html+="<table class='table table-bordered table-condensed table-hover table-striped' >";
+		html+="<tr><td class='info'>参数名称</td><td class='info'>参数类型</td><td class='info'>是否必填</td></tr>";
+	
 	if (data != null && data.length > 0){
 		for (var i=0;i<data.length;i++){
 			loadHtml(data[i].paramName,data[i].paramTypeName);
@@ -163,6 +167,8 @@ function calledback(data){
 	} else {
 		$("#uListId").hide();
 	}
+	html+="</table>";
+	html+="</div>";
 }
 
 /**
