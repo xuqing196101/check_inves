@@ -1,5 +1,6 @@
 package ses.controller.sys.sms;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +48,10 @@ public class SupplierLevelController extends BaseSupplierController {
 	}
 	
 	@RequestMapping(value = "change_score")
-	public String changeScore(Model model, Supplier supplier) {
+	public String changeScore(Model model, Supplier supplier) throws Exception {
+		if(supplier.getSupplierName() != null){
+			supplier.setSupplierName(new String(supplier.getSupplierName().getBytes("ISO-8859-1"), "UTF-8"));
+		}
 		List<SupplierCredit> listSupplierCredits = supplierCreditService.findSupplierCredit(new SupplierCredit());
 		model.addAttribute("supplier", supplier);
 		model.addAttribute("listSupplierCredits", listSupplierCredits);

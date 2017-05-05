@@ -173,14 +173,14 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
     							parentAddress = privnce.get(i).getName();
     						}
     					}
-    	                historyInfo.setBeforeField("address");
+    	                historyInfo.setBeforeField("residence");
     	                historyInfo.setBeforeContent(parentAddress + sonAddress);
     	                supplierHistoryMapper.insertSelective(historyInfo);             	            	
     				}
 
                     //生产经营详细地址
     				if(address.getCode() !=null){
-    					historyInfo.setBeforeField("detailAddress");
+    					historyInfo.setBeforeField("detailedResidence");
     	                historyInfo.setBeforeContent(address.getDetailAddress());
     	                supplierHistoryMapper.insertSelective(historyInfo);              	          	
     				}

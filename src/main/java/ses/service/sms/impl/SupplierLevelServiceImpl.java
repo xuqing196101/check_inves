@@ -2,6 +2,8 @@ package ses.service.sms.impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,18 +68,20 @@ public class SupplierLevelServiceImpl implements SupplierLevelService {
 				Integer threeStars = ss.getThreeStars();
 				Integer fourStars = ss.getFourStars();
 				Integer fiveStars = ss.getFiveStars();
-				if (score < oneStars) {
-					s.setLevel("无级别");
-				} else if (score < twoStars) {
-					s.setLevel("一级");
-				} else if (score < threeStars) {
-					s.setLevel("二级");
-				} else if (score < fourStars) {
-					s.setLevel("三级");
-				} else if (score < fiveStars) {
-					s.setLevel("四级");
-				} else {
-					s.setLevel("五级");
+				if(score != null){
+					if (score < oneStars) {
+						s.setLevel("无级别");
+					} else if (score < twoStars) {
+						s.setLevel("一级");
+					} else if (score < threeStars) {
+						s.setLevel("二级");
+					} else if (score < fourStars) {
+						s.setLevel("三级");
+					} else if (score < fiveStars) {
+						s.setLevel("四级");
+					} else {
+						s.setLevel("五级");
+					}
 				}
 			}
 		}

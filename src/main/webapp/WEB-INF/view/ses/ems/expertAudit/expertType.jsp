@@ -47,23 +47,27 @@
 		    function(text){
 		    	var text = trim(text);
 				  if(text != null && text !=""){
-				    $.ajax({
-				      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
-				      type:"post",
-				      dataType:"json",
-				      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditContent +"&auditFieldId="+ auditFieldId+"&type=1",
-				      success:function(result){
-				        result = eval("(" + result + ")");
-				        if(result.msg == "fail"){
-				           layer.msg('该条信息已审核过！', {	            
-				             shift: 6, //动画类型
-				             offset:'100px'
-				          });
-				        }
-				      }
-				    });
-				    $("#"+appear+"").css('visibility', 'visible');
-		      	layer.close(index);
+				  	if(text.length < 50){
+					    $.ajax({
+					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+					      type:"post",
+					      dataType:"json",
+					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditContent +"&auditFieldId="+ auditFieldId+"&type=1",
+					      success:function(result){
+					        result = eval("(" + result + ")");
+					        if(result.msg == "fail"){
+					           layer.msg('该条信息已审核过！', {	            
+					             shift: 6, //动画类型
+					             offset:'100px'
+					          });
+					        }
+					      }
+					    });
+					    $("#"+appear+"").css('visibility', 'visible');
+			      	layer.close(index);
+			      }else{
+				    		layer.msg('字符过长！', {offset:'100px'});
+				    	}
 		      }else{
 		      	layer.msg('不能为空！', {offset:'100px'});
 		      }
@@ -88,24 +92,28 @@
 			    function(text){
 			    	var text = trim(text);
 				  	if(text != null && text !=""){
-					    $.ajax({
-					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
-					      type:"post",
-					      dataType:"json",
-					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"  +"&auditFieldId="+id + "&auditFieldName="+auditFieldName,
-						    success:function(result){
-					        result = eval("(" + result + ")");
-					        if(result.msg == "fail"){
-					           layer.msg('该条信息已审核过！', {	            
-					             shift: 6, //动画类型
-					             offset:'100px'
-					          });
-					        }
-					      }
-					    });
-						    $("#"+obj.id+"").css('border-color','#FF0000');
-								$(obj).after(html);
-				      	layer.close(index);
+				  		if(text.length < 50){
+						    $.ajax({
+						      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+						      type:"post",
+						      dataType:"json",
+						      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"  +"&auditFieldId="+id + "&auditFieldName="+auditFieldName,
+							    success:function(result){
+						        result = eval("(" + result + ")");
+						        if(result.msg == "fail"){
+						           layer.msg('该条信息已审核过！', {	            
+						             shift: 6, //动画类型
+						             offset:'100px'
+						          });
+						        }
+						      }
+					    	});
+							    $("#"+obj.id+"").css('border-color','#FF0000');
+									$(obj).after(html);
+					      	layer.close(index);
+				      	}else{
+				    			layer.msg('字符过长！', {offset:'100px'});
+				    		}
 			      	}else{
 			      		layer.msg('不能为空！', {offset:'100px'});
 			      	}
@@ -128,23 +136,27 @@
 			    function(text){
 			    	var text = trim(text);
 				  	if(text != null && text !=""){
-					    $.ajax({
-					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
-					      type:"post",
-					      dataType:"json",
-					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"+"&auditFieldId="+id +"&auditFieldName="+auditFieldName,
-					      success:function(result){
-					        result = eval("(" + result + ")");
-					        if(result.msg == "fail"){
-					           layer.msg('该条信息已审核过！', {	            
-					             shift: 6, //动画类型
-					             offset:'100px'
-					          });
-					        }
-					      }
-					    });
-							 $("#"+showId+"").css('visibility', 'visible');
-				       layer.close(index);
+				  		if(text.length < 50){
+						    $.ajax({
+						      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+						      type:"post",
+						      dataType:"json",
+						      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"+"&auditFieldId="+id +"&auditFieldName="+auditFieldName,
+						      success:function(result){
+						        result = eval("(" + result + ")");
+						        if(result.msg == "fail"){
+						           layer.msg('该条信息已审核过！', {	            
+						             shift: 6, //动画类型
+						             offset:'100px'
+						          });
+						        }
+						      }
+						    });
+								 $("#"+showId+"").css('visibility', 'visible');
+					       layer.close(index);
+					       }else{
+				    			layer.msg('字符过长！', {offset:'100px'});
+				    		}
 			       }else{
 			       	layer.msg('不能为空！', {offset:'100px'});
 			       }

@@ -65,6 +65,13 @@ public interface SupplierAddressMapper {
      */
     List<SupplierAddress> getBySupplierId(@Param("supplierId")String supplierId);
     
-    
-    
+    /**
+     * @Title: selectById
+     * @author XuQing 
+     * @date 2017-5-5 下午4:17:22  
+     * @Description:根据id查询
+     * @param @return      
+     * @return List<SupplierAddress>
+     */
+    SupplierAddress selectById(String id);
 }

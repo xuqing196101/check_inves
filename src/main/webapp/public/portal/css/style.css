@@ -2790,6 +2790,9 @@ h2.list_title{
 	margin:10px 0; 
 	background-color:#fafafa;
 }
+.search_box input{
+	margin-bottom:0px;
+}
 /*表头固定表格*/
 .t_left {
     width: 30%;

@@ -89,4 +89,19 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
         }
         return isSuccess;
     }
+
+    
+    /**
+     * @Title: selectById
+     * @author XuQing 
+     * @date 2017-5-5 下午4:17:22  
+     * @Description:根据id查询
+     * @param @return      
+     * @return List<SupplierAddress>
+     */
+	@Override
+	public SupplierAddress selectById(String id) {
+		
+		return supplierAddressMapper.selectById(id);
+	}
 }

@@ -87,18 +87,18 @@
 						</ul>
 			
 					<div class="content table_box" id="info">
-						<table class="table table-bordered table-condensed table-hover table-striped hand">
+						<table class="table table-bordered table-condensed table-hover hand left_table table_input">
 							<tr >
 								<!-- <th class="info"><input type="checkbox"  /> -->
-								<th class="info">姓名 </th>
-								<th class="info">单位</th>
-								<th class="info">技术职称（职务）</th>
+								<th class="info" width="30%">姓名 </th>
+								<th class="info" width="35%">单位</th>
+								<th class="info" width="35%">技术职称（职务）</th>
 							</tr>
 							<tr id="list_tbody_id">
 								<!-- <td><input type="checkbox" name="list[0].id"/></td> -->
-								<td class=""><input name="expertSignatureList[0].name" value="" type="text"></td>
-								<td class=""><input name="expertSignatureList[0].company" value="" type="text"></td>
-								<td class=""><input name="expertSignatureList[0].job" value="" type="text"></td>
+								<td width="30%" class="tc"><input name="expertSignatureList[0].name" value="" class="w100p" type="text"></td>
+								<td width="35%" class="tc"><input name="expertSignatureList[0].company" value="" class="w100p" type="text"></td>
+								<td width="35%" class="tc"><input name="expertSignatureList[0].job" value="" class="w100p" type="text"></td>
 							</tr>
 						</table>
 					</div>

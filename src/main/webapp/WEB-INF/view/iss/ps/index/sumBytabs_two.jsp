@@ -860,7 +860,7 @@ function myReSet(){
 				
 			<div class="col-md-3 col-sm-6 col-xs-12 w200 " id="choseCategory" style="text-align: left;padding-left: 0px" >
 				<div
-					class="input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0 fl" >
+					class="input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0 mt1" >
 					<input id="cId" name="categoryId" type="hidden"
 						value="${categoryIds}"> <input id="categorySel"
 						type="text" name="categoryName"  readonly value="${categoryNames}"
@@ -877,7 +877,7 @@ function myReSet(){
 				name="publishStartDate" type="text" id="publishStartDate" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${publishStartDate }" />-<input class="w80" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 				name="publishEndDate" type="text" id="publishEndDate" value="${publishEndDate }" />
 				</span> 
-			<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
+			<button type="button" onclick="query()" class="btn btn-u-light-grey ml5">查询</button>
 			<button type="button" onclick="myReSet()" class="btn btn-u-light-grey">重置</button>
 		</div>
 		<div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">

@@ -10,7 +10,6 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
 <head>
-<%@ include file="/WEB-INF/view/common.jsp"%>
 	<script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
 	<link href="${pageContext.request.contextPath}/public/backend/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
 	<link href="${pageContext.request.contextPath}/public/backend/css/common.css" media="screen" rel="stylesheet" type="text/css">  

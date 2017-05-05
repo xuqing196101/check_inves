@@ -57,7 +57,7 @@
 			});
 			return;
 		}
-		var id = checkbox.val();
+		var id = checkbox.val().split(",")[0];
 		$("input[name='supplierBlacklistId']").val(id);
 		$("#edit_form_id").submit();
 	}
@@ -91,7 +91,7 @@
 			if (ids) {
 				ids += ",";
 			}
-			ids += $(this).val();
+			ids += $(this).val().split(",")[0];
 		});
 		if (count) {
 			return;
@@ -127,7 +127,7 @@
 			});
 			return;
 		}
-		var supplierId = checkbox.val();
+		var supplierId = checkbox.val().split(",")[1];
 		findLog(supplierId);
 	}
 </script>
@@ -202,7 +202,7 @@
 					<tbody id="black_tbody_id">
 						<c:forEach items="${listSupplierBlacklists.list}" var="supplierBlacklist" varStatus="vs">
 							<tr class="hand">
-								<td class="tc"><input id="${supplierBlacklist.supplierId}" name="checkbox" value="${supplierBlacklist.id}" type="checkbox"></td>
+								<td class="tc"><input id="${supplierBlacklist.supplierId}" name="checkbox" value="${supplierBlacklist.id},${supplierBlacklist.supplierId}" type="checkbox"></td>
 								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">${vs.index + 1}</td>
 								<td class="tl pl20" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.supplierName}</td>
 								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')"><fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd"/></td>

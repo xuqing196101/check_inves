@@ -68,9 +68,10 @@
 		$("#search_form_id").submit();
 	}
 	
+	//重置按钮事件
 	function resetForm() {
-		$("input[name='supplierName']").val("");
-		$("#level_select_id").find("option").eq(0).prop("selected", true);
+        $("#supplierName").val("");
+        $("#level_select_id").val("");
 	}
 	
 	function autoSelected(id, v) {
@@ -110,12 +111,12 @@
 		<!-- 表格开始-->
 			
 			<h2 class="search_detail">
-				<form id="search_form_id" class="mb0" action="${pageContext.request.contextPath}/supplier_level/list.html" method="get">
+				<form id="search_form_id" class="mb0" action="${pageContext.request.contextPath}/supplier_level/list.html" method="post">
 					<input name="page" type="hidden" />
 					<ul class="demand_list">
 						<li>
 							<label class="fl">供应商名称：</label>
-							<span><input type="text" name="supplierName" value="${supplierName}"/></span>
+							<span><input type="text" id="supplierName" name="supplierName" value="${supplierName}"/></span>
 						</li>
 						<li>
 							<label class="fl">等级：</label>
@@ -131,7 +132,7 @@
 							</span>
 						</li>
 							<button type="button" onclick="searchSupplierLevel(1)" class="btn fl mt1">查询</button>
-							<button onclick="resetForm()" class="btn fl mt1" type="button">重置</button>
+							<button onclick="resetForm()" class="btn fl mt1">重置</button>
 					</ul>
 					<div class="clear"></div>
 				</form>
@@ -148,7 +149,7 @@
 							<th class="info">供应商名称</th>
 							<th class="info">企业等级</th>
 							<th class="info">分数</th>
-							<th class="info">企业类型</th>
+							<!-- <th class="info">企业类型</th> -->
 							<th class="info">企业性质</th>
 						</tr>
 					</thead>
@@ -160,11 +161,11 @@
 								<td class="tc">${supplier.supplierName}</td>
 								<td class="tc">${supplier.level}</td>
 								<td class="tc">${supplier.score}</td>
-								<td class="tc">
+								<%-- <td class="tc">
 									<c:forEach items="${supplier.listSupplierTypeRelates}" var="relate">
 										${relate.supplierTypeName}
 									</c:forEach>
-								</td>
+								</td> --%>
 								<td class="tc">
 								<c:forEach items="${data }" var="dic">
 									<c:if test="${supplier.businessType==dic.id}">

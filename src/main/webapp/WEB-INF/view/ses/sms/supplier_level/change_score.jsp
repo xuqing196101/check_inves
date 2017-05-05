@@ -16,6 +16,10 @@
 	
 	function loadCreditCtnt(ele) {
 		var supplierCreditId = $(ele).val();
+		if(supplierCreditId == ''){
+			$("#tbody_id").empty();
+			return;
+		}
 		$.ajax({
 			url : "${pageContext.request.contextPath}/supplier_level/find_credit_ctnt_by_credit_id.do",
 			type : "post",
@@ -88,7 +92,7 @@
 							<label class="fl">诚信形式：</label>
 							<span>
 								<select onchange="loadCreditCtnt(this)">
-									<option selected="selected" value="">请选择</option>
+									<option selected="selected" value="">--请选择--</option>
 									<c:forEach items="${listSupplierCredits}" var="credit">
 										<option value="${credit.id}">${credit.name}</option>
 									</c:forEach>

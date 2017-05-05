@@ -1,5 +1,6 @@
 package ses.controller.sys.sms;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,10 @@ public class SupplierCreditCtntController {
 	}
 	
 	@RequestMapping(value = "add_credit_ctnt")
-	public String addCreditCtnt(Model model, SupplierCreditCtnt supplierCreditCtnt) {
+	public String addCreditCtnt(Model model, SupplierCreditCtnt supplierCreditCtnt) throws Exception {
+		if(supplierCreditCtnt.getName() != null){
+			supplierCreditCtnt.setName(new String(supplierCreditCtnt.getName().getBytes("ISO8859-1"), "UTF-8"));
+		}
 		model.addAttribute("supplierCreditCtnt", supplierCreditCtnt);
 		
 		return "ses/sms/supplier_credit_ctnt/add_credit_ctnt";

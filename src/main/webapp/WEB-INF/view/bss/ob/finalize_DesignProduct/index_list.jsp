@@ -223,7 +223,7 @@
 						<ul id="treeDemo" class="ztree slect_option clear" style="max-height: 340px;"></ul>
 					</div>
 		        	</div>
-		        	<div class="inline-block">
+		        	<div class="inline-block ml5">
 		        		<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
 		        		<button type="button" onclick="res()" class="btn btn-u-light-grey">重置</button>
 		      		</div>

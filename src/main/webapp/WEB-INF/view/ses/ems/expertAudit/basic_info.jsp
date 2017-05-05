@@ -69,7 +69,8 @@
 		    function(text){
 		    	var text = trim(text);
 				    if(text != null && text !=""){
-					    $.ajax({
+				    	if(text.length < 50){
+				    		$.ajax({
 					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 					      type:"post",
 					      dataType:"json",
@@ -87,6 +88,9 @@
 					    $("#"+obj.id+"").css('border-color','#FF0000');
 							$(obj).after(html);
 			      	layer.close(index);
+				    	}else{
+				    		layer.msg('字符过长！', {offset:'100px'});
+				    	}
 				    }else{
 				    	layer.msg('不能为空！', {offset:'100px'});
 				    }
@@ -110,7 +114,8 @@
 			    function(text){
 						var text = trim(text);
 				    if(text != null && text !=""){
-				    	$.ajax({
+				    	if(text.length < 50){
+				    		$.ajax({
 						      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 						      type:"post",
 						      dataType:"json",
@@ -127,6 +132,9 @@
 						    });
 						    $("#"+showId+"").css('visibility', 'visible');
 			       		layer.close(index);
+				    	}else{
+				    		layer.msg('字符过长！', {offset:'100px'});
+				    	}
 				    }else{
 				    	layer.msg('不能为空！', {offset:'100px'});
 				    }

@@ -834,7 +834,7 @@ function myReSet(){
 				</span>
 			<div class="col-md-3 col-sm-6 col-xs-12 w200 " id="choseCategory" style="text-align: left;padding-left: 0px" >
 				<div
-					class="input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0 fl" >
+					class="input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0 mt1" >
 					<input id="cId" name="categoryId" type="hidden"
 						value="${categoryIds}"> <input id="categorySel"
 						type="text" name="categoryName"  readonly value="${categoryNames}"
