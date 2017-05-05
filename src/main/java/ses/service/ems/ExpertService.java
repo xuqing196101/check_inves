@@ -473,4 +473,17 @@ public interface ExpertService {
      * @return 逾期天数
      */
     int logoutExpertByDay(Expert expert) throws Exception;
+
+    /**
+     * 根据主键查询专家历史信息
+     * @param id
+     * @return
+     */
+    ExpertHistory selectOldExpertByPrimaryKey(String id);
+
+    /**
+     * 插入历史信息(主键赋值,不自动生成)
+     * @param expertHistory
+     */
+    void insertExpertHistoryById(ExpertHistory expertHistory);
 }

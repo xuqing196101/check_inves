@@ -1086,20 +1086,20 @@ public class SupplierServiceImpl implements SupplierService {
                 if(-1==supplierStatus){
                     //根据创建注册信息时间计算间隔天数
                     int betweenDays = this.daysBetween(createdAt);
-                    int days = Integer.parseInt(PropUtil.getProperty("logout.supplier.first.overdue"));
+//                    int days = Integer.parseInt(PropUtil.getProperty("logout.supplier.first.overdue"));
                     if(betweenDays > 90){
                         this.deleteSupplier(supplier.getId());
-                        return days;
+                        return 90;
                     }
                 }
                 //退回修改后,30天未重新提交审核
                 if(2==supplierStatus){
                     //根据创建注册信息时间计算间隔天数
                     int betweenDays = this.daysBetween(auditDate);
-                    int days = Integer.parseInt(PropUtil.getProperty("logout.supplier.back.overdue"));
+//                    int days = Integer.parseInt(PropUtil.getProperty("logout.supplier.back.overdue"));
                     if(betweenDays > 30){
                         this.deleteSupplier(supplier.getId());
-                        return days;
+                        return 30;
                     }
                 }
             }
