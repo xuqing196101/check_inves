@@ -9,6 +9,7 @@
 <td class="tc"><input type="text" class="border0" maxlength="150" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode"/></td>
 <td class="tc">
 	<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" id="certType_select${certAptNumber }" title="cnjewfnAdd1" class="w100p border0" onchange="getAptLevel(this)">
+        <option value="">请选择</option>
 		<c:forEach items="${typeList}" var="type">
 			<option value="${type.id}">${type.name}</option>
 		</c:forEach>
@@ -70,11 +71,7 @@
 				},
 				valueField: 'value',
 				textField: 'label',
-				data : [{label: '特级',value: '1',selected:true},
-				        {label: '一级',value: '2'},
-				        {label: '二级',value: '3'},
-				        {label: '三级',value: '4'},
-				        {label: '不分级',value: '5'},]
+				data : []
 			});
 		});
 	</script>
