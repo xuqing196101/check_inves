@@ -1065,7 +1065,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModify.setModifyType("file");
 				supplierModify.setBeforeField(fileTypeId);
 				supplierModify.setSupplierId(businessId);
-				supplierModifyMapper.add(supplierModify);
+				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
 		
@@ -1082,7 +1082,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModify.setBeforeField(fileTypeId);
 				supplierModify.setSupplierId(financeSupplierId);
 				supplierModify.setRelationId(businessId);
-				supplierModifyMapper.add(supplierModify);
+				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
 		
@@ -1098,7 +1098,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModify.setBeforeField(fileTypeId);
 				supplierModify.setSupplierId(proSupplierId);
 				supplierModify.setRelationId(businessId);
-				supplierModifyMapper.add(supplierModify);
+				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
 		
@@ -1111,7 +1111,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModify.setBeforeField(fileTypeId);
 				supplierModify.setSupplierId(sellSupplierId);
 				supplierModify.setRelationId(businessId);
-				supplierModifyMapper.add(supplierModify);
+				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
 		
@@ -1124,7 +1124,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModify.setBeforeField(fileTypeId);
 				supplierModify.setSupplierId(engSupplierId);
 				supplierModify.setRelationId(businessId);
-				supplierModifyMapper.add(supplierModify);
+				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
 		
@@ -1137,7 +1137,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModify.setBeforeField(fileTypeId);
 				supplierModify.setSupplierId(serSupplierId);
 				supplierModify.setRelationId(businessId);
-				supplierModifyMapper.add(supplierModify);
+				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
 		
@@ -1157,7 +1157,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 						supplierModify.setBeforeField(businessId);
 						supplierModify.setSupplierId(supplierId);
 						supplierModify.setRelationId(lsitId);
-						supplierModifyMapper.add(supplierModify);
+						supplierModifyMapper.insertSelective(supplierModify);
 					}
 				}
 			}
@@ -1175,7 +1175,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 					supplierModify.setBeforeField(fileTypeId);
 					supplierModify.setSupplierId(supplierId);
 					supplierModify.setRelationId(businessId);
-					supplierModifyMapper.add(supplierModify);
+					supplierModifyMapper.insertSelective(supplierModify);
 				}
 			}
 		}
