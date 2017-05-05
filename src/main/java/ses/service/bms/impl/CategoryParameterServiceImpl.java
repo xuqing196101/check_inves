@@ -300,9 +300,9 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
         
         String msg  = StaticVariables.SUCCESS;
         
-        if (StringUtils.isBlank(open)){
+      /*  if (StringUtils.isBlank(open)){
            return StaticVariables.FAILED;
-        }
+        }*/
         
         //校验
         Integer classified = null;
@@ -346,9 +346,9 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
                     if (classified != null){
                         category.setClassify(classified);
                     }
-                    if (StringUtils.isNotBlank(open)){
+                    /*if (StringUtils.isNotBlank(open)){
                     	category.setIsPublish(Integer.parseInt(open));
-                    }
+                    }*/
                     category.setParamStatus(StaticVariables.CATEGORY_SUBMIT_STATUS);
                     category.setUpdatedAt(new Date());
                     categoryService.updateByPrimaryKeySelective(category);

@@ -433,7 +433,7 @@
 	function sum1(){
 		var budget = $("#univalent").val()-0;
 		var other = $("#purNum").val()-0;
-		var sum = budget*other/10000;
+		var sum = budget*other;
 		$("#purBudgetSum").val(sum);
 	}
 	
@@ -922,8 +922,8 @@
 							<th class="info">质量技术标准</th>
 							<th class="info">数量</th>
 							<th class="info">计量单位</th>
-							<th class="info">单价</th>
-							<th class="info">合计金额(万元)</th>
+							<th class="info">单价(元)</th>
+							<th class="info">合计金额(元)</th>
 							<th class="info">交付时间</th>
 							<th class="info">备注</th>
 						</tr>
@@ -939,7 +939,7 @@
 							<td class="tc">${subject.purchaseCount}<input type="hidden" name="proList[${(vs.index)}].purchaseCount" value="${subject.purchaseCount}" /></td>
 							<td class="tc">${subject.item}<input type="hidden" name="proList[${(vs.index)}].item" value="${subject.item}" /></td>
 							<td class="tc">${subject.unitPrice}<input type="hidden" name="proList[${(vs.index)}].price" value="${subject.unitPrice}" /></td>
-							<td class="tc">${subject.unitPrice*subject.purchaseCount/10000}<input type="hidden" name="proList[${(vs.index)}].amount" value="${subject.unitPrice*subject.purchaseCount/10000}" /></td>
+							<td class="tc">${subject.unitPrice*subject.purchaseCount}<input type="hidden" name="proList[${(vs.index)}].amount" value="${subject.unitPrice*subject.purchaseCount}" /></td>
 							<td class="tc">${reque.deliverDate}<input type="hidden" name="proList[${(vs.index)}].deliverDate" value="${reque.deliverDate}" /></td>
 							<td class="tc">${reque.memo}<input type="hidden" name="proList[${(vs.index)}].memo" value="${reque.memo}" /></td>
 						</tr>
@@ -1024,14 +1024,14 @@
 		              </div>
 		            </li>
 				    <li class="col-md-3">
-		    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>单价(万元)</label>
+		    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>单价(元)</label>
 	                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
 	                   <input id="univalent" name="price_string" onblur="sum1()" value="" type="text" class="col-md-12 p0">
 	                   <div class="cue" id="dj"></div>
 		              </div>
 		            </li>
 				    <li class="col-md-3">
-		    	      <label class="col-md-12 padding-left-5">合计(万元)</label>
+		    	      <label class="col-md-12 padding-left-5">合计(元)</label>
 	                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
 	                   <input id="purBudgetSum" name="amount_string" value="" readonly="readonly" type="text" class="col-md-12 p0">
 		              </div>

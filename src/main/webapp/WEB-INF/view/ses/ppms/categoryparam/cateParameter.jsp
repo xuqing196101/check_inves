@@ -19,12 +19,12 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-  <div class="container content height-350">
+  <div class="container content height-400">
 	  <!-- left tree -->
     <div class="col-md-3">
 	  <div class="tag-box tag-box-v3">
 	    <div>
-		  <ul id="ztree" class="ztree" />
+		  <ul id="ztree" class="ztree" style="height: 400px;" />
 		</div>
 	  </div>
 	</div>
@@ -39,16 +39,19 @@
 		  <button class="btn btn-windows delete" onclick="delParams();" type="submit">删除</button>
 	    </div>
    	  </div>
-   	  
-	  <div class="col-md-12 col-sm-12 col-xs-12 mt20 clear" >
-	  <table class="table table-bordered mt10" id="uListId">
+   	  <div class=" col-md-12 col-sm-12 col-xs-12" id="name"></div>
+	  <div class=" col-md-12 col-sm-12 col-xs-12" id="uListId" ></div>
+	  <div class=" col-md-12 col-sm-12 col-xs-12" id="check"  >
+	    
+	</div>
+	  <!-- <table class="table table-bordered mt10" id="uListId">
 	  
-	  </table>
+	  </table> -->
 	    <!-- <ul id="uListId" class="list-unstyled ul_table" >
 	    </ul> -->
 	  </div>
 	  
-	  <div id="submitId" class="textc col-md-12 col-xs-12 col-sm-12 mt20">
+	  <div id="submitId" class="textc">
 	    <button class="btn btn-windows git" onclick="submitParams();" type="button">提交</button>
 	  </div>
 	 </div>

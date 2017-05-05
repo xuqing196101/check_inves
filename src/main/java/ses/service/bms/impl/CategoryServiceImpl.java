@@ -892,6 +892,12 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryMapper.selectByCode(code);
 	}
 
+	@Override
+	public List<Category> findTreeByPidIsPublish(String pid) {
+		// TODO Auto-generated method stub
+		return categoryMapper.findTreeByPidIsPublish(pid);
+	}
+
 	
 
 }
