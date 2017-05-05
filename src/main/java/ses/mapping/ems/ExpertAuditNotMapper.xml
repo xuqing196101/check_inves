@@ -12,6 +12,15 @@
     ID, EXPERT_ID, EXPERT_NAME, ID_CARD, CREATED_AT
   </sql>
   
+  <select id="selectByIdCard" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  		*
+  	from 
+  		T_SES_EMS_EXPERT_AUDIT_NOT 
+  	where 
+  		ID_CARD = #{idCard}
+  </select>
+  
   <!-- 插入审核记录 -->
   <insert id="insertSelective" parameterType="ses.model.ems.ExpertAuditNot">
     insert into T_SES_EMS_EXPERT_AUDIT_NOT

@@ -26,4 +26,18 @@ public class ExpertAuditNotServiceImpl implements ExpertAuditNotService{
 		mapper.insertSelective(expertAuditNot);
 	}
 
+	/**
+	 * @Title: selectByIdCard
+	 * @author XuQing 
+	 * @date 2017-5-4 下午4:45:31  
+	 * @Description:根据身份证号查询初审未通过的专家
+	 * @param @param idCard
+	 * @param @return      
+	 * @return ExpertAuditNot
+	 */
+	@Override
+	public ExpertAuditNot selectByIdCard(String idCard) {
+		return mapper.selectByIdCard(idCard);
+	}
+
 }

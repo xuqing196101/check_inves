@@ -245,8 +245,14 @@
 										<c:if test="${reasons.suggestType eq 'five'}">附件</c:if>
 									</td>
 									<td class="tl pl20">${reasons.auditField }</td>
-									<td class="tl pl20">${reasons.auditContent}</td>
-									<td class="tl pl20">${reasons.auditReason}</td>
+									<td class="tl pl20 hand" title="${reasons.auditContent}">
+										<c:if test="${fn:length (reasons.auditContent) > 20}">${fn:substring(reasons.auditContent,0,20)}...</c:if>
+										<c:if test="${fn:length (reasons.auditContent) <= 20}">${reasons.auditContent}</c:if>
+									</td>
+									<td class="tl pl20 hand" title="${reasons.auditReason}">
+										<c:if test="${fn:length (reasons.auditReason) > 20}">${fn:substring(reasons.auditReason,0,20)}...</c:if>
+										<c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>
+									</td>
 								</tr>
 							</c:forEach>
 						</table>
