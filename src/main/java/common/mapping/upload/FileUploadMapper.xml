@@ -231,7 +231,7 @@
   	 <include refid="BASE_FILE_LIST" />
   	 FROM ${tableName}
   	 WHERE 
-  	 AND ID = #{id}
+  	   ID = #{id}
   </select>
   
 </mapper>
