@@ -12,7 +12,6 @@
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 	<script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/ses/bms/analyze/backgroundAnalyze.js"></script>
 	<link href="${pageContext.request.contextPath}/public/backend/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
 	<link href="${pageContext.request.contextPath}/public/backend/css/common.css" media="screen" rel="stylesheet" type="text/css">  
 	<link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
@@ -109,7 +108,7 @@ if('downloadabiddocument' == uri[0] ){
         </div>
     </div>
 
-	<div class="container content job-content ">
+	<%-- <div class="container content job-content ">
         <div class="row magazine-page">
             <div class="col-md-12 col-sm-12 col-xs-12 padding-0">
                 <div class="col-md-12 p0_10 margin-bottom-20">
@@ -137,6 +136,6 @@ if('downloadabiddocument' == uri[0] ){
                 </div>
             </div>
         </div>
-    </div>
+    </div> --%>
 </body>
 </html>
