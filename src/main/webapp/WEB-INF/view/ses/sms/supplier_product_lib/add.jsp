@@ -341,7 +341,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>库存：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-                <input id="store" name="productBasic.store" value='${pqinfo.inspectors}' type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" />
+                <input id="store" name="productBasic.store" value='${pqinfo.inspectors}' type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" />
                 <span class="add-on">i</span>
                 <span class="input-tip">库存</span>
                 <div class="cue" id="err_store"></div>

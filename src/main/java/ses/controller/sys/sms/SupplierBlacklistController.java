@@ -70,7 +70,7 @@ public class SupplierBlacklistController {
 				flag = false;
 				model.addAttribute("error_startTime", "起始时间不能为空");
 			}
-			if(2 == supplierBlacklist.getStatus()){
+			if(supplierBlacklist.getStatus()!= null && 2 == supplierBlacklist.getStatus()){
 				flag = false;
 				model.addAttribute("error_supplier", "手动移除不能修改");
 			}

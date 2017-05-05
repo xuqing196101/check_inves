@@ -1,13 +1,21 @@
 package ses.controller.sys.sms;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
+
+import common.utils.JdcgResult;
 import ses.model.sms.SupplierStars;
 import ses.service.sms.SupplierStarsService;
 
@@ -20,8 +28,10 @@ public class SupplierStarsController {
 	private SupplierStarsService supplierStarsService;
 	
 	@RequestMapping(value = "list")
-	public String list(Model model) {
-		List<SupplierStars> list = supplierStarsService.findSupplierStars();
+	public String list(Model model,@RequestParam(defaultValue = "1") Integer page) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
+		List<SupplierStars> list = supplierStarsService.findSupplierStars(map);
 		String str = "";
 		for (int i = 0; i < list.size(); i++) {
 			if (i > 0) {
@@ -33,7 +43,7 @@ public class SupplierStarsController {
 			model.addAttribute("status", "fail");
 		}
 		
-		model.addAttribute("list", list);
+		model.addAttribute("info", new PageInfo<SupplierStars>(list));
 		return "ses/sms/supplier_stars/list";
 	}
 	
@@ -48,9 +58,9 @@ public class SupplierStarsController {
 	}
 	
 	@RequestMapping(value = "save_or_update_supplier_stars")
-	public String saveOrUpdateSupplierStars(SupplierStars supplierStars) {
-		supplierStarsService.saveOrUpdateSupplierStars(supplierStars);
-		return "redirect:list.html";
+	@ResponseBody
+	public JdcgResult saveOrUpdateSupplierStars(SupplierStars supplierStars) {
+		return supplierStarsService.saveOrUpdateSupplierStars(supplierStars);
 	}
 	
 	@RequestMapping(value = "update_status")
