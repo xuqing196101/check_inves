@@ -957,8 +957,10 @@ public class SupplierServiceImpl implements SupplierService {
     	dlog.setId(id);
     	dlog.setTypeId(supplierId);
     	dlog.setCreateAt(new Date());
-    	dlog.setUniqueCode(selectOne.getCreditCode());
-    	deleteLogMapper.insertSelective(dlog);
+    	if(selectOne.getCreditCode() !=null){
+    		dlog.setUniqueCode(selectOne.getCreditCode());
+    	}
+    	//deleteLogMapper.insertSelective(dlog);
     	User user = userMapper.findUserByTypeId(supplierId);
     	Userrole userRole=new Userrole();
     	if(user != null){

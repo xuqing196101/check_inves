@@ -1252,9 +1252,10 @@ public class ExpertServiceImpl implements ExpertService {
     	dlog.setId(id);
     	dlog.setTypeId(expertId);
     	dlog.setCreateAt(new Date());
-    	dlog.setUniqueCode(expert.getIdCardNumber());
-    	deleteLogMapper.insertSelective(dlog);
-    	
+    	if(expert.getIdCardNumber() !=null){
+    		dlog.setUniqueCode(expert.getIdCardNumber());
+    	}
+    	/*deleteLogMapper.insertSelective(dlog);*/
     	
 		mapper.deleteByPrimaryKey(expertId);
 		
