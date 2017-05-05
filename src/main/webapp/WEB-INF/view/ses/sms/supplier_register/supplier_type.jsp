@@ -1760,13 +1760,13 @@
 																value="${regPerson.id}"></td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,regPerson.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0"
+																type="text" class="border0"
 																name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regType"
 																value="${regPerson.regType}" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,regPerson.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0"
+																type="text" class="border0"
 																name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regNumber"
 																value="${regPerson.regNumber}" />
 															</td>
