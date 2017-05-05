@@ -531,7 +531,11 @@ public class ExpertAuditController{
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertAudit.getExpertId());
 		boolean same = true;	
 		for(int i = 0; i < reasonsList.size(); i++) {
-			if(reasonsList.get(i).getAuditField().equals(expertAudit.getAuditField()) && reasonsList.get(i).getAuditContent().equals(expertAudit.getAuditContent()) && reasonsList.get(i).getSuggestType().equals(expertAudit.getSuggestType()) && reasonsList.get(i).getAuditFieldId().equals(expertAudit.getAuditFieldId())) {
+			if(reasonsList.get(i).getAuditField().equals(expertAudit.getAuditField()) && reasonsList.get(i).getAuditContent().equals(expertAudit.getAuditContent()) && reasonsList.get(i).getSuggestType().equals(expertAudit.getSuggestType())) {
+				same = false;
+				break;
+			}
+			if(expertAudit.getAuditFieldId() !=null && reasonsList.get(i).getAuditFieldId().equals(expertAudit.getAuditFieldId())){
 				same = false;
 				break;
 			}
