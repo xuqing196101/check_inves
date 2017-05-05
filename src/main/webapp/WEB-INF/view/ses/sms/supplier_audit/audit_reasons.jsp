@@ -297,9 +297,9 @@
                	 <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
                  <th class="info w50">序号</th>
                  <th class="info" >审批类型</th>
-                 <th class="info" width="20%">审批字段名字</th>
-                 <th class="info" width="20%">审批内容</th>
-                 <th class="info" width="25%">不通过理由</th>
+                 <th class="info">审批字段名字</th>
+                 <th class="info">审批内容</th>
+                 <th class="info">不通过理由</th>
                </tr>
              </thead>
                <c:forEach items="${reasonsList }" var="reasons" varStatus="vs">

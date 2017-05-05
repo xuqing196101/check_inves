@@ -360,10 +360,10 @@
             	<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">是否缴纳社会保险：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<c:if test="${expert.coverNote eq '1'}">
-										<input value="是" <c:if test="${fn:contains(editFields,'getCoverNote')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('coverNote','getCoverNote','0');"</c:if> id="idNumber" type="text" onclick="reason(this);"/>
+										<input value="是" <c:if test="${fn:contains(editFields,'getCoverNote')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('coverNote','getCoverNote','0');"</c:if> id="idNumber" type="text" onclick="reason(this);" <c:if test="${fn:contains(conditionStr,'是否缴纳社会保险')}"> style="border: 1px solid red;"</c:if>/>
 									</c:if>
 									<c:if test="${expert.coverNote eq '2'}">
-										<input value="否" <c:if test="${fn:contains(editFields,'getCoverNote')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('coverNote','getCoverNote','0');"</c:if> id="idNumber" type="text" onclick="reason(this);"/>
+										<input value="否" <c:if test="${fn:contains(editFields,'getCoverNote')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('coverNote','getCoverNote','0');"</c:if> id="idNumber" type="text" onclick="reason(this);" <c:if test="${fn:contains(conditionStr,'是否缴纳社会保险')}"> style="border: 1px solid red;"</c:if>/>
 									</c:if>
 								</div>
 							</li>
