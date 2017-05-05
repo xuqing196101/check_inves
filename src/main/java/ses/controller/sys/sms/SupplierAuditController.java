@@ -454,7 +454,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		
 			/**
-			 * 退回修改后的附件
+			 * 基本信息退回修改后的附件
 			 */
 			SupplierModify supplierFileModify= new SupplierModify();
 			supplierFileModify.setSupplierId(supplierId);
@@ -465,6 +465,19 @@ public class SupplierAuditController extends BaseSupplierController {
 				fileModifyField.append(m.getBeforeField() + ",");
 			}
 			request.setAttribute("fileModifyField", fileModifyField);
+			
+			/**
+			 * 房屋证明退回修改后的附件
+			 */
+				StringBuffer houseFileModifyField = new StringBuffer();
+				for(SupplierModify m : fileModify){
+					if(m.getRelationId() != null){
+						if(m.getRelationId() !=null){
+							houseFileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
+						}
+					}
+				}
+			request.setAttribute("houseFileModifyField", houseFileModifyField);
 		}
 
 		//回显未通过字段
@@ -550,7 +563,11 @@ public class SupplierAuditController extends BaseSupplierController {
 			StringBuffer fileModifyField = new StringBuffer();
 			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 			for(SupplierModify m : fileModify){
-				fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
+				if(m.getRelationId() != null){
+					if(m.getRelationId() !=null){
+						fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
+					}
+				}
 			}
 			request.setAttribute("fileModifyField", fileModifyField);
 		}
@@ -603,7 +620,9 @@ public class SupplierAuditController extends BaseSupplierController {
 			StringBuffer fileModifyField = new StringBuffer();
 			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 			for(SupplierModify m : fileModify){
-				fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
+				if(m.getRelationId() !=null){
+					fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
+				}
 			}
 			request.setAttribute("fileModifyField", fileModifyField);
 		}
@@ -1229,7 +1248,11 @@ public class SupplierAuditController extends BaseSupplierController {
 			StringBuffer fileModifyField = new StringBuffer();
 			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 			for(SupplierModify m : fileModify){
-				fileModifyField.append(m.getRelationId() + m.getBeforeField() + "," );
+				if(m.getRelationId() != null){
+					if(m.getRelationId() != null){
+						fileModifyField.append(m.getRelationId() + m.getBeforeField() + "," );
+					}
+				}
 			}
 			request.setAttribute("fileModifyField", fileModifyField);
 		}
@@ -2898,7 +2921,9 @@ public class SupplierAuditController extends BaseSupplierController {
 			StringBuffer fileModifyField = new StringBuffer();
 			List<SupplierModify> fileModify = supplierModifyService.selectBySupplierId(supplierFileModify);
 			for(SupplierModify m : fileModify){
-				fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
+				if(m.getRelationId() != null){
+					fileModifyField.append(m.getRelationId() + m.getBeforeField() + ",");
+				}
 			}
 			model.addAttribute("fileModifyField", fileModifyField);
 		}

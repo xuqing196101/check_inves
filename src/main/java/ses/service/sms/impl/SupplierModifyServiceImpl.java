@@ -34,6 +34,7 @@ import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.service.bms.AreaServiceI;
+import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierModifyService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
@@ -79,6 +80,8 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	@Autowired
 	private SupplierMatServeMapper supplierMatServeMapper;
 	
+	@Autowired
+	private SupplierAddressService supplierAddressService;
 	/**
 	 * @Title: selectField
 	 * @author XuQing 
@@ -1169,6 +1172,22 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		if(items !=null){
 			String supplierId = items.getSupplierId();
 			if(supplierId !=null){
+				supplier = supplierService.selectById(supplierId);
+				if(supplier != null && supplier.getStatus() == 2){
+					supplierModify.setModifyType("file");
+					supplierModify.setBeforeField(fileTypeId);
+					supplierModify.setSupplierId(supplierId);
+					supplierModify.setRelationId(businessId);
+					supplierModifyMapper.insertSelective(supplierModify);
+				}
+			}
+		}
+		
+		//房屋证明附件
+		SupplierAddress supplierAddress = supplierAddressService.selectById(businessId);
+		if(supplierAddress !=null){
+			String supplierId = supplierAddress.getSupplierId();
+			if(supplierId != null){
 				supplier = supplierService.selectById(supplierId);
 				if(supplier != null && supplier.getStatus() == 2){
 					supplierModify.setModifyType("file");
