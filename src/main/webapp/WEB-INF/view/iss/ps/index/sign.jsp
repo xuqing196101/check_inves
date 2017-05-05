@@ -213,7 +213,7 @@
     						$("#divPrompt").removeClass("hide");
     						 $("#spanPrompt").text("管理员账号请在内网登录");
     						layer.close(index);
-    					} else if (data = "deleteLogin") {
+    					} else if (data == "deleteLogin") {
     						$("#divPrompt").removeClass("hide");
     						 $("#spanPrompt").text("账号不存在!");
     						layer.close(index);
