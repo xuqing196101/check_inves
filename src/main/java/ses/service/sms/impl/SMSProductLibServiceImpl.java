@@ -81,7 +81,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 	private SupplierMapper supplierMapper;
 	
 	// 定义图片表名称
-	private String tableName = Constant.TENDER_SYS_VALUE;
+	private String tableName = Constant.SUPPLIER_SYS_VALUE;
 	
 	/**文件**/
 	@Autowired

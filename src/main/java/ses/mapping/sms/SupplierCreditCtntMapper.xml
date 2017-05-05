@@ -108,7 +108,10 @@
 			T_SES_SMS_SUPPLIER_CREDIT_CTNT t1
 			left join T_SES_SMS_SUPPLIER_CREDIT t2
 			on t1.SUPPLIER_CREDIT_ID = t2.ID
-		where t1.SUPPLIER_CREDIT_ID = #{supplierCreditId}
+		where 1=1
+		<if test="supplierCreditId != null and supplierCreditId != ''">
+			AND t1.SUPPLIER_CREDIT_ID = #{supplierCreditId}
+		</if>
 		order by t2.NAME asc, t1.SCORE asc
 	</select>
 	

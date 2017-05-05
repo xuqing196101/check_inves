@@ -84,7 +84,7 @@
 		var checkbox = $("input[name='checkbox']:checked");
 		if (checkbox.size() != 1) {
 			layer.msg("请勾选一条记录 !", {
-				//offset : '300px',//当然注释掉，IE8、火狐都能方便显示
+				//offset : '200px',//当然注释掉，IE8、火狐都能方便显示
 			});
 			return;
 		}
@@ -172,10 +172,10 @@
 					<ul class="demand_list">
 						<li>
 							<label class="fl">形式名称：</label>
-							<span><input name="name" type="text" value="${name}" /></span>
+							<span><input id="name" name="name" type="text" value="${name}" /></span>
 						</li>
 							<button type="button" onclick="searchSupplierCredit(1)" class="btn fl mt1">查询</button>
-							<button onclick="resetForm()" class="btn fl mt1" type="button">重置</button>
+							<button onclick="resetForm()" class="btn fl mt1">重置</button>
 					</ul>
 					<div class="clear"></div>
 				</form>
@@ -192,7 +192,7 @@
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>
 							<th class="info w50">序号</th>
-							<th class="info">形式名称</th>
+							<th class="info">诚信形式名称</th>
 							<th class="info w100">状态</th>
 						</tr>
 					</thead>

@@ -21,7 +21,7 @@
                 type : 2,
                 title : '选择供应商',
                 // skin : 'layui-layer-rim', //加上边框
-                area : [ '80%', '420px' ], //宽高
+                area : [ '80%', '400px' ], //宽高
                 offset : '100px',
                 scrollbar : false,
                 content : '${pageContext.request.contextPath}/supplier_blacklist/list_supplier.html', //url
