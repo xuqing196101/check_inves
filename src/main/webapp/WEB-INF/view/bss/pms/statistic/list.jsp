@@ -445,6 +445,14 @@
 	   	 <input class="btn-u"   type="button" name="" value="按采购省市统计" onclick="maps()" />  --%>
 	   	 
 	   	    	<ul class="demand_list">
+	   	    	 <li>
+				    	<label class="fl">   计划名称：</label><span>
+				  	   		<input  type="text" name="fileName" value="${inf.fileName }" /> 
+				    	
+				    	</span>
+				      </li>
+				      
+				      
 			    	  <li>
 				    	<label class="fl"> 计划类别：</label><span>
 				  	   <select name="planType" style="width: 152px;" >
@@ -455,19 +463,19 @@
 					   </select>
 				    	</span>
 				      </li>
-				   <li>
+				  <%--  <li>
 				    	<label class="fl">年度：</label><span>
 				  	    <input   type="text" name="year" value="${year}" /> 
 				    	
 				    	</span>
-				      </li>
-				      <li>
+				      </li> --%>
+				     <%--  <li>
 				    	<label class="fl">   需求部门：</label><span>
 				  	   		<input  type="text" name="department" value="${inf.department }" /> 
 				    	
 				    	</span>
-				      </li>
-				      <li>
+				      </li> --%>
+				   <%--    <li>
 				    	<label class="fl">  采购方式：</label><span>
 							<select  name="purchaseType" style="width:100px" id="select">
 	              				    <option value="" >请选择</option>
@@ -479,10 +487,10 @@
 				              </select>
 				    	
 				    	</span>
-				      </li>
+				      </li> --%>
 				    	  
 				    	  
-				      <li>
+				   <%--    <li>
 				    	<label class="fl">采购机构：</label><span>
 				  	       <select name="organization" style="width: 152px;" >
 				  	        <option value="" >请选择</option>
@@ -493,28 +501,31 @@
 					  	 </select>
 				    	
 				    	</span>
-				      </li>
-				      <li>
+				      </li> --%>
+				  <%--     <li>
 				    	<label class="fl"> 预算：</label><span>
 				  	   		<input  type="text" name="budget" value="${inf.budget }" /> 
 				    	
 				    	</span>
-				      </li>
-				      
+				      </li> --%>
+				      	<input class="btn"   type="submit" name="" value="查询" /> 
+				      <input type="button" onclick="resetQuery()" class="btn" value="重置"/>	 
 				      
 			    	</ul>
-			    	<div class="col-md-12 col-sm-12 col-xs-2 clear tc mt10">
+			    	<!-- <div class="col-md-12 col-sm-12 col-xs-2 clear tc mt10">
 			    	<input class="btn"   type="submit" name="" value="查询" /> 
 				      <input type="button" onclick="resetQuery()" class="btn" value="重置"/>	 	
-			    	</div>
+			    	</div> -->
 		    	  	<div class="clear"></div>
    </form>
   </div>
    <div class="col-md-12 pl20 mt10">
+   	 <input class="btn-u"   type="button" name="" value="按计划查询" onclick="plan(1)" /> 
+   	  <input class="btn-u"   type="button" name="" value="按明细查询" onclick="detail(1)" /> 
+   	  
 	     	 <input class="btn-u"   type="button" name="" value="按需求部门统计" onclick="bar(1)" /> 
 	   	 <input class="btn-u"   type="button" name="" value="按采购方式统计" onclick="pipe(1)" /> 
 	   	 <input class="btn-u"   type="button" name="" value="按月统计" onclick="line(1)" /> 
-	   	 <input class="btn-u"   type="button" name="" value="按采购省市统计" onclick="maps()" />
 	  </div>
 	  
 	  
@@ -524,53 +535,31 @@
 		<tr>
 <!-- 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
  -->		  <th class="info w50">序号</th>
-		  <th class="info">物资类别</th>
-		  <th class="info">年度</th>
-		  <th class="info">需求部门</th>
+		  <th class="info">计划名称</th>
+		  <th class="info">计划类别</th>
+		<!--   <th class="info">需求部门</th>
 		  <th class="info">采购方式</th>
-		  <th class="info">采购机构</th>
+		  <th class="info">采购机构</th> -->
 		  <th class="info">预算（万元）</th>
+		   <th class="info">状态</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
-<%-- 			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
- --%>			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+ 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+ 			  
 			  <td class="tc" onclick="view('${obj.planNo }')">
-	<%-- 		  <c:if test="${obj.planType=='1'}">
-					  货物
-			  </c:if>
-			  <c:if test="${obj.planType=='2'}">
-					工程
-			  </c:if>
-			  <c:if test="${obj.planType=='3'}">
-					服务
-			  </c:if> --%>
-			  <c:forEach items="${goods }"  var="gd" >
-					  <c:if test="${gd.id==obj.planType }">
-						  ${gd.name }
-					  </c:if>
-				  </c:forEach>
-				  
+			   ${obj.fileName }
 			  </td>
-			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }" pattern="yyyy" /></td>
-			  <td class="tl pl20" onclick="view('${obj.planNo }')">${obj.department }</td>
+			  <td class="tc" onclick="view('${obj.planNo }')">物资 </td>
 			  <td class="tl pl20" onclick="view('${obj.planNo }')">
-				  <c:forEach items="${kind }"  var="kind" >
-					  <c:if test="${kind.id==obj.purchaseType }">
-						  ${kind.name }
-					  </c:if>
-				  </c:forEach>
+			 <fmt:formatNumber type="number"      pattern="#,##0.00"  value="${obj.budget}"  />
 			  </td>
 			  <td class="tl pl20" onclick="view('${obj.planNo }')"> 
-			  <c:forEach items="${org }" var="ss">
-								  <c:if test="${ss.id==obj.organization }">${ss.name} </c:if> 
-							</c:forEach>
-			  
+		  	 
+			    已下达
 			  </td>
-			  <td class="tr pr20" onclick="view('${obj.planNo }')">
-		 	<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
-			  </td>
+			   
 			</tr>
 	 
 		 </c:forEach>

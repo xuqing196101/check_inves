@@ -96,5 +96,15 @@ public interface SupplierModifyMapper {
      * @return void
      */
     void updateIsDeleteBySupplierId(SupplierModify supplierModify);
+    /**
+     * 
+    * @Title: uodateModify
+    * @Description: 修改
+    * author: Li Xiaoxiao 
+    * @param @param supplierModify     
+    * @return void     
+    * @throws
+     */
+    void updateModify(SupplierModify supplierModify);
     
 }

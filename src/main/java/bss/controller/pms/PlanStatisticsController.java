@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.Line;
 import bss.formbean.Maps;
+import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
+import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseRequiredService;
 
 import com.alibaba.fastjson.JSON;
@@ -40,10 +43,16 @@ import com.github.pagehelper.PageInfo;
 public class PlanStatisticsController extends BaseController {
 	
 	@Autowired
-	private PurchaseRequiredService purchaseRequiredService;
+	private OrgnizationServiceI orgnizationServiceI;
 	
 	@Autowired
-	private OrgnizationServiceI orgnizationServiceI;
+	private CollectPlanService collectPlanService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	@Autowired
+	private PurchaseRequiredService purchaseRequiredService;
 	/**
 	 * 
 	* @Title: queryPlan
@@ -58,27 +67,36 @@ public class PlanStatisticsController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model,String year){
-		purchaseRequired.setGoodsType("1");
-		PageHelper.startPage(page==null?1:page,10);
-		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
-		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
-		model.addAttribute("info", info);
-		model.addAttribute("inf", purchaseRequired);
-		model.addAttribute("year", year);
-		model.addAttribute("kind", DictionaryDataUtil.find(5));
-		model.addAttribute("goods", DictionaryDataUtil.find(6));
+	public String queryPlan(CollectPlan collectPlan,Integer page,Model model,String year){
+//		purchaseRequired.setGoodsType("1");
+//		PageHelper.startPage(page==null?1:page,10);
+//		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
+//		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
+//		model.addAttribute("info", info);
+//		model.addAttribute("inf", purchaseRequired);
+//		model.addAttribute("year", year);
+//		model.addAttribute("kind", DictionaryDataUtil.find(5));
+//		model.addAttribute("goods", DictionaryDataUtil.find(6));
 		
 		
-		 String json = map(purchaseRequired,year);
+//		 String json = map(purchaseRequired,year);
 //		String json= JSON.toJSONString(getMap());
-		 model.addAttribute("data", json);
-		 
-		 
-			HashMap<String,Object> map=new HashMap<String,Object>();
-			map.put("typeName", 1);
-			List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
-			model.addAttribute("org", org);
+//		 model.addAttribute("data", json);
+//		 
+//		 
+//			HashMap<String,Object> map=new HashMap<String,Object>();
+//			map.put("typeName", 1);
+//			List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+//			model.addAttribute("org", org);
+		
+		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
+		PageInfo<CollectPlan> info = new PageInfo<>(list);
+		model.addAttribute("info", info);
+//		model.addAttribute("inf", collectPlan);
+		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
+		model.addAttribute("dic", dic);
+		
+		
 		return "bss/pms/statistic/list";
 	}
 

@@ -191,7 +191,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     			   if(unfinance==null){
     				   supplierFinanceMapper.insertSelective(sf);
     			   }else{
-//    				   supplierFinanceMapper.updateByPrimaryKeySelective(record)
+    				   supplierFinanceMapper.updateByPrimaryKeySelective(sf);
     			   }
     		   }
     	   }
@@ -201,6 +201,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     			   Todos td = todosMapper.selectByPrimaryKey(to.getId());
     			   if(td==null){
     				   todosMapper.insertSelective(to);
+    			   }else{
+    				   todosMapper.updateByPrimaryKeySelective(to);
     			   }
     		   }
     	   }
@@ -227,6 +229,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     			   SupplierBranch branch = supplierBranchMapper.queryById(sb.getId());
     			   if(branch==null){
     				   supplierBranchMapper.insertSelective(sb);
+    			   }else{
+    				   supplierBranchMapper.updateByPrimaryKeySelective(sb);
     			   }
     		   }
     	   }
@@ -235,6 +239,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     			   SupplierStockholder stockholder = supplierStockholderMapper.selectByPrimaryKey(ss.getId());
     			   if(stockholder==null){
     				   supplierStockholderMapper.insertSelective(ss); 
+    			   }else{
+    				   supplierStockholderMapper.updateByPrimaryKeySelective(ss);
     			   }
     		   }
     	   }
@@ -243,21 +249,27 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     			   SupplierAfterSaleDep saleDep = supplierAfterSaleDepMapper.selectByPrimaryKey(sa.getId());
     			   if(saleDep==null){
     				   supplierAfterSaleDepMapper.insertSelective(sa);
+    			   }else{
+    				   supplierAfterSaleDepMapper.updateByPrimaryKeySelective(sa);
     			   }
     		   }
     	   }
     	   if(supplier.getListSupplierTypeRelates().size()>0){
+    		   supplierTypeRelateMapper.deleteBySupplierId(supplier.getId());
     		   for(SupplierTypeRelate str:supplier.getListSupplierTypeRelates()){
     			   SupplierTypeRelate relate = supplierTypeRelateMapper.selectByPrimaryKey(str.getId());
     			   if(relate==null){
     				   supplierTypeRelateMapper.insertSelective(str);
-    			   }
+    			   } 
     		   }
     	   }
     	   if(supplier.getSupplierMatPro()!=null){
     		   SupplierMatPro matPro = supplierMatProMapper.getMatProBySupplierId(supplier.getId());
 	    		   if(matPro==null){
 	    			   supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
+	    		   } 
+	    		   if(matPro!=null){
+	    			   supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
 	    		   }
     		   		if(supplier.getSupplierMatPro().getListSupplierCertPros().size()>0){
     		   			for(SupplierCertPro sc:supplier.getSupplierMatPro().getListSupplierCertPros()){
@@ -270,6 +282,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   				SupplierCertPro certPro = supplierCertProMapper.selectByPrimaryKey(sc.getId());
     		   				if(certPro==null){
     		   					supplierCertProMapper.insertSelective(sc);
+    		   				}else{
+    		   					supplierCertProMapper.updateByPrimaryKeySelective(certPro);
     		   				}
     		   			
     		   			}
@@ -282,6 +296,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   if(matSell==null){
     			   supplierMatSellMapper.insertSelective(supplier.getSupplierMatSell());
     		   }
+    		   if(matSell!=null){
+    			   supplierMatSellMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSell());
+    		   }
     		   if(supplier.getSupplierMatSell().getListSupplierCertSells().size()>0){
     			   for(SupplierCertSell sc:supplier.getSupplierMatSell().getListSupplierCertSells()){
 //    				   if(sc.getFileList().size()>0){
@@ -293,6 +310,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     				   SupplierCertSell certSell = supplierCertSellMapper.selectByPrimaryKey(sc.getId());
     				   if(certSell==null){
     					   supplierCertSellMapper.insertSelective(sc);
+    				   }else{
+    					   supplierCertSellMapper.updateByPrimaryKeySelective(certSell);
     				   }
 		   			}
     		   }
@@ -301,6 +320,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   SupplierMatEng matEng = supplierMatEngMapper.getMatEngBySupplierId(supplier.getId());
     		   if(matEng==null){
     			   supplierMatEngMapper.insertSelective(supplier.getSupplierMatEng());
+    		   }
+    		   if(matEng!=null){
+    			   supplierMatEngMapper.updateByPrimaryKeySelective(supplier.getSupplierMatEng());
     		   }
     		   if(supplier.getSupplierMatEng().getListSupplierAptitutes().size()>0){
     			   for(SupplierAptitute sb:supplier.getSupplierMatEng().getListSupplierAptitutes()){
@@ -341,7 +363,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   if(serve==null){
     			   supplierMatServeMapper.insertSelective(supplier.getSupplierMatSe());
     		   }else if(serve!=null){
-//    			   supplierMatServeMapper.updateByPrimaryKey(supplier.getSupplierMatSe());
+    			   supplierMatServeMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSe());
     		   }
     		   
 			   if(supplier.getSupplierMatSe().getListSupplierCertSes().size()>0){
@@ -355,12 +377,15 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 					  SupplierCertServe certServe = supplierCertServeMapper.selectByPrimaryKey(sc.getId());
 					  if(certServe==null){
 						  supplierCertServeMapper.insertSelective(sc); 
+					  }else{
+						  supplierCertServeMapper.updateByPrimaryKeySelective(sc);
 					  }
 					  
 				  } 
 			   }
 		   }
     	   if(supplier.getListSupplierItems()!=null&&supplier.getListSupplierItems().size()>0){
+    		   supplierItemMapper.deleteBySupplierId(supplier.getId());
     		   for(SupplierItem st:supplier.getListSupplierItems()){
 //    			   if(st.getFileList().size()>0){
 //		   				 for(UploadFile uf:st.getFileList()){
@@ -372,7 +397,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     			   if(item==null){
     				   supplierItemMapper.insertSelective(st);
     			   }else if(item!=null){
-    				   supplierItemMapper.updateByPrimaryKeySelective(item);
+    				   supplierItemMapper.updateByPrimaryKeySelective(st);
     			   }
     			   
     		   }
@@ -404,9 +429,15 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 //    			   supplierHistoryMapper.insertSelective(sh);
 //    		   }
 //    	   }
-    	   if(supplier.getModifys().size()>0){
+    	   if(supplier.getModifys()!=null&&supplier.getModifys().size()>0){
     		   for(SupplierModify sh:supplier.getModifys()){
-//    			   supplierModifyMapper.insertSelective(sh);
+    			   SupplierModify modify = supplierModifyMapper.selectById(sh.getId());
+    			   if(modify==null){
+    				   supplierModifyMapper.insertSelective(sh); 
+    			   }else{
+    				   supplierModifyMapper.updateModify(sh);
+    			   }
+    			  
     		   }
     	   }
     	   User us = userMapper.queryNameAndNote(supplier.getUser().getLoginName(),supplier.getUser().getNetType());  
@@ -418,7 +449,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
            if(supp==null){
         	   saveSupplier(supplier);
            }else{
-//        	   supplierSerice.u
+        	   supplierMapper.updateByPrimaryKeySelective(supplier);
            }
           
     	

@@ -206,7 +206,7 @@ public class SynchExportController {
         }
         /**外网供应商退回修改重新提交*/
         if (synchType.contains("back_out")) {
-            outerSupplierService.exportCommitSupplier(startTime, endTime,date);
+//            outerSupplierService.exportCommitSupplier(startTime, endTime,date);
         }
         /**临时供应商导入导出*/
         if (synchType.contains("temp_out")) {

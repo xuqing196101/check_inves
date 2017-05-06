@@ -217,4 +217,31 @@
   		SUPPLIER_ID =#{supplierId}
   		and IS_DELETED = 0
   </update>
+  
+  
+  
+    <update id="updateModify" parameterType="ses.model.sms.SupplierModify">
+   	update
+  		T_SES_SMS_SUPPLIER_MODIFY
+  		<set>
+  		<if test="modifyType != null">
+           MODIFY_TYPE = #{modifyType},
+	    </if>
+	    <if test="beforeField != null">
+	        BEFORE_FIELD = #{beforeField},
+	    </if>
+	    <if test="listType != null">
+	        LIST_TYPE = #{listType},
+	    </if>
+	    <if test="relationId != null">
+	        RELATION_ID = #{relationId},
+	    </if>
+	      <if test="isDeleted != null">
+	        IS_DELETED = #{isDeleted},
+	    </if>
+  		</set>
+  		where ID = #{id}
+  </update>
+  
+  
 </mapper>
