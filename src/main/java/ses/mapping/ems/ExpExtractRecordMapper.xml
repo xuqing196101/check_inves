@@ -214,7 +214,7 @@
 			AND PROJECT_NAME = #{projectName,jdbcType=VARCHAR}
 		</if>
 		<if test="extractionTime!=null and extractionTime!='' ">
-			AND EXTRACTION_TIME = #{extractionTime,jdbcType=TIMESTAMP}
+			AND to_date(to_char(EXTRACTION_TIME,'yyyy-MM-dd'),'yyyy-MM-dd') = to_date(to_char(#{extractionTime,jdbcType=TIMESTAMP},'yyyy-MM-dd'),'yyyy-MM-dd')
 		</if>
 		<if test="projectId != null and projectId !='' ">
 			AND PROJECT_ID=#{projectId,jdbcType=VARCHAR}
