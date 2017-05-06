@@ -2753,7 +2753,7 @@ public class SupplierController extends BaseSupplierController {
         //初始化省份
         List < Area > privnce = areaService.findRootArea();
         //初始化供应商注册附件类型
-        model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierProCert());
+        model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierHousePoperty());
         model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
         model.addAttribute("privnce", privnce);
         model.addAttribute("id", id);
@@ -2870,7 +2870,7 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("certAptNumber", number);
 		model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
 		//初始化供应商注册附件类型
-		model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCertFile());
+		model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("typeList", qualificationService.findList(null, Integer.MAX_VALUE, null, 4));
 		return new ModelAndView("ses/sms/supplier_register/add_apt_cert");

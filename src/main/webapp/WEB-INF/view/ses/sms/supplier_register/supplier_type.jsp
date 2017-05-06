@@ -2047,17 +2047,8 @@
 															
 															<td class="tc">
 																<div class="w200 fl">
-																	<u:upload
-																		singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-																		exts="${properties['file.picture.type']}"
-																		id="eng_up_${vs.index}" multiple="true"
-																		businessId="${aptitute.id}"
-																		typeId="${supplierDictionaryData.supplierEngCert}"
-																		sysKey="${sysKey}" auto="true" />
-																	<u:show showId="eng_show_${vs.index}"
-																		businessId="${aptitute.id}"
-																		typeId="${supplierDictionaryData.supplierEngCert}"
-																		sysKey="${sysKey}" />
+                                                                    <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="eng_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" auto="true" />
+                                                                    <u:show showId="eng_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
 																</div></td>
 																
 																
