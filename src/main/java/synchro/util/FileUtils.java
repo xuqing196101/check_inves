@@ -436,7 +436,7 @@ public class FileUtils {
     }
     
     /**
-     * 供应商导入文件
+     * 供应商导入文件(不移动文件)
     * @Title: supplierFile
     * @Description: TODO 
     * author: Li Xiaoxiao 
@@ -459,11 +459,38 @@ public class FileUtils {
           if (it != null){
               LineIterator.closeQuietly(it);
           }  
-          moveFile(file);
+//          moveFile(file);
         }
         return sb.toString();
     }
-    
+
+    /**
+     * 专家导入文件(不移动文件)
+    * @Title: supplierFile
+    * @param @param file
+    * @param @return
+    * @return String
+    * @throws
+     */
+    public static final String expertFile(final File file ){
+        LineIterator it  = null;
+        final StringBuffer sb = new StringBuffer();
+        try {
+            it = org.apache.commons.io.FileUtils.lineIterator(file,"UTF-8");
+            while (it.hasNext()) {
+                sb.append(it.nextLine());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+          if (it != null){
+              LineIterator.closeQuietly(it);
+          }
+//          moveFile(file);
+        }
+        return sb.toString();
+    }
+
     /**
      * 
      *〈简述〉获取文件类型
@@ -523,8 +550,29 @@ public class FileUtils {
             
         }  
         return list;  
-    } 
-    
+    }
+
+    /**
+     *
+    * @Title: getSupplier
+    * @Description: 专家导入文件
+    * @param @param file
+    * @param @param cls
+    * @param @return
+    * @return List<T>
+    * @throws
+     */
+    public static <T> List<T> getExpert(final File file, Class<T> cls) {
+        String jsonString =  expertFile(file);
+        List<T> list = new ArrayList<T>();
+        try {
+          list = JSON.parseArray(jsonString, cls);
+        } catch (Exception e) {
+
+        }
+        return list;
+    }
+
     
     /**
      * 

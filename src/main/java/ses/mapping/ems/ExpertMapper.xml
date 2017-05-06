@@ -462,11 +462,11 @@
             <if test="id != null">
                 #{id,jdbcType=VARCHAR},
             </if>
-            <if test="isSubmit != null">
-                #{isSubmit,jdbcType=VARCHAR},
-            </if>
             <if test="jobExperiences != null">
                 #{jobExperiences,jdbcType=VARCHAR},
+            </if>
+            <if test="isSubmit != null">
+                #{isSubmit,jdbcType=VARCHAR},
             </if>
             <if test="submitAt != null">
                 #{submitAt,jdbcType=TIMESTAMP},
@@ -483,11 +483,11 @@
             <if test="avoidanceSituation != null">
                 #{avoidanceSituation,jdbcType=VARCHAR},
             </if>
+            <if test="coverNote != null">
+                #{coverNote,jdbcType=VARCHAR},
+            </if>
             <if test="idCardNumber != null">
                 #{idCardNumber,jdbcType=VARCHAR},
-            </if>
-            <if test="jobExperiences != null">
-                #{jobExperiences,jdbcType=VARCHAR},
             </if>
             <if test="email != null">
                 #{email,jdbcType=VARCHAR},

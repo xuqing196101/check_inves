@@ -313,7 +313,7 @@ public class SynchImportController {
         
         
         
-        /**专家导入内外网*/
+        /**专家导入内网*/
         if(synchType.contains(Constant.DATA_TYPE_EXPERT_CODE)){
         	if (file != null && file.exists()){
                 File [] files = file.listFiles();
@@ -360,6 +360,31 @@ public class SynchImportController {
                 }
             }
         }
+        /**专家退回修改后重新提交审核导入内网*/
+        if(synchType.contains("expert_again_inner")){
+            if (file != null && file.exists()){
+                File [] files = file.listFiles();
+                if(files.length<1){
+                    bean.setSuccess(false);
+                    return bean;
+                }
+                for (File f : files){
+                    if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)){
+                        innerExpertService.readModifyExpertInfo(f);
+                    }
+                    if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)){
+                        attachService.importExpertAttach(f);
+                    }
+                    if (f.isDirectory()){
+                        if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)){
+                            OperAttachment.moveFolder(f);
+                        }
+                    }
+                }
+            }
+        }
+
+
         if(synchType.contains(Constant.DATE_SYNCH_BIDDING_PRODUCT)){
         	/**竞价定型产品导入  只能是外网导入内网**/
         	 if (file != null && file.exists()){

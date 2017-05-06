@@ -72,45 +72,82 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     public void readNewExpertInfo(final File file) {
       
        List<Expert> list = getExpert(file);
-       for (Expert expert : list) {
-    	   List<ExpertTitle> titles = expert.getTitles();
-    	   for(ExpertTitle et:titles){
-    		   ExpertTitle ets = expertTitleMapper.selectByPrimaryKey(et.getId());
-    		   if(ets==null){
-    			   expertTitleMapper.insertSelective(et);
-    		   }
-    	   }
-    	   List<RoleUser> roles = expert.getUserRoles();
-    	   for(RoleUser ur:roles){
-    		   RoleUser us=new RoleUser();
-    		   us.setRoleId(ur.getRoleId());
-    		   us.setUserId(us.getUserId());
-    		   List<RoleUser> queryByUserId = userMapper.queryByUserId(ur.getUserId(), ur.getRoleId());
-    		   if(queryByUserId.size()<1){
-    			   userMapper.saveUserRole(us);
-    		   }
-    	   }
-           saveUser(expert.getUser());
-           saveExpert(expert);
-           saveCategory(expert.getExpertCategory());
+       try{
+           if(null != list && !list.isEmpty()){
+               for (Expert expert : list) {
+                   List<ExpertTitle> titles = expert.getTitles();
+                   if(null != titles && !titles.isEmpty()){
+                       for(ExpertTitle et:titles){
+                           ExpertTitle ets = expertTitleMapper.selectByPrimaryKey(et.getId());
+                           if(ets==null){
+                               expertTitleMapper.insertSelective(et);
+                           }
+                       }
+                   }
+                   List<RoleUser> roles = expert.getUserRoles();
+                   if(null != roles && !roles.isEmpty()){
+                       for(RoleUser ur:roles){
+                           RoleUser us=new RoleUser();
+                           us.setRoleId(ur.getRoleId());
+                           us.setUserId(ur.getUserId());
+                           List<RoleUser> queryByUserId = userMapper.queryByUserId(ur.getUserId(), ur.getRoleId());
+                           if(queryByUserId.size()<1){
+                               userMapper.saveUserRole(us);
+                           }
+                       }
+                   }
+                   saveUser(expert.getUser());
+                   saveExpert(expert);
+                   saveCategory(expert, expert.getExpertCategory());
+               }
+               synchRecordService.importNewExpertRecord(new Integer(list.size()).toString());
+           }
+       }catch (Exception e){
+           e.printStackTrace();
        }
-       synchRecordService.importNewExpertRecord(new Integer(list.size()).toString());
     }
     
     /**
      * 
-     * @see synchro.inner.read.expert.InnerExpertService#readMofidyExpertInfo(java.io.File)
+     * @see synchro.inner.read.expert.InnerExpertService#readModifyExpertInfo(java.io.File)
      */
     @Override
     public void readModifyExpertInfo(final File file) {
         List<Expert> list = getExpert(file);
-        for (Expert expert : list) {
-            updateUser(expert.getUser());
-            updateExpert(expert);
-            updateCategory(expert.getExpertCategory());
-            saveHistory(expert.getHistory());
+        try{
+            if(null != list && !list.isEmpty()){
+                for (Expert expert : list) {
+                    List<ExpertTitle> titles = expert.getTitles();
+                    if(null != titles && !titles.isEmpty()){
+                        for(ExpertTitle et:titles){
+                            ExpertTitle ets = expertTitleMapper.selectByPrimaryKey(et.getId());
+                            if(ets!=null){
+                                expertTitleMapper.updateByPrimaryKeySelective(ets);
+                            }
+                        }
+                    }
+                    List<RoleUser> roles = expert.getUserRoles();
+                    if(null != roles && !roles.isEmpty()){
+                        for(RoleUser ur:roles){
+                            RoleUser us=new RoleUser();
+                            us.setRoleId(ur.getRoleId());
+                            us.setUserId(ur.getUserId());
+                            List<RoleUser> queryByUserId = userMapper.queryByUserId(ur.getUserId(), ur.getRoleId());
+                            if(null==queryByUserId || queryByUserId.size()==0){
+                                userMapper.saveUserRole(us);
+                            }
+                        }
+                    }
+                    updateUser(expert.getUser());
+                    updateExpert(expert);
+                    updateCategory(expert, expert.getExpertCategory());
+                    saveHistory(expert.getHistory());
+                }
+                synchRecordService.importModifyExpertRecord(new Integer(list.size()).toString());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        synchRecordService.importModifyExpertRecord(new Integer(list.size()).toString());
     }
 
     @Override
@@ -221,13 +258,15 @@ public class InnerExpertServiceImpl implements InnerExpertService {
      * @author WangHuijie
      * @param categories 品目List
      */
-    public void saveCategory(List<ExpertCategory> categories) {
+    public void saveCategory(Expert expert, List<ExpertCategory> categories) {
         if (categories != null && categories.size() > 0) {
-            Expert expert = expertService.selectByPrimaryKey(categories.get(0).getExpertId());
+            if(null == expert){
+                expert = expertService.selectByPrimaryKey(categories.get(0).getExpertId());
+            }
             for (ExpertCategory expertCategory : categories) {
             	ExpertCategory category = expertCategoryService.getExpertCategory(expert.getId(), expertCategory.getCategoryId());
             	if(category==null){
-            		 expertCategoryService.save(expert, expertCategory.getCategoryId(), expertCategory.getTypeId(), null);
+            		 expertCategoryService.save(expert, expertCategory.getCategoryId(), expertCategory.getTypeId(), expertCategory.getEngin_type());
             	}
                
             }
@@ -265,10 +304,10 @@ public class InnerExpertServiceImpl implements InnerExpertService {
      * @author WangHuijie
      * @param categories 品目List
      */
-    public void updateCategory(List<ExpertCategory> categories) {
+    public void updateCategory(Expert expert, List<ExpertCategory> categories) {
         if (categories != null && categories.size() > 0) {
             expertCategoryService.deleteByExpertId(categories.get(0).getExpertId());
-            saveCategory(categories);
+            saveCategory(expert, categories);
         }
     }
     
@@ -279,7 +318,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
      * @param expert 专家
      */
     public void updateExpert(Expert expert) {
-        expertService.updateByPrimaryKeySelective(expert);
+        if(null != expert){
+            expertService.updateByPrimaryKeySelective(expert);
+        }
     }
     
     /**
@@ -290,7 +331,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
      * @return
      */
     private List<Expert> getExpert(final File file) {
-        List<Expert> expertList = FileUtils.getBeans(file, Expert.class); 
+        List<Expert> expertList = FileUtils.getExpert(file, Expert.class);
         return expertList;
     }
     

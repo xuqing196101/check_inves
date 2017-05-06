@@ -66,6 +66,12 @@
       <if test="typeId != null">
         TYPE_ID,
       </if>
+        <if test="levels != null">
+            LEVELS,
+        </if>
+        <if test="engin_type != null">
+            ENGIN_TYPE
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="expertId != null">
@@ -77,6 +83,12 @@
       <if test="typeId != null">
         #{typeId,jdbcType=VARCHAR},
       </if>
+        <if test="levels != null">
+            #{levels,jdbcType=VARCHAR},
+        </if>
+        <if test="engin_type != null">
+            #{engin_type,jdbcType=VARCHAR}
+        </if>
     </trim>
   </insert>
   

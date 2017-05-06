@@ -126,9 +126,12 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      */
     @Override
     public void importModifyExpertRecord(String content) {
-        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_EXPERT_MODIFY +"", Constant.OPER_TYPE_IMPORT, 
-                         Constant.MODIFY_COMMIT_EXPERT + content);
-        mapper.save(sr);
+        DictionaryData dd = DictionaryDataUtil.get(Constant.DATA_TYPE_EXPERT_CODE);
+        if (dd != null && StringUtils.isNotBlank(dd.getId())){
+            SynchRecord sr  = getSynchRecord(dd.getId() +"", Constant.OPER_TYPE_IMPORT,
+                    Constant.MODIFY_COMMIT_EXPERT + content);
+            mapper.save(sr);
+        }
     }
     
     /**

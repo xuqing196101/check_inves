@@ -34,7 +34,7 @@ public interface OuterAttachService {
     /**
      * 
     * @Title: importExpertAttach
-    * @Description: 导入转件附件
+    * @Description: 导入专家附件
     * author: Li Xiaoxiao 
     * @param @param file     
     * @return void     
