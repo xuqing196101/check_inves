@@ -510,7 +510,7 @@
             $("#expertsCountError").text("");
             var count = $("#sunCount").val();
             if (count == "" || count == "0") {
-                layer.msg("请选择专家类型");
+                layer.msg("请选择专家类别,且填写对应人数");
                 return false;
             }
             if (positiveRegular(count)) {
