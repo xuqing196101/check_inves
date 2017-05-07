@@ -24,7 +24,9 @@ $(function(){
 	    }(), 
 	    jump: function(e, first){ //触发分页后的回调
 	        if(!first){ //一定要加此判断，否则初始时会无限刷新
-	      		window.location.href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?page="+e.curr+"&id="+id+"&twoid="+twoid+"&title="+title;
+	      		
+	        	var url="${pageContext.request.contextPath}/index/selectsumBydanNews.html?page="+e.curr+"&id="+id+"&twoid="+twoid+"&title="+title;
+	        	window.location.href = encodeURI(encodeURI(url));
 	        }
 	    }
 	});
@@ -32,7 +34,8 @@ $(function(){
 
 function query(){
 	var title = $("#title").val();
-	window.location.href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id="+id+"&twoid="+twoid+"&title="+title;
+	var url="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id="+id+"&twoid="+twoid+"&title="+title;
+	window.location.href = encodeURI(encodeURI(url));
 }
 </script>
 </head>
@@ -49,7 +52,7 @@ function query(){
    </div>
   <div class="container job-content ">
   <div class="search_box col-md-12 col-sm-12 col-xs-12">
-         	<input name="title" type="text" id="title" value="${title}"/>
+         	标题：<input name="title" type="text" id="title" value="${title}"/>
         	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
       </div>
           <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">

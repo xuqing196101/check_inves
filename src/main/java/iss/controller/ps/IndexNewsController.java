@@ -1084,9 +1084,13 @@ public class IndexNewsController extends BaseSupplierController{
 	@RequestMapping("/selectsumBydanNews")
 	public String selectsumBydanNews(Model model,Integer page,HttpServletRequest request) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
-		String id = request.getParameter("id");
-		String twoid = request.getParameter("twoid");
-		String title = request.getParameter("title");
+//		String id = request.getParameter("id");
+//		String twoid = request.getParameter("twoid");
+//		String title = request.getParameter("title");
+		String id = RequestTool.getParam(request, "id","0");
+		String twoid =  RequestTool.getParam(request, "twoid","0");
+		String title = RequestTool.getParam(request, "title","");
+		
 		if(page==null){
 			page=1;
 		}
@@ -1318,7 +1322,9 @@ public class IndexNewsController extends BaseSupplierController{
 	  String ipAddressType = PropUtil.getProperty("ipAddressType");
 	 // Article articleDetail = articleService.selectArticleById(article.getId());
 	  //修改已取消发布和删除文章还能显示问题
+	  String id=article.getId();
 	  Article articleDetail = articleService.selectReleaseById(article.getId());
+	  if(null==articleDetail)return "";
 		Integer showCount = articleDetail.getShowCount();
 		articleDetail.setShowCount(showCount+1);
 		articleService.update(articleDetail);

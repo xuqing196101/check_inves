@@ -1114,7 +1114,7 @@ WHERE
 	FROM
 	T_ISS_PS_ARTICLE
 	WHERE
-	LAST_ARTICLE_TYPE_ID = #{id} or LAST_ARTICLE_TYPE_ID = #{twoid}
+	(LAST_ARTICLE_TYPE_ID = #{id} or LAST_ARTICLE_TYPE_ID = #{twoid})
 	<if test="title!=null and title!=''">
 		and name like '%'||#{title}||'%'
 	</if>
