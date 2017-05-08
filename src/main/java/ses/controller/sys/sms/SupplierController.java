@@ -487,23 +487,25 @@ public class SupplierController extends BaseSupplierController {
 		map1.put("typeName", "1");
 		List < PurchaseDep > list = purchaseOrgnizationService.findPurchaseDepList(map1);
 		List < PurchaseDep > purList = new ArrayList < PurchaseDep > ();
-		for(PurchaseDep purchaseDep: list) {
-			for(Orgnization org: listOrgnizations1) {
-				if(purchaseDep.getOrgnization().getId().equals(org.getId())) {
-					list.remove(org);
-				}
-			}
-		}
-		for(PurchaseDep purchaseDep: list) {
-		    if (purchaseDep.getIsAuditSupplier() == 1) {
-                Area pro = areaService.listById(purchaseDep.getProvinceId());
-                Area city = areaService.listById(purchaseDep.getCityId());
-                if(pro != null && city != null) {
-                    purchaseDep.setAddress(pro.getName() + city.getName());
+		if(null != list && !list.isEmpty()){
+            for(PurchaseDep purchaseDep: list) {
+                for(Orgnization org: listOrgnizations1) {
+                    if(purchaseDep.getOrgnization().getId().equals(org.getId())) {
+                        list.remove(org);
+                    }
                 }
-		        purList.add(purchaseDep);
-		    }
-		}
+            }
+            for(PurchaseDep purchaseDep: list) {
+                if (purchaseDep.getIsAuditSupplier() == 1) {
+                    Area pro = areaService.listById(purchaseDep.getProvinceId());
+                    Area city = areaService.listById(purchaseDep.getCityId());
+                    if(pro != null && city != null) {
+                        purchaseDep.setAddress(pro.getName() + city.getName());
+                    }
+                    purList.add(purchaseDep);
+                }
+            }
+        }
 		model.addAttribute("allPurList", purList);
 		return "ses/sms/supplier_register/procurement_dep";
 	}
