@@ -94,13 +94,12 @@ public class OBProductController {
 		if (page == null) {
 			page = 1;
 		}
-//		String orgTyp = null;
+		String orgTyp = null;
 		if(user != null){
-			/*if(user.getOrg() != null){
-			if(user.getOrg().getTypeName().equals("2")){
-				orgTyp = user.getOrg().getTypeName();
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
+				orgTyp = user.getTypeName();
 			}
-			}*/
 		}
 		List<OBProduct> list = oBProductService.selectByExample(example, page);
 		if(list != null){
@@ -136,7 +135,7 @@ public class OBProductController {
 			model.addAttribute("userii", user);
 		}
 		model.addAttribute("info", info);
-		//model.addAttribute("orgTyp", orgTyp);
+		model.addAttribute("orgTyp", orgTyp);
 		model.addAttribute("productExample", example);
 		model.addAttribute("numlist", numlist);
 		return "bss/ob/finalize_DesignProduct/list";
@@ -154,13 +153,18 @@ public class OBProductController {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	public void delete(HttpServletRequest request) {
+	public void delete(@CurrentUser User user,HttpServletRequest request) {
 		String oBProductids = request.getParameter("oBProductids");
 		String productId = oBProductids.trim();
+		if(user !=null){
+			//只能是资源服务中心 可以操作
+			if("4".equals(user.getTypeName())){
 		if (productId.length() != 0) {
 			String[] uniqueIds = productId.split(",");
 			for (String str : uniqueIds) {
 				oBProductService.deleteByPrimaryKey(str);
+			}
+		  }	
 			}
 		}
 	}
@@ -177,6 +181,7 @@ public class OBProductController {
 	@ResponseBody
 	public OBProduct productType(HttpServletRequest request,String productId,Model model) {
 		OBProduct obp=null;
+		
 		if (StringUtils.isNotBlank(productId)) {
 			obp=  oBProductService.selectByPrimaryKey(productId);
 		}
@@ -194,7 +199,7 @@ public class OBProductController {
 	 */
 	@RequestMapping("/fab")
 	@ResponseBody
-	public String fab(HttpServletRequest request,Model model) {
+	public String fab(@CurrentUser User user,HttpServletRequest request,Model model) {
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
 		OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
 		String code = "";
