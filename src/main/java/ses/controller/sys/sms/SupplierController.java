@@ -466,6 +466,7 @@ public class SupplierController extends BaseSupplierController {
         if(supplierAddressList == null || supplierAddressList.isEmpty()){
             SupplierAddress address = new SupplierAddress();
             address.setId(WfUtil.createUUID());
+            address.setSupplierId(supplier.getId());
             supplierAddressList.add(address);
             supplier.setAddressList(supplierAddressList);
         }

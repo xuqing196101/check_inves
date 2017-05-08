@@ -380,10 +380,10 @@ public class SupplierServiceImpl implements SupplierService {
                 userService.saveUserMenu(upm);
             }*/
         }
-        List<SupplierAddress> addressList=new ArrayList<SupplierAddress>();
-        SupplierAddress address=new SupplierAddress();
-        addressList.add(address);
-        supplier.setAddressList(addressList);
+//        List<SupplierAddress> addressList=new ArrayList<SupplierAddress>();
+//        SupplierAddress address=new SupplierAddress();
+//        addressList.add(address);
+//        supplier.setAddressList(addressList);
         List<SupplierBranch> branchList=new ArrayList<SupplierBranch>();
         SupplierBranch branch=new SupplierBranch();
         branchList.add(branch);
