@@ -718,9 +718,10 @@
 				getAptLevel($(this));
 			});
 			
-			$("input").bind("blur", tempSave);
+			$("input").not(".validatebox-text").bind("blur", tempSave);
 			$("textarea").bind("blur", tempSave);
 			$("select").bind("change", tempSave);
+            $(".certTypeSelect").unbind("blur", tempSave);
 			var pro = "${pro}";
 			var server = "${server}";
 			var sale = "${sale}";
@@ -1960,7 +1961,7 @@
 																		<option value="${type.id}" <c:if test="${aptitute.certType eq type.id}">selected</c:if>>${type.name}</option>
 																	</c:forEach>
 																</select> -->
-																<select title="cnjewfn" id="certType_${certAptNumber}" class="w100p border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" style="width:200px;border: none;">   
+																<select title="cnjewfn" id="certType_${certAptNumber}" class="w100p border0 certTypeSelect" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" style="width:200px;border: none;">
 																    <c:set var="tempForShowOption" value="go" scope="page"/>
 																    <c:forEach items="${typeList}" var="type">
 																		<option value="${type.id}" <c:if test="${aptitute.certType eq type.id}">selected</c:if>>${type.name}</option>
@@ -1992,7 +1993,7 @@
 																<!-- 
 																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
 																 -->
-																<select id="certGrade_select${certAptNumber}" title="cnjewfnGrade" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
+																<select id="certGrade_select${certAptNumber}" title="cnjewfnGrade" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" style="width:200px;border: none;">
 																	<c:choose>
                                                                         <c:when test="${aptitute.aptituteLevel}">
 
