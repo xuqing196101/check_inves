@@ -323,7 +323,12 @@
 								offset: '300px'
 							});
 						}
-						
+						if(msg=="disabled_180"){
+                            $("input[name='creditCode']").val("");
+                            layer.msg('统一社会信用代码在180天内禁止再次注册，请重新填写！', {
+                                offset: '300px'
+                            });
+                        }
 						if(msg=="errIdentity"){
 							layer.msg('统一社会信用代码或身份证号重复，请重新填写！', {
 								offset: '300px'

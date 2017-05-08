@@ -69,17 +69,7 @@ import ses.model.ems.ExpertPictureType;
 import ses.model.ems.ExpertTitle;
 import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
-import ses.model.sms.Quote;
-import ses.model.sms.Supplier;
-import ses.model.sms.SupplierAddress;
-import ses.model.sms.SupplierAptitute;
-import ses.model.sms.SupplierBranch;
-import ses.model.sms.SupplierCateTree;
-import ses.model.sms.SupplierCertPro;
-import ses.model.sms.SupplierCertSell;
-import ses.model.sms.SupplierCertServe;
-import ses.model.sms.SupplierItem;
-import ses.model.sms.SupplierMatPro;
+import ses.model.sms.*;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -182,6 +172,8 @@ public class ExpertController extends BaseController {
     private ExpertTitleService expertTitleService;
     @Autowired
     private ExpExtractRecordService expExtractRecordService; //专家抽取记录表
+    @Autowired
+    private DeleteLogService deleteLogService;
     /**
      * 
      * @Title: toExpert
@@ -3594,15 +3586,31 @@ public class ExpertController extends BaseController {
     @ResponseBody
     @RequestMapping("/validateIdNumber")
     public String validateIdNumber(String idNumber, String expertId) {
-        List < Expert > list = service.validateIdNumber(idNumber, expertId);
-        if(list.isEmpty()) {
-            return "0";
-        } else {
-            if(list.size() == 1 && expertId.equals(list.get(0).getId())) {
+        if(StringUtils.isNotBlank(idNumber) && StringUtils.isNotBlank(expertId)){
+            //根据供应商统一社会信用代码判断是否注销且180天内再次注册
+            try{
+                DeleteLog deleteLog = deleteLogService.queryByTypeId(expertId, idNumber);
+                if(null != deleteLog && null != deleteLog.getCreateAt()){
+                    int betweenDays = supplierService.daysBetween(deleteLog.getCreateAt());
+                    if(betweenDays > 180){
+                        return "disabled_180";
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            List < Expert > list = service.validateIdNumber(idNumber, expertId);
+            if(list.isEmpty()) {
                 return "0";
             } else {
-                return "1";
+                if(list.size() == 1 && expertId.equals(list.get(0).getId())) {
+                    return "0";
+                } else {
+                    return "1";
+                }
             }
+        }else{
+            return "1";
         }
     }
     /**

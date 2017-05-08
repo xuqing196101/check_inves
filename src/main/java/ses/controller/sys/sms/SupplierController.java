@@ -51,25 +51,7 @@ import ses.formbean.ContractBean;
 import ses.model.bms.*;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
-import ses.model.sms.Supplier;
-import ses.model.sms.SupplierAddress;
-import ses.model.sms.SupplierAfterSaleDep;
-import ses.model.sms.SupplierAptitute;
-import ses.model.sms.SupplierAudit;
-import ses.model.sms.SupplierBranch;
-import ses.model.sms.SupplierCertEng;
-import ses.model.sms.SupplierCertPro;
-import ses.model.sms.SupplierDictionaryData;
-import ses.model.sms.SupplierFinance;
-import ses.model.sms.SupplierItem;
-import ses.model.sms.SupplierMatEng;
-import ses.model.sms.SupplierMatPro;
-import ses.model.sms.SupplierMatSell;
-import ses.model.sms.SupplierMatServe;
-import ses.model.sms.SupplierModify;
-import ses.model.sms.SupplierPorjectQua;
-import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierTypeRelate;
+import ses.model.sms.*;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -77,6 +59,7 @@ import ses.service.bms.NoticeDocumentService;
 import ses.service.bms.QualificationLevelService;
 import ses.service.bms.QualificationService;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.DeleteLogService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
@@ -221,6 +204,9 @@ public class SupplierController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierAptituteService supplierAptituteService;
+
+	@Autowired
+    private DeleteLogService deleteLogService;
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -625,7 +611,15 @@ public class SupplierController extends BaseSupplierController {
 				}
 				
 				if(supplier.getCreditCode()!=null&&supplier.getCreditCode().trim().length()!=0){
-					List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
+                    //根据供应商统一社会信用代码判断是否注销且180天内再次注册
+                    DeleteLog deleteLog = deleteLogService.queryByTypeId(supplier.getId(), supplier.getCreditCode());
+                    if(null != deleteLog && null != deleteLog.getCreateAt()){
+                        int betweenDays = supplierService.daysBetween(deleteLog.getCreateAt());
+                        if(betweenDays > 180){
+                            return "disabled_180";
+                        }
+                    }
+                    List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
 					if(tempList!=null&&tempList.size()>0){
 						for(Supplier supp: tempList) {
 							if(!supplier.getId().equals(supp.getId())) {
@@ -633,7 +627,9 @@ public class SupplierController extends BaseSupplierController {
 							}
 						}
 					}
-				}
+				}else{
+                    supplier.setCreditCode("");
+                }
 			
 				List<SupplierStockholder> stockholders = supplier.getListSupplierStockholders();
 				int count=0;
@@ -649,11 +645,6 @@ public class SupplierController extends BaseSupplierController {
 					if(count!=set.size()){
 						return "errIdentity";
 					}
-				}
-				
-				
-				if(supplier.getCreditCode()==null){
-					supplier.setCreditCode("");
 				}
 				supplierService.perfectBasic(supplier);
 				
@@ -1533,22 +1524,34 @@ public class SupplierController extends BaseSupplierController {
   		}*/
 
 		List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
-		if(supplier.getCreditCode() == null || supplier.getCreditCode().length() > 36) {
+		if(supplier.getCreditCode() == null || supplier.getCreditCode().trim().length() > 36) {
 			model.addAttribute("err_creditCide", "不能为空或是字符过长!");
 			count++;
 		}
-//			if(supplier.getCreditCode() != null && supplier.getCreditCode().length() != 18) {
-//				model.addAttribute("err_creditCide", "格式错误!");
-//			}
-			if(tempList != null && tempList.size() > 0) {
-				for(Supplier supp: tempList) {
-					if(!supplier.getId().equals(supp.getId())) {
-						model.addAttribute("err_creditCide", "社会统一信用代码已被占用!");
-						count++;
-						break;
-					}
-				}
-			}
+        //根据供应商统一社会信用代码判断是否注销且180天内再次注册
+        try{
+		    if(!StringUtils.isNotBlank(supplier.getCreditCode())){
+                DeleteLog deleteLog = deleteLogService.queryByTypeId(supplier.getId(), supplier.getCreditCode());
+                if(null != deleteLog && null != deleteLog.getCreateAt()){
+                    int betweenDays = supplierService.daysBetween(deleteLog.getCreateAt());
+                    if(betweenDays > 180){
+                        model.addAttribute("err_creditCide", "统一社会信用代码在180天内已注销!");
+                        count++;
+                    }
+                }
+            }
+        }catch (Exception e){
+		    e.printStackTrace();
+        }
+        if(tempList != null && tempList.size() > 0) {
+            for(Supplier supp: tempList) {
+                if(!supplier.getId().equals(supp.getId())) {
+                    model.addAttribute("err_creditCide", "统一社会信用代码已被占用!");
+                    count++;
+                    break;
+                }
+            }
+        }
 		if(supplier.getRegistAuthority() == null || supplier.getRegistAuthority().length() > 20) {
 			model.addAttribute("err_reAuthoy", "不能为空 或是编码过长!");
 			count++;

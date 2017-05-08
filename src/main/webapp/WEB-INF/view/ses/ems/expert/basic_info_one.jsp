@@ -118,6 +118,11 @@
                         success: function(obj) {
                             if(obj == '1') {
                                 return false;
+                            }else if(obj == 'disabled_180'){
+                                layer.msg('该身份证号码在180天内禁止再次注册，请重新填写！', {
+                                    offset: '300px'
+                                });
+                                return false;
                             }else{
                                 validateIdCard();
                             }
@@ -384,6 +389,11 @@
                             if(obj == '1') {
                                 layer.msg("居民身份证号码已被占用!");
                                 return false;
+                            }else if(obj == 'disabled_180'){
+                                layer.msg('该身份证号码在180天内禁止再次注册，请重新填写！', {
+                                    offset: '300px'
+                                });
+                                return false;
                             }else{
                                 supplierRegist();
                                 editTable();
@@ -502,7 +512,12 @@
 								if(obj == '1') {
 									layer.msg("该证件号码已被占用!");
 									isok = 1;
-								}
+								}else if(obj == 'disabled_180'){
+                                    layer.msg('该身份证号码在180天内禁止再次注册，请重新填写！', {
+                                        offset: '300px'
+                                    });
+                                    isok = 1;
+                                }
 							}
 						});
 					}
@@ -679,10 +694,10 @@
 					}
 				}
 				// 身份证唯一性验证
-				if(idCardNumber != "") {
+				/*if(idCardNumber != "") {
 					var isok = 0;
 					$.ajax({
-						url: '${pageContext.request.contextPath}/expert/validateIdCardNumber.do',
+						url: '${pageContext.request.contextPath}/expert/validateIdNumber.do',
 						type: "post",
 						async: false,
 						data: {
@@ -693,13 +708,18 @@
 							if(obj == '1') {
 								layer.msg("该身份证号已被占用!");
 								isok = 1;
-							}
+							}else if(obj == 'disabled_180'){
+                                layer.msg('该身份证号码在180天内禁止再次注册，请重新填写！', {
+                                    offset: '300px'
+                                });
+                                isok = 1;
+                            }
 						}
 					});
 				}
 				if(isok == 1) {
 					return false;
-				}
+				}*/
 
 				if(from == "LOCAL") {
 					var coverNote = $("#coverNote").val();
@@ -1354,7 +1374,7 @@
 
 							<li>
 								<textarea <c:if test="${fn:contains(errorField,'主要工作经历')}">onmouseover="errorMsg('主要工作经历')"</c:if>
-                                rows="10" name="jobExperiences" id="jobExperiences"
+                                rows="10" name="jobExperiences" id="jobExperiences" maxlength="1000"
                                 style='height: 150px; width: 100%; resize: none; <c:if
                                         test="${fn:contains(errorField,'主要工作经历')}">border: 1px solid #ef0000;</c:if>'
                                 placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
@@ -1384,7 +1404,7 @@
 
 							<li>
 								<textarea <c:if test="${fn:contains(errorField,'专业学术成果')}">onmouseover="errorMsg('专业学术成果')"</c:if>
-                                rows="10" name="academicAchievement" id="academicAchievement"
+                                rows="10" name="academicAchievement" id="academicAchievement" maxlength="1000"
                                 style='height: 150px; width: 100%; resize: none; <c:if
                                         test="${fn:contains(errorField,'专业学术成果')}">border: 1px solid #ef0000;</c:if>'
                                 placeholder="">${expert.academicAchievement}</textarea>
@@ -1400,7 +1420,7 @@
 
 							<li>
 								<textarea <c:if test="${fn:contains(errorField,'参加军队地方采购评审情况')}">onmouseover="errorMsg('参加军队地方采购评审情况')"</c:if>
-                                rows="10" name="reviewSituation" id="reviewSituation"
+                                rows="10" name="reviewSituation" id="reviewSituation" maxlength="1000"
                                 style='height: 150px; width: 100%; resize: none; <c:if
                                         test="${fn:contains(errorField,'参加军队地方采购评审情况')}">border: 1px solid #ef0000;</c:if>'
                                 placeholder="">${expert.reviewSituation}</textarea>
@@ -1416,7 +1436,7 @@
 
 							<li>
 								<textarea <c:if test="${fn:contains(errorField,'需要申请回避的情况')}">onmouseover="errorMsg('需要申请回避的情况')"</c:if>
-                                rows="10" name="avoidanceSituation" id="avoidanceSituation"
+                                rows="10" name="avoidanceSituation" id="avoidanceSituation" maxlength="1000"
                                 style='height: 150px; width: 100%; resize: none; <c:if
                                         test="${fn:contains(errorField,'需要申请回避的情况')}">border: 1px solid #ef0000;</c:if>'
                                 placeholder="近3年内,存在劳动关系的供应商,或者担任过供应商的董事、监事,或者是供应商的控股股东（实际控制人）；与供应商法定代表人或者主要负责人有夫妻、直系血亲、三代以内旁系血亲或者近姻亲关系；发生过法律纠纷的供应商；其它需要回避的情况。">${expert.avoidanceSituation}</textarea>
