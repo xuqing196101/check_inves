@@ -58,10 +58,12 @@
                 $("#projectName").attr("readonly", true);
                 $("#projectNumber").attr("readonly", true);
                 $("#packageName").attr("readonly", true);
+                $("#tenderTimeId").attr("disabled", true);
             } else {
                 $("#projectName").attr("readonly", false);
                 $("#projectNumber").attr("readonly", false);
                 $("#packageName").attr("readonly", false);
+                $("#tenderTimeId").attr("disabled", false);
             }
             var index = 0 ;
             var divObj = $(".p0" + index);
@@ -353,10 +355,10 @@
         <!-- 包id  -->
         <%--           <input type="hidden" id="packageId" value="${packageId}" name="packageId"> --%>
         <div>
-            <h2 class="count_flow"><i>1</i>必填项</h2>
+            <h2 class="count_flow"><i>1</i>项目信息</h2>
             <ul class="ul_list border0">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red0">*</span>项目名称:</span>
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red0">*</span> 项目名称:</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <input id="projectName" name="name"  value="${projectName}" type="text">
                         <span class="add-on">i</span>
@@ -364,7 +366,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red1">*</span>项目编号:</span>
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red1">*</span> 项目编号:</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <input id="projectNumber" name="projectNumber" value="${projectNumber}" type="text" >
                         <span class="add-on">i</span>
@@ -382,7 +384,15 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12 ">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>监督人员:</span>
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red3">*</span> 开标日期:</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                        <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" readonly="readonly"  name="bidDate" value="<fmt:formatDate value='${bidDate}'
+                                pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
+                        <div class="cue" id="tenderTimeError"></div>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12 ">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 监督人员:</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <input readonly id="supervises" title="${userName}" value="${userName}" onclick="supervise();" type="text">
                         <span class="add-on">i</span>
@@ -390,7 +400,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12 ">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="star_red">*</span>抽取地区:</span>
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="star_red">*</span> 抽取地区:</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <input id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">
                         <span class="add-on">i</span>

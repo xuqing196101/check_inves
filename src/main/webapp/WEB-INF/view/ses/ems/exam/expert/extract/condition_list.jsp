@@ -81,12 +81,12 @@
 					$("#projectName").attr("readonly", true);
 					$("#projectNumber").attr("readonly", true);
 					$("#packageName").attr("readonly", true);
-					$("#tenderTimeId").attr("readonly", true);
+					$("#tenderTimeId").attr("disabled", true);
 				} else {
 					$("#projectName").attr("disabled", false);
 					$("#projectNumber").attr("disabled", false);
 					$("#packageName").attr("readonly", false);
-					$("#tenderTimeId").attr("readonly", false);
+					$("#tenderTimeId").attr("disabled", false);
 				}
 				var index = 0 ;
 				 var divObj = $(".p0" + index);
@@ -383,74 +383,73 @@
 				<!-- 项目id  -->
 				<input type="hidden" id="pid" value="${projectId}" name="id">
 				  <!-- 监督人员id  -->
-          <input type="hidden" id="superviseId" value="${superviseId}" name="superviseId">  
+                <input type="hidden" id="superviseId" value="${superviseId}" name="superviseId">
 				<div>
-					<h2 class="count_flow"><i>1</i>必填项</h2>
+					<h2 class="count_flow"><i>1</i>项目信息</h2>
 					<ul class="ul_list">
-					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red" id="red0">*</span>项目名称:</span>
-              <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                <input class="span5" id="projectName" name="name"  value="${projectName}" type="text">
-                <span class="add-on">i</span>
-                <div class="cue" id="projectNameError"></div>
-              </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red1">*</span>项目编号:</span>
-              <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                <input class="span5" id="projectNumber" name="projectNumber" value="${projectNumber}" type="text">
-                <span class="add-on">i</span>
-                <div class="cue" id="projectNumberError"></div>
-              </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12 ">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red2">*</span>采购方式:</span>
-              <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                <select class="col-md-12 col-sm-12 col-xs-6 p0" name="purchaseType">
-                  <c:forEach items="${findByMap}" var="map">
-                    <option value="${map.id}">${map.name}</option>
-                  </c:forEach>
-                </select>
-              </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12 ">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red3">*</span>开标日期:</span>
-              <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" readonly="readonly"  name="bidDate" value="<fmt:formatDate value='${bidDate}'
-                                pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
-                  <div class="cue" id="tenderTimeError"></div>
-              </div>
-            </li>
-						<li class="col-md-3 col-sm-6 col-xs-12 ">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>监督人员:</span>
-							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 left_table">
-								<input class="span5" readonly id="supervises" title="${userName}" value="${userName}" onclick="supervise();" type="text">
-								<span class="add-on">i</span>
-								<div class="cue" id="dSupervise"></div>
-							</div>
-						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12 dnone">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>响应时间:</span>
-							<div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
-								<input class="col-md-5 col-sm-5 col-xs-5" name="hour" value="${hour}" maxlength="3" type="text">
-								<span class="f14   fl">时</span>
-								<input class="col-md-5 col-sm-5 col-xs-5" value="${minute}" id="minute" name="minute" maxlength="3" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
-								<span class="f14   fl">分</span>
-								<div class="cue" id="responseTimeError"></div>
-							</div>
-						</li>
-						  <li class="col-md-3 col-sm-6 col-xs-12 ">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span>抽取地区:</span>
-               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                <input class="span5" id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">
-                <span class="add-on">i</span>
-                <div class="cue" id="extractionSitesError"></div>
-              </div>
-            </li>
-					</ul>
+                        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red" id="red0">*</span> 项目名称:</span>
+                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                                <input class="span5" id="projectName" name="name"  value="${projectName}" type="text">
+                                <span class="add-on">i</span>
+                                <div class="cue" id="projectNameError"></div>
+                            </div>
+                        </li>
+                        <li class="col-md-3 col-sm-6 col-xs-12">
+                          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red1">*</span> 项目编号:</span>
+                          <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                            <input class="span5" id="projectNumber" name="projectNumber" value="${projectNumber}" type="text">
+                            <span class="add-on">i</span>
+                            <div class="cue" id="projectNumberError"></div>
+                          </div>
+                        </li>
+                        <li class="col-md-3 col-sm-6 col-xs-12 ">
+                          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red2">*</span> 采购方式:</span>
+                          <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                            <select class="col-md-12 col-sm-12 col-xs-6 p0" name="purchaseType">
+                              <c:forEach items="${findByMap}" var="map">
+                                <option value="${map.id}">${map.name}</option>
+                              </c:forEach>
+                            </select>
+                          </div>
+                        </li>
+                        <li class="col-md-3 col-sm-6 col-xs-12 ">
+                          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red3">*</span> 开标日期:</span>
+                          <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                            <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" name="bidDate" value="<fmt:formatDate value='${bidDate}'
+                                            pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
+                              <div class="cue" id="tenderTimeError"></div>
+                          </div>
+                        </li>
+                        <li class="col-md-3 col-sm-6 col-xs-12 ">
+                            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 监督人员:</span>
+                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 left_table">
+                                <input class="span5" readonly id="supervises" title="${userName}" value="${userName}" onclick="supervise();" type="text">
+                                <span class="add-on">i</span>
+                                <div class="cue" id="dSupervise"></div>
+                            </div>
+                        </li>
+                        <li class="col-md-3 col-sm-6 col-xs-12 dnone">
+                            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 响应时间:</span>
+                            <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
+                                <input class="col-md-5 col-sm-5 col-xs-5" name="hour" value="${hour}" maxlength="3" type="text">
+                                <span class="f14   fl">时</span>
+                                <input class="col-md-5 col-sm-5 col-xs-5" value="${minute}" id="minute" name="minute" maxlength="3" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                <span class="f14   fl">分</span>
+                                <div class="cue" id="responseTimeError"></div>
+                            </div>
+                        </li>
+                        <li class="col-md-3 col-sm-6 col-xs-12 ">
+                          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 抽取地区:</span>
+                           <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                            <input class="span5" id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">
+                            <span class="add-on">i</span>
+                            <div class="cue" id="extractionSitesError"></div>
+                          </div>
+                        </li>
+                    </ul>
 				</div>
-				
-				 <div>
+                <div>
           <h2 class="count_flow "><i>2</i>
                     <div class="ww50 fl">抽取信息</div>
           </h2>
