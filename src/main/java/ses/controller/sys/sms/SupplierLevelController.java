@@ -47,6 +47,17 @@ public class SupplierLevelController extends BaseSupplierController {
 		return "ses/sms/supplier_level/list";
 	}
 	
+	@RequestMapping(value = "indexList")
+	public String indexList(Model model, Supplier supplier, Integer page) {
+		List<Supplier> listSuppliers = supplierLevelService.findSupplier(supplier, page == null ? 1 : page);
+		model.addAttribute("listSuppliers", new PageInfo<Supplier>(listSuppliers));
+		model.addAttribute("supplierName", supplier.getSupplierName());
+		model.addAttribute("level", supplier.getLevel());
+		List<DictionaryData> data = DictionaryDataUtil.find(17);
+		model.addAttribute("data", data);
+		return "ses/sms/supplier_level/index_list";
+	}
+	
 	@RequestMapping(value = "change_score")
 	public String changeScore(Model model, Supplier supplier) throws Exception {
 		if(supplier.getSupplierName() != null){

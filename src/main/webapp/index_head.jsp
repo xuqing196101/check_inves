@@ -630,11 +630,38 @@ function importAdd(){
 		 </ul>
 		</h2>
 		<div class="tab-content buyer_list">
+			<!-- 供应商诚信记录 -->
 		    <div id="tab-36" class="categories tab-pane fade active in">
-             <ul class="p0_10">   
-          </ul>
-          <a class="tab_more" href="#">更多>></a>
-        </div>
+				<ul class="p0_10 list-unstyled">
+					<table class="table table-bordered " >
+						<thead>
+							<tr>
+								<th class="tc info" width="50%">供应商名称</th>
+								<th class="tc info" width="20%">企业等级</th>
+								<th class="tc info" width="10%">分数</th>
+								<th class="tc info" width="20%">企业性质</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${my:getSupplierCreditRecord()['supplierCreditList']}" var="supplier" begin="0" end="3" step="1" varStatus="status">
+								<tr>
+									<td class="tc">${supplier.supplierName}</td>
+									<td class="tc">${supplier.level}</td>
+									<td class="tc">${supplier.score}</td>
+									<td class="tc">
+										<c:forEach items="${my:getSupplierCreditRecord()['data']}" var="dic">
+											<c:if test="${supplier.businessType==dic.id}">
+												${dic.name }									
+											</c:if>
+										</c:forEach>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</ul>
+	          <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>
+        	</div>
 	    <div id="tab-37" class="categories tab-pane fade">
           <ul class="p0_10">
            	<c:forEach items="${indexMapper['article116List']}" var="sl">

@@ -9,6 +9,7 @@ import iss.service.ps.ArticleService;
 import ses.model.ems.Expert;
 import ses.model.sms.Supplier;
 import ses.service.ems.ExpertService;
+import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
 import synchro.util.SpringBeanUtil;
 
@@ -188,5 +189,13 @@ public class IssData {
 	    List<Article> article117List = articleService.selectArticleByArticleType(map);
 	    indexMapper.put("article117List", article117List);
 		}
+	 
+	 // 供应商诚信记录
+	 public static Map<String, Object> getSupplierCreditRecord() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", 1);
+	 	SupplierLevelService levelService = SpringBeanUtil.getBean(SupplierLevelService.class);
+	 	return levelService.findSupplierCreditIndex(map);
+	}
 
 }

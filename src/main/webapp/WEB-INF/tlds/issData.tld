@@ -33,6 +33,14 @@
       <function-signature>java.util.List getSupplierList()</function-signature>
       <example>${my.getSupplierList()}</example>
   </function>
+  
+  <!-- 首页供应商诚信记录 -->
+  <function>
+      <name>getSupplierCreditRecord</name>
+      <function-class>iss.bean.IssData</function-class>
+      <function-signature>java.util.Map getSupplierCreditRecord()</function-signature>
+      <example>${my.getSupplierCreditRecord()}</example>
+  </function>
 </taglib> 
 
 

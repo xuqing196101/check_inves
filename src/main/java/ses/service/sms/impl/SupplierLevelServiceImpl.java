@@ -1,6 +1,8 @@
 package ses.service.sms.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,9 +13,11 @@ import com.github.pagehelper.PageHelper;
 
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStarsMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierStars;
 import ses.service.sms.SupplierLevelService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 
 @Service(value = "supplierLevelService")
@@ -88,6 +92,29 @@ public class SupplierLevelServiceImpl implements SupplierLevelService {
 		return listSuppliers;
 	}
 
+	
+	/**
+	 * 
+	* @Title: findSupplierCreditIndex 
+	* @Description: 首页展示供应商诚信记录
+	* @author Easong
+	* @param @return    设定文件 
+	* @throws
+	 */
+	@Override
+	public Map<String, Object> findSupplierCreditIndex(Map<String, Object> map) {
+		Map<String, Object> supplierCreditMap = new HashMap<String, Object>();
+		Integer page = (Integer) map.get("page");
+		Supplier supplier = new Supplier();
+		List<Supplier> supplierCreditList = findSupplier(supplier, page);
+		List<DictionaryData> data = DictionaryDataUtil.find(17);
+		// 封装诚信供应商列表
+		supplierCreditMap.put("supplierCreditList", supplierCreditList);
+		// 封装供应商企业类型
+		supplierCreditMap.put("data", data);
+		return supplierCreditMap;
+	}
+	
 	@Override
 	public void updateScore(Supplier supplier, String scores) {
 		supplier = supplierMapper.getSupplier(supplier.getId());
@@ -98,5 +125,6 @@ public class SupplierLevelServiceImpl implements SupplierLevelService {
 		supplier.setScore(score);
 		supplierMapper.updateScore(supplier);
 	}
+
 
 }

@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
 	$(function() {
 		laypage({
@@ -103,40 +103,39 @@
 				<div class="clear"></div>
 			</div>
 		</div>
-		<!-- 我的订单页面开始-->
 		<div class="container">
 			<div class="headline-v2">
 				<h2>供应商诚信列表</h2>
 			</div>
 		<!-- 表格开始-->
 			
-			<h2 class="search_detail">
-				<form id="search_form_id" class="mb0" action="${pageContext.request.contextPath}/supplier_level/list.html" method="post">
-					<input name="page" type="hidden" />
-					<ul class="demand_list">
-						<li>
-							<label class="fl">供应商名称：</label>
-							<span><input type="text" id="supplierName" name="supplierName" value="${supplierName}"/></span>
-						</li>
-						<li>
-							<label class="fl">等级：</label>
-							<span>
-								<select id="level_select_id" class="w150" name="level">
-									<option selected="selected" value="">全部</option>
-									<option value="1">一星级</option>
-									<option value="2">二星级</option>
-									<option value="3">三星级</option>
-									<option value="4">四星级</option>
-									<option value="5">五星级</option>
-								</select>
-							</span>
-						</li>
-							<button type="button" onclick="searchSupplierLevel(1)" class="btn fl mt1">查询</button>
-							<button onclick="resetForm()" class="btn fl mt1">重置</button>
-					</ul>
-					<div class="clear"></div>
-				</form>
-			</h2>
+		<h2 class="search_detail">
+			<form id="search_form_id" class="mb0" action="${pageContext.request.contextPath}/supplier_level/list.html" method="post">
+				<input name="page" type="hidden" />
+				<ul class="demand_list">
+					<li>
+						<label class="fl">供应商名称：</label>
+						<span><input type="text" id="supplierName" name="supplierName" value="${supplierName}"/></span>
+					</li>
+					<li>
+						<label class="fl">等级：</label>
+						<span>
+							<select id="level_select_id" class="w150" name="level">
+								<option selected="selected" value="">全部</option>
+								<option value="1">一星级</option>
+								<option value="2">二星级</option>
+								<option value="3">三星级</option>
+								<option value="4">四星级</option>
+								<option value="5">五星级</option>
+							</select>
+						</span>
+					</li>
+						<button type="button" onclick="searchSupplierLevel(1)" class="btn fl mt1">查询</button>
+						<button onclick="resetForm()" class="btn fl mt1">重置</button>
+				</ul>
+				<div class="clear"></div>
+			</form>
+		</h2>
 		<div class="col-md-12 pl20 mt10">
                 <button class="btn btn-windows edit" type="button" onclick="changeScore()">加/减分</button>
         </div>
@@ -172,8 +171,6 @@
 										${dic.name }									
 									</c:if>
 								</c:forEach>
-								
-								
 								</td>
 							</tr>
 						</c:forEach>
