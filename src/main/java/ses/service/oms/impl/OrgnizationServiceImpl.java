@@ -865,4 +865,10 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		// TODO Auto-generated method stub
 		return orgniztionMapper.selectByType();
 	}
+
+	@Override
+	public List<String> findByUserid(String userId) {
+		// TODO Auto-generated method stub
+		return orgniztionMapper.findByUserid(userId);
+	}
 }

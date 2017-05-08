@@ -12,28 +12,97 @@
 			zTree.checkNode(treeNode, !treeNode.checked, null, true);
 			return false;
 		}
-		function onCheckOrg(e, treeId, treeNode) {
+		function onCheckOnlyOrg(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeOrg"),
 			nodes = zTree.getCheckedNodes(true),
 			v = "";
+			ids="";
 			for (var i=0, l=nodes.length; i<l; i++) {
 				v += nodes[i].name + ",";
-				$("#oId").val(nodes[i].id);
+				ids +=nodes[i].id+",";
 			}
 			if (v.length > 0 ) v = v.substring(0, v.length-1);
 			var cityObj = $("#orgSel");
 			cityObj.attr("value", v);
-			
+			$("#oId").val(ids);
 			hideOrg();
 		}
+		function onCheckOrg(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeOrg");
+			var nodes = zTree.getCheckedNodes(true),
+			v = "";
+			ids="";
+			pid="";
+			 for (var i=0, l=nodes.length; i<l; i++) {
+			    if(!nodes[i].isParent){
+			    v += nodes[i].name + ",";
+				ids +=nodes[i].id+",";
+			    }else{
+			      pid +=nodes[i].id+",";
+			    }
+			} 
+			
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj = $("#orgSel");
+			cityObj.attr("value", v);
+			$("#oId").val(ids);
+			$("#orgParent").val(pid);
+			hideOrg();
+		}
+		
 		function showOrg() {
-			//var typeName_id = $("#typeName_id").val();
 			//获取机构类型
 			var orgType = $("#org_type").val();
+			var setting;
 			if (orgType == '3') {
 				return;
 			}
-			var setting = {
+			var index = layer.load(0, {
+				shade : [ 0.1, '#fff' ],
+				offset : [ '45%', '53%' ]
+			});
+			 if(orgType =='4' || orgType=='5'){
+			  setting = {
+			data: {
+				simpleData: {
+					enable: true
+				}
+			   },
+			  check: {
+				chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+        		chkStyle:"checkbox",  
+				enable: true
+			},
+			   callback: {
+					onClick: onClickOrg,
+					onCheck: onCheckOrg
+				}
+		     };
+		     var id=$("#oId").val();
+		      id +=$("#orgParent").val();
+		     $.ajax({
+             type: "POST",
+             async: false, 
+             url: "${pageContext.request.contextPath}/preMenu/dataTree.do",
+             success: function(zNodes){
+             		if (zNodes.length > 0) {
+             		//循环便利 选中 的check机构
+             		 var  idArray=id.split(",");
+             		  for (var i = 0; i < zNodes.length; i++) { 
+             		   var  item= zNodes[i].id;
+             		    for (var j=0;idArray.length>j;j++){
+             		      if (item==idArray[j]) { 
+             		         zNodes[i].checked=true;
+             		       }
+             		     }
+             		  }
+				        tree = $.fn.zTree.init($("#treeOrg"), setting, zNodes); 
+				        tree.expandAll(true);//全部展开 
+					}
+               }
+         	});
+			}else{
+			 setting = {
 				check: {
 					enable: true,
 					chkStyle: "radio",
@@ -49,9 +118,10 @@
 				},
 				callback: {
 					onClick: onClickOrg,
-					onCheck: onCheckOrg
+					onCheck: onCheckOnlyOrg
 				}
 			};
+			
 			$.ajax({
              type: "GET",
              async: false, 
@@ -69,10 +139,12 @@
 			       // tree.expandAll(true);//全部展开
                }
          	});
+         	}
 			var cityObj = $("#orgSel");
 			var cityOffset = $("#orgSel").offset();
 			$("#orgContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
 			$("body").bind("mousedown", onBodyDownRole);
+			layer.close(index);
 		}
 		function hideOrg() {
 			$("#orgContent").fadeOut("fast");
@@ -104,6 +176,7 @@
 			if (rid.length > 0 ) rid = rid.substring(0, rid.length-1);
 			var cityObj = $("#roleSel");
 			cityObj.attr("value", v);
+			
 			$("#rId").val(rid);
 		}
 		function showRole() {
@@ -174,16 +247,24 @@
 		function viewOrgType(){
 			//获取机构类型
 			var orgType = $("#org_type").val();
+			$("#orgSel").attr("value", "");
+			$("#orgParent").val("");
+			$("#oId").val("");
 			if (orgType == '3') {
-				$("#oId").val("");
+			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
 				$("#oId").attr("type","text");
-			} else {
+			} else if (orgType == '4' || orgType == '5') {
+			   $("#orgTitle").html("监管对象");
+			   $("#orgSel").show();
+			   $("#oId").attr("type","hidden");
+			}else{
+			    $("#orgTitle").html("所属机构");
 				$("#orgSel").show();
 				$("#oId").attr("type","hidden");
 			}
+		 
 		}
-		
 		function isExist(){
 			 var is_error = 0;
 			 var loginName = $("#loginName").val();
@@ -429,15 +510,19 @@
 						        		<c:if test="${typeName == '1'}">采购机构</c:if>
 						        		<c:if test="${typeName == '2'}">采购管理部门</c:if>
 						        		<c:if test="${typeName == '0'}">需求部门</c:if>
+						        		<c:if test="${typeName == '4'}">资源服务中心</c:if>
+						        		<c:if test="${typeName == '5'}">监管部门</c:if>
 						        		<c:if test="${typeName == '3'}">其他</c:if>
 						        	</option>
 						        </select>
 					        </c:when >
 					        <c:otherwise>
-					        	<select id="org_type" name="typeName" onclick="viewOrgType()">
+					        	<select id="org_type" name="typeName" onchange="viewOrgType()" >
 						        	<option value="1" <c:if test="${user.typeName == '1'}">selected</c:if>>采购机构</option>
 						        	<option value="2" <c:if test="${user.typeName == '2'}">selected</c:if>>采购管理部门</option>
 						        	<option value="0" <c:if test="${user.typeName == '0'}">selected</c:if>>需求部门</option>
+						        	<option value="4" <c:if test="${user.typeName == '4'}">selected</c:if>>资源服务中心</option>
+						        	<option value="5" <c:if test="${user.typeName == '5'}">selected</c:if>>监管部门</option>
 						        	<option value="3" <c:if test="${user.typeName == '3'}">selected</c:if>>其他</option>	
 						        </select>
 					        </c:otherwise>
@@ -446,7 +531,7 @@
 			        </div>
 			 	</li>
 			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="select_org">
-				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>所属机构</span>
+				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span><span id="orgTitle">所属机构</span></span>
 				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				        <c:choose> 
 					        <c:when  test="${not empty origin}">
@@ -458,6 +543,7 @@
 					        	<input id="orgSel"  type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
 					        </c:otherwise>
 					    </c:choose>
+					    <input type="hidden" id="orgParent" value=""/>
 						<div  class="drop_up" onclick="showOrg();">
 						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png"/>
 				        </div>

@@ -18,7 +18,9 @@ import ses.dao.bms.UserMapper;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
+import ses.service.bms.UserDataRuleService;
 import ses.service.bms.UserServiceI;
+import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
@@ -45,8 +47,14 @@ public class UserServiceImpl implements UserServiceI {
 	
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	
+	@Autowired
+	private UserDataRuleService userDataRuleService;
+	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
+	
 	@Override
-	public void save(User user, User currUser) {
+	public String save(User user, User currUser) {
 		user.setIsDeleted(0);
 		user.setCreatedAt(new Date());
 		if (currUser != null) {
@@ -72,7 +80,15 @@ public class UserServiceImpl implements UserServiceI {
         //外网用户
         user.setNetType(1);
     }
-		userMapper.insertSelective(user);
+    //根据业务不同 判断 id是否为空 分别调用不同的方法
+      if(StringUtils.isBlank(user.getId())){
+    	  //id 为空时调用
+    	  userMapper.insertSelective(user);
+      }else{
+    	  //id 不为空时调用
+    	  userMapper.saveUser(user);
+      }
+		return user.getId();
 	}
 	
 	/**
@@ -253,6 +269,17 @@ public class UserServiceImpl implements UserServiceI {
     public List<User> findUserRole(User user, int pageNum) {
         PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
         List<User> users = userMapper.findUserRole(user);
+         if (users !=null && users.size()>0) {
+			for (User pro : users) {
+				if("4".equals(pro.getTypeName())||"5".equals(pro.getTypeName())){
+					//id集合
+					List<String> orgid= userDataRuleService.getOrgID(pro.getId());
+					pro.setOrgId(StringUtils.join(orgid,","));
+					List<String> orgName= orgnizationServiceI.findByUserid(pro.getId());
+					pro.setOrgName(StringUtils.join(orgName,","));
+				}
+			}
+		}
         return users;
     }
 

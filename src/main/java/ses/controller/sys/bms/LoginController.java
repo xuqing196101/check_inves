@@ -145,7 +145,7 @@ public class LoginController {
                 out.print("errorcode");
             } else if (u != null) {
                 req.getSession().setAttribute("register", true);
-                //查询数据 权限信息
+                //查询 是否有监管 中心数据
                /*List<String> dataRule= UserDataRuleService.getOrgID(u.getId());
                if(dataRule!=null&& dataRule.size()>0){
                  u.setUserDataRule(userService.getUserId(dataRule,u.getTypeName()));

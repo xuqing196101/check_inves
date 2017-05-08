@@ -202,8 +202,7 @@ public class PreMenuController {
 	 */
 	@RequestMapping("dataTree")
 	@ResponseBody
-	public List<Map<String,Object>> dataTree(HttpServletRequest request,
-			HttpServletResponse response, Model model, Role r, String userId){
+	public List<Map<String,Object>> dataTree(Model model, Role r,String userId){
 		List<Map<String,Object>> list=new ArrayList<>();
 		//获取 0:需求部门 1:采购机构 2:管理部门
 		List<Orgnization> demandAndManage= OrgnizationServiceI.selectByType();
@@ -222,30 +221,35 @@ public class PreMenuController {
 		map.put("id", manageT.getId());
 		map.put("pId", 0);
 		map.put("name", "管理部门");
+		map.put("checked", false);
 		list.add(map);
 		//需求 头
 		map=new HashMap<String, Object>();
 		map.put("id", demandT.getId());
 		map.put("pId", 0);
 		map.put("name", "需求部门");
+		map.put("checked", false);
 		list.add(map);
 		// 采购 头
 		map=new HashMap<String, Object>();
 		map.put("id", cgjg.getId());
 		map.put("pId", 0);
 		map.put("name", "采购机构");
+		map.put("checked", false);
 		list.add(map);
 		// 其他 头
 		map=new HashMap<String, Object>();
 		map.put("id", qt.getId());
 		map.put("pId", 0);
 		map.put("name", "其他");
+		map.put("checked", false);
 		list.add(map);
 		for(Orgnization de:purchase){
 			map=new HashMap<String, Object>();
 			map.put("id", de.getId());
 			map.put("pId", cgjg.getId());
 			map.put("name", de.getName());
+			map.put("checked", false);
 			list.add(map);
 		}
 		for(Orgnization de:demandAndManage){
@@ -260,6 +264,7 @@ public class PreMenuController {
 				map.put("pId", de.getParentId() != null ? de.getParentId():0);
 			}
 			map.put("name", de.getName());
+			map.put("checked", false);
 			list.add(map);
 		}
 		

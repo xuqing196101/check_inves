@@ -30,14 +30,14 @@ public interface UserServiceI {
 	List<User> selectUser(User user, Integer pageNum);
 
 	/**
-	 * Description: 保存用户
+	 * Description: 保存用户 不需要传id
 	 * 
 	 * @author Ye MaoLin
 	 * @version 2016-9-13
 	 * @param user
 	 * @exception IOException
 	 */
-	void save(User user, User currUser);
+	String save(User user, User currUser);
 
 	/**
 	 * Description: 保存用户-角色关联

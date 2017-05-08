@@ -342,10 +342,10 @@
   </insert>
   
   <!-- 4.插入不为空数据 -->
-  <insert id="insertSelective" parameterType="ses.model.bms.User">
-  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+  <insert id="insertSelective" parameterType="ses.model.bms.User" useGeneratedKeys="true" keyProperty="id">
+  	 <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
-    </selectKey>
+    </selectKey> 
     insert into T_SES_BMS_USER
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null and id != ''">

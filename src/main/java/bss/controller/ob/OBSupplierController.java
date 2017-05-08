@@ -156,8 +156,10 @@ public class OBSupplierController  {
 		}
 		String orgTyp = null;
 		if(user != null){
+			if(user.getOrg() != null){
 			if(user.getOrg().getTypeName().equals("1")){
 				orgTyp = user.getOrg().getTypeName();
+			}
 			}
 		}
 		int status = request.getParameter("status") == null ? 0 : Integer

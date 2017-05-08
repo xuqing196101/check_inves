@@ -244,4 +244,10 @@ public interface OrgnizationMapper {
     Orgnization selectByShortName(String shortName);
     
     String selectById(@Param("id") String id);
+    /**
+     * 获取 监控 机构 名称
+     * @param userid
+     * @return
+     */
+    List<String> findByUserid(String userid);
 }

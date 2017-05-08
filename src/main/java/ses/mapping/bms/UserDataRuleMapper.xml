@@ -22,7 +22,12 @@
   <select id="getOrgID" parameterType="String"  resultType="String">
   select ORG_ID from T_SES_BMS_USER_DATA_RULE where USER_ID=#{userId,jdbcType=VARCHAR}
   </select>
-  
+  <!-- 获取 关系表 的机构 id 和 名称 -->
+  <select id="findByUserID" parameterType="String"  resultMap="BaseResultMap">
+  select r.ORG_ID,o.name as CREATER_ID from T_SES_BMS_USER_DATA_RULE r 
+   LEFT JOIN T_SES_OMS_ORG o on r.ORG_ID=o.id 
+   where USER_ID=#{userId,jdbcType=VARCHAR}
+  </select>
   <insert id="insertSelective" parameterType="ses.model.bms.UserDataRule" >
     insert into T_SES_BMS_USER_DATA_RULE
     <trim prefix="(" suffix=")" suffixOverrides="," >

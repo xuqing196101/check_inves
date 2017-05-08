@@ -187,4 +187,10 @@ public interface OrgnizationServiceI {
      * @return
      */
     public List<Orgnization> selectByType();
+    /**
+     * 根据 用户id 获取 机构名称
+     * @param userId
+     * @return
+     */
+    public List<String> findByUserid(String userId);
 }

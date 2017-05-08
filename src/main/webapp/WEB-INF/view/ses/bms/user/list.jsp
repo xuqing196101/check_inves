@@ -81,7 +81,7 @@
 		if(id.length==1){
 			var trObj = checktd.parent().parent();
 			var tdArr = trObj.children("td");
-		    var roleCode = tdArr.eq(6).find("input").val();
+		    var roleCode = tdArr.eq(7).find("input").val();
 		    //判断：如果该用户拥有供应商、专家（临时专家）、进口供应商、进口代理商中的任何一个角色都不能进行修改操作
 		    if(roleCode.indexOf("SUPPLIER_R") > -1 || roleCode.indexOf("EXPERT_R") > -1 || roleCode.indexOf("EXPERT_TEMP_R") > -1 || roleCode.indexOf("IMP_SUPPLIER_R") > -1 || roleCode.indexOf("IMPORT_AGENT_R") > -1){
 				layer.msg("该（角色）用户不能进行信息修改",{offset: ['222px']});
@@ -103,7 +103,7 @@
 			ids.push($(this).val()); 
 			var trObj = $(this).parent().parent();
 			var tdArr = trObj.children("td");
-		    var roleCode = tdArr.eq(6).find("input").val();
+		    var roleCode = tdArr.eq(7).find("input").val();
 		    //判断：如果该用户拥有供应商、专家（临时专家）、进口供应商、进口代理商中的任何一个角色都不能进行修改操作
 		    if(roleCode.indexOf("SUPPLIER_R") > -1 || roleCode.indexOf("EXPERT_R") > -1 || roleCode.indexOf("EXPERT_TEMP_R") > -1 || roleCode.indexOf("IMP_SUPPLIER_R") > -1 || roleCode.indexOf("IMPORT_AGENT_R") > -1){
 				flag = 1;
@@ -346,7 +346,7 @@
 			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 			<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
-			<button class="btn btn-windows edit" type="button" onclick="openDataMenu()">设置数据权限</button>
+			<!-- <button class="btn btn-windows edit" type="button" onclick="openDataMenu()">设置数据权限</button> -->
 			<button class="btn btn-windows edit" type="button" onclick="resetPaw()">重置密码</button>
 	  </div>
 	  
@@ -358,11 +358,12 @@
 					  <th class="info w50">序号</th>
 					  <th class="info">用户名</th>
 					  <th class="info">姓名</th>
+					  <th class="info">机构类型</th>
 					  <th class="info">单位</th>
 					  <th class="info">联系电话</th>
 					  <th class="info">角色</th>
 					  <th class="info w80">权限</th>
-					  <th class="info w80">数据权限</th>
+					  <!-- <th class="info w80">数据权限</th> -->
 					</tr>
 		      </thead>
 		      <tbody>
@@ -372,6 +373,13 @@
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					  <td class="tl pl20" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
 					  <td class="tc">${user.relName}</td>
+					 <td class="tc"> <c:if test="${user.typeName == '1'}">采购机构</c:if>
+						        		<c:if test="${user.typeName == '2'}">采购管理部门</c:if>
+						        		<c:if test="${user.typeName == '0'}">需求部门</c:if>
+						        		<c:if test="${user.typeName == '4'}">资源服务中心</c:if>
+						        		<c:if test="${user.typeName == '5'}">监管部门</c:if>
+						        		<c:if test="${user.typeName == '3'}">其他</c:if>
+						        	</td>
 					  <td class="tl pl20">
 					  	<c:if test="${user.org != null && user.org.fullName != null && user.org.fullName != ''}">
 					  		${user.org.fullName}
@@ -399,9 +407,9 @@
 					  <td class="tc">
 					  	<a href="#" onclick="viewPermission('${user.id}');">查看</a>
 					  </td>
-					   <td class="tc">
+					 <%--   <td class="tc">
 					  	<a href="#" onclick="dataViewPermission('${user.id}');">查看</a>
-					  </td>
+					  </td> --%>
 					</tr>
 				</c:forEach>
 				</tbody>

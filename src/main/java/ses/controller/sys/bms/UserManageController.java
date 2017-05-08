@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,10 +80,10 @@ public class UserManageController extends BaseController{
 	private PreMenuServiceI preMenuService;
 	
 	@Autowired
-	private DictionaryDataServiceI dictionaryDataService;
+	private UserDataRuleService userDataRuleService;
 	
 	@Autowired
-    private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+	private OrgnizationServiceI orgnizationServiceI;
 	
 	@Autowired
     private PurchaseServiceI purchaseServiceI;
@@ -258,7 +259,7 @@ public class UserManageController extends BaseController{
 			List<DictionaryData> genders = DictionaryDataUtil.find(13);
 //      List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
 //      model.addAttribute("typeNames", typeNames);
-      model.addAttribute("genders", genders);
+			model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("orgName", orgName);
 			
@@ -273,18 +274,41 @@ public class UserManageController extends BaseController{
 		if(user.getOrgId() != null && !"".equals(user.getOrgId())){
 			if ("3".equals(user.getTypeName())) {
 			  user.setOrgName(user.getOrgId());
-      } else {
-        Orgnization org = orgnizationService.getOrgByPrimaryKey(user.getOrgId());
-        if (org != null){
-          user.setOrg(org);
-        }
-      }
+			} else{
+				Orgnization org = orgnizationService.getOrgByPrimaryKey(user.getOrgId());
+				if (org != null){
+					user.setOrg(org);
+				}
+			}
 		}else{
 			user.setOrg(null);
 		}
 		String PurTypeId = WfUtil.createUUID();
 		user.setTypeId(PurTypeId);
+		// 生成ID
+	    String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+	    user.setId(uuid);
+	    //判断 是否是 监管中心 或 资质中心 由于是一对多的关系 单独保存于关系表中 保存完后并且清空 orgid  orgname 防止字段精度超出
+		if("4".equals(user.getTypeName()) || "5".equals(user.getTypeName())){
+			if(StringUtils.isNotBlank(user.getOrgId())){
+				String [] orgIdArray=user.getOrgId().split(",");
+				UserDataRuleService.deleteByUserId(user.getId());
+				Date createDate=new Date();
+				for(String id:orgIdArray){
+					UserDataRule rule=new UserDataRule();
+					rule.setCreatedAt(createDate);
+					rule.setCreaterId(currUser.getId());
+					rule.setOrgId(id);
+					rule.setUserId(uuid);
+					UserDataRuleService.insertSelective(rule);
+				}
+			}
+			user.setOrgId(null);
+			user.setOrgName(null);
+		}
+	
 		userService.save(user, currUser);
+	
 		if ("1".equals(user.getTypeName())) {
       //保存到采购人表
       purchaseServiceI.saveUser(user, PurTypeId);
@@ -414,6 +438,14 @@ public class UserManageController extends BaseController{
 				model.addAttribute("orgId", user.getOrg().getId());
 				model.addAttribute("orgName", user.getOrg().getName());
 			}
+			if("4".equals(user.getTypeName())||"5".equals(user.getTypeName())){
+				List<String> orgid= userDataRuleService.getOrgID(user.getId());
+				List<String> orgName= orgnizationServiceI.findByUserid(user.getId());
+				model.addAttribute("orgId", StringUtils.join(orgid,","));
+				model.addAttribute("orgName",StringUtils.join(orgName,","));
+			}
+			
+			
 			model.addAttribute("user", user);
 			model.addAttribute("currPage", page);
 		}
@@ -524,7 +556,7 @@ public class UserManageController extends BaseController{
         u.setTypeId(purTypeId);
         purchaseServiceI.saveUser(u, purTypeId);
       }
-      
+      User currUser = (User) request.getSession().getAttribute("loginUser");
       //修改采购人员
       if ("1".equals(olduser.getTypeName()) && "1".equals(u.getTypeName())) {
         //purchaseServiceI.updatePurchase(purchaseInfo);
@@ -533,6 +565,23 @@ public class UserManageController extends BaseController{
 			u.setCreatedAt(olduser.getCreatedAt());
 			u.setUser(olduser.getUser());
 			u.setUpdatedAt(new Date());
+			if("4".equals(u.getTypeName()) || "5".equals(u.getTypeName())){
+				if(StringUtils.isNotBlank(u.getOrgId())){
+					String [] orgIdArray=u.getOrgId().split(",");
+					UserDataRuleService.deleteByUserId(u.getId());
+					Date createDate=new Date();
+					for(String id:orgIdArray){
+						UserDataRule rule=new UserDataRule();
+						rule.setCreatedAt(createDate);
+						rule.setCreaterId(currUser.getId());
+						rule.setOrgId(id);
+						rule.setUserId(u.getId());
+						UserDataRuleService.insertSelective(rule);
+					}
+				}
+				u.setOrgId(null);
+				u.setOrgName(null);
+			}
 			userService.update(u);
 			
 			HashMap<String, Object> map = new HashMap<String, Object>();
@@ -638,14 +687,19 @@ public class UserManageController extends BaseController{
 					roleName += list.get(i).getName() + ",";
 				}
 			}
+			if("4".equals(u.getTypeName()) || "5".equals(u.getTypeName())){
+				List<String> orgName= orgnizationServiceI.findByUserid(u.getId());
+				u.setOrgName(StringUtils.join(orgName,","));
+			}
+			
 			List<DictionaryData> genders = DictionaryDataUtil.find(13);
-      List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+            List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
 			model.addAttribute("typeNames", typeNames);
 	    model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("user", u);
-		} else {
-
+			
+			
 		}
 		model.addAttribute("flag", 1);
 		return "ses/bms/user/view";

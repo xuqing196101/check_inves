@@ -76,11 +76,11 @@ function check(){
 
 /* 暂停 */
 function suspended(){
-	var orgTyp = "${orgTyp}";
+	/* var orgTyp = "${orgTyp}";
 	if(orgTyp != '1'){
 		layer.msg("只有采购机构才能操作");
 		return;
-	}
+	} */
 	var id = [];
 	$('input[name="chkItem"]:checked').each(function() {
 		id.push($(this).val());
@@ -132,11 +132,11 @@ function suspended(){
 
 /* 恢复 */
 function restore(){
-	var orgTyp = "${orgTyp}";
+	/* var orgTyp = "${orgTyp}";
 	if(orgTyp != '1'){
 		layer.msg("只有采购机构才能操作");
 		return;
-	}
+	} */
 	var id = [];
 	$('input[name="chkItem"]:checked').each(function() {
 		id.push($(this).val());
@@ -188,11 +188,11 @@ function restore(){
 
 /* 修改 */
 function edit() {
-	var orgTyp = "${orgTyp}";
+	/* var orgTyp = "${orgTyp}";
 	if(orgTyp != '1'){
 		layer.msg("只有采购机构才能操作");
 		return;
-	}
+	} */
 	var id = [];
 	$('input[name="chkItem"]:checked').each(function() {
 		id.push($(this).val());
@@ -259,11 +259,11 @@ function openViewDIvs(id){
  * @param key 对应系统的key
  */
 function download(bid){
-	var orgTyp = "${orgTyp}";
+	/* var orgTyp = "${orgTyp}";
 	if(orgTyp != '1'){
 		layer.msg("只有采购机构才能操作");
 		return;
-	}
+	} */
 	var key = 2;
 	var zipFileName = null;
 	var fileName = null;
@@ -295,11 +295,11 @@ function download(bid){
 //弹出导入框
 var index;
 function upload(){
-	var orgTyp = "${orgTyp}";
+	/* var orgTyp = "${orgTyp}";
 	if(orgTyp != '1'){
 		layer.msg("只有采购机构才能操作");
 		return;
-	}
+	} */
 		index = layer.open({
 			type: 1, //page层
 			area: ['400px', '300px'],
@@ -315,11 +315,11 @@ function upload(){
 
 //下载模板
 function down(){
-	var orgTyp = "${orgTyp}";
+	/* var orgTyp = "${orgTyp}";
 	if(orgTyp != '1'){
 		layer.msg("只有采购机构才能操作");
 		return;
-	}
+	} */
 	window.location.href ="${pageContext.request.contextPath}/obSupplier/download.html";
 }
 
@@ -358,11 +358,11 @@ function fileUpload(){
      
 	/* 下载目录 */
 	function downCategory(){
-		var orgTyp = "${orgTyp}";
+		/* var orgTyp = "${orgTyp}";
 		if(orgTyp != '1'){
 			layer.msg("只有采购机构才能操作");
 			return;
-		}
+		} */
 		window.location.href ="${pageContext.request.contextPath}/product/downloadCategory.html";
 	}
 	
@@ -457,11 +457,11 @@ function fileUpload(){
   	}
 
   	function addS(){
-  		var orgTyp = "${orgTyp}";
+  		/* var orgTyp = "${orgTyp}";
 		if(orgTyp != '1'){
 			layer.msg("只有采购机构才能操作");
 			return;
-		}
+		} */
   		window.location.href = "${pageContext.request.contextPath }/obSupplier/addSupplieri.html";
   	}
   	function searchs(){

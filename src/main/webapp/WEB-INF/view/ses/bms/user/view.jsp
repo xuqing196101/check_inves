@@ -97,8 +97,8 @@
 	 	<table class="table table-bordered">
 		 	<tbody>
 		 		<tr>
-		 			<td class="bggrey">用户名：</td><td>${user.loginName}</td>
-		 			<td class="bggrey">真实姓名：</td><td>${user.relName}</td>
+		 			<td class="bggrey" >用户名：</td><td class="bggrey">${user.loginName}</td>
+		 			<td class="bggrey" >真实姓名：</td><td class="bggrey">${user.relName}</td>
 		 		</tr>
 		 		<tr>
 		 			<td class="bggrey">性别：</td>
@@ -145,10 +145,12 @@
 		 		<tr>
 		 			<td class="bggrey">机构类型：</td>
 		 			<td>
-		 				<c:if test="${user.typeName == '0' }">需求部门</c:if>
-		 				<c:if test="${user.typeName == '1' }">采购机构</c:if>
-		 				<c:if test="${user.typeName == '2' }">采购管理部门</c:if>
-		 				<c:if test="${user.typeName == '3' }">其他</c:if>
+							        	<c:if test="${user.typeName == '1'}">采购机构</c:if>
+						        		<c:if test="${user.typeName == '2'}">采购管理部门</c:if>
+						        		<c:if test="${user.typeName == '0'}">需求部门</c:if>
+						        		<c:if test="${user.typeName == '4'}">资源服务中心</c:if>
+						        		<c:if test="${user.typeName == '5'}">监管部门</c:if>
+						        		<c:if test="${user.typeName == '3'}">其他</c:if>
 		 			</td>
 		 			<td class="bggrey">单位：</td>
 		 			<td colspan="3">

@@ -927,4 +927,9 @@
       WHERE 
       ID = #{id}
 	</select>
+	<select id="findByUserid" parameterType="String" resultType="String">
+   SELECT o.name from T_SES_OMS_ORG o  where  EXISTS(SELECT r.ORG_ID from T_SES_BMS_USER_DATA_RULE r 
+   where o.id=r.org_id and r.user_id=#{id})
+	
+	</select>
 </mapper>

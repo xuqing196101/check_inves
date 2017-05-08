@@ -68,11 +68,11 @@
 	
 	/* 删除 */
 	function del(){
-		var orgTyp = "${orgTyp}";
+		/* var orgTyp = "${orgTyp}";
 		if(orgTyp != '2'){
 			layer.msg("只有管理部门才能操作");
 			return;
-		}
+		} */
 		var id = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
@@ -118,11 +118,11 @@
 	
 	/* 发布 */
 	function fb() {
-		var orgTyp = "${orgTyp}";
+		/* var orgTyp = "${orgTyp}";
 		if(orgTyp != '2'){
 			layer.msg("只有管理部门才能操作");
 			return;
-		}
+		} */
 		var id = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
@@ -189,11 +189,11 @@
 	
 	/* 撤回发布 */
 	function chfb() {
-		var orgTyp = "${orgTyp}";
+		/* var orgTyp = "${orgTyp}";
 		if(orgTyp != '2'){
 			layer.msg("只有管理部门才能操作");
 			return;
-		}
+		} */
 		var id = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
@@ -241,11 +241,11 @@
 	
 	/* 修改 */
 	function edit() {
-		var orgTyp = "${orgTyp}";
+		/* var orgTyp = "${orgTyp}";
 		if(orgTyp != '2'){
 			layer.msg("只有管理部门才能操作");
 			return;
-		}
+		} */
 		var id = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
@@ -280,11 +280,11 @@
 	// 弹出导入框
 	var index;
 	function upload(){
-		var orgTyp = "${orgTyp}";
+		/* var orgTyp = "${orgTyp}";
 		if(orgTyp != '2'){
 			layer.msg("只有管理部门才能操作");
 			return;
-		}
+		} */
 	 index = layer.open({
 		type: 1, //page层
 		area: ['400px', '300px'],
@@ -300,11 +300,11 @@
 	
 	//下载模板
     function down(){
-    	var orgTyp = "${orgTyp}";
+    	/* var orgTyp = "${orgTyp}";
 		if(orgTyp != '2'){
 			layer.msg("只有管理部门才能操作");
 			return;
-		}
+		} */
     	window.location.href ="${pageContext.request.contextPath}/product/download.html";
     }
 	
@@ -343,20 +343,20 @@
 	
 	/* 下载目录 */
 	function downCategory(){
-		var orgTyp = "${orgTyp}";
+		/* var orgTyp = "${orgTyp}";
 		if(orgTyp != '2'){
 			layer.msg("只有管理部门才能操作");
 			return;
-		}
+		} */
 		window.location.href ="${pageContext.request.contextPath}/product/downloadCategory.html";
 	}
 	
 	function fbdxcp(){
-		var orgTyp = "${orgTyp}";
+		/* var orgTyp = "${orgTyp}";
 		if(orgTyp != '2'){
 			layer.msg("只有管理部门才能操作");
 			return;
-		}
+		} */
 	window.location.href = "${pageContext.request.contextPath }/product/tiaozhuan.html?type=2";
 	}
 	

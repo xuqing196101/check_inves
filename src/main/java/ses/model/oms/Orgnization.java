@@ -20,7 +20,7 @@ public class Orgnization implements Serializable {
     private String name;
 
     /**
-     * @Fields typeName : 0:需求部门 1:采购机构 2:管理部门
+     * @Fields typeName : 0:需求部门 1:采购机构 2:管理部门 3其他 
      */
     private String typeName;
     
