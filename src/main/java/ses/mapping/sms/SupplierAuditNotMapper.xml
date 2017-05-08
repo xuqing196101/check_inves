@@ -15,7 +15,7 @@
   <select id="selectByPrimaryKey" parameterType="ses.model.sms.SupplierAuditNot" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_AUDIT_Not
+    from T_SES_SMS_SUPPLIER_AUDIT_NOT
     where 
     CREDIT_CODE = #{creditCode}
     AND
@@ -109,7 +109,7 @@
    <select id="selectById" resultMap="BaseResultMap">
       select 
     <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_AUDIT_Not
+    from T_SES_SMS_SUPPLIER_AUDIT_NOT
     where 
     SUPPLIER_ID = #{id}
   </select>
@@ -117,10 +117,20 @@
   <select id="selectQueryBySupplierId" resultMap="BaseResultMap">
       select 
     <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_AUDIT_Not
+    from T_SES_SMS_SUPPLIER_AUDIT_NOT
     where 
     SUPPLIER_ID = #{supplierId}
   </select>
   
+  
+  <select id="selectByCreditCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_AUDIT_NOT
+    where 
+    CREDIT_CODE = #{creditCode}
+    AND
+    CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_SMS_SUPPLIER_AUDIT_NOT )
+  </select>
   
 </mapper>

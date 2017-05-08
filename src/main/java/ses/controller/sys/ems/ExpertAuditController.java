@@ -485,7 +485,7 @@ public class ExpertAuditController{
 		} else if("2".equals(type)) {
 			SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
 			Date date = sdf1.parse(value);
-			content.append(new SimpleDateFormat("yyyy-MM-dd").format(date));
+			content.append(new SimpleDateFormat("yyyy-MM").format(date));
 		} else if("3".equals(type)) {
 			// Wed Feb 01 00:00:00 CST 2017         String
 			SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);

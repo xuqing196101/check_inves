@@ -292,7 +292,6 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("essential")
 	public String essentialInformation(HttpServletRequest request, Supplier supplier, String supplierId, Integer sign) {
-		
 		request.setAttribute("sign", sign);
 		
 		SupplierModify supplierModify= new SupplierModify();
