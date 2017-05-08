@@ -1128,8 +1128,8 @@
                         class="red">*</i> 从事专业起始年月</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,'从事专业起始年月')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('从事专业起始年月')"</c:if>
+                                <c:if test="${fn:contains(errorField,'专业起始年月')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('专业起始年月')"</c:if>
                                 value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />"
                                 readonly="readonly" name="timeStartWork" id="timeStartWork" type="text"
                                 onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>

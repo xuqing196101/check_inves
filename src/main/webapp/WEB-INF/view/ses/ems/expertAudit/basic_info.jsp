@@ -60,6 +60,9 @@
           	auditField = str;
           	auditContent = $(this).parents("li").find("textarea").text();
           }
+          if(auditField == "从事专业起始年月"){
+	        	auditField = auditField.replace("从事","").trim();
+	        }
     		});
 					var index = layer.prompt({
 				    title : '请填写不通过的理由：', 
@@ -511,8 +514,8 @@
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年月：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input <c:if test="${fn:contains(conditionStr,'从事专业起始年月')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getTimeStartWork')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeStartWord','getTimeStartWord','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="timeStartWork" type="text" onclick="reason(this);"/>
-									<c:if test="${fn:contains(conditionStr,'从事专业起始年月')}">
+									<input <c:if test="${fn:contains(conditionStr,'专业起始年月')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getTimeStartWork')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeStartWord','getTimeStartWord','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="timeStartWork" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'专业起始年月')}">
 										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
 									</c:if>
 								</div>
