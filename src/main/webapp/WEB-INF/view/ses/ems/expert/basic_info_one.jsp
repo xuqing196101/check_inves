@@ -909,7 +909,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input onblur="notNull('relName')" id="relName" name="relName" value="${expert.relName}" type="text" <c:if test="${fn:contains(errorField,'专家姓名')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专家姓名')"
+								<input onblur="notNull('relName')" id="relName" name="relName" maxlength="50" value="${expert.relName}" type="text" <c:if test="${fn:contains(errorField,'专家姓名')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专家姓名')"
 								</c:if>/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空</span>
@@ -1181,7 +1181,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 现任职务</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input maxlength="10" value="${expert.atDuty}" name="atDuty" id="appendedInput" type="text" <c:if test="${fn:contains(errorField,'现任职务')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('现任职务')"
+								<input maxlength="50" value="${expert.atDuty}" name="atDuty" id="appendedInput" type="text" <c:if test="${fn:contains(errorField,'现任职务')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('现任职务')"
 								</c:if>/>
 								<span class="add-on">i</span>
 								<span class="input-tip">如：项目经理</span>
@@ -1190,7 +1190,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 从事专业</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input onblur="notNull('major')" maxlength="20" value="${expert.major}" name="major" id="major" type="text" <c:if test="${fn:contains(errorField,'从事专业,')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('从事专业')"
+								<input onblur="notNull('major')" maxlength="50" value="${expert.major}" name="major" id="major" type="text" <c:if test="${fn:contains(errorField,'从事专业,')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('从事专业')"
 								</c:if> />
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空</span>
@@ -1261,7 +1261,7 @@
                         class="red">*</i> 毕业院校及专业</span>
 						</c:if>
 						<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-							<input onblur="notNull('graduateSchool')" maxlength="40" value="${expert.graduateSchool}" name="graduateSchool" id="graduateSchool" type="text" <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业院校及专业')"
+							<input onblur="notNull('graduateSchool')" maxlength="50" value="${expert.graduateSchool}" name="graduateSchool" id="graduateSchool" type="text" <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业院校及专业')"
 							</c:if>/>
 							<span class="add-on">i</span>
 							<span class="input-tip">不能为空，如：北京大学计算机专业</span>
