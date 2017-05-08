@@ -138,7 +138,7 @@
     	 if(bool==true&&val==1){
     		 $("#server_div").find("input[type='text']").each(
                 function(index, element) {
-                    if (element.value == "") {
+                    if (element.value.trim() == "") {
                         // bool = false;
                         /*  layer.msg("请完善执业业资格信息 !");
                          return; */
