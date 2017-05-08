@@ -416,9 +416,9 @@
             <li class="col-md-3 col-sm-6 col-xs-12 ">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red3">*</span>开标日期:</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                <input class="col-md-12 col-sm-12 col-xs-6 p0"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" readonly="readonly"  name="bidDate" value="<fmt:formatDate value='${bidDate}'
+                <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" readonly="readonly"  name="bidDate" value="<fmt:formatDate value='${bidDate}'
                                 pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
-                <div class="cue" id="tenderTimeError"></div>
+                  <div class="cue" id="tenderTimeError"></div>
               </div>
             </li>
 						<li class="col-md-3 col-sm-6 col-xs-12 ">
