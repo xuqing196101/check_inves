@@ -24,6 +24,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
+
+
 import com.alibaba.fastjson.JSON;
 
 import common.bean.ResBean;
@@ -41,6 +44,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
 import ses.util.EncodingTool;
+import ses.util.PropUtil;
 import ses.util.WfUtil;
 
 /**
@@ -408,6 +412,8 @@ public class CategoryController extends BaseSupplierController {
      */
     @RequestMapping("/get")
     public String get(HttpServletRequest request,Model model) {
+    	Boolean bool = PropUtil.getOutPageButton("config.properties");
+    	model.addAttribute("buttonHidden",bool);
         model.addAttribute("cate",new Category());
         model.addAttribute("levelList", DictionaryDataUtil.find(31));
         return "ses/bms/category/list";

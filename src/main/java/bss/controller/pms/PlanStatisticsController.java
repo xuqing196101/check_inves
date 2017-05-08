@@ -90,7 +90,7 @@ public class PlanStatisticsController extends BaseController {
 //			model.addAttribute("org", org);
 		
 		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
-		PageInfo<CollectPlan> info = new PageInfo<>(list);
+		PageInfo<CollectPlan> info = new PageInfo<CollectPlan>(list);
 		model.addAttribute("info", info);
 //		model.addAttribute("inf", collectPlan);
 		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
@@ -129,7 +129,7 @@ public class PlanStatisticsController extends BaseController {
 		if(list!=null && list.size() >0){
 			for (Map<String,Object> m : list) {
 				listData.add(String.valueOf(m.get("DEPARTMENT"))) ;
-				 String str=String.valueOf(m.get("AMOUNT"));
+				String str=String.valueOf(m.get("AMOUNT"));
 				data.add(str);
 				BigDecimal min = new BigDecimal(str);
 				int n = max.compareTo(min);

@@ -8,8 +8,7 @@
 <html>
   <head>
      <title>待办事项</title>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-<script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
+     <script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
 <link href="${pageContext.request.contextPath}/public/backend/images/favicon.ico"  rel="shortcut icon" type="image/x-icon" />
 <link href="${pageContext.request.contextPath}/public/backend/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/backend/css/common.css" media="screen" rel="stylesheet" type="text/css">  
@@ -18,9 +17,10 @@
 <link href="${pageContext.request.contextPath}/public/backend/css/btn.css" media="screen" rel="stylesheet" type="text/css"> 
 <link href="${pageContext.request.contextPath}/public/accordion/SpryAccordion.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/public/accordion/SpryAccordion.js"></script>
+<script src="${pageContext.request.contextPath}/public/webuploadFT/layui/layui.js"></script>
     <script type="text/javascript">
     $(function(){
-  	  laypage({
+  	  /* laypage({
   		    cont: $("#supplierTodos"), //容器。值支持id名、原生dom对象，jquery对象,
   		    pages: "${supplierTodos.pages}", //总页数
   		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
@@ -37,7 +37,55 @@
   		      		window.location.href="${pageContext.request.contextPath}/todo/todos.html?supplierPage="+e.curr+"&type=supplier";
   		        }
   		    }
-  		});
+  		}); */
+  		
+  		$(function() { 
+  			pageHtml("#tbody_id0","0","#agentslist0","供应商待办");
+  			pageHtml("#tbody_id1","1","#agentslist1","专家待办");
+  			pageHtml("#tbody_id2","2","#agentslist2","项目待办");
+  	      });
+  		function pageHtml(id,type,pid,texts){
+  			layui.use('flow', function(){
+  	  	    	var $ = layui.jquery;
+  	  	        var flow = layui.flow;
+  	  	        flow.load({
+  	  			    elem: id,
+  	  			    mb:50,
+  	  			    done: function(page, next){
+  	  			      var lis = [];
+  	  			      $.ajax({
+  	  			      url: "${pageContext.request.contextPath}/todo/supplier.do?page=" + page+"&type="+type,
+  	  		          type: "get",
+  	  		          dataType: "json",
+  	  		          success: function(res) {
+  	  		               layui.each(res.data, function(index, item){
+  	  		            	  var timeJson=item.createdAt;
+  	  		            	  var time=timeJson.time;
+                              var str= new Date(time);
+  	  			               var html="<tr onclick='view(\"${pageContext.request.contextPath}/"+item.url+"\");'>";
+  	  			                   html+="<td>"+(parseInt((index+1))+(res.pageNum-1)*(res.pageSize))+"</td>";
+  	  			                   html+="<td>"+item.name+"</td>";
+  	  			                   html+="<td>"+item.senderName+"</td>";
+  	  			                   html+="<td>"+str.toLocaleString()+"</td>";
+  	  			                   html+="</tr>";
+  	  			            	 lis.push(html);
+  	  			              }); 
+  	  		               if(page==1){
+  	  		            	   var totals=0;
+  	  		            	   if(res){
+  	  		            		totals=res.total;
+  	  		            	   }
+  	  		            	   $(pid).prev().html(texts+"("+totals+")");
+  	  		               }
+  	  			           next(lis.join(''), page < res.pages);
+  	  		          },
+  	  			      });
+  	  			    }
+  	  			  });
+  	  	      });
+  		}
+  		
+  		/* 
   	    laypage({
 		    cont: $("#expertTodos"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${expertTodos.pages}", //总页数
@@ -78,41 +126,9 @@
   			if (event.keyCode == 13) {
   				query();
   			}
-  		});
+  		}); */
     });
-      /** 全选全不选 */
-      function selectAll() {
-        var checklist = document.getElementsByName("chkItem");
-        var checkAll = document.getElementById("checkAll");
-        if(checkAll.checked) {
-          for(var i = 0; i < checklist.length; i++) {
-            checklist[i].checked = true;
-          }
-        } else {
-          for(var j = 0; j < checklist.length; j++) {
-            checklist[j].checked = false;
-          }
-        }
-      }
-      
-      /** 单选 */
-      function check() {
-        var count = 0;
-        var checklist = document.getElementsByName("chkItem");
-        var checkAll = document.getElementById("checkAll");
-        for(var i = 0; i < checklist.length; i++) {
-          if(checklist[i].checked == false) {
-            checkAll.checked = false;
-            break;
-          }
-          for(var j = 0; j < checklist.length; j++) {
-            if(checklist[j].checked == true) {
-              checkAll.checked = true;
-              count++;
-            }
-          }
-        }
-      }
+     
 
       function view(url) {
         $("#a").attr("href", url);
@@ -131,9 +147,8 @@
         <div id="Accordion2" class="Accordion" >
         <div  class="AccordionPanel AccordionPanelOpen">
               <div class="AccordionPanelTab" onclick="viewHidden(this,'supplierTodos')">
-                                  供应商待办(${supplierTodos.total})
               </div>
-              <div class=""  id="agentslist0" style="width: 100%;height:300px; overflow:auto; ">
+              <div class=" p0 over_scroll"  id="agentslist0" style="width: 100%;height:300px; overflow:auto; ">
                 <a id="a" href="#" target="_parent"></a>
                 <table  class="hand table table-striped table-bordered">
                     <tr>
@@ -142,7 +157,8 @@
                       <th class="info">发送人</th>
                       <th class="info">创建时间</th>
                     </tr>
-                    <c:forEach items="${supplierTodos.list}" var="agents" varStatus="s">
+                    <tbody id="tbody_id0">
+                    <%-- <c:forEach items="${supplierTodos.list}" var="agents" varStatus="s">
                       <tr class="cursor" onclick="view('${pageContext.request.contextPath}/${ agents.url}');">
                         <td class="tc w50">${(s.index+1)+(supplierTodos.pageNum-1)*(supplierTodos.pageSize)}</td>
                         <td class="tl pl20" title="${agents.name }">
@@ -160,14 +176,14 @@
                           <fmt:formatDate value="${agents.createdAt}" pattern="YYY-MM-dd HH:mm:ss" />
                         </td>
                       </tr>
-                    </c:forEach>
+                    </c:forEach> --%>
+                    </tbody>
                 </table>
-                <div id="supplierTodos" align="right"></div>
+                <!-- <div id="supplierTodos" align="right"></div> -->
               </div>
          </div>
          <div  class="AccordionPanel">
               <div class="AccordionPanelTab" onclick="viewHidden(this,'expertTodos')">
-                                  专家待办(${expertTodos.total})
               </div>
               <div class=""  id="agentslist1" style="width: 100%;height:300px; overflow:auto;display: none; ">
                 <table  class="hand table table-striped table-bordered">
@@ -177,7 +193,8 @@
                       <th class="info">发送人</th>
                       <th class="info">创建时间</th>
                     </tr>
-                    <c:forEach items="${expertTodos.list}" var="agents" varStatus="s">
+                    <tbody id="tbody_id1">
+                    <%-- <c:forEach items="${expertTodos.list}" var="agents" varStatus="s">
                       <tr class="cursor" onclick="view('${pageContext.request.contextPath}/${ agents.url}');">
                         <td class="tc w50">${(s.index+1)+(expertTodos.pageNum-1)*(expertTodos.pageSize)}</td>
                         <td class="tl pl20" title="${agents.name }">
@@ -195,16 +212,17 @@
                           <fmt:formatDate value="${agents.createdAt}" pattern="YYY-MM-dd HH:mm:ss" />
                         </td>
                       </tr>
-                    </c:forEach>
+                    </c:forEach> --%>
+                    </tbody>
                 </table>
-                <div id="expertTodos" align="right"></div>
+                <!-- <div id="expertTodos" align="right"></div> -->
               </div>
          </div>
         <div  class="AccordionPanel">
               <div class="AccordionPanelTab" onclick="viewHidden(this,'projectTodos')">
                                   项目待办(${projectTodos.total})
               </div>
-              <div class=""  id="agentslist1" style="width: 100%;height:300px; overflow:auto;display: none; ">
+              <div class=""  id="agentslist2" style="width: 100%;height:300px; overflow:auto;display: none; ">
                 <table  class="hand table table-striped table-bordered">
                     <tr>
                       <th class="info w50">序号</th>
@@ -212,7 +230,8 @@
                       <th class="info">发送人</th>
                       <th class="info">创建时间</th>
                     </tr>
-                    <c:forEach items="${projectTodos.list}" var="agents" varStatus="s">
+                    <tbody id="tbody_id2">
+                    <%-- <c:forEach items="${projectTodos.list}" var="agents" varStatus="s">
                       <tr class="cursor" onclick="view('${pageContext.request.contextPath}/${ agents.url}');">
                         <td class="tc w50">${(s.index+1)+(projectTodos.pageNum-1)*(projectTodos.pageSize)}</td>
                         <td class="tl pl20" title="${agents.name }">
@@ -230,9 +249,10 @@
                           <fmt:formatDate value="${agents.createdAt}" pattern="YYY-MM-dd HH:mm:ss" />
                         </td>
                       </tr>
-                    </c:forEach>
+                    </c:forEach> --%>
+                    </tbody>
                 </table>
-                <div id="projectTodos" align="right"></div>
+               <!--  <div id="projectTodos" align="right"></div> -->
               </div>
          </div>
         <%-- 
@@ -332,11 +352,32 @@
     			}
     		}
         }
-        /* $("#agentslist1").scroll(function(){
-        	if(parseFloat($("#agentslist1").height())+parseFloat($("#agentslist1").scrollTop())>=parseFloat(document.getElementById("agentslist1").scrollHeight)-1){
-        		
+        
+        $("#agentslist0").scroll(function(){
+        	scrollPage(0);
+        })
+        $("#agentslist1").scroll(function(){
+        	scrollPage(1);
+        })
+        $("#agentslist2").scroll(function(){
+        	scrollPage(2);
+        })
+        function scrollPage(index){
+        	var height=parseFloat($("#agentslist"+index).height());
+        	var scrollTop=parseFloat($("#agentslist"+index).scrollTop());
+        	var scrollHeight=parseFloat(document.getElementById("agentslist"+index).scrollHeight)-1;
+        	if(document.getElementById("tbody_id"+index).lastChild.lastChild!=null){
+        		document.getElementById("tbody_id"+index).lastChild.lastChild.text="";
+        	} 
+        	if((height+scrollTop)>=scrollHeight-10){
+        	   var div=document.getElementById("tbody_id"+index).lastChild.lastChild;
+        	   if(div!=null){
+        		   div.click();
+        	   }
+        	  
         	}
-        }) */
+        	
+        }
       </script>
 
     </body>
