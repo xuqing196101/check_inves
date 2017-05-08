@@ -528,18 +528,23 @@ public class ExpertAuditController{
 		expertAudit.setAuditAt(new Date());
 
 		//唯一验证
-		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertAudit.getExpertId());
-		boolean same = true;	
+		boolean same = true;
+		/*List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertAudit.getExpertId());
 		for(int i = 0; i < reasonsList.size(); i++) {
 			if(reasonsList.get(i).getAuditField().equals(expertAudit.getAuditField()) && reasonsList.get(i).getAuditContent().equals(expertAudit.getAuditContent()) && reasonsList.get(i).getSuggestType().equals(expertAudit.getSuggestType())) {
 				same = false;
 				break;
 			}
-			if(expertAudit.getAuditFieldId() !=null && reasonsList.get(i).getAuditFieldId().equals(expertAudit.getAuditFieldId())){
+			if(reasonsList.get(i) !=null && reasonsList.get(i).getAuditFieldId().equals(expertAudit.getAuditFieldId())){
 				same = false;
 				break;
 			}
+		}*/
+		Integer num = expertAuditService.findByObj(expertAudit);
+		if(num !=0 ){
+			same = false;
 		}
+		
 		if(same) {
 			expertAuditService.add(expertAudit);
 		} else {
