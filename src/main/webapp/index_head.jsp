@@ -632,7 +632,7 @@ function importAdd(){
 		<div class="tab-content buyer_list">
 			<!-- 供应商诚信记录 -->
 		    <div id="tab-36" class="categories tab-pane fade active in">
-				<ul class="p0_10 list-unstyled">
+				<%-- <ul class="p0_10 list-unstyled">
 					<table class="table table-bordered " >
 						<thead>
 							<tr>
@@ -659,7 +659,7 @@ function importAdd(){
 							</c:forEach>
 						</tbody>
 					</table>
-				</ul>
+				</ul> --%>
 	          <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>
         	</div>
 	    <div id="tab-37" class="categories tab-pane fade">
