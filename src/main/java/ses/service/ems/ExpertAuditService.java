@@ -220,4 +220,15 @@ public interface ExpertAuditService {
 	 * @return void
 	 */
 	void updateIsDeleted (String expertId);
+	
+	/**
+     * @Title: findByObj
+     * @author XuQing 
+     * @date 2017-5-8 上午10:53:24  
+     * @Description:唯一校验
+     * @param @param expertAudit
+     * @param @return      
+     * @return Integer
+     */
+    Integer findByObj (ExpertAudit expertAudit);
 }

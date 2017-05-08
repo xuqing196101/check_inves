@@ -288,6 +288,9 @@
 							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家姓名：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="relName" <c:if test="${fn:contains(editFields,'getRelName')}"> style="border: 1px solid #FF8C00;" onmouseover="isCompare('relName','getRelName','0');"</c:if> <c:if test="${fn:contains(conditionStr,'专家姓名')}"> style="border: 1px solid red;"</c:if> value="${expert.relName}" type="text" onclick="reason(this);"/>
+								<c:if test="${fn:contains(conditionStr,'专家姓名')}">
+									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								</c:if>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
@@ -300,36 +303,57 @@
 							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">性别：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="gender" <c:if test="${fn:contains(conditionStr,'性别')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getGender')}"> style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onmouseover="isCompare('gender','getGender','1');"</c:if> value="${gender }" type="text" onclick="reason(this);"/>
+								<c:if test="${fn:contains(conditionStr,'性别')}">
+									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								</c:if>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">出生日期：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input readonly="readonly" <c:if test="${fn:contains(conditionStr,'出生日期')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getBirthday')}"> style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onmouseover="isCompare('birthday','getBirthday','2');"</c:if> value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" id="birthday" type="text" onclick="reason(this);"/>
+								<c:if test="${fn:contains(conditionStr,'出生日期')}">
+									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								</c:if>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">政治面貌：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="politicsStatus" <c:if test="${fn:contains(conditionStr,'政治面貌')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getPoliticsStatus')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('politicsStatus','getPoliticsStatus','1');"</c:if> value="${politicsStatus }" type="text" onclick="reason(this);"/>
+								<c:if test="${fn:contains(conditionStr,'政治面貌')}">
+									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								</c:if>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">民族：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="${expert.nation}" <c:if test="${fn:contains(conditionStr,'民族')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getNation')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('nation','getNation','0');"</c:if> id="nation" type="text" onclick="reason(this);"/>
+								<c:if test="${fn:contains(conditionStr,'民族')}">
+									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								</c:if>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">健康状态：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="${expert.healthState}" <c:if test="${fn:contains(conditionStr,'健康状态')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getHealthState')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('healthState','getHealthState','0');"</c:if> id="healthState" type="text" onclick="reason(this);"/>
+								<c:if test="${fn:contains(conditionStr,'健康状态')}">
+									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								</c:if>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">手机：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="${expert.mobile}" <c:if test="${fn:contains(conditionStr,'手机')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getMobile')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('mobile','getMobile','0');"</c:if> readonly="readonly" id="mobile" type="text" onclick="reason(this);"/>
+								<c:if test="${fn:contains(conditionStr,'手机')}">
+									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								</c:if>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" >居民身份证号码：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="${expert.idCardNumber}" <c:if test="${fn:contains(conditionStr,'居民身份证号码')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getIdCardNumber')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('idCardNumber','getIdCardNumber','0');"</c:if> id="idCardNumber" type="text" onclick="reason(this);"/>
+								<c:if test="${fn:contains(conditionStr,'居民身份证号码')}">
+									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								</c:if>
 							</div>
 						</li>						
             <li class="col-md-3 col-sm-6 col-xs-12">
@@ -365,6 +389,9 @@
 									<c:if test="${expert.coverNote eq '2'}">
 										<input value="否" <c:if test="${fn:contains(editFields,'getCoverNote')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('coverNote','getCoverNote','0');"</c:if> id="idNumber" type="text" onclick="reason(this);" <c:if test="${fn:contains(conditionStr,'是否缴纳社会保险')}"> style="border: 1px solid red;"</c:if>/>
 									</c:if>
+									<c:if test="${fn:contains(conditionStr,'是否缴纳社会保险')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 							<c:if test="${expert.coverNote eq '1'}">
@@ -384,11 +411,17 @@
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 hand">军队人员身份证件类型：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input id="idType" <c:if test="${fn:contains(conditionStr,'军队人员身份证件类型')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getIdType')}">style="border: 1px solid #FF8C00;"  onmouseover="isCompare('idType','getIdType','1');"</c:if> value="${idType }" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'军队人员身份证件类型')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证件号码：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input value="${expert.idNumber}" <c:if test="${fn:contains(conditionStr,'证件号码')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getIdNumber')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('idNumber','getIdNumber','0');"</c:if> id="idNumber" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'证件号码')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>			
 							<li class="col-md-3 col-sm-6 col-xs-12">
@@ -402,16 +435,25 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">固定电话：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="${expert.telephone}" <c:if test="${fn:contains(conditionStr,'固定电话')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getTelephone')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('telephone','getTelephone','0');"</c:if> id="telephone" type="text" onclick="reason(this);"/>
+								<c:if test="${fn:contains(conditionStr,'固定电话')}">
+									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								</c:if>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 传真电话：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="${expert.fax}" <c:if test="${fn:contains(conditionStr,'传真电话')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getFax')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('fax','getFax','0');"</c:if> id="fax" type="text" onclick="reason(this);"/>
+								<c:if test="${fn:contains(conditionStr,'传真电话')}">
+									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								</c:if>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">个人邮箱：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="${expert.email}" <c:if test="${fn:contains(conditionStr,'个人邮箱')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getEmail')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('email','getEmail','0');"</c:if> id="email" type="text" onclick="reason(this);"/>
+								<c:if test="${fn:contains(conditionStr,'个人邮箱')}">
+									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								</c:if>
 							</div>
 						</li>
 					</ul>
@@ -422,36 +464,57 @@
 							<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">所在单位：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input value="${expert.workUnit}" <c:if test="${fn:contains(conditionStr,'所在单位')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getWorkUnit')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('workUnit','getWorkUnit','0');"</c:if> id="workUnit" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'所在单位')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">地区：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="range" value="${parentName }${sonName }" type="text" onclick="reason(this);" <c:if test="${fn:contains(conditionStr,'地区')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getRange')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('range','getRange','0');"</c:if>/>
+								<c:if test="${fn:contains(conditionStr,'地区')}">
+									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								</c:if>
 							</div>
 						  </li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">单位地址：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input value="${expert.unitAddress}" <c:if test="${fn:contains(conditionStr,'单位地址')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getUnitAddress')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('unitAddress','getUnitAddress','0');"</c:if> id="unitAddress" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'单位地址')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 单位邮编：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input value="${expert.postCode}" <c:if test="${fn:contains(conditionStr,'单位邮编')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getPostCode')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('postCode','getPostCode','0');"</c:if> id="postCode" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'单位邮编')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 现任职务：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input value="${expert.atDuty}" <c:if test="${fn:contains(conditionStr,'现任职务')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getAtDuty')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('atDuty','getAtDuty','0');"</c:if> id="atDuty" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'现任职务')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">从事专业：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input value="${expert.major}" <c:if test="${fn:contains(conditionStr,'从事专业')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getMajor')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('major','getMajor','0');"</c:if> id="major" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'从事专业')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年月：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input <c:if test="${fn:contains(conditionStr,'从事专业起始年月')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getTimeStartWork')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeStartWord','getTimeStartWord','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="timeStartWork" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'从事专业起始年月')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 							
@@ -459,6 +522,9 @@
 								<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家技术职称：</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input maxlength="20" <c:if test="${fn:contains(conditionStr,'专家技术职称')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getProfessTechTitles')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professTechTitles','getProfessTechTitles','0');"</c:if> value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
+										<c:if test="${fn:contains(conditionStr,'专家技术职称')}">
+											<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+										</c:if>
 									</div>
 								</li>
 								<li class="col-md-3 col-sm-6 col-xs-12">
@@ -470,17 +536,26 @@
 								<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得技术职称时间：</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input <c:if test="${fn:contains(conditionStr,'取得技术职称时间')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getMakeTechDate')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('makeTechDate','getMakeTechDate','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="makeTechDate" type="text" onclick="reason(this);"/>
+										<c:if test="${fn:contains(conditionStr,'取得技术职称时间')}">
+											<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+										</c:if>
 									</div>
 								</li>
 							</c:if>
 							<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">毕业院校及专业：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input value="${expert.graduateSchool}" <c:if test="${fn:contains(conditionStr,'毕业院校及专业')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getGraduateSchool')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('graduateSchool','getGraduateSchool','0');"</c:if> id="graduateSchool" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'毕业院校及专业')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">最高学历：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input id="hightEducation" <c:if test="${fn:contains(conditionStr,'最高学历')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getHightEducation')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('hightEducation','getHightEducation','1');"</c:if> value="${hightEducation }" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'最高学历')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 							
@@ -494,6 +569,9 @@
 	            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input value="${degree}" <c:if test="${fn:contains(conditionStr,'最高学位')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getDegree')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('degree','getDegree','1');"</c:if> id="degree" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'最高学位')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12">
@@ -506,6 +584,9 @@
 	            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input readonly="readonly" <c:if test="${fn:contains(conditionStr,'参加工作时间')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getTimeToWork')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeToWork','getTimeToWork','3');"</c:if> value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM'/>" id="timeToWork" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'参加工作时间')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 						</ul>
@@ -515,6 +596,9 @@
 							<c:if test="${expert.isReferenceLftter eq '2'}">
 								<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">相关机关事业部门推荐信：</span>
 									<input value="否" <c:if test="${fn:contains(conditionStr,'相关机关事业部门推荐信')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getIsReferenceLftter')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('isReferenceLftter','getIsReferenceLftter','0');"</c:if> id="isReferenceLftter" type="text" onclick="reason(this);"/>
+									<c:if test="${fn:contains(conditionStr,'相关机关事业部门推荐信')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</li>
 							</c:if>
 							<c:if test="${expert.isReferenceLftter eq '1'}">
@@ -532,6 +616,9 @@
 							<li class="col-md-12 col-sm-12 col-xs-12">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0">
 									<textarea rows="10" <c:if test="${fn:contains(conditionStr,'主要工作经历')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getJobExperiences')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('jobExperiences','getJobExperiences','0');"</c:if> id="jobExperiences" style="height: 150px; width: 100%; resize: none;" onclick="reason(this,'主要工作经历');" class="col-md-12 col-xs-12 col-sm-12 h80">${expert.jobExperiences}</textarea>
+									<c:if test="${fn:contains(conditionStr,'主要工作经历')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 						</ul>
@@ -552,6 +639,9 @@
 							<li class="col-md-12 col-sm-12 col-xs-12">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0">
 									<textarea rows="10" <c:if test="${fn:contains(conditionStr,'专业学术成果')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getAcademicAchievement')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('academicAchievement','getAcademicAchievement','0');"</c:if> id="academicAchievement" style="height: 150px; width: 100%; resize: none;" onclick="reason(this,'专业学术成果');" class="col-md-12 col-xs-12 col-sm-12 h80">${expert.academicAchievement}</textarea>
+									<c:if test="${fn:contains(conditionStr,'专业学术成果')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 						</ul>
@@ -563,6 +653,9 @@
 							<li class="col-md-12 col-sm-12 col-xs-12">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0">
 									<textarea rows="10" <c:if test="${fn:contains(conditionStr,'参加军队地方采购评审情况')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getReviewSituation')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('reviewSituation','getReviewSituation','0');"</c:if> id="reviewSituation" style="height: 150px; width: 100%; resize: none;" onclick="reason(this,'参加军队地方采购评审情况');" class="col-md-12 col-xs-12 col-sm-12 h80">${expert.reviewSituation}</textarea>
+									<c:if test="${fn:contains(conditionStr,'参加军队地方采购评审情况')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 						</ul>
@@ -574,6 +667,9 @@
 							<li class="col-md-12 col-sm-12 col-xs-12">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0">
 									<textarea rows="10" <c:if test="${fn:contains(conditionStr,'需要申请回避的情况')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getAvoidanceSituation')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('avoidanceSituation','getAvoidanceSituation','0');"</c:if> id="avoidanceSituation" style="height: 150px; width: 100%; resize: none;" onclick="reason(this,'需要申请回避的情况');" class="col-md-12 col-xs-12 col-sm-12 h80">${expert.avoidanceSituation}</textarea>
+									<c:if test="${fn:contains(conditionStr,'需要申请回避的情况')}">
+										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+									</c:if>
 								</div>
 							</li>
 						</ul>

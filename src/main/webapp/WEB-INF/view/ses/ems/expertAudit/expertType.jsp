@@ -310,6 +310,9 @@
 										<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input class="hand" value="${expertTitle.qualifcationTitle}" readonly="readonly" id="${expertTitle.id}_qualifcationTitle" type="text" onclick="reasonInput(this,'${expertTitle.id}','qualifcationTitle');"  <c:if test="${fn:contains(engErrorField,expertTitle.id.concat('_qualifcationTitle'))}">style="border: 1px solid red;"</c:if>  <c:if test="${fn:contains(modifyFiled,expertTitle.id.concat('_qualifcationTitle'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('qualifcationTitle','${expertTitle.id}');"</c:if>/>
+												<c:if test="${fn:contains(engErrorField,expertTitle.id.concat('_qualifcationTitle'))}">
+													<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12">
@@ -321,6 +324,9 @@
 										<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得执业资格时间：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input class="hand" value="<fmt:formatDate type='date' value='${expertTitle.titleTime}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="${expertTitle.id}_titleTime" type="text" onclick="reasonInput(this,'${expertTitle.id}','titleTime');" <c:if test="${fn:contains(engErrorField,expertTitle.id.concat('_titleTime'))}">style="border: 1px solid red;"</c:if>  <c:if test="${fn:contains(modifyFiled,expertTitle.id.concat('_titleTime'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('titleTime','${expertTitle.id}');"</c:if>/>
+												<c:if test="${fn:contains(engErrorField,expertTitle.id.concat('_titleTime'))}">
+													<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+												</c:if>
 											</div>
 										</li>
 										<div class="clear"></div>

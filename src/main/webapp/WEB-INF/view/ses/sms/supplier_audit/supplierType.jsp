@@ -753,42 +753,63 @@
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员数量比例(%)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="scaleTech" type="text" value="${supplierMatPros.scaleTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'scaleTech')}">style="border: 1px solid red;"</c:if>/>
+												<c:if test="${fn:contains(passedProField,'scaleTech')}">
+													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级技术人员数量比例(%)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="scaleHeightTech" type="text" value="${supplierMatPros.scaleHeightTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'scaleHeightTech')}">style="border: 1px solid red;"</c:if>/>
+												<c:if test="${fn:contains(passedProField,'scaleHeightTech')}">
+													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this)">研发部门名称：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="researchName" type="text" value="${supplierMatPros.researchName }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'researchName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('researchName','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'researchName')}">style="border: 1px solid red;"</c:if>/>
+												<c:if test="${fn:contains(passedProField,'researchName')}">
+													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this)">研发部门人数：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="totalResearch" type="text" value="${supplierMatPros.totalResearch }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'totalResearch')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalResearch','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'totalResearch')}">style="border: 1px solid red;"</c:if>/>
+												<c:if test="${fn:contains(passedProField,'totalResearch')}">
+													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">研发部门负责人：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="researchLead" type="text" value="${supplierMatPros.researchLead }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'researchLead')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('researchLead','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'researchLead')}">style="border: 1px solid red;"</c:if>/>
+												<c:if test="${fn:contains(passedProField,'researchLead')}">
+													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-12 col-sm-12 col-xs-12 ">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">承担国家军队科研项目：</span>
 											<div class="col-md-12 col-sm-12 col-xs-12 p0">
-												<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="countryPro" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'countryPro')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryPro','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'countryPro')}">style="border: 1px solid red;"</c:if>>${supplierMatPros.countryPro }</textarea>
+												<textarea class="col-md-12 col-xs-12 col-sm-12 h80 hand" id="countryPro" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'countryPro')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryPro','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'countryPro')}">style="border: 1px solid red;"</c:if>>${supplierMatPros.countryPro }</textarea>
+												<c:if test="${fn:contains(passedProField,'countryPro')}">
+													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-12 col-sm-12 col-xs-12 ">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">获得国家军队科技奖项：</span>
 											<div class="col-md-12 col-sm-12 col-xs-12 p0">
-												<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="countryReward" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'countryReward')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryReward','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'countryReward')}">style="border: 1px solid red;"</c:if>>${supplierMatPros.countryReward }</textarea>
+												<textarea class="col-md-12 col-xs-12 col-sm-12 h80 hand" id="countryReward" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'countryReward')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryReward','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'countryReward')}">style="border: 1px solid red;"</c:if>>${supplierMatPros.countryReward }</textarea>
+												<c:if test="${fn:contains(passedProField,'countryReward')}">
+													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+												</c:if>
 											</div>
 										</li>
 									</ul>
