@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ses.model.sms.DeleteLogMapper">
+<mapper namespace="ses.dao.sms.DeleteLogMapper">
   <resultMap id="BaseResultMap" type="ses.model.sms.DeleteLog">
     <id column="ID"  property="id" />
     <result column="TYPE_ID"  property="typeId" />
