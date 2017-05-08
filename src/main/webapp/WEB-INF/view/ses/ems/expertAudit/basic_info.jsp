@@ -385,12 +385,12 @@
 						<%--如果是民--%>
 						<c:if test="${froms eq 'LOCAL'}">
             	<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">是否缴纳社会保险：</span>
-								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0" id= "coverNote">
 									<c:if test="${expert.coverNote eq '1'}">
-										<input value="是" <c:if test="${fn:contains(editFields,'getCoverNote')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('coverNote','getCoverNote','0');"</c:if> id="idNumber" type="text" onclick="reason(this);" <c:if test="${fn:contains(conditionStr,'是否缴纳社会保险')}"> style="border: 1px solid red;"</c:if>/>
+										<input value="是" <c:if test="${fn:contains(editFields,'getCoverNote')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('coverNote','getCoverNote','1');"</c:if> id="idNumber" type="text" onclick="reason(this);" <c:if test="${fn:contains(conditionStr,'是否缴纳社会保险')}"> style="border: 1px solid red;"</c:if>/>
 									</c:if>
 									<c:if test="${expert.coverNote eq '2'}">
-										<input value="否" <c:if test="${fn:contains(editFields,'getCoverNote')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('coverNote','getCoverNote','0');"</c:if> id="idNumber" type="text" onclick="reason(this);" <c:if test="${fn:contains(conditionStr,'是否缴纳社会保险')}"> style="border: 1px solid red;"</c:if>/>
+										<input value="否" <c:if test="${fn:contains(editFields,'getCoverNote')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('coverNote','getCoverNote','1');"</c:if> id="idNumber" type="text" onclick="reason(this);" <c:if test="${fn:contains(conditionStr,'是否缴纳社会保险')}"> style="border: 1px solid red;"</c:if>/>
 									</c:if>
 									<c:if test="${fn:contains(conditionStr,'是否缴纳社会保险')}">
 										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
@@ -399,11 +399,21 @@
 							</li>
 							<c:if test="${expert.coverNote eq '1'}">
 								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span <c:if test="${fn:contains(fileModify,'2')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-xs-12 col-sm-12 padding-left-5"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">缴纳社保证明：</span>
+									<span <c:if test="${fn:contains(fileModify,'1')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-xs-12 col-sm-12 padding-left-5"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">缴纳社会保险证明：</span>
 	              	<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
-	              		<up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="2"/>
-	           				<a style="visibility:hidden" id="photoFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-	            			<c:if test="${fn:contains(conditionStr,'缴纳社保证明')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+	              		<up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1"/>
+	           				<a style="visibility:hidden" id="coverNoteFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+	            			<c:if test="${fn:contains(conditionStr,'缴纳社会保险证明')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+	            		</div>
+	            	</li>
+            	</c:if>
+            	<c:if test="${expert.coverNote eq '2'}">
+								<li class="col-md-3 col-sm-6 col-xs-12">
+									<span <c:if test="${fn:contains(fileModify,'1')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-xs-12 col-sm-12 padding-left-5"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">退休证书或退休证明：</span>
+	              	<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
+	              		<up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1"/>
+	           				<a style="visibility:hidden" id="coverNoteFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+	            			<c:if test="${fn:contains(conditionStr,'退休证书或退休证明')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
 	            		</div>
 	            	</li>
             	</c:if>
@@ -474,7 +484,7 @@
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">地区：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="range" value="${parentName }${sonName }" type="text" onclick="reason(this);" <c:if test="${fn:contains(conditionStr,'地区')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getRange')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('range','getRange','0');"</c:if>/>
+								<input id="range" value="${parentName }${sonName }" type="text" onclick="reason(this);" <c:if test="${fn:contains(conditionStr,'地区')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getAddress')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('range','getAddress','1');"</c:if>/>
 								<c:if test="${fn:contains(conditionStr,'地区')}">
 									<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
 								</c:if>
@@ -514,7 +524,7 @@
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年月：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input <c:if test="${fn:contains(conditionStr,'专业起始年月')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getTimeStartWork')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeStartWord','getTimeStartWord','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="timeStartWork" type="text" onclick="reason(this);"/>
+									<input <c:if test="${fn:contains(conditionStr,'专业起始年月')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getTimeStartWork')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeStartWork','getTimeStartWork','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="timeStartWork" type="text" onclick="reason(this);"/>
 									<c:if test="${fn:contains(conditionStr,'专业起始年月')}">
 										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
 									</c:if>

@@ -1012,9 +1012,8 @@
 						<c:if test="${expert.expertsFrom eq 'LOCAL'}">
 							<li class="col-md-3 col-sm-6 col-xs-12">
 								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 是否缴纳社会保险</span>
-								<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-									<select name="coverNote" id="coverNote" style="width:100%;" <c:if test="${fn:contains(errorField,'是否缴纳社会保险')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('是否缴纳社会保险')"
-						</c:if>>
+								<div class="select_common col-md-12 col-xs-12 col-sm-12 p0" <c:if test="${fn:contains(errorField,'是否缴纳社会保险')}">style="border: 1px solid red;" onmouseover="errorMsg('是否缴纳社会保险')"</c:if>>
+									<select name="coverNote" id="coverNote" style="width:100%;" >
 						<option <c:if test="${expert.coverNote eq '2'}">selected="selected"</c:if> value="2">否
 						</option>
 						<option <c:if test="${expert.coverNote eq '1'}">selected="selected"</c:if> value="1">是
@@ -1027,8 +1026,7 @@
                             	<c:if test="${expert.coverNote eq '1'}">缴纳社会保险证明</c:if>
                             	<c:if test="${expert.coverNote eq '2'}">退休证书或退休证明</c:if>
                             </span>
-							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明')"
-								</c:if>>
+							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明 ')"</c:if>  <c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
 								<%--图片的大小   图片的类型  --%>
 								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" auto="true" />
 								<u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
