@@ -63,24 +63,7 @@ import ses.service.ems.DeleteLogService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
-import ses.service.sms.SupplierAddressService;
-import ses.service.sms.SupplierAfterSaleDepService;
-import ses.service.sms.SupplierAptituteService;
-import ses.service.sms.SupplierAuditService;
-import ses.service.sms.SupplierBranchService;
-import ses.service.sms.SupplierCertEngService;
-import ses.service.sms.SupplierFinanceService;
-import ses.service.sms.SupplierHistoryService;
-import ses.service.sms.SupplierItemService;
-import ses.service.sms.SupplierMatEngService;
-import ses.service.sms.SupplierMatProService;
-import ses.service.sms.SupplierMatSeService;
-import ses.service.sms.SupplierMatSellService;
-import ses.service.sms.SupplierModifyService;
-import ses.service.sms.SupplierPorjectQuaService;
-import ses.service.sms.SupplierService;
-import ses.service.sms.SupplierStockholderService;
-import ses.service.sms.SupplierTypeRelateService;
+import ses.service.sms.*;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.IdentityCode;
@@ -207,6 +190,8 @@ public class SupplierController extends BaseSupplierController {
 
 	@Autowired
     private DeleteLogService deleteLogService;
+	@Autowired
+    private SupplierAuditNotService supplierAuditNotService;
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -612,10 +597,19 @@ public class SupplierController extends BaseSupplierController {
 				}
 				
 				if(supplier.getCreditCode()!=null&&supplier.getCreditCode().trim().length()!=0){
-                    //根据供应商统一社会信用代码判断是否注销且180天内再次注册
-                    DeleteLog deleteLog = deleteLogService.queryByTypeId(supplier.getId(), supplier.getCreditCode());
+                    //根据供应商统一社会信用代码判断是否注销或审核不通过且180天内再次注册
+                    //注销
+                    DeleteLog deleteLog = deleteLogService.queryByTypeId(null, supplier.getCreditCode());
                     if(null != deleteLog && null != deleteLog.getCreateAt()){
                         int betweenDays = supplierService.daysBetween(deleteLog.getCreateAt());
+                        if(betweenDays > 180){
+                            return "disabled_180";
+                        }
+                    }
+                    //审核不通过
+                    SupplierAuditNot supplierAuditNot = supplierAuditNotService.selectByCreditCode(supplier.getCreditCode());
+                    if(null != supplierAuditNot && null != supplierAuditNot.getCreatedAt()){
+                        int betweenDays = supplierService.daysBetween(supplierAuditNot.getCreatedAt());
                         if(betweenDays > 180){
                             return "disabled_180";
                         }
@@ -1529,14 +1523,24 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_creditCide", "不能为空或是字符过长!");
 			count++;
 		}
-        //根据供应商统一社会信用代码判断是否注销且180天内再次注册
+        //根据供应商统一社会信用代码判断是否注销或审核不通过且180天内再次注册
         try{
 		    if(!StringUtils.isNotBlank(supplier.getCreditCode())){
-                DeleteLog deleteLog = deleteLogService.queryByTypeId(supplier.getId(), supplier.getCreditCode());
+                //注销
+                DeleteLog deleteLog = deleteLogService.queryByTypeId(null, supplier.getCreditCode());
                 if(null != deleteLog && null != deleteLog.getCreateAt()){
                     int betweenDays = supplierService.daysBetween(deleteLog.getCreateAt());
                     if(betweenDays > 180){
-                        model.addAttribute("err_creditCide", "统一社会信用代码在180天内已注销!");
+                        model.addAttribute("err_creditCide", "统一社会信用代码在180天内禁止注册!");
+                        count++;
+                    }
+                }
+                //审核不通过
+                SupplierAuditNot supplierAuditNot = supplierAuditNotService.selectByCreditCode(supplier.getCreditCode());
+                if(null != supplierAuditNot && null != supplierAuditNot.getCreatedAt()){
+                    int betweenDays = supplierService.daysBetween(supplierAuditNot.getCreatedAt());
+                    if(betweenDays > 180){
+                        model.addAttribute("err_creditCide", "统一社会信用代码在180天内禁止注册!");
                         count++;
                     }
                 }
