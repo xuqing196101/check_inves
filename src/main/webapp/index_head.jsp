@@ -659,8 +659,9 @@ function importAdd(){
 							</c:forEach>
 						</tbody>
 					</table>
-				</ul> --%>
-	          <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>
+				</ul> 
+	          <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>--%>
+	          <a class="tab_more" href="javascript:;">更多>></a>
         	</div>
 	    <div id="tab-37" class="categories tab-pane fade">
           <ul class="p0_10">

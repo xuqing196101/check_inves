@@ -75,75 +75,77 @@ public class CacheManageController {
 		Jedis jedis = null;
 		try {
 			jedis = RedisUtils.getResource(jedisPool);
-			String newKey = "*";
+			if (jedis != null) {
+				String newKey = "*";
+				// 查询总条数
+				int total = jedis.keys(newKey).size();
+				// 查询所有的缓存数据
+				Set<String> set = jedis.keys(newKey);
+				// 将set集合转换成List集合
+				List<String> list = new ArrayList<String>(set);
+				// 集合排序
+				Collections.sort(list);
+				// 定义TreeMap
+				// Map<String, String> resultMap = new TreeMap<String,
+				// String>();
 
-			// 查询总条数
-			int total = jedis.keys(newKey).size();
-			// 查询所有的缓存数据
-			Set<String> set = jedis.keys(newKey);
-			// 将set集合转换成List集合
-			List<String> list = new ArrayList<String>(set);
-			// 集合排序
-			Collections.sort(list);
-			// 定义TreeMap
-			// Map<String, String> resultMap = new TreeMap<String, String>();
+				// 获取分页信息对象
+				CachePage<Cache> info = new CachePage<Cache>();
+				// 获取List集合用来存储缓存对象信息
+				List<Cache> cacheList = info.getList();
+				if (list.size() > 0) {
+					// 起始索引
+					int start = (page - 1) * pageSize;
+					// 结束索引
+					int end = page * pageSize > list.size() ? list.size()
+							: page * pageSize;
+					// Pipeline pip = jedis.pipelined();
 
-			// 获取分页信息对象
-			CachePage<Cache> info = new CachePage<Cache>();
-			// 获取List集合用来存储缓存对象信息
-			List<Cache> cacheList = info.getList();
-			if (list.size() > 0) {
-				// 起始索引
-				int start = (page - 1) * pageSize;
-				// 结束索引
-				int end = page * pageSize > list.size() ? list.size() : page
-						* pageSize;
-				// Pipeline pip = jedis.pipelined();
+					// 遍历健获取所有对应的值
+					for (int i = start; i < end; i++) {
+						if (i < list.size()) {
+							Cache cache = new Cache();
+							// 设置缓存名称
+							cache.setName(list.get(i));
+							// 设置缓存生效时间
+							// cache.setTime(jedis.time().get(i));
+							// 设置缓存剩余时间
+							Long time = jedis.ttl(list.get(i));
+							cache.setTime(time);
+							// 设置缓存的类型
+							cache.setType(jedis.type(list.get(i)));
+							// 设置缓存剩余时间时间--Date格式输出
 
-				// 遍历健获取所有对应的值
-				for (int i = start; i < end; i++) {
-					if (i < list.size()) {
-						Cache cache = new Cache();
-						// 设置缓存名称
-						cache.setName(list.get(i));
-						// 设置缓存生效时间
-						// cache.setTime(jedis.time().get(i));
-						// 设置缓存剩余时间
-						Long time = jedis.ttl(list.get(i));
-						cache.setTime(time);
-						// 设置缓存的类型
-						cache.setType(jedis.type(list.get(i)));
-						// 设置缓存剩余时间时间--Date格式输出
+							// pip.get(list.get(i));
+							// List<Object> syncAndReturnAll =
+							// pip.syncAndReturnAll();
 
-						// pip.get(list.get(i));
-						// List<Object> syncAndReturnAll =
-						// pip.syncAndReturnAll();
-
-						cacheList.add(cache);
-					} else {
-						break;
+							cacheList.add(cache);
+						} else {
+							break;
+						}
 					}
-				}
 
-				// 计算总页数 = 总条数 / 每页显示的条数 向上取整
-				int pages = total / pageSize;
-				if (total % pageSize > 0) {
-					pages++;
-				}
+					// 计算总页数 = 总条数 / 每页显示的条数 向上取整
+					int pages = total / pageSize;
+					if (total % pageSize > 0) {
+						pages++;
+					}
 
-				// 总页数
-				info.setPages(pages);
-				// 总条数
-				info.setTotal(total);
-				// 开始页索引
-				info.setStartRow(start + 1);
-				// 结束页索引
-				info.setEndRow(end);
-				// 当前页
-				info.setPageNum(page);
-				// 每页显示的条数
-				info.setPageSize(pageSize);
-				model.addAttribute("info", info);
+					// 总页数
+					info.setPages(pages);
+					// 总条数
+					info.setTotal(total);
+					// 开始页索引
+					info.setStartRow(start + 1);
+					// 结束页索引
+					info.setEndRow(end);
+					// 当前页
+					info.setPageNum(page);
+					// 每页显示的条数
+					info.setPageSize(pageSize);
+					model.addAttribute("info", info);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -190,21 +192,21 @@ public class CacheManageController {
 			RedisUtils.returnResource(jedis, jedisPool);
 		}
 	}
-	
+
 	/**
 	 * 
-	* @Title: getValueByKey 
-	* @Description: 通过建获取值
-	* @author Easong
-	* @param @param cacheKey
-	* @param @param cacheType
-	* @param @param model
-	* @param @return    设定文件 
-	* @return String    返回类型 
-	* @throws
+	 * @Title: getValueByKey
+	 * @Description: 通过建获取值
+	 * @author Easong
+	 * @param @param cacheKey
+	 * @param @param cacheType
+	 * @param @param model
+	 * @param @return 设定文件
+	 * @return String 返回类型
+	 * @throws
 	 */
 	@RequestMapping("/getValueByKey")
-	public String getValueByKey(String cacheKey, String cacheType, Model model){
+	public String getValueByKey(String cacheKey, String cacheType, Model model) {
 		Jedis jedis = null;
 		Cache cache = new Cache();
 		try {
