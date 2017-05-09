@@ -2,7 +2,6 @@ package ses.controller.sys.sms;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.sms.Supplier;
+import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierService;
 
 import com.github.pagehelper.PageInfo;
@@ -30,6 +30,10 @@ public class SupplierDeleteController {
      */
     @Autowired
     private SupplierService supplierService;
+    
+    
+    @Autowired
+    private UserServiceI UserServiceI;
 	
 	/**
      * @Title: cancellation
@@ -41,8 +45,13 @@ public class SupplierDeleteController {
      */
      @RequestMapping(value = "/cancellation")
      @ResponseBody
-     public void cancellation(String supplierId){
-  	   supplierService.deleteSupplier(supplierId);
+     public void cancellation(String supplierId, Integer status){
+       if(status == 1){
+    	   UserServiceI.updateByTypeId(supplierId);
+    	   supplierService.updateById(supplierId);
+       }else{
+    	   supplierService.deleteSupplier(supplierId);
+       }
      }
      
      /**

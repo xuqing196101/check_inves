@@ -87,6 +87,7 @@
 		<result column="IS_PROVISIONAL" property="isProvisional" />
 		<result column="IS_PUBLISH" property="isPublish" />
 		<result column="EXTRACT_ORGID" property="extractOrgid" />
+		<result column="IS_DELETED" property="isDeleted" />
 		<result column="ORGNAME" property="orgName" />
         <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
@@ -119,7 +120,7 @@
 		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL,PURCHASE_EXPERIENCE,
-		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID
+		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -1691,7 +1692,7 @@
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
 		WHERE <!-- (SUPPLIER_STATUS = -1 or SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 2) -->
-		1=1
+		IS_DELETED = 0
 		<if test="supplierName != null and supplierName !=''">
 			AND SUPPLIER_NAME like '%${supplierName}%'
 		</if>
@@ -1763,4 +1764,13 @@
 	    SELECT count(id)
 	    from T_SES_SMS_SUPPLIER
 	</select>
+	
+	<!-- 假删除供应商 -->
+	<update id="updateById" parameterType="java.lang.String">
+		update
+			T_SES_SMS_SUPPLIER
+		SET
+			IS_DELETED = 1
+		WHERE ID = #{id}
+	</update>
 </mapper>

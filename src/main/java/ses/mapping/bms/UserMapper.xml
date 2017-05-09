@@ -985,4 +985,13 @@
 	    SELECT count(id)
 	    from T_SES_BMS_USER
 	</select>
+	
+	<!-- 假删除用户 -->
+	<update id="updateByTypeId" parameterType="java.lang.String">
+		update
+			T_SES_BMS_USER
+		SET
+			IS_DELETED = 1
+		WHERE TYPE_ID = #{typeId}
+	</update>
 </mapper>
