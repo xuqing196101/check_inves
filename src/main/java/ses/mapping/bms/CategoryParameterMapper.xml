@@ -22,6 +22,9 @@
 		<result column="PARAM_TYPE_ID"  property="paramTypeId"/>
 		<result column="IS_DELETED" property="isDeleted"/>
 		<result column="PARAM_REQUIRED" property="paramRequired"/>
+		<result column="CREATED_AT" property="createdAt"/>
+		<result column="UPDATED_AT" property="updatedAt"/>
+		<result column="ORG_ID" property="orgId"/>
 	</resultMap>
 	
 	<!-- 基础sql -->
@@ -99,4 +102,59 @@
 		WHERE CATEGORY_ID = #{cateId,jdbcType=VARCHAR}
 	</select>
 	
+	<!-- 产品目录参数导出外网 -->
+	<select id="exportCategoryParam" resultMap="categoryParams" parameterType="String">
+		SELECT
+		  TP.ID AS ID,TP.CATEGORY_ID AS CATEGORY_ID,TP.PARAM_NAME AS PARAM_NAME,
+		  TP.PARAM_TYPE_ID AS PARAM_TYPE_ID,TP.IS_DELETED AS IS_DELETED,
+		  TP.PARAM_REQUIRED AS PARAM_REQUIRED,
+		  TP.CREATED_AT AS CREATED_AT,TP.UPDATED_AT AS UPDATED_AT,
+		  TP.ORG_ID AS ORG_ID
+		  FROM T_SES_BMS_CATEGORY_PARAMETER TP
+		  WHERE
+		  TO_CHAR(TP.CREATED_AT, 'yyyy-MM-dd') &gt;= #{start,jdbcType=VARCHAR}
+		  AND TO_CHAR(TP.CREATED_AT, 'yyyy-MM-dd') &lt;= #{end,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 产品目录参数导入内网 -->
+	<insert id="insertParameter" parameterType="ses.model.bms.CategoryParameter">
+		INSERT INTO T_SES_BMS_CATEGORY_PARAMETER (ID,CATEGORY_ID,ORG_ID,PARAM_NAME,PARAM_TYPE_ID,
+			 IS_DELETED,CREATED_AT,UPDATED_AT,PARAM_REQUIRED) values 
+			(#{id}, #{cateId,jdbcType=VARCHAR},#{orgId,jdbcType=VARCHAR}, #{paramName,jdbcType=VARCHAR},
+			#{paramTypeId,jdbcType=VARCHAR},#{isDeleted,jdbcType=SMALLINT},#{createdAt,jdbcType=TIMESTAMP},
+			#{updatedAt,jdbcType=TIMESTAMP},#{paramRequired})
+	</insert>
+	
+	<!-- 产品目录参数更新内网 -->
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.CategoryParameter" >
+	    update T_SES_BMS_CATEGORY_PARAMETER
+	    <set >
+	      <if test="cateId != null" >
+	        CATEGORY_ID = #{cateId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="paramName != null" >
+	        PARAM_NAME = #{paramName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="paramTypeId != null" >
+	        PARAM_TYPE_ID = #{paramTypeId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="isDeleted != null" >
+	        IS_DELETED = #{isDeleted,jdbcType=SMALLINT},
+	      </if>
+	      <if test="paramRequired != null" >
+	        PARAM_REQUIRED = #{paramRequired,jdbcType=SMALLINT},
+	      </if>
+	      <if test="createdAt != null" >
+	        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="updatedAt != null" >
+	        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="orgId != null" >
+	        ORG_ID = #{orgId,jdbcType=VARCHAR}
+	      </if>
+	    </set>
+	    where ID = #{id,jdbcType=VARCHAR}
+	  </update>
+	  
 </mapper>

@@ -139,6 +139,11 @@ public class FileUtils {
     /**产品目录管理 导出路径***/
     public final static String FILE_T_SES_BMS_CATEGORY_PATH=PropUtil.getProperty("file.file_t_ses_bms_category_path.system.path");
     
+    /***产品目录参数管理 导出创建数据名称***/
+    public final static String C_CATEGORY_PARAMTER_FILENAME="_c_cate_paramter.dat";
+    /**产品目录参数管理 导出路径***/
+    public final static String FILE_T_SES_BMS_CATEGORY_PARAMTER_PATH=PropUtil.getProperty("file.t_ses_bms_category_paramter_path.system.path");
+    
     
     /**
      * 
@@ -679,6 +684,7 @@ public class FileUtils {
           case 13:  filePath=SYNCH_OUTER_FILE_PRODUCT_LIBRARY_PATH;break;
           case 14: filePath=T_SES_BMS_CATEGORY_PATH;break;
           case 15: filePath=FILE_T_SES_BMS_CATEGORY_PATH;break;
+          case 16: filePath=FILE_T_SES_BMS_CATEGORY_PARAMTER_PATH;break;
         }
         return filePath;
     }

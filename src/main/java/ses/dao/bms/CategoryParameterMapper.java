@@ -95,4 +95,40 @@ public interface CategoryParameterMapper {
      */
     public Integer exsitByCateId(@Param("cateId")String categoryId);
     
+    
+    /**
+     * 
+    * @Title: exportCategoryParam 
+    * @Description: 产品目录参数导出外网
+    * @author Easong
+    * @param @param start
+    * @param @param end
+    * @param @return    设定文件 
+    * @return List<CategoryParameter>    返回类型 
+    * @throws
+     */
+    public List<CategoryParameter> exportCategoryParam(@Param("start")String start,@Param("end")String end);
+    
+    /**
+     * 
+    * @Title: insertParameter 
+    * @Description: 产品目录参数导入内网
+    * @author Easong
+    * @param @param cp    设定文件 
+    * @return void    返回类型 
+    * @throws
+     */
+    public void insertParameter(CategoryParameter cp);
+    
+    /**
+     * 
+    * @Title: updateByPrimaryKeySelective 
+    * @Description: 产品目录参数导内网更新
+    * @author Easong
+    * @param @param cp    设定文件 
+    * @return void    返回类型 
+    * @throws
+     */
+    public void updateByPrimaryKeySelective(CategoryParameter cp);
+    
 }
