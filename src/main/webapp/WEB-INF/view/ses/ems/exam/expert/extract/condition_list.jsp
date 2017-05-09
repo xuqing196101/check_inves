@@ -50,18 +50,17 @@
 
 				});
 				var typeclassId = "${typeclassId}";
-				if(typeclassId != null && typeclassId != "") {
-                    $("#tenderTimeId").removeAttr("onclick");
+                if(typeclassId != null && typeclassId != "") {
+                    $(".red").each(function(){
+                        for(var i = 2; i < 4; i++){
+                            $("#red"+i).addClass("dnone");
+                        }
+                    });
+                } else {
                     for(var i = 0; i < 4; i++){
                         $("#red"+i).addClass("dnone");
                     }
-				} else {
-                    $(".red").each(function(){
-                        for(var i = 0; i < 4; i++){
-                            $("#red"+i).removeClass("dnone");
-                        }
-                    });
-				}
+                }
 
 				$('#minute').bind('input propertychange', function() {
 					var count = $(this).val();
