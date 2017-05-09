@@ -92,7 +92,7 @@
 		    <thead>
 			  <tr>
 			    <th class="info w50">序号</th>
-				<th class="info w120">类型</th>
+				<th class="info w150">类型</th>
 			    <th class="info w200">导出时间</th>
 				<th class="info">描述</th>
 			  </tr>

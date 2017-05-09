@@ -151,4 +151,14 @@ public class Constant {
     public final static String IMPORT_FILE_NUMBER_SYNCH_CATEGORY = "导入产品目录附件数量:";
     /** 产品目录 管理   导入附件描述 **/
     public final static String IMPORT_SYNCH_CATEGORY = "导入产品目录信息数量:";
+    
+    /**产品目录参数管理 名称**/
+    public final static String SYNCH_CATE_PARAMTER="SYNCH_CATE_PARAMTER";
+    /**产品目录参数管理  导出信息描述 **/
+    public final static String COMMIT_SYNCH_CATEGORY_PARAMTER="导出产品目录参数信息数量:";
+    /**产品目录参数管理  导出信息描述 **/
+    public final static String IMPORT_SYNCH_CATEGORY_PARAMTER="导入产品目录参数信息数量:";
+    /**产品目录参数导出 文件夹名称**/
+    public final static String T_SES_BMS_CATEGORY_PARAMTER_PATH="t_ses_bms_category_paramter_path";
+    
 }

@@ -134,7 +134,7 @@
 		  <thead>
 			<tr>
 			  <th class="info w50">序号</th>
-			  <th class="info w120">同步类型</th>
+			  <th class="info w150">同步类型</th>
 			  <th class="info w200">同步时间</th>
 			  <th class="info">描述</th>
 			 </tr>

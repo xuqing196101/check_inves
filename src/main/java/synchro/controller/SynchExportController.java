@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
+import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SMSProductLibService;
 import ses.util.DictionaryDataUtil;
@@ -26,13 +27,11 @@ import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.service.SynchService;
 import synchro.util.Constant;
-
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
-import com.sun.tracing.dtrace.Attributes;
 
 import common.bean.ResponseBean;
 
@@ -87,6 +86,9 @@ public class SynchExportController {
     /**产品目录**/
     @Autowired
     private CategoryService categoryService;
+    /** 产品目录参数 **/
+    @Autowired
+    private CategoryParameterService categoryParameterService;
     /**
      * 
      *〈简述〉初始化导出
@@ -131,6 +133,11 @@ public class SynchExportController {
               	/**产品目录管理 数据导出  只能是内网导出外网**/
                iter.remove();
            	   continue;
+              }
+              if(dd.getCode().equals(Constant.SYNCH_CATE_PARAMTER)){
+            	  /**产品目录参数管理 数据导出  只能是内网导出外网**/
+            	  iter.remove();
+            	  continue;
               }
           }
           //内网时
@@ -268,6 +275,11 @@ public class SynchExportController {
         	//产品目录 导出 数据
         	categoryService.exportCategory(startTime, endTime, date);
         }
+        if(synchType.contains(Constant.SYNCH_CATE_PARAMTER)){
+        	//产品目录参数 导出数据
+        	categoryParameterService.exportCategoryParamter(startTime, endTime, date);
+        }
+        
         bean.setSuccess(true);
         return bean;
     }

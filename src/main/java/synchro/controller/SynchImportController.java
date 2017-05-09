@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
+import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SMSProductLibService;
 import ses.util.DictionaryDataUtil;
@@ -79,6 +80,9 @@ public class SynchImportController {
    /**产品目录**/
     @Autowired
     private CategoryService categoryService;
+    /**产品目录参数**/
+    @Autowired
+    private CategoryParameterService categoryParameterService;
     @Autowired
     private InnerExpertService innerExpertService;
     /** 设置数据类型 **/
@@ -129,6 +133,11 @@ public class SynchImportController {
             	/**产品目录管理 数据导出  只能是内网导出外网**/
              iter.remove();
          	   continue;
+            }
+            if(dd.getCode().equals(Constant.SYNCH_CATE_PARAMTER)){
+            	/**产品目录参数管理 数据导出  只能是内网导出外网**/
+            	iter.remove();
+            	continue;
             }
         }
           //外网时   
@@ -503,9 +512,21 @@ public class SynchImportController {
 							}
 
 					}
-				}         
-                        
-                              
+				}
+				
+				if (synchType.contains(Constant.SYNCH_CATE_PARAMTER)) {
+					/** 产品目录参数管理 只能是内网导入外网 **/
+					if (f.getName().equals(Constant.T_SES_BMS_CATEGORY_PARAMTER_PATH)) {
+						// 遍历文件夹中的所有文件
+						for (File file2 : f.listFiles()) {
+							// 判断文件名是否是导出创建数据名称
+							if (file2.getName().contains(FileUtils.C_CATEGORY_PARAMTER_FILENAME)) {
+								categoryParameterService.importCategoryParmter(file2);
+							}
+						}
+					}
+				}
+				
 			}
         }
       

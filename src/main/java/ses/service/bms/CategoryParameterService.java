@@ -1,5 +1,7 @@
 package ses.service.bms;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -124,4 +126,30 @@ public interface CategoryParameterService {
      * @return 成功返回ok,否则返回false
      */
     public String submit(String open, String classify, String cateId);
+    
+    /**
+     * 
+    * @Title: exportCategoryParamter 
+    * @Description: 实现产品目录参数导出外网
+    * @author Easong
+    * @param @param start
+    * @param @param end
+    * @param @param synchDate
+    * @param @return    设定文件 
+    * @return boolean    返回类型 
+    * @throws
+     */
+    public boolean exportCategoryParamter(String start, String end, Date synchDate);
+    
+    /**
+     * 
+    * @Title: importCategoryParmter 
+    * @Description: 导入产品目录参数信息
+    * @author Easong
+    * @param @param file
+    * @param @return    设定文件 
+    * @return boolean    返回类型 
+    * @throws
+     */
+    public boolean importCategoryParmter(File file);
 }
