@@ -19,6 +19,8 @@
   		T_SES_EMS_EXPERT_AUDIT_NOT 
   	where 
   		ID_CARD = #{idCard}
+  	AND
+    CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_EMS_EXPERT_AUDIT_NOT )
   </select>
   
   <!-- 插入审核记录 -->

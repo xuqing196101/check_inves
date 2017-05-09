@@ -909,7 +909,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input onblur="notNull('relName')" id="relName" name="relName" value="${expert.relName}" type="text" <c:if test="${fn:contains(errorField,'专家姓名')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专家姓名')"
+								<input onblur="notNull('relName')" id="relName" name="relName" maxlength="50" value="${expert.relName}" type="text" <c:if test="${fn:contains(errorField,'专家姓名')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专家姓名')"
 								</c:if>/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空</span>
@@ -1012,9 +1012,8 @@
 						<c:if test="${expert.expertsFrom eq 'LOCAL'}">
 							<li class="col-md-3 col-sm-6 col-xs-12">
 								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 是否缴纳社会保险</span>
-								<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-									<select name="coverNote" id="coverNote" style="width:100%;" <c:if test="${fn:contains(errorField,'是否缴纳社会保险')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('是否缴纳社会保险')"
-						</c:if>>
+								<div class="select_common col-md-12 col-xs-12 col-sm-12 p0" <c:if test="${fn:contains(errorField,'是否缴纳社会保险')}">style="border: 1px solid red;" onmouseover="errorMsg('是否缴纳社会保险')"</c:if>>
+									<select name="coverNote" id="coverNote" style="width:100%;" >
 						<option <c:if test="${expert.coverNote eq '2'}">selected="selected"</c:if> value="2">否
 						</option>
 						<option <c:if test="${expert.coverNote eq '1'}">selected="selected"</c:if> value="1">是
@@ -1027,11 +1026,16 @@
                             	<c:if test="${expert.coverNote eq '1'}">缴纳社会保险证明</c:if>
                             	<c:if test="${expert.coverNote eq '2'}">退休证书或退休证明</c:if>
                             </span>
-							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明')"
-								</c:if>>
+							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明 ')"</c:if>  <c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
 								<%--图片的大小   图片的类型  --%>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" auto="true" />
-								<u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+								<c:if test="${expert.coverNote eq '1'}">
+                                    <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="coverNote_1" auto="true" />
+                                    <u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="coverNote_1" />
+                                </c:if>
+                                <c:if test="${expert.coverNote eq '2'}">
+                                    <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="coverNote_2" auto="true" />
+                                    <u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="coverNote_2" />
+                                </c:if>
 							</div>
 						</li>
 						</c:if>
@@ -1177,7 +1181,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 现任职务</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input maxlength="10" value="${expert.atDuty}" name="atDuty" id="appendedInput" type="text" <c:if test="${fn:contains(errorField,'现任职务')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('现任职务')"
+								<input maxlength="50" value="${expert.atDuty}" name="atDuty" id="appendedInput" type="text" <c:if test="${fn:contains(errorField,'现任职务')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('现任职务')"
 								</c:if>/>
 								<span class="add-on">i</span>
 								<span class="input-tip">如：项目经理</span>
@@ -1186,7 +1190,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 从事专业</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input onblur="notNull('major')" maxlength="20" value="${expert.major}" name="major" id="major" type="text" <c:if test="${fn:contains(errorField,'从事专业,')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('从事专业')"
+								<input onblur="notNull('major')" maxlength="50" value="${expert.major}" name="major" id="major" type="text" <c:if test="${fn:contains(errorField,'从事专业,')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('从事专业')"
 								</c:if> />
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空</span>
@@ -1257,7 +1261,7 @@
                         class="red">*</i> 毕业院校及专业</span>
 						</c:if>
 						<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-							<input onblur="notNull('graduateSchool')" maxlength="40" value="${expert.graduateSchool}" name="graduateSchool" id="graduateSchool" type="text" <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业院校及专业')"
+							<input onblur="notNull('graduateSchool')" maxlength="50" value="${expert.graduateSchool}" name="graduateSchool" id="graduateSchool" type="text" <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业院校及专业')"
 							</c:if>/>
 							<span class="add-on">i</span>
 							<span class="input-tip">不能为空，如：北京大学计算机专业</span>

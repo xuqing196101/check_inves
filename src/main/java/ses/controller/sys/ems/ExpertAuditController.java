@@ -452,10 +452,40 @@ public class ExpertAuditController{
 				}
 				content.append(temp.toString().substring(0, temp.length() - 1));
 			}
+			
+			/**
+			 * 地区查询
+			 */
+			if("getAddress".equals(field)){
+				String sonName = null;
+				String parentName = null;
+				List < Area > privnce = areaService.findRootArea();
+				if(expert.getAddress() !=null){
+					Area area = areaService.listById(value);
+					sonName = area.getName();
+					for(int i = 0; i < privnce.size(); i++) {
+						if(area.getParentId().equals(privnce.get(i).getId())) {
+							parentName = privnce.get(i).getName();
+							break;
+						}
+					}
+				}
+				content.append(parentName + sonName);
+			}
+			/**
+			 * 是否缴纳社会保险
+			 */
+			if("getCoverNote".equals(field)){
+				if(value.equals("1")){
+					content.append("是");
+				}else{
+					content.append("否");
+				}
+			}
 		} else if("2".equals(type)) {
 			SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
 			Date date = sdf1.parse(value);
-			content.append(new SimpleDateFormat("yyyy-MM-dd").format(date));
+			content.append(new SimpleDateFormat("yyyy-MM").format(date));
 		} else if("3".equals(type)) {
 			// Wed Feb 01 00:00:00 CST 2017         String
 			SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);

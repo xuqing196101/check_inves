@@ -61,13 +61,7 @@ import ses.model.bms.Qualification;
 import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
-import ses.model.ems.Expert;
-import ses.model.ems.ExpertAttachment;
-import ses.model.ems.ExpertAudit;
-import ses.model.ems.ExpertCategory;
-import ses.model.ems.ExpertPictureType;
-import ses.model.ems.ExpertTitle;
-import ses.model.ems.ProjectExtract;
+import ses.model.ems.*;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.*;
 import ses.service.bms.AreaServiceI;
@@ -174,6 +168,8 @@ public class ExpertController extends BaseController {
     private ExpExtractRecordService expExtractRecordService; //专家抽取记录表
     @Autowired
     private DeleteLogService deleteLogService;
+    @Autowired
+    private ExpertAuditNotService expertAuditNotService;
     /**
      * 
      * @Title: toExpert
@@ -3586,16 +3582,26 @@ public class ExpertController extends BaseController {
     @ResponseBody
     @RequestMapping("/validateIdNumber")
     public String validateIdNumber(String idNumber, String expertId) {
-        if(StringUtils.isNotBlank(idNumber) && StringUtils.isNotBlank(expertId)){
-            //根据供应商统一社会信用代码判断是否注销且180天内再次注册
+        if(StringUtils.isNotBlank(idNumber)){
+            //根据供应商统一社会信用代码判断是否注销或审核不通过且180天内再次注册
             try{
-                DeleteLog deleteLog = deleteLogService.queryByTypeId(expertId, idNumber);
+                //注销
+                DeleteLog deleteLog = deleteLogService.queryByTypeId(null, idNumber);
                 if(null != deleteLog && null != deleteLog.getCreateAt()){
-                    int betweenDays = supplierService.daysBetween(deleteLog.getCreateAt());
+                    int betweenDays = service.daysBetween(deleteLog.getCreateAt());
                     if(betweenDays > 180){
                         return "disabled_180";
                     }
                 }
+                //审核不通过
+                ExpertAuditNot expertAuditNot = expertAuditNotService.selectByIdCard(idNumber);
+                if(null != expertAuditNot && null != expertAuditNot.getCreatedAt()){
+                    int betweenDays = service.daysBetween(expertAuditNot.getCreatedAt());
+                    if(betweenDays > 180){
+                        return "disabled_180";
+                    }
+                }
+
             }catch (Exception e){
                 e.printStackTrace();
             }

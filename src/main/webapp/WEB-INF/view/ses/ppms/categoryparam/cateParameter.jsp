@@ -34,9 +34,12 @@
    	  
    	  <div class="col-md-12 col-sm-12 col-xs-12">
    	    <div class="pull-left">
- 		  <button class="btn btn-windows add" onclick="addParams();" type="button">新增</button>
+   	      <c:if test="${buttonHidden==false}">
+   	      <button class="btn btn-windows add" onclick="addParams();" type="button">新增</button>
  		  <button class="btn btn-windows edit" onclick="editParams();" type="button">编辑</button>
 		  <button class="btn btn-windows delete" onclick="delParams();" type="submit">删除</button>
+   	      </c:if>
+ 		  
 	    </div>
    	  </div>
    	  <div class=" col-md-12 col-sm-12 col-xs-12" id="name"></div>
@@ -51,8 +54,8 @@
 	    </ul> -->
 	  </div>
 	  
-	  <div id="submitId" class="textc">
-	    <button class="btn btn-windows git" onclick="submitParams();" type="button">提交</button>
+	  <div id="submitId" class="textc" >
+	    <button class="btn btn-windows git" onclick="submitParams();" <c:if test="${buttonHidden==true}"> style="display:none;"</c:if> type="button">提交</button>
 	  </div>
 	 </div>
     </div>

@@ -75,14 +75,17 @@
 							title: '提示！',
 							offset: ['200px']
 						}, function(index) {
+							if(state=="临时"){
+								state = 1;
+							}
 							layer.close(index);
 							$.ajax({
 								url: "${pageContext.request.contextPath}/suppliertDelete/cancellation.html",
-								data: "supplierId=" + ids,
+								data: {"supplierId" : ids, "sign" : state},
 								type: "post",
 								success: function() {
 									layer.msg("注销成功!", {
-										offset: '100px'
+										offset: '100px',
 									});
 									window.setTimeout(function() {
 										$("#form1").submit();

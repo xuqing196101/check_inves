@@ -3,14 +3,19 @@
  */
 package ses.controller.sys.bms;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Todos;
 import ses.model.bms.User;
@@ -47,7 +52,13 @@ public class ToDoController {
      */
     @RequestMapping("/todos")
     public String todos(HttpServletRequest req, String type, String id,Integer projectPage,Integer expertPage,Integer supplierPage){
-        User user = (User) req.getSession().getAttribute("loginUser");
+        return "ses/bms/todo/todos";
+    }
+    @RequestMapping("/supplier")
+    @ResponseBody
+    public String supplier(HttpServletRequest req, Integer type, String id,Integer page,Integer expertPage,Integer supplierPage){
+    	JSONObject jsonObj = new JSONObject();
+    	User user = (User) req.getSession().getAttribute("loginUser");
         if (user != null ){
             //代办事项
             Todos todos=new Todos();
@@ -70,30 +81,36 @@ public class ToDoController {
                 todos.setRoleIdArray(user.getRoles());
             }
             //List<String> listUserPermission = getPermisssion(todos.getReceiverId());
-            if(projectPage==null){
-            	projectPage=1;
+            if(page==null||"null".equals(page)){
+            	page=1;
             }
-            if(expertPage==null){
-            	expertPage=1;
+            PageInfo<Todos> pageInfo=null;
+            //供应商待办
+            if(type==0){
+            	 List<Todos> supplierlist = todosService.listUrlTodoPage(todos, (short)1,page);
+            	 pageInfo= new PageInfo<Todos>(supplierlist);
+            }else if(type==1){//专家待办
+            	List<Todos> expertlist = todosService.listUrlTodoPage(todos, (short)2,page);
+            	pageInfo= new PageInfo<Todos>(expertlist);
+            }else if(type==2){//项目待办
+            	List<Todos> projectlist = todosService.listUrlTodoPage(todos, (short)3,page);
+            	pageInfo = new PageInfo<Todos>(projectlist);
             }
-            if(supplierPage==null){
-            	supplierPage=1;
+            /*for(Todos to:pageInfo.getList()){
+            	to.setCreatedAt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(to.getCreatedAt()));
             }
-            List<Todos> supplierlist = todosService.listUrlTodoPage(todos, (short)1,supplierPage);
-            PageInfo<Todos> supplierTodos = new PageInfo<Todos>(supplierlist);
-            List<Todos> expertlist = todosService.listUrlTodoPage(todos, (short)2,expertPage);
-            PageInfo<Todos> expertTodos = new PageInfo<Todos>(expertlist);
-            List<Todos> projectlist = todosService.listUrlTodoPage(todos, (short)3,projectPage);
-            PageInfo<Todos> projectTodos = new PageInfo<Todos>(projectlist);
-            req.setAttribute("supplierTodos", supplierTodos);
-            req.setAttribute("expertTodos", expertTodos);
-            req.setAttribute("projectTodos",projectTodos);
-            req.setAttribute("type", type);
-            req.setAttribute("listTodos", todosService.listTodos(todos));
+            
+            */
+            
+            jsonObj.put("pages", pageInfo.getPages());
+            jsonObj.put("data", pageInfo.getList());
+            jsonObj.put("pageNum", pageInfo.getPageNum());
+            jsonObj.put("pageSize", pageInfo.getPageSize());
+            jsonObj.put("total", pageInfo.getTotal());
+            
         }
-        return "ses/bms/todo/todos";
+            return jsonObj.toString();
     }
-
     /**
      * 
      *〈简述〉已办

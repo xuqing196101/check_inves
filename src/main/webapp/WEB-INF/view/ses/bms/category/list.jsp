@@ -866,11 +866,11 @@
 	   </div>
      </div>
      <div class=" tag-box tag-box-v3 mt15 col-md-9 col-sm-8 col-xs-12">
-      
-   	   <button class="btn btn-windows add" type="button" onclick="add();" >新增</button>
-   	   <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
-   	   <button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-   	   
+      <c:if test="${buttonHidden==false}">
+	   	   <button class="btn btn-windows add" type="button" onclick="add();" >新增</button>
+	   	   <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
+	   	   <button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+   	   </c:if>
        <div id="tableDivId"   class="content dis_none" >   
          <input id="operaFlag" type="hidden" name="operaName"  />
          <form id="fm">

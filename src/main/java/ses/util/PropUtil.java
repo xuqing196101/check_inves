@@ -98,4 +98,23 @@ public class PropUtil {
 		String property = properties.getProperty(key);
 		return Integer.valueOf(property);
 	}
+	/**
+	 * 判断外网需不需要显示按钮
+	 * @param ipAddressType 内外网，内外网判定 1外网 0内网
+	 * @param file 文件
+	 * @return
+	 */
+	public static Boolean getOutPageButton(String file) {
+		Properties properties = getProperties(file);
+		String ipAddressType = properties.getProperty("ipAddressType");
+		if(ipAddressType!=null&&!"".equals(ipAddressType)){
+			if(1==Integer.parseInt(ipAddressType)){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
 }

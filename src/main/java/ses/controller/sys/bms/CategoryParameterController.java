@@ -19,6 +19,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
+import ses.util.PropUtil;
 
 /**
  * 
@@ -53,12 +54,13 @@ public class CategoryParameterController {
      */
     @RequestMapping("/list")
     public String list(@CurrentUser User user,HttpServletRequest request, Model model){
-        
+    	Boolean bool = PropUtil.getOutPageButton("config.properties");
         if (user != null && user.getOrg() != null) {
             model.addAttribute("orgId", user.getOrg().getId());
         }
         List<DictionaryData> list = paramService.initTypes();
         model.addAttribute("dictionary", list);
+        model.addAttribute("buttonHidden", bool);
         
        return "/ses/ppms/categoryparam/cateParameter";
     }

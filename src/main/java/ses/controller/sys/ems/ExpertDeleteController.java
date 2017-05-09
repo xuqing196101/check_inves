@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.ems.Expert;
+import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 
 import com.github.pagehelper.PageInfo;
@@ -17,7 +18,6 @@ import com.github.pagehelper.PageInfo;
 /**
  * <p>Title:ExpertDeleteController </p>
  * <p>Description:专家注销 </p>
- * @author XuQing
  * @date 2017-4-11下午4:11:18
  */
 @Controller
@@ -29,10 +29,12 @@ public class ExpertDeleteController {
      */
     @Autowired
     private ExpertService expertService;
+    
+    @Autowired
+    private UserServiceI UserServiceI;
 	
 	/**
      * @Title: cancellation
-     * @author XuQing 
      * @date 2017-3-8 下午1:33:37  
      * @Description:专家注销
      * @param @param expertId      
@@ -40,13 +42,18 @@ public class ExpertDeleteController {
      */
      @RequestMapping(value = "/cancellation")
      @ResponseBody
-     public void cancellation(String expertId){
-    	 expertService.deleteExpert(expertId);
+     public void cancellation(String expertId, Integer sign){
+    	 if(sign == 1){
+    		 expertService.updateById(expertId);
+    		 UserServiceI.updateByTypeId(expertId);
+    		 
+    	 }else{
+    		 expertService.deleteExpert(expertId);
+    	 }
      }
      
      /**
       * @Title: findLogoutList
-      * @author XuQing 
       * @date 2017-4-11 下午3:08:59  
       * @Description:注销列表
       * @param @param supplier      

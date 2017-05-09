@@ -380,10 +380,10 @@ public class SupplierServiceImpl implements SupplierService {
                 userService.saveUserMenu(upm);
             }*/
         }
-        List<SupplierAddress> addressList=new ArrayList<SupplierAddress>();
-        SupplierAddress address=new SupplierAddress();
-        addressList.add(address);
-        supplier.setAddressList(addressList);
+//        List<SupplierAddress> addressList=new ArrayList<SupplierAddress>();
+//        SupplierAddress address=new SupplierAddress();
+//        addressList.add(address);
+//        supplier.setAddressList(addressList);
         List<SupplierBranch> branchList=new ArrayList<SupplierBranch>();
         SupplierBranch branch=new SupplierBranch();
         branchList.add(branch);
@@ -1108,5 +1108,18 @@ public class SupplierServiceImpl implements SupplierService {
         }
         return 0;
     }
+
+    /**
+     * @Title: updateById
+     * @date 2017-5-9 上午9:39:45  
+     * @Description:假删除供应商
+     * @param @param id      
+     * @return void
+     */
+	@Override
+	public void updateById(String id) {
+		supplierMapper.updateById(id);
+		
+	}
 
 }

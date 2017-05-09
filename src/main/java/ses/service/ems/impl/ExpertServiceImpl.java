@@ -1381,6 +1381,19 @@ public class ExpertServiceImpl implements ExpertService {
     public List<Expert> getAuditExpertByDate(String startDate, String endDate) {
         return mapper.getAuditExpertByDate(startDate, endDate);
     }
+
+    /**
+     * @Title: updateById
+     * @date 2017-5-9 上午9:54:00  
+     * @Description:假删除专家（临时）
+     * @param @param id      
+     * @return void
+     */
+	@Override
+	public void updateById(String id) {
+		mapper.updateById(id);
+		
+	}
 }
 
 

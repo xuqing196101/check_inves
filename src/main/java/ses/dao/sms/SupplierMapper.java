@@ -471,4 +471,13 @@ public interface SupplierMapper {
      */
     public Long getRegisterSupplierCountByEmp();
     
+    /**
+     * @Title: updateById
+     * @date 2017-5-9 上午9:39:45  
+     * @Description:假删除供应商
+     * @param @param id      
+     * @return void
+     */
+    void updateById (String id);
+    
 }

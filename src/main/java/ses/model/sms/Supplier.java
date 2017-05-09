@@ -570,6 +570,8 @@ public class Supplier implements Serializable {
 	
 	private String orgName; //机构名称
 	
+	private Integer isDeleted; //0未删除，1已删除
+	
 	/**获取所有数据库address的省级单位名称*/
 	private String name;
 	
@@ -1888,6 +1890,14 @@ public class Supplier implements Serializable {
 
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
+	}
+
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 

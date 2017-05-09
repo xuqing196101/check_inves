@@ -377,17 +377,26 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
 	return userMapper.getUserId(OrgID);
  }
 
-/**
- * @Title: selectByTypeId
- * @Description根据类型id查
- * @param @param typeId
- * @param @return      
- * @return List<User>
- */
-
-@Override
-public List<User> selectByTypeId(String typeId) {
-	return userMapper.selectByTypeId(typeId);
-}
-}
+		/**
+		 * @Title: selectByTypeId
+		 * @Description根据类型id查
+		 * @param @param typeId
+		 * @param @return      
+		 * @return List<User>
+		 */
+		
+		@Override
+		public List<User> selectByTypeId(String typeId) {
+			return userMapper.selectByTypeId(typeId);
+		}
+		
+		/**
+		 * 假删除用户
+		 */
+		@Override
+		public void updateByTypeId(String typeId) {
+			userMapper.updateByTypeId(typeId);
+			
+		}
+	}
 

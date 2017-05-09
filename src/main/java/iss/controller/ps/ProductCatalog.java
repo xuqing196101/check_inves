@@ -285,7 +285,7 @@ public class ProductCatalog {
     	}
 	@RequestMapping("/parameterList")
 	public String parameterList(Integer page,Category category,HttpServletRequest request,Model model) {
-		HashMap<String,Object> map = new HashMap<>();
+		/*HashMap<String,Object> map = new HashMap<>();
 		if(category!=null){
 			if(category.getName()!=null && !category.getName().equals("")){
 				map.put("name", category.getName());
@@ -301,7 +301,7 @@ public class ProductCatalog {
 		model.addAttribute("list", new PageInfo<Category>(Categorys));
 		Map<String, Object> indexMapper = new HashMap<String, Object>();
 		IssData.topNews(indexMapper);
-		model.addAttribute("indexMapper", indexMapper);
+		model.addAttribute("indexMapper", indexMapper);*/
 		return "iss/ps/catalog/parameterlist";
 	}
 	

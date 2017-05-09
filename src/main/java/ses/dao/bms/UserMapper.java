@@ -352,4 +352,14 @@ public interface UserMapper {
 	 * @return List<User>
 	 */
 	List<User> selectByTypeId(String typeId);
+	
+	
+	/**
+	 * @Title: updateByTypeId
+	 * @date 2017-5-8 下午6:10:28  
+	 * @Description:假删除用户
+	 * @param @param typeId      
+	 * @return void
+	 */
+	void updateByTypeId (String typeId);
 }

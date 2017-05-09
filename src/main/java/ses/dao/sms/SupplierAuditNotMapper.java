@@ -63,4 +63,15 @@ public interface SupplierAuditNotMapper {
     * @throws
      */
     List<SupplierAuditNot> selectQueryBySupplierId(@Param("supplierId")String supplierId);
+    
+    /**
+     * @Title: selectByCreditCode
+     * @author XuQing 
+     * @date 2017-5-8 下午4:51:38  
+     * @Description:根据信用代码查询
+     * @param @param creditCode
+     * @param @return      
+     * @return SupplierAuditNot
+     */
+    SupplierAuditNot selectByCreditCode(String creditCode);
 } 

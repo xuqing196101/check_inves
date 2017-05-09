@@ -274,6 +274,7 @@
                     if (oldVal!=newVal){
                         var tel = /^[0-9]{6}$/;
                         if(!tel.test(newVal)){
+                            $(this).val("");
                             layer.msg('请输入正确的邮政编码！', {
                                 offset: '300px'
                             });

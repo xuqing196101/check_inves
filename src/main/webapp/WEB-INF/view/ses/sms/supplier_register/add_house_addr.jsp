@@ -96,7 +96,28 @@
         <input type="hidden" value="${id}" />
     </div>
 </li>--%>
-
+<script type="text/javascript">
+    $(function () {
+        /**邮编校验*/
+        $(".address_zip_code").focus(function(){
+            $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
+        }).blur(function(){
+            var oldVal=($(this).attr("data-oval")); //获取原值
+            var newVal=($(this).val()); //获取当前值
+            if (oldVal!=newVal){
+                var tel = /^[0-9]{6}$/;
+                if(!tel.test(newVal)){
+                    $(this).val("");
+                    layer.msg('请输入正确的邮政编码！', {
+                        offset: '300px'
+                    });
+                }else{
+                    tempSave();
+                }
+            }
+        });
+    })
+</script>
 
 
 

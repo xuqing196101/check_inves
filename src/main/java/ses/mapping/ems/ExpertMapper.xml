@@ -61,10 +61,10 @@
         <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
         <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
         <result column="IS_ADD_EXPERT" jdbcType="DECIMAL" property="isAddExpert" />
- 	    <result column="IS_TITLE" property="isTitle" />
-		<result column="TEACH_TITLE" property="teachTitle" />
-		<result column="NET_TYPE" property="netType" />
-		<result column="EXTRACT_ORGID" property="extractOrgid" />
+ 	    	<result column="IS_TITLE" property="isTitle" />
+				<result column="TEACH_TITLE" property="teachTitle" />
+				<result column="NET_TYPE" property="netType" />
+				<result column="EXTRACT_ORGID" property="extractOrgid" />
     </resultMap>
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
@@ -1803,7 +1803,7 @@
 			t1.IS_SUBMIT = '0'
 			AND (t1.STATUS = '-1' OR t1.STATUS = '3')
 		)) -->
-		1=1
+			t1.IS_DELETE = 0
 		<if test="mobile != null and mobile !=''">
         AND t1.MOBILE LIKE '%${mobile}%'
     </if>
@@ -2013,4 +2013,14 @@
         AND
         AUDIT_AT &lt;= to_date(#{endDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
     </select>
+    
+    
+    	<!-- 假删除专家-->
+	<update id="updateById" parameterType="java.lang.String">
+		update
+			T_SES_EMS_EXPERT
+		SET
+			IS_DELETE = 1
+		WHERE ID = #{id}
+	</update>
 </mapper>
