@@ -80,13 +80,14 @@
 						title: '提示！',
 						offset: ['200px']
 					}, function(index) {
-						if(state=="临时"){
+						/* if(state=="临时"){
 								state = 1;
-							}
+							} */
 							layer.close(index);
 						$.ajax({
 							url: "${pageContext.request.contextPath}/expertDelete/cancellation.html",
-							data: {"expertId" : ids, "sign" : state},
+							/* data: {"expertId" : ids, "sign" : state}, */
+							data: {"expertId" : ids},
 							type: "post",
 							success: function() {
 								layer.msg("注销成功!", {
