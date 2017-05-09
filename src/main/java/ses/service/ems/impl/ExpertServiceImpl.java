@@ -1255,20 +1255,20 @@ public class ExpertServiceImpl implements ExpertService {
     	if(expert.getIdCardNumber() !=null){
     		dlog.setUniqueCode(expert.getIdCardNumber());
     	}
-    	/*deleteLogMapper.insertSelective(dlog);*/
+    	deleteLogMapper.insertSelective(dlog);
     	
-		mapper.deleteByPrimaryKey(expertId);
-		
-		User user = userMapper.findUserByTypeId(expertId);
-    	Userrole userRole=new Userrole();
-    	if(user != null){
-    		userRole.setUserId(user);
-        	roleMapper.deleteRoelUser(userRole);
-        	userMapper.deleteByPrimaryKey(user.getId());
-    	}
-    	expertCategoryMapper.deleteByExpertId(expertId);
-    	fileUploadMapper.deleteByBusinessId(expertId);
-    	expertTitleMapper.deleteByExpertId(expertId);
+//		mapper.deleteByPrimaryKey(expertId);
+//		
+//		User user = userMapper.findUserByTypeId(expertId);
+//    	Userrole userRole=new Userrole();
+//    	if(user != null){
+//    		userRole.setUserId(user);
+//        	roleMapper.deleteRoelUser(userRole);
+//        	userMapper.deleteByPrimaryKey(user.getId());
+//    	}
+//    	expertCategoryMapper.deleteByExpertId(expertId);
+//    	fileUploadMapper.deleteByBusinessId(expertId);
+//    	expertTitleMapper.deleteByExpertId(expertId);
 	}
 
 	/**
