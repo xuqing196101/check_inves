@@ -295,4 +295,13 @@ public interface ExpertMapper {
      * @return 专家集合
      */
     List<Expert> getAuditExpertByDate(@Param("startDate")String startDate,@Param("endDate")String endDate);
+    
+    /**
+     * @Title: updateById
+     * @date 2017-5-9 上午9:54:00  
+     * @Description:假删除专家（临时）
+     * @param @param id      
+     * @return void
+     */
+    void updateById (String id);
 }

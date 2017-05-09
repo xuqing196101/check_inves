@@ -17,7 +17,6 @@ import com.github.pagehelper.PageInfo;
 /**
  * <p>Title:SupplierDeleteController </p>
  * <p>Description:供应商注销 </p>
- * @author XuQing
  * @date 2017-4-11下午4:00:55
  */
 @Controller
@@ -37,7 +36,6 @@ public class SupplierDeleteController {
 	
 	/**
      * @Title: cancellation
-     * @author XuQing 
      * @date 2017-3-8 下午1:33:37  
      * @Description:供应商注销
      * @param @param supplierIds      
@@ -45,8 +43,8 @@ public class SupplierDeleteController {
      */
      @RequestMapping(value = "/cancellation")
      @ResponseBody
-     public void cancellation(String supplierId, Integer status){
-       if(status == 1){
+     public void cancellation(String supplierId, Integer sign){
+       if(sign == 1){
     	   UserServiceI.updateByTypeId(supplierId);
     	   supplierService.updateById(supplierId);
        }else{
@@ -56,7 +54,6 @@ public class SupplierDeleteController {
      
      /**
       * @Title: findLogoutList
-      * @author XuQing 
       * @date 2017-4-11 下午3:08:59  
       * @Description:注销列表
       * @param @param supplier      

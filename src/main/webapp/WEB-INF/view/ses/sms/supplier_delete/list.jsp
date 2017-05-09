@@ -81,7 +81,7 @@
 							layer.close(index);
 							$.ajax({
 								url: "${pageContext.request.contextPath}/suppliertDelete/cancellation.html",
-								data: {"supplierId" : ids, "status" : state},
+								data: {"supplierId" : ids, "sign" : state},
 								type: "post",
 								success: function() {
 									layer.msg("注销成功!", {
