@@ -125,6 +125,11 @@ public class SynchImportController {
             	iter.remove();
                 continue;
             }
+            if(dd.getCode().equals(Constant.SYNCH_CATEGORY)){
+            	/**产品目录管理 数据导出  只能是内网导出外网**/
+             iter.remove();
+         	   continue;
+            }
         }
           //外网时   
         if(ipAddressType.equals("1")){
