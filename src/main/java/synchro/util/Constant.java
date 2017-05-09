@@ -138,4 +138,17 @@ public class Constant {
     public final static String INNER_PRODUCT_LIBRARY_EXPERT = "inner_product_library";
     /**产品库  信息文件名称 文件 内网 **/
     public final static String OUTER_FILE_PRODUCT_LIBRARY_EXPERT = "outer_file_product_library";
+    
+    /**产品目录管理 名称**/
+    public final static String SYNCH_CATEGORY="SYNCH_CATEGORY";
+    /**产品目录 管理  导出信息描述 **/
+    public final static String COMMIT_SYNCH_CATEGORY="导出产品目录信息数量:";
+    /**产品目录 导出 文件夹名称**/
+    public final static String T_SES_BMS_CATEGORY_PATH="t_ses_bms_category_path";
+    /** 产品目录 管理  导出 附件描述 **/
+    public final static String COMMIT_FILE_NUMBER_SYNCH_CATEGORY = "导出产品目录附件数量:";
+    /** 产品目录 管理  导出 附件描述 **/
+    public final static String IMPORT_FILE_NUMBER_SYNCH_CATEGORY = "导入产品目录附件数量:";
+    /** 产品目录 管理   导入附件描述 **/
+    public final static String IMPORT_SYNCH_CATEGORY = "导入产品目录信息数量:";
 }

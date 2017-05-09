@@ -38,7 +38,7 @@ public class FileUtils {
     private final static String FINISH_PATH = PropUtil.getProperty("file.sync.finish");
     
     /** 供应商附件文件路径 **/
-    private final static String SUPPLIER_ATTFILE_PATH = PropUtil.getProperty("file.supplier.system.path");
+    public final static String SUPPLIER_ATTFILE_PATH = PropUtil.getProperty("file.supplier.system.path");
     
     /** 招标附件文件路径 **/
     public final static String TENDER_ATTFILE_PATH = PropUtil.getProperty("file.tender.system.path");
@@ -127,6 +127,19 @@ public class FileUtils {
     public final static String C_SYNCH_OUTER_PRODUCT_LIBRARY="_c_synch_outer_productLibrary.dat";
     /***产品库管理 导出 附件数据名称 外网**/
     public final static String C_SYNCH_OUTER_FILE_PRODUCT_LIBRARY="_c_synch_outer_file_productLibrary.dat";
+   
+    /***产品目录管理 导出创建数据名称***/
+    public final static String C_CATEGORY_FILENAME="_c_category.dat";
+    /**产品目录管理 导出路径***/
+    public final static String T_SES_BMS_CATEGORY_PATH=PropUtil.getProperty("file.t_ses_bms_category_path.system.path");
+    /***产品目录管理 导出更新数据名称***/
+    public final static String U_CATEGORY_FILENAME="_u_category.dat";
+    /**产品目录管理 导出附件数据名称**/
+    public final static String C_FILE_CATEGORY_FILENAME="_c_file_category.dat";
+    /**产品目录管理 导出路径***/
+    public final static String FILE_T_SES_BMS_CATEGORY_PATH=PropUtil.getProperty("file.file_t_ses_bms_category_path.system.path");
+    
+    
     /**
      * 
      *〈简述〉创建根目录
@@ -664,6 +677,8 @@ public class FileUtils {
           case 11:  filePath=SYNCH_INNER_PRODUCT_LIBRARY_PATH;break;
           case 12:  filePath=SYNCH_OUTER_PRODUCT_LIBRARY_PATH;break;
           case 13:  filePath=SYNCH_OUTER_FILE_PRODUCT_LIBRARY_PATH;break;
+          case 14: filePath=T_SES_BMS_CATEGORY_PATH;break;
+          case 15: filePath=FILE_T_SES_BMS_CATEGORY_PATH;break;
         }
         return filePath;
     }

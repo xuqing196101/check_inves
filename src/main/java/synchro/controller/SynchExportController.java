@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
+import ses.service.bms.CategoryService;
 import ses.service.sms.SMSProductLibService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -31,6 +32,7 @@ import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
+import com.sun.tracing.dtrace.Attributes;
 
 import common.bean.ResponseBean;
 
@@ -82,7 +84,9 @@ public class SynchExportController {
     private SMSProductLibService smsProductLibService;
     /** 设置数据类型 **/
     private static final Integer DATA_TYPE_KIND = 29;
-    
+    /**产品目录**/
+    @Autowired
+    private CategoryService categoryService;
     /**
      * 
      *〈简述〉初始化导出
@@ -253,6 +257,10 @@ public class SynchExportController {
         	//内网时 导出 产品库审核的 相关数据	
         	smsProductLibService.exportCheckProjectData(startTime, endTime, date);
         	}
+        }
+        if(synchType.contains(Constant.SYNCH_CATEGORY)){
+        	//产品目录 导出 数据
+        	categoryService.exportCategory(startTime, endTime, date);
         }
         bean.setSuccess(true);
         return bean;
