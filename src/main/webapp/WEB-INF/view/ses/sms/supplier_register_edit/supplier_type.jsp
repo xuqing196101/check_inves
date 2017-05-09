@@ -1368,7 +1368,7 @@
 													onclick="deleteCertPro()">删除</button>
 												<span class="red">${cert_pro }</span>
 											</div>
-											<div class="col-md-12 col-xs-12 col-sm-12 over_scroll p0">
+											<div class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
 												<table
 													class="table table-bordered table-condensed mt5 table_wrap left_table table_input">
 													<thead>
@@ -1497,7 +1497,7 @@
 											<button type="button" class="btn" onclick="deleteCertSell()">删除</button>
 											<span class="red">${sale_cert }</span>
 										</div>
-										<div class="col-md-12 col-sm-12 col-xs-12 over_scroll p0">
+										<div class="col-md-12 col-sm-12 col-xs-12 over_auto p0">
 											<table id="share_table_id"
 												class="table table-bordered table-condensed mt5 table_input left_table table_wrap">
 												<thead>
@@ -1721,7 +1721,7 @@
 											<span class="red">${eng_persons }</span>
 										</div>
 										<div
-											class="col-md-12 col-xs-12 col-sm-12 p0 over_scroll clear">
+											class="col-md-12 col-xs-12 col-sm-12 p0 over_auto clear">
 											<table
 												class="table table-bordered table-condensed mt5 table_input left_table table_wrap">
 												<thead>
@@ -1779,7 +1779,7 @@
 											<span class="red">${eng_cert}</span>
 										</div>
 										<div
-											class="clear over_scroll col-md-12 col-xs-12 col-sm-12 p0">
+											class="clear over_auto col-md-12 col-xs-12 col-sm-12 p0">
 											<table
 												class="table table-bordered table-condensed mt5 table_input left_table">
 												<thead>
@@ -1895,7 +1895,7 @@
 											<span class="red">${eng_aptitutes }</span>
 										</div>
 										<div
-											class="over_scroll clear col-md-12 col-xs-12 col-sm-12 p0">
+											class="over_auto clear col-md-12 col-xs-12 col-sm-12 p0">
 											<table
 												class="table table-bordered table-condensed mt5 table_input left_table">
 												<thead>
@@ -2062,7 +2062,7 @@
 											<button type="button" class="btn" onclick="deleteCertSe()">删除</button>
 											<span class="red">${fw_cert }</span>
 										</div>
-										<div class="col-md-12 col-xs-12 col-sm-12 over_scroll p0">
+										<div class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
 											<table id="share_table_id"
 												class="table table-bordered table-condensed mt5 table_wrap left_table table_input">
 												<thead>
