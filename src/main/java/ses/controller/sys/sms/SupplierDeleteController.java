@@ -43,13 +43,13 @@ public class SupplierDeleteController {
      */
      @RequestMapping(value = "/cancellation")
      @ResponseBody
-     public void cancellation(String supplierId, Integer sign){
-       if(sign == 1){
+     public void cancellation(String supplierId){
+       /*if(sign == 1){*/
     	   UserServiceI.updateByTypeId(supplierId);
     	   supplierService.updateById(supplierId);
-       }else{
+       /*}else{
     	   supplierService.deleteSupplier(supplierId);
-       }
+       }*/
      }
      
      /**
