@@ -511,10 +511,6 @@ public class SynchImportController {
 										FileUtils.C_CATEGORY_FILENAME)) {
 									categoryService.importCategory(file2);
 								}
-								//判读是否 导出 更新数据名称
-								if(file2.getName().contains(FileUtils.U_CATEGORY_FILENAME)){
-									categoryService.importCategory(file2);
-								}
 								// 判断文件是否是 产品的 附件文件
 								if (file2.getName().contains(
 										FileUtils.C_FILE_CATEGORY_FILENAME)) {

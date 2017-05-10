@@ -132,8 +132,6 @@ public class FileUtils {
     public final static String C_CATEGORY_FILENAME="_c_category.dat";
     /**产品目录管理 导出路径***/
     public final static String T_SES_BMS_CATEGORY_PATH=PropUtil.getProperty("file.t_ses_bms_category_path.system.path");
-    /***产品目录管理 导出更新数据名称***/
-    public final static String U_CATEGORY_FILENAME="_u_category.dat";
     /**产品目录管理 导出附件数据名称**/
     public final static String C_FILE_CATEGORY_FILENAME="_c_file_category.dat";
     /**产品目录管理 导出路径***/
