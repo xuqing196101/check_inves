@@ -12,20 +12,24 @@
         $('.circle_box').circliful();
       });
       
-      function view(id,type){
-        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewTask.html?id=" + id + "&type=" + type;
+      function view(id){
+        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewPlan.html?id=" + id;
+      }
+      
+      function viewDemand(id){
+        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewDeand.html?id=" + id;
       }
 
-      function viewProject(id, type) {
-        var project = "${project}";
+      function viewProject(id) {
+        var project = "${projectStatus}";
         if(project){
-          window.location.href = "${pageContext.request.contextPath}/planSupervision/viewTask.html?id=" + id + "&type=" + type;
+          window.location.href = "${pageContext.request.contextPath}/planSupervision/viewProject.html?id=" + id;
         }
       }
-      function viewContract(id, type) {
-        var contractRequireds = "${contractRequireds}";
+      function viewContract(id) {
+        var contractRequireds = "${contractStatus}";
         if(contractRequireds){
-          window.location.href = "${pageContext.request.contextPath}/planSupervision/viewTask.html?id=" + id + "&type=" + type;
+          window.location.href = "${pageContext.request.contextPath}/planSupervision/viewContract.html?id=" + id;
         }
       }
     </script>
@@ -66,10 +70,10 @@
               <td class="w350 tc">采购合同</td>
             </tr>
             <tr>
-              <td class="tc" width="25%" onclick="view('${collectPlan.id}','1')">
+              <td class="tc" width="25%" onclick="viewDemand('${collectPlan.id}')">
                 <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
               </td>
-              <td class="tc" width="25%" onclick="view('${collectPlan.id}','2')">
+              <td class="tc" width="25%" onclick="view('${collectPlan.id}')">
                 <c:if test="${planStatus eq 20}">
                   <div data-dimension="150" data-text="20%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="20" data-fgcolor="#ff8641" data-bgcolor="#eee" class="circle_box"></div>
                 </c:if>
@@ -83,8 +87,8 @@
                   <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
                 </c:if>
               </td>
-              <td class="tc" width="25%" onclick="viewProject('${collectPlan.id}','3')">
-                <c:if test="${project ne null}">
+              <td class="tc" width="25%" onclick="viewProject('${collectPlan.id}')">
+                <c:if test="${projectStatus ne null}">
                   <c:if test="${projectStatus gt 99}">
                   <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
                   </c:if>
@@ -98,15 +102,15 @@
                   <div data-dimension="150" data-text="${projectStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${projectStatus}" data-fgcolor="#ff8641" data-bgcolor="#eee" class="circle_box"></div>
                   </c:if>
                 </c:if>
-                <c:if test="${project eq null}">
+                <c:if test="${projectStatus eq null}">
                   <div data-dimension="150" data-text="0%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="0" data-fgcolor="#ffffff" data-bgcolor="#eeeeee" class="circle_box"></div>
                 </c:if>
               </td>
-              <td class="tc" width="25%" onclick="viewContract('${collectPlan.id}','4')">
-                <c:if test="${contractRequireds eq null}">
+              <td class="tc" width="25%" onclick="viewContract('${collectPlan.id}')">
+                <c:if test="${contractStatus eq null}">
                   <div data-dimension="150" data-text="0%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="0" data-fgcolor="#ffffff" data-bgcolor="#eeeeee" class="circle_box"></div>
                 </c:if>
-                <c:if test="${contractRequireds ne null}">
+                <c:if test="${contractStatus ne null}">
                   <c:if test="${contractStatus gt 99}">
                     <div data-dimension="150" data-text="${contractStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${contractStatus}" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
                   </c:if>

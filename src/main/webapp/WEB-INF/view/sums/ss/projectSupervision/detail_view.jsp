@@ -8,14 +8,13 @@
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script src="${pageContext.request.contextPath}/public/webuploadFT/layui/layui.js"></script>
     <script type="text/javascript">
-      /* $(function() {
-              $(".progress-bar").each(function() {
-                var progress = $(this).prev().val();
-                progress = progress + "%";
-                $(this).width(progress);
-              });
-            }); */
-
+      $(function() {
+        $(".progress-bar").each(function() {
+          var progress = $(this).prev().val();
+          progress = progress + "%";
+          $(this).width(progress);
+        });
+      });
       function view(id) {
         window.location.href = "${pageContext.request.contextPath}/planSupervision/overview.html?id=" + id;
       }
@@ -28,7 +27,7 @@
         $(obj).children("span").remove();
       }
 
-      $(function() {
+     /*  $(function() {
         layui.use('flow', function() {
           var flow = layui.flow;
           flow.load({
@@ -38,7 +37,7 @@
               var lis = [];
               //以jQuery的Ajax请求为例，请求下一页数据
               $.ajax({
-                url: "${pageContext.request.contextPath}/supervision/paixu.do?id=${planId}&fileId=${demand.fileId}&page=" + page,
+                url: "${pageContext.request.contextPath}/projectSupervision/paixu.do?id=${planId}&projectId=${projectId}&page=" + page,
                 type: "get",
                 dataType: "json",
                 success: function(res) {
@@ -74,13 +73,13 @@
             }
           });
         });
-      });
+      }); */
     </script>
   </head>
 
   <body>
     <!--面包屑导航开始-->
-    <div class="margin-top-10 breadcrumbs ">
+    <div class="margin-tni op-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
@@ -93,7 +92,7 @@
             <a href="javascript:void(0)">采购业务监督</a>
           </li>
           <li class="active">
-            <a href="javascript:void(0)">采购需求监督</a>
+            <a href="javascript:void(0)">采购计划监督</a>
           </li>
         </ul>
         <div class="clear"></div>
@@ -101,77 +100,39 @@
     </div>
     <div class="container container_box">
       <div>
-        <h2 class="count_flow"><i>1</i>基本信息</h2>
-        <ul class="ul_list">
-          <c:if test="${'0' eq type}">
-            <table class="table table-bordered mt10">
+        <c:if test="${'0' != type}">
+          <h2 class="count_flow"><i>1</i>基本信息</h2>
+          <ul class="ul_list">
+            <table class="table table-bordered">
               <tbody>
                 <tr>
-                  <td width="15%" class="info">需求名称：</td>
-                  <td width="35%">${demand.planName}</td>
-                  <td width="15%" class="info">需求编号：</td>
-                  <td width="35%">${demand.planNo}</td>
+                  <td class="bggrey">采购管理部门：</td>
+                  <td>${collectPlan.purchaseId}</td>
+                  <td class="bggrey">计划名称：</td>
+                  <td>${collectPlan.fileName}</td>
+                  <td class="bggrey">计划编号：</td>
+                  <td>${collectPlan.planNo}</td>
                 </tr>
                 <tr>
-                  <td width="15%" class="info">需求状态：</td>
-                  <td width="25%">
-                    <c:if test="${demand.status eq '1'}">未提交</c:if>
-                    <c:if test="${demand.status eq '4'}">受理退回</c:if>
-                    <c:if test="${demand.status eq '2' || demand.status eq '3' || demand.status eq '5'}">已提交</c:if>
+                  <td class="bggrey">计划下达时间：</td>
+                  <td>
+                    <fmt:formatDate type='date' value='${collectPlan.orderAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                   </td>
-                  <td width="15%" class="info">创建人：</td>
-                  <td width="25%">${demand.userId}</td>
-                </tr>
-                <tr>
-                  <td width="15%" class="info">创建日期：</td>
-                  <td width="25%" colspan="3">
-                    <fmt:formatDate value='${demand.createdAt}' pattern='yyyy-MM-dd HH:mm:ss' />
-                  </td>
+                  <td class="bggrey">联系人：</td>
+                  <td>${collectPlan.userId}</td>
+                  <td class="bggrey"></td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>
-          </c:if>
-          <c:if test="${'1' eq type}">
-            <table class="table table-bordered mt10">
-              <tbody>
-                <tr>
-                  <td width="25%" class="info">计划名称：</td>
-                  <td width="25%">${collectPlan.fileName}</td>
-                  <td width="25%" class="info">计划编号：</td>
-                  <td width="25%">${collectPlan.planNo}</td>
-                </tr>
-                <tr>
-                  <td width="25%" class="info">计划状态：</td>
-                  <td width="25%">
-                    <c:if test="${collectPlan.status == 1}">审核轮次设置</c:if>
-                    <c:if test="${collectPlan.status == 2}">已下达</c:if>
-                    <c:if test="${collectPlan.status == 3}">第一轮审核</c:if>
-                    <c:if test="${collectPlan.status == 4}">第二轮审核人员设置</c:if>
-                    <c:if test="${collectPlan.status == 5}">第二轮审核</c:if>
-                    <c:if test="${collectPlan.status == 6}">第三轮审核人员设置</c:if>
-                    <c:if test="${collectPlan.status == 7}">第三轮审核</c:if>
-                    <c:if test="${collectPlan.status == 12}">未下达</c:if>
-                  </td>
-                  <td width="25%" class="info">创建人：</td>
-                  <td width="25%">${collectPlan.userId}</td>
-                </tr>
-                <tr>
-                  <td width="25%" class="info">创建日期：</td>
-                  <td width="25%" colspan="3">
-                    <fmt:formatDate value='${collectPlan.createdAt}' pattern='yyyy-MM-dd HH:mm:ss' />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </c:if>
-        </ul>
+          </ul>
       </div>
+      </c:if>
       <div class="padding-top-10 clear" id="clear">
         <h2 class="count_flow">
-            <i>2</i>
               <c:choose>
-            <c:when test="${'0' eq type}">需求明细</c:when>
-            <c:otherwise>采购明细</c:otherwise>
+            <c:when test="${'0' eq type}"><i>1</i>需求明细</c:when>
+            <c:otherwise><i>2</i>采购明细</c:otherwise>
           </c:choose>
              </h2>
         <ul class="ul_list">
@@ -192,15 +153,55 @@
                   <th class="info " width="8%">采购方式</th>
                   <th class="info " width="10%">供应商名称</th>
                   <th class="info " width="8%">状态</th>
-                  <th class="info" width="8%">进度</th>
+                  <th class="info " width="8%">进度</th>
                 </tr>
               </thead>
               <tbody id="tbody_id">
-
+                <c:forEach items="${list}" var="obj" varStatus="vs">
+                  <tr class="pointer">
+                    <td class="tc w50">${obj.seq}</td>
+                    <td><c:if test="${obj.price eq null}">
+                    <div class="department">${obj.department}</div>
+                    </c:if></td>
+                    <td title="${obj.goodsName}" class="tl pl20">
+                      ${obj.goodsName}
+                    </td>
+                    <td title="${obj.stand}" class="tl pl20">
+                      ${obj.stand}
+                    </td>
+                    <td title="${obj.qualitStand}" class="tl pl20">
+                      ${obj.qualitStand}
+                    </td>
+                    <td title="${obj.item}" class="tl pl20">
+                      ${obj.item}
+                    </td>
+                    <td class="tl pl20">${obj.purchaseCount}</td>
+                    <td class="tr pr20">${obj.price}</td>
+                    <td class="tr pr20">${obj.budget}</td>
+                    <td class="tl pl20">${obj.deliverDate}</td>
+                    <td class="tl pl20">${obj.purchaseType}</td>
+                    <td title="${obj.supplier}" class="tl pl20">
+                      <c:if test="${code eq 'DYLY'}">
+                        ${obj.supplier}
+                      </c:if>
+                    </td>
+                    <td class="tl pl20">${obj.status}</td>
+                    <td class="tc" onclick="view('${obj.id}')">
+                      <c:if test="${obj.price != null}">
+                        <div class="progress-new">
+                          <input type="hidden" value="${obj.progressBar}" />
+                          <div id="progress" class="progress-bar" style="background:#2c9fa6;" onmouseover="bigImg(this,'${obj.progressBar}')" onmouseout="normalImg(this,'${obj.progressBar}')">
+                          </div>
+                        </div>
+                        <div id="p" class="easyui-progressbar" data-options="value:${obj.progressBar}" style="width:80px;"></div>
+                      </c:if>
+                    </td>
+                  </tr>
+                </c:forEach>
               </tbody>
             </table>
+          </div>
         </ul>
-        </div>
       </div>
       <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
         <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>

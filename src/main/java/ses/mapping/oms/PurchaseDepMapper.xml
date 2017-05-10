@@ -55,6 +55,7 @@
 		o.type_name as typeName,
 		o.address as address,
 		o.post_code as postCode,
+		o.POSITION as position,
 		o.FAX as fax,
 		o.CONTACT_NAME as contactName,
 		o.CONTACT_MOBILE as contactMobile,

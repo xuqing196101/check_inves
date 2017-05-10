@@ -33,8 +33,8 @@
       });
   
   
-      function view(id,type){
-        window.location.href = "${pageContext.request.contextPath}/planSupervision/view.html?id="+id+"&type="+type;
+      function view(id){
+        window.location.href = "${pageContext.request.contextPath}/planSupervision/view.html?id="+id;
       }
   
       function resetQuery() {
@@ -123,7 +123,7 @@
             <tr style="cursor: pointer;">
               <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
               <td class="tl pl20" width="35%">
-                <a href="javascript:void(0)" onclick="view('${obj.id}','1');">${obj.fileName}</a>
+                <a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.fileName}</a>
               </td>
               <td class="tr pr20 w140">
                 <fmt:formatNumber>${obj.budget }</fmt:formatNumber>

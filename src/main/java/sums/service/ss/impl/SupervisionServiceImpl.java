@@ -1,7 +1,9 @@
 package sums.service.ss.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,7 +37,11 @@ import bss.model.ppms.Task;
 import bss.model.pqims.PqInfo;
 import bss.service.pms.PurchaseRequiredService;
 
+import ses.dao.bms.UserMapper;
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.util.DictionaryDataUtil;
 import sums.service.ss.SupervisionService;
 
@@ -77,6 +83,12 @@ public class SupervisionServiceImpl implements SupervisionService {
     
     @Autowired
     private ProjectTaskMapper projectTaskMapper;
+    
+    @Autowired
+    private UserMapper userMapper;
+    
+    @Autowired
+    private OrgnizationMapper orgnizationMapper;
     
 
     @Override
