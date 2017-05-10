@@ -47,6 +47,10 @@
 	      AND NAME LIKE '%'||#{name}||'%'
 	  </if>
 	  AND STATUS = 2
+	  <if test="ipAddressType != null">
+	  AND IP_ADDRESS_TYPE = #{ipAddressType}
+	  </if>
+	  
 	  ORDER BY CREATED_AT DESC
   </select>
   
@@ -150,4 +154,20 @@
     </set>
     where ID = #{id}
   </update>
+  <!-- 根据  发布  时间获取 范围数据   用于 供应商名录 -->
+	<select id="selectByUpdatedAt" parameterType="String" resultMap="BaseResultMap">
+	 select 
+	  <include refid="Base_Column_List" />
+	  from T_ISS_PS_DATA_DOWNLOAD where
+    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR}
+	</select>
+  
+   <!-- 根据id查询数量-->
+  <select id="countByPrimaryKey" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select 
+    count(id)
+    from T_ISS_PS_DATA_DOWNLOAD
+    where ID = #{id}
+  </select>
 </mapper>

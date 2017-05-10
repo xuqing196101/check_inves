@@ -145,6 +145,8 @@ public class Constant {
     public final static String COMMIT_SYNCH_CATEGORY="导出产品目录信息数量:";
     /**产品目录 导出 文件夹名称**/
     public final static String T_SES_BMS_CATEGORY_PATH="t_ses_bms_category_path";
+    /**产品目录 导出 附件文件夹名称**/
+    public final static String FILE_T_SES_BMS_CATEGORY_PATH="file_t_ses_bms_category_path";
     /** 产品目录 管理  导出 附件描述 **/
     public final static String COMMIT_FILE_NUMBER_SYNCH_CATEGORY = "导出产品目录附件数量:";
     /** 产品目录 管理  导出 附件描述 **/
@@ -161,4 +163,16 @@ public class Constant {
     /**产品目录参数导出 文件夹名称**/
     public final static String T_SES_BMS_CATEGORY_PARAMTER_PATH="t_ses_bms_category_paramter_path";
     
+    /**资料  管理 名称**/
+    public final static String SYNCH_DATA="SYNCH_DATA";
+    /**资料 管理  导出数据描述 **/
+    public final static String COMMIT_SYNCH_DATA="导出资料数量:";
+    /**资料 管理 导出 数据的 文档**/
+    public final static String ISS_PS_DATA_DOWNLOAD_PATH ="iss_ps_data_download_path";
+    /**资料 管理 导出 附件的 文档**/
+    public final static String FILE_ISS_PS_DATA_DOWNLOAD_PATH ="file_iss_ps_data_download_path";
+    /**资料 管理  导出信息描述 **/
+    public final static String COMMIT_FILE_SYNCH_DATA="导出资料管理附件数量:";
+    /**资料 管理  导入信息描述 **/
+    public final static String IMPORT_FILE_SYNCH_DATA="导入资料管理附件数量:";
 }

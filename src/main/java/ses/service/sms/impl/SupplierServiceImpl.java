@@ -64,7 +64,6 @@ import ses.model.bms.Role;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
-import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.DeleteLog;
 import ses.model.sms.Supplier;
@@ -84,7 +83,6 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
-import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierBranchService;
@@ -153,9 +151,6 @@ public class SupplierServiceImpl implements SupplierService {
     private AreaServiceI areaService;
     
     @Autowired
-    private OrgnizationServiceI orgnizationServiceI;
-    
-    @Autowired
     private SupplierFinanceMapper supplierFinanceMapper;
     
     @Autowired
@@ -175,6 +170,9 @@ public class SupplierServiceImpl implements SupplierService {
     
     @Autowired
     private  AreaMapper areaMapper;
+    
+    @Autowired
+    private DeleteLogMapper  deleteLogMapper;
     
     @Autowired
     private SupplierBranchMapper supplierBranchMapper;
@@ -225,9 +223,6 @@ public class SupplierServiceImpl implements SupplierService {
     
     @Autowired
     private PurchaseOrgnizationServiceI purchaseOrgnizationService;
-    
-    @Autowired
-    private DeleteLogMapper  deleteLogMapper;
     
     @Override
     public Supplier get(String id) {
