@@ -4739,4 +4739,28 @@ public class ExpertController extends BaseController {
 		return "1";
 	}
 
+    /**
+     * 动态加载附件控件显示
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/attachmentControlShow")
+    public String attachmentControlShow(Model model,HttpServletRequest request, HttpServletResponse response){
+        String uploadId = request.getParameter("uploadId");
+        String showId = request.getParameter("showId");
+        String businessId = request.getParameter("businessId");
+        String sysKey = request.getParameter("sysKey");
+        String typeId = request.getParameter("typeId");
+        String maxcount = request.getParameter("maxcount");
+        model.addAttribute("uploadId", uploadId);
+        model.addAttribute("showId", showId);
+        model.addAttribute("businessId", businessId);
+        model.addAttribute("sysKey", sysKey);
+        model.addAttribute("typeId", typeId);
+        model.addAttribute("maxcount", maxcount);
+
+        return "ses/ems/expert/common/attachment_control";
+    }
 }
