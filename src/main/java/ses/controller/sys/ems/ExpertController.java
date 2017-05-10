@@ -3318,8 +3318,13 @@ public class ExpertController extends BaseController {
         /** 用于组装word页面需要的数据 */
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
-        String purchaseDep = purchaseOrgnizationService.selectPurchaseById(expert.getPurchaseDepId()).getShortName();
-        dataMap.put("purchaseDep", purchaseDep);
+        if(StringUtils.isNotBlank(expert.getPurchaseDepId())){
+            PurchaseDep purchaseDep = purchaseOrgnizationService.selectPurchaseById(expert.getPurchaseDepId());
+            if(null != purchaseDep){
+                String purchaseDepName = purchaseDep.getShortName();
+                if(StringUtils.isNotBlank(purchaseDepName)) dataMap.put("purchaseDep", purchaseDepName);
+            }
+        }
         dataMap.put("reportTime", new Date());
         String sex = expert.getGender();
         DictionaryData gender = dictionaryDataServiceI.getDictionaryData(sex);
@@ -4733,5 +4738,5 @@ public class ExpertController extends BaseController {
 		}
 		return "1";
 	}
-	
+
 }
