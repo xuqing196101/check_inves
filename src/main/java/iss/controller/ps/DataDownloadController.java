@@ -323,6 +323,11 @@ public class DataDownloadController {
 		map.put("page", page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
+		String ipAddressType=config.getString("ipAddressType");
+		// 1外网 0内网
+		if("1".equals(ipAddressType)){
+			map.put("ipAddressType", ipAddressType);
+		}
 		List<DataDownload> list = dataDownloadService.findPublishedDataByCondition(map);
 		if(list.size()==0){
 			model.addAttribute("notData", "暂无数据");
@@ -385,14 +390,10 @@ public class DataDownloadController {
 				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
 			}
 		}
-//		String ipAddress = null;
-		//String[] ipAddressType = request.getParameterValues("ipAddressType");
-//		if(ipAddressType==null){
-//			flag = false;
-//			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
-//		}else{
-//			ipAddress = ipAddressType[0];
-//		}
+		if(dataDownload.getIpAddressType()==null){
+			flag = false;
+			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
+		}
 		String id = request.getParameter("id");
 		List<UploadFile> zlfj = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);
 		if(zlfj.size()<1){
@@ -575,14 +576,10 @@ public class DataDownloadController {
 				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
 			}
 		}
-//		String ipAddress = null;
-//		String[] ipAddressType = request.getParameterValues("ipAddressType");
-//		if(ipAddressType==null){
-//			flag = false;
-//			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
-//		}else{
-//			ipAddress = ipAddressType[0];
-//		}
+		if(dataDownload.getIpAddressType()==null){
+			flag = false;
+			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
+		}
 		String id = request.getParameter("id");
 		List<UploadFile> zlfj = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);
 		if(zlfj.size()<1){

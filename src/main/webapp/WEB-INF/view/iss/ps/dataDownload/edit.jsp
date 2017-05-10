@@ -8,7 +8,7 @@
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<script type="text/javascript">
 			$(function(){
-				/**var ipAddressType = document.getElementsByName("ipAddressType");
+				var ipAddressType = document.getElementsByName("ipAddressType");
 				var ipAddress = "${data.ipAddressType}";
 				if(ipAddress){
 					for(var i=0;i<ipAddressType.length;i++){
@@ -16,7 +16,7 @@
 							$(ipAddressType[i]).prop("checked","checked");
 						}
 					}
-				}*/
+				}
 			})
 			
 			//返回
@@ -66,15 +66,6 @@
               </div>
             </li>
             
-            <li class="col-md-3 col-sm-6 col-xs-12 dnone">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>发布范围：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
-                <label class="fl margin-bottom-0"><input type="radio" name="ipAddressType" value="0" class="mt0" checked="checked">内网</label>
-                <label class="ml10 fl"><input type="radio" name="ipAddressType" value="1" class="mt0">内外网</label>
-                <div class="cue">${ERR_ipAddressType}</div>
-              </div>
-            </li>
-            
            	<li class="col-md-3 col-sm-6 col-xs-12 mt10 mb20">
               <span class="fl"><div class="star_red">*</div>附件上传：</span>
               <div>
@@ -83,6 +74,15 @@
                 <div class="cue">${ERR_dataFile}</div>
               </div>
             </li>
+             <li class="col-md-3 col-sm-6 col-xs-12 mt10 mb20">
+              <span class="fl"><div class="star_red">*</div>发布范围：</span>
+              <div  id="radio">
+              <input type="radio" name="ipAddressType" id ="ipAddressType" value="0" >内网
+	          <input type="radio" name="ipAddressType" id ="ipAddressType" value="1">内外网
+                <div class="cue">${ERR_ipAddressType}</div>
+              </div>
+            </li>
+            
 					</ul>
 									
 							

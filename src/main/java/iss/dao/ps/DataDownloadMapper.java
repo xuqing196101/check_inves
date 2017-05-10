@@ -6,6 +6,8 @@ package iss.dao.ps;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import iss.model.ps.DataDownload;
 
 
@@ -87,4 +89,17 @@ public interface DataDownloadMapper {
     * @return List<DataDownload>
      */
     List<DataDownload> findPublishedDataByCondition(HashMap<String,Object> map);
+    /**
+     * 根据更新数据 获取相关的数据
+     * @param start
+     * @param end
+     * @return
+     */
+    List<DataDownload> selectByUpdatedAt(@Param("start")String start,@Param("end")String end);
+    /**
+     *  根据id查询数量
+     * @param id
+     * @return
+     */
+    Integer countByPrimaryKey(String id);
 }

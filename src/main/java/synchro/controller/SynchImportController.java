@@ -1,5 +1,7 @@
 package synchro.controller;
 
+import iss.service.ps.DataDownloadService;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,6 +20,7 @@ import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SMSProductLibService;
+import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import synchro.inner.read.expert.InnerExpertService;
@@ -58,7 +61,9 @@ public class SynchImportController {
     /** 同步信息数据service **/
     @Autowired
     private OuterInfoImportService infoService;
-    
+    /**供应商 名录***/
+    @Autowired
+    private SupplierService supplierService;
     @Autowired
     /** 附件导入 **/
     private OuterAttachService attachService;
@@ -85,6 +90,9 @@ public class SynchImportController {
     private CategoryParameterService categoryParameterService;
     @Autowired
     private InnerExpertService innerExpertService;
+    /**资料数据**/
+    @Autowired
+    private DataDownloadService dataDownloadService;
     /** 设置数据类型 **/
     private static final Integer DATA_TYPE_KIND = 29;
     
@@ -138,6 +146,11 @@ public class SynchImportController {
             	/**产品目录参数管理 数据导出  只能是内网导出外网**/
             	iter.remove();
             	continue;
+            }
+            if(dd.getCode().equals(Constant.SYNCH_DATA)){
+            	/**资料管理 数据导出  只能是内网导出外网**/
+             iter.remove();
+         	   continue;
             }
         }
           //外网时   
@@ -500,7 +513,7 @@ public class SynchImportController {
 								}
 							}
 						}
-						if (f.getName().equals(Constant.PROJECT_FILE_EXPERT)) {
+						if (f.getName().equals(Constant.FILE_T_SES_BMS_CATEGORY_PATH)) {
 							for (File file2 : f.listFiles()) {
 								if (f.isDirectory()) {
 									OperAttachment
@@ -510,7 +523,6 @@ public class SynchImportController {
 															+ FileUtils.TENDER_ATTFILE_PATH);
 								}
 							}
-
 					}
 				}
 				
@@ -525,6 +537,33 @@ public class SynchImportController {
 							}
 						}
 					}
+				}         
+               
+				//资料 管理 导入
+				if(synchType.contains(Constant.SYNCH_DATA)){
+					//判断 是否有资料管理的数据 文档
+					if (f.getName().equals(Constant.ISS_PS_DATA_DOWNLOAD_PATH)) {
+						for (File file2 : f.listFiles()) {
+							//判断 是否有 资料管理 数据
+							if(file2.getName().contains(
+									FileUtils.C_DATA_DOWNLOAD_FILENAME)){
+								dataDownloadService.importDate(file2);
+							}
+							//判断 是否有 附件 数据
+							if(file2.getName().contains(
+									FileUtils.C_FILE_DATA_DOWNLOAD_FILENAME)){
+								OBProjectServer.importFile(file2,common.constant.Constant.TENDER_SYS_KEY);
+							}
+						}
+					}
+					if (f.getName().equals(Constant.FILE_ISS_PS_DATA_DOWNLOAD_PATH)) {
+						for (File file2 : f.listFiles()) {
+							if (file2.isDirectory()) {
+								OperAttachment.moveToPathFolder(file2,
+												FileUtils.BASE_ATTCH_PATH+ FileUtils.TENDER_ATTFILE_PATH);
+							}
+						}
+				  }
 				}
 				
 			}

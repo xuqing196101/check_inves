@@ -1921,7 +1921,6 @@ public class IndexNewsController extends BaseSupplierController{
 	        model.addAttribute("list",  new PageInfo<Expert>(list));
 	        return "iss/ps/index/sumByPubExpert";
 		}
-
 	}
 	
 	

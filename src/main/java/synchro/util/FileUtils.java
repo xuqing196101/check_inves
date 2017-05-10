@@ -143,6 +143,15 @@ public class FileUtils {
     public final static String C_CATEGORY_PARAMTER_FILENAME="_c_cate_paramter.dat";
     /**产品目录参数管理 导出路径***/
     public final static String FILE_T_SES_BMS_CATEGORY_PARAMTER_PATH=PropUtil.getProperty("file.t_ses_bms_category_paramter_path.system.path");
+    /**资料管理 导出数据名称***/
+    public final static String C_DATA_DOWNLOAD_FILENAME="_c_data_download.dat";
+    /**资料管理  导出数据 路径***/
+    public final static String ISS_PS_DATA_DOWNLOAD_PATH=PropUtil.getProperty("file.iss_ps_data_download_path.system.path");; 
+    /**资料管理 导出附件数据名称**/
+    public final static String C_FILE_DATA_DOWNLOAD_FILENAME="_c_file_data_download.dat";
+    /**资料管理 导出附件 路径***/
+    public final static String FILE_ISS_PS_DATA_DOWNLOAD_PATH=PropUtil.getProperty("file.file_iss_ps_data_download_path.system.path");
+    
     
     
     /**
@@ -685,6 +694,8 @@ public class FileUtils {
           case 14: filePath=T_SES_BMS_CATEGORY_PATH;break;
           case 15: filePath=FILE_T_SES_BMS_CATEGORY_PATH;break;
           case 16: filePath=FILE_T_SES_BMS_CATEGORY_PARAMTER_PATH;break;
+          case 17:  filePath=ISS_PS_DATA_DOWNLOAD_PATH;break;
+          case 18:  filePath=FILE_ISS_PS_DATA_DOWNLOAD_PATH;break;
         }
         return filePath;
     }

@@ -3,6 +3,8 @@
  */
 package iss.service.ps;
 
+import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -86,4 +88,18 @@ public interface DataDownloadService {
     * @return List<DataDownload>
      */
     List<DataDownload> findPublishedDataByCondition(HashMap<String,Object> map);
+    /**
+     * 导出 资料数据
+     * @param start
+     * @param end
+     * @param date
+     * @return
+     */
+    boolean exportData(String start,String end,Date date);
+    /**
+     * 导入资料 数据
+     * @param file
+     * @return
+     */
+    boolean importDate(File file);
 }
