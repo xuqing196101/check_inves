@@ -1,5 +1,6 @@
 package bss.dao.pms;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -324,6 +325,16 @@ public interface PurchaseDetailMapper {
     * @throws
      */
     List<String> getDep(@Param("uniqueId")String uniqueId);
+    
+    
+    /**
+     * 计划汇总统计，安部门统计
+     * @param hashMap
+     * @return
+     */
+    List<Map<String, Object>> getbar(HashMap<String, Object> hashMap);
+    
+    List<Map<String, Object>> getpipe(HashMap<String, Object> hashMap);
     
     
     

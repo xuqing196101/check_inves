@@ -826,7 +826,7 @@ public class ExpExtractRecordController extends BaseController {
                 todos.setOrgId(expExtRelate.getExpert().getPurchaseDepId());
                 //权限id
                 PropertiesUtil config = new PropertiesUtil("config.properties");
-                todos.setPowerId(config.getString("zjdb"));
+                todos.setPowerId(config.getString("zjfc"));
                 //发送人id
                 User user = (User)sq.getSession().getAttribute("loginUser");
                 todos.setSenderId(user.getId());
