@@ -941,7 +941,7 @@
                 EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},
             </if>
             <if test="purchaseDepId != null and purchaseDepId != ''">
-                PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=DECIMAL},
+                PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=VARCHAR},
             </if>
             <if test="status != null and status != '0'">
                 STATUS = #{status},
