@@ -123,7 +123,6 @@ public class CategoryController extends BaseSupplierController {
 				if(cList==null||cList.size()<=0){
 					cateList.add(catego);
 				}
-				
 			}
 			for(int i=0;i<cateList.size();i++){
 				HashMap<String,Object> map=new HashMap<String, Object>();

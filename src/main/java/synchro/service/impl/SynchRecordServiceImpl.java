@@ -216,7 +216,15 @@ public class SynchRecordServiceImpl implements SynchRecordService {
             mapper.save(sr);
         }
     }
-
+    @Override
+    public void importAttachKey(String content,Integer key) {
+        DictionaryData dd = DictionaryDataUtil.get(Constant.DATA_TYPE_ATTACH_CODE);
+        if (dd != null && StringUtils.isNotBlank(dd.getId())){
+            SynchRecord sr  = getSynchRecord(dd.getId(), key, 
+                    Constant.CREATED_COMMIT_ATTACH + content);
+            mapper.save(sr);
+        }
+    }
     /**
      * 
      *〈简述〉组装对象

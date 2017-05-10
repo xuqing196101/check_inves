@@ -1,6 +1,8 @@
 package ses.service.bms;
 
+import java.io.File;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -336,22 +338,38 @@ import ses.model.sms.SupplierTypeTree;
 	public List<Category> findByParentId(String parentId);
 	 public List<Category> findCategoryByChildrenAndWuZi(HashMap<String, Object> map);
     
-	 /**
-		 * 
-		 * Description: 根据名称查询
-		 * 
-		 * @author  zhang shubin
-		 * @version  2017年3月21日 
-		 * @param  @param code
-		 * @param  @return 
-		 * @return List<Category> 
-		 * @exception
-		 */
-		public List<Category> selectByCode(String code);
-		/**
-		 * 门户网查询公开产品
-		 * @param pid
-		 * @return
-		 */
-		public List<Category> findTreeByPidIsPublish(String pid);
+	/**
+	 * 
+	 * Description: 根据名称查询
+	 * 
+	 * @author zhang shubin
+	 * @version 2017年3月21日
+	 * @param @param code
+	 * @param @return
+	 * @return List<Category>
+	 * @exception
+	 */
+	public List<Category> selectByCode(String code);
+
+	/**
+	 * 门户网查询公开产品
+	 * 
+	 * @param pid
+	 * @return
+	 */
+	public List<Category> findTreeByPidIsPublish(String pid);
+	/**
+	 * 导出产品目录 根据时间范围
+	 * @param start
+	 * @param end
+	 * @param synchDate
+	 * @return
+	 */
+	public boolean exportCategory(String start ,String end,Date synchDate);
+	/**
+	 * 导入产品目录数据 
+	 * @param file
+	 * @return
+	 */
+	public boolean importCategory(File file);
 }

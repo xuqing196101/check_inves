@@ -1,5 +1,6 @@
 package ses.model.bms;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,9 +13,13 @@ import java.util.Date;
  * @since
  * @see
  */
-public class CategoryParameter {
+public class CategoryParameter implements Serializable{
     
-    /** 主键 */
+    /** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
+	/** 主键 */
     private String id;
     /** 品目类型ID */
     private String cateId;

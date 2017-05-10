@@ -538,7 +538,7 @@ public class SupplierServiceImpl implements SupplierService {
         Area area = areaMapper.selectById(address);
         // 市
         String cityName = area.getName();
-        // 省
+        // 省  
         String provinceName = areaMapper.selectById(area.getParentId()).getName();
         user.setAddress(provinceName.concat(cityName));
         userMapper.updateByPrimaryKeySelective(user);
@@ -960,55 +960,55 @@ public class SupplierServiceImpl implements SupplierService {
     	if(selectOne.getCreditCode() !=null){
     		dlog.setUniqueCode(selectOne.getCreditCode());
     	}
-    	//deleteLogMapper.insertSelective(dlog);
-    	User user = userMapper.findUserByTypeId(supplierId);
-    	Userrole userRole=new Userrole();
-    	if(user != null){
-    		userRole.setUserId(user);
-        	roleMapper.deleteRoelUser(userRole);
-        	userMapper.deleteByPrimaryKey(user.getId());
-    	}
-        supplierMapper.deleteSupplier(supplierId);
-        supplierStockholderMapper.deleteStockholderBySupplierId(supplierId);
-        supplierFinanceMapper.deleteFinanceBySupplierId(supplierId);
-        supplierBranchMapper.deleteBySupplierId(supplierId);
-        supplierAddressMapper.deleteBySupplierId(supplierId);
-        supplierAfterSaleDepMapper.deleteBySupplierId(supplierId);
-       
-        SupplierMatPro supplierMatPro = supplierMatProMapper.getMatProBySupplierId(supplierId);
-        if(supplierMatPro != null){
-        	 supplierCertProMapper.deleteByPrimaryKey(supplierMatPro.getId());
-        }
-        supplierMatProMapper.deleteBySupplierId(supplierId);
-        
-        SupplierMatSell matSell = supplierMatSellMapper.getMatSellBySupplierId(supplierId);
-        if(matSell !=null){
-        	supplierCertSellMapper.deleteByPrimaryKey(matSell.getId());
-        }
-        supplierMatSellMapper.deleteByPrimaryKey(supplierId);
-        
-        SupplierMatEng matEng = supplierMatEngMapper.selectByPrimaryKey(supplierId);
-        if(matEng !=null){
-        	supplierCertEngMapper.deleteByPrimaryKey(matEng.getId());
-        	supplierRegPersonMapper.deleteByMatEngId(matEng.getId());
-            supplierAptituteMapper.deleteByPrimaryKey(matEng.getId());
-        }
-        supplierMatEngMapper.deleteByPrimaryKey(supplierId);
-        
-        SupplierMatServe matServe = supplierMatServeMapper.getMatSeBySupplierId(supplierId);
-        if(matServe !=null){
-        	 supplierCertServeMapper.deleteByPrimaryKey(matServe.getId());
-             supplierMatServeMapper.deleteByPrimaryKey(matServe.getId());
-        }
-        supplierTypeRelateMapper.deleteBySupplierId(supplierId);
-        List<SupplierItem> items= supplierItemMapper.getSupplierItem(supplierId);
-        if(!items.isEmpty()){
-        	for(SupplierItem s:items){
-            	fileUploadMapper.deleteByBusinessId(s.getId());
-            }
-        }
-        
-        supplierItemMapper.deleteBySupplierId(supplierId);
+    	deleteLogMapper.insertSelective(dlog);
+//    	User user = userMapper.findUserByTypeId(supplierId);
+//    	Userrole userRole=new Userrole();
+//    	if(user != null){
+//    		userRole.setUserId(user);
+//        	roleMapper.deleteRoelUser(userRole);
+//        	userMapper.deleteByPrimaryKey(user.getId());
+//    	}
+//        supplierMapper.deleteSupplier(supplierId);
+//        supplierStockholderMapper.deleteStockholderBySupplierId(supplierId);
+//        supplierFinanceMapper.deleteFinanceBySupplierId(supplierId);
+//        supplierBranchMapper.deleteBySupplierId(supplierId);
+//        supplierAddressMapper.deleteBySupplierId(supplierId);
+//        supplierAfterSaleDepMapper.deleteBySupplierId(supplierId);
+//       
+//        SupplierMatPro supplierMatPro = supplierMatProMapper.getMatProBySupplierId(supplierId);
+//        if(supplierMatPro != null){
+//        	 supplierCertProMapper.deleteByPrimaryKey(supplierMatPro.getId());
+//        }
+//        supplierMatProMapper.deleteBySupplierId(supplierId);
+//        
+//        SupplierMatSell matSell = supplierMatSellMapper.getMatSellBySupplierId(supplierId);
+//        if(matSell !=null){
+//        	supplierCertSellMapper.deleteByPrimaryKey(matSell.getId());
+//        }
+//        supplierMatSellMapper.deleteByPrimaryKey(supplierId);
+//        
+//        SupplierMatEng matEng = supplierMatEngMapper.selectByPrimaryKey(supplierId);
+//        if(matEng !=null){
+//        	supplierCertEngMapper.deleteByPrimaryKey(matEng.getId());
+//        	supplierRegPersonMapper.deleteByMatEngId(matEng.getId());
+//            supplierAptituteMapper.deleteByPrimaryKey(matEng.getId());
+//        }
+//        supplierMatEngMapper.deleteByPrimaryKey(supplierId);
+//        
+//        SupplierMatServe matServe = supplierMatServeMapper.getMatSeBySupplierId(supplierId);
+//        if(matServe !=null){
+//        	 supplierCertServeMapper.deleteByPrimaryKey(matServe.getId());
+//             supplierMatServeMapper.deleteByPrimaryKey(matServe.getId());
+//        }
+//        supplierTypeRelateMapper.deleteBySupplierId(supplierId);
+//        List<SupplierItem> items= supplierItemMapper.getSupplierItem(supplierId);
+//        if(!items.isEmpty()){
+//        	for(SupplierItem s:items){
+//            	fileUploadMapper.deleteByBusinessId(s.getId());
+//            }
+//        }
+//        
+//        supplierItemMapper.deleteBySupplierId(supplierId);
         
         
         

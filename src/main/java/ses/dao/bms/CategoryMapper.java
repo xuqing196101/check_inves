@@ -298,4 +298,26 @@ public interface CategoryMapper {
 	
 	
 	String getId(@Param("name")String name,@Param("code")String code);
+	/**
+	 * 根据更新 时间 获取范围数据
+	 * @author YangHongLiang
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<Category> selectByUpdatedAt(@Param("start")String start,@Param("end")String end);
+	/**
+	 * 根据创建  时间 获取范围数据
+	 * @author YangHongLiang
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<Category> selectByCreatedAt(@Param("start")String start,@Param("end")String end);
+	/**
+	 * 判断是否存在
+	 * @param id
+	 * @return
+	 */
+	Integer countByPrimaryKey(String id);
 }

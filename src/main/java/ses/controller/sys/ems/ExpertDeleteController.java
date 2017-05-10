@@ -42,14 +42,13 @@ public class ExpertDeleteController {
      */
      @RequestMapping(value = "/cancellation")
      @ResponseBody
-     public void cancellation(String expertId, Integer sign){
-    	 if(sign == 1){
+     public void cancellation(String expertId){
+    	 /*if(sign == 1){*/
     		 expertService.updateById(expertId);
     		 UserServiceI.updateByTypeId(expertId);
-    		 
-    	 }else{
+    	 /*}else{
     		 expertService.deleteExpert(expertId);
-    	 }
+    	 }*/
      }
      
      /**

@@ -4362,8 +4362,9 @@ public class ExpertController extends BaseController {
 
     @RequestMapping(value = "findAttachment2", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String findAttachment2(@RequestParam("sysId") String sysId,@RequestParam("from") String from, @RequestParam("isReferenceLftter") int isReferenceLftter ) {
+    public String findAttachment2(@RequestParam("sysId") String sysId,@RequestParam("from") String from,@RequestParam("coverNote") String coverNote, @RequestParam("isReferenceLftter") int isReferenceLftter ) {
         List<UploadFile> SOCIAL_SECURITY_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.SOCIAL_SECURITY_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> RETIRE_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.RETIRE_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> IDENTITY_CARD_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.IDENTITY_CARD_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> TECHNOLOGY_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.TECHNOLOGY_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> GRADUATE_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.GRADUATE_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
@@ -4383,9 +4384,16 @@ public class ExpertController extends BaseController {
         	return JSON.toJSONString(imgInfo);
         }
         if(from.equals("LOCAL")){
-            if(SOCIAL_SECURITY_PROOF.size()<1 && SOCIAL_SECURITY_PROOF !=null ){
-                imgInfo="缴纳社保或退休证明未上传";
-                return JSON.toJSONString(imgInfo);
+            if("2".equals(coverNote)){
+                if(null != RETIRE_PROOF && RETIRE_PROOF.size()<1 ){
+                    imgInfo="退休证书或退休证明未上传";
+                    return JSON.toJSONString(imgInfo);
+                }
+            }else{
+                if(null != SOCIAL_SECURITY_PROOF && SOCIAL_SECURITY_PROOF.size()<1 ){
+                    imgInfo="缴纳社会保险证明未上传";
+                    return JSON.toJSONString(imgInfo);
+                }
             }
             if(GRADUATE_PROOF.size()<1 && GRADUATE_PROOF !=null ){
                 imgInfo="毕业证书未上传";

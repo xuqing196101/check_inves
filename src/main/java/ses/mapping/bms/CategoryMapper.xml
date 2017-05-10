@@ -38,6 +38,29 @@
 		<collection property="supplierTypes" ofType="ses.model.sms.SupplierType"
 			resultMap="ses.dao.sms.SupplierTypeMapper.BaseResultMap" />
 	</resultMap>
+	
+	<resultMap id="CategoryMap" type="ses.model.bms.Category">
+		<id column="ID" property="id" />
+		<result column="NAME" property="name" />
+		<result column="STATUS" property="status" />
+		<result column="PARENT_ID" property="parentId" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+		<result column="DESCRIPTION" property="description" />
+		<result column="CLASSIFY_STATUS" property="classify" />
+		<result column="CODE" property="code" />
+		<result column="POSITION" property="position" />
+		<result column="IS_DELETED" property="isDeleted" />
+		<result column="IS_PUBLISH" property="isPublish" />
+		<result column="KIND" property="kind" />
+		<result column="PARAM_STATUS" property="paramStatus" />
+		<result column="ACCEPT_RANGE" property="acceptRange" />
+		<result column="PARAM_PUBLISH_RANGE" property="paramPublishRange" />
+		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP"/>
+		<result column="AUDIT_ADVISE" property="auditAdvise" />
+		<result column="SUPPLIER_REGISTER_LEVEL" property="level" />
+		<result column="SUPPLIER_ENG_REG_LEVEL" property="engLevel" />
+	</resultMap>
 	<sql id="Base_Column_List">
 		ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT,
 		DESCRIPTION, CLASSIFY_STATUS,CODE,POSITION,IS_DELETED,
@@ -601,8 +624,28 @@
 			AND CODE =#{code}
 	
 	</select>
-	
-	
-	
+	<!-- 根据更新时间获取 范围数据 -->
+	<select id="selectByUpdatedAt" parameterType="String" resultMap="CategoryMap">
+	 select 
+	 <include refid="Base_Column_List" />
+	  from T_SES_BMS_CATEGORY where 
+    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据创建时间获取 范围数据   -->
+	<select id="selectByCreatedAt" parameterType="String" resultMap="CategoryMap">
+	 select 
+	 <include refid="Base_Column_List" />
+	 from T_SES_BMS_CATEGORY where 
+     to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+     and to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据id查询 -->
+	<select id="countByPrimaryKey" parameterType="String"
+		resultType="java.lang.Integer">
+		select count(*)  
+		from T_SES_BMS_CATEGORY
+		where ID = #{id}
+	</select>
 	
 </mapper>

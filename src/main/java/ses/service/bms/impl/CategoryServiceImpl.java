@@ -1,5 +1,6 @@
 package ses.service.bms.impl;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,10 +16,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bss.model.ob.OBProject;
+
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
 import common.bean.ResBean;
+import common.constant.Constant;
 import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.DictionaryDataMapper;
@@ -33,6 +40,9 @@ import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
 import ses.util.PropertiesUtil;
 import ses.util.StringUtil;
+import synchro.service.SynchRecordService;
+import synchro.util.FileUtils;
+import synchro.util.OperAttachment;
 
 /**
  * 
@@ -57,7 +67,15 @@ public class CategoryServiceImpl implements CategoryService {
     /** 品目资质关联表 **/
     @Autowired
     private CategoryQuaMapper categoryQuaMapper;
-    
+    /**
+     * 同步service
+     */
+    @Autowired
+    private SynchRecordService recordService;
+    /**文件**/
+	@Autowired
+    private UploadService uploadService;
+	
     /** 企业资质 **/
     @Autowired
     private QualificationMapper quaMapper;
@@ -896,6 +914,70 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> findTreeByPidIsPublish(String pid) {
 		// TODO Auto-generated method stub
 		return categoryMapper.findTreeByPidIsPublish(pid);
+	}
+    /**
+     * 实现 导出 产品目录
+     */
+	@Override
+	public boolean exportCategory(String start, String end, Date synchDate) {
+		// TODO Auto-generated method stub
+		//根据时间获取创建 数据范围
+	  List<Category> createList=categoryMapper.selectByCreatedAt(start, end);
+	  List<Category> updateList=categoryMapper.selectByUpdatedAt(start, end);
+	  int sizeAll=0;
+	  //上传文件 集合
+	  List<UploadFile> uploadList=new ArrayList<>();
+	  if(createList!=null  && createList.size()>0){
+		  for (Category create : createList) {
+			//查询文件路径
+			List<UploadFile> fileList = uploadService.findBybusinessId(create.getId(),Constant.TENDER_SYS_KEY);
+			uploadList.addAll(fileList);
+		 }
+	   FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_CATEGORY_FILENAME,14 ),JSON.toJSONString(createList));
+	   sizeAll=createList.size();
+	  }
+	  if(updateList!=null  && updateList.size()>0){
+		  for (Category upload : updateList) {
+			//查询文件路径
+				List<UploadFile> fileList = uploadService.findBybusinessId(upload.getId(),Constant.TENDER_SYS_KEY);
+				uploadList.addAll(fileList);
+			}
+		  FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.U_CATEGORY_FILENAME, 14),JSON.toJSONString(updateList));
+		  sizeAll=sizeAll+updateList.size();
+	  }
+	  //同步附件
+      if (uploadList != null && uploadList.size() > 0){
+          FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_FILE_CATEGORY_FILENAME, 15),JSON.toJSONString(uploadList));
+          String basePath = FileUtils.attachExportPath(15);
+          if (StringUtils.isNotBlank(basePath)){
+              OperAttachment.writeFile(basePath, uploadList);
+              recordService.synchBidding(synchDate, new Integer(uploadList.size()).toString(), synchro.util.Constant.DATA_TYPE_ATTACH_CODE, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_FILE_NUMBER_SYNCH_CATEGORY);
+          }
+      }
+      if(sizeAll>0){
+      recordService.synchBidding(synchDate, String.valueOf(sizeAll), synchro.util.Constant.SYNCH_CATEGORY, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_CATEGORY);
+      }
+		return false;
+	}
+    /**
+     * 实现导入 产品目录
+     */
+	@Override
+	public boolean importCategory(File file) {
+		// TODO Auto-generated method stub
+		 List<Category> list = FileUtils.getBeans(file, Category.class); 
+		 if(list!=null  && list.size()>0){
+			 for(Category category:list){
+			 Integer isExist=categoryMapper.countByPrimaryKey(category.getId());
+			  if(isExist >0){
+				  categoryMapper.updateByPrimaryKeySelective(category);
+			  }else{
+				  categoryMapper.insertSelective(category);
+			  }
+			 }
+			 recordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.SYNCH_CATEGORY, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_FILE_NUMBER_SYNCH_CATEGORY);
+		 }
+		return false;
 	}
 
 	

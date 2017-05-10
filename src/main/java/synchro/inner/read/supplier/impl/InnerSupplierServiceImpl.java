@@ -500,6 +500,13 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 	public void immportInner(File file) {
 		  List<SupplierAuditFormBean> list = getSupplierFormBaean(file);
 		  for(SupplierAuditFormBean sb:list){
+			  User user = sb.getUser();
+			  if(user!=null){
+				  User user2 = userMapper.queryById(user.getId());
+				  if(user2!=null){
+					  userMapper.updateByPrimaryKeySelective(user);
+				  }
+			  }
 			  supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus());
 			  List<SupplierAuditNot> auditNots = sb.getSupplierAuditNot();
 			  for(SupplierAuditNot sa:auditNots){

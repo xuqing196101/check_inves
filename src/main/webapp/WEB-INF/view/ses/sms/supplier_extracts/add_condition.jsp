@@ -446,7 +446,7 @@
             $("#countSupplier").text("");
             var count = $("#sunCount").val();
             var typeName = $("input[name='supplierTypeName']").attr('title');
-            if (typeName == "") {
+            if (typeof(typeName)=="undefined" || typeName == "") {
                 layer.msg("请选择抽取类型");
                 return false;
             }

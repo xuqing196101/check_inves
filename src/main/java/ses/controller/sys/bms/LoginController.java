@@ -171,7 +171,8 @@ public class LoginController {
                         // 根据userId查询出Expert
                         Expert expert = expertService.selectByPrimaryKey(u.getTypeId());
                         //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
-                        int validateDay = expertService.logoutExpertByDay(expert);
+//                        int validateDay = expertService.logoutExpertByDay(expert);
+                        int validateDay = 0;
                         if(0==validateDay){//通过
                             Map<String, Object> map = expertService.loginRedirect(u);
                             Object object = map.get("expert");
@@ -212,7 +213,8 @@ public class LoginController {
                         // 根据userId查询出Supplier
                         Supplier supplier = supplierService.selectById(u.getTypeId());
                         //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
-                        int validateDay = supplierService.logoutSupplierByDay(supplier);
+//                        int validateDay = supplierService.logoutSupplierByDay(supplier);
+                        int validateDay = 0;
                         if(0==validateDay) {//通过
                             Map<String, Object> map = supplierService.checkLogin(u);
                             String msg = (String) map.get("status");

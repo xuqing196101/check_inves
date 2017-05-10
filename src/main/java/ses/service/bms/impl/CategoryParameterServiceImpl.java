@@ -1,5 +1,6 @@
 package ses.service.bms.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
 import common.constant.StaticVariables;
 import ses.dao.bms.CategoryParameterMapper;
 import ses.formbean.ResponseBean;
@@ -27,6 +31,8 @@ import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.StringUtil;
+import synchro.service.SynchRecordService;
+import synchro.util.FileUtils;
 
 /**
  * 
@@ -84,7 +90,9 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
     private static final String ISNULL_MSG = "参数名称不能为空";
     /** 错误替提示消息 */
     private static final String ERROR_MSG = "参数名称最大只能输入100汉字";
-    
+    /**导入导出记录**/
+    @Autowired
+    private SynchRecordService recordService;
     
     
     /**
@@ -454,4 +462,81 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
              }
         }
     }
+
+
+    /**
+     * 
+    * @Title: exportCategoryParamter 
+    * @Description: 实现产品目录导出外网
+    * @author Easong
+    * @param @param start
+    * @param @param end
+    * @param @param synchDate
+    * @param @return    设定文件 
+    * @throws
+     */
+	@Override
+	public boolean exportCategoryParamter(String start, String end,
+			Date synchDate) {
+		// 定义导出是否成功标识
+		boolean flag = false;
+		// 查询所有产品目录参数
+		List<CategoryParameter> exportCategoryParam = cateParamterMapper.exportCategoryParam(start, end);
+		// 判断导出数据是否为空
+		if(exportCategoryParam != null && exportCategoryParam.size() > 0){
+			// 开始导出
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_CATEGORY_PARAMTER_FILENAME, 16),JSON.toJSONString(exportCategoryParam,SerializerFeature.WriteMapNullValue));
+			// 存储 同步记录
+			recordService.synchBidding(synchDate, new Integer(exportCategoryParam.size()).toString(), synchro.util.Constant.SYNCH_CATE_PARAMTER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_CATEGORY_PARAMTER);
+		}
+		// 如果没有数据
+		if(exportCategoryParam != null && exportCategoryParam.size() == 0){
+			// 存储 同步记录
+			recordService.synchBidding(synchDate, new Integer(exportCategoryParam.size()).toString(), synchro.util.Constant.SYNCH_CATE_PARAMTER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_CATEGORY_PARAMTER);
+		}
+		if(exportCategoryParam == null){
+			// 存储 同步记录
+			recordService.synchBidding(synchDate, "0", synchro.util.Constant.SYNCH_CATE_PARAMTER, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_CATEGORY_PARAMTER);
+		}
+		flag = true;
+		return flag;
+	}
+
+
+	/**
+	 * 
+	* @Title: importCategoryParmter 
+	* @Description: 导入产品目录参数信息
+	* @author Easong
+	* @param @param file
+	* @param @return    设定文件 
+	* @throws
+	 */
+	@Override
+	public boolean importCategoryParmter(File file) {
+		boolean flag = false;
+		List<CategoryParameter> list = FileUtils.getBeans(file, CategoryParameter.class);
+		if(list != null && list.size() > 0){
+			for (CategoryParameter categoryParameter : list) {
+				CategoryParameter parameter = cateParamterMapper.getParameterById(categoryParameter.getId());
+				if(parameter != null){
+					cateParamterMapper.updateByPrimaryKeySelective(categoryParameter);
+				}else{
+					cateParamterMapper.insertParameter(categoryParameter);
+				}
+			}
+			recordService.synchBidding(new Date(), new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_CATE_PARAMTER, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_CATEGORY_PARAMTER);
+		}
+		// 如果没有数据
+		if(list != null && list.size() == 0){
+			// 存储 同步记录
+			recordService.synchBidding(new Date(), new Integer(list.size()).toString(), synchro.util.Constant.SYNCH_CATE_PARAMTER, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_CATEGORY_PARAMTER);
+		}
+		if(list == null){
+			// 存储 同步记录
+			recordService.synchBidding(new Date(), "0", synchro.util.Constant.SYNCH_CATE_PARAMTER, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_CATEGORY_PARAMTER);
+		}
+		flag = true;
+		return flag;
+	}
 }

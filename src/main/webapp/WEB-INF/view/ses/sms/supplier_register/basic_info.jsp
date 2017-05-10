@@ -380,10 +380,11 @@
 					"<td class='tc'><input type='text' style='border:0px;' maxlength='50'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].name' value=''> </td>" +
 					"<td class='tc'><input type='text' style='border:0px;'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].identity' maxlength='18' onkeyup='validateIdentity(this)' value=''> </td>" +
 					"<td class='tc'> <input type='text' style='border:0px;'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].shares' value=''></td>" +
-					"<td class='tc'> <input type='text' style='border:0px;'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].proportion' value=''> </td>" + "</tr>");
+					"<td class='tc'> <input type='text' style='border:0px;' class='proportion_vali' onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].proportion' value=''> </td>" + "</tr>");
 
 				stocIndex++;
 				$("#stockIndex").val(stocIndex);
+                loadProportion();
 			}
 			
 			function validateIdentity(obj){
@@ -402,6 +403,7 @@
 						id = data;
 					}
 				});
+                var _onkeyup="value=value.replace(/[^\\d-]/g,\"\")";
 				$("#afterSaleDep_list_tbody_id").append("<tr>" +
 					"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].id' value='" + id + "'><input type='hidden' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].supplierId' value=" + supplierId + ">" +
 					"</td>" +
@@ -412,7 +414,7 @@
 					"</select></div> </td>" +
 					"<td class='tc'><input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].address' maxlength='30' value=''> </td>" +
 					"<td class='tc'> <input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].leadName' maxlength='20' value=''></td>" +
-					"<td class='tc'> <input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].mobile' value=''> </td>" + "</tr>");
+					"<td class='tc'> <input type='text' onblur='tempSave()' style='border:0px;' onkeyup='"+_onkeyup+"' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].mobile' value=''> </td>" + "</tr>");
 
 				afterSaleIndex++;
 				$("#afterSaleIndex").val(afterSaleIndex);
@@ -2037,7 +2039,71 @@
 </html>
 <script type="text/javascript">
     //对比例进行数据校验
-    $(".proportion_vali").on('change',function () {
+    $(".proportion_vali").focus(function(){
+        $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
+    }).blur(function(){
+        var oldVal=($(this).attr("data-oval")); //获取原值
+        var newVal=($(this).val()); //获取当前值
+        if (oldVal!=newVal){
+            var _val = $(this).val();
+            if(_val.indexOf('.')!=-1){
+                if(parseFloat(_val)>100){
+                    $(this).val("");
+                    layer.msg("请输入正确的比例数据格式,不能超过100", {offset: '300px'});
+                }else{
+                    var reg = /\d+\.\d{0,2}?$/;
+                    if(!reg.test(_val)) {
+                        $(this).val("");
+                        layer.msg("请输入正确的金额,保留两位小数", {
+                            offset: '300px'
+                        });
+                    }
+                }
+            }else{
+                if(!positiveRegular(_val)){
+                    $(this).val("");
+                    layer.msg("请输入正确的比例数据格式,保留两位小数", {offset: '300px'});
+                }else if(parseInt(_val)>100){
+                    $(this).val("");
+                    layer.msg("请输入正确的比例数据格式,不能超过100", {offset: '300px'});
+                };
+            }
+        }
+    });
+    function loadProportion() {
+        $(".proportion_vali").focus(function(){
+            $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
+        }).blur(function(){
+            var oldVal=($(this).attr("data-oval")); //获取原值
+            var newVal=($(this).val()); //获取当前值
+            if (oldVal!=newVal){
+                var _val = $(this).val();
+                if(_val.indexOf('.')!=-1){
+                    if(parseFloat(_val)>100){
+                        $(this).val("");
+                        layer.msg("请输入正确的比例数据格式,不能超过100", {offset: '300px'});
+                    }else{
+                        var reg = /\d+\.\d{0,2}?$/;
+                        if(!reg.test(_val)) {
+                            $(this).val("");
+                            layer.msg("请输入正确的金额,保留两位小数", {
+                                offset: '300px'
+                            });
+                        }
+                    }
+                }else{
+                    if(!positiveRegular(_val)){
+                        $(this).val("");
+                        layer.msg("请输入正确的比例数据格式,保留两位小数", {offset: '300px'});
+                    }else if(parseInt(_val)>100){
+                        $(this).val("");
+                        layer.msg("请输入正确的比例数据格式,不能超过100", {offset: '300px'});
+                    };
+                }
+            }
+        });
+    }
+    /*$(".proportion_vali").on('change',function () {
         var _val = $(this).val();
         if(_val.indexOf('.')!=-1){
             if(parseFloat(_val)>100){
@@ -2061,5 +2127,5 @@
                 layer.msg("请输入正确的比例数据格式,不能超过100", {offset: '300px'});
             };
         }
-    })
+    })*/
 </script>

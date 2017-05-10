@@ -505,7 +505,8 @@ public class UploadServiceImpl implements UploadService {
             case 2 : path = PropUtil.getProperty("file.tender.system.path"); break;
             case 3 : path = PropUtil.getProperty("file.expert.system.path"); break;
             case 4 : path = PropUtil.getProperty("file.forum.system.path"); break;
-            case 5 : path = PropUtil.getProperty("file.temp.path"); break;
+            case 5 : path = PropUtil.getProperty("file.bidding.system.path"); break;
+            case 6 : path = PropUtil.getProperty("file.temp.path"); break;
         }
         return path;
     }

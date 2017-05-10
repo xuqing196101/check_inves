@@ -131,6 +131,14 @@ public interface SynchRecordService {
      * @param content 内容
      */
     public void importAttach(String content);
+    /**
+     * 
+     *〈简述〉备份附件
+     *〈详细描述〉
+     * @author myc
+     * @param content 内容
+     */
+    public void importAttachKey(String content,Integer key);
     
     /**
      * 
