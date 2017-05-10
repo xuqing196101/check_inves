@@ -39,4 +39,16 @@ public interface CategoryPublishService {
      * @return 成功返回ok,失败返回提示信息
      */
     public String publish(String ids);
+    
+    /**
+     * 
+    * @Title: initTree 
+    * @Description: 门户技术参数库显示
+    * @author Easong
+    * @param @param treeId
+    * @param @return    设定文件 
+    * @return List<CategoryTree>    返回类型 
+    * @throws
+     */
+    public List<CategoryTree> initTreeIndex(String treeId);
 }

@@ -320,4 +320,17 @@ public interface CategoryMapper {
 	 * @return
 	 */
 	Integer countByPrimaryKey(String id);
+	
+	/**
+     * 
+     *〈简述〉
+     * 查询既公开又发布的数据
+     *〈详细描述〉
+     * @author Easong
+     * @param id 父节点Id
+     * @param status 状态
+     * @return Category 集合
+     */
+    public List<Category> findTreeByStatusIndex(@Param("id")String id, @Param("status")Integer status);
+	
 }

@@ -61,6 +61,22 @@ public class CategoryPublishController {
     
     /**
      * 
+    * @Title: initTreeIndex 
+    * @Description: 门户技术参数显示
+    * @author Easong
+    * @param @param id
+    * @param @return    设定文件 
+    * @return List<CategoryTree>    返回类型 
+    * @throws
+     */
+    @ResponseBody
+    @RequestMapping(value = "/initTreeIndex",produces="application/json;charset=UTF-8")
+    public List<CategoryTree> initTreeIndex(String id){
+    	return publishService.initTreeIndex(id);
+    }
+    
+    /**
+     * 
      *〈简述〉
      * 发布
      *〈详细描述〉

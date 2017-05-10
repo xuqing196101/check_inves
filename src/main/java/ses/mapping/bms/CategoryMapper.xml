@@ -454,6 +454,18 @@
 		ORDER BY POSITION
 	</select>
 	
+	<!-- 按照状态查询：门户参数库显示(发布与公开) -->
+	<select id="findTreeByStatusIndex" resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_CATEGORY
+		WHERE IS_DELETED=0 
+		AND PARENT_ID = #{id} 
+		AND PARAM_STATUS >= #{status}
+		AND IS_PUBLISH = 1
+		ORDER BY POSITION
+	</select>
+	
 	<!-- 按照状态查询 -->
 	<select id="findPublishTree" resultMap="CateMap" flushCache="true">
 		SELECT

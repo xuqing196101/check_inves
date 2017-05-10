@@ -95,6 +95,44 @@ public class CategoryPublishServiceImpl implements CategoryPublishService {
         return list;
     }
     
+    
+    /**
+     * 
+    * @Title: initTreeIndex 
+    * @Description: 门户技术参数库显示
+    * @author Easong
+    * @param @param treeId
+    * @param @return    设定文件 
+    * @throws
+     */
+    @Override
+    public List<CategoryTree> initTreeIndex(String treeId) {
+        List<CategoryTree> list = new ArrayList<CategoryTree>();
+        if (StringUtils.isNotBlank(treeId)){
+            List<Category> treeList = categoryMapper.findTreeByStatusIndex(treeId,StaticVariables.CATEGORY_PUBLISH_STATUS);
+            for (Category cate : treeList){
+                CategoryTree tree = new CategoryTree();
+                tree.setId(cate.getId());
+                tree.setName(cate.getName());
+                tree.setpId(treeId);
+                List<Category> cList = categoryService.findTreeByPid(cate.getId());
+                if (cList != null && cList.size() > 0){
+                    tree.setIsParent("true");
+                } else {
+                    tree.setIsParent("false");
+                }
+                tree.setClassify(cate.getClassify()+"");
+                tree.setPubStatus(cate.getIsPublish());
+                tree.setStatus(cate.getParamStatus());
+                list.add(tree);
+            }
+        } else {
+            loadRoot(list);
+        }
+       
+        return list;
+    }
+    
     /**
      * 
      * @see ses.service.bms.CategoryPublishService#publish(java.lang.String)
