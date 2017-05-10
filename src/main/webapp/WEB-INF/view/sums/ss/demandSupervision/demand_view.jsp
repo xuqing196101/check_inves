@@ -17,7 +17,7 @@
       }
 
       function planDetail(id, type) {
-        var details = "${details}";
+        var details = "${planStatus}";
         if(details){
           window.location.href = "${pageContext.request.contextPath}/supervision/planDetail.html?requiredId=" + id + "&type=" + type;
         }
@@ -25,14 +25,14 @@
       }
 
       function viewProject(id) {
-        var project = "${project}";
+        var project = "${projectStatus}";
         if(project){
           window.location.href = "${pageContext.request.contextPath}/supervision/viewProject.html?requiredId=" + id;
         }
       }
 
       function viewContract(id) {
-        var contractRequireds = "${contractRequireds}";
+        var contractRequireds = "${contractStatus}";
         if(contractRequireds){
           window.location.href = "${pageContext.request.contextPath}/supervision/viewContract.html?requiredId=" + id;
         }
@@ -80,10 +80,10 @@
                 <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
               </td>
               <td class="tc" width="25%" onclick="planDetail('${requiredId}','1')">
-                <c:if test="${details eq null}">
+                <c:if test="${planStatus eq null}">
                   <div data-dimension="150" data-text="0%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="0" data-fgcolor="#ffffff" data-bgcolor="#eeeeee" class="circle_box"></div>
                 </c:if>
-                <c:if test="${details ne null}">
+                <c:if test="${planStatus ne null}">
                   <c:if test="${planStatus eq 20}">
                   <div data-dimension="150" data-text="${planStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${planStatus}" data-fgcolor="#ff8641" data-bgcolor="#eee" class="circle_box"></div>
 	                </c:if>
@@ -99,7 +99,7 @@
                 </c:if>
               </td>
               <td class="tc" width="25%" onclick="viewProject('${requiredId}')">
-                <c:if test="${project ne null}">
+                <c:if test="${projectStatus ne null}">
                   <c:if test="${projectStatus gt 99}">
 			            <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
 			            </c:if>
@@ -113,15 +113,15 @@
 			            <div data-dimension="150" data-text="${projectStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${projectStatus}" data-fgcolor="#ff8641" data-bgcolor="#eee" class="circle_box"></div>
 			            </c:if>
                 </c:if>
-                <c:if test="${project eq null}">
+                <c:if test="${projectStatus eq null}">
                   <div data-dimension="150" data-text="0%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="0" data-fgcolor="#ffffff" data-bgcolor="#eeeeee" class="circle_box"></div>
                 </c:if>
               </td>
               <td class="tc" width="25%" onclick="viewContract('${requiredId}')">
-                <c:if test="${contractRequireds eq null}">
+                <c:if test="${contractStatus eq null}">
                   <div data-dimension="150" data-text="0%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="0" data-fgcolor="#ffffff" data-bgcolor="#eeeeee" class="circle_box"></div>
                 </c:if>
-                <c:if test="${contractRequireds ne null}">
+                <c:if test="${contractStatus ne null}">
                   <c:if test="${contractStatus eq 100}">
 		                <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
 		              </c:if>

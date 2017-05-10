@@ -118,6 +118,7 @@ import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+import sums.service.ss.PlanSupervisionService;
 import sums.service.ss.SupervisionService;
 
 /**
@@ -252,6 +253,9 @@ public class PlanSupervisionController {
     @Autowired
     private AdvancedPackageService advancedPackageService;
     
+    @Autowired
+    private PlanSupervisionService planSupervisionService;
+    
     
     /**
      * 
@@ -324,109 +328,52 @@ public class PlanSupervisionController {
         if(StringUtils.isNotBlank(id)){
             CollectPlan collectPlan = collectPlanService.queryById(id);
             if(collectPlan != null){
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("collectId", collectPlan.getId());
-                List<Task> listBycollect = taskService.listBycollect(map);
-                if(listBycollect != null && listBycollect.size() > 0){
-                    List<String> status = new ArrayList<String>();
-                    List<Integer> statusContract = new ArrayList<Integer>();
-                    for (Task task : listBycollect) {
-                        map.put("taskId", task.getId());
-                        List<ProjectTask> projectTasks = projectTaskService.queryByNo(map);
-                        for (ProjectTask projectTask : projectTasks) {
-                            Project project = projectService.selectById(projectTask.getProjectId());
-                            if(project != null && !"4".equals(project.getStatus())){
-                                HashMap<String, Object> maps = new HashMap<>();
-                                maps.put("id", project.getId());
-                                List<ProjectDetail> selectById = projectDetailService.selectById(maps);
-                                if(selectById != null && selectById.size() > 0){
-                                    for (ProjectDetail projectDetail : selectById) {
-                                        List<ContractRequired> contractRequireds = contractRequiredService.selectConRequByDetailId(projectDetail.getId());
-                                        if(contractRequireds != null && contractRequireds.size()>0){
-                                            PurchaseContract purchaseContract = contractService.selectById(contractRequireds.get(0).getContractId());
-                                            Integer progressBarContract = supervisionService.progressBarContract(purchaseContract.getStatus());
-                                            statusContract.add(progressBarContract);
-                                            model.addAttribute("contractRequireds", contractRequireds);
-                                        }
-                                    }
-                                    String projectStatus = supervisionService.progressBarProject(project.getStatus());
-                                    status.add(projectStatus);
-                                    model.addAttribute("project", project);
-                                }
-                            }
-                        }
-                    }
-                    if(status != null && status.size() > 0){
-                        Integer num = 0;
-                        for (String string : status) {
-                            double number = Integer.valueOf(string)/status.size();
-                            BigDecimal b = new BigDecimal(number);
-                            double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
-                            num += (int)total;
-                        }
-                        model.addAttribute("projectStatus", num);
-                    }
-                    
-                    if(statusContract != null && statusContract.size() > 0){
-                        Integer num = 0;
-                        for (Integer integer : statusContract) {
-                            double number = integer/statusContract.size();
-                            BigDecimal b = new BigDecimal(number);
-                            double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
-                            num += (int)total;
-                        }
-                        model.addAttribute("contractStatus", num);
-                    }
-                } else {
-                    //判断如果collectId为空的话，查一下是否有预研
-                    /*HashSet<String> set = new HashSet<>();
-                    List<PurchaseDetail> uniqueId = detailService.getUniqueId(collectPlan.getId());
-                    if(uniqueId != null && uniqueId.size() > 0){
-                        for (PurchaseDetail purchaseDetail : uniqueId) {
-                            set.add(purchaseDetail.getFileId());
-                        }
-                        for (String string : set) {
-                            HashMap<String, Object> maps = new HashMap<>();
-                            maps.put("fileId", string);
-                            List<PurchaseRequired> requireds = requiredService.getByMap(maps);
-                            for (PurchaseRequired purchaseRequired : requireds) {
-                                if("1".equals(purchaseRequired.getParentId())){
-                                    AdvancedDetail detail = advancedDetailService.selectByRequiredId(purchaseRequired.getId());
-                                    if(detail != null){
-                                        AdvancedProject project = advancedProjectService.selectById(detail.getAdvancedProject());
-                                        String projectStatus = supervisionService.progressBarProject(project.getStatus());
-                                        model.addAttribute("projectStatus", projectStatus);
-                                        model.addAttribute("project", project);
-                                    }
-                                }
-                            }
-                        }
-                    }*/
-                }
-                
+                //计划状态
                 Integer planStatus = supervisionService.progressBarPlan(collectPlan.getStatus());
+                //项目状态
+                Integer projectStatus = planSupervisionService.projectStatus(collectPlan.getId());
+                //合同状态
+                Integer contractStatus = planSupervisionService.contractStatus(collectPlan.getId());
+                model.addAttribute("projectStatus", projectStatus);
                 model.addAttribute("planStatus", planStatus);
                 model.addAttribute("collectPlan", collectPlan);
+                model.addAttribute("contractStatus", contractStatus);
             }
         }
-        if ("0".equals(type)) {
-            return "sums/ss/planSupervision/plan_view";
-        } else {
-            return "sums/ss/planSupervision/schedule_view";
+        
+        return "sums/ss/planSupervision/schedule_view";
+    }
+    
+    
+    /**
+     * 
+     *〈查看需求列表〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param model
+     * @param id
+     * @return
+     */
+    @RequestMapping("/viewDeand")
+    public String viewDeand(Model model,String id){
+        if(StringUtils.isNotBlank(id)){
+            List<PurchaseRequired> details = planSupervisionService.viewDemand(id);
+            model.addAttribute("listRequired", details);
         }
+        return "sums/ss/planSupervision/demand_view";
     }
     
     /**
      * 
-     *〈跳转任务汇总页面〉
+     *〈查看计划明细〉
      *〈详细描述〉
      * @author FengTian
-     * @param id
      * @param model
+     * @param id
      * @return
      */
-    @RequestMapping("/viewTask")
-    public String viewTask(String id, String type, Integer page, Model model){
+    @RequestMapping("/viewPlan")
+    public String viewPlan(Model model, String id){
         if(StringUtils.isNotBlank(id)){
             CollectPlan collectPlan = collectPlanService.queryById(id);
             if(collectPlan != null){
@@ -440,188 +387,53 @@ public class PlanSupervisionController {
                 collectPlan.setUserId(user.getRelName());
                 collectPlan.setPurchaseId(user.getOrgName());
                 model.addAttribute("collectPlan", collectPlan);
+                model.addAttribute("type", "1");
+                model.addAttribute("planId", id);
             }
-            
-            //需求计划信息
-            HashSet<String> set = new HashSet<>();
-            if(page == null){
-                page = 1;
-            }
-            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            List<PurchaseDetail> details = detailService.getUnique(id,null,null);
-            HashMap<String, Object> maps = new HashMap<>();
-            List<PurchaseRequired> listRequired = new ArrayList<>();
-            if(details != null && details.size() > 0){
-                for (PurchaseDetail detail : details) { 
-                    maps.put("id", detail.getId());
-                    List<PurchaseDetail> purchaseDetails = detailService.selectByParentId(maps);
-                    if(purchaseDetails.size() > 1){
-                        detail.setPurchaseType("");
-                        detail.setStatus(null);
-                    }else{
-                        DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
-                        if(findById == null){
-                            System.out.println("----------------------------------"+detail.getId()+"-----------------------------------------------");
-                        } else {
-                            detail.setPurchaseType(findById.getName());
-                        }
-                        String[] progressBarPlan = supervisionService.progressBar(detail.getId());
-                        detail.setProgressBar(progressBarPlan[0]);
-                        detail.setStatus(progressBarPlan[1]);
-                        model.addAttribute("code", findById.getCode());
-                    }
-                    set.add(detail.getFileId());
-                }
-                
-                for (String string : set) {
-                    maps.put("fileId", string);
-                    List<PurchaseRequired> details3 = requiredService.getByMap(maps);
-                    if(details3 != null && details3.size() > 0){
-                        for (PurchaseRequired purchaseRequired : details3) {
-                            if("1".equals(purchaseRequired.getParentId())){
-                                User user = userService.getUserById(purchaseRequired.getUserId());
-                                if(user != null){
-                                    purchaseRequired.setUserId(user.getRelName());
-                                }
-                                listRequired.add(purchaseRequired);
-                                break;
-                            }
-                        }
-                    }
-                }
-                model.addAttribute("listRequired", listRequired);
-                //model.addAttribute("list", new PageInfo<PurchaseDetail>(details));
-            }
-            
-            //任务信息
-            HashMap<String, Object> mapTask = new HashMap<>();
-            mapTask.put("collectId", id);
-            List<Task> task = taskService.listBycollect(mapTask);
-            List<Project> listProject = new ArrayList<Project>();
-            //List<AdvancedProject> listAdProject = new ArrayList<AdvancedProject>();
-            if(task != null && task.size() > 0){
-                for (Task task2 : task) {
-                    HashMap<String, Object> map = new HashMap<>();
-                    map.put("taskId", task2.getId());
-                    List<ProjectTask> projectTasks = projectTaskService.queryByNo(map);
-                    HashSet<String> sets = new HashSet<>();
-                    if(projectTasks != null && projectTasks.size() > 0){
-                        for (ProjectTask projectTask : projectTasks) {
-                            sets.add(projectTask.getProjectId());
-                        }
-                    }
-                    for (String string : sets) {
-                        Project project = projectService.selectById(string);
-                        if(project != null){
-                            if(!"4".equals(project.getStatus())){
-                                DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
-                                if(StringUtils.isNotBlank(project.getPrincipal())){
-                                    User users = userService.getUserById(project.getPrincipal());
-                                    project.setAppointMan(users.getRelName());
-                                    project.setAddress(users.getAddress());
-                                }
-                                if(StringUtils.isNotBlank(project.getPurchaseDepId())){
-                                    Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
-                                    project.setPurchaseDepId(org.getName());
-                                }
-                                project.setStatus(findById.getName());
-                                listProject.add(project);
-                            }
-                        }
-                    }
-                    if(listProject != null && listProject.size() > 0){
-                        List<PurchaseContract> listContract = new ArrayList<PurchaseContract>();
-                        for (Project project : listProject) {
-                            SupplierCheckPass checkPass = new SupplierCheckPass();
-                            checkPass.setProjectId(project.getId());
-                            checkPass.setIsWonBid((short)1);
-                            List<SupplierCheckPass> checkPasses = checkPassService.listCheckPass(checkPass);
-                            if(checkPasses != null && checkPasses.size() > 0){
-                                for (SupplierCheckPass supplierCheckPass : checkPasses) {
-                                    PurchaseContract contract = contractService.selectById(supplierCheckPass.getContractId());
-                                    if(contract != null){
-                                        listContract.add(contract);
-                                    }
-                                }
-                            }
-                        }
-                        if(listContract != null && listContract.size() > 0){
-                            for (PurchaseContract pur : listContract) {
-                                Supplier su = null;
-                                Orgnization org = null;
-                                if(pur.getSupplierDepName()!=null){
-                                    su = supplierService.selectOne(pur.getSupplierDepName());
-                                }
-                                if(pur.getPurchaseDepName()!=null){
-                                    org = orgnizationService.getOrgByPrimaryKey(pur.getPurchaseDepName());
-                                }
-                                if(org!=null){
-                                    if(org.getName()==null){
-                                        pur.setShowDemandSector("");
-                                    }else{
-                                        pur.setShowDemandSector(org.getName());
-                                    }
-                                }
-                                if(su!=null){
-                                    if(su.getSupplierName()!=null){
-                                        pur.setShowSupplierDepName(su.getSupplierName());
-                                    }else{
-                                        pur.setShowSupplierDepName("");
-                                    }
-                                }
-                            }
-                        }
-                        model.addAttribute("listContract", listContract);
-                        model.addAttribute("listProject", listProject);
-                        model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
-                    }
-                }
-                model.addAttribute("task", task);
-            } else {
-              //查询有没有预研项目
-                /*AdvancedDetail advancedDetail = advancedDetailService.selectByRequiredId(listRequired.get(0).getId());
-                if(advancedDetail != null){
-                    AdvancedProject advancedProject = advancedProjectService.selectById(advancedDetail.getAdvancedProject());
-                    if(advancedProject != null && !"0".equals(advancedProject.getStatus())){
-                        DictionaryData findById = DictionaryDataUtil.findById(advancedProject.getStatus());
-                        if(StringUtils.isNotBlank(advancedProject.getPrincipal())){
-                            User users = userService.getUserById(advancedProject.getPrincipal());
-                            advancedProject.setAppointMan(users.getRelName());
-                            advancedProject.setAddress(users.getAddress());
-                        }
-                        if(StringUtils.isNotBlank(advancedProject.getPurchaseDepId())){
-                            Orgnization org = orgnizationService.getOrgByPrimaryKey(advancedProject.getPurchaseDepId());
-                            advancedProject.setPurchaseDepId(org.getName());
-                        }
-                        advancedProject.setStatus(findById.getName());
-                        listAdProject.add(advancedProject);
-                    }
-                    if(listAdProject != null && listAdProject.size() > 0){
-                        model.addAttribute("listProject", listAdProject);
-                        model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
-                    }
-                }*/
-            }
-            model.addAttribute("planId", id);
-            model.addAttribute("type", type);
         }
-        if(StringUtils.isNotBlank(type) && "0".equals(type)){
-            return "sums/ss/planSupervision/task_view";
-        }else if(StringUtils.isNotBlank(type) && "1".equals(type)){
-            return "sums/ss/planSupervision/demand_view";
-        }else if(StringUtils.isNotBlank(type) && "2".equals(type)){
-            return "sums/ss/planSupervision/detail_view";
-        }else if(StringUtils.isNotBlank(type) && "3".equals(type)){
-            return "sums/ss/planSupervision/project_view";
-        }else if(StringUtils.isNotBlank(type) && "4".equals(type)){
-            return "sums/ss/planSupervision/contract_view";
-        }
-        return null;
+        return "sums/ss/planSupervision/detail_view";
     }
     
     /**
      * 
-     *〈跳转明细页面〉
+     *〈查看项目列表〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param model
+     * @param id
+     * @return
+     */
+    @RequestMapping("/viewProject")
+    public String viewProject(Model model, String id){
+        if(StringUtils.isNotBlank(id)){
+            List<Project> list = planSupervisionService.viewProject(id);
+            model.addAttribute("listProject", list);
+            model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+        }
+        return "sums/ss/planSupervision/project_view";
+    }
+    
+    /**
+     * 
+     *〈查看合同列表〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param model
+     * @param id
+     * @return
+     */
+    @RequestMapping("/viewContract")
+    public String viewContract(Model model, String id){
+        if(StringUtils.isNotBlank(id)){
+            List<PurchaseContract> listContract = planSupervisionService.viewContract(id);
+            model.addAttribute("listContract", listContract);
+        }
+        return "sums/ss/planSupervision/contract_view";
+    }
+    
+    /**
+     * 
+     *〈查看需求计划〉
      *〈详细描述〉
      * @author FengTian
      * @param id
@@ -630,72 +442,9 @@ public class PlanSupervisionController {
      * @return
      */
     @RequestMapping("/viewDetail")
-    public String viewDetail(String id, String type, String projectId, Model model){
+    public String viewDetail(String id, String projectId, Model model){
         if(StringUtils.isNotBlank(id)){
-            //类型为1的是采购计划明细，反之为需求计划明细
-            if(StringUtils.isNotBlank(type) && "1".equals(type)){
-                List<PurchaseDetail> details = detailService.getUnique(id,null,null);
-                if(details != null && details.size() > 0){
-                    List<PurchaseDetail> list = new ArrayList<PurchaseDetail>();
-                    HashMap<String, Object> map = new HashMap<>();
-                    for (int i = 0; i < details.size(); i++ ) {
-                        map.put("id", projectId);
-                        List<ProjectDetail> projectDetails = projectDetailService.selectById(map);
-                        for (ProjectDetail projectDetail : projectDetails) {
-                            if(details.get(i).getId().equals(projectDetail.getRequiredId())){
-                                list.add(details.get(i));
-                            }
-                        }
-                    }
-                    for (PurchaseDetail detail : list) {
-                        if(detail.getPrice() != null){
-                            DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
-                            detail.setPurchaseType(findById.getName());
-                            String[] progressBarPlan = supervisionService.progressBar(detail.getId());
-                            detail.setProgressBar(progressBarPlan[0]);
-                            detail.setStatus(progressBarPlan[1]);
-                            model.addAttribute("code", findById.getCode());
-                        }else{
-                            detail.setPurchaseType(null);
-                            detail.setStatus(null);
-                        }
-                    }
-                    CollectPlan collectPlan = collectPlanService.queryById(id);
-                    User user = userService.getUserById(collectPlan.getUserId());
-                    collectPlan.setUserId(user.getRelName());
-                    collectPlan.setPurchaseId(user.getOrgName());
-                    HashMap<String, Object> mapTask = new HashMap<>();
-                    mapTask.put("collectId", collectPlan.getId());
-                    List<Task> listBycollect = taskService.listBycollect(mapTask);
-                    if(listBycollect != null && listBycollect.size() > 0){
-                        collectPlan.setUpdatedAt(listBycollect.get(0).getGiveTime());
-                    }
-                    model.addAttribute("collectPlan", collectPlan);
-                    model.addAttribute("list", list);
-                }
-            }else{
-                List<PurchaseRequired> details = requiredService.getUnique(id);
-                HashMap<String, Object> map = new HashMap<>();
-                if(details != null && details.size() > 0){
-                    for (int i = 0; i < details.size(); i++ ) {
-                        map.put("id", details.get(i).getId());
-                        List<PurchaseRequired> purchaseDetails = requiredService.selectByParentId(map);
-                        if(purchaseDetails.size() > 1){
-                            details.get(i).setPurchaseType("");
-                            details.get(i).setStatus(null);
-                        }else{
-                            DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
-                            details.get(i).setPurchaseType(findById.getName());
-                            String[] progressBarPlan = supervisionService.progressBar(details.get(i).getId());
-                            details.get(i).setProgressBar(progressBarPlan[0]);
-                            details.get(i).setStatus(progressBarPlan[1]);
-                            model.addAttribute("code", findById.getCode());
-                        }
-                    }
-                    model.addAttribute("list", details);
-                }
-            }
-            model.addAttribute("type", type);
+            model.addAttribute("type", "0");
             model.addAttribute("planId", id);
         }
         return "sums/ss/planSupervision/detail_view";
@@ -712,147 +461,40 @@ public class PlanSupervisionController {
      * @return
      */
     @RequestMapping("/viewPack")
-    public String viewPack(@CurrentUser User user, String id, String planId, String type, Model model){
-        if(user != null && user.getOrg() != null){
-            if(StringUtils.isNotBlank(type) && "1".equals(type)){
+    public String viewPack(String id, String planId, String type, Model model){
+        if(StringUtils.isNotBlank(id)){
+            Project project = projectService.selectById(id);
+            if(project != null){
                 HashMap<String, Object> map = new HashMap<>();
-                List<PurchaseDetail> purchaseDetails = detailService.getUnique(planId,null,null);
-                //查询计划明细顶级节点的ID
-                String pid = null;
-                if(purchaseDetails != null && purchaseDetails.size() > 0){
-                    for (int i = 0; i < purchaseDetails.size(); i++ ) {
-                        if("1".equals(purchaseDetails.get(i).getParentId())){
-                            pid = purchaseDetails.get(i).getId();
-                            break;
-                        }
-                    }
-                }
-                if(StringUtils.isNotBlank(pid)){
+                map.put("projectId", project.getId());
+                List<Packages> packages = packageService.findByID(map);
+                if(packages != null && packages.size() > 0){
+                    List<Packages> list = planSupervisionService.viewPack(project.getId());
+                    model.addAttribute("packages", list);
+                } else {
                     HashMap<String, Object> maps = new HashMap<>();
-                    maps.put("id", pid);
-                    maps.put("projectId", id);
-                    //根据项目ID和计划明细ID递归查询出所有的明细
-                    List<ProjectDetail> details = projectDetailService.selectByParentId(maps);
-                    if(details != null && details.size() > 0){
-                        map.put("projectId", id);
-                        List<Packages> packages = packageService.findByID(map);
-                        List<Packages> lists = new ArrayList<Packages>();
-                        //判断有没有分包，没有分包进else
-                        if(packages != null && packages.size() > 0){
-                            for (Packages packages2 : packages) {
-                                List<ProjectDetail> list = new ArrayList<ProjectDetail>();
-                                for (int i = 0; i < details.size(); i++ ) {
-                                    if(packages2.getId().equals(details.get(i).getPackageId())){
-                                        DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
-                                        details.get(i).setPurchaseType(findById.getName());
-                                        String[] progressBarPlan = supervisionService.progressBar(details.get(i).getRequiredId());
-                                        details.get(i).setProgressBar(progressBarPlan[0]);
-                                        details.get(i).setStatus(progressBarPlan[1]);
-                                        list.add(details.get(i));
-                                    }
-                                    if(list != null && list.size() > 0){
-                                        packages2.setProjectDetails(list);
-                                    }
-                                }
-                            }
-                            for (int i = 0; i < packages.size(); i++ ) {
-                                if(packages.get(i).getProjectDetails() != null && packages.get(i).getProjectDetails().size() > 0){
-                                    sort(packages.get(i).getProjectDetails());//进行排序
-                                    lists.add(packages.get(i));
-                                }
-                            }
-                            model.addAttribute("packages", lists);
-                        }else{
-                            for (ProjectDetail detail : details) {
-                                if(detail.getPrice() != null){
-                                    DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
-                                    detail.setPurchaseType(findById.getName());
-                                    String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId());
-                                    detail.setProgressBar(progressBarPlan[0]);
-                                    detail.setStatus(progressBarPlan[1]);
-                                } else {
-                                    detail.setPurchaseType(null);
-                                    detail.setStatus(null);
-                                }
-                            }
-                            model.addAttribute("details", details);
-                        }
-                        
-                        Project project = projectService.selectById(id);
-                        if(project != null){
-                            DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
-                            project.setStatus(findById.getName());
-                            User users = userService.getUserById(project.getAppointMan());
-                            project.setAppointMan(users.getRelName());
-                            model.addAttribute("project", project);
-                        }
-                        model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
-                        return "sums/ss/planSupervision/package_view";
-                    } else {
-                        //如果没有正式项目，查一下又没有预研项目
-                       /* HashMap<String, Object> mapAdProject = new HashMap<String, Object>();
-                        mapAdProject.put("projectId", id);
-                        List<AdvancedPackages> packages = advancedPackageService.selectByAll(mapAdProject);
-                        
-                        
-                        HashMap<String, Object> mapAdetail = new HashMap<String, Object>();
-                        mapAdetail.put("advancedProject", id);
-                        List<AdvancedDetail> adList = advancedDetailService.selectByAll(mapAdetail);
-                        
-                        
-                        List<AdvancedPackages> lists = new ArrayList<AdvancedPackages>();
-                        //判断有没有分包，没有分包进else
-                        if(packages != null && packages.size() > 0){
-                            for (AdvancedPackages packages2 : packages) {
-                                List<AdvancedDetail> list = new ArrayList<AdvancedDetail>();
-                                for (int i = 0; i < adList.size(); i++ ) {
-                                    if(packages2.getId().equals(adList.get(i).getPackageId())){
-                                        DictionaryData findById = DictionaryDataUtil.findById(adList.get(i).getPurchaseType());
-                                        adList.get(i).setPurchaseType(findById.getName());
-                                        String[] progressBarPlan = supervisionService.adProgressBar(adList.get(i).getRequiredId());
-                                        adList.get(i).setProgressBar(progressBarPlan[0]);
-                                        adList.get(i).setStatus(progressBarPlan[1]);
-                                        list.add(adList.get(i));
-                                    }
-                                    //sort(list);//进行排序
-                                    packages2.setAdvancedDetails(list);
-                                }
-                            }
-                            for (int i = 0; i < packages.size(); i++ ) {
-                                if(packages.get(i).getAdvancedDetails().size() > 0){
-                                    lists.add(packages.get(i));
-                                }
-                            }
-                            model.addAttribute("packages", lists);
-                            AdvancedProject project = advancedProjectService.selectById(id);
-                            model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
+                    maps.put("id", project.getId());
+                    List<ProjectDetail> details = projectDetailService.selectById(maps);
+                    for (ProjectDetail detail : details) {
+                        if(detail.getPrice() != null){
+                            DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                            detail.setPurchaseType(findById.getName());
+                            String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId());
+                            detail.setProgressBar(progressBarPlan[0]);
+                            detail.setStatus(progressBarPlan[1]);
                         } else {
-                            for (AdvancedDetail detail : adList) {
-                                if(detail.getPrice() != null){
-                                    DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
-                                    detail.setPurchaseType(findById.getName());
-                                    String[] progressBarPlan = supervisionService.adProgressBar(detail.getRequiredId());
-                                    detail.setProgressBar(progressBarPlan[0]);
-                                    detail.setStatus(progressBarPlan[1]);
-                                } else {
-                                    detail.setPurchaseType(null);
-                                    detail.setStatus(null);
-                                }
-                                
-                            }
-                            model.addAttribute("details", adList);
+                            detail.setPurchaseType(null);
+                            detail.setStatus(null);
                         }
-                        AdvancedProject project = advancedProjectService.selectById(id);
-                        if(project != null){
-                            DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
-                            project.setStatus(findById.getName());
-                            User users = userService.getUserById(project.getAppointMan());
-                            project.setAppointMan(users.getRelName());
-                            model.addAttribute("project", project);
-                        }
-                        return "sums/ss/planSupervision/adPackage_view";*/
                     }
+                    model.addAttribute("details", details);
                 }
+                
+                DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                project.setStatus(findById.getName());
+                User users = userService.getUserById(project.getAppointMan());
+                project.setAppointMan(users.getRelName());
+                model.addAttribute("project", project);
             }
         }
         return "sums/ss/planSupervision/package_view";
@@ -2351,9 +1993,6 @@ public class PlanSupervisionController {
         List<PurchaseDetail> details = detailService.getUnique(id,null,null);
         if(details != null && details.size() > 0){
             for (PurchaseDetail detail : details) { 
-                /*HashMap<String, Object> map = new HashMap<>();
-                map.put("id", detail.getId());
-                List<PurchaseDetail> purchaseDetails = detailService.selectByParentId(map);*/
                 if(detail.getPrice() == null){
                     detail.setPurchaseType("");
                     detail.setStatus(null);
@@ -2372,6 +2011,7 @@ public class PlanSupervisionController {
             jsonObj.put("pages", pageInfo.getPages());
             jsonObj.put("data", pageInfo.getList());
         } else {
+            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
             List<PurchaseRequired> purchaseRequireds = requiredService.getUnique(id);
             if(purchaseRequireds != null && purchaseRequireds.size() > 0){
                 for (PurchaseRequired purchaseRequired : purchaseRequireds) {

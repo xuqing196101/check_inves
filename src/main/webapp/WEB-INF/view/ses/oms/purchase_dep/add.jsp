@@ -462,6 +462,12 @@
                     </div>
                   </li>
                   
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>排序</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="position" value="${purchaseDep.position}" required  onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> <span class="add-on">i</span>
+                    </div>
+                  </li>
+                  
                   <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购业务范围</span>
                     <div class="col-md-12 col-sm-12 col-xs-12 p0">
 							        <textarea class="col-md-12 col-sm-12 col-xs-12 h130" name="businessRange" required maxlength="800"  title="不超过800个字">${purchaseDep.businessRange }</textarea>
