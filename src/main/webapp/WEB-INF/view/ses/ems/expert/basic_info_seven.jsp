@@ -776,7 +776,7 @@
                         <input  <c:if test="${fn:contains(engErrorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
                                 maxlength="20" value="${t.qualifcationTitle}"
                                 name="titles[${vs.index }].qualifcationTitle"  type="text"/>
-                        <span class="add-on">i</span> <span class="input-tip"></span>
+                        <span class="add-on">i</span> <span class="input-tip">不能为空</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
@@ -829,7 +829,7 @@
                         <input  <c:if test="${fn:contains(engErrorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
                                 maxlength="20" value="${t.qualifcationTitle}"
                                 name="ecoList[${vs.index }].qualifcationTitle"  type="text"/>
-                        <span class="add-on">i</span> <span class="input-tip"></span>
+                        <span class="add-on">i</span> <span class="input-tip">不能为空</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
