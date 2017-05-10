@@ -103,8 +103,13 @@ function publishParam(){
  * @param publishStatus 是否发布
  */
 function getTreeNodeData(cateId,treeNode){
-	$("#uListId").show();
-	$("#uListId").empty();
+	$('#publishBtnDiv').show();
+	$('#baseInfoDiv').show();
+	$('#productParamDiv').show();
+	
+	//清空表格内容
+	clearTbody('baseInfoTbody');
+	$('#productParamTbody').empty();
 	
 	$.ajax({
 		type:"post",
@@ -115,10 +120,13 @@ function getTreeNodeData(cateId,treeNode){
 		success:calledback
 	});
 	
+	//填入产品名称
+	$("#baseInfoTbody td.productName").text(treeNode.name||'');
+	
 	//加载是否公开
 	var publishStatus = treeNode.pubStatus;
 	if (publishStatus != null){
-		loadRadioHtml(publishStatus);
+		$("#baseInfoTbody td.isOpen").append(publishStatus?'是':'否');
 	}
 	
 	//加载类型
@@ -131,6 +139,14 @@ function getTreeNodeData(cateId,treeNode){
 	if (treeNode.status !=null && treeNode.status !=""){
 		loadPublishHtml(treeNode.status);
 	}
+}
+
+/**
+ * 清空指定td
+ * @param tbody
+ */
+function clearTbody(tbody){
+	$('#'+tbody).find('td:not(.bggrey)').empty();
 }
 
 /**
@@ -156,19 +172,19 @@ function initTypes(){
  * @param data
  */
 function calledback(data){
-	var html="<div class='content table_box'>";
-		html+="<table class='table table-bordered table-condensed table-hover table-striped' >";
-		html+="<tr><td class='info'>参数名称</td><td class='info'>参数类型</td><td class='info'>是否必填</td></tr>";
-	
 	if (data != null && data.length > 0){
 		for (var i=0;i<data.length;i++){
-			loadHtml(data[i].paramName,data[i].paramTypeName);
+			loadHtml(i+1,data[i].paramName,data[i].paramTypeName);
 		}
 	} else {
-		$("#uListId").hide();
+		$('#publishBtnDiv').hide();
+		$('#baseInfoDiv').hide();
+		$('#productParamDiv').hide();
+		
+		//清空表格内容
+		clearTbody('baseInfoTbody');
+		$('#productParamTbody').empty();
 	}
-	html+="</table>";
-	html+="</div>";
 }
 
 /**
@@ -176,91 +192,31 @@ function calledback(data){
  * @param paramName 参数名称
  * @param paramTypeName 参数类型
  */
-function loadHtml(paramName, paramTypeName){
-	/*var html ="<li>"
-             + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\">" + paramName +"</div>"
-             + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\"> 参数类型: " + paramTypeName + "</div>" 
-             +"</li>"*/
-	var html="<tr>" +
-	"<td width=\"23%\" class=\"info\">参数名称：</td>" +
-	"<td width=\"23%\">"+paramName+"</td>" +
-	"<td width=\"23%\" class=\"info\">参数类型：</td>" +
-	"<td width=\"23%\" >"+paramTypeName+"</td>" +
-	"</tr>";
-    $("#uListId").append(html);
+function loadHtml(idx,paramName, paramTypeName){
+	
+	var html='<tr><td class="tc">'+idx+'</td><td class="tc">'+paramName+'</td><td class="tc">'+paramTypeName+'</td></tr>';
+    $("#productParamTbody").append(html);
 }
 
-/**
- * 加载是否公开
- * @param checked
- */
-function loadRadioHtml(checked){
-	var  yes_checked = false,no_checked = false;
-	if (checked == 0){
-		yes_checked = true;
-	}
-	if (checked == 1){
-		no_checked = true;
-	}
-	/*var html = "<li> "
-	     + " <div class='col-md-4 col-sm-4 col-xs-6 tr'> "
-	     + "    <span class='red'>*</span>是否公开: "
-	     + " </div> "
-	     + " <div class='col-md-8 col-sm-8 col-xs-6'> ";*/
-	var html="<tr>" +
-	"<td  width=\"28%\" class=\"info\">" +
-	"<span class='red'>*</span>是否公开：" +
-	"</td>" +
-	"</td>" +
-	"<td >";
-		if (yes_checked){
-			html += "  <input type='radio' disabled='disabled' checked='checked'   name='isOPen'  >是    " 
-			html += "  <input type='radio' disabled='disabled'    name='isOPen'  /> 否    "
-		}
-		if (no_checked){
-			html += "  <input type='radio' disabled='disabled'    name='isOPen'  >是    " 
-			html += "  <input type='radio' disabled='disabled'  checked='checked'  name='isOPen'  /> 否    "
-		}
-		html+="</td><td  width=\"28%\" >" +
-		"</td>" +
-		"<td  width=\"28%\"></td>"; 
-		html+= " </tr>";
-	$("#uListId").append(html);
-}
 
 /**
  * 加载checkbox
  * @param checkedVal 判断选中的值
  */
 function loadcheckbox(checkedVal){
-	
-/*	var html = "<li  id='typeId'>"
-             + " <div class='col-md-4 col-sm-4 col-xs-5 tr'>"
-     	     + "  <span class='red'>*</span>类型: "
-     	     + " </div>"
-		     + " <div class='col-md-8 col-sm-8 col-xs-7'>";*/
-	var html="<tr>" +
-	"<td   width=\"28%\" class=\"info\">" +
-	"<span class='red'>*</span>类型：" +
-	"</td>" +
-	"<td  >";
+	var html="";
 	for (var i =0;i<typesObj.length;i++){
 		 if (checkedVal == 1 && typesObj[i].code == 'PRODUCT'){
-			 html+="<input name='smallClass' type='checkbox' disabled='disabled' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
+			 html+= typesObj[i].name + ',';
 		 } else if (checkedVal == 2 && typesObj[i].code == 'SALES'){
-			 html+="<input name='smallClass' type='checkbox' disabled='disabled' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
+			 html+= typesObj[i].name + ',';
 		 }else if (checkedVal == 3){
-			 html+="<input name='smallClass' type='checkbox' disabled='disabled' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
-		 } else {
-			 html+="<input name='smallClass' type='checkbox' disabled='disabled' value='"+typesObj[i].code+"' />" +typesObj[i].name;
+			 html+= typesObj[i].name + ',';
 		 }
-		
 	}
-   /*html+= "</div></li>";*/
-	html+="</td><td  width=\"28%\" >" +
-	"</td>" +
-	"<td  width=\"28%\" ></td></tr>"; 
-  $("#uListId").append(html);
+	
+	
+  $("#baseInfoTbody td.type").append(html.substring(0,html.length-1));
 }
 
 /**
@@ -289,19 +245,6 @@ function loadPublishHtml(auditStatus){
 	if (auditStatus == 4){
 		statusText = "已发布";
 	}
-	
-	/*var html = "<li>"
-		     + " <div class='col-md-2 col-sm-4 col-xs-5 tr'>"
-		     + "  发布状态: " 
-		     + " </div>"
-		     + " <div class='col-md-10 col-sm-8 col-xs-7'>"
-		     + statusText ;
-		  	 + " </div>"
-		  	 + "</li>";*/
-	var html="<tr>" +
-	"<td   width=\"28%\" class=\"info\">" +
-	"发布状态: " +
-	"</td>" +
-	"<td>"+statusText +"</td><td   width=\"28%\" ><td></td>";
-	$("#uListId").append(html);  
+
+	$("#baseInfoTbody td.publishStatus").append(statusText);  
 }
