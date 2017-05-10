@@ -158,7 +158,7 @@ public class Constant {
     public final static String SYNCH_CATE_PARAMTER="SYNCH_CATE_PARAMTER";
     /**产品目录参数管理  导出信息描述 **/
     public final static String COMMIT_SYNCH_CATEGORY_PARAMTER="导出产品目录参数信息数量:";
-    /**产品目录参数管理  导出信息描述 **/
+    /**产品目录参数管理  导入信息描述 **/
     public final static String IMPORT_SYNCH_CATEGORY_PARAMTER="导入产品目录参数信息数量:";
     /**产品目录参数导出 文件夹名称**/
     public final static String T_SES_BMS_CATEGORY_PARAMTER_PATH="t_ses_bms_category_paramter_path";
@@ -175,4 +175,16 @@ public class Constant {
     public final static String COMMIT_FILE_SYNCH_DATA="导出资料管理附件数量:";
     /**资料 管理  导入信息描述 **/
     public final static String IMPORT_FILE_SYNCH_DATA="导入资料管理附件数量:";
+    
+    /**门户模板管理 名称**/
+    public final static String SYNCH_TEMPLATE_DOWNLOAD="SYNCH_TEMPLATE_DOWNLOAD";
+    /**门户模板管理  导出信息描述 **/
+    public final static String COMMIT_SYNCH_TEMPLATE_DOWNLOAD="导出门户模板信息数量:";
+    /**门户模板管理  导入信息描述 **/
+    public final static String IMPORT_SYNCH_TEMPLATE_DOWNLOAD="导入门户模板信息数量:";
+    /**门户模板管理 文件夹名称**/
+    public final static String T_ISS_PS_TEMPLATE_DOWNLOAD_PATH="t_iss_ps_template_download_path";
+    /**门户模板管理 附件文件夹名称**/
+    public final static String T_ISS_PS_TEMPLATE_DOWNLOAD_ATTFILE_PATH="attfile_t_iss_ps_template_download_path";
+    
 }

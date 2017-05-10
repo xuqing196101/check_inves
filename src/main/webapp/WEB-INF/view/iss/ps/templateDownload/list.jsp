@@ -347,6 +347,7 @@
 							<th class="w180">发布时间</th>
 							<th class="w180">创建时间</th>
 							<th class="w110">状态</th>
+							<th class="w110">发布范围</th>
 							<th class="w110">下载</th>
 						</tr>
 					</thead>
@@ -376,9 +377,17 @@
 								<c:if test="${data.status==3}">
 									<td class="tl pl20" onclick="view('${data.id }')">已取消发布</td>
 								</c:if>
+								<td class="tc" onclick="view('${data.id }')">
+									<c:if test="${ data.ipAddressType == 0 }">
+										内网
+									</c:if>
+									<c:if test="${ data.ipAddressType == 1 }">
+										内外网
+									</c:if>
+								</td>
 								<td class="release">
 									<u:show showId="${data.groupShow }" groups="${data.groupsUploadId }" delete="false" businessId="${data.id }" sysKey="${sysKey}" typeId="${dataTypeId }" zipFileName="${data.name}" fileName="${data.name}" />
-								</td>	
+								</td>
 							</tr>
 						</c:forEach>
 					</tbody>

@@ -1,6 +1,7 @@
 package synchro.controller;
 
 import iss.service.ps.DataDownloadService;
+import iss.service.ps.TemplateDownloadService;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -88,6 +89,9 @@ public class SynchImportController {
     /**产品目录参数**/
     @Autowired
     private CategoryParameterService categoryParameterService;
+    /**门户模板管理**/
+    @Autowired
+    private TemplateDownloadService templateDownloadService;
     @Autowired
     private InnerExpertService innerExpertService;
     /**资料数据**/
@@ -151,6 +155,11 @@ public class SynchImportController {
             	/**资料管理 数据导出  只能是内网导出外网**/
              iter.remove();
          	   continue;
+            }
+            if(dd.getCode().equals(Constant.SYNCH_TEMPLATE_DOWNLOAD)){
+            	/**门户模板管理 数据导出  只能是内网导出外网**/
+            	iter.remove();
+            	continue;
             }
         }
           //外网时   
@@ -564,6 +573,31 @@ public class SynchImportController {
 							}
 						}
 				  }
+				}
+				
+				if (synchType.contains(Constant.SYNCH_TEMPLATE_DOWNLOAD)) {
+					/** 门户模板管理  只能是内网导入外网 **/
+					if (f.getName().equals(Constant.T_ISS_PS_TEMPLATE_DOWNLOAD_PATH)) {
+						// 遍历文件夹中的所有文件
+						for (File file2 : f.listFiles()) {
+							// 判断文件名是否是导出创建数据名称
+							if (file2.getName().contains(FileUtils.C_TEMPLATE_DOWNLOAD_FILENAME)) {
+								templateDownloadService.importTemplateDownload(file2);
+							}
+							if(file2.getName().contains(FileUtils.C_FILE_TEMPLATE_DOWNLOAD_FILENAME)){
+								OBProjectServer.importFile(file2, common.constant.Constant.TENDER_SYS_KEY);
+							}
+						}
+					}
+					// 附件目录复制
+					if (f.getName().equals(Constant.T_ISS_PS_TEMPLATE_DOWNLOAD_ATTFILE_PATH)) {
+						for (File file2 : f.listFiles()) {
+							if (f.isDirectory()) {
+								OperAttachment.moveToPathFolder(file2,FileUtils.BASE_ATTCH_PATH
+														+ FileUtils.TENDER_ATTFILE_PATH);
+							}
+						}
+					}
 				}
 				
 			}

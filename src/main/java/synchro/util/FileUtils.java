@@ -153,6 +153,14 @@ public class FileUtils {
     public final static String FILE_ISS_PS_DATA_DOWNLOAD_PATH=PropUtil.getProperty("file.file_iss_ps_data_download_path.system.path");
     
     
+    /***门户模板管理 导出创建数据名称***/
+    public final static String C_TEMPLATE_DOWNLOAD_FILENAME="_c_template_download.dat";
+    /***门户模板管理 导出路径***/
+    public final static String FILE_T_ISS_PS_TEMPLATE_DOWNLOAD_PATH=PropUtil.getProperty("file.t_iss_ps_template_download_path.system.path");
+    /***门户模板管理 导出附件数据名称***/
+    public final static String C_FILE_TEMPLATE_DOWNLOAD_FILENAME="_c_file_template_download.dat";
+    /***门户模板管理 附件数据导出路径***/
+    public final static String C_FILE_TEMPLATE_DOWNLOAD_ATTFILE_FILENAME=PropUtil.getProperty("attfile.file_t_iss_ps_template_download_path.system.path");
     
     /**
      * 
@@ -696,6 +704,8 @@ public class FileUtils {
           case 16: filePath=FILE_T_SES_BMS_CATEGORY_PARAMTER_PATH;break;
           case 17:  filePath=ISS_PS_DATA_DOWNLOAD_PATH;break;
           case 18:  filePath=FILE_ISS_PS_DATA_DOWNLOAD_PATH;break;
+          case 19: filePath=FILE_T_ISS_PS_TEMPLATE_DOWNLOAD_PATH;break;
+          case 20: filePath=C_FILE_TEMPLATE_DOWNLOAD_ATTFILE_FILENAME;break;
         }
         return filePath;
     }

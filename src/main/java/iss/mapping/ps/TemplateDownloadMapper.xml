@@ -31,8 +31,11 @@
   	<include refid="Base_Column_List" />
   	FROM T_ISS_PS_TEMPLATE_DOWNLOAD 
   	WHERE IS_DELETED = 0
-  	<if test="name != null and name !=''">
+  	  <if test="name != null and name !=''">
 	      AND NAME LIKE '%'||#{name}||'%'
+	  </if>
+	  <if test="ipAddressType != null and ipAddressType !=''">
+	      AND IP_ADDRESS_TYPE = #{ipAddressType}
 	  </if>
 	  ORDER BY CREATED_AT DESC
   </select>
@@ -150,4 +153,16 @@
     </set>
     where ID = #{id}
   </update>
+  
+  <!-- 导出模板下载  条件：内外网  已发布  未删除 -->
+  <select id="exportTemplateDownload" parameterType="String" resultMap="BaseResultMap">
+  	SELECT
+  	  <include refid="Base_Column_List" />
+	  FROM T_ISS_PS_TEMPLATE_DOWNLOAD T
+	  WHERE T.IS_DELETED = 0
+	  AND T.STATUS = 2
+	  AND T.IP_ADDRESS_TYPE = 1
+	  AND TO_CHAR(T.CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &gt;= #{start,jdbcType=VARCHAR}
+      AND TO_CHAR(T.CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR} 
+  </select>
 </mapper>

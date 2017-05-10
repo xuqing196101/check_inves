@@ -69,6 +69,15 @@
 												<fmt:formatDate value="${data.updatedAt }" pattern="yyyy-MM-dd" />
 											</td>
 										</tr>
+										<tr>
+											<td class="bggrey " width="10%">发布范围：</td>
+											<td width="40%">
+												<c:if test="${ data.ipAddressType == 0 }">内网</c:if>
+												<c:if test="${ data.ipAddressType == 1 }">内外网</c:if>
+											</td>
+											<td class="bggrey" width="10%"></td>
+											<td width="40%"></td>
+										</tr>
 									</tbody>
 								</table>
 

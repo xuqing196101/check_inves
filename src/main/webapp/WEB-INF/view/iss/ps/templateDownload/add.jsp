@@ -26,6 +26,12 @@
 			
 			//发布
 			function publishData(){
+				/* $("#publishTypeErr").html("");
+				var val=$('input:radio[name="ipAddressType"]:checked').val();
+	            if(val==null || val=='undefined'){
+	                $("#publishTypeErr").html("请选择发布范围");
+	                return false;
+	            } */
 				$("#form").attr("action","${pageContext.request.contextPath }/templateDownload/publish.html");
 				$("#form").submit();
 			}
@@ -66,14 +72,14 @@
               </div>
             </li>
             
-            <li class="col-md-3 col-sm-6 col-xs-12 dnone">
+            <%-- <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>发布范围：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
                 <label class="fl margin-bottom-0"><input type="radio" name="ipAddressType" value="0" class="mt0" checked="checked">内网</label>
                 <label class="ml10 fl"><input type="radio" name="ipAddressType" value="1" class="mt0">内外网</label>
                 <div class="cue">${ERR_ipAddressType}</div>
               </div>
-            </li>
+            </li> --%>
             
             <li class="col-md-3 col-sm-6 col-xs-12 mt10 mb20">
               <span class="fl"><div class="star_red">*</div>附件上传：</span>
@@ -83,9 +89,16 @@
                 <div class="cue">${ERR_dataFile}</div>
               </div>
             </li>
-					</ul>
-									
-							
+            
+               <li class="col-md-3 col-sm-6 col-xs-12 mt10 mb20">
+	              <span class="fl"><div class="star_red">*</div>发布范围：</span>
+	              <div>
+		              <input type="radio" name="ipAddressType" id ="publishType" value="0" >内网
+			          <input type="radio" name="ipAddressType" id ="publishType" value="1">内外网
+	                  <div class="cue" id="publishTypeErr">${ ERR_IpAddressType }</div>
+	              </div>
+	            </li>	
+			</ul>
 				
 				<!-- 按钮 -->
 				<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">

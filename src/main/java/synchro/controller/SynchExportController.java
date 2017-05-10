@@ -1,6 +1,7 @@
 package synchro.controller;
 
 import iss.service.ps.DataDownloadService;
+import iss.service.ps.TemplateDownloadService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -98,6 +99,9 @@ public class SynchExportController {
     /**资料 管理**/
     @Autowired
     private DataDownloadService dataDownloadService;
+    /** 门户模板管理 **/
+    @Autowired
+    private TemplateDownloadService templateDownloadService;
     /**
      * 
      *〈简述〉初始化导出
@@ -153,6 +157,11 @@ public class SynchExportController {
                  iter.remove();
              	   continue;
                 }
+              if(dd.getCode().equals(Constant.SYNCH_TEMPLATE_DOWNLOAD)){
+            	  /**门户模板管理 数据导出  只能是内网导出外网**/
+            	  iter.remove();
+            	  continue;
+              }
           }
           //内网时
           if(ipAddressType.equals("0")){
@@ -297,6 +306,11 @@ public class SynchExportController {
         	//资料 管理 导出
         	dataDownloadService.exportData(startTime, endTime, date);
         }
+        if(synchType.contains(Constant.SYNCH_TEMPLATE_DOWNLOAD)){
+        	//门户模板管理 导出数据
+        	templateDownloadService.exportTemplateDownload(startTime, endTime, date);
+        }
+        
         bean.setSuccess(true);
         return bean;
     }
