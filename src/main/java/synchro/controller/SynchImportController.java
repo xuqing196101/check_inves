@@ -1,5 +1,8 @@
 package synchro.controller;
 
+import iss.service.ps.DataDownloadService;
+import iss.service.ps.TemplateDownloadService;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,6 +21,7 @@ import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SMSProductLibService;
+import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import synchro.inner.read.expert.InnerExpertService;
@@ -58,7 +62,9 @@ public class SynchImportController {
     /** 同步信息数据service **/
     @Autowired
     private OuterInfoImportService infoService;
-    
+    /**供应商 名录***/
+    @Autowired
+    private SupplierService supplierService;
     @Autowired
     /** 附件导入 **/
     private OuterAttachService attachService;
@@ -83,8 +89,14 @@ public class SynchImportController {
     /**产品目录参数**/
     @Autowired
     private CategoryParameterService categoryParameterService;
+    /**门户模板管理**/
+    @Autowired
+    private TemplateDownloadService templateDownloadService;
     @Autowired
     private InnerExpertService innerExpertService;
+    /**资料数据**/
+    @Autowired
+    private DataDownloadService dataDownloadService;
     /** 设置数据类型 **/
     private static final Integer DATA_TYPE_KIND = 29;
     
@@ -136,6 +148,16 @@ public class SynchImportController {
             }
             if(dd.getCode().equals(Constant.SYNCH_CATE_PARAMTER)){
             	/**产品目录参数管理 数据导出  只能是内网导出外网**/
+            	iter.remove();
+            	continue;
+            }
+            if(dd.getCode().equals(Constant.SYNCH_DATA)){
+            	/**资料管理 数据导出  只能是内网导出外网**/
+             iter.remove();
+         	   continue;
+            }
+            if(dd.getCode().equals(Constant.SYNCH_TEMPLATE_DOWNLOAD)){
+            	/**门户模板管理 数据导出  只能是内网导出外网**/
             	iter.remove();
             	continue;
             }
@@ -489,10 +511,6 @@ public class SynchImportController {
 										FileUtils.C_CATEGORY_FILENAME)) {
 									categoryService.importCategory(file2);
 								}
-								//判读是否 导出 更新数据名称
-								if(file2.getName().contains(FileUtils.U_CATEGORY_FILENAME)){
-									categoryService.importCategory(file2);
-								}
 								// 判断文件是否是 产品的 附件文件
 								if (file2.getName().contains(
 										FileUtils.C_FILE_CATEGORY_FILENAME)) {
@@ -500,7 +518,7 @@ public class SynchImportController {
 								}
 							}
 						}
-						if (f.getName().equals(Constant.PROJECT_FILE_EXPERT)) {
+						if (f.getName().equals(Constant.FILE_T_SES_BMS_CATEGORY_PATH)) {
 							for (File file2 : f.listFiles()) {
 								if (f.isDirectory()) {
 									OperAttachment
@@ -510,7 +528,6 @@ public class SynchImportController {
 															+ FileUtils.TENDER_ATTFILE_PATH);
 								}
 							}
-
 					}
 				}
 				
@@ -522,6 +539,58 @@ public class SynchImportController {
 							// 判断文件名是否是导出创建数据名称
 							if (file2.getName().contains(FileUtils.C_CATEGORY_PARAMTER_FILENAME)) {
 								categoryParameterService.importCategoryParmter(file2);
+							}
+						}
+					}
+				}         
+               
+				//资料 管理 导入
+				if(synchType.contains(Constant.SYNCH_DATA)){
+					//判断 是否有资料管理的数据 文档
+					if (f.getName().equals(Constant.ISS_PS_DATA_DOWNLOAD_PATH)) {
+						for (File file2 : f.listFiles()) {
+							//判断 是否有 资料管理 数据
+							if(file2.getName().contains(
+									FileUtils.C_DATA_DOWNLOAD_FILENAME)){
+								dataDownloadService.importDate(file2);
+							}
+							//判断 是否有 附件 数据
+							if(file2.getName().contains(
+									FileUtils.C_FILE_DATA_DOWNLOAD_FILENAME)){
+								OBProjectServer.importFile(file2,common.constant.Constant.TENDER_SYS_KEY);
+							}
+						}
+					}
+					if (f.getName().equals(Constant.FILE_ISS_PS_DATA_DOWNLOAD_PATH)) {
+						for (File file2 : f.listFiles()) {
+							if (file2.isDirectory()) {
+								OperAttachment.moveToPathFolder(file2,
+												FileUtils.BASE_ATTCH_PATH+ FileUtils.TENDER_ATTFILE_PATH);
+							}
+						}
+				  }
+				}
+				
+				if (synchType.contains(Constant.SYNCH_TEMPLATE_DOWNLOAD)) {
+					/** 门户模板管理  只能是内网导入外网 **/
+					if (f.getName().equals(Constant.T_ISS_PS_TEMPLATE_DOWNLOAD_PATH)) {
+						// 遍历文件夹中的所有文件
+						for (File file2 : f.listFiles()) {
+							// 判断文件名是否是导出创建数据名称
+							if (file2.getName().contains(FileUtils.C_TEMPLATE_DOWNLOAD_FILENAME)) {
+								templateDownloadService.importTemplateDownload(file2);
+							}
+							if(file2.getName().contains(FileUtils.C_FILE_TEMPLATE_DOWNLOAD_FILENAME)){
+								OBProjectServer.importFile(file2, common.constant.Constant.TENDER_SYS_KEY);
+							}
+						}
+					}
+					// 附件目录复制
+					if (f.getName().equals(Constant.T_ISS_PS_TEMPLATE_DOWNLOAD_ATTFILE_PATH)) {
+						for (File file2 : f.listFiles()) {
+							if (f.isDirectory()) {
+								OperAttachment.moveToPathFolder(file2,FileUtils.BASE_ATTCH_PATH
+														+ FileUtils.TENDER_ATTFILE_PATH);
 							}
 						}
 					}

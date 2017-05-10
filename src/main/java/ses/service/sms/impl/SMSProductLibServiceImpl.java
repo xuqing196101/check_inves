@@ -699,12 +699,10 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 				pStatus = SMSProductLibConstant.PRODUCT_LIB_ITEM_STATUS_NOT_THROUGH_CHECK;
 			}
 			// 切分数组
-			String[] pids = smsProductCheckRecord.getProductBasicIds().split(
-					",");
+			String[] pids = smsProductCheckRecord.getProductBasicIds().split(",");
 			for (String pid : pids) {
 				// 查询该商品是否存在
-				SMSProductBasic smsProductBasic = smsProductBasicMapper
-						.selectByPrimaryKey(pid);
+				SMSProductBasic smsProductBasic = smsProductBasicMapper.selectByPrimaryKey(pid);
 				if (smsProductBasic == null) {
 					return JdcgResult.build(500, "该商品已失效");
 				}
@@ -712,8 +710,7 @@ public class SMSProductLibServiceImpl implements SMSProductLibService {
 				smsProductCheckRecord.setProductBasicId(pid);
 				// 修改产品审核状态
 				smsProductBasic.setStatus(pStatus);
-				updateProductCheckStatus(user, smsProductCheckRecord,
-						smsProductBasic);
+				updateProductCheckStatus(user, smsProductCheckRecord,smsProductBasic);
 			}
 		}
 		// 成功信息返回

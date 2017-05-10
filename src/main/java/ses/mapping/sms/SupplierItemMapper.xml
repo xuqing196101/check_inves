@@ -324,5 +324,13 @@
 				where SUPPLIER_ID = #{supplierId} and SUPPLIER_TYPE_RELATE_ID=#{type}
 	</select> 
 	
-	
+	<!-- 品目id查询类型 -->
+ 	<select id="selectByCategoryId" parameterType="String" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			T_SES_SMS_SUPPLIER_ITEM
+		WHERE
+			CATEGORY_ID = #{categoryId}
+	</select>
 </mapper>

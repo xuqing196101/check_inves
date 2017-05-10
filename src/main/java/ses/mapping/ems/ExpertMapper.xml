@@ -270,7 +270,7 @@
         #{degree,jdbcType=VARCHAR},
         #{atDuty,jdbcType=VARCHAR},
         #{expertsTypeId,jdbcType=VARCHAR},
-        #{purchaseDepId,jdbcType=DECIMAL},
+        #{purchaseDepId,jdbcType=VARCHAR},
         #{status},
         #{isBlack,jdbcType=CHAR},
         #{honestyScore,jdbcType=DECIMAL},
@@ -586,7 +586,7 @@
                 #{expertsTypeId,jdbcType=VARCHAR},
             </if>
             <if test="purchaseDepId != null">
-                #{purchaseDepId,jdbcType=DECIMAL},
+                #{purchaseDepId,jdbcType=VARCHAR},
             </if>
             <if test="status != null">
                 #{status},
@@ -761,7 +761,7 @@
                 EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},
             </if>
             <if test="purchaseDepId != null">
-                PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=DECIMAL},
+                PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=VARCHAR},
             </if>
             <if test="status != null">
                 STATUS = #{status},
@@ -941,7 +941,7 @@
                 EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},
             </if>
             <if test="purchaseDepId != null and purchaseDepId != ''">
-                PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=DECIMAL},
+                PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=VARCHAR},
             </if>
             <if test="status != null and status != '0'">
                 STATUS = #{status},
@@ -1303,7 +1303,7 @@
         #{degree,jdbcType=VARCHAR},
         #{atDuty,jdbcType=VARCHAR},
         #{expertsTypeId,jdbcType=VARCHAR},
-        #{purchaseDepId,jdbcType=DECIMAL},
+        #{purchaseDepId,jdbcType=VARCHAR},
         #{relName,jdbcType=VARCHAR},
         #{isProvisional,jdbcType=DECIMAL},
         #{email,jdbcType=VARCHAR},
@@ -1706,7 +1706,7 @@
                 #{expertsTypeId,jdbcType=VARCHAR},
             </if>
             <if test="purchaseDepId != null">
-                #{purchaseDepId,jdbcType=DECIMAL},
+                #{purchaseDepId,jdbcType=VARCHAR},
             </if>
             <if test="status != null">
                 #{status},
@@ -1985,7 +1985,7 @@
         #{degree,jdbcType=VARCHAR},
         #{atDuty,jdbcType=VARCHAR},
         #{expertsTypeId,jdbcType=VARCHAR},
-        #{purchaseDepId,jdbcType=DECIMAL},
+        #{purchaseDepId,jdbcType=VARCHAR},
         #{relName,jdbcType=VARCHAR},
         #{isProvisional,jdbcType=DECIMAL},
         #{email,jdbcType=VARCHAR},

@@ -112,8 +112,8 @@
 		  TP.ORG_ID AS ORG_ID
 		  FROM T_SES_BMS_CATEGORY_PARAMETER TP
 		  WHERE
-		  TO_CHAR(TP.CREATED_AT, 'yyyy-MM-dd') &gt;= #{start,jdbcType=VARCHAR}
-		  AND TO_CHAR(TP.CREATED_AT, 'yyyy-MM-dd') &lt;= #{end,jdbcType=VARCHAR}
+		  TO_CHAR(TP.CREATED_AT, 'yyyy-MM-dd hh24:mi:ss') &gt;= #{start,jdbcType=VARCHAR}
+		  AND TO_CHAR(TP.CREATED_AT, 'yyyy-MM-dd hh24:mi:ss') &lt;= #{end,jdbcType=VARCHAR}
 	</select>
 	
 	<!-- 产品目录参数导入内网 -->

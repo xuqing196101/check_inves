@@ -88,6 +88,11 @@ public class TemplateDownloadController {
 		map.put("page", page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
+		String ipAddressType=config.getString("ipAddressType");
+		// 1外网 0内网
+		if("1".equals(ipAddressType)){
+			map.put("ipAddressType", ipAddressType);
+		}
 		List<TemplateDownload> list = TemplateDownloadService.findDataByCondition(map);
 		
 	    Integer num = 0;
@@ -186,6 +191,14 @@ public class TemplateDownloadController {
 		if(zlfj.size()<1){
 			flag = false;
 			model.addAttribute("ERR_dataFile", "请上传附件");
+		}
+		if(TemplateDownload.getIpAddressType()==null){
+			flag = false;
+			model.addAttribute("ERR_IpAddressType", "请选择发布范围");
+		}
+		if(TemplateDownload.getIpAddressType()!=null&&"".equals(TemplateDownload.getIpAddressType())){
+			flag = false;
+			model.addAttribute("ERR_IpAddressType", "请选择发布范围");
 		}
 		if(flag==false){
 			model.addAttribute("dataId", id);
@@ -404,6 +417,14 @@ public class TemplateDownloadController {
 		if(zlfj.size()<1){
 			flag = false;
 			model.addAttribute("ERR_dataFile", "请上传附件");
+		}
+		if(TemplateDownload.getIpAddressType()==null){
+			flag = false;
+			model.addAttribute("ERR_IpAddressType", "请选择发布范围");
+		}
+		if(TemplateDownload.getIpAddressType()!=null&&"".equals(TemplateDownload.getIpAddressType())){
+			flag = false;
+			model.addAttribute("ERR_IpAddressType", "请选择发布范围");
 		}
 		if(flag==false){
 			model.addAttribute("dataId", id);

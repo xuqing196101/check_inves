@@ -772,7 +772,7 @@ public class ExpertServiceImpl implements ExpertService {
 		//接受人id
 		todos.setOrgId(expert.getPurchaseDepId());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		todos.setPowerId(config.getString("zjdb"));
+		todos.setPowerId(config.getString("zjcs"));
 		//发送人id
 		todos.setSenderId(userId);
 		todos.setUndoType((short)2);
@@ -1035,7 +1035,7 @@ public class ExpertServiceImpl implements ExpertService {
     //接受人id
     todos.setOrgId(expert.getPurchaseDepId());
     PropertiesUtil config = new PropertiesUtil("config.properties");
-    todos.setPowerId(config.getString("zjdb"));
+    todos.setPowerId(config.getString("zjcs"));
     //发送人id
     todos.setSenderId(expert.getId());
     todos.setUndoType((short)2);

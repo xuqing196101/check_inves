@@ -97,12 +97,15 @@
 							dataType: "json",
 							type: "post",
 						},
-						check: {
+					 /* check: {
 							enable: true,
 							chkboxType: {
 								"Y": "s",
 								"N": "s"
 							}
+						}, */
+						callback: {
+							onClick: zTreeOnClick
 						},
 						data: {
 							simpleData: {
@@ -123,6 +126,17 @@
 						.bind("input", searchNode);
 				}
 			});
+
+
+			function zTreeOnClick(event, treeId, treeNode){
+				/* if(treeNode.level == 4){ */
+					var name = treeNode.name;
+					var categoryIds = treeNode.id;
+					var src = "${pageContext.request.contextPath}/supplierQuery/ajax_supplier.html?categoryIds=" + categoryIds ;
+					$("#open_main").attr("src",src);
+				/* } */
+			}
+
 
 			function focusKey(e) {
 				if(key.hasClass("empty")) {
@@ -202,7 +216,7 @@
 				});
 			});
 
-			function tijiao() {
+			/* function tijiao() {
 				var Obj = $.fn.zTree.getZTreeObj("treeDemo");
 				var nodes = Obj.getCheckedNodes(true);
 				var ids = new Array();
@@ -212,9 +226,9 @@
 						ids.push(nodes[i].id);
 					}
 				}
-				$("#categoryIds").val(ids);
+			  $("#categoryIds").val(ids);
 				$("#form1").submit();
-			}
+			} */
 
 			function resetQuery() {
 				var Obj = $.fn.zTree.getZTreeObj("treeDemo");
@@ -223,6 +237,15 @@
 				$("#contactName").val("");
 				$("#form1").submit();
 			}
+			
+			function iFrameHeight() {   
+	      var ifm= document.getElementById("open_main");   
+	      var subWeb = document.frames ? document.frames["open_main"].document : ifm.contentDocument;   
+	      if(ifm != null && subWeb != null) {
+	         ifm.height = subWeb.body.scrollHeight;
+	         /*ifm.width = subWeb.body.scrollWidth;*/
+	      	}   
+	      } 
 		</script>
 	</head>
 
@@ -258,8 +281,11 @@
 							<ul id="treeDemo" class="ztree s_ztree" />
 						</div>
 					</div>
+					<!-- 右侧内容开始-->
 					<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
-						<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/selectByCategory.html" method="post">
+ 
+            <iframe  frameborder="0" name="open_main" id="open_main" scrolling="auto" marginheight="0"  onLoad="iFrameHeight()" width="100%"  src=""></iframe>
+						<%-- <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/selectByCategory.html" method="post">
 							<input type="hidden" name="page" id="page">
 							<input type="hidden" id="categoryIds" name="categoryIds" />
 							<ul class="demand_list">
@@ -280,12 +306,12 @@
 									<tr>
 										<th class="info w50">序号</th>
 										<th class="info">供应商名称</th>
-										<th class="info">用户名</th>
+										<!-- <th class="info">用户名</th> -->
 										<th class="info">联系人</th>
 										<th class="info">供应商类别</th>
 										<th class="info">供应商状态</th>
 										<th class="info">手机</th>
-										<!-- <th class="info">级别</th> -->
+										<th class="info">级别</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -313,19 +339,14 @@
 												<c:if test="${list.status==9 }">考察不合格</c:if>
 											</td>
 											<td class="tc">${list.mobile}</td>
-											<%-- <td class="tc">${list.level}</td> --%>
+											<td class="tc">${list.score1}</td>
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
 						</div>
-						<div id="pagediv" align="right"></div>
+						<div id="pagediv" align="right"></div> --%>
 					</div>
-					<!--  <form  id="form" action="" name="fm" method="post"  enctype="multipart/form-data">
-	    <input type="hidden"  onclick="check()" value="submit"/>
-	    <input type="hidden"  onclick="mysubmit()" value="submit"/>
-    <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
-    </form> -->
 				</div>
 			</div>
 		</div>

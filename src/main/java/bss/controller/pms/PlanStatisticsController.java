@@ -25,7 +25,9 @@ import bss.formbean.Maps;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
+import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
+import bss.service.pms.impl.PurchaseDetailServiceImpl;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -53,6 +55,9 @@ public class PlanStatisticsController extends BaseController {
 	
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
+	@Autowired
+	private PurchaseDetailService purchaseDetailService;
+	
 	/**
 	 * 
 	* @Title: queryPlan
@@ -116,7 +121,7 @@ public class PlanStatisticsController extends BaseController {
 	@RequestMapping(value="/bar",produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String bar(PurchaseRequired purchaseRequired,String year) throws UnsupportedEncodingException{
-		Map<String,Object> dataMap=new HashMap<String,Object>();
+		/*Map<String,Object> dataMap=new HashMap<String,Object>();
 		
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("year",year);
@@ -142,7 +147,11 @@ public class PlanStatisticsController extends BaseController {
 		dataMap.put("name", listData);
 		dataMap.put("data", data);
 		dataMap.put("max", max);
-		String json = JSON.toJSONString(dataMap);
+		String json = JSON.toJSONString(dataMap);*/
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		map.put("year",year);
+		Map<String, Object> getbar = purchaseDetailService.getbar(map);
+		String json = JSON.toJSONString(getbar);
 		return json;
 	}
 	
@@ -161,7 +170,7 @@ public class PlanStatisticsController extends BaseController {
 	@ResponseBody
 	public String pipe(PurchaseRequired purchaseRequired,String year){
 	
-		Map<String,Object> map=new HashMap<String,Object>();
+		/*Map<String,Object> map=new HashMap<String,Object>();
 		map.put("year",year);
 		List<Map<String,Object>> list = purchaseRequiredService.statisticPurchaseMethod(map);
 		Map<String,Object> data=new HashMap<String,Object>();
@@ -190,7 +199,10 @@ public class PlanStatisticsController extends BaseController {
 			}
 		}
 		data.put("maps", maps);
-		data.put("type", type);
+		data.put("type", type);*/
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		map.put("year",year);
+		Map<String, Object> data = purchaseDetailService.getpipe(map);
 		String json = JSON.toJSONString(data);
 		return json;
 	}

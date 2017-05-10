@@ -924,7 +924,7 @@ public class CategoryServiceImpl implements CategoryService {
 		//根据时间获取创建 数据范围
 	  List<Category> createList=categoryMapper.selectByCreatedAt(start, end);
 	  List<Category> updateList=categoryMapper.selectByUpdatedAt(start, end);
-	  int sizeAll=0;
+	  List<Category> list=new ArrayList<>();
 	  //上传文件 集合
 	  List<UploadFile> uploadList=new ArrayList<>();
 	  if(createList!=null  && createList.size()>0){
@@ -933,8 +933,7 @@ public class CategoryServiceImpl implements CategoryService {
 			List<UploadFile> fileList = uploadService.findBybusinessId(create.getId(),Constant.TENDER_SYS_KEY);
 			uploadList.addAll(fileList);
 		 }
-	   FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_CATEGORY_FILENAME,14 ),JSON.toJSONString(createList));
-	   sizeAll=createList.size();
+		  list.addAll(createList);
 	  }
 	  if(updateList!=null  && updateList.size()>0){
 		  for (Category upload : updateList) {
@@ -942,20 +941,22 @@ public class CategoryServiceImpl implements CategoryService {
 				List<UploadFile> fileList = uploadService.findBybusinessId(upload.getId(),Constant.TENDER_SYS_KEY);
 				uploadList.addAll(fileList);
 			}
-		  FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.U_CATEGORY_FILENAME, 14),JSON.toJSONString(updateList));
-		  sizeAll=sizeAll+updateList.size();
+		  list.addAll(updateList);
+	  }
+	  if(list!=null  && list.size()>0){
+		  FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_CATEGORY_FILENAME, 14),JSON.toJSONString(list));
 	  }
 	  //同步附件
       if (uploadList != null && uploadList.size() > 0){
-          FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_FILE_CATEGORY_FILENAME, 15),JSON.toJSONString(uploadList));
+          FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_FILE_CATEGORY_FILENAME, 14),JSON.toJSONString(uploadList));
           String basePath = FileUtils.attachExportPath(15);
           if (StringUtils.isNotBlank(basePath)){
               OperAttachment.writeFile(basePath, uploadList);
               recordService.synchBidding(synchDate, new Integer(uploadList.size()).toString(), synchro.util.Constant.DATA_TYPE_ATTACH_CODE, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_FILE_NUMBER_SYNCH_CATEGORY);
           }
       }
-      if(sizeAll>0){
-      recordService.synchBidding(synchDate, String.valueOf(sizeAll), synchro.util.Constant.SYNCH_CATEGORY, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_CATEGORY);
+      if(list!=null){
+      recordService.synchBidding(synchDate, String.valueOf(list), synchro.util.Constant.SYNCH_CATEGORY, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_CATEGORY);
       }
 		return false;
 	}
@@ -969,7 +970,7 @@ public class CategoryServiceImpl implements CategoryService {
 		 if(list!=null  && list.size()>0){
 			 for(Category category:list){
 			 Integer isExist=categoryMapper.countByPrimaryKey(category.getId());
-			  if(isExist >0){
+			  if(isExist!=null &&isExist >0){
 				  categoryMapper.updateByPrimaryKeySelective(category);
 			  }else{
 				  categoryMapper.insertSelective(category);
