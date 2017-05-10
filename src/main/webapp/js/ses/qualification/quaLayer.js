@@ -77,19 +77,48 @@ function loadList(data,pageNum,pageSize){
 
 /** 全选全不选 */
 function selectAll(){
+	var choseedIds =""
+	var choseedNames ="";
+	var ids = [], names = [];
    var checklist = document.getElementsByName ("chkItem");
    var checkAll = document.getElementById("checkAll");
    if(checkAll.checked){
 	   for(var i=0;i<checklist.length;i++)
 	   {
 	      checklist[i].checked = true;
+	      ids.push($(checklist[i]).val());
+		  names.push($(checklist[i]).parents('tr').find('td').eq(2).text()+ " ");
 	   } 
 	 }else{
 	  for(var j=0;j<checklist.length;j++)
 	  {
 	     checklist[j].checked = false;
 	  }
+	  ids=[];
+	  names=[];
+	  choseedIds='';
+	  choseedNames='';
  	}
+   if (choseedIds == '' || choseedIds == null) {
+		choseedIds += ids.toString();
+	} else {
+		for ( var i = 0; i < ids.length; i++) {
+			if(choseedIds.indexOf(ids[i]) == -1 ){
+				choseedIds += ","+ids[i];
+			} 
+		}
+	}
+	if (choseedNames == '' || choseedNames == null) {
+		choseedNames += names.toString();
+	} else {
+		for ( var i = 0; i < names.length; i++) {
+			if(choseedNames.indexOf(names[i]) == -1 ){
+				choseedNames += ","+names[i];
+			} 
+		}
+	}
+	$("#choseIds").val(choseedIds);
+	$("#choseNames").val(choseedNames);
 }
 
 /**
@@ -109,8 +138,8 @@ function loadData(data,index,pageNum,pageSize){
 }
 
 function choseedValue(){
-	var choseedIds = $("#choseIds").val();
-	var choseedNames = $("#choseNames").val();
+	var choseedIds = "";
+	var choseedNames = "";
 	var ids = [], names = [];
 	$("input[name='chkItem']:checked").each(function(){
 		ids.push($(this).val());

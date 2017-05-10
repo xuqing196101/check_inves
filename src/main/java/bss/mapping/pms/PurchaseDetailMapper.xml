@@ -989,7 +989,46 @@
 	 group by DEPARTMENT
  
     </select>
-    
-    
+    <select id="getbar" parameterType="Map" resultType="Map" >
+		select
+		 sum(BUDGET) as amount,DEPARTMENT as department
+		 from T_BSS_PMS_PURCHASE_DETAIL
+	 	<include refid="parambar"/>
+		 group by DEPARTMENT
+	 
+	</select>
+	<select id="getpipe" parameterType="Map" resultType="Map" >
+		select
+		 sum(BUDGET) as amount,PURCHASE_TYPE as purchaseType
+		 from T_BSS_PMS_PURCHASE_DETAIL
+	 	<include refid="parambar"/>
+		 group by PURCHASE_TYPE
+	</select>
+    <sql id="parambar">
+	 <where>
+	 IS_DELETE!='1' and PURCHASE_COUNT is not null
+	 and IS_MASTER!='1' and HISTORY_STATUS='0'
+	 	<if test="planType != null">
+				and PLAN_TYPE = #{planType}
+		</if>
+	 	<if test="year!=null">
+	 	and to_char(CREATED_AT,'yyyy')=#{year}
+	 	</if>
+	 	<if test="organization !=null">
+	 	and ORGANIZATION_ID=#{organization}
+	 	</if>
+	 	<if test="budget != null">
+			and BUDGET = #{budget}
+		</if>
+		<if test="purchaseType != null">
+			and PURCHASE_TYPE = #{purchaseType}
+		</if>	
+		<if test="department != null">
+			   and DEPARTMENT = #{department}
+		</if>
+			
+	 </where>	
+	
+	</sql>
     
 </mapper>

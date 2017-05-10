@@ -1,9 +1,11 @@
 package bss.service.pms.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,10 +19,13 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 
 import ses.dao.oms.OrgnizationMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import bss.dao.pms.CollectPurchaseMapper;
 import bss.dao.pms.PurchaseDetailMapper;
+import bss.formbean.Maps;
 import bss.model.pms.PurchaseDetail;
 import bss.service.pms.PurchaseDetailService;
 
@@ -263,6 +268,60 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 		 PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
 		List<String> departMents = purchaseDetailMapper.getDep(uniqueId);
 		return departMents;
+	}
+
+	@Override
+	public Map<String, Object> getbar(HashMap<String, Object> hashMap) {
+		Map<String,Object> dataMap=new HashMap<String,Object>();
+		List<Map<String, Object>> list = purchaseDetailMapper.getbar(hashMap);
+		List<String> listData = new LinkedList<String>();
+		List<String>  data=new LinkedList<String>();
+		BigDecimal max=BigDecimal.ZERO;
+		if(list!=null && list.size() >0){
+			for (Map<String,Object> m : list) {
+				listData.add(String.valueOf(m.get("DEPARTMENT")==null?"":m.get("DEPARTMENT"))) ;
+				String str=String.valueOf(m.get("AMOUNT"));
+				data.add(str);
+				BigDecimal min = new BigDecimal(str);
+				int n = max.compareTo(min);
+				if(n<0){
+					max=min;
+				}
+			}
+		}
+		dataMap.put("name", listData);
+		dataMap.put("data", data);
+		dataMap.put("max", max);
+		return dataMap;
+	}
+
+	@Override
+	public Map<String, Object> getpipe(HashMap<String, Object> hashMap) {
+        Map<String,Object> data=new HashMap<String,Object>();
+		List<Maps> maps=new LinkedList<Maps>();
+		List<String> type=new LinkedList<String>();
+		List<Map<String, Object>> list = purchaseDetailMapper.getpipe(hashMap);
+		if(list!=null && list.size() >0){
+			for (Map<String,Object> m : list) {
+				DictionaryData dic = DictionaryDataUtil.findById(String.valueOf(m.get("PURCHASETYPE")));
+				
+				if(dic!=null){
+					type.add(dic.getName());
+					
+				}
+				 Maps mp=new Maps();
+ 				 String string = String.valueOf(m.get("AMOUNT"));
+ 				BigDecimal decimal = new BigDecimal(string);
+				 mp.setValue(decimal);
+				if(dic!=null){
+					 mp.setName(dic.getName());
+				}
+				 maps.add(mp);
+			}
+		}
+		data.put("maps", maps);
+		data.put("type", type);
+		return data;
 	}
 
 }

@@ -1,6 +1,7 @@
 package bss.service.pms;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -292,6 +293,17 @@ public interface PurchaseDetailService {
     * @throws
      */
     List<String> queryDepartment(String uniqueId,Integer page);
+    /**
+     * 计划汇总统计，按照部门统计
+     * @param hashMap
+     * @return
+     */
+    Map<String, Object> getbar(HashMap<String, Object> hashMap);
     
-    
+    /**
+     * 计划汇总统计，按照采购方式统计
+     * @param hashMap
+     * @return
+     */
+    Map<String, Object> getpipe(HashMap<String, Object> hashMap);
 }

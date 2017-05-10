@@ -69,103 +69,57 @@
 							dataShadow.push(yMax);
 						}
 						option = {
-							title: {
-								text: '需求部门统计',
-								subtext: '',
-								left: '200px',
-							},
-							tooltip: {
-								trigger: 'item',
-							},
-							xAxis: {
-								data: dataAxis,
-								
-								axisTick: {
-									show: false,
-								},
-								axisLine: {
-									show: false
-								},
-								z: 10
-							},
-							yAxis: {
-								axisLine: {
-									show: false
-								},
-								axisTick: {
-									show: false
-								},
-								axisLabel: {
-									textStyle: {
-										color: '#999'
-									}
-								}
-							},
-							yAxis: [
-						            {
-						                type: 'value',
-						                name: '（万元）'
-						            }
-						        ],
-							series: [{ // For shadow
-								type: 'bar',
-								itemStyle: {
-									normal: {
-										color: 'rgba(0,0,0,0.05)'
-									}
-								},
-								barGap: '-100%',
-								barCategoryGap: '40%',
-								data: dataShadow
-							}, {
-								type: 'bar',
-								itemStyle: {
-									/**  注释的是柱状图显示渐变颜色的方式，但是在IE8下面不支持(显示)这样获取的颜色
-					                 normal: {
-					                     color: new echarts.graphic.LinearGradient(
-					                         0, 0, 0, 1,
-					                         [
-					                             {offset: 0, color: '#83bff6'},
-					                             {offset: 0.5, color: '#188df0'},
-					                             {offset: 1, color: '#188df0'}
-					                         ]
-					                     )
-					                 },
-					                 emphasis: {
-					                     color: new echarts.graphic.LinearGradient(
-					                         0, 0, 0, 1,
-					                         [
-					                             {offset: 0, color: '#2378f7'},
-					                             {offset: 0.7, color: '#2378f7'},
-					                             {offset: 1, color: '#83bff6'}
-					                         ]
-					                     )
-					                 }
-					                 **/
-									normal: {
-										color: function(params) {
-											// build a color map as your need.
-											var colorList = [ //写这么多颜色是为了各个柱子
-												'#83bff6', '#83bff6', '#83bff6', '#83bff6', '#83bff6', '#83bff6', '#83bff6',
-												'#83bff6', '#83bff6', '#83bff6', '#83bff6'
-											];
-											return colorList[params.dataIndex]
-										}
-									} //,
-									/** 
-					                 emphasis: {//这个先去掉
-					                     color: function(params) {
-					                            // build a color map as your need.
-					                            var colorList = [
-													'red'
-					                            ];
-					                            return colorList[params.dataIndex]
-					                        }
-					                 }**/
-								},
-								data: data
-							}]
-						};
+							    color: ['#3398DB'],
+							    tooltip : {
+							        trigger: 'axis',
+							        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+							            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+							        }
+							    },
+							    grid: {
+							        left: '3%',
+							        right: '4%',
+							        bottom: '10%',
+							        containLabel: true
+							    },
+							    yAxis: [
+							            {
+							                type: 'value',
+							                name: '（万元）'
+							            }
+							        ],
+							    xAxis : [
+							        {
+							            type : 'category',
+							            axisLabel:{
+					                         interval:0,
+					                         rotate:45,
+					                         margin:2,
+					                         textStyle:{
+					                             color:"#222"
+					                         },
+							            },
+							            data : dataAxis,
+							            axisTick: {
+							                alignWithLabel: true
+							            }
+							        }
+							    ],
+							    yAxis : [
+							        {
+							            type : 'value',
+							            name: '（万元）'
+							        }
+							    ],
+							    series : [
+							        {
+							            type:'bar',
+							            barWidth: '35',
+							            data:data,
+							            name:'金额',
+							        }
+							    ]
+							};
 						$("#funsionCharts_div_id").html("");
 						var myChart = echarts.init(document.getElementById("funsionCharts_div_id"));
 						myChart.setOption(option);
@@ -596,7 +550,7 @@
 			</div>
 		</div>
 
-		<div id="funsionCharts_div_id" style="width:800px;height:400px;display: none;margin: 0 auto;"></div>
+		<div id="funsionCharts_div_id" style="width:800px;height:450px;display: none;margin: 0 auto;overflow: auto;"></div>
 
 		<div id="container" style="display: none;height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
 
