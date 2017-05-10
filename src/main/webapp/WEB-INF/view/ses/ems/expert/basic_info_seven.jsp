@@ -784,7 +784,7 @@
                     <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                exts="${properties['file.picture.type']}" id="pro_${vs.index}" maxcount="1"
+                                exts="${properties['file.picture.type']}" id="pro_${vs.index}"
                                 groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
                                 multiple="true" businessId="${t.id}" sysKey="${expertKey}"
                                 typeId="9" auto="true"/>
@@ -837,7 +837,7 @@
                     <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                exts="${properties['file.picture.type']}" id="eco_${vs.index}" maxcount="1"
+                                exts="${properties['file.picture.type']}" id="eco_${vs.index}"
                                 groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
                                 multiple="true" businessId="${t.id}" sysKey="${expertKey}"
                                 typeId="9" auto="true"/>
