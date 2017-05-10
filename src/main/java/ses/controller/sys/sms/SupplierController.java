@@ -27,6 +27,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.maven.model.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -43,6 +44,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import ses.controller.sys.bms.LoginController;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
@@ -192,6 +194,8 @@ public class SupplierController extends BaseSupplierController {
     private DeleteLogService deleteLogService;
 	@Autowired
     private SupplierAuditNotService supplierAuditNotService;
+	
+	private static Logger logger = Logger.getLogger(SupplierController.class); 
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -2727,8 +2731,16 @@ public class SupplierController extends BaseSupplierController {
 		} else {
 			isok = "1";
 		}
+		
+		PurchaseDep dep =null;
+		if("".equals(supplier.getProcurementDepId())||supplier.getProcurementDepId()==null){
+			logger.error("验证失败");
+			isok="3";
+		}else{
+			dep =purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId());
+		}
 		allInfo.put("isok", isok);
-		 PurchaseDep dep = purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId());
+		 
 		 if(dep!=null){
 			 allInfo.put("name", dep.getShortName());
 			 allInfo.put("concat", dep.getSupplierContact());
