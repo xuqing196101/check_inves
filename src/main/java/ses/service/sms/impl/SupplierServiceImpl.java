@@ -70,6 +70,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
@@ -93,6 +94,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
+import ses.util.SupplierLevelUtil;
 import ses.util.WfUtil;
 import common.constant.StaticVariables;
 import common.dao.FileUploadMapper;
@@ -1115,6 +1117,138 @@ public class SupplierServiceImpl implements SupplierService {
 	public void updateById(String id) {
 		supplierMapper.updateById(id);
 		
+	}
+	
+	/**
+	 * 根据品目查询供应商并计算等级
+	 */
+	@Override
+	public List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier, String categoryIds, Integer page) {
+		 if(page!=null){
+	            PropertiesUtil config = new PropertiesUtil("config.properties");
+	            PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+	        }
+		 
+		 	//查询供应商
+			List<Supplier> listSupplier=supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+			
+			//查询品目
+	        List<SupplierItem> selectByCategoryId = supplierItemMapper.selectByCategoryId(categoryIds);
+	        
+	        /**
+	         * 查询供应商类型code
+	         */
+	        String typeCode = "";
+	        if(!selectByCategoryId.isEmpty() && selectByCategoryId.size() > 0){
+	        	typeCode = selectByCategoryId.get(0).getSupplierTypeRelateId();
+	        }
+	    	BigDecimal score = null;
+	    	
+	    	/**
+	    	 * 遍历计算等级
+	    	 */
+	    	for(Supplier s : listSupplier){
+	    		try {
+	    			//获取分数
+					score = SupplierLevelUtil.getScore(s.getId(), typeCode);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	    		
+	    		/**
+	    		 * 生产等级
+	    		 */
+	    		if(typeCode.equals("PRODUCT")){
+	    			BigDecimal ten = new BigDecimal(10);
+	    			BigDecimal twenty = new BigDecimal(20);
+	    			BigDecimal thirty = new BigDecimal(30);
+	    			BigDecimal forty = new BigDecimal(40);
+	    			BigDecimal fiftyFive = new BigDecimal(55);
+	    			BigDecimal seventy = new BigDecimal(70);
+	    			BigDecimal eightyFive = new BigDecimal(85);
+	    			BigDecimal oneHundred = new BigDecimal(100);
+	    			
+	    			//score <= 10
+	    			if(score.compareTo(ten) == -1 || score.compareTo(ten) == 0){
+	    				s.setGrade("一级");
+	    			}
+	    			//10 < score <= 20
+	    			if((score.compareTo(ten) == 1 && score.compareTo(twenty) == -1) || score.compareTo(twenty) == 0){
+	    				s.setGrade("二级");
+	    			}
+	    			//20 < score <= 30
+	    			if((score.compareTo(twenty) == 1 && score.compareTo(thirty) == -1) || score.compareTo(thirty) == 0){
+	    				s.setGrade("三级");
+	    			}
+	    			//30 < score <= 40
+	    			if((score.compareTo(thirty) == 1 && score.compareTo(forty) == -1) || score.compareTo(forty) == 0){
+	    				s.setGrade("四级");
+	    			}
+	    			//40 < score <= 55
+	    			if((score.compareTo(forty) == 1 && score.compareTo(fiftyFive) == -1) || score.compareTo(fiftyFive) == 0){
+	    				s.setGrade("五级");
+	    			}
+	    			//55 < score <= 70
+	    			if((score.compareTo(fiftyFive) == 1 && score.compareTo(seventy) == -1) || score.compareTo(seventy) == 0){
+	    				s.setGrade("六级");
+	    			}
+	    			//70 < score <= 85
+	    			if((score.compareTo(seventy) == 1 && score.compareTo(eightyFive) == -1) || score.compareTo(eightyFive) == 0){
+	    				s.setGrade("七级");
+	    			}
+	    			//85 < score <= 100
+	    			if((score.compareTo(eightyFive) == 1 && score.compareTo(oneHundred) == -1) || score.compareTo(oneHundred) == 0){
+	    				s.setGrade("八级");
+	    			}
+	    		}
+	    		/**
+	    		 * 销售和服务
+	    		 */
+	    		if(typeCode.equals("SALES") || typeCode.equals("SERVICE")){
+	    			BigDecimal twenty = new BigDecimal(20);
+	    			BigDecimal forty = new BigDecimal(40);
+	    			BigDecimal sixty = new BigDecimal(60);
+	    			BigDecimal eighty = new BigDecimal(80);
+	    			BigDecimal oneHundred = new BigDecimal(100);
+	    			//score <= 20
+	    			if(score.compareTo(twenty) == -1 || score.compareTo(twenty) == 0){
+	    				s.setGrade("一级");
+	    			}
+	    			//20 < score <= 40
+	    			if((score.compareTo(twenty) == 1 && score.compareTo(forty) == -1) || score.compareTo(forty) == 0){
+	    				s.setGrade("二级");
+	    			}
+	    			//40 < score <= 60
+	    			if((score.compareTo(forty) == 1 && score.compareTo(sixty) == -1) || score.compareTo(sixty) == 0){
+	    				s.setGrade("三级");
+	    			}
+	    			//60 < score <= 80
+	    			if((score.compareTo(sixty) == 1 && score.compareTo(eighty) == -1) || score.compareTo(eighty) == 0){
+	    				s.setGrade("四级");
+	    			}
+	    			//80 < score <= 100
+	    			if((score.compareTo(eighty) == 1 && score.compareTo(oneHundred) == -1) || score.compareTo(oneHundred) == 0){
+	    				s.setGrade("五级");
+	    			}
+	    		}
+	    		
+	    		//工程等级
+	        	if(typeCode.equals("PROJECT")){
+	        		List < SupplierCertEng > supplierCertEng = supplierCertEngMapper.findCertEngBySupplierId(s.getId());
+	    			for(int i = 0; i < supplierCertEng.size() - 1; i++) {
+	    				for(int j = supplierCertEng.size() - 1; j > i; j--) {
+	    					if(supplierCertEng.get(j).getId().equals(supplierCertEng.get(i).getId())) {
+	    						supplierCertEng.remove(j);
+	    					}
+	    				}
+	    			}
+					for(SupplierCertEng eng : supplierCertEng){
+						s.setGrade(eng.getCertMaxLevel());
+	    			
+	        		}
+	        	}
+	    	}
+		return listSupplier;
 	}
 
 }

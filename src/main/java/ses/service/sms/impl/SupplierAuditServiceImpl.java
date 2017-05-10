@@ -211,7 +211,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	
 	@Override
 	public List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier,Integer page) {
-		SupplierStars sstart = new SupplierStars();
+		/*SupplierStars sstart = new SupplierStars();
 		sstart.setStatus(1);
         List<SupplierStars> listSs = supplierStarsMapper.findSupplierStars(sstart);
         
@@ -235,13 +235,13 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
             if (supplier.getScore() == 5) {
                 supplier.setScoreEnd(listSs.get(0).getFiveStars() + "");
             }
-        }
+        }*/
         if(page!=null){
             PropertiesUtil config = new PropertiesUtil("config.properties");
             PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
         }
 		List<Supplier> listSupplier=supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
-		SupplierStars supplierStars = new SupplierStars();
+		/*SupplierStars supplierStars = new SupplierStars();
 		supplierStars.setStatus(1);
 		List<SupplierStars> listSupplierStars = supplierStarsMapper.findSupplierStars(supplierStars);
 		for (SupplierStars ss : listSupplierStars) {
@@ -269,7 +269,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 					s.setLevel("五级");
 				}
 			}
-		}
+		}*/
 		return listSupplier;
 	}
 	

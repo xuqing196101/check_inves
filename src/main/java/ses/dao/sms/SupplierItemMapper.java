@@ -99,5 +99,14 @@ public interface SupplierItemMapper {
      */
     List<SupplierItem> queryBySupplierIdAndType(@Param("supplierId")String supplierId,@Param("type")String type);
     
+    /**
+	 * @Title: selectByCategoryId
+	 * @date 2017-5-9 下午6:44:06  
+	 * @Description:查询类型
+	 * @param @param categoryId      
+	 * @return void
+	 */
+	List<SupplierItem> selectByCategoryId (String categoryId);
+    
     
 }
