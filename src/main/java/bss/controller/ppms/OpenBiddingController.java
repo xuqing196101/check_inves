@@ -1769,31 +1769,31 @@ public class OpenBiddingController {
           }
       }
     }
-   labe : for (int i = 0; i < json.size(); i++) {
+    for (int i = 0; i < json.size(); i++) {
         jsonQuote = json.getJSONObject(i); 
         for (SaleTender st : stList) {
             if (st.getSuppliers().getId().equals(jsonQuote.getString("supplierId"))) {
                 if (list != null && list.size() > 0) {
-                    List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
+                   /* List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
                     if (blist1 != null && blist1.size() == 0) {
                         if (!strList.contains(st.getSuppliers().getId()) && Integer.parseInt(jsonQuote.getString("isTurnUp")) == 0) {
                           count ++ ;
                           break labe;
                         }
-                    }
+                    }*/
                 }
                 st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
             }
         }
       }
     
-    if (count > 0) {
+    /*if (count > 0) {
       return "false";
-    } else {
+    } else {*/
       //批量更新、项目所有的包
       saleTenderService.batchUpdate(stList);
       return "true";
-    }
+    //}
   }
 
   @ResponseBody
