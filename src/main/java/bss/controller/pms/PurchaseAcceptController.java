@@ -186,7 +186,7 @@ public class PurchaseAcceptController extends BaseController{
 		
 		List<PurchaseRequired> list = purchaseRequiredService.queryListUniqueId(map);
 		for (PurchaseRequired pur : list) {
-//		    pur.setUserId(userServiceI.getUserById(pur.getUserId()).getRelName());
+		    pur.setUserId(userServiceI.getUserById(pur.getUserId()).getRelName());
 		}
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		info.setStartRow(pm.getStartRow());
