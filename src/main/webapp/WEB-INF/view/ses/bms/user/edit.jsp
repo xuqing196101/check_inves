@@ -310,7 +310,7 @@
 			  var msg=validateIdCard(idNumber);
 			 if(msg!='success'){
 			 $("#ajax_idNumber").html(msg);
-			 return;
+			    return;
 			 }else{
 			 $("#ajax_idNumber").html("");
 			 }

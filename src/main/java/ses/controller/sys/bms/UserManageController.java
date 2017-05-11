@@ -44,6 +44,7 @@ import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
+import bss.util.CheckUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -265,6 +266,28 @@ public class UserManageController extends BaseController{
 			
 			return "ses/bms/user/add";
 		}
+		
+		
+		//校验 身份证
+		if (StringUtils.isNotBlank(user.getIdNumber())){
+			
+			model.addAttribute("user", user);
+			
+			List<DictionaryData> genders = DictionaryDataUtil.find(13);
+			model.addAttribute("genders", genders);
+			model.addAttribute("roleName", roleName);
+			model.addAttribute("orgName", orgName);
+			
+			if (StringUtils.isNotBlank(origin)){
+			  addAtt(request, model);
+      
+			}
+			String item=CheckUtil.validateIdCard(user.getIdNumber());
+			if(!item.equals("success")){
+				model.addAttribute("ajax_idNumber", item);
+				return "ses/bms/user/add";
+			}
+		}
 		User currUser = (User) request.getSession().getAttribute("loginUser");
 		//机构
 		if(user.getOrgId() != null && !"".equals(user.getOrgId())){
@@ -479,6 +502,7 @@ public class UserManageController extends BaseController{
   			model.addAttribute("roleName", request.getParameter("roleName"));
   			model.addAttribute("currPage",request.getParameter("currpage"));
   			model.addAttribute("typeName", deptTypeName);
+  			
   			/*if (StringUtils.isNotBlank(origin)){
 			      DictionaryData dd =  DictionaryDataUtil.findById(u.getTypeName());
                 if (dd != null){

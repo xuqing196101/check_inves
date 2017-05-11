@@ -48,6 +48,9 @@ function validateIdCard(idCard){
      return "身份证号码错误！";
     }
    }
+  }else{
+	  //15
+	  return "success";
   }
   }else{
    return "身份证格式不正确!";
