@@ -67,9 +67,19 @@
 		   }
 	}
   	function view(id){
+  	   var orgTyp = "${authType}";
+		if(orgTyp != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		}
   		window.location.href="${ pageContext.request.contextPath }/noticeDocument/view.do?id="+id;
   	}
     function edit(){
+    var orgTyp = "${authType}";
+		if(orgTyp != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		}
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
@@ -84,6 +94,11 @@
 		}
     }
     function del(){
+    var orgTyp = "${authType}";
+		if(orgTyp != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		}
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
@@ -98,10 +113,20 @@
 		}
     }
     function add(){
+    var orgTyp = "${authType}";
+		if(orgTyp != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		}
     	window.location.href="${ pageContext.request.contextPath }/noticeDocument/add.do";
     }
     
     function search(){
+    var orgTyp = "${authType}";
+		if(orgTyp != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		}
 	    var tname = $("#tname").val();
 	    var docType = $("#searchType  option:selected").val();
 	    location.href = "${ pageContext.request.contextPath }/noticeDocument/search.html?name="+tname+"&docType="+docType;
@@ -109,6 +134,11 @@
 	 }
 
 	 function resets(){
+	 var orgTyp = "${authType}";
+		if(orgTyp != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		}
 		 window.location.href = "${ pageContext.request.contextPath }/noticeDocument/getAll.do";
 	 }
 	 

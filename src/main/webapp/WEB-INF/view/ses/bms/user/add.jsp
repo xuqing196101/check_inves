@@ -25,7 +25,7 @@
 			var cityObj = $("#orgSel");
 			cityObj.attr("value", v);
 			$("#oId").val(ids);
-			hideOrg();
+				hideOrg();
 		}
 		function onCheckOrg(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeOrg");
@@ -47,27 +47,31 @@
 			cityObj.attr("value", v);
 			$("#oId").val(ids);
 			$("#orgParent").val(pid);
-			hideOrg();
+		
 		}
 		
 		function showOrg() {
 			//获取机构类型
 			var orgType = $("#org_type").val();
 			var setting;
-			if (orgType == '3' || orgType =='4') {
+			if (orgType == '3' ) {
 				return;
 			}
 			var index = layer.load(0, {
 				shade : [ 0.1, '#fff' ],
 				offset : [ '45%', '53%' ]
 			});
-			 if(orgType=='5'){
+			 if(orgType=='5' || orgType =='4'){
+			 
 			  setting = {
 			data: {
 				simpleData: {
 					enable: true
 				}
 			   },
+			   view: {
+					dblClickExpand: false
+				},
 			  check: {
 				chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
         		chkStyle:"checkbox",  
@@ -250,11 +254,11 @@
 			$("#orgSel").attr("value", "");
 			$("#orgParent").val("");
 			$("#oId").val("");
-			if (orgType == '3' ||orgType == '4') {
+			if (orgType == '3' ) {
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
 				$("#oId").attr("type","text");
-			} else if (  orgType == '5') {
+			} else if (  orgType == '5'||orgType == '4') {
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
 			   $("#oId").attr("type","hidden");

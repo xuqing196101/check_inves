@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.Role;
 import ses.model.bms.RolePreMenu;
 import ses.model.bms.Userrole;
@@ -205,4 +207,10 @@ public interface RoleMapper {
    * @return
    */
   List<String> getByKind(String userId);
+  /**
+   * 根据角色名称  查询该角色下的 用户集合 包含已删除 用户
+   * @param roleName
+   * @return
+   */
+  List<String> findByRoleName(@Param("roleName")String roleName);
 }

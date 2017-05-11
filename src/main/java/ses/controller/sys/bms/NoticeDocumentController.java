@@ -18,9 +18,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 import ses.model.bms.DictionaryData;
 import ses.model.bms.NoticeDocument;
+import ses.model.bms.User;
 import ses.service.bms.NoticeDocumentService;
 import ses.util.DictionaryDataUtil;
 
@@ -48,10 +50,19 @@ public class NoticeDocumentController {
 	 * @return:
 	 */
 	@RequestMapping("/getAll")
-	public String getAll(Model model,Integer page){
+	public String getAll(@CurrentUser User user,Model model,Integer page){
+		String authType=null;
+		if(user!= null){
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
+				authType=user.getTypeName();
 	    initDocType(model);
 		List<NoticeDocument> noticeDocuments = noticeDocumentService.getAll(page==null?1:page);
 		model.addAttribute("list",new PageInfo<NoticeDocument>(noticeDocuments));
+			}
+		}
+		model.addAttribute("authType", authType);
+		
 		return "ses/bms/noticeDocument/list";
 	}
 	
@@ -65,8 +76,16 @@ public class NoticeDocumentController {
 	 * @return:
 	 */
 	@RequestMapping("/add")
-	public String add(HttpServletRequest request,Model model){	
-	    initDocType(model);
+	public String add(@CurrentUser User user,Model model){
+		String authType=null;
+		if(user!= null){
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
+				authType=user.getTypeName();
+	            initDocType(model);
+			 }
+		 }
+		model.addAttribute("authType",authType);
 		return "ses/bms/noticeDocument/add";
 	}
 	
@@ -80,9 +99,10 @@ public class NoticeDocumentController {
 	 * @return:
 	 */
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request,@Valid NoticeDocument noticeDocument,BindingResult result,Model model){
+	public String save(@CurrentUser User user,@Valid NoticeDocument noticeDocument,BindingResult result,Model model){
 		Boolean flag = true;
 		String url = "";
+		
 		initDocType(model);
 		if(!StringUtils.isNotBlank(noticeDocument.getDocType())){
 			flag = false;
@@ -99,7 +119,15 @@ public class NoticeDocumentController {
 			model.addAttribute("noticeDocument", noticeDocument);
 			url="ses/bms/noticeDocument/add";
 		}else{	
+			String authType=null;
+			if(user!= null){
+				//判断是否 是资源服务中心 
+				if("4".equals(user.getTypeName())){
+					authType=user.getTypeName();
+					model.addAttribute("authType", authType);
 			noticeDocumentService.save(noticeDocument);
+				}
+			}
 			url="redirect:getAll.do";
 		}
 		return url;
@@ -115,9 +143,17 @@ public class NoticeDocumentController {
 	 * @return:
 	 */
 	@RequestMapping("/edit")
-	public String edit(Model model,String id){
+	public String edit(@CurrentUser User user,Model model,String id){
+		String authType=null;
+		if(user!= null){
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
+				authType=user.getTypeName();
 	    initDocType(model);
 		model.addAttribute("noticeDocument",noticeDocumentService.get(id));
+			}
+		}
+			model.addAttribute("authType", authType);
 		return "ses/bms/noticeDocument/edit";
 	}
 	
@@ -143,7 +179,7 @@ public class NoticeDocumentController {
 	 * @return:
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request,@Valid NoticeDocument noticeDocument,BindingResult result,Model model){
+	public String update(@CurrentUser User user,@Valid NoticeDocument noticeDocument,BindingResult result,Model model){
 		Boolean flag = true;
 		String url = "";
 		initDocType(model);
@@ -162,7 +198,15 @@ public class NoticeDocumentController {
 			model.addAttribute("noticeDocument", noticeDocument);
 			url="ses/bms/noticeDocument/edit";
 		}else{
+			String authType=null;
+			if(user!= null){
+				//判断是否 是资源服务中心 
+				if("4".equals(user.getTypeName())){
+					authType=user.getTypeName();
+					model.addAttribute("authType", authType);
 			noticeDocumentService.update(noticeDocument);
+				}
+				}
 			url="redirect:getAll.do";
 		}
 		return url;
@@ -178,10 +222,15 @@ public class NoticeDocumentController {
 	 * @return:
 	 */
 	@RequestMapping("/delete")
-	public String delete(String ids){
+	public String delete(@CurrentUser User user,String ids){
+		if(user!= null){
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
 		String[] id=ids.split(",");
 		for (String str : id) {
 			noticeDocumentService.delete(str);
+		}
+			}
 		}
 		return "redirect:getAll.do";
 	}
@@ -196,9 +245,17 @@ public class NoticeDocumentController {
 	 * @return:
 	 */
 	@RequestMapping("/view")
-	public String view(Model model,String id){
+	public String view(@CurrentUser User user,Model model,String id){
+		String authType=null;
+		if(user!= null){
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
+				authType=user.getTypeName();
+				model.addAttribute("authType", authType);
 	    initDocType(model);
 		model.addAttribute("noticeDocument",noticeDocumentService.get(id));
+			}
+		 }
 		return "ses/bms/noticeDocument/view";
 	}
 	

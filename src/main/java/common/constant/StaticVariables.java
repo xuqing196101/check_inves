@@ -151,6 +151,9 @@ public class StaticVariables {
     /** 企业资质-工程 **/
     public static final Integer CATEGORY_QUALIFICATION_PROJECT_PROFILE = 4;
     
+    /***角色权限 需求部门  命名***/
+    public static final String ROLE_DEMAND_SECTOR="需求部门";
+
     
     /**
      * 默认页

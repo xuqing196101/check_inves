@@ -69,6 +69,8 @@ function openViewDIvs(id){
  * @param key 对应系统的key
  */
 function download(bid){
+    var authType='${authType}'; 
+	    if(authType=='4'){
 	var key = 2;
 	var zipFileName = null;
 	var fileName = null;
@@ -94,6 +96,9 @@ function download(bid){
 
 		}
 	});
+	}else{
+	  layer.msg("只有资源服务中心才能操作");
+	}
 	
 }
 

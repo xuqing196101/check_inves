@@ -291,7 +291,7 @@ public class UserManageController extends BaseController{
 		User currUser = (User) request.getSession().getAttribute("loginUser");
 		//机构
 		if(user.getOrgId() != null && !"".equals(user.getOrgId())){
-			if ("3".equals(user.getTypeName())  || "4".equals(user.getTypeName())) {
+			if ("3".equals(user.getTypeName())  ) {// 
 			  user.setOrgName(user.getOrgId());
 			} else{
 				Orgnization org = orgnizationService.getOrgByPrimaryKey(user.getOrgId());
@@ -308,7 +308,7 @@ public class UserManageController extends BaseController{
 	    String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
 	    user.setId(uuid);
 	    //判断 是否是 监管中心 或 资质中心 由于是一对多的关系 单独保存于关系表中 保存完后并且清空 orgid  orgname 防止字段精度超出
-		if( "5".equals(user.getTypeName())){
+		if( "5".equals(user.getTypeName())||"4".equals(user.getTypeName())){
 			if(StringUtils.isNotBlank(user.getOrgId())){
 				String [] orgIdArray=user.getOrgId().split(",");
 				UserDataRuleService.deleteByUserId(user.getId());
@@ -549,7 +549,7 @@ public class UserManageController extends BaseController{
 			
 			//机构
 			if(orgId != null && !"".equals(orgId)){
-				if ("3".equals(u.getTypeName()) || "4".equals(u.getTypeName()) ) {
+				if ("3".equals(u.getTypeName())  ) {//|| "4".equals(u.getTypeName())
 				  u.setOrg(null);
 	        u.setOrgName(orgId);
 	      } else {
@@ -585,7 +585,7 @@ public class UserManageController extends BaseController{
 			u.setCreatedAt(olduser.getCreatedAt());
 			u.setUser(olduser.getUser());
 			u.setUpdatedAt(new Date());
-			if("5".equals(u.getTypeName())){
+			if("5".equals(u.getTypeName())|| "4".equals(u.getTypeName())){
 				if(StringUtils.isNotBlank(u.getOrgId())){
 					String [] orgIdArray=u.getOrgId().split(",");
 					UserDataRuleService.deleteByUserId(u.getId());

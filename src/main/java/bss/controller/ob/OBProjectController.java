@@ -37,10 +37,12 @@ import org.springframework.web.multipart.MultipartFile;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.RoleServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
@@ -81,6 +83,7 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.utils.JdcgResult;
 
@@ -130,7 +133,10 @@ public class OBProjectController {
 	private OBProjectResultService obProjectResultService;
 	/*@Autowired
 	private OBProjectRuleMapper OBProjectRuleMapper;*/
-
+    
+	/**角色**/
+	@Autowired
+	private RoleServiceI roleService;
 	@Autowired
 	private OBResultSubtabulationService obResultSubtabulationService;
     
@@ -145,35 +151,45 @@ public class OBProjectController {
 	 */
 	@RequestMapping(value = "/list", produces = "text/html;charset=UTF-8")
 	public String list(@CurrentUser User user, Model model,
-			HttpServletRequest request, Integer page, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,
+			HttpServletRequest request, Integer page, 
+			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,
 			String name) {
+		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+		int orgId=2;
 		if (user != null) {
-			
 			if (page == null) {
 				page = 1;
 			}
-			String orgId=null;
-			Orgnization org = user.getOrg();
-			if(org != null){
-				if(org.getTypeName().equals("0")){
-					orgId=user.getOrg().getTypeName();
+			//竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+			String orgName=null;
+		 List<Role> roleList=user.getRoles();
+			if(roleList!= null && roleList.size()>0){
+				for (Role role : roleList) {
+					// 需求部门
+				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
+						orgName=role.getName();
+						break;
 				}
+			 }
 			}
-			model.addAttribute("orgId", orgId);
+			if(orgName != null){
+				orgId=0;
+			List<String> userList=	roleService.findByRoleName(orgName);
+			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("page", page);
 			map.put("startTime", startTime);
 			map.put("name", name);
-			map.put("uid", user.getId());
-			PropertiesUtil config = new PropertiesUtil("config.properties");
-			PageHelper.startPage((Integer) (map.get("page")),
-					Integer.parseInt(config.getString("pageSize")));
+			//map.put("uid", user.getId());
+			map.put("createId", userList);
 			List<OBProject> list = OBProjectServer.List(map);
 			PageInfo<OBProject> info = new PageInfo<OBProject>(list);
 			model.addAttribute("info", info);
 			model.addAttribute("name",name);
 			model.addAttribute("startTime",startTime);
-			 }
+			}
+		}
+		model.addAttribute("orgId",orgId);
 		return "bss/ob/biddingInformation/list";
 	}
 	/***
@@ -303,15 +319,23 @@ public class OBProjectController {
 	@RequestMapping("/add")
 	public String addBidding(@CurrentUser User user, Model model,
 			HttpServletRequest request) {
+	//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+		int orgId=2;
        if(user!=null){
-			String orgId=null;
-		if(user.getOrg()!=null){
-	   if(user.getOrg().getTypeName().equals("0")){
-			orgId=user.getOrg().getId();
-	    }
-	   }
-		model.addAttribute("type", 2);
-		model.addAttribute("orgId", orgId);
+    	 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+			String orgName=null;
+		 List<Role> roleList=user.getRoles();
+			if(roleList!= null && roleList.size()>0){
+				for (Role role : roleList) {
+					// 需求部门
+				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
+						orgName=role.getName();
+						break;
+				}
+			  }
+			}
+			if(orgName != null){
+				orgId=0;
 		// 获取当前 默认规则
 		 OBRule obRule = obRuleService.selectByStatus();
 		 if(obRule==null){
@@ -330,6 +354,9 @@ public class OBProjectController {
 		// 标识 竞价附件
 		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		 }
+		}
+			model.addAttribute("type", 2);
+			model.addAttribute("orgId", orgId);
 		return "bss/ob/biddingInformation/publish";
 	}
 
@@ -606,11 +633,21 @@ public class OBProjectController {
 		String msg = null;
 		if (user != null) {
 			// 判断当前登录人是否是需求部门 
-//			if(user.getOrg()!= null){
-//			  if(user.getOrg().getTypeName().equals("0")){
+			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+			String orgName=null;
+		 List<Role> roleList=user.getRoles();
+			if(roleList!= null && roleList.size()>0){
+				for (Role role : roleList) {
+					// 需求部门
+				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
+						orgName=role.getName();
+						break;
+				}
+			  }
+			}
+			if(orgName != null){
 			msg = OBProjectServer.saveProject(obProject, user.getId(), fileid);
-//			  }
-//			}
+			}
 		}
 		return msg;
 
@@ -664,7 +701,6 @@ public class OBProjectController {
 	  return OBProjectServer.verifyCatalog(productid);
 	}
 	/** @Description: 编辑暂存的竞价信息
-	* author: YangHongLiang
 	* @param  OBProject
 	* @return     
 	* @return String     
@@ -674,13 +710,25 @@ public class OBProjectController {
 	@RequestMapping(value="/editOBProject", produces="text/html;charset=UTF-8" )
 	public String editOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
 		if(user !=null){
+			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+			String orgName=null;
+		 List<Role> roleList=user.getRoles();
+			if(roleList!= null && roleList.size()>0){
+				for (Role role : roleList) {
+					// 需求部门
+				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
+						orgName=role.getName();
+						break;
+				}
+			  }
+			}
+			if(orgName != null){
 			if(StringUtils.isNotBlank(obProjectId)){
 			Map<String,Object> map=new HashMap<String, Object>();	
 			map.put("id", obProjectId);
 			map.put("userId", user.getId());
 			OBProject obProject=OBProjectServer.editOBProject(map);
 			if(obProject !=null){
-				String orgId=null;
 				 List<OBProductInfo> obProductInfo=oBProductInfoService.selectByProjectId(obProject.getId());
 				 obProject.setObProductInfo(obProductInfo);
 				 
@@ -779,13 +827,7 @@ public class OBProjectController {
 					return "bss/ob/biddingInformation/editPublish";
 				}else{
 				if(obProject.getStatus()==0){
-					//需求部门
-					if(user.getOrg()!= null){
-					if(user.getOrg().getTypeName().equals("0")){
-						orgId=user.getOrg().getId();
-					}
-					}
-					model.addAttribute("orgId", orgId);
+					model.addAttribute("orgId", 0);
 					model.addAttribute("type", "2");
 					return "bss/ob/biddingInformation/publish";
 				}else{
@@ -795,7 +837,9 @@ public class OBProjectController {
 			   }
 			 }
 			}
+			}
 		}
+		
 		model.addAttribute("type", "1");
 		return "bss/ob/biddingInformation/editPublish";
 	}
@@ -811,6 +855,19 @@ public class OBProjectController {
 	@RequestMapping(value="/delOBProject", produces="text/html;charset=UTF-8" )
 	public String delOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
 		if(user !=null){
+			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+			String orgName=null;
+		 List<Role> roleList=user.getRoles();
+			if(roleList!= null && roleList.size()>0){
+				for (Role role : roleList) {
+					// 需求部门
+				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
+						orgName=role.getName();
+						break;
+				}
+			  }
+			}
+			if(orgName != null){
 			if(StringUtils.isNotBlank(obProjectId)){
 			Map<String,Object> map=new HashMap<String, Object>();	
 			map.put("id", obProjectId);
@@ -822,6 +879,7 @@ public class OBProjectController {
 				ob.setIsDelete(1);
 				 OBProjectServer.updateProject(ob);
 			 } 
+			}
 			}
 		}
 		return list(user, model, request, null, null, "");
