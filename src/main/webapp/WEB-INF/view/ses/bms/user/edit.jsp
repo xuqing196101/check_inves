@@ -258,11 +258,13 @@
 			$("#orgSel").attr("value", "");
 			$("#orgParent").val("");
 			$("#oId").val("");
-			if (orgType == '3') {
+		
+			if (orgType == '3'|| orgType == '4' ) {
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
 				$("#oId").attr("type","text");
-			} else if (orgType == '4' || orgType == '5') {
+			} else if (orgType =='5') {
+				alert(orgType);
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
 			   $("#oId").attr("type","hidden");
@@ -276,7 +278,7 @@
 		//回显机构
 		$(function(){
 			var orgTypeName = "${user.typeName}";
-			if (orgTypeName == '3') {
+			if (orgTypeName == '3'  ||orgTypeName == '4') {
 				$("#orgSel").hide();
 				$("#oId").attr("type","text");
 				$("#oId").val("${user.orgName}");
@@ -533,9 +535,9 @@
 				 	</li>
 			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>
-					  <c:if test="${user.typeName == '4' || user.typeName == '5'}">  监管对象
+					  <c:if test="${ user.typeName == '5'}">  <span id="orgTitle">监管对象</span>
 					  </c:if>
-					  <c:if test="${user.typeName != '4' && user.typeName != '5'}">  所属机构
+					  <c:if test="${user.typeName != '5'}">  <span id="orgTitle">所属机构</span>
 					  </c:if>
 					    </span>
 					   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
