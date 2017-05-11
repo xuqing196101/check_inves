@@ -217,12 +217,12 @@
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
-						offset: '100px'
+						offset: '100px',
+						 maxlength : '50'
 					},
 					function(text) {
 						var text = trim(text);
 				  	if(text != null && text !=""){
-				  		if(text.length < 50){
 								$.ajax({
 									url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 									type: "post",
@@ -248,9 +248,6 @@
 								$("#" + id + "_hidden").hide();
 								$("#" + id + "_show").show();
 								layer.close(index);
-							}else{
-			    			layer.msg('字符过长！', {offset:'100px'});
-			    		}
 						}else{
 							layer.msg('不能为空！', {offset:'100px'});
 						}
