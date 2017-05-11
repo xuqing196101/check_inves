@@ -96,9 +96,20 @@
 			var nodeName = $("#nodeName").val();
 			var treeObj = $.fn.zTree.getZTreeObj("menuTree");  
 		    var nodes = treeObj.getNodesByParamFuzzy("name", nodeName, null); 
-		    for(var i=0;i<nodes.length;i++){
-			 	treeObj.selectNode(nodes[i]);
+		    
+		   var index = layer.load(0, {
+				shade : [ 0.1, '#fff' ],
+				offset : [ '45%', '53%' ]
+			});
+			//延迟定位
+			setTimeout( function(){
+            for(var i=0;i<nodes.length;i++){
+			 treeObj.selectNode(nodes[i],true,false);
 			}
+			layer.close(index);
+           },  1* 1000 );
+		   
+			
 		}
 	</script>
   </head>

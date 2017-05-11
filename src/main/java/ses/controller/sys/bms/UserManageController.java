@@ -33,16 +33,13 @@ import ses.model.bms.UserDataRule;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
-import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
 import ses.model.oms.util.Ztree;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserDataRuleService;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
-import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
@@ -52,7 +49,6 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
-import common.constant.StaticVariables;
 import common.utils.JdcgResult;
 
 /**

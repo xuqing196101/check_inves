@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<script src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
 	<script type="text/javascript">
 		/* 机构树 */
 		
@@ -306,6 +307,13 @@
 		function ajaxIdNumber(){
 			 var is_error = 0;
 			 var idNumber = $("#idNumber").val();
+			  var msg=validateIdCard(idNumber);
+			 if(msg!='success'){
+			 $("#ajax_idNumber").html(msg);
+			 return;
+			 }else{
+			 $("#ajax_idNumber").html("");
+			 }
 			 var id = $("#uId").val();
 			 $.ajax({
              type: "GET",
@@ -473,7 +481,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">身份证号</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input id="idNumber" name="idNumber" value="${user.idNumber}" onblur="ajaxIdNumber()" maxlength="20" type="text">
+			        	<input id="idNumber" name="idNumber" value="${user.idNumber}" onblur="ajaxIdNumber()" maxlength="18" type="text">
 			        	<span class="add-on">i</span>
 			        	<div id="ajax_idNumber" class="cue"></div>
 			        </div>
@@ -532,14 +540,22 @@
 					    </span>
 					   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 						   	<input id="oId" name="orgId" type="hidden" value="${orgId}">
-						   	<c:choose>
+						   	<%-- <c:choose>
 						   		<c:when test="${not empty origin}">
 						   		   <input id="orgSel" class="span5" name="orgName" type="text" readonly value="${orgName}"  />
 						   		</c:when>
 						   		<c:otherwise>
-						   			<input id="orgSel" class="span5" name="orgName" type="text" readonly value="${orgName}"  onclick="showOrg();" />
+						   			<input id="orgSel" class="span5" name="orgName" type="text" readonly value="${user.orgName}"  onclick="showOrg();" />
 						   		</c:otherwise>
-						   	</c:choose>
+						   	</c:choose> --%>
+						   	<c:if test="${user.org != null && user.org.fullName != null && user.org.fullName != ''}" >
+					  		<input id="orgSel" class="span5" name="orgName" type="text" readonly value="${user.org.fullName}" onclick="showOrg();" />
+					  	</c:if>
+					  	<c:if test="${user.org != null && (user.org.fullName == null || user.org.fullName == '')}">
+					  		<input id="orgSel" class="span5" name="orgName" type="text" readonly value="${user.org.name}" onclick="showOrg();" />
+					  	</c:if>
+					  	<c:if test="${user.org == null }">
+					  	<input id="orgSel" class="span5" name="orgName" type="text" readonly value="${user.orgName}" onclick="showOrg();" /></c:if>
 						     <input type="hidden" id="orgParent" value=""/>
 					        <div class="drop_up" onclick="showOrg();">
 								   <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
