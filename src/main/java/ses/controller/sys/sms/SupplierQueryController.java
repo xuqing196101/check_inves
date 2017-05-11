@@ -73,7 +73,6 @@ import ses.service.sms.SupplierTypeService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
-import ses.util.SupplierLevelUtil;
 import bss.formbean.Maps;
 
 import com.alibaba.fastjson.JSON;
