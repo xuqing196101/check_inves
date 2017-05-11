@@ -311,7 +311,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     				   if(certSell==null){
     					   supplierCertSellMapper.insertSelective(sc);
     				   }else{
-    					   supplierCertSellMapper.updateByPrimaryKeySelective(certSell);
+    					   supplierCertSellMapper.updateByPrimaryKeySelective(sc);
     				   }
 		   			}
     		   }
