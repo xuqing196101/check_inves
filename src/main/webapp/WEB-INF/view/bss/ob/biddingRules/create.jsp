@@ -26,10 +26,14 @@
 			    	}
 			    }
 			});
-		})
+		});
 	});
 	function submitForm(){
-		
+		var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
 		$("#nameErr").html("");
 		$("#intervalWorkdayErr").html("");
 		$("#definiteTimeErr").html("");
@@ -168,7 +172,7 @@
 		var beginTime = $("#d242").val();
 		var time = beginTime.split(":");
 		// 第一轮报价时间 第二轮报价 第一轮确认时间 第二轮确认时间 第二轮确认时间 小时数
-		var totalMinute = parseInt(quoteTimeStr)+parseInt(quoteTimeSecondStr)+parseInt(confirmTimeStr)+parseInt(confirmTimeSecondStr)
+		var totalMinute = parseInt(quoteTimeStr)+parseInt(quoteTimeSecondStr)+parseInt(confirmTimeStr)+parseInt(confirmTimeSecondStr);
 		var hour = toHourMinute(totalMinute);
 		var totalHour = parseInt(time[0]) + hour;
 		if(totalHour > 23){
@@ -182,7 +186,7 @@
 					},function(){
 							window.location.href="${pageContext.request.contextPath}/obrule/ruleList.html";
 						}
-					) 
+					);
 				}
 				if(data.status == 500){
 					layer.alert(data.msg);

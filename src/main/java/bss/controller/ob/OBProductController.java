@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -95,10 +96,7 @@ public class OBProductController {
 	@RequestMapping("/list")
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String list(@CurrentUser User user,OBProduct example, Model model, Integer page) {
-		if (page == null) {
-			page = 1;
-		}
+	public String list(@CurrentUser User user,OBProduct example, Model model, @RequestParam(defaultValue="1")Integer page) {
 		String orgTyp = null;
 		if(user != null){
 			//判断是否 是资源服务中心 

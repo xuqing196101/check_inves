@@ -31,6 +31,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -155,15 +156,12 @@ public class OBProjectController {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String list(@CurrentUser User user, Model model,
-			HttpServletRequest request, Integer page, 
+			@RequestParam(defaultValue="1")Integer page, 
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,
 			String name) {
 		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		int orgId=2;
 		if (user != null) {
-			if (page == null) {
-				page = 1;
-			}
 			//竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
 			String orgName=null;
 		 List<Role> roleList=user.getRoles();
@@ -916,7 +914,7 @@ public class OBProjectController {
 			}
 			}
 		}
-		return list(user, model, request, null, null, "");
+		return list(user, model,  null, null, "");
 	}
 	
 	
