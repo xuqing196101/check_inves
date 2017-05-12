@@ -17,7 +17,7 @@ public class SystemLog {
     /** 主键 **/
     private String id;
     
-    /** 操作类型 1:供应商,2:招标采购,3:专家,4:论坛 **/
+    /** 操作类型 1:供应商,2:招标采购,3:专家,4:论坛 ，5网上竞价**/
     private int operateType;
     
     /** 操作时间 **/
