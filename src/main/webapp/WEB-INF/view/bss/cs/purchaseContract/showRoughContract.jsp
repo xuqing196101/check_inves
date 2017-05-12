@@ -10,9 +10,30 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+	
+<script type="text/javascript">
+	$(document).ready(function(){ 
+	    	  var obj = document.getElementById("TANGER_OCX");
+	    	  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		          // 获取已激活的标签页的名称
+		          var activeTab = $(e.target).text(); 
+		          // 获取前一个激活的标签页的名称
+		          var previousTab = $(e.relatedTarget).text(); 
+		          if(activeTab=="合同文本"){
+	    	 			 OpenFile(obj);  
+		          }
+	    	  });
+	 }); 
+	 
+	 function OpenFile(obj) {
+		    var projectId = "${draftCon.id}";
+			obj.Menubar = false;
+			obj.Caption = "( 双击可放大 ! )";
+				obj.BeginOpenFromURL("${pageContext.request.contextPath}"
+				+"/purchaseContract/loadFile.html?id="+projectId,true,false, 'word.document');// 异步加载, 服务器文件路径
+			
+		}
+	</script>
   </head>
 <body>
 <!--面包屑导航开始-->
@@ -33,7 +54,9 @@
 	        <ul class="nav nav-tabs bgwhite">
 	            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">合同草案详情</a></li>
 	            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">标的信息</a></li>
+	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">合同文本</a></li>
             </ul>
+            </div>
    		<div class="tab-content padding-top-20 over_hideen">
 	<div class="tab-pane fade active in" id="tab-1">
 	<h2 class="count_flow jbxx">基本信息</h2>
@@ -194,8 +217,13 @@
    		</c:forEach>
 	</table>
 	</div>
+	<div class="tab-pane fade h800" id="tab-3">
+						<script type="text/javascript"
+							src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
+					</div>
 	<div class="col-md-12 tc mt20">
    		<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+  	</div>
   	</div>
 </body>
 </html>

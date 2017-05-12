@@ -333,9 +333,24 @@ public interface PurchaseDetailMapper {
      * @return
      */
     List<Map<String, Object>> getbar(HashMap<String, Object> hashMap);
-    
+    /**
+     * 计划汇总统计，安采购方式统计
+     * @param hashMap
+     * @return
+     */
     List<Map<String, Object>> getpipe(HashMap<String, Object> hashMap);
-    
+    /**
+     * 计划汇总统计，安采月份统计
+     * @param hashMap
+     * @return
+     */
+    List<Map<String, Object>> getline(HashMap<String, Object> hashMap);
+    /**
+     * 
+     * @param hashMap
+     * @return
+     */
+    List<PurchaseDetail> getdetailAllByUserId(HashMap<String, Object> hashMap);
     
     
 }

@@ -25,6 +25,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import bss.dao.pms.CollectPurchaseMapper;
 import bss.dao.pms.PurchaseDetailMapper;
+import bss.formbean.Line;
 import bss.formbean.Maps;
 import bss.model.pms.PurchaseDetail;
 import bss.service.pms.PurchaseDetailService;
@@ -303,11 +304,16 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 		List<Map<String, Object>> list = purchaseDetailMapper.getpipe(hashMap);
 		if(list!=null && list.size() >0){
 			for (Map<String,Object> m : list) {
+				if(m.get("PURCHASETYPE")==null){
+					continue;
+				}
 				DictionaryData dic = DictionaryDataUtil.findById(String.valueOf(m.get("PURCHASETYPE")));
 				
 				if(dic!=null){
 					type.add(dic.getName());
 					
+				}else{
+					continue;
 				}
 				 Maps mp=new Maps();
  				 String string = String.valueOf(m.get("AMOUNT"));
@@ -322,6 +328,41 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 		data.put("maps", maps);
 		data.put("type", type);
 		return data;
+	}
+
+	@Override
+	public Map<String, Object> getline(HashMap<String, Object> hashMap) {
+		List<Map<String,Object>> list =purchaseDetailMapper.getline(hashMap);
+		Map<String,Object> data=new HashMap<String,Object>();
+		List<String> month=new LinkedList<String>();
+		List<String> val=new LinkedList<String>();
+		List<Line> lineList=new LinkedList<Line>();
+		if(list!=null && list.size() >0){
+			for (Map<String,Object> m : list) {
+				month.add(String.valueOf(m.get("MONTH")));
+				String string = String.valueOf(m.get("AMOUNT"));
+				val.add(string);
+			/*	data.setValue(String.valueOf(m.get("AMOUNT")));
+				listData.add(data);*/
+			}
+		}
+		Line line=new Line();
+		line.setData(val);
+		line.setName("金额");
+		line.setType("line");
+		line.setStack("总量");
+		lineList.add(line);
+		data.put("month", month);
+		data.put("line", lineList);
+		return data;
+	}
+
+	@Override
+	public List<PurchaseDetail> getdetailAllByUserId(
+			HashMap<String, Object> hashMap) {
+		PageHelper.startPage((Integer)hashMap.get("page"),Integer.parseInt(PropUtil.getProperty("page.size.thirty")));
+		List<PurchaseDetail> list = purchaseDetailMapper.getdetailAllByUserId(hashMap);
+		return list;
 	}
 
 }
