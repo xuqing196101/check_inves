@@ -51,7 +51,7 @@
     <div id="showDiv" class="col-md-12 col-xs-12 col-sm-12 mt20">
       <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
         <c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
-          <div>
+          <div class="col-md-12 col-sm-12 col-xs-12 p0">
             <c:if test="${vsKey.index ==0 }">
               <h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
           <span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
