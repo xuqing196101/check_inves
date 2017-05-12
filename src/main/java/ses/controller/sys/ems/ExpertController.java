@@ -197,76 +197,7 @@ public class ExpertController extends BaseController {
         return "ses/ems/expert/expert_register";
     }
 
-    /**
-     * 
-     * @Title: view
-     * @author ShaoYangYang
-     * @date 2016年9月29日 上午11:03:50
-     * @Description: TODO 查看专家信息
-     * @param id
-     * @param model
-     * @param @return
-     * @return String
-     */
-    @RequestMapping("/view")
-    public String view(@RequestParam("id") String id, Model model) {
-        // 查询出专家
-        Expert expert = service.selectByPrimaryKey(id);
-        // 专家系统key
-		Integer expertKey = Constant.EXPERT_SYS_KEY;
-		Map < String, Object > typeMap = getTypeId();
-		// typrId集合
-		model.addAttribute("typeMap", typeMap);
-		// 业务id就是专家id
-		model.addAttribute("sysId", id);
-		// Constant.EXPERT_SYS_VALUE;
-		model.addAttribute("expertKey", expertKey);
-        model.addAttribute("expert", expert);
-        
-        
-        //专家来源
-		if(expert.getExpertsFrom() != null) {
-			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
-			model.addAttribute("expertsFrom", expertsFrom.getName());
-			// 专家来源
-			model.addAttribute("froms", expertsFrom.getCode());
-		}
-		//军队人员身份证件类型
-		if(expert.getIdType() != null) {
-			DictionaryData idType = dictionaryDataServiceI.getDictionaryData(expert.getIdType());
-			model.addAttribute("idType", idType.getName());
-		}
-		
-		//地区查询
-		List < Area > privnce = areaServiceI.findRootArea();
-		model.addAttribute("privnce", privnce);
-
-		Area area = areaServiceI.listById(expert.getAddress());
-		String sonName = area.getName();
-		model.addAttribute("sonName", sonName);
-		for(int i = 0; i < privnce.size(); i++) {
-			if(area.getParentId().equals(privnce.get(i).getId())) {
-				String parentName = privnce.get(i).getName();
-				model.addAttribute("parentName", parentName);
-			}
-		}
-		
-		//最高学历
-		if(expert.getHightEducation() != null) {
-			DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(expert.getHightEducation());
-			model.addAttribute("hightEducation", hightEducation.getName());
-		}
-		
-		//最高学位
-		if(expert.getDegree() != null) {
-			DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
-			if(degree != null){
-				model.addAttribute("degree", degree.getName());
-			}
-		}
-        return "ses/ems/expert/view";
-    }
-
+   
     /**
      * 
      * @Title: toRegisterNotice

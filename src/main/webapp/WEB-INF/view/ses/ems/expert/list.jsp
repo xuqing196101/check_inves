@@ -136,7 +136,7 @@
 			}
 			//查看信息
 			function view(id) {
-				window.location.href = "${pageContext.request.contextPath}/expert/view.html?id=" + id;
+				window.location.href = "${pageContext.request.contextPath}/expertQuery/view.html?expertId=" + id;
 			}
 
 			function shenhe() {
@@ -359,7 +359,7 @@
 							<%-- <td class="tc w30"><input type="radio" name="check" id="checked" alt="" value="${e.id }"></td> --%>
 							<td class="tc w50"  class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tl pl20" >
-								<a href="${pageContext.request.contextPath}/expert/view.html?id=${e.id}">${e.relName}</a>
+								<a href="${pageContext.request.contextPath}/expertQuery/view.html?expertId=${e.id}&sign=1">${e.relName}</a>
 							</td>
 							<%-- <td class="tl pl20" >${e.loginName}</td> --%>
 							<td class="tc w50" >${e.gender}</td>

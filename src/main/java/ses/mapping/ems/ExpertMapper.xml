@@ -1251,7 +1251,7 @@
 
 		<!-- 插入历史记录 -->
     <insert id="insertExpertHistory" parameterType="ses.model.ems.ExpertHistory">
-        insert into T_SES_EMS_EXPERT_History
+        insert into T_SES_EMS_EXPERT_HISTORY
         <trim prefix="(" suffix=")" suffixOverrides=",">
         	<if test="id != null">
         		ID,
