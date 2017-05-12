@@ -13,8 +13,41 @@
 		<link href="${pageContext.request.contextPath}/public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
 
 		<script type="text/javascript">
+		$(function(){
+			  laypage({
+				    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+				    pages: "${info.pages}", //总页数
+				    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+				    skip: true, //是否开启跳页
+				    total: "${info.total}",
+				    startRow: "${info.startRow}",
+				    endRow: "${info.endRow}",
+				    groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
+				    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+				    	var page = location.search.match(/page=(\d+)/);
+				    	if(page==null){
+				    		page = {};
+				    		var data = "${info.pageNum}";
+				    		page[0]=data;
+				    		page[1]=data;
+				    	}
+				        return page ? page[1] : 1;
+				    }(), 
+				    jump: function(e, first){ //触发分页后的回调
+				        if(!first){ //一定要加此判断，否则初始时会无限刷新
+				        	$("#page").val(e.curr);
+							$("#add_form").submit();
+				        }
+				    }
+				});
+			    $(document).keyup(function(event) {
+					if (event.keyCode == 13) {
+						$("#form1").submit();
+					}
+				});
+		  });
 			/*分页  */
-			/*  $(function(){ */
+			 /* $(function(){ */
 			/* 
 	  if (!window.console || !console.firebug){
 		    var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
@@ -35,9 +68,14 @@
 		    skip: true, //是否开启跳页
 		    groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-//			        var page = location.search.match(/page=(\d+)/);
-//			        return page ? page[1] : 1;
-				return "${info.pageNum}";
+		    	var page = location.search.match(/page=(\d+)/);
+		    	if(page==null){
+		    		page = {};
+		    		var data = "${list.pageNum}";
+		    		page[0]=data;
+		    		page[1]=data;
+		    	}
+		        return page ? page[1] : 1;
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		            if(!first){ //一定要加此判断，否则初始时会无限刷新
@@ -48,7 +86,7 @@
 		        }  
 		    }
 		});
-  }); */
+  });  */
 			/*   $(function(){
 				  
 					});
@@ -69,6 +107,10 @@
 							dataShadow.push(yMax);
 						}
 						option = {
+								title: {
+									text: '需求部门统计',
+									x: 'center'
+								},
 							    color: ['#3398DB'],
 							    tooltip : {
 							        trigger: 'axis',
@@ -108,7 +150,7 @@
 							    yAxis : [
 							        {
 							            type : 'value',
-							            name: '（万元）'
+							            name: '单位（万元）'
 							        }
 							    ],
 							    series : [
@@ -194,7 +236,8 @@
 					success: function(data) {
 						option = {
 							title: {
-								text: '按月统计'
+								text: '按月统计',
+								x: 'center'
 							},
 							tooltip: {
 								trigger: 'axis'
@@ -219,7 +262,8 @@
 								data: data.month
 							},
 							yAxis: {
-								type: 'value'
+								type: 'value',
+								name:'单位（万元）'
 							},
 							series: data.line
 						};
@@ -235,33 +279,7 @@
 
 			}
 
-			$(function() {
-				laypage({
-					cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-					pages: "${info.pages}", //总页数
-					skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-					skip: true, //是否开启跳页
-					total: "${info.total}",
-					startRow: "${info.startRow}",
-					endRow: "${info.endRow}",
-					groups: "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
-					curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
-						var page = location.search.match(/page=(\d+)/);
-						if(page == null) {
-							page = {};
-							var data = "${info.pageNum}";
-							page[0] = data;
-							page[1] = data;
-						}
-						return page ? page[1] : 1;
-					}(),
-					jump: function(e, first) { //触发分页后的回调
-						if(!first) { //一定要加此判断，否则初始时会无限刷新
-							$("#page").val(e.curr);
-							$("#form1").submit();
-						}
-					}
-				});
+			/* $(function() {
 				option = {
 					title: {
 						text: '省市采购',
@@ -336,7 +354,7 @@
 
 				var myChart = echarts.init(document.getElementById("container"));
 				myChart.setOption(option);
-				myChart.hideLoading();
+				myChart.hideLoading(); */
 
 				/*  var chart = echarts.init(document.getElementById('main'));
 			 chart.setOption({
@@ -354,7 +372,7 @@
 				        }]
 				    });
 				}); */
-			});
+			/* }); */
 
 			function maps() {
 				$("#funsionCharts_div_id").hide();
@@ -430,18 +448,18 @@
 					<ul class="demand_list">
 						<li>
 							<label class="fl">   计划名称：</label><span>
-				  	   		<input  type="text" name="fileName" value="${inf.fileName }" /> 
+				  	   		<input  type="text" name="fileName" value="${collectPlan.fileName }" /> 
 				    	
 				    	</span>
 						</li>
 
 						<li>
 							<label class="fl"> 计划类别：</label><span>
-				  	   <select name="planType" style="width: 152px;" >
+				  	   <select name="goodsType" style="width: 152px;" >
 				  	     <option value="" >请选择</option>
-						  	<option value="1" <c:if test="${inf.planType=='1'}"> selected</c:if> >物资</option>
-							<option value="2" <c:if test="${inf.planType=='2'}"> selected</c:if> >工程</option>
-							<option value="3" <c:if test="${inf.planType=='3'}"> selected</c:if> >服务</option>
+				  	      <c:forEach items="${dic}" var="dic">
+							       <option value="${dic.id}" <c:if test="${dic.id==collectPlan.goodsType}"> selected</c:if> >${dic.name }</option>
+							  </c:forEach>
 					   </select>
 				    	</span>
 						</li>
@@ -501,8 +519,8 @@
 				</form>
 			</div>
 			<div class="col-md-12 pl20 mt10">
-				<input class="btn-u" type="button" name="" value="按计划查询" onclick="plan(1)" />
-				<input class="btn-u" type="button" name="" value="按明细查询" onclick="detail(1)" />
+				<input class="btn-u" type="button" name="" value="按计划查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/list.html'" />
+				<input class="btn-u" type="button" name="" value="按明细查询" onclick="javascript:location.href='${pageContext.request.contextPath}/statistic/detailList.html'" />
 				<input class="btn-u" type="button" name="" value="按需求部门统计" onclick="bar(1)" />
 				<input class="btn-u" type="button" name="" value="按采购方式统计" onclick="pipe(1)" />
 				<input class="btn-u" type="button" name="" value="按月统计" onclick="line(1)" />
@@ -521,23 +539,52 @@
 		  <th class="info">采购方式</th>
 		  <th class="info">采购机构</th> -->
 							<th class="info">预算（万元）</th>
+							<th class="info">汇总时间</th>
 							<th class="info">状态</th>
 						</tr>
 					</thead>
 					<c:forEach items="${info.list}" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
-							<td class="tc w50" onclick="view('${obj.planNo }')">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+							<td class="tc w50" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 
-							<td class="tc" onclick="view('${obj.planNo }')">
+							<td class="tl w500" >
 								${obj.fileName }
 							</td>
-							<td class="tc" onclick="view('${obj.planNo }')">物资 </td>
-							<td class="tl pl20" onclick="view('${obj.planNo }')">
+							<td class="tc" >
+							  <c:forEach items="${dic}" var="dic">
+							     <c:if test="${dic.id==obj.goodsType}">
+							        ${dic.name}
+							     </c:if>
+							  </c:forEach>
+							
+							</td>
+							<td class="tl pl20" >
 								<fmt:formatNumber type="number" pattern="#,##0.00" value="${obj.budget}" />
 							</td>
-							<td class="tl pl20" onclick="view('${obj.planNo }')">
+							<td class="tc" ><fmt:formatDate value="${obj.createdAt }"/></td>
+							<td class="tl pl20" >
 
-								已下达
+								<c:if test="${obj.status=='1' }">
+										   待审核设置
+								  </c:if>
+								  <c:if test="${obj.status=='2' }">
+										   已下达
+								  </c:if>
+								  <c:if test="${obj.status=='3' }">
+										   第一轮审核
+								  </c:if>
+								  <c:if test="${obj.status=='4' }">
+										    第二轮审核人员设置
+								  </c:if>
+								  <c:if test="${obj.status=='5' }">
+										 第二轮审核
+								  </c:if>
+								  <c:if test="${obj.status=='6' }">
+										   第三轮审核人员设置
+								  </c:if>
+								  <c:if test="${obj.status=='7' }">
+										   第三轮审核
+								  </c:if>
 							</td>
 
 						</tr>

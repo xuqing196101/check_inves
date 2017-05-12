@@ -48,5 +48,11 @@ public interface CollectPlanMapper {
     List<CollectPlan> getDepartmentList();
     
     CollectPlan queryPlan(CollectPlan collectPlan);
+    /**
+	 * 计划汇总，权限控制
+	 * @param collectPlan
+	 * @return
+	 */
+    List<CollectPlan> getSummary(CollectPlan collectPlan);
     
 }

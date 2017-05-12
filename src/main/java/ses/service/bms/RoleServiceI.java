@@ -3,7 +3,6 @@ package ses.service.bms;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
-
 import ses.model.bms.Role;
 import ses.model.bms.RolePreMenu;
 import ses.model.bms.Userrole;
@@ -170,6 +169,11 @@ public interface RoleServiceI {
      * @param oldPosition 修改之前序号
      */
     void updatePosition(Integer position, Integer oldPosition, Integer type);
-    
+    /***
+     * 根据 权限name 查询 相关的用户id
+     * @param roleId  权限id
+     * @return
+     */
+    List<String> findByRoleName(String roleName);
     
 }

@@ -479,6 +479,8 @@
               <th class="info">序号</th>
               <th class="info">信息标题</th>
               <th class="info">发布范围</th>
+              <th class="info">发布人</th>
+              <th class="info">发布单位</th>
               <!-- <th class="info">提交时间</th> -->
               <th class="info">审核时间</th>
               <th class="info">信息栏目</th>
@@ -491,11 +493,11 @@
               <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
               <td class="tnone">${article.status }</td>
               <td class="tc w50" onclick="view('${article.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <c:if test="${fn:length(article.name)>30}">
-                <td class="tl pl20 w500" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,30)}...</td>
+              <c:if test="${fn:length(article.name)>26}">
+                <td class="tl pl20 w400" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,26)}...</td>
               </c:if>
-              <c:if test="${fn:length(article.name)<=30}">
-                <td class="tl pl20 w500" onclick="view('${article.id }')" title="${article.name}">${article.name }</td>
+              <c:if test="${fn:length(article.name)<=26}">
+                <td class="tl pl20 w400" onclick="view('${article.id }')" title="${article.name}">${article.name }</td>
               </c:if>
               <td class="tl pl20" onclick="view('${article.id }')">
                 <c:if test="${article.range=='0' }">
@@ -504,6 +506,12 @@
                 <c:if test="${article.range=='2' }">
                   内外网
                 </c:if>
+              </td>
+              <td class="tc" ">
+                 ${article.user.relName }
+              </td>
+              <td class="tc" >
+                ${article.user.orgName }
               </td>
               <%-- <td class="tc" onclick="view('${article.id }')">
                 <fmt:formatDate value='${article.submitAt }' pattern="yyyy-MM-dd   HH:mm:ss" />

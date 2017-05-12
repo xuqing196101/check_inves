@@ -738,7 +738,10 @@
         TELEPHONE,
       </if>
       <if test="createdAt != null and createdAt != ''">
-        CREATED_AT
+        CREATED_AT,
+      </if>
+      <if test="position != null">
+        POSITION
       </if>
 	  </trim>
 	  <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -782,7 +785,10 @@
         #{telephone},
       </if>
       <if test="createdAt != null and createdAt != ''">
-        #{createdAt}
+        #{createdAt},
+      </if>
+      <if test="position != null">
+        #{position}
       </if>
     </trim>
 	</insert>

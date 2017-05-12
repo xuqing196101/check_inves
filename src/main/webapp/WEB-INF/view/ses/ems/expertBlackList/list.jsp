@@ -178,7 +178,7 @@
              <h2>专家黑名单列表</h2>
           </div>
           
-	      <h2 class="search_detail">
+	      <div class="search_detail">
 	          <form action="${pageContext.request.contextPath}/expertBlacklist/blacklist.html"  method="post" id="form1" class="mb0"> 
 	               <input type="hidden" name="page" id="page">
 	               <ul class="demand_list">
@@ -222,7 +222,7 @@
 	             </ul>
 	             <div class="clear"></div>
               </form>
-	       </h2>
+	       </div>
 	    
         <div class="col-md-12 pl20 mt10">
             <button class="btn btn-windows add" type="button" onclick="add();">新增</button>

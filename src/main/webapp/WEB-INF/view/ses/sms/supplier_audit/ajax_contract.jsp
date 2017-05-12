@@ -77,7 +77,7 @@
 			<input type="hidden" name="supplierTypeId" id="supplierTypeId" value="${supplierTypeId}">
 			<table class="table table-bordered">
 				<tr>
-					<td class="tc info" colspan="4"> 品目名称</td>
+					<td class="tc info" colspan="4">产品名称</td>
 					<td colspan="3" class="tc info">销售合同(体现甲乙双方盖章及标的相关页)</td>
 					<td colspan="3" class="tc info">证明合同有效履行的相应银行收款进账单</td>
 					<td class="tc info w50" rowspan="2">操作</td>

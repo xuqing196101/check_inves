@@ -97,6 +97,7 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
     org.setProvinceId(purchaseDep.getProvinceId());
     org.setCityId(purchaseDep.getCityId());
     org.setTelephone(purchaseDep.getDutyRoomPhone());
+    org.setPosition(purchaseDep.getPosition());
     orgniztionMapper.saveOrg(org);
     String orgId = org.getId();
     purchaseDep.setOrgId(orgId);
@@ -171,6 +172,7 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
       map.put("contactMobile", purchaseDep.getContactMobile());
       map.put("pid", purchaseDep.getProvinceId());
       map.put("cid", purchaseDep.getCityId());
+      map.put("position", purchaseDep.getPosition());
       orgniztionMapper.updateOrgnization(map);
     }
 

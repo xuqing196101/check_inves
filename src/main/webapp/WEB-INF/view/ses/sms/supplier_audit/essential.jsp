@@ -69,8 +69,11 @@
 				    title : '请填写不通过的理由：', 
 				    formType : 2, 
 				    offset : '100px',
+				    maxlength : '100'
 				}, 
 		    function(text){
+		    	var text = trim(text);
+				  if(text != null && text !=""){
 				    $.ajax({
 				      url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 				      type: "post",
@@ -86,10 +89,13 @@
 				        }
 				      }
 				    });
-					$(obj).after(html);
-				 $("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
-		      layer.close(index);
-			    });
+							$(obj).after(html);
+						  $("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
+				      layer.close(index);
+		      	}else{
+		      		layer.msg('不能为空！', {offset:'100px'});
+		      	}
+			    });  
 		  	}
 			
 			
@@ -150,25 +156,31 @@
 				var index = layer.prompt({
 					title: '请填写不通过的理由：',
 					formType: 2,
-					offset: '100px'
+					offset: '100px',
+					maxlength: '100',
 				}, function(text) {
-					$.ajax({
-						url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-						type: "post",
-						data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType=basic_page" + "&auditContent=附件" + "&auditField=" + auditField,
-						dataType: "json",
-						success: function(result) {
-							result = eval("(" + result + ")");
-							if(result.msg == "fail") {
-								layer.msg('该条信息已审核过！', {
-									shift: 6, //动画类型
-									offset: '100px'
-								});
+					var text = trim(text);
+				  if(text != null && text !=""){
+						$.ajax({
+							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+							type: "post",
+							data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType=basic_page" + "&auditContent=附件" + "&auditField=" + auditField,
+							dataType: "json",
+							success: function(result) {
+								result = eval("(" + result + ")");
+								if(result.msg == "fail") {
+									layer.msg('该条信息已审核过！', {
+										shift: 6, //动画类型
+										offset: '100px'
+									});
+								}
 							}
-						}
-					});
-					$(ele).parents("li").find("p").show(); //显示叉
-					layer.close(index);
+						});
+						$(ele).parents("li").find("p").show(); //显示叉
+						layer.close(index);
+					}else{
+		      		layer.msg('不能为空！', {offset:'100px'});
+		      	}
 				});
 			}
 			
@@ -180,26 +192,32 @@
 		    title: '请填写不通过的理由：', 
 		    formType: 2, 
 		    offset: '100px',
+		    maxlength: '100'
 		    }, 
 		    function(text){
-		    $.ajax({
-		      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-		      type:"post",
-		      data: {"auditType":"basic_page","auditFieldName":"售后服务机构","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
-		      dataType:"json",
-		      success:function(result){
-		      result = eval("(" + result + ")");
-		      if(result.msg == "fail"){
-		        layer.msg('该条信息已审核过！', {
-		          shift: 6, //动画类型
-		          offset:'100px'
-		            });
-		        }
-		      }
-		      });
-		        $("#"+id+"_hidden").hide();
-			      $("#"+id+"_show").show();
-			       layer.close(index);
+		    	var text = trim(text);
+				  if(text != null && text !=""){
+				    $.ajax({
+				      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+				      type:"post",
+				      data: {"auditType":"basic_page","auditFieldName":"售后服务机构","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+				      dataType:"json",
+				      success:function(result){
+				      result = eval("(" + result + ")");
+				      if(result.msg == "fail"){
+				        layer.msg('该条信息已审核过！', {
+				          shift: 6, //动画类型
+				          offset:'100px'
+				            });
+				        }
+				      }
+				      });
+				        $("#"+id+"_hidden").hide();
+					      $("#"+id+"_show").show();
+					      layer.close(index);
+					    }else{
+		      		layer.msg('不能为空！', {offset:'100px'});
+		      	}
 		    });
 		  }
 			
@@ -233,6 +251,11 @@
 						});
 					}
 				});
+			}
+			
+			//删除左右两端的空格
+			function trim(str){ 
+				return str.replace(/(^\s*)|(\s*$)/g, "");
 			}
 			
 			// 提示修改之前的信息(列表)
@@ -565,7 +588,7 @@
 							<li class="col-md-3 col-sm-6 col-xs-12 pl10" >
 							<span <c:if test="${fn:contains(houseFileModifyField,supplierAddress.id.concat(supplierDictionaryData.supplierHousePoperty))}">style="border: 1px solid #FF8C00;"</c:if> class="hand" onclick="reason1(this,'supplierHousePoperty_${supplierAddress.id}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">房产证明或租赁协议：</span>
 							<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
-								<u:show showId="house_show_${vs.index+1}" businessId="${supplierAddress.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+								<u:show delete="false" showId="house_show_${vs.index+1}" businessId="${supplierAddress.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
 								<p><img style="padding-left: 100px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 								<c:if test="${fn:contains(passedField,'supplierHousePoperty_'.concat(supplierAddress.id))}">
 									<img style="padding-left: 100px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
@@ -700,7 +723,7 @@
 							<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierIdentityUp)}">style="border: 1px solid #FF8C00;"</c:if> class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentityUp');"> 身份证复印件（正反面在一张上）:</span>
 					  		<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
 					  			<u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
-           				<p><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+           				<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
            				<c:if test="${fn:contains(passedField,'supplierIdentityUp')}">
 										<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 									</c:if>

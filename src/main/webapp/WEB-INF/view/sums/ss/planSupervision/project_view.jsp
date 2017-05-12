@@ -10,8 +10,8 @@
     <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
-      function view(id,type){
-        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewPack.html?id="+id+"&type="+type+"&planId=${planId}";
+      function view(id){
+        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewPack.html?id="+id+"&planId=${planId}";
       }
     </script>
   </head>
@@ -63,20 +63,20 @@
             <c:forEach items="${listProject}" var="obj" varStatus="vs">
               <tr class="pointer">
                 <td class="tc w50">${(vs.index+1)}</td>
-                <td class="tl pl20" onclick="view('${obj.id}','1')">
-                  <a href="javascript:void(0)" onclick="view('${obj.id}','1');">${obj.name}</a>
+                <td class="tl pl20" onclick="view('${obj.id}')">
+                  <a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a>
                 </td>
-                <td class="tl pl20" onclick="view('${obj.id}','1')">${obj.projectNumber}</td>
-                <td class="tc " onclick="view('${obj.id}','1')">${obj.purchaseDepId}</td>
-                <td class="tc " onclick="view('${obj.id}','1')">
+                <td class="tl pl20" onclick="view('${obj.id}')">${obj.projectNumber}</td>
+                <td class="tc " onclick="view('${obj.id}')">${obj.purchaseDepId}</td>
+                <td class="tc " onclick="view('${obj.id}')">
                   <c:forEach items="${kind}" var="kind">
                     <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
                 </td>
-                <td class="tl pl20" onclick="view('${obj.id}','1')">
+                <td class="tl pl20" onclick="view('${obj.id}')">
                   <fmt:formatDate type='date' value='${obj.createAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                 </td>
-                <td class="tl pl20" onclick="view('${obj.id}','1')">${obj.appointMan}</td>
+                <td class="tl pl20" onclick="view('${obj.id}')">${obj.appointMan}</td>
                 <td class="tc">${obj.status}</td>
                 <%-- <td class="tc">
                   <c:if test="${projectNature eq '1' }">

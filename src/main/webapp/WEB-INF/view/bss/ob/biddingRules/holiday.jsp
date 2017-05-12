@@ -64,6 +64,11 @@
 	
 	//修改
     function edit() {
+		var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }    
        var id = [];
 	   $('input[name="chkItem"]:checked').each(function() {
 	   		id.push($(this).val());
@@ -85,6 +90,11 @@
 	
 	/* 删除 */
 	function del(){
+		var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }	
 		var id = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
@@ -127,17 +137,32 @@
 	
 	// 创建特殊日期
 	function createSpecialdate(){
+		var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }	
 		window.location.href="${pageContext.request.contextPath}/obrule/createSpecialdateUI.html";
 	}
 	
 	//!--搜索-->
 	function query(){
+		var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }	
 		$("#queryForm").attr("action","${pageContext.request.contextPath}/obrule/holidayList.html");
 		$("#queryForm").submit();
 	}
 	
 	//重置按钮事件  
     function resetAll(){
+ 		var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }   
         $("#specialDate").val("");  
         $("#dateType").val("");  
     }

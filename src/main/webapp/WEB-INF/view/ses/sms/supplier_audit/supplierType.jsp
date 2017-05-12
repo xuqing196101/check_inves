@@ -62,6 +62,11 @@
 				}
 			});
 			
+			 //删除左右两端的空格
+			function trim(str){ 
+				return str.replace(/(^\s*)|(\s*$)/g, "");
+			}
+			
 			//供应商类型复选框
 			function reasonType(auditField,auditFieldName){
 			  var supplierId = $("#supplierId").val();
@@ -70,8 +75,11 @@
 			    title : '请填写不通过的理由：', 
 			    formType : 2, 
 			    offset : '100px',
+			    maxlength: '100'
 				}, 
 		    function(text){
+		    	var text = trim(text);
+					if(text != null && text !=""){
 				    $.ajax({
 				      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 				      type:"post",
@@ -95,7 +103,10 @@
 				      }
 				    });
 				    $("#"+appear+"").css('visibility', 'visible');
-		      layer.close(index);
+		      	layer.close(index);
+		      	}else{
+		      		layer.msg('不能为空！', {offset:'100px'});
+		      	}
 			    });
 		  	}
 			
@@ -107,34 +118,40 @@
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
-						offset: '100px'
+						offset: '100px',
+						maxlength: '100'
 					},
 					function(text) {
-						$.ajax({
-							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-							type: "post",
-							data: {
-								"auditType": "mat_pro_page",
-								"auditFieldName": "生产-资质证书",
-								"auditContent": auditContent,
-								"suggest": text,
-								"supplierId": supplierId,
-								"auditField": id
-							},
-							dataType: "json",
-							success: function(result) {
-								result = eval("(" + result + ")");
-								if(result.msg == "fail") {
-									layer.msg('该条信息已审核过！', {
-										shift: 6, //动画类型
-										offset: '100px'
-									});
+						var text = trim(text);
+						if(text != null && text !=""){
+							$.ajax({
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								type: "post",
+								data: {
+									"auditType": "mat_pro_page",
+									"auditFieldName": "生产-资质证书",
+									"auditContent": auditContent,
+									"suggest": text,
+									"supplierId": supplierId,
+									"auditField": id
+								},
+								dataType: "json",
+								success: function(result) {
+									result = eval("(" + result + ")");
+									if(result.msg == "fail") {
+										layer.msg('该条信息已审核过！', {
+											shift: 6, //动画类型
+											offset: '100px'
+										});
+									}
 								}
-							}
-						});
-						$("#" + id + "_show").show();
-						$("#" + id + "_hidden").hide();
-						layer.close(index);
+							});
+							$("#" + id + "_show").show();
+							$("#" + id + "_hidden").hide();
+							layer.close(index);
+							}else{
+		      			layer.msg('不能为空！', {offset:'100px'});
+		      	}
 					});
 			}
 			//生产
@@ -156,14 +173,110 @@
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
-						offset: '100px'
+						offset: '100px',
+						maxlength: '100'
 					},
 					function(text) {
+						var text = trim(text);
+						if(text != null && text !=""){
+							$.ajax({
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								type: "post",
+								data: {
+									"auditType": "mat_pro_page",
+									"auditFieldName": auditFieldName,
+									"auditContent": auditContent,
+									"suggest": text,
+									"supplierId": supplierId,
+									"auditField": auditField
+								},
+								dataType: "json",
+								success: function(result) {
+									result = eval("(" + result + ")");
+									if(result.msg == "fail") {
+										layer.msg('该条信息已审核过！', {
+											shift: 6, //动画类型
+											offset: '100px'
+										});
+									}
+								}
+							});
+							$(obj).after(html);
+							$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
+							layer.close(index);
+						}else{
+		      			layer.msg('不能为空！', {offset:'100px'});
+		      	}
+					});
+			}
+
+			//销售
+			function reasonSale(id, str) {
+				var supplierId = $("#supplierId").val();
+				var auditContent = "证书名称：" + str + "的信息";
+				var index = layer.prompt({
+					title: '请填写不通过的理由：',
+					formType: 2,
+					offset: '100px',
+					maxlength: '100'
+				}, function(text) {
+					var text = trim(text);
+					if(text != null && text !=""){
 						$.ajax({
 							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 							type: "post",
 							data: {
-								"auditType": "mat_pro_page",
+								"auditType": "mat_sell_page",
+								"auditFieldName": "销售-资质证书",
+								"auditContent": auditContent,
+								"suggest": text,
+								"supplierId": supplierId,
+								"auditField": id
+							},
+							dataType: "json",
+							success: function(result) {
+								result = eval("(" + result + ")");
+								if(result.msg == "fail") {
+									layer.msg('该条信息已审核过！', {
+										shift: 6, //动画类型
+										offset: '100px'
+									});
+								}
+							}
+						});
+						$("#" + id + "_hidden").hide();
+						$("#" + id + "_show").show();
+						layer.close(index);
+						}else{
+		      			layer.msg('不能为空！', {offset:'100px'});
+		      	}
+				});
+			}
+
+			function reasonSale1(obj) {
+				var supplierId = $("#supplierId").val();
+				var appear = obj.id;
+				var auditField = obj.id.replace("_sale", "").trim();
+				var auditContent;
+				var auditFieldName;
+				var html = "<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
+				$("#" + obj.id + "").each(function() {
+					auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
+					auditContent = $(this).parents("li").find("input").val();
+				});
+				var index = layer.prompt({
+					title: '请填写不通过的理由：',
+					formType: 2,
+					offset: '100px',
+					maxlength: '100'
+				}, function(text) {
+					var text = trim(text);
+					if(text != null && text !=""){
+						$.ajax({
+							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+							type: "post",
+							data: {
+								"auditType": "mat_sell_page",
 								"auditFieldName": auditFieldName,
 								"auditContent": auditContent,
 								"suggest": text,
@@ -184,87 +297,9 @@
 						$(obj).after(html);
 						$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
 						layer.close(index);
-					});
-			}
-
-			//销售
-			function reasonSale(id, str) {
-				var supplierId = $("#supplierId").val();
-				var auditContent = "证书名称：" + str + "的信息";
-				var index = layer.prompt({
-					title: '请填写不通过的理由：',
-					formType: 2,
-					offset: '100px'
-				}, function(text) {
-					$.ajax({
-						url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-						type: "post",
-						data: {
-							"auditType": "mat_sell_page",
-							"auditFieldName": "销售-资质证书",
-							"auditContent": auditContent,
-							"suggest": text,
-							"supplierId": supplierId,
-							"auditField": id
-						},
-						dataType: "json",
-						success: function(result) {
-							result = eval("(" + result + ")");
-							if(result.msg == "fail") {
-								layer.msg('该条信息已审核过！', {
-									shift: 6, //动画类型
-									offset: '100px'
-								});
-							}
-						}
-					});
-					$("#" + id + "_hidden").hide();
-					$("#" + id + "_show").show();
-					layer.close(index);
-				});
-			}
-
-			function reasonSale1(obj) {
-				var supplierId = $("#supplierId").val();
-				var appear = obj.id;
-				var auditField = obj.id.replace("_sale", "").trim();
-				var auditContent;
-				var auditFieldName;
-				var html = "<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
-				$("#" + obj.id + "").each(function() {
-					auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
-					auditContent = $(this).parents("li").find("input").val();
-				});
-				var index = layer.prompt({
-					title: '请填写不通过的理由：',
-					formType: 2,
-					offset: '100px'
-				}, function(text) {
-					$.ajax({
-						url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-						type: "post",
-						data: {
-							"auditType": "mat_sell_page",
-							"auditFieldName": auditFieldName,
-							"auditContent": auditContent,
-							"suggest": text,
-							"supplierId": supplierId,
-							"auditField": auditField
-						},
-						dataType: "json",
-						success: function(result) {
-							result = eval("(" + result + ")");
-							if(result.msg == "fail") {
-								layer.msg('该条信息已审核过！', {
-									shift: 6, //动画类型
-									offset: '100px'
-								});
-							}
-						}
-					});
-					$(obj).after(html);
-					$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
-					layer.close(index);
+						}else{
+		      			layer.msg('不能为空！', {offset:'100px'});
+		      	}
 				});
 			}
 
@@ -281,38 +316,44 @@
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
-						offset: '100px'
+						offset: '100px',
+						maxlength: '100'
 					},
 					function(text) {
-						$.ajax({
-							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-							type: "post",
-							data: {
-								"auditType": "mat_eng_page",
-								"auditFieldName": auditFieldName,
-								"auditContent": auditContent,
-								"suggest": text,
-								"supplierId": supplierId,
-								"auditField": id
-							},
-							dataType: "json",
-							success: function(result) {
-								result = eval("(" + result + ")");
-								if(result.msg == "fail") {
-									layer.msg('该条信息已审核过！', {
-										shift: 6, //动画类型
-										offset: '100px'
-									});
+						var text = trim(text);
+						if(text != null && text !=""){
+							$.ajax({
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								type: "post",
+								data: {
+									"auditType": "mat_eng_page",
+									"auditFieldName": auditFieldName,
+									"auditContent": auditContent,
+									"suggest": text,
+									"supplierId": supplierId,
+									"auditField": id
+								},
+								dataType: "json",
+								success: function(result) {
+									result = eval("(" + result + ")");
+									if(result.msg == "fail") {
+										layer.msg('该条信息已审核过！', {
+											shift: 6, //动画类型
+											offset: '100px'
+										});
+									}
 								}
-							}
-						});
-						$("#" + id + "_hidden").hide();
-						$("#" + id + "_hidden1").hide();
-						$("#" + id + "_hidden2").hide();
-						$("#" + id + "_show").css('visibility', 'visible');
-						$("#" + id + "_show1").css('visibility', 'visible');
-						$("#" + id + "_show2").css('visibility', 'visible');
-						layer.close(index);
+							});
+							$("#" + id + "_hidden").hide();
+							$("#" + id + "_hidden1").hide();
+							$("#" + id + "_hidden2").hide();
+							$("#" + id + "_show").css('visibility', 'visible');
+							$("#" + id + "_show1").css('visibility', 'visible');
+							$("#" + id + "_show2").css('visibility', 'visible');
+							layer.close(index);
+							}else{
+		      			layer.msg('不能为空！', {offset:'100px'});
+		      	}
 					});
 			}
 
@@ -336,19 +377,59 @@
 						title: '请填写不通过的理由：',
 						formType: 2,
 						offset: '100px',
+						maxlength: '100'
 					},
 					function(text) {
+						var text = trim(text);
+						if(text != null && text !=""){
+							$.ajax({
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								type: "post",
+								data: {
+									"auditType": "mat_eng_page",
+									"auditFieldName": auditFieldName,
+									"auditContent": auditContent,
+									"suggest": text,
+									"supplierId": supplierId,
+									"auditField": auditField
+								},
+								dataType: "json",
+								success: function(result) {
+									result = eval("(" + result + ")");
+									if(result.msg == "fail") {
+										layer.msg('该条信息已审核过！', {
+											shift: 6, //动画类型
+											offset: '100px'
+										});
+									}
+								}
+							});
+							/* $("#"+id3+"").show();
+							$("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
+							$(obj).after(html);
+							$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
+							layer.close(index);
+							}else{
+		      			layer.msg('不能为空！', {offset:'100px'});
+		      	}
+					});
+			}
+			
+			function reasonFile(ele, auditField) {
+				var supplierId = $("#supplierId").val();
+				var auditFieldName = $(ele).parents("li").find("span").text().replace("：", "").replace("view", ""); //审批的字段名字
+				var index = layer.prompt({
+					title: '请填写不通过的理由：',
+					formType: 2,
+					offset: '100px',
+					maxlength: '100'
+				}, function(text) {
+					var text = trim(text);
+					if(text != null && text !=""){
 						$.ajax({
 							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 							type: "post",
-							data: {
-								"auditType": "mat_eng_page",
-								"auditFieldName": auditFieldName,
-								"auditContent": auditContent,
-								"suggest": text,
-								"supplierId": supplierId,
-								"auditField": auditField
-							},
+							data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType=mat_eng_page" + "&auditContent=附件" + "&auditField=" + auditField,
 							dataType: "json",
 							success: function(result) {
 								result = eval("(" + result + ")");
@@ -360,39 +441,11 @@
 								}
 							}
 						});
-						/* $("#"+id3+"").show();
-						$("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
-						$(obj).after(html);
-						$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
+						$(ele).parents("li").find("p").show(); //显示叉
 						layer.close(index);
-					});
-			}
-			
-			function reasonFile(ele, auditField) {
-				var supplierId = $("#supplierId").val();
-				var auditFieldName = $(ele).parents("li").find("span").text().replace("：", "").replace("view", ""); //审批的字段名字
-				var index = layer.prompt({
-					title: '请填写不通过的理由：',
-					formType: 2,
-					offset: '100px'
-				}, function(text) {
-					$.ajax({
-						url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-						type: "post",
-						data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType=mat_eng_page" + "&auditContent=附件" + "&auditField=" + auditField,
-						dataType: "json",
-						success: function(result) {
-							result = eval("(" + result + ")");
-							if(result.msg == "fail") {
-								layer.msg('该条信息已审核过！', {
-									shift: 6, //动画类型
-									offset: '100px'
-								});
-							}
-						}
-					});
-					$(ele).parents("li").find("p").show(); //显示叉
-					layer.close(index);
+						}else{
+		      			layer.msg('不能为空！', {offset:'100px'});
+		      	}
 				});
 			}
 			
@@ -403,34 +456,40 @@
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
-						offset: '100px'
+						offset: '100px',
+						maxlength: '100'
 					},
 					function(text) {
-						$.ajax({
-							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-							type: "post",
-							data: {
-								"auditType": "mat_serve_page",
-								"auditFieldName": auditFieldName,
-								"auditContent": auditContent,
-								"suggest": text,
-								"supplierId": supplierId,
-								"auditField": id
-							},
-							dataType: "json",
-							success: function(result) {
-								result = eval("(" + result + ")");
-								if(result.msg == "fail") {
-									layer.msg('该条信息已审核过！', {
-										shift: 6, //动画类型
-										offset: '100px'
-									});
+						var text = trim(text);
+						if(text != null && text !=""){
+							$.ajax({
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								type: "post",
+								data: {
+									"auditType": "mat_serve_page",
+									"auditFieldName": auditFieldName,
+									"auditContent": auditContent,
+									"suggest": text,
+									"supplierId": supplierId,
+									"auditField": id
+								},
+								dataType: "json",
+								success: function(result) {
+									result = eval("(" + result + ")");
+									if(result.msg == "fail") {
+										layer.msg('该条信息已审核过！', {
+											shift: 6, //动画类型
+											offset: '100px'
+										});
+									}
 								}
-							}
-						});
-						$("#" + id + "_hidden").hide();
-						$("#" + id + "_show").show();
-						layer.close(index);
+							});
+							$("#" + id + "_hidden").hide();
+							$("#" + id + "_show").show();
+							layer.close(index);
+						}else{
+		      			layer.msg('不能为空！', {offset:'100px'});
+		      	}
 					});
 			}
 
@@ -449,36 +508,42 @@
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
-						offset: '100px'
+						offset: '100px',
+						maxlength: '100'
 					},
 					function(text) {
-						$.ajax({
-							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-							type: "post",
-							data: {
-								"auditType": "mat_serve_page",
-								"auditFieldName": auditFieldName,
-								"auditContent": auditContent,
-								"suggest": text,
-								"supplierId": supplierId,
-								"auditField": auditField
-							},
-							dataType: "json",
-							success: function(result) {
-								result = eval("(" + result + ")");
-								if(result.msg == "fail") {
-									layer.msg('该条信息已审核过！', {
-										shift: 6, //动画类型
-										offset: '100px'
-									});
+						var text = trim(text);
+						if(text != null && text !=""){
+							$.ajax({
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								type: "post",
+								data: {
+									"auditType": "mat_serve_page",
+									"auditFieldName": auditFieldName,
+									"auditContent": auditContent,
+									"suggest": text,
+									"supplierId": supplierId,
+									"auditField": auditField
+								},
+								dataType: "json",
+								success: function(result) {
+									result = eval("(" + result + ")");
+									if(result.msg == "fail") {
+										layer.msg('该条信息已审核过！', {
+											shift: 6, //动画类型
+											offset: '100px'
+										});
+									}
 								}
-							}
-						});
-						/* $("#"+id3+"").show();
-						$("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
-						$(obj).after(html);
-						$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
-						layer.close(index);
+							});
+							/* $("#"+id3+"").show();
+							$("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
+							$(obj).after(html);
+							$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
+							layer.close(index);
+							}else{
+		      			layer.msg('不能为空！', {offset:'100px'});
+		      	}
 					});
 			}
 

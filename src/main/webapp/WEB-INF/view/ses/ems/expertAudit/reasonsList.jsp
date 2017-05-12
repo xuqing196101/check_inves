@@ -40,7 +40,7 @@
 						shift: 4,
 					  btn: ['确认','取消']
 					}, function(){
-						var index = layer.prompt({
+						/* var index = layer.prompt({
 						title: '请填写最终意见：',
 						formType: 2,
 						offset: '100px',
@@ -54,8 +54,25 @@
 										$("#form_shenhe").submit();
 									}
 							});
-						});
+						}); */
 						
+						var opinion = document.getElementById('opinion').value;
+						opinion = trim(opinion);
+						if(opinion !=null && opinion !=""){
+							$.ajax({
+								url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
+								data: {"opinion" : opinion , "expertId" : expertId},
+								success: function() {
+									//提交审核
+										$("#status").val(status);
+										$("#form_shenhe").submit();
+									}
+							});
+						}else{
+							layer.msg("请填写最终意见",{offset : '100px'});
+							return;
+						}
+					
 						//初审不通过
 						if(status == 2){
 							window.location.href="${pageContext.request.contextPath}/expertAudit/saveAuditNot.html?expertId="+expertId;
@@ -75,6 +92,11 @@
 					});	
 				}
 			}
+			
+			function trim(str){ //删除左右两端的空格
+				return str.replace(/(^\s*)|(\s*$)/g, "");
+			}
+			
 			
 			function updateStepNumber(stepNumber){
 				$.ajax({
@@ -123,7 +145,7 @@
 							    			$("#form_id").attr("action",action);
 							    			$("#form_id").submit();
 					       			}, 1000);
-									}
+									};
 		       			},
 		       				error: function(){
 		       					layer.msg("删除失败",{offset : '100px'});
@@ -132,7 +154,7 @@
 				   		});
 				 		}else{
 			        layer.alert("请选择需要移除的信息！",{offset:'100px'});
-				 	  }
+				 	  };
 	        }
 	        
 		</script>
@@ -256,10 +278,21 @@
 								</tr>
 							</c:forEach>
 						</table>
+					</ul>
+					
+					<h2 class="count_flow"><i>1</i>最终意见</h2>
+					<ul class="ul_list">
+						<li class="col-md-12 col-sm-12 col-xs-12">
+							<div class="col-md-12 col-sm-12 col-xs-12 p0">
+								<textarea  id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" ></textarea>
+							</div>
+						</li>
+						
 						<div class="col-md-12 add_regist tc">
 							<a class="btn" type="button" onclick="lastStep();">上一步</a>
 						</div>
 					</ul>
+					
 					<div class="col-md-12 add_regist tc">
 						<form id="form_shenhe" action="${pageContext.request.contextPath}/expertAudit/updateStatus.html" >
 							<input name="id" value="${expertId}" type="hidden">

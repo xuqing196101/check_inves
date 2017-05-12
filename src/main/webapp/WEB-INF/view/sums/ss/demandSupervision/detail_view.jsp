@@ -6,14 +6,15 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <script src="${pageContext.request.contextPath}/public/webuploadFT/layui/layui.js"></script>
     <script type="text/javascript">
-      $(function() {
-        $(".progress-bar").each(function() {
-          var progress = $(this).prev().val();
-          progress = progress + "%";
-          $(this).width(progress);
-        });
-      });
+      /* $(function() {
+              $(".progress-bar").each(function() {
+                var progress = $(this).prev().val();
+                progress = progress + "%";
+                $(this).width(progress);
+              });
+            }); */
 
       function view(id) {
         window.location.href = "${pageContext.request.contextPath}/planSupervision/overview.html?id=" + id;
@@ -26,6 +27,54 @@
       function normalImg(obj, x) {
         $(obj).children("span").remove();
       }
+
+      $(function() {
+        layui.use('flow', function() {
+          var flow = layui.flow;
+          flow.load({
+            elem: '#tbody_id' //指定列表容器
+              ,
+            done: function(page, next) { //到达临界点（默认滚动触发），触发下一页
+              var lis = [];
+              //以jQuery的Ajax请求为例，请求下一页数据
+              $.ajax({
+                url: "${pageContext.request.contextPath}/supervision/paixu.do?id=${planId}&fileId=${demand.fileId}&page=" + page,
+                type: "get",
+                dataType: "json",
+                success: function(res) {
+                  layui.each(res.data, function(index, item) {
+                    var department = "";
+                    var progress = "";
+                    if(item.price == null) {
+                      department = "<div class='department'>" + item.department + "</div>";
+                    } else if(item.price != 0) {
+                      progress = "<div class='progress-new'><input type='hidden' value='" + item.progressBar + "'/><div id='progress' class='progress-bar' style='background:#2c9fa6;width:" + item.progressBar + "%" + "'" +
+                        "onmouseover='bigImg(this,\"" + item.progressBar + "\")' onmouseout='normalImg(this,\"" + item.progressBar + "\")'></div></div>";
+                    }
+                    var code = "";
+                    if(item.oneAdvice == "DYLY") {
+                      code = item.supplier;
+                    }
+                    if(item.purchaseCount == 0) {
+                      item.purchaseCount = "";
+                    }
+                    if(item.price == 0) {
+                      item.price = "";
+                    }
+                    var html = "<tr class='pointer'><td class='tc w50'>" + item.seq + "</td><td>" +
+                      department + "</td><td class='tl pl20'>" + item.goodsName + "</td><td class='tl pl20'>" + item.stand + "</td><td class='tl pl20'>" +
+                      item.qualitStand + "</td><td class='tl pl20'>" + item.item + "</td><td class='tl pl20'>" + item.purchaseCount + "</td><td class='tr pr20'>" + item.price + "</td><td class='tr pr20'>" +
+                      item.budget + "</td><td class='tl pl20'>" + item.deliverDate + "</td><td class='tl pl20'>" + item.purchaseType + "</td><td class='tl pl20'>" +
+                      code + "</td><td class='tl pl20'>" + item.status + "</td><td class='tc' onclick='view(\"" + item.id + "\")'>" + progress + "</td></tr>";
+                    lis.push(html);
+                  });
+                  next(lis.join(''), page < res.pages);
+                },
+              });
+            }
+          });
+        });
+      });
     </script>
   </head>
 
@@ -114,8 +163,8 @@
                 </tr>
               </tbody>
             </table>
-      </c:if>
-      </ul>
+          </c:if>
+        </ul>
       </div>
       <div class="padding-top-10 clear" id="clear">
         <h2 class="count_flow">
@@ -125,79 +174,32 @@
             <c:otherwise>采购明细</c:otherwise>
           </c:choose>
              </h2>
-        <ul class="ul_list">    
-        <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
-          <table id="table" class="table table-bordered table-condensed lockout">
-            <thead>
-              <tr class="info">
-                <th class="w50">序号</th>
-                <th class="info department">需求部门</th>
-                <th class="info " width="10%">物资类别及名称</th>
-                <th class="info ">规格型号</th>
-                <th class="info " width="15%">质量技术标准<br/>(技术参数)</th>
-                <th class="info item">计量<br/>单位</th>
-                <th class="info ">采购<br/>数量</th>
-                <th class="info w80">单价<br/>（元）</th>
-                <th class="info w120">预算<br/>金额<br/>（万元）</th>
-                <th class="info " width="10%">交货期限</th>
-                <th class="info " width="8%">采购方式</th>
-                <c:if test="${code eq 'DYLY'}">
+        <ul class="ul_list">
+          <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
+            <table id="table" class="table table-bordered table-condensed lockout">
+              <thead>
+                <tr class="info">
+                  <th class="w50">序号</th>
+                  <th class="info department">需求部门</th>
+                  <th class="info " width="10%">物资类别及名称</th>
+                  <th class="info ">规格型号</th>
+                  <th class="info " width="15%">质量技术标准<br/>(技术参数)</th>
+                  <th class="info item">计量<br/>单位</th>
+                  <th class="info ">采购<br/>数量</th>
+                  <th class="info w80">单价<br/>（元）</th>
+                  <th class="info w120">预算<br/>金额<br/>（万元）</th>
+                  <th class="info " width="10%">交货期限</th>
+                  <th class="info " width="8%">采购方式</th>
                   <th class="info " width="10%">供应商名称</th>
-                </c:if>
-                <th class="info " width="8%">状态</th>
-                <th class="info" width="8%">进度</th>
-              </tr>
-            </thead>
-            <tbody id="tbody_id">
-              <c:forEach items="${list}" var="obj" varStatus="vs">
-                <tr class="pointer">
-                  <td class="tc w50">${obj.seq}</td>
-                  <td>
-                    <c:if test="${obj.price eq null}">
-                      <div class="department">${obj.department}</div>
-                    </c:if>
-                  </td>
-                  <td title="${obj.goodsName}" class="tl pl20">
-                    ${obj.goodsName}
-                  </td>
-                  <td title="${obj.stand}" class="tl pl20">
-                    ${obj.stand}
-                  </td>
-                  <td title="${obj.qualitStand}" class="tl pl20">
-                    ${obj.qualitStand}
-                  </td>
-                  <td title="${obj.item}" class="tl pl20">
-                    ${obj.item}
-                  </td>
-                  <td class="tl pl20">${obj.purchaseCount}</td>
-                  <td class="tr pr20">${obj.price}</td>
-                  <td class="tr pr20">${obj.budget}</td>
-                  <td class="tl pl20">${obj.deliverDate}</td>
-                  <td class="tl pl20">
-                    <c:forEach items="${kind}" var="kind">
-                      <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                    </c:forEach>
-                  </td>
-                  <c:if test="${code eq 'DYLY'}">
-                    <td title="${obj.supplier}" class="tl pl20">
-                      ${obj.supplier}
-                    </td>
-                  </c:if>
-                  <td class="tl pl20">${obj.status}</td>
-                  <td class="tc" onclick="view('${obj.id}')">
-                    <c:if test="${obj.price != null}">
-                      <div class="progress-new">
-                        <input type="hidden" value="${obj.progressBar}" />
-                        <div id="progress" class="progress-bar" style="background:#2c9fa6;" onmouseover="bigImg(this,'${obj.progressBar}')" onmouseout="normalImg(this,'${obj.progressBar}')">
-                        </div>
-                      </div>
-                    </c:if>
-                  </td>
+                  <th class="info " width="8%">状态</th>
+                  <th class="info" width="8%">进度</th>
                 </tr>
-              </c:forEach>
-            </tbody>
-          </table>
-          </ul>
+              </thead>
+              <tbody id="tbody_id">
+
+              </tbody>
+            </table>
+        </ul>
         </div>
       </div>
       <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">

@@ -189,6 +189,8 @@ $(document).ready(function(){
 	
 	/* 发布 */
 	function sub(i){
+	    var authType='${authType}'; 
+	    if(authType=='4'){
 		var id = $("#productId").val();
 		var code = $("#code").val();
 		var name = $("#name").val();
@@ -199,6 +201,9 @@ $(document).ready(function(){
 		var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
 		window.location.href = "${pageContext.request.contextPath}/product/edit.html?code="+code+"&&name="+name+"&&procurementId="+procurementId
 				+"&&category="+category+"&&standardModel="+standardModel+"&&qualityTechnicalStandard="+qualityTechnicalStandard+"&&i="+i+"&&id="+id+"&&categoryLevel="+categoryLevel;
+	  }else{
+	  layer.msg("只有资源服务中心才能操作");
+	}
 	}
 </script>
 </head>

@@ -4,9 +4,9 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<script src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
 	<script type="text/javascript">
 		/* 机构树 */
-		
 		function onClickOrg(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeOrg");
 			zTree.checkNode(treeNode, !treeNode.checked, null, true);
@@ -25,7 +25,7 @@
 			var cityObj = $("#orgSel");
 			cityObj.attr("value", v);
 			$("#oId").val(ids);
-			hideOrg();
+				hideOrg();
 		}
 		function onCheckOrg(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeOrg");
@@ -47,27 +47,31 @@
 			cityObj.attr("value", v);
 			$("#oId").val(ids);
 			$("#orgParent").val(pid);
-			hideOrg();
+		
 		}
 		
 		function showOrg() {
 			//获取机构类型
 			var orgType = $("#org_type").val();
 			var setting;
-			if (orgType == '3') {
+			if (orgType == '3' ) {
 				return;
 			}
 			var index = layer.load(0, {
 				shade : [ 0.1, '#fff' ],
 				offset : [ '45%', '53%' ]
 			});
-			 if(orgType =='4' || orgType=='5'){
+			 if(orgType=='5' || orgType =='4'){
+			 
 			  setting = {
 			data: {
 				simpleData: {
 					enable: true
 				}
 			   },
+			   view: {
+					dblClickExpand: false
+				},
 			  check: {
 				chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
         		chkStyle:"checkbox",  
@@ -250,11 +254,11 @@
 			$("#orgSel").attr("value", "");
 			$("#orgParent").val("");
 			$("#oId").val("");
-			if (orgType == '3') {
+			if (orgType == '3' ) {
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
 				$("#oId").attr("type","text");
-			} else if (orgType == '4' || orgType == '5') {
+			} else if (  orgType == '5'||orgType == '4') {
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
 			   $("#oId").attr("type","hidden");
@@ -306,8 +310,16 @@
 		}
 		
 		function ajaxIdNumber(){
-			 var is_error = 0;
+			 /* var is_error = 0;
 			 var idNumber = $("#idNumber").val();
+			 var msg=validateIdCard(idNumber);
+			 if(msg!='success'){
+			 $("#ajax_idNumber").html(msg);
+			 return;
+			 }else{
+			 $("#ajax_idNumber").html("");
+			 }
+			 
 			 $.ajax({
              type: "GET",
              async: false, 
@@ -322,7 +334,7 @@
 					 }
                }
          	});
-         	return is_error;
+         	return is_error; */
 		}
 		
 		$(document).ready(function(){  
@@ -457,9 +469,9 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">身份证号</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input id="idNumber"  name="idNumber" value="${user.idNumber}" onblur="ajaxIdNumber()"  maxlength="20" type="text">
+			        	<input id="idNumber"  name="idNumber" value="${user.idNumber}" onblur="ajaxIdNumber()"  maxlength="18" type="text">
 			        	<span class="add-on">i</span>
-			        	<div id="ajax_idNumber" class="cue"></div>
+			        	<div id="ajax_idNumber" class="cue">${ajax_idNumber }</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">

@@ -15,14 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseOrg;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.Line;
 import bss.formbean.Maps;
 import bss.model.pms.CollectPlan;
+import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseDetailService;
@@ -32,6 +36,8 @@ import bss.service.pms.impl.PurchaseDetailServiceImpl;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
 /**
  * 
  * @Title: PlanStatisticsController
@@ -44,6 +50,8 @@ import com.github.pagehelper.PageInfo;
 @RequestMapping("/statistic")
 public class PlanStatisticsController extends BaseController {
 	
+	@Autowired
+    private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
 	
@@ -72,39 +80,59 @@ public class PlanStatisticsController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String queryPlan(CollectPlan collectPlan,Integer page,Model model,String year){
-//		purchaseRequired.setGoodsType("1");
-//		PageHelper.startPage(page==null?1:page,10);
-//		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
-//		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
-//		model.addAttribute("info", info);
-//		model.addAttribute("inf", purchaseRequired);
-//		model.addAttribute("year", year);
-//		model.addAttribute("kind", DictionaryDataUtil.find(5));
-//		model.addAttribute("goods", DictionaryDataUtil.find(6));
-		
-		
-//		 String json = map(purchaseRequired,year);
-//		String json= JSON.toJSONString(getMap());
-//		 model.addAttribute("data", json);
-//		 
-//		 
-//			HashMap<String,Object> map=new HashMap<String,Object>();
-//			map.put("typeName", 1);
-//			List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
-//			model.addAttribute("org", org);
-		
-		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
+	public String queryPlan(@CurrentUser User user,CollectPlan collectPlan,Integer page,Model model,String year){
+		Orgnization orgnization = orgnizationServiceI.findByCategoryId(user.getOrg().getId());
+		if(orgnization!=null&&"2".equals(orgnization.getTypeName())){
+			collectPlan.setUserId(user.getId());
+		}else{
+			collectPlan.setUserId("0");
+		}
+		List<CollectPlan> list = collectPlanService.getSummary(collectPlan, page==null?1:page);
 		PageInfo<CollectPlan> info = new PageInfo<CollectPlan>(list);
 		model.addAttribute("info", info);
-//		model.addAttribute("inf", collectPlan);
-		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
+		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("6");
 		model.addAttribute("dic", dic);
+		model.addAttribute("collectPlan", collectPlan);
 		
 		
 		return "bss/pms/statistic/list";
 	}
-
+	/**
+	 * 需求计划明细查询
+	 * @param user
+	 * @param collectPlan
+	 * @param page
+	 * @param model
+	 * @param year
+	 * @return
+	 */
+	@RequestMapping("/detailList")
+	public String detailList(@CurrentUser User user,CollectPlan collectPlan,Integer page,Model model,String year){
+		Orgnization orgnization = orgnizationServiceI.findByCategoryId(user.getOrg().getId());
+		HashMap<String, Object> hashMap=new HashMap<String, Object>();
+		if(orgnization!=null&&"2".equals(orgnization.getTypeName())){
+			hashMap.put("userId", user.getId());
+		}else{
+			hashMap.put("userId", "0");
+		}
+		page=page==null?1:page;
+		hashMap.put("page", page);
+		hashMap.put("planName", collectPlan.getFileName());
+		hashMap.put("planNo", collectPlan.getPlanNo());
+		hashMap.put("planType", collectPlan.getGoodsType());
+		List<PurchaseDetail> list = purchaseDetailService.getdetailAllByUserId(hashMap);
+		PageInfo<PurchaseDetail> info = new PageInfo<PurchaseDetail>(list);
+		for(PurchaseDetail p:info.getList()){
+			DictionaryData dic = DictionaryDataUtil.findById(String.valueOf(p.getPurchaseType()));
+			if(dic!=null){
+				p.setPurchaseType(dic.getName());
+			}
+		}
+		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("6");
+		model.addAttribute("dic", dic);
+		model.addAttribute("info", info);
+		return "bss/pms/statistic/detailList";
+	}
 	
 	/**
 	 * @throws UnsupportedEncodingException 
@@ -120,36 +148,14 @@ public class PlanStatisticsController extends BaseController {
 	 */
 	@RequestMapping(value="/bar",produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String bar(PurchaseRequired purchaseRequired,String year) throws UnsupportedEncodingException{
-		/*Map<String,Object> dataMap=new HashMap<String,Object>();
-		
-		Map<String,Object> map=new HashMap<String,Object>();
-		map.put("year",year);
-		List<Map<String,Object>> list = purchaseRequiredService.statisticDepartment(map);
-		
-		List<String> listData = new LinkedList<String>();
-		List<String>  data=new LinkedList<String>();
-		BigDecimal max=BigDecimal.ZERO;
-		
-		if(list!=null && list.size() >0){
-			for (Map<String,Object> m : list) {
-				listData.add(String.valueOf(m.get("DEPARTMENT"))) ;
-				String str=String.valueOf(m.get("AMOUNT"));
-				data.add(str);
-				BigDecimal min = new BigDecimal(str);
-				int n = max.compareTo(min);
-				if(n<0){
-					max=min;
-				}
-			}
-		}
-		
-		dataMap.put("name", listData);
-		dataMap.put("data", data);
-		dataMap.put("max", max);
-		String json = JSON.toJSONString(dataMap);*/
+	public String bar(@CurrentUser User user,PurchaseRequired purchaseRequired,String year) throws UnsupportedEncodingException{
+		Orgnization orgnization = orgnizationServiceI.findByCategoryId(user.getOrg().getId());
 		HashMap<String,Object> map=new HashMap<String,Object>();
-		map.put("year",year);
+		if(orgnization!=null&&"2".equals(orgnization.getTypeName())){
+			map.put("userId",user.getId());
+		}else{
+			map.put("userId","0");
+		}
 		Map<String, Object> getbar = purchaseDetailService.getbar(map);
 		String json = JSON.toJSONString(getbar);
 		return json;
@@ -168,40 +174,14 @@ public class PlanStatisticsController extends BaseController {
 	 */
 	@RequestMapping(value="/pipe",produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String pipe(PurchaseRequired purchaseRequired,String year){
-	
-		/*Map<String,Object> map=new HashMap<String,Object>();
-		map.put("year",year);
-		List<Map<String,Object>> list = purchaseRequiredService.statisticPurchaseMethod(map);
-		Map<String,Object> data=new HashMap<String,Object>();
-		
-		List<Maps> maps=new LinkedList<Maps>();
-		List<String> type=new LinkedList<String>();
-		
-		if(list!=null && list.size() >0){
-			for (Map<String,Object> m : list) {
-				DictionaryData dic = DictionaryDataUtil.findById(String.valueOf(m.get("PURCHASETYPE")));
-				
-				if(dic!=null){
-					type.add(dic.getName());
-					
-				}
-				
-				 
-				 Maps mp=new Maps();
- 				 String string = String.valueOf(m.get("AMOUNT"));
- 				BigDecimal decimal = new BigDecimal(string);
-				 mp.setValue(decimal);
-				if(dic!=null){
-					 mp.setName(dic.getName());
-				}
-				 maps.add(mp);
-			}
-		}
-		data.put("maps", maps);
-		data.put("type", type);*/
+	public String pipe(@CurrentUser User user,PurchaseRequired purchaseRequired,String year){
+		Orgnization orgnization = orgnizationServiceI.findByCategoryId(user.getOrg().getId());
 		HashMap<String,Object> map=new HashMap<String,Object>();
-		map.put("year",year);
+		if(orgnization!=null&&"2".equals(orgnization.getTypeName())){
+			map.put("userId",user.getId());
+		}else{
+			map.put("userId","0");
+		}
 		Map<String, Object> data = purchaseDetailService.getpipe(map);
 		String json = JSON.toJSONString(data);
 		return json;
@@ -220,32 +200,15 @@ public class PlanStatisticsController extends BaseController {
 	 */
 	@RequestMapping(value="/line",produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String line(PurchaseRequired purchaseRequired,String year){
-		Map<String,Object> map=new HashMap<String,Object>();
-		map.put("year",year);
-		List<Map<String,Object>> list = purchaseRequiredService.statisticByMonth(map);
-		
-		Map<String,Object> data=new HashMap<String,Object>();
-		List<String> month=new LinkedList<String>();
-		List<String> val=new LinkedList<String>();
-		List<Line> lineList=new LinkedList<Line>();
-		if(list!=null && list.size() >0){
-			for (Map<String,Object> m : list) {
-				month.add(String.valueOf(m.get("MONTH")));
-				String string = String.valueOf(m.get("AMOUNT"));
-				val.add(string);
-			/*	data.setValue(String.valueOf(m.get("AMOUNT")));
-				listData.add(data);*/
-			}
+	public String line(@CurrentUser User user,PurchaseRequired purchaseRequired,String year){
+		Orgnization orgnization = orgnizationServiceI.findByCategoryId(user.getOrg().getId());
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		if(orgnization!=null&&"2".equals(orgnization.getTypeName())){
+			map.put("userId",user.getId());
+		}else{
+			map.put("userId","0");
 		}
-		Line line=new Line();
-		line.setData(val);
-		line.setName("测试");
-		line.setType("line");
-		line.setStack("总量");
-		lineList.add(line);
-		data.put("month", month);
-		data.put("line", lineList);
+		Map<String, Object> data = purchaseDetailService.getline(map);
 		String s=JSON.toJSONString(data);
 		return s;
 	}

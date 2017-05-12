@@ -307,4 +307,10 @@ public class RoleServiceImpl implements RoleServiceI {
       }
     }
 
+	@Override
+	public List<String> findByRoleName(String roleName) {
+		// TODO Auto-generated method stub
+		return roleMapper.findByRoleName(roleName);
+	}
+
 }

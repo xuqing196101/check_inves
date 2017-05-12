@@ -87,9 +87,9 @@
     <if test="startTime != null and startTime !=''">
      and START_TIME= #{startTime}
     </if>
-    <if test="uid != null">
+    <!-- <if test="uid != null">
     and CREATER_ID=#{uid}
-    </if>
+    </if> -->
      <if test="createId != null">
      and CREATER_ID IN
        <foreach item="item" index="index" collection="createId" open="(" separator="," close=")">  
@@ -127,7 +127,10 @@
    <select id="selectTemporaryBy" parameterType="Map" resultMap="BaseResultMap">  
     select p.*
     from T_BSS_OB_PROJECT p 
-      where  p.CREATER_ID=#{userId,jdbcType=VARCHAR} and p.IS_DELETE=0
+      where   p.IS_DELETE=0
+     <!--  
+      and p.CREATER_ID=#{userId,jdbcType=VARCHAR} 
+      -->
     and p.ID = #{id,jdbcType=VARCHAR}
       	ORDER BY p.CREATED_AT DESC
   </select> 

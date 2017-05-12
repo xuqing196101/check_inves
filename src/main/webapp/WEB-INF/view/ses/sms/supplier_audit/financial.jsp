@@ -22,7 +22,7 @@
 				});
 			});
 
-			function reason(id, auditFieldName) {
+			function reason(id, auditFieldName, year) {
 				/* var offset = "";
 	    if (window.event) {
 		    e = event || window.event;
@@ -36,42 +36,47 @@
 	    } */
 				var supplierId = $("#supplierId").val();
 				if(auditFieldName == "财务信息") {
-					var auditContent = $("#" + id).text() + "年财务信息"; //审批的字段内容
+					var auditContent = year + "年财务信息"; //审批的字段内容
 				} else {
-					var auditContent = $("#" + id).text() + "年财务附件";
+					var auditContent = year + "年财务附件";
 				}
 
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
-						offset: '100px'
+						offset: '100px',
+						maxlength: '100'
 					},
 					function(text) {
-						$.ajax({
-							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-							type: "post",
-						  data: {"auditType":"basic_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
-							dataType: "json",
-							success: function(result) {
-								result = eval("(" + result + ")");
-								if(result.msg == "fail") {
-									layer.msg('该条信息已审核过！', {
-										shift: 6, //动画类型
-										offset: '100px'
-									});
+						var text = trim(text);
+				 	  if(text != null && text !=""){
+							$.ajax({
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								type: "post",
+							  data: {"auditType":"basic_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+								dataType: "json",
+								success: function(result) {
+									result = eval("(" + result + ")");
+									if(result.msg == "fail") {
+										layer.msg('该条信息已审核过！', {
+											shift: 6, //动画类型
+											offset: '100px'
+										});
+									}
 								}
-							}
-						});
-
-						if(auditFieldName == "财务信息") {
-							$("#" + id + "_hidden").hide();
-							$("#" + id + "_show").show();
-						} 
-						if(auditFieldName == "财务附件"){
-							$("#" + id + "_hidden").hide();
-							$("#" + id + "_show").show();
-						}
-						layer.close(index);
+							});
+								if(auditFieldName == "财务信息") {
+									$("#" + id + "_hidden").hide();
+									$("#" + id + "_show").show();
+								} 
+								if(auditFieldName == "财务附件"){
+									$("#" + id + "_hidden").hide();
+									$("#" + id + "_show").show();
+								}
+							layer.close(index);
+							}else{
+		      			layer.msg('不能为空！', {offset:'100px'});
+		      		}
 					});
 			}
 
@@ -161,6 +166,11 @@
 						});
 					}
 				});
+			}
+			
+			//删除左右两端的空格
+			function trim(str){ 
+				return str.replace(/(^\s*)|(\s*$)/g, "");
 			}
 		</script>
 
@@ -366,7 +376,7 @@
 									<td class="tc" id="totalNetAssets_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_totalNetAssets'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('totalNetAssets','${f.id}');"</c:if>>${f.totalNetAssets}</td>
 									<td class="tc" id="taking_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_taking'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('taking','${f.id}');"</c:if>>${f.taking}</td>
 									<td class="tc w50">
-										<a onclick="reason('${f.id}_info','财务信息');" id="${f.id}_info_hidden" class="editItem"><c:if test="${fn:contains(passedField,f.id.concat('_info'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if> <c:if test="${!fn:contains(passedField,f.id.concat('_info'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if></a>
+										<a onclick="reason('${f.id}_info','财务信息','${f.year}');" id="${f.id}_info_hidden" class="editItem"><c:if test="${fn:contains(passedField,f.id.concat('_info'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if> <c:if test="${!fn:contains(passedField,f.id.concat('_info'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if></a>
 										<p id="${f.id}_info_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 										
 										<c:if test="${fn:contains(passedField,f.id.concat('_info'))}">
@@ -407,7 +417,7 @@
 										<u:show showId="fina_${vs.index}_change" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierOwnerChange}" sysKey="${sysKey}" />
 								  </td>
 								  <td class="tc w50">
-											<a onclick="reason('${f.id}_file','财务附件');" id="${f.id}_file_hidden" class="editItem"><c:if test="${fn:contains(passedField,f.id.concat('_file'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if> <c:if test="${!fn:contains(passedField,f.id.concat('_file'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if></a>
+											<a onclick="reason('${f.id}_file','财务附件','${f.year}');" id="${f.id}_file_hidden" class="editItem"><c:if test="${fn:contains(passedField,f.id.concat('_file'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if> <c:if test="${!fn:contains(passedField,f.id.concat('_file'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if></a>
 											<p id="${f.id}_file_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 											
 											<c:if test="${fn:contains(passedField,f.id.concat('_file'))}">
