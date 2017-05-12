@@ -1,6 +1,7 @@
 package ses.service.bms.impl;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -397,6 +398,23 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
 		public void updateByTypeId(String typeId) {
 			userMapper.updateByTypeId(typeId);
 			
+			SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
+	    	String date = format.format(new Date());
+			User user = userMapper.findUserByTypeId(typeId);
+			//加后缀
+	    	 if(user !=null ){
+	    		 String loginName = user.getLoginName() + "_" + "del" + "_" +"bak" + "_" + date;
+	    		 User u = new User();
+		    	 u.setLoginName(loginName);
+		    	 u.setTypeId(typeId);
+		    	 userMapper.updateDelUserByTypeId(u);
+	    	 } 
+		}
+
+		@Override
+		public List<String> findListByTypeId(String typeId) {
+			// TODO Auto-generated method stub
+			return userMapper.findByTypeName(typeId);
 		}
 	}
 

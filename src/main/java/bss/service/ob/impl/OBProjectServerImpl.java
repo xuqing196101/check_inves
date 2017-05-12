@@ -352,7 +352,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			show = "竞价产品名称不能为空";
 			return toJsonProject(attribute, show);
 		}
-		List<UploadFile> fileList= fileUploadMapper.getFiles(Constant.TENDER_SYS_VALUE, obProject.getAttachmentId(), DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
+		List<UploadFile> fileList= fileUploadMapper.getFiles(Constant.OB_PROJECT_SYS_VALUE, obProject.getAttachmentId(), DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		 if(fileList==null||fileList.size()==0){
 		   attribute = "fileUploadErr";
 		   show = "附件不能为空";

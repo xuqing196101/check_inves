@@ -1251,7 +1251,7 @@
 
 		<!-- 插入历史记录 -->
     <insert id="insertExpertHistory" parameterType="ses.model.ems.ExpertHistory">
-        insert into T_SES_EMS_EXPERT_History
+        insert into T_SES_EMS_EXPERT_HISTORY
         <trim prefix="(" suffix=")" suffixOverrides=",">
         	<if test="id != null">
         		ID,
@@ -1284,7 +1284,7 @@
         		GRADUATE_SCHOOL,
         	</if>
         	<if test="hightEducation != null">
-        		HIGHT_EDUCATION,
+        		LAST_EDUCATION,
         	</if>
         	<if test="major != null">
         		MAJOR,
@@ -2039,6 +2039,7 @@
 		ON
 			T1.ID = T2.TYPE_ID
     where (STATUS = 4 or STATUS = 5 or STATUS = 6 or STATUS = 7 or STATUS = 8)
+    AND IS_PROVISIONAL = '0'
     <if test="relName != null and relName !=''">
         AND T1.REAL_NAME like #{relName}
     </if>
@@ -2049,9 +2050,9 @@
         AND T1.EXPERTS_FROM = '${expertsFrom}'
     </if>
     <if test="status != null and status !=''">
-    	<if test="status == 4">
+    	<!-- <if test="status == 4">
     		AND IS_PROVISIONAL = '0'
-    	</if>
+    	</if> -->
         AND T1.STATUS = '${status}'
     </if>
     <if test="expertsTypeId != null and expertsTypeId !=''">

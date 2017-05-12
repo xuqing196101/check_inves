@@ -588,7 +588,7 @@
 							<li class="col-md-3 col-sm-6 col-xs-12 pl10" >
 							<span <c:if test="${fn:contains(houseFileModifyField,supplierAddress.id.concat(supplierDictionaryData.supplierHousePoperty))}">style="border: 1px solid #FF8C00;"</c:if> class="hand" onclick="reason1(this,'supplierHousePoperty_${supplierAddress.id}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">房产证明或租赁协议：</span>
 							<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
-								<u:show showId="house_show_${vs.index+1}" businessId="${supplierAddress.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+								<u:show delete="false" showId="house_show_${vs.index+1}" businessId="${supplierAddress.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
 								<p><img style="padding-left: 100px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 								<c:if test="${fn:contains(passedField,'supplierHousePoperty_'.concat(supplierAddress.id))}">
 									<img style="padding-left: 100px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>

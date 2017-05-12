@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,6 +45,9 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import common.annotation.SystemControllerLog;
+import common.annotation.SystemServiceLog;
+import common.constant.StaticVariables;
 import common.utils.JdcgResult;
 
 /**
@@ -90,10 +94,9 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/list")
-	public String list(@CurrentUser User user,OBProduct example, Model model, Integer page) {
-		if (page == null) {
-			page = 1;
-		}
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	public String list(@CurrentUser User user,OBProduct example, Model model, @RequestParam(defaultValue="1")Integer page) {
 		String orgTyp = null;
 		if(user != null){
 			//判断是否 是资源服务中心 
@@ -153,6 +156,8 @@ public class OBProductController {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public void delete(@CurrentUser User user,HttpServletRequest request) {
 		String oBProductids = request.getParameter("oBProductids");
 		String productId = oBProductids.trim();
@@ -179,6 +184,8 @@ public class OBProductController {
 	 */
 	@RequestMapping("/productType")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public OBProduct productType(HttpServletRequest request,String productId,Model model) {
 		OBProduct obp=null;
 		
@@ -199,6 +206,8 @@ public class OBProductController {
 	 */
 	@RequestMapping("/fab")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String fab(@CurrentUser User user,HttpServletRequest request,Model model) {
 		if(user != null){
 			//判断是否 是资源服务中心 
@@ -246,6 +255,8 @@ public class OBProductController {
 	 */
 	@RequestMapping("/chfab")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public void chfab(@CurrentUser User user,HttpServletRequest request,Model model) {
 		if(user!= null){
 		//判断是否 是资源服务中心 
@@ -271,6 +282,8 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/tiaozhuan")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String tiaozhuan(@CurrentUser User user,Model model, HttpServletRequest request) {
 		String authType=null;
 		if(user!= null){
@@ -344,6 +357,8 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/supplier")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String supplier(@CurrentUser User user,Model model, HttpServletRequest request, Integer page) {
 		String authType=null;
 		if(user!= null){
@@ -403,6 +418,8 @@ public class OBProductController {
 	 */
 	@RequestMapping("/selPurchaseDepbyId")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public JdcgResult selPurchaseDepbyId(HttpServletRequest request,
 			HttpServletResponse response) {
 		String id = request.getParameter("id");
@@ -427,6 +444,8 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/add")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String add(@CurrentUser User user,Model model, HttpServletRequest request) {
 		boolean flag = true;
 		String authType=null;
@@ -559,6 +578,8 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/edit")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String edit(@CurrentUser User user,Model model, HttpServletRequest request){
 		boolean flag = true;
 		String authType=null;
@@ -701,6 +722,8 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/download")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public ResponseEntity<byte[]> download(@CurrentUser User user,HttpServletRequest request,
 			String filename) throws IOException {
 		String path = PathUtil.getWebRoot() + "excel/定型产品上传模板.xlsx";
@@ -734,6 +757,8 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/downloadCategory")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public ResponseEntity<byte[]> downloadCategory(@CurrentUser User user,HttpServletRequest request,
 			String filename) throws IOException {
 		if(user!= null){
@@ -774,6 +799,8 @@ public class OBProductController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String uploadFile(@CurrentUser User user,MultipartFile file) throws Exception {
 		if(user!= null){
 			//判断是否 是资源服务中心 
@@ -876,6 +903,8 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/view")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String view(@CurrentUser User user,Model model, HttpServletRequest request){
 		if(user!= null){
 			//判断是否 是资源服务中心 
@@ -926,6 +955,8 @@ public class OBProductController {
 	 */
 	@RequestMapping("selOrgByCategory")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String selOrgByCategory(HttpServletRequest request,HttpServletResponse response){
 		String smallPointsId = request.getParameter("smallPointsId") == null ? "" : request.getParameter("smallPointsId");
 		String orgId = oBProductService.selOrgByCategory(smallPointsId,null);
@@ -946,6 +977,8 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/index_list")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String headlist(@CurrentUser User user,HttpServletRequest request,Model model, Integer page) {
 		if(user!= null){
 			//判断是否 是资源服务中心 

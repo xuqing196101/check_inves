@@ -68,6 +68,11 @@
 	
 	//修改
     function edit() {
+       var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
        var id = [];
 	   $('input[name="chkItem"]:checked').each(function() {
 	   		id.push($(this).val());
@@ -89,6 +94,11 @@
 	
 	/* 删除 */
 	function del(){
+	var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
 		var id = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
@@ -130,6 +140,11 @@
 	}
 	/* 设为默认 */
 	 function setDefault() {
+	 var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
         var id = [];
         var status = "";
         var data = "";
@@ -178,6 +193,11 @@
 	
 	//<!--搜索-->
 	function query(){
+	var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
 		var quoteTime =  $("#quoteTime").val();
 		if(isNaN(quoteTime)){
 			layer.alert("第一轮报价时间请输入整数");
@@ -193,11 +213,21 @@
 	}
 	
 	function createOBRules(){
+	var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
 		window.location.href="${pageContext.request.contextPath}/obrule/addRuleUI.html";
 	}
 	
 	//重置按钮事件  
     function resetAll(){
+    var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
         $("#name").val("");  
         $("#quoteTime").val("");  
         $("#intervalWorkday").val("");

@@ -43,12 +43,22 @@ public class ExpertDeleteController {
      @RequestMapping(value = "/cancellation")
      @ResponseBody
      public void cancellation(String expertId){
-    	 /*if(sign == 1){*/
+    	 /*if(sign == 1){
     		 expertService.updateById(expertId);
     		 UserServiceI.updateByTypeId(expertId);
-    	 /*}else{
+    	 }else{
     		 expertService.deleteExpert(expertId);
     	 }*/
+    	 
+         Expert expert = expertService.selectByPrimaryKey(expertId);
+         String status = expert.getStatus();
+         Short isProvisional = expert.getIsProvisional();
+         if(status !=null ){
+        	 if(status.equals("3") || status.equals("0") || (status.equals("4") && isProvisional == 1) || (status.equals("-1") && isProvisional == 0)){
+        		 expertService.updateById(expertId);
+        		 UserServiceI.updateByTypeId(expertId);
+        	 } 
+         }	 
      }
      
      /**

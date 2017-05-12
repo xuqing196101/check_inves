@@ -59,6 +59,11 @@
 	}
 	/*选择删除*/
 	function del(){
+	var authType='${authType}'; 
+	    if(authType!='0'){
+	    layer.msg("只有需求部门才能操作");
+	    return;
+	    }
 	var ids =[];
 	 $('input[name="productId"]:checked').each(function(){ 
 	 ids.push($(this).val());
@@ -84,6 +89,11 @@
     }
     //下载模板
     function down(){
+    var authType='${authType}'; 
+	    if(authType!='0'){
+	    layer.msg("只有需求部门才能操作");
+	    return;
+	    }
      window.location.href ="${pageContext.request.contextPath}/ob_project/download.html";
     }
 	//定义采购集合
@@ -424,6 +434,11 @@
        	}
 	//导入excl 
 	function fileUpload(){
+	var authType='${authType}'; 
+	    if(authType!='0'){
+	    layer.msg("只有需求部门才能操作");
+	    return;
+	    }
 	 $.ajaxFileUpload ({
 	               url: "${pageContext.request.contextPath}/ob_project/upload.do?",  
 	               secureuri: false,  
@@ -456,7 +471,11 @@
 	     }
 	     //提交
 	     function submitProject(status){
-	    
+	    var authType='${authType}'; 
+	    if(authType!='0'){
+	    layer.msg("只有需求部门才能操作");
+	    return;
+	    }
 	      $("#nameErr").html("");
 		  $("#deliveryDeadlineErr").html("");
 		  $("#deliveryAddressErr").html("");

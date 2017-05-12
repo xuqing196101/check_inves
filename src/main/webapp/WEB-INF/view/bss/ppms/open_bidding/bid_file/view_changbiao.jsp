@@ -76,7 +76,7 @@
 		<input id="projectId" name="projectId" value="${project.id}" type="hidden" />
 		<c:forEach items="${listPackage}" var="listPackage" varStatus="vs">
 		<c:set value="${vs.index}" var="index"></c:set>
-			   <div>
+			   <div class="col-md-12 col-sm-12 col-xs-12 p0">
 				 <c:if test="${vs.index == 0 }">
 				 	<h2 onclick="ycDiv(this,'${index}')" class="count_flow spread hand fl">包名:<span class="f14 blue">${listPackage.name }</span>
 				 		<span>项目预算报价(万元)：${listPackage.projectBudget}</span>
@@ -95,7 +95,7 @@
 				 </c:if>
                </div>
 			<c:forEach items="${listPackage.suList}" var="suList" varStatus="vs">
-				<div class="p0${index}">
+				<div class="p0${index} clear w100p ">
 					<span class="clear fl">供应商名称：<span class="f14 blue">${suList.supplierName}</span></span>
 					<table id="${suList.id}"  class="table table-bordered table-condensed mt5">
 						<thead>

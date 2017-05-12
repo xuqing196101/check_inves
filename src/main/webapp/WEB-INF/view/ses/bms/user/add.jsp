@@ -310,7 +310,7 @@
 		}
 		
 		function ajaxIdNumber(){
-			 var is_error = 0;
+			 /* var is_error = 0;
 			 var idNumber = $("#idNumber").val();
 			 var msg=validateIdCard(idNumber);
 			 if(msg!='success'){
@@ -334,7 +334,7 @@
 					 }
                }
          	});
-         	return is_error;
+         	return is_error; */
 		}
 		
 		$(document).ready(function(){  

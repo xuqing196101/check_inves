@@ -29,6 +29,11 @@
 	
 	/** 全选全不选 */
 	function selectAll(){
+	var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
 		 var checklist = document.getElementsByName ("chkItem");
 		 var checkAll = document.getElementById("checkAll");
 		   if(checkAll.checked){
@@ -46,6 +51,11 @@
 	
 	/** 单选 */
 	function check(){
+	var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
 		 var count=0;
 		 var checklist = document.getElementsByName ("chkItem");
 		 var checkAll = document.getElementById("checkAll");
@@ -65,12 +75,22 @@
 	
 	//<!--搜索-->
 	function query(){
+	var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
 		$("#queryForm").attr("action","${pageContext.request.contextPath}/ob_project/biddingInfoList.html");
 		$("#queryForm").submit();
 	}
 	
 	//  查看结果
 	function findResult() {
+	var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
 	       var id = [];
 		   $('input[name="chkItem"]:checked').each(function() {
 		   		id.push($(this).val());
@@ -100,6 +120,11 @@
 	    }
 	//  查看
 	function findIssueInfo() {
+	var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
 	       var id = [];
 		   $('input[name="chkItem"]:checked').each(function() {
 		   		id.push($(this).val());
@@ -130,6 +155,11 @@
 	
 		//重置按钮事件  
 	    function resetAll(){
+	    var authType='${authType}'; 
+	    if(authType!='4'){
+	    layer.msg("只有资源服务中心才能操作");
+	    return;
+	    }
 	        $("#name").val("");  
 	        $("#startTime").val("");  
 	        $("#endTime").val("");

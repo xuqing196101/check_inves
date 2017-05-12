@@ -560,7 +560,14 @@
 								<%-- <td class="tc w30"><input type="radio" value="${list.id }" name="chkItem"  id="${list.id}"></td> --%>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
-									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
+									<c:choose>
+							       <c:when test="${list.status ==5 and list.isProvisional == 1 }">
+							       	 ${list.supplierName }
+							       </c:when>
+							       <c:otherwise>
+							       	 <a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
+							       </c:otherwise>
+									</c:choose>
 								</td>
 								<%-- <td class="">${list.loginName }</td> --%>
 								<%-- <td class="">${list.contactName }</td> --%>

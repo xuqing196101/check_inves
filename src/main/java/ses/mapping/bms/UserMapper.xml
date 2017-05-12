@@ -976,22 +976,48 @@
 	    select 
 	    <include refid="Base_Column_List" />
 	    from T_SES_BMS_USER 
-	    where IS_DELETED = 0 
-	    and TYPE_ID = #{typeId}
+	    where <!-- IS_DELETED = 0 and  -->
+	    TYPE_ID = #{typeId}
+	  </select>
+    <select id="findByTypeName" parameterType="java.lang.String" resultType="String">
+	    select id  from T_SES_BMS_USER 
+	    where 
+	    TYPE_NAME = #{typeId}
 	  </select>
     
     <!-- 统计注册用户注册总数量 -->
     <select id="getRegisterTenderCountByEmp" resultType="java.lang.Long">
 	    SELECT count(id)
 	    from T_SES_BMS_USER
-	</select>
-	
-	<!-- 假删除用户 -->
-	<update id="updateByTypeId" parameterType="java.lang.String">
-		update
-			T_SES_BMS_USER
-		SET
-			IS_DELETED = 1
-		WHERE TYPE_ID = #{typeId}
-	</update>
+		</select>
+		
+		<!-- 假删除用户 -->
+		<update id="updateByTypeId" parameterType="java.lang.String">
+			update
+				T_SES_BMS_USER
+			SET
+				IS_DELETED = 1
+			WHERE TYPE_ID = #{typeId}
+		</update>
+		
+		<!-- 查询删除的用户 -->
+		<select id="getDleUserByTypeId" resultType="java.lang.String">
+	    SELECT
+	    	*
+	    from 
+	    	T_SES_BMS_USER
+	    WHERE 
+	    	TYPE_ID = #{typeId}
+	    and IS_DELETED = 1
+		</select>
+		
+		<!-- 更新删除的用户 -->
+		<update id="updateDelUserByTypeId" parameterType="ses.model.bms.User">
+			update
+				T_SES_BMS_USER
+			SET
+	      LOGIN_NAME = #{loginName}
+			WHERE TYPE_ID = #{typeId}
+			AND IS_DELETED = 1
+		</update>
 </mapper>

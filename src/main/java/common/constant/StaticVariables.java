@@ -153,6 +153,13 @@ public class StaticVariables {
     
     /***角色权限 需求部门  命名***/
     public static final String ROLE_DEMAND_SECTOR="需求部门";
+    
+    /***日志 标识 网上竞价 名称****/
+    public static final String OB_PROJECT_NAME="网上竞价";
+    /***日志 标识 网上竞价***/
+    public static final int OB_PROJECT_NAME_SIGN=5;
+    /***提示信息***/
+    public static final String OB_PROJECT_SHOW="只有资源服务中心才能操作";
 
     
     /**

@@ -31,6 +31,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +44,7 @@ import ses.model.oms.Orgnization;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
+import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
@@ -82,6 +84,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import common.annotation.SystemControllerLog;
+import common.annotation.SystemServiceLog;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -134,9 +138,9 @@ public class OBProjectController {
 	/*@Autowired
 	private OBProjectRuleMapper OBProjectRuleMapper;*/
     
-	/**角色**/
+	/**用户**/
 	@Autowired
-	private RoleServiceI roleService;
+	private UserServiceI userService;
 	@Autowired
 	private OBResultSubtabulationService obResultSubtabulationService;
     
@@ -150,31 +154,23 @@ public class OBProjectController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", produces = "text/html;charset=UTF-8")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String list(@CurrentUser User user, Model model,
-			HttpServletRequest request, Integer page, 
+			Integer page, HttpServletRequest request,
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,
 			String name) {
+		if(page==null){
+			page=1;
+		}
 		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		int orgId=2;
 		if (user != null) {
-			if (page == null) {
-				page = 1;
-			}
 			//竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			String orgName=null;
-		 List<Role> roleList=user.getRoles();
-			if(roleList!= null && roleList.size()>0){
-				for (Role role : roleList) {
-					// 需求部门
-				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
-						orgName=role.getName();
-						break;
-				}
-			 }
-			}
-			if(orgName != null){
+			if("0".equals(user.getTypeName())){
 				orgId=0;
-			List<String> userList=	roleService.findByRoleName(orgName);
+			//获取需求部门用户id 集合	
+			List<String> userList=userService.findListByTypeId(user.getTypeName());
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("page", page);
@@ -202,13 +198,12 @@ public class OBProjectController {
 	 * @return
 	 */
 	@RequestMapping(value = "/supplierList", produces = "text/html;charset=UTF-8")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String supplierList(@CurrentUser User user, Model model,
-			HttpServletRequest request, Integer page,String obProjectId,
+			HttpServletRequest request,@RequestParam(defaultValue="1") Integer page,String obProjectId,
 			String name,String status,String result) {
 		if (user != null) {
-			if (page == null) {
-				page = 1;
-			}
 			List<OBSupplier> lists = OBProjectServer.supplierList(page,obProjectId,
 					 name, status,result);
 			model.addAttribute("obProjectId",obProjectId);
@@ -259,6 +254,8 @@ public class OBProjectController {
 	 * @exception
 	 */
 	@RequestMapping(value = "/offerSupplierList", produces = "text/html;charset=UTF-8")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String offerSupplierList(Model model,
 			HttpServletRequest request, Integer page,String obProjectId,
 			String name,Integer status) {
@@ -317,25 +314,16 @@ public class OBProjectController {
 	 * @return
 	 */
 	@RequestMapping("/add")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String addBidding(@CurrentUser User user, Model model,
 			HttpServletRequest request) {
 	//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
-		int orgId=2;
+		int authType=2;
        if(user!=null){
     	 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			String orgName=null;
-		 List<Role> roleList=user.getRoles();
-			if(roleList!= null && roleList.size()>0){
-				for (Role role : roleList) {
-					// 需求部门
-				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
-						orgName=role.getName();
-						break;
-				}
-			  }
-			}
-			if(orgName != null){
-				orgId=0;
+		if("0".equals(user.getTypeName())){
+			authType=0;
 		// 获取当前 默认规则
 		 OBRule obRule = obRuleService.selectByStatus();
 		 if(obRule==null){
@@ -353,10 +341,10 @@ public class OBProjectController {
 		model.addAttribute("sysKey", Constant.OB_PROJECT_SYS_KEY);
 		// 标识 竞价附件
 		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
-		 }
+		  }
 		}
-			model.addAttribute("type", 2);
-			model.addAttribute("orgId", orgId);
+		model.addAttribute("type", 2);
+		model.addAttribute("authType", authType);
 		return "bss/ob/biddingInformation/publish";
 	}
 
@@ -367,6 +355,8 @@ public class OBProjectController {
 	 * @throws IOException
 	 */
 	@RequestMapping("mechanism")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public void getMechanism(@CurrentUser User user, Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
@@ -388,6 +378,8 @@ public class OBProjectController {
 	 */
 	@RequestMapping(value = "/transportFeesType", produces = "text/html;charset=UTF-8")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String getTransportFeesType(@CurrentUser User user, Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
@@ -410,12 +402,16 @@ public class OBProjectController {
 	 * @throws
 	 */
 	@RequestMapping("/biddingInfoList")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String biddingInfoList(@CurrentUser User user, Model model,
-			HttpServletRequest request, Integer page,@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTimeStr,
+			HttpServletRequest request,@RequestParam(defaultValue="1") Integer page,@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTimeStr,
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date endTimeStr) throws ParseException {
-		if (page == null) {
-			page = 1;
-		}
+		String authType=null;
+		if(user!= null){
+			//判断是否 是资源服务中心 
+		if("4".equals(user.getTypeName())){
+			authType=user.getTypeName();
 		// 竞价标题
 		String name = request.getParameter("name");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -423,9 +419,6 @@ public class OBProjectController {
 		map.put("startTime", startTimeStr);
 		map.put("endTime", endTimeStr);
 		map.put("page", page);
-		if (user != null) {
-			map.put("userId", user.getId());
-		}
 		List<OBProject> list = OBProjectServer.selectAllOBproject(map);
 		// 封装分页信息
 		PageInfo<OBProject> info = new PageInfo<OBProject>(list);
@@ -434,8 +427,10 @@ public class OBProjectController {
 		model.addAttribute("name", name);
 		model.addAttribute("startTimeStr", startTimeStr);
 		model.addAttribute("endTimeStr", endTimeStr);
+		  }
+		}
+		model.addAttribute("authType", authType);
 		return "bss/ob/biddingSpectacular/list";
-
 	}
 	/**
 	 * 更新一个竞价信息的业务逻辑
@@ -444,6 +439,8 @@ public class OBProjectController {
 	 *  #内外网判定 1外网 0内网
 	 */
 	@RequestMapping("/changeStatus")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
     public void changeStatus( HttpServletRequest request,String projectId){
 			 //获取是否内网标识 1外网 0内网
 		// String ipAddressType= PropUtil.getProperty("ipAddressType");
@@ -465,6 +462,8 @@ public class OBProjectController {
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/findBiddingResult")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String findBiddingResult(Model model, HttpServletRequest request) {
 		// 获取竞价标题的id
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
@@ -556,6 +555,8 @@ public class OBProjectController {
 	 * @throws IOException
 	 */
 	@RequestMapping("product")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public void getProduct(@CurrentUser User user, Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
@@ -604,6 +605,8 @@ public class OBProjectController {
 	 * @throws
 	 */
 	@RequestMapping("download")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public ResponseEntity<byte[]> download(HttpServletRequest request,
 			String filename) throws IOException {
 		String path = PathUtil.getWebRoot() + "excel/定型产品.xls";
@@ -628,24 +631,14 @@ public class OBProjectController {
 	 */
 	@RequestMapping(value = "/addProject", produces = "text/html;charset=UTF-8")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String addProject(@CurrentUser User user, OBProject obProject,
 			HttpServletRequest request, String fileid) {
 		String msg = null;
 		if (user != null) {
-			// 判断当前登录人是否是需求部门 
 			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			String orgName=null;
-		 List<Role> roleList=user.getRoles();
-			if(roleList!= null && roleList.size()>0){
-				for (Role role : roleList) {
-					// 需求部门
-				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
-						orgName=role.getName();
-						break;
-				}
-			  }
-			}
-			if(orgName != null){
+			if("0".equals(user.getTypeName())){
 			msg = OBProjectServer.saveProject(obProject, user.getId(), fileid);
 			}
 		}
@@ -661,6 +654,8 @@ public class OBProjectController {
 	 */
 	@RequestMapping("unionSupplier")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public JdcgResult unionSupplier(HttpServletRequest request, HttpServletResponse response,String productid){
 			List<OBSupplier> getlist=null;
 			JdcgResult jdcg=new JdcgResult();
@@ -697,6 +692,8 @@ public class OBProjectController {
 	 */
 	@RequestMapping("checkCatalog")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String checkCatalog(HttpServletRequest request, HttpServletResponse response,@RequestBody List<String> productid){
 	  return OBProjectServer.verifyCatalog(productid);
 	}
@@ -708,25 +705,16 @@ public class OBProjectController {
 	* @throws Exception
 	*/
 	@RequestMapping(value="/editOBProject", produces="text/html;charset=UTF-8" )
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String editOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
 		if(user !=null){
 			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			String orgName=null;
-		 List<Role> roleList=user.getRoles();
-			if(roleList!= null && roleList.size()>0){
-				for (Role role : roleList) {
-					// 需求部门
-				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
-						orgName=role.getName();
-						break;
-				}
-			  }
-			}
-			if(orgName != null){
+			if("0".equals(user.getTypeName())){
 			if(StringUtils.isNotBlank(obProjectId)){
 			Map<String,Object> map=new HashMap<String, Object>();	
 			map.put("id", obProjectId);
-			map.put("userId", user.getId());
+			//map.put("userId", user.getId());
 			OBProject obProject=OBProjectServer.editOBProject(map);
 			if(obProject !=null){
 				 List<OBProductInfo> obProductInfo=oBProductInfoService.selectByProjectId(obProject.getId());
@@ -853,21 +841,12 @@ public class OBProjectController {
 	* @throws Exception
 	*/
 	@RequestMapping(value="/delOBProject", produces="text/html;charset=UTF-8" )
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String delOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
 		if(user !=null){
 			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			String orgName=null;
-		 List<Role> roleList=user.getRoles();
-			if(roleList!= null && roleList.size()>0){
-				for (Role role : roleList) {
-					// 需求部门
-				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
-						orgName=role.getName();
-						break;
-				}
-			  }
-			}
-			if(orgName != null){
+			if("0".equals(user.getTypeName())){
 			if(StringUtils.isNotBlank(obProjectId)){
 			Map<String,Object> map=new HashMap<String, Object>();	
 			map.put("id", obProjectId);
@@ -882,7 +861,7 @@ public class OBProjectController {
 			}
 			}
 		}
-		return list(user, model, request, null, null, "");
+		return list(user, model,  null,request, null, "");
 	}
 	
 	
@@ -894,6 +873,8 @@ public class OBProjectController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("proportion")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public void proportion(HttpServletRequest request, HttpServletResponse response, Integer supplierCount) throws IOException{
 		String combination="";
 		try {
@@ -940,6 +921,8 @@ public class OBProjectController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String uploadFile(@CurrentUser User user, String planDepName,
 			MultipartFile file, String type, String planName, String planNo,
 			Model model) throws Exception {
@@ -977,11 +960,10 @@ public class OBProjectController {
 	 * @throws
 	 */
 	@RequestMapping("/printResult")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String printResult(Model model, HttpServletRequest request,HttpServletResponse response,
-			Integer page) throws UnsupportedEncodingException {
-		if (page == null) {
-			page = 1;
-		}
+			@RequestParam(defaultValue="1")Integer page) throws UnsupportedEncodingException {
 		// 获取打印结果标识
 		String print = request.getParameter("print");
 		// 获取竞价标题的id
@@ -1031,6 +1013,8 @@ public class OBProjectController {
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/findBiddingIssueInfo")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String findBiddingInfo(Model model, HttpServletRequest request)
 			throws Exception {
 		// 获取查看标识--为了区别不同角色查看的信息不同
@@ -1128,6 +1112,8 @@ public class OBProjectController {
      * @exception
      */
     @RequestMapping("selInfo")
+    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
     public String selInfo(Model model, HttpServletRequest request){
     	String projectId = request.getParameter("id") == null ? "" : request.getParameter("id");
     	// 调用获取竞价结果信息

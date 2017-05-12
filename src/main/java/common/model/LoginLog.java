@@ -21,7 +21,7 @@ public class LoginLog {
 	/** 登录名称 **/
 	private String name;
 
-	/** 1：后台 2：供应商 3：专家 **/
+	/** 1：后台 2：供应商 3：专家4:论坛 ，5网上竞价 **/
 	private Integer type;
 
 	/** 登录人IP **/
