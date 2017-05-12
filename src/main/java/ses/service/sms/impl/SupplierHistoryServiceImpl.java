@@ -520,8 +520,9 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                         // 有效期（结束时间）
                         if(certPro.getExpEndDate() != null){
                         	historyInfo.setBeforeContent(format.format(certPro.getExpEndDate()));
-                        	supplierHistoryMapper.insertSelective(historyInfo);
                         	historyInfo.setBeforeField("expEndDate");
+                        	supplierHistoryMapper.insertSelective(historyInfo);
+                        	
                         }
 
                         // 证书状态
@@ -785,19 +786,20 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                              supplierHistoryMapper.insertSelective(historyInfo);
                         }
                        
-                        // 发证日期
-                        if(certEng.getExpStartDate() !=null){
-                        	historyInfo.setBeforeField("expStartDate");
-                            historyInfo.setBeforeContent(format.format(certEng.getExpStartDate()));
-                            supplierHistoryMapper.insertSelective(historyInfo);
-                        }
                         
-                        // 证书有效期截止日期
-                        if(certEng.getExpEndDate() !=null ){
-                        	historyInfo.setBeforeField("expEndDate");
-                            historyInfo.setBeforeContent(format.format(certEng.getExpEndDate()));
-                            supplierHistoryMapper.insertSelective(historyInfo);
-                        }
+                        // 发证日期
+    					if(certEng.getExpStartDate() !=null){
+    						historyInfo.setBeforeField("expStartDate");
+    	                    historyInfo.setBeforeContent(format.format(certEng.getExpStartDate()));
+    	                    supplierHistoryMapper.insertSelective(historyInfo);
+    					}
+                        
+    					// 证书有效期截止日期
+    					if(certEng.getExpEndDate() !=null){
+    						historyInfo.setBeforeField("expEndDate");
+    	                    historyInfo.setBeforeContent(format.format(certEng.getExpEndDate()));
+    	                    supplierHistoryMapper.insertSelective(historyInfo);
+    					}
                         
                         // 证书状态
                         if(certEng.getCertStatus() !=null){
