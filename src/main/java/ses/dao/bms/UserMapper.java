@@ -352,7 +352,14 @@ public interface UserMapper {
 	 * @return List<User>
 	 */
 	List<User> selectByTypeId(String typeId);
-	
+	/**
+	 * @Title: findByTypeName
+	 * @Description根据类型id查
+	 * @param @param typeId
+	 * @param @return      
+	 * @return List<String>
+	 */
+	List<String> findByTypeName(String typeId);
 	
 	/**
 	 * @Title: updateByTypeId

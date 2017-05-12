@@ -306,6 +306,14 @@ public interface UserServiceI {
 	 * @return List<User>
 	 */
 	List<User> selectByTypeId(String typeId);
+	 /**
+		 * @Title: selectByTypeId
+		 * @Description根据类型id查
+		 * @param @param typeId
+		 * @param @return      
+		 * @return List<String>
+		 */
+	List<String> findListByTypeId(String typeId);
 	
 	/**
 	 * @Title: updateByTypeId

@@ -976,8 +976,13 @@
 	    select 
 	    <include refid="Base_Column_List" />
 	    from T_SES_BMS_USER 
-	    where IS_DELETED = 0 
-	    and TYPE_ID = #{typeId}
+	    where <!-- IS_DELETED = 0 and  -->
+	    TYPE_ID = #{typeId}
+	  </select>
+    <select id="findByTypeName" parameterType="java.lang.String" resultType="String">
+	    select id  from T_SES_BMS_USER 
+	    where 
+	    TYPE_NAME = #{typeId}
 	  </select>
     
     <!-- 统计注册用户注册总数量 -->

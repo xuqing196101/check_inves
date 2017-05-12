@@ -30,12 +30,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
@@ -157,18 +159,13 @@ public class OBSupplierController  {
 	@RequestMapping("/supplier")
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String supplier(@CurrentUser User user,Model model, HttpServletRequest request, Integer page) {
-		if (page == null) {
-			page = 1;
-		}
-		String orgTyp = null;
-		if(user != null){
-			if(user.getOrg() != null){
-			if(user.getOrg().getTypeName().equals("1")){
-				orgTyp = user.getOrg().getTypeName();
-			}
-			}
-		}
+	public String supplier(@CurrentUser User user,Model model, 
+			HttpServletRequest request,@RequestParam(defaultValue="1") Integer page) {
+		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+		int orgId=2;
+		 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+		String orgName=null;
+	   
 		int status = request.getParameter("status") == null ? 0 : Integer
 				.parseInt(request.getParameter("status"));
 		String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
@@ -203,7 +200,7 @@ public class OBSupplierController  {
 		PageInfo<OBSupplier> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("status", status);
-		model.addAttribute("orgTyp", orgTyp);
+		//model.addAttribute("orgTyp", orgTyp);
 		model.addAttribute("supplierName", supplierName);
 		model.addAttribute("smallPointsId", smallPointsId);
 		return "bss/ob/addSupplier/supplierlist";

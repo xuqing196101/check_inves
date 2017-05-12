@@ -410,5 +410,11 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
 		    	 userMapper.updateDelUserByTypeId(u);
 	    	 } 
 		}
+
+		@Override
+		public List<String> findListByTypeId(String typeId) {
+			// TODO Auto-generated method stub
+			return userMapper.findByTypeName(typeId);
+		}
 	}
 

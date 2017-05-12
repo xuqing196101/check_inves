@@ -44,6 +44,7 @@ import ses.model.oms.Orgnization;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
+import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
@@ -137,9 +138,9 @@ public class OBProjectController {
 	/*@Autowired
 	private OBProjectRuleMapper OBProjectRuleMapper;*/
     
-	/**角色**/
+	/**用户**/
 	@Autowired
-	private RoleServiceI roleService;
+	private UserServiceI userService;
 	@Autowired
 	private OBResultSubtabulationService obResultSubtabulationService;
     
@@ -156,27 +157,20 @@ public class OBProjectController {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String list(@CurrentUser User user, Model model,
-			@RequestParam(defaultValue="1")Integer page, 
+			Integer page, HttpServletRequest request,
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,
 			String name) {
+		if(page==null){
+			page=1;
+		}
 		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		int orgId=2;
 		if (user != null) {
 			//竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			String orgName=null;
-		 List<Role> roleList=user.getRoles();
-			if(roleList!= null && roleList.size()>0){
-				for (Role role : roleList) {
-					// 需求部门
-				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
-						orgName=role.getName();
-						break;
-				}
-			 }
-			}
-			if(orgName != null){
+			if("0".equals(user.getTypeName())){
 				orgId=0;
-			List<String> userList=	roleService.findByRoleName(orgName);
+			//获取需求部门用户id 集合	
+			List<String> userList=userService.findListByTypeId(user.getTypeName());
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("page", page);
@@ -207,12 +201,9 @@ public class OBProjectController {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String supplierList(@CurrentUser User user, Model model,
-			HttpServletRequest request, Integer page,String obProjectId,
+			HttpServletRequest request,@RequestParam(defaultValue="1") Integer page,String obProjectId,
 			String name,String status,String result) {
 		if (user != null) {
-			if (page == null) {
-				page = 1;
-			}
 			List<OBSupplier> lists = OBProjectServer.supplierList(page,obProjectId,
 					 name, status,result);
 			model.addAttribute("obProjectId",obProjectId);
@@ -328,22 +319,11 @@ public class OBProjectController {
 	public String addBidding(@CurrentUser User user, Model model,
 			HttpServletRequest request) {
 	//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
-		int orgId=2;
+		int authType=2;
        if(user!=null){
     	 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			String orgName=null;
-		 List<Role> roleList=user.getRoles();
-			if(roleList!= null && roleList.size()>0){
-				for (Role role : roleList) {
-					// 需求部门
-				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
-						orgName=role.getName();
-						break;
-				}
-			  }
-			}
-			if(orgName != null){
-				orgId=0;
+		if("0".equals(user.getTypeName())){
+			authType=0;
 		// 获取当前 默认规则
 		 OBRule obRule = obRuleService.selectByStatus();
 		 if(obRule==null){
@@ -361,10 +341,10 @@ public class OBProjectController {
 		model.addAttribute("sysKey", Constant.OB_PROJECT_SYS_KEY);
 		// 标识 竞价附件
 		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
-		 }
+		  }
 		}
-			model.addAttribute("type", 2);
-			model.addAttribute("orgId", orgId);
+		model.addAttribute("type", 2);
+		model.addAttribute("authType", authType);
 		return "bss/ob/biddingInformation/publish";
 	}
 
@@ -425,11 +405,13 @@ public class OBProjectController {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String biddingInfoList(@CurrentUser User user, Model model,
-			HttpServletRequest request, Integer page,@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTimeStr,
+			HttpServletRequest request,@RequestParam(defaultValue="1") Integer page,@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTimeStr,
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date endTimeStr) throws ParseException {
-		if (page == null) {
-			page = 1;
-		}
+		String authType=null;
+		if(user!= null){
+			//判断是否 是资源服务中心 
+		if("4".equals(user.getTypeName())){
+			authType=user.getTypeName();
 		// 竞价标题
 		String name = request.getParameter("name");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -437,9 +419,6 @@ public class OBProjectController {
 		map.put("startTime", startTimeStr);
 		map.put("endTime", endTimeStr);
 		map.put("page", page);
-		if (user != null) {
-			map.put("userId", user.getId());
-		}
 		List<OBProject> list = OBProjectServer.selectAllOBproject(map);
 		// 封装分页信息
 		PageInfo<OBProject> info = new PageInfo<OBProject>(list);
@@ -448,8 +427,10 @@ public class OBProjectController {
 		model.addAttribute("name", name);
 		model.addAttribute("startTimeStr", startTimeStr);
 		model.addAttribute("endTimeStr", endTimeStr);
+		  }
+		}
+		model.addAttribute("authType", authType);
 		return "bss/ob/biddingSpectacular/list";
-
 	}
 	/**
 	 * 更新一个竞价信息的业务逻辑
@@ -656,20 +637,8 @@ public class OBProjectController {
 			HttpServletRequest request, String fileid) {
 		String msg = null;
 		if (user != null) {
-			// 判断当前登录人是否是需求部门 
 			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			String orgName=null;
-		 List<Role> roleList=user.getRoles();
-			if(roleList!= null && roleList.size()>0){
-				for (Role role : roleList) {
-					// 需求部门
-				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
-						orgName=role.getName();
-						break;
-				}
-			  }
-			}
-			if(orgName != null){
+			if("0".equals(user.getTypeName())){
 			msg = OBProjectServer.saveProject(obProject, user.getId(), fileid);
 			}
 		}
@@ -741,22 +710,11 @@ public class OBProjectController {
 	public String editOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
 		if(user !=null){
 			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			String orgName=null;
-		 List<Role> roleList=user.getRoles();
-			if(roleList!= null && roleList.size()>0){
-				for (Role role : roleList) {
-					// 需求部门
-				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
-						orgName=role.getName();
-						break;
-				}
-			  }
-			}
-			if(orgName != null){
+			if("0".equals(user.getTypeName())){
 			if(StringUtils.isNotBlank(obProjectId)){
 			Map<String,Object> map=new HashMap<String, Object>();	
 			map.put("id", obProjectId);
-			map.put("userId", user.getId());
+			//map.put("userId", user.getId());
 			OBProject obProject=OBProjectServer.editOBProject(map);
 			if(obProject !=null){
 				 List<OBProductInfo> obProductInfo=oBProductInfoService.selectByProjectId(obProject.getId());
@@ -888,18 +846,7 @@ public class OBProjectController {
 	public String delOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
 		if(user !=null){
 			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			String orgName=null;
-		 List<Role> roleList=user.getRoles();
-			if(roleList!= null && roleList.size()>0){
-				for (Role role : roleList) {
-					// 需求部门
-				if(StaticVariables.ROLE_DEMAND_SECTOR.equals(role.getName())){
-						orgName=role.getName();
-						break;
-				}
-			  }
-			}
-			if(orgName != null){
+			if("0".equals(user.getTypeName())){
 			if(StringUtils.isNotBlank(obProjectId)){
 			Map<String,Object> map=new HashMap<String, Object>();	
 			map.put("id", obProjectId);
@@ -914,7 +861,7 @@ public class OBProjectController {
 			}
 			}
 		}
-		return list(user, model,  null, null, "");
+		return list(user, model,  null,request, null, "");
 	}
 	
 	
@@ -1016,10 +963,7 @@ public class OBProjectController {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String printResult(Model model, HttpServletRequest request,HttpServletResponse response,
-			Integer page) throws UnsupportedEncodingException {
-		if (page == null) {
-			page = 1;
-		}
+			@RequestParam(defaultValue="1")Integer page) throws UnsupportedEncodingException {
 		// 获取打印结果标识
 		String print = request.getParameter("print");
 		// 获取竞价标题的id

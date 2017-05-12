@@ -127,7 +127,10 @@
    <select id="selectTemporaryBy" parameterType="Map" resultMap="BaseResultMap">  
     select p.*
     from T_BSS_OB_PROJECT p 
-      where  p.CREATER_ID=#{userId,jdbcType=VARCHAR} and p.IS_DELETE=0
+      where   p.IS_DELETE=0
+     <!--  
+      and p.CREATER_ID=#{userId,jdbcType=VARCHAR} 
+      -->
     and p.ID = #{id,jdbcType=VARCHAR}
       	ORDER BY p.CREATED_AT DESC
   </select> 
