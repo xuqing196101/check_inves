@@ -33,26 +33,23 @@ import ses.model.bms.UserDataRule;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
-import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
 import ses.model.oms.util.Ztree;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserDataRuleService;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
-import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
+import bss.util.CheckUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
-import common.constant.StaticVariables;
 import common.utils.JdcgResult;
 
 /**
@@ -269,10 +266,32 @@ public class UserManageController extends BaseController{
 			
 			return "ses/bms/user/add";
 		}
+		
+		
+		//校验 身份证
+		if (StringUtils.isNotBlank(user.getIdNumber())){
+			
+			model.addAttribute("user", user);
+			
+			List<DictionaryData> genders = DictionaryDataUtil.find(13);
+			model.addAttribute("genders", genders);
+			model.addAttribute("roleName", roleName);
+			model.addAttribute("orgName", orgName);
+			
+			if (StringUtils.isNotBlank(origin)){
+			  addAtt(request, model);
+      
+			}
+			String item=CheckUtil.validateIdCard(user.getIdNumber());
+			if(!item.equals("success")){
+				model.addAttribute("ajax_idNumber", item);
+				return "ses/bms/user/add";
+			}
+		}
 		User currUser = (User) request.getSession().getAttribute("loginUser");
 		//机构
 		if(user.getOrgId() != null && !"".equals(user.getOrgId())){
-			if ("3".equals(user.getTypeName())) {
+			if ("3".equals(user.getTypeName())  ) {// 
 			  user.setOrgName(user.getOrgId());
 			} else{
 				Orgnization org = orgnizationService.getOrgByPrimaryKey(user.getOrgId());
@@ -289,7 +308,7 @@ public class UserManageController extends BaseController{
 	    String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
 	    user.setId(uuid);
 	    //判断 是否是 监管中心 或 资质中心 由于是一对多的关系 单独保存于关系表中 保存完后并且清空 orgid  orgname 防止字段精度超出
-		if("4".equals(user.getTypeName()) || "5".equals(user.getTypeName())){
+		if( "5".equals(user.getTypeName())||"4".equals(user.getTypeName())){
 			if(StringUtils.isNotBlank(user.getOrgId())){
 				String [] orgIdArray=user.getOrgId().split(",");
 				UserDataRuleService.deleteByUserId(user.getId());
@@ -483,6 +502,7 @@ public class UserManageController extends BaseController{
   			model.addAttribute("roleName", request.getParameter("roleName"));
   			model.addAttribute("currPage",request.getParameter("currpage"));
   			model.addAttribute("typeName", deptTypeName);
+  			
   			/*if (StringUtils.isNotBlank(origin)){
 			      DictionaryData dd =  DictionaryDataUtil.findById(u.getTypeName());
                 if (dd != null){
@@ -529,7 +549,7 @@ public class UserManageController extends BaseController{
 			
 			//机构
 			if(orgId != null && !"".equals(orgId)){
-				if ("3".equals(u.getTypeName())) {
+				if ("3".equals(u.getTypeName())  ) {//|| "4".equals(u.getTypeName())
 				  u.setOrg(null);
 	        u.setOrgName(orgId);
 	      } else {
@@ -565,7 +585,7 @@ public class UserManageController extends BaseController{
 			u.setCreatedAt(olduser.getCreatedAt());
 			u.setUser(olduser.getUser());
 			u.setUpdatedAt(new Date());
-			if("4".equals(u.getTypeName()) || "5".equals(u.getTypeName())){
+			if("5".equals(u.getTypeName())|| "4".equals(u.getTypeName())){
 				if(StringUtils.isNotBlank(u.getOrgId())){
 					String [] orgIdArray=u.getOrgId().split(",");
 					UserDataRuleService.deleteByUserId(u.getId());

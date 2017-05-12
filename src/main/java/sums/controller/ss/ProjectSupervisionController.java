@@ -9,12 +9,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -662,10 +665,131 @@ public class ProjectSupervisionController {
                 model.addAttribute("list", list);
                 model.addAttribute("planId", id);
                 model.addAttribute("type", "0");
+                model.addAttribute("projectId", projectId);
             }
         }
-        return "sums/ss/planSupervision/detail_view";
+        return "sums/ss/projectSupervision/detail_view";
     }
+    
+    @RequestMapping("/viewDetails")
+    public String viewDetails(String id, String projectId, Model model){
+        List<PurchaseDetail> details = purchaseDetailService.getUnique(id,null,null);
+        if(details != null && details.size() > 0){
+            List<PurchaseDetail> list = new ArrayList<PurchaseDetail>();
+            HashMap<String, Object> map = new HashMap<>();
+            for (int i = 0; i < details.size(); i++ ) {
+                map.put("id", projectId);
+                List<ProjectDetail> projectDetails = detailService.selectById(map);
+                for (ProjectDetail projectDetail : projectDetails) {
+                    if(details.get(i).getId().equals(projectDetail.getRequiredId())){
+                        list.add(details.get(i));
+                    }
+                }
+            }
+            for (PurchaseDetail detail : list) {
+                if(detail.getPrice() != null){
+                    DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                    detail.setPurchaseType(findById.getName());
+                    String[] progressBarPlan = supervisionService.progressBar(detail.getId());
+                    detail.setProgressBar(progressBarPlan[0]);
+                    detail.setStatus(progressBarPlan[1]);
+                    model.addAttribute("code", findById.getCode());
+                }else{
+                    detail.setPurchaseType(null);
+                    detail.setStatus(null);
+                }
+            }
+            CollectPlan collectPlan = collectPlanService.queryById(id);
+            User user = userService.getUserById(collectPlan.getUserId());
+            collectPlan.setUserId(user.getRelName());
+            collectPlan.setPurchaseId(user.getOrgName());
+            HashMap<String, Object> mapTask = new HashMap<>();
+            mapTask.put("collectId", collectPlan.getId());
+            List<Task> listBycollect = taskService.listBycollect(mapTask);
+            if(listBycollect != null && listBycollect.size() > 0){
+                collectPlan.setUpdatedAt(listBycollect.get(0).getGiveTime());
+            }
+            model.addAttribute("collectPlan", collectPlan);
+            model.addAttribute("planId", collectPlan.getId());
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("list", list);
+            model.addAttribute("type", "1");
+        }
+        return "sums/ss/projectSupervision/detail_view";
+    }
+    
+    
+    /*@RequestMapping(value="/paixu",produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String paixu(Model model, String id, String projectId, Integer page){
+        JSONObject jsonObj = new JSONObject();
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+        List<PurchaseDetail> details = purchaseDetailService.getUnique(id,null,null);
+        if(details != null && details.size() > 0){
+            List<PurchaseDetail> list = new ArrayList<PurchaseDetail>();
+            HashMap<String, Object> map = new HashMap<>();
+            for (int i = 0; i < details.size(); i++ ) {
+                map.put("id", projectId);
+                List<ProjectDetail> projectDetails = detailService.selectById(map);
+                for (ProjectDetail projectDetail : projectDetails) {
+                    if(details.get(i).getId().equals(projectDetail.getRequiredId())){
+                        list.add(details.get(i));
+                    }
+                }
+            }
+            for (PurchaseDetail detail : list) {
+                if(detail.getPrice() != null){
+                    DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                    detail.setPurchaseType(findById.getName());
+                    String[] progressBarPlan = supervisionService.progressBar(detail.getId());
+                    detail.setProgressBar(progressBarPlan[0]);
+                    detail.setStatus(progressBarPlan[1]);
+                    model.addAttribute("code", findById.getCode());
+                }else{
+                    detail.setPurchaseType(null);
+                    detail.setStatus(null);
+                }
+            }
+            PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(list);
+            jsonObj.put("pages", pageInfo.getPages());
+            jsonObj.put("data", pageInfo.getList());
+        } else {
+            List<PurchaseRequired> purchaseRequireds = requiredService.getUnique(id);
+            if(purchaseRequireds != null && purchaseRequireds.size() > 0){
+                List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
+                for (PurchaseRequired purchaseRequired : purchaseRequireds) {
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("id", projectId);
+                    List<ProjectDetail> projectDetails = detailService.selectById(map);
+                    for (ProjectDetail projectDetail : projectDetails) {
+                        if(purchaseRequired.getId().equals(projectDetail.getRequiredId())){
+                            list.add(purchaseRequired);
+                        }
+                    }
+                }
+                
+                for (PurchaseRequired detail : list) {
+                    if(detail.getPrice() != null){
+                        DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                        detail.setPurchaseType(findById.getName());
+                        String[] progressBarPlan = supervisionService.progressBar(detail.getId());
+                        detail.setProgressBar(progressBarPlan[0]);
+                        detail.setStatus(progressBarPlan[1]);
+                        model.addAttribute("code", findById.getCode());
+                    }else{
+                        detail.setPurchaseType(null);
+                        detail.setStatus(null);
+                    }
+                }
+                PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+                PageInfo<PurchaseRequired> pageInfo = new PageInfo<PurchaseRequired>(list);
+                jsonObj.put("pages", pageInfo.getPages());
+                jsonObj.put("data", pageInfo.getList());
+            }
+        }
+        
+        return jsonObj.toString();
+    }*/
 
     /**
      * 〈采购计划去重〉 〈详细描述〉

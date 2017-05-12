@@ -152,7 +152,7 @@
 							<!-- 物资生产型 -->
 							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 								<c:set value="0" var="prolength" />
-								<div class="tab-pane fade active in height-300" id="tab-1">
+								<div class="tab-pane fade active in" id="tab-1">
 									<table class="table table-bordered">
 										<c:forEach items="${cateList }" var="obj" varStatus="vs">
 											<tr>
@@ -195,7 +195,7 @@
 
 							<!-- 工程 -->
 							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
-								<div class="tab-pane <c:if test=" ${liCount==1 } ">active in</c:if> fade height-200" id="tab-3">
+								<div class="tab-pane <c:if test="${liCount==1}">active in</c:if> fade height-200" id="tab-3">
 									<c:set value="0" var="plength"> </c:set>
 									<table class="table table-bordered">
 										<thead>
@@ -206,6 +206,7 @@
 												<th class="info tc">中类</th>
 												<th class="info tc">资质类型</th>
 												<th class="info tc">证书编号</th>
+												 <th class="info tc">专业类别</th>
 												<th class="info tc">资质等级</th>
 												<th class="info tc">证书图片</th>
 											</tr>
@@ -222,6 +223,7 @@
 													</c:forEach>
 												</td>
 												<td>${cate.certCode}</td>
+												<td>${cate.proName}</td>
 												<td>${cate.level.name}</td>
 												<td>
 												<div class="w110 fl">

@@ -479,5 +479,4 @@ public interface SupplierMapper {
      * @return void
      */
     void updateById (String id);
-    
 }

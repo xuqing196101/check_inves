@@ -52,5 +52,4 @@ public interface SupervisionService {
      */
     Integer progressBarContract(Integer status);
     
-    
 }

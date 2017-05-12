@@ -3318,8 +3318,13 @@ public class ExpertController extends BaseController {
         /** 用于组装word页面需要的数据 */
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
-        String purchaseDep = purchaseOrgnizationService.selectPurchaseById(expert.getPurchaseDepId()).getShortName();
-        dataMap.put("purchaseDep", purchaseDep);
+        if(StringUtils.isNotBlank(expert.getPurchaseDepId())){
+            PurchaseDep purchaseDep = purchaseOrgnizationService.selectPurchaseById(expert.getPurchaseDepId());
+            if(null != purchaseDep){
+                String purchaseDepName = purchaseDep.getShortName();
+                if(StringUtils.isNotBlank(purchaseDepName)) dataMap.put("purchaseDep", purchaseDepName);
+            }
+        }
         dataMap.put("reportTime", new Date());
         String sex = expert.getGender();
         DictionaryData gender = dictionaryDataServiceI.getDictionaryData(sex);
@@ -4733,5 +4738,29 @@ public class ExpertController extends BaseController {
 		}
 		return "1";
 	}
-	
+
+    /**
+     * 动态加载附件控件显示
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/attachmentControlShow")
+    public String attachmentControlShow(Model model,HttpServletRequest request, HttpServletResponse response){
+        String uploadId = request.getParameter("uploadId");
+        String showId = request.getParameter("showId");
+        String businessId = request.getParameter("businessId");
+        String sysKey = request.getParameter("sysKey");
+        String typeId = request.getParameter("typeId");
+        String maxcount = request.getParameter("maxcount");
+        model.addAttribute("uploadId", uploadId);
+        model.addAttribute("showId", showId);
+        model.addAttribute("businessId", businessId);
+        model.addAttribute("sysKey", sysKey);
+        model.addAttribute("typeId", typeId);
+        model.addAttribute("maxcount", maxcount);
+
+        return "ses/ems/expert/common/attachment_control";
+    }
 }

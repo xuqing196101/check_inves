@@ -2110,7 +2110,10 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(user !=null && user.getOrg() !=null){
 			String orgId = user.getOrg().getId();
 			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
-			supplier.setProcurementDepId(depId.getId());
+			if(depId !=null){
+				supplier.setProcurementDepId(depId.getId());
+			}
+			
 			
 			//抽取时的机构
 			supplier.setExtractOrgid(orgId);

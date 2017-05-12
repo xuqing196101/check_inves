@@ -341,13 +341,14 @@ public class SupplierQueryController extends BaseSupplierController {
     }
 
     /**
-     *〈简述〉按照品目查询供应商
-     *〈详细描述〉
-     * @author Song Biaowei
-     * @param sup 实体类
-     * @param page 当前页
-     * @param categoryIds 品目id组成的字符串
-     * @param model 模型
+     * @Title: selectByCategory
+     * @date 2017-5-10 下午3:53:58  
+     * @Description:加载品目树
+     * @param @param sup
+     * @param @param page
+     * @param @param categoryIds
+     * @param @param model
+     * @param @return      
      * @return String
      */
     @RequestMapping("/selectByCategory")
@@ -373,6 +374,33 @@ public class SupplierQueryController extends BaseSupplierController {
         return "ses/sms/supplier_query/select_by_category";
     }
 
+   /**
+    * @Title: ajax_supplier
+    * @date 2017-5-10 下午3:53:23  
+    * @Description:查询供应商并计算等级
+    * @param @param sup
+    * @param @param page
+    * @param @param categoryIds
+    * @param @param model
+    * @param @return      
+    * @return String
+    */
+    @RequestMapping("/ajax_supplier")
+    public String ajax_supplier(Supplier sup, Integer page, String categoryIds, Model model) {
+    	 if (categoryIds != null && !"".equals(categoryIds)) {
+             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
+             sup.setItem(listCategoryIds);
+         }
+        List<Supplier>  listSupplier = supplierService.querySupplierbytypeAndCategoryIds(sup, categoryIds, page == null ? 1 : page);
+
+        getSupplierType(listSupplier);
+        model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+        model.addAttribute("supplier", sup);
+        model.addAttribute("categoryIds", categoryIds);
+        return "ses/sms/supplier_query/ajax_supplier";
+    }
+    
+    
     /**
      *〈简述〉供应商基本信息
      *〈详细描述〉

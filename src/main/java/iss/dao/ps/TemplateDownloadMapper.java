@@ -6,6 +6,8 @@ package iss.dao.ps;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import iss.model.ps.TemplateDownload;
 
 
@@ -87,4 +89,17 @@ public interface TemplateDownloadMapper {
     * @return List<TemplateDownload>
      */
     List<TemplateDownload> findPublishedDataByCondition(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: exportTemplateDownload 
+    * @Description: 导出模板管理
+    * @author Easong
+    * @param @param start
+    * @param @param end
+    * @param @return    设定文件 
+    * @return List<TemplateDownload>    返回类型 
+    * @throws
+     */
+    public List<TemplateDownload> exportTemplateDownload(@Param("start")String start,@Param("end")String end);
 }

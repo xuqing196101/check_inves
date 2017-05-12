@@ -572,6 +572,8 @@ public class Supplier implements Serializable {
 	
 	private Integer isDeleted; //0未删除，1已删除
 	
+	private String grade; //等级
+	
 	/**获取所有数据库address的省级单位名称*/
 	private String name;
 	
@@ -1900,8 +1902,13 @@ public class Supplier implements Serializable {
 		this.isDeleted = isDeleted;
 	}
 
+	public String getGrade() {
+		return grade;
+	}
 
-	
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
 
 	
 	

@@ -68,7 +68,7 @@
 	
 	/* 删除 */
 	function del(){
-		 var orgTyp = "${orgTyp}";
+		 var orgTyp = "${authType}";
 		if(orgTyp != '4'){
 			layer.msg("只有资源服务中心才能操作");
 			return;
@@ -118,7 +118,7 @@
 	
 	/* 发布 */
 	function fb() {
-		 var orgTyp = "${orgTyp}";
+		 var orgTyp = "${authType}";
 		if(orgTyp != '4'){
 			layer.msg("只有资源服务中心才能操作");
 			return;
@@ -194,7 +194,7 @@
 	
 	/* 撤回发布 */
 	function chfb() {
-		 var orgTyp = "${orgTyp}";
+		 var orgTyp = "${authType}";
 		if(orgTyp != '4'){
 			layer.msg("只有资源服务中心才能操作");
 			return;
@@ -246,7 +246,7 @@
 	
 	/* 修改 */
 	function edit() {
-		 var orgTyp = "${orgTyp}";
+		 var orgTyp = "${authType}";
 		if(orgTyp != '4'){
 			layer.msg("只有资源服务中心才能操作");
 			return;
@@ -285,7 +285,7 @@
 	// 弹出导入框
 	var index;
 	function upload(){
-		 var orgTyp = "${orgTyp}";
+		 var orgTyp = "${authType}";
 		if(orgTyp != '4'){
 			layer.msg("只有资源服务中心才能操作");
 			return;
@@ -305,7 +305,7 @@
 	
 	//下载模板
     function down(){
-    	 var orgTyp = "${orgTyp}";
+    	 var orgTyp = "${authType}";
 		if(orgTyp != '4'){
 			layer.msg("只有资源服务中心才能操作");
 			return;
@@ -315,6 +315,11 @@
 	
 	//导入excl 
 	function fileUpload(){
+	 var orgTyp = "${authType}";
+		if(orgTyp != '4'){
+			layer.msg("只有资源服务中心才能操作");
+			return;
+		}
 	 $.ajaxFileUpload ({
 	               url: "${pageContext.request.contextPath}/product/upload.do?",  
 	               secureuri: false,  
@@ -348,7 +353,7 @@
 	
 	/* 下载目录 */
 	function downCategory(){
-		 var orgTyp = "${orgTyp}";
+		 var orgTyp = "${authType}";
 		if(orgTyp != '4'){
 			layer.msg("只有资源服务中心才能操作");
 			return;
@@ -357,7 +362,7 @@
 	}
 	
 	function fbdxcp(){
-		 var orgTyp = "${orgTyp}";
+		 var orgTyp = "${authType}";
 		if(orgTyp != '4'){
 			layer.msg("只有资源服务中心才能操作");
 			return;

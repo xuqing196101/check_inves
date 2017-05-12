@@ -6,12 +6,9 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
-    <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
-      function view(id,type){
-        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewDetail.html?id="+id+"&type="+type;
+      function view(id){
+        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewDetail.html?id="+id;
       }
     </script>
   </head>
@@ -60,14 +57,14 @@
             <c:forEach items="${listRequired}" var="obj" varStatus="vs">
               <tr class="pointer">
                 <td class="tc w50">${(vs.index+1)}</td>
-                <td class="tl pl20" onclick="view('${obj.uniqueId}','0')">
-                  <a href="javascript:void(0)" onclick="view('${obj.uniqueId}','0');">${obj.planName}</a>
+                <td class="tl pl20">
+                  <a href="javascript:void(0)" onclick="view('${obj.uniqueId}');">${obj.planName}</a>
                 </td>
-                <td class="tl pl20" onclick="view('${obj.uniqueId}','0')">${obj.userId}</td>
-                <td class="tl pl20" onclick="view('${obj.uniqueId}','0')">
+                <td class="tl pl20" onclick="view('${obj.uniqueId}')">${obj.userId}</td>
+                <td class="tl pl20" onclick="view('${obj.uniqueId}')">
                   <fmt:formatDate type='date' value='${obj.createdAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                 </td>
-                <td class="tl pl20" onclick="view('${obj.uniqueId}','0')">${obj.budget}</td>
+                <td class="tl pl20" onclick="view('${obj.uniqueId}')">${obj.budget}</td>
                 <td class="tc">
                    <c:if test="${obj.status eq '1'}">未提交</c:if>
                    <c:if test="${obj.status eq '4'}">受理退回</c:if> 

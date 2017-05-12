@@ -95,7 +95,7 @@
 </head>
 <body>
   <div class="wrapper">
-    <form action="${pageContext.request.contextPath}/expertBlacklist/expert_list.html"  id="search_form_id" method="get" class="registerform"> 
+    <form action="${pageContext.request.contextPath}/expertBlacklist/expert_list.html" id="search_form_id" method="post" class="registerform"> 
     <input type="hidden" name="page" id="page">
     <ul class="demand_list">
       <li class="fl">

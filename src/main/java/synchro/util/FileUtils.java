@@ -132,8 +132,6 @@ public class FileUtils {
     public final static String C_CATEGORY_FILENAME="_c_category.dat";
     /**产品目录管理 导出路径***/
     public final static String T_SES_BMS_CATEGORY_PATH=PropUtil.getProperty("file.t_ses_bms_category_path.system.path");
-    /***产品目录管理 导出更新数据名称***/
-    public final static String U_CATEGORY_FILENAME="_u_category.dat";
     /**产品目录管理 导出附件数据名称**/
     public final static String C_FILE_CATEGORY_FILENAME="_c_file_category.dat";
     /**产品目录管理 导出路径***/
@@ -143,7 +141,24 @@ public class FileUtils {
     public final static String C_CATEGORY_PARAMTER_FILENAME="_c_cate_paramter.dat";
     /**产品目录参数管理 导出路径***/
     public final static String FILE_T_SES_BMS_CATEGORY_PARAMTER_PATH=PropUtil.getProperty("file.t_ses_bms_category_paramter_path.system.path");
+    /**资料管理 导出数据名称***/
+    public final static String C_DATA_DOWNLOAD_FILENAME="_c_data_download.dat";
+    /**资料管理  导出数据 路径***/
+    public final static String ISS_PS_DATA_DOWNLOAD_PATH=PropUtil.getProperty("file.iss_ps_data_download_path.system.path");; 
+    /**资料管理 导出附件数据名称**/
+    public final static String C_FILE_DATA_DOWNLOAD_FILENAME="_c_file_data_download.dat";
+    /**资料管理 导出附件 路径***/
+    public final static String FILE_ISS_PS_DATA_DOWNLOAD_PATH=PropUtil.getProperty("file.file_iss_ps_data_download_path.system.path");
     
+    
+    /***门户模板管理 导出创建数据名称***/
+    public final static String C_TEMPLATE_DOWNLOAD_FILENAME="_c_template_download.dat";
+    /***门户模板管理 导出路径***/
+    public final static String FILE_T_ISS_PS_TEMPLATE_DOWNLOAD_PATH=PropUtil.getProperty("file.t_iss_ps_template_download_path.system.path");
+    /***门户模板管理 导出附件数据名称***/
+    public final static String C_FILE_TEMPLATE_DOWNLOAD_FILENAME="_c_file_template_download.dat";
+    /***门户模板管理 附件数据导出路径***/
+    public final static String C_FILE_TEMPLATE_DOWNLOAD_ATTFILE_FILENAME=PropUtil.getProperty("attfile.file_t_iss_ps_template_download_path.system.path");
     
     /**
      * 
@@ -685,6 +700,10 @@ public class FileUtils {
           case 14: filePath=T_SES_BMS_CATEGORY_PATH;break;
           case 15: filePath=FILE_T_SES_BMS_CATEGORY_PATH;break;
           case 16: filePath=FILE_T_SES_BMS_CATEGORY_PARAMTER_PATH;break;
+          case 17:  filePath=ISS_PS_DATA_DOWNLOAD_PATH;break;
+          case 18:  filePath=FILE_ISS_PS_DATA_DOWNLOAD_PATH;break;
+          case 19: filePath=FILE_T_ISS_PS_TEMPLATE_DOWNLOAD_PATH;break;
+          case 20: filePath=C_FILE_TEMPLATE_DOWNLOAD_ATTFILE_FILENAME;break;
         }
         return filePath;
     }

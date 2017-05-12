@@ -257,7 +257,7 @@
         AND PROJECT_NUMBER = #{projectNumber}
      </if> 
    </select>
-  <select id="selectProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectProjectByPrimaryKey" flushCache="true" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS

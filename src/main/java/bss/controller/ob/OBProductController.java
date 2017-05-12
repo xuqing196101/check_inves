@@ -99,8 +99,6 @@ public class OBProductController {
 			//判断是否 是资源服务中心 
 			if("4".equals(user.getTypeName())){
 				orgTyp = user.getTypeName();
-			}
-		}
 		List<OBProduct> list = oBProductService.selectByExample(example, page);
 		if(list != null){
 			for (OBProduct oBProduct : list) {
@@ -135,9 +133,11 @@ public class OBProductController {
 			model.addAttribute("userii", user);
 		}
 		model.addAttribute("info", info);
-		model.addAttribute("orgTyp", orgTyp);
+		model.addAttribute("authType", orgTyp);
 		model.addAttribute("productExample", example);
 		model.addAttribute("numlist", numlist);
+			}
+		}
 		return "bss/ob/finalize_DesignProduct/list";
 	}
 
@@ -200,6 +200,9 @@ public class OBProductController {
 	@RequestMapping("/fab")
 	@ResponseBody
 	public String fab(@CurrentUser User user,HttpServletRequest request,Model model) {
+		if(user != null){
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
 		OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
 		String code = "";
@@ -224,6 +227,8 @@ public class OBProductController {
 			if(j > 0){
 				return "error2";
 			}
+		  }
+		 }
 		}
 		return "";
 	}
@@ -241,9 +246,14 @@ public class OBProductController {
 	 */
 	@RequestMapping("/chfab")
 	@ResponseBody
-	public void chfab(HttpServletRequest request,Model model) {
+	public void chfab(@CurrentUser User user,HttpServletRequest request,Model model) {
+		if(user!= null){
+		//判断是否 是资源服务中心 
+		if("4".equals(user.getTypeName())){
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
 			oBProductService.chfab(id);
+		}
+		}
 	}
 
 	
@@ -261,10 +271,16 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/tiaozhuan")
-	public String tiaozhuan(Model model, HttpServletRequest request) {
+	public String tiaozhuan(@CurrentUser User user,Model model, HttpServletRequest request) {
+		String authType=null;
+		if(user!= null){
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
+				authType=user.getTypeName();
 		String id = request.getParameter("proid") == null ? "" : request
 				.getParameter("proid");
 		int type = Integer.parseInt(request.getParameter("type"));
+		model.addAttribute("authType",authType);
 		if (type == 1) {
 			Category parentCategory = new Category();
 			OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
@@ -299,15 +315,20 @@ public class OBProductController {
 					}
 				}
 			}
+			
 			if(parentCategory != null){
 				model.addAttribute("categoryName", parentCategory.getName());
 				model.addAttribute("cId",parentCategory.getId() );
 			}
 			model.addAttribute("obProduct", obProduct);
+		 
 			return "bss/ob/finalize_DesignProduct/edit";
 		} else {
 			return "bss/ob/finalize_DesignProduct/publish";
 		}
+			}
+		}
+		return "bss/ob/finalize_DesignProduct/publish";
 	}
 
 	/**
@@ -323,7 +344,12 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/supplier")
-	public String supplier(Model model, HttpServletRequest request, Integer page) {
+	public String supplier(@CurrentUser User user,Model model, HttpServletRequest request, Integer page) {
+		String authType=null;
+		if(user!= null){
+		//判断是否 是资源服务中心 
+		if("4".equals(user.getTypeName())){
+			authType=user.getTypeName();
 		if (page == null) {
 			page = 1;
 		}
@@ -358,6 +384,9 @@ public class OBProductController {
 		model.addAttribute("status", status);
 		model.addAttribute("supplierName", supplierName);
 		model.addAttribute("smallPointsId", smallPointsId);
+		 }
+		}
+		model.addAttribute("authType", authType);
 		return "bss/ob/finalize_DesignProduct/qualifiedSupplierlist";
 	}
 
@@ -398,9 +427,13 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/add")
-	public String add(Model model, HttpServletRequest request) {
+	public String add(@CurrentUser User user,Model model, HttpServletRequest request) {
 		boolean flag = true;
-		HttpSession session = request.getSession();
+		String authType=null;
+		if(user!= null){
+		//判断是否 是资源服务中心 
+		if("4".equals(user.getTypeName())){
+			authType=user.getTypeName();
 		String code = request.getParameter("code") == null ? "" : request.getParameter("code").trim();
 		String name = request.getParameter("name") == null ? "" :request.getParameter("name").trim();
 		String procurementId = request.getParameter("procurementId") == null ? "" :request.getParameter("procurementId");
@@ -462,7 +495,6 @@ public class OBProductController {
 		}
 		obProduct.setProductCategoryLevel(categoryLevel);
 		obProduct.setCreatedAt(new Date());
-		User user = (User) session.getAttribute("loginUser");
 		String userId = "";
 		if(user != null){
 			userId = user.getId();
@@ -508,6 +540,10 @@ public class OBProductController {
 			oBProductService.insertSelective(obProduct);
 			return "redirect:/product/list.html";
 		}
+		}
+		}
+		model.addAttribute("authType",authType );
+		return "bss/ob/finalize_DesignProduct/publish";
 	}
 	
 	/**
@@ -523,8 +559,13 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/edit")
-	public String edit(Model model, HttpServletRequest request){
+	public String edit(@CurrentUser User user,Model model, HttpServletRequest request){
 		boolean flag = true;
+		String authType=null;
+		if(user!= null){
+		//判断是否 是资源服务中心 
+		if("4".equals(user.getTypeName())){
+			authType=user.getTypeName();
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id").trim();
 		String code = request.getParameter("code") == null ? "" : request.getParameter("code").trim();
 		String name = request.getParameter("name") == null ? "" :request.getParameter("name").trim();
@@ -640,6 +681,10 @@ public class OBProductController {
 			}
 			return "bss/ob/finalize_DesignProduct/edit";
 		}
+		}
+		}
+		model.addAttribute("authType",authType );
+		return "bss/ob/finalize_DesignProduct/edit";
 	}
 	
 	/**
@@ -656,17 +701,23 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/download")
-	public ResponseEntity<byte[]> download(HttpServletRequest request,
+	public ResponseEntity<byte[]> download(@CurrentUser User user,HttpServletRequest request,
 			String filename) throws IOException {
 		String path = PathUtil.getWebRoot() + "excel/定型产品上传模板.xlsx";
 		File file = new File(path);
 		HttpHeaders headers = new HttpHeaders();
+		if(user!= null){
+		//判断是否 是资源服务中心 
+		if("4".equals(user.getTypeName())){
 		String fileName = new String("定型产品上传模板.xlsx".getBytes("UTF-8"),
 				"iso-8859-1");// 为了解决中文名称乱码问题
 		headers.setContentDispositionFormData("attachment", fileName);
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
 				headers, HttpStatus.OK);
+	      }
+		}
+		return null;
 	}
 	
 	/**
@@ -683,8 +734,11 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/downloadCategory")
-	public ResponseEntity<byte[]> downloadCategory(HttpServletRequest request,
+	public ResponseEntity<byte[]> downloadCategory(@CurrentUser User user,HttpServletRequest request,
 			String filename) throws IOException {
+		if(user!= null){
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
 		String path = PathUtil.getWebRoot() + "excel/产品分类目录下载.xlsx";
 		File file = new File(path);
 		HttpHeaders headers = new HttpHeaders();
@@ -694,6 +748,9 @@ public class OBProductController {
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
 				headers, HttpStatus.OK);
+			}
+		 }
+		return null;
 	}
 	
 	/**
@@ -718,6 +775,9 @@ public class OBProductController {
 	@RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String uploadFile(@CurrentUser User user,MultipartFile file) throws Exception {
+		if(user!= null){
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
 		String fileName = file.getOriginalFilename();
 		if (!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
 			return "1";
@@ -798,6 +858,9 @@ public class OBProductController {
 		}
 		String jsonString = JSON.toJSONString(list);
 		return jsonString;
+			}
+		}
+		return "只有资源服务中心才能操作";
 	}
 
 	/**
@@ -813,7 +876,10 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/view")
-	public String view(Model model, HttpServletRequest request){
+	public String view(@CurrentUser User user,Model model, HttpServletRequest request){
+		if(user!= null){
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
 		String id = request.getParameter("productId") == null ? "" : request
 				.getParameter("productId");
 		OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
@@ -842,6 +908,8 @@ public class OBProductController {
 				}
 			}
 		model.addAttribute("obProduct", obProduct);
+			 }
+		}
 		return "bss/ob/finalize_DesignProduct/view";
 	}
 	
@@ -878,7 +946,10 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/index_list")
-	public String headlist(HttpServletRequest request,Model model, Integer page) {
+	public String headlist(@CurrentUser User user,HttpServletRequest request,Model model, Integer page) {
+		if(user!= null){
+			//判断是否 是资源服务中心 
+			if("4".equals(user.getTypeName())){
 		if (page == null) {
 			page = 1;
 		}
@@ -926,6 +997,8 @@ public class OBProductController {
 		model.addAttribute("info", info);
 		model.addAttribute("product", example);
 		model.addAttribute("numlist", numlist);
+			}
+		 }
 		return "bss/ob/finalize_DesignProduct/index_list";
 	}
 

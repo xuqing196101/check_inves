@@ -3,6 +3,8 @@
  */
 package iss.service.ps;
 
+import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -86,4 +88,30 @@ public interface TemplateDownloadService {
     * @return List<TemplateDownload>
      */
     List<TemplateDownload> findPublishedDataByCondition(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: exportTemplateDownload 
+    * @Description: 导出模板管理
+    * @author Easong
+    * @param @param start
+    * @param @param end
+    * @param @param synchDate
+    * @param @return    设定文件 
+    * @return boolean    返回类型 
+    * @throws
+     */
+    public boolean exportTemplateDownload(String start, String end, Date synchDate);
+    
+    /**
+     * 
+    * @Title: importCategoryParmter 
+    * @Description: 导出模板管理
+    * @author Easong
+    * @param @param file
+    * @param @return    设定文件 
+    * @return boolean    返回类型 
+    * @throws
+     */
+    public boolean importTemplateDownload(File file);
 }

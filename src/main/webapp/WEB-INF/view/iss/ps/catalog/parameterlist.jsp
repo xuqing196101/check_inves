@@ -34,6 +34,36 @@
 					  	
 					  </table>
 				  </div>
+				  <div class="col-md-12 col-sm-12 col-xs-12 clear hide" id="baseInfoDiv">
+				    <h2 class="count_flow"><i>1</i>基本信息</h2>
+				    <div class="col-md-12 col-sm-12 col-xs-12" >
+				    	<table class="table table-bordered" >
+				    		<tbody id="baseInfoTbody">
+				    			<tr id="trs">
+				    				<td class="bggrey w50">产品名称：</td><td class="productName w100"></td>
+				    				<td class="bggrey w50">类型：</td><td class="type w100"></td>
+				    			</tr>
+				    		</tbody>
+					  	</table>
+				    </div>
+				  </div>
+				  <div class="col-md-12 col-sm-12 col-xs-12 clear hide" id="productParamDiv">
+				    <h2 class="count_flow"><i>2</i>产品参数</h2>
+				    <div class=" col-md-12 col-sm-12 col-xs-12" >
+				    	<table class="table table-bordered" >
+				    		<thead>
+				    			<tr>
+				    				<td class="info w50 tc">序号</td>
+				    				<td class="info tc">参数名称</td>
+				    				<td class="info tc">参数类型</td>
+				    			</tr>
+				    		</thead>
+				    		<tbody id="productParamTbody">
+				    			
+				    		</tbody>
+					  	</table>
+				    </div>
+				  </div>
 			 </div>
 	    </div>
 		<jsp:include page="/index_bottom.jsp"></jsp:include>

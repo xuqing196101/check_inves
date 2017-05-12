@@ -1028,7 +1028,7 @@
                             	<c:if test="${expert.coverNote eq '1'}">缴纳社会保险证明</c:if>
                             	<c:if test="${expert.coverNote eq '2'}">退休证书或退休证明</c:if>
                             </span>
-							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明 ')"</c:if>  <c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
+							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0 converNoteDiv" <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明 ')"</c:if>  <c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
 								<%--图片的大小   图片的类型  --%>
 								<c:if test="${expert.coverNote eq '1'}">
                                     <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" auto="true" />
@@ -1476,17 +1476,39 @@
 			}
 			
 			$("#coverNote").change(function() {
-				if($(this).val() == "1") {
+                if($(this).val() == "1") {
 					$("#sbzm").text("缴纳社会保险证明");
-					init_web_upload();
+
+                    addressUploadAjax('show1','show1_2','${sysId}','${expertKey}',1,1);
 				} else {
-
 					$("#sbzm").text("退休证书或退休证明");
-					init_web_upload();
 
+                    addressUploadAjax('show1','show1_2','${sysId}','${expertKey}',2,1);
 				}
 			});
-
+			/**动态加载上传附件控件*/
+            function addressUploadAjax(uploadId,showId,businessId,sysKey,typeId, maxcount){
+                $.ajax({
+                    url: '${pageContext.request.contextPath}/expert/attachmentControlShow.do',
+                    type: "post",
+                    async: false,
+                    data: {
+                        "uploadId": uploadId,
+                        "showId": showId,
+                        "businessId": businessId,
+                        "sysKey": sysKey,
+                        "typeId": typeId,
+                        "maxcount": maxcount
+                    },
+                    success: function(data) {
+                        $(".converNoteDiv").empty();
+                        $(".converNoteDiv").html(data);
+                    },
+                    complete: function () {
+                        init_web_upload();
+                    }
+                });
+            }
 			
 			$("#teachTitle").change(function() {
 				if($(this).val() == "1") {

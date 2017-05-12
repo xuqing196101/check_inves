@@ -134,6 +134,8 @@
 
 	/* 发布 */
 	function sub(i){
+	 var authType='${authType}'; 
+	 if(authType=='4'){
 		var code = $("#code").val();
 		var name = $("#name").val();
 		var procurementId = $("#orgId option:selected").val();
@@ -157,6 +159,9 @@
 		window.location.href = "${pageContext.request.contextPath}/product/add.html?code="+code+"&&name="+name+"&&procurementId="+procurementId
 				+"&&category="+category+"&&standardModel="+standardModel+"&&qualityTechnicalStandard="+qualityTechnicalStandard+"&&i="+i+"&&categoryLevel="+categoryLevel;
 		}
+		}else{
+	  layer.msg("只有资源服务中心才能操作");
+	}
 	}
 	
 	/* 清空提示消息 */

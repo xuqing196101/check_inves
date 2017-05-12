@@ -83,7 +83,15 @@
                 <div class="cue">${ERR_dataFile}</div>
               </div>
             </li>
-					</ul>
+	            <li class="col-md-3 col-sm-6 col-xs-12 mt10 mb20">
+	              <span class="fl"><div class="star_red">*</div>发布范围：</span>
+	              <div>
+		              <input type="radio" name="ipAddressType" id ="publishType" value="0" <c:if test="${ data.ipAddressType == 0 }">checked</c:if>>内网
+			          <input type="radio" name="ipAddressType" id ="publishType" value="1" <c:if test="${ data.ipAddressType == 1 }">checked</c:if>>内外网
+	                  <div class="cue" id="publishTypeErr">${ ERR_IpAddressType }</div>
+	              </div>
+	            </li>	
+			</ul>
 									
 							
 				

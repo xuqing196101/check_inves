@@ -6,7 +6,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-		<title>品目合同</title>
+		<title>销售合同</title>
 		<script type="text/javascript">
 			$(function() {
 				var product = $("#a_id_1").text();
@@ -104,34 +104,40 @@
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
-						offset: '100px'
+						offset: '100px',
+						maxlength: '100'
 					},
 					function(text) {
-						$.ajax({
-							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-							type: "post",
-							data: {
-								"auditType": "contract_page",
-								"auditFieldName": auditFieldName,
-								"auditContent": str + "-附件信息",
-								"suggest": text,
-								"supplierId": supplierId,
-								"auditField": auditField
-							},
-							dataType: "json",
-							success: function(result) {
-								result = eval("(" + result + ")");
-								if(result.msg == "fail") {
-									layer.msg('该条信息已审核过！', {
-										shift: 6, //动画类型
-										offset: '100px'
-									});
+						var text = trim(text);
+				  	if(text != null && text !=""){
+							$.ajax({
+								url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+								type: "post",
+								data: {
+									"auditType": "contract_page",
+									"auditFieldName": auditFieldName,
+									"auditContent": str + "-附件信息",
+									"suggest": text,
+									"supplierId": supplierId,
+									"auditField": auditField
+								},
+								dataType: "json",
+								success: function(result) {
+									result = eval("(" + result + ")");
+									if(result.msg == "fail") {
+										layer.msg('该条信息已审核过！', {
+											shift: 6, //动画类型
+											offset: '100px'
+										});
+									}
 								}
-							}
-						});
-						$("#" + auditField + "_hidden").hide();
-						$("#" + auditField + "_show").show();
-						layer.close(index);
+							});
+								$("#" + auditField + "_hidden").hide();
+								$("#" + auditField + "_show").show();
+								layer.close(index);
+							}else{
+		      		layer.msg('不能为空！', {offset:'100px'});
+		      	}
 					});
 			}
 
@@ -195,6 +201,12 @@
 				$("#tab-2").html("");
 				$("#tab-3").html("");
 				$("#" + id).load(path);
+			}
+			
+			
+			 //删除左右两端的空格
+			function trim(str){ 
+				return str.replace(/(^\s*)|(\s*$)/g, "");
 			}
 		</script>
 	</head>

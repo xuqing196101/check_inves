@@ -369,4 +369,15 @@ public interface SupplierService {
     * @return void
     */
    void updateById (String id);
+   
+   /**
+    * @Title: querysupplier
+    * @date 2016-10-5 上午10:23:29  
+    * @Description: 查询表
+    * @param @param supplier
+    * @param @param page
+    * @param @return      
+    * @return List<Supplier>
+    */
+	 List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier, String categoryIds, Integer page);
 }

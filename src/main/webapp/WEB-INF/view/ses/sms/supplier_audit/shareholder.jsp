@@ -39,26 +39,32 @@
 		    title: '请填写不通过的理由：', 
 		    formType: 2, 
 		    offset: '100px',
+		    maxlength: '100'
 		    }, 
 		    function(text){
-		    $.ajax({
-		      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-		      type:"post",
-		      data: {"auditType":"basic_page","auditFieldName":"股东信息","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
-		      dataType:"json",
-		      success:function(result){
-		      result = eval("(" + result + ")");
-		      if(result.msg == "fail"){
-		        layer.msg('该条信息已审核过！', {
-		          shift: 6, //动画类型
-		          offset:'100px'
-		            });
-		        }
-		      }
-		      });
-		        $("#"+id+"_hidden").hide();
-			      $("#"+id+"_show").show();
-			       layer.close(index);
+		    	var text = trim(text);
+				  if(text != null && text !=""){
+				    $.ajax({
+				      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+				      type:"post",
+				      data: {"auditType":"basic_page","auditFieldName":"股东信息","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+				      dataType:"json",
+				      success:function(result){
+				      result = eval("(" + result + ")");
+				      if(result.msg == "fail"){
+				        layer.msg('该条信息已审核过！', {
+				          shift: 6, //动画类型
+				          offset:'100px'
+				            });
+				        }
+				      }
+				      });
+				        $("#"+id+"_hidden").hide();
+					      $("#"+id+"_show").show();
+					       layer.close(index);
+					    }else{
+		      		layer.msg('不能为空！', {offset:'100px'});
+		      	}
 		    });
 		  }
 		
@@ -94,6 +100,10 @@
 				});
 			}
 		
+		  //删除左右两端的空格
+			function trim(str){ 
+				return str.replace(/(^\s*)|(\s*$)/g, "");
+			}
     </script>
     
 		<script type="text/javascript">

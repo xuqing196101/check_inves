@@ -776,7 +776,7 @@
                         <input  <c:if test="${fn:contains(engErrorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
                                 maxlength="20" value="${t.qualifcationTitle}"
                                 name="titles[${vs.index }].qualifcationTitle"  type="text"/>
-                        <span class="add-on">i</span> <span class="input-tip"></span>
+                        <span class="add-on">i</span> <span class="input-tip">不能为空</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
@@ -784,7 +784,7 @@
                     <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                exts="${properties['file.picture.type']}" id="pro_${vs.index}" maxcount="1"
+                                exts="${properties['file.picture.type']}" id="pro_${vs.index}"
                                 groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
                                 multiple="true" businessId="${t.id}" sysKey="${expertKey}"
                                 typeId="9" auto="true"/>
@@ -829,7 +829,7 @@
                         <input  <c:if test="${fn:contains(engErrorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
                                 maxlength="20" value="${t.qualifcationTitle}"
                                 name="ecoList[${vs.index }].qualifcationTitle"  type="text"/>
-                        <span class="add-on">i</span> <span class="input-tip"></span>
+                        <span class="add-on">i</span> <span class="input-tip">不能为空</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
@@ -837,7 +837,7 @@
                     <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                exts="${properties['file.picture.type']}" id="eco_${vs.index}" maxcount="1"
+                                exts="${properties['file.picture.type']}" id="eco_${vs.index}"
                                 groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
                                 multiple="true" businessId="${t.id}" sysKey="${expertKey}"
                                 typeId="9" auto="true"/>
