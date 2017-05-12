@@ -109,6 +109,10 @@
 
 			function loadChildren(obj) {
 				var id = $(obj).val();
+				if(id==""){
+					var select = $(obj).parent().next().children();
+					$(select).empty();
+				}
 				if(id) {
 					$.ajax({
 						url: globalPath + "/area/find_area_by_parent_id.do",
@@ -959,6 +963,7 @@
 					$("#expireDate").removeAttr("disabled","disabled");
 				}
 			}
+			
 		</script>
 	</head>
 
@@ -1108,7 +1113,7 @@
 									<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 											<select id="root_area_select_id" onchange="loadChildren(this)" <c:if test="${fn:contains(audit,'address')}">style="border: 1px solid red;" onmouseover="errorMsg('address')"</c:if>>
-												<option value="">请选择</option>
+												<option value="" >请选择</option>
 												<c:forEach items="${privnce }" var="prin">
 													<c:if test="${prin.id==area.parentId }">
 														<option value="${prin.id }" selected="selected">${prin.name }</option>
