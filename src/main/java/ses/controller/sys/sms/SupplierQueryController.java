@@ -444,9 +444,11 @@ public class SupplierQueryController extends BaseSupplierController {
         //在数据字典里查询营业执照类型
   		List < DictionaryData > list = DictionaryDataUtil.find(17);
   		for(int i = 0; i < list.size(); i++) {
-  			if(supplier.getBusinessType().equals(list.get(i).getId())) {
-  				String businessType = list.get(i).getName();
-  				supplier.setBusinessType(businessType);
+  			if(supplier.getBusinessType() !=null ){
+  				if(supplier.getBusinessType().equals(list.get(i).getId())) {
+  	  				String businessType = list.get(i).getName();
+  	  				supplier.setBusinessType(businessType);
+  	  			}
   			}
   		}
         

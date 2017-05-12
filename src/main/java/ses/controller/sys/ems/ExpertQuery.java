@@ -66,7 +66,6 @@ public class ExpertQuery {
 	/**
      * 
      * @Title: view
-     * @author ShaoYangYang
      * @date 2016年9月29日 上午11:03:50
      * @Description: TODO 查看专家信息
      * @param id
@@ -245,7 +244,6 @@ public class ExpertQuery {
 	
 	/**
 	 * @Title: product
-	 * @author XuQing 
 	 * @date 2016-12-19 下午7:36:47  
 	 * @Description:产品目录
 	 * @param @param expert
@@ -307,7 +305,6 @@ public class ExpertQuery {
 	 *〈简述〉
 	 * 获取所有已选中的节点
 	 *〈详细描述〉
-	 * @author WangHuijie
 	 * @param expertId
 	 * @param typeId
 	 * @param model
@@ -397,7 +394,6 @@ public class ExpertQuery {
 	/**
      *〈简述〉查询品目信息
      *〈详细描述〉
-     * @author WangHuijie
      * @param categoryId 产品Id
      * @return List<CategoryTree> tree对象List
      */
@@ -503,7 +499,6 @@ public class ExpertQuery {
 	/**
 	 *〈简述〉获取当前节点的所有父级节点(包括根节点)
 	 *〈详细描述〉
-	 * @author WangHuijie
 	 * @param categoryId 
 	 * @return
 	 */
@@ -536,7 +531,6 @@ public class ExpertQuery {
 	/**
      * 
      * @Title: getTypeId
-     * @author ShaoYangYang
      * @date 2016年11月9日 下午2:32:38
      * @Description: TODO 封装附件类型
      * @param @return

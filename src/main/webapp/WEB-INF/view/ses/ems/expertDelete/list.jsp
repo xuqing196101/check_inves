@@ -69,7 +69,7 @@
 					return str.replace(/(^\s*)|(\s*$)/g, "");
 				}
 
-			//撤销
+			//注销
 			function cancellation() {
 				var ids = $(":radio:checked").val();
 				var state = $("#" + ids + "").parents("tr").find("td").eq(6).text();

@@ -362,4 +362,23 @@ public interface UserMapper {
 	 * @return void
 	 */
 	void updateByTypeId (String typeId);
+	
+	/**
+	 * @Title: getDleUserByTypeId
+	 * @date 2017-5-12 下午3:26:58  
+	 * @Description:查询删掉的用户
+	 * @param @param typeId
+	 * @param @return      
+	 * @return User
+	 */
+	User getDleUserByTypeId (String typeId);
+	
+	/**
+	 * @Title: updateDelUserByTypeId
+	 * @date 2017-5-12 下午3:35:02  
+	 * @Description:更新假删除的用户
+	 * @param @param user      
+	 * @return void
+	 */
+	void updateDelUserByTypeId (User user);
 }

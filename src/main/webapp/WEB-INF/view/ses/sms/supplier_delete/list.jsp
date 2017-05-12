@@ -75,7 +75,6 @@
 							title: '提示！',
 							offset: ['200px']
 						}, function(index) {
-							alert(state);
 							/* if(state=="临时"){
 								state = 1;
 							} */
