@@ -7,7 +7,6 @@
 		<script src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
 	<script type="text/javascript">
 		/* 机构树 */
-		
 		function onClickOrg(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeOrg");
 			zTree.checkNode(treeNode, !treeNode.checked, null, true);

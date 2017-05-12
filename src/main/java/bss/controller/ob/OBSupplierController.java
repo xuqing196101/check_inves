@@ -52,6 +52,9 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import common.annotation.SystemControllerLog;
+import common.annotation.SystemServiceLog;
+import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.utils.JdcgResult;
 
@@ -129,6 +132,8 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/addSupplieri")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String addSupplieri(HttpServletRequest request,Model model) {
 		String supid = UUID.randomUUID().toString().replaceAll("-", "");
 		OBSupplier obSupplier = new OBSupplier();
@@ -150,6 +155,8 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/supplier")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String supplier(@CurrentUser User user,Model model, HttpServletRequest request, Integer page) {
 		if (page == null) {
 			page = 1;
@@ -214,6 +221,8 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public void delete(HttpServletRequest request) {
 		String ids = request.getParameter("ids");
 		String productId = ids.trim();
@@ -238,6 +247,8 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/restore")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public void restore(HttpServletRequest request){
 		String ids = request.getParameter("ids");
 		String productId = ids.trim();
@@ -261,6 +272,8 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/findAllSupplier")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public List<Supplier> findAllSupplier(){
 		List<Supplier> list = supplierService.findQualifiedSupplier();
 		return list;
@@ -279,7 +292,8 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/findUsccById")
 	@ResponseBody
-	public String findUsccById(HttpServletRequest request){
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN) String findUsccById(HttpServletRequest request){
 		String id = request.getParameter("option") == null ? "" :request.getParameter("option");
 		Supplier supplier = supplierService.selectById(id);
 		String creditCode = "";
@@ -303,6 +317,8 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/add")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String add(Model model,HttpServletRequest request,OBSupplier obSupplier){
 		boolean flag = true;
 		if(obSupplier.getSupplierId() == null || obSupplier.getSupplierId() == ""){
@@ -383,6 +399,8 @@ public class OBSupplierController  {
 	
 	
 	@RequestMapping("/toedit")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String toedit(Model model,HttpServletRequest request){
 		String id = request.getParameter("suppid") == null ? "" : request.getParameter("suppid");
 		OBSupplier obSupplier = oBSupplierService.selectByPrimaryKey(id);
@@ -408,8 +426,11 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/edit")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String edit(Model model,HttpServletRequest request,OBSupplier obSupplier){
 		boolean flag = true;
+		
 		if(obSupplier.getSupplierId() == null || obSupplier.getSupplierId() == ""){
 			flag = false;
 			model.addAttribute("errorName","供应商名称不能为空");
@@ -520,6 +541,8 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/download")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public ResponseEntity<byte[]> download(HttpServletRequest request,
 			String filename) throws IOException {
 		String path = PathUtil.getWebRoot() + "excel/添加供应商模板.xlsx";
@@ -552,6 +575,8 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@SuppressWarnings("unchecked")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String uploadFile(@CurrentUser User user,MultipartFile file,HttpServletRequest request) throws Exception {
@@ -603,6 +628,8 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/findBybusinessId")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String findBybusinessId(HttpServletRequest request){
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
 		Integer key = request.getParameter("key") == null ? 0 : Integer.parseInt(request.getParameter("key"));
@@ -634,6 +661,8 @@ public class OBSupplierController  {
      */
     @ResponseBody
     @RequestMapping(value="/createtreeByproduct", produces = "application/json;charset=utf-8")
+    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
     public String createtreeById(HttpServletResponse response, Category category,String name){
     	List<CategoryTree> jList=new ArrayList<CategoryTree>();
     	if((name!=null&&!"".equals(name))){

@@ -28,6 +28,8 @@ import bss.model.ob.OBSpecialDate;
 import bss.service.ob.OBRuleService;
 import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
+import common.annotation.SystemServiceLog;
+import common.constant.StaticVariables;
 import common.utils.JdcgResult;
 
 /**
@@ -57,6 +59,8 @@ public class OBRuleController {
 	 * @throws
 	 */
 	@RequestMapping("/ruleList")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String ruleList(@CurrentUser User user, Model model,
 			HttpServletRequest request, Integer page) {
 		if (page == null) {
@@ -112,6 +116,8 @@ public class OBRuleController {
 	 * @throws
 	 */
 	@RequestMapping("/addRuleUI")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String addRuleUI() {
 		return "bss/ob/biddingRules/create";
 	}
@@ -128,6 +134,8 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/addRule", method = RequestMethod.POST)
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public JdcgResult addRule(OBRule obRule, @CurrentUser User user) throws Exception {
 		return service.addRule(obRule, user);
 	}
@@ -144,6 +152,8 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public JdcgResult delete(HttpServletRequest request) throws Exception {
 		String id = request.getParameter("id");
 		String[] ids = id.split(",");
@@ -162,6 +172,8 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/setDefaultRule", method = RequestMethod.POST)
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public JdcgResult setDefaultRule(HttpServletRequest request) throws Exception {
 		String id = request.getParameter("id");
 		return service.updateDefaultRule(id);
@@ -180,6 +192,8 @@ public class OBRuleController {
 	 * @throws
 	 */
 	@RequestMapping("/holidayList")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String holidayList(@CurrentUser User user, Model model,
 			HttpServletRequest request, Integer page) throws ParseException {
 		if (page == null) {
@@ -219,6 +233,8 @@ public class OBRuleController {
 	 * @throws
 	 */
 	@RequestMapping("createSpecialdateUI")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String createSpecialdateUI() {
 		return "bss/ob/biddingRules/createSpecialdate";
 	}
@@ -236,6 +252,8 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "addSpecialdate", method = RequestMethod.POST)
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public JdcgResult addSpecialdate(@CurrentUser User user,
 			OBSpecialDate obSpecialDate, HttpServletRequest request) throws Exception {
 		return service.addSpecialdate(obSpecialDate, request, user);
@@ -253,6 +271,8 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/deleteSpecialDate", method = RequestMethod.POST)
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public JdcgResult deleteSpecialDate(HttpServletRequest request) throws Exception {
 		String id = request.getParameter("id");
 		String[] ids = id.split(",");
@@ -271,6 +291,8 @@ public class OBRuleController {
 	* @throws
 	 */
 	@RequestMapping("/editobRule")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String editobRule(Model model, String id) {
 		if (StringUtils.isEmpty(id)) {
 			return "bss/ob/biddingRules/editRule";
@@ -294,6 +316,8 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/updateobRule", method = RequestMethod.POST)
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public JdcgResult updateobRule(OBRule obRule) throws Exception {
 		return service.updateobRule(obRule);
 	}
@@ -310,6 +334,8 @@ public class OBRuleController {
 	* @throws
 	 */
 	@RequestMapping("/editSpecialdate")
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String editSpecialdate(Model model, String id){
 		if (StringUtils.isEmpty(id)) {
 			return "bss/ob/biddingRules/editSpecialdate";
@@ -332,6 +358,8 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/updateSpecialdate", method = RequestMethod.POST)
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public JdcgResult updateSpecialdate(OBSpecialDate obSpecialDate) throws Exception{
 		return service.updateobSpecialDate(obSpecialDate);
 	}
@@ -348,6 +376,8 @@ public class OBRuleController {
 	 */
 	@RequestMapping("/checkNameUnique")
 	@ResponseBody
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public JdcgResult checkNameUnique(String name){
 		return service.checkNameUnique(name);
 	}
