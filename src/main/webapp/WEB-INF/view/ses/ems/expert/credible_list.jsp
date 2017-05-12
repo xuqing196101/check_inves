@@ -215,7 +215,7 @@
    <div class="headline-v2">
      <h2>专家诚信列表</h2>
    </div>   
-    <h2 class="search_detail">
+    <div class="search_detail">
   
    <form action="${pageContext.request.contextPath}/credible/list.html"  id="form1"  method="post"   class="mb0"> 
   <input type="hidden" name="page" id="page">
@@ -237,8 +237,9 @@
 					</ul>
                           <input class="btn fl mt1"  value="查询" type="submit">
                           <input class="btn fl  mt1" id="button" onclick="clearSearch();" value="重置" type="reset">
+                 	<div class="clear"></div>
                   </form>
-                  </h2>
+                  </div>
                   </div>
                   </div>
                
