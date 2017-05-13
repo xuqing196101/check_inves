@@ -38,6 +38,7 @@ import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.Task;
 import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.pms.CollectPlanService;
@@ -46,6 +47,7 @@ import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
+import bss.service.ppms.TaskService;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -103,6 +105,9 @@ public class DemandSupervisionController extends BaseController{
     
     @Autowired
     private DemandSupervisionService demandSupervisionService;
+    
+    @Autowired
+    private TaskService taskService;
     
 	/**
 	 * 
@@ -238,6 +243,12 @@ public class DemandSupervisionController extends BaseController{
                     CollectPlan collectPlan = collectPlanService.queryById(detail.get(0).getUniqueId());
                     User user = userService.getUserById(collectPlan.getUserId());
                     collectPlan.setUserId(user.getRelName());
+                    HashMap<String, Object> maps = new HashMap<>();
+                    maps.put("collectId", collectPlan.getId());
+                    List<Task> listBycollect = taskService.listBycollect(maps);
+                    if(listBycollect != null && listBycollect.size() > 0){
+                        collectPlan.setTaskId(listBycollect.get(0).getDocumentNumber());
+                    }
                     model.addAttribute("collectPlan", collectPlan);
                     model.addAttribute("planId", collectPlan.getId());
                 }
@@ -341,6 +352,7 @@ public class DemandSupervisionController extends BaseController{
                         Project project = projectService.selectById(id);
                         model.addAttribute("code", DictionaryDataUtil.findById(project.getPurchaseType()).getCode());
                     } else {
+                        List<ProjectDetail> list = new ArrayList<ProjectDetail>();
                         for (ProjectDetail detail : details) {
                             if(detail.getPrice() != null){
                                 DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
@@ -348,13 +360,14 @@ public class DemandSupervisionController extends BaseController{
                                 String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId());
                                 detail.setProgressBar(progressBarPlan[0]);
                                 detail.setStatus(progressBarPlan[1]);
+                                list.add(detail);
                             } else {
                                 detail.setPurchaseType(null);
                                 detail.setStatus(null);
                             }
                             
                         }
-                        model.addAttribute("details", details);
+                        model.addAttribute("details", list);
                     }
                     
                     Project project = projectService.selectById(id);

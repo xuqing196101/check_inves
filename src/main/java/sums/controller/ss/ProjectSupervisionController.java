@@ -469,6 +469,7 @@ public class ProjectSupervisionController {
                     }
                     model.addAttribute("packages", lists);
                 } else {
+                    List<ProjectDetail> list = new ArrayList<ProjectDetail>();
                     for (ProjectDetail detail : selectById) {
                         if(detail.getPrice() != null){
                             DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
@@ -476,13 +477,14 @@ public class ProjectSupervisionController {
                             String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId());
                             detail.setProgressBar(progressBarPlan[0]);
                             detail.setStatus(progressBarPlan[1]);
+                            list.add(detail);
                         } else {
                             detail.setPurchaseType(null);
                             detail.setStatus(null);
                         }
                         
                     }
-                    model.addAttribute("details", selectById);
+                    model.addAttribute("details", list);
                 }
                 Project project = projectService.selectById(projectId);
                 if(project != null){
@@ -708,6 +710,7 @@ public class ProjectSupervisionController {
             List<Task> listBycollect = taskService.listBycollect(mapTask);
             if(listBycollect != null && listBycollect.size() > 0){
                 collectPlan.setUpdatedAt(listBycollect.get(0).getGiveTime());
+                collectPlan.setTaskId(listBycollect.get(0).getDocumentNumber());
             }
             model.addAttribute("collectPlan", collectPlan);
             model.addAttribute("planId", collectPlan.getId());

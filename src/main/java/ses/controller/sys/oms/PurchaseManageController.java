@@ -287,6 +287,8 @@ public class PurchaseManageController {
 	@SystemControllerLog(description="新增需求部门",operType=3)
 	public String create(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
 	    if(result.hasErrors()){
+	        List<Area> areaList = areaServiceI.findRootArea();
+	        model.addAttribute("areaList", areaList);
             model.addAttribute("orgnization", orgnization);
             //初始化采购管理部门级别
             initManageLevel(model);
@@ -607,6 +609,15 @@ public class PurchaseManageController {
         if(!ValidateUtils.isNotNull(purchaseDep.getIsAuditSupplier())){
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("ERR_isAuditSupplier", "请选择");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        
+        if(purchaseDep.getDutyRoomPhone().length() > 15){
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_dutyRoomPhone", "字符过长");
             model.addAttribute("purchaseDepIds", purchaseDep.getId());
             model.addAttribute("lists", purchaseOrgList);
             model.addAttribute("orgInfos", orgInfos);

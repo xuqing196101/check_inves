@@ -92,7 +92,7 @@
             <a href="javascript:void(0)">采购业务监督</a>
           </li>
           <li class="active">
-            <a href="javascript:void(0)">采购计划监督</a>
+            <a href="javascript:void(0)">采购项目监督</a>
           </li>
         </ul>
         <div class="clear"></div>
@@ -110,8 +110,8 @@
                   <td>${collectPlan.purchaseId}</td>
                   <td class="bggrey">计划名称：</td>
                   <td>${collectPlan.fileName}</td>
-                  <td class="bggrey">计划编号：</td>
-                  <td>${collectPlan.planNo}</td>
+                  <td class="bggrey">计划文号：</td>
+                  <td>${collectPlan.taskId}</td>
                 </tr>
                 <tr>
                   <td class="bggrey">计划下达时间：</td>
@@ -159,7 +159,7 @@
               <tbody id="tbody_id">
                 <c:forEach items="${list}" var="obj" varStatus="vs">
                   <tr class="pointer">
-                    <td class="tc w50">${obj.seq}</td>
+                    <td class="tc w50">${vs.seq}</td>
                     <td><c:if test="${obj.price eq null}">
                     <div class="department">${obj.department}</div>
                     </c:if></td>
