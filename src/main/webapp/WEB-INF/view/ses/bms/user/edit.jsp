@@ -432,7 +432,7 @@
 				       	</div>
 				 	</li>
 		     		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">职务：</span>
+					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">职务</span>
 					    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 					        <input class="span5" name="duties" value="${user.duties }" maxlength="40" type="text">
 					        <span class="add-on">i</span>
