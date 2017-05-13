@@ -229,7 +229,7 @@
 			    
 				/* var seq=seqs(); */
 			 if(orgType!='0'){
-				 layer.msg("请用需求部门编制采购计划！"); 
+				 layer.msg("请用需求部门编制采购需求！"); 
 			 }else if($.trim(name) == "") {
 					 layer.alert("采购需求名称不允许为空"); 
 				} else if($.trim(mobile) == "") {
@@ -299,7 +299,7 @@
 						  		        url: "${pageContext.request.contextPath}/purchaser/adddetail.do",
 						  		        data: {"prList":JSON.stringify(jsonStr),"planType":type,
 						  		        	"planNo":no,"planName":name,"recorderMobile":mobile,
-						  		        	"referenceNo":refNo,"fileId":fileId},
+						  		        	"referenceNo":refNo,"fileId":fileId,"enterPort":$("#enterPort").val()},
 						  		        success: function (message) {
 						  		        	 window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
 						  		        },
@@ -626,6 +626,10 @@
 			
 			function gtype(obj){
 				var vals=$(obj).val();
+				$("#import").attr("checked",false);
+				$("td[name='userNone']").attr("style","display:none");
+				$("th[name='userNone']").attr("style","display:none");
+				$("#enterPort").val(0);
 				if(vals == 'FC9528B2E74F4CB2A9E74735A8D6E90A'){
 					  $("#dnone").show();
 					  $("#dnone").next().attr("class","col-md-3 col-sm-6 col-xs-12");
@@ -856,10 +860,11 @@
 				if(bool==true){
 					$("td[name='userNone']").attr("style","");
 					$("th[name='userNone']").attr("style","");
-			
+					$("#enterPort").val(1);
 				}else{
 					$("td[name='userNone']").attr("style","display:none");
 					$("th[name='userNone']").attr("style","display:none");
+					$("#enterPort").val(0);
 				}
 				
 			}
@@ -1259,7 +1264,7 @@
 		</div>
 		<div class="container container_box">
 			<div>
-				<h2 class="count_flow"><i>1</i>计划主信息</h2>
+				<h2 class="count_flow"><i>1</i>需求主信息</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>采购需求名称</span>
@@ -1306,12 +1311,12 @@
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"  id="dnone" >
             <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                <input type="checkbox" name="import" onchange="imports(this)" value="进口" class="mr5"/>进口
+                <input type="checkbox" name="import" onchange="imports(this)" id="import" value="进口" class="mr5"/>进口
             </div>
           </li>
           
             <li class="col-md-3 col-sm-6 col-xs-12">
-            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>
+            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求附件</span>
                       <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${fileId}" sysKey="2" typeId="${typeId}" auto="true" />
                         <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${typeId}" />
           </li>
@@ -1319,7 +1324,7 @@
 
 			</div>
 			<div class="padding-top-10 clear">
-				<h2 class="count_flow"><i>2</i>计划明细 </h2>
+				<h2 class="count_flow"><i>2</i>需求明细 </h2>
 				<div class="ul_list">
 					<div class="col-md-12 p115 mt10">
 						<button class="btn btn-windows add" onclick="aadd()">添加</button>
@@ -1333,7 +1338,7 @@
 					<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll" style="max-height:300px" id="add_div">
 
 						<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
-							<table id="table" class="table table-bordered table-condensed lockout table_input">
+							<table id="table" class="table table-bordered table-condensed lockout table_input ">
 								<thead>
 									<tr class="space_nowrap">
 									    <th class="seq">行号</th>
@@ -1357,8 +1362,9 @@
 									<!-- 	<th class="w100">状态</th> -->
 										<th class="w100">操作</th>
 									</tr>
+									
 								</thead>
-								<tbody id="detailZeroRow">
+								<tbody id="detailZeroRow" >
 								<c:if test="${plist==null }">
 									<tr name="detailRow">
 									<td><div class="seq">1</div></td>
@@ -1378,7 +1384,7 @@
 											</select> --%>
 										</td>
 										<td>
-											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="goodsname"/>
+											<input type="text" name="list[0].goodsName" onkeyup="listName(this)"  class="goodsname"/>
 										</td>
 										<td><input type="text" name="list[0].stand" class="stand"></td>
 										<td><input type="text" name="list[0].qualitStand" class="qualitstand"></td>
@@ -1449,7 +1455,7 @@
 											</select> --%>
 										</td>
 										<td>
-											<input type="text" name="list[1].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="goodsname"/>
+											<input type="text" name="list[1].goodsName" onkeyup="listName(this)"  class="goodsname"/>
 										</td>
 										<td><input type="text" name="list[1].stand" class="stand"></td>
 										<td><input type="text" name="list[1].qualitStand" class="qualitstand"></td>
@@ -1518,7 +1524,7 @@
 								  			<input type="text"  readonly="readonly" value="${orgName}" class="department">
 										</td>
 										<td>
-											<input type="text" class="goodsname" name="list[${vs.index }].goodsName" onkeyup="listName(this)" onblur="lossValue()" value="${objs.goodsName}" />
+											<input type="text" class="goodsname" name="list[${vs.index }].goodsName" onkeyup="listName(this)"  value="${objs.goodsName}" />
 										</td>
 										<td><input type="text" name="list[${vs.index }].stand" value="${objs.stand}" class="stand"></td>
 										<td><input type="text" name="list[${vs.index }].qualitStand" value="${objs.qualitStand}" class="qualitstand"></td>
@@ -1559,14 +1565,14 @@
 	
 							</tbody>
 						</table>
-							
+							<input type="hidden" name="enterPort" id="enterPort" value="0">
 							<input type="hidden" name="planName" id="detailJhmc">
 							<input type="hidden" name="planNo" id="detailJhbh">
 							<input type="hidden" name="planType" id="detailType">
 							<input type="hidden" name="recorderMobile" id="detailMobile">
 							<input type="hidden" name="planDepName" id="detailXqbm"/>
 						    <input type="hidden" name="referenceNo" id="detailRefNo"/>
-						    <input type="hidden" name="fileId" id="mfiledId"value="${fileId }" />
+						    <input type="hidden" name="fileId" id="mfiledId" value="${fileId }" />
 						</form>
 					</div>
 				</div>
@@ -1585,7 +1591,7 @@
 
 					<p style="margin-left: 20px;">4、需求单位名称不能为空</p>
 
-					<p style="margin-left: 20px;">5、请按表式填写计划明细。用户可以编辑行，但不能增加或删除列。</p>
+					<p style="margin-left: 20px;">5、请按表式填写需求明细。用户可以编辑行，但不能增加或删除列。</p>
 
 					<p style="margin-left: 20px;">6、最子级请严格按照填写说明填写，父级菜单请将序号与金额填写正确(金额=所有子项金额/10000)
 					</p>

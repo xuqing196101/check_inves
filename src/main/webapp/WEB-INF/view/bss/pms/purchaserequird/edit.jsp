@@ -261,6 +261,21 @@
 	    	  $("#table").find("#edit_form").submit();
 	    	 // $("#edit_form").submit();
 	      }
+	      /* function gtype(obj){
+				var vals=$(obj).val();
+				$("#import").attr("checked",false);
+				$("td[name='userNone']").attr("style","display:none");
+				$("th[name='userNone']").attr("style","display:none");
+				$("#enterPort").val(0);
+				if(vals == 'FC9528B2E74F4CB2A9E74735A8D6E90A'){
+					  $("#dnone").show();
+					  $("#dnone").next().attr("class","col-md-3 col-sm-6 col-xs-12");
+				}else{
+					 $("#dnone").hide();
+					 $("#dnone").next().attr("class","col-md-3 col-sm-6 col-xs-12 mt25 ml5");
+				}
+				$("#detailType").val(vals);
+			}  */
 </script>
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
 <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
@@ -283,17 +298,17 @@
 	<div class="container container_box" id="container">
 		
 		 <div>
-				<h2 class="count_flow"><i>1</i>计划主信息</h2>
+				<h2 class="count_flow"><i>1</i>需求主信息</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求名称</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group"  id="jhmc" value="${list[0].planName}">
 							<span class="add-on">i</span>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划编号</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求编号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" id="jhbh" value="${list[0].planNo}" >
 							<span class="add-on">i</span>
@@ -301,7 +316,7 @@
 					</li>
 					
 					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划文号</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求文号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group"  id="referenceNo" name="referenceNo"   value="${list[0].referenceNo}" >
 							<span class="add-on">i</span>
@@ -334,14 +349,15 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5" style="display:none" id="dnone" >
+					<c:if test="${list[0].enterPort==1}"> 
+					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"  id="dnone" >
 			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			                <input type="checkbox" name="" onchange="" value="进口" />进口
+			                <input type="checkbox" name="" onchange="" value="进口"   />进口
 			            </div>
 			         </li>
-          
+			       </c:if>
              <li class="col-md-3 col-sm-6 col-xs-12">
-                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>
+                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求附件</span>
                        <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${fileId}" sysKey="2" typeId="${typeId}" auto="true" />
                         <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${detailId}" />
              </li>
@@ -349,7 +365,7 @@
 	   </ul>
 	 </div>
 
-		<h2 class="count_flow"><i>2</i>计划明细</h2>
+		<h2 class="count_flow"><i>2</i>需求明细</h2>
 		<div class="content mt0 require_ul_list">
 	
              <div class="content " id="content">
