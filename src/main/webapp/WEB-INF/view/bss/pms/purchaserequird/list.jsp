@@ -310,7 +310,7 @@
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info" style="width: 60%">计划名称</th>
+		  <th class="info" style="width: 40%">需求名称</th>
 		  <th class="info">采购需求文号</th>
 		  <th class="info">金额（万元）</th>
 		  <th class="info">编制时间</th>

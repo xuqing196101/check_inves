@@ -264,7 +264,7 @@
 										</c:if>
 
 										<c:if test="${fn:contains(supplierTypeNames, '销售')}">
-											<div class="tab-pane <c:if test=" ${liCount==1 } ">active in</c:if> fade  in height-200" id="tab-2">
+											<div class="tab-pane <c:if test="${liCount==1}">active in</c:if> fade  in height-200" id="tab-2">
 												<ul class="ul_list">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
@@ -305,7 +305,7 @@
 										</c:if>
 
 										<c:if test="${fn:contains(supplierTypeNames, '工程')}">
-											<div class="tab-pane <c:if test=" ${liCount==1 } ">active in</c:if> fade height-200" id="tab-3">
+											<div class="tab-pane <c:if test="${liCount==1}">active in</c:if> fade height-200" id="tab-3">
 												<h2 class="count_flow"><i>1</i>保密工程业绩</h2>
 												<ul class="ul_list count_flow">
 													<c:if test="${supplierMatEngs.isHavingConAchi eq '0'}">
@@ -434,7 +434,7 @@
 										</c:if>
 
 										<c:if test="${fn:contains(supplierTypeNames, '服务')}">
-											<div class="tab-pane <c:if test=" ${liCount==1 } ">active in</c:if> fade height-200" id="tab-4">
+											<div class="tab-pane <c:if test="${liCount==1}">active in</c:if> fade height-200" id="tab-4">
 												<ul class="ul_list count_flow">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>

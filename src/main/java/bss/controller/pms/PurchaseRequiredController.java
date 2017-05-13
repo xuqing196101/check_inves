@@ -534,7 +534,7 @@ public class PurchaseRequiredController extends BaseController{
 	 */
 	@RequestMapping("/adddetail")
 	@ResponseBody
-	public String addReq(PurchaseRequiredFormBean list,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request,String referenceNo,String fileId,String prList) throws IOException{
+	public String addReq(PurchaseRequiredFormBean list,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request,String referenceNo,String fileId,String prList,Integer enterPort) throws IOException{
 		
 		List<PurchaseRequired> plist = get(prList);
 		 
@@ -576,6 +576,7 @@ public class PurchaseRequiredController extends BaseController{
                     p.setDetailStatus(0);
                     p.setStatus("1");
                     p.setFileId(fileId);
+                    p.setEnterPort(enterPort);
                     if(p.getSeq()!=null){
                     	
                     

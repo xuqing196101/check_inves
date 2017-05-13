@@ -613,7 +613,7 @@
                 #{isReferenceLftter,jdbcType=CHAR},
             </if>
             <if test="professional != null">
-                #{PROFESSIONAL,jdbcType=VARCHAR},
+                #{professional,jdbcType=VARCHAR},
             </if>
             <if test="timeProfessional != null">
                 #{timeProfessional,jdbcType=TIMESTAMP},

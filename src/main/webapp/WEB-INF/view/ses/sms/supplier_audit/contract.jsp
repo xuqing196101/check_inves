@@ -301,7 +301,7 @@
 								<c:set value="${liCount+1}" var="liCount" />
 							</c:if> --%>
 							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE')}">
-								<li id="li_id_4" class="<c:if test=" ${liCount==0 } ">active</c:if>" onclick="loadPageFour('tab-4','supplierAudit/ajaxContract.html','SERVICE')">
+								<li id="li_id_4" class="<c:if test="${liCount==0}">active</c:if>" onclick="loadPageFour('tab-4','supplierAudit/ajaxContract.html','SERVICE')">
 									<a aria-expanded="false" href="#tab-4" data-toggle="tab" id="a_id_4">服务合同信息</a>
 								</li>
 								<c:set value="${liCount+1}" var="liCount" />
