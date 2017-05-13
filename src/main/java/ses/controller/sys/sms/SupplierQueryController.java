@@ -1958,7 +1958,6 @@ public class SupplierQueryController extends BaseSupplierController {
        
      /**
       * @Title: findSupplierType
-      * @author XuQing 
       * @date 2017-3-10 下午2:10:36  
       * @Description:供应商类型
       * @param @param response
@@ -1978,4 +1977,19 @@ public class SupplierQueryController extends BaseSupplierController {
    		
    		super.writeJson(response, listSupplierTypeTrees);
    	}
+    
+    /**
+     * @Title: temporarySupplier
+     * @date 2017-5-13 上午11:23:24  
+     * @Description:临时供应商
+     * @param       
+     * @return void
+     */
+    @RequestMapping(value = "temporarySupplier")
+    public String temporarySupplier(Model model, String supplierId, Integer sign){
+    	Supplier supplier = supplierAuditService.supplierById(supplierId);
+    	model.addAttribute("supplier", supplier);
+    	model.addAttribute("sign", sign);
+    	return "ses/sms/supplier_query/supplierInfo/temporary_supplier_info";
+    }
 }

@@ -112,16 +112,16 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<ul class="nav nav-tabs bgwhite">
 						<li class="">
-							<a aria-expanded="false" data-toggle="tab" class="f18" onclick="jump('basicInfo');">基本信息</a>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab" class="f18" onclick="jump('basicInfo');">基本信息</a>
 						</li>
 						<li class="">
-							<a aria-expanded="false" data-toggle="tab" class="f18" onclick="jump('expertType');">专家类别</a>
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertType');">专家类别</a>
 						</li>
 						<li class="active">
-							<a aria-expanded="false" data-toggle="tab" class="f18" onclick="jump('product');">产品类别</a>
+							<a aria-expanded="true" href="#tab-3" data-toggle="tab" class="f18" onclick="jump('product');">产品类别</a>
 						</li>
 						<li class="">
-							<a aria-expanded="false" data-toggle="tab" class="f18" onclick="jump('expertFile');">承诺书和申请表</a>
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="jump('expertFile');">承诺书和申请表</a>
 						</li>
 					</ul>
 					<div class="padding-top-10">

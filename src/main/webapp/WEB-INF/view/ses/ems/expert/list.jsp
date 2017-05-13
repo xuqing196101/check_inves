@@ -361,7 +361,7 @@
 							<td>
 								<c:choose>
 						       <c:when test="${e.status eq '4' and e.isProvisional eq '1'}">
-						       	 ${e.relName}
+						       	 <a href="${pageContext.request.contextPath}/expertQuery/temporaryExpert.html?expertId=${e.id}">${e.relName}</a>
 						       </c:when>
 						       <c:otherwise>
 						       	 <a href="${pageContext.request.contextPath}/expertQuery/view.html?expertId=${e.id}&sign=1">${e.relName}</a>

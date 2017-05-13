@@ -37,7 +37,7 @@ import common.constant.Constant;
  */
 @Controller
 @RequestMapping("/expertQuery")
-public class ExpertQuery {
+public class ExpertQueryController {
 	
 	@Autowired
     private DictionaryDataServiceI dictionaryDataServiceI; // TypeId
@@ -617,4 +617,18 @@ public class ExpertQuery {
 		model.addAttribute("sign", sign);
 		return "ses/ems/expertQuery/expertFile";
 	}
+	
+    /**
+     * @Title: temporarySupplier
+     * @date 2017-5-13 上午11:23:24  
+     * @Description:临时供应商
+     * @param       
+     * @return void
+     */
+    @RequestMapping(value = "temporaryExpert")
+    public String temporarySupplier(Model model, String expertId){
+    	Expert expert = service.selectByPrimaryKey(expertId);
+    	model.addAttribute("expert", expert);
+    	return "ses/ems/expertQuery/temporary_expert_info";
+    }
 }
