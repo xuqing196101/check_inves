@@ -1191,7 +1191,7 @@ public class PlanSupervisionController {
                 AdvancedDetail advancedDetail = advancedDetailService.selectByRequiredId(required.getId());
                 if(advancedDetail != null){
                     AdvancedProject advancedProject = advancedProjectService.selectById(advancedDetail.getAdvancedProject());
-                    if(advancedProject != null){
+                    if(advancedProject != null && !"0".equals(advancedProject.getStatus())){
                         //预研任务
                         HashMap<String, Object> maps = new HashMap<>();
                         maps.put("projectId", advancedProject.getId());
@@ -1201,25 +1201,32 @@ public class PlanSupervisionController {
                             Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(task.getOrgId());
                             Orgnization org = orgnizationService.getOrgByPrimaryKey(task.getPurchaseId());
                             User user = userService.getUserById(task.getCreaterId());
-                            User users = userService.getUserById(task.getUserId());
+                            if(StringUtils.isNotBlank(task.getUserId())){
+                                User users = userService.getUserById(task.getUserId());
+                                task.setUserId(users.getRelName());
+                            }
                             task.setPurchaseId(org.getShortName());
                             task.setOrgName(orgnization.getShortName());
                             task.setCreaterId(user.getRelName());
-                            task.setUserId(users.getRelName());
+                            
                             model.addAttribute("tasks", task);
                         }
                         
                         //预研项目
-                        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(advancedProject.getPurchaseDepId());
-                        User user = userService.getUserById(advancedProject.getAppointMan());
-                        DictionaryData findById = DictionaryDataUtil.findById(advancedProject.getStatus());
-                        if(!"YYYBYY".equals(findById.getCode())){
-                            model.addAttribute("YYYBYY", "0");
-                        }else{
-                            model.addAttribute("YYYBYY", "1");
+                        if(StringUtils.isNotBlank(advancedProject.getPurchaseDepId())){
+                            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(advancedProject.getPurchaseDepId());
+                            DictionaryData findById = DictionaryDataUtil.findById(advancedProject.getStatus());
+                            if(!"YYYBYY".equals(findById.getCode())){
+                                model.addAttribute("YYYBYY", "0");
+                            }else{
+                                model.addAttribute("YYYBYY", "1");
+                            }
+                            advancedProject.setPurchaseDepName(orgnization.getShortName());
                         }
-                        advancedProject.setPurchaseDepName(orgnization.getShortName());
-                        advancedProject.setAppointMan(user.getRelName());
+                        if(StringUtils.isNotBlank(advancedProject.getAppointMan())){
+                            User user = userService.getUserById(advancedProject.getAppointMan());
+                            advancedProject.setAppointMan(user.getRelName());
+                        }
                         model.addAttribute("advancedProject", advancedProject);
                     }
                 }
