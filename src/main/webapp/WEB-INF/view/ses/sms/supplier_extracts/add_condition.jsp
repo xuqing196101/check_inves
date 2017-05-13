@@ -142,7 +142,8 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取级别：</span>
+                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div
+                            class="star_red">*</div>抽取级别：</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input id="levelType" class="" type="text" readonly name="supplierLevel"
                                value="${listCon.supplierLevel}" onclick="showLevel();"/>
@@ -829,7 +830,7 @@
         x = oRect.left - 450;
         y = oRect.top - 150;
         layer.confirm('确定本次操作吗？', {
-            btn: ['确定', '取消'], offset: [y, x], shade: 0.01
+            btn: ['确定', '取消'], shade: 0.01
         }, function (index) {
             var strs = new Array();
             var v = select.value;
@@ -947,7 +948,7 @@
                     $("#tbody").prepend(tex);
                 }
                 if ((strTypes != 4 && strTypes != 0) || isUsed == 0) {
-                    layer.alert("抽取完成,剩余为以满足条件", {offset: ['222px', '222px'], shade: 0.01});
+                    layer.alert("抽取完成,剩余为以满足条件", { shade: 0.01});
                     //抽取符合人数后显示满足条件人数
                     selectLikeSupplier();
                 }

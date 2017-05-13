@@ -112,8 +112,8 @@
                   <td>${collectPlan.purchaseId}</td>
                   <td class="bggrey">计划名称：</td>
                   <td>${collectPlan.fileName}</td>
-                  <td class="bggrey">计划编号：</td>
-                  <td>${collectPlan.planNo}</td>
+                  <td class="bggrey">计划文号：</td>
+                  <td>${collectPlan.taskId}</td>
                 </tr>
                 <tr>
                   <td class="bggrey">计划下达时间：</td>

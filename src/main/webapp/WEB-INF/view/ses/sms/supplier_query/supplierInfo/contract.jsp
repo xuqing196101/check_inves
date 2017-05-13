@@ -229,11 +229,11 @@
 									<div class="tab-pane active in fade height-300 " id="tab-2">
 									</div>
 								</c:if>
-								<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
+								<%-- <c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
 									<!-- 工程 -->
 									<div class="tab-pane active in fade height-200 " id="tab-3">
 									</div>
-								</c:if>
+								</c:if> --%>
 								<c:if test="${fn:contains(supplierTypeIds, 'SERVICE')}">
 									<!-- 服务 -->
 									<div class="tab-pane active in fade height-200 " id="tab-4">
