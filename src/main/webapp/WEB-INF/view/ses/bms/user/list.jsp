@@ -354,15 +354,15 @@
             <table class="table table-bordered table-condensed table-hover table-striped">
             <thead>
 					<tr>
-					  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-					  <th class="info w50">序号</th>
-					  <th class="info">用户名</th>
-					  <th class="info">姓名</th>
-					  <th class="info">机构类型</th>
-					  <th class="info">单位</th>
-					  <th class="info">联系电话</th>
-					  <th class="info">角色</th>
-					  <th class="info w80">权限</th>
+					  <th class="info w30 col-md-1 col-sm-1 col-xs-1 col-lg-1" ><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+					  <th class="info w50 col-md-1 col-sm-1 col-xs-1 col-lg-1">序号</th>
+					  <th class="info col-md-1 col-sm-1 col-xs-1 col-lg-1">用户名</th>
+					  <th class="info col-md-1 col-sm-1 col-xs-1 col-lg-1">姓名</th>
+					  <th class="info col-md-1 col-sm-1 col-xs-1 col-lg-1">机构类型</th>
+					  <th class="info col-md-4 col-sm-4 col-xs-4 col-lg-4">单位</th>
+					  <th class="info col-md-1 col-sm-1 col-xs-1 col-lg-1">联系电话</th>
+					  <th class="info col-md-1 col-sm-1 col-xs-1 col-lg-1">角色</th>
+					  <th class="info w80 col-md-2 col-sm-2 col-xs-2 col-lg-2">权限</th>
 					  <!-- <th class="info w80">数据权限</th> -->
 					</tr>
 		      </thead>
