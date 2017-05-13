@@ -120,6 +120,7 @@ public class PurchaseRequired {
   
   private String progressBar;
   
+  private Integer enterPort;
   public String getUserName() {
 	return userName;
 }
@@ -551,5 +552,13 @@ public String getSign() {
     public void setProgressBar(String progressBar) {
         this.progressBar = progressBar;
     }
+
+	public Integer getEnterPort() {
+		return enterPort;
+	}
+
+	public void setEnterPort(Integer enterPort) {
+		this.enterPort = enterPort;
+	}
 	
 }

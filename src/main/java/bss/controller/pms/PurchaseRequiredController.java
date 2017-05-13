@@ -549,10 +549,7 @@ public class PurchaseRequiredController extends BaseController{
         String ccid = UUID.randomUUID().toString().replaceAll("-", "");
         String cccid = UUID.randomUUID().toString().replaceAll("-", "");
         String ccccid = UUID.randomUUID().toString().replaceAll("-", "");
-        
         String unqueId = UUID.randomUUID().toString().replaceAll("-", "");
-        
-        
 		int count=1;
 		if(list!=null){
 			if(plist!=null&&plist.size()>0){

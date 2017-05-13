@@ -624,17 +624,17 @@
 				});
 			}
 			
-		/* 	function gtype(obj){
+			function gtype(obj){
 				var vals=$(obj).val();
 				if(vals == 'FC9528B2E74F4CB2A9E74735A8D6E90A'){
-					  $("#dnone").show();  
+					  $("#dnone").show();
+					  $("#dnone").next().attr("class","col-md-3 col-sm-6 col-xs-12");
 				}else{
-				
 					 $("#dnone").hide();
+					 $("#dnone").next().attr("class","col-md-3 col-sm-6 col-xs-12 mt25 ml5");
 				}
-				
 				$("#detailType").val(vals);
-			} */
+			} 
 			
 		 function fileup(){
 			 
@@ -1315,14 +1315,7 @@
                       <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${fileId}" sysKey="2" typeId="${typeId}" auto="true" />
                         <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${typeId}" />
           </li>
-          
-          
-          
-       
-                         
-                         
-                         
-				</ul>
+		</ul>
 
 			</div>
 			<div class="padding-top-10 clear">

@@ -51,7 +51,7 @@
 		<result column="RECORDER_MOBILE" jdbcType="VARCHAR"  property="recorderMobile"/>
 		<result column="ADVANCED_STATUS" jdbcType="VARCHAR"  property="advancedStatus"/>
 		<result column="PROJECT_STATUS" jdbcType="VARCHAR"  property="projectStatus"/>
-		
+		<result column="ENTER_PORT"  property="enterPort"/>
 		<result column="UNIQUE_ID" jdbcType="VARCHAR"  property="uniqueId"/>
 		<result column="FILE_ID" jdbcType="VARCHAR"  property="fileId"/>
 	</resultMap>
@@ -62,7 +62,7 @@
 		MATERIAL_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
 		STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION_ID,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
 		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,ADVANCED_STATUS,
-		PROJECT_STATUS,UNIQUE_ID,FILE_ID
+		PROJECT_STATUS,UNIQUE_ID,FILE_ID,ENTER_PORT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="PurchaseRequired_Map">
@@ -95,7 +95,7 @@
 		CREATED_AT, USER_ID, PARENT_ID,
 		REQ_LEVEL, STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION_ID,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
 		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,
-		ADVANCED_STATUS,PROJECT_STATUS,UNIQUE_ID,FILE_ID
+		ADVANCED_STATUS,PROJECT_STATUS,UNIQUE_ID,FILE_ID,ENTER_PORT
 		)
 		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
 		#{planNo,jdbcType=VARCHAR},
@@ -116,7 +116,7 @@
 		#{twoTechAdvice,jdbcType=VARCHAR}, #{twoAdvice,jdbcType=VARCHAR},  
 		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
 		#{userUnit,jdbcType=VARCHAR},#{detailStatus,jdbcType=VARCHAR},#{reason,jdbcType=VARCHAR},#{recorderMobile,jdbcType=VARCHAR},#{advancedStatus,jdbcType=VARCHAR},#{projectStatus,jdbcType=VARCHAR},
-  	#{uniqueId,jdbcType=VARCHAR},#{fileId,jdbcType=VARCHAR}
+  	#{uniqueId,jdbcType=VARCHAR},#{fileId,jdbcType=VARCHAR},#{enterPort}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -276,6 +276,10 @@
 		    <if test="fileId != null">
 	          FILE_ID,
 		    </if>
+		    <if test="enterPort != null">
+	          ENTER_PORT,
+		    </if>
+		    
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -428,7 +432,9 @@
 		   	<if test="fileId != null">
 	          #{FILE_ID,jdbcType=VARCHAR},
 		   </if>
-		   
+		    <if test="enterPort != null">
+	          #{enterPort},
+		    </if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -585,6 +591,9 @@
 		     <if test="fileId != null">
 		        FILE_ID=#{fileId,jdbcType=VARCHAR},
 		     </if>
+		     <if test="enterPort != null">
+	          ENTER_PORT=#{enterPort},
+		    </if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -637,7 +646,8 @@
 		REASON=#{reason,jdbcType=VARCHAR},
 		RECORDER_MOBILE=#{recorderMobile,jdbcType=VARCHAR},
 		ADVANCED_STATUS=#{advancedStatus,jdbcType=VARCHAR},
-		PROJECT_STATUS=#{projectStatus,jdbcType=VARCHAR}
+		PROJECT_STATUS=#{projectStatus,jdbcType=VARCHAR},
+		ENTER_PORT=#{enterPort} 
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="query" parameterType="bss.model.pms.PurchaseRequired"
