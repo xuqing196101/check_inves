@@ -298,7 +298,7 @@
 				<li><a href="#"> 首页</a></li>
 				<li><a href="#">保障作业系统</a></li>
 				<li><a href="#">采购计划管理</a></li>
-				<li class="active"><a href="#">采购需求管理</a></li>
+				<li class="active"><a href="#">采购需求编报</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -495,12 +495,12 @@
                   </div>
                   </td>
                   <td>
-                <%--   <c:if test="${obj.purchaseCount!=null}">
+                 <c:if test="${obj.purchaseCount!=null}">
 							   <div class="extrafile">
 									 <u:upload id="up_${vs.index}"  multiple="true"  businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${detailId}" auto="true" />
 									 <u:show showId="show_${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${detailId}" />
 							  </div>
-				</c:if>	 --%>		  
+				</c:if>			  
 							  	
 						<input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}"/>									
 					 </td>
