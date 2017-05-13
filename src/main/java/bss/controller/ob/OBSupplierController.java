@@ -162,10 +162,11 @@ public class OBSupplierController  {
 	public String supplier(@CurrentUser User user,Model model, 
 			HttpServletRequest request,@RequestParam(defaultValue="1") Integer page) {
 		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
-		int orgId=2;
-		 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-		String orgName=null;
-	   
+		int authType=2;
+		 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+		if(user!= null){
+		 if("1".equals(user.getTypeName())){
+				authType=0;
 		int status = request.getParameter("status") == null ? 0 : Integer
 				.parseInt(request.getParameter("status"));
 		String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
@@ -203,6 +204,9 @@ public class OBSupplierController  {
 		//model.addAttribute("orgTyp", orgTyp);
 		model.addAttribute("supplierName", supplierName);
 		model.addAttribute("smallPointsId", smallPointsId);
+			}
+		}
+		model.addAttribute("authType", authType);
 		return "bss/ob/addSupplier/supplierlist";
 	}
 
@@ -220,7 +224,11 @@ public class OBSupplierController  {
 	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public void delete(HttpServletRequest request) {
+	public void delete(HttpServletRequest request,@CurrentUser User user) {
+		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+	 	 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+	 if(user!= null){
+		if("1".equals(user.getTypeName())){
 		String ids = request.getParameter("ids");
 		String productId = ids.trim();
 		if (productId.length() != 0) {
@@ -228,7 +236,8 @@ public class OBSupplierController  {
 			for (String str : uniqueIds) {
 				oBSupplierService.deleteByPrimaryKey(str);
 			}
-
+		   }
+		}
 		}
 	}
 
@@ -246,7 +255,11 @@ public class OBSupplierController  {
 	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public void restore(HttpServletRequest request){
+	public void restore(HttpServletRequest request,@CurrentUser User user){
+		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+	 	 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+	 if(user!= null){
+		if("1".equals(user.getTypeName())){
 		String ids = request.getParameter("ids");
 		String productId = ids.trim();
 		if (productId.length() != 0) {
@@ -254,6 +267,8 @@ public class OBSupplierController  {
 			for (String str : uniqueIds) {
 				oBSupplierService.restoreByPrimaryKey(str);
 			}
+		  }
+		 }
 		}
 	}
 	
@@ -271,9 +286,16 @@ public class OBSupplierController  {
 	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public List<Supplier> findAllSupplier(){
+	public List<Supplier> findAllSupplier(@CurrentUser User user){
+		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+	 	 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+	 if(user!= null){
+		if("1".equals(user.getTypeName())){
 		List<Supplier> list = supplierService.findQualifiedSupplier();
 		return list;
+		 }
+	   }
+	   return new ArrayList<Supplier>();
 	}
 	
 	/**
@@ -316,7 +338,13 @@ public class OBSupplierController  {
 	@RequestMapping("/add")
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String add(Model model,HttpServletRequest request,OBSupplier obSupplier){
+	public String add(Model model,HttpServletRequest request,OBSupplier obSupplier,
+			@CurrentUser User u){
+		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+	 	 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+	 if(u!= null){
+		if("1".equals(u.getTypeName())){
+		
 		boolean flag = true;
 		if(obSupplier.getSupplierId() == null || obSupplier.getSupplierId() == ""){
 			flag = false;
@@ -390,21 +418,29 @@ public class OBSupplierController  {
 			}
 			model.addAttribute("obSupplier", obSupplier);
 			return "bss/ob/addSupplier/addSupplier";
+		    }
+		  }
 		}
-		
+	   return "bss/ob/addSupplier/addSupplier"; 
 	}
 	
 	
 	@RequestMapping("/toedit")
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String toedit(Model model,HttpServletRequest request){
+	public String toedit(Model model,HttpServletRequest request,@CurrentUser User user){
+		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+	 	 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+	 if(user!= null){
+		if("1".equals(user.getTypeName())){
 		String id = request.getParameter("suppid") == null ? "" : request.getParameter("suppid");
 		OBSupplier obSupplier = oBSupplierService.selectByPrimaryKey(id);
 		model.addAttribute("obSupplier", obSupplier);
 		if(obSupplier != null){
 			Category category = categoryService.findById(obSupplier.getSmallPointsId());
 			model.addAttribute("catName", category.getName());
+		  }
+		 }
 		}
 		return "bss/ob/addSupplier/editSupplier";
 	}
@@ -425,7 +461,12 @@ public class OBSupplierController  {
 	@RequestMapping("/edit")
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String edit(Model model,HttpServletRequest request,OBSupplier obSupplier){
+	public String edit(Model model,HttpServletRequest request,OBSupplier obSupplier,
+           @CurrentUser User u){
+		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+	 	 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+	 if(u!= null){
+		if("1".equals(u.getTypeName())){
 		boolean flag = true;
 		
 		if(obSupplier.getSupplierId() == null || obSupplier.getSupplierId() == ""){
@@ -504,8 +545,10 @@ public class OBSupplierController  {
 			model.addAttribute("catName", category.getName());
 			model.addAttribute("obSupplier", obSupplier);
 			return "bss/ob/addSupplier/editSupplier";
+		  }
+		 }
 		}
-		
+	  return "bss/ob/addSupplier/editSupplier";
 	}
 	
 	/**
@@ -577,6 +620,11 @@ public class OBSupplierController  {
 	@RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String uploadFile(@CurrentUser User user,MultipartFile file,HttpServletRequest request) throws Exception {
+		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+	 	 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+	 if(user!= null){
+		if("1".equals(user.getTypeName())){
+		
 		String fileName = file.getOriginalFilename();
 		if (!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
 			return "1";
@@ -609,6 +657,9 @@ public class OBSupplierController  {
 		}
 		String jsonString = JSON.toJSONString(list);
 		return jsonString;
+		 }
+		}
+	    return "只有采购机构才能操作";
 	}
 
 	

@@ -990,44 +990,53 @@
  
     </select>
     <select id="getbar" parameterType="Map" resultType="Map" >
-		select
-		 sum(BUDGET) as amount,DEPARTMENT as department
-		 from T_BSS_PMS_PURCHASE_DETAIL
-	 	<include refid="parambar"/>
-		 group by DEPARTMENT
+		select sum(e.BUDGET) as amount,e.DEPARTMENT as department from T_BSS_PMS_PURCHASE_DETAIL e,T_BSS_PMS_COLLECT_PLAN p where e.UNIQUE_ID=p.id and 
+		p.USER_ID in(
+		   select id from T_SES_BMS_USER  WHERE   org_id=(select org_id from T_SES_BMS_USER where  id=#{userId})
+		    UNION
+		   select id from T_SES_BMS_USER where org_id in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where ORG_ID=(select org_id from T_SES_BMS_USER where  id=#{userId})))
+		<include refid="parambar"/> group by e.DEPARTMENT
 	 
 	</select>
 	<select id="getpipe" parameterType="Map" resultType="Map" >
-		select
-		 sum(BUDGET) as amount,PURCHASE_TYPE as purchaseType
-		 from T_BSS_PMS_PURCHASE_DETAIL
-	 	<include refid="parambar"/>
-		 group by PURCHASE_TYPE
+		
+		select sum(e.BUDGET) as amount,e.PURCHASE_TYPE as purchaseType from T_BSS_PMS_PURCHASE_DETAIL e,T_BSS_PMS_COLLECT_PLAN p where e.UNIQUE_ID=p.id and 
+		p.USER_ID in(
+		   select id from T_SES_BMS_USER  WHERE   org_id=(select org_id from T_SES_BMS_USER where  id=#{userId})
+		    UNION
+		   select id from T_SES_BMS_USER where org_id in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where ORG_ID=(select org_id from T_SES_BMS_USER where  id=#{userId})))
+		<include refid="parambar"/> group by e.PURCHASE_TYPE
+	</select>
+	<select id="getline" parameterType="Map" resultType="Map" >
+	select sum(e.BUDGET) as amount,to_char(e.CREATED_AT,'yyyy-mm') as month from T_BSS_PMS_PURCHASE_DETAIL e,T_BSS_PMS_COLLECT_PLAN p where e.UNIQUE_ID=p.id and 
+		p.USER_ID in(
+		   select id from T_SES_BMS_USER  WHERE   org_id=(select org_id from T_SES_BMS_USER where  id=#{userId})
+		    UNION
+		   select id from T_SES_BMS_USER where org_id in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where ORG_ID=(select org_id from T_SES_BMS_USER where  id=#{userId})))
+		<include refid="parambar"/> group by to_char(e.CREATED_AT,'yyyy-mm') ORDER BY to_char(e.CREATED_AT,'yyyy-mm')
+	</select>
+	
+	<select id="getdetailAllByUserId" parameterType="Map" resultMap="PurchaseRequired_Map" >
+		select p.file_name as PLAN_NAME,e.PLAN_NO,e.PLAN_TYPE,e.MATERIAL_NAME,e.STAND,e.QUALIT_STAND,e.ITEM,e.PURCHASE_COUNT,e.PRICE,e.BUDGET,e.PURCHASE_TYPE from T_BSS_PMS_PURCHASE_DETAIL e,T_BSS_PMS_COLLECT_PLAN p where e.UNIQUE_ID=p.id and 
+		   p.USER_ID in(
+		   select id from T_SES_BMS_USER  WHERE   org_id=(select org_id from T_SES_BMS_USER where  id=#{userId})
+		    UNION
+		   select id from T_SES_BMS_USER where org_id in (select PURCHASE_DEP_ID from T_SES_OMS_PURDEP_ORG where ORG_ID=(select org_id from T_SES_BMS_USER where  id=#{userId}))) and e.parent_id!='1'
+		   <include refid="parambar"/>
 	</select>
     <sql id="parambar">
-	 <where>
-	 IS_DELETE!='1' and PURCHASE_COUNT is not null
-	 and IS_MASTER!='1' and HISTORY_STATUS='0'
-	 	<if test="planType != null">
-				and PLAN_TYPE = #{planType}
+	 and e.IS_DELETE!='1' and e.PURCHASE_COUNT is not null
+	 and e.IS_MASTER!='1' and e.HISTORY_STATUS='0'
+	 	<if test="planType != null and planType!=''">
+				and e.PLAN_TYPE = #{planType}
 		</if>
-	 	<if test="year!=null">
-	 	and to_char(CREATED_AT,'yyyy')=#{year}
+	 	<if test="planName!=null and planName!=''">
+	 	   and p.file_name like '%'||#{planName}||'%'
 	 	</if>
-	 	<if test="organization !=null">
-	 	and ORGANIZATION_ID=#{organization}
+	 	<if test="planNo !=null and planNo!=''">
+	 	    and e.plan_no like '%'||#{planNo}||'%'
 	 	</if>
-	 	<if test="budget != null">
-			and BUDGET = #{budget}
-		</if>
-		<if test="purchaseType != null">
-			and PURCHASE_TYPE = #{purchaseType}
-		</if>	
-		<if test="department != null">
-			   and DEPARTMENT = #{department}
-		</if>
-			
-	 </where>	
+	
 	
 	</sql>
     

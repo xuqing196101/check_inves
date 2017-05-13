@@ -257,13 +257,13 @@ public class CategoryServiceImpl implements CategoryService {
         }
         
         ResBean res = new ResBean();
-        if (StringUtils.isEmpty(name)) {
+        if (StringUtils.isEmpty(name)||name.trim().length()<=0) {
             res.setSuccess(false);
             res.setMsg(CATEGORY_ISNOTNULL);
            return  res;
         }
         
-        if (StringUtils.isEmpty(code)) {
+        if (StringUtils.isEmpty(code)||code.trim().length()<=0) {
             res.setSuccess(false);
             res.setError(CATEGORY_CODE_ISNUOTNUll);
            return  res;

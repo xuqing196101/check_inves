@@ -177,6 +177,11 @@ public class PurchaseContractController extends BaseSupplierController{
 					Packages packages = packageService.selectByPrimaryKeyId(pass.getPackageId());
 					Supplier supplier = supplierService.selectOne(pass.getSupplierId());
 					Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(project.getPurchaseDepId());
+					PurchaseContract pcs=null;
+					if(pass.getContractId()!=null&&!"".equals(pass.getContractId())){
+						pcs = purchaseContractService.selectById(pass.getContractId());
+					}
+					pass.setPc(pcs);
 					pass.setProject(project);
 					pass.setPackages(packages);
 					pass.setSupplier(supplier);
@@ -199,7 +204,7 @@ public class PurchaseContractController extends BaseSupplierController{
 								Supplier supplier = supplierService.selectOne(pass.getSupplierId());
 								Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(project.getPurchaseDepId());
 								PurchaseContract pcs=null;
-								if(pass.getContractId()!=null&&"".equals(pass.getContractId())){
+								if(pass.getContractId()!=null&&!"".equals(pass.getContractId())){
 									pcs = purchaseContractService.selectById(pass.getContractId());
 								}
 								pass.setPc(pcs);

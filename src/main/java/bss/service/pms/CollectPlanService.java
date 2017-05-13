@@ -105,6 +105,12 @@ public interface CollectPlanService {
 	* @throws
 	 */
 	List<PurchaseRequired> getAll(List<String> uniqueId,HttpServletRequest request);
+	/**
+	 * 计划汇总，权限控制
+	 * @param collectPlan
+	 * @return
+	 */
+	List<CollectPlan> getSummary(CollectPlan collectPlan,Integer page);
 	
 	
 	

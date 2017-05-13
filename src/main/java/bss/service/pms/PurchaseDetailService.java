@@ -306,4 +306,17 @@ public interface PurchaseDetailService {
      * @return
      */
     Map<String, Object> getpipe(HashMap<String, Object> hashMap);
+    
+    /**
+     * 计划汇总统计，按照月份统计
+     * @param hashMap
+     * @return
+     */
+    Map<String, Object> getline(HashMap<String, Object> hashMap);
+    /**
+     * 计划汇总统计，按明细查询
+     * @param hashMap
+     * @return
+     */
+    List<PurchaseDetail> getdetailAllByUserId(HashMap<String, Object> hashMap);
 }

@@ -450,5 +450,11 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 		}
 		return childList;
 	}
+	@Override
+	public List<CollectPlan> getSummary(CollectPlan collectPlan,Integer page) {
+		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("page.size.thirty")));
+		List<CollectPlan> list = collectPlanMapper.getSummary(collectPlan);
+		return list;
+	}
 	
 }
