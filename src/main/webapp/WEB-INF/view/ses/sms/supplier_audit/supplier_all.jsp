@@ -74,7 +74,7 @@
 						var size = $(":checkbox:checked").size();
 						if(size == 0) {
 							layer.msg("请选择供应商 !", {
-								offset: '300px',
+								offset: '100px',
 							});
 							return;
 						}
@@ -287,7 +287,7 @@
 							}
 					});
 				}else{
-					layer.msg("请选择专家 !", {offset: '100px',});
+					layer.msg("请选择供应商 !", {offset: '100px',});
 					}	    	
 		   };
 			
