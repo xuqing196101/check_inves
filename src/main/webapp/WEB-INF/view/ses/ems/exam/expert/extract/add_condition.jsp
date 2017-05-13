@@ -202,7 +202,7 @@
                         </div>
                     </li>
 
-                    <li class="col-md-3 col-sm-3 col-xs-3  dnone clear" id="goodsCount">
+                    <li class="col-md-3 col-sm-6 col-xs-12  dnone clear" id="goodsCount">
                         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">物资技术人数：</span>
                         <div class="input-append input_group col-sm-12 col-xs-12 p0">
                             <input type="text" name="goodsCount" id="goods" value="${con.expertsCount}"
@@ -211,7 +211,7 @@
                         </div>
                     </li>
 
-                    <li class="col-md-3 col-sm-3 col-xs-3 dnone " id="projectCount">
+                    <li class="col-md-3 col-sm-6 col-xs-12 dnone " id="projectCount">
                         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程技术人数：</span>
                         <div class="input-append input_group col-sm-12 col-xs-12 p0">
                             <input type="text" name="projectCount" id="project" value="${con.expertsCount }"
@@ -220,7 +220,7 @@
                         </div>
                     </li>
 
-                    <li class="col-md-3 col-sm-3 col-xs-3 dnone " id="serviceCount">
+                    <li class="col-md-3 col-sm-6 col-xs-12 dnone " id="serviceCount">
                         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">服务技术人数：</span>
                         <div class="input-append input_group col-sm-12 col-xs-12 p0">
                             <input type="text" name="serviceCount" id="service" value="${con.expertsCount }"
@@ -229,8 +229,8 @@
                         </div>
                     </li>
 
-                    <li class="col-md-3 col-sm-3 col-xs-3  dnone" id="goodsServerCount">
-                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">服务经济人数：</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12  dnone" id="goodsServerCount">
+                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">物资服务经济人数：</span>
                         <div class="input-append input_group col-sm-12 col-xs-12 p0">
                             <input type="text" name="goodsServerCount" id="goodsServer" value="${con.expertsCount }"
                                    onchange="chane();"/>
@@ -238,7 +238,7 @@
                         </div>
                     </li>
 
-                    <li class="col-md-3 col-sm-3 col-xs-3 dnone" id="goodsProjectCount">
+                    <li class="col-md-3 col-sm-6 col-xs-12 dnone" id="goodsProjectCount">
                         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程经济人数：</span>
                         <div class="input-append input_group col-sm-12 col-xs-12 p0">
                             <input type="text" name="goodsProjectCount" id="goodsProject" value="${con.expertsCount }"
@@ -853,6 +853,8 @@
     }
     /**专家类别----begin----*/
     function showExpertType() {
+    	var expertsTypeName=$("#expertsTypeName").val();
+    	var result=expertsTypeName.split(",");
         var setting = {
             check: {
                 enable: true,
@@ -875,6 +877,7 @@
                 beforeClick: beforeClick,
                 onCheck: onCheck
             }
+            
         };
         $.ajax({
             type: "GET",
@@ -882,7 +885,16 @@
             url: "${pageContext.request.contextPath}/ExpExtract/projectType.do",
             dataType: "json",
             success: function (zNodes) {
-                tree = $.fn.zTree.init($("#treeExpertType"), setting, zNodes);
+            	 tree = $.fn.zTree.init($("#treeExpertType"), setting, zNodes);
+            	 $.each(zNodes, function () {
+            		 for(var i=0;i<result.length;i++){
+            			 if(this.name==result[i]){
+            				 tree.checkNode(this, true, true);
+            			 }
+            	    	}
+          		 });
+            	 tree = $.fn.zTree.init($("#treeExpertType"), setting, zNodes);
+                
                 tree.expandAll(true); //全部展开
             }
         });
