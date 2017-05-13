@@ -6,9 +6,8 @@
 <%@ include file="/WEB-INF/view/common.jsp" %>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 
-   <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/handsontable.min.js"></script>
    <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/moment.js"></script>
-   <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/numbro.js"></script>
+   
    <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/pikaday.js"></script>
    <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/ZeroClipboard.js"></script>
    
@@ -261,12 +260,12 @@
 	    	  $("#table").find("#edit_form").submit();
 	    	 // $("#edit_form").submit();
 	      }
-	      /* function gtype(obj){
-				var vals=$(obj).val();
+	       function gtype(obj){
+	    	    var vals=$(obj).val();
 				$("#import").attr("checked",false);
+				/* $("#import").attr("checked",false); */
 				$("td[name='userNone']").attr("style","display:none");
 				$("th[name='userNone']").attr("style","display:none");
-				$("#enterPort").val(0);
 				if(vals == 'FC9528B2E74F4CB2A9E74735A8D6E90A'){
 					  $("#dnone").show();
 					  $("#dnone").next().attr("class","col-md-3 col-sm-6 col-xs-12");
@@ -274,8 +273,17 @@
 					 $("#dnone").hide();
 					 $("#dnone").next().attr("class","col-md-3 col-sm-6 col-xs-12 mt25 ml5");
 				}
-				$("#detailType").val(vals);
-			}  */
+			}
+	       function imports(obj){
+				var bool=$(obj).is(':checked');
+				if(bool==true){
+					$("td[name='userNone']").attr("style","");
+					$("th[name='userNone']").attr("style","");
+				}else{
+					$("td[name='userNone']").attr("style","display:none");
+					$("th[name='userNone']").attr("style","display:none");
+				}
+			}
 </script>
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
 <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
@@ -290,7 +298,7 @@
 				<li><a href="#"> 首页</a></li>
 				<li><a href="#">保障作业系统</a></li>
 				<li><a href="#">采购计划管理</a></li>
-				<li class="active"><a href="#">采购需求管理</a></li>
+				<li class="active"><a href="#">采购需求编报</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -307,7 +315,7 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12">
+					<li class="col-md-3 col-sm-6 col-xs-12 hide">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求编号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" id="jhbh" value="${list[0].planNo}" >
@@ -352,7 +360,7 @@
 					<c:if test="${list[0].enterPort==1}"> 
 					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"  id="dnone" >
 			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			                <input type="checkbox" name="" onchange="" value="进口"   />进口
+			                <input type="checkbox" id="import" name=""  value="进口" checked="checked"  onchange="imports(this)"  />进口
 			            </div>
 			         </li>
 			       </c:if>
@@ -385,6 +393,10 @@
 							<th class="info purchasetype">采购方式</th>
 							<th class="info purchasename">供应商名称</th>
 							<th class="info freetax">是否申请</br>办理免税</th>
+							<c:if test="${list[0].enterPort==1}"> 
+							<th  name="userNone" class="info">物资用途</br>（仅进口）</th>
+							<th  name="userNone" class="info">使用单位</br>（仅进口）</th>
+							</c:if>
 					<!-- 		<th class="info">物资用途</br>（仅进口）</th>
 							<th class="info">使用单位</br>（仅进口）</th> -->
 							<th class="info memo">备注</th>
@@ -472,8 +484,10 @@
                   <input type="hidden"    name="history" value=""/>
                   </td>
                   <td><input type="text" name="list[${vs.index }].isFreeTax" onblur="historys(this)"  value="${obj.isFreeTax}" class="freetax"></td>
-                 <%--  <td><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
-                  <td><input type="text" name="list[${vs.index }].userUnit" value="${obj.userUnit}"></td> --%>
+                 <c:if test="${list[0].enterPort==1}"> 
+                  <td name="userNone"> <input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
+                  <td name="userNone"><input type="text" name="list[${vs.index }].userUnit" value="${obj.useUnit}"></td>
+                  </c:if>
                   <td><div class="memo">
                   <input   type="hidden" name="ss"   value="${obj.id }">
                     <textarea name="list[${vs.index }].memo"  onblur="historys(this)" class="target purchasename">${obj.memo}</textarea>
@@ -481,12 +495,12 @@
                   </div>
                   </td>
                   <td>
-                <%--   <c:if test="${obj.purchaseCount!=null}">
+                 <c:if test="${obj.purchaseCount!=null}">
 							   <div class="extrafile">
 									 <u:upload id="up_${vs.index}"  multiple="true"  businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${detailId}" auto="true" />
 									 <u:show showId="show_${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${detailId}" />
 							  </div>
-				</c:if>	 --%>		  
+				</c:if>			  
 							  	
 						<input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}"/>									
 					 </td>

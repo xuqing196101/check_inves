@@ -1256,7 +1256,7 @@
 						<a href="#">采购计划管理</a>
 					</li>
 					<li class="active">
-						<a href="#">采购需求管理</a>
+						<a href="#">采购需求编报</a>
 					</li>
 				</ul>
 				<div class="clear"></div>

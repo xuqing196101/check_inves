@@ -70,43 +70,22 @@
 				var service = $("#a_id_4").text();
 				//加载默认的页签
 				if(product == "物资-生产型合同信息") {
-					loadPageOne('tab-1','supplierAudit/ajaxContract.html','PRODUCT');
+					loadPageOne('tab-1','supplierQuery/ajaxContract.html','PRODUCT');
 					return;
 				}
 		  		if(sales == "物资-销售型合同信息") {
-					loadPageTwo('tab-2','supplierAudit/ajaxContract.html','SALES');
+					loadPageTwo('tab-2','supplierQuery/ajaxContract.html','SALES');
 					return;
 				}
 				if(project == "工程合同信息") {
-					loadPageThree('tab-3','supplierAudit/ajaxContract.html','PROJECT');
+					loadPageThree('tab-3','supplierQuery/ajaxContract.html','PROJECT');
 					return;
 				}
 				if(service == "服务合同信息") {
-					loadPageFour('tab-4','supplierAudit/ajaxContract.html','SERVICE');
+					loadPageFour('tab-4','supplierQuery/ajaxContract.html','SERVICE');
 					return;
 				}
 			});
-			
-			function reason(auditField, auditFieldName) {
-				var supplierId = $("#supplierId").val();
-				var product = $("#pro_val").val();
-				var sales = $("#sal_val").val();
-				var project = $("#eng_val").val();
-				var service = $("#ser_val").val();
-				var str = "";
-				if(product != null && str == "") {
-					str = "生产";
-				}
-				if(sales != null && str == "") {
-					str = "销售";
-				}
-				if(project != null && str == "") {
-					str = "工程";
-				}
-				if(service != null && str == "") {
-					str = "服务";
-				}
-			}
 
 			function loadPageOne(id, url, supplierTypeId) {
 				index = layer.load(1, {

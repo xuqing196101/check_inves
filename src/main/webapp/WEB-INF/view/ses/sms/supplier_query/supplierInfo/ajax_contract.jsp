@@ -77,12 +77,15 @@
 			<input type="hidden" name="supplierTypeId" id="supplierTypeId" value="${supplierTypeId}">
 			<table class="table table-bordered">
 				<tr>
-					<td class="tc info"> 品目名称</td>
+					<td class="tc info" colspan="4">产品名称</td>
 					<td colspan="3" class="tc info">销售合同(体现甲乙双方盖章及标的相关页)</td>
 					<td colspan="3" class="tc info">证明合同有效履行的相应银行收款进账单</td>
 				</tr>
 				<tr>
-					<td class="tc info"> 末级节点</td>
+					<td class="info tc">大类</td>
+		      <td class="info tc">中类</td>
+		      <td class="info tc">小类</td>
+		      <td class="info tc">名称</td>
 					<c:forEach items="${years}" var="year">
 						<td class="tc info">${year}</td>
 					</c:forEach>
@@ -92,24 +95,27 @@
 				</tr>
 				<c:forEach items="${contract}" var="obj" varStatus="vs">
 					<tr>
-						<td class="">${obj.name }</td>
+						<td class="">${obj.firstNode}</td>
+				    <td class="">${obj.secondNode}</td>
+				    <td class="">${obj.thirdNode}</td>
+				    <td class="">${obj.fourthNode}</td>
 						<td class="">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-1}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-1}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 						</td>
 						<td class="">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-2}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-2}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 						</td>
 						<td class="">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-3}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-3}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 						</td>
 						<td class="">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-4}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-4}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 						</td>
 						<td class="">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-5}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-5}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 						</td>
 						<td class="">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-6}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-6}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 					</tr>
 				</c:forEach>
 			</table>
