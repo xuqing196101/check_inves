@@ -138,7 +138,13 @@
 											<up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
 										</td>
 									</c:if>
-								</tr>
+									<c:if test="${expert.coverNote eq '2'}">
+										<td width="12%" class="bggrey">退休证书或退休证明</td>
+										<td width="25%">
+											<up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
+										</td>
+									</c:if>
+								</tr>		
 							</c:if>
 							<c:if test="${froms eq 'ARMY'}">
 								<tr>
