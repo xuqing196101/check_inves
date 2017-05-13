@@ -213,7 +213,7 @@
               <tbody id="tbody_id">
                 <c:forEach items="${details}" var="obj" varStatus="vs">
                   <tr class="pointer">
-                    <td class="tc w50">${obj.serialNumber}</td>
+                    <td class="tc w50">${(vs.index+1)}</td>
                     <td>
                       <c:if test="${obj.price eq null}">
                         <div class="department">${obj.department}</div>

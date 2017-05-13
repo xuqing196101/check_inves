@@ -141,7 +141,7 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
                     if(project != null){
                         if(!"4".equals(project.getStatus())){
                             DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
-                            if(StringUtils.isNotBlank(project.getPrincipal())){
+                            if(StringUtils.isNotBlank(project.getAppointMan())){
                                 List<User> users = userMapper.selectByPrimaryKey(project.getAppointMan());
                                 project.setAppointMan(users.get(0).getRelName());
                                 project.setAddress(users.get(0).getAddress());
@@ -242,7 +242,8 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
                     Project project = projectMapper.selectProjectByPrimaryKey(projectTask.getProjectId());
                     if(project != null && !"4".equals(project.getStatus())){
                         String projectStatus = supervisionService.progressBarProject(project.getStatus());
-                        status.add(projectStatus);
+                        String proStatus = projectStatus + ".00";
+                        status.add(proStatus);
                     }
                 }
             }
@@ -250,9 +251,9 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
         if(status != null && status.size() > 0){
             Integer num = 0;
             for (String string : status) {
-                double number = Integer.valueOf(string)/status.size();
+                double number = Double.valueOf(string)/status.size();
                 BigDecimal b = new BigDecimal(number);
-                double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+                double total = b.setScale(0,BigDecimal.ROUND_HALF_UP).doubleValue();
                 num += (int)total;
             }
             return num;

@@ -379,10 +379,12 @@ public class PlanSupervisionController {
             if(collectPlan != null){
                 HashMap<String, Object> map = new HashMap<>();
                 User user = userService.getUserById(collectPlan.getUserId());
-                map.put("collectId", id);
+                
+                map.put("collectId", collectPlan.getId());
                 List<Task> listBycollect = taskService.listBycollect(map);
                 if(listBycollect != null && listBycollect.size() > 0){
                     collectPlan.setOrderAt(listBycollect.get(0).getGiveTime());
+                    collectPlan.setTaskId(listBycollect.get(0).getDocumentNumber());
                 }
                 collectPlan.setUserId(user.getRelName());
                 collectPlan.setPurchaseId(user.getOrgName());
@@ -472,6 +474,7 @@ public class PlanSupervisionController {
                     List<Packages> list = planSupervisionService.viewPack(project.getId());
                     model.addAttribute("packages", list);
                 } else {
+                    List<ProjectDetail> list = new ArrayList<ProjectDetail>();
                     HashMap<String, Object> maps = new HashMap<>();
                     maps.put("id", project.getId());
                     List<ProjectDetail> details = projectDetailService.selectById(maps);
@@ -482,12 +485,13 @@ public class PlanSupervisionController {
                             String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId());
                             detail.setProgressBar(progressBarPlan[0]);
                             detail.setStatus(progressBarPlan[1]);
+                            list.add(detail);
                         } else {
                             detail.setPurchaseType(null);
                             detail.setStatus(null);
                         }
                     }
-                    model.addAttribute("details", details);
+                    model.addAttribute("details", list);
                 }
                 
                 DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());

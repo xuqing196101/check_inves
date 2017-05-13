@@ -72,7 +72,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     public void readNewExpertInfo(final File file) {
       
        List<Expert> list = getExpert(file);
-       try{
+//       try{
            if(null != list && !list.isEmpty()){
                for (Expert expert : list) {
                    List<ExpertTitle> titles = expert.getTitles();
@@ -102,9 +102,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                }
                synchRecordService.importNewExpertRecord(new Integer(list.size()).toString());
            }
-       }catch (Exception e){
-           e.printStackTrace();
-       }
+//       }catch (Exception e){
+//           e.printStackTrace();
+//       }
     }
     
     /**
