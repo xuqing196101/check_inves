@@ -146,30 +146,30 @@
 						<div class="col-md-12 tab-v2 job-content">
 							<div class="tab-v2">
 								<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
-									<c:set value="0" var="liCount" />
+									<c:set value="0" var="liCountPro" />
+									<c:set value="0" var="liCountSell" />
+									<c:set value="0" var="liCountEng" />
+									<c:set value="0" var="liCountSer" />
 									<c:if test="${fn:contains(supplierTypeNames, '生产')}">
-										<c:set value="${liCount+1}" var="liCount" />
+										<c:set value="${liCountPro+1}" var="liCountPro" />
 										<li class="active">
 											<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型专业信息</a>
 										</li>
 									</c:if>
 									<c:if test="${fn:contains(supplierTypeNames, '销售')}">
-										<li class='<c:if test="${liCount == 0}">active</c:if>'>
+										<li class='<c:if test="${liCountPro == 0}">active <c:set value="${liCountSell+1}" var="liCountSell" /></c:if>'>
 											<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型专业信息</a>
 										</li>
-										<c:set value="${liCount+1}" var="liCount" />
 									</c:if>
 									<c:if test="${fn:contains(supplierTypeNames, '工程')}">
-										<li class='<c:if test="${liCount == 0}">active</c:if>'>
+										<li class='<c:if test="${liCountSell == 0}">active <c:set value="${liCountEng+1}" var="liCountEng" /></c:if>'>
 											<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程专业信息</a>
 										</li>
-										<c:set value="${liCount+1}" var="liCount" />
 									</c:if>
 									<c:if test="${fn:contains(supplierTypeNames, '服务')}">
-										<li class='<c:if test="${liCount == 0}">active</c:if>'>
+										<li class='<c:if test="${liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer" /></c:if>'>
 											<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务专业信息</a>
 										</li>
-										<c:set value="${liCount+1}" var="liCount" />
 									</c:if>
 								</ul>
 
@@ -264,7 +264,7 @@
 										</c:if>
 
 										<c:if test="${fn:contains(supplierTypeNames, '销售')}">
-											<div class="tab-pane <c:if test="${liCount==1}">active in</c:if> fade  in height-200" id="tab-2">
+											<div class="tab-pane <c:if test="${liCountSell==1}">active in</c:if> fade  in height-200" id="tab-2">
 												<ul class="ul_list">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
@@ -305,7 +305,7 @@
 										</c:if>
 
 										<c:if test="${fn:contains(supplierTypeNames, '工程')}">
-											<div class="tab-pane <c:if test="${liCount==1}">active in</c:if> fade height-200" id="tab-3">
+											<div class="tab-pane <c:if test="${liCountEng==1}">active in</c:if> fade height-200" id="tab-3">
 												<h2 class="count_flow"><i>1</i>保密工程业绩</h2>
 												<ul class="ul_list count_flow">
 													<c:if test="${supplierMatEngs.isHavingConAchi eq '0'}">
@@ -434,7 +434,7 @@
 										</c:if>
 
 										<c:if test="${fn:contains(supplierTypeNames, '服务')}">
-											<div class="tab-pane <c:if test="${liCount==1}">active in</c:if> fade height-200" id="tab-4">
+											<div class="tab-pane <c:if test="${liCountSer==1}">active in</c:if> fade height-200" id="tab-4">
 												<ul class="ul_list count_flow">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
