@@ -296,7 +296,7 @@ public class PlanSupervisionController {
             if(bool!=true){
                 collectPlan.setUserId(user.getId());
             }
-            List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
+            List<CollectPlan> list = collectPlanService.querySupervision(collectPlan, page==null?1:page);
             for (int i = 0; i < list.size(); i++ ) {
                 try {
                     User users = userService.getUserById(list.get(i).getUserId());
