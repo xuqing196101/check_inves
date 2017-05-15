@@ -57,7 +57,34 @@
 
 	<body onload="initData()">
 		<!--面包屑导航开始-->
-		<jsp:include page="navigation.jsp" flush="ture" />
+		<%-- <jsp:include page="navigation.jsp" flush="ture" /> --%>
+		<div class="margin-top-10 breadcrumbs ">
+			<div class="container">
+				<ul class="breadcrumb margin-left-0">
+					<li>
+						<a href="javascript:void(0)"> 首页</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">支撑环境</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">专家管理</a>
+					</li>
+					<li>
+						<c:if test="${sign == 1}">
+							<a  href="${pageContext.request.contextPath}/expert/findAllExpert.html">全部专家查询</a>
+						</c:if>
+						<c:if test="${sign == 2}">
+							<a  href="${pageContext.request.contextPath}/expertQuery/list.html">入库专家查询</a>
+						</c:if>
+					</li>
+					<li>
+						<a href="javascript:void(0)">查看详细</a>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
 
 		<div class="container container_box">
 			<div class=" content height-350">
@@ -268,12 +295,14 @@
 							</tr>
 						</table>
 					</ul>
-					<h2 class="count_flow"><i>6</i>参加军队地方采购评审情况</h2>
-					<table class="table table-bordered table-condensed ">
-						<tr>
-							<td>${expert.reviewSituation}</td>
-						</tr>
-					</table>
+					<ul class="ul_list hand count_flow">
+						<h2 class="count_flow"><i>6</i>参加军队地方采购评审情况</h2>
+						<table class="table table-bordered table-condensed ">
+							<tr>
+								<td>${expert.reviewSituation}</td>
+							</tr>
+						</table>
+					</ul>
 					<ul class="ul_list hand count_flow">
 						<h2 class="count_flow"><i>7</i>需要申请回避的情况</h2>
 						<table class="table table-bordered table-condensed ">
@@ -284,10 +313,10 @@
 					</ul>
 					<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
 						<c:if test="${sign == 1}">
-							<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expert/findAllExpert.html">返回</a>
+							<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expert/findAllExpert.html">返回列表</a>
 						</c:if>
 						<c:if test="${sign == 2}">
-							<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/list.html">返回</a>
+							<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/list.html">返回列表</a>
 						</c:if>
 					</div>
 				</div>
