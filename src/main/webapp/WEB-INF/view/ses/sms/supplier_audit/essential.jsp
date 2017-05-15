@@ -625,7 +625,7 @@
 										<td id="code_${supplierAddress.id}" <c:if test="${fn:contains(fieldAddress,supplierAddress.id.concat('_code'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('code','${supplierAddress.id}','1');"</c:if>>${supplierAddress.code}</td>
 										<td id="residence_${supplierAddress.id}" <c:if test="${fn:contains(fieldAddress,supplierAddress.id.concat('_residence'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('residence','${supplierAddress.id}','1');"</c:if>>${supplierAddress.parentName}${supplierAddress.subAddressName}</td>
 										<td id="detailedResidence_${supplierAddress.id}" <c:if test="${fn:contains(fieldAddress,supplierAddress.id.concat('_detailedResidence'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('detailedResidence','${supplierAddress.id}','1');"</c:if>>${supplierAddress.detailAddress}</td>
-										<td <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierHousePoperty)}">style="border: 1px solid #FF8C00;"</c:if>>
+										<td <c:if test="${fn:contains(houseFileModifyField,supplierAddress.id.concat(supplierDictionaryData.supplierHousePoperty))}">style="border: 1px solid #FF8C00;"</c:if>>
 											<u:show delete="false" showId="house_show_${vs.index+1}" businessId="${supplierAddress.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
 										</td>
 										<td class="tc w50 hand" >
