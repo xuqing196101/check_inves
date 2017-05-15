@@ -693,7 +693,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">固定电话：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="legalTelephone" class="hand " value="${suppliers.legalMobile } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalMobile')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalMobile');"</c:if> <c:if test="${fn:contains(passedField,'legalMobile')}">style="border: 1px solid red;"</c:if>>
+								<input id="legalMobile" class="hand " value="${suppliers.legalMobile } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalMobile')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalMobile');"</c:if> <c:if test="${fn:contains(passedField,'legalMobile')}">style="border: 1px solid red;"</c:if>>
 								<c:if test="${fn:contains(passedField,'legalMobile')}">
 									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 								</c:if>
@@ -702,7 +702,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="legalMobile" class="hand " value="${suppliers.legalTelephone } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalTelephone')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalTelephone');"</c:if> <c:if test="${fn:contains(passedField,'legalTelephone')}">style="border: 1px solid red;"</c:if>>
+								<input id="legalTelephone" class="hand " value="${suppliers.legalTelephone } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalTelephone')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalTelephone');"</c:if> <c:if test="${fn:contains(passedField,'legalTelephone')}">style="border: 1px solid red;"</c:if>>
 								<c:if test="${fn:contains(passedField,'legalTelephone')}">
 									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 								</c:if>
