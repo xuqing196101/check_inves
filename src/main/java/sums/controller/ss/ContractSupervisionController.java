@@ -181,7 +181,17 @@ public class ContractSupervisionController {
         if(purCon.getBudgetSubjectItem()!=null){
             map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
         }
-        List<PurchaseContract> draftConList = purchaseContractService.selectAllContractByCode(map);
+        Orgnization orgnization = orgnizationServiceI.findByCategoryId(user.getOrg().getId());
+        List<PurchaseContract> draftConList = new ArrayList<PurchaseContract>();
+        if("1".equals(orgnization.getTypeName())){
+            map.put("purchaseDepName", user.getOrg().getId());
+            if(purCon.getStatus()!=null){
+                draftConList = purchaseContractService.selectAllContractByStatus(map);
+            }else{
+                draftConList = purchaseContractService.selectAllContractByCode(map);
+            }
+          
+        }
         for(PurchaseContract pur:draftConList){
         	Supplier su = null;
         	Orgnization org = null;

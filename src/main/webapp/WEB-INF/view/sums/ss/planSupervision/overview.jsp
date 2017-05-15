@@ -131,7 +131,7 @@
       }
 
       function openPrints(projectId, packageId) {
-        window.open("${pageContext.request.contextPath}/packageExpert/expertConsult.html?packageId=" + packageId + "&projectId=" + projectId + "&flag=1", "评审汇总表");
+        window.open("${pageContext.request.contextPath}/packageExpert/printRank.html?packages=" + packageId + "&projectId=" + projectId + "&flag=1", "评审汇总表");
       }
 
       function report(id) {
@@ -945,7 +945,8 @@
 		                  <td>
 		                    <c:forEach items="${experts}" var="obj" varStatus="vs">
 		                      <c:set value="${vs.index}" var="index"></c:set>
-		                      <a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${project.id}&packageId=${packageId}&expertId=${experts[index].id}&auditType=1" target="view_window">${experts[index].relName}</a>
+		                      <a href="${pageContext.request.contextPath}/packageExpert/showViewByExpertId.html?projectId=${project.id}&packageId=${packageId}&expertId=${experts[index].id}" target="view_window">${experts[index].relName}</a>
+		                      <%-- <a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${project.id}&packageId=${packageId}&expertId=${experts[index].id}&auditType=1" target="view_window">${experts[index].relName}</a> --%>
 		                    </c:forEach>
 		                  </td>
 		                  <td class="tc"><button class="btn" onclick="openPrints('${project.id}','${packageId}')" type="button">查看</button></td>

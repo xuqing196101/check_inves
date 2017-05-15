@@ -61,7 +61,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   
-  <select id="selectById" parameterType="java.util.Map" resultMap="BaseResultMap">
+  <select id="selectById" parameterType="java.util.Map" resultMap="BaseResultMap" flushCache="true">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS_DETAIL
