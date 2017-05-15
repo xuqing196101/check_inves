@@ -201,9 +201,10 @@
 										<thead>
 											<tr>
 												<th class="info tc w50">序号</th>
-												<th class="info tc">类别</th>
+												<!-- <th class="info tc">类别</th>
 												<th class="info tc">大类</th>
-												<th class="info tc">中类</th>
+												<th class="info tc">中类</th> -->
+												<th class="info tc">产品类别</th>
 												<th class="info tc">资质类型</th>
 												<th class="info tc">证书编号</th>
 												 <th class="info tc">专业类别</th>
@@ -222,9 +223,30 @@
 														<c:if test="${cate.qualificationType eq type.id}">${type.name}</c:if>
 													</c:forEach>
 												</td>
-												<td>${cate.certCode}</td>
-												<td>${cate.proName}</td>
-												<td>${cate.level.name}</td>
+												<td>
+									      	<c:choose>
+		                      	<c:when test="${cate.fourthNode!=null}">
+		                            ${cate.fourthNode}
+		                        </c:when>
+	                        	<c:otherwise>
+	                          	<c:choose>
+	                            	<c:when test="${cate.thirdNode!=null}">
+	                              	${cate.thirdNode}
+	                              </c:when>
+	                              <c:otherwise>
+	                              	<c:choose>
+	                                	<c:when test="${cate.secondNode!=null}">
+	                                  	${cate.secondNode}
+	                                  </c:when>
+	                                  <c:otherwise>
+	                                  	${cate.firstNode}
+	                                  </c:otherwise>
+	                                </c:choose>
+	                            	</c:otherwise>
+	                            </c:choose>
+	                        	</c:otherwise>
+	                    		</c:choose>
+								      	</td>
 												<td>
 												<div class="w110 fl">
 													<u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}" delete="false" />
