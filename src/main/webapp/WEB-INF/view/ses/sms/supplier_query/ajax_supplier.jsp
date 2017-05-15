@@ -85,23 +85,32 @@
 								<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?judge=2&supplierId=${list.id}">${list.supplierName }</a>
 							</td> --%>
 							<td class="pl20">${list.supplierName }</td>
-							<td class="tc">${list.grade}</td>
+							<td class="tc">
+								<c:choose>
+									<c:when test="${list.status == -1 or (list.status==5 and list.isProvisional == 1)}">
+										无等级
+									</c:when>
+									<c:otherwise>
+										${list.grade}
+									</c:otherwise>
+								</c:choose>
+							</td>
 							<%-- <td class="">${list.loginName }</td> --%>
 							<td class="tc">${list.contactName}</td>
 							<td class="tl pl20">${list.supplierType }</td>
 							<td class="tc">
-								<c:if test="${list.status==5 and list.isProvisional == 1 }">临时</c:if>
+								<c:if test="${list.status==5 and list.isProvisional == 1}">临时</c:if>
 								<c:if test="${list.status==-1}">暂存</c:if>
-								<c:if test="${list.status==0 }">待审核</c:if>
-								<c:if test="${list.status==1 }">审核通过</c:if>
-								<c:if test="${list.status==2 }">审核退回修改</c:if>
-								<c:if test="${list.status==3 }">审核未通过</c:if>
-								<c:if test="${list.status==4 }">待复核</c:if>
+								<c:if test="${list.status==0}">待审核</c:if>
+								<c:if test="${list.status==1}">审核通过</c:if>
+								<c:if test="${list.status==2}">审核退回修改</c:if>
+								<c:if test="${list.status==3}">审核未通过</c:if>
+								<c:if test="${list.status==4}">待复核</c:if>
 								<c:if test="${list.status==5 and list.isProvisional == 0}">复核通过</c:if>
-								<c:if test="${list.status==6 }">复核未通过</c:if>
-								<c:if test="${list.status==7 }">待考察</c:if>
-								<c:if test="${list.status==8 }">考察合格</c:if>
-								<c:if test="${list.status==9 }">考察不合格</c:if>
+								<c:if test="${list.status==6}">复核未通过</c:if>
+								<c:if test="${list.status==7}">待考察</c:if>
+								<c:if test="${list.status==8}">考察合格</c:if>
+								<c:if test="${list.status==9}">考察不合格</c:if>
 							</td>
 							<%-- <td class="tc">${list.mobile}</td> --%>
 						</tr>
