@@ -619,7 +619,6 @@
 								</tr>
 							</thead>
 							<tbody id="finance_attach_list_tbody_id">
-							${fileModifyField }
 								<c:forEach items="${supplierAddress}" var="supplierAddress" varStatus="vs">
 									<tr>
 										<td class="tc">${vs.index+1}</td>
