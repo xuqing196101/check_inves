@@ -92,6 +92,7 @@ import bss.formbean.PurchaseRequiredFormBean;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -2093,7 +2094,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value = "supplierAll")
-	public String supplierAll(HttpServletRequest request, Supplier supplier, Integer page) {
+	public String supplierAll(@CurrentUser User user, HttpServletRequest request, Supplier supplier, Integer page) {
 		if(supplier.getSign() == null) {
 			Integer sign = (Integer) request.getSession().getAttribute("signs");
 			supplier.setSign(sign);
@@ -2105,8 +2106,6 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 
 		//获取登录人机构id
-		User user = (User) request.getSession().getAttribute("loginUser");
-
 		if(user !=null && user.getOrg() !=null){
 			String orgId = user.getOrg().getId();
 			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);

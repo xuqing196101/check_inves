@@ -69,6 +69,8 @@ import bss.formbean.PurchaseRequiredFormBean;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 
@@ -147,7 +149,7 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/list")
-	public String expertAuditList(Expert expert, Model model, Integer pageNum, HttpServletRequest request) {
+	public String expertAuditList(@CurrentUser User user, Expert expert, Model model, Integer pageNum, HttpServletRequest request) {
 		if(pageNum == null) {
 			pageNum = StaticVariables.DEFAULT_PAGE;
 		}
@@ -158,7 +160,7 @@ public class ExpertAuditController{
 			request.getSession().removeAttribute("signs");
 		}
 		//获取登录人的机构id
-		User user = (User) request.getSession().getAttribute("loginUser");
+		/*User user = (User) request.getSession().getAttribute("loginUser");*/
 		if(user !=null && user.getOrg() !=null){
 			String orgId = user.getOrg().getId();
 			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
