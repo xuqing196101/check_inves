@@ -215,8 +215,10 @@ public class AdvancedProjectController extends BaseController {
         List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
         for (PurchaseRequired purchaseRequired : list) {
             Orgnization org = orgnizationService.getOrgByPrimaryKey(purchaseRequired.getOrganization());
-            purchaseRequired.setOrganization(org.getName());
-            purchaseRequired.setOneOrganiza(org.getId());
+            if(org != null){
+                purchaseRequired.setOrganization(org.getName());
+                purchaseRequired.setOneOrganiza(org.getId());
+            }
         }
         model.addAttribute("lists", list);
         model.addAttribute("user", list.get(0).getUserId());
@@ -285,10 +287,12 @@ public class AdvancedProjectController extends BaseController {
         //下达
         HashSet<String> set = new HashSet<>();
         String[] orgId = organization.split(",");
-        for (int i = 0; i < orgId.length; i++ ) {
-            Orgnization org= orgnizationService.getOrgByPrimaryKey(orgId[i]);
-            if(org != null){
-                set.add(org.getId());
+        if(orgId != null){
+            for (int i = 0; i < orgId.length; i++ ) {
+                Orgnization org= orgnizationService.getOrgByPrimaryKey(orgId[i]);
+                if(org != null){
+                    set.add(org.getId());
+                }
             }
         }
         for (String string : set) {
@@ -413,10 +417,12 @@ public class AdvancedProjectController extends BaseController {
         }
         for (String string : set) {
             Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(string);
-            if(StringUtils.isNotBlank(name)){
-                name = name + "," + orgnization.getName();
-            } else {
-                name = orgnization.getName();
+            if(orgnization != null){
+                if(StringUtils.isNotBlank(name)){
+                    name = name + "," + orgnization.getName();
+                } else {
+                    name = orgnization.getName();
+                }
             }
         }
         
