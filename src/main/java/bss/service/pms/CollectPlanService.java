@@ -113,6 +113,14 @@ public interface CollectPlanService {
 	List<CollectPlan> getSummary(CollectPlan collectPlan,Integer page);
 	
 	
-	
-	
+	/**
+	 * 
+	 *〈分页模糊查询〉
+	 *〈详细描述〉
+	 * @author FengTian
+	 * @param collectPlan
+	 * @param page
+	 * @return
+	 */
+	List<CollectPlan> querySupervision(CollectPlan collectPlan,Integer page);
 }

@@ -456,5 +456,11 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 		List<CollectPlan> list = collectPlanMapper.getSummary(collectPlan);
 		return list;
 	}
+    @Override
+    public List<CollectPlan> querySupervision(CollectPlan collectPlan, Integer page) {
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("page.size.thirty")));
+        List<CollectPlan> list = collectPlanMapper.querySupervision(collectPlan);
+        return list;
+    }
 	
 }

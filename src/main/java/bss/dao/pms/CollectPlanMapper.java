@@ -55,4 +55,14 @@ public interface CollectPlanMapper {
 	 */
     List<CollectPlan> getSummary(CollectPlan collectPlan);
     
+    /**
+     * 
+     *〈别乱改〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param collectPlan
+     * @return
+     */
+    List<CollectPlan> querySupervision(CollectPlan collectPlan);
+    
 }
