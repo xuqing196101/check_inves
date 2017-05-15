@@ -979,9 +979,10 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 						// 类别
 						if (history.getBeforeField().equals("type") && !history.getBeforeContent().equals(afterSaleDep.getType().toString())) {
 							supplierModify.setBeforeField("type");
-							if(history.getBeforeField().equals("1")){
+							if(history.getBeforeContent().equals("1")){
 								supplierModify.setBeforeContent("自营");
-							}else{
+							}
+							if(history.getBeforeContent().equals("2")){
 								supplierModify.setBeforeContent("合作");
 							}
 							supplierModifyMapper.insertSelective(supplierModify);
