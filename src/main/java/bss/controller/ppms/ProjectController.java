@@ -2963,13 +2963,44 @@ public class ProjectController extends BaseController {
              PurchaseDetail required = purchaseDetailService.queryById(pro.getRequiredId());
              required.setProjectStatus(0);
              purchaseDetailService.updateByPrimaryKeySelective(required);
-             detailService.deleteByPrimaryKey(id[i]);
+             
+             //查看父节点有没有子节点，如果没有吧父节点一块删掉
+             HashMap<String, Object> map = new HashMap<>();
+             map.put("id", pro.getProject().getId());
+             map.put("requiredId", pro.getParentId());
+             List<ProjectDetail> selectById = detailService.selectById(map);
+             if(selectById != null && selectById.size() > 0){
+                 ProjectDetail detail =  detailService.selectByPrimaryKey(selectById.get(0).getId());
+                 HashMap<String, Object> maps = new HashMap<>();
+                 maps.put("id", detail.getRequiredId());
+                 maps.put("projectId", detail.getProject().getId());
+                 List<ProjectDetail> selectByParentId = detailService.selectByParentId(maps);
+                 Integer count = 0;
+                 if(selectByParentId != null && selectByParentId.size() > 0){
+                     for (ProjectDetail projectDetail : selectByParentId) {
+                        if(!id[i].equals(projectDetail.getId())){
+                            count++;
+                        }
+                     }
+                     //大于1的时候说明还有明细
+                     if(count > 1){
+                         detailService.deleteByPrimaryKey(id[i]);
+                     } else if (count == 1){
+                         List<ProjectDetail> selectByParent = detailService.selectByParent(maps);
+                         for (ProjectDetail projectDetail : selectByParent) {
+                             detailService.deleteByPrimaryKey(projectDetail.getId());
+                         }
+                         detailService.deleteByPrimaryKey(id[i]);
+                     }
+                 }
+             }
          }
          HashMap<String, Object> map = new HashMap<String, Object>();
          map.put("id", project.getId());
          List<ProjectDetail> detail = detailService.selectById(map);
-         model.addAttribute("lists", detail);
-         
+         if(detail != null && detail.size() > 0){
+             model.addAttribute("lists", detail);
+         }
          map.put("userId", user.getId());
          if(page==null){
              page = 1;

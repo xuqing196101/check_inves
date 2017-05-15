@@ -57,7 +57,7 @@
             }
           },
         });
-      };
+      }
 
       //移除
       function remove() {
@@ -292,8 +292,7 @@
             </div>
   
             <div id="hide_detail">
-              <c:if test="${lists != null}">
-              <c:if test="${fn:length (lists) > 0}">
+              <c:if test="${lists ne null }">
               <div id="remove" class="col-md-12 col-sm-12 co-xs-12 mb5 p0 mt10">
                 <button class="btn" type="button" onclick="remove()">移除</button>
               </div>
@@ -373,7 +372,6 @@
                   </c:forEach>
                 </table>
               </div>
-              </c:if>
               </c:if>
             </div>
           </div>
