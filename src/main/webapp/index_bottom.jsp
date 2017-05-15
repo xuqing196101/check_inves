@@ -63,10 +63,12 @@
        <span class="close_icon" id="close"></span>
      </div>
       <div class="prompt_main">
+                  <a class="red" href="javascript:void(0);" onclick="indexTip('712706E631194823AEF0E77A3FD2807C')">${properties['indexTip2']}</a>
+                  <br />
                   <a href="javascript:void(0);" onclick="indexTip('8B96764A39E64F5CADDA0013DE6B4719')">${properties['indexTip']}</a>
       </div>
       <div class="prompt_btn">
-        <button class="btn" onclick="indexTip('8B96764A39E64F5CADDA0013DE6B4719')">了解详情</button>
+        <button class="btn" onclick="indexTip('712706E631194823AEF0E77A3FD2807C')">了解详情</button>
       </div>
 </div>
 
