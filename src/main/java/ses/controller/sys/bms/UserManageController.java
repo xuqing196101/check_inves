@@ -1316,4 +1316,5 @@ public class UserManageController extends BaseController{
 		  msg = "重置失败";
 		  return JSON.toJSONString(msg);
 	 }
+	  
 }
