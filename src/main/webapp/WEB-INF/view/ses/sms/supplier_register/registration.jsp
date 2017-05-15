@@ -41,11 +41,11 @@
 					<div class="mt40 col-md-12 col-sm-12 col-xs-12 p0">
 						<span class="fl">文件下载：</span>
 						<div class="fl">
-							<span class="ml10">《${docName }》</span><a href="${pageContext.request.contextPath}/browser/supplierDownload.html" class="download"></a>
+							<span class="ml10">《${docName }》（第二版）</span><a href="${pageContext.request.contextPath}/browser/supplierDownload.html" class="download"></a>
 						</div>
 						
 						<div class="fl">
-							《军队物资工程服务采购产品分类目录》<a href="${pageContext.request.contextPath}/browser/categoryDownload.html" class="download"></a>
+							《军队物资工程服务采购产品分类目录》（第二版）<a href="${pageContext.request.contextPath}/browser/categoryDownload.html" class="download"></a>
 						</div>
 						
 						<div class="fl">
