@@ -185,9 +185,18 @@
 			}
 			
 			//审核列表
-			function auditList(id, str){
+			function auditList(id, str, type){
 		  var supplierId = $("#id").val();
-		  var auditContent=str + "分支机构信息"; //审批的字段内容
+		  var auditContent;
+		  var auditFieldName;
+		  if(type == "售后服务机构"){
+		  	auditContent = str + "分支机构信息"; //审批的字段内容
+		  	auditFieldName = "售后服务机构";
+		  }
+		  if(type == "地址信息"){
+		  	auditContent = str + "地址信息"; //审批的字段内容
+		  	auditFieldName = "地址信息";
+		  }
 		  var index = layer.prompt({
 		    title: '请填写不通过的理由：', 
 		    formType: 2, 
@@ -200,7 +209,7 @@
 				    $.ajax({
 				      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 				      type:"post",
-				      data: {"auditType":"basic_page","auditFieldName":"售后服务机构","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+				      data: {"auditType":"basic_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
 				      dataType:"json",
 				      success:function(result){
 				      result = eval("(" + result + ")");
@@ -551,7 +560,7 @@
 						</li>
 						<div class="clear"></div>
 						<!-- 遍历生产地址 -->
-						<c:forEach items="${supplierAddress }" var="supplierAddress" varStatus="vs">
+						<%-- <c:forEach items="${supplierAddress }" var="supplierAddress" varStatus="vs">
 							<li class="col-md-3 col-sm-6 col-xs-12">
 								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">生产或经营地址邮编：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -596,7 +605,41 @@
 							</div>
 						</li>
 							<div class="clear"></div>
-						</c:forEach>
+						</c:forEach> --%>
+
+						<table class="table table-bordered  table-condensed table-hover">
+							<thead>
+								<tr>
+									<th class="info w50">序号</th>
+									<th class="info">生产或经营地址邮编</th>
+									<th class="info">生产或经营地址（填写所有地址）</th>
+									<th class="info">生产或经营详细地址</th>
+									<th class="info">房产证明或租赁协议</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="finance_attach_list_tbody_id">
+							${fileModifyField }
+								<c:forEach items="${supplierAddress}" var="supplierAddress" varStatus="vs">
+									<tr>
+										<td class="tc">${vs.index+1}</td>
+										<td id="code_${supplierAddress.id}" <c:if test="${fn:contains(fieldAddress,supplierAddress.id.concat('_code'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('code','${supplierAddress.id}','1');"</c:if>>${supplierAddress.code}</td>
+										<td id="residence_${supplierAddress.id}" <c:if test="${fn:contains(fieldAddress,supplierAddress.id.concat('_residence'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('residence','${supplierAddress.id}','1');"</c:if>>${supplierAddress.parentName}${supplierAddress.subAddressName}</td>
+										<td id="detailedResidence_${supplierAddress.id}" <c:if test="${fn:contains(fieldAddress,supplierAddress.id.concat('_detailedResidence'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('detailedResidence','${supplierAddress.id}','1');"</c:if>>${supplierAddress.detailAddress}</td>
+										<td <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierHousePoperty)}">style="border: 1px solid #FF8C00;"</c:if>>
+											<u:show delete="false" showId="house_show_${vs.index+1}" businessId="${supplierAddress.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+										</td>
+										<td class="tc w50 hand" >
+											<a id="${supplierAddress.id}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+											<p onclick="auditList('${supplierAddress.id}','${supplierAddress.parentName}${supplierAddress.subAddressName}','地址信息');" id="${supplierAddress.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,supplierAddress.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedField,supplierAddress.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+											<c:if test="${fn:contains(passedField,supplierAddress.id)}">
+			              		<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+			              	</c:if>
+			              </td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
 					</ul>
 
 					<h2 class="count_flow"><i>3</i>资质资信</h2>
@@ -1028,7 +1071,7 @@
 											<td class="tc" id="mobile_${a.id}" <c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_mobile'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('mobile','${a.id}','11');"</c:if>>${a.mobile}</td>
 											<td class="tc w50 hand" >
 				                <a id="${a.id}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-				                <p onclick="auditList('${a.id}','${a.name}');" id="${a.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,a.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedField,a.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+				                <p onclick="auditList('${a.id}','${a.name}','售后服务机构');" id="${a.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,a.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedField,a.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
 				              	<c:if test="${fn:contains(passedField,a.id)}">
 				              		<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 				              	</c:if>

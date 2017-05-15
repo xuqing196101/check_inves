@@ -1179,15 +1179,16 @@
                                             <tbody id="address_list_tbody_id">
                                             <c:set var="certSaleNumber" value="0" />
                                             <c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
-                                                <tr>
+                                                <tr >
                                                     <td class="tc"><input type="checkbox" value="${addr.id}" /></td>
-                                                    <td class="tc" <c:if test="${fn:contains(audit,'code_'.concat(addr.id))}">style="border: 1px solid red;" onmouseover="errorMsg('code_${addr.id }')"</c:if>>
+                                                  
+                                                    <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg('${addr.id }')"</c:if>>
                                                         <input type="text" required class="w200 border0 address_zip_code" name="addressList[${vs.index }].code" value="${addr.code}" />
                                                         <input type='hidden' name='addressList[${vs.index }].id' value='${addr.id}'>
                                                     </td>
-                                                    <td class="tc" >
+                                                    <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg('${addr.id }')"</c:if>>
                                                         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0 ml20">
-                                                            <select id="root_area_select_id_${vs.index }" class="w100p" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId" <c:if test="${fn:contains(audit,'residence_'.concat(addr.id))}">style="border: 1px solid red;" onmouseover="errorMsg('residence_${addr.id }')"</c:if>>
+                                                            <select id="root_area_select_id_${vs.index }" class="w100p" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId">
                                                                 <option value="">请选择</option>
                                                                 <c:forEach items="${privnce }" var="prin">
                                                                     <c:if test="${prin.id==addr.provinceId }">
@@ -1200,7 +1201,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-                                                            <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address" <c:if test="${fn:contains(audit,'residence_'.concat(addr.id))}">style="border: 1px solid red;" onmouseover="errorMsg('residence_${addr.id }')"</c:if>>
+                                                            <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address">
                                                                 <c:forEach items="${addr.areaList }" var="city">
                                                                     <c:if test="${city.id==addr.address }">
                                                                         <option value="${city.id }" selected="selected">${city.name }</option>
@@ -1212,11 +1213,11 @@
                                                             </select>
                                                         </div>
                                                     </td>
-                                                    <td class="tc" <c:if test="${fn:contains(audit,'detailedResidence_'.concat(addr.id))}">style="border: 1px solid red;" onmouseover="errorMsg('detailedResidence_${addr.id }')"</c:if>>
+                                                    <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg('${addr.id }')"</c:if>>
                                                         <input type="text" class="w200 border0" placeholder="街道名称，门牌号。" name="addressList[${vs.index }].detailAddress" required maxlength="50" value="${addr.detailAddress }" >
 
                                                     </td>
-                                                    <td class="tc" <c:if test="${fn:contains(audit,'supplierHousePoperty_'.concat(addr.id))}">style="border: 1px solid red;" onmouseover="errorMsg('supplierHousePoperty_${addr.id }')"</c:if>>
+                                                    <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg('${addr.id }')"</c:if>>
                                                         <div class="w200 fl">
                                                             <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
                                                             <u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
