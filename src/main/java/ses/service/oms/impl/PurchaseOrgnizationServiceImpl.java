@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import common.constant.StaticVariables;
 import ses.dao.oms.OrgnizationMapper;
 import ses.dao.oms.PurchaseDepMapper;
@@ -26,6 +28,7 @@ import ses.service.oms.OrgInfoService;
 import ses.service.oms.OrgLocaleService;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.util.PropertiesUtil;
 
 @Service("purchaseOrgnizationService")
 public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServiceI{
@@ -408,5 +411,13 @@ public List<PurchaseOrg> getByPurchaseDepId(String purchaseDepId){
  map.put("purchaseDepId",purchaseDepId);
   List<PurchaseOrg> list = purchaseOrgMapper.selectById(map);
   return list;
+}
+
+@Override
+public List<PurchaseOrg> selectByOrgId(HashMap<String, Object> map) {
+	PropertiesUtil config = new PropertiesUtil("config.properties");
+	PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+	List<PurchaseOrg> list = purchaseOrgMapper.selectByOrgId(map);
+    return list;
 }
 }

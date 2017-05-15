@@ -50,9 +50,14 @@ public class DetailTemplet {
 	 */
 	@RequestMapping("/detail")
 	@ResponseBody
-	public ModelAndView template(Integer index, Model model){
+	public ModelAndView template(@CurrentUser User user,Integer index, Model model){
 		
-		
+		if(user.getOrg()!=null){
+			  Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(user.getOrg().getId());
+			 
+			   model.addAttribute("orgName", orgnization.getShortName());
+			   model.addAttribute("orgType", user.getOrg().getTypeName());
+		}
 		ModelAndView moeldeAndView=new ModelAndView("/bss/pms/purchaserequird/detail");
 		 String id = UUID.randomUUID().toString().replaceAll("-", "");
 		 model.addAttribute("id", id);

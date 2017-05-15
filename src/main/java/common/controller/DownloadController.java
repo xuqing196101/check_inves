@@ -31,4 +31,9 @@ public class DownloadController {
     public void download(HttpServletRequest request, HttpServletResponse response){
         downloadService.download(request, response);
     }
+    @RequestMapping("/downloadOneFile")
+    @ResponseBody
+    public void downloadOneFile(HttpServletRequest request, HttpServletResponse response){
+        downloadService.downloadOneFile(request, response);
+    }
 }

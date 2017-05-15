@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+        <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 		
 		<script type="text/javascript">
@@ -1329,8 +1329,8 @@
 					<div class="col-md-12 p115 mt10">
 						<button class="btn btn-windows add" onclick="aadd()">添加</button>
 						<%--
-	<button  class="btn btn-windows add" onclick="same()">添加同级</button>
-	--%><button class="btn btn-windows input" onclick="down()">下载模板</button>
+	                    <button  class="btn btn-windows add" onclick="same()">添加同级</button>--%>
+	                    <button class="btn btn-windows input" onclick="down()">下载模板</button>
 						<button class="btn btn-windows input" onclick="uploadExcel();">导入</button>
 						<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
 						<button class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>

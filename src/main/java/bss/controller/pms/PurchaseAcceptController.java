@@ -166,7 +166,7 @@ public class PurchaseAcceptController extends BaseController{
 		 
 		List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page,Integer.valueOf(status));
 //		List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
-		PageInfo<PurchaseManagement> pm = new PageInfo<>(list2);
+		/*PageInfo<PurchaseManagement> pm = new PageInfo<>(list2);*/
 		List<String> listDep=new ArrayList<String>();
 		if(list2!=null&&list2.size()>0){
 			for(PurchaseManagement p:list2){
@@ -183,19 +183,19 @@ public class PurchaseAcceptController extends BaseController{
 //			
 //		}
 		map.put("list", listDep);
-		
+		map.put("page", page==null?1:page);
 		List<PurchaseRequired> list = purchaseRequiredService.queryListUniqueId(map);
 		for (PurchaseRequired pur : list) {
 		    pur.setUserId(userServiceI.getUserById(pur.getUserId()).getRelName());
 		}
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
-		info.setStartRow(pm.getStartRow());
+		/*info.setStartRow(pm.getStartRow());
 		info.setEndRow(pm.getEndRow());
 		info.setPages(pm.getPages());
 		info.setTotal(pm.getTotal());
 		info.setFirstPage(pm.getFirstPage());
 		info.setPageNum(pm.getPageNum());
-		info.setPageSize(pm.getPageSize());
+		info.setPageSize(pm.getPageSize());*/
 		model.addAttribute("info", info);
 		/*if(status==null){
 			status="2";
@@ -636,7 +636,7 @@ public class PurchaseAcceptController extends BaseController{
 	        
 	        cell = row.createCell(11);
 	        cell.setCellStyle(style);
-	        cell.setCellValue("采购机构"); 
+	        cell.setCellValue("采购机构建议"); 
 	        
 	        cell = row.createCell(12);
 	        cell.setCellStyle(style);

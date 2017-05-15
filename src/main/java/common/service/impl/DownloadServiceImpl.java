@@ -213,5 +213,57 @@ public class DownloadServiceImpl implements DownloadService {
             downloadFile(request, response, filePath, file.getName());
         }
     }
+
+	@Override
+	public void downloadOneFile(HttpServletRequest request,
+			HttpServletResponse response) {
+		String id = request.getParameter("id");
+        Integer systemKey = Integer.parseInt(request.getParameter("key"));
+        String tableName = Constant.fileSystem.get(systemKey);
+        String zipFileName = request.getParameter("zipFileName");
+        String targetFileName = request.getParameter("fileName");
+        if (StringUtils.isNotBlank(id)){
+            if (id.contains(SPLIT_MARK)){
+               String [] array = id.split(SPLIT_MARK);
+               List<UploadFile> files =  fileDao.getFilesByIds(array, tableName);
+               if (files != null && files.size() > 0){
+            	   UploadFile uploadFile = files.get(0);
+            	   String fileName = uploadFile.getName();
+            	   if (StringUtils.isNotBlank(targetFileName) && !targetFileName.equals("null")){
+                       try {
+                           fileName = URLDecoder.decode(targetFileName,"UTF-8") +  fileName.substring(fileName.lastIndexOf(".")) ;
+                       } catch (UnsupportedEncodingException e) {
+                           e.printStackTrace();
+                       }
+                   }
+                   downloadFile(request, response, uploadFile.getPath(), fileName);
+               }
+            } else {
+                UploadFile file = fileDao.getFileById(id, tableName);
+                if (file == null){
+                    List<UploadFile> fileByBusinessId = fileDao.getFileByBusinessId(id, null, tableName);
+                    if( fileByBusinessId !=null && fileByBusinessId.size() !=0){
+                        file=fileByBusinessId.get(0);
+                    }
+                }
+                if (file != null){
+                    
+                    String fileName = file.getName();
+                    if (StringUtils.isNotBlank(targetFileName) && !targetFileName.equals("null")){
+                        try {
+                            fileName = URLDecoder.decode(targetFileName,"UTF-8") +  fileName.substring(fileName.lastIndexOf(".")) ;
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    downloadFile(request, response, file.getPath(), fileName);
+                }
+            }
+         }
+		
+		
+	}
+    
+    
     
 }

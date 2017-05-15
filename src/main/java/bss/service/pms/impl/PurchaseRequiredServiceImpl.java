@@ -303,6 +303,7 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 
 	
 	public List<PurchaseRequired> queryListUniqueId(Map<String, Object> map) {
+		PageHelper.startPage((Integer)map.get("page"),Integer.parseInt(PropUtil.getProperty("page.size.thirty")));
 		 List<PurchaseRequired> list = purchaseRequiredMapper.getByDep(map);
 			return list;
 		}

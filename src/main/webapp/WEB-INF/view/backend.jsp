@@ -33,9 +33,9 @@ function clickuri(url){
 var uri=url.split("^");	
 	
 if('downloadabiddocument' == uri[0] ){
-	window.location.href="${pageContext.request.contextPath}/file/download.html?id="+ uri[1] +"&key=${sysId}";
+	parent.location.href="${pageContext.request.contextPath}/file/download.html?id="+ uri[1] +"&key=${sysId}";
 }else{
- window.location.href="${pageContext.request.contextPath}/"+uri[0];	
+	parent.location.href="${pageContext.request.contextPath}/"+uri[0];	
 }
 
 	

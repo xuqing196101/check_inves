@@ -76,7 +76,7 @@
   	 SELECT 
   	 <include refid="BASE_FILE_LIST" />
   	 FROM ${tableName}
-  	 WHERE IS_DELETED = 0 AND ID = #{id,jdbcType=VARCHAR}
+  	 WHERE IS_DELETED = 0 AND ID = #{id,jdbcType=VARCHAR} order by CREATED_AT desc
   </select>
   
   <!-- 根据ids查询 -->
@@ -88,6 +88,7 @@
   	 <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
   	  #{item}
   	 </foreach>
+  	  order by CREATED_AT desc
   </select>
   
   <!-- 根据业务ID查询 -->
