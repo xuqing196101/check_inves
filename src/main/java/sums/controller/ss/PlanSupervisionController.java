@@ -908,8 +908,10 @@ public class PlanSupervisionController {
                             List<SupplierCheckPass> listCheckPass = checkPassService.listCheckPass(pass);
                             if(listCheckPass != null && listCheckPass.size() > 0){
                                 for (SupplierCheckPass supplierCheckPass : listCheckPass) {
-                                    Supplier supplier = supplierService.selectById(supplierCheckPass.getSupplier().getId());
-                                    supplierCheckPass.setSupplierId(supplier.getSupplierName());
+                                    Supplier supplier = supplierService.selectById(supplierCheckPass.getSupplierId());
+                                    if(supplier != null){
+                                        supplierCheckPass.setSupplierId(supplier.getSupplierName());
+                                    }
                                 }
                                 model.addAttribute("listCheckPass", listCheckPass);
                             }
