@@ -92,7 +92,7 @@
              		if (zNodes.length > 0) {
              		//循环便利 选中 的check机构
              		 var  idArray=id.split(",");
-             		  for (var i = 0; i < zNodes.length; i++) { 
+             		  for (var i = 0; i < zNodes.length; i++) {
              		   var  item= zNodes[i].id;
              		    for (var j=0;idArray.length>j;j++){
              		      if (item==idArray[j]) { 
@@ -132,13 +132,18 @@
              url: "${pageContext.request.contextPath}/user/getOrgTree.do?orgType="+orgType,
              dataType: "json",
              success: function(zNodes){
-                     for (var i = 0; i < zNodes.length; i++) { 
+                     /*for (var i = 0; i < zNodes.length; i++) {
 			            if (zNodes[i].isParent) {  
 			  
 			            } else {  
 			                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
 			            }  
-			        }  
+			        }  */
+                 for (var i = 0; i < zNodes.length; i++) {
+                     if($("#orgSel").val()==zNodes[i].name){
+                         zNodes[i].checked=true;
+                     }
+                 }
 			        tree = $.fn.zTree.init($("#treeOrg"), setting, zNodes);  
 			       // tree.expandAll(true);//全部展开
                }
