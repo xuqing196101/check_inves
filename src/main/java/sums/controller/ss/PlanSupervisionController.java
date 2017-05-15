@@ -1296,7 +1296,7 @@ public class PlanSupervisionController {
             String adviceId = DictionaryDataUtil.getId("ADVANCED_ADVICE");
             
             model.addAttribute("adviceId", adviceId);//预研通知书
-            model.addAttribute("detailId", id);
+            model.addAttribute("detailId", detail.getId());
             model.addAttribute("detail", detail);
         }
         
