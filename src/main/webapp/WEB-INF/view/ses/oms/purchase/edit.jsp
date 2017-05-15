@@ -114,8 +114,8 @@ function onCheck(e, treeId, treeNode) {
 	    <ul class="breadcrumb margin-left-0">
 		  <li><a href="#"> 首页</a></li>
 		  <li><a href="#">支撑系统</a></li>
-		  <li><a href="#">采购机构管理</a></li>
-		  <li class="active"><a href="#">修改采购机构</a></li>
+		  <li><a href="#">采购人管理</a></li>
+		  <li class="active"><a href="#">修改采购人</a></li>
 		</ul>
 		<div class="clear"></div>
 	  </div>

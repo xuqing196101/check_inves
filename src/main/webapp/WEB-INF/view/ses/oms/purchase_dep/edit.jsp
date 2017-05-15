@@ -194,8 +194,8 @@
 	    $("#tab-orgnization").append("<tr  align='center'>" +
 	      "<td class='tc'><input type='checkbox' name='checkboxs' /> </td>" +
 	      "<td></td>" +
-	      "<td><input name='purchaseUnitName' type='text'/></td>" +
-	      "<td><input name='purchaseUnitDuty' type='text'/></td>" +
+	      "<td><input name='purchaseUnitName' maxlength='10' type='text'/></td>" +
+	      "<td><input name='purchaseUnitDuty' maxlength='30' type='text'/></td>" +
 	      "</tr>");
 	    calIndex('checkboxs');
 	  }
@@ -455,7 +455,7 @@
                   
                   <li id="address" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系地址</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="supplierAddress" type="text" required maxlength="300" value="${purchaseDep.supplierAddress}"> <span class="add-on">i</span>
+                      <input class="input_group" name="supplierAddress" type="text" required maxlength="100" value="${purchaseDep.supplierAddress}"> <span class="add-on">i</span>
                     </div>
                   </li>
                   
