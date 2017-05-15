@@ -393,6 +393,13 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         //查询基本的和工程的承包范围
         List<UploadFile> attchs = fileUploadMapper.substrBusinessId(supplier.getId());
         
+        //经营生产地址附件
+        List<SupplierAddress> address = getOPeraAddress(supplier.getId());
+        for(SupplierAddress sf:address){
+       	 List<UploadFile> sfFiles = fileUploadMapper.substrBusinessId(sf.getId());
+       	  files.addAll(sfFiles);
+       }
+        
         //财务信息附件
         List<SupplierFinance> finances = getFinance(supplier.getId());
         for(SupplierFinance sf:finances){
