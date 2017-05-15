@@ -512,7 +512,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 			  for(SupplierAuditNot sa:auditNots){
 				  SupplierAuditNot not = supplierAuditNotMapper.selectById(sa.getId());
 				  if(not==null){
-					  supplierAuditNotMapper.insertAcitive(not);
+					  supplierAuditNotMapper.insertAcitive(sa);
 				  }
 				  if(not!=null){
 //					  supplierAuditNotMapper
