@@ -211,7 +211,9 @@
 	}
 	
 	function resetQuery(){
-		$('#form1')[0].reset();
+	    $("#topic").val("");
+	    $("#topStatus").val(""); 
+		$("#form1").submit();
 	}
   </script>
   </head>
@@ -238,7 +240,7 @@
 			    	  <li>
 				    	<label class="fl">状态：</label>
                         <span>
-					        <select name="status" class="w178">
+					        <select name="status" id="topStatus" class="w178">
 					        	<option value="">全部</option>
 					        	<option value="0" <c:if test="${'0' eq role.status}">selected</c:if>>启用</option>
 					        	<option value="1" <c:if test="${'1' eq role.status}">selected</c:if>>禁用</option>
@@ -247,7 +249,7 @@
 				      </li> 
 				    </ul>
 				    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>
-				    	<button type="reset" onclick="resetQuery()" class="btn fl mt1">重置</button>  	
+				    	<button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>  	
 			    	</ul>
 		    	  	<div class="clear"></div>
 		        </form>

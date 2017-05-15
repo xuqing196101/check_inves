@@ -381,6 +381,8 @@
 						        		<c:if test="${user.typeName == '3'}">其他</c:if>
 						        	</td>
 					  <td class="tl pl20">
+					   <c:choose>
+                          <c:when test="${user.typeName!='4' && user.typeName!='5'}">
 					  	<c:if test="${user.org != null && user.org.fullName != null && user.org.fullName != ''}">
 					  		${user.org.fullName}
 					  	</c:if>
@@ -388,6 +390,11 @@
 					  		${user.org.name}
 					  	</c:if>
 					  	<c:if test="${user.org == null }">${user.orgName}</c:if>
+					  	</c:when>
+                          <c:otherwise>
+                           ${user.orgName}
+					  	   </c:otherwise>
+                          </c:choose>
 					  </td>
 					  <td class="tc">${user.mobile}</td>
 					  <td class="tc">

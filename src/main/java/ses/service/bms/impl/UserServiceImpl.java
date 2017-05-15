@@ -81,6 +81,7 @@ public class UserServiceImpl implements UserServiceI {
         //外网用户
         user.setNetType(1);
     }
+    
     //根据业务不同 判断 id是否为空 分别调用不同的方法
       if(StringUtils.isBlank(user.getId())){
     	  //id 为空时调用

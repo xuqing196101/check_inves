@@ -485,7 +485,8 @@
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			        	<input id="idNumber" name="idNumber" value="${user.idNumber}" onblur="ajaxIdNumber()" maxlength="18" type="text">
 			        	<span class="add-on">i</span>
-			        	<div id="ajax_idNumber" class="cue"></div>
+			        	<div id="ajax_idNumber" class="cue">
+			        	</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
@@ -547,14 +548,8 @@
 					    </span>
 						<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 							<input id="oId" name="orgId" type="hidden" value="${orgId}">
-								<%-- <c:choose>
-                                    <c:when test="${not empty origin}">
-                                       <input id="orgSel" class="span5" name="orgName" type="text" readonly value="${orgName}"  />
-                                    </c:when>
-                                    <c:otherwise>
-                                        <input id="orgSel" class="span5" name="orgName" type="text" readonly value="${user.orgName}"  onclick="showOrg();" />
-                                    </c:otherwise>
-                                </c:choose> --%>
+							<c:choose>
+                          <c:when test="${user.typeName!='4' && user.typeName!='5'}">
 							<c:if test="${user.org != null && user.org.fullName != null && user.org.fullName != ''}">
 								<input id="orgSel" class="span5" name="orgName" type="text" readonly
 									   value="${user.org.fullName}" onclick="showOrg();"/>
@@ -564,8 +559,15 @@
 									   value="${user.org.name}" onclick="showOrg();"/>
 							</c:if>
 							<c:if test="${user.org == null }">
-								<input id="orgSel" class="span5" name="orgName" type="text" readonly
-									   value="${user.orgName}" onclick="showOrg();"/></c:if>
+                                      <input id="orgSel" class="span5" name="orgName" type="text" readonly
+									   value="${user.orgName}" onclick="showOrg();"/>
+							 </c:if>
+								</c:when>
+                          <c:otherwise>
+                          <input id="orgSel" class="span5" name="orgName" type="text" readonly
+									   value="${orgName}" onclick="showOrg();"/>
+					  	   </c:otherwise>
+                          </c:choose>
 							<input type="hidden" id="orgParent" value=""/>
 							<div class="drop_up" onclick="showOrg();">
 								<img src="${pageContext.request.contextPath}/public/backend/images/down.png"

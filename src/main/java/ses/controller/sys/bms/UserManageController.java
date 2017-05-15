@@ -289,11 +289,20 @@ public class UserManageController extends BaseController{
 			}
 		}
 		User currUser = (User) request.getSession().getAttribute("loginUser");
+		 String orgID=user.getOrgId();
+		    if(StringUtils.isNotBlank(orgID)){
+		    	if(orgID.indexOf(",")>=0){
+		    		user.setOrgId(orgID.substring(0, orgID.length()-1));
+		    	}
+		    }
 		//机构
 		if(user.getOrgId() != null && !"".equals(user.getOrgId())){
 			if ("3".equals(user.getTypeName())  ) {// 
 			  user.setOrgName(user.getOrgId());
-			} else{
+			} else if( "5".equals(user.getTypeName())||"4".equals(user.getTypeName())){
+				
+			}else{
+				
 				Orgnization org = orgnizationService.getOrgByPrimaryKey(user.getOrgId());
 				if (org != null){
 					user.setOrg(org);
@@ -501,7 +510,7 @@ public class UserManageController extends BaseController{
   			model.addAttribute("roleId", u.getRoleId());
   			model.addAttribute("roleName", request.getParameter("roleName"));
   			model.addAttribute("currPage",request.getParameter("currpage"));
-  			model.addAttribute("typeName", deptTypeName);
+  			model.addAttribute("typeName", u.getTypeName());
   			
   			/*if (StringUtils.isNotBlank(origin)){
 			      DictionaryData dd =  DictionaryDataUtil.findById(u.getTypeName());
@@ -546,13 +555,19 @@ public class UserManageController extends BaseController{
 				}
 				userService.deleteUserMenuBatch(ups);*/
 			}
-			
+			    if(StringUtils.isNotBlank(orgId)){
+			    	if(orgId.indexOf(",")>=0){
+			    		orgId=orgId.substring(0, orgId.length()-1);
+			    		u.setOrgId(orgId);
+			    	}
+			    }
 			//机构
 			if(orgId != null && !"".equals(orgId)){
 				if ("3".equals(u.getTypeName())  ) {//|| "4".equals(u.getTypeName())
 				  u.setOrg(null);
-	        u.setOrgName(orgId);
-	      } else {
+	              u.setOrgName(orgId);
+	      } else if("5".equals(u.getTypeName())|| "4".equals(u.getTypeName())){
+	      }else {
 	        HashMap<String, Object> orgMap = new HashMap<String, Object>();
 	        orgMap.put("id", orgId);
 	        List<Orgnization> olist = orgnizationService.findOrgnizationList(orgMap);

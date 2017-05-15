@@ -250,9 +250,25 @@
   <select id="find" resultMap="RoleBaseMap" parameterType="Object">
     select
     <include refid="Base_Column_List" />
-    from T_SES_BMS_ROLE r
-    <include refid="Example_Where_Clause"/>
-    ORDER BY r.POSITION ASC
+    from T_SES_BMS_ROLE 
+    <include refid="Example_Where_Clause" />
+    ORDER BY POSITION ASC
+  </select>
+  
+   <!-- 7.根据不为空的条件查询列表 -->
+  <select id="findByNameStatus" resultMap="RoleBaseMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_ROLE 
+     where IS_DELETED=0
+    AND STATUS = 0
+     <if test="name != null and name != ''">
+        and NAME LIKE '%${name}%'
+      </if>
+      <if test="status != null and status !=''">
+        and STATUS = #{status}
+      </if>
+    ORDER BY POSITION ASC
   </select>
   
   <!-- 8.根据角色条件查询角色信息（带出关联信息） -->  

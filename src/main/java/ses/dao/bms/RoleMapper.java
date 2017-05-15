@@ -89,7 +89,15 @@ public interface RoleMapper {
      * @exception IOException
      */
     List<Role> find(Role role);
-
+    /**
+     * Description: 根据不同的条件查询列表
+     * 
+     * @author YnaghongLiang
+     * @param role
+     * @return List<Role>
+     * @exception IOException
+     */
+    List<Role>  findByNameStatus(Role role);
 	/**
 	 * Description: 删除角色与角色内成员之间的对应关系
 	 * 

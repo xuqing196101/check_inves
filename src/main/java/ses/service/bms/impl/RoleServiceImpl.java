@@ -93,7 +93,7 @@ public class RoleServiceImpl implements RoleServiceI {
 	public List<Role> list(Role role, Integer pageNum) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return roleMapper.find(role);
+		return roleMapper.findByNameStatus(role);
 	}
 
 
