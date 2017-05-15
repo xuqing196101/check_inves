@@ -777,7 +777,8 @@
     <include refid="Base_Column_List" />
     from T_SES_BMS_USER u
     where u.IS_DELETED=0 
-    and u.ID_NUMBER = #{idNumber}
+    and (u.ID_NUMBER = lower(#{idNumber}) 
+    or u.ID_NUMBER = Upper(#{idNumber}))
     <if test="id != null and id != ''">
     and u.ID != #{id}
     </if>

@@ -145,16 +145,16 @@
 				<li><a href="#"> 首页</a></li>
 				<li><a href="#">保障作业系统</a></li>
 				<li><a href="#">采购计划管理</a></li>
-				<li class="active"><a href="#">采购需求管理</a></li>
+				<li class="active"><a href="#">采购需求编报</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
 	</div>
 	<div class="container container_box">
-				<h2 class="count_flow"><i>1</i>计划主信息</h2>
+				<h2 class="count_flow"><i>1</i>需求主信息</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求名称</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" disabled="true" name="name" id="jhmc" value="${list[0].planName}">
 							<span class="add-on">i</span>
@@ -169,7 +169,7 @@
 					</li> --%>
 					
 					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划文号</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求文号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group"  disabled="true"  value="${list[0].referenceNo}" >
 							<span class="add-on">i</span>
@@ -202,14 +202,15 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5" style="display:none" id="dnone" >
+					<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'}">
+					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"  id="dnone" >
 			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			                <input type="checkbox" name="" onchange="" value="进口" />进口
+			                <input type="checkbox" id="import" name=""  value="" <c:if test="${list[0].enterPort==1}">checked="checked"</c:if>  onchange="imports(this)"  />进口
 			            </div>
 			         </li>
-          
-             <li class="col-md-3 col-sm-6 col-xs-12">
-                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>
+                   </c:if>
+             <li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5">
+                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求附件</span>
                         <u:show showId="detailshow"  delete="false" businessId="${fileId}" sysKey="2" typeId="${detailId}" />
              </li>
           
@@ -221,7 +222,7 @@
            </li> --%>
 	   </ul>
 		
-        <h2 class="count_flow"><i>2</i>计划明细</h2>
+        <h2 class="count_flow"><i>2</i>需求明细</h2>
 		<div class="content require_ul_list"  id="content">
 				<table id="table" class="table table-bordered table-condensed lockout">
 					<thead>
@@ -242,8 +243,10 @@
 							 </c:if>
 							<th class="info purchasename">供应商名称</th>
 							<th class="info freetax">是否申请<br>办理免税</th>
-							<!-- <th class="goodsuse ">物资用途（仅进口）</th>
-							<th class="useunit">使用单位（仅进口）</th> -->
+							<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'&&list[0].enterPort==1}">
+							<th class="goodsuse ">物资用途（仅进口）</th>
+							<th class="useunit">使用单位（仅进口）</th> 
+							</c:if>
 							<th class="info memo">备注</th>
 							<th class="info extrafile">附件</th>
 						</tr>
@@ -259,34 +262,24 @@
 						    	${obj.department}
 							 </c:if>
 							</div></td >
-							<%-- <td class="tl pl20">
-							     <c:forEach items="${requires }" var="re" >
-									  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
-							  	</c:forEach> 
-			  	
-							</td> --%>
-							<%-- <td>${obj.goodsName }</td> --%>
 							<td title="${obj.goodsName}" class="tl">
 							 <div class="goodsname">
 							   <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
 							   <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
 							 </div>
 							</td >
-							<%-- <td class="tc"> ${obj.stand }</td> --%>
 							<td title="${obj.stand}" class="tl">
 							 <div class="stand">
 							   <c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
 							   <c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
 							 </div>
 							</td >
-							<%-- <td class="tc"> ${obj.qualitStand }</td> --%>
 							<td title="${obj.qualitStand}" class="tl">
 						  	 <div class="qualitstand">
 							   <c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
 							   <c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
 							 </div>
 							</td >
-							<%-- <td class="tc"> ${obj.item }</td> --%>
 							<td title="${obj.item}">
 							 <div class="item">
 							  <c:if test="${fn:length (obj.item) > 8}">${fn:substring(obj.item,0,7)}...</c:if>
@@ -329,31 +322,25 @@
 							   <c:if test="${fn:length(obj.isFreeTax) <= 8}">${obj.isFreeTax}</c:if>
 							 </div>
 							</td >
-							<%-- <td class="tc">${obj.goodsUse }</td> --%>
-						<%-- 	<td title="${obj.goodsUse}" class="tl pl20">
-							<c:if test="${fn:length (obj.goodsUse) > 8}">${fn:substring(obj.goodsUse,0,7)}...</c:if>
-							<c:if test="${fn:length(obj.goodsUse) <= 8}">${obj.goodsUse}</c:if>
-							</td > 
-							<td class="tl pl20">${obj.useUnit }</td> --%>
+							<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'&&list[0].enterPort==1}">
+							  <td title="${obj.goodsUse}">
+							     ${obj.goodsUse}
+							  </td>
+							  <td title="${obj.useUnit}">
+							     ${obj.useUnit }
+							  </td>
+							</c:if>
 							 <td title="${obj.memo}">
 							  <div class="memo">
 							    <c:if test="${fn:length (obj.memo) > 8}">${fn:substring(obj.memo,0,7)}...</c:if>
 							    <c:if test="${fn:length(obj.memo) <= 8}">${obj.memo}</c:if>
 							  </div>
 							</td > 
-							
 							<td>
 							<c:if test="${obj.purchaseCount!=null }">
-							  <a class="mt3 color7171C6" href='javascript:downFiles("${obj.id }");' > 下载</a>
+							   <u:show showId="pShow${vs.index}"  delete="false" businessId="${obj.id}" sysKey="2" typeId="270FA42F7A214E25B62CD80D1045D158" />
 							</c:if>
-						<%-- 	<div class="extrafile">
-													<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
-													<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-											   </div>	 --%>
 							</td>
-							
-							
-						   <%-- <td class="tc"><div class="memo">${obj.memo }</div></td> --%> 
 						</tr>
 
 					</c:forEach>

@@ -11,7 +11,7 @@ public class PurchaseOrg implements Serializable {
 	private String purchaseDepId;
 
     private String orgId;
-
+    private Orgnization orgnization;
     public String getPurchaseDepId() {
         return purchaseDepId;
     }
@@ -27,4 +27,13 @@ public class PurchaseOrg implements Serializable {
     public void setOrgId(String orgId) {
         this.orgId = orgId == null ? null : orgId.trim();
     }
+
+	public Orgnization getOrgnization() {
+		return orgnization;
+	}
+
+	public void setOrgnization(Orgnization orgnization) {
+		this.orgnization = orgnization;
+	}
+    
 }

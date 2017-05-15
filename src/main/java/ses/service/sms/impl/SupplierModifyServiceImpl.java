@@ -825,13 +825,20 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 						supplierModify.setRelationId(aptitute.getId());
 						if(h.getBeforeField() != null && h.getBeforeContent() !=null){
 							// 证书名称
+							if (h.getBeforeField().equals("certName") && !h.getBeforeContent().equals(aptitute.getCertName())) {
+								supplierModify.setBeforeField("certName");
+								supplierModify.setBeforeContent(h.getBeforeContent());
+								supplierModifyMapper.insertSelective(supplierModify);
+							}
+							
+							//资质类型
 							if (h.getBeforeField().equals("certType") && !h.getBeforeContent().equals(aptitute.getCertType())) {
 								supplierModify.setBeforeField("certType");
 								supplierModify.setBeforeContent(h.getBeforeContent());
 								supplierModifyMapper.insertSelective(supplierModify);
 							}
 							
-							//资质类型
+							//证书编号
 							if (h.getBeforeField().equals("certCode") && !h.getBeforeContent().equals(aptitute.getCertCode())) {
 								supplierModify.setBeforeField("certCode");
 								supplierModify.setBeforeContent(h.getBeforeContent());
@@ -972,9 +979,10 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 						// 类别
 						if (history.getBeforeField().equals("type") && !history.getBeforeContent().equals(afterSaleDep.getType().toString())) {
 							supplierModify.setBeforeField("type");
-							if(history.getBeforeField().equals("1")){
+							if(history.getBeforeContent().equals("1")){
 								supplierModify.setBeforeContent("自营");
-							}else{
+							}
+							if(history.getBeforeContent().equals("2")){
 								supplierModify.setBeforeContent("合作");
 							}
 							supplierModifyMapper.insertSelective(supplierModify);

@@ -10,4 +10,6 @@ public interface PurchaseOrgMapper {
 	int delByMap(HashMap<String, Object> map);
 	int delByOrgId(HashMap<String, Object> map);
 	List<PurchaseOrg> selectById(HashMap<String, Object> map);
+	
+	List<PurchaseOrg> selectByOrgId(HashMap<String, Object> map);
 }

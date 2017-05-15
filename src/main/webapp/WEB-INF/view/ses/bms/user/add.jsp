@@ -319,8 +319,9 @@
 			 var idNumber = $("#idNumber").val();
 			 var msg=validateIdCard(idNumber);
 			 if(msg!='success'){
+			 is_error = 1;
 			 $("#ajax_idNumber").html(msg);
-			 return;
+			 return is_error;
 			 }else{
 			 $("#ajax_idNumber").html("");
 			 }

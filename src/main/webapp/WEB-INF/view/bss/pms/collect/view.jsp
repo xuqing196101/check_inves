@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+        <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		
       <!--  <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
 	  <!-- script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script -->
@@ -192,7 +192,6 @@
     }
  
  function acc(){
- 
      	var bool=true;
 		    $("#table tr:gt(0)").each(function(i){
 		    	var  val1= $(this).find("td:eq(11)").children(":last").prev().val();//上级id
@@ -206,7 +205,6 @@
 		    	}
 		    	  
 		    });
-		  
 		  if(bool==true){
 			 $("#table").find("#acc_form").submit();
 		  }  
@@ -302,7 +300,7 @@
 						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 							<select name="planType" id="wtype" onchange="gtype(this)" disabled="true">
 								<c:forEach items="${types }" var="tp" >
-									<option value="${tp.id }">${tp.name }</option>
+									<option value="${tp.id }" <c:if test="${list[0].planType==tp.id}">selected="selected" </c:if>>${tp.name }</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -316,15 +314,18 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5" style="display:none" id="dnone" >
+					<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'}">
+					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"  id="dnone" >
 			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			                <input type="checkbox" name="" onchange="" value="进口" />进口
+			                <input type="checkbox" name="" onchange="" <c:if test="${list[0].enterPort==1}">checked="checked"</c:if> value="" />进口
 			            </div>
 			         </li>
+			         </c:if>
           
              <li class="col-md-3 col-sm-6 col-xs-12">
                      <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>
-                        <u:show showId="detailshow"  businessId="${list[0].fileId}" sysKey="2" typeId="${typeId}" />
+                     <u:show showId="detailshow"  delete="false" businessId="${list[0].fileId}" sysKey="2" typeId="${typeId}" />
+                        <%-- <u:show showId="detailshow"  businessId="${list[0].fileId}" sysKey="2" typeId="${typeId}" /> --%>
              </li>
           
           
@@ -346,7 +347,7 @@
 							<th class="info w80">预算金额</br>（万元）</th>
 							<th class="info w80">交货期限</th>
 							<th class="info w100">采购方式</br>建议</th>
-							<th class="info w80">采购机构</th>
+							<th class="info w80">采购机构<br>建议</th>
 							<th class="info w100">供应商名称</th>
 							<th class="info w80">是否申请</br>办理免税</th>
 						<!-- 	<th class="info">物资用途（仅进口）</th>
@@ -445,6 +446,7 @@
 							</td>
 							
 							<td class="p0">
+							<u:show showId="pShow${vs.index}"  delete="false" businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
 										<%-- 	<div class="w150">
 													<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 													<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />

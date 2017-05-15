@@ -825,12 +825,19 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                         
                         //证书名称
                         if(aptitute.getCertType() !=null){
+                       	 historyInfo.setBeforeField("certName");
+                            historyInfo.setBeforeContent(aptitute.getCertName());
+                            supplierHistoryMapper.insertSelective(historyInfo);
+                        }
+                        
+                        //资质类型
+                        if(aptitute.getCertType() !=null){
                        	 historyInfo.setBeforeField("certType");
                             historyInfo.setBeforeContent(aptitute.getCertType());
                             supplierHistoryMapper.insertSelective(historyInfo);
                         }
                         
-                        //资质类型
+                        //证书编号
                         if(aptitute.getCertCode() !=null){
                        	 historyInfo.setBeforeField("certCode");
                             historyInfo.setBeforeContent(aptitute.getCertCode());

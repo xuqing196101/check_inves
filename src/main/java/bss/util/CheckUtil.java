@@ -90,7 +90,7 @@ public class CheckUtil {
 
 		   //如果等于2，则说明校验码是10，身份证号码最后一位应该是X
 		   if(idCardMod==2){
-		    if(idCardLast=="X"||idCardLast=="x"){
+		    if("X".equals(idCardLast) || "x".equals(idCardLast)){
 		    	returnStr= "success";
 		    }else{
 		    	returnStr= "身份证号码错误！";

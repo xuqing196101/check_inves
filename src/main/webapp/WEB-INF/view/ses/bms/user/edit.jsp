@@ -311,8 +311,9 @@
 			 var idNumber = $("#idNumber").val();
 			  var msg=validateIdCard(idNumber);
 			 if(msg!='success'){
+			 is_error = 1;
 			 $("#ajax_idNumber").html(msg);
-			    return;
+			    return is_error;
 			 }else{
 			 $("#ajax_idNumber").html("");
 			 }
@@ -343,6 +344,7 @@
 				if (ajaxMoblie() == 1){
 					error += 1;
 				} 
+				
 				if (error > 0) {
 					return false;
 				} else {

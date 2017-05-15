@@ -30,6 +30,18 @@
 		 and	ORG_ID = #{orgId,jdbcType=VARCHAR}
 		</if>
 	</select>
+	<select id="selectByOrgId" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from  T_SES_OMS_ORG o,T_SES_OMS_PURDEP_ORG r where r.PURCHASE_DEP_ID=o.ID
+		<if test="purchaseDepId != null and purchaseDepId !='' ">
+			and r.PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=VARCHAR}
+		</if>
+		<if test="orgId != null and orgId !='' ">
+		 and	r.ORG_ID = #{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="orgName!= null and orgName !='' ">
+		 and	o.name  like  '%'||#{orgName}||'%'
+		</if>
+	</select>
 	<!-- 删除 -->
 	<delete id="delByOrgId" parameterType="java.util.Map">
 		delete from T_SES_OMS_PURDEP_ORG s

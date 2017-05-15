@@ -1419,7 +1419,7 @@
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	 <div class="w200 fl"><input
-                                                                             required="required" type="text" maxlength="30" <c:if test="${certPro.name == '质量管理体系认证证书'}">readonly="readonly"</c:if>
+                                                                             required="required" type="text"   <c:if test="${certPro.name == '质量管理体系认证证书'}">readonly="readonly"</c:if>
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].name"
 																	value="${certPro.name}" class="border0" />
 																	</div>
@@ -2116,7 +2116,7 @@
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																 <div class="w200">
 																 	<input
-																type="text" required="required" class="border0" maxlength="30"
+																type="text" required="required" class="border0"  
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name"
 																value="${certSe.name}" />
 																 </div>
@@ -2140,7 +2140,7 @@
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																 <div class="w200">
 																    <input
-																type="text" required="required" class="border0" maxlength="30"
+																type="text" required="required" class="border0"  
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith"
 																value="${certSe.licenceAuthorith}" />
 																 </div>

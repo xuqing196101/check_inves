@@ -115,4 +115,10 @@ public interface PurchaseOrgnizationServiceI {
   * @throws
    */
   public List<PurchaseOrg> getByPurchaseDepId(String purchaseDepId);
+  /**
+   * 根据部门name查询
+   * @param map
+   * @return
+   */
+  List<PurchaseOrg> selectByOrgId(HashMap<String, Object> map);
 }

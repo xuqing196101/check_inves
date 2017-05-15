@@ -113,7 +113,7 @@
 			});
 			
 			if(flag==false){
-				layer.alert("第"+n+"个已提交，不允许删除",{offset: ['222px', '390px'], shade:0.01});
+				layer.alert("选中的第"+n+"个已提交，不允许删除",{offset: ['222px', '390px'], shade:0.01});
 			}
 			else  if(id.length>0){
 				layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
@@ -266,7 +266,7 @@
 				      </li>
 				      <li>
 				    		<label class="fl">采购需求文号：</label><span>
-				  	   	<input  type="text" name="planNo" value="${inf.planNo }" /> 
+				  	   	<input  type="text" name="referenceNo" value="${inf.referenceNo }" /> 
 				    	</span>
 				      </li>
 				      <li>

@@ -114,6 +114,7 @@ public class CollectPlanController extends BaseController {
 //			    	map.put("status", "3");
 //			    }
 			    map.put("isMaster", "1");
+			    map.put("planName", purchaseRequired.getPlanName());
 			    model.addAttribute("status", status);
 			    if(status==null){
 			    	 model.addAttribute("status", "3");
@@ -132,7 +133,7 @@ public class CollectPlanController extends BaseController {
 				}
 			   
 				List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page,Integer.valueOf(status));
-				PageInfo<PurchaseManagement> pm = new PageInfo<>(list2);
+				/*PageInfo<PurchaseManagement> pm = new PageInfo<>(list2);*/
 				List<String> listDep=new ArrayList<String>();
 				if(list2!=null&&list2.size()>0){
 					for(PurchaseManagement p:list2){
@@ -143,15 +144,16 @@ public class CollectPlanController extends BaseController {
 				}
 				
 				map.put("list", listDep);
+				map.put("page", page==null?1:page);
 			    List<PurchaseRequired> list = purchaseRequiredService.queryListUniqueId(map);
 			    PageInfo<PurchaseRequired> info = new PageInfo<>(list);
-				info.setStartRow(pm.getStartRow());
+				/*info.setStartRow(pm.getStartRow());
 				info.setEndRow(pm.getEndRow());
 				info.setPages(pm.getPages());
 				info.setTotal(pm.getTotal());
 				info.setFirstPage(pm.getFirstPage());
 				info.setPageNum(pm.getPageNum());
-				info.setPageSize(pm.getPageSize());
+				info.setPageSize(pm.getPageSize());*/
 			    model.addAttribute("info", info);
 			    model.addAttribute("inf", purchaseRequired);
 			    List<DictionaryData> dic = dictionaryDataServiceI.findByKind("6");
@@ -248,7 +250,7 @@ public class CollectPlanController extends BaseController {
 					BigDecimal budget=BigDecimal.ZERO;
 					for(PurchaseRequired pr:list){
 						if(pr.getSeq().equals("一")){
-							budget=budget.add(pr.getBudget());
+							budget=budget.add(pr.getBudget()==null?new BigDecimal(0):pr.getBudget());
 						}
 //						if(pr.getPurchaseCount()!=null){
 //							budget=budget.add(pr.getBudget());

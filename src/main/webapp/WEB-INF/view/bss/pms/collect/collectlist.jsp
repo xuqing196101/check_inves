@@ -143,7 +143,7 @@
 					id.push($(this).val());
 				});
 				if(flag == false) {
-					layer.alert("物资类别需要一样", {
+					layer.alert("类别不一致，不可汇总", {
 						offset: ['222px', '390px'],
 						shade: 0.01
 					});
@@ -289,7 +289,7 @@
         if(id.length == 1){
           window.location.href = "${pageContext.request.contextPath}/advancedProject/add.html?id="+id;
         } else {
-          layer.alert("请选择计划", {
+          layer.alert("只能选择一条需求下达", {
             shade: 0.01
           });
         }
@@ -450,8 +450,8 @@
 		<tr>
 		  <th class="info"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info"width="5%">序号</th>
-		  <th class="info" style="width: 200px">需求部门</th>
 		  <th class="info" width="30%">采购需求名称</th>
+		  <th class="info" style="width: 200px">需求部门</th>
 		  <th class="info"width="10%">物资类别</th> 
 		  <th class="info"width="10%">提交日期</th>
 		  <th class="info" width="10%">预算总金额</br>（万元）</th>
@@ -472,11 +472,8 @@
 			   <input type="hidden"  value="${obj.department }">
 			  </td>
 			  <td class="tc w50"  onclick="view('${obj.uniqueId}')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td class="tl pl20" width="25%" onclick="view('${obj.uniqueId}')">${obj.department}</td>
-			    
-			    
 			  <td class="tl pl20" width="25%" onclick="view('${obj.uniqueId}')" >${obj.planName }</td>
-			
+			  <td class="tl pl20" width="25%" onclick="view('${obj.uniqueId}')">${obj.department}</td>
 			  <td class="tl pl20" onclick="view('${obj.uniqueId}')" >
 			   <c:forEach items="${dic }" var="dic">
 				   <c:if test="${obj.planType==dic.id}">

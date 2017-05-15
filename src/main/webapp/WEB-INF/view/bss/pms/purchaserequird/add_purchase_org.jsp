@@ -7,7 +7,33 @@
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
     /*分页  */
-  $(function() {
+    
+    $(function(){
+	  laypage({
+		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: "${list.pages}", //总页数
+		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    total: "${list.total}",
+		    startRow: "${list.startRow}",
+		    endRow: "${list.endRow}",
+		    skip: true, //是否开启跳页
+		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+//			        var page = location.search.match(/page=(\d+)/);
+//			        return page ? page[1] : 1;
+				return "${list.pageNum}";
+		    }(), 
+		    jump: function(e, first){ //触发分页后的回调
+		            if(!first){ //一定要加此判断，否则初始时会无限刷新
+		        	$("#page").val(e.curr);
+		        	  $("#form1").submit();
+		        	
+		       <%--  location.href = '${pageContext.request.contextPath}/purchaser/list.do?page='+e.curr; --%>
+		        }  
+		    }
+		});
+  });
+  /* $(function() {
     laypage({
       cont : $("#pagediv"), 
       pages : "${list.pages}", 
@@ -16,9 +42,9 @@
       total : "${list.total}",
       startRow : "${list.startRow}",
       endRow : "${list.endRow}",
-      groups : "${list.pages}" >= 1 ? 1 : "${list.pages}", //连续显示分页数
+      groups : "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
       curr : function() { 
-        return "${list.pageNum}" == 0 ? 1: "${list.pageNum}";
+    	  return "${list.pageNum}";
       }(),
       jump : function(e, first) { //触发分页后的回调
         if (!first) { //一定要加此判断，否则初始时会无限刷新
@@ -27,7 +53,7 @@
         }
       }
     });
-  });
+  }); */
   function fanhui(){
   	window.location.href="${pageContext.request.contextPath}/purchaseManage/add.html"
   }
@@ -92,9 +118,10 @@ function reset(){
 <body>
   <div class="container">
 	<h2 class="search_detail">
-	  <form  class="mb0" action="${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html" method="post" id="form1">
+	  <form  class="mb0" action="${pageContext.request.contextPath}/purchaser/submit.html" method="post" id="form1">
 		<input type="hidden" name="page" id="page"> 
 		<input type="hidden" name="flag" value="0">
+		<input type="hidden" name="planNo" value="${uniqueId}">
 		<input type="hidden" name="typeName" value="${orgnization.typeName }" />
 		<ul class="demand_list">
 	      <li>
@@ -119,9 +146,9 @@ function reset(){
 		<tbody>
 		  <c:forEach items="${list.list}" var="p" varStatus="vs">
 			<tr class="cursor">
-		      <td class="tc"><input type="radio" name="items"  value="${p.id}" /></td>
+		      <td class="tc"><input type="radio" name="items"  value="${p.orgnization.id}" /></td>
 			  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tl pl20">${p.name}</td>
+			  <td class="tl pl20">${p.orgnization.name}</td>
 			</tr>
 		  </c:forEach>
 		</tbody>

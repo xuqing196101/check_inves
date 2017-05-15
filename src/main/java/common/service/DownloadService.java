@@ -47,4 +47,11 @@ public interface DownloadService {
      * @param filePath 文件路径
      */
     public void downLoadFile(HttpServletRequest request,HttpServletResponse response, String filePath);
+    /**
+     * 重写jsp页面下载，如果上传多个只下载最近上传的一个，根据bussId查找所有的上传
+     * @author LiWanlin
+     * @param request
+     * @param response
+     */
+    public void downloadOneFile(HttpServletRequest request, HttpServletResponse response);
 }

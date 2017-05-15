@@ -250,20 +250,18 @@
 	    	  var no=$("#referenceNo").val();
 	    	  var type=$("#wtype").val();
 	    	  var mobile=$("#rec_mobile").val();
-	    	  
 	    	  $("input[name='planName']").val(mc);
 	    	  $("input[name='planNo']").val(bh);
 	    	  $("input[name='referenceNo']").val(no);
 	    	  $("input[name='planType']").val(type);
 	    	  $("input[name='mobile']").val(mobile);
-	    	  
 	    	  $("#table").find("#edit_form").submit();
 	    	 // $("#edit_form").submit();
 	      }
 	       function gtype(obj){
 	    	    var vals=$(obj).val();
 				$("#import").attr("checked",false);
-				/* $("#import").attr("checked",false); */
+				$("input[name='enterPort']").val(0);
 				$("td[name='userNone']").attr("style","display:none");
 				$("th[name='userNone']").attr("style","display:none");
 				if(vals == 'FC9528B2E74F4CB2A9E74735A8D6E90A'){
@@ -279,11 +277,17 @@
 				if(bool==true){
 					$("td[name='userNone']").attr("style","");
 					$("th[name='userNone']").attr("style","");
+					$("input[name='enterPort']").val(1);
 				}else{
 					$("td[name='userNone']").attr("style","display:none");
 					$("th[name='userNone']").attr("style","display:none");
+					$("input[name='enterPort']").val(0);
 				}
 			}
+       //重写下载方法，只下载最近上传的一个文件
+	   function download(id,key,zipFileName,fileName){
+    	  location.href="${pageContext.request.contextPath}/file/downloadOneFile.html?id="+ id +"&key="+key + "&zipFileName=" + encodeURI(encodeURI(zipFileName)) + "&fileName=" + encodeURI(encodeURI(fileName));
+       }
 </script>
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
 <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
@@ -357,16 +361,23 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
-					<c:if test="${list[0].enterPort==1}"> 
+					<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'}"> 
 					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"  id="dnone" >
 			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			                <input type="checkbox" id="import" name=""  value="进口" checked="checked"  onchange="imports(this)"  />进口
+			                <input type="checkbox" id="import" name=""  value="进口" <c:if test="${list[0].enterPort==1}">checked="checked"</c:if>  onchange="imports(this)"  />进口
 			            </div>
 			         </li>
-			       </c:if>
-             <li class="col-md-3 col-sm-6 col-xs-12">
+			          </c:if>
+			      <c:if test="${list[0].planType!='FC9528B2E74F4CB2A9E74735A8D6E90A'}"> 
+			      <li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5 hide mt25 ml5"  id="dnone" >
+			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			                <input type="checkbox" id="import" name=""  value="进口"  onchange="imports(this)"  />进口
+			            </div>
+			         </li>
+			      </c:if>
+             <li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5">
                      <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求附件</span>
-                       <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${fileId}" sysKey="2" typeId="${typeId}" auto="true" />
+                       <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${fileId}" sysKey="2" typeId="${detailId}" auto="true" />
                         <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${detailId}" />
              </li>
           
@@ -516,6 +527,7 @@
 							<input type="hidden" name="planType"  >
 							<input type="hidden" name="mobile"  >
 						    <input type="hidden" name="referenceNo"  />
+						    <input type="hidden" name="enterPort"  value="${list[0].enterPort}"/>
 						    
 						    
 			   </form>

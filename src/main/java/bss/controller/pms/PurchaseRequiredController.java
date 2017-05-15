@@ -87,6 +87,7 @@ import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UpdateHistoryService;
 import common.service.UploadService;
+import common.service.impl.DownloadServiceImpl;
 /**
  * 
  * @Title: PurcharseRequiredController
@@ -235,7 +236,7 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String updateById(PurchaseRequiredFormBean list,String planName,String planNo,String referenceNo,String planType,String mobile,String history){
+	public String updateById(PurchaseRequiredFormBean list,String planName,String planNo,String referenceNo,String planType,String mobile,String history,Integer enterPort){
 //		Map<String,Object> map=new HashMap<String,Object>();
 		if(list!=null){ 
 			if(list.getList()!=null&&list.getList().size()>0){
@@ -246,6 +247,7 @@ public class PurchaseRequiredController extends BaseController{
 						p.setPlanName(planName);
 						p.setReferenceNo(referenceNo);
 						p.setRecorderMobile(mobile);
+						p.setEnterPort(enterPort);
 						//历史数据
 //						String id = UUID.randomUUID().toString().replaceAll("-", "");
 //						map.put("oid", id);
@@ -911,35 +913,25 @@ public class PurchaseRequiredController extends BaseController{
 	    * @throws
 	     */
 	    @RequestMapping("/submit")
-	    public String updateSubmit(@CurrentUser User user,String planNo,Model model,Integer page){
-	    	
-	    	//每页显示十条
+	    public String updateSubmit(@CurrentUser User user,String planNo,Model model,Integer page,String name){
 		    if (page == null){
 		        page = 1;
 		    }
-			PageHelper.startPage(page,CommonConstant.PAGE_SIZE);
 			List<Orgnization> orgnizationList =new LinkedList<Orgnization>();
-			List<PurchaseOrg> manages = purchserOrgnaztionService.get(user.getOrg().getId());
+			HashMap<String, Object> hashMap=new HashMap<String, Object>();
+			hashMap.put("page", page);
+			if(name!=null&&!"".equals(name)){
+				hashMap.put("orgName", name);
+			}
+			hashMap.put("orgId", user.getOrg().getId());
+			List<PurchaseOrg> manages = purchserOrgnaztionService.selectByOrgId(hashMap);
 			for(PurchaseOrg po:manages){
 				Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(po.getPurchaseDepId());
-				orgnizationList.add(orgnization);
+				po.setOrgnization(orgnization);
 			}
-			
-//			HashMap<String, Object> map = new HashMap<String, Object>();
-//			map.put("typeName", StaticVariables.ORG_TYPE_MANAGE);
-//			
-//			
-//			List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
-			model.addAttribute("list", new PageInfo<Orgnization>(orgnizationList));
+			PageInfo<PurchaseOrg> list=new PageInfo<PurchaseOrg>(manages);
+			model.addAttribute("list", list);
 			model.addAttribute("uniqueId", planNo);
-			
-//	    	PurchaseRequired p=new PurchaseRequired();
-//	    	p.setUniqueId(planNo);
-//	    	p.setStatus("2");
-//	    	p.setDetailStatus(0);
-//	    	p.setAuditDate(new Date());
-//	    	purchaseRequiredService.updateStatus(p);
-//	    	return "redirect:list.html";
 			return "bss/pms/purchaserequird/add_purchase_org";
 	    }
 	
@@ -980,7 +972,7 @@ public class PurchaseRequiredController extends BaseController{
 	    	if(pms==null||pms.size()<1){
 	    		purchaseManagementService.add(pm);
 	    	}
-	    	if(pms.size()>1){
+	    	if(pms.size()>0){
 	    		purchaseManagementService.updateStatus(uniqueId, 1);
 	    	}
 	    	

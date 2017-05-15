@@ -214,8 +214,8 @@ public class LoginController {
                         Supplier supplier = supplierService.selectById(u.getTypeId());
                         //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
 //                        int validateDay = supplierService.logoutSupplierByDay(supplier);
-                        int validateDay = 0;
-                        if(0==validateDay) {//通过
+//                        int validateDay = 0;
+//                        if(0==validateDay) {//通过
                             Map<String, Object> map = supplierService.checkLogin(u);
                             String msg = (String) map.get("status");
                             String date = (String) map.get("date");
@@ -248,9 +248,9 @@ public class LoginController {
                             } else  if("reject".equals(msg)){
                                 out.print("reject," + u.getLoginName());
                             }
-                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
-                            out.print("supplier_logout," + validateDay);
-                        }
+//                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
+//                            out.print("supplier_logout," + validateDay);
+//                        }
 
                     }catch (Exception e){
                         e.printStackTrace();
