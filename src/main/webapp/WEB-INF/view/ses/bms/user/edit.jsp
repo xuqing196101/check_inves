@@ -8,9 +8,13 @@
 	<script type="text/javascript">
 		/* 机构树 */
 		function onClickOrg(e, treeId, treeNode) {
-			var zTree = $.fn.zTree.getZTreeObj("treeOrg");
+			/*var zTree = $.fn.zTree.getZTreeObj("treeOrg");
 			zTree.checkNode(treeNode, !treeNode.checked, null, true);
-			return false;
+			return false;*/
+            var cityObj = $("#orgSel");
+            cityObj.attr("value", treeNode.name);
+            $("#oId").val(treeNode.id);
+            hideOrg()
 		}
 		function onCheckOnlyOrg(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeOrg"),

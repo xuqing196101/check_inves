@@ -51,7 +51,7 @@ function validateIdCard(idCard) {
         } else if (idCard.length > 0 && idCard.length < 18) {
             return "请输入正确的身份证号！"
         } else if (idCard.length == 0) {
-
+            return "success";
         } else {
             //15
             return "success";
