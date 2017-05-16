@@ -234,7 +234,7 @@
                   <td width="10%" class="info">采购计划名称：</td>
                   <td width="25%">${collectPlan.fileName}</td>
                   <td width="10%" class="info">计划文号：</td>
-                  <td width="25%">${collectPlan.planNo}</td>
+                  <td width="25%">${collectPlan.taskId}</td>
                 </tr>
                 <tr>
                   <td width="10%" class="info">需求部门：</td>

@@ -538,6 +538,7 @@ public class PlanSupervisionController {
                     List<Task> listBycollect = taskService.listBycollect(mapTask);
                     if(listBycollect != null && listBycollect.size() > 0){
                         collectPlan.setUpdatedAt(listBycollect.get(0).getGiveTime());
+                        collectPlan.setTaskId(listBycollect.get(0).getDocumentNumber());
                     }
                     model.addAttribute("collectPlan", collectPlan);
                     
