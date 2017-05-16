@@ -165,11 +165,11 @@ public class ExpertAuditController{
 		Orgnization org = user.getOrg();
 		//1代表机构
 		if(user !=null && org !=null && "1".equals(org.getTypeName())){
-			/*String orgId = user.getOrg().getId();
-			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);*/
-			expert.setPurchaseDepId(org.getId());
+			/*String orgId = user.getOrg().getId();*/
+			PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(org.getId());
+			expert.setPurchaseDepId(dep.getId());
 			//抽取时的机构
-			expert.setExtractOrgid(org.getId());
+			expert.setExtractOrgid(dep.getId());
 		}else{
 			expert.setPurchaseDepId("");
 			expert.setExtractOrgid("");
