@@ -306,7 +306,7 @@ public class PurchaseAcceptController extends BaseController{
     		}
     	}
 
-    	if(history!=null&&history.trim().length()!=0){
+    	if(history!=null&&history.trim().length()!=0  ){
     		String[] ids = history.split(",");
     		Set<String> set=new HashSet<String>();
     		for(String i:ids){

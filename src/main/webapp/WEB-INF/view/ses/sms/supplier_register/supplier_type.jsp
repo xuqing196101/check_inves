@@ -1559,7 +1559,7 @@
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>><input
-																required="required" type="text" maxlength="10"
+																required="required" type="text" maxlength="30"
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert"
 																value="${certSell.levelCert}" class="border0" />
 															</td>
