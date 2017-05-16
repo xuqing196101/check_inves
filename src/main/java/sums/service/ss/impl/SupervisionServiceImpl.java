@@ -237,12 +237,12 @@ public class SupervisionServiceImpl implements SupervisionService {
             List<PqInfo> selectByContract = pqInfoMapper.selectByContract(map);
             if(selectByContract != null && selectByContract.size() > 0){
                 if("合格".equals(selectByContract.get(0).getConclusion())){
-                    int one = 37;
-                    num = String.valueOf(Math.round(total*one));
+                    int one = 38;
+                    num = "100";
                     name = "质检合格";
                 }
                 if("不合格".equals(selectByContract.get(0).getConclusion())){
-                    int one = 38;
+                    int one = 37;
                     num = String.valueOf(Math.round(total*one));
                     name = "质检不合格";
                 }
@@ -277,7 +277,7 @@ public class SupervisionServiceImpl implements SupervisionService {
         if(StringUtils.isNotBlank(status)){
             DictionaryData findById = DictionaryDataUtil.findById(status);
             if(findById != null){
-                double number = 100.00/22.00;
+                double number = 100.00/21.00;
                 BigDecimal b = new BigDecimal(number);
                 double total = b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
                 num = String.valueOf(Math.round(total*findById.getPosition()));
