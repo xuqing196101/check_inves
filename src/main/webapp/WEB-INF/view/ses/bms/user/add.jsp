@@ -260,14 +260,17 @@
 			$("#orgParent").val("");
 			$("#oId").val("");
 			if (orgType == '3' ) {
+			   $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
 				$("#oId").attr("type","text");
 			} else if (  orgType == '5'||orgType == '4') {
+			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
 			   $("#oId").attr("type","hidden");
 			}else{
+			    $("#isOrgShow").show();
 			    $("#orgTitle").html("所属机构");
 				$("#orgSel").show();
 				$("#oId").attr("type","hidden");
@@ -549,7 +552,14 @@
 			        </div>
 			 	</li>
 			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="select_org">
-				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span><span id="orgTitle">所属机构</span></span>
+				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">
+				   	<c:if test="${not empty ajax_orgId }">
+				   	<span class="red display-inline" id="isOrgShow">*</span><span id="orgTitle">所属机构</span>
+				   	</c:if>
+				   	<c:if test="${empty ajax_orgId }">
+				   	<span class="red display-inline" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
+				   	</c:if>
+				   	</span>
 				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				        <c:choose> 
 					        <c:when  test="${not empty origin}">
@@ -565,7 +575,7 @@
 						<div  class="drop_up" onclick="showOrg();">
 						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png"/>
 				        </div>
-				        <div class="cue"><sf:errors path="orgId"/></div>
+				        <div id="ajax_orgId" class="cue">${ajax_orgId }</div>
 			        </div>
 			 	</li>
 				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">

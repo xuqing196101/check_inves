@@ -12,10 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -34,28 +32,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
-import ses.model.bms.Role;
 import ses.model.bms.User;
-import ses.model.oms.Orgnization;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
-import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
-import ses.util.PropertiesUtil;
-import bss.dao.ob.OBProductInfoMapper;
-import bss.dao.ob.OBProjectMapper;
-import bss.dao.ob.OBProjectResultMapper;
-import bss.dao.ob.OBProjectRuleMapper;
-import bss.dao.ob.OBProjectSupplierMapper;
-import bss.dao.ob.OBResultsInfoMapper;
-import bss.dao.ob.OBRuleMapper;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
@@ -78,11 +63,8 @@ import bss.service.ob.OBSupplierService;
 import bss.util.BigDecimalUtils;
 import bss.util.CheckUtil;
 import bss.util.ExcelUtil;
-
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
 import common.annotation.SystemServiceLog;
@@ -135,8 +117,6 @@ public class OBProjectController {
 	private OBProductInfoServer oBProductInfoService;
 	@Autowired
 	private OBProjectResultService obProjectResultService;
-	/*@Autowired
-	private OBProjectRuleMapper OBProjectRuleMapper;*/
     
 	/**用户**/
 	@Autowired
@@ -157,12 +137,9 @@ public class OBProjectController {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String list(@CurrentUser User user, Model model,
-			Integer page, HttpServletRequest request,
+			@RequestParam(defaultValue="1")Integer page,
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,
 			String name) {
-		if(page==null){
-			page=1;
-		}
 		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		int orgId=2;
 		if (user != null) {
@@ -857,11 +834,11 @@ public class OBProjectController {
 				ob.setId(obProjectId);
 				ob.setIsDelete(1);
 				 OBProjectServer.updateProject(ob);
-			 } 
-			}
+			   } 
+			  }
 			}
 		}
-		return list(user, model,  null,request, null, "");
+		return list(user, model,  1, null, "");
 	}
 	
 	

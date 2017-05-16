@@ -81,7 +81,6 @@ public class User implements Serializable{
     private Orgnization org;
     
     /** 校验表单机构不为空 ，不作数据存储 */
-    @NotNull(message = "机构不能为空") 
     private String orgId;
     
     /** 机构名称 */
