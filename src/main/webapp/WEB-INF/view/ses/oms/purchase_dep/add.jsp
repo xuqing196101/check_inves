@@ -748,7 +748,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公司数量</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公室数量</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="officeCount" value="${purchaseDep.officeCount}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
