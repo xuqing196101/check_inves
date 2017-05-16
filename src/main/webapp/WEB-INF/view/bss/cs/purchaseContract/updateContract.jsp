@@ -983,8 +983,8 @@
 		    	      <label class="col-md-12 pl20"><div class="red star_red">*</div>物资名称：</label>
 		    	      <span class="col-md-12">
 		    	      <div class="input-long">
-	                   <input type="hidden" id="categorieId4" name="categoryId" value="">
-					   <input id="citySel4" type="text"  readonly="readonly" name="goodsName"  value=""  class="title col-md-12" onclick=" showMenu(); return false;"/>
+	                   <input type="hidden" id="categorieId4" name="categoryId" value=""><!-- onclick=" showMenu(); return false;" -->
+					   <input id="citySel4" type="text"   name="goodsName"  value=""  class="title col-md-12" />
 					   <div class="cue" id="wzmc"></div>
 					   </div>
 					  </span>

@@ -209,13 +209,16 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 			dataMap.put("supplierDepName", "");
 		}else{
 			Supplier su = supplierMapper.selectOne(pur.getSupplierDepName());
-			if(ValidateUtils.isNull(su.getSupplierName())){
-				dataMap.put("supplierDepName", "");
+			if(su!=null){
+				if(ValidateUtils.isNull(su.getSupplierName())){
+					dataMap.put("supplierDepName", "");
+				}else{
+					dataMap.put("supplierDepName", su.getSupplierName());
+				}
 			}else{
-				dataMap.put("supplierDepName", su.getSupplierName());
+				dataMap.put("supplierDepName", pur.getSupplierDepName());
 			}
 		}
-		
 		if(pur.getSupplierLegal()!=null){
 			dataMap.put("supplierLegal", pur.getSupplierLegal());
 		}else{

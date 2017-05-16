@@ -1364,10 +1364,10 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(ValidateUtils.isNull(purCon.getSupplierBankAccount_string())){
 			flag = false;
 			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
-		}else if(!ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount_string())){
+		}/*else if(!ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount_string())){
 			flag = false;
 			model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
-		}
+		}*/
 		if(ValidateUtils.isNull(purCon.getName())){
 			flag = false;
 			model.addAttribute("ERR_name", "合同名称不能为空");
@@ -1949,12 +1949,14 @@ public class PurchaseContractController extends BaseSupplierController{
         PurchaseContract draftCon = purchaseContractService.selectDraftById(ids);
         List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
         draftCon.setContractReList(conRequList);
-        Supplier su = supplierService.selectOne(draftCon.getSupplierDepName());
-        //		PurchaseDep purdep = purchaseOrgnizationServiceI.selectPurchaseById(draftCon.getBingDepName());
         Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(draftCon.getPurchaseDepName());
         draftCon.setShowDemandSector(org.getName());
-        draftCon.setShowSupplierDepName(su.getSupplierName());
-        //		draftCon.setShowPurchaseDepName(purdep.getDepName());
+        if(draftCon.getManualType()!=1){
+        	Supplier su = supplierService.selectOne(draftCon.getSupplierDepName());
+            draftCon.setShowSupplierDepName(su.getSupplierName());
+        }else{
+        	 draftCon.setShowSupplierDepName(draftCon.getSupplierDepName());
+        }
         model.addAttribute("draftCon", draftCon);
         model.addAttribute("attachuuid", ids);
         DictionaryData dd=new DictionaryData();
