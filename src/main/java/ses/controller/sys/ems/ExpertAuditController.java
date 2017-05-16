@@ -43,6 +43,7 @@ import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
 import ses.model.ems.ExpertSignature;
 import ses.model.ems.ExpertTitle;
+import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
@@ -161,13 +162,14 @@ public class ExpertAuditController{
 		}
 		//获取登录人的机构id
 		/*User user = (User) request.getSession().getAttribute("loginUser");*/
-		if(user !=null && user.getOrg() !=null){
-			String orgId = user.getOrg().getId();
-			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
-			expert.setPurchaseDepId(depId.getId());
-			
+		Orgnization org = user.getOrg();
+		//1代表机构
+		if(user !=null && org !=null && "1".equals(org.getTypeName())){
+			/*String orgId = user.getOrg().getId();
+			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);*/
+			expert.setPurchaseDepId(org.getId());
 			//抽取时的机构
-			expert.setExtractOrgid(orgId);
+			expert.setExtractOrgid(org.getId());
 		}else{
 			expert.setPurchaseDepId("");
 			expert.setExtractOrgid("");

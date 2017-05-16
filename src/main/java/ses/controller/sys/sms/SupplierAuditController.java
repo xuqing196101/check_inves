@@ -35,6 +35,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
@@ -2105,17 +2106,12 @@ public class SupplierAuditController extends BaseSupplierController {
 			page = StaticVariables.DEFAULT_PAGE;
 		}
 
-		//获取登录人机构id
-		if(user !=null && user.getOrg() !=null){
-			String orgId = user.getOrg().getId();
-			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
-			if(depId !=null){
-				supplier.setProcurementDepId(depId.getId());
-			}
-			
-			
+		//获取登录人机构,1代表机构
+		Orgnization org = user.getOrg();
+		if(user !=null && org !=null && "1".equals(org.getTypeName())){
+			supplier.setProcurementDepId(org.getId());
 			//抽取时的机构
-			supplier.setExtractOrgid(orgId);
+			supplier.setExtractOrgid(org.getId());
 		}else{
 			supplier.setProcurementDepId("");
 			supplier.setExtractOrgid("");
