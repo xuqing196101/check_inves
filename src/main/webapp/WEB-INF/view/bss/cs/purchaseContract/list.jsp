@@ -126,6 +126,7 @@
 			isCreateContract.push($(this).parent().next().next().next().text());
 			transactionAmount.push($(this).parent().next().next().next().next().text());
 		}); 
+		alert(transactionAmount)
 		if(ids.length>0){
 			if(ids.length>1){
 				layer.alert("只可选择一条项目生成",{offset: ['222px', '390px'], shade:0.01});
