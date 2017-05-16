@@ -126,7 +126,6 @@
 			isCreateContract.push($(this).parent().next().next().next().text());
 			transactionAmount.push($(this).parent().next().next().next().next().text());
 		}); 
-		alert(transactionAmount)
 		if(ids.length>0){
 			if(ids.length>1){
 				layer.alert("只可选择一条项目生成",{offset: ['222px', '390px'], shade:0.01});
@@ -365,7 +364,7 @@
 					<td class=" tl pl20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${code}">${code}</td>
 				</c:if>
 				<td class="tc pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.packages.name}</td>
-				<td class="tr pr20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.packages.wonPrice}</td>
+				<td class="tr pr20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.packages.wonPrice }</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.supplier.supplierName}</td>
 				<td class="tc pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.purchaseDep}</td>
 				<td class="tc" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">

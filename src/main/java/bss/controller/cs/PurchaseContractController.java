@@ -203,6 +203,7 @@ public class PurchaseContractController extends BaseSupplierController{
 							}
 						}
 					}
+					sum=sum.divide(new BigDecimal(10000));
 					packages.setWonPrice(sum);
 					pass.setPc(pcs);
 					pass.setProject(project);
@@ -230,6 +231,22 @@ public class PurchaseContractController extends BaseSupplierController{
 								if(pass.getContractId()!=null&&!"".equals(pass.getContractId())){
 									pcs = purchaseContractService.selectById(pass.getContractId());
 								}
+								HashMap<String, Object> map=new HashMap<String, Object>();
+								map.put("supplierId", pass.getSupplierId());
+								map.put("packageId", pass.getPackageId());
+								List<theSubject> theSubject = theSubjectService.selectBysupplierIdAndPackagesId(map);
+								BigDecimal sum=new BigDecimal(0);
+								if(theSubject!=null&&theSubject.size()>0){
+									for(theSubject ts:theSubject){
+										if(ts.getDetailId()!=null){
+											BigDecimal count=new BigDecimal(ts.getPurchaseCount());
+											BigDecimal price=count.multiply(ts.getUnitPrice());
+											sum=sum.add(price);
+										}
+									}
+								}
+								sum=sum.divide(new BigDecimal(10000));
+								packages.setWonPrice(sum);
 								pass.setPc(pcs);
 								pass.setProject(project);
 								pass.setPackages(packages);
@@ -664,7 +681,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		BigDecimal projectBudget = BigDecimal.ZERO;
 		String department="";
 		for (ProjectDetail projectDetail : detailList) {
-		   projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+		   projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget())).divide(new BigDecimal(10000));
 		   department=projectDetail.getDepartment();
 	    }
 		BigDecimal projectBud = projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP);
