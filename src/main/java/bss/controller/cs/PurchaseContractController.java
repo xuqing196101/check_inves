@@ -1499,13 +1499,13 @@ public class PurchaseContractController extends BaseSupplierController{
         if(ValidateUtils.isNull(purCon.getSupplierDepName())){
             flag = false;
             model.addAttribute("ERR_supplierDepName", "乙方单位不能为空");
-        }else{
+        }/*else{
             Supplier su = supplierService.selectOne(purCon.getSupplierDepName());
             if(ValidateUtils.isNull(su.getSupplierName())){
                 flag = false;
                 model.addAttribute("ERR_supplierDepName", "乙方单位不能为空");
             }
-        }
+        }*/
         if(ValidateUtils.isNull(purCon.getSupplierLegal())){
             flag = false;
             model.addAttribute("ERR_supplierLegal", "乙方法人不能为空");

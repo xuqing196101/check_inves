@@ -811,7 +811,13 @@
 				        	  $("#supplierBankAccount_string").val(org.bankAccount);
 				        	}
 				        	num++;
-				       }
+				       },
+				       onLoadSuccess:function(){
+				        	$('#supplierList').next('.combo').find('input').blur(function (){
+                                 $("input[name='supplierDepName']").val($(this).val())
+				        		
+				        	 });
+				        	},
 				    });  
 				 </script>
 			     <li class="col-md-3 col-sm-6 col-xs-12">
