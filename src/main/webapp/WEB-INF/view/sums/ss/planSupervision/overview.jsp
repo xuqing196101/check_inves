@@ -660,7 +660,7 @@
                   </tr>
                   <tr>
                     <td>${collectPlan.fileName}</td>
-                    <td>${collectPlan.planNo}</td>
+                    <td>${collectPlan.taskId}</td>
                     <td>${collectPlan.purchaseId}</td>
                     <td class="tc">${collectPlan.userId}</td>
                     <td class="tc">
