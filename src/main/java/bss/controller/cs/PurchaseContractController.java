@@ -1448,10 +1448,10 @@ public class PurchaseContractController extends BaseSupplierController{
         if(ValidateUtils.isNull(purCon.getPurchaseContactTelephone())){
             flag = false;
             model.addAttribute("ERR_purchaseContactTelephone", "甲方联系电话不能为空");
-        }else if(!ValidateUtils.Tele(purCon.getPurchaseContactTelephone())){
+        }/*else if(!ValidateUtils.Tele(purCon.getPurchaseContactTelephone())){
             flag = false;
             model.addAttribute("ERR_purchaseContactTelephone", "请输入正确的联系电话");
-        }
+        }*/
         if(ValidateUtils.isNull(purCon.getPurchaseContactAddress())){
             flag = false;
             model.addAttribute("ERR_purchaseContactAddress", "甲方地址不能为空");
@@ -1521,10 +1521,10 @@ public class PurchaseContractController extends BaseSupplierController{
         if(ValidateUtils.isNull(purCon.getSupplierContactTelephone())){
             flag = false;
             model.addAttribute("ERR_supplierContactTelephone", "乙方联系电话不能为空");
-        }else if(!ValidateUtils.Tele(purCon.getSupplierContactTelephone())){
+        }/*else if(!ValidateUtils.Tele(purCon.getSupplierContactTelephone())){
             flag = false;
             model.addAttribute("ERR_supplierContactTelephone", "请输入正确的联系电话");
-        }
+        }*/
         if(ValidateUtils.isNull(purCon.getSupplierContactAddress())){
             flag = false;
             model.addAttribute("ERR_supplierContactAddress", "乙方地址不能为空");

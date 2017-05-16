@@ -268,17 +268,17 @@
 		</div>
 	</div>
 	<div class="container container_box">
-				<h2 class="count_flow"><i>1</i>计划主信息</h2>
+				<h2 class="count_flow"><i>1</i>需求主信息</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求名称</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" disabled="true" name="name" id="jhmc" value="${list[0].planName}">
 							<span class="add-on">i</span>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划编号</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求编号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" name="no" value="${list[0].planNo}" disabled="true" >
 							<span class="add-on">i</span>
@@ -286,7 +286,7 @@
 					</li>
 					
 					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划文号</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求文号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group"  disabled="true"  value="${list[0].referenceNo}" >
 							<span class="add-on">i</span>
@@ -323,7 +323,7 @@
 			         </c:if>
           
              <li class="col-md-3 col-sm-6 col-xs-12">
-                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>
+                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求附件</span>
                      <u:show showId="detailshow"  delete="false" businessId="${list[0].fileId}" sysKey="2" typeId="${typeId}" />
                         <%-- <u:show showId="detailshow"  businessId="${list[0].fileId}" sysKey="2" typeId="${typeId}" /> --%>
              </li>
@@ -331,7 +331,7 @@
           
 	   </ul>
 	
-	 <h2 class="count_flow"><i>2</i>计划明细</h2>
+	 <h2 class="count_flow"><i>2</i>需求明细</h2>
 		<div class="content require_ul_list"  id="content">
 				<table id="table" class="table table-bordered table-condensed lockout">
 					<thead>
