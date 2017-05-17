@@ -1982,7 +1982,7 @@
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0" maxlength="30"
+																type="text" required="required" class="border0" maxlength="100"
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType"
 																value="${aptitute.professType}" />
 															</td>
