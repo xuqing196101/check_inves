@@ -230,11 +230,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <c:forEach items="${projectExtList.list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" name="chkItem"><input type="hidden" value="${obj.id},${obj.packageId}"></td>
-              <td class="tc w50" onclick="view('${obj.packageId}')">${vs.count}</td>
-              <td onclick="view('${obj.packageId}')">${obj.name}</td>
-              <td onclick="view('${obj.packageId}')">${obj.projectNumber}</td>
-              <td class="tc" onclick="view('${obj.packageId}')">${obj.packageName}</td>
-              <td class="tc" onclick="view('${obj.packageId}')"><fmt:formatDate pattern="yyyy-MM-dd" value="${obj.bidDate}"/></td>
+              <td class="tc w50" onclick="view('${obj.packageId}','${expertId}')">${vs.count}</td>
+              <td onclick="view('${obj.packageId}','${expertId}')">${obj.name}</td>
+              <td onclick="view('${obj.packageId}','${expertId}')">${obj.projectNumber}</td>
+              <td class="tc" onclick="view('${obj.packageId}','${expertId}')">${obj.packageName}</td>
+              <td class="tc" onclick="view('${obj.packageId}','${expertId}')"><fmt:formatDate pattern="yyyy-MM-dd" value="${obj.bidDate}"/></td>
               <td class="tc">
                 <c:forEach items="${obj.packageExperts}" var="pe">
                   <c:if test="${pe.isAudit == 2 or pe.isAudit == 0}">
