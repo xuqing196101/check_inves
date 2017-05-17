@@ -128,8 +128,10 @@
           $("#projectNumber").focus();
         }else if(name == "") {
           layer.tips("项目名称不允许为空", "#name");
+          $("#name").focus();
         } else if(projectNumber == "") {
           layer.tips("项目编号不允许为空", "#projectNumber");
+          $("#projectNumber").focus();
         }else if(!chkItems){
           layer.alert("请选择明细");
         } else {

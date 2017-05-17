@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -1933,13 +1935,27 @@ public class ProjectController extends BaseController {
                 }
                 
                 
-                //如果项目状态为供应商签到，就不让他保存
-                if(StringUtils.isNotBlank(project.getStatus()) && !"4".equals(project.getStatus())){
-                    DictionaryData findById2 = DictionaryDataUtil.findById(project.getStatus());
-                    if("GYSQD".equals(findById2.getCode())){
-                        model.addAttribute("erro", "erro");
+                //如果项目状态为开标唱标，就不让他保存
+                Project project2 = projectService.selectById(projectId);
+                FlowDefine flowDefine = new FlowDefine();
+                flowDefine.setCode("KBCB");
+                flowDefine.setPurchaseTypeId(project2.getPurchaseType());
+                List<FlowDefine> defines = flowMangeService.find(flowDefine);
+                String erro = null;
+                if(defines != null && defines.size() > 0){
+                    FlowExecute flowExecute = new FlowExecute();
+                    flowExecute.setFlowDefineId(defines.get(0).getId());
+                    flowExecute.setProjectId(project2.getId());
+                    flowExecute.setStep(defines.get(0).getStep());
+                    List<FlowExecute> executes = flowMangeService.findFlowExecute(flowExecute);
+                    for (FlowExecute flowExecute2 : executes) {
+                        if(flowExecute2.getStatus() == 1 || flowExecute2.getStatus() == 2 || flowExecute2.getStatus() == 3 ){
+                            erro = "1";
+                            break;
+                        }
                     }
                 }
+                model.addAttribute("erro", erro);
                 model.addAttribute("findById", findById);
                 model.addAttribute("project", project);
             }

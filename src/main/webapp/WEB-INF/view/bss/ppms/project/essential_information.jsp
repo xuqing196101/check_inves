@@ -52,7 +52,8 @@
       var controldate;
       var deadline;
       function save() {
-        layer.confirm('您确定要保存吗?', {
+        controldate = $("#bidDate").val();//开标时间
+        layer.confirm('开标时间为'+controldate+',您确定要保存吗?', {
 	          title: '提示',
 	          shade: 0.01
           }, function(index) {
@@ -64,7 +65,6 @@
             var supplierNumber = $("#supplierNumber").val();//供应商人数
             var purchaseType = "${findById.code}";//采购方式
             deadline = $("#deadline").val();//投标截止时间
-            controldate = $("#bidDate").val();//开标时间
             //表单验证
             if(!projectNumber){
               layer.tips("项目编号不能为空", "#projectNumber");
@@ -333,13 +333,6 @@
           }
         });
 
-        var isOperate = $('#isOperate', window.parent.document).val();
-        if(isOperate == 0) {
-          $(":button").each(function() {
-            $(this).hide();
-          });
-        }
-
         var erro = "${erro}";
         if(erro) {
           $("#saveCheck").hide();
@@ -574,7 +567,6 @@
             </div>
           </div>
           <div class="tab-pane fade over_auto" id="tab-2">
-            <table class="table table-bordered table-condensed mt5">
               <c:if test="${lists != null}">
                 <table id="tables" class="table table-bordered table-condensed table-hover table-striped left_table lockout ">
                   <thead>
@@ -710,7 +702,6 @@
                   </table>
                 </c:forEach>
               </c:if>
-            </table>
           </div>
           <div class="tab-pane fade " id="tab-3">
             <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}')">投标登记表</button>

@@ -51,6 +51,10 @@
           $("#phone").addClass("dnone");
           $("#address").addClass("dnone");
           $("#postcode").addClass("dnone");
+          $("#experContact").addClass("dnone");
+          $("#experPhone").addClass("dnone");
+          $("#experAddress").addClass("dnone");
+          $("#experPostcode").addClass("dnone");
         }
       });
       
@@ -240,7 +244,7 @@
 		            if(datas == false) {
 		              $("#sps").html("机构已存在").css('color', 'red');
 		            } else {
-		              $("#sps").html("");
+		              /* $("#sps").html(""); */
 		            }
 		          },
 		        });
@@ -290,6 +294,10 @@
           $("#phone").addClass("dnone");
           $("#address").addClass("dnone");
           $("#postcode").addClass("dnone");
+          $("#experContact").addClass("dnone");
+          $("#experPhone").addClass("dnone");
+          $("#experAddress").addClass("dnone");
+          $("#experPostcode").addClass("dnone");
         }
       }
     </script>
@@ -427,7 +435,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>是否具有审核供应商资格</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>是否具有审核供应商/专家资格</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="isAuditSupplier" id="isAuditSupplier" required onchange="isAudit();">
                        <option  value="" <c:if test="${null eq purchaseDep.isAuditSupplier}">selected="selected" </c:if>>请选择</option>
@@ -441,30 +449,63 @@
                   <li id="contact" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系人</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="supplierContact" type="text" required maxlength="50"  value="${purchaseDep.supplierContact}"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_supplierContact}</div>
                     </div>
                   </li>
                   
                   <li id="phone" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系人电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="supplierPhone" type="text" required maxlength="20"  value="${purchaseDep.supplierPhone}"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_supplierPhone}</div>
                     </div>
                   </li>
                   
                   <li id="address" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系地址</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="supplierAddress" type="text" required maxlength="100" value="${purchaseDep.supplierAddress}"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_supplierAddress}</div>
                     </div>
                   </li>
                   
-                  <li id="postcode" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>邮编</span>
+                  <li id="postcode" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册邮编</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="supplierPostcode" type="text" required isZipCode="true" value="${purchaseDep.supplierPostcode}"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_supplierPostcode}</div>
+                    </div>
+                  </li>
+                  
+                  <li id="experContact" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>专家注册联系人</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="experContact" type="text" required maxlength="50"  value="${purchaseDep.experContact}"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_experContact}</div>
+                    </div>
+                  </li>
+                  
+                  <li id="experPhone" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>专家注册联系人电话</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="experPhone" type="text" required maxlength="20"  value="${purchaseDep.experPhone}"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_experPhone}</div>
+                    </div>
+                  </li>
+                  
+                  <li id="experAddress" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>专家注册联系地址</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="experAddress" type="text" required maxlength="100" value="${purchaseDep.experAddress}"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_experAddress}</div>
+                    </div>
+                  </li>
+                  
+                  <li id="experPostcode" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>专家注册邮编</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="experPostcode" type="text" required isZipCode="true" value="${purchaseDep.experPostcode}"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_experPostcode}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>排序</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="position" value="${purchaseDep.position}" required  onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_position}</div>
                     </div>
                   </li>
                   

@@ -66,7 +66,6 @@ public class Orgnization implements Serializable {
     private String isRoot;
     
     @NotBlank(message="简称不能为空")
-    @Length(min=1,max=20,message="长度不可超过20")
     private String shortName;
 
     private String describtion;
