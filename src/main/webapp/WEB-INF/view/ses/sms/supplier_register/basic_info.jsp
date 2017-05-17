@@ -959,7 +959,7 @@
 					$(obj).val("1");
 					$("#expireDate").attr("disabled","disabled");
 				}else{
-					$(obj).val("0");
+					//$(obj).val("0");
 					$("#expireDate").removeAttr("disabled","disabled");
 				}
 			}
@@ -1033,7 +1033,7 @@
 									</div>
 								</li>
 
-								<li class="col-md-3 col-sm-6 col-xs-12">
+							<%-- 	<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照登记类型</span>
 									<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 										<select required name="businessType" id="business_select_id" <c:if test="${fn:contains(audit,'businessType')}">style="border: 1px solid red;" onmouseover="errorMsg('businessType')"</c:if>>
@@ -1042,7 +1042,7 @@
 											</c:forEach>
 										</select>
 									</div>
-								</li>
+								</li> --%>
 
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 企业性质</span>
@@ -1093,6 +1093,167 @@
 							</ul>
 						</fieldset>
 
+		    	     <fieldset class="col-md-12 border_font mt20">
+							<legend>营业执照</legend>
+							<ul class="list-unstyled f14">
+								<li class="col-md-3 col-sm-6 col-xs-12">
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照登记类型</span>
+									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p10">
+										<c:if test="${fn:length(currSupplier.businessType)!=32}">
+											<input type="text" name="businessType"  required="required" value="${currSupplier.businessType}" <c:if test="${fn:contains(audit,'businessType')}">style="border: 1px solid red;" onmouseover="errorMsg('businessType')"</c:if>/>
+											<span class="add-on cur_point">i</span>
+											<span class="input-tip">不能为空</span>
+										</c:if>
+										<c:if test="${fn:length(currSupplier.businessType)==32}">
+											<c:forEach items="${company }" var="obj">
+											 <c:if test="${obj.id==currSupplier.businessType }">
+										      	<input type="text" name="businessType" required="required" value=" ${obj.name }" <c:if test="${fn:contains(audit,'businessType')}">style="border: 1px solid red;" onmouseover="errorMsg('businessType')"</c:if>/>
+											 	<span class="add-on cur_point">i</span>
+											 	<span class="input-tip">不能为空</span>
+											 </c:if> 
+											 
+									         </c:forEach>
+										</c:if>
+									</div>
+								</li>
+								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>统一社会信用代码</span>
+									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+										<input type="text" name="creditCode"  required maxlength="18" id="creditCode" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" value="${currSupplier.creditCode}" <c:if test="${fn:contains(audit,'creditCode')}">style="border: 1px solid red;" onmouseover="errorMsg('creditCode')"</c:if>/>
+										<span class="add-on cur_point">i</span>
+										<!-- <span class="input-tip">不能为空，18位数字或字母</span> -->
+										<div class="cue"> ${err_creditCide} </div>
+										<div class="cue">
+											<sf:errors path="creditCode" />
+										</div>
+									</div>
+								</li>
+
+								<li class="col-md-3 col-sm-6 col-xs-12">
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 登记机关</span>
+									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+										<input type="text" name="registAuthority" required maxlength="20" value="${currSupplier.registAuthority}" <c:if test="${fn:contains(audit,'registAuthority')}">style="border: 1px solid red;" onmouseover="errorMsg('registAuthority')"</c:if>/>
+										<span class="add-on cur_point">i</span>
+										<span class="input-tip">不能为空，长度不可大于20位</span>
+										<div class="cue"> ${err_reAuthoy } </div>
+										<div class="cue">
+											<sf:errors path="registAuthority" />
+										</div>
+									</div>
+								</li>
+
+								<li class="col-md-3 col-sm-6 col-xs-12">
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 注册资本（人民币：万元）</span>
+									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+										<input type="text" name="registFund" onchange="checkNumsSale(this, 5)" required value="${currSupplier.registFund}" <c:if test="${fn:contains(audit,'registFund')}">style="border: 1px solid red;" onmouseover="errorMsg('registFund')"</c:if>/>
+										<span class="add-on cur_point">i</span>
+										<span class="input-tip">不能为空，值不可小于零</span>
+										<div class="cue" id="err_fund"> ${err_fund } </div>
+										<div class="cue">
+											<sf:errors path="registFund" />
+										</div>
+									</div>
+								</li>
+
+								<li class="col-md-3 col-sm-6 col-xs-12">
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业期限   <input type="checkbox" name="branchName" onclick="check(this);" <c:if test="${currSupplier.branchName=='1'}"> checked='true'</c:if>   value="${currSupplier.branchName }"> 长期</span>
+									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+										<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" />
+										<input id="expireDate" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}" <c:if test="${fn:contains(audit,'businessStartDate')}">style="border: 1px solid red;" onmouseover="errorMsg('businessStartDate')"</c:if>/>
+										<span class="add-on cur_point">i</span>
+										<span class="input-tip">如果勾选长期,可不填写有效期</span>
+										<div class="cue"> ${err_sDate } </div>
+									</div>
+								</li>
+
+								<li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(audit,'businessCert')}">style="border: 1px solid red;" onmouseover="errorMsg('businessCert')"</c:if>><i class="red">*</i> 营业执照</span>
+									<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="business_up" maxcount="1" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
+										<u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
+										<div class="cue"> ${err_business} </div>
+									</div>
+								</li>
+
+								<li class="col-md-12 col-xs-12 col-sm-12 mb25">
+									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">* </i>经营范围（按照营业执照填写）</span>
+									<div class="col-md-12 col-xs-12 col-sm-12 p0">
+										<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" required="required" name="businessScope" <c:if test="${fn:contains(audit,'businessScope')}">style="border: 1px solid red;" onmouseover="errorMsg('businessScope')"</c:if>>${currSupplier.businessScope}</textarea>
+										<div class="cue">
+											<sf:errors path="businessScope" />
+										</div>
+									</div>
+								</li>
+							</ul>
+						</fieldset>
+						
+						<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+							<legend>法定代表人信息</legend>
+							<ul class="list-unstyled f14">
+								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 姓名</span>
+									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+										<input type="text" name="legalName" required maxlength="10" value="${currSupplier.legalName}" <c:if test="${fn:contains(audit,'legalName')}">style="border: 1px solid red;" onmouseover="errorMsg('legalName')"</c:if>/>
+										<span class="add-on cur_point">i</span>
+										<span class="input-tip">不能为空</span>
+										<div class="cue"> ${err_legalName } </div>
+										<div class="cue">
+											<sf:errors path="legalName" />
+										</div>
+									</div>
+								</li>
+
+								<li class="col-md-3 col-sm-6 col-xs-12">
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证号</span>
+									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+										<input type="text" name="legalIdCard" required value="${currSupplier.legalIdCard}" <c:if test="${fn:contains(audit,'legalIdCard')}">style="border: 1px solid red;" onmouseover="errorMsg('legalIdCard')"</c:if>/>
+										<span class="add-on cur_point">i</span>
+										<span class="input-tip">不能为空，长度为18位</span>
+										<div class="cue"> ${err_legalCard } </div>
+										<div class="cue">
+											<sf:errors path="legalIdCard" />
+										</div>
+									</div>
+								</li>
+
+								<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(audit,'supplierIdentityUp')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierIdentityUp')"</c:if>><i class="red">*</i> 身份证复印件（正反面在一张上）</span>
+									<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up_up" maxcount="1" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" auto="true" />
+										<u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
+										<div class="cue"> ${err_identityUp } </div>
+									</div>
+								</li>
+
+
+								<li class="col-md-3 col-sm-6 col-xs-12">
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
+									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+										<input type="text" name="legalMobile" required  onkeyup="value=value.replace(/[^\d-]/g,'')" value="${currSupplier.legalMobile}" <c:if test="${fn:contains(audit,'legalMobile')}">style="border: 1px solid red;" onmouseover="errorMsg('legalMobile')"</c:if>/>
+										<span class="add-on cur_point">i</span>
+										<span class="input-tip">不能为空，如: 0101234567</span>
+										<div class="cue"> ${err_legalMobile } </div>
+										<div class="cue">
+											<sf:errors path="legalMobile" />
+										</div>
+									</div>
+								</li>
+
+								<li class="col-md-3 col-sm-6 col-xs-12">
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 手机</span>
+									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+										<input type="text" name="legalTelephone" onkeyup="value=value.replace(/[^\d]/g,'')" required isPhone="true" value="${currSupplier.legalTelephone}" <c:if test="${fn:contains(audit,'legalTelephone')}">style="border: 1px solid red;" onmouseover="errorMsg('legalTelephone')"</c:if>/>
+										<span class="add-on cur_point">i</span>
+										<span class="input-tip">不能为空，11位手机号码</span>
+										<div class="cue"> ${err_legalPhone } </div>
+										<div class="cue">
+											<sf:errors path="legalTelephone" />
+										</div>
+									</div>
+								</li>
+
+							</ul>
+						</fieldset>
+						
+						
 						<fieldset class="col-md-12 col-xs-12 col-sm-12 border_font mt20">
 							<legend>地址信息</legend>
 							<ul class="list-unstyled f14">
@@ -1299,72 +1460,7 @@
 								</li>
 							</ul>
 						</fieldset>
-						<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-							<legend>法定代表人信息</legend>
-							<ul class="list-unstyled f14">
-								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 姓名</span>
-									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="legalName" required maxlength="10" value="${currSupplier.legalName}" <c:if test="${fn:contains(audit,'legalName')}">style="border: 1px solid red;" onmouseover="errorMsg('legalName')"</c:if>/>
-										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空</span>
-										<div class="cue"> ${err_legalName } </div>
-										<div class="cue">
-											<sf:errors path="legalName" />
-										</div>
-									</div>
-								</li>
-
-								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证号</span>
-									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="legalIdCard" required value="${currSupplier.legalIdCard}" <c:if test="${fn:contains(audit,'legalIdCard')}">style="border: 1px solid red;" onmouseover="errorMsg('legalIdCard')"</c:if>/>
-										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，长度为18位</span>
-										<div class="cue"> ${err_legalCard } </div>
-										<div class="cue">
-											<sf:errors path="legalIdCard" />
-										</div>
-									</div>
-								</li>
-
-								<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(audit,'supplierIdentityUp')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierIdentityUp')"</c:if>><i class="red">*</i> 身份证复印件（正反面在一张上）</span>
-									<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
-										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up_up" maxcount="1" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" auto="true" />
-										<u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
-										<div class="cue"> ${err_identityUp } </div>
-									</div>
-								</li>
-
-
-								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
-									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="legalMobile" required  onkeyup="value=value.replace(/[^\d-]/g,'')" value="${currSupplier.legalMobile}" <c:if test="${fn:contains(audit,'legalMobile')}">style="border: 1px solid red;" onmouseover="errorMsg('legalMobile')"</c:if>/>
-										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，如: 0101234567</span>
-										<div class="cue"> ${err_legalMobile } </div>
-										<div class="cue">
-											<sf:errors path="legalMobile" />
-										</div>
-									</div>
-								</li>
-
-								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 手机</span>
-									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="legalTelephone" onkeyup="value=value.replace(/[^\d]/g,'')" required isPhone="true" value="${currSupplier.legalTelephone}" <c:if test="${fn:contains(audit,'legalTelephone')}">style="border: 1px solid red;" onmouseover="errorMsg('legalTelephone')"</c:if>/>
-										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，11位手机号码</span>
-										<div class="cue"> ${err_legalPhone } </div>
-										<div class="cue">
-											<sf:errors path="legalTelephone" />
-										</div>
-									</div>
-								</li>
-
-							</ul>
-						</fieldset>
+						
 
 						<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 							<legend>注册联系人</legend>
@@ -1600,7 +1696,7 @@
 							</ul>
 						</fieldset>
 
-						<fieldset class="col-md-12 border_font mt20">
+						<%-- <fieldset class="col-md-12 border_font mt20">
 							<legend>营业执照</legend>
 							<ul class="list-unstyled f14">
 								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
@@ -1643,7 +1739,7 @@
 								</li>
 
 								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 有效期   <input type="checkbox" name="branchName" onclick="check(this);" <c:if test="${currSupplier.branchName=='1'}"> checked='true'</c:if>   value="1"> 长期</span>
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业期限   <input type="checkbox" name="branchName" onclick="check(this);" <c:if test="${currSupplier.branchName=='1'}"> checked='true'</c:if>   value="1"> 长期</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" />
 										<input id="expireDate" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}" <c:if test="${fn:contains(audit,'businessStartDate')}">style="border: 1px solid red;" onmouseover="errorMsg('businessStartDate')"</c:if>/>
@@ -1671,7 +1767,7 @@
 									</div>
 								</li>
 							</ul>
-						</fieldset>
+						</fieldset> --%>
 
 						<h2 class="count_flow clear pt20"> <i>2</i> 境外信息</h2>
 						<fieldset class="col-md-12 border_font mt20">
