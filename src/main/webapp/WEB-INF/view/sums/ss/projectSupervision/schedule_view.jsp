@@ -90,14 +90,14 @@
                 </c:if>
               </td>
               <td class="tc" width="25%" onclick="contractList('${project.id}')">
-                <c:if test="${contractRequireds eq null}">
+                <c:if test="${contractStatus eq null}">
                   <div data-dimension="150" data-text="0%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="0" data-fgcolor="#ffffff" data-bgcolor="#eeeeee" class="circle_box"></div>
                 </c:if>
-                <c:if test="${contractRequireds ne null}">
-                  <c:if test="${contractStatus gt 99}">
-                    <div data-dimension="150" data-text="${contractStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${contractStatus}" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
+                <c:if test="${contractStatus ne null}">
+                  <c:if test="${contractStatus gt 95}">
+                    <div data-dimension="150" data-text="100%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="100" data-fgcolor="#24a34a" data-bgcolor="#eee" class="circle_box"></div>
                   </c:if>
-                  <c:if test="${contractStatus gt 79 && contractStatus lt 99}">
+                  <c:if test="${contractStatus gt 79 && contractStatus lt 95}">
                   <div data-dimension="150" data-text="${contractStatus}%" data-info="New Clients" data-width="15" data-fontsize="30" data-percent="${contractStatus}" data-fgcolor="#038dbc" data-bgcolor="#eee" class="circle_box"></div>
                   </c:if>
                   <c:if test="${contractStatus gt 49 && contractStatus lt 80}">

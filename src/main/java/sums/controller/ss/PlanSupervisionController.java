@@ -947,7 +947,7 @@ public class PlanSupervisionController {
                                 mapPq.put("contract", purchaseContract);
                                 List<PqInfo> selectByCondition = pqInfoService.selectByContract(mapPq);
                                 if(selectByCondition != null && selectByCondition.size() > 0){
-                                    model.addAttribute("PqInfo", selectByCondition.get(0).getClass());
+                                    model.addAttribute("PqInfo", selectByCondition.get(0));
                                 }
                                 model.addAttribute("purchaseContract", purchaseContract);
                             }

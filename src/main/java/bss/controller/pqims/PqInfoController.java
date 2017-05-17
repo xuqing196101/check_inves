@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
@@ -41,6 +42,8 @@ import ses.util.PropUtil;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 
 import bss.model.cs.PurchaseContract;
@@ -96,9 +99,14 @@ public class PqInfoController extends BaseSupplierController{
 	 * @return:
 	 */
 	@RequestMapping("/getAll")
-	public String getAll(Model model,Integer page){
-		List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
-		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+	public String getAll(Model model, @CurrentUser User user, Integer page){
+	    if(user != null && user.getOrg().getId() != null){
+	        Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
+	        if("1".equals(orgnization.getTypeName())){
+	            List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
+	            model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+	        }
+	    }
 		return "bss/pqims/pqinfo/list";
 	}
 	
@@ -407,10 +415,11 @@ public class PqInfoController extends BaseSupplierController{
 	 * @return:
 	 */
 	@RequestMapping("/view")
-	public String view(Model model,String id){
+	public String view(Model model,String id,String type){
 		PqInfo pqInfo = pqInfoService.get(id);
 		pqInfo.getContract().setPurchaseType(DictionaryDataUtil.findById(pqInfo.getContract().getPurchaseType()).getName());
 		model.addAttribute("pqinfo",pqInfo);
+		model.addAttribute("type",type);
 		return "bss/pqims/pqinfo/view";
 	}
 	

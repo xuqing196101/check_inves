@@ -121,9 +121,9 @@
 							<td class="tl pl20" >${e.mobile }</td>
 							<td class="tl pl20" >${e.expertsTypeId}</td>
 							<td  class="tc" id="${e.id}">
-								<c:if test="${e.status eq '4' and e.isProvisional eq '1'}">
+								<%-- <c:if test="${e.status eq '4' and e.isProvisional eq '1'}">
 									<span class="label rounded-2x label-dark">临时</span>
-								</c:if>
+								</c:if> --%>
 								<c:if test="${e.status eq '4' and e.isProvisional eq '0'}">
 									<span class="label rounded-2x label-u">复审通过</span>
 								</c:if>
