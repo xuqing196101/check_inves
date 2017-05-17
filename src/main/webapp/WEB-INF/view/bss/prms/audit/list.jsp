@@ -180,7 +180,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
    <div class="container">
    		<div class="search_detail">
-   			<form action="${pageContext.request.contextPath}/expert/projectList.html" id="formSearch">
+   			<form action="${pageContext.request.contextPath}/expert/projectList.html"  method="post" id="formSearch">
    				<input type="hidden" name="pageNum" id="pageNum">
    				<ul class="demand_list">
 					<li>
@@ -189,7 +189,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</li>
 					<li>
 						<label class="fl">项目编号：</label>
-						<input type="text" name="projectCode" value="${projectCode}">
+						<input type="text" name="projectCode" value="${projectId}">
 					</li>
 					<li>
 						<label class="fl">状态：</label>
