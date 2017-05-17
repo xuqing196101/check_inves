@@ -15,6 +15,7 @@
             cityObj.attr("value", treeNode.name);
             $("#oId").val(treeNode.id);
             hideOrg()
+            $("#ajax_orgId").html("");
 		}
 		function onCheckOnlyOrg(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeOrg"),
@@ -268,16 +269,19 @@
 			   $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
+                $("#ajax_orgId").html("");
 				$("#oId").attr("type","text");
 			} else if (orgType =='5'|| orgType == '4' ) {
 			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
+                $("#ajax_orgId").html("");
 			   $("#oId").attr("type","hidden");
 			}else{
 			  $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").show();
+                $("#ajax_orgId").html("");
 				$("#oId").attr("type","hidden");
 			}
 		}
