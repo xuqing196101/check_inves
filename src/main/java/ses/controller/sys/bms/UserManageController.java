@@ -535,20 +535,22 @@ public class UserManageController extends BaseController{
   			return "ses/bms/user/edit";
 		}
 		 //判断 所属机构类型 机构类型为4和5时可以为空，其他不能为为空
-	    if( "5".equals (u.getTypeName())&& "4".equals(u.getTypeName())){
-			List<DictionaryData> genders = DictionaryDataUtil.find(13);
-	        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
-	        model.addAttribute("typeNames", typeNames);
-	        model.addAttribute("genders", genders);
-	  			model.addAttribute("user", u);
-	  			model.addAttribute("orgId", u.getOrgId());
-	  			model.addAttribute("orgName", request.getParameter("orgName"));
-	  			model.addAttribute("roleId", u.getRoleId());
-	  			model.addAttribute("roleName", request.getParameter("roleName"));
-	  			model.addAttribute("currPage",request.getParameter("currpage"));
-	  			model.addAttribute("typeName", u.getTypeName());
+	    if( !"5".equals (u.getTypeName())&& !"4".equals(u.getTypeName())){
+			if("".equals(u.getOrgId())||u.getOrgId() == null){
+				List<DictionaryData> genders = DictionaryDataUtil.find(13);
+				List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+				model.addAttribute("typeNames", typeNames);
+				model.addAttribute("genders", genders);
+				model.addAttribute("user", u);
+				model.addAttribute("orgId", u.getOrgId());
+				model.addAttribute("orgName", request.getParameter("orgName"));
+				model.addAttribute("roleId", u.getRoleId());
+				model.addAttribute("roleName", request.getParameter("roleName"));
+				model.addAttribute("currPage",request.getParameter("currpage"));
+				model.addAttribute("typeName", u.getTypeName());
 				model.addAttribute("ajax_orgId", "所属机构不能为空");
-  			return "ses/bms/user/edit";
+				return "ses/bms/user/edit";
+			}
 	    }
 		User temp = new User();
 		temp.setId(u.getId());
