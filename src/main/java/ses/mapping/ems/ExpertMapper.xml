@@ -1217,8 +1217,13 @@
 	        OR (IS_SUBMIT = '0' AND status = '3')
    		  </if>
         <if test="sign == 2">
+        	<if test="isOrg !=null and isOrg == 1">
             (IS_SUBMIT = '1'
             AND (STATUS = '1' OR STATUS = '4' OR STATUS = '5'))
+          </if>
+          <if test="isOrg !=null and isOrg == 0">
+            PURCHASE_DEP_ID = #{purchaseDepId}
+          </if>
         </if>
         <if test="sign == 3">
             (IS_SUBMIT = '1'
