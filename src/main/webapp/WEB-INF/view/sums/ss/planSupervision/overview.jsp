@@ -138,7 +138,8 @@
         window.open("${pageContext.request.contextPath}/planSupervision/report.html?packageId=" + id, "专家评审报告");
       }
 
-      function info(id) {
+      function infos(id) {
+        var type = "1";
         layer.open({
           type: 2, //page层
           area: ['1000px', '500px'],
@@ -147,7 +148,7 @@
           moveType: 1, //拖拽风格，0是默认，1是传统拖动
           shift: 1, //0-6的动画形式，-1不开启
           shadeClose: true,
-          content: '${pageContext.request.contextPath}/pqinfo/view.html?id=' + id,
+          content: '${pageContext.request.contextPath}/pqinfo/view.html?id=' + id + '&type=' + type,
         });
       }
 
@@ -234,7 +235,7 @@
                   <td width="10%" class="info">采购计划名称：</td>
                   <td width="25%">${collectPlan.fileName}</td>
                   <td width="10%" class="info">计划文号：</td>
-                  <td width="25%">${collectPlan.planNo}</td>
+                  <td width="25%">${collectPlan.taskId}</td>
                 </tr>
                 <tr>
                   <td width="10%" class="info">需求部门：</td>
@@ -533,7 +534,7 @@
                   <a href="#tab-18">
                     <p class="tip_main">采购质检验收</p>
                     <p class="tip_time">
-                      <fmt:formatDate value='${PqInfo.date}' pattern='yyyy-MM-dd' />
+                      <fmt:formatDate value='${PqInfo.createdAt}' pattern='yyyy-MM-dd' />
                     </p>
                   </a>
                 </div>
@@ -660,7 +661,7 @@
                   </tr>
                   <tr>
                     <td>${collectPlan.fileName}</td>
-                    <td>${collectPlan.planNo}</td>
+                    <td>${collectPlan.taskId}</td>
                     <td>${collectPlan.purchaseId}</td>
                     <td class="tc">${collectPlan.userId}</td>
                     <td class="tc">
@@ -1057,11 +1058,11 @@
                   <th class="info" width="20%">验收时间</th>
                 </tr>
                 <tr>
-                  <td class="tc"><button class="btn" onclick="info('${PqInfo.id}'}" type="button">查看</button></td>
+                  <td class="tc"><button class="btn" onclick="infos('${PqInfo.id}')" type="button">查看</button></td>
                   <td>${PqInfo.inspectors}</td>
                   <td>${PqInfo.unit}</td>
                   <td class="tc">
-                    <fmt:formatDate value='${PqInfo.date}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                    <fmt:formatDate value='${PqInfo.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
                 </tr>
               </tbody>

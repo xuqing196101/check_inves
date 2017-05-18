@@ -8,9 +8,14 @@
 	<script type="text/javascript">
 		/* 机构树 */
 		function onClickOrg(e, treeId, treeNode) {
-			var zTree = $.fn.zTree.getZTreeObj("treeOrg");
+			/*var zTree = $.fn.zTree.getZTreeObj("treeOrg");
 			zTree.checkNode(treeNode, !treeNode.checked, null, true);
-			return false;
+			return false;*/
+            var cityObj = $("#orgSel");
+            cityObj.attr("value", treeNode.name);
+            $("#oId").val(treeNode.id);
+            hideOrg()
+            $("#ajax_orgId").html("");
 		}
 		function onCheckOnlyOrg(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeOrg"),
@@ -259,18 +264,24 @@
 			$("#orgSel").attr("value", "");
 			$("#orgParent").val("");
 			$("#oId").val("");
-		
+		    
 			if (orgType == '3') {
+			   $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
+                $("#ajax_orgId").html("");
 				$("#oId").attr("type","text");
 			} else if (orgType =='5'|| orgType == '4' ) {
+			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
+                $("#ajax_orgId").html("");
 			   $("#oId").attr("type","hidden");
 			}else{
+			  $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").show();
+                $("#ajax_orgId").html("");
 				$("#oId").attr("type","hidden");
 			}
 		}
@@ -537,15 +548,15 @@
 				        </div>
 				 	</li>
 			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>
+					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">
 					  <c:if test="${ user.typeName == '5' }">
-					    <span id="orgTitle">监管对象</span>
+					    <span class="red display-none" id="isOrgShow">*</span><span id="orgTitle">监管对象2</span>
 					  </c:if>
 					    <c:if test="${user.typeName == '4' }">
-					    <span id="orgTitle">监管对象</span>
+					   <span class="red display-none" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
 					  </c:if>
 					  <c:if test="${user.typeName != '5' && user.typeName != '4' }">  
-					  <span id="orgTitle">所属机构</span>
+					 <span class="red " id="isOrgShow">*</span><span id="orgTitle">所属机构</span>
 					  </c:if>
 					    </span>
 						<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
@@ -575,7 +586,7 @@
 								<img src="${pageContext.request.contextPath}/public/backend/images/down.png"
 									 class="margin-bottom-5"/>
 							</div>
-							<div class="cue"><sf:errors path="orgId"/></div>
+							 <div id="ajax_orgId" class="cue">${ajax_orgId }</div>
 						</div>
 			 		</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3 ">

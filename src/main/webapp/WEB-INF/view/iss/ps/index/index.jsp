@@ -1137,12 +1137,12 @@
           </div>
           <div class="border1 flow_btn clear">
             <div class="ywbl_02 col-xs-4 col-sm-4">
-              <a href="javascript:void(0)" class="cpml">
+              <a href="${pageContext.request.contextPath }/categorys/categoryList.html" class="cpml">
                 <span>产品目录</span>
               </a>
             </div>
             <div class="ywbl_02 col-xs-4 col-sm-4">
-              <a href="javascript:void(0)" class="jscsk">
+              <a href="${pageContext.request.contextPath }/categorys/parameterList.html" class="jscsk">
                 <span>技术参数库</span>
               </a>
             </div>

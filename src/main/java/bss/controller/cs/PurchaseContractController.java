@@ -55,6 +55,7 @@ import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
+import bss.model.ppms.theSubject;
 import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.ppms.PackageService;
@@ -63,7 +64,12 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
+import bss.service.ppms.theSubjectService;
+import bss.service.ppms.impl.theSubjectServiceImpl;
 import bss.service.sstps.AppraisalContractService;
+
+
+
 
 
 
@@ -133,6 +139,8 @@ public class PurchaseContractController extends BaseSupplierController{
     private AfterSaleSerService saleSerService;
     @Autowired
     private theSubjectMapper theSubjectMapper;
+    @Autowired
+    private theSubjectService theSubjectService;
 	/**
 	 * 
 	* 〈简述〉 〈详细描述〉
@@ -181,6 +189,22 @@ public class PurchaseContractController extends BaseSupplierController{
 					if(pass.getContractId()!=null&&!"".equals(pass.getContractId())){
 						pcs = purchaseContractService.selectById(pass.getContractId());
 					}
+					HashMap<String, Object> map=new HashMap<String, Object>();
+					map.put("supplierId", pass.getSupplierId());
+					map.put("packageId", pass.getPackageId());
+					List<theSubject> theSubject = theSubjectService.selectBysupplierIdAndPackagesId(map);
+					BigDecimal sum=new BigDecimal(0);
+					if(theSubject!=null&&theSubject.size()>0){
+						for(theSubject ts:theSubject){
+							if(ts.getDetailId()!=null){
+								BigDecimal count=new BigDecimal(ts.getPurchaseCount());
+								BigDecimal price=count.multiply(ts.getUnitPrice());
+								sum=sum.add(price);
+							}
+						}
+					}
+					sum=sum.divide(new BigDecimal(10000));
+					packages.setWonPrice(sum);
 					pass.setPc(pcs);
 					pass.setProject(project);
 					pass.setPackages(packages);
@@ -207,6 +231,22 @@ public class PurchaseContractController extends BaseSupplierController{
 								if(pass.getContractId()!=null&&!"".equals(pass.getContractId())){
 									pcs = purchaseContractService.selectById(pass.getContractId());
 								}
+								HashMap<String, Object> map=new HashMap<String, Object>();
+								map.put("supplierId", pass.getSupplierId());
+								map.put("packageId", pass.getPackageId());
+								List<theSubject> theSubject = theSubjectService.selectBysupplierIdAndPackagesId(map);
+								BigDecimal sum=new BigDecimal(0);
+								if(theSubject!=null&&theSubject.size()>0){
+									for(theSubject ts:theSubject){
+										if(ts.getDetailId()!=null){
+											BigDecimal count=new BigDecimal(ts.getPurchaseCount());
+											BigDecimal price=count.multiply(ts.getUnitPrice());
+											sum=sum.add(price);
+										}
+									}
+								}
+								sum=sum.divide(new BigDecimal(10000));
+								packages.setWonPrice(sum);
 								pass.setPc(pcs);
 								pass.setProject(project);
 								pass.setPackages(packages);
@@ -641,7 +681,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		BigDecimal projectBudget = BigDecimal.ZERO;
 		String department="";
 		for (ProjectDetail projectDetail : detailList) {
-		   projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+		   projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget())).divide(new BigDecimal(10000));
 		   department=projectDetail.getDepartment();
 	    }
 		BigDecimal projectBud = projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP);
@@ -1364,10 +1404,10 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(ValidateUtils.isNull(purCon.getSupplierBankAccount_string())){
 			flag = false;
 			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
-		}else if(!ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount_string())){
+		}/*else if(!ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount_string())){
 			flag = false;
 			model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
-		}
+		}*/
 		if(ValidateUtils.isNull(purCon.getName())){
 			flag = false;
 			model.addAttribute("ERR_name", "合同名称不能为空");
@@ -1448,10 +1488,10 @@ public class PurchaseContractController extends BaseSupplierController{
         if(ValidateUtils.isNull(purCon.getPurchaseContactTelephone())){
             flag = false;
             model.addAttribute("ERR_purchaseContactTelephone", "甲方联系电话不能为空");
-        }else if(!ValidateUtils.Tele(purCon.getPurchaseContactTelephone())){
+        }/*else if(!ValidateUtils.Tele(purCon.getPurchaseContactTelephone())){
             flag = false;
             model.addAttribute("ERR_purchaseContactTelephone", "请输入正确的联系电话");
-        }
+        }*/
         if(ValidateUtils.isNull(purCon.getPurchaseContactAddress())){
             flag = false;
             model.addAttribute("ERR_purchaseContactAddress", "甲方地址不能为空");
@@ -1499,13 +1539,13 @@ public class PurchaseContractController extends BaseSupplierController{
         if(ValidateUtils.isNull(purCon.getSupplierDepName())){
             flag = false;
             model.addAttribute("ERR_supplierDepName", "乙方单位不能为空");
-        }else{
+        }/*else{
             Supplier su = supplierService.selectOne(purCon.getSupplierDepName());
             if(ValidateUtils.isNull(su.getSupplierName())){
                 flag = false;
                 model.addAttribute("ERR_supplierDepName", "乙方单位不能为空");
             }
-        }
+        }*/
         if(ValidateUtils.isNull(purCon.getSupplierLegal())){
             flag = false;
             model.addAttribute("ERR_supplierLegal", "乙方法人不能为空");
@@ -1521,10 +1561,10 @@ public class PurchaseContractController extends BaseSupplierController{
         if(ValidateUtils.isNull(purCon.getSupplierContactTelephone())){
             flag = false;
             model.addAttribute("ERR_supplierContactTelephone", "乙方联系电话不能为空");
-        }else if(!ValidateUtils.Tele(purCon.getSupplierContactTelephone())){
+        }/*else if(!ValidateUtils.Tele(purCon.getSupplierContactTelephone())){
             flag = false;
             model.addAttribute("ERR_supplierContactTelephone", "请输入正确的联系电话");
-        }
+        }*/
         if(ValidateUtils.isNull(purCon.getSupplierContactAddress())){
             flag = false;
             model.addAttribute("ERR_supplierContactAddress", "乙方地址不能为空");
@@ -1949,12 +1989,14 @@ public class PurchaseContractController extends BaseSupplierController{
         PurchaseContract draftCon = purchaseContractService.selectDraftById(ids);
         List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
         draftCon.setContractReList(conRequList);
-        Supplier su = supplierService.selectOne(draftCon.getSupplierDepName());
-        //		PurchaseDep purdep = purchaseOrgnizationServiceI.selectPurchaseById(draftCon.getBingDepName());
         Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(draftCon.getPurchaseDepName());
         draftCon.setShowDemandSector(org.getName());
-        draftCon.setShowSupplierDepName(su.getSupplierName());
-        //		draftCon.setShowPurchaseDepName(purdep.getDepName());
+        if(draftCon.getManualType()!=1){
+        	Supplier su = supplierService.selectOne(draftCon.getSupplierDepName());
+            draftCon.setShowSupplierDepName(su.getSupplierName());
+        }else{
+        	 draftCon.setShowSupplierDepName(draftCon.getSupplierDepName());
+        }
         model.addAttribute("draftCon", draftCon);
         model.addAttribute("attachuuid", ids);
         DictionaryData dd=new DictionaryData();

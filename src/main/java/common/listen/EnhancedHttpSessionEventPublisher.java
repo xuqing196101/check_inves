@@ -115,13 +115,13 @@ public class EnhancedHttpSessionEventPublisher extends
 						loginLog.setType(typeFlag);
 					}
 					// 设置登录ID
-					loginLog.setLoginId(user.getId());
+					loginLog.setUserId(user.getId());
 					// 设置登录名
 					loginLog.setName(user.getLoginName());
 					// 设置登录时间
-					loginLog.setLoginAt(new Date());
+					loginLog.setCreatedAt(new Date());
 					// 保存登录信息
-					loginUserService.saveOnlineUser(loginLog);
+					//loginUserService.saveOnlineUser(loginLog);
 					break;
 				case DELETE:
 					loginUserService.deleteOnlineUser(user.getId());

@@ -211,4 +211,6 @@ public interface ProjectService {
      */
     HashMap<String, Object> getFlowDefine(String purchaseType, String id);
     
+    JSONObject getNext(String projectId, String flowDefineId);
+    
 }

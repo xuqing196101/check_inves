@@ -23,13 +23,7 @@
 						<a href="javascript:void(0)">专家管理</a>
 					</li>
 					<li>
-					${sign }
-						<c:if test="${sign == 1}">
-							<a  href="${pageContext.request.contextPath}/expert/findAllExpert.html">全部专家查询</a>
-						</c:if>
-						<c:if test="${sign == 2}">
-							<a  href="${pageContext.request.contextPath}/expertQuery/list.html">入库专家查询</a>
-						</c:if>
+						<a  href="${pageContext.request.contextPath}/expert/findAllExpert.html">全部专家查询</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">查看详细</a>

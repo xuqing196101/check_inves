@@ -152,7 +152,7 @@
               $("#sps").html("机构已存在").css('color', 'red');
               flag = false;
             } else {
-              $("#sps").html("");
+              /* $("#sps").html(""); */
               flag = true;
             }
           },
@@ -219,7 +219,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>简称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="shortName" required  type="text" > 
+			  <input class="input_group" name="shortName" required maxlength="20" type="text" > 
 			  <span class="add-on">i</span>
 			  <div class="cue"><sf:errors path="shortName"/></div>
 			</div>

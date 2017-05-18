@@ -2,6 +2,7 @@ package ses.dao.bms;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -341,7 +342,7 @@ public interface UserMapper {
 	* @return Long    返回类型 
 	* @throws
 	 */
-	Long getRegisterTenderCountByEmp();
+	Long getRegisterTenderCountByEmp(Map<String, Object> map);
      
 	
 	/**

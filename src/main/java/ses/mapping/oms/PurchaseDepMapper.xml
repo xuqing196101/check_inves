@@ -73,6 +73,10 @@
 		d.SUPPLIER_PHONE as supplierPhone,
 		d.SUPPLIER_ADDRESS as supplierAddress,
     d.SUPPLIER_POSTCODE as supplierPostcode,
+    d.EXPER_CONTACT as experContact,
+    d.EXPER_PHONE as experPhone,
+    d.EXPER_ADDRESS as experAddress,
+    d.EXPER_POSTCODE as experPostcode,
 		o.QUA_NORMAL_REASON as quaNormalReason,
 		o.QUA_TERMINAL_REASON as quaTerminalReason
 		from T_SES_OMS_ORG o
@@ -520,6 +524,18 @@
       <if test="supplierPostcode != null and supplierPostcode != ''">
         SUPPLIER_POSTCODE,
       </if>
+      <if test="experContact != null and experContact != ''">
+        EXPER_CONTACT,
+      </if>
+      <if test="experPhone != null and experPhone != ''">
+        EXPER_PHONE,
+      </if>
+      <if test="experAddress != null and experAddress != ''">
+        EXPER_ADDRESS,
+      </if>
+      <if test="experPostcode != null and experPostcode != ''">
+        EXPER_POSTCODE,
+      </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null and id != ''">
@@ -683,6 +699,18 @@
       </if>
       <if test="supplierPostcode != null and supplierPostcode != ''">
         #{supplierPostcode},
+      </if>
+      <if test="experContact != null and experContact != ''">
+        #{experContact},
+      </if>
+      <if test="experPhone != null and experPhone != ''">
+        #{experPhone},
+      </if>
+      <if test="experAddress != null and experAddress != ''">
+        #{experAddress},
+      </if>
+      <if test="experPostcode != null and experPostcode != ''">
+        #{experPostcode},
       </if>
 		</trim>
 	</insert>
@@ -849,6 +877,18 @@
       <if test="supplierPostcode != null and supplierPostcode != ''">
         SUPPLIER_POSTCODE = #{supplierPostcode},
       </if>
+      <if test="experContact != null and experContact != ''">
+        EXPER_CONTACT = #{experContact},
+      </if>
+      <if test="experPhone != null and experPhone != ''">
+        EXPER_PHONE = #{experPhone},
+      </if>
+      <if test="experAddress != null and experAddress != ''">
+        EXPER_ADDRESS = #{experAddress},
+      </if>
+      <if test="experPostcode != null and experPostcode != ''">
+        EXPER_POSTCODE = #{experPostcode},
+      </if>
 		</set>
 		where ORG_ID=#{id}
 	</update>
@@ -899,7 +939,11 @@
 		d.SUPPLIER_CONTACT as supplierContact,
 		d.SUPPLIER_PHONE as supplierPhone,
 		d.SUPPLIER_ADDRESS as supplierAddress,
-        d.SUPPLIER_POSTCODE as supplierPostcode,
+    d.SUPPLIER_POSTCODE as supplierPostcode,
+    d.EXPER_CONTACT as experContact,
+    d.EXPER_PHONE as experPhone,
+    d.EXPER_ADDRESS as experAddress,
+    d.EXPER_POSTCODE as experPostcode,
 		o.id as orgId,
 		o.NAME as name,
 		o.SHORT_NAME as shortName,

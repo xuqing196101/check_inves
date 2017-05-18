@@ -8,6 +8,7 @@
   <head>
     <base href="${pageContext.request.contextPath}/">
     <title>项目评审</title>
+    <script src="${pageContext.request.contextPath }/public/backend/js/lock_table_head.js"></script>
 <script type="text/javascript">
 	//查看理由
    function reason(firstAuditId,supplierId,expertId){
@@ -128,11 +129,11 @@
   
   //提交
   function submit1(){
-	  var ll = $("#table2 tr").length;
+	  var ll = $("#table tr").length;
 	  var aaa = ll-1;
 	  var flag = 0;
 	  //获取table
-	  $("#table2").each(function(i,o){ 
+	  $("#table").each(function(i,o){ 
 		  //获取该table中的非最后一个tr
 		  var w2 = $(o).find('tr:not(:last)');
 		  $(w2).each(function(a,b){
@@ -209,8 +210,8 @@
 			   <input type="hidden" id="packageId" name="packageId" value=""/>
 		   	   <input type="hidden" name="projectId" id="projectId" value="${extension.projectId }">
 		   	   <input type="hidden" name="packageId" id="packageId" value="${extension.packageId }">
-		   	   <div class="content table_box over_scroll">
-				   <table class="table table-bordered table-condensed table-hover space_nowrap" id="table2">
+		   	   <div class="content " id="content">
+				   <table class="table table-bordered table-condensed table-hover space_nowrap" id="table">
 				   		<thead>
 				   		  <th class="info space_nowrap">资格性和符合性审查项</th>
 				   		  <c:set var="suppliers" value="0" />

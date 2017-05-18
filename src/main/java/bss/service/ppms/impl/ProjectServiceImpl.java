@@ -568,4 +568,64 @@ public class ProjectServiceImpl implements ProjectService {
         return map;
     }
 
+    @Override
+    public JSONObject getNext(String projectId, String flowDefineId) {
+        JSONObject jsonObj = new JSONObject();
+      //判断是否要进入开标环节
+        int count = 0;
+        Project project = projectMapper.selectProjectByPrimaryKey(projectId);
+        FlowDefine fds = new FlowDefine();
+        fds.setPurchaseTypeId(project.getPurchaseType());
+        List<FlowDefine> find = flowDefineMapper.findList(fds);
+        for (FlowDefine flowDefine : find) {
+            if("KBCB".equals(flowDefine.getCode())){
+                count = flowDefine.getStep();
+                break;
+            }
+        }
+        FlowDefine define = flowDefineMapper.get(flowDefineId);
+        if(define != null && define.getStep() >= count){
+            //根据采购方式获取当前所有的环节
+            FlowDefine fd = new FlowDefine();
+            fd.setPurchaseTypeId(project.getPurchaseType());
+            List<FlowDefine> defines = flowDefineMapper.findList(fd);
+            List<FlowDefine> list = new ArrayList<FlowDefine>();
+            if(defines != null && defines.size() > 0){
+               //根据当前环节的步骤获取前面的环节
+                for (FlowDefine flowDefine : defines) {
+                    if(flowDefine.getStep() < define.getStep()){
+                        if(!"CQPSZJ".equals(flowDefine.getCode())){
+                            list.add(flowDefine);
+                        }
+                    }
+                }
+            }
+            
+            //获取到所有小于当前环节的流程
+            if(list != null && list.size() > 0){
+                for (FlowDefine flowDefine : list) {
+                    FlowExecute execute = new FlowExecute();
+                    execute.setProjectId(projectId);
+                    execute.setFlowDefineId(flowDefine.getId());
+                    List<FlowExecute> executes = flowExecuteMapper.findList(execute);
+                    if(executes != null && executes.size() > 0){
+                        for (int i = 0; i < executes.size(); i++ ) {
+                            //判断每一个环节是否有环节结束的状态，有的话跳出循环
+                            if(executes.get(i).getStatus() == 3){
+                                break;
+                            } else if (i == executes.size() - 1){
+                                FlowDefine define2 = flowDefineMapper.get(executes.get(i).getFlowDefineId());
+                                jsonObj.put("name", define2.getName());
+                                jsonObj.put("next", "1");
+                                return jsonObj;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        jsonObj.put("next", "2");
+        return jsonObj;
+    }
+    
   }

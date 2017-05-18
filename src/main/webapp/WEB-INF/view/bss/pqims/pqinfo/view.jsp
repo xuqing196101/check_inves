@@ -50,7 +50,7 @@
   </script>
 
   <body>
-
+    <c:if test="${type ne '1'}">
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
@@ -70,6 +70,7 @@
         <div class="clear"></div>
       </div>
     </div>
+    </c:if>
 
     <div class="container content pt0">
       <div class="row magazine-page">
@@ -148,9 +149,11 @@
                   </tbody>
                 </table>
                 <!-- 底部按钮 -->
+                <c:if test="${type ne '1'}">
                 <div class="col-md-12 col-sm-12 col-cs-12 tc mb10">
                   <button class="btn btn-windows back" onclick="goback()" type="button">返回</button>
                 </div>
+                </c:if>
               </div>
             </div>
           </div>

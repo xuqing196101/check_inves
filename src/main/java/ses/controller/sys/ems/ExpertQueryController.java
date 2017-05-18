@@ -220,13 +220,15 @@ public class ExpertQueryController {
 		//工程经济
 		String goodsProjectId = DictionaryDataUtil.getId("GOODS_PROJECT");
 		
-		if(expert.getExpertsTypeId().contains(engCodeId)){
-			expertTitleList = expertTitleService.queryByUserId(expertId,engCodeId);	
-			model.addAttribute("isProject", "project");
-		}
-		if(expert.getExpertsTypeId().contains(goodsProjectId)){
-			expertTitleList = expertTitleService.queryByUserId(expertId,goodsProjectId);	
-			model.addAttribute("isProject", "project");
+		if(expert.getExpertsTypeId() !=null){
+			if(expert.getExpertsTypeId().contains(engCodeId)){
+				expertTitleList = expertTitleService.queryByUserId(expertId,engCodeId);	
+				model.addAttribute("isProject", "project");
+			}
+			if(expert.getExpertsTypeId().contains(goodsProjectId)){
+				expertTitleList = expertTitleService.queryByUserId(expertId,goodsProjectId);	
+				model.addAttribute("isProject", "project");
+			}
 		}
 		model.addAttribute("expertTitleList", expertTitleList);
 		
@@ -263,17 +265,20 @@ public class ExpertQueryController {
 
         // 获取专家类别
         List < String > allTypeId = new ArrayList < String > ();
-        for(String id: expert.getExpertsTypeId().split(",")) {
-            allTypeId.add(id);
-        }
-        a: for(int i = 0; i < allTypeId.size(); i++) {
-            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
-            /*if(dictionaryData != null && dictionaryData.getKind() == 19) {
-				allTypeId.remove(i);
-				continue a;
-			};*/
-            
-            allCategoryList.add(dictionaryData);
+        if(expert.getExpertsTypeId() !=null){
+        	 for(String id: expert.getExpertsTypeId().split(",")) {
+                 allTypeId.add(id);
+             }
+             a: for(int i = 0; i < allTypeId.size(); i++) {
+                 DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
+                 /*if(dictionaryData != null && dictionaryData.getKind() == 19) {
+     				allTypeId.remove(i);
+     				continue a;
+     			};*/
+                 
+                 allCategoryList.add(dictionaryData);
+             }
+        	
         }
         //expertCategoryService.delNoTree(expert.getId(), allCategoryList);
         model.addAttribute("allCategoryList", allCategoryList);

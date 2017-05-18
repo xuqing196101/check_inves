@@ -2062,9 +2062,11 @@
 	</select>
 	
 	<!-- 统计注册专家数 -->
-	<select id="getRegisterExpertCountByEmp" resultType="java.lang.Long">
-	    SELECT count(id)
-	    from T_SES_EMS_EXPERT
+	<select id="getRegisterExpertCountByEmp" resultType="java.lang.Long" parameterType="Map">
+        SELECT COUNT(ID)
+        	FROM T_SES_EMS_EXPERT E
+       	WHERE E.IS_DELETE = 0
+   		AND TO_CHAR(E.CREATED_AT, 'yyyy-MM-dd') = #{createdAt}
 	</select>
 
     <!--历史数据-->

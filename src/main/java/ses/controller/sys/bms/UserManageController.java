@@ -206,7 +206,7 @@ public class UserManageController extends BaseController{
 	      List<DictionaryData> genders = DictionaryDataUtil.find(13);
 //	    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
 //	    model.addAttribute("typeNames", typeNames);
-        model.addAttribute("genders", genders);
+            model.addAttribute("genders", genders);
   			model.addAttribute("user", user);
   			model.addAttribute("roleName", roleName);
   			model.addAttribute("orgName", orgName);
@@ -216,6 +216,19 @@ public class UserManageController extends BaseController{
   			}
   			return "ses/bms/user/add";
   		}
+	    //判读 所属机构 是否可以为空
+	    if( !"5".equals(user.getTypeName())&& !"4".equals(user.getTypeName())){
+	    	   List<DictionaryData> genders = DictionaryDataUtil.find(13);
+	               model.addAttribute("genders", genders);
+	     			model.addAttribute("user", user);
+	     			model.addAttribute("roleName", roleName);
+	     			model.addAttribute("orgName", orgName);
+	     			model.addAttribute("ajax_orgId", "所属机构不能为空");
+	     			if (StringUtils.isNotBlank(origin)){
+	     			    addAtt(request, model);
+	     			}
+  			return "ses/bms/user/add";
+	    }
   		//校验用户名是否存在
   		List<User> users = userService.findByLoginName(user.getLoginName());
   		if(users.size() > 0){
@@ -488,7 +501,7 @@ public class UserManageController extends BaseController{
 	 * @author Ye MaoLin
 	 * @version 2016-9-13
 	 * @param request
-	 * @param user
+	 * @param u
 	 * @param roleId
 	 * @return String
 	 * @exception IOException
@@ -501,9 +514,9 @@ public class UserManageController extends BaseController{
 		//校验字段
 		if(result.hasErrors()){
 		    List<DictionaryData> genders = DictionaryDataUtil.find(13);
-        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
-        model.addAttribute("typeNames", typeNames);
-        model.addAttribute("genders", genders);
+			List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+			model.addAttribute("typeNames", typeNames);
+			model.addAttribute("genders", genders);
   			model.addAttribute("user", u);
   			model.addAttribute("orgId", u.getOrgId());
   			model.addAttribute("orgName", request.getParameter("orgName"));
@@ -519,10 +532,26 @@ public class UserManageController extends BaseController{
                    model.addAttribute("personTypeName", dd.getName());
                 }
             }*/
-			
   			return "ses/bms/user/edit";
 		}
-	
+		 //判断 所属机构类型 机构类型为4和5时可以为空，其他不能为为空
+	    if( !"5".equals (u.getTypeName())&& !"4".equals(u.getTypeName())){
+			if("".equals(u.getOrgId())||u.getOrgId() == null){
+				List<DictionaryData> genders = DictionaryDataUtil.find(13);
+				List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+				model.addAttribute("typeNames", typeNames);
+				model.addAttribute("genders", genders);
+				model.addAttribute("user", u);
+				model.addAttribute("orgId", u.getOrgId());
+				model.addAttribute("orgName", request.getParameter("orgName"));
+				model.addAttribute("roleId", u.getRoleId());
+				model.addAttribute("roleName", request.getParameter("roleName"));
+				model.addAttribute("currPage",request.getParameter("currpage"));
+				model.addAttribute("typeName", u.getTypeName());
+				model.addAttribute("ajax_orgId", "所属机构不能为空");
+				return "ses/bms/user/edit";
+			}
+	    }
 		User temp = new User();
 		temp.setId(u.getId());
 		// 查询旧数据的关联关系

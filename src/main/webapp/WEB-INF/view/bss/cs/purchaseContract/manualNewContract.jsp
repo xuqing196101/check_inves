@@ -821,7 +821,7 @@
 				  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	    <input class="easyui-combobox" name="supplierDepName" id="supplierList" data-options="valueField:'id',textField:'supplierName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>  
+			        	    <input class="easyui-combobox" name="supplierDepName" id="supplierList" data-options="valueField:'id',textField:'supplierName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100" onkeyup="names(this);"  style="width: 100%;height: 29px"/>  
 			        	
 			        	<div class="cue">${ERR_supplierDepName}</div>
 	       			</div>
@@ -845,7 +845,13 @@
 				        	  $("#supplierUnitpostCode").val(org.postCode);
 				        	  $("#supplierBank").val(org.bankName);
 				        	  $("#supplierBankAccount_string").val(org.bankAccount);
-				        }
+				        },
+				        onLoadSuccess:function(){
+				        	$('#supplierList').next('.combo').find('input').blur(function (){
+                                  $("input[name='supplierDepName']").val($(this).val())
+				        		
+				        	 });
+				        	},
 				    });  
 				 </script>
 			     <li class="col-md-3 col-sm-6 col-xs-12">
@@ -1008,8 +1014,8 @@
 		    	      <span class="col-md-12">
 		    	      <div class="input-long">
 	                   <input type="hidden" id="categorieId4" name="categoryId" value="">
-	                   <!-- onclick=" showMenu(); return false;" -->
-					   <input id="citySel4" type="text"  readonly="readonly" name="goodsName"  value=""  class="title col-md-12" onclick=" showMenu(); return false;"/>
+	                   <!-- onclick=" showMenu(); return false;" --><!-- onclick=" showMenu(); return false;" -->
+					   <input id="citySel4" type="text"   name="goodsName"  value=""  class="title col-md-12" />
 					   <div class="cue" id="wzmc"></div>
 					   </div>
 					  </span>

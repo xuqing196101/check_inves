@@ -37,6 +37,7 @@ import ses.util.FloatUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.Jzjf;
 import bss.model.ppms.BidMethod;
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.ParamInterval;
@@ -47,6 +48,7 @@ import bss.model.prms.FirstAudit;
 import bss.model.prms.FirstAuditTemitem;
 import bss.model.prms.FirstAuditTemplat;
 import bss.service.ppms.BidMethodService;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ParamIntervalService;
@@ -91,6 +93,9 @@ public class IntelligentScoringController extends BaseController{
 	private FirstAuditService service;
 	@Autowired
 	private FirstAuditTemplatService firstAuditTemplatService;
+	
+	@Autowired
+	private FlowMangeService flowMangeService;
 	
 	@RequestMapping(value = "checkScore")
 	@ResponseBody
@@ -844,7 +849,6 @@ public class IntelligentScoringController extends BaseController{
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("projectId", packages.getProjectId());
 		Project project = projectService.selectById(packages.getProjectId());
-		model.addAttribute("project", project);
 		List<Packages> packagesList = packageService.findPackageAndBidMethodById(map);
 		//增加一个字段判断又没有评分办法
 		BidMethod bm = new BidMethod();
@@ -892,8 +896,22 @@ public class IntelligentScoringController extends BaseController{
             }
         }
         List<DictionaryData> ddList = DictionaryDataUtil.find(27);
+        
+      //查看是否环节结束，结束只能查看
+        FlowExecute flowExecute = new FlowExecute();
+        flowExecute.setFlowDefineId(flowDefineId);
+        flowExecute.setProjectId(project.getId());
+        List<FlowExecute> executes = flowMangeService.findFlowExecute(flowExecute);
+        if(executes != null && executes.size() > 0){
+            for (FlowExecute flowExecute2 : executes) {
+                if(flowExecute2.getStatus() == 3){
+                    project.setConfirmFile(1);
+                    break;
+                }
+            }
+        }
+        model.addAttribute("project", project);
         model.addAttribute("ddList", ddList);
-		//
 		model.addAttribute("packagesList", packagesList);
 		model.addAttribute("projectId", packages.getProjectId());
 		model.addAttribute("flowDefineId", flowDefineId);

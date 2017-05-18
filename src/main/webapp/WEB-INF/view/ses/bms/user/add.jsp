@@ -6,6 +6,39 @@
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<script src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
 	<script type="text/javascript">
+        //验证登陆用户名
+        function validataLoginName(){
+            var loginName = $("#loginName").val();
+            var patrn=/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;
+            //var patrn2=/^(?=.*[a-z])[a-z0-9]+/ig;
+            if(loginName.replace(/\s/g,"")==null || loginName.replace(/\s/g,"")==""){
+                $("#is_exist").html("用户名不能为空").css('color','red');
+                flag=1;
+                return false;
+            }
+
+            if(loginName.indexOf(" ")!=-1){
+                $("#is_exist").html("不能有空格").css('color','red');
+                flag=1;
+                return false;
+            }
+            if(patrn.test(loginName)){
+                $("#is_exist").html("不能有非法字符").css('color','red');
+                flag=1;
+                return false;
+            }
+            if(/[\u4e00-\u9fa5]/.test(loginName)){
+                $("#is_exist").html("不能有中文").css('color','red');
+                flag=1;
+                return false;
+            }
+            if(loginName.replace(/\s/g,"").length<6){
+                $("#is_exist").html("登录名由6-20位字母或数字组成 ").css('color','red');
+                flag=1;
+                return false;
+
+            }
+        }
 		/* 机构树 */
 		function onClickOrg(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeOrg");
@@ -260,14 +293,17 @@
 			$("#orgParent").val("");
 			$("#oId").val("");
 			if (orgType == '3' ) {
+			   $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
 				$("#oId").attr("type","text");
 			} else if (  orgType == '5'||orgType == '4') {
+			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
 			   $("#oId").attr("type","hidden");
 			}else{
+			    $("#isOrgShow").show();
 			    $("#orgTitle").html("所属机构");
 				$("#orgSel").show();
 				$("#oId").attr("type","hidden");
@@ -396,7 +432,7 @@
 			     <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
 				   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>用户名</span>
 				   <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        <input id="loginName"  name="loginName" value="${user.loginName}" maxlength="30" type="text" onblur="isExist();">
+			        <input id="loginName"  name="loginName" value="${user.loginName}" maxlength="30" type="text" onkeyup="validataLoginName();"<%-- onblur="isExist();"--%>>
 			        <span class="add-on">i</span>
 			       	<div class="cue"><sf:errors path="loginName"/></div>
 			       	<div id="is_exist" class="cue">${exist}</div>
@@ -549,7 +585,14 @@
 			        </div>
 			 	</li>
 			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="select_org">
-				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span><span id="orgTitle">所属机构</span></span>
+				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">
+				   	<c:if test="${not empty ajax_orgId }">
+				   	<span class="red display-inline" id="isOrgShow">*</span><span id="orgTitle">所属机构</span>
+				   	</c:if>
+				   	<c:if test="${empty ajax_orgId }">
+				   	<span class="red display-inline" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
+				   	</c:if>
+				   	</span>
 				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				        <c:choose> 
 					        <c:when  test="${not empty origin}">
@@ -565,7 +608,7 @@
 						<div  class="drop_up" onclick="showOrg();">
 						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png"/>
 				        </div>
-				        <div class="cue"><sf:errors path="orgId"/></div>
+				        <div id="ajax_orgId" class="cue">${ajax_orgId }</div>
 			        </div>
 			 	</li>
 				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">

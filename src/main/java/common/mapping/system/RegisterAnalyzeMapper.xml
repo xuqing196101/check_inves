@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="common.dao.RegisterAnalyzeMapper" >
+  <resultMap id="BaseResultMap" type="common.model.RegisterAnalyze" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="TYPE_ID" property="typeId" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="INDEX_DAY" property="indexDay" jdbcType="DECIMAL" />
+    <result column="INDEX_WEEK" property="indexWeek" jdbcType="DECIMAL" />
+    <result column="INDEX_MONTH" property="indexMonth" jdbcType="DECIMAL" />
+    <result column="REGISTER_NUM" property="registerNum" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 封装统计类 -->
+  <resultMap id="BaseResultMapAnalyze" type="ses.model.bms.Analyze" >
+    <id column="C_GROUP" property="group" jdbcType="VARCHAR" />
+    <result column="C_NAME" property="name" jdbcType="VARCHAR" />
+    <result column="C_VALUE" property="value" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, TYPE_ID, TYPE, CREATED_AT, IS_DELETED, INDEX_DAY, INDEX_WEEK, INDEX_MONTH, REGISTER_NUM, 
+    REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYSTEM_REGISTER_ANALYZE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_SYSTEM_REGISTER_ANALYZE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="common.model.RegisterAnalyze" >
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SYSTEM_REGISTER_ANALYZE (ID, TYPE_ID, TYPE, 
+      CREATED_AT, IS_DELETED, INDEX_DAY, 
+      INDEX_WEEK, INDEX_MONTH, REGISTER_NUM, 
+      REMARK)
+    values (#{id,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=DECIMAL}, #{indexDay,jdbcType=DECIMAL}, 
+      #{indexWeek,jdbcType=DECIMAL}, #{indexMonth,jdbcType=DECIMAL}, #{registerNum,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="common.model.RegisterAnalyze" >
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SYSTEM_REGISTER_ANALYZE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="indexDay != null" >
+        INDEX_DAY,
+      </if>
+      <if test="indexWeek != null" >
+        INDEX_WEEK,
+      </if>
+      <if test="indexMonth != null" >
+        INDEX_MONTH,
+      </if>
+      <if test="registerNum != null" >
+        REGISTER_NUM,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="indexDay != null" >
+        #{indexDay,jdbcType=DECIMAL},
+      </if>
+      <if test="indexWeek != null" >
+        #{indexWeek,jdbcType=DECIMAL},
+      </if>
+      <if test="indexMonth != null" >
+        #{indexMonth,jdbcType=DECIMAL},
+      </if>
+      <if test="registerNum != null" >
+        #{registerNum,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="common.model.RegisterAnalyze" >
+    update T_SYSTEM_REGISTER_ANALYZE
+    <set >
+      <if test="typeId != null" >
+        TYPE_ID = #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="indexDay != null" >
+        INDEX_DAY = #{indexDay,jdbcType=DECIMAL},
+      </if>
+      <if test="indexWeek != null" >
+        INDEX_WEEK = #{indexWeek,jdbcType=DECIMAL},
+      </if>
+      <if test="indexMonth != null" >
+        INDEX_MONTH = #{indexMonth,jdbcType=DECIMAL},
+      </if>
+      <if test="registerNum != null" >
+        REGISTER_NUM = #{registerNum,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="common.model.RegisterAnalyze" >
+    update T_SYSTEM_REGISTER_ANALYZE
+    set TYPE_ID = #{typeId,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      INDEX_DAY = #{indexDay,jdbcType=DECIMAL},
+      INDEX_WEEK = #{indexWeek,jdbcType=DECIMAL},
+      INDEX_MONTH = #{indexMonth,jdbcType=DECIMAL},
+      REGISTER_NUM = #{registerNum,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 按日统计 -->
+  <select id="analyzeRegisterCountByDay" resultMap="BaseResultMapAnalyze"  parameterType="Map">
+	SELECT T.TYPE AS C_GROUP, 
+		T.INDEX_DAY AS  C_NAME, 
+		SUM(T.REGISTER_NUM) AS C_VALUE
+  			FROM T_SYSTEM_REGISTER_ANALYZE T
+ 		WHERE 
+ 		T.INDEX_DAY BETWEEN
+ 		#{analyzeTypeIntegerStart}
+		AND
+		#{analyzeTypeIntegerEnd}
+	 	GROUP BY T.TYPE, T.INDEX_DAY
+	 	ORDER BY T.TYPE,T.INDEX_DAY
+  </select>
+  
+  <!-- 按周统计 -->
+  <select id="analyzeRegisterCountByWeek" resultMap="BaseResultMapAnalyze"  parameterType="Map">
+	SELECT T.TYPE AS C_GROUP,
+       T.INDEX_WEEK AS C_NAME,
+       SUM(T.REGISTER_NUM) AS C_VALUE
+		FROM T_SYSTEM_REGISTER_ANALYZE T
+		WHERE T.INDEX_WEEK BETWEEN
+		#{analyzeTypeIntegerStart}
+		AND
+		#{analyzeTypeIntegerEnd}
+		GROUP BY T.INDEX_WEEK, T.TYPE
+		ORDER BY T.TYPE,T.INDEX_WEEK
+  </select>
+  
+  <!-- 按月统计 -->
+  <select id="analyzeRegisterCountByMonth" resultMap="BaseResultMapAnalyze"  parameterType="Map">
+	SELECT T.TYPE AS C_GROUP,
+       T.INDEX_MONTH AS C_NAME,
+		 SUM(T.REGISTER_NUM) AS C_VALUE
+		 FROM T_SYSTEM_REGISTER_ANALYZE T
+		 WHERE T.INDEX_MONTH BETWEEN
+		 #{analyzeTypeIntegerStart} 
+		 AND
+		 #{analyzeTypeIntegerEnd}
+		 GROUP BY T.INDEX_MONTH, T.TYPE
+		 ORDER BY T.TYPE, T.INDEX_MONTH
+  </select>
+  
+</mapper>

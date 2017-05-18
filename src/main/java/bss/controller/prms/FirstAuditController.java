@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageInfo;
 
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -25,6 +26,7 @@ import bss.model.prms.FirstAudit;
 import bss.model.prms.FirstAuditTemitem;
 import bss.model.prms.FirstAuditTemplat;
 import bss.model.prms.PackageFirstAudit;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
@@ -52,9 +54,11 @@ public class FirstAuditController {
 	@Autowired
 	private PackageFirstAuditService packageFirstAuditService;
 	@Autowired
-  private FirstAuditTemplatService firstAuditTemplatService;//符合性审查模板
-  @Autowired
-  private FirstAuditTemitemService firstAuditTemitemService;//符合性审查模板评审项
+    private FirstAuditTemplatService firstAuditTemplatService;//符合性审查模板
+    @Autowired
+    private FirstAuditTemitemService firstAuditTemitemService;//符合性审查模板评审项
+    @Autowired
+    private FlowMangeService flowMangeService;
 	/**
 	 * 
 	  * @Title: toAdd
@@ -67,31 +71,44 @@ public class FirstAuditController {
 	@RequestMapping("/toAdd")
 	public String toAdd(String projectId, Model model, String flowDefineId, String msg){
 		try {
-		  Project project = projectService.selectById(projectId);
-		  HashMap<String, Object> map = new HashMap<String, Object>();
-		  map.put("projectId", projectId);
-      List<Packages> packages = packageService.findPackageById(map);
-      for (Packages packages2 : packages) {
-        FirstAudit firstAudit = new FirstAudit();
-        firstAudit.setPackageId(packages2.getId());
-        firstAudit.setIsConfirm((short)0);
-        List<FirstAudit> fas = service.findBykind(firstAudit);
-        //是否维护符合性审查项
-        if (fas == null || fas.size() <= 0) {
-          packages2.setIsEditFirst(0);
-        } else {
-          packages2.setIsEditFirst(1);
-        }
-      }
-      //查询项目下所有的符合性审查项
-      List<FirstAudit> firstAudits = service.getListByProjectId(projectId);
-      model.addAttribute("packages", packages);
-      List<DictionaryData> dds = DictionaryDataUtil.find(22);
-      //符合性资格性审查项类型
-      model.addAttribute("dds", dds);
-      List<DictionaryData> purchaseTypes = DictionaryDataUtil.find(5);
-      model.addAttribute("purchaseTypes", purchaseTypes);
-      model.addAttribute("firstAudits", firstAudits);
+		    Project project = projectService.selectById(projectId);
+		    HashMap<String, Object> map = new HashMap<String, Object>();
+		    map.put("projectId", projectId);
+            List<Packages> packages = packageService.findPackageById(map);
+            for (Packages packages2 : packages) {
+              FirstAudit firstAudit = new FirstAudit();
+              firstAudit.setPackageId(packages2.getId());
+              firstAudit.setIsConfirm((short)0);
+              List<FirstAudit> fas = service.findBykind(firstAudit);
+              //是否维护符合性审查项
+              if (fas == null || fas.size() <= 0) {
+                packages2.setIsEditFirst(0);
+              } else {
+                packages2.setIsEditFirst(1);
+              }
+            }
+            //查询项目下所有的符合性审查项
+            List<FirstAudit> firstAudits = service.getListByProjectId(projectId);
+            model.addAttribute("packages", packages);
+            List<DictionaryData> dds = DictionaryDataUtil.find(22);
+            //符合性资格性审查项类型
+            model.addAttribute("dds", dds);
+            List<DictionaryData> purchaseTypes = DictionaryDataUtil.find(5);
+            //查看是否环节结束，结束只能查看
+            FlowExecute flowExecute = new FlowExecute();
+            flowExecute.setFlowDefineId(flowDefineId);
+            flowExecute.setProjectId(project.getId());
+            List<FlowExecute> executes = flowMangeService.findFlowExecute(flowExecute);
+            if(executes != null && executes.size() > 0){
+                for (FlowExecute flowExecute2 : executes) {
+                    if(flowExecute2.getStatus() == 3){
+                        project.setConfirmFile(1);
+                        break;
+                    }
+                }
+            }
+            model.addAttribute("purchaseTypes", purchaseTypes);
+            model.addAttribute("firstAudits", firstAudits);
 			model.addAttribute("projectId", projectId);
 			model.addAttribute("flowDefineId", flowDefineId);
 			model.addAttribute("project", project);

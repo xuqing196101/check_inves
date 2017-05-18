@@ -356,13 +356,13 @@
 					<tr>
 					  <th class="info w30 col-md-1 col-sm-1 col-xs-1 col-lg-1" ><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 					  <th class="info w50 col-md-1 col-sm-1 col-xs-1 col-lg-1">序号</th>
-					  <th class="info col-md-1 col-sm-1 col-xs-1 col-lg-1">用户名</th>
+					  <th class="info hidden col-md-1 col-sm-1 col-xs-1 col-lg-1">用户名</th>
 					  <th class="info col-md-1 col-sm-1 col-xs-1 col-lg-1">姓名</th>
 					  <th class="info col-md-1 col-sm-1 col-xs-1 col-lg-1">机构类型</th>
 					  <th class="info col-md-4 col-sm-4 col-xs-4 col-lg-4">单位</th>
-					  <th class="info col-md-1 col-sm-1 col-xs-1 col-lg-1">联系电话</th>
-					  <th class="info col-md-1 col-sm-1 col-xs-1 col-lg-1">角色</th>
-					  <th class="info w80 col-md-2 col-sm-2 col-xs-2 col-lg-2">权限</th>
+					  <th class="info col-md-2 col-sm-2 col-xs-2 col-lg-2">联系电话</th>
+					  <th class="info col-md-2 col-sm-2 col-xs-2 col-lg-2">角色</th>
+					  <th class="info w80 col-md-1 col-sm-1 col-xs-1 col-lg-1">权限</th>
 					  <!-- <th class="info w80">数据权限</th> -->
 					</tr>
 		      </thead>
@@ -371,7 +371,7 @@
 					<tr>
 					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${user.id}" /></td>
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-					  <td class="tl pl20" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
+					  <td class="tl pl20 hidden" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
 					  <td class="tc">${user.relName}</td>
 					 <td class="tc"> <c:if test="${user.typeName == '1'}">采购机构</c:if>
 						        		<c:if test="${user.typeName == '2'}">采购管理部门</c:if>

@@ -538,6 +538,7 @@ public class PlanSupervisionController {
                     List<Task> listBycollect = taskService.listBycollect(mapTask);
                     if(listBycollect != null && listBycollect.size() > 0){
                         collectPlan.setUpdatedAt(listBycollect.get(0).getGiveTime());
+                        collectPlan.setTaskId(listBycollect.get(0).getDocumentNumber());
                     }
                     model.addAttribute("collectPlan", collectPlan);
                     
@@ -946,7 +947,7 @@ public class PlanSupervisionController {
                                 mapPq.put("contract", purchaseContract);
                                 List<PqInfo> selectByCondition = pqInfoService.selectByContract(mapPq);
                                 if(selectByCondition != null && selectByCondition.size() > 0){
-                                    model.addAttribute("PqInfo", selectByCondition.get(0).getClass());
+                                    model.addAttribute("PqInfo", selectByCondition.get(0));
                                 }
                                 model.addAttribute("purchaseContract", purchaseContract);
                             }

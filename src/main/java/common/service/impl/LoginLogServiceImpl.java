@@ -1,8 +1,18 @@
 package common.service.impl;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.model.bms.User;
+import ses.model.sms.Supplier;
+import ses.service.ems.ExpertService;
+import ses.service.sms.SupplierAuditService;
 import common.dao.LoginLogMapper;
 import common.model.LoginLog;
 import common.service.LoginLogService;
@@ -22,6 +32,13 @@ public class LoginLogServiceImpl implements LoginLogService {
 	@Autowired
 	private LoginLogMapper loginLogMapper;
 
+	// 注入专家Service
+	@Autowired
+	private ExpertService expertService;
+	
+	@Autowired
+	private SupplierAuditService supplierAuditService;
+
 	/**
 	 * 
 	 * @Title: saveOnlineUser
@@ -31,9 +48,81 @@ public class LoginLogServiceImpl implements LoginLogService {
 	 * @throws
 	 */
 	@Override
-	public void saveOnlineUser(LoginLog loginLog) {
+	public void saveOnlineUser(User user, HttpServletRequest req) {
+		Integer typeFlag = null;
+		// 查询此用户所属类型 1：专家  2：供应商 3：后台管理员 **/
+		User expertUser = expertService.getUserById(user.getTypeId());
+		Supplier supplierUser = supplierAuditService.supplierById(user.getTypeId());
+		LoginLog loginLog = new LoginLog();
+		if (expertUser != null) {
+			// 专家登录
+			typeFlag = 1;
+			loginLog.setType(typeFlag);
+		} else if (supplierUser != null) {
+			// 供应商登录
+			typeFlag = 2;
+			loginLog.setType(typeFlag);
+		} else {
+			// 后台登录
+			typeFlag = 3;
+			loginLog.setType(typeFlag);
+		}
+		// 设置登录ID
+		loginLog.setUserId(user.getId());
+		// 设置登录名
+		loginLog.setName(user.getLoginName());
+		// 设置登录时间
+		loginLog.setCreatedAt(new Date());
+		// 设置登录ip
+		loginLog.setIp(getIpAddress(req));
+		// 保存登录信息
 		// 保存登录信息
 		loginLogMapper.insertSelective(loginLog);
+	}
+
+	/**
+	 * 
+	 * @Title: getIpAddress
+	 * @Description: 获取登录真实ip
+	 * @author Easong
+	 * @param @param request
+	 * @param @return 设定文件
+	 * @return String 返回类型
+	 * @throws
+	 */
+	public static String getIpAddress(HttpServletRequest request) {
+		// 获取代理ip
+		String ipAddress = request.getHeader("x-forwarded-for");
+		if (ipAddress == null || ipAddress.length() == 0
+				|| "unknown".equalsIgnoreCase(ipAddress)) {
+			ipAddress = request.getHeader("Proxy-Client-IP");
+		}
+		if (ipAddress == null || ipAddress.length() == 0
+				|| "unknown".equalsIgnoreCase(ipAddress)) {
+			ipAddress = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ipAddress == null || ipAddress.length() == 0
+				|| "unknown".equalsIgnoreCase(ipAddress)) {
+			ipAddress = request.getRemoteAddr();
+			if (ipAddress.equals("127.0.0.1")
+					|| ipAddress.equals("0:0:0:0:0:0:0:1")) {
+				// 根据网卡取本机配置的IP
+				InetAddress inet = null;
+				try {
+					inet = InetAddress.getLocalHost();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+				ipAddress = inet.getHostAddress();
+			}
+		}
+		// 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
+		if (ipAddress != null && ipAddress.length() > 15) { // "***.***.***.***".length()// = 15
+			if (ipAddress.indexOf(",") > 0) {
+				ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
+			}
+		}
+		return ipAddress;
 	}
 
 	/**

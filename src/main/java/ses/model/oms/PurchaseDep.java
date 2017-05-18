@@ -55,7 +55,15 @@ public class PurchaseDep extends Orgnization{
     @Length(min=0,max=300,message="长度不可超过300")
     private String supplierAddress;//供应商注册地址
     
-    private String supplierPostcode;//邮编
+    private String supplierPostcode;//供应商注册邮编
+    
+    private String experContact;
+    
+    private String experPhone;
+    
+    private String experAddress;
+    
+    private String experPostcode;
 
     private String quaCert;
     
@@ -569,6 +577,30 @@ public class PurchaseDep extends Orgnization{
     }
     public void setSupplierPostcode(String supplierPostcode) {
         this.supplierPostcode = supplierPostcode;
+    }
+    public String getExperContact() {
+        return experContact;
+    }
+    public void setExperContact(String experContact) {
+        this.experContact = experContact;
+    }
+    public String getExperPhone() {
+        return experPhone;
+    }
+    public void setExperPhone(String experPhone) {
+        this.experPhone = experPhone;
+    }
+    public String getExperAddress() {
+        return experAddress;
+    }
+    public void setExperAddress(String experAddress) {
+        this.experAddress = experAddress;
+    }
+    public String getExperPostcode() {
+        return experPostcode;
+    }
+    public void setExperPostcode(String experPostcode) {
+        this.experPostcode = experPostcode;
     }
    
 }

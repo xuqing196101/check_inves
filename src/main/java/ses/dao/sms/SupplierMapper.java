@@ -421,7 +421,7 @@ public interface SupplierMapper {
     * @return void     
     * @throws
      */
-    void updateSupplierStatus(@Param("id")String id,@Param("status")Integer status);
+    void updateSupplierStatus(@Param("id")String id,@Param("status")Integer status,@Param("auditDate")Date auditDate);
     
     
     
@@ -469,7 +469,7 @@ public interface SupplierMapper {
     * @return Long    返回类型 
     * @throws
      */
-    public Long getRegisterSupplierCountByEmp();
+    public Long getRegisterSupplierCountByEmp(Map<String, Object> map);
     
     /**
      * @Title: updateById
