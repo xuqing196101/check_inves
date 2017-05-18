@@ -527,6 +527,14 @@ public class Supplier implements Serializable {
 	private Date startDate;
 
 	private Date endDate;
+	
+	private Date startSubimtDate;
+	
+	private Date endSubimtDate;
+	
+	private Date startAuditDate;
+	
+	private Date endAuditDate;
 
 	private String supplierType;
 
@@ -1910,6 +1918,38 @@ public class Supplier implements Serializable {
 		this.grade = grade;
 	}
 
+	public Date getStartSubimtDate() {
+		return startSubimtDate;
+	}
+
+	public void setStartSubimtDate(Date startSubimtDate) {
+		this.startSubimtDate = startSubimtDate;
+	}
+
+	public Date getEndSubimtDate() {
+		return endSubimtDate;
+	}
+
+	public void setEndSubimtDate(Date endSubimtDate) {
+		this.endSubimtDate = endSubimtDate;
+	}
+
+	public Date getStartAuditDate() {
+		return startAuditDate;
+	}
+
+	public void setStartAuditDate(Date startAuditDate) {
+		this.startAuditDate = startAuditDate;
+	}
+
+	public Date getEndAuditDate() {
+		return endAuditDate;
+	}
+
+	public void setEndAuditDate(Date endAuditDate) {
+		this.endAuditDate = endAuditDate;
+	}
+	
 	
 	
 	

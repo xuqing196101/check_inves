@@ -47,6 +47,7 @@
 				$("#category").val('');
 				$("#supplierType").val('');
 				$("#isProvisional").val('');
+				$("#creditCode").val('');
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
 				$("#businessType option:selected").removeAttr("selected");
@@ -381,6 +382,22 @@
             layer.msg("请选择供应商！",{offset: '100px'});
         	}
 	 		} */
+	 		
+	 		//窗口
+	 		function openDiy(){
+				layer.open({
+				  type: 1,
+				  title: 'DIY',
+				  area: ['840px', '400px'],
+				  closeBtn: 1,
+				  shade:0.01, //遮罩透明度
+				  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+				  shift: 1, //0-6的动画形式，-1不开启
+				  offset: '10px',
+				  shadeClose: false,
+				  content: $("#openDiv"),
+				});
+			}
 		</script>
 	</head>
 	<!--面包屑导航开始-->
@@ -505,15 +522,13 @@
 	            </select>
 	         	</li>
 	         	<li>
-	          	<label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
-	            <span class="f14">至</span>
-	            <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-	            </span>
+	          	<label class="fl">社会信用代码：</label><span><input class="w220" id="creditCode" name="creditCode" value="${supplier.creditCode }" type="text"></span>
 	          </li>
 	        </ul>
 	          <div class="col-md-12 clear tc mt10">
             	<button type="button" onclick="submit()" class="btn">查询</button>
               <button type="reset" onclick="chongzhi()" class="btn">重置</button>
+              <!-- <button type="reset" onclick="openDiy()" class="btn">自定义查询</button> -->
               <c:choose>
 								<c:when test="${sign == 1 }">
 								 		<a href="${pageContext.request.contextPath}/supplierQuery/highmaps.html" class="btn">切换到地图</a>
@@ -529,8 +544,6 @@
 	          <div class="clear"></div>
 	       </form>
      </h2>
-			
-				
 			<div class="col-md-12 pl20 mt10">
 				
 			</div>
@@ -540,15 +553,13 @@
 					<thead>
 						<tr>
 							<!-- <th class="info w50">选择</th> -->
-							<th class="info w50">序号</th>
+							<th class="info w40">序号</th>
 							<th class="info">供应商名称</th>
-							<!-- <th class="info">用户名</th> -->
-							<!-- <th class="info">联系人</th>
-							<th class="info">手机号</th> -->
 							<th class="info">机构名称</th>
 							<th class="info">地区</th>
-							<!-- <th class="info">供应商级别</th> -->
-							<th class="info">创建日期</th>
+							<th class="info w90">注册日期</th>
+							<th class="info w90">提交日期</th>
+							<th class="info w90">审核日期</th>
 							<th class="info">供应商类型</th>
 							<th class="info">营业执照登记类型</th>
 							<th class="info">供应商状态</th>
@@ -569,14 +580,16 @@
 							       </c:otherwise>
 									</c:choose>
 								</td>
-								<%-- <td class="">${list.loginName }</td> --%>
-								<%-- <td class="">${list.contactName }</td> --%>
-								<%-- <td class="tc">${list.level }</td> --%>
-								<%-- <td class="tc">${list.mobile }</td> --%>
 								<td class="tc">${list.orgName}</td>
 								<td class="tc">${list.name }</td>
 								<td class="tc">
 									<fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
+								</td>
+								<td class="tc">
+									<fmt:formatDate value="${list.submitAt }" pattern="yyyy-MM-dd" />
+								</td>
+								<td class="tc">
+									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
 								<td class="">${list.supplierType }</td>
 								<td class="tc">${list.businessType }</td>
@@ -601,6 +614,45 @@
 				<div id="pagediv" align="right"></div>
 			</div>
 		</div>
+		
+		<div id="openDiv" class="dnone layui-layer-wrap" >
+		  <form id="form2" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=${sign}" method="post" class="mb0">
+		  	<div class="drop_window">
+		  		<input type="hidden" name="typeId" id="typeId" >
+				  <ul class="demand_list">
+	          <li>
+	          	<label class="fl">联系人：</label><span><input class="w220" id="contactName" name="contactName" value="${supplier.contactName }" type="text"></span>
+	          </li>
+	          <li>
+	          	<label class="fl">手机号：</label><span><input class="w220" id="mobile" name="mobile" value="${supplier.mobile }" type="text"></span>
+	          </li>
+	          <li>
+	          	<label class="fl">注册日期：</label><span><input id="startDate" name="startDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
+	            <span class="f14">至</span>
+	            <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+	            </span>
+	          </li>
+	          <li>
+	          	<label class="fl">提交日期：</label><span><input id="startSubimtDate" name="startSubimtDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startSubimtDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startSubimtDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startSubimtDate\')}'})"/>
+	            <span class="f14">至</span>
+	            <input id="endSubimtDate" name="endSubimtDate" value='<fmt:formatDate value="${supplier.endSubimtDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endSubimtDate\')}'})"/>
+	            </span>
+	          </li>
+	          <li>
+	          	<label class="fl">审核日期：</label><span><input id="startAuditDate" name="startAuditDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})"/>
+	            <span class="f14">至</span>
+	            <input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
+	            </span>
+	          </li>
+				  </ul>
+          <div class="tc col-md-12 col-sm-12 col-xs-12 mt10">
+            <div class="col-md-12 clear tc mt10">
+            	<button type="button" onclick="submit()" class="btn">查询</button>
+            </div>
+        	</div>
+		    </div>
+			 </form>
+	  </div>
 	</body>
 
 </html>

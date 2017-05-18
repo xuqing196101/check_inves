@@ -33,6 +33,7 @@
 				$("#categoryIds").val('');
 				$("#supplierTypeIds").val('');
 				$("#isProvisional").val('');
+				$("#creditCode").val('');
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html";
 			}
 			$(function() {
@@ -476,11 +477,8 @@
 		            </select>
 	         	  </li>
 							<li>
-								<label class="fl">注册时间：</label>
-								<input id="startDate" name="startDate" class="Wdate w110 fl" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})" />
-								<span class="f13">至</span>
-								<input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})" />
-							</li>
+	          		<label class="fl">社会信用代码：</label><span><input class="w220" id="creditCode" name="creditCode" value="${supplier.creditCode }" type="text"></span>
+	         	 	</li>
 							
 						</ul>
 		        <div class="col-md-12 clear tc mt10">

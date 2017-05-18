@@ -70,7 +70,7 @@
 				var state = $("#" + ids + "").parents("tr").find("td").eq(6).text();
 				state = trim(state);
 				if(ids != null) {
-					if(state == "暂存" || state == "待审核" || state == "审核退回修改" || state=="临时"){
+					if(state == "暂存" || state == "待审核" || state == "退回修改" || state=="临时"){
 							layer.confirm('您确定要注销吗?', {
 							title: '提示！',
 							offset: ['200px']
@@ -293,7 +293,7 @@
 								<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
 								<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
 								<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
-								<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">审核退回修改</span></c:if>
+								<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">退回修改</span></c:if>
 								<c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
 								<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
 								<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核通过</span></c:if>
