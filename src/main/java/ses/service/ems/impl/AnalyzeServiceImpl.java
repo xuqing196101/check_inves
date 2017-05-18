@@ -265,7 +265,8 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		// 登录供应商
 		// 当前日期
 		Date date = new Date();
-		map.put("createdAt", dateFormat.format(date));
+		Date subDayDate = DateUtils.subDayDate(date, 1);
+		map.put("createdAt", dateFormat.format(subDayDate));
 		// 用户类型 1：专家 2：供应商 3：后台管理员
 		map.put("loginType", 1);
 		// 注册专家
@@ -282,7 +283,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		String typeId = DictionaryDataUtil.getId(ANALYZE_LOGIN);
 		LoginAnalyze loginAnalyze = new LoginAnalyze();
 		LoginAnalyze loginAnalyzeData = (LoginAnalyze) analyzeData(
-				loginAnalyze, date, dateFormat, typeId);
+				loginAnalyze, subDayDate, dateFormat, typeId);
 		if (loginAnalyzeData != null) {
 			if(expertLoginCount != null){
 				// 存储专家登录数
@@ -385,8 +386,9 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		// 当前日期
 		Date date = new Date();
+		Date subDayDate = DateUtils.subDayDate(date, 1);
 		// 登录供应商
-		map.put("createdAt", dateFormat.format(date));
+		map.put("createdAt", dateFormat.format(subDayDate));
 		// 查询专家注册的数量
 		Long registerExpertCountByEmp = expertMapper.getRegisterExpertCountByEmp(map);
 		
@@ -407,7 +409,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		// 创建登录统计对象
 		RegisterAnalyze registerAnalyze = new RegisterAnalyze();
 		RegisterAnalyze registerAnalyzeData = (RegisterAnalyze) analyzeData(
-				registerAnalyze, date, dateFormat, typeId);
+				registerAnalyze, subDayDate, dateFormat, typeId);
 		// 向统计表中插入数据
 		if (registerAnalyzeData != null) {
 			if(registerExpertCountByEmp != null){
@@ -448,10 +450,10 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		// 当前日期
 		Date date = new Date();
-		
+		Date subDayDate = DateUtils.subDayDate(date, 1);
 		// 获取专家上传文件表
 		String tableName = Constant.fileSystem.get(Constant.EXPERT_SYS_KEY);
-		map.put("createdAt", dateFormat.format(date));
+		map.put("createdAt", dateFormat.format(subDayDate));
 		map.put("tableName", tableName);
 		Long expertFileCount = fileUploadMapper.getFileCountByEmp(map);
 		
@@ -468,7 +470,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		// 获取字典数据
 		String typeId = DictionaryDataUtil.getId(ANALYZE_ATTACHMENT_UPLOAD);
 		AttUploadAnalyze attUploadAnalyze = new AttUploadAnalyze();
-		AttUploadAnalyze attUploadAnalyzeData = (AttUploadAnalyze) analyzeData(attUploadAnalyze, date, dateFormat, typeId);
+		AttUploadAnalyze attUploadAnalyzeData = (AttUploadAnalyze) analyzeData(attUploadAnalyze, subDayDate, dateFormat, typeId);
 		// 向统计表中插入数据
 		if (attUploadAnalyzeData != null) {
 			if(expertFileCount != null){
