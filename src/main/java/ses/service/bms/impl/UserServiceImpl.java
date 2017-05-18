@@ -108,6 +108,10 @@ public class UserServiceImpl implements UserServiceI {
 		if(list != null && list.size()>0){
 			User u = list.get(0);
 			u.setIsDeleted(1);
+			SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
+	    	String date = format.format(new Date());
+	    	String loginName = u.getLoginName() + "_" + "del" + "_" +"bak" + "_" + date;
+		    u.setLoginName(loginName);
 			userMapper.updateByPrimaryKeySelective(u);
 		}else{
 			
