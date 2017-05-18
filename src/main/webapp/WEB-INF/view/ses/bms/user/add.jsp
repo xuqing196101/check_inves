@@ -558,7 +558,7 @@
 					        </c:when >
 					        <c:otherwise>
 					        	<input id="oId" name="orgId" value="${user.orgId}" type="hidden" />
-					        	<input id="orgSel"  type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
+					        	<input id="orgSel"  type="text" name="orgName"  value="${orgName}"  onclick="showOrg();" />
 					        </c:otherwise>
 					    </c:choose>
 					    <input type="hidden" id="orgParent" value=""/>
