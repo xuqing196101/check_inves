@@ -579,6 +579,7 @@ public class ExpertController extends BaseController {
         if("three".equals(stepNumber)) {
             HashMap < String, Object > map1 = new HashMap < String, Object > ();
             map1.put("typeName", "1");
+            map1.put("isAuditSupplier", 1);
             List < PurchaseDep > list = purchaseOrgnizationService
                 .findPurchaseDepList(map1);
             for (PurchaseDep org : list) {
@@ -1326,6 +1327,7 @@ public class ExpertController extends BaseController {
         // 全部的采购机构
         HashMap < String, Object > map = new HashMap < String, Object > ();
         map.put("typeName", "1");
+        map.put("isAuditSupplier", 1);
         List < PurchaseDep > allPurList = purchaseOrgnizationService.findPurchaseDepList(map);
         for(PurchaseDep purchaseDep: allPurList) {
             if((purchaseDep.getProvinceId() != null && purchaseDep.getCityId() == null && purchaseDep.getProvinceId().equals(pId)) || (purchaseDep.getCityId() != null && purchaseDep.getCityId().equals(zId))) {
