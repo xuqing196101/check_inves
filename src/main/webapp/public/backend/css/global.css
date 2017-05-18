@@ -4,7 +4,7 @@
 
 /* 已执行环节背景颜色 */
 .btn_list li a.executed, .btn_list li:hover a{
-	background-color:#99cc33;
+	background-color:#edaa2d;
    	color:#ffffff;
 }
 
@@ -790,13 +790,13 @@ li:first-child {
    border:1px solid #2c9fa6!important;
 }
 .btn_list li:hover{
-  background-color:#99cc33;
+  background-color:#edaa2d;
     color:#ffffff;
 }
 .btn_list li:hover a{
-   background-color:#99cc33;
+   background-color:#edaa2d;
    color:#ffffff;
-   border:1px solid #99cc33!important;
+   border:1px solid #edaa2d!important;
    padding:4px 9px;
 }
 .btn_list li a{
@@ -807,7 +807,7 @@ li:first-child {
   line-height: 30px;
 }
 .btn_list li:focus{
-  background-color: #2c9fa6;
+  background-color: #edaa2d;
 }
 
 
