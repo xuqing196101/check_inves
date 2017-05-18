@@ -2,11 +2,6 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,16 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
-import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.service.bms.PreMenuServiceI;
@@ -40,16 +30,13 @@ import ses.service.bms.StationMessageService;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserDataRuleService;
 import ses.service.bms.UserServiceI;
-import ses.service.ems.ExamQuestionServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
-import ses.service.sms.impl.SupplierAuditServiceImpl;
 import ses.util.PropUtil;
-import common.aspect.SystemLogAspect;
+
 import common.constant.Constant;
-import common.model.LoginLog;
 import common.service.LoginLogService;
 import common.utils.AuthUtil;
 
@@ -172,8 +159,8 @@ public class LoginController {
                         Expert expert = expertService.selectByPrimaryKey(u.getTypeId());
                         //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
 //                        int validateDay = expertService.logoutExpertByDay(expert);
-                        int validateDay = 0;
-                        if(0==validateDay){//通过
+//                        int validateDay = 0;
+//                        if(0==validateDay){//通过
                             Map<String, Object> map = expertService.loginRedirect(u);
                             Object object = map.get("expert");
                             if (object != null) {
@@ -196,15 +183,17 @@ public class LoginController {
                                 }
                             } else {
                                 req.getSession().setAttribute("loginUser", u);
+                                // loginLog记录
+                                loginLog(u, req);
                                 List<PreMenu> resource = preMenuService.getMenu(u);
                                 req.getSession().setAttribute("resource", resource);
                                 //req.getSession().setAttribute("resource", u.getMenus());
                                 req.getSession().setAttribute("loginUserType", "expert");
                                 out.print("scuesslogin");
                             }
-                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
-                            out.print("expert_logout," + validateDay);
-                        }
+//                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
+//                            out.print("expert_logout," + validateDay);
+//                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -225,6 +214,8 @@ public class LoginController {
                             if ("success".equals(msg)) {
                                 req.getSession().setAttribute("loginSupplier", map.get("supplier"));
                                 req.getSession().setAttribute("loginUser", u);
+                                // loginLog记录
+                                loginLog(u, req);
                                 List<PreMenu> resource = preMenuService.getMenu(u);
                                 req.getSession().setAttribute("resource", resource);
                                 //req.getSession().setAttribute("resource", u.getMenus());
@@ -272,7 +263,8 @@ public class LoginController {
                       }
                     } else {*/
                       req.getSession().setAttribute("loginUser", u);
-                      
+                      // loginLog记录
+                      loginLog(u, req);
                       List<PreMenu> resource = preMenuService.getMenu(u);
                       req.getSession().setAttribute("resource", resource);
                       //req.getSession().setAttribute("resource", u.getMenus());
@@ -302,77 +294,8 @@ public class LoginController {
     * @throws
      */
     public void loginLog(User user, HttpServletRequest req){
-    	Integer typeFlag = null;
-    	 // 查询此用户所属类型 /** 1：后台 2：供应商 3：专家 **/
-		User expertUser = expertService.getUserById(user
-				.getTypeId());
-		Supplier supplierUser = supplierAuditService.supplierById(user.getTypeId());
-		LoginLog loginLog = new LoginLog();
-		if (expertUser != null) {
-			// 专家登录
-			typeFlag = 3;
-			loginLog.setType(typeFlag);
-		} else if (supplierUser != null) {
-			// 供应商登录
-			typeFlag = 2;
-			loginLog.setType(typeFlag);
-		} else {
-			// 后台登录
-			typeFlag = 1;
-			loginLog.setType(typeFlag);
-		}
-		// 设置登录ID
-		loginLog.setLoginId(user.getId());
-		// 设置登录名
-		loginLog.setName(user.getLoginName());
-		// 设置登录时间
-		loginLog.setLoginAt(new Date());
-		// 设置登录ip
-		loginLog.setIp(getIpAddress(req));
-		// 保存登录信息
-		loginLogService.saveOnlineUser(loginLog);
+    	loginLogService.saveOnlineUser(user, req);
     }
-
-    /**
-     * 
-    * @Title: getIpAddress 
-    * @Description: 获取登录真实ip
-    * @author Easong
-    * @param @param request
-    * @param @return    设定文件 
-    * @return String    返回类型 
-    * @throws
-     */
-    public static String getIpAddress(HttpServletRequest request) {
-    	// 获取代理ip
-    	String ipAddress = request.getHeader("x-forwarded-for");
-        if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("Proxy-Client-IP");
-        }  
-        if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getRemoteAddr();
-            if(ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")){
-                //根据网卡取本机配置的IP
-                InetAddress inet=null;
-                try {
-                    inet = InetAddress.getLocalHost();
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                }
-                ipAddress= inet.getHostAddress();
-            }
-        }
-        //对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割 
-        if(ipAddress!=null && ipAddress.length()>15){ //"***.***.***.***".length() = 15
-            if(ipAddress.indexOf(",")>0){
-                ipAddress = ipAddress.substring(0,ipAddress.indexOf(","));
-            }
-        }
-        return ipAddress;
-     }
     
     /**   
      * @Title: index

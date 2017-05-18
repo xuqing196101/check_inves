@@ -959,7 +959,7 @@
 					$(obj).val("1");
 					$("#expireDate").attr("disabled","disabled");
 				}else{
-					//$(obj).val("0");
+					$(obj).val("");
 					$("#expireDate").removeAttr("disabled","disabled");
 				}
 			}
