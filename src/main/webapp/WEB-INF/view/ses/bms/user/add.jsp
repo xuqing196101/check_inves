@@ -311,9 +311,10 @@
 			if (orgType == '3' ) {
 			   $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
-				$("#orgSel").hide();
-				$("#oId").attr("type","text");
-				$("#oId").attr("type","text");
+			   $("#orgSel").show();
+				$("#oId").attr("type","hidden");
+				/* $("#orgSel").hide();
+				$("#oId").attr("type","text"); */
 			} else if (  orgType == '5'||orgType == '4') {
 			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");

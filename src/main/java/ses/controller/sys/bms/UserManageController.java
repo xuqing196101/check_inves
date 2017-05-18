@@ -202,7 +202,6 @@ public class UserManageController extends BaseController{
   		String orgId = request.getParameter("org_orgId");
   		String deptTypeName = request.getParameter("deptTypeName");
   		String typeName = request.getParameter("typeName");
-		
 	    if(result.hasErrors()){
 	      List<DictionaryData> genders = DictionaryDataUtil.find(13);
 //	    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
@@ -210,9 +209,10 @@ public class UserManageController extends BaseController{
             model.addAttribute("genders", genders);
   			model.addAttribute("user", user);
   			model.addAttribute("roleName", roleName);
-  			if(orgName==null){
+  			/*if(orgName==null){
   				orgName=request.getParameter("orgId");
-  			}
+  				System.out.println("if中"+orgName);
+  			}*/
   			model.addAttribute("orgName", orgName);
   			model.addAttribute("typeName", typeName);
 			
@@ -223,7 +223,8 @@ public class UserManageController extends BaseController{
   		}
 	    //判读 所属机构 是否可以为空
 	    if( !"5".equals(user.getTypeName())&& !"4".equals(user.getTypeName())){
-	    	   List<DictionaryData> genders = DictionaryDataUtil.find(13);
+	    	if(orgName==null){
+	    		 List<DictionaryData> genders = DictionaryDataUtil.find(13);
 	               model.addAttribute("genders", genders);
 	     			model.addAttribute("user", user);
 	     			model.addAttribute("roleName", roleName);
@@ -232,7 +233,9 @@ public class UserManageController extends BaseController{
 	     			if (StringUtils.isNotBlank(origin)){
 	     			    addAtt(request, model);
 	     			}
-  			return "ses/bms/user/add";
+			return "ses/bms/user/add";
+	    	}
+	    	  
 	    }
   		//校验用户名是否存在
   		List<User> users = userService.findByLoginName(user.getLoginName());
