@@ -527,7 +527,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">身份证号</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input id="idNumber"  name="idNumber" value="${user.idNumber}" onblur="ajaxIdNumber()"  maxlength="18" type="text">
+			        	<input id="idNumber"  name="idNumber" value="${user.idNumber}" onkeyup="ajaxIdNumber()"  maxlength="18" type="text">
 			        	<span class="add-on">i</span>
 						<div id="ajax_idNumber" class="cue">${ajax_idNumber }</div>
 			        </div>
