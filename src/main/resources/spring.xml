@@ -63,8 +63,8 @@
         <!-- 定时修改专家黑名单处罚日期截止时的处罚状态(每天凌晨十二点执行一次) -->
         <task:scheduled ref="delExpertTask" method="updateExpertBlackStatus" cron="0 0 0 * * ?"/>
         
-        <!-- 统计日登录、日注册、日上传文件(每天23:55执行一次) -->
-        <task:scheduled ref="analyzeTask" method="handlerAnalyze"  cron="0 55 23 * * ?"/>
+        <!-- 统计日登录、日注册、日上传文件(每天凌晨执行一次) -->
+        <task:scheduled ref="analyzeTask" method="handlerAnalyze"  cron="0 0 0 * * ?"/>
         
         <!-- 内网任务 -->
         <!-- <task:scheduled ref="innerInfoExportTask" method="innerInfoExportTask" cron="0 0 5/6 * * ?"/>  

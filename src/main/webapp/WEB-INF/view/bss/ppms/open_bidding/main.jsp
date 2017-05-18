@@ -35,11 +35,10 @@
     <!--=== End Breadcrumbs ===-->
 
     <!--=== Content Part ===-->
-    <div class="container content height-350">
+    <div class="container content">
       <div class="row">
         <!-- Begin Content -->
-        <div class="col-md-12" style="min-height:400px;">
-          <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
+          <div class="col-md-2 col-sm-3 col-xs-12" id="show_tree_div">
             <ul class="btn_list" id="menu">
               <c:forEach items="${fds}" var="fd">
                 <!-- 已执行 -->
@@ -86,7 +85,7 @@
             window.onresize = getContentSize;
           </script>
           <!-- 右侧内容开始-->
-          <div class="tag-box tag-box-v4 col-md-9 pt10">
+          <div class="tag-box tag-box-v4 col-md-10 col-sm-9 col-xs-12 pt10">
             <input type="hidden" id="isOperate">
             <form id="updateLinkId" action="" method="post" class="w100p fl mb10 border1 padding-10 bg11">
               <input type="hidden" id="projectId" name="projectId" value="${project.id}">
@@ -124,8 +123,7 @@
               <button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>
             </div>
           </div>
-        </div>
-      </div>
+	     </div>
     </div>
     <!--/container-->
     <a id="as" class="dnone" target="open_bidding_main" class="son-menu"></a>

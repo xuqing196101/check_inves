@@ -137,15 +137,15 @@
        <div class="row">
                 <!-- Begin Content -->
                 <div class="col-md-12" style="min-height:400px;">
-                    <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
-                        <div class="tag-box tag-box-v3" style="overflow:auto;">
+                    <div class="col-md-3 col-sm-4 col-xs-12" id="show_tree_div">
+                        <div class="tag-box tag-box-v3 over_auto">
                             <ul id="ztree_show" class="ztree s_ztree" >
                                 <!-- 菜单树-->
                                 <div id="tree" class="ztree"></div>
                             </ul>
                         </div>
                     </div>
-                    <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
+                    <div class="tag-box tag-box-v4 col-md-9 col-sm" id="show_content_div">
                     <div style="margin-bottom: 6px; ">
                         <button class="btn btn-windows add" type="button" onclick="add();">新增</button> 
                         <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button> 

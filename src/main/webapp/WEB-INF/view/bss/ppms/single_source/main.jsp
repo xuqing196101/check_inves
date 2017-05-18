@@ -48,8 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="container content height-350">
             <div class="row">
                 <!-- Begin Content -->
-                  <div class="col-md-12" style="min-height:400px;">
-                      <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
+                      <div class="col-md-2 col-sm-3 col-xs-12" id="show_tree_div">
                          <ul class="btn_list" id="menu">
                              <c:forEach items="${fds}" var="fd">
                                 <li <c:if test="${fd.step == 1 }">class="active"</c:if>>
@@ -70,14 +69,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							window.onresize = getContentSize;
  					  </script>
                       <!-- 右侧内容开始-->
-                      <div class="tag-box tag-box-v4 col-md-9" >
+                      <div class="tag-box tag-box-v4 col-md-10 col-sm-9 col-xs-12" >
                          <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight();"  src="${ pageContext.request.contextPath }/project/mplement.html?id=${project.id}"></iframe>
                       </div>
-                      <div class="col-md-12 tc mt20" id="iframe_btns">
+                      <div class="w100p tc mt20" id="iframe_btns">
                             <button class="btn btn-windows back" onclick="back(${page});" type="button">返回项目列表</button>
                       </div>
-                  </div>
-                </div>
                 <!-- End Content -->
             </div>
         </div><!--/container-->

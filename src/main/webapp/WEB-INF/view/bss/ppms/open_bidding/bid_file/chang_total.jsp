@@ -142,7 +142,7 @@
 </c:if>
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
-		<div>
+		<div class="col-md-12 col-sm-12 col-xs-12 p0">
 			 	<c:if test="${vsKey.index ==0 }">
 				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
 				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
@@ -154,7 +154,7 @@
 				 	</h2>
 			 	</c:if>
         </div>
-        <div class="p0${vsKey.index}">
+        <div class="p0 ${vsKey.index} w100p clear">
 		<table class="table table-bordered table-condensed mt5 left_table table_input">
 			<thead>
 				<tr>
@@ -192,7 +192,7 @@
 		</div>
 	</c:forEach>
 </c:forEach>
-		<div class="col-md-12 tc">
+		<div class="col-md-12 col-sm-12 col-xs-12 tc">
 		    <c:if test="${not empty judgeTreemap}">
 		    	<c:if test="${not empty count}">
 		    	<input class="btn btn-windows save" value="结束报价" type="button" onclick="eachTable(this)">

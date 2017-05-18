@@ -17,10 +17,10 @@
 				<div class="clear"></div>
 		  	</div>
 	   	</div>
-	   	<div class="container content height-350">
+	   	<div class="container content">
 	   		<!-- left -->
-		    <div class="col-md-3">
-			  <div class="tag-box tag-box-v3">
+		    <div class="col-md-3 col-sm-4 col-xs-12">
+			  	<div class="tag-box tag-box-v3 mt15">
 			    <div>
 				  <ul id="ztree" class="ztree" />
 				</div>
@@ -28,7 +28,7 @@
 			</div>
 		   
 			<!-- right -->
-		    <div class="tag-box tag-box-v4 col-md-9 col-xs-12 col-sm-9" >
+		    <div class="tag-box tag-box-v4 col-md-9 col-sm-8 col-xs-12" >
 				  <div class="col-md-12 col-sm-12 col-xs-12 mt20 clear">
 					  <table class="table table-bordered mt10" id="uListId">
 					  	

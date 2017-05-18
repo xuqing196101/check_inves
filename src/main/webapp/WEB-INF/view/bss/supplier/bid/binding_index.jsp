@@ -550,7 +550,7 @@
         <div class="padding-top-10">
        <div class="row">
           <!-- Begin Content -->
-          <div class="col-md-3 md-margin-bottom-40">
+          <div class="col-md-2 col-sm-3 col-xs-12">
            	<div class="tag-box tag-box-v3">	
 			   <div class="light_main">
 			    <div class="light_list">
@@ -656,7 +656,7 @@
 		       </div>
         	</div>   
 		  </div>
-		  <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
+		  <div class="tag-box tag-box-v4 col-md-10 col-sm-9 col-xs-12" id="show_content_div">
 			<form id="MyFile" method="post"  enctype="multipart/form-data">
 				<c:if test="${std.bidFinish == 1}">
 					 <!-- 按钮 -->
@@ -676,7 +676,7 @@
 			</form>
 		  </div>
 	   </div>
-	   <div class="mt40 tc mb50">
+	   <div class="mt20 tc ww100 tc">
 		 <button class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="prevStep();">上一步</button>
 		 <c:if test="${std.bidFinish == 1}">
 			 <button class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveSecond('0');">暂存</button>

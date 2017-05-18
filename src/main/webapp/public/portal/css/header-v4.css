@@ -394,7 +394,7 @@
         float:left;
         margin:15px 5px 0px 5px;
         display: block;
-        background:url(../images/nav_icon.png);
+        background:url(../images/portal_icon.png);
         background-repeat:no-repeat;
         background-clip:border-box;
 }
@@ -512,7 +512,7 @@
         float:left;
         margin:10px 9px 0px 5px;
         display: block;
-        background:url(../images/nav_icon.png);
+        background:url(../images/portal_icon.png);
         background-repeat:no-repeat;
         background-clip:border-box;
 }
@@ -997,59 +997,59 @@
 .header-v4 .navbar-default .navbar-nav > .shouye_li.active > a > .shouye,
 .header-v4 .navbar-default .navbar-nav > .shouye_li.active > a:hover .shouye,
 .header-v4 .navbar-default .navbar-nav > .shouye_li > a:hover .shouye{
-   background-position: -16px 2px!important;
+   background-position: 0px 2px!important;
  }
 .header-v4 .navbar-default .navbar-nav > .shouye_li> a .shouye{
-   background-position:-16px -121px;
+   background-position:0px -121px;
 }
 
 .navbar-nav > .gonggao_li > a > .gonggao{
-    background-position: -113px -122px;
+    background-position: -98px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .gonggao,
 .navbar-nav .gonggao_li:hover .gonggao{
-   background-position:-113px 2px;
+   background-position:-98px 2px;
 }
 
 .navbar-nav > .gongshi_li > a > .gongshi{
-    background-position:-255px -120px;
+    background-position:-240px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .gongshi,.navbar-nav .gongshi_li:hover .gongshi{
-    background-position:-255px 2px;
+    background-position:-240px 0px;
 }
 
 .navbar-nav > .zhuanjia_li > a > .zhuanjia{
-    background-position:-405px -120px;
+    background-position:-390px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .zhuanjia,.navbar-nav .zhuanjia_li:hover .zhuanjia{
-   background-position:-405px 2px;
+   background-position:-389px 0px;
 }
 
 .navbar-nav > .tousu_li > a > .tousu{
-   background-position:-542px -120px;
+   background-position:-526px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .tousu,.navbar-nav .tousu_li:hover .tousu{
-   background-position:-540px 2px;
+   background-position:-524px 0px;
 }
 
 .navbar-nav > .cgfw_li > a > .cgfw{
-   background-position: -685px -120px;
+   background-position:-671px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .cgfw,.navbar-nav .cgfw_li:hover .cgfw{
-   background-position: -685px 2px;
+   background-position:-671px 0px;
 }
 
 .navbar-nav > .luntan_li > a > .luntan{
-    background-position:-825px -122px;
+    background-position:-812px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .luntan,.navbar-nav .luntan_li:hover .luntan{
-    background-position:-825px 3px;
+    background-position:-812px 0px;
 }
 .navbar-nav > .fagui_li > a > .fagui{
-    background-position:-972px -120px;
+    background-position:-959px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .fagui,.navbar-nav .fagui_li:hover .fagui{
-    background-position:-972px 3px;
+    background-position:-959px 0px;
 }
 
 .head_main{

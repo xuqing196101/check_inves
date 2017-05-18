@@ -222,7 +222,7 @@
   <input type="hidden" name="flag" value="0">
                    <ul class="demand_list">
                    <li>
-                    <label>关键字：</label><span><input type="text" id="relName" name="badBehavior" value="${expertCredible.badBehavior }"></span>
+                    <label>诚信内容：</label><span><input type="text" id="relName" name="badBehavior" value="${expertCredible.badBehavior }"></span>
                        </li>
                        <li>
                        <span class="fl">

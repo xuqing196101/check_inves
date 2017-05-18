@@ -298,6 +298,8 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private String extractOrgid;//抽取的机构id
     
+    private Integer isOrg; //是否为采购机构
+    
     private String  sex;
     
     /** 专家提交审核时间 **/
@@ -823,4 +825,14 @@ public class Expert extends ExpertHistory implements Serializable {
     public void setExpertAuditFileModifyList(List<ExpertAuditFileModify> expertAuditFileModifyList) {
         this.expertAuditFileModifyList = expertAuditFileModifyList;
     }
+
+	public Integer getIsOrg() {
+		return isOrg;
+	}
+
+	public void setIsOrg(Integer isOrg) {
+		this.isOrg = isOrg;
+	}
+    
+    
 }
