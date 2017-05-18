@@ -415,7 +415,7 @@
 			<form id="audit_form" action="${pageContext.request.contextPath}/look/audit.html" method="post">
 				<div class="tab-content over_hideen">
 					<div class="tab-pane fade active in" id="tab-1">
-						<div class="col-md-8 col-sm-8 col-xs-12 over_scroll">
+						<div class="col-md-8 col-sm-8 col-xs-12 over_auto">
 							<table id="dep_table" class="table table-bordered table-condensed mt5 table_input table_wrap">
 								<thead>
 									<tr>
@@ -544,7 +544,7 @@
 						</div>
 			
 					<c:if test="${audit!=null ||audit!=0 }">
-						<div class="col-md-4 col-sm-4 col-xs-12 over_scroll">
+						<div class="col-md-4 col-sm-4 col-xs-12 over_auto">
 							<table id="audit_table" class="table table-bordered table-condensed mt5 table_input table_wrap">
 								<thead>
 									<tr>

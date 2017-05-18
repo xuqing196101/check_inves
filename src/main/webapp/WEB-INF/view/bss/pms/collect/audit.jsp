@@ -618,7 +618,7 @@
 			<form id="audit_form" action="${pageContext.request.contextPath}/look/audit.html" method="post">
 				<div class="tab-content over_hideen">
 					<div class="tab-pane fade active in" id="tab-1">
-						<div class="col-md-8 col-sm-8 col-xs-12 over_scroll h365" id="table_div">
+						<div class="col-md-8 col-sm-8 col-xs-12 over_auto h365" id="table_div">
 							<table id="table" class="table table-bordered table-condensed mt5 lockout">
 								<thead>
 									<tr class="space_nowrap">

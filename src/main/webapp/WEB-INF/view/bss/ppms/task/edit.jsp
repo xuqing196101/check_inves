@@ -251,7 +251,7 @@
       <div>
         <h2 class="count_flow"><i>2</i>需求明细调整</h2>
         <div class="ul_list">
-          <div class="content table_box over_scroll" id="content">
+          <div class="content table_box over_auto" id="content">
             <table id="table" class="table table-bordered table_input lockout" >
               <thead>
 			    <tr class="space_nowrap">

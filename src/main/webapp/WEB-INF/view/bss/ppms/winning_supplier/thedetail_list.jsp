@@ -17,7 +17,7 @@
   
   <body>
     
-   <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll">
+   <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
       <div class="padding-top-10 clear">
           <table id="detailtable" class="table table-striped table-bordered table-hover">
 			 <thead>

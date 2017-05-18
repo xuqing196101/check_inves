@@ -55,19 +55,13 @@
         </div>
     </div>
 </c:if>
-<div class="container">
-    <!--       <div class="headline-v2"> -->
-    <!--         <h2>抽取条件</h2> -->
-    <!--       </div> -->
-</div>
-<div class="container">
+<div class="col-md-12 col-sm-12 col-xs-12 container_box">
     <div id="supplierTypeContent" class="supplierTypeContent"
          style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
         <ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
     </div>
     <form id="form1" method="post">
         <input id="sunCount" type="hidden">
-        <div class="container container_box">
             <!--         专家所在地区 Id-->
             <input type="hidden" name="addressId" id="address" value="">
             <input type="hidden" name="address" id="addressStr" value="">
@@ -94,7 +88,6 @@
             <!--         省 -->
             <input type="hidden" name="province" id="province"/>
             <input type="hidden" name="" id="hiddentype">
-            <div>
                 <h2 class="count_flow"><i>1</i>抽取条件</h2>
                 <ul class="ul_list">
                     <li class="col-md-3 col-sm-6 col-xs-12  pl15">
@@ -379,8 +372,6 @@
                         </div>
                     </div>
                 </ul>
-            </div>
-        </div>
     </form>
 </div>
 </body>

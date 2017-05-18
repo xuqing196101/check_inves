@@ -14,7 +14,7 @@
   <!-- 录入采购计划开始-->
   <div class="container">
     <!-- 项目戳开始 -->
-    <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
+    <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" id="content">
       <c:if test="${lists != null }">
         <table id="table" class="table table-bordered table-condensed lockout">
           <thead>

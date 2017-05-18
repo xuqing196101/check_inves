@@ -341,7 +341,7 @@
 </c:if>
 
 <!-- 项目戳开始 -->
-<div class="container container_box">
+<div class="container_box col-md-12 col-sm-12 col-xs-12">
     <form id="form">
         <!-- 监督人员 -->
         <input type="hidden" name="sids" id="sids" value="${userId}" />
@@ -353,10 +353,9 @@
         <input type="hidden" id="superviseId" value="${superviseId}" name="superviseId">
         <!-- 包id  -->
         <%--           <input type="hidden" id="packageId" value="${packageId}" name="packageId"> --%>
-        <div>
             <h2 class="count_flow"><i>1</i>项目信息</h2>
             <ul class="ul_list border0">
-                <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                <li class="col-md-3 col-sm-4 col-xs-12 pl15">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red0">*</span> 项目名称:</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <input id="projectName" name="name"  value="${projectName}" type="text">
@@ -364,7 +363,7 @@
                         <div class="cue" id="projectNameError"></div>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12">
+                <li class="col-md-3 col-sm-4 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red1">*</span> 项目编号:</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <input id="projectNumber" name="projectNumber" value="${projectNumber}" type="text" >
@@ -372,7 +371,7 @@
                         <div class="cue" id="projectNumberError"></div>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12">
+                <li class="col-md-3 col-sm-4 col-xs-12">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red2">*</span>采购方式:</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0">
@@ -382,7 +381,7 @@
                         </select>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12 ">
+                <li class="col-md-3 col-sm-4 col-xs-12 ">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red3">*</span> 开标日期:</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" readonly="readonly"  name="bidDate" value="<fmt:formatDate value='${bidDate}'
@@ -390,7 +389,7 @@
                         <div class="cue" id="tenderTimeError"></div>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12 ">
+                <li class="col-md-3 col-sm-4 col-xs-12 ">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span> 监督人员:</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <input readonly id="supervises" title="${userName}" value="${userName}" onclick="supervise();" type="text">
@@ -398,7 +397,7 @@
                         <div class="cue" id="dSupervise"></div>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12 ">
+                <li class="col-md-3 col-sm-4 col-xs-12 ">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="star_red">*</span> 抽取地区:</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <input id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">
@@ -407,10 +406,11 @@
                     </div>
                 </li>
             </ul>
-        </div>
         <div>
-            <div class="count_flow "><i>2</i>
-                <div class="ww50 fl">抽取信息</div>
+        <div class="count_flow ">
+            <i>2</i>
+            <div class="ww50 fl">抽取信息
+            </div>
         </div>
         <div align="right" class=" pl20 mb10 hide isCurment_div" >
             <c:if test="${typeclassId!=null && typeclassId !='' }">

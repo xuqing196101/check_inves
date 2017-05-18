@@ -298,7 +298,7 @@
               <div id="remove" class="col-md-12 col-sm-12 co-xs-12 mb5 p0 mt10">
                 <button class="btn" type="button" onclick="remove()">移除</button>
               </div>
-              <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
+              <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" id="content">
                 <table id="table" class="table table-bordered table-condensed lockout">
                   <thead>
                     <tr class="space_nowrap">

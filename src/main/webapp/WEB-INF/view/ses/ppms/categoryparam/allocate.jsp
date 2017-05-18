@@ -350,14 +350,12 @@
 	  </div>
    </div>
   <div class="container">
-	   <div class="col-md-3">
+	   <div class="col-md-3 col-sm-4 col-xs-12">
 		 <div class="tag-box tag-box-v3 mt10">
-		 	<div>
 		 		<ul id="ztree" class="ztree s_ztree" />
-		 	</div>
 		 </div>
 	   </div>
-	   <div class="col-md-9">
+	   <div class="col-md-9 col-sm-8 col-xs-12">
 		    <div class="headline-v2">
 		     <h2>产品分配列表</h2>
 		    </div>
