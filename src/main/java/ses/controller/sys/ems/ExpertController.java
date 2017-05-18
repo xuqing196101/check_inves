@@ -2104,12 +2104,6 @@ public class ExpertController extends BaseController {
         jsTypeList.addAll(jjTypeList);
         request.setAttribute("expTypeList", jsTypeList);
         request.setAttribute("result", new PageInfo < Expert > (allExpert));
-        if(expert.getRelName() != null && !"".equals(expert.getRelName())){
-        	expert.setRelName(expert.getRelName().replaceAll("%", ""));
-        }
-        if(expert.getMobile() != null && !"".equals(expert.getMobile())){
-        	expert.setMobile(expert.getMobile().replaceAll("%", ""));
-        }
         request.setAttribute("expert", expert);
         return "ses/ems/expert/list";
     }

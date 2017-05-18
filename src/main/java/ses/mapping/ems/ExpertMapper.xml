@@ -147,25 +147,25 @@
 					T1.ID = T2.TYPE_ID
         where 1=1 and IS_DELETE = 0
         <if test="relName != null and relName !=''">
-            AND T1.REAL_NAME like #{relName}
+            AND T1.REAL_NAME like '%'|| #{relName} || '%'
         </if>
         <if test="mobile != null and mobile !=''">
-            AND T1.MOBILE like #{mobile}
+             AND T1.MOBILE like '%'|| #{mobile} || '%'
         </if>
         <if test="expertsFrom != null and expertsFrom !=''">
-            AND T1.EXPERTS_FROM = '${expertsFrom}'
+            AND T1.EXPERTS_FROM = #{expertsFrom}
         </if>
         <if test="status != null and status !=''">
         	<if test="status == 4">
         		AND IS_PROVISIONAL = '0'
         	</if>
-            AND T1.STATUS = '${status}'
+            AND T1.STATUS = #{status}
         </if>
         <if test="expertsTypeId != null and expertsTypeId !=''">
-            AND instr(T1.EXPERTS_TYPE_ID, '${expertsTypeId}' )>0
+            AND instr(T1.EXPERTS_TYPE_ID, #{expertsTypeId} )>0
         </if>
         <if test="isPublish != null and isPublish !=''">
-            AND T1.IS_PUBLISH = '${isPublish}'
+            AND T1.IS_PUBLISH = #{isPublish}
         </if>
         ORDER BY T1.STATUS ASC, T1.CREATED_AT DESC
     </select>
@@ -2047,22 +2047,22 @@
     AND IS_PROVISIONAL = '0'
     AND IS_DELETED = 0
     <if test="relName != null and relName !=''">
-        AND T1.REAL_NAME like #{relName}
+        AND T1.REAL_NAME like '%'|| #{relName} || '%'
     </if>
     <if test="mobile != null and mobile !=''">
-        AND T1.MOBILE like #{mobile}
+        AND T1.MOBILE like '%'|| #{mobile} ||'%'
     </if>
     <if test="expertsFrom != null and expertsFrom !=''">
-        AND T1.EXPERTS_FROM = '${expertsFrom}'
+        AND T1.EXPERTS_FROM = #{expertsFrom}
     </if>
     <if test="status != null and status !=''">
     	<!-- <if test="status == 4">
     		AND IS_PROVISIONAL = '0'
     	</if> -->
-        AND T1.STATUS = '${status}'
+        AND T1.STATUS = #{status}
     </if>
     <if test="expertsTypeId != null and expertsTypeId !=''">
-        AND instr(T1.EXPERTS_TYPE_ID, '${expertsTypeId}' )>0
+        AND instr(T1.EXPERTS_TYPE_ID, #{expertsTypeId})>0
     </if>
 	    ORDER BY T1.STATUS ASC, T1.CREATED_AT DESC
 	</select>

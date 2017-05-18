@@ -89,6 +89,11 @@
 		<if test="id != null and id != ''">
 			and d.id= #{id}
 		</if>
+		<if test="isAuditSupplier != null ">
+			and d.IS_AUDIT_SUPPLIER= #{isAuditSupplier}
+		</if>
+		
+		
 		<if test="orgId != null">
 			and o.id= #{orgId}
 		</if>
