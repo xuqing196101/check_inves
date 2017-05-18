@@ -1289,9 +1289,6 @@
 		<if test="isProvisional != null">
 			and IS_PROVISIONAL = #{isProvisional}
 		</if>
-		<!-- <if test="address != null and address !=''"> and ADDRESS like '%${address}%' 
-			</if> -->
-
 		<if test="itemType != null and itemType != ''">
 			<foreach item="itemType" index="index" collection="itemType"
 				open="" separator="" close="">

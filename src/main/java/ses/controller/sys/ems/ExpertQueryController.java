@@ -168,13 +168,6 @@ public class ExpertQueryController {
             }
         }
         
-        if(expert.getRelName() != null && !"".equals(expert.getRelName())){
-        	expert.setRelName(expert.getRelName().replaceAll("%", ""));
-        }
-        if(expert.getMobile() != null && !"".equals(expert.getMobile())){
-        	expert.setMobile(expert.getMobile().replaceAll("%", ""));
-        }
-        
         model.addAttribute("expert", expert);
         PageInfo<Expert> pageInfo = new PageInfo < Expert > (allExpert);
         model.addAttribute("result", pageInfo);

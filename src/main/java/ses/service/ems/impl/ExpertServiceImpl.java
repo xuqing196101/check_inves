@@ -184,12 +184,6 @@ public class ExpertServiceImpl implements ExpertService {
 			map.put("expertsTypeId", null);
 		
 		}*/
-		if(expert.getRelName() != null && !"".equals(expert.getRelName())){
-			expert.setRelName("%"+expert.getRelName()+"%");
-		}
-		if(expert.getMobile() != null && !"".equals(expert.getMobile())){
-			expert.setMobile("%"+expert.getMobile()+"%");
-		}
 		return mapper.selectAllExpert(expert);
 	}
 	/**
@@ -1325,13 +1319,6 @@ public class ExpertServiceImpl implements ExpertService {
 			page = StaticVariables.DEFAULT_PAGE;
 		}
 		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
-		if(expert.getRelName() != null && !"".equals(expert.getRelName())){
-			expert.setRelName("%"+expert.getRelName()+"%");
-		}
-		if(expert.getMobile() != null && !"".equals(expert.getMobile())){
-			expert.setMobile("%"+expert.getMobile()+"%");
-		}
-		
 		return mapper.selectRuKuExpert(expert);
 	}
 
