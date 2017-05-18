@@ -728,7 +728,7 @@
               </form>
             </div>
           </div>
-          <div class="tab-pane fade active " id="tab-5">
+          <div class="tab-pane fade " id="tab-5">
             <u:upload id="upload123" groups="upload123,upload_id" multiple="true" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" buttonName="上传附件" />
             <%-- <u:show showId="upload123" groups="upload123,upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}" /> --%> &nbsp;
             <button class="btn btn-windows input" onclick="downloads();">下载</button>
