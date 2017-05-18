@@ -1261,7 +1261,7 @@
 				</if>
 			)
 		WHERE
-			1 = 1
+			IS_DELETED = 0
 		<!-- AND SUPPLIER_NAME IS NOT NULL -->
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%'|| #{supplierName} ||'%'
@@ -1353,7 +1353,7 @@
 		WHERE
 			(SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 3 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
 			and IS_PROVISIONAL = '0'
-			and IS_DELETED = '0'
+			and IS_DELETED = 0
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%'|| #{supplierName} ||'%'
 		</if>

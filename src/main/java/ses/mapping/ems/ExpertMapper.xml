@@ -2045,6 +2045,7 @@
 			T1.ID = T2.TYPE_ID
     where (STATUS = 4 or STATUS = 5 or STATUS = 6 or STATUS = 7 or STATUS = 8)
     AND IS_PROVISIONAL = '0'
+    AND IS_DELETED = 0
     <if test="relName != null and relName !=''">
         AND T1.REAL_NAME like #{relName}
     </if>
