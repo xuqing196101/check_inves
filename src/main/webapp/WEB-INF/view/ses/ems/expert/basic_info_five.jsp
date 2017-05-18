@@ -26,7 +26,7 @@
 				success: function(response){
 				console.info(response)
 					//询问框
-  						layer.confirm("您选择的是" + response.purchaseDep.shortName + "，联系人：" + response.purchaseDep.expertContact + ",电话：" + response.purchaseDep.expertPhone + "，地址：" + response.purchaseDep.expertAddress + "。", {
+  						layer.confirm("您选择的是" + response.purchaseDep.shortName + "，联系人：" + response.purchaseDep.experContact + ",电话：" + response.purchaseDep.experPhone + "，地址：" + response.purchaseDep.experAddress + "。", {
   							btn : [ '确定' ],
   							shade: false //不显示遮罩
                             //按钮

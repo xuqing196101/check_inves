@@ -1335,7 +1335,7 @@
 						<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
 						<button class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
 					</div>
-					<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll" style="max-height:300px" id="add_div">
+					<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_auto" style="max-height:300px" id="add_div">
 
 						<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
 							<table id="table" class="table table-bordered table-condensed lockout table_input ">

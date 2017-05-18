@@ -259,7 +259,7 @@
         <div>
           <h2 class="count_flow"><i>2</i>预研项目明细调整</h2>
           <ul class="ul_list">
-            <div class="content over_scroll">
+            <div class="content auto">
               <table id="table" class="table table-bordered table-condensed table_input lockout" id="table">
                 <thead>
                   <tr>

@@ -579,6 +579,7 @@ public class ExpertController extends BaseController {
         if("three".equals(stepNumber)) {
             HashMap < String, Object > map1 = new HashMap < String, Object > ();
             map1.put("typeName", "1");
+            map1.put("isAuditSupplier", 1);
             List < PurchaseDep > list = purchaseOrgnizationService
                 .findPurchaseDepList(map1);
             for (PurchaseDep org : list) {
@@ -1326,6 +1327,7 @@ public class ExpertController extends BaseController {
         // 全部的采购机构
         HashMap < String, Object > map = new HashMap < String, Object > ();
         map.put("typeName", "1");
+        map.put("isAuditSupplier", 1);
         List < PurchaseDep > allPurList = purchaseOrgnizationService.findPurchaseDepList(map);
         for(PurchaseDep purchaseDep: allPurList) {
             if((purchaseDep.getProvinceId() != null && purchaseDep.getCityId() == null && purchaseDep.getProvinceId().equals(pId)) || (purchaseDep.getCityId() != null && purchaseDep.getCityId().equals(zId))) {
@@ -1875,8 +1877,8 @@ public class ExpertController extends BaseController {
                 User user = (User) session.getAttribute("loginUser");
                 Expert temp = service.selectByPrimaryKey(expertId);
                 //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
-                int validateDay = service.logoutExpertByDay(temp);
-                if(0==validateDay){//通过审核时间校验
+//                int validateDay = service.logoutExpertByDay(temp);
+//                if(0==validateDay){//通过审核时间校验
                     // 用户信息处理
                     service.userManager(user, userId, expert, expertId);
                     // 调用service逻辑代码 实现提交
@@ -1897,9 +1899,9 @@ public class ExpertController extends BaseController {
                     expert.setSubmitAt(new Date());
                     expert.setAuditAt(new Date());
                     service.updateByPrimaryKeySelective(expert);
-                }else if(0 < validateDay){//未按规定时间提交审核,注销信息
-                    return "expert_logout," + validateDay;
-                }
+//                }else if(0 < validateDay){//未按规定时间提交审核,注销信息
+//                    return "expert_logout," + validateDay;
+//                }
             } catch(Exception e) {
                 e.printStackTrace();
                 // 未做异常处理

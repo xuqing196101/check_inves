@@ -440,7 +440,7 @@
       </div>
 
       <c:if test="${!empty list}">
-        <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
+        <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" id="content">
           <!-- <table id="table" class="table table-bordered table-condensed"  style="width: 1600px; color: #000000; font-size: medium;"> -->
           <table class="table table-bordered table-condensed lockout">
             <thead>
@@ -516,7 +516,7 @@
 			</c:if>
 
 			<c:forEach items="${packageList }" var="pack" varStatus="p">
-        <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="contents">
+        <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" id="contents">
           <div class="col-md-6 col-sm-6 col-xs-12 p0">
             <span onclick="ycDiv(this,${p.index})" class="count_flow spread hand"></span>
             <span class="f16 b">包名：</span>
@@ -529,8 +529,7 @@
             <input class="btn btn-windows delete" type="button" onclick="deleteDetail(this,${p.index})" value="删除" />
             <input type="hidden" value="${pack.id }" />
           </div>
-                
-					<table class="table table-bordered table-condensed" id="show${p.index }">
+          <table class="table table-bordered table-condensed lockout" id="show${p.index }">
             <thead>
               <tr class="space_nowrap">
                 <th class="choose">选择</th>
@@ -596,8 +595,8 @@
 		
 		
 		<c:if test="${!empty list}">
-      <div class="content over_scroll dnone" id="oddDetail">
-        <table id="table" class="table table-bordered table-condensed table-hover table-striped">
+      <div class="content over_auto dnone" id="oddDetail">
+        <table id="table" class="table table-bordered table-condensed table-hover table-striped lockout">
           <thead>
             <tr>
               <th class="choose"><input type="checkbox" id="selectAddAll" onclick="selectAddAll()"></th>

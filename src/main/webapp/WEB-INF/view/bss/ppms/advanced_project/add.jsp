@@ -231,8 +231,8 @@
               <div class="col-md-12 pl20 mt10">
 						    <button class="btn btn-windows delete" onclick="deleted();" type="button">删除</button>
 						  </div>
-              <div class="content table_box over_scroll">
-                <table id="table" class="table table-bordered table-condensed">
+              <div class="content table_box over_auto">
+                <table id="table" class="table table-bordered table-condensed lockout">
                   <thead>
                     <tr class="space_nowrap">
                       <th class="info choose"><input type="checkbox" id="checkAll" onclick="selectAll()" alt="" /></th>
@@ -257,19 +257,19 @@
                   <tbody id="tbody_id">
                     <c:forEach items="${lists}" var="obj" varStatus="vs">
                       <tr style="cursor: pointer;">
-                        <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem"  alt=""><input type="hidden" id="detailId" name="detailId" value="${obj.requiredId }"/></td>
-                        <td class="tc w50"><div class="w50">${obj.serialNumber}</div></td>
-                        <td class=""><div class="w80">${obj.department}</div></td>
-                        <td class=""><div class="w80">${obj.goodsName}</div></td>
-                        <td class=""><div class="w80">${obj.stand}</div></td>
-                        <td class=""><div class="w80">${obj.qualitStand}</div></td>
-                        <td class="tc"><div class="w80">${obj.item}</div></td>
-                        <td class="tc"><div class="w80">${obj.purchaseCount}</div></td>
-                        <td class="tr"><div class="w80">${obj.price}</div></td>
-                        <td class="tr"><div class="w80">${obj.budget}</div></td>
-                        <td class=""><div class="w80">${obj.deliverDate}</div></td>
+                        <td class="tc choose"><input type="checkbox" value="${obj.id }" name="chkItem"  alt=""><input type="hidden" id="detailId" name="detailId" value="${obj.requiredId }"/></td>
+                        <td class="tc seq"><div class="w50">${obj.serialNumber}</div></td>
+                        <td class=""><div class="department">${obj.department}</div></td>
+                        <td class=""><div class="goodsname">${obj.goodsName}</div></td>
+                        <td class=""><div class="stand">${obj.stand}</div></td>
+                        <td class=""><div class="qualitstand">${obj.qualitStand}</div></td>
+                        <td class="tc"><div class="item">${obj.item}</div></td>
+                        <td class="tc"><div class="purchasecount">${obj.purchaseCount}</div></td>
+                        <td class="tr"><div class="price">${obj.price}</div></td>
+                        <td class="tr"><div class="budget">${obj.budget}</div></td>
+                        <td class=""><div class="deliverdate">${obj.deliverDate}</div></td>
                         <td class="">
-                         <div class="w100">
+                         <div class="purchasetype">
                           <c:forEach items="${kind}" var="kind">
                             <c:if test="${kind.id == obj.purchaseType}">
                               ${kind.name}
@@ -277,11 +277,11 @@
                           </c:forEach>
                          </div>
                         </td>
-                        <td class=""><div class="w80">${obj.supplier}</div></td>
-                        <td class="tc"><div class="w80">${obj.isFreeTax}</div></td>
-                        <td class=""><div class="w80">${obj.goodsUse}</div></td>
-                        <td class=""><div class="w80">${obj.useUnit}</div></td>
-                        <td class=""><div class="w160">${obj.memo}</div></td>
+                        <td class=""><div class="purchasename">${obj.supplier}</div></td>
+                        <td class="tc"><div class="freetax">${obj.isFreeTax}</div></td>
+                        <td class=""><div class="goodsuse">${obj.goodsUse}</div></td>
+                        <td class=""><div class="useunit">${obj.useUnit}</div></td>
+                        <td class=""><div class="memo">${obj.memo}</div></td>
                       </tr>
                     </c:forEach>
                   </tbody>
@@ -290,7 +290,7 @@
             </c:if>
           </ul>
         </div>
-        <div class="col-md-12 tc">
+        <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
           <button class="btn" onclick="add()" type="button">下一步</button>
           <button class="btn btn-windows back" onclick="goBack()" type="button">返回</button>
         </div>

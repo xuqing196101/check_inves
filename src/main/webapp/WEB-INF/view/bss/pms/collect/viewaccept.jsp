@@ -134,7 +134,7 @@
 		<div class="headline-v2 fl">
 			<h2>计划明细</h2>
 		</div>
-		<div class="container clear margin-top-30 over_scroll h365">
+		<div class="container clear margin-top-30 over_auto h365">
             <input class="btn btn-windows reset" value="返回" type="button"
                     onclick="location.href='javascript:history.go(-1);'">
 			<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">

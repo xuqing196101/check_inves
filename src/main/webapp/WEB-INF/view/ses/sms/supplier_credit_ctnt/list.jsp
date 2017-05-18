@@ -40,7 +40,7 @@
 		var checkbox = $("input[name='checkbox']:checked");
 		if (checkbox.size() != 1) {
 			layer.msg("请勾选一条记录 !", {
-				offset : '300px',
+				offset : '50px',
 			});
 			return;
 		}
@@ -72,7 +72,7 @@
 		var supplierCreditId = $("input[name='supplierCreditId']").val();
 		if (checkbox.size() == 0) {
 			layer.msg("请至少勾选一条记录 !", {
-				offset : '200px',
+				offset : '50px',
 			});
 			return;
 		}

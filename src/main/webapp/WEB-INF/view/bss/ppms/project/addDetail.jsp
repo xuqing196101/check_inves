@@ -121,7 +121,7 @@
     <div class="container">
 
       <!-- 项目戳开始 -->
-      <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
+      <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto mt20" id="content">
         <table id="table" class="table table-bordered table-condensed lockout">
           <thead>
             <tr class="space_nowrap">
@@ -248,13 +248,13 @@
             </c:forEach>
           </tbody>
         </table>
-        <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
+      
+    </div>
+ 	 <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
           <button class="btn btn-windows save" type="button" onclick="save()">确定</button>
           <button class="btn btn-windows back" type="button" onclick="javascript:history.go(-1);">返回</button>
         </div>
-      </div>
-    </div>
-
+     </div>
     <form id="save_form_id" action="${pageContext.request.contextPath}/project/save.html" method="post">
 
       <c:forEach items="${lists}" var="obj" varStatus="vs">

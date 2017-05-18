@@ -62,11 +62,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <!--=== End Breadcrumbs ===-->
 
    <!--=== Content Part ===-->
-   <div class="container content height-350">
+   <div class="container content">
             <div class="row">
                 <!-- Begin Content -->
-                  <div class="col-md-12" style="min-height:400px;">
-                      <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
+                      <div class="col-md-2 col-sm-3 col-xs-12" id="show_tree_div">
 	                     <ul class="btn_list" id="menu">
 						   <li class="active"><a href="<%=basePath%>project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
 						   <li><a href="<%=basePath%>firstAudit/toAdd.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制询价文件</a></li>
@@ -91,16 +90,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							window.onresize = getContentSize;
  					  </script>
 					  <!-- 右侧内容开始-->
-					  <div class="tag-box tag-box-v4 col-md-9" >
+					  <div class="tag-box tag-box-v4 col-md-10 col-sm-9 col-xs-12 " >
 						 <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight();"  src="<%=basePath%>project/mplement.html?id=${project.id}"></iframe>
 					  </div>
 					  <div class="col-md-12 tc mt20" id="iframe_btns" >
 					  		<button class="btn btn-windows back" onclick="back(${page});" type="button">返回项目列表</button>
        	   			  </div>
-				  </div>
-                </div>
+       	   			</div>
                 <!-- End Content -->
-            </div>
         </div><!--/container-->
 </body>
 </html>

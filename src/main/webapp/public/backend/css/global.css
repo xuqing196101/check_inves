@@ -1305,13 +1305,11 @@ table .input_group .add-on{
 table.lockout{
   border-bottom-color: #dddddd; 
   border-top-color: #dddddd; 
-  color: #333333; 
-  min-width:1270px; 
+  color: #333333;
   border-right-color: #dddddd; 
   font-size: medium; 
   border-left-color: #dddddd; 
   max-width:10000px;
-  border锛�px;	
 }
 table.lockout th{
 	text-align:center!important;

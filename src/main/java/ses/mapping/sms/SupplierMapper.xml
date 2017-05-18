@@ -1215,53 +1215,30 @@
 		ORDER BY AUDIT_DATE DESC NULLS LAST
 	</select>
 
-
-	<select id="querySupplierbytypeAndCategoryIds" parameterType="ses.model.sms.Supplier"
-		resultMap="findSupplierMap">
+	<!--  -->
+	<select id="querySupplierbytypeAndCategoryIds" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
 		SELECT
-			*
+			"NVL" (T4. NAME, T3. NAME) AS NAME,
+			t2.*,
+			org.NAME AS orgName
 		FROM
-			(
-				SELECT
-					"NVL" (T4. NAME, T3. NAME) AS NAME,
-					t1.typeId,
-					t2.*,
-					org.NAME AS orgName
-				FROM
-					(
-						SELECT
-							ID,
-							wm_concat (DISTINCT(typeId)) AS typeId
-						FROM
-							(
-								SELECT
-									T1.*, 
-									t3.SUPPLIER_TYPE_ID AS typeId
-								FROM
-									T_SES_SMS_SUPPLIER t1
-								LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1. ID = t3.SUPPLIER_ID
-							)
-						GROUP BY
-							ID
-					) t1
-				LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1. ID = t2. ID 
-				LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS = T3. ID
-				LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4. ID
-				LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
-				LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
-				<if test="item != null and item!= ''">
-				 RIGHT  JOIN (
-						select supplier_id as id from T_SES_SMS_SUPPLIER_ITEM where category_id in (
-							<foreach item="item" index="index" collection="item" open=""
-								separator="," close="">
-								#{item}
-							</foreach>
-						)	
-				) t5  on t1.ID = t5.ID
-				</if>
-			)
+		T_SES_SMS_SUPPLIER t2
+		LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS = T3. ID
+		LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4. ID
+		LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
+		LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+		<if test="item != null and item!= ''">
+		 RIGHT  JOIN (
+				select supplier_id as id from T_SES_SMS_SUPPLIER_ITEM where category_id in (
+					<foreach item="item" index="index" collection="item" open=""
+						separator="," close="">
+						#{item}
+					</foreach>
+				)	
+		) t5  on t2.ID = t5.ID
+		</if>
 		WHERE
-			1 = 1
+			t2.IS_DELETED = 0
 		<!-- AND SUPPLIER_NAME IS NOT NULL -->
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%'|| #{supplierName} ||'%'
@@ -1301,7 +1278,7 @@
 			and IS_PROVISIONAL = '0'
 		</if>
 		<if test="address != null and address !=''">
-			and NAME like '%'|| #{address} ||'%'
+			and t4.NAME like '%'|| #{address} ||'%'
 		</if>
 		<if test="loginName != null and loginName !=''">
 			and LOGIN_NAME like '%'|| #{loginName} ||'%'
@@ -1353,7 +1330,7 @@
 		WHERE
 			(SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 3 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
 			and IS_PROVISIONAL = '0'
-			and IS_DELETED = '0'
+			and IS_DELETED = 0
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%'|| #{supplierName} ||'%'
 		</if>

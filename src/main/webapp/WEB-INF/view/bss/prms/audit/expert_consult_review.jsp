@@ -77,7 +77,7 @@
 	   	<div class="mt10 tc">
 	   		<h2>${project.name}--${pack.name}</h2>
 	   	</div>
-	   	<div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
+	   	<div class="over_auto col-md-12 col-xs-12 col-sm-12 p0 m0">
 	  	<table id="tabId" class="table table-bordered table-condensed table-hover p0 space_nowrap">
  		  <thead>
 		      <tr>
