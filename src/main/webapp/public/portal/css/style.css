@@ -2046,7 +2046,7 @@ img.img-mouse {
 }
 
 .floor_title{
- background:url(../images/floor_bg.png) no-repeat 0px;
+ background:url(../images/portal_icon.png) no-repeat -393px -231px;
  height:31px;
  line-height:31px;
  color:#ffffff;
@@ -2093,7 +2093,7 @@ img.img-mouse {
  font-weight: normal;
  display: block;
  z-index:10000;
- background:url(../images/report_round.png) no-repeat center; 
+ background:url(../images/protal_icon.png) no-repeat -99px -236px; 
 }
 .floor_kind{
  height:240px;
@@ -2350,52 +2350,52 @@ a.news_more{
   width: 100%;
 }
 a.qyzc{
-  background:url(../images/qyzc.png) no-repeat center 15px;
+  background:url(../images/portal_icon.png) no-repeat 23px -330px;
 }
 a.zjzc{
-  background:url(../images/zjzc.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -89px -333px;
 }
 a.jksdj{
-  background:url(../images/jksdj.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -242px -333px;
 }
 a.wssc{
-  background:url(../images/wssc.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -387px -336px;
 }
 a.dxcpjj{
-  background:url(../images/dxcpjj.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -520px -338px;
 }
 a.ypcg{
-  background:url(../images/ypcg.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -663px -336px;
 }
 a.fwcg{
-  background:url(../images/fwcg.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -803px -330px;
 }
 a.fwrx{
-  background:url(../images/fwrx.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -930px -330px;
 }
 a.cpml{
-  background:url(../images/cpml.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat 40px -469px;
 }
 a.jscsk{
-  background:url(../images/jscsk.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -80px -460px;
 }
 a.zlxz{
-  background:url(../images/zlxz.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -230px -460px;
 }
 a.cpshfw{
-  background:url(../images/shfw.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -370px -465px;
 }
 a.zpshfw{
-  background:url(../images/zpshfw.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -370px -465px;
 }
 a.zxts{
-  background:url(../images/zxts.png) no-repeat center 25px;
+  background:url(../images/portal_icon.png) no-repeat -520px -465px;
 }
 a.cglt{
-  background:url(../images/cglt.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -647px -465px;
 }
 a.yjfk{
-  background:url(../images/yjfk.png) no-repeat center 20px;
+  background:url(../images/portal_icon.png) no-repeat -807px -465px;
 }
 
 .ywbl_02:hover,.ywbl_01:hover{
@@ -2422,7 +2422,7 @@ a.yjfk{
 }
 @media (min-width:600px){
 .supp_login a i{
-  background:url(../images/gys_right.png) no-repeat center;
+  background:url(../images/portal_icon.png) no-repeat -243px -222px;
   display:block;
   position:absolute;
   right:15%;

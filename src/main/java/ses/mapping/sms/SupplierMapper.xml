@@ -1264,7 +1264,7 @@
 			1 = 1
 		<!-- AND SUPPLIER_NAME IS NOT NULL -->
 		<if test="supplierName != null and supplierName !=''">
-			and SUPPLIER_NAME like '%${supplierName}%'
+			and SUPPLIER_NAME like '%'|| #{supplierName} ||'%'
 		</if>
 		<if test="startDate != null">
 			AND CREATED_AT &gt;= #{startDate}
@@ -1272,8 +1272,20 @@
 		<if test="endDate != null">
 			AND CREATED_AT &lt;= #{endDate}
 		</if>
+		<if test="startSubimtDate != null">
+			AND SUBMIT_AT &gt;= #{startSubimtDate}
+		</if>
+		<if test="endSubimtDate != null">
+			AND SUBMIT_AT &lt;= #{endSubimtDate}
+		</if>
+		<if test="startAuditDate != null">
+			AND AUDIT_DATE &gt;= #{startAuditDate}
+		</if>
+		<if test="endAuditDate != null">
+			AND AUDIT_DATE &lt;= #{endAuditDate}
+		</if>
 		<if test="contactName != null and contactName != ''">
-			AND CONTACT_NAME like '%${contactName}%'
+			AND CONTACT_NAME like '%'|| #{contactName} ||'%'
 		</if>
 		<if test="businessType != null and businessType != ''">
 			AND BUSINESS_TYPE =#{businessType}
@@ -1285,17 +1297,17 @@
 			and SUPPLIER_STATUS = #{status}
 		</if>
 		<if test="judge == 5">
-			and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 6 or SUPPLIER_STATUS =7 or SUPPLIER_STATUS = 8 or SUPPLIER_STATUS =9)
+			and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 3 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
 			and IS_PROVISIONAL = '0'
 		</if>
 		<if test="address != null and address !=''">
-			and NAME like '%${address}%'
+			and NAME like '%'|| #{address} ||'%'
 		</if>
 		<if test="loginName != null and loginName !=''">
-			and LOGIN_NAME like '%${loginName}%'
+			and LOGIN_NAME like '%'|| #{loginName} ||'%'
 		</if>
 		<if test="mobile != null and mobile !=''">
-			and MOBILE like '%${mobile}%'
+			and MOBILE like '%'|| #{mobile} ||'%'
 		</if>
 		<if test="isProvisional != null">
 			and IS_PROVISIONAL = #{isProvisional}
@@ -1309,20 +1321,47 @@
 				and "INSTR"(typeId, #{itemType})>0
 			</foreach>
 		</if>
-		<if test="scoreStart != null and scoreStart != '' ">
-			and SCORE &gt;= #{scoreStart}
+		<if test="creditCode != null and creditCode != '' ">
+			and CREDIT_CODE like '%'|| #{creditCode} || '%'
 		</if>
-		<if test="scoreEnd != null and scoreEnd != ''">
-			and SCORE &lt; #{scoreEnd}
-		</if>
-		<if test="judge == null and judge != 5">
+		<!-- <if test="judge == null and judge != 5">
 			ORDER BY CREATED_AT DESC NULLS LAST
-		</if>
-		<if test="judge != null and judge == 5">
-			ORDER BY AUDIT_DATE DESC NULLS LAST
-		</if>
+		</if> -->
+			ORDER BY AUDIT_DATE  DESC NULLS LAST
 	</select>
 
+		<!-- 按品目查询供应商 -->
+		<select id="findSupplierbyCategoryId" parameterType="ses.model.sms.Supplier"	resultMap="findSupplierMap">
+				SELECT
+					"NVL" (T4. NAME, T3. NAME) AS NAME,
+					t2.*,
+					org.NAME AS orgName
+				FROM
+					T_SES_SMS_SUPPLIER t2
+				LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS = T3. ID
+				LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4. ID
+				LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
+				LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+				<if test="item != null and item!= ''">
+				 RIGHT  JOIN (
+						select supplier_id as id from T_SES_SMS_SUPPLIER_ITEM where category_id in 
+							(<foreach item="item" index="index" collection="item" open="" separator="," close="">
+								#{item}
+							</foreach>)	
+					) t5  on t2.ID = t5.ID
+				</if>
+		WHERE
+			(SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 3 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
+			and IS_PROVISIONAL = '0'
+			and IS_DELETED = '0'
+		<if test="supplierName != null and supplierName !=''">
+			and SUPPLIER_NAME like '%'|| #{supplierName} ||'%'
+		</if>
+		<if test="contactName != null and contactName != ''">
+			AND CONTACT_NAME like '%'|| #{contactName} ||'%'
+		</if>
+			ORDER BY AUDIT_DATE  DESC NULLS LAST
+	</select>
 
 	<select id="querySupplier" parameterType="ses.model.sms.Supplier"
 		resultMap="findSupplierMap">

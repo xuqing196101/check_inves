@@ -441,7 +441,7 @@ function importAdd(){
 	      </div>
 		  <div class="ywbl_01 col-sm-6 col-xs-6">
 	       <a href="${pageContext.request.contextPath }/product/index_list.html" class="dxcpjj">
-            <span>定型产品竞价</span> 
+            <span>定型产品</span> 
 		   </a>
 	     </div>
 		 <div class="ywbl_01 col-sm-6 col-xs-6">

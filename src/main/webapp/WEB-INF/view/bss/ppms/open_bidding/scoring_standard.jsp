@@ -340,21 +340,16 @@
 					onclick="reList('${projectId}');" value="返回">
 	</div>
 	</c:if>
-	<div class="container content height-350" style="height: 1423px;">
+	<div class="container content">
 		<div class="row">
-			
-			<div class="col-md-12" style="margin-left:-60px;">
-				<div class="col-md-3 md-margin-bottom-40 fl" id="show_tree_div">
+				<div class="col-md-2 col-sm-3 col-xs-12" id="show_tree_div">
 					<div class="tag-box tag-box-v3">
 						<ul id="treeDemo" class="ztree">
 						</ul>
 					</div>
-
 				</div>
-				<div class="tag-box tag-box-v4 col-md-9 fl" style="height: auto;width: 450px;" id="bid_method_form">
-					<form
-						action=""
-						method="post" id="formID">
+				<div class="tag-box tag-box-v4 col-md-10 col-sm-9 col-xs-12" id="bid_method_form">
+					<form action="" method="post" id="formID">
 						<input  type="hidden" id="id" name="id" value="${bidMethod.id }">
 						<input  type="hidden" id="type" value="${bidMethod.typeName }">
 						<input id="packageId" name="packageId" type="hidden" value="${packageId }">
@@ -410,7 +405,6 @@
 				frameborder="0" style="width: 100%;height: 100%;"> </iframe>  --%>
 				</div>
 			</div>
-		</div>
 	</div>
 	<!-- 八大模型 -->
 	

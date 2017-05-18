@@ -373,7 +373,7 @@
 		</c:if>
 
 		<!-- 项目戳开始 -->
-		<div class="container container_box">
+		<div class="col-md-12 col-sm-12 col-xs-12 container_box">
 			<form id="form">
 				<!-- 抽取地区 -->
 				<input type="hidden" name="extAddress" id="extAddress" value="${extractionSites}">
@@ -386,7 +386,7 @@
 				<div>
 					<h2 class="count_flow"><i>1</i>项目信息</h2>
 					<ul class="ul_list">
-                        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                        <li class="col-md-3 col-sm-4 col-xs-12 pl15">
                             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red" id="red0">*</span> 项目名称:</span>
                             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                 <input class="span5" id="projectName" name="name"  value="${projectName}" type="text">
@@ -394,7 +394,7 @@
                                 <div class="cue" id="projectNameError"></div>
                             </div>
                         </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12">
+                        <li class="col-md-3 col-sm-4 col-xs-12">
                           <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red1">*</span> 项目编号:</span>
                           <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                             <input class="span5" id="projectNumber" name="projectNumber" value="${projectNumber}" type="text">
@@ -402,17 +402,17 @@
                             <div class="cue" id="projectNumberError"></div>
                           </div>
                         </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12 ">
+                        <li class="col-md-3 col-sm-4 col-xs-12 ">
                           <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red2">*</span> 采购方式:</span>
                           <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                            <select class="col-md-12 col-sm-12 col-xs-6 p0" name="purchaseType">
+                            <select class="col-md-12 col-sm-12 col-xs-12 p0" name="purchaseType">
                               <c:forEach items="${findByMap}" var="map">
                                 <option value="${map.id}">${map.name}</option>
                               </c:forEach>
                             </select>
                           </div>
                         </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12 ">
+                        <li class="col-md-3 col-sm-4 col-xs-12 ">
                           <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red3">*</span> 开标日期:</span>
                           <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                             <input class="col-md-12 col-sm-12 col-xs-6 p0"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" name="bidDate" value="<fmt:formatDate value='${bidDate}'
@@ -420,7 +420,7 @@
                               <div class="cue" id="tenderTimeError"></div>
                           </div>
                         </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12 ">
+                        <li class="col-md-3 col-sm-4 col-xs-12 ">
                             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 监督人员:</span>
                             <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 left_table">
                                 <input class="span5" readonly id="supervises" title="${userName}" value="${userName}" onclick="supervise();" type="text">
@@ -428,7 +428,7 @@
                                 <div class="cue" id="dSupervise"></div>
                             </div>
                         </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12 dnone">
+                        <li class="col-md-3 col-sm-4 col-xs-12 dnone">
                             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span> 响应时间:</span>
                             <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
                                 <input class="col-md-5 col-sm-5 col-xs-5" name="hour" value="${hour}" maxlength="3" type="text">
@@ -438,7 +438,7 @@
                                 <div class="cue" id="responseTimeError"></div>
                             </div>
                         </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12 ">
+                        <li class="col-md-3 col-sm-4 col-xs-12 ">
                           <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 抽取地区:</span>
                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                             <input class="span5" id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">

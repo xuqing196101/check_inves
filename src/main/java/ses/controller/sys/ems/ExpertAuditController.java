@@ -170,7 +170,10 @@ public class ExpertAuditController{
 			expert.setPurchaseDepId(dep.getId());
 			//抽取时的机构
 			expert.setExtractOrgid(dep.getId());
+			//1是采购机构，0不是
+			expert.setIsOrg(1);
 		}else{
+			expert.setIsOrg(0);
 			expert.setPurchaseDepId("");
 			expert.setExtractOrgid("");
 		}
@@ -178,9 +181,6 @@ public class ExpertAuditController{
 
 		//查询列表
 		List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum);
-		if(user.getLoginName().equals("admin")){
-			expertList.clear();
-		}
 		PageInfo< Expert > result = new PageInfo < Expert > (expertList);
 		
 		model.addAttribute("result",result);

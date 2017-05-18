@@ -268,7 +268,7 @@
                 <!-- Begin Content -->
                 <div class="col-md-12" style="min-height:400px;">
                 <div class="headline-v2"><h2>数据字典</h2></div>
-					<div class="col-md-3 col-sm-4 col-xs-12 h300" id="show_tree_div">
+					<div class="col-md-3 col-sm-4 col-xs-12" id="show_tree_div">
 						<div class="tag-box tag-box-v3">
 							<ul id="ztree_show" class="btn_list p0">
 								<!-- 菜单树-->

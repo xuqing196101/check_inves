@@ -63,7 +63,7 @@
           </h2>
             </c:if>
           </div>
-          <div class="p0${vsKey.index}">
+          <div class="p0${vsKey.index} clear w100p">
             <table class="table table-bordered table-condensed mt5">
               <thead>
                 <tr>
