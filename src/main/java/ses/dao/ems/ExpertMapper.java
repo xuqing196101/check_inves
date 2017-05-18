@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.Param;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertHistory;
-import ses.model.sms.Supplier;
 
 
 public interface ExpertMapper {
@@ -272,7 +271,7 @@ public interface ExpertMapper {
     * @return Long    返回类型 
     * @throws
      */
-    Long getRegisterExpertCountByEmp();
+    Long getRegisterExpertCountByEmp(Map<String, Object> map);
 
     /**
      * 根据主键查询专家历史信息

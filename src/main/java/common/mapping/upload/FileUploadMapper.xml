@@ -219,10 +219,11 @@
   </select>
   
   <!-- 统计查询 -->
-  <select id="getFileCountByEmp" resultType="java.lang.Long">
+  <select id="getFileCountByEmp" resultType="java.lang.Long" parameterType="Map">
     SELECT count(id)
     from ${tableName}
     WHERE IS_DELETED = 0 
+    AND TO_CHAR(CREATED_AT, 'yyyy-MM-dd') = #{createdAt}
   </select>
  
  

@@ -985,12 +985,6 @@
 	    where 
 	    TYPE_NAME = #{typeId}
 	  </select>
-    
-    <!-- 统计注册用户注册总数量 -->
-    <select id="getRegisterTenderCountByEmp" resultType="java.lang.Long">
-	    SELECT count(id)
-	    from T_SES_BMS_USER
-		</select>
 		
 		<!-- 假删除用户 -->
 		<update id="updateByTypeId" parameterType="java.lang.String">
@@ -1021,4 +1015,13 @@
 			WHERE TYPE_ID = #{typeId}
 			AND IS_DELETED = 1
 		</update>
+		
+		<!-- 统计注册用户注册总数量 -->
+	    <select id="getRegisterTenderCountByEmp" resultType="java.lang.Long" parameterType="Map">
+		     SELECT COUNT(ID)
+	        	FROM T_SES_BMS_USER U
+	       		WHERE TO_CHAR(U.CREATED_AT, 'yyyy-MM-dd') = #{createdAt}
+		</select>
+		
+		
 </mapper>

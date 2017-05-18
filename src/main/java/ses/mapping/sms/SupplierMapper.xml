@@ -1761,9 +1761,11 @@
 	</update>
 	
 	<!-- 统计注册供应商数 -->
-	<select id="getRegisterSupplierCountByEmp" resultType="java.lang.Long">
-	    SELECT count(id)
-	    from T_SES_SMS_SUPPLIER
+	<select id="getRegisterSupplierCountByEmp" resultType="java.lang.Long" parameterType="Map">
+	      SELECT COUNT(ID)
+        	FROM T_SES_SMS_SUPPLIER S
+       		WHERE S.IS_DELETED = 0
+         	AND TO_CHAR(S.CREATED_AT, 'yyyy-MM-dd') = #{createdAt}
 	</select>
 	
 	<!-- 假删除供应商 -->

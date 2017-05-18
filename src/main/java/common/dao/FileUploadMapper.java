@@ -205,7 +205,7 @@ public interface FileUploadMapper {
     * @return Long    返回类型 
     * @throws
      */
-    public Long getFileCountByEmp(@Param("tableName")String tableName);
+    public Long getFileCountByEmp(Map<String, Object> map);
     
     /**
      * 

@@ -1,5 +1,8 @@
 package common.service;
 
+import javax.servlet.http.HttpServletRequest;
+
+import ses.model.bms.User;
 import common.model.LoginLog;
 
 /**
@@ -21,7 +24,7 @@ public interface LoginLogService {
 	* @return void    返回类型 
 	* @throws
 	 */
-	public void saveOnlineUser(LoginLog loginLog);
+	public void saveOnlineUser(User user, HttpServletRequest req);
 	
 	
 	/**

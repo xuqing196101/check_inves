@@ -469,7 +469,7 @@ public interface SupplierMapper {
     * @return Long    返回类型 
     * @throws
      */
-    public Long getRegisterSupplierCountByEmp();
+    public Long getRegisterSupplierCountByEmp(Map<String, Object> map);
     
     /**
      * @Title: updateById

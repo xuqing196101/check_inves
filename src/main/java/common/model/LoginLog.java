@@ -16,22 +16,38 @@ public class LoginLog {
 	private String id;
 
 	/** 登录人Id **/
-	private String loginId;
+	private String userId;
 
 	/** 登录名称 **/
 	private String name;
 
-	/** 1：后台 2：供应商 3：专家4:论坛 ，5网上竞价 **/
+	/** 1：专家  2：供应商 3：后台管理员 **/
 	private Integer type;
 
 	/** 登录人IP **/
     private String ip;
 
-    /** 登录时间 **/
-    private Date loginAt;
-    
 	/** 0：未删除 1：删除 **/
     private Integer isDeleted;
+    
+    /** 登录时间 **/
+    private Date createdAt;
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 
 	private String remark;
 
@@ -41,14 +57,6 @@ public class LoginLog {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getLoginId() {
-		return loginId;
-	}
-
-	public void setLoginId(String loginId) {
-		this.loginId = loginId;
 	}
 
 	public Integer getIsDeleted() {
@@ -89,14 +97,6 @@ public class LoginLog {
 
 	public void setIp(String ip) {
 		this.ip = ip;
-	}
-
-	public Date getLoginAt() {
-		return loginAt;
-	}
-
-	public void setLoginAt(Date loginAt) {
-		this.loginAt = loginAt;
 	}
 	
 }
