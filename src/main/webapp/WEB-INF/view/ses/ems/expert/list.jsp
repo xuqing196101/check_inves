@@ -258,7 +258,7 @@
 						<a href="javascript:void(0)">专家管理</a>
 					</li>
 					<li>
-						<a href="javascript:void(0)">专家列表</a>
+						<a href="javascript:void(0)">全部专家查询</a>
 					</li>
 				</ul>
 				<div class="clear"></div>

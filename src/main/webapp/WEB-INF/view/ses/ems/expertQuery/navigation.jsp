@@ -17,9 +17,6 @@
 					<li>
 						<a href="javascript:void(0)">专家管理</a>
 					</li>
-					<li>
-						<a href="javascript:void(0)">查看详细</a>
-					</li>
 				</ul>
 				<div class="clear"></div>
 			</div>
