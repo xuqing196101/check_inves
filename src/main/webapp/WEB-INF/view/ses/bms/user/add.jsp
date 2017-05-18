@@ -297,6 +297,7 @@
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
 				$("#oId").attr("type","text");
+				$("#oId").attr("type","text");
 			} else if (  orgType == '5'||orgType == '4') {
 			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
@@ -586,10 +587,10 @@
 			 	</li>
 			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="select_org">
 				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">
-				   	<c:if test="${not empty ajax_orgId }">
+				   	<c:if test="${typeName!=5&&typeName!=4 }">
 				   	<span class="red display-inline" id="isOrgShow">*</span><span id="orgTitle">所属机构</span>
 				   	</c:if>
-				   	<c:if test="${empty ajax_orgId }">
+				   	<c:if test="${typeName==5&&typeName==4 }">
 				   	<span class="red display-inline" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
 				   	</c:if>
 				   	</span>
@@ -597,7 +598,7 @@
 				        <c:choose> 
 					        <c:when  test="${not empty origin}">
 					            <input id="oId" name="orgId" value="${orgId}" type="hidden" />
-					        	<input id="orgSel"  type="text" name="orgName" readonly value="${orgName}"  />
+					        	<input id="orgSel"  type="text" name="orgName"  value="${orgName}"  />
 					        </c:when >
 					        <c:otherwise>
 					        	<input id="oId" name="orgId" value="${user.orgId}" type="hidden" />

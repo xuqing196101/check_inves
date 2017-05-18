@@ -201,6 +201,7 @@ public class UserManageController extends BaseController{
   		String origin = request.getParameter("origin");
   		String orgId = request.getParameter("org_orgId");
   		String deptTypeName = request.getParameter("deptTypeName");
+  		String typeName = request.getParameter("typeName");
 		
 	    if(result.hasErrors()){
 	      List<DictionaryData> genders = DictionaryDataUtil.find(13);
@@ -209,7 +210,11 @@ public class UserManageController extends BaseController{
             model.addAttribute("genders", genders);
   			model.addAttribute("user", user);
   			model.addAttribute("roleName", roleName);
+  			if(orgName==null){
+  				orgName=request.getParameter("orgId");
+  			}
   			model.addAttribute("orgName", orgName);
+  			model.addAttribute("typeName", typeName);
 			
   			if (StringUtils.isNotBlank(origin)){
   			    addAtt(request, model);
