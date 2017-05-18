@@ -172,8 +172,8 @@ public class LoginController {
                         Expert expert = expertService.selectByPrimaryKey(u.getTypeId());
                         //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
 //                        int validateDay = expertService.logoutExpertByDay(expert);
-                        int validateDay = 0;
-                        if(0==validateDay){//通过
+//                        int validateDay = 0;
+//                        if(0==validateDay){//通过
                             Map<String, Object> map = expertService.loginRedirect(u);
                             Object object = map.get("expert");
                             if (object != null) {
@@ -202,9 +202,9 @@ public class LoginController {
                                 req.getSession().setAttribute("loginUserType", "expert");
                                 out.print("scuesslogin");
                             }
-                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
-                            out.print("expert_logout," + validateDay);
-                        }
+//                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
+//                            out.print("expert_logout," + validateDay);
+//                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
