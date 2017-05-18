@@ -3,16 +3,16 @@
 <mapper namespace="common.dao.LoginLogMapper" >
   <resultMap id="BaseResultMap" type="common.model.LoginLog" >
     <id column="ID" property="id" jdbcType="VARCHAR" />
-    <result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="TYPE" property="type" jdbcType="DECIMAL" />
     <result column="IP" property="ip" jdbcType="VARCHAR" />
-    <result column="LOGIN_AT" property="loginAt" jdbcType="TIMESTAMP" />
     <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, LOGIN_ID, NAME, TYPE, IP, LOGIN_AT, IS_DELETED, REMARK
+    ID, USER_ID, NAME, TYPE, IP, IS_DELETED, CREATED_AT, REMARK
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -25,15 +25,18 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="common.model.LoginLog" >
-    insert into T_SYSTEM_LOGIN_LOG (ID, LOGIN_ID, NAME, 
-      TYPE, IP, LOGIN_AT, 
-      IS_DELETED, REMARK)
-    values (#{id,jdbcType=VARCHAR}, #{loginId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{type,jdbcType=DECIMAL}, #{ip,jdbcType=VARCHAR}, #{loginAt,jdbcType=TIMESTAMP}, 
-      #{isDeleted,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR})
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SYSTEM_LOGIN_LOG (ID, USER_ID, NAME, 
+      TYPE, IP, IS_DELETED, 
+      CREATED_AT, REMARK)
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=DECIMAL}, #{ip,jdbcType=VARCHAR}, #{isDeleted,jdbcType=DECIMAL}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="common.model.LoginLog" >
-    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
     </selectKey>
     insert into T_SYSTEM_LOGIN_LOG
@@ -41,8 +44,8 @@
       <if test="id != null" >
         ID,
       </if>
-      <if test="loginId != null" >
-        LOGIN_ID,
+      <if test="userId != null" >
+        USER_ID,
       </if>
       <if test="name != null" >
         NAME,
@@ -53,11 +56,11 @@
       <if test="ip != null" >
         IP,
       </if>
-      <if test="loginAt != null" >
-        LOGIN_AT,
-      </if>
       <if test="isDeleted != null" >
         IS_DELETED,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
       </if>
       <if test="remark != null" >
         REMARK,
@@ -67,8 +70,8 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="loginId != null" >
-        #{loginId,jdbcType=VARCHAR},
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -79,11 +82,11 @@
       <if test="ip != null" >
         #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="loginAt != null" >
-        #{loginAt,jdbcType=TIMESTAMP},
-      </if>
       <if test="isDeleted != null" >
         #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -93,8 +96,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="common.model.LoginLog" >
     update T_SYSTEM_LOGIN_LOG
     <set >
-      <if test="loginId != null" >
-        LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
         NAME = #{name,jdbcType=VARCHAR},
@@ -105,11 +108,11 @@
       <if test="ip != null" >
         IP = #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="loginAt != null" >
-        LOGIN_AT = #{loginAt,jdbcType=TIMESTAMP},
-      </if>
       <if test="isDeleted != null" >
         IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null" >
         REMARK = #{remark,jdbcType=VARCHAR},
@@ -119,12 +122,12 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="common.model.LoginLog" >
     update T_SYSTEM_LOGIN_LOG
-    set LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+    set USER_ID = #{userId,jdbcType=VARCHAR},
       NAME = #{name,jdbcType=VARCHAR},
       TYPE = #{type,jdbcType=DECIMAL},
       IP = #{ip,jdbcType=VARCHAR},
-      LOGIN_AT = #{loginAt,jdbcType=TIMESTAMP},
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       REMARK = #{remark,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -137,10 +140,11 @@
   
   <!-- 统计用户日登录量 -->
   <select id="getLoginCountByEmp" resultType="java.lang.Long" parameterType="Map">
-    SELECT COUNT(DISTINCT L.IP)
+    SELECT COUNT(DISTINCT (L.USER_ID))
     FROM T_SYSTEM_LOGIN_LOG L
    		WHERE L.IS_DELETED = 0
-     	AND TO_CHAR(L.LOGIN_AT, 'yyyy-MM-dd') = #{loginTime}
+     	AND TO_CHAR(L.CREATED_AT, 'yyyy-MM-dd') = #{createdAt}
      	AND L.TYPE = #{loginType}
   </select>
+    
 </mapper>

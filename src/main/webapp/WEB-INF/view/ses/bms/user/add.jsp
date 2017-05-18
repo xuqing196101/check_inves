@@ -38,6 +38,22 @@
                 return false;
 
             }
+            $.ajax({
+                url:'${pageContext.request.contextPath}/expert/findAllLoginName.do',
+                type:"post",
+                data:{"loginName":loginName},
+                success:function(obj){
+                    if(obj=='1'){
+                        $("#is_exist").html("用户名已存在").css('color','red');
+                        flag=1;
+                        return false;
+                    }else{
+                        $("#is_exist").html("");
+                        flag = 2;
+                        return true;
+                    }
+                }
+            });
         }
 		/* 机构树 */
 		function onClickOrg(e, treeId, treeNode) {
@@ -601,7 +617,7 @@
 					        </c:when >
 					        <c:otherwise>
 					        	<input id="oId" name="orgId" value="${user.orgId}" type="hidden" />
-					        	<input id="orgSel"  type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
+					        	<input id="orgSel"  type="text" name="orgName"  value="${orgName}"  onclick="showOrg();" />
 					        </c:otherwise>
 					    </c:choose>
 					    <input type="hidden" id="orgParent" value=""/>

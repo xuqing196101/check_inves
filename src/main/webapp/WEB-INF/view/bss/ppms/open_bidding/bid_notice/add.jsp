@@ -378,14 +378,6 @@
 		</div>
    	</div>
 	 <form  method="post" id="form" > 
-        <!-- 按钮 -->
-        <div class="fr pr15">
-		     <%-- <input type="button" class="btn btn-windows input" onclick="inputTemplete('${projectId }')" value="模板导入"></input> --%>
-	         <!-- <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input> -->
-	         <!-- <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>   -->
-	         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
-	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="提交"></input>  
-	    </div>
 	    <input type="hidden" id="is_saveNotice" value="${saveStatus}">
 	    <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}">
 	    <input type="hidden" id="noticeType" name="noticeType" value="${noticeType}">
@@ -463,11 +455,19 @@
                   <u:show  showId="d"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId_examine}"/>
               </li> --%>
               <li class="col-md-3 col-sm-6 col-xs-12 pl15 mt5">
-	              <span class="fl" >单位及保密委员会审核表: </span>
+	              <span class="fl" >单位及保密委员会审核表： </span>
 	                <u:upload id="e"  groups="a,c,f" multiple="true" businessId="${articleId}"  sysKey="${sysKey}" typeId="${security}" auto="true" />
                   <u:show  showId="f"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}"/>
               </li>
            </ul>
+                  <!-- 按钮 -->
+        <div class="w100p tc fl">
+		     <%-- <input type="button" class="btn btn-windows input" onclick="inputTemplete('${projectId }')" value="模板导入"></input> --%>
+	         <!-- <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input> -->
+	         <!-- <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>   -->
+	         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
+	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="提交"></input>  
+	    </div>
       </form>
       
 	<div class="dnone" id="preview">

@@ -1,5 +1,6 @@
 package common.utils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -128,6 +129,7 @@ public class DateUtils {
          Date dated = new Date(dateLong);
          return dated;
     }
+    
     /***
      * 根据当前日期 获取 周几
      * @author YangHongLiang
@@ -140,6 +142,25 @@ public class DateUtils {
     	  int intWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
     	 return intWeek;
     }
+    
+    /**
+     * 
+    * @Title: subDayDate 
+    * @Description: 日期减N天
+    * @author Easong
+    * @param @param date
+    * @param @param day
+    * @param @return    设定文件 
+    * @return Date    返回类型 
+    * @throws
+     */
+    public static Date subDayDate(Date date,int day){
+    	 Long oneDay = 1000 * 60 * 60 * 24l;
+    	 long dateLong = (date.getTime() - oneDay*day);
+         Date dated = new Date(dateLong);
+         return dated;
+    }
+    
     /***
      * 根据当前日期 去掉时分秒
      * @author YangHongLiang
@@ -302,4 +323,69 @@ public class DateUtils {
     	// 得到Date
     	return calendar.getTime();
     }
+    
+    /**
+     * 
+    * @Title: getDateFormat 
+    * @Description: 通过格式化方式获取DateFormat
+    * 如：yyyy   yyyy-MM  yyyy-MM-dd  yyyy-MM-dd hh:mm:ss
+    * @author Easong
+    * @param @param dateFormat
+    * @param @return    设定文件 
+    * @return DateFormat    返回类型 
+    * @throws
+     */
+    public static DateFormat getDateFormat(String dateFormat){
+    	return new SimpleDateFormat(dateFormat);
+    }
+    
+    /**
+     * 
+    * @Title: getYear 
+    * @Description: 获取当前所在年年
+    * @author Easong
+    * @param @param date
+    * @param @return    设定文件 
+    * @return String    返回类型 
+    * @throws
+     */
+    public static String getYear(Date date) {
+		// 获取年
+		DateFormat dateFormatForyear = DateUtils.getDateFormat("yyyy");
+		String year = dateFormatForyear.format(date);
+		return year;
+	}
+    
+    /**
+     * 
+    * @Title: getDayOfYear 
+    * @Description: 获取当前所在天/月
+    *  如：20170511(天)  201705(月)
+    * @author Easong
+    * @param @param date
+    * @param @param dateFormat
+    * @param @return    设定文件 
+    * @return Integer    返回类型 
+    * @throws
+     */
+    public static Integer getDayOfYear(Date date, DateFormat dateFormat) {
+		String dayString = dateFormat.format(date).replace("-", "");
+		Integer dayOrMonth = Integer.parseInt(dayString);
+		return dayOrMonth;
+	}
+    
+    /**
+     * 
+    * @Title: getWeekOfYear 
+    * @Description: 获取当前年的第几周
+    * @author Easong
+    * @param @return    设定文件 
+    * @return int    返回类型 
+    * @throws
+     */
+    public static int getWeekOfYear() {
+		Calendar calendar = Calendar.getInstance();
+		int i = calendar.get(Calendar.WEEK_OF_YEAR) + 1;
+		return i;
+	}
 }

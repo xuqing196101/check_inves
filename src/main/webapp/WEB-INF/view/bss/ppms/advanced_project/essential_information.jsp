@@ -673,7 +673,7 @@
               </form>
             </div>
           </div>
-          <div class="tab-pane fade active over_hideen" id="tab-5">
+          <div class="tab-pane fade over_hideen" id="tab-5">
             <div>上传附件：</div>
             <u:upload id="upload123" groups="upload123,upload_id" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" /> &nbsp;
             <button class="btn btn-windows input" onclick="downloads();">下载</button>
