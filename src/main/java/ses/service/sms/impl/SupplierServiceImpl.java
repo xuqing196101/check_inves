@@ -1130,7 +1130,7 @@ public class SupplierServiceImpl implements SupplierService {
 	        }
 		 
 		 	//查询供应商
-			List<Supplier> listSupplier=supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+			List<Supplier> listSupplier=supplierMapper.findSupplierbyCategoryId(supplier);
 			
 			//查询品目
 	        List<SupplierItem> selectByCategoryId = supplierItemMapper.selectByCategoryId(categoryIds);
