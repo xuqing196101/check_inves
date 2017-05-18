@@ -110,9 +110,12 @@ public class UserServiceImpl implements UserServiceI {
 			u.setIsDeleted(1);
 			SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
 	    	String date = format.format(new Date());
-	    	String loginName = u.getLoginName() + "_" + "del" + "_" +"bak" + "_" + date;
-	    	String mobile=u.getMobile() + "_" + "del" + "_" +"bak" + "_" + date;
-	    	String idNumber=u.getIdNumber() + "_" + "del" + "_" +"bak" + "_" + date;
+	    	StringBuffer suffix = new StringBuffer();
+	    	suffix.append("_del_bak_");
+	    	suffix.append(date);
+	    	String loginName = u.getLoginName()+suffix.toString();
+	    	String mobile=u.getMobile() +suffix.toString();
+	    	String idNumber=u.getIdNumber() +suffix.toString();
 		    u.setLoginName(loginName);
 		    u.setMobile(mobile);
 		    u.setIdNumber(idNumber);
