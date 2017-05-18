@@ -1,6 +1,5 @@
 package ses.controller.sys.sms;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +7,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.sms.SupplierCredit;
 import ses.service.sms.SupplierCreditService;
 
+import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageInfo;
+import common.utils.JdcgResult;
 
 @Controller
 @Scope("prototype")
@@ -44,9 +46,13 @@ public class SupplierCreditController {
 	}
 	
 	@RequestMapping(value = "save_or_update_supplier_credit")
-	public String saveOrUpdateSupplierCredit(SupplierCredit supplierCredit) {
+	@ResponseBody
+	public JdcgResult saveOrUpdateSupplierCredit(SupplierCredit supplierCredit,Model model) {
+		if(StringUtils.isEmpty(supplierCredit.getName())){
+			return JdcgResult.build(500, "请填写诚信形式名称");
+		}
 		supplierCreditService.saveOrUpdateSupplierCredit(supplierCredit);
-		return "redirect:list.html";
+		return JdcgResult.ok();
 	}
 	
 	@RequestMapping(value = "update_status")
