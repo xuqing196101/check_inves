@@ -1718,7 +1718,7 @@
 		update
 		T_SES_SMS_SUPPLIER
 		set
-		  SUPPLIER_STATUS = #{status}
+		  SUPPLIER_STATUS = #{status},AUDIT_DATE=#{auditDate}
 		where ID = #{id}
 	</update>
 	

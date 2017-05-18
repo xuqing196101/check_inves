@@ -507,7 +507,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 					  userMapper.updateByPrimaryKeySelective(user);
 				  }
 			  }
-			  supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus());
+			  supplierMapper.updateSupplierStatus(sb.getSupplierId(), sb.getStatus(),sb.getAuditDate());
 			  List<SupplierAuditNot> auditNots = sb.getSupplierAuditNot();
 			  for(SupplierAuditNot sa:auditNots){
 				  SupplierAuditNot not = supplierAuditNotMapper.selectById(sa.getId());

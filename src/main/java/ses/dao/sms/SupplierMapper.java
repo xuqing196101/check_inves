@@ -421,7 +421,7 @@ public interface SupplierMapper {
     * @return void     
     * @throws
      */
-    void updateSupplierStatus(@Param("id")String id,@Param("status")Integer status);
+    void updateSupplierStatus(@Param("id")String id,@Param("status")Integer status,@Param("auditDate")Date auditDate);
     
     
     
