@@ -1875,8 +1875,8 @@ public class ExpertController extends BaseController {
                 User user = (User) session.getAttribute("loginUser");
                 Expert temp = service.selectByPrimaryKey(expertId);
                 //校验是否在规定时间未提交审核,如时间>0说明不符合规定则注销信息
-                int validateDay = service.logoutExpertByDay(temp);
-                if(0==validateDay){//通过审核时间校验
+//                int validateDay = service.logoutExpertByDay(temp);
+//                if(0==validateDay){//通过审核时间校验
                     // 用户信息处理
                     service.userManager(user, userId, expert, expertId);
                     // 调用service逻辑代码 实现提交
@@ -1897,9 +1897,9 @@ public class ExpertController extends BaseController {
                     expert.setSubmitAt(new Date());
                     expert.setAuditAt(new Date());
                     service.updateByPrimaryKeySelective(expert);
-                }else if(0 < validateDay){//未按规定时间提交审核,注销信息
-                    return "expert_logout," + validateDay;
-                }
+//                }else if(0 < validateDay){//未按规定时间提交审核,注销信息
+//                    return "expert_logout," + validateDay;
+//                }
             } catch(Exception e) {
                 e.printStackTrace();
                 // 未做异常处理
