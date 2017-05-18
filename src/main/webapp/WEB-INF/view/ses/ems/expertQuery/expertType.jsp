@@ -75,9 +75,6 @@
 							<a  href="${pageContext.request.contextPath}/expertQuery/list.html">入库专家查询</a>
 						</c:if>
 					</li>
-					<li>
-						<a href="javascript:void(0)">查看详细</a>
-					</li>
 				</ul>
 				<div class="clear"></div>
 			</div>

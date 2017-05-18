@@ -99,11 +99,11 @@
 							<td class="tc">${list.contactName}</td>
 							<td class="tl pl20">${list.supplierType }</td>
 							<td class="tc">
-								<c:if test="${list.status==5 and list.isProvisional == 1}">临时</c:if>
+								<%-- <c:if test="${list.status==5 and list.isProvisional == 1}">临时</c:if>
 								<c:if test="${list.status==-1}">暂存</c:if>
-								<c:if test="${list.status==0}">待审核</c:if>
+								<c:if test="${list.status==0}">待审核</c:if> --%>
 								<c:if test="${list.status==1}">审核通过</c:if>
-								<c:if test="${list.status==2}">审核退回修改</c:if>
+								<%-- <c:if test="${list.status==2}">审核退回修改</c:if> --%>
 								<c:if test="${list.status==3}">审核未通过</c:if>
 								<c:if test="${list.status==4}">待复核</c:if>
 								<c:if test="${list.status==5 and list.isProvisional == 0}">复核通过</c:if>

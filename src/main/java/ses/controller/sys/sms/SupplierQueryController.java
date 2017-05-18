@@ -354,7 +354,7 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/selectByCategory")
     public String selectByCategory(Supplier sup, Integer page, String categoryIds, Model model) {
-        if (categoryIds != null && !"".equals(categoryIds)) {
+       /* if (categoryIds != null && !"".equals(categoryIds)) {
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);
         }
@@ -362,7 +362,7 @@ public class SupplierQueryController extends BaseSupplierController {
         getSupplierType(listSupplier);
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
         model.addAttribute("supplier", sup);
-        model.addAttribute("categoryIds", categoryIds);
+        model.addAttribute("categoryIds", categoryIds);*/
         /*Category category = new Category();
         List<String> list=new ArrayList<String>();
         if (categoryIds != null) {
