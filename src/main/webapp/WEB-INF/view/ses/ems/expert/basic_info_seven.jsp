@@ -140,7 +140,7 @@
                 function(index, element) {
                     if (element.value.trim() == "") {
                         // bool = false;
-                        /*  layer.msg("请完善执业业资格信息 !");
+                        /*  layer.msg("请完善执业资格信息 !");
                          return; */
                          s2=false;
                     }
@@ -148,7 +148,7 @@
  			 }); 
     	 }
    	   if(s==false||s2==false){
-    		  layer.msg("请完善执业业资格信息 !");
+    		  layer.msg("请完善执业资格信息 !");
     		 return;
        }
         //此处是对选中专家进行校验
@@ -195,7 +195,7 @@
                             if(data=="1"){
                                 submitForm2();
                             }else{
-                                layer.msg("请完善执业业资格信息 !");
+                                layer.msg("请完善执业资格信息 !");
                                 return;
                             }
                         }
@@ -228,7 +228,7 @@
                         if(data=="1"){
                             submitForm2();
                         }else{
-                            layer.msg("请完善执业业资格信息 !");
+                            layer.msg("请完善执业资格信息 !");
                             return;
                         }
                     }

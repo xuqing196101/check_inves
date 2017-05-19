@@ -56,7 +56,7 @@ public class PurchaseContract {
 
 	private String purchaseBank;//甲方开户银行
 
-	private BigDecimal purchaseBankAccount;//甲方银行账号
+	private String purchaseBankAccount;//甲方银行账号
 	
 	private String purchaseBankAccount_string;
 
@@ -76,7 +76,7 @@ public class PurchaseContract {
 
 	private String supplierBank;//乙方开户银行
 
-	private BigDecimal supplierBankAccount;//乙方银行账号
+	private String supplierBankAccount;//乙方银行账号
 	
 	private String supplierBankAccount_string;
 
@@ -424,14 +424,7 @@ public class PurchaseContract {
 		this.purchaseBank = purchaseBank;
 	}
 
-	public BigDecimal getPurchaseBankAccount() {
-		return purchaseBankAccount;
-	}
-
-	public void setPurchaseBankAccount(BigDecimal purchaseBankAccount) {
-		this.purchaseBankAccount = purchaseBankAccount;
-	}
-
+	
 	public String getSupplierDepName() {
 		return supplierDepName;
 	}
@@ -496,11 +489,21 @@ public class PurchaseContract {
 		this.supplierBank = supplierBank;
 	}
 
-	public BigDecimal getSupplierBankAccount() {
+	
+
+	public String getPurchaseBankAccount() {
+		return purchaseBankAccount;
+	}
+
+	public void setPurchaseBankAccount(String purchaseBankAccount) {
+		this.purchaseBankAccount = purchaseBankAccount;
+	}
+
+	public String getSupplierBankAccount() {
 		return supplierBankAccount;
 	}
 
-	public void setSupplierBankAccount(BigDecimal supplierBankAccount) {
+	public void setSupplierBankAccount(String supplierBankAccount) {
 		this.supplierBankAccount = supplierBankAccount;
 	}
 

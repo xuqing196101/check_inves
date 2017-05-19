@@ -131,7 +131,16 @@
     function resetQuery() {
 		$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
-    
+    function search(){
+		if($("#budget").val()!=""&&$("#budget").val().trim()!=""){
+			var exp = /^([1-9][\d]{0,7}|0)(\.[\d]{1,4})?$/;
+			 if(!exp.test($("#budget").val())){
+				 layer.alert("请输入正确预算金额"); 
+				 return false;
+			 }
+		}
+		$("#add_form").submit();
+	}
   </script>
   </head>
   
@@ -162,11 +171,11 @@
 				      </li>
 				   		<li>
 				    	<label class="fl">预算金额：</label><span>
-				  	   	   <input type="text" name="" value=""/>
+				  	   	   <input type="text" id="budget" name="budget" value="${inf.budget}"/>
 				    	</span>
 				      </li>
 			    </ul>
-	   	 		<input class="btn fl" type="submit" value="查询" /> 
+	   	 		<input class="btn fl" type="button" onclick="search()" value="查询" /> 
 				<input class="btn fl" type="button" value="重置" onclick="resetQuery()"  />
 				<div class="clear"></div>	
    		</form>

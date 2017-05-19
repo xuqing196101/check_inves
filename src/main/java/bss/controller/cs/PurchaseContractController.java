@@ -902,8 +902,8 @@ public class PurchaseContractController extends BaseSupplierController{
 			purCon.setUpdatedAt(new Date());
 			purCon.setMoney(new BigDecimal(purCon.getMoney_string()));
 			purCon.setBudget(new BigDecimal(purCon.getBudget_string()));
-			purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string()));
-			purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string()));
+			purCon.setSupplierBankAccount(purCon.getSupplierBankAccount_string());
+			purCon.setPurchaseBankAccount(purCon.getPurchaseBankAccount_string());
 			PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
 			if(pur==null){
 				//
@@ -994,12 +994,6 @@ public class PurchaseContractController extends BaseSupplierController{
 		}
 		if(purCon.getBudget_string()!=""&&purCon.getBudget_string()!=null){
 			purCon.setBudget(new BigDecimal(purCon.getBudget_string()));
-		}
-		if(purCon.getSupplierBankAccount_string()!=""&&purCon.getSupplierBankAccount_string()!=null){
-			purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string()));
-		}
-		if(purCon.getPurchaseBankAccount_string()!=""&&purCon.getPurchaseBankAccount_string()!=null){
-			purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string()));
 		}
 		purCon.setSupplierCheckIds(supcheckid);
 		PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
@@ -1111,8 +1105,8 @@ public class PurchaseContractController extends BaseSupplierController{
 		purCon.setSupplierBankAccount_string(purCon.getSupplierBankAccount()==null?"":purCon.getSupplierBankAccount().toString());
 		purCon.setPurchaseBankAccount_string(purCon.getPurchaseBankAccount()==null?"":purCon.getPurchaseBankAccount().toString());
 		purCon.setBudget(new BigDecimal(purCon.getBudget_string().equals("")?"0":purCon.getBudget_string().toString()));
-		purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string().equals("")?"0":purCon.getSupplierBankAccount_string().toString()));
-		purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string().equals("")?"0":purCon.getPurchaseBankAccount_string().toString()));
+		purCon.setSupplierBankAccount(purCon.getSupplierBankAccount_string());
+		purCon.setPurchaseBankAccount(purCon.getPurchaseBankAccount_string());
 		List<ContractRequired> resultList = contractRequiredService.selectConRequeByContractId(purCon.getId());
 		model.addAttribute("requList", resultList);
 		model.addAttribute("purCon", purCon);
@@ -1231,8 +1225,8 @@ public class PurchaseContractController extends BaseSupplierController{
 			purCon.setUpdatedAt(new Date());
 			purCon.setMoney(new BigDecimal(purCon.getMoney_string()));
 			purCon.setBudget(new BigDecimal(purCon.getBudget_string()));
-			purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string()));
-			purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string()));
+			purCon.setSupplierBankAccount(purCon.getSupplierBankAccount_string());
+			purCon.setPurchaseBankAccount(purCon.getPurchaseBankAccount_string());
 			purchaseContractService.insertSelectiveById(purCon);
 			purchaseContractService.createWord(purCon, requList,request);
 			appraisalContractService.insertPurchaseContract(purCon);
@@ -1360,8 +1354,8 @@ public class PurchaseContractController extends BaseSupplierController{
 			purCon.setUpdatedAt(new Date());
 			purCon.setMoney(new BigDecimal(purCon.getMoney_string()));
 			purCon.setBudget(new BigDecimal(purCon.getBudget_string()));
-			purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string()));
-			purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string()));
+			purCon.setSupplierBankAccount(purCon.getSupplierBankAccount_string());
+			purCon.setPurchaseBankAccount(purCon.getPurchaseBankAccount_string());
 			purchaseContractService.updateByPrimaryKeySelective(purCon);
 			String id = purCon.getId();
 			contractRequiredService.deleteByContractId(id);
@@ -2439,8 +2433,8 @@ public class PurchaseContractController extends BaseSupplierController{
             purCon.setUpdatedAt(new Date());
             purCon.setMoney(new BigDecimal(purCon.getMoney_string()));
             purCon.setBudget(new BigDecimal(purCon.getBudget_string()));
-            purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string()));
-            purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string()));
+            purCon.setSupplierBankAccount(purCon.getSupplierBankAccount_string());
+            purCon.setPurchaseBankAccount(purCon.getPurchaseBankAccount_string());
             purCon.setSupplierCheckIds(supcheckid);
     		PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
     		if(pur==null){

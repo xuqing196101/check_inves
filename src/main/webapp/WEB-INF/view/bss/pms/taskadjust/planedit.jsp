@@ -591,7 +591,7 @@
 							<tr class="info">
 								<th class="seq">序号</th>
 								<th class="department">需求部门</th>
-								<th class="info goodsname"物资类别<br>及名称</th>
+								<th class="info goodsname">物资类别<br>及名称</th>
 								<th class="info stand">规格型号</th>
 								<th class="info qualitstand">质量技术标准</th>
 								<th class="info item">计量单位</th>

@@ -454,17 +454,17 @@
     }
 	
 	function staging(){
-		var text = $("#post_attach_show_disFileId").find("a");
+		/* var text = $("#post_attach_show_disFileId").find("a");
 		var flag = true;
 		if(text.length<=0){
 			flag = false;
 			layer.alert("请先上传授权书",{offset: ['222px', '390px'], shade:0.01});
-		}
-		if(flag){
+		} */
+		/* if(flag){ */
 			$("#status").val("0");
 			$("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/addzancun.html?ids=${id}");
 			$("#contractForm").submit();
-		}
+		/* } */
 	}
 	
 	var ind = null;
