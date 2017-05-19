@@ -1221,7 +1221,7 @@
 			"NVL" (T4. NAME, T3. NAME) AS NAME,
 			t1.typeId,
 			t2.*,
-			org.NAME AS orgName
+			org.SHORT_NAME AS orgName
 		FROM
 			(
 				SELECT
