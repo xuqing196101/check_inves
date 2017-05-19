@@ -943,7 +943,7 @@ function importAdd(){
 	   <div class="row magazine-page clear">
       <div class="col-md-12 col-xs-12 col-sm-12 drop_hover"  id="drop-7">
 	   <div class="drop_main">
-		<div class="margin-bottom-10 login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+		<div class="margin-bottom-10 login_box job-content col-md-5 col-sm-12 col-xs-12 mt10">
 		 <h2 class="f17 bgwhite">
 		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-41" data-toggle="tab">国家采购法规</a></li>

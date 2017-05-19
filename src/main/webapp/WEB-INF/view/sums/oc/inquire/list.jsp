@@ -94,10 +94,10 @@ function resetQuery() {
 		<thead>
 			<tr class="info">
 				<th class="w50">序号</th>
-				<th>投诉人名称</th>
-				<th>投诉人类型</th>
-				<th>投诉对象</th>
-				<th width="25%">投诉事项</th>
+				<th width="16%">投诉人名称</th>
+				<th  width="12%">投诉人类型</th>
+				<th width="16%">投诉对象</th>
+				<th width="37%">投诉事项</th>
 				<th>处理情况</th>
 			</tr>
 		</thead>
@@ -105,15 +105,15 @@ function resetQuery() {
 		<c:forEach items="${info.list }" var="complaint" varStatus="vs">
 			<tr class="tc" onclick="window.location.href = '${pageContext.request.contextPath }/onlineComplaints/view.html?id=${complaint.id }'">
 				<td class="w50" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-				<td class="tc" >${complaint.name }</td>
+				<td class="tl" >${complaint.name }</td>
 				<td class="tc">
 					<c:if test="${complaint.type == 1 }">个人</c:if>
 					<c:if test="${complaint.type == 0 }">单位</c:if>
 				</td>
-				<td class="tc">${complaint.complaintObject }</td>
-				<td class="tl" <c:if test="${fn:length(complaint.complaintMatter) > 12 }">title="${complaint.complaintMatter }"</c:if>>  
-					<c:if test="${fn:length(complaint.complaintMatter) > 12 }">${fn:substring(complaint.complaintMatter, 0, 12)}...</c:if>
-					<c:if test="${fn:length(complaint.complaintMatter) <= 12 }">${complaint.complaintMatter }</c:if>
+				<td class="tl">${complaint.complaintObject }</td>
+				<td class="tl" <c:if test="${fn:length(complaint.complaintMatter) > 22 }">title="${complaint.complaintMatter }"</c:if>>  
+					<c:if test="${fn:length(complaint.complaintMatter) > 22 }">${fn:substring(complaint.complaintMatter, 0, 22)}...</c:if>
+					<c:if test="${fn:length(complaint.complaintMatter) <= 22 }">${complaint.complaintMatter }</c:if>
 				</td>
 				<td class="tc">
 					<c:if test="${complaint.status == 0 }">未处理</c:if>

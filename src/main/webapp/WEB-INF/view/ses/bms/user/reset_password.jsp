@@ -78,7 +78,7 @@
 				<div class="clear"></div>
 			</div>
 		</div>
-		<div class="container">
+		<div class="container container_box">
 			<form method="post" id="form2" >
 			<input type="hidden" name="id" id="userId" value="${user.id}">
 			<h2 class="list_title">修改密码</h2>
