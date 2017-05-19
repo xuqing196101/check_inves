@@ -388,4 +388,22 @@ public class DateUtils {
 		int i = calendar.get(Calendar.WEEK_OF_YEAR) + 1;
 		return i;
 	}
+    
+    
+    /**
+     * 
+    * @Title: getDate 
+    * @Description: 根据当前日期获取前N个月后的日期
+    * @author Easong
+    * @param @param month
+    * @param @return    设定文件 
+    * @return String    返回类型 
+    * @throws
+     */
+	public static Date getDate(Date currDate, int month) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(currDate);
+		cal.add(Calendar.MONTH, month);// 对月份进行计算
+		return cal.getTime();
+	}
 }

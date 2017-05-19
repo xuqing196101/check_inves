@@ -329,6 +329,17 @@
 				});
 				
 			}
+			
+			function search(){
+				if($("#budget").val()!=""&&$("#budget").val().trim()!=""){
+					var exp = /^([1-9][\d]{0,7}|0)(\.[\d]{1,4})?$/;
+					 if(!exp.test($("#budget").val())){
+						 layer.alert("请输入正确预算金额"); 
+						 return false;
+					 }
+				}
+				$("#add_form").submit();
+			}
 		</script>
 	</head>
 
@@ -347,7 +358,7 @@
 						<a href="#">采购计划管理</a>
 					</li>
 					<li class="active">
-						<a href="#">采购计划列表</a>
+						<a href="#">采购计划审核</a>
 					</li>
 				</ul>
 				<div class="clear"></div>
@@ -373,7 +384,7 @@
 				      <li>
 				    		<label class="fl">采购金额：</label>
 				    		<span>
-				  	          <input type="text" name="budget" value="${inf.budget }"/> 
+				  	          <input type="text" name="budget" id="budget" value="${inf.budget }" /> 
 				    	    </span>
 				      </li>
 				      <li>
@@ -394,7 +405,7 @@
 					  </li>			  
 
 			    </ul>
-	   	 		<input class="btn fl mt1" type="submit" value="查询" /> 
+	   	 		<input class="btn fl mt1" type="button" onclick="search();" value="查询" /> 
 				<input class="btn fl mt1" type="button" value="重置" onclick="resetQuery()"  />	
 				<div class="clear"></div>
    		</form>

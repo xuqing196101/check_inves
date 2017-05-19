@@ -3,18 +3,23 @@ package common.service.impl;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierAuditService;
+import ses.util.PropUtil;
 import common.dao.LoginLogMapper;
 import common.model.LoginLog;
+import common.model.LoginLogVo;
 import common.service.LoginLogService;
 
 /**
@@ -136,6 +141,24 @@ public class LoginLogServiceImpl implements LoginLogService {
 	@Override
 	public void deleteOnlineUser(String loginId) {
 		loginLogMapper.deleteByUserId(loginId);
+	}
+
+	/**
+	 * 
+	* @Title: getListByParam 
+	* @Description: 登录日志列表
+	* @author Easong
+	* @param @param loginLog
+	* @param @param pageNum
+	* @param @return    设定文件 
+	* @throws
+	 */
+	@Override
+	public List<LoginLog> getListByParam(LoginLogVo loginLog, Integer pageNum) {
+		// 分页
+		PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
+		// 查询
+		return loginLogMapper.getListByParam(loginLog);
 	}
 
 }

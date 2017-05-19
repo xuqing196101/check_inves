@@ -681,7 +681,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		BigDecimal projectBudget = BigDecimal.ZERO;
 		String department="";
 		for (ProjectDetail projectDetail : detailList) {
-		   projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget())).divide(new BigDecimal(10000));
+		   projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
 		   department=projectDetail.getDepartment();
 	    }
 		BigDecimal projectBud = projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP);

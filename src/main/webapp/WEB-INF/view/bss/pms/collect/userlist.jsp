@@ -37,16 +37,16 @@
 		 
 		var nature=parent.nature;
 		var turn=parent.turns;
- 		$("#aduit_nature").val(nature);
+ 		/* $("#aduit_nature").val(nature); */
  		/* $("#audit_turn").val(turn); */
  
- 		
+ 		$("#aduit_nature").val(parent.document.getElementById("audit_nature").value);
 		var id  = $('input[name="chkItem"]:checked').val(); 
 		var index = parent.layer.getFrameIndex(window.name); 
 		var cid=parent.id;
 		$("#cid").val(cid);
 		if(id==""||id==null){
-			layer.alert("请选择要汇总的计划",{offset: ['100px', '100px'], shade:0.01});
+			layer.alert("请选择一条用户数据");
 		}else{
 			$("#user_id").val(id);
 		  
@@ -170,7 +170,7 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr class="pointer">
 			  <td class="tc w30"><input type="radio" value="${obj.id }" name="chkItem"></td>
-			  <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			    <td class="tl pl20">
 			  			${obj.relName}
 			    </td>

@@ -778,8 +778,8 @@
 			<ul class="breadcrumb margin-left-0">
 				<li><a href="javascript:void(0)"> 首页</a></li>
 				<li><a href="javascript:void(0)">信息服务</a></li>
-				<li><a href="javascript:void(0)">信息管理</a></li>
-				<li class="active"><a href="javascript:void(0)">新增</a></li>
+				<li><a href="${ pageContext.request.contextPath }/article/getAll.html">信息管理</a></li>
+				<li class="active"><a href="${ pageContext.request.contextPath }/article/add.html">新增</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>

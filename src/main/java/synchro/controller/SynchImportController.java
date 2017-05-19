@@ -358,7 +358,7 @@ public class SynchImportController {
 					}
 				}
                  if(synchType.contains(Constant.DATE_SYNCH_BIDDING_PRODUCT)){
-                 	/**竞价定型产品导入  只能是外网导入内网**/
+                 	/**竞价定型产品导入  只能是外网导入内网数据**/
 						if (f.getName().equals(Constant.PRODUCT_FILE_EXPERT)) {
 							for (File file2 : f.listFiles()) {
 								// 判断文件名是否是 竞价产品 创建 数据名称
@@ -382,7 +382,7 @@ public class SynchImportController {
                  
 
                  if(synchType.contains(Constant.DATE_SYNCH_BIDDING_SUPPLIER)){
-                 	/**竞价供应商导出  只能是外网导入内网**/
+                 	/**竞价供应商导入  只能是外网导入内网数据**/
 					
 						if (f.getName().equals(Constant.SUPPLIER_FILE_EXPERT)) {
 							for (File file3 : f.listFiles()) {
@@ -403,7 +403,7 @@ public class SynchImportController {
                  }
                  
                  if(synchType.contains(Constant.DATA_TYPE_BIDDING_CODE)){
-                 	/**竞价信息导入  只能是外网导入内网**/
+                 	/**竞价信息导入  只能是外网导入内网数据**/
                          	 //如果文件存在 那么删除
                              	 if (f.getName().equals(Constant.PROJECT_EXPERT)){
                              		 for (File file2 : f.listFiles()) {
@@ -428,7 +428,7 @@ public class SynchImportController {
             
                  
                  if(synchType.contains(Constant.DATA_TYPE_BIDDING_RESULT_CODE)){
-                 	/**竞价结果导出  只能是外网导入内网**/
+                 	/**竞价结果导入  只能是内网导入数据**/
                                    if (f.getName().equals(Constant.RESULT_FILE_EXPERT)){
                                  	  for (File file2 : f.listFiles()) {
                                  		  if (file2.getName().contains(FileUtils.C_OB_PROJECT_RESULT_FILENAME)){
@@ -502,7 +502,7 @@ public class SynchImportController {
 					}
 				}
 				if (synchType.contains(Constant.SYNCH_CATEGORY)) {
-					/** 产品目录管理 只能是内网导入外网 **/
+					/** 产品目录管理 只能是外网 导入 **/
 					if (f.getName().equals(Constant.T_SES_BMS_CATEGORY_PATH)) {
 						//便利文件夹 目录
 							for (File file2 : f.listFiles()) {
@@ -532,7 +532,7 @@ public class SynchImportController {
 				}
 				
 				if (synchType.contains(Constant.SYNCH_CATE_PARAMTER)) {
-					/** 产品目录参数管理 只能是内网导入外网 **/
+					/** 产品目录参数管理 只能是外网导入 **/
 					if (f.getName().equals(Constant.T_SES_BMS_CATEGORY_PARAMTER_PATH)) {
 						// 遍历文件夹中的所有文件
 						for (File file2 : f.listFiles()) {
@@ -572,7 +572,7 @@ public class SynchImportController {
 				}
 				
 				if (synchType.contains(Constant.SYNCH_TEMPLATE_DOWNLOAD)) {
-					/** 门户模板管理  只能是内网导入外网 **/
+					/** 门户模板管理  只能是外网导入 **/
 					if (f.getName().equals(Constant.T_ISS_PS_TEMPLATE_DOWNLOAD_PATH)) {
 						// 遍历文件夹中的所有文件
 						for (File file2 : f.listFiles()) {
@@ -587,8 +587,8 @@ public class SynchImportController {
 					}
 					// 附件目录复制
 					if (f.getName().equals(Constant.T_ISS_PS_TEMPLATE_DOWNLOAD_ATTFILE_PATH)) {
+						if (f.isDirectory()) {
 						for (File file2 : f.listFiles()) {
-							if (f.isDirectory()) {
 								OperAttachment.moveToPathFolder(file2,FileUtils.BASE_ATTCH_PATH
 														+ FileUtils.TENDER_ATTFILE_PATH);
 							}

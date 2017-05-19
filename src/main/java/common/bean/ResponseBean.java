@@ -17,6 +17,8 @@ public class ResponseBean {
     
     /** 对象 **/
     private Object obj;
+    
+    private String ids;
 
    
     public boolean isSuccess() {
@@ -34,6 +36,14 @@ public class ResponseBean {
     public void setObj(Object obj) {
         this.obj = obj;
     }
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
     
     
 }

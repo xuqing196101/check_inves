@@ -227,7 +227,7 @@
     	  <li>
 	    	<label class="fl">竞价开始时间：</label>
 			<input name="startTime" id="startTime" type="text" maxlength="19" 
-			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value='<fmt:formatDate value="${startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>' class="Wdate" />
+			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" value='<fmt:formatDate value="${startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>' class="Wdate" />
 	      </li> 
 	    	<input type="submit" class="btn fl mt1" value="查询">
 	    	<button onclick="resetAll()" class="btn fl mt1 ml5">重置</button>   	

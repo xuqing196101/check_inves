@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-<!DOCTYPE html>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -15,7 +14,7 @@
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
 		   <li><a href="javascript:void(0)">首页</a></li><li><a href="javascript:void(0)">信息服务</a></li><li><a href="javascript:void(0)">统计管理</a></li>
-		   <li class="active"><a href="javascript:void(0)">统计图列表</a>
+		   <li class="active"><a href="${pageContext.request.contextPath}/analyze/list.html">统计图列表</a>
 		   </ul>
 		<div class="clear"></div>
 	  </div>

@@ -430,11 +430,11 @@
             <tr class="info">
               <th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()"></th>
               <th class="w50">序号</th>
-              <th>采购任务名称</th>
-              <th>采购管理部门</th>
-              <th>采购任务文号</th>
-              <th>状态</th>
-              <th>任务性质</th>
+              <th width="25%">采购任务名称</th>
+              <th width="20%">采购管理部门</th>
+              <th width="16%">采购任务文号</th>
+              <th width="10%">状态</th>
+              <th width="10%">任务性质</th>
               <th>下达时间</th>
             </tr>
           </thead>

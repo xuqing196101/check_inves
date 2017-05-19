@@ -1,5 +1,6 @@
 package common.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,12 @@ import java.util.Date;
  * @date 2017年5月3日 下午6:22:19
  * 
  */
-public class LoginLog {
+public class LoginLog implements Serializable{
+
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
 
 	/** 主键 **/
 	private String id;

@@ -95,6 +95,21 @@ public class BlacklistLog implements Serializable {
 	private Date operationDate;
 
 	private String supplierName;
+	
+	/**处罚截止时间**/
+	private Date endTime;
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public String getId() {
 		return id;

@@ -36,7 +36,7 @@
 
 			function resetQuery() {
 				$("#supplierName").val("");
-				$("#contactName").val("");
+				$("#armyBusinessName").val("");
 				$("#form1").submit();
 			}
 		
@@ -54,7 +54,7 @@
 					</li>
 					<li>
 						<label class="fl">联系人：</label>
-						<input id="contactName" class="w220" name="contactName" value="${supplier.contactName }" type="text">
+						<input id="armyBusinessName" class="w220" name="armyBusinessName" value="${supplier.armyBusinessName }" type="text">
 					</li>
 				</ul>
 				<input class="btn fl mt1" onclick="tijiao()" type="button" value="查询">
@@ -70,11 +70,10 @@
 						<th class="info w50">序号</th>
 						<th class="info">供应商名称</th>
 						<th class="info">供应商等级</th>
-						<!-- <th class="info">用户名</th> -->
 						<th class="info">联系人</th>
-						<th class="info">供应商类别</th>
-						<th class="info">状态</th>
-						<!-- <th class="info">手机</th> -->
+						<th class="info">联系人电话</th>
+						<!-- <th class="info">供应商类型</th>
+						<th class="info">状态</th> -->
 					</tr>
 				</thead>
 				<tbody>
@@ -95,15 +94,11 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<%-- <td class="">${list.loginName }</td> --%>
-							<td class="tc">${list.contactName}</td>
-							<td class="tl pl20">${list.supplierType }</td>
+							<td class="tc">${list.armyBusinessName}</td>
+							<td class="tc">${list.armyBuinessTelephone}</td>
+							<%-- <td class="tl pl20">${list.supplierType }</td>
 							<td class="tc">
-								<%-- <c:if test="${list.status==5 and list.isProvisional == 1}">临时</c:if>
-								<c:if test="${list.status==-1}">暂存</c:if>
-								<c:if test="${list.status==0}">待审核</c:if> --%>
 								<c:if test="${list.status==1}">审核通过</c:if>
-								<%-- <c:if test="${list.status==2}">审核退回修改</c:if> --%>
 								<c:if test="${list.status==3}">审核未通过</c:if>
 								<c:if test="${list.status==4}">待复核</c:if>
 								<c:if test="${list.status==5 and list.isProvisional == 0}">复核通过</c:if>
@@ -111,8 +106,7 @@
 								<c:if test="${list.status==7}">待考察</c:if>
 								<c:if test="${list.status==8}">考察合格</c:if>
 								<c:if test="${list.status==9}">考察不合格</c:if>
-							</td>
-							<%-- <td class="tc">${list.mobile}</td> --%>
+							</td> --%>
 						</tr>
 					</c:forEach>
 				</tbody>

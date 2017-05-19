@@ -24,6 +24,7 @@ import ses.service.bms.TodosService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 /**
  * @Description: 通知
@@ -56,10 +57,8 @@ public class ToDoController {
     }
     @RequestMapping("/supplier")
     @ResponseBody
-    public String supplier(HttpServletRequest req, Integer type, String id,Integer page,Integer expertPage,Integer supplierPage){
+    public String supplier(@CurrentUser User user,HttpServletRequest req, Integer type, String id,Integer page,Integer expertPage,Integer supplierPage){
     	JSONObject jsonObj = new JSONObject();
-    	User user = (User) req.getSession().getAttribute("loginUser");
-        if (user != null ){
             //代办事项
             Todos todos=new Todos();
             todos.setIsDeleted((short)0);
@@ -108,7 +107,7 @@ public class ToDoController {
             jsonObj.put("pageSize", pageInfo.getPageSize());
             jsonObj.put("total", pageInfo.getTotal());
             
-        }
+        
             return jsonObj.toString();
     }
     /**
@@ -119,10 +118,8 @@ public class ToDoController {
      * @return 地址
      */
     @RequestMapping("/havetodo")
-    public String havetodo(HttpServletRequest req,String type,Todos todos, String pages, String id){
-        User user = (User) req.getSession().getAttribute("loginUser");
-        if (user != null ){
-            //          //已办事项
+    public String havetodo(@CurrentUser User user,HttpServletRequest req,String type,Todos todos, String pages, String id){
+            //已办事项
             todos.setIsFinish(new Short("1"));
             todos.setReceiverId(user.getId());
             if(user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
@@ -138,7 +135,6 @@ public class ToDoController {
             }
             List<Todos> listHaveTodo = todosService.listHaveTodo(todos, pages == null || "".equals(pages) ? 1 : Integer.valueOf(pages));
             req.setAttribute("list", new PageInfo<Todos>(listHaveTodo));
-        }
         req.setAttribute("todos",todos);
 
         return "ses/bms/todo/havetodo";

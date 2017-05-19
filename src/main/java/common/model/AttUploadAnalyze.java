@@ -1,5 +1,6 @@
 package common.model;
 
+import java.io.Serializable;
 import java.util.Date;
 /**
  * 
@@ -9,8 +10,13 @@ import java.util.Date;
 * @date 2017年5月12日 上午10:41:37 
 *
  */
-public class AttUploadAnalyze {
-    private String id;
+public class AttUploadAnalyze implements Serializable{
+    /** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 
     /** 用户类型  1：专家  2：供应商 3：后台管理员  **/
     private String typeId;

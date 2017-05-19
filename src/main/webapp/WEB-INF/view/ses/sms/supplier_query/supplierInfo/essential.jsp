@@ -199,7 +199,11 @@
 									</tr>
 									<tr>
 										<td class="bggrey" width="20%">生产或经营详细地址：</td>
-										<td colspan="3">${supplierAddress.detailAddress}</td>
+										<td width="30%">${supplierAddress.detailAddress}</td>
+										<td class="bggrey" width="20%">房产证明或租赁协议：</td>
+										<td>
+											<u:show delete="false" showId="house_show_${vs.index+1}" businessId="${supplierAddress.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+										</td>
 									</tr> 
 								</tbody>
 							</table>
@@ -230,8 +234,8 @@
 											<u:show showId="bearchcert_show"  delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
 										</td> --%>
 										<td width="30%">
-											<c:if test="${suppliers.isIllegal == 1}">有</c:if>
-											<c:if test="${suppliers.isIllegal == 2}">无</c:if>
+											<c:if test="${'1' eq suppliers.isIllegal }">有</c:if>
+											<c:if test="${'0' eq suppliers.isIllegal }">无</c:if>
 										</td>
 									</tr>
 									<tr>
@@ -311,7 +315,7 @@
 					</div>
 
 					<div class="tab-pane fade active in">
-						<h2 class="count_flow"><i>6</i>军队业务联系人</h2>
+						<h2 class="count_flow"><i>6</i>本单位军队业务联系人</h2>
 						<ul class="ul_list">
 							<table class="table table-bordered">
 								<tbody>
