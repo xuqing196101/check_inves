@@ -10,14 +10,15 @@
 
   <head>
     <!-- 前端css样式 -->
-	<link href="${pageContext.request.contextPath}/public/front/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<%-- <link href="${pageContext.request.contextPath}/public/front/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	<link href="${pageContext.request.contextPath}/public/front/css/bootstrap.min.css" rel="stylesheet"  type="text/css" />
 	<link href="${pageContext.request.contextPath}/public/front/css/common.css" rel="stylesheet"  type="text/css" />
 	<link href="${pageContext.request.contextPath}/public/front/css/style.css" rel="stylesheet" type="text/css" />
-	<link href="${pageContext.request.contextPath}/public/front/css/global.css" rel="stylesheet"  type="text/css" />
+	 --%>
 	<link href="${pageContext.request.contextPath}/public/front/css/btn.css" rel="stylesheet"  type="text/css" />
 	<link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet" >
 	<link href="${pageContext.request.contextPath}/public/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+	<link href="${pageContext.request.contextPath}/public/front/css/global.css" rel="stylesheet"  type="text/css" />
 	<!-- 前端论坛Css颜色样式 -->
 	<link href="${pageContext.request.contextPath}/public/front/css/forum.css" rel="stylesheet" type="text/css">
 		
