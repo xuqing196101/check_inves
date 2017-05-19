@@ -1,9 +1,13 @@
 package common.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import ses.model.bms.User;
+
 import common.model.LoginLog;
+import common.model.LoginLogVo;
 
 /**
  * 
@@ -37,4 +41,17 @@ public interface LoginLogService {
 	* @throws
 	 */
 	public void deleteOnlineUser(String id);
+	
+	/**
+	 * 
+	* @Title: getListByParam 
+	* @Description: 登录日志列表
+	* @author Easong
+	* @param @param loginLog
+	* @param @param pageNum
+	* @param @return    设定文件 
+	* @return List<LoginLog>    返回类型 
+	* @throws
+	 */
+	public List<LoginLog> getListByParam(LoginLogVo loginLog, Integer pageNum);
 }

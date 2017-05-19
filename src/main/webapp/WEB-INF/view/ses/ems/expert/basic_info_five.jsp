@@ -39,9 +39,9 @@
         //提交
         function addSubmitForm() {
 			
-            if(!validateHeTong()) {
+           /*  if(!validateHeTong()) {
                 return;
-            } else {
+            } else { */
                 //$("#formExpert").attr("action","${pageContext.request.contextPath}/expert/add1.html?gitFlag=1");
                 //$("#formExpert").submit();
                 $.ajax({
@@ -67,7 +67,11 @@
                             }, function() {
                                 window.location.href = '${pageContext.request.contextPath}/';
                             });
-                        } else {
+                        } else if(data == "2"){
+                        	layer.alert("附件未上传，请上传附件");
+                        
+                        }
+                        else {
                             layer.confirm('您已提交,请勿重复操作!', {
                                 btn: ['确定'],
                                 shade: false //不显示遮罩
@@ -78,7 +82,7 @@
                         }
                     }
                 });
-            }
+           // }
         }
         //判断申请表  合同书
         function validateHeTong() {

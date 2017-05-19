@@ -18,6 +18,7 @@ import sums.model.oc.Complaint;
 import sums.service.oc.ComplaintService;
 
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 /**
  * 
@@ -277,7 +278,10 @@ public class OnlineComplaintsController {
 	 * @exception
 	 */
 	@RequestMapping("/recordQuery")
-	public String recordQuery(HttpServletRequest request,Integer page,Complaint complaint, Model model) {
+	public String recordQuery(@CurrentUser User user,HttpServletRequest request,Integer page,Complaint complaint, Model model) {
+		if (user != null) {
+			//资源服务信息中心 
+		 if("4".equals(user.getTypeName())){
 		if (page == null) {
 			page = 1;
 		}
@@ -285,6 +289,8 @@ public class OnlineComplaintsController {
 		PageInfo<Complaint> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("complaint", complaint);
+		 }
+		}
 		return "sums/oc/inquire/list";
 	}
 

@@ -42,12 +42,6 @@
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
-
-			function downloadFile(fileName) {
-				fileName = encodeURI(fileName);
-				fileName = encodeURI(fileName);
-				window.location.href = "${pageContext.request.contextPath}/supplierQuery/downLoadFile.html?fileName=" + fileName;
-			}
 			
 			//返回
 			/* function fanhui() {
@@ -68,7 +62,7 @@
 				};
 			};
 			
-			var zTreeObj;
+			/*var zTreeObj;
 			var zNodes;
 			$(function() {
 				$("#page_ul_id").find("li").click(function() {
@@ -134,7 +128,7 @@
 			}
 
 			//加载对应的节点数据
-			function loadZtree(code, kind, status) {
+			 function loadZtree(code, kind, status) {
 				var supplierId = $("#supplierId").val();
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplierAudit/getTree.do",
@@ -209,14 +203,61 @@
 					}
 				});
 				return flag;
-			}
+			} */
 		</script>
-
-		<style type="text/css">
+		<script type="text/javascript">
+			//加载默认的页签
+				$(function() {
+					var supplierId = $("#supplierId").val();
+					var PRODUCT = $("#a_id_1").text();
+					var SALES = $("#a_id_2").text();
+					var PROJECT = $("#a_id_3").text();
+					var SERVICE = $("#a_id_4").text();
+					//加载默认的页签
+					if(PRODUCT == "物资-生产型产品类别信息") {
+						// 加载已选品目列表
+						loading = layer.load(1);
+						var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=PRODUCT";
+						$("#tbody_category").load(path);
+						return;
+					}
+				 	if(SALES == "物资-销售型产品类别信息") {
+					 	// 加载已选品目列表
+						loading = layer.load(1);
+						var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=SALES";
+						$("#tbody_category").load(path);
+						return;
+					}
+					if(PROJECT == "工程产品类别信息") {
+						// 加载已选品目列表
+					  loading = layer.load(1);
+						var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=PROJECT";
+						$("#tbody_category").load(path);
+						return;
+					}
+					if(SERVICE == "服务产品类别信息") {
+						// 加载已选品目列表
+						loading = layer.load(1);
+						var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=SERVICE";
+						$("#tbody_category").load(path);
+						return;
+					}
+				});
+		
+			function loadTab(code, kind, status) {
+					// 加载已选品目列表
+				  loading = layer.load(1);
+					var supplierId = $("#supplierId").val();
+					var path = "${pageContext.request.contextPath}/supplierQuery/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + code;
+					$("#tbody_category").load(path);
+			};
+		
+		</script>
+		<!-- <style type="text/css">
 			.line {
 				border: 4px solid #fff0;
 			}
-		</style>
+		</style> -->
 	</head>
 
 	<body>
@@ -263,40 +304,39 @@
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">销售合同</a>
 						</li>
-						<!-- <li class="">
-							<a aria-expanded="false" href="#tab-2" class="f18" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a>
-						</li>
-						<li class="">
-							<a aria-expanded="false" href="#tab-2" class="f18" data-toggle="tab" onclick="tijiao('updateHistory');">历史修改记录</a>
-						</li> -->
 					</ul>
 					<div class="content ">
 						<div class="col-md-12 tab-v2 job-content">
 							<div class="tab-v2">
 								<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
+									<c:set value="0" var="liCount"/>
 									<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
+										<c:set value="${liCount+1}" var="liCount"/>
 										<li id="li_id_1" class="active" onclick="loadTab('PRODUCT','tree_ul_id_1',1);">
-											<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型品目信息</a>
+											<a aria-expanded="true" href="#tab-1" data-toggle="tab" id="a_id_1">物资-生产型产品类别信息</a>
 											<input type="hidden" id="tree_ul_id_1_name" value="mat_serve_page">
 										</li>
 									</c:if>
 									<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
-										<li id="li_id_2" class="" onclick="loadTab('SALES','tree_ul_id_2',2);">
-											<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型品目信息</a>
+										<li id="li_id_2" class='<c:if test="${liCount == 0}">active</c:if>' onclick="loadTab('SALES','tree_ul_id_2',2);">
+											<a aria-expanded="false" href="#tab-2" data-toggle="tab" id="a_id_2">物资-销售型产品类别信息</a>
 											<input type="hidden" id="tree_ul_id_2_name" value="item_sell_page">
 										</li>
+										<c:set value="${liCount+1}" var="liCount"/>
 									</c:if>
 									<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
-										<li id="li_id_3" class="" onclick="loadTab('PROJECT','tree_ul_id_3',null);">
-											<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程品目信息</a>
+										<li id="li_id_3" class='<c:if test="${liCount == 0}">active</c:if>' onclick="loadTab('PROJECT','tree_ul_id_3',null);">
+											<a aria-expanded="false" href="#tab-3" data-toggle="tab" id="a_id_3">工程产品类别信息</a>
 											<input type="hidden" id="tree_ul_id_3_name" value="item_eng_page">
 										</li>
+										<c:set value="${liCount+1}" var="liCount"/>
 									</c:if>
 									<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
-										<li id="li_id_4" class="" onclick="loadTab('SERVICE','tree_ul_id_4',null);">
-											<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务品目信息</a>
+										<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>' onclick="loadTab('SERVICE','tree_ul_id_4',null);">
+											<a aria-expanded="false" href="#tab-4" data-toggle="tab" id="a_id_4">服务产品类别信息</a>
 											<input type="hidden" id="tree_ul_id_4_name" value="item_serve_page">
 										</li>
+										<c:set value="${liCount+1}" var="liCount"/>
 									</c:if>
 								</ul>
 							</div>
@@ -314,7 +354,9 @@
 								<input name="sign" value="${sign}" type="hidden">
 							</form>
 							
-							<div class="tab-content padding-top-20" id="tab_content_div_id">
+							<div class="mt20" id="tbody_category"></div>
+							<div id="pagediv" align="right" class="mb50"></div>
+							<%-- <div class="tab-content padding-top-20" id="tab_content_div_id">
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 									<div class="tab-pane fade active in height-300" id="tab-1">
 										<div class="lr0_tbauto">
@@ -343,7 +385,7 @@
 										</div>
 									</div>
 								</c:if>
-							</div>
+							</div> --%>
 							<div class="col-md-12 tc">
 			    			<button class="btn btn-windows back" onclick="fanhui()">返回</button> 
 			   			</div>

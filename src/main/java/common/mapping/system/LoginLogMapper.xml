@@ -146,5 +146,29 @@
      	AND TO_CHAR(L.CREATED_AT, 'yyyy-MM-dd') = #{createdAt}
      	AND L.TYPE = #{loginType}
   </select>
+  
+  <!-- 根据传入参数条件查询 -->
+  <select id="getListByParam" parameterType="common.model.LoginLogVo" resultMap="BaseResultMap">
+  	SELECT 
+  	 <include refid="Base_Column_List" />
+  	FROM T_SYSTEM_LOGIN_LOG
+  	WHERE 1 = 1
+  	<if test="name != null and name !=''">
+  	  AND NAME like CONCAT(CONCAT('%', #{name}), '%') 
+  	</if>
+  	<if test="type != null and type !=''">
+  	  AND TYPE = #{type}
+  	</if>
+  	<if test="ip != null and ip != ''">
+  	  AND IP = #{ip}
+  	</if>
+  	<if test="startDate != null and startDate !='' ">
+  	  AND CREATED_AT &gt;=to_date(#{startDate},'yyyy-MM-dd hh24:mi:ss')
+  	</if>
+  	<if test="endDate != null and endDate !='' ">
+  	  AND CREATED_AT &lt;=to_date(#{endDate},'yyyy-MM-dd hh24:mi:ss')
+  	</if>
+  	ORDER BY CREATED_AT DESC
+  </select>
     
 </mapper>

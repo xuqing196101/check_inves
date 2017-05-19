@@ -1,5 +1,6 @@
 package ses.controller.sys.bms;
 
+import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -77,7 +78,7 @@ public class QualificationController {
      */
     @ResponseBody
     @RequestMapping("/list")
-    public ResponseBean list(Integer page, String name, String  type){
+    public ResponseBean list(Integer page, String name, String  type,String ids){
         
         ResponseBean res = new ResponseBean();
         if (StringUtils.isNotBlank(type)){
@@ -86,6 +87,7 @@ public class QualificationController {
             PageInfo<Qualification> pageInfo = new PageInfo<Qualification> (list);
             res.setSuccess(true);
             res.setObj(pageInfo);
+            res.setIds(ids);
         }
        return res;
     }
@@ -166,11 +168,27 @@ public class QualificationController {
      * @param model {@link Model} 
      * @param type {@link type} 类型
      * @return 
+     * @throws UnsupportedEncodingException 
      */
     @RequestMapping("/initLayer")
-    public String initOpenLayer(Model model, String type, String ids){
+    public String initOpenLayer(Model model, String type, String ids,String names) throws UnsupportedEncodingException{
+    	String profileNames = "";
+    	if(ids!=null&&!"".equals(ids)){
+    		String[] id=ids.split(",");
+    		for(int i=0;i<id.length;i++){
+    			Qualification  qua = quaService.getQualification(id[i]);
+    			if(qua!=null){
+    				profileNames+=qua.getName()+",";
+    			}
+    		}
+    	}
+    	if(profileNames.length()>0){
+    		profileNames=profileNames.substring(0,profileNames.length()-1);
+    	}
+    	model.addAttribute("names", profileNames);
         model.addAttribute("type", type);
         model.addAttribute("ids", ids);
+        
         return "/ses/bms/qualification/quaLayer";
     }
     

@@ -37,10 +37,9 @@
 	function closede(){
 		var nature=parent.nature;
 		var turn=parent.turns;
- 		$("#aduit_nature").val(nature);
+ 		/* $("#aduit_nature").val(nature); */
  	/* 	$("#audit_turn").val(turn); */
- 		
- 		
+ 		$("#aduit_nature").val(parent.document.getElementById("audit_nature").value);
 		var id  = $('input[name="chkItem"]:checked').val(); 
 		var index = parent.layer.getFrameIndex(window.name); 
 
@@ -68,7 +67,7 @@
 // 					 $(nature).val("ss");
 // 					 alert();
 // 					//parent.layer.close(index);
-					    var el = document.createElement("a");
+					  var el = document.createElement("a");
                       document.body.appendChild(el);
                       el.href = "${pageContext.request.contextPath}/set/list.html?staff="+result+"&&id="+cid+"&type="+$("#type").val(); //url 是你得到的连接
                       el.target = '_parent'; //指定在新窗口打开
@@ -114,7 +113,11 @@
 				if(data == 0) {
 					$("#errorType").html("审核人员性质不能为空");
 				} else if(data == 1) {
-					var id  = $('input[name="chkItem"]:checked').val(); 
+					var id  = $('input[name="chkItem"]:checked').val();
+					if(typeof(id)=="undefined"){
+						layer.alert("请选择一条专家数据");
+						return false;
+					}
 					var index = parent.layer.getFrameIndex(window.name); 
 					var cid=parent.id;
 					$("#cid").val(cid);
@@ -161,6 +164,7 @@
   </form> 
   </h2>
   <div class="col-md-12 pl20 mt10">
+   <!--  onclick="closede()" 不知道写一个保存一个确定是什么意思-->
              <input type="button" class="btn btn-windows git"  onclick="closede()" value="确定" />
             <input type="button" class="btn btn-windows cancel"   onclick="cancels()" value="取消">
    </div>
@@ -178,7 +182,7 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr class="pointer">
 			  <td class="tc w30"><input type="radio" value="${obj.id }" name="chkItem"></td>
-			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  <td class="tc w50"   >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			    <td class="tl pl20"  >
 			  			${obj.relName}
 			    </td>
@@ -209,10 +213,10 @@
 				<input type="text" id="auditStaff"/>
 				<div class="clear red" id="errorType"></div>
 			</li> -->
-			<div class="col-md-12 col-xs-12 col-sm-12 mt10 tc">
+			<!-- <div class="col-md-12 col-xs-12 col-sm-12 mt10 tc">
 				<button class="btn btn-windows save" type="button" onclick="save()">保存</button>
 				<button class="btn btn-windows cancel" type="button" onclick="cancel()">取消</button>
-			</div>
+			</div> -->
 		<!-- </ul>-->
      
 	 </body>

@@ -50,7 +50,7 @@
 				$("#creditCode").val('');
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
-				$("#businessType option:selected").removeAttr("selected");
+				$("#businessNature option:selected").removeAttr("selected");
 				/* var address = '${address}';
 				address = encodeURI(address);
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + address; */
@@ -455,10 +455,10 @@
 						</li> --%>
             <li>
             	<label class="fl">企业性质：</label>
-	            <select name="businessType" id="businessType" class="w220">
+	            <select name="businessNature" id="businessNature" class="w220">
 	              <option value=''>全部</option>
-	              <c:forEach items="${businessType}" var="list">
-	              	<option <c:if test="${supplier.businessType eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
+	              <c:forEach items="${businessNature}" var="list">
+	              	<option <c:if test="${supplier.businessNature eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
 	              </c:forEach>
 	            </select>
          	  </li>
@@ -561,7 +561,7 @@
 							<th class="info w90">提交日期</th>
 							<th class="info w90">审核日期</th>
 							<th class="info">供应商类型</th>
-							<th class="info">营业执照登记类型</th>
+							<th class="info">企业性质</th>
 							<th class="info">供应商状态</th>
 						</tr>
 					</thead>
@@ -592,7 +592,7 @@
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
 								<td class="">${list.supplierType }</td>
-								<td class="tc">${list.businessType }</td>
+								<td class="tc">${list.businessNature }</td>
 								<td class="tc">
 									<c:if test="${list.status==5 and list.isProvisional == 1 }"><span class="label rounded-2x label-dark">临时</span></c:if>
 									<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>

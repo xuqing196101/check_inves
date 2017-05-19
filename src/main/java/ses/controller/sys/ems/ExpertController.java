@@ -1297,13 +1297,13 @@ public class ExpertController extends BaseController {
         allInfo.put("submitDate", new SimpleDateFormat("yyyy年MM月dd日").format(submitDate));
         // 判断有没有超过45天
         String isok;
-        int betweenDays = service.daysBetween(submitDate);
-        if(betweenDays > 45) {
-            isok = "0";
-        } else {
-            isok = "1";
-        }
-        allInfo.put("isok", isok);
+//        int betweenDays = service.daysBetween(submitDate);
+//        if(betweenDays > 45) {
+//            isok = "0";
+//        } else {
+//            isok = "1";
+//        }
+//        allInfo.put("isok", isok);
         // 查询初审机构信息
         HashMap < String, Object > map = new HashMap < String, Object > ();
         map.put("id", expert.getPurchaseDepId());
@@ -1880,7 +1880,16 @@ public class ExpertController extends BaseController {
 //                int validateDay = service.logoutExpertByDay(temp);
 //                if(0==validateDay){//通过审核时间校验
                     // 用户信息处理
-                    service.userManager(user, userId, expert, expertId);
+                
+                
+                List < UploadFile > promise = uploadService.getFilesOther(expertId,  ExpertPictureType.COMMITMENT_PROOF.getSign().toString(),"3");
+                List < UploadFile > application = uploadService.getFilesOther(expertId,  ExpertPictureType.APPLICATION_PROOF.getSign().toString(),"3");
+                
+                  if(promise.size()<1||application.size()<1){
+                	  return "2";
+                  }  
+                
+                  service.userManager(user, userId, expert, expertId);
                     // 调用service逻辑代码 实现提交
                     service.saveOrUpdate(expert, expertId, categoryId, gitFlag, userId);
                     expert.setIsDo("0");
@@ -1888,7 +1897,7 @@ public class ExpertController extends BaseController {
                     expert.setIsSubmit("1");
                     if("3".equals(temp.getStatus())) {
                         //删除之前的审核信息
-                        expertAuditService.updateIsDeleteByExpertId(expertId);
+                    //     expertAuditService.updateIsDeleteByExpertId(expertId);
                    /* expertAuditService.deleteByExpertId(expertId);*/
                         //未审核
                         expert.setStatus("0");
@@ -1898,7 +1907,7 @@ public class ExpertController extends BaseController {
                     //修改时间
                     expert.setSubmitAt(new Date());
                     expert.setAuditAt(new Date());
-                    service.updateByPrimaryKeySelective(expert);
+                 //    service.updateByPrimaryKeySelective(expert);
 //                }else if(0 < validateDay){//未按规定时间提交审核,注销信息
 //                    return "expert_logout," + validateDay;
 //                }

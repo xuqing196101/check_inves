@@ -155,7 +155,10 @@ public class OBProjectController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("page", page);
 			map.put("startTime", startTime);
-			map.put("name", name.trim());
+			if(name != null){
+				name=name.trim();
+			}
+			map.put("name", name);
 			//map.put("uid", user.getId());
 			map.put("createId", userList);
 			List<OBProject> list = OBProjectServer.List(map);

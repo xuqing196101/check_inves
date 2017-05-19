@@ -296,9 +296,18 @@ public class SMSProductLibController {
 	 * @throws
 	 */
 	@RequestMapping("/findAllWaitCheck")
-	public String findAllWaitCheck(Model model, Integer page,
+	public String findAllWaitCheck(@CurrentUser User user,Model model, Integer page,
 			SMSProductQueryVO smsProductQueryVO) {
-		checkList(model, page, smsProductQueryVO);
+		//2失效  0 可执行
+		int authType=2;
+		if(user !=null){
+			//资源服务中心
+			if("4".equals(user.getTypeName())){
+				authType=0;
+				checkList(model, page, smsProductQueryVO);
+			}
+		}
+		model.addAttribute("authType", authType);
 		return "ses/sms/supplier_product_lib/check/checklist";
 	}
 	
@@ -342,9 +351,10 @@ public class SMSProductLibController {
 		// 获取查询的状态
 		Integer status = smsProductQueryVO.getStatus();
 		map.put("status", status);
-		// 获取供应商ID
 		String createrId = smsProductQueryVO.getCreaterId();
-		map.put("createrId", createrId);
+		// 获取供应商ID 根据需求修改全部人 可以查询
+		/*
+		map.put("createrId", createrId);*/
 		
 
 		map.put("page", page);

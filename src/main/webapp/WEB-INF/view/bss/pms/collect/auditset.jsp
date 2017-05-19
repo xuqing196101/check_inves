@@ -293,7 +293,7 @@
    		  closeBtn: 1,
    		  shade:0.01, //遮罩透明度
    		  shift: 1, //0-6的动画形式，-1不开启
-   		  offset: ['200px', '500px'],
+   		  offset: ['0px', '10%'],
    		  content:  "${pageContext.request.contextPath}/set/user.html?type="+type,
    		});
         	
