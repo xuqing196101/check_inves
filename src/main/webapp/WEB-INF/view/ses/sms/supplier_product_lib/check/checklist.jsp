@@ -248,7 +248,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">产品库管理</a></li></li>
+		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="${pageContext.request.contextPath}/product_lib/findAllWaitCheck.html">产品库管理</a></li></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
