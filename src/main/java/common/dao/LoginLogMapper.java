@@ -1,8 +1,10 @@
 package common.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import common.model.LoginLog;
+import common.model.LoginLogVo;
 
 /**
  * 
@@ -59,5 +61,17 @@ public interface LoginLogMapper {
 	 * @throws
 	 */
 	Long getLoginCountByEmp(Map<String, Object> map);
+	
+	/**
+	 * 
+	* @Title: getListByParam 
+	* @Description: 登录日志列表查询
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件 
+	* @return List<LoginLog>    返回类型 
+	* @throws
+	 */
+	List<LoginLog> getListByParam(LoginLogVo loginLogVo);
 
 }
