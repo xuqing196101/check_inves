@@ -34,6 +34,7 @@
 				$("#supplierTypeIds").val('');
 				$("#isProvisional").val('');
 				$("#creditCode").val('');
+				$("#businessNature option:selected").removeAttr("selected");
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html";
 			}
 			$(function() {
@@ -423,10 +424,10 @@
 							</li> --%>
 							<li>
 	            	<label class="fl">企业性质：</label>
-		            <select name="businessType" id="businessType" class="w220">
+		            <select name="businessNature" id="businessNature" class="w220">
 		              <option value=''>全部</option>
-		              <c:forEach items="${businessType}" var="list">
-		              	<option <c:if test="${supplier.businessType eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
+		              <c:forEach items="${businessNature}" var="list">
+		              	<option <c:if test="${supplier.businessNature eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
 		              </c:forEach>
 		            </select>
 	         	  </li>

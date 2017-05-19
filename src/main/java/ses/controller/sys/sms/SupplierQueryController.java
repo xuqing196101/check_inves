@@ -219,9 +219,9 @@ public class SupplierQueryController extends BaseSupplierController {
         }
         List<Supplier>  listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, null);
         
-        //企业性质
-  		List < DictionaryData > businessType = DictionaryDataUtil.find(17);
-  		model.addAttribute("businessType", businessType);
+        //在数据字典里查询企业性质
+ 		List < DictionaryData > businessNature = DictionaryDataUtil.find(32);
+ 		model.addAttribute("businessNature", businessNature);
         
         //开始循环 判断地址是否
         Map<String, Integer> map = supplierEditService.getMap();
@@ -314,9 +314,9 @@ public class SupplierQueryController extends BaseSupplierController {
         List < Area > privnce = areaService.findRootArea();
         model.addAttribute("privnce", privnce);
 		
-        //企业性质
-  		List < DictionaryData > businessType = DictionaryDataUtil.find(17);
-  		 model.addAttribute("businessType", businessType);
+  		//在数据字典里查询企业性质
+ 		List < DictionaryData > businessNature = DictionaryDataUtil.find(32);
+ 		model.addAttribute("businessNature", businessNature);
         
         List<Supplier>  listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
         this.getSupplierType(listSupplier);

@@ -1288,6 +1288,9 @@
 		<if test="businessType != null and businessType != ''">
 			AND BUSINESS_TYPE =#{businessType}
 		</if>
+		<if test="businessNature != null and businessNature != ''">
+			AND BUSINESS_NATURE =#{businessNature}
+		</if>
 		<if test="status != null">
 			<if test="status == 5">
 				and IS_PROVISIONAL = '0'
@@ -1295,7 +1298,7 @@
 			and SUPPLIER_STATUS = #{status}
 		</if>
 		<if test="judge == 5">
-			and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 3 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
+			and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
 			and IS_PROVISIONAL = '0'
 		</if>
 		<if test="address != null and address !=''">
@@ -1340,7 +1343,7 @@
 				) t5  on t2.ID = t5.ID
 			</if>
 			WHERE
-				(SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 3 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
+				(SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
 				and IS_PROVISIONAL = '0'
 				and IS_DELETED = 0
 			<if test="supplierName != null and supplierName !=''">
