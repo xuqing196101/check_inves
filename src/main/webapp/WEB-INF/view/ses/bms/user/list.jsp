@@ -285,15 +285,15 @@
 			  content: '${pageContext.request.contextPath}/user/viewDataMenu.html?id='+id
 		});
 	}
-	
-  </script>
+
+	</script>
   </head>
   <body>
    <!--面包屑导航开始-->
 	   <div class="margin-top-10 breadcrumbs ">
 	      <div class="container">
 			   <ul class="breadcrumb margin-left-0">
-			   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">用户管理</a></li>
+			   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="${pageContext.request.contextPath}/user/list.html">用户管理</a></li>
 			   </ul>
 			<div class="clear"></div>
 		  </div>

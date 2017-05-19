@@ -115,7 +115,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">数据字典</a></li><li><a href="#">地区管理</a></li><li class="active"><a href="#">添加地区</a></li>
+           <li><a href="${pageContext.request.contextPath}" target="_parent"> 首页</a></li><li><a href="#">数据字典</a></li><li><a href="${pageContext.request.contextPath}/area/list.html">地区管理</a></li><li class="active"><a href="#">添加地区</a></li>
            </ul>
         <div class="clear"></div>
       </div>

@@ -79,7 +79,7 @@
 		   	<li><a href="#"> 首页</a></li><li><a href="#">个人中心</a></li><li><a href="#">个人信息</a></li>
 		   </c:if>
 		   <c:if test="${flag == 1}">
-			   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">用户管理</a></li><li class="active"><a href="#">查看用户</a></li>
+			   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="${pageContext.request.contextPath}/user/list.html">用户管理</a></li><li class="active"><a href="#">查看用户</a></li>
 		   </c:if>
 		   </ul>
 		<div class="clear"></div>

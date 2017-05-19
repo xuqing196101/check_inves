@@ -114,7 +114,7 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
-            <a href="#"> 首页</a>
+            <a href="${pageContext.request.contextPath}"> 首页</a>
           </li>
           <li>
             <a href="#">支撑系统</a>
@@ -123,7 +123,7 @@
             <a href="#">后台管理</a>
           </li>
           <li class="active">
-            <a href="#">通知管理</a>
+            <a href="${pageContext.request.contextPath}/StationMessage/listStationMessage.html">通知管理</a>
           </li>
         </ul>
         <div class="clear"></div>

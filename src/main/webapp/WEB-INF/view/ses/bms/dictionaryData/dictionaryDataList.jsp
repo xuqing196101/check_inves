@@ -256,9 +256,9 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		<ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0);"> 首页</a></li>
+		   <li><a href="${pageContext.request.contextPath}" target="_parent"> 首页</a></li>
 		   <li class="active"><a href="javascript:void(0);">数据字典</a></li>
-		   <li class="active"><a href="javascript:void(0);">数据字典列表</a></li> 
+		   <li class="active"><a href="${pageContext.request.contextPath}/dictionaryData/dictionaryDataList.html">数据字典列表</a></li>
 		</ul>
 	  </div>
    </div>

@@ -14,11 +14,11 @@
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a href="javascript:void(0)"> 首页</a>
+				<li><a href="${pageContext.request.contextPath}"> 首页</a>
 				</li>
 				<li><a href="javascript:void(0)">论坛管理</a>
 				</li>
-				<li class="active"><a href="javascript:void(0)">模板管理</a>
+				<li class="active"><a href="${pageContext.request.contextPath}/templet/getAll.html">模板管理</a>
 				</li>
 				<li class="active"><a href="javascript:void(0)">模板详情</a>
 				</li>
