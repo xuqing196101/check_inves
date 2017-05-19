@@ -62,7 +62,7 @@
               </table>
               <h2 class="count_flow jbxx">需求明细查看</h2>
 
-              <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
+              <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" id="content">
                 <table id="table" class="table table-bordered table-condensed lockout">
                   <thead>
                     <tr class="space_nowrap">

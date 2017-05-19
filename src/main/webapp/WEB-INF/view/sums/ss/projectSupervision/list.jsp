@@ -139,11 +139,11 @@
             <tr class="info">
               
               <th class="w50">序号</th>
-              <th>项目名称</th>
-              <th>项目编号</th>
-              <th>采购机构名称</th>
-              <th>采购方式</th>
-              <th>创建时间</th>
+              <th width="25%">项目名称</th>
+              <th width="18%">项目编号</th>
+              <th width="15%">采购机构名称</th>
+              <th width="10%">采购方式</th>
+              <th width="15%">创建时间</th>
               <th>创建人</th>
               <!-- <th>项目状态</th> -->
             </tr>
@@ -153,20 +153,20 @@
               <tr class="pointer">
                 
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-                <td class="tl pl20">
+                <td class="tl">
                   <a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a>
                 </td>
-                <td class="tl pl20">${obj.projectNumber}</td>
-                <td class="tl pl20">${obj.purchaseDepId}</td>
+                <td class="tl">${obj.projectNumber}</td>
+                <td class="tl">${obj.purchaseDepId}</td>
                 <td class="tc">
                   <c:forEach items="${kind}" var="kind">
                     <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
                 </td>
-                <td class="tl pl20">
+                <td class="tc">
                   <fmt:formatDate type='date' value='${obj.createAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                 </td>
-                <td class="tl pl20">${obj.appointMan}</td>
+                <td class="tl">${obj.appointMan}</td>
                 <%-- <td>
                   <c:forEach items="${status}" var="status">
                     <c:if test="${status.id == obj.status}">${status.name}

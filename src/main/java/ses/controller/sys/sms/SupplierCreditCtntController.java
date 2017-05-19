@@ -1,6 +1,5 @@
 package ses.controller.sys.sms;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +7,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.sms.SupplierCreditCtnt;
 import ses.service.sms.SupplierCreditCtntService;
 
+import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageInfo;
+import common.utils.JdcgResult;
 
 @Controller
 @Scope("prototype")
@@ -42,9 +44,17 @@ public class SupplierCreditCtntController {
 	}
 	
 	@RequestMapping(value = "save_or_update_supplier_credit_ctnt")
-	public String saveOrUpdateSupplierCredit(SupplierCreditCtnt supplierCreditCtnt) {
+	@ResponseBody
+	public JdcgResult saveOrUpdateSupplierCredit(SupplierCreditCtnt supplierCreditCtnt) {
+		if(StringUtils.isEmpty(supplierCreditCtnt.getName())){
+			return JdcgResult.build(500, "请填写诚信内容名称");
+		}
+		if(supplierCreditCtnt.getScore() == null || "".equals(supplierCreditCtnt.getScore())){
+			return JdcgResult.build(500, "请填写诚信内容分数"); 
+		}
 		supplierCreditCtntService.saveOrUpdateSupplierCreditCtnt(supplierCreditCtnt);
-		return "redirect:list_by_credit_id.html?supplierCreditId=" + supplierCreditCtnt.getSupplierCreditId();
+		//return "redirect:list_by_credit_id.html?supplierCreditId=" + supplierCreditCtnt.getSupplierCreditId();
+		return JdcgResult.ok(supplierCreditCtnt.getSupplierCreditId());
 	}
 	
 	@RequestMapping(value = "delete")

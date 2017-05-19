@@ -33,7 +33,7 @@
 							 <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" name="oneStars" id="oneStars" type="text" value="${supplierStars.oneStars}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
 								<span class="add-on">i</span>
-								<div class="cue"><span><font id="oneStarsErr" style="color: red"></font></span></div>
+								<div class="cue"><span><font id="oneStarsErr"></font></span></div>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -41,7 +41,7 @@
 							 <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" name="twoStars" id="twoStars" type="text" value="${supplierStars.twoStars}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
 								<span class="add-on">i</span>
-								<div class="cue"><span><font id="twoStarsErr" style="color: red"></font></span></div>
+								<div class="cue"><span><font id="twoStarsErr"></font></span></div>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -49,7 +49,7 @@
 							<div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" name="threeStars" id="threeStars" type="text" value="${supplierStars.threeStars}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
 								<span class="add-on">i</span>
-								<div class="cue"><span><font id="threeStarsErr" style="color: red"></font></span></div>
+								<div class="cue"><span><font id="threeStarsErr"></font></span></div>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -57,7 +57,7 @@
 							<div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" name="fourStars" id="fourStars" type="text" value="${supplierStars.fourStars}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
 								<span class="add-on">i</span>
-								<div class="cue"><span><font id="fourStarsErr" style="color: red"></font></span></div>
+								<div class="cue"><span><font id="fourStarsErr"></font></span></div>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -65,7 +65,7 @@
 							<div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" name="fiveStars" id="fiveStars" type="text" value="${supplierStars.fiveStars}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
 								<span class="add-on">i</span>
-								<div class="cue"><span><font id="fiveStarsErr" style="color: red"></font></span></div>
+								<div class="cue"><span><font id="fiveStarsErr"></font></span></div>
 							</div>
 						</li>
 					</ul>
