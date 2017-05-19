@@ -485,15 +485,6 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业执照登记类型：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="businessType" class="hand " value="${suppliers.businessType } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'businessType')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessType');"</c:if> <c:if test="${fn:contains(passedField,'website')}">style="border: 1px solid red;"</c:if>>
-								<c:if test="${fn:contains(passedField,'businessType')}">
-									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								</c:if>
-							</div>
-						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">企业性质：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="businessNature" class="hand " value="${suppliers.businessNature } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'businessNature')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessNature');"</c:if> <c:if test="${fn:contains(passedField,'businessNature')}">style="border: 1px solid red;"</c:if>>
@@ -529,8 +520,153 @@
 							</c:if>
 						</li>
 					</ul>
-
-					<h2 class="count_flow"><i>2</i>地址信息</h2>
+					
+					<h2 class="count_flow"><i>2</i>营业执照</h2>
+					<ul class="ul_list">
+						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业执照登记类型：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="businessType" class="hand " value="${suppliers.businessType } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'businessType')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessType');"</c:if> <c:if test="${fn:contains(passedField,'website')}">style="border: 1px solid red;"</c:if>>
+								<c:if test="${fn:contains(passedField,'businessType')}">
+									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								</c:if>
+							</div>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">统一社会信用代码：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="creditCode" class="hand " value="${suppliers.creditCode } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'creditCode')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('creditCode');"</c:if> <c:if test="${fn:contains(passedField,'creditCode')}">style="border: 1px solid red;"</c:if>>
+								<c:if test="${fn:contains(passedField,'creditCode')}">
+									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								</c:if>
+							</div>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">登记机关：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="registAuthority" class="hand " value="${suppliers.registAuthority } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'registAuthority')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('registAuthority');"</c:if> <c:if test="${fn:contains(passedField,'registAuthority')}">style="border: 1px solid red;"</c:if>>
+								<c:if test="${fn:contains(passedField,'registAuthority')}">
+									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								</c:if>
+							</div>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">注册资本（人民币：万元）：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="registFund" class="hand " value="${suppliers.registFund } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'registFund')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('registFund');"</c:if> <c:if test="${fn:contains(passedField,'registFund')}">style="border: 1px solid red;"</c:if>>
+								<c:if test="${fn:contains(passedField,'registFund')}">
+									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								</c:if>
+							</div>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">经营范围 ：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="businessStartDate" class="hand " onclick="reason(this)" value="<c:choose><c:when test="${suppliers.branchName eq '1'}">长期有效</c:when><c:otherwise> <fmt:formatDate value='${suppliers.businessStartDate}' pattern='yyyy-MM-dd'/></c:otherwise></c:choose>" type="text" <c:if test="${fn:contains(field,'businessStartDate')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessStartDate');"</c:if> <c:if test="${fn:contains(passedField,'businessStartDate')}">style="border: 1px solid red;"</c:if>/>
+								<c:if test="${fn:contains(passedField,'businessStartDate')}">
+									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								</c:if>
+							</div>
+						</li>
+						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业截止时间：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="businessStartDate" class="hand " onclick="reason(this)" value="<fmt:formatDate value='${suppliers.businessEndDate}' pattern='yyyy-MM-dd'/>" type="text" />
+							</div>
+						</li> --%>
+						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="fl" id="businessAddress2">生产或经营地址：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="businessAddress" class="hand " value="${suppliers.businessAddress } " type="text" onclick="reason(this.id,'businessAddress')">
+								<div id="businessAddress3" class="abolish">×</div>
+							</div>
+						</li> --%>
+						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="businessPostCode" class="hand " value="${suppliers.businessPostCode } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'businessPostCode')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessPostCode');"</c:if>>
+							</div>
+						</li> --%>
+						<li class="col-md-3 col-sm-6 col-xs-12" >
+							<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierBusinessCert)}">style="border: 1px solid #FF8C00;"</c:if> class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'businessCert');">营业执照：</span>
+							<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
+								<u:show showId="business_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
+								<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+							</div>
+						</li>
+						<li class="col-md-12 col-sm-12 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业范围（按照营业执照上填写）：</span>
+							<div class="col-md-12 col-sm-12 col-xs-12 p0">
+								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="businessScope" onclick="reason(this)" <c:if test="${fn:contains(field,'businessScope')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessScope');"</c:if> <c:if test="${fn:contains(passedField,'businessScope')}">style="border: 1px solid red;"</c:if>>${suppliers.businessScope }</textarea>
+								<c:if test="${fn:contains(passedField,'businessScope')}">
+									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								</c:if>
+							</div>
+						</li>
+					</ul>
+					
+					<h2 class="count_flow"><i>3</i>法定代表人信息</h2>
+					<ul class="ul_list">
+						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="legalName" class="hand " value="${suppliers.legalName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalName')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalName');"</c:if> <c:if test="${fn:contains(passedField,'legalName')}">style="border: 1px solid red;"</c:if>>
+								<c:if test="${fn:contains(passedField,'legalName')}">
+									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								</c:if>
+							</div>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" >身份证号：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="legalIdCard" class="hand " value="${suppliers.legalIdCard } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalIdCard')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalIdCard');"</c:if> <c:if test="${fn:contains(passedField,'legalIdCard')}">style="border: 1px solid red;"</c:if>>
+								<c:if test="${fn:contains(passedField,'legalIdCard')}">
+									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								</c:if>
+							</div>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">固定电话：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="legalMobile" class="hand " value="${suppliers.legalMobile } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalMobile')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalMobile');"</c:if> <c:if test="${fn:contains(passedField,'legalMobile')}">style="border: 1px solid red;"</c:if>>
+								<c:if test="${fn:contains(passedField,'legalMobile')}">
+									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								</c:if>
+							</div>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="legalTelephone" class="hand " value="${suppliers.legalTelephone } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalTelephone')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalTelephone');"</c:if> <c:if test="${fn:contains(passedField,'legalTelephone')}">style="border: 1px solid red;"</c:if>>
+								<c:if test="${fn:contains(passedField,'legalTelephone')}">
+									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								</c:if>
+							</div>
+						</li>
+						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentityUp');">身份证正面: </span>
+							<u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
+							<p class="b f18 ml10 red">×</p>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentitydown');">身份证反面: </span>
+							<u:show showId="identity_down_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
+							<p class="b f18 ml10 red">×</p>
+						</li> --%>
+						
+						<li class="col-md-3 col-sm-6 col-xs-12" >
+							<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierIdentityUp)}">style="border: 1px solid #FF8C00;"</c:if> class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentityUp');"> 身份证复印件（正反面在一张上）:</span>
+					  		<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
+					  			<u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
+           				<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+           				<c:if test="${fn:contains(passedField,'supplierIdentityUp')}">
+										<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+									</c:if>
+           			</div>
+            </li>
+					</ul>
+					
+					<h2 class="count_flow"><i>4</i>地址信息</h2>
 					<ul class="ul_list hand">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">住所邮编：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -641,7 +777,7 @@
 						</table>
 					</ul>
 
-					<h2 class="count_flow"><i>3</i>资质资信</h2>
+					<h2 class="count_flow"><i>5</i>资质资信</h2>
 					<ul class="ul_list hand">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15" >
 							<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierTaxCert)}">style="border: 1px solid #FF8C00;"</c:if> class="hand" onclick="reason1(this,'taxCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三个月完税凭证：</span>
@@ -711,69 +847,8 @@
 							</li>
 						</c:if>
 					</ul>
-
-					<h2 class="count_flow"><i>4</i>法定代表人信息</h2>
-					<ul class="ul_list">
-						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="legalName" class="hand " value="${suppliers.legalName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalName')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalName');"</c:if> <c:if test="${fn:contains(passedField,'legalName')}">style="border: 1px solid red;"</c:if>>
-								<c:if test="${fn:contains(passedField,'legalName')}">
-									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								</c:if>
-							</div>
-						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" >身份证号：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="legalIdCard" class="hand " value="${suppliers.legalIdCard } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalIdCard')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalIdCard');"</c:if> <c:if test="${fn:contains(passedField,'legalIdCard')}">style="border: 1px solid red;"</c:if>>
-								<c:if test="${fn:contains(passedField,'legalIdCard')}">
-									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								</c:if>
-							</div>
-						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">固定电话：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="legalMobile" class="hand " value="${suppliers.legalMobile } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalMobile')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalMobile');"</c:if> <c:if test="${fn:contains(passedField,'legalMobile')}">style="border: 1px solid red;"</c:if>>
-								<c:if test="${fn:contains(passedField,'legalMobile')}">
-									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								</c:if>
-							</div>
-						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="legalTelephone" class="hand " value="${suppliers.legalTelephone } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalTelephone')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalTelephone');"</c:if> <c:if test="${fn:contains(passedField,'legalTelephone')}">style="border: 1px solid red;"</c:if>>
-								<c:if test="${fn:contains(passedField,'legalTelephone')}">
-									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								</c:if>
-							</div>
-						</li>
-						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentityUp');">身份证正面: </span>
-							<u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
-							<p class="b f18 ml10 red">×</p>
-						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentitydown');">身份证反面: </span>
-							<u:show showId="identity_down_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
-							<p class="b f18 ml10 red">×</p>
-						</li> --%>
-						
-						<li class="col-md-3 col-sm-6 col-xs-12" >
-							<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierIdentityUp)}">style="border: 1px solid #FF8C00;"</c:if> class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentityUp');"> 身份证复印件（正反面在一张上）:</span>
-					  		<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
-					  			<u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
-           				<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
-           				<c:if test="${fn:contains(passedField,'supplierIdentityUp')}">
-										<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-									</c:if>
-           			</div>
-            </li>
-					</ul>
-
-					<h2 class="count_flow"><i>5</i>注册联系人</h2>
+					
+					<h2 class="count_flow"><i>6</i>注册联系人</h2>
 					<ul class="ul_list">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名：</span>
@@ -840,7 +915,7 @@
 						</li>
 					</ul>
 
-					<h2 class="count_flow"><i>6</i>本单位军队业务联系人</h2>
+					<h2 class="count_flow"><i>7</i>本单位军队业务联系人</h2>
 					<ul class="ul_list">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名：</span>
@@ -901,81 +976,6 @@
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 p0">
 								<input id="armyBuinessAddress" class="hand " value="${suppliers.armyBuinessAddress } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBuinessAddress')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('armyBuinessAddress');"</c:if> <c:if test="${fn:contains(passedField,'armyBuinessAddress')}">style="border: 1px solid red;"</c:if>>
 								<c:if test="${fn:contains(passedField,'armyBuinessAddress')}">
-									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								</c:if>
-							</div>
-						</li>
-					</ul>
-
-					<h2 class="count_flow"><i>7</i>营业执照</h2>
-					<ul class="ul_list">
-						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">统一社会信用代码：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="creditCode" class="hand " value="${suppliers.creditCode } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'creditCode')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('creditCode');"</c:if> <c:if test="${fn:contains(passedField,'creditCode')}">style="border: 1px solid red;"</c:if>>
-								<c:if test="${fn:contains(passedField,'creditCode')}">
-									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								</c:if>
-							</div>
-						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">登记机关：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="registAuthority" class="hand " value="${suppliers.registAuthority } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'registAuthority')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('registAuthority');"</c:if> <c:if test="${fn:contains(passedField,'registAuthority')}">style="border: 1px solid red;"</c:if>>
-								<c:if test="${fn:contains(passedField,'registAuthority')}">
-									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								</c:if>
-							</div>
-						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">注册资本（人民币：万元）：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="registFund" class="hand " value="${suppliers.registFund } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'registFund')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('registFund');"</c:if> <c:if test="${fn:contains(passedField,'registFund')}">style="border: 1px solid red;"</c:if>>
-								<c:if test="${fn:contains(passedField,'registFund')}">
-									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								</c:if>
-							</div>
-						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">有效期 ：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="businessStartDate" class="hand " onclick="reason(this)" value="<c:choose><c:when test="${suppliers.branchName eq '1'}">长期有效</c:when><c:otherwise> <fmt:formatDate value='${suppliers.businessStartDate}' pattern='yyyy-MM-dd'/></c:otherwise></c:choose>" type="text" <c:if test="${fn:contains(field,'businessStartDate')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessStartDate');"</c:if> <c:if test="${fn:contains(passedField,'businessStartDate')}">style="border: 1px solid red;"</c:if>/>
-								<c:if test="${fn:contains(passedField,'businessStartDate')}">
-									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								</c:if>
-							</div>
-						</li>
-						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业截止时间：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="businessStartDate" class="hand " onclick="reason(this)" value="<fmt:formatDate value='${suppliers.businessEndDate}' pattern='yyyy-MM-dd'/>" type="text" />
-							</div>
-						</li> --%>
-						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="fl" id="businessAddress2">生产或经营地址：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="businessAddress" class="hand " value="${suppliers.businessAddress } " type="text" onclick="reason(this.id,'businessAddress')">
-								<div id="businessAddress3" class="abolish">×</div>
-							</div>
-						</li> --%>
-						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="businessPostCode" class="hand " value="${suppliers.businessPostCode } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'businessPostCode')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessPostCode');"</c:if>>
-							</div>
-						</li> --%>
-						<li class="col-md-3 col-sm-6 col-xs-12" >
-							<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierBusinessCert)}">style="border: 1px solid #FF8C00;"</c:if> class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'businessCert');">营业执照：</span>
-							<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
-								<u:show showId="business_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
-								<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
-							</div>
-						</li>
-						<li class="col-md-12 col-sm-12 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业范围（按照营业执照上填写）：</span>
-							<div class="col-md-12 col-sm-12 col-xs-12 p0">
-								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="businessScope" onclick="reason(this)" <c:if test="${fn:contains(field,'businessScope')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessScope');"</c:if> <c:if test="${fn:contains(passedField,'businessScope')}">style="border: 1px solid red;"</c:if>>${suppliers.businessScope }</textarea>
-								<c:if test="${fn:contains(passedField,'businessScope')}">
 									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 								</c:if>
 							</div>

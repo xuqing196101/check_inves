@@ -198,92 +198,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierPorjectQuaService supplierPorjectQuaService;
-	/**
-	 * @Title: daiBan
-	 * @author Xu Qing
-	 * @date 2016-9-13 下午2:12:29  
-	 * @Description: 待办
-	 * @param @return      
-	 * @return String
-	 */
-	/*	@RequestMapping("daiban")
-		public String daiBan(Supplier supplier,HttpServletRequest request) {
-			//未审核条数（0审核）
-			supplier.setStatus(0);
-			int weishen = supplierAuditService.getCount(supplier);
-			//审核中条数（1审核通过也是复核）
-			supplier.setStatus(1);
-			int shenhezhong =supplierAuditService.getCount(supplier);
-			//已审核条数（3复核通过）
-			supplier.setStatus(3);
-			int yishen =supplierAuditService.getCount(supplier);
-
-			request.setAttribute("weishen", weishen);
-			request.setAttribute("shenhezhong", shenhezhong);
-			request.setAttribute("yishen", yishen);
-			
-			return "ses/sms/supplier_audit/total";
-		}*/
-
-	/*	@RequestMapping("saveDaiBan")
-		public void saveDaiBan(String supplierId,HttpServletRequest request) {
-			Todos todo=new Todos();
-			todo.setCreatedAt(new Date());
-			//待办类型 供应商
-			todo.setUndoType((short)1);
-			//逻辑删除 0未删除 1已删除
-			todo.setIsDeleted((short)0);
-			//执行路径
-			todo.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
-			//是否完成
-			todo.setIsFinish((short)0);
-			//标题
-			todo.setName("供应商复核");
-			User user=(User) request.getSession().getAttribute("loginUser");
-			//发送人id
-			todo.setSenderId(user.getId());
-			//接收人id
-			Supplier supplier = supplierAuditService.supplierById(supplierId);
-			todo.setReceiverId(supplier.getProcurementDepId());
-
-			todosService.insert(todo);
-		}*/
-
-	/**
-	 * @Title: SupplierList
-	 * @author Xu Qing
-	 * @date 2016-9-12 下午5:19:07  
-	 * @Description: 根据审核状态（待办）查询供应商 
-	 * @param @return      
-	 * @return String
-	 */
-	/*	@RequestMapping("supplierList")
-		public String supplierList(HttpServletRequest request,Integer page,Supplier supplier) {
-			//条件查询时status为空，把它存入session
-			if(supplier.getStatus()!=null){
-				request.getSession().setAttribute("status", supplier.getStatus());
-			}
-			int status =(int) request.getSession().getAttribute("status");
-			if(supplier.getStatus()!=null){
-				supplier.setStatus(supplier.getStatus());	
-			}else{
-				//条件查询的时status为空从session里取
-				supplier.setStatus(status);
-			}
-			
-			List<Supplier> supplierList =supplierAuditService.supplierList(supplier,page==null?1:page);
-			request.setAttribute("result", new PageInfo<>(supplierList));
-			request.setAttribute("supplierList", supplierList);
-			
-			//所有供应商类型
-			List<SupplierType> supplierType= supplierAuditService.findSupplierType();
-			request.setAttribute("supplierType", supplierType);
-			//回显名字
-			String supplierName = supplier.getSupplierName();
-			request.setAttribute("supplierName", supplierName);
-			return "ses/sms/supplier_audit/supplier_list";
-		}*/
-
+	
 	/**
 	 * @Title: essentialInformation
 	 * @author Xu Qing
@@ -2212,6 +2127,8 @@ public class SupplierAuditController extends BaseSupplierController {
 				for(int i = 0; i < list.size(); i++) {
 					if(typeId.equals(list.get(i).getId())) {
 						showModify = list.get(i).getName();
+					}else{
+						showModify = supplierModify.getBeforeContent();
 					}
 				}
 				return JSON.toJSONString(showModify);
@@ -2248,6 +2165,14 @@ public class SupplierAuditController extends BaseSupplierController {
 
 			// Wed Feb 01 00:00:00 CST 2017         String
 			if(supplierModify.getBeforeField() != null && supplierModify.getBeforeField().equals("foundDate")) {
+				SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
+				Date date = sdf.parse(supplierModify.getBeforeContent());
+				String d = new SimpleDateFormat("yyyy-MM-dd").format(date);
+				return JSON.toJSONString(d);
+			}
+			
+			//经营范围 
+			if(supplierModify.getBeforeField() != null && supplierModify.getBeforeField().equals("businessStartDate")) {
 				SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
 				Date date = sdf.parse(supplierModify.getBeforeContent());
 				String d = new SimpleDateFormat("yyyy-MM-dd").format(date);
