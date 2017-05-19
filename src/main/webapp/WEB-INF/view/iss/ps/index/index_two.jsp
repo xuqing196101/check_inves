@@ -31,10 +31,7 @@ $(function(){
 });
 
 function query(){
-	var title = $("#title").val()/* .trim() *//* .replace(/(^\s+)|(\s+$)/g,"") */;
-	  if("g"=="g"){
-		 title = title.replace(/\s/g,"");
-		} 
+	var title = $("#title").val().replace(/\s/g,"");
 	var url="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id="+articleTypeId+"&title="+title;
 	window.location.href = encodeURI(encodeURI(url));
 }
