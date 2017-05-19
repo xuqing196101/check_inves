@@ -137,9 +137,12 @@ public class OBProjectController {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String list(@CurrentUser User user, Model model,
-			@RequestParam(defaultValue="1")Integer page,
+			Integer page,
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,
 			String name) {
+		if(page == null){
+			page=1;
+		}
 		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		int orgId=2;
 		if (user != null) {
@@ -152,7 +155,7 @@ public class OBProjectController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("page", page);
 			map.put("startTime", startTime);
-			map.put("name", name);
+			map.put("name", name.trim());
 			//map.put("uid", user.getId());
 			map.put("createId", userList);
 			List<OBProject> list = OBProjectServer.List(map);
