@@ -460,7 +460,7 @@
 							<th class="info">地区</th>
 							<th class="info">供应商类型</th>
 							<th class="info">企业性质</th>
-							<th class="info">机构名称</th>
+							<th class="info">采购机构</th>
 							<th class="info">供应商状态</th>
 						</tr>
 					</thead>

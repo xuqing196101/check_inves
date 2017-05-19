@@ -555,7 +555,7 @@
 							<!-- <th class="info w50">选择</th> -->
 							<th class="info w40">序号</th>
 							<th class="info">供应商名称</th>
-							<th class="info">机构名称</th>
+							<th class="info">采购机构</th>
 							<th class="info">地区</th>
 							<th class="info w90">注册日期</th>
 							<th class="info w90">提交日期</th>

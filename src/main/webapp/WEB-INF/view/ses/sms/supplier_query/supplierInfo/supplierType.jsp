@@ -372,7 +372,7 @@
 																<th class="info">发证日期</th>
 																<th class="info">有效截止日期</th>
 																<th class="info">证书状态</th>
-																<th class="info">证书图片</th>
+																<!-- <th class="info">证书图片</th> -->
 															</tr>
 														</thead>
 														<c:forEach items="${supplierCertEng}" var="s" varStatus="vs">
@@ -388,9 +388,9 @@
 																	<fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd' />
 																</td>
 																<td class="tc" id="certStatus_${s.id }">${s.certStatus}</td>
-																<td class="tc">
+																<%-- <td class="tc">
 																	<u:show showId="eng_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
-																</td>
+																</td> --%>
 															</tr>
 														</c:forEach>
 													</table>
