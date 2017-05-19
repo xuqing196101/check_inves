@@ -315,7 +315,7 @@
 					</div>
 
 					<div class="tab-pane fade active in">
-						<h2 class="count_flow"><i>6</i>军队业务联系人</h2>
+						<h2 class="count_flow"><i>6</i>本单位军队业务联系人</h2>
 						<ul class="ul_list">
 							<table class="table table-bordered">
 								<tbody>
