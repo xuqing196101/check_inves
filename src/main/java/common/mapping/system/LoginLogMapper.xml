@@ -147,7 +147,7 @@
      	AND L.TYPE = #{loginType}
   </select>
   
-  <!-- 根据掺入参数条件查询 -->
+  <!-- 根据传入参数条件查询 -->
   <select id="getListByParam" parameterType="common.model.LoginLogVo" resultMap="BaseResultMap">
   	SELECT 
   	 <include refid="Base_Column_List" />

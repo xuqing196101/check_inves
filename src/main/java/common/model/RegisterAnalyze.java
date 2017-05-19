@@ -1,5 +1,6 @@
 package common.model;
 
+import java.io.Serializable;
 import java.util.Date;
 /**
  * 
@@ -9,8 +10,13 @@ import java.util.Date;
 * @date 2017年5月12日 上午10:42:10 
 *
  */
-public class RegisterAnalyze {
-    private String id;
+public class RegisterAnalyze implements Serializable{
+    /** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 
     /** 统计类型数据字典ID **/
     private String typeId;

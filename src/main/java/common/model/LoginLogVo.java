@@ -1,5 +1,7 @@
 package common.model;
 
+import java.io.Serializable;
+
 
 /**
  * 
@@ -9,7 +11,12 @@ package common.model;
  * @date 2017年5月19日 下午2:12:24
  * 
  */
-public class LoginLogVo extends LoginLog {
+public class LoginLogVo extends LoginLog implements Serializable{
+
+	/** 
+	* @Fields serialVersionUID : 
+	*/ 
+	private static final long serialVersionUID = 1L;
 
 	// 结束时间
 	private String startDate;
