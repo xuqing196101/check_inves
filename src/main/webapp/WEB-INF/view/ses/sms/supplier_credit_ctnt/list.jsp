@@ -47,6 +47,7 @@
 		var id = checkbox.val();
 		var name = checkbox.parents("tr").find("td").eq(2).text();
 		name = $.trim(name);
+		name = encodeURI(name);
 		var score = checkbox.parents("tr").find("td").eq(3).text();
 		score = $.trim(score);
 		var supplierCreditId = $("input[name='supplierCreditId']").val();
