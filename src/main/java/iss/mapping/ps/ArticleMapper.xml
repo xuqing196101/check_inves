@@ -216,7 +216,8 @@
         AND to_char(PUBLISHED_AT,'yyyy-mm-dd') &lt;= #{publishEndDate}	
       </if>
     <!-- order by decode(STATUS,4,0,1,1,3,2,2,3), PUBLISHED_AT DESC -->
-      order by SUBMIT_AT DESC
+     <!--  order by SUBMIT_AT DESC -->
+     order by PUBLISHED_AT DESC
   </select>
   
   
