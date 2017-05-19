@@ -408,6 +408,7 @@
 																<th class="info">专业类别</th>
 																<th class="info">资质等级</th>
 																<th class="info">是否主项资质</th>
+																<th class="info w50">证书图片</th>
 															</tr>
 														</thead>
 														<c:forEach items="${supplierAptitutes}" var="s" varStatus="vs">
@@ -425,6 +426,9 @@
 																<td class="tc">
 																	<c:if test="${s.isMajorFund==0 }">否</c:if>
 																	<c:if test="${s.isMajorFund==1 }">是</c:if>
+																</td>
+																<td>
+																	<u:show showId="apt_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
 																</td>
 															</tr>
 														</c:forEach>
