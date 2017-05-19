@@ -55,12 +55,9 @@
 							<th class="info">供应商名称</th>
 							<th class="info">起始时间</th>
 							<th class="info">期限</th>
+							<th class="info">结束时间</th>
 							<th class="info">处罚类型</th>
-							<th class="info">发布类型</th>
 							<th class="info">列入黑名单原因</th>
-							<th class="info">操作类型</th>
-							<th class="info">操作人</th>
-							<th class="info">操作时间</th>
 						</tr>
 					</thead>
 					<tbody id="black_tbody_id">
@@ -78,41 +75,20 @@
 									<c:if test="${log.term == 0}">永久</c:if>
 								</td>
 								<td class="tc">
+									<fmt:formatDate value="${ log.endTime }" pattern="yyyy-MM-dd" />
+								</td>
+								<td class="tc">
 									<c:if test="${log.punishType == 0}">警告</c:if>
 									<c:if test="${log.punishType == 1}">不得参与采购活动</c:if>
 								</td>
-								<td class="tc">
-									<c:if test="${log.releaseType == 0}">
-										内外网发布
-									</c:if>
-									<c:if test="${log.releaseType == 1}">
-										内网发布
-									</c:if>
-									<c:if test="${log.releaseType == 2}">
-										外网发布
-									</c:if>
-								</td>
-								<td class="tl pl20" title="${log.reason}">
+								<td class="tc" title="${ log.reason }">
 									<c:if test="${log.reason.length() > 10}">
 									 	${log.reason.substring(0,9)}...
                     				 </c:if>  
 									 <c:if test="${log.reason.length() <= 10}">
 									 	${log.reason}
-                    				</c:if> 
+                    				</c:if>  
 								</td>
-								<td class="tc">
-									<c:if test="${log.operationType == 0}">
-										新增
-									</c:if>
-									<c:if test="${log.operationType == 1}">
-										修改
-									</c:if>
-									<c:if test="${log.operationType == 2}">
-										手动移除
-									</c:if>
-								</td>
-								<td class="tc">${log.operationName}</td>
-								<td class="tc"><fmt:formatDate value="${log.operationDate}" pattern="yyyy-MM-dd"/></td>
 							</tr>
 						</c:forEach>
 					</tbody>
