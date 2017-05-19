@@ -1,5 +1,7 @@
 package common.constant;
 
+import ses.util.PropUtil;
+
 /**
  * 
  * 版权：(C) 版权所有 
@@ -162,6 +164,9 @@ public class StaticVariables {
     public static final String OB_PROJECT_SHOW="只有资源服务中心才能操作";
 
     
+    
+    //获取是否内网标识 1外网 0内网
+    public static final String ipAddressType= PropUtil.getProperty("ipAddressType");
     /**
      * 默认页
      */
