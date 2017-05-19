@@ -162,11 +162,11 @@
 		      <input type="checkbox" id="checkAll" onclick="selectAll()" alt="" />
 		    </th>
 			<th class="info w50">序号</th>
-			<th class="info">项目名称</th>
-			<th class="info">项目编号</th>
-			<th class="info">采购方式</th>
-			<th class="info">创建时间</th>
-			<th class="info">项目负责人</th>
+			<th class="info" width="25%">项目名称</th>
+			<th class="info" width="15%">项目编号</th>
+			<th class="info" width="10%">采购方式</th>
+			<th class="info" width="15%">创建时间</th>
+			<th class="info" width="15%">项目负责人</th>
 			<th class="info">审核状态</th>
 		  </tr>
 		</thead>
@@ -177,8 +177,8 @@
 			    <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
 			  </td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td class="tl pl20"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a></td>
-			  <td class="tl pl20"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
+			  <td class="tl"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a></td>
+			  <td class="tl"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
 			  <td class="tc">
 			    <a href="javascript:void(0)" onclick="view('${obj.id}');">
 				  <c:forEach items="${kind}" var="kind" >
@@ -186,8 +186,8 @@
                   </c:forEach>
 				</a>
 			  </td>
-			  <td class="tl pl20" onclick="view('${obj.id}')"><fmt:formatDate type='date' value='${obj.createAt}'  pattern=" yyyy-MM-dd HH:mm:ss "/></td>
-			  <td class="tc" onclick="view('${obj.id}')">${obj.projectContractor}</td>
+			  <td class="tc" onclick="view('${obj.id}')"><fmt:formatDate type='date' value='${obj.createAt}'  pattern=" yyyy-MM-dd HH:mm:ss "/></td>
+			  <td class="tl" onclick="view('${obj.id}')">${obj.projectContractor}</td>
 			   <td class="tc" onclick="view('${obj.id}')">
 			   <c:if test="${obj.confirmFile == 1 }">待审核</c:if>
 			   <c:if test="${obj.confirmFile == 3 }">审核通过</c:if>
