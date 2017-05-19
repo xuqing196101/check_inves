@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import common.annotation.SystemControllerLog;
+
 import ses.model.bms.Analyze;
 import ses.model.bms.AnalyzeItem;
 import ses.service.ems.AnalyzeService;
@@ -93,12 +95,13 @@ public class AnalyzeController {
 	/**
 	 * 
 	* @Title: analyzeLoginCount 
-	* @Description: 登录统计
+	* @Description: 统计
 	* @author Easong
 	* @param @return    设定文件 
 	* @return AnalyzeItem    返回类型 
 	* @throws
 	 */
+	@SystemControllerLog(description="统计")
 	@RequestMapping("/analyzeLoginCount")
 	@ResponseBody
 	public List<Analyze> analyzeLoginCount(String analyzeType, String analyzeTypeByCate, Integer analyzeTypeIntegerStart, Integer analyzeTypeIntegerEnd){

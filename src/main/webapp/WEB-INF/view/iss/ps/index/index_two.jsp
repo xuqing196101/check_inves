@@ -31,7 +31,7 @@ $(function(){
 });
 
 function query(){
-	var title = $("#title").val();
+	var title = $("#title").val().replace(/\s/g,"");
 	var url="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id="+articleTypeId+"&title="+title;
 	window.location.href = encodeURI(encodeURI(url));
 }

@@ -349,7 +349,7 @@
 		<!--面包屑导航开始-->
 		<c:if test="${typeclassId!=null && typeclassId !=''  }">
 			<div class="margin-top-10 breadcrumbs ">
-				<div class="container">
+				<div class="container container_box">
 					<ul class="breadcrumb margin-left-0">
 						<li>
 							<a href="#"> 首页</a>
@@ -383,7 +383,6 @@
 				<input type="hidden" id="pid" value="${projectId}" name="id">
 				  <!-- 监督人员id  -->
                 <input type="hidden" id="superviseId" value="${superviseId}" name="superviseId">
-				<div>
 					<h2 class="count_flow"><i>1</i>项目信息</h2>
 					<ul class="ul_list">
                         <li class="col-md-3 col-sm-4 col-xs-12 pl15">
@@ -447,10 +446,9 @@
                           </div>
                         </li>
                     </ul>
-				</div>
-                <div>
+          <div>
           <h2 class="count_flow "><i>2</i>
-                    <div class="ww50 fl">抽取信息</div>
+            <div class="ww50 fl">抽取信息</div>
           </h2>
            <div align="right" class=" pl20 mb10 hide isCurment_div"  >
                <c:if test="${typeclassId!=null && typeclassId !='' }">

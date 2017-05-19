@@ -179,9 +179,6 @@ public class ExpertBlackListController extends BaseSupplierController{
 		model.addAttribute("expertName", expertName);
 		//回显
 		String relName = expert.getRelName();
-		if(relName != null){
-			relName  = relName.replaceAll("%", "");
-		}
 		String punishDate = expert.getPunishDate();
 		Integer punisType = expert.getPunishType();
 		request.setAttribute("relName", relName);

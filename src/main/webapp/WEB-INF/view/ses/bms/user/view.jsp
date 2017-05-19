@@ -97,8 +97,10 @@
 	 	<table class="table table-bordered">
 		 	<tbody>
 		 		<tr>
-		 			<td class="bggrey" >用户名：</td><td class="bggrey">${user.loginName}</td>
-		 			<td class="bggrey" >真实姓名：</td><td class="bggrey">${user.relName}</td>
+		 			<td class="bggrey" width="15%">用户名：</td>
+		 			<td width="35%">${user.loginName}</td>
+		 			<td class="bggrey" width="15%">真实姓名：</td>
+		 			<td width="35%">${user.relName}</td>
 		 		</tr>
 		 		<tr>
 		 			<td class="bggrey">性别：</td>

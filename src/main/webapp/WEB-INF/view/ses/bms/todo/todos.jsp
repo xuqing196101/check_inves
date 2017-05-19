@@ -65,8 +65,8 @@
   	  			               var html="<tr onclick='view(\"${pageContext.request.contextPath}/"+item.url+"\");'>";
   	  			                   html+="<td>"+(parseInt((index+1))+(res.pageNum-1)*(res.pageSize))+"</td>";
   	  			                   html+="<td>"+item.name+"</td>";
-  	  			                   html+="<td>"+item.senderName+"</td>";
-  	  			                   html+="<td>"+str.toLocaleString()+"</td>";
+  	  			                   html+="<td class='tc'>"+item.senderName+"</td>";
+  	  			                   html+="<td class='tc'>"+str.toLocaleString()+"</td>";
   	  			                   html+="</tr>";
   	  			            	 lis.push(html);
   	  			              }); 
@@ -153,9 +153,9 @@
                 <table  class="hand table table-striped table-bordered">
                     <tr>
                       <th class="info w50">序号</th>
-                      <th class="info w300">标题</th>
+                      <th class="info" width="45%">标题</th>
                       <th class="info">发送人</th>
-                      <th class="info">创建时间</th>
+                      <th class="info" width="25%">创建时间</th>
                     </tr>
                     <tbody id="tbody_id0">
                     <%-- <c:forEach items="${supplierTodos.list}" var="agents" varStatus="s">
@@ -189,9 +189,9 @@
                 <table  class="hand table table-striped table-bordered">
                     <tr>
                       <th class="info w50">序号</th>
-                      <th class="info w300">标题</th>
+                      <th class="info"  width="45%">标题</th>
                       <th class="info">发送人</th>
-                      <th class="info">创建时间</th>
+                      <th class="info"  width="25%">创建时间</th>
                     </tr>
                     <tbody id="tbody_id1">
                     <%-- <c:forEach items="${expertTodos.list}" var="agents" varStatus="s">
@@ -226,9 +226,9 @@
                 <table  class="hand table table-striped table-bordered">
                     <tr>
                       <th class="info w50">序号</th>
-                      <th class="info w300">标题</th>
+                      <th class="info" width="45%">标题</th>
                       <th class="info">发送人</th>
-                      <th class="info">创建时间</th>
+                      <th class="info" width="25%">创建时间</th>
                     </tr>
                     <tbody id="tbody_id2">
                     <%-- <c:forEach items="${projectTodos.list}" var="agents" varStatus="s">

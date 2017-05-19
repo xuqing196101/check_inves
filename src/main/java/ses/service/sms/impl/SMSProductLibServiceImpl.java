@@ -34,8 +34,6 @@ import synchro.util.OperAttachment;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
-
-import common.annotation.SystemServiceLog;
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;

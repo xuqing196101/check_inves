@@ -30,7 +30,7 @@
     where 
     	 1=1
        <if test="relName != null and relName !=''">  
-              AND  REL_NAME like  #{relName}   
+              AND  REL_NAME like '%'|| #{relName} ||'%'
        </if>  
        <if test="punishType != null and punishType !=''">  
               AND PUNISH_TYPE = #{punishType} 

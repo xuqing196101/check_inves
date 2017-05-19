@@ -32,6 +32,22 @@ public class SupplierStarsServiceImpl implements SupplierStarsService {
 
 	@Override
 	public JdcgResult saveOrUpdateSupplierStars(SupplierStars supplierStars) {
+		// 校验表单必填项
+		if(supplierStars.getOneStars() == null && "".equals(supplierStars.getOneStars())){
+			return JdcgResult.build(500, "请输入一星级所需分数");
+		}
+		if(supplierStars.getTwoStars() == null && "".equals(supplierStars.getTwoStars())){
+			return JdcgResult.build(500, "请输入二星级所需分数");
+		}
+		if(supplierStars.getThreeStars() == null && "".equals(supplierStars.getThreeStars())){
+			return JdcgResult.build(500, "请输入三星级所需分数");
+		}
+		if(supplierStars.getFourStars() == null && "".equals(supplierStars.getFourStars())){
+			return JdcgResult.build(500, "请输入四星级所需分数");
+		}
+		if(supplierStars.getFiveStars() == null && "".equals(supplierStars.getFiveStars())){
+			return JdcgResult.build(500, "请输入五星级所需分数");
+		}
 		String id = supplierStars.getId();
 		if (id != null && !"".equals(id)) {
 			supplierStarsMapper.updateByPrimaryKeySelective(supplierStars);

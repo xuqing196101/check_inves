@@ -165,27 +165,23 @@
 	<div class="container">
 		<div class="headline-v2">
 			<h2>投诉处理列表</h2>
-			<div class="col-md-12 pl20 mt10">
-	    	       <button class="btn" type="button" onclick="lixiang()">立项</button>
-		           <button class="btn" type="button" onclick="gongbu()">公布</button>
-            </div>
 		</div>
-		
+		<div class="col-md-12 pl20 mt10">
+	   		<button class="btn" type="button" onclick="lixiang()">立项</button>
+		    <button class="btn" type="button" onclick="gongbu()">公布</button>
+        </div>		
    <div class="content table_box">
-				
 		<form action="" method="post" class="mb0">
-
-			<div class="content table_box">
-				
+			<div class="content p0">
 				<table class="table table-bordered table-condensed table-hover">
 					<thead>
 						<tr class="info">
 							<th class="w50"><input id="checkAll" type="checkbox" onclick="check()" /></th>
 							<th class="w50">序号</th>
-							<th>投诉人名称</th>
+							<th width="15%">投诉人名称</th>
 							<th>投诉人类型</th>
 							<th>投诉对象</th>
-							<th width="35%">投诉事项</th>
+							<th width="40%">投诉事项</th>
 							<th>处理情况</th>
 						</tr>
 					</thead>
@@ -193,25 +189,24 @@
 						<!-- 获取对象时list.被封装在list里面了complaint集合-  var就是下面的值从result里获取-->
 						<c:forEach items="${info.list }" varStatus="vs" var="result">
 							<!-- -ondealwith 的值里面要带‘’ -->
-							<tr class="tc" >
+							<tr>
 								<!-- onclick="check"前面选择这个框的触发事件  value="${list.id}获取result集合里id的值 -->
-								<td class="w50"><input onclick="check()" type="checkbox"    value="${result.id }" name="info"  /></td>
-								<td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-								<td>${result.name }</td>
-								<td><c:if test="${result.type=='0'}">
+								<td class="w50 tc"><input onclick="check()" type="checkbox"    value="${result.id }" name="info"  /></td>
+								<td class="w50 tc">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+								<td  width="16%">${result.name }</td>
+								<td class="tc" width="10%"><c:if test="${result.type=='0'}">
 								               单位
 								     </c:if> <c:if test="${result.type=='1'}">
 								               个人
 								     </c:if></td>
-								<td>${result.complaintObject }</td>
+								<td width="16%">${result.complaintObject }</td>
 								<!-- -数据前台展示截取 -->
-								<td>
-                                  <input class="w230 border0" title="${result.complaintMatter }"  
-					              <c:if test="${fn:length(result.complaintMatter) > 12 }">value=" ${fn:substring(result.complaintMatter, 0, 12)}..."</c:if>
-					              <c:if test="${fn:length(result.complaintMatter) <= 12 }">value="${result.complaintMatter }"</c:if>
-					                      />
+								<td width="35%">
+					              <c:if test="${fn:length(result.complaintMatter) > 22 }"> ${fn:substring(result.complaintMatter, 0, 22)}..."</c:if>
+					              <c:if test="${fn:length(result.complaintMatter) <= 22 }">${result.complaintMatter }"</c:if>
+					                    
                                 </td>
-								<td><c:if test="${result.status=='0'}">
+								<td  class="tc"><c:if test="${result.status=='0'}">
 								           未处理
 								     </c:if> 
 								     <c:if test="${result.status=='1'}">

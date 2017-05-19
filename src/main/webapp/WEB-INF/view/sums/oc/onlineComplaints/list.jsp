@@ -180,10 +180,10 @@
 			<tr class="info">
 				<th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 				<th class="w50">序号</th>
-				<th>投诉人名称</th>
-				<th>投诉人类型</th>
-				<th>投诉对象</th>
-				<th width="25%">投诉事项</th>
+				<th width="16%">投诉人名称</th>
+				<th width="12%">投诉人类型</th>
+				<th width="16%">投诉对象</th>
+				<th width="37%">投诉事项</th>
 				<th>处理情况</th>
 			</tr>
 		</thead>
@@ -192,15 +192,15 @@
 			<tr class="tc">
 				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${complaint.id }" /></td>
 				<td class="w50" onclick="doview('${complaint.id }')">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-				<td class="tc" onclick="doview('${complaint.id }')">${complaint.name }</td>
+				<td class="tl pl20" onclick="doview('${complaint.id }')">${complaint.name }</td>
 				<td class="tc" onclick="doview('${complaint.id }')">
 					<c:if test="${complaint.type == 1 }">个人</c:if>
 					<c:if test="${complaint.type == 0 }">单位</c:if>
 				</td>
-				<td class="tc" onclick="doview('${complaint.id }')">${complaint.complaintObject }</td>
+				<td class="tl" onclick="doview('${complaint.id }')">${complaint.complaintObject }</td>
 				<td class="tl" title="${complaint.complaintMatter }" onclick="doview('${complaint.id }')">  
-					<c:if test="${fn:length(complaint.complaintMatter) > 12 }">${fn:substring(complaint.complaintMatter, 0, 12)}...</c:if>
-					<c:if test="${fn:length(complaint.complaintMatter) <= 12 }">${complaint.complaintMatter }</c:if>
+					<c:if test="${fn:length(complaint.complaintMatter) > 22 }">${fn:substring(complaint.complaintMatter, 0, 22)}...</c:if>
+					<c:if test="${fn:length(complaint.complaintMatter) <= 22 }">${complaint.complaintMatter }</c:if>
 				</td>
 				<td class="tc" onclick="doview('${complaint.id }')">
 					<c:if test="${complaint.status == 0 }">未处理</c:if>

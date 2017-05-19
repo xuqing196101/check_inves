@@ -38,8 +38,8 @@
 			function chongzhi() {
 				$("#supplierName").val('');
 				/* $("#loginName").val(''); */
-				$("#startDate").val('');
-				$("#endDate").val('');
+				$("#startAuditDate").val('');
+				$("#endAuditDate").val('');
 				$("#contactName").val('');
 				$("#category").val('');
 				$("#supplierType").val('');
@@ -358,10 +358,10 @@
             <li>
               <label class="fl">联系人：</label><span><input id="contactName" class="w220" name="contactName" value="${supplier.contactName }" type="text"></span>
             </li>
-            <li>
+            <%-- <li>
 							<label class="fl">手机号：</label>
 							<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
-						</li>
+						</li> --%>
 						<li>
             	<label class="fl">企业性质：</label>
 	            <select name="businessType" id="businessType" class="w220">
@@ -425,11 +425,11 @@
 	            </select>
 	         	 </li> --%>
          		 <li>
-           	  <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w100" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
-	              <span class="f14">至</span>
-	              <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>'  class="Wdate w110" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-	              </span>
-            	</li>
+	          	<label class="fl">审核日期：</label><span><input id="startAuditDate" name="startAuditDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})"/>
+	            <span class="f14">至</span>
+	            <input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
+	            </span>
+	          </li>
 		       </ul>
 		       <div class="col-md-12 clear tc mt10">
 	           <button type="button" onclick="submit()" class="btn">查询</button>
@@ -446,9 +446,7 @@
            <div class="clear"></div>
 		     </form>
 		   </h2>
-	
-		 		
-		 		
+
 			<div class="content table_box">
 				<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
@@ -458,8 +456,7 @@
 							<!-- <th class="info">用户名</th> -->
 							<th class="info">联系人</th>
 							<th class="info">手机号</th>
-							<!-- <th class="info">供应商级别</th> -->
-							<th class="info">入库日期</th>
+							<th class="info">审核日期</th>
 							<th class="info">地区</th>
 							<th class="info">供应商类型</th>
 							<th class="info">供应商状态</th>
@@ -476,7 +473,6 @@
 								<%-- <td class="">${list.loginName }</td> --%>
 								<td class="">${list.contactName }</td>
 								<td class="tc">${list.mobile }</td>
-								<%-- <td class="tc">${list.level }</td> --%>
 								<td class="tc">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
@@ -484,7 +480,7 @@
 								<td class="">${list.supplierType }</td>
 								<td class="tc">${list.businessType }</td>
 								<td class="tc">
-									<c:if test="${list.status==5 and list.isProvisional == 1 }"><span class="label rounded-2x label-dark">临时</span></c:if>
+									<%-- <c:if test="${list.status==5 and list.isProvisional == 1 }"><span class="label rounded-2x label-dark">临时</span></c:if> --%>
 									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
 									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
 									<c:if test="${list.status==5 and list.isProvisional == 0 }"><span class="label rounded-2x label-u">复核通过</span></c:if>
