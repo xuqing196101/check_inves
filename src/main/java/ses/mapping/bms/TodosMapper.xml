@@ -272,9 +272,9 @@
 						BT.POWER_ID = #{permission}
 					</foreach>
 				</if>
-				<if test="todos.orgId != null and todos.orgId != ''">
+				<!-- <if test="todos.orgId != null and todos.orgId != ''">
 					OR bt.ORG_ID = #{todos.orgId,jdbcType=VARCHAR}
-				</if>
+				</if> -->
 			</otherwise>
 		</choose>
 		<if test="todos.receiverId != null and todos.receiverId != ''">

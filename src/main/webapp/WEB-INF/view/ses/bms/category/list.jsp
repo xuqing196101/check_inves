@@ -600,6 +600,7 @@
  function openLayer(type){
 	 var title ="";
 	 var ids ="";
+	 var names="";
 	 if (type == 1){
 		 ids = $("#generalIQuaId").val();
 		 title ="添加通用资质要求";
@@ -608,15 +609,18 @@
 	 	var root = getCurrentRoot(selectedNode);
 		if (root.classify && root.classify == "PROJECT"){
 			ids = $("#profileIQuaId").val();
+			names=$("#profileIQuaName").val();
 		 	title ="添加工程专业资质要求";
 		 	type = 4;
 		} else {
 			 ids = $("#profileIQuaId").val();
+			 names=$("#profileIQuaName").val();
 			 title ="添加物资生产型专业资质要求";
 		}
 	 }
 	 if (type == 3){
 		 ids = $("#profileSalesId").val();
+		 names=$("#profileSalesName").val();
 		 title ="添加物资销售型专业资质要求";
 	 }
 	 layer.open({
@@ -624,7 +628,7 @@
 			area : [ '800px', '590px' ],
 			title : title,
 			shadeClose : true,
-			content : '${pageContext.request.contextPath}/qualification/initLayer.html?type=' + type +"&ids=" + ids
+			content : '${pageContext.request.contextPath}/qualification/initLayer.html?type=' + type +"&ids=" + ids+"&names="+encodeURI(names)
 		 });
  }
  

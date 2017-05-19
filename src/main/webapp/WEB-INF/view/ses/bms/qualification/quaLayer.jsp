@@ -12,6 +12,7 @@
         <div class="tab-v2">
           <input type="hidden" id="type"  name="type" value="${type}"/>
           <input type="hidden" id="ids" name="ids" value="${ids}"/>
+          <input type="hidden" id="names" name="names" value="${names}"/>
           <input type="hidden" id="choseIds">
 	 	  <input type="hidden" id="choseNames">
           <div class="tab-content">

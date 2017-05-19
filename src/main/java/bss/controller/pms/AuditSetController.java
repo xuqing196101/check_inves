@@ -121,6 +121,7 @@ public class AuditSetController {
 	private PurchaseRequiredService purchaseRequiredService;
 	
 	/**
+	 * @throws UnsupportedEncodingException 
 	 * 
 	* @Title: set
 	* @Description: 采购计划审核设置页面 
@@ -131,8 +132,8 @@ public class AuditSetController {
 	* @return String     
 	* @throws
 	 */
-	@RequestMapping("/list")
-	public String set(Model model,Integer page,String id,HttpServletRequest request,String staff){
+	@RequestMapping(value="/list")
+	public String set(Model model,Integer page,String id,HttpServletRequest request,String staff) throws UnsupportedEncodingException{
 		CollectPlan plan = collectPlanService.queryById(id);
 		String type = "";
 		String auditRound="";
@@ -307,7 +308,7 @@ public class AuditSetController {
 	@RequestMapping("/user")
 	public String getUser(Integer page,User user,Model model,HttpServletRequest request){
 		String type = request.getParameter("type");
-		List<User> list = userServiceI.listWithoutSupplier(page==null?1:page);
+		List<User> list = userServiceI.list(user, page==null?1:page);
 		PageInfo<User> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("user", user);

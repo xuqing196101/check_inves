@@ -540,12 +540,12 @@ public class PlanLookController extends BaseController {
 		String str = null;
 		String id = request.getParameter("id");
 		CollectPlan plan = collectPlanService.queryById(id);
-		if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7){
+		/*if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==8||plan.getStatus()==12){
 			str = "1";
 		}else{
 			str = "0";
-		}
-		return str;
+		}*/
+		return plan.getStatus()+"";
 	}
 	
 	/**
