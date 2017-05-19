@@ -169,7 +169,7 @@
         </if>
         ORDER BY T1.STATUS ASC, T1.CREATED_AT DESC
     </select>
-    <!-- 查询复审列表的专家 -->
+
     <select id="selectSecondAuditExpert" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
@@ -1006,7 +1006,7 @@
 		AND t.TYPE_ID = #{typeId,jdbcType=VARCHAR}
     </select>
 
-    <!-- 查询专家 可条件查询 -->
+    
     <select id="findExpertAll" resultMap="BaseResultMap"
             parameterType="ses.model.ems.Expert">
         select
@@ -1242,7 +1242,7 @@
         	</if>
         </if>
         <if test="relName != null and relName !=''">
-            AND REAL_NAME LIKE #{relName}
+            AND REAL_NAME LIKE '%'|| #{relName} ||'%'
         </if>
         <if test="status != null and status !=''">
             AND STATUS = #{status}
@@ -1993,13 +1993,13 @@
 		)) -->
 			t1.IS_DELETE = 0
 		<if test="mobile != null and mobile !=''">
-        AND t1.MOBILE LIKE '%${mobile}%'
+        AND t1.MOBILE LIKE '%'|| #{mobile} ||'%'
     </if>
     <if test="relName != null and relName !=''">
-        AND t1.REAL_NAME LIKE '%${relName}%'
+        AND t1.REAL_NAME LIKE '%'|| #{relName} ||'%'
     </if>
     <if test="loginName != null and loginName !=''">
-        AND t2.LOGIN_NAME LIKE '%${loginName}%'
+        AND t2.LOGIN_NAME LIKE '%'|| #{loginName} ||'%'
     </if>
     <if test="expertsFrom != null and expertsFrom !=''">
         AND t1.EXPERTS_FROM = #{expertsFrom}

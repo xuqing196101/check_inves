@@ -1011,7 +1011,9 @@
 			update
 				T_SES_BMS_USER
 			SET
-	      LOGIN_NAME = #{loginName}
+	      LOGIN_NAME = #{loginName},
+	      ID_NUMBER = #{idNumber},
+	      MOBILE = #{mobile}
 			WHERE TYPE_ID = #{typeId}
 			AND IS_DELETED = 1
 		</update>

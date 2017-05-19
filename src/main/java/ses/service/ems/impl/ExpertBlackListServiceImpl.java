@@ -101,10 +101,6 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	public List<ExpertBlackList> findAll(ExpertBlackList expertBlackList,Integer page) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		String relName =  expertBlackList.getRelName();
-		if(relName != null && !"".equals(relName)){
-			expertBlackList.setRelName("%" +relName+ "%");
-		}
 		return mapper.findList(expertBlackList);
 	}
 	
