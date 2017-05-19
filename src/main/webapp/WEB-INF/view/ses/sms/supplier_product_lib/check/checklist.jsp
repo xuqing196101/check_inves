@@ -96,11 +96,21 @@
 	
 	// 查看基本信息
   	function show(id){
+  	    var auth='${authType}';
+  	    if(auth =='2'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
   		window.location.href="${pageContext.request.contextPath}/product_lib/findSignalProductInfo.html?id="+id;
   	}
 	
 	// 审核
     function checked(){
+     var auth='${authType}';
+  	    if(auth =='2'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
@@ -121,6 +131,11 @@
 	
 	// 批量审核弹出框
     function showPic(url,name){
+     var auth='${authType}';
+  	    if(auth =='2'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
     	var pic = $("#"+url.toString());
 		layer.open({
 			  type: 1,
@@ -136,12 +151,22 @@
 	
 	//!--搜索-->
 	function query(){
+	 var auth='${authType}';
+  	    if(auth =='2'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
 		$("#queryForm").attr("action","${pageContext.request.contextPath}/product_lib/findAllWaitCheck.html");
 		$("#queryForm").submit();
 	}
 	
  	// 批量审核
 	function checkedBatch(){
+	 var auth='${authType}';
+  	    if(auth =='2'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
 		var ids =[];
     	var idss=[];
 		$('input[name="chkItem"]:checked').each(function(){
@@ -182,6 +207,11 @@
 	
 	// 提交表单
 	function batchCheckSubmit(flag){
+	 var auth='${authType}';
+  	    if(auth =='2'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
 		// 判断用户点击(审核通过/审核不通过)
 		$("#flag").val(flag);
 		// 表单提交
@@ -193,7 +223,7 @@
 						// 成功后加载商品信息 
 						window.location.href="${pageContext.request.contextPath}/product_lib/findAllWaitCheck.html";
 					}
-				) 
+				);
 			}
 			if(data.status == 500){
 				layer.alert(data.msg);
@@ -203,6 +233,11 @@
 	
 	//重置按钮事件  
     function resetAll(){
+     var auth='${authType}';
+  	    if(auth =='2'){
+  	    layer.msg("只有资源服务中心可以操作");
+  	    return;
+  	    }
         $("#name").val("");  
         $("#status").val("");  
         $("#supplierId").val("");  
