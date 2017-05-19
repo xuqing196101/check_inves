@@ -459,7 +459,7 @@
 							<th class="info">审核日期</th>
 							<th class="info">地区</th>
 							<th class="info">供应商类型</th>
-							<!-- <th class="info">企业性质</th> -->
+							<th class="info">企业性质</th>
 							<th class="info">机构名称</th>
 							<th class="info">供应商状态</th>
 						</tr>
@@ -479,7 +479,7 @@
 								</td>
 								<td class="">${list.name }</td>							
 								<td class="">${list.supplierType }</td>
-								<%-- <td class="tc">${list.businessType }</td> --%>
+								<td class="tc">${list.businessNature }</td>
 								<td class="tc">${list.orgName}</td>
 								<td class="tc">
 									<%-- <c:if test="${list.status==5 and list.isProvisional == 1 }"><span class="label rounded-2x label-dark">临时</span></c:if> --%>

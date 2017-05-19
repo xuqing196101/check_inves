@@ -561,7 +561,7 @@
 							<th class="info w90">提交日期</th>
 							<th class="info w90">审核日期</th>
 							<th class="info">供应商类型</th>
-							<!-- <th class="info">企业性质</th> -->
+							<th class="info">企业性质</th>
 							<th class="info">供应商状态</th>
 						</tr>
 					</thead>
@@ -592,7 +592,7 @@
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
 								<td class="">${list.supplierType }</td>
-								<%-- <td class="tc">${list.businessType }</td> --%>
+								<td class="tc">${list.businessNature }</td>
 								<td class="tc">
 									<c:if test="${list.status==5 and list.isProvisional == 1 }"><span class="label rounded-2x label-dark">临时</span></c:if>
 									<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>

@@ -319,6 +319,19 @@ public class SupplierQueryController extends BaseSupplierController {
  		model.addAttribute("businessNature", businessNature);
         
         List<Supplier>  listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
+        
+        //企业性质
+        for(Supplier s : listSupplier){
+        	if(s.getBusinessNature() !=null ){
+        		for(int i = 0; i < businessNature.size(); i++) {
+        			if(s.getBusinessNature().equals(businessNature.get(i).getId())) {
+      					String business = businessNature.get(i).getName();
+      					s.setBusinessNature(business);
+      				}
+        		}
+        	}
+        }
+        
         this.getSupplierType(listSupplier);
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
         model.addAttribute("supplier", sup);
