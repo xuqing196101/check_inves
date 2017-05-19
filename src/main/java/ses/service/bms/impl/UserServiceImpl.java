@@ -415,9 +415,16 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
 			User user = userMapper.findUserByTypeId(typeId);
 			//加后缀
 	    	 if(user !=null ){
-	    		 String loginName = user.getLoginName() + "_" + "del" + "_" +"bak" + "_" + date;
+	    		 StringBuffer buff = new StringBuffer();
+	    		 buff.append("_del_bak_");
+	    		 buff.append(date);
+	    		 String loginName = user.getLoginName() + buff;
+	    		 String mobile = user.getMobile() + buff;
+	    		 String idNumber = user.getIdNumber() + buff;
 	    		 User u = new User();
 		    	 u.setLoginName(loginName);
+		    	 u.setMobile(mobile);
+		    	 u.setIdNumber(idNumber);
 		    	 u.setTypeId(typeId);
 		    	 userMapper.updateDelUserByTypeId(u);
 	    	 } 

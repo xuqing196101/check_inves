@@ -106,8 +106,8 @@
 			function chongzhi() {
 				$("#supplierName").val('');
 				/* $("#loginName").val(''); */
-				$("#startDate").val('');
-				$("#endDate").val('');
+				$("#startAuditDate").val('');
+				$("#endAuditDate").val('');
 				$("#contactName").val('');
 				$("#category").val('');
 				$("#supplierType").val('');
@@ -426,10 +426,10 @@
              <li>
                <label class="fl">联系人：</label><span><input id="contactName"  class="w220" name="contactName" value="${supplier.contactName }" type="text"></span>
              </li>
-             <li>
+             <%-- <li>
 								<label class="fl">手机号：</label>
 								<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
-						</li>
+						</li> --%>
 						<li>
             	<label class="fl">企业性质：</label>
 	            <select name="businessType" id="businessType" class="w220">
@@ -447,19 +447,6 @@
                <label class="fl">品目：</label><span> <input id="category" class="span2 mt5" type="text" readonly name="categoryNames" value="${categoryNames }" onclick="showCategory();" />
                <input   type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
              </li> --%>
-             <!-- <li>
-           	   <label class="fl">供应商级别：</label>
-           		 <span>
-	             	 <select name="score" class="w220">
-	                 <option  selected="selected" class="" value=''>-请选择-</option>
-	                 <option  value="1">一级</option>
-	                 <option  value="2">二级</option>
-	                 <option  value="3">三级</option>
-	                 <option  value="4">四级</option>
-	                 <option  value="5">五级</option>
-	               </select>
-           		 </span>
-         		 </li> -->
         		 <li>
 							<label class="fl">供应商状态：</label>
 							<select id="status" name="status" class="w220">
@@ -482,11 +469,11 @@
 	            </select>
 	         	</li> --%>
 	         	<li>
-              <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w100" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
-               <span class="f14 fl">至</span>
-                 <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>'  class="Wdate w110" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-               </span>
-            </li>
+	          	<label class="fl">审核日期：</label><span><input id="startAuditDate" name="startAuditDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})"/>
+	            <span class="f14">至</span>
+	            <input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
+	            </span>
+	          </li>
           </ul>
           <div class="col-md-12 clear tc">
 	          <button type="button" onclick="submit()" class="btn">查询</button>

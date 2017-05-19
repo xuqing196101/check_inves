@@ -337,22 +337,22 @@
 					<thead>
 						<tr class="space_nowrap">
 							<th class="info w50">序号</th>
-							<th class="info w80">需求部门</th>
-							<th class="info w80">物资类别<br>及名称</th>
-							<th class="info w80">规格型号</th>
-							<th class="info w80">质量技术标准</br>（技术参数）</th>
-							<th class="info w80">计量<br>单位</th>
-							<th class="info w80">采购<br>数量</th>
-							<th class="info w80">单价<br>（元）</th>
-							<th class="info w80">预算金额</br>（万元）</th>
-							<th class="info w80">交货期限</th>
-							<th class="info w100">采购方式</br>建议</th>
-							<th class="info w80">采购机构<br>建议</th>
-							<th class="info w100">供应商名称</th>
-							<th class="info w80">是否申请</br>办理免税</th>
+							<th class="info">需求部门</th>
+							<th class="info">物资类别<br>及名称</th>
+							<th class="info">规格型号</th>
+							<th class="info">质量技术标准</br>（技术参数）</th>
+							<th class="info">计量<br>单位</th>
+							<th class="info">采购<br>数量</th>
+							<th class="info">单价<br>（元）</th>
+							<th class="info">预算金额</br>（万元）</th>
+							<th class="info">交货期限</th>
+							<th class="info">采购方式</br>建议</th>
+							<th class="info">采购机构<br>建议</th>
+							<th class="info">供应商名称</th>
+							<th class="info">是否申请</br>办理免税</th>
 						<!-- 	<th class="info">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th> -->
-							<th class="info w160">备注</th>
+							<th class="info">备注</th>
 							<th class="info">附件</th>
 						</tr>
 					</thead>
@@ -366,7 +366,7 @@
 							    </div>
 							</td>
 							<td class="tl"> 
-							   <div class="w80">
+							   <div class="department">
 							    ${obj.department }	<input type="hidden" name="list[${vs.index }].userId" value="${obj.userId }">
 							    <c:forEach items="${requires }" var="re">
 								  <c:if test="${re.id==obj.department }">${re.name } </c:if>
@@ -374,7 +374,7 @@
 							   </div>
 							  </td>
 							<td class="tl">
-							  <div class="w80">
+							  <div class="goodsname">
 							     ${obj.goodsName }
 							  </div>
 							</td>
@@ -392,19 +392,19 @@
 							</td >
 							
 							<td class="tc">
-							    <div class="w80">${obj.item }</div>
+							    <div class="item">${obj.item }</div>
 							</td>
 							<td class="tc">
-							    <div class="w80">${obj.purchaseCount }</div>
+							    <div class="purchasecount">${obj.purchaseCount }</div>
 							</td>
 							<td class="tr">
-							    <div class="w80"><fmt:formatNumber  type="number"      pattern="#,##0.00"   value="${obj.price }"/></div>
+							    <div class="price"><fmt:formatNumber  type="number" pattern="#,##0.00" value="${obj.price }"/></div>
 							</td>
 							<td class="tr">
-							     <div class="w80"><fmt:formatNumber type="number"      pattern="#,##0.00"  value="${obj.budget}"  /></div>
+							     <div class="budget"><fmt:formatNumber type="number" pattern="#,##0.00"  value="${obj.budget}"/></div>
 							</td>
 							<td> 
-							     <div class="w80">${obj.deliverDate }</div> 
+							     <div class="deliverdate">${obj.deliverDate }</div> 
 							</td>
 							
 							<td class="p0">

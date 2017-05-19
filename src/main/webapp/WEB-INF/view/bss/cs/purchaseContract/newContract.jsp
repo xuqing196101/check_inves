@@ -911,20 +911,20 @@
 					<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 				</div> -->
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
-			    	<table id="detailtable" name="proList" class="table table_input table-bordered table-condensed left_table mb0 mt10 ">
+			    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 mt10 ">
 					 <thead>
 						<tr>
 							
 							<th class="info w50">序号</th>
-							<th class="info">编号</th>
-							<th class="info">名称</th>
-							<th class="info">型号</th>
-							<th class="info">质量技术标准</th>
-							<th class="info">数量</th>
-							<th class="info">计量单位</th>
-							<th class="info">单价(元)</th>
-							<th class="info">合计金额(元)</th>
-							<th class="info">交付时间</th>
+							<th class="info w50">编号</th>
+							<th class="info" width="15%">名称</th>
+							<th class="info" width="15%">型号</th>
+							<th class="info" width="12%">质量技术标准</th>
+							<th class="info" width="5%">数量</th>
+							<th class="info" width="8%">计量单位</th>
+							<th class="info" width="8%">单价(元)</th>
+							<th class="info" width="8%">合计金额(元)</th>
+							<th class="info" width="10%">交付时间</th>
 							<th class="info">备注</th>
 						</tr>
 					</thead>
@@ -932,16 +932,16 @@
 					    <c:forEach items="${reque.subjectList}" var="subject" varStatus="vss">
 						<tr>
 							<td class="tc w50">${(vss.index+1)} <input type="hidden" name="proList[${(vs.index)}].detailId" value="${subject.detailId}" /></td>
-							<td class="tc ">${reque.serialNumber}<input type="hidden" name="proList[${(vs.index)}].planNo" value="${reque.serialNumber}" /></td>
-							<td class="tc ">${subject.goodsName}<input type="hidden" name="proList[${(vs.index)}].goodsName" value="${subject.goodsName}" /></td>
-							<td class="tc">${subject.stand}<input type="hidden" name="proList[${(vs.index)}].stand" value="${subject.stand}" /></td>
-							<td class="tc">${subject.qualitStand}<input type="hidden" name="proList[${(vs.index)}].brand" value="${reque.brand}" /></td>
-							<td class="tc">${subject.purchaseCount}<input type="hidden" name="proList[${(vs.index)}].purchaseCount" value="${subject.purchaseCount}" /></td>
-							<td class="tc">${subject.item}<input type="hidden" name="proList[${(vs.index)}].item" value="${subject.item}" /></td>
-							<td class="tc">${subject.unitPrice}<input type="hidden" name="proList[${(vs.index)}].price" value="${subject.unitPrice}" /></td>
-							<td class="tc">${subject.unitPrice*subject.purchaseCount}<input type="hidden" name="proList[${(vs.index)}].amount" value="${subject.unitPrice*subject.purchaseCount}" /></td>
-							<td class="tc">${reque.deliverDate}<input type="hidden" name="proList[${(vs.index)}].deliverDate" value="${reque.deliverDate}" /></td>
-							<td class="tc">${reque.memo}<input type="hidden" name="proList[${(vs.index)}].memo" value="${reque.memo}" /></td>
+							<td class="tc w50">${reque.serialNumber}<input type="hidden" name="proList[${(vs.index)}].planNo" value="${reque.serialNumber}" /></td>
+							<td class="tl">${subject.goodsName}<input type="hidden" name="proList[${(vs.index)}].goodsName" value="${subject.goodsName}" /></td>
+							<td class="tl">${subject.stand}<input type="hidden" name="proList[${(vs.index)}].stand" value="${subject.stand}" /></td>
+							<td class="tl">${subject.qualitStand}<input type="hidden" name="proList[${(vs.index)}].brand" value="${reque.brand}" /></td>
+							<td class="tr">${subject.purchaseCount}<input type="hidden" name="proList[${(vs.index)}].purchaseCount" value="${subject.purchaseCount}" /></td>
+							<td class="tr">${subject.item}<input type="hidden" name="proList[${(vs.index)}].item" value="${subject.item}" /></td>
+							<td class="tr">${subject.unitPrice}<input type="hidden" name="proList[${(vs.index)}].price" value="${subject.unitPrice}" /></td>
+							<td class="tr">${subject.unitPrice*subject.purchaseCount}<input type="hidden" name="proList[${(vs.index)}].amount" value="${subject.unitPrice*subject.purchaseCount}" /></td>
+							<td class="tl">${reque.deliverDate}<input type="hidden" name="proList[${(vs.index)}].deliverDate" value="${reque.deliverDate}" /></td>
+							<td class="tl">${reque.memo}<input type="hidden" name="proList[${(vs.index)}].memo" value="${reque.memo}" /></td>
 						</tr>
 						</c:forEach>
 			   		</c:forEach>

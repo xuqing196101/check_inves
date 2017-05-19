@@ -162,12 +162,12 @@
 		      <input type="checkbox" id="checkAll" onclick="selectAll()" alt="" />
 		    </th>
 			<th class="info w50">序号</th>
-			<th class="info">项目名称</th>
-			<th class="info">项目编号</th>
-			<th class="info">采购方式</th>
+			<th class="info" width="25%">项目名称</th>
+			<th class="info" width="17%">项目编号</th>
+			<th class="info" width="10%">采购方式</th>
 			<!-- <th class="info">项目创建时间</th> -->
-			<th class="info">提交时间</th>
-			<th class="info">项目负责人</th>
+			<th class="info" width="18%">提交时间</th>
+			<th class="info" width="12%">项目负责人</th>
 			<th class="info">审核状态</th>
 		  </tr>
 		</thead>
@@ -178,7 +178,7 @@
 			    <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
 			  </td>
 			  <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tl w320" title="${obj.name}">
+			  <td class="tl" title="${obj.name}">
 			  	 <c:if test="${fn:length(obj.name)>20}">
 			  	 ${fn:substring(obj.name,0,20)}...
 			  	 </c:if>
@@ -186,7 +186,7 @@
 			  	 ${obj.name}
 			  	 </c:if>
 			  </td>
-			  <td class="tl w120">${obj.projectNumber}</td>
+			  <td class="tl">${obj.projectNumber}</td>
 			  <td class="tc">
 			    <%-- <a href="javascript:void(0)" onclick="view('${obj.id}');"> --%>
 				  <c:forEach items="${kind}" var="kind" >
@@ -195,8 +195,8 @@
 				<!-- </a> -->
 			  </td>
 			  <%-- <td class="tl pl20" ><fmt:formatDate type='date' value='${obj.createAt}'  pattern=" yyyy-MM-dd HH:mm:ss "/></td> --%>
-			  <td class="tl w180" ><fmt:formatDate type='date' value='${obj.approvalTime}'  pattern=" yyyy-MM-dd HH:mm:ss "/></td>
-			  <td class="tc" >${obj.projectContractor}</td>
+			  <td class="tc" ><fmt:formatDate type='date' value='${obj.approvalTime}'  pattern=" yyyy-MM-dd HH:mm:ss "/></td>
+			  <td class="tl" >${obj.projectContractor}</td>
 			   <td class="tc">
 			   <c:if test="${obj.confirmFile == 1 }">待审核</c:if>
 			   <c:if test="${obj.confirmFile == 3 }">审核通过</c:if>

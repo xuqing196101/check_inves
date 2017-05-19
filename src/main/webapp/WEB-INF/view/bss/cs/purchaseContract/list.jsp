@@ -307,10 +307,8 @@
 	      	</select>
 	      </span></li>
     	</ul>
-	      <div class="col-md-12 col-sm-12 col-xs-12 tc">
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" onclick="reset()" class="btn">重置</button>
-	      </div>  
+	    	<button type="button" onclick="query()" class="btn mt1 fl">查询</button>
+	    	<button type="reset" onclick="reset()" class="btn mt1 fl">重置</button>
     	  <div class="clear"></div>
     	</form>
      </div>
@@ -330,12 +328,12 @@
 				<th class="tnone"></th>
 				<th class="tnone"></th>
 			    <th class="info w50">序号</th>
-				<th class="info">采购项目名称</th>
-				<th class="info">编号</th>
-				<th class="info">包名</th>
-				<th class="info">成交金额</th>
-				<th class="info">成交供应商</th>
-				<th class="info">采购机构</th>
+				<th class="info" width="19%">采购项目名称</th>
+				<th class="info" width="15%">编号</th>
+				<th class="info" width="8%">包名</th>
+				<th class="info" width="10%">成交金额</th>
+				<th class="info" width="19%">成交供应商</th>
+				<th class="info" width="15%">采购机构</th>
 				<th class="info">状态</th>
 			</tr>
 		</thead>
@@ -350,22 +348,22 @@
 				<c:set value="${pass.project.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td class="tl pl20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${name}">${fn:substring(name,0,10)}...</td>
+					<td class="tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${name}">${fn:substring(name,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td class="tl pl20 pointer"onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${name}">${name}</td>
+					<td class="tl pointer"onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${name}">${name}</td>
 				</c:if>
 				<c:set value="${pass.project.projectNumber}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td class=" tl pl20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${code}" >${fn:substring(code,0,10)}...</td>
+					<td class=" tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${code}" >${fn:substring(code,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td class=" tl pl20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${code}">${code}</td>
+					<td class=" tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')" title="${code}">${code}</td>
 				</c:if>
 				<td class="tc pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.packages.name}</td>
-				<td class="tr pr20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.packages.wonPrice }</td>
-				<td class="tl pl20 pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.supplier.supplierName}</td>
+				<td class="tr pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.packages.wonPrice }</td>
+				<td class="tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.supplier.supplierName}</td>
 				<td class="tc pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.purchaseDep}</td>
 				<td class="tc" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">
 					<%-- <c:if test="${pass.isCreateContract==2}">暂存</c:if> --%>
