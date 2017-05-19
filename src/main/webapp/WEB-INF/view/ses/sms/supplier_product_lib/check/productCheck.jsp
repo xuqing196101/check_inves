@@ -46,10 +46,7 @@
             <a href="javascript:void(0)"> 首页</a>
           </li>
           <li>
-            <a href="javascript:void(0)">供应商后台管理</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">产品库管理</a>
+            <a href="${pageContext.request.contextPath}/product_lib/findAllWaitCheck.html">产品库管理</a>
           </li>
           <li class="active">
             <a href="javascript:void(0)">产品审核</a>
