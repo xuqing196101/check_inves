@@ -21,23 +21,17 @@
       </div>
    </div>
 
-    <div class="container content height-350">
+    <div class="container content">
         <div class="row">
-            <div class="col-md-12" style="min-height:400px;">
-                  <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
-			      <div class="tag-box tag-box-v3">
+            <div class="col-md-3 col-xs-4 col-sm-12" id="show_tree_div">
+			    <div class="tag-box tag-box-v3">
 			        <ul id="ztree_show" class="ztree">
 			          <li id="ztree_show_1" class="level0" tabindex="0" hidefocus="true" treenode="">
 			          </li>
 			        </ul>
 			     </div>		
-    		     </div>
-    		     
-					
-
-
-            </div>
-        </div>
+    		</div>
+		</div>
     </div>
 
 

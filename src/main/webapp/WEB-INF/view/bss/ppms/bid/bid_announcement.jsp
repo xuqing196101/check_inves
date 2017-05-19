@@ -81,44 +81,40 @@
       </div>
    </div>
 
-    <div class="container content height-350">
+    <div class="container content">
         <div class="row">
-            <div class="col-md-12" style="min-height:400px;">
-                  <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
+             <div class="col-md-3 col-sm-4 col-xs-12 " id="show_tree_div">
                   <div class="tag-box tag-box-v3">
                     <ul id="ztree_show" class="ztree">
                       <li id="ztree_show_1" class="level0" tabindex="0" hidefocus="true" treenode="">
                       </li>
                     </ul>
                  </div>     
-                 </div>
-                 
-                 <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
-				       <form  method="post" id="form"> 
-				      <div class="row">				        
+             </div>
+             <div class="tag-box tag-box-v4 col-md-9 col-sm-8 col-xs-12 " id="show_content_div">
+			 <form  method="post" id="form"> 
+				<div class="row">				        
 				        <!-- 按钮 -->
-				          <div class="col-md-12">		
+				     <div class="col-md-12 col-sm-12 col-xs-12">		
 				           		          
 				          <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
 				          <input type="button" class="btn btn-windows output" onclick="outputAnnouncement()" value="导出"></input>
 				          <input type="button" class="btn btn-windows git" onclick="preview()" value="预览"></input>  
 				          <input type="button" class="btn btn-windows apply" onclick="publish()" value="发布"></input>  
-				          </div>
+				      </div>
 				        <!-- 文本编辑器 -->
-				        <div class="col-md-12">
+				        <div class="col-md-12 col-sm-12 col-xs-12">
 		                     <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
 		                </div>
 		                
-                        <div class="tc mt20 clear col-md-12">     
+                        <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">     
                                                                                                                                        
                           <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>                                              
                           <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value = "返回"></input>
                         </div>
 				      </div>
 				      </form>
-				     
-                </div>               
-            </div>
+			</div>
         </div>
     </div>
     <script type="text/javascript">
