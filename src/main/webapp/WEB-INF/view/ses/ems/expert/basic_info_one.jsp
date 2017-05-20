@@ -1046,7 +1046,7 @@
 						<c:if test="${expert.expertsFrom eq 'ARMY'}">
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 军队人员身份证件类型</span>
 								<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-									<select name="idType" id="idType" <c:if test="${fn:contains(errorField,'军队人员身份证件类型')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('军队人员身份证件类型')"
+									<select name="idType" id="idType" <c:if test="${fn:contains(errorField,'军队人员身份证件类型')}"> style="border: 1px solid #ef0000;" onmouseover="errorMsg('军队人员身份证件类型')"
 						</c:if>>
 						<option selected="selected" value="">-请选择-</option>
 						<c:forEach items="${idTypeList}" var="idType" varStatus="vs">

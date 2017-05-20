@@ -159,7 +159,6 @@
    <div class="headline-v2 fl">
       <h2>采购计划列表 </h2>
    </div> 
-   
     <h2 class="search_detail">
     	<form id="add_form" action="${pageContext.request.contextPath }/adjust/edit.html" class="mb0" method="post" >
 			<input type="hidden" name="page" id="page">
@@ -202,12 +201,12 @@
 			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50"   >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  
-			  <td class="tl pl20" widh="35%" onclick="view('${obj.id}')">${obj.fileName }</td>
+			  <td class="tl" onclick="view('${obj.id}')">${obj.fileName }</td>
 			
 			
-			  <td class="tr pr20 w140" onclick="view('${obj.id}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tr w140" onclick="view('${obj.id}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			    <td class="tc w120"  onclick="view('${obj.id}')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc w120"  onclick="view('${obj.id}')">
+			  <td class="tl w120"  onclick="view('${obj.id}')">
 			  
 			  <c:if test="${obj.status=='1' }">
 					   待审核设置

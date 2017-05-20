@@ -328,10 +328,10 @@
 				<th class="tnone"></th>
 				<th class="tnone"></th>
 			    <th class="info w50">序号</th>
-				<th class="info" width="19%">采购项目名称</th>
-				<th class="info" width="15%">编号</th>
-				<th class="info" width="8%">包名</th>
-				<th class="info" width="10%">成交金额</th>
+				<th class="info" width="25%">采购项目名称</th>
+				<th class="info" width="12%">编号</th>
+				<th class="info" width="7%">包名</th>
+				<th class="info" width="8%">成交金额</th>
 				<th class="info" width="19%">成交供应商</th>
 				<th class="info" width="15%">采购机构</th>
 				<th class="info">状态</th>
@@ -364,7 +364,7 @@
 				<td class="tc pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.packages.name}</td>
 				<td class="tr pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.packages.wonPrice }</td>
 				<td class="tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.supplier.supplierName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.purchaseDep}</td>
+				<td class="tl pointer" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">${pass.purchaseDep}</td>
 				<td class="tc" onclick="showDraftContract('${pass.contractId}','${pass.isCreateContract}','${pass.pc.status}')">
 					<%-- <c:if test="${pass.isCreateContract==2}">暂存</c:if> --%>
 					<c:if test="${pass.isCreateContract==1}">已生成</c:if>

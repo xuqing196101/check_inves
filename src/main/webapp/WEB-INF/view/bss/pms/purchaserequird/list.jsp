@@ -310,10 +310,10 @@
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info" style="width: 40%">需求名称</th>
-		  <th class="info">采购需求文号</th>
-		  <th class="info">金额（万元）</th>
-		  <th class="info">编制时间</th>
+		  <th class="info" width="40%">需求名称</th>
+		  <th class="info" width="18%" >采购需求文号</th>
+		  <th class="info" width="10%">金额（万元）</th>
+		  <th class="info" width="15%">编制时间</th>
 	<!-- 	  <th class="info">完成时间</th> -->
 		  <th class="info">状态</th>
 		</tr>
@@ -326,10 +326,10 @@
             <%--   </c:if> --%>
 			  </td>
 			  <td class="tc w50" onclick="view('${obj.uniqueId }')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td class="tl pl20" onclick="view('${obj.uniqueId }')">
+			  <td class="tl" onclick="view('${obj.uniqueId }')">
 			  	${obj.planName }
 				</td>
-		      <td class="tl pl20" onclick="view('${obj.uniqueId }')">
+		      <td class="tl" onclick="view('${obj.uniqueId }')">
 		      ${obj.referenceNo }
 			  <%-- <td class="pl20">
 			     <div onclick="view('${obj.planNo }')">${obj.planName }</div>
@@ -338,7 +338,7 @@
 					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  	</c:forEach> --%>
 			  </td>  
-			  <td class="pr20 tr"><div onclick="view('${obj.uniqueId }')"> <fmt:formatNumber type="number"  pattern="#,##0.00"  value="${obj.budget}" /></div></td>
+			  <td class="tr"><div onclick="view('${obj.uniqueId }')"> <fmt:formatNumber type="number"  pattern="#,##0.00"  value="${obj.budget}" /></div></td>
 			  <td class="tc" onclick="view('${obj.uniqueId }')"><fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd"/></td>
 			 <%--  <td class="tc" onclick="view('${obj.uniqueId }')">${obj.deliverDate } </td> --%>
 			  <td class="tc" onclick="view('${obj.uniqueId }')">

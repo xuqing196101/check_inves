@@ -448,13 +448,13 @@
         <table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
 		<tr>
-		  <th class="info"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
-		  <th class="info"width="5%">序号</th>
-		  <th class="info" width="30%">采购需求名称</th>
-		  <th class="info" style="width: 200px">需求部门</th>
+		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+		  <th class="info w50">序号</th>
+		  <th class="info" width="28%">采购需求名称</th>
+		  <th class="info">需求部门</th>
 		  <th class="info"width="10%">物资类别</th> 
 		  <th class="info"width="10%">提交日期</th>
-		  <th class="info" width="10%">预算总金额</br>（万元）</th>
+		  <th class="info" width="15%">预算总金额（万元）</th>
 		  <th class="info"width="10%">状态</th>
 		</tr>
 		</thead>
@@ -471,10 +471,10 @@
               </c:if>
 			   <input type="hidden"  value="${obj.department }">
 			  </td>
-			  <td class="tc w50"  onclick="view('${obj.uniqueId}')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td class="tl pl20" width="25%" onclick="view('${obj.uniqueId}')" >${obj.planName }</td>
-			  <td class="tl pl20" width="25%" onclick="view('${obj.uniqueId}')">${obj.department}</td>
-			  <td class="tl pl20" onclick="view('${obj.uniqueId}')" >
+			  <td class="tc"  onclick="view('${obj.uniqueId}')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+			  <td class="tl"  onclick="view('${obj.uniqueId}')" >${obj.planName }</td>
+			  <td class="tl"  onclick="view('${obj.uniqueId}')">${obj.department}</td>
+			  <td class="tl" onclick="view('${obj.uniqueId}')" >
 			   <c:forEach items="${dic }" var="dic">
 				   <c:if test="${obj.planType==dic.id}">
 				   ${dic.name }
@@ -483,7 +483,7 @@
 			  
 			  </td>
 			  <td class="tc"  onclick="view('${obj.uniqueId}')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tr"  width="10%" onclick="view('${obj.uniqueId}')"> <fmt:formatNumber type="number"  pattern="#,##0.00"  value="${obj.budget}"  /> </td>
+			  <td class="tr" onclick="view('${obj.uniqueId}')"> <fmt:formatNumber type="number"  pattern="#,##0.00"  value="${obj.budget}"  /> </td>
 			  <td class="tc"  >
 	 
 			                 

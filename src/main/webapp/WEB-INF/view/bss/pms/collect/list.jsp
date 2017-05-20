@@ -275,9 +275,8 @@
 				    	 		<input type="hidden" name="page" id="page">
 				    		</span>
 				    </li>
-				    
 				     <li>  	
-					 <label class="fl">状态：</label>
+						  <label class="fl">状态：</label>
 			              <select  name="status" id="status">
 			                <option selected="selected" value="total">全部</option>
 			                <option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>待受理</option>
@@ -285,8 +284,6 @@
 			                <option value="4" <c:if test="${'4'==status}">selected="selected"</c:if>>受理退回</option>
 			              </select>
 			          </li>
-			          
-			          
 		  		</ul>
  					<input class="btn fl mt1" type="submit" value="查询" /> 
  					<input class="btn fl mt1" type="button" onclick="resetQuery()" value="重置"/>	
@@ -296,7 +293,7 @@
  			</h2>
 
 
-			<div class="col-md-12 pl20 mt10">
+			<div class="col-md-12 col-sm-12 col-xs-12 pl20 mt10">
 				<button class="btn btn-windows git" onclick="sub()">受理</button>
 			    <button class="btn btn-windows output" onclick="down()">下载打印</button>  
 			</div>
@@ -306,11 +303,11 @@
 						<tr class="info">
 							<th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()" alt=""></th>
 							<th class="w50">序号</th>
-							<th>需求部门</th>
-							<th style="width: 40%"> 采购需求名称</th>
-							<th>编报人</th>
-							<th>提交日期</th>
-							<th>预算总金额（万元）</th>
+							<th width="15%">需求部门</th>
+							<th width="25%">采购需求名称</th>
+							<th width="10%">编报人</th>
+							<th width="15%">提交日期</th>
+							<th width="15%">预算总金额（万元）</th>
 							<th>状态</th>
 						</tr>
 					</thead>
@@ -331,13 +328,13 @@
 					  			<c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  				</c:forEach>
 			 				</td> --%>
-							<td onclick="view('${obj.uniqueId}')" class="tl pl20">${obj.planName }</td>
-							<td onclick="view('${obj.uniqueId}')" class="tl pl20">${obj.userId }</td>
+							<td onclick="view('${obj.uniqueId}')" class="tl">${obj.planName }</td>
+							<td onclick="view('${obj.uniqueId}')" class="tl">${obj.userId }</td>
 							<td  class="tc">
 							<%-- <div class="left20" ><fmt:formatDate value="${obj.createdAt }"/></div> --%>
 								 <fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd" /> 
 							</td>
-							<td class="tr pr20">
+							<td class="tr">
 							<%-- <div class="left20" fmt:formatDate >${obj.budget }</fmt:formatNumber></div> --%>
 
 								<fmt:formatNumber type="number"  pattern="#,##0.00"  value="${obj.budget}"  />

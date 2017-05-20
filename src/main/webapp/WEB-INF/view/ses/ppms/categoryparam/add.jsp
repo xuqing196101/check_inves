@@ -256,18 +256,17 @@
 	  </div>
    </div>
    <div class="container">
-   <div class="col-md-4">
-     
-	 <div class="tag-box tag-box-v3 mt10">
-	 <div><ul id="ztree" class="ztree "></ul></div>
-	 </div>
-     </div>
-		<div class=" tag-box tag-box-v3 mt10 col-md-7">
+  	 	<div class="col-md-3 col-sm-4 col-xs-12">
+		 	<div class="tag-box tag-box-v3 mt10">
+	 			<ul id="ztree" class="ztree "></ul>
+			 </div>
+     	</div>
+		<div class=" tag-box tag-box-v3 mt10 col-md-9 col-sm-8 col-xs-12">
 			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-windows add ">添加参数 </a></span>
 			<span><a href="javascript:void(0);" onclick="update()" class="btn btn-windows edit">修改参数 </a></span>
 			<span><a href="javascript:void(0);" onclick="imports()" class="btn btn-windows input">导入Excel</a></span>
 			<span><a href="javascript:void(0);" onclick="exports()" class="btn btn-windows output">导出Excel</a></span>
-                 <form id="form" action="${pageContext.request.contextPath}/categoryparam/save.do" method="post">
+            <form id="form" action="${pageContext.request.contextPath}/categoryparam/save.do" method="post">
                      <input id="cateid" type="hidden" name="id" value=""/>
                      <input type="hidden" id="sss" name="names" value="" />
                      <input type="hidden" id="bbb" name="values" value=" "/>
@@ -275,7 +274,7 @@
                      <input type="hidden" id="ccc" name="sales" value=""/>
                      <input type="hidden" id="eee" name="kinds" value=""/>
                      <table id="result"  class="table table-bordered table-condensedb mt15" >
-				     <tr ><td class="info">是否公开</td>
+				     <tr><td class="info">是否公开</td>
 					 <td colspan="3">
 					 <span class="ml30"><input type="radio" value="0" name="ispublish"  class="mt0"/> 是</span>
 					 <span class="ml60"><input type="radio" value="1" name="ispublish" class="mt0"/> 否</span>

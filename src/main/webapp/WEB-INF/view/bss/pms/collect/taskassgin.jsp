@@ -255,9 +255,9 @@
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">采购计划名称</th>
-		  <th class="info">预算总金额（万元）</th>
-		  <th class="info">汇总时间</th>
+		  <th class="info" width="50%">采购计划名称</th>
+		  <th class="info" width="15%">预算总金额（万元）</th>
+		  <th class="info" width="15%">汇总时间</th>
 		  <th class="info">状态</th>
 		</tr>
 		</thead>
@@ -272,13 +272,10 @@
 			  </c:if> --%>
 			  </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  
-			  <td class="tl pl20"  onclick="view('${obj.id}')">${obj.fileName }</td>
-			
-			
-			  <td class="tr pr20 w140"  onclick="view('${obj.id}')"><fmt:formatNumber type="number"  pattern="#,##0.00"  value="${obj.budget}"  /></td>
-			    <td class="tc w120"  onclick="view('${obj.id}')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc w120"  onclick="view('${obj.id}')">
+			  <td class="tl"  onclick="view('${obj.id}')">${obj.fileName }</td>
+			  <td class="tr"  onclick="view('${obj.id}')"><fmt:formatNumber type="number"  pattern="#,##0.00"  value="${obj.budget}"  /></td>
+			  <td class="tc"  onclick="view('${obj.id}')"><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tc"  onclick="view('${obj.id}')">
 			  <c:if test="${obj.status=='12' || obj.status=='13' }">
 					 未下达
 			  </c:if>
