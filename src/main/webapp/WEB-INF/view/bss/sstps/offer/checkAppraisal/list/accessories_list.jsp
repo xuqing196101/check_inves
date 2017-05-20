@@ -127,7 +127,7 @@ $(document).ready(function() {
 						<th rowspan="2" class="info">材料性质</th>
 						<th rowspan="2" class="info">材料名称</th>
 						<th rowspan="2" class="info">规格型号</th>
-						<th rowspan="2" class="info">图纸位置号(代号)</th>
+						<th rowspan="2" class="info">图纸位置号<br/>（代号）</th>
 						<th colspan="5" class="info">所属加工生产装配工艺消耗定额（数量、质量、含税金额）</th>
 						<th colspan="5" class="info">消耗定额审核核准数（含税金额）</th>
 						<th rowspan="2" class="info">核减金额</th>
@@ -150,20 +150,20 @@ $(document).ready(function() {
 					<tr id="tr0">
              <td class="tc"><input  type="checkbox" id="check0" /></td>
              <td class="tc">一</td>
-             <td class="tc">主要材料</td>
+             <td class="tl">主要材料</td>
              <td></td>
              <td></td>
              <td></td>
              <td class="tc"></td>
              <td class="tc" id="workWeightTotal0"></td>
              <td class="tr" ></td>
-             <td class="tc" id="workMoney0"></td>
+             <td class="tr" id="workMoney0"></td>
              <td class="tr" ></td>
              <td class="tc"></td>
              <td class="tc" id="workWeightTotalinput0"></td>
              <td class="tc"></td>
-             <td class="tc" id="workMoneyinput0"></td>
-             <td class="tc" id="Moneyinput0"></td>
+             <td class="tr" id="workMoneyinput0"></td>
+             <td class="tr" id="Moneyinput0"></td>
              <!-- <td id="checkMoneyinput0"></td> -->
              <td></td>
              <td></td>
@@ -186,13 +186,13 @@ $(document).ready(function() {
 						<td class="tc">${acc.workWeight }</td>
 						<td class="tc" name="workWeightTotal0">${acc.workWeightTotal }</td>
 						<td class="tc">${acc.workPrice }</td>
-						<td class="tc" name="workMoney0">${acc.workMoney }</td>
+						<td class="tr" name="workMoney0">${acc.workMoney }</td>
 						<td class="tc">${acc.consumeAmout }</td>
 						<td class="tc">${acc.consumeWeight }</td>
 						<td class="tc" name="workWeightTotalinput0">${acc.consumeWeightTotal }</td>
 						<td class="tc">${acc.consumePrice }</td>
-						<td class="tc" name="workMoneyinput0">${acc.consumeMoney }</td>
-						<td class="tc">${acc.subtractMoney }</td>
+						<td class="tr" name="workMoneyinput0">${acc.consumeMoney }</td>
+						<td class="tr">${acc.subtractMoney }</td>
 						<%-- <td class="tc" name="checkMoneyinput0"><input type="text"  class='m0 p0  border0 w80 tr' value='${acc.checkMoney }' name="listAcc[${vs.index+1}].checkMoney"></td> --%>
 						<td>${acc.supplyUnit }</td>
 						<td>${acc.remark }</td>
@@ -201,20 +201,20 @@ $(document).ready(function() {
 				   <tr id="tr1">
              <td class="tc"><input  type="checkbox" id="check1" /></td>
              <td class="tc">二</td>
-             <td class="tc">辅助材料</td>
+             <td class="tl">辅助材料</td>
              <td></td>
              <td></td>
              <td></td>
              <td class="tc"></td>
              <td class="tc" id="workWeightTotal1"></td>
              <td class="tr" ></td>
-             <td class="tc" id="workMoney1"></td>
+             <td class="tr" id="workMoney1"></td>
              <td class="tr" ></td>
              <td class="tc"></td>
              <td class="tc" id="workWeightTotalinput1"></td>
              <td class="tc"></td>
-             <td class="tc" id="workMoneyinput1"></td>
-             <td class="tc" id="Moneyinput1"></td>
+             <td class="tr" id="workMoneyinput1"></td>
+             <td class="tr" id="Moneyinput1"></td>
              <!-- <td id="checkMoneyinput1"></td> -->
              <td></td>
              <td></td>
@@ -237,13 +237,13 @@ $(document).ready(function() {
 						<td class="tc">${acc.workWeight }</td>
 						<td class="tc" name="workWeightTotal1">${acc.workWeightTotal }</td>
 						<td class="tc">${acc.workPrice }</td>
-						<td class="tc" name="workMoney1">${acc.workMoney }</td>
+						<td class="tr" name="workMoney1">${acc.workMoney }</td>
 						<td class="tc">${acc.consumeAmout }</td>
 						<td class="tc">${acc.consumeWeight }</td>
 						<td class="tc" name="workWeightTotalinput1">${acc.consumeWeightTotal }</td>
 						<td class="tc">${acc.consumePrice }</td>
-						<td class="tc" name="workMoneyinput1">${acc.consumeMoney }</td>
-						<td class="tc">${acc.subtractMoney }</td>
+						<td class="tr" name="workMoneyinput1">${acc.consumeMoney }</td>
+						<td class="tr">${acc.subtractMoney }</td>
 						<%-- <td class="tc" name="checkMoneyinput1"><input type="text"  class='m0 p0  border0 w80 tr' value='${acc.checkMoney }' name="listAcc[${fn:length(list0)+vs.index+1}].checkMoney"></td> --%>
 						<td>${acc.supplyUnit }</td>
 						<td>${acc.remark }</td>
@@ -252,10 +252,10 @@ $(document).ready(function() {
 				   <tr id="totalRow">
               <td colspan="6" class="tc">总计：</td>
               <td colspan="3"></td>
-              <td class="tc" id="total"></td>
+              <td class="tr" id="total"></td>
               <td colspan="4"></td>
-              <td class="tc" id="total2"></td>
-              <td id="total3"></td>
+              <td class="tr" id="total2"></td>
+              <td class="tr" id="total3"></td>
               <!-- <td id="total4"></td> -->
               <td colspan="2"></td>
             </tr>

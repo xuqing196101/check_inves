@@ -107,12 +107,12 @@
                 <table class="table table-bordered table-striped table-hover">
                   <thead>
                     <tr>
-                      <th class="info">序号</th>
-                      <th class="info">采购机构</th>
-                      <th class="info">合同名称</th>
-                      <th class="info">合同编号</th>
-                      <th class="info">合同金额(万元)</th>
-                      <th class="info">审价金额(万元)</th>
+                      <th class="info w50">序号</th>
+                      <th class="info" width="23%">采购机构</th>
+                      <th class="info" width="25%">合同名称</th>
+                      <th class="info" width="15%">合同编号</th>
+                      <th class="info"  width="10%">合同金额(万元)</th>
+                      <th class="info"  width="10%">审价金额(万元)</th>
                       <th class="info">审减百分比(%)</th>
                     </tr>
                   </thead>
@@ -123,8 +123,8 @@
                         <td>${statis.purchaseDepName }</td>
                         <td>${statis.name }</td>
                         <td>${statis.code }</td>
-                        <td class="tc">${statis.money }</td>
-                        <td class="tc">${statis.auditMoney }</td>
+                        <td class="tr">${statis.money }</td>
+                        <td class="tr">${statis.auditMoney }</td>
                         <td class="tc">${(statis.money-statis.auditMoney)*100/statis.money}</td>
                       </tr>
                     </c:forEach>

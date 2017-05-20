@@ -131,9 +131,7 @@
 				 </tobody>
 			</table> --%>
         </div>
-	 	
-	 	<div  class="col-md-12">
-	   		<div class="mt40 tc mb50">
+	   		<div class="mt20 tc w100p fl">
 			    <button class="btn" type="submit">下一步</button>
 			    <button class="btn btn-windows cancel" type="button" onclick="cancel();">取消</button>
 			</div>

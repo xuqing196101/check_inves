@@ -84,25 +84,25 @@ $(document).ready(function() {
 	 	<div class="container padding-left-25 padding-right-25">
 			<table id="table1" class="table table-bordered table-condensed">
 					<tr>
-						<th class="info">序号</th>
-						<th class="info">项目名称</th>
-						<th class="info">报价前2年</th>
-						<th class="info">报价前1年</th>
-						<th class="info">报价当年</th>
-						<th class="info">审核核准数</th>
+						<th class="info w50">序号</th>
+						<th class="info" width="25%">项目名称</th>
+						<th class="info" width="10%">报价前2年</th>
+						<th class="info" width="10%">报价前1年</th>
+						<th class="info" width="10%">报价当年</th>
+						<th class="info" width="10%">审核核准数</th>
 						<!-- <th class="info">复审核准数</th> -->
 						<th class="info">备   注</th>
 					</tr>
 				<c:forEach items="${list}" var="pc" varStatus="vs">
 					<tr>
 						<td class="tc"><input  type="hidden" value="${pc.id }" name="listPerio[${vs.index }].id" />${pc.serialNumber }</td>
-						<td class="tc">${pc.projectName }</td>
+						<td class="tl">${pc.projectName }</td>
 						<td class="tc">${pc.tyaQuoteprice }</td>
 						<td class="tc">${pc.oyaQuoteprice }</td>
 						<td class="tc">${pc.newQuoteprice }</td>
 						<td class="tc">${pc.auditApproval }</td>
 						<%-- <td class="tc"><input type="text" class='m0 p0  border0 w100'  value='${pc.checkApproval }' name="listPerio[${vs.index }].checkApproval"></td> --%>
-						<td class="tc">${pc.remark }</td>
+						<td class="tl">${pc.remark }</td>
 					</tr>
 				</c:forEach>
 				<tr>

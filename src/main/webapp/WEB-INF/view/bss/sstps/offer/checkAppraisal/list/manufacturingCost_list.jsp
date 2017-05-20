@@ -85,25 +85,25 @@ $(function() {
 	 	<div class="container padding-left-25 padding-right-25">
 			<table id="table1" class="table table-bordered table-condensed">
 					<tr>
-						<th class="info">序号</th>
-						<th class="info">项目名称</th>
-						<th class="info">报价前2年</th>
-						<th class="info">报价前1年</th>
-						<th class="info">报价当年</th>
-						<th class="info">审核核准数</th>
+						<th class="info w50">序号</th>
+						<th class="info" width="25%">项目名称</th>
+						<th class="info" width="10%">报价前2年</th>
+						<th class="info" width="10%">报价前1年</th>
+						<th class="info" width="10%">报价当年</th>
+						<th class="info" width="10%">审核核准数</th>
 						<!-- <th class="info">复审核准数</th> -->
 						<th class="info">备   注</th>
 					</tr>
 				<c:forEach items="${list}" var="mc" varStatus="vs">
 					<tr>
 						<td class="tc"><input type="hidden" value="${mc.id }" name="listManu[${vs.index }].id" />${vs.index+1 }</td>
-						<td class="tc">${mc.projectName }</td>
+						<td class="tl">${mc.projectName }</td>
 						<td class="tc">${mc.tyaQuoteprice }</td>
 						<td class="tc">${mc.oyaQuoteprice }</td>
 						<td class="tc">${mc.newQuoteprice }</td>
 						<td class="tc">${mc.auditApproval }</td>
 						<%-- <td class="tc"><input type="text"  class='m0 p0  border0 w100' value='${mc.checkApproval }' name="listManu[${vs.index }].checkApproval"></td> --%>
-						<td class="tc">${mc.remark }</td>
+						<td class="tl">${mc.remark }</td>
 					</tr>
 				</c:forEach>
 				<tr>

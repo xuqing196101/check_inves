@@ -69,7 +69,7 @@ $(document).ready(function() {
 	
 	<div class="container margin-top-5">
 	<form action="${pageContext.request.contextPath}/outproductCon/userUpdateCheck.html?productId=${proId }" method="post" enctype="multipart/form-data">
-	 	<div class="container padding-left-25 padding-right-25">
+			<div class="col-md-12 col-sm-12 col-xs-12">
 			<table id="table1" class="table table-bordered table-condensed">
 					<tr>
 						<th rowspan="2" class="info">序号</th>
@@ -95,22 +95,22 @@ $(document).ready(function() {
 					</tr>
 				<c:forEach items="${list}" var="out" varStatus="vs">
 					<tr>
-						<td>${vs.index+1 }<input type="hidden" name="listOutPro[${vs.index+1}].id" value="${out.id }" /></td>
-						<td class="tc">${out.finishedName }</td>
-						<td class="tc">${out.norm }</td>
-						<td class="tc">${out.paperCode }</td>
+						<td class="tc">${vs.index+1 }<input type="hidden" name="listOutPro[${vs.index+1}].id" value="${out.id }" /></td>
+						<td class="tl">${out.finishedName }</td>
+						<td class="tl">${out.norm }</td>
+						<td class="tl">${out.paperCode }</td>
 						<td class="tc">${out.workAmout }</td>
 						<td class="tc">${out.workWeight }</td>
 						<td class="tc">${out.workWeightTotal }</td>
-						<td class="tc">${out.workPrice }</td>
-						<td class="tc">${out.workMoney }</td>
+						<td class="tr">${out.workPrice }</td>
+						<td class="tr">${out.workMoney }</td>
 						<td class="tc">${out.consumeAmout }</td>
-						<td class="tc">${out.consumePrice }</td>
-						<td class="tc">${out.consumeMoney }</td>
-						<td class="tc">${out.subtractMoney }</td>
+						<td class="tr">${out.consumePrice }</td>
+						<td class="tr">${out.consumeMoney }</td>
+						<td class="tr">${out.subtractMoney }</td>
 						<%-- <td class="tc"><input type="text" value='${out.checkMoney }' class='m0 p0  border0 w80 tr' name="listOutPro[${vs.index+1}].checkMoney"></td> --%>
-						<td class="tc">${out.supplyUnit }</td>
-						<td class="tc">${out.remark }</td>
+						<td class="tl">${out.supplyUnit }</td>
+						<td class="tl">${out.remark }</td>
 					</tr>
 				</c:forEach>
 				<tr id="totalRow">
@@ -123,8 +123,6 @@ $(document).ready(function() {
 	              <!-- <td class="tr" id="total3"></td> -->
 	              <td colspan="2"></td>
 	            </tr>
-				
-				
 			</table>
 		</div>
 		
@@ -135,7 +133,6 @@ $(document).ready(function() {
 		   </div>
 	 	 </div>
 	 </form>	 
-  </div>
   
   </body>
 </html>

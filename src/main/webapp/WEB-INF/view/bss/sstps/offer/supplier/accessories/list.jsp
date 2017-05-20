@@ -481,7 +481,7 @@
             <tr id="totalRow">
               <td colspan="6" class="tc">总计：</td>
               <td colspan="4"></td>
-              <td class="tc" id="total"></td>
+              <td class="tr" id="total"></td>
              <!--  <td colspan="4"></td>
               <td class="tc" id="total2"></td> -->
               <td colspan="2"></td>
