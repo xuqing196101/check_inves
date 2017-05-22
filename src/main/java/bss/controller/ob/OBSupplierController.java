@@ -13,13 +13,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import net.sf.json.JSONArray;
-
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -33,11 +30,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
-import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
@@ -49,16 +44,13 @@ import bss.model.ob.OBSupplier;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBSupplierService;
 import bss.util.ExcelUtil;
-
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
 import common.annotation.SystemServiceLog;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
-import common.utils.JdcgResult;
 
 /**
  * 

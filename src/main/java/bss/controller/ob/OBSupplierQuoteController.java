@@ -2,17 +2,14 @@ package bss.controller.ob;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Null;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +41,6 @@ import bss.util.BigDecimalUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
 import common.annotation.SystemServiceLog;
@@ -313,7 +309,6 @@ public class OBSupplierQuoteController {
 		oBProjectResult.setProjectId(projectId);
 		oBProjectResult.setSupplierId(supplierId);
 		OBProject project = obProjectServer.selectByPrimaryKey(projectId);
-		int ranking = 0;
 		if (project != null) {
 			// 竞价结束时间 和当前时间比较
 			if (project.getEndTime().getTime() < new Date().getTime()) {
@@ -358,7 +353,6 @@ public class OBSupplierQuoteController {
 							}
 						} else {
 							// 顺推 前一名第二轮未确定
-							ranking = result.getRanking();
 							confirmStatus = "8";
 						}
 					} else {
