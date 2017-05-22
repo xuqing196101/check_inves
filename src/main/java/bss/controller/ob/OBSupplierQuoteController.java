@@ -64,25 +64,30 @@ import common.utils.JdcgResult;
 @Controller
 public class OBSupplierQuoteController {
 
+	// 注入竞价项目Service
 	@Autowired
 	private OBProjectServer obProjectServer;
 
+	// 注入供应商报价Service
 	@Autowired
 	private OBSupplierQuoteService obSupplierQuoteService;
 
+	// 注入竞价结果Service
 	@Autowired
 	private OBProjectResultService oBProjectResultService;
-	// 出入结果Service
+	
+	// 注入竞价结果子表Service
 	@Autowired
 	private OBResultSubtabulationService obResultSubtabulationService;
-	@Autowired
-	private OBProjectServer OBProjectServer;
 	
+	// 注入竞价产品信息Service
 	@Autowired
 	private OBProductInfoServer obProductInfoServer;
 	
+	// 注入竞价规则Service
 	@Autowired
 	private OBRuleService obRuleService;
+	
 	// 第一轮结果确认
 	private static final String FIRST_CONFIRM = "firstConfirm";
 	// 第二轮结果确认
@@ -303,98 +308,98 @@ public class OBSupplierQuoteController {
 	public JdcgResult checkConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
 			String supplierId, String projectId) throws ParseException {
 		supplierId = user.getTypeId();
-		String confirmStatus="";
-		OBProjectResult oBProjectResult=new OBProjectResult();
+		String confirmStatus = "";
+		OBProjectResult oBProjectResult = new OBProjectResult();
 		oBProjectResult.setProjectId(projectId);
 		oBProjectResult.setSupplierId(supplierId);
-		OBProject project=obProjectServer.selectByPrimaryKey(projectId);
-		int ranking=0;
-		 if(project!=null){
-			 //竞价结束时间 和当前时间比较
-		  if(project.getEndTime().getTime()<new Date().getTime()){
-			  confirmStatus="4";
-		  }else{
-		 List<OBProjectResult>	getList= oBProjectResultService.selectSupplierStatus(oBProjectResult);
-		 if(getList!=null && getList.size()==1){
-			 
-			 //必须一条数据 状态是-1 表示第一轮
-		    if(getList.get(0).getStatus()==-1 && getList.get(0).getRemark().equals("1")){
-		    	if(getList.get(0).getProportion().equals("0")){
-		    			if(project.getStatus()==6){
-		    				 confirmStatus="2";
-		    			}else if(project.getStatus()==5){
-		    			confirmStatus="5";
-		    			}
-		    		//未中标
-		    	}else{
-		    		//第一轮
-		    		confirmStatus="1";
-		    	}
-		     }else if(getList.get(0).getStatus()==1){
-		    	 //标识第一轮 接受 如果竞价未完成 100% 可参加 第二轮
-		    	 confirmStatus="2";
-		     }
-		  }else if(getList!=null && getList.size()==2){
-			  //已经操作过第二轮
-			  confirmStatus="3";
-		 }
-		  if(confirmStatus=="2"){
-			  //获取 可以进行第一轮 供应商
-			  List< OBProjectResult> obresultsList = oBProjectResultService.getSecond(projectId);
-			  if(obresultsList!=null){
-				  OBProjectResult result=obresultsList.get(0);
-				  if(result.getSupplierId().equals(supplierId)){
-					//获取比例是否完成
-						String proportion= oBProjectResultService.getProportionSum(projectId);
-						if(!proportion.equals("100")){
-					      confirmStatus="2";
-						}else{
-							confirmStatus="9";
+		OBProject project = obProjectServer.selectByPrimaryKey(projectId);
+		int ranking = 0;
+		if (project != null) {
+			// 竞价结束时间 和当前时间比较
+			if (project.getEndTime().getTime() < new Date().getTime()) {
+				confirmStatus = "4";
+			} else {
+				List<OBProjectResult> getList = oBProjectResultService.selectSupplierStatus(oBProjectResult);
+				if (getList != null && getList.size() == 1) {
+					// 必须一条数据 状态是-1 表示第一轮
+					if (getList.get(0).getStatus() == -1
+							&& getList.get(0).getRemark().equals("1")) {
+						if (getList.get(0).getProportion().equals("0")) {
+							if (project.getStatus() == 6) {
+								confirmStatus = "2";
+							} else if (project.getStatus() == 5) {
+								confirmStatus = "5";
+							}
+							// 未中标
+						} else {
+							// 第一轮
+							confirmStatus = "1";
 						}
-				  }else{
-					  //顺推 前一名第二轮未确定
-						 ranking=result.getRanking();
-						 confirmStatus="8";
+					} else if (getList.get(0).getStatus() == 1) {
+						// 标识第一轮 接受 如果竞价未完成 100% 可参加 第二轮
+						confirmStatus = "2";
+					}
+				} else if (getList != null && getList.size() == 2) {
+					// 已经操作过第二轮
+					confirmStatus = "3";
 				}
-		     }else{
-		    	 //第二轮 已经结束
-		    	 confirmStatus="7";
-		     }
-		    }
-		  }
-		 }else{
-			 confirmStatus="4";
-		 }
-		 
-		 JdcgResult jdcg=new JdcgResult();
-		 if(confirmStatus=="1"){
-			 jdcg.setStatus(1);
-			 jdcg.setMsg("第一轮");
-		 }else   if(confirmStatus=="2"){
-			 jdcg.setStatus(2);
-			 jdcg.setMsg("第二轮");
-		 }else  if(confirmStatus=="3"){
-			 jdcg.setStatus(3);
-			 jdcg.setMsg("第二轮已操作");
-		 }else if(confirmStatus=="4"){
-			 jdcg.setStatus(4);
-			 jdcg.setMsg("时间已结束");
-		 }else if(confirmStatus=="5") {
-			 jdcg.setStatus(5);
-			 jdcg.setMsg("第一轮未中标");
-		 }else if(confirmStatus=="7"){
-			 jdcg.setStatus(7);
-			 jdcg.setMsg("竞价已完成");
-		 }else if(confirmStatus=="8"){
-			 jdcg.setStatus(8);
-			 jdcg.setMsg("您的前一名第二轮未确定,请耐心等候");
-		 }else if(confirmStatus=="9"){
-			 jdcg.setStatus(9);
-			 jdcg.setMsg("成交金额已完成,请耐心等候竞价结束");
-		 }else{
-			 jdcg.setStatus(0);
-			 jdcg.setMsg("该竞价未中标");
-		 }
+				if (confirmStatus == "2") {
+					// 获取 可以进行第一轮 供应商
+					List<OBProjectResult> obresultsList = oBProjectResultService.getSecond(projectId);
+					if (obresultsList != null) {
+						OBProjectResult result = obresultsList.get(0);
+						if (result.getSupplierId().equals(supplierId)) {
+							// 获取比例是否完成
+							String proportion = oBProjectResultService.getProportionSum(projectId);
+							if (!proportion.equals("100")) {
+								confirmStatus = "2";
+							} else {
+								confirmStatus = "9";
+							}
+						} else {
+							// 顺推 前一名第二轮未确定
+							ranking = result.getRanking();
+							confirmStatus = "8";
+						}
+					} else {
+						// 第二轮 已经结束
+						confirmStatus = "7";
+					}
+				}
+			}
+		} else {
+			confirmStatus = "4";
+		}
+
+		JdcgResult jdcg = new JdcgResult();
+		if (confirmStatus == "1") {
+			jdcg.setStatus(1);
+			jdcg.setMsg("第一轮");
+		} else if (confirmStatus == "2") {
+			jdcg.setStatus(2);
+			jdcg.setMsg("第二轮");
+		} else if (confirmStatus == "3") {
+			jdcg.setStatus(3);
+			jdcg.setMsg("第二轮已操作");
+		} else if (confirmStatus == "4") {
+			jdcg.setStatus(4);
+			jdcg.setMsg("时间已结束");
+		} else if (confirmStatus == "5") {
+			jdcg.setStatus(5);
+			jdcg.setMsg("第一轮未中标");
+		} else if (confirmStatus == "7") {
+			jdcg.setStatus(7);
+			jdcg.setMsg("竞价已完成");
+		} else if (confirmStatus == "8") {
+			jdcg.setStatus(8);
+			jdcg.setMsg("您的前一名第二轮未确定,请耐心等候");
+		} else if (confirmStatus == "9") {
+			jdcg.setStatus(9);
+			jdcg.setMsg("成交金额已完成,请耐心等候竞价结束");
+		} else {
+			jdcg.setStatus(0);
+			jdcg.setMsg("该竞价未中标");
+		}
 		return jdcg;
 	}
 	/**
@@ -411,89 +416,89 @@ public class OBSupplierQuoteController {
 	public String quoteConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
 			String supplierId, String projectId) throws ParseException {
 		supplierId = user.getTypeId();
-		String confirmStatus="";
-		OBProjectResult oBProjectResult=new OBProjectResult();
+		String confirmStatus = "";
+		OBProjectResult oBProjectResult = new OBProjectResult();
 		oBProjectResult.setProjectId(projectId);
 		oBProjectResult.setSupplierId(supplierId);
-		OBProject project=obProjectServer.selectByPrimaryKey(projectId);
-		 if(project!=null){
-			 //竞价结束时间 和当前时间比较
-		  if(project.getEndTime().getTime()<new Date().getTime()){
-			  confirmStatus="4";
-		  }else{
-		 List<OBProjectResult>	getList= oBProjectResultService.selectSupplierStatus(oBProjectResult);
-		 if(getList!=null && getList.size()==1){
-			 //必须一条数据 状态是-1 表示第一轮
-		    if(getList.get(0).getStatus()==-1 && getList.get(0).getRemark().equals("1")){
-		    	if(getList.get(0).getProportion().equals("0")){
-		    			if(project.getStatus()==6){
-		    				 confirmStatus="2";
-		    			}else if(project.getStatus()==5){
-		    			confirmStatus="5";
-		    			}
-		    	}else{
-		    		//第一轮
-		    		confirmStatus="1";
-		    	}
-		     }else if(getList.get(0).getStatus()==1){
-		    	 //标识第一轮 接受 如果竞价未完成 100% 可参加 第二轮
-		    	 confirmStatus="2";
-		     }
-		  }else if(getList!=null && getList.size()==2){
-			  //已经操作过第二轮
-			  confirmStatus="3";
-		 }
-		  if(confirmStatus=="2"){
-			  //获取 可以进行第一轮 供应商
-			  List< OBProjectResult> obresultsList = oBProjectResultService.getSecond(projectId);
-			  if(obresultsList!=null){
-				  OBProjectResult result=obresultsList.get(0);
-				  if(result.getSupplierId().equals(supplierId)){
-					//获取比例是否完成
-						String proportion= oBProjectResultService.getProportionSum(projectId);
-						if(proportion.equals("100")){
-					      confirmStatus="9";
-						}else{
-							confirmStatus="2";
+		OBProject project = obProjectServer.selectByPrimaryKey(projectId);
+		if (project != null) {
+			// 竞价结束时间 和当前时间比较
+			if (project.getEndTime().getTime() < new Date().getTime()) {
+				confirmStatus = "4";
+			} else {
+				List<OBProjectResult> getList = oBProjectResultService.selectSupplierStatus(oBProjectResult);
+				if (getList != null && getList.size() == 1) {
+					// 必须一条数据 状态是-1 表示第一轮
+					if (getList.get(0).getStatus() == -1
+							&& getList.get(0).getRemark().equals("1")) {
+						if (getList.get(0).getProportion().equals("0")) {
+							if (project.getStatus() == 6) {
+								confirmStatus = "2";
+							} else if (project.getStatus() == 5) {
+								confirmStatus = "5";
+							}
+						} else {
+							// 第一轮
+							confirmStatus = "1";
 						}
-				  }else{
-					  //顺推 前一名第二轮未确定
-						 confirmStatus="8";
+					} else if (getList.get(0).getStatus() == 1) {
+						// 标识第一轮 接受 如果竞价未完成 100% 可参加 第二轮
+						confirmStatus = "2";
+					}
+				} else if (getList != null && getList.size() == 2) {
+					// 已经操作过第二轮
+					confirmStatus = "3";
 				}
-		     }else{
-		    	 //第二轮 已经结束
-		    	 confirmStatus="7";
-		     }
-		    }
-		  }
-		 }else{
-			 confirmStatus="4";
-		 }
-		
-		 if(confirmStatus=="1"||confirmStatus=="2"){
-             BigDecimal million = new BigDecimal(10000);
-		  ConfirmInfoVo result=oBProjectResultService.selectSupplierDate(supplierId,projectId,confirmStatus);
-             if(result != null){
-                 List<OBResultsInfo> obResultsInfos = result.getOBResultsInfo();
-                 for (OBResultsInfo obResultsInfo : obResultsInfos){
-                     // 成交价
-                     BigDecimal dealMoney = obResultsInfo.getDealMoney();
-                     // 成交数量
-                     Integer resultsNumber = obResultsInfo.getResultsNumber();
-                     BigDecimal resultsNumbers = new BigDecimal(resultsNumber);
-                     // 成交总价
-                     BigDecimal multiply = dealMoney.multiply(resultsNumbers);
-                     multiply.setScale(4);
-                     BigDecimal moneyBigDecimal = multiply.divide(million, 4, BigDecimal.ROUND_HALF_UP);
-                     obResultsInfo.setDealTotalMoney(moneyBigDecimal);
-                 }
+				if (confirmStatus == "2") {
+					// 获取 可以进行第一轮 供应商
+					List<OBProjectResult> obresultsList = oBProjectResultService.getSecond(projectId);
+					if (obresultsList != null) {
+						OBProjectResult result = obresultsList.get(0);
+						if (result.getSupplierId().equals(supplierId)) {
+							// 获取比例是否完成
+							String proportion = oBProjectResultService.getProportionSum(projectId);
+							if (proportion.equals("100")) {
+								confirmStatus = "9";
+							} else {
+								confirmStatus = "2";
+							}
+						} else {
+							// 顺推 前一名第二轮未确定
+							confirmStatus = "8";
+						}
+					} else {
+						// 第二轮 已经结束
+						confirmStatus = "7";
+					}
+				}
+			}
+		} else {
+			confirmStatus = "4";
+		}
 
-             }
+		if (confirmStatus == "1" || confirmStatus == "2") {
+			BigDecimal million = new BigDecimal(10000);
+			ConfirmInfoVo result = oBProjectResultService.selectSupplierDate(supplierId, projectId, confirmStatus);
+			if (result != null) {
+				List<OBResultsInfo> obResultsInfos = result.getOBResultsInfo();
+				for (OBResultsInfo obResultsInfo : obResultsInfos) {
+					// 成交价
+					BigDecimal dealMoney = obResultsInfo.getDealMoney();
+					// 成交数量
+					Integer resultsNumber = obResultsInfo.getResultsNumber();
+					BigDecimal resultsNumbers = new BigDecimal(resultsNumber);
+					// 成交总价
+					BigDecimal multiply = dealMoney.multiply(resultsNumbers);
+					multiply.setScale(4);
+					BigDecimal moneyBigDecimal = multiply.divide(million, 4,BigDecimal.ROUND_HALF_UP);
+					obResultsInfo.setDealTotalMoney(moneyBigDecimal);
+				}
+			}
 			model.addAttribute("sysCurrentTime", new Date());
-		 	model.addAttribute("result", result);
-		 	model.addAttribute("confirmStatus", confirmStatus);
-		  }
-		 return "/bss/ob/supplier/confirmResult";
+			model.addAttribute("result", result);
+			model.addAttribute("confirmStatus", confirmStatus);
+		}
+		return "/bss/ob/supplier/confirmResult";
 	}
 
 	/**
@@ -531,7 +536,7 @@ public class OBSupplierQuoteController {
 		map.put("obResultsInfoExtList", obResultsInfoExt);
 		map.put("showQuotoTotalPriceStr", showQuotoTotalPriceStr);
 		if(StringUtils.isNotBlank(titleId)){
-			OBProjectServer.changeStatus(titleId);
+			obProjectServer.changeStatus(titleId);
 		}
 		return obSupplierQuoteService.saveQuoteInfo(map,quotoFlag);
 	}
@@ -575,16 +580,15 @@ public class OBSupplierQuoteController {
 		if(type==-1){
 			return JdcgResult.build(0, "确定时间超出,不能确定");
 		}else{
-			oBProjectResultService.updateResult(user,projectResultList,acceptNum);
-			
-			if(projectResultList!=null&& projectResultList.size()>0){
-				OBProjectServer.changeStatus(projectResultList.get(0).getProjectId());
+			oBProjectResultService.updateResult(user, projectResultList, acceptNum);
+			if (projectResultList != null && projectResultList.size() > 0) {
+				obProjectServer.changeStatus(projectResultList.get(0).getProjectId());
 			}
-			if(type==1){
+			if (type == 1) {
 				return JdcgResult.build(1, "第一轮确定成功");
-			}else if(type==2){
+			} else if (type == 2) {
 				return JdcgResult.build(1, "第二轮确定成功");
-			}else{
+			} else {
 				return JdcgResult.build(0, "确定错误");
 			}
 		}
@@ -638,7 +642,7 @@ public class OBSupplierQuoteController {
 						}else{*/
 							 boolean boo = oBProjectResultService.updateBySupplierId(user,projectId,supplierId, confirmStatus,projectResultId);
 							 if(StringUtils.isNotBlank(projectId)){
-									OBProjectServer.changeStatus(projectId);
+								 obProjectServer.changeStatus(projectId);
 							  }
 							 if(uptResult==1){
 								jdcgResult.setStatus(boo==false?1:2);
