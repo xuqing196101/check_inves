@@ -1208,6 +1208,9 @@
 		<if test="businessType != null and businessType !=''">
 			AND BUSINESS_TYPE = #{businessType}
 		</if>
+		<if test="businessNature != null and businessNature !=''">
+            AND BUSINESS_NATURE = #{businessNature}
+        </if>
 		<if test="auditDate !=null and auditDate != ''">
 			AND to_char(AUDIT_DATE,'yyyy-mm-dd')=to_char(#{auditDate},'yyyy-mm-dd')
 		</if>
