@@ -519,7 +519,7 @@ public class FileUtils {
           if (it != null){
               LineIterator.closeQuietly(it);
           }
-//          moveFile(file);
+          moveFile(file);
         }
         return sb.toString();
     }
