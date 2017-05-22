@@ -343,11 +343,11 @@
 						<tr class="info">
 							<th class="w30"><input type="checkbox" id="selectAll" onclick="selectAll()" /></th>
 							<th class="w50">序号</th>
-							<th class="w300">资料名称</th>
-							<th class="w180">发布时间</th>
-							<th class="w180">创建时间</th>
-							<th class="w110">状态</th>
-							<th class="w110">下载</th>
+							<th width="35%">资料名称</th>
+							<th width="18%">发布时间</th>
+							<th width="18%">创建时间</th>
+							<th width="12%">状态</th>
+							<th>下载</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -356,10 +356,10 @@
 								<td class="tc"><input type="checkbox" name="info" value="${data.id }" onclick="check()" /></td>
 								<td class="tc" onclick="view('${data.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 								<c:if test="${fn:length(data.name)>22}">
-									<td class="tl pl20" onclick="view('${data.id }')" title="${data.name }">${fn:substring(data.name,0,22)}...</td>
+									<td class="tl" onclick="view('${data.id }')" title="${data.name }">${fn:substring(data.name,0,22)}...</td>
 								</c:if>
 								<c:if test="${fn:length(data.name)<=22}">
-									<td class="tl pl20" onclick="view('${data.id }')">${data.name }</td>
+									<td class="tl" onclick="view('${data.id }')">${data.name }</td>
 								</c:if>
 								<td class="tc" onclick="view('${data.id }')">
 									<fmt:formatDate value="${data.publishAt}" pattern="yyyy-MM-dd HH:mm:ss" /> </td>
@@ -368,13 +368,13 @@
 									<fmt:formatDate value="${data.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /> </td>
 								</td>
 								<c:if test="${data.status==1}">
-									<td class="tl pl20" onclick="view('${data.id }')">暂存</td>
+									<td class="tl" onclick="view('${data.id }')">暂存</td>
 								</c:if>
 								<c:if test="${data.status==2}">
-									<td class="tl pl20" onclick="view('${data.id }')">已发布</td>
+									<td class="tl" onclick="view('${data.id }')">已发布</td>
 								</c:if>
 								<c:if test="${data.status==3}">
-									<td class="tl pl20" onclick="view('${data.id }')">已取消发布</td>
+									<td class="tl" onclick="view('${data.id }')">已取消发布</td>
 								</c:if>
 								<td class="release">
 									<u:show showId="${data.groupShow }" groups="${data.groupsUploadId }" delete="false" businessId="${data.id }" sysKey="${sysKey}" typeId="${dataTypeId }" zipFileName="${data.name}" fileName="${data.name}" />

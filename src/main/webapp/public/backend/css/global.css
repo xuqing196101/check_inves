@@ -762,6 +762,9 @@ li:first-child {
 .btn_list{
   list-style-type:none;
   padding:0px;
+  max-height:500px;
+  overflow-y:auto;
+  overflow-x:hidden; 
 }
 .btn_list li{
    width:100%;
@@ -805,6 +808,8 @@ li:first-child {
   height:40px;
   padding:5px 10px;
   line-height: 30px;
+  overflow: hidden;
+  text-overflow:ellipsis;
 }
 .btn_list li:focus{
   background-color: #edaa2d;

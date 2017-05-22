@@ -478,12 +478,12 @@
             <tr>
               <th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
               <th class="tnone"></th>
-              <th class="info">序号</th>
-              <th class="info">信息标题</th>
-              <th class="info">发布范围</th>
-              <th class="info">提交时间</th>
-              <th class="info">信息栏目</th>
-              <th class="info">状态</th>
+              <th class="info w50">序号</th>
+              <th class="info" width="35%">信息标题</th>
+              <th class="info" width="8%">发布范围</th>
+              <th class="info" width="17%">提交时间</th>
+              <th class="info" width="15%">信息栏目</th>
+              <th class="info" width="10%">状态</th>
               <th class="info">浏览量</th>
             </tr>
           </thead>
@@ -494,25 +494,25 @@
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 
               <c:if test="${fn:length(article.name)>30}">
-                <td class="tl pl20 w500" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,30)}...</td>
+                <td onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,30)}...</td>
               </c:if>
               <c:if test="${fn:length(article.name)<=30}">
-                <td class="tl pl20 w500" onclick="view('${article.id }')" title="${article.name}">${article.name }</td>
+                <td onclick="view('${article.id }')" title="${article.name}">${article.name }</td>
               </c:if>
 
-              <td class="tl pl20" onclick="view('${article.id }')">
+              <td class="tl" onclick="view('${article.id }')">
                 <c:if test="${article.range=='0' }">
-                  内网
+               		   内网
                 </c:if>
                 <c:if test="${article.range=='2' }">
-                  内外网
+             		     内外网
                 </c:if>
               </td>
               <td class="tc" onclick="view('${article.id }')">
                 <fmt:formatDate value='${article.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" />
               </td>
-              <td class="tl pl20" onclick="view('${article.id }')">${article.articleType.name }</td>
-              <td class="tl pl20">
+              <td class="tl" onclick="view('${article.id }')">${article.articleType.name }</td>
+              <td class="tl">
                 <c:if test="${article.status=='0' }">
                   <input type="hidden" name="status" value="${article.status }">暂存
                 </c:if>
@@ -529,7 +529,7 @@
                   <input type="hidden" name="status" value="${article.status }">已取消发布
                 </c:if>
               </td>
-              <td class="tl pl20">${article.showCount }</td>
+              <td class="tc">${article.showCount }</td>
             </tr>
           </c:forEach>
         </table>
