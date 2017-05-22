@@ -11,11 +11,11 @@ import bss.service.ob.OBResultSubtabulationService;
 import bss.util.BigDecimalUtils;
 /**
  * 
-* Description: 获取竞价结果信息
-* 
-* @author YangHongLiang
-* @version 2017-5-22
-* @since JDK1.7
+ * Description: 获取竞价结果信息
+ * 
+ * @author YangHongLiang
+ * @version 2017-5-22
+ * @since JDK1.7
  */
 public class BiddingResultCommon {
     
