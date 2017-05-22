@@ -196,21 +196,22 @@
                 <!-- Begin Content -->
 					<div class="col-md-3 col-sm-4 col-xs-12" id="show_tree_div">
 						<div class="tag-box tag-box-v3">
-							<ul id="ztree_show" class="ztree">
+								<ul id="ztree_show" class="ztree">
 								<!-- 菜单树-->
 								<div id="menuTree" class="ztree fl"></div>
 							</ul>
 						</div>
 					</div>
-					<div class="col-md-12 col-xs-12 col-sm-12">
-						<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-						<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-						<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-					</div>
-					<input type="hidden" id="mid">
-					<div class="tag-box tag-box-v4 col-md-9 col-sm-8 col-xs-12 mt5" id="show_content_div"></div> 
-			    </div>
-			    <div class="mt20" id="tbody_user"></div>
+					<div class="col-md-9 col-sm-8 col-xs-12">
+						<div class="col-md-12 col-xs-12 col-sm-12">
+							<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+							<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+							<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+						</div>
+						<input type="hidden" id="mid">
+						<div class="tag-box tag-box-v4 col-md-12 col-sm-12 col-xs-12 mt5" id="show_content_div"></div> 
+			   		 </div>
+			   		 <div class="mt20" id="tbody_user"></div>
 		<!-- <div id="pagediv" align="right" class="mb50"></div> -->
        </div>
    </div>
