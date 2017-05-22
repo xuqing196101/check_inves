@@ -49,12 +49,14 @@
   
   <select id="selectByExpertId" parameterType="ses.model.ems.ExpertAuditFileModify" resultMap="BaseResultMap">
     select 
-    *
-    from T_SES_EMS_EXPERT_FILE_MODIFY
-    where EXPERT_ID = #{expertId}
+        *
+    from 
+        T_SES_EMS_EXPERT_FILE_MODIFY
+    where 
+        EXPERT_ID = #{expertId}
+        and IS_DELETED = 0
     <if test="typeId !=null">
     	AND TYPE_ID = #{typeId}
-    	and IS_DELETED = 0
     </if>
   </select>
   
