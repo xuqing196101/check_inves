@@ -87,7 +87,7 @@
 		<result column="IS_PROVISIONAL" property="isProvisional" />
 		<result column="IS_PUBLISH" property="isPublish" />
 		<result column="EXTRACT_ORGID" property="extractOrgid" />
-		<result column="IS_DELETE" property="isDeleted" />
+		<result column="IS_DELETED" property="isDeleted" />
 		<result column="ORGNAME" property="orgName" />
         <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
@@ -1545,7 +1545,7 @@
 
 	<select id="findLoginName" resultType="String">
 		select t1.LOGIN_NAME from
-		T_SES_SMS_SUPPLIER t1
+		T_SES_SMS_SUPPLIER t1 where t1.IS_DELETED = 0
 	</select>
 
 	<select id="getByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
