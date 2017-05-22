@@ -132,13 +132,13 @@
 		<thead>
 		<tr>
 		  <th class="info w50">序号</th>
-		  <th class="info">合同名称</th>
-		  <th class="info">合同编号</th>
-		  <th class="info">采购机构</th>
-		  <th class="info">供应商名称</th>
-		  <th class="info">验收类型</th>
-		  <th class="info">质检日期</th>
-		  <th class="info">质检结论</th>
+		  <th class="info" width="18%">合同名称</th>
+		  <th class="info" width="11%">合同编号</th>
+		  <th class="info" width="15%">采购机构</th>
+		  <th class="info" width="15%">供应商名称</th>
+		  <th class="info" width="8%">验收类型</th>
+		  <th class="info" width="10%">质检日期</th>
+		  <th class="info" width="7%">质检结论</th>
 		  <th class="info">查看</th>
 		</tr>
 		</thead>
@@ -147,13 +147,13 @@
 				
 				<td class="tc" onclick="show('${PqInfo.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				
-				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.name}</td>
+				<td class="tl pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.name}</td>
 				
-				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.code}</td>
+				<td class="tl pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.code}</td>
 			
-				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.purchaseDepName}</td>
+				<td class="tl pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.purchaseDepName}</td>
 			
-				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.supplier.supplierName}</td>
+				<td class="tl pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.supplier.supplierName}</td>
 			
 				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.type}</td>
 				

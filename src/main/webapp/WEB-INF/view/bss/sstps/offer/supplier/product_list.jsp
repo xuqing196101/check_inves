@@ -127,14 +127,14 @@ function resetQuery(){
 		 <table class="table table-bordered table-striped table-hover">
 		  	<thead>
 	  			<tr>
-	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-	  				<th class="info">序号</th>
-	  				<th class="info">产品名称</th>
-	  				<th class="info">品牌商标</th>
+	  				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+	  				<th class="info w50">序号</th>
+	  				<th class="info" width="30%">产品名称</th>
+	  				<th class="info" width="20%">品牌商标</th>
 	  				<th class="info">规格型号</th>
-	  				<th class="info">采购数量</th>
-	  				<th class="info">计量单位</th>
-	  				<th class="info">状态</th>
+	  				<th class="info" width="8%">采购数量</th>
+	  				<th class="info" width="8%">计量单位</th>
+	  				<th class="info w80">状态</th>
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${list.list}" var="product" varStatus="vs">
@@ -147,10 +147,10 @@ function resetQuery(){
 	  				<td class="tc w80">${product.contractRequired.purchaseCount }</td>
 	  				<td class="tc w80">${product.contractRequired.item }</td>
 	  				<c:if test="${product.offer=='0'}">
-	  					<td class="tc w50" >未报价</td>
+	  					<td class="tc w80" >未报价</td>
 	  				</c:if>
 	  				<c:if test="${product.offer=='1'}">
-	  					<td class="tc w50" >已报价</td>
+	  					<td class="tc w80" >已报价</td>
 	  				</c:if>
 	  			</tr>
             </c:forEach>

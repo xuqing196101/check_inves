@@ -222,11 +222,11 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info">竞价标题</th>
-		  <th class="info">竞价开始时间</th>
-		  <th class="info">竞价结束时间</th>
-		  <th class="info">成交供应商</th>
-		  <th class="info">合格供应商</th>
+		  <th class="info" width="22%">竞价标题</th>
+		  <th class="info" width="15%">竞价开始时间</th>
+		  <th class="info" width="15%">竞价结束时间</th>
+		  <th class="info" width="15%">成交供应商</th>
+		  <th class="info" width="15%">合格供应商</th>
 		  <th class="info">竞价状态</th>
 		  <!-- <th class="info">操作</th> -->
 		</tr>
@@ -238,7 +238,7 @@
 			  <td class="tl">${ obProject.name }</td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-			  <td class="tc">
+			  <td class="tl">
 				<c:if test="${obProject.closingSupplier==0}">
 		   			0
 		  		</c:if>
@@ -249,7 +249,7 @@
 		   			<a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${obProject.id}&result=2">${obProject.closingSupplier}</a>
 		  		</c:if>
 			  </td>
-			  <td class="tc">
+			  <td class="tl">
 			  	<c:if test="${obProject.qualifiedSupplier==0}">
 			   		0
 			  	</c:if>
@@ -260,7 +260,7 @@
 			   		 <a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${obProject.id}">${obProject.qualifiedSupplier}</a>
 			 	</c:if>
 			  </td>
-			  <td class="tc">
+			  <td class="tl">
 			  	<c:if test="${ obProject.status == 1 }">
 			  		已发布 
 			  	</c:if>

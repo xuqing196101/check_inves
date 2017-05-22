@@ -123,9 +123,9 @@
 		<thead>
 			<tr>
 				<!-- <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th> -->
-			    <th class="info" >序号</th>
-				<th class="info" >栏目名</th>
-				<th class="info">栏目介绍</th>
+			    <th class="info w50" >序号</th>
+				<th class="info" width="20%">栏目名</th>
+				<th class="info" width="28%">栏目介绍</th>
 				<th class="info">栏目编码</th>
 			</tr>
 		</thead>
@@ -134,17 +134,17 @@
 			<tr class="pointer">
 				<%-- <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${articletype.id}" /></td> --%>
 				<td class="tc" onclick="view('${articletype.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tl pl20" onclick="view('${articletype.id}')">${articletype.name}</td>
+				<td class="tl" onclick="view('${articletype.id}')">${articletype.name}</td>
 				
 				<c:set value="${articletype.describe}" var="describe"></c:set>
 				<c:set value="${fn:length(describe)}" var="length"></c:set>
 				<c:if test="${length>20}">
-					<td onclick="view('${articletype.id}')" class="tl pl20">${fn:substring(describe,0,10)}...</td>
+					<td onclick="view('${articletype.id}')" class="tl">${fn:substring(describe,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=20}">
-					<td onclick="view('${articletype.id}')" class="tl pl20">${articletype.describe } </td>
+					<td onclick="view('${articletype.id}')" class="tl">${articletype.describe } </td>
 				</c:if>	
-				<td class="tl pl20" onclick="view('${articletype.id}')">${articletype.code}</td>
+				<td class="tl" onclick="view('${articletype.id}')">${articletype.code}</td>
 			</tr>
 		</c:forEach>
 	</table>

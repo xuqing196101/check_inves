@@ -97,10 +97,10 @@ $(document).ready(function() {
 					<tr>
 						<td class="tc"><input  type="hidden" value="${pc.id }" name="listPerio[${vs.index }].id" />${pc.serialNumber }</td>
 						<td class="tl">${pc.projectName }</td>
-						<td class="tc">${pc.tyaQuoteprice }</td>
-						<td class="tc">${pc.oyaQuoteprice }</td>
-						<td class="tc">${pc.newQuoteprice }</td>
-						<td class="tc">${pc.auditApproval }</td>
+						<td class="tr">${pc.tyaQuoteprice }</td>
+						<td class="tr">${pc.oyaQuoteprice }</td>
+						<td class="tr">${pc.newQuoteprice }</td>
+						<td class="tr">${pc.auditApproval }</td>
 						<%-- <td class="tc"><input type="text" class='m0 p0  border0 w100'  value='${pc.checkApproval }' name="listPerio[${vs.index }].checkApproval"></td> --%>
 						<td class="tl">${pc.remark }</td>
 					</tr>
@@ -116,14 +116,11 @@ $(document).ready(function() {
             </tr>
 			</table>
 		</div>
-		
-		<div  class="col-md-12">
-		   <div class="mt40 tc mb50">
+		<div class="mt20 tc col-md-12 col-sm-12 col-xs-12">
 		    <button class="btn" type="button" onclick="onStep()">上一步</button>
 		    <button class="btn" type="submit">下一步</button>
-		   </div>
-	 	 </div>
-	 	 </form> 
+		</div>
+	 </form> 
   </div>
   
   </body>
