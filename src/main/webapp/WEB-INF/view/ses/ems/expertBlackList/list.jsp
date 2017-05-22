@@ -87,6 +87,11 @@
 		if(id.length==1){
 		      if(e_status!="手动移除"){
 			   window.location.href="${pageContext.request.contextPath}/expertBlacklist/editBlacklist.html?id="+id;
+		      }else{
+		    	  layer.msg("不能修改手动移除!", {
+						offset : '300px',
+					});
+		    	  return;
 		      }
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset:'200px'});
