@@ -350,7 +350,7 @@
 							<th class="info">类别</th>
 							<th class="info">毕业院校及专业</th>
 							<th class="info">手机</th>
-							<th class="info">积分</th>
+							<!-- <th class="info">积分</th> -->
 							<th class="info">审核状态</th>
 						</tr>
 					</thead>
@@ -373,7 +373,7 @@
 							<td class="tl pl20" >${e.expertsTypeId}</td>
 							<td class="tl pl20" >${e.graduateSchool }</td>
 							<td class="tl pl20" >${e.mobile }</td>
-							<td class="tc"  class="tc">${e.honestyScore }</td>
+							<%-- <td class="tc"  class="tc">${e.honestyScore }</td> --%>
 							<td  class="tc" id="${e.id}">
 								<c:if test="${e.status eq '4' and e.isProvisional eq '1'}">
 									<span class="label rounded-2x label-dark">临时</span>

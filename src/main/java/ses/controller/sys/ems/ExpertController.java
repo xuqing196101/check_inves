@@ -1896,18 +1896,16 @@ public class ExpertController extends BaseController {
                     //已提交
                     expert.setIsSubmit("1");
                     if("3".equals(temp.getStatus())) {
-                        //删除之前的审核信息
-                    //     expertAuditService.updateIsDeleteByExpertId(expertId);
-                   /* expertAuditService.deleteByExpertId(expertId);*/
-                        //未审核
-                        expert.setStatus("0");
-                    /*expert.setIsDelete((short) 1);*/
+                        //删除之前的审核不通过的字段信息
+                    	expertAuditService.updateIsDeleteByExpertId(expertId);
+                    	/* expertAuditService.deleteByExpertId(expertId);*/
                     }
+                    //待审核
                     expert.setStatus("0");
                     //修改时间
                     expert.setSubmitAt(new Date());
                     expert.setAuditAt(new Date());
-                 //    service.updateByPrimaryKeySelective(expert);
+                    service.updateByPrimaryKeySelective(expert);
 //                }else if(0 < validateDay){//未按规定时间提交审核,注销信息
 //                    return "expert_logout," + validateDay;
 //                }
