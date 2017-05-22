@@ -1868,7 +1868,7 @@ public class ExpertController extends BaseController {
                        HttpSession session, String token2, HttpServletRequest request,
                        HttpServletResponse response, String gitFlag) {
         Expert exp = service.selectByPrimaryKey(expert.getId());
-        if("1".equals(exp.getIsSubmit())) {
+        if("0".equals(exp.getStatus())) {
             return "1";
         } else {
             try {
