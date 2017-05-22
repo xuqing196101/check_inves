@@ -76,7 +76,12 @@
 			<mvc:exclude-mapping path="/login/login.*" />
 			<mvc:exclude-mapping path="/dataDownload/getIndexList.*" />
 			<mvc:exclude-mapping path="/templateDownload/getIndexList.*" />
-			
+			<!-- 过滤定型产品列表 -->
+			<mvc:exclude-mapping path="/product/index_list.*" />
+			<!-- 过滤产品目录-->
+			<mvc:exclude-mapping path="/categorys/categoryList.*" />
+			<!-- 过滤技术参数库 -->
+			<mvc:exclude-mapping path="/categorys/parameterList.*" />
 			
 <!-- 			专家注册 -->
  			<mvc:exclude-mapping path="/expert/toExpert.*" />

@@ -461,46 +461,7 @@ public class OBProductController {
 				obProduct.setQualityTechnicalStandard(qualityTechnicalStandard);
 				obProduct.setStandardModel(standardModel);
 				obProduct.setSmallPointsId(categoryId);
-				if(categoryLevel == 2){
-					//大类
-					obProduct.setCategoryBigId(categoryId);
-				}
-				if(categoryLevel == 3){
-					//中类
-					Category parentCategory = categoryService.findById(categoryId);
-					obProduct.setCategoryMiddleId(categoryId);
-					if(parentCategory != null){
-						obProduct.setCategoryBigId(parentCategory.getParentId());
-					}
-				}
-				if(categoryLevel == 4){
-					//小类
-					Category parentCategory = categoryService.findById(categoryId);
-					obProduct.setCategoryId(categoryId);
-					if(parentCategory != null){
-						obProduct.setCategoryMiddleId(parentCategory.getParentId());
-						Category parentCategory1 = categoryService.findById(parentCategory.getParentId());
-						if(parentCategory1 != null){
-							obProduct.setCategoryBigId(parentCategory1.getParentId());
-						}
-					}
-				}
-				if(categoryLevel == 5){
-					//产品类别
-					Category parentCategory = categoryService.findById(categoryId);
-					obProduct.setProductCategoryId(categoryId); //产品类别id
-					if(parentCategory != null){
-						obProduct.setCategoryId(parentCategory.getParentId());//小类
-						Category parentCategory1 = categoryService.findById(parentCategory.getParentId());
-						if(parentCategory1 != null){
-							obProduct.setCategoryMiddleId(parentCategory1.getParentId());//中类
-							Category parentCategory2 = categoryService.findById(parentCategory1.getParentId());
-							if(parentCategory1 != null){
-								obProduct.setCategoryBigId(parentCategory2.getParentId());//大类
-							}
-						}
-					}
-				}
+				judgeCategoryByLevel(categoryId,categoryLevel,obProduct);
 				obProduct.setProductCategoryLevel(categoryLevel);
 				obProduct.setCreatedAt(new Date());
 				String userId = "";
@@ -633,46 +594,7 @@ public class OBProductController {
 				obProduct.setName(name);
 				obProduct.setProcurementId(procurementId);
 				obProduct.setSmallPointsId(categoryId);
-				if(categoryLevel == 2){
-					//大类
-					obProduct.setCategoryBigId(categoryId);
-				}
-				if(categoryLevel == 3){
-					//中类
-					Category parentCategory = categoryService.findById(categoryId);
-					obProduct.setCategoryMiddleId(categoryId);
-					if(parentCategory != null){
-						obProduct.setCategoryBigId(parentCategory.getParentId());
-					}
-				}
-				if(categoryLevel == 4){
-					//小类
-					Category parentCategory = categoryService.findById(categoryId);
-					obProduct.setCategoryId(categoryId);
-					if(parentCategory != null){
-						obProduct.setCategoryMiddleId(parentCategory.getParentId());
-						Category parentCategory1 = categoryService.findById(parentCategory.getParentId());
-						if(parentCategory1 != null){
-							obProduct.setCategoryBigId(parentCategory1.getParentId());
-						}
-					}
-				}
-				if(categoryLevel == 5){
-					//产品类别
-					Category parentCategory = categoryService.findById(categoryId);
-					obProduct.setProductCategoryId(categoryId); //产品类别id
-					if(parentCategory != null){
-						obProduct.setCategoryId(parentCategory.getParentId());//小类
-						Category parentCategory1 = categoryService.findById(parentCategory.getParentId());
-						if(parentCategory1 != null){
-							obProduct.setCategoryMiddleId(parentCategory1.getParentId());//中类
-							Category parentCategory2 = categoryService.findById(parentCategory1.getParentId());
-							if(parentCategory1 != null){
-								obProduct.setCategoryBigId(parentCategory2.getParentId());//大类
-							}
-						}
-					}
-				}
+				judgeCategoryByLevel(categoryId, categoryLevel, obProduct);
 				obProduct.setProductCategoryLevel(categoryLevel);
 				obProduct.setStandardModel(standardModel);
 				obProduct.setQualityTechnicalStandard(qualityTechnicalStandard);
@@ -1015,6 +937,63 @@ public class OBProductController {
 			}
 		 }
 		return "bss/ob/finalize_DesignProduct/index_list";
+	}
+	
+	/**
+	 * 
+	 * Description: 根据产品类别等级判断添加类别名称
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年5月22日 
+	 * @param  @param categoryId
+	 * @param  @param categoryLevel
+	 * @param  @param obProduct
+	 * @param  @return 
+	 * @return OBProduct 
+	 * @exception
+	 */
+	public OBProduct judgeCategoryByLevel(String categoryId, int categoryLevel, OBProduct obProduct){
+		if(categoryLevel == 2){
+			//大类
+			obProduct.setCategoryBigId(categoryId);
+		}
+		if(categoryLevel == 3){
+			//中类
+			Category parentCategory = categoryService.findById(categoryId);
+			obProduct.setCategoryMiddleId(categoryId);
+			if(parentCategory != null){
+				obProduct.setCategoryBigId(parentCategory.getParentId());
+			}
+		}
+		if(categoryLevel == 4){
+			//小类
+			Category parentCategory = categoryService.findById(categoryId);
+			obProduct.setCategoryId(categoryId);
+			if(parentCategory != null){
+				obProduct.setCategoryMiddleId(parentCategory.getParentId());
+				Category parentCategory1 = categoryService.findById(parentCategory.getParentId());
+				if(parentCategory1 != null){
+					obProduct.setCategoryBigId(parentCategory1.getParentId());
+				}
+			}
+		}
+		if(categoryLevel == 5){
+			//产品类别
+			Category parentCategory = categoryService.findById(categoryId);
+			obProduct.setProductCategoryId(categoryId); //产品类别id
+			if(parentCategory != null){
+				obProduct.setCategoryId(parentCategory.getParentId());//小类
+				Category parentCategory1 = categoryService.findById(parentCategory.getParentId());
+				if(parentCategory1 != null){
+					obProduct.setCategoryMiddleId(parentCategory1.getParentId());//中类
+					Category parentCategory2 = categoryService.findById(parentCategory1.getParentId());
+					if(parentCategory1 != null){
+						obProduct.setCategoryBigId(parentCategory2.getParentId());//大类
+					}
+				}
+			}
+		}
+		return obProduct;
 	}
 
 
