@@ -845,7 +845,16 @@ public class PurchaseManageController {
         if (StringUtils.isNotBlank(purchaseDep.getCityId())){
             Area area1 = areaServiceI.listById(purchaseDep.getCityId());
             model.addAttribute("area1", area1);
-          }
+        }
+        //人员信息
+        User user = new User();
+        Orgnization orgnization = new Orgnization();
+        orgnization.setId(purchaseDep.getOrgId());
+        user.setOrg(orgnization);
+        List<User> users = userServiceI.queryByList(user);
+        if(users != null && users.size() > 0){
+            model.addAttribute("users", users);
+        }
         initPurchaseType("PURCHASE_QUA_CERT",model);
         initPurchaseLevel(model);
         return "ses/oms/purchase_dep/show";

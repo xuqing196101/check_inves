@@ -590,7 +590,7 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
         FlowDefine define = flowDefineMapper.get(flowDefineId);
-        if(define != null && define.getStep() >= count){
+        if(define != null && !"ZZZJPS".equals(define.getCode()) && define.getStep() >= count){
             //根据采购方式获取当前所有的环节
             FlowDefine fd = new FlowDefine();
             fd.setPurchaseTypeId(project.getPurchaseType());
