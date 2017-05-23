@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.*;
 import ses.model.bms.RoleUser;
@@ -64,6 +66,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     private ExpertEngModifyMapper expertEngModifyMapper;
     @Autowired
     private ExpertAuditFileModifyMapper expertAuditFileModifyMapper;
+    
+    @Autowired
+    private FileUploadMapper fileUploadMapper;
     /**
      * 
      * @see synchro.inner.read.expert.InnerExpertService#readNewExpertInfo(java.io.File)
@@ -96,6 +101,22 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                            }
                        }
                    }
+                   
+                   if(expert.getAttchList().size()>0){
+                   	for(UploadFile uf:expert.getAttchList()){
+        				   UploadFile ufile = fileUploadMapper.queryById(uf.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+        				   if(ufile==null){
+        					   uf.setTableName("T_SES_EMS_EXPERT_ATTACHMENT");
+        	    			   fileUploadMapper.saveFile(uf);
+        				   }else{
+        					   uf.setTableName("T_SES_EMS_EXPERT_ATTACHMENT");
+        	    			   fileUploadMapper.updateFileById(uf);
+        				   }
+            			   
+            		   }
+                   }
+                   
+                   
                    saveUser(expert.getUser());
                    saveExpert(expert);
                    saveCategory(expert, expert.getExpertCategory());
@@ -138,6 +159,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                             }
                         }
                     }
+                    
                     updateUser(expert.getUser());
                     updateExpert(expert);
                     updateCategory(expert, expert.getExpertCategory());

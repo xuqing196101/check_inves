@@ -216,10 +216,10 @@
 						<tr>
 							<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 							<th class="info w50">序号</th>
-							<th class="info">回复内容</th>
-							<th class="info">发布时间</th>
-							<th class="info">发表人</th>
-							<th class="info">所属帖子名称</th>
+							<th class="info" width="25%">回复内容</th>
+							<th class="info" width="15%">发布时间</th>
+							<th class="info" width="15%">发表人</th>
+							<th class="info" width="15%">所属帖子名称</th>
 							<th class="info">所属回复内容</th>
 						</tr>
 					</thead>
@@ -234,7 +234,7 @@
 							<td class="tc pointer" onclick="view('${reply.id}')">
 								<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />
 							</td>
-							<td class="tc pointer" onclick="view('${reply.id}')">${reply.user.relName}</td>
+							<td class="tl pointer" onclick="view('${reply.id}')">${reply.user.relName}</td>
 							<c:set value="${reply.post.name}" var="postContent"></c:set>
 							<c:set value="${fn:length(postContent)}" var="length"></c:set>
 							<c:if test="${length>16}">

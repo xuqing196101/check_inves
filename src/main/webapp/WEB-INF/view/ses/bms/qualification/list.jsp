@@ -96,7 +96,7 @@
 					  <th class="info w50">序号</th>
 					  <th class="info">资质名称</th>
 					</tr>
-				 <thead>
+				 </thead>
 				 <tbody>
 				   <c:forEach items="${list.list}" var="qualification" varStatus="vs">
 				     <tr>

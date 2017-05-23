@@ -418,10 +418,10 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info">竞价标题</th>
-		  <th class="info">竞价项目编号</th>
-		  <th class="info">报价开始时间</th>
-		  <th class="info">报价截止时间</th>
+		  <th class="info" width="22%">竞价标题</th>
+		  <th class="info" width="18%">竞价项目编号</th>
+		  <th class="info" width="15%">报价开始时间</th>
+		  <th class="info" width="15%">报价截止时间</th>
 		  <th class="info">状态</th>
 		</tr>
 		</thead>
@@ -432,10 +432,10 @@
 			  <td class="tl">
 			  	<a href="javascript:;" onclick="findIssueInfo('${obProject.obProjectList[0].id}',${ obProject.obProjectList[0].status },'${obProject.remark}')">${ obProject.obProjectList[0].name }</a>
 			  </td>
-			  <td class="tc">${ obProject.obProjectList[0].projectNumber }</td>
+			  <td class="tl">${ obProject.obProjectList[0].projectNumber }</td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].quoteEndTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-			  <td class="tc" id=${ obProject.obProjectList[0].id }>
+			  <td class="tl" id=${ obProject.obProjectList[0].id }>
 			  	<!-- 竞价未开始 -->
 			  	<c:if test="${ obProject.obProjectList[0].status == 1 && obProject.remark == '0' }">
 			  		竞价未开始

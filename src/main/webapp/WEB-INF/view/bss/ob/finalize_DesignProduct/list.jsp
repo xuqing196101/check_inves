@@ -435,10 +435,10 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info" width="30%">产品名称</th>
-		  <th class="info">产品代码</th>
-		  <th class="info">产品目录（末节点）</th>
-		  <th class="info">产品状态</th>
+		  <th class="info" width="33%">产品名称</th>
+		  <th class="info" width="17%">产品代码</th>
+		  <th class="info" width="20%">产品目录（末节点）</th>
+		  <th class="info" width="10%">产品状态</th>
 		  <th class="info">合格供应商数量</th>
 		</tr>
 		</thead>
@@ -453,17 +453,19 @@
 			  </a>
 		  </td>
 		  <td>${product.code}</td>
-		  <td class="tc" title = "${product.pointsName }" width="30%">${product.smallPoints.name }</td>
+		  <td class="tl" title = "${product.pointsName }">${product.smallPoints.name }</td>
 		  <td class="tc" id = "${product.id }">
 		  	<c:if test="${product.status == 1}">暂存</c:if>
 		  	<c:if test="${product.status == 2}">已发布</c:if>
 		  	<c:if test="${product.status == 3}">已撤回</c:if>
 		  </td>
-		  <td class="tc"><a href = "${pageContext.request.contextPath}/product/supplier.html?smallPointsId=${product.smallPointsId }">
-		  	<c:forEach items="${numlist }" var="num">
-		  		<c:if test="${num.smallPointsId == product.smallPointsId }">${num.nCount }</c:if>
-		  	</c:forEach>
-		  </a></td>
+		  <td class="tc">
+		  	<a href = "${pageContext.request.contextPath}/product/supplier.html?smallPointsId=${product.smallPointsId }">
+		  		<c:forEach items="${numlist }" var="num">
+		  			<c:if test="${num.smallPointsId == product.smallPointsId }">${num.nCount }</c:if>
+		  		</c:forEach>
+		 	</a>
+		  </td>
 		</tr>
 		</c:forEach>
 		

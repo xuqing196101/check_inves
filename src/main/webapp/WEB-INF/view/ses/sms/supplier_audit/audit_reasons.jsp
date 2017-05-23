@@ -288,7 +288,7 @@
              <h2 class="count_flow"><i>1</i>问题汇总</h2>
           </c:if>
           
-          <ul class="ul_list count_flow">
+          <div class="ul_list count_flow">
 
             <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
             <table class="table table-bordered table-condensed table-hover">
@@ -296,9 +296,9 @@
                <tr>
                	 <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
                  <th class="info w50">序号</th>
-                 <th class="info" >审批类型</th>
-                 <th class="info">审批字段名字</th>
-                 <th class="info">审批内容</th>
+                 <th class="info" width="15%">审批类型</th>
+                 <th class="info" width="15%">审批字段名字</th>
+                 <th class="info" width="20%">审批内容</th>
                  <th class="info">不通过理由</th>
                </tr>
              </thead>
@@ -322,11 +322,11 @@
                      <c:if test="${reasons.auditType eq 'contract_page'}">品目合同</c:if>
                      <c:if test="${reasons.auditType eq 'download_page'}">申请表</c:if>
                    </td>
-                   <td class="tl pl20 hand" title="${reasons.auditFieldName }">
+                   <td class="tl hand" title="${reasons.auditFieldName }">
                      <c:if test="${fn:length (reasons.auditFieldName) > 12}">${fn:substring(reasons.auditFieldName,0,12)}...</c:if>
               		   <c:if test="${fn:length(reasons.auditFieldName) <= 12}">${reasons.auditFieldName}</c:if>
                    </td>
-                   <td class="tl pl20 hand" title="${reasons.auditContent}">
+                   <td class="tl hand" title="${reasons.auditContent}">
                    	 <c:if test="${fn:length (reasons.auditContent) > 20}">${fn:substring(reasons.auditContent,0,20)}...</c:if>
               		   <c:if test="${fn:length(reasons.auditContent) <= 20}">${reasons.auditContent}</c:if>
                    </td>
@@ -337,10 +337,7 @@
                  </tr>
                </c:forEach>
             </table>
-            <div class="col-md-12 add_regist tc">
-	           <a class="btn"  type="button" onclick="lastStep();">上一步</a>
-	         </div>
-          </ul>
+          </div>
 	        <%-- <c:if test="${supplierStatus == 5}">
 		        <!-- <h2 class="count_flow"><i></i>上传考察表报告</h2> -->
 			      <ul class="ul_list">
@@ -354,7 +351,8 @@
 		          </li>
 	          </ul>
 	        </c:if> --%>
-	        <div class="col-md-12 add_regist tc">
+	        <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
+	         <a class="btn"  type="button" onclick="lastStep();">上一步</a>
 	          <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
 	            <input name="supplierId" value="${supplierId}" type="hidden">
 	            <input name="status" id="status" type="hidden">

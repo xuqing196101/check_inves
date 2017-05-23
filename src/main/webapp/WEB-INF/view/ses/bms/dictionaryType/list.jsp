@@ -186,7 +186,7 @@
 									onclick="selectAll()" />
 								</th>
 								<th class="info w50">序号</th>
-								<th class="info">类型编号</th>
+								<th class="info" width="45%">类型编号</th>
 								<th class="info">类型名称</th>
 							</tr>
 						</thead>
@@ -201,7 +201,7 @@
 
 								<td class="tc pointer">${dt.code}</td>
 
-								<td class="tc pointer">${dt.name}</td>
+								<td class="tl pointer">${dt.name}</td>
 
 							</tr>
 						</c:forEach>

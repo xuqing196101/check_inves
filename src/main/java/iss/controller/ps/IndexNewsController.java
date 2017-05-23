@@ -14,8 +14,6 @@ import iss.service.ps.IndexNewsService;
 import iss.service.ps.SearchService;
 
 import java.awt.AlphaComposite;
-//import java.awt.Color;
-//import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -31,8 +29,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-//import java.net.URLDecoder;
-//import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,29 +51,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageInfo;
-
-//import bss.model.pms.PurchaseRequired;
-import common.constant.Constant;
-import common.model.UploadFile;
-//import common.service.DownloadService;
-import common.service.UploadService;
-import common.utils.CommonStringUtil;
-import common.utils.JdcgResult;
-import common.utils.RequestTool;
-import common.utils.UploadUtil;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertBlackList;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierBlacklist;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.ems.ExpertBlackListService;
 import ses.service.ems.ExpertService;
+import ses.service.sms.SupplierBlacklistService;
 import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import synchro.util.SpringBeanUtil;
+
+import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
+import common.utils.CommonStringUtil;
+import common.utils.JdcgResult;
+import common.utils.RequestTool;
+import common.utils.UploadUtil;
 
 
 /*
@@ -114,6 +112,11 @@ public class IndexNewsController extends BaseSupplierController{
 	
 	@Autowired
 	private SearchService searchService;
+	
+	@Autowired
+	private SupplierBlacklistService supplierBlacklistService;
+	@Autowired
+	private ExpertBlackListService expertBlackListService;
 	
 	/**
 	 * 
@@ -834,6 +837,15 @@ public class IndexNewsController extends BaseSupplierController{
 ////				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
 ////			}
 //		}
+		
+		// 供应商黑名单列表
+	    List<SupplierBlacklist> supplierBlackList = supplierBlacklistService.getIndexSupplierBlacklist();
+	    // 专家黑名单列表
+	    List<ExpertBlackList> expertBlackList = expertBlackListService.getIndexExpertBlackList();
+	    
+	    indexMapper.put("supplierBlackList", supplierBlackList);
+	    indexMapper.put("expertBlackList", expertBlackList);
+		
 		//request.getSession().setAttribute("key", Constant.TENDER_SYS_KEY);
 		model.addAttribute("indexMapper", indexMapper);
 //		model.addAttribute("isIndex", "true");
@@ -843,6 +855,55 @@ public class IndexNewsController extends BaseSupplierController{
 		
 		return "iss/ps/index/index";
 	};
+	
+	/**
+	 * 供应商黑名单列表
+	 * @param request
+	 * @param model
+	 * @param supplierBlacklist
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value = "supplierBlackList")
+	public String supplierBlackList(HttpServletRequest request, Model model, SupplierBlacklist supplierBlacklist, Integer page) {
+		String supplierName = supplierBlacklist.getSupplierName();
+		List<SupplierBlacklist> listSupplierBlacklists = supplierBlacklistService.findSupplierBlacklist(supplierBlacklist, page == null ? 1 : page);
+		model.addAttribute("listSupplierBlacklists", new PageInfo<SupplierBlacklist>(listSupplierBlacklists));
+		model.addAttribute("supplierName", supplierName);
+		if (supplierBlacklist.getStartTime() != null) {
+			model.addAttribute("startTime", new SimpleDateFormat("yyyy-MM-dd").format(supplierBlacklist.getStartTime()));
+		}
+		if (supplierBlacklist.getEndTime() != null) {
+			model.addAttribute("endTime", new SimpleDateFormat("yyyy-MM-dd").format(supplierBlacklist.getEndTime()));
+		}
+		return "iss/ps/index/supplierBlackList";
+	}
+	
+	/**
+	 * 专家黑名单列表
+	 * @param request
+	 * @param model
+	 * @param page
+	 * @param expert
+	 * @return
+	 */
+	@RequestMapping("/expertBlackList")
+	public String expertBlackList(HttpServletRequest request,Model model,Integer page,ExpertBlackList expert){
+		List<ExpertBlackList> expertList = expertBlackListService.findAll(expert,page==null?1:page);
+		request.setAttribute("result", new PageInfo<ExpertBlackList>(expertList));
+		model.addAttribute("expertList", expertList);
+		//所有专家
+		List<Expert> expertName = expertBlackListService.findExpertList();
+		model.addAttribute("expertName", expertName);
+		//回显
+		String relName = expert.getRelName();
+		String punishDate = expert.getPunishDate();
+		Integer punisType = expert.getPunishType();
+		request.setAttribute("relName", relName);
+		request.setAttribute("punishDate", punishDate);
+		request.setAttribute("punisType", punisType);
+		return "iss/ps/index/expertBlackList";
+	}
 	
 	private BigDecimal getcount(String str) {
 	  // 获取当前年份、月份、日期  

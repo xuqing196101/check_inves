@@ -18,7 +18,6 @@ import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 
-import bss.controller.sstps.StatisticalController;
 import common.utils.DateUtils;
 
 /**
@@ -171,7 +170,7 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	@Override
 	public List<Expert> findExpertAll(Expert expert, Integer page) {
 		//过滤掉黑名单那中的专家
-		List<ExpertBlackList> expertBlackList = mapper.findList(new ExpertBlackList());
+		List<ExpertBlackList> expertBlackList = mapper.findListByStatus(new ExpertBlackList());
 		List<String> list = new ArrayList<String>();
 		if(expertBlackList != null && expertBlackList.size()>0){
 			for(int i=0;i<expertBlackList.size();i++){
@@ -270,6 +269,12 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	@Override
 	public Integer yzsc(String id) {
 		return mapper.yzsc(id);
+	}
+
+	@Override
+	public List<ExpertBlackList> getIndexExpertBlackList() {
+		PageHelper.startPage(0, 5);
+		return mapper.findList(null);
 	}
 
 }

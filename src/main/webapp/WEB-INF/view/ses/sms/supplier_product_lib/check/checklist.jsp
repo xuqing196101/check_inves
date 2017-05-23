@@ -245,22 +245,19 @@
   </script>
   <body>
 	<!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="${pageContext.request.contextPath}/product_lib/findAllWaitCheck.html">产品库管理</a></li></li>
-		   </ul>
+    <div class="margin-top-10 breadcrumbs ">
+	    <div class="container">
+			<ul class="breadcrumb margin-left-0">
+				<li><a href="javascript:void(0)"> 首页</a></li><li><a href="${pageContext.request.contextPath}/product_lib/findAllWaitCheck.html">产品库管理</a></li></li>
+			</ul>
 		<div class="clear"></div>
-	  </div>
-   </div>
+		</div>
+    </div>
    <div class="container">
 	   <div class="headline-v2">
    			<h2>供应商商品审核</h2>
 	   </div>
-
-   
-   <!-- 查询 -->
-
+     <!-- 查询 -->
      <div class="search_detail">
 	 	<form action="" name="queryForm" id="queryForm" method="post">
 			 <ul class="demand_list">
@@ -287,9 +284,7 @@
 	 <div class="clear"></div>
     </div>
 
-   
-<!-- 表格开始-->
-
+	<!-- 表格开始-->
     <div class="col-md-12 pl20 mt10">
    		<button class="btn btn-windows check" type="button" onclick="checked()">审核</button>
 		<button class="btn btn-windows check" type="button" onclick="checkedBatch()">批量审核</button>

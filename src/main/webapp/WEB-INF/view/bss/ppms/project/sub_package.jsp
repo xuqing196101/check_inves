@@ -6,7 +6,6 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
     <script type="text/javascript">
       var clickState = 0;
       $(function() {

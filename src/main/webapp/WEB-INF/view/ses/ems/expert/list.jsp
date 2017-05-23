@@ -344,13 +344,14 @@
 						<tr>
 							<!-- <th class="info w50">选择</th> -->
 							<th class="info w50">序号</th>
-							<th class="info">专家姓名</th>
+							<th class="info" width="25%">专家姓名</th>
 							<!-- <th class="info">用户名</th> -->
-							<th class="info w50">性别</th>
-							<th class="info">类别</th>
-							<th class="info">毕业院校及专业</th>
-							<th class="info">手机</th>
-							<th class="info">积分</th>
+
+							<th class="info" width="8%">性别</th>
+							<th class="info" width="20%">类别</th>
+							<th class="info" width="15%">毕业院校及专业</th>
+							<th class="info" width="15%">手机</th>
+							<!-- <th class="info">积分</th> -->
 							<th class="info">审核状态</th>
 						</tr>
 					</thead>
@@ -370,10 +371,10 @@
 							</td>
 							<%-- <td class="tl pl20" >${e.loginName}</td> --%>
 							<td class="tc w50" >${e.gender}</td>
-							<td class="tl pl20" >${e.expertsTypeId}</td>
-							<td class="tl pl20" >${e.graduateSchool }</td>
-							<td class="tl pl20" >${e.mobile }</td>
-							<td class="tc"  class="tc">${e.honestyScore }</td>
+							<td class="tl" >${e.expertsTypeId}</td>
+							<td class="tl" >${e.graduateSchool }</td>
+							<td class="tc" >${e.mobile }</td>
+							<%-- <td class="tc"  class="tc">${e.honestyScore }</td> --%>
 							<td  class="tc" id="${e.id}">
 								<c:if test="${e.status eq '4' and e.isProvisional eq '1'}">
 									<span class="label rounded-2x label-dark">临时</span>

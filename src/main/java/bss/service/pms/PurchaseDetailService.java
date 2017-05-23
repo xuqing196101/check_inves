@@ -319,4 +319,6 @@ public interface PurchaseDetailService {
      * @return
      */
     List<PurchaseDetail> getdetailAllByUserId(HashMap<String, Object> hashMap);
+    
+    List<PurchaseDetail> getUniques(String unique, String org);
 }

@@ -279,7 +279,7 @@
      </div>
      
 <!-- 表格开始 -->
-     <div class="col-md-12 pl20 mt10">
+     <div class="col-md-12 pl20 mt10 col-sm-12 col-xs-12">
 		<button class="btn btn-windows add" onclick="createOBRules()">创建竞价规则</button>
 		<button class="btn" onclick="setDefault()">设为默认</button>
 		<button class="btn btn-windows edit" onclick="edit()">修改 </button>
@@ -291,17 +291,17 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info" width="20%">竞价规则名称</th>
-		  <th class="info">间隔工作日<br>（天）</th>
-		  <th class="info">竞价开始<br>时间</th>
-		  <th class="info">第一轮报价时间<br>（分钟）</th>
-		  <th class="info">第二轮报价时间<br>（分钟）</th>
-		  <th class="info">第一轮确认时间<br>（分钟）</th>
-		  <th class="info">第二轮确认时间<br>（分钟）</th>
-		  <th class="info">最少报价<br>供应商数</th>
-		  <th class="info">有效供应商报价<br>平均值的百分比</th>
-		  <th class="info">项目<br>数量</th>
-		  <th class="info">是否为<br>默认</th>
+		  <th class="info" width="15%">竞价规则名称</th>
+		  <th class="info">间隔工作日<br/>（天）</th>
+		  <th class="info">竞价开始<br/>时间</th>
+		  <th class="info">第一轮报价时间<br/>（分钟）</th>
+		  <th class="info">第二轮报价时间<br/>（分钟）</th>
+		  <th class="info">第一轮确认时间<br/>（分钟）</th>
+		  <th class="info">第二轮确认时间<br/>（分钟）</th>
+		  <th class="info">最少报价<br/>供应商数</th>
+		  <th class="info">有效供应商报价<br/>平均值的百分比</th>
+		  <th class="info">项目<br/>数量</th>
+		  <th class="info">是否为<br/>默认</th>
 		</tr>
 		</thead>
 		<tbody>

@@ -365,4 +365,10 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 		return list;
 	}
 
+    @Override
+    public List<PurchaseDetail> getUniques(String unique, String org) {
+        
+        return purchaseDetailMapper.getByUinuqeIds(unique, org);
+    }
+
 }

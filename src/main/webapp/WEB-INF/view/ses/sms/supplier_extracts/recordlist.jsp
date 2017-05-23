@@ -201,24 +201,24 @@
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
-						<th class="info">采购项目名称</th>
-						<th class="info">采购机构</th>
+						<th class="info" width="25%">采购项目名称</th>
+						<th class="info" width="20%">采购机构</th>
 						<th class="info">抽取时间</th>
-						<th class="info">抽取地点</th>
+						<th class="info" width="20%">抽取地点</th>
 						<th class="info">抽取方式</th>
 					</tr>
 				</thead>
 				<c:forEach items="${extractslist.list}" var="extract" varStatus="vs">
 					<tr class="cursor" onclick="show('${extract.id}');">
 						<td class="tc">${(vs.index+1)+(extractslist.pageNum-1)*(extractslist.pageSize)}</td>
-						<td class="tl pl20">${extract.projectName}</td>
-						<td class="tl pl20">${extract.procurementDepId}</td>
+						<td class="tl">${extract.projectName}</td>
+						<td class="tl">${extract.procurementDepId}</td>
 						<td class="tc">
 						<fmt:formatDate
 								value="${extract.extractionTime}"
 								pattern="yyyy年MM月dd日  " />
 								</td>
-						<td class="tl pl20">${extract.extractionSites}</td>
+						<td class="tl">${extract.extractionSites}</td>
 						<td class="tc"><c:if test="${extract.extractTheWay==1}">
 				             	             人工抽取
 					        </c:if> <c:if test="${extract.extractTheWay==2}">

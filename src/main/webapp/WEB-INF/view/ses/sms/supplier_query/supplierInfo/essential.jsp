@@ -204,7 +204,7 @@
 										<td>
 											<u:show delete="false" showId="house_show_${vs.index+1}" businessId="${supplierAddress.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
 										</td>
-									</tr> 
+									</tr>
 								</tbody>
 							</table>
 						</c:forEach>
@@ -370,7 +370,7 @@
 											</c:if>
 											<%-- <fmt:formatDate value="${suppliers.businessEndDate}" pattern="yyyy-MM-dd" /> </td> --%>
 									</tr>
-									
+
 									<tr>
 										<td class="bggrey" width="20%">营业执照：</td>
 										<td class="hand" width="30%">

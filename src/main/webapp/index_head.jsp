@@ -623,10 +623,11 @@ function importAdd(){
 	  
 		<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
 		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled login_tab">
+		 <ul class="list-unstyled login_tab" style="padding: 0px 0px;">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-36" data-toggle="tab">诚信记录</a></li>
-		  <li class="fl"><a aria-expanded="false" href="#tab-37" data-toggle="tab"> 军队处罚公告</a></li>
-		  <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab"> 地方处罚公告</a></li>
+		  <li class="fl"><a aria-expanded="false" href="#tab-37" data-toggle="tab">军队处罚公告</a></li>
+		  <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab">地方处罚公告</a></li>
+		  <li class="fl"><a aria-expanded="false" href="#tab-gyshmd" data-toggle="tab">供应商黑名单</a></li>
 		 </ul>
 		</h2>
 		<div class="tab-content buyer_list">
@@ -692,6 +693,27 @@ function importAdd(){
 	        </c:forEach>   
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=117">更多>></a>
+        </div>
+        <div id="tab-gyshmd" class="categories tab-pane fade">
+          <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
+          	<c:forEach items="${indexMapper['supplierBlackList']}" var="sl">
+               	<c:set value="${sl.supplierName}" var="name"></c:set>
+				<c:set value="${fn:length(name)}" var="length"></c:set>
+				<c:set value="${sl.supplierName}" var="shortName"/>
+				<c:if test="${length>25}">
+					<c:set value="${fn:substring(name,0,25)}..." var="shortName"/>
+				</c:if>
+				<li>
+					<%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
+					<a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
+					<span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
+						<c:if test="${sl.punishType == 0}">警告</c:if>
+						<c:if test="${sl.punishType == 1}">不得参与采购活动</c:if>
+					</span>
+				</li>
+	        </c:forEach>   
+          </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/supplierBlackList.html">更多>></a>
         </div>
 		</div>
 	  </div>
@@ -787,6 +809,7 @@ function importAdd(){
 		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-39" data-toggle="tab">诚信记录</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-40" data-toggle="tab">处罚公告</a></li>
+		  <li class="fl"><a aria-expanded="false" href="#tab-zjhmd" data-toggle="tab">专家黑名单</a></li>
 		 </ul>
 		</h2>
 		<div class="tab-content  buyer_list">
@@ -809,6 +832,28 @@ function importAdd(){
 	        </c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=115">更多>></a>
+        </div>
+        <div id="tab-zjhmd" class="categories tab-pane fade">
+            <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
+	          	<c:forEach items="${indexMapper['expertBlackList']}" var="sl">
+	               	<c:set value="${sl.relName}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:set value="${sl.relName}" var="shortName"/>
+					<c:if test="${length>25}">
+						<c:set value="${fn:substring(name,0,25)}..." var="shortName"/>
+					</c:if>
+					<li>
+						<%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
+						<a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
+						<span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
+							<c:if test="${sl.punishType == 1}">警告</c:if>
+							<c:if test="${sl.punishType == 2}">严重警告</c:if>
+							<c:if test="${sl.punishType == 3}">取消资格</c:if>
+						</span>
+					</li>
+		        </c:forEach>   
+	          </ul>
+        	<a class="tab_more" href="${pageContext.request.contextPath}/index/expertBlackList.html">更多>></a>
         </div>
 		</div>
 	  </div>

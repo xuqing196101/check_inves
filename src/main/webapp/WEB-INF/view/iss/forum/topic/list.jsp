@@ -282,10 +282,10 @@
 						<tr class="info">
 							<th class="w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 							<th class="w50">序号</th>
-							<th>主题名称</th>
-							<th>主题介绍</th>
-							<th>创建人</th>
-							<th>所属版块</th>
+							<th width="15%">主题名称</th>
+							<th width="25%">主题介绍</th>
+							<th width="15%">创建人</th>
+							<th width="15%">所属版块</th>
 							<th>帖子数</th>
 							<th>回复数</th>
 						</tr>
@@ -304,8 +304,8 @@
 							<c:if test="${length<=30}">
 								<td onclick="view('${topic.id}')" class="pointer" title="${content }">${content } </td>
 							</c:if>
-							<td class="tc pointer" onclick="view('${topic.id}')">${topic.user.relName}</td>
-							<td class="tc pointer" onclick="view('${topic.id}')">${topic.park.name}</td>
+							<td class="tl pointer" onclick="view('${topic.id}')">${topic.user.relName}</td>
+							<td class="tl pointer" onclick="view('${topic.id}')">${topic.park.name}</td>
 							<td class="tc pointer" onclick="view('${topic.id}')">${topic.postcount }</td>
 							<td class="tc pointer" onclick="view('${topic.id}')">${topic.replycount }</td>
 						</tr>

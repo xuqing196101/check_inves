@@ -23,7 +23,8 @@
 	      }(),
 	      jump : function(e, first) { //触发分页后的回调
         	if(!first){ //一定要加此判断，否则初始时会无限刷新
-	      		location.href = "${pageContext.request.contextPath }/product/index_list.do?page=" + e.curr;
+        		query(e.curr);
+	      		//location.href = "${pageContext.request.contextPath }/product/index_list.do?page=" + e.curr;
 	        }
 	      }
 	    });
@@ -183,11 +184,11 @@
 	}
 	
 	//查询
-	function query(){
+	function query(current){
 		var name = $("#name").val();
 		var code = $("#code").val();
 		var smallPointsId = $("#categorieId4").val();
-		window.location.href="${pageContext.request.contextPath }/product/index_list.html?name="+name+"&&code="+code+"&&smallPointsId="+smallPointsId;
+		window.location.href="${pageContext.request.contextPath }/product/index_list.html?name="+name+"&&code="+code+"&&smallPointsId="+smallPointsId+"&page="+current;
 	}
 	
 	//重置
@@ -224,7 +225,7 @@
 					</div>
 		        	</div>
 		        	<div class="inline-block ml5">
-		        		<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
+		        		<button type="button" onclick="query(1)" class="btn btn-u-light-grey">查询</button>
 		        		<button type="button" onclick="res()" class="btn btn-u-light-grey">重置</button>
 		      		</div>
 		      </div>

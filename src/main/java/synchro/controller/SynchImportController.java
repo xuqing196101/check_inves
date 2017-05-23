@@ -319,7 +319,7 @@ public class SynchImportController {
 						innerExpertService.readNewExpertInfo(f);
 					}
 					if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
-						attachService.importExpertAttach(f);
+//						attachService.importExpertAttach(f);
 					}
 					if (f.isDirectory()) {
 						if (f.getName().equals(Constant.ATTCH_FILE_EXPERT)) {

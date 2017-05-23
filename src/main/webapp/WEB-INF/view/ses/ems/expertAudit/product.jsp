@@ -328,7 +328,7 @@
 		<input value="服务" type="hidden" name="tab-3">
 
 		<div class="container container_box">
-			<div class=" content height-350">
+			<div class=" content">
 				<div class="col-md-12 tab-v2 job-content">
 					<ul class="flow_step">
 						<li onclick="jump('basicInfo')">

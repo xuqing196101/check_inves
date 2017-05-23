@@ -204,9 +204,9 @@ $(function(){
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
-						<th class="info">采购项目名称</th>
-						<th class="info">抽取时间</th>
-						<th class="info">抽取地点</th>
+						<th class="info" width="35%">采购项目名称</th>
+						<th class="info" width="15%">抽取时间</th>
+						<th class="info" width="30%">抽取地点</th>
 						<th class="info">抽取方式</th>
 					</tr>
 				</thead>

@@ -495,8 +495,11 @@
             <li id="li_id_3" class="">
               <a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">场所信息</a>
             </li>
-            <li id="li_id_3" class="">
+            <li id="li_id_4" class="">
               <a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">关联采购管理部门信息</a>
+            </li>
+            <li id="li_id_5" class="">
+              <a aria-expanded="false" href="#tab-5" data-toggle="tab" class="f18">采购人员信息</a>
             </li>
           </ul>
           <form action="${pageContext.request.contextPath}/purchaseManage/updatePurchaseDep.do" method="post" id="formID">
@@ -803,6 +806,31 @@
                               <td class="tc w50">${obj.name}</td>
                              </tr>
                           </c:forEach>
+                          </c:if>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="tab-pane fade height-200" id="tab-5">
+                <div class="headline-v2">
+                  <h2>采购人员列表</h2>
+                </div>
+                <div class="content table_box">
+                  <table class="table table-bordered table-condensed table-hover table-striped" id="tab1">
+                    <thead>
+                      <tr>
+                        <th class="info w50">序号</th>
+                        <th class="info f13">姓名</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <c:if test="${users != null}">
+	                        <c:forEach items="${users}" var="obj" varStatus="vs">
+	                             <tr style="cursor: pointer;">
+	                              <td class="tc w50">${(vs.index+1)}</td>
+	                              <td class="tc w50">${obj.relName}</td>
+	                             </tr>
+	                          </c:forEach>
                           </c:if>
                     </tbody>
                   </table>

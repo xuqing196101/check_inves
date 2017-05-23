@@ -87,6 +87,11 @@
 		if(id.length==1){
 		      if(e_status!="手动移除"){
 			   window.location.href="${pageContext.request.contextPath}/expertBlacklist/editBlacklist.html?id="+id;
+		      }else{
+		    	  layer.msg("不能修改手动移除!", {
+						offset : '300px',
+					});
+		    	  return;
 		      }
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset:'200px'});
@@ -240,34 +245,34 @@
                     <tr>
 					   <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
 					   <th class="info w50">序号</th>
-					   <th class="info">姓名</th>
-					   <th class="info">入库时间</th>
-					   <th class="info">处罚日期</th>
-					   <th class="info">处罚时限</th>
-					   <th class="info">处罚方式</th>
+					   <th class="info" width="15%">姓名</th>
+					   <th class="info" width="10%">入库时间</th>
+					   <th class="info" width="10%">处罚日期</th>
+					   <th class="info" width="8%">处罚时限</th>
+					   <th class="info" width="10%">处罚方式</th>
 					   <th class="info">状态</th>
-					   <th class="info">处罚理由</th>
+					   <th class="info" width="30%">处罚理由</th>
                      </tr>
                 </thead>
                 <c:forEach items="${expertList }" var="e" varStatus="vs">
 	               <tr>
 	                   <td class="tc w30"><input type="checkbox" value="${e.id }" name="chkItem" onclick="check()" id="${e.id}"></td>
 					   <td class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
-					   <td class="tc">${e.relName }</td>
+					   <td class="tl">${e.relName }</td>
 					   <td class="tc"><fmt:formatDate type='date' value='${e.storageTime }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 					   <td class="tc"><fmt:formatDate type='date' value='${e.dateOfPunishment }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 					   <td class="tc">${e.punishDate }</td>
-					   <td class="tc">
+					   <td class="tl">
 					       <c:if test="${e.punishType == 1}">警告</c:if>
 						   <c:if test="${e.punishType == 2}">严重警告</c:if>
 						   <c:if test="${e.punishType == 3}">取消资格</c:if>
 					   </td>
-					   <td class="tc">
+					   <td class="tl">
 			               <c:if test="${e.status == 0}">处罚中</c:if>
 			               <c:if test="${e.status == 1}">过期</c:if>
 			               <c:if test="${e.status == 2}">手动移除</c:if>
                        </td>
-	                   <td class="tl pl20">${e.reason }</td>
+	                   <td class="tl">${e.reason }</td>
 	               </tr>
                 </c:forEach>
                 </table>

@@ -1357,7 +1357,7 @@
 										value="2">无
 									</option>
 									<option <c:if test="${expert.isReferenceLftter eq '1'}">selected="selected"</c:if>
-										value="1">是
+										value="1">有
 									</option>
 								</select>
 							</div>

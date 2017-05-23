@@ -303,15 +303,15 @@
 					<thead>
 						<tr>
 							<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-							<th class="info">序号</th>
-							<th class="info">帖子名称</th>
-							<th class="info">置顶</th>
-							<th class="info">锁定</th>
-							<th class="info">发布时间</th>
-							<th class="info">最后回复时间</th>
-							<th class="info">最后回复人</th>
+							<th class="info w50">序号</th>
+							<th class="info" width="17%">帖子名称</th>
+							<th class="info" width="5%">置顶</th>
+							<th class="info" width="5%">锁定</th>
+							<th class="info" width="15%">发布时间</th>
+							<th class="info" width="15%">最后回复时间</th>
+							<th class="info"  width="10%">最后回复人</th>
 							<th class="info">回复数</th>
-							<th class="info">创建人</th>
+							<th class="info" width="10%">创建人</th>
 							<th class="info">操作</th>
 						</tr>
 					</thead>

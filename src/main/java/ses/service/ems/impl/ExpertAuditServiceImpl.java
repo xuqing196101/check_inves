@@ -310,13 +310,13 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	public void addFileInfo(String businessId, String fileTypeId){
 		ExpertAuditFileModify expertAuditFileModify = new ExpertAuditFileModify();
 		Expert expert;
-		expert = expertService.selectByPrimaryKey(businessId);
+		/*expert = expertService.selectByPrimaryKey(businessId);
 		if(expert !=null && expert.getStatus().equals("3")){
 			expertAuditFileModify.setExpertId(businessId);
 			expertAuditFileModify.setTypeId(fileTypeId);
 			fileModifyMapper.insert(expertAuditFileModify);
 		}
-		
+		*/
 		String expertId = expertTitleMapper.findExpertIdById(businessId);
 		if(expertId !=null){
 			expert = expertService.selectByPrimaryKey(expertId);

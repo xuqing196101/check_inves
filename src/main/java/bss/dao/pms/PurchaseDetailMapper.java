@@ -352,5 +352,5 @@ public interface PurchaseDetailMapper {
      */
     List<PurchaseDetail> getdetailAllByUserId(HashMap<String, Object> hashMap);
     
-    
+    List<PurchaseDetail> getByUinuqeIds(@Param("uniqueId")String uniqueId, @Param("organization")String organization);
 }

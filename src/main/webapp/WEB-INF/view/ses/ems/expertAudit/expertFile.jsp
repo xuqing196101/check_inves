@@ -143,21 +143,21 @@
 					</ul>
 					
 					<ul class="ul_list hand count_flow">
-						<li class="col-md-6 p0 mt10 mb25">
+						<li class="col-md-6 col-sm-6 col-xs-12 p0 mt10 mb25">
 							<span <c:if test="${fn:contains(fileModify,'14')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="application" onclick="reason(this);">军队评审专家承诺书：</span>
 								<up:show showId="14" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="14" />
-								<a style="visibility:hidden" id="application1"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								<c:if test="${fn:contains(conditionStr,'军队评审专家承诺书')}"> <img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
+								<a style="visibility:hidden" id="application1"><img class="pl10" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								<c:if test="${fn:contains(conditionStr,'军队评审专家承诺书')}"> <img class="pl10" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
 						</li>
-						<li class="col-md-6 p0 mt10 mb25">
+						<li class="col-md-6 col-sm-6 col-xs-12  p0 mt10 mb25">
 							<span <c:if test="${fn:contains(fileModify,'13')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="contract" onclick="reason(this);">军队评审专家入库申请表：</span>
 								<up:show showId="13"  delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="13" />
-								<a style="visibility:hidden" id="contract1"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								<c:if test="${fn:contains(conditionStr,'军队评审专家入库申请表')}"> <img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
+								<a style="visibility:hidden" id="contract1"><img class="pl10" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								<c:if test="${fn:contains(conditionStr,'军队评审专家入库申请表')}"> <img class="pl10" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
 						</li>
 					</ul>
 				</div>
-				<div class="col-md-12 add_regist tc">
+				<div class="col-md-12 col-sm-12 col-xs-12  add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>
 				</div>

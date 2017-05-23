@@ -2,24 +2,26 @@ package bss.controller.ob;
 
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.springframework.ui.Model;
-
-import bss.dao.ob.OBResultsInfoMapper;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.OBResultsInfo;
 import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBResultSubtabulationService;
 import bss.util.BigDecimalUtils;
-
+/**
+ * 
+ * Description: 获取竞价结果信息
+ * 
+ * @author YangHongLiang
+ * @version 2017-5-22
+ * @since JDK1.7
+ */
 public class BiddingResultCommon {
-
+    
 	/**
-	 * 获取竞价结果信息
-	 * 
 	 * @Title: getBiddingResultInfo
-	 * @Description:
+	 * @Description:获取竞价结果信息
 	 * @author Easong
 	 * @param @param model
 	 * @param @param projectId 设定文件
@@ -47,7 +49,8 @@ public class BiddingResultCommon {
 		if (list != null && list.size() > 0) {
 			for (OBProjectResult obProjectResult : list) {
 				if (obProjectResult != null) {
-					if (obProjectResult.getStatus() == 1 || obProjectResult.getStatus() == 2) {
+					if (obProjectResult.getStatus() == 1
+							|| obProjectResult.getStatus() == 2) {
 						obProjectResult.setStatus(1);
 						List<OBProjectResult> prolist = oBProjectResultService
 								.selProportion(projectId,

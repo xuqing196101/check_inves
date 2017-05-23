@@ -3,8 +3,11 @@ package ses.service.sms;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
@@ -380,4 +383,17 @@ public interface SupplierService {
     * @return List<Supplier>
     */
 	 List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier, String categoryIds, Integer page);
+	 
+	 /**
+	  * 
+	  *〈根据社会信用代码和手机号查询临时供应商〉
+	  *〈详细描述〉
+	  * @author FengTian
+	  * @param map
+	  * @return
+	  */
+	 List<Supplier> viewCreditCodeMobile(HashMap<String, Object> map);
+	 
+	 
+	   List<Supplier> getCreditCode(String creditCode,Integer isProvisional);
 }

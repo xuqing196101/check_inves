@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 
 import ses.model.bms.User;
 
+import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Project;
 
@@ -212,5 +213,24 @@ public interface ProjectService {
     HashMap<String, Object> getFlowDefine(String purchaseType, String id);
     
     JSONObject getNext(String projectId, String flowDefineId);
+    
+    /**
+     * 
+     *〈添加明细〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param list
+     * @param projectId
+     */
+    void addProejctDetail(List<PurchaseDetail> list, String projectId, Integer position);
+    
+    /**
+     * 
+     *〈已经添加为项目明细的采购明细的状态改成不显示〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param list
+     */
+    void updateDetailStatus(List<PurchaseDetail> list);
     
 }

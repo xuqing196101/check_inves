@@ -135,6 +135,15 @@
 		$("#contractName").val('${pqinfo.contract.name}');
 		$("#contractCode").val('${pqinfo.contract.code}');
 	});
+	
+	function openUpload(id,report){
+	  if(report == "0"){
+	    layer.msg("没有上传质检报告");
+	  }else{
+	    var a = "2";
+	    openViewDIv(id, report, a, null, null);
+	  }
+	}
   </script>
   <body>
 	<!--面包屑导航开始-->
@@ -201,11 +210,11 @@
 		<tr>
 		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">合同名称</th>
-		  <th class="info">合同编号</th>
-		  <th class="info">供应商名称</th>
-		  <th class="info">验收类型</th>
-		  <th class="info">质检结论</th>
+		  <th class="info" width="25%">合同名称</th>
+		  <th class="info" width="20%">合同编号</th>
+		  <th class="info" width="20%">供应商名称</th>
+		  <th class="info" width="10%">验收类型</th>
+		  <th class="info" width="8%">质检结论</th>
 		  <th class="info">查看</th>
 		</tr>
 		</thead>
@@ -216,18 +225,19 @@
 				
 				<td class="tc pointer" onclick="show('${PqInfo.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				
-				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.name}</td>
+				<td class="tl pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.name}</td>
 				
-				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.code}</td>
+				<td class="tl pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.code}</td>
 			
-				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.supplier.supplierName}</td>
+				<td class="tl pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.supplier.supplierName}</td>
 			
 				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.type}</td>
 				
 				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.conclusion}</td>
 			
 				<td class="tc pointer">
-				<button type="button" onclick="openViewDIv('${PqInfo.id}','${PqInfo.report}','2','artice_show','this')" class="btn">质检报告</button>
+				  <button type="button" onclick="openUpload('${PqInfo.id}','${PqInfo.report}')" class="btn">质检报告</button>
+				  <%-- <button type="button" onclick="openViewDIv('${PqInfo.id}','${typeId}','2','artice_show','this')" class="btn">质检报告</button> --%>
 				</td>
    				
 			</tr>

@@ -2,6 +2,7 @@ package ses.dao.sms;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -490,4 +491,18 @@ public interface SupplierMapper {
      * @return void
      */
     void updateById (String id);
+    
+    /**
+     * 
+     *〈根据社会信用代码和手机号查询临时供应商〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    List<Supplier> selectBySupplier(HashMap<String, Object> map);
+    
+    
+    List<Supplier> getCreditCode(@Param("creditCode")String creditCode,@Param("isProvisional")Integer isProvisional);
+    
 }

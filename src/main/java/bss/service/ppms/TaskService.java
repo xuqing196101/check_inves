@@ -3,6 +3,7 @@ package bss.service.ppms;
 import java.util.HashMap;
 import java.util.List;
 
+import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.Task;
 
 /**
@@ -100,4 +101,14 @@ public interface TaskService {
 	 Task selectByCollectId(String id);
 	 
 	 List<Task> listBycollect(HashMap<String, Object> map);
+	 
+	 /**
+	  * 
+	  *〈如果采购明细状态都不显示了，将这条任务也不显示〉
+	  *〈详细描述〉
+	  * @author FengTian
+	  * @param list
+	  * @param taskId
+	  */
+	 void updateDetail(List<PurchaseDetail> list, String taskId);
 }

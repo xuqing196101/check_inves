@@ -349,7 +349,7 @@
 		<!--面包屑导航开始-->
 		<c:if test="${typeclassId!=null && typeclassId !=''  }">
 			<div class="margin-top-10 breadcrumbs ">
-				<div class="container container_box">
+				<div class="container">
 					<ul class="breadcrumb margin-left-0">
 						<li>
                             <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>

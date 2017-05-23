@@ -634,9 +634,9 @@ var authType='${authType}';
 		<th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
 		  <th class="info" width="38%">供应商名称</th>
-		  <th class="info">证书有效期至</th>
-		  <th class="info">产品目录（末节点）</th>
-		  <th class="info">资质证书内容</th>
+		  <th class="info" width="15%">证书有效期至</th>
+		  <th class="info" width="20%">产品目录（末节点）</th>
+		  <th class="info" width="10%">资质证书内容</th>
 		  <th class="info">是否过期</th>
 		</tr>
 		</thead>
@@ -648,7 +648,7 @@ var authType='${authType}';
 				<td class="tc">
 					<fmt:formatDate value="${supplier.certValidPeriod }" pattern="yyyy-MM-dd" /> 
 				</td>
-				<td class="tc" title = "${supplier.pointsName }">${supplier.smallPoints.name }</td>
+				<td class="tl" title = "${supplier.pointsName }">${supplier.smallPoints.name }</td>
 				<td class="tc">
 					<ul id="post_attach_show_disFileId" class="uploadFiles">
 						<li class="file_view">

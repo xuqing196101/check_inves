@@ -84,12 +84,12 @@
       }
       
       //获取采购明细
-      function chooce(projectId, id, name, projectNumber) {
+      function chooce(taskId, id, name, projectNumber) {
         var name = $("#name").val();
         var projectNumber = $("#projectNumber").val();
         var orgId = $("#orgId").val();
-        window.location.href = "${pageContext.request.contextPath}/project/addDetails.html?projectId=" + projectId + "&id=" + id + "&name=" + name + "&projectNumber=" + projectNumber+"&orgId="+orgId;
-      };
+        window.location.href = "${pageContext.request.contextPath}/project/addDetails.html?taskId=" + taskId + "&id=" + id + "&name=" + name + "&projectNumber=" + projectNumber+"&orgId="+orgId;
+      }
 
       
       var flag = true;
@@ -272,19 +272,13 @@
                     <tr class="pointer">
                       <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
                       <td class="pl20">${obj.name}</td>
-                      <td class="pl20">
-                      	<c:forEach items="${list2 }" var="list">
-                      		<c:if test="${obj.orgId eq list.id}">
-                        		${list.name }
-                      		</c:if>
-                      	</c:forEach>
-                      </td>
+                      <td class="pl20">${obj.orgId}</td>
                       <td class="pl20">${obj.documentNumber}</td>
                       <td class="tc">
                         <fmt:formatDate value="${obj.giveTime }" />
                       </td>
                       <td class="tc w30">
-                        <button type="button" class="btn" onclick="chooce('${obj.id }','${id}','${name }','${projectNumber }')">选择</button>
+                        <button type="button" class="btn" onclick="chooce('${obj.id }','${id}','${name}','${projectNumber}')">选择</button>
                       </td>
                     </tr>
                   </c:forEach>

@@ -84,7 +84,7 @@ import common.utils.JdcgResult;
 @RequestMapping("/ob_project")
 public class OBProjectController {
 	Logger log = LoggerFactory.getLogger(OBProjectController.class);
-
+	
 	@Autowired
 	private OBProjectServer OBProjectServer;
 	
@@ -140,14 +140,14 @@ public class OBProjectController {
 			Integer page,
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,
 			String name) {
-		if(page == null){
-			page=1;
-		}
-		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
-		int orgId=2;
-		if (user != null) {
+		    if(page == null){
+			  page=1;
+		    }
+		    //定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+		    int orgId=2;
+		    if (user != null) {
 			//竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			if("0".equals(user.getTypeName())){
+		    if("0".equals(user.getTypeName())){
 				orgId=0;
 			//获取需求部门用户id 集合	
 			List<String> userList=userService.findListByTypeId(user.getTypeName());
@@ -157,19 +157,18 @@ public class OBProjectController {
 			map.put("startTime", startTime);
 			if(name != null){
 				name=name.trim();
-			}
+			 }
 			map.put("name", name);
-			//map.put("uid", user.getId());
 			map.put("createId", userList);
 			List<OBProject> list = OBProjectServer.List(map);
 			PageInfo<OBProject> info = new PageInfo<OBProject>(list);
 			model.addAttribute("info", info);
 			model.addAttribute("name",name);
 			model.addAttribute("startTime",startTime);
-			}
-		}
-		model.addAttribute("orgId",orgId);
-		return "bss/ob/biddingInformation/list";
+			  }
+		   }
+		   model.addAttribute("orgId",orgId);
+		   return "bss/ob/biddingInformation/list";
 	}
 	/***
 	 * 获取供应商信息跳转 list页
@@ -187,6 +186,7 @@ public class OBProjectController {
 			HttpServletRequest request,@RequestParam(defaultValue="1") Integer page,String obProjectId,
 			String name,String status,String result) {
 		if (user != null) {
+			//根据参数获取供应商信息
 			List<OBSupplier> lists = OBProjectServer.supplierList(page,obProjectId,
 					 name, status,result);
 			model.addAttribute("obProjectId",obProjectId);
@@ -199,6 +199,7 @@ public class OBProjectController {
 					if(id != null){
 						HashMap<String, Object> map = new HashMap<String, Object>();
 						map.put("id", id);
+						//组合采购目录数据
 						List<Category> clist = categoryService.findCategoryByParentNode(map);
 						String str = "";
 						for (Category category : clist) {
@@ -301,12 +302,12 @@ public class OBProjectController {
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String addBidding(@CurrentUser User user, Model model,
 			HttpServletRequest request) {
-	//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
-		int authType=2;
+	    //定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+	   int authType=2;
        if(user!=null){
     	 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-		if("0".equals(user.getTypeName())){
-			authType=0;
+		 if("0".equals(user.getTypeName())){
+			 authType=0;
 		// 获取当前 默认规则
 		 OBRule obRule = obRuleService.selectByStatus();
 		 if(obRule==null){
@@ -324,7 +325,7 @@ public class OBProjectController {
 		model.addAttribute("sysKey", Constant.OB_PROJECT_SYS_KEY);
 		// 标识 竞价附件
 		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
-		  }
+		   }
 		}
 		model.addAttribute("type", 2);
 		model.addAttribute("authType", authType);
@@ -593,7 +594,6 @@ public class OBProjectController {
 	public ResponseEntity<byte[]> download(HttpServletRequest request,
 			String filename) throws IOException {
 		String path = PathUtil.getWebRoot() + "excel/定型产品.xls";
-		;
 		File file = new File(path);
 		HttpHeaders headers = new HttpHeaders();
 		String fileName = new String("定型产品模板.xls".getBytes("UTF-8"),
@@ -661,7 +661,7 @@ public class OBProjectController {
 					 }else{
 						 jdcg.setSum(getlist.size()+"");
 					 }
-			}
+			        }
 				 }
 			 return jdcg;
 	}
@@ -828,9 +828,9 @@ public class OBProjectController {
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String delOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
 		if(user !=null){
-			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			if("0".equals(user.getTypeName())){
-			if(StringUtils.isNotBlank(obProjectId)){
+		  //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+		 if("0".equals(user.getTypeName())){
+		  if(StringUtils.isNotBlank(obProjectId)){
 			Map<String,Object> map=new HashMap<String, Object>();	
 			map.put("id", obProjectId);
 			map.put("userId", user.getId());
@@ -909,7 +909,6 @@ public class OBProjectController {
 	public String uploadFile(@CurrentUser User user, String planDepName,
 			MultipartFile file, String type, String planName, String planNo,
 			Model model) throws Exception {
-		
 		String fileName = file.getOriginalFilename();
 		if (!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
 			return "1";

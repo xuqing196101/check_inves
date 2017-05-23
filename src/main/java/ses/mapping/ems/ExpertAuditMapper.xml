@@ -265,11 +265,18 @@
     	T_SES_EMS_EXPERT_AUDIT
     where 
     	EXPERT_ID = #{expertId}
+    	and IS_DELETED = 0
     <if test="type !=null ">
     	and TYPE = #{type}
     </if>
+    <if test="suggestType !=null ">
+        and SUGGEST_TYPE = #{suggestType}
+    </if>
     <if test="auditField != '' and auditField != null">
     	and AUDIT_FIELD = #{auditField}
+    </if>
+    <if test="auditFieldId != '' and auditFieldId != null">
+        and AUDIT_FIELD_ID = #{auditFieldId}
     </if>
   </select>
   

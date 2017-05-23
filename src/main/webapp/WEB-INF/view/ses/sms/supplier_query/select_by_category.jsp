@@ -274,15 +274,15 @@
 		<div class="container content height-350">
 			<div class="row">
 				<!-- Begin Content -->
-				<div class="col-md-12" style="min-height:400px;">
-					<div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="col-md-3 col-sm-4 col-xs-12" id="show_tree_div">
 						<div class="tag-box tag-box-v3">
 							<!-- <input type="text" id="key"  value="" class="empty w220" /><br/> -->
 							<ul id="treeDemo" class="ztree s_ztree" />
 						</div>
 					</div>
 					<!-- 右侧内容开始-->
-					<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
+					<div class="tag-box tag-box-v4 col-md-9 col-sm-8 col-xs-12" id="show_content_div">
  
             <iframe  frameborder="0" name="open_main" id="open_main" scrolling="auto" marginheight="0"  onLoad="iFrameHeight()" width="100%"  src=""></iframe>
 						<%-- <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/selectByCategory.html" method="post">

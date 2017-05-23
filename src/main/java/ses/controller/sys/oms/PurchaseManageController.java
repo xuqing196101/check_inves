@@ -511,18 +511,18 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("purchaseUnitList")
-    public String purchaseUnitList(Model model,@ModelAttribute PageInfo page,@ModelAttribute PurchaseDep purchaseDep){
-        PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
+    public String purchaseUnitList(Model model,Integer page,@ModelAttribute PurchaseDep purchaseDep){
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("typeName", 1);
         if(purchaseDep != null && StringUtils.isNotBlank(purchaseDep.getName())){
             map.put("name", purchaseDep.getName());
         }
+        if(page==null){
+            page = 1;
+        }
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
         List<PurchaseDep> purchaseDepList = purchaseOrgnizationServiceI.findPurchaseDepList(map);
-        model.addAttribute("purchaseDepList",purchaseDepList);
-
-        //分页标签
-        model.addAttribute("list",new PageInfo<PurchaseDep>(purchaseDepList));
+        model.addAttribute("info",new PageInfo<PurchaseDep>(purchaseDepList));
         model.addAttribute("purchaseDep", purchaseDep);
         return "ses/oms/purchase_dep/list";
     }
@@ -845,7 +845,16 @@ public class PurchaseManageController {
         if (StringUtils.isNotBlank(purchaseDep.getCityId())){
             Area area1 = areaServiceI.listById(purchaseDep.getCityId());
             model.addAttribute("area1", area1);
-          }
+        }
+        //人员信息
+        User user = new User();
+        Orgnization orgnization = new Orgnization();
+        orgnization.setId(purchaseDep.getOrgId());
+        user.setOrg(orgnization);
+        List<User> users = userServiceI.queryByList(user);
+        if(users != null && users.size() > 0){
+            model.addAttribute("users", users);
+        }
         initPurchaseType("PURCHASE_QUA_CERT",model);
         initPurchaseLevel(model);
         return "ses/oms/purchase_dep/show";
