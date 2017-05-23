@@ -260,10 +260,10 @@
 		<tr>
 		  <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="allId" alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">诚信内容</th>
-		  <th class="info">状态</th>
-		  <th class="info">创建时间</th>
-		  <th class="info">修改时间</th>
+		  <th class="info" width="40%">诚信内容</th>
+		  <th class="info" width="10%">状态</th>
+		  <th class="info" width="15%">创建时间</th>
+		  <th class="info" width="15%">修改时间</th>
 		  <th class="info">分值</th>
 		</tr>
 		</thead>
@@ -271,7 +271,7 @@
 		<tr style="cursor: pointer; ">
 		  <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id }"></td>
 		  <td  class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
-		  <td class="tc" title="${e.badBehavior}">
+		  <td class="tl" title="${e.badBehavior}">
 		     <c:if test="${fn:length(e.badBehavior)>5}">${fn:substring(e.badBehavior, 0, 5)}...</c:if> 
 		     <c:if test="${fn:length(e.badBehavior)<6}">${e.badBehavior}</c:if>
 		  </td>

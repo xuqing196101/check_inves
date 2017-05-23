@@ -248,9 +248,9 @@
 								<tr>
 									<th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
 									<th class="info w50">序号</th>
-									<th class="info">审批类型</th>
-									<th class="info">审批字段</th>
-									<th class="info">审批内容</th>
+									<th class="info" width="15%">审批类型</th>
+									<th class="info" width="15%">审批字段</th>
+									<th class="info" width="30%">审批内容</th>
 									<th class="info">不通过理由</th>
 								</tr>
 							</thead>
@@ -287,18 +287,13 @@
 								<textarea  id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80" ></textarea>
 							</div>
 						</li>
-						
-						<div class="col-md-12 add_regist tc">
-							<a class="btn" type="button" onclick="lastStep();">上一步</a>
-						</div>
 					</ul>
 					
 					<div class="col-md-12 add_regist tc">
+					<a class="btn" type="button" onclick="lastStep();">上一步</a>
 						<form id="form_shenhe" action="${pageContext.request.contextPath}/expertAudit/updateStatus.html" >
 							<input name="id" value="${expertId}" type="hidden">
 							<input type="hidden" name="status" id="status" />
-								<div class="col-md-12 add_regist tc">
-									<div class="col-md-12 add_regist tc">
 										<c:if test="${status eq '0'}">
 											<input class="btn btn-windows git" type="button" onclick="shenhe(1);" value="初审通过 " id="tongguo">
 											<input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不通过" id="butongguo">
@@ -313,8 +308,6 @@
 											<input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查通过 " id="tongguo">
 											<input class="btn btn-windows edit" type="button" onclick="shenhe(8);" value="复查不通过" id="tichu">
 										</c:if>
-									</div>
-								</div>
 							</form>
 						</div>
 					</div>

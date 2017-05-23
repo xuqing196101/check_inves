@@ -147,8 +147,8 @@
         <tr>
           <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
           <th class="info w50">序号</th>
-          <th class="info">项目名称</th>
-          <th class="info">项目编号</th>
+          <th class="info" width="45%">项目名称</th>
+          <th class="info" width="25%">项目编号</th>
           <th class="info">采购方式</th>
         </tr>
         </thead>

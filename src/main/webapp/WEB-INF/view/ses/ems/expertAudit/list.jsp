@@ -326,27 +326,27 @@
 						<tr>
 							<th class="info w50">选择</th>
 							<th class="info w50">序号</th>
-							<th class="info">专家姓名</th>
-							<th class="info">性别</th>
-							<th class="info">手机号</th>
+							<th class="info" width="12%">专家姓名</th>
+							<th class="info" width="6%">性别</th>
+							<th class="info" width="10%">手机号</th>
 							<!-- <th class="info">类型</th> -->
-							<th class="info">毕业院校及专业</th>
-							<th class="info">工作单位</th>
-							<th class="info">审核时间</th>
-							<th class="info w70">发布</th>
-							<th class="info w100">审核状态</th>
+							<th class="info" width="17%">毕业院校及专业</th>
+							<th class="info" width="17%">工作单位</th>
+							<th class="info" width="10%">审核时间</th>
+							<th class="info">发布</th>
+							<th class="info">审核状态</th>
 						</tr>
 					</thead>
 					<c:forEach items="${expertList}" var="expert" varStatus="vs">
 						<tr>
 							<td class="tc w40"><input name="id" type="checkbox" value="${expert.id}"></td>
 							<td class="tc w50" onclick="shenhe('${expert.id}');">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
-							<td class="tc" onclick="shenhe('${expert.id}');">${expert.relName}</td>
+							<td class="tl" onclick="shenhe('${expert.id}');">${expert.relName}</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">${expert.sex}</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">${expert.mobile}</td>
-							<%--<td class="tl pl20">${expert.expertsTypeId}</td>--%>
-							<td class="tl pl20" onclick="shenhe('${expert.id}');">${expert.graduateSchool }</td>
-							<td class="tl pl20" onclick="shenhe('${expert.id}');">${expert.workUnit }</td>
+							<%--<td class="tl">${expert.expertsTypeId}</td>--%>
+							<td class="tl" onclick="shenhe('${expert.id}');">${expert.graduateSchool }</td>
+							<td class="tl" onclick="shenhe('${expert.id}');">${expert.workUnit }</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">
 								<fmt:formatDate type='date' value='${expert.auditAt }' dateStyle="default" pattern="yyyy-MM-dd" />
 							</td>
