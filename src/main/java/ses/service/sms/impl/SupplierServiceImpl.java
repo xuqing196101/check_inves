@@ -1257,4 +1257,10 @@ public class SupplierServiceImpl implements SupplierService {
         return supplierMapper.selectBySupplier(map);
     }
 
+	@Override
+	public List<Supplier> getCreditCode(String creditCode, Integer isProvisional) {
+		// TODO Auto-generated method stub
+		return supplierMapper.getCreditCode(creditCode, isProvisional);
+	}
+
 }

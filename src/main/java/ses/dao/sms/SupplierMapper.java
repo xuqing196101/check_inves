@@ -501,4 +501,8 @@ public interface SupplierMapper {
      * @return
      */
     List<Supplier> selectBySupplier(HashMap<String, Object> map);
+    
+    
+    List<Supplier> getCreditCode(@Param("creditCode")String creditCode,@Param("isProvisional")Integer isProvisional);
+    
 }

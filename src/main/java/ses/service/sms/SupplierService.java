@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
 import ses.model.bms.Category;
@@ -391,4 +393,7 @@ public interface SupplierService {
 	  * @return
 	  */
 	 List<Supplier> viewCreditCodeMobile(HashMap<String, Object> map);
+	 
+	 
+	   List<Supplier> getCreditCode(String creditCode,Integer isProvisional);
 }

@@ -1821,9 +1821,20 @@
     <if test="creditCode != null and creditCode != ''">
       AND CREDIT_CODE = #{creditCode}
     </if>
-    <if test="armyBuinessTelephone != null and armyBuinessTelephone !=''">
-      AND ARMY_BUSINESS_TELEPHONE = #{armyBuinessTelephone}
+    <if test="isProvisional != null and isProvisional !=''">
+      AND IS_PROVISIONAL = #{isProvisional}
     </if>
+    
 	</select>
+	
+	
+	<select id="getCreditCode" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER
+		WHERE CREDIT_CODE = #{creditCode} 
+		and IS_DELETED=0 and    IS_PROVISIONAL=#{isProvisional}
+	</select>
+	
 	
 </mapper>

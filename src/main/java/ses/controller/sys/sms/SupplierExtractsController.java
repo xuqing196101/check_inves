@@ -1112,6 +1112,7 @@ public class SupplierExtractsController extends BaseController {
             HashMap<String, Object> map = new HashMap<>();
             map.put("armyBuinessTelephone", supplier.getArmyBuinessTelephone());
             map.put("creditCode", supplier.getCreditCode());
+            map.put("isProvisional",1);
             List<Supplier> tempList = supplierService.viewCreditCodeMobile(map);
             if (supplier.getCreditCode().length() > 36) {
                 model.addAttribute("creditCodeError", "不能为空或是字符过长!");
