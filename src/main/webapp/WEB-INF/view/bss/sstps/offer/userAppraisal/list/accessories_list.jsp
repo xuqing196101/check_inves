@@ -193,13 +193,13 @@ $(document).ready(function() {
              <td class="tc"></td>
              <td class="tc" id="workWeightTotal0"></td>
              <td class="tr" ></td>
-             <td class="tc" id="workMoney0"></td>
+             <td class="tr" id="workMoney0"></td>
              <td class="tr" ></td>
              <td class="tc"></td>
              <td class="tc" id="workWeightTotalinput0"></td>
              <td class="tc"></td>
-             <td class="tc" id="workMoneyinput0"></td>
-             <td class="tc" id="Moneyinput0"></td>
+             <td class="tr" id="workMoneyinput0"></td>
+             <td class="tr" id="Moneyinput0"></td>
              <td></td>
              <td></td>
           </tr>
@@ -284,10 +284,10 @@ $(document).ready(function() {
 				   <tr id="totalRow">
               <td colspan="6" class="tc">总计：</td>
               <td colspan="3"></td>
-              <td class="tc" id="total"></td>
+              <td class="tr" id="total"></td>
               <td colspan="4"></td>
-              <td class="tc" id="total2"></td>
-              <td id="total3"></td>
+              <td class="tr" id="total2"></td>
+              <td class="tr" id="total3"></td>
               <td colspan="2"></td>
             </tr>
 			</table>

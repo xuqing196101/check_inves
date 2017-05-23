@@ -127,27 +127,27 @@ function offer(){
              <table class="table table-bordered table-condensed table-hover table-striped">
 						<thead>
 				  			<tr>
-				  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-				  				<th class="info">序号</th>
-				  				<th class="info">产品名称</th>
-				  				<th class="info">品牌商标</th>
-				  				<th class="info">规格型号</th>
-				  				<th class="info">采购数量</th>
-				  				<th class="info">计量单位</th>
+				  				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+				  				<th class="info w50">序号</th>
+				  				<th class="info" width="25%">产品名称</th>
+				  				<th class="info" width="20%">品牌商标</th>
+				  				<th class="info" width="20%">规格型号</th>
+				  				<th class="info" width="8%">采购数量</th>
+				  				<th class="info" width="8%">计量单位</th>
 				  				<th class="info">审核状态</th>
 	  						</tr>
 						</thead>
 				  		<c:forEach items="${list.list}" var="product" varStatus="vs">
 				  			<c:if test="${product.offer==1 }"> 
 				  			<tr>
-				  				<td class="tc w50" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
+				  				<td class="tc w30" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 				  				<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				  				<td class="tc w200">${product.name }</td>
-				  				<td class="tl w200">${product.contractRequired.brand }</td>
-				  				<td class="tl w200">${product.contractRequired.stand }</td>
-				  				<td class="tc w80">${product.contractRequired.purchaseCount }</td>
-				  				<td class="tc w80">${product.contractRequired.item }</td>
-				  				<td class="tc w50">
+				  				<td class="tc">${product.name }</td>
+				  				<td class="tl">${product.contractRequired.brand }</td>
+				  				<td class="tl">${product.contractRequired.stand }</td>
+				  				<td class="tc">${product.contractRequired.purchaseCount }</td>
+				  				<td class="tc">${product.contractRequired.item }</td>
+				  				<td class="tc">
 				  				<c:if test="${product.auditOffer == 0 }">
 				  					未审核
 				  				</c:if>

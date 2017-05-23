@@ -217,41 +217,32 @@
 	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
   </div>	
-   
- 
-       <div class="content table_box">
+  <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped pointer">
 		<thead>
 		<tr>
 		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">须知文档类型</th>
-		  <th class="info">须知文档名称</th>
-		  <th class="info">创建日期</th>
+		  <th class="info" width="15%">须知文档类型</th>
+		  <th class="info" width="35%">须知文档名称</th>
+		  <th class="info" width="20%">创建日期</th>
 		  <th class="info">修改日期</th>
 		</tr>
 		</thead>
 		<c:forEach items="${list.list}" var="noticeDocument" varStatus="vs">
 			<tr>
-				
 				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${noticeDocument.id}" /></td>
-				
 				<td class="tc " onclick="view('${noticeDocument.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				
-				<td class="tl pl20" onclick="view('${noticeDocument.id}')">
-					
+				<td class="tl" onclick="view('${noticeDocument.id}')">
 					<c:forEach items="${noticeType}" var="type">
        			      <c:if test="${type.id == noticeDocument.docType}"> 
        			        ${type.name}
        			      </c:if>
        			    </c:forEach>
 			    </td>
-				
-				<td class="tl pl20" onclick="view('${noticeDocument.id}')">${noticeDocument.name}</td>
-			
-				<td class="tc " onclick="view('${noticeDocument.id}')"><fmt:formatDate value='${noticeDocument.createdAt}' pattern="yyyy-MM-dd" /></td>
-			
-				<td class="tc " onclick="view('${noticeDocument.id}')"><fmt:formatDate value='${noticeDocument.updatedAt}' pattern="yyyy-MM-dd " /></td>
+				<td class="tl" onclick="view('${noticeDocument.id}')">${noticeDocument.name}</td>
+				<td class="tc" onclick="view('${noticeDocument.id}')"><fmt:formatDate value='${noticeDocument.createdAt}' pattern="yyyy-MM-dd" /></td>
+				<td class="tc" onclick="view('${noticeDocument.id}')"><fmt:formatDate value='${noticeDocument.updatedAt}' pattern="yyyy-MM-dd " /></td>
 			</tr>
 		</c:forEach>
         </table>

@@ -221,9 +221,9 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info">设置日期</th>
-		  <th class="info">创建人</th>
-		  <th class="info">创建时间</th>
+		  <th class="info" width="25%">设置日期</th>
+		  <th class="info" width="25%">创建人</th>
+		  <th class="info" width="25%">创建时间</th>
 		  <th class="info">类型</th>
 		</tr>
 		</thead>
@@ -232,7 +232,7 @@
 			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${ obspecialdate.id }" /></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tc"><fmt:formatDate value="${ obspecialdate.specialDate }" pattern="yyyy-MM-dd"/></td>
-			  <td class="tc">${ obspecialdate.createrName }</td>
+			  <td class="tl">${ obspecialdate.createrName }</td>
 			  <td class="tc"><fmt:formatDate value="${ obspecialdate.createdAt }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">
 				<c:if test="${ obspecialdate.dateType=='1' }">

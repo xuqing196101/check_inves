@@ -52,9 +52,9 @@
 					<thead>
 						<tr class="info">
 							<th class="w50 tc">序号</th>
-							<th class="w160 tc">专家姓名</th>
-							<th class="tc">得分</th>
-							<th class="tc">考试状态</th>
+							<th class="tc" width="25%">专家姓名</th>
+							<th class="tc" width="20%">得分</th>
+							<th class="tc" width="25%">考试状态</th>
 							<th class="tc">考试时间</th>
 						</tr>
 					</thead>
@@ -62,7 +62,7 @@
 						<c:forEach items="${list.list}" var="l" varStatus="vs">
 							<tr>
 								<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-								<td class="tc">${l.relName }</td>
+								<td class="tl">${l.relName }</td>
 								<td class="tc">${l.score }</td>
 								<td class="tc">${l.status }</td>
 								<td class="tc">${l.formatDate}</td>

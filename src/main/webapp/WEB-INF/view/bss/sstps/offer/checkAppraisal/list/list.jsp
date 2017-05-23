@@ -34,15 +34,11 @@
   
   <form action="${pageContext.request.contextPath}/offerProduct/userSaveCheck.html" method="post" enctype="multipart/form-data">
    
-	<div class="container">
-	 	<div class="headline-v2">
-	  		 <h2>装备（产品）技术资料概述</h2>
-	 	</div>
+	<div class="container container_box">
+	    <h2 class="list_title">装备（产品）技术资料概述</h2>
 	 	<input type="hidden" id="conId" value="${contractProduct.appraisalContract.id }" readonly>
 	 	<input type="hidden" id="proId" name="proId" class="w230 mb0" value="${contractProduct.id }" readonly>
 	 	<input type="hidden" id="id" name="id" class="w230 mb0" value="${productInfo.id }" readonly>
-	 	
-	 	<div class="container padding-left-25 padding-right-25 mt5">
 			<ul class="list-unstyled ul_list">
 			     <li class="col-md-6 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>产品名称：</span>
@@ -128,15 +124,10 @@
 				 	</tr>
 				 </tobody>
 			</table> --%>
-        </div>
-	 	
-	 	<div  class="col-md-12">
-	   		<div class="mt40 tc mb50">
+	   		<div class="mt20 tc w100p clear">
 			    <button class="btn" type="submit">下一步</button>
 			    <button class="btn btn-windows cancel" type="button" onclick="cancel()">取消</button>
 			</div>
-		</div>
-	
 	  </div>	
 	</form>	
   

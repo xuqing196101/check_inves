@@ -244,23 +244,23 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr>
-              <th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+              <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
               <th class="tnone"></th>
-              <th class="info">序号</th>
-              <th class="info">缓存名称</th>
-              <th class="info">缓存类型</th>
+              <th class="info w50">序号</th>
+              <th class="info" width="40%">缓存名称</th>
+              <th class="info" width="30%">缓存类型</th>
               <th class="info">有效时长</th>
             </tr>
           </thead>
           <c:forEach items="${info.list}" var="cache" varStatus="vs">
            	<tr>
 		        <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${cache.name},${cache.type}" /></td>
-           		<td class="tc" width="8%">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+           		<td class="tc">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 	          	<td class="tl">
 	          		<a href="javascript:;" onclick="detail('${cache.name}')">${cache.name}</a>
 	          	</td>
-	          	<td class="tc">${cache.type}</td>
-	          	<td class="tc" width="20%" id=${ cache.name }>
+	          	<td class="tl">${cache.type}</td>
+	          	<td class="tc" id=${ cache.name }>
 	          		<c:if test="${cache.time == -1}">
 	          			无
 	          		</c:if>

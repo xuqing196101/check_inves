@@ -23,7 +23,7 @@
   </sql>
   
   <!-- 查询所有专家黑名单及条件查询 -->
-  <select id="findList"   resultMap="BaseResultMap">
+  <select id="findList"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_BLACKLIST 
@@ -40,6 +40,27 @@
        </if> 
        ORDER BY CREATED_AT DESC 
   </select>
+  
+  <!-- 专家黑名单添加名称筛选 -->
+  <select id="findListByStatus"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_BLACKLIST 
+    where 
+    	 STATUS <![CDATA[ <> ]]> 2
+       <if test="relName != null and relName !=''">  
+              AND  REL_NAME like '%'|| #{relName} ||'%'
+       </if>  
+       <if test="punishType != null and punishType !=''">  
+              AND PUNISH_TYPE = #{punishType} 
+       </if> 
+       <if test="punishDate != null and punishDate !=''">  
+              AND PUNISH_DATE = #{punishDate}
+       </if> 
+       ORDER BY CREATED_AT DESC 
+  </select>
+  
+  
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 

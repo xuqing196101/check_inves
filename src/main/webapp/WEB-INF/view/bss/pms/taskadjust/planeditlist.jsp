@@ -131,7 +131,16 @@
     function resetQuery() {
 		$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
-    
+    function search(){
+		if($("#budget").val()!=""&&$("#budget").val().trim()!=""){
+			var exp = /^([1-9][\d]{0,7}|0)(\.[\d]{1,4})?$/;
+			 if(!exp.test($("#budget").val())){
+				 layer.alert("请输入正确预算金额"); 
+				 return false;
+			 }
+		}
+		$("#add_form").submit();
+	}
   </script>
   </head>
   
@@ -150,7 +159,6 @@
    <div class="headline-v2 fl">
       <h2>采购计划列表 </h2>
    </div> 
-   
     <h2 class="search_detail">
     	<form id="add_form" action="${pageContext.request.contextPath }/adjust/edit.html" class="mb0" method="post" >
 			<input type="hidden" name="page" id="page">
@@ -162,11 +170,11 @@
 				      </li>
 				   		<li>
 				    	<label class="fl">预算金额：</label><span>
-				  	   	   <input type="text" name="" value=""/>
+				  	   	   <input type="text" id="budget" name="budget" value="${inf.budget}"/>
 				    	</span>
 				      </li>
 			    </ul>
-	   	 		<input class="btn fl" type="submit" value="查询" /> 
+	   	 		<input class="btn fl" type="button" onclick="search()" value="查询" /> 
 				<input class="btn fl" type="button" value="重置" onclick="resetQuery()"  />
 				<div class="clear"></div>	
    		</form>
@@ -193,12 +201,12 @@
 			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50"   >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  
-			  <td class="tl pl20" widh="35%" onclick="view('${obj.id}')">${obj.fileName }</td>
+			  <td class="tl" onclick="view('${obj.id}')">${obj.fileName }</td>
 			
 			
-			  <td class="tr pr20 w140" onclick="view('${obj.id}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tr w140" onclick="view('${obj.id}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			    <td class="tc w120"  onclick="view('${obj.id}')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc w120"  onclick="view('${obj.id}')">
+			  <td class="tl w120"  onclick="view('${obj.id}')">
 			  
 			  <c:if test="${obj.status=='1' }">
 					   待审核设置

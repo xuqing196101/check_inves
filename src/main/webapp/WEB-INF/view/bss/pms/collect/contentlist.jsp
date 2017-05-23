@@ -76,40 +76,33 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
-		  <th class="info w50">选择</th>
+		  <th class="info w30">选择</th>
 		  <th class="info w50">序号</th>
 		  <th class="info">下达状态</th>
-		  <th class="info">采购计划名称</th>
-		  <th class="info">采购类别</th>
+		  <th class="info" width="45%">采购计划名称</th>
+		  <th class="info" width="25%">采购类别</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr class="pointer">
 			  <td class="tc w30"><input  type="radio" value="${obj.id }" name="chkItem"> <input type="hidden" value="${obj.goodsType}"> </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			    <td class="tl pl20"  >
+			    <td class="tc">
 			    <c:if test="${obj.status !=2}">
 			    	未下达
 			    </c:if>
 			      <c:if test="${obj.status ==2}">
 			    	已下达
 			    </c:if>
-			    
 			    </td>
-			    <td class="tl pl20"  >${obj.fileName }</td>
-			      <td class="tl pl20"  >
-			      
+			    <td class="tl"  >${obj.fileName }</td>
+			      <td class="tl"  >
 					    <c:forEach items="${mType }" var="mt">
 								<c:if test="${mt.id==obj.goodsType }"> ${mt.name} </c:if> 
-					    </c:forEach>
-								
-								
+					    </c:forEach>	
 			  </td>
 			</tr>
-	 
 		 </c:forEach>
-		 
-
       </table>
       
    </div>

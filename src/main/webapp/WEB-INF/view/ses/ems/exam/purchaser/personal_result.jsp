@@ -81,10 +81,10 @@
 					<thead>
 						<tr class="info">
 							<th class="w50">序号</th>
-							<th class="w160">采购人员姓名</th>
-							<th>考试编号</th>
-							<th class="w100">得分</th>
-							<th>考试状态</th>
+							<th width="20%">采购人员姓名</th>
+							<th width="20%">考试编号</th>
+							<th width="15%">得分</th>
+							<th width="20%">考试状态</th>
 							<th>考试时间</th>
 						</tr>
 					</thead>
@@ -92,8 +92,8 @@
 						<c:forEach items="${list.list}" var="l" varStatus="vs">
 							<tr>
 								<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-								<td class="tc">${l.relName }</td>
-								<td class="pl20">${l.code }</td>
+								<td class="tl">${l.relName }</td>
+								<td class="tc">${l.code }</td>
 								<td class="tc">${l.score }</td>
 								<td class="tc">${l.status }</td>
 								<td class="tc">${l.formatDate}</td>

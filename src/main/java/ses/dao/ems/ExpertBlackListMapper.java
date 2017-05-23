@@ -31,6 +31,19 @@ public interface ExpertBlackListMapper {
 	 * @return List<ExpertBlackList>
 	 */
 	List<ExpertBlackList> findList(ExpertBlackList expertBlackList);
+	
+	/**
+	 * 
+	 * Description: 专家黑名单添加名称筛选
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年5月22日 
+	 * @param  @param expertBlackList
+	 * @param  @return 
+	 * @return List<ExpertBlackList> 
+	 * @exception
+	 */
+	List<ExpertBlackList> findListByStatus(ExpertBlackList expertBlackList);
 	/**
 	 * @Title: insert
 	 * @author Xu Qing

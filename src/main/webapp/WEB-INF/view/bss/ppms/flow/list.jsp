@@ -180,9 +180,9 @@
 							onclick="selectAll()" />
 						</th>
 						<th class="info w50">序号</th>
-						<th class="info">流程名称</th>
-						<th class="info">流程编码</th>
-						<th class="info">实施步骤</th>
+						<th class="info" width="20%">流程名称</th>
+						<th class="info" width="15%">流程编码</th>
+						<th class="info" width="10%">实施步骤</th>
 						<th class="info">URL</th>
 					</tr>
 				</thead>
@@ -195,13 +195,13 @@
 
 						<td class="tc opinter" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 
-						<td class="tc opinter" >${fd.name}</td>
+						<td class="tl opinter" >${fd.name}</td>
 
 					    <td class="tc opinter" >${fd.code}</td>
 
 						<td class="tc opinter" >${fd.step}</td>
 						
-						<td class="tc opinter" >${fd.url}</td>
+						<td class="tl opinter" >${fd.url}</td>
 
 					</tr>
 				</c:forEach>

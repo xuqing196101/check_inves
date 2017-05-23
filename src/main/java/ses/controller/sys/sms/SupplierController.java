@@ -2295,6 +2295,7 @@ public class SupplierController extends BaseSupplierController {
             stock.setSupplierId(supplier.getId());
             supplier.setListSupplierAfterSaleDep(afterSaleDep);
         }
+        System.out.println(supplier.getWebsite());
 		model.addAttribute("currSupplier", supplier);
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);

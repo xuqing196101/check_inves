@@ -248,11 +248,11 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info" width="30%">竞价项目名称</th>
-		  <th class="info">竞价项目编号</th>
-		  <th class="info">竞价开始时间</th>
-		  <th class="info">中标供应商</th>
-		  <th class="info">报价供应商</th>
+		  <th class="info" width="20%">竞价项目名称</th>
+		  <th class="info" width="15%">竞价项目编号</th>
+		  <th class="info" width="15%">竞价开始时间</th>
+		  <th class="info" width="15%">中标供应商</th>
+		  <th class="info" width="15%">报价供应商</th>
 		  <th class="info">竞价状态</th>
 		</tr>
 		</thead>
@@ -263,7 +263,7 @@
 		  <td class="tl"><a onclick="releaseHref('${list.id}')" style="cursor:pointer "/> ${list.name}</a></td>
 		  <td class="tl">${list.projectNumber}</td>
 		  <td class="tc"><fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-		  <td class="tc">
+		  <td class="tl">
 		  <c:if test="${list.closingSupplier==0}">
 		   0
 		  </c:if>
@@ -275,7 +275,7 @@
 		  </c:if>
 		  </td>
 		  
-		  <td class="tc">
+		  <td class="tl">
 		  <c:if test="${list.status==3 || list.status==4 }">
 		  	<c:if test="${list.offerSupplierNumber==0}">0</c:if>
 		  	<c:if test="${list.offerSupplierNumber==null}">0</c:if>
@@ -293,7 +293,7 @@
 		  </c:if>
 		  
 		  </td>
-		  <td class="tc" id="${list.id}status">
+		  <td class="tl" id="${list.id}status">
 		    <c:if test="${list.status==0}">
 		              暂存
 		    </c:if>

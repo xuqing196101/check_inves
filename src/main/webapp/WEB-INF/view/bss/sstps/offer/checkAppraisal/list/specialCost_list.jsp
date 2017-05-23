@@ -109,7 +109,7 @@ $(document).ready(function() {
 	
 	<div class="container margin-top-5">
 	 	<form action="${pageContext.request.contextPath}/specialCost/userUpdateCheck.html?productId=${proId }" method="post" enctype="multipart/form-data">
-	 	<div class="container padding-left-25 padding-right-25">
+	 	<div class="col-md-12 col-xs-12 col-sm-12">
 			
 			<table id="table1" class="table table-bordered table-condensed">
 					<tr>
@@ -141,31 +141,31 @@ $(document).ready(function() {
 	                </c:if>
 	                <c:if test="${sc.parentId!='0'}">
 					<tr>
-						<td><input type="hidden" value="${sc.id }" name="listSpec[${vs.index }].id"  />${vs.index+1 }</td>
-						<td class="tc">${value }</td>
-						<td class="tc">${sc.productDetal }</td>
-						<td class="tc">${sc.name }</td>
-						<td class="tc">${sc.norm }</td>
+						<td class="tc"><input type="hidden" value="${sc.id }" name="listSpec[${vs.index }].id"  />${vs.index+1 }</td>
+						<td class="tl">${value }</td>
+						<td class="tl">${sc.productDetal }</td>
+						<td class="tl">${sc.name }</td>
+						<td class="tl">${sc.norm }</td>
 						<td class="tc">${sc.measuringUnit }</td>
 						<td class="tc">${sc.amount }</td>
-						<td class="tc">${sc.price }</td>
-						<td class="tc">${sc.money }</td>
+						<td class="tr">${sc.price }</td>
+						<td class="tr">${sc.money }</td>
 						<td class="tc">${sc.proportionAmout }</td>
-						<td class="tc">${sc.proportionPrice }</td>
-						<td class="tc">${sc.approvedMoney }</td>
-						<td class="tc">${sc.subtractMoney }</td>
+						<td class="tr">${sc.proportionPrice }</td>
+						<td class="tr">${sc.approvedMoney }</td>
+						<td class="tr">${sc.subtractMoney }</td>
 						<%-- <td class="tc"><input type="text" class='m0 p0  border0 w80' value='${sc.checkApprovedMoney }' name="listSpec[${vs.index }].checkApprovedMoney" onblur="moneys(this)"></td>
 						<td class="tc"><input type="text" class='m0 p0  border0 w80' value='${sc.checkMoney }' name="listSpec[${vs.index }].checkMoney" readonly="readonly"></td> --%>
-						<td class="tc">${sc.remark }</td>
+						<td class="tl">${sc.remark }</td>
 					</tr>
 					</c:if>
 				</c:forEach>
 				<tr id="totalRow">
 	              <td class="tc" colspan="9">总计：</td>
 	              <td class="tc" id="total" ></td>
-	              <td id="total2"></td>
-	              <td id="total3"></td>
-	              <td id="total4"></td>
+	              <td id="total2" class="tr"></td>
+	              <td id="total3" class="tr"></td>
+	              <td id="total4" class="tr"></td>
 	             <!--  <td id="total5"></td>
 	              <td id="total6"></td> -->
 	              <td></td>

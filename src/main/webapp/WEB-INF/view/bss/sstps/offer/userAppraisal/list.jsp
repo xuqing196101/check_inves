@@ -150,12 +150,12 @@ function exports(){
              <table class="table table-bordered table-condensed table-hover table-striped">
 						<thead>
 							<tr>
-	  							<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-	  							<th class="info">序号</th>
-				  				<th class="info">合同名称</th>
-				  				<th class="info">合同编号</th>
-				  				<th class="info">合同金额(万元)</th>
-				  				<th class="info">供应商名称</th>
+	  							<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+	  							<th class="info w50">序号</th>
+				  				<th class="info" width="30%">合同名称</th>
+				  				<th class="info" width="17%">合同编号</th>
+				  				<th class="info" width="12%">合同金额(万元)</th>
+				  				<th class="info" width="20%">供应商名称</th>
 				  				<th class="info">签订状态</th>
 							</tr>
 						</thead>
@@ -164,15 +164,15 @@ function exports(){
 				  			<tr>
 				  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
 				  				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				  				<td class="tc pointer">${contract.name }</td>
-				  				<td class="tc pointer">${contract.code }</td>
+				  				<td class="pointer">${contract.name }</td>
+				  				<td class="pointer">${contract.code }</td>
 				  				<td class="tr">${contract.money }</td>
-				  				<td class="tc pointer">${contract.supplier.supplierName }</td>
+				  				<td class="pointer">${contract.supplier.supplierName }</td>
 				  				<c:if test="${contract.appraisal=='1' }">
 				  				  <td class="tc pointer">审价中</td>
 				  				</c:if>
 					  			<c:if test="${contract.appraisal=='2' }">
-				  				  <td class="tc pointer">	审价完成</td>
+				  				  <td class="tc pointer">审价完成</td>
 				  				</c:if>
 					  			</tr>
 				  			

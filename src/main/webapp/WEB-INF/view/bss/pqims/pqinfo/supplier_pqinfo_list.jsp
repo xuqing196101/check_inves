@@ -83,9 +83,9 @@
 		<tr>
 		  <th class="info w50">序号</th>
 		  <th class="info">供应商名称</th>
-		  <th class="info">质检合格次数</th>
-		  <th class="info">质检不合格次数</th>
-		  <th class="info">质检合格百分比(%)</th>
+		  <th class="info" width="15%">质检合格次数</th>
+		  <th class="info" width="15%">质检不合格次数</th>
+		  <th class="info" width="15%">质检合格百分比(%)</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="PqInfo" varStatus="vs">

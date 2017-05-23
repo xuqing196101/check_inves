@@ -246,8 +246,8 @@
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">需求部门</th>
-		  <th class="info">采购需求名称</th>
+		  <th class="info" width="20%">需求部门</th>
+		  <th class="info" width="28%">采购需求名称</th>
 		  <th class="info">编报人</th>
 		  <th class="info">提交日期</th>
 		  <th class="info">预算总金额</th>

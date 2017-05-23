@@ -2040,19 +2040,30 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		//查询列表
 		List < Supplier > supplierList = supplierAuditService.getAuditSupplierList(supplier, page);
+		
+		//企业性质
+		List < DictionaryData > businessNatureList = DictionaryDataUtil.find(32);
+		request.setAttribute("businessNatureList", businessNatureList);
+        for(Supplier s : supplierList){
+        	if(s.getBusinessNature() !=null ){
+        		for(int i = 0; i < businessNatureList.size(); i++) {
+        			if(s.getBusinessNature().equals(businessNatureList.get(i).getId())) {
+      					String business = businessNatureList.get(i).getName();
+      					s.setBusinessNature(business);
+      				}
+        		}
+        	}
+        }
+		
 		PageInfo < Supplier > pageInfo = new PageInfo < Supplier > (supplierList);
 		request.setAttribute("result", getSupplierType(pageInfo));
-
-		//企业性质
-		List < DictionaryData > enterpriseTypeList = DictionaryDataUtil.find(17);
-		request.setAttribute("enterpriseTypeList", enterpriseTypeList);
 
 		//回显
 		String supplierName = supplier.getSupplierName();
 		Integer status = supplier.getStatus();
 		request.setAttribute("supplierName", supplierName);
 		request.setAttribute("state", status);
-		request.setAttribute("businessTypeId", supplier.getBusinessType());
+		request.setAttribute("businessNature", supplier.getBusinessNature());
 		request.setAttribute("auditDate", supplier.getAuditDate());
 
 		//审核、复核、实地考察的标识
@@ -2826,7 +2837,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		
-		if(supplier.getStatus() !=null && supplier.getStatus() == 0 && supplier.getStatus() == 4 && supplier.getStatus() == 5){
+		if(supplier.getStatus() !=null && (supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5)){
 			//回显未通过字段
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);

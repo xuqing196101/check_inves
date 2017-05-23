@@ -554,14 +554,14 @@
 						<tr>
 							<!-- <th class="info w50">选择</th> -->
 							<th class="info w40">序号</th>
-							<th class="info">供应商名称</th>
-							<th class="info">采购机构</th>
-							<th class="info">地区</th>
+							<th class="info" width="17%">供应商名称</th>
+							<th class="info" width="10%">采购机构</th>
+							<th class="info" width="8%">地区</th>
 							<th class="info w90">注册日期</th>
 							<th class="info w90">提交日期</th>
 							<th class="info w90">审核日期</th>
-							<th class="info">供应商类型</th>
-							<th class="info">企业性质</th>
+							<th class="info" width="17%">供应商类型</th>
+							<th class="info" width="10%">企业性质</th>
 							<th class="info">供应商状态</th>
 						</tr>
 					</thead>
@@ -580,8 +580,8 @@
 							       </c:otherwise>
 									</c:choose>
 								</td>
-								<td class="tc">${list.orgName}</td>
-								<td class="tc">${list.name }</td>
+								<td class="tl">${list.orgName}</td>
+								<td class="tl">${list.name }</td>
 								<td class="tc">
 									<fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
 								</td>

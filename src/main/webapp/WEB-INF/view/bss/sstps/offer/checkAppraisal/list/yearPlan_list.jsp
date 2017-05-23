@@ -116,13 +116,13 @@ $(document).ready(function() {
 					</tr>
 					<tr>
 						
-						<th class="info">单位产品定额工时</th>
+						<th class="info">单位产品<br>定额工时</th>
 						<th class="info">投产数量</th>
 						<th class="info">工时合计</th>
-						<th class="info">单位产品定额工时</th>
+						<th class="info">单位产品<br>定额工时</th>
 						<th class="info">投产数量</th>
 						<th class="info">工时合计</th>
-						<th class="info">单位产品定额工时</th>
+						<th class="info">单位产品<br>定额工时</th>
 						<th class="info">投产数量</th>
 						<th class="info">工时合计</th>
 						<!-- <th class="info">单位产品定额工时</th>
@@ -132,26 +132,22 @@ $(document).ready(function() {
 				<c:forEach items="${list}" var="yp" varStatus="vs">
 					<tr>
 						<td class="tc"><input type="hidden" name="listYear[${vs.index }].id" value="${yp.id }" />${yp.serialNumber }</td>
-						<td class="tc">${yp.projectName }</td>
+						<td class="tl">${yp.projectName }</td>
 						<td class="tc">${yp.measuringUnit }</td>
-						
 						<td class="tc">${yp.oyaHourUnit }</td>
 						<td class="tc">${yp.oyaInvestAcount }</td>
 						<td class="tc">${yp.oyaHourTotal }</td>
-						
 						<td class="tc">${yp.newHourUnit }</td>
 						<td class="tc">${yp.newInvestAcount }</td>
 						<td class="tc">${yp.newHourTotal }</td>
-						
 						<td class="tc">${yp.approvedHourUnit }</td>
 						<td class="tc">${yp.approvedInvestAcount }</td>
 						<td class="tc">${yp.approvedHourTotal }</td>
-						
 						<%-- <td class="tc"><input type='text' class='m0 p0  border0 w80' name='listYear[${vs.index }].checkHourUnit'  value='${yp.checkHourUnit }'  onblur="totalHours(this,'1')"></td>
 						<td class="tc"><input type='text' class='m0 p0  border0 w80' name='listYear[${vs.index }].checkInvestAcount'  value='${yp.checkInvestAcount }'  onblur="totalHours(this,'2')"></td>
 						<td class="tc"><input type='text' class='m0 p0  border0 w100' name='listYear[${vs.index }].checkHourTotal'  value='${yp.checkHourTotal }'  readonly="readonly"></td>
 						 --%>
-						<td class="tc">${yp.remark }</td>
+						<td class="tl">${yp.remark }</td>
 					</tr>
 				</c:forEach>
 				<tr id="totalRow">

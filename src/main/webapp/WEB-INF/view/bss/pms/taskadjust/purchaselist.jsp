@@ -243,9 +243,9 @@
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">采购需求名称</th>
-		  <th class="info">金额</th>
-		  <th class="info">编制时间</th>
+		  <th class="info" width="40%">采购需求名称</th>
+		  <th class="info" width="10%">金额</th>
+		  <th class="info" width="15%">编制时间</th>
 		  <th class="info">状态</th>
 		</tr>
 		</thead>
@@ -253,10 +253,10 @@
 			<tr class="pointer">
 			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${vs.index}</td>
-			  <td class="tl pl20" onclick="view('${obj.planNo }')">${obj.planName }</td>
-			  <td class="tr pr20" onclick="view('${obj.planNo }')">${obj.budget }</td>
+			  <td class="tl" onclick="view('${obj.planNo }')">${obj.planName }</td>
+			  <td class="tr" onclick="view('${obj.planNo }')">${obj.budget }</td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tl pl20" onclick="view('${obj.planNo }')">
+			  <td class="tl" onclick="view('${obj.planNo }')">
 			  <c:if test="${obj.status=='1' }">
 			 	 已编制为采购计划
 			  </c:if>

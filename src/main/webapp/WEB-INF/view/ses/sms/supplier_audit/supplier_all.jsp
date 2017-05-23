@@ -174,10 +174,10 @@
 					
 					//还原select下拉列表只需要这一句-//但是这一句话不支持IE8即
 					//$("#status option:selected").removeAttr("selected");
-					//$("#businessType option:selected").removeAttr("selected");
+					//$("#businessNature option:selected").removeAttr("selected");
 					//都改成js代码,测试IE8也行的通
 					document.getElementById("status")[0].selected = true;
-					document.getElementById("businessType")[0].selected = true;
+					document.getElementById("businessNature")[0].selected = true;
 					$("#form1").submit();
 				}
 				
@@ -369,10 +369,10 @@
 		       </li>
 		       <li class="fl">
 				      <label class="fl">企业性质：</label> 
-				        <select name="businessType" id="businessType" class="w178">
+				        <select name="businessNature" id="businessNature" class="w178">
 				          <option value="">全部</option>
-				          <c:forEach var="type" varStatus="vs" items="${enterpriseTypeList}">
-				            <option <c:if test="${businessTypeId eq type.id }">selected</c:if> value="${type.id}">${type.name}</option>
+				          <c:forEach var="business" varStatus="vs" items="${businessNatureList}">
+				            <option <c:if test="${businessNature eq business.id }">selected</c:if> value="${business.id}">${business.name}</option>
 				          </c:forEach>
 				       </select> 
 				    </li>
@@ -435,11 +435,7 @@
 								<td class="tl pl20" onclick="shenhe('${list.id }');">${list.supplierName }</td>
 								<td class="tc" onclick="shenhe('${list.id }');">${list.mobile }</td>
 								<td class="tl pl20" onclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
-								<td class="tc" onclick="shenhe('${list.id }');">
-								  <c:forEach items="${enterpriseTypeList}" var="type">
-								  	 <c:if test="${list.businessType == type.id}">${type.name}</c:if>
-								  </c:forEach>
-								</td>
+								<td class="tc" onclick="shenhe('${list.id }');">${list.businessNature}</td>
 								<td class="tc" onclick="shenhe('${list.id }');">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>

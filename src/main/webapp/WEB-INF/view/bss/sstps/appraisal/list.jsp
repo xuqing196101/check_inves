@@ -155,13 +155,13 @@
         <table class="table table-bordered table-striped table-hover">
           <thead>
             <tr>
-              <th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-              <th class="info">序号</th>
-              <th class="info">合同名称</th>
-              <th class="info">合同编号</th>
-              <th class="info">合同金额(万元)</th>
-              <th class="info">供应商名称</th>
-              <th class="info">合同状态</th>
+              <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+              <th class="info w50">序号</th>
+              <th class="info" width="27%">合同名称</th>
+              <th class="info" width="15%">合同编号</th>
+              <th class="info" width="12%">合同金额(万元)</th>
+              <th class="info" width="20%">供应商名称</th>
+              <th class="info" width="10%">合同状态</th>
               <th class="info">操作</th>
             </tr>
           </thead>

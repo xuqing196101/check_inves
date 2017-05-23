@@ -91,7 +91,7 @@ function moneys(obj){
 				<c:forEach items="${list}" var="wp" varStatus="vs">
 					<tr>
 						<td class="tc"><input type="hidden" name="listWages[${vs.index}].id" value="${wp.id }" />${wp.serialNumber }</td>
-						<td class="tc">${wp.firsetProduct }</td>
+						<td class="tl">${wp.firsetProduct }</td>
 						
 						<td class="tc">${wp.oyaProduceUser }</td>
 						<td class="tc">${wp.oyaWorkshopUser }</td>
@@ -118,7 +118,7 @@ function moneys(obj){
 						<td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].checkOtherUser'  value='${wp.checkOtherUser }'  onblur='moneys(this);'></td>
 						<td class="tc"><input type='text' class='m0 p0  border0 w50' name='listWages[${vs.index}].checkTotal'  value='${wp.checkTotal }'  readonly="readonly"></td>
 						 --%>
-						<td class="tc">${wp.remark }</td>
+						<td class="tl">${wp.remark }</td>
 					</tr>
 				</c:forEach>
 			</table>

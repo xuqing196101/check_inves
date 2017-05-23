@@ -264,9 +264,8 @@
                     <div align="center" id="countdnone" class="f26 ">满足条件共有<span class="f26 red" id="count">0</span>人
                     </div>
                 </div>
-                <ul class="ul_list">
+                <div class="ul_list">
                     <!-- Begin Content -->
-                    <div class="col-md-12">
                         <div id="extcontype">
                             <c:forEach var="con" items="${extConType}">
                                 <c:if test="${con.expertsType != null }">
@@ -284,18 +283,15 @@
                                 <br/>
                             </c:forEach>
                         </div>
-                        <div class="col-md-12">
-
-                            <div class="clear"></div>
                             <table id="table" class="table table-bordered table-condensed">
                                 <thead>
                                 <tr>
                                     <th class="info w50">序号</th>
-                                    <th class="info">专家姓名</th>
-                                    <th class="info">联系电话</th>
-                                    <th class="info">专家类别</th>
-                                    <th class="info">工作单位名称</th>
-                                    <th class="info">专家技术职称</th>
+                                    <th class="info" width="15%">专家姓名</th>
+                                    <th class="info" width="15%">联系电话</th>
+                                    <th class="info" width="15%">专家类别</th>
+                                    <th class="info" width="18%">工作单位名称</th>
+                                    <th class="info" width="18%">专家技术职称</th>
                                     <th class="info">操作</th>
                                 </tr>
                                 </thead>
@@ -304,7 +300,7 @@
                                            varStatus="vst">
                                     <tr class='cursor '>
                                         <td class='tc'>${vst.index+1}</td>
-                                        <td class='tc'>*****</td>
+                                        <td class='tl'>*****</td>
                                         <td class='tc'>${listyes.expert.mobile}</td>
                                         <td class="tc">
                                             <c:set value="" var="typeId"></c:set>
@@ -319,8 +315,8 @@
                                             </c:forEach>
                                                 ${fn:substring(typeId,1,typeId.length())}
                                         </td>
-                                        <td class='tc'>*****</td>
-                                        <td class='tc'>*****</td>
+                                        <td class='tl'>*****</td>
+                                        <td class='tl'>*****</td>
                                         <td class='tc'><select id='select'
                                                                onchange='operation(this);'>
                                             <c:choose>
@@ -369,9 +365,7 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
-                </ul>
+                </div>
     </form>
 </div>
 </body>

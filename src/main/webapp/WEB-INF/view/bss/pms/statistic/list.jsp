@@ -533,13 +533,13 @@
 							<!-- 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
  -->
 							<th class="info w50">序号</th>
-							<th class="info">计划名称</th>
-							<th class="info">计划类别</th>
+							<th class="info" width="38%">计划名称</th>
+							<th class="info" width="15%">计划类别</th>
 							<!--   <th class="info">需求部门</th>
 		  <th class="info">采购方式</th>
 		  <th class="info">采购机构</th> -->
-							<th class="info">预算（万元）</th>
-							<th class="info">汇总时间</th>
+							<th class="info" width="12%">预算（万元）</th>
+							<th class="info" width="15%">汇总时间</th>
 							<th class="info">状态</th>
 						</tr>
 					</thead>
@@ -547,22 +547,21 @@
 						<tr style="cursor: pointer;">
 							<td class="tc w50" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 
-							<td class="tl w500" >
+							<td class="tl" >
 								${obj.fileName }
 							</td>
-							<td class="tc" >
+							<td>
 							  <c:forEach items="${dic}" var="dic">
 							     <c:if test="${dic.id==obj.goodsType}">
 							        ${dic.name}
 							     </c:if>
 							  </c:forEach>
-							
 							</td>
-							<td class="tl pl20" >
+							<td class="tr" >
 								<fmt:formatNumber type="number" pattern="#,##0.00" value="${obj.budget}" />
 							</td>
 							<td class="tc" ><fmt:formatDate value="${obj.createdAt }"/></td>
-							<td class="tl pl20" >
+							<td class="tl" >
 
 								<c:if test="${obj.status=='1' }">
 										   待审核设置

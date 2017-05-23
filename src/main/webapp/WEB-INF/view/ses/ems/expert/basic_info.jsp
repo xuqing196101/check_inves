@@ -1086,7 +1086,7 @@
                         class="red">*</i> 单位地址</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input maxlength="40" value="${expert.unitAddress}" name="unitAddress" id="unitAddress"
-                               type="text" placeholder="长春街道1号"
+                               type="text" placeholder="街道名称，门牌号"
                                <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('单位地址')"</c:if>/>
                         <span class="add-on">i</span>

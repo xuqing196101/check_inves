@@ -90,7 +90,6 @@
         <input type="hidden" name="province" id="province"/>
         <input type="hidden" name="" id="hiddentype">
 
-        <div>
             <h2 class="count_flow"><i>1</i>抽取条件</h2>
             <ul class="ul_list" style="background-color: #fbfbfb">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -208,10 +207,8 @@
             <!--=== Content Part ===-->
             <h2 class="count_flow"><i>2</i>抽取结果</h2>
             <div align="center" id="countdnone" class="f26    ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
-            <ul class="ul_list">
-
+            <div class="ul_list">
                 <!-- Begin Content -->
-                <div class="col-md-12" id="count" style="min-height: 400px;">
                     <div id="extcontype">
                         <c:forEach var="con" items="${extConType}">
                             <c:if test="${con.supplierType != null  }">
@@ -222,18 +219,15 @@
                             <br/>
                         </c:forEach>
                     </div>
-                    <div class="col-md-12" style="min-height: 400px;">
-
-                        <div class="clear"></div>
                         <table id="table" class="table table-bordered table-condensed">
                             <thead>
                             <tr>
                                 <th class="info w50">序号</th>
-                                <th class="info">供应商名称</th>
-                                <th class="info">类型</th>
-                                <th class="info">联系人名称</th>
-                                <th class="info">联系人电话</th>
-                                <th class="info">联系人手机</th>
+                                <th class="info" width="15%">供应商名称</th>
+                                <th class="info" width="15%">类型</th>
+                                <th class="info" width="15%">联系人名称</th>
+                                <th class="info" width="18%">联系人电话</th>
+                                <th class="info" width="18%">联系人手机</th>
                                 <th class="info">操作</th>
                             </tr>
                             </thead>
@@ -242,7 +236,7 @@
                                        varStatus="vs">
                                 <tr class='cursor '>
                                     <td class='tc' onclick='show();'>${vs.index+1}</td>
-                                    <td class='tc' onclick='show();'>${listyes.supplier.supplierName}</td>
+                                    <td class='tl' onclick='show();'>${listyes.supplier.supplierName}</td>
                                     <td class='tc' onclick='show();'>
                                         <c:set value="" var="name"></c:set>
                                         <c:forEach var="item" items="${listyes.supplier.listSupplierTypeRelates}">
@@ -250,7 +244,7 @@
                                         </c:forEach>
                                             ${fn:substring(name,1,name.length())}
                                     </td>
-                                    <td class='tc' onclick='show();'>${listyes.supplier.contactName}</td>
+                                    <td class='tl' onclick='show();'>${listyes.supplier.contactName}</td>
                                     <c:choose>
                                         <c:when test="${listyes.supplier.contactTelephone==null || listyes.supplier.contactTelephone==''}">
                                             <td class='tc' onclick='show();'>-</td>
@@ -260,8 +254,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                     <td class='tc' onclick='show();'>${listyes.supplier.contactMobile}</td>
-                                    <td class='tc'><select id='select'
-                                                           onchange='operation(this);'>
+                                    <td class='tc'><select id='select' onchange='operation(this);'>
                                         <c:choose>
                                             <c:when test="${listyes.operatingType==1}">
                                                 <option selected="selected" disabled="disabled"
@@ -304,9 +297,9 @@
                                        varStatus="vs">
                                 <tr class='cursor'>
                                     <td class='tc' onclick='show();'>-</td>
+                                    <td class='tl' onclick='show();'>*****</td>
                                     <td class='tc' onclick='show();'>*****</td>
-                                    <td class='tc' onclick='show();'>*****</td>
-                                    <td class='tc' onclick='show();'>*****</td>
+                                    <td class='tl' onclick='show();'>*****</td>
                                     <td class='tc' onclick='show();'>*****</td>
                                     <td class='tc' onclick='show();'>*****</td>
                                     <td class='tc'>请选择</td>
@@ -314,12 +307,7 @@
                             </c:forEach>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </ul>
-
-        </div>
-
+					</div>
     </form>
 </div>
 </body>

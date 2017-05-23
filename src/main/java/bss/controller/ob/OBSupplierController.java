@@ -13,13 +13,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import net.sf.json.JSONArray;
-
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -33,11 +30,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
-import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
@@ -49,16 +44,13 @@ import bss.model.ob.OBSupplier;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBSupplierService;
 import bss.util.ExcelUtil;
-
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
 import common.annotation.SystemServiceLog;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
-import common.utils.JdcgResult;
 
 /**
  * 
@@ -75,18 +67,23 @@ import common.utils.JdcgResult;
 @RequestMapping("/obSupplier")
 public class OBSupplierController  {
 
+	// 注入竞价供应商Service
 	@Autowired
 	private OBSupplierService oBSupplierService;
 
+	// 注入竞价产品Service
 	@Autowired
 	private OBProductService oBProductService;
 	
+	// 注入供应商Service
 	@Autowired
 	private SupplierService supplierService;
 	
+	// 注入品目Service
 	@Autowired
 	private CategoryService categoryService;
 	
+	// 注入数据字典Service
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;
 
@@ -224,20 +221,20 @@ public class OBSupplierController  {
 	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public void delete(HttpServletRequest request,@CurrentUser User user) {
-		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
-	 	 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-	 if(user!= null){
-		if("1".equals(user.getTypeName())){
-		String ids = request.getParameter("ids");
-		String productId = ids.trim();
-		if (productId.length() != 0) {
-			String[] uniqueIds = productId.split(",");
-			for (String str : uniqueIds) {
-				oBSupplierService.deleteByPrimaryKey(str);
+	public void delete(HttpServletRequest request, @CurrentUser User user) {
+		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+		if (user != null) {
+			if ("1".equals(user.getTypeName())) {
+				String ids = request.getParameter("ids");
+				String productId = ids.trim();
+				if (productId.length() != 0) {
+					String[] uniqueIds = productId.split(",");
+					for (String str : uniqueIds) {
+						oBSupplierService.deleteByPrimaryKey(str);
+					}
+				}
 			}
-		   }
-		}
 		}
 	}
 
@@ -255,20 +252,20 @@ public class OBSupplierController  {
 	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public void restore(HttpServletRequest request,@CurrentUser User user){
-		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
-	 	 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-	 if(user!= null){
-		if("1".equals(user.getTypeName())){
-		String ids = request.getParameter("ids");
-		String productId = ids.trim();
-		if (productId.length() != 0) {
-			String[] uniqueIds = productId.split(",");
-			for (String str : uniqueIds) {
-				oBSupplierService.restoreByPrimaryKey(str);
+	public void restore(HttpServletRequest request, @CurrentUser User user) {
+		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+		if (user != null) {
+			if ("1".equals(user.getTypeName())) {
+				String ids = request.getParameter("ids");
+				String productId = ids.trim();
+				if (productId.length() != 0) {
+					String[] uniqueIds = productId.split(",");
+					for (String str : uniqueIds) {
+						oBSupplierService.restoreByPrimaryKey(str);
+					}
+				}
 			}
-		  }
-		 }
 		}
 	}
 	
@@ -286,16 +283,16 @@ public class OBSupplierController  {
 	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public List<Supplier> findAllSupplier(@CurrentUser User user){
-		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
-	 	 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-	 if(user!= null){
-		if("1".equals(user.getTypeName())){
-		List<Supplier> list = supplierService.findQualifiedSupplier();
-		return list;
-		 }
-	   }
-	   return new ArrayList<Supplier>();
+	public List<Supplier> findAllSupplier(@CurrentUser User user) {
+		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+		if (user != null) {
+			if ("1".equals(user.getTypeName())) {
+				List<Supplier> list = supplierService.findQualifiedSupplier();
+				return list;
+			}
+		}
+		return new ArrayList<Supplier>();
 	}
 	
 	/**
@@ -313,10 +310,10 @@ public class OBSupplierController  {
 	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN) String findUsccById(HttpServletRequest request){
-		String id = request.getParameter("option") == null ? "" :request.getParameter("option");
+		String id = request.getParameter("option") == null ? "" : request.getParameter("option");
 		Supplier supplier = supplierService.selectById(id);
 		String creditCode = "";
-		if(supplier != null){
+		if (supplier != null) {
 			creditCode = supplier.getCreditCode();
 		}
 		return creditCode;
@@ -338,90 +335,96 @@ public class OBSupplierController  {
 	@RequestMapping("/add")
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String add(Model model,HttpServletRequest request,OBSupplier obSupplier,
-			@CurrentUser User u){
-		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
-	 	 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-	 if(u!= null){
-		if("1".equals(u.getTypeName())){
-		
-		boolean flag = true;
-		if(obSupplier.getSupplierId() == null || obSupplier.getSupplierId() == ""){
-			flag = false;
-			model.addAttribute("errorName","供应商名称不能为空");
-		}
-		if(obSupplier.getCertValidPeriod() == null){
-			flag = false;
-			model.addAttribute("errorCertValidPeriod","证书有效期不能为空");
-		}
-		if(obSupplier.getQualityInspectionDep() == null || obSupplier.getQualityInspectionDep() == ""){
-			flag = false;
-			model.addAttribute("errorQualityInspectionDep","质检机构不能为空");
-		}
-		if(obSupplier.getContactName() == null || obSupplier.getContactName() == ""){
-			flag = false;
-			model.addAttribute("errorContactName","联系人姓名不能为空");
-		}
-		if(obSupplier.getContactTel() == null || obSupplier.getContactTel() == ""){
-			flag = false;
-			model.addAttribute("errorContactTel","联系人电话不能为空");
-		}else {
-			if(isMobileNO(obSupplier.getContactTel()) == false){
-				flag = false;
-				model.addAttribute("errorContactTel","请输入正确手机号码");
-			}
-		}
-		if(obSupplier.getCertCode() == null || obSupplier.getCertCode() == ""){
-			flag = false;
-			model.addAttribute("errorCertCode","资质证书编号不能为空");
-		}else{
-			if(oBSupplierService.yzzsCode(obSupplier.getCertCode(),null) > 0){
-				flag = false;
-				model.addAttribute("errorCertCode","资质证书编号不能重复");
-			}
-		}
-		if(obSupplier.getUscc() == null || obSupplier.getUscc() == ""){
-			flag = false;
-			model.addAttribute("errorUscc","统一社会信用代码不能为空");
-		}
-		if(oBSupplierService.yzShangchuan(obSupplier.getId()) < 1){
-			flag = false;
-			model.addAttribute("errorShangchuan","请上传资质证书图片");
-		}
-		if(obSupplier.getSmallPointsId() == null || obSupplier.getSmallPointsId() == ""){
-			flag = false;
-			model.addAttribute("errorsmallPoints","产品目录不能为空");
-		}else{
-			if(oBSupplierService.yzSupplierName(obSupplier.getSupplierId(), obSupplier.getSmallPointsId(),null) > 0){
-				flag = false;
-				model.addAttribute("errorsmallPoints","已经添加过该目录了");
-			}
-		}
-		if(flag == true){
-			HttpSession session = request.getSession();
-			obSupplier.setIsDeleted(0);
-			User user = (User) session.getAttribute("loginUser");
-			String userId = "";
-			if(user != null){
-				userId = user.getId();
-			}
-			obSupplier.setCreaterId(userId);
-			obSupplier.setCreatedAt(new Date());
-			oBSupplierService.insertSelective(obSupplier);
-			return "redirect:/obSupplier/supplier.do";
-		}else{
-			if(obSupplier.getSmallPointsId() != null){
-				Category category = categoryService.findById(obSupplier.getSmallPointsId());
-				if(category != null){
-					model.addAttribute("catName", category.getName());
+	public String add(Model model, HttpServletRequest request,
+			OBSupplier obSupplier, @CurrentUser User u) {
+		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+		if (u != null) {
+			if ("1".equals(u.getTypeName())) {
+
+				boolean flag = true;
+				if (obSupplier.getSupplierId() == null
+						|| obSupplier.getSupplierId() == "") {
+					flag = false;
+					model.addAttribute("errorName", "供应商名称不能为空");
+				}
+				if (obSupplier.getCertValidPeriod() == null) {
+					flag = false;
+					model.addAttribute("errorCertValidPeriod", "证书有效期不能为空");
+				}
+				if (obSupplier.getQualityInspectionDep() == null
+						|| obSupplier.getQualityInspectionDep() == "") {
+					flag = false;
+					model.addAttribute("errorQualityInspectionDep", "质检机构不能为空");
+				}
+				if (obSupplier.getContactName() == null
+						|| obSupplier.getContactName() == "") {
+					flag = false;
+					model.addAttribute("errorContactName", "联系人姓名不能为空");
+				}
+				if (obSupplier.getContactTel() == null
+						|| obSupplier.getContactTel() == "") {
+					flag = false;
+					model.addAttribute("errorContactTel", "联系人电话不能为空");
+				} else {
+					if (isMobileNO(obSupplier.getContactTel()) == false) {
+						flag = false;
+						model.addAttribute("errorContactTel", "请输入正确手机号码");
+					}
+				}
+				if (obSupplier.getCertCode() == null
+						|| obSupplier.getCertCode() == "") {
+					flag = false;
+					model.addAttribute("errorCertCode", "资质证书编号不能为空");
+				} else {
+					if (oBSupplierService.yzzsCode(obSupplier.getCertCode(),null) > 0) {
+						flag = false;
+						model.addAttribute("errorCertCode", "资质证书编号不能重复");
+					}
+				}
+				if (obSupplier.getUscc() == null || obSupplier.getUscc() == "") {
+					flag = false;
+					model.addAttribute("errorUscc", "统一社会信用代码不能为空");
+				}
+				if (oBSupplierService.yzShangchuan(obSupplier.getId()) < 1) {
+					flag = false;
+					model.addAttribute("errorShangchuan", "请上传资质证书图片");
+				}
+				if (obSupplier.getSmallPointsId() == null
+						|| obSupplier.getSmallPointsId() == "") {
+					flag = false;
+					model.addAttribute("errorsmallPoints", "产品目录不能为空");
+				} else {
+					if (oBSupplierService.yzSupplierName(obSupplier.getSupplierId(),obSupplier.getSmallPointsId(), null) > 0) {
+						flag = false;
+						model.addAttribute("errorsmallPoints", "已经添加过该目录了");
+					}
+				}
+				if (flag == true) {
+					HttpSession session = request.getSession();
+					obSupplier.setIsDeleted(0);
+					User user = (User) session.getAttribute("loginUser");
+					String userId = "";
+					if (user != null) {
+						userId = user.getId();
+					}
+					obSupplier.setCreaterId(userId);
+					obSupplier.setCreatedAt(new Date());
+					oBSupplierService.insertSelective(obSupplier);
+					return "redirect:/obSupplier/supplier.do";
+				} else {
+					if (obSupplier.getSmallPointsId() != null) {
+						Category category = categoryService.findById(obSupplier.getSmallPointsId());
+						if (category != null) {
+							model.addAttribute("catName", category.getName());
+						}
+					}
+					model.addAttribute("obSupplier", obSupplier);
+					return "bss/ob/addSupplier/addSupplier";
 				}
 			}
-			model.addAttribute("obSupplier", obSupplier);
-			return "bss/ob/addSupplier/addSupplier";
-		    }
-		  }
 		}
-	   return "bss/ob/addSupplier/addSupplier"; 
+		return "bss/ob/addSupplier/addSupplier";
 	}
 	
 	
@@ -429,18 +432,18 @@ public class OBSupplierController  {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String toedit(Model model,HttpServletRequest request,@CurrentUser User user){
-		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
-	 	 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-	 if(user!= null){
-		if("1".equals(user.getTypeName())){
-		String id = request.getParameter("suppid") == null ? "" : request.getParameter("suppid");
-		OBSupplier obSupplier = oBSupplierService.selectByPrimaryKey(id);
-		model.addAttribute("obSupplier", obSupplier);
-		if(obSupplier != null){
-			Category category = categoryService.findById(obSupplier.getSmallPointsId());
-			model.addAttribute("catName", category.getName());
-		  }
-		 }
+		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
+		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+		if (user != null) {
+			if ("1".equals(user.getTypeName())) {
+				String id = request.getParameter("suppid") == null ? "": request.getParameter("suppid");
+				OBSupplier obSupplier = oBSupplierService.selectByPrimaryKey(id);
+				model.addAttribute("obSupplier", obSupplier);
+				if (obSupplier != null) {
+					Category category = categoryService.findById(obSupplier.getSmallPointsId());
+					model.addAttribute("catName", category.getName());
+				}
+			}
 		}
 		return "bss/ob/addSupplier/editSupplier";
 	}

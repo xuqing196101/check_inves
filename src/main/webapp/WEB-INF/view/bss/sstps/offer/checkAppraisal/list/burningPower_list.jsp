@@ -109,16 +109,16 @@ function sumMoney(trs,indx){
 	
 	<div class="container margin-top-5">
 	 	<form action="${pageContext.request.contextPath}/burningPower/userUpdateCheck.html?productId=${proId }" method="post" enctype="multipart/form-data">
-	 	<div class="container padding-left-25 padding-right-25">
+	 	<div class="col-md-12 col-sm-12 col-xs-12">
 			<table class="table table-bordered table-condensed">
-					<tr  id="tr0">
+					<tr id="tr0">
 						<th rowspan="2" class="info">序号</th>
 						<th rowspan="2" class="info">一级项目</th>
-						<th rowspan="2" class="info">计量单位</th>
+						<th rowspan="2" class="info w60">计量<br/>单位</th>
 						<th colspan="3" class="info">报价前2年</th>
 						<th colspan="3" class="info">报价前1年</th>
 						<th colspan="3" class="info">报价当年</th>
-						<th rowspan="2" class="info">审核核准金额</th>
+						<th rowspan="2" class="info">审核核准<br/>金额</th>
 						<!-- <th rowspan="2" class="info">复审核准金额</th> -->
 						<th rowspan="2" class="info">备   注</th>
 					</tr>
@@ -136,25 +136,25 @@ function sumMoney(trs,indx){
 				<c:forEach items="${list}" var="bp" varStatus="vs">
 					<tr>
 						<td class="tc"><input type="hidden" name="listBurn[${vs.index }].id" value="${bp.id }" />${bp.serialNumber}</td>
-						<td class="tc">${bp.firsetProduct }</td>
+						<td class="tl">${bp.firsetProduct }</td>
 						<td class="tc">${bp.unit }</td>
 						<td class="tc">${bp.tyaAcount }</td>
-						<td class="tc">${bp.tyaAvgPrice }</td>
-						<td class="tc">${bp.tyaMoney }</td>
+						<td class="tr">${bp.tyaAvgPrice }</td>
+						<td class="tr">${bp.tyaMoney }</td>
 						<td class="tc">${bp.oyaAcount }</td>
-						<td class="tc">${bp.oyaAvgPrice }</td>
-						<td class="tc">${bp.oyaMoney }</td>
+						<td class="tr">${bp.oyaAvgPrice }</td>
+						<td class="tr">${bp.oyaMoney }</td>
 						<td class="tc">${bp.newAcount }</td>
-						<td class="tc">${bp.newAvgPrice }</td>
-						<td class="tc">${bp.newMoney }</td>
-						<td class="tc">${bp.approvedMoney }</td>
+						<td class="tr">${bp.newAvgPrice }</td>
+						<td class="tr">${bp.newMoney }</td>
+						<td class="tr">${bp.approvedMoney }</td>
 						<%-- <c:if test="${fn:length(fn:split(bp.serialNumber,'.'))>2}">
 						<td class="tc"><input type="text" value='${bp.checkMoney }' class='m0 p0  border0 w80 tr' name="listBurn[${vs.index }].checkMoney" onblur='moneys(this,"13");'></td>
 						</c:if>
 						<c:if test="${fn:length(fn:split(bp.serialNumber,'.'))<=2}">
 						<td class="tc"><input type="text" value='${bp.checkMoney }' class='m0 p0  border0 w80 tr' name="listBurn[${vs.index }].checkMoney" readonly="readonly"></td>
 						</c:if> --%>
-						<td class="tc">${bp.remark }</td>
+						<td class="tl">${bp.remark }</td>
 					</tr>
 				</c:forEach>
 			</table>

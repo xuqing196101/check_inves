@@ -1704,7 +1704,7 @@ public class ExpertAuditController{
     		ExpertAudit expertAudit = new ExpertAudit();
     		expertAudit.setExpertId(expert.getId());
     		expertAudit.setSuggestType("six");
-    		expertAudit.setAuditField(cateTree.getItemsId());
+    		expertAudit.setAuditFieldId(cateTree.getItemsId());
     		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
     		ExpertAudit expertAudit1 = new ExpertAudit();
     		//比较
@@ -1838,7 +1838,7 @@ public class ExpertAuditController{
 		 */
 		ExpertAudit expertAudit2 = new ExpertAudit();
 		expertAudit2.setExpertId(expert.getId());
-		expertAudit2.settype("1");
+		expertAudit2.setSuggestType("one");
     	List < ExpertAudit > basicFileList = expertAuditService.selectbyAuditType(expertAudit2);
 		StringBuffer buff = new StringBuffer();
 		
@@ -1851,7 +1851,7 @@ public class ExpertAuditController{
 		 */
 		for(String str : list){
 			expertAudit2.setExpertId(expert.getId());
-			expertAudit2.settype("1");
+			expertAudit2.setSuggestType("one");
 			expertAudit2.setAuditField(str);
 	    	List < ExpertAudit > basicFileList1 = expertAuditService.selectbyAuditType(expertAudit2);
 	    	ExpertAudit expertAuditMap = new ExpertAudit();

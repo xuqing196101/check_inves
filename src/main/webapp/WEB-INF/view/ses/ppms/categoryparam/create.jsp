@@ -175,33 +175,34 @@ $(document).ready(function(){
 	  </div>
    </div>
   <div class="container">
-   <div class="col-md-3">
-	 <div class="tag-box tag-box-v3 mt10">
-	 <div><ul id="ztree" class="ztree "></ul></div>
-	 </div>
-     </div>
-   <div class=" tag-box tag-box-v3 mt10 col-md-9">
-        <div style="margin-bottom: 6px; ">
-                        <button class="btn btn-windows add" type="button" onclick="add();">新增子节点</button> 
-                        <button class="btn btn-windows edit" type="button" onclick="edit();">保存</button> 
-                        <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> 
-                    </div>
-                        <input type="hidden" name="nodeId" id="mid">
-                           <ul class="ul_list">
-                              <li class="col-md-6 margin-0 padding-0 ">
-						       <span class="col-md-12 padding-left-5">名称</span>
-						       <div class="input-append">
-						        <input class="span5" id="appendedInput" type="text">
-						        <span class="add-on">i</span>
-						       </div>
-						     </li>  
-						     <li class="col-md-11 margin-0 padding-0 ">
-						       <span class="col-md-12 padding-left-5">描述</span>
-						       <div class="">
-						        <textarea class="col-md-6 h100"  title="不超过800个字"></textarea>
-						       </div>
-						     </li> 
-                           </ul>
+   	<div class="col-md-3 col-sm-4 col-xs-12">
+	 	<div class="tag-box tag-box-v3 mt10">
+	 		<ul id="ztree" class="ztree "></ul>
+		</div>
+    </div>
+    <div class=" tag-box tag-box-v3 mt10 col-md-9 col-sm-8 col-xs-12">
+        <div class="w100p fl mb5">
+           <button class="btn btn-windows add" type="button" onclick="add();">新增子节点</button> 
+           <button class="btn btn-windows edit" type="button" onclick="edit();">保存</button> 
+           <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> 
+        </div>
+        <input type="hidden" name="nodeId" id="mid">
+           <ul class="ul_list">
+              <li class="col-md-6 margin-0 padding-0 ">
+		         <span class="col-md-12 padding-left-5">名称</span>
+			      <div class="input-append">
+			        <input class="span5" id="appendedInput" type="text">
+			          <span class="add-on">i</span>
+				  </div>
+			  </li>  
+			  <li class="col-md-12 col-sm-12 col-xs-12 margin-0 padding-0 ">
+			     <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">描述</span>
+				   <div class=" col-md-12 ol-sm-12 col-xs-12">
+				       <textarea class="w100p h100"  title="不超过800个字"></textarea>
+				   </div>
+			  </li> 
+           </ul>
          </div>
+      </div>
   </body>
 </html>

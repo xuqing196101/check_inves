@@ -746,7 +746,7 @@
    background-position: -35px -132px;
 }
 .save{
-   background-position: -35px -322px;
+   background-position:-39px -320px;
 }
 .apply{
    background-position: -35px -213px;
@@ -765,6 +765,15 @@
 }
 .print{
    background-position:-42px -1262px; 
+}
+.day_order{
+   background-position: -44px -1293px;
+}
+.week_order{
+   background-position: -44px -1322px;
+}
+.mon_order{
+   background-position: -44px -1356px;
 }
 .check_pass{
    background-position: 8px center; 

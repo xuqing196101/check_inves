@@ -79,18 +79,18 @@ function onStep(){
 							<input type="hidden" name="plccd[${(vs.index)}].status" value="${ccd.status }"  />
 							${vs.index+1 }
 						</td>
-						<td class="tc">${ccd.projectName }</td>
-						<td class="tc">${ccd.tyaAmount }</td>
-						<td class="tc">${ccd.tyaFee }</td>
-						<td class="tc">${ccd.oyaAmout }</td>
-						<td class="tc">${ccd.oyaFee }</td>
-						<td class="tc">${ccd.newAmount }</td>
-						<td class="tc">${ccd.newFee }</td>
-						<td class="tc">${ccd.subtractWentDutch }</td>
-						<td class="tc">${ccd.subtractFee }</td>
+						<td class="tl">${ccd.projectName }</td>
+						<td class="tr">${ccd.tyaAmount }</td>
+						<td class="tr">${ccd.tyaFee }</td>
+						<td class="tr">${ccd.oyaAmout }</td>
+						<td class="tr">${ccd.oyaFee }</td>
+						<td class="tr">${ccd.newAmount }</td>
+						<td class="tr">${ccd.newFee }</td>
+						<td class="tr">${ccd.subtractWentDutch }</td>
+						<td class="tr">${ccd.subtractFee }</td>
 						<%-- <td class="tc"><input type="text" name="plccd[${(vs.index)}].checkWentDutch" value="${ccd.checkWentDutch }" class="border0 mb0 w80"/></td>
 						<td class="tc"><input type="text" name="plccd[${(vs.index)}].checkFee" value="${ccd.checkFee }" class="border0 mb0 w80"/></td> --%>
-						<td class="tc">${ccd.remark }</td>
+						<td class="tl">${ccd.remark }</td>
 					</tr>
 					</c:if>
 				</c:forEach>
@@ -105,7 +105,7 @@ function onStep(){
 			<table class="table table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th class="info">序号</th>
+						<th class="info w50">序号</th>
 						<th class="info">项目名称</th>
 						<th class="info">报价前2年</th>
 						<th class="info">报价前1年</th>
@@ -126,13 +126,13 @@ function onStep(){
 							<input type="hidden" name="plccd[${(vss.index)}].status" value="${ccd.status }"  />
 							${vss.index+1 }
 						</td>
-						<td class="tc w280">${ccd.projectName }</td>
-						<td class="tc w100">${ccd.tyaActual }</td>
-						<td class="tc w100">${ccd.oyaActual }</td>
-						<td class="tc w100">${ccd.newActual }</td>
-						<td class="tc w100">${ccd.subtractActual }</td>
+						<td class="tl">${ccd.projectName }</td>
+						<td class="tr w100">${ccd.tyaActual }</td>
+						<td class="tr w100">${ccd.oyaActual }</td>
+						<td class="tr w100">${ccd.newActual }</td>
+						<td class="tr w100">${ccd.subtractActual }</td>
 						<%-- <td class="tc w100"><input type="text" name="plccd[${(vss.index)}].checkActual" value="${ccd.checkActual }" class="border0 mb0 w80"/></td> --%>
-						<td class="tc w280">${ccd.remark }</td>
+						<td class="tl" width="30%">${ccd.remark }</td>
 					</tr>
 					</c:if>
 				</c:forEach>

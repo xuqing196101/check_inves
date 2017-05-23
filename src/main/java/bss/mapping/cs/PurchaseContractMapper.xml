@@ -23,7 +23,7 @@
     <result column="PURCHASE_UNITPOST_CODE" jdbcType="VARCHAR" property="purchaseUnitpostCode" />
     <result column="PURCHASE_PAY_DEP" jdbcType="VARCHAR" property="purchasePayDep" />
     <result column="PURCHASE_BANK" jdbcType="VARCHAR" property="purchaseBank" />
-    <result column="PURCHASE_BANK_ACCOUNT" jdbcType="DECIMAL" property="purchaseBankAccount" />
+    <result column="PURCHASE_BANK_ACCOUNT" jdbcType="VARCHAR" property="purchaseBankAccount" />
     <result column="SUPPLIER_DEP_NAME" jdbcType="VARCHAR" property="supplierDepName" />
     <result column="SUPPLIER_LEGAL" jdbcType="VARCHAR" property="supplierLegal" />
     <result column="SUPPLIER_AGENT" jdbcType="VARCHAR" property="supplierAgent" />
@@ -32,7 +32,7 @@
     <result column="SUPPLIER_CONTACT_ADDRESS" jdbcType="VARCHAR" property="supplierContactAddress" />
     <result column="SUPPLIER_UNITPOST_CODE" jdbcType="VARCHAR" property="supplierUnitpostCode" />
     <result column="SUPPLIER_BANK" jdbcType="VARCHAR" property="supplierBank" />
-    <result column="SUPPLIER_BANK_ACCOUNT" jdbcType="DECIMAL" property="supplierBankAccount" />
+    <result column="SUPPLIER_BANK_ACCOUNT" jdbcType="VARCHAR" property="supplierBankAccount" />
     <result column="SUPPLIER_BANK_NAME" jdbcType="VARCHAR" property="supplierBankName" />
     <result column="SUPPLIER_PUR_ID" jdbcType="VARCHAR" property="supplierPurId"/>
     <result column="BING_DEP_NAME" jdbcType="VARCHAR" property="bingDepName" />
@@ -393,11 +393,11 @@
       #{purchaseDepName,jdbcType=VARCHAR}, #{purchaseLegal,jdbcType=VARCHAR}, #{purchaseAgent,jdbcType=VARCHAR}, 
       #{purchaseContact,jdbcType=VARCHAR}, #{purchaseContactTelephone,jdbcType=VARCHAR}, 
       #{purchaseContactAddress,jdbcType=VARCHAR}, #{purchaseUnitpostCode,jdbcType=VARCHAR}, 
-      #{purchasePayDep,jdbcType=VARCHAR}, #{purchaseBank,jdbcType=VARCHAR}, #{purchaseBankAccount,jdbcType=DECIMAL}, 
+      #{purchasePayDep,jdbcType=VARCHAR}, #{purchaseBank,jdbcType=VARCHAR}, #{purchaseBankAccount}, 
       #{supplierDepName,jdbcType=VARCHAR}, #{supplierLegal,jdbcType=VARCHAR}, #{supplierAgent,jdbcType=VARCHAR}, 
       #{supplierContact,jdbcType=VARCHAR}, #{supplierContactTelephone,jdbcType=VARCHAR}, 
       #{supplierContactAddress,jdbcType=VARCHAR}, #{supplierUnitpostCode,jdbcType=VARCHAR}, 
-      #{supplierBank,jdbcType=VARCHAR}, #{supplierBankAccount,jdbcType=DECIMAL}, #{supplierBankName,jdbcType=VARCHAR},
+      #{supplierBank,jdbcType=VARCHAR}, #{supplierBankAccount}, #{supplierBankName,jdbcType=VARCHAR},
       #{supplierPurId,jdbcType=VARCHAR},#{content},#{projectName},#{appeal},#{approvePic},#{createdAt,jdbcType=TIMESTAMP},#{updatedAt,jdbcType=TIMESTAMP},#{isDeleted},
       #{contractType},#{draftGitAt,jdbcType=TIMESTAMP},#{draftReviewedAt,jdbcType=TIMESTAMP},#{formalGitAt,jdbcType=TIMESTAMP},#{formalReviewedAt,jdbcType=TIMESTAMP},
       #{contractType},#{isImport},#{isDeclare},#{purchaseType},#{projectId}.#{finallyClosed},
@@ -650,7 +650,7 @@
         #{purchaseBank,jdbcType=VARCHAR},
       </if>
       <if test="purchaseBankAccount != null">
-        #{purchaseBankAccount,jdbcType=DECIMAL},
+        #{purchaseBankAccount},
       </if>
       <if test="supplierDepName != null">
         #{supplierDepName,jdbcType=VARCHAR},
@@ -677,7 +677,7 @@
         #{supplierBank,jdbcType=VARCHAR},
       </if>
       <if test="supplierBankAccount != null">
-        #{supplierBankAccount,jdbcType=DECIMAL},
+        #{supplierBankAccount},
       </if>
       <if test="supplierBankName != null">
         #{supplierBankName,jdbcType=VARCHAR},
@@ -1009,7 +1009,7 @@
         #{purchaseBank,jdbcType=VARCHAR},
       </if>
       <if test="purchaseBankAccount != null">
-        #{purchaseBankAccount,jdbcType=DECIMAL},
+        #{purchaseBankAccount},
       </if>
       <if test="supplierDepName != null">
         #{supplierDepName,jdbcType=VARCHAR},
@@ -1036,7 +1036,7 @@
         #{supplierBank,jdbcType=VARCHAR},
       </if>
       <if test="supplierBankAccount != null">
-        #{supplierBankAccount,jdbcType=DECIMAL},
+        #{supplierBankAccount},
       </if>
       <if test="supplierBankName != null">
         #{supplierBankName,jdbcType=VARCHAR},
@@ -1186,7 +1186,7 @@
         PURCHASE_BANK = #{purchaseBank,jdbcType=VARCHAR},
       </if>
       <if test="purchaseBankAccount != null">
-        PURCHASE_BANK_ACCOUNT = #{purchaseBankAccount,jdbcType=DECIMAL},
+        PURCHASE_BANK_ACCOUNT = #{purchaseBankAccount},
       </if>
       <if test="supplierDepName != null">
         SUPPLIER_DEP_NAME = #{supplierDepName,jdbcType=VARCHAR},
@@ -1213,7 +1213,7 @@
         SUPPLIER_BANK = #{supplierBank,jdbcType=VARCHAR},
       </if>
       <if test="supplierBankAccount != null">
-        SUPPLIER_BANK_ACCOUNT = #{supplierBankAccount,jdbcType=DECIMAL},
+        SUPPLIER_BANK_ACCOUNT = #{supplierBankAccount},
       </if>
       <if test="supplierBankName != null">
         SUPPLIER_BANK_NAME = #{supplierBankName,jdbcType=VARCHAR},
@@ -1318,7 +1318,7 @@
       PURCHASE_UNITPOST_CODE = #{purchaseUnitpostCode,jdbcType=VARCHAR},
       PURCHASE_PAY_DEP = #{purchasePayDep,jdbcType=VARCHAR},
       PURCHASE_BANK = #{purchaseBank,jdbcType=VARCHAR},
-      PURCHASE_BANK_ACCOUNT = #{purchaseBankAccount,jdbcType=DECIMAL},
+      PURCHASE_BANK_ACCOUNT = #{purchaseBankAccount},
       SUPPLIER_DEP_NAME = #{supplierDepName,jdbcType=VARCHAR},
       SUPPLIER_LEGAL = #{supplierLegal,jdbcType=VARCHAR},
       SUPPLIER_AGENT = #{supplierAgent,jdbcType=VARCHAR},
@@ -1327,7 +1327,7 @@
       SUPPLIER_CONTACT_ADDRESS = #{supplierContactAddress,jdbcType=VARCHAR},
       SUPPLIER_UNITPOST_CODE = #{supplierUnitpostCode,jdbcType=VARCHAR},
       SUPPLIER_BANK = #{supplierBank,jdbcType=VARCHAR},
-      SUPPLIER_BANK_ACCOUNT = #{supplierBankAccount,jdbcType=DECIMAL},
+      SUPPLIER_BANK_ACCOUNT = #{supplierBankAccount},
       SUPPLIER_BANK_NAME = #{supplierBankName,jdbcType=VARCHAR},
       SUPPLIER_PUR_ID = #{supplierPurId,jdbcType=VARCHAR},
       CONTENT = #{content},

@@ -121,13 +121,13 @@
                 <td class="tc">${acc.workAmout }</td>
                 <td class="tc">${acc.workWeight }</td>
                 <td class="tc">${acc.workWeightTotal }</td>
-                <td class="tc">${acc.workPrice }</td>
-                <td class="tc">${acc.workMoney }</td>
+                <td class="tr">${acc.workPrice }</td>
+                <td class="tr">${acc.workMoney }</td>
                 <td class="tc">${acc.consumeAmout }</td>
                 <td class="tc">${acc.consumeWeight }</td>
                 <td class="tc">${acc.consumeWeightTotal }</td>
-                <td class="tc">${acc.consumePrice }</td>
-                <td class="tc">${acc.consumeMoney }</td>
+                <td class="tr">${acc.consumePrice }</td>
+                <td class="tr">${acc.consumeMoney }</td>
                 <%--<td class="tc">${acc.subtractMoney }</td>
             <td class="tc">${acc.checkMoney }</td>
             --%>

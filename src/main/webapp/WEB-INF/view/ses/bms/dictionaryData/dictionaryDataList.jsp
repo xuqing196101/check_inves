@@ -266,10 +266,9 @@
    <div class="container content height-350">
        <div class="row">
                 <!-- Begin Content -->
-                <div class="col-md-12" style="min-height:400px;">
+                <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="headline-v2"><h2>数据字典</h2></div>
-					<div class="col-md-3 col-sm-4 col-xs-12" id="show_tree_div">
-						<div class="tag-box tag-box-v3">
+					<div class="col-md-2 col-sm-4 col-xs-12 mt5" id="show_tree_div">
 							<ul id="ztree_show" class="btn_list p0">
 								<!-- 菜单树-->
 								<c:forEach items="${list}" var="dt" varStatus="vs">
@@ -281,7 +280,6 @@
 									</li>
 								</c:forEach>
 							</ul>
-						</div>
 					</div>
 
 					<input type="hidden" id="mid">
@@ -291,7 +289,7 @@
                     <input name="startRow" type="hidden" id="startRow" value="">
                     <input name="endRow" type="hidden" id="endRow" value="">
                     <input name="pageNum" type="hidden" id="pageNum" value="">
-					<div class="tag-box tag-box-v4 col-md-9 col-sm-9 col-xs-12 mt5">
+					<div class="tag-box tag-box-v4 col-md-10 col-sm-8 col-xs-12 mt5">
 						
 						<div class="col-md-12 col-xs-12 col-sm-12 p0"  id="show_content_div">
 						    <div id="pagediv" class="hide" align="right"></div>

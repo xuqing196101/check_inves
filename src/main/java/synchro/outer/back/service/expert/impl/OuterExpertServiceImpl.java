@@ -272,8 +272,14 @@ public class OuterExpertServiceImpl implements OuterExpertService {
             List<RoleUser> userRoles = userMapper.queryByUserId(expert.getUser().getId(), null);
         	expert.setUserRoles(userRoles);
             expert.setExpertCategory(getCategory(expert.getId()));
-            expert.setAttchList(getAttch(expert.getId()));
+            List<UploadFile> attchs = getAttch(expert.getId());
+//            expert.setAttchList(getAttch(expert.getId()));
             expert.setTitles(getTitle(expert.getId()));
+            for(ExpertTitle e:expert.getTitles()){
+            	  List<UploadFile> attch = fileUploadMapper.substrBusinessId(e.getId());
+            	  attchs.addAll(attch);
+            }
+            expert.setAttchList(attchs);
             list.add(expert);
         }
         return list;
