@@ -353,9 +353,9 @@
 									<tr>
 										<!-- <th class="info">序号</th> -->
 										<th class="info w50">年份</th>
-										<th class="info">会计事务所名称</th>
-										<th class="info">事务所联系电话</th>
-										<th class="info">审计人姓名（2人）</th>
+										<th class="info" width="23%">会计事务所名称</th>
+										<th class="info" width="13%">事务所联系电话</th>
+										<th class="info" width="23%">审计人姓名（2人）</th>
 										<!-- <th class="info">指标</th> -->
 										<th class="info">资产总额</th>
 										<th class="info">负债总额</th>
@@ -367,9 +367,9 @@
 								<tr>
 									<%-- <td class="tc">${vs.index + 1}</td> --%>
 									<td class="tc w50" id="${f.id }">${f.year } </td>
-									<td class="tc" id="name_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${f.id}');"</c:if>>${f.name }</td>
+									<td class="tl" id="name_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${f.id}');"</c:if>>${f.name }</td>
 									<td class="tc" id="telephone_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_telephone'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('telephone','${f.id}');"</c:if>>${f.telephone }</td>
-									<td class="tc" id="auditors_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_auditors'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('auditors','${f.id}');"</c:if>>${f.auditors }</td>
+									<td class="tl" id="auditors_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_auditors'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('auditors','${f.id}');"</c:if>>${f.auditors }</td>
 									<%-- <td class="tc">${f.quota }</td> --%>
 									<td class="tc" id="totalAssets_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_totalAssets'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('totalAssets','${f.id}');"</c:if>>${f.totalAssets }</td>
 									<td class="tc" id="totalLiabilities_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_totalLiabilities'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('totalLiabilities','${f.id}');"</c:if>>${f.totalLiabilities }</td>

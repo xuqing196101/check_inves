@@ -553,7 +553,7 @@
 					<thead>
 						<tr>
 							<!-- <th class="info w50">选择</th> -->
-							<th class="info w40">序号</th>
+							<th class="info w50">序号</th>
 							<th class="info" width="17%">供应商名称</th>
 							<th class="info" width="10%">采购机构</th>
 							<th class="info" width="8%">地区</th>

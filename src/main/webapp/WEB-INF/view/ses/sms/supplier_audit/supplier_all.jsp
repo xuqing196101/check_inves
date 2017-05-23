@@ -419,31 +419,31 @@
 							<tr>
 								<th class="info w50">选择</th>
 								<th class="info w50">序号</th>
-								<th class="info">供应商名称</th>
-								<th class="info" width="12%">手机号</th>
-								<th class="info" width="25%">企业类型</th>
-								<th class="info" width="12%">企业性质</th>
+								<th class="info" width="25%">供应商名称</th>
+								<th class="info" width="10%">手机号</th>
+								<th class="info" width="20%">企业类型</th>
+								<th class="info" width="10%">企业性质</th>
 								<th class="info" width="12%">审核时间</th>
-								<th class="info w60">发布</th>
-								<th class="info w100">状态</th>
+								<th class="info">发布</th>
+								<th class="info">状态</th>
 							</tr>
 						</thead>
 						<c:forEach items="${result.list }" var="list" varStatus="page">
 							<tr>
 								<td class="tc w30"><input name="id" type="checkbox" value="${list.id}"></td>
 								<td class="tc w50" onclick="shenhe('${list.id }');">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
-								<td class="tl pl20" onclick="shenhe('${list.id }');">${list.supplierName }</td>
+								<td class="tl" onclick="shenhe('${list.id }');">${list.supplierName }</td>
 								<td class="tc" onclick="shenhe('${list.id }');">${list.mobile }</td>
-								<td class="tl pl20" onclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
+								<td class="tl" onclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
 								<td class="tc" onclick="shenhe('${list.id }');">${list.businessNature}</td>
 								<td class="tc" onclick="shenhe('${list.id }');">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
-								<td class="tl w60" onclick="shenhe('${list.id }');">
+								<td class="tc" onclick="shenhe('${list.id }');">
 									<c:if test="${list.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
 									<c:if test="${list.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
 								</td>
-								<td class="tc w100" id="${list.id}" onclick="shenhe('${list.id }');">
+								<td class="tc" id="${list.id}" onclick="shenhe('${list.id }');">
 									<c:if test="${list.status == 0}"><span class="label rounded-2x label-u">待审核</span></c:if>
 									<c:if test="${list.status == 1}"><span class="label rounded-2x label-dark">审核通过</span></c:if>
 									<c:if test="${list.status == 2}"><span class="label rounded-2x label-dark">审核退回</span></c:if>

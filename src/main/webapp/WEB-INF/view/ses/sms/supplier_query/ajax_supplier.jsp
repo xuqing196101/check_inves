@@ -44,7 +44,7 @@
 	</head>
 
 	<body>
-		<h2 class="search_detail">
+		<div class="search_detail ml0">
 			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/ajax_supplier.html" method="post">
 				<input type="hidden" name="page" id="page">
 				<input type="hidden" name="categoryIds" value="${categoryIds }"/>
@@ -61,16 +61,16 @@
 			  <button type="button" class="btn fl mt1" onclick="resetQuery()">重置</button>
 			 </form>
 			 <div class="clear"></div>
-			</h2>
+			</div>
 	
 		 <div class="content table_box pl0">
 			<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
-						<th class="info">供应商名称</th>
-						<th class="info">供应商等级</th>
-						<th class="info">联系人</th>
+						<th class="info" width="40%">供应商名称</th>
+						<th class="info" width="15%">供应商等级</th>
+						<th class="info" width="17%">联系人</th>
 						<th class="info">联系人电话</th>
 						<!-- <th class="info">供应商类型</th>
 						<th class="info">状态</th> -->
@@ -83,7 +83,7 @@
 							<%-- <td class="pl20">
 								<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?judge=2&supplierId=${list.id}">${list.supplierName }</a>
 							</td> --%>
-							<td class="pl20">${list.supplierName }</td>
+							<td>${list.supplierName }</td>
 							<td class="tc">
 								<c:choose>
 									<c:when test="${list.status == -1 or (list.status==5 and list.isProvisional == 1)}">
@@ -94,7 +94,7 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<td class="tc">${list.armyBusinessName}</td>
+							<td class="tl">${list.armyBusinessName}</td>
 							<td class="tc">${list.armyBuinessTelephone}</td>
 							<%-- <td class="tl pl20">${list.supplierType }</td>
 							<td class="tc">

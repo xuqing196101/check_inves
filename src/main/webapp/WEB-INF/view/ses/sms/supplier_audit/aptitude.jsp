@@ -394,7 +394,7 @@
 
 							<!-- 工程 -->
 							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
-								<div class="tab-pane <c:if test="${liCountEng == 1}">active in</c:if> fade height-200" id="tab-3">
+								<div class="tab-pane <c:if test="${liCountEng == 1}">active in</c:if> fade" id="tab-3">
 									<c:set value="0" var="plength"> </c:set>
 									<table class="table table-bordered">
 										<thead>
@@ -403,11 +403,11 @@
 									      <!-- <th class="info tc">类别</th>
 									      <th class="info tc">大类</th>
 									      <th class="info tc">中类</th> -->
-									      <th class="info tc">产品类别</th>
-									      <th class="info tc">资质类型</th>
-									      <th class="info tc">证书编号</th>
-									      <th class="info tc">专业类别</th>
-									      <th class="info tc">资质等级</th>
+									      <th class="info tc" width="20%">产品类别</th>
+									      <th class="info tc" width="25%">资质类型</th>
+									      <th class="info tc" width="15%">证书编号</th>
+									      <th class="info tc" width="10%">专业类别</th>
+									      <th class="info tc" width="10%">资质等级</th>
 									     	<th class="info tc">证书图片</th>
 									     	<th class="info tc">操作</th>
 										  </tr>

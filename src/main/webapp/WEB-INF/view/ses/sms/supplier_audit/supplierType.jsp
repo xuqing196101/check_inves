@@ -747,7 +747,7 @@
 						</li>
 					</ul>
 
-					<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow">
+					<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow clear">
 						<c:set value="0" var="liCountPro" />
 						<c:set value="0" var="liCountSell" />
 						<c:set value="0" var="liCountEng" />
@@ -929,10 +929,10 @@
 											<thead>
 												<tr>
 													<th class="info w50">序号</th>
-													<th class="info">资质证书名称</th>
-													<th class="info">证书编号</th>
+													<th class="info" width="15%">资质证书名称</th>
+													<th class="info" width="12%">证书编号</th>
 													<th class="info">资质等级</th>
-													<th class="info">发证机关或机构</th>
+													<th class="info" width="12%">发证机关或机构</th>
 													<th class="info">有效期(起止时间)</th>
 													<th class="info">有效期(起止时间)</th>
 													<th class="info">证书状态</th>
@@ -943,10 +943,10 @@
 											<c:forEach items="${materialProduction}" var="m" varStatus="vs">
 												<tr >
 													<td class="tc">${vs.index + 1}</td>
-													<td class="tl pl20" id="name_${m.id}" <c:if test="${fn:contains(fieldProTwo,m.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${m.id }','mat_pro_page');"</c:if>>${m.name }</td>
-													<td class="tc" id="code_${m.id}"<c:if test="${fn:contains(fieldProTwo,m.id.concat('_code'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('code','${m.id }','mat_pro_page');"</c:if>>${m.code} </td>
+													<td class="tl" id="name_${m.id}" <c:if test="${fn:contains(fieldProTwo,m.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${m.id }','mat_pro_page');"</c:if>>${m.name }</td>
+													<td class="tl" id="code_${m.id}"<c:if test="${fn:contains(fieldProTwo,m.id.concat('_code'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('code','${m.id }','mat_pro_page');"</c:if>>${m.code} </td>
 													<td class="tc" id="levelCert_${m.id}" <c:if test="${fn:contains(fieldProTwo,m.id.concat('_levelCert'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('levelCert','${m.id }','mat_pro_page');"</c:if>>${m.levelCert}</td>
-													<td class="tc" id="licenceAuthorith_${m.id}" <c:if test="${fn:contains(fieldProTwo,m.id.concat('_licenceAuthorith'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('licenceAuthorith','${m.id }','mat_pro_page');"</c:if>>${m.licenceAuthorith }</td>
+													<td class="tl" id="licenceAuthorith_${m.id}" <c:if test="${fn:contains(fieldProTwo,m.id.concat('_licenceAuthorith'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('licenceAuthorith','${m.id }','mat_pro_page');"</c:if>>${m.licenceAuthorith }</td>
 													<td class="tc" id="expStartDate_${m.id}" <c:if test="${fn:contains(fieldProTwo,m.id.concat('_expStartDate'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('expStartDate','${m.id }','mat_pro_page');"</c:if>>
 														<fmt:formatDate value="${m.expStartDate }" pattern='yyyy-MM-dd' />
 													</td>
@@ -1014,10 +1014,10 @@
 											<thead>
 												<tr>
 													<th class="info w50">序号</th>
-													<th class="info">资质证书名称</th>
-													<th class="info">证书编号</th>
+													<th class="info" width="15%">资质证书名称</th>
+													<th class="info" width="12%">证书编号</th>
 													<th class="info">资质等级</th>
-													<th class="info">发证机关或机构</th>
+													<th class="info" width="12%">发证机关或机构</th>
 													<th class="info">有效期（起始时间）</th>
 													<th class="info">有效期（结束时间）</th>
 													<th class="info">证书状态</th>
@@ -1028,10 +1028,10 @@
 											<c:forEach items="${supplierCertSell}" var="s" varStatus="vs">
 												<tr>
 													<td class="tc">${vs.index + 1}</td>
-													<td class="tl pl20" id="name_${s.id }" <c:if test="${fn:contains(fieldSell,s.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${s.id }','mat_sell_page');"</c:if>>${s.name }</td>
-													<td class="tc" id="code_${s.id }" <c:if test="${fn:contains(fieldSell,s.id.concat('_code'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('code','${s.id }','mat_sell_page');"</c:if>>${s.code}</td>
+													<td class="tl" id="name_${s.id }" <c:if test="${fn:contains(fieldSell,s.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${s.id }','mat_sell_page');"</c:if>>${s.name }</td>
+													<td class="tl" id="code_${s.id }" <c:if test="${fn:contains(fieldSell,s.id.concat('_code'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('code','${s.id }','mat_sell_page');"</c:if>>${s.code}</td>
 													<td class="tc" id="levelCert_${s.id }" <c:if test="${fn:contains(fieldSell,s.id.concat('_levelCert'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('levelCert','${s.id }','mat_sell_page');"</c:if>>${s.levelCert}</td>
-													<td class="tc" id="licenceAuthorith_${s.id }" <c:if test="${fn:contains(fieldSell,s.id.concat('_licenceAuthorith'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('licenceAuthorith','${s.id }','mat_sell_page');"</c:if>>${s.licenceAuthorith }</td>
+													<td class="tl" id="licenceAuthorith_${s.id }" <c:if test="${fn:contains(fieldSell,s.id.concat('_licenceAuthorith'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('licenceAuthorith','${s.id }','mat_sell_page');"</c:if>>${s.licenceAuthorith }</td>
 													<td class="tc" id="expStartDate_${s.id }" <c:if test="${fn:contains(fieldSell,s.id.concat('_expStartDate'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('expStartDate','${s.id }','mat_sell_page');"</c:if>>
 														<fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd' />
 													</td>
@@ -1164,8 +1164,8 @@
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
-													<th class="info">证书名称</th>
-													<th class="info">证书编号</th>
+													<th class="info" width="20%">证书名称</th>
+													<th class="info" width="12%">证书编号</th>
 													<th class="info">资质等级</th>
 													<!-- <th class="info">技术负责人姓名</th>
 													<th class="info">技术负责人职称</th>
@@ -1173,7 +1173,7 @@
 													<th class="info">单位负责人姓名</th>
 													<th class="info">单位负责人职称</th>
 													<th class="info">单位负责人职务</th> -->
-													<th class="info">发证机关或机构</th>
+													<th class="info" width="12%">发证机关或机构</th>
 													<th class="info">发证日期</th>
 													<th class="info">有效截止日期</th>
 													<th class="info">证书状态</th>
@@ -1183,8 +1183,8 @@
 											</thead>
 											<c:forEach items="${supplierCertEng}" var="s" varStatus="vs">
 												<tr>
-													<td class="tc" id="certType_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certType','${s.id }','mat_eng_page');"</c:if>>${s.certType }</td>
-													<td class="tc" id="certCode_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certCode'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certCode','${s.id }','mat_eng_page');"</c:if>>${s.certCode }</td>
+													<td class="tl" id="certType_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certType','${s.id }','mat_eng_page');"</c:if>>${s.certType }</td>
+													<td class="tl" id="certCode_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certCode'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certCode','${s.id }','mat_eng_page');"</c:if>>${s.certCode }</td>
 													<td class="tc" id="certMaxLevel_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certMaxLevel'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certMaxLevel','${s.id }','mat_eng_page');"</c:if>>${s.certMaxLevel }</td>
 													<%-- <td class="tc">${s.techName }</td>
 													<td class="tc">${s.techPt }</td>
@@ -1192,7 +1192,7 @@
 													<td class="tc">${s.depName }</td>
 													<td class="tc">${s.depPt }</td>
 													<td class="tc">${s.depJop }</td> --%>
-													<td class="tc" id="licenceAuthorith_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_licenceAuthorith'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('licenceAuthorith','${s.id }','mat_eng_page');"</c:if>>${s.licenceAuthorith }</td>
+													<td class="tl" id="licenceAuthorith_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_licenceAuthorith'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('licenceAuthorith','${s.id }','mat_eng_page');"</c:if>>${s.licenceAuthorith }</td>
 													<td class="tc " id="expStartDate_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_expStartDate'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('expStartDate','${s.id }','mat_eng_page');"</c:if>>
 														<fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd' />
 													</td>
@@ -1222,11 +1222,11 @@
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
-													<th class="info">证书名称</th>
-													<th class="info">证书编号</th>
+													<th class="info" width="15%">证书名称</th>
+													<th class="info" width="12%">证书编号</th>
 													<th class="info">资质类型</th>
 													<th class="info">资质序列</th>
-													<th class="info">专业类别</th>
+													<th class="info" width="12%">专业类别</th>
 													<th class="info">资质等级</th>
 													<th class="info">是否主项资质</th>
 													<!-- <th class="info">批准资质资格内容</th>
@@ -1238,21 +1238,21 @@
 													<th class="info">资质资格状态变更原因</th> -->
 													<!-- <th class="info">附件</th> -->
 						
-													<th class="info w50">证书图片</th>
+													<th class="info w100">证书图片</th>
 													<th class="info w50">操作</th>
 												</tr>
 											</thead>
 											<c:forEach items="${supplierAptitutes}" var="s" varStatus="vs">
 												<tr>
-													<td class="tc" id="certName_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_certName'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certName','${s.id }','mat_eng_page');"</c:if>>${s.certName }</td>
-													<td class="tc" id="certCode_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_certCode'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certCode','${s.id }','mat_eng_page');"</c:if>>${s.certCode }</td>
-													<td class="tc" id="certType_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_certType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certType','${s.id }','mat_eng_page');"</c:if>>
+													<td class="tl" id="certName_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_certName'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certName','${s.id }','mat_eng_page');"</c:if>>${s.certName }</td>
+													<td class="tl" id="certCode_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_certCode'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certCode','${s.id }','mat_eng_page');"</c:if>>${s.certCode }</td>
+													<td class="tl" id="certType_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_certType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certType','${s.id }','mat_eng_page');"</c:if>>
 														<c:forEach items="${typeList}" var="type">
  															<c:if test="${s.certType eq type.id}">${type.name}</c:if>
 														</c:forEach>
 													</td>
 													<td class="tc" id="aptituteSequence_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_aptituteSequence'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('aptituteSequence','${s.id }','mat_eng_page');"</c:if>>${s.aptituteSequence }</td>
-													<td class="tc" id="professType_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_professType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('professType','${s.id }','mat_eng_page');"</c:if>>${s.professType }</td>
+													<td class="tl" id="professType_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_professType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('professType','${s.id }','mat_eng_page');"</c:if>>${s.professType }</td>
 													<td class="tc" id="aptituteLevel_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_aptituteLevel'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('aptituteLevel','${s.id }','mat_eng_page');"</c:if>>${s.aptituteLevel }</td>
 													<td class="tc" id="isMajorFund_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_isMajorFund'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('isMajorFund','${s.id }','mat_eng_page');"</c:if>>
 														<c:if test="${s.isMajorFund==0 }">否</c:if>
@@ -1332,10 +1332,10 @@
 											<thead>
 												<tr>
 													<th class="info w50">序号</th>
-													<th class="info">资质证书名称</th>
-													<th class="info">证书编号</th>
+													<th class="info" width="15%">资质证书名称</th>
+													<th class="info" width="12%">证书编号</th>
 													<th class="info">资质等级</th>
-													<th class="info">发证机关或机构</th>
+													<th class="info" width="12%">发证机关或机构</th>
 													<th class="info">有效期（起始时间）</th>
 													<th class="info">有效期（结束时间）</th>
 													<th class="info">证书状态</th>
@@ -1346,10 +1346,10 @@
 											<c:forEach items="${supplierCertSes}" var="s" varStatus="vs">
 												<tr>
 													<td class="tc">${vs.index + 1}</td>
-													<td class="tc" id="name_${s.id}" <c:if test="${fn:contains(fieldServe,s.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${s.id }','mat_serve_page');"</c:if>>${s.name }</td>
-													<td class="tc" id="code_${s.id}" <c:if test="${fn:contains(fieldServe,s.id.concat('_code'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('code','${s.id }','mat_serve_page');"</c:if>>${s.code}</td>
+													<td class="tl" id="name_${s.id}" <c:if test="${fn:contains(fieldServe,s.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${s.id }','mat_serve_page');"</c:if>>${s.name }</td>
+													<td class="tl" id="code_${s.id}" <c:if test="${fn:contains(fieldServe,s.id.concat('_code'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('code','${s.id }','mat_serve_page');"</c:if>>${s.code}</td>
 													<td class="tc" id="levelCert_${s.id}" <c:if test="${fn:contains(fieldServe,s.id.concat('_levelCert'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('levelCert','${s.id }','mat_serve_page');"</c:if>>${s.levelCert}</td>
-													<td class="tc" id="licenceAuthorith_${s.id}" <c:if test="${fn:contains(fieldServe,s.id.concat('_licenceAuthorith'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('licenceAuthorith','${s.id }','mat_serve_page');"</c:if>>${s.licenceAuthorith }</td>
+													<td class="tl" id="licenceAuthorith_${s.id}" <c:if test="${fn:contains(fieldServe,s.id.concat('_licenceAuthorith'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('licenceAuthorith','${s.id }','mat_serve_page');"</c:if>>${s.licenceAuthorith }</td>
 													<td class="tc" id="expStartDate_${s.id}" <c:if test="${fn:contains(fieldServe,s.id.concat('_expStartDate'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('expStartDate','${s.id }','mat_serve_page');"</c:if>>
 														<fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd' />
 													</td>
@@ -1375,7 +1375,7 @@
 								</div>
 							</c:if>
 
-							<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
+							<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
 								<a class="btn" type="button" onclick="lastStep();">上一步</a>
 								<a class="btn" type="button" onclick="nextStep();">下一步</a>
 							</div>
