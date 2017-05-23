@@ -45,6 +45,8 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 import bss.model.cs.PurchaseContract;
 import bss.model.ppms.Project;
@@ -89,6 +91,9 @@ public class PqInfoController extends BaseSupplierController{
 	
 	@Autowired
     private OrgnizationServiceI orgnizationService;
+	
+	@Autowired
+	private UploadService uploadService;
 	/**
 	 * 
 	 * @Title: getAll
@@ -104,7 +109,16 @@ public class PqInfoController extends BaseSupplierController{
 	        Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
 	        if("1".equals(orgnization.getTypeName())){
 	            List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
+	            for (PqInfo pqInfo : pqInfos) {
+	                List<UploadFile> uploadFiles = uploadService.getFilesOther(pqInfo.getId(), DictionaryDataUtil.getId("CONTRACT_APPROVE_ATTACH"), "2");
+	                if(uploadFiles != null && uploadFiles.size() > 0){
+	                    pqInfo.setReport(uploadFiles.get(0).getTypeId());
+	                }else{
+	                    pqInfo.setReport("0");
+	                }
+                }
 	            model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+	            model.addAttribute("typeId", DictionaryDataUtil.getId("CONTRACT_APPROVE_ATTACH"));
 	        }
 	    }
 		return "bss/pqims/pqinfo/list";
@@ -142,7 +156,6 @@ public class PqInfoController extends BaseSupplierController{
 	 * @param:     
 	 * @return:
 	 */
-	@SuppressWarnings("null")
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request,@RequestParam("dateString") String dateString,
 			@Valid PqInfo pqInfo,BindingResult result,Model model){
@@ -202,10 +215,10 @@ public class PqInfoController extends BaseSupplierController{
 			model.addAttribute("pqinfo", pqInfo);
 			url="bss/pqims/pqinfo/add";
 		}else{
-			 String report=pqInfoService.queryPath(pqInfo.getId());
+			/* String report=pqInfoService.queryPath(pqInfo.getId());
 			 if(report!=null && report!=""){
 				 pqInfo.setReport(report);
-			 }
+			 }*/
 		     //封装质检信息实体类
 		     pqInfoService.add(pqInfo);
 		     

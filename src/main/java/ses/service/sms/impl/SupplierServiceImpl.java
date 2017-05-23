@@ -1251,4 +1251,10 @@ public class SupplierServiceImpl implements SupplierService {
 		return listSupplier;
 	}
 
+    @Override
+    public List<Supplier> viewCreditCodeMobile(HashMap<String, Object> map) {
+        
+        return supplierMapper.selectBySupplier(map);
+    }
+
 }

@@ -7,6 +7,7 @@
 <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
 <link href="${pageContext.request.contextPath}/public/ztree/css/ztree-extend.css" type="text/css" rel="stylesheet" >
 <script src="${pageContext.request.contextPath}/js/oms/purchase/jquery.metadata.js"></script>
+<script src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/select-tree.js"></script>
 
@@ -101,7 +102,55 @@ function onCheck(e, treeId, treeNode) {
 	  }
   }
 	
-	
+	function ajaxIdNumber(){
+       var is_error = 0;
+       var idNumber = $("#idNumber").val();
+        var msg=validateIdCard(idNumber);
+       if(msg!='success'){
+       is_error = 1;
+       $("#ajax_idNumber").html(msg);
+          return is_error;
+       }else{
+       $("#ajax_idNumber").html("");
+       }
+       var id = $("#uId").val();
+       $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/user/ajaxIdNumber.do?idNumber="+idNumber+"&id="+id,
+             dataType: "json",
+             success: function(data){
+                     if (!data.success) {
+            $("#ajax_idNumber").html(data.msg);
+            is_error = 1;
+           } else {
+            $("#ajax_idNumber").html("");
+           }
+               }
+          });
+          return is_error;
+    }
+    
+    function ajaxMoblie(){
+       var is_error = 0;
+       var mobile = $("#mobile").val();
+       var id = $("#uId").val();
+       $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile+"&id="+id,
+             dataType: "json",
+             success: function(data){
+                     if (!data.success) {
+            $("#ajax_mobile").html(data.msg);
+            is_error = 1;
+           } else {
+            $("#ajax_mobile").html("");
+           }
+               }
+          });
+          return is_error;
+    }
 	
 </script>
 </head>
@@ -356,19 +405,19 @@ function onCheck(e, treeId, treeNode) {
 			 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">军官证号</span>
 			    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-		        	<input  name="officerCertNo" value="${purchaseInfo.officerCertNo}"  maxlength="20" type="text">
+		        	<input  name="officerCertNo" value="${purchaseInfo.officerCertNo}" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5\uF900-\uFA2D]/g,'')"  maxlength="20" type="text">
 		        	<span class="add-on">i</span>
 		        </div>
 			 </li>
 			  <li class="col-md-3 col-sm-6 col-xs-12"> 
-			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>身份证号</span>
-				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			      <input class="input_group" name="idCard" value="${purchaseInfo.idCard}" type="text"> 
-				  <span class="add-on">i</span>
-				  <div class="cue"><sf:errors path="idCard"/></div>
-				  <div class="cue">${exist_idCard}</div>
-				</div>
-			  </li>
+        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>身份证号</span>
+        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" id="idNumber" name="idCard" onkeyup="ajaxIdNumber()" value="${purchaseInfo.idCard}" type="text"> 
+        <span class="add-on">i</span>
+        <div class="cue"><sf:errors path="idCard"/></div>
+        <div id="ajax_idNumber" class="cue">${exist_idCard}</div>
+        </div>
+      </li>
 				                     
 			  <li class="col-md-3 col-sm-6 col-xs-12"> 
 				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">政治面貌</span>
@@ -384,9 +433,10 @@ function onCheck(e, treeId, treeNode) {
 			  <li class="col-md-3 col-sm-6 col-xs-12 pl15">  
 			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>手机号码</span>
 				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-				  <input class="input_group" name="mobile" value="${purchaseInfo.mobile}" type="text"> 
+				  <input class="input_group" name="mobile" value="${purchaseInfo.mobile}" onblur="ajaxMoblie()" type="text"> 
 				  <span class="add-on">i</span>
-				  <div class="cue"><sf:errors path="mobile"/></div>
+          <div class="cue"><sf:errors path="mobile"/></div>
+          <div id="ajax_mobile" class="cue"></div>
 				</div>
 			  </li>
 			  

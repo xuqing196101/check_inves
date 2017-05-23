@@ -8,10 +8,61 @@
 <%@ include file="/WEB-INF/view/common/validate.jsp"%>
 <link href="${pageContext.request.contextPath}/public/ztree/css/ztree-extend.css" type="text/css" rel="stylesheet" >
 <script src="${pageContext.request.contextPath}/js/oms/purchase/jquery.metadata.js"></script>
+<script src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/select-tree.js"></script>
 
 <script type="text/javascript">
+
+//验证登陆用户名
+        function validataLoginName(){
+            var loginName = $("#loginName").val();
+            var patrn=/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;
+            //var patrn2=/^(?=.*[a-z])[a-z0-9]+/ig;
+            if(loginName.replace(/\s/g,"")==null || loginName.replace(/\s/g,"")==""){
+                $("#is_exist").html("用户名不能为空").css('color','red');
+                flag=1;
+                return false;
+            }
+
+            if(loginName.indexOf(" ")!=-1){
+                $("#is_exist").html("不能有空格").css('color','red');
+                flag=1;
+                return false;
+            }
+            if(patrn.test(loginName)){
+                $("#is_exist").html("不能有非法字符").css('color','red');
+                flag=1;
+                return false;
+            }
+            if(/[\u4e00-\u9fa5]/.test(loginName)){
+                $("#is_exist").html("不能有中文").css('color','red');
+                flag=1;
+                return false;
+            }
+            if(loginName.replace(/\s/g,"").length<6){
+                $("#is_exist").html("登录名由6-20位字母或数字组成 ").css('color','red');
+                flag=1;
+                return false;
+
+            }
+            $.ajax({
+                url:'${pageContext.request.contextPath}/expert/findAllLoginName.do',
+                type:"post",
+                data:{"loginName":loginName},
+                success:function(obj){
+                    if(obj=='1'){
+                        $("#is_exist").html("用户名已存在").css('color','red');
+                        flag=1;
+                        return false;
+                    }else{
+                        $("#is_exist").html("");
+                        flag = 2;
+                        return true;
+                    }
+                }
+            });
+        }
 function showRole() {
 	var userId = $("#uId").val();
 	var setting = {
@@ -122,24 +173,24 @@ function onCheck(e, treeId, treeNode) {
 		}
 		
 		function ajaxMoblie(){
-			 var is_error = 0;
-			 var mobile = $("#mobile").val();
-			 $.ajax({
+       var is_error = 0;
+       var mobile = $("#mobile").val();
+       $.ajax({
              type: "GET",
              async: false, 
              url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile,
              dataType: "json",
              success: function(data){
                      if (!data.success) {
-						$("#ajax_mobile").html(data.msg);
-						is_error = 1;
-					 } else {
-					 	$("#ajax_mobile").html("");
-					 }
+            $("#ajax_mobile").html(data.msg);
+            is_error = 1;
+           } else {
+            $("#ajax_mobile").html("");
+           }
                }
-         	});
-         	return is_error;
-		}
+          });
+          return is_error;
+    }
 		
 		
 		function save(){
@@ -148,24 +199,33 @@ function onCheck(e, treeId, treeNode) {
 		}
 		
 		function ajaxIdNumber(){
-			 var is_error = 0;
-			 var idNumber = $("#idNumber").val();
-			 $.ajax({
+       var is_error = 0;
+       var idNumber = $("#idNumber").val();
+       var msg=validateIdCard(idNumber);
+       if(msg!='success'){
+       is_error = 1;
+       $("#ajax_idNumber").html(msg);
+       return is_error;
+       }else{
+       $("#ajax_idNumber").html("");
+       }
+       
+       $.ajax({
              type: "GET",
              async: false, 
              url: "${pageContext.request.contextPath}/user/ajaxIdNumber.do?idNumber="+idNumber,
              dataType: "json",
              success: function(data){
                      if (!data.success) {
-						$("#ajax_idNumber").html(data.msg);
-						is_error = 1;
-					 } else {
-					 	$("#ajax_idNumber").html("");
-					 }
+            $("#ajax_idNumber").html(data.msg);
+            is_error = 1;
+           } else {
+            $("#ajax_idNumber").html("");
+           }
                }
-         	});
-         	return is_error;
-		}
+          });
+          return is_error;
+    }
 		
 		$(document).ready(function(){  
     		$("#formID").bind("submit", function(){  
@@ -222,7 +282,7 @@ function onCheck(e, treeId, treeNode) {
 		    <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
 			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>用户名</span>
 			  <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			    <input id="loginName" name="loginName" value="${purchaseInfo.loginName}" maxlength="30" type="text" onblur="isExist();">
+			    <input id="loginName" name="loginName" value="${purchaseInfo.loginName}" maxlength="30" type="text" onkeyup="validataLoginName();">
 			    <span class="add-on">i</span>
 			    <div class="cue"><sf:errors path="loginName"/></div>
 			    <div id="is_exist" class="cue">${exist}</div>
@@ -458,14 +518,14 @@ function onCheck(e, treeId, treeNode) {
 			 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">军官证号</span>
 			    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-		        	<input  name="officerCertNo" value="${purchaseInfo.officerCertNo}"  maxlength="20" type="text">
+		        	<input  name="officerCertNo" value="${purchaseInfo.officerCertNo}" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5\uF900-\uFA2D]/g,'')" maxlength="20" type="text">
 		        	<span class="add-on">i</span>
 		        </div>
 			 </li>
 			<li class="col-md-3 col-sm-6 col-xs-12"> 
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>身份证号</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-				<input class="input_group" id="idNumber" name="idCard" onblur="ajaxIdNumber()" value="${purchaseInfo.idCard}" type="text"> 
+				<input class="input_group" id="idNumber" name="idCard" onkeyup="ajaxIdNumber()" value="${purchaseInfo.idCard}" type="text"> 
 				<span class="add-on">i</span>
 				<div class="cue"><sf:errors path="idCard"/></div>
 				<div id="ajax_idNumber" class="cue">${exist_idCard}</div>

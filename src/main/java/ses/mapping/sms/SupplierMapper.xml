@@ -1810,4 +1810,20 @@
 			IS_DELETED = 1
 		WHERE ID = #{id}
 	</update>
+	
+	<!-- 查询临时供应商 -->
+	<select id="selectBySupplier" parameterType="java.util.Map" resultMap="BaseResultMap">
+	  SELECT
+    <include refid="Base_Column_List" />
+    FROM T_SES_SMS_SUPPLIER
+    WHERE
+    IS_DELETED = 0 AND SUPPLIER_STATUS != 6 AND IS_PROVISIONAL = 1
+    <if test="creditCode != null and creditCode != ''">
+      AND CREDIT_CODE = #{creditCode}
+    </if>
+    <if test="armyBuinessTelephone != null and armyBuinessTelephone !=''">
+      AND ARMY_BUSINESS_TELEPHONE = #{armyBuinessTelephone}
+    </if>
+	</select>
+	
 </mapper>

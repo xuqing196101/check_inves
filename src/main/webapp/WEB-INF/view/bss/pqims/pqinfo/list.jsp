@@ -135,6 +135,15 @@
 		$("#contractName").val('${pqinfo.contract.name}');
 		$("#contractCode").val('${pqinfo.contract.code}');
 	});
+	
+	function openUpload(id,report){
+	  if(report == "0"){
+	    layer.msg("没有上传质检报告");
+	  }else{
+	    var a = "2";
+	    openViewDIv(id, report, a, null, null);
+	  }
+	}
   </script>
   <body>
 	<!--面包屑导航开始-->
@@ -227,7 +236,8 @@
 				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.conclusion}</td>
 			
 				<td class="tc pointer">
-				<button type="button" onclick="openViewDIv('${PqInfo.id}','${PqInfo.report}','2','artice_show','this')" class="btn">质检报告</button>
+				  <button type="button" onclick="openUpload('${PqInfo.id}','${PqInfo.report}')" class="btn">质检报告</button>
+				  <%-- <button type="button" onclick="openViewDIv('${PqInfo.id}','${typeId}','2','artice_show','this')" class="btn">质检报告</button> --%>
 				</td>
    				
 			</tr>

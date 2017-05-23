@@ -1108,8 +1108,11 @@ public class SupplierExtractsController extends BaseController {
             model.addAttribute("armyBuinessTelephoneError", "不能为空");
             type = 1;
         }
-        if (supplier.getCreditCode() != null && !"".equals(supplier.getCreditCode())) {
-            List<Supplier> tempList = supplierService.validateCreditCode(supplier.getCreditCode());
+        if (StringUtils.isNotBlank(supplier.getCreditCode()) && StringUtils.isNotBlank(supplier.getArmyBuinessTelephone())) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("armyBuinessTelephone", supplier.getArmyBuinessTelephone());
+            map.put("creditCode", supplier.getCreditCode());
+            List<Supplier> tempList = supplierService.viewCreditCodeMobile(map);
             if (supplier.getCreditCode().length() > 36) {
                 model.addAttribute("creditCodeError", "不能为空或是字符过长!");
                 type = 1;
