@@ -560,5 +560,26 @@ public String getSign() {
 	public void setEnterPort(Integer enterPort) {
 		this.enterPort = enterPort;
 	}
+
+	@Override
+	public String toString() {
+		return "PurchaseRequired [id=" + id + ", planName=" + planName + ", planNo=" + planNo + ", referenceNo="
+				+ referenceNo + ", planType=" + planType + ", department=" + department + ", goodsName=" + goodsName
+				+ ", stand=" + stand + ", qualitStand=" + qualitStand + ", item=" + item + ", purchaseCount="
+				+ purchaseCount + ", price=" + price + ", budget=" + budget + ", deliverDate=" + deliverDate
+				+ ", purchaseType=" + purchaseType + ", supplier=" + supplier + ", isFreeTax=" + isFreeTax
+				+ ", goodsUse=" + goodsUse + ", useUnit=" + useUnit + ", createdAt=" + createdAt + ", userId=" + userId
+				+ ", parentId=" + parentId + ", reqLevel=" + reqLevel + ", status=" + status + ", memo=" + memo
+				+ ", seq=" + seq + ", historyStatus=" + historyStatus + ", goodsType=" + goodsType + ", organization="
+				+ organization + ", auditDate=" + auditDate + ", isMaster=" + isMaster + ", isDelete=" + isDelete
+				+ ", isCollect=" + isCollect + ", code=" + code + ", onePurchaseType=" + onePurchaseType
+				+ ", oneOrganiza=" + oneOrganiza + ", oneAdvice=" + oneAdvice + ", twoTechAdvice=" + twoTechAdvice
+				+ ", twoAdvice=" + twoAdvice + ", threePurchaseType=" + threePurchaseType + ", threeOrganiza="
+				+ threeOrganiza + ", threeAdvice=" + threeAdvice + ", brand=" + brand + ", userUnit=" + userUnit
+				+ ", detailStatus=" + detailStatus + ", reason=" + reason + ", recorderMobile=" + recorderMobile
+				+ ", advancedStatus=" + advancedStatus + ", projectStatus=" + projectStatus + ", uniqueId=" + uniqueId
+				+ ", fileId=" + fileId + ", sign=" + sign + ", userName=" + userName + ", progressBar=" + progressBar
+				+ ", enterPort=" + enterPort + "]";
+	}
 	
 }

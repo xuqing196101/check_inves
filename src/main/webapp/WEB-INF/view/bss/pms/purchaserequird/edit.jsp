@@ -1,21 +1,29 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<%@ include file="/WEB-INF/view/common/tags.jsp"%>
 <!DOCTYPE HTML>
 <html>
-	<head>
-<%@ include file="/WEB-INF/view/common.jsp" %>
+<head>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 
-   <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/moment.js"></script>
-   
-   <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/pikaday.js"></script>
-   <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/ZeroClipboard.js"></script>
-   
-   <link href="${pageContext.request.contextPath}/public/lock_table/handsontable.min.css" media="screen" rel="stylesheet" type="text/css">
-   <link href="${pageContext.request.contextPath}/public/lock_table/pikaday.css" media="screen" rel="stylesheet" type="text/css">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/public/lock_table/moment.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/public/lock_table/pikaday.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/public/lock_table/ZeroClipboard.js"></script>
+
+<link
+	href="${pageContext.request.contextPath}/public/lock_table/handsontable.min.css"
+	media="screen" rel="stylesheet" type="text/css">
+<link
+	href="${pageContext.request.contextPath}/public/lock_table/pikaday.css"
+	media="screen" rel="stylesheet" type="text/css">
 
 
-   <script type="text/javascript">
+<script type="text/javascript">
 	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -245,17 +253,70 @@
 	      
 	      function submit(){
 	    	  
-	    	  var mc=$("#jhmc").val();
-	    	  var bh=$("#jhbh").val();
-	    	  var no=$("#referenceNo").val();
+	    	  var name=$("#jhmc").val();
+	    	  var no=$("#jhbh").val();
+	    	  var refNo=$("#referenceNo").val();
 	    	  var type=$("#wtype").val();
 	    	  var mobile=$("#rec_mobile").val();
-	    	  $("input[name='planName']").val(mc);
-	    	  $("input[name='planNo']").val(bh);
-	    	  $("input[name='referenceNo']").val(no);
+	    	  var uniqueId=$("#uniqueId").val();
+	    	  $("input[name='planName']").val(name);
+	    	  $("input[name='planNo']").val(no);
+	    	  $("input[name='referenceNo']").val(refNo);
 	    	  $("input[name='planType']").val(type);
 	    	  $("input[name='mobile']").val(mobile);
-	    	  $("#table").find("#edit_form").submit();
+	    	// $("#table").find("#edit_form").submit();
+	    	
+	    	 if($("#table tr").length>$("#listSize").val()){
+	    		 var jsonStr = [];
+	 			var allTable = document.getElementsByTagName("table");
+	 			 $("#table tr").each(function(i){ //遍历Table的所有Row
+	 					 if(i>$("#listSize").val() ){
+	 				    var id =$(this).find("td:eq(1)").children(":first").val();
+	 				    var parentId =$(this).find("td:eq(1)").children(":last").val();
+	 				    var seq = $(this).find("td:eq(1)").children(":first").next().val();
+	 				    var department = $(this).find("td:eq(2)").children(":first").val();
+	 					var goodsName =$(this).find("td:eq(3)").children(":first").val();
+	 					var stand = $(this).find("td:eq(4)").children(":first").val();
+	 					var qualitStand = $(this).find("td:eq(5)").children(":first").val();
+	 					var item = $(this).find("td:eq(6)").children(":first").val();
+	 					var purchaseCount =$(this).find("td:eq(7)").children(":first").next().val();
+	 					var price = $(this).find("td:eq(8)").children(":first").next().val();
+	 					var budget = $(this).find("td:eq(9)").children(":first").next().val();
+	 				  	var deliverDate = $(this).find("td:eq(10)").children(":first").val();
+	 					var purchaseTypes = $(this).find("td:eq(11)").children(":first").val();
+	 					var supplier = $(this).find("td:eq(12)").children(":first").val();
+	 					var isFreeTax = $(this).find("td:eq(13)").children(":first").val();
+	 					var goodsUse = $(this).find("td:eq(14)").children(":first").val();
+	 					var useUnit =$(this).find("td:eq(15)").children(":first").val();
+	 					var memo = $(this).find("td:eq(16)").children(":first").val(); 
+	 				 
+	 				  	var json = {"seq":seq,"id":id,"parentId":parentId,"department":department, "goodsName":goodsName, "stand":stand,"qualitStand":qualitStand,
+	 						"item":item, "purchaseCount":purchaseCount, "price":price, "budget":budget, 
+	 						"deliverDate":deliverDate,"purchaseType":purchaseTypes,"supplier":supplier,
+	 						"isFreeTax":isFreeTax,"goodsUse":goodsUse,"useUnit":useUnit,"memo":memo,"isMaster":i+1};
+	 					jsonStr.push(json);  
+	 				 	}
+	 				});
+	 		//	var forms=$("#add_form").serializeArray();
+	 			  $.ajax({
+	 	  		        type: "POST",
+	 	  		        url: "${pageContext.request.contextPath}/purchaser/editdetail.do",
+	 	  		        data: {"prList":JSON.stringify(jsonStr),
+	 	  		        	"planType":type,
+	 	  		        	"planNo":no,
+	 	  		        	"planName":name,
+	 	  		        	"recorderMobile":mobile,
+	 	  		        	"referenceNo":refNo,
+	 	  		        	"unqueId":uniqueId,
+	 	  		        	"enterPort":$("#enterPort").val()},
+	 	  		        success: function (message) {
+	 	  		        	 window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
+	 	  		        },
+	 	  		        error: function (message) {
+	 	  		        }
+	 	  		    });
+	    	 }
+	    	 //$("#table").find("#edit_form").submit();
 	    	 // $("#edit_form").submit();
 	      }
 	       function gtype(obj){
@@ -288,10 +349,427 @@
 	   function download(id,key,zipFileName,fileName){
     	  location.href="${pageContext.request.contextPath}/file/downloadOneFile.html?id="+ id +"&key="+key + "&zipFileName=" + encodeURI(encodeURI(zipFileName)) + "&fileName=" + encodeURI(encodeURI(fileName));
        }
+       //下载模板
+	   function down() {
+			window.location.href = "${pageContext.request.contextPath}/purchaser/download.do";
+		}
+	 //鼠标移动显示全部内容
+		var index;
+		//查看编制说明
+		function chakan() {
+			index = layer.open({
+				type: 1, //page层
+				area: ['600px', '500px'],
+				title: '编制说明',
+				closeBtn: 1,
+				shade: 0.01, //遮罩透明度
+				moveType: 1, //拖拽风格，0是默认，1是传统拖动
+				shift: 1, //0-6的动画形式，-1不开启
+				offset: ['80px', '400px'],
+				content: $('#organization'),
+			});
+		}
+
+		function closeLayer() {
+			layer.close(index);
+		}
+       //查看产品分类目录
+       var datas;
+			var treeObj;
+			
+			$(function() {
+				var setting = {
+					async: {
+						autoParam: ["id"],
+						enable: true,
+						url: "${pageContext.request.contextPath}/category/createtree.do",
+						dataType: "json",
+						type: "post",
+					},
+					callback: {
+						onClick: zTreeOnClick, //点击节点触发的事件
+						//beforeRemove: zTreeBeforeRemove,
+						//beforeRename: zTreeBeforeRename, 
+						//onRemove: zTreeOnRemove,
+						//onRename: zTreeOnRename,
+					},
+					data: {
+						simpleData: {
+							enable: true,
+							idKey: "id",
+							pIdKey: "pId",
+							rootPId: 0,
+						}
+					},
+				};
+				//控制树的显示和隐藏
+				var expertsTypeId = $("#expertsTypeId").val();
+				if(expertsTypeId == 1 || expertsTypeId == "1") {
+					treeObj = $.fn.zTree.init($("#ztree"), setting, datas);
+					$("#ztree").show();
+				} else {
+					treeObj = $.fn.zTree.init($("#ztree"), setting, datas);
+					$("#ztree").hide();
+				}
+				
+			});
+	   function typeShow() {
+			/* 	 var expertsTypeId = $("#expertsTypeId").val();
+				 if(expertsTypeId==1 || expertsTypeId=="1"){ */
+			$("#ztree").show();
+			layer.open({
+				type: 1,
+				title: '信息',
+				skin: 'layui-layer-rim',
+				shadeClose: true,
+				offset: ['20%', '20%'],
+				area: ['45%', '70%'],
+				content: $("#catalogue")
+			});
+			$(".layui-layer-shade").remove();
+			/*  }else{
+				 $("#ztree").hide();
+			 } */
+
+		}
+		var treeid = null;
+		/*树点击事件*/
+		function zTreeOnClick(event, treeId, treeNode) {
+			treeid = treeNode.id;
+
+		}
+
+		function typehide() {
+			layer.closeAll();
+		}
+
+		function same(obj,parentId) {
+			            $(obj).parent().parent().find("td:eq(1)").children(":last").val(parentId);
+		 			  	$(obj).parent().parent().find("td:eq(7)").children(":last").val(parentId);
+				    	$(obj).parent().parent().find("td:eq(8)").children(":last").val(parentId);
+				    	$(obj).parent().parent().find("td:eq(9)").children(":last").val(parentId);  
+		}
+
+		function news(obj) {
+			var s = $("#count").val();
+			s++;
+			$("#count").val(s);
+			var trs = $(obj).parent().parent();
+			$(trs).after("<tr><td class='tc'><input style='border: 0px;' type='text' name='list[" + s + "].id' />" +
+				"<input style='border: 0px;' type='text' name='list[" + s + "].seq' /><input style='border: 0px;' value='" + id + "' type='hidden' name='list[" + s + "].parentId' /></td>" +
+				"<td class='tc p0'> <input  style='border: 0px;'  type='text' name='list[" + s + "].department' /> </td>" +
+				"<td class='tc p0'> <input  style='border: 0px;' type='text' name='list[" + s + "].goodsName' /> </td>" +
+				"<td class='tc p0'> <input  style='border: 0px;' type='text' name='list[" + s + "].stand' /> </td>" +
+				"<td class='tc p0'> <input  style='border: 0px;' type='text' name='list[" + s + "].qualitStand' /> </td>" +
+				"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + s + "].item' /> </td>" +
+				"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + s + "].purchaseCount' /> </td>" +
+				"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + s + "].price' /> </td>" +
+				"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + s + "].budget' /> </td>" +
+				"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + s + "].deliverDate' /> </td>" +
+				"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + s + "].purchaseType' /> </td>" +
+				"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + s + "].supplier' /> </td>" +
+				"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + s + "].isFreeTax' /> </td>" +
+				"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + s + "].goodsUse' /> </td>" +
+				"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + s + "].useUnit' /> </td>" +
+				"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + s + "].memo' /> </td>" +
+				"<td class='tc p0'><input class='add' name='dyadds' type='button' onclick='aadd(this)' value='添加子节点'>" +
+				"<input class='btn btn-windows add' name='delt' type='button' onclick='same(this)' value='添加同级节点'>" +
+				" <input class='btn btn-windows add' name='delt' type='button' onclick='news(this)' value='新加任务'></td>" +
+				+"<tr/>");
+
+		}
+      //导入
+	   function uploadExcel() {
+			index = layer.open({
+				type: 1, //page层
+				area: ['400px', '300px'],
+				title: '导入采购需求',
+				closeBtn: 1,
+				shade: 0.01, //遮罩透明度
+				moveType: 1, //拖拽风格，0是默认，1是传统拖动
+				shift: 1, //0-6的动画形式，-1不开启
+				offset: ['80px', '400px'],
+				content: $('#file_div'),
+			});
+		}
+	   function fileup(){
+		  	   var detailRow = document.getElementsByName("detailRow");
+			   var index = detailRow.length;
+			   var planNo=$("#planNo").val();
+	           $.ajaxFileUpload ( {
+	                        url: "${pageContext.request.contextPath}/purchaser/upload.do?planNo="+planNo,  
+	                        secureuri: false,  
+	                        fileElementId: 'fileName', 
+	                        dataType: 'json',
+	                        success: function (data) { 
+	                        	var bool=true;
+	                           var chars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+							   if(data=="0"){
+							    	layer.alert("非法文件不能导入",{offset: ['222px', '390px'], shade:0.01});
+							    } 
+	                            if(data=="1"){
+					        	   layer.alert("文件格式错误",{offset: ['222px', '390px'], shade:0.01});
+					        	    
+					           } 
+	                            if(data=="2"){
+	                            	layer.alert("excel编写错误，请重写编写",{offset: ['222px', '390px'], shade:0.01});
+	                            }
+	                            if(data=="3"){
+	                            	layer.alert("节点错误，请重写编写",{offset: ['222px', '390px'], shade:0.01});
+	                            }
+	                            if(data=="4"){
+	                            	layer.alert("父级节点不能填写数量，采购单价，请重写编写",{offset: ['222px', '390px'], shade:0.01});
+	                            }
+	                            
+							      if(data.indexOf("行")!=-1){
+							    	  bool=false;
+							      }
+	                            
+							     if(bool!=true){
+							        	   layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
+							        }
+							           else{
+							        	   layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
+							             $("#detailZeroRow").empty();
+							              var count=1;
+							                $.ajax({
+							  		        type: "POST",
+							  		        url: "${pageContext.request.contextPath}/templet/uploaddetail.html",
+							  		        data: {prList:JSON.stringify(data),
+							  		        		index:index,
+							  		        		type:"edit"},
+							  		        success: function (result) {
+							  		        	$("#detailZeroRow").append(result);
+												init_web_upload();
+												  var bool=$("input[name='import']").is(':checked');
+												if(bool==true){
+													$("td[name='userNone']").attr("style","");
+													$("th[name='userNone']").attr("style","");
+												}else{
+													$("td[name='userNone']").attr("style","display:none");
+													$("th[name='userNone']").attr("style","display:none");
+												}  
+												
+							  		        },
+							  		        error: function (message) {
+							  		        }
+							  		    });  
+							           layer.close(index);
+	                           }
+	                        }
+	                       
+	                    }); 
+				
+			} 
+	 //动态添加
+		function aadd() {
+			var value = $("#xqbm").val();
+			var detailRow = document.getElementsByName("detailRow");
+			var index = detailRow.length;
+			var id = null;
+			$.ajax({
+				url: "${pageContext.request.contextPath}/templet/detail.html",
+				type: "post",
+				data:{"index":index,
+					  "type":"edit"},
+				success: function(data) {
+					$("#detailZeroRow").append(data);
+					init_web_upload();
+				    var bool=$("input[name='import']").is(':checked');
+					if(bool==true){
+						$("td[name='userNone']").attr("style","");
+						$("th[name='userNone']").attr("style","");
+					}else{
+						$("td[name='userNone']").attr("style","display:none");
+						$("th[name='userNone']").attr("style","display:none");
+					}
+					
+				}
+			});
+		}
+		function getSeq(obj,index){
+	    	  var id=$("table tr:eq(1)").find("td:eq(1)").children(":first").val();
+	    	  var val= $(obj).parent().parent().find("td:eq(1)").children(":first").next().val();
+	    	  var prev= $("#seq"+(index-1)).val();
+	    	 
+	    	  //二级节点
+	    	  var ch=chniese(prev);
+	    	  var con=conChniese(val);
+	    	  var twoPrev=conChniese(prev);
+	    	  var two=nums(prev);
+	    	  var twonum=conNum(prev);
+	    	  var twoen=eng(prev);
+	    	  var twoconeng=conEng(prev);
+	    	  
+	    	  //三级节点
+	    	  var conPrev=conChniese(prev);
+	    	  var num=nums(val);
+	    	  var threePrev=conChniese(prev);
+	    	  var threenum=nums(prev);
+	    	  var threeconNum=conNum(prev);
+	    	  var threeen=eng(prev);
+	    	  var threeConEn=conEng(prev);
+	    	  
+	    	  //四级节点
+	    	  var numPrev=nums(prev);
+	    	  var conum=conNum(val);
+	    	  var fourPrev=conNum(prev);
+	    	  
+	    	  
+	    	  var conumPrev=conNum(prev);
+	    	  var en=eng(val); 
+	    	  var five=conNum(prev);
+	    	  
+	    	  var enPrev=eng(prev);
+	    	  var sixVal=conEng(val);  
+	    	  
+	    	  if(ch==true&&con==true){
+			    	same(obj,id);
+	    	  }else if(con==true&&twoPrev==true){
+	    		  same(obj,id);
+	    	  }else if(two==true&&con==true){
+	    		  same(obj,id);
+	    	  }else if(twonum==true&&con==true){
+	    		  same(obj,id);
+	    	  }else if(twoconeng==true&&con==true){
+	    		  same(obj,id);
+	    	  }else if(twoen==true&&con==true){
+	    		  same(obj,id);
+	    	  }
+	    	  
+	    	  
+	    	  else if(conPrev==true&&num==true){
+	    		  
+	    		  var parentId= getPreviousElement("conChniese");
+	    		  
+	    		  same(obj,parentId);
+	    	  }else if(threePrev==true&&num==true){
+	    		  var parentId= getPreviousElement("conChniese");
+	    		  same(obj,parentId);
+	    	  }else if(threenum==true&&num==true){
+	    		  var parentId= getPreviousElement("conChniese");
+	    		  
+	    		  same(obj,parentId);
+	    	  }else if(threeconNum==true&&num==true){
+	    		  var parentId= getPreviousElement("conChniese");
+	    		  same(obj,parentId);
+	    	  }else if(threeen==true&&num==true){
+	    		  var parentId= getPreviousElement("conChniese");
+	    		  same(obj,parentId);
+	    	  }else if(threeConEn==true&&num==true){
+	    		  var parentId= getPreviousElement("conChniese");
+	    		  same(obj,parentId);
+	    	  }
+	    	  
+	    	  
+	         else if(numPrev==true&&conum==true){
+	        	 var parentId= getPreviousElement("nums");
+	        	 same(obj,parentId);
+	    	  }else if(fourPrev==true&&conum==true){
+	    		  var parentId= getPreviousElement("nums");
+	    		  same(obj,parentId);
+	    	  }
+	    	  
+	    	  else if(conumPrev==true&&en==true){
+	    		  var parentId= getPreviousElement("conNum");
+	    		  same(obj,parentId);
+	    	  }else if(five==true&&en==true){
+	    		  var parentId= getPreviousElement("conNum");
+	    		  same(obj,parentId);
+	    	  }
+	    	  
+	    	  else if(enPrev==true&&sixVal==true){
+	    		  var parentId=getPreviousElement("conEng");
+	    		  same(obj,parentId);
+	    	  }else{
+	    		 layer.alert("节点填写错误",{offset: ['222px', '390px'], shade:0.01});
+	    	  }  
+	       } 
+		 //判断是否是中文
+        function chniese(val){
+        	
+	         var bool=true;
+	         var reg=/^[\u4e00-\u9fa5]+$/;
+	         if(!reg.test(val)&&!val.indexOf("（")!=-1){
+	        	 bool=false;
+	          }
+	         return  bool;
+        }  
+        //判断是否包含是中文
+     function conChniese(val){
+	         var bool=true;
+	         var reg=/^.*[\u4e00-\u9fa5]+.*$/;
+	         if(reg.test(val)&&val.indexOf("（")!=-1){
+	        	 bool=true;
+	          }else{
+	        	  bool=false;
+	          }
+	         return  bool;
+        }  
+        //判断是否是数字
+        function nums(val){
+        	var bool=true;
+        	var reg=/^\d{1,}$/;
+        	if(reg.test(val)&&!val.indexOf("（")!=-1){
+        		 bool=true;
+        	}else{
+	        	 bool=false;
+	          }
+        	return bool;
+        }  
+        //是包含数字
+       function conNum(val){
+        	var bool=true;
+        	var reg=/^.*\d+.*$/;
+        	if(reg.test(val)&&val.indexOf("（")!=-1){
+        		bool=true;
+        	}else{
+        		bool=false;
+        	}
+        	return bool;
+        }  
+        //是否是英文
+        function eng(val){
+        	var bool=false;
+            var chars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+            for(var i=0;i<chars.length;i++){
+            	if(chars[i]==val){
+            		bool=true;
+            	}
+            }
+            return  bool;
+        }  
+        
+        //是否是英文
+        function conEng(val){
+        	var bool=false;
+            var chars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+            for(var i=0;i<chars.length;i++){
+            	if(val.match(chars[i])&&val.indexOf("（")!=-1){
+            		bool=true;
+            	}
+            }
+            return  bool;
+        }  
+        
+		//获取距离当前元素最近的上级元素
+		function getPreviousElement(methodName) {
+			var parentId;
+			 $("#table tr").each(function(i){ //遍历Table的所有Row
+				var seq=$('#seq'+i).val();
+				if(eval(methodName+"(\""+seq+"\")")){
+					parentId=$("#id"+i).val();
+				}	
+			  }
+			 )
+			 return parentId;
+		}
+	    
+	
 </script>
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
 <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
- --%>  
+ --%>
 </head>
 
 <body>
@@ -308,239 +786,336 @@
 		</div>
 	</div>
 	<div class="container container_box" id="container">
-		
-		 <div>
-				<h2 class="count_flow"><i>1</i>需求主信息</h2>
-				<ul class="ul_list">
-					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求名称</span>
-						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group"  id="jhmc" value="${list[0].planName}">
-							<span class="add-on">i</span>
-						</div>
-					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 hide">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求编号</span>
-						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" id="jhbh" value="${list[0].planNo}" >
-							<span class="add-on">i</span>
-						</div>
-					</li>
-					
-					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求文号</span>
-						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group"  id="referenceNo" name="referenceNo"   value="${list[0].referenceNo}" >
-							<span class="add-on">i</span>
-						</div>
-					</li>
-					
-					
-					
-					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
-						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-							<select name="planType" id="wtype" onchange="gtype(this)"  >
-								<c:forEach items="${types }" var="tp" >
-								  <c:if test="${tp.id==list[0].planType }">
-									<option value="${tp.id}" selected="selected">${tp.name }</option>
-								 </c:if>
-								  <c:if test="${tp.id!=list[0].planType }">
-									<option value="${tp.id}">${tp.name }</option>
-								 </c:if>
-								</c:forEach>
-							</select>
-						</div>
-					</li>
-					
-				  
-					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">录入人手机号</span>
-						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" id="rec_mobile"  name="mobile" value="${list[0].recorderMobile }"> 
-							<span class="add-on">i</span>
-						</div>
-					</li>
-					<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'}"> 
-					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"  id="dnone" >
-			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			                <input type="checkbox" id="import" name=""  value="进口" <c:if test="${list[0].enterPort==1}">checked="checked"</c:if>  onchange="imports(this)"  />进口
-			            </div>
-			         </li>
-			          </c:if>
-			      <c:if test="${list[0].planType!='FC9528B2E74F4CB2A9E74735A8D6E90A'}"> 
-			      <li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5 hide mt25 ml5"  id="dnone" >
-			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			                <input type="checkbox" id="import" name=""  value="进口"  onchange="imports(this)"  />进口
-			            </div>
-			         </li>
-			      </c:if>
-             <li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5">
-                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求附件</span>
-                       <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${fileId}" sysKey="2" typeId="${detailId}" auto="true" />
-                        <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${detailId}" />
-             </li>
-          
-	   </ul>
-	 </div>
+		<input type="hidden" value="${uniqueId}" id="uniqueId">
+		<div>
+			<h2 class="count_flow">
+				<i>1</i>需求主信息
+			</h2>
+			<ul class="ul_list">
+				<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span
+					class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求名称</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input type="text" class="input_group" id="jhmc"
+							value="${list[0].planName}"> <span class="add-on">i</span>
+					</div></li>
+				<li class="col-md-3 col-sm-6 col-xs-12 hide"><span
+					class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求编号</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input type="text" class="input_group" id="jhbh"
+							value="${list[0].planNo}"> <span class="add-on">i</span>
+					</div></li>
 
-		<h2 class="count_flow"><i>2</i>需求明细</h2>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span
+					class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求文号</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input type="text" class="input_group" id="referenceNo"
+							name="referenceNo" value="${list[0].referenceNo}"> <span
+							class="add-on">i</span>
+					</div></li>
+
+
+
+				<li class="col-md-3 col-sm-6 col-xs-12"><span
+					class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
+					<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+						<select name="planType" id="wtype" onchange="gtype(this)">
+							<c:forEach items="${types }" var="tp">
+								<c:if test="${tp.id==list[0].planType }">
+									<option value="${tp.id}" selected="selected">${tp.name }</option>
+								</c:if>
+								<c:if test="${tp.id!=list[0].planType }">
+									<option value="${tp.id}">${tp.name }</option>
+								</c:if>
+							</c:forEach>
+						</select>
+					</div></li>
+
+
+				<li class="col-md-3 col-sm-6 col-xs-12"><span
+					class="col-md-12 padding-left-5 col-sm-12 col-xs-12">录入人手机号</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 p0">
+						<input type="text" class="input_group" id="rec_mobile"
+							name="mobile" value="${list[0].recorderMobile }"> <span
+							class="add-on">i</span>
+					</div></li>
+				<c:if test="${list[0].planType=='FC9528B2E74F4CB2A9E74735A8D6E90A'}">
+					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5" id="dnone">
+						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+							<input type="checkbox" id="import" name="" value="进口"
+								<c:if test="${list[0].enterPort==1}">checked="checked"</c:if>
+								onchange="imports(this)" />进口
+						</div>
+					</li>
+				</c:if>
+				<c:if test="${list[0].planType!='FC9528B2E74F4CB2A9E74735A8D6E90A'}">
+					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5 hide mt25 ml5"
+						id="dnone">
+						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+							<input type="checkbox" id="import" name="" value="进口"
+								onchange="imports(this)" />进口
+						</div>
+					</li>
+				</c:if>
+				<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"><span
+					class="col-md-12 padding-left-5 col-sm-12 col-xs-12">需求附件</span> <u:upload
+						id="detail" multiple="true" buttonName="上传附件"
+						businessId="${fileId}" sysKey="2" typeId="${detailId}" auto="true" />
+					<u:show showId="detailshow" businessId="${fileId}" sysKey="2"
+						typeId="${detailId}" /></li>
+
+			</ul>
+		</div>
+
+		<h2 class="count_flow">
+			<i>2</i>需求明细
+		</h2>
 		<div class="content mt0 require_ul_list">
-	
-             <div class="content " id="content">
-                 <table id="table" class="table table-bordered table-condensed lockout" >
+			<!-- -- -->
+			<div class="col-md-12 p115 mt10">
+				<button class="btn btn-windows add" onclick="aadd()">添加</button>
+				<%--
+	                    <button  class="btn btn-windows add" onclick="same()">添加同级</button>--%>
+				<button class="btn btn-windows input" onclick="down()">下载模板</button>
+				<button class="btn btn-windows input" onclick="uploadExcel();">导入</button>
+				<button class="btn padding-left-10 padding-right-10 btn_back"
+					onclick="typeShow()">查看产品分类目录</button>
+				<button class="btn padding-left-10 padding-right-10 btn_back"
+					onclick="chakan()">查看编制说明</button>
+			</div>
+			<!-- -- -->
+			<div class="content " id="content">
+				<input type="hidden" name="enterPort" id="enterPort"
+					value="${list[0].enterPort}" /> <input type="hidden" id="oneNodeId"
+					value=""> <input type="hidden" id="twoNodeId" value="">
+				<input type="hidden" id="threeNodeId" value=""> <input
+					type="hidden" id="fourNodeId" value=""> <input
+					type="hidden" id="fiveNodeId" value=""> <input
+					type="hidden" id="sixNodeId" value=""> <input type="hidden"
+					id="oneNodeId" value="">
+				<table id="table"
+					class="table table-bordered table-condensed lockout">
 					<thead>
 						<tr id="scroll_top">
+							<th class="seq">行号</th>
 							<th class="info seq">序号</th>
 							<th class="info department">需求部门</th>
-							<th class="info goodsname">物资类别<br>及名称</th>
+							<th class="info goodsname">物资类别<br>及名称
+							</th>
 							<th class="info stand">规格型号</th>
-							<th class="info qualitstand">质量技术标准</br>（技术参数）</th>
-							<th class="info item">计量<br>单位</th>
-							<th class="info purchasecount">采购<br>数量</th>
-							<th class="info price">单价</br>（元）</th>
-							<th class="info budget">预算金额</br>（万元）</th>
+							<th class="info qualitstand">质量技术标准</br>（技术参数）
+							</th>
+							<th class="info item">计量<br>单位
+							</th>
+							<th class="info purchasecount">采购<br>数量
+							</th>
+							<th class="info price">单价</br>（元）
+							</th>
+							<th class="info budget">预算金额</br>（万元）
+							</th>
 							<th class="info deliverdate">交货期限</th>
 							<th class="info purchasetype">采购方式</th>
 							<th class="info purchasename">供应商名称</th>
-							<th class="info freetax">是否申请</br>办理免税</th>
-							<c:if test="${list[0].enterPort==1}"> 
-							<th  name="userNone" class="info">物资用途</br>（仅进口）</th>
-							<th  name="userNone" class="info">使用单位</br>（仅进口）</th>
+							<th class="info freetax">是否申请</br>办理免税
+							</th>
+							<c:if test="${list[0].enterPort==1}">
+								<th name="userNone" class="info">物资用途</br>（仅进口）
+								</th>
+								<th name="userNone" class="info">使用单位</br>（仅进口）
+								</th>
 							</c:if>
-					<!-- 		<th class="info">物资用途</br>（仅进口）</th>
+							<!-- 		<th class="info">物资用途</br>（仅进口）</th>
 							<th class="info">使用单位</br>（仅进口）</th> -->
 							<th class="info memo">备注</th>
-							   <th  class="extrafile">附件</th>  
-					<!-- 		<th class="w100">状态</th> -->
+							<th class="extrafile">附件</th>
+							<!-- 		<th class="w100">状态</th> -->
 						</tr>
 					</thead>
-					<form   id="edit_form"  action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
-					<c:forEach items="${list }" var="obj" varStatus="vs">
-						<tr style="cursor: pointer;">
-                           <td class="tc">${obj.seq}<input class="seq" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-                           <td><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
-                               <div class="department">${obj.department}</div>
-                          <%--  <c:forEach items="${requires }" var="re" >
+					<form id="edit_form"
+						action="${pageContext.request.contextPath}/purchaser/update.html"
+						method="post">
+						<input type="hidden" id="listSize" value="${listSize }" />
+						<tbody id="detailZeroRow">
+							<c:forEach items="${list }" var="obj" varStatus="vs">
+								<tr style="cursor: pointer;" name="detailRow">
+									<td><div class="seq">${vs.index+1 }</div></td>
+									<td class="tc"><input type="hidden" id="id${vs.index}"
+										name="list[${vs.index }].id" value="${obj.id }"> <input
+										type="hidden" id="seq${vs.index}" value="${obj.seq}">
+										<input type="hidden" id="parentId${vs.index}"
+										name="list[${vs.index }].parentId" value="${obj.parentId }">
+										${obj.seq}</td>
+									<td>
+										<%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
+										<div class="department">${obj.department}</div> <%--  <c:forEach items="${requires }" var="re" >
 					         <c:if test="${obj.department==re.name }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
 			               </c:forEach> --%>
-                  </td>
-                  <td>
-                      <div class="goodsname">
-                        <input   type="hidden" name="ss"   value="${obj.id }">
-                  		<textarea name="list[${vs.index }].goodsName"  onblur="historys(this)" class="target">${obj.goodsName}</textarea>
-                  		 <input type="hidden"    name="history" value=""/>
-                      </div>
-                  </td>
-                  <td>
-                   <input   type="hidden" name="ss"   value="${obj.id }">
-                  <input type="text" name="list[${vs.index }].stand" value="${obj.stand}" onblur="historys(this)" class="stand">
-                   <input type="hidden"    name="history" value=""/>
-                  </td>
-                  <td>
-                  <input   type="hidden" name="ss"   value="${obj.id }">
-                  <input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}"  onblur="historys(this)" class="qualitstand">
-                  <input type="hidden"    name="history" value=""/>
-                  </td>
-                  <td>
-                  <input   type="hidden" name="ss"   value="${obj.id }">
-                  <input type="text" name="list[${vs.index }].item" value="${obj.item}" onblur="historys(this)" class="item"></td>
-                   <input type="hidden"    name="history" value=""/>
-                  <td>
-                    <c:if test="${obj.purchaseCount!=null}">
-                      <input   type="hidden" name="ss"   value="${obj.id }" >
-                      <input maxlength="11" class="purchasecount" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
-                      <input type="hidden" name="ss" value="${obj.parentId }">
-                    </c:if>
-                    <c:if test="${obj.purchaseCount==null }">
-                      <input class="purchasecount" type="text" name="list[${vs.index }].purchaseCount"  class="w80" value="${obj.purchaseCount }">
-                    </c:if>
-                  </td>
-                  <td class="tl w80">
-                    <c:if test="${obj.price!=null}">
-                      <input   type="hidden" name="ss"   value="${obj.id }">
-                      <input maxlength="11" class="price"   name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
-                      <input type="hidden" name="ss"   value="${obj.parentId }">
-                    </c:if>
-                    <c:if test="${obj.price==null}">
-                      <input class="price" readonly="readonly"   type="text" name="list[${vs.index }].price" value="${obj.price }">
-                    </c:if>
-                  </td>
-                  <td>
-                    <input   type="hidden" name="ss"   value="${obj.id }">
-                    <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}" class="budget"/>
-                    <input type="hidden" name="ss"   value="${obj.parentId }">
-                  </td>
-                  <td class="tc">
-                   <input   type="hidden" name="ss"   value="${obj.id }">
-                  <textarea name="list[${vs.index }].deliverDate" onblur="historys(this)"  class="target deliverdate">${obj.deliverDate}</textarea>
-                    <input type="hidden"    name="history" value=""/>
-                  </td>
-                 
-                  <td>
-             <%--       <c:if test="${obj.price!=null}"> --%>
-                     <input type="hidden" name="ss" value="${obj.id}"  >
-                      <select name="list[${vs.index }].purchaseType"  <c:if test="${obj.price==null}"> onchange="sel(this);" </c:if> class="purchasetype" id="select">
-                        <option value="" >请选择</option>
-                        <c:forEach items="${kind}" var="kind" >
-                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
-                        </c:forEach>
-                      </select>
-                      <input type="hidden"    name="history" value=""/> 
-                  <%--    </c:if> --%>
-                  </td>
-                  <td>
-                  <input   type="hidden" name="ss"   value="${obj.id }">
-                  <textarea name="list[${vs.index }].supplier" onblur="historys(this)"  class="target purchasename">${obj.supplier}</textarea>
-                  <input type="hidden"    name="history" value=""/>
-                  </td>
-                  <td><input type="text" name="list[${vs.index }].isFreeTax" onblur="historys(this)"  value="${obj.isFreeTax}" class="freetax"></td>
-                 <c:if test="${list[0].enterPort==1}"> 
-                  <td name="userNone"> <input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
-                  <td name="userNone"><input type="text" name="list[${vs.index }].userUnit" value="${obj.useUnit}"></td>
-                  </c:if>
-                  <td><div class="memo">
-                  <input   type="hidden" name="ss"   value="${obj.id }">
-                    <textarea name="list[${vs.index }].memo"  onblur="historys(this)" class="target purchasename">${obj.memo}</textarea>
-                    <input type="hidden"    name="history" value=""/>
-                  </div>
-                  </td>
-                  <td>
-                 <c:if test="${obj.purchaseCount!=null}">
-							   <div class="extrafile">
-									 <u:upload id="up_${vs.index}"  multiple="true"  businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${detailId}" auto="true" />
-									 <u:show showId="show_${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${detailId}" />
-							  </div>
-				</c:if>			  
-							  	
-						<input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}"/>									
-					 </td>
-                 
- 
-             <!--       <td class="tc w100"><input type="text" value="暂存" readonly="readonly"></td> -->
-                 </tr>
+									</td>
+									<td>
+										<div class="goodsname">
+											<input type="hidden" name="ss" value="${obj.id }">
+											<textarea name="list[${vs.index }].goodsName"
+												onblur="historys(this)" class="target">${obj.goodsName}</textarea>
+											<input type="hidden" name="history" value="" />
+										</div>
+									</td>
+									<td><input type="hidden" name="ss" value="${obj.id }">
+										<input type="text" name="list[${vs.index }].stand"
+										value="${obj.stand}" onblur="historys(this)" class="stand">
+										<input type="hidden" name="history" value="" /></td>
+									<td><input type="hidden" name="ss" value="${obj.id }">
+										<input type="text" name="list[${vs.index }].qualitStand"
+										value="${obj.qualitStand}" onblur="historys(this)"
+										class="qualitstand"> <input type="hidden"
+										name="history" value="" /></td>
+									<td><input type="hidden" name="ss" value="${obj.id }">
+										<input type="text" name="list[${vs.index }].item"
+										value="${obj.item}" onblur="historys(this)" class="item"></td>
+									<input type="hidden" name="history" value="" />
+									<td><c:if test="${obj.purchaseCount!=null}">
+											<input type="hidden" name="ss" value="${obj.id }">
+											<input maxlength="11" class="purchasecount"
+												onblur="sum2(this);" type="text"
+												onkeyup="this.value=this.value.replace(/\D/g,'')"
+												onafterpaste="this.value=this.value.replace(/\D/g,'')"
+												name="list[${vs.index }].purchaseCount"
+												value="${obj.purchaseCount}" />
+											<input type="hidden" name="ss" value="${obj.parentId }">
+										</c:if> <c:if test="${obj.purchaseCount==null }">
+											<input class="purchasecount" type="text"
+												name="list[${vs.index }].purchaseCount" class="w80"
+												value="${obj.purchaseCount }">
+										</c:if></td>
+									<td class="tl w80"><c:if test="${obj.price!=null}">
+											<input type="hidden" name="ss" value="${obj.id }">
+											<input maxlength="11" class="price"
+												name="list[${vs.index }].price" onblur="sum1(this);"
+												value="${obj.price}" type="text" />
+											<input type="hidden" name="ss" value="${obj.parentId }">
+										</c:if> <c:if test="${obj.price==null}">
+											<input class="price" readonly="readonly" type="text"
+												name="list[${vs.index }].price" value="${obj.price }">
+										</c:if></td>
+									<td><input type="hidden" name="ss" value="${obj.id }">
+										<input maxlength="11" id="budget"
+										name="list[${vs.index }].budget" type="text"
+										readonly="readonly" value="${obj.budget}" class="budget" /> <input
+										type="hidden" name="ss" value="${obj.parentId }"></td>
+									<td class="tc"><input type="hidden" name="ss"
+										value="${obj.id }"> <textarea
+											name="list[${vs.index }].deliverDate" onblur="historys(this)"
+											class="target deliverdate">${obj.deliverDate}</textarea> <input
+										type="hidden" name="history" value="" /></td>
 
-				 </c:forEach>
-				 
-				 		    <input type="hidden" name="planName">
-							<input type="hidden" name="planNo"  >
-							<input type="hidden" name="planType"  >
-							<input type="hidden" name="mobile"  >
-						    <input type="hidden" name="referenceNo"  />
-						    <input type="hidden" name="enterPort"  value="${list[0].enterPort}"/>
-						    
-						    
-			   </form>
+									<td>
+										<%--       <c:if test="${obj.price!=null}"> --%> <input
+										type="hidden" name="ss" value="${obj.id}"> <select
+										name="list[${vs.index }].purchaseType"
+										<c:if test="${obj.price==null}"> onchange="sel(this);" </c:if>
+										class="purchasetype" id="select">
+											<option value="">请选择</option>
+											<c:forEach items="${kind}" var="kind">
+												<option value="${kind.id}"
+													<c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>>
+													${kind.name}</option>
+											</c:forEach>
+									</select> <input type="hidden" name="history" value="" /> <%--    </c:if> --%>
+									</td>
+									<td><input type="hidden" name="ss" value="${obj.id }">
+										<textarea name="list[${vs.index }].supplier"
+											onblur="historys(this)" class="target purchasename">${obj.supplier}</textarea>
+										<input type="hidden" name="history" value="" /></td>
+									<td><input type="text" name="list[${vs.index }].isFreeTax"
+										onblur="historys(this)" value="${obj.isFreeTax}"
+										class="freetax"></td>
+									<c:if test="${list[0].enterPort==1}">
+										<td name="userNone"><input type="text"
+											name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
+										<td name="userNone"><input type="text"
+											name="list[${vs.index }].userUnit" value="${obj.useUnit}"></td>
+									</c:if>
+									<td><div class="memo">
+											<input type="hidden" name="ss" value="${obj.id }">
+											<textarea name="list[${vs.index }].memo"
+												onblur="historys(this)" class="target purchasename">${obj.memo}</textarea>
+											<input type="hidden" name="history" value="" />
+										</div></td>
+									<td><c:if test="${obj.purchaseCount!=null}">
+											<div class="extrafile">
+												<u:upload id="up_${vs.index}" multiple="true"
+													businessId="${obj.id}" buttonName="上传文件" sysKey="2"
+													typeId="${detailId}" auto="true" />
+												<u:show showId="show_${vs.index}" businessId="${obj.id}"
+													sysKey="2" typeId="${detailId}" />
+											</div>
+										</c:if> <input type="hidden" class="ptype" name="ptype"
+										value="${obj.purchaseType}" /></td>
+
+
+									<!--       <td class="tc w100"><input type="text" value="暂存" readonly="readonly"></td> -->
+								</tr>
+
+							</c:forEach>
+
+							<input type="hidden" name="planName">
+							<input type="hidden" name="planNo">
+							<input type="hidden" id="planNo" value="${planNo }">
+							<input type="hidden" name="planType">
+							<input type="hidden" name="mobile">
+							<input type="hidden" name="referenceNo" />
+					</form>
 				</table>
-				</div>
-				<div class="col-md-12  mt10 col-sm-12 col-xs-12 tc">
-			    <input class="btn btn-windows git" type="button" onclick="submit()" value="保存">
-                <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-             </div>
-		
-		</div>
-    </div>
+			</div>
+			<div class="col-md-12  mt10 col-sm-12 col-xs-12 tc">
+				<input class="btn btn-windows git" type="button" onclick="submit()"
+					value="保存"> <input class="btn btn-windows back" value="返回"
+					type="button" onclick="location.href='javascript:history.go(-1);'">
+			</div>
 
+		</div>
+	</div>
+	<div id="organization" class="dnone">
+		<p align="center">编制说明
+		<p style="margin-left: 20px;">1、请严格按照序号顺序为：一、（一）、1（1）、a、（a）的顺序填写序号，括号为中文括号</p>
+
+		<p style="margin-left: 20px;">2、任务明细最多为六级,请勿多于六级</p>
+
+		<p style="margin-left: 20px;">3、请勿空行填写</p>
+
+		<p style="margin-left: 20px;">4、需求单位名称不能为空</p>
+
+		<p style="margin-left: 20px;">5、请按表式填写需求明细。用户可以编辑行，但不能增加或删除列。</p>
+
+		<p style="margin-left: 20px;">6、最子级请严格按照填写说明填写，父级菜单请将序号与金额填写正确(金额=所有子项金额/10000)
+		</p>
+
+		<p style="margin-left: 20px;">7、采购方式填写选项包括：公开招标、邀请招标、竞争性谈判、询价、单一来源。</p>
+
+		<p style="margin-left: 20px;">8、选择单一来源采购方式的，必须填写供应商名称；选择其他采购方式的不填。</p>
+
+		<p style="margin-left: 20px;">9、规格型号和质量技术标准内容分别不得超过250、1000字。超过此范围的，请以附件形式另报。并在Excel中对应的值写“另附”，详见Excel模板。</p>
+
+		<p style="margin-left: 20px;">10、采购数量、单价和预算金额必须为数字格式。其中单价单位为“元”，预算金额单位为“万元”。</p>
+		<button class="btn padding-left-10 padding-right-10 btn_back"
+			style="margin-left: 230px;" onclick="closeLayer()">确定</button>
+
+	</div>
+
+	<input type="hidden" id="count" value="0">
+	<div id="catalogue" class="dnone">
+		<div id="ztree" class="ztree"></div>
+	</div>
+	<div class=" clear margin-top-30" id="file_div" style="display: none;">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+
+			<p class="red" style="font-size: 16px;">注：请选择无标签水印的文件！</p>
+
+
+			<input type="file" id="fileName" class="input_group" name="file">
+		</div>
+		<div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
+			<input type="button" class="btn input" onclick="fileup()" value="导入" />
+		</div>
+	</div>
 
 </body>
 <script type="text/javascript">
