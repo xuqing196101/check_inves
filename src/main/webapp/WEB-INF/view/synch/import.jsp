@@ -51,7 +51,7 @@
     <div class="margin-top-10 breadcrumbs ">
 	  <div class="container">
 	    <ul class="breadcrumb margin-left-0">
-		  <li><a href="#"> 首页</a></li>
+		  <li><a href="javascript:void(0);"> 首页</a></li>
 		  <li><a>保障系统</a></li>
 		  <li><a>数据同步</a></li>
 		  <li class="active"><a>数据导入</a></li>

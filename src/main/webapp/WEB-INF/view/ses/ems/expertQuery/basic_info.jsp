@@ -62,7 +62,7 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0)"> 首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">支撑环境</a>
@@ -72,10 +72,10 @@
 					</li>
 					<li>
 						<c:if test="${sign == 1}">
-							<a  href="${pageContext.request.contextPath}/expert/findAllExpert.html">全部专家查询</a>
+							<a  href="javascript:jumppage('${pageContext.request.contextPath}/expert/findAllExpert.html')">全部专家查询</a>
 						</c:if>
 						<c:if test="${sign == 2}">
-							<a  href="${pageContext.request.contextPath}/expertQuery/list.html">入库专家查询</a>
+							<a  href="javascript:jumppage('${pageContext.request.contextPath}/expertQuery/list.html')">入库专家查询</a>
 						</c:if>
 					</li>
 				</ul>

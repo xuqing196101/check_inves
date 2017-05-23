@@ -36,19 +36,19 @@
         <div class="container">
             <ul class="breadcrumb margin-left-0">
                 <li>
-                    <a href="#"> 首页</a>
+                    <a href="javascript:void(0);"> 首页</a>
                 </li>
                 <li>
-                    <a href="#">支撑环境系统</a>
+                    <a href="javascript:void(0);">支撑环境系统</a>
                 </li>
                 <li>
-                    <a href="#">专家管理</a>
+                    <a href="javascript:void(0);">专家管理</a>
                 </li>
                 <li>
-                    <a href="#">专家抽取</a>
+                    <a href="javascript:void(0);">专家抽取</a>
                 </li>
                 <li class="active">
-                    <a href="#">添加专家抽取</a>
+                    <a href="javascript:void(0);">添加专家抽取</a>
                 </li>
             </ul>
             <div class="clear"></div>

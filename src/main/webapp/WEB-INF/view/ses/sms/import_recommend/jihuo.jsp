@@ -37,16 +37,16 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="#"> 首页</a>
+						<a href="javascript:void(0);"> 首页</a>
 					</li>
 					<li>
-						<a href="#">进口代理商</a>
+						<a href="javascript:void(0);">进口代理商</a>
 					</li>
 					<li>
-						<a href="#">进口代理商管理</a>
+						<a href="javascript:void(0);">进口代理商管理</a>
 					</li>
 					<li class="active">
-						<a href="#">进口代理商激活</a>
+						<a href="javascript:void(0);">进口代理商激活</a>
 					</li>
 				</ul>
 				<div class="clear"></div>

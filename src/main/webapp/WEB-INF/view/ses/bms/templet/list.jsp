@@ -139,13 +139,13 @@
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a href="${pageContext.request.contextPath}"> 首页</a>
+				<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')" target="_blank"> 首页</a>
 				</li>
 				<li><a href="javascript:void(0)">支撑系统</a>
 				</li>
 				<li><a href="javascript:void(0)">后台管理</a>
 				</li>
-				<li class="active"><a href="${pageContext.request.contextPath}/templet/getAll.html">模版管理</a>
+				<li class="active"><a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/templet/getAll.html')">公告模板管理</a>
 				</li>
 			</ul>
 			<div class="clear"></div>

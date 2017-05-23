@@ -321,61 +321,61 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    <li class="col-md-6 p0 ">
 	                  <span class="zzzx"><i class="red">＊</i> 营业执照（三证合一）：</span>
 	                  <div class="input-append">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 	               </li>   
                    <li class="col-md-6 p0 ">
 	                  <span class="zzzx"><i class="red">＊</i>法人身份证（正反面）：</span>
 	                  <div class="input-append">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 	               </li>   
                    <li class="col-md-6 p0 ">
 	                  <span class="zzzx"><i class="red">＊</i>开户许可证：</span>
 	                  <div class="input-append">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 	               </li>   
                    <li class="col-md-6 p0 ">
 	                  <span class="zzzx"><i class="red">＊</i>良好纳税证明：</span>
 	                  <div class="input-append">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 	               </li>   
                    <li class="col-md-6 p0 ">
 	                  <span class="zzzx"><i class="red">＊</i> 银行资信：</span>
 	                  <div class="input-append">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 	               </li>   
                    <li class="col-md-6 p0 ">
 	                  <span class="zzzx"><i class="red">＊</i>良好的财务状况：</span>
 	                  <div class="input-append">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 	               </li>   
                    <li class="col-md-6 p0 ">
 	                  <span class="zzzx"><i class="red">＊</i> 三年内无不良记录：</span>
 	                  <div class="input-append">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 	               </li>   
                    <li class="col-md-6 p0 ">
 	                  <span class="zzzx"><i class="red">＊</i>非外资独资或控股国内企业：</span>
 	                  <div class="input-append">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 	               </li>   
                    <li class="col-md-6 p0 ">
 	                  <span class="zzzx"><i class="red">＊</i>近三年销售业绩：</span>
 	                  <div class="input-append">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 	               </li>   
                    <li class="col-md-6 p0 ">
 	                  <span class="zzzx"><i class="red">＊</i>提供售后服务技术支持：</span>
 	                  <div class="input-append">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 	               </li>  
 			   <div class="clear"></div>
@@ -503,64 +503,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            <td rowspan="2"></td>
 		            <td>
 					  <div class="input-append margin-bottom-0">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 					</td>
 		            <td>
 					  <div class="input-append margin-bottom-0">
-                        <a href="#"><i></i>上传附件</a>
-                      </div>
-					</td>
-	           	 </tr>
-				  <tr>
-		            <td>
-					  <div class="input-append margin-bottom-0">
-                        <a href="#"><i></i>上传附件</a>
-                      </div>
-					</td>
-		            <td>
-					  <div class="input-append margin-bottom-0">
-                        <a href="#"><i></i>上传附件</a>
-                      </div>
-					</td>
-	           	 </tr>
-				  <tr>
-		            <td rowspan="2"  class="tc">
-					  <div class="input-append mr20">
-                         <input class="span4" id="appendedInput" type="text">
-		                 <div class="btn-group ">
-                             <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		                      <img src="<%=basePath%>public/ZHQ/images/down.png" class="margin-bottom-5">
-                             </button>
-                             <ul class="dropdown-menu list-unstyled">
-                             </ul>
-                          </div>
-				      </div>
-					</td>
-		            <td rowspan="2"></td>
-		            <td rowspan="2"></td>
-		            <td rowspan="2"></td>
-		            <td rowspan="2"></td>
-		            <td>
-					  <div class="input-append margin-bottom-0">
-                        <a href="#"><i></i>上传附件</a>
-                      </div>
-					</td>
-		            <td>
-					  <div class="input-append margin-bottom-0">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 					</td>
 	           	 </tr>
 				  <tr>
 		            <td>
 					  <div class="input-append margin-bottom-0">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 					</td>
 		            <td>
 					  <div class="input-append margin-bottom-0">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 					</td>
 	           	 </tr>
@@ -583,24 +543,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            <td rowspan="2"></td>
 		            <td>
 					  <div class="input-append margin-bottom-0">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 					</td>
 		            <td>
 					  <div class="input-append margin-bottom-0">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 					</td>
 	           	 </tr>
 				  <tr>
 		            <td>
 					  <div class="input-append margin-bottom-0">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 					</td>
 		            <td>
 					  <div class="input-append margin-bottom-0">
-                        <a href="#"><i></i>上传附件</a>
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
+                      </div>
+					</td>
+	           	 </tr>
+				  <tr>
+		            <td rowspan="2"  class="tc">
+					  <div class="input-append mr20">
+                         <input class="span4" id="appendedInput" type="text">
+		                 <div class="btn-group ">
+                             <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
+		                      <img src="<%=basePath%>public/ZHQ/images/down.png" class="margin-bottom-5">
+                             </button>
+                             <ul class="dropdown-menu list-unstyled">
+                             </ul>
+                          </div>
+				      </div>
+					</td>
+		            <td rowspan="2"></td>
+		            <td rowspan="2"></td>
+		            <td rowspan="2"></td>
+		            <td rowspan="2"></td>
+		            <td>
+					  <div class="input-append margin-bottom-0">
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
+                      </div>
+					</td>
+		            <td>
+					  <div class="input-append margin-bottom-0">
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
+                      </div>
+					</td>
+	           	 </tr>
+				  <tr>
+		            <td>
+					  <div class="input-append margin-bottom-0">
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
+                      </div>
+					</td>
+		            <td>
+					  <div class="input-append margin-bottom-0">
+                        <a href="javascript:void(0);"><i></i>上传附件</a>
                       </div>
 					</td>
 	           	 </tr>

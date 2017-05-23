@@ -66,13 +66,13 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="#">首页</a>
+						<a href="javascript:void(0);">首页</a>
 					</li>
 					<li>
-						<a href="#">个人中心</a>
+						<a href="javascript:void(0);">个人中心</a>
 					</li>
 					<li>
-						<a href="#">修改密码</a>
+						<a href="javascript:void(0);">修改密码</a>
 					</li>
 				</ul>
 				<div class="clear"></div>

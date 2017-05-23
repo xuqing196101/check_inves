@@ -76,10 +76,10 @@
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
 		   <c:if test="${flag == 0}">
-		   	<li><a href="#"> 首页</a></li><li><a href="#">个人中心</a></li><li><a href="#">个人信息</a></li>
+		   	<li><a href="javascript:void(0);"> 首页</a></li><li><a href="javascript:void(0);">个人中心</a></li><li><a href="javascript:void(0);">个人信息</a></li>
 		   </c:if>
 		   <c:if test="${flag == 1}">
-			   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="${pageContext.request.contextPath}/user/list.html">用户管理</a></li><li class="active"><a href="#">查看用户</a></li>
+			   <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')" target="_blank"> 首页</a></li><li><a href="javascript:void(0);">支撑系统</a></li><li><a href="javascript:void(0);">后台管理</a></li><li class="active"><a href="javascript:void(0) " onclick="jumppage('${pageContext.request.contextPath}/user/list.html')">用户管理</a></li><li class="active"><a href="javascript:void(0);">查看用户</a></li>
 		   </c:if>
 		   </ul>
 		<div class="clear"></div>

@@ -161,10 +161,10 @@
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a href="#"> 首页</a></li>
-				<li><a href="#">支撑系统</a></li>
-				<li><a href="#">供应商抽取</a></li>
-				<li class="active"><a href="#">抽取供应商记录</a></li>
+				<li><a href="javascript:void(0);"> 首页</a></li>
+				<li><a href="javascript:void(0);">支撑系统</a></li>
+				<li><a href="javascript:void(0);">供应商抽取</a></li>
+				<li class="active"><a href="javascript:void(0);">抽取供应商记录</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>

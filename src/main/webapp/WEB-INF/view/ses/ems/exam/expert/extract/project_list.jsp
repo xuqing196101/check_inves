@@ -102,10 +102,11 @@
     <div class="margin-top-10 breadcrumbs ">
         <div class="container">
             <ul class="breadcrumb margin-left-0">
-                <li><a href="#"> 首页</a></li>
-                <li><a href="#">支撑环境系统</a></li>
-                <li><a href="#">专家抽取</a></li>
-                <li class="active"><a href="#">抽取项目</a></li>
+                <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+                <li><a href="javascript:void(0);">支撑环境系统</a></li>
+                <li><a href="javascript:void(0);">专家管理</a></li>
+                <li><a href="javascript:jumppage('${pageContext.request.contextPath}/ExpExtract/projectList.html?typeclassId=typeclassId')">专家抽取</a></li>
+                <li class="active"><a href="javascript:void(0);">抽取项目</a></li>
             </ul>
             <div class="clear"></div>
         </div>

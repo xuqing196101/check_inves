@@ -44,14 +44,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 </a>
 				</li>
 			    <li class="ywjc">
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div class="top_icon ywjc_icon"><%--<img src="<%=basePath%>public/ZHH/images/top_02.png"/>
 				  --%></div>
 				  <span>业务监管</span>
 				 </a>
 				</li>
 			    <li class="bzzy">
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div class="top_icon bzzy_icon"><%--<img src="<%=basePath%>public/ZHH/images/top_03.png"/>
 				  
 				  --%></div>
@@ -59,7 +59,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 </a>
 				</li>	
 			    <li class="xxfw">
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div class="top_icon xxfw_icon"><%--<img src="<%=basePath%>public/ZHH/images/top_04.png"/>--%></div>
 				  <span>信息服务</span>
 				 </a>
@@ -79,19 +79,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                		</ul>
 				</li>
 			    <li class="pzpz">
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div class="top_icon pzpz_icon"><%--<img src="<%=basePath%>public/ZHH/images/top_06.png"/>--%></div>
 				  <span>配置配置</span>
 				 </a>
 				</li>
 			    <li class="htsy">
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div class="top_icon htsy_icon"><%--<img src="<%=basePath%>public/ZHH/images/top_07.png"/>--%></div>
 				  <span>后台首页</span>
 				 </a>
 				</li>
 			    <li class="aqtc">
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div class="top_icon aqtc_icon"><%--<img src="<%=basePath%>public/ZHH/images/top_08.png"/>--%></div>
 				  <span>安全退出</span>
 				 </a>

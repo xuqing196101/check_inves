@@ -109,7 +109,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="${pageContext.request.contextPath}" target="_parent"> 首页</a></li><li><a href="#">数据字典</a></li><li><a href="${pageContext.request.contextPath}/area/list.html">地区管理</a></li><li class="active"><a href="#">修改地区</a></li>
+           <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')" target="_blank"> 首页</a></li><li><a href="javascript:void(0);">数据字典</a></li><li><a href="javascript:jumppage('${pageContext.request.contextPath}/area/list.html')">地区管理</a></li><li class="active"><a href="javascript:void(0);">修改地区</a></li>
            </ul>
         <div class="clear"></div>
       </div>

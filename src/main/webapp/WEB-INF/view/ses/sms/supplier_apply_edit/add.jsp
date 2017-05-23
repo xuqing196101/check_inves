@@ -100,13 +100,13 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="#"> 首页</a>
+						<a href="javascript:void(0);"> 首页</a>
 					</li>
 					<li>
-						<a href="#">个人信息</a>
+						<a href="javascript:void(0);">个人信息</a>
 					</li>
 					<li>
-						<a href="#">企业基本信息变更申请</a>
+						<a href="javascript:void(0);">企业基本信息变更申请</a>
 					</li>
 				</ul>
 			</div>

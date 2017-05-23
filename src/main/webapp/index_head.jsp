@@ -898,7 +898,7 @@ function importAdd(){
      <div class="col-md-12 col-xs-12 col-sm-12 col-xs-12 col-sm-12 drop_hover"  id="drop-6">
 	  <div class="drop_main">
 	   <div class="col-md-4 col-sm-4 col-xs-12 mt20">
-	    <a href="#">
+	    <a href="javascript:void(0);">
 	     <div class="col-md-12 col-xs-12 col-sm-12 tc p0">
 	     <img src="${pageContext.request.contextPath}/public/portal/images/tou_pic.jpg"/></div>
 		 <div class="col-md-12 col-xs-12 col-sm-12 f22 tc mt20 p0">在线投诉</div>

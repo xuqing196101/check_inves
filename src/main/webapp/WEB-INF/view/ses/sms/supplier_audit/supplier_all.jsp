@@ -300,32 +300,32 @@
 				<div class="container">
 					<ul class="breadcrumb margin-left-0">
 						<li>
-							<a href="#"> 首页</a>
+							<a href="javascript:void(0);"> 首页</a>
 						</li>
 						<li>
-							<a href="#">供应商管理</a>
+							<a href="javascript:void(0);">供应商管理</a>
 						</li>
 						<c:choose>
 							<c:when test="${sign == 3}">
 								<li>
-									<a href="#">供应商实地考察</a>
+									<a href="javascript:void(0);">供应商实地考察</a>
 								</li>
 							</c:when>
 							<c:otherwise>
 								<li>
-									<a href="#">供应商审核</a>
+									<a href="javascript:void(0);">供应商审核</a>
 								</li>
 							</c:otherwise>
 						</c:choose>
 						
 							<c:if test="${sign == 1}">
 							<li class="active">
-								<a href="#">供应商审核列表</a>
+								<a href="javascript:void(0);">供应商审核列表</a>
 							</li>
 							</c:if>
 							<c:if test="${sign == 2}">
 							<li class="active">
-								<a href="#">供应商复核列表</a>
+								<a href="javascript:void(0);">供应商复核列表</a>
 							</li>
 							</c:if>
 					</ul>

@@ -33,9 +33,13 @@
   	<!--面包屑导航开始-->
 		<div class="margin-top-10 breadcrumbs ">
 	  	<div class="container">
-	    	<ul class="breadcrumb margin-left-0">
-	      	<li><a href="#"> 首页</a></li><li><a href="#">评审专家管理</a></li><li><a href="#">不良专家名单管理</a></li><li class="active"><a href="#">增加信息</a></li>
-		  	</ul>
+			<ul class="breadcrumb margin-left-0">
+				<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+				<li><a href="javascript:void(0)">支撑系统</a></li>
+				<li><a href="javascript:void(0);">专家管理</a></li>
+				<li><a href="javascript:void(0);"  onclick="jumppage('${pageContext.request.contextPath}/expertBlacklist/blacklist.html')">专家黑名单</a></li>
+				<li class="active"><a href="javascript:void(0);">增加信息</a></li>
+			</ul>
 	    </div>
 		</div>
 		<!-- 表格开始-->

@@ -50,3 +50,6 @@
 <!--[if lt IE 9]>
     <script src="${pageContext.request.contextPath}/public/common/respond.src.js"></script>
 <![endif]-->
+
+<!--面包屑点击跳转新页面-->
+<script src="${pageContext.request.contextPath}/public/common/jumppage.js"></script>

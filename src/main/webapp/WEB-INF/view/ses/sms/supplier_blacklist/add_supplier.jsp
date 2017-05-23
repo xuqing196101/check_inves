@@ -54,14 +54,14 @@
         <div class="margin-top-10 breadcrumbs ">
             <div class="container">
                 <ul class="breadcrumb margin-left-0">
-                    <li><a href="#"> 首页</a></li>
-                    <li><a href="#">业务管理</a></li>
-                    <li><a href="#">供应商黑名单</a></li>
+                    <li><a href="javascript:void(0);"> 首页</a></li>
+                    <li><a href="javascript:void(0);">业务管理</a></li>
+                    <li><a href="javascript:void(0);">供应商黑名单</a></li>
                     <c:if test="${supplier.id==null}">
-                    <li class="active"><a href="#">添加供应商黑名单</a></li>
+                    <li class="active"><a href="javascript:void(0);">添加供应商黑名单</a></li>
                     </c:if>
                     <c:if test="${supplier.id!=null}">
-                    <li class="active"><a href="#">编辑供应商黑名单</a></li>
+                    <li class="active"><a href="javascript:void(0);">编辑供应商黑名单</a></li>
                     </c:if>
                 </ul>
                 <div class="clear"></div>

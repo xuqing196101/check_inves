@@ -66,16 +66,16 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="#"> 首页</a>
+						<a href="javascript:void(0);"> 首页</a>
 					</li>
 					<li>
-						<a href="#">采购服务</a>
+						<a href="javascript:void(0);">采购服务</a>
 					</li>
 					<li>
-						<a href="#">售后服务</a>
+						<a href="javascript:void(0);">售后服务</a>
 					</li>
 					<li class="active">
-						<a href="#">用户意见反馈</a>
+						<a href="javascript:void(0);">用户意见反馈</a>
 					</li>
 				</ul>
 				

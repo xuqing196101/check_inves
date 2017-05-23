@@ -81,16 +81,16 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="#"> 首页</a>
+						<a href="javascript:void(0);"> 首页</a>
 					</li>
 					<li>
-						<a href="#">支撑系统</a>
+						<a href="javascript:void(0);">支撑系统</a>
 					</li>
 					<li>
-						<a href="#">进口供应商登记</a>
+						<a href="javascript:void(0);">进口供应商登记</a>
 					</li>
 					<li class="active">
-						<a href="#">修改进口供应商</a>
+						<a href="javascript:void(0);">修改进口供应商</a>
 					</li>
 				</ul>
 				<div class="clear"></div>

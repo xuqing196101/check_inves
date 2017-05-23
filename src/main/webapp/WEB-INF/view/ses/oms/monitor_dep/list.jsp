@@ -171,49 +171,49 @@
             <div class="col-md-8 topbar-v1 col-md-12 ">
               <ul class="top-v1-data padding-0">
 			    <li>
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div><img src="${pageContext.request.contextPath}/public/ZHH/images/top_01.png"/></div>
 				  <span>决策支持</span>
 				 </a>
 				</li>
 			    <li>
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div><img src="${pageContext.request.contextPath}/public/ZHH/images/top_02.png"/></div>
 				  <span>业务监管</span>
 				 </a>
 				</li>
 			    <li>
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div><img src="${pageContext.request.contextPath}/public/ZHH/images/top_03.png"/></div>
 				  <span>障碍作业</span>
 				 </a>
 				</li>	
 			    <li>
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div><img src="${pageContext.request.contextPath}/public/ZHH/images/top_04.png"/></div>
 				  <span>信息服务</span>
 				 </a>
 				</li>
 			    <li>
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div><img src="${pageContext.request.contextPath}/public/ZHH/images/top_05.png"/></div>
 				  <span>支撑环境</span>
 				 </a>
 				</li>
 			    <li>
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div><img src="${pageContext.request.contextPath}/public/ZHH/images/top_06.png"/></div>
 				  <span>配置配置</span>
 				 </a>
 				</li>
 			    <li>
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div><img src="${pageContext.request.contextPath}/public/ZHH/images/top_07.png"/></div>
 				  <span>后台首页</span>
 				 </a>
 				</li>
 			    <li>
-				<a href="#">
+				<a href="javascript:void(0);">
 				  <div><img src="${pageContext.request.contextPath}/public/ZHH/images/top_08.png"/></div>
 				  <span>安全退出</span>
 				 </a>
@@ -230,13 +230,13 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		<ul class="breadcrumb margin-left-0">
-					<li><a href="#"> 首页</a>
+					<li><a href="javascript:void(0);"> 首页</a>
 					</li>
-					<li><a href="#">支撑系统</a>
+					<li><a href="javascript:void(0);">支撑系统</a>
 					</li>
-					<li><a href="#">后台管理</a>
+					<li><a href="javascript:void(0);">后台管理</a>
 					</li>
-					<li class="active"><a href="#">部门管理</a>
+					<li class="active"><a href="javascript:void(0);">部门管理</a>
 					</li>
 				</ul>
 	  </div>

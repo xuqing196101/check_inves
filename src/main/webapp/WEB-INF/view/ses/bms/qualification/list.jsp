@@ -10,32 +10,29 @@
 		  list(1);
 		  loadCss();
 	  });
-	  
-	  function level(){
-		  var idArray = [];
-		  var count = 0;	
-			$("input[name='chkItem']:checked").each(function(){
-				idArray.push($(this).val());
-				count ++;
-		  });
-			
-		   if (count != 1){
-				layer.msg("请选择一条记录进行编辑");
-				return ;
-			}else{
-				  layer.open({
-					  type: 2,
-					  title: "资质证书等级",
-					  skin: 'layui-layer-rim',
-					  shadeClose: true,
-					  area: ['580px','400px'],
-					  content:  "${pageContext.request.contextPath}/qualification/getlevle.html?id="+idArray,
-					}); 
-			}
-		   
-		   
-		 
-	  }
+
+      function level() {
+          var idArray = [];
+          var count = 0;
+          $("input[name='chkItem']:checked").each(function () {
+              idArray.push($(this).val());
+              count++;
+          });
+
+          if (count != 1) {
+              layer.msg("请选择一条记录进行编辑");
+              return;
+          } else {
+              layer.open({
+                  type: 2,
+                  title: "资质证书等级",
+                  skin: 'layui-layer-rim',
+                  shadeClose: true,
+                  area: ['580px', '400px'],
+                  content: "${pageContext.request.contextPath}/qualification/getlevle.html?id=" + idArray,
+              });
+          }
+      }
 	  
 	 
    </script>
@@ -45,9 +42,10 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 	    <ul class="breadcrumb margin-left-0">
-		  <li><a href="${pageContext.request.contextPath}" target="_parent"> 首页</a></li>
+		  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
 		  <li><a href="javascript:void(0);">支撑系统</a></li>
-		  <li><a href="${pageContext.request.contextPath}mo/qualification/init.html?type=1" class="active">资质管理</a></li>
+		  <li><a href="javascript:void(0);">数据字典</a></li>
+		  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/qualification/init.html?type=${type}')" class="active">资质管理</a></li>
 		</ul>
 		<div class="clear"></div>
 	  </div>

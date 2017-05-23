@@ -273,7 +273,7 @@ scheduler.attachEvent("onMouseMove", function (event_id, event_object){
 <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="${pageContext.request.contextPath}"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="${pageContext.request.contextPath}/usertask/getmonth.html">用户任务管理</a></li>
+		   <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')" target="_blank"> 首页</a></li><li><a href="javascript:void(0);">支撑系统</a></li><li><a href="javascript:void(0);">后台管理</a></li><li class="active"><a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/usertask/getmonth.html')">用户任务管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>

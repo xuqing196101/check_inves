@@ -147,15 +147,15 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="#">首页</a>
+						<a href="javascript:void(0);">首页</a>
 					</li>
 					<li>
-						<a href="#">保障作业</a>
+						<a href="javascript:void(0);">保障作业</a>
 					</li>
 					<li>
-						<a href="#">采购档案管理</a>
+						<a href="javascript:void(0);">采购档案管理</a>
 					</li>
-					<li class="active"><a href="#">采购机构管理</a>
+					<li class="active"><a href="javascript:void(0);">采购机构管理</a>
 					</li>
 				</ul>
 				<div class="clear"></div>
