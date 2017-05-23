@@ -190,13 +190,13 @@
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>
 							<th class="info w50">序号</th>
-							<th class="info">供应商名称</th>
-							<th class="info">起始时间</th>
-							<th class="info">结束时间</th>
+							<th class="info" width="18%">供应商名称</th>
+							<th class="info" width="11%">起始时间</th>
+							<th class="info" width="11%">结束时间</th>
 							<th class="info">处罚类型</th>
 							<th class="info">发布类型</th>
 							<th class="info">状态</th>
-							<th class="info">列入黑名单原因</th>
+							<th class="info" width="16%">列入黑名单原因</th>
 						</tr>
 					</thead>
 					<tbody id="black_tbody_id">
@@ -204,7 +204,7 @@
 							<tr class="hand">
 								<td class="tc"><input id="${supplierBlacklist.supplierId}" name="checkbox" value="${supplierBlacklist.id},${supplierBlacklist.supplierId}" type="checkbox"></td>
 								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">${vs.index + 1}</td>
-								<td class="tl pl20" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.supplierName}</td>
+								<td class="tl" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.supplierName}</td>
 								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')"><fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd"/></td>
 								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">
 									<%-- <c:if test="${supplierBlacklist.term == 3}">3个月</c:if>
@@ -215,11 +215,11 @@
 									<c:if test="${supplierBlacklist.term == 0}">永久</c:if> --%>
 									<fmt:formatDate value="${supplierBlacklist.endTime}" pattern="yyyy-MM-dd"/>
 								</td>
-								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">
+								<td class="tl" onclick="findLog('${supplierBlacklist.supplierId}')">
 									<c:if test="${supplierBlacklist.punishType == 0}">警告</c:if>
 									<c:if test="${supplierBlacklist.punishType == 1}">不得参与采购活动</c:if>
 								</td>
-								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">
+								<td class="tl" onclick="findLog('${supplierBlacklist.supplierId}')">
 									<c:if test="${supplierBlacklist.releaseType == 0}">
 										内外网发布
 									</c:if>
@@ -230,7 +230,7 @@
 										外网发布
 									</c:if>
 								</td>
-								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">
+								<td class="tl" onclick="findLog('${supplierBlacklist.supplierId}')">
 									<c:if test="${supplierBlacklist.status == 0}">
 										处罚中
 									</c:if>
@@ -241,7 +241,7 @@
 										手动移除
 									</c:if>
 								</td>
-								<td class="tl pl20" onclick="findLog('${supplierBlacklist.supplierId}')" title="${supplierBlacklist.reason}">
+								<td class="tl" onclick="findLog('${supplierBlacklist.supplierId}')" title="${supplierBlacklist.reason}">
 									 <c:if test="${supplierBlacklist.reason.length() > 10}">
 									 	${supplierBlacklist.reason.substring(0,9)}...
                     				 </c:if>  

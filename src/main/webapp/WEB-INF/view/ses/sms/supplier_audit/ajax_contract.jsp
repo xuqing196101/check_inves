@@ -84,10 +84,10 @@
 				</tr>
 				<tr>
 					<!-- <td class="info tc w100">类别</td> -->
-		      <td class="info tc">大类</td>
-		      <td class="info tc">中类</td>
-		      <td class="info tc">小类</td>
-		      <td class="info tc">名称</td>
+		      <td class="info tc" width="10%">大类</td>
+		      <td class="info tc"  width="10%">中类</td>
+		      <td class="info tc"  width="10%">小类</td>
+		      <td class="info tc"  width="8%">名称</td>
 					<c:forEach items="${years}" var="year">
 						<td class="tc info">${year}</td>
 					</c:forEach>
