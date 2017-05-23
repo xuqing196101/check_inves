@@ -2198,7 +2198,7 @@
         SELECT
         <include refid="Base_Column_List" />
         FROM T_SES_EMS_EXPERT
-        WHERE STATUS = '3' AND
+        WHERE STATUS = '3' and net_type=1 AND
         AUDIT_AT &gt;=
         to_date(#{startDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
         AND
