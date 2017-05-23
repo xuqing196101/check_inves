@@ -6,48 +6,75 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/webuploadFT/layui/layui.js"></script>
     <script type="text/javascript">
-      //勾选明细
-      function check(ele) {
-        var flag = $(ele).prop("checked");
-        var purchaseType = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).children().val();
-        purchaseType = $.trim(purchaseType);
-        var goodUse = $("input[name='chkItem']:checked").parents("tr").find("td").eq(13).text();
-        goodUse = $.trim(goodUse);
-        if(!goodUse) {
-          goodUse = null;
-        }
-        var id = $(ele).val();
-        $.ajax({
-          url: "${pageContext.request.contextPath}/project/checkDeail.html",
-          data: "id=" + id,
-          type: "post",
-          dataType: "json",
-          success: function(result) {
-            for(var i = 0; i < result.length; i++) {
-              $("input[name='chkItem']").each(function() {
-                var v1 = result[i].id;
-                var v2 = $(this).val();
-                if(v2 == v1) {
-                  $(this).prop("checked", flag);
-                }
+      $(function() {
+          layui.use('flow', function() {
+            var flow = layui.flow;
+            flow.load({
+              elem: '#tb_id' //指定列表容器
+              ,done: function(page, next) { //到达临界点（默认滚动触发），触发下一页
+                var lis = [];
+                //以jQuery的Ajax请求为例，请求下一页数据
+                $.ajax({
+                  url: "${pageContext.request.contextPath}/project/viewPlanDetail.do?taskId=${taskId}&page=" + page,
+                  type: "get",
+                  dataType: "json",
+                  success: function(res) {
+                    layui.each(res.data, function(index, item) {
+                      var code = "";
+                      if(item.oneAdvice == "DYLY") {
+                        code = item.supplier;
+                      }
+                      if(item.purchaseCount == 0) {
+                        item.purchaseCount = "";
+                      }
+                      var html = "<tr class='pointer'><td><div class='choose'><input type='checkbox' value='"+item.id+"' name='chkItem' onclick='check(this)' alt=''></div></td><td><div class='seq'>" + item.seq + "</div></td><td><div class='department'>" +
+                        item.department + "</div></td><td><div class='goodsname'>" + item.goodsName + "</div></td><td><div class='stand'>" + item.stand + "</div></td><td><div class='qualitStand'>" +item.qualitStand + "</div></td><td><div class='item'>" + 
+                        item.item + "</div></td><td><div class='purchaseCount'>" + item.purchaseCount + "</div></td><td><div class='deliverDate'>" + item.deliverDate + "</div></td><td><div class='purchaseType tc'>" + item.purchaseType + 
+                        "</div></td><td><div class='purchasename'>" + code + "</div></td><td><div class='memo'>"+item.memo+"</div><input type='hidden' id='planType' value='"+item.planType+"' /></td></tr>";
+                      lis.push(html);
+                    });
+                    next(lis.join(''), page < res.pages);
+                  },
+                });
+              }
+            });
+          });
+        });
+        
+        
+        function check(ele) {
+          var flag = $(ele).prop("checked");
+          var id = $(ele).val();
+          $.ajax({
+            url: "${pageContext.request.contextPath}/project/checkDeail.html",
+            data: "id=" + id,
+            type: "post",
+            dataType: "json",
+            success: function(result) {
+              for(var i = 0; i < result.length; i++) {
+                $("input[name='chkItem']").each(function() {
+                  var v1 = result[i].id;
+                  var v2 = $(this).val();
+                  if(v2 == v1) {
+                    $(this).prop("checked", flag);
+                  }
+                });
+              }
+  
+            },
+  
+            error: function() {
+              layer.msg("失败", {
+                offset: ['222px', '390px']
               });
             }
-
-          },
-
-          error: function() {
-            layer.msg("失败", {
-              offset: ['222px', '390px']
-            });
-          }
-        });
+          });
 
       }
-
+      
       function save() {
-        $('input[name="chkItem"]:checked').val();
         var checkIds = [];
         $('input[name="chkItem"]:checked').each(function() {
           checkIds.push($(this).val());
@@ -73,7 +100,8 @@
                   } else {
                     checked = 1;
                   }
-                  $("#uncheckId").val(checked);
+                  var planType = $("#planType").val();
+                  $("#planTypes").val(planType);
                   $("#detail_id").val(checkIds);
                   $("#save_form_id").submit();
                 }
@@ -136,144 +164,32 @@
               <th class="info deliverdate">交货<br/>期限</th>
               <th class="info purchasetype">采购方式</th>
               <th class="info purchasename">供应商名称</th>
-              <th class="info freetax">是否申请<br/>办理免税</th>
+              <!-- <th class="info freetax">是否申请<br/>办理免税</th>
               <th class="info goodsuse">物资用途<br/>（进口）</th>
-              <th class="info useunit">使用单位<br/>（进口）</th>
+              <th class="info useunit">使用单位<br/>（进口）</th> -->
               <th class="memo">备注</th>
             </tr>
           </thead>
           <tbody id="tb_id">
-            <c:forEach items="${lists}" var="obj" varStatus="vs">
-              <c:if test="${obj.projectStatus eq '0'}">
-                <tr class="pointer">
-                  <td>
-                    <div class="choose">
-                      <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check(this)" alt="">
-                    </div>
-                  </td>
-                  <td>
-                     <div class="seq"> ${obj.seq}
-                      <input type="hidden" id="seq" name="listDetail[${vs.index }].seq" value="${obj.seq }">
-                      <input type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
-                     </div>
-                  </td>
-                  <td>
-                    <c:if test="${obj.price eq null}">
-                   <div class="department">
-                    ${obj.department}
-                    <input type="hidden" name="listDetail[${vs.index }].department" value="${obj.department }">
-                   </div>
-                   </c:if>
-                  </td>
-                  <td class="tl">
-                    <div class="goodsname">
-                     ${obj.goodsName}
-                      <input type="hidden" name="listDetail[${vs.index }].goodsName" value="${obj.goodsName }">
-                    </div>
-                  </td>
-                  <td class="tl">
-                    <div class="stand">
-                    <c:if test="${obj.stand!='合计'}">
-                      ${obj.stand}
-                    </c:if>
-                    <input type="hidden" name="listDetail[${vs.index }].stand" value="${obj.stand }">
-                   </div>
-                  </td>
-                  <td>
-                   <div class="qualitstand">
-                    ${obj.qualitStand}
-                    <input type="hidden" name="listDetail[${vs.index }].qualitStand" value="${obj.qualitStand }">
-                   </div>
-                  </td>
-                  <td class="tc">
-                   <div class="item">${obj.item}
-                    <input type="hidden" name="listDetail[${vs.index }].item" value="${obj.item }">
-                   </div>
-                  </td>
-                  <td class="tc">
-                   <div class="purchasecount">${obj.purchaseCount}
-                    <input type="hidden" name="listDetail[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
-                   </div>
-                  </td>
-                  <td class="tl">
-                   <div class="deliverdate">${obj.deliverDate}
-                    <input type="hidden" name="listDetail[${vs.index }].deliverDate" value="${obj.deliverDate }">
-                   </div>
-                  </td>
-                  <td class="tc">
-                   <div class="purchasetype">
-                    <input type="hidden" id="purchaseTypes" value="${obj.purchaseType }">
-                    <c:choose>
-                      <c:when test="${obj.detailStatus==0 }">
-                      </c:when>
-                      <c:otherwise>
-                        <c:forEach items="${kind}" var="kind">
-                          <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                        </c:forEach>
-                      </c:otherwise>
-                    </c:choose>
-                    <input type="hidden" name="listDetail[${vs.index }].purchaseType" value="${obj.purchaseType }">
-                   </div>
-                  </td>
-                  <td>
-                   <div class="purchasename">${obj.supplier}
-                    <input type="hidden" name="listDetail[${vs.index }].supplier" value="${obj.supplier }">
-                   </div>
-                  </td>
-                  <td>
-                    <div class="freetax">${obj.isFreeTax}
-                     <input type="hidden" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
-                    </div>
-                  </td>
-                  <td class="tl">
-                    <div class="goodsuse">${obj.goodsUse}
-                      <input type="hidden" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }">
-                    </div>
-                  </td>
-                  <td class="tl">
-                    <div class="useunit">${obj.useUnit}
-                      <input type="hidden" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }">
-                    </div>
-                  </td>
-                  <td class="tl">
-                    <div class="memo">${obj.memo}
-                      <input type="hidden" name="listDetail[${vs.index }].memo" value="${obj.memo }">
-                      <input type="hidden" name="listDetail[${vs.index }].parentId" value="${obj.parentId }">
-                      <input type="hidden" name="listDetail[${vs.index }].detailStatus" value="${obj.detailStatus}">
-                      <input type="hidden" name="listDetail[${vs.index }].planType" value="${obj.planType}">
-                    </div>
-                  </td>
-                </tr>
-              </c:if>
-            </c:forEach>
           </tbody>
         </table>
-      
-    </div>
- 	 <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
-          <button class="btn btn-windows save" type="button" onclick="save()">确定</button>
-          <button class="btn btn-windows back" type="button" onclick="javascript:history.go(-1);">返回</button>
-        </div>
-     </div>
-    <form id="save_form_id" action="${pageContext.request.contextPath}/project/save.html" method="post">
 
-      <c:forEach items="${lists}" var="obj" varStatus="vs">
-        <input type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
-        <input type="hidden" name="listDetail[${vs.index }].memo" value="${obj.memo }">
-        <input type="hidden" name="listDetail[${vs.index }].parentId" value="${obj.parentId }">
-        <input type="hidden" name="listDetail[${vs.index }].detailStatus" value="${obj.detailStatus}">
-        <input type="hidden" name="listDetail[${vs.index }].planType" value="${obj.planType}">
-      </c:forEach>
+      </div>
+      <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
+        <button class="btn btn-windows save" type="button" onclick="save()">确定</button>
+        <button class="btn btn-windows back" type="button" onclick="javascript:history.go(-1);">返回</button>
+      </div>
+    </div>
+    <form id="save_form_id" action="${pageContext.request.contextPath}/project/save.html" method="post">
       <input id="detail_id" name="checkIds" type="hidden" />
+      <input id="planTypes" name="planType" type="hidden" />
       <input name="name" type="hidden" value="${name}" />
       <input name="projectNumber" value="${projectNumber}" type="hidden" />
-      <input name="projectId" type="hidden" value="${projectId }" />
       <input name="id" type="hidden" value="${id}" />
-      <input id="uncheckId" name="uncheckId" type="hidden" />
-      <input id="uncheckId" name="orgId" type="hidden" value="${orgId }" />
-
+      <input name="taskId" type="hidden" value="${taskId}" />
+      <!-- <input id="uncheckId" name="uncheckId" type="hidden" /> -->
+      <input name="orgId" type="hidden" value="${orgId}" />
     </form>
-
   </body>
 
 </html>

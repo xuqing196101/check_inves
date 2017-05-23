@@ -1,8 +1,10 @@
 package bss.service.ppms.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +12,9 @@ import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 
+import bss.dao.pms.PurchaseDetailMapper;
 import bss.dao.ppms.TaskMapper;
+import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.Task;
 import bss.service.ppms.TaskService;
 
@@ -26,6 +30,9 @@ public class TaskServiceImpl implements TaskService {
 
 	@Autowired
 	private TaskMapper taskMapper;
+	
+	@Autowired
+	private PurchaseDetailMapper purchaseDetailMapper;
 	
 	@Override
 	public void add(Task task) {
@@ -116,6 +123,42 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> listBycollect(HashMap<String, Object> map) {
 
         return taskMapper.listBycollect(map);
+    }
+
+    @Override
+    public void updateDetail(List<PurchaseDetail> list, String taskId) {
+        if(list != null && list.size() > 0 && StringUtils.isNotBlank(taskId)){
+            Task task = taskMapper.selectByPrimaryKey(taskId);
+            if(task != null && StringUtils.isNotBlank(task.getCollectId())){
+                List<PurchaseDetail> list2 = purchaseDetailMapper.getByUinuqeId(task.getCollectId(),null,null);
+                if(list2 != null && list2.size() > 0){
+                    List<PurchaseDetail> bottomDetail = new ArrayList<>();
+                    for(int i=0;i<list2.size();i++){
+                        HashMap<String,Object> bId = new HashMap<String,Object>();
+                        bId.put("id", list2.get(i).getId());
+                        List<PurchaseDetail> pr = purchaseDetailMapper.selectByParentId(bId);
+                        if(pr.size()==1){
+                            bottomDetail.add(list2.get(i));
+                        }
+                    }
+                    for(int i=0;i<bottomDetail.size();i++){
+                        if(bottomDetail.get(i).getProjectStatus()==0){
+                            break;
+                        }else if(i==bottomDetail.size()-1){
+                            HashMap<String, Object> map = new HashMap<>();
+                            map.put("purchaseId", bottomDetail.get(0).getOrganization());
+                            map.put("collectId", bottomDetail.get(0).getUniqueId());
+                            List<Task> likeByName = taskMapper.likeByName(map);
+                            for (Task task2 : likeByName) {
+                                task2.setNotDetail(1);
+                                taskMapper.updateByPrimaryKeySelective(task2);
+                           }
+                        }
+                    }
+                }
+            }
+        }
+        
     }
 
 

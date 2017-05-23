@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -25,10 +26,12 @@ import ses.model.oms.PurchaseInfo;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
+import bss.dao.pms.PurchaseDetailMapper;
 import bss.dao.ppms.FlowDefineMapper;
 import bss.dao.ppms.FlowExecuteMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
+import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Project;
@@ -63,6 +66,9 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Autowired
 	private ProjectDetailMapper detailMapper;
+	
+	@Autowired
+	private PurchaseDetailMapper purchaseDetailMapper;
 	
 	
 	
@@ -626,6 +632,116 @@ public class ProjectServiceImpl implements ProjectService {
         }
         jsonObj.put("next", "2");
         return jsonObj;
+    }
+
+    @Override
+    public void addProejctDetail(List<PurchaseDetail> list, String projectId, Integer position) {
+        if(list != null && list.size() > 0 && StringUtils.isNotBlank(projectId)){
+            for (PurchaseDetail purchaseDetail : list) {
+                ProjectDetail projectDetail = new ProjectDetail();
+                if(StringUtils.isNotBlank(purchaseDetail.getId())){
+                    projectDetail.setRequiredId(purchaseDetail.getId());
+                }
+                if(StringUtils.isNotBlank(purchaseDetail.getSeq())){
+                    projectDetail.setSerialNumber(purchaseDetail.getSeq());
+                }
+                if(StringUtils.isNotBlank(purchaseDetail.getDepartment())){
+                    projectDetail.setDepartment(purchaseDetail.getDepartment());
+                }
+                if(StringUtils.isNotBlank(purchaseDetail.getGoodsName())){
+                    projectDetail.setGoodsName(purchaseDetail.getGoodsName());
+                }
+                if(StringUtils.isNotBlank(purchaseDetail.getStand())){
+                    projectDetail.setStand(purchaseDetail.getStand());
+                }
+                if(StringUtils.isNotBlank(purchaseDetail.getQualitStand())){
+                    projectDetail.setQualitStand(purchaseDetail.getQualitStand());
+                }
+                if(StringUtils.isNotBlank(purchaseDetail.getItem())){
+                    projectDetail.setItem(purchaseDetail.getItem());
+                }
+                projectDetail.setCreatedAt(new Date());
+                projectDetail.setProject(new Project(projectId));
+                if (purchaseDetail.getPurchaseCount() != null) {
+                    projectDetail.setPurchaseCount(purchaseDetail.getPurchaseCount().doubleValue());
+                }
+                if (purchaseDetail.getPrice() != null) {
+                    projectDetail.setPrice(purchaseDetail.getPrice().doubleValue());
+                }
+                if (purchaseDetail.getBudget() != null) {
+                    projectDetail.setBudget(purchaseDetail.getBudget().doubleValue());
+                }
+                if (StringUtils.isNotBlank(purchaseDetail.getDeliverDate())) {
+                    projectDetail.setDeliverDate(purchaseDetail.getDeliverDate());
+                }
+                if (StringUtils.isNotBlank(purchaseDetail.getPurchaseType())) {
+                    projectDetail.setPurchaseType(purchaseDetail.getPurchaseType());
+                }
+                if (StringUtils.isNotBlank(purchaseDetail.getSupplier())) {
+                    projectDetail.setSupplier(purchaseDetail.getSupplier());
+                }
+                if (StringUtils.isNotBlank(purchaseDetail.getIsFreeTax())) {
+                    projectDetail.setIsFreeTax(purchaseDetail.getIsFreeTax());
+                }
+                if (StringUtils.isNotBlank(purchaseDetail.getGoodsUse())) {
+                    projectDetail.setGoodsUse(purchaseDetail.getGoodsUse());
+                }
+                if (StringUtils.isNotBlank(purchaseDetail.getUseUnit())) {
+                    projectDetail.setUseUnit(purchaseDetail.getUseUnit());
+                }
+                if (StringUtils.isNotBlank(purchaseDetail.getParentId())) {
+                    projectDetail.setParentId(purchaseDetail.getParentId());
+                }
+                if (purchaseDetail.getDetailStatus() != null) {
+                    projectDetail.setStatus(String.valueOf(purchaseDetail.getDetailStatus()));
+                }
+                if(StringUtils.isNotBlank(purchaseDetail.getMemo())){
+                    projectDetail.setMemo(purchaseDetail.getMemo());
+                }
+                projectDetail.setPosition(position);
+                position++;
+                detailMapper.insertSelective(projectDetail);
+            }
+        }
+    }
+
+    @Override
+    public void updateDetailStatus(List<PurchaseDetail> list) {
+        if(list != null && list.size() > 0){
+            HashSet<String> set = new HashSet<>();
+            for (PurchaseDetail purchaseDetail : list) {
+                Map<String,Object> map=new HashMap<String,Object>();
+                map.put("id", purchaseDetail.getId());
+                List<PurchaseDetail> details = purchaseDetailMapper.selectByParentId(map);
+                if(details != null && details.size() == 1){
+                    purchaseDetail.setProjectStatus(1);
+                    purchaseDetailMapper.updateByPrimaryKeySelective(purchaseDetail);
+                    set.add(purchaseDetail.getParentId());
+                }
+            }
+            List<PurchaseDetail> bottomDetails = new ArrayList<PurchaseDetail>();
+            for (String string : set) {
+                PurchaseDetail detail = purchaseDetailMapper.selectByPrimaryKey(string);
+                if(detail != null){
+                    Map<String,Object> map=new HashMap<String,Object>();
+                    map.put("id", detail.getId());
+                    List<PurchaseDetail> list2 = purchaseDetailMapper.selectByParentId(map);
+                    for (PurchaseDetail purchaseDetail1 : list2) {
+                        if(!purchaseDetail1.getId().equals(string)){
+                            bottomDetails.add(purchaseDetail1);
+                        }
+                    }
+                    for (int i = 0; i < bottomDetails.size(); i++ ) {
+                        if(bottomDetails.get(i).getProjectStatus() == 0){
+                            break;
+                        }else if(i == bottomDetails.size()-1){
+                            detail.setProjectStatus(1);
+                            purchaseDetailMapper.updateByPrimaryKeySelective(detail);
+                        }
+                    }
+                }
+            }
+        }
     }
     
   }

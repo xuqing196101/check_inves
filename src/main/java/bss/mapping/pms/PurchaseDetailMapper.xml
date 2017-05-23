@@ -952,6 +952,23 @@
 			ORDER BY IS_MASTER
 	</select>
 	
+	
+	<select id="getByUinuqeIds" parameterType="String" resultMap="PurchaseRequired_Map">
+    select
+    <include refid="Base_Column_List" />
+    from T_BSS_PMS_PURCHASE_DETAIL
+    <where>
+      HISTORY_STATUS='0'  and IS_DELETE='0' and PROJECT_STATUS = '0'
+      <if test="uniqueId !=null">
+        and UNIQUE_ID =#{uniqueId}
+      </if>
+      <if test="organization !=null">
+        and ORGANIZATION_ID =#{organization}
+      </if>
+    </where>
+      ORDER BY IS_MASTER
+  </select>
+	
 	 <select id="queryChilden" parameterType="String" resultType="Integer">
 		select count(*) from T_BSS_PMS_PURCHASE_DETAIL
 	 	where PARENT_ID=#{id}
