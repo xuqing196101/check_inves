@@ -2,8 +2,6 @@ package ses.service.ems;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListLog;
@@ -131,4 +129,10 @@ public interface ExpertBlackListService {
 	 * @exception
 	 */
 	Integer yzsc(String id);
+
+	/**
+	 * 首页专家黑名单列表
+	 * @return
+	 */
+	List<ExpertBlackList> getIndexExpertBlackList();
 }

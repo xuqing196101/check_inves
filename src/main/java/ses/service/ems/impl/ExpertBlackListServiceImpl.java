@@ -18,7 +18,6 @@ import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 
-import bss.controller.sstps.StatisticalController;
 import common.utils.DateUtils;
 
 /**
@@ -270,6 +269,12 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	@Override
 	public Integer yzsc(String id) {
 		return mapper.yzsc(id);
+	}
+
+	@Override
+	public List<ExpertBlackList> getIndexExpertBlackList() {
+		PageHelper.startPage(0, 5);
+		return mapper.findList(null);
 	}
 
 }

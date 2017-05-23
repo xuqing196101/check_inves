@@ -43,7 +43,7 @@ public class AuditParamController {
 		model.addAttribute("dic", dic);
 		
 		List<AuditParam> list = auditParameService.query(auditParam, page==null?1:page);
-		PageInfo<AuditParam> info = new PageInfo<>(list);
+		PageInfo<AuditParam> info = new PageInfo<AuditParam>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("auditParam", auditParam);
 		return "bss/pms/auditparam/list";

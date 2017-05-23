@@ -30,6 +30,7 @@ import ses.dao.bms.CategoryMapper;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.sms.SupplierBlacklist;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
@@ -49,7 +50,6 @@ public class ArticleServiceImpl implements ArticleService {
 
   @Autowired
   private CategoryMapper categoryMapper;
-  
   
   /**
    * 新增信息

@@ -1,6 +1,7 @@
 package common.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -49,11 +50,11 @@ public class UploadController {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
             String result = uploadService.upload(request);
+            PrintWriter out = response.getWriter();
             if (StringUtils.isNotBlank(result)){
-                response.getWriter().write(result);
+            	out.write(result);
+            	out.flush();
             } 
-            
-            response.getWriter().flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
