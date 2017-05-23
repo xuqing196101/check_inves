@@ -1174,14 +1174,13 @@
     <select id="validatePhone" parameterType="java.lang.String"
             resultMap="BaseResultMap">
         SELECT ID FROM T_SES_EMS_EXPERT
-        WHERE MOBILE = #{_parameter}
+        WHERE IS_DELETE = 0 AND MOBILE = #{_parameter}
     </select>
     <!-- 身份证号唯一性验证 -->
     <select id="validateIdCardNumber" parameterType="java.lang.String"
             resultMap="BaseResultMap">
         SELECT ID FROM T_SES_EMS_EXPERT
-        WHERE ID_CARD_NUMBER =
-        #{param1}
+        WHERE IS_DELETE = 0 AND ID_CARD_NUMBER = #{param1}
         <if test="param2 != null and param2 != '' ">
             AND ID != #{param2}
         </if>
@@ -1190,7 +1189,7 @@
     <select id="validateIdNumber" parameterType="java.lang.String"
             resultMap="BaseResultMap">
         SELECT ID FROM T_SES_EMS_EXPERT
-        WHERE ID_NUMBER = #{param1}
+        WHERE IS_DELETE = 0 AND ID_NUMBER = #{param1}
         <if test="param2 != null and param2 != '' ">
             AND ID != #{param2}
         </if>
