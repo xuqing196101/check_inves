@@ -145,9 +145,9 @@
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>
 							<th class="info w50">序号</th>
-							<th class="info">供应商名称</th>
-							<th class="info">企业等级</th>
-							<th class="info">分数</th>
+							<th class="info" width="45%">供应商名称</th>
+							<th class="info"  width="15%">企业等级</th>
+							<th class="info"  width="15%">分数</th>
 							<!-- <th class="info">企业类型</th> -->
 							<th class="info">企业性质</th>
 						</tr>
@@ -157,7 +157,7 @@
 							<tr>
 								<td class="tc"><input name="checkbox" type="checkbox" value="${supplier.id}"></td>
 								<td class="tc">${vs.index + 1}</td>
-								<td class="tc">${supplier.supplierName}</td>
+								<td class="tl">${supplier.supplierName}</td>
 								<td class="tc">${supplier.level}</td>
 								<td class="tc">${supplier.score}</td>
 								<%-- <td class="tc">

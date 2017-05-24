@@ -201,7 +201,7 @@
 							<tr class="hand">
 								<td class="tc"><input name="checkbox" type="checkbox" value="${credit.id}"></td>
 								<td class="tc" onclick="viewCtnt('${credit.id}')">${vs.index + 1}</td>
-								<td class="tc" onclick="viewCtnt('${credit.id}')">${credit.name}</td>
+								<td class="tl" onclick="viewCtnt('${credit.id}')">${credit.name}</td>
 								<td class="tc status" onclick="viewCtnt('${credit.id}')">
 									<c:if test="${credit.status == 0}"><span class="label rounded-2x label-dark">已停用</span></c:if>
 									<c:if test="${credit.status == 1}"><span class="label rounded-2x label-u">已启用</span></c:if>

@@ -119,9 +119,9 @@
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>
 							<th class="info w50">序号</th>
-							<th class="info">诚信内容名称</th>
+							<th class="info" width="40%">诚信内容名称</th>
 							<th class="info">分数</th>
-							<th class="info">诚信形式</th>
+							<th class="info" width="30%">诚信形式</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -129,9 +129,9 @@
 							<tr>
 								<td class="tc"><input name="checkbox" type="checkbox" value="${ctnt.id}"></td>
 								<td class="tc">${vs.index + 1}</td>
-								<td class="tc">${ctnt.name}</td>
+								<td class="tl">${ctnt.name}</td>
 								<td class="tc">${ctnt.score}</td>
-								<td class="tc">${ctnt.supplierCreditName}</td>
+								<td class="tl">${ctnt.supplierCreditName}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

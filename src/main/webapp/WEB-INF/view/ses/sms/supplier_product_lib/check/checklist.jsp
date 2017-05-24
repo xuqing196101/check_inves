@@ -295,11 +295,11 @@
 		<tr>
 		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">名称</th>
-		  <th class="info">价格</th>
-		  <th class="info">型号</th>
-		  <th class="info">商品品目</th>
-		  <th class="info">供应商</th>
+		  <th class="info" width="20%">名称</th>
+		  <th class="info" width="10%">价格（元）</th>
+		  <th class="info" width="15%">型号</th>
+		  <th class="info" width="15%">商品品目</th>
+		  <th class="info" width="20%">供应商</th>
 		  <th class="info">审核状态</th>
 		</tr>
 		</thead>
@@ -307,14 +307,14 @@
 			<tr>
 				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${p.id}:${p.status}" /></td>
 				<td class="tc pointer" onclick="show('${p.id},${p.status}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tl pl20 pointer" onclick="show('${p.id},${p.status}')">${p.name}</td>
-				<td class="tl pl20 pointer" onclick="show('${p.id},${p.status}')">
-					<fmt:formatNumber value='${p.price}' pattern='#,##,###.00'/> 元
+				<td class="tl pointer" onclick="show('${p.id},${p.status}')">${p.name}</td>
+				<td class="tr pointer" onclick="show('${p.id},${p.status}')">
+					<fmt:formatNumber value='${p.price}' pattern='#,##,###.00'/>
 				</td>
-				<td class="tl pl20 pointer" onclick="show('${p.id},${p.status}')">${p.typeNum}</td>
-				<td class="tl pl20 pointer" onclick="show('${p.id},${p.status}')">${p.category.name}</td>
-				<td class="tl pl20 pointer" onclick="show('${p.id},${p.status}')">${p.supplier.supplierName}</td>
-				<td class="tc pointer" onclick="show('${p.id},${p.status}')">
+				<td class="tl pointer" onclick="show('${p.id},${p.status}')">${p.typeNum}</td>
+				<td class="tl pointer" onclick="show('${p.id},${p.status}')">${p.category.name}</td>
+				<td class="tl pointer" onclick="show('${p.id},${p.status}')">${p.supplier.supplierName}</td>
+				<td class="tl pointer" onclick="show('${p.id},${p.status}')">
 					<c:if test="${ p.status == 1 }">
 						待审核
 					</c:if>

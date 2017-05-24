@@ -243,12 +243,12 @@ function zTreeOnClick(event,treeId,treeNode){
 	  </div>
    </div>
    <div class="container content">
-     <div class="col-md-3">
+     <div class="col-md-3 col-sm-4 col-xs-12">
 	   <div class="tag-box tag-box-v3">
 	    <div><ul id="ztree" class="ztree "></ul></div>
 	   </div>
      </div>
-		<div class="tag-box tag-box-v4 col-md-9">
+		<div class="tag-box tag-box-v4 col-md-9 col-sm-8 col-xs-12">
              <div class="col-md-12"><button class="btn btn-windows back" type="submit">返回</button></div>
             <table id="result"  class="table table-bordered mt20" >
             </table>
