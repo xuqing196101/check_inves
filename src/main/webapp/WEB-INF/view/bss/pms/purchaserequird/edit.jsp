@@ -764,6 +764,27 @@
 			 )
 			 return parentId;
 		}
+		//校验供应商名称
+        function checkSupplierName(index) {
+            var name=$("input[name='list["+index+"].supplier']").val();
+            if(name!=null){
+                $.ajax({
+                    type: "POST",
+                    async:false,
+                    dataType: "text",
+                    data:{
+                        "name":name
+                    },
+                    url: "${pageContext.request.contextPath }/purchaser/checkSupplierName.do",
+                    success: function(data) {
+                            if(data=='true'){
+                                $("input[name='list["+index+"].supplier']").val("");
+                                layer.alert("库中没有此供应商，请重新输入");
+                            }
+                    }
+                 });
+            }
+        }
 	    
 	
 </script>

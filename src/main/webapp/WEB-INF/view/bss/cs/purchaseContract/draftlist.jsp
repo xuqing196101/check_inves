@@ -422,7 +422,7 @@
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 				<th class="tnone"></th>
 			    <th class="info w50">序号</th>
-			    <th width="10%" class="info">合同编号</th>
+			    <th class="info">合同编号</th>
 				<th class="info">合同名称</th>
 				<th class="info">合同金额(万元)</th>
 				<th class="info">项目名称</th>

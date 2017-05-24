@@ -60,9 +60,8 @@
     </div>
   </div>
 
-  <div class="container">
+  <div class="container container_box">
     <input type="hidden" id="operType" name="operType" value="${operType}"/>
-	<div class="mt10 pl20">
 	
 	<h2 class="count_flow"><i>1</i>导入设置</h2>
       <ul class="ul_list">
@@ -99,12 +98,9 @@
 	    </div>
       </ul>
       
-	
-    </div>
     
     <div class="padding-top-10 clear" id="relaDeptId">
-    
-      <div class="search_detail">
+      <div class="search_detail ml0">
           <ul class="demand_list">
             <li>
               <label class="fl">类型：</label>
@@ -129,7 +125,7 @@
           <div class="clear"></div>
         </div>
     
-	  <div class="content table_box">
+	  <div class="content pt10">
 		<table class="table table-bordered table-condensed table-hover table-striped" id="dataTable" >
 		  <thead>
 			<tr>

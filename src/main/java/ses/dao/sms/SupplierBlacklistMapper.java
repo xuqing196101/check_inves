@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import ses.model.sms.SupplierBlacklist;
+import ses.model.sms.SupplierBlacklistVO;
 
 public interface SupplierBlacklistMapper {
     /**
@@ -56,4 +57,14 @@ public interface SupplierBlacklistMapper {
     List<String> findByStatus(@Param("status")String status);
     
     int updateStatusById(SupplierBlacklist supplierBlacklist);
+
+    /**
+     * 查询供应商黑名单列表
+     * @param supplierBlacklist
+     * @param supplierTypeIds
+     * @return
+     */
+	List<SupplierBlacklistVO> selectSupplierBlacklist(
+		@Param("supplierBlacklist")SupplierBlacklist supplierBlacklist, 
+		@Param("supplierTypeIds")String[] supplierTypeIds);
 }

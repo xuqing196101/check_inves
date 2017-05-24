@@ -78,7 +78,7 @@
 		          <thead>
 					<tr>
 					  <th class="info w50">序号</th>
-					  <th class="info">操作</th>
+					  <th class="info" width="25%">操作</th>
 					  <th class="info">操作人</th>
 					  <th class="info">操作时间</th>
 					  <th class="info">请求IP</th>
@@ -87,7 +87,7 @@
 					  </c:if>
 					  <th class="info">详情</th>
 					</tr>
-				 <thead>
+				 </thead>
 				 <tbody></tbody>
 				</table>
 			  </div>

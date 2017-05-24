@@ -67,7 +67,7 @@
 
     <!-- 录入采购计划开始-->
     <div class="container">
-      <div class="headline-v2 fl">
+      <div class="headline-v2">
         <h2>采购计划列表</h2>
       </div>
       <h2 class="search_detail">
@@ -128,7 +128,7 @@
               <td class="tr">
                 <fmt:formatNumber>${obj.budget }</fmt:formatNumber>
               </td>
-              <td class="tr">${obj.userId}</td>
+              <td class="tl">${obj.userId}</td>
               <td class="tc">
                 <fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd" />
               </td>

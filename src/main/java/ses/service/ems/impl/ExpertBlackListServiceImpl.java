@@ -13,6 +13,8 @@ import ses.dao.ems.ExpertMapper;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListLog;
+import ses.model.ems.ExpertBlackListVO;
+import ses.model.sms.SupplierBlacklistVO;
 import ses.service.ems.ExpertBlackListService;
 import ses.util.PropertiesUtil;
 
@@ -275,6 +277,19 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	public List<ExpertBlackList> getIndexExpertBlackList() {
 		PageHelper.startPage(0, 5);
 		return mapper.findList(null);
+	}
+
+	@Override
+	public List<ExpertBlackListVO> findExpertBlackList(ExpertBlackList expert,
+			String expertTypeId, int page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page, Integer.parseInt(config.getString("pageSize")));
+		String relName = expert.getRelName();
+		if (relName != null && !"".equals(relName)) {
+			expert.setRelName("%" + relName + "%");
+		}
+		List<ExpertBlackListVO> list = mapper.selectExpertBlacklist(expert, expertTypeId);
+		return list;
 	}
 
 }

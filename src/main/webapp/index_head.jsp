@@ -697,21 +697,21 @@ function importAdd(){
         <div id="tab-gyshmd" class="categories tab-pane fade">
           <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
           	<c:forEach items="${indexMapper['supplierBlackList']}" var="sl">
-               	<c:set value="${sl.supplierName}" var="name"></c:set>
-				<c:set value="${fn:length(name)}" var="length"></c:set>
-				<c:set value="${sl.supplierName}" var="shortName"/>
-				<c:if test="${length>25}">
-					<c:set value="${fn:substring(name,0,25)}..." var="shortName"/>
-				</c:if>
-				<li>
-					<%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
-					<a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
-					<span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
-						<c:if test="${sl.punishType == 0}">警告</c:if>
-						<c:if test="${sl.punishType == 1}">不得参与采购活动</c:if>
-					</span>
-				</li>
-	        </c:forEach>   
+              <c:set value="${sl.supplierName}" var="name"></c:set>
+							<c:set value="${fn:length(name)}" var="length"></c:set>
+							<c:set value="${sl.supplierName}" var="shortName"/>
+							<c:if test="${length>15}">
+								<c:set value="${fn:substring(name,0,15)}..." var="shortName"/>
+							</c:if>
+							<li>
+								<%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
+								<a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
+								<span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
+									<c:if test="${sl.punishType == 0}">警告</c:if>
+									<c:if test="${sl.punishType == 1}">不得参与采购活动</c:if>
+								</span>
+							</li>
+	        	</c:forEach>   
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/supplierBlackList.html">更多>></a>
         </div>
@@ -834,25 +834,25 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=115">更多>></a>
         </div>
         <div id="tab-zjhmd" class="categories tab-pane fade">
-            <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
-	          	<c:forEach items="${indexMapper['expertBlackList']}" var="sl">
-	               	<c:set value="${sl.relName}" var="name"></c:set>
-					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:set value="${sl.relName}" var="shortName"/>
-					<c:if test="${length>25}">
-						<c:set value="${fn:substring(name,0,25)}..." var="shortName"/>
-					</c:if>
-					<li>
-						<%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
-						<a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
-						<span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
-							<c:if test="${sl.punishType == 1}">警告</c:if>
-							<c:if test="${sl.punishType == 2}">严重警告</c:if>
-							<c:if test="${sl.punishType == 3}">取消资格</c:if>
-						</span>
-					</li>
-		        </c:forEach>   
-	          </ul>
+        	<ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
+          	<c:forEach items="${indexMapper['expertBlackList']}" var="sl">
+              	<c:set value="${sl.relName}" var="name"></c:set>
+							<c:set value="${fn:length(name)}" var="length"></c:set>
+							<c:set value="${sl.relName}" var="shortName"/>
+							<c:if test="${length>15}">
+								<c:set value="${fn:substring(name,0,15)}..." var="shortName"/>
+							</c:if>
+							<li>
+								<%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
+								<a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
+								<span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
+									<c:if test="${sl.punishType == 1}">警告</c:if>
+									<c:if test="${sl.punishType == 2}">严重警告</c:if>
+									<c:if test="${sl.punishType == 3}">取消资格</c:if>
+								</span>
+							</li>
+	        	</c:forEach>   
+          </ul>
         	<a class="tab_more" href="${pageContext.request.contextPath}/index/expertBlackList.html">更多>></a>
         </div>
 		</div>
@@ -943,7 +943,7 @@ function importAdd(){
      <div class="col-md-12 col-xs-12 col-sm-12 col-xs-12 col-sm-12 drop_hover"  id="drop-6">
 	  <div class="drop_main">
 	   <div class="col-md-4 col-sm-4 col-xs-12 mt20">
-	    <a href="javascript:void(0);">
+	    <a href="#">
 	     <div class="col-md-12 col-xs-12 col-sm-12 tc p0">
 	     <img src="${pageContext.request.contextPath}/public/portal/images/tou_pic.jpg"/></div>
 		 <div class="col-md-12 col-xs-12 col-sm-12 f22 tc mt20 p0">在线投诉</div>

@@ -80,7 +80,7 @@
    		</div> 
 		
 		<!-- 搜索条件 -->
-		<h2 class="search_detail">
+		<div class="search_detail">
 			<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/import_project/list.html" method="get">
 				<ul class="demand_list">
 					<li><label class="fl">项目名称：</label><span><input type="text" name="projectName" value="${projectName}"  /> </span></li>
@@ -99,10 +99,10 @@
 				</ul>
 				<div class="clear"></div>
 			</form>
-		</h2>
+		</div>
 		
 		<!-- 按钮-->
-		<div class="col-md-8">
+		<div class="col-md-12 col-sm-12 col-xs-12">
 			<button class="btn btn-windows add" type="button" onclick="add()">物资申请</button>
 		</div>
 	
@@ -114,11 +114,11 @@
 						<th class="info w50"><input type="checkbox" onchange="checkAll(this, 'tbody_contract_id')" />
 						</th>
 						<th class="info w50">序号</th>
-						<th class="info">项目名称</th>
-						<th class="info">合同金额</th>
-						<th class="info">甲方信息</th>
-						<th class="info">乙方信息</th>
-						<th class="info">需求部门</th>
+						<th class="info" width="25%">项目名称</th>
+						<th class="info" width="10%">合同金额</th>
+						<th class="info" width="15%">甲方信息</th>
+						<th class="info" width="15%">乙方信息</th>
+						<th class="info" width="17%">需求部门</th>
 						<th class="info">合同签订时间</th>
 					</tr>
 				</thead>
@@ -127,13 +127,13 @@
 						<tr class="pointer">
 							<td class="tc"><input name="checkbox" type="checkbox" value="${pc.id}">
 							</td>
-							<td class="tl pl20">${vs.index + 1}</td>
-							<td class="tl pl20">${pc.projectName}</td>
-							<td class="tl pl20">${pc.money}</td>
-							<td class="tl pl20">${pc.purchaseDepName}</td>
-							<td class="tl pl20">${pc.supplierDepName}</td>
-							<td class="tl pl20">${pc.demandSector}</td>
-							<td class="tl pl20"><fmt:formatDate value="${pc.createdAt}" pattern="yyyy-MM-dd"/></td>
+							<td class="tc">${vs.index + 1}</td>
+							<td class="tl">${pc.projectName}</td>
+							<td class="tr">${pc.money}</td>
+							<td class="tl">${pc.purchaseDepName}</td>
+							<td class="tl">${pc.supplierDepName}</td>
+							<td class="tl">${pc.demandSector}</td>
+							<td class="tc"><fmt:formatDate value="${pc.createdAt}" pattern="yyyy-MM-dd"/></td>
 						</tr>
 					</c:forEach>
 				</tbody>

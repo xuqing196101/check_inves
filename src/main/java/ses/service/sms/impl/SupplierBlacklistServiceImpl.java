@@ -12,9 +12,11 @@ import ses.dao.sms.BlacklistLogMapper;
 import ses.dao.sms.SupplierBlacklistMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.model.bms.User;
+import ses.model.ems.ExpertBlackListVO;
 import ses.model.sms.BlacklistLog;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierBlacklist;
+import ses.model.sms.SupplierBlacklistVO;
 import ses.service.sms.SupplierBlacklistService;
 import ses.util.PropertiesUtil;
 
@@ -132,6 +134,24 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 		PageHelper.startPage(0, 5);
 		List<SupplierBlacklist> supplierBlackList = supplierBlacklistMapper.findSupplierBlacklist(null);
 		return supplierBlackList;
+	}
+
+	@Override
+	public List<SupplierBlacklistVO> findSupplierBlacklist(
+			SupplierBlacklist supplierBlacklist, String supplierTypeIds,
+			int page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page, Integer.parseInt(config.getString("pageSize")));
+		String supplierName = supplierBlacklist.getSupplierName();
+		if (supplierName != null && !"".equals(supplierName)) {
+			supplierBlacklist.setSupplierName("%" + supplierName + "%");
+		}
+		String[] supplierTypeIdAry = null;
+		if(supplierTypeIds != null){
+			supplierTypeIdAry = supplierTypeIds.split(",");
+		}
+		List<SupplierBlacklistVO> list = supplierBlacklistMapper.selectSupplierBlacklist(supplierBlacklist, supplierTypeIdAry);
+		return list;
 	}
 	
 }

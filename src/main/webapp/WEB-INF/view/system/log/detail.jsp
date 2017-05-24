@@ -11,19 +11,19 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
 			<tr>
-			  <th class="info">方法</th>
+			  <th class="info" width="45%">方法</th>
 			  <th class="info">参数</th>
 			  <c:if test="${systemLog.logType == 2 }">
 			    <th class="info">异常</th>
 			  </c:if>
 			</tr>
-		 <thead>
+		 </thead>
 		 <tbody>
 		    <tr>
-		      <td class="tl pl20">${systemLog.method}</td>
-		      <td class="tl pl20">${systemLog.params}</td>
+		      <td class="tl">${systemLog.method}</td>
+		      <td class="tl">${systemLog.params}</td>
 		      <c:if test="${systemLog.logType == 2 }">
-			    <td class="tl pl20">${systemLog.exceptionDetail}</td>
+			    <td class="tl">${systemLog.exceptionDetail}</td>
 			  </c:if>
 		    </tr>
 		 </tbody>

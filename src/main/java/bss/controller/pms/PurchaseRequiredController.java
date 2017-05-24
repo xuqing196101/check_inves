@@ -59,6 +59,7 @@ import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
+import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -1339,5 +1340,24 @@ public class PurchaseRequiredController extends BaseController {
 		purchaseRequiredService.batchAdd(plist);
 		return "";
 	}
-
+	/**
+	 * Description: 校验供应商名称
+	 * 
+	 * @author ShiShuai
+	 * @version 2017-5-24
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param r
+	 * @exception
+	 */
+	@RequestMapping("checkSupplierName")
+	@ResponseBody
+	public boolean checkSupplierName(String name){
+		List<Supplier> list = supplierService.selByName(name);
+		if(list!=null&&list.size()>0){
+			return false;
+		}
+		return true;
+	}
 }

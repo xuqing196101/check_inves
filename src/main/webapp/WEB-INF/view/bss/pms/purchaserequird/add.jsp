@@ -1228,6 +1228,27 @@
 			    return bool;
 		    	
 		    }
+		    //校验供应商名称
+		    function checkSupplierName(index) {
+				var name=$("input[name='list["+index+"].supplier']").val();
+				if(name!=null){
+					$.ajax({
+	                    type: "POST",
+	                    async:false,
+	                    dataType: "text",
+	                    data:{
+	                        "name":name
+	                    },
+	                    url: "${pageContext.request.contextPath }/purchaser/checkSupplierName.do",
+	                    success: function(data) {
+	                            if(data=='true'){
+	                            	$("input[name='list["+index+"].supplier']").val("");
+	                                layer.alert("库中没有此供应商，请重新输入");
+	                            }
+	                    }
+	                 });
+				}
+			}
 		 /*    
 		    function sequen(obj){
 		    	var bool=true;
@@ -1420,7 +1441,7 @@
 													<option value="${sup.supplierName }">${sup.supplierName }</option>
 												</c:forEach>
 											</select> --%>
-										<input type="text" name="list[0].supplier" class="m0 w260 border0"></td>
+										<input type="text" name="list[0].supplier" onblur="checkSupplierName(0)" class="m0 w260 border0"></td>
 										<td><input type="text" name="list[0].isFreeTax" class="freetax"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="goodsuse"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="useunit"></td>
@@ -1491,7 +1512,7 @@
 													<option value="${sup.supplierName }">${sup.supplierName }</option>
 												</c:forEach>
 											</select> --%>
-										<input type="text" name="list[1].supplier" class="m0 w260 border0"></td>
+										<input type="text" name="list[1].supplier" onblur="checkSupplierName(1)" class="m0 w260 border0"></td>
 										<td><input type="text" name="list[1].isFreeTax" class="freetax"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[1].goodsUse" class="goodsuse"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[1].useUnit" class="useunit"></td>
