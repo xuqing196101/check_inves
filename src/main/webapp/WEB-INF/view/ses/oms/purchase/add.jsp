@@ -255,9 +255,14 @@ function onCheck(e, treeId, treeNode) {
 	<div class="margin-top-10 breadcrumbs ">
 	  <div class="container">
 	    <ul class="breadcrumb margin-left-0">
-		  <li><a href="javascript:void(0);"> 首页</a></li>
-		  <li><a href="javascript:void(0);">支撑系统</a></li>
-		  <li><a href="javascript:void(0);">采购人管理</a></li>
+			<li>
+				<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			</li>
+			<li><a href="javascript:void(0);">支撑系统</a>
+			</li>
+			<li><a href="javascript:void(0);">人员管理</a></li>
+			<li class="active"><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/purchase/list.html')">采购人管理</a>
+			</li>
 		  <li class="active"><a href="javascript:void(0);">添加采购人</a></li>
 		</ul>
 		<div class="clear"></div>

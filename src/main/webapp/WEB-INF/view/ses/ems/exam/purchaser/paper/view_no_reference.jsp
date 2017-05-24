@@ -259,13 +259,16 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0);">首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
 						<a href="javascript:void(0);">支撑环境</a>
 					</li>
 					<li>
-						<a href="javascript:void(0);">考卷管理</a>
+						<a href="javascript:void(0);">人员管理</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/purchaserExam/paperManage.html')">考卷管理</a>
 					</li>
 				</ul>
 				<div class="clear"></div>
