@@ -357,6 +357,12 @@
   	from T_BSS_CS_PURCHASE_CONTRACT
   	where CODE = #{code}
   </select>
+  <select id="selectByProjectCode" parameterType="java.lang.String" resultMap="purContractMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from T_BSS_CS_PURCHASE_CONTRACT
+  	where PROJECT_CODE = #{code}
+  </select>
   
   <update id="deleteDraftByPrimaryKey" parameterType="java.lang.String">
     update T_BSS_CS_PURCHASE_CONTRACT set IS_DELETED = '1'

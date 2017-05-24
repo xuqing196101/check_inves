@@ -2959,59 +2959,69 @@ public class PurchaseContractController extends BaseSupplierController{
     @RequestMapping("/projectContract")
     @ResponseBody
     public String  projectContract(HttpServletRequest request,HttpServletResponse response,String projectId,@CurrentUser User user){
+    	String result="";
     	Project projects = projectService.selectById(projectId);
     	if(projects!=null){
-    		String pid=UUID.randomUUID().toString().replaceAll("-", "");
-    		PurchaseContract purCon=new PurchaseContract();
-    		purCon.setCreatedAt(new Date());
-    		purCon.setId(pid);
-    		purCon.setProjectId(projects.getId());
-    		purCon.setProjectCode(projects.getProjectNumber());
-    		purCon.setProjectName(projects.getName());
-    		purCon.setPurchaseType(projects.getPurchaseType());
-    		purCon.setManualType(1);
-    		purCon.setStatus(0);
-    		purCon.setPurchaseDepName(user.getOrg().getId());
-    		purchaseContractService.insertSelective(purCon);
-    		HashMap<String, Object> map=new HashMap<String, Object>();
-    		map.put("projectId", projects.getId()); 
-    		List<Packages> pas = packageService.selectByProjectKey(map);
-    		ContractRequired required=null;
-    		if(pas!=null&&pas.size()>0){
-    		  for(Packages p:pas){
-    			  List<ProjectDetail> details = projectDetailService.selectByPackageId(p.getId());
-    			  if(details!=null&&details.size()>0){
-    			    for(ProjectDetail det:details){
-        			  required=new ContractRequired();
-        			  required.setGoodsName(det.getGoodsName());
-        			  required.setBrand(det.getBrand());
-        			  required.setStand(det.getStand());
-        			  required.setItem(det.getItem());
-        			  BigDecimal purchaseCount=new BigDecimal(0);
-        			  if(det.getPurchaseCount()!=null){
-        				  purchaseCount=new BigDecimal(det.getPurchaseCount().toString());
+    		List<PurchaseContract> pcs = purchaseContractService.selectByProjectCode(projects.getProjectNumber());
+    		if(pcs.size()>0){
+    			result="no";
+    		}else{
+    			String pid=UUID.randomUUID().toString().replaceAll("-", "");
+        		PurchaseContract purCon=new PurchaseContract();
+        		purCon.setCreatedAt(new Date());
+        		purCon.setId(pid);
+        		purCon.setProjectId(projects.getId());
+        		purCon.setProjectCode(projects.getProjectNumber());
+        		purCon.setProjectName(projects.getName());
+        		purCon.setPurchaseType(projects.getPurchaseType());
+        		purCon.setManualType(1);
+        		purCon.setStatus(0);
+        		purCon.setPurchaseDepName(user.getOrg().getId());
+        		purchaseContractService.insertSelective(purCon);
+        		HashMap<String, Object> map=new HashMap<String, Object>();
+        		map.put("projectId", projects.getId()); 
+        		List<Packages> pas = packageService.selectByProjectKey(map);
+        		ContractRequired required=null;
+        		if(pas!=null&&pas.size()>0){
+        		  for(Packages p:pas){
+        			  List<ProjectDetail> details = projectDetailService.selectByPackageId(p.getId());
+        			  if(details!=null&&details.size()>0){
+        			    for(ProjectDetail det:details){
+            			  required=new ContractRequired();
+            			  required.setGoodsName(det.getGoodsName());
+            			  required.setBrand(det.getBrand());
+            			  required.setStand(det.getStand());
+            			  required.setItem(det.getItem());
+            			  BigDecimal purchaseCount=new BigDecimal(0);
+            			  if(det.getPurchaseCount()!=null){
+            				  purchaseCount=new BigDecimal(det.getPurchaseCount().toString());
+            			  }
+            			  required.setPurchaseCount(purchaseCount);
+            			  BigDecimal price=new BigDecimal(0);
+            			  if(det.getPrice()!=null){
+            				  price=new BigDecimal(det.getPrice().toString());
+            			  }
+            			  required.setPrice(price);
+            			  BigDecimal budget=new BigDecimal(0);
+            			  if(det.getBudget()!=null){
+            				  budget=new BigDecimal(det.getBudget().toString());
+            			  }
+            			  required.setAmount(budget);
+            			  required.setDeliverDate(det.getDeliverDate());
+            			  required.setDetailId(det.getId());
+            			  required.setContractId(pid);
+            			  contractRequiredService.insertSelective(required);
+            			  }
         			  }
-        			  required.setPurchaseCount(purchaseCount);
-        			  BigDecimal price=new BigDecimal(0);
-        			  if(det.getPrice()!=null){
-        				  price=new BigDecimal(det.getPrice().toString());
-        			  }
-        			  required.setPrice(price);
-        			  BigDecimal budget=new BigDecimal(0);
-        			  if(det.getBudget()!=null){
-        				  budget=new BigDecimal(det.getBudget().toString());
-        			  }
-        			  required.setAmount(budget);
-        			  required.setDeliverDate(det.getDeliverDate());
-        			  required.setDetailId(det.getId());
-        			  required.setContractId(pid);
-        			  contractRequiredService.insertSelective(required);
-        			  }
-    			  }
-    		  }
-    	  }
+        		  }
+        	  }
+        		result="ok";
+    		}
+    		
+    	}else{
+    		result="no";
     	}
-    	return "ok";
+    	return result;
     }
     
 }

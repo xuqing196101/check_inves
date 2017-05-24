@@ -566,4 +566,9 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 			Map<String, Object> map) {
 		return purchaseContractMapper.selectFormalContract(map);
 	}
+
+	@Override
+	public List<PurchaseContract> selectByProjectCode(String code) {
+		return purchaseContractMapper.selectByProjectCode(code);
+	}
 }

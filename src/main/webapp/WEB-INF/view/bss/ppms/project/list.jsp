@@ -249,6 +249,11 @@
         		           offset: ['222px', '730px'],
         		           shade: 0.01,
         		          });
+        					}else{
+        						layer.alert("当前项目已经生成过草案合同了", {
+        	        		 offset: ['222px', '730px'],
+        	        		 shade: 0.01,
+        	        	});
         					}
         				}
         			});
