@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -56,13 +57,16 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
+import ses.model.ems.ExpertBlackListVO;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierBlacklist;
+import ses.model.sms.SupplierBlacklistVO;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertBlackListService;
 import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierBlacklistService;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
@@ -863,13 +867,27 @@ public class IndexNewsController extends BaseSupplierController{
 	 * @param supplierBlacklist
 	 * @param page
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value = "supplierBlackList")
-	public String supplierBlackList(HttpServletRequest request, Model model, SupplierBlacklist supplierBlacklist, Integer page) {
+	public String supplierBlackList(HttpServletRequest request, Model model, 
+			SupplierBlacklist supplierBlacklist, 
+			String supplierTypeIds, 
+			String supplierTypeNames, 
+			Integer page) throws UnsupportedEncodingException {
 		String supplierName = supplierBlacklist.getSupplierName();
-		List<SupplierBlacklist> listSupplierBlacklists = supplierBlacklistService.findSupplierBlacklist(supplierBlacklist, page == null ? 1 : page);
-		model.addAttribute("listSupplierBlacklists", new PageInfo<SupplierBlacklist>(listSupplierBlacklists));
+		if(supplierName != null){
+			supplierName = URLDecoder.decode(supplierName, "UTF-8");
+		}
+		if(supplierTypeNames != null){
+			supplierTypeNames = URLDecoder.decode(supplierTypeNames, "UTF-8");
+		}
+		supplierBlacklist.setSupplierName(supplierName);
+		List<SupplierBlacklistVO> listSupplierBlacklists = supplierBlacklistService.findSupplierBlacklist(supplierBlacklist, supplierTypeIds, page == null ? 1 : page);
+		model.addAttribute("page", new PageInfo<SupplierBlacklistVO>(listSupplierBlacklists));
 		model.addAttribute("supplierName", supplierName);
+		model.addAttribute("supplierTypeIds", supplierTypeIds);
+		model.addAttribute("supplierTypeNames", supplierTypeNames);
 		if (supplierBlacklist.getStartTime() != null) {
 			model.addAttribute("startTime", new SimpleDateFormat("yyyy-MM-dd").format(supplierBlacklist.getStartTime()));
 		}
@@ -886,22 +904,36 @@ public class IndexNewsController extends BaseSupplierController{
 	 * @param page
 	 * @param expert
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("/expertBlackList")
-	public String expertBlackList(HttpServletRequest request,Model model,Integer page,ExpertBlackList expert){
-		List<ExpertBlackList> expertList = expertBlackListService.findAll(expert,page==null?1:page);
-		request.setAttribute("result", new PageInfo<ExpertBlackList>(expertList));
-		model.addAttribute("expertList", expertList);
-		//所有专家
-		List<Expert> expertName = expertBlackListService.findExpertList();
-		model.addAttribute("expertName", expertName);
-		//回显
+	public String expertBlackList(HttpServletRequest request,Model model,
+			String expertTypeId,
+			ExpertBlackList expert,
+			Integer page) throws UnsupportedEncodingException{
 		String relName = expert.getRelName();
-		String punishDate = expert.getPunishDate();
-		Integer punisType = expert.getPunishType();
+		if(relName != null){
+			relName = URLDecoder.decode(relName, "UTF-8");
+		}
+		expert.setRelName(relName);
+		List<ExpertBlackListVO> expertList = expertBlackListService.findExpertBlackList(expert,expertTypeId,page==null?1:page);
+		request.setAttribute("page", new PageInfo<ExpertBlackListVO>(expertList));
+		model.addAttribute("expertList", expertList);
+		//回显
 		request.setAttribute("relName", relName);
-		request.setAttribute("punishDate", punishDate);
-		request.setAttribute("punisType", punisType);
+		request.setAttribute("expertTypeId", expertTypeId);
+		// 查询数据字典中的专家类别数据
+        List<DictionaryData> expertTypeList1 = DictionaryDataUtil.find(6);
+        List<DictionaryData> expertTypeList2 = DictionaryDataUtil.find(19);
+        List<DictionaryData> expertTypeList = new ArrayList<DictionaryData>();
+        expertTypeList.addAll(expertTypeList1);
+        expertTypeList.addAll(expertTypeList2);
+        for(DictionaryData dd : expertTypeList){
+        	if(dd.getKind() == 6){
+        		dd.setName(dd.getName()+"技术");
+        	}
+        }
+        request.setAttribute("expertTypeList", expertTypeList);
 		return "iss/ps/index/expertBlackList";
 	}
 	

@@ -180,4 +180,38 @@
 		update T_SES_SMS_SUPPLIER_BLACKLIST set STATUS = #{status} where ID = #{id}
 	</update>
 	
+	<!-- 查询供应商黑名单列表 -->
+	<select id="selectSupplierBlacklist" resultMap="SupplierBlacklistMap">
+		SELECT sb.*,dd.NAME AS SUPPLIER_TYPE_NAME 
+		FROM T_SES_SMS_SUPPLIER_BLACKLIST sb
+		LEFT JOIN T_SES_SMS_SUPPLIER s ON sb.SUPPLIER_ID = s.ID
+		LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE str ON str.SUPPLIER_ID = s.ID
+		LEFT JOIN T_SES_BMS_DICTIONARY_DATA dd ON dd.CODE = str.SUPPLIER_TYPE_ID
+		<where>
+			<if test="supplierBlacklist.supplierName != null and supplierBlacklist.supplierName != ''">
+				AND sb.SUPPLIER_NAME like #{supplierBlacklist.supplierName}
+			</if>
+			<if test="supplierBlacklist.startTime != null and supplierBlacklist.startTime != ''">
+				AND sb.START_TIME &gt;= #{supplierBlacklist.startTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="supplierBlacklist.endTime != null and supplierBlacklist.endTime != ''">
+				AND sb.END_TIME &lt;= #{supplierBlacklist.endTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="supplierTypeIds != null and supplierTypeIds.length != 0">
+				AND str.SUPPLIER_TYPE_ID IN
+				<foreach collection="supplierTypeIds" item="supplierTypeId" index="index"  
+		            open="(" close=")" separator=",">  
+		            #{supplierTypeId}  
+		        </foreach>
+			</if>
+		</where>
+		ORDER BY sb.START_TIME desc
+	</select>
+	
+	<resultMap type="ses.model.sms.SupplierBlacklistVO" 
+		id="SupplierBlacklistMap" 
+		extends="BaseResultMap">
+		<result column="SUPPLIER_TYPE_NAME" property="supplierTypeName"/>
+	</resultMap>
+	
 </mapper>

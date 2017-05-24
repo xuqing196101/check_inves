@@ -1,11 +1,11 @@
 package ses.dao.ems;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import ses.model.ems.ExpertBlackList;
+import ses.model.ems.ExpertBlackListVO;
 /**
  * <p>Title:ExpertBlackListMapper </p>
  * <p>Description: 专家黑名单接口</p>
@@ -97,4 +97,13 @@ public interface ExpertBlackListMapper {
 	 * @exception
 	 */
 	Integer yzsc(@Param("id") String id);
+	/**
+	 * 查询专家黑名单列表
+	 * @param expert
+	 * @param expertTypeId
+	 * @return
+	 */
+	List<ExpertBlackListVO> selectExpertBlacklist(
+		@Param("expertBlacklist")ExpertBlackList expertBlacklist,
+		@Param("expertTypeId")String expertTypeId);
 }

@@ -261,4 +261,31 @@
   	SELECT COUNT(*) FROM T_SES_EMS_EXPERT_ATTACHMENT WHERE BUSINESS_ID = #{id,jdbcType=VARCHAR} AND IS_DELETED = 0
   </select>
   
+  <!-- 查询专家黑名单列表 -->
+  <select id="selectExpertBlacklist" resultMap="ExpertBlacklistMap">
+  	SELECT eb.*, 
+		CASE dd.KIND
+		WHEN 6 THEN CONCAT(dd.NAME, '技术')
+		ELSE dd.NAME
+		END AS EXPERT_TYPE_NAME
+		FROM T_SES_EMS_EXPERT_BLACKLIST eb
+		LEFT JOIN T_SES_EMS_EXPERT e ON eb.EXPERT_ID = e.ID
+		LEFT JOIN T_SES_BMS_DICTIONARY_DATA dd ON dd.ID = e.EXPERTS_TYPE_ID
+		<where>
+			<if test="expertBlacklist.relName != null and expertBlacklist.relName != ''">
+				AND eb.REL_NAME like #{expertBlacklist.relName}
+			</if>
+			<if test="expertTypeId != null and expertTypeId != ''">
+				AND e.EXPERTS_TYPE_ID = #{expertTypeId}
+			</if>
+		</where>
+		ORDER BY eb.DATE_OF_PUNISHMENT desc
+  </select>
+  
+ 	<resultMap type="ses.model.ems.ExpertBlackListVO" 
+		id="ExpertBlacklistMap" 
+		extends="BaseResultMap">
+		<result column="EXPERT_TYPE_NAME" property="expertTypeName"/>
+	</resultMap>
+  
 </mapper>

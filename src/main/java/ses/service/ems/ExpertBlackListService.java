@@ -5,6 +5,7 @@ import java.util.List;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListLog;
+import ses.model.ems.ExpertBlackListVO;
 
 
 /**
@@ -135,4 +136,16 @@ public interface ExpertBlackListService {
 	 * @return
 	 */
 	List<ExpertBlackList> getIndexExpertBlackList();
+
+	/**
+	 * 查询专家黑名单列表
+	 * @param expert
+	 * @param expertTypeId
+	 * @param page
+	 * @return
+	 */
+	List<ExpertBlackListVO> findExpertBlackList(ExpertBlackList expert,
+			String expertTypeId, int page);
+	
+	
 }
