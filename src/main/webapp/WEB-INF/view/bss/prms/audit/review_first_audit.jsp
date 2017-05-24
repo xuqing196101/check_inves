@@ -8,7 +8,7 @@
   <head>
     <base href="${pageContext.request.contextPath}/">
     <title>项目评审</title>
-    <script src="${pageContext.request.contextPath }/public/backend/js/lock_table_head.js"></script>
+    <%-- <script src="${pageContext.request.contextPath }/public/backend/js/lock_table_head.js"></script> --%>
 <script type="text/javascript">
 	//查看理由
    function reason(firstAuditId,supplierId,expertId){

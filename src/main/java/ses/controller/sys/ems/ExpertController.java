@@ -3531,27 +3531,27 @@ public class ExpertController extends BaseController {
     public String validateIdNumber(String idNumber, String expertId) {
         if(StringUtils.isNotBlank(idNumber)){
             //根据供应商统一社会信用代码判断是否注销或审核不通过且180天内再次注册
-            try{
-                //注销
-                DeleteLog deleteLog = deleteLogService.queryByTypeId(null, idNumber);
-                if(null != deleteLog && null != deleteLog.getCreateAt()){
-                    int betweenDays = service.daysBetween(deleteLog.getCreateAt());
-                    if(betweenDays > 180){
-                        return "disabled_180";
-                    }
-                }
-                //审核不通过
-                ExpertAuditNot expertAuditNot = expertAuditNotService.selectByIdCard(idNumber);
-                if(null != expertAuditNot && null != expertAuditNot.getCreatedAt()){
-                    int betweenDays = service.daysBetween(expertAuditNot.getCreatedAt());
-                    if(betweenDays > 180){
-                        return "disabled_180";
-                    }
-                }
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+//            try{
+//                //注销
+//                DeleteLog deleteLog = deleteLogService.queryByTypeId(null, idNumber);
+//                if(null != deleteLog && null != deleteLog.getCreateAt()){
+//                    int betweenDays = service.daysBetween(deleteLog.getCreateAt());
+//                    if(betweenDays > 180){
+//                        return "disabled_180";
+//                    }
+//                }
+//                //审核不通过
+//                ExpertAuditNot expertAuditNot = expertAuditNotService.selectByIdCard(idNumber);
+//                if(null != expertAuditNot && null != expertAuditNot.getCreatedAt()){
+//                    int betweenDays = service.daysBetween(expertAuditNot.getCreatedAt());
+//                    if(betweenDays > 180){
+//                        return "disabled_180";
+//                    }
+//                }
+//
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
             List < Expert > list = service.validateIdNumber(idNumber, expertId);
             if(list.isEmpty()) {
                 return "0";

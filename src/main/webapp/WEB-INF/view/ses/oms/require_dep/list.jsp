@@ -16,14 +16,14 @@
   <div class="margin-top-10 breadcrumbs ">
     <div class="container">
 	  <ul class="breadcrumb margin-left-0">
-		<li><a href="javascript:void(0)"> 首页</a></li>
+		<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
 		<li><a href="javascript:void(0)">支撑系统</a></li>
-		<li><a href="javascript:void(0)">后台管理</a></li>
+		<li><a href="javascript:void(0)">机构管理</a></li>
 		<c:if test="${typeName == '0'}">
-		  <li class="active"><a href="javascript:void(0);">需求部门</a></li>
+		  <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/purchaseManage/list.html?typeName=0');">需求部门</a></li>
 		</c:if>
 		<c:if test="${typeName == '2'}">
-		  <li class="active"><a href="javascript:void(0);">管理部门</a></li>
+		  <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/purchaseManage/list.html?typeName=2');">管理部门</a></li>
 		</c:if>
 	  </ul>
 	</div>

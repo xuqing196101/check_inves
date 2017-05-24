@@ -45,6 +45,7 @@ import ses.model.sms.Supplier;
 import ses.service.bms.RoleServiceI;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
@@ -1361,7 +1362,7 @@ public class ExpertServiceImpl implements ExpertService {
 
     @Override
     public List<Expert> getAuditExpertByDate(String startDate, String endDate) {
-        return mapper.getAuditExpertByDate(startDate, endDate);
+        return mapper.getAuditExpertByDate(startDate, endDate,DictionaryDataUtil.getId("LOCAL"));
     }
 
     /**

@@ -293,7 +293,7 @@ public interface ExpertMapper {
      * @param endDate 结束日期
      * @return 专家集合
      */
-    List<Expert> getAuditExpertByDate(@Param("startDate")String startDate,@Param("endDate")String endDate);
+    List<Expert> getAuditExpertByDate(@Param("startDate")String startDate,@Param("endDate")String endDate,@Param("netType")String netType);
     
     /**
      * @Title: updateById
