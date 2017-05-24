@@ -1405,8 +1405,7 @@
 															var="certPro" varStatus="vs">
 															<tr
 																<c:if test="${fn:contains(proPageField,certPro.id)}"> onmouseover="errorMsg('${certPro.id}','mat_pro_page')"</c:if>>
-																<td class="tc"
-																	<c:if test="${!fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
+																<td class="tc">
 																	<input type="checkbox" class="border0"
 																	value="${certPro.id}" /> <input type="hidden"
 																	required="required" 
@@ -1417,7 +1416,7 @@
 																			path="supplierMatPro.listSupplierCertPros[${certProNumber}].id" />
 																	</div></td>
 																<td class="tc"
-																	<c:if test="${!fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
+																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	 <div class="w200 fl"><input
                                                                              required="required" type="text"   <c:if test="${certPro.name == '质量管理体系认证证书'}">readonly="readonly"</c:if>
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].name"
@@ -2043,7 +2042,7 @@
 																		<c:if test="${aptitute.isMajorFund==0}"> selected="selected"</c:if>>否</option>
 															</select></td>
 															
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200 fl">
                                                                     <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="eng_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" auto="true" />
                                                                     <u:show showId="eng_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
