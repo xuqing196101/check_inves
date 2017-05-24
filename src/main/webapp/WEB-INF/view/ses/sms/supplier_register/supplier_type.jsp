@@ -1008,19 +1008,20 @@
 							easyuiData.push(cur_str);
 						} else {
 							for(var i = 0; i < data.length; i++){
-							
-								var optionDOM = "";
-								var cur_str = "";
-								if (obj.parent().children(".forSelectId").val() != "" && obj.parent().children(".forSelectId").val() == data[i].id) {
-									//optionDOM = "<option value='" + data[i].id + "' selected='selected'>" + data[i].name + "</option>";
-									cur_str = {label : data[i].id,value : data[i].name,selected : true};
-									flag_certGrade = 1;
-								} else {
-									//var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
-									cur_str = {label : data[i].id,value : data[i].name};
-								}
-								easyuiData.push(cur_str);
-								//obj.parent().next().next().next().find("select").append(optionDOM);
+							    if(null != data[i]){
+                                    var optionDOM = "";
+                                    var cur_str = "";
+                                    if (obj.parent().children(".forSelectId").val() != "" && obj.parent().children(".forSelectId").val() == data[i].id) {
+                                        //optionDOM = "<option value='" + data[i].id + "' selected='selected'>" + data[i].name + "</option>";
+                                        cur_str = {label : data[i].id,value : data[i].name,selected : true};
+                                        flag_certGrade = 1;
+                                    } else {
+                                        //var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
+                                        cur_str = {label : data[i].id,value : data[i].name};
+                                    }
+                                    easyuiData.push(cur_str);
+                                    //obj.parent().next().next().next().find("select").append(optionDOM);
+                                }
 							}
 						}
 						if(enterWay == "addBtn") {
