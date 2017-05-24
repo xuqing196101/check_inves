@@ -572,7 +572,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0);"> 首页</a></li><li><a href="javascript:void(0);">保障作业</a></li><li><a href="javascript:void(0);">采购合同管理</a></li><li class="active"><a href="javascript:void(0);">合同文本修改</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">采购合同管理</a></li><li class="active"><a href="#">合同文本修改</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -672,7 +672,6 @@
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同类型：</span>
 				     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			        	<select name="contractType" style="width: 100%;" class=" contract_name">
-			        		<option></option>
 			        		<option value="0">正常采购合同</option>
 			        		<option value="1">以厂代储合同</option>
 			        		<option value="2">合同储备合同</option>
@@ -684,7 +683,6 @@
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>采购方式：</span>
 				     <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
 			        	<select name="purchaseType" id="purchaseType" style="width: 100%;" class=" contract_name">
-			        		<option></option>
 			        		<c:forEach items="${kinds}" var="kind">
 			        			<option value="${kind.id}" <c:if test="${kind.id==project.purchaseType}">selected="selected"</c:if>  >${kind.name}</option>
 			        		</c:forEach>
@@ -706,9 +704,10 @@
 	    		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方单位：</span>
 			       <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<select id="purchaseDeps" name="purchaseDepName" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeXuqiuDep()">
-                		</select>
-			        	<!-- <input class=" supplier_id" name="purchaseDepName" value="${project.orgnization.name}" type="text"> -->
+			        	<!-- <select id="purchaseDeps" name="purchaseDepName" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeXuqiuDep()">
+                		</select> -->
+			        <input class="supplier_ids" name="purchaseDepNames" value="${user.org.name}" type="text">
+			        <input type="hidden" name="purchaseDepName" value="${user.org.id}" >
 			        	<div class="cue">${ERR_purchaseDepName}</div>
 	       			</div> 
 	       			<%-- <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">

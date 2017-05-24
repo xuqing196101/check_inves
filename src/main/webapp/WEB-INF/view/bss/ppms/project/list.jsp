@@ -230,6 +230,46 @@
         $("#projectNumber").attr("value", "");
         $("#status option:selected").removeAttr("selected");
       }
+      function contract(){
+    	  var id = [];
+          $('input[name="chkItem"]:checked').each(function() {
+            id.push($(this).val());
+          });
+          if(id.length == 1) {
+        	  var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(4).text();
+        	  var name=status.trim();
+        	  if(name=="单一来源"){
+        		  $.ajax({
+        				url:"${pageContext.request.contextPath}/purchaseContract/projectContract.do?projectId="+id,
+        				type:"post",
+        				dataType:"text",
+        				success:function(data){
+        					if(data=="ok"){
+        						layer.alert("成功生成草案合同", {
+        		           offset: ['222px', '730px'],
+        		           shade: 0.01,
+        		          });
+        					}
+        				}
+        			});
+        	  }else{
+        		  layer.alert("只有单一来源能生成合同", {
+                      offset: ['222px', '730px'],
+                      shade: 0.01,
+                    });
+        	  }
+          }else if(id.length > 1) {
+              layer.alert("只能选择一个", {
+                  offset: ['222px', '730px'],
+                  shade: 0.01,
+                });
+              } else {
+                layer.alert("请选择需要生成的项目", {
+                  offset: ['222px', '730px'],
+                  shade: 0.01,
+                });
+              }
+      }
     </script>
   </head>
 
@@ -296,6 +336,7 @@
       <c:if test="${admin!=1 }">
         <div class="col-md-12 pl20 mt10">
           <button class="btn btn-windows apply" onclick="start();" type="button">实施</button>
+          <button class="btn btn-windows apply" onclick="contract();" type="button">生成合同草案</button>
         </div>
       </c:if>
 
