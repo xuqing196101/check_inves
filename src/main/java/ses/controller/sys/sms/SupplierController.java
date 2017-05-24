@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -81,6 +82,7 @@ import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
+import common.service.LoginLogService;
 import common.service.UploadService;
 
 /**
@@ -194,6 +196,10 @@ public class SupplierController extends BaseSupplierController {
     private DeleteLogService deleteLogService;
 	@Autowired
     private SupplierAuditNotService supplierAuditNotService;
+	
+	 // 注入登录日志Service
+    @Autowired
+    private LoginLogService loginLogService;
 	
 	private static Logger logger = Logger.getLogger(SupplierController.class); 
 	/**
@@ -2183,6 +2189,7 @@ public class SupplierController extends BaseSupplierController {
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model, String name) throws IOException {
 	    
         String user = (String) request.getSession().getAttribute("loginName");
+        
         response.setContentType("textml;charset=utf-8");
         if(user==null){
             String path = request.getContextPath();
@@ -2236,7 +2243,13 @@ public class SupplierController extends BaseSupplierController {
 	    
 		Supplier supp = supplierMapper.queryByName(name);
 		Supplier supplier = supplierService.get(supp.getId());
-
+		// 通过supplierId查询用户信息
+		if(supplier != null){
+			User existsUser = userService.findByTypeId(supplier.getId());
+			// 将用户信息存入登录日志
+			loginLogService.saveOnlineUser(existsUser, request);
+		}
+        
 		if(supplier.getAddress() != null) {
 			Area area = areaService.listById(supplier.getAddress());
 			List < Area > city = areaService.findAreaByParentId(area.getParentId());
