@@ -1708,7 +1708,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_NAME = #{supplierName}
+		WHERE IS_DELETED = 0 and SUPPLIER_NAME = #{supplierName}
 	</select>
 	
 	<select id="findQualifiedSupplier" resultMap="BaseResultMap">

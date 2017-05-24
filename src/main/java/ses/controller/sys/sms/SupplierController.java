@@ -609,24 +609,24 @@ public class SupplierController extends BaseSupplierController {
 				}
 				
 				if(supplier.getCreditCode()!=null&&supplier.getCreditCode().trim().length()!=0){
-                    //根据供应商统一社会信用代码判断是否注销或审核不通过且180天内再次注册
-                    //注销
-                    DeleteLog deleteLog = deleteLogService.queryByTypeId(null, supplier.getCreditCode());
-                    if(null != deleteLog && null != deleteLog.getCreateAt()){
-                        int betweenDays = supplierService.daysBetween(deleteLog.getCreateAt());
-                        if(betweenDays > 180){
-                            return "disabled_180";
-                        }
-                    }
-                    //审核不通过
-                    SupplierAuditNot supplierAuditNot = supplierAuditNotService.selectByCreditCode(supplier.getCreditCode());
-                    if(null != supplierAuditNot && null != supplierAuditNot.getCreatedAt()){
-                        int betweenDays = supplierService.daysBetween(supplierAuditNot.getCreatedAt());
-                        if(betweenDays > 180){
-                            return "disabled_180";
-                        }
-                    }
-                    List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
+//                    //根据供应商统一社会信用代码判断是否注销或审核不通过且180天内再次注册
+//                    //注销
+//                    DeleteLog deleteLog = deleteLogService.queryByTypeId(null, supplier.getCreditCode());
+//                    if(null != deleteLog && null != deleteLog.getCreateAt()){
+//                        int betweenDays = supplierService.daysBetween(deleteLog.getCreateAt());
+//                        if(betweenDays > 180){
+//                            return "disabled_180";
+//                        }
+//                    }
+//                    //审核不通过
+//                    SupplierAuditNot supplierAuditNot = supplierAuditNotService.selectByCreditCode(supplier.getCreditCode());
+//                    if(null != supplierAuditNot && null != supplierAuditNot.getCreatedAt()){
+//                        int betweenDays = supplierService.daysBetween(supplierAuditNot.getCreatedAt());
+//                        if(betweenDays > 180){
+//                            return "disabled_180";
+//                        }
+//                    }
+                    List < Supplier > tempList = supplierService.getCreditCode(supplier.getCreditCode(),0);
 					if(tempList!=null&&tempList.size()>0){
 						for(Supplier supp: tempList) {
 							if(!supplier.getId().equals(supp.getId())) {
