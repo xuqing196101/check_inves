@@ -66,13 +66,19 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0);"> 首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
+						<a href="javascript:void(0);">支撑环境</a>
+					</li>
+					<%--<li>
 						<a href="javascript:void(0);">进口代理商</a>
 					</li>
 					<li>
 						<a href="javascript:void(0);">进口代理商管理</a>
+					</li>--%>
+					<li>
+						<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/importRecommend/list.html')">进口代理商管理列表</a>
 					</li>
 					<li class="active">
 						<a href="javascript:void(0);">进口代理商增加</a>
