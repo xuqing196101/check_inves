@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 
 import ses.model.bms.User;
+import ses.model.ems.Expert;
 import ses.model.sms.Supplier;
 import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 import common.dao.LoginLogMapper;
 import common.model.LoginLog;
@@ -41,8 +43,9 @@ public class LoginLogServiceImpl implements LoginLogService {
 	@Autowired
 	private ExpertService expertService;
 	
+	// 注入供应商Service
 	@Autowired
-	private SupplierAuditService supplierAuditService;
+	private SupplierService supplierService;
 
 	/**
 	 * 
@@ -54,35 +57,37 @@ public class LoginLogServiceImpl implements LoginLogService {
 	 */
 	@Override
 	public void saveOnlineUser(User user, HttpServletRequest req) {
-		Integer typeFlag = null;
-		// 查询此用户所属类型 1：专家  2：供应商 3：后台管理员 **/
-		User expertUser = expertService.getUserById(user.getTypeId());
-		Supplier supplierUser = supplierAuditService.supplierById(user.getTypeId());
-		LoginLog loginLog = new LoginLog();
-		if (expertUser != null) {
-			// 专家登录
-			typeFlag = 1;
-			loginLog.setType(typeFlag);
-		} else if (supplierUser != null) {
-			// 供应商登录
-			typeFlag = 2;
-			loginLog.setType(typeFlag);
-		} else {
-			// 后台登录
-			typeFlag = 3;
-			loginLog.setType(typeFlag);
+		if(user != null){
+			Integer typeFlag = null;
+			// 查询此用户所属类型 1：专家  2：供应商 3：后台管理员 **/
+			Expert expertUser = expertService.selectByPrimaryKey(user.getTypeId());
+			Supplier supplierUser = supplierService.selectById(user.getTypeId());
+			LoginLog loginLog = new LoginLog();
+			if (expertUser != null) {
+				// 专家登录
+				typeFlag = 1;
+				loginLog.setType(typeFlag);
+			} else if (supplierUser != null) {
+				// 供应商登录
+				typeFlag = 2;
+				loginLog.setType(typeFlag);
+			} else {
+				// 后台登录
+				typeFlag = 3;
+				loginLog.setType(typeFlag);
+			}
+			// 设置登录ID
+			loginLog.setUserId(user.getId());
+			// 设置登录名
+			loginLog.setName(user.getLoginName());
+			// 设置登录时间
+			loginLog.setCreatedAt(new Date());
+			// 设置登录ip
+			loginLog.setIp(getIpAddress(req));
+			// 保存登录信息
+			// 保存登录信息
+			loginLogMapper.insertSelective(loginLog);
 		}
-		// 设置登录ID
-		loginLog.setUserId(user.getId());
-		// 设置登录名
-		loginLog.setName(user.getLoginName());
-		// 设置登录时间
-		loginLog.setCreatedAt(new Date());
-		// 设置登录ip
-		loginLog.setIp(getIpAddress(req));
-		// 保存登录信息
-		// 保存登录信息
-		loginLogMapper.insertSelective(loginLog);
 	}
 
 	/**
