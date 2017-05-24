@@ -2138,11 +2138,14 @@ public class SupplierAuditController extends BaseSupplierController {
 				for(int i = 0; i < list.size(); i++) {
 					if(typeId.equals(list.get(i).getId())) {
 						showModify = list.get(i).getName();
-					}else{
-						showModify = supplierModify.getBeforeContent();
+						break;
 					}
 				}
-				return JSON.toJSONString(showModify);
+				if(showModify ==""){ 
+					return JSON.toJSONString(supplierModify.getBeforeContent());
+				}else{
+					return JSON.toJSONString(showModify);
+				}
 			}
 			//在数据字典里查询企业性质
 			if(supplierModify.getBeforeField() != null && supplierModify.getBeforeField().equals("businessNature")){
@@ -2151,6 +2154,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				for(int i = 0; i < businessList.size(); i++) {
 					if(businessList.get(i).getId().equals(supplierModify.getBeforeContent())) {
 						showModify = businessList.get(i).getName();
+						break;
 					}
 				}
 				return JSON.toJSONString(showModify);

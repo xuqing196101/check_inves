@@ -80,7 +80,7 @@
 			<form action="${pageContext.request.contextPath}/expertAudit/saveSignature.do" method="post" id="add_form"  class="registerform">
 			   <ul class="demand_list">
 						<li>
-							<label class="fl">审核批次：</label>
+							<label class="fl"><div class="star_red">*</div>审核批次：</label>
 							<input type="text" name="batchNo" value="">
 							<input type="hidden" name="ids" value="${ids }">
 						</li>
@@ -90,9 +90,9 @@
 						<table class="table table-bordered table-condensed table-hover hand left_table table_input">
 							<tr >
 								<!-- <th class="info"><input type="checkbox"  /> -->
-								<th class="info" width="30%">姓名 </th>
-								<th class="info" width="35%">单位</th>
-								<th class="info" width="35%">技术职称（职务）</th>
+								<th class="info" width="30%"><div class="star_red">*</div>姓名 </th>
+								<th class="info" width="35%"><div class="star_red">*</div>单位</th>
+								<th class="info" width="35%"><div class="star_red">*</div>技术职称（职务）</th>
 							</tr>
 							<tr id="list_tbody_id">
 								<!-- <td><input type="checkbox" name="list[0].id"/></td> -->

@@ -370,18 +370,7 @@
 	              	<option <c:if test="${supplier.businessNature eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
 	              </c:forEach>
 	            </select>
-	          </li>
-            <%-- <c:if test ="${sign == 2 }">
-            	<li>
-	            	<label class="fl">地区：</label>
-		            <select name="address" id="address" class="w220">
-		              <option value=''>全部</option>
-		              <c:forEach items="${privnce}" var="list">
-		              	<option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
-		              </c:forEach>
-		            </select>
-		          </li>
-            </c:if> --%>
+	          </li>  
             <li>
               <label class="fl">供应商类型：</label><span><input id="supplierType" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" class="w220"/>
               <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
@@ -430,6 +419,17 @@
 	            <input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
 	            </span>
 	          </li>
+	          <c:if test ="${sign == 2 }">
+              <li>
+                <label class="fl">地区：</label>
+                <select name="address" id="address" class="w220">
+                  <option value=''>全部</option>
+                  <c:forEach items="${privnce}" var="list">
+                    <option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
+                  </c:forEach>
+                </select>
+              </li>
+            </c:if>
 		       </ul>
 		       <div class="col-md-12 clear tc mt10">
 	           <button type="button" onclick="submit()" class="btn">查询</button>

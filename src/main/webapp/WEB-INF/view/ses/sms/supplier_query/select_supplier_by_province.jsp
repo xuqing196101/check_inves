@@ -502,17 +502,6 @@
 			            </select>
 			       	 </span>
 	      		</li> -->
-	      		<%-- <c:if test ="${sign == 1 }">
-            	<li>
-	            	<label class="fl">地区：</label>
-		            <select name="address" id="address" class="w220">
-		              <option value=''>全部</option>
-		              <c:forEach items="${privnce}" var="list">
-		              	<option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
-		              </c:forEach>
-		            </select>
-		          </li>
-            </c:if> --%>
 	          <li>
             	<label class="fl">临时供应商：</label>
 	            <select name="isProvisional" id="isProvisional" class="w220">
@@ -524,6 +513,17 @@
 	         	<li>
 	          	<label class="fl">社会信用代码：</label><span><input class="w220" id="creditCode" name="creditCode" value="${supplier.creditCode }" type="text"></span>
 	          </li>
+	          <c:if test ="${sign == 1 }">
+              <li>
+                <label class="fl">地区：</label>
+                <select name="address" id="address" class="w220">
+                  <option value=''>全部</option>
+                  <c:forEach items="${privnce}" var="list">
+                    <option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
+                  </c:forEach>
+                </select>
+              </li>
+            </c:if>
 	        </ul>
 	          <div class="col-md-12 clear tc mt10">
             	<button type="button" onclick="submit()" class="btn">查询</button>
