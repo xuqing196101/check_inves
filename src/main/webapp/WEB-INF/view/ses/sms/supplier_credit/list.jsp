@@ -152,9 +152,10 @@
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
-					<li><a href="javascript:void(0);"> 首页</a></li>
-					<li><a href="javascript:void(0);">业务管理</a></li>
-					<li><a href="javascript:void(0);">供应商诚信形式</a></li>
+					<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+					<li><a href="javascript:void(0);">支撑系统</a></li>
+					<li><a href="javascript:void(0);">供应商管理</a></li>
+					<li><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplier_credit/list.html')">供应商诚信形式</a></li>
 					<li class="active"><a href="javascript:void(0);">供应商诚信形式列表</a></li>
 				</ul>
 				<div class="clear"></div>

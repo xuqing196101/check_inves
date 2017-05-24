@@ -313,7 +313,7 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0);"> 首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
 						<a href="javascript:void(0);">支撑系统</a>
@@ -322,7 +322,7 @@
 						<a href="javascript:void(0);">供应商管理</a>
 					</li>
 					<li class="active">
-						<a href="javascript:void(0);">入库供应商列表</a>
+						<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?judge=5&sign=2')">入库供应商列表</a>
 					</li>
 				</ul>
 				<div class="clear"></div>

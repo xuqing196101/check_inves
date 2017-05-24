@@ -12,10 +12,16 @@
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
-					<li><a href="javascript:;"> 首页</a></li>
-					<li><a href="javascript:;">业务管理</a></li>
-					<li><a href="javascript:;">供应商星级</a></li>
-					<li class="active"><a href="javascript:;">添加星级规则</a></li>
+					<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+					<li><a href="javascript:void(0);">支撑系统</a></li>
+					<li><a href="javascript:void(0);">供应商管理</a></li>
+					<li><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplier_stars/list.html')">供应商星级规则</a></li>
+					<c:if test="${supplierStars.id==null}">
+						<li class="active"><a href="javascript:;">添加星级规则</a></li>
+					</c:if>
+					<c:if test="${supplierStars.id!=null}">
+						<li class="active"><a href="javascript:;">修改星级规则</a></li>
+					</c:if>
 				</ul>
 				<div class="clear"></div>
 			</div>
