@@ -1013,9 +1013,10 @@
 			SET
 	      LOGIN_NAME = #{loginName},
 	      ID_NUMBER = #{idNumber},
-	      MOBILE = #{mobile}
+	      MOBILE = #{mobile},
+	      IS_DELETED = 1
 			WHERE TYPE_ID = #{typeId}
-			AND IS_DELETED = 1
+			AND IS_DELETED = 0
 		</update>
 		
 		<!-- 统计注册用户注册总数量 -->

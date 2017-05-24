@@ -408,8 +408,6 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
 		 */
 		@Override
 		public void updateByTypeId(String typeId) {
-			userMapper.updateByTypeId(typeId);
-			
 			SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
 	    	String date = format.format(new Date());
 			User user = userMapper.findUserByTypeId(typeId);
