@@ -117,13 +117,20 @@
                         },
                         success: function(obj) {
                             if(obj == '1') {
+                            	 layer.msg('该身份证号码已经被注册，请重新填写！', {
+                                     offset: '300px'
+                                 });
                                 return false;
-                            }else if(obj == 'disabled_180'){
+                            }
+                            
+                            /* else if(obj == 'disabled_180'){
                                 layer.msg('该身份证号码在180天内禁止再次注册，请重新填写！', {
                                     offset: '300px'
                                 });
                                 return false;
-                            }else{
+                            } */
+                            
+                            else{
                                 validateIdCard();
                             }
                         }
