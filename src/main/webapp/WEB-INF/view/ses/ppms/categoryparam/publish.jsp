@@ -21,7 +21,7 @@
    </div>
   <div class="container content height-350">
 	  <!-- left tree -->
-    <div class="col-md-3">
+    <div class="col-md-3 col-sm-4 col-xs-12">
 	  <div class="tag-box tag-box-v3">
 	    <div>
 		  <ul id="ztree" class="ztree" />
@@ -30,7 +30,7 @@
 	</div>
 	   
 	<!-- right -->
-    <div class="tag-box tag-box-v4 col-md-9 col-xs-12 col-sm-9" >
+    <div class="tag-box tag-box-v4 col-md-9 col-xs-12 col-sm-8" >
    	  <div class="col-md-12 col-sm-12 col-xs-12 hide" id="publishBtnDiv">
    	    <div class="pull-left">
  		  <button class="btn btn-windows apply" onclick="publishParam();" type="button">发布</button>
@@ -61,7 +61,7 @@
 	    		<thead>
 	    			<tr>
 	    				<td class="info w50 tc">序号</td>
-	    				<td class="info tc">参数名称</td>
+	    				<td class="info tc" width="35%">参数名称</td>
 	    				<td class="info tc">参数类型</td>
 	    			</tr>
 	    		</thead>

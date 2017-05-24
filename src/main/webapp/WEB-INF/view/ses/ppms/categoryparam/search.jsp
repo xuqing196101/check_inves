@@ -78,7 +78,6 @@ function query(){
  <div class="col-md-12 mt10 p0">
      <div class=" context table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
-    	
             <thead>
                 <tr>
                 <th class="info w50"><input id="selectAll" type="checkbox" onclick="selectAll()"/></th>

@@ -383,12 +383,12 @@
 		        <table class="table table-bordered table-condensed table-hover table-striped" >
 		            <thead>    
 		                <tr>
-			                <th class="info w50"><input id="checkAll" type="checkbox" onclick="selectAll()"  /></th>
-			                <th class="info w80">序号</th>
-			                <th class="info w150">需求部门</th>
-			                <th class="info w100">负责人</th>
-			                <th class="info w120">电话</th>
-			                <th class="info">品目名称</th>
+			                <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()"  /></th>
+			                <th class="info w50">序号</th>
+			                <th class="info" width="25%">需求部门</th>
+			                <th class="info" width="15%">负责人</th>
+			                <th class="info">电话</th>
+			                <th class="info" width="32%">品目名称</th>
 		                </tr>
 		            </thead>
 		            <c:forEach var="cate" items="${cate}"  varStatus="vs">
@@ -396,8 +396,8 @@
 		              <tr>
 		                <td class="tc pointer"><input  onclick="check()" type="checkbox" name="chkItem" value="${cate.id}"/></td>
 		                <td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-		                <td class="tc pointer">${cate.name}</td>
-		                <td class="tc pointer">${cate.princinpal}</td>
+		                <td class="tl pointer">${cate.name}</td>
+		                <td class="tl pointer">${cate.princinpal}</td>
 		                <td class="tc pointer">${cate.mobile}</td>
 		                <c:if test="${length > 17}">
 		                	<td class="pointer" onmouseover="titleMouseOver('${cate.cateNames}',this)" onmouseout="titleMouseOut();">

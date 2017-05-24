@@ -52,11 +52,11 @@
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
-							<th class="info">供应商名称</th>
-							<th class="info">起始时间</th>
-							<th class="info">期限</th>
-							<th class="info">结束时间</th>
-							<th class="info">处罚类型</th>
+							<th class="info" width="25%">供应商名称</th>
+							<th class="info" width="12%">起始时间</th>
+							<th class="info" width="10%">期限</th>
+							<th class="info" width="12%">结束时间</th>
+							<th class="info" width="15%">处罚类型</th>
 							<th class="info">列入黑名单原因</th>
 						</tr>
 					</thead>
@@ -64,7 +64,7 @@
 						<c:forEach items="${listBlacklistLogs.list}" var="log" varStatus="vs">
 							<tr class="hand">
 								<td class="tc">${vs.index + 1}</td>
-								<td class="tl pl20">${log.supplierName}</td>
+								<td class="tl">${log.supplierName}</td>
 								<td class="tc"><fmt:formatDate value="${log.startTime}" pattern="yyyy-MM-dd"/></td>
 								<td class="tc">
 									<c:if test="${log.term == 3}">3个月</c:if>
@@ -77,7 +77,7 @@
 								<td class="tc">
 									<fmt:formatDate value="${ log.endTime }" pattern="yyyy-MM-dd" />
 								</td>
-								<td class="tc">
+								<td class="tl">
 									<c:if test="${log.punishType == 0}">警告</c:if>
 									<c:if test="${log.punishType == 1}">不得参与采购活动</c:if>
 								</td>

@@ -106,6 +106,7 @@ import com.mysql.jdbc.Blob;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
+import common.service.LoginLogService;
 import common.service.UploadService;
 @Controller
 @RequestMapping("/expert")
@@ -170,6 +171,11 @@ public class ExpertController extends BaseController {
     private DeleteLogService deleteLogService;
     @Autowired
     private ExpertAuditNotService expertAuditNotService;
+    
+    // 注入登录日志Service
+    @Autowired
+    private LoginLogService loginLogService;
+    
     /**
      * 
      * @Title: toExpert
@@ -347,6 +353,8 @@ public class ExpertController extends BaseController {
     	
         model.addAttribute("userId", userId);
         User user = userService.getUserById(userId);
+        // 将用户信息存入登录日志
+        loginLogService.saveOnlineUser(user, request);
         String typeId = user.getTypeId();
      	Expert expert2 = service.selectByPrimaryKey(typeId);
      	if(expert2.getTeachTitle()==null){

@@ -156,7 +156,7 @@ public class PurchaseContractController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/selectAllPuCon")
-	public String selectAllPurchaseContract(@CurrentUser User user,Model model,Integer page,HttpServletRequest request) throws Exception{
+	public  String selectAllPurchaseContract(@CurrentUser User user,Model model,Integer page,HttpServletRequest request) throws Exception{
 		String projectName = request.getParameter("projectName");
 		String projectCode = request.getParameter("projectCode");
 		String isCreate = request.getParameter("isCreate");
@@ -171,7 +171,6 @@ public class PurchaseContractController extends BaseSupplierController{
 		
 		hashMap.put("isCreateContract", isCreate);
 		hashMap.put("page", page);
-		
 		List<SupplierCheckPass> listpass=new ArrayList<SupplierCheckPass>();
 		List<SupplierCheckPass> listCheckPassBD=null;
 		Orgnization or = user.getOrg();
@@ -615,7 +614,7 @@ public class PurchaseContractController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/createCommonContract")
-	public String createCommonContract(HttpServletRequest request,Model model) throws Exception{
+	public String createCommonContract(@CurrentUser User user,HttpServletRequest request,Model model) throws Exception{
 		String supcheckid = request.getParameter("supcheckid");
 		String transactionAmount = request.getParameter("transactionAmount");
 		String[] transactionAmounts = transactionAmount.split(",");
@@ -694,6 +693,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		project.setOrgnization(org);*/
 		
 		//PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(project.getSectorOfDemand());
+		
 		model.addAttribute("project", project);
 		model.addAttribute("department", department);
 		model.addAttribute("transactionAmount", amounts);
@@ -701,6 +701,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		model.addAttribute("supcheckid",supcheckid);
 		model.addAttribute("projectBud",projectBud);
 		model.addAttribute("planNos",planNos);
+		model.addAttribute("user",user);
 		//model.addAttribute("orgs",orgs);
 		//model.addAttribute("purchaseDep",purchaseDep);
 		return "bss/cs/purchaseContract/newContract";
@@ -720,7 +721,7 @@ public class PurchaseContractController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/manualCreateContract")
-	public String manualCreateContract(HttpServletRequest request,Model model) throws Exception{
+	public String manualCreateContract(HttpServletRequest request,Model model,@CurrentUser User user) throws Exception{
 		
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("DRAFT_REVIEWED");
@@ -742,6 +743,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		model.addAttribute("id", contractuuid);
 		model.addAttribute("attachuuid", contractuuid);
 		model.addAttribute("kinds", DictionaryDataUtil.find(5));
+		model.addAttribute("user", user);
 		return "bss/cs/purchaseContract/manualNewContract";
 	}
 	
@@ -842,7 +844,7 @@ public class PurchaseContractController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/addPurchaseContract")
-	public String addPurchaseContract(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
+	public String addPurchaseContract(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model,@CurrentUser User user) throws Exception{
 		String ids = request.getParameter("ids");
 		String dga = request.getParameter("dga");
 		String dra = request.getParameter("dra");
@@ -887,6 +889,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			model.addAttribute("requList", requList);
 			model.addAttribute("planNos", purCon.getDocumentNumber());
 			model.addAttribute("id", ids);
+			model.addAttribute("user", user);
 			/*model.addAttribute("manual", manual);*/
 			url = "bss/cs/purchaseContract/errContract";
 		}else{
@@ -1063,7 +1066,7 @@ public class PurchaseContractController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/updateZanCun")
-	public String updateZanCun(HttpServletRequest request,Model model,String id) throws Exception{
+	public String updateZanCun(HttpServletRequest request,Model model,String id,@CurrentUser User user) throws Exception{
 		PurchaseContract purCon = purchaseContractService.selectById(id);
 		String supcheckid = request.getParameter("supcheckid");
 		/*SupplierCheckPass supChkPa = supplierCheckPassService.findByPrimaryKey(supcheckid);
@@ -1111,6 +1114,8 @@ public class PurchaseContractController extends BaseSupplierController{
 		model.addAttribute("requList", resultList);
 		model.addAttribute("purCon", purCon);
 		model.addAttribute("supcheckid", supcheckid);
+		model.addAttribute("user", user);
+		
 		return "bss/cs/purchaseContract/errContract";
 	}
 	
@@ -1343,10 +1348,12 @@ public class PurchaseContractController extends BaseSupplierController{
 					}
 				}
 			}
+			Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(purCon.getPurchaseDepName());
 			/*purCon.setContractReList(requList);*/
 			/*model.addAttribute("purCon", purCon);*/
 			model.addAttribute("requList", requList);
 			model.addAttribute("kinds", DictionaryDataUtil.find(5));
+			model.addAttribute("org", orgnization);
 			url = "bss/cs/purchaseContract/updateErrContract";
 		}else{
 			SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
@@ -1433,9 +1440,11 @@ public class PurchaseContractController extends BaseSupplierController{
 				}
 			}
 			for(PurchaseContract con:contractList){
-				if(con.getCode().equals(purCon.getCode())){
-					flag = false;
-					model.addAttribute("ERR_code", "合同编号不可重复");
+				if(con.getCode()!=null){
+					if(con.getCode().equals(purCon.getCode())){
+						flag = false;
+						model.addAttribute("ERR_code", "合同编号不可重复");
+					}
 				}
 			}
 		}
@@ -1512,10 +1521,10 @@ public class PurchaseContractController extends BaseSupplierController{
         if(ValidateUtils.isNull(purCon.getPurchaseBankAccount_string())){
             flag = false;
             model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
-        }else if(!ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount_string())){
+        }/*else if(!ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount_string())){
             flag = false;
             model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
-        }
+        }*/
         if(ValidateUtils.isNull(purCon.getMoney_string())){
             flag = false;
             model.addAttribute("ERR_money", "合同金额不能为空");
@@ -1911,10 +1920,12 @@ public class PurchaseContractController extends BaseSupplierController{
         if(draftCon.getPurchaseBankAccount()!=null){
             draftCon.setPurchaseBankAccount_string(draftCon.getPurchaseBankAccount().toString());
         }
+        Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(draftCon.getPurchaseDepName());
         model.addAttribute("purCon", draftCon);
         model.addAttribute("kinds", DictionaryDataUtil.find(5));
         model.addAttribute("id", id);
         model.addAttribute("requList", conRequList);
+        model.addAttribute("org", orgnization);
         return "bss/cs/purchaseContract/updateContract";
     }
     /**
@@ -2390,7 +2401,7 @@ public class PurchaseContractController extends BaseSupplierController{
      * @return String
      */
     @RequestMapping("/createTransFormal")
-    public String createTransFormal(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
+    public String createTransFormal(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model,@CurrentUser User user) throws Exception{
         String id = request.getParameter("ids");
         String supcheckid = request.getParameter("supcheckid");
         String[] supcheckids = supcheckid.split(",");
@@ -2425,6 +2436,7 @@ public class PurchaseContractController extends BaseSupplierController{
             model.addAttribute("id", purCon.getId());
             model.addAttribute("attachuuid", purCon.getId());
             model.addAttribute("supcheckid", supcheckid);
+            model.addAttribute("user", user);
             url = "bss/cs/purchaseContract/errContract";
         }else{
             SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
@@ -2533,7 +2545,7 @@ public class PurchaseContractController extends BaseSupplierController{
      * @return String
      */
     @RequestMapping("/createerrContractPage")
-    public String createerrContractPage(HttpServletRequest request,Model model) throws Exception{
+    public String createerrContractPage(HttpServletRequest request,Model model,@CurrentUser User user) throws Exception{
         String id = request.getParameter("ids");
         String supckid = request.getParameter("supckid");
         String[] supcheckids = supckid.split(",");
@@ -2565,6 +2577,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		}
 		model.addAttribute("attachuuid", id);
         model.addAttribute("supcheckid", supckid);
+        model.addAttribute("user", user);
         return "bss/cs/purchaseContract/errContract";
     }
     /**
@@ -2943,4 +2956,72 @@ public class PurchaseContractController extends BaseSupplierController{
     	}
     	return project;
     }
+    @RequestMapping("/projectContract")
+    @ResponseBody
+    public String  projectContract(HttpServletRequest request,HttpServletResponse response,String projectId,@CurrentUser User user){
+    	String result="";
+    	Project projects = projectService.selectById(projectId);
+    	if(projects!=null){
+    		List<PurchaseContract> pcs = purchaseContractService.selectByProjectCode(projects.getProjectNumber());
+    		if(pcs.size()>0){
+    			result="no";
+    		}else{
+    			String pid=UUID.randomUUID().toString().replaceAll("-", "");
+        		PurchaseContract purCon=new PurchaseContract();
+        		purCon.setCreatedAt(new Date());
+        		purCon.setId(pid);
+        		purCon.setProjectId(projects.getId());
+        		purCon.setProjectCode(projects.getProjectNumber());
+        		purCon.setProjectName(projects.getName());
+        		purCon.setPurchaseType(projects.getPurchaseType());
+        		purCon.setManualType(1);
+        		purCon.setStatus(0);
+        		purCon.setPurchaseDepName(user.getOrg().getId());
+        		purchaseContractService.insertSelective(purCon);
+        		HashMap<String, Object> map=new HashMap<String, Object>();
+        		map.put("projectId", projects.getId()); 
+        		List<Packages> pas = packageService.selectByProjectKey(map);
+        		ContractRequired required=null;
+        		if(pas!=null&&pas.size()>0){
+        		  for(Packages p:pas){
+        			  List<ProjectDetail> details = projectDetailService.selectByPackageId(p.getId());
+        			  if(details!=null&&details.size()>0){
+        			    for(ProjectDetail det:details){
+            			  required=new ContractRequired();
+            			  required.setGoodsName(det.getGoodsName());
+            			  required.setBrand(det.getBrand());
+            			  required.setStand(det.getStand());
+            			  required.setItem(det.getItem());
+            			  BigDecimal purchaseCount=new BigDecimal(0);
+            			  if(det.getPurchaseCount()!=null){
+            				  purchaseCount=new BigDecimal(det.getPurchaseCount().toString());
+            			  }
+            			  required.setPurchaseCount(purchaseCount);
+            			  BigDecimal price=new BigDecimal(0);
+            			  if(det.getPrice()!=null){
+            				  price=new BigDecimal(det.getPrice().toString());
+            			  }
+            			  required.setPrice(price);
+            			  BigDecimal budget=new BigDecimal(0);
+            			  if(det.getBudget()!=null){
+            				  budget=new BigDecimal(det.getBudget().toString());
+            			  }
+            			  required.setAmount(budget);
+            			  required.setDeliverDate(det.getDeliverDate());
+            			  required.setDetailId(det.getId());
+            			  required.setContractId(pid);
+            			  contractRequiredService.insertSelective(required);
+            			  }
+        			  }
+        		  }
+        	  }
+        		result="ok";
+    		}
+    		
+    	}else{
+    		result="no";
+    	}
+    	return result;
+    }
+    
 }

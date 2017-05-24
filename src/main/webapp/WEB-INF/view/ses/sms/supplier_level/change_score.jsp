@@ -33,7 +33,7 @@
 					html += "<tr>";
 					html += "<td class='tc'><input name='checkbox' type='checkbox' value='"+ result[i].id +"'></td>";
 					html += "<td class='tc'>"+ (i + 1) +"</td>";
-					html += "<td class='tc'>"+ result[i].name +"</td>";
+					html += "<td class='tl'>"+ result[i].name +"</td>";
 					html += "<td class='tc'>"+ result[i].score +"</td>";
 					html += "<td class='tc'>"+ result[i].supplierCreditName +"</td>";
 					html += "</tr>";
@@ -112,7 +112,7 @@
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>
 							<th class="info w50">序号</th>
-							<th class="info">诚信形式内容名称</th>
+							<th class="info" width="40%">诚信形式内容名称</th>
 							<th class="info">分数</th>
 							<th class="info">诚信形式</th>
 						</tr>

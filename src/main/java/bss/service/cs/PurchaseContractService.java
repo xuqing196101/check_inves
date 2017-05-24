@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ses.model.oms.Orgnization;
-
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 
@@ -296,4 +295,10 @@ public interface PurchaseContractService {
     
     List<PurchaseContract> selectAllContractBySupplierId(Map<String, Object> map);
     List<PurchaseContract> selectAllContractBySupplier(Map<String, Object> map);
+    /**
+     * 根据项目code查找合同
+     * @param code
+     * @return
+     */
+    List<PurchaseContract> selectByProjectCode(String code);
 }

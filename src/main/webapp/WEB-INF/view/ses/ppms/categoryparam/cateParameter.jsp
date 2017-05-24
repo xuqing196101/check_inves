@@ -21,7 +21,7 @@
    </div>
   <div class="container content height-400">
 	  <!-- left tree -->
-    <div class="col-md-3">
+    <div class="col-md-3 col-sm-4 col-xs-12">
 	  <div class="tag-box tag-box-v3">
 	    <div>
 		  <ul id="ztree" class="ztree" style="height: 400px;" />
@@ -30,7 +30,7 @@
 	</div>
 	   
 	<!-- right -->
-    <div class="tag-box tag-box-v4 col-md-9 col-xs-12 col-sm-9" >
+    <div class="tag-box tag-box-v4 col-md-9 col-xs-12 col-sm-8" >
    	  
    	  <div class="col-md-12 col-sm-12 col-xs-12">
    	    <div class="pull-left">

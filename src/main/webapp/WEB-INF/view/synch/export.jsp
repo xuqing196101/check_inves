@@ -61,8 +61,7 @@
     <div class="padding-top-10 clear" id="relaDeptId">
       <h2 class="count_flow"><i>2</i>导出日志</h2>
       <ul class="ul_list">
-      
-        <div class="search_detail">
+        <div class="search_detail ml0">
           <ul class="demand_list">
             <li>
               <label class="fl">类型：</label>
@@ -87,7 +86,7 @@
           <div class="clear"></div>
         </div>
         
-		<div class="content table_box">
+		<div class="content pt10">
 		  <table class="table table-bordered table-condensed table-hover table-striped" id="dataTable" >
 		    <thead>
 			  <tr>
