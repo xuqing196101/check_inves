@@ -1220,110 +1220,107 @@
 
 	<!--  -->
 	<select id="querySupplierbytypeAndCategoryIds" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
-		SELECT
-			"NVL" (T4. NAME, T3. NAME) AS NAME,
-			t1.typeId,
-			t2.*,
-			org.SHORT_NAME AS orgName
-		FROM
-			(
-				SELECT
-					ID,
-					wm_concat (DISTINCT(typeId)) AS typeId
-				FROM
-					(
-						SELECT
-							T1.*, 
-							t3.SUPPLIER_TYPE_ID AS typeId
-						FROM
-							T_SES_SMS_SUPPLIER t1
-						LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1. ID = t3.SUPPLIER_ID
-					)
-				GROUP BY
-					ID
-			) t1
-		LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1. ID = t2. ID 
-		LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS = T3. ID
-		LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4. ID
-		LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
-		LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
-		<if test="item != null and item!= ''">
-			RIGHT JOIN (
-				select supplier_id as id from T_SES_SMS_SUPPLIER_ITEM where category_id in (
-					<foreach item="item" index="index" collection="item" open="" separator="," close="">
-						#{item}
-					</foreach>
-				)	
-			) t5  on t1.ID = t5.ID
-		</if>
-		WHERE
-			t2.IS_DELETED = 0
-		<!-- AND SUPPLIER_NAME IS NOT NULL -->
-		<if test="itemType != null and itemType != ''">
-			<foreach item="itemType" index="index" collection="itemType" open="" separator="" close="">
-				and "INSTR"(typeId, #{itemType})>0
-			</foreach>
-		</if>
-		<if test="supplierName != null and supplierName !=''">
-			and SUPPLIER_NAME like '%'|| #{supplierName} ||'%'
-		</if>
-		<if test="startDate != null">
-			AND CREATED_AT &gt;= #{startDate}
-		</if>
-		<if test="endDate != null">
-			AND CREATED_AT &lt;= #{endDate}
-		</if>
-		<if test="startSubimtDate != null">
-			AND SUBMIT_AT &gt;= #{startSubimtDate}
-		</if>
-		<if test="endSubimtDate != null">
-			AND SUBMIT_AT &lt;= #{endSubimtDate}
-		</if>
-		<if test="startAuditDate != null">
-			AND AUDIT_DATE &gt;= #{startAuditDate}
-		</if>
-		<if test="endAuditDate != null">
-			AND AUDIT_DATE &lt;= #{endAuditDate}
-		</if>
-		<if test="contactName != null and contactName != ''">
-			AND CONTACT_NAME like '%'|| #{contactName} ||'%'
-		</if>
-		<if test="businessType != null and businessType != ''">
-			AND BUSINESS_TYPE =#{businessType}
-		</if>
-		<if test="businessNature != null and businessNature != ''">
-			AND BUSINESS_NATURE =#{businessNature}
-		</if>
-		<if test="status != null">
-			<if test="status == 5">
-				and IS_PROVISIONAL = '0'
-			</if>
-			and SUPPLIER_STATUS = #{status}
-		</if>
-		<if test="judge == 5">
-			and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
-			and IS_PROVISIONAL = '0'
-		</if>
-		<if test="address != null and address !=''">
-			and t4.NAME like '%'|| #{address} ||'%'
-		</if>
-		<if test="loginName != null and loginName !=''">
-			and LOGIN_NAME like '%'|| #{loginName} ||'%'
-		</if>
-		<if test="mobile != null and mobile !=''">
-			and MOBILE like '%'|| #{mobile} ||'%'
-		</if>
-		<if test="isProvisional != null">
-			and IS_PROVISIONAL = #{isProvisional}
-		</if>
-		<if test="creditCode != null and creditCode != '' ">
-			and CREDIT_CODE like '%'|| #{creditCode} || '%'
-		</if>
-		<!-- <if test="judge == null and judge != 5">
-			ORDER BY CREATED_AT DESC NULLS LAST
-		</if> -->
-			ORDER BY AUDIT_DATE  DESC NULLS LAST
-	</select>
+    SELECT
+      "NVL" (T4. NAME, T3. NAME) AS NAME,
+      t1.typeId,
+      t2.ID,
+      t2.SUPPLIER_NAME,
+      t2.CREATED_AT,
+      t2.SUBMIT_AT,
+      t2.AUDIT_DATE,
+      t2.SUPPLIER_STATUS,
+      t2.BUSINESS_NATURE,
+      t2.IS_PROVISIONAL,
+      t2.CREDIT_CODE,
+      t2.CONTACT_NAME,
+      t2.MOBILE,
+      org.SHORT_NAME AS orgName
+    FROM
+      (SELECT
+          ID,
+          wm_concat (DISTINCT(SUPPLIER_TYPE_ID)) AS typeId
+        FROM
+          (SELECT
+             t1.ID,
+             t3.SUPPLIER_TYPE_ID
+           FROM
+             T_SES_SMS_SUPPLIER t1
+             LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1. ID = t3.SUPPLIER_ID)
+           GROUP BY
+             ID
+      ) t1
+    LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1. ID = t2. ID 
+    LEFT JOIN T_SES_BMS_AREA T3 ON t2.ADDRESS = T3. ID
+    LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4. ID
+    LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
+    LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+    WHERE
+      t2.IS_DELETED = 0
+	    <if test="itemType != null and itemType != ''">
+	      <foreach item="itemType" index="index" collection="itemType" open="and(" separator="or" close=")">
+	        T1.typeId=#{itemType}
+	      </foreach>
+	    </if>
+	    <if test="supplierName != null and supplierName !=''">
+	      and SUPPLIER_NAME like '%'|| #{supplierName} ||'%'
+	    </if>
+	    <if test="startDate != null">
+	      AND CREATED_AT &gt;= #{startDate}
+	    </if>
+	    <if test="endDate != null">
+	      AND CREATED_AT &lt;= #{endDate}
+	    </if>
+	    <if test="startSubimtDate != null">
+	      AND SUBMIT_AT &gt;= #{startSubimtDate}
+	    </if>
+	    <if test="endSubimtDate != null">
+	      AND SUBMIT_AT &lt;= #{endSubimtDate}
+	    </if>
+	    <if test="startAuditDate != null">
+	      AND AUDIT_DATE &gt;= #{startAuditDate}
+	    </if>
+	    <if test="endAuditDate != null">
+	      AND AUDIT_DATE &lt;= #{endAuditDate}
+	    </if>
+	    <if test="contactName != null and contactName != ''">
+	      AND CONTACT_NAME like '%'|| #{contactName} ||'%'
+	    </if>
+	    <if test="businessType != null and businessType != ''">
+	      AND BUSINESS_TYPE =#{businessType}
+	    </if>
+	    <if test="businessNature != null and businessNature != ''">
+	      AND BUSINESS_NATURE =#{businessNature}
+	    </if>
+	    <if test="status != null">
+	      <if test="status == 5">
+	        and IS_PROVISIONAL = '0'
+	      </if>
+	      and SUPPLIER_STATUS = #{status}
+	    </if>
+	    <if test="judge == 5">
+	      and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
+	      and IS_PROVISIONAL = '0'
+	    </if>
+	    <if test="address != null and address !=''">
+	      and t4.NAME like '%'|| #{address} ||'%'
+	    </if>
+	    <if test="loginName != null and loginName !=''">
+	      and LOGIN_NAME like '%'|| #{loginName} ||'%'
+	    </if>
+	    <if test="mobile != null and mobile !=''">
+	      and MOBILE like '%'|| #{mobile} ||'%'
+	    </if>
+	    <if test="isProvisional != null">
+	      and IS_PROVISIONAL = #{isProvisional}
+	    </if>
+	    <if test="creditCode != null and creditCode != '' ">
+	      and CREDIT_CODE like '%'|| #{creditCode} || '%'
+	    </if>
+	    <!-- <if test="judge == null and judge != 5">
+	      ORDER BY CREATED_AT DESC NULLS LAST
+	    </if> -->
+      ORDER BY AUDIT_DATE  DESC NULLS LAST
+  </select>
 
 	<!-- 按品目查询供应商 -->
 	<select id="findSupplierbyCategoryId" parameterType="ses.model.sms.Supplier"	resultMap="findSupplierMap">

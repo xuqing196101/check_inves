@@ -1726,99 +1726,71 @@ public class ExpertAuditController{
     	 * 比较附件那些通过审核(初审和复查才有附件信息)
     	 */
     	if(tableType.equals("1") || tableType.equals("3")){
-    		ExpertAudit audit0 = new ExpertAudit();
-        	audit0.setExpertId(expert.getId());
-        	List < ExpertAudit > basicList = expertAuditService.selectFailByExpertId(audit0);
+    		ExpertAudit auditFileInfo = new ExpertAudit();
+    		auditFileInfo.setExpertId(expert.getId());
+    		auditFileInfo.setAuditField("近期免冠彩色证件照");
+        	List < ExpertAudit > recentPhotos = expertAuditService.selectFailByExpertId(auditFileInfo);
+        	if(recentPhotos != null && recentPhotos.size() > 0){
+        		dataMap.put("recentPhotos", "否");
+        	}else{ 
+        		dataMap.put("recentPhotos", "是");
+        	}
+        	 
+        	auditFileInfo.setAuditField("身份证复印件（正反面）:");
+        	List < ExpertAudit > idCard = expertAuditService.selectFailByExpertId(auditFileInfo);
+        	if(idCard != null && idCard.size() >0){
+        		dataMap.put("idCard", "否");
+        	}else{ 
+        		dataMap.put("idCard", "是");
+        	}
 
-    		boolean recentPhotos = true, idCard = true, armyIdCard = true, qualification = true, academicDegree = true, coverNote = true , professionalFile = true;
-    		if(!basicList.isEmpty()) {
-    			for(ExpertAudit e: basicList) {
-    				if(e.getAuditField().equals("近期免冠彩色证件照")) {
-    					dataMap.put("recentPhotos", "否");
-    					recentPhotos = false;
-    					break;
-    				}
-    			}
-    			
-    			for(ExpertAudit e: basicList) {
-    				if(e.getAuditField().equals("身份证复印件（正反面）:")) {
-    					dataMap.put("idCard", "否");
-    					idCard = false;
-    					break;
-    				}
-    			}
+			if(expertsForm.getName().equals("军队") && expert.getExpertsFrom() != null) {
+				auditFileInfo.setAuditField("军队人员身份证件");
+	        	List < ExpertAudit > armyIdCard = expertAuditService.selectFailByExpertId(auditFileInfo);
+	        	if(armyIdCard != null && armyIdCard.size() >0){
+	        		dataMap.put("armyIdCard", "否");
+	        	}else{ 
+	        		dataMap.put("armyIdCard", "是");
+	        	}
+			} else {
+				dataMap.put("armyIdCard", "无");
+			}
+    		
+			auditFileInfo.setAuditField("专业技术资格证书");
+        	List < ExpertAudit > qualification = expertAuditService.selectFailByExpertId(auditFileInfo);
+        	if(qualification != null && qualification.size() >0){
+        		dataMap.put("qualification", "否");
+        	}else{ 
+        		dataMap.put("qualification", "是");
+        	}
+        	
+        	auditFileInfo.setAuditField("执业资格");
+        	List < ExpertAudit > professionalFile = expertAuditService.selectFailByExpertId(auditFileInfo);
+        	if(professionalFile != null && professionalFile.size() >0){
+        		dataMap.put("professionalFile", "否");
+        	}else{ 
+        		dataMap.put("professionalFile", "是");
+        	}
+			
+        	auditFileInfo.setAuditField("学位证书");
+        	List < ExpertAudit > academicDegree = expertAuditService.selectFailByExpertId(auditFileInfo);
+        	if(academicDegree != null && academicDegree.size() >0){
+        		dataMap.put("academicDegree", "否");
+        	}else{ 
+        		dataMap.put("academicDegree", "是");
+        	}
 
-    			if(expertsForm.getName().equals("军队") && expert.getExpertsFrom() != null) {
-    				for(ExpertAudit e: basicList) {
-    					if(e.getAuditField().equals("军队人员身份证件")) {
-    						dataMap.put("armyIdCard", "否");
-    						armyIdCard = false;
-    						break;
-    					}
-    				}
-    			} else {
-    				dataMap.put("armyIdCard", "无");
-    				armyIdCard = false;
-    			}
-    			
-    			for(ExpertAudit e: basicList) {
-    				if(e.getAuditField().equals("专业技术资格证书")) {
-    					dataMap.put("qualification", "否");
-    					qualification = false;
-    					break;
-    				}
-    			}
-    			
-    			for(ExpertAudit e: basicList) {
-    				if(e.getAuditField().equals("执业资格")) {
-    					dataMap.put("professionalFile", "否");
-    					professionalFile = false;
-    					break;
-    				}
-    			}
-
-    			for(ExpertAudit e: basicList) {
-    				if(e.getAuditField().equals("学位证书")) {
-    					dataMap.put("academicDegree", "否");
-    					academicDegree = false;
-    					break;
-    				}
-    			}
-    			if(expertsForm.getName().equals("地方") && expert.getExpertsFrom() != null) {
-    				for(ExpertAudit e: basicList) {
-    					if(e.getAuditField().equals("社保证明")) {
-    						dataMap.put("coverNote", "否");
-    						coverNote = false;
-    						break;
-    					}
-    				}
-    			} else {
-    				dataMap.put("coverNote", "无");
-    				coverNote = false;
-    			}
-    		}
-
-    		if(idCard) {
-    			dataMap.put("idCard", "是");
-    		}
-    		if(recentPhotos) {
-    			dataMap.put("recentPhotos", "是");
-    		}
-    		if(armyIdCard) {
-    			dataMap.put("armyIdCard", "是");
-    		}
-    		if(qualification) {
-    			dataMap.put("qualification", "是");
-    		}
-    		if(professionalFile) {
-    			dataMap.put("professionalFile", "是");
-    		}
-    		if(academicDegree) {
-    			dataMap.put("academicDegree", "是");
-    		}
-    		if(coverNote) {
-    			dataMap.put("coverNote", "是");
-    		}
+			if(expertsForm.getName().equals("地方") && expert.getExpertsFrom() != null) {
+				auditFileInfo.setAuditField("学位证书");
+	        	List < ExpertAudit > coverNote = expertAuditService.selectFailByExpertId(auditFileInfo);
+	        	if(coverNote != null && coverNote.size() >0){
+	        		dataMap.put("coverNote", "否");
+	        	}else{ 
+	        		dataMap.put("coverNote", "是");
+	        	}
+			} else {
+				dataMap.put("coverNote", "无");
+			}
     	}
     	
 
