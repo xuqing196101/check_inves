@@ -570,10 +570,10 @@ public class SupplierServiceImpl implements SupplierService {
     public boolean checkLoginName(String loginName) {
         List<String> list = supplierMapper.findLoginName();
         List<User> user = userService.findByLoginName(loginName);
-        if (list.contains(loginName)) {
+        if (list.size()>1) {
             return false;
         }
-        if(user!=null&&user.size()>0){
+        if(user!=null&&user.size()>1){
             return false;
         }
         return true;
