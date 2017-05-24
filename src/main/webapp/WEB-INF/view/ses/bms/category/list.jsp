@@ -833,9 +833,12 @@
  <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0);"> 首页</a></li><li><a href="javascript:void(0);">支撑系统</a></li><li><a href="javascript:void(0);">产品管理</a></li><li><a href="javascript:void(0);">产品目录管理</a></li>
-		   </ul>
+		  <ul class="breadcrumb margin-left-0">
+			  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+			  <li><a href="javascript:void(0);">支撑系统</a></li>
+			  <li><a href="javascript:void(0);">产品管理</a></li>
+			  <li><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/category/get.html')">产品目录管理</a></li>
+		  </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
