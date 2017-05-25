@@ -319,6 +319,7 @@
 												</c:if>
 											</div>
 										</li>
+										<div class="clear"></div>
 									</c:forEach>
 								</c:if>
 					</ul>

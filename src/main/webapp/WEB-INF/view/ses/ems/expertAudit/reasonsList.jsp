@@ -20,7 +20,7 @@
 					$("#tichu").attr("disabled", true);
 				}
 				if(num != 0) {
-					/* $("#tongguo").attr("disabled", true); */
+					 $("#tongguo").attr("disabled", true);
 				};
 			});
 
@@ -59,15 +59,19 @@
 						var opinion = document.getElementById('opinion').value;
 						opinion = trim(opinion);
 						if(opinion !=null && opinion !=""){
-							$.ajax({
-								url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-								data: {"opinion" : opinion , "expertId" : expertId},
-								success: function() {
-									//提交审核
-										$("#status").val(status);
-										$("#form_shenhe").submit();
-									}
-							});
+						  if(opinion.length <= 200){
+						    $.ajax({
+                url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
+                data: {"opinion" : opinion , "expertId" : expertId},
+                success: function() {
+                  //提交审核
+                    $("#status").val(status);
+                    $("#form_shenhe").submit();
+                  }
+                });
+						  }else{
+						    layer.msg("不能超过200字",{offset : '100px'});
+						  }
 						}else{
 							layer.msg("请填写最终意见",{offset : '100px'});
 							return;
@@ -248,9 +252,9 @@
 								<tr>
 									<th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
 									<th class="info w50">序号</th>
-									<th class="info" width="15%">审批类型</th>
-									<th class="info" width="15%">审批字段</th>
-									<th class="info" width="30%">审批内容</th>
+									<th class="info">审批类型</th>
+									<th class="info">审批字段</th>
+									<th class="info">审批内容</th>
 									<th class="info">不通过理由</th>
 								</tr>
 							</thead>
@@ -258,20 +262,20 @@
 								<input id="auditId" value="${reasons.id}" type="hidden">
 								<tr>
 									<td class="tc w30"><input type="checkbox" value="${reasons.id }" name="chkItem"  id="${reasons.id}"></td>
-									<td class="tl pl20">${vs.index + 1}</td>
-									<td class="tl pl20">
+									<td class="">${vs.index + 1}</td>
+									<td class="">
 										<c:if test="${reasons.suggestType eq 'one'}">基本信息</c:if>
 										<%-- <c:if test="${reasons.suggestType eq 'two'}">经历经验</c:if> --%>
 										<c:if test="${reasons.suggestType eq 'seven'}">专家类别</c:if>
 										<c:if test="${reasons.suggestType eq 'six'}">产品类别</c:if>
 										<c:if test="${reasons.suggestType eq 'five'}">承诺书和申请表</c:if>
 									</td>
-									<td class="tl pl20">${reasons.auditField }</td>
-									<td class="tl pl20 hand" title="${reasons.auditContent}">
+									<td class="">${reasons.auditField }</td>
+									<td class="hand" title="${reasons.auditContent}">
 										<c:if test="${fn:length (reasons.auditContent) > 20}">${fn:substring(reasons.auditContent,0,20)}...</c:if>
 										<c:if test="${fn:length (reasons.auditContent) <= 20}">${reasons.auditContent}</c:if>
 									</td>
-									<td class="tl pl20 hand" title="${reasons.auditReason}">
+									<td class="hand" title="${reasons.auditReason}">
 										<c:if test="${fn:length (reasons.auditReason) > 20}">${fn:substring(reasons.auditReason,0,20)}...</c:if>
 										<c:if test="${fn:length (reasons.auditReason) <= 20}">${reasons.auditReason}</c:if>
 									</td>
