@@ -87,6 +87,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                            if(ets==null){
                                expertTitleMapper.insertSelective(et);
                            }
+                           if(ets!=null){
+                        	   expertTitleMapper.updateByPrimaryKeySelective(et);  
+                           }
                        }
                    }
                    List<RoleUser> roles = expert.getUserRoles();
@@ -255,6 +258,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         	if(user2==null){
         		 userService.saveUser(user);
         	}
+        	if(user2!=null){
+        		userMapper.updateByPrimaryKeySelective(user);
+        	}
         }
     }
     
@@ -270,7 +276,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         	if(ep==null){
         		expertService.insertSelective(expert);
         	}
-            
+            if(ep!=null){
+            	expertService.updateByPrimaryKeySelective(ep);
+            }
         }
     }
     
