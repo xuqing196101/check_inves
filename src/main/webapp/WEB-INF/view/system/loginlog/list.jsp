@@ -18,10 +18,10 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 	    <ul class="breadcrumb margin-left-0">
-		  <li><a href="javascript:void(0);"> 首页</a></li>
+		  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
 		  <li><a href="javascript:void(0);">支撑系统</a></li>
 		  <li><a href="javascript:void(0);">系统管理</a></li>
-		  <li><a href="${pageContext.request.contextPath}/loginlog/init.html" class="active">登录日志管理</a></li>
+		  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/loginlog/init.html')" class="active">登录日志管理</a></li>
 		</ul>
 		<div class="clear"></div>
 	  </div>
