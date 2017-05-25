@@ -539,23 +539,23 @@
 							<!-- 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
  -->
 							<th class="info w50">序号</th>
-							<th class="info" width="12%">计划名称</th>
+							<th class="info" width="10%">计划名称</th>
 							<th class="info" width="9%">计划编号</th>
-							<th class="info" width="9%">计划类别</th>
+							<th class="info" width="7%">计划类别</th>
 							<th class="info" width="9%">物资名称</th>
 							<th class="info" width="9%">质量标准</th>
 							<th class="info" width="8%">质量参数</th>
-							<th class="info" width="6%">单位</th>
+							<th class="info" width="5%">单位</th>
 							<th class="info" width="7%">采购数量</th>
-							<th class="info" width="7%">单价(元)</th>
-							<th class="info" width="10%">预算价格(万元)</th>
+							<th class="info" width="7%">单价<br/>(元)</th>
+							<th class="info" width="10%">预算价格<br/>(万元)</th>
 							<th class="info">采购方式</th>
 						</tr>
 					</thead>
 					<c:forEach items="${info.list}" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
 							<td class="tc w50" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-							<td  class="tc w100">
+							<td  class="tl">
 								${obj.planName }
 							</td>
 							<td class="tc">
@@ -568,25 +568,25 @@
 							     </c:if>
 							  </c:forEach>
 							</td>
-							<td class="tc">
+							<td class="tl">
 							${obj.goodsName }
 							</td>
-							<td class="tc">
+							<td class="tl">
 								${obj.stand }
 							</td>
-							<td class="tc">
+							<td class="tl">
 								${obj.qualitStand }
 							</td>
 							<td class="tc">
 								${obj.item }
 							</td>
-							<td class="tc">
+							<td class="tr">
 								${obj.purchaseCount }
 							</td>
 							<td class="tc">
 							  <fmt:formatNumber type="number" pattern="#,##0.00" value="${obj.price }" />
 							</td>
-							<td class="tc" >
+							<td class="tr" >
 								<fmt:formatNumber type="number" pattern="#,##0.00" value="${obj.budget}" />
 							</td>
 							<td class="tc" >

@@ -328,7 +328,7 @@
 				<th class="tnone"></th>
 				<th class="tnone"></th>
 			    <th class="info w50">序号</th>
-				<th class="info" width="25%">采购项目名称</th>
+				<th class="info" width="20%">采购项目名称</th>
 				<th class="info" width="12%">编号</th>
 				<th class="info" width="7%">包名</th>
 				<th class="info" width="8%">成交金额</th>
