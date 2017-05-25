@@ -263,6 +263,7 @@ public class SupplierExtractsController extends BaseController {
                 model.addAttribute("projectId", project.getId());
                 model.addAttribute("projectName", project.getName());
                 model.addAttribute("projectNumber", project.getProjectNumber());
+                model.addAttribute("bidDate", project.getBidDate());
                 //获取采购方式
                 List<DictionaryData>  dictionaryData = new ArrayList<DictionaryData>();
                 dictionaryData.add(dictionaryDataServiceI.getDictionaryData(project.getPurchaseType()));
