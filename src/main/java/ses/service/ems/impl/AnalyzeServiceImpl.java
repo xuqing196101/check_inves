@@ -18,6 +18,7 @@ import ses.model.bms.AnalyzeItem;
 import ses.service.ems.AnalyzeService;
 import ses.util.DictionaryDataUtil;
 import bss.util.PropUtil;
+
 import common.constant.Constant;
 import common.dao.AttUploadAnalyzeMapper;
 import common.dao.FileUploadMapper;
@@ -259,13 +260,19 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	 * @throws
 	 */
 	@Override
-	public void taskAnalyzeLogin() {
+	public void taskAnalyzeLogin(Date searchData) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		// 登录供应商
 		// 当前日期
-		Date date = new Date();
-		Date subDayDate = DateUtils.subDayDate(date, 1);
+		Date subDayDate;
+		if(searchData != null){
+			// 查询时间
+			subDayDate = searchData;
+		}else {
+			// 正常统计时间
+			subDayDate = DateUtils.subDayDate(new Date(), 1);
+		}
 		map.put("createdAt", dateFormat.format(subDayDate));
 		// 用户类型 1：专家 2：供应商 3：后台管理员
 		map.put("loginType", 1);
@@ -284,30 +291,33 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		LoginAnalyze loginAnalyze = new LoginAnalyze();
 		LoginAnalyze loginAnalyzeData = (LoginAnalyze) analyzeData(
 				loginAnalyze, subDayDate, dateFormat, typeId);
+		// 定义查询条件
+		Map<String, Object> mapCondition = new HashMap<String, Object>();
 		if (loginAnalyzeData != null) {
 			if(expertLoginCount != null){
 				// 存储专家登录数
 				loginAnalyzeData.setType(1);
 				loginAnalyzeData.setLoginNum(expertLoginCount.intValue());
-				loginAnalyzeMapper.insertSelective(loginAnalyzeData);
+				vertifyLoginAnalyze(loginAnalyzeData, mapCondition, 1, searchData, expertLoginCount);
 			}
 			
 			if(supplierLoginCount != null){
 				// 存储供应商登录数
 				loginAnalyzeData.setType(2);
 				loginAnalyzeData.setLoginNum(supplierLoginCount.intValue());
-				loginAnalyzeMapper.insertSelective(loginAnalyzeData);
+				vertifyLoginAnalyze(loginAnalyzeData, mapCondition, 2, searchData, supplierLoginCount);
 			}
 			
 			if(backgroundLoginCount != null){
 				// 存储后台登录数
 				loginAnalyzeData.setType(3);
 				loginAnalyzeData.setLoginNum(backgroundLoginCount.intValue());
-				loginAnalyzeMapper.insertSelective(loginAnalyzeData);
+				vertifyLoginAnalyze(loginAnalyzeData, mapCondition, 3, searchData, backgroundLoginCount);
 			}
 		}
 
 	}
+
 
 	/**
 	 * 
@@ -340,7 +350,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		// 登录统计
 		if (object instanceof LoginAnalyze) {
 			LoginAnalyze loginAnalyze = (LoginAnalyze) object;
-			loginAnalyze.setCreatedAt(date);
+			loginAnalyze.setCreatedAt(new Date());
 			loginAnalyze.setTypeId(typeId);
 			loginAnalyze.setIndexDay(day);
 			loginAnalyze.setIndexWeek(week);
@@ -351,7 +361,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		// 注册统计
 		if (object instanceof RegisterAnalyze) {
 			RegisterAnalyze registerAnalyze = (RegisterAnalyze) object;
-			registerAnalyze.setCreatedAt(date);
+			registerAnalyze.setCreatedAt(new Date());
 			registerAnalyze.setTypeId(typeId);
 			registerAnalyze.setIndexDay(day);
 			registerAnalyze.setIndexWeek(week);
@@ -362,7 +372,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		// 图片上传统计
 		if (object instanceof AttUploadAnalyze) {
 			AttUploadAnalyze attUploadAnalyze = (AttUploadAnalyze) object;
-			attUploadAnalyze.setCreatedAt(date);
+			attUploadAnalyze.setCreatedAt(new Date());
 			attUploadAnalyze.setTypeId(typeId);
 			attUploadAnalyze.setIndexDay(day);
 			attUploadAnalyze.setIndexWeek(week);
@@ -381,12 +391,18 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	 * @throws
 	 */
 	@Override
-	public void taskAnalyzeRegister() {
+	public void taskAnalyzeRegister(Date searchData) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		// 当前日期
-		Date date = new Date();
-		Date subDayDate = DateUtils.subDayDate(date, 1);
+		Date subDayDate;
+		if(searchData != null){
+			// 查询时间
+			subDayDate = searchData;
+		}else {
+			// 正常统计时间
+			subDayDate = DateUtils.subDayDate(new Date(), 1);
+		}
 		// 登录供应商
 		map.put("createdAt", dateFormat.format(subDayDate));
 		// 查询专家注册的数量
@@ -411,27 +427,136 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		RegisterAnalyze registerAnalyzeData = (RegisterAnalyze) analyzeData(
 				registerAnalyze, subDayDate, dateFormat, typeId);
 		// 向统计表中插入数据
+		// 定义查询条件
+		Map<String, Object> mapCondition = new HashMap<String, Object>();
 		if (registerAnalyzeData != null) {
 			if(registerExpertCountByEmp != null){
 				// 存储专家登录数
 				registerAnalyzeData.setType(1);
 				registerAnalyzeData.setRegisterNum(registerExpertCountByEmp.intValue());
-				registerAnalyzeMapper.insertSelective(registerAnalyzeData);
+				// 先查询该数据是否已存在
+				vertifyRegisterAnalyze(registerAnalyzeData,mapCondition, 1, searchData, registerExpertCountByEmp);
 			}
 			
 			if(registerSupplierCountByEmp != null){
 				// 存储供应商登录数
 				registerAnalyzeData.setType(2);
 				registerAnalyzeData.setRegisterNum(registerSupplierCountByEmp.intValue());
-				registerAnalyzeMapper.insertSelective(registerAnalyzeData);
+				vertifyRegisterAnalyze(registerAnalyzeData,mapCondition, 2, searchData, registerSupplierCountByEmp);
 			}
 			
 			if(registerTenderCountByEmp != null){
 				// 存储后台登录数
 				registerAnalyzeData.setType(3);
 				registerAnalyzeData.setRegisterNum(registerTenderCountByEmp.intValue());
-				registerAnalyzeMapper.insertSelective(registerAnalyzeData);
+				vertifyRegisterAnalyze(registerAnalyzeData,mapCondition, 3, searchData, registerTenderCountByEmp);
 			}
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * Description:文件上传统计数据校验
+	 * 
+	 * @author Easong
+	 * @version 2017年5月25日
+	 * @param registerAnalyzeData
+	 * @param mapCondition
+	 * @param type
+	 * @return
+	 */
+	private void vertifyAttrAnalyze(AttUploadAnalyze attUploadAnalyzeData,
+			Map<String, Object> mapCondition, Integer type, Date searchData, Long typeCount) {
+		Long count;
+		mapCondition.put("indexDay", attUploadAnalyzeData.getIndexDay());
+		mapCondition.put("type", type);
+		count = attUploadAnalyzeMapper.selectAnalyzeDataByIndexDay(mapCondition);
+		
+		if(searchData == null && count == 0l){
+			// 先查询该数据是否已存在
+			attUploadAnalyzeMapper.insertSelective(attUploadAnalyzeData);
+		}
+		if((searchData != null && count != 0l) || (searchData == null && count != 0l)){
+			// 手动统计数据，做更新操作
+			mapCondition.put("attNum", typeCount);
+			attUploadAnalyzeMapper.updateByDayAndType(mapCondition);
+		}
+		if(searchData != null && count == 0l){
+			// 手动统计数据，做插入操作
+			attUploadAnalyzeMapper.insertSelective(attUploadAnalyzeData);
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * Description:登陆统计数据校验
+	 * 
+	 * @author Easong
+	 * @version 2017年5月25日
+	 * @param registerAnalyzeData
+	 * @param mapCondition
+	 * @param type
+	 * @return
+	 */
+	private void vertifyLoginAnalyze(LoginAnalyze loginAnalyzeData,
+			Map<String, Object> mapCondition, Integer type, Date searchData, Long typeCount) {
+		Long count;
+		mapCondition.put("indexDay", loginAnalyzeData.getIndexDay());
+		mapCondition.put("type", type);
+		count = loginAnalyzeMapper.selectAnalyzeDataByIndexDay(mapCondition);
+		
+		// 定时统计
+		if(searchData == null && count == 0l){
+			// 先查询该数据是否已存在
+			loginAnalyzeMapper.insertSelective(loginAnalyzeData);
+		}
+		
+		// 自动和手动统计数据存在则更新数据
+		if((searchData != null && count != 0l) || (searchData == null && count != 0l)){
+			// 手动统计数据，做更新操作
+			mapCondition.put("loginNum", typeCount);
+			loginAnalyzeMapper.updateByDayAndType(mapCondition);
+		}
+		
+		if(searchData != null && count == 0l){
+			// 手动统计数据，做插入操作
+			loginAnalyzeMapper.insertSelective(loginAnalyzeData);
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * Description:注册统计数据校验
+	 * 
+	 * @author Easong
+	 * @version 2017年5月25日
+	 * @param registerAnalyzeData
+	 * @param mapCondition
+	 * @param type
+	 * @return
+	 */
+	private void vertifyRegisterAnalyze(RegisterAnalyze registerAnalyzeData,
+			Map<String, Object> mapCondition, Integer type, Date searchData, Long typeCount) {
+		Long count;
+		mapCondition.put("indexDay", registerAnalyzeData.getIndexDay());
+		mapCondition.put("type", type);
+		count = registerAnalyzeMapper.selectAnalyzeDataByIndexDay(mapCondition);
+		
+		if(searchData == null && count == 0l){
+			// 先查询该数据是否已存在
+			registerAnalyzeMapper.insertSelective(registerAnalyzeData);
+		}
+		if((searchData != null && count != 0l) || (searchData == null && count != 0l)){
+			// 手动统计数据，做更新操作
+			mapCondition.put("registerNum", typeCount);
+			registerAnalyzeMapper.updateByDayAndType(mapCondition);
+		}
+		if(searchData != null && count == 0l){
+			// 手动统计数据，做插入操作
+			registerAnalyzeMapper.insertSelective(registerAnalyzeData);
 		}
 		
 	}
@@ -445,12 +570,18 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	 * @throws
 	 */
 	@Override
-	public void taskAnalyzeAttUpload() {
+	public void taskAnalyzeAttUpload(Date searchData) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		// 当前日期
-		Date date = new Date();
-		Date subDayDate = DateUtils.subDayDate(date, 1);
+		Date subDayDate;
+		if(searchData != null){
+			// 查询时间
+			subDayDate = searchData;
+		}else {
+			// 正常统计时间
+			subDayDate = DateUtils.subDayDate(new Date(), 1);
+		}
 		// 获取专家上传文件表
 		String tableName = Constant.fileSystem.get(Constant.EXPERT_SYS_KEY);
 		map.put("createdAt", dateFormat.format(subDayDate));
@@ -471,27 +602,28 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		String typeId = DictionaryDataUtil.getId(ANALYZE_ATTACHMENT_UPLOAD);
 		AttUploadAnalyze attUploadAnalyze = new AttUploadAnalyze();
 		AttUploadAnalyze attUploadAnalyzeData = (AttUploadAnalyze) analyzeData(attUploadAnalyze, subDayDate, dateFormat, typeId);
+		Map<String, Object> mapCondition = new HashMap<String, Object>();
 		// 向统计表中插入数据
 		if (attUploadAnalyzeData != null) {
 			if(expertFileCount != null){
 				// 存储专家登录数
 				attUploadAnalyzeData.setType(1);
 				attUploadAnalyzeData.setUploadNum(expertFileCount.intValue());
-				attUploadAnalyzeMapper.insertSelective(attUploadAnalyzeData);
+				vertifyAttrAnalyze(attUploadAnalyzeData, mapCondition, 1, searchData, expertFileCount);
 			}
 			
 			if(supplierFileCount != null){
 				// 存储供应商登录数
 				attUploadAnalyzeData.setType(2);
 				attUploadAnalyzeData.setUploadNum(supplierFileCount.intValue());
-				attUploadAnalyzeMapper.insertSelective(attUploadAnalyzeData);
+				vertifyAttrAnalyze(attUploadAnalyzeData, mapCondition, 2, searchData, supplierFileCount);
 			}
 			
 			if(backgroundFileCount != null){
 				// 存储后台登录数
 				attUploadAnalyzeData.setType(3);
 				attUploadAnalyzeData.setUploadNum(backgroundFileCount.intValue());
-				attUploadAnalyzeMapper.insertSelective(attUploadAnalyzeData);
+				vertifyAttrAnalyze(attUploadAnalyzeData, mapCondition, 3, searchData, backgroundFileCount);
 			}
 		}
 	}
@@ -531,15 +663,15 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 				map.put("analyzeTypeIntegerEnd", analyzeTypeIntegerEnd);
 				// 判断类型 三种统计：登录(C_LOGIN)、注册(C_REGISTER)、图片上传(C_ATT_UPLOAD)
 				// 按月登录统计
-				if("C_LOGIN".equals(analyzeTypeByCate)){
+				if(C_LOGIN.equals(analyzeTypeByCate)){
 					list = loginAnalyzeMapper.analyzeLoginCountByDay(map);
 				}
 				// 按月注册统计
-				if("C_REGISTER".equals(analyzeTypeByCate)){
+				if(C_REGISTER.equals(analyzeTypeByCate)){
 					list = registerAnalyzeMapper.analyzeRegisterCountByDay(map);
 				}
 				// 按月上传图片统计
-				if("C_ATT_UPLOAD".equals(analyzeTypeByCate)){
+				if(C_ATT_UPLOAD.equals(analyzeTypeByCate)){
 					list = attUploadAnalyzeMapper.analyzeAttUploadCountByDay(map);
 				}
 				getAnalyzeData(list);
@@ -563,15 +695,15 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 				map.put("analyzeTypeIntegerStart", analyzeTypeIntegerStart);
 				map.put("analyzeTypeIntegerEnd", analyzeTypeIntegerEnd);
 				// 按周登录统计
-				if("C_LOGIN".equals(analyzeTypeByCate)){
+				if(C_LOGIN.equals(analyzeTypeByCate)){
 					list = loginAnalyzeMapper.analyzeLoginCountByWeek(map);
 				}
 				// 按周注册统计
-				if("C_REGISTER".equals(analyzeTypeByCate)){
+				if(C_REGISTER.equals(analyzeTypeByCate)){
 					list = registerAnalyzeMapper.analyzeRegisterCountByWeek(map);
 				}
 				// 按周上传图片统计
-				if("C_ATT_UPLOAD".equals(analyzeTypeByCate)){
+				if(C_ATT_UPLOAD.equals(analyzeTypeByCate)){
 					list = attUploadAnalyzeMapper.analyzeAttUploadCountByWeek(map);
 				}
 				getAnalyzeData(list);
@@ -584,7 +716,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 				DateFormat dateFormatForMonth = DateUtils.getDateFormat("yyyy-MM");
 				Integer month = DateUtils.getDayOfYear(date, dateFormatForMonth);
 				// 获取开始月 201701
-				analyzeTypeIntegerStart = Integer.parseInt(year + 01);
+				analyzeTypeIntegerStart = Integer.parseInt(year + "01");
 				// 获取结束月
 				analyzeTypeIntegerEnd = month;
 				// 查询

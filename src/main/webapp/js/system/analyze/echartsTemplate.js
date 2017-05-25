@@ -383,8 +383,8 @@
 		
 		var legend = {
 		        orient: 'vertical',
-		        x: 'right',
-		        bottom:'20'
+		        x: 'left',
+		        //bottom:'20'
 		    }
 		
 		
