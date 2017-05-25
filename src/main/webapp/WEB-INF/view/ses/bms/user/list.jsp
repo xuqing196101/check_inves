@@ -328,6 +328,20 @@
 					        </select>
 					        </span>
 				      </li>
+			    	  <li>
+				    	<label class="fl">机构类型：</label>
+				    	   <span class="fl">
+					        <select id="" name="typeName" class="w220" >
+                             <option value="" >全部</option>
+                             <option value="1" <c:if test="${user.typeName == '1'}">selected</c:if>>采购机构</option>
+                             <option value="2" <c:if test="${user.typeName == '2'}">selected</c:if>>采购管理部门</option>
+                             <option value="0" <c:if test="${user.typeName == '0'}">selected</c:if>>需求部门</option>
+                             <option value="4" <c:if test="${user.typeName == '4'}">selected</c:if>>资源服务中心</option>
+                             <option value="5" <c:if test="${user.typeName == '5'}">selected</c:if>>监管部门</option>
+                             <option value="3" <c:if test="${user.typeName == '3'}">selected</c:if>>其他</option>  
+                            </select>
+					        </span>
+				      </li>
 				      <li>
 				    	<label class="fl">联系电话：</label><span><input type="text" id="mobile" value="${user.mobile}" name="mobile" class="w220"/></span>
 				      </li>
