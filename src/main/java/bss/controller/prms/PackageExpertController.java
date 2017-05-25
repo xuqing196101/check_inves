@@ -2352,6 +2352,8 @@ public class PackageExpertController {
          record.setProject(project);
          record.setIsFirstPass(1);
          record.setIsRemoved("0");
+         record.setIsTurnUp(0);
+         
          List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
          int supplierListSize=supplierList.size()%2==0?supplierList.size()/2:supplierList.size()/2+1;
          List<Extension> extensionList=new ArrayList<Extension>();
