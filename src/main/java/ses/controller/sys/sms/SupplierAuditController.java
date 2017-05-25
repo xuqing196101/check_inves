@@ -3075,6 +3075,13 @@ public class SupplierAuditController extends BaseSupplierController {
 		/** 用于组装word页面需要的数据 */
 		Map < String, Object > dataMap = new HashMap < String, Object > ();
 		SupplierSignature supplierSignature = new SupplierSignature();
+		String newFileName = "";
+		
+		//日期
+		Date date = new Date();
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy 年 MM 月 dd 日");
+		dataMap.put("date", format.format(date));
+		
 		//供应商名称
 		dataMap.put("supplierName", supplier.getSupplierName() == null ? "" : supplier.getSupplierName());
 		if(tableType.equals("1")){
@@ -3084,10 +3091,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			dataMap.put("officeAddress", "");
 			//生产或经营场所详细地址
 			dataMap.put("detailAddress", supplier.getDetailAddress() == null ? "" : supplier.getDetailAddress());
-			//实地考察时间
-			Date date = new Date();
-		    SimpleDateFormat format = new SimpleDateFormat("yyyy 年 MM 月 dd 日");
-			dataMap.put("date", format.format(date));
+			
 			
 			//生产或经营场所详细地址
 			List < Area > privnce = areaService.findRootArea();
@@ -3105,6 +3109,9 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierSignature.setSupplierId(supplier.getId());
 			List<SupplierSignature> supplierSignatureList = supplierSignatureService.selectBySupplierId(supplierSignature);
 			dataMap.put("supplierList", supplierSignatureList);
+			
+			//生成word 返回文件名 
+			newFileName = WordUtil.createWord(dataMap, "supplierInspection.ftl", "supplierInspection", request);
 		}
 		
 		//意见函人数和名字
@@ -3118,6 +3125,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			name.deleteCharAt(name.length() - 1);
 			dataMap.put("num", supplierSignatureList.size());
 			dataMap.put("name", name);
+			
+			newFileName = WordUtil.createWord(dataMap, "supplierOpinionLetter.ftl", "supplierOpinionLetter", request);
 		}
 				
 		/**
@@ -3136,16 +3145,16 @@ public class SupplierAuditController extends BaseSupplierController {
 			dataMap.put("legalName", supplier.getLegalName() == null ? "":supplier.getLegalName());
 			//身份证号
 			dataMap.put("legalIdCard", supplier.getLegalIdCard() == null ? "":supplier.getLegalIdCard());
+			
+			//不通过项
+			SupplierAudit supplierAudit = new SupplierAudit();
+			supplierAudit.setSupplierId(supplier.getId());
+			List < SupplierAudit > auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			dataMap.put("auditList",auditList);
 		}
-		
-		/** 生成word 返回文件名 */
-		String newFileName = "";
-		String fileName = "";		
-		if(tableType.equals("1")){
-			newFileName = WordUtil.createWord(dataMap, "supplierInspection.ftl", fileName, request);
-		}
-		if(tableType.equals("2")){
-			newFileName = WordUtil.createWord(dataMap, "supplierOpinionLetter.ftl", fileName, request);
+		//审核表
+		if(tableType.equals("3")){
+			newFileName = WordUtil.createWord(dataMap, "supplierOneAudit.ftl", "supplierOneAudit", request);
 		}
 		
 		return newFileName;
