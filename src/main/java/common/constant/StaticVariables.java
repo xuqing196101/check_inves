@@ -163,7 +163,12 @@ public class StaticVariables {
     /***提示信息***/
     public static final String OB_PROJECT_SHOW="只有资源服务中心才能操作";
 
-    
+    /***日志 标识 网上投诉 名称****/
+    public static final String OC_COMPLAINTS_NAME="网上投诉";
+    /***日志 标识 网上投诉***/
+    public static final int OC_COMPLAINTS_NAME_SIGN=6;
+    /***提示信息***/
+    public static final String OC_COMPLAINTS="只有资源服务中心才能操作";
     
     //获取是否内网标识 1外网 0内网
     public static final String ipAddressType= PropUtil.getProperty("ipAddressType");

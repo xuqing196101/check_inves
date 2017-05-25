@@ -1,228 +1,167 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="sums.dao.oc.ComplaintMapper">
-  <resultMap id="BaseResultMap" type="sums.model.oc.Complaint">
-   
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="NAME" jdbcType="VARCHAR" property="name" />
-    <result column="TYPE" jdbcType="DECIMAL" property="type" />
-    <result column="COMPLAINT_OBJECT" jdbcType="VARCHAR" property="complaintObject" />
-    <result column="COMPLAINT_MATTER" jdbcType="VARCHAR" property="complaintMatter" />
-    <result column="STATUS" jdbcType="DECIMAL" property="status" />
-    <result column="RESION" jdbcType="VARCHAR" property="resion" />
-    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-    <result column="CREATER_ID" jdbcType="VARCHAR" property="createrId" />
-    <result column="AUDIT_ID" jdbcType="VARCHAR" property="auditId" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sums.dao.oc.ComplaintMapper" >
+  <resultMap id="BaseResultMap" type="sums.model.oc.Complaint" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="COMPLAINT_CONTENT" property="complaintContent" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="ADRESS" property="adress" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List">
-    <!--
-    表中所有字段
-    -->
-    ID, NAME, TYPE, COMPLAINT_OBJECT, COMPLAINT_MATTER, STATUS, RESION, IS_DELETED, CREATED_AT, 
-    UPDATED_AT,CREATER_ID,AUDIT_ID
+  <sql id="Base_Column_List" >
+    ID, NAME, COMPLAINT_CONTENT, IS_DELETED, CREATED_AT, UPDATED_AT, CREATER_ID, TITLE, 
+    TELEPHONE, ADRESS, EMAIL
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    <!--
-    @mbggenerated  查询
-    -->
+  
+  <!-- 通过主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from T_SUMS_OC_COMPLAINT
     where ID = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    <!--
-    @mbggenerated  删除
-    -->
-    delete from T_SUMS_OC_COMPLAINT
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="sums.model.oc.Complaint">
-    <!--
-    @mbggenerated  插入
-    -->
-    insert into T_SUMS_OC_COMPLAINT (ID, NAME, TYPE, 
-      COMPLAINT_OBJECT, COMPLAINT_MATTER, STATUS, 
-      RESION, IS_DELETED, CREATED_AT, 
-      UPDATED_AT,CREATER_ID,AUDIT_ID)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, 
-      #{complaintObject,jdbcType=VARCHAR}, #{complaintMatter,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
-      #{resion,jdbcType=VARCHAR}, #{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, 
-      #{updatedAt,jdbcType=DATE},#{createrId,jdbcType=VARCHAR},#{auditId,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="sums.model.oc.Complaint" >
+    insert into T_SUMS_OC_COMPLAINT (ID, NAME, COMPLAINT_CONTENT, 
+      IS_DELETED, CREATED_AT, UPDATED_AT, 
+      CREATER_ID, TITLE, TELEPHONE, 
+      ADRESS, EMAIL)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{complaintContent,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{createrId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
+      #{adress,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="sums.model.oc.Complaint">
-    <!--
-    @mbggenerated
-    -->
+  <!-- 插入非空数据 -->
+  <insert id="insertSelective" parameterType="sums.model.oc.Complaint" >
     insert into T_SUMS_OC_COMPLAINT
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         ID,
       </if>
-      <if test="name != null">
+      <if test="name != null" >
         NAME,
       </if>
-      <if test="type != null">
-        TYPE,
+      <if test="complaintContent != null" >
+        COMPLAINT_CONTENT,
       </if>
-      <if test="complaintObject != null">
-        COMPLAINT_OBJECT,
-      </if>
-      <if test="complaintMatter != null">
-        COMPLAINT_MATTER,
-      </if>
-      <if test="status != null">
-        STATUS,
-      </if>
-      <if test="resion != null">
-        RESION,
-      </if>
-      <if test="isDeleted != null">
+      <if test="isDeleted != null" >
         IS_DELETED,
       </if>
-      <if test="createdAt != null">
+      <if test="createdAt != null" >
         CREATED_AT,
       </if>
-      <if test="updatedAt != null">
+      <if test="updatedAt != null" >
         UPDATED_AT,
       </if>
-      <if test="createrId != null">
+      <if test="createrId != null" >
         CREATER_ID,
       </if>
-      <if test="auditId != null">
-        AUDIT_ID,
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE,
+      </if>
+      <if test="adress != null" >
+        ADRESS,
+      </if>
+      <if test="email != null" >
+        EMAIL,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
+      <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=DECIMAL},
+      <if test="complaintContent != null" >
+        #{complaintContent,jdbcType=VARCHAR},
       </if>
-      <if test="complaintObject != null">
-        #{complaintObject,jdbcType=VARCHAR},
-      </if>
-      <if test="complaintMatter != null">
-        #{complaintMatter,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=DECIMAL},
-      </if>
-      <if test="resion != null">
-        #{resion,jdbcType=VARCHAR},
-      </if>
-      <if test="isDeleted != null">
+      <if test="isDeleted != null" >
         #{isDeleted,jdbcType=DECIMAL},
       </if>
-      <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="createrId != null">
+      <if test="createrId != null" >
         #{createrId,jdbcType=VARCHAR},
       </if>
-      <if test="auditId != null">
-        #{auditId,jdbcType=VARCHAR},
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="adress != null" >
+        #{adress,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="sums.model.oc.Complaint">
-    <!--
-    @mbggenerated  更新
-    -->
+  
+  <!-- 修改 -->
+  <update id="updateByPrimaryKeySelective" parameterType="sums.model.oc.Complaint" >
     update T_SUMS_OC_COMPLAINT
-    <set>
-      <if test="name != null">
+    <set >
+      <if test="name != null" >
         NAME = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        TYPE = #{type,jdbcType=DECIMAL},
+      <if test="complaintContent != null" >
+        COMPLAINT_CONTENT = #{complaintContent,jdbcType=VARCHAR},
       </if>
-      <if test="complaintObject != null">
-        COMPLAINT_OBJECT = #{complaintObject,jdbcType=VARCHAR},
-      </if>
-      <if test="complaintMatter != null">
-        COMPLAINT_MATTER = #{complaintMatter,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        STATUS = #{status,jdbcType=DECIMAL},
-      </if>
-      <if test="resion != null">
-        RESION = #{resion,jdbcType=VARCHAR},
-      </if>
-      <if test="isDeleted != null">
+      <if test="isDeleted != null" >
         IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
       </if>
-      <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
-       <if test="createrId != null">
+      <if test="createrId != null" >
         CREATER_ID = #{createrId,jdbcType=VARCHAR},
       </if>
-       <if test="auditId != null">
-        AUDIT_ID = #{auditId,jdbcType=VARCHAR},
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="adress != null" >
+        ADRESS = #{adress,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="sums.model.oc.Complaint">
-    <!--
-    @mbggenerated
-    -->
+  <update id="updateByPrimaryKey" parameterType="sums.model.oc.Complaint" >
     update T_SUMS_OC_COMPLAINT
     set NAME = #{name,jdbcType=VARCHAR},
-      TYPE = #{type,jdbcType=DECIMAL},
-      COMPLAINT_OBJECT = #{complaintObject,jdbcType=VARCHAR},
-      COMPLAINT_MATTER = #{complaintMatter,jdbcType=VARCHAR},
-      STATUS = #{status,jdbcType=DECIMAL},
-      RESION = #{resion,jdbcType=VARCHAR},
+      COMPLAINT_CONTENT = #{complaintContent,jdbcType=VARCHAR},
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       CREATER_ID = #{createrId,jdbcType=VARCHAR},
-      AUDIT_ID = #{auditId,jdbcType=VARCHAR}
+      TITLE = #{title,jdbcType=VARCHAR},
+      TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      ADRESS = #{adress,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="selectAllComplaint" parameterType="String"  resultMap="BaseResultMap">
-    select 
-   <include refid="Base_Column_List" />
-    from T_SUMS_OC_COMPLAINT where status = 0 and is_deleted = 0 or AUDIT_ID = #{id,jdbcType=VARCHAR}
-   <!--  toc where 1=1 and toc.audit is null 
-    <if test="">
-    or toc.audit_id = #{ dbcType=VARCHAR}
-    </if>-->
-  </select>
-  
-  <!--根据投诉人查询所有 -->
-  <select id="selectComplaintByUserId" parameterType="sums.model.oc.Complaint" resultMap="BaseResultMap">
-  	SELECT 
-  	 <include refid="Base_Column_List" />
-  	FROM T_SUMS_OC_COMPLAINT
-  	WHERE IS_DELETED = 0
-  	<if test="name != null and name != ''">
-      AND NAME like '%'||#{name}||'%'
-    </if>
- 	<if test="createrId != null and createrId != ''">
-      AND CREATER_ID = #{createrId,jdbcType=VARCHAR}
-    </if>
-    <if test="complaintObject != null and complaintObject != ''">
-      AND COMPLAINT_OBJECT like '%'||#{complaintObject}||'%'
-    </if>
-    <if test="type != null">
-      AND TYPE = #{type,jdbcType=DECIMAL}
-    </if>
-  </select>
   
   <!-- 删除  改变删除状态 -->
   <update id="updateIsDeleteByPrimaryKey" parameterType="String">
@@ -235,4 +174,17 @@
   	AND TYPE_ID = #{typeId,jdbcType=VARCHAR}
   </select>
   
+  <!-- 条件查询所有 -->
+  <select id="selectAllComplaint" parameterType="sums.model.oc.Complaint" resultMap="BaseResultMap">
+  	SELECT 
+    	<include refid="Base_Column_List" />
+    FROM T_SUMS_OC_COMPLAINT
+    WHERE IS_DELETED = 0
+    <if test="name != null and name != ''">
+      AND NAME like '%'||#{name}||'%'
+    </if>
+    <if test="title != null and title != ''">
+      AND TITLE like '%'||#{title}||'%'
+    </if>
+  </select>
 </mapper>

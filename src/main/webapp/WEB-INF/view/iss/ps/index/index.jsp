@@ -1162,7 +1162,7 @@
               </a>
             </div>
             <div class="ywbl_02 col-xs-4 col-sm-4">
-              <a href="javascript:void(0)" class="zxts">
+              <a href="${pageContext.request.contextPath}/onlineComplaints/index_add.html" class="zxts">
                 <span>在线投诉</span>
               </a>
             </div>

@@ -68,7 +68,7 @@
 	
 	/* 删除 */
 	function del(){
-		 var orgTyp = "${authType}";
+		var orgTyp = "${authType}";
 		if(orgTyp != '4'){
 			layer.msg("只有资源服务中心才能操作");
 			return;

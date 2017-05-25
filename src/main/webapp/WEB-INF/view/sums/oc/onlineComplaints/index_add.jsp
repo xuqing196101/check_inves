@@ -1,21 +1,12 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/view/common/tags.jsp"%>
-<!DOCTYPE HTML>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE html>
 <html>
 <head>
-<%@ include file="/WEB-INF/view/common.jsp"%>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<title>投诉页面</title>
-<script type="text/javascript">
+	<%@ include file="/WEB-INF/view/common.jsp" %>
+	<jsp:include page="/index_head.jsp"></jsp:include>
+	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+	<script type="text/javascript">
 $(function(){
 	$("#extensionId").val("bmp,pmg,jpg,gif,png");
 	$("#idcad #extensionId").val("bmp,pmg,jpg,gif,png");
@@ -23,47 +14,25 @@ $(function(){
 	if(success != null && success != ""){
 		layer.msg("投诉成功");
 	}
-	
 });
-/* function open(){
-	var chkObjs=null;
-	var obj=document.getElementsByName("type");
-	for (var i=0;i<obj.length;i++){ //遍历Radio 
-		if(obj[i].checked){ 
-		chkObjs=obj[i].value; 
-		} 
-	}
-	if(chkObjs == 0 || chkObjs == null){
-		document.getElementById("idcad").style.display="none";
-	}
-}
-
-function show(){
-	document.getElementById("idcad").style.display="";
-}
-function hid(){
-	document.getElementById("idcad").style.display="none";
-} */
 </script>
 </head>
-<body onload="open();">
-	<!--面包屑导航开始-->
-	<div class="margin-top-10 breadcrumbs ">
-		<div class="container">
-			<ul class="breadcrumb margin-left-0">
-				<li><a href="javascript:void(0)"> 首页</a></li>
-				<li><a href="javascript:void(0)">业务监管</a></li>
-				<li><a href="javascript:void(0)">网上投诉处理</a></li>
-				<li class="active"><a href="javascript:void(0)">网上投诉</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-	</div>
 
-	<!-- 投诉页面 -->
+<body>
+	  	<!--面包屑导航开始-->
+	   	<div class="margin-top-10 breadcrumbs">
+	      <div class="container">
+			   	<ul class="breadcrumb margin-left-0">
+			   		<li><a href="${pageContext.request.contextPath}/index/selectIndexNews.html">首页</a></li><li><a href="javascript:void(0);">在线投诉</a></li>
+			   	</ul>
+					<div class="clear"></div>
+		  	</div>
+	   	</div>
+		  <div class="container job-content ">
+		  <!-- 投诉页面 -->
 	<div class="container container_box">
-			<form action="${pageContext.request.contextPath }/onlineComplaints/add.html" method="post" class="mb0">
-			  <h2 class="list_title">网上投诉处理系统</h2>
+			<form action="${pageContext.request.contextPath }/onlineComplaints/indexadd.html" method="post" class="mb0">
+			  <!-- <h2 class="list_title">网上投诉处理系统</h2> -->
 			  <input name = "id" type = "text" value="${complaint.id }" style="display: none;">
 				<ul class="ul_list">
 					<%-- <li class="col-md-3 col-sm-6 col-xs-12  pl15" >
@@ -84,13 +53,15 @@ function hid(){
           	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>标题</span>
           	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 m0">
             	<input class="" name="title" type="text" value="${complaint.title }">
-          		<div class="star_red">${error_title }</div>
+            	<div class="clear"></div>
+          		<div class="star_red clear">${error_title }</div>
           	</div>
 	        </li>
 				  <li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
 	        	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人名称（姓名）</span>
 	        	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 m0">
-            	<input class="" name="name" type="text" value="${complaint.name }">
+            	<input  name="name" type="text" value="${complaint.name }">
+            	<div class="clear"></div>
               <div class="star_red">${error_name }</div>
            	</div>
 	        </li>	
@@ -98,6 +69,7 @@ function hid(){
 				  	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉对象</span>
 				  	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
               <input class="" name="complaintObject" type="text" value="${complaint.complaintObject }">
+              <div class="clear"></div>
               <div class="star_red">${error_complaintObject }</div>
              </div>
 				  </li> --%>
@@ -106,6 +78,7 @@ function hid(){
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人电话</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 m0">
 							<input class="" name="telephone" type="text" value="${complaint.telephone }">
+              <div class="clear"></div>
               <div class="star_red">${error_telephone }</div>
 						</div>
 					</li>
@@ -113,6 +86,7 @@ function hid(){
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人联系地址</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="" name="adress" type="text" value="${complaint.adress }">
+              <div class="clear"></div>
               <div class="star_red">${error_adress }</div>
 						</div>
 					</li>
@@ -120,6 +94,7 @@ function hid(){
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人邮箱</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="" name="email" type="text" value="${complaint.email }">
+              <div class="clear"></div>
               <div class="star_red">${error_email }</div>
 						</div>
 					</li>
@@ -148,11 +123,11 @@ function hid(){
 	             </li> --%>
 				</ul>
 			<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
-				<button type="submit" class="btn">投诉</button>
-				<button class="btn btn-windows back" type="button"
-						onclick="window.location.href = '${pageContext.request.contextPath}/onlineComplaints/complaints.html'">返回</button>
+				<button type="submit" class="btn btn-u-light-grey">投诉</button>
 			</div>
 			</form>
-		</div>
+	  	</div>
+		<!--底部代码开始-->
+		<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>
