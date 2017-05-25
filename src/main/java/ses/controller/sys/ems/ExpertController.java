@@ -3654,7 +3654,8 @@ public class ExpertController extends BaseController {
     		
     		int lenExp = splExp.length;
     		
-    		String stat = "";
+    		//String stat = "";
+    		int stat = 0;
     		for (int i = 0; i < lenExp; i++) {
     			for (int j = 0; j < expertCate.size(); j++) {
     				String code = DictionaryDataUtil.findById(splExp[i]).getCode();
@@ -3664,16 +3665,18 @@ public class ExpertController extends BaseController {
     		            splExp[i]=DictionaryDataUtil.getId(code);
     		        }
     				if (splExp[i].equals(expertCate.get(j).getCategoryId())) {
-    					stat += "1";
+    					//stat += "1";
+    					stat += 1;
     					break;
     				}
     				if (code != null && code.equals("GOODS_SERVER")) {
-    					stat += "1";
+    					//stat += "1";
+    					stat += 1;
     					break;
     				}
     			}
 			}
-    		if (stat.length() == lenExp) {
+    		if (stat == lenExp) {
 				String typeId1 = DictionaryDataUtil.getId("ENG_INFO_ID");
 				String typeId2 = DictionaryDataUtil.getId("PROJECT");
 				int trueFalse1 = 0;

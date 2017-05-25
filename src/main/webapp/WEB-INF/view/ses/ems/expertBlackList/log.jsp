@@ -48,15 +48,15 @@
 	<body>
 	  <!--面包屑导航开始-->
 	    <div class="margin-top-10 breadcrumbs">
-	        <div class="container">
-				<ul class="breadcrumb margin-left-0">
-					<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
-					<li><a href="javascript:void(0);">支撑系统</a></li>
-					<li><a href="javascript:void(0);">专家管理</a></li>
-					<li><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/expertBlacklist/blacklist.html')">专家黑名单</a></li>
-					<li class="active"><a href="javascript:void(0);">操作记录</a></li>
-				</ul>
-	        </div>
+        <div class="container">
+					<ul class="breadcrumb margin-left-0">
+						<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+						<li><a href="javascript:void(0);">支撑系统</a></li>
+						<li><a href="javascript:void(0);">专家管理</a></li>
+						<li><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/expertBlacklist/blacklist.html')">专家黑名单</a></li>
+						<li class="active"><a href="javascript:void(0);">操作记录</a></li>
+					</ul>
+        </div>
 	    </div>
 	    <div class="container">
 				<h2 class="search_detail">
@@ -72,12 +72,9 @@
 								<label class="fl">操作类型：</label>
 								<select name="operationType" id="operationType" class="">
 									<option value="">-请选择-</option>
-									<option <c:if test="${operationType =='0' }">selected</c:if>
-									value="0">新增</option>
-									<option <c:if test="${operationType =='1' }">selected</c:if>
-									value="1">修改</option>
-									<option <c:if test="${operationType =='2' }">selected</c:if>
-									value="2">移除</option>
+									<option <c:if test="${operationType =='0' }">selected</c:if> value="0">新增</option>
+									<option <c:if test="${operationType =='1' }">selected</c:if> value="1">修改</option>
+									<option <c:if test="${operationType =='2' }">selected</c:if> value="2">移除</option>
 								</select>
 							</li>
 							<li>
@@ -129,7 +126,7 @@
 			   	<div id="pagediv" align="right"></div>
 			   	<div class="margin-bottom-0 categories">
             <div class="col-md-12 add_regist tc">
-              <a class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</a>
+              <a class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">返回</a>
             </div>
           </div>
 	      </div>
