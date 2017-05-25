@@ -1,6 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-		<li class="col-md-3 col-sm-6 col-xs-12 pl">
+		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> 
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
              

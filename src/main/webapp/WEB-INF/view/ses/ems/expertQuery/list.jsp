@@ -107,20 +107,20 @@
 							<th class="info">毕业院校及专业</th>
 							<th class="info">手机</th>
 							<th class="info">类别</th>
-							<th class="info">审核状态</th>
+							<th class="info w120">审核状态</th>
 						</tr>
 					</thead>
 					<c:forEach items="${result.list }" var="e" varStatus="vs">
 						<tr class="pointer">
 							<td class="tc w50"  class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
-							<td class="tl pl20" >
+							<td class="tl" >
 								<a href="${pageContext.request.contextPath}/expertQuery/view.html?expertId=${e.id}&sign=2">${e.relName}</a>
 							</td>
 							<td class="tc w50" >${e.gender}</td>
-							<td class="tl pl20" >${e.graduateSchool }</td>
-							<td class="tl pl20" >${e.mobile }</td>
-							<td class="tl pl20" >${e.expertsTypeId}</td>
-							<td  class="tc" id="${e.id}">
+							<td class="tl" >${e.graduateSchool }</td>
+							<td class="tc" >${e.mobile }</td>
+							<td class="tl" >${e.expertsTypeId}</td>
+							<td  class="tl" id="${e.id}">
 								<%-- <c:if test="${e.status eq '4' and e.isProvisional eq '1'}">
 									<span class="label rounded-2x label-dark">临时</span>
 								</c:if> --%>

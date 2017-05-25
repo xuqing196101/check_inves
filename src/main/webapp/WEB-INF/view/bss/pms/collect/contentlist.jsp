@@ -76,11 +76,11 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
-		  <th class="info w30">选择</th>
+		  <th class="info w50">选择</th>
 		  <th class="info w50">序号</th>
 		  <th class="info">下达状态</th>
 		  <th class="info" width="45%">采购计划名称</th>
-		  <th class="info" width="25%">采购类别</th>
+		  <th class="info">采购类别</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">

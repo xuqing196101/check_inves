@@ -736,10 +736,10 @@
             <div class="clear"></div>
         </h2>
         <div class="container container_box">
-            <h2 class="count_flow">专家类别</h2>
+            <h2 class="list_title">专家类别</h2>
             <!-- 专家专业信息 -->
             <ul class="ul_list">
-                <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+                <li class="col-md-12 col-sm-12 col-xs-12 pl10">
                     <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
                         <c:forEach items="${spList}" var="sp">
                             <span  <c:if test="${fn:contains(typeErrorField,sp.id)}">style="color: #ef0000;"  onmouseover="errorMsg('${sp.id}')"</c:if>  class="margin-left-30">
@@ -753,8 +753,10 @@
                 </li>
             </ul>
 
- 			<ul class="ul_list">
-						<li  id="zhiyezige" style="display: none;" class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>有无执业资格</span>
+ 			<div class="ul_list clear">
+ 				<ul class="list-unstyled">
+						<li  id="zhiyezige" style="display: none;" class="col-md-3 col-sm-6 col-xs-12 pl10">
+						<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>有无执业资格</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<select style="width:100%" name="isTitle" id="mySelect" onchange="isZhiye(this)" >
 									<option  value="2" <c:if test="${expert.isTitle==2}">selected="selected"</c:if> >无 </option>
@@ -762,27 +764,23 @@
 								</select>
 							</div>
 						</li>
-					
-					<div class="clear">
-					</div>	
-	 <div class="tab-pane fades active in" style="display: none;" id="server_div">
-	 
-		<ul class="list-unstyled f14" id="addUl">
-		
-		<c:forEach items="${proList }" var="t"  varStatus="vs" >
-		<li class="col-md-3 col-sm-6 col-xs-12 pl">
-			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> <!--/执业资格  -->
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input  <c:if test="${fn:contains(engErrorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
+				</ul>	
+				<div style="display: none;" id="server_div" class="clear">
+					<ul class="list-unstyled f14" id="addUl">
+						<c:forEach items="${proList }" var="t"  varStatus="vs" >
+							<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> <!--/执业资格  -->
+            			        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                       			 <input  <c:if test="${fn:contains(engErrorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
                                 maxlength="20" value="${t.qualifcationTitle}"
                                 name="titles[${vs.index }].qualifcationTitle"  type="text"/>
-                        <span class="add-on">i</span> <span class="input-tip">不能为空</span>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span
-                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格</span>
-                    <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
-                        <u:upload
+                       				 <span class="add-on">i</span> <span class="input-tip">不能为空</span>
+                    			</div>
+             				   </li>
+               					<li class="col-md-3 col-sm-6 col-xs-12">
+	               					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格</span>
+                    				<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
+                    		    <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                                 exts="${properties['file.picture.type']}" id="pro_${vs.index}"
                                 groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
@@ -819,11 +817,10 @@
 			</ul>	
 		 </div>	
 		 			
-	 <div class="tab-pane fades active in" style="display: none;" id="pro_div">
-			
+	 <div style="display: none;" id="pro_div">
 		<ul class="list-unstyled f14" id="jingji_ul">
 		<c:forEach items="${ecoList}" var="t"  varStatus="vs" >
-		<li class="col-md-3 col-sm-6 col-xs-12 pl">
+		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> <!--/执业资格  -->
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input  <c:if test="${fn:contains(engErrorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
@@ -847,8 +844,7 @@
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>取得执业资格时间</span>
                     <!--/职业资格时间  -->
-                    <div
-                            class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <div  class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
                                 <c:if test="${fn:contains(engErrorField,t.id.concat('_titleTime'))}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorFileMsg('titleTime','${t.id }')"</c:if>
@@ -870,19 +866,9 @@
 			  </li>
 			</c:forEach>
 			</ul>	
-			
-			
-		 			</div>
-		 			
-		 					
-		</ul>
-					
-
- 
-	
-	
-	
-            <ul style="display:none" id="zyzg">
+		 </div>
+	</div>
+    <ul style="display:none" id="zyzg">
                 <%-- <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i>专家技术资格</span> <!--/执业资格  -->
@@ -936,7 +922,7 @@
             </ul>
 			
             <div class="btmfix">
-                <div style="margin-top: 15px;text-align: center;">
+                <div class="mt20 tc w100p fl">
                     <button class="btn" id="nextBind_" type="button" onclick='pre()'>上一步</button>
                     <button class="btn" onclick='zc()' type="button">暂存</button>
                     <button class="btn" id="nextBind" type="button" onclick='fun()'>下一步</button>
