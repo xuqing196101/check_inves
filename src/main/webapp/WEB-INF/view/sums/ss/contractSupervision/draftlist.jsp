@@ -113,47 +113,47 @@
 			<tr>
 				<th class="tnone"></th>
 			    <th class="info w50">序号</th>
-			    <th class="info" width="15%">合同编号</th>
-				<th class="info" width="15%">合同名称</th>
-				<th class="info">合同金额(万元)</th>
-				<th class="info">项目名称</th>
-				<th class="info">计划文件号</th>
+			    <th class="info" width="10%">合同编号</th>
+				<th class="info" width="10%">合同名称</th>
+				<th class="info" width="10%">合同金额(万元)</th>
+				<th class="info" width="10%">项目名称</th>
+				<th class="info" width="10%">计划文件号</th>
 				<th class="info">预算(万元)</th>
-				<th class="info">年度</th>
+				<th class="info w50">年度</th>
 				<th class="info">项级预算科目</th>
-				<th class="info">甲方单位</th>
-				<th class="info">供应商</th>
+				<th class="info" width="10%">甲方单位</th>
+				<th class="info" width="10%">供应商</th>
 				<!-- <th class="info">状态</th> -->
 			</tr>
 		</thead>
 		<c:forEach items="${draftConList}" var="draftCon" varStatus="vs">
 			<tr>
 				<td class="tnone">${draftCon.status}</td>
-				<td class="pl10 pointer" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="pointer tc" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${draftCon.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>7}">
-					<td  class="pointer pl10" title="${code}" onclick="openFile('${draftCon.id}');">${fn:substring(code,0,10)}...</td>
+					<td  class="pointer" title="${code}" onclick="openFile('${draftCon.id}');">${fn:substring(code,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=7}">
-					<td  class="pointer pl10" title="${code}" onclick="openFile('${draftCon.id}');">${code}</td>
+					<td  class="pointer" title="${code}" onclick="openFile('${draftCon.id}');">${code}</td>
 				</c:if>
 				<c:set value="${draftCon.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>9}" >
-					<td  class="pointer pl10" title="${name}" onclick="onclickDetail('${draftCon.id}');"><a onclick="onclickDetail('${draftCon.id}');">${fn:substring(name,0,9)}...</a></td>
+					<td  class="pointer" title="${name}" onclick="onclickDetail('${draftCon.id}');"><a onclick="onclickDetail('${draftCon.id}');">${fn:substring(name,0,9)}...</a></td>
 				</c:if>
 				<c:if test="${length<=9}" >
-					<td  class="pointer pl10" title="${name}" onclick="onclickDetail('${draftCon.id}');"><a onclick="onclickDetail('${draftCon.id}');">${name}</a></td>
+					<td  class="pointer" title="${name}" onclick="onclickDetail('${draftCon.id}');"><a onclick="onclickDetail('${draftCon.id}');">${name}</a></td>
 				</c:if>
-				<td class="tr pr10 pointer" >${draftCon.money}</td>
-				<td class="tl pl10 pointer" >${draftCon.projectName}</td>
-				<td class="tl pl10 pointer" >${draftCon.documentNumber}</td>
-				<td class="tr pr10 pointer" >${draftCon.budget}</td>
+				<td class="tr pointer" >${draftCon.money}</td>
+				<td class="tl pointer" >${draftCon.projectName}</td>
+				<td class="tl pointer" >${draftCon.documentNumber}</td>
+				<td class="tr pointer" >${draftCon.budget}</td>
 				<td class="tc pointer" >${draftCon.year}</td>
-				<td class="tl pl10 pointer" >${draftCon.budgetSubjectItem}</td>
-				<td class="tl pl10 pointer" >${draftCon.showDemandSector}</td>
-				<td class="tl pl10 pointer" >${draftCon.showSupplierDepName}</td>
+				<td class="tl pointer" >${draftCon.budgetSubjectItem}</td>
+				<td class="tl pointer" >${draftCon.showDemandSector}</td>
+				<td class="tl pointer" >${draftCon.showSupplierDepName}</td>
 				<%--<c:if test="${draftCon.status==0}">
 					<td class="tc pointer" >暂存</td>
 				</c:if>

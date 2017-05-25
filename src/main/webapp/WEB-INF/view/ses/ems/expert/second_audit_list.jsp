@@ -147,12 +147,12 @@
 		<tr>
 		  <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="allId" alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">专家姓名</th>
-		  <th class="info">性别</th>
-		  <th class="info">类别</th>
-		  <th class="info">毕业院校及专业</th>
-		  <th class="info">所在单位</th>
-		  <th class="info">创建时间</th>
+		  <th class="info" width="20%">专家姓名</th>
+		  <th class="info" width="8%">性别</th>
+		  <th class="info" width="10%">类别</th>
+		  <th class="info" width="15%">毕业院校及专业</th>
+		  <th class="info" width="15%">所在单位</th>
+		  <th class="info" width="15%">创建时间</th>
 		  <th class="info">复审状态</th>
 		</tr>
 		</thead>
@@ -171,8 +171,8 @@
 		   <c:if test="${e.expertsTypeId =='3' || e.expertsTypeId ==3}">
 		   <td onclick="view('${e.id}');" class="tc">经济</td>
 		  </c:if>
-		 <td onclick="view('${e.id}');" class="tc">${e.graduateSchool }</td>
-		 <td onclick="view('${e.id}');" class="tc">${e.workUnit }</td>
+		 <td onclick="view('${e.id}');" class="tl">${e.graduateSchool }</td>
+		 <td onclick="view('${e.id}');" class="tl">${e.workUnit }</td>
 		 <td  onclick="view('${e.id}');" class="tc"><fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 		 <c:if test="${e.status ne '4' and e.status ne '1' and e.status ne '5'}">
 		 	<td onclick="view('${e.id}');" class="tc"></td>

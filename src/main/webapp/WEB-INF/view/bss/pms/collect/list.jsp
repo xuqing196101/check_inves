@@ -304,8 +304,8 @@
 							<th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()" alt=""></th>
 							<th class="w50">序号</th>
 							<th width="15%">需求部门</th>
-							<th width="25%">采购需求名称</th>
-							<th width="10%">编报人</th>
+							<th width="23%">采购需求名称</th>
+							<th width="15%">编报人</th>
 							<th width="15%">提交日期</th>
 							<th width="15%">预算总金额（万元）</th>
 							<th>状态</th>
@@ -322,7 +322,7 @@
 								</c:if> --%>
 							</td>
 							<td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-							<td onclick="view('${obj.uniqueId}')" class="tl pl20">${obj.department}</td >
+							<td onclick="view('${obj.uniqueId}')" class="tl">${obj.department}</td >
 							<%-- <td class="tl pl20">
 			    			<c:forEach items="${requires }" var="re" >
 					  			<c:if test="${obj.department==re.id }"> ${re.name }</c:if>
@@ -339,7 +339,7 @@
 
 								<fmt:formatNumber type="number"  pattern="#,##0.00"  value="${obj.budget}"  />
 							</td>
-							<td class="tc">
+							<td class="tl">
 							 
 							    <c:if test="${obj.status=='2' }">
 							 		待受理

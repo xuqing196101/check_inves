@@ -172,10 +172,10 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
-		  <th class="info w30"></th>
+		  <th class="info w50">选择</th>
 		  <th class="info w50">序号</th>
-		  <th class="info">姓名</th>
-		  <th class="info">电话</th>
+		  <th class="info" width="25%">姓名</th>
+		  <th class="info" width="25%">电话</th>
 		  <th class="info">单位名称</th>
 		</tr>
 		</thead>
@@ -183,11 +183,11 @@
 			<tr class="pointer">
 			  <td class="tc w30"><input type="radio" value="${obj.id }" name="chkItem"></td>
 			  <td class="tc w50"   >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			    <td class="tl pl20"  >
+			    <td class="tl"  >
 			  			${obj.relName}
 			    </td>
-			    <td class="tl pl20"  >${obj.mobile }</td>
-			 	<td class="tl pl20"  >${obj.workUnit }</td>
+			    <td class="tc"  >${obj.mobile }</td>
+			 	<td class="tl"  >${obj.workUnit }</td>
 			</tr>
 	 
 		 </c:forEach>

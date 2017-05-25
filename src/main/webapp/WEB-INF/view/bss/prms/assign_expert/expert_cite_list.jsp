@@ -43,18 +43,18 @@
       <thead>
         <tr>
           <th class="info w30"><input id="checkAll" type="checkbox" /></th>
-            <th class="info">专家姓名</th>
-            <th class="info">专家类别</th>
-            <th class="info">证件号</th>
-            <th class="info">现任职务</th>
+            <th class="info" width="20%">专家姓名</th>
+            <th class="info" width="15%">专家类别</th>
+            <th class="info" width="23%">证件号</th>
+            <th class="info" width="20%">现任职务</th>
             <th class="info">联系电话</th>
         </tr>
       </thead>
       <c:forEach items="${list.list}" var="ext" varStatus="vs">
         <tr>
           <td class="tc opinter"><input type="checkbox" name="chkItem" value="${ext.id}" /></td>
-          <td class="tc opinter">${ext.relName }</td>
-          <td class="tc opinter">
+          <td class="tl opinter">${ext.relName }</td>
+          <td class="tl opinter">
               <c:forEach var="expertType" items="${ddList}">
                   <c:if test="${ext.expertsTypeId eq expertType.id}">
                       ${expertType.name}
@@ -63,7 +63,7 @@
               </c:forEach>
           </td>
           <td class="tc opinter">${ext.idCardNumber}</td>
-          <td class="tc opinter">${ext.atDuty}</td>
+          <td class="tl opinter">${ext.atDuty}</td>
           <td class="tc opinter">${ext.mobile}</td>
         </tr>
       </c:forEach>

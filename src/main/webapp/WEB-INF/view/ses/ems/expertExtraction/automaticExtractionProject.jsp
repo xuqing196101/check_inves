@@ -126,7 +126,7 @@
 		<tr>
 		  <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="allId" alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">采购项目名称</th>
+		  <th class="info" width="30%">采购项目名称</th>
 		  <th class="info">抽取时间</th>
 		  <th class="info">抽取数量</th>
 		   <th class="info">抽取状态</th>
@@ -137,7 +137,7 @@
 		<tr>
 		  <td class="tc w30"><input type="checkbox" name="check" id="checked"></td>
 		  <td class="tc w50">1</td>
-		  <td class="tc">紫光</td>
+		  <td class="tl">紫光</td>
 		  <td class="tc">2016</td>
 		  <td class="tc">34</td>
 		  <td class="tc">未抽取</td>
