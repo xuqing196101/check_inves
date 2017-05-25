@@ -793,6 +793,108 @@
     </trim>
 	</insert>
 	
+	
+	
+		<!-- 保存后返回主键 -->
+	<insert id="insertOrg"   parameterType="ses.model.oms.Orgnization" >
+	  insert into T_SES_OMS_ORG
+	  <trim prefix="(" suffix=")" suffixOverrides=",">
+	     <if test="id != null and id != ''">
+        ID,
+      </if>
+      <if test="name != null and name != ''">
+        NAME,
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME,
+      </if>
+      <if test="provinceId != null and provinceId != ''">
+        PROVINCE_ID,
+      </if>
+      <if test="cityId != null and cityId != ''">
+        CITY_ID,
+      </if>
+      <if test="address != null and address != ''">
+        ADDRESS,
+      </if>
+      <if test="postCode != null and postCode != ''">
+        POST_CODE,
+      </if>
+      <if test="shortName != null and shortName != ''">
+        SHORT_NAME,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="contactName != null and contactName != ''">
+        CONTACT_NAME,
+      </if>
+      <if test="contactMobile != null and contactMobile != ''">
+        CONTACT_MOBILE,
+      </if>
+       <if test="fax != null and fax != ''">
+        FAX,
+      </if>
+      <if test="telephone != null and telephone != ''">
+        TELEPHONE,
+      </if>
+      <if test="createdAt != null and createdAt != ''">
+        CREATED_AT,
+      </if>
+      <if test="position != null">
+        POSITION
+      </if>
+	  </trim>
+	  <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        #{id},
+      </if>
+      <if test="name != null and name != ''">
+        #{name},
+      </if>
+      <if test="typeName != null">
+        #{typeName},
+      </if>
+      <if test="provinceId != null and provinceId != ''">
+        #{provinceId},
+      </if>
+      <if test="cityId != null and cityId != ''">
+        #{cityId},
+      </if>
+      <if test="address != null and address != ''">
+        #{address},
+      </if>
+      <if test="postCode != null and postCode != ''">
+        #{postCode},
+      </if>
+      <if test="shortName != null and shortName != ''">
+        #{shortName},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="contactName != null and contactName != ''">
+        #{contactName},
+      </if>
+      <if test="contactMobile != null and contactMobile != ''">
+        #{contactMobile},
+      </if>
+      <if test="fax != null and fax != ''">
+        #{fax},
+      </if>
+      <if test="telephone != null and telephone != ''">
+        #{telephone},
+      </if>
+      <if test="createdAt != null and createdAt != ''">
+        #{createdAt},
+      </if>
+      <if test="position != null">
+        #{position}
+      </if>
+    </trim>
+	</insert>
+	
+	
 	<select id="queryByName"  parameterType="String" resultMap="baseOrgnization"  >
 	  	SELECT ID ,NAME ,PRINCINPAL ,MOBILE 
     	FROM T_SES_OMS_ORG
@@ -938,4 +1040,12 @@
    where o.id=r.org_id and r.user_id=#{id})
 	
 	</select>
+	<select id="getOrg" resultType="ses.model.oms.Orgnization" >
+	  select o.* from T_SES_OMS_ORG o left join    T_SES_OMS_PURCHASE_DEP d on  o.id=d.org_id where d.IS_AUDIT_SUPPLIER=1 
+	</select>
+	
+	
+	
+	
+	
 </mapper>

@@ -19,4 +19,16 @@ public interface PurChaseDepOrgService {
   int delByOrgId(HashMap<String, Object> map);
   List<PurchaseOrg> selectById(HashMap<String, Object> map);
   PurchaseDep findByOrgId (String id);
+  
+  /**
+   * 
+  * @Title: getDep
+  * @Description: 获得所有有资格的采购机构
+  * author: Li Xiaoxiao 
+  * @param @return     
+  * @return List<PurchaseDep>     
+  * @throws
+   */
+  List<PurchaseDep> getDep();
+  
 }
