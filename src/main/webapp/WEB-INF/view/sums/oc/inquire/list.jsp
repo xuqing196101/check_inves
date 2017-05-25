@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-	<title>定型产品列表页面</title>
+	<title>投诉记录查询页面</title>
 	<jsp:include page="../../../ses/bms/page_style/backend_common.jsp"></jsp:include>	
 	<script type="text/javascript">
 	/* 分页 */

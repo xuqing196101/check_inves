@@ -28,7 +28,7 @@ $(function(){
 					<div class="clear"></div>
 		  	</div>
 	   	</div>
-		  <div class="container job-content ">
+
 		  <!-- 投诉页面 -->
 	<div class="container container_box">
 			<form action="${pageContext.request.contextPath }/onlineComplaints/indexadd.html" method="post" class="mb0">

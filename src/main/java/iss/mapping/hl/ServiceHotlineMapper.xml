@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="iss.dao.hl.ServiceHotlineMapper" >
+  <resultMap id="BaseResultMap" type="iss.model.hl.ServiceHotline" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="SERVICECONTENT" property="servicecontent" jdbcType="VARCHAR" />
+    <result column="CONTACTPHONENUMBER" property="contactphonenumber" jdbcType="VARCHAR" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, SERVICECONTENT, CONTACTPHONENUMBER, CREATED_AT, UPDATED_AT, CREATER_ID, REMARK, 
+    IS_DELETED
+  </sql>
+  
+  <!-- 根据主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_ISS_HL_SERVICE_HOTLINE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 条件查询所有 -->
+  <select id="selectAll" parameterType="iss.model.hl.ServiceHotline" resultMap="BaseResultMap">
+  	SELECT 
+  	<include refid="Base_Column_List" />
+    FROM T_ISS_HL_SERVICE_HOTLINE
+    WHERE IS_DELETED = 0
+    <if test="servicecontent != null" >
+     	AND SERVICECONTENT like '%'||#{servicecontent}||'%'
+    </if>
+    ORDER BY CREATED_AT DESC
+  </select>
+  
+  <!-- 删除  更新删除标识 -->
+  <update id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    UPDATE T_ISS_HL_SERVICE_HOTLINE SET IS_DELETED = 1 WHERE ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <insert id="insert" parameterType="iss.model.hl.ServiceHotline" >
+    insert into T_ISS_HL_SERVICE_HOTLINE (ID, SERVICECONTENT, CONTACTPHONENUMBER, 
+      CREATED_AT, UPDATED_AT, CREATER_ID, 
+      REMARK, IS_DELETED)
+    values (#{id,jdbcType=VARCHAR}, #{servicecontent,jdbcType=VARCHAR}, #{contactphonenumber,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{createrId,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=DECIMAL})
+  </insert>
+  
+  <!-- 插入非空数据 -->
+  <insert id="insertSelective" parameterType="iss.model.hl.ServiceHotline" >
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_ISS_HL_SERVICE_HOTLINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="servicecontent != null" >
+        SERVICECONTENT,
+      </if>
+      <if test="contactphonenumber != null" >
+        CONTACTPHONENUMBER,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+      <if test="createrId != null" >
+        CREATER_ID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="servicecontent != null" >
+        #{servicecontent,jdbcType=VARCHAR},
+      </if>
+      <if test="contactphonenumber != null" >
+        #{contactphonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 修改非空数据 -->
+  <update id="updateByPrimaryKeySelective" parameterType="iss.model.hl.ServiceHotline" >
+    update T_ISS_HL_SERVICE_HOTLINE
+    <set >
+      <if test="servicecontent != null" >
+        SERVICECONTENT = #{servicecontent,jdbcType=VARCHAR},
+      </if>
+      <if test="contactphonenumber != null" >
+        CONTACTPHONENUMBER = #{contactphonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null" >
+        CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="iss.model.hl.ServiceHotline" >
+    update T_ISS_HL_SERVICE_HOTLINE
+    set SERVICECONTENT = #{servicecontent,jdbcType=VARCHAR},
+      CONTACTPHONENUMBER = #{contactphonenumber,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
