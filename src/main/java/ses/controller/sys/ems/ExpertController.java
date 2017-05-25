@@ -2345,10 +2345,10 @@ public class ExpertController extends BaseController {
                 Collections.sort(projectExtList, new Comparator < ProjectExt > () {
                     public int compare(ProjectExt pro1, ProjectExt pro2) {
                         // 按照SupplierFinance的年份进行升序排列  
-                        if(pro1.getBidDate().getTime() > pro2.getBidDate().getTime()) {
+                        if(pro1.getBidDate() != null && pro2.getBidDate() != null && pro1.getBidDate().getTime() > pro2.getBidDate().getTime()) {
                             return -1;
                         }
-                        if(pro1.getBidDate().getTime() == pro2.getBidDate().getTime()) {
+                        if(pro1.getBidDate() != null && pro2.getBidDate() != null && pro1.getBidDate().getTime() == pro2.getBidDate().getTime()) {
                             return 0;
                         } else {
                             return 1;

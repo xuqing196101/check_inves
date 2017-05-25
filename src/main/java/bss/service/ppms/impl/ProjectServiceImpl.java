@@ -21,8 +21,10 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.bms.UserMapper;
 import ses.dao.oms.PurchaseInfoMapper;
+import ses.dao.sms.QuoteMapper;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseInfo;
+import ses.model.sms.Quote;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
@@ -69,6 +71,9 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Autowired
 	private PurchaseDetailMapper purchaseDetailMapper;
+	
+	@Autowired
+    private QuoteMapper quoteMapper;
 	
 	
 	
@@ -442,7 +447,19 @@ public class ProjectServiceImpl implements ProjectService {
                         jsonObj.put("success", true);
                     }
                 }
-            }else{
+            }else if("KBCB".equals(flowDefine.getCode())){
+                jsonObj.put("flowTypes", "KBCB");
+                Quote quoteCondition = new Quote();
+                quoteCondition.setProjectId(projectId);
+                List<Date> listDate =  quoteMapper.selectQuoteCount(quoteCondition);
+                if(listDate != null && listDate.size() > 0){
+                    jsonObj.put("success", true);
+                }else{
+                    jsonObj.put("success", false);
+                    jsonObj.put("msgs", "请填写报价");
+                }
+                
+            }else {
                 jsonObj.put("success", true);
             }
         }
