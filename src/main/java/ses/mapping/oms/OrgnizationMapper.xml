@@ -383,7 +383,7 @@
 		       d.IS_ROOT         as isRoot,
 		       d.STATUS          as status,
 		       d.FULL_NAME     as fullName,
-		       d.SHORT_NAME     as shortName
+		       d.SHORT_NAME    as shortName
 		  from T_SES_OMS_ORG     d
 		  where d.id= #{id,jdbcType=VARCHAR}
 	</select>

@@ -401,7 +401,7 @@
                             ${user.org.shortName}
                         </c:if>
                         <c:if test="${user.org != null && (user.org.shortName == null || user.org.shortName == '')}">
-                            ${user.org.name}
+                            ${user.org.name} 
                         </c:if>
                         <c:if test="${user.org == null }">${user.orgName}</c:if>
                         </c:when>
