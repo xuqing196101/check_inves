@@ -107,7 +107,7 @@ function loadData(data,index,pageNum,pageSize){
 				 html += "<td class='tc'>后台管理员</td>"
 			 }
 			 html += "  <td class='tc'>"+timestampToDate('yyyy-MM-dd hh:mm:ss',data.createdAt)+"</td>"
-			 html += "  <td class='tc'>"+data.ip+"</td>";
+			 html += "  <td class='tl pl20'>"+data.ip+"</td>";
 		     html += "</tr>";
 	$("#dataTable tbody").append(html);
 }

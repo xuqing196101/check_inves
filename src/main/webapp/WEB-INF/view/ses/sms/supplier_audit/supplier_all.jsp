@@ -415,6 +415,9 @@
 						<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载意见函</a>
 						<button class="btn btn-windows add" type="button" onclick="tianjia();">添加签字人员</button>
 					</c:if>
+					<%-- <c:if test="${sign == 1}">
+					  <a class="btn btn-windows input" onclick='downloadTable(3)' href="javascript:void(0)">下载审核表</a>
+					</c:if> --%>
 				</div>
 				<div class="content table_box">
 					<table class="table table-bordered table-condensed table-hover hand">

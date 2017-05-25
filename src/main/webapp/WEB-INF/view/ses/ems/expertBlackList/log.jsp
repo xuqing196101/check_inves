@@ -39,7 +39,7 @@
 </script>
 <script type="text/javascript">
    function resetForm(){
-      $("#expertId").attr("value","");
+      $("#expertName").val("");
         //还原select下拉列表只需要这一句
       $("#operationType option:selected").removeAttr("selected");
     }
@@ -47,88 +47,92 @@
 </head>
 	<body>
 	  <!--面包屑导航开始-->
-	    <div class="margin-top-10 breadcrumbs ">
+	    <div class="margin-top-10 breadcrumbs">
 	        <div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
-					<li><a href="javascript:void(0)">支撑系统</a></li>
+					<li><a href="javascript:void(0);">支撑系统</a></li>
 					<li><a href="javascript:void(0);">专家管理</a></li>
-					<li><a href="javascript:void(0);"  onclick="jumppage('${pageContext.request.contextPath}/expertBlacklist/blacklist.html')">专家黑名单</a></li>
+					<li><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/expertBlacklist/blacklist.html')">专家黑名单</a></li>
 					<li class="active"><a href="javascript:void(0);">操作记录</a></li>
 				</ul>
 	        </div>
 	    </div>
 	    <div class="container">
-	       <h2 class="search_detail">
-		   <form action="${pageContext.request.contextPath}/expertBlacklist/expertBlackListLog.html"  method="post" id="form1" class="mb0"> 
-		       <input type="hidden" name="page" id="page">
-	           <ul class="demand_list">
-	               <li >
-	                   <label class="fl">专家姓名：</label>
-	                   <input type="text" id="expertId" name="expertId" class="" value="${expertName }">
-	               </li>
-	               <li>
-	                   <label class="fl">操作类型：</label>
-	                     <select name="operationType"  id="operationType" class="">
-	                         <option value="">-请选择-</option>
-	                       <option <c:if test="${operationType =='0' }">selected</c:if> value="0">新增</option>
-	                       <option <c:if test="${operationType =='1' }">selected</c:if> value="1">修改</option>
-	                         <option <c:if test="${operationType =='2' }">selected</c:if> value="2">移除</option>
-	                     </select>
-	               </li>
-	               <li>
-	                   <input type="submit" class="btn  fl mt1" value="查询" />
-	                   <button onclick="resetForm();" class="btn fl " type="button">重置</button>
-	               </li>
-	           </ul>
-		       <div class="clear"></div>
-		   </form>
-	       </h2>
-	  
-	       <div class="content table_box">
-	           <table class="table table-bordered table-condensed table-hover">
-	               <thead>
-	                    <tr>
-				            <th class="info w50">序号</th>
-				            <th class="info">操作人</th>
-				            <th class="info">操作类型</th>
-				            <th class="info">专家</th>
-				            <th class="info">操作时间</th>
-				            <th class="info">处罚日期</th>
-				            <th class="info">处罚时限</th>
-				            <th class="info">处罚方式</th>
-				            <th class="info">处罚理由</th>
-	                    </tr>
-	                </thead>
-	                <c:forEach items="${log }" var="log" varStatus="vs">
-	                <tr>
-	                    <td class="tc w50">${vs.index+1}</td>
-	                    <td class="tc">${log.operator }</td>
-	                    <td class="tc">
-	                        <c:if test="${log.operationType == 0}">新增</c:if>
-			                <c:if test="${log.operationType == 1}">修改</c:if>
-			                <c:if test="${log.operationType == 2}">移除</c:if>
-	                    </td>
-		                <td class="tc">${log.expertName }</td>
-		                <td class="tc"><fmt:formatDate type='date' value='${log.operationDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm"/></td>
-		                <td class="tc"><fmt:formatDate type='date' value='${log.dateOfPunishment }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
-		                <td class="tc">${log.punishDate }</td>
-		                <td class="tc">
-			                <c:if test="${log.punishType == 1}">警告</c:if>
-			                <c:if test="${log.punishType == 2}">严重警告</c:if>
-			                <c:if test="${log.punishType == 3}">取消资格</c:if>
-		                </td>
-		                <td class="tl pl20">${log.reason }</td>
-	                </tr>
-	            </c:forEach>
-	        </table>
-			   <div id="pagediv" align="right"></div>
-			   <div class="margin-bottom-0  categories">
-                   <div class="col-md-12 add_regist tc">
-                       <a class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</a>
-                   </div>
-               </div>
-	        </div>
+				<h2 class="search_detail">
+					<form action="${pageContext.request.contextPath}/expertBlacklist/expertBlackListLog.html"
+						method="post" id="form1" class="mb0">
+						<input type="hidden" name="page" id="page">
+						<ul class="demand_list">
+							<li>
+								<label class="fl">专家姓名：</label>
+								<input type="text" id="expertName" name="expertName" class="" value="${expertName }">
+							</li>
+							<li>
+								<label class="fl">操作类型：</label>
+								<select name="operationType" id="operationType" class="">
+									<option value="">-请选择-</option>
+									<option <c:if test="${operationType =='0' }">selected</c:if>
+									value="0">新增</option>
+									<option <c:if test="${operationType =='1' }">selected</c:if>
+									value="1">修改</option>
+									<option <c:if test="${operationType =='2' }">selected</c:if>
+									value="2">移除</option>
+								</select>
+							</li>
+							<li>
+								<input type="submit" class="btn  fl mt1" value="查询" />
+								<button onclick="resetForm();" class="btn fl " type="button">重置</button>
+							</li>
+						</ul>
+						<div class="clear"></div>
+					</form>
+				</h2>
+
+				<div class="content table_box">
+          <table class="table table-bordered table-condensed table-hover">
+						<thead>
+							<tr>
+								<th class="info w50">序号</th>
+								<th class="info">操作人</th>
+								<th class="info">操作类型</th>
+								<th class="info">专家</th>
+								<th class="info">操作时间</th>
+								<th class="info">处罚日期</th>
+								<th class="info">处罚时限</th>
+								<th class="info">处罚方式</th>
+								<th class="info">处罚理由</th>
+							</tr>
+						</thead>
+						<c:forEach items="${log }" var="log" varStatus="vs">
+             	<tr>
+                <td class="tc w50">${vs.index+1}</td>
+                <td class="tc">${log.operator }</td>
+                <td class="tc">
+                  <c:if test="${log.operationType == 0}">新增</c:if>
+		              <c:if test="${log.operationType == 1}">修改</c:if>
+		              <c:if test="${log.operationType == 2}">移除</c:if>
+                </td>
+	              <td class="tc">${log.expertName }</td>
+	              <td class="tc"><fmt:formatDate type='date' value='${log.operationDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm"/></td>
+	              <td class="tc"><fmt:formatDate type='date' value='${log.dateOfPunishment }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+	              <td class="tc">${log.punishDate }</td>
+	              <td class="tc">
+	               	<c:if test="${log.punishType == 1}">警告</c:if>
+	               	<c:if test="${log.punishType == 2}">严重警告</c:if>
+	               	<c:if test="${log.punishType == 3}">取消资格</c:if>
+	              </td>
+	              <td class="tl pl20">${log.reason }</td>
+             	</tr>
+           	</c:forEach>
+					</table>
+			   	<div id="pagediv" align="right"></div>
+			   	<div class="margin-bottom-0 categories">
+            <div class="col-md-12 add_regist tc">
+              <a class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</a>
+            </div>
+          </div>
+	      </div>
 	    </div>
     </body>
 </html>

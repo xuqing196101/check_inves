@@ -2024,6 +2024,12 @@ public class SupplierController extends BaseSupplierController {
 			 bool = false;
 		}
 		
+		if(supplierMatPro.getConfidentialAchievement()==null){
+			 model.addAttribute("secret", "请填写国家或军队保密工程业绩!");
+			 bool = false;
+		}
+		
+		
 		Integer count=0;
     	for(SupplierAptitute sa:listSupplierAptitutes){
     		String id = DictionaryDataUtil.getId("SUPPLIER_ENG_CERT");
