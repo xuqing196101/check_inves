@@ -91,8 +91,8 @@
       t2.id = t1.EXPERT_ID 
     WHERE 
        1=1
-    <if test="expertId != null and expertId !=''">  
-      AND t2.REL_NAME like '%${expertId}%'   
+    <if test="expertName != null and expertName !=''">  
+      AND t2.REAL_NAME like '%${expertName}%'   
     </if>  
     <if test="operationType != null and operationType !=''">  
       AND t1.OPERATION_TYPE = '${operationType}' 
