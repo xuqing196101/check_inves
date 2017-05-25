@@ -390,14 +390,11 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
+          <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+          <li><a>信息服务</a></li>
+          <li><a>门户管理</a></li>
           <li>
-            <a href="javascript:void(0)"> 首页</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">信息服务</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">信息发布</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/article/getAll.html')">信息管理</a>
           </li>
         </ul>
         <div class="clear"></div>

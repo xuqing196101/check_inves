@@ -395,7 +395,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 		
 		//回显
 		String type = expertBlackListLog.getOperationType();
-		String name = expertBlackListLog.getExpertId();
+		String name = expertBlackListLog.getExpertName();
 		request.setAttribute("expertName", name);
 		request.setAttribute("operationType", type);
 		return "ses/ems/expertBlackList/log";

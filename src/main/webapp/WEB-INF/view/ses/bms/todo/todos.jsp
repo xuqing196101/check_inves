@@ -135,10 +135,6 @@
         var el = document.getElementById('a');
         el.click(); //触发打开事件
       }
-
-      
-      
-      
     </script>
 
     <body >
@@ -148,15 +144,17 @@
         <div  class="AccordionPanel AccordionPanelOpen">
               <div class="AccordionPanelTab" onclick="viewHidden(this,'supplierTodos')">
               </div>
-              <div class=" p0 over_scroll"  id="agentslist0" style="width: 100%;height:300px; overflow:auto; ">
+              <div id="agentslist0" class="w100p h300 over_auto p0">
                 <a id="a" href="#" target="_parent"></a>
                 <table  class="hand table table-striped table-bordered">
+                	<thead>
                     <tr>
                       <th class="info w50">序号</th>
                       <th class="info" width="45%">标题</th>
                       <th class="info">发送人</th>
                       <th class="info" width="25%">创建时间</th>
                     </tr>
+                    </thead>
                     <tbody id="tbody_id0">
                     <%-- <c:forEach items="${supplierTodos.list}" var="agents" varStatus="s">
                       <tr class="cursor" onclick="view('${pageContext.request.contextPath}/${ agents.url}');">
@@ -185,14 +183,16 @@
          <div  class="AccordionPanel">
               <div class="AccordionPanelTab" onclick="viewHidden(this,'expertTodos')">
               </div>
-              <div class=""  id="agentslist1" style="width: 100%;height:300px; overflow:auto;display: none; ">
+              <div id="agentslist1" class="w100p h300 over_auto p0" style="display: none;">
                 <table  class="hand table table-striped table-bordered">
+                	<thead>
                     <tr>
                       <th class="info w50">序号</th>
                       <th class="info"  width="45%">标题</th>
                       <th class="info">发送人</th>
                       <th class="info"  width="25%">创建时间</th>
                     </tr>
+                    </thead>
                     <tbody id="tbody_id1">
                     <%-- <c:forEach items="${expertTodos.list}" var="agents" varStatus="s">
                       <tr class="cursor" onclick="view('${pageContext.request.contextPath}/${ agents.url}');">
@@ -222,14 +222,16 @@
               <div class="AccordionPanelTab" onclick="viewHidden(this,'projectTodos')">
                                   项目待办(${projectTodos.total})
               </div>
-              <div class=""  id="agentslist2" style="width: 100%;height:300px; overflow:auto;display: none; ">
+              <div id="agentslist2" class="w100p h300 over_auto p0" style="display: none; ">
                 <table  class="hand table table-striped table-bordered">
+                	<thead>
                     <tr>
                       <th class="info w50">序号</th>
                       <th class="info" width="45%">标题</th>
                       <th class="info">发送人</th>
                       <th class="info" width="25%">创建时间</th>
                     </tr>
+                    </thead>
                     <tbody id="tbody_id2">
                     <%-- <c:forEach items="${projectTodos.list}" var="agents" varStatus="s">
                       <tr class="cursor" onclick="view('${pageContext.request.contextPath}/${ agents.url}');">

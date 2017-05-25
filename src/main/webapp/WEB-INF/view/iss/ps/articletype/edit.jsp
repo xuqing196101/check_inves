@@ -21,9 +21,13 @@
   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0);">首页</a></li><li><a href="javascript:void(0);">栏目管理</a></li><li class="active"><a href="javascript:void(0);">栏目修改</a></li>
-		   </ul>
+		  <ul class="breadcrumb margin-left-0">
+			  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+			  <li><a href="javascript:void(0);">信息服务</a></li>
+			  <li><a href="javascript:void(0);">门户管理</a></li>
+			  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/articletype/getAll.html');">栏目管理</a></li>
+			  <li class="active"><a href="javascript:void(0);">栏目修改</a></li>
+		  </ul>
 		<div class="clear"></div>
 	  </div>
    </div>

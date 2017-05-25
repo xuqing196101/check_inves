@@ -49,4 +49,10 @@ public class PurChaseDepOrgServiceImpl implements PurChaseDepOrgService{
     return purchaseDepMapper.findByOrgId(id);
   }
 
+@Override
+public List<PurchaseDep> getDep() {
+	// TODO Auto-generated method stub
+	return purchaseDepMapper.getDep();
+}
+
 }

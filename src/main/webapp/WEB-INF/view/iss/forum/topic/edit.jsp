@@ -18,7 +18,11 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0);">首页</a></li><li><a >论坛管理</a></li><li class="active"><a >主题管理</a></li><li class="active"><a >主题修改</a></li>
+			   <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+			   <li><a>信息服务</a></li>
+			   <li><a>论坛管理</a></li>
+			   <li><a href="javascript:jumppage('${pageContext.request.contextPath}/topic/getlist.html')">主题管理</a></li>
+			   <li class="active"><a >主题修改</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>

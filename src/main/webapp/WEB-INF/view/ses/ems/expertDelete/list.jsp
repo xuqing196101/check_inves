@@ -277,18 +277,18 @@
 							<th class="info">用户名</th>
 							<th class="info w50">性别</th>
 							<th class="info">手机号</th>
-							<th class="info w100">状态</th>
+							<th class="info w120">状态</th>
 						</tr>
 					</thead>
 					<c:forEach items="${result.list }" var="list" varStatus="page">
 						<tr>
 							<td class="tc w30"><input name="id" type="radio" value="${list.id}"></td>
 							<td class="tc w50">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
-							<td class="tl pl20">${list.relName }</td>
-							<td class="tl pl20">${list.loginName}</td>
+							<td class="tl">${list.relName }</td>
+							<td class="tl">${list.loginName}</td>
 							<td class="tc w50">${list.sex}</td>
 							<td class="tc">${list.mobile }</td>
-							<td class="tc w100" id="${list.id}">
+							<td class="tl w120" id="${list.id}">
 								<c:if test="${list.status eq '4' and list.isProvisional eq '1'}">
 									<span class="label rounded-2x label-dark">临时</span>
 								</c:if>

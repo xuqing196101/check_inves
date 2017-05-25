@@ -250,4 +250,19 @@ public interface OrgnizationMapper {
      * @return
      */
     List<String> findByUserid(String userid);
+    
+    /**
+     * 
+    * @Title: getOrg
+    * @Description: 查询采购机构
+    * author: Li Xiaoxiao 
+    * @param @return     
+    * @return List<Orgnization>     
+    * @throws
+     */
+	List<Orgnization> getOrg();
+	
+	
+	void insertOrg(Orgnization orgnization);
+
 }

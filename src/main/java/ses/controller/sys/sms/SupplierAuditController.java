@@ -3039,7 +3039,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("downloadTable")
 	public ResponseEntity < byte[] > downloadTable(String supplierId, HttpServletRequest request, HttpServletResponse response, String tableType) throws Exception {
-		// 根据编号查询专家信息
+		//供应商信息
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		// 文件存储地址
 		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
@@ -3048,12 +3048,14 @@ public class SupplierAuditController extends BaseSupplierController {
 		// 下载后的文件名
 		String downFileName = "";
 		if(tableType.equals("1")){
-			downFileName = new String("军队供应商实地考察记录表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+			downFileName = new String("军队供应商实地考察记录表.doc".getBytes("UTF-8"), "iso-8859-1");
 		}
 		if(tableType.equals("2")){
-			downFileName = new String("军队供应商实地考察廉政意见函.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+			downFileName = new String("军队供应商实地考察廉政意见函.doc".getBytes("UTF-8"), "iso-8859-1"); 
 		}
-		
+		if("3".equals(tableType)){
+			downFileName = new String("军队采购供应商审核表.doc".getBytes("UTF-8"), "iso-8859-1");
+		}
 		response.setContentType("application/x-download");
 		return supplierAuditService.downloadFile(fileName, filePath, downFileName);
 	}
@@ -3073,19 +3075,23 @@ public class SupplierAuditController extends BaseSupplierController {
 		/** 用于组装word页面需要的数据 */
 		Map < String, Object > dataMap = new HashMap < String, Object > ();
 		SupplierSignature supplierSignature = new SupplierSignature();
+		String newFileName = "";
+		
+		//日期
+		Date date = new Date();
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy 年 MM 月 dd 日");
+		dataMap.put("date", format.format(date));
+		
+		//供应商名称
+		dataMap.put("supplierName", supplier.getSupplierName() == null ? "" : supplier.getSupplierName());
 		if(tableType.equals("1")){
-			//供应商名称
-			dataMap.put("supplierName", supplier.getSupplierName() == null ? "" : supplier.getSupplierName());
 			//办公地址
 			dataMap.put("address", supplier.getContactAddress() == null ? "" : supplier.getContactAddress());
 			//办公地址
 			dataMap.put("officeAddress", "");
 			//生产或经营场所详细地址
 			dataMap.put("detailAddress", supplier.getDetailAddress() == null ? "" : supplier.getDetailAddress());
-			//实地考察时间
-			Date date = new Date();
-		    SimpleDateFormat format = new SimpleDateFormat("yyyy 年 MM 月 dd 日");
-			dataMap.put("date", format.format(date));
+			
 			
 			//生产或经营场所详细地址
 			List < Area > privnce = areaService.findRootArea();
@@ -3103,6 +3109,9 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierSignature.setSupplierId(supplier.getId());
 			List<SupplierSignature> supplierSignatureList = supplierSignatureService.selectBySupplierId(supplierSignature);
 			dataMap.put("supplierList", supplierSignatureList);
+			
+			//生成word 返回文件名 
+			newFileName = WordUtil.createWord(dataMap, "supplierInspection.ftl", "supplierInspection", request);
 		}
 		
 		//意见函人数和名字
@@ -3116,20 +3125,81 @@ public class SupplierAuditController extends BaseSupplierController {
 			name.deleteCharAt(name.length() - 1);
 			dataMap.put("num", supplierSignatureList.size());
 			dataMap.put("name", name);
+			
+			newFileName = WordUtil.createWord(dataMap, "supplierOpinionLetter.ftl", "supplierOpinionLetter", request);
+		}
+				
+		/**
+		 * 审核/复核表的数据
+		 */
+		if("3".equals(tableType) || "4".equals(tableType)){
+			//企业性质
+			String businessNature = businessNature(supplier.getBusinessNature());
+			dataMap.put("businessNature", businessNature);
+			//营业执照类型
+			String businessType = businessType(supplier.getBusinessType());
+			dataMap.put("businessType", businessType);
+			//统一社会信用代码
+			dataMap.put("creditCode", supplier.getCreditCode() == null ? "":supplier.getCreditCode());
+			//注册人姓名
+			dataMap.put("legalName", supplier.getLegalName() == null ? "":supplier.getLegalName());
+			//身份证号
+			dataMap.put("legalIdCard", supplier.getLegalIdCard() == null ? "":supplier.getLegalIdCard());
+			
+			//不通过项
+			SupplierAudit supplierAudit = new SupplierAudit();
+			supplierAudit.setSupplierId(supplier.getId());
+			List < SupplierAudit > auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			dataMap.put("auditList",auditList);
+		}
+		//审核表
+		if(tableType.equals("3")){
+			newFileName = WordUtil.createWord(dataMap, "supplierOneAudit.ftl", "supplierOneAudit", request);
 		}
 		
-		/** 生成word 返回文件名 */
-		String newFileName = "";
-		String fileName = "";		
-		if(tableType.equals("1")){
-			newFileName = WordUtil.createWord(dataMap, "supplierInspection.ftl", fileName, request);
-			fileName = new String(("军队供应商实地考察记录表.doc").getBytes("UTF-8"), "UTF-8");
-		}
-		if(tableType.equals("2")){
-			newFileName = WordUtil.createWord(dataMap, "supplierOpinionLetter.ftl", fileName, request);
-			fileName = new String(("军队供应商实地考察廉政意见函.doc").getBytes("UTF-8"), "UTF-8");
-		}
 		return newFileName;
+	}
+	
+	/**
+	 * @Title: businessNature
+	 * @date 2017-5-24 下午5:02:12  
+	 * @Description:在数据字典里查询营业执照类型
+	 * @param @return      
+	 * @return String
+	 */
+	public String businessType(String businessTypeId){
+		String businessType="";
+		List < DictionaryData > list = DictionaryDataUtil.find(17);
+		if(businessTypeId !=null){
+			for(int i = 0; i < list.size(); i++) {
+				if(businessTypeId.equals(list.get(i).getId())) {
+					businessType = list.get(i).getName();
+					break;
+				}
+			}
+		}
+		return businessType;
+	}
+	
+	/**
+	 * @Title: businessNature
+	 * @date 2017-5-24 下午5:02:12  
+	 * @Description:/在数据字典里查询企业性质
+	 * @param @return      
+	 * @return String
+	 */
+	public String businessNature(String businessNatureId){
+		List < DictionaryData > businessList = DictionaryDataUtil.find(32);
+		String businessNature = "";
+		if(businessNatureId !=null){
+			for(int i = 0; i < businessList.size(); i++) {
+				if(businessNatureId.equals(businessList.get(i).getId())) {
+					businessNature = businessList.get(i).getName();
+					break;
+				}
+			}
+		}
+		return businessNature;
 	}
 
 	/**

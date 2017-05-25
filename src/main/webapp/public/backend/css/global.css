@@ -1162,7 +1162,9 @@ table .input_group .add-on{
 	display: inline-block;
 	font-family: Arial;
 }
-
+.h300 {
+	height: 300px;
+}
 .h800 {
 	height: 800px;
 }

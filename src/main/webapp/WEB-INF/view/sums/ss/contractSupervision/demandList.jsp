@@ -41,11 +41,11 @@
           <thead>
             <tr>
               <th class="w50">序号</th>
-              <th>需求编号</th>
-              <th>需求名称</th>
-              <th>填报人</th>
-              <th>填报时间</th>
-              <th>金额</th>
+              <th width="15%">需求编号</th>
+              <th width="20%">需求名称</th>
+              <th width="15%">填报人</th>
+              <th width="12%">填报时间</th>
+              <th width="10%">金额</th>
               <th>状态</th>
               <th>查看进度</th>
             </tr>
@@ -53,24 +53,25 @@
           <c:forEach items="${list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w50">${(vs.index+1)}</td>
-               <td class="tl pl20" width="10%">
+               <td class="tl">
                 ${obj.planNo}
               </td>
-              <td class="tl pl20" width="25%">
+              <td class="tl">
                 <a href="javascript:void(0)" onclick="demandDateil('${obj.id}','${contractId}');">${obj.planName}</a>
               </td>
-              <td class="tr pr20 w140">${obj.userId}</td>
+              <td class="tr">${obj.userId}</td>
               <td class="tc">
                 <fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd" />
               </td>
-    			<td class="tr pr20 w140">
+    			<td class="tr">
                 <fmt:formatNumber>${obj.budget }</fmt:formatNumber>
               </td>
-				<td class="tc">
+				<td class="tl">
                    <c:if test="${obj.status eq '1'}">未提交</c:if>
                    <c:if test="${obj.status eq '4'}">受理退回</c:if> 
                    <c:if test="${obj.status eq '2' || obj.status eq '3' || obj.status eq '5'}">已提交</c:if>
-                </td>              <td class="tc">
+                </td>              
+                <td class="tc">
                 <a href="javascript:void(0)" onclick="demandDateil('${obj.id}','${contractId}');">进入</a>
               </td>
             </tr>
