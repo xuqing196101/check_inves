@@ -208,4 +208,20 @@
 		 ORDER BY T.TYPE, T.INDEX_MONTH
   </select>
   
+  <!-- 查询数据是否已存在 -->
+  <select id="selectAnalyzeDataByIndexDay" resultType="java.lang.Long" parameterType="Map">
+  	SELECT COUNT(ID) 
+  	FROM T_SYSTEM_REGISTER_ANALYZE T 
+  	WHERE T.INDEX_DAY = #{indexDay}
+  		AND T.TYPE=#{type}
+  </select>
+  
+  <!-- 根据时间（日 INDEX_DAY）和类型TYPE修改记录数据 -->
+  <update id="updateByDayAndType" parameterType="Map">
+  	UPDATE T_SYSTEM_REGISTER_ANALYZE T
+   		SET T.REGISTER_NUM = #{registerNum}
+ 			WHERE T.INDEX_DAY = #{indexDay}
+   		AND T.TYPE = #{type}
+  </update>
+  
 </mapper>

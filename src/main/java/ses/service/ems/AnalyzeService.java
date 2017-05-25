@@ -1,5 +1,6 @@
 package ses.service.ems;
 
+import java.util.Date;
 import java.util.List;
 
 import ses.model.bms.Analyze;
@@ -57,7 +58,7 @@ public interface AnalyzeService {
 	 * @return void 返回类型
 	 * @throws
 	 */
-	public void taskAnalyzeLogin();
+	public void taskAnalyzeLogin(Date searchData);
 
 	/**
 	 * 定时执行任务，注册， 新增数据转到统计表
@@ -69,7 +70,7 @@ public interface AnalyzeService {
 	 * @return void 返回类型
 	 * @throws
 	 */
-	public void taskAnalyzeRegister();
+	public void taskAnalyzeRegister(Date searchData);
 
 	/**
 	 * 
@@ -80,7 +81,7 @@ public interface AnalyzeService {
 	 * @return void 返回类型
 	 * @throws
 	 */
-	public void taskAnalyzeAttUpload();
+	public void taskAnalyzeAttUpload(Date searchData);
 
 	/**
 	 * 
