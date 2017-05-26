@@ -166,6 +166,12 @@ public class ExpertQueryController {
             } else {
                 exp.setExpertsTypeId("");
             }
+            
+            //专家来源
+	  		if(exp.getExpertsFrom() != null) {
+	  			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(exp.getExpertsFrom());
+	  			exp.setExpertsFrom(expertsFrom.getName());
+	  		}
         }
         
         model.addAttribute("expert", expert);

@@ -108,6 +108,7 @@
 							<th class="info">手机</th>
 							<th class="info">类别</th>
 							<th class="info w120">审核状态</th>
+							<th class="info">专家类型</th>
 						</tr>
 					</thead>
 					<c:forEach items="${result.list }" var="e" varStatus="vs">
@@ -120,7 +121,7 @@
 							<td class="tl" >${e.graduateSchool }</td>
 							<td class="tc" >${e.mobile }</td>
 							<td class="tl" >${e.expertsTypeId}</td>
-							<td  class="tl" id="${e.id}">
+							<td  class="tc" id="${e.id}">
 								<%-- <c:if test="${e.status eq '4' and e.isProvisional eq '1'}">
 									<span class="label rounded-2x label-dark">临时</span>
 								</c:if> --%>
@@ -140,6 +141,7 @@
 									<span class="label rounded-2x label-dark">复查未通过</span>
 								</c:if>
 							</td>
+							<td class="tc" >${e.expertsFrom }</td>
 						</tr>
 					</c:forEach>
 				</table>
