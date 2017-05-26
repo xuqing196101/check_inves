@@ -162,7 +162,7 @@
                 </li>
 
                 <li class="col-md-3 col-sm-3 col-xs-3 dnone clear" id="projectCount">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程供应商：</span>
+                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程供应商数量：</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input class="title col-md-12" id='project' name="projectCount" onchange="chane();"
                                maxlength="11" type="text">
