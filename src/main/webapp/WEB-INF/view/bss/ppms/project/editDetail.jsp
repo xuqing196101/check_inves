@@ -157,13 +157,16 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
-            <a href="javascript:void(0)"> 首页</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
           </li>
           <li>
             <a href="javascript:void(0)">保障作业系统</a>
           </li>
           <li>
-            <a href="javascript:void(0)">项目管理</a>
+            <a href="javascript:void(0)">采购项目管理</a>
+          </li>
+          <li>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/project/listProject.html')">立项管理</a>
           </li>
           <li class="active">
             <a href="javascript:void(0)">项目调整</a>
