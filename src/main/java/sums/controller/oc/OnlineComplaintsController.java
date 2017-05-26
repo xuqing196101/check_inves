@@ -206,8 +206,6 @@ public class OnlineComplaintsController {
 		Complaint complaintId = new Complaint();
 		complaintId.setId(id);
 		model.addAttribute("complaint",complaintId);
-		System.out.println("==============================================================");
-		System.out.println(complaintId.getId());
 		return "sums/oc/onlineComplaints/index_add";
 	}
 	
