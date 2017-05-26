@@ -1721,7 +1721,12 @@
 	<!-- 注销列表 -->
 	<select id="findLogoutList" resultMap="BaseResultMap">
 		SELECT
-		<include refid="Base_Column_List" />
+		  SUPPLIER_NAME,
+		  LOGIN_NAME,
+		  MOBILE,
+		  SUPPLIER_STATUS,
+		  CREATED_AT,
+		  CONTACT_NAME
 		FROM T_SES_SMS_SUPPLIER
 		WHERE <!-- (SUPPLIER_STATUS = -1 or SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 2) -->
 		IS_DELETED = 0
@@ -1740,7 +1745,7 @@
 		<if test="status != null">
 			AND SUPPLIER_STATUS = #{status}
 		</if>
-		
+		ORDER BY CREATED_AT DESC NULLS LAST
 	</select>
 	
 	

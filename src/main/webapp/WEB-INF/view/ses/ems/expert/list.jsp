@@ -132,6 +132,8 @@
 				$("#status option:selected").removeAttr("selected");
 				$("#expertsTypeId option:selected").removeAttr("selected");
 				$("#mobile").attr("value", "");
+				$("#graduateSchool").val("");
+				$("#idCardNumber").val("");
 				$("#formSearch").submit();
 			}
 			//查看信息
@@ -275,10 +277,10 @@
 		  	<input type="hidden" name="flag" value="0">
 		  	<ul class="demand_list">
      		<li>
-          <label class="fl">专家姓名：</label><span><input type="text" id="relName" name="relName" value="${expert.relName }"></span>
+          <label class="fl">专家姓名：</label><span><input type="text" id="relName" name="relName" value="${expert.relName}" class="w220"></span>
         </li>
         <li>
-          <label class="fl">手机号：</label><span><input type="text" id="mobile" name="mobile" value="${expert.mobile }"></span>
+          <label class="fl">手机号：</label><span><input type="text" id="mobile" name="mobile" value="${expert.mobile }" class="w220"></span>
         </li>
         <%-- <li>
         	<label class="fl">专家来源：</label>
@@ -291,21 +293,11 @@
 						</select>          
           </span>
         </li> --%>
-        <li>
-          <label class="fl">专家类型：</label>
-          <span class="fl">
-            <select name="expertsTypeId" id="expertsTypeId" class="">
-              <option selected="selected"  value=''>全部</option>
-              <c:forEach items="${expTypeList}" var="exp">
-                <option <c:if test="${expert.expertsTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
-              </c:forEach>          
-            </select>
-          </span>
-        </li>
+        
   			<li>
         <label class="fl">审核状态：</label>
         <span class="fl">
-          <select name="status" id="status" class="">
+          <select name="status" id="status" class="w220">
              <option selected="selected" value=''>全部</option>
              <option <c:if test="${expert.status =='-1' }">selected</c:if> value="-1">暂存</option>
              <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">待初审</option>
@@ -321,6 +313,23 @@
            </select>
         </span>
      	 </li>
+     	  <li>
+          <label class="fl">身份证号：</label><span><input class="w220" type="text" id="idCardNumber" name="idCardNumber" value="${expert.idCardNumber }"></span>
+        </li>
+        <li>
+          <label class="fl">毕业院校：</label><span><input class="w220"type="text" id="graduateSchool" name="graduateSchool" value="${expert.graduateSchool }"></span>
+        </li>
+        <li>
+          <label class="fl">专家类别：</label>
+          <span class="fl">
+            <select name="expertsTypeId" id="expertsTypeId" class="w220">
+              <option selected="selected"  value=''>全部</option>
+              <c:forEach items="${expTypeList}" var="exp">
+                <option <c:if test="${expert.expertsTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
+              </c:forEach>          
+            </select>
+          </span>
+        </li>
 		  </ul>
 		  <div class="col-md-12 clear tc mt10">
 			  <input class="btn mt1"  value="查询" type="submit">
@@ -346,7 +355,7 @@
 							<th class="info w50">序号</th>
 							<th class="info" width="25%">专家姓名</th>
 							<!-- <th class="info">用户名</th> -->
-
+              <th class="info">身份证号</th>
 							<th class="info" width="8%">性别</th>
 							<th class="info" width="20%">类别</th>
 							<th class="info" width="15%">毕业院校及专业</th>
@@ -369,6 +378,7 @@
 						       </c:otherwise>
 								</c:choose>
 							</td>
+							<td class="tc">${e.idCardNumber}</td>
 							<%-- <td class="tl pl20" >${e.loginName}</td> --%>
 							<td class="tc w50" >${e.gender}</td>
 							<td class="tl" >${e.expertsTypeId}</td>

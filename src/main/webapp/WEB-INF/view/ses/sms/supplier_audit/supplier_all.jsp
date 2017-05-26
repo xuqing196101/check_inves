@@ -291,7 +291,28 @@
 					}	    	
 		   };
 			
-			</script>
+				//入库申请表下载
+				function downloadApplication(){
+				  var size = $(":checkbox:checked").size();
+	        if(size == 0) {
+	          layer.msg("请选供应商 !", {offset: '100px',});
+	        }else if(size > 1){
+	          layer.msg("只能选择一项 !", {offset: '100px',});
+	        }else{
+	          var supplierId = $(":checkbox:checked").val();
+		        $.ajax({
+		          url: "${pageContext.request.contextPath}/supplier/isPass.do",
+		          data: {"supplierId": supplierId},
+		          type: "post",
+		          success: function(data) {
+			          $("#supplierJson").val(supplierId);
+			          $("#download_form").submit();
+		          }
+		        });
+	        }
+				}
+			
+		  </script>
 		</head>
 
 		<body>
@@ -418,6 +439,10 @@
 					<%-- <c:if test="${sign == 1}">
 					  <a class="btn btn-windows input" onclick='downloadTable(3)' href="javascript:void(0)">下载审核表</a>
 					</c:if> --%>
+					<c:if test="${sign == 2 || sign == 3}">
+					  <a class="btn btn-windows input" onclick="downloadApplication()" href="javascript:void(0)">下载入库申请表</a>
+					</c:if>
+					
 				</div>
 				<div class="content table_box">
 					<table class="table table-bordered table-condensed table-hover hand">
@@ -473,6 +498,10 @@
 				<input type="hidden" name="sign" value="${sign}">
 				<input type="hidden" name="tableType">
 			</form>
-		</body>
+			
+			<form action="${pageContext.request.contextPath}/expert/downloadSupplier.html" method="post" id="download_form">
+        <input type="hidden" value="" name="supplierJson" id="supplierJson">
+      </form>
+	</body>
 
 </html>
