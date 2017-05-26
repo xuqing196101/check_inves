@@ -22,7 +22,7 @@ $(function(){
 	  	<!--面包屑导航开始-->
 	   	<div class="margin-top-10 breadcrumbs">
 	      <div class="container">
-			   	<ul class="breadcrumb margin-left-0">
+			   	<ul class="breadcrumb m0">
 			   		<li><a href="${pageContext.request.contextPath}/index/selectIndexNews.html">首页</a></li><li><a href="javascript:void(0);">网上投诉</a></li>
 			   	</ul>
 					<div class="clear"></div>
@@ -30,7 +30,7 @@ $(function(){
 	   	</div>
 
 		  <!-- 投诉页面 -->
-	<div class="container container_box">
+	<div class="container container_box pt20">
 			<form action="${pageContext.request.contextPath }/onlineComplaints/indexadd.html" method="post" class="mb0">
 			  <!-- <h2 class="list_title">网上投诉处理系统</h2> -->
 			  <input name = "id" type = "text" value="${complaint.id }" style="display: none;">
