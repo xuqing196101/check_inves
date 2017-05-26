@@ -2083,8 +2083,7 @@ public class ExpertController extends BaseController {
         List < Expert > allExpert = service.selectAllExpert(page == null ? 0 :
             page, expert);
         for(Expert exp: allExpert) {
-            DictionaryData dictionaryData = dictionaryDataServiceI
-                .getDictionaryData(exp.getGender());
+            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(exp.getGender());
             exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
             StringBuffer expertType = new StringBuffer();
             if(exp.getExpertsTypeId() != null) {
@@ -2106,6 +2105,12 @@ public class ExpertController extends BaseController {
             } else {
                 exp.setExpertsTypeId("");
             }
+            
+          //专家来源
+      		if(exp.getExpertsFrom() != null) {
+      			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(exp.getExpertsFrom());
+      			exp.setExpertsFrom(expertsFrom.getName());
+      		}
         }
         // 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
@@ -2116,6 +2121,7 @@ public class ExpertController extends BaseController {
             data.setName(data.getName() + "技术");
         }
         List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
+
         jsTypeList.addAll(jjTypeList);
         request.setAttribute("expTypeList", jsTypeList);
         request.setAttribute("result", new PageInfo < Expert > (allExpert));

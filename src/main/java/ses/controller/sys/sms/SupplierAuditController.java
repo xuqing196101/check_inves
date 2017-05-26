@@ -1287,13 +1287,15 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("updateStatus")
-	public String updateStatus(HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit) throws IOException {
+	public String updateStatus(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit) throws IOException {
 		String supplierId = supplierAudit.getSupplierId();
 		Todos todos = new Todos();
-		User user = (User) request.getSession().getAttribute("loginUser");
+		/*User user = (User) request.getSession().getAttribute("loginUser");*/
 		//更新状态
 		supplier.setId(supplierId);
 		supplier.setAuditDate(new Date());
+		//审核人
+		supplier.setAuditor(user.getLoginName());
 		supplierAuditService.updateStatus(supplier);
 		
 		if(supplier.getStatus() != null && supplier.getStatus() == 1){

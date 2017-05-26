@@ -86,7 +86,7 @@
 							return;
 						}
 					}
-					var state = $("#" + id + "").parents("tr").find("td").eq(8).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(9).text();//.trim();
 					state = trim(state);
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
@@ -185,7 +185,7 @@
 				function publish(){
 			  	var id = $(":checkbox:checked").val();
 			  	var size = $(":checkbox:checked").size();
-					var state = $("#" + id + "").parents("tr").find("td").eq(8).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(9).text();//.trim();
 					state = trim(state);
 					if(size == 1){
 			  			if(state != "待审核" && state != "审核退回" && state != "审核未通过"){
@@ -450,11 +450,12 @@
 							<tr>
 								<th class="info w50">选择</th>
 								<th class="info w50">序号</th>
-								<th class="info" width="25%">供应商名称</th>
-								<th class="info" width="10%">手机号</th>
-								<th class="info" width="20%">企业类型</th>
-								<th class="info" width="10%">企业性质</th>
-								<th class="info" width="12%">审核时间</th>
+								<th class="info">供应商名称</th>
+								<th class="info">手机号</th>
+								<th class="info">企业类型</th>
+								<th class="info">企业性质</th>
+								<th class="info">审核时间</th>
+								<th class="info">审核人</th>
 								<th class="info">发布</th>
 								<th class="info">状态</th>
 							</tr>
@@ -469,6 +470,12 @@
 								<td class="tc" onclick="shenhe('${list.id }');">${list.businessNature}</td>
 								<td class="tc" onclick="shenhe('${list.id }');">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
+								</td>
+								<td class="tc" onclick="shenhe('${list.id }');">
+								  <c:choose>
+			              <c:when test="${list.auditor ==null or list.auditor == ''}">无</c:when>
+			              <c:otherwise>${list.auditor}</c:otherwise>
+			            </c:choose>
 								</td>
 								<td class="tc" onclick="shenhe('${list.id }');">
 									<c:if test="${list.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>

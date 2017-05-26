@@ -181,7 +181,7 @@
 					layer.msg("请选择专家！", {offset: '100px'});
 				} else {
 					var state = $("#" + id + "").parents("tr").find("td").eq(9).text().trim();
-					if(state == "复审通过" || state == "复审未通过" || state == "待复查" || state == "复查通过" || state == "复查未通过") {
+					if(state == "复审通过" || state == "复审未通过" || state == "待复查" || state == "复查通过" || state == "复查不通过") {
 						index = layer.open({
 							type: 2, //page层
 							area: ['700px', '440px'],
@@ -302,14 +302,14 @@
              <option <c:if test="${expert.status =='-1' }">selected</c:if> value="-1">暂存</option>
              <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">待初审</option>
              <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">初审通过</option>
-             <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审未通过</option>
+             <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审不通过</option>
              <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
              <%-- <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">待复审</option> --%>
              <option <c:if test="${expert.status =='4' }">selected</c:if> value="4">复审通过</option>
-             <option <c:if test="${expert.status =='5' }">selected</c:if> value="5">复审未通过</option>
+             <option <c:if test="${expert.status =='5' }">selected</c:if> value="5">复审不通过</option>
              <option <c:if test="${expert.status =='6' }">selected</c:if> value="6">待复查</option>
              <option <c:if test="${expert.status =='7' }">selected</c:if> value="7">复查通过</option>
-             <option <c:if test="${expert.status =='8' }">selected</c:if> value="8">复查未通过</option>
+             <option <c:if test="${expert.status =='8' }">selected</c:if> value="8">复查不通过</option>
            </select>
         </span>
      	 </li>
@@ -353,15 +353,16 @@
 						<tr>
 							<!-- <th class="info w50">选择</th> -->
 							<th class="info w50">序号</th>
-							<th class="info" width="25%">专家姓名</th>
+							<th class="info">专家姓名</th>
 							<!-- <th class="info">用户名</th> -->
               <th class="info">身份证号</th>
-							<th class="info" width="8%">性别</th>
-							<th class="info" width="20%">类别</th>
-							<th class="info" width="15%">毕业院校及专业</th>
-							<th class="info" width="15%">手机</th>
+							<th class="info">性别</th>
+							<th class="info" >类别</th>
+							<th class="info">毕业院校及专业</th>
+							<th class="info">手机</th>
 							<!-- <th class="info">积分</th> -->
 							<th class="info">审核状态</th>
+							<th class="info">专家类型</th>
 						</tr>
 					</thead>
 					<c:forEach items="${result.list }" var="e" varStatus="vs">
@@ -423,6 +424,7 @@
 									<span class="label rounded-2x label-dark">复查未通过</span>
 								</c:if>
 							</td>
+							<td class="tc" >${e.expertsFrom }</td>
 						</tr>
 					</c:forEach>
 				</table>
