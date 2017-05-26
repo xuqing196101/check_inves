@@ -946,7 +946,7 @@ function importAdd(){
 	    <a href="${pageContext.request.contextPath}/onlineComplaints/index_add.html">
 	     <div class="col-md-12 col-xs-12 col-sm-12 tc p0">
 	     <img src="${pageContext.request.contextPath}/public/portal/images/tou_pic.jpg"/></div>
-		 <div class="col-md-12 col-xs-12 col-sm-12 f22 tc mt20 p0">在线投诉</div>
+		 <div class="col-md-12 col-xs-12 col-sm-12 f22 tc mt20 p0">网上投诉</div>
 		</a>
 	  </div>
 	  <div class="col-md-8 col-sm-8 col-xs-12 mt10">
