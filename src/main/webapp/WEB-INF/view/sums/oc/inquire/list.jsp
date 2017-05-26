@@ -125,7 +125,7 @@
 			<tr class="info">
 				<!-- <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th> -->
 				<th class="w50">序号</th>
-				<th width="">标题</th>
+				<th width="33%">标题</th>
 				<th width="">投诉人姓名</th>
 				<!-- <th width="12%">投诉人类型</th>
 				<th width="16%">投诉对象</th> -->
@@ -138,8 +138,8 @@
 			<tr class="tc">
 				<%-- <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${complaint.id }" /></td> --%>
 				<td class="w50" onclick="doview('${complaint.id }')">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-				<td class="tl pl20" onclick="doview('${complaint.id }')">${complaint.title }</td>
-				<td class="tc" onclick="doview('${complaint.id }')">${complaint.name }</td>
+				<td class="tl" onclick="doview('${complaint.id }')">${complaint.title }</td>
+				<td class="tl" onclick="doview('${complaint.id }')">${complaint.name }</td>
 				<%-- <td class="tl" onclick="doview('${complaint.id }')">${complaint.complaintObject }</td> --%>
 				
 				<td class="tl" title="${complaint.complaintContent }" onclick="doview('${complaint.id }')">  
