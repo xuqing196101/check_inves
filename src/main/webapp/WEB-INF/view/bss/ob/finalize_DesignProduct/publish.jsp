@@ -156,8 +156,30 @@
 			$("#pcategory").html("产品目录不能为空");
 		}
 		if(code != null && name != null && procurementId != null && code != "" && name != "" && procurementId != "" && category != null && category != ""){
-		window.location.href = "${pageContext.request.contextPath}/product/add.html?code="+code+"&&name="+name+"&&procurementId="+procurementId
-				+"&&category="+category+"&&standardModel="+standardModel+"&&qualityTechnicalStandard="+qualityTechnicalStandard+"&&i="+i+"&&categoryLevel="+categoryLevel;
+			$.ajax({
+				url: "${pageContext.request.contextPath }/product/add.do",
+				type: "post",
+				data: {
+					code:code,
+					name:name,
+					procurementId:procurementId,
+					category:category,
+					standardModel:standardModel,
+					qualityTechnicalStandard:qualityTechnicalStandard,
+					i:i,
+					categoryLevel:categoryLevel
+				},
+				success: function(data) {
+					if(data == 'success'){
+						window.location.href = "${pageContext.request.contextPath }/product/list.html";
+					}else{
+						
+					}
+				},
+				error: function() {
+					
+				}
+			});
 		}
 		}else{
 	  layer.msg("只有资源服务中心才能操作");

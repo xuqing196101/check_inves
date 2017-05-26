@@ -226,6 +226,11 @@ public class OnlineComplaintsController {
 		if(complaint.getTitle() == null || complaint.getTitle().equals("")){
 			flag = false;
 			model.addAttribute("error_title","标题不能为空");
+		}else{
+			if(complaint.getTitle().length() > 80){
+				flag = false;
+				model.addAttribute("error_title","不能超过80个字");
+			}
 		}
 		if(complaint.getName() == null || complaint.getName().equals("")){
 			flag = false;
@@ -235,10 +240,10 @@ public class OnlineComplaintsController {
 			flag = false;
 			model.addAttribute("error_telephone","投诉人联系电话不能为空");
 		}else{
-			Pattern p = Pattern.compile("[0-9]{1,}");
+			Pattern p = Pattern.compile("[0-9-()（）]{7,18}");
 			if (p.matcher(complaint.getTelephone()).matches() == false) {
 				flag = false;
-				model.addAttribute("error_telephone", "请输入正确的电话");
+				model.addAttribute("error_telephone", "请输入正确的电话号码");
 			}
 		}
 		if(complaint.getAdress() == null || complaint.getAdress().equals("")){

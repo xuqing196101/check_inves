@@ -150,6 +150,7 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/delete")
+	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public void delete(@CurrentUser User user,HttpServletRequest request) {
@@ -199,6 +200,7 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/fab")
+	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String fab(@CurrentUser User user,HttpServletRequest request,Model model) {
@@ -247,13 +249,14 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/chfab")
+	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public void chfab(@CurrentUser User user,HttpServletRequest request,Model model) {
 		if(user!= null){
 			//判断是否 是资源服务中心 
 			if("4".equals(user.getTypeName())){
-			String id = request.getParameter("id") == null ? "" : request.getParameter("id");
+				String id = request.getParameter("id") == null ? "" : request.getParameter("id");
 				oBProductService.chfab(id);
 			}
 		}
@@ -433,6 +436,7 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/add")
+	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String add(@CurrentUser User user,Model model, HttpServletRequest request) {
@@ -504,15 +508,15 @@ public class OBProductController {
 					Category parentCategory = categoryService.findById(categoryId);
 					model.addAttribute("categoryName", parentCategory.getName());
 					model.addAttribute("cId",categoryId );
-					return "bss/ob/finalize_DesignProduct/publish";
+					return "error";
 				}else{
 					oBProductService.insertSelective(obProduct);
-					return "redirect:/product/list.html";
+					return "success";
 				}
 			}
 		}
 		model.addAttribute("authType",authType );
-		return "bss/ob/finalize_DesignProduct/publish";
+		return "error";
 	}
 	
 	/**
@@ -528,6 +532,7 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/edit")
+	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String edit(@CurrentUser User user,Model model, HttpServletRequest request){
@@ -603,7 +608,7 @@ public class OBProductController {
 				obProduct.setIsDeleted(0);
 				if(flag == true){
 					oBProductService.updateByPrimaryKeySelective(obProduct);
-					return "redirect:/product/list.html";
+					return "success";
 				}else{
 					Category ccategory = categoryService.findById(categoryId);
 					model.addAttribute("obProduct", obProduct);
@@ -611,12 +616,12 @@ public class OBProductController {
 					if(ccategory != null){
 						model.addAttribute("categoryName", ccategory.getName());
 					}
-					return "bss/ob/finalize_DesignProduct/edit";
+					return "error";
 				}
 			}
 		}
 		model.addAttribute("authType",authType );
-		return "bss/ob/finalize_DesignProduct/edit";
+		return "error";
 	}
 	
 	/**

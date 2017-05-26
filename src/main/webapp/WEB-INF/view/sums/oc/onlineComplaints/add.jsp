@@ -63,7 +63,7 @@ function hid(){
 	<!-- 投诉页面 -->
 	<div class="container container_box">
 			<form action="${pageContext.request.contextPath }/onlineComplaints/add.html" method="post" class="mb0">
-			  <h2 class="list_title">网上投诉处理系统</h2>
+			  <h2 class="list_title">网上投诉</h2>
 			  <input name = "id" type = "text" value="${complaint.id }" style="display: none;">
 				<ul class="ul_list">
 					<%-- <li class="col-md-3 col-sm-6 col-xs-12  pl15" >
