@@ -19,8 +19,13 @@
 $(function(){
 	$("#extensionId").val("bmp,pmg,jpg,gif,png");
 	$("#idcad #extensionId").val("bmp,pmg,jpg,gif,png");
+	var success = "${complaintSuccess}";
+	if(success != null && success != ""){
+		layer.msg("投诉成功");
+	}
+	
 });
-function open(){
+/* function open(){
 	var chkObjs=null;
 	var obj=document.getElementsByName("type");
 	for (var i=0;i<obj.length;i++){ //遍历Radio 
@@ -38,7 +43,7 @@ function show(){
 }
 function hid(){
 	document.getElementById("idcad").style.display="none";
-}
+} */
 </script>
 </head>
 <body onload="open();">
@@ -61,7 +66,7 @@ function hid(){
 			  <h2 class="list_title">网上投诉处理系统</h2>
 			  <input name = "id" type = "text" value="${complaint.id }" style="display: none;">
 				<ul class="ul_list">
-					<li class="col-md-3 col-sm-6 col-xs-12  pl15" >
+					<%-- <li class="col-md-3 col-sm-6 col-xs-12  pl15" >
 					    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人类型</span>
 						<div class="col-md-12 mb20 col-sm-12 col-xs-12 p0">
 							<div class="col-md-5 col-xs-5 col-xs-6 p0">
@@ -72,45 +77,76 @@ function hid(){
 						    </div>
 						    <div class="star_red">${error_type }</div>
 						</div> 
-				  </li>
+				  </li> --%>
+				  
+				  <!-- 标题 -->
 				  <li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
-	                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人名称（姓名）</span>
-	                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                             <input class="" name="name" type="text" value="${complaint.name }">
-                        <div class="star_red">${error_name }</div>
-                        </div>
-	              </li>	
-				  <li class="col-md-3 col-sm-6 col-xs-12 pl15" >
+          	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>标题</span>
+          	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 m0">
+            	<input class="" name="title" type="text" value="${complaint.title }">
+          		<div class="star_red">${error_title }</div>
+          	</div>
+	        </li>
+				  <li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
+	        	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人名称（姓名）</span>
+	        	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 m0">
+            	<input class="" name="name" type="text" value="${complaint.name }">
+              <div class="star_red">${error_name }</div>
+           	</div>
+	        </li>	
+				  <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15" >
 				  	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉对象</span>
 				  	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                             <input class="" name="complaintObject" type="text" value="${complaint.complaintObject }">
-                             <div class="star_red">${error_complaintObject }</div>
-                     </div>
-				  </li>
+              <input class="" name="complaintObject" type="text" value="${complaint.complaintObject }">
+              <div class="star_red">${error_complaintObject }</div>
+             </div>
+				  </li> --%>
+				  <!-- 投诉人联系电话 -->
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
+						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人电话</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 m0">
+							<input class="" name="telephone" type="text" value="${complaint.telephone }">
+              <div class="star_red">${error_telephone }</div>
+						</div>
+					</li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
+						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人联系地址</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="" name="adress" type="text" value="${complaint.adress }">
+              <div class="star_red">${error_adress }</div>
+						</div>
+					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
+						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人邮箱</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="" name="email" type="text" value="${complaint.email }">
+              <div class="star_red">${error_email }</div>
+						</div>
+					</li>
 				  <li class="col-md-12 col-sm-12 col-xs-12">
-	                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉事项</span>
-	                 <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                      <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" title="不超过1000个字" name="complaintMatter">${complaint.complaintMatter }</textarea>
-                     </div>
-                     <div class="star_red">${error_complaintMatter }</div>
-	              </li> 
+						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉内容</span>
+						<div class="col-md-12 col-sm-12 col-xs-12 p0">
+							<textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" title="不超过1000个字" name="complaintContent">${complaint.complaintContent }</textarea>
+						</div>
+						<div class="star_red">${error_complaintContent }</div>
+					</li> 
 				  <li class="col-md-3 col-sm-6 col-xs-12">
-	 	              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>投诉文件：</span>
-				        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-				        <u:upload id="post_attach_up" businessId="${complaint.id }" sysKey="2" typeId="47" multiple="true" auto="true" />
-						<u:show showId="post_attach_show" businessId="${complaint.id }" sysKey="2" typeId="47"/>
-				     	<div class="cue" id = "">${error_zs1 }</div>
-				     	</div>
-	             </li>
-	             <li class="col-md-3 col-sm-6 col-xs-12"  id = "idcad">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>投诉文件：</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+							<u:upload id="post_attach_up" businessId="${complaint.id }" sysKey="2" typeId="47" multiple="true" auto="true" />
+							<u:show showId="post_attach_show" businessId="${complaint.id }" sysKey="2" typeId="47"/>
+							<div class="cue" id = "">${error_zs1 }</div>
+						</div>
+					</li>
+	            <%--  <li class="col-md-3 col-sm-6 col-xs-12"  id = "idcad">
 	 	              	<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>身份证照片：</span>
 				       	<div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 				        <u:upload id="post_attach_ups" businessId="${complaint.id }" sysKey="2" typeId="48" multiple="true" auto="true" />
 						<u:show showId="post_attach_shows" businessId="${complaint.id }" sysKey="2" typeId="48"/>
 				     	<div class="cue" id = "">${error_zs2 }</div>
 				     	</div>
-	             </li>
-			</ul>  
+	             </li> --%>
+				</ul>
 			<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
 				<button type="submit" class="btn">投诉</button>
 				<button class="btn btn-windows back" type="button"

@@ -32,43 +32,19 @@ public class Complaint {
 
     /**
      * <pre>
-     * 投诉人类型
-     * 表字段 : T_SUMS_OC_COMPLAINT.TYPE
+     * 标题
+     * 表字段 : T_SUMS_OC_COMPLAINT.TITLE
      * </pre>
      */
-    private Integer type;
+    private String title;
 
     /**
      * <pre>
-     * 投诉对象
-     * 表字段 : T_SUMS_OC_COMPLAINT.COMPLAINT_OBJECT
+     * 投诉内容
+     * 表字段 : T_SUMS_OC_COMPLAINT.COMPLAINT_CONTENT
      * </pre>
      */
-    private String complaintObject;
-
-    /**
-     * <pre>
-     * 投诉事项
-     * 表字段 : T_SUMS_OC_COMPLAINT.COMPLAINT_MATTER
-     * </pre>
-     */
-    private String complaintMatter;
-
-    /**
-     * <pre>
-     * 是否立项状态
-     * 表字段 : T_SUMS_OC_COMPLAINT.STATUS
-     * </pre>
-     */
-    private Integer status;
-
-    /**
-     * <pre>
-     * 处理内容信息
-     * 表字段 : T_SUMS_OC_COMPLAINT.RESION
-     * </pre>
-     */
-    private String resion;
+    private String complaintContent;
 
     /**
      * <pre>
@@ -100,13 +76,22 @@ public class Complaint {
      * </pre>
      */
     private String createrId;
+    
     /**
-     * <pre>
-     * 审核人
-     * 表字段 : T_SUMS_OC_COMPLAINT.AUDIT_ID
-     * </pre>
+     * 投诉人联系电话
      */
-    private String auditId;
+    private String telephone;
+    
+    /**
+     * 投诉人联系地址
+     */
+    private String adress;
+    
+    /**
+     * 投诉人邮箱
+     */
+    private String email;
+   
     /**
      * <pre>
      * 获取：主键
@@ -155,131 +140,6 @@ public class Complaint {
      */
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    /**
-     * <pre>
-     * 获取：投诉人类型
-     * 表字段：T_SUMS_OC_COMPLAINT.TYPE
-     * </pre>
-     *
-     * @return T_SUMS_OC_COMPLAINT.TYPE：投诉人类型
-     */
-    public Integer getType() {
-        return type;
-    }
-
-    /**
-     * <pre>
-     * 设置：投诉人类型
-     * 表字段：T_SUMS_OC_COMPLAINT.TYPE
-     * </pre>
-     *
-     * @param type
-     *            T_SUMS_OC_COMPLAINT.TYPE：投诉人类型
-     */
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    /**
-     * <pre>
-     * 获取：投诉对象
-     * 表字段：T_SUMS_OC_COMPLAINT.COMPLAINT_OBJECT
-     * </pre>
-     *
-     * @return T_SUMS_OC_COMPLAINT.COMPLAINT_OBJECT：投诉对象
-     */
-    public String getComplaintObject() {
-        return complaintObject;
-    }
-
-    /**
-     * <pre>
-     * 设置：投诉对象
-     * 表字段：T_SUMS_OC_COMPLAINT.COMPLAINT_OBJECT
-     * </pre>
-     *
-     * @param complaintObject
-     *            T_SUMS_OC_COMPLAINT.COMPLAINT_OBJECT：投诉对象
-     */
-    public void setComplaintObject(String complaintObject) {
-        this.complaintObject = complaintObject == null ? null : complaintObject.trim();
-    }
-
-    /**
-     * <pre>
-     * 获取：投诉事项
-     * 表字段：T_SUMS_OC_COMPLAINT.COMPLAINT_MATTER
-     * </pre>
-     *
-     * @return T_SUMS_OC_COMPLAINT.COMPLAINT_MATTER：投诉事项
-     */
-    public String getComplaintMatter() {
-        return complaintMatter;
-    }
-
-    /**
-     * <pre>
-     * 设置：投诉事项
-     * 表字段：T_SUMS_OC_COMPLAINT.COMPLAINT_MATTER
-     * </pre>
-     *
-     * @param complaintMatter
-     *            T_SUMS_OC_COMPLAINT.COMPLAINT_MATTER：投诉事项
-     */
-    public void setComplaintMatter(String complaintMatter) {
-        this.complaintMatter = complaintMatter == null ? null : complaintMatter.trim();
-    }
-
-    /**
-     * <pre>
-     * 获取：是否立项状态
-     * 表字段：T_SUMS_OC_COMPLAINT.STATUS
-     * </pre>
-     *
-     * @return T_SUMS_OC_COMPLAINT.STATUS：是否立项状态
-     */
-    public Integer getStatus() {
-        return status;
-    }
-
-    /**
-     * <pre>
-     * 设置：是否立项状态
-     * 表字段：T_SUMS_OC_COMPLAINT.STATUS
-     * </pre>
-     *
-     * @param status
-     *            T_SUMS_OC_COMPLAINT.STATUS：是否立项状态
-     */
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    /**
-     * <pre>
-     * 获取：处理内容信息
-     * 表字段：T_SUMS_OC_COMPLAINT.RESION
-     * </pre>
-     *
-     * @return T_SUMS_OC_COMPLAINT.RESION：处理内容信息
-     */
-    public String getResion() {
-        return resion;
-    }
-
-    /**
-     * <pre>
-     * 设置：处理内容信息
-     * 表字段：T_SUMS_OC_COMPLAINT.RESION
-     * </pre>
-     *
-     * @param resion
-     *            T_SUMS_OC_COMPLAINT.RESION：处理内容信息
-     */
-    public void setResion(String resion) {
-        this.resion = resion == null ? null : resion.trim();
     }
 
     /**
@@ -380,12 +240,51 @@ public class Complaint {
     public void  setCreaterId(String createrId) {
         this.createrId = createrId;
     }
-    
-    public String getAuditId() {
-        return auditId;
-    }
 
-    public void setAuditId(String auditId){
-    	this.auditId = auditId;
-    }
+    //标题
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title == null ? null : title.trim();
+	}
+
+	//投诉内容
+	public String getComplaintContent() {
+		return complaintContent;
+	}
+
+	public void setComplaintContent(String complaintContent) {
+		this.complaintContent = complaintContent == null ? null : complaintContent.trim();
+	}
+
+	//投诉人联系电话
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone == null ? null : telephone.trim();
+	}
+
+	//投诉人联系地址
+	public String getAdress() {
+		return adress;
+	}
+
+	public void setAdress(String adress) {
+		this.adress = adress == null ? null : adress.trim();
+	}
+
+	//投诉人邮箱
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email == null ? null : email.trim();
+	}
+    
+   
 }

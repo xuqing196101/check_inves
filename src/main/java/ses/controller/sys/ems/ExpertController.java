@@ -2345,10 +2345,10 @@ public class ExpertController extends BaseController {
                 Collections.sort(projectExtList, new Comparator < ProjectExt > () {
                     public int compare(ProjectExt pro1, ProjectExt pro2) {
                         // 按照SupplierFinance的年份进行升序排列  
-                        if(pro1.getBidDate().getTime() > pro2.getBidDate().getTime()) {
+                        if(pro1.getBidDate() != null && pro2.getBidDate() != null && pro1.getBidDate().getTime() > pro2.getBidDate().getTime()) {
                             return -1;
                         }
-                        if(pro1.getBidDate().getTime() == pro2.getBidDate().getTime()) {
+                        if(pro1.getBidDate() != null && pro2.getBidDate() != null && pro1.getBidDate().getTime() == pro2.getBidDate().getTime()) {
                             return 0;
                         } else {
                             return 1;
@@ -3654,7 +3654,8 @@ public class ExpertController extends BaseController {
     		
     		int lenExp = splExp.length;
     		
-    		String stat = "";
+    		//String stat = "";
+    		int stat = 0;
     		for (int i = 0; i < lenExp; i++) {
     			for (int j = 0; j < expertCate.size(); j++) {
     				String code = DictionaryDataUtil.findById(splExp[i]).getCode();
@@ -3664,16 +3665,18 @@ public class ExpertController extends BaseController {
     		            splExp[i]=DictionaryDataUtil.getId(code);
     		        }
     				if (splExp[i].equals(expertCate.get(j).getCategoryId())) {
-    					stat += "1";
+    					//stat += "1";
+    					stat += 1;
     					break;
     				}
     				if (code != null && code.equals("GOODS_SERVER")) {
-    					stat += "1";
+    					//stat += "1";
+    					stat += 1;
     					break;
     				}
     			}
 			}
-    		if (stat.length() == lenExp) {
+    		if (stat == lenExp) {
 				String typeId1 = DictionaryDataUtil.getId("ENG_INFO_ID");
 				String typeId2 = DictionaryDataUtil.getId("PROJECT");
 				int trueFalse1 = 0;

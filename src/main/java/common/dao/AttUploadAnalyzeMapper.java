@@ -71,4 +71,26 @@ public interface AttUploadAnalyzeMapper {
     * @throws
      */
     public List<Analyze> analyzeAttUploadCountByMonth(Map<String, Object> map);
+   
+    /**
+     * 
+     * Description:查询数据是否已存在
+     * 
+     * @author Easong
+     * @version 2017年5月25日
+     * @param indexDay
+     * @return
+     */
+    public Long selectAnalyzeDataByIndexDay(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description:根据时间（日 INDEX_DAY）和类型TYPE修改记录数据 
+     * 
+     * @author Easong
+     * @version 2017年5月25日
+     * @param map
+     * @return
+     */
+    public int updateByDayAndType(Map<String, Object> map);
 }

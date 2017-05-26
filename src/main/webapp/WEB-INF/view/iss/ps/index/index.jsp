@@ -1130,7 +1130,7 @@
             </div>
             <div class="ywbl_01 col-xs-6 col-sm-6">
               <!-- <a href="javascript:void(0)" onclick="hotLine()" class="fwrx"> -->
-              <a href="javascript:void(0)"  class="fwrx">
+              <a href="${pageContext.request.contextPath }/serviceHotline/index_list.html"  class="fwrx">
                 <span>服务热线</span>
               </a>
             </div>
@@ -1162,7 +1162,7 @@
               </a>
             </div>
             <div class="ywbl_02 col-xs-4 col-sm-4">
-              <a href="javascript:void(0)" class="zxts">
+              <a href="${pageContext.request.contextPath}/onlineComplaints/index_add.html" class="zxts">
                 <span>在线投诉</span>
               </a>
             </div>

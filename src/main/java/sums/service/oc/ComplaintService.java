@@ -1,28 +1,15 @@
 package sums.service.oc;
 
 import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
 
 import sums.model.oc.Complaint;
 
 public interface ComplaintService {
 
 	/**
-	 * 查询所有投诉信息
-	 * 
-	 * @param
-	 * @return
-	 */
-	List<Complaint> selectAllComplaint(Integer page, String Id);
-
-	/**
 	 * 通过id查询投诉信息
 	 */
 	Complaint selectByPrimaryKey(String id);
-
-	int updateByPrimaryKey(Complaint complaint);
 
 	/**
 	 * 
@@ -35,7 +22,7 @@ public interface ComplaintService {
 	 * @return List<Complaint>
 	 * @exception
 	 */
-	List<Complaint> selectComplaintByUserId(Complaint record, Integer page);
+	List<Complaint> selectAllComplaint(Complaint record, Integer page);
 
 	/**
 	 * 

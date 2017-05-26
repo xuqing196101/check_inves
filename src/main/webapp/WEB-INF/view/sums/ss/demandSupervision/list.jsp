@@ -125,7 +125,7 @@
               <th width="15%">采购需求文号</th>
               <th width="15%">需求单位</th>
               <th width="13%">预算总金额（万元）</th>
-              <th class="info" width="10%">编制时间</th>
+              <th class="info" width="12%">编制时间</th>
               <th>填报人</th>
               <!-- <th>状态</th> -->
             </tr>

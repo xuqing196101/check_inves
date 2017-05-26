@@ -73,5 +73,7 @@ public interface PurchaseDepMapper {
 	* @throws
 	 */
 	PurchaseDep queryByName(@Param("name")String name);
+
 	
+	List<PurchaseDep> getDep();
 }

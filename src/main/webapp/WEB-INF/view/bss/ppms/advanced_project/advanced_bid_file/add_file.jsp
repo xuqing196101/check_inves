@@ -354,7 +354,7 @@ function getTaskTime(strDate) {
             </div>
           </div>
           <div class="dnone" id="audit_file_view">
-            <span class="fl">审批文件</span>
+            <span class="fl">审批文件：</span>
             <u:show showId="d" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
           </div>
         </c:if>
@@ -377,36 +377,36 @@ function getTaskTime(strDate) {
          	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>
             <c:if test="${project.confirmFile != 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${reasons.pcReason}</textarea>
-            	<span class="fl">采购管理部门审核意见附件:</span>
+            	<span class="fl">采购管理部门审核意见附件：</span>
             	<u:show delete="false"  showId="e" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
             </c:if>
             <c:if test="${project.confirmFile == 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${reasons.pcReason}</textarea>
-            	<span class="fl">采购管理部门审核意见附件:</span>
+            	<span class="fl">采购管理部门审核意见附件：</span>
             	<u:upload id="r"  buttonName="上传采购管理部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${pcTypeId}" auto="true" />
 			    <u:show  showId="t" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
             </c:if>
             <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">事业部门意见</span>
             <c:if test="${project.confirmFile != 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${reasons.causeReason}</textarea>
-          		<span class="fl">事业部门审核意见附件:</span>
+          		<span class="fl">事业部门审核意见附件：</span>
           		<u:show delete="false"  showId="y" businessId="${project.id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
           	</c:if>
           	<c:if test="${project.confirmFile == 1}">
           		<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${reasons.causeReason}</textarea>
-          		<span class="fl">事业部门审核意见附件:</span>
+          		<span class="fl">事业部门审核意见附件：</span>
           		<u:upload id="u"  buttonName="上传事业部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${causeTypeId}" auto="true" />
 			    <u:show  showId="i" businessId="${project.id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
           	</c:if>
           	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">财务部门意见</span>
             <c:if test="${project.confirmFile != 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${reasons.financeReason}</textarea>
-            	<span class="fl">财务部门审核意见附件:</span>
+            	<span class="fl">财务部门审核意见附件：</span>
             	<u:show delete="false"  showId="o" businessId="${project.id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
             </c:if>
             <c:if test="${project.confirmFile == 1}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${reasons.financeReason}</textarea>
-            	<span class="fl">财务部门审核意见附件:</span>
+            	<span class="fl">财务部门审核意见附件：</span>
             	<u:upload id="p"  buttonName="上传财务部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" />
 			    <u:show  showId="s" businessId="${project.id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
           	</c:if>

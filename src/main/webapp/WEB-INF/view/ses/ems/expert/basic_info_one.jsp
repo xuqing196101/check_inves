@@ -1380,21 +1380,22 @@
 						</li>
 					</ul>
 
-					<h2 class="count_flow"><i>4</i><font color=red>*</font> 主要工作经历</h2>
+					<h2 class="count_flow"><i>4</i><font color=red>*</font> 主要工作经历（还可输入 <span id="limit_char_jobExperiences">1000</span> 个字）</h2>
 					<ul class="ul_list">
-						<div class="padding-top-10 clear">
-							<%-- <h2 class="count_flow"><i>1</i><font color=red>*</font> 主要工作经历</h2>--%>
+					<div class="padding-top-10 clear">
+						<%-- <h2 class="count_flow"><i>1</i><font color=red>*</font> 主要工作经历</h2>--%>
 
-							<li>
-								<textarea <c:if test="${fn:contains(errorField,'主要工作经历')}">onmouseover="errorMsg('主要工作经历')"</c:if>
-                                rows="10" name="jobExperiences" id="jobExperiences" maxlength="1000"
-                                style='height: 150px; width: 100%; resize: none; <c:if
-                                        test="${fn:contains(errorField,'主要工作经历')}">border: 1px solid #ef0000;</c:if>'
-                                placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
-							</li>
+						<li>
+							<textarea <c:if test="${fn:contains(errorField,'主要工作经历')}">onmouseover="errorMsg('主要工作经历')"</c:if>
+								rows="10" name="jobExperiences" id="jobExperiences" maxlength="1000"
+								style='height: 150px; width: 100%; resize: none; 
+								<c:if test="${fn:contains(errorField,'主要工作经历')}">border: 1px solid #ef0000;</c:if>'
+								placeholder="包括时间、工作单位、职务、工作内容等"
+								onkeyup="checkCharLimit('jobExperiences','limit_char_jobExperiences',1000);">${expert.jobExperiences}</textarea>
+						</li>
 
-						</div>
-					</ul>
+					</div>
+				</ul>
 
 					<h2 class="count_flow"><i>5 </i><font color=red></font>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
 					<ul class="ul_list">
@@ -1409,54 +1410,57 @@
 						</div>
 					</ul>
 
-					<h2 class="count_flow"><i>6</i><font color=red></font>专业学术成果</h2>
+					<h2 class="count_flow"><i>6</i><font color=red></font>专业学术成果（还可输入 <span id="limit_char_academicAchievement">1000</span> 个字）</h2>
 					<ul class="ul_list">
 						<!-- 专业学术成果 -->
 						<div class="padding-top-10 clear">
-							<%--<h2 class="count_flow"><i>2</i><font color=red></font> 专业学术成果</h2>--%>
+						<%--<h2 class="count_flow"><i>2</i><font color=red></font> 专业学术成果</h2>--%>
 
-							<li>
-								<textarea <c:if test="${fn:contains(errorField,'专业学术成果')}">onmouseover="errorMsg('专业学术成果')"</c:if>
-                                rows="10" name="academicAchievement" id="academicAchievement" maxlength="1000"
-                                style='height: 150px; width: 100%; resize: none; <c:if
-                                        test="${fn:contains(errorField,'专业学术成果')}">border: 1px solid #ef0000;</c:if>'
-                                placeholder="">${expert.academicAchievement}</textarea>
-							</li>
+						<li>
+							<textarea <c:if test="${fn:contains(errorField,'专业学术成果')}">onmouseover="errorMsg('专业学术成果')"</c:if>
+								rows="10" name="academicAchievement" id="academicAchievement" maxlength="1000"
+								style='height: 150px; width: 100%; resize: none; 
+								<c:if test="${fn:contains(errorField,'专业学术成果')}">border: 1px solid #ef0000;</c:if>'
+								placeholder=""
+								onkeyup="checkCharLimit('academicAchievement','limit_char_academicAchievement',1000);">${expert.academicAchievement}</textarea>
+						</li>
 
-						</div>
-					</ul>
+					</div>
+				</ul>
 
-					<h2 class="count_flow"><i>7</i><font color=red></font>参加军队地方采购评审情况</h2>
+					<h2 class="count_flow"><i>7</i><font color=red></font>参加军队地方采购评审情况（还可输入 <span id="limit_char_reviewSituation">1000</span> 个字）</h2>
 					<ul class="ul_list">
-						<div class="padding-top-10 clear">
-							<%-- <h2 class="count_flow"><i>4</i><font color=red></font> 参加军队地方采购评审情况</h2>--%>
+					<div class="padding-top-10 clear">
+						<%-- <h2 class="count_flow"><i>4</i><font color=red></font> 参加军队地方采购评审情况</h2>--%>
 
-							<li>
-								<textarea <c:if test="${fn:contains(errorField,'参加军队地方采购评审情况')}">onmouseover="errorMsg('参加军队地方采购评审情况')"</c:if>
-                                rows="10" name="reviewSituation" id="reviewSituation" maxlength="1000"
-                                style='height: 150px; width: 100%; resize: none; <c:if
-                                        test="${fn:contains(errorField,'参加军队地方采购评审情况')}">border: 1px solid #ef0000;</c:if>'
-                                placeholder="">${expert.reviewSituation}</textarea>
-							</li>
+						<li>
+							<textarea <c:if test="${fn:contains(errorField,'参加军队地方采购评审情况')}">onmouseover="errorMsg('参加军队地方采购评审情况')"</c:if>
+								rows="10" name="reviewSituation" id="reviewSituation" maxlength="1000"
+								style='height: 150px; width: 100%; resize: none; 
+								<c:if test="${fn:contains(errorField,'参加军队地方采购评审情况')}">border: 1px solid #ef0000;</c:if>'
+								placeholder=""
+								onkeyup="checkCharLimit('reviewSituation','limit_char_reviewSituation',1000);">${expert.reviewSituation}</textarea>
+						</li>
 
-						</div>
-					</ul>
+					</div>
+				</ul>
 
-					<h2 class="count_flow"><i>8</i><font color=red></font>需要申请回避的情况</h2>
+					<h2 class="count_flow"><i>8</i><font color=red></font>需要申请回避的情况（还可输入 <span id="limit_char_avoidanceSituation">1000</span> 个字）</h2>
 					<ul class="ul_list">
-						<div class="padding-top-10 clear">
-							<%-- <h2 class="count_flow"><i>5</i><font color=red></font> 需要申请回避的情况</h2>--%>
+					<div class="padding-top-10 clear">
+						<%-- <h2 class="count_flow"><i>5</i><font color=red></font> 需要申请回避的情况</h2>--%>
 
-							<li>
-								<textarea <c:if test="${fn:contains(errorField,'需要申请回避的情况')}">onmouseover="errorMsg('需要申请回避的情况')"</c:if>
-                                rows="10" name="avoidanceSituation" id="avoidanceSituation" maxlength="1000"
-                                style='height: 150px; width: 100%; resize: none; <c:if
-                                        test="${fn:contains(errorField,'需要申请回避的情况')}">border: 1px solid #ef0000;</c:if>'
-                                placeholder="近3年内,存在劳动关系的供应商,或者担任过供应商的董事、监事,或者是供应商的控股股东（实际控制人）；与供应商法定代表人或者主要负责人有夫妻、直系血亲、三代以内旁系血亲或者近姻亲关系；发生过法律纠纷的供应商；其它需要回避的情况。">${expert.avoidanceSituation}</textarea>
-							</li>
+						<li>
+							<textarea <c:if test="${fn:contains(errorField,'需要申请回避的情况')}">onmouseover="errorMsg('需要申请回避的情况')"</c:if>
+								rows="10" name="avoidanceSituation" id="avoidanceSituation" maxlength="1000"
+								style='height: 150px; width: 100%; resize: none; 
+								<c:if test="${fn:contains(errorField,'需要申请回避的情况')}">border: 1px solid #ef0000;</c:if>'
+								placeholder="近3年内,存在劳动关系的供应商,或者担任过供应商的董事、监事,或者是供应商的控股股东（实际控制人）；与供应商法定代表人或者主要负责人有夫妻、直系血亲、三代以内旁系血亲或者近姻亲关系；发生过法律纠纷的供应商；其它需要回避的情况。"
+								onkeyup="checkCharLimit('avoidanceSituation','limit_char_avoidanceSituation',1000);">${expert.avoidanceSituation}</textarea>
+						</li>
 
-						</div>
-					</ul>
+					</div>
+				</ul>
 
 					<div class="btmfix">
 						<div style="margin-top: 15px;text-align: center;">
@@ -1548,6 +1552,18 @@
 				}
 			});
 		})();
+		
+		// 核对字符长度
+		function checkCharLimit(inputId,countId,limit){
+			var inputVal = $("#"+inputId).val();
+			var inputLen = inputVal ? inputVal.length : 0;
+			$("#"+countId).text(limit - inputLen);
+		}
+		
+		checkCharLimit('jobExperiences','limit_char_jobExperiences',1000);
+		checkCharLimit('academicAchievement','limit_char_academicAchievement',1000);
+		checkCharLimit('reviewSituation','limit_char_reviewSituation',1000);
+		checkCharLimit('avoidanceSituation','limit_char_avoidanceSituation',1000);
 	</script>
 
 </html>

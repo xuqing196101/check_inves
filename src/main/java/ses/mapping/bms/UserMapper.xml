@@ -135,6 +135,9 @@
       <if test="netType != null">
         and u.NET_TYPE = #{netType}
       </if>
+      <if test="typeName != null">
+        and u.TYPE_NAME = #{typeName}
+      </if>
     </trim>
   </sql>
   

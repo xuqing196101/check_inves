@@ -30,10 +30,10 @@ public class AnalyzeTask {
 	 */
 	public void handlerAnalyze(){
 		// 执行登录统计任务
-		analyzeService.taskAnalyzeLogin();
+		analyzeService.taskAnalyzeLogin(null);
 		// 执行注册统计任务
-		analyzeService.taskAnalyzeRegister();
+		analyzeService.taskAnalyzeRegister(null);
 		// 执行文件上传统计任务
-		analyzeService.taskAnalyzeAttUpload();
+		analyzeService.taskAnalyzeAttUpload(null);
     }
 }

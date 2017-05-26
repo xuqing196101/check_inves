@@ -75,6 +75,8 @@ public class FileUtils {
     /** 新注册供应商文件名称 **/
     public final static String C_SUPPLIER_FILENAME = "_c_supplier.dat"; 
     
+    /** 新注册供应商文件名称 **/
+    public final static String C_ORG_FILENAME = "_c_org.dat"; 
     
     /** 外网供应商退回修改 **/
     public final static String C_SUPPLIER_BACK_FILENAME = "_c_back_supplier.dat"; 
@@ -267,6 +269,22 @@ public class FileUtils {
         final File file = new File(path,fileName);
         return file;
     }
+    
+    
+    /**
+     * 
+     *〈简述〉有资格审核的采购机构
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    public static final File getOrgFile(){
+        String fileName = System.currentTimeMillis() + C_ORG_FILENAME;
+        String path = getBackUpPath();
+        final File file = new File(path,fileName);
+        return file;
+    }
+    
     
     
     /**

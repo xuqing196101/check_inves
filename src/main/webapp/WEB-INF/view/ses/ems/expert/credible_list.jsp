@@ -299,19 +299,19 @@
 	<form action="${pageContext.request.contextPath}/credible/save.html" method="post" id="form2">
 	 <ul class="list-unstyled">
                 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                   <label class="col-md-12 pl20 col-xs-12">诚信内容</label>
+                   <label class="col-md-12 pl20 col-xs-12"><div class="red star_red">*</div>诚信内容</label>
                   <span class="col-md-12 col-xs-12">
                     <input type="text" class="title col-md-12"  maxlength="255" name="badBehavior" id="name">
                   </span>
                 </li>
                 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                  <label class="col-md-12 pl20 col-xs-12">状态</label>
+                  <label class="col-md-12 pl20 col-xs-12"><div class="red star_red">*</div>状态</label>
                   <span class="col-md-12 col-xs-12">
                    <input type="radio"  name="isStatus" value="1" >启用&nbsp;<input type="radio" name="isStatus" id="kind" value="2" >停用
                   </span>
                 </li>
                 <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20 col-xs-12">分值</label>
+                  <label class="col-md-12 pl20 col-xs-12"><div class="red star_red">*</div>分值</label>
                    <span class="col-md-12 col-xs-12">
                    <input name="score" class="title col-md-12"   maxlength="5" id="creater" type="text">
                   </span>

@@ -1,85 +1,75 @@
 package sums.dao.oc;
 
 import java.util.List;
-import java.util.Map;
+
+import sums.model.oc.Complaint;
 
 import org.apache.ibatis.annotations.Param;
 
-import sums.model.oc.Complaint;
-/**
- * 
- * @author jff
- * @version  
- * @since
- * @see
- */
-
 public interface ComplaintMapper {
-    /**
-     * 根据主键删除数据库的记录
-     *
-     * @param id
-     */
-    int deleteByPrimaryKey(String id);
 
-    /**
-     * 插入数据库记录
-     *
-     * @param record
-     */
     int insert(Complaint record);
 
     /**
-     *
-     * @param record
+     * 
+     * Description: 插入非空数据
+     * 
+     * @author  zhang shubin
+     * @version  2017年5月24日 
+     * @param  @param record
+     * @param  @return 
+     * @return int 
+     * @exception
      */
     int insertSelective(Complaint record);
 
     /**
-     * 根据主键获取一条数据库记录
-     *  对象
-     * @param id
-     */
-    Complaint selectByPrimaryKey(String id);
-
-    /**
-     *
-     * @param record
-     */
-    int updateByPrimaryKeySelective(Complaint record);
-
-    /**
-     * 根据主键来更新数据库记录
-     *
-     * @param record
-     */
-    int updateByPrimaryKey(Complaint record);
-    
-    /**
-     * 查询所有投诉信息
-     * @return
-     */
-    List<Complaint> selectAllComplaint(String id);
-    
-    /**
      * 
-     * Description: 根据投诉人id查询
+     * Description: 通过主键查询
      * 
      * @author  zhang shubin
-     * @version  2017年3月17日 
-     * @param  @param userId
+     * @version  2017年5月24日 
+     * @param  @param id
+     * @param  @return 
+     * @return Complaint 
+     * @exception
+     */
+    Complaint selectByPrimaryKey(String id);
+    
+    /**
+     * 
+     * Description: 条件查询所有
+     * 
+     * @author  zhang shubin
+     * @version  2017年5月24日 
+     * @param  @param complaint
      * @param  @return 
      * @return List<Complaint> 
      * @exception
      */
-    List<Complaint> selectComplaintByUserId(Complaint record);
+    List<Complaint> selectAllComplaint(Complaint complaint);
+
+    /**
+     * 
+     * Description: 修改非空数据
+     * 
+     * @author  zhang shubin
+     * @version  2017年5月24日 
+     * @param  @param record
+     * @param  @return 
+     * @return int 
+     * @exception
+     */
+    int updateByPrimaryKeySelective(Complaint record);
+
+    int updateByPrimaryKey(Complaint record);
     
     /**
      * 
-     * Description: 删除 改变删除状态
+     * Description: 删除  修改删除状态
      * 
      * @author  zhang shubin
-     * @version  2017年3月18日 
+     * @version  2017年5月24日 
      * @param  @param id 
      * @return void 
      * @exception
@@ -91,8 +81,9 @@ public interface ComplaintMapper {
      * Description: 验证文件上传
      * 
      * @author  zhang shubin
-     * @version  2017年4月2日 
-     * @param  @param 
+     * @version  2017年5月24日 
+     * @param  @param businessid
+     * @param  @param typeId
      * @param  @return 
      * @return Integer 
      * @exception

@@ -1089,4 +1089,8 @@
  
 	</select>
 	
+	<select id="getDep" resultType="ses.model.oms.PurchaseDep">
+	  select * from T_SES_OMS_PURCHASE_DEP  where IS_AUDIT_SUPPLIER=1
+	</select>
+	
 </mapper>

@@ -403,6 +403,8 @@ function submitcurr() {
 							var index = parent.layer.getFrameIndex(window.name);
 							parent.layer.close(index);
 						});
+					} else if(data.flowTypes == "KBCB"){
+						layer.msg(data.msgs);
 					}
 				}
 			},

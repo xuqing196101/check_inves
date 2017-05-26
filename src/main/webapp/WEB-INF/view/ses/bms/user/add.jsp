@@ -416,6 +416,15 @@
 				}
     		})
     	})
+    	//校验密码位数是否满足6位
+    	function checkPassword() {
+			var password=$("#password1").val();
+			if(password.length<6){
+				$("#is_error").html("密码不能小于6位").css('color','red');
+			}else{
+				$("#is_error").html("");
+			}
+		}
 	</script>
 </head>
 <body>
@@ -467,9 +476,10 @@
 			 	 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			   		<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>密码</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input  name="password" value="${user.password}" maxlength="30" id="password1" type="password">
+				        <input  name="password" value="${user.password}" maxlength="30" id="password1"  onblur="checkPassword()" type="password">
 				        <span class="add-on">i</span>
 				        <div class="cue"><sf:errors path="password"/></div>
+				        <div id="is_error" class="cue">${password_msg}</div>
 			        </div>
 			 	</li> 
 		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">

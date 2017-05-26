@@ -28,6 +28,10 @@
 	     		<button class="btn btn-windows day_order mb20" type="submit" onclick="analyzeAll('DAY','C_LOGIN','uploadPic','用户登录统计图')">按天统计</button>
 	     		<button class="btn btn-windows week_order mb20" type="submit" onclick="analyzeAll('WEEK','C_LOGIN','uploadPic','用户登录统计图')">按周统计</button>
 	     		<button class="btn btn-windows mon_order mb20" type="submit" onclick="analyzeAll('MONTH','C_LOGIN','uploadPic','用户登录统计图')">按月统计</button>
+	     		<div>
+	     			<input name="handHandleLoginAnalyze" id="handHandleLoginAnalyze" class="Wdate w200 mb0" type="text" onfocus="WdatePicker({maxDate:'%y-%M-%d',firstDayOfWeek:1})"/>
+	     			<button class="btn btn-windows day_order mb0" id="handHandleLoginAnalyzeBut">开始统计</button>
+	     		</div>
          		<div id="uploadPic" class="analyze"></div>
          	</ul>
        		<h2 class="count_flow"><i>2</i>用户注册统计图(<c:if test="${ '1' eq ipAddressType }">外网</c:if><c:if test="${ '0' eq ipAddressType }">内网</c:if>)</h2>
@@ -35,6 +39,10 @@
          		<button class="btn btn-windows day_order mb20" type="submit" onclick="analyzeAll('DAY','C_REGISTER','uploadPic1','用户注册统计图')">按天统计</button>
 	     		<button class="btn btn-windows week_order mb20" type="submit" onclick="analyzeAll('WEEK','C_REGISTER','uploadPic1','用户注册统计图')">按周统计</button>
 	     		<button class="btn btn-windows mon_order mb20" type="submit" onclick="analyzeAll('MONTH','C_REGISTER','uploadPic1','用户注册统计图')">按月统计</button>
+	     		<div>
+	     			<input name="handHandleRegisterAnalyze" id="handHandleRegisterAnalyze" class="Wdate w200 mb0" type="text" onfocus="WdatePicker({maxDate:'%y-%M-%d',firstDayOfWeek:1})"/>
+	     			<button class="btn btn-windows day_order mb0" id="handHandleRegisterAnalyzeBut">开始统计</button>
+	     		</div>
 	        	<div id="uploadPic1" class="analyze"></div>
 	        </ul>
         	<h2 class="count_flow"><i>3</i>图片上传统计图(<c:if test="${ '1' eq ipAddressType }">外网</c:if><c:if test="${ '0' eq ipAddressType }">内网</c:if>)</h2>
@@ -42,6 +50,10 @@
 	        	<button class="btn btn-windows day_order mb20" type="submit" onclick="analyzeAll('DAY','C_ATT_UPLOAD','uploadPic2','图片上传统计图')">按天统计</button>
 	     		<button class="btn btn-windows week_order mb20" type="submit" onclick="analyzeAll('WEEK','C_ATT_UPLOAD','uploadPic2','图片上传统计图')">按周统计</button>
 	     		<button class="btn btn-windows mon_order mb20" type="submit" onclick="analyzeAll('MONTH','C_ATT_UPLOAD','uploadPic2','图片上传统计图')">按月统计</button>
+	     		<div>
+	     			<input name="handHandleAttAnalyze" id="handHandleAttAnalyze" class="Wdate w200 mb0" type="text" onfocus="WdatePicker({maxDate:'%y-%M-%d',firstDayOfWeek:1})"/>
+	     			<button class="btn btn-windows day_order mb0" id="handHandleAttAnalyzeBut">开始统计</button>
+	     		</div>
 	        	<div id="uploadPic2" class="analyze"></div>
 	        </ul>
          </ul>

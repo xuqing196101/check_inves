@@ -1015,15 +1015,15 @@
 				 <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td> 
 				<td class="tc w50">${(vs.index+1)}</td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" readonly="readonly" value="${reque.planNo}" class="w50 tc"/><input type="hidden" name="proList[${(vs.index)}].detailId" value="${reque.detailId}" /></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" readonly="readonly" value="${reque.goodsName} " class="tl pl20"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" readonly="readonly" value="${reque.brand}" class="tl pl20"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" readonly="readonly" value="${reque.stand}" class="w60 tl pl20"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" readonly="readonly" value="${reque.goodsName} " class="tl"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" readonly="readonly" value="${reque.brand}" class="tl"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" readonly="readonly" value="${reque.stand}" class="w60 tl"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].item" readonly="readonly" value="${reque.item}" class="w50 tc"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" readonly="readonly" value="${reque.purchaseCount}" class="w50 tc"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" readonly="readonly" value="${reque.price}" class="w50 tr pr20"/></td>
-				<td class="tr pr20"><input type="text" name="proList[${(vs.index)}].amount" readonly="readonly" value="${reque.amount}" class="ss w50 tr pr20"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" readonly="readonly" value="${reque.deliverDate}" class="tl pl20 w100"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" readonly="readonly" value="${reque.memo}" class="tl pl20"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" readonly="readonly" value="${reque.price}" class="w50 tr"/></td>
+				<td class="tr pr20"><input type="text" name="proList[${(vs.index)}].amount" readonly="readonly" value="${reque.amount}" class="w50 tr"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" readonly="readonly" value="${reque.deliverDate}" class="tl w100"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" readonly="readonly" value="${reque.memo}" class="tl"/></td>
 						</tr>
 			   		</c:forEach>
 				</table>

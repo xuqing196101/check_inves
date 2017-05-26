@@ -188,7 +188,7 @@
 		var name = $("#name").val();
 		var code = $("#code").val();
 		var smallPointsId = $("#categorieId4").val();
-		window.location.href="${pageContext.request.contextPath }/product/index_list.html?name="+name+"&&code="+code+"&&smallPointsId="+smallPointsId+"&page="+current;
+		window.location.href="${pageContext.request.contextPath }/product/index_list.html?name="+name+"&&code="+code+"&&smallPointsId="+smallPointsId+"&&page="+current;
 	}
 	
 	//重置

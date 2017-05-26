@@ -1,10 +1,6 @@
 var option1;
 $(function() {
 	// 初始化echarts实例
-	var uploadPic = echarts.init(document.getElementById('uploadPic'));
-	var uploadPic1 = echarts.init(document.getElementById('uploadPic1'));
-	var uploadPic2 = echarts.init(document.getElementById('uploadPic2'));
-
 	option1 = {
 		title : {
 			top : 0,
@@ -33,7 +29,8 @@ $(function() {
 				saveAsImage : {
 					show : true
 				}
-			}
+			},
+			dataView: {show: true, readOnly: true}, 
 		},
 		calculable : true,
 		/*yAxis : [ {
@@ -48,7 +45,7 @@ $(function() {
 	            {group:'专家',name:'2001',value:34},{group:'专家',name:'2002',value:76},{group:'专家',name:'2003',value:87},
 	            {group:'后台',name:'2001',value:56},{group:'后台',name:'2002',value:102},{group:'后台',name:'2003',value:150}]*/
 	$.ajax({
-		url: globalPath+"/analyze/analyzeLoginCount.do?",
+		url: globalPath+"/analyze/analyzeLoginCount.do",
 		data:{
 			analyzeType : "DAY",
 			analyzeTypeByCate: "C_LOGIN"
@@ -74,7 +71,7 @@ $(function() {
 	});
 	
 	$.ajax({
-		url: globalPath+"/analyze/analyzeLoginCount.do?",
+		url: globalPath+"/analyze/analyzeLoginCount.do",
 		data:{
 			analyzeType : "DAY",
 			analyzeTypeByCate: "C_REGISTER"
@@ -100,7 +97,7 @@ $(function() {
 	
 	
 	$.ajax({
-		url: globalPath+"/analyze/analyzeLoginCount.do?",
+		url: globalPath+"/analyze/analyzeLoginCount.do",
 		data:{
 			analyzeType : "DAY",
 			analyzeTypeByCate: "C_ATT_UPLOAD"
@@ -122,6 +119,75 @@ $(function() {
 				}
 			});
 		}
+	});
+	
+	// 初始换按钮事件
+	// 手动统计登录
+	$("#handHandleLoginAnalyzeBut").click(function(){
+		var handHandleLoginAnalyze = $("#handHandleLoginAnalyze").val();
+		$.ajax({
+			url: globalPath+"/analyze/handAnalyzeLogin.do",
+			data:{
+				date : handHandleLoginAnalyze
+			},
+			type: "POST", //请求方式 
+			dataType: "json", //返回格式为json
+			success: function(data) {
+				if(data.status == 200){
+					layer.confirm("统计成功",{
+						btn:['确定']
+					},function(){
+							window.location.reload();
+						}
+					) 
+				}
+			}
+		});
+	});
+	// 手动统计注册
+	$("#handHandleRegisterAnalyzeBut").click(function(){
+		var handHandleRegisterAnalyze = $("#handHandleRegisterAnalyze").val();
+		$.ajax({
+			url: globalPath+"/analyze/handAnalyzeReg.do",
+			data:{
+				date : handHandleRegisterAnalyze
+			},
+			type: "POST", //请求方式 
+			dataType: "json", //返回格式为json
+			success: function(data) {
+				if(data.status == 200){
+					layer.confirm("统计成功",{
+						btn:['确定']
+					},function(){
+							window.location.reload();
+						}
+					) 
+				}
+			}
+		});
+	});
+	// 手动统计文件上传
+	$("#handHandleAttAnalyzeBut").click(function(){
+		var handHandleAttAnalyze = $("#handHandleAttAnalyze").val();
+		$.ajax({
+			url: globalPath+"/analyze/handAnalyzeAtt.do",
+			data:{
+				date : handHandleAttAnalyze
+			},
+			type: "POST", //请求方式 
+			dataType: "json", //返回格式为json
+			success: function(data) {
+				if(data.status == 200){
+					layer.confirm("统计成功",{
+						btn:['确定']
+					},function(){
+							window.location.reload();
+						}
+					) 
+				}
+			}
+		});
+		
 	});
 });
 
@@ -147,7 +213,7 @@ function analyzeAll(type,typeCate,id,title){
 	}
 	
 	$.ajax({
-		url: globalPath+"/analyze/analyzeLoginCount.do?",
+		url: globalPath+"/analyze/analyzeLoginCount.do",
 		data:{
 			analyzeType : type,
 			analyzeTypeByCate: typeCate
