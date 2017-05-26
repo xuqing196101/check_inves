@@ -89,6 +89,7 @@
 		<result column="EXTRACT_ORGID" property="extractOrgid" />
 		<result column="IS_DELETED" property="isDeleted" />
 		<result column="ORGNAME" property="orgName" />
+		<result column="AUDITOR" property="auditor" />
         <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -120,7 +121,7 @@
 		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL,PURCHASE_EXPERIENCE,
-		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED
+		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED, AUDITOR
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -926,7 +927,6 @@
 			<if test="armyBuinessCity != null">
 				ARMY_BUSINESS_CITY=#{armyBuinessCity},
 			</if>
-
 		</set>
 		where ID = #{id}
 	</update>
@@ -1171,8 +1171,7 @@
 	</resultMap>
 
 	<!--供应商审核-查询供应商 -->
-	<select id="findSupplierAll" parameterType="ses.model.sms.Supplier"
-		resultMap="BaseResultMap">
+	<select id="findSupplierAll" parameterType="ses.model.sms.Supplier" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM t_ses_sms_supplier
@@ -1415,6 +1414,9 @@
 			<if test="isPublish != null">
 				IS_PUBLISH=#{isPublish},
 			</if>
+			<if test="auditor !=null and auditor !=''">
+        AUDITOR =#{auditor},
+      </if>
 		</set>
 		where ID = #{id}
 	</update>
@@ -1721,7 +1723,12 @@
 	<!-- 注销列表 -->
 	<select id="findLogoutList" resultMap="BaseResultMap">
 		SELECT
-		<include refid="Base_Column_List" />
+		  SUPPLIER_NAME,
+		  LOGIN_NAME,
+		  MOBILE,
+		  SUPPLIER_STATUS,
+		  CREATED_AT,
+		  CONTACT_NAME
 		FROM T_SES_SMS_SUPPLIER
 		WHERE <!-- (SUPPLIER_STATUS = -1 or SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 2) -->
 		IS_DELETED = 0
@@ -1740,7 +1747,7 @@
 		<if test="status != null">
 			AND SUPPLIER_STATUS = #{status}
 		</if>
-		
+		ORDER BY CREATED_AT DESC NULLS LAST
 	</select>
 	
 	

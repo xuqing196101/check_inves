@@ -199,8 +199,31 @@ $(document).ready(function(){
 		var categoryLevel = $("#categoryLevel").val();
 		var standardModel = $("#standardModel").val();
 		var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
-		window.location.href = "${pageContext.request.contextPath}/product/edit.html?code="+code+"&&name="+name+"&&procurementId="+procurementId
-				+"&&category="+category+"&&standardModel="+standardModel+"&&qualityTechnicalStandard="+qualityTechnicalStandard+"&&i="+i+"&&id="+id+"&&categoryLevel="+categoryLevel;
+		$.ajax({
+			url: "${pageContext.request.contextPath }/product/edit.do",
+			type: "post",
+			data: {
+				code:code,
+				name:name,
+				procurementId:procurementId,
+				category:category,
+				standardModel:standardModel,
+				qualityTechnicalStandard:qualityTechnicalStandard,
+				i:i,
+				id:id,
+				categoryLevel:categoryLevel
+			},
+			success: function(data) {
+				if(data == 'success'){
+					window.location.href = "${pageContext.request.contextPath }/product/list.html";
+				}else{
+					
+				}
+			},
+			error: function() {
+				
+			}
+		});
 	  }else{
 	  layer.msg("只有资源服务中心才能操作");
 	}

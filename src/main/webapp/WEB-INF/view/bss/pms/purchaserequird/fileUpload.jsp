@@ -43,7 +43,7 @@
   </head>  
   
   <body>  
-    <div class=" mt30  id="add_div" >
+    <div class=" mt30"  id="add_div" >
     	<form action="${pageContext.request.contextPath}/purchaser/upload.do" class="fl" method="post" enctype="multipart/form-data">
     		<input type="file" name="file" class="fl pl20" >
     		 <input type="submit" value="导入" class="fl" />

@@ -168,7 +168,7 @@
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12 ">
-                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">专家类别：</span>
+                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>专家类别：</span>
                         <div class="input-append input_group col-sm-12 col-xs-12 p0">
                             <c:set value="" var="typeName"></c:set>
                             <c:set value="" var="typeCode"></c:set>

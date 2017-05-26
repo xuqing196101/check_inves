@@ -270,7 +270,22 @@ public class UserManageController extends BaseController{
           
           return "ses/bms/user/add";
   		}*/
-		//校验确认密码
+		//校验密码是否满足6位
+  	if(user.getPassword().length()<6){
+  		model.addAttribute("user", user);
+			model.addAttribute("password_msg", "密码不能小于6位");
+			List<DictionaryData> genders = DictionaryDataUtil.find(13);
+			model.addAttribute("genders", genders);
+			model.addAttribute("roleName", roleName);
+			model.addAttribute("orgName", orgName);
+			
+			if (StringUtils.isNotBlank(origin)){
+			  addAtt(request, model);
+      }
+			
+			return "ses/bms/user/add";
+  	}
+  //校验确认密码
 		if (!user.getPassword().equals(user.getPassword2())){
 			model.addAttribute("user", user);
 			model.addAttribute("password2_msg", "两次输入密码不一致");

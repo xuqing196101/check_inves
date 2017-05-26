@@ -40,7 +40,9 @@
           	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>服务内容</span>
           	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
             	<input class="" name="servicecontent" type="text" value="${serviceHotline.servicecontent }">
-          		<div class="star_red">${error_content }</div>
+            	<span class="add-on">i</span>
+            	<span class="input-tip">不能为空</span>
+          		<div class="cue">${error_content }</div>
           	</div>
 	        </li>
 	        <!-- 联系电话 -->
@@ -48,7 +50,9 @@
 	        	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>联系电话</span>
 	        	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
             	<input class="" name="contactphonenumber" type="text" value="${serviceHotline.contactphonenumber }">
-              <div class="star_red">${error_phone }</div>
+            	<span class="add-on">i</span>
+            	<span class="input-tip">不能为空</span>
+              <div class="cue">${error_phone }</div>
            	</div>
 	        </li>	
 				</ul>

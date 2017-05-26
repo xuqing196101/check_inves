@@ -582,6 +582,8 @@ public class Supplier implements Serializable {
 	
 	private String grade; //等级
 	
+	private String auditor;//审核人
+	
 	/**获取所有数据库address的省级单位名称*/
 	private String name;
 	
@@ -1949,9 +1951,13 @@ public class Supplier implements Serializable {
 	public void setEndAuditDate(Date endAuditDate) {
 		this.endAuditDate = endAuditDate;
 	}
-	
-	
-	
-	
+
+	public String getAuditor() {
+		return auditor;
+	}
+
+	public void setAuditor(String auditor) {
+		this.auditor = auditor;
+	}	
 	
 }

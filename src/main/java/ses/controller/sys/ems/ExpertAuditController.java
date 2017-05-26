@@ -1616,8 +1616,10 @@ public class ExpertAuditController{
 			dataMap.put("expertsFrom", "");
 		}
 		StringBuffer expertType = new StringBuffer();
-		for(String typeId: expert.getExpertsTypeId().split(",")) {
-			expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+		if(expert.getExpertsTypeId() !=null && expert.getExpertsTypeId() !=""){
+			for(String typeId: expert.getExpertsTypeId().split(",")) {
+				expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+			}
 		}
 		dataMap.put("professTechTitles", expert.getProfessTechTitles() == null ? "" : expert.getProfessTechTitles());
 		dataMap.put("professional", expert.getProfessional() == null ? "" : expert.getProfessional ());

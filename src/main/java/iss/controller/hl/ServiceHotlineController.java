@@ -2,6 +2,7 @@ package iss.controller.hl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import iss.model.hl.ServiceHotline;
 import iss.service.hl.ServiceHotlineService;
@@ -126,10 +127,21 @@ public class ServiceHotlineController {
 			if(serviceHotline.getServicecontent() == null || serviceHotline.getServicecontent().equals("")){
 				flag = false;
 				model.addAttribute("error_content","服务内容不能为空");
+			}else{
+				if(serviceHotline.getServicecontent().length() > 80){
+					flag = false;
+					model.addAttribute("error_content","最多80个字");
+				}
 			}
 			if(serviceHotline.getContactphonenumber() == null || serviceHotline.getContactphonenumber().equals("")){
 				flag = false;
 				model.addAttribute("error_phone","联系电话不能为空");
+			}else{
+				Pattern p = Pattern.compile("[0-9-()（）]{7,18}");
+				if (p.matcher(serviceHotline.getContactphonenumber()).matches() == false) {
+					flag = false;
+					model.addAttribute("error_phone", "请输入正确的电话号码");
+				}
 			}
 			if(flag == false){
 				model.addAttribute("serviceHotline", serviceHotline);
@@ -166,10 +178,21 @@ public class ServiceHotlineController {
 			if(serviceHotline.getServicecontent() == null || serviceHotline.getServicecontent().equals("")){
 				flag = false;
 				model.addAttribute("error_content","服务内容不能为空");
+			}else{
+				if(serviceHotline.getServicecontent().length() > 80){
+					flag = false;
+					model.addAttribute("error_content","最多80个字");
+				}
 			}
 			if(serviceHotline.getContactphonenumber() == null || serviceHotline.getContactphonenumber().equals("")){
 				flag = false;
 				model.addAttribute("error_phone","联系电话不能为空");
+			}else{
+				Pattern p = Pattern.compile("[0-9-()（）]{7,18}");
+				if (p.matcher(serviceHotline.getContactphonenumber()).matches() == false) {
+					flag = false;
+					model.addAttribute("error_phone", "请输入正确的电话号码");
+				}
 			}
 			if(flag == false){
 				model.addAttribute("serviceHotline", serviceHotline);
