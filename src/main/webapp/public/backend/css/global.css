@@ -463,7 +463,7 @@ h2.list_title{
     font-style: normal;
     margin-right: 10px;
     font-weight: bold;
-    background: url("../images/round.png") center center no-repeat;
+    background: url(../images/round.png) center center no-repeat;
 }
 .span5{
 	width: 200px;
