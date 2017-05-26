@@ -4318,12 +4318,13 @@ public class ExpertController extends BaseController {
         List<UploadFile> IDENTITY_CARD_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.IDENTITY_CARD_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> TECHNOLOGY_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.TECHNOLOGY_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> GRADUATE_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.GRADUATE_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
-        List<UploadFile> QUALIFICATIONS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.QUALIFICATIONS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+//        List<UploadFile> QUALIFICATIONS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.QUALIFICATIONS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> RECOMMENDATION_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.RECOMMENDATION_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
-        List<UploadFile> PRACTICING_REQUIREMENTS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.PRACTICING_REQUIREMENTS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+//        List<UploadFile> PRACTICING_REQUIREMENTS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.PRACTICING_REQUIREMENTS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> APPLICATION_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.APPLICATION_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> COMMITMENT_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.COMMITMENT_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> HEADPORTRAIT_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.HEADPORTRAIT_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> ARMY_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.ARMY_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         String imgInfo="cg";
         if(IDENTITY_CARD_PROOF.size()<1 && IDENTITY_CARD_PROOF!=null){
             imgInfo="身份证复印件未上传";
@@ -4355,7 +4356,7 @@ public class ExpertController extends BaseController {
 //            }
 
         }else if(from.equals("ARMY")){
-            if(SOCIAL_SECURITY_PROOF.size()<1 && SOCIAL_SECURITY_PROOF !=null ){
+            if(ARMY_PROOF.size()<1 && ARMY_PROOF !=null ){
                 imgInfo="军队人员的身份证件未上传";
                 return JSON.toJSONString(imgInfo);
             }

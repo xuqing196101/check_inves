@@ -44,6 +44,7 @@ import ses.model.sms.DeleteLog;
 import ses.model.sms.Supplier;
 import ses.service.bms.RoleServiceI;
 import ses.service.ems.ExpExtractRecordService;
+import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -888,79 +889,108 @@ public class ExpertServiceImpl implements ExpertService {
 	public Map<String,Object> Validate(Expert expert, int flag, String gitFlag){
 		Map<String,Object> map = new HashMap<>();
 		if (expert != null) {
-		if(!ValidateUtils.isNotNull(expert.getRelName())){
-			map.put("realName", "姓名不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getNation())){
-			map.put("nation", "民族不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getGender())){
-			map.put("gender", "姓别不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getIdType())){
-			map.put("idType", "证件类型不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getIdNumber())){
-			map.put("idNumber", "证件号码不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getAddress())){
-			map.put("address", "地区不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getHightEducation())){
-			map.put("hightEducation", "学历不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getGraduateSchool())){
-			map.put("graduateSchool", "毕业院校不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getMajor())){
-			map.put("major", "专业不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getExpertsFrom())){
-			map.put("expertsFrom", "来源不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getUnitAddress())){
-			map.put("unitAddress", "单位地址不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getTelephone())){
-			map.put("telephone", "联系电话不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getMobile())){
-			map.put("mobile", "手机不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getHealthState())){
-			map.put("healthState", "健康状态不能为空！");
-		}
-		
-		if(!ValidateUtils.Mobile(expert.getMobile())){
-			map.put("mobile2", "手机号码不符合规则！");
-		}
-		String idType = expert.getIdType();
-		DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(idType);
-		if(data != null){
-		    if("ID_CARD".equals(data.getCode())){
-		        if(expert.getIdNumber() != null && !ValidateUtils.IDcard(expert.getIdNumber())){
-		            map.put("idNumber2", "证件号码无效！");
-		         }
-		    }
-		}
-		if(gitFlag != null){
-      //修改
-      mapper.updateByPrimaryKeySelective(expert);
-    }
-		if(map.isEmpty()){
-			if(flag==1){
-				//新增
-				mapper.insert(expert);
-			}else if(flag==2){
+			if(!ValidateUtils.isNotNull(expert.getRelName())){
+				map.put("realName", "姓名不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getNation())){
+				map.put("nation", "民族不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getGender())){
+				map.put("gender", "姓别不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getIdType())){
+				map.put("idType", "证件类型不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getIdNumber())){
+				map.put("idNumber", "证件号码不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getAddress())){
+				map.put("address", "地区不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getHightEducation())){
+				map.put("hightEducation", "学历不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getGraduateSchool())){
+				map.put("graduateSchool", "毕业院校不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getMajor())){
+				map.put("major", "专业不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getExpertsFrom())){
+				map.put("expertsFrom", "来源不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getUnitAddress())){
+				map.put("unitAddress", "单位地址不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getTelephone())){
+				map.put("telephone", "联系电话不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getMobile())){
+				map.put("mobile", "手机不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getHealthState())){
+				map.put("healthState", "健康状态不能为空！");
+			}
+			
+			if(!ValidateUtils.Mobile(expert.getMobile())){
+				map.put("mobile2", "手机号码不符合规则！");
+			}
+			String idType = expert.getIdType();
+			DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(idType);
+			if(data != null){
+			    if("ID_CARD".equals(data.getCode())){
+			        if(expert.getIdNumber() != null && !ValidateUtils.IDcard(expert.getIdNumber())){
+			            map.put("idNumber2", "证件号码无效！");
+			         }
+			    }
+			}
+			
+			// ========== 验证证件图片是否上传start ==========
+			
+			String businessId = expert.getId();
+			
+			// 近期免冠彩色证件照
+			List<ExpertAttachment> att1 = getExpertAttachmentList(businessId, ExpertPictureType.HEADPORTRAIT_PROOF.getSign() + "");//50
+			// 身份证复印件
+			List<ExpertAttachment> att2 = getExpertAttachmentList(businessId, ExpertPictureType.IDENTITY_CARD_PROOF.getSign() + "");//3
+			// 军队人员身份证件
+			List<ExpertAttachment> att3 = getExpertAttachmentList(businessId, ExpertPictureType.ARMY_PROOF.getSign() + "");//12
+			// 专业技术职称证书
+			List<ExpertAttachment> att4 = getExpertAttachmentList(businessId, ExpertPictureType.TECHNOLOGY_PROOF.getSign() + "");//4
+			
+			if(att1 == null){
+				map.put("att1", "近期免冠彩色证件照必须上传！");
+			}
+			if(att2 == null){
+				map.put("att2", "身份证复印件必须上传！");
+			}
+			if(att3 == null){
+				map.put("att3", "军队人员身份证件必须上传！");
+			}
+			if(att4 == null){
+				map.put("att4", "专业技术职称证书必须上传！");
+			}
+			
+			// ========== 验证证件图片是否上传end ==========
+			
+			if(gitFlag != null){
 				//修改
 				mapper.updateByPrimaryKeySelective(expert);
+		    }
+			if(map.isEmpty()){
+				if(flag==1){
+					//新增
+					mapper.insert(expert);
+				}else if(flag==2){
+					//修改
+					mapper.updateByPrimaryKeySelective(expert);
+				}
+				return null;
+			}else{
+				return map;
 			}
+		}else{
 			return null;
-		}else{
-			return map;
-		}
-		}else{
-		  return null;
 		}
 	}
 
@@ -1377,6 +1407,17 @@ public class ExpertServiceImpl implements ExpertService {
 		mapper.updateById(id);
 		
 	}
+	
+	// 获取专家上传的附件
+	private List<ExpertAttachment> getExpertAttachmentList(String businessId, String typeId){
+		Map<String, Object> attachmentMap = new HashMap<>();
+		attachmentMap.put("isDeleted", 0);
+		attachmentMap.put("businessId", businessId);
+		attachmentMap.put("typeId", typeId);
+		List<ExpertAttachment> attList = attachmentMapper.selectListByMap(attachmentMap);
+		return attList;
+	}
+	
 }
 
 

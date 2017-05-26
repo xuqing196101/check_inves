@@ -31,7 +31,7 @@
 					dataType: "json",
 					async: false,
 					success: function(response) {
-						$("#add").empty();
+						$("#add").empty(); 
 						$("#add").append("<option value=''>-请选择-</option>");
 						$.each(response, function(i, result) {
 							$("#add").append("<option value='" + result.id + "'>" + result.name + "</option>");
@@ -520,11 +520,11 @@
 									layer.msg("该证件号码已被占用!");
 									isok = 1;
 								}else if(obj == 'disabled_180'){
-                                    layer.msg('该身份证号码在180天内禁止再次注册，请重新填写！', {
-                                        offset: '300px'
-                                    });
-                                    isok = 1;
-                                }
+                  layer.msg('该身份证号码在180天内禁止再次注册，请重新填写！', {
+                      offset: '300px'
+                  });
+                  isok = 1;
+              	}
 							}
 						});
 					}
@@ -745,7 +745,7 @@
 					data: {
 						"sysId": sysId,
 						"from": from,
-                        "coverNote":coverNote,
+            "coverNote": 1,
 						"isReferenceLftter": $("#isReferenceLftter").val()
 					},
 					cache: false,
@@ -758,7 +758,7 @@
 							flag = true;
 						}
 					},
-					dataType: "json"
+					dataType: "json",
 				});
 				return flag;
 			}
@@ -882,7 +882,6 @@
 			<input type="hidden" name="id" id="id" value="${expert.id}" />
 			<input type="hidden" name="zancun" id="zancun" value="" />
 			<input type="hidden" name="sysId" id="sysId" value="${sysId}" />
-			<input type="hidden" name="sysId" id="sysId" value="${sysId}" />
 			<input type="hidden" value="${errorMap.realName}" id="error1">
 			<input type="hidden" value="${errorMap.nation}" id="error2">
 			<input type="hidden" value="${errorMap.gender}" id="error3">
@@ -899,6 +898,12 @@
 			<input type="hidden" value="${errorMap.mobile2}" id="error15">
 			<input type="hidden" value="${errorMap.idNumber2}" id="error16">
 			<input type="hidden" name="range" value="${errorMap.range}" id="range" />
+			
+			<input type="hidden" value="${errorMap.att1}" id="error_att1">
+			<input type="hidden" value="${errorMap.att2}" id="error_att2">
+			<input type="hidden" value="${errorMap.att3}" id="error_att3">
+			<input type="hidden" value="${errorMap.att4}" id="error_att4">
+			
 			<input type="hidden" id="categoryId" name="categoryId" value="" />
 			<input type="hidden" id="expertsTypeId" name="expertsTypeId" value="" />
 			<input type="hidden" name="token2" value="<%=tokenValue%>" />
@@ -1081,8 +1086,8 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 军队人员身份证件</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'军队人员身份证件')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('军队人员身份证件')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert12" businessId="${sysId}" sysKey="${expertKey}" typeId="1" maxcount="1" auto="true" />
-								<u:show showId="show12" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert12" businessId="${sysId}" sysKey="${expertKey}" typeId="12" maxcount="12" auto="true" />
+								<u:show showId="show12" businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
 							</div>
 
 							<%-- <div class="col-md-12 col-sm-12 col-xs-12 p0">
