@@ -8,33 +8,41 @@
 
 <script type="text/javascript">
 	$(function() {
-		document.getElementById("login_input_id").focus();// 用户名自动获取焦点
+//		document.getElementById("login_input_id").focus();// 用户名自动获取焦点
 
 		/** ajax 校验用户名是否存在 */
-		$("#login_input_id").keyup(function() {
-			var loginName = $(this).val();
-			if (loginName != null && loginName != "" && loginName !="null" && loginName !="undefined"){
-				$.ajax({
-					url : "${pageContext.request.contextPath}/supplier/check_login_name.do",
-					type : "post",
-					data : {
-						loginName : loginName
-					},
-					dataType : "json",
-					success : function(result) {
-						result = eval("(" + result + ")");
-						if (result.msg == "fail") {
-							$("#login_input_id").next().text("用户名已被使用，请更换重试！");
-							$("#submit_button_id").prop("disabled", true);
-						} else {
-							$("#login_input_id").next().text("");
-							$("#submit_button_id").prop("disabled", false);
-						}
-					}
-				});
-			}
-		});
-	});
+        $("#login_input_id").focus(function(){
+            $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
+        }).blur(function(){
+            var oldVal=($(this).attr("data-oval")); //获取原值
+            var newVal=($(this).val()); //获取当前值
+            if (oldVal!=newVal){
+                //值改变
+                var loginName = $(this).val();
+                if (loginName != null && loginName != "" && loginName !="null" && loginName !="undefined"){
+                    $.ajax({
+                        url : "${pageContext.request.contextPath}/supplier/check_login_name.do",
+                        type : "post",
+                        data : {
+                            loginName : loginName
+                        },
+                        dataType : "json",
+                        success : function(result) {
+                            result = eval("(" + result + ")");
+                            if (result.msg == "fail") {
+                                $("#login_input_id").next().text("用户名已被使用，请更换重试！");
+                                $("#submit_button_id").prop("disabled", true);
+                            } else {
+                                $("#login_input_id").next().text("");
+                                $("#submit_button_id").prop("disabled", false);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+    });
 	var count = 0;
 	function getIdentityCode() {
 		var random = Math.random();
