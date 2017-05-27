@@ -4318,7 +4318,12 @@ public class ExpertController extends BaseController {
 
     @RequestMapping(value = "findAttachment2", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String findAttachment2(@RequestParam("sysId") String sysId,@RequestParam("from") String from,@RequestParam("coverNote") String coverNote, @RequestParam("isReferenceLftter") int isReferenceLftter ) {
+    public String findAttachment2(
+    		@RequestParam("sysId") String sysId,
+    		@RequestParam("from") String from,
+    		@RequestParam("coverNote") String coverNote, 
+    		@RequestParam("isReferenceLftter") int isReferenceLftter,
+    		@RequestParam("teachTitle") String teachTitle) {
         List<UploadFile> SOCIAL_SECURITY_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.SOCIAL_SECURITY_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> RETIRE_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.RETIRE_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> IDENTITY_CARD_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.IDENTITY_CARD_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
@@ -4336,7 +4341,7 @@ public class ExpertController extends BaseController {
             imgInfo="身份证复印件未上传";
             return JSON.toJSONString(imgInfo);
         }
-        if( HEADPORTRAIT_PROOF.size()<1 && HEADPORTRAIT_PROOF!=null){
+        if(HEADPORTRAIT_PROOF.size()<1 && HEADPORTRAIT_PROOF!=null){
         	imgInfo="近期免冠彩色证件照未上传";
         	return JSON.toJSONString(imgInfo);
         }
@@ -4376,15 +4381,15 @@ public class ExpertController extends BaseController {
             imgInfo="推荐信未上传";
             return JSON.toJSONString(imgInfo);
         }
-        if(TECHNOLOGY_PROOF.size()<1 && TECHNOLOGY_PROOF!=null){
+        if("1".equals(teachTitle) && TECHNOLOGY_PROOF.size()<1 && TECHNOLOGY_PROOF!=null){
             imgInfo="专业技术职称证书未上传";
             return JSON.toJSONString(imgInfo);
         }
-        if( APPLICATION_PROOF.size()<1 && isReferenceLftter==5 && APPLICATION_PROOF!=null){
+        if(APPLICATION_PROOF.size()<1 && isReferenceLftter==5 && APPLICATION_PROOF!=null){
             imgInfo="专家申请未上传";
             return JSON.toJSONString(imgInfo);
         }
-        if( COMMITMENT_PROOF.size()<1 && isReferenceLftter==5    &&  COMMITMENT_PROOF!=null){
+        if(COMMITMENT_PROOF.size()<1 && isReferenceLftter==5    &&  COMMITMENT_PROOF!=null){
             imgInfo="专家承诺未上传";
             return JSON.toJSONString(imgInfo);
         }
