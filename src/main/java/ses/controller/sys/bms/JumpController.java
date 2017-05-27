@@ -12,6 +12,7 @@ import ses.model.bms.AnalyzeItem;
 import ses.model.bms.User;
 import ses.service.ems.AnalyzeService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +33,9 @@ public class JumpController {
 	* @Description: 进入页面跳转
 	 */
 	@RequestMapping("/jump")
-	public String to(Model model){
-
+	public String to(HttpServletRequest request,Model model){
+	String returnUrl = request.getParameter("returnUrl");
+		model.addAttribute("returnUrl",returnUrl);
 		return "jumpPage";
 	}
 
