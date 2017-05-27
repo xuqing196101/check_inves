@@ -35,9 +35,9 @@
 				$("#relName").attr("value", "");
 				$("#status option:selected").removeAttr("selected");
 				$("#mobile").attr("value", "");
-				$("#formSearch").submit();
 				$("#idCardNumber").attr("value", "");
-				$("#expertsFrom option:selected").removeAttr("selected");
+        $("#expertsFrom option:selected").removeAttr("selected");
+				$("#formSearch").submit();
 			}
 		</script>
 	</head>
@@ -108,7 +108,7 @@
 		  </ul>
 		  <div class="col-md-12 clear tc mt10">
 			  <input class="btn mt1"  value="查询" type="submit">
-	      <input class="btn mt1" id="button" onclick="clearSearch();" value="重置" type="reset">
+	      <input class="btn mt1" onclick="clearSearch();" value="重置" type="reset">
 	    </div>
 	    <div class="clear"></div>
     </form>
