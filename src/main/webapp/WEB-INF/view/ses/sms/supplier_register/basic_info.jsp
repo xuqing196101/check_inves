@@ -959,7 +959,7 @@
 					$(obj).val("1");
 					$("#expireDate").attr("disabled","disabled");
 				}else{
-					$(obj).val("");
+					$(obj).val("0");
 					$("#expireDate").removeAttr("disabled","disabled");
 				}
 			}
@@ -1867,11 +1867,11 @@
 							</ul>
 						</fieldset>
 						<!-- 财务信息 -->
-						<h2 class="count_flow clear pt20"> <i>3</i> 近三年财务信息
+						<h2 class="count_flow clear pt20"> <i>3</i> 近三年财务信息 <span class="red">注：由于采购网调整，近三年财务信息延迟到7月底。</span>
 	  					<span class="red"> ${err_bearchFile}</span></h2>
 						<div class="padding-top-10 clear" id="financeInfo">
 							<c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
-								<h2 class="count_flow clear">${finance.year}年财务信息  <span style="float:right" class="b">（金额单位：万元）</span>  </h2>
+								<h2 class="count_flow clear">${finance.year}年财务信息  <span style="float:right" class="b">（金额单位：万元） </span>  </h2>
 								<div class="col-md-12 col-xs-12 col-sm-12 border_font <c:if test="${vs.index != 2}">mb10</c:if>">
 									<div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
 										<div class="col-md-12 col-sm-12 col-xs-12 p0 tl">
