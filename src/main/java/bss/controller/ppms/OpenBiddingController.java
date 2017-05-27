@@ -520,7 +520,7 @@ public class OpenBiddingController {
     //单一来源公告
     if (PURCHASE_NOTICE.equals(noticeType)) {
       article.setArticleType(articelTypeService.selectArticleTypeByCode("single_source_notice"));
-      if(user.getPublishType() == 0 || user.getPublishType() == null){
+      if(user.getPublishType() == null || user.getPublishType() == 0){
         //集中采购
         ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("single_source_notice_centralized");
         if (articleType2 != null) {
