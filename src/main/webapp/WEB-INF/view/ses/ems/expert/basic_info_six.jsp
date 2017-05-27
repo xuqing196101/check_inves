@@ -156,11 +156,11 @@
 
       function zTreeBeforeCheck(treeId, treeNode) {
         if (treeNode.isParent == true) {
-            layer.msg("请在末节点上进行操作！");
-            return false;
-          } else {
-          return true;        
-          }
+          layer.msg("请在末节点上进行操作！");
+          return false;
+        } else {
+        	return true;
+        }
       }
 
       function zc() {

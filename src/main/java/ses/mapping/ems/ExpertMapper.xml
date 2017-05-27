@@ -167,6 +167,12 @@
         <if test="isPublish != null and isPublish !=''">
             AND T1.IS_PUBLISH = #{isPublish}
         </if>
+        <if test="idCardNumber !=null and idCardNumber !=''">
+            and ID_CARD_NUMBER like '%'||#{idCardNumber}||'%'
+        </if>
+        <if test="graduateSchool !=null and graduateSchool !=''">
+            and GRADUATE_SCHOOL like '%'||#{graduateSchool}||'%'
+        </if>
         ORDER BY T1.STATUS ASC, T1.CREATED_AT DESC
     </select>
 
@@ -2054,11 +2060,17 @@
     <if test="expertsFrom != null and expertsFrom !=''">
         AND T1.EXPERTS_FROM = #{expertsFrom}
     </if>
+     <if test="idCardNumber !=null and idCardNumber !=''">
+        and ID_CARD_NUMBER like '%'||#{idCardNumber}||'%'
+    </if>
     <if test="status != null and status !=''">
     	<!-- <if test="status == 4">
     		AND IS_PROVISIONAL = '0'
     	</if> -->
         AND T1.STATUS = #{status}
+    </if>
+    <if test="expertsFrom != null and expertsFrom !=''">
+        AND T1.EXPERTS_FROM = #{expertsFrom}
     </if>
     <if test="expertsTypeId != null and expertsTypeId !=''">
         AND instr(T1.EXPERTS_TYPE_ID, #{expertsTypeId})>0

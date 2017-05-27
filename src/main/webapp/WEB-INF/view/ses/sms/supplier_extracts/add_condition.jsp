@@ -131,7 +131,8 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取类型：</span>
+                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div
+                            class="star_red">*</div>抽取类型：</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input id="supplierType" class="" type="text" readonly
                                value="${listCon.conTypes[0].supplierTypeName }" name="supplierTypeName"
@@ -161,7 +162,7 @@
                 </li>
 
                 <li class="col-md-3 col-sm-3 col-xs-3 dnone clear" id="projectCount">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程供应商：</span>
+                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程供应商数量：</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input class="title col-md-12" id='project' name="projectCount" onchange="chane();"
                                maxlength="11" type="text">

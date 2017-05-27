@@ -1631,10 +1631,13 @@
 									<fieldset
 										class="col-md-12 col-sm-12 col-xs-12 border_font mt10">
 										<legend> 保密工程业绩 </legend>
+										<div class="red" style="font-size: 16px;">注：合同一律不得上传涉军涉密合同和对账单，仅有涉军涉密合同和对账单的，上传情况说明（下载模板），将合同电子版以光盘送采购机构。</div>
+										
 										<ul class="list-unstyled overflow_h">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span
 												class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i
 													class="red">*</i> 是否有国家或军队保密工程业绩</span>
+													
 												<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 													<select name="supplierMatEng.isHavingConAchi"
 														id="isHavingConAchi" onchange="disConAchi()"
@@ -1700,6 +1703,8 @@
 									<fieldset
 										class="col-md-12 col-sm-12 col-xs-12 border_font mt10">
 										<span class="font_line"> <font class="red">*</font> 承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</span>
+										<div class="red" style="font-size: 16px;">注：合同一律不得上传涉军涉密合同和对账单，仅有涉军涉密合同和对账单的，上传情况说明（下载模板），将合同电子版以光盘送采购机构。</div>
+										
 										<div class="ml20">
 											省、直辖市：
 										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)" title="按住CTRL+鼠标左键可多选和取消选择">

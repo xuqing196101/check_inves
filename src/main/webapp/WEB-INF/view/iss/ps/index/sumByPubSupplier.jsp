@@ -46,7 +46,7 @@ function query(){
   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs">
       <div class="container">
-		   <ul class="breadcrumb margin-left-0">
+		   <ul class="breadcrumb mb0">
 		   <li><a href="${pageContext.request.contextPath}/"> 首页</a></li><li><a href="javascript:void(0);">供应商名录</a></li>
 		   </ul>
 		<div class="clear"></div>

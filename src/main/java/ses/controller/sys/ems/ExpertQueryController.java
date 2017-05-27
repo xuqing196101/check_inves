@@ -166,8 +166,16 @@ public class ExpertQueryController {
             } else {
                 exp.setExpertsTypeId("");
             }
+            
+            //专家来源
+	  		if(exp.getExpertsFrom() != null) {
+	  			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(exp.getExpertsFrom());
+	  			exp.setExpertsFrom(expertsFrom.getName());
+	  		}
         }
-        
+        // 专家类型
+        List < DictionaryData > expertFromList = DictionaryDataUtil.find(12);
+        model.addAttribute("expertFromList", expertFromList);
         model.addAttribute("expert", expert);
         PageInfo<Expert> pageInfo = new PageInfo < Expert > (allExpert);
         model.addAttribute("result", pageInfo);

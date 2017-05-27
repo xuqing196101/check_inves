@@ -277,6 +277,7 @@
 							<th class="info">用户名</th>
 							<th class="info">联系人</th>
 							<th class="info">手机号</th>
+							<th class="info">注册日期</th>
 							<th class="info w100">状态</th>
 						</tr>
 					</thead>
@@ -288,6 +289,7 @@
 							<td class="">${list.loginName }</td>
 								<td class="">${list.contactName }</td>
 							<td class="tc">${list.mobile }</td>
+							<td class="tc"><fmt:formatDate value='${list.createdAt}' pattern='yyyy-MM-dd'/></td>
 							<td class="tc w100" id="${list.id}">
 								<c:if test="${list.status==5 and list.isProvisional == 1 }"><span class="label rounded-2x label-dark">临时</span></c:if>
 								<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
