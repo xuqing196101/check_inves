@@ -35,6 +35,8 @@
 				$("#relName").attr("value", "");
 				$("#status option:selected").removeAttr("selected");
 				$("#mobile").attr("value", "");
+				$("#idCardNumber").attr("value", "");
+        $("#expertsFrom option:selected").removeAttr("selected");
 				$("#formSearch").submit();
 			}
 		</script>
@@ -74,7 +76,21 @@
           <label class="fl">专家姓名：</label><span><input class="w220" type="text" id="relName" name="relName" value="${expert.relName }"></span>
         </li>
         <li>
+          <label class="fl">身份证号：</label><span><input class="w220" type="text" id="idCardNumber" name="idCardNumber" value="${expert.idCardNumber }"></span>
+        </li>
+        <li>
           <label class="fl">手机号：</label><span><input class="w220" type="text" id="mobile" name="mobile" value="${expert.mobile }"></span>
+        </li>
+        <li>
+          <label class="fl">专家类型：</label>
+          <span class="fl">
+            <select  name="expertsFrom" id="expertsFrom" class="w220">
+              <option selected="selected" value="">全部</option>
+              <c:forEach items="${expertFromList }" var="from" varStatus="vs"> 
+                <option <c:if test="${expert.expertsFrom eq from.id }">selected="selected"</c:if> value="${from.id}">${from.name}</option>
+              </c:forEach>
+            </select>          
+          </span>
         </li>
   			<li>
         <label class="fl">审核状态：</label>
@@ -92,7 +108,7 @@
 		  </ul>
 		  <div class="col-md-12 clear tc mt10">
 			  <input class="btn mt1"  value="查询" type="submit">
-	      <input class="btn mt1" id="button" onclick="clearSearch();" value="重置" type="reset">
+	      <input class="btn mt1" onclick="clearSearch();" value="重置" type="reset">
 	    </div>
 	    <div class="clear"></div>
     </form>
@@ -103,6 +119,7 @@
 						<tr>
 							<th class="info w50">序号</th>
 							<th class="info">专家姓名</th>
+							<th class="info">身份证号</th>
 							<th class="info w50">性别</th>
 							<th class="info">毕业院校及专业</th>
 							<th class="info">手机</th>
@@ -117,6 +134,7 @@
 							<td class="tl" >
 								<a href="${pageContext.request.contextPath}/expertQuery/view.html?expertId=${e.id}&sign=2">${e.relName}</a>
 							</td>
+							<td class="tc">${e.idCardNumber}</td>
 							<td class="tc w50" >${e.gender}</td>
 							<td class="tl" >${e.graduateSchool }</td>
 							<td class="tc" >${e.mobile }</td>

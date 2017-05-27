@@ -46,7 +46,7 @@
 	  	<!--面包屑导航开始-->
 	   	<div class="margin-top-10 breadcrumbs">
 	      <div class="container">
-			   	<ul class="breadcrumb margin-left-0">
+			   	<ul class="breadcrumb mb0">
 			   		<li><a href="${pageContext.request.contextPath}/index/selectIndexNews.html">首页</a></li><li><a href="javascript:void(0);">采购模板下载</a></li>
 			   	</ul>
 					<div class="clear"></div>
@@ -59,19 +59,18 @@
 		      </div>
           <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
             <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
-          		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">采购模板名称</div>
-          		<div class="fr mr25 f16">下载</div>
-              <div class="fr mr25 f16 w150">发布时间</div>
+          		<div class="col-md-7 col-xs-6 col-sm-6 tc f16">采购模板名称</div>
+              <div class="col-md-3 col-sm-3 col-xs-3 tc f16 p0">发布时间</div>
+          		<div class="col-md-2 col-sm-3 col-xs-3 tc f16">下载</div>
              </h2>
              <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0">
                 <c:choose>
                 	<c:when test="${notData==null }">
                 		<c:forEach items="${list.list}" var="data">
 		                  <li>
-		                   <span class="f18 mr5">·${data.name }</span>
-		                   <span class="hex pull-right release w150"><u:show showId="${data.groupShow }" groups="${data.groupsUploadId }" delete="false" businessId="${data.id }" sysKey="${sysKey}" typeId="${dataTypeId }" zipFileName="${data.name}" fileName="${data.name}"/></span>
-		                   <span class="hex pull-right fr"><fmt:formatDate value='${data.publishAt}' pattern="yyyy年MM月dd日 " /></span>
-		                   
+		                   <span class="col-md-7 col-sm-6 col-xs-12">·${data.name }</span>
+		                 	<span class="col-md-3 col-sm-3 col-xs-6 tc"><fmt:formatDate value='${data.publishAt}' pattern="yyyy年MM月dd日 " /></span>
+		                     <span class="col-md-2 col-sm-3 col-xs-6"><u:show showId="${data.groupShow }" groups="${data.groupsUploadId }" delete="false" businessId="${data.id }" sysKey="${sysKey}" typeId="${dataTypeId }" zipFileName="${data.name}" fileName="${data.name}"/></span>
 		                  </li> 
 		                </c:forEach> 
                 	</c:when>

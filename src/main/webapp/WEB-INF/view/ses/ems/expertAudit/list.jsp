@@ -48,7 +48,7 @@
 						return;
 					}
 				}
-				var state = $("#" + id + "").parent("tr").find("td").eq(9).text();//.trim();
+				var state = $("#" + id + "").parent("tr").find("td").eq(10).text();//.trim();
 				state = trim(state);
 				/* var isExtract = $("#" + id + "_isExtract").text(); */
 				if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "初审退回" || state == "复查通过" || state == "复查未通过" || state == "复审通过" || state == "复审未通过") {
@@ -89,7 +89,7 @@
 					layer.msg("请选择专家 !", {offset: '100px',});
 				}else if(size == 1){
 					var id = $(":checkbox:checked").val();
-					var state = $("#" + id + "").parent("tr").find("td").eq(9).text();//.trim();
+					var state = $("#" + id + "").parent("tr").find("td").eq(10).text();//.trim();
 					state = trim(state);
 					if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "复审通过" || state == "复审未通过" || state == "复查通过" || state == "复查未通过") {
 						$("input[name='tableType']").val(str);
@@ -123,7 +123,7 @@
 				function publish(){
 			  	var id = $(":checkbox:checked").val();
 			  	var size = $(":checkbox:checked").size();
-					var state = $("#" + id + "").parents("tr").find("td").eq(9).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
 					state = trim(state);
 					if(size == 1){
 			  			if(state == "复审通过" || state == "待复查" || state == "复查通过" || state == "复查未通过"){
@@ -326,13 +326,14 @@
 						<tr>
 							<th class="info w50">选择</th>
 							<th class="info w50">序号</th>
-							<th class="info" width="12%">专家姓名</th>
-							<th class="info" width="6%">性别</th>
-							<th class="info" width="10%">手机号</th>
+							<th class="info">专家姓名</th>
+							<th class="info">性别</th>
+							<th class="info">手机号</th>
 							<!-- <th class="info">类型</th> -->
-							<th class="info" width="17%">毕业院校及专业</th>
-							<th class="info" width="17%">工作单位</th>
-							<th class="info" width="10%">审核时间</th>
+							<th class="info">毕业院校及专业</th>
+							<th class="info">工作单位</th>
+							<th class="info">审核时间</th>
+							<th class="info">注册时间</th>
 							<th class="info">发布</th>
 							<th class="info">审核状态</th>
 						</tr>
@@ -350,6 +351,9 @@
 							<td class="tc" onclick="shenhe('${expert.id}');">
 								<fmt:formatDate type='date' value='${expert.auditAt }' dateStyle="default" pattern="yyyy-MM-dd" />
 							</td>
+							<td class="tc" onclick="shenhe('${expert.id}');">
+                <fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
+              </td>
 							<td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">
 								<c:if test="${expert.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
 								<c:if test="${expert.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>

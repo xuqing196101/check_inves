@@ -527,6 +527,8 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setStatus(0);
         // supplier.setCreatedAt(new Date());
         supplier.setSubmitAt(new Date());
+        Supplier key = supplierMapper.selectByPrimaryKey(supplier.getId());
+        supplier.setBusinessStartDate(key.getBusinessStartDate());
         supplierMapper.updateByPrimaryKeySelective(supplier);
         supplier = supplierMapper.getSupplier(supplier.getId());
         // 用户表插入地址信息
