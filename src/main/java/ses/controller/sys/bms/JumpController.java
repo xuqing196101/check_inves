@@ -17,26 +17,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
-* @ClassName: AnalyzeController 
-* @Description: 后台统计控制类
-* @author Easong
-* @date 2017年5月3日 下午2:55:48 
-*
+ * @author Easong
+ * @ClassName: AnalyzeController
+ * @Description: 后台统计控制类
+ * @date 2017年5月3日 下午2:55:48
  */
 @Controller
 @RequestMapping("/jumppage")
 public class JumpController {
-	
-	/**
-	 * 
-	* @Description: 进入页面跳转
-	 */
-	@RequestMapping("/jump")
-	public String to(HttpServletRequest request,Model model){
-	String returnUrl = request.getParameter("returnUrl");
-		model.addAttribute("returnUrl",returnUrl);
-		return "jumpPage";
-	}
+
+    /**
+     * @Description: 进入页面跳转
+     */
+    @RequestMapping("/jump")
+    public String to(HttpServletRequest request, Model model) {
+        String returnUrl = request.getParameter("returnUrl");
+        model.addAttribute("returnUrl", returnUrl);
+        return "jumpPage";
+    }
 
 }

@@ -313,7 +313,7 @@
 		1=1
 		<if
 			test="suppliers != null and suppliers.supplierName != null and suppliers.supplierName != ''">
-			AND ss.SUPPLIER_NAME LIKE '%${suppliers.supplierName}%'
+			AND ss.SUPPLIER_NAME LIKE CONCAT(CONCAT('%',  #{suppliers.supplierName}), '%') 
 		</if>
 		<if test="projectId != null and projectId != ''">
 			and st.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
@@ -367,11 +367,11 @@
 		</if>
 		<if
 			test="suppliers != null and suppliers.supplierName != null and suppliers.supplierName != ''">
-			AND ss.SUPPLIER_NAME LIKE #{suppliers.supplierName,jdbcType=VARCHAR}
+			AND ss.SUPPLIER_NAME LIKE CONCAT(CONCAT('%',  #{suppliers.supplierName,jdbcType=VARCHAR}), '%') 
 		</if>
 		<if
 			test="suppliers != null and suppliers.armyBuinessTelephone != null and suppliers.armyBuinessTelephone != ''">
-			AND ss.ARMY_BUSINESS_TELEPHONE LIKE #{suppliers.armyBuinessTelephone,jdbcType=VARCHAR}
+			AND ss.ARMY_BUSINESS_TELEPHONE LIKE CONCAT(CONCAT('%',  #{suppliers.armyBuinessTelephone,jdbcType=VARCHAR}), '%')
 		</if>
 		<if test="statusBid != null  and statusBid != '' ">
 			AND st.STATUS_BID=#{statusBid,jdbcType=DECIMAL}

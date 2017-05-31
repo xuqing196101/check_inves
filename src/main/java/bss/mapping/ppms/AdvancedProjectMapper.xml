@@ -250,7 +250,7 @@
        and PROJECT_NUMBER = #{projectNumber}
       </if>
       <if test="status != null">
-       and STATUS like '%${status}%'
+       and STATUS like CONCAT(CONCAT('%', #{status}), '%') 
       </if>
       ORDER BY CREATED_AT DESC
   </select>
@@ -285,10 +285,10 @@
         AND  p.PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
       <if test="name != null and name != ''">
-       AND p.NAME like '%${name}%'
+       AND p.NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
       <if test="projectNumber != null and projectNumber != ''">
-       AND p.PROJECT_NUMBER like '%${projectNumber}%'
+       AND p.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
       </if>
       <if test="status != null and status != ''">
        AND p.STATUS = #{status}
@@ -844,10 +844,10 @@
 				      ) GROUP BY d.AD_PROJECT_ID
 				) p LEFT JOIN T_BSS_PPMS_ADVANCED_PROJECTS ps ON p.AD_PROJECT_ID = ps.ID
 			<if test="name != null and name != ''">
-       AND p.NAME like '%${name}%'
+       AND p.NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
       <if test="projectNumber != null and projectNumber != ''">
-       AND p.PROJECT_NUMBER like '%${projectNumber}%'
+       AND p.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
       </if>
       <if test="status != null and status != ''">
        AND p.STATUS = #{status}
@@ -878,10 +878,10 @@
         )
       )
       <if test="name != null and name != ''">
-       and p.NAME like '%${name}%'
+       and p.NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
      <if test="projectNumber != null and projectNumber != ''">
-       and p.PROJECT_NUMBER like '%${projectNumber}%'
+       and p.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
       </if>
       <if test="status != null and status != ''">
        and p.STATUS = #{status}
@@ -895,13 +895,13 @@
     from T_BSS_PPMS_ADVANCED_PROJECTS
     where 1=1 and IS_PROVISIONAL=0
      <if test="name != null and name != ''">
-       and NAME like '%${name}%'
+       and NAME like CONCAT(CONCAT('%', #{name}), '%') 
       </if>
        <if test="projectNumber != null and projectNumber != ''">
-       and PROJECT_NUMBER like '%${projectNumber}%'
+       and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%') 
       </if>
       <if test="status != null">
-       and STATUS like '%${status}%'
+       and STATUS like CONCAT(CONCAT('%', #{status}), '%') 
       </if>
       <if test="purchaseDep != null">
        and PURCHASE_DEP_ID = #{purchaseDep.id}
@@ -914,7 +914,7 @@
        <if test="statusArray != null">
 	       and (
 		       <foreach collection="statusArray" item="ay" separator="or" >
-		          STATUS like '%${ay}%'
+		          STATUS like CONCAT(CONCAT('%', #{ay}), '%') 
 		       </foreach> 
 	       )
        </if>

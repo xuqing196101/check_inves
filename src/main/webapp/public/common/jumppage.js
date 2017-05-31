@@ -21,7 +21,6 @@ function jumppage(path) {
  * @Version:1.0
  */
 function jumpParam(path) {
-
     var form = document.createElement("form");        //创建form表单
     var url = globalPath+"/jumppage/jump.html";    //路由地址
     form.action = url
@@ -50,3 +49,6 @@ function jumpParam1(path) {
 
 }
 
+function operationURL() {
+   return parent.document.getElementById("iframepage").contentWindow.location.href;
+}
