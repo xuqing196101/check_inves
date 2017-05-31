@@ -742,7 +742,6 @@ public class OBSupplierController  {
         				set.add(list.get(i).getSmallPointsId());
         			}
     			}
-    			
     		}
     	}
 		

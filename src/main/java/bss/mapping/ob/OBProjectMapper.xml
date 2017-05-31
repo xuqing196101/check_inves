@@ -82,7 +82,7 @@
     from T_BSS_OB_PROJECT 
       	where  IS_DELETE=0
     <if test="name != null and  name !=''">
-     and NAME like '%${name}%'
+     and NAME like CONCAT(CONCAT('%', #{name}), '%')
     </if>
     <if test="startTime != null and startTime !=''">
      and START_TIME= #{startTime}
@@ -256,7 +256,7 @@
     from T_BSS_OB_PROJECT
     where IS_DELETE=0
      <if test="id!= null and id !=''">
-      and name= ${name}
+      and name= #{name}
      </if>
      order by  CREATED_AT DESC
   </select>

@@ -118,10 +118,10 @@
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProduct" >
     select  <include refid="Base_Column_List"/> FROM T_BSS_OB_PRODUCT WHERE 1=1 AND IS_DELETED=0
     <if test="code != null and code != ''">
-    	and CODE like '%'||#{code}||'%'
+    	and CODE like CONCAT(CONCAT('%', #{code}), '%')
     </if>
     <if test="name != null and name != ''">
-    	and NAME like '%'||#{name}||'%'
+    	and NAME like CONCAT(CONCAT('%', #{name}), '%')
     </if>
     <if test="status != null and status != 0">
     	and STATUS = #{status}
