@@ -193,7 +193,7 @@
 			<tr class="info">
 				<th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 				<th class="w50">序号</th>
-				<th width="">服务内容</th>
+				<th width="70%">服务内容</th>
 				<th width="">联系电话</th>
 			</tr>
 		</thead>
@@ -202,7 +202,7 @@
 			<tr class="tc">
 				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${hotline.id }" /></td>
 				<td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-				<td class="tl pl20">${hotline.servicecontent }</td>
+				<td class="tl">${hotline.servicecontent }</td>
 				<td class="tc">${hotline.contactphonenumber }</td>
 			</tr>
 		</c:forEach>
