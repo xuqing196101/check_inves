@@ -24,6 +24,7 @@
 	      }(),
 	      jump : function(e, first) { //触发分页后的回调
         	if(!first){ //一定要加此判断，否则初始时会无限刷新
+        		alert(e.curr);
 	      		location.href = "${pageContext.request.contextPath }/product/list.do?page=" + e.curr;
 	        }
 	      }
