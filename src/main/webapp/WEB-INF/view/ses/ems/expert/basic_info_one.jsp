@@ -599,7 +599,7 @@
 				var teachTitle = $("#teachTitle").val();
 				if(teachTitle == 1){
 					var professTechTitles = $("#professTechTitles").val();
-					if(!professTechTitles) {
+					if(professTechTitles) {
 						layer.msg("请填写专业技术职称!");
 						return false;
 					}
@@ -1351,7 +1351,7 @@
                      </div>
                  </li>--%>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
-							<div class="input-append  col-sm-12 col-xs-12 col-md-12 p0">
+							<div class="input-append input_group  col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'参加工作时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('参加工作时间')"
 								</c:if> readonly="readonly" value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM' />" name="timeToWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
 								<span class="add-on">i</span>
