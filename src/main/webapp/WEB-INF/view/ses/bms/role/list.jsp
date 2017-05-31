@@ -276,10 +276,10 @@
 						</th>
 						<th class="info w50">序号</th>
 						<th class="info" width="20%">名称</th>
-						<th class="info" width="8%">状态</th>
-						<th class="info" width="15%">唯一编码</th>
-						<th class="info">所属后台</th>
-						<th class="info" width="45%">描述</th>
+						<th class="info" width="6%">状态</th>
+						<th class="info" width="14%">唯一编码</th>
+						<th class="info"width="10%">所属后台</th>
+						<th class="info" width="35%">描述</th>
 						<th class="info">用户数量</th>
 					</tr>
 				</thead>
