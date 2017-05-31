@@ -747,7 +747,12 @@ public class ExpertController extends BaseController {
 //              没有同级节点删除父级节点
                     boolean bool = sameCategory(expertId,parentId,typeId);
                     if(!bool){
-                        Category category = categoryService.findById(parentId);
+                        Category category = null;
+                        if(StringUtils.isEmpty(flag)){
+                        	category = categoryService.findById(parentId);
+                        }else{//工程专业属性
+                        	category = engCategoryService.findById(parentId);
+                        }
                         if(null != category){
                             List<ExpertCategory> bySupplierIdCategoryId = expertCategoryService.getListCategory(expertId, category.getId(), typeId);
                             if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){

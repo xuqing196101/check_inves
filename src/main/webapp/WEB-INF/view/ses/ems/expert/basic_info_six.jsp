@@ -101,7 +101,7 @@
 		function ajaxDataFilter(treeId, parentNode, childNodes) {
 			// 判断是否为空
 			if(childNodes) {
-				// 判断如果父节点是第三极,则将查询出来的子节点全部改为isParent = false
+				// 判断如果父节点是第三级,则将查询出来的子节点全部改为isParent = false
 				if(parentNode != null && parentNode != "undefined" && parentNode.level == 2) {
 					for(var i = 0; i < childNodes.length; i++) {
 						childNodes[i].isParent += false;
