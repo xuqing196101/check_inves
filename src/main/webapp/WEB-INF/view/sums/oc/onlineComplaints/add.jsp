@@ -159,8 +159,6 @@ function hid(){
 				</ul>
 			<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
 				<button type="submit" class="btn">投诉</button>
-				<button class="btn btn-windows back" type="button"
-						onclick="window.location.href = '${pageContext.request.contextPath}/onlineComplaints/complaints.html'">返回</button>
 			</div>
 			</form>
 		</div>
