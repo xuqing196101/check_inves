@@ -136,6 +136,8 @@ public class Project {
     
     private String isCharge; //采购文件是否收费  0：是 ，1：否
     
+    private String parentId; // 父节点
+    
     /**
      * @return Returns the auditReason.
      */
@@ -670,4 +672,12 @@ public class Project {
         this.isCharge = isCharge;
     }
 
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+    
 }

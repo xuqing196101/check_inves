@@ -54,4 +54,43 @@ public interface ProjectDetailService {
 	List<ProjectDetail> selectTheSubjectBySupplierId(HashMap<String,Object> map,String supplierId);
 	
 	List<ProjectDetail> selectByPackageId(String packageId);
+	
+	/**
+	 * 
+	* @Title: viewDetail
+	* @author FengTian 
+	* @date 2017-5-27 下午3:29:19  
+	* @Description: 查询底层明细 
+	* @param @param projectId
+	* @param @return      
+	* @return List<ProjectDetail>
+	 */
+	List<ProjectDetail> viewDetail(String projectId);
+	
+	/**
+	 * 
+	* @Title: showDetail
+	* @author FengTian 
+	* @date 2017-5-27 下午5:15:40  
+	* @Description: 展示明细 
+	* @param @param list
+	* @param @param projectId
+	* @param @return      
+	* @return List<ProjectDetail>
+	 */
+	List<ProjectDetail> showDetail(List<ProjectDetail> list, String projectId);
+	
+	/**
+	 * 
+	* @Title: showPackDetail
+	* @author FengTian 
+	* @date 2017-5-27 下午5:18:09  
+	* @Description: 分包展示明细 
+	* @param @param list
+	* @param @param projectId
+	* @param @return      
+	* @return List<ProjectDetail>
+	 */
+	List<ProjectDetail> showPackDetail(List<ProjectDetail> list, String projectId);
+	
 }

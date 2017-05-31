@@ -174,7 +174,6 @@
       //添加分包
       function addPack() {
         var projectId = $("#projectId").val();
-        var num = $("#num").val();
         var count = 0;
         var ids = "";
         var info = document.getElementsByName("info");
@@ -209,7 +208,7 @@
           clickCortisone = 1;
           $.ajax({
             type: "POST",
-            url: "${pageContext.request.contextPath }/project/addPack.do?id=" + ids + "&projectId=" + projectId + "&num=" + num,
+            url: "${pageContext.request.contextPath }/project/addPack.do?id=" + ids + "&projectId=" + projectId,
             success: function(data) {
               var datas = eval("(" + data + ")");
               if(datas == false) {
@@ -218,7 +217,7 @@
                 layer.msg('添加成功', {
                   offset: ['40%', '45%']
                 });
-                window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?projectId=" + projectId + "&num=" + num;
+                window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?projectId=" + projectId;
               }
             }
           });
@@ -455,14 +454,90 @@
           $("#show" + index).addClass("hide");
         }
       }
+      
+      //合并实施
+      function merge(){
+      	var id = [];
+      	var projectId = $("#projectId").val();
+      	$('input[name="pName"]:checked').each(function() {
+        	id.push($(this).val());
+        });	
+        if(id.length > 1){
+        	layer.confirm('选择合并实施的项目，只能编辑一套招标文件并同时开标', {
+             title: '提示',
+             shade: 0.01
+           },
+           function(index) {
+             layer.close(index);
+               $.ajax({
+                 url: "${pageContext.request.contextPath}/project/merge.html?id=" + id,
+                 data: {
+                 		"projectId" : projectId
+                 },
+                 type: "post",
+                 dateType: "json",
+                 success: function(result) {
+                 	  if(result == "ok"){
+                 	  	window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?projectId=" + projectId;
+                 	  }
+                   },
+                 error: function() {
+                 	 layer.msg("失败");
+                 }
+               });
+          });
+        } else if (id.length == 1){
+        	layer.msg("请选择多个");
+        } else {
+        	layer.msg("请选择需要合并的包");
+        }
+      }
+      
+      
+      function independent(){
+        var id = [];
+      	var projectId = $("#projectId").val();
+      	$('input[name="pName"]:checked').each(function() {
+        	id.push($(this).val());
+        });
+        if(id.length == 1){
+        	layer.confirm('确定选择独立实施？', {
+             title: '提示',
+             shade: 0.01
+           },
+           function(index) {
+             layer.close(index);
+               $.ajax({
+                 url: "${pageContext.request.contextPath}/project/merge.html?id=" + id,
+                 data: {
+                 		"projectId" : projectId
+                 },
+                 type: "post",
+                 dateType: "json",
+                 success: function(result) {
+                 	  if(result == "ok"){
+                 	  	window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?projectId=" + projectId;
+                 	  }
+                   },
+                 error: function() {
+                 	 layer.msg("失败");
+                 }
+               });
+          });
+        } else if (id.length > 1){
+          layer.msg("只能选择一个");
+        } else {
+        	layer.msg("请选择");
+        }
+      }
     </script>
     
     
   </head>
 
   <body>
-    <!--面包屑导航开始-->
-<!--     <div class="margin-top-10 breadcrumbs ">
+			<!--面包屑导航开始-->
+		<div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
@@ -477,16 +552,16 @@
         </ul>
         <div class="clear"></div>
       </div>
-    </div> -->
-
-      <%-- <h2 class="tc dangan_file">项目名称：${project.name}</h2> --%>
+    </div> 
+    <div class="container">
+    	<h2 class="tc dangan_file">项目名称：${project.name}</h2>
       <input type="hidden" id="projectId" value="${project.id}" />
       <input type="hidden" id="flowDefineId" value="${flowDefineId}"/>
-      <!-- <div class="headline-v2">
+      <div class="headline-v2">
         <h2>明细列表</h2>
       </div>
- -->
       <!-- 按钮开始-->
+      <span class="star_red">(注)未合并实施的包，每个包将作为单独的项目分别实施</span>
       <div class="col-md-12 col-sm-12 co-xs-12 mb5 p0 mt10">
         <button class="btn btn-windows add" type="button" onclick="addPack()" id="addPack">添加分包</button>
       </div>
@@ -504,16 +579,9 @@
                 <th class="w80">质量技术<br>标准</th>
                 <th class="w80">计量<br>单位</th>
                 <th class="w80">采购<br>数量</th>
-                <!-- <th class="price">单价<br>（元）</th>
-                <th class="budget">预算金额<br>（万元）</th> -->
                 <th class="deliverdate">交货<br>期限</th>
                 <th class="purchasetype">采购方式</th>
                 <th class="purchasename">供应商名称</th>
-                <c:if test="${project.isImport==1 }">
-                  <th class="freetax">是否申请<br>办理免税</th>
-                  <th class="goodsuse">物资用途<br>（进口）</th>
-                  <th class="useunit">使用单位<br>（进口）</th>
-                </c:if>
               </tr>
             </thead>
             <c:forEach items="${list}" var="obj">
@@ -563,17 +631,6 @@
                 <td>
                   <div class="purchasename">${obj.supplier}</div>
                 </td>
-                <c:if test="${project.isImport==1 }">
-                  <td>
-                    <div class="freetax">${obj.isFreeTax}</div>
-                  </td>
-                  <td>
-                    <div class="goodsuse">${obj.goodsUse}</div>
-                  </td>
-                  <td>
-                    <div class="useunit">${obj.useUnit}</div>
-                  </td>
-                </c:if>
               </tr>
             </c:forEach>
           </table>
@@ -583,6 +640,7 @@
       <c:forEach items="${packageList }" var="pack" varStatus="p">
         <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" id="contents">
           <div class="col-md-6 col-sm-6 col-xs-12 p0">
+          	<input type="checkbox" name="pName" value="${pack.id}"/>
             <span onclick="ycDiv(this,${p.index})" class="count_flow spread hand"></span>
             <span class="f16 b">包名：</span>
             <span class="f14 blue" name="packageName">${pack.name }</span>
@@ -675,25 +733,17 @@
       </c:forEach>
 
     <!-- 按钮 -->
-   <%--  <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-      <input type="hidden" id="num" value="${num}" />
-      <c:if test="${num eq 1}">
-        <button class="btn" type="button" onclick="JavaScript:history.go(-1)">上一步</button>
-      </c:if>
-      <c:if test="${num eq 0}">
-        <button class="btn" type="button" onclick="backs('${project.id}')">上一步</button>
-      </c:if>
-      
-
-      <button class="btn" type="button" onclick="next();">下一步</button>
-    </div> --%>
+   <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
+      <button class="btn" type="button" onclick="merge();">合并实施</button>
+      <button class="btn" type="button" onclick="independent();">独立实施</button>
+    </div>
 
     <c:if test="${!empty list}">
       <div class="content over_auto dnone" id="oddDetail">
         <table id="table" class="table table-bordered table-condensed table-hover table-striped lockout">
           <thead>
             <tr class="info">
-              <th><div class="choose"><input type="checkbox" id="selectAddAll" onclick="selectAddAll()"></div></th>
+              <th class="w30"><input type="checkbox" id="selectAddAll" onclick="selectAddAll()"></th>
               <th class="seq">序号</th>
               <th class="department">需求部门</th>
               <th class="goodsname">物资名称</th>
@@ -701,16 +751,9 @@
               <th class="qualitstand">质量技术<br>标准</th>
               <th class="item">计量<br>单位</th>
               <th class="purchasecount">采购<br>数量</th>
-              <!-- <th class="price">单价<br>（元）</th>
-              <th class="budget">预算金额<br>（万元）</th> -->
               <th class="deliverdate">交货期限</th>
               <th class="purchasetype">采购方式</th>
               <th class="purchasename">供应商名称</th>
-              <c:if test="${project.isImport==1 }">
-                <th class="freetax">是否申请<br>办理免税</th>
-                <th class="goodsuse">物资用途<br>（进口）</th>
-                <th class="goodsuse">使用单位<br>（进口）</th>
-              </c:if>
             </tr>
           </thead>
           <c:forEach items="${list}" var="obj">
@@ -754,17 +797,6 @@
               <td>
                 <div class="purchasename">${obj.supplier}</div>
               </td>
-              <c:if test="${project.isImport==1 }">
-                <td>
-                  <div class="freetax">${obj.isFreeTax}</div>
-                </td>
-                <td>
-                  <div class="goodsuse">${obj.goodsUse}</div>
-                </td>
-                <td>
-                  <div class="useunit">${obj.useUnit}</div>
-                </td>
-              </c:if>
             </tr>
           </c:forEach>
         </table>
@@ -775,6 +807,7 @@
         </div>
       </div>
     </c:if>
+    </div>
   </body>
 
 </html>

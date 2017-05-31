@@ -760,5 +760,11 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
     }
+
+	@Override
+	public List<Project> selectByOrgnization(HashMap<String, Object> map) {
+		
+		return projectMapper.selectByOrgnization(map);
+	}
     
   }

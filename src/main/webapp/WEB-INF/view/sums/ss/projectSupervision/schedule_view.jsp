@@ -17,7 +17,7 @@
       }
 
       function contractList(id) {
-        var contractRequireds = "${contractRequireds}";
+        var contractRequireds = "${contractStatus}";
         if(contractRequireds){
           window.location.href = "${pageContext.request.contextPath}/projectSupervision/contractList.html?projectId=" + id;
         }

@@ -208,5 +208,18 @@ public interface PackageService {
      */
     List<Packages> listExtRelate(String projectId);
     List<Packages> selectByProjectKey(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: merge
+    * @author FengTian 
+    * @date 2017-5-27 下午2:35:15  
+    * @Description: 合并 分包
+    * @param @param projectId
+    * @param @param id
+    * @param @return      
+    * @return String
+     */
+    String merge(String projectId, String id);
 
 }

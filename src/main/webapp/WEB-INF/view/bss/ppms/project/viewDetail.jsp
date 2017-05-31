@@ -154,17 +154,17 @@
                   <th class="info deliverdate">交货期限</th>
                   <th class="info purchasetype">采购方式</th>
                   <th class="info purchasename">供应商名称</th>
-                  <c:if test="${pack.isImport==1}">
+                  <%-- <c:if test="${pack.isImport==1}">
                     <th class="info freetax">是否申请<br/>办理免税</th>
                     <th class="info goodsuse">物资用途<br/>（进口）</th>
                     <th class="info useunit">使用单位<br/>（进口）</th>
-                  </c:if>
+                  </c:if> --%>
                   <th class="info memo">备注</th>
                 </tr>
               </thead>
-              <c:forEach items="${pack.projectDetails}" var="obj">
+              <c:forEach items="${pack.projectDetails}" var="obj" varStatus="vs">
                 <tr style="cursor: pointer;">
-                  <td><div class="seq">${obj.serialNumber}</div></td>
+                  <td><div class="seq">${vs.index+1}</div></td>
                   <td>
                    <div class="department">
                     <c:if test="${orgnization.id == obj.department}">
@@ -192,11 +192,11 @@
                     </div>
                   </td>
                   <td><div class="purchasename">${obj.supplier}</div></td>
-                  <c:if test="${pack.isImport==1}">
+                 <%--  <c:if test="${pack.isImport==1}">
                     <td><div class="freetax">${obj.isFreeTax}</div></td>
                     <td><div class="goodsuse">${obj.goodsUse}</div></td>
                     <td><div class="useunit">${obj.useUnit}</div></td>
-                  </c:if>
+                  </c:if> --%>
                   <td><div class="memo">${obj.memo}</div></td>
                 </tr>
               </c:forEach>
