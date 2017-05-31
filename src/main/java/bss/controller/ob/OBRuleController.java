@@ -80,11 +80,9 @@ public class OBRuleController {
 					if (quoteTimeStr.matches("^[0-9]+$")) {
 						quoteTime = Integer.parseInt(quoteTimeStr);
 					}
-					quoteTime = Integer.parseInt(quoteTimeStr);
 				}
 				Integer intervalWorkday = null;
-				String intervalWorkdayStr = request
-						.getParameter("intervalWorkday");
+				String intervalWorkdayStr = request.getParameter("intervalWorkday");
 				if (StringUtils.isNotEmpty(intervalWorkdayStr)) {
 					if (intervalWorkdayStr.matches("^[0-9]+$")) {
 						intervalWorkday = Integer.parseInt(intervalWorkdayStr);
@@ -455,7 +453,7 @@ public class OBRuleController {
 	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
 	public JdcgResult checkNameUnique(@CurrentUser User user, String name) {
-		if (user != null && "4".equals(user.getTypeName())) {
+		if (user != null && "4".equals(user.getTypeName())) { 
 			// 判断是否 是资源服务中心
 				return service.checkNameUnique(name);
 		}
