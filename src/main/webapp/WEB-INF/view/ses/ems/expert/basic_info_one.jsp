@@ -6,6 +6,7 @@
 	<head>
 		<%@ include file="/reg_head.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp" %>
+		<%-- <jsp:include page="/WEB-INF/view/common/webupload.jsp"/> --%>
 		<title>评审专家注册</title>
 		<script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
@@ -858,8 +859,9 @@
 						"auditField": auditField
 					},
 					dataType: "json",
+					type: "post",
 					success: function(response) {
-						layer.msg("不通过理由:" + response.auditReason);
+						layer.msg("不通过理由：" + response.auditReason);
 					}
 				});
 			}
@@ -1019,7 +1021,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 身份证复印件（正反面在一张上）</span>
-							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'居民身份证')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证')"
+							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'身份证复印件（正反面）')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('身份证复印件（正反面）')"
 								</c:if>>
 								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="3" auto="true" />
 								<u:show showId="show3" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
@@ -1573,6 +1575,19 @@
 		checkCharLimit('academicAchievement','limit_char_academicAchievement',1000);
 		checkCharLimit('reviewSituation','limit_char_reviewSituation',1000);
 		checkCharLimit('avoidanceSituation','limit_char_avoidanceSituation',1000);
+		
+		// 如果专家状态是退回修改，控制表单域的编辑与不可编辑
+		var expertSt = '${expert.status}';
+		if(expertSt == '3'){
+			$("input,select,textarea").attr('disabled',true);
+			$("input,select,textarea").each(function(){
+				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
+				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
+				if(this.style.border == '1px solid rgb(239, 0, 0)'){
+					$(this).attr('disabled',false);
+				}
+			});
+		}
 	</script>
 
 </html>

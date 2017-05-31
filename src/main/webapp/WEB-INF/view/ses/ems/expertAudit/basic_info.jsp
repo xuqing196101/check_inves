@@ -356,7 +356,7 @@
 							</div>
 						</li>						
            				<li class="col-md-3 col-sm-6 col-xs-12">
-            				<span class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(fileModify,'3')}"> style="border: 1px solid #FF8C00;"</c:if> onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idCardNumberFile" onclick="reasonFile(this);">身份证复印件（正反面）:</span>
+            				<span class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(fileModify,'3')}"> style="border: 1px solid #FF8C00;"</c:if> onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idCardNumberFile" onclick="reasonFile(this);">身份证复印件（正反面）：</span>
              				<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
              					<up:show showId="show3" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="3"/>
           						<a style="visibility:hidden" id="idCardNumberFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
