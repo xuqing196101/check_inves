@@ -445,7 +445,7 @@
 				and PARENT_ID= #{parentId}
 			</if>
 			
-		</where>
+		</where> 
 	</select>
 	
 	<!-- 根据主键id查询 -->
@@ -463,10 +463,10 @@
 		FROM T_SES_BMS_ENG_CATEGORY
 		WHERE 1 = 1
 		<if test="param1 != null">
-			AND NAME like '%${param1}%'
+			AND NAME like  '%' || #{param1} || '%'
 		</if> 
 		<if test="param2 != null">
-			AND CODE like '%${param2}%'
+			AND CODE like  '%' || #{param2} || '%'
 		</if> 
 	</select>
 </mapper>

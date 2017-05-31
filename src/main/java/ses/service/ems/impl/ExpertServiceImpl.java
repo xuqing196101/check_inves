@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -1190,7 +1191,16 @@ public class ExpertServiceImpl implements ExpertService {
     @Override
     public List<Category> searchByName(String cateName, String flag, String codeName) {
         if (flag == null) {
-            return categoryMapper.searchByName(cateName, codeName);
+        	List<Category> list = categoryMapper.searchByName(cateName, codeName);
+        	List<Category> listNot =new  LinkedList<Category>();
+        	for(Category cate:list){
+        		boolean bool = isPublish(cate.getId());
+        		if(bool!=true){
+        			listNot.add(cate);
+        		}
+        	}
+        	list.removeAll(listNot);
+            return list;
         } else {
             return engCategoryMapper.searchByName(cateName, codeName);
         }
@@ -1416,6 +1426,19 @@ public class ExpertServiceImpl implements ExpertService {
 		attachmentMap.put("typeId", typeId);
 		List<ExpertAttachment> attList = attachmentMapper.selectListByMap(attachmentMap);
 		return attList;
+	}
+
+	@Override
+	public boolean isPublish(String id) {
+		boolean bool=true;
+	   List<Category> categorys = categoryMapper.getParentByChildren(id);
+	   for(Category cate:categorys ){
+		   if(cate.getIsPublish().equals(1)){
+			   bool=false;
+		   }
+	   }
+	   
+		return bool;
 	}
 	
 }

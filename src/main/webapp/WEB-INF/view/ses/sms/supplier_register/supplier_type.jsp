@@ -15,6 +15,7 @@
 .current {
 	cursor: pointer;
 }
+
 </style>
 <script type="text/javascript">
 	$().ready(function() {
@@ -1670,12 +1671,12 @@
 														class="red">*</i> 承包合同主要页及保密协议：</span>
 													<div
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<c:if test="${!fn:contains(audit,'supplierConAch')&&(currSupplier.status==2 || currSupplier.status==-1)}"> 	<u:upload
+													<%-- 	<c:if test="${!fn:contains(audit,'supplierConAch')&&(currSupplier.status==2 || currSupplier.status==-1)}">  --%>	<u:upload
 															singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 															businessId="${currSupplier.id}" sysKey="${sysKey}"
 															typeId="${supplierDictionaryData.supplierConAch}"
 															exts="${properties['file.picture.type']}" id="conAch_up"
-															multiple="true" auto="true" /></c:if>
+															multiple="true" auto="true" /><%-- </c:if> --%>
 														<u:show showId="conAch_show"
 															businessId="${currSupplier.id}" sysKey="${sysKey}"
 															typeId="${supplierDictionaryData.supplierConAch}" />
@@ -1870,7 +1871,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly" <c:if test="${!fn:contains(engPageField,certEng.id)&&(currSupplier.status==2 ||currSupplier.status==-1) }">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
+																readonly="readonly" <c:if test="${!fn:contains(engPageField,certEng.id)&&(currSupplier.status==2 ||currSupplier.status==-1) }">onClick="WdatePicker()"</c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate"
 																value="<fmt:formatDate value="${certEng.expEndDate}" pattern="yyyy-MM-dd"/>"
 																pattern="yyyy-MM-dd" />
