@@ -2605,7 +2605,7 @@ a.yjfk{
 /* li_square */
 /*li_square*/
 .li_square li{
-  border-bottom:1px dashed #e2e2e2!important;
+  border-bottom:1px dashed #e2e2e2;
   font-size:15px!important;
   overflow: hidden;
 }
@@ -2790,7 +2790,7 @@ h2.list_title{
 	margin:10px 0; 
 	background-color:#fafafa;
 }
-.search_box input{
+.search_box input[type="text"]{
 	margin-bottom:0px;
 }
 /*表头固定表格*/

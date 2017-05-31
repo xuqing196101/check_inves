@@ -246,7 +246,7 @@
 			<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
 		</div>
 		<div class="content table_box">
-			<div class="col-md-3 col-sm-4 col-xs-12">
+			<div class="col-md-3 col-sm-4 col-xs-12 pl0">
 				<div class="tag-box tag-box-v3 mt15">
 					<ul id="ztree" class="ztree s_ztree"></ul>
 				</div>

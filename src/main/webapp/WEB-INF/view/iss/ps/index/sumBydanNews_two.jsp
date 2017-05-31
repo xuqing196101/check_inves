@@ -57,7 +57,7 @@ function query(){
       </div>
           <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
             <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
-          		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">标题</div>
+          		<div class="col-md-10 col-xs-7 col-sm-6 tc f16">标题</div>
                    <div class="fr mr25 f16">发布时间</div>
              </h2>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
