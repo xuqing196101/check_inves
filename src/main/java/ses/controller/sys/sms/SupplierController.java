@@ -1958,6 +1958,10 @@ public class SupplierController extends BaseSupplierController {
                 bool = false;
                 model.addAttribute("err_conAch", "请上传文件!");
             }
+        	if(supplierMatPro.getConfidentialAchievement()==null){
+   			 model.addAttribute("secret", "请填写国家或军队保密工程业绩!");
+   			 bool = false;
+   		   }
         }
 		String businessScope = supplierMatPro.getBusinessScope();
 		if (businessScope != null) {
@@ -2024,10 +2028,7 @@ public class SupplierController extends BaseSupplierController {
 			 bool = false;
 		}
 		
-		if(supplierMatPro.getConfidentialAchievement()==null){
-			 model.addAttribute("secret", "请填写国家或军队保密工程业绩!");
-			 bool = false;
-		}
+	
 		
 		
 		Integer count=0;
@@ -2547,7 +2548,7 @@ public class SupplierController extends BaseSupplierController {
 		Calendar cale = Calendar.getInstance();
 		int year = cale.get(Calendar.YEAR);
 		Integer yearThree = 0;
-		if(month < 6) {
+		if(month < 7) {
 			yearThree = year - 4; //2012
 
 		} else {
