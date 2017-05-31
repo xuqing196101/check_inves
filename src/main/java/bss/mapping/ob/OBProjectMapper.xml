@@ -677,7 +677,7 @@
       AND CREATER_ID = #{userId}
     </if>
     <if test="name != null and name !=''" >
-      AND p.NAME like '%${name}%'
+      AND p.NAME like CONCAT(CONCAT('%', #{name}), '%')
     </if>
     <if test="startTime != null and startTime !=''">
     	<![CDATA[AND p.START_TIME >= #{startTime}]]>
