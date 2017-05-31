@@ -922,7 +922,7 @@ function importAdd(){
 	  </a>
 	 </div>
 	 <div class="service_btns col-sm-4 col-xs-6 mt60">
-	  <a href="">
+	  <a href="${pageContext.request.contextPath }/serviceHotline/index_list.html">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/new_shfw.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">售后服务</div>
 	  </a>

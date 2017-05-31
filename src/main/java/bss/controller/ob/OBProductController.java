@@ -92,49 +92,47 @@ public class OBProductController {
 	public String list(@CurrentUser User user,OBProduct example, Model model, @RequestParam(defaultValue="1")Integer page) {
 		//声明标识是否是资源服务中心
 		String authType = null;
-		if(user != null){
+		if(null != user && "4".equals(user.getTypeName())){
 			//判断是否 是资源服务中心 
-			if("4".equals(user.getTypeName())){
-				authType = "4";
-				List<OBProduct> list = oBProductService.selectByExample(example, page);
-				if(list != null){
-					for (OBProduct oBProduct : list) {
-						String id = oBProduct.getSmallPointsId();
-						if(id != null){
-							HashMap<String, Object> map = new HashMap<String, Object>();
-							map.put("id", id);
-							//组合封装页面显示数据
-							List<Category> clist = categoryService.findCategoryByParentNode(map);
-							String str = "";
-							for (Category category : clist) {
-								if(!oBProduct.getSmallPoints().getName().equals(category.getName())){
-									str += category.getName() +"/";
-								}
+			authType = "4";
+			List<OBProduct> list = oBProductService.selectByExample(example, page);
+			if(null != list){
+				for (OBProduct oBProduct : list) {
+					String id = oBProduct.getSmallPointsId();
+					if(null != id){
+						HashMap<String , Object> map = new HashMap<String , Object>();
+						map.put("id", id);
+						//组合封装页面显示数据
+						List<Category> clist = categoryService.findCategoryByParentNode(map);
+						StringBuffer sb = new StringBuffer();
+						for (Category category : clist) {
+							if(!oBProduct.getSmallPoints().getName().equals(category.getName())){
+								sb.append(category.getName());
+								sb.append("/");
 							}
-							if(oBProduct.getSmallPoints() != null){
-								str+=oBProduct.getSmallPoints().getName();
-								oBProduct.setPointsName(str);
-							}
+						}
+						if(null != oBProduct.getSmallPoints()){
+							sb.append(oBProduct.getSmallPoints().getName());
+							String str = sb.toString();
+							oBProduct.setPointsName(str);
 						}
 					}
 				}
-				PageInfo<OBProduct> info = new PageInfo<>(list);
-				List<OBSupplier> numlist = oBSupplierService.selectSupplierNum();
-				for (OBSupplier ob : numlist) {
-					if(null != ob){
-						if (null == ob.getnCount()) {
-							ob.setnCount(0);
-						}
-					}
-				}
-				if(user != null){
-					model.addAttribute("userii", user);
-				}
-				model.addAttribute("info", info);
-				model.addAttribute("authType", authType);
-				model.addAttribute("productExample", example);
-				model.addAttribute("numlist", numlist);
 			}
+			PageInfo<OBProduct> info = new PageInfo<>(list);
+			List<OBSupplier> numlist = oBSupplierService.selectSupplierNum();
+			for (OBSupplier ob : numlist) {
+				if(null != ob && null == ob.getnCount()){
+					ob.setnCount(0);
+				}
+			}
+			if(user != null){
+				model.addAttribute("userii", user);
+			}
+			model.addAttribute("info", info);
+			model.addAttribute("authType", authType);
+			model.addAttribute("productExample", example);
+			model.addAttribute("numlist", numlist);
 		}
 		return "bss/ob/finalize_DesignProduct/list";
 	}
@@ -156,15 +154,11 @@ public class OBProductController {
 	public void delete(@CurrentUser User user,HttpServletRequest request) {
 		String oBProductids = request.getParameter("oBProductids");
 		String productId = oBProductids.trim();
-		if(user !=null){
+		if(null != user && "4".equals(user.getTypeName()) && productId.length() != 0){
 			//只能是资源服务中心 可以操作
-			if("4".equals(user.getTypeName())){
-			if (productId.length() != 0) {
-				String[] uniqueIds = productId.split(",");
-				for (String str : uniqueIds) {
-					oBProductService.deleteByPrimaryKey(str);
-				}
-			  }	
+			String[] uniqueIds = productId.split(",");
+			for (String str : uniqueIds) {
+				oBProductService.deleteByPrimaryKey(str);
 			}
 		}
 	}
@@ -204,35 +198,33 @@ public class OBProductController {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String fab(@CurrentUser User user,HttpServletRequest request,Model model) {
-		if(user != null){
+		if(null != user && "4".equals(user.getTypeName())){
 			//判断是否 是资源服务中心 
-			if("4".equals(user.getTypeName())){
-				String id = request.getParameter("id") == null ? "" : request.getParameter("id");
-				OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
-				String code = "";
-				String name = "";
-				if(obProduct != null){
-					code = obProduct.getCode();
-					name = obProduct.getName();
+			String id = request.getParameter("id") == null ? "" : request.getParameter("id");
+			OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
+			String code = "";
+			String name = "";
+			if(null != obProduct){
+				code = obProduct.getCode();
+				name = obProduct.getName();
+			}
+			int i = oBProductService.yzProductCode(code.trim(), id);
+			int j = oBProductService.yzProductName(name.trim(), id);
+			
+			if(i == 0 && j == 0){
+				oBProductService.fab(id);
+				return "success";
+			}else{
+				if(i > 0 && j > 0){
+					return "error";
 				}
-				int i = oBProductService.yzProductCode(code.trim(), id);
-				int j = oBProductService.yzProductName(name.trim(), id);
-				
-				if(i == 0 && j == 0){
-					oBProductService.fab(id);
-					return "success";
-				}else{
-					if(i > 0 && j > 0){
-						return "error";
-					}
-					if(i > 0){
-						return "error1";
-					}
-					if(j > 0){
-						return "error2";
-					}
-				  }
-				 }
+				if(i > 0){
+					return "error1";
+				}
+				if(j > 0){
+					return "error2";
+				}
+			}
 		}
 		return "";
 	}
@@ -244,7 +236,7 @@ public class OBProductController {
 	 * @author  zhang shubin
 	 * @version  2017年4月1日 
 	 * @param  @param request
-	 * @param  @param model 
+	 * @param  @param model
 	 * @return void 
 	 * @exception
 	 */
@@ -253,12 +245,10 @@ public class OBProductController {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public void chfab(@CurrentUser User user,HttpServletRequest request,Model model) {
-		if(user!= null){
+		if(null != user && "4".equals(user.getTypeName())){
 			//判断是否 是资源服务中心 
-			if("4".equals(user.getTypeName())){
-				String id = request.getParameter("id") == null ? "" : request.getParameter("id");
-				oBProductService.chfab(id);
-			}
+			String id = request.getParameter("id") == null ? "" : request.getParameter("id");
+			oBProductService.chfab(id);
 		}
 	}
 
@@ -281,58 +271,55 @@ public class OBProductController {
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String tiaozhuan(@CurrentUser User user,Model model, HttpServletRequest request) {
 		String authType=null;
-		if(user!= null){
+		if(null != user && "4".equals(user.getTypeName())){
 			//判断是否 是资源服务中心 
-			if("4".equals(user.getTypeName())){
-				authType=user.getTypeName();
-				String id = request.getParameter("proid") == null ? "" : request.getParameter("proid");
-				int type = Integer.parseInt(request.getParameter("type"));
-				model.addAttribute("authType",authType);
-				if (type == 1) {
-					Category parentCategory = new Category();
-					OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
-					if(obProduct != null && obProduct.getProductCategoryLevel() != null){
-						if(obProduct.getProductCategoryLevel() == 2){
-							parentCategory = categoryService.findById(obProduct.getCategoryBigId());
-						}else if(obProduct.getProductCategoryLevel() == 3){
-							parentCategory = categoryService.findById(obProduct.getCategoryMiddleId());
-						}else if(obProduct.getProductCategoryLevel() == 4){
-							parentCategory = categoryService.findById(obProduct.getCategoryId());
-						}else if(obProduct.getProductCategoryLevel() == 5){
+			authType=user.getTypeName();
+			String id = request.getParameter("proid") == null ? "" : request.getParameter("proid");
+			int type = Integer.parseInt(request.getParameter("type"));
+			model.addAttribute("authType",authType);
+			if (type == 1) {
+				Category parentCategory = new Category();
+				OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
+				if(null != obProduct && null != obProduct.getProductCategoryLevel()){
+					if(obProduct.getProductCategoryLevel() == 2){
+						parentCategory = categoryService.findById(obProduct.getCategoryBigId());
+					}else if(obProduct.getProductCategoryLevel() == 3){
+						parentCategory = categoryService.findById(obProduct.getCategoryMiddleId());
+					}else if(obProduct.getProductCategoryLevel() == 4){
+						parentCategory = categoryService.findById(obProduct.getCategoryId());
+					}else if(obProduct.getProductCategoryLevel() == 5){
+						parentCategory = categoryService.findById(obProduct.getProductCategoryId());
+					}else{
+						if(null != obProduct.getProductCategoryId()){
 							parentCategory = categoryService.findById(obProduct.getProductCategoryId());
+							obProduct.setProductCategoryLevel(5);
 						}else{
-							if(obProduct.getProductCategoryId() != null){
-								parentCategory = categoryService.findById(obProduct.getProductCategoryId());
-								obProduct.setProductCategoryLevel(5);
+							if(null != obProduct.getCategoryId()){
+								parentCategory = categoryService.findById(obProduct.getCategoryId());
+								obProduct.setProductCategoryLevel(4);
 							}else{
-								if(obProduct.getCategoryId() != null){
-									parentCategory = categoryService.findById(obProduct.getCategoryId());
-									obProduct.setProductCategoryLevel(4);
+								if(null != obProduct.getCategoryMiddleId()){
+									parentCategory = categoryService.findById(obProduct.getCategoryMiddleId());
+									obProduct.setProductCategoryLevel(3);
 								}else{
-									if(obProduct.getCategoryMiddleId() != null){
-										parentCategory = categoryService.findById(obProduct.getCategoryMiddleId());
-										obProduct.setProductCategoryLevel(3);
-									}else{
-										if(obProduct.getCategoryBigId() != null){
-											parentCategory = categoryService.findById(obProduct.getCategoryBigId());
-											obProduct.setProductCategoryLevel(2);
-										}
+									if(null != obProduct.getCategoryBigId()){
+										parentCategory = categoryService.findById(obProduct.getCategoryBigId());
+										obProduct.setProductCategoryLevel(2);
 									}
 								}
 							}
 						}
 					}
-					
-					if(parentCategory != null){
-						model.addAttribute("categoryName", parentCategory.getName());
-						model.addAttribute("cId",parentCategory.getId() );
-					}
-					model.addAttribute("obProduct", obProduct);
-				 
-					return "bss/ob/finalize_DesignProduct/edit";
-				} else {
-					return "bss/ob/finalize_DesignProduct/publish";
 				}
+				
+				if(null != parentCategory){
+					model.addAttribute("categoryName", parentCategory.getName());
+					model.addAttribute("cId",parentCategory.getId() );
+				}
+				model.addAttribute("obProduct", obProduct);
+				return "bss/ob/finalize_DesignProduct/edit";
+			} else {
+				return "bss/ob/finalize_DesignProduct/publish";
 			}
 		}
 		return "bss/ob/finalize_DesignProduct/publish";
@@ -353,48 +340,43 @@ public class OBProductController {
 	@RequestMapping("/supplier")
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String supplier(@CurrentUser User user,Model model, HttpServletRequest request, Integer page) {
+	public String supplier(@CurrentUser User user,Model model, HttpServletRequest request, @RequestParam(defaultValue="1")Integer page) {
 		String authType=null;
-		if(user!= null){
+		if(null != user && "4".equals(user.getTypeName())){
 			//判断是否 是资源服务中心 
-			if("4".equals(user.getTypeName())){
-				authType=user.getTypeName();
-				if (page == null) {
-					page = 1;
-				}
-				String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
-				Integer status = request.getParameter("status") == null ? 0 : Integer.parseInt(request.getParameter("status"));
-				String smallPointsId = request.getParameter("smallPointsId") == null ? "" : request.getParameter("smallPointsId");
-				List<OBSupplier> list = oBSupplierService.selectByProductId(null, page,
-						status,supplierName,null,smallPointsId);
-				if(list != null){
-					for (OBSupplier obSupplier : list) {
-						String id = obSupplier.getSmallPointsId();
-						if(id != null){
-							HashMap<String, Object> map = new HashMap<String, Object>();
-							map.put("id", id);
-							List<Category> clist = categoryService.findCategoryByParentNode(map);
-							String str = "";
-							for (Category category : clist) {
-								if(!obSupplier.getSmallPoints().getName().equals(category.getName())){
-									str += category.getName() +"/";
-								}
-								
+			authType=user.getTypeName();
+			String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
+			Integer status = request.getParameter("status") == null ? 0 : Integer.parseInt(request.getParameter("status"));
+			String smallPointsId = request.getParameter("smallPointsId") == null ? "" : request.getParameter("smallPointsId");
+			List<OBSupplier> list = oBSupplierService.selectByProductId(null, page,
+					status,supplierName,null,smallPointsId);
+			if(list != null){
+				for (OBSupplier obSupplier : list) {
+					String id = obSupplier.getSmallPointsId();
+					if(id != null){
+						HashMap<String, Object> map = new HashMap<String, Object>();
+						map.put("id", id);
+						List<Category> clist = categoryService.findCategoryByParentNode(map);
+						String str = "";
+						for (Category category : clist) {
+							if(!obSupplier.getSmallPoints().getName().equals(category.getName())){
+								str += category.getName() +"/";
 							}
-							if(obSupplier.getSmallPoints() != null){
-								str+=obSupplier.getSmallPoints().getName();
-								obSupplier.setPointsName(str);
-							}
+							
+						}
+						if(obSupplier.getSmallPoints() != null){
+							str+=obSupplier.getSmallPoints().getName();
+							obSupplier.setPointsName(str);
 						}
 					}
 				}
-				PageInfo<OBSupplier> info = new PageInfo<>(list);
-				model.addAttribute("info", info);
-				model.addAttribute("status", status);
-				model.addAttribute("supplierName", supplierName);
-				model.addAttribute("smallPointsId", smallPointsId);
-			 }
-		}
+			}
+			PageInfo<OBSupplier> info = new PageInfo<>(list);
+			model.addAttribute("info", info);
+			model.addAttribute("status", status);
+			model.addAttribute("supplierName", supplierName);
+			model.addAttribute("smallPointsId", smallPointsId);
+		 }
 		model.addAttribute("authType", authType);
 		return "bss/ob/finalize_DesignProduct/qualifiedSupplierlist";
 	}

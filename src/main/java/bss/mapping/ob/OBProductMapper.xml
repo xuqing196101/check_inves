@@ -126,7 +126,7 @@
     <if test="status != null and status != 0">
     	and STATUS = #{status}
     </if>
-    ORDER BY CREATED_AT DESC
+    ORDER BY CREATED_AT,CODE DESC
   </select>
   
   <!-- 根据供应商id找到对应的商品 -->

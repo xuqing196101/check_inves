@@ -189,6 +189,7 @@ $(document).ready(function(){
 	
 	/* 发布 */
 	function sub(i){
+		alert(i);
 	    var authType='${authType}'; 
 	    if(authType=='4'){
 		var id = $("#productId").val();
