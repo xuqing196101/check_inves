@@ -86,7 +86,7 @@ public class OBProjectController {
 	Logger log = LoggerFactory.getLogger(OBProjectController.class);
 	
 	@Autowired
-	private OBProjectServer OBProjectServer;
+	private OBProjectServer oBProjectServer;
 	
 	@Autowired
 	private OBProductService oBProductService;
@@ -136,36 +136,32 @@ public class OBProjectController {
 	@RequestMapping(value = "/list", produces = "text/html;charset=UTF-8")
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String list(@CurrentUser User user, Model model,
-			Integer page,
-			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,
-			String name) {
+	public String list(@CurrentUser User user, Model model,Integer page,
+			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,String name) {
 		    if(page == null){
 			  page=1;
 		    }
 		    //定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		    int orgId=2;
-		    if (user != null) {
-			//竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-		    if("0".equals(user.getTypeName())){
-				orgId=0;
-			//获取需求部门用户id 集合	
-			List<String> userList=userService.findListByTypeId(user.getTypeName());
-			
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("page", page);
-			map.put("startTime", startTime);
-			if(name != null){
-				name=name.trim();
-			 }
-			map.put("name", name);
-			map.put("createId", userList);
-			List<OBProject> list = OBProjectServer.List(map);
-			PageInfo<OBProject> info = new PageInfo<OBProject>(list);
-			model.addAttribute("info", info);
-			model.addAttribute("name",name);
-			model.addAttribute("startTime",startTime);
-			  }
+		    if (user != null && "0".equals(user.getTypeName())) {
+      			//竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
+      				orgId=0;
+      			//获取需求部门用户id 集合	
+      			List<String> userList=userService.findListByTypeId(user.getTypeName());
+      			
+      			Map<String, Object> map = new HashMap<>();
+      			map.put("page", page);
+      			map.put("startTime", startTime);
+      			if(name != null){
+      				name=name.trim();
+      			 }
+      			map.put("name", name);
+      			map.put("createId", userList);
+      			List<OBProject> list = oBProjectServer.List(map);
+      			PageInfo<OBProject> info = new PageInfo<>(list);
+      			model.addAttribute("info", info);
+      			model.addAttribute("name",name);
+      			model.addAttribute("startTime",startTime);
 		   }
 		   model.addAttribute("orgId",orgId);
 		   return "bss/ob/biddingInformation/list";
@@ -187,8 +183,7 @@ public class OBProjectController {
 			String name,String status,String result) {
 		if (user != null) {
 			//根据参数获取供应商信息
-			List<OBSupplier> lists = OBProjectServer.supplierList(page,obProjectId,
-					 name, status,result);
+			List<OBSupplier> lists = oBProjectServer.supplierList(page,obProjectId, name, status,result);
 			model.addAttribute("obProjectId",obProjectId);
 			model.addAttribute("name",name);
 			model.addAttribute("status",status);
@@ -197,25 +192,25 @@ public class OBProjectController {
 				for (OBSupplier obSupplier : lists) {
 					String id = obSupplier.getSmallPointsId();
 					if(id != null){
-						HashMap<String, Object> map = new HashMap<String, Object>();
+						HashMap<String, Object> map = new HashMap<>();
 						map.put("id", id);
 						//组合采购目录数据
 						List<Category> clist = categoryService.findCategoryByParentNode(map);
-						String str = "";
+						StringBuffer sb = new StringBuffer();
 						for (Category category : clist) {
 							if(!obSupplier.getSmallPoints().getName().equals(category.getName())){
-								str += category.getName() +"/";
+								sb.append(category.getName() +"/");
 							}
 							
 						}
 						if(obSupplier.getSmallPoints() != null){
-							str+=obSupplier.getSmallPoints().getName();
-							obSupplier.setPointsName(str);
+							sb.append(obSupplier.getSmallPoints().getName());
+							obSupplier.setPointsName(sb.toString());
 						}
 					}
 				}
 			}
-			model.addAttribute("info", new PageInfo<OBSupplier>(lists));
+			model.addAttribute("info", new PageInfo<>(lists));
 		}
 		return "bss/ob/biddingInformation/supplierlist";
 	}
@@ -246,7 +241,7 @@ public class OBProjectController {
 			if (page == null) {
 				page = 1;
 			}
-			Map<String, Object> map1 = new HashMap<String, Object>();
+			Map<String, Object> map1 = new HashMap<>();
 			map1.put("page", page);
 			map1.put("supplierName", name);
 			map1.put("projectId", obProjectId);
@@ -403,7 +398,7 @@ public class OBProjectController {
 		map.put("startTime", startTimeStr);
 		map.put("endTime", endTimeStr);
 		map.put("page", page);
-		List<OBProject> list = OBProjectServer.selectAllOBproject(map);
+		List<OBProject> list = oBProjectServer.selectAllOBproject(map);
 		// 封装分页信息
 		PageInfo<OBProject> info = new PageInfo<OBProject>(list);
 		// 将查询信息封装到model域中
@@ -429,7 +424,7 @@ public class OBProjectController {
 			 //获取是否内网标识 1外网 0内网
 		// String ipAddressType= PropUtil.getProperty("ipAddressType");
 			//if("1".equals(ipAddressType)){
-			OBProjectServer.changeStatus(projectId);
+	  oBProjectServer.changeStatus(projectId);
 		//}
     }
 	/**
@@ -451,7 +446,7 @@ public class OBProjectController {
 	public String findBiddingResult(Model model, HttpServletRequest request) {
 		// 获取竞价标题的id
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
-		OBProject obProject22 = OBProjectServer.selectByPrimaryKey(id);
+		OBProject obProject22 = oBProjectServer.selectByPrimaryKey(id);
 		if(obProject22 != null){
 			model.addAttribute("projectName", obProject22.getName());
 		}
@@ -569,7 +564,7 @@ public class OBProjectController {
 			map.put("list", list);
 			map.put("size", size);
 			map.put("smallPointsId", smallPointsId);
-			String json = OBProjectServer.getProduct(map);
+			String json = oBProjectServer.getProduct(map);
 			response.getWriter().print(json.toString());
 			response.getWriter().flush();
 		} catch (IOException e) {
@@ -622,7 +617,7 @@ public class OBProjectController {
 		if (user != null) {
 			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
 			if("0".equals(user.getTypeName())){
-			msg = OBProjectServer.saveProject(obProject, user.getId(), fileid);
+			msg = oBProjectServer.saveProject(obProject, user.getId(), fileid);
 			}
 		}
 		return msg;
@@ -649,7 +644,7 @@ public class OBProjectController {
 				 for(String item:plist){
 					 list.add(item);
 				 }
-				 getlist= OBProjectServer.selecUniontSupplier(list);
+				 getlist= oBProjectServer.selecUniontSupplier(list);
 				 if(getlist!=null && getlist.size()>0){
 					 if(getlist.get(0).getSupplierId()=="" ||getlist.get(0).getSupplierId() ==null){
 						 jdcg.setCount("0");
@@ -678,7 +673,7 @@ public class OBProjectController {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String checkCatalog(HttpServletRequest request, HttpServletResponse response,@RequestBody List<String> productid){
-	  return OBProjectServer.verifyCatalog(productid);
+	  return oBProjectServer.verifyCatalog(productid);
 	}
 	/** @Description: 编辑暂存的竞价信息
 	* @param  OBProject
@@ -698,7 +693,7 @@ public class OBProjectController {
 			Map<String,Object> map=new HashMap<String, Object>();	
 			map.put("id", obProjectId);
 			//map.put("userId", user.getId());
-			OBProject obProject=OBProjectServer.editOBProject(map);
+			OBProject obProject=oBProjectServer.editOBProject(map);
 			if(obProject !=null){
 				 List<OBProductInfo> obProductInfo=oBProductInfoService.selectByProjectId(obProject.getId());
 				 obProject.setObProductInfo(obProductInfo);
@@ -783,7 +778,7 @@ public class OBProjectController {
 							}
 						}
 			    	}
-					OBProject obProjectww = OBProjectServer.selectByPrimaryKey(obProjectId);
+					OBProject obProjectww = oBProjectServer.selectByPrimaryKey(obProjectId);
 			    	if(obProjectww != null){
 			    		String projectName = obProjectww.getName();
 			    		model.addAttribute("projectName",projectName);
@@ -834,12 +829,12 @@ public class OBProjectController {
 			Map<String,Object> map=new HashMap<String, Object>();	
 			map.put("id", obProjectId);
 			map.put("userId", user.getId());
-			OBProject obProject=OBProjectServer.editOBProject(map);
+			OBProject obProject=oBProjectServer.editOBProject(map);
 			if(obProject !=null){
 				OBProject ob=new OBProject();
 				ob.setId(obProjectId);
 				ob.setIsDelete(1);
-				 OBProjectServer.updateProject(ob);
+				oBProjectServer.updateProject(ob);
 			   } 
 			  }
 			}
@@ -952,7 +947,7 @@ public class OBProjectController {
 		String projectId = request.getParameter("id") == null ? "" : request
 				.getParameter("id");
 		
-		Map<String, Object> map = OBProjectServer.findBiddingInfo(projectId);
+		Map<String, Object> map = oBProjectServer.findBiddingInfo(projectId);
 		/*************************************竞价信息****************************************/
 		OBProject obProject = (OBProject) map.get("obProject");
 		// 获取采购机构名称
@@ -1100,7 +1095,7 @@ public class OBProjectController {
     	String projectId = request.getParameter("id") == null ? "" : request.getParameter("id");
     	// 调用获取竞价结果信息
     	BiddingResultCommon.getBiddingResultInfo(model, projectId,  oBProjectResultService, obResultSubtabulationService);
-    	OBProject ob=OBProjectServer.selectByPrimaryKey(projectId);
+    	OBProject ob=oBProjectServer.selectByPrimaryKey(projectId);
     	if(ob!=null){
     		model.addAttribute("projectName", ob.getName());
     	}

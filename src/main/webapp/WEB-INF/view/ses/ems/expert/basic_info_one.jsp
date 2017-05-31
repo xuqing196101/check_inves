@@ -595,17 +595,19 @@
 					layer.msg("请填写从事专业起始年月!");
 					return false;
 				}
-
-				var makeTechDate = $("#makeTechDate").val().trim();
-				if(!makeTechDate) {
-					layer.msg("请填写取得技术职称时间!");
-					return false;
-				}
-
-				var professTechTitles = $("#professTechTitles").val();
-				if(!professTechTitles) {
-					layer.msg("请填写专业技术职称!");
-					return false;
+				
+				var teachTitle = $("#teachTitle").val();
+				if(teachTitle == 1){
+					var professTechTitles = $("#professTechTitles").val();
+					if(!professTechTitles) {
+						layer.msg("请填写专业技术职称!");
+						return false;
+					}
+					var makeTechDate = $("#makeTechDate").val();
+					if(!makeTechDate) {
+						layer.msg("请填写取得技术职称时间!");
+						return false;
+					}
 				}
 
 				var hightEducation = $("#hightEducation").val();
@@ -738,6 +740,7 @@
 
 				var sysId = $("#sysId").val();
 				var coverNote = $("#coverNote option:selected") .val();
+				//var teachTitle = $("#teachTitle").val();
 				//图片上传
 				var flag = true;
 				$.ajax({
@@ -745,7 +748,8 @@
 					data: {
 						"sysId": sysId,
 						"from": from,
-            "coverNote": 1,
+            "coverNote": coverNote || 1,
+            "teachTitle": teachTitle,
 						"isReferenceLftter": $("#isReferenceLftter").val()
 					},
 					cache: false,
@@ -1228,17 +1232,17 @@
 		                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5" ><i class="red">*</i>有无专业技术职称</span>
 		                        <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 		                            <select name="teachTitle" id="teachTitle"  >
-		                                <option  value="">-请选择-</option>
-		                                    <option <c:if test="${expert.teachTitle == 1}">selected="selected"</c:if>  value="1">有</option>
-		                                     <option <c:if test="${expert.teachTitle == 2}">selected="selected"</c:if>  value="2">无</option>
+		                                <option value="">-请选择-</option>
+                                    <option <c:if test="${expert.teachTitle == 1}">selected="selected"</c:if>  value="1">有</option>
+                                    <option <c:if test="${expert.teachTitle == 2}">selected="selected"</c:if>  value="2">无</option>
 		                            </select>
 		                        </div>
 		                    </li>
 		                </c:if>
                 
                 
-					<li class="col-md-3 col-sm-6 col-xs-12" id="profession_title"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i>专业技术职称</span>
+					<li class="col-md-3 col-sm-6 col-xs-12" id="profession_title">
+						<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>专业技术职称</span>
 							<!--/执业资格  -->
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'专业技术职称')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专业技术职称')"

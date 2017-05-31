@@ -13,7 +13,7 @@ import bss.util.BigDecimalUtils;
  * 
  * Description: 获取竞价结果信息
  * 
- * @author YangHongLiang
+ * @author Easong
  * @version 2017-5-22
  * @since JDK1.7
  */
@@ -35,7 +35,7 @@ public class BiddingResultCommon {
 		List<String> biddingIdList = oBProjectResultService
 				.isSecondBidding(projectId);
 		Boolean flag = true;
-		if (biddingIdList != null && biddingIdList.size() > 0) {
+		if (biddingIdList != null && !biddingIdList.isEmpty()) {
 			for (String string : biddingIdList) {
 				if ("2".equals(string)) {
 					flag = false;
@@ -46,7 +46,7 @@ public class BiddingResultCommon {
 				.selResultByProjectId(projectId);
 		Integer countProportion = 0;
 		BigDecimal million = new BigDecimal(10000);
-		if (list != null && list.size() > 0) {
+		if (list != null && !list.isEmpty()) {
 			for (OBProjectResult obProjectResult : list) {
 				if (obProjectResult != null) {
 					if (obProjectResult.getStatus() == 1
@@ -68,8 +68,7 @@ public class BiddingResultCommon {
 						List<OBResultSubtabulation> obResultSubtabulation = obResultSubtabulationService
 								.selectByProjectIdAndSupplierId(projectId,
 										obProjectResult.getSupplierId());
-						if (obResultSubtabulation != null
-								&& obResultSubtabulation.size() > 0) {
+						if (obResultSubtabulation != null	&& !obResultSubtabulation.isEmpty()) {
 							for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {
 								if (obResultSubtabulation2 != null) {
 									obResultSubtabulation2
