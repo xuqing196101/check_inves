@@ -105,7 +105,7 @@
   	from t_iss_ps_article
   	where is_deleted =0 
   	<if test="title!=null and title!=''">
-  	and name like '%'||#{title}||'%'
+  	and name like CONCAT(CONCAT('%', #{title}), '%')
   	</if>
   	and status=2
   	order by published_at desc

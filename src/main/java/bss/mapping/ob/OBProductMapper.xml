@@ -524,7 +524,7 @@
   	FROM T_BSS_OB_PRODUCT
   	WHERE IS_DELETED = 0 AND STATUS = 2 AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE IS_PUBLISH = 0 AND IS_DELETED = 0
   	<if test="name != null">
-  		AND NAME LIKE '%'||#{name}||'%' 
+  		AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
   	</if> )
   </select>
   
@@ -554,10 +554,10 @@
     FROM T_BSS_OB_PRODUCT 
     WHERE STATUS = 2 AND IS_DELETED=0
     <if test="code != null and code != ''">
-    	AND CODE like '%'||#{code}||'%'
+    	AND CODE like CONCAT(CONCAT('%', #{code}), '%')
     </if>
     <if test="name != null and name != ''">
-    	AND NAME like '%'||#{name}||'%'
+    	AND NAME like CONCAT(CONCAT('%', #{name}), '%')
     </if>
     <if test="smallPointsId != null and smallPointsId != ''" >
         AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
