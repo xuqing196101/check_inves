@@ -1077,6 +1077,9 @@ public class ExcelUtil {
 	}
 	
 	/**
+	 * @throws IOException 
+	 * @throws InvalidFormatException 
+	 * @throws EncryptedDocumentException 
 	 * 
 	 * Description: 定型产品文件上传
 	 * 
@@ -1088,7 +1091,7 @@ public class ExcelUtil {
 	 * @return Map<String,Object> 
 	 * @exception
 	 */
-	public static Map<String,Object> readOBProductExcel(MultipartFile file) throws Exception{
+	public static Map<String,Object> readOBProductExcel(MultipartFile file) throws InvalidFormatException, IOException{
 		List<OBProduct> list=new LinkedList<OBProduct>();
 		Map<String,Object> map=new HashMap<String,Object>();
 		Workbook workbook = WorkbookFactory.create(file.getInputStream());
