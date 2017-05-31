@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +65,8 @@ import bss.service.ob.OBSupplierService;
 import bss.util.BigDecimalUtils;
 import bss.util.CheckUtil;
 import bss.util.ExcelUtil;
+import bss.util.PropUtil;
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
@@ -74,55 +78,54 @@ import common.model.UploadFile;
 import common.utils.JdcgResult;
 
 /**
- * 竞价信息管理控制
  * 
- * @author YangHongliang
+ * Description:竞价信息管理控制
  * 
+ * @author YangHongLiang
+ * @since JDK1.7
  */
 @Controller
 @Scope("prototype")
 @RequestMapping("/ob_project")
 public class OBProjectController {
-	Logger log = LoggerFactory.getLogger(OBProjectController.class);
-	
-	@Autowired
-	private OBProjectServer oBProjectServer;
-	
-	@Autowired
-	private OBProductService oBProductService;
-	
-	@Autowired
-	private OBSupplierService obSupplierService;
-
-	@Autowired
-	private OrgnizationServiceI orgnizationService;
-
-	@Autowired
-	private DictionaryDataServiceI dictionaryDataService;
-	
-	@Autowired
-	private OBProjectResultService oBProjectResultService;
-	
-	@Autowired
-	private CategoryService categoryService;
-	
-	@Autowired
-	private OBSupplierQuoteService obSupplierQuoteService;
-	
-	/**竞价 规则**/
-	@Autowired
-	private OBRuleService obRuleService;
-	/**竞价 关联 产品**/
-	@Autowired
-	private OBProductInfoServer oBProductInfoService;
-	@Autowired
-	private OBProjectResultService obProjectResultService;
-    
-	/**用户**/
-	@Autowired
-	private UserServiceI userService;
-	@Autowired
-	private OBResultSubtabulationService obResultSubtabulationService;
+  	Logger log = LoggerFactory.getLogger(OBProjectController.class);
+  	
+  	@Autowired
+  	private OBProjectServer oBProjectServer;
+  	
+  	@Autowired
+  	private OBProductService oBProductService;
+  	
+  	@Autowired
+  	private OBSupplierService obSupplierService;
+  
+  	@Autowired
+  	private OrgnizationServiceI orgnizationService;
+  
+  	@Autowired
+  	private DictionaryDataServiceI dictionaryDataService;
+  	
+  	@Autowired
+  	private OBProjectResultService oBProjectResultService;
+  	
+  	@Autowired
+  	private CategoryService categoryService;
+  	
+  	@Autowired
+  	private OBSupplierQuoteService obSupplierQuoteService;
+  	
+  	/**竞价 规则**/
+  	@Autowired
+  	private OBRuleService obRuleService;
+  	/**竞价 关联 产品**/
+  	@Autowired
+  	private OBProductInfoServer oBProductInfoService;
+      
+  	/**用户**/
+  	@Autowired
+  	private UserServiceI userService;
+  	@Autowired
+  	private OBResultSubtabulationService obResultSubtabulationService;
     
 	
 	/***
@@ -136,11 +139,8 @@ public class OBProjectController {
 	@RequestMapping(value = "/list", produces = "text/html;charset=UTF-8")
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String list(@CurrentUser User user, Model model,Integer page,
+	public String list(@CurrentUser User user, Model model,@RequestParam(defaultValue="1")Integer page,
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,String name) {
-		    if(page == null){
-			  page=1;
-		    }
 		    //定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		    int orgId=2;
 		    if (user != null && "0".equals(user.getTypeName())) {
@@ -150,7 +150,7 @@ public class OBProjectController {
       			List<String> userList=userService.findListByTypeId(user.getTypeName());
       			
       			Map<String, Object> map = new HashMap<>();
-      			map.put("page", page);
+      			map.put("page",page);
       			map.put("startTime", startTime);
       			if(name != null){
       				name=name.trim();
@@ -178,8 +178,7 @@ public class OBProjectController {
 	@RequestMapping(value = "/supplierList", produces = "text/html;charset=UTF-8")
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String supplierList(@CurrentUser User user, Model model,
-			HttpServletRequest request,@RequestParam(defaultValue="1") Integer page,String obProjectId,
+	public String supplierList(@CurrentUser User user, Model model,@RequestParam(defaultValue="1") Integer page,String obProjectId,
 			String name,String status,String result) {
 		if (user != null) {
 			//根据参数获取供应商信息
@@ -196,12 +195,11 @@ public class OBProjectController {
 						map.put("id", id);
 						//组合采购目录数据
 						List<Category> clist = categoryService.findCategoryByParentNode(map);
-						StringBuffer sb = new StringBuffer();
+						StringBuilder sb = new StringBuilder();
 						for (Category category : clist) {
 							if(!obSupplier.getSmallPoints().getName().equals(category.getName())){
 								sb.append(category.getName() +"/");
 							}
-							
 						}
 						if(obSupplier.getSmallPoints() != null){
 							sb.append(obSupplier.getSmallPoints().getName());
@@ -236,11 +234,8 @@ public class OBProjectController {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String offerSupplierList(Model model,
-			HttpServletRequest request, Integer page,String obProjectId,
+			HttpServletRequest request, @RequestParam(defaultValue="1")Integer page,String obProjectId,
 			String name,Integer status) {
-			if (page == null) {
-				page = 1;
-			}
 			Map<String, Object> map1 = new HashMap<>();
 			map1.put("page", page);
 			map1.put("supplierName", name);
@@ -249,13 +244,13 @@ public class OBProjectController {
 			String smallPointsId = null;
 			if(obProjectId != null){
 				List<OBProjectSupplier> listps = obSupplierQuoteService.selByProjectId(obProjectId);
-				if(listps != null && listps.size() > 0){
+				if(listps != null && !listps.isEmpty()){
 					smallPointsId = listps.get(0).getSupplierPrimaryId();
 				}
 			}
 			map1.put("smallPointsId", smallPointsId);
 			List<OBSupplier> list = obSupplierService.selOfferSupplier(map1);
-			model.addAttribute("info", new PageInfo<OBSupplier>(list));
+			model.addAttribute("info", new PageInfo<>(list));
 			model.addAttribute("obProjectId",obProjectId);
 			model.addAttribute("name",name);
 			model.addAttribute("obProjectId",obProjectId);
@@ -264,19 +259,19 @@ public class OBProjectController {
 				for (OBSupplier obSupplier : list) {
 					String id = obSupplier.getSmallPointsId();
 					if(id != null){
-						HashMap<String, Object> map = new HashMap<String, Object>();
+						HashMap<String, Object> map = new HashMap<>();
 						map.put("id", id);
 						List<Category> clist = categoryService.findCategoryByParentNode(map);
-						String str = "";
+						StringBuilder sb = new StringBuilder();
 						for (Category category : clist) {
 							if(!obSupplier.getSmallPoints().getName().equals(category.getName())){
-								str += category.getName() +"/";
+								sb.append(category.getName() +"/");
 							}
 							
 						}
 						if(obSupplier.getSmallPoints() != null){
-							str+=obSupplier.getSmallPoints().getName();
-							obSupplier.setPointsName(str);
+							sb.append(obSupplier.getSmallPoints().getName());
+							obSupplier.setPointsName(sb.toString());
 						}
 					}
 				}
@@ -299,28 +294,26 @@ public class OBProjectController {
 			HttpServletRequest request) {
 	    //定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 	   int authType=2;
-       if(user!=null){
+       if(user!=null && "0".equals(user.getTypeName())){
     	 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-		 if("0".equals(user.getTypeName())){
-			 authType=0;
+		 authType=0;
 		// 获取当前 默认规则
 		 OBRule obRule = obRuleService.selectByStatus();
 		 if(obRule==null){
 			 model.addAttribute("supplierCount",null);
 		 }else{
 			 model.addAttribute("supplierCount",obRule.getLeastSupplierNum());
+			 model.addAttribute("obRule",obRule);
+			 model.addAttribute("ruleId",obRule.getId());
 		 }
-		// 生成ID
-		String uuid = UUID.randomUUID().toString().toUpperCase()
-				.replace("-", "");
-		model.addAttribute("ruleId",obRule.getId());
-		model.addAttribute("fileid", uuid);
-		model.addAttribute("userId", user.getId());
-		model.addAttribute("obRule",obRule);
-		model.addAttribute("sysKey", Constant.OB_PROJECT_SYS_KEY);
-		// 标识 竞价附件
-		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
-		   }
+  		// 生成ID
+  		String uuid = UUID.randomUUID().toString().toUpperCase()
+  				.replace("-", "");
+  		model.addAttribute("fileid", uuid);
+  		model.addAttribute("userId", user.getId());
+  		model.addAttribute("sysKey", Constant.OB_PROJECT_SYS_KEY);
+  		// 标识 竞价附件
+  		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		}
 		model.addAttribute("type", 2);
 		model.addAttribute("authType", authType);
@@ -339,15 +332,10 @@ public class OBProjectController {
 	public void getMechanism(@CurrentUser User user, Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		try {
 			String json = orgnizationService.getMechanism();
-			response.getWriter().print(json.toString());
+			response.getWriter().print(json);
 			response.getWriter().flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
 			response.getWriter().close();
-		}
 	}
 	/**
 	 * 获取运杂费数据字典  信息 并返回页面
@@ -387,26 +375,24 @@ public class OBProjectController {
 			HttpServletRequest request,@RequestParam(defaultValue="1") Integer page,@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTimeStr,
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date endTimeStr) throws ParseException {
 		String authType=null;
-		if(user!= null){
+		if(user!= null&& "4".equals(user.getTypeName())){
 			//判断是否 是资源服务中心 
-		if("4".equals(user.getTypeName())){
 			authType=user.getTypeName();
 		// 竞价标题
 		String name = request.getParameter("name");
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("name", name);
 		map.put("startTime", startTimeStr);
 		map.put("endTime", endTimeStr);
 		map.put("page", page);
 		List<OBProject> list = oBProjectServer.selectAllOBproject(map);
 		// 封装分页信息
-		PageInfo<OBProject> info = new PageInfo<OBProject>(list);
+		PageInfo<OBProject> info = new PageInfo<>(list);
 		// 将查询信息封装到model域中
 		model.addAttribute("info", info);
 		model.addAttribute("name", name);
 		model.addAttribute("startTimeStr", startTimeStr);
 		model.addAttribute("endTimeStr", endTimeStr);
-		  }
 		}
 		model.addAttribute("authType", authType);
 		return "bss/ob/biddingSpectacular/list";
@@ -422,10 +408,10 @@ public class OBProjectController {
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
     public void changeStatus( HttpServletRequest request,String projectId){
 			 //获取是否内网标识 1外网 0内网
-		// String ipAddressType= PropUtil.getProperty("ipAddressType");
-			//if("1".equals(ipAddressType)){
-	  oBProjectServer.changeStatus(projectId);
-		//}
+		 String ipAddressType= PropUtil.getProperty("ipAddressType");
+			if("1".equals(ipAddressType)){
+	           oBProjectServer.changeStatus(projectId);
+		    }
     }
 	/**
 	 * 
@@ -503,13 +489,8 @@ public class OBProjectController {
 			model.addAttribute("productIds", productIds);
 			model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalStr);
 			
-			// 封装文件下载项
-			/*model.addAttribute("fileid", obProject.getAttachmentId());
-			model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-			model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));*/
-			
 			//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
-			List<OBProjectResult> resultList=obProjectResultService.selectByPID(id);
+			List<OBProjectResult> resultList=oBProjectResultService.selectByPID(id);
 			List<OBProductInfo> plist=oBProductInfoService.getProductName(id);
 			for(OBProjectResult s:resultList){
 				s.setProductInfo(plist);
@@ -539,23 +520,18 @@ public class OBProjectController {
 	public void getProduct(@CurrentUser User user, Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		try {
-			Map<String ,Object> map = new HashMap<String, Object>();
+			Map<String ,Object> map = new HashMap<>();
 			String ids = request.getParameter("ids") == null ? "" : request.getParameter("ids").trim();
 			String[] split = ids.split(",");
-			List<String> list = new ArrayList<String>();
+			List<String> list = new ArrayList<>();
+			int size = 0;
+			String smallPointsId = null;
 			if(split.length > 0){
 				for (String string : split) {
 					if(!("".equals(string)))
 					list.add(string);
 				}
-			}
-			int size = 0;
-			if(list != null){
 				size = list.size();
-			}
-			String smallPointsId = null;
-			if(split.length > 0){
 				OBProduct obProduct = oBProductService.selectByPrimaryKey(split[0]);
 				if(obProduct != null){
 					smallPointsId = obProduct.getSmallPointsId();
@@ -565,13 +541,9 @@ public class OBProjectController {
 			map.put("size", size);
 			map.put("smallPointsId", smallPointsId);
 			String json = oBProjectServer.getProduct(map);
-			response.getWriter().print(json.toString());
+			response.getWriter().print(json);
 			response.getWriter().flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
 			response.getWriter().close();
-		}
 	}
 
 	/**
@@ -595,7 +567,7 @@ public class OBProjectController {
 				"iso-8859-1");// 为了解决中文名称乱码问题
 		headers.setContentDispositionFormData("attachment", fileName);
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
+		return new ResponseEntity<>(FileUtils.readFileToByteArray(file),
 				headers, HttpStatus.OK);
 	}
 
@@ -611,14 +583,11 @@ public class OBProjectController {
 	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String addProject(@CurrentUser User user, OBProject obProject,
-			HttpServletRequest request, String fileid) {
+	public String addProject(@CurrentUser User user, OBProject obProject,String fileid) {
 		String msg = null;
-		if (user != null) {
+		if (user != null && "0".equals(user.getTypeName())) {
 			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			if("0".equals(user.getTypeName())){
 			msg = oBProjectServer.saveProject(obProject, user.getId(), fileid);
-			}
 		}
 		return msg;
 
@@ -637,7 +606,7 @@ public class OBProjectController {
 	public JdcgResult unionSupplier(HttpServletRequest request, HttpServletResponse response,String productid){
 			List<OBSupplier> getlist=null;
 			JdcgResult jdcg=new JdcgResult();
-			 if(productid!=null && productid!=""){
+			 if(StringUtils.isNotBlank(productid)){
 				 productid=productid.substring(0,productid.length()-1);
 				 String plist[]=productid.split(",");
 				 List<String> list=new ArrayList<>();
@@ -645,16 +614,13 @@ public class OBProjectController {
 					 list.add(item);
 				 }
 				 getlist= oBProjectServer.selecUniontSupplier(list);
-				 if(getlist!=null && getlist.size()>0){
+				 if(getlist!=null && !getlist.isEmpty()){
 					 if(getlist.get(0).getSupplierId()=="" ||getlist.get(0).getSupplierId() ==null){
 						 jdcg.setCount("0");
-					 }else{
-						 jdcg.setCount(getlist.get(0).getSupplierId());
-					 }
-					 if(getlist.get(0).getSupplierId()=="" ||getlist.get(0).getSupplierId() ==null){
 						 jdcg.setSum("0");
 					 }else{
-						 jdcg.setSum(getlist.size()+"");
+						 jdcg.setCount(getlist.get(0).getSupplierId());
+						 jdcg.setSum(String.valueOf(getlist.size()));
 					 }
 			        }
 				 }
@@ -672,27 +638,25 @@ public class OBProjectController {
 	@ResponseBody
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String checkCatalog(HttpServletRequest request, HttpServletResponse response,@RequestBody List<String> productid){
+	public String checkCatalog(@RequestBody List<String> productid){
 	  return oBProjectServer.verifyCatalog(productid);
 	}
 	/** @Description: 编辑暂存的竞价信息
 	* @param  OBProject
 	* @return     
 	* @return String     
-    * @throws IOException 
+  * @throws IOException 
 	* @throws Exception
 	*/
 	@RequestMapping(value="/editOBProject", produces="text/html;charset=UTF-8" )
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String editOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
-		if(user !=null){
+		if(user !=null && "0".equals(user.getTypeName())){
 			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-			if("0".equals(user.getTypeName())){
 			if(StringUtils.isNotBlank(obProjectId)){
-			Map<String,Object> map=new HashMap<String, Object>();	
+			Map<String,Object> map=new HashMap<>();	
 			map.put("id", obProjectId);
-			//map.put("userId", user.getId());
 			OBProject obProject=oBProjectServer.editOBProject(map);
 			if(obProject !=null){
 				 List<OBProductInfo> obProductInfo=oBProductInfoService.selectByProjectId(obProject.getId());
@@ -712,18 +676,18 @@ public class OBProjectController {
 				model.addAttribute("fileid", obProject.getAttachmentId());
 				if(obProject.getStatus()==3||obProject.getStatus()==4){
 				//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
-				List<OBProjectResult> resultList=obProjectResultService.selectByPID(obProject.getId());
+				List<OBProjectResult> resultList=oBProjectResultService.selectByPID(obProject.getId());
 				List<OBProductInfo> plist=oBProductInfoService.getProductName(obProject.getId());
 				for(OBProjectResult s:resultList){
 					if(s.getStatus()==-1){
-						Integer second= obProjectResultService.countByBidding(obProject.getId(), "1", null);
+						Integer second= oBProjectResultService.countByBidding(obProject.getId(), "1", null);
 						String bidding=null;
 						if(second>0){
 							bidding="1";
 						}else{
 							bidding="2";
 						}
-				List<OBResultsInfo> infoList=obProjectResultService.getProductInfo(obProject.getId(),s.getSupplierId(),bidding);
+				List<OBResultsInfo> infoList=oBProjectResultService.getProductInfo(obProject.getId(),s.getSupplierId(),bidding);
 						s.setOBResultsInfo(infoList);
 					}else{
 						s.setProductInfo(plist);
@@ -733,9 +697,9 @@ public class OBProjectController {
 				}
 				//查询参与的供应商==============================================================================================
 				if(obProjectId != null){
-					List<String> biddingIdList = obProjectResultService.isSecondBidding(obProjectId);
+					List<String> biddingIdList = oBProjectResultService.isSecondBidding(obProjectId);
 					Boolean flag = true;
-					if(biddingIdList != null && biddingIdList.size() > 0){
+					if(biddingIdList != null && !biddingIdList.isEmpty()){
 						for (String string : biddingIdList) {
 							if("2".equals(string)){
 								flag = false;
@@ -745,7 +709,7 @@ public class OBProjectController {
 					List<OBProjectResult> listss = oBProjectResultService.selResultByProjectId(obProjectId);
 			    	Integer countProportion = 0;
 			    	BigDecimal million = new BigDecimal(10000);
-			    	if(listss != null && listss.size() > 0){
+			    	if(listss != null && !listss.isEmpty()){
 			    		for (OBProjectResult obProjectResult : listss) {
 							if(obProjectResult != null){
 								if(obProjectResult.getStatus() == 1 || obProjectResult.getStatus() == 2){
@@ -759,7 +723,7 @@ public class OBProjectController {
 										obProjectResult.setSecondproportion(prolist.get(1).getProportion());
 									}
 									List<OBResultSubtabulation> obResultSubtabulation = obResultSubtabulationService.selectByProjectIdAndSupplierId(obProjectId, obProjectResult.getSupplierId());
-									if(obResultSubtabulation != null && obResultSubtabulation.size() > 0){
+									if(obResultSubtabulation != null && !obResultSubtabulation.isEmpty()){
 										for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {
 											if(obResultSubtabulation2 != null){
 												obResultSubtabulation2.setTotalMoney(obResultSubtabulation2.getTotalMoney().divide(million));
@@ -793,7 +757,7 @@ public class OBProjectController {
 					return "bss/ob/biddingInformation/editPublish";
 				}else{
 				if(obProject.getStatus()==0){
-					model.addAttribute("orgId", 0);
+					model.addAttribute("authType", 0);
 					model.addAttribute("type", "2");
 					return "bss/ob/biddingInformation/publish";
 				}else{
@@ -802,7 +766,6 @@ public class OBProjectController {
 				 }
 			   }
 			 }
-			}
 			}
 		}
 		
@@ -822,11 +785,9 @@ public class OBProjectController {
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String delOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
-		if(user !=null){
+		if(user !=null && "0".equals(user.getTypeName()) && StringUtils.isNotBlank(obProjectId)){
 		  //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-		 if("0".equals(user.getTypeName())){
-		  if(StringUtils.isNotBlank(obProjectId)){
-			Map<String,Object> map=new HashMap<String, Object>();	
+			Map<String,Object> map=new HashMap<>();	
 			map.put("id", obProjectId);
 			map.put("userId", user.getId());
 			OBProject obProject=oBProjectServer.editOBProject(map);
@@ -835,9 +796,7 @@ public class OBProjectController {
 				ob.setId(obProjectId);
 				ob.setIsDelete(1);
 				oBProjectServer.updateProject(ob);
-			   } 
 			  }
-			}
 		}
 		return list(user, model,  1, null, "");
 	}
@@ -855,7 +814,6 @@ public class OBProjectController {
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public void proportion(HttpServletRequest request, HttpServletResponse response, Integer supplierCount) throws IOException{
 		String combination="";
-		try {
 			if(supplierCount !=null){
 				switch (supplierCount) {
 				case 1:
@@ -881,18 +839,17 @@ public class OBProjectController {
 				}
 			response.getWriter().print(combination);
 			response.getWriter().flush();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
 			response.getWriter().close();
-		}
+			}
+			
 	}
 	/**
 	 * @Title: uploadFile
 	 * @Description: 导入excel表格数据 author: YangHongLiang
 	 * @param @return
 	 * @return String
+	 * @throws InvalidFormatException 
+	 * @throws EncryptedDocumentException 
 	 * @throws IOException
 	 * @throws Exception
 	 */
@@ -903,25 +860,21 @@ public class OBProjectController {
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	public String uploadFile(@CurrentUser User user, String planDepName,
 			MultipartFile file, String type, String planName, String planNo,
-			Model model) throws Exception {
+			Model model) throws  InvalidFormatException, IOException  {
 		String fileName = file.getOriginalFilename();
 		if (!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
 			return "1";
 		}
 
-		List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
-		Map<String, Object> maps = (Map<String, Object>) ExcelUtil
-				.readOBExcel(file);
+		List<PurchaseRequired> list = null;
+		Map<String, Object> maps = (Map<String, Object>) ExcelUtil.readOBExcel(file);
 		list = (List<PurchaseRequired>) maps.get("list");
 
 		String errMsg = (String) maps.get("errMsg");
-
 		if (errMsg != null) {
-			String jsonString = JSON.toJSONString(errMsg);
-			return jsonString;
+			return errMsg;
 		}
-		String jsonString = JSON.toJSONString(list);
-		return jsonString;
+		return JSON.toJSONString(list);
 	}
 
 	/**
@@ -992,8 +945,7 @@ public class OBProjectController {
 	@RequestMapping("/findBiddingIssueInfo")
 	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
 	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	public String findBiddingInfo(Model model, HttpServletRequest request)
-			throws Exception {
+	public String findBiddingInfo(Model model, HttpServletRequest request){
 		// 获取查看标识--为了区别不同角色查看的信息不同
 		String flag = request.getParameter("flag");
 		// 获取标题id
@@ -1015,8 +967,6 @@ public class OBProjectController {
 			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
 		}
 		Double totalCountPriceBigDecimal = 0.00;
-		//NumberFormat currency = NumberFormat.getNumberInstance();
-		//currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
 		/** 计算单个商品的总价以及合计金额 **/
 		BigDecimal million = new BigDecimal(10000);
 		for (OBProductInfo productInfo : oBProductInfo) {
@@ -1033,7 +983,6 @@ public class OBProjectController {
 					/**显示100000样式**/
 					productInfo.setTotalMoney(moneyBigDecimal);
 					/**显示￥100,000,00样式**/
-//					productInfo.setTotalMoneyStr(currency.format(multiply));
 					/** 累加得到总计 **/
 					totalCountPriceBigDecimal = multiply.add(
 							new BigDecimal(Double
@@ -1042,10 +991,6 @@ public class OBProjectController {
 				}
 			}
 		}
-		// 保留两位小数
-		// DecimalFormat df = new DecimalFormat("0.00");
-		//String totalCountPriceBigDecimalStr = df.format(totalCountPriceBigDecimal);
-//		String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
 		BigDecimal bigDecimal = new BigDecimal(totalCountPriceBigDecimal);
 		BigDecimal totalCountPriceBigDecimalAfter = BigDecimalUtils.getBigDecimalTOScale4(bigDecimal, million);
 		
@@ -1090,7 +1035,7 @@ public class OBProjectController {
      */
     @RequestMapping("selInfo")
     @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+    @SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
     public String selInfo(Model model, HttpServletRequest request){
     	String projectId = request.getParameter("id") == null ? "" : request.getParameter("id");
     	// 调用获取竞价结果信息

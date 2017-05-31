@@ -141,10 +141,10 @@
 			and PRODUCT_ID = #{productId,jdbcType=VARCHAR}
 		</if>
 		<if test="supplierName != null and supplierName != ''">
-			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
+			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE  CONCAT(CONCAT('%', #{supplierName}), '%'))
 		</if>
 		<if test="smallPointsName != null and smallPointsName != ''">
-			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE '%${smallPointsName}%')
+			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE CONCAT(CONCAT('%', #{smallPointsName}), '%'))
 		</if>
 		<if test="smallPointsId != null and smallPointsId != ''">
 			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
@@ -165,10 +165,10 @@
 			AND PRODUCT_ID = #{productId,jdbcType=VARCHAR}
 		</if>
 		<if test="supplierName != null and supplierName != ''">
-			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
+			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE  CONCAT(CONCAT('%', #{supplierName}), '%'))
 		</if>
 		<if test="smallPointsName != null and smallPointsName != ''">
-			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE '%${categoryName}%')
+			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE CONCAT(CONCAT('%', #{smallPointsName}), '%'))
 		</if>
 		<if test="smallPointsId != null and smallPointsId != ''">
 			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
@@ -210,7 +210,7 @@
 		AND s.CERT_VALID_PERIOD &lt; #{date}
 		</if>
 		<if test="name != null and name != ''">
-		AND  s.SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%'||#{name}||'%')
+		AND  s.SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE  CONCAT(CONCAT('%', #{name}), '%'))
 		</if> 
 		<if test="result != null and result != ''">
 		AND  s.SUPPLIER_ID IN 
@@ -235,10 +235,10 @@
 			AND PRODUCT_ID = #{productId,jdbcType=VARCHAR}
 		</if>
 		<if test="supplierName != null and supplierName != ''">
-			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
+			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE  CONCAT(CONCAT('%', #{supplierName}), '%'))
 		</if>
 		<if test="smallPointsName != null and smallPointsName != ''">
-			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE '%${categoryName}%')
+			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE CONCAT(CONCAT('%', #{smallPointsName}), '%'))
 		</if>
 		<if test="smallPointsId != null and smallPointsId != ''">
 			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
@@ -256,10 +256,10 @@
 			AND PRODUCT_ID = #{productId,jdbcType=VARCHAR}
 		</if>
 		<if test="supplierName != null and supplierName != ''">
-			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
+			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{supplierName}), '%'))
 		</if>
 		<if test="smallPointsName != null and smallPointsName != ''">
-			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE '%${categoryName}%')
+			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE CONCAT(CONCAT('%', #{categoryName}), '%'))
 		</if>
 		<if test="smallPointsId != null and smallPointsId != ''">
 			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
@@ -640,7 +640,7 @@
   				AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   			</if> )
   		<if test="supplierName != null and supplierName != ''">
-			AND SUPPLIER_ID IN (SELECT ID SUPPLIER_ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%'||#{supplierName}||'%' )
+			AND SUPPLIER_ID IN (SELECT ID SUPPLIER_ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{supplierName}), '%'))
 		</if>
 		<if test="smallPointsId != null and smallPointsId != ''">
 			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}

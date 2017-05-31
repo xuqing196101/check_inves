@@ -1,6 +1,7 @@
 package bss.util;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,8 +17,10 @@ import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -961,8 +964,11 @@ public class ExcelUtil {
 	* @param @param path
 	* @param @return     
 	* @return List<PurchaseRequired>     
+	 * @throws IOException 
+	 * @throws InvalidFormatException 
+	 * @throws EncryptedDocumentException 
 	 */
-	public static Map<String,Object> readOBExcel(MultipartFile file) throws Exception{
+	public static Map<String,Object> readOBExcel(MultipartFile file) throws EncryptedDocumentException, InvalidFormatException, IOException{
 		List<OBProduct> list=new LinkedList<OBProduct>();
 		Map<String,Object> map=new HashMap<String,Object>();
 	        Workbook workbook = WorkbookFactory.create(file.getInputStream());

@@ -822,10 +822,11 @@ function myReSet(){
 			</div>
 	   	</div>
 		<div class="search_box col-md-12 col-sm-12 col-xs-12">
-			<span class="fl" >标题：<input
-				name="title" type="text" id="title" value="${title }" class="mt1"/></span>
-				<span class="fl pl10"> 采购方式：
-				
+				<span class="fl">标题：
+					<input name="title" type="text" id="title" value="${title }" class="mb0"/>
+				</span>
+				<span class="fl pl10"> 
+					采购方式：
 				<select name="lastArticleTypeName" id="lastArticleTypeName">
 				<option value="">全部</option>
 				<option value="公开招标" <c:if test="${'公开招标' eq lastArticleTypeName }"> selected=selected </c:if> >公开招标</option>
@@ -836,10 +837,10 @@ function myReSet(){
 				</select>
 			    <!-- <input name="lastArticleTypeName" type="text" id="lastArticleTypeName" value="${lastArticleTypeName }" />-->
 				</span>
-				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 w100 tr" style="padding-right: 0px">
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 w100 tr">
 					选择产品类别：
 				</span>
-			<div class="col-md-3 col-sm-6 col-xs-12 w200 pl0" id="choseCategory">
+				<div class="col-md-3 col-sm-6 col-xs-12 w200 pl0" id="choseCategory">
 				<div
 					class="input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0 fl" >
 					<input id="cId" name="categoryId" type="hidden"
@@ -876,17 +877,20 @@ function myReSet(){
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>36}">
 						<li>
-						<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12 fl" style=" width: 65%;overflow: hidden;text-align: left;"><span class="f18 mr5 fl" >·</span>【${i.lastArticleType.name}】${fn:substring(name,0,36)}...</a>
-	                     <span class="hex pull-right col-md-2 col-sm-5 col-xs-12 fr" style="width: 15%;text-align:right;" ><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	                    <span  class="hex pull-right  col-sm-5 col-xs-12 w180 fl tc" style="width: 20% ;text-align: left;">${i.categoryName }</span>
+						<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12 fl">
+						 <span class="f18 mr5 fl" >·</span>【${i.lastArticleType.name}】${fn:substring(name,0,36)}...</a>
+	                     <span class="hex pull-right col-md-2 col-sm-5 col-xs-12 fr"  >
+	                     <fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+	                    <span  class="hex pull-right  col-sm-5 col-xs-12 w180 fl tc">${i.categoryName }</span>
 	                   
 	                    </li>
 					</c:if>
 					<c:if test="${length<=36}">
 					   <li>
-					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12 fl" style=" width: 65%;overflow: hidden;text-align: left;"><span class="f18 mr5 fl">·</span>【${i.lastArticleType.name}】${i.name }</a>
-	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12 fr" style=" width: 15% ;text-align:right;"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12  fl tc" style="width: 20%; text-align: left;">${i.categoryName }</span>
+					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12 fl">
+					   <span class="f18 mr5 fl">·</span>【${i.lastArticleType.name}】${i.name }</a>
+	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12 fr"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12  fl tc">${i.categoryName }</span>
 	                   </li>
 					</c:if>
 	                </c:forEach>         
