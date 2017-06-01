@@ -180,11 +180,7 @@
                     <td class="tr pr20">${obj.budget}</td>
                     <td class="tl pl20">${obj.deliverDate}</td>
                     <td class="tl pl20">${obj.purchaseType}</td>
-                    <td title="${obj.supplier}" class="tl pl20">
-                      <c:if test="${code eq 'DYLY'}">
-                        ${obj.supplier}
-                      </c:if>
-                    </td>
+                    <td title="${obj.supplier}" class="tl pl20">${obj.supplier}</td>
                     <td class="tl pl20">${obj.status}</td>
                     <td class="tc" onclick="view('${obj.id}')">
                       <c:if test="${obj.price != null}">

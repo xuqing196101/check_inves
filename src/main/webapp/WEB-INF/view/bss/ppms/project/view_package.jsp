@@ -78,12 +78,20 @@
 	      var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
 	      status = $.trim(status);
 	      if(id.length == 1){
-	      	if(status == "YJLX"){
-	      		window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?projectId=" + id;
-	      	}else{
-	      		window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?projectId=" + id;
-	      		//layer.msg("该项目已经分包");
-	      	}
+	      		$.ajax({
+              url: "${pageContext.request.contextPath}/project/ifSubPackage.html",
+              data: "projectId=" + id,
+              type: "post",
+              dataType: "json",
+              success: function(result) {
+                if(result == "1") {
+                	 window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?projectId=" + id;
+                } else {
+                	 layer.msg("已无合并/独立实施的包");
+                }
+              }
+            }); 
+	      		
 	      } else if(id.length > 1){
 	      	layer.msg("只能选择一个");
 	      } else {

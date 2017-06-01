@@ -1,7 +1,6 @@
 package sums.controller.ss;
 
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,7 +8,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -25,19 +22,15 @@ import com.github.pagehelper.PageInfo;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
-import ses.model.oms.PurchaseOrg;
 import ses.model.sms.Supplier;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
-import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import sums.service.ss.ProjectSupervisionService;
 import sums.service.ss.SupervisionService;
 import common.annotation.CurrentUser;
-import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
@@ -48,7 +41,6 @@ import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
-import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseDetailService;
@@ -112,12 +104,6 @@ public class ProjectSupervisionController {
     
     @Autowired
 	private SupplierService supplierService;
-    
-    @Autowired
-    private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
-    
-    @Autowired
-    private DictionaryDataServiceI dictionaryDataServiceI;
     
     @Autowired
     private SupervisionService supervisionService;
@@ -261,18 +247,50 @@ public class ProjectSupervisionController {
     	return "sums/ss/planSupervision/contract_view";
     }
     
+    /**
+     * 
+    * @Title: viewPack
+    * @author FengTian 
+    * @date 2017-6-1 上午9:45:22  
+    * @Description: 项目明细 
+    * @param @param projectId
+    * @param @param model
+    * @param @return      
+    * @return String
+     */
     @RequestMapping("/viewPack")
     public String viewPack(String projectId, Model model){
         if(StringUtils.isNotBlank(projectId)){
         	Project project = projectService.selectById(projectId);
         	if(project != null){
-        		 HashMap<String, Object> map = new HashMap<>();
-                 map.put("projectId", project.getId());
-                 List<Packages> packages = packageService.findByID(map);
-                 if(packages != null && packages.size() > 0){
-                	 List<Packages> list = projectSupervisionService.viewPack(project.getId());
-                	 model.addAttribute("packages", list);
-                 }
+        		List<Packages> list = projectSupervisionService.viewPack(project.getId());
+        		if(list != null && list.size() > 0){
+        			model.addAttribute("packages", list);
+        		} else {
+        			List<ProjectDetail> lists = new ArrayList<ProjectDetail>();
+                    HashMap<String, Object> maps = new HashMap<>();
+                    maps.put("id", project.getId());
+                    List<ProjectDetail> details = detailService.selectById(maps);
+                    for (ProjectDetail detail : details) {
+                        if(detail.getPrice() != null){
+                            DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                            detail.setPurchaseType(findById.getName());
+                            String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId());
+                            detail.setProgressBar(progressBarPlan[0]);
+                            detail.setStatus(progressBarPlan[1]);
+                        } else {
+                            detail.setPurchaseType(null);
+                            detail.setStatus(null);
+                        }
+                        lists.add(detail);
+                    }
+                    model.addAttribute("details", list);
+        		}
+        		DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                project.setStatus(findById.getName());
+                User users = userService.getUserById(project.getAppointMan());
+                project.setAppointMan(users.getRelName());
+        		model.addAttribute("project", project);
         	}
         }
         return "sums/ss/planSupervision/package_view";
@@ -404,9 +422,9 @@ public class ProjectSupervisionController {
     
     /**
      * 
-     *〈简述〉
+     *〈查看需求明细〉
      *〈详细描述〉
-     * @author Administrator
+     * @author FengTian
      * @param id
      * @param type
      * @param projectId
@@ -415,70 +433,37 @@ public class ProjectSupervisionController {
      */
     @RequestMapping("/viewDetail")
     public String viewDetail(String id, String projectId, Model model){
-        if(StringUtils.isNotBlank(id)){
-            List<PurchaseRequired> details = requiredService.getUnique(id);
+        if(StringUtils.isNotBlank(id) && StringUtils.isNotBlank(projectId)){
+            List<PurchaseRequired> details = projectSupervisionService.viewDeandDetail(projectId, id);
             if(details != null && details.size() > 0){
-                HashMap<String, Object> map = new HashMap<>();
-                List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
-                for (PurchaseRequired purchaseRequired : details) {
-                    map.put("id", projectId);
-                    List<ProjectDetail> projectDetails = detailService.selectById(map);
-                    for (ProjectDetail projectDetail : projectDetails) {
-                        if(purchaseRequired.getId().equals(projectDetail.getRequiredId())){
-                            list.add(purchaseRequired);
-                        }
-                    }
-                }
-                for (PurchaseRequired detail : list) {
-                    if(detail.getPrice() != null){
-                        DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
-                        detail.setPurchaseType(findById.getName());
-                        String[] progressBarPlan = supervisionService.progressBar(detail.getId());
-                        detail.setProgressBar(progressBarPlan[0]);
-                        detail.setStatus(progressBarPlan[1]);
-                        model.addAttribute("code", findById.getCode());
-                    }else{
-                        detail.setPurchaseType(null);
-                        detail.setStatus(null);
-                    }
-                }
-                model.addAttribute("list", list);
-                model.addAttribute("planId", id);
-                model.addAttribute("type", "0");
-                model.addAttribute("projectId", projectId);
+                model.addAttribute("list", details);
             }
+            model.addAttribute("planId", id);
+            model.addAttribute("type", "0");
+            model.addAttribute("projectId", projectId);
         }
         return "sums/ss/projectSupervision/detail_view";
     }
     
+    /**
+     * 
+    * @Title: viewDetails
+    * @author FengTian 
+    * @date 2017-6-1 上午10:19:16  
+    * @Description: 查询采购明细 
+    * @param @param id
+    * @param @param projectId
+    * @param @param model
+    * @param @return      
+    * @return String
+     */
     @RequestMapping("/viewDetails")
     public String viewDetails(String id, String projectId, Model model){
-        List<PurchaseDetail> details = purchaseDetailService.getUnique(id,null,null);
-        if(details != null && details.size() > 0){
-            List<PurchaseDetail> list = new ArrayList<PurchaseDetail>();
-            HashMap<String, Object> map = new HashMap<>();
-            for (int i = 0; i < details.size(); i++ ) {
-                map.put("id", projectId);
-                List<ProjectDetail> projectDetails = detailService.selectById(map);
-                for (ProjectDetail projectDetail : projectDetails) {
-                    if(details.get(i).getId().equals(projectDetail.getRequiredId())){
-                        list.add(details.get(i));
-                    }
-                }
-            }
-            for (PurchaseDetail detail : list) {
-                if(detail.getPrice() != null){
-                    DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
-                    detail.setPurchaseType(findById.getName());
-                    String[] progressBarPlan = supervisionService.progressBar(detail.getId());
-                    detail.setProgressBar(progressBarPlan[0]);
-                    detail.setStatus(progressBarPlan[1]);
-                    model.addAttribute("code", findById.getCode());
-                }else{
-                    detail.setPurchaseType(null);
-                    detail.setStatus(null);
-                }
-            }
+    	if(StringUtils.isNotBlank(id) && StringUtils.isNotBlank(projectId)){
+    		List<PurchaseDetail> viewDetail = projectSupervisionService.viewPlanDetail(projectId, id);
+    		if(viewDetail != null && viewDetail.size() > 0){
+    			model.addAttribute("list", viewDetail);
+    		}
             CollectPlan collectPlan = collectPlanService.queryById(id);
             User user = userService.getUserById(collectPlan.getUserId());
             collectPlan.setUserId(user.getRelName());
@@ -493,7 +478,6 @@ public class ProjectSupervisionController {
             model.addAttribute("collectPlan", collectPlan);
             model.addAttribute("planId", collectPlan.getId());
             model.addAttribute("projectId", projectId);
-            model.addAttribute("list", list);
             model.addAttribute("type", "1");
         }
         return "sums/ss/projectSupervision/detail_view";

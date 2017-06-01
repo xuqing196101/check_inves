@@ -2,6 +2,8 @@ package sums.service.ss.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +23,8 @@ import bss.dao.ppms.SupplierCheckPassMapper;
 import bss.dao.ppms.TaskMapper;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
+import bss.model.pms.PurchaseDetail;
+import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -152,7 +156,120 @@ public class ProjectSupervisionServiceImpl implements ProjectSupervisionService 
                 	ps.setProjectDetails(detailList);
                 }
 			}
+			sortDatePack(list);
 		}
 		return list;
 	}	
+	
+	
+	public void sortDatePack(List<Packages> list){
+        Collections.sort(list, new Comparator<Packages>(){
+           @Override
+           public int compare(Packages o1, Packages o2) {
+        	   Packages task = (Packages) o1;
+        	   Packages task2 = (Packages) o2;
+              return task.getCreatedAt().compareTo(task2.getCreatedAt());
+           }
+        });
+    }
+
+	@Override
+	public List<PurchaseDetail> viewPlanDetail(String projectId, String planId) {
+		List<PurchaseDetail> byUinuqeId = purchaseDetailMapper.getByUinuqeId(planId,null,null);
+		List<PurchaseDetail> list = new ArrayList<PurchaseDetail>();
+		if(byUinuqeId != null && byUinuqeId.size() > 0){
+			Project project = projectMapper.selectProjectByPrimaryKey(projectId);
+            for (int i = 0; i < byUinuqeId.size(); i++ ) {
+            	HashMap<String, Object> map = new HashMap<>();
+                map.put("id", projectId);
+                List<ProjectDetail> projectDetails = projectDetailMapper.selectById(map);
+                for (ProjectDetail projectDetail : projectDetails) {
+                    if(byUinuqeId.get(i).getId().equals(projectDetail.getRequiredId())){
+                        list.add(byUinuqeId.get(i));
+                    }
+                }
+                HashMap<String, Object> maps = new HashMap<>();
+                maps.put("parentId", project.getId());
+                List<Project> selectByList = projectMapper.selectByList(maps);
+                if(selectByList != null && selectByList.size() > 0){
+                	for (Project project2 : selectByList) {
+                		map.put("id", project2.getId());
+                		List<ProjectDetail> details = projectDetailMapper.selectById(map);
+                        for (ProjectDetail projectDetail : details) {
+                            if(byUinuqeId.get(i).getId().equals(projectDetail.getRequiredId())){
+                                list.add(byUinuqeId.get(i));
+                            }
+                        }
+					}
+                }
+                
+            }
+            if(list != null && list.size() > 0){
+            	for (PurchaseDetail detail : list) {
+                    if(detail.getPrice() != null){
+                        DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                        detail.setPurchaseType(findById.getName());
+                        String[] progressBarPlan = supervisionService.progressBar(detail.getId());
+                        detail.setProgressBar(progressBarPlan[0]);
+                        detail.setStatus(progressBarPlan[1]);
+                        //model.addAttribute("code", findById.getCode());
+                    }else{
+                        detail.setPurchaseType(null);
+                        detail.setStatus(null);
+                    }
+                }
+            }
+		}
+		return list;
+	}
+
+	@Override
+	public List<PurchaseRequired> viewDeandDetail(String projectId, String detailId) {
+		List<PurchaseRequired> byUinuqeId = requiredMapper.getByUinuqeId(detailId);
+		List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
+		if(byUinuqeId != null && byUinuqeId.size() > 0){
+			Project project = projectMapper.selectProjectByPrimaryKey(projectId);
+            for (int i = 0; i < byUinuqeId.size(); i++ ) {
+            	HashMap<String, Object> map = new HashMap<>();
+                map.put("id", projectId);
+                List<ProjectDetail> projectDetails = projectDetailMapper.selectById(map);
+                for (ProjectDetail projectDetail : projectDetails) {
+                    if(byUinuqeId.get(i).getId().equals(projectDetail.getRequiredId())){
+                        list.add(byUinuqeId.get(i));
+                    }
+                }
+                HashMap<String, Object> maps = new HashMap<>();
+                maps.put("parentId", project.getId());
+                List<Project> selectByList = projectMapper.selectByList(maps);
+                if(selectByList != null && selectByList.size() > 0){
+                	for (Project project2 : selectByList) {
+                		map.put("id", project2.getId());
+                		List<ProjectDetail> details = projectDetailMapper.selectById(map);
+                        for (ProjectDetail projectDetail : details) {
+                            if(byUinuqeId.get(i).getId().equals(projectDetail.getRequiredId())){
+                                list.add(byUinuqeId.get(i));
+                            }
+                        }
+					}
+                }
+                
+            }
+            if(list != null && list.size() > 0){
+            	for (PurchaseRequired detail : list) {
+                    if(detail.getPrice() != null){
+                        DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                        detail.setPurchaseType(findById.getName());
+                        String[] progressBarPlan = supervisionService.progressBar(detail.getId());
+                        detail.setProgressBar(progressBarPlan[0]);
+                        detail.setStatus(progressBarPlan[1]);
+                        //model.addAttribute("code", findById.getCode());
+                    }else{
+                        detail.setPurchaseType(null);
+                        detail.setStatus(null);
+                    }
+                }
+            }
+		}
+		return list;
+	}
 }

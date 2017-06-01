@@ -1873,6 +1873,7 @@ public class ProjectController extends BaseController {
                 pg.setName("第"+(packList.size()+1)+"包");
                 pg.setProjectId(projectId);
                 pg.setIsDeleted(0);
+                pg.setProjectStatus(DictionaryDataUtil.getId("FBWC"));
                 if(project.getIsImport()==1){
                     pg.setIsImport(1);
                 }else{
@@ -1897,7 +1898,7 @@ public class ProjectController extends BaseController {
                         detailService.update(projectDetail);
                     }
                 }
-                HashMap<String,Object> map = new HashMap<String,Object>();
+               /* HashMap<String,Object> map = new HashMap<String,Object>();
                 map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
                 List<ProjectDetail> details = detailService.selectById(map);
                 Packages p = new Packages();
@@ -1908,7 +1909,7 @@ public class ProjectController extends BaseController {
                 }else{
                     p.setStatus(0);
                     packageService.updateByPrimaryKeySelective(p);
-                }
+                }*/
                 flag = true;
             }
         }else{
@@ -1919,6 +1920,7 @@ public class ProjectController extends BaseController {
             pg.setName("第"+(packList.size()+1)+"包");
             pg.setProjectId(projectId);
             pg.setIsDeleted(0);
+            pg.setProjectStatus(DictionaryDataUtil.getId("FBWC"));
             if(project.getIsImport()==1){
                 pg.setIsImport(1);
             }else{
@@ -1943,7 +1945,7 @@ public class ProjectController extends BaseController {
                     detailService.update(projectDetail);
                 }
             }
-            HashMap<String,Object> map = new HashMap<String,Object>();
+           /* HashMap<String,Object> map = new HashMap<String,Object>();
             map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
             List<ProjectDetail> details = detailService.selectById(map);
             Packages p = new Packages();
@@ -1954,7 +1956,7 @@ public class ProjectController extends BaseController {
             }else{
                 p.setStatus(0);
                 packageService.updateByPrimaryKeySelective(p);
-            }
+            }*/
             flag = true;
         }
         return JSON.toJSONString(flag);
@@ -1997,6 +1999,7 @@ public class ProjectController extends BaseController {
                 pg.setName("第"+(packList.size()+1)+"包");
                 pg.setProjectId(projectId);
                 pg.setIsDeleted(0);
+                pg.setProjectStatus(DictionaryDataUtil.getId("FBWC"));
                 if(project.getIsImport()==1){
                     pg.setIsImport(1);
                 }else{
@@ -2019,18 +2022,6 @@ public class ProjectController extends BaseController {
                         projectDetail.setPackageId(wantPackId.get(wantPackId.size()-1).getId());
                         detailService.update(projectDetail);
                     }
-                }
-                HashMap<String,Object> map = new HashMap<String,Object>();
-                map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
-                List<ProjectDetail> details = detailService.selectById(map);
-                Packages p = new Packages();
-                p.setId(wantPackId.get(wantPackId.size()-1).getId());
-                if(details.get(0).getStatus() == null || "".equals(details.get(0).getStatus()) || details.get(0).getStatus().equals("1")){
-                    p.setStatus(1);
-                    packageService.updateByPrimaryKeySelective(p);
-                }else{
-                    p.setStatus(0);
-                    packageService.updateByPrimaryKeySelective(p);
                 }
             }
             return "1";
@@ -3495,6 +3486,23 @@ public class ProjectController extends BaseController {
     	}
     	model.addAttribute("kind", DictionaryDataUtil.find(5));
     	return "bss/ppms/project/sub_package";
+    }
+    
+    
+    @RequestMapping("/ifSubPackage")
+    @ResponseBody
+    public String ifSubPackage(String projectId){
+    	if(StringUtils.isNotBlank(projectId)){
+    		Project project = projectService.selectById(projectId);
+    		if(project != null){
+    			List<ProjectDetail> viewDetail = detailService.viewDetail(projectId);
+        		//是否有底层明细，没有的话进else
+        		if(viewDetail != null && viewDetail.size() > 0){
+        			return StaticVariables.ORG_TYPE_PURCHASE;
+        		}
+    		}	
+    	}
+    	return StaticVariables.ORG_TYPE_MANAGE;
     }
     
     /**

@@ -736,6 +736,7 @@
    <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
       <button class="btn" type="button" onclick="merge();">合并实施</button>
       <button class="btn" type="button" onclick="independent();">独立实施</button>
+      <button class="btn" type="button" onclick="window.history.go(-1)">返回</button>
     </div>
 
     <c:if test="${!empty list}">

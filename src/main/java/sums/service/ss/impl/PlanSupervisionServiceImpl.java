@@ -306,41 +306,60 @@ public class PlanSupervisionServiceImpl implements PlanSupervisionService{
 
     @Override
     public List<Packages> viewPack(String projectId) {
-        List<Packages> lists = new ArrayList<Packages>();
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("id", projectId);
-        List<ProjectDetail> details = projectDetailMapper.selectById(map);
-        if(details != null && details.size() > 0){
-            HashMap<String, Object> maps = new HashMap<>();
-            maps.put("projectId", projectId);
-            List<Packages> packages = packageMapper.findByID(maps);
-            if(packages != null && packages.size() > 0){
-                for (Packages packages2 : packages) {
-                    List<ProjectDetail> list = new ArrayList<ProjectDetail>();
-                    for (int i = 0; i < details.size(); i++ ) {
-                        if(packages2.getId().equals(details.get(i).getPackageId())){
-                            DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
-                            details.get(i).setPurchaseType(findById.getName());
-                            String[] progressBarPlan = supervisionService.progressBar(details.get(i).getRequiredId());
-                            details.get(i).setProgressBar(progressBarPlan[0]);
-                            details.get(i).setStatus(progressBarPlan[1]);
-                            list.add(details.get(i));
-                        }
-                        if(list != null && list.size() > 0){
-                            packages2.setProjectDetails(list);
-                        }
-                    }
+		List<Packages> list = new ArrayList<Packages>();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("parentId", projectId);
+		List<Project> lists = projectMapper.selectByList(map);
+		if(lists != null && lists.size() > 0){
+			for (Project project : lists) {
+				HashMap<String, Object> pack = new HashMap<>();
+				pack.put("projectId", project.getId());
+    			List<Packages> packages2 = packageMapper.findPackageById(pack);
+    			if(packages2 != null && packages2.size() > 0){
+					for (Packages ps : packages2) {
+		                list.add(ps);
+					}
+				}
+			}
+		}
+		HashMap<String, Object> maps = new HashMap<>();
+		maps.put("projectId", projectId);
+		List<Packages> packages = packageMapper.findPackageById(maps);
+		if(packages != null && packages.size() > 0){
+			for (Packages ps : packages) {
+                list.add(ps);
+			}
+		}
+		if(list != null && list.size() > 0){
+			for (Packages ps : list) {
+				HashMap<String,Object> packageId = new HashMap<>();
+                packageId.put("packageId", ps.getId());
+                List<ProjectDetail> detailList = projectDetailMapper.selectById(packageId);
+                if(detailList != null && detailList.size() > 0){
+                	for (ProjectDetail projectDetail : detailList) {
+                		DictionaryData findById = DictionaryDataUtil.findById(projectDetail.getPurchaseType());
+                		projectDetail.setPurchaseType(findById.getName());
+                        String[] progressBarPlan = supervisionService.progressBar(projectDetail.getRequiredId());
+                        projectDetail.setProgressBar(progressBarPlan[0]);
+                        projectDetail.setStatus(progressBarPlan[1]);
+					}
+                	ps.setProjectDetails(detailList);
                 }
-                for (int i = 0; i < packages.size(); i++ ) {
-                    if(packages.get(i).getProjectDetails() != null && packages.get(i).getProjectDetails().size() > 0){
-                        sort(packages.get(i).getProjectDetails());//进行排序
-                        lists.add(packages.get(i));
-                    }
-                }
-            }
-        }
-        
-        return lists;
+			}
+			sortDatePack(list);
+		}
+		return list;
+	}
+    
+    public void sortDatePack(List<Packages> list){
+        Collections.sort(list, new Comparator<Packages>(){
+           @Override
+           public int compare(Packages o1, Packages o2) {
+        	   Packages task = (Packages) o1;
+        	   Packages task2 = (Packages) o2;
+              return task.getCreatedAt().compareTo(task2.getCreatedAt());
+           }
+        });
     }
     
     public void sort(List<ProjectDetail> list){

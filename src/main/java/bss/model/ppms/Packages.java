@@ -134,8 +134,10 @@ public class Packages {
   
   private Date qualificationTime; //评审资格性时间
   
+  private String projectStatus; //项目状态
+  
 
-public List<Supplier> getSuList() {
+  public List<Supplier> getSuList() {
       return suList;
   }
 
@@ -612,5 +614,13 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
     public void setQualificationTime(Date qualificationTime) {
         this.qualificationTime = qualificationTime;
     }
+
+	public String getProjectStatus() {
+		return projectStatus;
+	}
+
+	public void setProjectStatus(String projectStatus) {
+		this.projectStatus = projectStatus;
+	}
 
 }
