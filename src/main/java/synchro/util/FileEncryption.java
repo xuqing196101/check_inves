@@ -1,5 +1,7 @@
 package synchro.util;
 
+import java.io.File;
+
 import org.apache.commons.lang.StringUtils;
 /**
  * 上传文件path混淆
@@ -14,7 +16,7 @@ public class FileEncryption {
  */
   public static String setEncryption(String path){
     if(path!=null&&!"".equals(path)){
-      String[] spts = path.split("\\\\");
+      String[] spts = path.split("'"+File.separator+"'");
         for(int i=0;i<spts.length;i++){
           if(spts[i]!=null&&!"".equals(spts[i])){
             if("web".equals(spts[i])){
@@ -28,11 +30,11 @@ public class FileEncryption {
             }
           }
         }
-      StringBuffer buffer=new StringBuffer(StringUtils.join(spts, "\\"));
+      StringBuffer buffer=new StringBuffer(StringUtils.join(spts, File.separator));
       if(buffer.length()>0){
     	  buffer=buffer.delete(0, 1);
       }
-      buffer.replace(buffer.indexOf("\\"), buffer.indexOf("\\")+1, ":");
+      buffer.replace(buffer.indexOf(File.separator), buffer.indexOf(File.separator)+1, ":");
       return buffer.toString();
     }else{
       return "";
@@ -45,8 +47,8 @@ public class FileEncryption {
  */
   public static String getDecrypted(String path){
     if(path!=null&&!"".equals(path)){
-      path=path.replaceAll(":", "\\\\");
-      String[] spts = path.split("\\\\");
+      path=path.replaceAll(":", "'"+File.separator+"'");
+      String[] spts = path.split("'"+File.separator+"'");
       for(int i=0;i<spts.length;i++){
         if(spts[i]!=null&&!"".equals(spts[i])){
           if("file".equals(spts[i])){
@@ -60,7 +62,7 @@ public class FileEncryption {
           }
         }
       }
-      return "\\"+StringUtils.join(spts, "\\");
+      return File.separator+StringUtils.join(spts, File.separator);
     }else{
       return "";
     }
