@@ -29,7 +29,10 @@ public class FileEncryption {
           }
         }
       StringBuffer buffer=new StringBuffer(StringUtils.join(spts, "\\"));
-      buffer.replace(5, 6, ":");
+      if(buffer.length()>0){
+    	  buffer=buffer.delete(0, 1);
+      }
+      buffer.replace(buffer.indexOf("\\"), buffer.indexOf("\\")+1, ":");
       return buffer.toString();
     }else{
       return "";
@@ -57,7 +60,7 @@ public class FileEncryption {
           }
         }
       }
-      return StringUtils.join(spts, "\\");
+      return "\\"+StringUtils.join(spts, "\\");
     }else{
       return "";
     }
