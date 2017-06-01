@@ -1586,8 +1586,8 @@
 		// 如果专家状态是退回修改，控制表单域的编辑与不可编辑
 		var expertSt = '${expert.status}';
 		if(expertSt == '3'){
-			$("input,select,textarea").attr('disabled',true);
-			$("input,select,textarea").each(function(){
+			$("input[type='text'],select,textarea").attr('disabled',true);
+			$("input[type='text'],select,textarea").each(function(){
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
 				if(this.style.border == '1px solid rgb(239, 0, 0)'){

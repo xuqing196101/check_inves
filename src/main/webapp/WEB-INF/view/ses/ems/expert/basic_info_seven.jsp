@@ -385,7 +385,8 @@
     	 if(isTitle==1&&bool==true){
     		 $("#pro_div").show();
     	 }
-        	
+    	 // 选中专家类别
+       checkZjlb();	
         	
 //绑定工程技术的切换事件
          /*    isIs = bja.some(function (item, index, array) {
@@ -442,7 +443,8 @@
         function zc() {
             layer.msg("已暂存");
         }
-        function checks(obj){
+        
+         function checks(obj){
         	var flag=true;
         	 var expertId=$("#id").val();
         	$("input[name='chkItem_1']").each(function() {
@@ -455,8 +457,8 @@
                    //    $("#server_div").show();
             		$("input[name='chkItem_2']").each(function() {
                 		var val=$(this).parent().text();
-                    	if(val.trim()=="工程经济"){	
-                    	// $(this).prop("disabled",true);
+                    	if(val.trim()=="工程经济" || val.trim()=="物资服务经济"){	
+                    		$(this).prop("disabled",true);
                     	}
             		});
             		
@@ -510,17 +512,36 @@
                       }
                  	}
          		}); 
-        	 }  
-        /* 	if(objVal=="工程经济"&&flagValue=="工程技术"){
-        		alert("不能同时选择");
-        		 return false;  
-        	} 
-        	
-        	if(objVal=="工程技术"&&flagValue=="工程经济"){
-        		alert("不能同时选择");
-        	}  */
-        	
+        	 }
+        	 checkZjlb();
         }
+        
+       	// 选中专家类别
+				function checkZjlb() {
+					$("input[name='chkItem_1']").each(function() {
+						if ($(this).prop("checked")) {
+							$("input[name='chkItem_2']").prop("disabled", true);
+						}
+					});
+					$("input[name='chkItem_2']").each(function() {
+						if ($(this).prop("checked")) {
+							$("input[name='chkItem_1']").prop("disabled", true);
+						}
+					});
+					var notCheckedCount = 0;// 没有选中的checkbox
+					var allCheckboxCount = 0;// 所有的checkbox
+					$("input[name='chkItem_1'],input[name='chkItem_2']").each(function() {
+						allCheckboxCount++;
+						if (!$(this).prop("checked")) {
+							notCheckedCount++;
+						}
+					});
+					if (notCheckedCount == allCheckboxCount) {
+						$("input[name='chkItem_1'],input[name='chkItem_2']").prop(
+								"disabled", false);
+					}
+				}
+        
         function  isZhiye(obj){
         	submitformExpert();
         	var val=$(obj).val();
