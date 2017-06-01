@@ -250,7 +250,7 @@
   from T_BSS_PMS_COLLECT_PLAN
   	<where> 1=1
      <if test="fileName != null">
-       and  FILE_NAME like '%'||#{fileName}||'%'
+       and  FILE_NAME like CONCAT(CONCAT('%', #{fileName}), '%') 
       </if>
   	  <if test="budget != null">
        and  BUDGET=#{budget}
@@ -314,10 +314,10 @@
   from T_BSS_PMS_COLLECT_PLAN
     <where> 1=1
      <if test="fileName != null">
-       and  FILE_NAME like '%'||#{fileName}||'%'
+       and  FILE_NAME like CONCAT(CONCAT('%', #{fileName}), '%') 
       </if>
       <if test="budget != null">
-       and  BUDGET like '%'||#{budget}||'%'
+       and  BUDGET like CONCAT(CONCAT('%', #{budget}), '%') 
       </if>
        <if test="purchaseType != null">
         and PURCHASE_TYPE = #{purchaseType}

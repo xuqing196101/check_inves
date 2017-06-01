@@ -279,19 +279,19 @@
 	    FROM T_BSS_DMS_PURCHASE_ARCHIVE
 	    WHERE nvl(IS_DELETED,0)=0
 	    <if test="name != null and name !=''">
-	        AND NAME LIKE '%'||#{name}||'%'   
+	        AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%') 
 	    </if>
 	    <if test="code != null and code !=''">
-	        AND CODE LIKE '%'||#{code}||'%'
+	        AND CODE LIKE CONCAT(CONCAT('%', #{code}), '%') 
 	    </if>
 	    <if test="contractCode != null and contractCode !=''">
-	        AND CONTRACT_CODE LIKE '%'||#{contractCode}||'%'
+	        AND CONTRACT_CODE LIKE CONCAT(CONCAT('%', #{contractCode}), '%') 
 	    </if>
 	    <if test="year != null and year !=''">
 	        AND YEAR = #{year}
 	    </if>
 	    <if test="purchaseDep != null and purchaseDep !=''">
-	        AND PURCHASE_DEP LIKE '%'||#{purchaseDep}||'%'
+	        AND PURCHASE_DEP LIKE CONCAT(CONCAT('%', #{purchaseDep}), '%') 
 	    </if>
 	    <if test="purchaseType != null and purchaseType !=''">
 	        AND PURCHASE_TYPE = #{purchaseType}

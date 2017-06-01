@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import synchro.util.FileEncryption;
 import common.bean.ResBean;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -52,9 +53,9 @@ public class UploadController {
             String result = uploadService.upload(request);
             PrintWriter out = response.getWriter();
             if (StringUtils.isNotBlank(result)){
-            	out.write(result);
+            	out.write(FileEncryption.setEncryption(result));
             	out.flush();
-            } 
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -114,6 +115,12 @@ public class UploadController {
     public List<UploadFile> disPlayFiles(HttpServletRequest request){
         
         List<UploadFile> list = uploadService.getFiles(request);
+        for(UploadFile upload:list){
+        	if(upload.getPath()!=null&&!"".equals(upload.getPath())){
+        		upload.setPath(upload.getPath().substring(upload.getPath().indexOf("."),upload.getPath().length()));
+        	}
+        	
+        }
         return list;
     }
     

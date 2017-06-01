@@ -552,18 +552,25 @@
           	 }
         	 });
     
-    	 if(val==1&&flag==true){
-    		 init_web_upload_in("#pro_div");
-    		 $("#pro_div").show();
-    	 }
-    	 if(val==2){
-    		 $("#pro_div").hide();
-    			$("#server_div").hide();
-    	 }
-    	 if(val==1&&bool==true){
+    	 if(val==1&&flag==true&&bool==true){
     		 init_web_upload_in("#server_div");
     		 $("#server_div").show();
+    	 }else{
+    		 if(val==1&&flag==true){
+        		 init_web_upload_in("#pro_div");
+        		 $("#pro_div").show();
+        	 }
+        	 if(val==2){
+        		 $("#pro_div").hide();
+        			$("#server_div").hide();
+        	 }
+        	 if(val==1&&bool==true){
+        		 init_web_upload_in("#server_div");
+        		 $("#server_div").show();
+        	 }
     	 }
+    	 
+    	
      
     	 
         }

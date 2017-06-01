@@ -59,19 +59,20 @@
 		      </div>
           <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
             <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
-          		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">资料名称</div>
-          		<div class="fr mr25 f16">下载</div>
-              <div class="fr mr25 f16 w150">发布时间</div>
+          		 <div class="col-md-7 col-xs-6 col-sm-6 tc f16 p0">资料名称</div>
+             	 <div class="col-md-3 col-sm-3 col-xs-4 tc f16 p0">发布时间</div>
+          		 <div class="col-md-2 col-sm-3 col-xs-2 tc f16 p0">下载</div>
              </h2>
              <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0">
                 <c:choose>
                 	<c:when test="${notData==null }">
                 		<c:forEach items="${list.list}" var="data">
 		                  <li>
-		                   <span class="f18 mr5">·${data.name }</span>
-		                   <span class="hex pull-right release w150"><u:show showId="${data.groupShow }" groups="${data.groupsUploadId }" delete="false" businessId="${data.id }" sysKey="${sysKey}" typeId="${dataTypeId }" zipFileName="${data.name}" fileName="${data.name}"/></span>
-		                   <span class="hex pull-right fr"><fmt:formatDate value='${data.publishAt}' pattern="yyyy年MM月dd日 " /></span>
-		                   
+		                     <span class="col-md-7 col-sm-6 col-xs-12">·${data.name }</span>
+		                     <span class="col-md-3 col-sm-3 col-xs-6 tc p0"><fmt:formatDate value='${data.publishAt}' pattern="yyyy年MM月dd日 " /></span>
+		                  	 <span class="col-md-2 col-sm-3 col-xs-6">
+		                     <u:show showId="${data.groupShow }" groups="${data.groupsUploadId }" delete="false" businessId="${data.id }" sysKey="${sysKey}" typeId="${dataTypeId }" zipFileName="${data.name}" fileName="${data.name}"/>
+		                     </span>
 		                  </li> 
 		                </c:forEach> 
                 	</c:when>
@@ -79,8 +80,6 @@
                 		<li class="tc">暂无数据</li>
                 	</c:otherwise>
                 </c:choose>
-	                	
-	                
              </ul>
         	<div id="pagediv" align="right"></div>
         </div>

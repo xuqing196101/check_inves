@@ -532,7 +532,7 @@
 		FROM T_SES_BMS_CATEGORY
 		WHERE 1 = 1 AND IS_DELETED=0
 		<if test="param1 != null">
-			AND NAME like '%${param1}%'
+			AND NAME like '%' || #{param1} || '%'
 		</if> 
 		<if test="param2 != null">
 			AND CODE = #{param2}
@@ -545,10 +545,10 @@
 		FROM T_SES_BMS_CATEGORY
 		WHERE 1 = 1 AND IS_DELETED=0
 		<if test="param1 != null">
-			AND NAME like '%${param1}%'
+			AND NAME like CONCAT(CONCAT('%', #{param1}), '%')
 		</if> 
 		<if test="param2 != null">
-			AND CODE  like '%${param2}%'
+			AND CODE  like CONCAT(CONCAT('%', #{param2}), '%')
 		</if> 
 		<if test="param3 != null">
 			AND IS_PUBLISH = #{param3}
@@ -659,5 +659,13 @@
 		from T_SES_BMS_CATEGORY
 		where ID = #{id}
 	</select>
+	
+	
+		<select id="getParentByChildren" parameterType="String" resultMap="CategoryMap">
+	 select * from T_SES_BMS_CATEGORY 
+        start with ID = #{id} 
+        connect by prior PARENT_ID = ID  
+	</select>
+	
 	
 </mapper>

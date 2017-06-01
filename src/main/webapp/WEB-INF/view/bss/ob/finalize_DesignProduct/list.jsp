@@ -24,7 +24,6 @@
 	      }(),
 	      jump : function(e, first) { //触发分页后的回调
         	if(!first){ //一定要加此判断，否则初始时会无限刷新
-        		alert(e.curr);
 	      		location.href = "${pageContext.request.contextPath }/product/list.do?page=" + e.curr;
 	        }
 	      }
@@ -129,7 +128,7 @@
 			id.push($(this).val());
 		});
 		if(id.length == 1) {
-			if($("#"+id).html().replace(/\s+/g,"") == "暂存" || $("#"+id).html().replace(/\s+/g,"") == "已撤回"){
+			if($("#"+id).html().replace(/\s+/g,"") == "暂存" || $("#"+id).html().replace(/\s+/g,"") == "已撤回" || $("#"+id).html().replace(/\s+/g,"") == "未发布"){
 			layer.confirm('您确定要发布吗?', {
 				title: '提示',
 				offset: ['222px', '360px'],
@@ -459,6 +458,7 @@
 		  	<c:if test="${product.status == 1}">暂存</c:if>
 		  	<c:if test="${product.status == 2}">已发布</c:if>
 		  	<c:if test="${product.status == 3}">已撤回</c:if>
+		  	<c:if test="${product.status == 4}">未发布</c:if>
 		  </td>
 		  <td class="tc">
 		  	<a href = "${pageContext.request.contextPath}/product/supplier.html?smallPointsId=${product.smallPointsId }">

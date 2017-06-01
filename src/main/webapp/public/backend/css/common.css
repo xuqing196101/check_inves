@@ -51,11 +51,11 @@
 .w100 {
   width: 100px!important; }
 
-.w120 {
-  width: 120px; }
-
 .w110 {
   width: 110px; }
+  
+.w120 {
+  width: 120px; }
 
 .w140 {
   width: 140px; }
@@ -63,30 +63,18 @@
 .w150 {
   width: 150px; }
 
-.w160 {
-  width: 160px; }
-
-.w180 {
-  width: 180px; }
-
 .w158 {
   width: 158px; }
-
-.w350 {
-  width: 350px; }
-
-.w250 {
-  width: 250px !important; }
-
-.w260 {
-  width: 260px; }
-
-.w470 {
-  width: 470px; }
-
+  
+.w160 {
+  width: 160px; }
+  
 .w178 {
   width: 178px; }
 
+.w180 {
+  width: 180px; }
+  
 .w200 {
   width: 200px; }
 
@@ -99,11 +87,17 @@
 .w240 {
   width: 240px!important; }
   
-.w258 {
-  width: 258px; }
-
+.w250 {
+  width: 250px !important; }
+  
 .w252 {
   width: 252px; }
+
+.w258 {
+  width: 258px; }
+  
+.w260 {
+  width: 260px; }
 
 .w280 {
   width: 280px; }
@@ -114,6 +108,9 @@
 .w320 {
   width: 320px; }
 
+.w350 {
+  width: 350px; }
+
 .w370 {
   width: 370px; }
 
@@ -122,6 +119,9 @@
 
 .w450 {
   width: 450px; }
+
+.w470 {
+  width: 470px; }
 
 .w500 {
   width: 500px; }
@@ -135,11 +135,12 @@
 .w700 {
   width: 700px; }
 
+.w745 {
+  width: 745px!important; }
+  
 .w750 {
   width: 750px!important; }
 
-.w745 {
-  width: 745px!important; }
 .w775 {
  width: 775px!important; }
 
@@ -149,29 +150,30 @@
 .w960 {
   width: 960px; }
 
-.w100p {
-  width: 100%; }
+.w1400 {
+  width: 1400px; }
+  
+.w43p {
+  width: 43%; }
 
-.w90p {
-  width: 90%; }
+.w55p {
+  width: 55%; }
+
+.w60p {
+  width: 60%; }
 
 .w70p {
   width: 70%!important; }
 
-.w140 {
-  width: 140px; }
-
-.w1400 {
-  width: 1400px; }
+.w90p {
+  width: 90%; }
 
 .w92p {
   width: 92%; }
-.w60p {
-  width: 60%; }
-.w55p {
-  width: 55%; }
-.w43p {
-  width: 43%; }
+  
+.w100p {
+  width: 100%; }
+
 /*高度*/
 .h15 {
   height: 15px; }
@@ -188,16 +190,18 @@
   line-height:60px;
 }
 
-.h25 {
-  height: 25px; }
-
 .h24 {
   height: 24px; }
 
+.h25 {
+  height: 25px; }
+
 .h30 {
   height: 30px; }
+  
 .h35 {
   height: 35px; }
+  
 .h40 {
   height: 40px; }
 
@@ -209,14 +213,18 @@
   
 .h60 {
   height: 60px; }
+  
 .h70 {
   height: 70px;
 }
+
 .h80 {
   height: 80px; }
+  
 .h91 {
   height: 91px;
 }
+
 .h100 {
   height: 100px; }
 
@@ -420,7 +428,10 @@
 
 .pl10 {
   padding-left: 10px!important; }
-
+  
+.pl15 {
+  padding-left: 15px!important; }
+  
 .pl13 {
   padding-left: 13px!important; }
 
