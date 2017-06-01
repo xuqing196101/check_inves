@@ -176,7 +176,10 @@ public class StaticVariables {
     public static final int HL_SERVICEHOTLINE_NAME_SIGN=7;
     /***提示信息***/
     public static final String HL_SERVICEHOTLINE="只有资源服务中心才能操作";
-    
+    /***日志 标识 供应商在线 名称****/
+    public static final String SUPPLIER_ONLINE_BIDDING="供应商在线投标";
+    /***日志 标识 供应商在线***/
+    public static final int SUPPLIER_ONLINE_BIDDING_SIGN=8;
     //获取是否内网标识 1外网 0内网
     public static final String ipAddressType= PropUtil.getProperty("ipAddressType");
     /**

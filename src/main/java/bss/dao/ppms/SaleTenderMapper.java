@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import bss.model.ppms.Packages;
 import bss.model.ppms.SaleTender;
 
@@ -168,4 +170,26 @@ public interface SaleTenderMapper {
      * @param ranMap
      */
     void updateRank(HashMap<String, Object> ranMap);
+    /**
+     * 
+     * Description:根据 供应商id 和招标文件id 获取该 项目的 状态
+     * 
+     * @author YangHongLiang
+     * @version 2017-5-24
+     * @param supplierId
+     * @param projectId
+     * @return
+     */
+    List<String> findBySupplierIdProjectId(@Param("supplierId")String supplierId,@Param("projectId")String projectId);
+    /**
+     * 
+     * Description:根据 供应商id 和招标文件id 获取该供应商可参与那些包数据
+     * 
+     * @author YangHongLiang
+     * @version 2017-5-25
+     * @param supplierId
+     * @param projectId
+     * @return
+     */
+    List<SaleTender> findPackageBySupplierIdProjectId(@Param("supplierId")String supplierId,@Param("projectId")String projectId);
 }

@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
@@ -103,24 +105,51 @@ public class ProjectManageController {
      * @return 进入页面
      */
     @RequestMapping("/bidIndex")
-    public String bidIndex(HttpServletRequest request, String projectId, Model model){
-        SaleTender std = getProSupplier(request, projectId, model);
-        if (std != null) {
-            if (std.getBidFinish() == 0) {
-                //未保存标书，进入编辑标书页面
-                return "redirect:bidDocument.html?projectId="+projectId;
-            } else if (std.getBidFinish() == 1) {
-                //标书制作完成，进入绑定指标页面
-                return "redirect:toBindingIndex.html?projectId="+projectId;
-            } else if (std.getBidFinish() == 2) {
-                //指标绑定完成，进入报价页面
-                return "redirect:/mulQuo/list.html?projectId="+projectId;
-            } else if (std.getBidFinish() == 3) {
-                //报价完成，进入完成页面
-                return "redirect:result.html?projectId="+projectId;
-            } else if (std.getBidFinish() == 4) {
-                //投标完成，进入结果查看页面
-                return "redirect:result.html?projectId="+projectId;
+    public String bidIndex(@CurrentUser User user,String projectId){
+     // 单一来源：在线？未答复
+     // 资格预审公告：1编制标书2.绑定指标3.完成生成文档      暂时未作
+        if(user != null && user.getTypeId() != null){
+           if(user.getTypeId() != null){
+             List<String> getList= saleTenderService.getBidFinish(projectId,user.getTypeId());
+              if(getList != null && getList.size()>0){
+                String bidFinish=getList.get(0);
+                //根据状态判断进入不同的业务
+              	 if ("0".equals(bidFinish)) {
+                       //进入开标一览表
+                       return "redirect:/mulQuo/openBid.html?projectId="+projectId;
+                   } else if ("1".equals(bidFinish)) {
+                       //进入价格构成表
+                       return "redirect:/mulQuo/priceBuild.html?projectId="+projectId;
+                   } else if ("2".equals(bidFinish)) {
+                       //进入明细表
+                       return "redirect:/mulQuo/priceView.html?projectId="+projectId;
+                   } else if ("3".equals(bidFinish)) {
+                       //进入编制标书
+                       return "redirect:toBindingIndex.html?projectId="+projectId;
+                   } else if ("4".equals(bidFinish)) {
+                       //进入绑定指标页面
+                     return "redirect:toBindingIndex.html?projectId="+projectId;
+                   }else if("5".equals(bidFinish)){
+                     //完成
+                     return "redirect:result.html?projectId="+projectId;
+                   }
+                 /* if (std.getBidFinish() == 0) {
+                      //未保存标书，进入编辑标书页面
+                      return "redirect:bidDocument.html?projectId="+projectId;
+                  } else if (std.getBidFinish() == 1) {
+                      //标书制作完成，进入绑定指标页面
+                      return "redirect:toBindingIndex.html?projectId="+projectId;
+                  } else if (std.getBidFinish() == 2) {
+                      //指标绑定完成，进入报价页面
+                      return "redirect:/mulQuo/list.html?projectId="+projectId;
+                  } else if (std.getBidFinish() == 3) {
+                      //报价完成，进入完成页面
+                      return "redirect:result.html?projectId="+projectId;
+                  } else if (std.getBidFinish() == 4) {
+                      //投标完成，进入结果查看页面
+                      return "redirect:result.html?projectId="+projectId;
+                  }*/
+              }        
             }
         }
         return "bss/supplier/bid/add_file";

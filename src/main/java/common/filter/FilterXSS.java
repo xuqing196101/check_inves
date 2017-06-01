@@ -11,8 +11,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-
-import org.apache.commons.lang.StringEscapeUtils;
 public class FilterXSS implements Filter {
     // XSS处理Map
     private static Map<String, String> xssMap = new LinkedHashMap<String, String>();
@@ -25,9 +23,17 @@ public class FilterXSS implements Filter {
             throws IOException, ServletException {
         // 强制类型转换 HttpServletRequest
         HttpServletRequest httpReq = (HttpServletRequest)req;
+        //获取请求方法 
+        String headValue = httpReq.getServletPath();
+        //忽略上传方法
+        if(headValue !=null || !"/file/upload.html".equals(headValue)){
         // 构造HttpRequestWrapper对象处理XSS
         HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);
         fc.doFilter(httpReqWarp, res);
+        }else{
+        HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq);
+        fc.doFilter(httpReqWarp, res);
+        }
     }
 
     @Override
@@ -44,17 +50,15 @@ public class FilterXSS implements Filter {
         // 含有符号 >
         xssMap.put(">", "＞");
         // 含有符号 (
-        //xssMap.put("\\(", "（");
+        xssMap.put("\\(", "（");
         // 含有符号 )
-        //xssMap.put("\\)", "）");
+        xssMap.put("\\)", "）");
         // 含有符号 '
         xssMap.put("'", "＇");
         // 含有符号 "
         xssMap.put("\"", "＂");
         xssMap.put("&","＆");
         xssMap.put("%","％");
-        //xssMap.put(":","：");
-        //xssMap.put("#","＃");
     }
     /**
      * 
@@ -102,11 +106,13 @@ public class FilterXSS implements Filter {
             return cleanXSS(value);
         }
 		private String cleanXSS(String value) {
-			Set<String> keySet = xssMap.keySet();
-			for(String key : keySet){
-		        String v = xssMap.get(key);
-                value = value.replaceAll(key,v);
-            }
+			if(xssMap !=null){
+				Set<String> keySet = xssMap.keySet();
+				for(String key : keySet){
+			        String v = xssMap.get(key);
+	                value = value.replaceAll(key,v);
+	            }
+			}
             return value;
         }
     }

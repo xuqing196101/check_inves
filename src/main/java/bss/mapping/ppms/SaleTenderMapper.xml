@@ -19,12 +19,15 @@
 		<result column="IS_REMOVED" jdbcType="VARCHAR" property="isRemoved" />
 		<result column="REMOVED_REASON" jdbcType="VARCHAR" property="removedReason" />
 		<result column="IS_TURN_UP" jdbcType="DECIMAL" property="isTurnUp" />
-		<association property="user" column="USER_ID"
-			select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
-		<association property="suppliers" column="SUPPLIER_ID"
-			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
-		<association property="project" column="PROJECT_ID"
-			select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
+		
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="BaseResultExternalMap" type="bss.model.ppms.SaleTender">
+	<association property="user" column="USER_ID"
+      select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
+    <association property="suppliers" column="SUPPLIER_ID"
+      select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
+    <association property="project" column="PROJECT_ID"
+      select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
@@ -550,5 +553,19 @@
 		DELETE FROM T_BSS_PPMS_SALE_TENDER WHERE
 		PACKAGR_IDS=#{packagesId} AND SUPPLIER_ID = #{supplierId}
 	</delete>
-
+	
+	<!-- 根据 供应商id 和招标文件id 获取该 项目的 状态 -->
+  <select id="findBySupplierIdProjectId" parameterType="String" resultType="String">
+  SELECT BID_FINISH  FROM
+    T_BSS_PPMS_SALE_TENDER 
+    WHERE SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} AND PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据 供应商id 和招标文件id 获取该供应商可参与那些包数据-->
+  <select id="findPackageBySupplierIdProjectId" parameterType="String" resultMap="BaseResultMap">
+  SELECT t.PROJECT_ID as projectId,p.id as id ,p.name as packageNames,t.supplier_id as supplierId,t.bid_finish as bidFinish FROM (
+  SELECT PROJECT_ID,PACKAGR_IDS,supplier_id,bid_finish FROM T_BSS_PPMS_SALE_TENDER WHERE project_id=#{projectId,jdbcType=VARCHAR} 
+  AND supplier_id=#{supplierId,jdbcType=VARCHAR} AND is_removed=0) t 
+  LEFT JOIN T_BSS_PPMS_PACKAGE p ON t.PROJECT_ID=p.PROJECT_ID and t.PACKAGR_IDS=p.id
+  </select>
 </mapper>

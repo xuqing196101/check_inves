@@ -72,6 +72,18 @@ public interface SaleTenderService   {
 	 * @return
 	 */
 	List<SaleTender> find(SaleTender saleTender);
+	  
+	 /**
+	  * 
+	  * Description:根据参数 获取项目状态
+	  * 
+	  * @author YangHongLiang
+	  * @version 2017-5-24
+	  * @param projectId招标项目id
+	  * @param supplierId供应商id
+	  * @return
+	  */
+	  List<String> getBidFinish(String projectId,String supplierId);
 
 
     /**
@@ -201,4 +213,15 @@ public interface SaleTenderService   {
     public void batchUpdate(List<SaleTender> stList);
     
     List<SaleTender> finds(SaleTender saleTender);
+    /**
+     * 
+     * Description:根据供应商id 和项目id获取参与项目的有效包数据
+     * 
+     * @author YangHongLiang
+     * @version 2017-5-25
+     * @param supplierId
+     * @param projectId
+     * @return
+     */
+    List<SaleTender> findPackages(String supplierId,String projectId);
 }
