@@ -50,10 +50,12 @@ public class UploadController {
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
+            response.setHeader("Content-type", "text/html;charset=UTF-8");
             String result = uploadService.upload(request);
             PrintWriter out = response.getWriter();
             if (StringUtils.isNotBlank(result)){
             	out.write(FileEncryption.setEncryption(result));
+            	/*out.write(result);*/
             	out.flush();
             }
         } catch (IOException e) {
