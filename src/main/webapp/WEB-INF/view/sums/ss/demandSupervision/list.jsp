@@ -82,7 +82,7 @@
       <div class="headline-v2">
         <h2>采购需求列表</h2>
       </div>
-      <h2 class="search_detail">
+      <div class="search_detail">
       <form id="add_form" action="${pageContext.request.contextPath }/supervision/demandSupervisionList.html" class="mb0" method="post" >
         <input type="hidden" name="page" id="page">
         <ul class="demand_list">
@@ -114,7 +114,7 @@
          </div>
          <div class="clear"></div>
        </form>
-     </h2>
+     </div>
 
       <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover">
