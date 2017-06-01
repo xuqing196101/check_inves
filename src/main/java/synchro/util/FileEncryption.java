@@ -9,14 +9,28 @@ import org.apache.commons.lang.StringUtils;
  *
  */
 public class FileEncryption {
+	private static String SEPARATOR = ""; 
+	private static String XSEPARATOR = ""; 
 /**
  * 混淆路劲
  * @param path  路劲
  * @return
  */
+  static{
+	  String os = System.getProperty("os.name").toLowerCase();
+	  if(os!=null&&!"".equals(os)){
+		  if(os.indexOf("windows")>=0){
+			  SEPARATOR="\\\\";
+			  XSEPARATOR="\\";
+		  }else{
+			  SEPARATOR="/";
+			  XSEPARATOR="/";
+		  }
+		}
+  }
   public static String setEncryption(String path){
     if(path!=null&&!"".equals(path)){
-      String[] spts = path.split("'"+File.separator+"'");
+      String[] spts = path.split(SEPARATOR);
         for(int i=0;i<spts.length;i++){
           if(spts[i]!=null&&!"".equals(spts[i])){
             if("web".equals(spts[i])){
@@ -30,11 +44,11 @@ public class FileEncryption {
             }
           }
         }
-      StringBuffer buffer=new StringBuffer(StringUtils.join(spts, File.separator));
+      StringBuffer buffer=new StringBuffer(StringUtils.join(spts, XSEPARATOR));
       if(buffer.length()>0){
     	  buffer=buffer.delete(0, 1);
       }
-      buffer.replace(buffer.indexOf(File.separator), buffer.indexOf(File.separator)+1, ":");
+      buffer.replace(buffer.indexOf(XSEPARATOR), buffer.indexOf(XSEPARATOR)+1, ":");
       return buffer.toString();
     }else{
       return "";
@@ -47,8 +61,8 @@ public class FileEncryption {
  */
   public static String getDecrypted(String path){
     if(path!=null&&!"".equals(path)){
-      path=path.replaceAll(":", "'"+File.separator+"'");
-      String[] spts = path.split("'"+File.separator+"'");
+      path=path.replaceAll(":", SEPARATOR);
+      String[] spts = path.split(SEPARATOR);
       for(int i=0;i<spts.length;i++){
         if(spts[i]!=null&&!"".equals(spts[i])){
           if("file".equals(spts[i])){
@@ -62,7 +76,7 @@ public class FileEncryption {
           }
         }
       }
-      return File.separator+StringUtils.join(spts, File.separator);
+      return File.separator+StringUtils.join(spts, XSEPARATOR);
     }else{
       return "";
     }
