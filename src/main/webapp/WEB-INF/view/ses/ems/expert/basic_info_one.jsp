@@ -600,7 +600,7 @@
 				var teachTitle = $("#teachTitle").val();
 				if(teachTitle == 1){
 					var professTechTitles = $("#professTechTitles").val();
-					if(professTechTitles) {
+					if(!professTechTitles) {
 						layer.msg("请填写专业技术职称!");
 						return false;
 					}
