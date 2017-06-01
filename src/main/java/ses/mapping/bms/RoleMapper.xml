@@ -83,7 +83,7 @@
         and UPDATED_AT = #{updatedAt}
       </if>
       <if test="description != null and description != ''">
-        and DESCRIPTION like concat(concat('%', '${description}'), '%')
+        and DESCRIPTION like concat(concat('%', '#{description}'), '%')
       </if>
       <if test="code != null and code != ''">
         and CODE = #{code}
