@@ -142,18 +142,18 @@
                 <tr class="info">
                   <th class="w50">序号</th>
                   <th class="info department">需求部门</th>
-                  <th class="info " width="10%">物资类别及名称</th>
+                  <th class="info ">物资类别及名称</th>
                   <th class="info ">规格型号</th>
-                  <th class="info " width="15%">质量技术标准<br/>(技术参数)</th>
+                  <th class="info ">质量技术标准<br/>(技术参数)</th>
                   <th class="info item">计量<br/>单位</th>
                   <th class="info ">采购<br/>数量</th>
-                  <th class="info w80">单价<br/>（元）</th>
-                  <th class="info w120">预算<br/>金额<br/>（万元）</th>
-                  <th class="info " width="10%">交货期限</th>
-                  <th class="info " width="8%">采购方式</th>
-                  <th class="info " width="10%">供应商名称</th>
-                  <th class="info " width="8%">状态</th>
-                  <th class="info " width="8%">进度</th>
+                  <th class="info">单价<br/>（元）</th>
+                  <th class="info">预算<br/>金额<br/>（万元）</th>
+                  <th class="info">交货期限</th>
+                  <th class="info">采购方式</th>
+                  <th class="info">供应商名称</th>
+                  <th class="info">状态</th>
+                  <th class="info">进度</th>
                 </tr>
               </thead>
               <tbody id="tbody_id">
@@ -163,32 +163,60 @@
                     <td><c:if test="${obj.price eq null}">
                     <div class="department">${obj.department}</div>
                     </c:if></td>
-                    <td title="${obj.goodsName}" class="tl pl20">
-                      ${obj.goodsName}
+                    <td title="${obj.goodsName}">
+                     	<div class="goodsname">
+                     		 ${obj.goodsName}
+                     	 </div>
                     </td>
-                    <td title="${obj.stand}" class="tl pl20">
-                      ${obj.stand}
+                    <td title="${obj.stand}">
+                    	<div class="stand">
+                     	 	${obj.stand}
+                        </div>
                     </td>
-                    <td title="${obj.qualitStand}" class="tl pl20">
-                      ${obj.qualitStand}
+                    <td title="${obj.qualitStand}">
+                    	<div class="qualitstand">
+                     		 ${obj.qualitStand}
+                        </div>
                     </td>
-                    <td title="${obj.item}" class="tl pl20">
-                      ${obj.item}
+                    <td title="${obj.item}" class="tl">
+                    	<div class="item">
+                     		 ${obj.item}
+                     	</div>
                     </td>
-                    <td class="tl pl20">${obj.purchaseCount}</td>
-                    <td class="tr pr20">${obj.price}</td>
-                    <td class="tr pr20">${obj.budget}</td>
-                    <td class="tl pl20">${obj.deliverDate}</td>
-                    <td class="tl pl20">${obj.purchaseType}</td>
-                    <td title="${obj.supplier}" class="tl pl20">
-                      <c:if test="${code eq 'DYLY'}">
-                        ${obj.supplier}
-                      </c:if>
+                    <td class="tl">
+                    	<div class="purchasecount">
+                    	${obj.purchaseCount}
+                    	</div>
                     </td>
-                    <td class="tl pl20">${obj.status}</td>
+                    <td class="tr">
+                    	<div class="price">
+                 		   ${obj.price}
+                 		</div>
+                 	</td>
+                    <td class="tr">
+                    	<div class="budget">
+                    		${obj.budget}
+                    	</div>
+                    </td>
+                    <td class="tl">
+                    	<div class="deliverdate">${obj.deliverDate}</div>
+                    </td>
+                    <td class="tl">
+                    	<div class="purchasetype">${obj.purchaseType}</div>
+                    </td>
+                    <td title="${obj.supplier}" class="tl">
+                    	<div class="purchasename">
+                      	<c:if test="${code eq 'DYLY'}">
+                       	 ${obj.supplier}
+                      	</c:if>
+                      	</div>
+                    </td>
+                    <td class="tl">
+                    	<div class="w50 tc">${obj.status}</div>
+                    </td>
                     <td class="tc" onclick="view('${obj.id}')">
                       <c:if test="${obj.price != null}">
-                        <div class="progress-new">
+                        <div class="progress-new w100">
                           <input type="hidden" value="${obj.progressBar}" />
                           <div id="progress" class="progress-bar" style="background:#2c9fa6;" onmouseover="bigImg(this,'${obj.progressBar}')" onmouseout="normalImg(this,'${obj.progressBar}')">
                           </div>
