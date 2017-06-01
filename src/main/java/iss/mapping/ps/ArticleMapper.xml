@@ -84,6 +84,15 @@
   	<collection property="articleAttachments" ofType="iss.model.ps.ArticleAttachments"/>
   </resultMap>
   
+  <!-- app首页公告查询 -->
+  <resultMap id="AppArticleMapper" type="iss.model.ps.Article">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PUBLISHED_AT" jdbcType="TIMESTAMP" property="publishedAt" />
+    <!-- <result column="CONTENT" jdbcType="CLOB" property="content" /> -->
+    <association property="articleType" column="LAST_ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeApp"/>
+  </resultMap>
+  
   <!-- 信息公告与品目关联 -->
   <resultMap id="ArticleCategoryMapper" type="iss.model.ps.ArticleCategory">
     <result column="ARTICLE_ID" property="articleId"/>
@@ -1490,5 +1499,18 @@ where
 			and name like  CONCAT(CONCAT('%', #{title}), '%')
 		</if>
 	</select>
+	
+	<!-- app首页通知查询 -->
+  <select id="selectsumApp" parameterType="Map" resultMap="AppArticleMapper">
+  	select ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID
+  	from T_ISS_PS_ARTICLE
+  	where LAST_ARTICLE_TYPE_ID in
+  	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    	#{item}
+    </foreach>
+    and status=2
+    and IS_DELETED = 0
+    order by published_at desc
+  </select>
   
 </mapper>

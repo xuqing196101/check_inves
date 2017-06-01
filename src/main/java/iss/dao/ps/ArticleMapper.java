@@ -463,4 +463,17 @@ public interface ArticleMapper {
     //根据产品目录查询文章
     List<Article> findArtByCategory(Map<String, Object> map);
     
+    /**
+     * 
+     * Description: app首页查询采购法规
+     * 
+     * @author  zhang shubin
+     * @version  2017年6月1日 
+     * @param  @param map
+     * @param  @return 
+     * @return List<Article> 
+     * @exception
+     */
+    List<Article> selectsumApp(Map<String, Object> map);
+    
 }

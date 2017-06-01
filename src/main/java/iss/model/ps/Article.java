@@ -155,6 +155,9 @@ public class Article{
     
     private String lastArticleTypeName;
     
+    //string类型发布时间
+    private String create_at;
+    
     public String getLastArticleTypeName() {
 		return lastArticleTypeName;
 	}
@@ -529,6 +532,14 @@ public class Article{
     public void setCancelPublishAt(Date cancelPublishAt) {
         this.cancelPublishAt = cancelPublishAt;
     }
+
+	public String getCreate_at() {
+		return create_at;
+	}
+
+	public void setCreate_at(String create_at) {
+		this.create_at = create_at;
+	}
 
    
     

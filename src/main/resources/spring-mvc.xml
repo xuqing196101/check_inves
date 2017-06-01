@@ -26,7 +26,7 @@
 	
     <task:annotation-driven />
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
-	<context:component-scan base-package="ses.controller, iss.controller,bss.controller,common.controller,synchro.controller,common.aspect,system.controller,sums.controller" />
+	<context:component-scan base-package="ses.controller, iss.controller,bss.controller,common.controller,synchro.controller,common.aspect,system.controller,sums.controller,app.controller" />
   
   	<aop:aspectj-autoproxy proxy-target-class="true" />
 
@@ -85,6 +85,10 @@
 			<mvc:exclude-mapping path="/categorys/categoryList.*" />
 			<!-- 过滤技术参数库 -->
 			<mvc:exclude-mapping path="/categorys/parameterList.*" />
+			
+			<!-- app首页访问过滤 -->
+			<mvc:exclude-mapping path="/indexApp/*" />
+			
 			
 <!-- 			专家注册 -->
  			<mvc:exclude-mapping path="/expert/toExpert.*" />

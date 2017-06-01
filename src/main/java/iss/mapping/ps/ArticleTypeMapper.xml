@@ -13,6 +13,10 @@
     <association column="CREATER_ID" property="creater" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
     <association column="PARENT_ID" property="articleType" select="selectTypeByPrimaryKey"/>
   </resultMap>
+  <resultMap id="AppArticleTypeMapper" type="iss.model.ps.ArticleType">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+  </resultMap>
   
   <sql id="ArticleType_Column_List">
     ID, NAME, CREATED_AT,CREATER_ID, UPDATED_AT,DESCRIBE,CODE,PARENT_ID,SHOW_NUM
@@ -20,6 +24,14 @@
   
   <!-- 根据id查询栏目类型 -->
   <select id="selectTypeByPrimaryKey" parameterType="Object" resultMap="ArticleTypeMapper">
+    select 
+    <include refid="ArticleType_Column_List" />
+    from T_ISS_PS_ARTICLE_TYPE
+    where ID = #{id}
+  </select>
+  
+  <!-- app查询栏目类型 -->
+  <select id="selectTypeApp" parameterType="Object" resultMap="AppArticleTypeMapper">
     select 
     <include refid="ArticleType_Column_List" />
     from T_ISS_PS_ARTICLE_TYPE

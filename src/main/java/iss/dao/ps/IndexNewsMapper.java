@@ -5,6 +5,8 @@ import iss.model.ps.Article;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 
 
 /*
@@ -78,4 +80,30 @@ public interface IndexNewsMapper {
   List<Article> selectIndexChuFaNewsByTypeId(Map<String, Object> map);
 
   Integer selectChufaCount(Map<String, Object> countMap);
+  
+  /**
+   * 
+   * Description: APP首页信息查询
+   * 
+   * @author  zhang shubin
+   * @version  2017年6月1日 
+   * @param  @param articleTypeId
+   * @param  @return 
+   * @return List<Article> 
+   * @exception
+   */
+  List<Article> selectAppNewsByArticleTypeId(@Param("articleTypeId") String articleTypeId);
+  
+  /**
+   * 
+   * Description: APP首页处罚公告查询
+   * 
+   * @author  zhang shubin
+   * @version  2017年6月1日 
+   * @param  @param articleTypeId
+   * @param  @return 
+   * @return List<Article> 
+   * @exception
+   */
+  List<Article> selectAppChuFaNewsByTypeId(@Param("articleTypeId") String articleTypeId);
 }
