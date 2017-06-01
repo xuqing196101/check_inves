@@ -1154,7 +1154,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 所在单位</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input onblur="notNull('workUnit')" maxlength="40" value="${expert.workUnit}" name="workUnit" id="workUnit" type="text" <c:if test="${fn:contains(errorField,'所在单位')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('所在单位')"
+								<input onblur="notNull('workUnit')" maxlength="20" value="${expert.workUnit}" name="workUnit" id="workUnit" type="text" <c:if test="${fn:contains(errorField,'所在单位')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('所在单位')"
 								</c:if>/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空</span>
@@ -1182,7 +1182,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 单位地址</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input onblur="notNull('unitAddress')" maxlength="40" value="${expert.unitAddress}" name="unitAddress" id="unitAddress" type="text" placeholder="街道名称，门牌号" <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('单位地址')"
+								<input onblur="notNull('unitAddress')" maxlength="30" value="${expert.unitAddress}" name="unitAddress" id="unitAddress" type="text" placeholder="街道名称，门牌号" <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('单位地址')"
 								</c:if>/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空</span>
@@ -1281,10 +1281,15 @@
                         class="red">*</i> 毕业院校及专业</span>
 						</c:if>
 						<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-							<input onblur="notNull('graduateSchool')" maxlength="50" value="${expert.graduateSchool}" name="graduateSchool" id="graduateSchool" type="text" <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业院校及专业')"
+							<input <c:if test="${expert.expertsFrom eq 'LOCAL'}">onblur="notNull('graduateSchool')"</c:if> maxlength="50" value="${expert.graduateSchool}" name="graduateSchool" id="graduateSchool" type="text" <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业院校及专业')"
 							</c:if>/>
 							<span class="add-on">i</span>
-							<span class="input-tip">不能为空，如：北京大学计算机专业</span>
+							<c:if test="${expert.expertsFrom eq 'ARMY'}">
+								<span class="input-tip">如：北京大学计算机专业</span>
+							</c:if>
+							<c:if test="${expert.expertsFrom eq 'LOCAL'}">
+								<span class="input-tip">不能为空，如：北京大学计算机专业</span>
+							</c:if>
 							<div class="cue" id="err_msg_graduateSchool"></div>
 						</div>
 						</li>
