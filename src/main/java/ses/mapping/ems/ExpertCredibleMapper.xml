@@ -19,7 +19,7 @@
     from T_SES_EMS_EXPERT_CREDIBLE
     where 1=1 AND IS_DELETE != 2
       <if test="badBehavior != null and badBehavior!= ''">
-        AND BAD_BEHAVIOR like '%${badBehavior}%'
+        AND BAD_BEHAVIOR like CONCAT(CONCAT('%', #{badBehavior}), '%')
       </if>
       <if test="isStatus != null and isStatus != ''">
         AND IS_STATUS = #{isStatus}

@@ -220,7 +220,7 @@
 		AND E.KIND = #{kind}
 		AND E.QUESTION_TYPE_ID = T.ID
 		<if test="topic != null and '' != topic">
-			AND E.TOPIC LIKE #{topic}
+			AND E.TOPIC LIKE CONCAT(CONCAT('%', #{topic}), '%')
 		</if>
 		<if test="questionTypeId != null and '' != questionTypeId">
 			AND E.QUESTION_TYPE_ID = #{questionTypeId}
@@ -298,7 +298,7 @@
 			E.QUESTION_TYPE_ID = T.ID
 			AND E.PERSON_TYPE = 2
 			<if test="topic != null and '' != topic">
-				AND E.TOPIC LIKE #{topic}
+				AND E.TOPIC LIKE CONCAT(CONCAT('%', #{topic}), '%')
 			</if>
 			<if test="questionTypeId != null and '' != questionTypeId">
 				AND E.QUESTION_TYPE_ID = #{questionTypeId}

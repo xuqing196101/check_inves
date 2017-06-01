@@ -251,7 +251,7 @@
 		</if>
 		<if test="supplier!=null">
 			<if test="supplier.supplierName!=null and supplier.supplierName !='' ">
-				AND SS.SUPPLIER_NAME LIKE '%${supplier.supplierName}%'
+				AND SS.SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{supplier.supplierName}), '%')
 			</if>
 		</if>
 	</select>

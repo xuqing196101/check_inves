@@ -1035,7 +1035,7 @@
 			and SUPPLIER_STATUS = #{status}
 		</if>
 		<if test="supplierName != null and supplierName !=''">
-			and SUPPLIER_NAME like '%${supplierName}%'
+			and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		</if>
 		<if test="startDate != null">
 			AND CREATED_AT &gt;= #{startDate,jdbcType=TIMESTAMP}
@@ -1050,7 +1050,7 @@
 			and SUPPLIER_STATUS = #{status}
 		</if>
 		<if test="address != null and address !=''">
-			and ADDRESS like '%${address}%'
+			and ADDRESS like CONCAT(CONCAT('%', #{address}), '%')
 		</if>
 		<if test="stsupplierIds != null">
 			<foreach collection="stsupplierIds" item="id" open="and ID not in ("
@@ -1071,7 +1071,7 @@
 			and tt1.ID = #{id}
 		</if>
 		<if test="supplierName != null and supplierName !=''">
-			and tt1.SUPPLIER_NAME like '%${supplierName}%'
+			and tt1.SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		</if>
 		<if test="businessType !=null and businessType !=''">
 			and tt1.BUSINESS_TYPE =#{businessType}
@@ -1101,7 +1101,7 @@
 			and tt1.CONTACT_NAME = #{contactName}
 		</if>
 		<if test="address != null and address !=''">
-			and tt1.ADDRESS like '%${address}%'
+			and tt1.ADDRESS like CONCAT(CONCAT('%', #{address}), '%')
 		</if>
 		<if test="startScore != null and startScore !=''">
 			and tt1.SCORE &gt; #{startScore}
@@ -1135,7 +1135,7 @@
 		<include refid="Base_Column_List" />
 		from T_SES_SMS_SUPPLIER where  (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 8)
 		<if test="supplierName != null and supplierName !=''">
-			and SUPPLIER_NAME like '%${supplierName}%'
+			and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		</if>
 		<if test="stsupplierIds != null">
 			<foreach collection="stsupplierIds" item="id" open="and ID not in ("
@@ -1261,7 +1261,7 @@
 	      </foreach>
 	    </if>
 	    <if test="supplierName != null and supplierName !=''">
-	      and SUPPLIER_NAME like '%'|| #{supplierName} ||'%'
+	      and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 	    </if>
 	    <if test="startDate != null">
 	      AND CREATED_AT &gt;= #{startDate}
@@ -1282,7 +1282,7 @@
 	      AND AUDIT_DATE &lt;= #{endAuditDate}
 	    </if>
 	    <if test="contactName != null and contactName != ''">
-	      AND CONTACT_NAME like '%'|| #{contactName} ||'%'
+	      AND CONTACT_NAME like CONCAT(CONCAT('%', #{contactName}), '%')
 	    </if>
 	    <if test="businessType != null and businessType != ''">
 	      AND BUSINESS_TYPE =#{businessType}
@@ -1301,19 +1301,19 @@
 	      and IS_PROVISIONAL = '0'
 	    </if>
 	    <if test="address != null and address !=''">
-	      and t4.NAME like '%'|| #{address} ||'%'
+	      and t4.NAME like CONCAT(CONCAT('%', #{address}), '%')
 	    </if>
 	    <if test="loginName != null and loginName !=''">
-	      and LOGIN_NAME like '%'|| #{loginName} ||'%'
+	      and LOGIN_NAME like CONCAT(CONCAT('%', #{loginName}), '%')
 	    </if>
 	    <if test="mobile != null and mobile !=''">
-	      and MOBILE like '%'|| #{mobile} ||'%'
+	      and MOBILE like CONCAT(CONCAT('%', #{mobile}), '%')
 	    </if>
 	    <if test="isProvisional != null">
 	      and IS_PROVISIONAL = #{isProvisional}
 	    </if>
 	    <if test="creditCode != null and creditCode != '' ">
-	      and CREDIT_CODE like '%'|| #{creditCode} || '%'
+	      and CREDIT_CODE like CONCAT(CONCAT('%', #{creditCode}), '%')
 	    </if>
 	    <!-- <if test="judge == null and judge != 5">
 	      ORDER BY CREATED_AT DESC NULLS LAST
@@ -1346,10 +1346,10 @@
 				and IS_PROVISIONAL = '0'
 				and IS_DELETED = 0
 			<if test="supplierName != null and supplierName !=''">
-				and SUPPLIER_NAME like '%'|| #{supplierName} ||'%'
+				and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 			</if>
 			<if test="contactName != null and contactName != ''">
-				AND CONTACT_NAME like '%'|| #{contactName} ||'%'
+				AND CONTACT_NAME like CONCAT(CONCAT('%', #{contactName}), '%')
 			</if>
 				ORDER BY AUDIT_DATE  DESC NULLS LAST
 	</select>
@@ -1374,7 +1374,7 @@
 		)
 		t4 where 1=1
 		<if test="supplierName != null and supplierName !=''">
-			and t4.SUPPLIER_NAME like '%${supplierName}%'
+			and t4.SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		</if>
 		<if test="startDate != null">
 			AND t4.CREATED_AT &gt;= #{startDate,jdbcType=TIMESTAMP}
@@ -1389,10 +1389,10 @@
 			and t4.SUPPLIER_STATUS = #{status}
 		</if>
 		<if test="address != null and address !=''">
-			and t4.ADDRESS like '%${address}%'
+			and t4.ADDRESS like CONCAT(CONCAT('%', #{address}), '%')
 		</if>
 		<if test="supplierType != null and supplierType != ''">
-			AND t4.SUPPLIER_TYPE_NAME like #{supplierType}
+			AND t4.SUPPLIER_TYPE_NAME like CONCAT(CONCAT('%', #{supplierType}), '%')
 		</if>
 		ORDER BY FOUND_DATE DESC
 	</select>
@@ -1590,7 +1590,7 @@
 		<where>
 			1=1
 			<if test="supplierName != null and supplierName !=''">
-			    and SUPPLIER_NAME like '%${supplierName}%'
+			    and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		    </if>
 			<if test="mobile != null">
 				and MOBILE = #{mobile}
@@ -1608,7 +1608,7 @@
 				and IS_PUBLISH = #{IS_PUBLISH}
 			</if>
 			<if test="status != null and status != ''">
-				and SUPPLIER_STATUS in (${status})
+				and SUPPLIER_STATUS in (#{status})
 			</if>
 		</where>
 
@@ -1733,16 +1733,16 @@
 		WHERE <!-- (SUPPLIER_STATUS = -1 or SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 2) -->
 		IS_DELETED = 0
 		<if test="supplierName != null and supplierName !=''">
-			AND SUPPLIER_NAME like '%'|| #{supplierName} ||'%'
+			AND SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		</if>
 		<if test="supplierName != null and supplierName !=''">
-			AND SUPPLIER_NAME like '%'|| #{supplierName} ||'%'
+			AND SUPPLIER_NAME like  CONCAT(CONCAT('%', #{supplierName}), '%')
 		</if>
 		<if test="loginName != null and loginName !=''">
-			AND LOGIN_NAME like '%'|| #{loginName} ||'%'
+			AND LOGIN_NAME like  CONCAT(CONCAT('%', #{loginName}), '%')
 		</if>
 		<if test="mobile != null and mobile !=''">
-			AND MOBILE like '%'|| #{mobile} ||'%'
+			AND MOBILE like  CONCAT(CONCAT('%', #{mobile}), '%')
 		</if>
 		<if test="status != null">
 			AND SUPPLIER_STATUS = #{status}

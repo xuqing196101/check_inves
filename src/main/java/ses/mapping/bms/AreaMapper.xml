@@ -23,7 +23,7 @@
          and ID = #{id}
       </if>
        <if test="name != null and name !=''">
-        and NAME like '%${name}%'
+        and NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if> 
      <if test="createdAt != null">
         and CREATED_AT = #{createdAt}
@@ -68,7 +68,7 @@
         and PARENT_ID = #{pid}   
      </if> 
   	 <if test="name != null and name !=''">
-        and NAME like '%${name}%'
+        and NAME like CONCAT(CONCAT('%', #{name}), '%')
      </if> 
   	ORDER BY CREATED_AT ASC
   </select>

@@ -110,12 +110,12 @@
 			and o.type_name= #{typeName}
 		</if>
 		<if test="parentName != null">
-			and a.name like '%'||#{parentName}||'%'
+			and a.name like  CONCAT(CONCAT('%', #{parentName}), '%')
 		</if>
 		<if test="name != null">
-			and o.name like '%'||#{name}||'%'
+			and o.name like CONCAT(CONCAT('%', #{name}), '%')
 		</if>
-		<!-- <if test="areaName != null"> and o.areaName like '%'||#{areaName}||'%' 
+		<!-- <if test="areaName != null"> and o.areaName like CONCAT(CONCAT('%', #{areaName}), '%')
 			</if> -->
 		<if test="quaStatus != null">
 			and o.QUA_STATUS= #{quaStatus}

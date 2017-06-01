@@ -55,15 +55,15 @@
 			and o.ID= #{purchaseDepId}
 		</if>
 		<if test="purchaseDepName != null and '' != purchaseDepName">
-			and o.name like '%'||#{purchaseDepName}||'%' 
+			and o.name like CONCAT(CONCAT('%', #{purchaseDepName}), '%')
 		</if>
 		<!-- 根据用户表真实姓名查询 -->
 		<if test="relName != null and '' != relName">
-			and u.REL_NAME like '%'||#{relName}||'%' 
+			and u.REL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
 		</if>
 		<!-- 根据用户身份证号查询 -->
 		<if test="idCard != null and '' != idCard">
-			and d.ID_CARD LIKE '%'||#{idCard}||'%'
+			and d.ID_CARD LIKE CONCAT(CONCAT('%', #{idCard}), '%')
 		</if>
 		<!-- 根据用户ID查询 -->
 		<if test="userId != null and '' != userId">

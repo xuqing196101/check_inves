@@ -353,7 +353,7 @@
     from T_SES_SMS_IMPORT_SUPPLIER
     where 1=1
     <if test="name!=null">
-    	and NAME like '%${name}%'
+    	and NAME like CONCAT(CONCAT('%', #{name}), '%')
     </if>
     <if test="supplierType!=null">
     	and SUPPLIER_TYPE= #{supplierType,jdbcType=VARCHAR}

@@ -179,10 +179,10 @@
 		  from T_SES_OMS_ORG    d
 		 where 1=1
 		 <if test="name != null and name != ''">
-		   AND d.NAME like '%'||#{name}||'%' 
+		   AND d.NAME like CONCAT(CONCAT('%', #{name}), '%')
 		 </if>
 		 <if test="princinpal != null and princinpal != ''">
-		   AND d.PRINCINPAL like '%'||#{princinpal}||'%'
+		   AND d.PRINCINPAL like CONCAT(CONCAT('%', #{princinpal}), '%')
 		 </if>
     </select> 
     <!-- 查询需求部门 -->
@@ -192,10 +192,10 @@
     	WHERE IS_DELETED = '0'
     	AND TYPE_NAME ='0'
     	<if test="name != null and name != ''">
-    	  AND NAME like '%'||#{name}||'%' 
+    	  AND NAME like CONCAT(CONCAT('%', #{name}), '%')
     	</if>
     	<if test="princinpal != null and princinpal != ''">
-		   AND PRINCINPAL like '%'||#{princinpal}||'%'
+		   AND PRINCINPAL like CONCAT(CONCAT('%', #{princinpal}), '%')
 		</if>
     </select>
     
@@ -251,13 +251,13 @@
 			and d.REQUIRE_DEP_ID= #{requireDepId}
 		</if> 
 		<if test="name != null and name != ''">
-			and d.name like '%${name}%'
+			and d.name like CONCAT(CONCAT('%', #{name}), '%')
 		</if>
 		<if test="notName != null and notName != ''">
-			and a.name not like #{notName}
+			and a.name not like  CONCAT(CONCAT('%', #{notName}), '%')
 		</if>
 		<if test="isName != null and isName != ''">
-			and a.name like #{isName}
+			and a.name like CONCAT(CONCAT('%', #{isName}), '%')
 		</if>
 		<if test="provinceId != null and provinceId != ''">
 			and d.PROVINCE_ID = #{provinceId}

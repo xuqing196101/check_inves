@@ -157,7 +157,7 @@
     	and USER_ID = #{userId}
     </if>
     <if test="name != null">
-        AND NAME LIKE #{name}
+        AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
       </if>
       <if test="articleType != null">
          AND ARTICLE_TYPE_ID = #{articleType.id}
@@ -192,7 +192,7 @@
     from T_ISS_PS_ARTICLE
     where IS_DELETED = 0 
 	  	<if test="name != null">
-	  	  AND NAME LIKE #{name}
+	  	  AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
 	  	</if>
 	  	<if test="articleType != null">
        	 AND ARTICLE_TYPE_ID = #{articleType.id}
@@ -230,7 +230,7 @@
     from T_ISS_PS_ARTICLE
     where IS_DELETED = 0
     	<if test="name != null">
-	  	  AND NAME LIKE #{name}
+	  	  AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
 	  	</if>
 	  	<if test="articleType != null">
        	 AND ARTICLE_TYPE_ID = #{articleType.id}
@@ -980,7 +980,7 @@ AND ROWNUM &lt;= 6
 			PARENT_ID = #{parId}
 	)
 	<if test="title!=null and title!=''">
-	 	and name like '%'||#{title}||'%'
+	 	and name like CONCAT(CONCAT('%', #{title}), '%')
 	</if>
 	and status = 2
 	and IS_DELETED = 0
@@ -1001,13 +1001,13 @@ WHERE
     and
 	d.PARENT_ID = #{parId}
 	<if test="title!=null and title!=''">
-		and c.name like '%'||#{title}||'%'
+		and c.name like CONCAT(CONCAT('%', #{title}), '%')
 	</if>
 	<if test="productType!=null and productType!=''">
-		and a.category_id = #{productType}
+		and a.category_id = CONCAT(CONCAT('%', #{productType}), '%')
 	</if>
 	<if test="lastArticleTypeName!=null and lastArticleTypeName!=''">
-		and d.name like '%'||#{lastArticleTypeName}||'%'
+		and d.name like CONCAT(CONCAT('%', #{lastArticleTypeName}), '%')
 	</if>
 	
 	 <if test="publishStartDate != null and publishStartDate!=''">
@@ -1063,7 +1063,7 @@ where 1=1
     	#{item}
     </foreach>
     <if test="title!=null and title!=''">
-		and name like '%'||#{title}||'%'
+		and name like CONCAT(CONCAT('%', #{title}), '%')
 	</if>
     and status=2
     and IS_DELETED = 0
@@ -1088,14 +1088,14 @@ WHERE
 			PARENT_ID = #{id} or parent_id = #{twoid}
 	)
 	<if test="title!=null and title!=''">
-		and c.name like '%'||#{title}||'%'
+		and c.name like CONCAT(CONCAT('%', #{title}), '%')
 	</if>
 	<if test="productType!=null and productType!=''">
 		and a.category_id = #{productType}
 	</if>
 	<if test="lastArticleTypeName!=null and lastArticleTypeName!=''">
-		and d.name like '%'||#{lastArticleTypeName}||'%'
-	</if>
+		and d.name like CONCAT(CONCAT('%', #{lastArticleTypeName}), '%')
+    </if>
 	
 	 <if test="publishStartDate != null and publishStartDate!=''">
         AND to_char(PUBLISHED_AT,'yyyy-mm-dd') &gt;= #{publishStartDate}
@@ -1117,7 +1117,7 @@ WHERE
 	WHERE
 	(LAST_ARTICLE_TYPE_ID = #{id} or LAST_ARTICLE_TYPE_ID = #{twoid})
 	<if test="title!=null and title!=''">
-		and name like '%'||#{title}||'%'
+		and name like CONCAT(CONCAT('%', #{title}), '%')
 	</if>
 	and status=2
 	and IS_DELETED = 0
@@ -1300,7 +1300,7 @@ where
 		AND ARTICLE_TYPE_ID = #{articleTypeId}
 		AND SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId}
 		<if test="title!=null and title!=''">
-		and name like '%'||#{title}||'%'
+		and name like CONCAT(CONCAT('%', #{title}), '%')
 		</if>
   </select>
    -->
@@ -1317,13 +1317,13 @@ WHERE
 	AND ARTICLE_TYPE_ID = #{articleTypeId}
 	AND SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId}
 	<if test="title!=null and title!=''">
-		and c.name like '%'||#{title}||'%'
+		and c.name like CONCAT(CONCAT('%', #{title}), '%')
 	</if>
 	<if test="productType!=null and productType!=''">
 		and a.category_id = #{productType}
 	</if>
 	<if test="lastArticleTypeName!=null and lastArticleTypeName!=''">
-		and d.name like '%'||#{lastArticleTypeName}||'%'
+		and d.name like CONCAT(CONCAT('%', #{lastArticleTypeName}), '%')
 	</if>
 	
 	 <if test="publishStartDate != null and publishStartDate!=''">
@@ -1356,7 +1356,7 @@ where
 		AND ARTICLE_TYPE_ID = #{articleTypeId}
 		AND SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId}
 		<if test="title!=null and title!=''">
-		and name like '%'||#{title}||'%'
+		and name like  CONCAT(CONCAT('%', #{title}), '%')
 		</if>	
   </select>
   
@@ -1374,7 +1374,7 @@ where
 	and IS_DELETED = 0
 	AND status = 2
 	<if test="title!=null and title!=''">
-		and name like '%'||#{title}||'%'
+		and name like CONCAT(CONCAT('%', #{title}), '%')
 	</if>
 	ORDER BY
 		PUBLISHED_AT DESC
@@ -1470,7 +1470,7 @@ where
 	  AND IS_INDEX = #{isIndex}
 	</if>
     <if test="name != null and name != ''">
-		 AND NAME LIKE '%${name}%'
+		 AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
 	</if>
     ORDER BY CREATED_AT DESC
   </select>
@@ -1487,7 +1487,7 @@ where
 		AND ARTICLE_TYPE_ID = #{articleTypeId}
 		AND SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId}
 		<if test="title!=null and title!=''">
-			and name like '%'||#{title}||'%'
+			and name like  CONCAT(CONCAT('%', #{title}), '%')
 		</if>
 	</select>
   

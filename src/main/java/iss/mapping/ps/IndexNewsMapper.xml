@@ -131,7 +131,7 @@
 						 	and ARTICLE_TYPE_ID = #{articleTypeId}
 						</if>
 						<if test="title!=null and title!=''">
-						 	and name like '%'||#{title}||'%'
+						 	and name like CONCAT(CONCAT('%', #{title}), '%')
 						</if>
 						order by PUBLISHED_AT desc
 					) t
@@ -152,7 +152,7 @@
 	 	and ARTICLE_TYPE_ID = #{articleTypeId}
 	</if>
 	<if test="title!=null and title!=''">
-	 	and name like '%'||#{title}||'%'
+	 	and name like CONCAT(CONCAT('%', #{title}), '%')
 	</if>
   </select>
 </mapper>

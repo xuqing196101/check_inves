@@ -281,7 +281,7 @@
 			)
 		</if>
 		<if test="todos.name != null and todos.name != ''">
-			AND BT.NAME like '%${todos.name}%'
+			AND BT.NAME like CONCAT(CONCAT('%', #{todos.name}), '%')
 		</if>
 		ORDER BY UNDO_TYPE,bt.CREATED_AT desc
 	</select>
@@ -336,7 +336,7 @@
 			)
 		</if>
 		<if test="todos.name != null and todos.name != ''">
-			AND BT.NAME like '%${todos.name}%'
+			AND BT.NAME like CONCAT(CONCAT('%', #{todos.name}), '%')
 		</if>
 		ORDER BY UNDO_TYPE,bt.CREATED_AT desc
 	</select>
@@ -391,7 +391,7 @@
 			)
 		</if>
 		<if test="todos.name != null and todos.name != ''">
-			AND BT.NAME like '%${todos.name}%'
+			AND BT.NAME like CONCAT(CONCAT('%', #{todos.name}), '%')
 		</if>
 		ORDER BY UNDO_TYPE,bt.CREATED_AT desc
 	</select>

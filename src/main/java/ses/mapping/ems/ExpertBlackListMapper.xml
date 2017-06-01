@@ -30,7 +30,7 @@
     where 
     	 1=1
        <if test="relName != null and relName !=''">  
-              AND  REL_NAME like '%'|| #{relName} ||'%'
+              AND  REL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
        </if>  
        <if test="punishType != null and punishType !=''">  
               AND PUNISH_TYPE = #{punishType} 
@@ -49,7 +49,7 @@
     where 
     	 STATUS <![CDATA[ <> ]]> 2
        <if test="relName != null and relName !=''">  
-              AND  REL_NAME like '%'|| #{relName} ||'%'
+              AND  REL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
        </if>  
        <if test="punishType != null and punishType !=''">  
               AND PUNISH_TYPE = #{punishType} 
@@ -273,7 +273,7 @@
 		LEFT JOIN T_SES_BMS_DICTIONARY_DATA dd ON dd.ID = e.EXPERTS_TYPE_ID
 		<where>
 			<if test="expertBlacklist.relName != null and expertBlacklist.relName != ''">
-				AND eb.REL_NAME like #{expertBlacklist.relName}
+				AND eb.REL_NAME like  CONCAT(CONCAT('%', #{expertBlacklist.relName}), '%')
 			</if>
 			<if test="expertTypeId != null and expertTypeId != ''">
 				AND e.EXPERTS_TYPE_ID = #{expertTypeId}

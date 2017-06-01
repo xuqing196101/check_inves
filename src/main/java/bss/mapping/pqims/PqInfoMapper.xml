@@ -306,10 +306,10 @@
        AND p.TYPE=#{type} 
      </if>
      <if test="contract.code != null and contract.code != ''">
-       AND c.CODE LIKE '%'||#{contract.code}||'%' 
+       AND c.CODE LIKE  CONCAT(CONCAT('%', #{contract.code}), '%')
      </if>
      <if test="contract.name != null and contract.name != ''">
-      AND  c.NAME LIKE '%'||#{contract.name}||'%' 
+      AND  c.NAME LIKE CONCAT(CONCAT('%', #{contract.name}), '%')
      </if>
      ORDER BY p.CREATED_AT DESC
   </select>
@@ -345,7 +345,7 @@
     from T_BSS_PQIMS_PQINFO p inner JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
     LEFT JOIN T_SES_SMS_SUPPLIER s on c.SUPPLIER_DEP_NAME = s.ID
     <if test="contract.supplierDepName != null and contract.supplierDepName != ''">
-    where s.SUPPLIER_NAME LIKE '%'||#{contract.supplierDepName}||'%'
+    where s.SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{contract.supplierDepName}), '%')
     </if>
   </select>
     

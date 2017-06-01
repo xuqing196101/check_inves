@@ -419,10 +419,10 @@
 			AND TP.PURCHASE_DEP_ID = #{purchaseDepId}
 		</if>
 		<if test="projectName !=null and projectName !='' ">
-			AND TP.name like '%'||#{projectName}||'%'
+			AND TP.name like CONCAT(CONCAT('%', #{projectName}), '%')
 		</if>
 		<if test="projectCode !=null and projectCode !='' ">
-			AND TP.project_Number like '%'||#{projectCode}||'%'
+			AND TP.project_Number like CONCAT(CONCAT('%', #{projectCode}), '%')
 		</if>
 		<if test="isCreateContract !=null and isCreateContract !='' ">
 		   

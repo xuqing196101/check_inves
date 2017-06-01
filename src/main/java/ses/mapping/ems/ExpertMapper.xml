@@ -183,7 +183,7 @@
         where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
         and (STATUS = '1' or STATUS = '4' or STATUS = '5')
         <if test="relName != null and relName !=''">
-            AND REAL_NAME like '%${relName}%'
+            AND REAL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
         </if>
         <if test="expertsFrom != null and expertsFrom !=''">
             AND EXPERTS_FROM = '${expertsFrom}'
@@ -1021,7 +1021,7 @@
         T_SES_EMS_EXPERT
         where 1=1
         <if test="relName != null and relName !=''">
-            AND REAL_NAME like '%${relName}%'
+            AND REAL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
         </if>
         <if test="ids != null">
             <foreach collection="ids" item="id" open="and ID not in ("
@@ -1135,7 +1135,7 @@
         from T_SES_EMS_EXPERT
         where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
         <if test="relName != null and relName !=''">
-            AND REAL_NAME LIKE #{relName}
+            AND REAL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
         </if>
         <if test="expertsFrom != null and expertsFrom !=''">
             AND EXPERTS_FROM = #{expertsFrom}
@@ -1147,7 +1147,7 @@
             AND EXPERTS_TYPE_ID = #{expertsTypeId}
         </if>
         <if test="idNumber != null and idNumber !=''">
-            AND ID_NUMBER LIKE #{idNumber}
+            AND ID_NUMBER LIKE CONCAT(CONCAT('%', #{idNumber}), '%')
         </if>
         <if test="id != null and id !=''">
             AND ID = #{id}
@@ -1247,7 +1247,7 @@
         	</if>
         </if>
         <if test="relName != null and relName !=''">
-            AND REAL_NAME LIKE '%'|| #{relName} ||'%'
+            AND REAL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
         </if>
         <if test="status != null and status !=''">
             AND STATUS = #{status}
@@ -1955,10 +1955,10 @@
             and IS_DELETE = #{expert.isDelete}
         </if>
         <if test="expert.relName != null">
-            and REAL_NAME LIKE '%'||#{expert.relName,jdbcType=VARCHAR}||'%'
+            and REAL_NAME LIKE CONCAT(CONCAT('%', #{expert.relName,jdbcType=VARCHAR}), '%')
         </if>
         <if test="expert.mobile != null">
-            and MOBILE LIKE '%'||#{expert.mobile,jdbcType=VARCHAR}||'%'
+            and MOBILE LIKE CONCAT(CONCAT('%', #{expert.mobile,jdbcType=VARCHAR}, '%')
         </if>
         ORDER BY CREATED_AT DESC
     </select>
@@ -1998,13 +1998,13 @@
 		)) -->
 			t1.IS_DELETE = 0
 		<if test="mobile != null and mobile !=''">
-        AND t1.MOBILE LIKE '%'|| #{mobile} ||'%'
-    </if>
+        AND t1.MOBILE LIKE CONCAT(CONCAT('%', #{mobile}), '%')
+        </if>
     <if test="relName != null and relName !=''">
-        AND t1.REAL_NAME LIKE '%'|| #{relName} ||'%'
+        AND t1.REAL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
     </if>
     <if test="loginName != null and loginName !=''">
-        AND t2.LOGIN_NAME LIKE '%'|| #{loginName} ||'%'
+        AND t2.LOGIN_NAME LIKE CONCAT(CONCAT('%', #{loginName}), '%')
     </if>
     <if test="expertsFrom != null and expertsFrom !=''">
         AND t1.EXPERTS_FROM = #{expertsFrom}
@@ -2052,16 +2052,16 @@
     AND IS_PROVISIONAL = '0'
     AND IS_DELETED = 0
     <if test="relName != null and relName !=''">
-        AND T1.REAL_NAME like '%'|| #{relName} || '%'
+        AND T1.REAL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
     </if>
     <if test="mobile != null and mobile !=''">
-        AND T1.MOBILE like '%'|| #{mobile} ||'%'
+        AND T1.MOBILE like CONCAT(CONCAT('%', #{mobile}), '%')
     </if>
     <if test="expertsFrom != null and expertsFrom !=''">
         AND T1.EXPERTS_FROM = #{expertsFrom}
     </if>
      <if test="idCardNumber !=null and idCardNumber !=''">
-        and ID_CARD_NUMBER like '%'||#{idCardNumber}||'%'
+        and ID_CARD_NUMBER like CONCAT(CONCAT('%', #{idCardNumber}), '%')
     </if>
     <if test="status != null and status !=''">
     	<!-- <if test="status == 4">

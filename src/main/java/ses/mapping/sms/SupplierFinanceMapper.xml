@@ -281,7 +281,7 @@
 		from T_SES_SMS_SUPPLIER_FINANCE
 		where 1=1 and IS_DELETED = 0
 		<if test="name != null and name != ''">
-			and NAME like '%${name}%'
+			and NAME like CONCAT(CONCAT('%', #{name}), '%')
 		</if>
 		<if test="supplierId !=null and supplierId !=''">
 		    and SUPPLIER_ID = #{supplierId}

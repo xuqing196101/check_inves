@@ -92,10 +92,10 @@
     WHERE 
        1=1
     <if test="expertName != null and expertName !=''">  
-      AND t2.REAL_NAME like '%${expertName}%'   
+      AND t2.REAL_NAME like CONCAT(CONCAT('%', #{expertName}), '%')
     </if>  
     <if test="operationType != null and operationType !=''">  
-      AND t1.OPERATION_TYPE = '${operationType}' 
+      AND t1.OPERATION_TYPE = '#{operationType}'
     </if>
     order by OPERATION_DATE DESC
   </select>

@@ -39,7 +39,7 @@
 		 and	r.ORG_ID = #{orgId,jdbcType=VARCHAR}
 		</if>
 		<if test="orgName!= null and orgName !='' ">
-		 and	o.name  like  '%'||#{orgName}||'%'
+		 and	o.name  like   CONCAT(CONCAT('%', #{orgName}), '%')
 		</if>
 	</select>
 	<!-- 删除 -->

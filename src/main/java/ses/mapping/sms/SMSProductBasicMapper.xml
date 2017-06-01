@@ -239,7 +239,7 @@
     from T_SES_SMS_PRODUCT_BASIC SP
     where SP.IS_DELETED = 0 AND SP.CREATER_ID =#{userId} 
     <if test="name != null and name !=''" >
-        AND NAME like '%${name}%'
+        AND NAME like CONCAT(CONCAT('%', #{name}), '%')
     </if>
     <if test="status != null" >
         AND STATUS = #{status,jdbcType=VARCHAR}
@@ -258,7 +258,7 @@
     from T_SES_SMS_PRODUCT_BASIC B
     where B.IS_DELETED = 0 AND B.STATUS <![CDATA[<>]]> 0 
     <if test="name != null and name !=''" >
-        AND NAME like '%${name}%'
+        AND NAME like CONCAT(CONCAT('%', #{name}), '%') 
     </if>
     <if test="status != null" >
         AND STATUS = #{status,jdbcType=VARCHAR}

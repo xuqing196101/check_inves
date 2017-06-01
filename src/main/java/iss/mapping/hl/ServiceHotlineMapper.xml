@@ -31,7 +31,7 @@
     FROM T_ISS_HL_SERVICE_HOTLINE
     WHERE IS_DELETED = 0
     <if test="servicecontent != null" >
-     	AND SERVICECONTENT like '%'||#{servicecontent}||'%'
+     	AND SERVICECONTENT like CONCAT(CONCAT('%', #{servicecontent}), '%')
     </if>
     ORDER BY CREATED_AT DESC
   </select>

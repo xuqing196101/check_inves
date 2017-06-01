@@ -94,7 +94,7 @@
 			on t1.SUPPLIER_CREDIT_ID = t2.ID
 		<where>
 			<if test="name != null and name != ''">
-				and t1.NAME like #{name}
+				and t1.NAME like CONCAT(CONCAT('%', #{name}), '%')
 			</if>
 		</where>
 		order by t2.NAME asc, t1.SCORE asc
