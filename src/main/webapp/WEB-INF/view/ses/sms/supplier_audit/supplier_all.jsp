@@ -376,7 +376,7 @@
 		        	<c:if test="${sign eq '1' }">
 		        		<option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
 		            <option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
-		            <option <c:if test="${state == 2 }">selected</c:if> value="2">审核退回</option>
+		            <option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
 		            <option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option>
 		        	</c:if>
 		        	<c:if test="${sign eq '2' }">
@@ -488,7 +488,7 @@
 								<td class="tc" id="${list.id}" onclick="shenhe('${list.id }');">
 									<c:if test="${list.status == 0}"><span class="label rounded-2x label-u">待审核</span></c:if>
 									<c:if test="${list.status == 1}"><span class="label rounded-2x label-dark">审核通过</span></c:if>
-									<c:if test="${list.status == 2}"><span class="label rounded-2x label-dark">审核退回</span></c:if>
+									<c:if test="${list.status == 2}"><span class="label rounded-2x label-dark">退回修改</span></c:if>
 									<c:if test="${list.status == 3}"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
 									<c:if test="${list.status == 4}"><span class="label rounded-2x label-u">待复核</span></c:if>
 									<c:if test="${list.status == 5 and sign == 2}"><span class="label rounded-2x label-dark">复核通过</span></c:if>
