@@ -1215,8 +1215,32 @@
         LEFT JOIN
         T_SES_BMS_DICTIONARY_DATA t2
         ON t1.GENDER = t2.ID
-        WHERE
-        (<if test="sign == 1">
+        WHERE (
+        <choose>
+        	<when test="sign == 1">
+        		(IS_SUBMIT = '1'
+	        	AND (STATUS = '0' OR STATUS = '1' OR STATUS = '2'))
+	        	OR (IS_SUBMIT = '0' AND status = '3')
+        	</when>
+        	<when test="sign == 2">
+        		<if test="isOrg !=null and isOrg == 1">
+	            (IS_SUBMIT = '1'
+	            AND (STATUS = '1' OR STATUS = '4' OR STATUS = '5'))
+	          </if>
+	          <if test="isOrg !=null and isOrg == 0">
+	            PURCHASE_DEP_ID = #{purchaseDepId}
+	          </if>
+        	</when>
+        	<when test="sign == 3">
+        		(IS_SUBMIT = '1'
+            AND (STATUS = '6' OR STATUS = '7' OR STATUS = '8'))
+        	</when>
+        	<otherwise>
+        		1 = 1
+        	</otherwise>
+        </choose>
+        )
+        <!-- (<if test="sign == 1">
 	        (IS_SUBMIT = '1'
 	        AND (STATUS = '0' OR STATUS = '1' OR STATUS = '2'))
 	        OR (IS_SUBMIT = '0' AND status = '3')
@@ -1234,7 +1258,7 @@
             (IS_SUBMIT = '1'
             AND (STATUS = '6' OR STATUS = '7' OR STATUS = '8'))
         </if>
-        )
+        ) -->
         AND IS_PROVISIONAL = '0'
         <if test="sign == 1">
         	<if test="purchaseDepId !=null">

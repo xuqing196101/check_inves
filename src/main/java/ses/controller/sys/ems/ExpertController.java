@@ -644,7 +644,10 @@ public class ExpertController extends BaseController {
     @ResponseBody
     public String findErrorReason(ExpertAudit expertAudit) {
         List < ExpertAudit > audit = expertAuditService.selectFailByExpertId(expertAudit);
-        return JSON.toJSONString(audit.get(0));
+        if(null != audit){
+        	return JSON.toJSONString(audit.get(0));
+        }
+        return null;
     }
 
     

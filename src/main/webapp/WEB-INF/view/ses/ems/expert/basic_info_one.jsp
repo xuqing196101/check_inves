@@ -6,6 +6,7 @@
 	<head>
 		<%@ include file="/reg_head.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp" %>
+		<%-- <jsp:include page="/WEB-INF/view/common/webupload.jsp"/> --%>
 		<title>评审专家注册</title>
 		<script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
@@ -599,7 +600,7 @@
 				var teachTitle = $("#teachTitle").val();
 				if(teachTitle == 1){
 					var professTechTitles = $("#professTechTitles").val();
-					if(professTechTitles) {
+					if(!professTechTitles) {
 						layer.msg("请填写专业技术职称!");
 						return false;
 					}
@@ -634,19 +635,21 @@
 
 				}
 
-				/* if (telephone != "") {
-				 var reg = /^(\d{3,4}-{0,1})?\d{7,8}$/
-				 if (!reg.test(telephone)) {
-				 layer.msg("固定电话格式有误!");
-				 return false;
-				 }
-				 }*/
+				if (telephone != "") {
+					//var reg = /^(\d{3,4}-{0,1})?\d{7,8}$/;
+					var reg = /^0\d{2,3}-\d{7,8}(-\d{1,6})?$/;
+					if (!reg.test(telephone)) {
+						layer.msg("固定电话格式有误！正确格式为：010-12345678或010-12345678-123456，分机号1~6位");
+						return false;
+					}
+			 	}
 				var fax = $("#fax").val();
-				var faxReg = /^(\d{3,4}-{0,1})?\d{7,8}$/
-					/* if (fax != "" && !faxReg.test(fax)) {
-					 layer.msg("传真电话格式有误 !");
-					 return false;
-					 }*/
+				//var faxReg = /^(\d{3,4}-{0,1})?\d{7,8}$/;
+				var faxReg = /^0\d{2,3}-\d{7,8}(-\d{1,6})?$/;
+				if (fax != "" && !faxReg.test(fax)) {
+					layer.msg("传真电话格式有误！正确格式为：010-12345678或010-12345678-123456，分机号1~6位");
+					return false;
+			 	}
 				var postCode = $("#postCode").val();
 				if(idNumber != "" && isNaN(postCode)) {
 					layer.msg("邮编格式只能输入数字 !");
@@ -858,8 +861,9 @@
 						"auditField": auditField
 					},
 					dataType: "json",
+					type: "post",
 					success: function(response) {
-						layer.msg("不通过理由:" + response.auditReason);
+						layer.msg("不通过理由：" + response.auditReason);
 					}
 				});
 			}
@@ -1019,7 +1023,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 身份证复印件（正反面在一张上）</span>
-							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'居民身份证')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证')"
+							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'身份证复印件（正反面）')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('身份证复印件（正反面）')"
 								</c:if>>
 								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="3" auto="true" />
 								<u:show showId="show3" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
@@ -1121,7 +1125,7 @@
 								<input onblur="notNull('telephone')" maxlength="50" value="${expert.telephone}" name="telephone" id="telephone" type="text" <c:if test="${fn:contains(errorField,'固定电话')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('固定电话')"
 								</c:if>/>
 								<span class="add-on">i</span>
-								<span class="input-tip">如: 010 - 1234567</span>
+								<span class="input-tip">如: 010-12345678</span>
 								<div class="cue" id="err_msg_telephone"></div>
 							</div>
 						</li>
@@ -1131,7 +1135,7 @@
 								<input value="${expert.fax}" name="fax" id="fax" type="text" maxlength="50" <c:if test="${fn:contains(errorField,'传真电话')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('传真电话')"
 								</c:if>/>
 								<span class="add-on">i</span>
-								<span class="input-tip">如: 010 - 1234567</span>
+								<span class="input-tip">如: 010-12345678</span>
 							</div>
 						</li>
 
@@ -1152,7 +1156,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 所在单位</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input onblur="notNull('workUnit')" maxlength="40" value="${expert.workUnit}" name="workUnit" id="workUnit" type="text" <c:if test="${fn:contains(errorField,'所在单位')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('所在单位')"
+								<input onblur="notNull('workUnit')" maxlength="20" value="${expert.workUnit}" name="workUnit" id="workUnit" type="text" <c:if test="${fn:contains(errorField,'所在单位')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('所在单位')"
 								</c:if>/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空</span>
@@ -1180,7 +1184,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 单位地址</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input onblur="notNull('unitAddress')" maxlength="40" value="${expert.unitAddress}" name="unitAddress" id="unitAddress" type="text" placeholder="街道名称，门牌号" <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('单位地址')"
+								<input onblur="notNull('unitAddress')" maxlength="30" value="${expert.unitAddress}" name="unitAddress" id="unitAddress" type="text" placeholder="街道名称，门牌号" <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('单位地址')"
 								</c:if>/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空</span>
@@ -1279,10 +1283,15 @@
                         class="red">*</i> 毕业院校及专业</span>
 						</c:if>
 						<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-							<input onblur="notNull('graduateSchool')" maxlength="50" value="${expert.graduateSchool}" name="graduateSchool" id="graduateSchool" type="text" <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业院校及专业')"
+							<input <c:if test="${expert.expertsFrom eq 'LOCAL'}">onblur="notNull('graduateSchool')"</c:if> maxlength="50" value="${expert.graduateSchool}" name="graduateSchool" id="graduateSchool" type="text" <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业院校及专业')"
 							</c:if>/>
 							<span class="add-on">i</span>
-							<span class="input-tip">不能为空，如：北京大学计算机专业</span>
+							<c:if test="${expert.expertsFrom eq 'ARMY'}">
+								<span class="input-tip">如：北京大学计算机专业</span>
+							</c:if>
+							<c:if test="${expert.expertsFrom eq 'LOCAL'}">
+								<span class="input-tip">不能为空，如：北京大学计算机专业</span>
+							</c:if>
 							<div class="cue" id="err_msg_graduateSchool"></div>
 						</div>
 						</li>
@@ -1573,6 +1582,19 @@
 		checkCharLimit('academicAchievement','limit_char_academicAchievement',1000);
 		checkCharLimit('reviewSituation','limit_char_reviewSituation',1000);
 		checkCharLimit('avoidanceSituation','limit_char_avoidanceSituation',1000);
+		
+		// 如果专家状态是退回修改，控制表单域的编辑与不可编辑
+		var expertSt = '${expert.status}';
+		if(expertSt == '3'){
+			$("input,select,textarea").attr('disabled',true);
+			$("input,select,textarea").each(function(){
+				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
+				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
+				if(this.style.border == '1px solid rgb(239, 0, 0)'){
+					$(this).attr('disabled',false);
+				}
+			});
+		}
 	</script>
 
 </html>

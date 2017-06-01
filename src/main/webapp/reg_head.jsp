@@ -21,6 +21,12 @@
 	<link href="${pageContext.request.contextPath}/public/front/css/global.css" rel="stylesheet"  type="text/css" />
 	<!-- 前端论坛Css颜色样式 -->
 	<link href="${pageContext.request.contextPath}/public/front/css/forum.css" rel="stylesheet" type="text/css">
+	
+	<style type="text/css">
+		.new_step.current i{
+			cursor: pointer;
+		}
+	</style>
 		
 	<script>
 		var globalPath = "${pageContext.request.contextPath}";
