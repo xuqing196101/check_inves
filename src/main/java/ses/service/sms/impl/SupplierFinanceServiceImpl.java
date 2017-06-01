@@ -174,7 +174,7 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 		
 		 int year2=year-2;//2014
 		 int year3=year-3;//2013
-		if(month<6){
+		if(month<7){
 			int yera4=year-4;//2012
 			yearList.add(yera4);
 		}else{
@@ -216,7 +216,7 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 		
 		 int year2=year-2;//2014
 		 int year3=year-3;//2013
-		if(month<6){
+		if(month<7){
 			int yera4=year-4;//2012
 			yearList.add(yera4);
 		}else{
