@@ -28,6 +28,10 @@ public class FileEncryption {
 		  }
 		}
   }
+  public static void main(String[] args) {
+	  String decrypted = getDecrypted("file:upload/attachments/tmp/WU_FILE_1/123.png_tmp");
+	  System.out.println(decrypted);
+}
   public static String setEncryption(String path){
     if(path!=null&&!"".equals(path)){
       String[] spts = path.split(SEPARATOR);
@@ -76,7 +80,7 @@ public class FileEncryption {
           }
         }
       }
-      return File.separator+StringUtils.join(spts, XSEPARATOR);
+      return XSEPARATOR+StringUtils.join(spts, XSEPARATOR);
     }else{
       return "";
     }
