@@ -15,6 +15,7 @@
 .current {
 	cursor: pointer;
 }
+
 </style>
 <script type="text/javascript">
 	$().ready(function() {
@@ -1468,7 +1469,7 @@
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	<div class="fl w200">
-																	<c:if test="${!fn:contains(proPageField,'certPro.id')&&(currSupplier.status==2 || currSupplier.status==-1)}">  <u:upload
+																	<c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2 ) || currSupplier.status==-1}">  <u:upload
 																		singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 																		exts="${properties['file.picture.type']}"
 																		id="pro_up_${certProNumber}" multiple="true"
@@ -1575,14 +1576,14 @@
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="text" readonly="readonly"
-																required="required"   <c:if test="${!fn:contains(sellPageField,certSell.id)&&(currSupplier.status==2 || currSupplier.status==-1)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if> 
+																required="required"   <c:if test="${(fn:contains(sellPageField,certSell.id)&&currSupplier.status==2 ) || currSupplier.status==-1}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if> 
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate"
 																value="<fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd "/>"
 																class="border0" /></td>
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="text" readonly="readonly"
-																required="required" <c:if test="${!fn:contains(sellPageField,certSell.id)&&(currSupplier.status==2 || currSupplier.status==-1)}">onClick="WdatePicker()"</c:if> 
+																required="required" <c:if test="${(fn:contains(sellPageField,certSell.id)&&currSupplier.status==2 ) || currSupplier.status==-1}">onClick="WdatePicker()"</c:if> 
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate"
 																value="<fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd "/>"
 																class="border0" /></td>
@@ -1595,7 +1596,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200 fl">
-																	<c:if test="${!fn:contains(audit,'certSell.id')&&(currSupplier.status==2 || currSupplier.status==-1)}">  	<u:upload
+																	<c:if test="${(fn:contains(audit,certSell.id)&&currSupplier.status==2) || currSupplier.status==-1}">  	<u:upload
 																		singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 																		exts="${properties['file.picture.type']}"
 																		id="sale_up_${certSaleNumber}" multiple="true"
@@ -1670,12 +1671,12 @@
 														class="red">*</i> 承包合同主要页及保密协议：</span>
 													<div
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<c:if test="${!fn:contains(audit,'supplierConAch')&&(currSupplier.status==2 || currSupplier.status==-1)}"> 	<u:upload
+													<%-- 	<c:if test="${!fn:contains(audit,'supplierConAch')&&(currSupplier.status==2 || currSupplier.status==-1)}">  --%>	<u:upload
 															singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 															businessId="${currSupplier.id}" sysKey="${sysKey}"
 															typeId="${supplierDictionaryData.supplierConAch}"
 															exts="${properties['file.picture.type']}" id="conAch_up"
-															multiple="true" auto="true" /></c:if>
+															multiple="true" auto="true" /><%-- </c:if> --%>
 														<u:show showId="conAch_show"
 															businessId="${currSupplier.id}" sysKey="${sysKey}"
 															typeId="${supplierDictionaryData.supplierConAch}" />
@@ -1720,7 +1721,7 @@
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}" >
 													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>${area.name}</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<c:if test="${!fn:contains(engPageField,area.name)&&(currSupplier.status==2 || currSupplier.status==-1)}">  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" /></c:if>
+														<c:if test="${(fn:contains(engPageField,area.name)&&currSupplier.status==2) || currSupplier.status==-1}">  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" /></c:if>
 														<u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
 														<div class="cue">${area.errInfo}</div>
 													</div>
@@ -1863,16 +1864,16 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly"  <c:if test="${!fn:contains(engPageField,certEng.id)&&(currSupplier.status==2 ||currSupplier.status==-1)}">onClick="WdatePicker()"</c:if>
+																readonly="readonly"  <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2 ) ||currSupplier.status==-1}">onClick="WdatePicker()"</c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate"
-																value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd "/>" />
+																value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly" <c:if test="${!fn:contains(engPageField,certEng.id)&&(currSupplier.status==2 ||currSupplier.status==-1) }">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
+																readonly="readonly" <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2) ||currSupplier.status==-1 }">onClick="WdatePicker()"</c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate"
-																value="<fmt:formatDate value="${certEng.expEndDate}"/>"
+																value="<fmt:formatDate value="${certEng.expEndDate}" pattern="yyyy-MM-dd"/>"
 																pattern="yyyy-MM-dd" />
 															</td>
 															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
@@ -2172,7 +2173,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="fl w200">
-																<c:if test="${!fn:contains(servePageField,certSe.id)&&(currSupplier.status==2 ||currSupplier.status==-1)}">	 <u:upload
+																<c:if test="${(fn:contains(servePageField,certSe.id)&&currSupplier.status==2 ) ||currSupplier.status==-1}">	 <u:upload
 																	singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 																	exts="${properties['file.picture.type']}"
 																	id="se_up_${certSeNumber}" multiple="true"

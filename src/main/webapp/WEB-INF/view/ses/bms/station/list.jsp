@@ -159,8 +159,8 @@
           <thead>
             <tr>
               <th class="info w50">序号</th>
-              <th class="info">标题</th>
-              <th class="info">发送人</th>
+              <th class="info" width="55%">标题</th>
+              <th class="info" width="20%">发送人</th>
               <th class="info">创建时间</th>
             </tr>
           </thead>
@@ -169,7 +169,7 @@
               <!-- 序号 -->
               <td class="tc w50" >${(vs.index+1)+(listStationMessage.pageNum-1)*(listStationMessage.pageSize)}</td>
               <!-- 标题 -->
-              <td class="tl pl20" title="${listsm.name}">
+              <td class="tl" title="${listsm.name}">
                 <c:choose>
                   <c:when test="${fn:length(listsm.name) > 50}">
                     ${fn:substring(listsm.name, 0, 50)}......
@@ -180,7 +180,7 @@
                 </c:choose>
               </td>
               <!-- 创建人-->
-              <td class="tc">${listsm.receiverName}</td>
+              <td class="tl">${listsm.receiverName}</td>
               <td class="tc"><fmt:formatDate value="${listsm.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
             </tr>
           </c:forEach>

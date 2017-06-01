@@ -64,7 +64,7 @@
 		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>设置日期</span>
 			   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-					<input name="specialDate" id="specialDate" class="Wdate w200 mb0" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
+					<input name="specialDate" id="specialDate" class="Wdate w100p mb0" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
 		        <div class="cue"><span><font id="specialDateErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
@@ -72,7 +72,7 @@
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>类型</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			        <select class="w200" id="dateType" name="dateType">
+			        <select class="w100p" id="dateType" name="dateType">
 	               		<option value="">--请选择--</option>
 	               		<option value="1">上班</option>
 	              		<option value="0">放假</option>

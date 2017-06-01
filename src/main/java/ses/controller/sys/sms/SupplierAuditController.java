@@ -92,7 +92,6 @@ import bss.formbean.PurchaseRequiredFormBean;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;

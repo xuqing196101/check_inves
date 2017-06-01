@@ -503,4 +503,17 @@ public interface ExpertService {
      * @return void
      */
     void updateById (String id);
+    
+    
+   /** 
+    * 
+   * @Title: isPublish
+   * @Description: 根据子级查看父级是否公开入过不公开就移除 
+   * author: Li Xiaoxiao 
+   * @param @param id
+   * @param @return     
+   * @return boolean     
+   * @throws
+    */
+    public boolean isPublish(String id);
 }

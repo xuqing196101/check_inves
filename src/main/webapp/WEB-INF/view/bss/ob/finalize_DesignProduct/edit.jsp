@@ -189,44 +189,44 @@ $(document).ready(function(){
 	
 	/* 发布 */
 	function sub(i){
-	    var authType='${authType}'; 
-	    if(authType=='4'){
-		var id = $("#productId").val();
-		var code = $("#code").val();
-		var name = $("#name").val();
-		var procurementId = $("#orgId option:selected").val();
-		var category = $("#categorieId4").val();
-		var categoryLevel = $("#categoryLevel").val();
-		var standardModel = $("#standardModel").val();
-		var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
-		$.ajax({
-			url: "${pageContext.request.contextPath }/product/edit.do",
-			type: "post",
-			data: {
-				code:code,
-				name:name,
-				procurementId:procurementId,
-				category:category,
-				standardModel:standardModel,
-				qualityTechnicalStandard:qualityTechnicalStandard,
-				i:i,
-				id:id,
-				categoryLevel:categoryLevel
-			},
-			success: function(data) {
-				if(data == 'success'){
-					window.location.href = "${pageContext.request.contextPath }/product/list.html";
-				}else{
+    var authType='${authType}'; 
+    if(authType=='4'){
+			var id = $("#productId").val();
+			var code = $("#code").val();
+			var name = $("#name").val();
+			var procurementId = $("#orgId option:selected").val();
+			var category = $("#categorieId4").val();
+			var categoryLevel = $("#categoryLevel").val();
+			var standardModel = $("#standardModel").val();
+			var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
+			$.ajax({
+				url: "${pageContext.request.contextPath }/product/edit.do",
+				type: "post",
+				data: {
+					code:code,
+					name:name,
+					procurementId:procurementId,
+					category:category,
+					standardModel:standardModel,
+					qualityTechnicalStandard:qualityTechnicalStandard,
+					i:i,
+					id:id,
+					categoryLevel:categoryLevel
+				},
+				success: function(data) {
+					if(data == 'success'){
+						window.location.href = "${pageContext.request.contextPath }/product/list.html";
+					}else{
+						
+					}
+				},
+				error: function() {
 					
 				}
-			},
-			error: function() {
-				
-			}
-		});
-	  }else{
-	  layer.msg("只有资源服务中心才能操作");
-	}
+			});
+		  }else{
+		  layer.msg("只有资源服务中心才能操作");
+		}
 	}
 </script>
 </head>

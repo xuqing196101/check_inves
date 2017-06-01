@@ -147,10 +147,10 @@
 					T1.ID = T2.TYPE_ID
         where 1=1 and IS_DELETE = 0
         <if test="relName != null and relName !=''">
-            AND T1.REAL_NAME like '%'|| #{relName} || '%'
+            AND T1.REAL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
         </if>
         <if test="mobile != null and mobile !=''">
-             AND T1.MOBILE like '%'|| #{mobile} || '%'
+             AND T1.MOBILE like CONCAT(CONCAT('%', #{mobile}), '%')
         </if>
         <if test="expertsFrom != null and expertsFrom !=''">
             AND T1.EXPERTS_FROM = #{expertsFrom}
@@ -168,10 +168,10 @@
             AND T1.IS_PUBLISH = #{isPublish}
         </if>
         <if test="idCardNumber !=null and idCardNumber !=''">
-            and ID_CARD_NUMBER like '%'||#{idCardNumber}||'%'
+            and ID_CARD_NUMBER like CONCAT(CONCAT('%', #{idCardNumber}), '%')
         </if>
         <if test="graduateSchool !=null and graduateSchool !=''">
-            and GRADUATE_SCHOOL like '%'||#{graduateSchool}||'%'
+            and GRADUATE_SCHOOL like CONCAT(CONCAT('%', #{graduateSchool}), '%')
         </if>
         ORDER BY T1.STATUS ASC, T1.CREATED_AT DESC
     </select>

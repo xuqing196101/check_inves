@@ -275,11 +275,11 @@
 							onclick="selectAll()" />
 						</th>
 						<th class="info w50">序号</th>
-						<th class="info">名称</th>
-						<th class="info">状态</th>
-						<th class="info">唯一编码</th>
-						<th class="info">所属后台</th>
-						<th class="info w450">描述</th>
+						<th class="info" width="20%">名称</th>
+						<th class="info" width="6%">状态</th>
+						<th class="info" width="14%">唯一编码</th>
+						<th class="info"width="10%">所属后台</th>
+						<th class="info" width="35%">描述</th>
 						<th class="info">用户数量</th>
 					</tr>
 				</thead>
@@ -290,15 +290,15 @@
 								name="chkItem" value="${role.id}" />
 							</td>
 							<td class="tc">${role.position}</td>
-							<td class="tl pl20">${role.name}</td>
+							<td class="tl">${role.name}</td>
 							<td class="tc" id="${role.id}"><c:if test="${role.status == 0}">
 									<span class="label rounded-2x label-u" >启用</span>
 								</c:if> <c:if test="${role.status == 1}">
 									<span class="label rounded-2x label-dark">禁用</span>
 								</c:if>
 							</td>
-							<td class="tl pl20">${role.code}</td>
-							<td class="tl pl20">
+							<td class="tl">${role.code}</td>
+							<td class="tl">
 								<c:forEach items="${dds}" var="dd" varStatus="vs">
 		                   			<c:if test="${dd.id eq role.kind}">
 		                   				<c:set var="rkind" value="${role.kind}"></c:set>
@@ -311,7 +311,7 @@
 		                   		</c:forEach>
 		                   		<input type="hidden" value="${rkind}">
 							</td>
-							<td class="tl pl20">${role.description}</td>
+							<td class="tl">${role.description}</td>
 							<td class="tc"><a href="${pageContext.request.contextPath}/user/listByRole.do?rId=${role.id}" title="用户列表">${role.userNumber}</a></td>
 						</tr>
 					</c:forEach>

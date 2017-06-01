@@ -41,7 +41,6 @@ import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatServe;
-import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
