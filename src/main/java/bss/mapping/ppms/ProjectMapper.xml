@@ -1399,7 +1399,7 @@
        and NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
        <if test="projectNumber != null and projectNumber != ''">
-       and PROJECT_NUMBER like '%${projectNumber}%'
+       and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%') 
       </if>
       <if test="status != null">
        and STATUS like CONCAT(CONCAT('%', #{status}), '%')
