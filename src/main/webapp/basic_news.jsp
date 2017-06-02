@@ -141,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
-   <h2 class="padding-20 mt40">
+   <h2 class="step_flow">
      <span class="new_step current fl"><i class="">1</i><div class="line"></div><span class="step_desc_01">用户名密码</span></span>
 	 <span class="new_step current fl"><i class="">2</i><div class="line"></div><span class="step_desc_02">基本信息</span></span>
 	 <span class="new_step fl"><i class="">3</i><div class="line"></div><span class="step_desc_01">供应商类型</span></span>
@@ -150,7 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 <span class="new_step fl"><i class="">6</i><div class="line"></div><span class="step_desc_02">产品信息</span></span>
 	 <span class="new_step fl"><i class="">7</i><div class="line"></div><span class="step_desc_01">初审采购机构</span></span>
 	 <span class="new_step fl"><i class="">8</i><div class="line"></div><span class="step_desc_02">打印申请表</span></span>
-	 <span class="new_step fl"><i class="">9</i><span class="step_desc_01">申请表承诺书上传</span></span>
+	 <span class="new_step fl new_step_last"><i class="">9</i><span class="step_desc_01">申请表承诺书上传</span></span>
 	 <div class="clear"></div>
    </h2>
   </div>

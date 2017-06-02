@@ -85,9 +85,9 @@
             <thead>
 					<tr>
 					  <th class="info w50">序号</th>
-					  <th class="info" width="15%">用户名</th>
+					  <th class="info" width="12%">用户名</th>
 					  <th class="info" width="15%">姓名</th>
-					  <th class="info" width="21%">单位</th>
+					  <th class="info" width="23%">单位</th>
 					  <th class="info" width="140">联系电话</th>
 					  <th class="info">角色</th>
 					</tr>

@@ -371,9 +371,9 @@
 					  <th class="info w30" ><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 					  <th class="info w50">序号</th>
 					  <th class="info hidden">用户名</th>
-					  <th class="info" width="15%">姓名</th>
+					  <th class="info" width="12%">姓名</th>
 					  <th class="info" width="13%">机构类型</th>
-					  <th class="info"  width="20%">单位</th>
+					  <th class="info"  width="25%">单位</th>
 					  <th class="info"  width="140">联系电话</th>
 					  <th class="info"  width="">角色</th>
 					  <th class="info w50">权限</th>

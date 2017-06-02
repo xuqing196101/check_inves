@@ -429,13 +429,13 @@
        <input type="hidden" id="isServer"  value="" />
       <input type="hidden" name="token2" value="<%=tokenValue%>" />
       <div id="reg_box_id_4" class="container clear margin-top-30 yinc">
-        <h2 class="padding-20 mt40">
+        <h2 class="step_flow">
             <span id="ty1" class="new_step current fl" onclick="one()"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
             <span id="sp7" class="new_step current fl" onclick='pre7()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类别</span> </span>
             <span id="ty6" class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
             <span id="ty3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
             <span id="ty4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span> 
-            <span id="ty5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span> 
+            <span id="ty5" class="new_step fl new_step_last"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span> 
             <div class="clear"></div>
         </h2>
         <div class="col-md-12 tab-v2 job-content mt20">
