@@ -341,10 +341,23 @@
 				function() {
 					var startDate = $(this).parent().prev().children(
 							"input[name$='expStartDate']").val();
+					var tbody_id = $(this).parents("tbody").attr("id");
 					if ($(this).val() != "" && startDate != ""
 							&& $(this).val() <= startDate) {
 						flag = false;
-						layer.msg("结束时间应大于开始时间!");
+						if(tbody_id == "cert_pro_list_tbody_id"){
+							layer.msg("物资生产资质证书-结束时间应大于开始时间!");
+						}
+						if(tbody_id == "cert_sell_list_tbody_id"){
+							layer.msg("物资销售资质证书-结束时间应大于开始时间!");
+						}
+						if(tbody_id == "cert_eng_list_tbody_id"){
+							layer.msg("工程资质证书-结束时间应大于开始时间!");
+						}
+						if(tbody_id == "cert_se_list_tbody_id"){
+							layer.msg("服务资质证书-结束时间应大于开始时间!");
+						}
+						//layer.msg("结束时间应大于开始时间!");
 					}
 				});
 		if (flag == true) {
@@ -1505,7 +1518,7 @@
 																		typeId="${supplierDictionaryData.supplierProCert}"
 																		sysKey="${sysKey}" auto="true" /> </c:if> 
 																	<c:if test="${!fn:contains(proPageField,certPro.id)&&currSupplier.status==2}"> 	<u:show showId="pro_show_${certProNumber}"  delete="false" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
-																	<c:if test="${currSupplier.status==-1 ||fn:contains(proPageField,certPro.id)}"> 	<u:show showId="pro_show_${certProNumber}"businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
+																	<c:if test="${currSupplier.status==-1 ||fn:contains(proPageField,certPro.id)}"> <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
 																	
 																	</div>
 																</td>
@@ -2000,6 +2013,7 @@
 																</select> -->
 																<select title="cnjewfn" id="certType_${certAptNumber}" class="w100p border0 certTypeSelect" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" style="width:200px;border: none;">
 																    <c:set var="tempForShowOption" value="go" scope="page"/>
+																    <option value="-1" selected="selected">请选择</option>
 																    <c:forEach items="${typeList}" var="type">
 																		<option value="${type.id}" <c:if test="${aptitute.certType eq type.id}">selected</c:if>>${type.name}</option>
 																		<c:if test="${aptitute.certType eq type.id}">

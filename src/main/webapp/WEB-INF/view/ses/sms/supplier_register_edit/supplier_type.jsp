@@ -313,14 +313,50 @@
 						}
 					});
 		}
+		
+		// 判断物资销售专业信息是否填写完整
+		if (isSaleCheck == true) {
+			$("#cert_sell_list_tbody_id").find("input[type='text']").each(
+				function(index, element) {
+					if (element.value == "" || !isSaleCheck) {
+						flag = false;
+						layer.msg("物资销售资质证书信息没有填写完整!");
+					}
+				});
+		}
+		
+		// 判断服务专业信息是否填写完整
+		if (isServerCheck == true) {
+			$("#cert_se_list_tbody_id").find("input[type='text']").each(
+				function(index, element) {
+					if (element.value == "" || !isServerCheck) {
+						flag = false;
+						layer.msg("服务资质证书信息没有填写完整!");
+					}
+				});
+		}
+		
 		$("input[name$='expEndDate']").each(
 				function() {
 					var startDate = $(this).parent().prev().children(
 							"input[name$='expStartDate']").val();
+					var tbody_id = $(this).parents("tbody").attr("id");
 					if ($(this).val() != "" && startDate != ""
 							&& $(this).val() <= startDate) {
 						flag = false;
-						layer.msg("结束时间应大于开始时间!");
+						if(tbody_id == "cert_pro_list_tbody_id"){
+							layer.msg("物资生产资质证书-结束时间应大于开始时间!");
+						}
+						if(tbody_id == "cert_sell_list_tbody_id"){
+							layer.msg("物资销售资质证书-结束时间应大于开始时间!");
+						}
+						if(tbody_id == "cert_eng_list_tbody_id"){
+							layer.msg("工程资质证书-结束时间应大于开始时间!");
+						}
+						if(tbody_id == "cert_se_list_tbody_id"){
+							layer.msg("服务资质证书-结束时间应大于开始时间!");
+						}
+						//layer.msg("结束时间应大于开始时间!");
 					}
 				});
 		if (flag == true) {
