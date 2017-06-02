@@ -1482,7 +1482,7 @@
 																		typeId="${supplierDictionaryData.supplierProCert}"
 																		sysKey="${sysKey}" auto="true" /> </c:if> 
 																	<c:if test="${!fn:contains(proPageField,certPro.id)&&currSupplier.status==2}"> 	<u:show showId="pro_show_${certProNumber}"  delete="false" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
-																	<c:if test="${currSupplier.status==-1 ||fn:contains(proPageField,certPro.id)}"> 	<u:show showId="pro_show_${certProNumber}"  delete="false" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
+																	<c:if test="${currSupplier.status==-1 ||fn:contains(proPageField,certPro.id)}"> 	<u:show showId="pro_show_${certProNumber}"businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
 																	
 																	</div>
 																</td>
@@ -1711,7 +1711,7 @@
 										
 										<div class="ml20">
 											省、直辖市：
-										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)" title="按住CTRL+鼠标左键可多选和取消选择">
+										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)" <c:if test="${currSupplier.status==2}"> disabled="disabled" </c:if> title="按住CTRL+鼠标左键可多选和取消选择">
 										    	<c:forEach items="${rootArea}" var="area" varStatus="st">
 										    	  	<option value="${area.id}">${area.name}</option>
 										    	</c:forEach>
@@ -1725,7 +1725,7 @@
 													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>${area.name}</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<c:if test="${(fn:contains(engPageField,area.name)&&currSupplier.status==2) || currSupplier.status==-1}">  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" /></c:if>
-														<c:if test="${!fn:contains(engPageField,area.name)&&currSupplier.status==2}">  <u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
+														<c:if test="${!fn:contains(engPageField,area.name)&&currSupplier.status==2}">  <u:show showId="area_show_${st.index+1}" delete="false" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
 														<c:if test="${currSupplier.status==-1 || fn:contains(engPageField,area.name)}">  <u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
 														
 														<div class="cue">${area.errInfo}</div>
