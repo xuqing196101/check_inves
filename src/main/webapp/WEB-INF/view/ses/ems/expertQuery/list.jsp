@@ -118,12 +118,13 @@
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
-							<th class="info" width="12%">专家姓名</th>
+							<th class="info" width="10%">专家姓名</th>
 							<th class="info" width="16%">身份证号</th>
 							<th class="info w50">性别</th>
 							<th class="info" width="15%">毕业院校及专业</th>
 							<th class="info" width="12%">手机</th>
-							<th class="info" width="15%">类别</th>
+							<th class="info" width="12%">类别</th>
+							<th class="info" width="12%">采购机构</th>
 							<th class="info w120">审核状态</th>
 							<th class="info">专家类型</th>
 						</tr>
@@ -135,10 +136,11 @@
 								<a href="${pageContext.request.contextPath}/expertQuery/view.html?expertId=${e.id}&sign=2">${e.relName}</a>
 							</td>
 							<td class="tc">${e.idCardNumber}</td>
-							<td class="tc w50" >${e.gender}</td>
-							<td class="tl" >${e.graduateSchool }</td>
-							<td class="tc" >${e.mobile }</td>
-							<td class="tl" >${e.expertsTypeId}</td>
+							<td class="tc w50">${e.gender}</td>
+							<td class="tl">${e.graduateSchool }</td>
+							<td class="tc">${e.mobile }</td>
+							<td class="tl">${e.expertsTypeId}</td>
+							<td class="tl">${e.orgName}</td>
 							<td  class="tc" id="${e.id}">
 								<%-- <c:if test="${e.status eq '4' and e.isProvisional eq '1'}">
 									<span class="label rounded-2x label-dark">临时</span>

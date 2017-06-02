@@ -65,6 +65,7 @@
 				<result column="TEACH_TITLE" property="teachTitle" />
 				<result column="NET_TYPE" property="netType" />
 				<result column="EXTRACT_ORGID" property="extractOrgid" />
+				<result column="ORGNAME" property="orgName" />
     </resultMap>
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
@@ -1210,30 +1211,34 @@
     <!-- 专家审核列表 可条件查询 -->
     <select id="findExpertAuditList" resultMap="BaseResultMap" parameterType="ses.model.ems.Expert">
         SELECT t1.*,
-        t2.NAME as sex from
+        t2.NAME as sex,
+        org.SHORT_NAME AS orgName
+        from
         T_SES_EMS_EXPERT t1
         LEFT JOIN
         T_SES_BMS_DICTIONARY_DATA t2
         ON t1.GENDER = t2.ID
+        LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t1.PURCHASE_DEP_ID = dep.ID
+    		LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
         WHERE (
         <choose>
         	<when test="sign == 1">
         		(IS_SUBMIT = '1'
-	        	AND (STATUS = '0' OR STATUS = '1' OR STATUS = '2'))
-	        	OR (IS_SUBMIT = '0' AND status = '3')
+	        	AND (t1.STATUS = '0' OR t1.STATUS = '1' OR t1.STATUS = '2'))
+	        	OR (t1.IS_SUBMIT = '0' AND t1.status = '3')
         	</when>
         	<when test="sign == 2">
         		<if test="isOrg !=null and isOrg == 1">
-	            (IS_SUBMIT = '1'
-	            AND (STATUS = '1' OR STATUS = '4' OR STATUS = '5'))
+	            (t1.IS_SUBMIT = '1'
+	            AND (t1.STATUS = '1' OR t1.STATUS = '4' OR t1.STATUS = '5'))
 	          </if>
 	          <if test="isOrg !=null and isOrg == 0">
-	            PURCHASE_DEP_ID = #{purchaseDepId}
+	            t1.PURCHASE_DEP_ID = #{purchaseDepId}
 	          </if>
         	</when>
         	<when test="sign == 3">
-        		(IS_SUBMIT = '1'
-            AND (STATUS = '6' OR STATUS = '7' OR STATUS = '8'))
+        		(t1.IS_SUBMIT = '1'
+            AND (t1.STATUS = '6' OR t1.STATUS = '7' OR t1.STATUS = '8'))
         	</when>
         	<otherwise>
         		1 = 1
@@ -1259,25 +1264,25 @@
             AND (STATUS = '6' OR STATUS = '7' OR STATUS = '8'))
         </if>
         ) -->
-        AND IS_PROVISIONAL = '0'
+        AND t1.IS_PROVISIONAL = '0'
         <if test="sign == 1">
         	<if test="purchaseDepId !=null">
-		          AND PURCHASE_DEP_ID = #{purchaseDepId}
+		          AND t1.PURCHASE_DEP_ID = #{purchaseDepId}
 		       </if>
         </if>
         <if test="sign == 3">
         	<if test="extractOrgid !=null">
-            AND EXTRACT_ORGID = #{extractOrgid}
+            AND t1.EXTRACT_ORGID = #{extractOrgid}
         	</if>
         </if>
         <if test="relName != null and relName !=''">
-            AND REAL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
+            AND t1.REAL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
         </if>
         <if test="status != null and status !=''">
-            AND STATUS = #{status}
+            AND t1.STATUS = #{status}
         </if>
         <if test="auditAt !=null and auditAt!=''">
-        	AND TO_CHAR(AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
+        	AND TO_CHAR(t1.AUDIT_AT,'YY-MM-DD') = TO_CHAR(#{auditAt},'YY-MM-DD')
         </if>
         
         ORDER BY t1.AUDIT_AT DESC NULLS LAST
@@ -2065,16 +2070,19 @@
   <select id="selectRuKuExpert" resultMap="BaseResultMap">
 		select
  			T1.*,
- 			T2.LOGIN_NAME AS loginName
+ 			T2.LOGIN_NAME AS loginName,
+ 			org.SHORT_NAME AS orgName
 		from
 	    	T_SES_EMS_EXPERT t1
 		LEFT JOIN
 			T_SES_BMS_USER t2
 		ON
 			T1.ID = T2.TYPE_ID
-    where (STATUS = 4 or STATUS = 5 or STATUS = 6 or STATUS = 7 or STATUS = 8)
-    AND IS_PROVISIONAL = '0'
-    AND IS_DELETED = 0
+		LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
+    LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+    where (T1.STATUS = 4 or T1.STATUS = 5 or T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 8)
+    AND T1.IS_PROVISIONAL = '0'
+    AND T1.IS_DELETE = 0
     <if test="relName != null and relName !=''">
         AND T1.REAL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
     </if>
