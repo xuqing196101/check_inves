@@ -1535,14 +1535,14 @@
 														<tr
 															<c:if test="${fn:contains(sellPageField,certSell.id)}"> onmouseover="errorMsg('${certSell.id}','mat_sell_page')"</c:if>>
 															<td class="tc"
-																<c:if test="${!fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
+																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="checkbox" value="${certSell.id}"
 																class="border0" /> <input type="hidden"
 																required="required"
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].id"
 																value="${certSell.id}" class="border0"></td>
 															<td class="tc"
-																<c:if test="${!fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
+																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																 <div class="w200 fl">
 																    <input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name"
 																<c:if test="${fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  value="${certSell.name}" class="border0" />
