@@ -189,6 +189,9 @@
      <if test="packageId != null">
 	   and PACKAGE_ID = #{packageId}
      </if>
+     <if test="supplierId != null">
+     and SUPPLIER_ID = #{supplierId}
+     </if>
    </where> 
    <!-- and IS_HISTORY = '0' -->
    group by PACKAGE_ID,EXPERT_ID,SUPPLIER_ID

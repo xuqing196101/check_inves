@@ -1716,6 +1716,8 @@ public class PlanSupervisionController {
                                 } else {
                                     exp.setCount(0);
                                 };
+                            } else {
+                                exp.setCount(0);
                             }
                             flag++;
                         }
@@ -1732,6 +1734,7 @@ public class PlanSupervisionController {
                     // 专家给每个供应商打得分
                     searchMap.put("projectId", pack.getProjectId());
                     searchMap.put("packageId", pack.getId());
+                    searchMap.put("supplierId", suppList.get(0).getSuppliers().getId());
                     List<ExpertSuppScore> expertScoreList = expertScoreService.getScoreByMap(searchMap);
                     model.addAttribute("expertScoreList", expertScoreList);
                     model.addAttribute("expertList", expertList);
