@@ -38,7 +38,7 @@
 		st.TECHNOLOGY_SCORE,st.REVIEW_RESULT,st.IS_REMOVED,st.REMOVED_REASON
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
+		resultMap="BaseResultExternalMap">
 		<!-- @mbggenerated -->
 		select
 		<include refid="Base_Column_List" />
@@ -304,7 +304,7 @@
 	</update>
 	
 	<select id="list" parameterType="bss.model.ppms.SaleTender"
-		resultMap="BaseResultMap">
+		resultMap="BaseResultExternalMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		, ss.SUPPLIER_NAME
@@ -348,7 +348,7 @@
 
 	<!-- 根据产品包名查询供应商 -->
 	<select id="getPackegeSupplier" parameterType="bss.model.ppms.SaleTender"
-		resultMap="BaseResultMap">
+		resultMap="BaseResultExternalMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		, ss.SUPPLIER_NAME
@@ -382,7 +382,7 @@
 	</select>
 
 
-	<select id="selectListByProjectId" resultMap="BaseResultMap">
+	<select id="selectListByProjectId" resultMap="BaseResultExternalMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM
@@ -393,7 +393,7 @@
 
 	<!-- 根据报名、项目Id查询供应商 -->
 	<select id="getPackegeSuppliers" parameterType="bss.model.ppms.SaleTender"
-		resultMap="BaseResultMap">
+		resultMap="BaseResultExternalMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM
@@ -419,7 +419,7 @@
 
 	<!-- 根据项目id和供应商id查询供应商参与的包 -->
 	<select id="find" parameterType="bss.model.ppms.SaleTender"
-		resultMap="BaseResultMap">
+		resultMap="BaseResultExternalMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM
@@ -457,7 +457,7 @@
 	
 	
 	<select id="finds" parameterType="bss.model.ppms.SaleTender"
-    resultMap="BaseResultMap">
+    resultMap="BaseResultExternalMap">
     SELECT
     <include refid="Base_Column_List" />
     FROM
@@ -562,7 +562,7 @@
   </select>
   
   <!-- 根据 供应商id 和招标文件id 获取该供应商可参与那些包数据-->
-  <select id="findPackageBySupplierIdProjectId" parameterType="String" resultMap="BaseResultMap">
+  <select id="findPackageBySupplierIdProjectId" parameterType="String" resultMap="BaseResultExternalMap">
   SELECT t.PROJECT_ID as projectId,p.id as id ,p.name as packageNames,t.supplier_id as supplierId,t.bid_finish as bidFinish FROM (
   SELECT PROJECT_ID,PACKAGR_IDS,supplier_id,bid_finish FROM T_BSS_PPMS_SALE_TENDER WHERE project_id=#{projectId,jdbcType=VARCHAR} 
   AND supplier_id=#{supplierId,jdbcType=VARCHAR} AND is_removed=0) t 

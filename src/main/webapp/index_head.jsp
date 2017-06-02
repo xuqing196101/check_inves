@@ -424,7 +424,7 @@ function importAdd(){
       <div class="col-md-12 col-sm-12 col-xs-12 drop_hover">
 	   <div class="drop_main ">
 	    <div class="col-md-4 col-sm-6 col-xs-12 mt25" id="drop-1">
-		  <div class="ywbl_01 col-sm-6 col-xs-6">
+		  <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
 		   <% if (environment != null && environment.equals("1")){ %>
              <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
                <a href="http://21.100.16.6" class="wssc">
@@ -439,17 +439,17 @@ function importAdd(){
             <span>网上商城</span> 
 		   </a>
 	      </div>
-		  <div class="ywbl_01 col-sm-6 col-xs-6">
+		  <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
 	       <a href="${pageContext.request.contextPath }/product/index_list.html" class="dxcpjj">
             <span>定型产品</span> 
 		   </a>
 	     </div>
-		 <div class="ywbl_01 col-sm-6 col-xs-6">
+		 <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
 	      <a href="#" class="ypcg">
            <span>药品采购</span> 
 		  </a>
 	     </div>
-		 <div class="ywbl_01 col-sm-6 col-xs-6">
+		 <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
 	      <a href="#" class="fwcg">
            <span>服务采购</span> 
 		  </a>
@@ -874,25 +874,25 @@ function importAdd(){
 
 	<div class="col-md-12 col-xs-12 col-sm-12 drop_hover">
 	 <div class="drop_main supp_service">
-	 <div class="service_btns col-sm-4 col-xs-6 mt60">
+	 <div class="service_btns col-md-2 col-sm-4 col-xs-6 mt60">
 	  <a href="${pageContext.request.contextPath}/categorys/categoryList.html">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cpml.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">产品目录</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-sm-4 col-xs-6 mt60">
+	 <div class="service_btns col-md-2 col-sm-4 col-xs-6 mt60">
 	  <a href="${pageContext.request.contextPath}/categorys/parameterList.html">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/jscsk.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">技术参数库</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-sm-4 col-xs-6 mt60">
+	 <div class="service_btns col-md-2 col-sm-4 col-xs-6 mt60">
 	  <a href="${pageContext.request.contextPath}/park/getIndex.html">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cglt.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">采购论坛</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-sm-4 col-xs-6 mt60">
+	 <div class="service_btns col-md-2 col-sm-4 col-xs-6 mt60">
 	  <%-- <% if (ipAddressType != null && ipAddressType.equals("0")){ %> --%>
 	       <a href="${pageContext.request.contextPath }/dataDownload/getIndexList.html">
 	 <%--  <% } %> --%>
@@ -904,7 +904,7 @@ function importAdd(){
 		<div class="tc f18 mt20 pt10 clear">资料下载</div>
 	  </a>
 	 </div>
-	  <div class="service_btns col-sm-4 col-xs-6 mt60">
+	  <div class="service_btns col-md-2 col-sm-4 col-xs-6 mt60">
 	  <%-- <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
 	  <% } %>
 	  <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
@@ -915,13 +915,13 @@ function importAdd(){
 		<div class="tc f18 mt20 pt10 clear">采购模板</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-sm-4 col-xs-6 mt60">
+	 <div class="service_btns col-md-2 col-sm-4 col-xs-6 mt60">
 	  <a href="">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">意见反馈</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-sm-4 col-xs-6 mt60">
+	 <div class="service_btns col-md-2 col-sm-4 col-xs-6 mt60">
 	  <a href="${pageContext.request.contextPath }/serviceHotline/index_list.html">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/new_shfw.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">售后服务</div>
