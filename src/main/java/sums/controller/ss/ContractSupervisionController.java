@@ -184,7 +184,6 @@ public class ContractSupervisionController {
         Orgnization orgnization = orgnizationServiceI.findByCategoryId(user.getOrg().getId());
         List<PurchaseContract> draftConList = new ArrayList<PurchaseContract>();
         if("1".equals(orgnization.getTypeName())){
-            map.put("purchaseDepName", user.getOrg().getId());
             if(purCon.getStatus()!=null){
                 draftConList = purchaseContractService.selectAllContractByStatus(map);
             }else{

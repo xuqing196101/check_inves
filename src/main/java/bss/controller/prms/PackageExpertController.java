@@ -1962,6 +1962,8 @@ public class PackageExpertController {
                         } else {
                             exp.setCount(0);
                         };
+                    } else {
+                        exp.setCount(0);
                     }
                     flag++;
                 }
@@ -3715,6 +3717,8 @@ public class PackageExpertController {
                     } else {
                         exp.setCount(0);
                     };
+                } else {
+                    exp.setCount(0);
                 }
                 flag++;
             }

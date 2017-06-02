@@ -58,7 +58,7 @@ public class FilterXSS implements Filter {
         // 含有符号 "
         xssMap.put("\"", "＂");
         xssMap.put("--", "－－");
-        xssMap.put(";", "；");
+        /*xssMap.put(";", "；");*/
         xssMap.put("&","＆");
         xssMap.put("%","％");
     }
