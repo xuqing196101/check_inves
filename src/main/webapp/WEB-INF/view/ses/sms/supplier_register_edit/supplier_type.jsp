@@ -1259,9 +1259,11 @@
 														class="red">*</i> 技术人员数量比例(%)：</span>
 													<div
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.scaleTech"
+														<input type="text" name="supplierMatPro.scaleTech" maxlength="10"
 															required value="${currSupplier.supplierMatPro.scaleTech}"
-															<c:if test="${fn:contains(proPageField,'scaleTech')}">style="border: 1px solid red;" onmouseover="errorMsg('scaleTech','mat_pro_page')"</c:if> />
+															<c:if test="${fn:contains(proPageField,'scaleTech')}">style="border: 1px solid red;" onmouseover="errorMsg('scaleTech','mat_pro_page')"</c:if> 
+															onkeyup="value=value.replace(/[^\d.]/g,'')"
+															onblur="validatePercentage2(this.value)"/>
 														<span class="add-on cur_point">i</span> <span
 															class="input-tip">不能为空</span>
 														<div class="cue">${stech }</div>
@@ -1274,10 +1276,11 @@
 														class="red">*</i> 高级技术人员数量比例(%)：</span>
 													<div
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.scaleHeightTech"
-															required
-															value="${currSupplier.supplierMatPro.scaleHeightTech}"
-															<c:if test="${fn:contains(proPageField,'scaleHeightTech')}">style="border: 1px solid red;" onmouseover="errorMsg('scaleHeightTech','mat_pro_page')"</c:if> />
+														<input type="text" name="supplierMatPro.scaleHeightTech" maxlength="10"
+															required value="${currSupplier.supplierMatPro.scaleHeightTech}"
+															<c:if test="${fn:contains(proPageField,'scaleHeightTech')}">style="border: 1px solid red;" onmouseover="errorMsg('scaleHeightTech','mat_pro_page')"</c:if> 
+															onkeyup="value=value.replace(/[^\d.]/g,'')"
+															onblur="validatePercentage2(this.value)"/>
 														<span class="add-on cur_point">i</span> <span
 															class="input-tip">不能为空</span>
 														<div class="cue">${height }</div>
@@ -2206,5 +2209,6 @@
  </div>
 </body>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/commons.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/regex.js"></script>
 
 </html>
