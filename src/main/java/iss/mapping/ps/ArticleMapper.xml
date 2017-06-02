@@ -1500,17 +1500,40 @@ where
 		</if>
 	</select>
 	
-	<!-- app首页通知查询 -->
+	<!-- app首页法规查询 -->
   <select id="selectsumApp" parameterType="Map" resultMap="AppArticleMapper">
-  	select ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID
-  	from T_ISS_PS_ARTICLE
-  	where LAST_ARTICLE_TYPE_ID in
-  	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
-    	#{item}
+  SELECT * from(
+    SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID
+    FROM T_ISS_PS_ARTICLE
+    WHERE LAST_ARTICLE_TYPE_ID in
+    <foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+      #{item}
     </foreach>
-    and status=2
-    and IS_DELETED = 0
-    order by published_at desc
+    AND status=2
+    AND IS_DELETED = 0
+    ORDER BY PUBLISHED_AT DESC)
+  WHERE ROWNUM = 1
   </select>
   
+  <!-- app公告单条信息查询 -->
+  <select id="selectOneAppNoticeByParId" parameterType="Map" resultMap="AppArticleMapper">
+  SELECT * FROM (
+      SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID
+    FROM
+      T_ISS_PS_ARTICLE
+    WHERE
+      LAST_ARTICLE_TYPE_ID IN (
+        SELECT ID
+        FROM
+          T_ISS_PS_ARTICLE_TYPE
+        WHERE
+          PARENT_ID IN 
+          <foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+                #{item}
+          </foreach>
+        )
+      AND STATUS = 2 AND IS_DELETED = 0
+    ORDER BY PUBLISHED_AT DESC)
+  WHERE ROWNUM = 1
+  </select>
 </mapper>

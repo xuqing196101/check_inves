@@ -476,4 +476,16 @@ public interface ArticleMapper {
      */
     List<Article> selectsumApp(Map<String, Object> map);
     
+    /**
+     * 
+     * Description: App业务公告单条查询
+     * 
+     * @author zhang shubin
+     * @data 2017年6月2日
+     * @param 
+     * @return 
+     * @exception
+     */
+    Article selectOneAppNoticeByParId(Map<String, Object> map);
+    
 }

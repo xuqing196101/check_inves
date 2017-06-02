@@ -135,7 +135,7 @@ public class SupplierBlacklist implements Serializable {
 	}
 
 	public void setReason(String reason) {
-		this.reason = reason;
+		this.reason = reason.trim();
 	}
 
 	public Integer getTerm() {
