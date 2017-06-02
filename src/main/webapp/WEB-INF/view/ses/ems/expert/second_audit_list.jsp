@@ -141,7 +141,7 @@
 	<button class="btn btn-windows check" type="button" onclick="shenhe();">复审</button>
 	</div>
    
-    <div class="content table_box">
+    <div class="content table_box over_auto">
         <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
@@ -158,33 +158,33 @@
 		</thead>
 		<c:forEach items="${result.list }" var="e" varStatus="vs">
 		<tr>
-		  <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id },${e.status}"></td>
-		  <td onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
-		  <td onclick="view('${e.id}');" class="tc">${e.relName}</td>
-		  <td onclick="view('${e.id}');" class="tc">${e.gender}</td>
+		  <td class="tc"><div class="w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id },${e.status}"></div></td>
+		  <td onclick="view('${e.id}');" class="tc"><div class="w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</div></td>
+		  <td onclick="view('${e.id}');" class="tc"><div class="w200">${e.relName}</div></td>
+		  <td onclick="view('${e.id}');" class="tc"><div class="w100">${e.gender}</div></td>
 		  <c:if test="${e.expertsTypeId =='2'}">
-		   <td onclick="view('${e.id}');" class="tc"></td>
+		   <td onclick="view('${e.id}');" class="tc"><div class="w100"></div></td>
 		  </c:if>
 		  <c:if test="${e.expertsTypeId =='1' || e.expertsTypeId ==1}">
-		   <td onclick="view('${e.id}');" class="tc">技术</td>
+		   <td onclick="view('${e.id}');" class="tc"><div class="w100">技术</div></td>
 		  </c:if>
 		   <c:if test="${e.expertsTypeId =='3' || e.expertsTypeId ==3}">
-		   <td onclick="view('${e.id}');" class="tc">经济</td>
+		   <td onclick="view('${e.id}');" class="tc"><div class="w100">经济</div></td>
 		  </c:if>
-		 <td onclick="view('${e.id}');" class="tl">${e.graduateSchool }</td>
-		 <td onclick="view('${e.id}');" class="tl">${e.workUnit }</td>
-		 <td  onclick="view('${e.id}');" class="tc"><fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+		 <td onclick="view('${e.id}');" class="tl"><div class="w100">${e.graduateSchool }</div></td>
+		 <td onclick="view('${e.id}');" class="tl"><div class="w100">${e.workUnit }</div></td>
+		 <td  onclick="view('${e.id}');" class="tc"><div class="w100"><fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></div></td>
 		 <c:if test="${e.status ne '4' and e.status ne '1' and e.status ne '5'}">
-		 	<td onclick="view('${e.id}');" class="tc"></td>
+		 	<td onclick="view('${e.id}');" class="tc"><div class="w100"></div></td>
 		 </c:if>
 		 <c:if test="${e.status eq '4' }">
-		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">复审通过</span></td>
+		 	<td onclick="view('${e.id}');" class="tc"><div class="w100"><span class="label rounded-2x label-u">复审通过</span></div></td>
 		 </c:if>
 		 <c:if test="${e.status eq '1' }">
-		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">等待复审</span></td>
+		 	<td onclick="view('${e.id}');" class="tc"><div class="w100"><span class="label rounded-2x label-dark">等待复审</span></div></td>
 		 </c:if>
 		 <c:if test="${e.status eq '5' }">
-		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">复审未通过</span></td>
+		 	<td onclick="view('${e.id}');" class="tc"><div class="w100"><span class="label rounded-2x label-dark">复审未通过</span></div></td>
 		 </c:if>
 		</tr>
 		</c:forEach>
