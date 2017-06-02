@@ -645,15 +645,15 @@
                     }
                 }
                 if(_val.indexOf('.')!=-1){
-                    var reg = /\d+\.\d{0,4}?$/;
+                    var reg = /\d+\.\d{0,2}?$/;
                     if(!reg.test(_val)) {
                         $(obj).val("");
                         if(nonNum==3){
-                            layer.msg("请输入正确的金额,保留四位小数", {
+                            layer.msg("请输入正确的金额,保留两位小数", {
                                 offset: '300px'
                             });
                         }else{
-                            layer.msg("请输入正确的金额,非负数保留四位小数", {
+                            layer.msg("请输入正确的金额,非负数保留两位小数", {
                                 offset: '300px'
                             });
                         }
@@ -662,11 +662,11 @@
                     if(!positiveRegular(_val)){
                         $(obj).val("");
                         if(nonNum==3){
-                            layer.msg("请输入正确的金额,保留四位小数", {
+                            layer.msg("请输入正确的金额,保留两位小数", {
                                 offset: '300px'
                             });
                         }else{
-                            layer.msg("请输入正确的金额,非负数保留四位小数", {
+                            layer.msg("请输入正确的金额,非负数保留两位小数", {
                                 offset: '300px'
                             });
                         }
