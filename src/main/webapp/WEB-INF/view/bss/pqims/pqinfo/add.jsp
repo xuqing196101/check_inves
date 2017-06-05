@@ -6,6 +6,7 @@
   <head>
     <%@ include file="../../../common.jsp"%>
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+    <%@ include file="/WEB-INF/view/common/validate.jsp"%>
     <title>登记质检报告</title>
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
@@ -66,6 +67,11 @@
           }
         });
       }
+      
+      function save(){
+        $("#form1").validForm();
+        $("#form1").submit();
+      }
     </script>
   </head>
 
@@ -88,7 +94,7 @@
 
     <!-- 新增模板开始-->
     <div class="container container_box">
-      <form action="${pageContext.request.contextPath}/pqinfo/save.html" method="post" enctype="multipart/form-data">
+      <form id="form1" action="${pageContext.request.contextPath}/pqinfo/save.html" method="post" enctype="multipart/form-data">
         <input type="hidden" id="contractId" name="contract.id" value="${pqinfo.contract.id }" />
         <input type="hidden" name="id" value="${pqinfoId}">
         <div>
@@ -223,7 +229,7 @@
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检详细情况：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea class="h130 col-md-12 col-sm-12 col-xs-12 " name="detail" title="不超过800个字" placeholder="不超过800个字">${pqinfo.detail}</textarea>
+                <textarea class="h130 col-md-12 col-sm-12 col-xs-12 " maxlength="100" name="detail" title="不超过800个字" placeholder="不超过800个字">${pqinfo.detail}</textarea>
               </div>
               <div class="clear red">${ERR_detail}</div>
             </li>
@@ -243,7 +249,7 @@
           </ul>
 
           <div class="col-md-12 col-sm-12 col-xs-12 tc mt20">
-            <button class="btn btn-windows save" type="submit">保存</button>
+            <button class="btn btn-windows save" type="button" onclick="save()">保存</button>
             <button class="btn btn-windows back" onclick="goback()" type="button">返回</button>
           </div>
         </div>

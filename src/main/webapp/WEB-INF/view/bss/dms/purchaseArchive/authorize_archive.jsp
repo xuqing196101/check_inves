@@ -77,6 +77,7 @@
 							var html = "";
 							for(var i = 0; i < data.length; i++) {
 								html = html + "<tr class='tc'>";
+								alert(data[i].status);
 								if(data[i].status == 1) {
 									html = html + "<td><input type='checkbox' name='fileInfo' checked='checked' onclick='checkFileInfo()' value='" + data[i].id + "'/></td>";
 								} else {
@@ -88,7 +89,7 @@
 								html = html + "</tr>";
 							}
 							$("#fileNews").html(html);
-							var count = 0;
+							/* var count = 0;
 							var fileInfo = document.getElementsByName("fileInfo");
 							var selectFileAll = document.getElementById("selectFileAll");
 							for(var i = 0; i < fileInfo.length; i++) {
@@ -98,7 +99,7 @@
 							}
 							if(count == fileInfo.length) {
 								selectFileAll.checked = true;
-							}
+							} */
 							layer.open({
 								type: 1,
 								title: '信息',
@@ -299,7 +300,11 @@
 								<td class="tl pl20">${archive.contractCode }</td>
 								<td class="tl pl20">${archive.year }</td>
 								<td class="tl pl20">${archive.purchaseDep }</td>
-								<td class="tl pl20">${archive.purchaseType }</td>
+								<td class="tl pl20">
+								  <c:forEach items="${kind}" var="kind">
+                    <c:if test="${kind.id == archive.purchaseType}">${kind.name}</c:if>
+                  </c:forEach>
+								</td>
 								<td class="tl pl20">${archive.productName }</td>
 								<td class="tl pl20">${archive.supplierName }</td>
 								<c:if test="${archive.status==1 }">
