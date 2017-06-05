@@ -389,4 +389,26 @@ public interface UserMapper {
 	 * @return void
 	 */
 	void updateDelUserByTypeId (User user);
+	/**
+	 * 
+	 * Description:查询 是否 是2017-06-05 之前修改的用户
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-5
+	 * @param date
+	 * @param loginName
+	 * @return
+	 */
+	Integer  isUpdateUser(@Param("date")String date,@Param("loginName")String loginName);
+	/**
+	 * 
+	 * Description:查询 是否 是2017-06-05 之前注册的用户
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-5
+	 * @param date
+	 * @param loginName
+	 * @return
+	 */
+	Integer isCreateUser(@Param("date")String date,@Param("loginName")String loginName);
 }

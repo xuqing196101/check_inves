@@ -5,7 +5,7 @@
 <head>
 <%@ include file="/reg_head.jsp"%>
 
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
 <script type="text/javascript">
 	$(function() {
 //		document.getElementById("login_input_id").focus();// 用户名自动获取焦点
@@ -48,6 +48,16 @@
 		var random = Math.random();
 		$("#identity_code_img_id").hide().attr("src", "${pageContext.request.contextPath}/supplier/get_identity.html?random" + random).fadeIn();
 	}
+	function register(){
+	 var pwd=$("[name=password]").val();
+	 if(pwd){
+	 $("[name=password]").val(setPublicKey(pwd));
+	 }
+	 var cpwd=$("[name=confirmPassword]").val();
+	 if(pwd){
+	 $("[name=confirmPassword]").val(setPublicKey(cpwd));
+	 }
+	}
 </script>
 
 </head>
@@ -79,6 +89,7 @@
 								  <input type="password" name="password" value="" placeholder="密码长度为6-20位" class="col-md-12 col-sm-12 col-xs-12">
 								  <span class="cue" >${err_msg_password }</span> 
 								</div>
+								
 							</div>
 							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12 ">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>确认密码：</label> 
@@ -117,7 +128,7 @@
 							</div> -->
 							<input type="hidden" name="id" value="${id }">
 							<div class="tc mt10 clear col-md-12 col-sm-12 col-xs-12">
-								<button id="submit_button_id" type="submit" class="btn margin-5">注册</button>
+								<button id="submit_button_id" type="submit" onclick="register()" class="btn margin-5">注册</button>
 								<button type="button" class="btn margin-5" onclick="location='${pageContext.request.contextPath}/supplier/registration_page.html'">返回</button>
 							</div>
 						</form>

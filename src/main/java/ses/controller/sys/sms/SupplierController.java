@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
@@ -84,6 +85,8 @@ import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.LoginLogService;
 import common.service.UploadService;
+import common.utils.Base64;
+import common.utils.RSAEncrypt;
 
 /**
  * @Title: supplierController
@@ -264,12 +267,25 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @param model
 	 * @param: @return
 	 * @return: String
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "register")
-	public String register(HttpServletRequest request, Model model, Supplier supplier) {
+	public String register(HttpServletRequest request, Model model, Supplier supplier) throws Exception {
 		Supplier sup = supplierService.selectById(supplier.getId());
 		//未注册供应商
 		if(sup == null) {
+				//获取供应商 输入的密码
+				String pwd=supplier.getPassword();
+				//获取供应商 输入的确定密码
+				String cpwd=supplier.getConfirmPassword();
+				if(pwd !=null){
+					//获取私钥 解密 输入密码
+					supplier.setPassword(RSAEncrypt.decryptPrivate(pwd));
+				}
+				if(cpwd !=null){
+					//获取私钥解密方法 解密确定密码
+					supplier.setConfirmPassword(RSAEncrypt.decryptPrivate(cpwd));
+				}
 			boolean flag = validateRegister(request, model, supplier);
 			if(flag) {
 				supplier = supplierService.register(supplier);
