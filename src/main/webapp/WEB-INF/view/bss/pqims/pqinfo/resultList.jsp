@@ -78,12 +78,16 @@
   <body>
 	<!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
+	   <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">产品质量管理</a></li><li class="active"><a href="javascript:void(0)">产品质量结果查询</a></li>
+			   <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+			   <li><a href="javascript:void(0)">保障作业</a></li>
+			   <li><a href="javascript:void(0)">产品质量管理</a></li>
+			   <li><a href="javascript:jumppage('${pageContext.request.contextPath}/pqinfo/getAll.html')">产品质量结果登记 </a></li>
+			   <li class="active"><a href="javascript:void(0)">产品质量结果查询</a></li>
 		   </ul>
-		<div class="clear"></div>
-	  </div>
+		   <div class="clear"></div>
+	   </div>
    </div>
    <div class="container">
 	   <div class="headline-v2">

@@ -90,9 +90,20 @@ function add(){
     <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">单一来源审价</a></li><li><a href="javascript:void(0)">审价人员复审</a></li>
-		   </ul>
+		  <ul class="breadcrumb margin-left-0">
+			  <li>
+				  <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			  </li>
+			  <li>
+				  <a href="javascript:void(0);"> 保障作业</a>
+			  </li>
+			  <li>
+				  <a href="javascript:void(0);"> 单一来源审价</a>
+			  </li>
+			  <li>
+				  <a href="javascript:jumppage('${pageContext.request.contextPath}/offer/checkList.html')">审价人员复审</a>
+			  </li>
+		  </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -134,41 +145,42 @@ function add(){
 				<button class="btn btn-windows edit" type="button">导出</button>
 		</div>
 		<div class="content table_box">
-             <table class="table table-bordered table-condensed table-hover table-striped">
-						<thead>
-							<tr>
-	  							<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-	  							<th class="info w50">序号</th>
-				  				<th class="info" width="30%">合同名称</th>
-				  				<th class="info" width="17%">合同编号</th>
-				  				<th class="info" width="12%">合同金额(万元)</th>
-				  				<th class="info" width="20%">供应商名称</th>
-				  				<th class="info">签订状态</th>
-							</tr>
-						</thead>
-						<c:forEach items="${list.list}" var="contract" varStatus="vs">
-							
-				  			<tr>
-				  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
-				  				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				  				<td class="tl pointer">${contract.name }</td>
-				  				<td class="tl pointer">${contract.code }</td>
-				  				<td class="tr pointer">${contract.money }</td>
-				  				<td class="tl pointer">${contract.supplierName }</td>
-				  				<td class="tc pointer">
-                                <c:if test="${contract.appraisal=='1' }">
-				  				  审价中
-				  				</c:if>
-					  			<c:if test="${contract.appraisal=='2' }">
-				  				 审价完成
-				  				</c:if>
-                                </td>
-				  			</tr>
-				  		
-						</c:forEach>
-					</table>
-				<div id="pagediv" align="right"></div>
-		</div>
+			<table class="table table-bordered table-condensed table-hover table-striped">
+				<thead>
+				<tr>
+					<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()"/></th>
+					<th class="info w50">序号</th>
+					<th class="info" width="30%">合同名称</th>
+					<th class="info" width="17%">合同编号</th>
+					<th class="info" width="12%">合同金额(万元)</th>
+					<th class="info" width="20%">供应商名称</th>
+					<th class="info">签订状态</th>
+				</tr>
+				</thead>
+				<c:forEach items="${list.list}" var="contract" varStatus="vs">
 
+					<tr>
+						<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }"/>
+						</td>
+						<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+						<td class="tl pointer">${contract.name }</td>
+						<td class="tl pointer">${contract.code }</td>
+						<td class="tr pointer">${contract.money }</td>
+						<td class="tl pointer">${contract.supplierName }</td>
+						<td class="tc pointer">
+							<c:if test="${contract.appraisal=='1' }">
+								审价中
+							</c:if>
+							<c:if test="${contract.appraisal=='2' }">
+								审价完成
+							</c:if>
+						</td>
+					</tr>
+
+				</c:forEach>
+			</table>
+			<div id="pagediv" align="right"></div>
+		</div>
+	</div>
   </body>
 </html>

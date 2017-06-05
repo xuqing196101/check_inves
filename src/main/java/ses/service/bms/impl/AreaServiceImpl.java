@@ -176,7 +176,7 @@ public class AreaServiceImpl implements AreaServiceI {
 	 *  异步查询
 	 *〈详细描述〉
 	 * @author myc
-	 * @param list List<Area>集合
+	 * @param areaList List<Area>集合
 	 * @return
 	 */
 	private List<AreaZtree> asynchrous(List<Area> areaList){

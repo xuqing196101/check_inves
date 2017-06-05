@@ -93,9 +93,22 @@ $(document).ready(function() {
   	<!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)">首页</a></li><li><a href="javascript:void(0)">审价人员复审</a></li><li><a href="javascript:void(0)">专项费用明细</a></li></ul>
-		<div class="clear"></div>
+		  <ul class="breadcrumb margin-left-0">
+			  <li>
+				  <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			  </li>
+			  <li>
+				  <a href="javascript:void(0);"> 保障作业</a>
+			  </li>
+			  <li>
+				  <a href="javascript:void(0);"> 单一来源审价</a>
+			  </li>
+			  <li>
+				  <a href="javascript:jumppage('${pageContext.request.contextPath}/offer/checkList.html')">审价人员复审</a>
+			  </li>
+			  <li><a href="javascript:void(0)">专项费用明细</a></li>
+		  </ul>
+		  <div class="clear"></div>
 	  </div>
    </div>
   
