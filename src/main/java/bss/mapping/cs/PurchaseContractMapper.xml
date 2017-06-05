@@ -196,11 +196,11 @@
   		and CODE like  CONCAT(CONCAT('%', #{code}), '%') 
   	</if>
   	<if test="supplierDepName != null and supplierDepName != ''">
-  		and SUPPLIER_DEP_NAME like  CONCAT(CONCAT('%', #{supplierDepName}), '%') 
-  	</if>
-  	<if test="purchaseDepName != null and purchaseDepName != ''">
-  		and PURCHASE_DEP_NAME like  CONCAT(CONCAT('%', #{purchaseDepName}), '%') 
-  	</if>
+      and SUPPLIER_DEP_NAME IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME like  CONCAT(CONCAT('%', #{supplierDepName}), '%'))
+    </if>
+    <if test="purchaseDepName != null and purchaseDepName != ''">
+      and PURCHASE_DEP_NAME IN (SELECT ID FROM T_SES_OMS_ORG WHERE NAME like  CONCAT(CONCAT('%', #{purchaseDepName}), '%'))
+    </if>
   	<if test="demandSector != null and demandSector != ''">
   		and DEMAND_SECTOR like CONCAT(CONCAT('%', #{demandSector}), '%') 
   	</if>
@@ -231,10 +231,10 @@
   		and CODE like  CONCAT(CONCAT('%', #{code}), '%') 
   	</if>
   	<if test="supplierDepName != null and supplierDepName != ''">
-  		and SUPPLIER_DEP_NAME IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME like  CONCAT(CONCAT('%', #{supplierDepName}), '%') 
+  		and SUPPLIER_DEP_NAME IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME like  CONCAT(CONCAT('%', #{supplierDepName}), '%'))
   	</if>
   	<if test="purchaseDepName != null and purchaseDepName != ''">
-  		and PURCHASE_DEP_NAME like CONCAT(CONCAT('%', #{purchaseDepName}), '%') 
+  		and PURCHASE_DEP_NAME IN (SELECT ID FROM T_SES_OMS_ORG WHERE NAME like  CONCAT(CONCAT('%', #{purchaseDepName}), '%'))
   	</if>
   	<if test="demandSector != null and demandSector != ''">
   		and DEMAND_SECTOR like CONCAT(CONCAT('%', #{demandSector}), '%') 

@@ -1,8 +1,6 @@
 package ses.controller.sys.sms;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,31 +9,35 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.sms.OpenBidInfo;
+import ses.model.sms.OpenBidInfoVO;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierQuoteService;
+import ses.service.sms.SupplierService;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
 import bss.service.ppms.ProjectDetailService;
+import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
-
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
+import common.annotation.SystemControllerLog;
+import common.annotation.SystemServiceLog;
+import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 /**
  * 版权：(C) 版权所有 
  * <简述>供应商报价控制层
@@ -65,10 +67,20 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
     @Autowired
     private SaleTenderService saleTenderService;
     /**
-     * 数据字典服务层
+     * 供应商
      */
     @Autowired
-    private DictionaryDataServiceI dictionaryDataService;
+    private SupplierService supplierService;
+    /**
+     * 项目服务
+     */
+    @Autowired
+    private ProjectService projectService;
+    /**
+     * 项目明细 服务
+     */
+    @Autowired
+    private ProjectDetailService projectDetailService;
     
     /**
      *〈简述〉供应商报价的项目
@@ -89,11 +101,11 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
         quote.setProjectId(projectId);
         quote.setSupplierId(user.getTypeId());
         List<Date> listDate = supplierQuoteService.selectQuoteCount(quote);
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("projectId", projectId);
         List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
         //获取发售标书表里面的包id
-        List<Packages> listPackageEach = new ArrayList<Packages>();
+        List<Packages> listPackageEach = new ArrayList<>();
         SaleTender saleTender = new SaleTender();
         saleTender.setProjectId(projectId);
         saleTender.setSupplierId(user.getTypeId());
@@ -108,7 +120,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
             req.setAttribute("std", sts.get(0));
         }
         //开始循环包
-        List<List<ProjectDetail>> listPd = new ArrayList<List<ProjectDetail>>();
+        List<List<ProjectDetail>> listPd = new ArrayList<>();
         for (Packages pk:listPackageEach) {
             map.put("packageId", pk.getId());
             List<ProjectDetail> detailList = detailService.selectByCondition(map, null);
@@ -139,12 +151,12 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
     public String save(HttpServletRequest req, Quote quote, Model model, String priceStr) throws ParseException {
         List<String> listBd = Arrays.asList(priceStr.split(","));
         User user = (User) req.getSession().getAttribute("loginUser");
-        List<Quote> listQuote = new ArrayList<Quote>();
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        List<Quote> listQuote = new ArrayList<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("projectId", quote.getProjectId());
         List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
         //
-        List<Packages> listPackageEach = new ArrayList<Packages>();
+        List<Packages> listPackageEach = new ArrayList<>();
         SaleTender st = new SaleTender();
         st.setProjectId(quote.getProjectId());
         st.setSupplierId(user.getTypeId());
@@ -207,20 +219,23 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping(value = "/listProject")
-    public String listProject(HttpServletRequest req, HttpServletResponse response, Project project, Integer page, Model model){
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        User user = (User) req.getSession().getAttribute("loginUser");
-        if (user.getTypeId() == null) {
-            map.put("supplierId", "");
-        } else {
-            map.put("supplierId", user.getTypeId());
-        }
-        map.put("name", project.getName());
-        map.put("projectNumber", project.getProjectNumber());
-        List<Project> pjList = supplierQuoteService.selectByCondition(map, page == null ? 0 : page);
-        this.getPurchaserType(pjList);
-        model.addAttribute("info", new PageInfo<>(pjList));
-        model.addAttribute("project", project);
+    @SystemControllerLog(description=StaticVariables.SUPPLIER_ONLINE_BIDDING,operType=StaticVariables.SUPPLIER_ONLINE_BIDDING_SIGN)
+    @SystemServiceLog(description=StaticVariables.SUPPLIER_ONLINE_BIDDING,operType=StaticVariables.SUPPLIER_ONLINE_BIDDING_SIGN)
+    public String listProject(@CurrentUser User user, Project project,Integer page, Model model){
+    	if(user != null){
+	        HashMap<String, Object> map = new HashMap<>();
+	        if (user.getTypeId() == null) {
+	            map.put("supplierId", "");
+	        } else {
+	            map.put("supplierId", user.getTypeId());
+	        }
+	        map.put("name", project.getName());
+	        map.put("projectNumber", project.getProjectNumber());
+	        //传入map封装数据 获取相关数据集合
+	        List<Project> pjList = supplierQuoteService.selectByCondition(map, page == null ? 0 : page);
+	        model.addAttribute("info", new PageInfo<>(pjList));
+	        model.addAttribute("project", project);
+    	}
         return "ses/sms/multiple_quotes/list";
     }
     
@@ -244,10 +259,10 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
         List<Date> listDate = supplierQuoteService.selectQuoteCount(quote);
         timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(listDate.get(listDate.size()-1));
         model.addAttribute("listDate", listDate);
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("projectId", projectId);
         List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
-        List<Packages> listPackageEach = new ArrayList<Packages>();
+        List<Packages> listPackageEach = new ArrayList<>();
         SaleTender st = new SaleTender();
         st.setProjectId(projectId);
         st.setSupplierId(user.getTypeId());
@@ -261,7 +276,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
                 req.setAttribute("std", stList.get(0));
             }
         }
-        List<List<Quote>> listQuote = new ArrayList<List<Quote>>();
+        List<List<Quote>> listQuote = new ArrayList<>();
         for (Packages pk:listPackageEach) {
             quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
             quote.setPackageId(pk.getId());
@@ -284,17 +299,38 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      */
     @RequestMapping(value = "openBid")
     public String openBid(@CurrentUser User user, String projectId, Model model) {
-        SaleTender st = new SaleTender();
-        st.setProjectId(projectId);
-        st.setSupplierId(user.getTypeId());
-        List<SaleTender> stList = saleTenderService.find(st);
-        model.addAttribute("std", stList.get(0));
-        Project project = new Project();
-        project.setId(projectId);
-        model.addAttribute("project", project);
+        if(user !=null){
+            //获取供应商 id
+            if(user.getTypeId() !=null){
+                 //获取投标人全程：供应商公司名称
+               Supplier supplier= supplierService.selectById(user.getTypeId());
+               // 项目名称:项目编号 包号 T_BSS_PPMS_PROJECTS
+               Project project=projectService.selectById(projectId);
+               //获取供应商可参与 有效包集合
+               List<SaleTender> saleTenderList=saleTenderService.findPackages(user.getTypeId(), projectId);
+               model.addAttribute("supplier", supplier);
+               model.addAttribute("project", project);
+               model.addAttribute("saleTenderList", saleTenderList);
+            }
+        }
         return "ses/sms/multiple_quotes/open_bid";
     }
-    
+    /**
+     * 
+     * Description:保存开标一览表
+     * 
+     * @author YangHongLiang
+     * @version 2017-5-27
+     * @param user
+     * @param detailId
+     * @return
+     */
+    @RequestMapping("/openBidSave")
+    @ResponseBody
+    public JdcgResult openBidSave(@CurrentUser User user,OpenBidInfoVO openBidInfoVO){
+      System.out.println("ss openBidInfoVO");
+      return null;
+    }
     /**
      *〈简述〉价格构成表
      *〈详细描述〉
@@ -353,25 +389,6 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
             return std;
         } else {
             return null;
-        }
-    }
-    
-    /**
-     *〈简述〉给采购类型重新赋值
-     *〈详细描述〉
-     * @author Song Biaowei
-     * @param listPj 项目集合
-     */
-    public void getPurchaserType(List<Project> listPj){
-        if (listPj.size() > 0) {
-            for (Project project : listPj) {
-                DictionaryData dd = new DictionaryData();
-                dd.setId(project.getPurchaseType());
-                List<DictionaryData> listByPage = dictionaryDataService.listByPage(dd, 1);
-                if (listByPage.size() > 0) {
-                    project.setPurchaseType(listByPage.get(0).getName());
-                }
-            }
         }
     }
 }

@@ -323,4 +323,100 @@
     	and AUDIT_CONTENT = #{auditContent}
     </if>
   </select>
+  
+  
+    <!-- 记录审核 -->
+  <insert id="insertActive" parameterType="ses.model.ems.ExpertAudit">
+    insert into T_SES_EMS_EXPERT_AUDIT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="auditUserId != null">
+        AUDIT_USER_ID,
+      </if>
+      <if test="auditUserName != null">
+        AUDIT_USER_NAME,
+      </if>
+      <if test="auditReason != null">
+        AUDIT_REASON,
+      </if>
+      <if test="auditResult != null">
+        AUDIT_RESULT,
+      </if>
+      <if test="auditAt != null">
+        AUDIT_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="suggestType != null">
+        SUGGEST_TYPE,
+      </if>
+      <if test="auditField != null">
+        AUDIT_FIELD,
+      </if>
+      <if test="auditContent != null">
+        AUDIT_CONTENT,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="auditFieldId != null">
+        AUDIT_FIELD_ID,
+      </if>
+      <if test="auditFieldName != null">
+        AUDIT_FIELD_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="expertId != null">
+        #{expertId},
+      </if>
+      <if test="auditUserId != null">
+        #{auditUserId},
+      </if>
+      <if test="auditUserName != null">
+        #{auditUserName},
+      </if>
+      <if test="auditReason != null">
+        #{auditReason},
+      </if>
+      <if test="auditResult != null">
+        #{auditResult},
+      </if>
+      <if test="auditAt != null">
+        #{auditAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="suggestType != null">
+        #{suggestType},
+      </if>
+      <if test="auditField != null">
+        #{auditField},
+      </if>
+      <if test="auditContent != null">
+        #{auditContent},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="auditFieldId != null">
+        #{auditFieldId},
+      </if>
+      <if test="auditFieldName != null">
+        #{auditFieldName},
+      </if>
+    </trim>
+  </insert>
+  
+  
 </mapper>

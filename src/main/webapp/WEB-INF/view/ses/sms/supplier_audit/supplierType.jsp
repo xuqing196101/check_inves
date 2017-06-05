@@ -817,7 +817,13 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员数量比例(%)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="scaleTech" type="text" value="${supplierMatPros.scaleTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'scaleTech')}">style="border: 1px solid red;"</c:if>/>
+												<input id="scaleTech" type="text" value="${supplierMatPros.scaleTech }" 
+													<c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','mat_pro_page');"</c:if> 
+													<c:if test="${fn:contains(passedProField,'scaleTech')}">style="border: 1px solid red;"</c:if>
+													onclick="reasonProduction1(this)" maxlength="10"
+													onkeyup="value=value.replace(/[^\d.]/g,'')"
+													onblur="validatePercentage2(this.value)"
+												/>
 												<c:if test="${fn:contains(passedProField,'scaleTech')}">
 													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
@@ -826,7 +832,13 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级技术人员数量比例(%)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="scaleHeightTech" type="text" value="${supplierMatPros.scaleHeightTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'scaleHeightTech')}">style="border: 1px solid red;"</c:if>/>
+												<input id="scaleHeightTech" type="text" value="${supplierMatPros.scaleHeightTech }" 
+													<c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','mat_pro_page');"</c:if> 
+													<c:if test="${fn:contains(passedProField,'scaleHeightTech')}">style="border: 1px solid red;"</c:if>
+													onclick="reasonProduction1(this)" maxlength="10"
+													onkeyup="value=value.replace(/[^\d.]/g,'')"
+													onblur="validatePercentage2(this.value)"
+												/>
 												<c:if test="${fn:contains(passedProField,'scaleHeightTech')}">
 													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
@@ -1391,5 +1403,7 @@
 					<input type="hidden" name="sign" value="${sign}">
 				</form>
 	</body>
+	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/regex.js"></script>
 
 </html>

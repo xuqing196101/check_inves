@@ -1723,6 +1723,7 @@
 	<!-- 注销列表 -->
 	<select id="findLogoutList" resultMap="BaseResultMap">
 		SELECT
+		ID,
 		  SUPPLIER_NAME,
 		  LOGIN_NAME,
 		  MOBILE,

@@ -1294,7 +1294,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplier.setId(supplierId);
 		supplier.setAuditDate(new Date());
 		//审核人
-		supplier.setAuditor(user.getLoginName());
+		supplier.setAuditor(user.getRelName());
 		supplierAuditService.updateStatus(supplier);
 		
 		if(supplier.getStatus() != null && supplier.getStatus() == 1){

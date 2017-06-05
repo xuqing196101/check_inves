@@ -240,23 +240,28 @@
       </if>
     </trim>
   </sql>
+
+	<!--根据供应商id  获取 有效的招标数据 -->
    <select id="selectProject" parameterType="java.util.Map" resultMap="BaseResultMap">
-   select t1.* from 
-    (SELECT * FROM T_BSS_PPMS_SALE_TENDER  where STATUS_BID =2 and STATUS_BOND=2) t2
+   SELECT <include refid="Base_Column_List"/> FROM 
+    (SELECT DISTINCT project_id FROM T_BSS_PPMS_SALE_TENDER  
+    <where>IS_REMOVED=0
+     <if test="supplierId != null">
+        AND supplier_id = #{supplierId}
+     </if> 
+    </where>) t2
      LEFT JOIN
-    ( select * from T_BSS_PPMS_PROJECTS t ) t1
-    on  t1.id=t2.project_id
-        where 1=1 and IS_PROVISIONAL=0 and t1.id is not null
-    <if test="supplierId != null">
-        AND t2.supplier_id = #{supplierId}
-    </if> 
+    T_BSS_PPMS_PROJECTS t1 ON  t1.id=t2.project_id
+     <where>t1.IS_PROVISIONAL=0
     <if test="name != null and name !=''">
-        AND name = #{name}
+        AND t1.name = #{name}
     </if> 
     <if test="projectNumber != null and projectNumber !=''">
-        AND PROJECT_NUMBER = #{projectNumber}
+        AND t1.PROJECT_NUMBER = #{projectNumber}
      </if> 
+     </where> 
    </select>
+   
   <select id="selectProjectByPrimaryKey" flushCache="true" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ses.dao.sms.OpenBidInfoMapper" >
+  <resultMap id="BaseResultMap" type="ses.model.sms.OpenBidInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PROJECTS_DETAIL_ID" property="projectsDetailId" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
+    <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="DELIVERY_THE_GOODS" property="deliveryTheGoods" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="IS_SAVE" property="isSave" jdbcType="DECIMAL" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PROJECTS_DETAIL_ID, SUPPLIER_ID, UNIT_PRICE, DELIVERY_THE_GOODS, REMARK, CREATED_AT, 
+    UPDATED_AT, IS_SAVE,IS_DELETED
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_OPEN_BID_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_SES_SMS_OPEN_BID_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.OpenBidInfo" >
+    insert into T_SES_SMS_OPEN_BID_INFO (ID, PROJECTS_DETAIL_ID, SUPPLIER_ID, 
+      UNIT_PRICE, DELIVERY_THE_GOODS, REMARK
+      CREATED_AT, UPDATED_AT, IS_SAVE, IS_DELETED
+      )
+    values (#{id,jdbcType=VARCHAR}, #{projectsDetailId,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, 
+      #{unitPrice,jdbcType=DECIMAL}, #{deliveryTheGoods,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{isSave,jdbcType=DECIMAL},
+      #{isDeleted,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.OpenBidInfo" >
+    insert into T_SES_SMS_OPEN_BID_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="projectsDetailId != null" >
+        PROJECTS_DETAIL_ID,
+      </if>
+      <if test="supplierId != null" >
+        SUPPLIER_ID,
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE,
+      </if>
+      <if test="deliveryTheGoods != null" >
+        DELIVERY_THE_GOODS,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+      <if test="isSave != null" >
+        IS_SAVE,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectsDetailId != null" >
+        #{projectsDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveryTheGoods != null" >
+        #{deliveryTheGoods,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isSave != null" >
+        #{isSave,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted!= null" >
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.OpenBidInfo" >
+    update T_SES_SMS_OPEN_BID_INFO
+    <set >
+      <if test="projectsDetailId != null" >
+        PROJECTS_DETAIL_ID = #{projectsDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null" >
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveryTheGoods != null" >
+        DELIVERY_THE_GOODS = #{deliveryTheGoods,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isSave != null" >
+        IS_SAVE = #{isSave,jdbcType=DECIMAL},
+      </if>
+       <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.OpenBidInfo" >
+    update T_SES_SMS_OPEN_BID_INFO
+    set PROJECTS_DETAIL_ID = #{projectsDetailId,jdbcType=VARCHAR},
+      SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      DELIVERY_THE_GOODS = #{deliveryTheGoods,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      IS_SAVE = #{isSave,jdbcType=DECIMAL},
+      IS_DELETED = #{isSave,jdbcType=DECIMAL}
+    where ID = #{isDeleted,jdbcType=VARCHAR}
+  </update>
+</mapper>

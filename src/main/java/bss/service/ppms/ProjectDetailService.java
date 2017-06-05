@@ -54,4 +54,14 @@ public interface ProjectDetailService {
 	List<ProjectDetail> selectTheSubjectBySupplierId(HashMap<String,Object> map,String supplierId);
 	
 	List<ProjectDetail> selectByPackageId(String packageId);
+	/**
+	 * 
+	 * Description:获取项目明细
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-5-25
+	 * @param map
+	 * @return
+	 */
+	List<ProjectDetail> findByIdPackageId(HashMap<String,Object> map);
 }

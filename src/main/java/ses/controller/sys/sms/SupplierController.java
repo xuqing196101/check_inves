@@ -2204,15 +2204,15 @@ public class SupplierController extends BaseSupplierController {
             PrintWriter out = response.getWriter();
             StringBuilder builder = new StringBuilder();
             builder.append("<HTML><HEAD>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
-            builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
+            builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
             builder.append("</HEAD>");
             builder.append("<script type=\"text/javascript\">"); 
             builder.append("$(function() {");
             builder.append("layer.confirm('您未登陆，请登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
             builder.append("window.top.location.href='"); 
-            builder.append(basePath+"index/sign.html");  
+            builder.append(request.getContextPath()+"/index/sign.html");  
             builder.append("';"); 
             builder.append("});");
             builder.append("});");
@@ -2229,15 +2229,15 @@ public class SupplierController extends BaseSupplierController {
             PrintWriter out = response.getWriter();
             StringBuilder builder = new StringBuilder();
             builder.append("<HTML><HEAD>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
-            builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
+            builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
             builder.append("</HEAD>");
             builder.append("<script type=\"text/javascript\">"); 
             builder.append("$(function() {");
             builder.append("layer.confirm('不是当前操作人，请登录修改！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
             builder.append("window.top.location.href='"); 
-            builder.append(basePath+"index/sign.html");  
+            builder.append(request.getContextPath()+"/index/sign.html");  
             builder.append("';"); 
             builder.append("});");
             builder.append("});");
@@ -2276,7 +2276,7 @@ public class SupplierController extends BaseSupplierController {
 				SupplierFinance fin1 = new SupplierFinance();
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				fin1.setId(id);
-				fin1.setYear(String.valueOf(threeYear()));
+				fin1.setYear(String.valueOf(oneYear()));
 				supplier.getListSupplierFinances().add(fin1);
 			}
 			SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
@@ -2292,7 +2292,7 @@ public class SupplierController extends BaseSupplierController {
 				SupplierFinance fin3 = new SupplierFinance();
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				fin3.setId(id);
-				fin3.setYear(String.valueOf(oneYear()));
+				fin3.setYear(String.valueOf(threeYear()));
 				supplier.getListSupplierFinances().add(fin3);
 			}
 		}

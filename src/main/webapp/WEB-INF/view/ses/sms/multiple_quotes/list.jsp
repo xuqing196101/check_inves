@@ -312,7 +312,7 @@
 									<a href="#" onclick="view('${obj.id}');">${obj.name}</a>
 								</td>
 								<td>${obj.projectNumber }</td>
-								<td class="tc">${obj.purchaseType }
+								<td class="tc">${obj.dictionary.name }
 
 								</td>
 							</tr>

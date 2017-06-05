@@ -456,7 +456,7 @@
 								      		</div>
 								      	</td>
 								      	<td class="tc w50">
-													<a id="${cate.itemsId}_hidden" onclick="reasonProject('${cate.itemsId}','${cate.secondNode }','工程-${cate.secondNode}');"><c:if test="${!fn:contains(passedField,cate.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedField,cate.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>
+													<a id="${cate.itemsId}_hidden" onclick="reasonProject('${cate.itemsId}','${cate.firstNode }','工程-${cate.firstNode}');"><c:if test="${!fn:contains(passedField,cate.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedField,cate.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>
 													<p id="${cate.itemsId}_show"><img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 													<c:if test="${fn:contains(passedField,cate.itemsId)}">
 														<img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>

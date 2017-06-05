@@ -190,10 +190,6 @@
         $("#package"+index).removeClass("shrink");        
         $("#package"+index).addClass("spread");
       });
-     
-    
-      
-      
     </script>
   </head>
 

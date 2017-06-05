@@ -85,10 +85,10 @@
             <thead>
 					<tr>
 					  <th class="info w50">序号</th>
-					  <th class="info" width="20%">用户名</th>
+					  <th class="info" width="12%">用户名</th>
 					  <th class="info" width="15%">姓名</th>
-					  <th class="info" width="25%">单位</th>
-					  <th class="info" width="15%">联系电话</th>
+					  <th class="info" width="23%">单位</th>
+					  <th class="info" width="140">联系电话</th>
 					  <th class="info">角色</th>
 					</tr>
 		      </thead>
@@ -97,13 +97,13 @@
 					<tr>
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					  <td class="tl" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
-					  <td class="tc">${user.relName}</td>
+					  <td class="tl">${user.relName}</td>
 					  <td class="tl">
 					  	<c:if test="${user.org != null }">${user.org.name}</c:if>
 					  	<c:if test="${user.org == null }">${user.orgName}</c:if>
 					  </td>
 					  <td class="tc">${user.mobile}</td>
-					  <td class="tc">
+					  <td class="tl">
 					  	<c:set var="roleCode" value=""/>
 					  	<c:forEach items="${user.roles}" var="r" varStatus="vs">
 			        		<c:if test="${vs.index == 0 }">

@@ -145,17 +145,17 @@ public class OuterExpertServiceImpl implements OuterExpertService {
         if(!experts.isEmpty()){
             FileUtils.writeFile(FileUtils.getExpertAuidtNot(),JSON.toJSONString(experts));
             //附件处理
-            List<UploadFile> attachList = new ArrayList<>();
-            for(Expert expert:experts){
-                if(null!=expert.getAttchList() && !expert.getAttchList().isEmpty()){
-                    attachList.addAll(expert.getAttchList());
-                }
-            }
-            String basePath = FileUtils.attachExportPath(Constant.EXPERT_SYS_KEY);
-            if (StringUtils.isNotBlank(basePath)){
-                OperAttachment.writeFile(basePath, attachList);
-                recordService.backupAttach(new Integer(attachList.size()).toString());
-            }
+//            List<UploadFile> attachList = new ArrayList<>();
+//            for(Expert expert:experts){
+//                if(null!=expert.getAttchList() && !expert.getAttchList().isEmpty()){
+//                    attachList.addAll(expert.getAttchList());
+//                }
+//            }
+//            String basePath = FileUtils.attachExportPath(Constant.EXPERT_SYS_KEY);
+//            if (StringUtils.isNotBlank(basePath)){
+//                OperAttachment.writeFile(basePath, attachList);
+//                recordService.backupAttach(new Integer(attachList.size()).toString());
+//            }
         }
         recordService.commitExpertRecord(new Integer(experts.size()).toString());
     }

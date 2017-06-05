@@ -326,7 +326,7 @@
 						<tr>
 							<th class="info w50">选择</th>
 							<th class="info w50">序号</th>
-							<th class="info" width="10%">专家姓名</th>
+							<th class="info" width="8%">专家姓名</th>
 							<th class="info w50">性别</th>
 							<th class="info" width="10%">手机号</th>
 							<!-- <th class="info">类型</th> -->
@@ -334,7 +334,8 @@
 							<th class="info" width="15%">工作单位</th>
 							<th class="info" width="10%">审核时间</th>
 							<th class="info" width="10%">注册时间</th>
-							<th class="info" width="8%">发布</th>
+							<th class="info" width="10%">采购机构</th>
+							<th class="info" width="5%">发布</th>
 							<th class="info">审核状态</th>
 						</tr>
 					</thead>
@@ -354,6 +355,7 @@
 							<td class="tc" onclick="shenhe('${expert.id}');">
                 <fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
               </td>
+              <td class="tl" onclick="shenhe('${expert.id}');">${expert.orgName }</td>
 							<td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">
 								<c:if test="${expert.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
 								<c:if test="${expert.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>

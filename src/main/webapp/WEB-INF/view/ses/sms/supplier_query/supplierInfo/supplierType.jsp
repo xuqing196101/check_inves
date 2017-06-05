@@ -182,15 +182,25 @@
 													<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 														<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员数量比例(%)：</span>
 														<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-															<input id="scaleTech_production" type="text" value="${supplierMatPros.scaleTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','mat_pro_page');"</c:if>/>
-										</div>
-										</li>
-										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级技术人员数量比例(%)：</span>
-											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="scaleHeightTech_production" type="text" value="${supplierMatPros.scaleHeightTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','mat_pro_page');"</c:if>/>
-											</div>
-										</li>
+															<input id="scaleTech_production" type="text" value="${supplierMatPros.scaleTech }" 
+																<c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','mat_pro_page');"</c:if>
+																onclick="reasonProduction1(this)" maxlength="10"
+																onkeyup="value=value.replace(/[^\d.]/g,'')"
+																onblur="validatePercentage2(this.value)"
+															/>
+														</div>
+													</li>
+													<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级技术人员数量比例(%)：</span>
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+														<input id="scaleHeightTech_production" type="text" value="${supplierMatPros.scaleHeightTech }" 
+															<c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','mat_pro_page');"</c:if>
+															onclick="reasonProduction1(this)" maxlength="10"
+															onkeyup="value=value.replace(/[^\d.]/g,'')"
+															onblur="validatePercentage2(this.value)"
+														/>
+													</div>
+													</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this)">研发部门名称：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -507,5 +517,7 @@
 			<input name="sign" value="${sign}" type="hidden">
 		</form>
 	</body>
+	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/regex.js"></script>
 
 </html>

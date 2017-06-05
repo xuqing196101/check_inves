@@ -385,7 +385,8 @@
     	 if(isTitle==1&&bool==true){
     		 $("#pro_div").show();
     	 }
-        	
+    	 // 选中专家类别
+       checkZjlb();	
         	
 //绑定工程技术的切换事件
          /*    isIs = bja.some(function (item, index, array) {
@@ -442,7 +443,8 @@
         function zc() {
             layer.msg("已暂存");
         }
-        function checks(obj){
+        
+         function checks(obj){
         	var flag=true;
         	 var expertId=$("#id").val();
         	$("input[name='chkItem_1']").each(function() {
@@ -455,8 +457,8 @@
                    //    $("#server_div").show();
             		$("input[name='chkItem_2']").each(function() {
                 		var val=$(this).parent().text();
-                    	if(val.trim()=="工程经济"){	
-                    	// $(this).prop("disabled",true);
+                    	if(val.trim()=="工程经济" || val.trim()=="物资服务经济"){	
+                    		$(this).prop("disabled",true);
                     	}
             		});
             		
@@ -510,17 +512,36 @@
                       }
                  	}
          		}); 
-        	 }  
-        /* 	if(objVal=="工程经济"&&flagValue=="工程技术"){
-        		alert("不能同时选择");
-        		 return false;  
-        	} 
-        	
-        	if(objVal=="工程技术"&&flagValue=="工程经济"){
-        		alert("不能同时选择");
-        	}  */
-        	
+        	 }
+        	 checkZjlb();
         }
+        
+       	// 选中专家类别
+				function checkZjlb() {
+					$("input[name='chkItem_1']").each(function() {
+						if ($(this).prop("checked")) {
+							$("input[name='chkItem_2']").prop("disabled", true);
+						}
+					});
+					$("input[name='chkItem_2']").each(function() {
+						if ($(this).prop("checked")) {
+							$("input[name='chkItem_1']").prop("disabled", true);
+						}
+					});
+					var notCheckedCount = 0;// 没有选中的checkbox
+					var allCheckboxCount = 0;// 所有的checkbox
+					$("input[name='chkItem_1'],input[name='chkItem_2']").each(function() {
+						allCheckboxCount++;
+						if (!$(this).prop("checked")) {
+							notCheckedCount++;
+						}
+					});
+					if (notCheckedCount == allCheckboxCount) {
+						$("input[name='chkItem_1'],input[name='chkItem_2']").prop(
+								"disabled", false);
+					}
+				}
+        
         function  isZhiye(obj){
         	submitformExpert();
         	var val=$(obj).val();
@@ -733,13 +754,13 @@
     <input type="hidden" id="isType" name="isType" value=""/>
     <input type="hidden" name="token2" value="<%=tokenValue%>"/>
     <div id="reg_box_id_3" class="container clear margin-top-30 job-content">
-        <h2 class="padding-20 mt40">
+        <h2 class="step_flow">
             <span id="sp1" class="new_step current fl" onclick="pre1()"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
             <span id="sp7" class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类别</span> </span>
             <span id="ty6" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
             <span id="sp3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
             <span id="sp4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
-            <span id="sp5" class="new_step fl"><i class="">6</i><span class="step_desc_01">提交审核</span> </span>
+            <span id="sp5" class="new_step fl new_step_last"><i class="">6</i><span class="step_desc_01">提交审核</span> </span>
             <div class="clear"></div>
         </h2>
         <div class="container container_box">
@@ -825,7 +846,7 @@
 		 </div>	
 		 			
 	 <div style="display: none;" id="pro_div">
-		<ul class="list-unstyled f14" id="jingji_ul">
+		<ul class="list-unstyled f14 clear" id="jingji_ul">
 		<c:forEach items="${ecoList}" var="t"  varStatus="vs" >
 		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> <!--/执业资格  -->
