@@ -1821,7 +1821,6 @@
  * Licensed same as jquery - MIT License
  * http://www.opensource.org/licenses/mit-license.php
  *
- * email: hunter.z@263.net
  * Date: 2016-04-01
  */
 (function($){
@@ -2449,7 +2448,6 @@
  * Licensed same as jquery - MIT License
  * http://www.opensource.org/licenses/mit-license.php
  *
- * email: hunter.z@263.net
  * Date: 2016-04-01
  */
 (function($){

@@ -2276,7 +2276,7 @@ public class SupplierController extends BaseSupplierController {
 				SupplierFinance fin1 = new SupplierFinance();
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				fin1.setId(id);
-				fin1.setYear(String.valueOf(threeYear()));
+				fin1.setYear(String.valueOf(oneYear()));
 				supplier.getListSupplierFinances().add(fin1);
 			}
 			SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
@@ -2292,7 +2292,7 @@ public class SupplierController extends BaseSupplierController {
 				SupplierFinance fin3 = new SupplierFinance();
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				fin3.setId(id);
-				fin3.setYear(String.valueOf(oneYear()));
+				fin3.setYear(String.valueOf(threeYear()));
 				supplier.getListSupplierFinances().add(fin3);
 			}
 		}

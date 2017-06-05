@@ -635,11 +635,11 @@
 
 				}
 
-				if (telephone != "") {
+				/* if (telephone != "") {
 					//var reg = /^(\d{3,4}-{0,1})?\d{7,8}$/;
 					var reg = /^0\d{2,3}-\d{7,8}(-\d{1,6})?$/;
 					if (!reg.test(telephone)) {
-						layer.msg("固定电话格式有误！正确格式为：010-12345678或010-12345678-123456，分机号1~6位");
+						//layer.msg("固定电话格式有误！正确格式为：010-12345678或010-12345678-123456，分机号1~6位");
 						return false;
 					}
 			 	}
@@ -649,7 +649,7 @@
 				if (fax != "" && !faxReg.test(fax)) {
 					layer.msg("传真电话格式有误！正确格式为：010-12345678或010-12345678-123456，分机号1~6位");
 					return false;
-			 	}
+			 	} */
 				var postCode = $("#postCode").val();
 				if(idNumber != "" && isNaN(postCode)) {
 					layer.msg("邮编格式只能输入数字 !");

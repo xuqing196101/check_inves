@@ -73,8 +73,9 @@
                         <th class="info w50">序号</th>
                         <th class="info" width="40%">供应商名称</th>
                         <th class="info" width="15%">供应商等级</th>
-                        <th class="info" width="17%">联系人</th>
+                        <th class="info" width="15%">联系人</th>
                         <th class="info">联系人电话</th>
+                        <th class="info" width="20%">采购机构</th>
                         <!-- <th class="info">供应商类型</th>
                         <th class="info">状态</th> -->
                     </tr>
@@ -89,6 +90,7 @@
                             <td class="tc">${list.grade}</td>
                             <td class="tl">${list.armyBusinessName}</td>
                             <td class="tc">${list.armyBuinessTelephone}</td>
+                            <td class="tl">${list.orgName}</td>
                             <%-- <td class="tl pl20">${list.supplierType }</td>
                             <td class="tc">
                                 <c:if test="${list.status==1}">审核通过</c:if>

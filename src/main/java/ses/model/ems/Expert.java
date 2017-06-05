@@ -312,6 +312,9 @@ public class Expert extends ExpertHistory implements Serializable {
     
     //用户名
     private String loginName;
+    
+    // 采购机构
+    private String orgName;
 
     /**专家审核记录表*/
     private List<ExpertAudit> expertAuditList;
@@ -833,6 +836,13 @@ public class Expert extends ExpertHistory implements Serializable {
 	public void setIsOrg(Integer isOrg) {
 		this.isOrg = isOrg;
 	}
-    
+
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
     
 }

@@ -1719,7 +1719,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * echarts设备环境识别
 	 *
 	 * @desc echarts基于Canvas，纯Javascript图表库，提供直观，生动，可交互，可个性化定制的数据统计图表。
-	 * @author firede[firede@firede.us]
 	 * @desc thanks zepto.
 	 */
 
@@ -7661,7 +7660,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * zrender: 生成唯一id
 	 *
-	 * @author errorrik (errorrik@gmail.com)
 	 */
 
 
@@ -7680,8 +7678,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * 事件扩展
 	 * @module zrender/mixin/Eventful
-	 * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
-	 *         pissang (https://www.github.com/pissang)
 	 */
 
 
@@ -10086,7 +10082,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        /**
 	         * @exports zrender/tool/log
-	         * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
 	         */
 	        module.exports = function() {
 	            if (config.debugMode === 0) {
@@ -10128,7 +10123,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * config默认配置项
 	     * @exports zrender/config
-	     * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
 	     */
 	    var config = {
 	        /**
@@ -15417,10 +15411,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Catmull-Rom spline 插值折线
-	 * @module zrender/shape/util/smoothSpline
-	 * @author pissang (https://www.github.com/pissang)
-	 *         Kener (@Kener-林峰, kener.linfeng@gmail.com)
-	 *         errorrik (errorrik@gmail.com)
 	 */
 
 	    var vec2 = __webpack_require__(10);
@@ -15493,10 +15483,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * 贝塞尔平滑曲线
-	 * @module zrender/shape/util/smoothBezier
-	 * @author pissang (https://www.github.com/pissang)
-	 *         Kener (@Kener-林峰, kener.linfeng@gmail.com)
-	 *         errorrik (errorrik@gmail.com)
 	 */
 
 
@@ -16605,9 +16591,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Handler
 	 * @module zrender/Handler
-	 * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
-	 *         errorrik (errorrik@gmail.com)
-	 *         pissang (shenyi.914@gmail.com)
 	 */
 
 
@@ -16977,9 +16960,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Storage内容仓库模块
 	 * @module zrender/Storage
-	 * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
-	 * @author errorrik (errorrik@gmail.com)
-	 * @author pissang (https://github.com/pissang/)
 	 */
 
 
@@ -18189,7 +18169,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * 事件辅助类
 	 * @module zrender/core/event
-	 * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
 	 */
 
 
@@ -18713,9 +18692,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Default canvas painter
 	 * @module zrender/Painter
-	 * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
-	 *         errorrik (errorrik@gmail.com)
-	 *         pissang (https://www.github.com/pissang)
 	 */
 	 
 
