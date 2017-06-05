@@ -1812,14 +1812,12 @@
 
 									</div>
 								</li>
-								<div id="branch_list_body">
+							</ul>
+								<ul id="branch_list_body" class="list-unstyled clear">
 									<c:forEach items="${currSupplier.branchList }" var="bran" varStatus="vs">
-
 										<li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12 pl10">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>机构名称</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												
-												
 											 	<input type="hidden" name="branchList[${vs.index }].id"  required  value="${bran.id}"/>  
 											
 												<input type="text" name="branchList[${vs.index }].organizationName" id="sup_branchName" required maxlength="50" value="${bran.organizationName}"  <c:if test="${!fn:contains(audit,'organizationName')&&currSupplier.status==2}">readonly="readonly"</c:if>  <c:if test="${fn:contains(audit,'organizationName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('organizationName_${bran.id }')"</c:if>/>
@@ -1874,8 +1872,7 @@
 											</div>
 										</li>
 									</c:forEach>
-								</div>
-							</ul>
+								</ul>
 						</fieldset>
 						<!-- 财务信息 -->
 						<h2 class="count_flow clear pt20"> <i>3</i> 近三年财务信息
