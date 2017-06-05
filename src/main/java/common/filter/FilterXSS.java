@@ -59,7 +59,7 @@ public class FilterXSS implements Filter {
         xssMap.put("\"", "＂");
         xssMap.put("--", "－－");
         /*xssMap.put(";", "；");*/
-        xssMap.put("&","＆");
+       /* xssMap.put("&","＆");*/
         xssMap.put("%","％");
     }
     /**

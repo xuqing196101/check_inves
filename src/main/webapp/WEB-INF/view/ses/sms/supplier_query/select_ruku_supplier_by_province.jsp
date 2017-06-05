@@ -469,7 +469,7 @@
 							<tr>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
-									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
+									<a half="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a>
 								</td>
 								<%-- <td class="">${list.loginName }</td> --%>
 								<td class="">${list.contactName }</td>
