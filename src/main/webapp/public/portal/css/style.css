@@ -1805,6 +1805,13 @@ img.img-mouse {
          top: -35px;
 	  	 line-height:14px;
       }
+     .login_box h2 li a{
+		 font-size:14px;
+		 padding:7px 5px;
+	  }
+	  .drop_hover .drop_main{
+	  	padding:0px;
+	  }
 
  }
    @media only screen and (min-width: 640px) and (max-width: 767px) {
@@ -1907,9 +1914,6 @@ img.img-mouse {
 		  padding:0px 11px!important;
 		  font-size:16px!important;
       }
-	  .nav_icon {
-		  margin:10px 5px!important;
-	  }
 	 .our-clients li {
 		  margin:3px 0px!important;
 	  }
@@ -2106,6 +2110,7 @@ img.img-mouse {
  color:#2C9FA6;
  border-bottom:2px solid #2C9FA6;
 }
+
 .login_box ul{
  margin-top:0px;
  list-style-type:none;
@@ -2341,15 +2346,15 @@ a.news_more{
 }
 .ywbl_01 a span{
   display: block;
-  height: 104px;
-  line-height: 160px;
   font-size:16px;
+  width:100%;
+  text-align: center;
 }
 .ywbl_02 a span{
   display: block;
-  height: 104px;
-  line-height: 164px;
   font-size:16px;
+  width:100%;
+  text-align: center;
 }
 .ywbl_02{
   width:154px;
@@ -2368,16 +2373,22 @@ a.news_more{
 	
 }
 @media (max-width:997px){
-  .ywbl_01 a span{
-	font-size:14px;
-  }
+.ywbl_01 a span{
+  display: block;
+  font-size:14px;
+  width:100%;
+  text-align: center;
+}
   .ywbl_01,.ywbl_02{
      margin-bottom:5px;
      border: 1px solid #cccccc;
   }
-   .ywbl_02 a span{
-	font-size:14px;
-  }
+.ywbl_02 a span{
+  display: block;
+  font-size:14px;
+  widt:100%;
+  text-align: center;
+}
   .border1.flow_btn{
   	border:0px;
   }
@@ -2398,16 +2409,6 @@ a.news_more{
   color:#555;
   text-align:center;
 }
-.ywbl_01 a span{
-  display: block;
-  height: 104px;
-  line-height: 160px;
-}
-.ywbl_02 a span{
-  display: block;
-  height: 104px;
-  line-height: 164px;
-}
 .ywbl_02{
   height:104px;
   background:url(../images/flow_bg.jpg);
@@ -2420,53 +2421,59 @@ a.news_more{
   text-align:center;
   width: 100%;
 }
-a.qyzc{
-  background:url(../images/portal_icon.png) no-repeat 23px -330px;
+.ywbl_02 a i,.ywbl_01 a i{
+	width:60px;
+	height:50px;
+	display: inline-block;
+	margin: 10px auto 2px auto;
 }
-a.zjzc{
-  background:url(../images/portal_icon.png) no-repeat -89px -333px;
+a.qyzc i{
+  background:url(../images/portal_icon.png) no-repeat -1px -340px;
 }
-a.jksdj{
-  background:url(../images/portal_icon.png) no-repeat -242px -333px;
+a.zjzc i{
+  background:url(../images/portal_icon.png) no-repeat -115px -340px;
 }
-a.wssc{
-  background:url(../images/portal_icon.png) no-repeat -387px -336px;
+a.jksdj i{
+  background:url(../images/portal_icon.png) no-repeat -265px -341px;
 }
-a.dxcpjj{
-  background:url(../images/portal_icon.png) no-repeat -520px -338px;
+a.wssc i{
+  background:url(../images/portal_icon.png) no-repeat -410px -344px;
 }
-a.ypcg{
-  background:url(../images/portal_icon.png) no-repeat -663px -336px;
+a.dxcpjj i{
+  background:url(../images/portal_icon.png) no-repeat -545px -345px;
 }
-a.fwcg{
-  background:url(../images/portal_icon.png) no-repeat -803px -330px;
+a.ypcg i{
+  background:url(../images/portal_icon.png) no-repeat -685px -343px;
 }
-a.fwrx{
-  background:url(../images/portal_icon.png) no-repeat -930px -330px;
+a.fwcg i{
+  background:url(../images/portal_icon.png) no-repeat -835px -343px;
 }
-a.cpml{
-  background:url(../images/portal_icon.png) no-repeat 40px -469px;
+a.fwrx i{
+  background:url(../images/portal_icon.png) no-repeat -955px -340px;
 }
-a.jscsk{
-  background:url(../images/portal_icon.png) no-repeat -80px -460px;
+a.cpml i{
+  background:url(../images/portal_icon.png) no-repeat -1px -475px;
 }
-a.zlxz{
-  background:url(../images/portal_icon.png) no-repeat -230px -460px;
+a.jscsk i{
+  background:url(../images/portal_icon.png) no-repeat -115px -475px;
 }
-a.cpshfw{
+a.zlxz i{
+  background:url(../images/portal_icon.png) no-repeat -275px -473px;
+}
+a.cpshfw i{
+  background:url(../images/portal_icon.png) no-repeat -415px -475px;
+}
+a.zpshfw i{
   background:url(../images/portal_icon.png) no-repeat -370px -465px;
 }
-a.zpshfw{
-  background:url(../images/portal_icon.png) no-repeat -370px -465px;
+a.zxts i{
+  background:url(../images/portal_icon.png) no-repeat -556px -475px;
 }
-a.zxts{
-  background:url(../images/portal_icon.png) no-repeat -520px -465px;
+a.cglt i{
+  background:url(../images/portal_icon.png) no-repeat -685px -475px;
 }
-a.cglt{
-  background:url(../images/portal_icon.png) no-repeat -647px -465px;
-}
-a.yjfk{
-  background:url(../images/portal_icon.png) no-repeat -807px -465px;
+a.yjfk i{
+  background:url(../images/portal_icon.png) no-repeat -838px -482px;
 }
 
 .ywbl_02:hover,.ywbl_01:hover{
@@ -3054,9 +3061,25 @@ h2.list_title{
 	display: block;
 	text-align: right;
 }
+@media screen (min-width:1024px){
+.service_btns{
+	margin-top:60px;
+}
+}
 @media (min-width:800px) and (max-width:1023px){
 .service_btns .f18{
 	font-size:14px;
+}
+.service_btns{
+	margin-top:60px;
+}
+}
+@media (max-width:800px){
+.service_btns .f18{
+	font-size:13px;
+}
+.service_btns{
+	margin-top:20px;
 }
 }
 @media (min-width:800px){
