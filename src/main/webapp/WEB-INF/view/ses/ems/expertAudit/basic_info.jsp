@@ -438,7 +438,7 @@
 							<li class="col-md-3 col-sm-6 col-xs-12">
 								<span class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(fileModify,'1')}"> style="border: 1px solid #FF8C00;"</c:if>  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idNumberFile" onclick="reasonFile(this);">军队人员身份证件：</span>
               	<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
-        					<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1"/>
+        					<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="12"/>
      							<a style="visibility:hidden" id="idNumberFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
       						<c:if test="${fn:contains(conditionStr,'军队人员身份证件')}"> <p><img style="padding-left: 212px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
       					</div>

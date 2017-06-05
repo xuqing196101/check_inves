@@ -48,7 +48,7 @@
 						return;
 					}
 				}
-				var state = $("#" + id + "").parent("tr").find("td").eq(10).text();//.trim();
+				var state = $("#" + id + "").parent("tr").find("td").eq(11).text();//.trim();
 				state = trim(state);
 				/* var isExtract = $("#" + id + "_isExtract").text(); */
 				if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "初审退回" || state == "复查通过" || state == "复查未通过" || state == "复审通过" || state == "复审未通过") {
@@ -89,7 +89,7 @@
 					layer.msg("请选择专家 !", {offset: '100px',});
 				}else if(size == 1){
 					var id = $(":checkbox:checked").val();
-					var state = $("#" + id + "").parent("tr").find("td").eq(10).text();//.trim();
+					var state = $("#" + id + "").parent("tr").find("td").eq(11).text();//.trim();
 					state = trim(state);
 					if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "复审通过" || state == "复审未通过" || state == "复查通过" || state == "复查未通过") {
 						$("input[name='tableType']").val(str);
@@ -123,7 +123,7 @@
 				function publish(){
 			  	var id = $(":checkbox:checked").val();
 			  	var size = $(":checkbox:checked").size();
-					var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(11).text();//.trim();
 					state = trim(state);
 					if(size == 1){
 			  			if(state == "复审通过" || state == "待复查" || state == "复查通过" || state == "复查未通过"){
@@ -326,29 +326,38 @@
 						<tr>
 							<th class="info w50">选择</th>
 							<th class="info w50">序号</th>
-							<th class="info" width="8%">专家姓名</th>
+							<th class="info">专家姓名</th>
 							<th class="info w50">性别</th>
-							<th class="info" width="10%">手机号</th>
+							<th class="info" >手机号</th>
 							<!-- <th class="info">类型</th> -->
-							<th class="info" width="15%">毕业院校及专业</th>
-							<th class="info" width="15%">工作单位</th>
-							<th class="info" width="10%">审核时间</th>
-							<th class="info" width="10%">注册时间</th>
-							<th class="info" width="10%">采购机构</th>
-							<th class="info" width="5%">发布</th>
+							<th class="info" >毕业院校及专业</th>
+							<th class="info" >工作单位</th>
+							<th class="info" >审核时间</th>
+							<th class="info" >注册时间</th>
+							<th class="info" >采购机构</th>
+							<th class="info" >发布</th>
 							<th class="info">审核状态</th>
+							<th class="info">审核人</th>
 						</tr>
 					</thead>
 					<c:forEach items="${expertList}" var="expert" varStatus="vs">
 						<tr>
 							<td class="tc w50"><input name="id" type="checkbox" value="${expert.id}"></td>
 							<td class="tc w50" onclick="shenhe('${expert.id}');">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
-							<td class="tl" onclick="shenhe('${expert.id}');">${expert.relName}</td>
+							<td class="tl" onclick="shenhe('${expert.id}');" title="${expert.relName}">
+							  <c:if test="${fn:length(expert.relName) >4 }">${fn:substring(expert.relName,0,4)}...</c:if>
+                <c:if test="${fn:length(expert.relName) <=4}">${expert.relName}</c:if>
 							<td class="tc" onclick="shenhe('${expert.id}');">${expert.sex}</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">${expert.mobile}</td>
 							<%--<td class="tl">${expert.expertsTypeId}</td>--%>
-							<td class="tl" onclick="shenhe('${expert.id}');">${expert.graduateSchool }</td>
-							<td class="tl" onclick="shenhe('${expert.id}');">${expert.workUnit }</td>
+							<td class="tl" onclick="shenhe('${expert.id}');" title="${expert.graduateSchool }">
+							  <c:if test="${fn:length(expert.graduateSchool) >8 }">${fn:substring(expert.graduateSchool,0,8)}...</c:if>
+							  <c:if test="${fn:length(expert.graduateSchool) <=8}">${expert.graduateSchool}</c:if>
+							</td>
+							<td class="tl" onclick="shenhe('${expert.id}');" title="${expert.workUnit }">
+							  <c:if test="${fn:length(expert.workUnit) >8}">${fn:substring(expert.workUnit,0,8)}...</c:if>
+							  <c:if test="${fn:length(expert.workUnit) <=8}">${expert.workUnit}</c:if>
+							</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">
 								<fmt:formatDate type='date' value='${expert.auditAt }' dateStyle="default" pattern="yyyy-MM-dd" />
 							</td>
@@ -390,6 +399,12 @@
 							<c:if test="${sign == 3 and expert.status eq '8' }">
 								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查未通过</span></td>
 							</c:if>
+							<td class="" onclick="shenhe('${expert.id}');">
+                <c:choose>
+                  <c:when test="${expert.auditor ==null or expert.auditor == ''}">无</c:when>
+                  <c:otherwise>${expert.auditor}</c:otherwise>
+                </c:choose>
+              </td>
 						</tr>
 					</c:forEach>
 				</table>
