@@ -846,7 +846,7 @@
 		 </div>	
 		 			
 	 <div style="display: none;" id="pro_div">
-		<ul class="list-unstyled f14" id="jingji_ul">
+		<ul class="list-unstyled f14 clear" id="jingji_ul">
 		<c:forEach items="${ecoList}" var="t"  varStatus="vs" >
 		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> <!--/执业资格  -->

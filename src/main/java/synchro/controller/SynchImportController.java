@@ -345,7 +345,7 @@ public class SynchImportController {
                  
                  /**专家退回修改后重新提交审核导入内网*/
                  if(synchType.contains("expert_again_inner")){
-					if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
+					if (f.getName().contains(FileUtils.C_EXPERT_ALL_NOT)) {
 						innerExpertService.readModifyExpertInfo(f);
 					}
 					if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
