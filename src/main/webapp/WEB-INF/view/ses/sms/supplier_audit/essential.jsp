@@ -469,7 +469,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">网址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input class="hand " id="website" value="${suppliers.website } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'website')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('website');"</c:if> <c:if test="${fn:contains(passedField,'website')}">style="border: 1px solid red;"</c:if>>
+								<input title="${suppliers.website }" class="hand " id="website" value="${suppliers.website }" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'website')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('website');"</c:if> <c:if test="${fn:contains(passedField,'website')}">style="border: 1px solid red;"</c:if>>
 								<c:if test="${fn:contains(passedField,'website')}">
 									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 								</c:if>

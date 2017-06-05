@@ -90,7 +90,7 @@
 					state = trim(state);
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
-					if(state == "审核通过" || state == "审核退回" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
+					if(state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
 						layer.msg("请选择待审核项 !", {
 							offset: '100px',
 						});
@@ -188,7 +188,7 @@
 					var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
 					state = trim(state);
 					if(size == 1){
-			  			if(state != "待审核" && state != "审核退回" && state != "审核未通过"){
+			  			if(state != "待审核" && state != "退回修改" && state != "审核未通过"){
 			  	 			$.ajax({
 			  	 				url:"${pageContext.request.contextPath}/supplierAudit/publish.html",
 			  	 				data:"supplierId=" +id,
