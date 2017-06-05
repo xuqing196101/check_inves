@@ -941,8 +941,15 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 近期免冠彩色证件照</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'近期免冠彩色证件照')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('近期免冠彩色证件照')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert50" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8,expert50"  businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="50" auto="true" />
-								<u:show showId="show50" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show50" businessId="${sysId}" sysKey="${expertKey}" typeId="50" />
+								<c:choose>
+									<c:when test="${expert.status == 3 and !fn:contains(errorField,'近期免冠彩色证件照')}">
+										<u:show showId="show50" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show50" businessId="${sysId}" sysKey="${expertKey}" typeId="50" />
+									</c:when>
+									<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert50" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8,expert50"  businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="50" auto="true" />
+										<u:show showId="show50" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show50" businessId="${sysId}" sysKey="${expertKey}" typeId="50" />
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
@@ -1025,8 +1032,15 @@
                         class="red">*</i> 身份证复印件（正反面在一张上）</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'身份证复印件（正反面）')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('身份证复印件（正反面）')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="3" auto="true" />
-								<u:show showId="show3" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
+								<c:choose>
+									<c:when test="${expert.status == 3 and !fn:contains(errorField,'身份证复印件（正反面）')}">
+										<u:show showId="show3" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
+									</c:when>
+									<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="3" auto="true" />
+										<u:show showId="show3" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
+									</c:otherwise>
+								</c:choose>
 								<!--typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }" -->
 							</div>
 						</li>
@@ -1048,16 +1062,30 @@
                             	<c:if test="${expert.coverNote eq '1'}">缴纳社会保险证明</c:if>
                             	<c:if test="${expert.coverNote eq '2'}">退休证书或退休证明</c:if>
                             </span>
-							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0 converNoteDiv" <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明 ')"</c:if>  <c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
+							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0 converNoteDiv" <c:if test="${fn:contains(errorField,'缴纳社会保险证明') or fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明 ')"</c:if>  <c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
 								<%--图片的大小   图片的类型  --%>
 								<c:if test="${expert.coverNote eq '1'}">
-                                    <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" auto="true" />
-                                    <u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
-                                </c:if>
-                                <c:if test="${expert.coverNote eq '2'}">
-                                    <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1_2" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" auto="true" />
-                                    <u:show showId="show1_2" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
-                                </c:if>
+									<c:choose>
+										<c:when test="${expert.status == 3 and !fn:contains(errorField,'缴纳社会保险证明')}">
+											<u:show showId="show1" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+										</c:when>
+										<c:otherwise>
+											<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" auto="true" />
+	                  	<u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+										</c:otherwise>
+									</c:choose>
+                </c:if>
+                <c:if test="${expert.coverNote eq '2'}">
+                	<c:choose>
+										<c:when test="${expert.status == 3 and !fn:contains(errorField,'退休证书或退休证明')}">
+											<u:show showId="show1_2" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
+										</c:when>
+										<c:otherwise>
+											<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1_2" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" auto="true" />
+                    	<u:show showId="show1_2" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
+										</c:otherwise>
+									</c:choose>
+                </c:if>
 							</div>
 						</li>
 						</c:if>
@@ -1094,8 +1122,15 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 军队人员身份证件</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'军队人员身份证件')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('军队人员身份证件')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert12" businessId="${sysId}" sysKey="${expertKey}" typeId="12" maxcount="12" auto="true" />
-								<u:show showId="show12" businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
+								<c:choose>
+									<c:when test="${expert.status == 3 and !fn:contains(errorField,'军队人员身份证件')}">
+										<u:show showId="show12" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
+									</c:when>
+									<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert12" businessId="${sysId}" sysKey="${expertKey}" typeId="12" maxcount="12" auto="true" />
+										<u:show showId="show12" businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
+									</c:otherwise>
+								</c:choose>
 							</div>
 
 							<%-- <div class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -1260,8 +1295,15 @@
                         class="red">*</i> 专业技术职称证书</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'专业技术职称证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专业技术职称证书')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert4" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="4" auto="true" />
-								<u:show showId="show4" groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
+								<c:choose>
+									<c:when test="${expert.status == 3 and !fn:contains(errorField,'专业技术职称证书')}">
+										<u:show showId="show4" delete="false" groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
+									</c:when>
+									<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert4" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="4" auto="true" />
+										<u:show showId="show4" groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12" id="profession_date"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
@@ -1319,8 +1361,15 @@
 						</c:if>
 						<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'毕业证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业证书')"
 							</c:if>>
-							<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="5" auto="true" />
-							<u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="5" />
+							<c:choose>
+								<c:when test="${expert.status == 3 and !fn:contains(errorField,'毕业证书')}">
+									<u:show showId="show5" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="5" />
+								</c:when>
+								<c:otherwise>
+									<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="5" auto="true" />
+									<u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="5" />
+								</c:otherwise>
+							</c:choose>
 						</div>
 						</li>
 						<c:if test="${expert.expertsFrom eq 'ARMY'}">
@@ -1348,8 +1397,15 @@
 						</c:if>
 						<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'学位证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('学位证书')"
 							</c:if>>
-							<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert6" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="6" auto="true" />
-							<u:show showId="show6" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="6" />
+							<c:choose>
+								<c:when test="${expert.status == 3 and !fn:contains(errorField,'学位证书')}">
+									<u:show showId="show6" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="6" />
+								</c:when>
+								<c:otherwise>
+									<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert6" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="6" auto="true" />
+									<u:show showId="show6" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="6" />
+								</c:otherwise>
+							</c:choose>
 						</div>
 						</li>
 						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
@@ -1392,8 +1448,15 @@
                         class="red">*</i> 推荐信</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'推荐信')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('推荐信')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert8" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="8" auto="true" />
-								<u:show showId="show8" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="8" />
+								<c:choose>
+									<c:when test="${expert.status == 3 and !fn:contains(errorField,'推荐信')}">
+										<u:show showId="show8" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="8" />
+									</c:when>
+									<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert8" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="8" auto="true" />
+										<u:show showId="show8" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="8" />
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</li>
 					</ul>
@@ -1422,8 +1485,15 @@
 						<div class="padding-top-10 clear">
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'获奖证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('获奖证书')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="7" auto="true" />
-								<u:show showId="show7" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
+								<c:choose>
+									<c:when test="${expert.status == 3 and !fn:contains(errorField,'获奖证书')}">
+										<u:show showId="show7" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
+									</c:when>
+									<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="7" auto="true" />
+										<u:show showId="show7" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 					</ul>

@@ -2058,7 +2058,7 @@ public class SupplierController extends BaseSupplierController {
     	Integer size=listSupplierAptitutes.size();
     	if(!count.equals(size)){
     		bool=false;
-    		 model.addAttribute("eng_aptitutes", "请上传文件！");
+    		model.addAttribute("eng_aptitutes", "请上传文件！");
     	}
     	
 		return bool;

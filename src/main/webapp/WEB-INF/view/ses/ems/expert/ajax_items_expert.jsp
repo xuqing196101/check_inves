@@ -44,6 +44,7 @@
 </script>
 </head>
 <body>
+	<input type="hidden" value="${errorField}" id="errorField" >
   <h1 class="f18">已选产品类别</h1>
   <table class="table table-bordered table-hover">
     <tr>
@@ -56,7 +57,9 @@
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
       <tr <c:if test="${fn:contains(errorField,item.itemsId)}">onmouseover="errorMsg('${item.itemsId}')"</c:if>>
-        <td class="tc" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${result.pageSize * (result.pageNum - 1) + vs.index + 1} </td>
+        <td class="tc" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${result.pageSize * (result.pageNum - 1) + vs.index + 1}
+        	<input type="hidden" value="${item.itemsId}" />
+        </td>
 		    <td class="tc" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.rootNode}</td>
 		    <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.firstNode}</td>
 		    <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.secondNode}</td>
