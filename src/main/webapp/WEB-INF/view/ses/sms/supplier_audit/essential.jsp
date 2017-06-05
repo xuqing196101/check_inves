@@ -496,7 +496,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">基本账户开户银行：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="bankName" class="hand " value="${suppliers.bankName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'bankName')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('bankName');"</c:if> <c:if test="${fn:contains(passedField,'bankName')}">style="border: 1px solid red;"</c:if>>
+								<input title="${suppliers.bankName }" id="bankName" class="hand " value="${suppliers.bankName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'bankName')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('bankName');"</c:if> <c:if test="${fn:contains(passedField,'bankName')}">style="border: 1px solid red;"</c:if>>
 								<c:if test="${fn:contains(passedField,'bankName')}">
 									<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 								</c:if>

@@ -66,6 +66,7 @@
 				<result column="NET_TYPE" property="netType" />
 				<result column="EXTRACT_ORGID" property="extractOrgid" />
 				<result column="ORGNAME" property="orgName" />
+				<result column="AUDITOR" property="auditor" />
     </resultMap>
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
@@ -93,7 +94,7 @@
         IS_REFERENCE_LETTER,
         PROFESSIONAL,
         TIME_PROFESSIONAL,
-        IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE, EXTRACT_ORGID
+        IS_PUBLISH,IS_ADD_EXPERT,IS_TITLE,TEACH_TITLE, EXTRACT_ORGID, AUDITOR
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -812,6 +813,9 @@
             </if>
              <if test="netType != null">
                 NET_TYPE = #{netType},
+            </if>
+            <if test="auditor != null">
+                AUDITOR = #{auditor},
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}

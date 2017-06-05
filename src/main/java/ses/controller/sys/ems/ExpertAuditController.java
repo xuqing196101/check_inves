@@ -1439,7 +1439,7 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/updateStatus")
-	public String updateStatus(Expert expert, Model model, HttpServletRequest request) {
+	public String updateStatus(@CurrentUser User user, Expert expert, Model model, HttpServletRequest request) {
 		/**
 		 *  如果是退回修改就保存历史信息
 		 */
@@ -1473,6 +1473,9 @@ public class ExpertAuditController{
 		}
 		//提交审核，更新状态
 		expert.setAuditAt(new Date());
+		
+		//审核人
+		expert.setAuditor(user.getRelName());
 		expertService.updateByPrimaryKeySelective(expert);
 
 		
@@ -1508,7 +1511,7 @@ public class ExpertAuditController{
 	        PropertiesUtil config = new PropertiesUtil("config.properties");
 	        todos.setPowerId(config.getString("zjfs"));
 	        //发送人id
-	        User user = (User)request.getSession().getAttribute("loginUser");
+	        /*User user = (User)request.getSession().getAttribute("loginUser");*/
 	        todos.setSenderId(user.getId());
 	        //类型
 	        todos.setUndoType((short)2);

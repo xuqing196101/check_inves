@@ -302,6 +302,8 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private String  sex;
     
+    private String auditor;//审核人
+    
     /** 专家提交审核时间 **/
     private Date submitAt;
     
@@ -843,6 +845,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
+	}
+
+	public String getAuditor() {
+		return auditor;
+	}
+
+	public void setAuditor(String auditor) {
+		this.auditor = auditor;
 	}
     
 }
