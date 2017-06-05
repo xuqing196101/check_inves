@@ -253,7 +253,12 @@
       /** 保存  **/
       function save(){
         var name = $("input[name='name']").val();
-        $.ajax({
+        var quaStartDate = $("input[name='quaStartDate']").val();
+        var quaEdndate = $("input[name='quaEdndate']").val();
+        if(quaStartDate > quaEdndate){
+          layer.msg("资质截止开始时间必须大于截止时间");
+        } else {
+          $.ajax({
               url: "${pageContext.request.contextPath}/purchaseManage/verify.html?name=" + name,
               type: "post",
               dataType: "json",
@@ -265,17 +270,18 @@
                 } else {
                   $("#sps").html("");
                   var id = [];
-				          $("input[name='selectedItem']").each(function(){ 
-				              id.push($(this).val());
-				          }); 
-				          $("#ids").val(id);
-				          
-				          $("#formID").validForm();
-				          
-				          $("#formID").submit();
+                  $("input[name='selectedItem']").each(function(){ 
+                      id.push($(this).val());
+                  }); 
+                  $("#ids").val(id);
+                  
+                  $("#formID").validForm();
+                  
+                  $("#formID").submit();
                 }
               },
             });
+        }
       }
       
       /** 返回 **/
