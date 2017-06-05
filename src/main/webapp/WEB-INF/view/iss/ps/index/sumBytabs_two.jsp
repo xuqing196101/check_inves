@@ -195,7 +195,7 @@ function myReSet(){
 				},
 				dataFilter: ajaxDataFilter,
 				dataType: "json",
-				type: "get"
+				type: "post"
 			},
 			/* check: {
 				enable: true,
@@ -286,7 +286,7 @@ function myReSet(){
 						},
 						dataFilter: ajaxDataFilter,
 						dataType: "json",
-						type: "get"
+						type: "post"
 					},
 				view: {
 					dblClickExpand: false

@@ -163,13 +163,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
    <div class="login_item margin-top-10">
      <label class="col-md-3 p0"><i class="red mr5">*</i>登录密码：</label>
-     <input type="password" name="username" class="fl">
+     <input type="password" name="username" class="fl" autocomplete="off">
      <span class="fl warning">（密码由6-20位，由字母、数字组成）</span>
 	 <div class="clear"></div>
    </div>
    <div class="login_item margin-top-10">
      <label class="col-md-3 p0"><i class="red mr5">*</i>确认密码：</label>
-     <input type="password" name="username" class="fl">
+     <input type="password" name="username" class="fl" autocomplete="off">
 	 <div class="clear"></div>
    </div>   
    <div class="login_item margin-top-10">

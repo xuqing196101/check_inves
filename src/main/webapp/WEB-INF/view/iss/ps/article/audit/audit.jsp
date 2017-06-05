@@ -119,7 +119,7 @@
 				},
 				dataFilter: ajaxDataFilter,
 				dataType: "json",
-				type: "get"
+				type: "post"
 			},
 			/* check: {
 				enable: true,
@@ -664,7 +664,7 @@
 						},
 						dataFilter: ajaxDataFilter,
 						dataType: "json",
-						type: "get"
+						type: "post"
 					},
 				view: {
 					dblClickExpand: false

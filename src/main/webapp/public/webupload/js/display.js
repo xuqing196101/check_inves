@@ -80,6 +80,7 @@ function fileExist(params,id,del){
 	$.ajax({
 		url: globalPath + '/file/fileExist.do',
 		data: params,
+		type:'post',
 		async: true,
 		dataType: 'json',
 		success:function(data){

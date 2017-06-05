@@ -325,7 +325,7 @@
   														码</label>
   													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input"> <input id="inputPassword"
-  															name="" placeholder="请输入密码" type="password">
+  															name="" placeholder="请输入密码" type="password" autocomplete="off">
   														</label>
   														<div class="note"></div>
   													</div>
@@ -382,7 +382,7 @@
   													<label class="label col col-md-3 col-sm-12 col-xs-12">密 码</label>
   													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input"> <input id="" name=""
-  															placeholder="请输入密码" type="password">
+  															placeholder="请输入密码" type="password" autocomplete="off">
   														</label>
   														<div class="note"></div>
   													</div>
@@ -395,7 +395,7 @@
   													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input">
   															<div class="col-md-6 col-sm-6 col-xs-6 pl0">
-  																<input type="password" placeholder="" class="fl col-md-12">
+  																<input type="password" placeholder="" autocomplete="off" class="fl col-md-12">
   															</div>
   															<div class="col-md-6 col-sm-6 col-xs-6 p0">
   																<img id="identity_code_img_id_1"

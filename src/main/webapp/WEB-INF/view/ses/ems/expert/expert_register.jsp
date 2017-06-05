@@ -153,14 +153,14 @@ session.setAttribute("tokenSession", tokenValue);
 		     <li class="login_item col-md-12  col-sm-12 col-xs-12">
 			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>密码：</span>
 			   <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-		        <input name="password" placeholder="密码由6~20位字母或数字组成" maxlength="20" id="password1" onkeyup="validataPassword();"  type="password" >
+		        <input name="password" placeholder="密码由6~20位字母或数字组成" maxlength="20" id="password1" autocomplete="off" onkeyup="validataPassword();"  type="password" >
 		        <div id="pwd1" class="cue"></div>
 		       </div>
 			 </li> 
 	 		 <li class="login_item col-md-12  col-sm-12 col-xs-12">
 			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>确认密码：</span>
 			   <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-		        <input id="password2"  maxlength="20" onkeyup="validataPwd2();" type="password" value="">
+		        <input id="password2"  maxlength="20" onkeyup="validataPwd2();" type="password" autocomplete="off" value="">
 		        <div class="cue" id="pwd2">
 		       </div>
 			 </li> 
