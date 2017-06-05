@@ -112,7 +112,7 @@
                         html += 'width="100%" height="100%" style="outline:0">' +
                             '<param name="movie" value="' + swf + '" />' +
                             '<param name="wmode" value="transparent" />' +
-                            '<param name="allowscriptaccess" value="always" />' +
+                            '<param name="allowscriptaccess" value="sameDomain" />' +
                             '</object>';
                         container.html(html);
                     })($wrap);
