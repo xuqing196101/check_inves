@@ -594,13 +594,13 @@ public class PreMenuController {
 				if(pId != null && !"".equals(pId)){
 					pmenu = preMenuService.get(pId);
 					menu.setMenulevel(pmenu.getMenulevel()+1);
+					menu.setKind(pmenu.getKind());
 				}else{
 					menu.setMenulevel(1);
 				}
 				PreMenu old = preMenuService.get(menu.getId());
 				menu.setCreatedAt(old.getCreatedAt());
 				menu.setParentId(pmenu);
-				menu.setKind(pmenu.getKind());
 				menu.setUpdatedAt(new Date());
 				preMenuService.update(menu);
 				//如果是将可用改为暂停,删除相应的关联关系
@@ -663,13 +663,19 @@ public class PreMenuController {
 	@ResponseBody
 	public void validate(HttpServletResponse response, String id) throws IOException{
 	    try {
-	        String msg = "";
-	        Boolean is_root = false;
-	        PreMenu preMenu = preMenuService.get(id);
-	        if (preMenu.getParentId() == null || "0".equals(preMenu.getParentId())) {
+  	        String msg = "";
+  	        Boolean is_root = false;
+  	        PreMenu preMenu = preMenuService.get(id);
+  	        
+  	        if ((preMenu.getParentId() == null || "0".equals(preMenu.getParentId())) && ("供应商后台".equals(preMenu.getName()) || "进口代理商后台".equals(preMenu.getName()) || "专家后台".equals(preMenu.getName()) || "采购管理后台".equals(preMenu.getName())) ) {
+              msg = "此根节点不允许修改或删除";
+              is_root = true;
+            }
+  	        
+  	        /*if (preMenu.getParentId() == null || "0".equals(preMenu.getParentId())) {
 	            msg = "根节点不允许修改或删除";
 	            is_root = true;
-            }
+            }*/
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().print("{\"is_root\": " + is_root + ", \"msg\": \"" + msg + "\"}");
             response.getWriter().flush();
