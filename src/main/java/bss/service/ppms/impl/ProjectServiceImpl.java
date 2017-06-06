@@ -760,5 +760,10 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
     }
+
+    @Override
+    public List<Project> selectByProject(HashMap<String, Object> map) {
+        return projectMapper.selectByProject(map);
+    }
     
   }

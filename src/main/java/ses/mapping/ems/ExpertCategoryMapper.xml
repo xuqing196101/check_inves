@@ -143,4 +143,17 @@
       and TYPE_ID = #{typeId}
     </if>
   </select>
+  
+  <!-- 根据TYPE_ID查询专家所属各类型数量：
+  	1、物资技术  2、工程技术 3、服务技术 4、物资服务经济 5、工程经济
+   -->
+   <select id="selectExpertCountByCategory" parameterType="java.lang.String" resultType="java.lang.Long">
+       SELECT COUNT(DISTINCT(T2.ID))
+			   	FROM T_SES_EMS_EXPERT T2
+			  	WHERE INSTR(T2.EXPERTS_TYPE_ID, #{typeId}) > 0
+			    AND (T2.STATUS = 4 OR T2.STATUS = 5 OR T2.STATUS = 6 OR T2.STATUS = 7 OR
+			         T2.STATUS = 8)
+			    AND T2.IS_PROVISIONAL = '0'
+			    AND T2.IS_DELETE = 0
+   </select>
 </mapper>

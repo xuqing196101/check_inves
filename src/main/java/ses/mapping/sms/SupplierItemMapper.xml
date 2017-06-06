@@ -333,4 +333,29 @@
 		WHERE
 			CATEGORY_ID = #{categoryId}
 	</select>
+	
+	<!-- 统计供应商类型数量 物资销售、物资生产、工程、服务 -->
+	<select id="findAnalyzeSupplierCateType" parameterType="String" resultType="java.lang.Long">
+	 	 	SELECT COUNT(DISTINCT(T.SUPPLIER_ID))
+			  FROM T_SES_SMS_SUPPLIER_ITEM T
+			  LEFT JOIN T_SES_SMS_SUPPLIER S
+			    ON T.SUPPLIER_ID = S.ID
+			 WHERE T.SUPPLIER_TYPE_RELATE_ID = #{cateType}
+			   AND (SUPPLIER_STATUS = 1
+			    OR SUPPLIER_STATUS = 4
+			    OR SUPPLIER_STATUS = 5
+			    OR SUPPLIER_STATUS = 6
+			    OR SUPPLIER_STATUS = 7
+			    OR SUPPLIER_STATUS = 8) AND IS_PROVISIONAL = '0'
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectSupByCateType" parameterType="Map">
+			SELECT DISTINCT (T.SUPPLIER_ID)
+			  FROM T_SES_SMS_SUPPLIER_ITEM T
+			  LEFT JOIN T_BSS_OB_SUPPLIER S
+			    ON T.SUPPLIER_ID = S.ID
+			 WHERE T.SUPPLIER_TYPE_RELATE_ID = 'PROJECT'
+	</select>
+
 </mapper>

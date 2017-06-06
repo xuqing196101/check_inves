@@ -57,7 +57,12 @@
 				if('${judge}' == 2) {
 					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
 				} else {
-					var action = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html";
+					var action;
+					if('${reqType}' == 'analyze'){
+						action = "${pageContext.request.contextPath}/supplierQuery/readOnlyList.html";
+					}else{
+						action = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html";
+					}
 					$("#form_back").attr("action", action);
 					$("#form_back").submit();
 				};

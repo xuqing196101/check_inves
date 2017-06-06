@@ -270,18 +270,21 @@
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
                 $("#ajax_orgId").html("");
+                $("#tempOrg").hide();
 				$("#oId").attr("type","text");
 			} else if (orgType =='5'|| orgType == '4' ) {
 			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
                 $("#ajax_orgId").html("");
+                $("#tempOrg").show();
 			   $("#oId").attr("type","hidden");
 			}else{
 			  $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").show();
                 $("#ajax_orgId").html("");
+                $("#tempOrg").hide();
 				$("#oId").attr("type","hidden");
 			}
 		}
@@ -347,6 +350,7 @@
 		}
 		
 		$(document).ready(function(){  
+		  viewOrgType();
     		$("#form1").bind("submit", function(){  
     			var error = 0;
     			if (ajaxIdNumber() == 1) {
@@ -550,7 +554,7 @@
 			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">
 					  <c:if test="${ user.typeName == '5' }">
-					    <span class="red display-none" id="isOrgShow">*</span><span id="orgTitle">监管对象2</span>
+					    <span class="red display-none" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
 					  </c:if>
 					    <c:if test="${user.typeName == '4' }">
 					   <span class="red display-none" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
@@ -589,6 +593,13 @@
 							 <div id="ajax_orgId" class="cue">${ajax_orgId }</div>
 						</div>
 			 		</li>
+			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="tempOrg">
+	                    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">单位</span>
+	                    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+	                        <input  name="tempOrgName" value="${user.orgName}" maxlength="400" type="text">
+	                        <span class="add-on">i</span>
+	                    </div>
+                    </li> 
 					<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3 ">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>角色</span>
 					    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">

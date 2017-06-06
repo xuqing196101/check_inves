@@ -1,0 +1,230 @@
+package dss.service.rids;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import ses.model.bms.Analyze;
+import ses.model.bms.AnalyzeBigDecimal;
+import ses.model.bms.DictionaryData;
+
+/**
+ * 
+ * Description:采购资源展示统计接口
+ * 
+ * @author Easong
+ * @version 2017年5月23日
+ * @since JDK1.7
+ */
+public interface PurchaseResourceAnalyzeService {
+
+	/**
+	 * 
+	 * Description:统计供应商类型数量 物资销售、物资生产、工程、服务
+	 * 
+	 * @author Easong
+	 * @version 2017年5月23日
+	 * @return
+	 */
+	public List<Analyze> findAnalyzeSupplierCateType();
+	
+	/**
+	 * 
+	 * Description:统计供应商企业类型   国企、其他
+	 * 
+	 * @author Easong
+	 * @version 2017年5月23日
+	 * @return
+	 */
+	public List<Analyze> findanalyzeSupplierByNature();
+	
+	/**
+	 * 
+	 * Description: 获取供应商企业类型
+	 * 
+	 * @author Easong
+	 * @version 2017年6月1日
+	 * @return
+	 */
+	public List<DictionaryData> findSupbusinessNature();
+	
+	/**
+	 * 
+	 * Description:统计不同组织机构下的供应商
+	 * 
+	 * @author Easong
+	 * @version 2017年5月27日
+	 * @return
+	 */
+	public List<Analyze> selectSupByOrg();
+	
+	/**
+	 * 
+	 * Description: 查询地区下所对应的专家
+	 * 
+	 * @author Easong
+	 * @version 2017年5月27日
+	 * @return
+	 */
+	public List<Analyze> selectExpertsByArea();
+	
+	/**
+	 * 
+	 * Description: 根据TYPE_ID查询专家所属各类型数量：
+  	 * 1、物资技术  2、工程技术 3、服务技术 4、物资服务经济 5、工程经济
+	 * 
+	 * @author Easong
+	 * @version 2017年5月31日
+	 * @return
+	 */
+	public List<Analyze> selectExpertCountByCategory();
+	
+	/**
+	 * 
+	 * Description: 查询军地专家数量  分为：军队、地方
+	 * 
+	 * @author Easong
+	 * @version 2017年5月31日
+	 * @return
+	 */
+	public List<Analyze> selectExpertsCountByArmyType();
+	
+	/**
+	 * 
+	 * Description:统计不同组织机构下的专家
+	 * 
+	 * @author Easong
+	 * @version 2017年5月31日
+	 * @return
+	 */
+	public List<Analyze> selectExpByOrg();
+	
+	/**
+	 * 
+	 * Description:查询各个省采购机构 分布
+	 * 
+	 * @author Easong
+	 * @version 2017年5月31日
+	 * @return
+	 */
+	public List<Analyze> selectOrgsByArea();
+	
+	/**
+	 * 
+	 * Description: 查询机构下的人员
+	 * 
+	 * @author Easong
+	 * @version 2017年5月31日
+	 * @return
+	 */
+	public List<Analyze> selectMemNumByOrg();
+	
+	/**
+	 * 
+	 * Description: 查询人员类型
+	 * 
+	 * @author Easong
+	 * @version 2017年6月1日
+	 * @return
+	 */
+	public List<Analyze> selectMenberByType();
+	
+	/**
+	 * 
+	 * Description: 查询男女比例数量
+	 * 
+	 * @author Easong
+	 * @version 2017年6月1日
+	 * @return
+	 */
+	public List<Analyze> selectMenberByGender();
+	
+	/**
+	 * 
+	 * Description: 查询专家所属类别
+	 * 
+	 * @author Easong
+	 * @version 2017年6月2日
+	 * @return
+	 */
+	public List<DictionaryData> findExpertCateType();
+	
+	/**
+	 * 
+	 * Description: 查询入库专家数量
+	 * 
+	 * @author Easong
+	 * @version 2017年6月2日
+	 * @return
+	 */
+	public Long selectStoreExpertCount();
+	
+	/**
+	 * 
+	 * Description: 查询数据词典，根据不同类型
+	 * 
+	 * @author Easong
+	 * @version 2017年6月2日
+	 * @return
+	 */
+	public List<DictionaryData> findDict(String type);
+	
+	/**
+	 * 
+	 * Description: 查询采购人员总数量
+	 * 
+	 * @author Easong
+	 * @version 2017年6月2日
+	 * @return
+	 */
+	public Long selectMemberNum();
+	
+	/**
+	 * 
+	 * Description: 当年各采购机构受领任务总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月5日
+	 * @return
+	 */
+	public List<Analyze> selectNowYearOrgContractMoney();
+	
+	/**
+	 * 
+	 * Description: 当年各采购机构受领任务总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月5日
+	 * @return
+	 */
+	public List<Analyze> selectNowYearOrgAcceptTaskMoney();
+	
+	/**
+	 * 
+	 * Description:全网已完成采购项目总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月6日
+	 * @return
+	 */
+	public BigDecimal selectPurProjectTotalMoney();
+	
+	/**
+	 * 
+	 * Description: 五种采购方式项目
+	 * 
+	 * @author Easong
+	 * @version 2017年6月1日
+	 * @return
+	 */
+	public List<AnalyzeBigDecimal> selectPurProjectByWay();
+	
+	/**
+	 * 
+	 * Description:
+	 * 
+	 * @author Easong
+	 * @version 2017年6月6日
+	 * @return
+	 */
+	public List<AnalyzeBigDecimal> selectPurProjectCountAndMoney();
+}

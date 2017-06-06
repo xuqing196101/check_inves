@@ -68,6 +68,13 @@
 				<result column="ORGNAME" property="orgName" />
 				<result column="AUDITOR" property="auditor" />
     </resultMap>
+    
+    <!-- 统计Analyze关系映射 -->
+		<resultMap type="ses.model.bms.Analyze" id="baseAnalyze">
+			<result column="COL_NAME" property="name"/>
+			<result column="COL_VALUE" property="value"/>
+		</resultMap>
+    
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
         GENDER,
@@ -2137,6 +2144,9 @@ resultMap="BaseResultMap">
     <if test="orgName !=null and orgName !=''">
       AND org.SHORT_NAME like CONCAT(CONCAT('%', #{orgName}), '%')
     </if>
+    <if test="address != null and address !=''">
+        AND A.PARENT_ID = #{address}
+    </if>
     ORDER BY T1.CREATED_AT DESC
   </select>
 
@@ -2288,4 +2298,44 @@ resultMap="BaseResultMap">
 			IS_DELETE = 1
 		WHERE ID = #{id}
 	</update>
+	
+	<!-- 查询入库专家数量 -->
+	<select id="selectStoreExpertCount" resultType="java.lang.Long">
+		SELECT COUNT(T.ID)
+	    FROM T_SES_EMS_EXPERT T
+	  		WHERE (T.STATUS = 4 OR T.STATUS = 5 OR T.STATUS = 6 OR T.STATUS = 7 OR
+	         T.STATUS = 8)
+	     	AND T.IS_PROVISIONAL = '0'
+	     	AND T.IS_DELETE = 0
+	</select>
+	
+	<!-- 查询地区下所对应的专家 -->
+	<select id="selectExpertsByArea" resultMap="baseAnalyze">
+		SELECT REPLACE(SUBSTR(P.NAME, 0, 3),'省','') AS COL_NAME, COUNT(T.ID) AS COL_VALUE
+         FROM (SELECT A.ID, AREA.NAME
+                 FROM T_SES_BMS_AREA AREA
+                 LEFT JOIN T_SES_BMS_AREA A
+                   ON AREA.ID = A.PARENT_ID
+                WHERE AREA.PARENT_ID = '0') P
+         LEFT JOIN (SELECT T.ADDRESS, T.ID
+                      FROM T_SES_EMS_EXPERT T
+                     WHERE (T.STATUS = 4 OR T.STATUS = 5 OR T.STATUS = 6 OR
+                           T.STATUS = 7 OR T.STATUS = 8)
+                       AND T.IS_PROVISIONAL = '0'
+                       AND T.IS_DELETE = 0) T
+           ON P.ID = T.ADDRESS
+        GROUP BY P.NAME
+	</select>
+	
+	<!-- 查询军地专家数量  分为：军队、地方 -->
+	<select id="selectExpertsCountByArmyType" resultType="java.lang.Long" parameterType="java.lang.String">
+			SELECT COUNT(DISTINCT(ID))
+  			FROM T_SES_EMS_EXPERT T
+ 				WHERE T.EXPERTS_FROM = #{expertsFrom}
+ 				AND (T.STATUS = 4 OR T.STATUS = 5 OR T.STATUS = 6 OR
+             T.STATUS = 7 OR T.STATUS = 8)
+             AND T.IS_PROVISIONAL = '0'
+             AND T.IS_DELETE = 0
+	</select>
+	
 </mapper>

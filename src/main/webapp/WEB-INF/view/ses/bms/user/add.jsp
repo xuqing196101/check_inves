@@ -314,6 +314,8 @@
 			   $("#orgTitle").html("所属机构");
 			   $("#orgSel").show();
 				$("#oId").attr("type","hidden");
+				$("#select_org").show();
+				$("#tempOrg").hide();
 				/* $("#orgSel").hide();
 				$("#oId").attr("type","text"); */
 			} else if (  orgType == '5'||orgType == '4') {
@@ -321,11 +323,13 @@
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
 			   $("#oId").attr("type","hidden");
+			   $("#tempOrg").show();
 			}else{
 			    $("#isOrgShow").show();
 			    $("#orgTitle").html("所属机构");
 				$("#orgSel").show();
 				$("#oId").attr("type","hidden");
+				$("#tempOrg").hide();
 			}
 		 
 		}
@@ -399,6 +403,7 @@
 		}
 		
 		$(document).ready(function(){  
+		     viewOrgType();
     		$("#form1").bind("submit", function(){  
     			var error = 0;
     			if (ajaxIdNumber() == 1) {
@@ -427,7 +432,6 @@
 			}
 		}
 	function encrypt(){
-	alert("dd");
 		$("#password1").val(setPublicKey($("#password1").val()));
         $("#password2").val(setPublicKey($("#password2").val()));
 	}
@@ -645,6 +649,13 @@
 				        <div id="ajax_orgId" class="cue">${ajax_orgId }</div>
 			        </div>
 			 	</li>
+                 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="tempOrg">
+                    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">单位</span>
+                    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+                        <input  name="tempOrgName" value="${user.orgName}" maxlength="400" type="text">
+                        <span class="add-on">i</span>
+                    </div>
+                </li> 
 				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>角色</span>
 				    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">

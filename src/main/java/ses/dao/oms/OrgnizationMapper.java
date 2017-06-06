@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.Analyze;
+import ses.model.bms.AnalyzeVo;
 import ses.model.oms.Orgnization;
 public interface OrgnizationMapper {
 	
@@ -264,5 +266,65 @@ public interface OrgnizationMapper {
 	
 	
 	void insertOrg(Orgnization orgnization);
+	
+	/**
+	 * 
+	 * Description:查询不同组织机构下的供应商
+	 * 
+	 * @author Easong
+	 * @version 2017年5月27日
+	 * @return
+	 */
+	List<Analyze> selectSupByOrg();
+	
+	/**
+	 * 
+	 * Description:查询不同组织机构下的专家
+	 * 
+	 * @author Easong
+	 * @version 2017年5月31日
+	 * @return
+	 */
+	List<Analyze> selectExpByOrg();
+	
+	/**
+	 * 
+	 * Description: 查询各个省采购机构 分布
+	 * 
+	 * @author Easong
+	 * @version 2017年5月31日
+	 * @return
+	 */
+	List<Analyze> selectOrgsByArea();
+	
+	/**
+	 * 
+	 * Description:当年各采购机构受领任务总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月5日
+	 * @return
+	 */
+	List<Analyze> selectNowYearOrgContractMoney();
+	
+	/**
+	 * 
+	 * Description:当年各采购机构受领任务总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月5日
+	 * @return
+	 */
+	List<Analyze> selectNowYearOrgAcceptTaskMoney();
+	
+	/**
+	 * 
+	 * Description:各采购机构完成采购项目数量及总金额 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月6日
+	 * @return
+	 */
+	List<AnalyzeVo> selectPurProjectCountAndMoney();
 
 }

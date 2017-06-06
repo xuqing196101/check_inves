@@ -375,7 +375,12 @@ public class UserManageController extends BaseController{
 				}
 			}
 			user.setOrgId(null);
-			user.setOrgName(null);
+			//判断 临时 单位是否有输入 如果有那么赋值 orgName
+			if(StringUtils.isNotBlank(user.getTempOrgName())){
+				user.setOrgName(user.getTempOrgName());
+			}else{
+				user.setOrgName("");
+			}
 		}
 	
 		userService.save(user, currUser);
@@ -674,7 +679,12 @@ public class UserManageController extends BaseController{
 					}
 				}
 				u.setOrgId(null);
-				u.setOrgName(null);
+				//判断 临时 单位是否有输入 如果有那么赋值 orgName
+				if(StringUtils.isNotBlank(u.getTempOrgName())){
+					u.setOrgName(u.getTempOrgName());
+				}else{
+					u.setOrgName("");
+				}
 			}
 			userService.update(u);
 			

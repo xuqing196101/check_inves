@@ -84,10 +84,11 @@ public class PurchaseController extends BaseController{
 	 * @param model
 	 * @param purchaseInfo
 	 * @param page
+	 * @param reqType:请求类型
 	 * @return
 	 */
 	@RequestMapping("list")
-	public String list(Model model,@ModelAttribute PurchaseInfo purchaseInfo,Integer page){
+	public String list(Model model,@ModelAttribute PurchaseInfo purchaseInfo,Integer page, String reqType){
 		//每页显示十条
 		PageHelper.startPage(page == null ? 1 : page,CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -97,6 +98,17 @@ public class PurchaseController extends BaseController{
 		}
 		if(StringUtils.isNotBlank(purchaseInfo.getPurchaseDepName())){
 		    map.put("purchaseDepName", purchaseInfo.getPurchaseDepName());
+		}
+		if(StringUtils.isNotBlank(purchaseInfo.getPurchaseDepShortName())){
+		    map.put("purchaseDepShortName", purchaseInfo.getPurchaseDepShortName());
+		}
+		// 采购人员类型
+		if(StringUtils.isNotBlank(purchaseInfo.getPurcahserType())){
+		    map.put("purcahserType", purchaseInfo.getPurcahserType());
+		}
+		// 采购人员性别
+		if(StringUtils.isNotBlank(purchaseInfo.getGender())){
+			map.put("gender", purchaseInfo.getGender());
 		}
 		List<PurchaseInfo> purchaseList = purchaseServiceI.findPurchaseList(map);
 		model.addAttribute("purchaseList",purchaseList);

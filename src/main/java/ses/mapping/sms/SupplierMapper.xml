@@ -1290,6 +1290,9 @@
 	    <if test="businessNature != null and businessNature != ''">
 	      AND BUSINESS_NATURE =#{businessNature}
 	    </if>
+	    <if test="orgName != null and orgName != ''">
+	      AND ORG.SHORT_NAME = #{orgName}
+	    </if>
 	    <if test="status != null">
 	      <if test="status == 5">
 	        and IS_PROVISIONAL = '0'
@@ -1841,5 +1844,18 @@
 		and IS_DELETED=0 and    IS_PROVISIONAL=#{isProvisional}
 	</select>
 	
+	<!-- 根据企业类型不同统计入库供应商数量 -->
+	<select id="getSupplierCountByNature" resultType="java.lang.Long" parameterType="java.lang.String">
+       SELECT COUNT(ID)
+  			FROM T_SES_SMS_SUPPLIER
+ 				WHERE BUSINESS_NATURE = #{business_nature}
+	 				AND (SUPPLIER_STATUS = 1
+	      	OR SUPPLIER_STATUS = 4
+	      	OR SUPPLIER_STATUS = 5
+	      	OR SUPPLIER_STATUS = 6
+	      	OR SUPPLIER_STATUS = 7
+	      	OR SUPPLIER_STATUS = 8)
+		      AND IS_PROVISIONAL = '0' AND IS_DELETED = 0
+	</select>
 	
 </mapper>

@@ -36,6 +36,21 @@
     	<result column="POSITION" property="position"/>
 	</resultMap>
 	
+	<!-- 统计Analyze关系映射 -->
+	<resultMap type="ses.model.bms.Analyze" id="baseAnalyze">
+		<result column="COL_NAME" property="name"/>
+		<result column="COL_VALUE" property="value"/>
+	</resultMap>
+	<resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyzeBigDecimal">
+		<result column="COL_NAME" property="name"/>
+		<result column="COL_VALUE" property="value"/>
+	</resultMap>
+	<resultMap type="ses.model.bms.AnalyzeVo" id="baseAnalyzeVo">
+		<result column="COL_NAME" property="name"/>
+		<result column="COL_VALUE" property="money"/>
+		<result column="COL_COUNT" property="count"/>
+	</resultMap>
+	
 	<sql id="baseSearchSql">
 		ID,NAME,TYPE_NAME,ADDRESS,MOBILE,POST_CODE,ORG_CODE,TELEPHONE,AREA_ID,DETAIL_ADDR,FAX,
 		WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,NATURE,SHORT_NAME,PARENT_ID,PARENT_NAME,PROVINCE_ID,
@@ -1045,8 +1060,119 @@
 	  select o.* from T_SES_OMS_ORG o left join    T_SES_OMS_PURCHASE_DEP d on  o.id=d.org_id where d.IS_AUDIT_SUPPLIER=1 
 	</select>
 	
+	<!-- 查询不同组织机构下的供应商 -->
+	<select id="selectSupByOrg" resultMap="baseAnalyze">
+			SELECT O.SHORT_NAME AS COL_NAME, COUNT(S.ID) AS COL_VALUE
+		  FROM T_SES_OMS_ORG O
+		  LEFT JOIN T_SES_OMS_PURCHASE_DEP PD
+		    ON PD.ORG_ID = O.ID
+		  LEFT JOIN (SELECT S.ID,S.PROCUREMENT_DEP_ID
+		               FROM T_SES_SMS_SUPPLIER S
+		              WHERE (S.SUPPLIER_STATUS = 1 OR S.SUPPLIER_STATUS = 4 OR
+		                    S.SUPPLIER_STATUS = 5 OR S.SUPPLIER_STATUS = 6 OR
+		                    S.SUPPLIER_STATUS = 7 OR S.SUPPLIER_STATUS = 8)
+		                AND S.IS_PROVISIONAL = '0'
+		                AND S.IS_DELETED = 0) S
+		    ON S.PROCUREMENT_DEP_ID = PD."ID"
+		 WHERE O.TYPE_NAME = 1
+		   AND O.IS_DELETED = 0
+		   AND PD.IS_DELETED = 0
+		 GROUP BY O.SHORT_NAME
+	</select>
 	
+	<!-- 查询不同组织机构下的专家 -->
+	<select id="selectExpByOrg" resultMap="baseAnalyze">
+			 SELECT O.SHORT_NAME AS COL_NAME, COUNT(S.ID) AS COL_VALUE
+		    FROM T_SES_OMS_ORG O
+		    LEFT JOIN T_SES_OMS_PURCHASE_DEP PD
+		      ON PD.ORG_ID = O.ID
+		    LEFT JOIN (SELECT T.ID, T.PURCHASE_DEP_ID
+		                 FROM T_SES_EMS_EXPERT T
+		                WHERE (T.STATUS = 4 OR T.STATUS = 5 OR T.STATUS = 6 OR
+		                      T.STATUS = 7 OR T.STATUS = 8)
+		                  AND T.IS_PROVISIONAL = '0'
+		                  AND T.IS_DELETE = 0) S
+		      ON S.PURCHASE_DEP_ID = PD.ID
+		   WHERE O.TYPE_NAME = 1
+		     AND O.IS_DELETED = 0
+		     AND PD.IS_DELETED = 0
+		   GROUP BY O.SHORT_NAME
+	</select>
 	
+	<!-- 查询各个省采购机构分布-->
+	<select id="selectOrgsByArea" resultMap="baseAnalyze">
+		SELECT REPLACE(SUBSTR(A.NAME, 0, 3), '省', '') AS COL_NAME,
+       		COUNT(O.ID) AS COL_VALUE
+				  FROM T_SES_BMS_AREA A
+				  LEFT JOIN (SELECT ID, PROVINCE_ID
+				               FROM T_SES_OMS_ORG T
+				              WHERE T.IS_DELETED = 0
+				                AND T.TYPE_NAME = 1) O
+				    ON A.ID = O.PROVINCE_ID
+				 WHERE A.PARENT_ID = '0'
+				   AND A.IS_DELETED = 0
+				 GROUP BY A.NAME
+	</select>
 	
+	<!-- 查询当前各采购机构下合同金额 -->
+	<select id="selectNowYearOrgContractMoney" resultMap="baseAnalyzeBigDecimal">
+		   SELECT ORG.SHORT_NAME AS COL_NAME, NVL(SUM(PC.MONEY), 0) AS COL_VALUE
+				   FROM T_SES_OMS_ORG ORG
+				   LEFT JOIN (SELECT T.PURCHASE_DEP_NAME, T.MONEY
+				                FROM T_BSS_CS_PURCHASE_CONTRACT T
+				               WHERE T.STATUS = 2
+				                 AND T.IS_DELETED = 0
+				                 AND T.YEAR = TO_CHAR(SYSDATE, 'yyyy')) PC
+				     ON ORG.ID = PC.PURCHASE_DEP_NAME
+				  WHERE ORG.TYPE_NAME = 1
+				    AND ORG.IS_DELETED = 0
+				  GROUP BY ORG.SHORT_NAME
+				  ORDER BY COL_VALUE DESC
+	</select>
+	
+	<!-- 查询当前各采购机构受领任务总金额 -->
+	<select id="selectNowYearOrgAcceptTaskMoney" resultMap="baseAnalyzeBigDecimal">
+		SELECT ORG.SHORT_NAME AS COL_NAME, NVL(SUM(P.BUDGET), 0) AS COL_VALUE
+			  FROM T_SES_OMS_ORG ORG
+			  LEFT JOIN (SELECT COLLECT_ID, PURCHASE_ID
+			               FROM T_BSS_PPMS_TASK T
+			              WHERE T.STATUS = 1
+			                AND T.IS_DELETED = 0
+			                AND TO_CHAR(T.ACCEPT_TIME, 'yyyy') =
+			                    TO_CHAR(SYSDATE, 'yyyy')) PT
+			    ON ORG.ID = PT.PURCHASE_ID
+			  LEFT JOIN T_BSS_PMS_COLLECT_PLAN P
+			    ON PT.COLLECT_ID = P.ID
+			 WHERE ORG.TYPE_NAME = 1
+			   AND ORG.IS_DELETED = 0
+			 GROUP BY ORG.SHORT_NAME
+			 ORDER BY COL_VALUE DESC	
+	</select>
+	
+	<!-- 各采购机构完成采购项目数量及总金额 -->
+	<select id="selectPurProjectCountAndMoney" resultMap="baseAnalyzeVo">
+		SELECT COL_NAME, COL_VALUE, COL_COUNT
+		  FROM (SELECT ORG.SHORT_NAME AS COL_NAME,
+		               NVL(SUM(T.MONEY), 0) AS COL_VALUE,
+		               COUNT(DISTINCT(T.PROJECT_ID)) AS COL_COUNT
+		          FROM T_SES_OMS_ORG ORG
+		          LEFT JOIN (SELECT CP.PROJECT_ID,
+		                           PC.MANUAL_TYPE,
+		                           PC.MONEY,
+		                           PC.PURCHASE_DEP_NAME
+		                      FROM (SELECT T.PROJECT_ID, T.CONTRACT_ID
+		                              FROM T_BSS_PPMS_SUPPLIER_CHECK_PASS T
+		                             WHERE T.IS_WON_BID = 1
+		                             GROUP BY T.PROJECT_ID, T.CONTRACT_ID) CP
+		                      LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT PC
+		                        ON CP.CONTRACT_ID = PC.ID
+		                     WHERE PC.MANUAL_TYPE = 0) T
+		            ON T.PURCHASE_DEP_NAME = ORG.ID
+		         WHERE ORG.TYPE_NAME = 1
+		           AND ORG.IS_DELETED = 0
+		         GROUP BY ORG.SHORT_NAME
+		         ORDER BY COL_VALUE DESC) T
+		 WHERE ROWNUM  &lt;= 10
+	</select>
 	
 </mapper>

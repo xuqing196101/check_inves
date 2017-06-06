@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.oms.PurchaseInfoMapper">
-	 <!-- 根据条件查部 采购机构-->
+	<!-- 统计Analyze关系映射 -->
+	<resultMap type="ses.model.bms.Analyze" id="baseAnalyze">
+		<result column="COL_NAME" property="name"/>
+		<result column="COL_VALUE" property="value"/>
+	</resultMap>
+	<!-- 根据条件查部 采购机构-->
 	<select id="findPurchaseList" parameterType="java.util.Map" resultType="ses.model.oms.PurchaseInfo">
 			   select d.id  as id,
 		       u.GENDER       as gender,
@@ -68,7 +73,18 @@
 		<!-- 根据用户ID查询 -->
 		<if test="userId != null and '' != userId">
 			and u.ID= #{userId}
-		</if> 
+		</if>
+		<!-- 根据人员类型查询 -->
+		<if test="purcahserType != null and '' != purcahserType">
+			AND d.PURCAHSER_TYPE= #{purcahserType}
+		</if>
+		<!-- 根据人员性别查询 -->
+		<if test="gender != null and '' != gender">
+			AND u.GENDER = #{gender}
+		</if>
+		<if test="purchaseDepShortName != null and '' != purchaseDepShortName">
+			AND o.SHORT_NAME = #{purchaseDepShortName}
+		</if>
 		ORDER BY d.CREATED_AT DESC  
 	</select>
 	
@@ -258,5 +274,44 @@
 	  FROM T_SES_OMS_PURCHASER
 	  WHERE PURCHASE_DEP_ID = #{orgId}
 	  AND IS_DELETED=0
+	</select>
+	
+	<!-- 查询各采购机构人员数量 -->
+	<select id="selectMemNumByOrg" resultMap="baseAnalyze">
+		SELECT O.SHORT_NAME AS COL_NAME, COUNT(P.ID) AS COL_VALUE
+			  FROM T_SES_OMS_ORG O
+			  LEFT JOIN (SELECT T.ID, T.PURCHASE_DEP_ID
+			               FROM T_SES_OMS_PURCHASER T
+			              WHERE T.IS_DELETED = 0) P
+			    ON P.PURCHASE_DEP_ID = O.ID
+			 WHERE O.TYPE_NAME = 1
+			   AND O.IS_DELETED = 0
+			 GROUP BY O.SHORT_NAME
+	</select>
+	
+	<!-- 各类型人员数量 -->
+	<select id="selectMenberByType" resultType="java.lang.Long" parameterType="java.lang.Integer">
+		SELECT COUNT(T.ID)
+   		FROM T_SES_OMS_PURCHASER T
+  		WHERE T.PURCAHSER_TYPE = #{purcahserType}
+  		AND T.IS_DELETED = 0
+	</select>
+	
+	<!-- 查询男女比例数量 -->
+	<select id="selectMenberByGender" parameterType="java.lang.String" resultType="java.lang.Long">
+		  SELECT COUNT(U.ID)
+		    FROM T_SES_OMS_PURCHASER T
+		    LEFT JOIN T_SES_BMS_USER U
+		      ON T.USER_ID = U.ID
+		   WHERE U.GENDER = #{typeId}
+		     AND T.IS_DELETED = 0
+		     AND U.IS_DELETED = 0
+	</select>
+	
+	<!-- 查询采购人员总数量 -->
+	<select id="selectMemberNum" resultType="java.lang.Long">
+		SELECT COUNT(T.ID) 
+			FROM T_SES_OMS_PURCHASER T 
+			WHERE T.IS_DELETED = 0
 	</select>
 </mapper>

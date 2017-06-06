@@ -309,12 +309,18 @@
 						</table>
 					</ul>
 					<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
-						<c:if test="${sign == 1}">
-							<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expert/findAllExpert.html">返回列表</a>
+						<c:if test="${ empty reqType }">
+							<c:if test="${sign == 1}">
+								<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expert/findAllExpert.html">返回列表</a>
+							</c:if>
+							<c:if test="${sign == 2}">
+								<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/list.html">返回列表</a>
+							</c:if>
 						</c:if>
-						<c:if test="${sign == 2}">
-							<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/list.html">返回列表</a>
+						<c:if test="${not empty reqType }">
+								<a class="btn btn-windows reset" onclick="history.go(-1)">返回列表</a>
 						</c:if>
+						
 					</div>
 				</div>
 			</div>

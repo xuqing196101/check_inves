@@ -505,4 +505,15 @@ public interface SupplierMapper {
     
     List<Supplier> getCreditCode(@Param("creditCode")String creditCode,@Param("isProvisional")Integer isProvisional);
     
+    /**
+     * 
+     * Description:根据企业类型不同统计入库供应商数量
+     * 
+     * @author Easong
+     * @version 2017年5月24日
+     * @param business_nature
+     * @return
+     */
+    Long getSupplierCountByNature(@Param("business_nature") String business_nature);
+    
 }

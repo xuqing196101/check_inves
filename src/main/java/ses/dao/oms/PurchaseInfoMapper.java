@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.Analyze;
 import ses.model.oms.PurchaseInfo;
 
 public interface PurchaseInfoMapper {
@@ -45,4 +46,46 @@ public interface PurchaseInfoMapper {
 	 * @param id 主键
 	 */
 	void busDelPurchase(@Param("id")String id);
+	
+	/**
+	 * 
+	 * Description: 查询各采购机构人员数量
+	 * 
+	 * @author Easong
+	 * @version 2017年5月31日
+	 * @return
+	 */
+	List<Analyze> selectMemNumByOrg();
+	
+	/**
+	 * 
+	 * Description: 各类型人员数量
+	 * 
+	 * @author Easong
+	 * @version 2017年6月1日
+	 * @param purcahserType
+	 * @return
+	 */
+	Long selectMenberByType(@Param("purcahserType") Integer purcahserType);
+	
+	/**
+	 * 
+	 * Description: 查询男女比例数量
+	 * 
+	 * @author Easong
+	 * @version 2017年6月1日
+	 * @param typeId
+	 * @return
+	 */
+	Long selectMenberByGender(@Param("typeId") String typeId);
+	
+	/**
+	 * 
+	 * Description: 查询采购人员总数量
+	 * 
+	 * @author Easong
+	 * @version 2017年6月2日
+	 * @return
+	 */
+	Long selectMemberNum();
 }
