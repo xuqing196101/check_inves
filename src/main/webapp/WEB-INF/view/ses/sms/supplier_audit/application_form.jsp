@@ -11,7 +11,7 @@
 		    $("li").each(function() {
 		      $(this).find("p").hide();
 		    });
-		    
+
 		    $("li").find("span").each(function() {
 		      	var onMouseMove = "this.style.background='#E8E8E8'";
 						var onmouseout = "this.style.background='#FFFFFF'";
@@ -19,14 +19,14 @@
 		       $(this).attr("onmouseout",onmouseout);
 		    });
 		  });
-		
-		
+
+
 			function reason1(ele,auditField){
 			  var supplierId=$("#supplierId").val();
 			  var auditFieldName = $(ele).parents("li").find("span").text().replace("：","");//审批的字段名字
 			  var index = layer.prompt({
-				  title: '请填写不通过的理由：', 
-				  formType: 2, 
+				  title: '请填写不通过的理由：',
+				  formType: 2,
 				  offset: '100px',
 				  maxlength: '100'
 			  },
@@ -50,7 +50,7 @@
 			     });
 				  /* $(ele).parent("li").find("div").eq(1).show(); //显示叉
 				     layer.close(index); */
-				         
+
 					   $(ele).parents("li").find("p").show(); //显示叉
 				     layer.close(index);
 			     }else{
@@ -58,30 +58,30 @@
 		      	}
 		    });
 		  }
-			
+
 			//下一步
 			function nextStep(){
 			  var action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
 			}
-		
+
 			//上一步
 			function lastStep(){
 			  var action = "${pageContext.request.contextPath}/supplierAudit/contract.html";
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
 			}
-			
-		
+
+
 		  //文件下載
 		  function downloadFile(fileName) {
 		    $("input[name='fileName']").val(fileName);
 		    $("#download_form_id").submit();
 		  }
-		  
+
 		  //删除左右两端的空格
-			function trim(str){ 
+			function trim(str){
 				return str.replace(/(^\s*)|(\s*$)/g, "");
 			}
 		</script>
@@ -154,32 +154,32 @@
     <body>
     <!--面包屑导航开始-->
     <div class="margin-top-10 breadcrumbs ">
-	    <div class="container">
-	      <ul class="breadcrumb margin-left-0">
-					<li>
-						<a> 首页</a>
-					</li>
-					<li>
-						<a>支撑环境</a>
-					</li>
-					<li>
-						<a>供应商管理</a>
-					</li>
-					<li>
-						<c:if test="${sign == 1}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1" >供应商审核</a>
-						</c:if>
-						<c:if test="${sign == 2}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2">供应商复核</a>
-						</c:if>
-						<c:if test="${sign == 3}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3">供应商实地考察</a>
-						</c:if>
-					</li>
-				</ul>
-	    </div>
-    </div> 
-      <div class="container container_box">
+        <div class="container">
+            <ul class="breadcrumb margin-left-0">
+                <li>
+                    <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+                </li>
+                <li>
+                    <a>支撑环境</a>
+                </li>
+                <li>
+                    <a>供应商管理</a>
+                </li>
+                <li>
+                    <c:if test="${sign == 1}">
+                        <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1')">供应商审核</a>
+                    </c:if>
+                    <c:if test="${sign == 2}">
+                        <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2')">供应商复核</a>
+                    </c:if>
+                    <c:if test="${sign == 3}">
+                        <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3')">供应商实地考察</a>
+                    </c:if>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container container_box">
         <div class="content ">
           <div class="col-md-12 tab-v2 job-content">
 	          <ul class="flow_step">
@@ -189,7 +189,7 @@
 		          </li>
 		          <li onclick = "jump('financial')">
 		            <a aria-expanded="true" href="#tab-2">财务信息</a>
-		            <i></i>                            
+		            <i></i>
 		          </li>
 		          <li onclick = "jump('shareholder')" >
 		            <a aria-expanded="false" href="#tab-3">股东信息</a>
@@ -244,13 +244,13 @@
 		            <a aria-expanded="false" href="#tab-4" >审核汇总</a>
 		          </li>
 		        </ul>
-            
+
             <form id="form_id" action="" method="post" >
                 <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                 <input name="supplierStatus" value="${supplierStatus}" type="hidden">
                 <input type="hidden" name="sign" value="${sign}">
             </form>
-            
+
             <ul class="count_flow ul_list hand">
               <%-- <li class="col-md-3 margin-0 padding-0 ">
                 <span class="" onclick="reason1(this,'supplierLevel');" >军队供应商分级方法：</span>
@@ -269,7 +269,7 @@
 	              <span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierPledge)}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-5 padding-left-5" onclick="reason1(this,'supplierPledge');" >供应商承诺书：</span>
 	                <u:show showId="pledge_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}"/>
 	                <p><img style="padding-left: 80px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
-	                
+
 	                <c:if test="${fn:contains(passedField,'supplierPledge')}">
 										<img style="padding-left: 80px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 									</c:if>
@@ -302,7 +302,7 @@
 	           <a class="btn"  type="button" onclick="nextStep();">下一步</a>
 	         </div>
          </div>
-       </div> 
+       </div>
      <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
        <input type="hidden" name="fileName" />
      </form>

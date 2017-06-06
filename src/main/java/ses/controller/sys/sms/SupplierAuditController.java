@@ -2080,7 +2080,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 *〈简述〉获取供应商的企业类型
 	 *〈详细描述〉
 	 * @author myc
-	 * @param list
+	 * @param pageInfo
 	 * @return
 	 */
 	private PageInfo < Supplier > getSupplierType(PageInfo < Supplier > pageInfo) {
