@@ -969,7 +969,7 @@
                         class="red">*</i> 出生日期</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'出生日期')}"> style="border: 1px solid #ef0000;" onmouseover="errorMsg('出生日期')"</c:if>
-								readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd' />" name="birthday" onblur="notNull('birthday')" id="birthday" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',startDate:'1970-01-01'})"/>
+								readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd' />" name="birthday" onblur="notNull('birthday')" id="birthday" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_birthday').innerHTML = '';},dateFmt:'yyyy-MM-dd',startDate:'1970-01-01'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空，年龄不大于70周岁</span>
 								<div class="cue" id="err_msg_birthday"></div>
@@ -1259,7 +1259,7 @@
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'专业起始年月')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专业起始年月')"
 								</c:if>
-								value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" onblur="notNull('timeStartWork')" name="timeStartWork" id="timeStartWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+								value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" onblur="notNull('timeStartWork')" name="timeStartWork" id="timeStartWork" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_timeStartWork').innerHTML = '';},lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">如：2017-03</span>
 								<div class="cue" id="err_msg_timeStartWork"></div>
@@ -1312,7 +1312,7 @@
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"
 								</c:if>
-								value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" onblur="notNull('makeTechDate')" name="makeTechDate" id="makeTechDate" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span class="add-on">i</span> <span class="input-tip">如：2017-03</span>
+								value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" onblur="notNull('makeTechDate')" name="makeTechDate" id="makeTechDate" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_makeTechDate').innerHTML = '';},lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span class="add-on">i</span> <span class="input-tip">如：2017-03</span>
 								<div class="cue" id="err_msg_makeTechDate"></div>
 							</div>
 						</li>
