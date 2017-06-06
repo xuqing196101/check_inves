@@ -16,6 +16,7 @@
 	    <result column="SUPPLIER_NAME" property="supplierName"/>
 	    <result column="QUESTION" property="question"/>
 	    <result column="TECHNICAL_PARAMETERS" property="technicalParameters"/>
+	    <result column="SUPPLIER_ID" property="supplierId"/>
 	    <!-- 查询合同  -->
     <!-- <association column="CONTRACT_ID"  property="contract" select="bss.dao.cs.PurchaseContractMapper.selectContractByid" /> -->
   	</resultMap>
@@ -28,7 +29,7 @@
 	<!-- 表中所有列 -->
   	<sql id="Base_Column_List">
     	ID,CONTACT_NAME,ADDRESS,MOBILE,IS_AFTER_SUPPORT,CREATED_AT,UPDATED_AT,IS_DELETED,REQUIRED_ID,
-    	PROPOSER,PRO_MOBILE,SUPPLIER_NAME,QUESTION,TECHNICAL_PARAMETERS
+    	PROPOSER,PRO_MOBILE,SUPPLIER_NAME,QUESTION,TECHNICAL_PARAMETERS,SUPPLIER_ID
   	</sql>
   	
   	<select id="queryByList" resultMap="BaseResultMap">
@@ -71,7 +72,7 @@
       #{mobile}, #{isAfterSupport}, #{createdAt}, 
       #{updatedAt}, #{isDeleted}, #{requiredId}, 
       #{proposer}, #{proMobile}, #{supplierName}, 
-      #{question},#{technicalParameters})
+      #{question},#{technicalParameters},#{supplierId})
   </insert>
 	 
 	 <!-- 新增一条不为空记录 -->
@@ -120,6 +121,9 @@
 			<if test="technicalParameters != null">
 				TECHNICAL_PARAMETERS,
 			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -164,6 +168,9 @@
 			<if test="technicalParameters != null">
 				#{technicalParameters},
 			</if>
+			<if test="supplierId != null">
+				#{supplierId},
+			</if>
 		</trim>
   	</insert>
   	
@@ -182,7 +189,8 @@
       PRO_MOBILE = #{proMobile},
       SUPPLIER_NAME = #{supplierName},
       QUESTION = #{question},
-      TECHNICAL_PARAMETERS = #{technicalParameters}
+      TECHNICAL_PARAMETERS = #{technicalParameters},
+      SUPPLIER_ID = #{supplierId}
     where ID = #{id}
   </update>
   
@@ -228,6 +236,9 @@
       </if>
       <if test="technicalParameters != null">
         TECHNICAL_PARAMETERS = #{technicalParameters},
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID = #{supplierId},
       </if>
     </set>
     where ID = #{id}

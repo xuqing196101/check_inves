@@ -92,7 +92,7 @@ public class AfterSaleSerController extends BaseSupplierController{
      * @return
      */
     @RequestMapping(value="/list")
-    public String getAll(Model model, String code, String type, Integer page){
+    public String getAll(@CurrentUser User user, Model model, String code, String type, Integer page){
     	if(page==null){
             page=1;
         }
