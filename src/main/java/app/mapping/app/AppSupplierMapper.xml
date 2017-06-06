@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.dao.app.AppSupplierMapper">
+	<resultMap id="BaseResultMap" type="app.model.AppSupplier">
+		<id column="ID" property="supplierId" />
+		<result column="SUPPLIER_NAME" property="supplierName" />
+		<result column="SUPPLIER_STATUS" property="supplierStatus" />
+	</resultMap>
+	
+	<resultMap id="ExpertMap" type="app.model.AppSupplier">
+		<id column="ID" property="supplierId" />
+		<result column="REAL_NAME" property="supplierName" />
+		<result column="STATUS" property="supplierStatus" />
+	</resultMap>
+	
+	<!--查询供应商名录 -->
+	<select id="selectAppSupplierList" resultMap="BaseResultMap" parameterType="Map">
+	SELECT * FROM (
+		SELECT a1.*,rownum rn FROM (
+		SELECT ID,SUPPLIER_NAME,SUPPLIER_STATUS
+		FROM T_SES_SMS_SUPPLIER
+		WHERE SUPPLIER_STATUS in 
+		<foreach item="item" index="index" collection="statusArray" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		AND IS_PUBLISH = 1 AND IS_DELETED = 0 AND ROWNUM &lt;= #{end}
+		) a1
+	) WHERE rn &gt;= #{start}
+	</select>
+	
+	
+	<!-- 查询专家名录 -->
+	<select id="selectAppExpertList" resultMap="ExpertMap" parameterType="Map">
+	SELECT * FROM (
+		SELECT a.*,ROWNUM ROW_NUM FROM (
+		SELECT ID,REAL_NAME,STATUS
+		FROM T_SES_EMS_EXPERT
+		WHERE STATUS in 
+		<foreach item="item" index="index" collection="statusArray" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		AND IS_PUBLISH = 1 AND IS_DELETE = 0 ORDER BY STATUS ASC, CREATED_AT DESC) a
+		) b 
+	WHERE b.ROW_NUM between #{start} AND #{end}
+	</select>
+</mapper>

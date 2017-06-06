@@ -22,6 +22,20 @@ public class AppData {
 
 	// 首页公告信息
 	private List<Article> indexMsgList;
+	
+	//供应商名录
+	private List<AppSupplier> supplierList;
+	
+	//黑名单
+	private List<AppBlackList> blackList;
+	
+	public List<AppBlackList> getBlackList() {
+		return blackList;
+	}
+
+	public void setBlackList(List<AppBlackList> blackList) {
+		this.blackList = blackList;
+	}
 
 	public List<String> getImgUrl() {
 		return imgUrl;
@@ -39,4 +53,11 @@ public class AppData {
 		this.indexMsgList = indexMsgList;
 	}
 
+	public List<AppSupplier> getSupplierList() {
+		return supplierList;
+	}
+
+	public void setSupplierList(List<AppSupplier> supplierList) {
+		this.supplierList = supplierList;
+	}
 }

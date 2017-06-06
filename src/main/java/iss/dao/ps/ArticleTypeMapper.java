@@ -114,16 +114,4 @@ public interface ArticleTypeMapper {
        */
      List<ArticleType> selectShowNumByParId(String parentId);
      
-     /**
-      * 
-      * Description: app查询栏目类型
-      * 
-      * @author  zhang shubin
-      * @version  2017年6月1日 
-      * @param  @param id
-      * @param  @return 
-      * @return ArticleType 
-      * @exception
-      */
-     ArticleType selectTypeApp(String id);
 }
