@@ -990,6 +990,39 @@
 					$(this).attr('disabled',false);
 				}
 			});
+			// 控制5大类别的编辑性
+			$("input[type='checkbox'][name='chkItem_1']").attr('disabled',true);
+			$("input[type='checkbox'][name='chkItem_2']").attr('disabled',true);
+			$("input[type='checkbox'][name='chkItem_1']").each(function(){
+				/* if($(this).parent().css("color") == 'rgb(239, 0, 0)'){
+					$(this).attr('disabled',false);
+				} */
+				// 或者
+				var typeErrorField = '${typeErrorField}';
+				if(typeErrorField.indexOf($(this).val()) >= 0){
+					$(this).attr('disabled',false);
+					var thisText = $(this).parent().text().trim();
+					if(thisText == "工程技术"){
+						//控制有无执业资格下拉的可选与否
+						$("#mySelect").attr('disabled',false);
+					}
+				}
+			});
+			$("input[type='checkbox'][name='chkItem_2']").each(function(){
+				/* if($(this).parent().css("color") == 'rgb(239, 0, 0)'){
+					$(this).attr('disabled',false);
+				} */
+				// 或者
+				var typeErrorField = '${typeErrorField}';
+				if(typeErrorField.indexOf($(this).val()) >= 0){
+					$(this).attr('disabled',false);
+					var thisText = $(this).parent().text().trim();
+					if(thisText == "工程经济"){
+						//控制有无执业资格下拉的可选与否
+						$("#mySelect").attr('disabled',false);
+					}
+				}
+			});
 		}
 </script>
 </html>

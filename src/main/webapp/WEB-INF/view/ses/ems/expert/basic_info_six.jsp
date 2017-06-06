@@ -279,13 +279,12 @@
 	       			return true;
 	       		}
 	       	});
+	       	if(!bool){
+						layer.alert("以下节点：<br>"+notPassMsg+"审核未通过，需要修改！");
+						return;
+					}
 				}
 				
-				if(!bool){
-					layer.alert("以下节点：<br>"+notPassMsg+"审核未通过，需要修改！");
-					return;
-				}
-      
         var expertId = "${expert.id}";
         $.ajax({
           url: "${pageContext.request.contextPath}/expert/isHaveCategory.do",
