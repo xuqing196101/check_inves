@@ -209,6 +209,8 @@
 				});
 				if(flag) {
 					$("input[name='flag']").val(obj);
+					// 提交的时候表单域设置成可编辑
+					$("input[type='text'],select,textarea").attr('disabled',false);
 					$("#basic_info_form_id").submit();
 				} else {
 					layer.msg(msg, {
@@ -233,6 +235,8 @@
 //                    layer.msg('请输入正确的出资金额或股份数据格式(正整数)', {offset: '300px'});
 //                }else{
                     $("input[name='flag']").val("");
+                    // 提交的时候表单域设置成可编辑
+										$("input[type='text'],select,textarea").attr('disabled',false);
                     $.ajax({
                         url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
                         type: "post",
@@ -1048,7 +1052,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 企业性质</span>
 									<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-										<select required name="businessNature" id="nature_select_id" <c:if test="${fn:contains(audit,'businessNature')&&currSupplier.status==2}">change="this.selectedIndex=this.defaultIndex;"</c:if>   <c:if test="${fn:contains(audit,'businessNature')}">style="border: 1px solid red;" onmouseover="errorMsg('businessNature')"</c:if>>
+										<select required name="businessNature" id="nature_select_id" <c:if test="${fn:contains(audit,'businessNature')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>   <c:if test="${fn:contains(audit,'businessNature')}">style="border: 1px solid red;" onmouseover="errorMsg('businessNature')"</c:if>>
 											<c:forEach items="${nature }" var="obj">
 												<option value="${obj.id }" <c:if test="${obj.id eq currSupplier.businessNature}">selected="selected"</c:if>>${obj.name}</option>
 											</c:forEach>
@@ -2248,4 +2252,22 @@
             };
         }
     })*/
+</script>
+
+<script type="text/javascript">
+		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
+		var currSupplierSt = '${currSupplier.status}';
+		if(currSupplierSt == '2'){
+			$("input[type='text'],select,textarea").attr('disabled',true);
+			$("input[type='text'],select,textarea").each(function(){
+				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
+				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
+				if($(this).css("border") == '1px solid rgb(255, 0, 0)' || $(this).parents("td").css("border") == '1px solid rgb(255, 0, 0)'){
+					$(this).attr('disabled',false);
+				}
+			});
+			/* $("select").change(function(){
+				this.selectedIndex=this.defaultIndex;
+			}); */
+		}
 </script>

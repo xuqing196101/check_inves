@@ -143,6 +143,8 @@
 			}
 		});
 		$("#businessScope").val(areaIds);
+		// 提交的时候表单域设置成可编辑
+		$("input[type='text'],select,textarea").attr('disabled',false);
 		$.ajax({
 			url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
 			type : "post",
@@ -195,6 +197,8 @@
 			}
 		});
 		$("#businessScope").val(areaIds);
+		// 提交的时候表单域设置成可编辑
+		$("input[type='text'],select,textarea").attr('disabled',false);
 		$.ajax({
 					url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
 					type : "post",  
@@ -372,6 +376,8 @@
 				type: "post",
 				success: function(data) {
 					if (data == "1") {
+						// 提交的时候表单域设置成可编辑
+						$("input[type='text'],select,textarea").attr('disabled',false);
 						$("#save_pro_form_id").submit();
 						layer.close(index); 
 					} else {
@@ -382,6 +388,8 @@
 											},
 											function(index) {
 												$("input[name='old']").val("old");
+												// 提交的时候表单域设置成可编辑
+												$("input[type='text'],select,textarea").attr('disabled',false);
 												$("#save_pro_form_id").submit();
 												/* $.ajax({
 													url: "${pageContext.request.contextPath}/supplier/deleteOld.do",
@@ -546,6 +554,8 @@
 	/** 供应商保存专业生产信息 */
 	function savePro(jsp) {
 		$("input[name='jsp']").val(jsp);
+		// 提交的时候表单域设置成可编辑
+		$("input[type='text'],select,textarea").attr('disabled',false);
 		$("#save_pro_form_id").submit();
 	}
 
@@ -1638,15 +1648,15 @@
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200 fl">
-																	<c:if test="${(fn:contains(audit,certSell.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">  	<u:upload
+																	<c:if test="${(fn:contains(sellPageField,certSell.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">  	<u:upload
 																		singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 																		exts="${properties['file.picture.type']}"
 																		id="sale_up_${certSaleNumber}" multiple="true"
 																		businessId="${certSell.id}"
 																		typeId="${supplierDictionaryData.supplierSellCert}"
 																		sysKey="${sysKey}" auto="true" /></c:if>
-																<c:if test="${!fn:contains(audit,certSell.id)&&currSupplier.status==2}"> 	<u:show showId="sale_show_${certSaleNumber}" delete="false"    businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" /> </c:if>
-																<c:if test="${currSupplier.status==-1 ||fn:contains(audit,certSell.id)}"> 	<u:show showId="sale_show_${certSaleNumber}"     businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" /> </c:if>
+																<c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}"> 	<u:show showId="sale_show_${certSaleNumber}" delete="false"    businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" /> </c:if>
+																<c:if test="${currSupplier.status==-1 ||fn:contains(sellPageField,certSell.id)}"> 	<u:show showId="sale_show_${certSaleNumber}"     businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" /> </c:if>
 																
 																</div></td>
 														</tr>
@@ -2052,9 +2062,9 @@
 																	<c:set var="tempForShowOption" value="notgo"/>
 																</select>
 																<script type="text/javascript">
+																	var currSupplierSt = '${currSupplier.status}';
 																	$("select[title='cnjewfn']").each(function() {
-																		var $obj = $(this);
-																		$obj.combobox({
+																		var options = {
 																			panelHeight : 240,
 																			onSelect : function(record) {
 																				getAptLevelSelect(record);
@@ -2062,24 +2072,33 @@
 																			onChange : function() {
 																				getAptLevel($obj);
 																			},
-																		});
+																		};
+																		if(currSupplierSt == '2'){
+																			options.disabled = true;
+																		}
+																		var $obj = $(this);
+																		$obj.combobox(options);
 																	});
 																	$("select[title='cnjewfnGrade']").each(function() {
+																		var options = {
+																			onChange : function() {
+                                          //console.log($obj.combobox("getText"));
+                                          //tempSave();
+                                      },
+																		};
+																		if(currSupplierSt == '2'){
+																			options.disabled = true;
+																		}
 																		var $obj = $(this);
-																		$obj.combobox({
-                                                                            onChange : function() {
-                                                                                //console.log($obj.combobox("getText"));
-                                                                                //tempSave();
-                                                                            },
-																		});
+																		$obj.combobox(options);
 																	});
 																	var _obj${certAptNumber} = $("select[name='supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel']")
-                                                                    _obj${certAptNumber}.combobox({
-                                                                        /*onChange : function() {
-                                                                            var _text = _obj${certAptNumber}.combobox("getText");
-                                                                            $("input[name='supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel']").val(_text);
-                                                                        },*/
-                                                                    });
+                                   _obj${certAptNumber}.combobox({
+                                       /*onChange : function() {
+                                           var _text = _obj${certAptNumber}.combobox("getText");
+                                           $("input[name='supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel']").val(_text);
+                                       },*/
+                                   });
 																</script>
 															</td>
 															<td class="tc"
@@ -2095,8 +2114,15 @@
 															
 															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200 fl">
-                                                                    <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="eng_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" auto="true" />
-                                                                    <u:show showId="eng_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
+																	<c:if test="${(fn:contains(engPageField,aptitute.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">
+																		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="eng_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" auto="true" />
+																	</c:if>
+																	<c:if test="${!fn:contains(engPageField,aptitute.id)&&currSupplier.status==2 }">
+																		<u:show showId="eng_show_${certAptNumber}" delete="false" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
+																	</c:if>
+																	<c:if test="${currSupplier.status==-1 ||fn:contains(engPageField,aptitute.id)}">
+																		<u:show showId="eng_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
+																	</c:if>
 																</div></td>
 																
 																
@@ -2296,9 +2322,12 @@
 			$("input[type='text'],select,textarea").each(function(){
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
-				if($(this).css("border") == '1px solid rgb(239, 0, 0)' || $(this).parents("td").css("border") == '1px solid rgb(239, 0, 0)'){
+				if($(this).css("border") == '1px solid rgb(255, 0, 0)' || $(this).parents("td").css("border") == '1px solid rgb(255, 0, 0)'){
 					$(this).attr('disabled',false);
 				}
 			});
+			/* $("select").change(function(){
+				this.selectedIndex=this.defaultIndex;
+			}); */
 		}
 </script>
