@@ -3719,7 +3719,7 @@ public class ProjectController extends BaseController {
             page = 1;
         }
         PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-        List<Project> list = projectService.lists(map);
+        List<Project> list = projectService.selectByProject(map);
         if(list != null && list.size() > 0){
             for (int i = 0; i < list.size(); i++ ) {
                 try {

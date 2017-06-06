@@ -52,5 +52,15 @@ public interface ProjectMapper {
     
     List<Project> selectByDemand(HashMap<String,Object> map);
     
+    /**
+     * 
+     *〈资源管理查看已经完成的项目〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    List<Project> selectByProject(HashMap<String,Object> map);
+    
     int updatePurchaseDep(Project project);
 }
