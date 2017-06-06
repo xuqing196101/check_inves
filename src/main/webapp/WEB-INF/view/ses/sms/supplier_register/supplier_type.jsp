@@ -2075,6 +2075,9 @@
 																		};
 																		if(currSupplierSt == '2'){
 																			options.disabled = true;
+																			if($(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'){
+																				options.disabled = false;
+																			}
 																		}
 																		var $obj = $(this);
 																		$obj.combobox(options);
@@ -2088,6 +2091,9 @@
 																		};
 																		if(currSupplierSt == '2'){
 																			options.disabled = true;
+																			if($(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'){
+																				options.disabled = false;
+																			}
 																		}
 																		var $obj = $(this);
 																		$obj.combobox(options);
