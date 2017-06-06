@@ -6,6 +6,7 @@
   <head>
     <%@ include file="../../../common.jsp"%>
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+    <%@ include file="/WEB-INF/view/common/validate.jsp"%>
     <title>查看质检信息</title>
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
@@ -65,6 +66,11 @@
           }
         });
       }
+      
+      function update(){
+        $("#form1").validForm();
+        $("#form1").submit();
+      }
     </script>
 
   </head>
@@ -89,7 +95,7 @@
 
     <!-- 修改订列表开始-->
     <div class="container container_box">
-      <form action="${pageContext.request.contextPath}/pqinfo/update.html" method="post" enctype="multipart/form-data">
+      <form id="form1" action="${pageContext.request.contextPath}/pqinfo/update.html" method="post" enctype="multipart/form-data">
         <div>
           <h2 class="count_flow"><i>1</i>合同基本信息</h2>
           <ul class="ul_list">
@@ -224,7 +230,7 @@
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>详细情况：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea class="h130 col-md-12 col-sm-12 col-xs-12 " name="detail" title="不超过800个字" placeholder="不超过800个字">${pqinfo.detail}</textarea>
+                <textarea class="h130 col-md-12 col-sm-12 col-xs-12 " name="detail" maxlength="100" title="不超过100个字" placeholder="不超过100个字">${pqinfo.detail}</textarea>
               </div>
               <div class="clear red">${ERR_detail}</div>
             </li>
@@ -239,7 +245,7 @@
           </ul>
 
           <div class="col-md-12 col-sm-12 col-xs-12 tc mt20">
-            <button class="btn btn-windows save" type="submit">更新</button>
+            <button class="btn btn-windows save" type="button" onclick="update();">更新</button>
             <button class="btn btn-windows back" onclick="goback()" type="button">返回</button>
           </div>
         </div>

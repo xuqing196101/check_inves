@@ -5,6 +5,7 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en">
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
 <!--<![endif]-->
   <head>
     <jsp:include page="/WEB-INF/view/portal.jsp" />
@@ -47,7 +48,7 @@
     				type : "post",
     				data : {
     					loginName : $("#inputEmail").val(),
-    					password : $("#inputPassword").val(),
+    					password : setPublicKey($("#inputPassword").val()),
     					rqcode : $("#inputCode").val()
     				},
     				success : function(data) {

@@ -337,7 +337,7 @@
 			</div>
 			<div class="col-md-12 clear tc mt10">
 				<button class="btn btn-windows save" type="button" onclick="sub(1)">暂存</button>
-				<button class="btn btn-windows apply" type="button" onclick="sub(2)">发布</button>
+				<button class="btn btn-windows apply" type="button" onclick="sub(4)">添加</button>
 				<button class="btn btn-windows back" type="button"
 					onclick="window.location.href = '${pageContext.request.contextPath}/product/list.html'">返回</button>
 			</div>

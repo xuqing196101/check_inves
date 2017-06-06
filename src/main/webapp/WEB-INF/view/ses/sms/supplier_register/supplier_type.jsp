@@ -758,7 +758,7 @@
 			$("input").not(".validatebox-text").bind("blur", tempSave);
 			$("textarea").bind("blur", tempSave);
 			$("select").bind("change", tempSave);
-            $(".certTypeSelect").unbind("blur", tempSave);
+     	$(".certTypeSelect").unbind("blur", tempSave);
 			var pro = "${pro}";
 			var server = "${server}";
 			var sale = "${sale}";
@@ -789,13 +789,14 @@
 			var checkedArray = [];
 			var checkBoxAll = $("input[name='chkItem']");
 			var supplierId = "${currSupplier.id}";
-			$.ajax({
+			/* $.ajax({
 				url: "${pageContext.request.contextPath}/supplier/isPass.do",
 				data: {
 					"supplierId": supplierId,
-					 "stype":"SALES"
+					"stype":"SALES"
 				},
 				type: "post",
+				//async: false,// 同步
 				success: function(data) {
 					if (data == "1") {
 					} else {
@@ -807,7 +808,7 @@
 						});
 					}
 				}
-			});
+			}); */
 			
 			
 			if (arrays.length > 0) {
@@ -1245,6 +1246,7 @@
 						<span
 							<c:if test="${fn:contains(typePageField,obj.id)}">style="color: red;" onmouseover="errorMsg('${obj.id }','supplierType_page')"</c:if>><input
 							type="checkbox" name="chkItem" onclick="checks(this)"
+							<c:if test="${isSalePass=='0' and obj.code=='SALES'}">disabled="disabled"</c:if>
 							value="${obj.code}" /> ${obj.name }</span>
 					</c:forEach>
 					<c:forEach items="${supplieType }" var="obj">
@@ -1760,9 +1762,9 @@
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}" >
 													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>${area.name}</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<c:if test="${(fn:contains(engPageField,area.name)&&currSupplier.status==2) || currSupplier.status==-1}">  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" /></c:if>
+														<c:if test="${(fn:contains(engPageField,area.name)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" /></c:if>
 														<c:if test="${!fn:contains(engPageField,area.name)&&currSupplier.status==2}">  <u:show showId="area_show_${st.index+1}" delete="false" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
-														<c:if test="${currSupplier.status==-1 || fn:contains(engPageField,area.name)}">  <u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
+														<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,area.name)}">  <u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
 														<div class="cue">${area.errInfo}</div>
 													</div>
 												</li>
@@ -2278,11 +2280,25 @@
         var _$select = $("select[title='cnjewfnGrade']");
         $("#huoqu").bind('click',function () {
             console.log(_$select.combobox('getText'));
-        })
+        });
 //        _$select.combobox({
 //            onChange: function (n,o) {
 //                console.log(_$select.combobox('getText'));
 //            }
 //        });
-    })
+    });
+</script>
+<script type="text/javascript">
+		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
+		var currSupplierSt = '${currSupplier.status}';
+		if(currSupplierSt == '2'){
+			$("input[type='text'],select,textarea").attr('disabled',true);
+			$("input[type='text'],select,textarea").each(function(){
+				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
+				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
+				if($(this).css("border") == '1px solid rgb(239, 0, 0)' || $(this).parents("td").css("border") == '1px solid rgb(239, 0, 0)'){
+					$(this).attr('disabled',false);
+				}
+			});
+		}
 </script>

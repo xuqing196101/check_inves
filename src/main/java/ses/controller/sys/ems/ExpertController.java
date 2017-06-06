@@ -108,6 +108,7 @@ import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.LoginLogService;
 import common.service.UploadService;
+import common.utils.RSAEncrypt;
 @Controller
 @RequestMapping("/expert")
 public class ExpertController extends BaseController {
@@ -236,11 +237,12 @@ public class ExpertController extends BaseController {
      * @param expert
      * @param model
      * @return String
+     * @throws Exception 
      */
     @RequestMapping("/register")
     public String register(User user, HttpSession session, Model model,
                            HttpServletRequest request, @RequestParam String token2,
-                           RedirectAttributes attr, String expertsFrom) {
+                           RedirectAttributes attr, String expertsFrom) throws Exception {
         Object tokenValue = session.getAttribute("tokenSession");
         if(tokenValue != null && tokenValue.equals(token2)) {
             // 正常提交
@@ -249,6 +251,8 @@ public class ExpertController extends BaseController {
             String loginName = user.getLoginName();
 
             String password = user.getPassword();
+            password = RSAEncrypt.decryptPrivate(password) ;
+            user.setPassword(password);
             String regex = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
             Pattern p = Pattern.compile(regex);
             Pattern p2 = Pattern.compile("[\u4e00-\u9fa5]");

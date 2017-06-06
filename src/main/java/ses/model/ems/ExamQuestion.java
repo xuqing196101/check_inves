@@ -33,7 +33,7 @@ public class ExamQuestion{
     /**
      * @Fields kind :选择题分类(针对专家)
      */
-    private Integer kind;
+    private String kind;
     
     /**
      * @Fields createdAt :创建时间
@@ -102,15 +102,15 @@ public class ExamQuestion{
 		this.personType = personType;
 	}
 
-	public Integer getKind() {
-		return kind;
-	}
+	public String getKind() {
+        return kind;
+    }
 
-	public void setKind(Integer kind) {
-		this.kind = kind;
-	}
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
 
-	public Date getCreatedAt() {
+    public Date getCreatedAt() {
 		return createdAt;
 	}
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.dao.app.AppSupplierBlackListMapper">
+  <resultMap id="BaseResultMap" type="app.model.AppBlackList">
+    <result column="PUNISH_TYPE" property="punishType" />
+    <result column="SUPPLIER_NAME" property="name" />
+  </resultMap>
+  
+  <resultMap id="ExpertMap" type="app.model.AppBlackList">
+    <result column="PUNISH_TYPE" property="punishType" />
+    <result column="REL_NAME" property="name" />
+  </resultMap>
+  
+  <!-- 分页查询供应商黑名单列表 -->
+  <select id="findAppSupplierBlacklist" resultMap="BaseResultMap">
+    SELECT * FROM (
+      SELECT a.*,ROWNUM ROW_NUM FROM (
+        SELECT SUPPLIER_NAME,PUNISH_TYPE 
+        FROM T_SES_SMS_SUPPLIER_BLACKLIST
+        ORDER BY START_TIME DESC) a
+      ) b 
+    WHERE b.ROW_NUM between #{start} AND #{end}
+  </select>
+  
+  <!-- 分页查询专家黑名单列表 -->
+  <select id="findAppExpertBlacklist" resultMap="ExpertMap">
+    SELECT * FROM (
+      SELECT a.*,ROWNUM ROW_NUM FROM (
+        SELECT REL_NAME,PUNISH_TYPE
+        FROM T_SES_EMS_EXPERT_BLACKLIST
+        ORDER BY DATE_OF_PUNISHMENT DESC) a
+      ) b 
+    WHERE b.ROW_NUM between #{start} AND #{end}
+  </select>
+</mapper>

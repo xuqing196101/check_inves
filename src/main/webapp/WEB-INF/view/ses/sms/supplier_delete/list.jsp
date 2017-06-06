@@ -5,6 +5,8 @@
 
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/bms/user/initPWD.js"></script>
 		<title>供应商注销列表</title>
 		<script type="text/javascript">
 			$(function() {
@@ -67,7 +69,7 @@
 			//撤销
 			function cancellation() {
 				var ids = $(":radio:checked").val();
-				var state = $("#" + ids + "").parents("tr").find("td").eq(6).text();
+				var state = $("#" + ids + "").parents("tr").find("td").eq(7).text();
 				state = trim(state);
 				if(ids != null) {
 					if(state == "暂存" || state == "待审核" || state == "退回修改" || state=="临时"){
@@ -168,25 +170,6 @@
 					layer.msg("请选择供应商！",{offset: '100px'});
 				}
 			
-			}
-			
-			//重置密码
-			function resetPasswSubmit(){				
-				$.ajax({   
-	        type: "POST",  
-	        url: "${pageContext.request.contextPath}/user/setPassword.html",        
-	       	data : $('#form2').serializeArray(),
-	  			dataType:'json',
-			    success:function(result){
-			    	if(result == "重置密码成功" || result == "重置失败"){
-			    		layer.closeAll();
-			    	}
-			    	layer.msg(result,{offset: ['222px']});
-          },
-           error: function(result){
-           	 layer.msg("重置失败",{offset: ['222px']});
-         		}
-	    	 });
 			}
 			
 			//关闭重口
@@ -319,18 +302,18 @@
        	  <div class="col-md-6 col-sm-6 col-xs-12 pl15">
 	          <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>输入新密码：</label> 
 	          <div class="col-md-12 col-sm-12 col-xs-12 input-append input_group p0">
-	           	<input type="password" name="password" type="text">
+	           	<input type="password" name="password" id="password" maxlength="50">
 	          </div>
           </div>
           	<div class="col-md-6  col-sm-6 col-xs-12 ">
             	<label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>确认新密码：</label> 
             	<div class="col-md-12 col-sm-12 col-xs-12 input-append input_group p0">
-              	<input type="password" name="password2"  class="">
+              	<input type="password" name="password2"  id="password2" maxlength="50">
             	</div>
           	</div>
 				  </ul>
 	          <div class="tc col-md-12 col-sm-12 col-xs-12 mt10">
-	            <input class="btn" id="inputb" name="addr" onclick="resetPasswSubmit();" value="确定" type="button"> 
+	            <input class="btn" id="inputb" name="addr" onclick="supplierResetPasswSubmit();" value="确定" type="button"> 
 							<input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
 	        	</div>
 			    </div>

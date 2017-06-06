@@ -704,8 +704,6 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_basic")
 	public String perfectBasic(HttpServletRequest request, Model model, Supplier supplier) throws Exception {
-		
-		
 		// 非空处理
 	    List < SupplierAddress > addressList = supplier.getAddressList();
 	    for(int i = 0; i < addressList.size(); i++) {
@@ -855,6 +853,9 @@ public class SupplierController extends BaseSupplierController {
 	            	findList.add(q);
 	            }
 			model.addAttribute("typeList", findList);
+			// 物资销售是否满足条件
+			String isSalePass = isPass(supplier.getId(), "SALES");
+			model.addAttribute("isSalePass", isSalePass);
 			return "ses/sms/supplier_register/supplier_type";
 		} else {
 			Supplier supplier2 = supplierService.get(supplier.getId());
@@ -2058,7 +2059,7 @@ public class SupplierController extends BaseSupplierController {
     	Integer size=listSupplierAptitutes.size();
     	if(!count.equals(size)){
     		bool=false;
-    		 model.addAttribute("eng_aptitutes", "请上传文件！");
+    		model.addAttribute("eng_aptitutes", "请上传文件！");
     	}
     	
 		return bool;
@@ -3044,9 +3045,9 @@ public class SupplierController extends BaseSupplierController {
         BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
         List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
         if(stype!=null&&stype.trim().length()!=0){
-			 if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
+        	if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
                 return "0";
-	            }	
+            }	
 	   	}
         
         for (SupplierTypeRelate type : relate) {
