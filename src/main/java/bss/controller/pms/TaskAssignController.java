@@ -57,9 +57,6 @@ public class TaskAssignController extends BaseController{
 	private TaskService taskservice;
 	
 	@Autowired
-	private PurchaseRequiredService purchaseRequiredService;
-	
-	@Autowired
 	private CollectPurchaseService collectPurchaseService;
 	
 	@Autowired

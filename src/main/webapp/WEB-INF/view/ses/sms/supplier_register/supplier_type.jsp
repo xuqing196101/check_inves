@@ -789,13 +789,14 @@
 			var checkedArray = [];
 			var checkBoxAll = $("input[name='chkItem']");
 			var supplierId = "${currSupplier.id}";
-			$.ajax({
+			/* $.ajax({
 				url: "${pageContext.request.contextPath}/supplier/isPass.do",
 				data: {
 					"supplierId": supplierId,
-					 "stype":"SALES"
+					"stype":"SALES"
 				},
 				type: "post",
+				//async: false,// 同步
 				success: function(data) {
 					if (data == "1") {
 					} else {
@@ -807,7 +808,7 @@
 						});
 					}
 				}
-			});
+			}); */
 			
 			
 			if (arrays.length > 0) {
@@ -1245,6 +1246,7 @@
 						<span
 							<c:if test="${fn:contains(typePageField,obj.id)}">style="color: red;" onmouseover="errorMsg('${obj.id }','supplierType_page')"</c:if>><input
 							type="checkbox" name="chkItem" onclick="checks(this)"
+							<c:if test="${isSalePass=='0' and obj.code=='SALES'}">disabled="disabled"</c:if>
 							value="${obj.code}" /> ${obj.name }</span>
 					</c:forEach>
 					<c:forEach items="${supplieType }" var="obj">

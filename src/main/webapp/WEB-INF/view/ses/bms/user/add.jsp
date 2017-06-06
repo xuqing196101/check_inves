@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
 	<script type="text/javascript">
         //验证登陆用户名
@@ -425,6 +426,11 @@
 				$("#is_error").html("");
 			}
 		}
+	function encrypt(){
+	alert("dd");
+		$("#password1").val(setPublicKey($("#password1").val()));
+        $("#password2").val(setPublicKey($("#password2").val()));
+	}
 	</script>
 </head>
 <body>
@@ -476,7 +482,7 @@
 			 	 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			   		<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>密码</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input  name="password" value="${user.password}" maxlength="30" id="password1"  onblur="checkPassword()" type="password">
+				        <input  name="password"  maxlength="30" id="password1"  onblur="checkPassword()" type="password">
 				        <span class="add-on">i</span>
 				        <div class="cue"><sf:errors path="password"/></div>
 				        <div id="is_error" class="cue">${password_msg}</div>
@@ -485,7 +491,7 @@
 		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 col-lg-12"><span class="star_red">*</span>确认密码</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input  id="password2" value="${user.password2}" maxlength="30" name="password2" type="password">
+				        <input  id="password2"  maxlength="30" name="password2" type="password">
 				        <span class="add-on">i</span>
 				        <div class="cue"><sf:errors path="password2"/></div>
 				        <div class="cue">${password2_msg}</div>
@@ -659,7 +665,7 @@
 			   </ul>
 		   </div> 
 	       <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 tc mt20" >
-			   <button class="btn btn-windows save"  type="submit">保存</button>
+			   <button class="btn btn-windows save"  type="submit" onclick="encrypt()">保存</button>
 			   <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
        	   </div>
   	   </sf:form>
