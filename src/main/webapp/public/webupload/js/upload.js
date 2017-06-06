@@ -2,7 +2,7 @@
  * 文件上传插件
  * 
  */
-(function ($) { 
+(function ($) {
 	var  GUID = WebUploader.Base.guid();
 	var $wrap = $('#uploaderId');
 	$(function(){
