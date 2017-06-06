@@ -236,6 +236,9 @@
   	<if test="purchaseDepName != null and purchaseDepName != ''">
   		and PURCHASE_DEP_NAME IN (SELECT ID FROM T_SES_OMS_ORG WHERE NAME like  CONCAT(CONCAT('%', #{purchaseDepName}), '%'))
   	</if>
+  	<if test="purchaseDepShortName != null and purchaseDepShortName != ''">
+  		and PURCHASE_DEP_NAME IN (SELECT ID FROM T_SES_OMS_ORG WHERE NAME like  CONCAT(CONCAT('%', #{purchaseDepShortName}), '%'))
+  	</if>
   	<if test="demandSector != null and demandSector != ''">
   		and DEMAND_SECTOR like CONCAT(CONCAT('%', #{demandSector}), '%') 
   	</if>

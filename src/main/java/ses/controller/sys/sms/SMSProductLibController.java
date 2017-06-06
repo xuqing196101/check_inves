@@ -353,9 +353,7 @@ public class SMSProductLibController {
 		map.put("status", status);
 		String createrId = smsProductQueryVO.getCreaterId();
 		// 获取供应商ID 根据需求修改全部人 可以查询
-		/*
-		map.put("createrId", createrId);*/
-		
+		map.put("createrId", createrId);
 
 		map.put("page", page);
 		List<SMSProductBasic> list = smsProductLibService.findAllWaitCheck(map);

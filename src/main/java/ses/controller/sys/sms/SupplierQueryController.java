@@ -277,7 +277,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @throws UnsupportedEncodingException 异常处理
      */
     @RequestMapping("/findSupplierByPriovince")
-    public String findSupplierByPriovince(Integer judge, Integer sign, Supplier sup, Integer page, Model model, String supplierTypeIds, String supplierType, String categoryNames, String categoryIds) throws UnsupportedEncodingException{
+    public String findSupplierByPriovince(Integer judge, Integer sign, Supplier sup, Integer page, Model model, String supplierTypeIds, String supplierType, String categoryNames, String categoryIds, String reqType) throws UnsupportedEncodingException{
         /*if (judge != null) {
             sup.setStatus(judge);
         }*/
@@ -337,6 +337,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("supplierTypeIds", supplierTypeIds);
         model.addAttribute("categoryIds", categoryIds);
         model.addAttribute("judge", judge);
+        model.addAttribute("reqType", reqType);
         //judge等于5说明是入库供应商
         if ((judge != null && judge == NUMBER_FIVE) || (sign != null && sign == 2)) {
         	if(sign !=null && sign == 2){
@@ -425,7 +426,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/essential")
-    public String essentialInformation(HttpServletRequest request, Integer judge, Integer sign, Supplier supplier, String supplierId, Integer person, Model model) {
+    public String essentialInformation(HttpServletRequest request, Integer judge, Integer sign, Supplier supplier, String supplierId, Integer person, Model model, String reqType) {
         /*User user = (User) request.getSession().getAttribute("loginUser");
         Integer ps = (Integer) request.getSession().getAttribute("ps");
         if (user.getTypeId() != null && ps != null) {
@@ -519,6 +520,7 @@ public class SupplierQueryController extends BaseSupplierController {
         }*/
         model.addAttribute("judge", judge);
         model.addAttribute("sign", sign);
+        model.addAttribute("reqType", reqType);
         
        /* model.addAttribute("person", person);*/
         
@@ -1940,4 +1942,93 @@ public class SupplierQueryController extends BaseSupplierController {
     	model.addAttribute("sign", sign);
     	return "ses/sms/supplier_query/supplierInfo/temporary_supplier_info";
     }
+    
+   /**
+    * 
+    * Description: 入库供应商统计
+    * 
+    * @author Easong
+    * @version 2017年6月5日
+    * @param sup
+    * @param model
+    * @param status
+    * @param judge
+    * @param supplierTypeIds
+    * @param supplierType
+    * @param categoryNames
+    * @param categoryIds
+    * @return
+    */
+    @RequestMapping("/readOnlyList")
+	public String readOnlyList(Integer judge, Integer sign, Supplier sup,
+			Integer page, Model model, String supplierTypeIds,
+			String supplierType, String categoryNames, String categoryIds,
+			String reqType) throws UnsupportedEncodingException {
+		if (sup.getAddress() != null) {
+			model.addAttribute("address", sup.getAddress());
+			String address = supplierEditService.getProvince(sup.getAddress());
+			if ("".equals(address)) {
+				String addressName = URLDecoder.decode(sup.getAddress(),
+						"UTF-8");
+				if (addressName.length() > NUMBER_TWO) {
+					sup.setAddress(addressName.substring(0, NUMBER_THREE)
+							.replace(",", ""));
+					model.addAttribute("address", sup.getAddress());
+				} else {
+					sup.setAddress(addressName.substring(0, NUMBER_TWO)
+							.replace(",", ""));
+					model.addAttribute("address", sup.getAddress());
+				}
+			} else {
+				sup.setAddress(address);
+			}
+		}
+
+		if (categoryIds != null && !"".equals(categoryIds)) {
+			List<String> listCategoryIds = Arrays
+					.asList(categoryIds.split(","));
+			sup.setItem(listCategoryIds);
+		}
+		if (supplierTypeIds != null && !"".equals(supplierTypeIds)) {
+			List<String> listSupplierTypeIds = Arrays.asList(supplierTypeIds
+					.split(","));
+			sup.setItemType(listSupplierTypeIds);
+		}
+
+		// 地区
+		List<Area> privnce = areaService.findRootArea();
+		model.addAttribute("privnce", privnce);
+
+		// 在数据字典里查询企业性质
+		List<DictionaryData> businessNature = DictionaryDataUtil.find(32);
+		model.addAttribute("businessNature", businessNature);
+
+		List<Supplier> listSupplier = supplierAuditService
+				.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
+
+		// 企业性质
+		for (Supplier s : listSupplier) {
+			if (s.getBusinessNature() != null) {
+				for (int i = 0; i < businessNature.size(); i++) {
+					if (s.getBusinessNature().equals(
+							businessNature.get(i).getId())) {
+						String business = businessNature.get(i).getName();
+						s.setBusinessNature(business);
+					}
+				}
+			}
+		}
+
+		this.getSupplierType(listSupplier);
+		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+		model.addAttribute("supplier", sup);
+		model.addAttribute("categoryNames", categoryNames);
+		model.addAttribute("supplierType", supplierType);
+		model.addAttribute("supplierTypeIds", supplierTypeIds);
+		model.addAttribute("categoryIds", categoryIds);
+		model.addAttribute("judge", judge);
+		model.addAttribute("reqType", reqType);
+		return "dss/rids/list/supplierList";
+	}
+
 }

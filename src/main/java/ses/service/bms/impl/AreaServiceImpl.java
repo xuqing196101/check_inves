@@ -267,4 +267,18 @@ public class AreaServiceImpl implements AreaServiceI {
 		return areaMapper.findAreaByParentId(id);
 	}
 
+	/**
+	 * 
+	 * Description: 通过省名称模糊查询地区ID
+	 * 
+	 * @author Easong
+	 * @version 2017年6月1日
+	 * @param name
+	 * @return
+	 */
+	@Override
+	public String selectByName(String name) {
+		return areaMapper.selectByName(name);
+	}
+
 }

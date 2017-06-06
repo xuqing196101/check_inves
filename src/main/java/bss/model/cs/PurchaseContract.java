@@ -1,5 +1,6 @@
  package bss.model.cs;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -7,7 +8,12 @@ import java.util.List;
 import ses.model.sms.AfterSaleSer;
 import ses.model.sms.Supplier;
 
-public class PurchaseContract {
+public class PurchaseContract implements Serializable{
+	/**
+	 * PurchaseContract.java
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String id;
 	
 	private String code;//合同编号
@@ -39,6 +45,7 @@ public class PurchaseContract {
 	private Integer status;//状态
 
 	private String purchaseDepName;//甲方单位
+	private String purchaseDepShortName;//甲方单位简称
 
 	private String purchaseLegal;//甲方法人
 
@@ -722,6 +729,13 @@ public class PurchaseContract {
 	public void setFormalAt(Date formalAt) {
 		this.formalAt = formalAt;
 	}
-	
+
+	public String getPurchaseDepShortName() {
+		return purchaseDepShortName;
+	}
+
+	public void setPurchaseDepShortName(String purchaseDepShortName) {
+		this.purchaseDepShortName = purchaseDepShortName;
+	}
 	
 }

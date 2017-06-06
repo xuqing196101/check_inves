@@ -22,6 +22,7 @@ public class PurchaseInfo extends User{
 
     private String purchaseDepId;//采购机构id  save  orgId
     private String purchaseDepName;//采购机构名称
+    private String purchaseDepShortName; // 采购机构简称
 
     private String political;//政治面貌
 
@@ -70,6 +71,9 @@ public class PurchaseInfo extends User{
     private String userId;//用户id
     
     private Integer age;
+    
+    /** 采购人员性别 **/
+    private String gender;
 
     public String getId() {
         return id;
@@ -309,5 +313,21 @@ public class PurchaseInfo extends User{
 	public void setAge(Integer age) {
 		this.age = age;
 	}
-    
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getPurchaseDepShortName() {
+		return purchaseDepShortName;
+	}
+
+	public void setPurchaseDepShortName(String purchaseDepShortName) {
+		this.purchaseDepShortName = purchaseDepShortName;
+	}
+	
 }

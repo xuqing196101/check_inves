@@ -95,6 +95,8 @@ public class Expert extends ExpertHistory implements Serializable {
     private String avoidanceSituation;
     
     private String companyAddress;
+    /** 所属采购机构 **/
+    private String orgName;
     
     private List<ExpertTitle> titles=new ArrayList<ExpertTitle>();
     
@@ -315,9 +317,6 @@ public class Expert extends ExpertHistory implements Serializable {
     //用户名
     private String loginName;
     
-    // 采购机构
-    private String orgName;
-
     /**专家审核记录表*/
     private List<ExpertAudit> expertAuditList;
     /**工程执业资格历史表*/

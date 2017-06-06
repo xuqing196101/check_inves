@@ -344,6 +344,8 @@
   			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html" method="post">
 		    	<input type="hidden" name="page" id="page">
 		      <input type="hidden" name="judge" value="5">
+		      <input type="hidden" name="orgName" value="${ supplier.orgName }">
+		      <input type="hidden" name="reqType" value="${ reqType }">
 		      <c:if test="${sign != 2 }">
 		      	<input type="hidden" name="address" value="${address }">
 		      </c:if>
@@ -433,15 +435,20 @@
 		       </ul>
 		       <div class="col-md-12 clear tc mt10">
 	           <button type="button" onclick="submit()" class="btn">查询</button>
-	           <button type="button" class="btn" onclick="chongzhi()">重置</button> 
-	           <c:choose>
-				 			<c:when test="${sign == 2 }">
-					 				<button class="btn" type="button" onclick="fanhui();">切换到地图</button>
-				 			</c:when>
-				 			<c:otherwise>
-				 					<button class="btn btn-windows back" type="button" onclick="fanhui();">返回</button>
-				 			</c:otherwise>
-				 		</c:choose>
+	           <button type="button" class="btn" onclick="chongzhi()">重置</button>
+	           <c:if test="${ empty reqType }">
+		           <c:choose>
+						 			<c:when test="${sign == 2 }">
+							 				<button class="btn" type="button" onclick="fanhui();">切换到地图</button>
+						 			</c:when>
+						 			<c:otherwise>
+						 					<button class="btn btn-windows back" type="button" onclick="fanhui();">返回</button>
+						 			</c:otherwise>
+					 		</c:choose>
+	           </c:if> 
+	           <c:if test="${ not empty reqType }">
+	           	<a class="btn btn-windows reset" onclick="history.go(-1)">返回</a>
+	           </c:if> 
            </div>
            <div class="clear"></div>
 		     </form>

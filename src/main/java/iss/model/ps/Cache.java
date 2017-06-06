@@ -31,7 +31,7 @@ public class Cache {
 	/**
 	 * 缓存内容
 	 */
-	private String content;
+	private Object content;
 
 	private Date timeDate;
 	
@@ -77,13 +77,12 @@ public class Cache {
 		this.timeout = timeout;
 	}
 
-	public String getContent() {
+	public Object getContent() {
 		return content;
 	}
 
-	public void setContent(String content) {
+	public void setContent(Object content) {
 		this.content = content;
 	}
-	
 	
 }

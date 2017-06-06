@@ -3,6 +3,8 @@ package ses.dao.bms;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.Area;
 
 
@@ -85,5 +87,16 @@ public interface AreaMapper {
 	List<Area> findRootArea(String areaType);
 	
 	List<Area> findAreaByParentId(String id);
+	
+	/**
+	 * 
+	 * Description: 通过省名称模糊查询地区ID
+	 * 
+	 * @author Easong
+	 * @version 2017年6月1日
+	 * @param name
+	 * @return
+	 */
+	String selectByName(@Param("name") String name);
 	
 }

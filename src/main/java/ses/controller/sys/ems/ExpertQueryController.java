@@ -28,6 +28,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 
 /**
@@ -74,7 +75,7 @@ public class ExpertQueryController {
      * @return String
      */
     @RequestMapping("/view")
-    public String view(String expertId, Model model, Integer sign) {
+    public String view(String expertId, Model model, Integer sign, String reqType) {
     	model.addAttribute("expertId", expertId);
     	//1是全部专家查询，2是入库专家查询
     	model.addAttribute("sign", sign);
@@ -133,15 +134,32 @@ public class ExpertQueryController {
 				model.addAttribute("degree", degree.getName());
 			}
 		}
+		model.addAttribute("reqType", reqType);
         return "ses/ems/expertQuery/basic_info";
     }
 	
 	/**
 	 * 入库查询
+	 * @param province:该省下所有专家
+	 * @param cateTypeDictCode:专家所属品目类型字典code
+	 * @param reqType:请求类型：analyze做统计请求标识
 	 */
 	@RequestMapping(value = "/list")
-    public String findAllExpert(Expert expert, Integer page, Model model) {
-        List < Expert > allExpert = service.selectRuKuExpert(expert, page);
+    public String findAllExpert(Expert expert, Integer page, Model model, String province, String cateTypeDictCode, String reqType) {
+		// 用于查询地区专家
+		if(province != null && expert.getAddress() == null){
+			// 查询该省所对应的ID
+			String provinceId = areaServiceI.selectByName(province);
+			expert.setAddress(provinceId);
+		}
+		if(cateTypeDictCode != null){
+			// 用于查询专家类型
+			DictionaryData dictionaryData = DictionaryDataUtil.get(cateTypeDictCode);
+			if(dictionaryData != null){
+				expert.setExpertsTypeId(dictionaryData.getId());
+			}
+		}
+		List < Expert > allExpert = service.selectRuKuExpert(expert, page);
         for(Expert exp: allExpert) {
             DictionaryData dictionaryData = dictionaryDataServiceI
                 .getDictionaryData(exp.getGender());
@@ -179,6 +197,8 @@ public class ExpertQueryController {
         model.addAttribute("expert", expert);
         PageInfo<Expert> pageInfo = new PageInfo < Expert > (allExpert);
         model.addAttribute("result", pageInfo);
+        // 请求标识
+        model.addAttribute("reqType", reqType);
         return "ses/ems/expertQuery/list";
     }
 	
