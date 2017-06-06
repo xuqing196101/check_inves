@@ -1772,7 +1772,7 @@
 										</ul>
 									</fieldset>
 
-									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20 over_auto">
 										<span class="font_line">取得注册资质的人员信息 </span>
 										<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
 											<button type="button" class="btn" onclick="openRegPerson()">新增</button>

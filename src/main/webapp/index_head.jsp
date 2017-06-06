@@ -15,6 +15,7 @@
 <%@ include file="/WEB-INF/view/portal.jsp" %>
 <script type="text/javascript"> 
   		$(function(){
+  		   
 		   $("#close").click(function(){
 		   		$(".prompt_tips").hide();
 		   });
@@ -23,7 +24,7 @@
 <script type="text/javascript">
 var user = "${sessionScope.loginUser.relName}";
 $(function(){
-	
+		IsPC();
 		$.ajax({
 			    url: "${pageContext.request.contextPath}/userInfo/loginInfo.do",
 			    type: "POST",
@@ -72,6 +73,29 @@ function importAdd(){
 	}
 	window.location.href="${pageContext.request.contextPath}/importSupplier/register.html";
 }
+function IsPC(){  
+           var userAgentInfo = navigator.userAgent;  
+           var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");  
+           var flag = true;  
+           for (var v = 0; v < Agents.length; v++) {  
+               if (userAgentInfo.indexOf(Agents[v]) < 0) {  
+					$(".navbar-nav li").mouseover(function(){
+						$(this).find(".drop_next").show();
+					});
+					$(".navbar-nav li").mouseout(function(){
+						$(this).find(".drop_next").hide();
+					});
+					$(".drop_next").mouseover(function(){
+							$(this).show();
+					});
+					$(".drop_next").mouseout(function(){
+							$(this).show();
+					});
+               flag = false; break; }  
+           }  
+           return flag;  
+}            
+
 </script>
 </head>
 <body>
@@ -161,7 +185,7 @@ function importAdd(){
     </div>
     <div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
     <div class="container">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav" >
       <!-- 通知 -->
         <li id="firstPage" class="dropdown shouye_li mega-menu-fullwidth">
           <a class=" dropdown-toggle " href="${pageContext.request.contextPath}/"><i class="shouye nav_icon"></i>首 页</a>
@@ -878,56 +902,56 @@ function importAdd(){
 
 	<div class="col-md-12 col-xs-12 col-sm-12 drop_hover">
 	 <div class="drop_main supp_service">
-	 <div class="service_btns col-md-2 col-sm-4 col-xs-6 ">
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <a href="${pageContext.request.contextPath}/categorys/categoryList.html">
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cpml.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cpml"><%-- <img src="${pageContext.request.contextPath}/public/portal/images/cpml.jpg" width="80%" height="80%;"/> --%></div>
 		<div class="tc f18 mt20 pt10 clear">产品目录</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-md-2 col-sm-4 col-xs-6 ">
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <a href="${pageContext.request.contextPath}/categorys/parameterList.html">
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/jscsk.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic jscsk"><%-- <img src="${pageContext.request.contextPath}/public/portal/images/jscsk.jpg" width="80%" height="80%;"/> --%></div>
 		<div class="tc f18 mt20 pt10 clear">技术参数库</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-md-2 col-sm-4 col-xs-6 ">
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <a href="${pageContext.request.contextPath}/park/getIndex.html">
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cglt.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cglt"><%-- <img src="${pageContext.request.contextPath}/public/portal/images/cglt.jpg" width="80%" height="80%;"/> --%></div>
 		<div class="tc f18 mt20 pt10 clear">采购论坛</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-md-2 col-sm-4 col-xs-6 ">
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <%-- <% if (ipAddressType != null && ipAddressType.equals("0")){ %> --%>
 	       <a href="${pageContext.request.contextPath }/dataDownload/getIndexList.html">
 	 <%--  <% } %> --%>
 	  <%-- <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
 	      <a href="javascript:void(0);">
 	  <% } %> --%>
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc">
-	    <img src="${pageContext.request.contextPath}/public/portal/images/new_zlxz.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic zlxz">
+	    <%-- <img src="${pageContext.request.contextPath}/public/portal/images/new_zlxz.jpg" width="80%" height="80%;"/> --%></div>
 		<div class="tc f18 mt20 pt10 clear">资料下载</div>
 	  </a>
 	 </div>
-	  <div class="service_btns col-md-2 col-sm-4 col-xs-6 ">
+	  <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <%-- <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
 	  <% } %>
 	  <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
 	      <a href="javascript:void(0);">
 	  <% } %> --%>
         <a href="${pageContext.request.contextPath }/templateDownload/getIndexList.html">
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/mb_pic.png" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cgmb"><%-- <img src="${pageContext.request.contextPath}/public/portal/images/mb_pic.png" width="80%" height="80%;"/> --%></div>
 		<div class="tc f18 mt20 pt10 clear">采购模板</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-md-2 col-sm-4 col-xs-6 ">
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <a href="">
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic yjfk"><%-- <img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/> --%></div>
 		<div class="tc f18 mt20 pt10 clear">意见反馈</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-md-2 col-sm-4 col-xs-6 ">
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <a href="${pageContext.request.contextPath }/serviceHotline/index_list.html">
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/new_shfw.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic shfw"><%-- <img src="${pageContext.request.contextPath}/public/portal/images/new_shfw.jpg" width="80%" height="80%;"/> --%></div>
 		<div class="tc f18 mt20 pt10 clear">售后服务</div>
 	  </a>
 	 </div>
