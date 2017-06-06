@@ -43,7 +43,7 @@
 							<span >《${docName }》（第二版）</span><a onclick="downNotice()" href="javascript:void(0)" class="download"></a>
 						</div>
 						<div class="fl">
-							《军队物资工程服务采购评审专家参评产品分类目录》（第二版）<a href="${pageContext.request.contextPath}/supplier/download_category.html" class="download"></a>
+							《军队物资工程服务采购评审专家参评产品分类目录》（第三版）<a href="${pageContext.request.contextPath}/supplier/download_category.html" class="download"></a>
 						</div>
 						<div class="fl">
 							《军队评审专家注册操作手册》<a href="${pageContext.request.contextPath}/expert/downloadReghandbook.html" class="download"></a>
