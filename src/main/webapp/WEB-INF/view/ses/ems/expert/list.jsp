@@ -364,6 +364,7 @@
 							<!-- <th class="info">积分</th> -->
 							<th class="info">审核状态</th>
 							<th class="info">专家类型</th>
+							<th class="info">采购机构</th>
 						</tr>
 					</thead>
 					<c:forEach items="${result.list }" var="e" varStatus="vs">
@@ -426,6 +427,7 @@
 								</c:if>
 							</td>
 							<td class="tc" >${e.expertsFrom }</td>
+							<td class="tc" >${e.orgName }</td>
 						</tr>
 					</c:forEach>
 				</table>

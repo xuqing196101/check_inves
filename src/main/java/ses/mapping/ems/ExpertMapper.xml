@@ -139,14 +139,24 @@
     <!-- 查询所有专家 可条件查询 -->
     <select id="selectAllExpert" resultMap="BaseResultMap">
         select
-        	T1.*,
-        	T2.LOGIN_NAME AS loginName
+          T1.ID,
+        	T1.REAL_NAME,
+        	T1.ID_CARD_NUMBER,
+        	T1.GENDER,
+        	T1.EXPERTS_TYPE_ID,
+        	T1.GRADUATE_SCHOOL,
+        	T1.STATUS,
+        	T1.IS_PROVISIONAL,
+        	T1.EXPERTS_FROM,
+        	T1.MOBILE,
+        	T1.IS_SUBMIT,
+        	T2.LOGIN_NAME AS loginName,
+        	org.SHORT_NAME AS orgName
         from
         	T_SES_EMS_EXPERT t1
-				LEFT JOIN
-					T_SES_BMS_USER t2
-				ON
-					T1.ID = T2.TYPE_ID
+				LEFT JOIN T_SES_BMS_USER t2 ON T1.ID = T2.TYPE_ID
+				LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
+        LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
         where 1=1 and IS_DELETE = 0
         <if test="relName != null and relName !=''">
             AND T1.REAL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
