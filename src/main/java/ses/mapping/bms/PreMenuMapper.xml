@@ -320,7 +320,10 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_BMS_PERMISSION 
-    where ID in
+    where
+    	IS_DELETED = 0
+	AND  
+    	ID in
     <foreach collection="list" item="item" index="index"
         open="(" close=")" separator=",">
         #{item}
