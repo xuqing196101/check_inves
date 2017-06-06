@@ -137,7 +137,7 @@
             <tr class="pointer">
               <td class="tc w50" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
               <td class="tl">
-                <a href="${pageContext.request.contextPath}/expertQuery/view.html?expertId=${e.id}&sign=2">${e.relName}</a>
+                <a href="javascript:jumppage('${pageContext.request.contextPath}/expertQuery/view.html?expertId=${e.id}&sign=2')">${e.relName}</a>
               </td>
               <td class="tc">${e.idCardNumber}</td>
               <td class="tc w50">${e.gender}</td>
