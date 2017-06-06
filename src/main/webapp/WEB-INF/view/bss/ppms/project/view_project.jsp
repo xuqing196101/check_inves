@@ -30,53 +30,20 @@
         });
       });
 
-      /** 全选全不选 */
-      function selectAll() {
-        var checklist = document.getElementsByName("chkItem");
-        var checkAll = document.getElementById("checkAll");
-        if(checkAll.checked) {
-          for(var i = 0; i < checklist.length; i++) {
-            checklist[i].checked = true;
-          }
-        } else {
-          for(var j = 0; j < checklist.length; j++) {
-            checklist[j].checked = false;
-          }
-        }
-      }
-
-      /** 单选 */
-      function check() {
-        var count = 0;
-        var checklist = document.getElementsByName("chkItem");
-        var checkAll = document.getElementById("checkAll");
-        for(var i = 0; i < checklist.length; i++) {
-          if(checklist[i].checked == false) {
-            checkAll.checked = false;
-            break;
-          }
-          for(var j = 0; j < checklist.length; j++) {
-            if(checklist[j].checked == true) {
-              checkAll.checked = true;
-              count++;
-            }
-          }
-        }
-      }
-
       //查看明细
-      function view(id,type) {
-        window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&type=" + type;
+      function view(id) {
+        window.location.href = "${pageContext.request.contextPath}/project/particulars.html?id=" + id;
       }
-
-
-
 
       //重置
       function clearSearch() {
         $("#proName").attr("value", "");
         $("#projectNumber").attr("value", "");
         $("#status option:selected").removeAttr("selected");
+      }
+      
+      function back(){
+        window.location.href = "${pageContext.request.contextPath}/resAnalyze/analyzePurchaseProject.html"
       }
     </script>
   </head>
@@ -96,7 +63,7 @@
             <a href="javascript:void(0)">采购项目管理</a>
           </li>
           <li class="active">
-            <a href="javascript:jumppage('${pageContext.request.contextPath}/project/projectByAll.html')">全部采购项目</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/project/selectByProject.html')">查看采购项目</a>
           </li>
         </ul>
         <div class="clear"></div>
@@ -109,7 +76,7 @@
       </div>
       <!-- 项目戳开始 -->
       <h2 class="search_detail">
-    <form action="${pageContext.request.contextPath}/project/projectByAll.html" id="form1" method="post" class="mb0">
+    <form action="${pageContext.request.contextPath}/project/selectByProject.html" id="form1" method="post" class="mb0">
       <ul class="demand_list">
       <li>
         <label class="fl">项目名称： </label>
@@ -141,6 +108,9 @@
     <div class="clear"></div>
     </form>
     </h2>
+      <div class="col-md-12 pl20 mt10">
+        <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
+      </div>
       <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
@@ -158,24 +128,23 @@
             <c:forEach items="${info.list}" var="obj" varStatus="vs">
               <tr class="pointer">
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-                <td class="tl" onclick="view('${obj.id}','1')">${obj.name}</td>
-                <td class="tl" onclick="view('${obj.id}','1')">${obj.projectNumber}</td>
-                <td class="tc" onclick="view('${obj.id}','1')">
+                <td class="tl" onclick="view('${obj.id}')">${obj.name}</td>
+                <td class="tl" onclick="view('${obj.id}')">${obj.projectNumber}</td>
+                <td class="tc" onclick="view('${obj.id}')">
                   <c:forEach items="${kind}" var="kind">
                     <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
                 </td>
-                <td class="tc" onclick="view('${obj.id}','1')">
+                <td class="tc" onclick="view('${obj.id}')">
                   <fmt:formatDate type='date' value='${obj.createAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                 </td>
                 <td class="tl">
                   <c:forEach items="${status}" var="status">
                     <c:if test="${status.id == obj.status}">${status.name}
-                    <input type="hidden" value="${status.code}"/>
                     </c:if>
                   </c:forEach>
                 </td>
-                <td class="tl" onclick="view('${obj.id}','1')">${obj.projectContractor}</td>
+                <td class="tl" onclick="view('${obj.id}')">${obj.projectContractor}</td>
               </tr>
             </c:forEach>
           </tbody>

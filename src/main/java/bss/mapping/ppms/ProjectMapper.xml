@@ -1399,15 +1399,18 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
-    where 1=1 and STATUS != '4'
+    where 1=1 AND STATUS != '4' AND p.IS_REHEARSE = 0
      <if test="name != null and name != ''">
        and NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
        <if test="projectNumber != null and projectNumber != ''">
        and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%') 
       </if>
-      <if test="status != null">
-       and STATUS like CONCAT(CONCAT('%', #{status}), '%')
+      <if test="status != null and status != ''">
+       and STATUS = #{status}
+      </if>
+      <if test="purchaseType != null and purchaseType != ''">
+       and PURCHASE_TYPE = #{purchaseType}
       </if>
       ORDER BY CREATED_AT DESC
   </select>

@@ -17,7 +17,7 @@
 	    <result column="QUESTION" property="question"/>
 	    <result column="TECHNICAL_PARAMETERS" property="technicalParameters"/>
 	    <!-- 查询合同  -->
-    <association column="CONTRACT_ID"  property="contract" select="bss.dao.cs.PurchaseContractMapper.selectContractByid" />
+    <!-- <association column="CONTRACT_ID"  property="contract" select="bss.dao.cs.PurchaseContractMapper.selectContractByid" /> -->
   	</resultMap>
   	
   	<!-- 表名 -->
@@ -236,12 +236,22 @@
   
   <select id="selectByAll" parameterType="java.util.Map" resultMap="BaseResultMap">
     SELECT
-    <include refid="Base_Column_List"/>
-    FROM T_SES_SMS_AFTER_SALE_SERVICE
-    WHERE IS_DELETED = 0
-    <if test="contract != null">
-      AND CONTRACT_ID = #{contract.id}
-    </if> 
+		  s.REQUIRED_ID,s.TECHNICAL_PARAMETERS
+		FROM
+		  T_SES_SMS_AFTER_SALE_SERVICE s
+		WHERE
+		  s.IS_DELETED = 0
+		AND s.REQUIRED_ID IN (
+		  SELECT
+		    r. ID
+		  FROM
+		    T_BSS_CS_CONTRACT_REQUIRED r
+		  WHERE
+		    r.IS_DELETED = 0
+		  <if test="contractId != null and contractId != ''">
+		    AND r.CONTRACT_ID = #{contractId}
+		  </if>
+		)
   </select>
   
   <!-- 列表总数 -->

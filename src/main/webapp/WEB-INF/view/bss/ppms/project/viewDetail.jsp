@@ -96,9 +96,6 @@
                 <th class="info deliverdate">交货<br/>期限</th>
                 <th class="info purchasetype">采购方式</th>
                 <th class="info purchasename">供应商名称</th>
-                <th class="info freetaxs">是否申请<br/>办理免税</th>
-                <th class="info goodsuse">物资用途<br/>（进口）</th>
-                <th class="info useunit">使用单位<br/>（进口）</th>
                 <th class="info memo">备注</th>
               </tr>
             </thead>
@@ -126,9 +123,6 @@
                   </div>
                 </td>
                 <td class=""><div class="purchasename">${obj.supplier}</div></td>
-                <td class="tc"><div class="freetax">${obj.isFreeTax}</div></td>
-                <td class=""><div class="goodsuse">${obj.goodsUse}</div></td>
-                <td class=""><div class="useunit">v${obj.useUnit}</div></td>
                 <td class=""><div class="memo">${obj.memo}</div></td>
               </tr>
             </c:forEach>
