@@ -1031,10 +1031,8 @@
 		
 		<!-- 查询 是否 是2017-06-05 之前修改的用户-->
 		<select id="isUpdateUser" resultType="Integer" parameterType="String">
-		SELECT COUNT(ID) from T_SES_BMS_USER WHERE TO_CHAR(UPDATED_AT,'YYYY-MM-DD')&lt; #{date} AND LOGIN_NAME=#{loginName}
-		</select>
-		<!-- 查询 是否 是2017-06-05 之前注册的用户-->
-		<select id="isCreateUser" resultType="Integer" parameterType="String">
-		SELECT COUNT(ID) from T_SES_BMS_USER WHERE TO_CHAR(CREATED_AT,'YYYY-MM-DD')&lt; #{date} AND LOGIN_NAME=#{loginName}
+		SELECT COUNT(ID) from T_SES_BMS_USER WHERE 
+		TO_CHAR(DECODE(UPDATED_AT,'',CREATED_AT,UPDATED_AT),'YYYY-MM-DD') &gt; #{date}
+		AND LOGIN_NAME=#{loginName}
 		</select>
 </mapper>

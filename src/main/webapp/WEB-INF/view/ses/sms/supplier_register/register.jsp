@@ -49,14 +49,8 @@
 		$("#identity_code_img_id").hide().attr("src", "${pageContext.request.contextPath}/supplier/get_identity.html?random" + random).fadeIn();
 	}
 	function register(){
-	 var pwd=$("[name=password]").val();
-	 if(pwd){
-	 $("[name=password]").val(setPublicKey(pwd));
-	 }
-	 var cpwd=$("[name=confirmPassword]").val();
-	 if(pwd){
-	 $("[name=confirmPassword]").val(setPublicKey(cpwd));
-	 }
+	 $("[name=password]").val(setPublicKey($("[name=password]").val()));
+	 $("[name=confirmPassword]").val(setPublicKey($("[name=confirmPassword]").val()));
 	}
 </script>
 

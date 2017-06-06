@@ -9,6 +9,7 @@ session.setAttribute("tokenSession", tokenValue);
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 
 <%@ include file="/reg_head.jsp"%>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
  <script type="text/javascript">
    $(function(){
@@ -112,6 +113,8 @@ session.setAttribute("tokenSession", tokenValue);
    		validataPwd2();
    		validatePhone();
 	 	if(flag==2 && flag2==2 && flag3==2&&flag4==2){
+	 	$("#password1").val(setPublicKey($("#password1").val()));
+        $("#password2").val(setPublicKey($("#password2").val()));
 			$("#formExpert").submit();
 	 	}
    	}
