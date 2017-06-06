@@ -255,7 +255,7 @@
       <if test="randomCode != null and randomCode != ''">
         RANDOM_CODE,
       </if>
-      <if test="orgName != null and orgName != ''">
+      <if test="orgName != null">
         ORG_NAME,
       </if>
       <if test="publishType != null">
@@ -405,7 +405,7 @@
       <if test="randomCode != null and randomCode != ''">
         RANDOM_CODE,
       </if>
-      <if test="orgName != null and orgName != ''">
+      <if test="orgName != null">
         ORG_NAME,
       </if>
       <if test="publishType != null">
@@ -552,7 +552,7 @@
       <if test="randomCode != null and randomCode != ''">
         RANDOM_CODE = #{randomCode,jdbcType=VARCHAR},
       </if>
-      <if test="orgName != null and orgName != ''">
+      <if test="orgName != null">
        ORG_NAME = #{orgName,jdbcType=VARCHAR},
       </if>
       <if test="publishType != null">

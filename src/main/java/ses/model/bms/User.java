@@ -83,9 +83,15 @@ public class User implements Serializable{
     /** 校验表单机构不为空 ，不作数据存储 */
     private String orgId;
     
-    /** 机构名称 */
+    /** 机构名称 
+     * 由于需求改动 资源服务中心 监管中心两个机构不需要orgName 存储 机构名称 
+     *  因此在不增加字段的情况下 用来存储 资源服务中心和监管中心 两个类型的单位
+     * */
     private String orgName;
-
+    /**
+     * 资源服务中心 监管中心 临时存储单位 用于页面传输 实际数据存储是orgName
+     */
+    private String tempOrgName;
     /** 职务 */
     private String duties;
 
@@ -411,4 +417,11 @@ public class User implements Serializable{
     this.netType = netType;
   }
 
+  public String getTempOrgName() {
+	return tempOrgName;
+  }
+
+  public void setTempOrgName(String tempOrgName) {
+	this.tempOrgName = tempOrgName;
+  }
 }
