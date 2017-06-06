@@ -957,6 +957,7 @@
 				var ch=$(obj).is(":checked");
 				if(ch){
 					$(obj).val("1");
+					$("#expireDate").val("");
 					$("#expireDate").attr("disabled","disabled");
 				}else{
 					$(obj).val("0");
