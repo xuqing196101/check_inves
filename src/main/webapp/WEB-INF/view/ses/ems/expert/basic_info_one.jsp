@@ -925,6 +925,9 @@
             <span id="sp5" class="new_step fl new_step_last"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span>
             <div class="clear"></div>
         </h2>
+        <c:if test="${ipAddressType==0 }">
+            <div ><span class="red">提示：上传的彩色扫描件需要去除标签水印。</span></div>
+        </c:if>
 				<div class="container container_box">
 					<h2 class="count_flow"><i>1</i>专家个人信息</h2>
 					<ul class="ul_list">
