@@ -182,8 +182,8 @@
 	        	//}
 	        	//enableNodeList.push(treeNode.id);
 	        	//return true;
-				//	}
-        //	return true;
+					}
+        	return true;
         }
       }
 
