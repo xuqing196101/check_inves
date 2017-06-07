@@ -810,10 +810,10 @@ function myReSet(){
 		<div class="clear"></div>
 	  </div>
    </div>
-<form action="">
+<form action="" class="form-inline">
   <div class="container job-content ">
        <div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-			<div class=" input_group col-md-3 col-sm-6 col-xs-12 col-lg-12 p0">
+			<div class=" input_group">
 			    <div class="w100p">
 			    	<input type="text" id="search" class="fl m0">
 				      <img alt="" style="position:absolute; top:8px;right:10px;" src="${pageContext.request.contextPath }/public/backend/images/view.png"  onclick="searchs('${articleId}')">
@@ -822,39 +822,42 @@ function myReSet(){
 			</div>
 	   	</div>
 		<div class="search_box col-md-12 col-sm-12 col-xs-12">
-				<span class="fl">标题：
-					<input name="title" type="text" id="title" value="${title }" class="mb0"/>
-				</span>
-				<span class="fl pl10"> 
+			<div class="form-group">
+				<label> 标题：</label>
+				<input name="title" type="text" id="title" value="${title }"  class="form-group" />
+			</div>
+			<div class="form-group">
+				<label>  
 					采购方式：
-				<select name="lastArticleTypeName" id="lastArticleTypeName">
-				<option value="">全部</option>
-				<option value="公开招标" <c:if test="${'公开招标' eq lastArticleTypeName }"> selected=selected </c:if> >公开招标</option>
-				<option value="邀请招标" <c:if test="${'邀请招标' eq lastArticleTypeName }"> selected=selected </c:if> >邀请招标</option>
-				<option value="询价" <c:if test="${'询价' eq lastArticleTypeName }"> selected=selected </c:if> >询价</option>
-				<option value="竞争性谈判" <c:if test="${'竞争性谈判' eq lastArticleTypeName }"> selected=selected </c:if> >竞争性谈判</option>
-				<option value="邀请招标" <c:if test="${'邀请招标' eq lastArticleTypeName }"> selected=selected </c:if> >邀请招标</option>
+				</label>
+				<select name="lastArticleTypeName" id="lastArticleTypeName"  class="form-group" >
+					<option value="">全部</option>
+					<option value="公开招标" <c:if test="${'公开招标' eq lastArticleTypeName }"> selected=selected </c:if> >公开招标</option>
+					<option value="邀请招标" <c:if test="${'邀请招标' eq lastArticleTypeName }"> selected=selected </c:if> >邀请招标</option>
+					<option value="询价" <c:if test="${'询价' eq lastArticleTypeName }"> selected=selected </c:if> >询价</option>
+					<option value="竞争性谈判" <c:if test="${'竞争性谈判' eq lastArticleTypeName }"> selected=selected </c:if> >竞争性谈判</option>
+					<option value="邀请招标" <c:if test="${'邀请招标' eq lastArticleTypeName }"> selected=selected </c:if> >邀请招标</option>
 				</select>
 			    <!-- <input name="lastArticleTypeName" type="text" id="lastArticleTypeName" value="${lastArticleTypeName }" />-->
-				</span>
-				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 w100 tr">
-					选择产品类别：
-				</span>
-				<div class="col-md-3 col-sm-6 col-xs-12 w200 pl0" id="choseCategory">
-				<div
-					class="input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0 fl" >
-					<input id="cId" name="categoryId" type="hidden"
+				</div>
+				<div class="form-group">
+					<label> 
+						选择产品类别：
+					</label>
+				    <div class="form-group" id="choseCategory">
+					   <input id="cId" name="categoryId" type="hidden"
 						value="${categoryIds}"> <input id="categorySel"
 						type="text" name="categoryName" class="mt1" readonly value="${categoryNames}"
-						onclick="showCategory('${categoryIds}');" />
+						onclick="showCategory('${categoryIds}');" class="form-group" />
 						<div class="cue" id="ERR_category">${ERR_category}</div>
-				</div>
-			</div>
-			
-			<span class="fl" > 发布时间：<input class="w80 mt1"
+				    </div>
+				 </div>
+				 <div class="form-group">
+					<label> 发布时间：</label>
+					<input class="form-group"
 				name="publishStartDate" type="text" id="publishStartDate" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${publishStartDate }" />-<input class="w80 mt1" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 				name="publishEndDate" type="text" id="publishEndDate" value="${publishEndDate }" />
-				</span> 
+				</div>
 			<span class="ml5">
 				<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
 				<button type="button" onclick="myReSet()" class="btn btn-u-light-grey">重置</button>
