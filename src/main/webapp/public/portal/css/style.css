@@ -3091,15 +3091,7 @@ h2.list_title{
 	margin-top:60px;
 }
 }
-.service_btns_pic{
-	background:url(../images/cgfw_icon.png) no-repeat left top;
-	background-size:500%;
-	-moz-background-size:500%;     
-	-webkit-background-size:500%;      
-	-o-background-size:500%;
-	padding-bottom:50%;
-	padding-top: 50%;
-}
+
 .service_btns .f18{
 	width:100%;
 	height:35px;
@@ -3107,24 +3099,3 @@ h2.list_title{
 	text-overflow:ellipsis;
 	white-space: nowrap; 
 } 
-.service_btns_pic.cpml{
-	background-position: 0 0;
-}
-.service_btns_pic.jscsk{
-	background-position:25% 0; 
-}
-.service_btns_pic.cglt{
-	background-position:50% 0; 
-}
-.service_btns_pic.zlxz{
-	background-position:75% 0; 
-}
-.service_btns_pic.cgmb{
-	background-position:100% 0; 
-}
-.service_btns_pic.yjfk{
-	background-position:0 100%; 
-}
-.service_btns_pic.shfw{
-	background-position:25% 100%; 
-}
