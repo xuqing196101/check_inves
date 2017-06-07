@@ -1,5 +1,6 @@
 package bss.dao.pms;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -320,5 +321,15 @@ public interface PurchaseRequiredMapper {
     * @throws
      */
     List<String> getUniqueId(List<String> list);
+    
+    /**
+     * 
+     *〈资源展示获取各类型需求金额〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param planType
+     * @return
+     */
+    BigDecimal selectBudget(@Param("planType") String planType);
     
 }
