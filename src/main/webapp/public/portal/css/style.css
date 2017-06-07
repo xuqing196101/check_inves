@@ -3081,9 +3081,21 @@ h2.list_title{
 .service_btns{
 	margin-top:20px;
 }
+
 }
 @media (min-width:800px){
 .service_btns{
 	width:14.28%;
 }
+.service_btns{
+	margin-top:60px;
 }
+}
+
+.service_btns .f18{
+	width:100%;
+	height:35px;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap; 
+} 

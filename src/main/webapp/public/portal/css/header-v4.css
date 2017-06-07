@@ -251,8 +251,8 @@
 		font-size: 18px;
 		font-weight:400;
 		text-transform: uppercase;
-		height: 40px;
-	    line-height: 40px;
+		height: 48px;
+	    line-height: 48px;
 	    display: block;
 		padding:0 18px;
 }
@@ -837,11 +837,17 @@
     }
     .drop_hover{
 	 background:#ffffff;
-	 min-height:375px;
 	 padding:15px 20px;
  }
+ .drop_main{
+	 min-height:300px;
 }
-
+}
+ .drop_main{
+	 border:1px solid #157c82;
+	 overflow:hidden;
+	 padding:10px 10px 10px 10px;
+}
 /*Space Effect inside the container to avoid scroll bar*/
 @media (max-width: 991px) {
 	.header-v4 .mega-menu .equal-height {
@@ -975,7 +981,6 @@
 	}
 	 .drop_hover{
 	 background:#ffffff;
-	 min-height:375px;
 	 padding:5px;
  	}
 
@@ -1127,12 +1132,6 @@
 	line-height:100%;
 }
 
-.drop_main{
-	 border:1px solid #157c82;
-	 overflow:hidden;
-	 min-height:335px;
-	 padding:20px 10px 10px 10px;
-}
 .drop_next{
 	 top:100%;
 	 left:0px;
@@ -1171,7 +1170,6 @@
   }
   .drop_hover{
 	 background:#ffffff;
-	 min-height:375px;
 	 padding:2px;
  }
  }
