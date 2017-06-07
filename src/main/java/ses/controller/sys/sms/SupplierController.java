@@ -2579,7 +2579,10 @@ public class SupplierController extends BaseSupplierController {
 	@ResponseBody
 	public String auditMsg(SupplierAudit supplierAudit) {
 		List < SupplierAudit > list = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		return JSON.toJSONString(list.get(0));
+		if(list != null && list.size() > 0){
+			return JSON.toJSONString(list.get(0));
+		}
+		return null;
 	}
 
 	public List < String > getAuditFiled(String id) {
