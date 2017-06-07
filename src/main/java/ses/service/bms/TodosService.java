@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import ses.model.bms.Todos;
+import ses.model.bms.User;
 
 /**
  * @Description: 待办事项
@@ -98,7 +99,7 @@ public interface TodosService {
      */
     List<Todos> listUrlTodo(Todos todos);
     
-    List<Todos> listUrlTodoPage(Todos todos,Short types,Integer page);
+    List<Todos> listUrlTodoPage(Todos todos,Short types,Integer page,User user);
     
     
 }

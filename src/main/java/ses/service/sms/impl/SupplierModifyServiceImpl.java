@@ -1028,8 +1028,11 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	 */
 	@Override
 	public SupplierModify findBySupplierId(SupplierModify supplierModify) {
-		
-		return supplierModifyMapper.findBySupplierId(supplierModify);
+		List<SupplierModify> findBySupplierId = supplierModifyMapper.findBySupplierId(supplierModify);
+		if(findBySupplierId!=null&&findBySupplierId.size()>0){
+			return findBySupplierId.get(0);
+		}
+		return null;
 	}
 
 	/**

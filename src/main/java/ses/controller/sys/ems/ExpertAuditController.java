@@ -1516,7 +1516,7 @@ public class ExpertAuditController{
 	        todos.setName(expert.getRelName()+"专家复审");
 	        //todos.setReceiverId();
 	        //接受人id
-	        todos.setOrgId(expert.getPurchaseDepId());
+	        /*todos.setOrgId(expert.getPurchaseDepId());*/
 	        //权限id
 	        PropertiesUtil config = new PropertiesUtil("config.properties");
 	        todos.setPowerId(config.getString("zjfs"));
