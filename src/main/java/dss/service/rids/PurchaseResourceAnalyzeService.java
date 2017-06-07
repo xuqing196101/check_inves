@@ -220,11 +220,31 @@ public interface PurchaseResourceAnalyzeService {
 	
 	/**
 	 * 
-	 * Description:
+	 * Description: 各采购机构完成采购项目数量及总金额 
 	 * 
 	 * @author Easong
 	 * @version 2017年6月6日
 	 * @return
 	 */
 	public List<AnalyzeBigDecimal> selectPurProjectCountAndMoney();
+	
+	/**
+	 * 
+	 * Description:全网已完成采购合同总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月6日
+	 * @return
+	 */
+	public BigDecimal selectPurContractTotalMoney();
+	
+	/**
+	 * 
+	 * Description: 各采购机构完成采购合同数量及总金额 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月6日
+	 * @return
+	 */
+	public List<AnalyzeBigDecimal> selectPurContractCountAndMoney();
 }
