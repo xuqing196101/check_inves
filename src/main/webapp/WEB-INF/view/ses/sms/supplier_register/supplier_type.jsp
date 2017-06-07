@@ -777,7 +777,7 @@
 	}
 
 	$(function() {
-		window.onload = function() {alert('${currSupplier.status}');
+		window.onload = function() {
 			$(".textbox").css({
 				"border": "0px",
 			});
@@ -1822,7 +1822,7 @@
 										</ul>
 									</fieldset>
 
-									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20 over_auto">
+									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line">取得注册资质的人员信息 </span>
 										<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
 											<button type="button" class="btn" onclick="openRegPerson()">新增</button>
@@ -2362,7 +2362,7 @@
 </script>
 <script type="text/javascript">
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
-		var currSupplierSt = '${currSupplier.status}';alert(currSupplierSt);
+		var currSupplierSt = '${currSupplier.status}';
 		if(currSupplierSt == '2'){
 			$("input[type='text'],select,textarea").attr('disabled',true);
 			$("input[type='text'],select,textarea").each(function(){
