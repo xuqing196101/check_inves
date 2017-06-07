@@ -144,7 +144,7 @@
 		});
 		$("#businessScope").val(areaIds);
 		// 提交的时候表单域设置成可编辑
-		$("input[type='text'],select,textarea").attr('disabled',false);
+		enableForm();
 		$.ajax({
 			url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
 			type : "post",
@@ -198,7 +198,7 @@
 		});
 		$("#businessScope").val(areaIds);
 		// 提交的时候表单域设置成可编辑
-		$("input[type='text'],select,textarea").attr('disabled',false);
+		enableForm();
 		$.ajax({
 					url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
 					type : "post",  
@@ -417,7 +417,7 @@
 				success: function(data) {
 					if (data == "1") {
 						// 提交的时候表单域设置成可编辑
-						$("input[type='text'],select,textarea").attr('disabled',false);
+						enableForm();
 						$("#save_pro_form_id").submit();
 						layer.close(index); 
 					} else {
@@ -429,7 +429,7 @@
 											function(index) {
 												$("input[name='old']").val("old");
 												// 提交的时候表单域设置成可编辑
-												$("input[type='text'],select,textarea").attr('disabled',false);
+												enableForm();
 												$("#save_pro_form_id").submit();
 												/* $.ajax({
 													url: "${pageContext.request.contextPath}/supplier/deleteOld.do",
@@ -595,7 +595,7 @@
 	function savePro(jsp) {
 		$("input[name='jsp']").val(jsp);
 		// 提交的时候表单域设置成可编辑
-		$("input[type='text'],select,textarea").attr('disabled',false);
+		enableForm();
 		$("#save_pro_form_id").submit();
 	}
 
@@ -612,15 +612,31 @@
 		var certProIds = "";
 		var supplierId = $("input[name='id']").val();
 		var delFlag = true;
+		// 退回修改审核通过的项不能删除
+		var currSupplierSt = '${currSupplier.status}';
+		if(currSupplierSt == '2'){
+			var isDel = true;
+			$(checkboxs).each(function(index) {
+				if('${proPageField}'.indexOf($(this).val()) < 0){
+					isDel = false;
+					return false;
+				}
+			});
+			
+			if(!isDel){
+				layer.msg("审核通过项的不能删除！");
+				return;
+			}
+		}
 		$(checkboxs).each(function(index) {
 			if (index > 0) {
 				certProIds += ",";
 			}
 			certProIds += $(this).val();
-            var certPropName = $(this).parent().next().find("input").val();
-            if(certPropName == '质量管理体系认证证书'){
-                delFlag = false;
-            }
+      var certPropName = $(this).parent().next().find("input").val();
+      if(certPropName == '质量管理体系认证证书'){
+          delFlag = false;
+      }
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
@@ -1416,7 +1432,7 @@
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalResearch"
 															required onkeyup="checknums(this)"
-															value="${currSupplier.supplierMatPro.totalResearch}" <c:if test="${!fn:contains(audit,'totalResearch')&&currSupplier.status==2}">readonly='readonly' </c:if>
+															value="${currSupplier.supplierMatPro.totalResearch}" <c:if test="${!fn:contains(proPageField,'totalResearch')&&currSupplier.status==2}">readonly='readonly' </c:if>
 															<c:if test="${fn:contains(proPageField,'totalResearch')}">style="border: 1px solid red;" onmouseover="errorMsg('totalResearch','mat_pro_page')"</c:if> />
 														<span class="add-on cur_point">i</span> <span
 															class="input-tip">不能为空，且为数字</span>
@@ -1469,8 +1485,14 @@
 										<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 											<span class="font_line"><font class="red">*</font> 资质证书信息 </span>
 											<div class="col-md-12 col-sm-12 col-xs-12 mb10 p0">
-												<button type="button" class="btn btn-windows add"
-													onclick="openCertPro()">新增</button>
+												<c:choose>
+                          <c:when test="${currSupplier.status==2 }">
+                           	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                           </c:when>
+                          <c:otherwise>
+                             <button class="btn btn-windows add" type="button" onclick="openCertPro()">新增</button>
+                          </c:otherwise>
+                        </c:choose>
 												<button type="button" class="btn btn-windows delete"
 													onclick="deleteCertPro()">删除</button>
 												<span class="red">${cert_pro }</span>
@@ -2382,5 +2404,10 @@
 					$(this).attr('disabled',false);
 				}
 			});
+		}
+		
+		// 表单可编辑
+		function enableForm(){
+			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
 		}
 </script>

@@ -210,7 +210,7 @@
 				if(flag) {
 					$("input[name='flag']").val(obj);
 					// 提交的时候表单域设置成可编辑
-					$("input[type='text'],select,textarea").attr('disabled',false);
+					enableForm();
 					$("#basic_info_form_id").submit();
 				} else {
 					layer.msg(msg, {
@@ -236,7 +236,7 @@
 //                }else{
                     $("input[name='flag']").val("");
                     // 提交的时候表单域设置成可编辑
-										$("input[type='text'],select,textarea").attr('disabled',false);
+										enableForm();
                     $.ajax({
                         url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
                         type: "post",
@@ -431,6 +431,23 @@
 			function deleteAfterSaleDep() {
 				var checkboxs = $("#afterSaleDep_list_tbody_id").find(":checkbox:checked");
 				var afterSaleDepIds = "";
+				// 退回修改审核通过的项不能删除
+				var currSupplierSt = '${currSupplier.status}';
+				if(currSupplierSt == '2'){
+					var isDel = true;
+					$(checkboxs).each(function(index) {
+						if('${audit}'.indexOf($(this).val()) < 0){
+							isDel = false;
+							return false;
+						}
+					});
+					
+					if(!isDel){
+						layer.msg("审核通过项的不能删除！");
+						return;
+					}
+				}
+				
 				$(checkboxs).each(function(index) {
 					var tr = $(this).parent().parent();
 					$(tr).remove();
@@ -439,6 +456,7 @@
 					}
 					afterSaleDepIds += $(this).val();
 				});
+				
 				var size = checkboxs.length;
 				if(size > 0) {
 					$.ajax({
@@ -463,6 +481,23 @@
 				var checkboxs = $("#stockholder_list_tbody_id").find(":checkbox:checked");
 				var stockholderIds = "";
 				var supplierId = $("input[name='id']").val();
+				// 退回修改审核通过的项不能删除
+				var currSupplierSt = '${currSupplier.status}';
+				if(currSupplierSt == '2'){
+					var isDel = true;
+					$(checkboxs).each(function(index) {
+						if('${audit}'.indexOf($(this).val()) < 0){
+							isDel = false;
+							return false;
+						}
+					});
+					
+					if(!isDel){
+						layer.msg("审核通过项的不能删除！");
+						return;
+					}
+				}
+				
 				$(checkboxs).each(function(index) {
 					var tr = $(this).parent().parent();
 					$(tr).remove();
@@ -471,6 +506,7 @@
 					}
 					stockholderIds += $(this).val();
 				});
+				
 				var size = checkboxs.length;
 				if(size > 0) {
 					$.ajax({
@@ -756,54 +792,72 @@
                 });
 			}
 			function delAddress(obj,id) {
-                var checkboxs = $("#address_list_tbody_id").find(":checkbox:checked");
-                var addressIds = "";
-                $(checkboxs).each(function(index) {
-                    if(index > 0) {
-                        addressIds += ",";
-                    }
-                    addressIds += $(this).val();
+        var checkboxs = $("#address_list_tbody_id").find(":checkbox:checked");
+        var addressIds = "";
+ 				// 退回修改审核通过的项不能删除
+				var currSupplierSt = '${currSupplier.status}';
+				if(currSupplierSt == '2'){
+					var isDel = true;
+					$(checkboxs).each(function(index) {
+						if('${audit}'.indexOf($(this).val()) < 0){
+							isDel = false;
+							return false;
+						}
+					});
+					
+					if(!isDel){
+						layer.msg("审核通过项的不能删除！");
+						return;
+					}
+				}
+				
+				$(checkboxs).each(function(index) {
+					if(index > 0) {
+              addressIds += ",";
+          }
+          addressIds += $(this).val();
+				});
+				
+        var size = checkboxs.length;
+        if(size > 0) {
+            var btmCount = 0;
+            $("#address_list_tbody_id").find("tr").each(function() {
+                btmCount++;
+            });
+            if(btmCount==size){//勾选的和总共数量对比
+                layer.msg("生产或经营地址必须至少保留一个!", {
+                    offset: '300px'
                 });
-                var size = checkboxs.length;
-                if(size > 0) {
-                    var btmCount = 0;
-                    $("#address_list_tbody_id").find("tr").each(function() {
-                        btmCount++;
-                    });
-                    if(btmCount==size){//勾选的和总共数量对比
-                        layer.msg("生产或经营地址必须至少保留一个!", {
+            }else{
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/supplier/delAddress.do",
+                    data: {
+                        "id": addressIds
+                    },
+                    success: function(data) {
+                        if(data=="ok"){
+                            layer.msg("删除成功!", {
+                                offset: '300px'
+                            });
+                            $(checkboxs).each(function(index) {
+                                var tr = $(this).parent().parent();
+                                $(tr).remove();
+                            });
+                        }
+                    },
+                    error: function() {
+                        layer.msg("删除失败!", {
                             offset: '300px'
                         });
-                    }else{
-                        $.ajax({
-                            url: "${pageContext.request.contextPath}/supplier/delAddress.do",
-                            data: {
-                                "id": addressIds
-                            },
-                            success: function(data) {
-                                if(data=="ok"){
-                                    layer.msg("删除成功!", {
-                                        offset: '300px'
-                                    });
-                                    $(checkboxs).each(function(index) {
-                                        var tr = $(this).parent().parent();
-                                        $(tr).remove();
-                                    });
-                                }
-                            },
-                            error: function() {
-                                layer.msg("删除失败!", {
-                                    offset: '300px'
-                                });
-                            }
-                        });
                     }
-                }else{
-                    layer.alert("请至少勾选一条记录 !", {
-                        offset: '200px',
-                        scrollbar: false,
-                    });
-                }
+                });
+            }
+        }else{
+            layer.alert("请至少勾选一条记录 !", {
+                offset: '200px',
+                scrollbar: false,
+            });
+        }
 				/*var btmCount = 0;
 				$("#address_list_body").find("input[type='button']").each(function() {
 					btmCount++;
@@ -909,6 +963,18 @@
 			}
 
 			function delBranch(obj) {
+			
+				// 退回修改状态
+				var thisLi = $(obj).parents("li[name='branch']");
+				var organizationName = thisLi.find("input[name^='branchList'][name$='organizationName']");
+				var country = thisLi.find("select[name^='branchList'][name$='country']");
+				var detailAddress = thisLi.find("input[name^='branchList'][name$='detailAddress']");
+				
+				/* if(){
+					layer.msg("审核通过项不能删除!");
+					return;
+				} */
+			
 				var btmCount = 0;
 				$("#branch_list_body").find("input[type='button']").each(function() {
 					btmCount++;
@@ -1334,16 +1400,16 @@
 								</li>
 								<div id="address_list_body">
                                     <div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
-                                    <c:choose>
-                                      <c:when test="${currSupplier.status==2 }">
-                                      <button class="btn btn-Invalid"  type="button" >新增</button>
-                                      </c:when>
-                                      <c:otherwise>
-                                        <button class="btn btn-windows add" type="button" onclick="increaseAddHouseAddress()">新增</button>
-                                      </c:otherwise>
-                                    </c:choose>
-                                        <button class="btn btn-windows delete" type="button" onclick="delAddress()">删除</button>
-                                        <span class="red">${err_address_token}</span>
+	                                    <c:choose>
+	                                    	<c:when test="${currSupplier.status==2 }">
+	                                      	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+	                                      </c:when>
+	                                      <c:otherwise>
+	                                        <button class="btn btn-windows add" type="button" onclick="increaseAddHouseAddress()">新增</button>
+	                                      </c:otherwise>
+	                                    </c:choose>
+	                                    <button class="btn btn-windows delete" type="button" onclick="delAddress()">删除</button>
+	                                    <span class="red">${err_address_token}</span>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
                                         <table id="address_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table">
@@ -1871,9 +1937,16 @@
 										<li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 											<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-												<input type="button" onclick="addBranch(this)" class="btn list_btn" value="十" />
+												<c:choose>
+                          <c:when test="${currSupplier.status==2 }">
+                          	<input type="button" disabled="disabled" class="btn list_btn" value="十" />
+                          </c:when>
+                          <c:otherwise>
+                            <input type="button" onclick="addBranch(this)" class="btn list_btn" value="十" />
+                          </c:otherwise>
+                        </c:choose>
 												<input type="button" onclick="delBranch(this)" class="btn list_btn" value="一" />
-												 <input type="hidden"   name=""    value="${bran.id}" />
+											 	<input type="hidden"   name=""    value="${bran.id}" />
 											</div>
 										</li>
 
@@ -2016,7 +2089,7 @@
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
 								<c:choose>
                                       <c:when test="${currSupplier.status==2 }">
-                                      <button class="btn btn-Invalid"  type="button" >新增</button>
+                                      <button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                                       </c:when>
                                       <c:otherwise>
                                         <button class="btn btn-windows add" type="button" onclick="openStockholder()">新增</button>
@@ -2075,7 +2148,7 @@
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
 								<c:choose>
                                       <c:when test="${currSupplier.status==2 }">
-                                      <button class="btn btn-Invalid"  type="button" >新增</button>
+                                      <button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                                       </c:when>
                                       <c:otherwise>
                                        <button class="btn btn-windows add" type="button" onclick="openAfterSaleDep()">新增</button>
@@ -2283,6 +2356,8 @@
 		var currSupplierSt = '${currSupplier.status}';
 		if(currSupplierSt == '2'){
 			$("input[type='text'],select,textarea").attr('disabled',true);
+			//enableForm();
+			//$("input[type='text'],select,textarea").removeAttr('readonly');
 			$("input[type='text'],select,textarea").each(function(){
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
@@ -2293,5 +2368,10 @@
 			/* $("select").change(function(){
 				this.selectedIndex=this.defaultIndex;
 			}); */
+		}
+		
+		// 表单可编辑
+		function enableForm(){
+			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
 		}
 </script>
