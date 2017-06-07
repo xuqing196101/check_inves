@@ -3715,6 +3715,9 @@ public class ProjectController extends BaseController {
         if(StringUtils.isNotBlank(project.getPurchaseType())){
             map.put("purchaseType", project.getPurchaseType());
         }
+        if(StringUtils.isNotBlank(project.getPurchaseDepId())){
+            map.put("purchaseDepId", project.getPurchaseDepId());
+        }
         if(page == null){
             page = 1;
         }
@@ -3734,10 +3737,18 @@ public class ProjectController extends BaseController {
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
         model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
         model.addAttribute("projects", project);
-        return "bss/ppms/project/view_project";
+        return "dss/rids/list/view_project";
     }
     
-    
+    /**
+     * 
+     *〈资源展示查看项目详细〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param model
+     * @param id
+     * @return
+     */
     @RequestMapping("/particulars")
     public String particulars(Model model, String id){
         if(StringUtils.isNotBlank(id)){
@@ -3762,7 +3773,7 @@ public class ProjectController extends BaseController {
                 model.addAttribute("project", project);
             }
         }
-        return "bss/ppms/project/particulars";
+        return "dss/rids/detail/particulars";
     }
     
     @InitBinder  

@@ -326,5 +326,15 @@ public interface OrgnizationMapper {
 	 * @return
 	 */
 	List<AnalyzeVo> selectPurProjectCountAndMoney();
+	
+	/**
+	 * 
+	 * Description:各采购机构完成采购合同数量及总金额 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月6日
+	 * @return
+	 */
+	List<AnalyzeVo> selectPurContractCountAndMoney();
 
 }

@@ -80,7 +80,7 @@
 							<div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
 								<label class="col-md-3 col-sm-12 col-xs-12  p0"><i class="red mr5">*</i>登录密码：</label> 
 								 <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-								  <input type="password" name="password" value="" placeholder="密码长度为6-20位" class="col-md-12 col-sm-12 col-xs-12">
+								  <input type="password" name="password" value="" placeholder="密码长度为6-20位" autocomplete="off" class="col-md-12 col-sm-12 col-xs-12">
 								  <span class="cue" >${err_msg_password }</span> 
 								</div>
 								
@@ -88,7 +88,7 @@
 							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12 ">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>确认密码：</label> 
 								 <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-								   <input type="password" name="confirmPassword" value="" placeholder="请再次输入密码" class="col-md-12 col-sm-12 col-xs-12">
+								   <input type="password" name="confirmPassword" value="" placeholder="请再次输入密码" autocomplete="off" class="col-md-12 col-sm-12 col-xs-12">
 								   <span class="cue">${err_msg_ConfirmPassword }</span> 
 								</div>
 							</div>

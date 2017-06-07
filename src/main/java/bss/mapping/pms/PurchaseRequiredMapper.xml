@@ -1059,5 +1059,16 @@
 					 </foreach>  
 				 group by UNIQUE_ID
      </select>
-    
+   
+   <!-- 获取各类型需求金额 -->
+   <select id="selectBudget" parameterType="java.lang.String" resultType="java.math.BigDecimal">
+      SELECT
+			  SUM(BUDGET)
+			FROM
+			  T_BSS_PMS_PURCHASE_REQUIRED
+			WHERE
+			  PARENT_ID = '1'
+			AND HISTORY_STATUS = '0'
+			AND PLAN_TYPE = #{planType}
+   </select>
 </mapper>

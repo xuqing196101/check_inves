@@ -943,11 +943,11 @@
 								</c:if>>
 								<c:choose>
 									<c:when test="${expert.status == 3 and !fn:contains(errorField,'近期免冠彩色证件照')}">
-										<u:show showId="show50"  groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show50" businessId="${sysId}" sysKey="${expertKey}" typeId="50" />
+										<u:show showId="show50" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show50" businessId="${sysId}" sysKey="${expertKey}" typeId="50" />
 									</c:when>
 									<c:otherwise>
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert50" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8,expert50"  businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="50" auto="true" />
-										<u:show showId="show50" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show50" businessId="${sysId}" sysKey="${expertKey}" typeId="50" />
+										<u:show showId="show50"  groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show50" businessId="${sysId}" sysKey="${expertKey}" typeId="50" />
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -1034,11 +1034,11 @@
 								</c:if>>
 								<c:choose>
 									<c:when test="${expert.status == 3 and !fn:contains(errorField,'身份证复印件（正反面）')}">
-										<u:show showId="show3"  groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
+										<u:show showId="show3" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
 									</c:when>
 									<c:otherwise>
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="3" auto="true" />
-										<u:show showId="show3" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
+										<u:show showId="show3"  groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
 									</c:otherwise>
 								</c:choose>
 								<!--typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }" -->
@@ -1067,22 +1067,22 @@
 								<c:if test="${expert.coverNote eq '1'}">
 									<c:choose>
 										<c:when test="${expert.status == 3 and !fn:contains(errorField,'缴纳社会保险证明')}">
-											<u:show showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+											<u:show showId="show1" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
 										</c:when>
 										<c:otherwise>
 											<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" auto="true" />
-	                  	<u:show showId="show1" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+	                  	<u:show showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
 										</c:otherwise>
 									</c:choose>
                 </c:if>
                 <c:if test="${expert.coverNote eq '2'}">
                 	<c:choose>
 										<c:when test="${expert.status == 3 and !fn:contains(errorField,'退休证书或退休证明')}">
-											<u:show showId="show1_2"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
+											<u:show showId="show1_2" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
 										</c:when>
 										<c:otherwise>
 											<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1_2" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" auto="true" />
-                    	<u:show showId="show1_2" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
+                    	<u:show showId="show1_2"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
 										</c:otherwise>
 									</c:choose>
                 </c:if>
@@ -1124,11 +1124,11 @@
 								</c:if>>
 								<c:choose>
 									<c:when test="${expert.status == 3 and !fn:contains(errorField,'军队人员身份证件')}">
-										<u:show showId="show12"  businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
+										<u:show showId="show12" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
 									</c:when>
 									<c:otherwise>
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert12" businessId="${sysId}" sysKey="${expertKey}" typeId="12" maxcount="12" auto="true" />
-										<u:show showId="show12" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
+										<u:show showId="show12"  businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -1297,11 +1297,11 @@
 								</c:if>>
 								<c:choose>
 									<c:when test="${expert.status == 3 and !fn:contains(errorField,'专业技术职称证书')}">
-										<u:show showId="show4"  groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
+										<u:show showId="show4" delete="false" groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
 									</c:when>
 									<c:otherwise>
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert4" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="4" auto="true" />
-										<u:show showId="show4" delete="false" groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
+										<u:show showId="show4"  groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -1363,11 +1363,11 @@
 							</c:if>>
 							<c:choose>
 								<c:when test="${expert.status == 3 and !fn:contains(errorField,'毕业证书')}">
-									<u:show showId="show5"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="5" />
+									<u:show showId="show5" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="5" />
 								</c:when>
 								<c:otherwise>
 									<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="5" auto="true" />
-									<u:show showId="show5" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="5" />
+									<u:show showId="show5"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="5" />
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -1399,11 +1399,11 @@
 							</c:if>>
 							<c:choose>
 								<c:when test="${expert.status == 3 and !fn:contains(errorField,'学位证书')}">
-									<u:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="6" />
+									<u:show showId="show6" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="6" />
 								</c:when>
 								<c:otherwise>
 									<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert6" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="6" auto="true" />
-									<u:show showId="show6" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="6" />
+									<u:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="6" />
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -1450,11 +1450,11 @@
 								</c:if>>
 								<c:choose>
 									<c:when test="${expert.status == 3 and !fn:contains(errorField,'推荐信')}">
-										<u:show showId="show8"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="8" />
+										<u:show showId="show8" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="8" />
 									</c:when>
 									<c:otherwise>
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert8" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="8" auto="true" />
-										<u:show showId="show8" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="8" />
+										<u:show showId="show8"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="8" />
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -1487,11 +1487,11 @@
 								</c:if>>
 								<c:choose>
 									<c:when test="${expert.status == 3 and !fn:contains(errorField,'获奖证书')}">
-										<u:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
+										<u:show showId="show7" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
 									</c:when>
 									<c:otherwise>
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="7" auto="true" />
-										<u:show showId="show7" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
+										<u:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
 									</c:otherwise>
 								</c:choose>
 							</div>
