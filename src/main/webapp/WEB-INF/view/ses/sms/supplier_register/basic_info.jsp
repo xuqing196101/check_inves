@@ -872,6 +872,7 @@
 							"  <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 							"<select name='branchList[" + inde + "].country'  id='overseas_branch_select_id'>" +
 							"<c:forEach items='${foregin }' var='fr'>" +
+							"<option value=''>请选择</option>"+
 							"<option value='${fr.id }' <c:if test='${bran.country==fr.id}'> onchange='tempSave()' selected='selected' </c:if> >${fr.name }</option>" +
 							" </c:forEach> 	</select>" +
 							" </div>" +
