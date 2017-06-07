@@ -247,4 +247,86 @@ public interface PurchaseResourceAnalyzeService {
 	 * @return
 	 */
 	public List<AnalyzeBigDecimal> selectPurContractCountAndMoney();
+	
+	/**
+	 * 
+	 * Description:查询已发布采购公告数量 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	public BigDecimal selectPurchaseNoticeCount();
+	
+	/**
+	 * 
+	 * Description:查询已发布采购公告数量 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	public List<AnalyzeBigDecimal> selectNearFiveYearPurchaseNoticeCount();
+	
+	/**
+	 * 
+	 * Description:根据各栏目信息查询公告
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	public List<AnalyzeBigDecimal> selectNoticeByArticleType();
+	
+	/**
+     * 
+     * Description:根据各类型公告查询
+     * 
+     * @author Easong
+     * @version 2017年6月7日
+     * @return
+     */
+	public List<AnalyzeBigDecimal>  selectNoticeByCateType();
+    
+    /**
+     * 
+     * Description:根据各采购方式公告查询
+     * 
+     * @author Easong
+     * @version 2017年6月7日
+     * @return
+     */
+	public List<AnalyzeBigDecimal>  selectNoticeByPurWay();
+	
+	/**
+     * 
+     * Description:发布排名前10的产品类别数量
+     * 
+     * @author Easong
+     * @version 2017年6月7日
+     * @return
+     */
+    public List<AnalyzeBigDecimal>  selectNoticeByProductCate();
+    
+   /**
+    * 
+    * Description:获取需求总金额
+    * 
+    * @author Easong
+    * @version 2017年6月7日
+    * @param map
+    * @return
+    */
+    public BigDecimal selectAllBudget();
+    
+    /**
+     * 
+     * Description:获取需求总金额
+     * 
+     * @author Easong
+     * @version 2017年6月7日
+     * @param map
+     * @return
+     */
+    public List<AnalyzeBigDecimal> selectNearFiveYearAllBudget();
 }

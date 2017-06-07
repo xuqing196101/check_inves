@@ -21,6 +21,13 @@
     <result column="AUDIT_TURN" jdbcType="VARCHAR" property="auditTurn" />
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
   </resultMap>
+  
+  <resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyzeBigDecimal">
+    <result column="COL_NAME" property="name"/>
+    <result column="COL_VALUE" property="value"/>
+    <result column="COL_ID" property="id"/>
+  </resultMap>
+  
   <sql id="Base_Column_List">
     ID, FILE_NAME, PASSWORD, DEPARTMENT, BUDGET, STATUS, PURCHASE_ID, CREATED_AT, ORDER_AT, 
     UPDATED_AT, POSITION,PLAN_NUMBER,GOODS_TYPE,PURCHASE_TYPE,TASK_ID,TOTAL_AUDIT,AUDIT_TURN,USER_ID
@@ -447,7 +454,60 @@
   	<if test="status ==2 ">
   		  order by STATUS  desc, CREATED_AT desc
   	</if> -->
-  	
-  	
   </select>
+  
+  
+  <!-- 获取计划总金额 -->
+   <select id="selectBudget" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+      SELECT
+        SUM(BUDGET)
+      FROM
+        T_BSS_PMS_COLLECT_PLAN
+      WHERE
+        1=1
+      <if test="createdAt != null">
+        AND to_char(CREATED_AT,'yyyy') = to_char(#{createdAt},'yyyy')
+      </if>
+   </select>
+   
+   <!-- 管理部门获取前10名的总金额 -->
+   <select id="selectManageBudget" resultMap="baseAnalyzeBigDecimal">
+     SELECT
+			  *
+			FROM
+			  (
+			    SELECT
+			      pp.*, ROWNUM num
+			    FROM
+			      (
+			        SELECT
+			          ORG.SHORT_NAME AS COL_NAME,
+			          NVL (SUM(P .BUDGET), 0) AS COL_VALUE,
+			          ORG. ID AS COL_ID
+			        FROM
+			          T_SES_OMS_ORG ORG
+			        LEFT JOIN (
+			          SELECT
+			            ORG_ID,
+			            ID
+			          FROM
+			            T_SES_BMS_USER
+			        ) U ON ORG. ID = U .ORG_ID
+			        LEFT JOIN T_BSS_PMS_COLLECT_PLAN P ON U . ID = P .USER_ID
+			        WHERE
+			          ORG.TYPE_NAME = 2
+			        AND P .STATUS = '2'
+			        AND ORG.IS_DELETED = 0
+			        GROUP BY
+			          ORG.SHORT_NAME,
+			          ORG. ID
+			        ORDER BY
+			          COL_VALUE DESC
+			      ) pp
+			    WHERE
+			      ROWNUM &gt; 0
+			  )
+			WHERE
+			  num<![CDATA[<= 10]]> 
+   </select>
 </mapper>

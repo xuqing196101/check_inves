@@ -1,7 +1,10 @@
 package bss.dao.pms;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
+import ses.model.bms.AnalyzeBigDecimal;
 import bss.model.pms.CollectPlan;
 /**
  * 
@@ -64,5 +67,24 @@ public interface CollectPlanMapper {
      * @return
      */
     List<CollectPlan> querySupervision(CollectPlan collectPlan);
+    
+    /**
+     * 
+     *〈获取计划总金额 〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    BigDecimal selectAllBudget(Map<String, Object> map);
+    
+    /**
+     * 
+     *〈管理部门获取前10名的总金额〉
+     *〈详细描述〉
+     * @author FengTian
+     * @return
+     */
+    List<AnalyzeBigDecimal> selectManageBudget();
     
 }

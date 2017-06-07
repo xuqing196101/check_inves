@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.AnalyzeBigDecimal;
 import bss.model.pms.PurchaseRequired;
 /**
  * 
@@ -331,5 +332,24 @@ public interface PurchaseRequiredMapper {
      * @return
      */
     BigDecimal selectBudget(@Param("planType") String planType);
+    
+    /**
+     * 
+     *〈获取需求总金额 〉
+     *〈详细描述〉dict:6
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    BigDecimal selectAllBudget(Map<String, Object> map);
+    
+    /**
+     * 
+     *〈获取各管理部门受理需求金额〉
+     *〈详细描述〉
+     * @author FengTian
+     * @return
+     */
+    List<AnalyzeBigDecimal> selectOrgBudget();
     
 }

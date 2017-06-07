@@ -2337,6 +2337,13 @@ a.news_more{
   float:left;
   margin:4px;
 }
+.drop_main .ywbl_01{
+  width:131px;
+  height:104px;
+  background:url(../images/flow_bg.jpg) center;
+  float:left;
+  margin:4px;
+}
 .ywbl_01 a{
   width:130px;
   height:104px;
@@ -2732,7 +2739,6 @@ a.yjfk i{
 .job-content .categories li {
     padding:0;
     font-size: 14px;
-    height:29px;
     line-height: 29px;
 }
 span.list_squre {
@@ -3090,7 +3096,7 @@ h2.list_title{
 
 }
 @media (min-width:800px){
-.service_btns{
+.supp_service .service_btns{
 	width:14.28%;
 }
 .service_btns{
