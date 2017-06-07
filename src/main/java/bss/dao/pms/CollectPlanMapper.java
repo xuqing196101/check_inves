@@ -1,11 +1,10 @@
 package bss.dao.pms;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import ses.model.bms.Analyze;
-
+import ses.model.bms.AnalyzeBigDecimal;
 import bss.model.pms.CollectPlan;
 /**
  * 
@@ -77,7 +76,7 @@ public interface CollectPlanMapper {
      * @param map
      * @return
      */
-    BigDecimal selectAllBudget(HashMap<String, Object> map);
+    BigDecimal selectAllBudget(Map<String, Object> map);
     
     /**
      * 
@@ -86,6 +85,6 @@ public interface CollectPlanMapper {
      * @author FengTian
      * @return
      */
-    List<Analyze> selectManageBudget();
+    List<AnalyzeBigDecimal> selectManageBudget();
     
 }

@@ -101,7 +101,7 @@
 		   <ul class="breadcrumb margin-left-0">
 			   <li><a href="javascript:void(0)">首页</a></li><li><a href="javascript:void(0)">决策支持</a></li><li><a href="javascript:void(0)">采购资源综合展示</a></li>
 			   <li class="active"><a href="${pageContext.request.contextPath}/resAnalyze/list.html">采购资源展示</a>
-			   <li class="active"><a href="javascript:void(0)">供应商</a>
+			   <li class="active"><a href="javascript:void(0)">专家</a>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
