@@ -30,3 +30,16 @@ function validatePercentage2(val) {
 	}
 	return true;
 }
+
+
+//验证百分比 供应商注册--供应商类型，物资删除半分比不能填超过100的数字
+function validatePercentageSupplier(val,id) {
+	var reg = /^(([1-9]\d{0,1}|0|100)(\.\d{1,2})?)?$/;
+	if (!reg.test(val)) {
+		//alert("百分比格式不对，正确格式为0-100的数字，最多两位小数！");
+		$("#"+id+"").val("");
+		layer.msg("百分比格式不对，正确格式为0-100的数字，最多两位小数！");
+		return false;
+	}
+	return true;
+}
