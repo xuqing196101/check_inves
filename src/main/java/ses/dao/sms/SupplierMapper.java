@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
+import ses.model.sms.supplierExport;
 
 /**
  * @Title: SupplierMapper
@@ -516,4 +517,6 @@ public interface SupplierMapper {
      */
     Long getSupplierCountByNature(@Param("business_nature") String business_nature);
     
+    public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
+    public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);
 }

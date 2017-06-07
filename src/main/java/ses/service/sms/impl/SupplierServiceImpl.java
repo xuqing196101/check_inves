@@ -80,6 +80,7 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
+import ses.model.sms.supplierExport;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
@@ -1259,6 +1260,20 @@ public class SupplierServiceImpl implements SupplierService {
 	public List<Supplier> getCreditCode(String creditCode, Integer isProvisional) {
 		// TODO Auto-generated method stub
 		return supplierMapper.getCreditCode(creditCode, isProvisional);
+	}
+
+	@Override
+	public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)map.get("page"),Integer.parseInt(config.getString("pageSize")));
+		return supplierMapper.selectSupplierNumber(map);
+	}
+
+	@Override
+	public List<supplierExport> selectExpertNumber(HashMap<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)map.get("pageEx"),Integer.parseInt(config.getString("pageSize")));
+		return supplierMapper.selectExpertNumber(map);
 	}
 
 }
