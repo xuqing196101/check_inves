@@ -1061,7 +1061,7 @@
      </select>
    
    <!-- 获取各类型需求金额 -->
-   <select id="selectBudget" parameterType="java.lang.String" resultMap="java.math.BigDecimal">
+   <select id="selectBudget" parameterType="java.lang.String" resultType="java.math.BigDecimal">
       SELECT
 			  SUM(BUDGET)
 			FROM
