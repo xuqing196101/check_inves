@@ -25,7 +25,7 @@ $(function(){
 		window.location.href=globalPath + "/resAnalyze/analyzePurchaseProject.html";
 	});
 	$("#analyzePurContract").click(function(){
-		window.location.href=globalPath + "/";
+		window.location.href=globalPath + "/resAnalyze/analyzePurchaseContract.html";
 	});
 	$("#analyzePurNotice").click(function(){
 		window.location.href=globalPath + "/";

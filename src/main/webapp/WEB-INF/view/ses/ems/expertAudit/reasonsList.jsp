@@ -249,6 +249,7 @@
                     <a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
                 </li>
             </ul>
+            <h2 class="count_flow"><i>1</i>专家个人信息</h2>
             <ul class="ul_list count_flow">
                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
                 <table class="table table-bordered table-condensed table-hover">
@@ -288,7 +289,7 @@
                 </table>
             </ul>
 
-            <h2 class="count_flow"><i>1</i>最终意见</h2>
+            <h2 class="count_flow"><i>2</i>最终意见</h2>
             <ul class="ul_list">
                 <li class="col-md-12 col-sm-12 col-xs-12">
                     <div class="col-md-12 col-sm-12 col-xs-12 p0">

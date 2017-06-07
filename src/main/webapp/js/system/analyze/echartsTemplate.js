@@ -721,13 +721,16 @@
 				var group = groupList[i];
 				for(var j=0;j<data.length;j++){
 					var value = data[j][opt.YField];
-					
+
+					// ---新加
+					var id = data[j].id;
 					//如果分组一样，则拿到Y值
 					if(data[j][opt.groupField]==group){
 						
 						serieData.push({
 							value:value,
-							name:group
+							name:group,
+							id:id
 						});
 						break;
 					}
@@ -759,9 +762,11 @@
 						
 						var yValue = 0;
 						var srcData = null;
+						var id;
 						for(var j=0;j<data.length;j++){
 							var value = data[j][opt.XField];
-							
+							// 获取id
+							id = data[j].id;
 							
 							//如果分组一样，X轴一样，则拿到Y值
 							if(data[j][opt.groupField]==group && value==xValue){
@@ -774,7 +779,8 @@
 						serieData.push({
 							name:group,
 							value:yValue,
-							srcData:srcData
+							srcData:srcData,
+							id:id
 						});
 					}
 					serie.data = serieData;

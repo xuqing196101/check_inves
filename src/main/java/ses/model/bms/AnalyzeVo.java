@@ -26,7 +26,11 @@ public class AnalyzeVo implements Serializable{
 	
 	/** 采购数量**/
 	private BigDecimal count;
+	
+	/** 用于查询条件的ID **/
 
+	private String id;
+	
 	public String getName() {
 		return name;
 	}
@@ -49,6 +53,14 @@ public class AnalyzeVo implements Serializable{
 
 	public void setCount(BigDecimal count) {
 		this.count = count;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 }
