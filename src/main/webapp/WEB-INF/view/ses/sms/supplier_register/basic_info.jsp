@@ -872,6 +872,7 @@
 							"  <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 							"<select name='branchList[" + inde + "].country'  id='overseas_branch_select_id'>" +
 							"<c:forEach items='${foregin }' var='fr'>" +
+							"<option value=''>请选择</option>"+
 							"<option value='${fr.id }' <c:if test='${bran.country==fr.id}'> onchange='tempSave()' selected='selected' </c:if> >${fr.name }</option>" +
 							" </c:forEach> 	</select>" +
 							" </div>" +
@@ -1334,7 +1335,14 @@
 								</li>
 								<div id="address_list_body">
                                     <div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
+                                    <c:choose>
+                                      <c:when test="${currSupplier.status==2 }">
+                                      <button class="btn btn-Invalid"  type="button" >新增</button>
+                                      </c:when>
+                                      <c:otherwise>
                                         <button class="btn btn-windows add" type="button" onclick="increaseAddHouseAddress()">新增</button>
+                                      </c:otherwise>
+                                    </c:choose>
                                         <button class="btn btn-windows delete" type="button" onclick="delAddress()">删除</button>
                                         <span class="red">${err_address_token}</span>
                                     </div>
@@ -2007,7 +2015,14 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
-									<button class="btn btn-windows add" type="button" onclick="openStockholder()">新增</button>
+								<c:choose>
+                                      <c:when test="${currSupplier.status==2 }">
+                                      <button class="btn btn-Invalid"  type="button" >新增</button>
+                                      </c:when>
+                                      <c:otherwise>
+                                        <button class="btn btn-windows add" type="button" onclick="openStockholder()">新增</button>
+                                      </c:otherwise>
+                                    </c:choose>
 									<button class="btn btn-windows delete" type="button" onclick="deleteStockholder()">删除</button>
 									<span class="red">${stock }</span>
 								</div>
@@ -2059,7 +2074,14 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
-									<button class="btn btn-windows add" type="button" onclick="openAfterSaleDep()">新增</button>
+								<c:choose>
+                                      <c:when test="${currSupplier.status==2 }">
+                                      <button class="btn btn-Invalid"  type="button" >新增</button>
+                                      </c:when>
+                                      <c:otherwise>
+                                       <button class="btn btn-windows add" type="button" onclick="openAfterSaleDep()">新增</button>
+                                      </c:otherwise>
+                                    </c:choose>
 									<button class="btn btn-windows delete" type="button" onclick="deleteAfterSaleDep()">删除</button>
 									<span class="red">${afterSale}</span>
 								</div>

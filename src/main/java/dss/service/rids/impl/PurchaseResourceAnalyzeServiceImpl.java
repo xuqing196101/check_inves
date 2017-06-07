@@ -154,10 +154,11 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @param cateType
 	 * @param list
 	 */
-	private void setAnalyzeBigDate(BigDecimal count, String cateType, List<AnalyzeBigDecimal> list) {
+	private void setAnalyzeBigDate(BigDecimal count, String cateType, String id, List<AnalyzeBigDecimal> list) {
 		AnalyzeBigDecimal analyze = new AnalyzeBigDecimal();
 		analyze.setGroup(cateType);
 		analyze.setValue(count);
+		analyze.setId(id);
 		list.add(analyze);
 	}
 
@@ -628,7 +629,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		if(list != null && !list.isEmpty()){
 			for (DictionaryData dict : list) {
 				BigDecimal count = projectMapper.selectPurProjectByWay(dict.getId());
-				setAnalyzeBigDate(count, dict.getName(), analyzeBigDecimal);
+				setAnalyzeBigDate(count, dict.getName(), dict.getId(), analyzeBigDecimal);
 			}
 		}
 		return analyzeBigDecimal;
@@ -636,7 +637,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 
 	/**
 	 * 
-	 * Description:
+	 * Description:各采购机构完成采购项目数量及总金额 
 	 * 
 	 * @author Easong
 	 * @version 2017年6月6日
@@ -648,23 +649,79 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		List<AnalyzeVo> list = orgnizationMapper.selectPurProjectCountAndMoney();
 		
 		List<AnalyzeBigDecimal> listAnalyze = new ArrayList<>();
+		setPurCommonDate(list, listAnalyze, 1);
+		return listAnalyze;
+	}
+
+	/**
+	 * 
+	 * Description:全网已完成采购合同总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月6日
+	 * @return
+	 */
+	@Override
+	public BigDecimal selectPurContractTotalMoney() {
+		return supplierCheckPassMapper.selectPurContractTotalMoney();
+	}
+
+	/**
+	 * 
+	 * Description:各采购机构完成采购合同数量及总金额 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月6日
+	 * @return
+	 */
+	@Override
+	public List<AnalyzeBigDecimal> selectPurContractCountAndMoney() {
+		// 查询采购项目数量以及总金额
+		List<AnalyzeVo> list = orgnizationMapper.selectPurContractCountAndMoney();
+		
+		List<AnalyzeBigDecimal> listAnalyze = new ArrayList<>();
+		setPurCommonDate(list, listAnalyze, 2);
+		return listAnalyze;
+	}
+
+	/**
+	 * 
+	 * Description: 设置采购项目以及采购合同通用数据封装
+	 * 
+	 * @author Easong
+	 * @version 2017年6月6日
+	 * @param list
+	 * @param listAnalyze
+	 */
+	private void setPurCommonDate(List<AnalyzeVo> list,List<AnalyzeBigDecimal> listAnalyze, Integer type) {
 		if(list != null && !list.isEmpty()){
 			for (AnalyzeVo analyzeVo : list) {
 				AnalyzeBigDecimal analyzeProCount = new AnalyzeBigDecimal();
-				// 设置项目数量
-				analyzeProCount.setGroup("项目数量");
+				// 设置数量
+				if(type == 1){
+					analyzeProCount.setGroup("项目数量");
+				}
+				if(type == 2){
+					analyzeProCount.setGroup("合同数量");
+				}
 				analyzeProCount.setName(analyzeVo.getName());
 				analyzeProCount.setValue(analyzeVo.getCount());
+				analyzeProCount.setId(analyzeVo.getId());
 				listAnalyze.add(analyzeProCount);
 				AnalyzeBigDecimal analyzeProMoney = new AnalyzeBigDecimal();
-				// 设置项目总金额
-				analyzeProMoney.setGroup("项目总金额");
+				// 设置总金额
+				if(type == 1){
+					analyzeProMoney.setGroup("项目总金额");
+				}
+				if(type == 2){
+					analyzeProMoney.setGroup("合同总金额");
+				}
 				analyzeProMoney.setName(analyzeVo.getName());
 				analyzeProMoney.setValue(analyzeVo.getMoney());
+				analyzeProMoney.setId(analyzeVo.getId());
 				listAnalyze.add(analyzeProMoney);
 			}
 		}
-		return listAnalyze;
 	}
 
 }

@@ -429,7 +429,7 @@ public class PurchaseResourceAnalyzeController {
 	 * Description: 统计业务模块-采购项目
 	 * 
 	 * @author Easong
-	 * @version 2017年5月23日
+	 * @version 2017年6月6日
 	 * @return
 	 */
 	@SystemControllerLog(description="采购资源展示-采购项目", operType=2)
@@ -460,7 +460,7 @@ public class PurchaseResourceAnalyzeController {
 	
 	/**
 	 * 
-	 * Description: 五种采购方式项目
+	 * Description: 采购项目数量以及总金额
 	 * 
 	 * @author Easong
 	 * @version 2017年6月6日
@@ -472,5 +472,39 @@ public class PurchaseResourceAnalyzeController {
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectPurProjectCountAndMoneys(){
 		return purchaseResourceAnalyzeService.selectPurProjectCountAndMoney();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购项目
+	 * 
+	 * @author Easong
+	 * @version 2017年6月6日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购合同", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购合同", operType=2)
+	@RequestMapping("/analyzePurchaseContract")
+	public String analyzePurchaseContracts(Model model) {
+		// 查询全网采购合同总金额
+		BigDecimal totalMoney = purchaseResourceAnalyzeService.selectPurContractTotalMoney();
+		model.addAttribute("totalMoney", totalMoney);
+		return "dss/rids/analyze/analyzePurchaseContract";
+	}
+	
+	/**
+	 * 
+	 * Description: 采购合同数量以及总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月6日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购合同", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购合同", operType=2)
+	@RequestMapping("/selectPurContractCountAndMoney")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectPurContractCountAndMoneys(){
+		return purchaseResourceAnalyzeService.selectPurContractCountAndMoney();
 	}
 }

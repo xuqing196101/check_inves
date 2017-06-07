@@ -7,14 +7,43 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
-      function back(type){
-        window.location.href = "${pageContext.request.contextPath}/project/selectByProject.html?purchaseType=" + type;
+      function back(){
+        var purchaseType = "${project.purchaseType}";
+        var purchaseDepId = "${project.purchaseDepId}";
+        window.location.href = "${pageContext.request.contextPath}/project/selectByProject.html?purchaseType=" + purchaseType + "&purchaseDepId=" + purchaseDepId;
       }
     </script>
   </head>
 
   <body>
+    <!--面包屑导航开始-->
+    <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+        <ul class="breadcrumb margin-left-0">
+          <li>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">决策支持</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">采购资源综合展示</a>
+          </li>
+          <li>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/resAnalyze/list.html')">采购资源展示</a>
+          </li>
+          <li class="active">
+            <a href="javascript:void(0)">采购项目列表</a>
+          </li>
+          <li class="active">
+            <a href="javascript:void(0)">项目详情</a>
+          </li>
+        </ul>
+        <div class="clear"></div>
+      </div>
+    </div>
     <!-- 录入采购计划开始-->
+    <div class="container">
     <div class="tab-content">
       <div class="tab-pane fade in active" id="dep_tab-0">
         <h2 class="count_flow jbxx">项目信息</h2>
@@ -33,7 +62,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" id="content">
           <!-- 项目戳开始 -->
           <c:if test="${list ne null}">
-            <table id="table" class="table table-bordered table-condensed table-hover table_wrap">
+            <table id="table" class="table table-bordered table-condensed lockout">
               <thead>
                 <tr class="space_nowrap">
                   <th class="info w50">序号</th>
@@ -90,9 +119,11 @@
           </c:if>
         </div>
         <div class="col-md-12 tc col-xs-12 col-sm-12 mt10">
-          <button class="btn btn-windows back" onclick="back('${project.purchaseType}');">返回</button>
+          <button class="btn btn-windows back" onclick="back();">返回</button>
         </div>
       </div>
+    </div>
+    </div>
   </body>
 
 </html>

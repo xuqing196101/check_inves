@@ -57,13 +57,16 @@
             <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
           </li>
           <li>
-            <a href="javascript:void(0)">保障作业系统</a>
+            <a href="javascript:void(0)">决策支持</a>
           </li>
           <li>
-            <a href="javascript:void(0)">采购项目管理</a>
+            <a href="javascript:void(0)">采购资源综合展示</a>
+          </li>
+          <li>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/resAnalyze/list.html')">采购资源展示</a>
           </li>
           <li class="active">
-            <a href="javascript:jumppage('${pageContext.request.contextPath}/project/selectByProject.html')">查看采购项目</a>
+            <a href="javascript:void(0)">采购项目列表</a>
           </li>
         </ul>
         <div class="clear"></div>
@@ -90,20 +93,10 @@
         <span>
           <input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }" /> 
         </span>
-      </li>
-      <li>
-        <label class="fl">状态：</label>
-            <span class="">
-              <select name="status" id="status">
-                <option selected="selected" value="">请选择</option>
-                <c:forEach items="${status}" var="status" >
-                  <option  value="${status.id}" <c:if test="${status.id eq projects.status}">selected="selected"</c:if>>${status.name}</option>
-                </c:forEach>
-              </select>
-            </span>
+        <input type="hidden" name="purchaseType" value="${projects.purchaseType}"/>
       </li>
       <button class="btn fl mt1" type="submit">查询</button>
-        <button type="reset" class="btn fl mt1" onclick="clearSearch();">重置</button>
+      <button type="reset" class="btn fl mt1" onclick="clearSearch();">重置</button>
     </ul>
     <div class="clear"></div>
     </form>

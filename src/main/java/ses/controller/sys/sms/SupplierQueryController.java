@@ -22,11 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.formbean.QualificationBean;
-import ses.model.bms.Area;
-import ses.model.bms.Category;
-import ses.model.bms.CategoryTree;
-import ses.model.bms.DictionaryData;
-import ses.model.bms.Qualification;
+import ses.model.bms.*;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
@@ -418,7 +414,6 @@ public class SupplierQueryController extends BaseSupplierController {
      *〈详细描述〉
      * @author Song Biaowei
      * @param request request
-     * @param isRuku 和person一起 判断返回这三个页面（供应商查询、入库供应商查询、品目查询供应商）中的一个
      * @param supplier 供应商实体类
      * @param supplierId 供应商id
      * @param person 和isRuku一起判断返回这三个页面（供应商查询、入库供应商查询、品目查询供应商）中的一个
@@ -427,7 +422,7 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/essential")
     public String essentialInformation(HttpServletRequest request, Integer judge, Integer sign, Supplier supplier, String supplierId, Integer person, Model model, String reqType) {
-        /*User user = (User) request.getSession().getAttribute("loginUser");
+        User user = (User) request.getSession().getAttribute("loginUser");
         Integer ps = (Integer) request.getSession().getAttribute("ps");
         if (user.getTypeId() != null && ps != null) {
             person = ps;
@@ -435,7 +430,7 @@ public class SupplierQueryController extends BaseSupplierController {
         if (user.getTypeId() != null && person != null) {
             request.getSession().setAttribute("ps", person);
             supplierId = user.getTypeId();
-        }*/
+        }
         supplier = supplierAuditService.supplierById(supplierId);
         try {
             String provinceName = "";

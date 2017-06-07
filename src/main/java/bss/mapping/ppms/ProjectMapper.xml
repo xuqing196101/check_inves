@@ -1418,7 +1418,7 @@
   <!-- 资源管理查看已经完成的项目 -->
   <select id="selectByProject" parameterType="java.util.Map" resultMap="BaseResultMap">
     SELECT
-			  p.NAME, p.PURCHASE_TYPE,p.STATUS,p.PRINCIPAL,p.CREATED_AT,p.PROJECT_NUMBER
+			  p.ID,p.NAME, p.PURCHASE_TYPE,p.STATUS,p.PRINCIPAL,p.CREATED_AT,p.PROJECT_NUMBER,p.PURCHASE_DEP_ID
 			FROM
 			  T_BSS_PPMS_PROJECTS p
 			WHERE
@@ -1444,17 +1444,20 @@
 			  WHERE
 			    PC.MANUAL_TYPE = 0
 			)
-     <if test="name != null and name != ''">
-       and p.NAME like CONCAT(CONCAT('%', #{name}), '%')
+      <if test="name != null and name != ''">
+        and p.NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
-       <if test="projectNumber != null and projectNumber != ''">
-       and p.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%') 
+      <if test="projectNumber != null and projectNumber != ''">
+        and p.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%') 
       </if>
       <if test="status != null and status != ''">
-       and p.STATUS = #{status}
+        and p.STATUS = #{status}
       </if>
       <if test="purchaseType != null and purchaseType != ''">
-       and p.PURCHASE_TYPE = #{purchaseType}
+        and p.PURCHASE_TYPE = #{purchaseType}
+      </if>
+      <if test="purchaseDepId != null and purchaseDepId != ''">
+        and p.PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
       ORDER BY p.CREATED_AT DESC
   </select>

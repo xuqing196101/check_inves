@@ -495,7 +495,7 @@ public class ExpertAuditController{
 		} else if("2".equals(type)) {
 			SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
 			Date date = sdf1.parse(value);
-			content.append(new SimpleDateFormat("yyyy-MM").format(date));
+			content.append(new SimpleDateFormat("yyyy-MM-dd").format(date));
 		} else if("3".equals(type)) {
 			// Wed Feb 01 00:00:00 CST 2017         String
 			SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
@@ -657,9 +657,12 @@ public class ExpertAuditController{
 
         // 获取专家类别
         List < String > allTypeId = new ArrayList < String > ();
-        for(String id: expert.getExpertsTypeId().split(",")) {
-            allTypeId.add(id);
+        if(expert.getExpertsTypeId() !=null && !"".equals(expert.getExpertsTypeId())){
+        	for(String id: expert.getExpertsTypeId().split(",")) {
+                allTypeId.add(id);
+            }
         }
+        
         a: for(int i = 0; i < allTypeId.size(); i++) {
             DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
             /*if(dictionaryData != null && dictionaryData.getKind() == 19) {
@@ -1289,14 +1292,17 @@ public class ExpertAuditController{
 		//工程经济
 		String goodsProjectId = DictionaryDataUtil.getId("GOODS_PROJECT");
 		
-		if(expert.getExpertsTypeId().contains(engCodeId)){
-			expertTitleList = expertTitleService.queryByUserId(expertId,engCodeId);	
-			model.addAttribute("isProject", "project");
+		if(expert.getExpertsTypeId() !=null && !"".equals(expert.getExpertsTypeId())){
+			if(expert.getExpertsTypeId().contains(engCodeId)){
+				expertTitleList = expertTitleService.queryByUserId(expertId,engCodeId);	
+				model.addAttribute("isProject", "project");
+			}
+			if(expert.getExpertsTypeId().contains(goodsProjectId)){
+				expertTitleList = expertTitleService.queryByUserId(expertId,goodsProjectId);	
+				model.addAttribute("isProject", "project");
+			}
 		}
-		if(expert.getExpertsTypeId().contains(goodsProjectId)){
-			expertTitleList = expertTitleService.queryByUserId(expertId,goodsProjectId);	
-			model.addAttribute("isProject", "project");
-		}
+		
 		model.addAttribute("expertTitleList", expertTitleList);
 		
 		// 专家系统key
@@ -1391,6 +1397,10 @@ public class ExpertAuditController{
 		List<ExpertEngHistory> modifyList = expertEngModifySerivce.selectByExpertId(expertEngHistory);
 		if(!modifyList.isEmpty()  && modifyList.size() > 0){
 			expertEngHistory = modifyList.get(0);
+			if("titleTime".equals(expertEngHistory.getField())){
+				String titleTime = expertEngHistory.getContent().substring(0, 7);
+				expertEngHistory.setContent(titleTime);
+			}
 			return JSON.toJSONString(expertEngHistory.getContent());
 		}
 		return null;

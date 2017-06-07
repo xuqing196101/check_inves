@@ -118,4 +118,14 @@ public interface SupplierCheckPassMapper {
      * @return
      */
     BigDecimal selectPurProjectTotalMoney();
+    
+    /**
+     * 
+     * Description: 全网已完成采购合同总金额
+     * 
+     * @author Easong
+     * @version 2017年6月6日
+     * @return
+     */
+    BigDecimal selectPurContractTotalMoney();
 }

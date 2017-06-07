@@ -46,7 +46,7 @@
 	</filter-mapping>
 
 
-	<filter>
+	<!-- <filter>
 		<filter-name>FilterXSS</filter-name>
 		<filter-class>common.filter.FilterXSS</filter-class>
 	</filter>
@@ -58,7 +58,7 @@
 	<filter-mapping>
 		<filter-name>FilterXSS</filter-name>
 		<url-pattern>*.html</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 
 
 	<context-param>

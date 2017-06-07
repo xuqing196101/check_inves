@@ -27,6 +27,8 @@ public class AnalyzeBigDecimal implements Serializable{
 	/** 渲染值 **/
 	private BigDecimal value;
 	
+	private String id;
+	
 	public String getGroup() {
 		return group;
 	}
@@ -49,6 +51,14 @@ public class AnalyzeBigDecimal implements Serializable{
 
 	public void setValue(BigDecimal value) {
 		this.value = value;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 }
