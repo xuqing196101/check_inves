@@ -2684,7 +2684,7 @@ a.yjfk i{
 /*li_square*/
 .li_square li{
   border-bottom:1px dashed #e2e2e2;
-  font-size:15px!important;
+  font-size:14px!important;
   overflow: hidden;
 }
 .li_square{
@@ -2732,6 +2732,8 @@ a.yjfk i{
 .job-content .categories li {
     padding:0;
     font-size: 14px;
+    height:29px;
+    line-height: 29px;
 }
 span.list_squre {
     display: block;
@@ -3056,6 +3058,10 @@ h2.list_title{
 .list_new li span, .list_new li a{
 	display: block;
 	line-height: 29px;
+	height:29px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis;
 }
  .list_new li span.hex{
 	display: block;
