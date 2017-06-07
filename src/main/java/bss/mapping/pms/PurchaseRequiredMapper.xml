@@ -55,6 +55,13 @@
 		<result column="UNIQUE_ID" jdbcType="VARCHAR"  property="uniqueId"/>
 		<result column="FILE_ID" jdbcType="VARCHAR"  property="fileId"/>
 	</resultMap>
+	
+	<resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyzeBigDecimal">
+    <result column="COL_NAME" property="name"/>
+    <result column="COL_VALUE" property="value"/>
+    <result column="COL_ID" property="id"/>
+  </resultMap>
+  
 	<sql id="Base_Column_List">
 		ID, PLAN_NAME, PLAN_NO, REFERENCE_NO, PLAN_TYPE, DEPARTMENT, MATERIAL_NAME, STAND,
 		QUALIT_STAND, ITEM,
@@ -1070,5 +1077,45 @@
 			  PARENT_ID = '1'
 			AND HISTORY_STATUS = '0'
 			AND PLAN_TYPE = #{planType}
+   </select>
+   
+   <!-- 获取需求总金额 -->
+   <select id="selectAllBudget" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+      SELECT
+        SUM(BUDGET)
+      FROM
+        T_BSS_PMS_PURCHASE_REQUIRED
+      WHERE
+        PARENT_ID = '1'
+      AND HISTORY_STATUS = '0'
+      <if test="createdAt != null">
+        AND to_char(CREATED_AT,'yyyy') = to_char(#{createdAt},'yyyy')
+      </if>
+   </select>
+   
+   <!-- 获取各管理部门受理需求金额 -->
+   <select id="selectOrgBudget" resultMap="baseAnalyzeBigDecimal">
+     SELECT
+			  ORG.SHORT_NAME AS COL_NAME,
+			  NVL (SUM(P .BUDGET), 0) AS COL_VALUE,
+			ORG.ID AS COL_ID
+			FROM
+			  T_SES_OMS_ORG ORG
+			LEFT JOIN (
+			  SELECT
+			    MANAGEMENT_ID,PURCHASE_ID
+			  FROM
+			    T_BSS_PMS_PURCHASE_MANAGEMENT
+			) PT ON ORG. ID = PT.MANAGEMENT_ID
+			LEFT JOIN T_BSS_PMS_PURCHASE_REQUIRED P ON PT.PURCHASE_ID = P . UNIQUE_ID
+			WHERE
+			  ORG.TYPE_NAME = 2
+			AND ORG.IS_DELETED = 0
+			AND p.PARENT_ID = '1'
+			AND p.HISTORY_STATUS = '0'
+			GROUP BY
+			  ORG.SHORT_NAME,ORG.ID
+			ORDER BY
+			  COL_VALUE DESC
    </select>
 </mapper>
