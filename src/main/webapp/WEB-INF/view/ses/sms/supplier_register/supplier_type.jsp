@@ -777,7 +777,7 @@
 	}
 
 	$(function() {
-		window.onload = function() {
+		window.onload = function() {alert('${currSupplier.status}');
 			$(".textbox").css({
 				"border": "0px",
 			});
@@ -2362,7 +2362,7 @@
 </script>
 <script type="text/javascript">
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
-		var currSupplierSt = '${currSupplier.status}';
+		var currSupplierSt = '${currSupplier.status}';alert(currSupplierSt);
 		if(currSupplierSt == '2'){
 			$("input[type='text'],select,textarea").attr('disabled',true);
 			$("input[type='text'],select,textarea").each(function(){
