@@ -458,9 +458,9 @@
   
   
   <!-- 获取计划总金额 -->
-   <select id="selectBudget" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+   <select id="selectAllBudget" parameterType="java.util.Map" resultType="java.math.BigDecimal">
       SELECT
-        SUM(BUDGET)
+        NVL(SUM(BUDGET),0)
       FROM
         T_BSS_PMS_COLLECT_PLAN
       WHERE
@@ -472,42 +472,20 @@
    
    <!-- 管理部门获取前10名的总金额 -->
    <select id="selectManageBudget" resultMap="baseAnalyzeBigDecimal">
-     SELECT
-			  *
-			FROM
-			  (
-			    SELECT
-			      pp.*, ROWNUM num
-			    FROM
-			      (
-			        SELECT
-			          ORG.SHORT_NAME AS COL_NAME,
-			          NVL (SUM(P .BUDGET), 0) AS COL_VALUE,
-			          ORG. ID AS COL_ID
-			        FROM
-			          T_SES_OMS_ORG ORG
-			        LEFT JOIN (
-			          SELECT
-			            ORG_ID,
-			            ID
-			          FROM
-			            T_SES_BMS_USER
-			        ) U ON ORG. ID = U .ORG_ID
-			        LEFT JOIN T_BSS_PMS_COLLECT_PLAN P ON U . ID = P .USER_ID
-			        WHERE
-			          ORG.TYPE_NAME = 2
-			        AND P .STATUS = '2'
-			        AND ORG.IS_DELETED = 0
-			        GROUP BY
-			          ORG.SHORT_NAME,
-			          ORG. ID
-			        ORDER BY
-			          COL_VALUE DESC
-			      ) pp
-			    WHERE
-			      ROWNUM &gt; 0
-			  )
-			WHERE
-			  num<![CDATA[<= 10]]> 
+     	SELECT COL_NAME, COL_VALUE, COL_ID
+			  FROM (SELECT ORG.SHORT_NAME AS COL_NAME,
+			               NVL(SUM(P.BUDGET), 0) AS COL_VALUE,
+			               ORG. ID AS COL_ID
+			          FROM T_SES_OMS_ORG ORG
+			          LEFT JOIN (SELECT ORG_ID, ID FROM T_SES_BMS_USER) U
+			            ON ORG. ID = U.ORG_ID
+			          LEFT JOIN T_BSS_PMS_COLLECT_PLAN P
+			            ON U . ID = P.USER_ID
+			         WHERE ORG.TYPE_NAME = 2
+			           AND P.STATUS = '2'
+			           AND ORG.IS_DELETED = 0
+			         GROUP BY ORG.SHORT_NAME, ORG. ID
+			         ORDER BY COL_VALUE DESC)
+			 WHERE ROWNUM &lt;= 10
    </select>
 </mapper>

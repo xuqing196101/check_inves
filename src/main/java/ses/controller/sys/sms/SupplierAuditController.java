@@ -3179,6 +3179,9 @@ public class SupplierAuditController extends BaseSupplierController {
 				}
 			}
 		}
+		if("".equals(businessType)){
+			businessType = businessTypeId;
+		}
 		return businessType;
 	}
 	

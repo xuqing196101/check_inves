@@ -1082,6 +1082,7 @@
 			var typeId = obj.val();
 			var currentText = obj.combobox("getText");
 			var allText = obj.combobox("getData");
+			
 			/*
 				$("#certGrade_select").combobox({
 					valueField: 'label',
@@ -1093,8 +1094,8 @@
 					}]
 				});
 			*/
-			
-			if (typeId != null && typeId != "") {
+			var objIdNum = 0;
+			if (typeId != null && typeId != "" && typeId!='-1') {
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/getAptLevel.do",
 					type:"POST",
@@ -1125,7 +1126,8 @@
                                     }
                                     easyuiData.push(cur_str);
                                     //obj.parent().next().next().next().find("select").append(optionDOM);
-                                }
+                                    
+                                   }
 							}
 						}
 						if(enterWay == "addBtn") {
@@ -1143,7 +1145,7 @@
 							}
 							
 							var objId = obj.attr("id");
-							var objIdNum = 0;
+							
 							for(var i = 0;i < objId.length;i++) {
 								if(objId.charAt(i) > 0 && objId.charAt(i) < 10) {
 									objIdNum = objId.substr(i,objId.length);
@@ -1177,6 +1179,23 @@
 						}
 					}
 				});
+			}else{
+			var data=[];
+			var cur_str = {label : '',value : '',selected : true};
+             data.push(cur_str);
+             var objId = obj.attr("id");
+                 for(var i = 0;i < objId.length;i++) {
+                    if(objId.charAt(i) > 0 && objId.charAt(i) < 10) {
+                      objIdNum = objId.substr(i,objId.length);
+                        //changeStatusJudge = changeStatus.substr(0,i);
+                       break;
+                     }
+                    }
+			  $("[id='certGrade_select" + objIdNum + "']").combobox({
+                                    valueField: 'label',
+                                    textField: 'value',
+                                    data: data
+               });
 			}
 		} else {
 			var typeId = $(obj).val();
@@ -1572,7 +1591,7 @@
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	<input type="text" required="required"
-																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" <c:if test="${!fn:contains(proPageField,certPro.id)&&(currSupplier.status==2 || currSupplier.status==-1 || empty(currSupplier.status))}"> onClick="WdatePicker()"</c:if>
+																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" <c:if test="${!fn:contains(proPageField,certPro.id)&&(currSupplier.status==2 || currSupplier.status==-1 || empty(currSupplier.status))}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})"</c:if>
 																	 readonly="readonly"
 																	value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd "/>"
 																	class="border0" /></td>
@@ -1978,14 +1997,14 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly"  <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2 ) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker()"</c:if>
+																readonly="readonly"  <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2 ) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate"
 																value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly" <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker()"</c:if>
+																readonly="readonly" <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})"</c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate"
 																value="<fmt:formatDate value="${certEng.expEndDate}" pattern="yyyy-MM-dd"/>"
 																pattern="yyyy-MM-dd" />
@@ -2297,7 +2316,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly" <c:if test="${!fn:contains(servePageField,certSe.id)&&(currSupplier.status==2 ||currSupplier.status==-1 || empty(currSupplier.status))}">onClick="WdatePicker()" </c:if>
+																readonly="readonly" <c:if test="${!fn:contains(servePageField,certSe.id)&&(currSupplier.status==2 ||currSupplier.status==-1 || empty(currSupplier.status))}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate"
 																value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd "/>" />
 															</td>

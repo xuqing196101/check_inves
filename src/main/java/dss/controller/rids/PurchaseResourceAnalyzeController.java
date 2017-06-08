@@ -538,9 +538,9 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-采购计划", operType=2)
 	@RequestMapping("/analyzePurchasePlan")
 	public String analyzePurchasePlans(Model model) {
-		// 查询全网采购项目总金额
-		//BigDecimal totalMoney = purchaseResourceAnalyzeService.selectPurProjectTotalMoney();
-		//model.addAttribute("totalMoney", totalMoney);
+		// 查询全网采购计划总金额
+		BigDecimal totalMoney = purchaseResourceAnalyzeService.selectAllBudgetByPlan();
+		model.addAttribute("totalMoney", totalMoney);
 		return "dss/rids/analyze/analyzePurchasePlan";
 	}
 	
@@ -656,6 +656,54 @@ public class PurchaseResourceAnalyzeController {
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectNearFiveYearAllBudgets() {
 		return purchaseResourceAnalyzeService.selectNearFiveYearAllBudget();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购需求-各类型需求金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月8日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购需求", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购需求", operType=2)
+	@RequestMapping("/selectBudget")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectBudgets() {
+		return purchaseResourceAnalyzeService.selectBudget();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购需求-获取各管理部门受理需求金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月8日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购需求", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购需求", operType=2)
+	@RequestMapping("/selectOrgBudget")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectOrgBudgets() {
+		return purchaseResourceAnalyzeService.selectOrgBudget();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购计划-管理部门获取前10名的总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月8日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购计划", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购计划", operType=2)
+	@RequestMapping("/selectManageBudget")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectManageBudgets() {
+		return purchaseResourceAnalyzeService.selectManageBudget();
 	}
 	
 }

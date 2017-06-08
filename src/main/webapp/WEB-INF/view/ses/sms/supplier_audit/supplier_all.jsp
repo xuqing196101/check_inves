@@ -436,9 +436,9 @@
 						<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载意见函</a>
 						<button class="btn btn-windows add" type="button" onclick="tianjia();">添加签字人员</button>
 					</c:if>
-					<%-- <c:if test="${sign == 1}">
+				  <c:if test="${sign == 1}">
 					  <a class="btn btn-windows input" onclick='downloadTable(3)' href="javascript:void(0)">下载审核表</a>
-					</c:if> --%>
+					</c:if>
 					<c:if test="${sign == 2 || sign == 3}">
 					  <a class="btn btn-windows input" onclick="downloadApplication()" href="javascript:void(0)">下载入库申请表</a>
 					</c:if>
