@@ -79,17 +79,32 @@
 		<script type="text/javascript">
 			function jump(str) {
 				var action;
-				if(str == "basicInfo") {
-					action = "${pageContext.request.contextPath}/expertQuery/view.html";
-				}
-				if(str == "expertType") {
-					action = "${pageContext.request.contextPath}/expertQuery/expertType.html";
-				}
-				if(str == "product") {
-					action = "${pageContext.request.contextPath}/expertQuery/product.html";
-				}
-				if(str == "expertFile") {
-					action = "${pageContext.request.contextPath}/expertQuery/expertFile.html";
+				if('${reqType}' != ''){
+					if(str == "basicInfo") {
+						action = "${pageContext.request.contextPath}/expertQuery/view.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}";
+					}
+					if(str == "expertType") {
+						action = "${pageContext.request.contextPath}/expertQuery/expertType.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}";
+					}
+					if(str == "product") {
+						action = "${pageContext.request.contextPath}/expertQuery/product.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}";
+					}
+					if(str == "expertFile") {
+						action = "${pageContext.request.contextPath}/expertQuery/expertFile.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}";
+					}
+				}else{
+					if(str == "basicInfo") {
+						action = "${pageContext.request.contextPath}/expertQuery/view.html";
+					}
+					if(str == "expertType") {
+						action = "${pageContext.request.contextPath}/expertQuery/expertType.html";
+					}
+					if(str == "product") {
+						action = "${pageContext.request.contextPath}/expertQuery/product.html";
+					}
+					if(str == "expertFile") {
+						action = "${pageContext.request.contextPath}/expertQuery/expertFile.html";
+					}
 				}
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
@@ -212,12 +227,17 @@
 						<div id="pagediv" align="right" class="mb50"></div>
 						
 						<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
-							<c:if test="${sign == 1}">
-								<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expert/findAllExpert.html">返回列表</a>
+							<c:if test="${empty reqType }">
+								<c:if test="${sign == 1}">
+									<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expert/findAllExpert.html">返回列表</a>
+								</c:if>
+								<c:if test="${sign == 2}">
+									<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/list.html">返回列表</a>
+								</c:if>
 							</c:if>
-							<c:if test="${sign == 2}">
-								<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/list.html">返回列表</a>
-							</c:if>
+							<c:if test="${not empty reqType }">
+								<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/readOnlyList.html?address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}">返回列表</a>
+						</c:if>
 						</div>
 					</div>
 				</div>

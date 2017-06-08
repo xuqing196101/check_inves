@@ -133,9 +133,6 @@
 				<h2 class="search_detail">
 					<form action="${pageContext.request.contextPath}/purchase/list.html" method="post" id="form1" class="mb0">
 						<input type="hidden" name="page" id="page"/> 
-						<input type="hidden" name="purcahserType" value="${ purchaseInfo.purcahserType }"/> 
-						<input type="hidden" name="purchaseDepShortName" value="${ purchaseInfo.purchaseDepShortName }"/> 
-						<input type="hidden" name="gender" value="${ purchaseInfo.gender }"/> 
 						<ul class="demand_list">
 							<li><label class="fl">姓名：</label><span><input type="text" name="relName" id="relName"
 							value="${purchaseInfo.relName }"/>

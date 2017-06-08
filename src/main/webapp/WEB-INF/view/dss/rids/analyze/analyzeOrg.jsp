@@ -7,6 +7,7 @@
 		<%@ include file="/WEB-INF/view/common/map.jsp"%>
 		<script type="text/javascript" src= "${pageContext.request.contextPath}/js/dss/rids/analyze/analyzeOrg.js"></script>
 		<script type="text/javascript" src= "${pageContext.request.contextPath}/js/system/analyze/echartsTemplate.js"></script>
+		<script type="text/javascript" src= "${pageContext.request.contextPath}/js/dss/rids/analyze/list.js"></script>
 		
 		<script src="${pageContext.request.contextPath}/public/highmap/js/modules/map.js"></script>
 		<script src="${pageContext.request.contextPath}/public/highmap/js/modules/data.js"></script>
@@ -87,8 +88,8 @@
 				var myChart = echarts.init(document.getElementById("orgProvince"));
 				myChart.setOption(option);
 				myChart.hideLoading();
-				myChart.on('click', function(params) {
-					window.location.href = "${pageContext.request.contextPath}/purchaseManage/purchaseDepdetailList.html?parentName="+params.name;
+				myChart.on('click', function(params) { 
+					window.location.href = "${pageContext.request.contextPath}/purchaseManage/readOnlyList.html?provinceId=" + params.data.id;
 				});
 
 			});
@@ -109,7 +110,8 @@
 		</div>
 	</div>
 	<div class="container content job-content">
-		<button class="btn btn-windows back mb20" type="button" onclick="history.go(-1)">返回</button>
+		<button class="btn btn-windows back mb20" type="button"
+			id="backAnalyzePage">返回</button>
 		<div class="m-chart-head text-center">
 			<span class="mch-tit">采购机构总量：</span> <span class="mch-num">${ totalCount }</span>
 		</div>

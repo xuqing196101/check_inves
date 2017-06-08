@@ -27,15 +27,15 @@
 			    }
 			});
 	  });
-	  function fanhui(){
-	  	window.location.href="${pageContext.request.contextPath}/purchaseManage/purchaseDepMapList.html";
+	  function back(){
+	  	window.location.href="${pageContext.request.contextPath}/resAnalyze/analyzeOrgs.html";
 	  }
-function chongzhi(){
-	$("#name").val('');
-	$("#quaStartDate").val('');
-	$("#quaEdndate").val('');
-	$("option")[0].selected = true;
-}
+		function chongzhi(){
+			$("#name").val('');
+			$("#quaStartDate").val('');
+			$("#quaEdndate").val('');
+			$("option")[0].selected = true;
+		}
 
 </script>
 </head>
@@ -56,9 +56,10 @@ function chongzhi(){
 		     <h2>采购机构信息</h2>
 		   </div>  
 		   <h2 class="search_detail">
-  				<form id="form1" action="${pageContext.request.contextPath}/purchaseManage/purchaseDepdetailList.html" method="post" class="mb0">
+  				<form id="form1" action="${pageContext.request.contextPath}/purchaseManage/readOnlyList.html" method="post" class="mb0">
 		       <input type="hidden" name="page" id="page">
-		       <input type="hidden" name="parentName" value="${ parentName }">
+		       <input type="hidden" name="provinceId" value="${purchaseDep.provinceId }">
+		       <input type="hidden" name="orgId" value="${purchaseDep.orgId }">
 		      <ul class="demand_list">
                        <li>
                         <label class="fl">采购机构名称：</label><span><input id="name" name="name" value="${purchaseDep.name }" type="text"></span>
@@ -87,7 +88,7 @@ function chongzhi(){
 		     </form>
 		     </h2>
 		     <div class="col-md-12 pl20 mt10">
-		          <input class="btn btn-windows back" value="返回" type="button" onclick="fanhui();">
+		        <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
 		     </div>
 		      <div class="content table_box">
                  <table id="tb1" class="table table-bordered table-condensed table-hover table-striped">

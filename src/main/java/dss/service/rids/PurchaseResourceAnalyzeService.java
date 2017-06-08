@@ -66,7 +66,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月27日
 	 * @return
 	 */
-	public List<Analyze> selectExpertsByArea();
+	public List<AnalyzeBigDecimal> selectExpertsByArea();
 	
 	/**
 	 * 
@@ -77,7 +77,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	public List<Analyze> selectExpertCountByCategory();
+	public List<AnalyzeBigDecimal> selectExpertCountByCategory();
 	
 	/**
 	 * 
@@ -107,7 +107,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	public List<Analyze> selectOrgsByArea();
+	public List<AnalyzeBigDecimal> selectOrgsByArea();
 	
 	/**
 	 * 
@@ -117,7 +117,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	public List<Analyze> selectMemNumByOrg();
+	public List<AnalyzeBigDecimal> selectMemNumByOrg();
 	
 	/**
 	 * 
@@ -127,7 +127,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年6月1日
 	 * @return
 	 */
-	public List<Analyze> selectMenberByType();
+	public List<AnalyzeBigDecimal> selectMenberByType();
 	
 	/**
 	 * 
@@ -137,7 +137,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年6月1日
 	 * @return
 	 */
-	public List<Analyze> selectMenberByGender();
+	public List<AnalyzeBigDecimal> selectMenberByGender();
 	
 	/**
 	 * 

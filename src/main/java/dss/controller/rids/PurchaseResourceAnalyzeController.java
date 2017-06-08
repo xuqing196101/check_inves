@@ -180,21 +180,21 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-专家", operType=3)
 	@RequestMapping("/analyzeExperts")
 	public String analyzeExpert(Model model){
-		List<Analyze> list = purchaseResourceAnalyzeService.selectExpertsByArea();
+		List<AnalyzeBigDecimal> list = purchaseResourceAnalyzeService.selectExpertsByArea();
 		String json = JSON.toJSONString(list);
-		Long maxCount = 0l;
+		BigDecimal maxCount = new BigDecimal(0);
 		model.addAttribute("data", json);
 		if(list != null && !list.isEmpty()){
-			Analyze analy = list.get(0);
+			AnalyzeBigDecimal analy = list.get(0);
 			maxCount = analy.getValue();
-			for (Analyze analyze : list) {
-				if(maxCount < analyze.getValue()){
+			for (AnalyzeBigDecimal analyze : list) {
+				if(analyze.getValue().compareTo(maxCount) == 1){
 					maxCount = analyze.getValue();
 				}
 				
 			}
 		}
-		// 查询入库专家供应商数量
+		// 查询入库专家数量
 		Long totalCount = purchaseResourceAnalyzeService.selectStoreExpertCount();
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("maxCount", maxCount);
@@ -214,7 +214,7 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-专家", operType=3)
 	@RequestMapping("/selectExpertCountByCategory")
 	@ResponseBody
-	public List<Analyze> selectExpertCountByCategorys(){
+	public List<AnalyzeBigDecimal> selectExpertCountByCategorys(){
 		return purchaseResourceAnalyzeService.selectExpertCountByCategory();
 	}
 	
@@ -262,18 +262,18 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-采购机构", operType=2)
 	@RequestMapping("/analyzeOrgs")
 	public String analyzeOrg(Model model){
-		List<Analyze> list = purchaseResourceAnalyzeService.selectOrgsByArea();
+		List<AnalyzeBigDecimal> list = purchaseResourceAnalyzeService.selectOrgsByArea();
 		String json = JSON.toJSONString(list);
-		Long maxCount = 0l;
-		Long totalCount = 0l;
+		BigDecimal maxCount = new BigDecimal(0);
+		BigDecimal totalCount = new BigDecimal(0);
 		model.addAttribute("data", json);
 		if(list != null && !list.isEmpty()){
 			// 取出最大值并且计算总数量
-			Analyze analy = list.get(0);
+			AnalyzeBigDecimal analy = list.get(0);
 			maxCount = analy.getValue();
-			for (Analyze analyze : list) {
-				totalCount += analyze.getValue();
-				if(maxCount < analyze.getValue()){
+			for (AnalyzeBigDecimal analyze : list) {
+				totalCount = totalCount.add(analyze.getValue());
+				if(analyze.getValue().compareTo(maxCount) == 1){
 					maxCount = analyze.getValue();
 				}
 				
@@ -296,7 +296,7 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-采购机构", operType=2)
 	@RequestMapping("/selectMemNumByOrg")
 	@ResponseBody
-	public List<Analyze> selectMemNumByOrgS(){
+	public List<AnalyzeBigDecimal> selectMemNumByOrgS(){
 		return purchaseResourceAnalyzeService.selectMemNumByOrg();
 	}
 	
@@ -330,7 +330,7 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-采购人员", operType=2)
 	@RequestMapping("/selectMenberByType")
 	@ResponseBody
-	public List<Analyze> selectMenberByType(){
+	public List<AnalyzeBigDecimal> selectMenberByType(){
 		return purchaseResourceAnalyzeService.selectMenberByType();
 	}
 	
@@ -346,7 +346,7 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-采购人员", operType=2)
 	@RequestMapping("/selectMenberByGender")
 	@ResponseBody
-	public List<Analyze> selectMenberByGenders(){
+	public List<AnalyzeBigDecimal> selectMenberByGenders(){
 		return purchaseResourceAnalyzeService.selectMenberByGender();
 	}
 	

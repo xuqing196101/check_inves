@@ -138,24 +138,10 @@ $(function() {
 					return optionCateType;
 				}
 			});
-
 			// 获取echart对应的对象
 			var supplierCateType = $("#typeMember").echartsTemplate("getMyChart", null);
 			supplierCateType.on('click', function(params) {
-				var purcahserType;
-				if(params.name == '军人'){
-					purcahserType = '0';
-				}
-				if(params.name == '文职'){
-					purcahserType = '1';
-				}
-				if(params.name == '职工'){
-					purcahserType = '2';
-				}
-				if(params.name == '战士'){
-					purcahserType = '3';
-				}
-				window.location.href = globalPath + "/purchase/list.html?reqType=analyze&purcahserType="+purcahserType;
+				window.location.href = globalPath + "/purchase/readOnlyList.html?purcahserType="+params.data.id;
 			});
 		}
 	});
@@ -166,7 +152,6 @@ $(function() {
 		type : "POST", // 请求方式
 		dataType : "json", // 返回格式为json
 		success : function(data) {
-			// 专家企业性质
 			$("#orgMember").echartsTemplate({
 				dataList:data,
 				XField:'name',
@@ -182,7 +167,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierOrg = $("#orgMember").echartsTemplate("getMyChart", null);
 			supplierOrg.on('click', function(params) {
-				window.location.href = globalPath + "/purchase/list.html?reqType=analyze&purchaseDepShortName="+params.name;
+				window.location.href = globalPath + "/purchase/readOnlyList.html?purchaseDepId="+params.data.id;
 			});
 		}
 	});
@@ -206,21 +191,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierCateType = $("#genderRatio").echartsTemplate("getMyChart", null);
 			supplierCateType.on('click', function(params) {
-				$.ajax({
-					url : globalPath + "/resAnalyze/findDicts.do",
-					type : "POST", // 请求方式
-					data:{
-						dictType:"gender"
-					},
-					dataType : "json", // 返回格式为json
-					success : function(data) {
-						$.each(data,function(index, ele){
-							if(ele.name == params.name){
-								window.location.href = globalPath + "/purchase/list.html?reqType=analyze&gender="+ele.id;
-							}
-						})
-					}
-				});
+				window.location.href = globalPath + "/purchase/readOnlyList.html?gender="+params.data.id;
 			});
 		}
 	});

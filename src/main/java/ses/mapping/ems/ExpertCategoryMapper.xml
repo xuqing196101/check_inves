@@ -147,7 +147,7 @@
   <!-- 根据TYPE_ID查询专家所属各类型数量：
   	1、物资技术  2、工程技术 3、服务技术 4、物资服务经济 5、工程经济
    -->
-   <select id="selectExpertCountByCategory" parameterType="java.lang.String" resultType="java.lang.Long">
+   <select id="selectExpertCountByCategory" parameterType="java.lang.String" resultType="java.math.BigDecimal">
        SELECT COUNT(DISTINCT(T2.ID))
 			   	FROM T_SES_EMS_EXPERT T2
 			  	WHERE INSTR(T2.EXPERTS_TYPE_ID, #{typeId}) > 0

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import ses.model.bms.Analyze;
+import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertHistory;
@@ -313,7 +313,7 @@ public interface ExpertMapper {
      * @version 2017年5月27日
      * @return
      */
-    List<Analyze> selectExpertsByArea();
+    List<AnalyzeBigDecimal> selectExpertsByArea();
     
     /**
      * 

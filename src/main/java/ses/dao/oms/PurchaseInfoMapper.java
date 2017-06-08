@@ -1,11 +1,12 @@
 package ses.dao.oms;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import ses.model.bms.Analyze;
+import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.oms.PurchaseInfo;
 
 public interface PurchaseInfoMapper {
@@ -55,7 +56,7 @@ public interface PurchaseInfoMapper {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	List<Analyze> selectMemNumByOrg();
+	List<AnalyzeBigDecimal> selectMemNumByOrg();
 	
 	/**
 	 * 
@@ -66,7 +67,7 @@ public interface PurchaseInfoMapper {
 	 * @param purcahserType
 	 * @return
 	 */
-	Long selectMenberByType(@Param("purcahserType") Integer purcahserType);
+	BigDecimal selectMenberByType(@Param("purcahserType") Integer purcahserType);
 	
 	/**
 	 * 
@@ -77,7 +78,7 @@ public interface PurchaseInfoMapper {
 	 * @param typeId
 	 * @return
 	 */
-	Long selectMenberByGender(@Param("typeId") String typeId);
+	BigDecimal selectMenberByGender(@Param("typeId") String typeId);
 	
 	/**
 	 * 

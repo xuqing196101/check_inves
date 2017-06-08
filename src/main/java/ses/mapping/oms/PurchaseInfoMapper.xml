@@ -2,9 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.oms.PurchaseInfoMapper">
 	<!-- 统计Analyze关系映射 -->
-	<resultMap type="ses.model.bms.Analyze" id="baseAnalyze">
+	<resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyze">
 		<result column="COL_NAME" property="name"/>
 		<result column="COL_VALUE" property="value"/>
+		<result column="COL_ID" property="id"/>
 	</resultMap>
 	<!-- 根据条件查部 采购机构-->
 	<select id="findPurchaseList" parameterType="java.util.Map" resultType="ses.model.oms.PurchaseInfo">
@@ -81,9 +82,6 @@
 		<!-- 根据人员性别查询 -->
 		<if test="gender != null and '' != gender">
 			AND u.GENDER = #{gender}
-		</if>
-		<if test="purchaseDepShortName != null and '' != purchaseDepShortName">
-			AND o.SHORT_NAME = #{purchaseDepShortName}
 		</if>
 		ORDER BY d.CREATED_AT DESC  
 	</select>
@@ -278,7 +276,7 @@
 	
 	<!-- 查询各采购机构人员数量 -->
 	<select id="selectMemNumByOrg" resultMap="baseAnalyze">
-		SELECT O.SHORT_NAME AS COL_NAME, COUNT(P.ID) AS COL_VALUE
+		SELECT O.SHORT_NAME AS COL_NAME, COUNT(P.ID) AS COL_VALUE,O.ID AS COL_ID
 			  FROM T_SES_OMS_ORG O
 			  LEFT JOIN (SELECT T.ID, T.PURCHASE_DEP_ID
 			               FROM T_SES_OMS_PURCHASER T
@@ -286,11 +284,11 @@
 			    ON P.PURCHASE_DEP_ID = O.ID
 			 WHERE O.TYPE_NAME = 1
 			   AND O.IS_DELETED = 0
-			 GROUP BY O.SHORT_NAME
+			 GROUP BY O.SHORT_NAME, O.ID
 	</select>
 	
 	<!-- 各类型人员数量 -->
-	<select id="selectMenberByType" resultType="java.lang.Long" parameterType="java.lang.Integer">
+	<select id="selectMenberByType" resultType="java.math.BigDecimal" parameterType="java.lang.Integer">
 		SELECT COUNT(T.ID)
    		FROM T_SES_OMS_PURCHASER T
   		WHERE T.PURCAHSER_TYPE = #{purcahserType}
@@ -298,7 +296,7 @@
 	</select>
 	
 	<!-- 查询男女比例数量 -->
-	<select id="selectMenberByGender" parameterType="java.lang.String" resultType="java.lang.Long">
+	<select id="selectMenberByGender" parameterType="java.lang.String" resultType="java.math.BigDecimal">
 		  SELECT COUNT(U.ID)
 		    FROM T_SES_OMS_PURCHASER T
 		    LEFT JOIN T_SES_BMS_USER U

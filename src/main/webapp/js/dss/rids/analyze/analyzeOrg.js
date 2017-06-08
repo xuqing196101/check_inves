@@ -178,7 +178,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierOrg = $("#orgMemNum").echartsTemplate("getMyChart", null);
 			supplierOrg.on('click', function(params) {
-				window.location.href = globalPath + "/purchase/list.html?reqType=analyze&purchaseDepShortName="+params.name;
+				window.location.href = globalPath + "/purchase/readOnlyList.html?reqType=analyzeOrg&purchaseDepId="+params.data.id;
 			});
 		}
 	});
@@ -205,7 +205,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierOrg = $("#nowYearOrgAcceptTaskMoney").echartsTemplate("getMyChart", null);
 			supplierOrg.on('click', function(params) {
-				window.location.href = globalPath + "/contractSupervision/list.html?reqType=analyze&purchaseDepShortName="+params.name;
+				window.location.href = globalPath + "/purchaseManage/readOnlyList.html?orgId=" + params.data.id;
 			});
 		}
 	});
@@ -232,7 +232,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierOrg = $("#nowYearOrgContractMoney").echartsTemplate("getMyChart", null);
 			supplierOrg.on('click', function(params) {
-				window.location.href = globalPath + "/contractSupervision/list.html?reqType=analyze&purchaseDepShortName="+params.name;
+				window.location.href = globalPath + "/purchaseManage/readOnlyList.html?orgId=" + params.data.id;;
 			});
 		}
 	});

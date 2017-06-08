@@ -185,18 +185,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierCateType = $("#expertCateType").echartsTemplate("getMyChart", null);
 			supplierCateType.on('click', function(params) {
-				$.ajax({
-					url : globalPath + "/resAnalyze/findExpertCateType.do",
-					type : "POST", // 请求方式
-					dataType : "json", // 返回格式为json
-					success : function(data) {
-						$.each(data,function(index, ele){
-							if(ele.name == params.name){
-								window.location.href = globalPath + "/expertQuery/list.html?reqType=analyze&cateTypeDictCode="+ele.code;
-							}
-						})
-					}
-				});
+				window.location.href = globalPath + "/expertQuery/readOnlyList.html?expertsTypeId="+params.data.id;
 			});
 		}
 	});
