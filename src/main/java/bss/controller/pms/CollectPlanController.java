@@ -712,6 +712,12 @@ public class CollectPlanController extends BaseController {
       binder.setAutoGrowCollectionLimit(30000);  
       binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
   } 
+  
+  
+  @RequestMapping("/viewCollect")
+  public String viewCollect(CollectPlan collectPlan, Integer page){
+      return null;
+  }
 }
 
 
