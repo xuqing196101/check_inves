@@ -56,13 +56,13 @@
 		  		<div class="search_box col-md-12 col-sm-12 col-xs-12">
 		         	<input name="name" type="text" id="name" value="${data.name }"/>
 		        	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
-		      </div>
-          <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
-            <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+		         </div>
+          <div class="report_list_box">
+            <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
           		<div class="col-md-7 col-xs-6 col-sm-6 tc f16 p0">采购模板名称</div>
-              <div class="col-md-3 col-sm-3 col-xs-4 tc f16 p0">发布时间</div>
+              	<div class="col-md-3 col-sm-3 col-xs-4 tc f16 p0">发布时间</div>
           		<div class="col-md-2 col-sm-3 col-xs-2 tc f16 p0">下载</div>
-             </h2>
+             </div>
              <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0">
                 <c:choose>
                 	<c:when test="${notData==null }">
@@ -78,8 +78,6 @@
                 		<li class="tc">暂无数据</li>
                 	</c:otherwise>
                 </c:choose>
-	                	
-	                
              </ul>
         	<div id="pagediv" align="right"></div>
         </div>

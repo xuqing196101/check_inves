@@ -63,8 +63,8 @@
 		  		    </form>
 		         	
 		      </div>
-          <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
-            <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+          <div class="report_list_box">
+            <h2 class="col-md-12 col-sm-12 col-xs-12 report_list_title">
           		 <div class="col-md-7 col-xs-6 col-sm-6 tc f16 p0">资料名称</div>
              	 <div class="col-md-3 col-sm-3 col-xs-4 tc f16 p0">发布时间</div>
           		 <div class="col-md-2 col-sm-3 col-xs-2 tc f16 p0">下载</div>

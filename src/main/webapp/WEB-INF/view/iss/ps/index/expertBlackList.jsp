@@ -24,34 +24,32 @@
 	</div>
 
 	<div class="container job-content ">
-		<div class="search_box">
-			<ul class="demand_list" id="search_con">
-				<li>
-					<label class="fl">专家姓名：</label> 
-					<input type="text" id="relName" value="${relName}" />
-				</li>
-				<li>
-					<label class="fl">专家类型：</label>
-					<select id="expertType">
-            <option selected="selected"  value=''>全部</option>
-            <c:forEach items="${expertTypeList}" var="exp">
-              <option <c:if test="${expertTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
-            </c:forEach>          
-          </select>
-				</li>
-			</ul>
+		<div class="search_box form-inline col-md-12 col-sm-12 col-xs-12 " id="search_con">
+			<div class="form-group">
+				<label>专家姓名：</label> 
+				<input type="text" id="relName" value="${relName}"  class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label>专家类型：</label>
+				<select id="expertType" class="form-control">
+		            <option selected="selected"  value=''>全部</option>
+		            <c:forEach items="${expertTypeList}" var="exp">
+		              <option <c:if test="${expertTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
+		            </c:forEach>          
+          		</select>
+			</div>
 			<button type="button" onclick="query(1)" class="btn">查询</button>
 			<button type="reset" onclick="reset()" class="btn">重置</button>
 		</div>
-		<div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
-			<h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
-				<div class="col-md-2 col-xs-2 col-sm-5 tc f16">专家名称</div>
-				<div class="col-md-1 col-xs-1 col-sm-5 tc f16">类型</div>
-				<div class="col-md-2 col-xs-2 col-sm-5 tc f16">处罚类型</div>
-				<div class="col-md-2 col-xs-2 col-sm-5 tc f16">处罚日期</div>
-				<div class="col-md-2 col-xs-2 col-sm-5 tc f16">处罚时限</div>
-				<div class="col-md-3 col-xs-3 col-sm-5 tc f16">处罚理由</div>
-			</h2>
+		<div class="col-md-12 col-sm-12 col-xs-12 report_list_box">
+			<div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
+				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">专家名称</div>
+				<div class="col-md-1 col-xs-4 col-sm-1 tc f16">类型</div>
+				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">处罚类型</div>
+				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">处罚日期</div>
+				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">处罚时限</div>
+				<div class="col-md-3 col-xs-4 col-sm-3 tc f16">处罚理由</div>
+			</div>
 			<ul
 				class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
 				<c:choose>
@@ -66,20 +64,20 @@
 								<c:set value="${fn:substring(reason,0,15)}..." var="reason" />
 							</c:if>
 							<li>
-								<span class="col-md-2 col-sm-5 col-xs-12" title="${data.relName}">${name}</span>
-								<span class="col-md-1 col-sm-5 col-xs-12 tc">${data.expertTypeName} </span>
-								<span class="col-md-2 col-sm-5 col-xs-12 tc">
+								<span class="col-md-2 col-sm-2 col-xs-4" title="${data.relName}">${name}</span>
+								<span class="col-md-1 col-sm-1 col-xs-4 tc">${data.expertTypeName} </span>
+								<span class="col-md-2 col-sm-2 col-xs-124 tc">
 									<c:if test="${data.punishType == 1}">警告</c:if>
 									<c:if test="${data.punishType == 2}">严重警告</c:if>
 									<c:if test="${data.punishType == 3}">取消资格</c:if>
 								</span>
-								<span class="col-md-2 col-sm-5 col-xs-12 tc">
+								<span class="col-md-2 col-sm-2 col-xs-4 tc">
 									<fmt:formatDate value='${data.dateOfPunishment}' pattern="yyyy-MM-dd " />
 								</span>
-								<span class="col-md-2 col-sm-5 col-xs-12 tc">
+								<span class="col-md-2 col-sm-2 col-xs-4 tc">
 									${data.punishDate}
 								</span>
-								<span class="col-md-3 col-sm-5 col-xs-12" title="${data.reason}">${reason}</span>
+								<span class="col-md-3 col-sm-3 col-xs-4" title="${data.reason}">${reason}</span>
 							</li>
 						</c:forEach>
 					</c:when>

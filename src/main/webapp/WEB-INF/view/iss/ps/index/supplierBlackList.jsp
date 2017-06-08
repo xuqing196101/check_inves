@@ -24,36 +24,33 @@
 	</div>
 
 	<div class="container job-content ">
-		<div class="search_box">
-			<ul class="demand_list" id="search_con">
-				<li>
-					<label class="fl">供应商名称：</label> 
-					<input type="text" id="supplierName" value="${supplierName}" />
-				</li>
-				<li>
-					<label class="fl">供应商类型：</label>
-					<input type="text" id="supplierTypeNames" class="span2 mt5 w220" value="${supplierTypeNames }"
+		<div class="search_box form-inline">
+			<div class="form-group">
+				<label>供应商名称：</label> 
+				<input type="text" id="supplierName" value="${supplierName}" class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label>供应商类型：</label>
+				<input type="text" id="supplierTypeNames" class="form-control" value="${supplierTypeNames }"
 						onclick="showSupplierType();" readonly />
 					<input type="hidden" name="supplierTypeIds" id="supplierTypeIds" value="${supplierTypeIds }" />
 					<div id="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 						<ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
 					</div>
-				</li>
-			</ul>
+			</div>
 			<button type="button" onclick="query(1)" class="btn">查询</button>
 			<button type="reset" onclick="reset()" class="btn">重置</button>
 		</div>
-		<div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
-			<h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
-				<div class="col-md-2 col-xs-2 col-sm-5 tc f16">供应商名称</div>
-				<div class="col-md-1 col-xs-1 col-sm-5 tc f16">类型</div>
-				<div class="col-md-2 col-xs-2 col-sm-5 tc f16">处罚类型</div>
-				<div class="col-md-2 col-xs-2 col-sm-5 tc f16">列入时间</div>
-				<div class="col-md-2 col-xs-2 col-sm-5 tc f16">截止时间</div>
-				<div class="col-md-3 col-xs-3 col-sm-5 tc f16">处罚理由</div>
-			</h2>
-			<ul
-				class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
+		<div class="col-md-12 col-sm-12 col-xs-12 report_list_box">
+			<div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
+				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">供应商名称</div>
+				<div class="col-md-1 col-xs-4 col-sm-1 tc f16">类型</div>
+				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">处罚类型</div>
+				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">列入时间</div>
+				<div class="col-md-2 col-xs-4 col-sm-2 tc f16">截止时间</div>
+				<div class="col-md-3 col-xs-4 col-sm-3 tc f16">处罚理由</div>
+			</div>
+			<ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
 				<c:choose>
 					<c:when test="${!empty page.list}">
 						<c:forEach items="${page.list}" var="data">
@@ -66,19 +63,19 @@
 								<c:set value="${fn:substring(reason,0,15)}..." var="reason" />
 							</c:if>
 							<li>
-								<span class="col-md-2 col-sm-5 col-xs-12" title="${data.supplierName}">${name}</span>
-								<span class="col-md-1 col-sm-5 col-xs-12 tc">${data.supplierTypeName} </span>
-								<span class="col-md-2 col-sm-5 col-xs-12 tc">
+								<span class="col-md-2 col-sm-2 col-xs-4" title="${data.supplierName}">${name}</span>
+								<span class="col-md-1 col-sm-1 col-xs-4 tc">${data.supplierTypeName} </span>
+								<span class="col-md-2 col-sm-2 col-xs-4 tc">
 									<c:if test="${data.punishType == 0}">警告</c:if>
 									<c:if test="${data.punishType == 1}">不得参与采购活动</c:if>
 								</span>
-								<span class="col-md-2 col-sm-5 col-xs-12 tc">
+								<span class="col-md-2 col-sm-2 col-xs-6 tc">
 									<fmt:formatDate value='${data.startTime}' pattern="yyyy-MM-dd " />
 								</span>
-								<span class="col-md-2 col-sm-5 col-xs-12 tc">
+								<span class="col-md-2 col-sm-2 col-xs-6 tc">
 									<fmt:formatDate value='${data.endTime}' pattern="yyyy-MM-dd " />
 								</span>
-								<span class="col-md-3 col-sm-5 col-xs-12" title="${data.reason}">${reason}</span>
+								<span class="col-md-3 col-sm-3 col-xs-12" title="${data.reason}">${reason}</span>
 							</li>
 						</c:forEach>
 					</c:when>

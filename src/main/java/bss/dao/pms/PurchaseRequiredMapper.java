@@ -1,6 +1,7 @@
 package bss.dao.pms;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -351,5 +352,15 @@ public interface PurchaseRequiredMapper {
      * @return
      */
     List<AnalyzeBigDecimal> selectOrgBudget();
+    
+    /**
+     * 
+     *〈资源展示采购需求〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    List<PurchaseRequired> selectByAll(HashMap<String, Object> map);
     
 }

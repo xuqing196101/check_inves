@@ -325,8 +325,18 @@ public class Expert extends ExpertHistory implements Serializable {
     private List<ExpertEngHistory> expertEngModifyList;
     /**工程执业资格文件修改表*/
     private  List<ExpertAuditFileModify> expertAuditFileModifyList;
+    //步骤（用于区分第一步和其他几步）
+    private String step;
     
-    public String getStepNumber() {
+    public String getStep() {
+			return step;
+		}
+
+		public void setStep(String step) {
+			this.step = step;
+		}
+
+		public String getStepNumber() {
         return stepNumber;
     }
 

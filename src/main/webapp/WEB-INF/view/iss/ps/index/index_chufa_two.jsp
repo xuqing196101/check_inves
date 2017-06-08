@@ -54,11 +54,11 @@ function query(){
          	标题:<input name="title" type="text" id="title" value="${title}"/>
         	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
       </div>
-          <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
-            <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+          <div class="col-md-12 col-sm-12 col-xs-12 report_list_box">
+            <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
           		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">标题</div>
-                   <div class="fr mr25 f16">发布时间</div>
-             </h2>
+                <div class="fr mr25 f16">发布时间</div>
+             </div>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
                 <c:forEach items="${indexList}" var="i">
 	                  <%--<li>

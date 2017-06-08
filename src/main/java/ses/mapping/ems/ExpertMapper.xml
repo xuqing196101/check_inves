@@ -857,14 +857,14 @@ resultMap="BaseResultMap">
                 PRODUCT_CATEGORIES =
                 #{productCategories,jdbcType=VARCHAR},
             </if>
-            <if test="academicAchievement != null and academicAchievement != ''"> 
+            <if test="(academicAchievement != null and academicAchievement != '') || step != null "> 
                 ACADEMIC_ACHIEVEMENT =
                 #{academicAchievement,jdbcType=VARCHAR},
              </if> 
-            <if test="reviewSituation != null and reviewSituation != ''">
+            <if test="(reviewSituation != null and reviewSituation != '') || step != null ">
                 REVIEW_SITUATION = #{reviewSituation,jdbcType=VARCHAR},
              </if> 
-            <if test="avoidanceSituation != null and avoidanceSituation != ''"> 
+            <if test="(avoidanceSituation != null and avoidanceSituation != '') || step != null "> 
                 AVOIDANCE_SITUATION =
                 #{avoidanceSituation,jdbcType=VARCHAR},
              </if> 
@@ -919,7 +919,7 @@ resultMap="BaseResultMap">
             <if test="nation != null and nation != ''">
                 NATION = #{nation,jdbcType=VARCHAR},
             </if>
-            <if test="graduateSchool != null and graduateSchool != ''">
+            <if test="(graduateSchool != null and graduateSchool != '') || step != null ">
                 GRADUATE_SCHOOL = #{graduateSchool,jdbcType=VARCHAR},
             </if>
             <if test="hightEducation != null and hightEducation != ''">
@@ -934,7 +934,7 @@ resultMap="BaseResultMap">
             <if test="telephone != null and telephone != ''">
                 TELEPHONE = #{telephone,jdbcType=VARCHAR},
             </if>
-            <if test="fax != null and fax != ''"> 
+            <if test="(fax != null and fax != '') || step != null "> 
                 FAX = #{fax,jdbcType=VARCHAR},
              </if> 
             <if test="makeTechDate != null and makeTechDate != ''">
@@ -950,7 +950,7 @@ resultMap="BaseResultMap">
                 PROFESS_TECH_TITLES =
                 #{professTechTitles,jdbcType=VARCHAR},
             </if>
-            <if test="timeToWork != null and timeToWork != ''"> 
+            <if test="(timeToWork != null and timeToWork != '') || step != null "> 
                 TIME_TO_WORK = #{timeToWork,jdbcType=TIMESTAMP},
             </if> 
             <if test="timeStartWork != null and timeStartWork != ''">
@@ -962,10 +962,10 @@ resultMap="BaseResultMap">
             <if test="postCode != null and postCode != ''">
                 POST_CODE = #{postCode,jdbcType=VARCHAR},
             </if>
-            <if test="degree != null and degree != ''"> 
+            <if test="(degree != null and degree != '') || step != null "> 
                 DEGREE = #{degree,jdbcType=VARCHAR},
             </if> 
-             <if test="atDuty != null and atDuty != ''"> 
+             <if test="(atDuty != null and atDuty != '') || step != null "> 
                 AT_DUTY = #{atDuty,jdbcType=VARCHAR},
              </if> 
             <if test="expertsTypeId != null and expertsTypeId != ''">

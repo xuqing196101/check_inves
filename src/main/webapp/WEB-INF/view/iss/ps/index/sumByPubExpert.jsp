@@ -87,12 +87,12 @@ function query(){
 		 </div>
        	 <button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
       </div>
-          <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
-          <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+          <div class="report_list_box">
+          <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
           		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">专家名称</div>
-          		<div class="col-md-3 col-xs-3 col-sm-3 tc f16">编号</div>
-                <div class="fr mr25 f16">状态</div>
-           </h2>
+          		<div class="col-md-3 col-xs-3 col-sm-4 tc f16">编号</div>
+                <div class="col-md-3 col-xs-3 col-sm-3 tc f16">状态</div>
+           </div>
            <c:choose>
            	 <c:when test="${!empty list.list}">
            		<ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
@@ -101,9 +101,9 @@ function query(){
 						<div class="col-md-6 col-xs-6 col-sm-5">
 					  		 <span class="f18 mr5 fl">·</span>${item.relName }</a>
 					    </div>
-					    <div class="col-md-3 col-xs-3 col-sm-3 tc f16">
+					    <div class="col-md-3 col-xs-3 col-sm-4 tc">
 				  		</div>
-	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12">
+	                   <span class="col-md-3 col-sm-3 col-xs-3 tc">
 					   <c:choose>
           						      <%-- <c:when test="${item.status == 0}">
 										          未审核

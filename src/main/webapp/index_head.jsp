@@ -552,9 +552,9 @@ function importAdd(){
 	   <div class="headline-v2">
          <h2>供应商名录<a  href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=0" class="fr f14">更多>></a></h2>
         </div>
-         <div class="job-content col-md-12">
+         <div class="job-content col-md-12 col-sm-12 col-xs-12">
 		    <div class="categories">
-             <ul class="p0_10 list-unstyled">
+             <ul class="list-unstyled">
             
              <c:choose>
             <c:when test="${!empty my:getSupplierList()}">
