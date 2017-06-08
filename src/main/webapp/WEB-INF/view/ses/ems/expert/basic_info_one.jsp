@@ -889,6 +889,7 @@
 			<input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}" />
 			<input type="hidden" name="id" id="id" value="${expert.id}" />
 			<input type="hidden" name="zancun" id="zancun" value="" />
+			<input type="hidden" name="step"  value="1" />
 			<input type="hidden" name="sysId" id="sysId" value="${sysId}" />
 			<input type="hidden" value="${errorMap.realName}" id="error1">
 			<input type="hidden" value="${errorMap.nation}" id="error2">
