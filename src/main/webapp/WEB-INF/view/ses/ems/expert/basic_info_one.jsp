@@ -927,7 +927,7 @@
             <div class="clear"></div>
         </h2>
         <c:if test="${ipAddressType==0 }">
-            <div ><span class="red">提示：上传的彩色扫描件需要去除标签水印。</span></div>
+            <div class="w100p f16 mt40"><span class="red">提示：上传的彩色扫描件需要去除标签水印。</span></div>
         </c:if>
 				<div class="container container_box">
 					<h2 class="count_flow"><i>1</i>专家个人信息</h2>

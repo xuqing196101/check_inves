@@ -66,16 +66,16 @@
 		</div>
 		<div class="report_list_box">
 			<div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
-				<div class="col-md-6 col-xs-4 col-sm-4 tc f16">服务内容</div>
-				<div class="col-md-6 col-xs-3 col-sm-4 tc f16">联系电话</div>
+				<div class="col-md-8 col-xs-8 col-sm-6 tc f16">服务内容</div>
+				<div class="col-md-4 col-xs-4 col-sm-6 tc f16">联系电话</div>
 			</div>
 			<ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0">
 				<c:forEach items="${info.list }" var="hotline" varStatus="vs">
 					<li>
-						<div class="col-md-6 col-xs-4 col-sm-4">
+						<div class="col-md-8 col-xs-8 col-sm-6">
 							<span class="f16 mr5 fl">·</span>${hotline.servicecontent }
 						</div>
-						<div class="col-md-6 col-xs-3 col-sm-4 tc">
+						<div class="col-md-4 col-xs-4 col-sm-6 tc">
 							<span class="f16 mr5">${hotline.contactphonenumber }</span>
 						</div>
 					</li>
