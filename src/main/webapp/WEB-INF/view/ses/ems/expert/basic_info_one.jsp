@@ -1465,7 +1465,7 @@
 						</li>
 					</ul>
 
-					<h2 class="count_flow"><i>4</i><font color=red>*</font> 主要工作经历（还可输入 <span id="limit_char_jobExperiences">1000</span> 个字）</h2>
+					<h2 class="count_flow"><i>4</i><font color=red>*</font> 主要工作经历</h2>
 					<ul class="ul_list">
 					<div class="padding-top-10 clear">
 						<%-- <h2 class="count_flow"><i>1</i><font color=red>*</font> 主要工作经历</h2>--%>
@@ -1478,6 +1478,7 @@
 								placeholder="包括时间、工作单位、职务、工作内容等"
 								onkeyup="checkCharLimit('jobExperiences','limit_char_jobExperiences',1000);">${expert.jobExperiences}</textarea>
 						</li>
+						<h2 class="count_flow fr">（还可输入 <span id="limit_char_jobExperiences">1000</span> 个字）</h2>
 
 					</div>
 				</ul>
@@ -1502,7 +1503,7 @@
 						</div>
 					</ul>
 
-					<h2 class="count_flow"><i>6</i><font color=red></font>专业学术成果（还可输入 <span id="limit_char_academicAchievement">1000</span> 个字）</h2>
+					<h2 class="count_flow"><i>6</i><font color=red></font>专业学术成果</h2>
 					<ul class="ul_list">
 						<!-- 专业学术成果 -->
 						<div class="padding-top-10 clear">
@@ -1516,11 +1517,12 @@
 								placeholder=""
 								onkeyup="checkCharLimit('academicAchievement','limit_char_academicAchievement',1000);">${expert.academicAchievement}</textarea>
 						</li>
+						<h2 class="count_flow fr">（还可输入 <span id="limit_char_academicAchievement">1000</span> 个字）</h2>
 
 					</div>
 				</ul>
 
-					<h2 class="count_flow"><i>7</i><font color=red></font>参加军队地方采购评审情况（还可输入 <span id="limit_char_reviewSituation">1000</span> 个字）</h2>
+					<h2 class="count_flow"><i>7</i><font color=red></font>参加军队地方采购评审情况</h2>
 					<ul class="ul_list">
 					<div class="padding-top-10 clear">
 						<%-- <h2 class="count_flow"><i>4</i><font color=red></font> 参加军队地方采购评审情况</h2>--%>
@@ -1533,11 +1535,12 @@
 								placeholder=""
 								onkeyup="checkCharLimit('reviewSituation','limit_char_reviewSituation',1000);">${expert.reviewSituation}</textarea>
 						</li>
+						<h2 class="count_flow fr">（还可输入 <span id="limit_char_reviewSituation">1000</span> 个字）</h2>
 
 					</div>
 				</ul>
 
-					<h2 class="count_flow"><i>8</i><font color=red></font>需要申请回避的情况（还可输入 <span id="limit_char_avoidanceSituation">1000</span> 个字）</h2>
+					<h2 class="count_flow"><i>8</i><font color=red></font>需要申请回避的情况</h2>
 					<ul class="ul_list">
 					<div class="padding-top-10 clear">
 						<%-- <h2 class="count_flow"><i>5</i><font color=red></font> 需要申请回避的情况</h2>--%>
@@ -1550,6 +1553,7 @@
 								placeholder="近3年内,存在劳动关系的供应商,或者担任过供应商的董事、监事,或者是供应商的控股股东（实际控制人）；与供应商法定代表人或者主要负责人有夫妻、直系血亲、三代以内旁系血亲或者近姻亲关系；发生过法律纠纷的供应商；其它需要回避的情况。"
 								onkeyup="checkCharLimit('avoidanceSituation','limit_char_avoidanceSituation',1000);">${expert.avoidanceSituation}</textarea>
 						</li>
+						<h2 class="count_flow fr">（还可输入 <span id="limit_char_avoidanceSituation">1000</span> 个字）</h2>
 
 					</div>
 				</ul>

@@ -193,7 +193,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierOrg = $("#nearFiveYearAllBudget").echartsTemplate("getMyChart", null);
 			supplierOrg.on('click', function(params) {
-				window.location.href = globalPath + "/expertQuery/list.html?reqType=analyze&orgName="+params.name;
+				window.location.href = globalPath + "/purchaser/viewDetamd.html?date="+params.name;
 			});
 		}
 	});
@@ -217,7 +217,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierCateType = $("#typeRequireMoney").echartsTemplate("getMyChart", null);
 			supplierCateType.on('click', function(params) {
-				window.location.href = globalPath + "/purchase/list.html?reqType=analyze&purcahserType="+params.data.id;
+				window.location.href = globalPath + "/purchaser/viewDetamd.html?planType="+params.data.id;
 			});
 		}
 	});
@@ -240,7 +240,7 @@ $(function() {
 			// 获取echart对应的对象
 			var expertNature = $("#requireMoneyByOrg").echartsTemplate("getMyChart", null);
 			expertNature.on('click', function(params) {
-				window.location.href = globalPath + "/expertQuery/list.html?reqType=analyze&expertsFrom="+params.data.id;
+				window.location.href = globalPath + "/purchaser/viewDetamd.html?orgId="+params.data.id;
 			});
 		}
 	});

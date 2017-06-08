@@ -244,7 +244,6 @@
                        <div class="w200 fl">
                        	<c:choose>
 													<c:when test="${expert.status == 3 and !fn:contains(errorField,'军队评审专家入库申请表')}">
-													<span class="red">*请删除原申请表重新上传</span>
 														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"  id="expert13" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" exts="jpg,jpeg,gif,png,bmp"  businessId="${sysId}" multiple="true"  sysKey="${expertKey}" typeId="13" maxcount="8" auto="true" />
                                 <u:show showId="show6" groups="show1,show2,show3,show4,show5,show6,show7,show8"  businessId="${sysId}" sysKey="${expertKey}" typeId="13" />
                                 
