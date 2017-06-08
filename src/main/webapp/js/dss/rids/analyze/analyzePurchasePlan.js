@@ -1,51 +1,9 @@
 $(function() {
-	// 各类型数量
-	optionCateType = {
-		title : {
-			x : 'center'
-		},
-		tooltip : {
-			trigger : 'item',
-			formatter : "{a} <br/>{b} : {c} ({d}%)"
-		},
-		toolbox : {
-			show : true,
-			feature : {
-				mark : {
-					show : true
-				},
-				dataView : {
-					show : true,
-					readOnly : false
-				},
-				magicType : {
-					show : true,
-					type : [ 'pie', 'funnel' ],
-					option : {
-						funnel : {
-							x : '25%',
-							width : '50%',
-							funnelAlign : 'left',
-							max : 1548
-						}
-					}
-				},
-				restore : {
-					show : true
-				},
-				saveAsImage : {
-					show : true
-				}
-			}
-		},
-		calculable : true,
-		series : [ {
-			name : '人员数量',
-		} ]
-	};
 	
-	// 各采购机构人员数量
-	optionOrgSup = {
+	/**
+	 * pie图
+	 */
+	optionPlan = {
 		title : {
 			top : 0,
 			left : '43%'
@@ -86,7 +44,7 @@ $(function() {
 		} ],
 		 series: [
 		          {
-		        	  name: "人员数量",
+		        	  name: "下达采购计划总金额",
 		              itemStyle: {
 		                  normal: {
 		                      color: function(params) {
@@ -122,106 +80,29 @@ $(function() {
 		      
 	};
 	
-	// 各类型人员数量
 	$.ajax({
-		url : globalPath + "/resAnalyze/selectMenberByType.do",
+		url : globalPath + "/resAnalyze/selectManageBudget.do",
 		type : "POST", // 请求方式
 		dataType : "json", // 返回格式为json
 		success : function(data) {
-			$("#typeMember").echartsTemplate({
-				dataList : data,
-				XField : 'name',
-				YField : 'value',
-				groupField : 'group',
-				chartType : 'pie',
-				customEchartsOptions : function(res, dataList, option) {
-					return optionCateType;
-				}
-			});
-
-			// 获取echart对应的对象
-			var supplierCateType = $("#typeMember").echartsTemplate("getMyChart", null);
-			supplierCateType.on('click', function(params) {
-				var purcahserType;
-				if(params.name == '军人'){
-					purcahserType = '0';
-				}
-				if(params.name == '文职'){
-					purcahserType = '1';
-				}
-				if(params.name == '职工'){
-					purcahserType = '2';
-				}
-				if(params.name == '战士'){
-					purcahserType = '3';
-				}
-				window.location.href = globalPath + "/purchase/list.html?reqType=analyze&purcahserType="+purcahserType;
-			});
-		}
-	});
-	
-	// 各采购机构人员数量
-	$.ajax({
-		url : globalPath + "/resAnalyze/selectMemNumByOrg.do",
-		type : "POST", // 请求方式
-		dataType : "json", // 返回格式为json
-		success : function(data) {
-			// 专家企业性质
-			$("#orgMember").echartsTemplate({
+			$("#purPlanBudgetBYOrg").echartsTemplate({
 				dataList:data,
 				XField:'name',
 				YField:'value',
 				groupField:'group',
 				chartType:'bar',
-				XTitle:'机构',
-				YTitle:'数量/人',
+				XTitle:'部门',
+				YTitle:'金额/万元',
 				customEchartsOptions:function(res,dataList,option){
-					return optionOrgSup;
+					return optionPlan;
 				}
 			});
 			// 获取echart对应的对象
-			var supplierOrg = $("#orgMember").echartsTemplate("getMyChart", null);
+			var supplierOrg = $("#purPlanBudgetBYOrg").echartsTemplate("getMyChart", null);
 			supplierOrg.on('click', function(params) {
-				window.location.href = globalPath + "/purchase/list.html?reqType=analyze&purchaseDepShortName="+params.name;
+				window.location.href = globalPath + "/purchase/list.html?reqType=analyze&purchaseDepShortName="+params.data.id;
 			});
 		}
 	});
 	
-	// 采购人员男女比例
-	$.ajax({
-		url : globalPath + "/resAnalyze/selectMenberByGender.do",
-		type : "POST", // 请求方式
-		dataType : "json", // 返回格式为json
-		success : function(data) {
-			$("#genderRatio").echartsTemplate({
-				dataList : data,
-				XField : 'name',
-				YField : 'value',
-				groupField : 'group',
-				chartType : 'pie',
-				customEchartsOptions : function(res, dataList, option) {
-					return optionCateType;
-				}
-			});
-			// 获取echart对应的对象
-			var supplierCateType = $("#genderRatio").echartsTemplate("getMyChart", null);
-			supplierCateType.on('click', function(params) {
-				$.ajax({
-					url : globalPath + "/resAnalyze/findDicts.do",
-					type : "POST", // 请求方式
-					data:{
-						dictType:"gender"
-					},
-					dataType : "json", // 返回格式为json
-					success : function(data) {
-						$.each(data,function(index, ele){
-							if(ele.name == params.name){
-								window.location.href = globalPath + "/purchase/list.html?reqType=analyze&gender="+ele.id;
-							}
-						})
-					}
-				});
-			});
-		}
-	});
 });

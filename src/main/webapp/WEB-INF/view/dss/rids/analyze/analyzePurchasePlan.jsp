@@ -27,7 +27,7 @@
 		<button class="btn btn-windows back mb20" type="button"
 			onclick="history.go(-1)">返回</button>
 		<div class="m-chart-head text-center">
-			<span class="mch-tit">全网下达采购计划总金额：</span> <span class="mch-num">${ totalCount }</span>
+			<span class="mch-tit">全网下达采购计划总金额：</span> <span class="mch-num">${ totalMoney } 万元</span>
 		</div>
 		<ul class="ul_list">
 			<h2 class="count_flow">
@@ -39,7 +39,7 @@
 			<h2 class="count_flow">
 				<span class="m-chart-icon"></span> 各采购管理部门下达采购计划总金额
 			</h2>
-			<div id="orgMember" class="analyze"></div>
+			<div id="purPlanBudgetBYOrg" class="analyze"></div>
 		</ul>
 		<ul class="ul_list">
 			<h2 class="count_flow">

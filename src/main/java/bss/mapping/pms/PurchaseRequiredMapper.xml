@@ -57,6 +57,7 @@
 	</resultMap>
 	
 	<resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyzeBigDecimal">
+    <result column="COL_GROUP" property="group"/>
     <result column="COL_NAME" property="name"/>
     <result column="COL_VALUE" property="value"/>
     <result column="COL_ID" property="id"/>
@@ -1096,7 +1097,7 @@
    <!-- 获取各管理部门受理需求金额 -->
    <select id="selectOrgBudget" resultMap="baseAnalyzeBigDecimal">
      SELECT
-			  ORG.SHORT_NAME AS COL_NAME,
+			  ORG.SHORT_NAME AS COL_GROUP,
 			  NVL (SUM(P .BUDGET), 0) AS COL_VALUE,
 			ORG.ID AS COL_ID
 			FROM

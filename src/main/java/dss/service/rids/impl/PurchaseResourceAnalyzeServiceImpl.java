@@ -29,6 +29,7 @@ import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.bms.AnalyzeVo;
 import ses.model.bms.DictionaryData;
 import ses.util.DictionaryDataUtil;
+import bss.dao.pms.CollectPlanMapper;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.dao.ppms.ProjectMapper;
 import bss.dao.ppms.SupplierCheckPassMapper;
@@ -101,6 +102,11 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	// 注入采购需求Mapper
 	@Autowired
 	private  PurchaseRequiredMapper purchaseRequiredMapper;
+	
+	// 注入采购计划Mapper
+	@Autowired
+	private  CollectPlanMapper collectPlanMapper;
+	
 
 	private static final String GOODS_SALES_NAME = "物资销售";
 
@@ -872,6 +878,66 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 			beforeFiveYear = DateUtils.getBeforeYear(beforeFiveYear);
 		}
 		return list;
+	}
+	
+	/**
+     * 
+     * Description: 各类型需求金额
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @return
+     */
+    public List<AnalyzeBigDecimal> selectBudget(){
+    	// 定义统计实体
+    	List<AnalyzeBigDecimal> list = new ArrayList<>();
+    	// 查询各类型
+    	List<DictionaryData> dictList = DictionaryDataUtil.find(6);
+    	if(dictList != null && !dictList.isEmpty()){
+    		for (DictionaryData dict : dictList) {
+    			BigDecimal money = purchaseRequiredMapper.selectBudget(dict.getId());
+    			setAnalyzeBigDate(money, dict.getName(), null, dict.getId(), list);
+			}
+    	}
+		return list;
+    }
+    
+    /**
+     * 
+     * Description:获取各管理部门受理需求金额
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @return
+     */
+    public List<AnalyzeBigDecimal> selectOrgBudget(){
+    	return purchaseRequiredMapper.selectOrgBudget();
+    }
+    
+    /**
+     * 
+     * Description:获取计划总金额
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @param map
+     * @return
+     */
+    public BigDecimal selectAllBudgetByPlan(){
+    	return collectPlanMapper.selectAllBudget(null);
+    }
+
+    /**
+     * 
+     * Description: 采购计划-管理部门获取前10名的总金额
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @return
+     */
+	@Override
+	public List<AnalyzeBigDecimal> selectManageBudget() {
+		return collectPlanMapper.selectManageBudget();
 	}
 
 }
