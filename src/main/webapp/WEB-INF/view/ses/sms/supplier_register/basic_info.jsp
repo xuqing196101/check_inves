@@ -916,7 +916,7 @@
 						$(li).after("<li name='branch' class='col-md-3 col-sm-6 col-xs-12'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>机构名称</span>" +
 							" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-							" <input type='hidden' name='branchList[" + inde + "].id'   value='"+branId+"' />" +
+							//" <input type='hidden' name='branchList[" + inde + "].id'   value='"+branId+"' />" +
 							" <input type='text' name='branchList[" + inde + "].organizationName' id='sup_branchName'  value='' / onblur='tempSave()'>" +
 							"   <span class='add-on cur_point'>i</span>" +
 							"   </div>" +
@@ -945,7 +945,7 @@
 							" <div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>" +
 							" <input type='button' onclick='addBranch(this)' class='btn list_btn' value='十'/>" +
 							" <input type='button' onclick='delBranch(this)'class='btn list_btn' value='一'/>" +
-							" <input type='hidden'  class='btn list_btn' value='"+branId+"'/>" +
+							" <input type='hidden' name='branchList[" + inde + "].id'   value='"+branId+"' />" +
 							" </div>" +
 							" </li>" +
 
@@ -965,15 +965,19 @@
 			function delBranch(obj) {
 			
 				// 退回修改状态
-				var thisLi = $(obj).parents("li[name='branch']");
-				var organizationName = thisLi.find("input[name^='branchList'][name$='organizationName']");
-				var country = thisLi.find("select[name^='branchList'][name$='country']");
-				var detailAddress = thisLi.find("input[name^='branchList'][name$='detailAddress']");
-				
-				/* if(){
-					layer.msg("审核通过项不能删除!");
-					return;
-				} */
+				var currSupplierSt = '${currSupplier.status}';
+				if(currSupplierSt == '2'){
+					var thisLi = $(obj).parents("li[name='branch']");
+					var branchId = thisLi.find("input[name^='branchList'][name$='id']");
+					branchId = branchId.val();
+					//alert('${audit}');
+					if('${audit}'.indexOf("organizationName_"+branchId) < 0
+						&& '${audit}'.indexOf("countryName_"+branchId) < 0
+						&& '${audit}'.indexOf("detailAddress_"+branchId) < 0){
+						layer.msg("审核通过项不能删除!");
+						return;
+					}
+				}
 			
 				var btmCount = 0;
 				$("#branch_list_body").find("input[type='button']").each(function() {
@@ -1899,8 +1903,6 @@
 										<li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12 pl10">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>机构名称</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-											 	<input type="hidden" name="branchList[${vs.index }].id"  required  value="${bran.id}"/>  
-											
 												<input type="text" name="branchList[${vs.index }].organizationName" id="sup_branchName" required maxlength="50" value="${bran.organizationName}"  <c:if test="${!fn:contains(audit,'organizationName')&&currSupplier.status==2}">readonly="readonly"</c:if>  <c:if test="${fn:contains(audit,'organizationName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('organizationName_${bran.id }')"</c:if>/>
 												<span class="add-on cur_point">i</span>
 												<span class="input-tip">不能为空</span>
@@ -1939,14 +1941,14 @@
 											<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
 												<c:choose>
                           <c:when test="${currSupplier.status==2 }">
-                          	<input type="button" disabled="disabled" class="btn list_btn" value="十" />
+                          	<input type="button" disabled="disabled" class="btn list_btn btn-Invalid" value="十" />
                           </c:when>
                           <c:otherwise>
                             <input type="button" onclick="addBranch(this)" class="btn list_btn" value="十" />
                           </c:otherwise>
                         </c:choose>
 												<input type="button" onclick="delBranch(this)" class="btn list_btn" value="一" />
-											 	<input type="hidden"   name=""    value="${bran.id}" />
+											 	<input type="hidden" name="branchList[${vs.index }].id"  required  value="${bran.id}"/>
 											</div>
 										</li>
 
