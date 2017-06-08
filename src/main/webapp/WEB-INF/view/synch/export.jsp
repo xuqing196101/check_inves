@@ -47,8 +47,9 @@
 			  <input type="checkbox" name="dataType" value="${type.code}"/> ${type.name}
 			</c:forEach> 
 			  <input type="checkbox" name="dataType" value="inner_out"/> 供应商退回修改导出外网
-			    <input type="checkbox" name="dataType" value="temp_out"/> 临时供应商导出外网
-			     <input type="checkbox" name="dataType" value="expert_out"/> 专家退回修改导出外网
+			  <input type="checkbox" name="dataType" value="temp_out"/> 临时供应商导出外网
+			  <input type="checkbox" name="dataType" value="expert_out"/> 专家退回修改导出外网
+			  <input type="checkbox" name="dataType" value="img_out"/> 供应商，专家图片导出
 		  </div>
 		</li>
 		
