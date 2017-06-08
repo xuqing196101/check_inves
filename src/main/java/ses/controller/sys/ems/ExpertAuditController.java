@@ -163,21 +163,23 @@ public class ExpertAuditController{
 		//获取登录人的机构id
 		/*User user = (User) request.getSession().getAttribute("loginUser");*/
 		Orgnization org = user.getOrg();
+		
 		//1代表机构
-		if(user !=null && org !=null && "1".equals(org.getTypeName())){
+		if(user !=null && org !=null && (expert.getSign() == 1 || expert.getSign() == 3) && "1".equals(user.getTypeName())){
 			/*String orgId = user.getOrg().getId();*/
 			PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(org.getId());
-			if(dep !=null ){
+			if(dep !=null){
 				expert.setPurchaseDepId(dep.getId());
 				//抽取时的机构
 				expert.setExtractOrgid(dep.getId());
 				//1是采购机构，0不是
-				expert.setIsOrg(1);
 			}else{
 				expert.setIsOrg(0);
 				expert.setPurchaseDepId("");
 				expert.setExtractOrgid("");
 			}
+		}else if(user !=null && expert.getSign() == 2 && "4".equals(user.getTypeName())){
+			expert.setIsOrg(1);
 		}else{
 			expert.setIsOrg(0);
 			expert.setPurchaseDepId("");

@@ -1,5 +1,8 @@
 $(function() {
 	
+	/**
+	 * bar
+	 */
 	optionCateType = {
 		title : {
 			x : 'center'
@@ -40,11 +43,13 @@ $(function() {
 		},
 		calculable : true,
 		series : [ {
-			name : '专家数量',
+			name : '需求金额',
 		} ]
 	};
 
-	// 采购需求柱状图
+	/**
+	 * 采购需求柱状图
+	 */
 	optionRequire = {
 		title : {
 			top : 0,
@@ -122,6 +127,51 @@ $(function() {
 		      
 	};
 	
+	/**
+	 * 去掉实心的bar
+	 */
+	optionBarExHeart = {
+		tooltip : {
+			trigger : 'item',
+			formatter : "{a} <br/>{b} : {c} ({d}%)"
+		},
+		toolbox : {
+			show : true,
+			feature : {
+				mark : {
+					show : true
+				},
+				dataView : {
+					show : true,
+					readOnly : false
+				},
+				magicType : {
+					show : true,
+					type : [ 'pie', 'funnel' ],
+					option : {
+						funnel : {
+							x : '25%',
+							width : '50%',
+							funnelAlign : 'center',
+							max : 1548
+						}
+					}
+				},
+				restore : {
+					show : true
+				},
+				saveAsImage : {
+					show : true
+				}
+			}
+		},
+		calculable : true,
+		series : [ {
+			name : '需求金额',
+			radius : ['50%', '70%']
+		} ]
+	};
+	
 	// 统计采购需求近五年采购金额
 	$.ajax({
 		url : globalPath + "/resAnalyze/selectNearFiveYearAllBudget.do",
@@ -144,6 +194,53 @@ $(function() {
 			var supplierOrg = $("#nearFiveYearAllBudget").echartsTemplate("getMyChart", null);
 			supplierOrg.on('click', function(params) {
 				window.location.href = globalPath + "/expertQuery/list.html?reqType=analyze&orgName="+params.name;
+			});
+		}
+	});
+	
+	// 各类型需求金额
+	$.ajax({
+		url : globalPath + "/resAnalyze/selectBudget.do",
+		type : "POST", // 请求方式
+		dataType : "json", // 返回格式为json
+		success : function(data) {
+			$("#typeRequireMoney").echartsTemplate({
+				dataList : data,
+				XField : 'name',
+				YField : 'value',
+				groupField : 'group',
+				chartType : 'pie',
+				customEchartsOptions : function(res, dataList, option) {
+					return optionCateType;
+				}
+			});
+			// 获取echart对应的对象
+			var supplierCateType = $("#typeRequireMoney").echartsTemplate("getMyChart", null);
+			supplierCateType.on('click', function(params) {
+				window.location.href = globalPath + "/purchase/list.html?reqType=analyze&purcahserType="+params.data.id;
+			});
+		}
+	});
+	
+	// 各管理部门受理需求金额
+	$.ajax({
+		url : globalPath + "/resAnalyze/selectOrgBudget.do",
+		type : "POST", // 请求方式
+		dataType : "json", // 返回格式为json
+		success : function(data) {
+			$("#requireMoneyByOrg").echartsTemplate({
+				dataList : data,
+				YField : 'value',
+				groupField : 'group',
+				chartType : 'pie',
+				customEchartsOptions : function(res, dataList, option) {
+					return optionBarExHeart;
+				}
+			});
+			// 获取echart对应的对象
+			var expertNature = $("#requireMoneyByOrg").echartsTemplate("getMyChart", null);
+			expertNature.on('click', function(params) {
+				window.location.href = globalPath + "/expertQuery/list.html?reqType=analyze&expertsFrom="+params.data.id;
 			});
 		}
 	});

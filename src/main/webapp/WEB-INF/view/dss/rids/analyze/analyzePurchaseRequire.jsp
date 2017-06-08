@@ -25,7 +25,7 @@
 	<div class="container content job-content">
 		<button class="btn btn-windows back mb20" type="button" onclick="history.go(-1)">返回</button>
 		<div class="m-chart-head text-center">
-			<span class="mch-tit">全网上报采购需求总金额：</span> <span class="mch-num">${ totalMoney }万元</span>
+			<span class="mch-tit">全网上报采购需求总金额：</span> <span class="mch-num">${ totalMoney } 万元</span>
 		</div>
 		<ul class="ul_list">
 			<h2 class="count_flow">
@@ -37,7 +37,13 @@
 			<h2 class="count_flow">
 				<span class="m-chart-icon"></span> 各类型需求金额
 			</h2>
-			<div id="expertNature" class="analyze"></div>
+			<div id="typeRequireMoney" class="analyze"></div>
+		</ul>
+		<ul class="ul_list">
+			<h2 class="count_flow">
+				<span class="m-chart-icon"></span> 各采购管理部门受理采购需求金额
+			</h2>
+			<div id="requireMoneyByOrg" class="analyze"></div>
 		</ul>
 	</div>
 </body>

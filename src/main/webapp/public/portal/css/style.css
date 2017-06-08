@@ -3110,4 +3110,45 @@ h2.list_title{
 	overflow: hidden;
 	text-overflow:ellipsis;
 	white-space: nowrap; 
-} 
+}
+@media (max-width:800px){
+	.report_list_box .f16{
+		font-size:14px!important;
+		height:30px;
+		overflow: hidden;
+		white-space:nowrap;
+		text-overflow:ellipsis;
+		line-height: 30px;
+	}
+	.report_list_box{
+		padding:10px;
+		
+}
+	.report_list_box .report_list_title	{
+		line-height: 30px;
+}
+}
+@media (min-width:801px){
+	.report_list_box{
+		padding:20px;
+	}
+	.report_list_box .report_list_title{
+		line-height: 35px;
+}
+	.report_list_box .f16{
+		height:35px;
+		overflow: hidden;
+		white-space:nowrap;
+		text-overflow:ellipsis;
+		line-height: 35px;
+	}
+}
+	.report_list_box{
+		border:1px solid #eeeeee;
+		width:100%;
+		float:left;
+}
+
+.report_list_box .report_list_title{
+		background-color:#f3f3f3;
+}
