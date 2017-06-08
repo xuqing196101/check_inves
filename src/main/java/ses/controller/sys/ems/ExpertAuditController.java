@@ -1637,7 +1637,6 @@ public class ExpertAuditController{
 			}
 		}
 		dataMap.put("professTechTitles", expert.getProfessTechTitles() == null ? "" : expert.getProfessTechTitles());
-		dataMap.put("professional", expert.getProfessional() == null ? "" : expert.getProfessional ());
 		
 		String expertsType = expertType.toString().substring(0, expertType.length() - 1);
 		dataMap.put("expertsTypeId", expertsType);
@@ -1879,6 +1878,30 @@ public class ExpertAuditController{
 			dataMap.put("date", da);
 		}
 		
+		/**
+		 * 执业资格
+		 */		
+		List<ExpertTitle> expertTitleList = new ArrayList<>();
+		if(expert.getExpertsTypeId() !=null && !"".equals(expert.getExpertsTypeId())){
+			if(expert.getExpertsTypeId().contains(engCodeId)){
+				expertTitleList = expertTitleService.queryByUserId(expert.getId(),engCodeId);	
+			}
+			if(expert.getExpertsTypeId().contains(goodsProjectId)){
+				expertTitleList = expertTitleService.queryByUserId(expert.getId(),goodsProjectId);	
+			}
+		}
+		StringBuffer professional = new StringBuffer();
+		if(!expertTitleList.isEmpty() && expertTitleList.size() >0){
+			for(ExpertTitle expertTitle : expertTitleList){
+				professional.append(expertTitle.getQualifcationTitle()+"、");
+			}
+			if(professional.length() > 0){
+				professional.deleteCharAt(professional.length() -1);
+			}
+			dataMap.put("professional", professional);
+		}else{
+			dataMap.put("professional", "");
+		}
 		
 		
 		/** 生成word 返回文件名 */
