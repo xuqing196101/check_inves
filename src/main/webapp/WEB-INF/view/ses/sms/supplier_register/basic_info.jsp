@@ -17,7 +17,7 @@
 			$().ready(function() {
 				$("#basic_info_form_id").validForm();
 			});
-
+			
 			$(function() {
 				
 				var term="${currSupplier.branchName}";
@@ -1915,7 +1915,7 @@
 										<li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 "><i class="red">* </i>所在国家（地区）</span>
 											<div class="select_common col-md-12 col-sm-12 col-xs-12  p0">
-												<select name="branchList[${vs.index }].country" id="overseas_branch_select_id" required <c:if test="${!fn:contains(audit,'overseasBranch')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if> <c:if test="${fn:contains(audit,'countryName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('countryName_${bran.id }')"</c:if>>
+												<select name="branchList[${vs.index }].country" id="overseas_branch_select_id" required <c:if test="${!fn:contains(audit,'overseasBranch')&&currSupplier.status==2}">onchange=""</c:if> <c:if test="${fn:contains(audit,'countryName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('countryName_${bran.id }')"</c:if>>
 													<option value="">请选择</option>
 													<c:forEach items="${foregin }" var="fr">
 														<option value="${fr.id }" <c:if test="${bran.country==fr.id}">selected='selected' </c:if> >${fr.name }</option>
@@ -2354,12 +2354,14 @@
 </script>
 
 <script type="text/javascript">
+	controlForm();
+	function controlForm(){
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
 		var currSupplierSt = '${currSupplier.status}';
 		if(currSupplierSt == '2'){
-			$("input[type='text'],select,textarea").attr('disabled',true);
-			//enableForm();
-			//$("input[type='text'],select,textarea").removeAttr('readonly');
+			//$("input[type='text'],select,textarea").attr('disabled',true);
+			enableForm();
+			$("input[type='text'],select,textarea").removeAttr('readonly');
 			$("input[type='text'],select,textarea").each(function(){
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
@@ -2371,9 +2373,10 @@
 				this.selectedIndex=this.defaultIndex;
 			}); */
 		}
-		
-		// 表单可编辑
-		function enableForm(){
-			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
-		}
+	}
+	
+	// 表单可编辑
+	function enableForm(){
+		$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
+	}
 </script>
