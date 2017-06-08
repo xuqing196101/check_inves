@@ -1379,7 +1379,7 @@
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.scaleTech" id="supplierMatPro_scaleTech" maxlength="10"
 															required value="${currSupplier.supplierMatPro.scaleTech}" 
-															<c:if test="${!fn:contains(audit,'scaleTech')&&currSupplier.status==2}">readonly='readonly'</c:if>
+															<c:if test="${!fn:contains(proPageField,'scaleTech')&&currSupplier.status==2}">readonly='readonly'</c:if>
 															<c:if test="${fn:contains(proPageField,'scaleTech')}">style="border: 1px solid red;" onmouseover="errorMsg('scaleTech','mat_pro_page')"</c:if> 
 															onkeyup="value=value.replace(/[^\d.]/g,'')"
 															onblur="validatePercentageSupplier(this.value,this.id)"/>
@@ -1397,7 +1397,7 @@
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.scaleHeightTech"  id="supplierMatPro_scaleHeightTech"  maxlength="10"
 															required value="${currSupplier.supplierMatPro.scaleHeightTech}" 
-															<c:if test="${!fn:contains(audit,'scaleHeightTech')&&currSupplier.status==2}">readonly='readonly'</c:if>
+															<c:if test="${!fn:contains(proPageField,'scaleHeightTech')&&currSupplier.status==2}">readonly='readonly'</c:if>
 															<c:if test="${fn:contains(proPageField,'scaleHeightTech')}">style="border: 1px solid red;" onmouseover="errorMsg('scaleHeightTech','mat_pro_page')"</c:if> 
 															onkeyup="value=value.replace(/[^\d.]/g,'')"
 															onblur="validatePercentageSupplier(this.value,this.id)"/>
@@ -1416,7 +1416,7 @@
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.researchName"
 															required maxlength="20"
-															value="${currSupplier.supplierMatPro.researchName}" <c:if test="${!fn:contains(audit,'researchName')&&currSupplier.status==2}">readonly='readonly' </c:if>
+															value="${currSupplier.supplierMatPro.researchName}" <c:if test="${!fn:contains(proPageField,'researchName')&&currSupplier.status==2}">readonly='readonly' </c:if>
 															<c:if test="${fn:contains(proPageField,'researchName')}">style="border: 1px solid red;" onmouseover="errorMsg('researchName','mat_pro_page')"</c:if> />
 														<span class="add-on cur_point">i</span> <span
 															class="input-tip">不能为空</span>
@@ -1448,7 +1448,7 @@
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.researchLead"
 															required maxlength="20"
-															value="${currSupplier.supplierMatPro.researchLead}" <c:if test="${!fn:contains(audit,'researchLead')&&currSupplier.status==2}">readonly='readonly' </c:if>
+															value="${currSupplier.supplierMatPro.researchLead}" <c:if test="${!fn:contains(proPageField,'researchLead')&&currSupplier.status==2}">readonly='readonly' </c:if>
 															<c:if test="${fn:contains(proPageField,'researchLead')}">style="border: 1px solid red;" onmouseover="errorMsg('researchLead','mat_pro_page')"</c:if> />
 														<span class="add-on cur_point">i</span> <span
 															class="input-tip">不能为空</span>
@@ -1462,7 +1462,7 @@
 														承担国家军队科研项目：</span>
 													<div class="col-md-12 col-xs-12 col-sm-12 p0">
 														<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
-															maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" name="supplierMatPro.countryPro" <c:if test="${!fn:contains(audit,'countryPro')&&currSupplier.status==2}">readonly='readonly' </c:if>
+															maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" name="supplierMatPro.countryPro" <c:if test="${!fn:contains(proPageField,'countryPro')&&currSupplier.status==2}">readonly='readonly' </c:if>
 															<c:if test="${fn:contains(proPageField,'countryPro')}">style="border: 1px solid red;" onmouseover="errorMsg('countryPro','mat_pro_page')"</c:if>>${currSupplier.supplierMatPro.countryPro}</textarea>
 														<div class="cue">
 															<sf:errors path="supplierMatPro.countryPro" />
@@ -1473,7 +1473,7 @@
 														获得国家军队科技奖项：</span>
 													<div class="col-md-12 col-xs-12 col-sm-12 p0">
 														<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
-															maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" name="supplierMatPro.countryReward" <c:if test="${!fn:contains(audit,'countryReward')&&currSupplier.status==2}">readonly='readonly' </c:if>
+															maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" name="supplierMatPro.countryReward" <c:if test="${!fn:contains(proPageField,'countryReward')&&currSupplier.status==2}">readonly='readonly' </c:if>
 															<c:if test="${fn:contains(proPageField,'countryReward')}">style="border: 1px solid red;" onmouseover="errorMsg('countryReward','mat_pro_page')"</c:if>>${currSupplier.supplierMatPro.countryReward}</textarea>
 														<div class="cue">
 															<sf:errors path="supplierMatPro.countryReward" />
@@ -1755,7 +1755,7 @@
 												<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 													<select name="supplierMatEng.isHavingConAchi"
 														id="isHavingConAchi" onchange="disConAchi()"
-														<c:if test="${fn:contains(audit,'isHavingConAchi')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isHavingConAchi')"</c:if>>
+														<c:if test="${fn:contains(proPageField,'isHavingConAchi')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isHavingConAchi')"</c:if>>
 														<option value="0"
 															<c:if test="${currSupplier.supplierMatEng.isHavingConAchi == '0'}">selected</c:if>>无</option>
 														<option value="1"
@@ -1778,13 +1778,13 @@
 
 												</div></li>
 											<div id="conAchiDiv">
-												<li class="col-md-3 col-sm-6 col-xs-12 pl10" <c:if test="${fn:contains(audit,'supplierConAch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierConAch')"</c:if>><span
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10" <c:if test="${fn:contains(proPageField,'supplierConAch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierConAch')"</c:if>><span
 													class="col-md-12 col-sm-12 col-xs-12 padding-left-5"
 													<c:if test="${fn:contains(engPageField,'supplierConAch')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierConAch','mat_eng_page')"</c:if>><i
 														class="red">*</i> 承包合同主要页及保密协议：</span>
 													<div
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-													<%-- 	<c:if test="${!fn:contains(audit,'supplierConAch')&&(currSupplier.status==2 || currSupplier.status==-1)}">  --%>	<u:upload
+													<%-- 	<c:if test="${!fn:contains(proPageField,'supplierConAch')&&(currSupplier.status==2 || currSupplier.status==-1)}">  --%>	<u:upload
 															singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 															businessId="${currSupplier.id}" sysKey="${sysKey}"
 															typeId="${supplierDictionaryData.supplierConAch}"
