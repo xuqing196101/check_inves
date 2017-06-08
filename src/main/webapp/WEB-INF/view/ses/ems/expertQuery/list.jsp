@@ -98,8 +98,8 @@
         <span class="fl">
           <select name="status" id="status" class="w220">
              <option selected="selected" value=''>全部</option>
-             <option <c:if test="${expert.status =='4' }">selected</c:if> value="4">复审通过</option>
-             <option <c:if test="${expert.status =='5' }">selected</c:if> value="5">复审未通过</option>
+             <option <c:if test="${expert.status =='4' }">selected</c:if> value="4">复审合格</option>
+             <option <c:if test="${expert.status =='5' }">selected</c:if> value="5">复审不合格</option>
              <option <c:if test="${expert.status =='6' }">selected</c:if> value="6">待复查</option>
              <option <c:if test="${expert.status =='7' }">selected</c:if> value="7">复查通过</option>
              <option <c:if test="${expert.status =='8' }">selected</c:if> value="8">复查未通过</option>
@@ -150,10 +150,10 @@
                   <span class="label rounded-2x label-dark">临时</span>
                 </c:if> --%>
                 <c:if test="${e.status eq '4' and e.isProvisional eq '0'}">
-                  <span class="label rounded-2x label-u">复审通过</span>
+                  <span class="label rounded-2x label-u">复审合格</span>
                 </c:if>
                 <c:if test="${e.status eq '5' }">
-                  <span class="label rounded-2x label-dark">复审未通过</span>
+                  <span class="label rounded-2x label-dark">复审不合格</span>
                 </c:if>
                 <c:if test="${e.status eq '6' }">
                   <span class="label rounded-2x label-dark">待复查</span>

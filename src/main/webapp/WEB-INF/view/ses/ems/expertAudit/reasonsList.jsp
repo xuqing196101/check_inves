@@ -309,9 +309,9 @@
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>
                     <c:if test="${status eq '1'}">
-                        <input class="btn btn-windows git" type="button" onclick="shenhe(4);" value="复审通过 " id="tongguo">
-                        <input class="btn btn-windows edit" type="button" onclick="shenhe(5);" value="复审不通过" id="tichu">
-                        <!-- <input class="btn btn-windows reset" type="button" onclick="shenhe(6);" value="退回" id="tuihui"> -->
+                        <input class="btn btn-windows git" type="button" onclick="shenhe(4);" value="复审合格 " id="tongguo">
+                        <input class="btn btn-windows edit" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu">
+                        <!-- <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui"> -->
                     </c:if>
                     <c:if test="${status eq '6'}">
                         <input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查通过 " id="tongguo">
