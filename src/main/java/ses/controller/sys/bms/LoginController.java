@@ -180,7 +180,7 @@ public class LoginController {
                                 } else if (object.equals("4")) {
                                     out.print("firset," + u.getId());
                                 } else if (object.equals("6")) {
-                                    out.print("weed");
+                                    out.print("weed,"+u.getId());
                                 } else if (object.equals("7")) {
                                     out.print("notLogin");
                                 }

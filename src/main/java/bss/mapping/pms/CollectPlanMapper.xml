@@ -21,6 +21,20 @@
     <result column="AUDIT_TURN" jdbcType="VARCHAR" property="auditTurn" />
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
   </resultMap>
+  
+  <resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyzeBigDecimal">
+    <result column="COL_NAME" property="name"/>
+    <result column="COL_VALUE" property="value"/>
+    <result column="COL_ID" property="id"/>
+  </resultMap>
+  
+  <resultMap type="ses.model.bms.AnalyzeVo" id="baseAnalyzeVo">
+    <result column="COL_NAME" property="name"/>
+    <result column="COL_VALUE" property="money"/>
+    <result column="COL_COUNT" property="count"/>
+    <result column="COL_ID" property="id"/>
+  </resultMap>
+  
   <sql id="Base_Column_List">
     ID, FILE_NAME, PASSWORD, DEPARTMENT, BUDGET, STATUS, PURCHASE_ID, CREATED_AT, ORDER_AT, 
     UPDATED_AT, POSITION,PLAN_NUMBER,GOODS_TYPE,PURCHASE_TYPE,TASK_ID,TOTAL_AUDIT,AUDIT_TURN,USER_ID
@@ -447,7 +461,69 @@
   	<if test="status ==2 ">
   		  order by STATUS  desc, CREATED_AT desc
   	</if> -->
-  	
-  	
   </select>
+  
+  
+  <!-- 获取计划总金额 -->
+   <select id="selectAllBudget" parameterType="java.util.Map" resultMap="baseAnalyzeVo">
+      SELECT
+        NVL(SUM(BUDGET),0) AS COL_VALUE,
+        COUNT(ID) AS COL_COUNT
+      FROM
+        T_BSS_PMS_COLLECT_PLAN
+      WHERE
+        1=1
+      <if test="createdAt != null">
+        AND to_char(CREATED_AT,'yyyy') = to_char(#{createdAt},'yyyy')
+      </if>
+   </select>
+   
+   <!-- 管理部门获取前10名的总金额 -->
+   <select id="selectManageBudget" resultMap="baseAnalyzeBigDecimal">
+     	SELECT COL_NAME, COL_VALUE, COL_ID
+			  FROM (SELECT ORG.SHORT_NAME AS COL_NAME,
+			               NVL(SUM(P.BUDGET), 0) AS COL_VALUE,
+			               ORG. ID AS COL_ID
+			          FROM T_SES_OMS_ORG ORG
+			          LEFT JOIN (SELECT ORG_ID, ID FROM T_SES_BMS_USER) U
+			            ON ORG. ID = U.ORG_ID
+			          LEFT JOIN T_BSS_PMS_COLLECT_PLAN P
+			            ON U . ID = P.USER_ID
+			         WHERE ORG.TYPE_NAME = 2
+			           AND P.STATUS = '2'
+			           AND ORG.IS_DELETED = 0
+			         GROUP BY ORG.SHORT_NAME, ORG. ID
+			         ORDER BY COL_VALUE DESC)
+			 WHERE ROWNUM &lt;= 10
+   </select>
+   
+   <!-- 采购机构获取前10名的总金额 -->
+   <select id="selectPlanBudget" resultMap="baseAnalyzeBigDecimal">
+      SELECT
+			  COL_NAME,
+			  COL_VALUE,
+			  COL_ID
+			FROM
+			  (
+			    SELECT
+			      o. ID AS COL_ID,
+			      o.SHORT_NAME AS COL_NAME,
+			      NVL (SUM(D .BUDGET), 0) AS COL_VALUE
+			    FROM
+			      T_BSS_PMS_PURCHASE_DETAIL D
+			    LEFT JOIN T_SES_OMS_ORG o ON o. ID = D .ORGANIZATION_ID
+			    WHERE
+			      o.TYPE_NAME = 1
+			    AND D.PRICE is NOT NULL
+			    AND D .HISTORY_STATUS = '0'
+			    AND o.IS_DELETED = 0
+			    GROUP BY
+			      o.SHORT_NAME,
+			      o. ID
+			    ORDER BY
+			      COL_VALUE DESC
+			  )
+			WHERE
+			  ROWNUM &lt;= 10
+   </select>
 </mapper>

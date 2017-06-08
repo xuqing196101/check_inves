@@ -803,10 +803,10 @@ function myReSet(){
 		<div class="clear"></div>
 	  </div>
    </div>
-  <form action="">
+  <form action="" class="form-inline">
   <div class="container job-content ">
        <div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-			<div class=" input_group col-md-3 col-sm-6 col-xs-12 col-lg-12 p0">
+			<div class=" input_group">
 			    <div class="w100p">
 			    	<input type="text" id="search" class="fl m0">
 				      <img alt="" style="position:absolute; top:8px;right:10px;" src="${pageContext.request.contextPath }/public/backend/images/view.png"  onclick="searchs('${articleId}')">
@@ -814,46 +814,48 @@ function myReSet(){
 			    <ul id="treeCategory" class="ztree" style="margin-top:0;"></ul>
 			</div>
 	   	</div>
-		<div class="search_box col-md-12 col-sm-12 col-xs-12">
-			<span class="pl10" >标题：<input
-				name="title" type="text" id="title" value="${title }" class="mb0"/></span>
-				<span class="fl padding-left-5"> 采购方式：
-				<select name="lastArticleTypeName" id="lastArticleTypeName">
+		<div class="search_box col-md-12 col-sm-12 col-xs-12 form-inline">
+			<div class="form-group">
+				<label>标题：</label>
+				<input name="title" type="text" id="title" value="${title }" class="form-control"/>
+			</div>
+			<div class="form-group">
+			<label> 采购方式：</label>
+			<select name="lastArticleTypeName" id="lastArticleTypeName" class="form-control">
 				<option value="">全部</option>
 				<option value="公开招标" <c:if test="${'公开招标' eq lastArticleTypeName }"> selected=selected </c:if> >公开招标</option>
 				<option value="邀请招标" <c:if test="${'邀请招标' eq lastArticleTypeName }"> selected=selected </c:if> >邀请招标</option>
 				<option value="询价" <c:if test="${'询价' eq lastArticleTypeName }"> selected=selected </c:if> >询价</option>
 				<option value="竞争性谈判" <c:if test="${'竞争性谈判' eq lastArticleTypeName }"> selected=selected </c:if> >竞争性谈判</option>
-				</select>
+			</select>
 			    <!-- <input name="lastArticleTypeName" type="text" id="lastArticleTypeName" value="${lastArticleTypeName }" />-->
-				</span>
-				<span class="pl10 fl">
+			</div>
+			<div class="form-group">
+				<label> 
 					选择产品类别：
-				</span>
-				<div class="col-md-3 col-sm-6 col-xs-12 w200 p0" id="choseCategory" >
-				<div class="input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0 mt1" >
+				</label>
+				<div class="form-group" id="choseCategory" >
 					<input id="cId" name="categoryId" type="hidden" value="${categoryIds}"> 
 					<input id="categorySel" type="text" name="categoryName"  readonly value="${categoryNames}"
-						onclick="showCategory('${categoryIds}');" />
-					<div class="drop_up" onclick="showCategory('${categoryIds}');">
-						<img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
-					</div>
+						onclick="showCategory('${categoryIds}');" class="form-control"/>
 					<div class="cue" id="ERR_category">${ERR_category}</div>
-				</div>
-			  </div>
+			  	</div>
+			 </div>
 			
-			<span class="fl pl10" > 发布时间：
-			<input class="w80 mb0" name="publishStartDate" type="text" id="publishStartDate" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${publishStartDate }" />
-			-<input class="w80 mb0" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+			<div class="form-group" >
+				<label>发布时间：</label>
+			<input class="form-control" name="publishStartDate" type="text" id="publishStartDate" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="${publishStartDate }" />
+			-<input class="form-control" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
 				name="publishEndDate" type="text" id="publishEndDate" value="${publishEndDate }" />
 				</span> 
-			<span class="fl">
-				<button type="button" onclick="query()" class="btn btn-u-light-grey ml5">查询</button>
+			</div>
+			<div class="w100p tc mt10">
+				<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
 				<button type="button" onclick="myReSet()" class="btn btn-u-light-grey">重置</button>
-			</span>
+			</div>
 		</div>
-		<div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
-            <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+		<div class="report_list_box">
+            <h2 class="col-md-12 col-sm-12 col-xs-12 report_list_title">
           		<div class="col-md-7 col-xs-4 col-sm-6 tc f16 p0">标题</div>
           		<div class="col-md-3 col-sm-3 col-xs-4 tc f16 p0">发布时间</div>
           		<div class="col-md-2 col-sm-3 col-xs-4 tc f16 p0" >产品类别</div>

@@ -18,7 +18,7 @@ public class AnalyzeBigDecimal implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/** 分组名称 1：专家 2：供应商 3：后台管理员 **/
+	/** 分组名称  **/
 	private String group;
 
 	/** 渲染名称 **/
@@ -27,6 +27,7 @@ public class AnalyzeBigDecimal implements Serializable{
 	/** 渲染值 **/
 	private BigDecimal value;
 	
+	/**封装查询条件id**/
 	private String id;
 	
 	public String getGroup() {

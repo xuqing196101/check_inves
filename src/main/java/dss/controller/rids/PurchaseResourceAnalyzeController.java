@@ -507,4 +507,203 @@ public class PurchaseResourceAnalyzeController {
 	public List<AnalyzeBigDecimal> selectPurContractCountAndMoneys(){
 		return purchaseResourceAnalyzeService.selectPurContractCountAndMoney();
 	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购需求
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购需求", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购需求", operType=2)
+	@RequestMapping("/analyzePurchaseRequire")
+	public String analyzePurchaseRequires(Model model) {
+		// 查询上报采购需求总金额
+		BigDecimal totalMoney = purchaseResourceAnalyzeService.selectAllBudget();
+		model.addAttribute("totalMoney", totalMoney);
+		return "dss/rids/analyze/analyzePurchaseRequire";
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购计划
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购计划", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购计划", operType=2)
+	@RequestMapping("/analyzePurchasePlan")
+	public String analyzePurchasePlans(Model model) {
+		// 查询全网采购计划总金额
+		BigDecimal totalMoney = purchaseResourceAnalyzeService.selectAllBudgetByPlan();
+		model.addAttribute("totalMoney", totalMoney);
+		return "dss/rids/analyze/analyzePurchasePlan";
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购公告
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购公告", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购公告", operType=2)
+	@RequestMapping("/analyzePurchaseNotice")
+	public String analyzePurchaseNotices(Model model) {
+		// 查询全网采购公告总金额
+		BigDecimal totalMoney = purchaseResourceAnalyzeService.selectPurchaseNoticeCount();
+		model.addAttribute("totalMoney", totalMoney);
+		return "dss/rids/analyze/analyzePurchaseNotice";
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购公告-查询已发布采购公告数量 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购公告", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购公告", operType=2)
+	@RequestMapping("/selectNearFiveYearPurchaseNoticeCount")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectNearFiveYearPurchaseNoticeCounts() {
+		return purchaseResourceAnalyzeService.selectNearFiveYearPurchaseNoticeCount();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购公告-查询已发布采购公告数量 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购公告", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购公告", operType=2)
+	@RequestMapping("/selectNoticeByArticleType")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectNoticeByArticleTypes() {
+		return purchaseResourceAnalyzeService.selectNoticeByArticleType();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购公告-根据各类型公告查询
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购公告", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购公告", operType=2)
+	@RequestMapping("/selectNoticeByCateType")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectNoticeByCateTypes() {
+		return purchaseResourceAnalyzeService.selectNoticeByCateType();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购公告-根据各采购方式公告查询
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购公告", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购公告", operType=2)
+	@RequestMapping("/selectNoticeByPurWay")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectNoticeByPurWays() {
+		return purchaseResourceAnalyzeService.selectNoticeByPurWay();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购公告-发布排名前10的产品类别数量
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购公告", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购公告", operType=2)
+	@RequestMapping("/selectNoticeByProductCate")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectNoticeByProductCates() {
+		return purchaseResourceAnalyzeService.selectNoticeByProductCate();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购需求-获取近五年需求总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购需求", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购需求", operType=2)
+	@RequestMapping("/selectNearFiveYearAllBudget")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectNearFiveYearAllBudgets() {
+		return purchaseResourceAnalyzeService.selectNearFiveYearAllBudget();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购需求-各类型需求金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月8日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购需求", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购需求", operType=2)
+	@RequestMapping("/selectBudget")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectBudgets() {
+		return purchaseResourceAnalyzeService.selectBudget();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购需求-获取各管理部门受理需求金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月8日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购需求", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购需求", operType=2)
+	@RequestMapping("/selectOrgBudget")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectOrgBudgets() {
+		return purchaseResourceAnalyzeService.selectOrgBudget();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购计划-管理部门获取前10名的总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月8日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购计划", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购计划", operType=2)
+	@RequestMapping("/selectManageBudget")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectManageBudgets() {
+		return purchaseResourceAnalyzeService.selectManageBudget();
+	}
+	
 }

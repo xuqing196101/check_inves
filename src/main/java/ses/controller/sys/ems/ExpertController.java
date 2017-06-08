@@ -511,6 +511,7 @@ public class ExpertController extends BaseController {
                 }
             }
         }
+        model.addAttribute("ipAddressType", type);
         // 查询数据字典中的性别配置数据
         List < DictionaryData > sexList = DictionaryDataUtil.find(13);
         model.addAttribute("sexList", sexList);

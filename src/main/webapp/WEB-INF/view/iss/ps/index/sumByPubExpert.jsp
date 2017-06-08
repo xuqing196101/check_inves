@@ -53,8 +53,10 @@ function query(){
 	  </div>
    </div>
   <div class="container job-content ">
-  <div class="search_box col-md-12 col-sm-12 col-xs-12">
-  			状态：<select name="status" id="status" >
+  <div class="search_box col-md-12 col-sm-12 col-xs-12 form-inline">
+  	<div class="form-group">
+		<label>状态：</label>
+		<select name="status" id="status" class="form-control" >
   			 <option value="">全部</option>
   			 <c:choose>
            	 <c:when test="${!empty status && fn:contains('4,6,8',status)}">
@@ -74,16 +76,23 @@ function query(){
            	 </c:choose>
   			
   			</select>
-         	专家名称：<input name="relName" type="text" id="relName" value="${relName }"/>
-         	编号：<input name="code" type="text" id="code" value="${productType }"/>
-        	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
+  		 </div>
+ 		 <div class="form-group">
+			<label>	专家名称：</label>
+			<input name="relName" type="text" id="relName" value="${relName }" class="form-control"/>
+		 </div>
+		 <div class="form-group">
+			<label>编号：</label>
+			<input name="code" type="text" id="code" value="${productType }"  class="form-control"/>
+		 </div>
+       	 <button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
       </div>
-          <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
-          <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+          <div class="report_list_box">
+          <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
           		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">专家名称</div>
-          		<div class="col-md-3 col-xs-3 col-sm-3 tc f16">编号</div>
-                <div class="fr mr25 f16">状态</div>
-           </h2>
+          		<div class="col-md-3 col-xs-3 col-sm-4 tc f16">编号</div>
+                <div class="col-md-3 col-xs-3 col-sm-3 tc f16">状态</div>
+           </div>
            <c:choose>
            	 <c:when test="${!empty list.list}">
            		<ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
@@ -92,9 +101,9 @@ function query(){
 						<div class="col-md-6 col-xs-6 col-sm-5">
 					  		 <span class="f18 mr5 fl">·</span>${item.relName }</a>
 					    </div>
-					    <div class="col-md-3 col-xs-3 col-sm-3 tc f16">
+					    <div class="col-md-3 col-xs-3 col-sm-4 tc">
 				  		</div>
-	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12">
+	                   <span class="col-md-3 col-sm-3 col-xs-3 tc">
 					   <c:choose>
           						      <%-- <c:when test="${item.status == 0}">
 										          未审核

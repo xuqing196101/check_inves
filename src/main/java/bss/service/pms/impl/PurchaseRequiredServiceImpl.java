@@ -313,4 +313,10 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    public List<PurchaseRequired> selectByAll(HashMap<String, Object> map) {
+        
+        return purchaseRequiredMapper.selectByAll(map);
+    }
 }

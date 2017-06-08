@@ -2,6 +2,7 @@ package dss.service.rids;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.Analyze;
 import ses.model.bms.AnalyzeBigDecimal;
@@ -247,4 +248,127 @@ public interface PurchaseResourceAnalyzeService {
 	 * @return
 	 */
 	public List<AnalyzeBigDecimal> selectPurContractCountAndMoney();
+	
+	/**
+	 * 
+	 * Description:查询已发布采购公告数量 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	public BigDecimal selectPurchaseNoticeCount();
+	
+	/**
+	 * 
+	 * Description:查询已发布采购公告数量 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	public List<AnalyzeBigDecimal> selectNearFiveYearPurchaseNoticeCount();
+	
+	/**
+	 * 
+	 * Description:根据各栏目信息查询公告
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	public List<AnalyzeBigDecimal> selectNoticeByArticleType();
+	
+	/**
+     * 
+     * Description:根据各类型公告查询
+     * 
+     * @author Easong
+     * @version 2017年6月7日
+     * @return
+     */
+	public List<AnalyzeBigDecimal>  selectNoticeByCateType();
+    
+    /**
+     * 
+     * Description:根据各采购方式公告查询
+     * 
+     * @author Easong
+     * @version 2017年6月7日
+     * @return
+     */
+	public List<AnalyzeBigDecimal>  selectNoticeByPurWay();
+	
+	/**
+     * 
+     * Description:发布排名前10的产品类别数量
+     * 
+     * @author Easong
+     * @version 2017年6月7日
+     * @return
+     */
+    public List<AnalyzeBigDecimal>  selectNoticeByProductCate();
+    
+   /**
+    * 
+    * Description:获取需求总金额
+    * 
+    * @author Easong
+    * @version 2017年6月7日
+    * @param map
+    * @return
+    */
+    public BigDecimal selectAllBudget();
+    
+    /**
+     * 
+     * Description:获取需求总金额
+     * 
+     * @author Easong
+     * @version 2017年6月7日
+     * @param map
+     * @return
+     */
+    public List<AnalyzeBigDecimal> selectNearFiveYearAllBudget();
+    
+    /**
+     * 
+     * Description: 各类型需求金额
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @return
+     */
+    public List<AnalyzeBigDecimal> selectBudget();
+    
+    /**
+     * 
+     * Description:获取各管理部门受理需求金额
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @return
+     */
+    List<AnalyzeBigDecimal> selectOrgBudget();
+    
+    /**
+     * 
+     * Description:获取计划总金额
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @param map
+     * @return
+     */
+    public BigDecimal selectAllBudgetByPlan();
+    
+    /**
+     * 
+     * Description:采购计划-管理部门获取前10名的总金额
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @return
+     */
+    List<AnalyzeBigDecimal> selectManageBudget();
 }

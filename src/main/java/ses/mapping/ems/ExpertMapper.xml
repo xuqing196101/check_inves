@@ -857,17 +857,17 @@ resultMap="BaseResultMap">
                 PRODUCT_CATEGORIES =
                 #{productCategories,jdbcType=VARCHAR},
             </if>
-            <if test="academicAchievement != null and academicAchievement != ''">
+            <if test="(academicAchievement != null and academicAchievement != '') || step != null "> 
                 ACADEMIC_ACHIEVEMENT =
                 #{academicAchievement,jdbcType=VARCHAR},
-            </if>
-            <if test="reviewSituation != null and reviewSituation != ''">
+             </if> 
+            <if test="(reviewSituation != null and reviewSituation != '') || step != null ">
                 REVIEW_SITUATION = #{reviewSituation,jdbcType=VARCHAR},
-            </if>
-            <if test="avoidanceSituation != null and avoidanceSituation != ''">
+             </if> 
+            <if test="(avoidanceSituation != null and avoidanceSituation != '') || step != null "> 
                 AVOIDANCE_SITUATION =
                 #{avoidanceSituation,jdbcType=VARCHAR},
-            </if>
+             </if> 
             <if test="idCardNumber != null and idCardNumber != ''">
                 ID_CARD_NUMBER = #{idCardNumber,jdbcType=VARCHAR},
             </if>
@@ -919,7 +919,7 @@ resultMap="BaseResultMap">
             <if test="nation != null and nation != ''">
                 NATION = #{nation,jdbcType=VARCHAR},
             </if>
-            <if test="graduateSchool != null and graduateSchool != ''">
+            <if test="(graduateSchool != null and graduateSchool != '') || step != null ">
                 GRADUATE_SCHOOL = #{graduateSchool,jdbcType=VARCHAR},
             </if>
             <if test="hightEducation != null and hightEducation != ''">
@@ -934,9 +934,9 @@ resultMap="BaseResultMap">
             <if test="telephone != null and telephone != ''">
                 TELEPHONE = #{telephone,jdbcType=VARCHAR},
             </if>
-            <if test="fax != null and fax != ''">
+            <if test="(fax != null and fax != '') || step != null "> 
                 FAX = #{fax,jdbcType=VARCHAR},
-            </if>
+             </if> 
             <if test="makeTechDate != null and makeTechDate != ''">
                 MAKE_TECH_DATE = #{makeTechDate,jdbcType=TIMESTAMP},
             </if>
@@ -950,9 +950,9 @@ resultMap="BaseResultMap">
                 PROFESS_TECH_TITLES =
                 #{professTechTitles,jdbcType=VARCHAR},
             </if>
-            <if test="timeToWork != null and timeToWork != ''">
+            <if test="(timeToWork != null and timeToWork != '') || step != null "> 
                 TIME_TO_WORK = #{timeToWork,jdbcType=TIMESTAMP},
-            </if>
+            </if> 
             <if test="timeStartWork != null and timeStartWork != ''">
                 TIME_START_WORK = #{timeStartWork,jdbcType=TIMESTAMP},
             </if>
@@ -962,12 +962,12 @@ resultMap="BaseResultMap">
             <if test="postCode != null and postCode != ''">
                 POST_CODE = #{postCode,jdbcType=VARCHAR},
             </if>
-            <if test="degree != null and degree != ''">
+            <if test="(degree != null and degree != '') || step != null "> 
                 DEGREE = #{degree,jdbcType=VARCHAR},
-            </if>
-            <if test="atDuty != null and atDuty != ''">
+            </if> 
+             <if test="(atDuty != null and atDuty != '') || step != null "> 
                 AT_DUTY = #{atDuty,jdbcType=VARCHAR},
-            </if>
+             </if> 
             <if test="expertsTypeId != null and expertsTypeId != ''">
                 EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},
             </if>
@@ -992,9 +992,9 @@ resultMap="BaseResultMap">
             <if test="auditAt != null and createdAt != ''">
                 AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
             </if>
-            <if test="isReferenceLftter != null and isReferenceLftter != ''">
+             <if test="isReferenceLftter != null and isReferenceLftter != ''"> 
                 IS_REFERENCE_LETTER = #{isReferenceLftter,jdbcType=CHAR},
-            </if>
+             </if> 
             <if test="professional != null and professional != ''">
                 PROFESSIONAL = #{professional,jdbcType=VARCHAR},
             </if>

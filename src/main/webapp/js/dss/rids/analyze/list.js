@@ -15,11 +15,13 @@ $(function(){
 	});
 	
 	// 绑定业务信息
+	// 采购需求
 	$("#analyzePurReq").click(function(){
-		window.location.href=globalPath + "/resAnalyze/analyzePurchaseProject.html";
+		window.location.href=globalPath + "/resAnalyze/analyzePurchaseRequire.html";
 	});
+	//采购计划
 	$("#analyzePurPlan").click(function(){
-		window.location.href=globalPath + "/";
+		window.location.href=globalPath + "/resAnalyze/analyzePurchasePlan.html";
 	});
 	$("#analyzePurProject").click(function(){
 		window.location.href=globalPath + "/resAnalyze/analyzePurchaseProject.html";
@@ -28,6 +30,6 @@ $(function(){
 		window.location.href=globalPath + "/resAnalyze/analyzePurchaseContract.html";
 	});
 	$("#analyzePurNotice").click(function(){
-		window.location.href=globalPath + "/";
+		window.location.href=globalPath + "/resAnalyze/analyzePurchaseNotice.html";
 	});
 });

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,6 +68,7 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
+import ses.util.PropUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseManagement;
@@ -76,6 +78,7 @@ import bss.service.pms.PurchaseRequiredService;
 import bss.util.ExcelUtil;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -1359,5 +1362,46 @@ public class PurchaseRequiredController extends BaseController {
 			return false;
 		}
 		return true;
+	}
+	
+	
+	@RequestMapping("/viewDetamd")
+	public String viewDetamd(PurchaseRequired purchaseRequired, String date, Integer page, String orgId, Model model){
+	    HashMap<String, Object> map = new HashMap<>(); 
+        map.put("isMaster", StaticVariables.DEFAULT_PAGE);
+        if(StringUtils.isNotBlank(purchaseRequired.getStatus())){
+            map.put("status", purchaseRequired.getStatus());
+        }
+        if(StringUtils.isNotBlank(purchaseRequired.getPlanName())){
+            map.put("planName", purchaseRequired.getPlanName());
+        }
+        if(StringUtils.isNotBlank(purchaseRequired.getReferenceNo())){
+            map.put("referenceNo", purchaseRequired.getReferenceNo());
+        }
+        if(StringUtils.isNotBlank(purchaseRequired.getPlanType())){
+            map.put("planType", purchaseRequired.getPlanType());
+        }
+        if(StringUtils.isNotBlank(orgId)){
+            map.put("orgId", orgId);
+        }
+        if (page == null) {
+            page = StaticVariables.DEFAULT_PAGE;
+        }
+        if(StringUtils.isNotBlank(date)){
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy");
+            try {
+                Date date2 = sdf.parse(date);
+                map.put("createdAt", date2);
+                purchaseRequired.setCreatedAt(date2);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+        List<PurchaseRequired> list = purchaseRequiredService.selectByAll(map);
+        model.addAttribute("info", new PageInfo<PurchaseRequired>(list));
+        model.addAttribute("purchaseRequired", purchaseRequired);
+        model.addAttribute("orgId", orgId);
+        return "dss/rids/list/view_required";
 	}
 }

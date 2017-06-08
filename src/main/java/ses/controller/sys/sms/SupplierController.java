@@ -1843,12 +1843,22 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("stech", "格式不正确");
             return false;
 		}
+		int scaleTech=Integer.valueOf(supplierMatPro.getScaleTech());
+		if(scaleTech<1 || scaleTech>100) {
+			model.addAttribute("stech", "百分比格式不对，正确格式为0-100的数字");
+            return false;
+		}
 		if(supplierMatPro.getScaleHeightTech() == null) {
 			model.addAttribute("height", "格式不正确");
             return false;
 		}
 		if(supplierMatPro.getScaleHeightTech() != null && !supplierMatPro.getScaleHeightTech().matches("^[-+]?\\d+(\\.\\d+)?$")) {
 			model.addAttribute("height", "格式不正确");
+            return false;
+		}
+		int scaleHeightTech=Integer.valueOf(supplierMatPro.getScaleHeightTech());
+		if(scaleHeightTech<1 || scaleHeightTech>100) {
+			model.addAttribute("height", "百分比格式不对，正确格式为0-100的数字");
             return false;
 		}
 		if(supplierMatPro.getResearchName() == null) {
@@ -2789,11 +2799,12 @@ public class SupplierController extends BaseSupplierController {
 		allInfo.put("isok", isok);
 		 
 		 if(dep!=null){
-			 allInfo.put("name", dep.getShortName());
+			 /*allInfo.put("name", dep.getShortName());
 			 allInfo.put("concat", dep.getSupplierContact());
 			 allInfo.put("phone", dep.getSupplierPhone());
 			 allInfo.put("address", dep.getSupplierAddress());
-			 allInfo.put("code", dep.getSupplierPostcode());
+			 allInfo.put("code", dep.getSupplierPostcode());*/
+			 allInfo.put("purchaseDep", dep);
 		 }
 
 		// 查询初审机构信息

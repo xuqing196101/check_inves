@@ -1490,4 +1490,16 @@ where
 			and name like  CONCAT(CONCAT('%', #{title}), '%')
 		</if>
 	</select>
+	
+	<!-- 查询已发布采购公告数量 -->
+	<select id="selectPurchaseNoticeCount" resultType="java.math.BigDecimal" parameterType="java.lang.String">
+		 SELECT COUNT(T.ID)
+		   FROM T_ISS_PS_ARTICLE T
+		  	WHERE T.STATUS = 2
+		 <!-- 按年份查询 -->
+		 <if test="year != '' and year != null">
+		 	AND TO_CHAR(T.PUBLISHED_AT, 'yyyy') = TO_CHAR(#{year},'yyyy')
+		 </if> 
+	</select>
+	
 </mapper>

@@ -74,54 +74,50 @@
 	
 	<div class="container job-content ">
 		<div class="search_box col-md-12 col-sm-12 col-xs-12">
-		<form id="search_form_id" class="mb0" action="${pageContext.request.contextPath}/supplier_level/indexList.html" method="post">
+		<form id="search_form_id" class="form-inline" action="${pageContext.request.contextPath}/supplier_level/indexList.html" method="post">
 			<input name="page" type="hidden" />
-				<ul class="demand_list">
-					<li>
-						<label class="fl">供应商名称：</label>
-						<span><input type="text" id="supplierName" name="supplierName" value="${supplierName}"/></span>
-					</li>
-					<li>
-						<label class="fl">等级：</label>
-						<span>
-							<select id="level_select_id" class="w150" name="level">
-								<option selected="selected" value="">全部</option>
-								<option value="1">一星级</option>
-								<option value="2">二星级</option>
-								<option value="3">三星级</option>
-								<option value="4">四星级</option>
-								<option value="5">五星级</option>
-							</select>
-						</span>
-					</li>
+				<div class="form-group">
+					<label>供应商名称：</label>
+					<input type="text" id="supplierName" name="supplierName" value="${supplierName}" clas="form-control"/>
+				</div>
+				<div class="form-group">
+					<label>等级：</label>
+					<select id="level_select_id" class="form-control" name="level">
+						<option selected="selected" value="">全部</option>
+						<option value="1">一星级</option>
+						<option value="2">二星级</option>
+						<option value="3">三星级</option>
+						<option value="4">四星级</option>
+						<option value="5">五星级</option>
+					</select>
+				</div>
 					<button type="button" onclick="searchSupplierLevel(1)" class="btn btn-u-light-grey">查询</button>
 					<button onclick="resetForm()" class="btn btn-u-light-grey">重置</button>
-				</ul>
 				<div class="clear"></div>
 			</form>
 		</div>
-		<div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
-			<h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
-				<div class="col-md-3 col-xs-4 col-sm-4 tc f16">供应商名称</div>
-				<div class="col-md-3 col-xs-4 col-sm-4 tc f16">企业等级</div>
-				<div class="col-md-3 col-xs-4 col-sm-4 tc f16">分数</div>
-				<div class="col-md-3 col-xs-4 col-sm-4 tc f16">企业性质</div>
-			</h2>
+		<div class="report_list_box">
+			<div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
+				<div class="col-md-3 col-xs-3 col-sm-3 tc f16">供应商名称</div>
+				<div class="col-md-3 col-xs-3 col-sm-3 tc f16">企业等级</div>
+				<div class="col-md-3 col-xs-3 col-sm-3 tc f16">分数</div>
+				<div class="col-md-3 col-xs-3 col-sm-3 tc f16">企业性质</div>
+			</div>
 			<c:choose>
 				<c:when test="${!empty listSuppliers.list}">
 					<ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
 						<c:forEach items="${listSuppliers.list}" var="supplier" varStatus="status">
 							<li>
-								<div class="col-md-3 col-xs-4 col-sm-4 tc">
+								<div class="col-md-3 col-xs-3 col-sm-12 tc">
 									<span class="f18 mr5 fl">·</span>${ supplier.supplierName }</a>
 								</div>
-								<span class="col-md-3 col-xs-4 col-sm-4 tc">
+								<span class="col-md-3 col-xs-3 col-sm-4 tc">
 									${supplier.level}
 								</span>
-								<div class="col-md-3 col-xs-4 col-sm-4 tc">
+								<div class="col-md-3 col-xs-3 col-sm-4 tc">
 									${supplier.score}
 								</div>
-								<div class="col-md-3 col-xs-4 col-sm-4 tc">
+								<div class="col-md-3 col-xs-3 col-sm-4 tc">
 									<c:forEach items="${data }" var="dic">
 										<c:if test="${supplier.businessType==dic.id}">
 											${dic.name }									

@@ -104,17 +104,20 @@
 				    <td class="">${obj.fourthNode}</td>
 					<td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.oneContract))}">style="border: 1px solid #FF8C00;"</c:if>>
 						<div class="w90">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-1}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
+				            <u:upload singleFileSize="300" maxcount="5"   id="${fileUp}${(vs.index + 1)*6-1}" multiple="true" businessId="${obj.itemsId}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-1}"  businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 						</div>
 					</td>
 					<td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.twoContract))}">style="border: 1px solid #FF8C00;"</c:if>>
 						<div class="w90">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-2}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
+						   <u:upload singleFileSize="300" maxcount="5"  id="${fileShow}${(vs.index + 1)*6-2}" multiple="true" businessId="${obj.itemsId}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-2}"   businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 						</div>
 					</td>
 					<td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.threeContract))}">style="border: 1px solid #FF8C00;"</c:if>>
 						<div class="w90">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-3}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
+						   <u:upload singleFileSize="300" maxcount="5"  id="${fileShow}${(vs.index + 1)*6-3}" multiple="true" businessId="${obj.itemsId}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-3}"  businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 						</div>
 					</td>
 					<td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.oneBil))}">style="border: 1px solid #FF8C00;"</c:if>>

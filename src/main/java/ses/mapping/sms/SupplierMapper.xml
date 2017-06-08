@@ -1662,7 +1662,7 @@
 		FROM T_SES_SMS_SUPPLIER
 		WHERE CREDIT_CODE = #{_parameter}
 		and
-		SUPPLIER_STATUS != 6
+		SUPPLIER_STATUS != 6 and IS_DELETED=0
 	</select>
 	
 	<select id="queryAll" resultMap="BaseResultMap" >

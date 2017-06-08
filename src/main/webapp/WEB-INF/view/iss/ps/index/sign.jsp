@@ -113,10 +113,21 @@
     							layer.close(index);
     							window.location.href = "${pageContext.request.contextPath}/";
     						});
-    					} else if (data == "weed") {
-    					  	$("#divPrompt").removeClass("hide");
-    						  $("#spanPrompt").text("抱歉,您已被踢除,无法登陆！");
-    						layer.close(index);
+    					} else if (data.indexOf("weed")>=0) {
+    					  	/* $("#divPrompt").removeClass("hide");
+    						  $("#spanPrompt").text("请耐心等待复查");
+    						layer.close(index); */
+    						$.ajax({
+                  url: "${pageContext.request.contextPath}/expert/validateAuditTime.do",
+                  data: {"userId" : data.split(",")[1]},
+                  dataType: "json",
+                  async: false,
+                  success: function(response){
+                	  layer.alert("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>：" +response.purchaseDep.shortName + "；联系人是:" + response.purchaseDep.experContact + ";"+"联系人电话：" +  response.purchaseDep.experPhone + "；联系人地址是：" + response.purchaseDep.experAddress +";邮编："+response.purchaseDep.unitPostCode+ "。");
+                	  layer.close(index);
+                  }
+    						});
+    						
     					} else if (flag[0] == "auditExp") {
     						$.ajax({
     							url: "${pageContext.request.contextPath}/expert/validateAuditTime.do",
@@ -127,7 +138,7 @@
     							
     								console.info(response);
    									//询问框
-   		    						layer.confirm("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>：" + response.purchaseDep.shortName + "；联系人是:" + response.purchaseDep.supplierContact + ";"+"联系人电话：" + response.purchaseDep.supplierPhone + "；联系人地址是：" + response.purchaseDep.address + "。", {
+   		    						layer.confirm("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>：" +response.purchaseDep.shortName + "；联系人是:" + response.purchaseDep.experContact + ";"+"联系人电话：" +  response.purchaseDep.experPhone + "；联系人地址是：" + response.purchaseDep.experAddress +";邮编："+response.purchaseDep.unitPostCode+ "。", {
    		    							btn : [ '确定' ]
    		    						//按钮
    		    						}, function() {
@@ -194,7 +205,7 @@
     								}else if (response.isok == "1") {
     									// 没有超过45天
     									//询问框
-    		    						layer.confirm("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>："+response.name+"；联系人是:"+response.concat+";"+"联系人电话："+response.phone+"；联系人地址是："+response.address+"；联系人邮编："+response.code, {
+    		    						layer.confirm("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>：" +response.purchaseDep.shortName + "；联系人是:" + response.purchaseDep.experContact + ";"+"联系人电话：" +  response.purchaseDep.experPhone + "；联系人地址是：" + response.purchaseDep.experAddress +";邮编："+response.purchaseDep.unitPostCode+ "。", {
     		    							btn : [ '确定' ]
     		    						//按钮
     		    						}, function() {

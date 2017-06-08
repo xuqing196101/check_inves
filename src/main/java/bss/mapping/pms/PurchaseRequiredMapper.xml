@@ -55,6 +55,14 @@
 		<result column="UNIQUE_ID" jdbcType="VARCHAR"  property="uniqueId"/>
 		<result column="FILE_ID" jdbcType="VARCHAR"  property="fileId"/>
 	</resultMap>
+	
+	<resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyzeBigDecimal">
+    <result column="COL_GROUP" property="group"/>
+    <result column="COL_NAME" property="name"/>
+    <result column="COL_VALUE" property="value"/>
+    <result column="COL_ID" property="id"/>
+  </resultMap>
+  
 	<sql id="Base_Column_List">
 		ID, PLAN_NAME, PLAN_NO, REFERENCE_NO, PLAN_TYPE, DEPARTMENT, MATERIAL_NAME, STAND,
 		QUALIT_STAND, ITEM,
@@ -658,7 +666,7 @@
 		<where>
 			HISTORY_STATUS='0'  and IS_DELETE='0' 
 			<if test="createdAt!=null">
-				and  to_char(CREATED_AT,'yyyy-mm-dd') =to_char(#{createdAt},'yyyy-mm-dd')
+				and  to_char(CREATED_AT,'yy-MM-dd') =to_char(#{createdAt},'yyyy-MM-dd')
 			</if>
 			<if test="planName!=null">
 				and PLAN_NAME like CONCAT(CONCAT('%', #{planName}), '%')
@@ -1071,4 +1079,95 @@
 			AND HISTORY_STATUS = '0'
 			AND PLAN_TYPE = #{planType}
    </select>
+   
+   <!-- 获取需求总金额 -->
+   <select id="selectAllBudget" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+      SELECT
+        NVL(SUM(BUDGET),0)
+      FROM
+        T_BSS_PMS_PURCHASE_REQUIRED
+      WHERE
+        PARENT_ID = '1'
+      AND HISTORY_STATUS = '0'
+      <if test="createdAt != null">
+        AND to_char(CREATED_AT,'yyyy') = to_char(#{createdAt},'yyyy')
+      </if>
+   </select>
+   
+   <!-- 获取各管理部门受理需求金额 -->
+   <select id="selectOrgBudget" resultMap="baseAnalyzeBigDecimal">
+     SELECT
+			  ORG.SHORT_NAME AS COL_GROUP,
+			  NVL (SUM(P .BUDGET), 0) AS COL_VALUE,
+			ORG.ID AS COL_ID
+			FROM
+			  T_SES_OMS_ORG ORG
+			LEFT JOIN (
+			  SELECT
+			    MANAGEMENT_ID,PURCHASE_ID
+			  FROM
+			    T_BSS_PMS_PURCHASE_MANAGEMENT
+			) PT ON ORG. ID = PT.MANAGEMENT_ID
+			LEFT JOIN T_BSS_PMS_PURCHASE_REQUIRED P ON PT.PURCHASE_ID = P . UNIQUE_ID
+			WHERE
+			  ORG.TYPE_NAME = 2
+			AND ORG.IS_DELETED = 0
+			AND p.PARENT_ID = '1'
+			AND p.HISTORY_STATUS = '0'
+			GROUP BY
+			  ORG.SHORT_NAME,ORG.ID
+			ORDER BY
+			  COL_VALUE DESC
+   </select>
+   
+   
+   <!-- 资源管理查询采购需求 -->
+   <select id="selectByAll" parameterType="java.util.Map" resultMap="PurchaseRequired_Map">
+    select
+    r.ID,r.PLAN_NAME,r.PLAN_NO,r.PLAN_TYPE,r.BUDGET,r.CREATED_AT,r.UNIQUE_ID,r.STATUS,r.REFERENCE_NO
+    from T_BSS_PMS_PURCHASE_REQUIRED r LEFT JOIN T_BSS_PMS_PURCHASE_MANAGEMENT sm ON SM.PURCHASE_ID = r.UNIQUE_ID
+    <where>
+      r.HISTORY_STATUS='0'  and r.IS_DELETE=0
+      <if test="createdAt != null">
+        and  to_char(r.CREATED_AT,'yyyy') =to_char(#{createdAt},'yyyy')
+      </if>
+      <if test="planName!=null">
+        and r.PLAN_NAME like CONCAT(CONCAT('%', #{planName}), '%')
+      </if>
+      <if test="orgId != null">
+        and sm.MANAGEMENT_ID = #{orgId}
+      </if>
+      <if test="planNo !=null">
+        and r.PLAN_NO like CONCAT(CONCAT('%', #{planNo}), '%')
+      </if>
+      <if test="referenceNo !=null">
+        and r.REFERENCE_NO like CONCAT(CONCAT('%', #{referenceNo}), '%') 
+      </if>
+      <if test="isMaster != null">
+        and r.IS_MASTER = #{isMaster}
+      </if>
+      <if test="status!=null ">
+        and r.STATUS =#{status}
+      </if>
+      <if test="isCollect != null">
+        and r.IS_COLLECT = #{isCollect}
+      </if>
+      <if test="goodsType != null">
+        and r.PURCHASE_COUNT is not null
+      </if>
+      <if test="purchaseType != null">
+        and r.PURCHASE_TYPE = #{purchaseType}
+      </if>
+      <if test="organization != null">
+        and r.ORGANIZATION_ID = #{organization}
+      </if>
+      <if test="budget != null">
+        and r.BUDGET = #{budget}
+      </if>
+      <if test="planType != null">
+         and r.PLAN_TYPE = #{planType}
+      </if>
+    </where>
+    ORDER  BY   r.CREATED_AT DESC
+  </select>
 </mapper>

@@ -1956,7 +1956,7 @@ img.img-mouse {
 .step_flow{
   padding:25px;
   margin-top: 20px;
-  margin-bottom:40px;
+  margin-bottom:50px;
 }
 }
    @media only screen and (min-width: 1024px) and (max-width: 1366px) {
@@ -1967,7 +1967,7 @@ img.img-mouse {
 		.step_flow{
 				padding:15px;
 				margin-top: 15px;
-				margin-bottom:10px;
+				margin-bottom:30px;
 		}
         .new_step i{
             width: 30px;
@@ -2337,6 +2337,13 @@ a.news_more{
   float:left;
   margin:4px;
 }
+.drop_main .ywbl_01{
+  width:131px;
+  height:104px;
+  background:url(../images/flow_bg.jpg) center;
+  float:left;
+  margin:4px;
+}
 .ywbl_01 a{
   width:130px;
   height:104px;
@@ -2684,7 +2691,7 @@ a.yjfk i{
 /*li_square*/
 .li_square li{
   border-bottom:1px dashed #e2e2e2;
-  font-size:15px!important;
+  font-size:14px!important;
   overflow: hidden;
 }
 .li_square{
@@ -2732,6 +2739,7 @@ a.yjfk i{
 .job-content .categories li {
     padding:0;
     font-size: 14px;
+    line-height: 29px;
 }
 span.list_squre {
     display: block;
@@ -3056,6 +3064,10 @@ h2.list_title{
 .list_new li span, .list_new li a{
 	display: block;
 	line-height: 29px;
+	height:29px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis;
 }
  .list_new li span.hex{
 	display: block;
@@ -3084,7 +3096,7 @@ h2.list_title{
 
 }
 @media (min-width:800px){
-.service_btns{
+.supp_service .service_btns{
 	width:14.28%;
 }
 .service_btns{
@@ -3098,4 +3110,45 @@ h2.list_title{
 	overflow: hidden;
 	text-overflow:ellipsis;
 	white-space: nowrap; 
-} 
+}
+@media (max-width:800px){
+	.report_list_box .f16{
+		font-size:14px!important;
+		height:30px;
+		overflow: hidden;
+		white-space:nowrap;
+		text-overflow:ellipsis;
+		line-height: 30px;
+	}
+	.report_list_box{
+		padding:10px;
+		
+}
+	.report_list_box .report_list_title	{
+		line-height: 30px;
+}
+}
+@media (min-width:801px){
+	.report_list_box{
+		padding:20px;
+	}
+	.report_list_box .report_list_title{
+		line-height: 35px;
+}
+	.report_list_box .f16{
+		height:35px;
+		overflow: hidden;
+		white-space:nowrap;
+		text-overflow:ellipsis;
+		line-height: 35px;
+	}
+}
+	.report_list_box{
+		border:1px solid #eeeeee;
+		width:100%;
+		float:left;
+}
+
+.report_list_box .report_list_title{
+		background-color:#f3f3f3;
+}
