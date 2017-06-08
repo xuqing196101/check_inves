@@ -924,7 +924,12 @@ public class PurchaseResourceAnalyzeServiceImpl implements
      * @return
      */
     public BigDecimal selectAllBudgetByPlan(){
-    	return collectPlanMapper.selectAllBudget(null);
+        BigDecimal decimal = null;
+        List<AnalyzeVo> selectAllBudget = collectPlanMapper.selectAllBudget(null);
+        if(selectAllBudget != null && selectAllBudget.size() > 0){
+            decimal = selectAllBudget.get(0).getMoney();
+        }
+    	return decimal;
     }
 
     /**
