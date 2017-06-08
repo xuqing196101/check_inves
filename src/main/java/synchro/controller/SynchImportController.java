@@ -230,6 +230,12 @@ public class SynchImportController {
                  	bean.setSuccess(false);
                      return bean;
                  }
+            	 
+            	 if(synchType.contains("img_inner")){
+            		 synchService.imageImportHandler(); 
+            	 }
+            	 
+            	 
             	 if(synchType.contains(Constant.DATA_TYPE_INFOS_CODE)){
             		 //信息导入
             		 if (f.getName().contains(FileUtils.C_INFOS_FILENAME)){
