@@ -1198,7 +1198,7 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="creditCode"  required maxlength="18" id="creditCode" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" value="${currSupplier.creditCode}" <c:if test="${!fn:contains(audit,'creditCode')&&currSupplier.status==2}">readonly="readonly"</c:if>  <c:if test="${fn:contains(audit,'creditCode')}">style="border: 1px solid red;" onmouseover="errorMsg('creditCode')"</c:if>/>
 										<span class="add-on cur_point">i</span>
-										<!-- <span class="input-tip">不能为空，18位数字或字母</span> -->
+										<span class="input-tip">不能为空，信用代码不超过18位，请按照实际社会信用代码填写</span>
 										<div class="cue"> ${err_creditCide} </div>
 										<div class="cue">
 											<sf:errors path="creditCode" />
@@ -2359,9 +2359,9 @@
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
 		var currSupplierSt = '${currSupplier.status}';
 		if(currSupplierSt == '2'){
-			//$("input[type='text'],select,textarea").attr('disabled',true);
-			enableForm();
-			$("input[type='text'],select,textarea").removeAttr('readonly');
+			$("input[type='text'],select,textarea").attr('disabled',true);
+			//enableForm();
+			//$("input[type='text'],select,textarea").removeAttr('readonly');
 			$("input[type='text'],select,textarea").each(function(){
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
