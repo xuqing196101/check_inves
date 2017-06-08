@@ -1,14 +1,12 @@
 package bss.dao.pms;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import ses.model.bms.Analyze;
-
+import ses.model.bms.AnalyzeBigDecimal;
 import bss.model.pms.PurchaseRequired;
 /**
  * 
@@ -338,12 +336,12 @@ public interface PurchaseRequiredMapper {
     /**
      * 
      *〈获取需求总金额 〉
-     *〈详细描述〉
+     *〈详细描述〉dict:6
      * @author FengTian
      * @param map
      * @return
      */
-    BigDecimal selectAllBudget(HashMap<String, Object> map);
+    BigDecimal selectAllBudget(Map<String, Object> map);
     
     /**
      * 
@@ -352,6 +350,6 @@ public interface PurchaseRequiredMapper {
      * @author FengTian
      * @return
      */
-    List<Analyze> selectOrgBudget();
+    List<AnalyzeBigDecimal> selectOrgBudget();
     
 }

@@ -2799,11 +2799,12 @@ public class SupplierController extends BaseSupplierController {
 		allInfo.put("isok", isok);
 		 
 		 if(dep!=null){
-			 allInfo.put("name", dep.getShortName());
+			 /*allInfo.put("name", dep.getShortName());
 			 allInfo.put("concat", dep.getSupplierContact());
 			 allInfo.put("phone", dep.getSupplierPhone());
 			 allInfo.put("address", dep.getSupplierAddress());
-			 allInfo.put("code", dep.getSupplierPostcode());
+			 allInfo.put("code", dep.getSupplierPostcode());*/
+			 allInfo.put("purchaseDep", dep);
 		 }
 
 		// 查询初审机构信息

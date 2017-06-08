@@ -1,8 +1,15 @@
 package dss.service.rids.impl;
 
+import iss.dao.ps.ArticleMapper;
+import iss.dao.ps.ArticleTypeMapper;
+
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +29,14 @@ import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.bms.AnalyzeVo;
 import ses.model.bms.DictionaryData;
 import ses.util.DictionaryDataUtil;
+import bss.dao.pms.PurchaseRequiredMapper;
 import bss.dao.ppms.ProjectMapper;
 import bss.dao.ppms.SupplierCheckPassMapper;
 
 import com.alibaba.fastjson.JSON;
 
 import common.constant.StaticVariables;
+import common.utils.DateUtils;
 import common.utils.RedisUtils;
 import dss.service.rids.PurchaseResourceAnalyzeService;
 
@@ -65,6 +74,14 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	@Autowired
 	private PurchaseInfoMapper purchaseInfoMapper;
 	
+	// 注入信息公告Mapper
+	@Autowired
+	private ArticleMapper articleMapper;
+	
+	// 注入信息公告类型
+	@Autowired
+	private ArticleTypeMapper articleTypeMapper;
+	
 	// 注入JedisPool
 	@Autowired
 	private JedisPool jedisPool;
@@ -80,6 +97,10 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	// 注入采购项Mapper
 	@Autowired
 	private  ProjectMapper projectMapper;
+	
+	// 注入采购需求Mapper
+	@Autowired
+	private  PurchaseRequiredMapper purchaseRequiredMapper;
 
 	private static final String GOODS_SALES_NAME = "物资销售";
 
@@ -154,9 +175,10 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @param cateType
 	 * @param list
 	 */
-	private void setAnalyzeBigDate(BigDecimal count, String cateType, String id, List<AnalyzeBigDecimal> list) {
+	private void setAnalyzeBigDate(BigDecimal count, String cateType, String name, String id, List<AnalyzeBigDecimal> list) {
 		AnalyzeBigDecimal analyze = new AnalyzeBigDecimal();
 		analyze.setGroup(cateType);
+		analyze.setName(name);
 		analyze.setValue(count);
 		analyze.setId(id);
 		list.add(analyze);
@@ -629,7 +651,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		if(list != null && !list.isEmpty()){
 			for (DictionaryData dict : list) {
 				BigDecimal count = projectMapper.selectPurProjectByWay(dict.getId());
-				setAnalyzeBigDate(count, dict.getName(), dict.getId(), analyzeBigDecimal);
+				setAnalyzeBigDate(count, null, dict.getName(), dict.getId(), analyzeBigDecimal);
 			}
 		}
 		return analyzeBigDecimal;
@@ -722,6 +744,134 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 				listAnalyze.add(analyzeProMoney);
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * Description: 查询已发布采购公告数量 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@Override
+	public BigDecimal selectPurchaseNoticeCount() {
+		return articleMapper.selectPurchaseNoticeCount(null);
+	}
+	
+	/**
+	 * 
+	 * Description: 查询已发布采购公告数量 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@Override
+	public List<AnalyzeBigDecimal> selectNearFiveYearPurchaseNoticeCount() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+		List<AnalyzeBigDecimal> list = new ArrayList<>();
+		// 获取当年时间
+		Date currDate = new Date();
+		Date beforeFiveYear = DateUtils.getBeforeFiveYear(currDate);
+		for (int i = 0; i < 5; i++) {
+			BigDecimal count = articleMapper.selectPurchaseNoticeCount(beforeFiveYear);
+			setAnalyzeBigDate(count,  null, dateFormat.format(beforeFiveYear), null, list);
+			beforeFiveYear = DateUtils.getBeforeYear(beforeFiveYear);
+		}
+		return list;
+	}
+
+	/**
+	 * 
+	 * Description:根据各栏目信息查询公告
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@Override
+	public List<AnalyzeBigDecimal> selectNoticeByArticleType() {
+		return articleTypeMapper.selectNoticeByArticleType();
+	}
+	
+	 /**
+     * 
+     * Description:根据各类型公告查询
+     * 
+     * @author Easong
+     * @version 2017年6月7日
+     * @return
+     */
+    public List<AnalyzeBigDecimal>  selectNoticeByCateType(){
+    	return articleTypeMapper.selectNoticeByCateType();
+    }
+    
+    /**
+     * 
+     * Description:根据各采购方式公告查询
+     * 
+     * @author Easong
+     * @version 2017年6月7日
+     * @return
+     */
+    public List<AnalyzeBigDecimal>  selectNoticeByPurWay(){
+    	return articleTypeMapper.selectNoticeByPurWay();
+    }
+
+    /**
+     * 
+     * Description: 发布排名前10的产品类别数量
+     * 
+     * @author Easong
+     * @version 2017年6月7日
+     * @return
+     */
+	@Override
+	public List<AnalyzeBigDecimal> selectNoticeByProductCate() {
+		return articleTypeMapper.selectNoticeByProductCate();
+	}
+	
+	/**
+	 * 
+	 * Description:获取需求总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @param map
+	 * @return
+	 */
+	@Override
+	public BigDecimal selectAllBudget() {
+		return purchaseRequiredMapper.selectAllBudget(null);
+	}
+
+	/**
+	 * 
+	 * Description: 获取近五年需求总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @return
+	 */
+	@Override
+	public List<AnalyzeBigDecimal> selectNearFiveYearAllBudget() {
+		// 定义时间转换
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+		// 定义统计集合
+		List<AnalyzeBigDecimal> list = new ArrayList<>();
+		// 定义查询条件封装
+		Map<String, Object> map = new HashMap<>();
+		// 获取当年时间
+		Date currDate = new Date();
+		Date beforeFiveYear = DateUtils.getBeforeFiveYear(currDate);
+		for (int i = 0; i < 5; i++) {
+			map.put("createdAt", beforeFiveYear);
+			BigDecimal count = purchaseRequiredMapper.selectAllBudget(map);
+			setAnalyzeBigDate(count,  null, dateFormat.format(beforeFiveYear), null, list);
+			beforeFiveYear = DateUtils.getBeforeYear(beforeFiveYear);
+		}
+		return list;
 	}
 
 }

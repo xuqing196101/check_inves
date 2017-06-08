@@ -1082,7 +1082,7 @@
    <!-- 获取需求总金额 -->
    <select id="selectAllBudget" parameterType="java.util.Map" resultType="java.math.BigDecimal">
       SELECT
-        SUM(BUDGET)
+        NVL(SUM(BUDGET),0)
       FROM
         T_BSS_PMS_PURCHASE_REQUIRED
       WHERE

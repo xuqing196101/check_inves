@@ -490,14 +490,14 @@
                     </div>
                   </li>
                   
-                  <li id="experAddress" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>专家注册联系地址</span>
+                  <li id="experAddress" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>专家注册联系人地址</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="experAddress" type="text" required maxlength="100" value="${purchaseDep.experAddress}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_experAddress}</div>
                     </div>
                   </li>
                   
-                  <li id="experPostcode" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>专家注册邮编</span>
+                  <li id="experPostcode" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>专家注册联系人邮编</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="experPostcode" type="text" required isZipCode="true" value="${purchaseDep.experPostcode}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_experPostcode}</div>
