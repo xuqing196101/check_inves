@@ -1214,7 +1214,7 @@ public class ExpertAuditController{
 			
 			//历史表里记录的类型（修改前的专家类型）
 			ExpertHistory oldExpert = service.selectOldExpertById(expertId);
-			if(oldExpert !=null){
+			if(oldExpert !=null && oldExpert.getExpertsTypeId()!=null){
 				String oldType = oldExpert.getExpertsTypeId();
 				String[] historyType = oldExpert.getExpertsTypeId().split(",");
 				for(String h : historyType){
