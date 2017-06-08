@@ -452,7 +452,7 @@
               <wx:font wx:val="方正小标宋简体" />
               <w:sz w:val="44" />
               <w:sz-cs w:val="44" /></w:rPr>
-            <w:t>供应商审核</w:t>
+            <w:t>供应商复审</w:t>
           </w:r>
           <w:r wsp:rsidRPr="007324D4">
             <w:rPr>
