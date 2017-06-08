@@ -863,13 +863,12 @@ function myReSet(){
 				<button type="button" onclick="myReSet()" class="btn btn-u-light-grey">重置</button>
 			</span>
 		</div>
-		<div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
-            <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+		<div class="report_list_box">
+            <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
           		<div class="col-md-6 col-xs-4 col-sm-6 tc f16 p0">标题</div>
           	    <div class="col-md-3 col-xs-4 col-sm-3 f16 tc p0" >产品类别</div>
           		<div class="col-md-3 col-xs-4 col-sm-3 f16 tr p0" >发布时间</div>
-          			
-             </h2>
+             </div>
                  <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
                 <c:forEach items="${indexList}" var="i">
 	                  <%--<li>

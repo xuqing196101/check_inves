@@ -64,8 +64,8 @@
 				<button type="button" onclick="res()" class="btn btn-u-light-grey">重置</button>
 			</div>
 		</div>
-		<div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20 lh35">
-			<div class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+		<div class="report_list_box">
+			<div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
 				<div class="col-md-6 col-xs-4 col-sm-4 tc f16">服务内容</div>
 				<div class="col-md-6 col-xs-3 col-sm-4 tc f16">联系电话</div>
 			</div>

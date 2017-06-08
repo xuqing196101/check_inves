@@ -209,63 +209,70 @@
 					<div class="clear"></div>
 		  	</div>
 	   	</div>
-		  <div class="container job-content ">
-		  		<div class="search_box col-md-12 col-sm-12 col-xs-12">
-		         	产品名称：<input name="name" class="m0" type="text" id="name" value="${product.name }"/>
-		         	产品代码：<input name="code" class="m0" type="text" id="code" value="${product.code }"/>
-		         	产品目录：
-		         	<div class="pr inline-block"><input class="m0 w100p" name="smallname" type="text" id="citySel4" value="${catName }"  onclick=" showMenu(); return false;" readonly="readonly" />
-		        	<input id="categorieId4" name="smallPointsId" value="${smallPointsId }" type="hidden">
-		        	<!-- 目录框 -->
-					<div id="menuContent" class="menuContent col-md-12 col-xs-12 col-sm-12 p0 tree_drop" style="z-index:10000;position:absolute;top:30px;left:0px" hidden="hidden">
-						<div class="col-md-12 col-xs-8 col-sm-8 p0">
-			    			<input type="text" id="search" class="input_group">
-			    			<img alt="" src="${pageContext.request.contextPath }/public/backend/images/view.png" style="position: absolute; right: 10px;top: 5px;" onclick="searchs()">
-						</div>
-						<ul id="treeDemo" class="ztree slect_option clear" style="max-height: 340px;"></ul>
+		  <div class="container job-content">
+		  		<div class="search_box col-md-12 col-sm-12 col-xs-12 form-inline">
+		  			<div class="form-group">
+						<label>产品名称：</label>
+						<input name="name" class="form-control" type="text" id="name" value="${product.name }"/>
 					</div>
+					<div class="form-group">
+						<label>产品代码：</label>
+						<input name="code" class="form-control" type="text" id="code" value="${product.code }"/>
+					</div>
+					<div class="form-group">
+						<label>产品目录：</label>
+						<div class="form-group pr">
+						<input class="form-control" name="smallname" type="text" id="citySel4" value="${catName }"  onclick=" showMenu(); return false;" readonly="readonly" />
+			        	<input id="categorieId4" name="smallPointsId" value="${smallPointsId }" type="hidden">
+			        	<!-- 目录框 -->
+						<div id="menuContent" class="menuContent tree_drop w100p" style="z-index:10000;position:absolute;top:30px;left:0px" hidden="hidden">
+							<div class="w100p p0 pr">
+				    			<input type="text" id="search" class="w100p">
+				    			<img alt="" src="${pageContext.request.contextPath }/public/backend/images/view.png" style="position: absolute; right: 10px;top: 8px;" onclick="searchs()">
+							</div>
+							<ul id="treeDemo" class="ztree slect_option clear" style="max-height: 340px;"></ul>
+						</div>
+						</div>
 		        	</div>
-		        	<div class="inline-block ml5">
-		        		<button type="button" onclick="query(1)" class="btn btn-u-light-grey">查询</button>
-		        		<button type="button" onclick="res()" class="btn btn-u-light-grey">重置</button>
-		      		</div>
+		        		<button type="button" onclick="query(1)" class="btn btn-u-light-grey mt1">查询</button>
+		        		<button type="button" onclick="res()" class="btn btn-u-light-grey mt1">重置</button>
 		      </div>
-          <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20 lh35">
-            <div class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
-          		<div class="col-md-2 col-xs-4 col-sm-4 tc f16">产品名称</div>
-          		<div class="col-md-2 col-xs-3 col-sm-4 tc f16">产品代码</div>
-          		<div class="col-md-2 col-xs-3 col-sm-4 tc f16">规格型号</div>
-          		<div class="col-md-2 col-xs-3 col-sm-4 tc f16">质量技术标准</div>
-                <div class="col-md-2 col-xs-4 col-sm-4 tc f16">所属目录</div>
-                <div class="col-md-2 col-xs-4 col-sm-4 tc f16">合格供应商数量</div>
+          <div class="report_list_box">
+            <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
+          		<div class="col-md-2 col-xs-4 col-sm-2 tc f16">产品名称</div>
+          		<div class="col-md-2 col-xs-4 col-sm-2 tc f16">产品代码</div>
+          		<div class="col-md-2 col-xs-4 col-sm-2 tc f16">规格型号</div>
+          		<div class="col-md-2 col-xs-4 col-sm-2 tc f16 ">质量技术标准</div>
+                <div class="col-md-2 col-xs-4 col-sm-2 tc f16">所属目录</div>
+                <div class="col-md-2 col-xs-4 col-sm-2 tc f16">合格供应商数量</div>
              </div>
              <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0">
                 <c:choose>
                 	<c:when test="${info.list != null }">
                 		<c:forEach items="${info.list}" var="product">
 		                  <li>
-		                  	<div class="col-md-2 col-xs-4 col-sm-4" title="${product.name}">
+		                  	<div class="col-md-2 col-xs-4 col-sm-2" title="${product.name}">
 					  		 	<span class="f16 mr5 fl">·</span>
 					  		 	<c:if test="${fn:length(product.name) > 8 }">${fn:substring(product.name, 0, 8)}...</c:if>
 					  		 	<c:if test="${fn:length(product.name) <= 8 }">${product.name }</c:if>
 					    	</div>
-					    	<div class="col-md-2 col-xs-3 col-sm-4 tc">
+					    	<div class="col-md-2 col-xs-4 col-sm-2">
 		                   		<span class="f16 mr5">${product.code}</span>
 				  			</div>
-					    	<div class="col-md-2 col-xs-3 col-sm-4 tc" title="${product.standardModel }">
+					    	<div class="col-md-2 col-xs-4 col-sm-2 tc" title="${product.standardModel }">
 		                   		<span class="f16 mr5">
 		                   			<c:if test="${fn:length(product.standardModel) > 9 }">${fn:substring(product.standardModel, 0, 9)}...</c:if>
 					  		 		<c:if test="${fn:length(product.standardModel) <= 9 }">${product.standardModel }</c:if>
 		                   		</span>
 				  			</div>
-					    	<div class="col-md-2 col-xs-3 col-sm-4 tc" title="${product.qualityTechnicalStandard}">
+					    	<div class="col-md-2 col-xs-4 col-sm-2 tc" title="${product.qualityTechnicalStandard}">
 		                   		<span class="f16 mr5">
 		                   			<c:if test="${fn:length(product.qualityTechnicalStandard) > 9 }">${fn:substring(product.qualityTechnicalStandard, 0, 9)}...</c:if>
 					  		 		<c:if test="${fn:length(product.qualityTechnicalStandard) <= 9 }">${product.qualityTechnicalStandard }</c:if>
 		                   		</span>
 				  			</div>
-		                   	<div class="col-md-2 col-xs-4 col-sm-4 tc" title="${product.pointsName }">${product.smallPoints.name }</div>
-		                   	<div class="col-md-2 col-xs-4 col-sm-4 tc">
+		                   	<div class="col-md-2 col-xs-4 col-sm-2 tc" title="${product.pointsName }">${product.smallPoints.name }</div>
+		                   	<div class="col-md-2 col-xs-4 col-sm-2 tc">
 		                   		<c:forEach items="${numlist }" var="num">
 		  							<c:if test="${num.smallPointsId == product.smallPointsId }">${num.nCount }</c:if>
 		  						</c:forEach>
