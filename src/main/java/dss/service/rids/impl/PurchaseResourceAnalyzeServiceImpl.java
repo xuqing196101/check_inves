@@ -945,4 +945,48 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		return collectPlanMapper.selectManageBudget();
 	}
 
+	 /**
+     * 
+     * Description:近5年下达采购计划批次和金额
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @param map
+     * @return
+     */
+    public List<AnalyzeBigDecimal> selectNowFiveYearAllBudgetByPlan(){
+    	// 定义时间转换
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+		// 定义统计集合
+		List<AnalyzeBigDecimal> list = new ArrayList<>();
+		// 定义查询条件封装
+		Map<String, Object> map = new HashMap<>();
+		// 获取当年时间
+		Date currDate = new Date();
+		Date beforeFiveYear = DateUtils.getBeforeFiveYear(currDate);
+		for (int i = 0; i < 5; i++) {
+			map.put("createdAt", beforeFiveYear);
+			List<AnalyzeVo> allBudget = collectPlanMapper.selectAllBudget(map);
+			if(allBudget != null && !allBudget.isEmpty()){
+				AnalyzeVo analyzeVo = allBudget.get(0);
+				setAnalyzeBigDate(analyzeVo.getCount(),  "批次", dateFormat.format(beforeFiveYear), null, list);
+				setAnalyzeBigDate(analyzeVo.getMoney(),  "金额", dateFormat.format(beforeFiveYear), null, list);
+			}
+			// 获取前一年
+			beforeFiveYear = DateUtils.getBeforeYear(beforeFiveYear);
+		}
+    	return list;
+    }
+    
+    /**
+     * 
+     * Description: 采购机构获取前10名的总金额
+     * 
+     * @author Easong
+     * @version 2017年6月9日
+     * @return
+     */
+    public List<AnalyzeBigDecimal> selectPlanBudget(){
+    	return collectPlanMapper.selectPlanBudget();
+    }
 }

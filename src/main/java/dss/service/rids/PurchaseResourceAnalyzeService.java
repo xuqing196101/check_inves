@@ -2,7 +2,6 @@ package dss.service.rids;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import ses.model.bms.Analyze;
 import ses.model.bms.AnalyzeBigDecimal;
@@ -371,4 +370,25 @@ public interface PurchaseResourceAnalyzeService {
      * @return
      */
     List<AnalyzeBigDecimal> selectManageBudget();
+    
+    /**
+     * 
+     * Description:近5年下达采购计划批次和金额
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @param map
+     * @return
+     */
+    public List<AnalyzeBigDecimal> selectNowFiveYearAllBudgetByPlan();
+    
+    /**
+     * 
+     * Description: 采购机构获取前10名的总金额
+     * 
+     * @author Easong
+     * @version 2017年6月9日
+     * @return
+     */
+    List<AnalyzeBigDecimal> selectPlanBudget();
 }
