@@ -815,7 +815,7 @@
                         exts="${properties['file.picture.type']}" id="pro_${vs.index}"
                         groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
                         multiple="true" businessId="${t.id}" sysKey="${expertKey}"
-                        typeId="9" auto="true"/>
+                        typeId="9" auto="true" maxcount="20"/>
            	   				<u:show showId="pro_${vs.index}" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
 										</c:otherwise>
 									</c:choose>
@@ -876,7 +876,7 @@
                             exts="${properties['file.picture.type']}" id="eco_${vs.index}"
                             groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
                             multiple="true" businessId="${t.id}" sysKey="${expertKey}"
-                            typeId="9" auto="true"/>
+                            typeId="9" auto="true" maxcount="20"/>
                         	<u:show showId="eco_${vs.index}" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
 												</c:otherwise>
 											</c:choose>
