@@ -18,7 +18,7 @@ import java.util.List;
 public class AppData {
 
     // 首页轮播图片url集合
-    private List<String> imgUrl;
+    private List<Img> imgUrl;
 
     // 首页公告信息
     private List<Article> indexMsgList;
@@ -32,6 +32,17 @@ public class AppData {
     //公告内容
     private String content;
     
+    //公告title
+    private String title;
+    
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     //服务热线
     private List<AppHotLine> hotLineList;
     
@@ -59,14 +70,6 @@ public class AppData {
         this.blackList = blackList;
     }
 
-    public List<String> getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(List<String> imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
     public List<Article> getIndexMsgList() {
         return indexMsgList;
     }
@@ -81,5 +84,13 @@ public class AppData {
 
     public void setSupplierList(List<AppSupplier> supplierList) {
         this.supplierList = supplierList;
+    }
+
+    public List<Img> getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(List<Img> imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

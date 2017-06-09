@@ -2,15 +2,23 @@ package app.controller;
 
 import gui.ava.html.image.generator.HtmlImageGenerator;
 import iss.model.ps.Article;
+import iss.service.ps.ArticleService;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +28,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +38,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.util.PropUtil;
 import app.dao.app.AppArticleMapper;
 import app.dao.app.AppSupplierBlackListMapper;
@@ -38,10 +49,14 @@ import app.model.AppData;
 import app.model.AppHotLine;
 import app.model.AppImg;
 import app.model.AppSupplier;
+import app.model.Img;
 import app.service.IndexAppService;
 
 import com.alibaba.fastjson.JSON;
 
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 import common.utils.CommonStringUtil;
 import common.utils.UploadUtil;
 
@@ -62,53 +77,65 @@ public class IndexAppController {
     //首页通知
     @Autowired
     private IndexAppMapper indexAppMapper;
-    
+
     //公告
     @Autowired
     private AppArticleMapper appArticleMapper;
-    
+
     //供应商
     @Autowired
     private AppSupplierMapper appSupplierMapper;
-    
+
     //供应商黑名单
     @Autowired
     private AppSupplierBlackListMapper appSupplierBlackListMapper;
-    
+
     //App接口Service注入
     @Autowired
     private IndexAppService indexAppService;
     
+    //数据字典
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI;
+    
+    //公告Service
+    @Autowired
+    private ArticleService articleService;
+    
+    //文件上传
+    @Autowired
+    private UploadService uploadService;
+
     //工作动态typeId标识
     private static final String INDEX_DYNAMIC = "110"; 
-    
+
     //重要通知typeId标识
     private static final String NOTICE = "109"; 
-    
+
     //投诉处理公告typeId标识
     private static final String COMPLAINT_HANDLING = "112"; 
-    
+
     //处罚公告typeId标识
     private static final String PUNISHMENT = "113"; 
-    
+
     //需求公告typeId标识
     private static final String DEMAND = "103"; 
-    
+
     //成交公告typeId标识
     private static final String CJ = "104"; 
-    
+
     //废标公告typeId标识
     private static final String SCRAP = "105"; 
-    
+
     //军队处罚公告typeId标识
     private static final String MILITARY_PUNISHMENT = "116";
-    
+
     //军队处罚公告typeId标识
     private static final String PLACE_PUNISHMENT = "117";
-    
+
     //专家处罚公告typeId标识
     private static final String EXPERT_PUNISHMENT = "115";
-    
+
     /**
      * 
      * Description: App首页
@@ -121,11 +148,39 @@ public class IndexAppController {
      */
     @RequestMapping(value="/indexNews",produces = "text/json;charset=UTF-8")
     @ResponseBody
-    public String indexNews(){
-        List<String> imgList = new ArrayList<>();
-        imgList.add("/zhbj/public/portal/images/1.png");
-        imgList.add("/zhbj/public/portal/images/2.png");
-        imgList.add("/zhbj/public/portal/images/3.png");
+    public String indexNews(HttpServletRequest request){
+        List<Img> imgList = new ArrayList<>();
+        StringBuffer url = request.getRequestURL();  
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString(); 
+        List<Article> picList = articleService.selectPics();
+        List<Article> indexPics = null;
+        if(picList.size()>0){
+            indexPics = new ArrayList<Article>();
+            for(Article article : picList){
+                DictionaryData dd=new DictionaryData();
+                dd.setCode("POST_ATTACHMENT");
+                List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+                String sysKey = Constant.TENDER_SYS_KEY.toString();
+                String attachTypeId=null;
+                if(lists.size()>0){
+                    attachTypeId = lists.get(0).getId();
+                }
+                List<UploadFile> uploadList = uploadService.getFilesOther(article.getId(), attachTypeId, sysKey);
+                if(uploadList.size()>0){
+                    article.setUploadId(uploadList.get(0).getId());
+                    indexPics.add(article);
+                }
+            }
+        }
+        if(indexPics != null && !indexPics.isEmpty()){
+            for (Article article : indexPics) {
+                imgList.add(new Img(article.getId(),tempContextUrl+"file/viewFile.html?id="+article.getUploadId()+"&key=2"));
+            }
+        }else{
+            imgList.add(new Img(null,tempContextUrl+"public/portal/images/AppImg1.png"));
+            imgList.add(new Img(null,tempContextUrl+"public/portal/images/AppImg2.png"));
+            imgList.add(new Img(null,tempContextUrl+"public/portal/images/AppImg3.png"));
+        }
         List<Article> indexMsgList = new ArrayList<>();
         //动态
         Article dynamic= indexAppMapper.selectAppNewsByArticleTypeId(INDEX_DYNAMIC);
@@ -175,7 +230,7 @@ public class IndexAppController {
         }
         return JSON.toJSONString(appImg);
     }
-    
+
     /**
      * 
      * Description: App公告
@@ -250,7 +305,7 @@ public class IndexAppController {
         }
         return JSON.toJSONString(appImg);
     }
-    
+
     /**
      * 
      * Description: App供应商
@@ -326,7 +381,7 @@ public class IndexAppController {
         }
         return JSON.toJSONString(appImg);
     }
-    
+
     /**
      * 
      * Description: 专家
@@ -388,7 +443,7 @@ public class IndexAppController {
         }
         return JSON.toJSONString(appImg);
     }
-    
+
     /**
      * 
      * Description: 首页公告列表查询
@@ -410,6 +465,15 @@ public class IndexAppController {
                 case 110 ://工作动态
                 case 109://重要通知
                 case 112://投诉处理
+                    if(typeId == 110){
+                        appData.setTitle("工作动态");
+                    }else if(typeId == 109){
+                        appData.setTitle("重要通知");
+                    }else if(typeId == 112){
+                        appData.setTitle("投诉处理公告");
+                    }else{
+                        appData.setTitle("通知");
+                    }
                     List<Article> list = indexAppService.selectAppArticleListByTypeId(id,page);
                     if(list != null && !list.isEmpty()){
                         for (Article article : list) {
@@ -425,6 +489,7 @@ public class IndexAppController {
                     break;
                 case 108://法规
                 case 107:
+                    appData.setTitle("采购法规");
                     String[] idArray = new String[2];
                     idArray[0] = "107";
                     idArray[1] = "108";
@@ -444,6 +509,7 @@ public class IndexAppController {
                     }
                     break;
                 case 113://处罚
+                    appData.setTitle("处罚公告");
                     map.put("page", page);
                     map.put("articleTypeId", PUNISHMENT);
                     List<Article> punishmentList = indexAppService.selectAppPunishment(map);
@@ -468,7 +534,7 @@ public class IndexAppController {
         }
         return JSON.toJSONString(appImg);
     }
-    
+
     /**
      * 
      * Description: 查看公告详细列表
@@ -483,78 +549,83 @@ public class IndexAppController {
     public String announcementList(Integer id,String type_id,@RequestParam(defaultValue="1")Integer page){
         AppImg appImg = new AppImg();
         Integer typeId = Integer.parseInt(type_id);
+        String title = "";
         switch(id){
             case 1 ://采购公告
+                title = "采购公告";
                 switch (typeId) {
                     case 11 ://物资
-                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"3","24"},page));
+                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"3","24"},page),title);
                         break;
                     case 12 ://工程
-                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"8","29"},page));
+                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"8","29"},page),title);
                         break;
                     case 13 ://服务
-                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"13","34"},page));
+                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"13","34"},page),title);
                         break;
                     case 14 ://进口
-                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"18","39"},page));
+                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"18","39"},page),title);
                         break;
                 }
                 break;
             case 2 ://中标公示
+                title =  "中标公示";
                 switch (typeId) {
                     case 11 ://物资
-                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"46","67"},page));
+                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"46","67"},page),title);
                         break;
                     case 12 ://工程
-                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"51","72"},page));
+                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"51","72"},page),title);
                         break;
                     case 13 ://服务
-                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"56","77"},page));
+                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"56","77"},page),title);
                         break;
                     case 14 ://进口
-                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"61","82"},page));
+                        appImg = getAppImg(indexAppService.selectAppNoticeList(new String[]{"61","82"},page),title);
                         break;
                 }
                 break;
             case 3 ://单一来源
                 Map<String, Object> map = new HashMap<>();
                 map.put("page", page);
+                title = "单一来源公示";
                 switch (typeId) {
                     case 11 ://物资
                         map.put("idArray", new String[]{"89","94"});
-                        appImg = getAppImg(indexAppService.selectAppRegulations(map));
+                        appImg = getAppImg(indexAppService.selectAppRegulations(map),title);
                         break;
                     case 12 ://工程
                         map.put("idArray", new String[]{"90","95"});
-                        appImg = getAppImg(indexAppService.selectAppRegulations(map));
+                        appImg = getAppImg(indexAppService.selectAppRegulations(map),title);
                         break;
                     case 13 ://服务
                         map.put("idArray", new String[]{"91","96"});
-                        appImg = getAppImg(indexAppService.selectAppRegulations(map));
+                        appImg = getAppImg(indexAppService.selectAppRegulations(map),title);
                         break;
                     case 14 ://进口
                         map.put("idArray", new String[]{"92","97"});
-                        appImg = getAppImg(indexAppService.selectAppRegulations(map));
+                        appImg = getAppImg(indexAppService.selectAppRegulations(map),title);
                         break;
                 }
                 break;
             case 4 ://竞价公告
+                title = "竞价公告";
                 switch (typeId) {
                     case 15 ://需求
-                        appImg = getAppImg(indexAppService.selectAppArticleListByTypeId(DEMAND, page));
+                        appImg = getAppImg(indexAppService.selectAppArticleListByTypeId(DEMAND, page),title);
                         break;
                     case 16 ://成交
-                        appImg = getAppImg(indexAppService.selectAppArticleListByTypeId(CJ, page));
+                        appImg = getAppImg(indexAppService.selectAppArticleListByTypeId(CJ, page),title);
                         break;
                     case 17 ://废标
-                        appImg = getAppImg(indexAppService.selectAppArticleListByTypeId(SCRAP, page));
+                        appImg = getAppImg(indexAppService.selectAppArticleListByTypeId(SCRAP, page),title);
                         break;
                 }
                 break;
         }
         return JSON.toJSONString(appImg);
     }
-    
+
     /**
      * 
      * Description: 查询公告内容
@@ -573,18 +644,19 @@ public class IndexAppController {
         getContentImg(article, request);
         String content = null;
         if(article != null){
-            content = "<div style='width: 100%;overflow: hidden;'><h3 style = 'text-align: center;font-size: 40px;'>"
+            content = "<div style='width: 100%;overflow: hidden;'><h3 style = 'text-align: center;font-size: 60px;'>"
                 + "<div style='color: #323232 !important;'>"+article.getName()+"</div></h3>"
-                + "<div style='overflow: hidden;border-bottom: 1px dashed #ddd;height: 30px;line-height: 30px;'>"
-                + "<div style='text-align: right; margin-left: 15px;font-size: 22px;'><span>"
+                + "<div style='overflow: hidden;border-bottom: 1px dashed #ddd;height: 100px;line-height: 100px;'>"
+                + "<div style='text-align: right; margin-left: 15px;font-size: 40px;'><span>"
                 + "<i style='margin-right: 5px;'>"
                 + "<img src='"+tempContextUrl+"public/portal/images/block.png'/></i>"+dataToString(article.getPublishedAt())+"</span></div></div>"
                 + "<div style='width: 100%; clear: both;margin-top: 20px;line-height: 30px;'>"
-                + "<img src='"+tempContextUrl+"index/downloadDetailsImage.html?id="+article.getId()+"' width='100%'/></div></div>";
+                + "<img src='"+tempContextUrl+"api/v1/AppdownloadDetailsImage.html?id="+article.getId()+"' width='100%'/></div></div>";
         }
         AppData appData = new AppData();
         AppImg appImg = new AppImg();
         if(content != null && !content.equals("")){
+            appImg.setStatus(true);
             appData.setContent(content);
             appImg.setData(appData);
         }else{
@@ -608,6 +680,7 @@ public class IndexAppController {
     public String search(String key,@RequestParam(defaultValue="1")Integer page){
         AppData appData = new AppData();
         AppImg appImg = new AppImg();
+        appData.setTitle("搜索结果");
         Map<String, Object> map = new HashMap<>();
         map.put("page", page);
         map.put("key", key);
@@ -625,7 +698,7 @@ public class IndexAppController {
         }
         return JSON.toJSONString(appImg);
     }
-    
+
     /**
      * 
      * Description: 获取服务信息
@@ -642,7 +715,7 @@ public class IndexAppController {
         AppImg appImg = new AppImg();
         switch (id) {
             case 1 ://意见反馈
-            	appImg.setStatus(false);
+                appImg.setStatus(false);
                 appImg.setMsg("暂无数据");
                 break;
             case 2 ://售后服务
@@ -659,7 +732,7 @@ public class IndexAppController {
         }
         return JSON.toJSONString(appImg);
     }
-    
+
     /**
      * 
      * Description: 封装公告返回的json数据
@@ -669,9 +742,10 @@ public class IndexAppController {
      * @param 
      * @return
      */
-    public AppImg getAppImg(List<Article> list){
+    public AppImg getAppImg(List<Article> list,String title){
         AppData appData = new AppData();
         AppImg appImg = new AppImg();
+        appData.setTitle(title);
         if(list != null && !list.isEmpty()){
             for (Article article : list) {
                 article.setCreate_at(dataToString(article.getPublishedAt()));
@@ -685,7 +759,7 @@ public class IndexAppController {
         }
         return appImg;
     }
-    
+
     /**
      * 
      * Description: app 采购公告  中标公告查询
@@ -704,7 +778,7 @@ public class IndexAppController {
         article.setType_id(type_id);
         return article;
     }
-    
+
     /**
      * 
      * Description: Date转换String
@@ -720,7 +794,7 @@ public class IndexAppController {
         String time = simpleDateFormat.format(date);
         return time;
     }
-    
+
     /**
      * 
      * Description: 生成公告内容图片
@@ -731,8 +805,8 @@ public class IndexAppController {
      * @return
      */
     public void getContentImg(Article articleDetail,HttpServletRequest request){
-        String filePath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "zanpic";
-        String glisteningPath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "glistening"; 
+        String filePath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "Appzanpic";
+        String glisteningPath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "Appglistening"; 
         File glisteningFile = new File(glisteningPath+"/"+articleDetail.getId()+".jpg");
         UploadUtil.createDir(filePath);
         UploadUtil.createDir(glisteningPath);
@@ -750,7 +824,7 @@ public class IndexAppController {
             }
             HtmlImageGenerator imageGenerator = new HtmlImageGenerator();
             StringBuffer divStyle = new StringBuffer();
-            divStyle.append("<div class='article_content' style='font-size: 14px; line-height: 35px; padding: 20px; width:900px'>");
+            divStyle.append("<div class='article_content' style='font-size: 20px; line-height: 35px; padding: 35px;width: 400px;'>");
             String content = articleDetail.getContent();
             if (StringUtils.isNotBlank(content)){
                 content = content.replaceAll(CommonStringUtil.getAppendString("&nbsp;", 30), "");
@@ -770,7 +844,7 @@ public class IndexAppController {
             markByText(iconPath, srcImgPath,targerPath2,0);
         }
     }
-    
+
     /**
      * 
      * Description: 给图片添加水印
@@ -816,6 +890,46 @@ public class IndexAppController {
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * 
+     * Description: 读取生成的公告图片
+     * 
+     * @author zhang shubin
+     * @data 2017年6月9日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/AppdownloadDetailsImage")
+    public void downloadDetailsImage(HttpServletRequest request,HttpServletResponse response){
+        String id = request.getParameter("id");
+        String filePath = PropUtil.getProperty("file.noticePic.base") + "/Appglistening";
+        String targerPath2 = filePath+"/"+id+".jpg";
+        InputStream fis = null;
+        try {
+            File file = new File(targerPath2);
+            response.setContentType("image/*");
+            fis = new BufferedInputStream(new FileInputStream(file));  
+            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            byte[] b = new byte[fis.available()];
+            fis.read(b);
+            toClient.write(b);
+            toClient.flush();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally{
+            if(fis!=null)
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
     }
     
