@@ -135,8 +135,6 @@
     							dataType: "json",
     							async: false,
     							success: function(response){
-    							
-    								console.info(response);
    									//询问框
    		    						layer.confirm("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>：" +response.purchaseDep.shortName + "；联系人是:" + response.purchaseDep.experContact + ";"+"联系人电话：" +  response.purchaseDep.experPhone + "；联系人地址是：" + response.purchaseDep.experAddress +";邮编："+response.purchaseDep.unitPostCode+ "。", {
    		    							btn : [ '确定' ]
@@ -205,7 +203,7 @@
     								}else if (response.isok == "1") {
     									// 没有超过45天
     									//询问框
-    		    						layer.confirm("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>：" +response.purchaseDep.shortName + "；联系人是:" + response.purchaseDep.experContact + ";"+"联系人电话：" +  response.purchaseDep.experPhone + "；联系人地址是：" + response.purchaseDep.experAddress +";邮编："+response.purchaseDep.unitPostCode+ "。", {
+    		    						layer.confirm("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>：" +response.purchaseDep.shortName + "；联系人是:" + response.purchaseDep.supplierContact + ";"+"联系人电话：" +  response.purchaseDep.supplierPhone + "；联系人地址是：" + response.purchaseDep.supplierAddress +";邮编："+response.purchaseDep.supplierPostcode+ "。", {
     		    							btn : [ '确定' ]
     		    						//按钮
     		    						}, function() {
