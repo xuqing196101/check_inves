@@ -1,12 +1,13 @@
 package ses.dao.ems;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import ses.model.bms.Analyze;
+import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertHistory;
@@ -313,7 +314,7 @@ public interface ExpertMapper {
      * @version 2017年5月27日
      * @return
      */
-    List<Analyze> selectExpertsByArea();
+    List<AnalyzeBigDecimal> selectExpertsByArea();
     
     /**
      * 
@@ -323,7 +324,7 @@ public interface ExpertMapper {
      * @version 2017年5月31日
      * @return
      */
-    Long selectExpertsCountByArmyType(@Param("expertsFrom") String expertsFrom);
+    BigDecimal selectExpertsCountByArmyType(@Param("expertsFrom") String expertsFrom);
     
     /**
      * 

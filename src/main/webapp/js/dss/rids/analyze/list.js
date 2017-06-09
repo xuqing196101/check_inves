@@ -11,7 +11,7 @@ $(function(){
 		window.location.href=globalPath + "/resAnalyze/analyzeOrgs.html";
 	});
 	$("#analyzePurMember").click(function(){
-		window.location.href=globalPath + "/resAnalyze//purchaseMemList.html";
+		window.location.href=globalPath + "/resAnalyze/purchaseMemList.html";
 	});
 	
 	// 绑定业务信息
@@ -31,5 +31,12 @@ $(function(){
 	});
 	$("#analyzePurNotice").click(function(){
 		window.location.href=globalPath + "/resAnalyze/analyzePurchaseNotice.html";
+	});
+	
+	/**
+	 * 返回统计界面
+	 */
+	$("#backAnalyzePage").click(function(){
+		window.location.href=globalPath + "/resAnalyze/list.html";
 	});
 });

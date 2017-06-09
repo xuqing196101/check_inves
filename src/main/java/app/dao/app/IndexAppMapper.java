@@ -17,73 +17,95 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface IndexAppMapper {
 
-	/**
-	 * 
-	 * Description: APP首页信息查询
-	 * 
-	 * @author zhang shubin
-	 * @version 2017年6月1日
-	 * @param @param articleTypeId
-	 * @param @return
-	 * @return List<Article>
-	 * @exception
-	 */
-	Article selectAppNewsByArticleTypeId(@Param("articleTypeId") String articleTypeId);
+    /**
+     * 
+     * Description: APP首页信息查询
+     * 
+     * @author zhang shubin
+     * @version 2017年6月1日
+     * @param @param articleTypeId
+     * @param @return
+     * @return List<Article>
+     * @exception
+     */
+    Article selectAppNewsByArticleTypeId(@Param("articleTypeId") String articleTypeId);
 
-	/**
-	 * 
-	 * Description: APP首页处罚公告查询
-	 * 
-	 * @author zhang shubin
-	 * @version 2017年6月1日
-	 * @param @param articleTypeId
-	 * @param @return
-	 * @return List<Article>
-	 * @exception
-	 */
-	Article selectAppChuFaNewsByTypeId(@Param("articleTypeId") String articleTypeId);
+    /**
+     * 
+     * Description: APP首页处罚公告查询
+     * 
+     * @author zhang shubin
+     * @version 2017年6月1日
+     * @param @param articleTypeId
+     * @param @return
+     * @return List<Article>
+     * @exception
+     */
+    Article selectAppChuFaNewsByTypeId(@Param("articleTypeId") String articleTypeId);
 
-	/**
-	 * 
-	 * Description: 查询公告列表
-	 * 
-	 * @author zhang shubin
-	 * @data 2017年6月5日
-	 * @param
-	 * @return
-	 */
-	List<Article> selectAppArticleListByTypeId(Map<String, Object> map);
-	
-	/**
-	 * 
-	 * Description: 分页查询法规
-	 * 
-	 * @author zhang shubin
-	 * @data 2017年6月6日
-	 * @param 
-	 * @return
-	 */
-	List<Article> selectAppRegulations(Map<String, Object> map);
-	
-	/**
-	 * 
-	 * Description: 分页查询处罚公告
-	 * 
-	 * @author zhang shubin
-	 * @data 2017年6月6日
-	 * @param 
-	 * @return
-	 */
-	List<Article> selectAppPunishment(Map<String, Object> map);
-	
-	/**
-	 * 
-	 * Description: 搜索
-	 * 
-	 * @author zhang shubin
-	 * @data 2017年6月6日
-	 * @param 
-	 * @return
-	 */
-	List<Article> search(Map<String, Object> map);
+    /**
+     * 
+     * Description: 查询公告列表
+     * 
+     * @author zhang shubin
+     * @data 2017年6月5日
+     * @param
+     * @return
+     */
+    List<Article> selectAppArticleListByTypeId(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 分页查询法规
+     * 
+     * @author zhang shubin
+     * @data 2017年6月6日
+     * @param 
+     * @return
+     */
+    List<Article> selectAppRegulations(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 分页查询处罚公告
+     * 
+     * @author zhang shubin
+     * @data 2017年6月6日
+     * @param 
+     * @return
+     */
+    List<Article> selectAppPunishment(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 搜索
+     * 
+     * @author zhang shubin
+     * @data 2017年6月6日
+     * @param 
+     * @return
+     */
+    List<Article> search(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 查询公告内容
+     * 
+     * @author zhang shubin
+     * @data 2017年6月6日
+     * @param 
+     * @return
+     */
+    Article selectContentById(@Param("id") String id);
+    
+    /**
+     * 
+     * Description: 查询公告附件路径
+     * 
+     * @author zhang shubin
+     * @data 2017年6月7日
+     * @param 
+     * @return
+     */
+    String selectPathById(@Param("id") String id);
 }

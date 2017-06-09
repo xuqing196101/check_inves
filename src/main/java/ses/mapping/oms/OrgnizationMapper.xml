@@ -44,6 +44,7 @@
 	<resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyzeBigDecimal">
 		<result column="COL_NAME" property="name"/>
 		<result column="COL_VALUE" property="value"/>
+		<result column="COL_ID" property="id"/>
 	</resultMap>
 	<resultMap type="ses.model.bms.AnalyzeVo" id="baseAnalyzeVo">
 		<result column="COL_NAME" property="name"/>
@@ -1082,8 +1083,8 @@
 	</select>
 	
 	<!-- 查询不同组织机构下的专家 -->
-	<select id="selectExpByOrg" resultMap="baseAnalyze">
-			 SELECT O.SHORT_NAME AS COL_NAME, COUNT(S.ID) AS COL_VALUE
+	<select id="selectExpByOrg" resultMap="baseAnalyzeBigDecimal">
+			 SELECT O.SHORT_NAME AS COL_NAME, COUNT(S.ID) AS COL_VALUE, O.ID AS COL_ID
 		    FROM T_SES_OMS_ORG O
 		    LEFT JOIN T_SES_OMS_PURCHASE_DEP PD
 		      ON PD.ORG_ID = O.ID
@@ -1097,27 +1098,32 @@
 		   WHERE O.TYPE_NAME = 1
 		     AND O.IS_DELETED = 0
 		     AND PD.IS_DELETED = 0
-		   GROUP BY O.SHORT_NAME
+		   GROUP BY O.SHORT_NAME, O.ID,
+		   O.CREATED_AT ORDER BY O.CREATED_AT DESC
 	</select>
 	
 	<!-- 查询各个省采购机构分布-->
-	<select id="selectOrgsByArea" resultMap="baseAnalyze">
+	<select id="selectOrgsByArea" resultMap="baseAnalyzeBigDecimal">
 		SELECT REPLACE(SUBSTR(A.NAME, 0, 3), '省', '') AS COL_NAME,
-       		COUNT(O.ID) AS COL_VALUE
+       	COUNT(O.ID) AS COL_VALUE,
+       	A.ID AS COL_ID
 				  FROM T_SES_BMS_AREA A
-				  LEFT JOIN (SELECT ID, PROVINCE_ID
-				               FROM T_SES_OMS_ORG T
-				              WHERE T.IS_DELETED = 0
+				  LEFT JOIN (SELECT T.ID, PROVINCE_ID
+				               FROM T_SES_OMS_ORG T, T_SES_OMS_PURCHASE_DEP D
+				              WHERE T.ID = D.ORG_ID
+				                AND D.IS_DELETED = 0
+				                AND T.IS_DELETED = 0
 				                AND T.TYPE_NAME = 1) O
 				    ON A.ID = O.PROVINCE_ID
 				 WHERE A.PARENT_ID = '0'
 				   AND A.IS_DELETED = 0
-				 GROUP BY A.NAME
+				 GROUP BY A.NAME, A.ID
 	</select>
 	
 	<!-- 查询当前各采购机构下合同金额 -->
 	<select id="selectNowYearOrgContractMoney" resultMap="baseAnalyzeBigDecimal">
-		   SELECT ORG.SHORT_NAME AS COL_NAME, NVL(SUM(PC.MONEY), 0) AS COL_VALUE
+		   SELECT ORG.SHORT_NAME AS COL_NAME, NVL(SUM(PC.MONEY), 0) AS COL_VALUE,
+		   		 ORG.ID AS COL_ID
 				   FROM T_SES_OMS_ORG ORG
 				   LEFT JOIN (SELECT T.PURCHASE_DEP_NAME, T.MONEY
 				                FROM T_BSS_CS_PURCHASE_CONTRACT T
@@ -1127,13 +1133,14 @@
 				     ON ORG.ID = PC.PURCHASE_DEP_NAME
 				  WHERE ORG.TYPE_NAME = 1
 				    AND ORG.IS_DELETED = 0
-				  GROUP BY ORG.SHORT_NAME
+				  GROUP BY ORG.SHORT_NAME, ORG.ID
 				  ORDER BY COL_VALUE DESC
 	</select>
 	
 	<!-- 查询当前各采购机构受领任务总金额 -->
 	<select id="selectNowYearOrgAcceptTaskMoney" resultMap="baseAnalyzeBigDecimal">
-		SELECT ORG.SHORT_NAME AS COL_NAME, NVL(SUM(P.BUDGET), 0) AS COL_VALUE
+		SELECT ORG.SHORT_NAME AS COL_NAME, NVL(SUM(P.BUDGET), 0) AS COL_VALUE,
+				ORG.ID AS COL_ID
 			  FROM T_SES_OMS_ORG ORG
 			  LEFT JOIN (SELECT COLLECT_ID, PURCHASE_ID
 			               FROM T_BSS_PPMS_TASK T
@@ -1146,8 +1153,8 @@
 			    ON PT.COLLECT_ID = P.ID
 			 WHERE ORG.TYPE_NAME = 1
 			   AND ORG.IS_DELETED = 0
-			 GROUP BY ORG.SHORT_NAME
-			 ORDER BY COL_VALUE DESC	
+			 GROUP BY ORG.SHORT_NAME, ORG.ID
+			 ORDER BY COL_VALUE DESC
 	</select>
 	
 	<!-- 各采购机构完成采购项目数量及总金额 -->

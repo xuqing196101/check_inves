@@ -313,6 +313,7 @@
 			/** 无提示实时保存 */
 			function tempSave() {
 				$("input[name='flag']").val("");
+				enableForm();
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
 					type: "post",
@@ -924,10 +925,10 @@
 							"<li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>所在国家（地区）</span>" +
 							"  <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-							"<select name='branchList[" + inde + "].country'  id='overseas_branch_select_id'>" +
-							"<c:forEach items='${foregin }' var='fr'>" +
+							"<select name='branchList[" + inde + "].country'  id='overseas_branch_select_id' onchange='tempSave()'>" +
 							"<option value=''>请选择</option>"+
-							"<option value='${fr.id }' <c:if test='${bran.country==fr.id}'> onchange='tempSave()' selected='selected' </c:if> >${fr.name }</option>" +
+							"<c:forEach items='${foregin }' var='fr'>" +
+							"<option value='${fr.id }' <c:if test='${bran.country==fr.id}'> selected='selected' </c:if> >${fr.name }</option>" +
 							" </c:forEach> 	</select>" +
 							" </div>" +
 							" </li>" +
@@ -2377,6 +2378,9 @@
 	
 	// 表单可编辑
 	function enableForm(){
-		$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
+		var currSupplierSt = '${currSupplier.status}';
+		if(currSupplierSt == '2'){
+			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
+		}
 	}
 </script>

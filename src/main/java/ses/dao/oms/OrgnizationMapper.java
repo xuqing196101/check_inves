@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import ses.model.bms.Analyze;
+import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.bms.AnalyzeVo;
 import ses.model.oms.Orgnization;
 public interface OrgnizationMapper {
@@ -285,7 +286,7 @@ public interface OrgnizationMapper {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	List<Analyze> selectExpByOrg();
+	List<AnalyzeBigDecimal> selectExpByOrg();
 	
 	/**
 	 * 
@@ -295,7 +296,7 @@ public interface OrgnizationMapper {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	List<Analyze> selectOrgsByArea();
+	List<AnalyzeBigDecimal> selectOrgsByArea();
 	
 	/**
 	 * 

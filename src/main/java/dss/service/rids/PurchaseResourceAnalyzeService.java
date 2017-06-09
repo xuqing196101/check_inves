@@ -2,7 +2,6 @@ package dss.service.rids;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import ses.model.bms.Analyze;
 import ses.model.bms.AnalyzeBigDecimal;
@@ -66,7 +65,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月27日
 	 * @return
 	 */
-	public List<Analyze> selectExpertsByArea();
+	public List<AnalyzeBigDecimal> selectExpertsByArea();
 	
 	/**
 	 * 
@@ -77,7 +76,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	public List<Analyze> selectExpertCountByCategory();
+	public List<AnalyzeBigDecimal> selectExpertCountByCategory();
 	
 	/**
 	 * 
@@ -87,7 +86,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	public List<Analyze> selectExpertsCountByArmyType();
+	public List<AnalyzeBigDecimal> selectExpertsCountByArmyType();
 	
 	/**
 	 * 
@@ -97,7 +96,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	public List<Analyze> selectExpByOrg();
+	public List<AnalyzeBigDecimal> selectExpByOrg();
 	
 	/**
 	 * 
@@ -107,7 +106,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	public List<Analyze> selectOrgsByArea();
+	public List<AnalyzeBigDecimal> selectOrgsByArea();
 	
 	/**
 	 * 
@@ -117,7 +116,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	public List<Analyze> selectMemNumByOrg();
+	public List<AnalyzeBigDecimal> selectMemNumByOrg();
 	
 	/**
 	 * 
@@ -127,7 +126,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年6月1日
 	 * @return
 	 */
-	public List<Analyze> selectMenberByType();
+	public List<AnalyzeBigDecimal> selectMenberByType();
 	
 	/**
 	 * 
@@ -137,7 +136,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年6月1日
 	 * @return
 	 */
-	public List<Analyze> selectMenberByGender();
+	public List<AnalyzeBigDecimal> selectMenberByGender();
 	
 	/**
 	 * 
@@ -371,4 +370,25 @@ public interface PurchaseResourceAnalyzeService {
      * @return
      */
     List<AnalyzeBigDecimal> selectManageBudget();
+    
+    /**
+     * 
+     * Description:近5年下达采购计划批次和金额
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @param map
+     * @return
+     */
+    public List<AnalyzeBigDecimal> selectNowFiveYearAllBudgetByPlan();
+    
+    /**
+     * 
+     * Description: 采购机构获取前10名的总金额
+     * 
+     * @author Easong
+     * @version 2017年6月9日
+     * @return
+     */
+    List<AnalyzeBigDecimal> selectPlanBudget();
 }

@@ -7,6 +7,7 @@
 		<%@ include file="/WEB-INF/view/common/map.jsp"%>
 		<script type="text/javascript" src= "${pageContext.request.contextPath}/js/dss/rids/analyze/analyzePurchaseProject.js"></script>
 		<script type="text/javascript" src= "${pageContext.request.contextPath}/js/system/analyze/echartsTemplate.js"></script>
+		<script type="text/javascript" src= "${pageContext.request.contextPath}/js/dss/rids/analyze/list.js"></script>
 		<title>统计页面</title>
 	</head>
 <body>
@@ -25,7 +26,7 @@
 	</div>
 	<div class="container content job-content">
 		<button class="btn btn-windows back mb20" type="button"
-			onclick="history.go(-1)">返回</button>
+			id="backAnalyzePage">返回</button>
 		<div class="m-chart-head text-center">
 			<span class="mch-tit">全网已完成采购项目总金额：</span> <span class="mch-num">${ totalMoney } 万元</span>
 		</div>

@@ -30,6 +30,7 @@ import ses.util.PropUtil;
 import com.github.pagehelper.PageInfo;
 
 import common.constant.Constant;
+import dss.model.rids.ExpertAnalyzeVo;
 
 /**
  * <p>Title:ExpertQuery </p>
@@ -75,7 +76,7 @@ public class ExpertQueryController {
      * @return String
      */
     @RequestMapping("/view")
-    public String view(String expertId, Model model, Integer sign, String reqType) {
+    public String view(String expertId, Model model, Integer sign, String reqType, ExpertAnalyzeVo expertAnalyzeVo) {
     	model.addAttribute("expertId", expertId);
     	//1是全部专家查询，2是入库专家查询
     	model.addAttribute("sign", sign);
@@ -135,6 +136,7 @@ public class ExpertQueryController {
 			}
 		}
 		model.addAttribute("reqType", reqType);
+		model.addAttribute("expertAnalyzeVo", expertAnalyzeVo);
         return "ses/ems/expertQuery/basic_info";
     }
 	
@@ -214,7 +216,7 @@ public class ExpertQueryController {
 	 * @return String
 	 */
 	@RequestMapping("/expertType")
-	public String expertType(Model model, String expertId, Integer sign) {
+	public String expertType(Model model, String expertId, Integer sign, String reqType, ExpertAnalyzeVo expertAnalyzeVo) {
 		model.addAttribute("expertId", expertId);
 		
 		//1是全部专家查询，2是入库专家查询
@@ -260,6 +262,8 @@ public class ExpertQueryController {
 		Map < String, Object > typeMap = getTypeId();
 		// typrId集合
 		model.addAttribute("typeMap", typeMap);
+		model.addAttribute("expertAnalyzeVo", expertAnalyzeVo);
+		model.addAttribute("reqType", reqType);
 
 		return "ses/ems/expertQuery/expertType";
 	}
@@ -276,7 +280,7 @@ public class ExpertQueryController {
 	 * @return String
 	 */
 	@RequestMapping("/product")
-	public String product(Expert expert, Model model, String expertId, Integer sign) {
+	public String product(Expert expert, Model model, String expertId, Integer sign, String reqType, ExpertAnalyzeVo expertAnalyzeVo) {
 		//1是全部专家查询，2是入库专家查询
 		model.addAttribute("sign", sign);
 		
@@ -322,6 +326,8 @@ public class ExpertQueryController {
 		
 		model.addAttribute("goodsServerId", goodsServerId);
 		model.addAttribute("goodsProjectId", goodsProjectId);
+		model.addAttribute("expertAnalyzeVo", expertAnalyzeVo);
+		model.addAttribute("reqType", reqType);
 		
 		return "ses/ems/expertQuery/product";
 	}
@@ -629,7 +635,7 @@ public class ExpertQueryController {
 	 * @return String
 	 */
 	@RequestMapping("/expertFile")
-	public String expertFile( Model model, String expertId, Integer sign) {
+	public String expertFile( Model model, String expertId, Integer sign, String reqType, ExpertAnalyzeVo expertAnalyzeVo) {
 		// 专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
 		model.addAttribute("expertKey", expertKey);
@@ -641,6 +647,8 @@ public class ExpertQueryController {
 		
 		//1是全部专家查询，2是入库专家查询
 		model.addAttribute("sign", sign);
+		model.addAttribute("reqType", reqType);
+		model.addAttribute("expertAnalyzeVo", expertAnalyzeVo);
 		return "ses/ems/expertQuery/expertFile";
 	}
 	
@@ -656,5 +664,76 @@ public class ExpertQueryController {
     	Expert expert = service.selectByPrimaryKey(expertId);
     	model.addAttribute("expert", expert);
     	return "ses/ems/expertQuery/temporary_expert_info";
+    }
+    
+    /**
+     * 
+     * Description: 只读列表作为统计处理
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @param expert
+     * @param page
+     * @param model
+     * @param province
+     * @param cateTypeDictCode
+     * @param reqType
+     * @return
+     */
+	@RequestMapping(value = "/readOnlyList")
+    public String readOnlyList(Expert expert, Integer page, Model model, String province, String cateTypeDictCode, String reqType) {
+		// 用于查询地区专家
+		if(province != null && expert.getAddress() == null){
+			// 查询该省所对应的ID
+			String provinceId = areaServiceI.selectByName(province);
+			expert.setAddress(provinceId);
+		}
+		if(cateTypeDictCode != null){
+			// 用于查询专家类型
+			DictionaryData dictionaryData = DictionaryDataUtil.get(cateTypeDictCode);
+			if(dictionaryData != null){
+				expert.setExpertsTypeId(dictionaryData.getId());
+			}
+		}
+		List < Expert > allExpert = service.selectRuKuExpert(expert, page);
+        for(Expert exp: allExpert) {
+            DictionaryData dictionaryData = dictionaryDataServiceI
+                .getDictionaryData(exp.getGender());
+            exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
+            StringBuffer expertType = new StringBuffer();
+            if(exp.getExpertsTypeId() != null) {
+                for(String typeId: exp.getExpertsTypeId().split(",")) {
+                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
+                    if(data != null){
+                    	if(6 == data.getKind()) {
+                            expertType.append(data.getName() + "技术、");
+                        } else {
+                            expertType.append(data.getName() + "、");
+                        }
+                    }
+                    
+                }
+                if(expertType.length() > 0){
+                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+                	 exp.setExpertsTypeId(expertsType);
+                }
+            } else {
+                exp.setExpertsTypeId("");
+            }
+            
+            //专家来源
+	  		if(exp.getExpertsFrom() != null) {
+	  			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(exp.getExpertsFrom());
+	  			exp.setExpertsFrom(expertsFrom.getName());
+	  		}
+        }
+        // 专家类型
+        List < DictionaryData > expertFromList = DictionaryDataUtil.find(12);
+        model.addAttribute("expertFromList", expertFromList);
+        model.addAttribute("expert", expert);
+        model.addAttribute("reqType", reqType);
+        PageInfo<Expert> pageInfo = new PageInfo < Expert > (allExpert);
+        model.addAttribute("result", pageInfo);
+        return "dss/rids/list/storeExpertList";
     }
 }

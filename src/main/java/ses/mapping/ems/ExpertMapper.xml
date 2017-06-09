@@ -70,9 +70,10 @@
     </resultMap>
     
     <!-- 统计Analyze关系映射 -->
-		<resultMap type="ses.model.bms.Analyze" id="baseAnalyze">
+		<resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyze">
 			<result column="COL_NAME" property="name"/>
 			<result column="COL_VALUE" property="value"/>
+			<result column="COL_ID" property="id"/>
 		</resultMap>
     
     <sql id="Base_Column_List">
@@ -2105,13 +2106,20 @@ resultMap="BaseResultMap">
       T1.MOBILE,
       T1.IS_SUBMIT,
       T2.LOGIN_NAME AS loginName,
-      org.SHORT_NAME AS orgName
+      org.SHORT_NAME AS orgName,
+      AREA.NAME AS ADDRESS
     from
       T_SES_EMS_EXPERT t1
     LEFT JOIN
       T_SES_BMS_USER t2
     ON
       T1.ID = T2.TYPE_ID
+    LEFT JOIN
+      T_SES_BMS_AREA A
+		  ON t1.address = A.ID
+		LEFT JOIN
+      T_SES_BMS_AREA AREA
+		  ON A.PARENT_ID = AREA.ID
     LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
     LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
     where (T1.STATUS = 4 or T1.STATUS = 5 or T1.STATUS = 6 or T1.STATUS = 7 or T1.STATUS = 8)
@@ -2143,6 +2151,10 @@ resultMap="BaseResultMap">
     </if>
     <if test="orgName !=null and orgName !=''">
       AND org.SHORT_NAME like CONCAT(CONCAT('%', #{orgName}), '%')
+    </if>
+    <!-- 根据采购机构id查询 -->
+    <if test="orgId !=null and orgId !=''">
+      AND org.ID = #{orgId}
     </if>
     <if test="address != null and address !=''">
         AND A.PARENT_ID = #{address}
@@ -2311,24 +2323,26 @@ resultMap="BaseResultMap">
 	
 	<!-- 查询地区下所对应的专家 -->
 	<select id="selectExpertsByArea" resultMap="baseAnalyze">
-		SELECT REPLACE(SUBSTR(P.NAME, 0, 3),'省','') AS COL_NAME, COUNT(T.ID) AS COL_VALUE
-         FROM (SELECT A.ID, AREA.NAME
-                 FROM T_SES_BMS_AREA AREA
-                 LEFT JOIN T_SES_BMS_AREA A
-                   ON AREA.ID = A.PARENT_ID
-                WHERE AREA.PARENT_ID = '0') P
-         LEFT JOIN (SELECT T.ADDRESS, T.ID
-                      FROM T_SES_EMS_EXPERT T
-                     WHERE (T.STATUS = 4 OR T.STATUS = 5 OR T.STATUS = 6 OR
-                           T.STATUS = 7 OR T.STATUS = 8)
-                       AND T.IS_PROVISIONAL = '0'
-                       AND T.IS_DELETE = 0) T
-           ON P.ID = T.ADDRESS
-        GROUP BY P.NAME
+		SELECT REPLACE(SUBSTR(P.NAME, 0, 3), '省', '') AS COL_NAME,
+		       COUNT(T.ID) AS COL_VALUE,
+		       P.AREAID AS COL_ID
+		  FROM (SELECT A.ID, AREA.NAME, AREA.ID AS AREAID
+		          FROM T_SES_BMS_AREA AREA
+		          LEFT JOIN T_SES_BMS_AREA A
+		            ON AREA.ID = A.PARENT_ID
+		         WHERE AREA.PARENT_ID = '0') P
+		  LEFT JOIN (SELECT T.ADDRESS, T.ID
+		               FROM T_SES_EMS_EXPERT T
+		              WHERE (T.STATUS = 4 OR T.STATUS = 5 OR T.STATUS = 6 OR
+		                    T.STATUS = 7 OR T.STATUS = 8)
+		                AND T.IS_PROVISIONAL = '0'
+		                AND T.IS_DELETE = 0) T
+		    ON P.ID = T.ADDRESS
+		 GROUP BY P.NAME, P.AREAID
 	</select>
 	
 	<!-- 查询军地专家数量  分为：军队、地方 -->
-	<select id="selectExpertsCountByArmyType" resultType="java.lang.Long" parameterType="java.lang.String">
+	<select id="selectExpertsCountByArmyType" resultType="java.math.BigDecimal" parameterType="java.lang.String">
 			SELECT COUNT(DISTINCT(ID))
   			FROM T_SES_EMS_EXPERT T
  				WHERE T.EXPERTS_FROM = #{expertsFrom}

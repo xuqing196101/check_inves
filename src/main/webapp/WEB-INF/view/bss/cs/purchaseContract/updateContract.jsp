@@ -375,7 +375,6 @@
 			success:function(data){
 				if(data==1){
 					var detab = $("#detailtable tr:last td:eq(1)");
-					alert(detab.html())
 					var vstab = Number(detab.html());
 					if($("#detailtable tr").length<=1){
 						vstab = 0;

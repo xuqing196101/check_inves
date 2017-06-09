@@ -1,11 +1,11 @@
 package ses.dao.ems;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import ses.model.bms.DictionaryData;
 import ses.model.ems.ExpertCategory;
 
 public interface ExpertCategoryMapper {
@@ -81,6 +81,6 @@ public interface ExpertCategoryMapper {
 	 * @param typeId
 	 * @return
 	 */
-	Long selectExpertCountByCategory(@Param("typeId") String typeId);
+	BigDecimal selectExpertCountByCategory(@Param("typeId") String typeId);
 
 }

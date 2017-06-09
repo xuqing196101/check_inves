@@ -88,7 +88,7 @@ public class PurchaseController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("list")
-	public String list(Model model,@ModelAttribute PurchaseInfo purchaseInfo,Integer page, String reqType){
+	public String list(Model model,@ModelAttribute PurchaseInfo purchaseInfo,Integer page){
 		//每页显示十条
 		PageHelper.startPage(page == null ? 1 : page,CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -98,9 +98,6 @@ public class PurchaseController extends BaseController{
 		}
 		if(StringUtils.isNotBlank(purchaseInfo.getPurchaseDepName())){
 		    map.put("purchaseDepName", purchaseInfo.getPurchaseDepName());
-		}
-		if(StringUtils.isNotBlank(purchaseInfo.getPurchaseDepShortName())){
-		    map.put("purchaseDepShortName", purchaseInfo.getPurchaseDepShortName());
 		}
 		// 采购人员类型
 		if(StringUtils.isNotBlank(purchaseInfo.getPurcahserType())){
@@ -577,5 +574,53 @@ public class PurchaseController extends BaseController{
 				}
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * Description:只读采购人员列表
+	 * 
+	 * @author Easong
+	 * @version 2017年6月8日
+	 * @param model
+	 * @param purchaseInfo
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/readOnlyList")
+	public String readOnlyList(Model model,@ModelAttribute PurchaseInfo purchaseInfo,Integer page, String reqType){
+		//每页显示十条
+		PageHelper.startPage(page == null ? 1 : page,CommonConstant.PAGE_SIZE);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		if(StringUtils.isNotBlank(purchaseInfo.getRelName())){
+		    map.put("relName", purchaseInfo.getRelName());
+		}
+		if(StringUtils.isNotBlank(purchaseInfo.getPurchaseDepName())){
+		    map.put("purchaseDepName", purchaseInfo.getPurchaseDepName());
+		}
+		if(StringUtils.isNotBlank(purchaseInfo.getPurchaseDepId())){
+		    map.put("purchaseDepId", purchaseInfo.getPurchaseDepId());
+		}
+		// 采购人员类型
+		if(StringUtils.isNotBlank(purchaseInfo.getPurcahserType())){
+		    map.put("purcahserType", purchaseInfo.getPurcahserType());
+		}
+		// 采购人员性别
+		if(StringUtils.isNotBlank(purchaseInfo.getGender())){
+			map.put("gender", purchaseInfo.getGender());
+		}
+		List<PurchaseInfo> purchaseList = purchaseServiceI.findPurchaseList(map);
+		model.addAttribute("purchaseList",purchaseList);
+		
+		List<DictionaryData> genders = DictionaryDataUtil.find(13);
+        model.addAttribute("genders", genders);
+		//分页标签
+		model.addAttribute("list",new PageInfo<PurchaseInfo>(purchaseList));
+		model.addAttribute("purchaseInfo", purchaseInfo);
+		if(reqType != null){
+			return "dss/rids/list/purchaseMemberListToOrg";
+		}
+		return "dss/rids/list/purchaseMemberList";
 	}
 }

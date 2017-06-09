@@ -222,30 +222,11 @@ public class SupplierTask {
 	}
 	
 	
+		
 	
-	
-	public void handlerExportSupplier24(){
-		String startTime="2017-05-24 00:00:00";
-		String endTime="2017-05-24 23:59:59";
-		outerSupplierService.exportCommitSupplier(startTime, endTime,new Date());
-	}
-	
-	public void handlerExportSupplier25(){
-		String startTime="2017-05-25 00:00:00";
-		String endTime="2017-05-25 23:59:59";
-		outerSupplierService.exportCommitSupplier(startTime, endTime,new Date());
-	}
-	
-	public void handlerExportSupplier26(){
-		String startTime="2017-05-26 00:00:00";
-		String endTime="2017-05-26 23:59:59";
-		outerSupplierService.exportCommitSupplier(startTime, endTime,new Date());
-	}
-	
-	
-	public void handlerExportSupplier61(){
-		String startTime="2017-06-01 00:00:00";
-		String endTime="2017-06-01 23:59:59";
+	public void handlerExportSupplier68(){
+		String startTime="2017-06-08 00:00:00";
+		String endTime="2017-06-08 23:59:59";
 		outerSupplierService.exportCommitSupplier(startTime, endTime,new Date());
 	}
 	

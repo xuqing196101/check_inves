@@ -35,6 +35,7 @@ import bss.dao.ppms.ProjectMapper;
 import bss.dao.ppms.SupplierCheckPassMapper;
 
 import com.alibaba.fastjson.JSON;
+import com.mysql.jdbc.Buffer;
 
 import common.constant.StaticVariables;
 import common.utils.DateUtils;
@@ -183,9 +184,9 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 */
 	private void setAnalyzeBigDate(BigDecimal count, String cateType, String name, String id, List<AnalyzeBigDecimal> list) {
 		AnalyzeBigDecimal analyze = new AnalyzeBigDecimal();
+		analyze.setValue(count);
 		analyze.setGroup(cateType);
 		analyze.setName(name);
-		analyze.setValue(count);
 		analyze.setId(id);
 		list.add(analyze);
 	}
@@ -277,21 +278,21 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @return
 	 */
 	@Override
-	public List<Analyze> selectExpertsByArea() {
+	public List<AnalyzeBigDecimal> selectExpertsByArea() {
 		// 从缓存中获取
 		Jedis jedis = null;
 		try {
 			jedis = RedisUtils.getResource(jedisPool);
 			String json = jedis.hget(StaticVariables.ANALYZE, AREA_EXP_NUM);
 			if(json != null){
-				return JSON.parseArray(json, Analyze.class);
+				return JSON.parseArray(json, AnalyzeBigDecimal.class);
 			}
 		} catch (Exception e) {
 			logger.info("redis连接异常....");
 		}finally {
 			RedisUtils.returnResource(jedis, jedisPool);
 		}
-		List<Analyze> list = expertMapper.selectExpertsByArea();
+		List<AnalyzeBigDecimal> list = expertMapper.selectExpertsByArea();
 		// 设置地区
 		setArea(list);
 		// 存入到缓存中
@@ -325,27 +326,26 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @return
 	 */
 	@Override
-	public List<Analyze> selectExpertCountByCategory() {
+	public List<AnalyzeBigDecimal> selectExpertCountByCategory() {
 		// 定义统计集合
-		List<Analyze> list = new ArrayList<Analyze>();
+		List<AnalyzeBigDecimal> list = new ArrayList<>();
 		// 查询各类型
 		// 查询物资、工程、服务字典数据
 		List<DictionaryData> listDictOne = DictionaryDataUtil.find(6);
 		// 查询物资服务经济、工程经济数据字典
 		List<DictionaryData> listDictTwo = DictionaryDataUtil.find(19);
 		// 查询对应数量
+		BigDecimal count;
 		if(listDictOne != null && !listDictOne.isEmpty()){
-			Long count;
 			for (DictionaryData dictionaryData : listDictOne) {
 				count = expertCategoryMapper.selectExpertCountByCategory(dictionaryData.getId());
-				setAnalyzeDate(count, dictionaryData.getName(), list);
+				setAnalyzeBigDate(count, dictionaryData.getName(), null, dictionaryData.getId(), list);
 			}
 		}
 		if(listDictTwo != null && !listDictOne.isEmpty()){
-			Long count;
 			for (DictionaryData dictionaryData : listDictTwo) {
 				count = expertCategoryMapper.selectExpertCountByCategory(dictionaryData.getId());
-				setAnalyzeDate(count, dictionaryData.getName(), list);
+				setAnalyzeBigDate(count, dictionaryData.getName(), null, dictionaryData.getId(), list);
 			}
 		}
 		return list;
@@ -360,16 +360,16 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @return
 	 */
 	@Override
-	public List<Analyze> selectExpertsCountByArmyType() {
+	public List<AnalyzeBigDecimal> selectExpertsCountByArmyType() {
 		// 定义统计集合
-		List<Analyze> list = new ArrayList<Analyze>();
+		List<AnalyzeBigDecimal> list = new ArrayList<>();
 		// 查询数据字典表  区分军队、地方类型
 		List<DictionaryData> dicList = DictionaryDataUtil.find(12);
 		if(dicList != null && !dicList.isEmpty()){
-			Long count;
+			BigDecimal count;
 			for (DictionaryData dict : dicList) {
 				count = expertMapper.selectExpertsCountByArmyType(dict.getId());
-				setAnalyzeDate(count, dict.getName(), list);
+				setAnalyzeBigDate(count, dict.getName(), null, dict.getId(), list);
 			}
 		}
 		return list;
@@ -384,21 +384,21 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @return
 	 */
 	@Override
-	public List<Analyze> selectExpByOrg() {
+	public List<AnalyzeBigDecimal> selectExpByOrg() {
 		// 从缓存中获取
 		Jedis jedis = null;
 		try {
 			jedis = RedisUtils.getResource(jedisPool);
 			String json = jedis.hget(StaticVariables.ANALYZE, ORG_EXP_NUM);
 			if(json != null){
-				return JSON.parseArray(json, Analyze.class);
+				return JSON.parseArray(json, AnalyzeBigDecimal.class);
 			}
 		} catch (Exception e) {
 			logger.info("redis连接异常....");
 		}finally {
 			RedisUtils.returnResource(jedis, jedisPool);
 		}
-		List<Analyze> list = orgnizationMapper.selectExpByOrg();
+		List<AnalyzeBigDecimal> list = orgnizationMapper.selectExpByOrg();
 		// 存入到缓存中
 		if(jedis != null){
 			jedis.hset(StaticVariables.ANALYZE, ORG_EXP_NUM, JSON.toJSONString(list));
@@ -416,21 +416,21 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @return
 	 */
 	@Override
-	public List<Analyze> selectOrgsByArea() {
+	public List<AnalyzeBigDecimal> selectOrgsByArea() {
 		// 从缓存中获取
 		Jedis jedis = null;
 		try {
 			jedis = RedisUtils.getResource(jedisPool);
 			String json = jedis.hget(StaticVariables.ANALYZE, AREA_ORG_NUM);
 			if(json != null){
-				return JSON.parseArray(json, Analyze.class);
+				return JSON.parseArray(json, AnalyzeBigDecimal.class);
 			}
 		} catch (Exception e) {
 			logger.info("redis连接异常....");
 		}finally {
 			RedisUtils.returnResource(jedis, jedisPool);
 		}
-		List<Analyze> list = orgnizationMapper.selectOrgsByArea();
+		List<AnalyzeBigDecimal> list = orgnizationMapper.selectOrgsByArea();
 		setArea(list);
 		// 存入到缓存中
 		if(jedis != null){
@@ -448,9 +448,9 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @version 2017年5月31日
 	 * @param list
 	 */
-	public void setArea(List<Analyze> list){
+	public void setArea(List<AnalyzeBigDecimal> list){
 		if(list != null && !list.isEmpty()){
-			for (Analyze analyze : list) {
+			for (AnalyzeBigDecimal analyze : list) {
 				if(analyze.getName().contains("宁夏")){
 					analyze.setName("宁夏");
 				}
@@ -491,7 +491,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @return
 	 */
 	@Override
-	public List<Analyze> selectMemNumByOrg() {
+	public List<AnalyzeBigDecimal> selectMemNumByOrg() {
 		return purchaseInfoMapper.selectMemNumByOrg();
 	}
 
@@ -504,21 +504,21 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @return
 	 */
 	@Override
-	public List<Analyze> selectMenberByType() {
+	public List<AnalyzeBigDecimal> selectMenberByType() {
 		// 定义统计集合
-		List<Analyze> list = new ArrayList<Analyze>();
+		List<AnalyzeBigDecimal> list = new ArrayList<>();
 		// 文职
-		Long civilCount = purchaseInfoMapper.selectMenberByType(1);
-		setAnalyzeDate(civilCount, "文职", list);
+		BigDecimal civilCount = purchaseInfoMapper.selectMenberByType(1);
+		setAnalyzeBigDate(civilCount, "文职", null, "1", list);
 		// 职工
-		Long staffCount = purchaseInfoMapper.selectMenberByType(2);
-		setAnalyzeDate(staffCount, "职工", list);
+		BigDecimal staffCount = purchaseInfoMapper.selectMenberByType(2);
+		setAnalyzeBigDate(staffCount, "职工", null, "2", list);
 		// 战士
-		Long soldierCount = purchaseInfoMapper.selectMenberByType(3);
-		setAnalyzeDate(soldierCount, "战士", list);
+		BigDecimal soldierCount = purchaseInfoMapper.selectMenberByType(3);
+		setAnalyzeBigDate(soldierCount, "战士", null, "3", list);
 		// 军人
-		Long armyCount = purchaseInfoMapper.selectMenberByType(0);
-		setAnalyzeDate(armyCount, "军人", list);
+		BigDecimal armyCount = purchaseInfoMapper.selectMenberByType(0);
+		setAnalyzeBigDate(armyCount, "军人", null, "0", list);
 		return list;
 	}
 
@@ -531,16 +531,16 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @return
 	 */
 	@Override
-	public List<Analyze> selectMenberByGender() {
+	public List<AnalyzeBigDecimal> selectMenberByGender() {
 		// 定义统计集合
-		List<Analyze> list = new ArrayList<Analyze>();
+		List<AnalyzeBigDecimal> list = new ArrayList<>();
 		// 获取男女数据词典
 		List<DictionaryData> dictList = DictionaryDataUtil.find(13);
 		if(dictList != null && !dictList.isEmpty()){
-			Long count;
+			BigDecimal count;
 			for (DictionaryData dict : dictList) {
 				count = purchaseInfoMapper.selectMenberByGender(dict.getId());
-				setAnalyzeDate(count, dict.getName(), list);
+				setAnalyzeBigDate(count, dict.getName(), null, dict.getId(), list);
 			}
 		}
 		return list;
@@ -657,7 +657,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		if(list != null && !list.isEmpty()){
 			for (DictionaryData dict : list) {
 				BigDecimal count = projectMapper.selectPurProjectByWay(dict.getId());
-				setAnalyzeBigDate(count, null, dict.getName(), dict.getId(), analyzeBigDecimal);
+				setAnalyzeBigDate(count, dict.getName(), null, dict.getId(), analyzeBigDecimal);
 			}
 		}
 		return analyzeBigDecimal;
@@ -945,4 +945,48 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		return collectPlanMapper.selectManageBudget();
 	}
 
+	 /**
+     * 
+     * Description:近5年下达采购计划批次和金额
+     * 
+     * @author Easong
+     * @version 2017年6月8日
+     * @param map
+     * @return
+     */
+    public List<AnalyzeBigDecimal> selectNowFiveYearAllBudgetByPlan(){
+    	// 定义时间转换
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+		// 定义统计集合
+		List<AnalyzeBigDecimal> list = new ArrayList<>();
+		// 定义查询条件封装
+		Map<String, Object> map = new HashMap<>();
+		// 获取当年时间
+		Date currDate = new Date();
+		Date beforeFiveYear = DateUtils.getBeforeFiveYear(currDate);
+		for (int i = 0; i < 5; i++) {
+			map.put("createdAt", beforeFiveYear);
+			List<AnalyzeVo> allBudget = collectPlanMapper.selectAllBudget(map);
+			if(allBudget != null && !allBudget.isEmpty()){
+				AnalyzeVo analyzeVo = allBudget.get(0);
+				setAnalyzeBigDate(analyzeVo.getCount(),  "批次", dateFormat.format(beforeFiveYear), null, list);
+				setAnalyzeBigDate(analyzeVo.getMoney(),  "金额", dateFormat.format(beforeFiveYear), null, list);
+			}
+			// 获取前一年
+			beforeFiveYear = DateUtils.getBeforeYear(beforeFiveYear);
+		}
+    	return list;
+    }
+    
+    /**
+     * 
+     * Description: 采购机构获取前10名的总金额
+     * 
+     * @author Easong
+     * @version 2017年6月9日
+     * @return
+     */
+    public List<AnalyzeBigDecimal> selectPlanBudget(){
+    	return collectPlanMapper.selectPlanBudget();
+    }
 }

@@ -2,7 +2,10 @@ package app.dao.app;
 
 import iss.model.ps.Article;
 
+import java.util.List;
 import java.util.Map;
+
+import app.model.AppHotLine;
 
 /**
  * 
@@ -36,4 +39,26 @@ public interface AppArticleMapper {
      * @exception
      */
     Article selectOneAppNoticeByParId(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: App查询公告列表  采购公告 中标公示
+     * 
+     * @author zhang shubin
+     * @data 2017年6月6日
+     * @param 
+     * @return
+     */
+    List<Article> selectAppNoticeList(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 服务热线查询
+     * 
+     * @author zhang shubin
+     * @data 2017年6月7日
+     * @param 
+     * @return
+     */
+    List<AppHotLine> selectHotLineList(Map<String, Object> map);
 }

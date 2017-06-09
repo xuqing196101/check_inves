@@ -768,8 +768,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("wlist", wlist);
 			//物资生产类型的必须有的证书
 			//supplier.getSupplierMatPro().getListSupplierCertPros().get(0)
-			System.out.println(supplier.getSupplierMatPro().getListSupplierCertPros());
-			if(supplier.getSupplierMatPro() == null 
+			if(supplier.getSupplierMatPro() == null
 					|| supplier.getSupplierMatPro().getListSupplierCertPros() == null
 					|| supplier.getSupplierMatPro().getListSupplierCertPros().size() == 0) {
 				supplier.setSupplierMatPro(supplierMatProService.init());
@@ -1847,8 +1846,8 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("stech", "格式不正确");
             return false;
 		}
-		int scaleTech=Integer.valueOf(supplierMatPro.getScaleTech());
-		if(scaleTech<1 || scaleTech>100) {
+		double scaleTech = Double.valueOf(supplierMatPro.getScaleTech());
+		if(scaleTech<0 || scaleTech>100) {
 			model.addAttribute("stech", "百分比格式不对，正确格式为0-100的数字");
             return false;
 		}
@@ -1860,8 +1859,8 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("height", "格式不正确");
             return false;
 		}
-		int scaleHeightTech=Integer.valueOf(supplierMatPro.getScaleHeightTech());
-		if(scaleHeightTech<1 || scaleHeightTech>100) {
+		double scaleHeightTech = Double.valueOf(supplierMatPro.getScaleHeightTech());
+		if(scaleHeightTech<0 || scaleHeightTech>100) {
 			model.addAttribute("height", "百分比格式不对，正确格式为0-100的数字");
             return false;
 		}

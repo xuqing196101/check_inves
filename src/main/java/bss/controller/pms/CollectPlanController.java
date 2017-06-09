@@ -464,7 +464,9 @@ public class CollectPlanController extends BaseController {
 			     list = (List<PurchaseRequired>) maps.get("list");
 			     
 			     String errMsg=(String) maps.get("errMsg");
-			
+			      if(list==null||list.size()<=0){
+			        return "1";
+			      }
 			     if(errMsg!=null){
 			          String jsonString = JSON.toJSONString(errMsg);
 						return jsonString;

@@ -18,6 +18,14 @@
     <association property="articleType" column="ARTICLE_TYPE_ID" select="app.dao.app.AppArticleTypeMapper.selectTypeApp"/>
   </resultMap>
   
+  <!-- app首页处罚公告数据映射 -->
+  <resultMap id="AppContentMapper" type="iss.model.ps.Article">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PUBLISHED_AT" jdbcType="TIMESTAMP" property="publishedAt" />
+    <result column="CONTENT" jdbcType="CLOB" property="content" />
+  </resultMap>
+  
   <!-- APP首页动态通知和公告查询 -->
   <select id="selectAppNewsByArticleTypeId" resultMap="AppIndexNewsMapper" parameterType="String">
     SELECT * FROM (
@@ -89,8 +97,8 @@
         SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID
         FROM T_ISS_PS_ARTICLE
         WHERE IS_DELETED =0 
-        <if test="title != null and title != ''">
-          AND NAME LIKE CONCAT(CONCAT('%', #{title}), '%')
+        <if test="key != null and key != ''">
+          AND NAME LIKE CONCAT(CONCAT('%', #{key}), '%')
         </if>
         AND STATUS=2
         ORDER BY PUBLISHED_AT DESC) a
@@ -98,5 +106,15 @@
     WHERE b.ROW_NUM between #{start} AND #{end}
   </select>
   
+  <!-- 查询公告内容 -->
+  <select id="selectContentById" resultMap="AppContentMapper" parameterType="String">
+    SELECT ID,NAME,PUBLISHED_AT,CONTENT
+    FROM T_ISS_PS_ARTICLE
+    WHERE ID = #{id}
+  </select>
   
+  <!-- 查询附件路径 --> 
+   <select id="selectPathById" resultType="String" parameterType="String">
+    SELECT PATH FROM T_SES_BMS_ATTACHMENT WHERE IS_DELETED = 0 AND BUSINESS_ID = #{id} AND ROWNUM = 1
+  </select>
 </mapper>

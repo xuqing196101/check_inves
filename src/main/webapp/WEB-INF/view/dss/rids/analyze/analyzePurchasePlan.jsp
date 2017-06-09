@@ -7,6 +7,7 @@
 		<%@ include file="/WEB-INF/view/common/map.jsp"%>
 		<script type="text/javascript" src= "${pageContext.request.contextPath}/js/dss/rids/analyze/analyzePurchasePlan.js"></script>
 		<script type="text/javascript" src= "${pageContext.request.contextPath}/js/system/analyze/echartsTemplate.js"></script>
+		<script type="text/javascript" src= "${pageContext.request.contextPath}/js/dss/rids/analyze/list.js"></script>
 		<title>统计页面</title>
 	</head>
 <body>
@@ -25,7 +26,7 @@
 	</div>
 	<div class="container content job-content">
 		<button class="btn btn-windows back mb20" type="button"
-			onclick="history.go(-1)">返回</button>
+			id="backAnalyzePage">返回</button>
 		<div class="m-chart-head text-center">
 			<span class="mch-tit">全网下达采购计划总金额：</span> <span class="mch-num">${ totalMoney } 万元</span>
 		</div>
@@ -33,19 +34,19 @@
 			<h2 class="count_flow">
 				<span class="m-chart-icon"></span> 近5年下达采购计划批次和金额
 			</h2>
-			<div id="typeMember" class="analyze"></div>
+			<div id="nowFiveYearPurPlanBudgetBYOrg" class="analyze"></div>
 		</ul>
 		<ul class="ul_list">
 			<h2 class="count_flow">
 				<span class="m-chart-icon"></span> 各采购管理部门下达采购计划总金额
 			</h2>
-			<div id="purPlanBudgetBYOrg" class="analyze"></div>
+			<div id="purPlanBudgetByManageOrg" class="analyze"></div>
 		</ul>
 		<ul class="ul_list">
 			<h2 class="count_flow">
 				<span class="m-chart-icon"></span> 各采购机构受领采购计划总金额
 			</h2>
-			<div id="genderRatio" class="analyze"></div>
+			<div id="purPlanBudgetByOrg" class="analyze"></div>
 		</ul>
 	</div>
 </body>

@@ -11,6 +11,11 @@
     <association property="articleType" column="LAST_ARTICLE_TYPE_ID" select="app.dao.app.AppArticleTypeMapper.selectTypeApp"/>
   </resultMap>
 
+<!-- 服务热线 -->
+  <resultMap id="AppHotLineMapper" type="app.model.AppHotLine">
+    <result column="SERVICECONTENT" jdbcType="VARCHAR" property="serviceContent" />
+    <result column="CONTACTPHONENUMBER" jdbcType="VARCHAR" property="contactPhoneNumber" />
+  </resultMap>
   <!-- app首页法规查询 -->
   <select id="selectsumApp" parameterType="Map" resultMap="AppArticleMapper">
     SELECT * from(
@@ -41,5 +46,36 @@
       AND STATUS = 2 AND IS_DELETED = 0
       ORDER BY PUBLISHED_AT DESC)
     WHERE ROWNUM = 1
+  </select>
+  
+  <!-- 分页查询公告  采购公告  中标公示-->
+  <select id="selectAppNoticeList" parameterType="Map" resultMap="AppArticleMapper">
+    SELECT * FROM (
+      SELECT a.*,ROWNUM ROW_NUM FROM (
+        SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID
+      FROM T_ISS_PS_ARTICLE
+      WHERE LAST_ARTICLE_TYPE_ID IN (
+        SELECT ID FROM T_ISS_PS_ARTICLE_TYPE
+        WHERE PARENT_ID IN 
+          <foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+             #{item}
+          </foreach>
+        )
+      AND STATUS = 2 AND IS_DELETED = 0
+      ORDER BY PUBLISHED_AT DESC) a
+      ) b 
+    WHERE b.ROW_NUM BETWEEN #{start} AND #{end}
+  </select>
+  
+  <!-- 查询服务热线 -->
+  <select id="selectHotLineList" parameterType="Map" resultMap="AppHotLineMapper">
+    SELECT * FROM (
+      SELECT a.*,ROWNUM ROW_NUM FROM (
+        SELECT SERVICECONTENT,CONTACTPHONENUMBER
+      FROM T_ISS_HL_SERVICE_HOTLINE
+      WHERE IS_DELETED = 0
+      ORDER BY CREATED_AT DESC) a
+      ) b 
+    WHERE b.ROW_NUM BETWEEN #{start} AND #{end}
   </select>
 </mapper>

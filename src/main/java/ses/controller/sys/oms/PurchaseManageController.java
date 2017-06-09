@@ -1243,5 +1243,46 @@ public class PurchaseManageController {
 	    }
 	}
 	
+	/**
+	 * 
+	 * Description:采购机构只读
+	 * 
+	 * @author Easong
+	 * @version 2017年6月8日
+	 * @param model
+	 * @param page
+	 * @param purchaseDep
+	 * @return
+	 */
+	@RequestMapping("/readOnlyList")
+	public String readOnlyList(Model model, Integer page, PurchaseDep purchaseDep) {
+		HashMap<String, Object> condtionmap = new HashMap<String, Object>();
+		condtionmap.put("typeName", 1);
+		if(StringUtils.isNotEmpty(purchaseDep.getName())){
+			condtionmap.put("name", purchaseDep.getName());
+		}
+		if(purchaseDep.getQuaStartDate() != null && !"".equals(purchaseDep.getQuaStartDate())){
+			condtionmap.put("quaStartDate", purchaseDep.getQuaStartDate());
+		}
+		if(purchaseDep.getQuaStartDate() != null && !"".equals(purchaseDep.getQuaStartDate())){
+			condtionmap.put("quaEdndate", purchaseDep.getQuaEdndate());
+		}
+		if(StringUtils.isNotEmpty(purchaseDep.getParentName())){
+			condtionmap.put("parentName", purchaseDep.getParentName());
+		}
+		if(StringUtils.isNotEmpty(purchaseDep.getProvinceId())){
+			condtionmap.put("provinceId", purchaseDep.getProvinceId());
+		}
+		if(StringUtils.isNotEmpty(purchaseDep.getOrgId())){
+			condtionmap.put("orgId", purchaseDep.getOrgId());
+		}
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page == null ? 1 : page,Integer.parseInt(config.getString("pageSize")));
+		List<PurchaseDep> oList = purchaseOrgnizationServiceI.findPurchaseDepList(condtionmap);
+		model.addAttribute("list", new PageInfo<PurchaseDep>(oList));
+		model.addAttribute("purchaseDep", purchaseDep);
+		model.addAttribute("kind", DictionaryDataUtil.find(26));//获取数据字典数据
+		return "dss/rids/list/purchaseDepList";
+	}
 	
 }

@@ -15,25 +15,25 @@ import app.model.AppBlackList;
  */
 public interface AppSupplierBlackListMapper {
 
-	/**
-	 * 
-	 * Description: 分页查询供应商黑名单列表
-	 * 
-	 * @author zhang shubin
-	 * @data 2017年6月5日
-	 * @param 
-	 * @return
-	 */
-	List<AppBlackList> findAppSupplierBlacklist(Map<String, Object> map);
-	
-	/**
-	 * 
-	 * Description: 分页查询专家黑名单列表
-	 * 
-	 * @author zhang shubin
-	 * @data 2017年6月6日
-	 * @param 
-	 * @return
-	 */
-	List<AppBlackList> findAppExpertBlacklist(Map<String, Object> map);
+    /**
+     * 
+     * Description: 分页查询供应商黑名单列表
+     * 
+     * @author zhang shubin
+     * @data 2017年6月5日
+     * @param 
+     * @return
+     */
+    List<AppBlackList> findAppSupplierBlacklist(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 分页查询专家黑名单列表
+     * 
+     * @author zhang shubin
+     * @data 2017年6月6日
+     * @param 
+     * @return
+     */
+    List<AppBlackList> findAppExpertBlacklist(Map<String, Object> map);
 }
