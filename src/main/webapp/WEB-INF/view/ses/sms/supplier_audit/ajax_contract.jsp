@@ -77,17 +77,17 @@
 			<input type="hidden" name="supplierTypeId" id="supplierTypeId" value="${supplierTypeId}">
 			<table class="table table-bordered">
 				<tr>
-					<td class="tc info" colspan="4">产品名称</td>
+					<td class="tc info" rowspan="2">产品名称或小类</td>
 					<td colspan="3" class="tc info">销售合同(体现甲乙双方盖章及标的相关页)</td>
 					<td colspan="3" class="tc info">证明合同有效履行的相应银行收款进账单</td>
 					<td class="tc info w50" rowspan="2">操作</td>
 				</tr>
 				<tr>
 					<!-- <td class="info tc w100">类别</td> -->
-		      <td class="info tc" width="10%">大类</td>
+		      <!-- <td class="info tc" width="10%">大类</td>
 		      <td class="info tc"  width="10%">中类</td>
 		      <td class="info tc"  width="10%">小类</td>
-		      <td class="info tc"  width="8%">名称</td>
+		      <td class="info tc"  width="8%">名称</td> -->
 					<c:forEach items="${years}" var="year">
 						<td class="tc info">${year}</td>
 					</c:forEach>
@@ -98,10 +98,22 @@
 				<c:forEach items="${contract}" var="obj" varStatus="vs">
 					<tr>
 						<%-- <td class="tc">${obj.rootNode}</td> --%>
-				    <td class="">${obj.firstNode}</td>
+				    <%-- <td class="">${obj.firstNode}</td>
 				    <td class="">${obj.secondNode}</td>
 				    <td class="">${obj.thirdNode}</td>
-				    <td class="">${obj.fourthNode}</td>
+				    <td class="">${obj.fourthNode}</td> --%>
+				    <td class="">
+					    ${obj.fourthNode}
+				      <c:if test="${obj.fourthNode == null || obj.fourthNode ==''}">
+				        ${obj.thirdNode}
+				      </c:if>
+				      <c:if test="${obj.thirdNode == null || obj.thirdNode ==''}">
+                 ${obj.secondNode}
+               </c:if>
+               <c:if test="${obj.secondNode == null || obj.secondNode ==''}">
+                 ${obj.firstNode}
+               </c:if>
+				    </td>
 					<td class="" <c:if test="${fn:contains(fileModifyField,obj.itemsId.concat(obj.oneContract))}">style="border: 1px solid #FF8C00;"</c:if>>
 						<div class="w90">
 				            <u:upload singleFileSize="300" maxcount="5"   id="${fileUp}${(vs.index + 1)*6-1}" multiple="true" businessId="${obj.itemsId}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
