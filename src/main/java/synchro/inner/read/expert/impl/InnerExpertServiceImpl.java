@@ -107,7 +107,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                    
                    if(expert.getAttchList().size()>0){
                    	for(UploadFile uf:expert.getAttchList()){
-        				   UploadFile ufile = fileUploadMapper.queryById(uf.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+        				   UploadFile ufile = fileUploadMapper.queryById(uf.getId(), "T_SES_EMS_EXPERT_ATTACHMENT");
         				   if(ufile==null){
         					   uf.setTableName("T_SES_EMS_EXPERT_ATTACHMENT");
         	    			   fileUploadMapper.saveFile(uf);

@@ -2152,6 +2152,10 @@ resultMap="BaseResultMap">
     <if test="orgName !=null and orgName !=''">
       AND org.SHORT_NAME like CONCAT(CONCAT('%', #{orgName}), '%')
     </if>
+    <!-- 根据采购机构id查询 -->
+    <if test="orgId !=null and orgId !=''">
+      AND org.ID = #{orgId}
+    </if>
     <if test="address != null and address !=''">
         AND A.PARENT_ID = #{address}
     </if>
@@ -2338,7 +2342,7 @@ resultMap="BaseResultMap">
 	</select>
 	
 	<!-- 查询军地专家数量  分为：军队、地方 -->
-	<select id="selectExpertsCountByArmyType" resultType="java.lang.Long" parameterType="java.lang.String">
+	<select id="selectExpertsCountByArmyType" resultType="java.math.BigDecimal" parameterType="java.lang.String">
 			SELECT COUNT(DISTINCT(ID))
   			FROM T_SES_EMS_EXPERT T
  				WHERE T.EXPERTS_FROM = #{expertsFrom}

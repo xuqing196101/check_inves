@@ -196,7 +196,6 @@ $(function() {
 		type : "POST", // 请求方式
 		dataType : "json", // 返回格式为json
 		success : function(data) {
-			// 专家企业性质
 			$("#expertNature").echartsTemplate({
 				dataList : data,
 				YField : 'value',
@@ -209,21 +208,7 @@ $(function() {
 			// 获取echart对应的对象
 			var expertNature = $("#expertNature").echartsTemplate("getMyChart", null);
 			expertNature.on('click', function(params) {
-				$.ajax({
-					url : globalPath + "/resAnalyze/findDicts.do",
-					type : "POST", // 请求方式
-					data:{
-						dictType:"armyType"
-					},
-					dataType : "json", // 返回格式为json
-					success : function(data) {
-						$.each(data,function(index, ele){
-							if(ele.name == params.name){
-								window.location.href = globalPath + "/expertQuery/list.html?reqType=analyze&expertsFrom="+ele.id;
-							}
-						})
-					}
-				});
+				window.location.href = globalPath + "/expertQuery/readOnlyList.html?expertsFrom="+params.data.id;
 			});
 		}
 	});
@@ -235,7 +220,6 @@ $(function() {
 		type : "POST", // 请求方式
 		dataType : "json", // 返回格式为json
 		success : function(data) {
-			// 专家企业性质
 			$("#expertOrg").echartsTemplate({
 				dataList:data,
 				XField:'name',
@@ -251,7 +235,8 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierOrg = $("#expertOrg").echartsTemplate("getMyChart", null);
 			supplierOrg.on('click', function(params) {
-				window.location.href = globalPath + "/expertQuery/list.html?reqType=analyze&orgName="+params.name;
+				alert(params.data.id)
+				window.location.href = globalPath + "/expertQuery/readOnlyList.html?orgId="+params.data.id;
 			});
 		}
 	});

@@ -39,16 +39,16 @@
 				var action;
 				if('${reqType}' != ''){
 					if(str == "basicInfo") {
-						action = "${pageContext.request.contextPath}/expertQuery/view.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}";
+						action = "${pageContext.request.contextPath}/expertQuery/view.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}&expertsFrom=${expertAnalyzeVo.expertsFrom}&orgId=${expertAnalyzeVo.orgId}";
 					}
 					if(str == "expertType") {
-						action = "${pageContext.request.contextPath}/expertQuery/expertType.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}";
+						action = "${pageContext.request.contextPath}/expertQuery/expertType.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}&expertsFrom=${expertAnalyzeVo.expertsFrom}&orgId=${expertAnalyzeVo.orgId}";
 					}
 					if(str == "product") {
-						action = "${pageContext.request.contextPath}/expertQuery/product.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}";
+						action = "${pageContext.request.contextPath}/expertQuery/product.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}&expertsFrom=${expertAnalyzeVo.expertsFrom}&orgId=${expertAnalyzeVo.orgId}";
 					}
 					if(str == "expertFile") {
-						action = "${pageContext.request.contextPath}/expertQuery/expertFile.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}";
+						action = "${pageContext.request.contextPath}/expertQuery/expertFile.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}&expertsFrom=${expertAnalyzeVo.expertsFrom}&orgId=${expertAnalyzeVo.orgId}";
 					}
 				}else{
 					if(str == "basicInfo") {
@@ -333,7 +333,7 @@
 							</c:if>
 						</c:if>
 						<c:if test="${not empty reqType }">
-								<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/readOnlyList.html?address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}">返回列表</a>
+								<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/readOnlyList.html?address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}&expertsFrom=${expertAnalyzeVo.expertsFrom}&orgId=${expertAnalyzeVo.orgId}">返回列表</a>
 						</c:if>
 						
 					</div>

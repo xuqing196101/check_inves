@@ -86,7 +86,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	public List<Analyze> selectExpertsCountByArmyType();
+	public List<AnalyzeBigDecimal> selectExpertsCountByArmyType();
 	
 	/**
 	 * 
@@ -96,7 +96,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	public List<Analyze> selectExpByOrg();
+	public List<AnalyzeBigDecimal> selectExpByOrg();
 	
 	/**
 	 * 

@@ -276,7 +276,7 @@ public class OuterExpertServiceImpl implements OuterExpertService {
 //            expert.setAttchList(getAttch(expert.getId()));
             expert.setTitles(getTitle(expert.getId()));
             for(ExpertTitle e:expert.getTitles()){
-            	  List<UploadFile> attch = fileUploadMapper.substrBusinessId(e.getId());
+            	  List<UploadFile> attch = fileUploadMapper.quyerExpertAttchment(e.getId());
             	  attchs.addAll(attch);
             }
             expert.setAttchList(attchs);

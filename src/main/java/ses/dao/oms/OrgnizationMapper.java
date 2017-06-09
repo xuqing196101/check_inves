@@ -286,7 +286,7 @@ public interface OrgnizationMapper {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	List<Analyze> selectExpByOrg();
+	List<AnalyzeBigDecimal> selectExpByOrg();
 	
 	/**
 	 * 

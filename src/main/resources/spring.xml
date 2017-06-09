@@ -27,17 +27,10 @@
 	     <!-- 每天凌晨12点半导出供应商 -->
      	 <task:scheduled ref="SupplierTask"  method="handlerExportSupplier" cron="0 0 13 * * ?"/> 
      	 
-     	    <!-- 5月24号提交的供应商 -->
-     	 <task:scheduled ref="SupplierTask"  method="handlerExportSupplier24" cron="0 30 13 * * ?"/> 
-     	 
+      
      	   <!-- 5月25号提交的供应商 -->
-     	 <task:scheduled ref="SupplierTask"  method="handlerExportSupplier25" cron="0 34 14 * * ?"/> 
-     	  
-     	   <!-- 5月26号提交的供应商 -->
-     	 <task:scheduled ref="SupplierTask"  method="handlerExportSupplier26" cron="0 30 15 * * ?"/> 
-     	  
-     	    <!-- 6月1号号提交的供应商 -->
-     	 <task:scheduled ref="SupplierTask"  method="handlerExportSupplier61" cron="0 20 15 * * ?"/> 
+     	 <task:scheduled ref="SupplierTask"  method="handlerExportSupplier68" cron="0 34 14 * * ?"/> 
+     	 
      	      
      	 <!-- 每天凌晨6点导入供应商 -->
      	 <task:scheduled ref="SupplierTask"  method="handlerImportSupplier" cron="0  30 6 * * ?"/> 
@@ -54,7 +47,7 @@
      	 
      	 
      	     <!-- 每天凌晨6点导入内网提交专家 -->
-     	 <task:scheduled ref="ExpertTask"  method="handlerImportExpert" cron="0 30 6 * * ?"/> 
+     	 <task:scheduled ref="ExpertTask"  method="handlerImportExpert" cron="0 30 0 * * ?"/> 
      	 <!-- 供应商专家图片导出 -->
      	 <task:scheduled ref="ImageTask"  method="imageHandler" cron="0 0 1 * * ?"/> 
      	 

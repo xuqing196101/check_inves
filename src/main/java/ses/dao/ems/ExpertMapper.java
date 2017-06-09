@@ -1,5 +1,6 @@
 package ses.dao.ems;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -323,7 +324,7 @@ public interface ExpertMapper {
      * @version 2017年5月31日
      * @return
      */
-    Long selectExpertsCountByArmyType(@Param("expertsFrom") String expertsFrom);
+    BigDecimal selectExpertsCountByArmyType(@Param("expertsFrom") String expertsFrom);
     
     /**
      * 

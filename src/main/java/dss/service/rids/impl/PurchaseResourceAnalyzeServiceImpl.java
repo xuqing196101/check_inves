@@ -360,16 +360,16 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @return
 	 */
 	@Override
-	public List<Analyze> selectExpertsCountByArmyType() {
+	public List<AnalyzeBigDecimal> selectExpertsCountByArmyType() {
 		// 定义统计集合
-		List<Analyze> list = new ArrayList<Analyze>();
+		List<AnalyzeBigDecimal> list = new ArrayList<>();
 		// 查询数据字典表  区分军队、地方类型
 		List<DictionaryData> dicList = DictionaryDataUtil.find(12);
 		if(dicList != null && !dicList.isEmpty()){
-			Long count;
+			BigDecimal count;
 			for (DictionaryData dict : dicList) {
 				count = expertMapper.selectExpertsCountByArmyType(dict.getId());
-				setAnalyzeDate(count, dict.getName(), list);
+				setAnalyzeBigDate(count, dict.getName(), null, dict.getId(), list);
 			}
 		}
 		return list;
@@ -384,21 +384,21 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @return
 	 */
 	@Override
-	public List<Analyze> selectExpByOrg() {
+	public List<AnalyzeBigDecimal> selectExpByOrg() {
 		// 从缓存中获取
 		Jedis jedis = null;
 		try {
 			jedis = RedisUtils.getResource(jedisPool);
 			String json = jedis.hget(StaticVariables.ANALYZE, ORG_EXP_NUM);
 			if(json != null){
-				return JSON.parseArray(json, Analyze.class);
+				return JSON.parseArray(json, AnalyzeBigDecimal.class);
 			}
 		} catch (Exception e) {
 			logger.info("redis连接异常....");
 		}finally {
 			RedisUtils.returnResource(jedis, jedisPool);
 		}
-		List<Analyze> list = orgnizationMapper.selectExpByOrg();
+		List<AnalyzeBigDecimal> list = orgnizationMapper.selectExpByOrg();
 		// 存入到缓存中
 		if(jedis != null){
 			jedis.hset(StaticVariables.ANALYZE, ORG_EXP_NUM, JSON.toJSONString(list));

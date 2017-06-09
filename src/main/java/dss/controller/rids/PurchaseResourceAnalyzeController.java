@@ -230,7 +230,7 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-专家", operType=3)
 	@RequestMapping("/selectExpertsCountByArmyType")
 	@ResponseBody
-	public List<Analyze> selectExpertsCountByArmyTypes(){
+	public List<AnalyzeBigDecimal> selectExpertsCountByArmyTypes(){
 		return purchaseResourceAnalyzeService.selectExpertsCountByArmyType();
 	}
 	
@@ -246,7 +246,7 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-专家", operType=3)
 	@RequestMapping("/selectExpByOrg")
 	@ResponseBody
-	public List<Analyze> selectExpByOrgS(){
+	public List<AnalyzeBigDecimal> selectExpByOrgS(){
 		return purchaseResourceAnalyzeService.selectExpByOrg();
 	}
 	
