@@ -63,12 +63,13 @@
 				<div class="row" style="background-color:#f6f6f6;">
 					<div class="mt60 col-md-6 col-sm-6 col-xs-12 p20">
 					<div class="login_item col-md-12  col-sm-12 col-xs-12">
-					   <div class="col-md-10 col-xs-10 col-sm-10 p0">
+						<div class="col-md-10 col-xs-10 col-sm-10 p0" style="margin-top: -50px;font-size: 18px">供应商账号注册：</div>
+					  <div class="col-md-10 col-xs-10 col-sm-10 p0">
 					    <div class="msg-wrap hide">
-			              <div class="msg-error"><b></b>请输入密码</div>
-                        </div>
-                        </div>
-                      </div>
+	              <div class="msg-error"><b></b>请输入密码</div>
+              </div>
+            </div>
+           </div>
 						<form action="${pageContext.request.contextPath}/supplier/register.html" method="post">
 							<div class="login_item col-md-12  col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"> <i class="red mr5">*</i>用户名：</label>
