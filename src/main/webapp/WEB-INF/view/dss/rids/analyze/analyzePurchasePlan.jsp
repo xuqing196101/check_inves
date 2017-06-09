@@ -34,19 +34,19 @@
 			<h2 class="count_flow">
 				<span class="m-chart-icon"></span> 近5年下达采购计划批次和金额
 			</h2>
-			<div id="typeMember" class="analyze"></div>
+			<div id="nowFiveYearPurPlanBudgetBYOrg" class="analyze"></div>
 		</ul>
 		<ul class="ul_list">
 			<h2 class="count_flow">
 				<span class="m-chart-icon"></span> 各采购管理部门下达采购计划总金额
 			</h2>
-			<div id="purPlanBudgetBYOrg" class="analyze"></div>
+			<div id="purPlanBudgetByManageOrg" class="analyze"></div>
 		</ul>
 		<ul class="ul_list">
 			<h2 class="count_flow">
 				<span class="m-chart-icon"></span> 各采购机构受领采购计划总金额
 			</h2>
-			<div id="genderRatio" class="analyze"></div>
+			<div id="purPlanBudgetByOrg" class="analyze"></div>
 		</ul>
 	</div>
 </body>

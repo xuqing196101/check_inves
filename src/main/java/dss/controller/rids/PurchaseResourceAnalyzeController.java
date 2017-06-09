@@ -706,4 +706,36 @@ public class PurchaseResourceAnalyzeController {
 		return purchaseResourceAnalyzeService.selectManageBudget();
 	}
 	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购计划-近5年下达采购计划批次和金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月8日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购计划", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购计划", operType=2)
+	@RequestMapping("/selectNowFiveYearAllBudgetByPlan")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectNowFiveYearAllBudgetByPlans() {
+		return purchaseResourceAnalyzeService.selectNowFiveYearAllBudgetByPlan();
+	}
+	
+	/**
+	 * 
+	 * Description: 统计业务模块-采购计划-采购机构获取前10名的总金额
+	 * 
+	 * @author Easong
+	 * @version 2017年6月9日
+	 * @return
+	 */
+	@SystemControllerLog(description="采购资源展示-采购计划", operType=2)
+	@SystemServiceLog(description="采购资源展示-采购计划", operType=2)
+	@RequestMapping("/selectPlanBudget")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectPlanBudgets() {
+		return purchaseResourceAnalyzeService.selectPlanBudget();
+	}
+	
 }

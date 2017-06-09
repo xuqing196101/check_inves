@@ -768,8 +768,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("wlist", wlist);
 			//物资生产类型的必须有的证书
 			//supplier.getSupplierMatPro().getListSupplierCertPros().get(0)
-			System.out.println(supplier.getSupplierMatPro().getListSupplierCertPros());
-			if(supplier.getSupplierMatPro() == null 
+			if(supplier.getSupplierMatPro() == null
 					|| supplier.getSupplierMatPro().getListSupplierCertPros() == null
 					|| supplier.getSupplierMatPro().getListSupplierCertPros().size() == 0) {
 				supplier.setSupplierMatPro(supplierMatProService.init());
