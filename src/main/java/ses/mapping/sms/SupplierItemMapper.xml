@@ -335,18 +335,15 @@
 	</select>
 	
 	<!-- 统计供应商类型数量 物资销售、物资生产、工程、服务 -->
-	<select id="findAnalyzeSupplierCateType" parameterType="String" resultType="java.lang.Long">
+	<select id="findAnalyzeSupplierCateType" parameterType="String" resultType="java.math.BigDecimal">
 	 	 	SELECT COUNT(DISTINCT(T.SUPPLIER_ID))
-			  FROM T_SES_SMS_SUPPLIER_ITEM T
+			  FROM T_SES_SMS_SUPPLIER_TYPE_RELATE T
 			  LEFT JOIN T_SES_SMS_SUPPLIER S
 			    ON T.SUPPLIER_ID = S.ID
-			 WHERE T.SUPPLIER_TYPE_RELATE_ID = #{cateType}
-			   AND (SUPPLIER_STATUS = 1
-			    OR SUPPLIER_STATUS = 4
-			    OR SUPPLIER_STATUS = 5
-			    OR SUPPLIER_STATUS = 6
-			    OR SUPPLIER_STATUS = 7
-			    OR SUPPLIER_STATUS = 8) AND IS_PROVISIONAL = '0'
+			 WHERE T.SUPPLIER_TYPE_ID = #{cateType}
+			   AND (S.SUPPLIER_STATUS = 1 OR S.SUPPLIER_STATUS = 4 OR S.SUPPLIER_STATUS = 5 OR
+			       S.SUPPLIER_STATUS = 6 OR S.SUPPLIER_STATUS = 7 OR S.SUPPLIER_STATUS = 8)
+			   AND S.IS_PROVISIONAL = '0' AND S.IS_DELETED = 0
 	</select>
 	
 	<!-- 查询 -->

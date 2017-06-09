@@ -1,5 +1,6 @@
 package ses.dao.sms;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -118,6 +119,6 @@ public interface SupplierItemMapper {
 	 * @param cateType
 	 * @return
 	 */
-	Long findAnalyzeSupplierCateType(@Param("cateType") String cateType);
+	BigDecimal findAnalyzeSupplierCateType(@Param("cateType") String cateType);
     
 }

@@ -515,7 +515,7 @@ public interface SupplierMapper {
      * @param business_nature
      * @return
      */
-    Long getSupplierCountByNature(@Param("business_nature") String business_nature);
+    BigDecimal getSupplierCountByNature(@Param("business_nature") String business_nature);
     
     public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
     public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);

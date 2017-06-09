@@ -88,7 +88,7 @@
 				myChart.setOption(option);
 				myChart.hideLoading();
 				myChart.on('click', function(params) {
-						window.location.href = "${pageContext.request.contextPath}/expertQuery/readOnlyList.html?address=" + params.data.id;
+						window.location.href = "${pageContext.request.contextPath}/expertQuery/readOnlyList.html?q_address=" + params.data.id;
 				});
 			});
 		</script>

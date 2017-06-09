@@ -138,21 +138,21 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @return
 	 */
 	@Override
-	public List<Analyze> findAnalyzeSupplierCateType() {
-		List<Analyze> list = new ArrayList<Analyze>();
+	public List<AnalyzeBigDecimal> findAnalyzeSupplierCateType() {
+		List<AnalyzeBigDecimal> list = new ArrayList<>();
 		// 物资销售
-		Long goodsSales = supplierItemMapper.findAnalyzeSupplierCateType(StaticVariables.GOODS_SALES);
-		setAnalyzeDate(goodsSales, GOODS_SALES_NAME, list);
+		BigDecimal goodsSales = supplierItemMapper.findAnalyzeSupplierCateType(StaticVariables.GOODS_SALES);
+		setAnalyzeBigDate(goodsSales, GOODS_SALES_NAME, null, StaticVariables.GOODS_SALES, list);
 		// 物资生产
-		Long goodsProduct = supplierItemMapper.findAnalyzeSupplierCateType(StaticVariables.GOODS_PRODUCT);
-		setAnalyzeDate(goodsProduct, GOODS_PRODUCT_NAME, list);
+		BigDecimal goodsProduct = supplierItemMapper.findAnalyzeSupplierCateType(StaticVariables.GOODS_PRODUCT);
+		setAnalyzeBigDate(goodsProduct, GOODS_PRODUCT_NAME, null, StaticVariables.GOODS_PRODUCT, list);
 
 		// 工程
-		Long project = supplierItemMapper.findAnalyzeSupplierCateType(StaticVariables.PROJECT);
-		setAnalyzeDate(project, PROJECT_NAME, list);
+		BigDecimal project = supplierItemMapper.findAnalyzeSupplierCateType(StaticVariables.PROJECT);
+		setAnalyzeBigDate(project, PROJECT_NAME, null, StaticVariables.PROJECT, list);
 		// 服务
-		Long service = supplierItemMapper.findAnalyzeSupplierCateType(StaticVariables.SERVICE);
-		setAnalyzeDate(service, SERVICE_NAME, list);
+		BigDecimal service = supplierItemMapper.findAnalyzeSupplierCateType(StaticVariables.SERVICE);
+		setAnalyzeBigDate(service, SERVICE_NAME, null, StaticVariables.SERVICE, list);
 		return list;
 	}
 
@@ -202,25 +202,16 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @param cateType
 	 */
 	@Override
-	public List<Analyze> findanalyzeSupplierByNature() {
-		List<Analyze> list = new ArrayList<Analyze>();
+	public List<AnalyzeBigDecimal> findanalyzeSupplierByNature() {
+		List<AnalyzeBigDecimal> list = new ArrayList<>();
 		// 查询数据字典表  区分国企、其他企业类型
 		List<DictionaryData> dicList = DictionaryDataUtil.find(32);
 		if(dicList != null && !dicList.isEmpty()){
-			for (DictionaryData dictionaryData : dicList) {
-				// 国有企业
-				if("SOE".equals(dictionaryData.getCode())){
-					// 国有企业
-					Long soeCompany = supplierMapper.getSupplierCountByNature(dictionaryData.getId());
-					setAnalyzeDate(soeCompany, dictionaryData.getName(), list);
-				}
-				if("OTHERS".equals(dictionaryData.getCode())){
-					// 私有企业
-					Long othersCompany = supplierMapper.getSupplierCountByNature(dictionaryData.getId());
-					setAnalyzeDate(othersCompany, dictionaryData.getName(), list);
+			for (DictionaryData dict : dicList) {
+					BigDecimal count = supplierMapper.getSupplierCountByNature(dict.getId());
+					setAnalyzeBigDate(count, dict.getName(), null, dict.getId(), list);
 				}
 			}
-		}
 		return list;
 	}
 	
@@ -246,21 +237,21 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	 * @return
 	 */
 	@Override
-	public List<Analyze> selectSupByOrg() {
+	public List<AnalyzeBigDecimal> selectSupByOrg() {
 		// 从缓存中获取
 		Jedis jedis = null;
 		try {
 			jedis = RedisUtils.getResource(jedisPool);
 			String json = jedis.hget(StaticVariables.ANALYZE, ORG_SUP_NUM);
 			if(json != null){
-				return JSON.parseArray(json, Analyze.class);
+				return JSON.parseArray(json, AnalyzeBigDecimal.class);
 			}
 		} catch (Exception e) {
 			logger.info("redis连接异常....");
 		}finally {
 			RedisUtils.returnResource(jedis, jedisPool);
 		}
-		List<Analyze> list = orgnizationMapper.selectSupByOrg();
+		List<AnalyzeBigDecimal> list = orgnizationMapper.selectSupByOrg();
 		// 存入到缓存中
 		if(jedis != null){
 			jedis.hset(StaticVariables.ANALYZE, ORG_SUP_NUM, JSON.toJSONString(list));

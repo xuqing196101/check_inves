@@ -25,7 +25,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月23日
 	 * @return
 	 */
-	public List<Analyze> findAnalyzeSupplierCateType();
+	public List<AnalyzeBigDecimal> findAnalyzeSupplierCateType();
 	
 	/**
 	 * 
@@ -35,7 +35,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月23日
 	 * @return
 	 */
-	public List<Analyze> findanalyzeSupplierByNature();
+	public List<AnalyzeBigDecimal> findanalyzeSupplierByNature();
 	
 	/**
 	 * 
@@ -55,7 +55,7 @@ public interface PurchaseResourceAnalyzeService {
 	 * @version 2017年5月27日
 	 * @return
 	 */
-	public List<Analyze> selectSupByOrg();
+	public List<AnalyzeBigDecimal> selectSupByOrg();
 	
 	/**
 	 * 

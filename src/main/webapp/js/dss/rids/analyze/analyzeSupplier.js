@@ -181,24 +181,10 @@ $(function() {
 					return optionCateType;
 				}
 			});
-
 			// 获取echart对应的对象
 			var supplierCateType = $("#supplierCateType").echartsTemplate("getMyChart", null);
 			supplierCateType.on('click', function(params) {
-				var supplierCateType;
-				if(params.name == '工程'){
-					supplierCateType = 'PROJECT';
-				}
-				if(params.name == '服务'){
-					supplierCateType = 'SERVICE';
-				}
-				if(params.name == '物资生产'){
-					supplierCateType = 'PRODUCT';
-				}
-				if(params.name == '物资销售'){
-					supplierCateType = 'SALES';
-				}
-				window.location.href = globalPath + "/supplierQuery/readOnlyList.html?reqType=analyze&supplierType="+params.name+"&supplierTypeIds="+supplierCateType+"&judge=5&sign=2";
+				window.location.href = globalPath + "/supplierQuery/readOnlyList.html?reqType=analyze&supplierType="+params.name+"&supplierTypeIds="+params.data.id+"&judge=5&sign=2";
 			});
 		}
 	});
@@ -223,18 +209,7 @@ $(function() {
 			var supplierNature = $("#supplierNature").echartsTemplate("getMyChart", null);
 			supplierNature.on('click', function(params) {
 				// 获取供应商企业类型
-				$.ajax({
-					url : globalPath + "/resAnalyze/findSupbusinessNature.do",
-					type : "POST", // 请求方式
-					dataType : "json", // 返回格式为json
-					success : function(data) {
-						$.each(data,function(index, ele){
-							if(ele.name == params.name){
-								window.location.href = globalPath + "/supplierQuery/readOnlyList.html?reqType=analyze&businessNature="+ele.id+"&judge=5&sign=2";
-							}
-						})
-					}
-				});
+				window.location.href = globalPath + "/supplierQuery/readOnlyList.html?businessNature="+params.data.id+"&judge=5&sign=2";
 			});
 		}
 	});
@@ -262,7 +237,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierOrg = $("#supplierOrg").echartsTemplate("getMyChart", null);
 			supplierOrg.on('click', function(params) {
-				window.location.href = globalPath + "/supplierQuery/readOnlyList.html?reqType=analyze&orgName="+params.name+"&judge=5&sign=2";
+				window.location.href = globalPath + "/supplierQuery/readOnlyList.html?orgId="+params.data.id+"&judge=5&sign=2";
 			});
 		}
 	});

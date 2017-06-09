@@ -71,9 +71,11 @@ import bss.formbean.Maps;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
+import dss.model.rids.SupplierAnalyzeVo;
 /**
  * 版权：(C) 版权所有 
  * <简述>
@@ -422,6 +424,8 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/essential")
     public String essentialInformation(HttpServletRequest request, Integer judge, Integer sign, Supplier supplier, String supplierId, Integer person, Model model, String reqType) {
+    	// 获取地址
+    	String address = supplier.getAddress();
         User user = (User) request.getSession().getAttribute("loginUser");
         Integer ps = (Integer) request.getSession().getAttribute("ps");
         if (user.getTypeId() != null && ps != null) {
@@ -432,9 +436,9 @@ public class SupplierQueryController extends BaseSupplierController {
             supplierId = user.getTypeId();
         }
         supplier = supplierAuditService.supplierById(supplierId);
+        String provinceName = "";
+        String cityName = "";
         try {
-            String provinceName = "";
-            String cityName = "";
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -516,6 +520,8 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("judge", judge);
         model.addAttribute("sign", sign);
         model.addAttribute("reqType", reqType);
+        model.addAttribute("provinceName", address);
+        model.addAttribute("businessNature", businessNature);
         
        /* model.addAttribute("person", person);*/
         
@@ -536,7 +542,9 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/financial")
-    public String financialInformation(HttpServletRequest request, Integer judge, Integer sign, SupplierFinance supplierFinance, Supplier supplier) {
+    public String financialInformation(HttpServletRequest request, Integer judge, Integer sign, SupplierFinance supplierFinance, Supplier supplier, String reqType) {
+    	// 获取地址
+    	String address = supplier.getAddress();
         String supplierId = supplierFinance.getSupplierId();
         //勾选的供应商类型
         String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
@@ -554,9 +562,9 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("supplierId", supplierId);
         
         supplier = supplierAuditService.supplierById(supplierId);
+        String provinceName = "";
+        String cityName = "";
         try {
-            String provinceName = "";
-            String cityName = "";
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -574,6 +582,9 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("suppliers", supplier);
         request.setAttribute("judge", judge);
         request.setAttribute("sign", sign);
+        request.setAttribute("provinceName", address);
+        request.setAttribute("businessNature", supplier.getBusinessNature());
+        request.setAttribute("reqType", reqType);
         return "ses/sms/supplier_query/supplierInfo/financial";
     }
     
@@ -586,15 +597,16 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/shareholder")
-    public String shareholderInformation(HttpServletRequest request, Integer judge, Integer sign, SupplierStockholder supplierStockholder) {
+    public String shareholderInformation(HttpServletRequest request, Supplier supplierQuery, Integer judge, Integer sign, SupplierStockholder supplierStockholder, String reqType) {
+    	String address = supplierQuery.getAddress();
         String supplierId = supplierStockholder.getSupplierId();
         List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
         request.setAttribute("supplierId", supplierId);
         request.setAttribute("shareholder", list);
         Supplier supplier = supplierAuditService.supplierById(supplierId);
+        String provinceName = "";
+        String cityName = "";
         try {
-            String provinceName = "";
-            String cityName = "";
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -611,6 +623,9 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("suppliers", supplier);
         request.setAttribute("judge", judge);
         request.setAttribute("sign", sign);
+        request.setAttribute("provinceName", address);
+        request.setAttribute("businessNature", supplierQuery.getBusinessNature());
+        request.setAttribute("reqType", reqType);
         return "ses/sms/supplier_query/supplierInfo/shareholder";
     }
     
@@ -704,31 +719,31 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/item")
-    public String item(String supplierId, Integer judge, Model model, Integer sign,  HttpServletRequest request) {
+    public String item(String supplierId, Integer judge, Model model, Integer sign,  HttpServletRequest request, Supplier supplierQuery, String reqType) {
         //勾选的供应商类型
         String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
         request.setAttribute("supplierTypeNames", supplierTypeName);
         request.setAttribute("supplierId", supplierId);
         
         Supplier supplier = supplierService.get(supplierId);
-        /*try {
-            String provinceName = "";
-            String cityName = "";
+        String provinceName = "";
+        try {
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
-                cityName = area.getName();
                 Area area1 = areaService.listById(area.getParentId());
                 if (area1 != null) {
                     provinceName = area1.getName();
                 }
             }
-            supplier.setAddress(provinceName + cityName);
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
         request.setAttribute("judge", judge);
         request.setAttribute("sign", sign);
         request.setAttribute("currSupplier", supplier);
+        request.setAttribute("provinceName", supplierQuery.getAddress());
+        request.setAttribute("businessNature", supplierQuery.getBusinessNature());
+        request.setAttribute("reqType", reqType);
         return "ses/sms/supplier_query/supplierInfo/item";
     }
 
@@ -839,7 +854,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping(value = "aptitude")
-    public String aptitude(Model model, Integer judge, Integer sign, String supplierId, Integer supplierStatus) {
+    public String aptitude(Model model, Integer judge, Integer sign,Supplier supplierQuery, String supplierId, Integer supplierStatus,String reqType) {
 		model.addAttribute("supplierStatus", supplierStatus);
 		model.addAttribute("sign", sign);
 		model.addAttribute("supplierId", supplierId);
@@ -972,9 +987,9 @@ public class SupplierQueryController extends BaseSupplierController {
 		}
 		
 		Supplier supplier = supplierService.get(supplierId);
+		String provinceName = "";
+		String cityName = "";
         try {
-            String provinceName = "";
-            String cityName = "";
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -990,6 +1005,9 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("judge", judge);
         model.addAttribute("sign", sign);
         model.addAttribute("suppliers", supplier);
+        model.addAttribute("provinceName", supplierQuery.getAddress());
+        model.addAttribute("businessNature", supplierQuery.getBusinessNature());
+        model.addAttribute("reqType", reqType);
 		
        return "ses/sms/supplier_query/supplierInfo/aptitude";
     }
@@ -1543,7 +1561,7 @@ public class SupplierQueryController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value = "/contract")
-	public String contractUp(String supplierId, Model model, Integer judge, Integer sign) {
+	public String contractUp(String supplierId, Model model,Supplier supplierQuery, Integer judge, Integer sign, String reqType) {
 		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
 		String supplierTypeIds = "";
 		for(SupplierTypeRelate s: typeIds) {
@@ -1553,9 +1571,9 @@ public class SupplierQueryController extends BaseSupplierController {
 		model.addAttribute("supplierId", supplierId);
 		
 		Supplier supplier = supplierService.get(supplierId);
+		String provinceName = "";
+		String cityName = "";
         try {
-            String provinceName = "";
-            String cityName = "";
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -1571,6 +1589,9 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("judge", judge);
         model.addAttribute("sign", sign);
         model.addAttribute("suppliers", supplier);
+        model.addAttribute("reqType", reqType);
+        model.addAttribute("provinceName", supplierQuery.getAddress());
+        model.addAttribute("businessNature", supplierQuery.getBusinessNature());
 		return "ses/sms/supplier_query/supplierInfo/contract";
 	}
     
@@ -1711,7 +1732,7 @@ public class SupplierQueryController extends BaseSupplierController {
  	}
        
     @RequestMapping("supplierType")
-   	public String supplierType(HttpServletRequest request, Integer judge, Integer sign, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus) {
+   	public String supplierType(HttpServletRequest request, Supplier supplierQuery, Integer judge, Integer sign, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus, String reqType) {
    		request.setAttribute("supplierStatus", supplierStatus);
    		
    		//勾选的供应商类型
@@ -1866,9 +1887,9 @@ public class SupplierQueryController extends BaseSupplierController {
    		request.setAttribute("supplierMatSes", supplierMatSe);
    		
    		Supplier supplier = supplierAuditService.supplierById(supplierId);
+   		String provinceName = "";
+   		String cityName = "";
         try {
-            String provinceName = "";
-            String cityName = "";
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -1884,6 +1905,9 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("suppliers", supplier);
         request.setAttribute("judge", judge);
         request.setAttribute("sign", sign);
+        request.setAttribute("provinceName", supplierQuery.getAddress());
+        request.setAttribute("businessNature", supplierQuery.getBusinessNature());
+        request.setAttribute("reqType", reqType);
    		return "ses/sms/supplier_query/supplierInfo/supplierType";
    	}
        
@@ -1958,7 +1982,7 @@ public class SupplierQueryController extends BaseSupplierController {
 	public String readOnlyList(Integer judge, Integer sign, Supplier sup,
 			Integer page, Model model, String supplierTypeIds,
 			String supplierType, String categoryNames, String categoryIds,
-			String reqType) throws UnsupportedEncodingException {
+			String reqType, SupplierAnalyzeVo supplierAnalyzeVo) throws UnsupportedEncodingException {
 		if (sup.getAddress() != null) {
 			model.addAttribute("address", sup.getAddress());
 			String address = supplierEditService.getProvince(sup.getAddress());
@@ -2023,7 +2047,8 @@ public class SupplierQueryController extends BaseSupplierController {
 		model.addAttribute("categoryIds", categoryIds);
 		model.addAttribute("judge", judge);
 		model.addAttribute("reqType", reqType);
-		return "dss/rids/list/supplierList";
+		model.addAttribute("supplierAnalyzeVo", supplierAnalyzeVo);
+		return "dss/rids/list/storeSupplierList";
 	}
 
 }
