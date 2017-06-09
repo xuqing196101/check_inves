@@ -1,5 +1,6 @@
 package ses.controller.sys.sms;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierPorjectQua;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -42,6 +44,7 @@ import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 
@@ -94,6 +97,10 @@ public class SupplierItemController extends BaseController {
 	private SupplierAptituteService supplierAptituteService;
 	@Autowired
 	private  SupplierMatEngService supplierMatEngService;
+	
+	/** 供应商关联类型 */
+	@Autowired
+	private SupplierTypeRelateService supplierTypeRelateService;
 	
 	@ResponseBody
 	@RequestMapping(value = "/saveCategory")
@@ -401,9 +408,10 @@ public class SupplierItemController extends BaseController {
 					findList.add(q);
 				}
 			}
-			
-			
 			model.addAttribute("typeList", findList);
+			// 物资销售是否满足条件
+			String isSalePass = isPass(supplier.getId(), "SALES");
+			model.addAttribute("isSalePass", isSalePass);
 			return "ses/sms/supplier_register/supplier_type";
 		}
 		if(supplier.getSupplierTypeIds().trim().length()!=0){
@@ -906,6 +914,23 @@ public class SupplierItemController extends BaseController {
     	return "1";
     }
     
-    
+    private String isPass(String supplierId,String stype) {
+        BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
+        List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
+        if(stype!=null&&stype.trim().length()!=0){
+        	if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
+                return "0";
+            }	
+	   	}
+        
+        for (SupplierTypeRelate type : relate) {
+            if (type.getSupplierTypeId().equals("SALES")) {
+                if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
+                    return "0";
+                }
+            }
+        }
+        return "1";
+    }
 
 }
