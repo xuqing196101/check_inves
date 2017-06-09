@@ -1274,7 +1274,7 @@
 		                    <li class="col-md-3 col-sm-6 col-xs-12"><span
 		                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5" ><i class="red">*</i>有无专业技术职称</span>
 		                        <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-		                            <select name="teachTitle" id="teachTitle"  >
+		                            <select name="teachTitle" id="teachTitle"  <c:if test="${fn:contains(errorField,'有无专业技术职称')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('有无专业技术职称')"</c:if>>
 		                                <option value="">-请选择-</option>
                                     <option <c:if test="${expert.teachTitle == 1}">selected="selected"</c:if>  value="1">有</option>
                                     <option <c:if test="${expert.teachTitle == 2}">selected="selected"</c:if>  value="2">无</option>
@@ -1434,9 +1434,9 @@
 
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red"></i>相关机关事业部门推荐信</span>
-							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+							<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 								<span class="input-tip">相关机关事业部门推荐信</span>
-								<select style="width:100%" name="isReferenceLftter" id="isReferenceLftter" <c:if test="${fn:contains(errorField,'相关机关事业部门推荐信')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('相关机关事业部门推荐信')"
+								<select  name="isReferenceLftter" id="isReferenceLftter" <c:if test="${fn:contains(errorField,'相关机关事业部门推荐信')}">style="border: 1px solid red;" onmouseover="errorMsg('相关机关事业部门推荐信')"
 									</c:if>>
 									<option <c:if test="${expert.isReferenceLftter eq '2'}">selected="selected"</c:if>
 										value="2">无

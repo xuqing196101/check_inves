@@ -530,8 +530,15 @@
 									</c:if>
 								</div>
 							</li>
-							
 							<c:if test="${expert.teachTitle eq '1'}">
+							  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">有无专业技术职称：</span>
+                  <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                    <input value="有" <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getTeachTitle')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('teachTitle','getTeachTitle','0');"</c:if> id="teachTitle" type="text" onclick="reason(this);"/>
+                    <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}">
+                      <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+                    </c:if>
+                  </div>
+                </li>
 								<li class="col-md-3 col-sm-6 col-xs-12">
 								    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家技术职称：</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -558,6 +565,17 @@
 									</div>
 								</li>
 							</c:if>
+						  <c:if test="${expert.teachTitle eq '2'}">
+               <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">有无专业技术职称：</span>
+                 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                   <input value="无" <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getTeachTitler')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('teachTitle','getTeachTitle','0');"</c:if> id="teachTitle" type="text" onclick="reason(this);"/>
+                   <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}">
+                     <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+                   </c:if>
+                 </div>
+               </li>
+              </c:if>
+							
 							<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">毕业院校及专业：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input value="${expert.graduateSchool}" <c:if test="${fn:contains(conditionStr,'毕业院校及专业')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getGraduateSchool')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('graduateSchool','getGraduateSchool','0');"</c:if> id="graduateSchool" type="text" onclick="reason(this);"/>
@@ -611,17 +629,25 @@
 					
 						<h2 class="count_flow"><i>3</i>推荐信</h2>
 						<ul class="ul_list">
-							<c:if test="${expert.isReferenceLftter eq '2'}">
+							
 								<li class="col-md-3 col-sm-6 col-xs-12">
 								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">相关机关事业部门推荐信：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 h30">
-									<input value="否" <c:if test="${fn:contains(conditionStr,'相关机关事业部门推荐信')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getIsReferenceLftter')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('isReferenceLftter','getIsReferenceLftter','0');"</c:if> id="isReferenceLftter" type="text" onclick="reason(this);"/>
-									<c:if test="${fn:contains(conditionStr,'相关机关事业部门推荐信')}">
-										<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+								  <c:if test="${expert.isReferenceLftter eq '2'}">
+										<input value="无" <c:if test="${fn:contains(conditionStr,'相关机关事业部门推荐信')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getIsReferenceLftter')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('isReferenceLftter','getIsReferenceLftter','0');"</c:if> id="isReferenceLftter" type="text" onclick="reason(this);"/>
+										<c:if test="${fn:contains(conditionStr,'相关机关事业部门推荐信')}">
+											<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+										</c:if>
 									</c:if>
+									<c:if test="${expert.isReferenceLftter eq '1'}">
+                    <input value="有" <c:if test="${fn:contains(conditionStr,'相关机关事业部门推荐信')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getIsReferenceLftter')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('isReferenceLftter','getIsReferenceLftter','0');"</c:if> id="isReferenceLftter" type="text" onclick="reason(this);"/>
+                    <c:if test="${fn:contains(conditionStr,'相关机关事业部门推荐信')}">
+                      <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+                    </c:if>
+                  </c:if>
 								</div>
 								</li>
-							</c:if>
+							
 							<c:if test="${expert.isReferenceLftter eq '1'}">
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(fileModify,'8')}"> style="border: 1px solid #FF8C00;"</c:if> onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="recommend" onclick="reasonFile(this);">推荐信：</span>
