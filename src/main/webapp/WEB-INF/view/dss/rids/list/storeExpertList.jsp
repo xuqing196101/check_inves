@@ -82,6 +82,8 @@
          <input type="hidden" name="page" id="page">
          <input type="hidden" name="address" value="${ expert.address }">
          <input type="hidden" name="expertsTypeId" value="${ expert.expertsTypeId }">
+         <%-- <input type="hidden" name="expertsFrom" value="${ expert.expertsFrom }"> --%>
+         <input type="hidden" name="orgId" value="${ expert.orgId }">
         <ul class="demand_list">
         <li>
           <label class="fl">专家姓名：</label><span><input class="w220" type="text" id="relName" name="relName" value="${expert.relName }"></span>
@@ -151,7 +153,7 @@
             <tr class="pointer">
               <td class="tc w50" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
               <td class="tl">
-                <a href="javascript:jumppage('${pageContext.request.contextPath}/expertQuery/view.html?reqType=analyze&address=${ expert.address }&expertsTypeId=${ expert.expertsTypeId }&expertId=${e.id}&sign=2')">${e.relName}</a>
+                <a href="javascript:jumppage('${pageContext.request.contextPath}/expertQuery/view.html?reqType=analyze&address=${ expert.address }&expertsTypeId=${ expert.expertsTypeId }&expertsFrom=${ expert.expertsFrom }&orgId=${ expert.orgId }&expertId=${e.id}&sign=2')">${e.relName}</a>
               </td>
               <td class="tc">${e.idCardNumber}</td>
               <td class="tc w50">${e.gender}</td>

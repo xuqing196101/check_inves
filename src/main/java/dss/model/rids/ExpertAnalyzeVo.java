@@ -22,6 +22,12 @@ public class ExpertAnalyzeVo implements Serializable{
 	
 	/**专家类型ID**/
 	private String expertsTypeId;
+	
+	/**军地类型：军队、地方**/
+	private String expertsFrom;
+	
+	/** 所属采购机构ID **/
+	private String orgId;
 
 	public String getAddress() {
 		return address;
@@ -43,4 +49,20 @@ public class ExpertAnalyzeVo implements Serializable{
 		this.expertsTypeId = expertsTypeId;
 	}
 
+	public String getExpertsFrom() {
+		return expertsFrom;
+	}
+
+	public void setExpertsFrom(String expertsFrom) {
+		this.expertsFrom = expertsFrom;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+	
 }

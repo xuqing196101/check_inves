@@ -97,6 +97,7 @@ public class Expert extends ExpertHistory implements Serializable {
     private String companyAddress;
     /** 所属采购机构 **/
     private String orgName;
+    private String orgId;
     
     private List<ExpertTitle> titles=new ArrayList<ExpertTitle>();
     
@@ -862,6 +863,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
 	public void setAuditor(String auditor) {
 		this.auditor = auditor;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
     
 }
