@@ -1399,8 +1399,13 @@ public class PurchaseRequiredController extends BaseController {
         }
         PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
         List<PurchaseRequired> list = purchaseRequiredService.selectByAll(map);
+        Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(orgId);
+        if(orgnization != null){
+            model.addAttribute("shortName", orgnization.getShortName());
+        }
         model.addAttribute("info", new PageInfo<PurchaseRequired>(list));
         model.addAttribute("purchaseRequired", purchaseRequired);
+        model.addAttribute("data", DictionaryDataUtil.find(6));
         model.addAttribute("orgId", orgId);
         return "dss/rids/list/view_required";
 	}
