@@ -239,13 +239,13 @@ public class OnlineComplaintsController {
 		if(complaint.getTelephone() == null || complaint.getTelephone().equals("")){
 			flag = false;
 			model.addAttribute("error_telephone","投诉人联系电话不能为空");
-		}else{
+		}/*else{
 			Pattern p = Pattern.compile("[0-9-()（）]{7,18}");
 			if (p.matcher(complaint.getTelephone()).matches() == false) {
 				flag = false;
 				model.addAttribute("error_telephone", "请输入正确的电话号码");
 			}
-		}
+		}*/
 		if(complaint.getAdress() == null || complaint.getAdress().equals("")){
 			flag = false;
 			model.addAttribute("error_adress","投诉人联系地址不能为空");

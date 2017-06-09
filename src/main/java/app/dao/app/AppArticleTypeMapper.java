@@ -11,8 +11,8 @@ import iss.model.ps.ArticleType;
  * @since JDK1.7
  */
 public interface AppArticleTypeMapper {
-	
-	/**
+    
+    /**
      * 
      * Description: app查询栏目类型
      * 

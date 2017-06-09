@@ -9,28 +9,26 @@ package app.model;
  * @since JDK1.7
  */
 public class AppBlackList {
-	
-	//名称
-	private String name;
-	
-	//处罚类型
-	private String punishType;
+    
+    //名称
+    private String name;
+    
+    //处罚类型
+    private String punishType;
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getPunishType() {
-		return punishType;
-	}
+    public String getPunishType() {
+        return punishType;
+    }
 
-	public void setPunishType(String punishType) {
-		this.punishType = punishType;
-	}
-	
-	
+    public void setPunishType(String punishType) {
+        this.punishType = punishType;
+    }
 }

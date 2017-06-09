@@ -17,47 +17,69 @@ import java.util.List;
  */
 public class AppData {
 
-	// 首页轮播图片url集合
-	private List<String> imgUrl;
+    // 首页轮播图片url集合
+    private List<String> imgUrl;
 
-	// 首页公告信息
-	private List<Article> indexMsgList;
-	
-	//供应商名录
-	private List<AppSupplier> supplierList;
-	
-	//黑名单
-	private List<AppBlackList> blackList;
-	
-	public List<AppBlackList> getBlackList() {
-		return blackList;
-	}
+    // 首页公告信息
+    private List<Article> indexMsgList;
+    
+    //供应商名录
+    private List<AppSupplier> supplierList;
+    
+    //黑名单
+    private List<AppBlackList> blackList;
+    
+    //公告内容
+    private String content;
+    
+    //服务热线
+    private List<AppHotLine> hotLineList;
+    
+    public List<AppHotLine> getHotLineList() {
+        return hotLineList;
+    }
 
-	public void setBlackList(List<AppBlackList> blackList) {
-		this.blackList = blackList;
-	}
+    public void setHotLineList(List<AppHotLine> hotLineList) {
+        this.hotLineList = hotLineList;
+    }
 
-	public List<String> getImgUrl() {
-		return imgUrl;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public void setImgUrl(List<String> imgUrl) {
-		this.imgUrl = imgUrl;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public List<Article> getIndexMsgList() {
-		return indexMsgList;
-	}
+    public List<AppBlackList> getBlackList() {
+        return blackList;
+    }
 
-	public void setIndexMsgList(List<Article> indexMsgList) {
-		this.indexMsgList = indexMsgList;
-	}
+    public void setBlackList(List<AppBlackList> blackList) {
+        this.blackList = blackList;
+    }
 
-	public List<AppSupplier> getSupplierList() {
-		return supplierList;
-	}
+    public List<String> getImgUrl() {
+        return imgUrl;
+    }
 
-	public void setSupplierList(List<AppSupplier> supplierList) {
-		this.supplierList = supplierList;
-	}
+    public void setImgUrl(List<String> imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public List<Article> getIndexMsgList() {
+        return indexMsgList;
+    }
+
+    public void setIndexMsgList(List<Article> indexMsgList) {
+        this.indexMsgList = indexMsgList;
+    }
+
+    public List<AppSupplier> getSupplierList() {
+        return supplierList;
+    }
+
+    public void setSupplierList(List<AppSupplier> supplierList) {
+        this.supplierList = supplierList;
+    }
 }
