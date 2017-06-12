@@ -308,15 +308,8 @@
 	          layer.msg("只能选择一项 !", {offset: '100px',});
 	        }else{
 	          var supplierId = $(":checkbox:checked").val();
-		        $.ajax({
-		          url: "${pageContext.request.contextPath}/supplier/isPass.do",
-		          data: {"supplierId": supplierId},
-		          type: "post",
-		          success: function(data) {
-			          $("#supplierJson").val(supplierId);
-			          $("#download_form").submit();
-		          }
-		        });
+		        $("#supplierJson").val(supplierId);
+            $("#download_form").submit();
 	        }
 				}
 			
