@@ -33,7 +33,7 @@
             if (status == 3) {
                 updateStepNumber("one");
             }
-            if (status == 2 || status == 3 || status == 5 || status == 7 || status == 8) {
+            if (status == 2 || status == 3 || status == 5  || status == 8) {
                 //询问框
                 layer.confirm('您确认吗？', {
                     closeBtn: 0,

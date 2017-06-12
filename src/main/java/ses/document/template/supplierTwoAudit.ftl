@@ -7,15 +7,15 @@
       <o:LastAuthor>NTKO</o:LastAuthor>
       <o:Revision>2</o:Revision>
       <o:TotalTime>0</o:TotalTime>
-      <o:Created>2017-06-08T08:09:00Z</o:Created>
-      <o:LastSaved>2017-06-08T08:09:00Z</o:LastSaved>
+      <o:Created>2017-06-12T02:35:00Z</o:Created>
+      <o:LastSaved>2017-06-12T02:35:00Z</o:LastSaved>
       <o:Pages>1</o:Pages>
-      <o:Words>37</o:Words>
-      <o:Characters>211</o:Characters>
+      <o:Words>39</o:Words>
+      <o:Characters>227</o:Characters>
       <o:Company>Microsoft</o:Company>
       <o:Lines>1</o:Lines>
       <o:Paragraphs>1</o:Paragraphs>
-      <o:CharactersWithSpaces>247</o:CharactersWithSpaces>
+      <o:CharactersWithSpaces>265</o:CharactersWithSpaces>
       <o:Version>14</o:Version>
     </o:DocumentProperties>
     <w:fonts>
@@ -25,7 +25,7 @@
         <w:charset w:val="00" />
         <w:family w:val="Roman" />
         <w:pitch w:val="variable" />
-        <w:sig w:usb-0="E0002EFF" w:usb-1="C0007843" w:usb-2="00000009" w:usb-3="00000000" w:csb-0="000001FF" w:csb-1="00000000" /></w:font>
+        <w:sig w:usb-0="E0002EFF" w:usb-1="C000785B" w:usb-2="00000009" w:usb-3="00000000" w:csb-0="000001FF" w:csb-1="00000000" /></w:font>
       <w:font w:name="宋体">
         <w:altName w:val="SimSun" />
         <w:panose-1 w:val="02010600030101010101" />
@@ -44,7 +44,7 @@
         <w:charset w:val="00" />
         <w:family w:val="Swiss" />
         <w:pitch w:val="variable" />
-        <w:sig w:usb-0="E00002FF" w:usb-1="4000ACFF" w:usb-2="00000001" w:usb-3="00000000" w:csb-0="0000019F" w:csb-1="00000000" /></w:font>
+        <w:sig w:usb-0="E0002AFF" w:usb-1="C000247B" w:usb-2="00000009" w:usb-3="00000000" w:csb-0="000001FF" w:csb-1="00000000" /></w:font>
       <w:font w:name="方正小标宋简体">
         <w:altName w:val="Arial Unicode MS" />
         <w:charset w:val="86" />
@@ -237,13 +237,13 @@
       </w:hdrShapeDefaults>
       <w:footnotePr>
         <w:footnote w:type="separator">
-          <w:p wsp:rsidR="005338BE" wsp:rsidRDefault="005338BE" wsp:rsidP="009A0E7E">
+          <w:p wsp:rsidR="00397FA1" wsp:rsidRDefault="00397FA1" wsp:rsidP="009A0E7E">
             <w:r>
               <w:separator/></w:r>
           </w:p>
         </w:footnote>
         <w:footnote w:type="continuation-separator">
-          <w:p wsp:rsidR="005338BE" wsp:rsidRDefault="005338BE" wsp:rsidP="009A0E7E">
+          <w:p wsp:rsidR="00397FA1" wsp:rsidRDefault="00397FA1" wsp:rsidP="009A0E7E">
             <w:r>
               <w:continuationSeparator/></w:r>
           </w:p>
@@ -251,13 +251,13 @@
       </w:footnotePr>
       <w:endnotePr>
         <w:endnote w:type="separator">
-          <w:p wsp:rsidR="005338BE" wsp:rsidRDefault="005338BE" wsp:rsidP="009A0E7E">
+          <w:p wsp:rsidR="00397FA1" wsp:rsidRDefault="00397FA1" wsp:rsidP="009A0E7E">
             <w:r>
               <w:separator/></w:r>
           </w:p>
         </w:endnote>
         <w:endnote w:type="continuation-separator">
-          <w:p wsp:rsidR="005338BE" wsp:rsidRDefault="005338BE" wsp:rsidP="009A0E7E">
+          <w:p wsp:rsidR="00397FA1" wsp:rsidRDefault="00397FA1" wsp:rsidP="009A0E7E">
             <w:r>
               <w:continuationSeparator/></w:r>
           </w:p>
@@ -278,12 +278,14 @@
         <w:useFELayout/></w:compat>
       <wsp:rsids>
         <wsp:rsidRoot wsp:val="00BC3DE4" />
+        <wsp:rsid wsp:val="00005947" />
         <wsp:rsid wsp:val="00011959" />
         <wsp:rsid wsp:val="00013314" />
         <wsp:rsid wsp:val="00031B42" />
         <wsp:rsid wsp:val="00045473" />
         <wsp:rsid wsp:val="00064CEB" />
         <wsp:rsid wsp:val="000D3A84" />
+        <wsp:rsid wsp:val="000F271D" />
         <wsp:rsid wsp:val="000F56DC" />
         <wsp:rsid wsp:val="00146A9A" />
         <wsp:rsid wsp:val="00171029" />
@@ -291,16 +293,21 @@
         <wsp:rsid wsp:val="001C5A78" />
         <wsp:rsid wsp:val="0020449D" />
         <wsp:rsid wsp:val="00256689" />
+        <wsp:rsid wsp:val="002B2EB5" />
+        <wsp:rsid wsp:val="002B590B" />
         <wsp:rsid wsp:val="003004D5" />
+        <wsp:rsid wsp:val="003137D2" />
         <wsp:rsid wsp:val="00333981" />
         <wsp:rsid wsp:val="00335B14" />
         <wsp:rsid wsp:val="00336865" />
         <wsp:rsid wsp:val="0037083C" />
         <wsp:rsid wsp:val="003715D4" />
         <wsp:rsid wsp:val="00371ED0" />
+        <wsp:rsid wsp:val="00397FA1" />
         <wsp:rsid wsp:val="003B7535" />
         <wsp:rsid wsp:val="003C4F35" />
         <wsp:rsid wsp:val="003C5C54" />
+        <wsp:rsid wsp:val="0040631B" />
         <wsp:rsid wsp:val="00430653" />
         <wsp:rsid wsp:val="00441E0F" />
         <wsp:rsid wsp:val="004927F0" />
@@ -308,7 +315,6 @@
         <wsp:rsid wsp:val="004E6D44" />
         <wsp:rsid wsp:val="00510468" />
         <wsp:rsid wsp:val="00532614" />
-        <wsp:rsid wsp:val="005338BE" />
         <wsp:rsid wsp:val="00573E13" />
         <wsp:rsid wsp:val="00574A67" />
         <wsp:rsid wsp:val="00575CF3" />
@@ -320,6 +326,7 @@
         <wsp:rsid wsp:val="00642400" />
         <wsp:rsid wsp:val="006473A3" />
         <wsp:rsid wsp:val="006475E3" />
+        <wsp:rsid wsp:val="00687ACF" />
         <wsp:rsid wsp:val="006B131A" />
         <wsp:rsid wsp:val="006B557B" />
         <wsp:rsid wsp:val="0070290A" />
@@ -337,6 +344,7 @@
         <wsp:rsid wsp:val="0081105A" />
         <wsp:rsid wsp:val="008274A6" />
         <wsp:rsid wsp:val="00847B10" />
+        <wsp:rsid wsp:val="00850560" />
         <wsp:rsid wsp:val="0085433A" />
         <wsp:rsid wsp:val="00896A57" />
         <wsp:rsid wsp:val="008A206A" />
@@ -357,10 +365,13 @@
         <wsp:rsid wsp:val="00A01A6A" />
         <wsp:rsid wsp:val="00A10575" />
         <wsp:rsid wsp:val="00A220AB" />
+        <wsp:rsid wsp:val="00A232C9" />
         <wsp:rsid wsp:val="00A25600" />
+        <wsp:rsid wsp:val="00A556A8" />
         <wsp:rsid wsp:val="00A662D0" />
         <wsp:rsid wsp:val="00A80BE0" />
         <wsp:rsid wsp:val="00A832FF" />
+        <wsp:rsid wsp:val="00A9477E" />
         <wsp:rsid wsp:val="00AA25BB" />
         <wsp:rsid wsp:val="00AC7A0F" />
         <wsp:rsid wsp:val="00AD5487" />
@@ -373,6 +384,7 @@
         <wsp:rsid wsp:val="00B225EA" />
         <wsp:rsid wsp:val="00B27982" />
         <wsp:rsid wsp:val="00B342E8" />
+        <wsp:rsid wsp:val="00B52C73" />
         <wsp:rsid wsp:val="00B55AD5" />
         <wsp:rsid wsp:val="00B66153" />
         <wsp:rsid wsp:val="00B73BC3" />
@@ -383,11 +395,13 @@
         <wsp:rsid wsp:val="00BB48E2" />
         <wsp:rsid wsp:val="00BB7B3A" />
         <wsp:rsid wsp:val="00BC3DE4" />
+        <wsp:rsid wsp:val="00BF5403" />
         <wsp:rsid wsp:val="00C20592" />
         <wsp:rsid wsp:val="00C324CD" />
         <wsp:rsid wsp:val="00C33A04" />
         <wsp:rsid wsp:val="00C72C72" />
         <wsp:rsid wsp:val="00C75A2D" />
+        <wsp:rsid wsp:val="00C95427" />
         <wsp:rsid wsp:val="00CA5801" />
         <wsp:rsid wsp:val="00CC05B5" />
         <wsp:rsid wsp:val="00CE785E" />
@@ -403,8 +417,8 @@
         <wsp:rsid wsp:val="00DA4CF8" />
         <wsp:rsid wsp:val="00E0411B" />
         <wsp:rsid wsp:val="00E1337E" />
-        <wsp:rsid wsp:val="00E20AA8" />
         <wsp:rsid wsp:val="00E20E62" />
+        <wsp:rsid wsp:val="00E42448" />
         <wsp:rsid wsp:val="00E43E33" />
         <wsp:rsid wsp:val="00E7009C" />
         <wsp:rsid wsp:val="00E71B6F" />
@@ -423,7 +437,7 @@
         <wsp:rsid wsp:val="00F8261D" />
         <wsp:rsid wsp:val="00F82962" />
         <wsp:rsid wsp:val="00F85325" />
-        <wsp:rsid wsp:val="00FA0642" />
+        <wsp:rsid wsp:val="00FC4A6F" />
         <wsp:rsid wsp:val="00FD10A6" /></wsp:rsids>
     </w:docPr>
     <w:body>
@@ -452,7 +466,7 @@
               <wx:font wx:val="方正小标宋简体" />
               <w:sz w:val="44" />
               <w:sz-cs w:val="44" /></w:rPr>
-            <w:t>供应商复审</w:t>
+            <w:t>供应商复核</w:t>
           </w:r>
           <w:r wsp:rsidRPr="007324D4">
             <w:rPr>
@@ -495,8 +509,8 @@
             <w:gridCol w:w="1984" />
             <w:gridCol w:w="1134" />
             <w:gridCol w:w="381" />
-            <w:gridCol w:w="1037" />
-            <w:gridCol w:w="141" />
+            <w:gridCol w:w="611" />
+            <w:gridCol w:w="567" />
             <w:gridCol w:w="1134" />
             <w:gridCol w:w="2196" /></w:tblGrid>
           <w:tr wsp:rsidR="009A0E7E" wsp:rsidRPr="007324D4" wsp:rsidTr="00E43E33">
@@ -849,7 +863,7 @@
               </w:p>
             </w:tc>
           </w:tr>
-          <w:tr wsp:rsidR="006B557B" wsp:rsidRPr="007324D4" wsp:rsidTr="00A01A6A">
+          <w:tr wsp:rsidR="006B557B" wsp:rsidRPr="007324D4" wsp:rsidTr="002B2EB5">
             <w:tblPrEx>
               <w:tblBorders>
                 <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
@@ -863,7 +877,7 @@
               <w:trHeight w:val="600" /></w:trPr>
             <w:tc>
               <w:tcPr>
-                <w:tcW w:w="5637" w:type="dxa" />
+                <w:tcW w:w="5211" w:type="dxa" />
                 <w:gridSpan w:val="5" />
                 <w:tcBorders>
                   <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
@@ -897,7 +911,7 @@
             </w:tc>
             <w:tc>
               <w:tcPr>
-                <w:tcW w:w="3471" w:type="dxa" />
+                <w:tcW w:w="3897" w:type="dxa" />
                 <w:gridSpan w:val="3" />
                 <w:tcBorders>
                   <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
@@ -971,10 +985,10 @@
               </w:p>
             </w:tc>
           </w:tr>
-           </#if>
+          </#if>
           <#if isData == "yes" >
           <#list auditList as audit>
-          <w:tr wsp:rsidR="006B557B" wsp:rsidRPr="007324D4" wsp:rsidTr="00A01A6A">
+          <w:tr wsp:rsidR="006B557B" wsp:rsidRPr="007324D4" wsp:rsidTr="002B2EB5">
             <w:tblPrEx>
               <w:tblBorders>
                 <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
@@ -988,7 +1002,7 @@
               <w:trHeight w:val="600" /></w:trPr>
             <w:tc>
               <w:tcPr>
-                <w:tcW w:w="5637" w:type="dxa" />
+                <w:tcW w:w="5211" w:type="dxa" />
                 <w:gridSpan w:val="5" />
                 <w:tcBorders>
                   <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
@@ -1017,7 +1031,7 @@
             </w:tc>
             <w:tc>
               <w:tcPr>
-                <w:tcW w:w="3471" w:type="dxa" />
+                <w:tcW w:w="3897" w:type="dxa" />
                 <w:gridSpan w:val="3" />
                 <w:tcBorders>
                   <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
@@ -1046,6 +1060,89 @@
           </w:tr>
           </#list>
           </#if>
+          <w:tr wsp:rsidR="00E42448" wsp:rsidRPr="007324D4" wsp:rsidTr="00DF0E45">
+            <w:tblPrEx>
+              <w:tblBorders>
+                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                <w:left w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                <w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                <w:insideH w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                <w:insideV w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tblBorders>
+            </w:tblPrEx>
+            <w:trPr>
+              <w:trHeight w:val="600" /></w:trPr>
+            <w:tc>
+              <w:tcPr>
+                <w:tcW w:w="9108" w:type="dxa" />
+                <w:gridSpan w:val="8" />
+                <w:tcBorders>
+                  <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                  <w:left w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                  <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                  <w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tcBorders>
+                <w:vAlign w:val="center" /></w:tcPr>
+              <w:p wsp:rsidR="00E42448" wsp:rsidRPr="00E43E33" wsp:rsidRDefault="00E42448" wsp:rsidP="00E42448">
+                <w:pPr>
+                  <w:jc w:val="center" />
+                  <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+                    <wx:font wx:val="宋体" />
+                    <w:sz w:val="18" />
+                    <w:sz-cs w:val="18" /></w:rPr>
+                </w:pPr>
+                <w:r wsp:rsidRPr="00E42448">
+                  <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+                    <wx:font wx:val="宋体" />
+                    <w:sz-cs w:val="21" /></w:rPr>
+                  <w:t>最终意见</w:t>
+                </w:r>
+              </w:p>
+            </w:tc>
+          </w:tr>
+          <w:tr wsp:rsidR="000F271D" wsp:rsidRPr="007324D4" wsp:rsidTr="00DF0E45">
+            <w:tblPrEx>
+              <w:tblBorders>
+                <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                <w:left w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                <w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                <w:insideH w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                <w:insideV w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tblBorders>
+            </w:tblPrEx>
+            <w:trPr>
+              <w:trHeight w:val="600" /></w:trPr>
+            <w:tc>
+              <w:tcPr>
+                <w:tcW w:w="9108" w:type="dxa" />
+                <w:gridSpan w:val="8" />
+                <w:tcBorders>
+                  <w:top w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                  <w:left w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                  <w:bottom w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" />
+                  <w:right w:val="single" w:sz="6" wx:bdrwidth="15" w:space="0" w:color="000000" /></w:tcBorders>
+                <w:vAlign w:val="center" /></w:tcPr>
+              <w:p wsp:rsidR="000F271D" wsp:rsidRPr="00E42448" wsp:rsidRDefault="000F271D" wsp:rsidP="00A232C9">
+                <w:pPr>
+                  <w:ind w:first-line-chars="200" w:first-line="360" />
+                  <w:jc w:val="left" />
+                  <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:h-ansi="宋体" />
+                    <wx:font wx:val="宋体" />
+                    <w:sz-cs w:val="21" /></w:rPr>
+                </w:pPr>
+                <w:r>
+                  <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast" />
+                    <wx:font wx:val="宋体" />
+                    <w:sz w:val="18" />
+                    <w:sz-cs w:val="18" /></w:rPr>
+                  <w:t>${opinion}</w:t>
+                </w:r>
+              </w:p>
+            </w:tc>
+          </w:tr>
           <w:tr wsp:rsidR="00BB48E2" wsp:rsidRPr="007324D4" wsp:rsidTr="00287D4B">
             <w:tblPrEx>
               <w:tblBorders>

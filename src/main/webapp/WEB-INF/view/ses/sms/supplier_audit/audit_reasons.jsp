@@ -11,10 +11,10 @@
 	<meta http-equiv="expires" content="0">
     <script type="text/javascript">
       //只读
-      $(function() {
-        $(":input").each(function() {
+       $(function() {
+       /*$(":input").each(function() {
         $(this).attr("readonly", "readonly");
-      });
+      }); */
         
        //审核按钮
        var num = ${num};
@@ -28,7 +28,10 @@
          $("#hege").attr("disabled", true);
          };
        });
-
+       
+       function trim(str) { //删除左右两端的空格
+            return str.replace(/(^\s*)|(\s*$)/g, "");
+        }
 	   /* function tijiao(status){
 	     $("#supplierStatus").val(status);
 		 form1.submit();
@@ -44,7 +47,7 @@
 	   //审核
 	   function shenhe(status){
 	   			var supplierId = $("input[name='supplierId']").val();
-	   			if(status == 3){
+	   			/* if(status == 3){
 	   				//询问框
 						layer.confirm('您确认吗？', {
 							closeBtn: 0,
@@ -69,21 +72,34 @@
 								});
 							});
 						});
-	   			}else{
+	   			}else{ */
 		   			//询问框
-						layer.confirm('您确认吗？', {
-							closeBtn: 0,
-							offset: '100px',
-							shift: 4,
-						  btn: ['确认','取消']
-						}, function(){
-							//提交审核
-						  $("#status").val(status);
-		   				$("#status").val(status);
-							$("#form_shen").submit();
-						});
+            var opinion = document.getElementById('opinion').value;
+            opinion = trim(opinion);
+		   			if (opinion != null && opinion != "") {
+              if (opinion.length <= 200) {
+                layer.confirm('您确认吗？', {
+		              closeBtn: 0,
+		              offset: '100px',
+		              shift: 4,
+		              btn: ['确认','取消']
+		            }, function(){
+		              //最终意见
+		               $("input[name='opinion']").val(opinion);
+	                //提交审核
+	                $("#status").val(status);
+	                $("#status").val(status);
+	                $("#form_shen").submit();
+		            });
+              } else {
+                layer.msg("不能超过200字", {offset: '100px'});
+              }
+             } else {
+	             layer.msg("请填写最终意见", {offset: '100px'});
+	             return;
+             }
 	   			};
-				}
+				/* } */
 			
 		/** 全选全不选 */
 	    function selectAll(){
@@ -287,9 +303,8 @@
           <c:if test="${supplierStatus == 3 }">
              <h2 class="count_flow"><i>1</i>问题汇总</h2>
           </c:if>
-          
+           <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
           <div class="ul_list count_flow">
-
             <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
             <table class="table table-bordered table-condensed table-hover">
              <thead>
@@ -351,11 +366,22 @@
 		          </li>
 	          </ul>
 	        </c:if> --%>
+	        
+	        <h2 class="count_flow"><i>2</i>最终意见</h2>
+          <ul class="ul_list">
+              <li class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="col-md-12 col-sm-12 col-xs-12 p0">
+                      <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80"></textarea>
+                  </div>
+              </li>
+          </ul>
+          
 	        <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
 	         <a class="btn"  type="button" onclick="lastStep();">上一步</a>
 	          <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
 	            <input name="supplierId" value="${supplierId}" type="hidden">
 	            <input name="status" id="status" type="hidden">
+	            <input name="opinion" type="hidden">
 	            <input name="id" type="hidden">
 	            <div class="margin-bottom-0  categories">
 	              <div class="col-md-12 add_regist tc">
