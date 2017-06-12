@@ -26,8 +26,8 @@
   
   <!-- 表中所有列 -->
   <sql id="Base_Column_List">
-    ID, CONTRACT_ID, PROJECT_TYPE, UNIT, TYPE, PLACE, PQDATE, INSPECTORS, CONDITION, CONCLUSION, 
-    DETAIL, REPORT, CREATED_AT, UPDATED_AT
+    p.ID, p.CONTRACT_ID, p.PROJECT_TYPE, p.UNIT, p.TYPE, p.PLACE, p.PQDATE, p.INSPECTORS, p.CONDITION, p.CONCLUSION, 
+    p.DETAIL, p.REPORT, p.CREATED_AT, p.UPDATED_AT
   </sql>
   
   <!-- 查询条件 -->
@@ -81,9 +81,9 @@
    <!-- 1.根据id查询(不带关联集合) -->
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="PqInfoResultMap">
     select 
-    *
-    from T_BSS_PQIMS_PQINFO
-    where ID = #{id,jdbcType=VARCHAR}
+    <include refid="Base_Column_List" />
+    from T_BSS_PQIMS_PQINFO p
+    where p.ID = #{id,jdbcType=VARCHAR}
   </select>
   
   <!-- 2.根据id删除 -->
@@ -219,7 +219,7 @@
       <if test="place != null">
         PLACE = #{place,jdbcType=VARCHAR},
       </if>
-      <if test="date != null">
+      <if test="pqdate != null">
         PQDATE = #{pqdate,jdbcType=TIMESTAMP},
       </if>
       <if test="inspectors != null">
@@ -278,23 +278,37 @@
   <select id="selectByContract" resultMap="PqInfoResultMap" parameterType="java.util.Map">
     select
     <include refid="Base_Column_List" />
-    from T_BSS_PQIMS_PQINFO
+    from T_BSS_PQIMS_PQINFO p
     where 1=1
     <if test="contract != null">
-      and CONTRACT_ID = #{contract.id} 
+      and p.CONTRACT_ID = #{contract.id} 
     </if>
   </select>
   
-  <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
-  <select id="queryByList" resultMap="PqInfoResultMap" parameterType="Object">
+  <select id="queryByList" resultMap="PqInfoResultMap" parameterType="java.util.Map">
     select
-    *
-    from T_BSS_PQIMS_PQINFO p
+    p.CONTRACT_ID,p.ID,p.TYPE,p.CONCLUSION,p.REPORT,p.PQDATE
+    from T_BSS_PQIMS_PQINFO  p LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.ID
+    <where>
+      1=1
+	    <if test="conclusion != null and conclusion !=''">
+	       AND p.CONCLUSION=#{conclusion} 
+	    </if>
+	    <if test="type != null and type !=''">
+	       AND p.TYPE=#{type} 
+	    </if>
+	    <if test="code != null and code != ''">
+	       AND c.CODE LIKE  CONCAT(CONCAT('%', #{code}), '%')
+	    </if>
+	    <if test="name != null and name != ''">
+	      AND  c.NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
+	    </if>
+    </where>
     ORDER BY p.CREATED_AT DESC
   </select>
   
    <!-- 9.根据条件查询 -->
-  <select id="selectByCondition" parameterType="Object" resultMap="PqInfoResultMap">
+  <select id="selectByCondition" parameterType="java.util.Map" resultMap="PqInfoResultMap">
     select 
     *
     from T_BSS_PQIMS_PQINFO p LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id

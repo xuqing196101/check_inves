@@ -570,16 +570,21 @@ public class PurchaseContractController extends BaseSupplierController{
 	 */
 	@ResponseBody
 	@RequestMapping("/selectByCode")
-	public PurchaseContract selectByCode(HttpServletRequest request) throws Exception{
-		String code = request.getParameter("code");
-		PurchaseContract purchaseCon = purchaseContractService.selectByCode(code);
-		if(purchaseCon == null){
-			purchaseCon = new PurchaseContract();
-			purchaseCon.setCode("ErrCode");
-		}else{
-			purchaseCon.setPurchaseType(DictionaryDataUtil.findById(purchaseCon.getPurchaseType()).getName());
-		}
-		return purchaseCon;
+	public PurchaseContract selectByCode(String code){
+	    if(StringUtils.isNotBlank(code)){
+	        PurchaseContract contract = purchaseContractService.selectByCode(code);
+	        if(contract != null && contract.getStatus() == 2){
+	            contract.setPurchaseType(DictionaryDataUtil.findById(contract.getPurchaseType()).getName());
+	        } else if (contract != null && (contract.getStatus() == 0 || contract.getStatus() == 1)){
+	            contract = new PurchaseContract();
+                contract.setCode("ErrCode1");
+	        } else {
+	            contract = new PurchaseContract();
+	            contract.setCode("ErrCode");
+	        }
+	        return contract;
+	    }
+		return null;
 	}
 	
 	/**

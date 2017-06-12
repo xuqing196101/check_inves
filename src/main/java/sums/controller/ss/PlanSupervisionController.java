@@ -890,15 +890,17 @@ public class PlanSupervisionController {
                             fd.setPurchaseTypeId(project.getPurchaseType());
                             fd.setCode("ZZZJPS");
                             List<FlowDefine> fds = flowMangeService.find(fd);
-                            FlowExecute fe = new FlowExecute();
-                            fe.setProjectId(project.getId());
-                            fe.setFlowDefineId(fds.get(0).getId());
-                            fe.setStatus(3);
-                            List<FlowExecute> fes = flowMangeService.findFlowExecute(fe);
-                            if(fes != null && fes.size() > 0){
-                                model.addAttribute("fes", "0");
-                            } else {
-                                model.addAttribute("fes", "1");
+                            if(fds != null && fds.size() > 0){
+                                FlowExecute fe = new FlowExecute();
+                                fe.setProjectId(project.getId());
+                                fe.setFlowDefineId(fds.get(0).getId());
+                                fe.setStatus(3);
+                                List<FlowExecute> fes = flowMangeService.findFlowExecute(fe);
+                                if(fes != null && fes.size() > 0){
+                                    model.addAttribute("fes", "0");
+                                } else {
+                                    model.addAttribute("fes", "1");
+                                }
                             }
                             
                             //确认中标供应商
