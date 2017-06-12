@@ -9,12 +9,7 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
-		<script type="text/javascript">
-			var reqType ='${reqType}'
-			var provinceName = '${provinceName}';
-			var businessNature = '${businessNature}';
-			var judge = '${judge}';
-		</script>
+		<%@ include file="/WEB-INF/view/ses/sms/supplier_query/supplierInfo/common.jsp"%>
 		<script type="text/javascript" src="${ pageContext.request.contextPath }/js/ses/ems/expertQuery/common.js"></script>
 		<script type="text/javascript">
 			//文件下載

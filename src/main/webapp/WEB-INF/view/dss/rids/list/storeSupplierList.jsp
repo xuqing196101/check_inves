@@ -332,7 +332,7 @@
   			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/readOnlyList.html" method="post">
 		    	<input type="hidden" name="page" id="page">
 		      <input type="hidden" name="judge" value="5">
-		      <input type="hidden" name="orgName" value="${ supplier.orgName }">
+		      <input type="hidden" name="orgId" value="${ supplier.orgId }">
 		      <input type="hidden" name="reqType" value="${ reqType }">
 		      <c:if test="${sign != 2 }">
 		      	<input type="hidden" name="address" value="${ supplierAnalyzeVo.address }">
@@ -426,7 +426,7 @@
 							<tr>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
-									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?reqType=analyze&address=${ supplierAnalyzeVo.address }&businessNature=${ supplierAnalyzeVo.businessNature }&judge=5&supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
+									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?reqType=analyze&address=${ supplierAnalyzeVo.address }&businessNature=${ supplierAnalyzeVo.businessNature }&orgId=${ supplierAnalyzeVo.orgId }&judge=5&supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
 								</td>
 								<%-- <td class="">${list.loginName }</td> --%>
 								<td class="">${list.contactName }</td>

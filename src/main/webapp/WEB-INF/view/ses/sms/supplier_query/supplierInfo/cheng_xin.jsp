@@ -6,51 +6,8 @@
 
 	<head>
 		<%@ include file="../../../../common.jsp"%>
-		<script type="text/javascript">
-			function tijiao(str) {
-				var action;
-				if(str == "essential") {
-					action = "${pageContext.request.contextPath}/supplierQuery/essential.html";
-				}
-				if(str == "financial") {
-					action = "${pageContext.request.contextPath}/supplierQuery/financial.html";
-				}
-				if(str == "shareholder") {
-					action = "${pageContext.request.contextPath}/supplierQuery/shareholder.html";
-				}
-				if(str == "chengxin") {
-					action = "${pageContext.request.contextPath}/supplierQuery/list.html";
-				}
-				if(str == "item") {
-					action = "${pageContext.request.contextPath}/supplierQuery/item.html";
-				}
-				if(str == "product") {
-					action = "${pageContext.request.contextPath}/supplierQuery/product.html";
-				}
-				if(str == "updateHistory") {
-					action = "${pageContext.request.contextPath}/supplierQuery/showUpdateHistory.html";
-				}
-				if (str == "zizhi") {
-					action = "${pageContext.request.contextPath}/supplierQuery/aptitude.html";
-				}
-				if (str == "contract") {
-					action = "${pageContext.request.contextPath}/supplierQuery/contract.html";
-				}
-				if(str == "supplierType") {
-					action = "${pageContext.request.contextPath}/supplierQuery/supplierType.html";
-				}
-				$("#form_id").attr("action", action);
-				$("#form_id").submit();
-			}
-			
-			function fanhui() {
-				if('${judge}' == 2) {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
-				} else {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&judge=${judge}";
-				}
-			}
-		</script>
+		<%@ include file="/WEB-INF/view/ses/sms/supplier_query/supplierInfo/common.jsp"%>
+		<script type="text/javascript" src="${ pageContext.request.contextPath }/js/ses/ems/expertQuery/common.js"/>
 		<style type="text/css">
 
 		</style>

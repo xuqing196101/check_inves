@@ -7,12 +7,7 @@
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>销售合同</title>
-		<script type="text/javascript">
-			var reqType ='${reqType}'
-			var provinceName = '${provinceName}';
-			var businessNature = '${businessNature}';
-			var judge = '${judge}';
-		</script>
+		<%@ include file="/WEB-INF/view/ses/sms/supplier_query/supplierInfo/common.jsp"%>
 		<script type="text/javascript" src="${ pageContext.request.contextPath }/js/ses/ems/expertQuery/common.js"/>
 		
 		<script type="text/javascript">

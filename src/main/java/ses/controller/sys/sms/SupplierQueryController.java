@@ -424,8 +424,12 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/essential")
     public String essentialInformation(HttpServletRequest request, Integer judge, Integer sign, Supplier supplier, String supplierId, Integer person, Model model, String reqType) {
+    	// 获取查询条件
     	// 获取地址
-    	String address = supplier.getAddress();
+    	String addressCond = supplier.getAddress();
+    	String businessNatureCond = supplier.getBusinessNature();
+    	String orgIdCond = supplier.getOrgId();
+    	// 查询条件结束
         User user = (User) request.getSession().getAttribute("loginUser");
         Integer ps = (Integer) request.getSession().getAttribute("ps");
         if (user.getTypeId() != null && ps != null) {
@@ -520,8 +524,9 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("judge", judge);
         model.addAttribute("sign", sign);
         model.addAttribute("reqType", reqType);
-        model.addAttribute("provinceName", address);
-        model.addAttribute("businessNature", businessNature);
+        model.addAttribute("provinceName", addressCond);
+        model.addAttribute("businessNature", businessNatureCond);
+        model.addAttribute("orgId", orgIdCond);
         
        /* model.addAttribute("person", person);*/
         
@@ -543,9 +548,14 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/financial")
     public String financialInformation(HttpServletRequest request, Integer judge, Integer sign, SupplierFinance supplierFinance, Supplier supplier, String reqType) {
+    	// 获取查询条件
     	// 获取地址
-    	String address = supplier.getAddress();
-        String supplierId = supplierFinance.getSupplierId();
+    	String addressCond = supplier.getAddress();
+    	String businessNatureCond = supplier.getBusinessNature();
+    	String orgIdCond = supplier.getOrgId();
+    	// 查询条件结束
+
+    	String supplierId = supplierFinance.getSupplierId();
         //勾选的供应商类型
         String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
         request.setAttribute("supplierTypeNames", supplierTypeName);
@@ -582,8 +592,9 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("suppliers", supplier);
         request.setAttribute("judge", judge);
         request.setAttribute("sign", sign);
-        request.setAttribute("provinceName", address);
-        request.setAttribute("businessNature", supplier.getBusinessNature());
+        request.setAttribute("provinceName", addressCond);
+        request.setAttribute("businessNature", businessNatureCond);
+        request.setAttribute("orgId", orgIdCond);
         request.setAttribute("reqType", reqType);
         return "ses/sms/supplier_query/supplierInfo/financial";
     }
@@ -598,7 +609,13 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/shareholder")
     public String shareholderInformation(HttpServletRequest request, Supplier supplierQuery, Integer judge, Integer sign, SupplierStockholder supplierStockholder, String reqType) {
-    	String address = supplierQuery.getAddress();
+    	// 获取查询条件
+    	// 获取地址
+    	String addressCond = supplierQuery.getAddress();
+    	String businessNatureCond = supplierQuery.getBusinessNature();
+    	String orgIdCond = supplierQuery.getOrgId();
+    	// 查询条件结束
+    	
         String supplierId = supplierStockholder.getSupplierId();
         List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
         request.setAttribute("supplierId", supplierId);
@@ -623,8 +640,9 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("suppliers", supplier);
         request.setAttribute("judge", judge);
         request.setAttribute("sign", sign);
-        request.setAttribute("provinceName", address);
-        request.setAttribute("businessNature", supplierQuery.getBusinessNature());
+        request.setAttribute("provinceName", addressCond);
+        request.setAttribute("businessNature", businessNatureCond);
+        request.setAttribute("orgId", orgIdCond);
         request.setAttribute("reqType", reqType);
         return "ses/sms/supplier_query/supplierInfo/shareholder";
     }
@@ -720,6 +738,13 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/item")
     public String item(String supplierId, Integer judge, Model model, Integer sign,  HttpServletRequest request, Supplier supplierQuery, String reqType) {
+    	// 获取查询条件
+    	// 获取地址
+    	String addressCond = supplierQuery.getAddress();
+    	String businessNatureCond = supplierQuery.getBusinessNature();
+    	String orgIdCond = supplierQuery.getOrgId();
+    	// 查询条件结束
+    	
         //勾选的供应商类型
         String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
         request.setAttribute("supplierTypeNames", supplierTypeName);
@@ -741,8 +766,9 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("judge", judge);
         request.setAttribute("sign", sign);
         request.setAttribute("currSupplier", supplier);
-        request.setAttribute("provinceName", supplierQuery.getAddress());
-        request.setAttribute("businessNature", supplierQuery.getBusinessNature());
+        request.setAttribute("provinceName", addressCond);
+        request.setAttribute("businessNature", businessNatureCond);
+        request.setAttribute("orgId", orgIdCond);
         request.setAttribute("reqType", reqType);
         return "ses/sms/supplier_query/supplierInfo/item";
     }
@@ -855,6 +881,13 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping(value = "aptitude")
     public String aptitude(Model model, Integer judge, Integer sign,Supplier supplierQuery, String supplierId, Integer supplierStatus,String reqType) {
+    	// 获取查询条件
+    	// 获取地址
+    	String addressCond = supplierQuery.getAddress();
+    	String businessNatureCond = supplierQuery.getBusinessNature();
+    	String orgIdCond = supplierQuery.getOrgId();
+    	// 查询条件结束
+    	
 		model.addAttribute("supplierStatus", supplierStatus);
 		model.addAttribute("sign", sign);
 		model.addAttribute("supplierId", supplierId);
@@ -1005,8 +1038,9 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("judge", judge);
         model.addAttribute("sign", sign);
         model.addAttribute("suppliers", supplier);
-        model.addAttribute("provinceName", supplierQuery.getAddress());
-        model.addAttribute("businessNature", supplierQuery.getBusinessNature());
+        model.addAttribute("provinceName", addressCond);
+        model.addAttribute("businessNature", businessNatureCond);
+        model.addAttribute("orgId", orgIdCond);
         model.addAttribute("reqType", reqType);
 		
        return "ses/sms/supplier_query/supplierInfo/aptitude";
@@ -1562,6 +1596,12 @@ public class SupplierQueryController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "/contract")
 	public String contractUp(String supplierId, Model model,Supplier supplierQuery, Integer judge, Integer sign, String reqType) {
+		// 获取查询条件
+    	// 获取地址
+    	String addressCond = supplierQuery.getAddress();
+    	String businessNatureCond = supplierQuery.getBusinessNature();
+    	String orgIdCond = supplierQuery.getOrgId();
+    	// 查询条件结束
 		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
 		String supplierTypeIds = "";
 		for(SupplierTypeRelate s: typeIds) {
@@ -1590,8 +1630,9 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("sign", sign);
         model.addAttribute("suppliers", supplier);
         model.addAttribute("reqType", reqType);
-        model.addAttribute("provinceName", supplierQuery.getAddress());
-        model.addAttribute("businessNature", supplierQuery.getBusinessNature());
+        model.addAttribute("provinceName", addressCond);
+        model.addAttribute("businessNature", businessNatureCond);
+        model.addAttribute("orgId", orgIdCond);
 		return "ses/sms/supplier_query/supplierInfo/contract";
 	}
     
@@ -1733,6 +1774,13 @@ public class SupplierQueryController extends BaseSupplierController {
        
     @RequestMapping("supplierType")
    	public String supplierType(HttpServletRequest request, Supplier supplierQuery, Integer judge, Integer sign, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus, String reqType) {
+    	// 获取查询条件
+    	// 获取地址
+    	String addressCond = supplierQuery.getAddress();
+    	String businessNatureCond = supplierQuery.getBusinessNature();
+    	String orgIdCond = supplierQuery.getOrgId();
+    	// 查询条件结束
+    	
    		request.setAttribute("supplierStatus", supplierStatus);
    		
    		//勾选的供应商类型
@@ -1905,8 +1953,9 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("suppliers", supplier);
         request.setAttribute("judge", judge);
         request.setAttribute("sign", sign);
-        request.setAttribute("provinceName", supplierQuery.getAddress());
-        request.setAttribute("businessNature", supplierQuery.getBusinessNature());
+        request.setAttribute("provinceName", addressCond);
+        request.setAttribute("businessNature", businessNatureCond);
+        request.setAttribute("orgId", orgIdCond);
         request.setAttribute("reqType", reqType);
    		return "ses/sms/supplier_query/supplierInfo/supplierType";
    	}
