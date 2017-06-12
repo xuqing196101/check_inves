@@ -714,7 +714,7 @@ public class OBProductController {
                         OBProduct obProduct1 = list.get(0);
                         for (int j = 0; j < list.size(); j++) {
                             OBProduct obProduct2 = list.get(j);
-                            if(obProduct1.getSmallPointsId().equals(obProduct2.getSmallPointsId()) && (! obProduct1.getProcurementId().equals(obProduct2.getProcurementId()))){
+                            if(obProduct1.getSmallPointsId() != null && obProduct2.getSmallPointsId()!= null && obProduct1.getSmallPointsId().equals(obProduct2.getSmallPointsId()) && (! obProduct1.getProcurementId().equals(obProduct2.getProcurementId()))){
                                 errMsg = "C列错误，采购机构与目录唯一对应！";
                                 return JSON.toJSONString(errMsg);
                             }        

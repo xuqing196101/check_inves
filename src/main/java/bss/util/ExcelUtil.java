@@ -1313,7 +1313,7 @@ public class ExcelUtil {
     					obp.setQualityTechnicalStandard(qualityTechnicalStandard);;
     				}
         		}
-        		if(bool==false)break;
+        		if(bool==false){break;}
         		list.add(obp);
         	}
         }

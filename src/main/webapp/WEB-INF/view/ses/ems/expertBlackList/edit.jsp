@@ -58,7 +58,7 @@
           <div class="input-append input_group col-sm-12 col-xs-12 p0">
             <input class="input_group" name="relName" type="text"
               id="expert_name" readonly="readonly" required="required"
-              value="${relName }"> <input name="expertId"
+              value="${relName }"> <input name="expertId" id = "expert_id"
               value="${expert.expertId }" type="hidden" /> <span
               class="add-on cur_point cur_point">i</span>
             <div class="cue">${err_relName }</div>
