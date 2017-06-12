@@ -44,25 +44,25 @@
                 <!-- 已执行 -->
                 <c:if test="${fd.status == 1}">
                   <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active "</c:if>>
-                <a class="executed son-menu">${fd.name }</a>
+                <a class="executed son-menu" id='${fd.id}_exe'>${fd.name }</a>
                 </li>
                 </c:if>
                 <!-- 执行中 -->
                 <c:if test="${fd.status == 2}">
                   <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active "</c:if>>
-                <a class="son-menu">${fd.name }</a>
+                <a class="son-menu" id='${fd.id}_exe'>${fd.name }</a>
                 </li>
                 </c:if>
                 <!-- 环节结束，不可在操作 -->
                 <c:if test="${fd.status == 3}">
                   <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
-                <a class="executed son-menu ">${fd.name }</a>
+                <a class="executed son-menu " id='${fd.id}_exe'>${fd.name }</a>
                 </li>
                 </c:if>
                 <!-- 未执行 -->
                 <c:if test="${fd.status == 0}">
                   <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
-                <a class="son-menu">${fd.name }</a>
+                <a class="son-menu" id='${fd.id}_exe'>${fd.name }</a>
                 </li>
                 </c:if>
               </c:forEach>
