@@ -25,13 +25,12 @@
 						if(!first) { //一定要加此判断，否则初始时会无限刷新
 							$("#page").val(e.curr);
 							$("#form1").submit();
-							/* location.href = '${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.do?page=' + e.curr + "&judge=5" + "&address="  + encodeURI(encodeURI('${address}')); */
 						}
 					}
 				});
 			});
 
-			function fanhui() {
+			function back() {
 				window.location.href = "${pageContext.request.contextPath}/resAnalyze/analyzeSuppliers.html?judge=5";
 			}
 
@@ -51,22 +50,11 @@
 				$("#address option:selected").removeAttr("selected");
 				$("#businessNature option:selected").removeAttr("selected");
 				
-				/* var address = '${address}';
-				address = encodeURI(address);
-				address = encodeURI(address);
-				window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + address + "&judge=5"; */
 				$("#form1").submit();
 			}
 			
 			//回显下拉框
 			$(function() {
-				/* var optionNodes = $("option");
-				for(var i = 1; i < optionNodes.length; i++) {
-					if("${supplier.score}" == $(optionNodes[i]).val()) {
-						optionNodes[i].selected = true;
-					}
-				} */
-				
 				var optionStatus = $("#status").find("option");
 				for(var i = 1; i < optionStatus.length; i++) {
 					if("${supplier.status}" == $(optionStatus[i]).val()) {
@@ -341,13 +329,13 @@
 				<h2>供应商信息</h2>
 			</div>
 			<h2 class="search_detail">
-  			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html" method="post">
+  			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/readOnlyList.html" method="post">
 		    	<input type="hidden" name="page" id="page">
 		      <input type="hidden" name="judge" value="5">
-		      <input type="hidden" name="orgName" value="${ supplier.orgName }">
+		      <input type="hidden" name="orgId" value="${ supplier.orgId }">
 		      <input type="hidden" name="reqType" value="${ reqType }">
 		      <c:if test="${sign != 2 }">
-		      	<input type="hidden" name="address" value="${address }">
+		      	<input type="hidden" name="address" value="${ supplierAnalyzeVo.address }">
 		      </c:if>
 		      <input type="hidden" name="sign" value="${sign }">
 		      <ul class="demand_list">
@@ -377,23 +365,6 @@
               <label class="fl">供应商类型：</label><span><input id="supplierType" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" class="w220"/>
               <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
             </li>
-            <%-- <li>
-              <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" class="w220"/>
-              <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
-            </li> --%>
-            <!-- <li>
-	            <label class="fl">供应商级别:</label>
-	            <span>
-	            <select name="score" class="w220">
-	              <option  selected="selected" value=''>-请选择-</option>
-	              <option  value="1">一级</option>
-	              <option  value="2">二级</option>
-	              <option  value="3">三级</option>
-	              <option  value="4">四级</option>
-	              <option  value="5">五级</option>
-	            </select>
-	            </span>
-		         </li> -->
 		         <li>
 							<label class="fl">供应商状态：</label>
 							<select id="status" name="status" class="w220">
@@ -407,14 +378,6 @@
 								<option value="9">考察不合格</option>
 							</select>
 						 </li>
-             <%-- <li>
-            	<label class="fl">临时供应商：</label>
-	            <select name="isProvisional" id="isProvisional" class="w220">
-	              <option value=''>全部</option>
-	              <option value='1' <c:if test="${supplier.isProvisional eq '1' }">selected</c:if>>是</option>
-	              <option value='0' <c:if test="${supplier.isProvisional eq '0' }">selected</c:if>>否</option>
-	            </select>
-	         	 </li> --%>
          		 <li>
 	          	<label class="fl">审核日期：</label><span><input id="startAuditDate" name="startAuditDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startAuditDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('startAuditDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'startAuditDate\')}'})"/>
 	            <span class="f14">至</span>
@@ -436,13 +399,12 @@
 		       <div class="col-md-12 clear tc mt10">
 	           <button type="button" onclick="submit()" class="btn">查询</button>
 	           <button type="button" class="btn" onclick="chongzhi()">重置</button>
-	           <a class="btn btn-windows reset" onclick="fanhui()">返回</a>
            </div>
            <div class="clear"></div>
 		     </form>
 		   </h2>
-
 			<div class="content table_box">
+				<button class="btn btn-windows back" onclick="back()" type="button">返回</button>
 				<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>
@@ -464,7 +426,7 @@
 							<tr>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
-									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?reqType=${ reqType }&judge=5&supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
+									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?reqType=analyze&address=${ supplierAnalyzeVo.address }&businessNature=${ supplierAnalyzeVo.businessNature }&orgId=${ supplierAnalyzeVo.orgId }&judge=5&supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
 								</td>
 								<%-- <td class="">${list.loginName }</td> --%>
 								<td class="">${list.contactName }</td>

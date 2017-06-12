@@ -1282,7 +1282,7 @@
 	      AND AUDIT_DATE &lt;= #{endAuditDate}
 	    </if>
 	    <if test="contactName != null and contactName != ''">
-	      AND CONTACT_NAME like CONCAT(CONCAT('%', #{contactName}), '%')
+	      AND T2.CONTACT_NAME like CONCAT(CONCAT('%', #{contactName}), '%')
 	    </if>
 	    <if test="businessType != null and businessType != ''">
 	      AND BUSINESS_TYPE =#{businessType}
@@ -1292,6 +1292,9 @@
 	    </if>
 	    <if test="orgName != null and orgName != ''">
 	      AND ORG.SHORT_NAME = #{orgName}
+	    </if>
+	    <if test="orgId != null and orgId != ''">
+	      AND ORG.ID = #{orgId}
 	    </if>
 	    <if test="status != null">
 	      <if test="status == 5">
@@ -1845,7 +1848,7 @@
 	</select>
 	
 	<!-- 根据企业类型不同统计入库供应商数量 -->
-	<select id="getSupplierCountByNature" resultType="java.lang.Long" parameterType="java.lang.String">
+	<select id="getSupplierCountByNature" resultType="java.math.BigDecimal" parameterType="java.lang.String">
        SELECT COUNT(ID)
   			FROM T_SES_SMS_SUPPLIER
  				WHERE BUSINESS_NATURE = #{business_nature}

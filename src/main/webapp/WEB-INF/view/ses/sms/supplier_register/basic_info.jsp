@@ -2366,7 +2366,8 @@
 			$("input[type='text'],select,textarea").each(function(){
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
-				if($(this).css("border") == '1px solid rgb(255, 0, 0)' || $(this).parents("td").css("border") == '1px solid rgb(255, 0, 0)'){
+				//alert($(this).css("border"));
+				if($(this).css("border-color") == 'rgb(255, 0, 0)' || $(this).parents("td").css("border-color") == 'rgb(255, 0, 0)'){
 					$(this).attr('disabled',false);
 				}
 			});

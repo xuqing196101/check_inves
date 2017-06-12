@@ -1124,7 +1124,7 @@
    <!-- 资源管理查询采购需求 -->
    <select id="selectByAll" parameterType="java.util.Map" resultMap="PurchaseRequired_Map">
     select
-    r.ID,r.PLAN_NAME,r.PLAN_NO,r.PLAN_TYPE,r.BUDGET,r.CREATED_AT,r.UNIQUE_ID,r.STATUS,r.REFERENCE_NO
+    r.ID,r.PLAN_NAME,r.PLAN_NO,r.PLAN_TYPE,r.BUDGET,r.CREATED_AT,r.UNIQUE_ID,r.STATUS,r.REFERENCE_NO,sm.MANAGEMENT_ID AS code
     from T_BSS_PMS_PURCHASE_REQUIRED r LEFT JOIN T_BSS_PMS_PURCHASE_MANAGEMENT sm ON SM.PURCHASE_ID = r.UNIQUE_ID
     <where>
       r.HISTORY_STATUS='0'  and r.IS_DELETE=0

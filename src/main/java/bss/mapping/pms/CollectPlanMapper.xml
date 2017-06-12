@@ -472,7 +472,7 @@
       FROM
         T_BSS_PMS_COLLECT_PLAN
       WHERE
-        1=1
+        STATUS = 2
       <if test="createdAt != null">
         AND to_char(CREATED_AT,'yyyy') = to_char(#{createdAt},'yyyy')
       </if>
@@ -526,4 +526,94 @@
 			WHERE
 			  ROWNUM &lt;= 10
    </select>
+   
+   
+   <!-- 资源展示管理部门获取采购计划 -->
+   <select id="selectManagePlan" parameterType="java.util.Map" resultMap="CollectPlan_Map" >
+		  select 
+		    p.FILE_NAME,p.BUDGET,p.CREATED_AT,p.STATUS,p.ID,o.SHORT_NAME AS taskId
+      FROM
+        T_SES_OMS_ORG o LEFT JOIN (SELECT ORG_ID, ID FROM T_SES_BMS_USER) U
+      ON o. ID = U.ORG_ID
+        LEFT JOIN T_BSS_PMS_COLLECT_PLAN P
+      ON U . ID = P.USER_ID
+		    <where>
+		       p.STATUS = 2 AND o.IS_DELETED = 0
+		     <if test="fileName != null">
+		       and  p.FILE_NAME like CONCAT(CONCAT('%', #{fileName}), '%') 
+		      </if>
+		      <if test="orgId !=null ">
+             and o.ID=#{orgId}
+          </if>
+		    </where>
+		   order by p.CREATED_AT desc
+  </select>
+  
+  <!-- 资源展示下达时间获取采购计划 -->
+  <select id="selectDatePlan" parameterType="java.util.Map" resultMap="CollectPlan_Map" >
+      SELECT
+			  *
+			FROM
+			  (
+			    SELECT
+			      c.FILE_NAME,
+			      c. ID,
+			      c.BUDGET,
+			      c.STATUS,
+			      T .GIVE_TIME createdAt,
+			      T .COLLECT_ID
+			    FROM
+			      T_BSS_PMS_COLLECT_PLAN c
+			    LEFT JOIN T_BSS_PPMS_TASK T ON c."ID" = T .COLLECT_ID
+			    WHERE
+			     T .TASK_NATURE = 0
+          AND T .IS_DELETED = 0
+          AND c.STATUS = 2
+			     <if test="date != null">
+            and to_char(T.GIVE_TIME,'yyyy') = #{date}
+           </if>
+           <if test="fileName != null">
+            and  c.FILE_NAME like CONCAT(CONCAT('%', #{fileName}), '%') 
+           </if>
+			  ) T
+			GROUP BY
+			  T .FILE_NAME,
+			  T .createdAt,
+			  T .COLLECT_ID,
+			  t.STATUS,
+			  T . ID,
+			  T .BUDGET
+			ORDER BY
+			  T .createdAt DESC
+  </select>
+  
+  
+  <select id="selectOrgPlan" parameterType="java.util.Map" resultMap="CollectPlan_Map" >
+      SELECT
+			  o.SHORT_NAME as taskId,
+			  c .id,
+			  c.FILE_NAME,
+			  NVL (SUM(D .BUDGET), 0) AS BUDGET,
+			  c.CREATED_AT,c.STATUS
+			FROM
+			  T_BSS_PMS_PURCHASE_DETAIL D
+			LEFT JOIN T_SES_OMS_ORG o ON o. ID = D .ORGANIZATION_ID
+			LEFT JOIN T_BSS_PMS_COLLECT_PLAN c ON c. ID = D .UNIQUE_ID
+			WHERE
+			  o. ID = #{orgnizationId}
+			<if test="fileName != null">
+        and  c.FILE_NAME like CONCAT(CONCAT('%', #{fileName}), '%') 
+      </if>
+			AND c.STATUS = 2
+			AND D .PRICE IS NOT NULL
+			AND D .HISTORY_STATUS = '0'
+			AND o.IS_DELETED = 0
+			GROUP BY
+			  o.SHORT_NAME,
+			  c .id,c.CREATED_AT,
+			  c.FILE_NAME,c.STATUS
+			ORDER BY
+			  BUDGET DESC
+  </select>
+  
 </mapper>

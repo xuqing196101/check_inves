@@ -1938,7 +1938,7 @@
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
 																 <div class="w200">
 																 	<input <c:if test="${!fn:contains(engPageField,certEng.id)&&currSupplier.status==2}"> readonly='readonly' </c:if>
-																type="text" required="required" class="border0" maxlength="30"
+																type="text" required="required" class="border0"
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith"
 																value="${certEng.licenceAuthorith}" />
 															     </div>

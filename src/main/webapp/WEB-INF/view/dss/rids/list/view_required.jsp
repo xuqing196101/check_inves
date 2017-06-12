@@ -117,8 +117,14 @@
           <thead>
             <tr>
               <th class="info w50">序号</th>
-              <th class="info" width="40%">需求名称</th>
+              <th class="info" width="30%">需求名称</th>
               <th class="info" width="18%">采购需求文号</th>
+              <c:if test="${orgId ne null}">
+              <th class="info" width="10%">采购管理部门</th>
+              </c:if>
+              <c:if test="${purchaseRequired.planType ne null}">
+              <th class="info" width="5%">类型</th>
+              </c:if>
               <th class="info" width="10%">金额（万元）</th>
               <th class="info" width="15%">编制时间</th>
               <th class="info">状态</th>
@@ -133,6 +139,18 @@
               <td class="tl" onclick="view('${obj.uniqueId }')">
                 ${obj.referenceNo }
               </td>
+              <c:if test="${orgId ne null}">
+	              <td class="tl" onclick="view('${obj.uniqueId }')">
+	                ${shortName}
+	              </td>
+              </c:if>
+              <c:if test="${purchaseRequired.planType ne null}">
+                <td class="tc" onclick="view('${obj.uniqueId }')">
+                  <c:forEach items="${data}" var="aa">
+                    <c:if test="${aa.id eq obj.planType}">${aa.name}</c:if>
+                  </c:forEach>
+                </td>
+              </c:if>
               <td class="tr">
                 <div onclick="view('${obj.uniqueId }')">
                   <fmt:formatNumber type="number" pattern="#,##0.00" value="${obj.budget}" />

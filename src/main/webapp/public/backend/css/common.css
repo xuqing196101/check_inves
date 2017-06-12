@@ -57,6 +57,12 @@
 .w120 {
   width: 120px; }
 
+.w125 {
+  width: 125px; }
+
+.w130 {
+  width: 130px; }
+  
 .w140 {
   width: 140px; }
 
@@ -1026,4 +1032,7 @@ a.redhover:hover{
 	min-width: 310px;
 	margin: 0 auto;
 	width: 800px;"
+}
+.div-center{
+text-align:center;
 }

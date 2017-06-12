@@ -9,6 +9,8 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
+		<%@ include file="/WEB-INF/view/ses/sms/supplier_query/supplierInfo/common.jsp"%>
+		<script type="text/javascript" src="${ pageContext.request.contextPath }/js/ses/ems/expertQuery/common.js"></script>
 		<script type="text/javascript">
 			//文件下載
 			/*  function downloadFile(fileName) {
@@ -30,62 +32,6 @@
 					$(this).attr("readonly", "readonly");
 				});
 			});
-		</script>
-
-		<script type="text/javascript">
-			function tijiao(str) {
-				var action;
-				if(str == "essential") {
-					action = "${pageContext.request.contextPath}/supplierQuery/essential.html";
-				}
-				if(str == "financial") {
-					action = "${pageContext.request.contextPath}/supplierQuery/financial.html";
-				}
-				if(str == "shareholder") {
-					action = "${pageContext.request.contextPath}/supplierQuery/shareholder.html";
-				}
-				if(str == "chengxin") {
-					action = "${pageContext.request.contextPath}/supplierQuery/list.html";
-				}
-				if(str == "item") {
-					action = "${pageContext.request.contextPath}/supplierQuery/item.html";
-				}
-				if(str == "product") {
-					action = "${pageContext.request.contextPath}/supplierQuery/product.html";
-				}
-				if(str == "updateHistory") {
-					action = "${pageContext.request.contextPath}/supplierQuery/showUpdateHistory.html";
-				}
-				if(str == "zizhi") {
-					action = "${pageContext.request.contextPath}/supplierQuery/aptitude.html";
-				}
-				if(str == "contract") {
-					action = "${pageContext.request.contextPath}/supplierQuery/contract.html";
-				}
-				if(str == "supplierType") {
-					action = "${pageContext.request.contextPath}/supplierQuery/supplierType.html";
-				}
-				$("#form_id").attr("action", action);
-				$("#form_id").submit();
-			}
-			
-			/* function fanhui() {
-				if('${judge}' == 2) {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
-				} else {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&judge=${judge}";
-				}
-			} */
-			
-			function fanhui() {
-				if('${judge}' == 2) {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
-				} else {
-					var action = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html";
-					$("#form_back").attr("action", action);
-					$("#form_back").submit();
-				};
-			};
 		</script>
 	</head>
 
@@ -515,7 +461,7 @@
 		<form id="form_back" action="" method="post">
 			<input name="judge" value="${judge}" type="hidden">
 			<c:if test="${sign!=1 and sign!=2 }">
-				<input name="address" value="${suppliers.address}" type="hidden">
+				<input name="address" id="address" value="${suppliers.address}" type="hidden">
 			</c:if>
 			<input name="sign" value="${sign}" type="hidden">
 		</form>

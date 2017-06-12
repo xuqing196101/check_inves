@@ -1063,8 +1063,8 @@
 	</select>
 	
 	<!-- 查询不同组织机构下的供应商 -->
-	<select id="selectSupByOrg" resultMap="baseAnalyze">
-			SELECT O.SHORT_NAME AS COL_NAME, COUNT(S.ID) AS COL_VALUE
+	<select id="selectSupByOrg" resultMap="baseAnalyzeBigDecimal">
+			SELECT O.SHORT_NAME AS COL_NAME, COUNT(S.ID) AS COL_VALUE, O.ID AS COL_ID
 		  FROM T_SES_OMS_ORG O
 		  LEFT JOIN T_SES_OMS_PURCHASE_DEP PD
 		    ON PD.ORG_ID = O.ID
@@ -1079,7 +1079,7 @@
 		 WHERE O.TYPE_NAME = 1
 		   AND O.IS_DELETED = 0
 		   AND PD.IS_DELETED = 0
-		 GROUP BY O.SHORT_NAME
+		 GROUP BY O.SHORT_NAME, O.ID
 	</select>
 	
 	<!-- 查询不同组织机构下的专家 -->

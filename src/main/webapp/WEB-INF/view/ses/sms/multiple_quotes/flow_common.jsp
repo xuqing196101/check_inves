@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <div class="container clear mt20 div-center">
-      <div class="list-unstyled padding-10 breadcrumbs-v3">
+      <div class="list-unstyled padding-10 breadcrumbs-v3 div-center">
       <c:if test="${ not empty saleTenderList}">
         <span>
           <c:if test="${saleTenderList.get(0).bidFinish > 0}">
@@ -26,7 +26,7 @@
           <span class="">→</span>
           </c:if>
       </span>
-      <span>
+     <%--  <span>
           <c:if test="${saleTenderList.get(0).bidFinish > 2}">
           <a href="${pageContext.request.contextPath}/mulQuo/priceView.html?projectId=${project.id}" class="img-v1">明细表</a><!--货物材料、部件、工具价格明细表  -->
           <span class="green_link">→</span>
@@ -39,7 +39,7 @@
           <a href="javascript:void(0);" onclick="show('${saleTenderList.get(0).bidFinish}')"  class="img-v3">明细表</a><!--货物材料、部件、工具价格明细表  -->
           <span class="">→</span>
           </c:if>
-      </span>
+      </span> --%>
         <span>
           <c:if test="${saleTenderList.get(0).bidFinish == 3}">
           <a href="javascript:void(0);" class="img-v2 orange_link">编制标书</a>

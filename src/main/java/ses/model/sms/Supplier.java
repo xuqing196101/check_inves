@@ -577,6 +577,7 @@ public class Supplier implements Serializable {
 	private String extractOrgid;//抽取的机构id
 	
 	private String orgName; //机构名称
+	private String orgId; // 机构ID
 	
 	private Integer isDeleted; //0未删除，1已删除
 	
@@ -1958,6 +1959,14 @@ public class Supplier implements Serializable {
 
 	public void setAuditor(String auditor) {
 		this.auditor = auditor;
-	}	
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
 	
 }

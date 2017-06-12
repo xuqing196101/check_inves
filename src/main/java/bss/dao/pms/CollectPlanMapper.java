@@ -1,5 +1,6 @@
 package bss.dao.pms;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -96,4 +97,33 @@ public interface CollectPlanMapper {
      */
     List<AnalyzeBigDecimal> selectPlanBudget();
     
+    /**
+     * 
+     *〈资源展示根据管理部门ID采购计划〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    List<CollectPlan> selectManagePlan(HashMap<String, Object> map);
+    
+    /**
+     * 
+     *〈资源展示根据下达时间采购计划〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    List<CollectPlan> selectDatePlan(HashMap<String, Object> map);
+    
+    /**
+     * 
+     *〈资源展示根据采购机构ID采购计划〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    List<CollectPlan> selectOrgPlan(HashMap<String, Object> map);
 }

@@ -17,13 +17,12 @@ import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierEditService;
-import ses.util.DictionaryDataUtil;
 import bss.formbean.Maps;
 
 import com.alibaba.fastjson.JSON;
-
 import common.annotation.SystemControllerLog;
 import common.annotation.SystemServiceLog;
+
 import dss.service.rids.PurchaseResourceAnalyzeService;
 
 /**
@@ -75,12 +74,7 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-供应商", operType=1)
 	@RequestMapping("/analyzeSuppliers")
 	public String analyzeSupplier(Supplier sup, Model model) {
-		List<Supplier> listSupplier = supplierAuditService
-				.querySupplierbytypeAndCategoryIds(sup, null);
-
-		// 在数据字典里查询企业性质
-		List<DictionaryData> businessNature = DictionaryDataUtil.find(32);
-		model.addAttribute("businessNature", businessNature);
+		List<Supplier> listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, null);
 
 		Map<String, Integer> map = supplierEditService.getMap();
 		Integer maxCount = 0;
@@ -132,7 +126,7 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-供应商", operType=1)
 	@RequestMapping("/analyzeSupplierCateType")
 	@ResponseBody
-	public List<Analyze> analyzeSupplierCateType() {
+	public List<AnalyzeBigDecimal> analyzeSupplierCateType() {
 		return purchaseResourceAnalyzeService.findAnalyzeSupplierCateType();
 	}
 	
@@ -148,7 +142,7 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-供应商", operType=1)
 	@RequestMapping("/analyzeSupplierByNature")
 	@ResponseBody
-	public List<Analyze> analyzeSupplierByNature(){
+	public List<AnalyzeBigDecimal> analyzeSupplierByNature(){
 		return purchaseResourceAnalyzeService.findanalyzeSupplierByNature();
 	}
 	
@@ -164,7 +158,7 @@ public class PurchaseResourceAnalyzeController {
 	@SystemServiceLog(description="采购资源展示-供应商", operType=1)
 	@RequestMapping("/selectSupByOrg")
 	@ResponseBody
-	public List<Analyze> selectSupByOrgS(){
+	public List<AnalyzeBigDecimal> selectSupByOrgS(){
 		return purchaseResourceAnalyzeService.selectSupByOrg();
 	}
 	
