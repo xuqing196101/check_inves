@@ -372,4 +372,18 @@ import ses.model.sms.SupplierTypeTree;
 	 * @return
 	 */
 	public boolean importCategory(File file);
+	/**
+	 * 导出目录资质关联表录 根据时间范围
+	 * @param start
+	 * @param end
+	 * @param synchDate
+	 * @return
+	 */
+	public boolean exportCategoryQua(String start ,String end,Date synchDate);
+	/**
+	 * 导入目录资质关联表录数据 
+	 * @param file
+	 * @return
+	 */
+	public boolean importCategoryQua(String synchType,File file);
 }

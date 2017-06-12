@@ -4,15 +4,18 @@
 	
 	<!-- 结果集 -->
 	<resultMap id="categoryQuaMap" type="ses.model.bms.CategoryQua">
-		<id column="ID"  property="id" />
+		<id column="ID"  jdbcType="VARCHAR"  property="id" />
 	    <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
 	    <result column="QUA_ID" jdbcType="VARCHAR"  property="quaId" />
 	    <result column="QUA_TYPE"  jdbcType="NUMERIC"  property="quaType" />
+	    <result column="CREATED_AT"  jdbcType="TIMESTAMP"  property="createdAt" />
+	    <result column="UPDATED_AT"  jdbcType="TIMESTAMP"  property="updatedAt" />
+	    <result column="IS_DELETED"  jdbcType="NUMERIC"  property="isDeleted" />
 	</resultMap>
 	
 	<!-- 查询基础 -->
 	<sql id="BASE_COLUMN_SQL">
-		    ID, CATEGORY_ID, QUA_ID, QUA_TYPE 	    
+		    ID, CATEGORY_ID, QUA_ID, QUA_TYPE,CREATED_AT,UPDATED_AT,IS_DELETED  
     </sql>
     
     <!-- 查询 -->
@@ -20,7 +23,7 @@
       SELECT 
       <include refid="BASE_COLUMN_SQL" />
       FROM T_SES_BMS_CATEGORY_QUA
-      WHERE CATEGORY_ID = #{categoryId}
+      WHERE CATEGORY_ID = #{categoryId} AND IS_DELETED=0
     </select>
     
     <!-- 查询 -->
@@ -29,7 +32,7 @@
       <include refid="BASE_COLUMN_SQL" />
       FROM T_SES_BMS_CATEGORY_QUA
       WHERE CATEGORY_ID = #{param1}
-      AND QUA_TYPE = #{param2}
+      AND QUA_TYPE = #{param2} AND IS_DELETED=0
     </select>
 	
 	<!-- 保存 -->
@@ -38,14 +41,117 @@
         	select sys_guid() from dual
     	</selectKey>
 		INSERT INTO T_SES_BMS_CATEGORY_QUA 
-		  (ID, CATEGORY_ID,QUA_ID ,QUA_TYPE ) values 
+		  (ID, CATEGORY_ID,QUA_ID ,QUA_TYPE,CREATED_AT,UPDATED_AT,IS_DELETED ) values 
 		  (#{id}, #{categoryId,jdbcType=VARCHAR},#{quaId,jdbcType=VARCHAR}, 
-		   #{quaType,jdbcType=NUMERIC})
+		   #{quaType,jdbcType=NUMERIC},#{createdAt,jdbcType=TIMESTAMP},
+		   #{updatedAt,jdbcType=TIMESTAMP},#{isDeleted,jdbcType=NUMERIC}  )
 	</insert>
 	
-	<!-- 删除 -->
-	<delete id="delQuaByCategoryId">
-	  DELETE  FROM T_SES_BMS_CATEGORY_QUA
-	  WHERE CATEGORY_ID = #{categoryId}
-	</delete>	
+    <!-- 根系 删除状态  -->
+	<update id="updateQuaByCategoryId" parameterType="Map">
+	UPDATE T_SES_BMS_CATEGORY_QUA SET IS_DELETED=1,UPDATED_AT=#{updateDate} 
+	WHERE CATEGORY_ID = #{categoryId,jdbcType=VARCHAR}
+	</update>
+	
+	<insert id="insertSelective" parameterType="ses.model.bms.CategoryQua">
+        insert into T_SES_BMS_CATEGORY_QUA
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="categoryId != null">
+                CATEGORY_ID,
+            </if>
+            <if test="quaId != null">
+                QUA_ID,
+            </if>
+            <if test="quaType != null">
+                QUA_TYPE,
+            </if>
+             <if test="createdAt != null">
+                CREATED_AT,
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT,
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId},
+            </if>
+            <if test="quaId != null">
+                #{quaId},
+            </if>
+            <if test="quaType != null">
+                #{quaType},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted},
+            </if>
+           
+        </trim>
+    </insert>
+
+<!-- 根据id查询 -->
+    <select id="countByPrimaryKey" parameterType="String"
+        resultType="java.lang.Integer">
+        select count(*)  
+        from T_SES_BMS_CATEGORY_QUA
+        where ID = #{id}
+    </select>
+
+    <!-- 根据id修改 -->
+    <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.CategoryQua">
+        update T_SES_BMS_CATEGORY_QUA
+        <set>
+            <if test="categoryId != null">
+                CATEGORY_ID =#{categoryId},
+            </if>
+            <if test="quaId != null">
+                QUA_ID =#{quaId},
+            </if>
+            <if test="quaType != null">
+                QUA_TYPE =#{quaType},
+            </if>
+            <if test="createdAt != null">
+                CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED =#{isDeleted},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+	
+	<!-- 根据更新时间获取 范围数据 -->
+    <select id="selectByUpdatedAt" parameterType="String" resultMap="categoryQuaMap">
+     select 
+     <include refid="BASE_COLUMN_SQL" />
+      from T_SES_BMS_CATEGORY_QUA where 
+    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR}
+    </select>
+    <!-- 根据创建时间获取 范围数据   -->
+    <select id="selectByCreatedAt" parameterType="String" resultMap="categoryQuaMap">
+     select 
+     <include refid="BASE_COLUMN_SQL" />
+     from T_SES_BMS_CATEGORY_QUA where 
+     to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+     and to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR}
+    </select>
 </mapper>
