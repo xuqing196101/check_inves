@@ -470,8 +470,8 @@
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode"  value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
 										     
 										    	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										    	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType"  onchange="getFileByCode(this, '${vs.index}', '3')">
-										        			<option value="${cate.proName}">${cate.proName}</option>
+										    	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType" onchange="getFileByCode(this, '${vs.index}', '3')">
+										        			<option value="${cate.proName}" selected="selected">${cate.proName}</option>
 										        	</select>
 <%-- 										    	<input type="text" class="border0" name="listSupplierItems[${vs.index}].professType" value="${cate.proName}" onblur="getFileByCode(this, '${vs.index}', '3')">
  --%>										    	</td>

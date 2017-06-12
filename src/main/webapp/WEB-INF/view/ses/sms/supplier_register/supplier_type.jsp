@@ -377,7 +377,7 @@
 				success: function(data) {
 					if (data == "1") {
 						// 提交的时候表单域设置成可编辑
-						$("input[type='text'],select,textarea").attr('disabled',false);
+						enableForm();
 						$("#save_pro_form_id").submit();
 						layer.close(index); 
 					} else {
@@ -389,7 +389,7 @@
 											function(index) {
 												$("input[name='old']").val("old");
 												// 提交的时候表单域设置成可编辑
-												$("input[type='text'],select,textarea").attr('disabled',false);
+												enableForm();
 												$("#save_pro_form_id").submit();
 												/* $.ajax({
 													url: "${pageContext.request.contextPath}/supplier/deleteOld.do",
@@ -555,7 +555,7 @@
 	function savePro(jsp) {
 		$("input[name='jsp']").val(jsp);
 		// 提交的时候表单域设置成可编辑
-		$("input[type='text'],select,textarea").attr('disabled',false);
+		enableForm();
 		$("#save_pro_form_id").submit();
 	}
 
@@ -1537,7 +1537,7 @@
 																		typeId="${supplierDictionaryData.supplierProCert}"
 																		sysKey="${sysKey}" auto="true" /> </c:if> 
 																	<c:if test="${!fn:contains(proPageField,certPro.id)&&currSupplier.status==2}"> 	<u:show showId="pro_show_${certProNumber}"  delete="false" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
-																	<c:if test="${currSupplier.status==-1 ||fn:contains(proPageField,certPro.id)}"> <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
+																	<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) ||fn:contains(proPageField,certPro.id)}"> <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
 																	
 																	</div>
 																</td>
@@ -1670,7 +1670,7 @@
 																		typeId="${supplierDictionaryData.supplierSellCert}"
 																		sysKey="${sysKey}" auto="true" /></c:if>
 																<c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}"> 	<u:show showId="sale_show_${certSaleNumber}" delete="false"    businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" /> </c:if>
-																<c:if test="${currSupplier.status==-1 ||fn:contains(sellPageField,certSell.id)}"> 	<u:show showId="sale_show_${certSaleNumber}"     businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" /> </c:if>
+																<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(sellPageField,certSell.id)}"> <u:show showId="sale_show_${certSaleNumber}"     businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" /> </c:if>
 																
 																</div></td>
 														</tr>
@@ -2112,7 +2112,8 @@
 																		};
 																		if(currSupplierSt == '2'){
 																			options.disabled = true;
-																			if($(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'){
+																			//$(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'
+																			if($(this).parent("td").css("border-color") == 'rgb(255, 0, 0)'){
 																				options.disabled = false;
 																			}
 																		}
@@ -2128,7 +2129,8 @@
 																		};
 																		if(currSupplierSt == '2'){
 																			options.disabled = true;
-																			if($(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'){
+																			//$(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'
+																			if($(this).parent("td").css("border-color") == 'rgb(255, 0, 0)'){
 																				options.disabled = false;
 																			}
 																		}
@@ -2163,7 +2165,7 @@
 																	<c:if test="${!fn:contains(engPageField,aptitute.id)&&currSupplier.status==2 }">
 																		<u:show showId="eng_show_${certAptNumber}" delete="false" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
 																	</c:if>
-																	<c:if test="${currSupplier.status==-1 ||fn:contains(engPageField,aptitute.id)}">
+																	<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,aptitute.id)}">
 																		<u:show showId="eng_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
 																	</c:if>
 																</div></td>
@@ -2299,8 +2301,8 @@
 																	businessId="${certSe.id}"
 																	typeId="${supplierDictionaryData.supplierServeCert}"
 																	sysKey="${sysKey}" auto="true" /></c:if> 
-																	<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2 }">	  <u:show showId="se_show_${certSeNumber}" delete="false"  businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" /> </c:if>
-																	<c:if test="${currSupplier.status==-1 ||fn:contains(servePageField,certSe.id)}">	 <u:show showId="se_show_${certSeNumber}"   businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" /> </c:if>
+																	<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2 }">	 <u:show showId="se_show_${certSeNumber}" delete="false"  businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" /> </c:if>
+																	<c:if test="${currSupplier.status==-1  || empty(currSupplier.status)||fn:contains(servePageField,certSe.id)}">	 <u:show showId="se_show_${certSeNumber}"   businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" /> </c:if>
 																
 																</div>
 															</td>
@@ -2365,6 +2367,8 @@
     });
 </script>
 <script type="text/javascript">
+	controlForm();
+	function controlForm(){
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
 		var currSupplierSt = '${currSupplier.status}';
 		//console.log(currSupplierSt);
@@ -2394,4 +2398,13 @@
 				}
 			});
 		}
+	}
+	
+	// 表单可编辑
+	function enableForm(){
+		var currSupplierSt = '${currSupplier.status}';
+		if(currSupplierSt == '2'){
+			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
+		}
+	}
 </script>

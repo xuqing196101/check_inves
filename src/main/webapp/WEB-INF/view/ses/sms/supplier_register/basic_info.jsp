@@ -2390,6 +2390,10 @@
 			/* $("select").change(function(){
 				this.selectedIndex=this.defaultIndex;
 			}); */
+			// 营业期限复选框
+			if('${audit}'.indexOf('businessStartDate') < 0){
+				$("input[type='checkbox'][name='branchName']").attr('disabled',true);
+			}
 		}
 	}
 	
