@@ -1429,8 +1429,15 @@
 										<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 											<span class="font_line"><font class="red">*</font> 资质证书信息 </span>
 											<div class="col-md-12 col-sm-12 col-xs-12 mb10 p0">
-												<button type="button" class="btn btn-windows add"
-													onclick="openCertPro()">新增</button>
+												<c:choose>
+                         	<c:when test="${currSupplier.status==2 }">
+                           	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                           </c:when>
+                           <c:otherwise>
+                             <button type="button" class="btn btn-windows add"
+															 onclick="openCertPro()">新增</button>
+                           </c:otherwise>
+                         </c:choose>
 												<button type="button" class="btn btn-windows delete"
 													onclick="deleteCertPro()">删除</button>
 												<span class="red">${cert_pro }</span>
@@ -1558,7 +1565,14 @@
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line"> 资质证书信息 </span>
 										<div class="col-md-12 col-sm-12 col-xs-12 p0">
-											<button type="button" class="btn" onclick="openCertSell()">新增</button>
+											<c:choose>
+                       	<c:when test="${currSupplier.status==2 }">
+                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                         </c:when>
+                         <c:otherwise>
+                           <button type="button" class="btn" onclick="openCertSell()">新增</button>
+                         </c:otherwise>
+                       </c:choose>
 											<button type="button" class="btn" onclick="deleteCertSell()">删除</button>
 											<span class="red">${sale_cert }</span>
 										</div>
@@ -1598,7 +1612,7 @@
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																 <div class="w200 fl">
 																    <input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name"
-																<c:if test="${fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  value="${certSell.name}" class="border0" />
+																<c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  value="${certSell.name}" class="border0" />
 															     </div>
 															</td> 
 															<td class="tc"
@@ -1787,7 +1801,14 @@
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line">取得注册资质的人员信息 </span>
 										<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
-											<button type="button" class="btn" onclick="openRegPerson()">新增</button>
+											<c:choose>
+                       	<c:when test="${currSupplier.status==2 }">
+                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                         </c:when>
+                         <c:otherwise>
+                           <button type="button" class="btn" onclick="openRegPerson()">新增</button>
+                         </c:otherwise>
+                       </c:choose>
 											<button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
 											<span class="red">${eng_persons }</span>
 										</div>
@@ -1845,7 +1866,14 @@
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line"><font class="red">*</font> 供应商资质（认证）证书信息</span>
 										<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
-											<button type="button" class="btn" onclick="openCertEng()">新增</button>
+											<c:choose>
+                       	<c:when test="${currSupplier.status==2 }">
+                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                         </c:when>
+                         <c:otherwise>
+                           <button type="button" class="btn" onclick="openCertEng()">新增</button>
+                         </c:otherwise>
+                       </c:choose>
 											<button type="button" class="btn" onclick="deleteCertEng()">删除</button>
 											<span class="red">${eng_cert}</span>
 										</div>
@@ -1961,7 +1989,14 @@
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line"><font class="red">*</font> 供应商资质证书详细信息 </span>
 										<div class="col-md-12 col-md-12 col-xs-12 col-sm-12 p0">
-											<button type="button" class="btn" onclick="openAptitute()">新增</button>
+											<c:choose>
+                       	<c:when test="${currSupplier.status==2 }">
+                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                         </c:when>
+                         <c:otherwise>
+                           <button type="button" class="btn" onclick="openAptitute()">新增</button>
+                         </c:otherwise>
+                       </c:choose>
 											<button type="button" class="btn" onclick="deleteAptitute()">删除</button>
 											<span class="red">${eng_aptitutes }</span>
 										</div>
@@ -2158,7 +2193,14 @@
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line"> 资质证书信息 </span>
 										<div class="col-md-12 col-xs-12 col-sm-12 p0">
-											<button type="button" class="btn" onclick="openCertSe()">新增</button>
+											<c:choose>
+                       	<c:when test="${currSupplier.status==2 }">
+                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                         </c:when>
+                         <c:otherwise>
+                           <button type="button" class="btn" onclick="openCertSe()">新增</button>
+                         </c:otherwise>
+                       </c:choose>
 											<button type="button" class="btn" onclick="deleteCertSe()">删除</button>
 											<span class="red">${fw_cert }</span>
 										</div>
@@ -2324,7 +2366,8 @@
 </script>
 <script type="text/javascript">
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
-		var currSupplierSt = '${currSupplier.status}';alert(currSupplierSt);
+		var currSupplierSt = '${currSupplier.status}';
+		//console.log(currSupplierSt);
 		if(currSupplierSt == '2'){
 			$("input[type='text'],select,textarea").attr('disabled',true);
 			$("input[type='text'],select,textarea").each(function(){
