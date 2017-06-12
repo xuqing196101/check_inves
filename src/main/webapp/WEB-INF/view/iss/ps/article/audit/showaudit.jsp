@@ -347,7 +347,11 @@
 	    var startDate = null;
 	    var endDate = null;
 	  	var secondArticleTypeId = "${secondArticleTypeId}";
-	  	 window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name+"&secondArticleTypeId="+secondArticleTypeId;
+	  	if('${reqType}' != ''){
+		  	window.location.href = "${ pageContext.request.contextPath }/article/readOnlyList.html?publishYear=${ articleAnalyzeVo.publishYear }&threeArticleTypeId=${articleAnalyzeVo.threeArticleTypeId}&fourArticleTypeId=${articleAnalyzeVo.fourArticleTypeId}&categoryId=${articleAnalyzeVo.categoryId}&page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name+"&secondArticleTypeId="+secondArticleTypeId;
+  	  }else{
+		  	window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name+"&secondArticleTypeId="+secondArticleTypeId;
+  	  }
 	  }
     </script>
   </head>
