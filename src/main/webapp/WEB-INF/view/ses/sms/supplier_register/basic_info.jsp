@@ -243,6 +243,7 @@
                         data: $("#basic_info_form_id").serializeArray(),
                         contextType: "application/x-www-form-urlencoded",
                         success: function(msg) {
+                        	controlForm();
                             if(msg == 'ok') {
                                 layer.msg('暂存成功', {
                                     offset: '300px'
@@ -321,7 +322,8 @@
 					data: $("#basic_info_form_id").serializeArray(),
 					contextType: "application/x-www-form-urlencoded",
 					success: function(msg) {
-                        $("#name_span").val("");//名称校验标识初始化
+						controlForm();
+            $("#name_span").val("");//名称校验标识初始化
 						if(msg=="notPass"){
 							layer.msg('近3年加权平均净资产不足100万元，不满足注册要求！', {
 								offset: '300px'
@@ -1781,7 +1783,8 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 详细地址</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="armyBuinessAddress" required maxlength="50" value="${currSupplier.armyBuinessAddress}"  <c:if test="${!fn:contains(audit,'armyBuinessAddress')&&currSupplier.status==2}">readonly="readonly"</c:if> <c:if test="${fn:contains(audit,'armyBuinessAddress')}">style="border: 1px solid red;" onmouseover="errorMsg('armyBuinessAddress')"</c:if>/>
+										<input type="text" name="armyBuinessAddress" required maxlength="50" value="${currSupplier.armyBuinessAddress}"  <c:if test="${!fn:contains(audit,'armyBuinessAddress')&&currSupplier.status==2}">readonly="readonly"</c:if> 
+											<c:if test="${fn:contains(audit,'armyBuinessAddress')}">style="border: 1px solid red;" onmouseover="errorMsg('armyBuinessAddress')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空</span>
 										<div class="cue"> ${err_armAddress } </div>
@@ -1928,7 +1931,9 @@
 										<li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>详细地址</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input type="text" name="branchList[${vs.index }].detailAddress" required maxlength="50" id="sup_branchAddress" value="${bran.detailAddress}"  <c:if test="${!fn:contains(audit,'detailAddress')&&currSupplier.status==2}">readonly="readonly"</c:if>  <c:if test="${fn:contains(audit,'detailAddress_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('detailAddress_${bran.id }')"</c:if>/>
+												<input type="text" name="branchList[${vs.index }].detailAddress" required maxlength="50" id="sup_branchAddress" value="${bran.detailAddress}"  
+													<c:if test="${!fn:contains(audit,'detailAddress_'.concat(bran.id))&&currSupplier.status==2}">readonly="readonly"</c:if>  
+													<c:if test="${fn:contains(audit,'detailAddress_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('detailAddress_${bran.id }')"</c:if>/>
 												<span class="add-on cur_point">i</span>
 												<span class="input-tip">不能为空</span>
 												<div class="cue">
@@ -2263,7 +2268,7 @@
 </html>
 <script type="text/javascript">
     //对比例进行数据校验
-    $(".proportion_vali").focus(function(){
+    /*$(".proportion_vali").focus(function(){
         $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
     }).blur(function(){
         var oldVal=($(this).attr("data-oval")); //获取原值
@@ -2287,13 +2292,17 @@
                 if(!positiveRegular(_val)){
                     $(this).val("");
                     layer.msg("请输入正确的比例数据格式,保留两位小数", {offset: '300px'});
+                }else if(parseInt(_val)<50){
+                    $(this).val("");
+                    layer.msg("请输入正确的比例数据格式,不小于50", {offset: '300px'});
                 }else if(parseInt(_val)>100){
                     $(this).val("");
                     layer.msg("请输入正确的比例数据格式,不能超过100", {offset: '300px'});
                 };
             }
         }
-    });
+    });*/
+    loadProportion();
     function loadProportion() {
         $(".proportion_vali").focus(function(){
             $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
@@ -2306,7 +2315,10 @@
                     if(parseFloat(_val)>100){
                         $(this).val("");
                         layer.msg("请输入正确的比例数据格式,不能超过100", {offset: '300px'});
-                    }else{
+                    }else if(parseInt(_val)<50){
+		                    $(this).val("");
+		                    layer.msg("请输入正确的比例数据格式,不小于50", {offset: '300px'});
+		                }else{
                         var reg = /\d+\.\d{0,2}?$/;
                         if(!reg.test(_val)) {
                             $(this).val("");
@@ -2319,7 +2331,10 @@
                     if(!positiveRegular(_val)){
                         $(this).val("");
                         layer.msg("请输入正确的比例数据格式,保留两位小数", {offset: '300px'});
-                    }else if(parseInt(_val)>100){
+                    }else if(parseInt(_val)<50){
+		                    $(this).val("");
+		                    layer.msg("请输入正确的比例数据格式,不小于50", {offset: '300px'});
+		                }else if(parseInt(_val)>100){
                         $(this).val("");
                         layer.msg("请输入正确的比例数据格式,不能超过100", {offset: '300px'});
                     };
@@ -2359,6 +2374,7 @@
 	function controlForm(){
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
 		var currSupplierSt = '${currSupplier.status}';
+		//alert(currSupplierSt);
 		if(currSupplierSt == '2'){
 			$("input[type='text'],select,textarea").attr('disabled',true);
 			//enableForm();
