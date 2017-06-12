@@ -131,7 +131,11 @@ session.setAttribute("tokenSession", tokenValue);
 			   <input type="hidden"  name="token2" value="<%=tokenValue%>">
 		       <input type="hidden" id="message" value="${message }"/>
 		       <em>
-		       <div class="col-md-10 col-xs-10 col-sm-10 p0" style="margin-left: 15px;font-size: 18px;font-style:normal">评审专家账号注册：</br><span class="red" style="font-size:16px">(军队单位人员请登录内网进行注册！)</span></div>
+		       <div class="col-md-10 col-xs-10 col-sm-10 p0" style="margin-left: 15px;font-size: 18px;font-style:normal">评审专家账号注册：
+		       <c:if test="${ipAddressType=='1'}">
+		       </br><span class="red" style="font-size:16px">(军队单位人员请登录内网进行注册！)</span>
+		       </c:if>
+		       </div>
 		       </em>
             <ul class="list-unstyled overflow_h mt20 col-md-12 col-sm-12 col-xs-12">
 			 <li class="login_item col-md-12  col-sm-12 col-xs-12 pl10">

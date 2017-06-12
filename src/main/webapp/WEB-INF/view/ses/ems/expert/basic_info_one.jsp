@@ -598,7 +598,8 @@
 				}
 				
 				var teachTitle = $("#teachTitle").val();
-				if(teachTitle == 1){
+				if(teachTitle==0){
+				}else if(teachTitle == 1){
 					var professTechTitles = $("#professTechTitles").val();
 					if(!professTechTitles) {
 						layer.msg("请填写专业技术职称!");
@@ -609,6 +610,8 @@
 						layer.msg("请填写取得技术职称时间!");
 						return false;
 					}
+				}else{
+					teachTitle=1;
 				}
 
 				var hightEducation = $("#hightEducation").val();
