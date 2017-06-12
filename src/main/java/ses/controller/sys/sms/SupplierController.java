@@ -767,7 +767,6 @@ public class SupplierController extends BaseSupplierController {
 			List < DictionaryData > wlist = DictionaryDataUtil.find(8);
 			model.addAttribute("wlist", wlist);
 			//物资生产类型的必须有的证书
-			//supplier.getSupplierMatPro().getListSupplierCertPros().get(0)
 			if(supplier.getSupplierMatPro() == null
 					|| supplier.getSupplierMatPro().getListSupplierCertPros() == null
 					|| supplier.getSupplierMatPro().getListSupplierCertPros().size() == 0) {
@@ -2689,6 +2688,10 @@ public class SupplierController extends BaseSupplierController {
 			errorField.append(audit.getAuditField() + ",");
 		}
 		model.addAttribute("audit", errorField);
+		
+		// 查询供应商get(supplierId)
+		Supplier currSupplier = supplierService.selectById(supplierId);
+		model.addAttribute("currSupplier", currSupplier);
 		
 		return "ses/sms/supplier_register/ajax_contract";
 	}
