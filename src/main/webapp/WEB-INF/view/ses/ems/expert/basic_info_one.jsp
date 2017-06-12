@@ -173,9 +173,14 @@
 			function submitForm2() {
 				updateStepNumber("seven");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+				var fromList=$("#formExpert").serialize()
+				if('${expert.status}'==3){
+					$("input[type='text'],select,textarea").attr('disabled',true);
+				}
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: false,
 					success: function(result) {
@@ -183,14 +188,20 @@
 						window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 					}
 				});
+				
 			}
 			//无提示暂存
 			function submitForm22() {
 				updateStepNumber("two");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+                var fromList=$("#formExpert").serialize()
+                if('${expert.status}'==3){
+                    $("input[type='text'],select,textarea").attr('disabled',true);
+                }
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: true,
 					success: function(result) {
@@ -203,9 +214,14 @@
 			function submitForm3() {
 				updateStepNumber("three");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+                var fromList=$("#formExpert").serialize()
+                if('${expert.status}'==3){
+                    $("input[type='text'],select,textarea").attr('disabled',true);
+                }
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: true,
 					success: function(result) {
@@ -218,9 +234,14 @@
 			function submitForm4() {
 				updateStepNumber("four");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+                var fromList=$("#formExpert").serialize()
+                if('${expert.status}'==3){
+                    $("input[type='text'],select,textarea").attr('disabled',true);
+                }
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: true,
 					success: function(result) {
@@ -233,9 +254,14 @@
 			function submitForm5() {
 				updateStepNumber("five");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+                var fromList=$("#formExpert").serialize()
+                if('${expert.status}'==3){
+                    $("input[type='text'],select,textarea").attr('disabled',true);
+                }
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: true,
 					success: function(result) {
@@ -1671,7 +1697,7 @@
 			$("input[type='text'],select,textarea").each(function(){
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
-				if(this.style.border == '1px solid rgb(239, 0, 0)'){
+				if(this.style.border == '1px solid rgb(239, 0, 0)'||this.style.border == '1px solid red'){
 					$(this).attr('disabled',false);
 				}
 			});
