@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <head>
 
-<base href="<%=basePath%>">
+<base href="${pageContext.request.contextPath}/">
 
 <title>My JSP 'creatWord.jsp' starting page</title>
 

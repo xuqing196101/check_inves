@@ -147,7 +147,7 @@ public class ContractSupervisionController {
     @Autowired
     private ExpertService expertService;
 	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
-    public String list(Model model, @CurrentUser User user,PurchaseContract purCon,Integer page){
+    public String list(Model model, @CurrentUser User user,PurchaseContract purCon,Integer page, String reqType){
 		if(page==null){
             page=1;
         }
@@ -164,6 +164,9 @@ public class ContractSupervisionController {
         }
         if(purCon.getPurchaseDepName()!=null&&!"".equals(purCon.getPurchaseDepName())){
             map.put("purchaseDepName", purCon.getPurchaseDepName());
+        }
+        if(StringUtils.isNotEmpty(purCon.getPurchaseDepShortName())){
+        	map.put("purchaseDepShortName", purCon.getPurchaseDepShortName());
         }
         if(purCon.getDemandSector()!=null&&!"".equals(purCon.getDemandSector())){
             map.put("demandSector", purCon.getDemandSector());
@@ -183,8 +186,7 @@ public class ContractSupervisionController {
         }
         Orgnization orgnization = orgnizationServiceI.findByCategoryId(user.getOrg().getId());
         List<PurchaseContract> draftConList = new ArrayList<PurchaseContract>();
-        if("1".equals(orgnization.getTypeName())){
-            map.put("purchaseDepName", user.getOrg().getId());
+        if(orgnization != null && "1".equals(orgnization.getTypeName())){
             if(purCon.getStatus()!=null){
                 draftConList = purchaseContractService.selectAllContractByStatus(map);
             }else{

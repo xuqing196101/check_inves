@@ -163,21 +163,23 @@ public class ExpertAuditController{
 		//获取登录人的机构id
 		/*User user = (User) request.getSession().getAttribute("loginUser");*/
 		Orgnization org = user.getOrg();
+		
 		//1代表机构
-		if(user !=null && org !=null && "1".equals(org.getTypeName())){
+		if(user !=null && org !=null && (expert.getSign() == 1 || expert.getSign() == 3) && "1".equals(user.getTypeName())){
 			/*String orgId = user.getOrg().getId();*/
 			PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(org.getId());
-			if(dep !=null ){
+			if(dep !=null){
 				expert.setPurchaseDepId(dep.getId());
 				//抽取时的机构
 				expert.setExtractOrgid(dep.getId());
 				//1是采购机构，0不是
-				expert.setIsOrg(1);
 			}else{
 				expert.setIsOrg(0);
 				expert.setPurchaseDepId("");
 				expert.setExtractOrgid("");
 			}
+		}else if(user !=null && expert.getSign() == 2 && "4".equals(user.getTypeName())){
+			expert.setIsOrg(1);
 		}else{
 			expert.setIsOrg(0);
 			expert.setPurchaseDepId("");
@@ -495,7 +497,7 @@ public class ExpertAuditController{
 		} else if("2".equals(type)) {
 			SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
 			Date date = sdf1.parse(value);
-			content.append(new SimpleDateFormat("yyyy-MM").format(date));
+			content.append(new SimpleDateFormat("yyyy-MM-dd").format(date));
 		} else if("3".equals(type)) {
 			// Wed Feb 01 00:00:00 CST 2017         String
 			SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
@@ -657,9 +659,12 @@ public class ExpertAuditController{
 
         // 获取专家类别
         List < String > allTypeId = new ArrayList < String > ();
-        for(String id: expert.getExpertsTypeId().split(",")) {
-            allTypeId.add(id);
+        if(expert.getExpertsTypeId() !=null && !"".equals(expert.getExpertsTypeId())){
+        	for(String id: expert.getExpertsTypeId().split(",")) {
+                allTypeId.add(id);
+            }
         }
+        
         a: for(int i = 0; i < allTypeId.size(); i++) {
             DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
             /*if(dictionaryData != null && dictionaryData.getKind() == 19) {
@@ -1209,7 +1214,7 @@ public class ExpertAuditController{
 			
 			//历史表里记录的类型（修改前的专家类型）
 			ExpertHistory oldExpert = service.selectOldExpertById(expertId);
-			if(oldExpert !=null){
+			if(oldExpert !=null && oldExpert.getExpertsTypeId()!=null){
 				String oldType = oldExpert.getExpertsTypeId();
 				String[] historyType = oldExpert.getExpertsTypeId().split(",");
 				for(String h : historyType){
@@ -1289,14 +1294,17 @@ public class ExpertAuditController{
 		//工程经济
 		String goodsProjectId = DictionaryDataUtil.getId("GOODS_PROJECT");
 		
-		if(expert.getExpertsTypeId().contains(engCodeId)){
-			expertTitleList = expertTitleService.queryByUserId(expertId,engCodeId);	
-			model.addAttribute("isProject", "project");
+		if(expert.getExpertsTypeId() !=null && !"".equals(expert.getExpertsTypeId())){
+			if(expert.getExpertsTypeId().contains(engCodeId)){
+				expertTitleList = expertTitleService.queryByUserId(expertId,engCodeId);	
+				model.addAttribute("isProject", "project");
+			}
+			if(expert.getExpertsTypeId().contains(goodsProjectId)){
+				expertTitleList = expertTitleService.queryByUserId(expertId,goodsProjectId);	
+				model.addAttribute("isProject", "project");
+			}
 		}
-		if(expert.getExpertsTypeId().contains(goodsProjectId)){
-			expertTitleList = expertTitleService.queryByUserId(expertId,goodsProjectId);	
-			model.addAttribute("isProject", "project");
-		}
+		
 		model.addAttribute("expertTitleList", expertTitleList);
 		
 		// 专家系统key
@@ -1391,6 +1399,10 @@ public class ExpertAuditController{
 		List<ExpertEngHistory> modifyList = expertEngModifySerivce.selectByExpertId(expertEngHistory);
 		if(!modifyList.isEmpty()  && modifyList.size() > 0){
 			expertEngHistory = modifyList.get(0);
+			if("titleTime".equals(expertEngHistory.getField())){
+				String titleTime = expertEngHistory.getContent().substring(0, 7);
+				expertEngHistory.setContent(titleTime);
+			}
 			return JSON.toJSONString(expertEngHistory.getContent());
 		}
 		return null;
@@ -1439,7 +1451,7 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/updateStatus")
-	public String updateStatus(Expert expert, Model model, HttpServletRequest request) {
+	public String updateStatus(@CurrentUser User user, Expert expert, Model model, HttpServletRequest request) {
 		/**
 		 *  如果是退回修改就保存历史信息
 		 */
@@ -1473,6 +1485,9 @@ public class ExpertAuditController{
 		}
 		//提交审核，更新状态
 		expert.setAuditAt(new Date());
+		
+		//审核人
+		expert.setAuditor(user.getRelName());
 		expertService.updateByPrimaryKeySelective(expert);
 
 		
@@ -1503,12 +1518,12 @@ public class ExpertAuditController{
 	        todos.setName(expert.getRelName()+"专家复审");
 	        //todos.setReceiverId();
 	        //接受人id
-	        todos.setOrgId(expert.getPurchaseDepId());
+	        /*todos.setOrgId(expert.getPurchaseDepId());*/
 	        //权限id
 	        PropertiesUtil config = new PropertiesUtil("config.properties");
 	        todos.setPowerId(config.getString("zjfs"));
 	        //发送人id
-	        User user = (User)request.getSession().getAttribute("loginUser");
+	        /*User user = (User)request.getSession().getAttribute("loginUser");*/
 	        todos.setSenderId(user.getId());
 	        //类型
 	        todos.setUndoType((short)2);
@@ -1622,7 +1637,6 @@ public class ExpertAuditController{
 			}
 		}
 		dataMap.put("professTechTitles", expert.getProfessTechTitles() == null ? "" : expert.getProfessTechTitles());
-		dataMap.put("professional", expert.getProfessional() == null ? "" : expert.getProfessional ());
 		
 		String expertsType = expertType.toString().substring(0, expertType.length() - 1);
 		dataMap.put("expertsTypeId", expertsType);
@@ -1864,6 +1878,30 @@ public class ExpertAuditController{
 			dataMap.put("date", da);
 		}
 		
+		/**
+		 * 执业资格
+		 */		
+		List<ExpertTitle> expertTitleList = new ArrayList<>();
+		if(expert.getExpertsTypeId() !=null && !"".equals(expert.getExpertsTypeId())){
+			if(expert.getExpertsTypeId().contains(engCodeId)){
+				expertTitleList = expertTitleService.queryByUserId(expert.getId(),engCodeId);	
+			}
+			if(expert.getExpertsTypeId().contains(goodsProjectId)){
+				expertTitleList = expertTitleService.queryByUserId(expert.getId(),goodsProjectId);	
+			}
+		}
+		StringBuffer professional = new StringBuffer();
+		if(!expertTitleList.isEmpty() && expertTitleList.size() >0){
+			for(ExpertTitle expertTitle : expertTitleList){
+				professional.append(expertTitle.getQualifcationTitle()+"、");
+			}
+			if(professional.length() > 0){
+				professional.deleteCharAt(professional.length() -1);
+			}
+			dataMap.put("professional", professional);
+		}else{
+			dataMap.put("professional", "");
+		}
 		
 		
 		/** 生成word 返回文件名 */

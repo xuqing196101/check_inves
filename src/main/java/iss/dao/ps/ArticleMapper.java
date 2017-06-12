@@ -5,6 +5,7 @@ import iss.model.ps.Article;
 import iss.model.ps.ArticleCategory;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -465,15 +466,12 @@ public interface ArticleMapper {
     
     /**
      * 
-     * Description: app首页查询采购法规
+     * Description:查询已发布采购公告数量 
      * 
-     * @author  zhang shubin
-     * @version  2017年6月1日 
-     * @param  @param map
-     * @param  @return 
-     * @return List<Article> 
-     * @exception
+     * @author Easong
+     * @version 2017年6月7日
+     * @return
      */
-    List<Article> selectsumApp(Map<String, Object> map);
+    BigDecimal selectPurchaseNoticeCount(@Param("year") Date year);
     
 }

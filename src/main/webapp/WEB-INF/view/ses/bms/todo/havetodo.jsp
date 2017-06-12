@@ -82,12 +82,12 @@
       }
     }
 
-    function view(url) {
+/*     function view(url) {
       $("#a").attr("href", url);
       var el = document.getElementById('a');
       el.click(); //触发打开事件
 
-    }
+    } */
 
     function del() {
       var ids = [];
@@ -144,7 +144,6 @@
               <div class="clear"></div>
             </form>
           </div>
-          <a id="a" href="#" target="_parent"></a>
           <table class="table table-striped table-bordered table-hover">
             <thead>
               <tr>
@@ -156,7 +155,7 @@
               </tr>
             </thead>
             <c:forEach items="${list.list}" var="agents" varStatus="vs">
-              <tr class="cursor" onclick="view('${pageContext.request.contextPath}/${agents.url}');">
+              <tr class="cursor" >
                 <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
                 <td class="tl pl20">
                   <c:choose>

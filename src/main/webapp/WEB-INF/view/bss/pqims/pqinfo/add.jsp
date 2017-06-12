@@ -6,6 +6,7 @@
   <head>
     <%@ include file="../../../common.jsp"%>
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+    <%@ include file="/WEB-INF/view/common/validate.jsp"%>
     <title>登记质检报告</title>
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
@@ -61,10 +62,15 @@
             }else if(result == 2) {
               layer.msg("请输入合同编号！");
             }else{
-              window.location.href = "${pageContext.request.contextPath}/after_sale_ser/list.html?code=" + code + "&type=" + type;
+              window.location.href = "${pageContext.request.contextPath}/after_sale_ser/viewAfter.html?code=" + code + "&type=" + type;
             }
           }
         });
+      }
+      
+      function save(){
+        $("#form1").validForm();
+        $("#form1").submit();
       }
     </script>
   </head>
@@ -74,15 +80,10 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-          <li>
-            <a href="javascript:void(0)"> 首页</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">保障作业</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">产品质量管理</a>
-          </li>
+          <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+          <li><a href="javascript:void(0)">保障作业</a></li>
+          <li><a href="javascript:void(0)">产品质量管理</a></li>
+          <li><a href="javascript:jumppage('${pageContext.request.contextPath}/pqinfo/getAll.html')">产品质量结果登记 </a></li>
           <li class="active">
             <a href="javascript:void(0)">登记质检报告</a>
           </li>
@@ -93,7 +94,7 @@
 
     <!-- 新增模板开始-->
     <div class="container container_box">
-      <form action="${pageContext.request.contextPath}/pqinfo/save.html" method="post" enctype="multipart/form-data">
+      <form id="form1" action="${pageContext.request.contextPath}/pqinfo/save.html" method="post" enctype="multipart/form-data">
         <input type="hidden" id="contractId" name="contract.id" value="${pqinfo.contract.id }" />
         <input type="hidden" name="id" value="${pqinfoId}">
         <div>
@@ -228,7 +229,7 @@
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检详细情况：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea class="h130 col-md-12 col-sm-12 col-xs-12 " name="detail" title="不超过800个字" placeholder="不超过800个字">${pqinfo.detail}</textarea>
+                <textarea class="h130 col-md-12 col-sm-12 col-xs-12 " maxlength="100" name="detail" title="不超过100个字" placeholder="不超过100个字">${pqinfo.detail}</textarea>
               </div>
               <div class="clear red">${ERR_detail}</div>
             </li>
@@ -237,18 +238,10 @@
               <u:upload id="artice_up" businessId="${pqinfoId }" sysKey="${sysKey}" typeId="${attachTypeId }" buttonName="上传质检报告图片" auto="true" exts="png,jpeg,jpg,bmp,git" />
               <u:show showId="artice_show" businessId="${pqinfoId }" sysKey="${sysKey}" typeId="${attachTypeId }" />
             </li>
-            <%--
-         <li class="col-md-12 p0 mt10">
-         <span class="">质检报告：</span>
-         <div class="fl " id="uploadAttach" >
-           <input id="pic" type="file" class="toinline" name="attaattach"/>
-           </div>
-       </li>
-          --%>
           </ul>
 
           <div class="col-md-12 col-sm-12 col-xs-12 tc mt20">
-            <button class="btn btn-windows save" type="submit">保存</button>
+            <button class="btn btn-windows save" type="button" onclick="save()">保存</button>
             <button class="btn btn-windows back" onclick="goback()" type="button">返回</button>
           </div>
         </div>

@@ -1492,6 +1492,7 @@ public class IndexNewsController extends BaseSupplierController{
           
           if (StringUtils.isNotBlank(content)){
             content = content.replaceAll(CommonStringUtil.getAppendString("&nbsp;", 30), "");
+            content = content.replaceAll(":=\"\"", "=\"\"");
           }
           
           divStyle.append(content);

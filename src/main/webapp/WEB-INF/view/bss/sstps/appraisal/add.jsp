@@ -88,10 +88,19 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
-            <a href="javascript:void(0)"> 首页</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')" > 首页</a>
           </li>
           <li>
-            <a href="javascript:void(0)">添加审价合同</a>
+            <a href="javascript:void(0);" > 保障作业</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" > 单一来源审价</a>
+          </li>
+          <li>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/appraisalContract/select.html');">申请合同审价</a>
+          </li>
+          <li>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/appraisalContract/add.html')">添加审价合同</a>
           </li>
         </ul>
         <div class="clear"></div>

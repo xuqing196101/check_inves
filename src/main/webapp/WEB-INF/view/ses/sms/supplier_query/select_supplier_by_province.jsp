@@ -573,10 +573,10 @@
 								<td>
 									<c:choose>
 							       <c:when test="${list.status ==5 and list.isProvisional == 1 }">
-							       	 <a href="${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
+							       	 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a>
 							       </c:when>
 							       <c:otherwise>
-							       	 <a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
+							       	 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a>
 							       </c:otherwise>
 									</c:choose>
 								</td>

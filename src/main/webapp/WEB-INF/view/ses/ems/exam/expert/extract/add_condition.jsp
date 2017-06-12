@@ -36,7 +36,7 @@
         <div class="container">
             <ul class="breadcrumb margin-left-0">
                 <li>
-                    <a href="javascript:void(0);"> 首页</a>
+                    <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
                 </li>
                 <li>
                     <a href="javascript:void(0);">支撑环境系统</a>
@@ -45,7 +45,7 @@
                     <a href="javascript:void(0);">专家管理</a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);">专家抽取</a>
+                    <a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/ExpExtract/projectList.html?typeclassId=typeclassId')">专家抽取</a>
                 </li>
                 <li class="active">
                     <a href="javascript:void(0);">添加专家抽取</a>
@@ -55,6 +55,7 @@
         </div>
     </div>
 </c:if>
+<div class="container">
 <div class="col-md-12 col-sm-12 col-xs-12 container_box">
     <div id="supplierTypeContent" class="supplierTypeContent"
          style="display:none; position: absolute;left:0px; top:0px; z-index:999;">

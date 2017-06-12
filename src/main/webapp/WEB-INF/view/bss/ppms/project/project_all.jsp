@@ -96,7 +96,7 @@
             <a href="javascript:void(0)">采购项目管理</a>
           </li>
           <li class="active">
-            <a href="javascript:jumppage('http://192.168.1.52:8080/project/projectByAll.html')">全部采购项目</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/project/projectByAll.html')">全部采购项目</a>
           </li>
         </ul>
         <div class="clear"></div>

@@ -11,7 +11,7 @@
 		<style type="text/css">
 		td {
 		  cursor:pointer;
-		}  
+		}
 		</style>
 		<script type="text/javascript">
 		  //默认不显示叉
@@ -20,7 +20,7 @@
 		  $(this).find("a").eq(0).hide();
 		  });
 		});
-		
+
 		function reason(id, str){
 		  /* var offset = "";
 		  if (window.event) {
@@ -36,11 +36,11 @@
 		  var supplierId=$("#supplierId").val();
 		  var auditContent=str + "股东信息"; //审批的字段内容
 		  var index = layer.prompt({
-		    title: '请填写不通过的理由：', 
-		    formType: 2, 
+		    title: '请填写不通过的理由：',
+		    formType: 2,
 		    offset: '100px',
 		    maxlength: '100'
-		    }, 
+		    },
 		    function(text){
 		    	var text = trim(text);
 				  if(text != null && text !=""){
@@ -67,7 +67,7 @@
 		      	}
 		    });
 		  }
-		
+
 		//下一步
 	    function nextStep(url){
 		  /*$("#form_id").attr("action",url);*/
@@ -75,14 +75,14 @@
 		  $("#form_id").attr("action",action);
 		  $("#form_id").submit();
 		}
-		   
+
 		//上一步
 		function lastStep(){
 		  var action = "${pageContext.request.contextPath}/supplierAudit/financial.html";
 		  $("#form_id").attr("action",action);
 		  $("#form_id").submit();
 		}
-		
+
 		// 提示修改之前的信息
 			function showContent(field, id) {
 				var supplierId = $("#supplierId").val();
@@ -92,20 +92,20 @@
 					data: {"supplierId":supplierId, "beforeField":field, "modifyType":"shareholder_page", "relationId":id},
 					async: false,
 					success: function(result) {
-						layer.tips("修改前:" + result, "#" + showId, 
+						layer.tips("修改前:" + result, "#" + showId,
 						{
 							tips: 3
 						});
 					}
 				});
 			}
-		
+
 		  //删除左右两端的空格
-			function trim(str){ 
+			function trim(str){
 				return str.replace(/(^\s*)|(\s*$)/g, "");
 			}
     </script>
-    
+
 		<script type="text/javascript">
 			function jump(str){
 			  var action;
@@ -152,37 +152,37 @@
 			  $("#form_id").submit();
 			}
 		</script>
-		
+
   </head>
-  
+
   <body>
 	  <!--面包屑导航开始-->
 	  <div class="margin-top-10 breadcrumbs ">
-	    <div class="container">
-	      <ul class="breadcrumb margin-left-0">
-					<li>
-						<a> 首页</a>
-					</li>
-					<li>
-						<a>支撑环境</a>
-					</li>
-					<li>
-						<a>供应商管理</a>
-					</li>
-					<li>
-						<c:if test="${sign == 1}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1" >供应商审核</a>
-						</c:if>
-						<c:if test="${sign == 2}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2">供应商复核</a>
-						</c:if>
-						<c:if test="${sign == 3}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3">供应商实地考察</a>
-						</c:if>
-					</li>
-				</ul>
-	    </div>
-	  </div> 
+          <div class="container">
+              <ul class="breadcrumb margin-left-0">
+                  <li>
+                      <a> 首页</a>
+                  </li>
+                  <li>
+                      <a  href="javascript:void(0)">支撑环境</a>
+                  </li>
+                  <li>
+                      <a  href="javascript:void(0)">供应商管理</a>
+                  </li>
+                  <li>
+                      <c:if test="${sign == 1}">
+                          <a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1">供应商审核</a>
+                      </c:if>
+                      <c:if test="${sign == 2}">
+                          <a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2">供应商复核</a>
+                      </c:if>
+                      <c:if test="${sign == 3}">
+                          <a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3">供应商实地考察</a>
+                      </c:if>
+                  </li>
+              </ul>
+          </div>
+      </div>
     <div class="container container_box">
       <div class="content height-350">
         <div class="col-md-12 tab-v2 job-content">
@@ -207,7 +207,7 @@
         <li class=""><a >申请表</a></li>
         <li class=""><a >审核汇总</a></li>
         </ul> --%>
-                    
+
         <ul class="flow_step">
           <li onclick = "jump('essential')">
             <a aria-expanded="false" >基本信息</a>
@@ -215,7 +215,7 @@
           </li>
           <li onclick = "jump('financial')">
             <a aria-expanded="true">财务信息</a>
-            <i></i>                            
+            <i></i>
           </li>
           <li onclick = "jump('shareholder')"  class="active" >
             <a aria-expanded="false">股东信息</a>
@@ -303,7 +303,7 @@
 		              <td class="tc w50" >
 		                <a id="${s.id}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 		                <p onclick="reason('${s.id}','${s.name}');" id="${s.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${!fn:contains(passedField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
-		              	
+
 		              	<c:if test="${fn:contains(passedField,s.id)}">
 		              		<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 		              	</c:if>

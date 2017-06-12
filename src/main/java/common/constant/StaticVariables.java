@@ -86,6 +86,10 @@ public class StaticVariables {
     public static final String GOODS_PRODUCT = "PRODUCT";
     /** 销售 **/
     public static final String GOODS_SALES = "SALES";
+    /** 工程 **/
+    public static final String PROJECT = "PROJECT";
+    /** 服务 **/
+    public static final String SERVICE = "SERVICE";
     
     
     /** 物资生产状态 **/
@@ -186,5 +190,8 @@ public class StaticVariables {
      * 默认页
      */
     public static final Integer DEFAULT_PAGE = 1;
+    
+    /***定义统计缓存健***/
+ 	public static final String ANALYZE = "analyze";
     
 }

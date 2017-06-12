@@ -13,10 +13,14 @@
     <association column="CREATER_ID" property="creater" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
     <association column="PARENT_ID" property="articleType" select="selectTypeByPrimaryKey"/>
   </resultMap>
-  <resultMap id="AppArticleTypeMapper" type="iss.model.ps.ArticleType">
-    <id column="ID" property="id" />
-    <result column="NAME" property="name" />
-  </resultMap>
+  
+  <!-- 统计映射关系 -->
+  <resultMap type="ses.model.bms.AnalyzeBigDecimal" id="baseAnalyzeBigDecimal">
+		<result column="COL_GROUP" property="group"/>
+		<result column="COL_NAME" property="name"/>
+		<result column="COL_VALUE" property="value"/>
+		<result column="COL_ID" property="id"/>
+	</resultMap>
   
   <sql id="ArticleType_Column_List">
     ID, NAME, CREATED_AT,CREATER_ID, UPDATED_AT,DESCRIBE,CODE,PARENT_ID,SHOW_NUM
@@ -24,14 +28,6 @@
   
   <!-- 根据id查询栏目类型 -->
   <select id="selectTypeByPrimaryKey" parameterType="Object" resultMap="ArticleTypeMapper">
-    select 
-    <include refid="ArticleType_Column_List" />
-    from T_ISS_PS_ARTICLE_TYPE
-    where ID = #{id}
-  </select>
-  
-  <!-- app查询栏目类型 -->
-  <select id="selectTypeApp" parameterType="Object" resultMap="AppArticleTypeMapper">
     select 
     <include refid="ArticleType_Column_List" />
     from T_ISS_PS_ARTICLE_TYPE
@@ -111,5 +107,57 @@
     from T_ISS_PS_ARTICLE_TYPE
     where PARENT_ID = #{parentId}
   </select>
-    
+  
+  <!-- 根据各栏目信息查询公告 -->
+  <select id="selectNoticeByArticleType" resultMap="baseAnalyzeBigDecimal">
+  	  SELECT P.NAME AS COL_GROUP, COUNT(T.ID) AS COL_VALUE, P.ID AS COL_ID
+		   FROM (SELECT T.ID, T.NAME
+		           FROM T_ISS_PS_ARTICLE_TYPE T
+		          WHERE T.PARENT_ID = 0) P
+		   LEFT JOIN T_ISS_PS_ARTICLE T
+		     ON P.ID = T.ARTICLE_TYPE_ID
+		  WHERE T.STATUS = 2
+		  GROUP BY P.NAME, P.ID
+  </select>
+  
+  <!-- 根据各类型公告查询 -->
+  <select id="selectNoticeByCateType" resultMap="baseAnalyzeBigDecimal">
+  	 SELECT P.NAME AS COL_GROUP, COUNT(T.ID) AS COL_VALUE, P.ID AS COL_ID
+		   FROM (SELECT T.ID, T.NAME
+		           FROM T_ISS_PS_ARTICLE_TYPE T
+		          WHERE T.PARENT_ID = 45) P
+		   LEFT JOIN T_ISS_PS_ARTICLE T
+		     ON P.ID = T.THREE_ARTICLE_TYPE_ID
+		  WHERE T.STATUS = 2
+		  GROUP BY P.NAME, P.ID
+  </select>
+  
+  <!-- 根据各采购方式公告查询 -->
+  <select id="selectNoticeByPurWay" resultMap="baseAnalyzeBigDecimal">
+  	  SELECT P.NAME AS COL_GROUP, COUNT(T.ID) AS COL_VALUE, P.ID AS COL_ID
+		   FROM (SELECT T.ID, T.NAME
+		           FROM T_ISS_PS_ARTICLE_TYPE T
+		          WHERE T.PARENT_ID = 46) P
+		   LEFT JOIN T_ISS_PS_ARTICLE T
+		     ON P.ID = T.FOUR_ARTICLE_TYPE_ID
+		  WHERE T.STATUS = 2
+		  GROUP BY P.NAME, P.ID
+  </select>
+  
+  <!-- 发布排名前10的产品类别数量 -->
+  <select id="selectNoticeByProductCate" resultMap="baseAnalyzeBigDecimal">
+  	SELECT COL_NAME, COL_VALUE, COL_ID
+		  FROM (SELECT C.NAME AS COL_NAME,
+		               COUNT(T.CATEGORY_ID) AS COL_VALUE,
+		               T.CATEGORY_ID AS COL_ID
+		          FROM (SELECT T.NAME, T.ID
+		                  FROM T_SES_BMS_CATEGORY T
+		                 WHERE IS_DELETED = 0) C
+		          LEFT JOIN T_SES_BMS_ARTICLE_CATEGORY T
+		            ON C.ID = T.CATEGORY_ID
+		         GROUP BY C.NAME, T.CATEGORY_ID
+		         ORDER BY COL_VALUE DESC) T
+		 WHERE ROWNUM &lt;= 10
+  </select>
+  
 </mapper>

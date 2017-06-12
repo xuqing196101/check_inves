@@ -91,7 +91,7 @@
         <table class="table table-bordered table-condensed table_input left_table">
             <thead>
             <tr>
-                <th class="info">包名</th>
+                <th class="info"><span class="red" id="red0">*</span>包名</th>
                 <th class="info">操作</th>
             </tr>
             </thead>

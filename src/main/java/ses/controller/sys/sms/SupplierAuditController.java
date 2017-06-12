@@ -2080,7 +2080,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 *〈简述〉获取供应商的企业类型
 	 *〈详细描述〉
 	 * @author myc
-	 * @param list
+	 * @param pageInfo
 	 * @return
 	 */
 	private PageInfo < Supplier > getSupplierType(PageInfo < Supplier > pageInfo) {
@@ -3057,6 +3057,9 @@ public class SupplierAuditController extends BaseSupplierController {
 		if("3".equals(tableType)){
 			downFileName = new String("军队采购供应商审核表.doc".getBytes("UTF-8"), "iso-8859-1");
 		}
+		if("4".equals(tableType)){
+			downFileName = new String("军队采购供应商复核表.doc".getBytes("UTF-8"), "iso-8859-1");
+		}
 		response.setContentType("application/x-download");
 		return supplierAuditService.downloadFile(fileName, filePath, downFileName);
 	}
@@ -3119,14 +3122,18 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(tableType.equals("2")){
 			supplierSignature.setSupplierId(supplier.getId());
 			List<SupplierSignature> supplierSignatureList = supplierSignatureService.selectBySupplierId(supplierSignature);
-			StringBuffer name = new StringBuffer();
-			for(SupplierSignature s: supplierSignatureList ){
-				name.append(s.getName() + ",");
+			if(!supplierSignatureList.isEmpty() && supplierSignatureList.size() > 0){
+				StringBuffer name = new StringBuffer();
+				for(SupplierSignature s: supplierSignatureList ){
+					name.append(s.getName() + ",");
+				}
+				name.deleteCharAt(name.length() - 1);
+				dataMap.put("num", supplierSignatureList.size());
+				dataMap.put("name", name);
+			}else{
+				dataMap.put("num", "");
+				dataMap.put("name", "");
 			}
-			name.deleteCharAt(name.length() - 1);
-			dataMap.put("num", supplierSignatureList.size());
-			dataMap.put("name", name);
-			
 			newFileName = WordUtil.createWord(dataMap, "supplierOpinionLetter.ftl", "supplierOpinionLetter", request);
 		}
 				
@@ -3151,11 +3158,20 @@ public class SupplierAuditController extends BaseSupplierController {
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplier.getId());
 			List < SupplierAudit > auditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			if(!auditList.isEmpty() && auditList.size() > 0){
+				dataMap.put("isData","yes");
+			}else{
+				dataMap.put("isData","no");
+			}
 			dataMap.put("auditList",auditList);
 		}
 		//审核表
-		if(tableType.equals("3")){
+		if("3".equals(tableType)){
 			newFileName = WordUtil.createWord(dataMap, "supplierOneAudit.ftl", "supplierOneAudit", request);
+		}
+		//复核表
+		if("4".equals(tableType)){
+			newFileName = WordUtil.createWord(dataMap, "supplierTwoAudit.ftl", "supplierTwoAudit", request);
 		}
 		
 		return newFileName;
@@ -3178,6 +3194,9 @@ public class SupplierAuditController extends BaseSupplierController {
 					break;
 				}
 			}
+		}
+		if("".equals(businessType)){
+			businessType = businessTypeId;
 		}
 		return businessType;
 	}

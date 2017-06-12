@@ -43,7 +43,9 @@
         <td class="tc w100">${expert.expert.relName}</td>
         <td class="tc" colspan="2">
           <c:forEach items="${expertScoreList}" var="score">
-            ${score.score}
+            <c:if test="${expert.expert.id eq score.expertId}">
+              ${score.score}
+            </c:if>
           </c:forEach>
         </td>
         </tr>

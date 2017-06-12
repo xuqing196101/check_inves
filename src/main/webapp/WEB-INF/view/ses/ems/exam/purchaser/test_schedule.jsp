@@ -52,10 +52,10 @@
 					<thead>
 						<tr class="info tc">
 							<th class="w50">序号</th>
-							<th>考卷名称</th>
-							<th>考卷编号</th>
-							<th>考试开始时间</th>
-							<th>考试截止时间</th>
+							<th width="30%">考卷名称</th>
+							<th width="20%">考卷编号</th>
+							<th width="15%">考试开始时间</th>
+							<th width="15%">考试截止时间</th>
 							<th>答题用时</th>
 						</tr>
 					</thead>
@@ -63,8 +63,8 @@
 						<c:forEach items="${testSchedule.list }" var="test" varStatus="vs">
 							<tr>
 								<td class="tc">${(vs.index+1)+(testSchedule.pageNum-1)*(testSchedule.pageSize)}</td>
-								<td class="pl20">${test.name }</td>
-								<td class="pl20">${test.code }</td>
+								<td class="">${test.name }</td>
+								<td class="">${test.code }</td>
 								<td class="tc">${test.startDate }</td>
 								<td class="tc">${test.offDate }</td>
 								<td class="tc">${test.testTime }分钟</td>

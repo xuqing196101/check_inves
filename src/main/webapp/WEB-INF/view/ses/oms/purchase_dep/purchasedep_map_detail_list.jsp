@@ -58,22 +58,22 @@ function chongzhi(){
 		   <h2 class="search_detail">
   				<form id="form1" action="${pageContext.request.contextPath}/purchaseManage/purchaseDepdetailList.html" method="post" class="mb0">
 		       <input type="hidden" name="page" id="page">
-		       <input type="hidden" name="parentName" value="${parentName }">
+		       <input type="hidden" name="parentName" value="${ parentName }">
 		      <ul class="demand_list">
                        <li>
                         <label class="fl">采购机构名称：</label><span><input id="name" name="name" value="${purchaseDep.name }" type="text"></span>
                       </li>
                        <li>
                         <label class="fl">资质起止日期：</label>
-                        <input id="quaStartDate" name="quaStartDate" class="Wdate w230" type="text"  value='<fmt:formatDate value="${purchaseDep.quaStartDate }" pattern="YYYY-MM-dd"/>'
+                        <input id="quaStartDate" name="quaStartDate" class="Wdate w150" type="text"  value='<fmt:formatDate value="${purchaseDep.quaStartDate }" pattern="YYYY-MM-dd"/>'
                         onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){quaStartDate.focus();},maxDate:'#F{$dp.$D(\'quaStartDate\')}'})"/>
-                        <span >至</span>
-                        <input id="quaEdndate" name="quaEdndate" value='<fmt:formatDate value="${purchaseDep.quaEdndate }" pattern="YYYY-MM-dd"/>' class="Wdate w230" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'quaEdndate\')}'})"/>
+                        <span class="f14">至</span>
+                        <input id="quaEdndate" name="quaEdndate" value='<fmt:formatDate value="${purchaseDep.quaEdndate }" pattern="YYYY-MM-dd"/>' class="Wdate w150" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'quaEdndate\')}'})"/>
                       </li>
                       <li>
                         <label class="fl">上级监管部门：</label>
                         <span class="fl">
-                          <select name="" class="w178">
+                          <select name="" class="w100">
                                      <option selected="selected" value=''>-请选择-</option>
                                     <option  value="生产型">部门1</option>
                                     <option  value="销售型">部门2</option>
@@ -81,11 +81,8 @@ function chongzhi(){
                         </span>
                       </li>
                   </ul>
-                   <div class="col-md-12 clear tc mt10">
-                        <input class="btn" onclick="submit()" type="button" value="查询">
-                        <input class="btn" onclick="chongzhi()" type="button" value="重置"> 
-                   
-                   </div>
+                        <input class="btn fl mt1" onclick="submit()" type="button" value="查询">
+                        <input class="btn fl mt1" onclick="chongzhi()" type="button" value="重置"> 
                    <div class="clear"></div>
 		     </form>
 		     </h2>
@@ -97,12 +94,12 @@ function chongzhi(){
 		      <thead>
 				<tr>
 					<th class="info w50">序号</th>
-					<th class="info">采购机构名称</th>
-					<th class="info">采购资质编号</th>
-					<th class="info">等级</th>
-					<th class="info">地址</th>
-					<th class="info">采购资质开始日期</th>
-					<th class="info">采购资质截止日期</th>
+					<th class="info" width="18%">采购机构名称</th>
+					<th class="info" width="13%">采购资质编号</th>
+					<th class="info w80">等级</th>
+					<th class="info" width="15%">地址</th>
+					<th class="info" width="12%">采购资质开始日期</th>
+					<th class="info" width="12%">采购资质截止日期</th>
 					<th class="info">上级监管部门</th>
 				</tr>
 			  </thead>

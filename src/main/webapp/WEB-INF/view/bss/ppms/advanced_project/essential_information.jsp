@@ -65,6 +65,10 @@
         var supplierNumber = $("#supplierNumber").val();
         supplierNumber = $.trim(supplierNumber);
         var purchaseType = $("#purchaseType").val();
+        if(supplierNumber == '' || supplierNumber == null) {
+          layer.tips("请填写开标地点", "#supplierNumber");
+          flag = false;
+        }
         if(purchaseType == "JZXTP" || purchaseType == "YQZB" || purchaseType == "XJCG" || purchaseType == "GKZB") {
           if(supplierNumber < 3) {
             layer.tips("供应商人数不能小于3人", "#supplierNumber");

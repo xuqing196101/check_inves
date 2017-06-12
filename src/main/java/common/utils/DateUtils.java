@@ -406,4 +406,26 @@ public class DateUtils {
 		cal.add(Calendar.MONTH, month);// 对月份进行计算
 		return cal.getTime();
 	}
+	
+	/**
+	 * 
+	 * Description: 获取前一年 yyyy
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @param currDate
+	 * @return
+	 */
+	public static Date getBeforeYear(Date currDate){
+		Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currDate);
+        calendar.add(Calendar.YEAR, 1);
+        return calendar.getTime();
+	}
+	public static Date getBeforeFiveYear(Date currDate){
+		Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currDate);
+        calendar.add(Calendar.YEAR, -4);
+        return calendar.getTime();
+	}
 }

@@ -153,7 +153,7 @@ public class OBProjectController {
       			List<String> userList=userService.findListByTypeId(user.getTypeName());
       			
       			Map<String, Object> map = new HashMap<>();
-      			map.put("page",page);
+      			map.put("page",page==null?1:page);
       			map.put("startTime", startTime);
       			if(name != null){
       				name=name.trim();

@@ -16,14 +16,14 @@
 				  cursor:pointer;
 				}
 			</style>
-			
+
       <script type="text/javascript">
 				//默认不显示叉
 				 $(function() {
 				  $("td").each(function() {
 				  $(this).parent("tr").find("td").eq(6).find("a").hide();
 				  });
-				  
+
 				   $(":input").each(function() {
 				    var onMouseMove = "this.style.background='#E8E8E8'";
 				    var onmouseout = "this.style.background='#FFFFFF'";
@@ -36,10 +36,10 @@
 				  var supplierId=$("#supplierId").val();
 				  var auditContent = "生产-资质证书信息";
 				  var index = layer.prompt({
-					   title: '请填写不通过的理由：', 
-					   formType: 2, 
+					   title: '请填写不通过的理由：',
+					   formType: 2,
 					   offset: '100px'
-				    }, 
+				    },
 				    function(text){
 				    $.ajax({
 				      url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
@@ -74,10 +74,10 @@
 	          auditContent = $(this).parents("li").find("input").val();
 	    		});
 				  var index = layer.prompt({
-					  title: '请填写不通过的理由：', 
-					  formType: 2, 
+					  title: '请填写不通过的理由：',
+					  formType: 2,
 					  offset: '100px'
-				  }, 
+				  },
 				  function(text){
 				    $.ajax({
 				      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
@@ -104,7 +104,7 @@
 				  $("#form_id").attr("action",url);
 				  $("#form_id").submit();
 				}
-				
+
 				//上一步
 				function lastStep(){
 				  var action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
@@ -117,13 +117,13 @@
 				    $("input[name='fileName']").val(fileName);
 				    $("#download_form_id").submit();
 				  } */
-  
+
 				function download(id,key){
-				  var form = $("<form>");   
-				      form.attr('style', 'display:none');   
+				  var form = $("<form>");
+				      form.attr('style', 'display:none');
 				      form.attr('method', 'post');
 				      form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key);
-				      $('body').append(form); 
+				      $('body').append(form);
 				      form.submit();
 				}
 			  //只读
@@ -132,7 +132,7 @@
 			      $(this).attr("readonly", "readonly");
 			    });
 			  });
-			  
+
 				  // 提示之前的信息
 				function isCompare(field) {
 					var supplierId=$("#supplierId").val();
@@ -147,9 +147,9 @@
 						}
 					});
 				}
-			  
+
       </script>
-      
+
 		<script type="text/javascript">
 			function jump(str){
 			  var action;
@@ -195,22 +195,27 @@
 		</script>
   </head>
 
-  <body>
-	  <!--面包屑导航开始-->
-	  <div class="margin-top-10 breadcrumbs ">
-	    <div class="container">
-	      <ul class="breadcrumb margin-left-0">
-	        <li>
-	          <a href="javascript:void(0);"> 首页</a>
-	          </li><li>
-	          <a href="javascript:void(0);">供应商管理</a>
-	          </li><li>
-	          <a href="javascript:void(0);">供应商审核</a>
-	        </li>
-	      </ul>
-	    </div>
-    </div> 
-    <div class="container container_box">
+	<body>
+	<!--面包屑导航开始-->
+    <div class="margin-top-10 breadcrumbs ">
+        <div class="container">
+            <ul class="breadcrumb margin-left-0">
+                <li>
+                    <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+                </li>
+                <li>
+                    <a  href="javascript:void(0)">支撑环境</a>
+                </li>
+                <li>
+                    <a  href="javascript:void(0)">供应商管理</a>
+                </li>
+                <li>
+                    <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html')">供应商审核</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+	<div class="container container_box">
       <div class="content">
         <div class="col-md-12 col-sm-12 col-xs-12 tab-v2 job-content">
         <%-- <ul class="nav nav-tabs bgdd">
@@ -234,7 +239,7 @@
           <li class=""><a >申请表</a></li>
           <li class=""><a >审核汇总</a></li>
         </ul> --%>
-            
+
         <ul class="nav nav-tabs bgdd">
           <li onclick = "jump('essential')">
             <a aria-expanded="false" href="#tab-1">详细信息</a>
@@ -242,7 +247,7 @@
           </li>
           <li onclick = "jump('financial')">
             <a aria-expanded="true" href="#tab-2">财务信息</a>
-            <i></i>                            
+            <i></i>
           </li>
           <li onclick = "jump('shareholder')" >
             <a aria-expanded="false" href="#tab-3">股东信息</a>
@@ -295,7 +300,7 @@
         <form id="form_id" action="" method="post" >
           <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
         </form>
-                
+
         <h2 class="count_flow"><i>1</i>供应商物资生产资质证书</h2>
         <div class="ul_list count_flow">
           <table class="table table-bordered table-condensed table-hover">
@@ -318,7 +323,7 @@
 	              <td class="tc" >${m.levelCert}</td>
 	              <td class="tc" >${m.licenceAuthorith }</td>
 	              <td class="tc" >
-	                <fmt:formatDate value="${m.expStartDate }" pattern='yyyy-MM-dd'/>  至  
+	                <fmt:formatDate value="${m.expStartDate }" pattern='yyyy-MM-dd'/>  至
 	                <fmt:formatDate value="${m.expEndDate }" pattern='yyyy-MM-dd'/>
 	              </td>
 	              <td class="tc" >
@@ -375,7 +380,7 @@
 	          </div>
 	        </li>
         </ul>
-        
+
         <h2 class="count_flow"><i>3</i>产品研发能力</h2>
         <ul class="ul_list count_flow">
 	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -421,7 +426,7 @@
 	          </div>
 	        </li>
 	      </ul>
-	      
+
 	      <h2 class="count_flow"><i>4</i>供应商生产能力</h2>
         <ul class="ul_list count_flow">
 	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -437,7 +442,7 @@
 	          </div>
 	        </li>
         </ul>
-    
+
 		    <h2 class="count_flow"><i>5</i>物资生产型供应商质量检测登记</h2>
 	      <ul class="ul_list count_flow">
 	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -474,6 +479,6 @@
 	  </div>
     <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
         <input type="hidden" name="fileName" />
-    </form>   
+    </form>
   </body>
 </html>

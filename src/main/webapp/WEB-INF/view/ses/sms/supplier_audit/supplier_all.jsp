@@ -90,7 +90,7 @@
 					state = trim(state);
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
-					if(state == "审核通过" || state == "审核退回" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
+					if(state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
 						layer.msg("请选择待审核项 !", {
 							offset: '100px',
 						});
@@ -188,7 +188,7 @@
 					var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
 					state = trim(state);
 					if(size == 1){
-			  			if(state != "待审核" && state != "审核退回" && state != "审核未通过"){
+			  			if(state != "待审核" && state != "退回修改" && state != "审核未通过"){
 			  	 			$.ajax({
 			  	 				url:"${pageContext.request.contextPath}/supplierAudit/publish.html",
 			  	 				data:"supplierId=" +id,
@@ -243,19 +243,27 @@
 						} 
 					};
 			  	
-			//下载
+			
+			//下载审核/复核/意见函/考察表
 			function downloadTable(str) {
 				var size = $(":checkbox:checked").size();
+				var id = $(":checkbox:checked").val();
+				var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
+        state = trim(state);
 				if(size == 0) {
 					layer.msg("请选供应商 !", {offset: '100px',});
 				}else if(size > 1){
 					layer.msg("只能选择一项 !", {offset: '100px',});
 				}else{
-					var id = $(":checkbox:checked").val();
-					$("input[name='supplierId']").val(id);
-					$("input[name='tableType']").val(str);
-					$("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/downloadTable.html");
-					$("#shenhe_form_id").submit();
+				  if(state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过"){
+				    var id = $(":checkbox:checked").val();
+	          $("input[name='supplierId']").val(id);
+	          $("input[name='tableType']").val(str);
+	          $("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/downloadTable.html");
+	          $("#shenhe_form_id").submit();
+				  }else{
+				    layer.msg("请选择审核过的供应商！", {offset: '100px',});
+				  }
 				}
 			}
 			
@@ -436,9 +444,12 @@
 						<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载意见函</a>
 						<button class="btn btn-windows add" type="button" onclick="tianjia();">添加签字人员</button>
 					</c:if>
-					<%-- <c:if test="${sign == 1}">
+				  <c:if test="${sign == 1}">
 					  <a class="btn btn-windows input" onclick='downloadTable(3)' href="javascript:void(0)">下载审核表</a>
-					</c:if> --%>
+					</c:if>
+					<c:if test="${sign == 2}">
+            <a class="btn btn-windows input" onclick='downloadTable(4)' href="javascript:void(0)">下载复核表</a>
+          </c:if>
 					<c:if test="${sign == 2 || sign == 3}">
 					  <a class="btn btn-windows input" onclick="downloadApplication()" href="javascript:void(0)">下载入库申请表</a>
 					</c:if>

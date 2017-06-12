@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -51,6 +52,7 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.utils.JdcgResult;
+import common.utils.RSAEncrypt;
 
 /**
  * Description: 用户管理控制类 
@@ -193,10 +195,11 @@ public class UserManageController extends BaseController{
 	 * @param user
 	 * @param roleId
 	 * @return String
+	 * @throws Exception 
 	 * @exception IOException
 	 */
 	@RequestMapping("/save")
-	public String save(@Valid User user, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws NoSuchFieldException, SecurityException {
+	public String save(@Valid User user, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws Exception {
   		//校验字段
   		String origin = request.getParameter("origin");
   		String orgId = request.getParameter("org_orgId");
@@ -270,6 +273,8 @@ public class UserManageController extends BaseController{
           
           return "ses/bms/user/add";
   		}*/
+  		//解密 密码
+  	user.setPassword(RSAEncrypt.decryptPrivate(user.getPassword()));
 		//校验密码是否满足6位
   	if(user.getPassword().length()<6){
   		model.addAttribute("user", user);
@@ -285,6 +290,8 @@ public class UserManageController extends BaseController{
 			
 			return "ses/bms/user/add";
   	}
+  //解密 密码
+  	user.setPassword2(RSAEncrypt.decryptPrivate(user.getPassword2()));
   //校验确认密码
 		if (!user.getPassword().equals(user.getPassword2())){
 			model.addAttribute("user", user);
@@ -368,7 +375,12 @@ public class UserManageController extends BaseController{
 				}
 			}
 			user.setOrgId(null);
-			user.setOrgName(null);
+			//判断 临时 单位是否有输入 如果有那么赋值 orgName
+			if(StringUtils.isNotBlank(user.getTempOrgName())){
+				user.setOrgName(user.getTempOrgName());
+			}else{
+				user.setOrgName("");
+			}
 		}
 	
 		userService.save(user, currUser);
@@ -667,7 +679,12 @@ public class UserManageController extends BaseController{
 					}
 				}
 				u.setOrgId(null);
-				u.setOrgName(null);
+				//判断 临时 单位是否有输入 如果有那么赋值 orgName
+				if(StringUtils.isNotBlank(u.getTempOrgName())){
+					u.setOrgName(u.getTempOrgName());
+				}else{
+					u.setOrgName("");
+				}
 			}
 			userService.update(u);
 			
@@ -1072,9 +1089,11 @@ public class UserManageController extends BaseController{
 	 * @throws IOException
 	 */
 	@RequestMapping("/ajaxOldPassword")
-  public void ajaxOldPassword(HttpServletResponse response, User u) throws IOException{
+  public void ajaxOldPassword(HttpServletResponse response,@RequestBody User u) throws IOException{
 	    try {
 	      String msg = "";
+	    //私密 解密
+      	u.setPassword(RSAEncrypt.decryptPrivate(u.getPassword())) ;
         if (u.getPassword() == null || "".equals(u.getPassword())) {
             msg = "请输入原密码";
             response.setContentType("text/html;charset=utf-8");
@@ -1112,8 +1131,11 @@ public class UserManageController extends BaseController{
 	    try{
 	        int count = 0;
 	        String msg = "";
-	        String pwd2 = u.getPassword2();
-	        String pwd = u.getPassword();
+	        //私密 解密
+	        String pwd2 = RSAEncrypt.decryptPrivate(u.getPassword2()) ;
+	        u.setPassword2(pwd2);
+	        String pwd = RSAEncrypt.decryptPrivate(u.getPassword());
+	        u.setPassword(pwd);
 	        if (pwd == null || "".equals(pwd)) {
 	            msg = "请输入密码";
 	            count ++;
@@ -1322,15 +1344,19 @@ public class UserManageController extends BaseController{
 	  * @param @param user
 	  * @param @return      
 	  * @return String
+	 * @throws Exception 
 	  */
 	  @RequestMapping(value = "/setPassword", produces = "text/html;charset=UTF-8")
 	  @ResponseBody
-	  public String setPassword(Model model, User user){
+	  public String setPassword(Model model, User user) throws Exception{
 		  String typeId = user.getTypeId();
 		  int count = 0;
 		  String msg = "";
-		  String pwd = user.getPassword();
-		  String pwd2 = user.getPassword2();
+		  //私密 解密
+	      String pwd2 = RSAEncrypt.decryptPrivate(user.getPassword2()) ;
+	        user.setPassword2(pwd2);
+	      String pwd = RSAEncrypt.decryptPrivate(user.getPassword());
+	        user.setPassword(pwd);
 		  if(typeId != null && typeId != ""){
 			  List<User> selectByTypeId = userService.selectByTypeId(typeId);
 			  if(!selectByTypeId.isEmpty() && selectByTypeId.size() > 0){

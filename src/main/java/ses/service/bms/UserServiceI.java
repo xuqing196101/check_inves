@@ -323,4 +323,15 @@ public interface UserServiceI {
 	 * @return void
 	 */
 	void updateByTypeId (String typeId);
+	/**
+	 * 
+	 * Description:查询 是否 是2017-06-05 之前修改的用户
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-5
+	 * @param date
+	 * @param loginName
+	 * @return
+	 */
+	Integer isUpdateUser(String date,String loginName);
 }

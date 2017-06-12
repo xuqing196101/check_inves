@@ -39,6 +39,7 @@ import ses.util.PropUtil;
 import common.constant.Constant;
 import common.service.LoginLogService;
 import common.utils.AuthUtil;
+import common.utils.RSAEncrypt;
 
 
 /**
@@ -87,7 +88,8 @@ public class LoginController {
     private UserDataRuleService UserDataRuleService;
 
     private static Logger logger = Logger.getLogger(LoginController.class); 
-
+    //定义修改强制修改时间
+    private static String modifyDate="2017-06-05";
     /**
      * Description: 用户登录
      * 
@@ -98,12 +100,13 @@ public class LoginController {
      * @param response
      * @param model
      * @param rqcode
-     * @throws IOException
      * @exception IOException
+     * @throws Exception 
      */
     @RequestMapping("/login")
-    public void login(User user, HttpServletRequest req, HttpServletResponse response, Model model, String rqcode) throws IOException {
+    public void login(User user, HttpServletRequest req, HttpServletResponse response, Model model, String rqcode) throws Exception {
         PrintWriter out = response.getWriter();
+        user.setPassword(RSAEncrypt.decryptPrivate(user.getPassword()));
         if (user.getLoginName() != null && !"".equals(user.getPassword().trim()) && user.getPassword() != null && !"".equals(user.getPassword().trim()) && rqcode != null && !"".equals(rqcode.trim())) {
             // 根据用户名查找
             List<User> list = userService.findByLoginName(user.getLoginName());
@@ -177,7 +180,7 @@ public class LoginController {
                                 } else if (object.equals("4")) {
                                     out.print("firset," + u.getId());
                                 } else if (object.equals("6")) {
-                                    out.print("weed");
+                                    out.print("weed,"+u.getId());
                                 } else if (object.equals("7")) {
                                     out.print("notLogin");
                                 }
@@ -308,6 +311,9 @@ public class LoginController {
     public String index(HttpServletRequest req,String type,String page,String id){
         User user = (User) req.getSession().getAttribute("loginUser");
         if (user != null){
+        	//判断 该用户 是否是6.5号之前注册  修改日期不是6.5号的 用户 强制修改密码
+        	Integer ischeck=userService.isUpdateUser(modifyDate, user.getLoginName());
+        	if(ischeck>0){
             //站内
             StationMessage message=new StationMessage();
             message.setIsFinish((short)0);
@@ -322,6 +328,11 @@ public class LoginController {
             req.setAttribute("stationMessage", listStationMessage);
             Integer tenderKey = Constant.TENDER_SYS_KEY;
             req.setAttribute("sysId",tenderKey);
+        	}else{
+        		req.setAttribute("uid",user.getId());
+        		//跳转自定义 强制修改密码页面
+        		return "initPassword";
+        	}
         }
         return "index";    
     }

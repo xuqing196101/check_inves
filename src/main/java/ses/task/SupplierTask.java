@@ -222,6 +222,14 @@ public class SupplierTask {
 	}
 	
 	
+		
+	
+	public void handlerExportSupplier68(){
+		String startTime="2017-06-08 00:00:00";
+		String endTime="2017-06-08 23:59:59";
+		outerSupplierService.exportCommitSupplier(startTime, endTime,new Date());
+	}
+	
 	
 	
 }

@@ -4,6 +4,8 @@ import iss.model.ps.ArticleType;
 
 import java.util.List;
 
+import ses.model.bms.AnalyzeBigDecimal;
+
 
 /**
 * @Title:ArticleTypeMapper 
@@ -116,14 +118,42 @@ public interface ArticleTypeMapper {
      
      /**
       * 
-      * Description: app查询栏目类型
+      * Description:根据各栏目信息查询公告
       * 
-      * @author  zhang shubin
-      * @version  2017年6月1日 
-      * @param  @param id
-      * @param  @return 
-      * @return ArticleType 
-      * @exception
+      * @author Easong
+      * @version 2017年6月7日
+      * @return
       */
-     ArticleType selectTypeApp(String id);
+     List<AnalyzeBigDecimal>  selectNoticeByArticleType();
+     
+     /**
+      * 
+      * Description:根据各类型公告查询
+      * 
+      * @author Easong
+      * @version 2017年6月7日
+      * @return
+      */
+     List<AnalyzeBigDecimal>  selectNoticeByCateType();
+     
+     /**
+      * 
+      * Description:根据各采购方式公告查询
+      * 
+      * @author Easong
+      * @version 2017年6月7日
+      * @return
+      */
+     List<AnalyzeBigDecimal>  selectNoticeByPurWay();
+     
+     /**
+      * 
+      * Description:发布排名前10的产品类别数量
+      * 
+      * @author Easong
+      * @version 2017年6月7日
+      * @return
+      */
+     List<AnalyzeBigDecimal>  selectNoticeByProductCate();
+     
 }

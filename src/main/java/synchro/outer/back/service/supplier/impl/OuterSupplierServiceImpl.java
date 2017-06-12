@@ -225,22 +225,22 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     public void getExportData(String startTime, String endTime, Date synchDate){
         List<Supplier> supplierList = supplierService.getCommintSupplierByDate(startTime, endTime);
         List<Supplier> list = getSupplierList(supplierList);
-        List<UploadFile> attachList = new ArrayList<>();
+//        List<UploadFile> attachList = new ArrayList<>();
         List<SupplierFinance> listSupplierFinances = new ArrayList<SupplierFinance>();
         List<SupplierCertPro> listSupplierCertPros = new ArrayList<SupplierCertPro>();
         List<SupplierMatEng> matEngs=new ArrayList<SupplierMatEng>();
         List<SupplierAptitute> listSupplierCertEngs = new ArrayList<SupplierAptitute>();
         List<SupplierCertSell> listSupplierCertSells = new ArrayList<SupplierCertSell>();
         List<SupplierCertServe> listSupplierCertSes = new ArrayList<SupplierCertServe>();
-        List < Category > category = new ArrayList < Category > ();
+//        List < Category > category = new ArrayList < Category > ();
         for (Supplier supp : list){
         	   //代办导入
            List<Todos> todos = todosMapper.getTodos(supp.getUser().getId());
            List<RoleUser> userRoles = userMapper.queryByUserId(supp.getUser().getId(), null);
            supp.setUserRoles(userRoles);
             supp.setTodoList(todos);
-            List<UploadFile> fileList = uploadService.substrBusniessI(supp.getId());
-            attachList.addAll(fileList);
+//            List<UploadFile> fileList = uploadService.substrBusniessI(supp.getId());
+//            attachList.addAll(fileList);
             listSupplierFinances.addAll(supp.getListSupplierFinances());
             if(supp.getSupplierMatPro()!=null){
             	listSupplierCertPros.addAll(supp.getSupplierMatPro().getListSupplierCertPros());
@@ -257,41 +257,41 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
             	listSupplierCertSes.addAll(supp.getSupplierMatSe().getListSupplierCertSes());
             }
       
-    		List < SupplierItem > itemsList = supplierItemService.getSupplierId(supp.getId());
-    		for(SupplierItem item: itemsList) {
-    			 List<UploadFile> itemFiles = uploadService.substrBusniessI(item.getId());
-    			Category cate = categoryService.findById(item.getCategoryId());
-    			if(cate!=null){
-    				cate.setId(item.getId());
-        			category.add(cate);
-    			}
-    			 attachList.addAll(itemFiles);
-    		}
+//    		List < SupplierItem > itemsList = supplierItemService.getSupplierId(supp.getId());
+//    		for(SupplierItem item: itemsList) {
+//    			 List<UploadFile> itemFiles = uploadService.substrBusniessI(item.getId());
+//    			Category cate = categoryService.findById(item.getCategoryId());
+//    			if(cate!=null){
+//    				cate.setId(item.getId());
+//        			category.add(cate);
+//    			}
+//    			 attachList.addAll(itemFiles);
+//    		}
     		
-    		List<SupplierAddress> addressList = supp.getAddressList();
-    		
-    		if(addressList!=null&&addressList.size()>0){
-    			for(SupplierAddress sa:addressList){
-        			List<UploadFile> addrFiles = uploadService.substrBusniessI(sa.getId());
-                    attachList.addAll(addrFiles);
-        		}
-    		}
+//    		List<SupplierAddress> addressList = supp.getAddressList();
+//    		
+//    		if(addressList!=null&&addressList.size()>0){
+//    			for(SupplierAddress sa:addressList){
+//        			List<UploadFile> addrFiles = uploadService.substrBusniessI(sa.getId());
+//                    attachList.addAll(addrFiles);
+//        		}
+//    		}
     		
     		
     		
     		
         }
         //财务信息附件
-        for(SupplierFinance fiance:listSupplierFinances){
-        	   List<UploadFile> fileList = uploadService.findBybusinessId(fiance.getId(), Constant.SUPPLIER_SYS_KEY);
-               attachList.addAll(fileList);
-        }
+//        for(SupplierFinance fiance:listSupplierFinances){
+//        	   List<UploadFile> fileList = uploadService.findBybusinessId(fiance.getId(), Constant.SUPPLIER_SYS_KEY);
+//               attachList.addAll(fileList);
+//        }
         
         //生产证书信息附件
-        for(SupplierCertPro proCert:listSupplierCertPros){
-        	List<UploadFile> fileList = uploadService.findBybusinessId(proCert.getId(), Constant.SUPPLIER_SYS_KEY);
-            attachList.addAll(fileList);
-        }
+//        for(SupplierCertPro proCert:listSupplierCertPros){
+//        	List<UploadFile> fileList = uploadService.findBybusinessId(proCert.getId(), Constant.SUPPLIER_SYS_KEY);
+//            attachList.addAll(fileList);
+//        }
         
         //工程信息主表附件
         
@@ -300,21 +300,21 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         
         //工程资质信息附件
          
-        for(SupplierAptitute eng:listSupplierCertEngs){
-        	List<UploadFile> fileList = uploadService.findBybusinessId(eng.getId(), Constant.SUPPLIER_SYS_KEY);
-            attachList.addAll(fileList);
-        }
+//        for(SupplierAptitute eng:listSupplierCertEngs){
+//        	List<UploadFile> fileList = uploadService.findBybusinessId(eng.getId(), Constant.SUPPLIER_SYS_KEY);
+//            attachList.addAll(fileList);
+//        }
         
         //销售证书附件
-        for(SupplierCertSell sell:listSupplierCertSells){
-        	List<UploadFile> fileList = uploadService.findBybusinessId(sell.getId(), Constant.SUPPLIER_SYS_KEY);
-            attachList.addAll(fileList);
-        }
+//        for(SupplierCertSell sell:listSupplierCertSells){
+//        	List<UploadFile> fileList = uploadService.findBybusinessId(sell.getId(), Constant.SUPPLIER_SYS_KEY);
+//            attachList.addAll(fileList);
+//        }
         //服务证书信息附件
-        for(SupplierCertServe sell:listSupplierCertSes){
-        	List<UploadFile> fileList = uploadService.findBybusinessId(sell.getId(), Constant.SUPPLIER_SYS_KEY);
-            attachList.addAll(fileList);
-        }
+//        for(SupplierCertServe sell:listSupplierCertSes){
+//        	List<UploadFile> fileList = uploadService.findBybusinessId(sell.getId(), Constant.SUPPLIER_SYS_KEY);
+//            attachList.addAll(fileList);
+//        }
         //资质证书附件
         
         
@@ -329,11 +329,11 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      
         if (list != null && list.size() > 0){
             FileUtils.writeFile(FileUtils.getNewSupperBackUpFile(),JSON.toJSONString(list));
-            String basePath = FileUtils.attachExportPath(Constant.SUPPLIER_SYS_KEY);
-            if (StringUtils.isNotBlank(basePath)){
-                OperAttachment.writeFile(basePath, attachList);
-                recordService.backupAttach(new Integer(attachList.size()).toString());
-            }
+//            String basePath = FileUtils.attachExportPath(Constant.SUPPLIER_SYS_KEY);
+//            if (StringUtils.isNotBlank(basePath)){
+//                OperAttachment.writeFile(basePath, attachList);
+//                recordService.backupAttach(new Integer(attachList.size()).toString());
+//            }
         }
         recordService.commitSupplierRecord(new Integer(list.size()).toString(), synchDate );
     }

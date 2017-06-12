@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.dao.app.IndexAppMapper">
+  <!-- app首页动态数据映射 -->
+  <resultMap id="AppIndexNewsMapper" type="iss.model.ps.Article">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PUBLISHED_AT" jdbcType="TIMESTAMP" property="publishedAt" />
+    <!-- <result column="CONTENT" jdbcType="CLOB" property="content" /> -->
+    <association property="articleType" column="LAST_ARTICLE_TYPE_ID" select="app.dao.app.AppArticleTypeMapper.selectTypeApp"/>
+  </resultMap>
+  <!-- app首页处罚公告数据映射 -->
+  <resultMap id="AppIndexNewsMapper2" type="iss.model.ps.Article">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PUBLISHED_AT" jdbcType="TIMESTAMP" property="publishedAt" />
+    <!-- <result column="CONTENT" jdbcType="CLOB" property="content" /> -->
+    <association property="articleType" column="ARTICLE_TYPE_ID" select="app.dao.app.AppArticleTypeMapper.selectTypeApp"/>
+  </resultMap>
+  
+  <!-- app首页处罚公告数据映射 -->
+  <resultMap id="AppContentMapper" type="iss.model.ps.Article">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PUBLISHED_AT" jdbcType="TIMESTAMP" property="publishedAt" />
+    <result column="CONTENT" jdbcType="CLOB" property="content" />
+  </resultMap>
+  
+  <!-- APP首页动态通知和公告查询 -->
+  <select id="selectAppNewsByArticleTypeId" resultMap="AppIndexNewsMapper" parameterType="String">
+    SELECT * FROM (
+      SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID FROM T_ISS_PS_ARTICLE
+      WHERE STATUS = 2
+      AND IS_DELETED = 0
+      AND LAST_ARTICLE_TYPE_ID = #{articleTypeId}
+      ORDER BY PUBLISHED_AT DESC)
+    WHERE ROWNUM = 1
+  </select>
+  
+  <!-- APP首页查询处罚公告 -->
+  <select id="selectAppChuFaNewsByTypeId" resultMap="AppIndexNewsMapper2" parameterType="String">
+    SELECT * FROM (
+      SELECT ID,NAME,PUBLISHED_AT,ARTICLE_TYPE_ID FROM T_ISS_PS_ARTICLE
+      WHERE STATUS = 2
+      AND IS_DELETED = 0
+      AND ARTICLE_TYPE_ID = #{articleTypeId}
+      ORDER BY PUBLISHED_AT DESC)
+    WHERE ROWNUM = 1
+  </select>
+  
+  <!-- 查询公告列表 -->
+  <select id="selectAppArticleListByTypeId" resultMap="AppIndexNewsMapper" parameterType="Map">
+    SELECT * FROM (
+      SELECT a.*,ROWNUM ROW_NUM FROM (
+        SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID FROM T_ISS_PS_ARTICLE
+        WHERE STATUS = 2
+        AND IS_DELETED = 0
+        AND LAST_ARTICLE_TYPE_ID = #{articleTypeId}
+        ORDER BY PUBLISHED_AT DESC) a
+      ) b 
+    WHERE b.ROW_NUM between #{start} AND #{end}
+  </select>
+  
+  <!-- 分页查询法规 -->
+  <select id="selectAppRegulations" resultMap="AppIndexNewsMapper" parameterType="Map">
+    SELECT * FROM (
+      SELECT a.*,ROWNUM ROW_NUM FROM (
+        SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID FROM T_ISS_PS_ARTICLE
+        WHERE STATUS = 2
+        AND IS_DELETED = 0
+        AND LAST_ARTICLE_TYPE_ID in
+      <foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+        ORDER BY PUBLISHED_AT DESC) a
+      ) b 
+    WHERE b.ROW_NUM between #{start} AND #{end}
+  </select>
+  
+  <!-- 分页查询处罚公告 -->
+  <select id="selectAppPunishment" resultMap="AppIndexNewsMapper" parameterType="Map">
+    SELECT * FROM (
+      SELECT a.*,ROWNUM ROW_NUM FROM (
+        SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID FROM T_ISS_PS_ARTICLE
+        WHERE STATUS = 2
+        AND IS_DELETED = 0
+        AND ARTICLE_TYPE_ID = #{articleTypeId}
+        ORDER BY PUBLISHED_AT DESC) a
+      ) b 
+    WHERE b.ROW_NUM between #{start} AND #{end}
+  </select>
+  
+  <!-- 搜索 -->
+  <select id="search" resultMap="AppIndexNewsMapper" parameterType="Map">
+    SELECT * FROM (
+      SELECT a.*,ROWNUM ROW_NUM FROM (
+        SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID
+        FROM T_ISS_PS_ARTICLE
+        WHERE IS_DELETED =0 
+        <if test="key != null and key != ''">
+          AND NAME LIKE CONCAT(CONCAT('%', #{key}), '%')
+        </if>
+        AND STATUS=2
+        ORDER BY PUBLISHED_AT DESC) a
+      ) b 
+    WHERE b.ROW_NUM between #{start} AND #{end}
+  </select>
+  
+  <!-- 查询公告内容 -->
+  <select id="selectContentById" resultMap="AppContentMapper" parameterType="String">
+    SELECT ID,NAME,PUBLISHED_AT,CONTENT
+    FROM T_ISS_PS_ARTICLE
+    WHERE ID = #{id}
+  </select>
+  
+  <!-- 查询附件路径 --> 
+   <select id="selectPathById" resultType="String" parameterType="String">
+    SELECT PATH FROM T_SES_BMS_ATTACHMENT WHERE IS_DELETED = 0 AND BUSINESS_ID = #{id} AND ROWNUM = 1
+  </select>
+</mapper>

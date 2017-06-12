@@ -1,5 +1,7 @@
 package bss.controller.pms;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -10,6 +12,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -22,8 +25,10 @@ import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.service.oms.OrgnizationServiceI;
+import ses.util.PropUtil;
 import bss.controller.base.BaseController;
 import bss.model.pms.CollectPlan;
+import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.Task;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
@@ -31,9 +36,11 @@ import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.TaskService;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import common.constant.StaticVariables;
 
 /**
  * 
@@ -55,9 +62,6 @@ public class TaskAssignController extends BaseController{
 	
 	@Autowired
 	private TaskService taskservice;
-	
-	@Autowired
-	private PurchaseRequiredService purchaseRequiredService;
 	
 	@Autowired
 	private CollectPurchaseService collectPurchaseService;
@@ -232,7 +236,46 @@ public class TaskAssignController extends BaseController{
 	        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 	    } 
 	 
-	 
- 
-	
+	 /**
+	  * 
+	  *〈资源展示根据管理部门ID查看计划〉
+	  *〈详细描述〉
+	  * @author FengTian
+	  * @param collectPlan
+	  * @param orgId
+	  * @param page
+	  * @param model
+	  * @return
+	  */
+	 @RequestMapping("/viewPlan")
+	 public String viewPlan(CollectPlan collectPlan, String orgId, String date, String orgnizationId, Integer page, Model model){
+	     HashMap<String, Object> map = new HashMap<>();
+	     if(StringUtils.isNotBlank(collectPlan.getFileName())){
+	         map.put("fileName", collectPlan.getFileName());
+	     }
+	     if (page == null) {
+	         page = StaticVariables.DEFAULT_PAGE;
+	     }
+	     PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+	     if(StringUtils.isNotBlank(orgId)){
+             map.put("orgId", orgId);
+             List<CollectPlan> list = collectPlanService.selectManagePlan(map);
+             model.addAttribute("orgId", orgId);
+             model.addAttribute("info", new PageInfo<CollectPlan>(list));
+         }
+	     if(StringUtils.isNotBlank(date)){
+             map.put("date", date);
+             List<CollectPlan> list = collectPlanService.selectDatePlan(map);
+             model.addAttribute("date", date);
+             model.addAttribute("info", new PageInfo<CollectPlan>(list));
+         }
+	     if(StringUtils.isNotBlank(orgnizationId)){
+	         map.put("orgnizationId", orgnizationId);
+             List<CollectPlan> list = collectPlanService.selectOrgPlan(map);
+             model.addAttribute("orgnizationId", orgnizationId);
+             model.addAttribute("info", new PageInfo<CollectPlan>(list));
+	     }
+	     model.addAttribute("collectPlan", collectPlan);
+	     return "dss/rids/list/view_plan";
+	 }
 }

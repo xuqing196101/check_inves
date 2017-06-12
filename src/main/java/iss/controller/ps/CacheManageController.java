@@ -6,12 +6,8 @@ import iss.model.ps.CachePage;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,11 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageInfo;
-
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.Pipeline;
 import ses.util.PropertiesUtil;
 import common.utils.JdcgResult;
 import common.utils.RedisUtils;
@@ -48,6 +41,10 @@ public class CacheManageController {
 	private static final Logger log = LoggerFactory
 			.getLogger(CacheFilter.class);
 
+	// 定义缓存健类型
+	private static final Object STRING_TYPE = "string";
+	private static final Object HASH_TYPE = "hash";
+	
 	@Autowired
 	private JedisPool jedisPool;
 
@@ -206,12 +203,19 @@ public class CacheManageController {
 	 * @throws
 	 */
 	@RequestMapping("/getValueByKey")
-	public String getValueByKey(String cacheKey, String cacheType, Model model) {
+	public Object getValueByKey(String cacheKey, String cacheType, Model model) {
 		Jedis jedis = null;
 		Cache cache = new Cache();
 		try {
 			jedis = RedisUtils.getResource(jedisPool);
-			String cacheValue = jedis.get(cacheKey);
+			Object cacheValue = null;
+			if(STRING_TYPE.equals(cacheType)){
+				cacheValue = jedis.get(cacheKey);
+				
+			}
+			if(HASH_TYPE.equals(cacheType)){
+				cacheValue = jedis.hgetAll(cacheKey);
+			}
 			cache.setContent(cacheValue);
 			cache.setName(cacheKey);
 		} catch (Exception e) {

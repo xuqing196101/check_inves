@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+		<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 
 
@@ -21,11 +21,23 @@ function goBack(){
   
   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
+	   <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">供应商报价</a></li></ul>
-		<div class="clear"></div>
-	  </div>
+			   <li>
+				   <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			   </li>
+			   <li>
+				   <a href="javascript:void(0);"> 保障作业</a>
+			   </li>
+			   <li>
+				   <a href="javascript:void(0);"> 单一来源审价</a>
+			   </li>
+			   <li>
+				   <a href="javascript:jumppage('${pageContext.request.contextPath}/offer/list.html')">供应商报价</a>
+			   </li>
+		   </ul>
+		   <div class="clear"></div>
+	   </div>
    </div>
   
   <form action="${pageContext.request.contextPath}/offerProduct/save.html" method="post">

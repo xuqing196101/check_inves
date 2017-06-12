@@ -86,13 +86,13 @@ public class ToDoController {
             PageInfo<Todos> pageInfo=null;
             //供应商待办
             if(type==0){
-            	 List<Todos> supplierlist = todosService.listUrlTodoPage(todos, (short)1,page);
+            	 List<Todos> supplierlist = todosService.listUrlTodoPage(todos, (short)1,page,user);
             	 pageInfo= new PageInfo<Todos>(supplierlist);
             }else if(type==1){//专家待办
-            	List<Todos> expertlist = todosService.listUrlTodoPage(todos, (short)2,page);
+            	List<Todos> expertlist = todosService.listUrlTodoPage(todos, (short)2,page,user);
             	pageInfo= new PageInfo<Todos>(expertlist);
             }else if(type==2){//项目待办
-            	List<Todos> projectlist = todosService.listUrlTodoPage(todos, (short)3,page);
+            	List<Todos> projectlist = todosService.listUrlTodoPage(todos, (short)3,page,user);
             	pageInfo = new PageInfo<Todos>(projectlist);
             }
             /*for(Todos to:pageInfo.getList()){

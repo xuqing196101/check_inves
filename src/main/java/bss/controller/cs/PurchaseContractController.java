@@ -581,24 +581,32 @@ public class PurchaseContractController extends BaseSupplierController{
 		}
 		return purchaseCon;
 	}
-	@ResponseBody
+	
+	/**
+	 * 
+	 *〈根据合同编号查询售后〉
+	 *〈详细描述〉
+	 * @author FengTian
+	 * @param code
+	 * @return
+	 */
 	@RequestMapping("/viewAfter")
+	@ResponseBody
 	public String viewAfter(String code){
-	    HashMap<String, Object> map = new HashMap<>();
 	    if(StringUtils.isNotBlank(code)){
 	        PurchaseContract purchaseCon = purchaseContractService.selectByCode(code);
-	        if(purchaseCon != null){
-	            map.put("purchaseCon", purchaseCon);
+	        if(purchaseCon != null && StringUtils.isNotBlank(purchaseCon.getId())){
+	            HashMap<String, Object> map = new HashMap<>();
+	            map.put("contractId", purchaseCon.getId());
+	            List<AfterSaleSer> selectByAll = saleSerService.selectByAll(map);
+	            if(selectByAll != null && selectByAll.size() > 0){
+	                return "1";
+	            }else{
+	                return "0";
+	            }
 	        }
-	        List<AfterSaleSer> selectByAll = saleSerService.selectByAll(map);
-	        if(selectByAll != null && selectByAll.size() > 0){
-	            return "1";
-	        }else{
-	            return "0";
-	        }
-	    }else{
-	        return "2";
 	    }
+	    return "2";
 	}
 	/**
 	 * 

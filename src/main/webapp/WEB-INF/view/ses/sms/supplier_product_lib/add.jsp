@@ -229,7 +229,7 @@
 				// 保存时不做校验
 				$("#flag").val(flag);
 				// 表单提交
-				$.post("${pageContext.request.contextPath}/product_lib/addProductLibInfo.do?", $("#smsProductLibForm").serialize(), function(data) {
+				$.post("${pageContext.request.contextPath}/product_lib/addProductLibInfo.do", $("#smsProductLibForm").serialize(), function(data) {
 					if (data.status == 200) {
 						layer.confirm("操作成功",{
 							btn:['确定']

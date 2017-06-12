@@ -19,10 +19,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<jsp:include page="backend_common.jsp"></jsp:include>	
 	
-<script src="<%=basePath%>public/ZHQ/js/hm.js"></script><script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/hm.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 <!--导航js-->
-<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -36,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div class="row container margin-bottom-10">
             <div class="col-md-8">
               <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/ZHQ/images/logo.png" id="logo-header">
+                 <img alt="Logo" src="${pageContext.request.contextPath}/public/ZHQ/images/logo.png" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->
@@ -141,7 +142,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   <div class="title bbgrey ">中国人民解放军95981部队气象物资中标结果公示</div>
 	   <div class="new_time bbgrey mt10">（2016-KJBJ-1008-2)</div>
 	 </h3>
-	 <div class="p15_0" ><div class="fr"><span>文章来源：空军</span><span class="ml15"><i class="mr5"><img src="<%=basePath%>public/ZHQ/images/block.png"/></i>2016.01.15</span></div></div>
+	 <div class="p15_0" ><div class="fr"><span>文章来源：空军</span><span class="ml15"><i class="mr5"><img src="${pageContext.request.contextPath}/public/ZHQ/images/block.png"/></i>2016.01.15</span></div></div>
 	 <div class="clear margin-top-20 new_content">
 	       中国人民解放军95981部队对气象物资进行了公开招标，现就本次评标结果排序（前三名）及中标结果公示如下：
 一、项目名称：气象物资

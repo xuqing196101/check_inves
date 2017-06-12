@@ -176,4 +176,11 @@
 		<include refid="Base_Column_List" />
 		 from T_SES_BMS_AREA where PARENT_ID = #{id} AND IS_DELETED = 0 ORDER BY CREATED_AT ASC
 	</select>
+	
+	<!-- 通过省名称模糊查询地区ID -->
+	<select id="selectByName" parameterType="java.lang.String" resultType="java.lang.String">
+		 SELECT T.ID 
+		 	FROM T_SES_BMS_AREA T 
+		 	WHERE T.NAME LIKE CONCAT(CONCAT('%',#{name}), '%')
+	</select>
 </mapper>

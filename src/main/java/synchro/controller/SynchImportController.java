@@ -230,6 +230,12 @@ public class SynchImportController {
                  	bean.setSuccess(false);
                      return bean;
                  }
+            	 
+            	 if(synchType.contains("img_inner")){
+            		 synchService.imageImportHandler(); 
+            	 }
+            	 
+            	 
             	 if(synchType.contains(Constant.DATA_TYPE_INFOS_CODE)){
             		 //信息导入
             		 if (f.getName().contains(FileUtils.C_INFOS_FILENAME)){
@@ -345,7 +351,7 @@ public class SynchImportController {
                  
                  /**专家退回修改后重新提交审核导入内网*/
                  if(synchType.contains("expert_again_inner")){
-					if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {
+					if (f.getName().contains(FileUtils.C_EXPERT_ALL_NOT)) {
 						innerExpertService.readModifyExpertInfo(f);
 					}
 					if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)) {

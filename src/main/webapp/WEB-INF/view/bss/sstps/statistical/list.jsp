@@ -56,13 +56,16 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
-            <a href="javascript:void(0)"> 首页</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
           </li>
           <li>
-            <a href="javascript:void(0)">单一来源审价</a>
+            <a href="javascript:void(0);"> 保障作业</a>
           </li>
           <li>
-            <a href="javascript:void(0)">审价结果统计</a>
+            <a href="javascript:void(0);"> 单一来源审价</a>
+          </li>
+          <li>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/statistical/view.html')">审价结果统计</a>
           </li>
         </ul>
         <div class="clear"></div>

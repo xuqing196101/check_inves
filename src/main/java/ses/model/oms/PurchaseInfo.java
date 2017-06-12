@@ -70,6 +70,9 @@ public class PurchaseInfo extends User{
     private String userId;//用户id
     
     private Integer age;
+    
+    /** 采购人员性别 **/
+    private String gender;
 
     public String getId() {
         return id;
@@ -309,5 +312,13 @@ public class PurchaseInfo extends User{
 	public void setAge(Integer age) {
 		this.age = age;
 	}
-    
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	
 }

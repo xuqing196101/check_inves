@@ -1,5 +1,6 @@
 package ses.dao.sms;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -108,5 +109,16 @@ public interface SupplierItemMapper {
 	 */
 	List<SupplierItem> selectByCategoryId (String categoryId);
     
+	
+	/**
+	 * 
+	 * Description:统计供应商类型数量 物资销售、物资生产、工程、服务 
+	 * 
+	 * @author Easong
+	 * @version 2017年5月23日
+	 * @param cateType
+	 * @return
+	 */
+	BigDecimal findAnalyzeSupplierCateType(@Param("cateType") String cateType);
     
 }

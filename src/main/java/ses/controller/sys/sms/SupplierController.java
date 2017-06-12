@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
@@ -84,6 +85,8 @@ import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.LoginLogService;
 import common.service.UploadService;
+import common.utils.Base64;
+import common.utils.RSAEncrypt;
 
 /**
  * @Title: supplierController
@@ -264,12 +267,25 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @param model
 	 * @param: @return
 	 * @return: String
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "register")
-	public String register(HttpServletRequest request, Model model, Supplier supplier) {
+	public String register(HttpServletRequest request, Model model, Supplier supplier) throws Exception {
 		Supplier sup = supplierService.selectById(supplier.getId());
 		//未注册供应商
 		if(sup == null) {
+				//获取供应商 输入的密码
+				String pwd=supplier.getPassword();
+				//获取供应商 输入的确定密码
+				String cpwd=supplier.getConfirmPassword();
+				if(pwd !=null){
+					//获取私钥 解密 输入密码
+					supplier.setPassword(RSAEncrypt.decryptPrivate(pwd));
+				}
+				if(cpwd !=null){
+					//获取私钥解密方法 解密确定密码
+					supplier.setConfirmPassword(RSAEncrypt.decryptPrivate(cpwd));
+				}
 			boolean flag = validateRegister(request, model, supplier);
 			if(flag) {
 				supplier = supplierService.register(supplier);
@@ -688,8 +704,6 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_basic")
 	public String perfectBasic(HttpServletRequest request, Model model, Supplier supplier) throws Exception {
-		
-		
 		// 非空处理
 	    List < SupplierAddress > addressList = supplier.getAddressList();
 	    for(int i = 0; i < addressList.size(); i++) {
@@ -753,7 +767,10 @@ public class SupplierController extends BaseSupplierController {
 			List < DictionaryData > wlist = DictionaryDataUtil.find(8);
 			model.addAttribute("wlist", wlist);
 			//物资生产类型的必须有的证书
-			if(supplier.getSupplierMatPro() == null) {
+			//supplier.getSupplierMatPro().getListSupplierCertPros().get(0)
+			if(supplier.getSupplierMatPro() == null
+					|| supplier.getSupplierMatPro().getListSupplierCertPros() == null
+					|| supplier.getSupplierMatPro().getListSupplierCertPros().size() == 0) {
 				supplier.setSupplierMatPro(supplierMatProService.init());
 			}
 			if(supplier.getSupplierMatSell() == null) {
@@ -839,6 +856,9 @@ public class SupplierController extends BaseSupplierController {
 	            	findList.add(q);
 	            }
 			model.addAttribute("typeList", findList);
+			// 物资销售是否满足条件
+			String isSalePass = isPass(supplier.getId(), "SALES");
+			model.addAttribute("isSalePass", isSalePass);
 			return "ses/sms/supplier_register/supplier_type";
 		} else {
 			Supplier supplier2 = supplierService.get(supplier.getId());
@@ -1826,12 +1846,22 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("stech", "格式不正确");
             return false;
 		}
+		double scaleTech = Double.valueOf(supplierMatPro.getScaleTech());
+		if(scaleTech<0 || scaleTech>100) {
+			model.addAttribute("stech", "百分比格式不对，正确格式为0-100的数字");
+            return false;
+		}
 		if(supplierMatPro.getScaleHeightTech() == null) {
 			model.addAttribute("height", "格式不正确");
             return false;
 		}
 		if(supplierMatPro.getScaleHeightTech() != null && !supplierMatPro.getScaleHeightTech().matches("^[-+]?\\d+(\\.\\d+)?$")) {
 			model.addAttribute("height", "格式不正确");
+            return false;
+		}
+		double scaleHeightTech = Double.valueOf(supplierMatPro.getScaleHeightTech());
+		if(scaleHeightTech<0 || scaleHeightTech>100) {
+			model.addAttribute("height", "百分比格式不对，正确格式为0-100的数字");
             return false;
 		}
 		if(supplierMatPro.getResearchName() == null) {
@@ -2042,7 +2072,7 @@ public class SupplierController extends BaseSupplierController {
     	Integer size=listSupplierAptitutes.size();
     	if(!count.equals(size)){
     		bool=false;
-    		 model.addAttribute("eng_aptitutes", "请上传文件！");
+    		model.addAttribute("eng_aptitutes", "请上传文件！");
     	}
     	
 		return bool;
@@ -2204,15 +2234,15 @@ public class SupplierController extends BaseSupplierController {
             PrintWriter out = response.getWriter();
             StringBuilder builder = new StringBuilder();
             builder.append("<HTML><HEAD>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
-            builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
+            builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
             builder.append("</HEAD>");
             builder.append("<script type=\"text/javascript\">"); 
             builder.append("$(function() {");
             builder.append("layer.confirm('您未登陆，请登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
             builder.append("window.top.location.href='"); 
-            builder.append(basePath+"index/sign.html");  
+            builder.append(request.getContextPath()+"/index/sign.html");  
             builder.append("';"); 
             builder.append("});");
             builder.append("});");
@@ -2229,15 +2259,15 @@ public class SupplierController extends BaseSupplierController {
             PrintWriter out = response.getWriter();
             StringBuilder builder = new StringBuilder();
             builder.append("<HTML><HEAD>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
-            builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
+            builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
             builder.append("</HEAD>");
             builder.append("<script type=\"text/javascript\">"); 
             builder.append("$(function() {");
             builder.append("layer.confirm('不是当前操作人，请登录修改！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
             builder.append("window.top.location.href='"); 
-            builder.append(basePath+"index/sign.html");  
+            builder.append(request.getContextPath()+"/index/sign.html");  
             builder.append("';"); 
             builder.append("});");
             builder.append("});");
@@ -2276,7 +2306,7 @@ public class SupplierController extends BaseSupplierController {
 				SupplierFinance fin1 = new SupplierFinance();
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				fin1.setId(id);
-				fin1.setYear(String.valueOf(threeYear()));
+				fin1.setYear(String.valueOf(oneYear()));
 				supplier.getListSupplierFinances().add(fin1);
 			}
 			SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
@@ -2292,7 +2322,7 @@ public class SupplierController extends BaseSupplierController {
 				SupplierFinance fin3 = new SupplierFinance();
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				fin3.setId(id);
-				fin3.setYear(String.valueOf(oneYear()));
+				fin3.setYear(String.valueOf(threeYear()));
 				supplier.getListSupplierFinances().add(fin3);
 			}
 		}
@@ -2562,7 +2592,10 @@ public class SupplierController extends BaseSupplierController {
 	@ResponseBody
 	public String auditMsg(SupplierAudit supplierAudit) {
 		List < SupplierAudit > list = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		return JSON.toJSONString(list.get(0));
+		if(list != null && list.size() > 0){
+			return JSON.toJSONString(list.get(0));
+		}
+		return null;
 	}
 
 	public List < String > getAuditFiled(String id) {
@@ -2769,11 +2802,12 @@ public class SupplierController extends BaseSupplierController {
 		allInfo.put("isok", isok);
 		 
 		 if(dep!=null){
-			 allInfo.put("name", dep.getShortName());
+			 /*allInfo.put("name", dep.getShortName());
 			 allInfo.put("concat", dep.getSupplierContact());
 			 allInfo.put("phone", dep.getSupplierPhone());
 			 allInfo.put("address", dep.getSupplierAddress());
-			 allInfo.put("code", dep.getSupplierPostcode());
+			 allInfo.put("code", dep.getSupplierPostcode());*/
+			 allInfo.put("purchaseDep", dep);
 		 }
 
 		// 查询初审机构信息
@@ -3028,9 +3062,9 @@ public class SupplierController extends BaseSupplierController {
         BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
         List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
         if(stype!=null&&stype.trim().length()!=0){
-			 if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
+        	if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
                 return "0";
-	            }	
+            }	
 	   	}
         
         for (SupplierTypeRelate type : relate) {

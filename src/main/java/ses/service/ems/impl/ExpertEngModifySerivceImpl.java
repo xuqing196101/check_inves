@@ -53,13 +53,14 @@ public class ExpertEngModifySerivceImpl implements ExpertEngModifySerivce{
 		String goodsProjectId = DictionaryDataUtil.getId("GOODS_PROJECT");
 		
 		Expert expert = mapper.selectByPrimaryKey(expertId);
-		if(expert.getExpertsTypeId().contains(engCodeId)){
-			expertTitleList = expertTitleMapper.queryByExpertId(expertId,engCodeId);
-		}
-		if(expert.getExpertsTypeId().contains(goodsProjectId)){
-			expertTitleList = expertTitleMapper.queryByExpertId(expertId,goodsProjectId);	
-		}
-	        
+		if(expert.getExpertsTypeId() !=null && !"".equals(expert.getExpertsTypeId())){
+			if(expert.getExpertsTypeId().contains(engCodeId)){
+				expertTitleList = expertTitleMapper.queryByExpertId(expertId,engCodeId);
+			}
+			if(expert.getExpertsTypeId().contains(goodsProjectId)){
+				expertTitleList = expertTitleMapper.queryByExpertId(expertId,goodsProjectId);	
+			}
+		} 
 		//对比
 		expertEngHistory.setCreatedAt(date);
 		for(ExpertEngHistory history :expertEngHistoryList){

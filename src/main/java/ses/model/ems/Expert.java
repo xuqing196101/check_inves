@@ -95,6 +95,9 @@ public class Expert extends ExpertHistory implements Serializable {
     private String avoidanceSituation;
     
     private String companyAddress;
+    /** 所属采购机构 **/
+    private String orgName;
+    private String orgId;
     
     private List<ExpertTitle> titles=new ArrayList<ExpertTitle>();
     
@@ -302,6 +305,8 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private String  sex;
     
+    private String auditor;//审核人
+    
     /** 专家提交审核时间 **/
     private Date submitAt;
     
@@ -312,7 +317,7 @@ public class Expert extends ExpertHistory implements Serializable {
     
     //用户名
     private String loginName;
-
+    
     /**专家审核记录表*/
     private List<ExpertAudit> expertAuditList;
     /**工程执业资格历史表*/
@@ -321,8 +326,18 @@ public class Expert extends ExpertHistory implements Serializable {
     private List<ExpertEngHistory> expertEngModifyList;
     /**工程执业资格文件修改表*/
     private  List<ExpertAuditFileModify> expertAuditFileModifyList;
+    //步骤（用于区分第一步和其他几步）
+    private String step;
     
-    public String getStepNumber() {
+    public String getStep() {
+			return step;
+		}
+
+		public void setStep(String step) {
+			this.step = step;
+		}
+
+		public String getStepNumber() {
         return stepNumber;
     }
 
@@ -833,6 +848,29 @@ public class Expert extends ExpertHistory implements Serializable {
 	public void setIsOrg(Integer isOrg) {
 		this.isOrg = isOrg;
 	}
-    
+
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
+
+	public String getAuditor() {
+		return auditor;
+	}
+
+	public void setAuditor(String auditor) {
+		this.auditor = auditor;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
     
 }

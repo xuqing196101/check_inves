@@ -57,6 +57,12 @@
 .w120 {
   width: 120px; }
 
+.w125 {
+  width: 125px; }
+
+.w130 {
+  width: 130px; }
+  
 .w140 {
   width: 140px; }
 
@@ -1019,4 +1025,14 @@ a.redhover:hover{
 .analyze {
 	width: 100%;
 	height:400px;
+}
+
+.supplierAnalyze {
+	height: 700px;
+	min-width: 310px;
+	margin: 0 auto;
+	width: 800px;"
+}
+.div-center{
+text-align:center;
 }

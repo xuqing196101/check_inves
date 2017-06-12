@@ -195,54 +195,60 @@
 					typeId = $(obj).parent().prev().prev().find("select").val();
 				}
 				if (typeId != null && typeId != "" && typeId != "undefined" && certCode != null && certCode != "" && certCode != "undefined"&&professType!=null&&professType!="") {
-					$.ajax({
-						url : "${pageContext.request.contextPath}/supplier/getLevel.do",
-						type:"post",
-						data: {
-							"typeId": typeId,
-							"certCode": certCode,
-							"supplierId": supplierId,
-							"professType":professType
-						},
-						dataType: "json",
-						success: function(result){
-							if (result != null && result != "") {
-								if (flag == "1") {
-									$(obj).parent().next().next().find("input[type='text']").val(result.name);
-									$(obj).parent().next().next().find("input[type='hidden']").val(result.id);
-								} else {
-									$(obj).parent().next().find("input[type='text']").val(result.name);
-									$(obj).parent().next().find("input[type='hidden']").val(result.id);
-								}
-								// 通过append将附件信息追加到指定位置
-								$.ajax({
-									url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
-									type:"post",
-									async : false,
-									dataType : "html",
-									data : {
-										"typeId": typeId,
-										"certCode" : certCode,
-										"supplierId" : supplierId,
-										"number" : number,
-										"professType":professType
-									},
-									success : function(data) {
-										if (flag == "1") {
-											$(obj).parent().next().next().next().next().html(data);
-										} else {
-											$(obj).parent().next().next().html(data);
-										}
-										init_web_upload();
-									}
-								});
-							}
-						}
-					});
+					getDate(obj,typeId,certCode,supplierId,professType,number,flag);
 				}
 				tempSave();
 			}
-			
+			//请求 获取 数据
+			function getDate(obj,typeId,certCode,supplierId,professType,number,flag){
+			$.ajax({
+                        url : "${pageContext.request.contextPath}/supplier/getLevel.do",
+                        type:"post",
+                        data: {
+                            "typeId": typeId,
+                            "certCode": certCode,
+                            "supplierId": supplierId,
+                            "professType":professType
+                        },
+                        dataType: "json",
+                        success: function(result){
+                            if (result != null && result != "") {
+                                if (flag == "1") {
+                                    $(obj).parent().next().next().find("input[type='text']").val(result.name);
+                                    $(obj).parent().next().next().find("input[type='hidden']").val(result.id);
+                                } else if(flag == "0"){
+                                    $(obj).parent().find("input[type='text']").val(result.name);
+                                    $(obj).parent().next().find("input[type='hidden']").val(result.id);
+                                }else{
+                                    $(obj).parent().next().find("input[type='text']").val(result.name);
+                                    $(obj).parent().next().find("input[type='hidden']").val(result.id);
+                                }
+                                // 通过append将附件信息追加到指定位置
+                                $.ajax({
+                                    url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
+                                    type:"post",
+                                    async : false,
+                                    dataType : "html",
+                                    data : {
+                                        "typeId": typeId,
+                                        "certCode" : certCode,
+                                        "supplierId" : supplierId,
+                                        "number" : number,
+                                        "professType":professType
+                                    },
+                                    success : function(data) {
+                                        if (flag == "1") {
+                                            $(obj).parent().next().next().next().next().html(data);
+                                        } else {
+                                            $(obj).parent().next().next().html(data);
+                                        }
+                                        init_web_upload();
+                                    }
+                                });
+                            }
+                        }
+                    });
+			}
 			function isAptitue(){
 				var flag=true;
 				$("input[type='text']").each(function() {
@@ -286,7 +292,7 @@
 	<body onload="psize()">
 		<div class="wrapper">
 			<div class="container clear margin-top-30">
-				<h2 class="padding-20 mt40 ml30">
+				<h2 class="step_flow">
 					<span id="sp1" class="new_step current fl" onclick="updateStep('1')"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
 		            <span id="sp2" class="new_step current fl" onclick="updateStep('2')"><i class="">2</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
 		            <span id="ty3" class="new_step current fl" onclick="updateStep('3')"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
@@ -294,7 +300,7 @@
 		            <span id="sp5" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">销售合同</span> </span>
 		            <span id="sp6" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
 		            <span id="sp7" class="new_step fl"><i class="">7</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
-		            <span id="sp8" class="new_step fl"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
+		            <span id="sp8" class="new_step fl new_step_last"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
 		            <div class="clear"></div>
 				</h2>
 			</div>
@@ -454,28 +460,47 @@
                                                     </div>
 										        </td>
 										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										        	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')">
+										        	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].qualificationType" id="listSupplierItems${vs.index}qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')">
 										        		<c:forEach items="${cate.typeList}" var="type">
 										        			<option value="${type.id}" <c:if test="${cate.qualificationType eq type.id}">selected</c:if>>${type.name}</option>
 										        		</c:forEach>
 										        	</select>
 										        	
 										        </td>
-										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
+										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode"  value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
 										     
 										    	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										    	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType" onchange="getFileByCode(this, '${vs.index}', '3')">
+										    	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType"  onchange="getFileByCode(this, '${vs.index}', '3')">
 										        			<option value="${cate.proName}">${cate.proName}</option>
 										        	</select>
 <%-- 										    	<input type="text" class="border0" name="listSupplierItems[${vs.index}].professType" value="${cate.proName}" onblur="getFileByCode(this, '${vs.index}', '3')">
  --%>										    	</td>
-										     
+										      
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" value="${cate.level.id}" class="w80">
-										     		<input type="text" readonly="readonly" class="border0" value="${cate.level.name}">
+										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" id ="listSupplierItems${vs.index}" value="${cate.level.id}" class="w80">
+										     		<input type="text" readonly="readonly"  class="border0" value="${cate.level.name}" onload="getFileByCode(this, '${vs.index}', '3')">
 										     	</td>
-										      	<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										      	 <div class="w110 fl">
+										     	<c:if test="${currSupplier.status== -1 || currSupplier.status==2}">
+										     	 <script>
+                                                 function s(){
+	                                               var number=${vs.index};
+	                                                 //供应商
+	                                               var supplierId = "${currSupplier.id}";
+	                                                 //证书编号
+	                                               var certCode="${cate.certCode}";
+	                                                 //专业类别
+	                                               var professType="${cate.proName}";
+	                                                 //资质类型
+	                                               var typeId=$("#listSupplierItems${vs.index}qualificationType").val();
+                                                   if (typeId != null && typeId != "" && typeId != "undefined" && certCode != null && certCode != "" && certCode != "undefined"&&professType!=null&&professType!="") {
+                                                      getDate("#listSupplierItems"+number, typeId, certCode, supplierId, professType, number,0);
+                                                    }
+                                                 }
+                                                 s();
+                                                 </script>
+                                                 </c:if>
+										      	<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if> >
+										      	 <div class="w110 fl" >
 										      	  <u:show showId="eng_show_${vs.index}"  delete="false" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
 										         </div>
 										      	</td>

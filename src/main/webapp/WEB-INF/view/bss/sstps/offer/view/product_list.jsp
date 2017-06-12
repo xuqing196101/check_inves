@@ -77,7 +77,7 @@ function offer(){
 	}); 
 	
 	if(id.length==1){
-		window.location.href="<%=basePath%>offer/selectProductInfo.do?productId="+id;
+		window.location.href="${pageContext.request.contextPath}/offer/selectProductInfo.do?productId="+id;
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{

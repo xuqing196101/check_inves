@@ -154,11 +154,35 @@
         }
       }
 
+			var enableNodeList = [];// 存放可以编辑的节点
       function zTreeBeforeCheck(treeId, treeNode) {
         if (treeNode.isParent == true) {
           layer.msg("请在末节点上进行操作！");
           return false;
         } else {
+        	// 已经通过审核的节点不能修改
+        	var expertSt = '${expert.status}';
+					if(expertSt == '3'){// 退回修改的状态
+						//console.log(treeNode);
+						if($.inArray(treeNode.id, enableNodeList) >= 0){
+							return true;
+						}
+						var bool = true;
+						$("#tbody_category tr").each(function(index){
+		        		var checkedId = $(this).find("td:first input[type='hidden']").val();
+		        		var errorField = $("#errorField").val();
+		        		if(errorField.indexOf(treeNode.id) < 0){
+		        		layer.msg("此节点已通过审核，不能修改!");
+	        			bool = false;
+	        			return false;
+	        		}
+	        	});
+	        	if(!bool){
+	        		return false;
+	        	}
+	        	enableNodeList.push(treeNode.id);
+	        	return true;
+					}
         	return true;
         }
       }
@@ -235,6 +259,32 @@
 		}
 
       function nextCategory() {
+      
+      	// 验证审核未通过的节点
+      	var expertSt = '${expert.status}';
+				if(expertSt == '3'){// 退回修改的状态
+					var bool = true;
+					var notPassMsg = "";// 未通过信息
+					$("#tbody_category tr").each(function(index){
+	       		var checkedId = $(this).find("td:first input[type='hidden']").val();
+	       		var errorField = $("#errorField").val();
+	       		if(errorField.indexOf(checkedId) >= 0){
+	       			var td1Text = $(this).find("td:eq(1)").text();
+		       		var td2Text = $(this).find("td:eq(2)").text();
+		       		var td3Text = $(this).find("td:eq(3)").text();
+		       		var td4Text = $(this).find("td:eq(4)").text();
+		       		var msg = td1Text + " > " + td2Text + " > " + td3Text + " > " + td4Text;
+		       		notPassMsg += msg + "<br>";
+	       			bool = false;
+	       			return true;
+	       		}
+	       	});
+	       	if(!bool){
+						layer.alert("以下节点：<br>"+notPassMsg+"审核未通过，需要修改！");
+						return;
+					}
+				}
+				
         var expertId = "${expert.id}";
         $.ajax({
           url: "${pageContext.request.contextPath}/expert/isHaveCategory.do",
@@ -244,16 +294,16 @@
           success: function(response) {
             var isServer = $("#isServer").val();
             if(isServer != null && isServer == 1){
-                updateStepNumber("three");
+               updateStepNumber("three");
                window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
                $("#isServer").val("");
             }else{
               if(response == '0') {
-                        layer.msg("请至少选择一项!");
-                      } else if(response == '1') {
-                        updateStepNumber("three");
-                        window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
-                      }
+                layer.msg("请至少选择一项!");
+              } else if(response == '1') {
+                updateStepNumber("three");
+                window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
+              }
             }
             
           }
@@ -429,13 +479,13 @@
        <input type="hidden" id="isServer"  value="" />
       <input type="hidden" name="token2" value="<%=tokenValue%>" />
       <div id="reg_box_id_4" class="container clear margin-top-30 yinc">
-        <h2 class="padding-20 mt40">
+        <h2 class="step_flow">
             <span id="ty1" class="new_step current fl" onclick="one()"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
             <span id="sp7" class="new_step current fl" onclick='pre7()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类别</span> </span>
             <span id="ty6" class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
             <span id="ty3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
             <span id="ty4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span> 
-            <span id="ty5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span> 
+            <span id="ty5" class="new_step fl new_step_last"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span> 
             <div class="clear"></div>
         </h2>
         <div class="col-md-12 tab-v2 job-content mt20">

@@ -1755,40 +1755,12 @@ img.img-mouse {
   float:left;
   
  }
-.new_step{
- position:relative;
- width:11%;
-}
-.new_step i{
- border-radius:50%!important;
- display:block;
- float:left;
- line-height:100%;
- font-style:normal;
- color:#ffffff;
- text-align:center;
- font-size:80%;
- background:#b2b2b2;
-}
 
    @media only screen and (min-width: 100px) and (max-width: 640px) {
         #logo-header{
 		width:100%;
 		height:45%;
 		}
-        .new_step i{
-            width: 20px;
-            height: 20px;
-        }
-		.new_step.current .line{
-            border:2px solid #ff9000;
-        }
-		.line{
-            border:2px solid #b2b2b2;
-            width:100%;
-            margin-top:8px;
-            margin-left:5px;
-        }
        span.step_desc_01{
             font-size:12px;
             font-weight:500;
@@ -1808,14 +1780,6 @@ img.img-mouse {
 		
     }
    @media only screen and (min-width: 640px) and (max-width: 800px) {
-        .new_step i{
-            width: 25px;
-            height: 25px;
-			line-height:25px;
-        }
-		.new_step.current .line{
-            border:2px solid #ff9000;
-        }
 		.line{
             border:2px solid #b2b2b2;
             width:100%;
@@ -1842,21 +1806,6 @@ img.img-mouse {
 		
     }
    @media only screen and (min-width: 800px) and (max-width: 1024px) {
-   
-        .new_step i{
-            width: 30px;
-            height: 30px;
-			line-height:30px;
-        }
-		.new_step.current .line{
-            border:3px solid #ff9000;
-        }
-		.line{
-            border:3px solid #b2b2b2;
-            width:100%;
-            margin-top:12px;
-            margin-left:5px;
-        }
        span.step_desc_01{
             font-size:16px;
             font-weight:500;
@@ -1909,20 +1858,6 @@ img.img-mouse {
 		
     }
    @media only screen and (min-width: 1024px) and (max-width: 1366px) {
-        .new_step i{
-            width: 30px;
-            height: 30px;
-			line-height:30px;
-        }
-		.new_step.current .line{
-            border:1px solid #ff9000;
-        }
-		.line{
-            border:1px dashed #b2b2b2;
-            width:100%;
-            margin-top:13px;
-            margin-left:5px;
-        }
        span.step_desc_01{
             font-size:16px;
             font-weight:500;
@@ -1941,43 +1876,6 @@ img.img-mouse {
         }
 
     }
-     .new_step.current i{
-            background:#ff9000;
-        }
-       @media only screen and (min-width: 1366px) and (max-width: 1920px) {
-        .new_step i{
-            width: 30px;
-            height: 30px;
-            line-height:30px;
-        }
-        .new_step.current .line{
-            border:1px solid #ff9000;
-        }
-        .line{
-            border:1px dashed #b2b2b2;
-            width:100%;
-            margin-top:14px;
-            margin-left:5px;
-        }
-       span.step_desc_01{
-            font-size:16px;
-            font-weight:500;
-            position:absolute;
-            left: -20px;
-            top: 35px;
-            line-height:22px;
-        }
-      span.step_desc_02{
-            font-size:16px;
-            font-weight:500;
-            position:absolute;
-            left: -20px;
-            top: -29px;
-            line-height:22px;
-        }
-
-    }
-
 /*考试样式*/
 .section-focus-pic{margin:0px auto 0 auto;height:354px;width:100%;overflow:hidden;position:relative;}
 .section-focus-pic ul li{position:absolute;top:0;left:100%;width:100%;height:354px;list-style-type:none;}

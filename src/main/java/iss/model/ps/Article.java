@@ -158,7 +158,18 @@ public class Article{
     //string类型发布时间
     private String create_at;
     
-    public String getLastArticleTypeName() {
+    //APP公告标识
+    private Integer type_id;
+    
+    public Integer getType_id() {
+		return type_id;
+	}
+
+	public void setType_id(Integer type_id) {
+		this.type_id = type_id;
+	}
+
+	public String getLastArticleTypeName() {
 		return lastArticleTypeName;
 	}
 

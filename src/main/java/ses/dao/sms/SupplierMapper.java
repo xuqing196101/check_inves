@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
+import ses.model.sms.supplierExport;
 
 /**
  * @Title: SupplierMapper
@@ -505,4 +506,17 @@ public interface SupplierMapper {
     
     List<Supplier> getCreditCode(@Param("creditCode")String creditCode,@Param("isProvisional")Integer isProvisional);
     
+    /**
+     * 
+     * Description:根据企业类型不同统计入库供应商数量
+     * 
+     * @author Easong
+     * @version 2017年5月24日
+     * @param business_nature
+     * @return
+     */
+    BigDecimal getSupplierCountByNature(@Param("business_nature") String business_nature);
+    
+    public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
+    public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);
 }

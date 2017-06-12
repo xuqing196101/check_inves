@@ -310,7 +310,10 @@ public class SynchExportController {
         	//门户模板管理 导出数据
         	templateDownloadService.exportTemplateDownload(startTime, endTime, date);
         }
-        
+        //图片导出
+        if(synchType.contains("img_out")){
+        	synchService.imageHandler();
+        }
         bean.setSuccess(true);
         return bean;
     }

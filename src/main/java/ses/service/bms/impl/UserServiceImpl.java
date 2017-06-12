@@ -433,5 +433,12 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
 			// TODO Auto-generated method stub
 			return userMapper.findByTypeName(typeId);
 		}
+	/**
+	 * 实现根据日期 和账户 查询 是否是该日期之前修改
+	 */
+	@Override
+	public Integer isUpdateUser(String date, String loginName) {
+		return userMapper.isUpdateUser(date, loginName);
 	}
+}
 

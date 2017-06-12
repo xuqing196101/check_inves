@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -26,7 +27,7 @@ public class FilterXSS implements Filter {
         //获取请求方法 
         String headValue = httpReq.getServletPath();
         //忽略上传方法
-        if(headValue !=null & !"/file/upload.html".equals(headValue) & !headValue.contains("article")){
+        if(headValue !=null & !headValue.contains("file") & !headValue.contains("article") & !headValue.contains("open_bidding") & !headValue.contains("purchaser") & !headValue.contains("templet")& !headValue.contains("collect")){
         // 构造HttpRequestWrapper对象处理XSS
         HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);
         fc.doFilter(httpReqWarp, res);
@@ -57,8 +58,10 @@ public class FilterXSS implements Filter {
         xssMap.put("'", "＇");
         // 含有符号 "
         xssMap.put("\"", "＂");
-        xssMap.put("&","＆");
-        xssMap.put("%","％");
+        xssMap.put("--", "－－");
+        /*xssMap.put(";", "；");*/
+        /* xssMap.put("&","＆");*/
+        /*xssMap.put("%","％");*/
     }
     /**
      * 

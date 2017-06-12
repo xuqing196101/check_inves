@@ -1,11 +1,13 @@
 package ses.dao.ems;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertHistory;
@@ -303,4 +305,34 @@ public interface ExpertMapper {
      * @return void
      */
     void updateById (String id);
+    
+    /**
+     * 
+     * Description: 查询地区下所对应的专家
+     * 
+     * @author Easong
+     * @version 2017年5月27日
+     * @return
+     */
+    List<AnalyzeBigDecimal> selectExpertsByArea();
+    
+    /**
+     * 
+     * Description: 查询军地专家数量  分为：军队、地方
+     * 
+     * @author Easong
+     * @version 2017年5月31日
+     * @return
+     */
+    BigDecimal selectExpertsCountByArmyType(@Param("expertsFrom") String expertsFrom);
+    
+    /**
+     * 
+     * Description: 查询入库专家数量
+     * 
+     * @author Easong
+     * @version 2017年6月2日
+     * @return
+     */
+    Long selectStoreExpertCount();
 }

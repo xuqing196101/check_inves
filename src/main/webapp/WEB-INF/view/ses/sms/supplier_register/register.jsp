@@ -5,7 +5,7 @@
 <head>
 <%@ include file="/reg_head.jsp"%>
 
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
 <script type="text/javascript">
 	$(function() {
 //		document.getElementById("login_input_id").focus();// 用户名自动获取焦点
@@ -48,6 +48,10 @@
 		var random = Math.random();
 		$("#identity_code_img_id").hide().attr("src", "${pageContext.request.contextPath}/supplier/get_identity.html?random" + random).fadeIn();
 	}
+	function register(){
+	 $("[name=password]").val(setPublicKey($("[name=password]").val()));
+	 $("[name=confirmPassword]").val(setPublicKey($("[name=confirmPassword]").val()));
+	}
 </script>
 
 </head>
@@ -59,12 +63,13 @@
 				<div class="row" style="background-color:#f6f6f6;">
 					<div class="mt60 col-md-6 col-sm-6 col-xs-12 p20">
 					<div class="login_item col-md-12  col-sm-12 col-xs-12">
-					   <div class="col-md-10 col-xs-10 col-sm-10 p0">
+						<div class="col-md-10 col-xs-10 col-sm-10 p0" style="margin-top: -50px;font-size: 18px">供应商账号注册：</div>
+					  <div class="col-md-10 col-xs-10 col-sm-10 p0">
 					    <div class="msg-wrap hide">
-			              <div class="msg-error"><b></b>请输入密码</div>
-                        </div>
-                        </div>
-                      </div>
+	              <div class="msg-error"><b></b>请输入密码</div>
+              </div>
+            </div>
+           </div>
 						<form action="${pageContext.request.contextPath}/supplier/register.html" method="post">
 							<div class="login_item col-md-12  col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"> <i class="red mr5">*</i>用户名：</label>
@@ -76,14 +81,15 @@
 							<div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
 								<label class="col-md-3 col-sm-12 col-xs-12  p0"><i class="red mr5">*</i>登录密码：</label> 
 								 <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-								  <input type="password" name="password" value="" placeholder="密码长度为6-20位" class="col-md-12 col-sm-12 col-xs-12">
+								  <input type="password" name="password" value="" placeholder="密码长度为6-20位" autocomplete="off" class="col-md-12 col-sm-12 col-xs-12">
 								  <span class="cue" >${err_msg_password }</span> 
 								</div>
+								
 							</div>
 							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12 ">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>确认密码：</label> 
 								 <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-								   <input type="password" name="confirmPassword" value="" placeholder="请再次输入密码" class="col-md-12 col-sm-12 col-xs-12">
+								   <input type="password" name="confirmPassword" value="" placeholder="请再次输入密码" autocomplete="off" class="col-md-12 col-sm-12 col-xs-12">
 								   <span class="cue">${err_msg_ConfirmPassword }</span> 
 								</div>
 							</div>
@@ -117,7 +123,7 @@
 							</div> -->
 							<input type="hidden" name="id" value="${id }">
 							<div class="tc mt10 clear col-md-12 col-sm-12 col-xs-12">
-								<button id="submit_button_id" type="submit" class="btn margin-5">注册</button>
+								<button id="submit_button_id" type="submit" onclick="register()" class="btn margin-5">注册</button>
 								<button type="button" class="btn margin-5" onclick="location='${pageContext.request.contextPath}/supplier/registration_page.html'">返回</button>
 							</div>
 						</form>

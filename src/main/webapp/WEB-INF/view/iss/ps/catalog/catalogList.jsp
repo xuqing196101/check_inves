@@ -20,7 +20,7 @@
 				},
 				dataType : "json",
 				datafilter : filter,
-				type : "get",
+				type : "post",
 			},
 			callback : {
 				onClick : zTreeOnClick,//点击节点触发的事件
@@ -79,6 +79,7 @@
 						data : {
 							"param" : encodeURI(param)
 						},
+						type : "post",
 						async : false,
 						dataType : "json",
 						success : function(data) {

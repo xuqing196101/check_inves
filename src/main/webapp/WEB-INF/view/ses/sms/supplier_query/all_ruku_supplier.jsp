@@ -6,7 +6,7 @@
 	<head>
 		<%@ include file="../../../common.jsp"%>
 		<%@ include file="/WEB-INF/view/common/map.jsp"%>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/js/FusionCharts.js"></script>
+		<%--<script type="text/javascript" src="${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/js/FusionCharts.js"></script>
 		<script src="${pageContext.request.contextPath}/public/highmap/js/highcharts.js"></script>
 		<script src="${pageContext.request.contextPath}/public/highmap/js/modules/map.js"></script>
 		<script src="${pageContext.request.contextPath}/public/highmap/js/modules/data.js"></script>
@@ -14,7 +14,7 @@
 		<script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
 		<script src="${pageContext.request.contextPath}/public/highmap/js/cn-china-by-peng8.js"></script>
 		<script src="${pageContext.request.contextPath}/public/echarts/china.js"></script>
-		<link href="${pageContext.request.contextPath}/public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
+		<link href="${pageContext.request.contextPath}/public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">--%>
 		<script type="text/javascript">
 			$(function() {
 				option = {
@@ -92,7 +92,7 @@
 				myChart.hideLoading();
 				myChart.on('click', function(params) {
 					var address = encodeURI(params.name);
-					address = encodeURI(address);
+					//address = encodeURI(address);
 					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + address + "&judge=5";
 				});
 

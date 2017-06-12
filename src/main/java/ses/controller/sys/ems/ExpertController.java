@@ -108,6 +108,7 @@ import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.LoginLogService;
 import common.service.UploadService;
+import common.utils.RSAEncrypt;
 @Controller
 @RequestMapping("/expert")
 public class ExpertController extends BaseController {
@@ -236,11 +237,12 @@ public class ExpertController extends BaseController {
      * @param expert
      * @param model
      * @return String
+     * @throws Exception 
      */
     @RequestMapping("/register")
     public String register(User user, HttpSession session, Model model,
                            HttpServletRequest request, @RequestParam String token2,
-                           RedirectAttributes attr, String expertsFrom) {
+                           RedirectAttributes attr, String expertsFrom) throws Exception {
         Object tokenValue = session.getAttribute("tokenSession");
         if(tokenValue != null && tokenValue.equals(token2)) {
             // 正常提交
@@ -249,6 +251,8 @@ public class ExpertController extends BaseController {
             String loginName = user.getLoginName();
 
             String password = user.getPassword();
+            password = RSAEncrypt.decryptPrivate(password) ;
+            user.setPassword(password);
             String regex = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
             Pattern p = Pattern.compile(regex);
             Pattern p2 = Pattern.compile("[\u4e00-\u9fa5]");
@@ -507,6 +511,7 @@ public class ExpertController extends BaseController {
                 }
             }
         }
+        model.addAttribute("ipAddressType", type);
         // 查询数据字典中的性别配置数据
         List < DictionaryData > sexList = DictionaryDataUtil.find(13);
         model.addAttribute("sexList", sexList);
@@ -4273,15 +4278,15 @@ public class ExpertController extends BaseController {
             PrintWriter out = response.getWriter();
             StringBuilder builder = new StringBuilder();
             builder.append("<HTML><HEAD>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
-            builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
+            builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
             builder.append("</HEAD>");
             builder.append("<script type=\"text/javascript\">"); 
             builder.append("$(function() {");
             builder.append("layer.confirm('您未登录，请登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
             builder.append("window.top.location.href='"); 
-            builder.append(basePath+"index/sign.html");  
+            builder.append(request.getContextPath()+"/index/sign.html");  
             builder.append("';"); 
             builder.append("});");
             builder.append("});");
@@ -4299,15 +4304,15 @@ public class ExpertController extends BaseController {
             PrintWriter out = response.getWriter();
             StringBuilder builder = new StringBuilder();
             builder.append("<HTML><HEAD>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
-            builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
+            builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
             builder.append("</HEAD>");
             builder.append("<script type=\"text/javascript\">"); 
             builder.append("$(function() {");
             builder.append("layer.confirm('不是当前操作人，请登录修改！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");
             builder.append("window.top.location.href='"); 
-            builder.append(basePath+"index/sign.html");  
+            builder.append(request.getContextPath()+"/index/sign.html");  
             builder.append("';"); 
             builder.append("});");
             builder.append("});");

@@ -3,6 +3,7 @@ package ses.controller.sys.sms;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,16 +60,23 @@ public class SupplierLevelController extends BaseSupplierController {
 	}
 	
 	@RequestMapping(value = "change_score")
-	public String changeScore(Model model, Supplier supplier) throws Exception {
+	public String changeScore(Model model, Supplier supplier, HttpServletRequest request) throws Exception {
+		// 解决中文乱码
+		String encoding = request.getCharacterEncoding();
 		if(supplier.getSupplierName() != null){
-			supplier.setSupplierName(new String(supplier.getSupplierName().getBytes("ISO-8859-1"), "UTF-8"));
+			if ("UTF-8".equals(encoding)){
+				supplier.setSupplierName(supplier.getSupplierName());
+			}
+			if ("ISO8859-1".equals(encoding)) {
+				supplier.setSupplierName(new String(supplier.getSupplierName().getBytes("ISO-8859-1"), "UTF-8"));
+			}
 		}
 		List<SupplierCredit> listSupplierCredits = supplierCreditService.findSupplierCredit(new SupplierCredit());
 		model.addAttribute("supplier", supplier);
 		model.addAttribute("listSupplierCredits", listSupplierCredits);
 		return "ses/sms/supplier_level/change_score";
 	}
-	
+
 	@RequestMapping(value = "find_credit_ctnt_by_credit_id")
 	public void findCreditCtntByCreditId(HttpServletResponse response, SupplierCreditCtnt supplierCreditCtnt) {
 		List<SupplierCreditCtnt> listSupplierCreditCtnts = supplierCreditCtntService.findCreditCtntByCreditId(supplierCreditCtnt);

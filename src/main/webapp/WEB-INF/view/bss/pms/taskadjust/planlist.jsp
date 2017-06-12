@@ -116,12 +116,17 @@
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		});
+		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).find("input").val();
+		status = $.trim(status);
 		
 		if (id.length == 0){
 			layer.msg("请选择需要取消的任务记录");
 			return ;
 		}
-		
+		if(status == '2'){
+		  layer.msg("任务已取消");
+		  return;
+		}
 		layer.confirm('您确定要取消？', {
 			  btn: ['确定','取消'] 
 			}, function(){
@@ -269,6 +274,7 @@
                 <c:if test="${'2'==obj.status}">
                  		 已取消 
                 </c:if>
+                <input type="hidden" value="${obj.status}"/>
               </td>
               <td class="tc">
                 <c:if test="${'1'==obj.taskNature}">

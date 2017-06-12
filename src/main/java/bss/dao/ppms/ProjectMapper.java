@@ -1,8 +1,11 @@
 package bss.dao.ppms;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 
 import bss.model.ppms.Project;
 
@@ -52,5 +55,25 @@ public interface ProjectMapper {
     
     List<Project> selectByDemand(HashMap<String,Object> map);
     
+    /**
+     * 
+     *〈资源管理查看已经完成的项目〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    List<Project> selectByProject(HashMap<String,Object> map);
+    
     int updatePurchaseDep(Project project);
+    
+    /**
+     * 
+     * Description: 五中采购方式项目
+     * 
+     * @author Easong
+     * @version 2017年6月6日
+     * @return
+     */
+    BigDecimal selectPurProjectByWay(@Param("dictId") String dictId);
 }

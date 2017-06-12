@@ -58,7 +58,7 @@
 	<filter-mapping>
 		<filter-name>FilterXSS</filter-name>
 		<url-pattern>*.html</url-pattern>
-	</filter-mapping>
+	</filter-mapping> 
 
 
 	<context-param>

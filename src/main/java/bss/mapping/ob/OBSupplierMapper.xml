@@ -626,7 +626,7 @@
 	
 	<!-- 验证是否上传图片 -->
 	<select id="yzShangchuan" resultType="Integer" parameterType="String">
-		SELECT COUNT(*) FROM T_SES_BMS_ATTACHMENT WHERE BUSINESS_ID = #{id,jdbcType=VARCHAR} AND IS_DELETED = 0
+		SELECT COUNT(*) FROM T_BSS_OB_ATTACHMENT WHERE BUSINESS_ID = #{id,jdbcType=VARCHAR} AND IS_DELETED = 0
 	</select>
 	
 	<!-- 查询报价供应商信息 -->

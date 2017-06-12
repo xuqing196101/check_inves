@@ -14,6 +14,7 @@ import ses.formbean.QualificationBean;
 import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
+import ses.model.sms.supplierExport;
 /**
  * @Title: SupplierInfoService
  * @Description: Supplier 接口
@@ -396,4 +397,6 @@ public interface SupplierService {
 	 
 	 
 	   List<Supplier> getCreditCode(String creditCode,Integer isProvisional);
+	 public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
+	 public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);
 }

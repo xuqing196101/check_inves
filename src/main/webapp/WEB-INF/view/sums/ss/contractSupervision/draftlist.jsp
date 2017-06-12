@@ -87,6 +87,7 @@
 <!-- 项目戳开始 -->
     <form id="form1" action="${pageContext.request.contextPath}/contractSupervision/list.html" method="post">
     <input type="hidden" value="" name="page" id="page"/>
+    <input type="hidden" value="${ purCon.purchaseDepShortName }" name="purchaseDepShortName" />
      <div class="search_detail">
     	<ul class="demand_list">
           <li class="fl"><label class="fl">采购项目：</label><span><input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="mb0 mt5 w200"/></span></li>
