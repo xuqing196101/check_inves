@@ -1,14 +1,11 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
-
-	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
-		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+  <head>
+    <%@ include file="/WEB-INF/view/common.jsp" %>
+      <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>供应商类型</title>
-		<meta http-equiv="pragma" content="no-cache">
-		<meta http-equiv="cache-control" content="no-cache">
-		<meta http-equiv="expires" content="0">
 
 		<style type="text/css">
 			td {

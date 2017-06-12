@@ -189,35 +189,58 @@
   	<include refid="Article_Column_List"/>
   	,
     <include refid="Article_BlOB_Column_List" />
-    from T_ISS_PS_ARTICLE
-    where IS_DELETED = 0 
+    <if test="categoryId != null and categoryId != ''">
+    	FROM T_SES_BMS_ARTICLE_CATEGORY C 
+    	LEFT JOIN T_ISS_PS_ARTICLE T
+    	ON T.ID = C.ARTICLE_ID
+    </if>
+    <if test="categoryId == null or categoryId == ''">
+    	from T_ISS_PS_ARTICLE T
+    </if>
+    where T.IS_DELETED = 0
 	  	<if test="name != null">
-	  	  AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
+	  	  AND T.NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
 	  	</if>
 	  	<if test="articleType != null">
-       	 AND ARTICLE_TYPE_ID = #{articleType.id}
+       	 AND T.ARTICLE_TYPE_ID = #{articleType.id}
         </if>
         <if test="secondArticleTypeId != null">
-       	 AND SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId}
+       	 AND T.SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId}
         </if>
 	  	<if test="range != null">
-	  	  AND RANGE = #{range}
+	  	  AND T.RANGE = #{range}
 	  	</if>
 	  	<if test="status != null">
-        AND STATUS = #{status}
+        AND T.STATUS = #{status}
       </if>
       <if test="status == null">
-        AND STATUS in (1,2,4)
+        AND T.STATUS in (1,2,4)
       </if>
       <if test="publishStartDate != null">
-        AND to_char(PUBLISHED_AT,'yyyy-mm-dd') &gt;= #{publishStartDate}
+        AND to_char(T.PUBLISHED_AT,'yyyy-mm-dd') &gt;= #{publishStartDate}
       </if>
       <if test="publishEndDate != null">
-        AND to_char(PUBLISHED_AT,'yyyy-mm-dd') &lt;= #{publishEndDate}	
+        AND to_char(T.PUBLISHED_AT,'yyyy-mm-dd') &lt;= #{publishEndDate}	
       </if>
+      <!-- 按发布年限查询 -->
+      <if test="publishYear != null and publishYear != ''">
+      	AND TO_CHAR(T.PUBLISHED_AT, 'yyyy') = #{publishYear}
+      </if>
+      <!-- 按栏目类型查询 -->
+      <if test="ThreeArticleTypeId != null and ThreeArticleTypeId != ''">
+      	AND T.THREE_ARTICLE_TYPE_ID = #{ThreeArticleTypeId}
+      </if>
+      <!-- 按所属产品类别查询 -->
+      <if test="categoryId != null and categoryId != ''">
+    		AND C.CATEGORY_ID = #{categoryId}
+    	</if>
+    	<!--  -->
+    	<if test="fourArticleTypeId != null and fourArticleTypeId!= ''">
+    		AND T.FOUR_ARTICLE_TYPE_ID = #{fourArticleTypeId}
+    	</if>
     <!-- order by decode(STATUS,4,0,1,1,3,2,2,3), PUBLISHED_AT DESC -->
      <!--  order by SUBMIT_AT DESC -->
-     order by PUBLISHED_AT DESC
+     order by T.PUBLISHED_AT DESC
   </select>
   
   

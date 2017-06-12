@@ -145,7 +145,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierCateType = $("#nearFiveYearNoticeCount").echartsTemplate("getMyChart", null);
 			supplierCateType.on('click', function(params) {
-				window.location.href = globalPath + "/expertQuery/list.html?reqType=analyze&cateTypeDictCode="+ele.code;
+				window.location.href = globalPath + "/article/readOnlyList.html?status=2&publishYear="+params.name;
 			});
 		}
 	});
@@ -171,6 +171,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierCateType = $("#articleTypeCount").echartsTemplate("getMyChart", null);
 			supplierCateType.on('click', function(params) {
+				window.location.href = globalPath + "/article/readOnlyList.html?status=2&articleTypeId="+params.data.id;
 			});
 		}
 	});
@@ -196,6 +197,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierCateType = $("#articleNoticeByCateType").echartsTemplate("getMyChart", null);
 			supplierCateType.on('click', function(params) {
+				window.location.href = globalPath + "/article/readOnlyList.html?status=2&threeArticleTypeId="+params.data.id;
 			});
 		}
 	});
@@ -223,7 +225,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierCateType = $("#articleNoticeByProductCate").echartsTemplate("getMyChart", null);
 			supplierCateType.on('click', function(params) {
-				window.location.href = globalPath + "/expertQuery/list.html?reqType=analyze&cateTypeDictCode="+ele.code;
+				window.location.href = globalPath + "/article/readOnlyList.html?status=2&categoryId="+params.data.id;
 			});
 		}
 	});
@@ -249,6 +251,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierCateType = $("#articleNoticeByPurWay").echartsTemplate("getMyChart", null);
 			supplierCateType.on('click', function(params) {
+				window.location.href = globalPath + "/article/readOnlyList.html?status=2&fourArticleTypeId="+params.data.id;
 			});
 		}
 	});
