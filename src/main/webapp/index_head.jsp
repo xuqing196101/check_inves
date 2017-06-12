@@ -139,7 +139,7 @@ function importAdd(){
                       <div class="search-group">
                         <input class="search-input" id="k" name="condition" value="${oldCondition}" placeholder="搜索" type="text">
                         <span class="input-group-btn">
-                          <input class="btn-search" name="commit" value="搜索结果" type="submit">
+                          <input class="btn-search" name="commit" value="搜索" type="submit">
                         </span>
                       </div>
                     </div>
