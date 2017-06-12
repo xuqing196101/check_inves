@@ -1253,14 +1253,14 @@
 				<div class="col-md-5 col-sm-6 col-xs-6 title tr"></div>
 				<div class="col-md-7 col-sm-6 col-xs-12 service_list">
 					<c:forEach items="${wlist }" var="obj">
-						<span
+						<span id="${obj.id}"
 							<c:if test="${fn:contains(typePageField,obj.id)}">style="color: red;" onmouseover="errorMsg('${obj.id }','supplierType_page')"</c:if>><input
 							type="checkbox" name="chkItem" onclick="checks(this)"
 							<c:if test="${isSalePass=='0' and obj.code=='SALES'}">disabled="disabled"</c:if>
 							value="${obj.code}" /> ${obj.name }</span>
 					</c:forEach>
 					<c:forEach items="${supplieType }" var="obj">
-						<span
+						<span id="${obj.id}"
 							<c:if test="${fn:contains(typePageField,obj.id)}">style="color: red;" onmouseover="errorMsg('${obj.id }','supplierType_page')"</c:if>><input
 							type="checkbox" name="chkItem" onclick="checks(this)"
 							value="${obj.code }" />${obj.name } </span>
@@ -2324,18 +2324,31 @@
 </script>
 <script type="text/javascript">
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
-		var currSupplierSt = '${currSupplier.status}';
+		var currSupplierSt = '${currSupplier.status}';alert(currSupplierSt);
 		if(currSupplierSt == '2'){
 			$("input[type='text'],select,textarea").attr('disabled',true);
 			$("input[type='text'],select,textarea").each(function(){
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
-				if($(this).css("border") == '1px solid rgb(255, 0, 0)' || $(this).parents("td").css("border") == '1px solid rgb(255, 0, 0)'){
+				if($(this).css("border-color") == 'rgb(255, 0, 0)' || $(this).parents("td").css("border-color") == 'rgb(255, 0, 0)'){
 					$(this).attr('disabled',false);
 				}
 			});
 			/* $("select").change(function(){
 				this.selectedIndex=this.defaultIndex;
 			}); */
+			
+			// 控制4大类别的编辑性
+			$("input[type='checkbox'][name='chkItem']").attr('disabled',true);
+			$("input[type='checkbox'][name='chkItem']").each(function(){
+				/* if($(this).parent().css("color") == 'rgb(239, 0, 0)'){
+					$(this).attr('disabled',false);
+				} */
+				// 或者
+				var typeErrorField = '${typePageField}';
+				if(typeErrorField.indexOf($(this).parent().attr("id")) >= 0){
+					$(this).attr('disabled',false);
+				}
+			});
 		}
 </script>
