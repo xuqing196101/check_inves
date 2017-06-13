@@ -15,9 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import bss.model.ob.OBProject;
-
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
@@ -322,10 +319,10 @@ public class CategoryServiceImpl implements CategoryService {
                 category.setIsPublish(isPublished);;
             }
             insertSelective(category);
-            saveGeneral(id, generalIds);
-            saveProfile(id, profileIds, isProjected);
+            saveGeneral(id, generalIds,new Date());
+            saveProfile(id, profileIds, isProjected,new Date());
             //保存物资销售型资质文件id
-            saveProfileSales(id, profileSalesIds);
+            saveProfileSales(id, profileSalesIds,new Date());
             res.setSuccess(true);
         }
         /**
@@ -386,11 +383,11 @@ public class CategoryServiceImpl implements CategoryService {
                 }
                
                 updateByPrimaryKeySelective(category);
-                delCategoryQua(id);
-                saveGeneral(id, generalIds);
-                saveProfile(id, profileIds, isProjected);
+                delCategoryQua(id,new Date());
+                saveGeneral(id, generalIds,new Date());
+                saveProfile(id, profileIds, isProjected,new Date());
                 //保存物资销售型资质文件id
-                saveProfileSales(id, profileSalesIds);
+                saveProfileSales(id, profileSalesIds,new Date());
                 res.setSuccess(true);
             }
         }
@@ -404,15 +401,15 @@ public class CategoryServiceImpl implements CategoryService {
      * @param categorId 品目Id
      * @param profileSalesIds 物资销售型资质Id
      */
-    private void saveProfileSales(String categorId, String profileSalesIds){
+    private void saveProfileSales(String categorId, String profileSalesIds,Date date){
         if (StringUtils.isNotBlank(profileSalesIds)){
             if (profileSalesIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] profileArray = profileSalesIds.split(",");
                 for (String profileId : profileArray){
-                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE);
+                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE,date);
                 }
             } else {
-                saveCategoryQua(categorId, profileSalesIds, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE);
+                saveCategoryQua(categorId, profileSalesIds, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE,date);
             }
         }
     }
@@ -424,8 +421,11 @@ public class CategoryServiceImpl implements CategoryService {
      * @author myc
      * @param categoryId 品目Id
      */
-    private void delCategoryQua(String categoryId){
-        categoryQuaMapper.delQuaByCategoryId(categoryId);
+    private void delCategoryQua(String categoryId,Date date){
+    	HashMap<String,Object> map=new HashMap<>();
+    	map.put("categoryId", categoryId);
+    	map.put("updateDate", date);
+        categoryQuaMapper.updateQuaByCategoryId(map);
     }
     
     
@@ -435,15 +435,15 @@ public class CategoryServiceImpl implements CategoryService {
      *〈详细描述〉
      * @author myc
      */
-    private void saveGeneral(String categorId,String generalIds){
+    private void saveGeneral(String categorId,String generalIds,Date date){
         if (StringUtils.isNotBlank(generalIds)){
             if (generalIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] generalArray = generalIds.split(",");
                 for (String generalId : generalArray){
-                    saveCategoryQua(categorId, generalId, StaticVariables.CATEGORY_QUALIFICATION_GENERAL);
+                    saveCategoryQua(categorId, generalId, StaticVariables.CATEGORY_QUALIFICATION_GENERAL,date);
                 }
             } else {
-                saveCategoryQua(categorId, generalIds, StaticVariables.CATEGORY_QUALIFICATION_GENERAL);
+                saveCategoryQua(categorId, generalIds, StaticVariables.CATEGORY_QUALIFICATION_GENERAL,date);
             }
         }
     }
@@ -457,23 +457,23 @@ public class CategoryServiceImpl implements CategoryService {
      * @param profileIds 资质Id
      * @param isProjected 
      */
-    private void saveProfile(String categorId, String profileIds, Integer isProjected){
+    private void saveProfile(String categorId, String profileIds, Integer isProjected,Date date){
         if (StringUtils.isNotBlank(profileIds)){
             if (profileIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] profileArray = profileIds.split(",");
                 for (String profileId : profileArray){
                     if (isProjected != null && isProjected == 1) {
                         //如果是工程品目
-                        saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROJECT_PROFILE);
+                        saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROJECT_PROFILE,date);
                     } else {
-                        saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                        saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROFILE,date);
                     }
                 }
             } else {
                 if (isProjected != null && isProjected == 1) {
-                    saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROJECT_PROFILE);
+                    saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROJECT_PROFILE,date);
                 } else {
-                    saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                    saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROFILE,date);
                 }
             }
         }
@@ -488,11 +488,13 @@ public class CategoryServiceImpl implements CategoryService {
      * @param generalId 资质Id
      * @param quraType  资质类型
      */
-    private void saveCategoryQua(String categorId, String generalId, Integer quraType) {
+    private void saveCategoryQua(String categorId, String generalId, Integer quraType,Date date) {
         CategoryQua cq = new CategoryQua();
         cq.setCategoryId(categorId);
         cq.setQuaId(generalId);
         cq.setQuaType(quraType);
+        cq.setCreatedAt(date);
+        cq.setIsDeleted(StaticVariables.ISNOT_DELETED);
         categoryQuaMapper.save(cq);
     }
     
@@ -920,8 +922,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
 	@Override
 	public boolean exportCategory(String start, String end, Date synchDate) {
-		// TODO Auto-generated method stub
-		//根据时间获取创建 数据范围
+	  //根据时间获取创建 数据范围
 	  List<Category> createList=categoryMapper.selectByCreatedAt(start, end);
 	  List<Category> updateList=categoryMapper.selectByUpdatedAt(start, end);
 	  List<Category> list=new ArrayList<>();
@@ -956,7 +957,7 @@ public class CategoryServiceImpl implements CategoryService {
           }
       }
       if(list!=null){
-      recordService.synchBidding(synchDate, String.valueOf(list), synchro.util.Constant.SYNCH_CATEGORY, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_CATEGORY);
+      recordService.synchBidding(synchDate, String.valueOf(list.size()), synchro.util.Constant.SYNCH_CATEGORY, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_CATEGORY);
       }
 		return false;
 	}
@@ -980,7 +981,62 @@ public class CategoryServiceImpl implements CategoryService {
 		 }
 		return false;
 	}
-
-	
-
+	/**
+	 * 实现导出目录资质关联表录 根据时间范围
+	 */
+	@Override
+	public boolean exportCategoryQua(String start, String end, Date synchDate) {
+		//根据时间获取创建 数据范围
+		List<CategoryQua> createList=categoryQuaMapper.selectByCreatedAt(start, end);
+		List<CategoryQua> updateList=categoryQuaMapper.selectByUpdatedAt(start, end);
+		List<CategoryQua> list=new ArrayList<>();
+		if(createList!=null  && createList.size()>0){
+			list.addAll(createList);
+		}
+		if(updateList!=null  && updateList.size()>0){
+			list.addAll(updateList);
+		  }
+		if(list!=null  && !list.isEmpty()){
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_CATEGORY_QUA, 21),JSON.toJSONString(list));
+		}
+	    if(list!=null){
+	    	recordService.synchBidding(synchDate, String.valueOf(list.size()), synchro.util.Constant.DATA_SYNCH_CATEGORY_QUA, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.IMPORT_COMMIT_SYNCH_CATEGORY_QUA);
+	    }
+		return false;
+	}
+	/**
+	 * 导入目录资质关联表录数据 
+	 */
+	private boolean importDate(File file){
+		List<CategoryQua> list = FileUtils.getBeans(file, CategoryQua.class); 
+		 if(list!=null  && !list.isEmpty()){
+			 for(CategoryQua category:list){
+			 Integer isExist=categoryQuaMapper.countByPrimaryKey(category.getId());
+			  if(isExist!=null && isExist >0){
+				  categoryQuaMapper.updateByPrimaryKeySelective(category);
+			  }else{
+				  categoryQuaMapper.insertSelective(category);
+			  }
+			 }
+			 recordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.DATA_SYNCH_CATEGORY_QUA, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.EXPORT_COMMIT_SYNCH_CATEGORY_QUA);
+		 }
+		return false;
+	}
+	/**
+	 * 导入目录资质关联表录数据 
+	 */
+	@Override
+	public boolean importCategoryQua(String synchType,File file) {
+		 /**目录资质关联表*/
+        if(synchType.contains(synchro.util.Constant.DATA_SYNCH_CATEGORY_QUA)){
+			if (synchro.util.Constant.FILE_SYNCH_CATEGORY_QUA_PATH.equals(file.getName())) {
+				for (File file2 : file.listFiles()) {
+					if (file2.getName().contains(FileUtils.C_SYNCH_CATEGORY_QUA)) {
+						importDate(file2);
+					}
+				}
+			}
+		}
+		return false;
+	}
 }

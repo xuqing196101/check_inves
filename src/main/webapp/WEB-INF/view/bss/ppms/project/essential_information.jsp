@@ -25,6 +25,10 @@
     <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
     <script type="text/javascript">
       $(function() {
+        $("#uploaderId").click(function(){
+          var id = $(".web_uploader_class").prev()[0].value;
+          init_uploader(eval("var  uploader_" + id),id);
+        });
         //获取查看或操作权限
         var isOperate = $('#isOperate', window.parent.document).val();
         if(isOperate == 0) {

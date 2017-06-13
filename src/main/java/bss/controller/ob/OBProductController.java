@@ -655,7 +655,7 @@ public class OBProductController {
     @SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
     public ResponseEntity<byte[]> downloadCategory(@CurrentUser User user,HttpServletRequest request,
             String filename) throws IOException {
-        if(null != user && "4".equals(user.getTypeName())){
+        if(null != user && ("4".equals(user.getTypeName()) || "1".equals(user.getTypeName()))){
             //判断是否 是资源服务中心 
             String path = PathUtil.getWebRoot() + "excel/产品分类目录下载.xlsx";
             File file = new File(path);
@@ -854,71 +854,6 @@ public class OBProductController {
     public String selOrgByCategory(HttpServletRequest request,HttpServletResponse response){
         String smallPointsId = request.getParameter(OnlineBidding.SMALL_POINTS_ID) == null ? "" : request.getParameter(OnlineBidding.SMALL_POINTS_ID);
         return oBProductService.selOrgByCategory(smallPointsId,null);
-    }
-    
-    /**
-     * Description: 列表查询
-     * 
-     * @author zhang shubin
-     * @version 2017年3月7日
-     * @param @param example
-     * @param @param model
-     * @param @param page
-     * @param @return
-     * @return String
-     * @exception
-     */
-    @RequestMapping("/index_list")
-    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-    @SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-    public String headlist(@CurrentUser User user,HttpServletRequest request,Model model, @RequestParam(defaultValue="1")Integer page) {
-        if(null != user && "4".equals(user.getTypeName())){
-            //判断是否 是资源服务中心 
-            OBProduct example = new OBProduct();
-            String name = request.getParameter("name") == null ? "" : request.getParameter("name");
-            String code = request.getParameter("code") == null ? "" : request.getParameter("code");
-            String smallPointsId = request.getParameter(OnlineBidding.SMALL_POINTS_ID) == null ? "" : request.getParameter(OnlineBidding.SMALL_POINTS_ID);
-            example.setName(name);
-            example.setCode(code);
-            example.setSmallPointsId(smallPointsId);
-            List<OBProduct> list = oBProductService.selectPublishProduct(example, page);
-            if(list != null){
-                for (OBProduct oBProduct : list) {
-                    String id = oBProduct.getSmallPointsId();
-                    if(id != null){
-                        HashMap<String, Object> map = new HashMap<>();
-                        map.put("id", id);
-                        List<Category> clist = categoryService.findCategoryByParentNode(map);
-                        StringBuilder sb = new StringBuilder();
-                        for (Category category : clist) {
-                            if(!oBProduct.getSmallPoints().getName().equals(category.getName())){
-                                sb.append(category.getName());
-                                sb.append("/");
-                            }
-                        }
-                        if(oBProduct.getSmallPoints() != null){
-                            sb.append(oBProduct.getSmallPoints().getName());
-                            oBProduct.setPointsName(sb.toString());
-                        }
-                    }
-                }
-            }
-            Category cl = categoryService.findById(smallPointsId);
-            if(cl != null){
-                model.addAttribute("catName", cl.getName());
-            }
-            PageInfo<OBProduct> info = new PageInfo<>(list);
-            List<OBSupplier> numlist = oBSupplierService.selectSupplierNum();
-            for (OBSupplier ob : numlist) {
-                if(null != ob && null == ob.getnCount()){
-                    ob.setnCount(0);
-                }
-            }
-            model.addAttribute("info", info);
-            model.addAttribute("product", example);
-            model.addAttribute("numlist", numlist);
-        }
-        return "bss/ob/finalize_DesignProduct/index_list";
     }
     
     /**

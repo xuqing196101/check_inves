@@ -146,14 +146,22 @@
 						<li class="col-md-6 col-sm-6 col-xs-12 p0 mt10 mb25">
 							<span <c:if test="${fn:contains(fileModify,'14')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="application" onclick="reason(this);">军队评审专家承诺书：</span>
 								<up:show showId="14" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="14" />
-								<a style="visibility:hidden" id="application1"><img class="pl10" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								<c:if test="${fn:contains(conditionStr,'军队评审专家承诺书')}"> <img class="pl10" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
+								<a style="visibility:hidden" id="application1" class='abolish'><img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								<c:if test="${fn:contains(conditionStr,'军队评审专家承诺书')}">
+								  <a class='abolish'>
+								    <img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+								  </a>
+								</c:if>
 						</li>
 						<li class="col-md-6 col-sm-6 col-xs-12  p0 mt10 mb25">
 							<span <c:if test="${fn:contains(fileModify,'13')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="contract" onclick="reason(this);">军队评审专家入库申请表：</span>
 								<up:show showId="13"  delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="13" />
-								<a style="visibility:hidden" id="contract1"><img class="pl10" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								<c:if test="${fn:contains(conditionStr,'军队评审专家入库申请表')}"> <img class="pl10" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
+								<a style="visibility:hidden" id="contract1" class='abolish'><img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								<c:if test="${fn:contains(conditionStr,'军队评审专家入库申请表')}"> 
+								  <a class='abolish'>
+								    <img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+								  </a>
+								</c:if>
 						</li>
 					</ul>
 				</div>

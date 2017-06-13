@@ -3,7 +3,7 @@ package dss.model.rids;
 import java.io.Serializable;
 
 /**
- * Description:
+ * Description:文章统计查询条件
  * 
  * @author Easong
  * @version 2017年6月12日

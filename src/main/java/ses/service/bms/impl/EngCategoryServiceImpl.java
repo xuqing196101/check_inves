@@ -280,10 +280,11 @@ public class EngCategoryServiceImpl implements EngCategoryService {
                 category.setIsPublish(isPublished);;
             }
             insertSelective(category);
-            saveGeneral(id, generalIds);
-            saveProfile(id, profileIds);
+            Date date=new Date();
+            saveGeneral(id, generalIds,date);
+            saveProfile(id, profileIds,date);
             //保存物资销售型资质文件id
-            saveProfileSales(id, profileSalesIds);
+            saveProfileSales(id, profileSalesIds,date);
             res.setSuccess(true);
         }
         /**
@@ -304,11 +305,12 @@ public class EngCategoryServiceImpl implements EngCategoryService {
                     category.setIsPublish(isPublished);;
                 }
                 updateByPrimaryKeySelective(category);
-                delCategoryQua(id);
-                saveGeneral(id, generalIds);
-                saveProfile(id, profileIds);
+                Date date=new Date();
+                delCategoryQua(id,date);
+                saveGeneral(id, generalIds,date);
+                saveProfile(id, profileIds,date);
                 //保存物资销售型资质文件id
-                saveProfileSales(id, profileSalesIds);
+                saveProfileSales(id, profileSalesIds,date);
                 res.setSuccess(true);
             }
         }
@@ -322,15 +324,15 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      * @param categorId 品目Id
      * @param profileSalesIds 物资销售型资质Id
      */
-    private void saveProfileSales(String categorId, String profileSalesIds){
+    private void saveProfileSales(String categorId, String profileSalesIds,Date date){
         if (StringUtils.isNotBlank(profileSalesIds)){
             if (profileSalesIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] profileArray = profileSalesIds.split(",");
                 for (String profileId : profileArray){
-                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE);
+                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE,date);
                 }
             } else {
-                saveCategoryQua(categorId, profileSalesIds, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE);
+                saveCategoryQua(categorId, profileSalesIds, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE,date);
             }
         }
     }
@@ -342,8 +344,11 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      * @author myc
      * @param categoryId 品目Id
      */
-    private void delCategoryQua(String categoryId){
-        categoryQuaMapper.delQuaByCategoryId(categoryId);
+    private void delCategoryQua(String categoryId,Date date){
+    	HashMap<String,Object> map=new HashMap<>();
+    	map.put("categoryId", categoryId);
+    	map.put("updateDate", date);
+        categoryQuaMapper.updateQuaByCategoryId(map);
     }
     
     
@@ -353,15 +358,15 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      *〈详细描述〉
      * @author myc
      */
-    private void saveGeneral(String categorId,String generalIds){
+    private void saveGeneral(String categorId,String generalIds,Date date){
         if (StringUtils.isNotBlank(generalIds)){
             if (generalIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] generalArray = generalIds.split(",");
                 for (String generalId : generalArray){
-                    saveCategoryQua(categorId, generalId, StaticVariables.CATEGORY_QUALIFICATION_GENERAL);
+                    saveCategoryQua(categorId, generalId, StaticVariables.CATEGORY_QUALIFICATION_GENERAL,date);
                 }
             } else {
-                saveCategoryQua(categorId, generalIds, StaticVariables.CATEGORY_QUALIFICATION_GENERAL);
+                saveCategoryQua(categorId, generalIds, StaticVariables.CATEGORY_QUALIFICATION_GENERAL,date);
             }
         }
     }
@@ -374,15 +379,15 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      * @param categorId 品目Id
      * @param profileIds 资质Id
      */
-    private void saveProfile(String categorId, String profileIds){
+    private void saveProfile(String categorId, String profileIds,Date date){
         if (StringUtils.isNotBlank(profileIds)){
             if (profileIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] profileArray = profileIds.split(",");
                 for (String profileId : profileArray){
-                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROFILE,date);
                 }
             } else {
-                saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROFILE,date);
             }
         }
     }
@@ -396,11 +401,13 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      * @param generalId 资质Id
      * @param quraType  资质类型
      */
-    private void saveCategoryQua(String categorId, String generalId, Integer quraType) {
+    private void saveCategoryQua(String categorId, String generalId, Integer quraType,Date date) {
         CategoryQua cq = new CategoryQua();
         cq.setCategoryId(categorId);
         cq.setQuaId(generalId);
         cq.setQuaType(quraType);
+        cq.setCreatedAt(date);
+        cq.setIsDeleted(StaticVariables.ISNOT_DELETED);
         categoryQuaMapper.save(cq);
     }
     

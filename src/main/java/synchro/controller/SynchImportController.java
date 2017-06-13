@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
+import ses.service.bms.QualificationService;
 import ses.service.sms.SMSProductLibService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -97,6 +98,9 @@ public class SynchImportController {
     /**资料数据**/
     @Autowired
     private DataDownloadService dataDownloadService;
+    /**产品资质**/
+    @Autowired
+    private QualificationService qualificationService;
     /** 设置数据类型 **/
     private static final Integer DATA_TYPE_KIND = 29;
     
@@ -160,6 +164,16 @@ public class SynchImportController {
             	/**门户模板管理 数据导出  只能是内网导出外网**/
             	iter.remove();
             	continue;
+            }
+            if(dd.getCode().equals(Constant.DATA_SYNCH_CATEGORY_QUA)){
+          	  /**目录资质关联表  只能是内网导出外网**/
+          	  iter.remove();
+          	  continue;
+            }
+            if(dd.getCode().equals(Constant.DATA_SYNCH_QUALIFICATION)){
+          	  /**产品资质表  只能是内网导出外网**/
+          	  iter.remove();
+          	  continue;
             }
         }
           //外网时   
@@ -602,15 +616,13 @@ public class SynchImportController {
 					}
 				}
 				
+				 /**目录资质关联表*/
+				categoryService.importCategoryQua(synchType,f);
+                /** 产品资质表*/
+				qualificationService.importQualification(synchType,f);
+				
 			}
         }
-      
-
-       
-       
-       
-       
-      
         bean.setSuccess(true);
         return bean;
     }

@@ -1118,7 +1118,7 @@
               </a>
             </div>
             <div class="ywbl_01 col-xs-4 col-sm-4">
-              <a href="${pageContext.request.contextPath }/product/index_list.html" class="dxcpjj"><!--  onclick="setting()" -->
+              <a href="${pageContext.request.contextPath }/index/index_productList.html" class="dxcpjj"><!--  onclick="setting()" -->
                 <i></i>
                 <span>定型产品</span>
               </a>

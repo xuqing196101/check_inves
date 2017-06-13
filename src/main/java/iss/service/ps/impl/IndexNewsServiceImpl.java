@@ -90,4 +90,19 @@ public class IndexNewsServiceImpl implements IndexNewsService {
     return indeNewsMapper.selectChufaCount(countMap);
   }
 
+@Override
+public List<Article> selectSupplierAllNews(Map<String, Object> map) {
+	List<Article> indexNewsList = indeNewsMapper.selectSupplierAllNews(map);
+	if(indexNewsList.isEmpty()){
+		return null;
+	}else{
+		return indexNewsList;
+	}	
+}
+
+@Override
+public Integer selectSupplierCount(Map<String, Object> countMap) {
+	return indeNewsMapper.selectSupplierCount(countMap);
+}
+
 }

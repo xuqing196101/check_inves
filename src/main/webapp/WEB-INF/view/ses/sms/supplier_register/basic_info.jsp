@@ -171,7 +171,7 @@
 				var flag = true;
 
 				$("#address_list_body").find("input[type='text']").each(function(index, element) {
-					if(element.value == "") {
+					if(element.value.trim().length <= 0) {
 						msg = "地址信息不能为空!";
 						flag = false;
 					}
@@ -179,36 +179,47 @@
 				if($("#overseas_branch_select_id").val() == "1") {
 					// 非空校验
 					$("#branch_list").find("input[type='text']").each(function(index, element) {
-						if(element.value == "") {
+                        if(element.value.trim().length <= 0) {
 							msg = "境外信息不能为空！";
 							flag = false;
 						}
 					});
 					// 非空校验
-					$("#list-unstyled").find("select").each(function(index, element) {
-						if(element.value == "") {
-							msg = "境外信息不能为空！";
+					$(".cBranchName").each(function(index, element) {
+						if(element.value.trim().length <= 0) {
+							msg = "机构名称不能为空！";
 							flag = false;
 						}
 					});
-					// 非空校验
-					$("#list-unstyled").find("textarea").each(function(index, element) {
-						if(element.value == "") {
-							msg = "境外信息不能为空！";
-							flag = false;
-						}
-					});
+                    $(".cOverseas").each(function(index, element) {
+                        if(element.value.trim().length <= 0) {
+                            msg = "所属国家（地区）不能为空！";
+                            flag = false;
+                        }
+                    });
+                    $(".cDetailAdddress").each(function(index, element) {
+                        if(element.value.trim().length <= 0) {
+                            msg = "详细信息不能为空！";
+                            flag = false;
+                        }
+                    });
+                    $(".cPrdArea").each(function(index, element) {
+                        if(element.value.trim().length <= 0) {
+                            msg = "生产经营范围不能为空！";
+                            flag = false;
+                        }
+                    });
 				}
 				// 非空校验
 				$("#financeInfo").find("input[type='text']").each(function(index, element) {
-					if(element.value == "") {
+					if(element.value.trim().length <= 0) {
 						msg = "近三年财务信息不能为空!";
 						flag = false;
 					}
 				});
 				// 事务所联系方式格式校验
 				$("#financeInfo").find("input[name$='telephone']").each(function(index, element) {
-					if(element.value == "") {
+					if(element.value.trim().length <= 0) {
 						msg = "近三年财务信息不能为空!";
 						flag = false;
 					}
@@ -229,6 +240,7 @@
 					enableForm();
 					$("#basic_info_form_id").submit();
 				} else {
+
 					layer.msg(msg, {
 						offset: '300px'
 					});
@@ -936,14 +948,14 @@
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>机构名称</span>" +
 							" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 							//" <input type='hidden' name='branchList[" + inde + "].id'   value='"+branId+"' />" +
-							" <input type='text' name='branchList[" + inde + "].organizationName' id='sup_branchName'  value='' / onblur='tempSave()'>" +
+							" <input class ='cBranchName' type='text' name='branchList[" + inde + "].organizationName' id='sup_branchName'  value='' / onblur='tempSave()'>" +
 							"   <span class='add-on cur_point'>i</span>" +
 							"   </div>" +
 							"  </li>" +
 							"<li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>所在国家（地区）</span>" +
 							"  <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-							"<select name='branchList[" + inde + "].country'  id='overseas_branch_select_id' onchange='tempSave()'>" +
+							"<select  class ='cOverseas' name='branchList[" + inde + "].country'  id='overseas_branch_select_id' onchange='tempSave()'>" +
 							"<option value=''>请选择</option>"+
 							"<c:forEach items='${foregin }' var='fr'>" +
 							"<option value='${fr.id }' <c:if test='${bran.country==fr.id}'> selected='selected' </c:if> >${fr.name }</option>" +
@@ -954,7 +966,7 @@
 							"  <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>详细地址</span>" +
 							" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-							" <input type='text' name='branchList[" + inde + "].detailAddress'  id='sup_branchAddress' value='' / onblur='tempSave()'>" +
+							" <input  class ='cDetailAdddress' type='text' name='branchList[" + inde + "].detailAddress'  id='sup_branchAddress' value='' / onblur='tempSave()'>" +
 							"  <span class='add-on cur_point'>i</span>" +
 							" </div>" +
 							" </li>" +
@@ -971,7 +983,7 @@
 							"  <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>生产经营范围</span>" +
 							" <div class='col-md-12 col-xs-12 col-sm-12 p0'>" +
-							" <textarea class='col-md-12 col-xs-12 col-sm-12 h80' maxlength='1000' onkeyup=\"checkCharLimit('branchbusinessSope_"+inde+"','limit_char_branchbusinessSope_"+inde+"',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}\" id='branchbusinessSope_"+inde+"' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
+							" <textarea class='cPrdArea col-md-12 col-xs-12 col-sm-12 h80' maxlength='1000' onkeyup=\"checkCharLimit('branchbusinessSope_"+inde+"','limit_char_branchbusinessSope_"+inde+"',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}\" id='branchbusinessSope_"+inde+"' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
 							" <span class='sm_tip fr'>还可输入 <span id='limit_char_branchbusinessSope_"+inde+"'>1000</span> 个字</span>" +
 							" </div>" +
 							" </li>");
@@ -1942,7 +1954,7 @@
 										<li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12 pl10">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>机构名称</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input type="text" name="branchList[${vs.index }].organizationName" id="sup_branchName" required maxlength="50" value="${bran.organizationName}"  <c:if test="${!fn:contains(audit,'organizationName')&&currSupplier.status==2}">readonly="readonly"</c:if>  <c:if test="${fn:contains(audit,'organizationName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('organizationName_${bran.id }')"</c:if>/>
+												<input class= 'cBranchName' type="text" name="branchList[${vs.index }].organizationName" id="sup_branchName" required maxlength="50" value="${bran.organizationName}"  <c:if test="${!fn:contains(audit,'organizationName')&&currSupplier.status==2}">readonly="readonly"</c:if>  <c:if test="${fn:contains(audit,'organizationName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('organizationName_${bran.id }')"</c:if>/>
 												<span class="add-on cur_point">i</span>
 												<span class="input-tip">不能为空</span>
 												<div class="cue">
@@ -1954,7 +1966,7 @@
 										<li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 "><i class="red">* </i>所在国家（地区）</span>
 											<div class="select_common col-md-12 col-sm-12 col-xs-12  p0">
-												<select name="branchList[${vs.index }].country" id="overseas_branch_select_id" required <c:if test="${!fn:contains(audit,'overseasBranch')&&currSupplier.status==2}">onchange=""</c:if> <c:if test="${fn:contains(audit,'countryName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('countryName_${bran.id }')"</c:if>>
+												<select class='cOverseas' name="branchList[${vs.index }].country" id="overseas_branch_select_id" required <c:if test="${!fn:contains(audit,'overseasBranch')&&currSupplier.status==2}">onchange=""</c:if> <c:if test="${fn:contains(audit,'countryName_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('countryName_${bran.id }')"</c:if>>
 													<option value="">请选择</option>
 													<c:forEach items="${foregin }" var="fr">
 														<option value="${fr.id }" <c:if test="${bran.country==fr.id}">selected='selected' </c:if> >${fr.name }</option>
@@ -1966,7 +1978,7 @@
 										<li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>详细地址</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input type="text" name="branchList[${vs.index }].detailAddress" required maxlength="50" id="sup_branchAddress" value="${bran.detailAddress}"  
+												<input class='cDetailAdddress' type="text" name="branchList[${vs.index }].detailAddress" required maxlength="50" id="sup_branchAddress" value="${bran.detailAddress}"
 													<c:if test="${!fn:contains(audit,'detailAddress_'.concat(bran.id))&&currSupplier.status==2}">readonly="readonly"</c:if>  
 													<c:if test="${fn:contains(audit,'detailAddress_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('detailAddress_${bran.id }')"</c:if>/>
 												<span class="add-on cur_point">i</span>
@@ -1996,7 +2008,7 @@
 										<li name="branch" style="display: none;" class="col-md-12 col-xs-12 col-sm-12 mb25">
 											<span class="col-md-12 c ol-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>生产经营范围</span>
 											<div class="col-md-12 col-xs-12 col-sm-12 p0">
-												<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"  
+												<textarea class="cPrdArea col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"
 													onkeyup="checkCharLimit('branchbusinessSope_${vs.index }','limit_char_branchbusinessSope_${vs.index }',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" 
 													id="branchbusinessSope_${vs.index }" required name="branchList[${vs.index }].businessSope" 
 													<c:if test="${!fn:contains(audit,'businessSope')&&currSupplier.status==2}">readonly="readonly"</c:if>
