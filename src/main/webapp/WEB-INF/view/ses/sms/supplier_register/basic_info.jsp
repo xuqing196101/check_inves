@@ -213,6 +213,16 @@
 						flag = false;
 					}
 				});
+				// 出资人（股东）信息比例之和要大于50%
+				var proportionTotal = 0;
+				$("input[name^='listSupplierStockholder'][name$='proportion']").each(function(){
+					proportionTotal += parseFloat($(this).val());
+				});
+				if(proportionTotal < 50){
+					msg = "股东出资比例之和要大于50!";
+					flag = false;
+				}
+				
 				if(flag) {
 					$("input[name='flag']").val(obj);
 					// 提交的时候表单域设置成可编辑
@@ -2356,10 +2366,7 @@
                     if(parseFloat(_val)>100){
                         $(this).val("");
                         layer.msg("请输入正确的比例数据格式,不能超过100", {offset: '300px'});
-                    }else if(parseInt(_val)<50){
-		                    $(this).val("");
-		                    layer.msg("请输入正确的比例数据格式,不小于50", {offset: '300px'});
-		                }else{
+                    }else{
                         var reg = /\d+\.\d{0,2}?$/;
                         if(!reg.test(_val)) {
                             $(this).val("");
@@ -2372,10 +2379,7 @@
                     if(!positiveRegular(_val)){
                         $(this).val("");
                         layer.msg("请输入正确的比例数据格式,保留两位小数", {offset: '300px'});
-                    }else if(parseInt(_val)<50){
-		                    $(this).val("");
-		                    layer.msg("请输入正确的比例数据格式,不小于50", {offset: '300px'});
-		                }else if(parseInt(_val)>100){
+                    }else if(parseInt(_val)>100){
                         $(this).val("");
                         layer.msg("请输入正确的比例数据格式,不能超过100", {offset: '300px'});
                     };
@@ -2424,7 +2428,6 @@
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
 				//alert($(this).css("border"));
-				console.log($(this));
 				if($(this).css("border-color") == 'rgb(255, 0, 0)' || $(this).parents("td").css("border-color") == 'rgb(255, 0, 0)'){
 					$(this).attr('disabled',false);
 				}
