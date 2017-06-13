@@ -26,10 +26,10 @@
 			
 			$(function() {
 				
-				var term="${currSupplier.branchName}";
+				/* var term="${currSupplier.branchName}";
 				if(term=="1"){
 					$("#expireDate").attr("disabled","disabled");
-				}
+				} */
 				var card="${notPass}";
 				if(card=="error_card"){ 
 					layer.msg("身份证号已存在！");
@@ -1007,14 +1007,16 @@
 					$(obj).parent().parent().remove();
 				}
 				var id=$(obj).next().val();
-				$.ajax({
-					url:"${pageContext.request.contextPath}/supplier/deleteBranch.do",
-					type:"post",
-					data:{"id":id},
-					success:function(data){
-						
-					}
-				});
+				if(id){
+					$.ajax({
+						url:"${pageContext.request.contextPath}/supplier/deleteBranch.do",
+						type:"post",
+						data:{"id":id},
+						success:function(data){
+							
+						}
+					});
+				}
 			}
 
 			function errorMsg(auditField) {
@@ -1249,7 +1251,9 @@
 										value="${currSupplier.branchName }"> 长期</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<%-- <fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" /> --%>
-										<input id="expireDate" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd"/>" <c:if test="${fn:contains(audit,'businessStartDate')}">style="border: 1px solid red;" onmouseover="errorMsg('businessStartDate')"</c:if>/>
+										<input id="expireDate" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd"/>" 
+											<c:if test="${fn:contains(audit,'businessStartDate')}">style="border: 1px solid red;" onmouseover="errorMsg('businessStartDate')"</c:if>
+											<c:if test="${currSupplier.branchName=='1'}">disabled="disabled"</c:if> />
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">如果勾选长期,可不填写有效期</span>
 										<div class="cue"> ${err_sDate } </div>
@@ -1484,9 +1488,18 @@
                                                     </td>
                                                     <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg('${addr.id }')"</c:if>>
                                                         <div class="w200 fl">
-                                                           <c:if test="${(fn:contains(audit,addr.id)&&currSupplier.status==2 )|| currSupplier.status==-1 || currSupplier.status==1}"> <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" /></c:if>
+                                                           <%-- <c:if test="${(fn:contains(audit,addr.id)&&currSupplier.status==2 )|| currSupplier.status==-1 || currSupplier.status==1}"> <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" /></c:if>
                                                             <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2 }"> <u:show showId="house_show_${certSaleNumber}" delete="false" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" /></c:if>
-                                                            <c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,addr.id)}"> <u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" /></c:if>
+                                                            <c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,addr.id)}"> <u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" /></c:if> --%>
+                                                            <c:choose>
+                                                            	<c:when test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">
+                                                            		<u:show showId="house_show_${certSaleNumber}" delete="false" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+                                                            	</c:when>
+                                                            	<c:otherwise>
+                                                            		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
+                                                            		<u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
+                                                            	</c:otherwise>
+                                                            </c:choose>
                                                             <c:if test="${vs.index == err_house_token}">
                                                                 <div class="cue">  </div>
                                                             </c:if>
@@ -2405,8 +2418,8 @@
 		//alert(currSupplierSt);
 		if(currSupplierSt == '2'){
 			$("input[type='text'],select,textarea").attr('disabled',true);
-			//enableForm();
-			//$("input[type='text'],select,textarea").removeAttr('readonly');
+			//enableForm();// 调试用代码
+			//$("input[type='text'],select,textarea").removeAttr('readonly');//调试用代码
 			$("input[type='text'],select,textarea").each(function(){
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
@@ -2419,8 +2432,13 @@
 				this.selectedIndex=this.defaultIndex;
 			}); */
 			// 营业期限复选框
+			//console.log('${audit}');
 			if('${audit}'.indexOf('businessStartDate') < 0){
 				$("input[type='checkbox'][name='branchName']").attr('disabled',true);
+			}
+			// 营业期限选择器
+			if($("input[type='checkbox'][name='branchName']").val() == "1"){
+				$("#expireDate")..attr('disabled',true);
 			}
 		}
 	}

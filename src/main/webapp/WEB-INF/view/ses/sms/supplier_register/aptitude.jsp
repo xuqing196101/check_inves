@@ -201,6 +201,9 @@
 			}
 			//请求 获取 数据
 			function getDate(obj,typeId,certCode,supplierId,professType,number,flag){
+			//console.log(obj);
+			//console.log(number);
+			//console.log(flag);
 			$.ajax({
                         url : "${pageContext.request.contextPath}/supplier/getLevel.do",
                         type:"post",
@@ -470,11 +473,11 @@
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode"  value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
 										     
 										    	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										    	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType" onchange="getFileByCode(this, '${vs.index}', '3')">
-										        			<option value="${cate.proName}" selected="selected">${cate.proName}</option>
-										        	</select>
+											    	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType" onchange="getFileByCode(this, '${vs.index}', '3')">
+									        		<option value="${cate.proName}" selected="selected">${cate.proName}</option>
+									        	</select>
 <%-- 										    	<input type="text" class="border0" name="listSupplierItems[${vs.index}].professType" value="${cate.proName}" onblur="getFileByCode(this, '${vs.index}', '3')">
- --%>										    	</td>
+ --%>										  </td>
 										      
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" id ="listSupplierItems${vs.index}" value="${cate.level.id}" class="w80">

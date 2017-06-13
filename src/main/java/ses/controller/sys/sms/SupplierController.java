@@ -651,7 +651,7 @@ public class SupplierController extends BaseSupplierController {
 						}
 					}
 				}else{
-                    supplier.setCreditCode("");
+                    //supplier.setCreditCode("");
                 }
 			
 				List<SupplierStockholder> stockholders = supplier.getListSupplierStockholders();

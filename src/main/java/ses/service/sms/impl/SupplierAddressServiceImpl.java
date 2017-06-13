@@ -21,7 +21,23 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
 	
 	@Override
 	public void addList(List<SupplierAddress> list,String supplierId) {
-		supplierAddressMapper.deleteBySupplierId(supplierId);
+		if(null != list){
+			for(SupplierAddress addr:list){
+				addr.setSupplierId(supplierId);
+			     if (addr.getId() != null) {// 对比id进行添加和修改的操作
+			    	 SupplierAddress sa =  supplierAddressMapper.selectByPrimaryKey(addr.getId());
+			    	 if(sa == null){
+			    		 supplierAddressMapper.insertSelective(addr);
+			    	 }else{
+			    		 supplierAddressMapper.updateByPrimaryKeySelective(addr);
+			    	 }
+			     } else {
+			         addr.setId(WfUtil.createUUID());
+	                 supplierAddressMapper.insertSelective(addr);
+			     }
+			}
+		}
+		/*supplierAddressMapper.deleteBySupplierId(supplierId);
 		 for(SupplierAddress addr:list){
 		     if (addr.getId() != null) {
 		         addr.setSupplierId(supplierId);
@@ -31,8 +47,7 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
                  addr.setSupplierId(supplierId);
                  supplierAddressMapper.insertSelective(addr); 
 		     }
-		 }
-
+		 }*/
 	}
 
 	@Override
