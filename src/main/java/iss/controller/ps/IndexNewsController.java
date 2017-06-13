@@ -266,13 +266,15 @@ public class IndexNewsController extends BaseSupplierController{
     List<Article> article115List = articleService.selectArticleByArticleType(map);
     indexMapper.put("article115List", article115List);
     map.clear();
-    map.put("typeId","116");
-    List<Article> article116List = articleService.selectArticleByArticleType(map);
+    //供应商处罚公告
+    String[] idArray116 = {"116","117"};
+	map.put("idArray", idArray116);
+    List<Article> article116List = articleService.selectAllByArticleType(map);
     indexMapper.put("article116List", article116List);
-    map.clear();
+    /*map.clear();
     map.put("typeId","117");
     List<Article> article117List = articleService.selectArticleByArticleType(map);
-    indexMapper.put("article117List", article117List);
+    indexMapper.put("article117List", article117List);*/
 	}
 	
 	/**
@@ -465,14 +467,16 @@ public class IndexNewsController extends BaseSupplierController{
     map.put("typeId","115");
     List<Article> article115List = articleService.selectArticleByArticleType(map);
     indexMapper.put("article115List", article115List);
+    //首页供应商处罚公告
     map.clear();
-    map.put("typeId","116");
-    List<Article> article116List = articleService.selectArticleByArticleType(map);
+    String[] idArray116 = {"116","117"};
+	map.put("idArray", idArray116);
+    List<Article> article116List = articleService.selectAllByArticleType(map);
     indexMapper.put("article116List", article116List);
-    map.clear();
+    /*map.clear();
     map.put("typeId","117");
     List<Article> article117List = articleService.selectArticleByArticleType(map);
-    indexMapper.put("article117List", article117List);
+    indexMapper.put("article117List", article117List);*/
 		map.clear();
 		String[] idArray = {"3","24"};
 		map.put("idArray", idArray);
@@ -1279,6 +1283,56 @@ public class IndexNewsController extends BaseSupplierController{
 		return "iss/ps/index/index_two";
 	}
 	
+	/**
+	 * 
+	 * Description: 供应商处罚公告
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年6月13日
+	 * @param 
+	 * @return
+	 */
+	@RequestMapping("/supplierPunishment")
+	public String supplierPunishment(Model model,Integer page,HttpServletRequest request){
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> countMap = new HashMap<String, Object>();
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		String pageSize = config.getString("pageSize");
+		if(page==null){
+			page=1;
+		}
+		String title = RequestTool.getParam(request, "title","");
+		String idArray[] = {"116","117"};
+		map.put("idArray",idArray);
+		map.put("page", page);
+		map.put("pageSize", pageSize);
+		map.put("title", title);
+		countMap.put("idArray",idArray);
+		countMap.put("title", title);
+		List<Article> indexNewsList = indexNewsService.selectSupplierAllNews(map);
+		Integer pages = indexNewsService.selectSupplierCount(countMap);
+		Integer startRow = 0;
+		Integer endRow = 0;
+		if(indexNewsList!=null){
+			if(indexNewsList.size()>0){
+				startRow = (page-1)*Integer.parseInt(pageSize)+1;
+			}
+			if(indexNewsList.size()>0){
+				endRow = startRow+(indexNewsList.size()-1);
+			}
+		}
+		Map<String, Object> indexMapper = new HashMap<String, Object>();
+		topNews(indexMapper);
+		model.addAttribute("total", pages);
+		model.addAttribute("startRow", startRow);
+		model.addAttribute("endRow", endRow);
+		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
+		model.addAttribute("indexList", indexNewsList);
+		model.addAttribute("typeName", "供应商处罚公告");
+		model.addAttribute("title", title);
+		model.addAttribute("indexMapper", indexMapper);
+		return "iss/ps/index/index_two";
+	}
 	
 	public static void markByText(String logoText, String srcImgPath,String targerPath) {
 		markByText(logoText, srcImgPath, targerPath, null);
