@@ -321,66 +321,64 @@
 		
 		// 判断物资销售专业信息是否填写完整
 		if (isSaleCheck == true) {
-			$("#cert_sell_list_tbody_id").find("input[type='text']").each(
 			/* $("#cert_sell_list_tbody_id").find("input[type='text']").each(
-				function(index, element) {
-					if (element.value == "" || !isSaleCheck) {
-						flag = false;
-						layer.msg("物资销售资质证书信息没有填写完整!");
+			function(index, element) {
+				if (element.value == "" || !isSaleCheck) {
+					flag = false;
+					layer.msg("物资销售资质证书信息没有填写完整!");
+				}
+			}); */
+			// 要填则必须填写完整
+			$("#cert_sell_list_tbody_id").find("tr").each(
+			function(index, element) {
+				var count = 0;// 统计没有填写的数量
+				var size = 0; // 总共需要填写的数量
+				$(this).find("td").not(":first").each(function(n, e){
+					var txt = $(this).find("input[type='text']").val();// 文本
+					var pic = $(this).find("ul[id^='sale_show_'][id$='_disFileId']").html();// 图片
+					if(txt == "" || pic == ""){
+						count++;
 					}
-				}); */
-				// 要填则必须填写完整
-				$("#cert_sell_list_tbody_id").find("tr").each(
-				function(index, element) {
-					var count = 0;// 统计没有填写的数量
-					var size = 0; // 总共需要填写的数量
-					$(this).find("td").not(":first").each(function(n, e){
-						var txt = $(this).find("input[type='text']").val();// 文本
-						var pic = $(this).find("ul[id^='sale_show_'][id$='_disFileId']").html();// 图片
-						if(txt == "" || pic == ""){
-							count++;
-						}
-						size++;
-					});
-					//console.log(count+","+size);
-					if(count != 0 && count < size){
-						flag = false;
-						layer.msg("物资销售资质证书信息没有填写完整(第"+(index+1)+"行)!");
-						return false;
-					}
+					size++;
 				});
+				//console.log(count+","+size);
+				if(count != 0 && count < size){
+					flag = false;
+					layer.msg("物资销售资质证书信息没有填写完整(第"+(index+1)+"行)!");
+					return false;
+				}
+			});
 		}
 		
 		// 判断服务专业信息是否填写完整
 		if (isServerCheck == true) {
-			$("#cert_se_list_tbody_id").find("input[type='text']").each(
 			/* $("#cert_se_list_tbody_id").find("input[type='text']").each(
-				function(index, element) {
-					if (element.value == "" || !isServerCheck) {
-						flag = false;
-						layer.msg("服务资质证书信息没有填写完整!");
+			function(index, element) {
+				if (element.value == "" || !isServerCheck) {
+					flag = false;
+					layer.msg("服务资质证书信息没有填写完整!");
+				}
+			}); */
+			// 要填则必须填写完整
+			$("#cert_se_list_tbody_id").find("tr").each(
+			function(index, element) {
+				var count = 0;// 统计没有填写的数量
+				var size = 0; // 总共需要填写的数量
+				$(this).find("td").not(":first").each(function(n, e){
+					var txt = $(this).find("input[type='text']").val();// 文本
+					var pic = $(this).find("ul[id^='se_show_'][id$='_disFileId']").html();// 图片
+					if(txt == "" || pic == ""){
+						count++;
 					}
-				}); */
-				// 要填则必须填写完整
-				$("#cert_se_list_tbody_id").find("tr").each(
-				function(index, element) {
-					var count = 0;// 统计没有填写的数量
-					var size = 0; // 总共需要填写的数量
-					$(this).find("td").not(":first").each(function(n, e){
-						var txt = $(this).find("input[type='text']").val();// 文本
-						var pic = $(this).find("ul[id^='se_show_'][id$='_disFileId']").html();// 图片
-						if(txt == "" || pic == ""){
-							count++;
-						}
-						size++;
-					});
-					//console.log(count+","+size);
-					if(count != 0 && count < size){
-						flag = false;
-						layer.msg("服务资质证书信息没有填写完整(第"+(index+1)+"行)!");
-						return false;
-					}
+					size++;
 				});
+				//console.log(count+","+size);
+				if(count != 0 && count < size){
+					flag = false;
+					layer.msg("服务资质证书信息没有填写完整(第"+(index+1)+"行)!");
+					return false;
+				}
+			});
 		}
 		
 		$("input[name$='expEndDate']").each(
