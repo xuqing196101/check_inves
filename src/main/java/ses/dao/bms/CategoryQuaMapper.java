@@ -1,6 +1,7 @@
 package ses.dao.bms;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -54,5 +55,46 @@ public interface CategoryQuaMapper {
      * @author myc
      * @param categoryId 品目Id
      */
-    void delQuaByCategoryId(@Param("categoryId")String categoryId);
+    void updateQuaByCategoryId(Map<String, Object> map);
+    /**
+	 * 根据更新 时间 获取范围数据
+	 * @author YangHongLiang
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<CategoryQua> selectByUpdatedAt(@Param("start")String start,@Param("end")String end);
+	/**
+	 * 根据创建  时间 获取范围数据
+	 * @author YangHongLiang
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<CategoryQua> selectByCreatedAt(@Param("start")String start,@Param("end")String end);
+	/**
+	 * 
+	 * Description:添加关联资质信息
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-12
+	 * @param qua
+	 */
+	void insertSelective(CategoryQua qua);
+	/**
+	 * 
+	 * Description:根据id 更新关联资质信息
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-12
+	 * @param qua
+	 */
+	void updateByPrimaryKeySelective(CategoryQua qua);
+	/**
+	 * 判断是否存在
+	 * @param id
+	 * @return
+	 */
+	Integer countByPrimaryKey(String id);
+	
 }

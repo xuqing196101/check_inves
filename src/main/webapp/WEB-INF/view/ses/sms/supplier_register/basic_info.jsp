@@ -8,10 +8,16 @@
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>供应商注册</title>
 		<style type="text/css">
-	.current{
-		cursor:pointer;
-	}
-</style>
+			.current{
+				cursor:pointer;
+			}
+			.sm_tip{
+				color: gray;
+				font-size: 14px;
+				font-weight: normal;
+				margin-top: 5px;
+			}
+		</style>
 		<%@ include file="/WEB-INF/view/common/validate.jsp"%>
 		<script type="text/javascript">
 			$().ready(function() {
@@ -955,7 +961,8 @@
 							"  <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>生产经营范围</span>" +
 							" <div class='col-md-12 col-xs-12 col-sm-12 p0'>" +
-							"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80' maxlength='1000' onkeyup='if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}' id='sup_businessScope' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
+							" <textarea class='col-md-12 col-xs-12 col-sm-12 h80' maxlength='1000' onkeyup=\"checkCharLimit('branchbusinessSope_"+inde+"','limit_char_branchbusinessSope_"+inde+"',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}\" id='branchbusinessSope_"+inde+"' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
+							" <span class='sm_tip fr'>还可输入 <span id='limit_char_branchbusinessSope_"+inde+"'>1000</span> 个字</span>" +
 							" </div>" +
 							" </li>");
 						inde++;
@@ -1261,7 +1268,12 @@
 								<li class="col-md-12 col-xs-12 col-sm-12 mb25">
 									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">* </i>经营范围（按照营业执照填写）</span>
 									<div class="col-md-12 col-xs-12 col-sm-12 p0">
-										<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" required="required" name="businessScope" <c:if test="${!fn:contains(audit,'businessScope')&&currSupplier.status==2}">readonly="readonly"</c:if>   <c:if test="${fn:contains(audit,'businessScope')}">style="border: 1px solid red;" onmouseover="errorMsg('businessScope')"</c:if>>${currSupplier.businessScope}</textarea>
+										<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"  
+											onkeyup="checkCharLimit('businessScope','limit_char_businessScope',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" 
+											required="required" name="businessScope" id="businessScope"
+											<c:if test="${!fn:contains(audit,'businessScope')&&currSupplier.status==2}">readonly="readonly"</c:if>
+											<c:if test="${fn:contains(audit,'businessScope')}">style="border: 1px solid red;" onmouseover="errorMsg('businessScope')"</c:if>>${currSupplier.businessScope}</textarea>
+										<span class="sm_tip fr">还可输入 <span id="limit_char_businessScope">1000</span> 个字</span>
 										<div class="cue">
 											<sf:errors path="businessScope" />
 										</div>
@@ -1961,7 +1973,12 @@
 										<li name="branch" style="display: none;" class="col-md-12 col-xs-12 col-sm-12 mb25">
 											<span class="col-md-12 c ol-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>生产经营范围</span>
 											<div class="col-md-12 col-xs-12 col-sm-12 p0">
-												<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" id="branchbusinessSope" required name="branchList[${vs.index }].businessSope" <c:if test="${!fn:contains(audit,'businessSope')&&currSupplier.status==2}">readonly="readonly"</c:if> <c:if test="${fn:contains(audit,'businessSope_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('businessSope_${bran.id }')"</c:if>>${bran.businessSope}</textarea>
+												<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"  
+													onkeyup="checkCharLimit('branchbusinessSope_${vs.index }','limit_char_branchbusinessSope_${vs.index }',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" 
+													id="branchbusinessSope_${vs.index }" required name="branchList[${vs.index }].businessSope" 
+													<c:if test="${!fn:contains(audit,'businessSope')&&currSupplier.status==2}">readonly="readonly"</c:if>
+													<c:if test="${fn:contains(audit,'businessSope_'.concat(bran.id))}">style="border: 1px solid red;" onmouseover="errorMsg('businessSope_${bran.id }')"</c:if>>${bran.businessSope}</textarea>
+												<span class="sm_tip fr">还可输入 <span id="limit_char_branchbusinessSope_${vs.index }">1000</span> 个字</span>
 												<div class="cue">
 													<sf:errors path="branchList[${vs.index }].businessSope" />
 												</div>
@@ -2229,7 +2246,12 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb20">
-									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" name="purchaseExperience" <c:if test="${!fn:contains(audit,'purchaseExperience')&&currSupplier.status==2}">readonly='readonly' </c:if> <c:if test="${fn:contains(audit,'purchaseExperience')}">style="border: 1px solid red;" onmouseover="errorMsg('purchaseExperience')"</c:if>>${currSupplier.purchaseExperience}</textarea>
+									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"  
+										onkeyup="checkCharLimit('purchaseExperience','limit_char_purchaseExperience',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" 
+										name="purchaseExperience" id="purchaseExperience"
+										<c:if test="${!fn:contains(audit,'purchaseExperience')&&currSupplier.status==2}">readonly='readonly' </c:if>
+										<c:if test="${fn:contains(audit,'purchaseExperience')}">style="border: 1px solid red;" onmouseover="errorMsg('purchaseExperience')"</c:if>>${currSupplier.purchaseExperience}</textarea>
+									<span class="sm_tip fr">还可输入 <span id="limit_char_purchaseExperience">1000</span> 个字</span>
 								</div>
 							</div>
 						</div>
@@ -2239,7 +2261,13 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb20">
-									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" placeholder="包括供应商的基本情况、组织机构设置、人员情况以及产品信息等内容，字数请控制在500字以内。" name="description" <c:if test="${!fn:contains(audit,'description')&&currSupplier.status==2}">readonly='readonly' </c:if>  <c:if test="${fn:contains(audit,'description')}">style="border: 1px solid red;" onmouseover="errorMsg('description')"</c:if>>${currSupplier.description}</textarea>
+									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" maxlength="1000"  
+										onkeyup="checkCharLimit('description','limit_char_description',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" 
+										placeholder="包括供应商的基本情况、组织机构设置、人员情况以及产品信息等内容，字数请控制在500字以内。" 
+										name="description" id="description"
+										<c:if test="${!fn:contains(audit,'description')&&currSupplier.status==2}">readonly='readonly' </c:if>
+										<c:if test="${fn:contains(audit,'description')}">style="border: 1px solid red;" onmouseover="errorMsg('description')"</c:if>>${currSupplier.description}</textarea>
+									<span class="sm_tip fr">还可输入 <span id="limit_char_description">1000</span> 个字</span>
 									<div class="cue" style="margin-top:50px;">
 										<sf:errors path="description" />
 									</div>
@@ -2404,4 +2432,20 @@
 			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
 		}
 	}
+</script>
+
+<script type="text/javascript">
+	// 核对字符长度
+	function checkCharLimit(inputId,countId,limit){
+		var inputVal = $("#"+inputId).val();
+		var inputLen = inputVal ? inputVal.length : 0;
+		$("#"+countId).text(limit - inputLen);
+	}
+	checkCharLimit('businessScope','limit_char_businessScope',1000);// 经营范围
+	checkCharLimit('purchaseExperience','limit_char_purchaseExperience',1000);// 参加政府或军队采购经历
+	checkCharLimit('description','limit_char_description',1000);// 公司简介
+	// 境外分支生产经营范围
+	$("textarea[name^='branchList'][name$='businessSope']").each(function(){
+		checkCharLimit($(this).attr("id"),$(this).next().children().attr("id"),1000);
+	});
 </script>

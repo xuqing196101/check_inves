@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
+import ses.service.bms.QualificationService;
 import ses.service.sms.SMSProductLibService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -102,6 +104,9 @@ public class SynchExportController {
     /** 门户模板管理 **/
     @Autowired
     private TemplateDownloadService templateDownloadService;
+    /**产品资质**/
+    @Autowired
+    private QualificationService qualificationService;
     /**
      * 
      *〈简述〉初始化导出
@@ -159,6 +164,16 @@ public class SynchExportController {
                 }
               if(dd.getCode().equals(Constant.SYNCH_TEMPLATE_DOWNLOAD)){
             	  /**门户模板管理 数据导出  只能是内网导出外网**/
+            	  iter.remove();
+            	  continue;
+              }
+              if(dd.getCode().equals(Constant.DATA_SYNCH_CATEGORY_QUA)){
+            	  /**目录资质关联表  只能是内网导出外网**/
+            	  iter.remove();
+            	  continue;
+              }
+              if(dd.getCode().equals(Constant.DATA_SYNCH_QUALIFICATION)){
+            	  /**产品资质表  只能是内网导出外网**/
             	  iter.remove();
             	  continue;
               }
@@ -313,6 +328,16 @@ public class SynchExportController {
         //图片导出
         if(synchType.contains("img_out")){
         	synchService.imageHandler();
+        }
+        /**同步 目录资质关联表**/
+        if(synchType.contains(Constant.DATA_SYNCH_CATEGORY_QUA)){
+        	//门户模板管理 导出数据
+        	categoryService.exportCategoryQua(startTime, endTime, date);
+        }
+        /**同步  产品资质表**/
+        if(synchType.contains(Constant.DATA_SYNCH_QUALIFICATION)){
+        	//门户模板管理 导出数据
+        	qualificationService.exportQualification(startTime, endTime, date);
         }
         bean.setSuccess(true);
         return bean;

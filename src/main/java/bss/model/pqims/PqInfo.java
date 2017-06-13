@@ -151,11 +151,11 @@ public class PqInfo {
         this.place = place == null ? null : place.trim();
     }
 
-    public Date getDate() {
+    public Date getPqdate() {
         return pqdate;
     }
 
-    public void setDate(Date pqdate) {
+    public void setPqdate(Date pqdate) {
         this.pqdate = pqdate;
     }
 

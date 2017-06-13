@@ -706,9 +706,9 @@ function judge(index) {
 	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}" + "&checked="+isChecked,        
 	            dataType:'json',
 	            success:function(result){
-	                  if (result == 0){
+	                  /* if (result == 0){
 					     layer.msg("评分项已超过100分,请检查",{offset: ['150px']});     	
-	                  }  else if (result == 2) {
+	                  }  else  */if (result == 2) {
 	                  	 layer.msg("每个包必须要有一个评审计算价格得分的唯一标识,有且只能为一个",{offset: ['150px']});    
 	                  }  else {
 	                  	$("#formID").attr('action','${pageContext.request.contextPath}/intelligentScore/operatorScoreModel.do').submit();
