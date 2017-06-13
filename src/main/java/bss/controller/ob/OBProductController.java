@@ -655,7 +655,7 @@ public class OBProductController {
     @SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
     public ResponseEntity<byte[]> downloadCategory(@CurrentUser User user,HttpServletRequest request,
             String filename) throws IOException {
-        if(null != user && "4".equals(user.getTypeName())){
+        if(null != user && ("4".equals(user.getTypeName()) || "1".equals(user.getTypeName()))){
             //判断是否 是资源服务中心 
             String path = PathUtil.getWebRoot() + "excel/产品分类目录下载.xlsx";
             File file = new File(path);
