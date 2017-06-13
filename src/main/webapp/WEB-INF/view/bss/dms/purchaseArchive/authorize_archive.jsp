@@ -77,7 +77,7 @@
 							var html = "";
 							for(var i = 0; i < data.length; i++) {
 								html = html + "<tr class='tc'>";
-								alert(data[i].status);
+								//alert(data[i].status);
 								if(data[i].status == 1) {
 									html = html + "<td><input type='checkbox' name='fileInfo' checked='checked' onclick='checkFileInfo()' value='" + data[i].id + "'/></td>";
 								} else {
@@ -237,13 +237,16 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0);">首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
 						<a href="javascript:void(0);">保障作业</a>
 					</li>
 					<li>
-						<a href="javascript:void(0);">采购档案授权</a>
+						<a href="javascript:void(0);">采购档案管理</a>
+					</li>
+					<li>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/purchaseArchive/archiveAuthorize.html');">采购档案授权</a>
 					</li>
 				</ul>
 				<div class="clear"></div>

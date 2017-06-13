@@ -49,7 +49,7 @@
             <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
             <li><a href="javascript:void(0)">保障作业</a></li>
             <li><a href="javascript:void(0)">产品质量管理</a></li>
-            <li class="active"><a href="javascript:void(0)">产品质量结果列表</a></li>
+            <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/pqinfo/getAll.html')">产品质量结果列表</a></li>
         </ul>
         <div class="clear"></div>
     </div>

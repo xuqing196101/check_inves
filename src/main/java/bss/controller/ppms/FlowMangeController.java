@@ -56,6 +56,7 @@ public class FlowMangeController {
         List<FlowDefine> ls = flowMangeService.listByPage(fd, page == null ? 1 : page);
         model.addAttribute("list", new PageInfo<FlowDefine>(ls));
         model.addAttribute("fd", fd);
+        model.addAttribute("typeCode", typeCode);
         return "bss/ppms/flow/list";
     }
     
