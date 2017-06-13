@@ -3056,8 +3056,11 @@ public class PurchaseContractController extends BaseSupplierController{
      * @throws Exception
      */
     @RequestMapping("/readOnlyList")
-    public String readOnlyList(@CurrentUser User user,HttpServletRequest request,@RequestParam(defaultValue = "1") Integer page,Model model,PurchaseContract purCon, PurchaseContractAnalyzeVo purchaseContractAnalyzeVo) throws Exception{
+    public String readOnlyList(@CurrentUser User user,HttpServletRequest request, Integer page,Model model,PurchaseContract purCon, PurchaseContractAnalyzeVo purchaseContractAnalyzeVo) throws Exception{
         Map<String,Object> map = new HashMap<String, Object>();
+        if(page == null){
+        	page = 1;
+        }
         map.put("page", page);
         if(purCon.getProjectName()!=null){
             map.put("projectName", purCon.getProjectName());

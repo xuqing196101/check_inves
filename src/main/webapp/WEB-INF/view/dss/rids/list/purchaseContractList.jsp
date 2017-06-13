@@ -45,27 +45,14 @@
 				});
 			});
 
-			function query() {
-				var projectName = $("#projectName").val();
-				var projectCode = $("#projectCode").val();
-				var purchaseDep = $("#purchaseDep").val();
-				window.location.href = "${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html?projectName="
-						+ projectName
-						+ "&projectCode="
-						+ projectCode
-						+ "&purchaseDep=" + purchaseDep;
-			}
-
 			function resetForm() {
 				$("#projectName").val("");
 				$("#code").val("");
 				$("#demandSector").val("");
 				$("#documentNumber").val("");
 				$("#supplierDepName").val("");
-				$("#purchaseDepName").val("");
 				$("#year").val("");
 				$("#budgetSubjectItem").val("");
-				$("#status").val("");
 			}
 
 			function showDraftContract(id, status) {
@@ -97,11 +84,13 @@
 	    </h2>
    </div> 
 		<!-- 项目戳开始 -->
-    <form id="form1" action="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html" method="post">
-    <input type="hidden" value="" name="page" id="page"/>
-     <div class="search_detail">
+    <form id="form1" action="${pageContext.request.contextPath}/purchaseContract/readOnlyList.html" method="post">
+    	<input type="hidden" name="page" value="" id="page"/>
+    	<input type="hidden" name="purchaseDepName" value="${ purCon.purchaseDepName }" id="purchaseDepName"/>
+    	<input type="hidden" name="status" value="${ purCon.status }" id="status"/>
+     	<div class="search_detail">
     	<ul class="demand_list">
-          <li class="fl"><label class="fl">采购项目：</label><span><input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="mb0 mt5 w200"/></span></li>
+        <li class="fl"><label class="fl">采购项目：</label><span><input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="mb0 mt5 w200"/></span></li>
 	      <li class="fl"><label class="fl">合同编号：</label><span><input type="text" value="${purCon.code }" id="code" name="code" class="mb0 mt5 w200"/></span></li>
 	      <li class="fl"><label class="fl">计划文件号：</label><span><input type="text" value="${purCon.documentNumber }" id="documentNumber" name="documentNumber" class="mb0 mt5 w200"/></span></li>
 	      <li class="fl"><label class="fl">供应商：</label><span><input type="text" value="${purCon.supplierDepName }" id="supplierDepName" name="supplierDepName" class="mb0 mt5 w200"/></span></li>
