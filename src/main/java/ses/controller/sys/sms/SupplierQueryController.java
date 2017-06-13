@@ -429,6 +429,8 @@ public class SupplierQueryController extends BaseSupplierController {
     	String addressCond = supplier.getAddress();
     	String businessNatureCond = supplier.getBusinessNature();
     	String orgIdCond = supplier.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplier.getSupplierTypeIds();
     	// 查询条件结束
         User user = (User) request.getSession().getAttribute("loginUser");
         Integer ps = (Integer) request.getSession().getAttribute("ps");
@@ -527,6 +529,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("provinceName", addressCond);
         model.addAttribute("businessNature", businessNatureCond);
         model.addAttribute("orgId", orgIdCond);
+        model.addAttribute("supplierTypeIds", supplierTypeIdsCond);
         
        /* model.addAttribute("person", person);*/
         
@@ -553,6 +556,8 @@ public class SupplierQueryController extends BaseSupplierController {
     	String addressCond = supplier.getAddress();
     	String businessNatureCond = supplier.getBusinessNature();
     	String orgIdCond = supplier.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplier.getSupplierTypeIds();
     	// 查询条件结束
 
     	String supplierId = supplierFinance.getSupplierId();
@@ -596,6 +601,7 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("businessNature", businessNatureCond);
         request.setAttribute("orgId", orgIdCond);
         request.setAttribute("reqType", reqType);
+        request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
         return "ses/sms/supplier_query/supplierInfo/financial";
     }
     
@@ -614,6 +620,8 @@ public class SupplierQueryController extends BaseSupplierController {
     	String addressCond = supplierQuery.getAddress();
     	String businessNatureCond = supplierQuery.getBusinessNature();
     	String orgIdCond = supplierQuery.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();
     	// 查询条件结束
     	
         String supplierId = supplierStockholder.getSupplierId();
@@ -643,6 +651,7 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("provinceName", addressCond);
         request.setAttribute("businessNature", businessNatureCond);
         request.setAttribute("orgId", orgIdCond);
+        request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
         request.setAttribute("reqType", reqType);
         return "ses/sms/supplier_query/supplierInfo/shareholder";
     }
@@ -743,6 +752,8 @@ public class SupplierQueryController extends BaseSupplierController {
     	String addressCond = supplierQuery.getAddress();
     	String businessNatureCond = supplierQuery.getBusinessNature();
     	String orgIdCond = supplierQuery.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();
     	// 查询条件结束
     	
         //勾选的供应商类型
@@ -769,6 +780,7 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("provinceName", addressCond);
         request.setAttribute("businessNature", businessNatureCond);
         request.setAttribute("orgId", orgIdCond);
+        request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
         request.setAttribute("reqType", reqType);
         return "ses/sms/supplier_query/supplierInfo/item";
     }
@@ -886,6 +898,8 @@ public class SupplierQueryController extends BaseSupplierController {
     	String addressCond = supplierQuery.getAddress();
     	String businessNatureCond = supplierQuery.getBusinessNature();
     	String orgIdCond = supplierQuery.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();
     	// 查询条件结束
     	
 		model.addAttribute("supplierStatus", supplierStatus);
@@ -1041,6 +1055,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("provinceName", addressCond);
         model.addAttribute("businessNature", businessNatureCond);
         model.addAttribute("orgId", orgIdCond);
+        model.addAttribute("supplierTypeIds", supplierTypeIdsCond);
         model.addAttribute("reqType", reqType);
 		
        return "ses/sms/supplier_query/supplierInfo/aptitude";
@@ -1601,6 +1616,9 @@ public class SupplierQueryController extends BaseSupplierController {
     	String addressCond = supplierQuery.getAddress();
     	String businessNatureCond = supplierQuery.getBusinessNature();
     	String orgIdCond = supplierQuery.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();
+    	
     	// 查询条件结束
 		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
 		String supplierTypeIds = "";
@@ -1632,6 +1650,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("reqType", reqType);
         model.addAttribute("provinceName", addressCond);
         model.addAttribute("businessNature", businessNatureCond);
+        model.addAttribute("supplierTypeIds", supplierTypeIdsCond);
         model.addAttribute("orgId", orgIdCond);
 		return "ses/sms/supplier_query/supplierInfo/contract";
 	}
@@ -1779,6 +1798,8 @@ public class SupplierQueryController extends BaseSupplierController {
     	String addressCond = supplierQuery.getAddress();
     	String businessNatureCond = supplierQuery.getBusinessNature();
     	String orgIdCond = supplierQuery.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();
     	// 查询条件结束
     	
    		request.setAttribute("supplierStatus", supplierStatus);
@@ -1956,6 +1977,7 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("provinceName", addressCond);
         request.setAttribute("businessNature", businessNatureCond);
         request.setAttribute("orgId", orgIdCond);
+        request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
         request.setAttribute("reqType", reqType);
    		return "ses/sms/supplier_query/supplierInfo/supplierType";
    	}
@@ -2031,7 +2053,7 @@ public class SupplierQueryController extends BaseSupplierController {
 	public String readOnlyList(Integer judge, Integer sign, Supplier sup,
 			Integer page, Model model, String supplierTypeIds,
 			String supplierType, String categoryNames, String categoryIds,
-			String reqType, SupplierAnalyzeVo supplierAnalyzeVo) throws UnsupportedEncodingException {
+			SupplierAnalyzeVo supplierAnalyzeVo) throws UnsupportedEncodingException {
 		if (sup.getAddress() != null) {
 			model.addAttribute("address", sup.getAddress());
 			String address = supplierEditService.getProvince(sup.getAddress());
@@ -2071,8 +2093,7 @@ public class SupplierQueryController extends BaseSupplierController {
 		List<DictionaryData> businessNature = DictionaryDataUtil.find(32);
 		model.addAttribute("businessNature", businessNature);
 
-		List<Supplier> listSupplier = supplierAuditService
-				.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
+		List<Supplier> listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
 
 		// 企业性质
 		for (Supplier s : listSupplier) {
@@ -2095,7 +2116,6 @@ public class SupplierQueryController extends BaseSupplierController {
 		model.addAttribute("supplierTypeIds", supplierTypeIds);
 		model.addAttribute("categoryIds", categoryIds);
 		model.addAttribute("judge", judge);
-		model.addAttribute("reqType", reqType);
 		model.addAttribute("supplierAnalyzeVo", supplierAnalyzeVo);
 		return "dss/rids/list/storeSupplierList";
 	}

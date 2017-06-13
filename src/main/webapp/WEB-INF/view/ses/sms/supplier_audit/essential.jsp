@@ -571,11 +571,11 @@
                             groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show"
                             businessId="${suppliers.id}" sysKey="${sysKey}"
                             typeId="${supplierDictionaryData.supplierBank}"/>
-                    <p><img style="padding-left: 125px;"
-                            src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+                    <p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
                     <c:if test="${fn:contains(passedField,'supplierBank')}">
-                        <img style="padding-left: 125px;"
-                             src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+                      <a class='abolish'>
+                      <img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+                      </a>
                     </c:if>
                 </li>
             </ul>
@@ -591,8 +591,7 @@
                                onMouseOver="isCompare('businessType');"</c:if>
                                <c:if test="${fn:contains(passedField,'website')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(passedField,'businessType')}">
-                            <a class='abolish'><img
-                                    src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+                            <a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
                         </c:if>
                     </div>
                 </li>
@@ -683,8 +682,10 @@
                                 groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show"
                                 businessId="${suppliers.id}" sysKey="${sysKey}"
                                 typeId="${supplierDictionaryData.supplierBusinessCert}"/>
-                        <p><img style="padding-left: 125px;"
-                                src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+                        <c:if test="${fn:contains(passedField,'businessCert')}">
+                            <a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+                        </c:if>
+                        <p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
                     </div>
                 </li>
                 <li class="col-md-12 col-sm-12 col-xs-12">
@@ -695,8 +696,7 @@
                                   onMouseOver="isCompare('businessScope');"</c:if>
                                   <c:if test="${fn:contains(passedField,'businessScope')}">style="border: 1px solid red;"</c:if>>${suppliers.businessScope }</textarea>
                         <c:if test="${fn:contains(passedField,'businessScope')}">
-                            <a class='abolish'><img
-                                    src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+                            <a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
                         </c:if>
                     </div>
                 </li>
@@ -781,11 +781,10 @@
                                 groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show"
                                 businessId="${suppliers.id}" sysKey="${sysKey}"
                                 typeId="${supplierDictionaryData.supplierIdentityUp}"/>
-                        <p><img style="padding-left: 125px;"
+                        <p class='abolish'><img style="padding-left: 125px;"
                                 src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
                         <c:if test="${fn:contains(passedField,'supplierIdentityUp')}">
-                            <a class='abolish'><img
-                                    src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+                            <a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
                         </c:if>
                     </div>
                 </li>
@@ -945,11 +944,12 @@
                                 groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show"
                                 businessId="${suppliers.id}" sysKey="${sysKey}"
                                 typeId="${supplierDictionaryData.supplierTaxCert}"/>
-                        <p><img style="padding-left: 125px;"
+                        <p class='abolish'><img style="padding-left: 125px;"
                                 src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
                         <c:if test="${fn:contains(passedField,'taxCert')}">
-                            <img style="padding-left: 125px;"
-                                 src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+                          <a class='abolish'>
+                            <img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+                          </a>
                         </c:if>
                     </div>
                 </li>
@@ -963,11 +963,12 @@
                                 groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show"
                                 businessId="${suppliers.id}" sysKey="${sysKey}"
                                 typeId="${supplierDictionaryData.supplierBillCert}"/>
-                        <p><img style="padding-left: 125px;"
+                        <p class='abolish'><img style="padding-left: 125px;"
                                 src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
                         <c:if test="${fn:contains(passedField,'billCert')}">
-                            <img style="padding-left: 125px;"
-                                 src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+                          <a class='abolish'>
+                            <img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+                          </a>
                         </c:if>
                     </div>
                 </li>
@@ -981,11 +982,12 @@
                                 groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show"
                                 businessId="${suppliers.id}" sysKey="${sysKey}"
                                 typeId="${supplierDictionaryData.supplierSecurityCert}"/>
-                        <p><img style="padding-left: 125px;"
+                        <p class='abolish'><img style="padding-left: 125px;"
                                 src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
                         <c:if test="${fn:contains(passedField,'securityCert')}">
-                            <img style="padding-left: 125px;"
-                                 src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+                          <a class='abolish'>
+                            <img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+                          </a>
                         </c:if>
                     </div>
                 </li>
@@ -1008,8 +1010,7 @@
                                    <c:if test="${fn:contains(field,'isIllegal')}">style="border: 1px solid #FF8C00;"
                                    onMouseOver="isCompare('isIllegal');"</c:if> >
                         </c:if>
-                        <c:if test="${fn:contains(passedField,'isIllegal')}"><a class='abolish'><img
-                                src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a></c:if>
+                        <c:if test="${fn:contains(passedField,'isIllegal')}"><a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a></c:if>
                     </div>
                 </li>
                 <c:if test="${suppliers.isHavingConCert eq '0'}">
@@ -1037,11 +1038,12 @@
                                     groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show"
                                     businessId="${suppliers.id}" sysKey="${sysKey}"
                                     typeId="${supplierDictionaryData.supplierBearchCert}"/>
-                            <p><img style="padding-left: 125px;"
+                            <p class='abolish'><img style="padding-left: 125px;"
                                     src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
                             <c:if test="${fn:contains(passedField,'supplierBearchCert')}">
-                                <img style="padding-left: 125px;"
-                                     src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+                              <a class='abolish'>
+                                <img style="padding-left: 125px;"  src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+                              </a>
                             </c:if>
                         </div>
                     </li>

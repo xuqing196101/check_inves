@@ -260,18 +260,22 @@
 	            <li class="col-md-6 p0 mt10 mb25">
                 <span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierRegList)}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-5 padding-left-5" onclick="reason1(this,'supplierRegList');" >供应商申请表：</span>
                 <u:show showId="regList_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}"/>
-                <p><img style="padding-left: 80px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+                <p class='abolish'><img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
                 <c:if test="${fn:contains(passedField,'supplierRegList')}">
-									<img style="padding-left: 80px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+                  <a class='abolish'>
+									 <img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+									</a>
 								</c:if>
 	            </li>
 	            <li class="col-md-6 mt10 mb25" >
 	              <span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierPledge)}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-5 padding-left-5" onclick="reason1(this,'supplierPledge');" >供应商承诺书：</span>
 	                <u:show showId="pledge_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}"/>
-	                <p><img style="padding-left: 80px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+	                <p class='abolish'><img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 
 	                <c:if test="${fn:contains(passedField,'supplierPledge')}">
-										<img style="padding-left: 80px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+	                 <a class='abolish'>
+	                   <img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+	                 </a>
 									</c:if>
               </li>
 	            <%-- <li class="col-md-3 margin-0 padding-0 ">

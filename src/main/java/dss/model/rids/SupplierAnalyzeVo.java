@@ -25,6 +25,9 @@ public class SupplierAnalyzeVo implements Serializable{
 	
 	/**供应商所属机构**/
 	private String orgId;
+	
+	/**所属类别**/
+	private String supplierTypeIds;
 
 	public String getAddress() {
 		return address;
@@ -48,6 +51,14 @@ public class SupplierAnalyzeVo implements Serializable{
 
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
+	}
+
+	public String getSupplierTypeIds() {
+		return supplierTypeIds;
+	}
+
+	public void setSupplierTypeIds(String supplierTypeIds) {
+		this.supplierTypeIds = supplierTypeIds;
 	}
 	
 }
