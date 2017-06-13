@@ -1114,7 +1114,7 @@
 									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 成立日期</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<fmt:formatDate value="${currSupplier.foundDate}" pattern="yyyy-MM-dd" var="foundDate" />
-										<input type="text" readonly="readonly" name="foundDate" value="${foundDate}" <c:if test="${!fn:contains(audit,'foundDate')&&(currSupplier.status==2||currSupplier.status==-1)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'{%y-3}-%M-%d'})" </c:if> <c:if test="${fn:contains(audit,'foundDate')}">style="border: 1px solid red;" onmouseover="errorMsg('foundDate')"</c:if> />
+										<input type="text" readonly="readonly" name="foundDate" value="${foundDate}" <c:if test="${fn:contains(audit,'foundDate')&&(currSupplier.status==2||currSupplier.status==-1)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'{%y-3}-%M-%d'})" </c:if> <c:if test="${fn:contains(audit,'foundDate')}">style="border: 1px solid red;" onmouseover="errorMsg('foundDate')"</c:if> />
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">成立时间须大于三年 </span>
 										<div class="cue"> ${err_msg_foundDate } </div>
@@ -2424,6 +2424,7 @@
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
 				//alert($(this).css("border"));
+				console.log($(this));
 				if($(this).css("border-color") == 'rgb(255, 0, 0)' || $(this).parents("td").css("border-color") == 'rgb(255, 0, 0)'){
 					$(this).attr('disabled',false);
 				}
@@ -2438,7 +2439,7 @@
 			}
 			// 营业期限选择器
 			if($("input[type='checkbox'][name='branchName']").val() == "1"){
-				$("#expireDate")..attr('disabled',true);
+				$("#expireDate").attr('disabled',true);
 			}
 		}
 	}
