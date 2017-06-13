@@ -219,7 +219,7 @@
 					proportionTotal += parseFloat($(this).val());
 				});
 				if(proportionTotal < 50){
-					msg = "股东出资比例之和要大于50!";
+					msg = "股东出资比例之和要大于50%!";
 					flag = false;
 				}
 				
