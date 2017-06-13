@@ -50,9 +50,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
@@ -61,6 +63,7 @@ import ses.model.ems.ExpertBlackListVO;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierBlacklist;
 import ses.model.sms.SupplierBlacklistVO;
+import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertBlackListService;
 import ses.service.ems.ExpertService;
@@ -71,9 +74,19 @@ import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import synchro.util.SpringBeanUtil;
+import bss.model.ob.OBProduct;
+import bss.model.ob.OBSupplier;
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
+import common.annotation.SystemControllerLog;
+import common.annotation.SystemServiceLog;
 import common.constant.Constant;
+import common.constant.OnlineBidding;
+import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.CommonStringUtil;
@@ -122,6 +135,17 @@ public class IndexNewsController extends BaseSupplierController{
 	@Autowired
 	private ExpertBlackListService expertBlackListService;
 	
+    /**竞价产品Service**/
+    @Autowired
+    private OBProductService oBProductService;
+    
+    /**竞价供应商Service**/
+    @Autowired
+    private OBSupplierService oBSupplierService;
+    
+    /**采购目录管理接口Service**/
+    @Autowired
+    private CategoryService categoryService;
 	/**
 	 * 
 	* @Title: sign
@@ -2071,6 +2095,70 @@ public class IndexNewsController extends BaseSupplierController{
 		}
 	}
 	
-	
+	/**
+     * Description: 列表查询
+     * 
+     * @author zhang shubin
+     * @version 2017年3月7日
+     * @param @param example
+     * @param @param model
+     * @param @param page
+     * @param @return
+     * @return String
+     * @exception
+     */
+    @RequestMapping("/index_productList")
+    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+    @SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+    public String headlist(@CurrentUser User user,HttpServletRequest request,Model model, @RequestParam(defaultValue="1")Integer page) {
+        //判断是否 是资源服务中心 
+        OBProduct example = new OBProduct();
+        String name = request.getParameter("name") == null ? "" : request.getParameter("name");
+        String code = request.getParameter("code") == null ? "" : request.getParameter("code");
+        String smallPointsId = request.getParameter(OnlineBidding.SMALL_POINTS_ID) == null ? "" : request.getParameter(OnlineBidding.SMALL_POINTS_ID);
+        example.setName(name);
+        example.setCode(code);
+        example.setSmallPointsId(smallPointsId);
+        List<OBProduct> list = oBProductService.selectPublishProduct(example, page);
+        if(list != null){
+            for (OBProduct oBProduct : list) {
+                String id = oBProduct.getSmallPointsId();
+                if(id != null){
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("id", id);
+                    List<Category> clist = categoryService.findCategoryByParentNode(map);
+                    StringBuilder sb = new StringBuilder();
+                    for (Category category : clist) {
+                        if(!oBProduct.getSmallPoints().getName().equals(category.getName())){
+                            sb.append(category.getName());
+                            sb.append("/");
+                        }
+                    }
+                    if(oBProduct.getSmallPoints() != null){
+                        sb.append(oBProduct.getSmallPoints().getName());
+                        oBProduct.setPointsName(sb.toString());
+                    }
+                }
+            }
+        }
+        Category cl = categoryService.findById(smallPointsId);
+        if(cl != null){
+            model.addAttribute("catName", cl.getName());
+        }
+        PageInfo<OBProduct> info = new PageInfo<>(list);
+        List<OBSupplier> numlist = oBSupplierService.selectSupplierNum();
+        for (OBSupplier ob : numlist) {
+            if(null != ob && null == ob.getnCount()){
+                ob.setnCount(0);
+            }
+        }
+        Map<String, Object> indexMapper = new HashMap<String, Object>();
+        topNews(indexMapper);
+        model.addAttribute("indexMapper", indexMapper);
+        model.addAttribute("info", info);
+        model.addAttribute("product", example);
+        model.addAttribute("numlist", numlist);
+        return "bss/ob/finalize_DesignProduct/index_list";
+    }
 	
 }

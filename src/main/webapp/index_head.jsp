@@ -443,7 +443,7 @@ function importAdd(){
 		   </a>
 	      </div>
 		  <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
-	       <a href="${pageContext.request.contextPath }/product/index_list.html" class="dxcpjj">
+	       <a href="${pageContext.request.contextPath }/index/index_productList.html" class="dxcpjj">
             <i></i>
             <span>定型产品</span> 
 		   </a>
