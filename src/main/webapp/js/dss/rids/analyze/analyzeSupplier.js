@@ -184,7 +184,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierCateType = $("#supplierCateType").echartsTemplate("getMyChart", null);
 			supplierCateType.on('click', function(params) {
-				window.location.href = globalPath + "/supplierQuery/readOnlyList.html?reqType=analyze&supplierType="+params.name+"&supplierTypeIds="+params.data.id+"&judge=5&sign=2";
+				window.location.href = globalPath + "/supplierQuery/readOnlyList.html?supplierType="+params.name+"&supplierTypeIds="+params.data.id+"&judge=5&sign=2";
 			});
 		}
 	});

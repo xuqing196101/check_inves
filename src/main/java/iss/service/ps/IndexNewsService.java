@@ -28,6 +28,16 @@ public interface IndexNewsService {
 	
 	/**
 	 * 
+	 * Description: 查询供应商处罚公告
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年6月13日
+	 * @param 
+	 * @return
+	 */
+	List<Article> selectSupplierAllNews(Map<String, Object> map);
+	/**
+	 * 
 	* @Title: selectNews
 	* @author QuJie 
 	* @date 2016-9-20 下午1:56:03  
@@ -68,4 +78,5 @@ public interface IndexNewsService {
 
   Integer selectChufaCount(Map<String, Object> countMap);
   	
+  Integer selectSupplierCount(Map<String,Object> countMap);
 }

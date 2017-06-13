@@ -77,8 +77,12 @@ public interface IndexNewsMapper {
 	
 	List<Article> selectAllByName(Map<String,Object> map);
 
-  List<Article> selectIndexChuFaNewsByTypeId(Map<String, Object> map);
+    List<Article> selectIndexChuFaNewsByTypeId(Map<String, Object> map);
 
-  Integer selectChufaCount(Map<String, Object> countMap);
+    Integer selectChufaCount(Map<String, Object> countMap);
+    
+    Integer selectSupplierCount(Map<String, Object> countMap);
+    
+    List<Article> selectSupplierAllNews(Map<String,Object> map);
   
 }

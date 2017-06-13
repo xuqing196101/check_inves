@@ -2,6 +2,7 @@ package app.controller;
 
 import gui.ava.html.image.generator.HtmlImageGenerator;
 import iss.model.ps.Article;
+import iss.model.ps.ArticleType;
 import iss.service.ps.ArticleService;
 
 import java.awt.AlphaComposite;
@@ -127,10 +128,10 @@ public class IndexAppController {
     //废标公告typeId标识
     private static final String SCRAP = "105"; 
 
-    //军队处罚公告typeId标识
+    //供应商军队处罚公告typeId标识
     private static final String MILITARY_PUNISHMENT = "116";
 
-    //军队处罚公告typeId标识
+    //供应商地方处罚公告typeId标识
     private static final String PLACE_PUNISHMENT = "117";
 
     //专家处罚公告typeId标识
@@ -187,12 +188,28 @@ public class IndexAppController {
         if(dynamic != null){
             dynamic.setCreate_at(dataToString(dynamic.getPublishedAt()));
             indexMsgList.add(dynamic);
+        }else{
+            Article nullArticle = new Article();
+            nullArticle.setName("");
+            nullArticle.setCreate_at("");
+            ArticleType at = new ArticleType();
+            at.setId(INDEX_DYNAMIC);
+            nullArticle.setArticleType(at);
+            indexMsgList.add(nullArticle);
         }
         //通知
         Article notice = indexAppMapper.selectAppNewsByArticleTypeId(NOTICE);
         if(notice != null){
             notice.setCreate_at(dataToString(notice.getPublishedAt()));
             indexMsgList.add(notice);
+        }else{
+            Article nullArticle = new Article();
+            nullArticle.setName("");
+            nullArticle.setCreate_at("");
+            ArticleType at = new ArticleType();
+            at.setId(NOTICE);
+            nullArticle.setArticleType(at);
+            indexMsgList.add(nullArticle);
         }
         //法规
         Map<String, Object> map = new HashMap<>();
@@ -204,18 +221,42 @@ public class IndexAppController {
         if(regulations != null){
             regulations.setCreate_at(dataToString(regulations.getPublishedAt()));
             indexMsgList.add(regulations);
+        }else{
+            Article nullArticle = new Article();
+            nullArticle.setName("");
+            nullArticle.setCreate_at("");
+            ArticleType at = new ArticleType();
+            at.setId("107");
+            nullArticle.setArticleType(at);
+            indexMsgList.add(nullArticle);
         }
         //投诉
         Article complaintHandling= indexAppMapper.selectAppNewsByArticleTypeId(COMPLAINT_HANDLING);
         if(complaintHandling != null){
             complaintHandling.setCreate_at(dataToString(complaintHandling.getPublishedAt()));
             indexMsgList.add(complaintHandling);
+        }else{
+            Article nullArticle = new Article();
+            nullArticle.setName("");
+            nullArticle.setCreate_at("");
+            ArticleType at = new ArticleType();
+            at.setId(COMPLAINT_HANDLING);
+            nullArticle.setArticleType(at);
+            indexMsgList.add(nullArticle);
         }
         //处罚
         Article punishment = indexAppMapper.selectAppChuFaNewsByTypeId(PUNISHMENT);
         if(punishment != null){
             punishment.setCreate_at(dataToString(punishment.getPublishedAt()));
             indexMsgList.add(punishment);
+        }else{
+            Article nullArticle = new Article();
+            nullArticle.setName("");
+            nullArticle.setCreate_at("");
+            ArticleType at = new ArticleType();
+            at.setId(PUNISHMENT);
+            nullArticle.setArticleType(at);
+            indexMsgList.add(nullArticle);
         }
         AppImg appImg = new AppImg();
         if(imgList.size() > 0 && indexMsgList.size() > 0){
@@ -277,21 +318,39 @@ public class IndexAppController {
                     demand.setCreate_at(dataToString(demand.getPublishedAt()));
                     demand.setType_id(15);
                     indexMsgList.add(demand);
-                };
+                }else{
+                    Article nullArticle = new Article();
+                    nullArticle.setName("");
+                    nullArticle.setCreate_at("");
+                    nullArticle.setType_id(15);
+                    indexMsgList.add(nullArticle);
+                }
                 //成交
                 Article cj= indexAppMapper.selectAppNewsByArticleTypeId(CJ);
                 if(cj != null){
                     cj.setCreate_at(dataToString(cj.getPublishedAt()));
                     cj.setType_id(16);
                     indexMsgList.add(cj);
-                };
+                }else{
+                    Article nullArticle = new Article();
+                    nullArticle.setName("");
+                    nullArticle.setCreate_at("");
+                    nullArticle.setType_id(16);
+                    indexMsgList.add(nullArticle);
+                }
                 //废标
                 Article scrap= indexAppMapper.selectAppNewsByArticleTypeId(SCRAP);
                 if(scrap != null ){
                     scrap.setCreate_at(dataToString(scrap.getPublishedAt()));
                     scrap.setType_id(17);
                     indexMsgList.add(scrap);
-                };
+                }else{
+                    Article nullArticle = new Article();
+                    nullArticle.setName("");
+                    nullArticle.setCreate_at("");
+                    nullArticle.setType_id(17);
+                    indexMsgList.add(nullArticle);
+                }
                 break;
         }
         if(indexMsgList != null && !indexMsgList.isEmpty()){
@@ -340,27 +399,19 @@ public class IndexAppController {
                 appImg.setStatus(false);
                 appImg.setMsg("暂无数据");
                 break;
-            case 3 ://军队处罚公告
-                List<Article> militaryPunishmentList = indexAppService.selectAppArticleListByTypeId(MILITARY_PUNISHMENT,page);
+            case 3 ://处罚公告
+                Map<String, Object> map1 = new HashMap<>();
+                String[] idArray = new String[2];
+                idArray[0] = MILITARY_PUNISHMENT;
+                idArray[1] = PLACE_PUNISHMENT;
+                map1.put("idArray",idArray);
+                map1.put("page", page);
+                List<Article> militaryPunishmentList = indexAppService.selectAppRegulations(map1);
                 if(militaryPunishmentList != null && !militaryPunishmentList.isEmpty()){
                     for (Article article : militaryPunishmentList) {
                         article.setCreate_at(dataToString(article.getPublishedAt()));
                     }
                     appData.setIndexMsgList(militaryPunishmentList);
-                    appImg.setData(appData);
-                    appImg.setStatus(true);
-                }else {
-                    appImg.setStatus(false);
-                    appImg.setMsg("暂无数据");
-                }
-                break;
-            case 4 ://地方处罚公告
-                List<Article> placePunishmentList = indexAppService.selectAppArticleListByTypeId(PLACE_PUNISHMENT,page);
-                if(placePunishmentList != null && !placePunishmentList.isEmpty()){
-                    for (Article article : placePunishmentList) {
-                        article.setCreate_at(dataToString(article.getPublishedAt()));
-                    }
-                    appData.setIndexMsgList(placePunishmentList);
                     appImg.setData(appData);
                     appImg.setStatus(true);
                 }else {
@@ -483,6 +534,7 @@ public class IndexAppController {
                         appImg.setData(appData);
                         appImg.setStatus(true);
                     }else {
+                        appImg.setData(appData);
                         appImg.setStatus(false);
                         appImg.setMsg("暂无数据");
                     }
@@ -504,6 +556,7 @@ public class IndexAppController {
                         appImg.setData(appData);
                         appImg.setStatus(true);
                     }else {
+                        appImg.setData(appData);
                         appImg.setStatus(false);
                         appImg.setMsg("暂无数据");
                     }
@@ -521,6 +574,7 @@ public class IndexAppController {
                         appImg.setData(appData);
                         appImg.setStatus(true);
                     }else {
+                        appImg.setData(appData);
                         appImg.setStatus(false);
                         appImg.setMsg("暂无数据");
                     }
@@ -754,6 +808,7 @@ public class IndexAppController {
             appImg.setData(appData);
             appImg.setStatus(true);
         }else {
+            appImg.setData(appData);
             appImg.setStatus(false);
             appImg.setMsg("暂无数据");
         }
@@ -774,9 +829,18 @@ public class IndexAppController {
         Map<String, Object> map = new HashMap<>();
         map.put("idArray", ids);
         Article article= (i == 0 ? appArticleMapper.selectOneAppNoticeByParId(map) : appArticleMapper.selectsumApp(map));
-        article.setCreate_at(dataToString(article.getPublishedAt()));
-        article.setType_id(type_id);
-        return article;
+        if(article != null){
+            article.setCreate_at(dataToString(article.getPublishedAt()));
+            article.setType_id(type_id);
+            return article;
+        }else{
+            Article nullArticle = new Article();
+            nullArticle.setName("");
+            nullArticle.setCreate_at("");
+            nullArticle.setType_id(type_id);
+            return nullArticle;
+        }
+        
     }
 
     /**

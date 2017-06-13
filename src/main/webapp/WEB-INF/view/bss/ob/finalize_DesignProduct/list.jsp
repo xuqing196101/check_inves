@@ -407,6 +407,7 @@
 	    	    <option value="0">全部</option>
 	    	    <option value="1" <c:if test="${'1'==productExample.status}">selected="selected"</c:if>>暂存</option>
 	    	    <option value="2" <c:if test="${'2'==productExample.status}">selected="selected"</c:if>>已发布</option>
+	    	    <option value="4" <c:if test="${'4'==productExample.status}">selected="selected"</c:if>>未发布</option>
 	    	    <option value="3" <c:if test="${'3'==productExample.status}">selected="selected"</c:if>>已撤回</option>
 	    	  </select>
 	      </li>
