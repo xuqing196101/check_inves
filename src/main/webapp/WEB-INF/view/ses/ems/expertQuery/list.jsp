@@ -38,6 +38,7 @@
         $("#idCardNumber").attr("value", "");
         $("#orgName").attr("value", "");
         $("#expertsFrom option:selected").removeAttr("selected");
+        $("#expertsTypeId option:selected").removeAttr("selected");
         $("#formSearch").submit();
       }
     </script>
