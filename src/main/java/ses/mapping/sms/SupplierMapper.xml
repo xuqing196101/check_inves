@@ -1177,6 +1177,7 @@
 		FROM t_ses_sms_supplier
 		WHERE
 		IS_PROVISIONAL = '0'
+		AND IS_DELETED = '0'
 		<if test="sign == 1">
 			and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or
 			SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3)
@@ -1257,7 +1258,7 @@
       t2.IS_DELETED = 0
 	    <if test="itemType != null and itemType != ''">
 	      <foreach item="itemType" index="index" collection="itemType" open="and(" separator="or" close=")">
-	        T1.typeId=#{itemType}
+	        T1.typeId LIKE CONCAT(CONCAT('%', #{itemType}), '%')
 	      </foreach>
 	    </if>
 	    <if test="supplierName != null and supplierName !=''">

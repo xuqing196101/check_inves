@@ -94,7 +94,7 @@ public interface PqInfoMapper {
      * @param:     
      * @return:
      */
-    List<PqInfo> queryByList();
+    List<PqInfo> queryByList(HashMap<String, Object> map);
     
     /**
      * 

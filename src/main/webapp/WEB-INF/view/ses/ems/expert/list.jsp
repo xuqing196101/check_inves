@@ -328,7 +328,7 @@
           <label class="fl">毕业院校：</label><span><input class="w220"type="text" id="graduateSchool" name="graduateSchool" value="${expert.graduateSchool }"></span>
         </li> --%>
         
-        <%-- <li>
+        <li>
           <label class="fl">专家类别：</label>
           <span class="fl">
             <select name="expertsTypeId" id="expertsTypeId" class="w220">
@@ -338,7 +338,7 @@
               </c:forEach>          
             </select>
           </span>
-        </li> --%>
+        </li>
       </ul>
       <div class="col-md-12 clear tc mt10">
         <input class="btn mt1"  value="查询" type="submit">

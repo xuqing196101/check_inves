@@ -138,7 +138,7 @@
             shade: 0.01,
           });
         } else {
-          layer.alert("请选择需要启动的项目", {
+          layer.alert("请选择项目", {
             offset: ['222px', '390px'],
             shade: 0.01,
           });

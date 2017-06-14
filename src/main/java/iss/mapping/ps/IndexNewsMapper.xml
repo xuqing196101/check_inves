@@ -66,6 +66,36 @@
 			) where rownum_ &gt;(#{page}-1)*#{pageSize}
   </select>
   
+  <!-- 查询供应商处罚公告二级页信息 -->
+  <select id="selectSupplierAllNews" resultMap="IndexNewsMapper" parameterType="Map">
+	  SELECT
+			*
+			FROM
+			(
+				SELECT
+					t.*, ROWNUM rownum_
+				FROM
+					(
+						SELECT
+							*
+						FROM
+							T_ISS_PS_ARTICLE
+						WHERE STATUS = 2
+						and is_deleted = 0
+						and LAST_ARTICLE_TYPE_ID in
+						<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+						  #{item}
+						</foreach>
+						<if test="title!=null and title!=''">
+						 	and name like   CONCAT(CONCAT('%', #{title}), '%')
+						</if>
+						order by PUBLISHED_AT desc
+					) t
+				WHERE 
+					ROWNUM &lt;=#{page}*#{pageSize} 
+			) where rownum_ &gt;(#{page}-1)*#{pageSize}
+  </select>
+  
   <!-- 查看首页信息 -->
   <select id="selectNews" resultMap="IndexNewsMapper" parameterType="Object">
   	select 
@@ -96,6 +126,23 @@
 	<if test="articleTypeId!=null and articleTypeId!=''">
 	 	and LAST_ARTICLE_TYPE_ID = #{articleTypeId}
 	</if>
+	<if test="title!=null and title!=''">
+	 	and name like   CONCAT(CONCAT('%', #{title}), '%')
+	</if>
+  </select>
+    
+    <!-- 查询供应商处罚公告二级页信息数量 -->
+  <select id="selectSupplierCount" parameterType="Object" resultType="java.lang.Integer">
+  	SELECT
+		count(*)
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE STATUS = 2
+	and is_deleted = 0
+	and LAST_ARTICLE_TYPE_ID in
+	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+						  #{item}
+						</foreach>
 	<if test="title!=null and title!=''">
 	 	and name like   CONCAT(CONCAT('%', #{title}), '%')
 	</if>

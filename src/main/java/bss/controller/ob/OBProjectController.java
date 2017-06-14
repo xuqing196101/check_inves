@@ -875,7 +875,7 @@ public class OBProjectController {
 
 		String errMsg = (String) maps.get("errMsg");
 		if (errMsg != null) {
-			return errMsg;
+			return JSON.toJSONString(errMsg);
 		}
 		return JSON.toJSONString(list);
 	}

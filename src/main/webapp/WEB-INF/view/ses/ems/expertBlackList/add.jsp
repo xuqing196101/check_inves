@@ -52,7 +52,7 @@
 	          	<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>专家姓名：</span>
 	            <div class="input-append input_group col-sm-12 col-xs-12 p0">
 	            	<input type="hidden" name="id" readonly="readonly" value="${uuid }">
-		           	<input type="hidden" name="expertId" readonly="readonly" value="${expertId }">
+		           	<input id = "expert_id" type="hidden" name="expertId" readonly="readonly" value="${expertId }">
 		            <input class="input_group"  name="relName"  type="text" id="expert_name" required="required" readonly="readonly" value="${relName }">
 		            <span class="add-on cur_point cur_point">i</span>
 		            <div class="cue"> ${err_relName } </div>

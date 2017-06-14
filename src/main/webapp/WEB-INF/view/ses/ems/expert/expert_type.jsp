@@ -15,7 +15,7 @@
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                                 exts="${properties['file.picture.type']}" id="expter_${index }"    businessId="${id}" sysKey="${expertKey}"
-                                typeId="9" auto="true" maxcount="20"/>
+                                typeId="9" auto="true" multiple="true" maxcount="20"/>
                         <u:show showId="expter_${index }"  businessId="${id}" sysKey="${expertKey}"
                                 typeId="9"/>
                     </div>

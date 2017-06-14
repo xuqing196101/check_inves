@@ -24,7 +24,10 @@
 	      }(),
 	      jump : function(e, first) { //触发分页后的回调
         	if(!first){ //一定要加此判断，否则初始时会无限刷新
-	      		location.href = "${pageContext.request.contextPath }/product/list.do?page=" + e.curr;
+        		var name = $("#name").val();
+        		var code = $("#code").val();
+        		var status = $('#status option:selected').val();
+	      		location.href = "${pageContext.request.contextPath }/product/list.do?page=" + e.curr+"&&name="+name+"&&code="+code+"&&status="+status;
 	        }
 	      }
 	    });
@@ -395,18 +398,19 @@
     	<ul class="demand_list">
     	<li>
 	    	<label class="fl">产品名称：</label>
-			<input type="text" id="topic" class="" name = "name" value="${productExample.name }"/>
+			<input type="text" id="name" class="" name = "name" value="${productExample.name }"/>
 	      </li>
     	  <li>
 	    	<label class="fl">产品代码：</label>
-			<input type="text" id="topic" class="" name = "code" value="${productExample.code }"/>
+			<input type="text" id="code" class="" name = "code" value="${productExample.code }"/>
 	      </li>
     	  <li>
 	    	<label class="fl">产品状态：</label>
-	    	  <select class="w178" name="status">
+	    	  <select class="w178" name="status" id = "status">
 	    	    <option value="0">全部</option>
 	    	    <option value="1" <c:if test="${'1'==productExample.status}">selected="selected"</c:if>>暂存</option>
 	    	    <option value="2" <c:if test="${'2'==productExample.status}">selected="selected"</c:if>>已发布</option>
+	    	    <option value="4" <c:if test="${'4'==productExample.status}">selected="selected"</c:if>>未发布</option>
 	    	    <option value="3" <c:if test="${'3'==productExample.status}">selected="selected"</c:if>>已撤回</option>
 	    	  </select>
 	      </li>

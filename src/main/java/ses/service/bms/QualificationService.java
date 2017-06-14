@@ -1,5 +1,7 @@
 package ses.service.bms;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import ses.model.bms.Qualification;
@@ -71,4 +73,18 @@ public   interface  QualificationService {
      * @return 成功返回ok
      */
     public String del(String id);
+	/**
+	 * 导出目录资质关联表录 根据时间范围
+	 * @param start
+	 * @param end
+	 * @param synchDate
+	 * @return
+	 */
+	public boolean exportQualification(String start ,String end,Date synchDate);
+	/**
+	 * 导入目录资质关联表录数据 
+	 * @param file
+	 * @return
+	 */
+	public boolean importQualification(String synchType,File file);
 }

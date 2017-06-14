@@ -2,37 +2,37 @@ function tijiao(str) {
 	var action;
 	if (reqType != '') {
 		if (str == "essential") {
-			action = globalPath + "/supplierQuery/essential.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId;
+			action = globalPath + "/supplierQuery/essential.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
 		if (str == "financial") {
-			action = globalPath + "/supplierQuery/financial.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId;
+			action = globalPath + "/supplierQuery/financial.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
 		if (str == "shareholder") {
-			action = globalPath + "/supplierQuery/shareholder.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId;
+			action = globalPath + "/supplierQuery/shareholder.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
 		if (str == "chengxin") {
-			action = globalPath + "/supplierQuery/list.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId;
+			action = globalPath + "/supplierQuery/list.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
 		if (str == "item") {
-			action = globalPath + "/supplierQuery/item.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId;
+			action = globalPath + "/supplierQuery/item.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
 		if (str == "product") {
-			action = globalPath + "/supplierQuery/product.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId;
+			action = globalPath + "/supplierQuery/product.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
 		if (str == "updateHistory") {
-			action = globalPath + "/supplierQuery/showUpdateHistory.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId;
+			action = globalPath + "/supplierQuery/showUpdateHistory.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
 		if (str == "supplierType") {
-			action = globalPath + "/supplierQuery/supplierType.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId;
+			action = globalPath + "/supplierQuery/supplierType.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
 		if (str == "zizhi") {
-			action = globalPath + "/supplierQuery/aptitude.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId;
+			action = globalPath + "/supplierQuery/aptitude.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
 		if (str == "contract") {
-			action = globalPath + "/supplierQuery/contract.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId;
+			action = globalPath + "/supplierQuery/contract.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
 		if (str == "supplierType") {
-			action = globalPath + "/supplierQuery/supplierType.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId;
+			action = globalPath + "/supplierQuery/supplierType.html?reqType=analyze&address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		}
 	} else {
 		if (str == "essential") {
@@ -80,7 +80,7 @@ function fanhui() {
 		var action;
 		if (reqType != '') {
 			$("#address").remove();
-			action = globalPath + "/supplierQuery/readOnlyList.html?address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId;
+			action = globalPath + "/supplierQuery/readOnlyList.html?address="+provinceName+"&businessNature="+businessNature+"&orgId="+orgId+"&supplierTypeIds="+supplierTypeIds;
 		} else {
 			action = globalPath + "/supplierQuery/findSupplierByPriovince.html";
 		}

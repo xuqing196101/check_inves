@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -78,6 +79,8 @@ import bss.service.sstps.AppraisalContractService;
 
 
 
+
+
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -85,6 +88,7 @@ import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
+import dss.model.rids.PurchaseContractAnalyzeVo;
 /* 
  *@Title:PurchaseContractController
  *@Description:采购合同控制类
@@ -570,16 +574,21 @@ public class PurchaseContractController extends BaseSupplierController{
 	 */
 	@ResponseBody
 	@RequestMapping("/selectByCode")
-	public PurchaseContract selectByCode(HttpServletRequest request) throws Exception{
-		String code = request.getParameter("code");
-		PurchaseContract purchaseCon = purchaseContractService.selectByCode(code);
-		if(purchaseCon == null){
-			purchaseCon = new PurchaseContract();
-			purchaseCon.setCode("ErrCode");
-		}else{
-			purchaseCon.setPurchaseType(DictionaryDataUtil.findById(purchaseCon.getPurchaseType()).getName());
-		}
-		return purchaseCon;
+	public PurchaseContract selectByCode(String code){
+	    if(StringUtils.isNotBlank(code)){
+	        PurchaseContract contract = purchaseContractService.selectByCode(code);
+	        if(contract != null && contract.getStatus() == 2){
+	            contract.setPurchaseType(DictionaryDataUtil.findById(contract.getPurchaseType()).getName());
+	        } else if (contract != null && (contract.getStatus() == 0 || contract.getStatus() == 1)){
+	            contract = new PurchaseContract();
+                contract.setCode("ErrCode1");
+	        } else {
+	            contract = new PurchaseContract();
+	            contract.setCode("ErrCode");
+	        }
+	        return contract;
+	    }
+		return null;
 	}
 	
 	/**
@@ -3030,6 +3039,105 @@ public class PurchaseContractController extends BaseSupplierController{
     		result="no";
     	}
     	return result;
+    }
+    
+    /**
+     * 
+     * Description: 已完成采购合同只读列表
+     * 
+     * @author Easong
+     * @version 2017年6月12日
+     * @param user
+     * @param request
+     * @param page
+     * @param model
+     * @param purCon
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/readOnlyList")
+    public String readOnlyList(@CurrentUser User user,HttpServletRequest request, Integer page,Model model,PurchaseContract purCon, PurchaseContractAnalyzeVo purchaseContractAnalyzeVo) throws Exception{
+        Map<String,Object> map = new HashMap<String, Object>();
+        if(page == null){
+        	page = 1;
+        }
+        map.put("page", page);
+        if(purCon.getProjectName()!=null){
+            map.put("projectName", purCon.getProjectName());
+        }
+        if(purCon.getCode()!=null){
+            map.put("code", purCon.getCode());
+        }
+        if(purCon.getSupplierDepName()!=null){
+            map.put("supplierDepName", purCon.getSupplierDepName());
+        }
+        if(purCon.getPurchaseDepName()!=null){
+            map.put("purchaseDepName", purCon.getPurchaseDepName());
+        }
+        if(purCon.getDemandSector()!=null){
+            map.put("demandSector", purCon.getDemandSector());
+        }
+        if(purCon.getDocumentNumber()!=null){
+            map.put("documentNumber", purCon.getDocumentNumber());
+        }
+        if(purCon.getYear_string()!=null){
+            if(ValidateUtils.Integer(purCon.getYear_string())){
+                map.put("year", new BigDecimal(purCon.getYear_string()));
+            }else{
+                map.put("year", 1234);
+            }
+        }
+        if(purCon.getBudgetSubjectItem()!=null){
+            map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
+        }
+        if(purCon.getStatus()!=null){
+            map.put("status", purCon.getStatus());
+        }
+        List<PurchaseContract> draftConList = new ArrayList<>();
+		draftConList = purchaseContractService.selectAllContractByStatus(map);
+		boolean roleflag = true;
+		BigDecimal contractSum = new BigDecimal(0);
+		if(roleflag){
+            for(PurchaseContract pur:draftConList){
+            	Supplier su = null;
+            	Orgnization org = null;
+            	if(pur.getSupplierDepName()!=null){
+            		su = supplierService.selectOne(pur.getSupplierDepName());
+            	}
+            	if(pur.getPurchaseDepName()!=null){
+            		org = orgnizationServiceI.getOrgByPrimaryKey(pur.getPurchaseDepName());
+            	}
+            	if(org!=null){
+	                if(org.getName()==null){
+	                    pur.setShowDemandSector("");
+	                }else{
+	                    pur.setShowDemandSector(org.getName());
+	                }
+            	}
+                if(su!=null){
+	                if(su.getSupplierName()!=null){
+	                    pur.setShowSupplierDepName(su.getSupplierName());
+	                }else{
+	                    pur.setShowSupplierDepName("");
+	                }
+                }
+            }
+        if(draftConList.size()>0){
+            for(int i=0;i<draftConList.size();i++){
+                if(draftConList.get(i)!=null){
+                    if(draftConList.get(i).getMoney()!=null){
+                        contractSum = contractSum.add(draftConList.get(i).getMoney());
+                    }
+                }
+            }
+        }
+		}
+        PageInfo<PurchaseContract> list = new PageInfo<PurchaseContract>(draftConList);
+        model.addAttribute("list", list);
+        model.addAttribute("draftConList", draftConList);
+        model.addAttribute("contractSum",contractSum);
+        model.addAttribute("purCon", purCon);
+        return "dss/rids/list/purchaseContractList";
     }
     
 }

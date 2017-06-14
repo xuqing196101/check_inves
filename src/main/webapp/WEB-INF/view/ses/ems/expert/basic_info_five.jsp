@@ -29,7 +29,8 @@
 					layer.confirm("您选择的是" + response.purchaseDep.shortName + "，联系人：" + response.purchaseDep.experContact + ",电话：" + response.purchaseDep.experPhone + "，地址：" + response.purchaseDep.experAddress +"，邮编："+response.purchaseDep.experPostcode+ "。", {
 					//layer.confirm("您选择的是" + response.purchaseDep.shortName + "，联系人：" + response.purchaseDep.contact + ",电话：" + response.purchaseDep.contactMobile + "，地址：" + response.purchaseDep.contactAddress + "。", {
 						btn : [ '确定' ],
-						shade: false //不显示遮罩
+						shade: false ,//不显示遮罩
+						closeBtn: 0
               //按钮
             }, function() {
               window.location.href = '${pageContext.request.contextPath}/';
@@ -74,6 +75,7 @@
                         }
                         else {
                             layer.confirm('您已提交,请勿重复操作!', {
+                            	closeBtn: 0,
                                 btn: ['确定'],
                                 shade: false //不显示遮罩
                                 //按钮

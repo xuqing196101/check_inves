@@ -186,7 +186,7 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierOrg = $("#purContractTotal").echartsTemplate("getMyChart", null);
 			supplierOrg.on('click', function(params) {
-				window.location.href = globalPath + "/purchase/list.html?reqType=analyze&purchaseDepShortName="+params.name;
+				window.location.href = globalPath + "/purchaseContract/readOnlyList.html?status=2&purchaseDepName="+params.data.id;
 			});
 		}
 	});

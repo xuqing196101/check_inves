@@ -7,21 +7,22 @@ import iss.service.ps.ArticleAttachmentsService;
 import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,18 +46,18 @@ import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
-
 import bss.model.ppms.Project;
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
+
+import dss.model.rids.ArticleAnalyzeVo;
 
 /**
  *  @Title:ArticleController  @Description: 信息管理  @author Shen Zhenfei  @date 2016-9-1上午9:48:48
@@ -1059,7 +1060,7 @@ public class ArticleController extends BaseSupplierController {
   }
 
   @RequestMapping("/showaudit")
-  public String showaudit(Model model, String id, HttpServletRequest request, String status, String articleTypeId, Integer curpage, Integer range, String title, String secondArticleTypeId, Date startDate, Date endDate) {
+  public String showaudit(Model model, String id, HttpServletRequest request, ArticleAnalyzeVo articleAnalyzeVo, String reqType, String status, String articleTypeId, Integer curpage, Integer range, String title, String secondArticleTypeId, Date startDate, Date endDate) {
     Article article = articleService.selectArticleById(id);
     List<ArticleAttachments> articleAttaList = articleAttachmentsService
         .selectAllArticleAttachments(article.getId());
@@ -1100,6 +1101,8 @@ public class ArticleController extends BaseSupplierController {
     model.addAttribute("publishEndDate", startDate);
     model.addAttribute("secondArticleTypeId", secondArticleTypeId);
     model.addAttribute("curpage", curpage);
+    model.addAttribute("articleAnalyzeVo", articleAnalyzeVo);
+    model.addAttribute("reqType", reqType);
     return "iss/ps/article/audit/showaudit";
   }
 
@@ -1891,5 +1894,127 @@ public class ArticleController extends BaseSupplierController {
         articleService.searchCategory(jList, name, rootCode);
         
         return JSON.toJSONString(jList);
+    }
+    
+    
+    /**
+     * 
+     * Description: 统计采购公告只读列表
+     * 
+     * @author Easong
+     * @version 2017年6月12日
+     * @param model
+     * @param articleTypeId
+     * @param secondArticleTypeId
+     * @param status
+     * @param range
+     * @param page
+     * @param publishStartDate
+     * @param publishEndDate
+     * @param request
+     * @return
+     */
+    @RequestMapping("/readOnlyList")
+    public String readOnlyList(Model model, String articleTypeId, String secondArticleTypeId, Integer status, Integer range, Integer page, Date publishStartDate, Date publishEndDate, ArticleAnalyzeVo articleAnalyzeVo, HttpServletRequest request
+    		,String reqType) {
+      Article article = new Article();
+      ArticleType articleType = new ArticleType();
+      String name = request.getParameter("name");
+      HashMap<String, Object> map = new HashMap<String, Object>();
+      // 查询已发布的状态公告
+      map.put("status",status);
+
+      if (name != null && !name.equals("")) {
+        map.put("name", "%" + name + "%");
+      }
+      if (range != null && !range.equals("")) {
+        map.put("range", range);
+      }
+
+      if (articleTypeId != null && !"".equals(articleTypeId)) {
+        articleType.setId(articleTypeId);
+        article.setArticleType(articleType);
+        map.put("articleType", article.getArticleType());
+      }
+      
+      if (secondArticleTypeId != null && !"null".equals(secondArticleTypeId) && !"".equals(secondArticleTypeId)) {
+        map.put("secondArticleTypeId", secondArticleTypeId);
+      }
+      
+      if (publishStartDate != null) {
+        String startDate = new SimpleDateFormat("yyyy-MM-dd").format(publishStartDate);
+        map.put("publishStartDate", startDate);
+      }
+      if (StringUtils.isNotEmpty(articleAnalyzeVo.getPublishYear())) {
+    	  map.put("publishYear", articleAnalyzeVo.getPublishYear());
+      }
+      if (StringUtils.isNotEmpty(articleAnalyzeVo.getCategoryId())) {
+    	  map.put("categoryId", articleAnalyzeVo.getCategoryId());
+      }
+      if (StringUtils.isNotEmpty(articleAnalyzeVo.getThreeArticleTypeId())) {
+    	  map.put("ThreeArticleTypeId", articleAnalyzeVo.getThreeArticleTypeId());
+      }
+      if (StringUtils.isNotEmpty(articleAnalyzeVo.getFourArticleTypeId())) {
+    	  map.put("fourArticleTypeId", articleAnalyzeVo.getFourArticleTypeId());
+      }
+      if (publishEndDate != null) {
+        String endDate = new SimpleDateFormat("yyyy-MM-dd").format(publishEndDate);
+        map.put("publishEndDate", endDate);
+      }
+      
+      if (page == null) {
+        page = 1;
+      }
+      map.put("page", page.toString());
+      PropertiesUtil config = new PropertiesUtil("config.properties");
+      PageHelper.startPage(page, Integer.parseInt(config.getString("pageSizeArticle")));
+      if (status != null && !status.equals("")) {
+        map.put("status", status);
+      } 
+      List<Article> list = articleService.selectArticleByStatus(map);
+
+      model.addAttribute("articleId", article.getId());
+      DictionaryData sj = new DictionaryData();
+      sj.setCode("SECURITY_COMMITTEE");
+      List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
+      request.getSession().setAttribute("sysKey", Constant.TENDER_SYS_KEY);
+      if (secrets.size() > 0) {
+        model.addAttribute("secretTypeId", secrets.get(0).getId());
+      }
+      Integer num = 0;
+      StringBuilder groupUpload = new StringBuilder("");
+      StringBuilder groupShow = new StringBuilder("");
+      for (Article a : list) {
+        num++;
+        groupUpload = groupUpload.append("artice_secret_show" + num + ",");
+        groupShow = groupShow.append("artice_secret_show" + num + ",");
+        a.setGroupsUpload("artice_secret_show" + num);
+        a.setGroupShow("artice_secret_show" + num);
+      }
+      String groupUploadId = "";
+      String groupShowId = "";
+      if (!"".equals(groupUpload.toString())) {
+        groupUploadId = groupUpload.toString().substring(0, groupUpload.toString().length() - 1);
+      }
+      if (!"".equals(groupShow.toString())) {
+        groupShowId = groupShow.toString().substring(0, groupShow.toString().length() - 1);
+      }
+      for (Article act : list) {
+        act.setGroupsUploadId(groupUploadId);
+        act.setGroupShowId(groupShowId);
+      }
+      model.addAttribute("list", new PageInfo<Article>(list));
+      model.addAttribute("articleName", name);
+      model.addAttribute("articlesRange", range);
+      model.addAttribute("articlesStatus", status);
+      model.addAttribute("articlesArticleTypeId", articleTypeId);
+      model.addAttribute("curpage", page);
+      model.addAttribute("article", article);
+      model.addAttribute("publishStartDate", publishStartDate);
+      model.addAttribute("publishEndDate", publishEndDate);
+      model.addAttribute("secondArticleTypeId", secondArticleTypeId);
+      model.addAttribute("articleAnalyzeVo", articleAnalyzeVo);
+      return "dss/rids/list/purchaseNoticeList";
+
     }
 }

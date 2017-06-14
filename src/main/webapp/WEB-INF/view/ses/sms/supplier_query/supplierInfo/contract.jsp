@@ -8,7 +8,7 @@
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>销售合同</title>
 		<%@ include file="/WEB-INF/view/ses/sms/supplier_query/supplierInfo/common.jsp"%>
-		<script type="text/javascript" src="${ pageContext.request.contextPath }/js/ses/ems/expertQuery/common.js"/>
+		<script type="text/javascript" src="${ pageContext.request.contextPath }/js/ses/ems/expertQuery/common.js"></script>
 		
 		<script type="text/javascript">
 			$(function() {

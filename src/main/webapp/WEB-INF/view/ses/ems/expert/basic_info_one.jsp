@@ -173,9 +173,14 @@
 			function submitForm2() {
 				updateStepNumber("seven");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+				var fromList=$("#formExpert").serialize()
+				if('${expert.status}'==3){
+					$("input[type='text'],select,textarea").attr('disabled',true);
+				}
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: false,
 					success: function(result) {
@@ -183,14 +188,20 @@
 						window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 					}
 				});
+				
 			}
 			//无提示暂存
 			function submitForm22() {
 				updateStepNumber("two");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+                var fromList=$("#formExpert").serialize()
+                if('${expert.status}'==3){
+                    $("input[type='text'],select,textarea").attr('disabled',true);
+                }
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: true,
 					success: function(result) {
@@ -203,9 +214,14 @@
 			function submitForm3() {
 				updateStepNumber("three");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+                var fromList=$("#formExpert").serialize()
+                if('${expert.status}'==3){
+                    $("input[type='text'],select,textarea").attr('disabled',true);
+                }
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: true,
 					success: function(result) {
@@ -218,9 +234,14 @@
 			function submitForm4() {
 				updateStepNumber("four");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+                var fromList=$("#formExpert").serialize()
+                if('${expert.status}'==3){
+                    $("input[type='text'],select,textarea").attr('disabled',true);
+                }
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: true,
 					success: function(result) {
@@ -233,9 +254,14 @@
 			function submitForm5() {
 				updateStepNumber("five");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+                var fromList=$("#formExpert").serialize()
+                if('${expert.status}'==3){
+                    $("input[type='text'],select,textarea").attr('disabled',true);
+                }
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: true,
 					success: function(result) {
@@ -598,7 +624,8 @@
 				}
 				
 				var teachTitle = $("#teachTitle").val();
-				if(teachTitle == 1){
+				if(teachTitle==0){
+				}else if(teachTitle == 1){
 					var professTechTitles = $("#professTechTitles").val();
 					if(!professTechTitles) {
 						layer.msg("请填写专业技术职称!");
@@ -609,6 +636,8 @@
 						layer.msg("请填写取得技术职称时间!");
 						return false;
 					}
+				}else{
+					teachTitle=1;
 				}
 
 				var hightEducation = $("#hightEducation").val();
@@ -1033,7 +1062,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i> 身份证复印件（正反面在一张上）</span>
+                        class="red">*</i> 身份证扫描件（正反面在一张上）</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'身份证复印件（正反面）')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('身份证复印件（正反面）')"
 								</c:if>>
 								<c:choose>
@@ -1668,7 +1697,7 @@
 			$("input[type='text'],select,textarea").each(function(){
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
-				if(this.style.border == '1px solid rgb(239, 0, 0)'){
+				if(this.style.border == '1px solid rgb(239, 0, 0)'||this.style.border == '1px solid red'){
 					$(this).attr('disabled',false);
 				}
 			});

@@ -26,9 +26,11 @@ $(function(){
 	$("#analyzePurProject").click(function(){
 		window.location.href=globalPath + "/resAnalyze/analyzePurchaseProject.html";
 	});
+	// 采购合同
 	$("#analyzePurContract").click(function(){
 		window.location.href=globalPath + "/resAnalyze/analyzePurchaseContract.html";
 	});
+	// 采购公告
 	$("#analyzePurNotice").click(function(){
 		window.location.href=globalPath + "/resAnalyze/analyzePurchaseNotice.html";
 	});

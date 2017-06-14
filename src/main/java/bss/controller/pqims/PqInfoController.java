@@ -96,23 +96,46 @@ public class PqInfoController extends BaseSupplierController{
 	 * @return:
 	 */
 	@RequestMapping("/getAll")
-	public String getAll(Model model, @CurrentUser User user, Integer page){
-	    if(user != null && user.getOrg().getId() != null){
-	        Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
-	        if("1".equals(orgnization.getTypeName())){
-	            List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
-	            for (PqInfo pqInfo : pqInfos) {
-	                List<UploadFile> uploadFiles = uploadService.getFilesOther(pqInfo.getId(), DictionaryDataUtil.getId("CONTRACT_APPROVE_ATTACH"), "2");
-	                if(uploadFiles != null && uploadFiles.size() > 0){
-	                    pqInfo.setReport(uploadFiles.get(0).getTypeId());
-	                }else{
-	                    pqInfo.setReport("0");
-	                }
+	public String getAll(Model model, @CurrentUser User user, Integer page, PqInfo pqInfo){
+	    if(user != null && user.getOrg() != null){
+            Orgnization org = orgnizationService.getOrgByPrimaryKey(user.getOrg().getId());
+            if(org != null && "1".equals(org.getTypeName())){
+                HashMap<String, Object> map = new HashMap<>();
+                if(pqInfo.getContract() != null && StringUtils.isNotBlank(pqInfo.getContract().getName())){
+                    map.put("name", pqInfo.getContract().getName());
                 }
-	            model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
-	            model.addAttribute("typeId", DictionaryDataUtil.getId("CONTRACT_APPROVE_ATTACH"));
-	        }
-	    }
+                if(pqInfo.getContract() != null && StringUtils.isNotBlank(pqInfo.getContract().getCode())){
+                    map.put("code", pqInfo.getContract().getCode());
+                }
+                if(StringUtils.isNotBlank(pqInfo.getType())){
+                    map.put("type", pqInfo.getType());
+                }
+                if(StringUtils.isNotBlank(pqInfo.getConclusion())){
+                    map.put("conclusion", pqInfo.getConclusion());
+                }
+                List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page,map);
+                if(pqInfos != null && pqInfos.size() > 0){
+                    for (PqInfo pqInfo2 : pqInfos) {
+                        if(StringUtils.isNotBlank(pqInfo2.getContract().getPurchaseDepName())){
+                            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(pqInfo2.getContract().getPurchaseDepName());
+                            if(orgnization != null){
+                                pqInfo2.getContract().setPurchaseDepName(orgnization.getShortName());
+                            } else {
+                                pqInfo2.getContract().setPurchaseDepName(null);
+                            }
+                            List<UploadFile> uploadFiles = uploadService.getFilesOther(pqInfo2.getId(), DictionaryDataUtil.getId("CONTRACT_APPROVE_ATTACH"), "2");
+                            if(uploadFiles != null && uploadFiles.size() > 0){
+                                pqInfo2.setReport(uploadFiles.get(0).getTypeId());
+                            }else{
+                                pqInfo2.setReport("0");
+                            }
+                        }
+                    }
+                }
+                model.addAttribute("info",new PageInfo<PqInfo>(pqInfos));
+                model.addAttribute("pqInfo", pqInfo);
+            }
+        }
 		return "bss/pqims/pqinfo/list";
 	}
 	
@@ -127,7 +150,7 @@ public class PqInfoController extends BaseSupplierController{
 	 */
 	@RequestMapping("/add")
 	public String add(Model model){
-		model.addAttribute("pqinfoId", WfUtil.createUUID());
+	    model.addAttribute("id", WfUtil.createUUID());
 		model.addAttribute("attachTypeId", DictionaryDataUtil.getId("CONTRACT_APPROVE_ATTACH"));
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		return "bss/pqims/pqinfo/add";
@@ -143,94 +166,17 @@ public class PqInfoController extends BaseSupplierController{
 	 * @return:
 	 */
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request,@RequestParam("dateString") String dateString,
-			@Valid PqInfo pqInfo,BindingResult result,Model model){
-		
-		Boolean flag = true;
-		String url = "";
-		//设置质检日期
-		if(StringUtils.isNotBlank(dateString)){			
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			ParsePosition pos = new ParsePosition(0);
-			Date date = formatter.parse(dateString, pos);
-			pqInfo.setDate(date);
-		}else{
-			flag = false;
-			model.addAttribute("ERR_pqdate", "请选择质检日期");
-		}
-			
-		if(StringUtils.isBlank(pqInfo.getContract().getCode())){
-			flag = false;
-			model.addAttribute("ERR_contract_code","请输入合同编号");
-		}else{
-			PurchaseContract pc=purchaseContractService.selectByCode(pqInfo.getContract().getCode());
-			if (pc==null) {
-				flag = false;
-				model.addAttribute("ERR_contract_code","合同编号不存在");
-			}else{
-				pqInfo.setContract(pc);
-			}
-		}
-		if(pqInfo.getProjectType()==null||pqInfo.getProjectType().equals("-请选择-")){
-			flag = false;
-			model.addAttribute("ERR_projectType", "请选择项目类型");
-		}
-		if(pqInfo.getType()==null||pqInfo.getType().equals("-请选择-")){
-			flag = false;
-			model.addAttribute("ERR_type", "请选择质检类型");
-		}
-		if(pqInfo.getConclusion()==null||pqInfo.getConclusion().equals("-请选择-")){
-			flag = false;
-			model.addAttribute("ERR_conclusion", "请选择质检结论");
-		}
+	public String save(@Valid PqInfo pqInfo,BindingResult result,Model model){
 		if(result.hasErrors()){
 			List<FieldError> errors = result.getFieldErrors();
 			for(FieldError fieldError:errors){
 				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
 			}
-			flag = false;
-		}
-		if(flag == false){
-			String id = pqInfo.getContract().getSupplierDepName();
-			if(id!=null){
-				Supplier supplier = supplierService.selectOne(id);
-				PurchaseContract pc = pqInfo.getContract();
-				pc.setSupplierDepName(supplier.getSupplierName());
-				pqInfo.setContract(pc);
-			}
 			model.addAttribute("pqinfo", pqInfo);
-			url="bss/pqims/pqinfo/add";
-		}else{
-			/* String report=pqInfoService.queryPath(pqInfo.getId());
-			 if(report!=null && report!=""){
-				 pqInfo.setReport(report);
-			 }*/
-		     //封装质检信息实体类
-		     pqInfoService.add(pqInfo);
-		     
-		     Supplier supplier = pqInfo.getContract().getSupplier();
-		     String id = supplier.getId();
-		     String supplierName = supplier.getSupplierName();
-		     SupplierPqrecord supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
-		     if (supplierPqrecord==null) {
-		    	 supplierPqrecordService.insert(id);
-		     }
-		     supplierPqrecord = supplierPqrecordService.selectByName(supplier.getSupplierName());
-		     BigDecimal countSuccess = pqInfoService.queryByCountSuccess(supplierPqrecord.getSupplier().getId());
-		     if (countSuccess==null) {
-		    	 countSuccess=new BigDecimal(0);
-		     }
-		     BigDecimal countFail =pqInfoService.queryByCountFail(supplierPqrecord.getSupplier().getId());
-		     if (countFail==null) {
-		    	 countFail=new BigDecimal(0);
-		     }
-		     supplierPqrecord.setSuccessedCount(countSuccess.intValue());
-		     supplierPqrecord.setFailedCount(countFail.intValue());
-		     supplierPqrecord.setSuccessedAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
-		     supplierPqrecordService.update(supplierPqrecord);
-		     url = "redirect:getAll.html";
+			return "bss/pqims/pqinfo/add";
 		}
-		return url;
+		pqInfoService.add(pqInfo);
+		return "redirect:getAll.html";
 	}
 	
 	/**
@@ -248,7 +194,6 @@ public class PqInfoController extends BaseSupplierController{
 	        PqInfo pqInfo = pqInfoService.get(id);
 	        if(pqInfo != null){
 	            model.addAttribute("pqinfo",pqInfo);
-	            model.addAttribute("pqinfoID",pqInfo.getId());
 	        }
 	    }
 		model.addAttribute("pqinfoKey", Constant.TENDER_SYS_KEY);
@@ -266,92 +211,17 @@ public class PqInfoController extends BaseSupplierController{
 	 * @return:
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request,@RequestParam("date") String dateString,
-			@Valid PqInfo pqInfo,BindingResult result,Model model){
-		Boolean flag = true;
-		String url = "";
-		//设置质检日期
-		if(StringUtils.isNotBlank(dateString)){			
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			ParsePosition pos = new ParsePosition(0);
-			Date date = formatter.parse(dateString, pos);
-			pqInfo.setDate(date);
-		}else{
-			flag = false;
-			model.addAttribute("ERR_pqdate", "请选择质检日期");
-		}
-		if(StringUtils.isBlank(pqInfo.getContract().getCode())){
-			flag = false;
-			model.addAttribute("ERR_contract_code","请输入合同编号");
-		}else{
-			PurchaseContract pc=purchaseContractService.selectByCode(pqInfo.getContract().getCode());
-			if (pc==null) {
-				flag = false;
-				model.addAttribute("ERR_contract_code","合同编号不存在");
-			}else{
-				pqInfo.setContract(pc);
-			}
-		}
-		if(pqInfo.getProjectType()==null||pqInfo.getProjectType().equals("")){
-			flag = false;
-			model.addAttribute("ERR_projectType", "请选择项目类型");
-		}
-		if(pqInfo.getType()==null||pqInfo.getType().equals("-请选择-")){
-			flag = false;
-			model.addAttribute("ERR_type", "请选择质检类型");
-		}
-		if(pqInfo.getConclusion()==null||pqInfo.getConclusion().equals("-请选择-")){
-			flag = false;
-			model.addAttribute("ERR_conclusion", "请选择质检结论");
-		}
+	public String update(@Valid PqInfo pqInfo,BindingResult result,Model model){
 		if(result.hasErrors()){
 			List<FieldError> errors = result.getFieldErrors();
 			for(FieldError fieldError:errors){
 				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
 			}
-			flag = false;
-		}
-		if(flag == false){
-			String id = pqInfo.getContract().getSupplierDepName();
-			Supplier supplier = supplierService.selectOne(id);
-			PurchaseContract pc = pqInfo.getContract();
-			pc.setSupplierDepName(supplier.getSupplierName());
-			pqInfo.setContract(pc);
 			model.addAttribute("pqinfo", pqInfo);
-			url="bss/pqims/pqinfo/edit";
-		}else{
-	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	        ParsePosition pos = new ParsePosition(0);
-	        Date date = formatter.parse(dateString, pos);
-	        pqInfo.setDate(date);
-			String report=pqInfoService.queryPath(pqInfo.getId());
-			if(report!=null && report!=""){
-				 pqInfo.setReport(report);
-			}
-	        pqInfoService.update(pqInfo);
-	        Supplier supplier = pqInfo.getContract().getSupplier();
-		     String id = supplier.getId();
-		     String supplierName = supplier.getSupplierName();
-		     SupplierPqrecord supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
-		     if (supplierPqrecord==null) {
-		    	 supplierPqrecordService.insert(id);
-		     }
-		     supplierPqrecord = supplierPqrecordService.selectByName(supplier.getSupplierName());
-		     BigDecimal countSuccess = pqInfoService.queryByCountSuccess(supplierPqrecord.getSupplier().getId());
-		     if (countSuccess==null) {
-		    	 countSuccess=new BigDecimal(0);
-		     }
-		     BigDecimal countFail =pqInfoService.queryByCountFail(supplierPqrecord.getSupplier().getId());
-		     if (countFail==null) {
-		    	 countFail=new BigDecimal(0);
-		     }
-		     supplierPqrecord.setSuccessedCount(countSuccess.intValue());
-		     supplierPqrecord.setFailedCount(countFail.intValue());
-		     supplierPqrecord.setSuccessedAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
-		     supplierPqrecordService.update(supplierPqrecord);
-	        url="redirect:getAll.html";
+			 return "bss/pqims/pqinfo/edit";
 		}
-		return url;
+	    pqInfoService.update(pqInfo);
+	    return "redirect:getAll.html";
 	}
 	
 	
@@ -425,27 +295,6 @@ public class PqInfoController extends BaseSupplierController{
 		return "bss/pqims/pqinfo/view";
 	}
 	
-	/**
-	 * 
-	 * @Title: search
-	 * @author Liyi 
-	 * @date 2016-9-29 下午1:33:07  
-	 * @Description:
-	 * @param:     
-	 * @return:
-	 */
-	@RequestMapping("/search")
-	public String search(Model model,HttpServletRequest request,PqInfo pqInfo,Integer page){
-		if(pqInfo!=null){
-			List<PqInfo> pqInfos = pqInfoService.selectByCondition(pqInfo,page==null?1:page);
-			model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
-		}else{
-			List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
-			model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
-		}
-		model.addAttribute("pqinfo",pqInfo);
-		return "bss/pqims/pqinfo/list";
-	}
 	
 	/**
 	 * 
@@ -457,75 +306,49 @@ public class PqInfoController extends BaseSupplierController{
 	 * @return:
 	 */
 	@RequestMapping("/getAllReasult")
-	public String getAllResult(@CurrentUser User user, Model model,Integer page){
+	public String getAllResult(@CurrentUser User user, Model model,Integer page, PqInfo pqInfo){
 	    if(user != null && user.getOrg() != null){
 	        Orgnization org = orgnizationService.getOrgByPrimaryKey(user.getOrg().getId());
 	        if(org != null && "1".equals(org.getTypeName())){
-	            List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
-	            int i = 0;
-	            for (PqInfo pqInfo : pqInfos) {
-	                if(pqInfo.getContract() != null && StringUtils.isNotBlank(pqInfo.getContract().getProjectId())){
-	                    String projectId = pqInfo.getContract().getProjectId();
-	                    Project project = projectService.selectById(projectId);
-	                    if(project!=null){
-	                        String purchaseDepName = project.getPurchaseDepId();
-	                        HashMap<String, Object> map = new HashMap<>();
-	                        map.put("typeName", "1");
-	                        List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
-	                        for(int j=0;j<orgnizations.size();j++){
-	                            if(purchaseDepName.equals(orgnizations.get(j).getId())){
-	                                pqInfo.getContract().setPurchaseDepName(orgnizations.get(j).getName());
-	                                pqInfos.set(i, pqInfo);
-	                                i++;
-	                                break;
-	                            }
+	            HashMap<String, Object> map = new HashMap<>();
+	            if(pqInfo.getContract() != null && StringUtils.isNotBlank(pqInfo.getContract().getName())){
+	                map.put("name", pqInfo.getContract().getName());
+	            }
+	            if(pqInfo.getContract() != null && StringUtils.isNotBlank(pqInfo.getContract().getCode())){
+	                map.put("code", pqInfo.getContract().getCode());
+	            }
+	            if(StringUtils.isNotBlank(pqInfo.getType())){
+	                map.put("type", pqInfo.getType());
+	            }
+	            if(StringUtils.isNotBlank(pqInfo.getConclusion())){
+	                map.put("conclusion", pqInfo.getConclusion());
+	            }
+	            List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page,map);
+	            if(pqInfos != null && pqInfos.size() > 0){
+	                for (PqInfo pqInfo2 : pqInfos) {
+	                    if(StringUtils.isNotBlank(pqInfo2.getContract().getPurchaseDepName())){
+	                        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(pqInfo2.getContract().getPurchaseDepName());
+	                        if(orgnization != null){
+	                            pqInfo2.getContract().setPurchaseDepName(orgnization.getShortName());
+	                        } else {
+	                            pqInfo2.getContract().setPurchaseDepName(null);
+	                        }
+	                        List<UploadFile> uploadFiles = uploadService.getFilesOther(pqInfo2.getId(), DictionaryDataUtil.getId("CONTRACT_APPROVE_ATTACH"), "2");
+	                        if(uploadFiles != null && uploadFiles.size() > 0){
+	                            pqInfo2.setReport(uploadFiles.get(0).getTypeId());
+	                        }else{
+	                            pqInfo2.setReport("0");
 	                        }
 	                    }
-	                }
+                    }
 	            }
-	            model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+	            model.addAttribute("info",new PageInfo<PqInfo>(pqInfos));
+	            model.addAttribute("pqInfo", pqInfo);
 	        }
 	    }
 		return "bss/pqims/pqinfo/resultList";
 	}
 	
-	/**
-	 * 
-	 * @Title: searchResult
-	 * @author Liyi 
-	 * @date 2016-9-29 下午1:33:07  
-	 * @Description:
-	 * @param:     
-	 * @return:
-	 */
-	@RequestMapping("/searchReasult")
-	public String searchResult(Model model,HttpServletRequest request,PqInfo pqInfo,Integer page){
-		if(pqInfo!=null){
-			List<PqInfo> pqInfos = pqInfoService.selectByCondition(pqInfo,page==null?1:page);
-			int i = 0;
-			for (PqInfo pqInfo1 : pqInfos) {
-				String projectId = pqInfo1.getContract().getProjectId();
-				String purchaseDepName = projectService.selectById(projectId).getPurchaseDepName();
-				pqInfo1.getContract().setPurchaseDepName(purchaseDepName);
-				pqInfos.set(i, pqInfo1);
-				i++;
-			}
-			model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
-		}else{
-			List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
-			int i = 0;
-			for (PqInfo pqInfo1 : pqInfos) {
-				String projectId = pqInfo1.getContract().getProjectId();
-				String purchaseDepName = projectService.selectById(projectId).getPurchaseDepName();
-				pqInfo1.getContract().setPurchaseDepName(purchaseDepName);
-				pqInfos.set(i, pqInfo1);
-				i++;
-			}
-			model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
-		}
-		model.addAttribute("pqinfo",pqInfo);
-		return "bss/pqims/pqinfo/resultList";
-	}
 	
 	/**
 	 * 
@@ -573,14 +396,10 @@ public class PqInfoController extends BaseSupplierController{
 	
 	  public static String myPercent(double y, double z) {  
 	        String baifenbi = "";// 接受百分比的值  
-	      /*  double baiy = y * 1.0;  
-	        double baiz = z * 1.0;  */
 	        double fen = y / z;  
 	        // NumberFormat nf = NumberFormat.getPercentInstance(); 注释掉的也是一种方法  
 	        // nf.setMinimumFractionDigits( 2 ); 保留到小数点后几位  
 	        DecimalFormat df1 = new DecimalFormat("##.00%"); // ##.00%  
-	                                                            // 百分比格式，后面不足2位的用0补齐  
-	        // baifenbi=nf.format(fen);  
 	        baifenbi = df1.format(fen);   
 	        return baifenbi;  
 	    }  

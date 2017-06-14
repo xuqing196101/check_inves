@@ -201,6 +201,9 @@
 			}
 			//请求 获取 数据
 			function getDate(obj,typeId,certCode,supplierId,professType,number,flag){
+			//console.log(obj);
+			//console.log(number);
+			//console.log(flag);
 			$.ajax({
                         url : "${pageContext.request.contextPath}/supplier/getLevel.do",
                         type:"post",
@@ -368,7 +371,7 @@
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}">
 									<!-- 物资销售型 -->
 									<c:set value="0" var="length"> </c:set>
-									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if>fade height-300" id="tab-2">
+									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if>fades height-300" id="tab-2">
 										<h2 class="f16  ">
 										      	<font color="red">*</font> 上传物资-销售型资质文件
 										</h2>
@@ -394,7 +397,7 @@
 									</div>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
-									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-3">
+									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fades height-300" id="tab-3">
 										<h2 class="f16  ">
 										      	<font color="red">*</font> 上传工程资质文件
 										</h2>
@@ -470,11 +473,11 @@
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode"  value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
 										     
 										    	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										    	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType"  onchange="getFileByCode(this, '${vs.index}', '3')">
-										        			<option value="${cate.proName}">${cate.proName}</option>
-										        	</select>
+											    	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType" onchange="getFileByCode(this, '${vs.index}', '3')">
+									        		<option value="${cate.proName}" selected="selected">${cate.proName}</option>
+									        	</select>
 <%-- 										    	<input type="text" class="border0" name="listSupplierItems[${vs.index}].professType" value="${cate.proName}" onblur="getFileByCode(this, '${vs.index}', '3')">
- --%>										    	</td>
+ --%>										  </td>
 										      
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" id ="listSupplierItems${vs.index}" value="${cate.level.id}" class="w80">
@@ -512,7 +515,7 @@
 									</div>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}">
-									<div class="tab-pane <c:if test="${divCount==0 } ">active in</c:if> fade height-300" id="tab-4">
+									<div class="tab-pane <c:if test="${divCount==0 } ">active in</c:if> fades height-300" id="tab-4">
 										<h2 class="f16  ">
 										      	<font color="red">*</font> 上传服务资质文件
 										</h2>

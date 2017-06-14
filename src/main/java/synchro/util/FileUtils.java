@@ -162,6 +162,17 @@ public class FileUtils {
     /***门户模板管理 附件数据导出路径***/
     public final static String C_FILE_TEMPLATE_DOWNLOAD_ATTFILE_FILENAME=PropUtil.getProperty("attfile.file_t_iss_ps_template_download_path.system.path");
     
+    
+    /***目录资质关联表录 导出创建数据名称***/
+    public final static String C_SYNCH_CATEGORY_QUA="_c_category_qua.dat";
+    /***目录资质关联表录 导出路径***/
+    public final static String FILE_SYNCH_CATEGORY_QUA_PATH=PropUtil.getProperty("file.synch_category_qua.system.path");
+    
+    /***产品资质 导出创建数据名称***/
+    public final static String C_SYNCH_QUALIFICATION="_c_qualification.dat";
+    /***产品资质 导出路径***/
+    public final static String FILE_SYNCH_QUALIFICATION_PATH=PropUtil.getProperty("file.synch_qualification.system.path");
+    
     /**
      * 
      *〈简述〉创建根目录
@@ -715,13 +726,15 @@ public class FileUtils {
           case 11:  filePath=SYNCH_INNER_PRODUCT_LIBRARY_PATH;break;
           case 12:  filePath=SYNCH_OUTER_PRODUCT_LIBRARY_PATH;break;
           case 13:  filePath=SYNCH_OUTER_FILE_PRODUCT_LIBRARY_PATH;break;
-          case 14: filePath=T_SES_BMS_CATEGORY_PATH;break;
-          case 15: filePath=FILE_T_SES_BMS_CATEGORY_PATH;break;
-          case 16: filePath=FILE_T_SES_BMS_CATEGORY_PARAMTER_PATH;break;
+          case 14:  filePath=T_SES_BMS_CATEGORY_PATH;break;
+          case 15:  filePath=FILE_T_SES_BMS_CATEGORY_PATH;break;
+          case 16:  filePath=FILE_T_SES_BMS_CATEGORY_PARAMTER_PATH;break;
           case 17:  filePath=ISS_PS_DATA_DOWNLOAD_PATH;break;
           case 18:  filePath=FILE_ISS_PS_DATA_DOWNLOAD_PATH;break;
-          case 19: filePath=FILE_T_ISS_PS_TEMPLATE_DOWNLOAD_PATH;break;
-          case 20: filePath=C_FILE_TEMPLATE_DOWNLOAD_ATTFILE_FILENAME;break;
+          case 19:  filePath=FILE_T_ISS_PS_TEMPLATE_DOWNLOAD_PATH;break;
+          case 20:  filePath=C_FILE_TEMPLATE_DOWNLOAD_ATTFILE_FILENAME;break;
+          case 21:  filePath=FILE_SYNCH_CATEGORY_QUA_PATH;break;
+          case 22:  filePath=FILE_SYNCH_QUALIFICATION_PATH;break;
         }
         return filePath;
     }

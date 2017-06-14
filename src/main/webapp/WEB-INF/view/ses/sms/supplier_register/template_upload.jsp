@@ -22,37 +22,45 @@
 				async: false,
 				dataType:"json",
 				success: function(response){
-                    var token = "";
-                    if(!response instanceof Object){//如果不是JSON对象
-                        response.split(",");
-                    }
+          var token = "";
+          if(!response instanceof Object){//如果不是JSON对象
+              response.split(",");
+          }
 					if (response == "1") {
-                        layer.msg("还有附件未上传!", {offset: ['300px', '750px']});
-                    }else if(response == "0"){
-                        layer.msg("数据异常!", {offset: ['300px', '750px']});
-                    }else if(token[0]=="supplier_logout"){
-                        layer.confirm("您未在 "+token[1]+" 天内提交审核,注册信息已失效", {
-                            btn: ['确定'],
-                            shade: false //不显示遮罩
-                            //按钮
-                        }, function() {
-                            window.location.href = '${pageContext.request.contextPath}/';
-                        });
+          	layer.msg("还有附件未上传!", {offset: ['300px', '750px']});
+          }else if(response == "0"){
+            layer.msg("数据异常!", {offset: ['300px', '750px']});
+          }else if(token[0]=="supplier_logout"){
+            layer.confirm("您未在 "+token[1]+" 天内提交审核,注册信息已失效", {
+              btn: ['确定'],
+              shade: false //不显示遮罩
+              //按钮
+            }, function() {
+                window.location.href = '${pageContext.request.contextPath}/';
+            });
 					} else {
-                        $("input[name='jsp']").val(flag);
-                        if (flag == "commit") {
-                            layer.confirm("<span style='margin-left:26px;'> 您已成功提交,请等待审核结果！</span>" + "<br/><span style='margin-left:26px;'> 您选择的采购机构：" + response.shortName + "；联系人姓名：" + response.supplierContact + "；" + "联系方式：" + response.supplierPhone + "；联系地址：" + response.supplierAddress + "；邮编：" + response.supplierPostcode, {
-                                btn: ['确定'],
-                                shade: false
-                            }, function () {
-                                count++;
-                                if (count == 1) {
-                                    $("#template_upload_form_id").submit();
-                                }
-
-
-                            });
-                        }
+            $("input[name='jsp']").val(flag);
+            if (flag == "commit") {
+            	var msg = "<span style='margin-left:26px;'> 您已成功提交,请等待审核结果！</span>" + "<br/><span style='margin-left:26px;'> 您选择的采购机构：" + response.shortName + "；联系人姓名：" + response.supplierContact + "；" + "联系方式：" + response.supplierPhone + "；联系地址：" + response.supplierAddress + "；邮编：" + response.supplierPostcode;
+            	layer.alert(msg, {
+							  //skin: 'layui-layer-molv', //样式类名
+							  closeBtn: 0
+							}, function(){
+							  count++;
+                if (count == 1) {
+                    $("#template_upload_form_id").submit();
+                }
+							});
+              /* layer.confirm("<span style='margin-left:26px;'> 您已成功提交,请等待审核结果！</span>" + "<br/><span style='margin-left:26px;'> 您选择的采购机构：" + response.shortName + "；联系人姓名：" + response.supplierContact + "；" + "联系方式：" + response.supplierPhone + "；联系地址：" + response.supplierAddress + "；邮编：" + response.supplierPostcode, {
+                btn: ['确定'],
+                shade: false
+              }, function () {
+                count++;
+                if (count == 1) {
+                    $("#template_upload_form_id").submit();
+                }
+              }); */
+            }
 					}
 				}
 			});
@@ -181,15 +189,8 @@
 									   	     <td class="bggrey" width="15%" ><i class="red">*</i>供应商承诺书：</td>
 									   	     <td <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierPledge')"</c:if>>
 									   	       <div class="w200 fl">
-									   	       	<c:choose>
-									   	     			<c:when test="${!fn:contains(audit,'supplierPledge') && currSupplier.status==2}">
-											   		 			<u:show showId="application_show" delete="false" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
-									   	     			</c:when>
-									   	     			<c:otherwise>
-									   	     				<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" maxcount="1"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
-											  		 			<u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
-									   	     			</c:otherwise>
-									   	     		</c:choose>
+									   	     	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" maxcount="1"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
+											  	<u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
 									   	       </div>
 									   	     </td>
 									   	   </tr>

@@ -334,6 +334,7 @@
 		  "<td class=\"p0\"  width=\"40%\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" title=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
 		  "  </td>"+
 		"</tr>").clone(true); 
+		   
 		//加载数据
 	//	loads(number,productId);
 		/* var hehe = [];
@@ -343,8 +344,10 @@
 		     			  }
 		     		  });
 		        	productIds = hehe.toString(); */
+		        	if(productName != null && productName != ''){
+		        		$('#productName_'+number).val(productName);
+		        	}
 		loadProduct(number);
-		
 	}
 	 function loadProduct(number){
 		 $('#productName_'+number).combobox({  
@@ -440,12 +443,11 @@
 	    return;
 	    }
 	 $.ajaxFileUpload ({
-	               url: "${pageContext.request.contextPath}/ob_project/upload.do?",  
+	               url: "${pageContext.request.contextPath}/ob_project/upload.do",  
 	               secureuri: false,  
 	               fileElementId: 'fileName', 
 	               dataType: 'json',
 	               success: function (data) { 
-	             
 	               var bool=true;
 	               var chars = ['A','B','C','D'];
 	               if(data=="1"){
@@ -921,8 +923,8 @@
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			<select id="demandUnit" name="demandUnit" onchange="changDemandUnit()" >
 			  <option value="">--请选择--</option>
-			</select></div>
-        <div class="cue" id="demandUnitErr">${demandUnitErr}</div>
+			</select>
+        <div class="cue" id="demandUnitErr">${demandUnitErr}</div></div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>联系人</span>

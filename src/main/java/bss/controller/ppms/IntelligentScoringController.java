@@ -676,6 +676,7 @@ public class IntelligentScoringController extends BaseController{
               model.addAttribute("projectId", projectId);
               model.addAttribute("ddList", ddList);
               model.addAttribute("str", str);
+              model.addAttribute("isView", "1");
               return "bss/prms/score/edit_package_qc";
             }
         }

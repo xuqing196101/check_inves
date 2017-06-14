@@ -1,5 +1,7 @@
 package synchro.util;
 
+import ses.util.PropUtil;
+
 /**
  * 
  * 版权：(C) 版权所有 
@@ -186,5 +188,23 @@ public class Constant {
     public final static String T_ISS_PS_TEMPLATE_DOWNLOAD_PATH="t_iss_ps_template_download_path";
     /**门户模板管理 附件文件夹名称**/
     public final static String T_ISS_PS_TEMPLATE_DOWNLOAD_ATTFILE_PATH="attfile_t_iss_ps_template_download_path";
+    
+    /**同步 目录资质关联表**/
+    public final static String DATA_SYNCH_CATEGORY_QUA="SYNCH_RELATION_CATEGORY_QUA";
+    /**目录资质关联表  导出信息描述 **/
+    public final static String IMPORT_COMMIT_SYNCH_CATEGORY_QUA="导出资质关联信息数量:";
+    /**目录资质关联表  导入信息描述 **/
+    public final static String EXPORT_COMMIT_SYNCH_CATEGORY_QUA="导入资质关联信息数量:";
+    public final static String FILE_SYNCH_CATEGORY_QUA_PATH="file_synch_category_qua_path";
+    /**同步  产品资质表**/
+    public final static String DATA_SYNCH_QUALIFICATION="SYNCH_QUALIFICATION";
+    /**产品资质  导出信息描述 **/
+    public final static String IMPORT_COMMIT_SYNCH_QUALIFICATION="导出产品资质信息数量:";
+    /**产品资质  导入信息描述 **/
+    public final static String EXPORT_COMMIT_SYNCH_QUALIFICATION="导入产品资质信息数量:";
+    /***产品资质 导出路径***/
+    public final static String FILE_SYNCH_QUALIFICATION_PATH="file_synch_qualification_path";
+    
+    /**目录资质关联表 文件夹名称**/
     
 }

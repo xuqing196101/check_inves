@@ -47,8 +47,10 @@
       endRow: "${result.endRow}",
       groups: "${result.pages}">=5?5:"${result.pages}", //连续显示分页数
       curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-        var page = location.search.match(/page=(\d+)/);
-          return page ? page[1] : 1;
+    	  /* 有问题 页数一直是第一页
+    	  var page = location.search.match(/page=(\d+)/);
+          return page ? page[1] : 1; */
+          return "${result.pageNum}";
       }(), 
       jump : function(e, first) { //触发分页后的回调
         if (!first) { //一定要加此判断，否则初始时会无限刷新
@@ -62,6 +64,7 @@
       var id = $(this).val();
       var relName = $(this).parents("tr").find("td").eq(2).text();
        $("input[name='expertId']").val(id);
+       $("#relName_name_input_id").val(id);
       $("#relName_name_input_id").val(relName);
     });
   });
@@ -75,9 +78,11 @@
       });
       return;
     }
-  /*   var i= $("input[name='expertId']").val(expertId);
-    alert(i); */
-    $("#check_form_id").submit();   
+    var id = $("#relName_id_input_id").val();
+	var expertName = $("#relName_name_input_id").val();
+	parent.document.getElementById("expert_id").value=id;  
+    parent.document.getElementById("expert_name").value=expertName;
+    parent.layer.closeAll();
   }
   //查询
   function searchExpert(sign) {
@@ -139,7 +144,7 @@
           </div>
         </div>
       <form target="_parent" id="check_form_id" action="${pageContext.request.contextPath}/expertBlacklist/addBlacklist.html" method="post">
-        <input type="hidden" name="expertId" />
+        <input id="relName_id_input_id" type="hidden" name="expertId" />
         <input id="relName_name_input_id" type="hidden" name="relName" />
       </form>
     </div>

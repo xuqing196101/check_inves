@@ -1,14 +1,11 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
-
-	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
-		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+  <head>
+    <%@ include file="/WEB-INF/view/common.jsp" %>
+      <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>供应商类型</title>
-		<meta http-equiv="pragma" content="no-cache">
-		<meta http-equiv="cache-control" content="no-cache">
-		<meta http-equiv="expires" content="0">
 
 		<style type="text/css">
 			td {
@@ -730,14 +727,14 @@
 						<li>
 							<div class="tc">
 						       <c:forEach items="${wlist }" var="obj" >
-								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_1" value="${obj.code}"/> ${obj.name }</span>
+								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" <c:if test="${fn:contains(supplierTypeCode,obj.code)}">onclick="reasonType('${obj.id }','${obj.name }');"</c:if>><input type="checkbox" disabled="disabled" name="chkItem_1" value="${obj.code}"/> ${obj.name }</span>
 						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 						     		<c:if test="${fn:contains(passedTypeField,obj.id)}">
 						     			<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 						     		</c:if>
 						      </c:forEach>
 						      <c:forEach items="${supplieType }" var="obj" >
-								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_2" value="${obj.code }"/>${obj.name } </span>
+								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" <c:if test="${fn:contains(supplierTypeCode,obj.code)}">onclick="reasonType('${obj.id }','${obj.name }');"</c:if>><input type="checkbox" disabled="disabled" name="chkItem_2" value="${obj.code }"/>${obj.name } </span>
 						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 						      	<c:if test="${fn:contains(passedTypeField,obj.id)}">
 						     			<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>

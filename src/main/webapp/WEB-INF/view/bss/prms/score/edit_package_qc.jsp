@@ -208,7 +208,7 @@
  </script>
 <body onload="getTotal()">  
     <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>
-    <c:if test="${project.confirmFile != 1 }">
+    <c:if test="${project.confirmFile != 1 && isView != 1}">
   <div class="search_detail ml0">
 	        <ul class="demand_list">
 	          <li>
@@ -260,7 +260,7 @@
         </div>
     </div>
 	    <div class="mt40 tc mb50">
-	    <c:if test="${project.confirmFile != 1 }">
+	    <c:if test="${project.confirmFile != 1  && isView != 1}">
 	        <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}'">返回</button>
 	        </c:if>
 	    </div>

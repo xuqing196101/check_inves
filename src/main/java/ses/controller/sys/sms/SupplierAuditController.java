@@ -43,6 +43,7 @@ import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditNot;
+import ses.model.sms.SupplierAuditOpinion;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
@@ -72,6 +73,7 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditNotService;
+import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierCertEngService;
@@ -197,6 +199,12 @@ public class SupplierAuditController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierPorjectQuaService supplierPorjectQuaService;
+	
+	/**
+	 * 意见
+	 */
+	@Autowired
+	private SupplierAuditOpinionService supplierAuditOpinionService;
 	
 	/**
 	 * @Title: essentialInformation
@@ -1286,7 +1294,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("updateStatus")
-	public String updateStatus(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit) throws IOException {
+	public String updateStatus(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit, String opinion) throws IOException {
 		String supplierId = supplierAudit.getSupplierId();
 		Todos todos = new Todos();
 		/*User user = (User) request.getSession().getAttribute("loginUser");*/
@@ -1310,7 +1318,23 @@ public class SupplierAuditController extends BaseSupplierController {
 		//更新待办
 		supplier = supplierAuditService.supplierById(supplierId);
 		String supplierName = supplier.getSupplierName();
-
+		
+		//记录最终意见
+		SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+		supplierAuditOpinion.setOpinion(opinion);
+		supplierAuditOpinion.setSupplierId(supplierId);
+		supplierAuditOpinion.setCreatedAt(new Date());
+		supplierAuditOpinionService.insertSelective(supplierAuditOpinion);
+		
+		//记录没有通过审核的供应商
+		if(supplier.getStatus() == 2 || supplier.getStatus() == 3 || supplier.getStatus() == 6 || supplier.getStatus() == 8){
+			SupplierAuditNot supplierAuditNot = new SupplierAuditNot();
+			supplierAuditNot.setCreditCode(supplier.getCreditCode());
+			supplierAuditNot.setSupplierId(supplierId);
+			supplierAuditNot.setCreatedAt(new Date());
+			supplierAuditNotService.insertSelective(supplierAuditNot);
+		}
+		
 		/**
 		 * 更新待办(已完成)
 		 */
@@ -2966,7 +2990,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return void
 	 */
 	@RequestMapping(value = "/recordNotPassed")
-	@ResponseBody
+/*	@ResponseBody*/
 	public void recordNotPassed(SupplierAuditNot supplierAuditNot) {
 		Supplier supplier = supplierAuditService.supplierById(supplierAuditNot.getSupplierId());
 		supplierAuditNot.setCreditCode(supplier.getCreditCode());
@@ -3164,6 +3188,17 @@ public class SupplierAuditController extends BaseSupplierController {
 				dataMap.put("isData","no");
 			}
 			dataMap.put("auditList",auditList);
+			
+			//最终意见
+			SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+			supplierAuditOpinion.setSupplierId(supplier.getId());
+			SupplierAuditOpinion opinion = supplierAuditOpinionService.selectByPrimaryKey(supplierAuditOpinion);
+			if(opinion !=null){
+				dataMap.put("opinion",opinion.getOpinion() == null ? "" : opinion.getOpinion());
+			}else{
+				dataMap.put("opinion","无");
+			}
+			
 		}
 		//审核表
 		if("3".equals(tableType)){
@@ -3296,4 +3331,17 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		return "";
 	}
+	
+	
+	/**
+	 * @Title: auditOpinion
+	 * @date 2017-6-9 下午3:20:35  
+	 * @Description:记录审核意见
+	 * @param @param supplierAuditOpinion      
+	 * @return void
+	 */
+	/*public void auditOpinion(SupplierAuditOpinion supplierAuditOpinion) {
+		supplierAuditOpinion.setCreatedAt(new Date());
+		supplierAuditOpinionService.insertSelective(supplierAuditOpinion);
+	}*/
 }

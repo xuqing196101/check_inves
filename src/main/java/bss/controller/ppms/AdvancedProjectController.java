@@ -1601,7 +1601,7 @@ public class AdvancedProjectController extends BaseController {
                 advancedProjectService.update(project);
             }
         }
-        return "redirect:task/list.html";
+        return "redirect:/task/list.html";
     }
     
     

@@ -4,26 +4,9 @@
 <html>
 
   <head>
-    <%@ include file="../../../common.jsp"%>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/webupload/js/display.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/webupload/css/uploadView.css" type="text/css" />
-
+    <%@ include file="/WEB-INF/view/common.jsp"%>
   </head>
   <script type="text/javascript">
-    function showPic(url, name) {
-      layer.open({
-        type: 1,
-        title: false,
-        closeBtn: 0,
-        area: '516px',
-        skin: 'layui-layer-nobg', //没有背景色
-        shadeClose: true,
-        content: $("#photo")
-      });
-    }
-
     function goback() {
       window.location.href = "${pageContext.request.contextPath}/pqinfo/getAll.html";
 
@@ -118,14 +101,18 @@
                       <td width="15%" class="bggrey ">质检单位：</td>
                       <td width="35%">${pqinfo.unit}</td>
                       <td width="15%" class="bggrey ">质检类型：</td>
-                      <td width="35%">${pqinfo.type}</td>
+                      <td width="35%">
+                        <c:if test="${'0' eq pqinfo.type}">首件检验</c:if>
+                        <c:if test="${'1' eq pqinfo.type}">生产验收</c:if>
+                        <c:if test="${'2' eq pqinfo.type}">出厂验收</c:if>
+                        <c:if test="${'3' eq pqinfo.type}">到货验收</c:if></td>
                     </tr>
                     <tr>
                       <td width="15%" class="bggrey ">质检地点：</td>
                       <td width="35%">${pqinfo.place}</td>
                       <td width="15%" class="bggrey ">质检日期：</td>
                       <td width="35%">
-                        <fmt:formatDate value='${pqinfo.date}' pattern='yyyy-MM-dd' />
+                        <fmt:formatDate value='${pqinfo.pqdate}' pattern='yyyy-MM-dd' />
                       </td>
                     </tr>
                     <tr>
@@ -136,7 +123,10 @@
                     </tr>
                     <tr>
                       <td width=15% class="bggrey ">质检结论：</td>
-                      <td width="35%">${pqinfo.conclusion}</td>
+                      <td width="35%">
+                        <c:if test="${'0' eq pqinfo.conclusion}">合格</c:if>
+                        <c:if test="${'1' eq pqinfo.conclusion}">不合格</c:if>
+                      </td>
                       <td width=15% class="bggrey ">质检报告：</td>
                       <td width="35%">
                         <button type="button" onclick="openViewDIv('${pqinfo.id}','${pqinfo.report}','2','artice_show','this')" class="btn">质检报告</button>

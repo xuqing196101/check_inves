@@ -383,8 +383,8 @@
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			<select id="demandUnit" name="demandUnit" disabled="disabled" onchange="changDemandUnit()" >
 			  <option value="">--请选择--</option>
-			</select></div>
-        <div class="cue" id="demandUnitErr">${demandUnitErr}</div>
+			</select>
+        <div class="cue" id="demandUnitErr">${demandUnitErr}</div></div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>联系人</span>

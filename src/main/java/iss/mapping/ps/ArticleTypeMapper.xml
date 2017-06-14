@@ -146,18 +146,23 @@
   
   <!-- 发布排名前10的产品类别数量 -->
   <select id="selectNoticeByProductCate" resultMap="baseAnalyzeBigDecimal">
-  	SELECT COL_NAME, COL_VALUE, COL_ID
-		  FROM (SELECT C.NAME AS COL_NAME,
-		               COUNT(T.CATEGORY_ID) AS COL_VALUE,
-		               T.CATEGORY_ID AS COL_ID
-		          FROM (SELECT T.NAME, T.ID
-		                  FROM T_SES_BMS_CATEGORY T
-		                 WHERE IS_DELETED = 0) C
-		          LEFT JOIN T_SES_BMS_ARTICLE_CATEGORY T
-		            ON C.ID = T.CATEGORY_ID
-		         GROUP BY C.NAME, T.CATEGORY_ID
-		         ORDER BY COL_VALUE DESC) T
-		 WHERE ROWNUM &lt;= 10
+  	 SELECT COL_NAME, COL_VALUE, COL_ID
+			   FROM (SELECT C.NAME AS COL_NAME,
+			                COUNT(T.CATEGORY_ID) AS COL_VALUE,
+			                T.CATEGORY_ID AS COL_ID
+			           FROM (SELECT T.NAME, T.ID
+			                   FROM T_SES_BMS_CATEGORY T
+			                  WHERE IS_DELETED = 0) C
+			           LEFT JOIN (SELECT C.CATEGORY_ID
+			                       FROM T_ISS_PS_ARTICLE A
+			                       LEFT JOIN T_SES_BMS_ARTICLE_CATEGORY C
+			                         ON A.ID = C.ARTICLE_ID
+			                      WHERE A.STATUS = 2
+			                        AND A.IS_DELETED = 0) T
+			             ON C.ID = T.CATEGORY_ID
+			          GROUP BY C.NAME, T.CATEGORY_ID
+			          ORDER BY COL_VALUE DESC) T
+			  WHERE ROWNUM &lt;= 10
   </select>
   
 </mapper>
