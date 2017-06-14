@@ -304,6 +304,18 @@ public class SupplierController extends BaseSupplierController {
 						}
 					}
 				});
+				
+				Object loginUser = request.getSession().getAttribute("loginUser");
+				Object loginUserType = request.getSession().getAttribute("loginUserType");
+				//System.out.println(loginUser);
+				//System.out.println(loginUserType);
+				if(null == loginUser
+						|| null == loginUserType
+						|| !"supplier".equals(loginUserType.toString())){
+					// 提示登录
+					alertLogin();
+				}
+				
 				supplier.setListSupplierFinances(list);
 				initCompanyType(model, supplier);
 				return "ses/sms/supplier_register/basic_info";
@@ -3292,6 +3304,29 @@ public class SupplierController extends BaseSupplierController {
     		bool=false;
     	}
     	return bool;
+    }
+    
+    private void alertLogin(){
+    	//String path = request.getContextPath();
+        //String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
+        StringBuilder builder = new StringBuilder();
+        builder.append("<HTML><HEAD>");
+        builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
+        builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
+        builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+        builder.append("</HEAD>");
+        builder.append("<script type=\"text/javascript\">"); 
+        builder.append("$(function() {");
+        //builder.append("layer.confirm('您未登陆，请登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
+        builder.append("layer.alert('您未登陆，请登录！',{ closeBtn: 0,title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
+        builder.append("window.top.location.href='"); 
+        builder.append(request.getContextPath()+"/index/sign.html");  
+        builder.append("';"); 
+        builder.append("});");
+        builder.append("});");
+        builder.append("</script>");  
+        builder.append("<BODY><div style='width:1000px; height: 1000px;'></div></BODY></HTML>");
+        printOutMsg(response, builder.toString());
     }
     
 }
