@@ -37,11 +37,6 @@
 	 	  $("#contractType").val(conTy);
 	 	  $("#purchaseType").val(putTy);
 	 	  
-	 	 var obj = document.getElementById("TANGER_OCX");
-			var st = $("#ope").val();
-			if(st == 'view'){
-				obj.SetReadOnly(true);
-		 }
 	 	  
 	 	 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 	          // 获取已激活的标签页的名称
@@ -162,10 +157,10 @@
 			}
 		return childNodes;
 	 }
-	 
+	 var obj="";
 	 function OpenFile(filePath) {
 		    var projectId = $("#contractId").val();
-			var obj = document.getElementById("TANGER_OCX");
+		  obj = document.getElementById("TANGER_OCX");
 			obj.Menubar = true;
 			obj.Caption = "( 双击可放大 ! )"
 			if(filePath != 0){
@@ -173,7 +168,13 @@
 				+"/purchaseContract/loadFile.html?filePath="+filePath+"&id="+projectId,true,false, 'word.document');// 异步加载, 服务器文件路径
 			} 
 		}
-		
+	//BeginOpenFromURL成功回调
+     function OnComplete(type,code,html)
+     {
+       var doc=obj.ActiveDocument;
+       var pageSetup=doc.PageSetup;
+       pageSetup.TogglePortrait();
+     }
 		
 		function exportWord() {
 			var obj = document.getElementById("TANGER_OCX");
@@ -360,7 +361,7 @@
 			var num1 = $(tds[i]).val()-0;
 			sum2 = sum2+num1;
 		}
-		var sumAll = sum1+sum2;
+		var sumAll = (sum1+sum2)/10000;
 		if(sumAll>sumbudget){
 			layer.close(index);
 			layer.alert("明细总价不得超过预算",{offset: ['50%', '40%'], shade:0.01});
@@ -424,7 +425,7 @@
 	
 	var index;
 	function openDetail(){
-	  index =  layer.open({
+	  /* index =  layer.open({
 	    shift: 1, //0-6的动画形式，-1不开启
 	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
 	    title: ['新增明细','border-bottom:1px solid #e5e5e5'],
@@ -433,8 +434,56 @@
 		area : [ '50%', '400px' ], //宽高
 		content : $('#openDiv'),
 		offset: ['10%', '10%']
-	  });
+	  }); */
+		 var trs=$('#trs').children();
+	        if(trs.length==0){
+	          html=htmlText(1);
+	          $('#trs').append(html);
+	         }else{
+	           var tr=trs[trs.length-1];
+	           var index=parseInt($($(tr).children()[1]).text());
+	           html=htmlText(index+1);
+	           $(tr).after(html);
+	        }
     }
+	function htmlText(index){
+	      var html="";
+	          html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
+	          html += "<td class='tc w50'>"+index+"</td>";
+	          html += "<td class='tc w50'><input type='text' name='proList["+index+"].planNo'  value='' class='w50'/></td>";
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].goodsName'  value=''/></td>";
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].brand'  value=''/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].stand'  value='' class='w60'/></td>"
+	          html += "<td class='tc w80'><input type='text' name='proList["+index+"].item'  value='' class='w50'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].purchaseCount' onchange='change(this,\"1\")' value='' class='w50'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].price' onchange='change(this,\"2\")' value='' class='w50'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].amount' readonly='readonly' value='' class='w50'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].deliverDate'  value='' class='w100'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].memo'  value=''/></td>"
+	          html += "<td class='tnone'></td>";
+	          return html;
+	    }
+	function change(objInput,index){
+	      var count=0;
+	      var price=0;
+	      if(index=='1'){
+	        if($(objInput).val()!=""){
+	          count=parseFloat($(objInput).val());
+	        }
+	        if($(objInput).parent().next().children(":first").val()!=""){
+	          price=parseFloat($(objInput).parent().next().children(":first").val());
+	        }
+	        $(objInput).parent().next().next().children(":first").val((count*price).toFixed(2))
+	      }else{
+	        if($(objInput).val()!=""){
+	           price=parseFloat($(objInput).val());
+	          }
+	        if($(objInput).parent().prev().children(":first").val()!=""){
+	              count=parseFloat($(objInput).parent().prev().children(":first").val());
+	            }
+	        $(objInput).parent().next().children(":first").val((count*price).toFixed(2))
+	      }
+	    }
 	
 	function staging(){
 		$("#status").val("0");
@@ -551,6 +600,11 @@
 			}
 		});
 	}
+</script>
+<script language="JScript" for="TANGER_OCX" event="ondocumentopened(File, Document)">
+  var activeDeoc=obj.ActiveDocument;
+  var pageSetup=activeDeoc.PageSetup;
+  pageSetup.TogglePortrait();
 </script>
 <body>
 <!--面包屑导航开始-->
@@ -704,14 +758,14 @@
 	       			</div>
 				 </li>
 			     <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方法人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->甲方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" name="purchaseLegal" value="${purCon.purchaseLegal}" type="text">
 			        <div class="cue">${ERR_purchaseLegal}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方委托代理人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->甲方委托代理人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" name="purchaseAgent" value="${purCon.purchaseAgent}" type="text">
 			        <div class="cue">${ERR_purchaseAgent}</div>
@@ -745,7 +799,7 @@
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方付款单位：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->甲方付款单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			         <input class=" supplier_name" name="purchasePayDep" value="${purCon.purchasePayDep}" type="text">
 			         <div class="cue">${ERR_purchasePayDep}</div>
@@ -821,14 +875,14 @@
 				    });  
 				 </script>
 			     <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方法人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->乙方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" id="supplierLegal" name="supplierLegal" type="text" value="${purCon.supplierLegal}">
 			        <div class="cue">${ERR_supplierLegal}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方委托代理人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->乙方委托代理人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" name="supplierAgent" value="${purCon.supplierAgent}" type="text">
 			        <div class="cue">${ERR_supplierAgent}</div>
@@ -954,6 +1008,7 @@
 							<th class="info">备注</th>
 						</tr>
 					</thead>
+					<tbody id="trs">
 					<c:forEach items="${requList}" var="reque" varStatus="vs">
 						<tr>
 							<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
@@ -970,6 +1025,7 @@
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" readonly="readonly" value="${reque.memo}" class=" tl"/></td>
 						</tr>
 			   		</c:forEach>
+			   		</tbody>
 				</table>
 				</form>
 				<div id="openDiv" class="dnone layui-layer-wrap">

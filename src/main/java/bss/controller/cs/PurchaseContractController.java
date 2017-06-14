@@ -20,6 +20,16 @@ import net.sf.json.JSONSerializer;
 
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpResponse;
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -28,6 +38,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import ses.controller.sys.sms.BaseSupplierController;
@@ -50,6 +61,7 @@ import ses.util.ValidateUtils;
 import bss.dao.ppms.theSubjectMapper;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
+import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -68,21 +80,8 @@ import bss.service.ppms.TaskService;
 import bss.service.ppms.theSubjectService;
 import bss.service.ppms.impl.theSubjectServiceImpl;
 import bss.service.sstps.AppraisalContractService;
-
-
-
-
-
-
-
-
-
-
-
-
-
+import bss.util.ExportExcel;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -1493,14 +1492,14 @@ public class PurchaseContractController extends BaseSupplierController{
 				model.addAttribute("ERR_bingDepName", "需求部门不能为空");
 			}
 		}*/
-        if(ValidateUtils.isNull(purCon.getPurchaseLegal())){
+       /* if(ValidateUtils.isNull(purCon.getPurchaseLegal())){
             flag = false;
             model.addAttribute("ERR_purchaseLegal", "甲方法人不能为空");
-        }
-        if(ValidateUtils.isNull(purCon.getPurchaseAgent())){
+        }*/
+       /* if(ValidateUtils.isNull(purCon.getPurchaseAgent())){
             flag = false;
             model.addAttribute("ERR_purchaseAgent", "甲方委托代理人不能为空");
-        }
+        }*/
         if(ValidateUtils.isNull(purCon.getPurchaseContact())){
             flag = false;
             model.addAttribute("ERR_purchaseContact", "甲方联系人不能为空");
@@ -1523,10 +1522,10 @@ public class PurchaseContractController extends BaseSupplierController{
             flag = false;
             model.addAttribute("ERR_purchaseUnitpostCode", "请输入正确的邮编");
         }
-        if(ValidateUtils.isNull(purCon.getPurchasePayDep())){
+       /* if(ValidateUtils.isNull(purCon.getPurchasePayDep())){
             flag = false;
             model.addAttribute("ERR_purchasePayDep", "甲方付款单位不能为空");
-        }
+        }*/
         if(ValidateUtils.isNull(purCon.getPurchaseBank())){
             flag = false;
             model.addAttribute("ERR_purchaseBank", "甲方开户银行不能为空");
@@ -1566,14 +1565,14 @@ public class PurchaseContractController extends BaseSupplierController{
                 model.addAttribute("ERR_supplierDepName", "乙方单位不能为空");
             }
         }*/
-        if(ValidateUtils.isNull(purCon.getSupplierLegal())){
+       /* if(ValidateUtils.isNull(purCon.getSupplierLegal())){
             flag = false;
             model.addAttribute("ERR_supplierLegal", "乙方法人不能为空");
-        }
-        if(ValidateUtils.isNull(purCon.getSupplierAgent())){
+        }*/
+       /* if(ValidateUtils.isNull(purCon.getSupplierAgent())){
             flag = false;
             model.addAttribute("ERR_supplierAgent", "乙方委托代理人不能为空");
-        }
+        }*/
         if(ValidateUtils.isNull(purCon.getSupplierContact())){
             flag = false;
             model.addAttribute("ERR_supplierContact", "乙方联系人不能为空");
@@ -3140,4 +3139,103 @@ public class PurchaseContractController extends BaseSupplierController{
         return "dss/rids/list/purchaseContractList";
     }
     
+    @RequestMapping("/downdetail")
+    public void downdetail(HttpServletResponse rs){
+      List<String> headers =new ArrayList<String>();
+      headers.add("序号");
+      headers.add("编号");
+      headers.add("物资名称");
+      headers.add("品牌商标");
+      headers.add("规格型号");
+      headers.add("计量单位");
+      headers.add("数量");
+      headers.add("单价(元)");
+      headers.add("合计金额(元)");
+      headers.add("交付时间");
+      headers.add("备注");
+      ExportExcel.ExpExs("合同标的模板表", null, headers, null, rs);
+    }
+    @RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
+    public void upload(MultipartFile file,HttpServletResponse response) throws Exception{
+      List<ContractRequired> list=new ArrayList<ContractRequired>();
+      ContractRequired purchaseRequired = null;
+      String fileName = file.getOriginalFilename();
+         WorkbookFactory.create(file.getInputStream());
+         Workbook workbook = WorkbookFactory.create(file.getInputStream());
+         Sheet sheet = workbook.getSheetAt(0);
+         for (Row row : sheet) {
+           if(row.getRowNum()>0){
+             purchaseRequired=new ContractRequired();
+             for (Cell cell : row) {
+               if(cell.getColumnIndex()==1){
+                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+                   purchaseRequired.setPlanNo(String.valueOf(cell.getNumericCellValue()));
+                 }else{
+                   purchaseRequired.setPlanNo(cell.getStringCellValue());
+                 }
+               }
+               if(cell.getColumnIndex()==2){
+                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+                   purchaseRequired.setGoodsName(String.valueOf(cell.getNumericCellValue()));
+                 }else{
+                   purchaseRequired.setGoodsName(cell.getStringCellValue());
+                 }
+               }
+               if(cell.getColumnIndex()==3){
+                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+                   purchaseRequired.setBrand(String.valueOf(cell.getNumericCellValue()));
+                 }else{
+                   purchaseRequired.setBrand(cell.getStringCellValue());
+                 }
+               }
+               if(cell.getColumnIndex()==4){
+                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+                   purchaseRequired.setStand(String.valueOf(cell.getNumericCellValue()));
+                 }else{
+                   purchaseRequired.setStand(cell.getStringCellValue());
+                 }
+               }
+               if(cell.getColumnIndex()==5){
+                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+                   purchaseRequired.setItem(String.valueOf(cell.getNumericCellValue()));
+                 }else{
+                   purchaseRequired.setItem(cell.getStringCellValue());
+                 }
+               }
+               if(cell.getColumnIndex()==6){
+                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+                   purchaseRequired.setPurchaseCount(new BigDecimal(String.valueOf(cell.getNumericCellValue())));
+                 }
+               }
+               if(cell.getColumnIndex()==7){
+                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+                   purchaseRequired.setPrice(new BigDecimal(String.valueOf(cell.getNumericCellValue())));
+                 }
+               }
+               if(cell.getColumnIndex()==8){
+                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+                   purchaseRequired.setAmount(new BigDecimal(String.valueOf(cell.getNumericCellValue())));
+                 }
+               }
+               if(cell.getColumnIndex()==8){
+                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+                   purchaseRequired.setDeliverDate(String.valueOf(cell.getNumericCellValue()));
+                 }else{
+                   purchaseRequired.setDeliverDate(cell.getStringCellValue());
+                 }
+               }
+               if(cell.getColumnIndex()==8){
+                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+                   purchaseRequired.setMemo(String.valueOf(cell.getNumericCellValue()));
+                 }else{
+                   purchaseRequired.setMemo(cell.getStringCellValue());
+                 }
+               }
+             }
+             list.add(purchaseRequired);
+           }
+         }
+         super.writeJson(response,list);
+      
+    }
 }
