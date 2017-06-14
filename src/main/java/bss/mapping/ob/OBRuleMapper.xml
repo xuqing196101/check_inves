@@ -392,9 +392,9 @@
     <if test="name != null and name !=''" >
       AND name like CONCAT(CONCAT('%', #{name}), '%')
     </if>
-    <if test="quoteTime != null and quoteTime !=''">
-	  AND QUOTE_TIME = #{quoteTime}
-	</if>
+    <if test="quoteTime != null and quoteTime !='' or quoteTime == 0">
+	  	AND QUOTE_TIME = #{quoteTime}
+		</if>
 	<if test="intervalWorkday != null">
 	  AND INTERVAL_WORKDAY = #{intervalWorkday}
 	</if>
