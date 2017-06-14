@@ -529,7 +529,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("provinceName", addressCond);
         model.addAttribute("businessNature", businessNatureCond);
         model.addAttribute("orgId", orgIdCond);
-        model.addAttribute("supplierTypeIds", supplierTypeIdsCond);
+        model.addAttribute("supplierTypeIdsCon", supplierTypeIdsCond);
         
        /* model.addAttribute("person", person);*/
         
@@ -601,7 +601,7 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("businessNature", businessNatureCond);
         request.setAttribute("orgId", orgIdCond);
         request.setAttribute("reqType", reqType);
-        request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
+        request.setAttribute("supplierTypeIdsCon", supplierTypeIdsCond);
         return "ses/sms/supplier_query/supplierInfo/financial";
     }
     
@@ -651,7 +651,7 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("provinceName", addressCond);
         request.setAttribute("businessNature", businessNatureCond);
         request.setAttribute("orgId", orgIdCond);
-        request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
+        request.setAttribute("supplierTypeIdsCon", supplierTypeIdsCond);
         request.setAttribute("reqType", reqType);
         return "ses/sms/supplier_query/supplierInfo/shareholder";
     }
@@ -780,7 +780,7 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("provinceName", addressCond);
         request.setAttribute("businessNature", businessNatureCond);
         request.setAttribute("orgId", orgIdCond);
-        request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
+        request.setAttribute("supplierTypeIdsCon", supplierTypeIdsCond);
         request.setAttribute("reqType", reqType);
         return "ses/sms/supplier_query/supplierInfo/item";
     }
@@ -1055,7 +1055,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("provinceName", addressCond);
         model.addAttribute("businessNature", businessNatureCond);
         model.addAttribute("orgId", orgIdCond);
-        model.addAttribute("supplierTypeIds", supplierTypeIdsCond);
+        model.addAttribute("supplierTypeIdsCon", supplierTypeIdsCond);
         model.addAttribute("reqType", reqType);
 		
        return "ses/sms/supplier_query/supplierInfo/aptitude";
@@ -1617,7 +1617,7 @@ public class SupplierQueryController extends BaseSupplierController {
     	String businessNatureCond = supplierQuery.getBusinessNature();
     	String orgIdCond = supplierQuery.getOrgId();
     	// 所属类别
-    	//String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();
+    	String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();
     	
     	// 查询条件结束
 		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
@@ -1651,6 +1651,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("provinceName", addressCond);
         model.addAttribute("businessNature", businessNatureCond);
         model.addAttribute("orgId", orgIdCond);
+        model.addAttribute("supplierTypeIdsCon", supplierTypeIdsCond);
 		return "ses/sms/supplier_query/supplierInfo/contract";
 	}
     
@@ -1976,7 +1977,7 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("provinceName", addressCond);
         request.setAttribute("businessNature", businessNatureCond);
         request.setAttribute("orgId", orgIdCond);
-        request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
+        request.setAttribute("supplierTypeIdsCon", supplierTypeIdsCond);
         request.setAttribute("reqType", reqType);
    		return "ses/sms/supplier_query/supplierInfo/supplierType";
    	}
