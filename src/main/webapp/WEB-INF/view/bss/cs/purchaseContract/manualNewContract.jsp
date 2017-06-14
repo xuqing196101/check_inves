@@ -15,22 +15,20 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
   </head>
-  
+    <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
   	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
   	<script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
-<link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
+		<link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
+		<link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
+    
     <script type="text/javascript">
     var treeid = null , nodeName=null;
 	var datas;
 	 $(document).ready(function(){  
 		 
-		 var obj = document.getElementById("TANGER_OCX");
-			var st = $("#ope").val();
-			if(st == 'view'){
-				obj.SetReadOnly(true);
-		 }
+		
 		 	
           $.fn.zTree.init($("#treeDemo"),setting,datas);
 	      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
@@ -160,20 +158,29 @@
 			}
 		return childNodes;
 	 } 
-	 
+	 var obj="";
 	 function OpenFile(filePath) {
-			var obj = document.getElementById("TANGER_OCX");
+			obj = document.getElementById("TANGER_OCX");
 			var projectId = $("#contractId").val();
 			obj.Menubar = true;
-			obj.Caption = "( 双击可放大 ! )"
+			obj.Caption = "( 双击可放大 ! )";
+		 /*  var pgSetup = obj.ActiveDocument.PageSetup;//获得pagesetup对象
+		  pgSetup.TogglePortrait();//横纵设置 */
 			if(filePath != 0){
 				obj.BeginOpenFromURL("${pageContext.request.contextPath}"
 				+"/purchaseContract/loadFile.html?filePath="+filePath+"&id="+projectId,true,false, 'word.document');// 异步加载, 服务器文件路径
 			} 
+			   
 			//obj.OpenFromURL("http://localhost:8080/zhbj/contract/"+fileId);
 		}
-		
-		
+	 //BeginOpenFromURL成功回调
+	 function OnComplete(type,code,html)
+	 {
+		 var doc=obj.ActiveDocument;
+		 var pageSetup=doc.PageSetup;
+		 pageSetup.TogglePortrait();
+	 }
+	
 		function exportWord() {
 			var obj = document.getElementById("TANGER_OCX");
 			// 参数说明
@@ -441,7 +448,7 @@
 	
 	var index;
 	function openDetail(){
-	  index =  layer.open({
+	  /* index =  layer.open({
 	    shift: 1, //0-6的动画形式，-1不开启
 	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
 	    title: ['新增标的','border-bottom:1px solid #e5e5e5'],
@@ -450,9 +457,57 @@
 		area : [ '55%', '400px' ], //宽高
 		content : $('#openDiv'),
 		offset: ['5%', '20%']
-	  });
+	  }); */
+	  
+	  var trs=$('#trs').children();
+	  if(trs.length==0){
+		  html=htmlText(1);
+		  $('#trs').append(html);
+	   }else{
+		   var tr=trs[trs.length-1];
+		   var index=parseInt($($(tr).children()[1]).text());
+		   html=htmlText(index+1);
+		   $(tr).after(html);
+	   }
     }
-	
+	function htmlText(index){
+		var html="";
+			  html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
+        html += "<td class='tc w50'>"+index+"</td>";
+        html += "<td class='tc w50'><input type='text' name='proList["+index+"].planNo'  value='' class='w50'/></td>";
+        html += "<td class='tc'><input type='text' name='proList["+index+"].goodsName'  value=''/></td>";
+        html += "<td class='tc'><input type='text' name='proList["+index+"].brand'  value=''/></td>"
+        html += "<td class='tc'><input type='text' name='proList["+index+"].stand'  value='' class='w60'/></td>"
+        html += "<td class='tc w80'><input type='text' name='proList["+index+"].item'  value='' class='w50'/></td>"
+        html += "<td class='tc'><input type='text' name='proList["+index+"].purchaseCount' onchange='change(this,\"1\")'  value='' class='w50'/></td>"
+        html += "<td class='tc'><input type='text' name='proList["+index+"].price' onchange='change(this,\"2\")'   value='' class='w50'/></td>"
+        html += "<td class='tc'><input type='text' name='proList["+index+"].amount' readonly='readonly' value='' class='w50'/></td>"
+        html += "<td class='tc'><input type='text' name='proList["+index+"].deliverDate'  value='' class='w100'/></td>"
+        html += "<td class='tc'><input type='text' name='proList["+index+"].memo'  value=''/></td>"
+        html += "<td class='tnone'></td>";
+        return html;
+	}
+	function change(objInput,index){
+		var count=0;
+		var price=0;
+		if(index=='1'){
+			if($(objInput).val()!=""){
+				count=parseFloat($(objInput).val());
+			}
+			if($(objInput).parent().next().children(":first").val()!=""){
+				price=parseFloat($(objInput).parent().next().children(":first").val());
+			}
+			$(objInput).parent().next().next().children(":first").val((count*price).toFixed(2))
+		}else{
+			if($(objInput).val()!=""){
+				 price=parseFloat($(objInput).val());
+		    }
+			if($(objInput).parent().prev().children(":first").val()!=""){
+		        count=parseFloat($(objInput).parent().prev().children(":first").val());
+		      }
+			$(objInput).parent().next().children(":first").val((count*price).toFixed(2))
+		}
+	}
 	function staging(){
 		/* var text = $("#post_attach_show_disFileId").find("a");
 		var flag = true;
@@ -581,7 +636,42 @@
 			}
 		});
 	}
+	function down(){
+		window.location.href="${pageContext.request.contextPath}/purchaseContract/downdetail.do";
+	}
+	var indexs;
+    function uploadExcel() {
+      indexs = layer.open({
+        type: 1, //page层
+        area: ['400px', '300px'],
+        title: '导入标的',
+        closeBtn: 1,
+        shade: 0.01, //遮罩透明度
+        moveType: 1, //拖拽风格，0是默认，1是传统拖动
+        shift: 1, //0-6的动画形式，-1不开启
+        offset: ['80px', '400px'],
+        content: $('#file_div'),
+      });
+    }
+    function fileup(){
+         $.ajaxFileUpload ({
+             url: "${pageContext.request.contextPath}/purchaseContract/upload.do",  
+             secureuri: false,  
+             fileElementId: 'fileName', 
+             dataType: 'json',
+             success: function (data) { 
+             	alert(JSON.stringify(data))
+             }
+         })
+    }
 </script>
+<!-- ie中的回调 -->
+<script language="JScript" for="TANGER_OCX" event="ondocumentopened(File, Document)">
+	var activeDeoc=obj.ActiveDocument;
+	var pageSetup=activeDeoc.PageSetup;
+	pageSetup.TogglePortrait();
+</script>
+
 <body>
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -745,14 +835,14 @@
 			        </div> --%>
 				 </li>
 			     <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方法人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">甲方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" id="purchaseLegal" name="purchaseLegal" value="${project.purchaseDep.legal}" type="text">
 			        <div class="cue">${ERR_purchaseLegal}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方委托代理人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">甲方委托代理人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" id="purchaseAgent" name="purchaseAgent" value="${project.purchaseDep.agent}" type="text">
 			        <div class="cue">${ERR_purchaseAgent}</div>
@@ -786,7 +876,7 @@
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方付款单位：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">甲方付款单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			         <input class=" supplier_name" id="purchasePayDep" name="purchasePayDep" value="${project.purchaseDep.payDep}" type="text">
 			         <div class="cue">${ERR_purchasePayDep}</div>
@@ -857,14 +947,14 @@
 				    });  
 				 </script>
 			     <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方法人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">乙方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" id="supplierLegal" name="supplierLegal" type="text" value="${project.dealSupplier.legalName}">
 			        <div class="cue">${ERR_supplierLegal}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方委托代理人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">乙方委托代理人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" name="supplierAgent" value="" type="text">
 			        <div class="cue">${ERR_supplierAgent}</div>
@@ -967,6 +1057,8 @@
 				<div class="col-md-12 col-xs-12 col-sm-12 p0">
 					<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 					<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
+					<input type="button" class="btn btn-windows input" onclick="down()" value="下载模板"/>
+					<input type="button" class="btn btn-windows input" onclick="uploadExcel()" value="导入"/>
 				</div>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
 			    	<table id="detailtable" name="proList" class="table table_input table-bordered table-condensed left_table mb0 mt10 ">
@@ -986,6 +1078,7 @@
 							<th class="info">备注</th>
 						</tr>
 					</thead>
+					<tbody id="trs">
 					<c:forEach items="${requList}" var="reque" varStatus="vs">
 						<tr>
 							<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
@@ -1002,6 +1095,7 @@
 							<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" readonly="readonly" value="${reque.memo}" class="tl pl20"/></td>
 						</tr>
 			   		</c:forEach>
+			   		</tbody>
 				</table>
 				</form>
 				<div id="openDiv" class="dnone layui-layer-wrap">
@@ -1036,7 +1130,6 @@
 	                   <input id="givetime" name="deliverDate" value="" type="text" class="col-md-12 p0">
 	                   <div class="cue" id="jfsj"></div>
 	                   </div>
-	                  </span>
 		            </li>
 				    <li class="col-md-6">
 		    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>品牌商标</label>
@@ -1158,6 +1251,13 @@
 				</li>
 			</ul>
 <!-- 页签结束 -->
-
+<div  class=" clear margin-top-30" id="file_div"  style="display:none;" >
+   <div class="col-md-12 col-sm-12 col-xs-12">
+      <input type="file" id="fileName" class="input_group" name="file" >
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
+       <input type="button" class="btn input" onclick="fileup()"   value="导入" />
+     </div>
+    </div>
 </body>
 </html>

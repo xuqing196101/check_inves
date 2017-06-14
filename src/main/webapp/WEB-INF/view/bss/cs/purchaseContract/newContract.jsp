@@ -725,14 +725,14 @@
 			        </div> --%>
 				 </li>
 			     <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方法人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->甲方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" id="purchaseLegal" name="purchaseLegal" value="${project.purchaseDep.legal}" type="text">
 			        <div class="cue">${ERR_purchaseLegal}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方委托代理人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->甲方委托代理人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" id="purchaseAgent" name="purchaseAgent" value="${project.purchaseDep.agent}" type="text">
 			        <div class="cue">${ERR_purchaseAgent}</div>
@@ -766,7 +766,7 @@
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方付款单位：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->甲方付款单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			         <input class=" supplier_name" id="purchasePayDep" name="purchasePayDep" value="${project.purchaseDep.payDep}" type="text">
 			         <div class="cue">${ERR_purchasePayDep}</div>
@@ -802,14 +802,14 @@
 				 </li> 
 				 
 			     <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方法人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->乙方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" id="supplierLegal" name="supplierLegal" type="text" value="${project.dealSupplier.legalName}">
 			        <div class="cue">${ERR_supplierLegal}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方委托代理人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->乙方委托代理人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" name="supplierAgent" value="" type="text">
 			        <div class="cue">${ERR_supplierAgent}</div>
