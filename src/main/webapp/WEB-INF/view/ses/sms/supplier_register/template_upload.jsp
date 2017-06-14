@@ -177,6 +177,7 @@
 									   	     	<div class="w200 fl">
 									   	     		<c:choose>
 									   	     			<c:when test="${!fn:contains(audit,'supplierRegList') && currSupplier.status==2}">
+											   		 			<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
 											   		 			<u:show showId="promise_show" delete="false" groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />
 									   	     			</c:when>
 									   	     			<c:otherwise>
