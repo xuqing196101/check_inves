@@ -2298,7 +2298,7 @@
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb20">
 									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" maxlength="1000"  
 										onkeyup="checkCharLimit('description','limit_char_description',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" 
-										placeholder="包括供应商的基本情况、组织机构设置、人员情况以及产品信息等内容，字数请控制在500字以内。" 
+										placeholder="包括供应商的基本情况、组织机构设置、人员情况以及产品信息等内容，字数请控制在1000字以内。" 
 										name="description" id="description"
 										<c:if test="${!fn:contains(audit,'description')&&currSupplier.status==2}">readonly='readonly' </c:if>
 										<c:if test="${fn:contains(audit,'description')}">style="border: 1px solid red;" onmouseover="errorMsg('description')"</c:if>>${currSupplier.description}</textarea>
