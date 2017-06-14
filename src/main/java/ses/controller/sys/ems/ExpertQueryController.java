@@ -193,6 +193,15 @@ public class ExpertQueryController {
 	  			exp.setExpertsFrom(expertsFrom.getName());
 	  		}
         }
+        // 查询数据字典中的专家类别数据
+        List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
+        for(DictionaryData data: jsTypeList) {
+            data.setName(data.getName() + "技术");
+        }
+        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
+
+        jsTypeList.addAll(jjTypeList);
+        model.addAttribute("expTypeList", jsTypeList);
         // 专家类型
         List < DictionaryData > expertFromList = DictionaryDataUtil.find(12);
         model.addAttribute("expertFromList", expertFromList);

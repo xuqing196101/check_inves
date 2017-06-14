@@ -109,6 +109,18 @@
        <li>
           <label class="fl">采购机构：</label><span><input class="w220" type="text" id="orgName" name="orgName" value="${expert.orgName }"></span>
         </li>
+        <!-- 专家类别查询 -->
+        <li>
+          <label class="fl">专家类别：</label>
+          <span class="fl">
+            <select name="expertsTypeId" id="expertsTypeId" class="w220">
+              <option selected="selected"  value=''>全部</option>
+              <c:forEach items="${expTypeList}" var="exp">
+                <option <c:if test="${expert.expertsTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
+              </c:forEach>          
+            </select>
+          </span>
+        </li>
       </ul>
       <div class="col-md-12 clear tc mt10">
         <input class="btn mt1"  value="查询" type="submit">
