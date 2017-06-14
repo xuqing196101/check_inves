@@ -304,18 +304,6 @@ public class SupplierController extends BaseSupplierController {
 						}
 					}
 				});
-				
-				Object loginUser = request.getSession().getAttribute("loginUser");
-				Object loginUserType = request.getSession().getAttribute("loginUserType");
-				//System.out.println(loginUser);
-				//System.out.println(loginUserType);
-				if(null == loginUser
-						|| null == loginUserType
-						|| !"supplier".equals(loginUserType.toString())){
-					// 提示登录
-					alertLogin();
-				}
-				
 				supplier.setListSupplierFinances(list);
 				initCompanyType(model, supplier);
 				return "ses/sms/supplier_register/basic_info";
@@ -403,6 +391,18 @@ public class SupplierController extends BaseSupplierController {
 				addressList.add(address);
 				sup.setAddressList(addressList);
 			}
+			
+			Object loginUser = request.getSession().getAttribute("loginUser");
+			Object loginUserType = request.getSession().getAttribute("loginUserType");
+			//System.out.println(loginUser);
+			//System.out.println(loginUserType);
+			if(null == loginUser
+					|| null == loginUserType
+					|| !"supplier".equals(loginUserType.toString())){
+				// 提示登录
+				alertLogin();
+			}
+			
 			initCompanyType(model, sup);
 			return "ses/sms/supplier_register/basic_info";
 		}
@@ -712,7 +712,7 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @param model
 	 * @param: @return
 	 * @return: String
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "perfect_basic")
 	public String perfectBasic(HttpServletRequest request, Model model, Supplier supplier) throws Exception {
@@ -2238,9 +2238,9 @@ public class SupplierController extends BaseSupplierController {
 	    
         String user = (String) request.getSession().getAttribute("loginName");
         
-        response.setContentType("textml;charset=utf-8");
         if(user==null){
-            String path = request.getContextPath();
+        	alertLogin();
+            /*String path = request.getContextPath();
             String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
             PrintWriter out = response.getWriter();
             StringBuilder builder = new StringBuilder();
@@ -2261,7 +2261,7 @@ public class SupplierController extends BaseSupplierController {
             builder.append("<BODY><div style='width:1000px; height: 1000px;'></div></BODY></HTML>");
             out.print(builder.toString());
             out.flush();  
-            out.close(); 
+            out.close(); */
         }
      
         if(null != user && !user.equals(name)){
