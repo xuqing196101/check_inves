@@ -185,7 +185,7 @@ function resetQuery() {
 				<td class="tc">
 				<c:set var="nowDate" value="<%=System.currentTimeMillis()%>"></c:set>
 					<c:choose>  
-         	 			<c:when test="${nowDate-supplier.certValidPeriod.getTime() > 0}">过期</c:when>  
+         	 			<c:when test="${nowDate-supplier.certValidPeriod.getTime() > 0}">已过期</c:when>  
           				<c:when test="${nowDate-supplier.certValidPeriod.getTime() < 0}">未过期</c:when>  
           			</c:choose> 
 				</td>
