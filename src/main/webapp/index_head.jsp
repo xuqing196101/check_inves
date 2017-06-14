@@ -15,7 +15,27 @@
 <%@ include file="/WEB-INF/view/portal.jsp" %>
 <script type="text/javascript"> 
   		$(function(){
-  		   
+  		    /* 导航延迟两秒 */
+  		    var _width=$(window).width();
+  		    if(_width>972){
+  		        var id;
+			    var _self;	    
+			    $(".dropdown").each(function(){
+			    	$(this).hover(function(){
+			    		 _self = this;
+						id = setTimeout(function(){
+		                   $(_self).find(".drop_next").show();
+						},200);	    		
+					},function(){
+						if(id){
+						clearTimeout(id);
+						}
+		               $(_self).find(".drop_next").hide();		
+					});
+			    })
+  		    }
+  		    
+  		    
 		   $("#close").click(function(){
 		   		$(".prompt_tips").hide();
 		   });
@@ -72,8 +92,7 @@ function importAdd(){
 	}
 	window.location.href="${pageContext.request.contextPath}/importSupplier/register.html";
 }
-          
-
+         
 </script>
 </head>
 <body>
