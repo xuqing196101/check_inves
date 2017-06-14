@@ -346,6 +346,7 @@
                 break;
             case 0:
                 console.info(JSON.stringify($("#formExpert").serializeArray()))
+                layer.msg("已暂存");
                 return
                 $.ajax({
                     url: "${pageContext.request.contextPath}/expert/zanCun.do",
@@ -356,6 +357,7 @@
                         $("#id").val(result.id);
                     }
                 });
+                
                 break;
             default:
 
