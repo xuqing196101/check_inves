@@ -103,6 +103,15 @@ a:hover {
 .purchase .btn-buy a i {
 	margin-right: 5px;
 }
+.step_flow{
+	margin: 15px auto 10px auto;
+	text-align: center;
+} 
+.step_flow .new_step{
+	display: inline-block;
+	float: none;
+	text-align: left;
+}
 
 @media (max-width: 992px) {
 	.purchase {
@@ -1783,27 +1792,32 @@ img.img-mouse {
 	.new_step.current .line{
            border:1px solid #ff9000;
        }
+    .new_step.current span{
+    		color:#ff9000;
+    }
 	.line{
            border:1px dashed #b2b2b2;
            width:100%;
            margin-top:8px;
-           margin-left:5px;
+           margin-left:7px;
        }
       span.step_desc_01{
           font-size:12px;
           font-weight:500;
           position:absolute;
-          left: -20px;
+          left: -14px;
           top: 26px;
-	   line-height:14px;
+	   	  line-height:11px;
+	   	  min-width:60px;
        }
      span.step_desc_02{
          font-size:12px;
          font-weight:500;
          position:absolute;
-         left: -20px;
-         top: -35px;
-	  	 line-height:14px;
+         left: -14px;
+         top: -28px;
+	  	 line-height:11px;
+	   	 min-width:60px;
       }
      .login_box h2 li a{
 		 font-size:14px;
@@ -1814,10 +1828,11 @@ img.img-mouse {
 	  }
 
  }
+ 
    @media only screen and (min-width: 640px) and (max-width: 767px) {
 	   	 .new_step {
 			    position: relative;
-			    width: 14%;
+			    width: 11%;
 		}
 		.step_flow{
 				padding:15px;
@@ -1841,7 +1856,7 @@ img.img-mouse {
             border:1px dashed #b2b2b2;
             width:100%;
             margin-top:10px;
-            margin-left:5px;
+            margin-left:7px;
         }
        span.step_desc_01{
             font-size:13px;
@@ -1884,7 +1899,7 @@ img.img-mouse {
             border:1px dashed #b2b2b2;
             width:100%;
             margin-top:12px;
-            margin-left:5px;
+            margin-left:7px;
         }
         .step_flow .new_step.new_step_last span{
 			width:auto;
@@ -1981,7 +1996,7 @@ img.img-mouse {
             border:1px dashed #b2b2b2;
             width:100%;
             margin-top:13px;
-            margin-left:5px;
+            margin-left:7px;
         }
        span.step_desc_01{
             font-size:16px;
@@ -1999,12 +2014,12 @@ img.img-mouse {
             top: -32px;
 			line-height:22px;
         }
-	.step_flow .new_step.new_step_last{
-	  width:auto;
-	}
-	.step_flow .new_step.new_step_last span{
-	  min-width:80px;
-	}
+		.step_flow .new_step.new_step_last{
+		  width:auto;
+		}
+		.step_flow .new_step.new_step_last span{
+		  min-width:80px;
+		}
     }
      .new_step.current i{
             background:#ff9000;
@@ -2022,7 +2037,7 @@ img.img-mouse {
             border:1px dashed #b2b2b2;
             width:100%;
             margin-top:14px;
-            margin-left:5px;
+            margin-left:7px;
         }
        span.step_desc_01{
             font-size:16px;
