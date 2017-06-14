@@ -502,10 +502,6 @@
 		filter: none !important;
 	}
 
-	.header-v4 .navbar-nav > li.dropdown:hover > .dropdown-menu {
-		display: block;
-	}
-
 	.header-v4 .open > .dropdown-menu {
 		display: none;
 	}
@@ -579,9 +575,6 @@
 	left: -100%;
 }
 
-.header-v4 .dropdown-submenu:hover > .dropdown-menu {
-   	display: block;
-}
 
 @media (max-width: 991px) {
 	.header-v4 .dropdown-submenu > .dropdown-menu {

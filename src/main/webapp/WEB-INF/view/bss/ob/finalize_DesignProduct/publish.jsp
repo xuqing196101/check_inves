@@ -145,15 +145,27 @@
 		var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
 		if(code == null || code == ""){
 			$("#pcode").html("产品代码不能为空");
+			return;
 		}
 		if(name == null || name == ""){
 			$("#pname").html("产品名称不能为空");
+			return;
 		}
 		if(procurementId == null || procurementId == ""){
 			$("#ppro").html("采购机构不能为空");
+			return;
 		}
 		if(category == null || category == ""){
 			$("#pcategory").html("产品目录不能为空");
+			return;
+		}
+		if(standardModel.length > 1000){
+			$("#errStandardModel").html("不能超过1000个字");
+			return;
+		}
+		if(qualityTechnicalStandard.length > 1000){
+			$("#errQualityTechnicalStandard").html("不能超过1000个字");
+			return;
 		}
 		if(code != null && name != null && procurementId != null && code != "" && name != "" && procurementId != "" && category != null && category != ""){
 			$.ajax({
@@ -319,7 +331,7 @@
 									<textarea id="standardModel" name="" class="w100p"
 										style="height: 130px">${obProduct.standardModel }</textarea>
 								</div>
-								<div class="star_red">${error_standardModel }</div>
+								<div class="star_red" id = "errStandardModel">${error_standardModel }</div>
 							</td>
 						</tr>
 						<tr>
@@ -329,7 +341,7 @@
 									<textarea id="qualityTechnicalStandard" name="" class="w100p"
 										style="height: 130px">${obProduct.qualityTechnicalStandard }</textarea>
 								</div>
-								<div class="star_red">${error_quality }</div>
+								<div class="star_red" id = "errQualityTechnicalStandard">${error_quality }</div>
 							</td>
 						</tr>
 					</tbody>

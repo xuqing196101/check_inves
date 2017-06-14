@@ -199,6 +199,14 @@ $(document).ready(function(){
 			var categoryLevel = $("#categoryLevel").val();
 			var standardModel = $("#standardModel").val();
 			var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
+			if(standardModel.length > 1000){
+				$("#errStandardModel").html("不能超过1000个字");
+				return;
+			}
+			if(qualityTechnicalStandard.length > 1000){
+				$("#errQualityTechnicalStandard").html("不能超过1000个字");
+				return;
+			}
 			$.ajax({
 				url: "${pageContext.request.contextPath }/product/edit.do",
 				type: "post",
@@ -298,7 +306,7 @@ $(document).ready(function(){
 									<textarea id="standardModel" name=""
 										class="col-md-12 col-sm-12 col-xs-12" style="height: 130px">${obProduct.standardModel }</textarea>
 								</div>
-								<div class="star_red">${error_standardModel }</div>
+								<div class="star_red" id = "errStandardModel">${error_standardModel }</div>
 							</td>
 						</tr>
 						<tr>
@@ -308,7 +316,7 @@ $(document).ready(function(){
 									<textarea id="qualityTechnicalStandard" name=""
 										class="col-md-12 col-sm-12 col-xs-12" style="height: 130px">${obProduct.qualityTechnicalStandard }</textarea>
 								</div>
-								<div class="star_red">${error_quality }</div>
+								<div class="star_red" id="errQualityTechnicalStandard">${error_quality }</div>
 							</td>
 						</tr>
 					</tbody>

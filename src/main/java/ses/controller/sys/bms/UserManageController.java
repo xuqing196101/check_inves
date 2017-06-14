@@ -205,6 +205,9 @@ public class UserManageController extends BaseController{
   		String orgId = request.getParameter("org_orgId");
   		String deptTypeName = request.getParameter("deptTypeName");
   		String typeName = request.getParameter("typeName");
+  	//解密 密码
+    	user.setPassword(RSAEncrypt.decryptPrivate(user.getPassword()));
+    	user.setPassword2(RSAEncrypt.decryptPrivate(user.getPassword2()));
 	    if(result.hasErrors()){
 	      List<DictionaryData> genders = DictionaryDataUtil.find(13);
 //	    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
@@ -273,8 +276,7 @@ public class UserManageController extends BaseController{
           
           return "ses/bms/user/add";
   		}*/
-  		//解密 密码
-  	user.setPassword(RSAEncrypt.decryptPrivate(user.getPassword()));
+  		
 		//校验密码是否满足6位
   	if(user.getPassword().length()<6){
   		model.addAttribute("user", user);
@@ -290,8 +292,7 @@ public class UserManageController extends BaseController{
 			
 			return "ses/bms/user/add";
   	}
-  //解密 密码
-  	user.setPassword2(RSAEncrypt.decryptPrivate(user.getPassword2()));
+  	
   //校验确认密码
 		if (!user.getPassword().equals(user.getPassword2())){
 			model.addAttribute("user", user);

@@ -7,7 +7,7 @@
 	<head>
 		<%@ include file="../../../../common.jsp"%>
 		<%@ include file="/WEB-INF/view/ses/sms/supplier_query/supplierInfo/common.jsp"%>
-		<script type="text/javascript" src="${ pageContext.request.contextPath }/js/ses/ems/expertQuery/common.js"/>
+		<script type="text/javascript" src="${ pageContext.request.contextPath }/js/ses/ems/expertQuery/common.js"></script>
 		<style type="text/css">
 
 		</style>

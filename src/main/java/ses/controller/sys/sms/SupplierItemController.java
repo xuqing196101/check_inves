@@ -537,7 +537,23 @@ public class SupplierItemController extends BaseController {
 			// 实际上传数量
 			List < UploadFile > filesList;
 			boolean isOk = true;
+			String errContractFiles = "";
 			for(SupplierItem item: itemsList) {
+				String supplierType = item.getSupplierTypeRelateId();
+				switch (supplierType) {
+				case "PRODUCT":
+					errContractFiles = "还有物资生产合同附件未上传!";
+					break;
+				case "SALES":
+					errContractFiles = "还有物资销售合同附件未上传!";
+					break;
+				case "SERVICE":
+					errContractFiles = "还有服务合同附件未上传!";
+					break;
+				default:
+					errContractFiles = "还有合同附件未上传!";
+					break;
+				}
 				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_ONE_YEAR"), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
@@ -570,7 +586,8 @@ public class SupplierItemController extends BaseController {
 				}
 			}
 			if(!isOk) {
-				model.addAttribute("err_contract_files", "还有附件未上传!");
+				//model.addAttribute("err_contract_files", "还有附件未上传!");
+				model.addAttribute("err_contract_files", errContractFiles);
 				model.addAttribute("supplierTypeIds", supplierTypeIds);
 				model.addAttribute("supplierId", supplierId);
 				return "ses/sms/supplier_register/contract";
