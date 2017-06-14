@@ -1617,7 +1617,7 @@ public class SupplierQueryController extends BaseSupplierController {
     	String businessNatureCond = supplierQuery.getBusinessNature();
     	String orgIdCond = supplierQuery.getOrgId();
     	// 所属类别
-    	String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();
+    	/*String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();*/
     	
     	// 查询条件结束
 		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
@@ -1650,7 +1650,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("reqType", reqType);
         model.addAttribute("provinceName", addressCond);
         model.addAttribute("businessNature", businessNatureCond);
-        model.addAttribute("supplierTypeIds", supplierTypeIdsCond);
+        /*model.addAttribute("supplierTypeIds", supplierTypeIdsCond);*/
         model.addAttribute("orgId", orgIdCond);
 		return "ses/sms/supplier_query/supplierInfo/contract";
 	}
