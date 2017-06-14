@@ -38,7 +38,7 @@
 					}
 				});
 			}
-			
+
 			// 无提示暂存
 			function tempSave() {
 				$("input[name='flag']").val("file");
@@ -95,11 +95,11 @@
 							}else{
 								layer.alert("请完善工程资质证书信息！");
 							}
-							
+
 					 	}
 					}
 				});
-			
+
 			}
 
 			function prev() {
@@ -109,14 +109,14 @@
 			}
 
 			/*获取内层div的最大高度赋予外层div*/
-			function psize() {
-				var temp_heights = []
-				$(".fades").each(function() {
-					temp_heights.push($(this).outerHeight());
-				})
-				$("#tab_content_div_id").outerHeight(Math.max.apply(null, temp_heights));
-			}
-			
+			// function psize() {
+			// 	var temp_heights = []
+			// 	$(".fades").each(function() {
+			// 		temp_heights.push($(this).outerHeight());
+			// 	})
+			// 	$("#tab_content_div_id").outerHeight(Math.max.apply(null, temp_heights));
+			// }
+
 			//显示不通过的理由
 			function errorMsg(auditField, auditType){
 				var supplierId = "${currSupplier.id}";
@@ -129,7 +129,7 @@
 					}
 				});
 			}
-			
+
 			// 根据证书编号获取附件信息
 			function getFileByCode(obj, number, flag){
 				var supplierId = $("#supplierId").val();
@@ -140,11 +140,11 @@
 					// 清空等级和附件
 					$(obj).parent().next().find("input[type='text']").val("");
 					$(obj).parent().next().next().find("input[type='text']").val("");
-					 
+
 					$(obj).parent().next().next().next().find("input[type='text']").val("");
 				    $(obj).parent().next().next().next().find("input[type='hidden']").val("");
-				    
-					 
+
+
 					$(obj).parent().next().next().next().next().html("");
 					professType=$(obj).parent().next().next().children().val();
 				} else if(flag=="2"){
@@ -156,7 +156,7 @@
 					//清空资质等级
 					$(obj).parent().next().next().find("input[type='text']").val("");
 				    $(obj).parent().next().next().find("input[type='hidden']").val("");
-					
+
 					$.ajax({
 						url : "${pageContext.request.contextPath}/supplier/getProType.do",
 						type:"post",
@@ -184,7 +184,7 @@
 					certCode = $(obj).parent().prev().children().val();
 					professType=$(obj).val();
 				}
-			
+
 				var typeId = "";
 				if (flag == "1") {
 					typeId = $(obj).val();
@@ -260,9 +260,9 @@
 							}
 						});
 				return flag;
-				
+
 			}
-			
+
 			// 控制其它等级的显示和影藏
 			function disLevel(obj){
 				if ($(obj).val() == "其它") {
@@ -285,7 +285,7 @@
 					layer.alert("没有需要上传的资质文件，请直接点击下一步！");
 				}
 			});
-			
+
 				sessionStorage.locationD=true;
 				sessionStorage.index=4;
 		</script>
@@ -468,17 +468,17 @@
 										        			<option value="${type.id}" <c:if test="${cate.qualificationType eq type.id}">selected</c:if>>${type.name}</option>
 										        		</c:forEach>
 										        	</select>
-										        	
+
 										        </td>
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode"  value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
-										     
+
 										    	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 											    	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType" onchange="getFileByCode(this, '${vs.index}', '3')">
 									        		<option value="${cate.proName}" selected="selected">${cate.proName}</option>
 									        	</select>
 <%-- 										    	<input type="text" class="border0" name="listSupplierItems[${vs.index}].professType" value="${cate.proName}" onblur="getFileByCode(this, '${vs.index}', '3')">
  --%>										  </td>
-										      
+
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" id ="listSupplierItems${vs.index}" value="${cate.level.id}" class="w80">
 										     		<input type="text" readonly="readonly"  class="border0" value="${cate.level.name}" onload="getFileByCode(this, '${vs.index}', '3')">
@@ -555,7 +555,7 @@
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next()">下一步</button>
 			</div>
 		</div>
-		
+
 		<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/contract.html" method="post">
 			<input name="supplierId" id="supplierId" value="${currSupplier.id}" type="hidden" />
 			<input name="categoryId" value="" id="categoryId" type="hidden" />
