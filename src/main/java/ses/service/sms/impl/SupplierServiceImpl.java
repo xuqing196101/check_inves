@@ -414,15 +414,16 @@ public class SupplierServiceImpl implements SupplierService {
             supplier.setUpdatedAt(new Date());
 
             // 供应商分级要素得分
-        /*supplier.setLevelScoreProduct(SupplierLevelUtil.getScore(supplier.getId(), "PRODUCT"));
-        supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
-        supplier.setLevelScoreService(SupplierLevelUtil.getScore(supplier.getId(), "SERVICE"));*/
-            if(supplier.getWebsite()==null){
+	        /*supplier.setLevelScoreProduct(SupplierLevelUtil.getScore(supplier.getId(), "PRODUCT"));
+	        supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
+	        supplier.setLevelScoreService(SupplierLevelUtil.getScore(supplier.getId(), "SERVICE"));*/
+            
+            /*if(supplier.getWebsite()==null){
                 supplier.setWebsite("");
             }
             if(supplier.getBranchName()==null){
                 supplier.setBranchName("0");
-            }
+            }*/
 
             supplierMapper.updateByPrimaryKeySelective(supplier);
 

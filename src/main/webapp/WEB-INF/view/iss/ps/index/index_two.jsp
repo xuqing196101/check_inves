@@ -23,7 +23,12 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            var url = "${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?page="+e.curr+"&id="+articleTypeId+"&title="+title;
+		        	var url;
+		        	if(articleTypeId != null && articleTypeId != ''){
+			          url = "${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?page="+e.curr+"&id="+articleTypeId+"&title="+title;
+		        	}else{
+		        	  url = "${pageContext.request.contextPath}/index/supplierPunishment.html?page="+e.curr+"&title="+title;
+		        	}
 		            window.location.href = encodeURI(encodeURI(url));
 		        }
 		    }
@@ -32,7 +37,12 @@ $(function(){
 
 function query(){
 	var title = $("#title").val().replace(/\s/g,"");
-	var url="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id="+articleTypeId+"&title="+title;
+	var url;
+	if(articleTypeId != null && articleTypeId != ''){
+	  url="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id="+articleTypeId+"&title="+title;
+  	}else{
+  	  url="${pageContext.request.contextPath}/index/supplierPunishment.html?title="+title;
+  	}
 	window.location.href = encodeURI(encodeURI(url));
 }
 </script>

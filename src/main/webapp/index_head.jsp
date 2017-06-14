@@ -443,7 +443,7 @@ function importAdd(){
 		   </a>
 	      </div>
 		  <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
-	       <a href="${pageContext.request.contextPath }/product/index_list.html" class="dxcpjj">
+	       <a href="${pageContext.request.contextPath }/index/index_productList.html" class="dxcpjj">
             <i></i>
             <span>定型产品</span> 
 		   </a>
@@ -631,8 +631,8 @@ function importAdd(){
 		 <h2 class="f17 bgwhite">
 		 <ul class="list-unstyled login_tab" style="padding: 0px 0px;">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-36" data-toggle="tab">诚信记录</a></li>
-		  <li class="fl"><a aria-expanded="false" href="#tab-37" data-toggle="tab">军队处罚公告</a></li>
-		  <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab">地方处罚公告</a></li>
+		  <li class="fl"><a aria-expanded="false" href="#tab-37" data-toggle="tab">处罚公告</a></li>
+		  <!-- <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab">地方处罚公告</a></li> -->
 		  <li class="fl"><a aria-expanded="false" href="#tab-gyshmd" data-toggle="tab">供应商黑名单</a></li>
 		 </ul>
 		</h2>
@@ -670,6 +670,7 @@ function importAdd(){
 	          <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>--%>
 	          <a class="tab_more" href="javascript:;">更多>></a>
         	</div>
+        	<!-- 供应商军队处罚公告 -->
 	    <div id="tab-37" class="categories tab-pane fade">
           <ul class="p0_10">
            	<c:forEach items="${indexMapper['article116List']}" var="sl">
@@ -683,9 +684,10 @@ function importAdd(){
 				</c:if>
 	        </c:forEach>     
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=116">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/supplierPunishment.html">更多>></a>
         </div>
-		<div id="tab-38" class="categories tab-pane fade">
+        <!-- 供应商地方处罚公告 -->
+		<%-- <div id="tab-38" class="categories tab-pane fade">
           <ul class="p0_10">
           	<c:forEach items="${indexMapper['article117List']}" var="sl">
                	<c:set value="${sl.name}" var="name"></c:set>
@@ -699,7 +701,7 @@ function importAdd(){
 	        </c:forEach>   
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=117">更多>></a>
-        </div>
+        </div> --%>
         <div id="tab-gyshmd" class="categories tab-pane fade">
           <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
           	<c:forEach items="${indexMapper['supplierBlackList']}" var="sl">

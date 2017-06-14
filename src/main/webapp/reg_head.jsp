@@ -42,10 +42,7 @@
       <script src="${pageContext.request.contextPath}/public/front/js/main-menu.js"></script>
       <script src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 
-	<!-- 文本编辑器 -->  
-	<script src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
-	<script src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.js"> </script>
-	<script src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<!-- js校验 -->  
 	<script src="${pageContext.request.contextPath}/public/validate/jquery.validate.min.js"></script>
 	<%--<script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>--%>
   

@@ -1290,6 +1290,7 @@ resultMap="BaseResultMap">
         </if>
         ) -->
         AND t1.IS_PROVISIONAL = '0'
+        AND t1.IS_DELETE = '0'
         <if test="sign == 1">
         	<if test="purchaseDepId !=null">
 		          AND t1.PURCHASE_DEP_ID = #{purchaseDepId}

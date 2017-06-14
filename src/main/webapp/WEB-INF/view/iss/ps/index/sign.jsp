@@ -129,7 +129,18 @@
     						});
     						
     					} else if (flag[0] == "auditExp") {
-    						$.ajax({
+    						
+    						layer.confirm('您还未完善个人信息，是否前去完善？', {
+    							btn : [ '是', '否' ]
+    						//按钮
+    						}, function() {
+    							window.location.href = "${pageContext.request.contextPath}/expert/login.html?userId=" + flag[1];
+    						}, function() {
+    							layer.close(index);
+    							window.location.href = "${pageContext.request.contextPath}/";
+    						});
+    						
+    						/* $.ajax({
     							url: "${pageContext.request.contextPath}/expert/validateAuditTime.do",
     							data: {"userId" : flag[1]},
     							dataType: "json",
@@ -143,7 +154,7 @@
    		    							window.location.href = "${pageContext.request.contextPath}/";
    		    						});
     							}
-    						});
+    						}); */
     						
     					}else if(flag[0]=="unperfect"){
     						//询问框

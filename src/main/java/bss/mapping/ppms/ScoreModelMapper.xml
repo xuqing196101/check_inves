@@ -799,4 +799,46 @@
 		</foreach>
 	</update> -->
 	<!-- t_bss_ppms_param_interval 参数区间表 -->
+	
+	<select id="findListByScoreModelByTime" parameterType="bss.model.ppms.ScoreModel" resultMap="BaseMap">
+   		SELECT
+   			sm.*,
+   			m.pid           as mpid,
+   			m.name          as mname,
+   			m.PNAME         as mpname,
+   			m.TYPE_NAME   as mtypeName,
+   			m.PACKAGE_ID as packageId,
+   			m.CHECKED  as ischeck
+   		FROM
+   			T_BSS_PPMS_SCORE_MODEL SM
+   		<!-- LEFT JOIN
+   			T_BSS_PPMS_PARAM_INTERVAL PI
+   		on sm.id = pi.score_model_id -->
+   		LEFT JOIN T_BSS_PPMS_MARK_TERM m
+   		on sm.MARK_TERM_ID = m."ID"
+   		WHERE nvl(SM.is_deleted,0)=0
+   		
+   		<if test="projectId != null">
+        	and SM.project_id = #{projectId}
+      	</if>
+      	<if test="packageId != null">
+        	and SM.package_id = #{packageId}
+      	</if>
+      	<if test="typeName != null and typeName!='' ">
+        	and SM.type_name = #{typeName}
+      	</if>
+      	<!-- <if test="markTerm != null and markTerm.name!='' ">
+        	and m.name like CONCAT(CONCAT('%', #{markTerm.name}), '%')
+      	</if> -->
+      	<if test="name != null and name!='' ">
+        	and sm.review_content like CONCAT(CONCAT('%', #{name}), '%')
+        </if>
+      	<if test="markTermId != null and markTermId !='' ">
+        	and sm.mark_term_id = #{markTermId} 
+      	</if>
+      	<if test="markTerm != null and markTerm.typeName!=''">
+        	and m.type_name = #{markTerm.typeName}
+      	</if>
+      	ORDER BY sm.CREATED_AT ASC
+   </select>
 </mapper>
