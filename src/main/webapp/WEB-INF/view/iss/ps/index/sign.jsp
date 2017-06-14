@@ -130,7 +130,7 @@
     						
     					} else if (flag[0] == "auditExp") {
     						
-    						layer.confirm('您还未完善个人信息，是否前去完善？', {
+    				  /* 	layer.confirm('您的个人信息被退回，是否前去完善？', {
     							btn : [ '是', '否' ]
     						//按钮
     						}, function() {
@@ -138,23 +138,23 @@
     						}, function() {
     							layer.close(index);
     							window.location.href = "${pageContext.request.contextPath}/";
-    						});
+    						});   */
     						
-    						/* $.ajax({
+    						   $.ajax({
     							url: "${pageContext.request.contextPath}/expert/validateAuditTime.do",
     							data: {"userId" : flag[1]},
     							dataType: "json",
     							async: false,
     							success: function(response){
    									//询问框
-   		    						layer.confirm("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>：" +response.purchaseDep.shortName + "；联系人是:" + response.purchaseDep.experContact + ";"+"联系人电话：" +  response.purchaseDep.experPhone + "；联系人地址是：" + response.purchaseDep.experAddress +";邮编："+response.purchaseDep.unitPostCode+ "。", {
+   		    						layer.confirm("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>：" +response.purchaseDep.shortName + "；联系人是:" + response.purchaseDep.experContact + ";"+"联系人电话：" +  response.purchaseDep.experPhone + "；联系人地址是：" + response.purchaseDep.experAddress +";邮编："+response.purchaseDep.expertPostCode+ "。", {
    		    							btn : [ '确定' ]
    		    						//按钮
    		    						}, function() {
    		    							window.location.href = "${pageContext.request.contextPath}/";
    		    						});
     							}
-    						}); */
+    						});  
     						
     					}else if(flag[0]=="unperfect"){
     						//询问框
