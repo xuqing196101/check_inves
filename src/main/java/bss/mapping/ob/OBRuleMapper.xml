@@ -381,26 +381,27 @@
       PERCENT = #{percent,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  
-  <select id="selectAllOBRules" parameterType="Map" resultMap="BaseResultMap">
-  	select
-    <include refid="Base_Column_List" />
-    from T_BSS_OB_RULE where 1=1
-    <if test="userId != null and userId !=''" >
-      AND CREATER_ID = #{userId}
-    </if>
-    <if test="name != null and name !=''" >
-      AND name like CONCAT(CONCAT('%', #{name}), '%')
-    </if>
-    <if test="quoteTime != null and quoteTime !='' or quoteTime == 0">
-	  	AND QUOTE_TIME = #{quoteTime}
+
+	<!-- 竞价规则列表查询 -->
+	<select id="selectAllOBRules" parameterType="Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_OB_RULE where 1=1
+		<if test="userId != null and userId !=''">
+			AND CREATER_ID = #{userId}
 		</if>
-	<if test="intervalWorkday != null">
-	  AND INTERVAL_WORKDAY = #{intervalWorkday}
-	</if>
-	ORDER BY
-	UPDATED_AT DESC,CREATED_AT DESC
-  </select>
+		<if test="name != null and name !=''">
+			AND name like CONCAT(CONCAT('%', #{name}), '%')
+		</if>
+		<if test="quoteTime != null and quoteTime !='' or quoteTime == 0">
+			AND QUOTE_TIME = #{quoteTime}
+		</if>
+		<if test="intervalWorkday != null">
+			AND INTERVAL_WORKDAY = #{intervalWorkday}
+		</if>
+		ORDER BY
+		UPDATED_AT DESC,CREATED_AT DESC
+	</select>
   
   <!-- 校验竞价规则名称是否唯一 -->
   <select id="checkNameUnique" parameterType="java.lang.String" resultMap="BaseResultMap">

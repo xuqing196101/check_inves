@@ -154,16 +154,16 @@
 	    }
 	
 		//重置按钮事件  
-	    function resetAll(){
-	    var authType='${authType}'; 
-	    if(authType!='4'){
-	    layer.msg("只有资源服务中心才能操作");
-	    return;
-	    }
-	        $("#name").val("");  
-	        $("#startTime").val("");  
-	        $("#endTime").val("");
-	    } 
+		function resetAll() {
+			var authType = '${authType}';
+			if (authType != '4') {
+				layer.msg("只有资源服务中心才能操作");
+				return;
+			}
+			$("#name").val("");
+			$("#startTimeStr").val("");
+			$("#endTimeStr").val("");
+		}
 </script>
 </head>
 <body>
