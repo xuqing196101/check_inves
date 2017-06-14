@@ -392,13 +392,8 @@ public class SupplierController extends BaseSupplierController {
 				sup.setAddressList(addressList);
 			}
 			
-			Object loginUser = request.getSession().getAttribute("loginUser");
-			Object loginUserType = request.getSession().getAttribute("loginUserType");
-			//System.out.println(loginUser);
-			//System.out.println(loginUserType);
-			if(null == loginUser
-					|| null == loginUserType
-					|| !"supplier".equals(loginUserType.toString())){
+			Object loginUser = request.getSession().getAttribute("loginName");
+			if(null == loginUser){
 				// 提示登录
 				alertLogin();
 			}
@@ -1015,6 +1010,7 @@ public class SupplierController extends BaseSupplierController {
                 }
                 supplier.setSupplierTypeIds(sb.toString());
             }
+            supplier = supplierService.get(supplier.getId());
             model.addAttribute("currSupplier", supplier);
             if(old!=null&&old.equals("old")){
                 supplierTypeRelateService.delete(supplier.getId(), "SALES");

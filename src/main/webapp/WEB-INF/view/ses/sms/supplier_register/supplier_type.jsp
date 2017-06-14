@@ -608,6 +608,16 @@
 	}
 
 	function deleteCertPro() {
+		var allCertProCount = 0;// 所有的质量管理体系认证证书数量
+		var checkedCertProCount = 0;// 已选的质量管理体系认证证书数量
+		var allCheckboxs = $("#cert_pro_list_tbody_id").find(":checkbox");
+		$(allCheckboxs).each(function(index) {
+			var certPropName = $(this).parent().next().find("input").val();
+      if(certPropName == '质量管理体系认证证书'){
+          allCertProCount++;
+      }
+		});
+	
 		var checkboxs = $("#cert_pro_list_tbody_id").find(":checkbox:checked");
 		var certProIds = "";
 		var supplierId = $("input[name='id']").val();
@@ -617,11 +627,14 @@
 				certProIds += ",";
 			}
 			certProIds += $(this).val();
-            var certPropName = $(this).parent().next().find("input").val();
-            if(certPropName == '质量管理体系认证证书'){
-                delFlag = false;
-            }
+      var certPropName = $(this).parent().next().find("input").val();
+      if(certPropName == '质量管理体系认证证书'){
+      	checkedCertProCount++;
+      }
 		});
+		if(checkedCertProCount == allCertProCount){
+			delFlag = false;
+		}
 		var size = checkboxs.length;
 		if (size > 0) {
 		    var _certProNumber = $("#certProNumber").val();
@@ -641,7 +654,7 @@
 
                     });
             }else{
-                layer.alert("质量管理体系认证证书不能删除!", {
+                layer.alert("质量管理体系认证证书不能删除，请至少保留一个!", {
                     offset : '200px',
                     scrollbar : false,
                 });
@@ -2411,7 +2424,7 @@
 	function controlForm(){
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
 		var currSupplierSt = '${currSupplier.status}';
-		//console.log(currSupplierSt);
+		console.log(currSupplierSt);
 		if(currSupplierSt == '2'){
 			$("input[type='text'],select,textarea").attr('disabled',true);
 			$("input[type='text'],select,textarea").each(function(){
