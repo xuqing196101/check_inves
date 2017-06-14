@@ -16,6 +16,14 @@ public interface ScoreModelService {
 	public int delSoftScoreModelByid(HashMap<String, Object> map);
 	public ScoreModel findScoreModelByScoreModel(ScoreModel scoreModel);
 	public void deleteScoreModelByMtId(String id);
+  /**
+   *〈简述〉根据创建时间倒序查询
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param scoreModel
+   * @return
+   */
+  public List<ScoreModel> findListByScoreModelByTime(ScoreModel scoreModel);
 	
 	/*public List<MarkTerm> findListByMarkTerm(MarkTerm markTerm);
 	public int saveMarkTerm(MarkTerm markTerm);

@@ -265,7 +265,7 @@ public class ReviewFirstAuditController {
         ScoreModel scoreModel = new ScoreModel();
         scoreModel.setPackageId(packageId);
         scoreModel.setProjectId(projectId);
-        List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
+        List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModelByTime(scoreModel);
         for (ScoreModel score : scoreModelList) {
             if (score.getStandardScore() == null || "".equals(score.getStandardScore())) {
                 score.setStandardScore(score.getMaxScore());
