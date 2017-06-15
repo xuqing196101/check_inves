@@ -2513,12 +2513,11 @@ a.yjfk i{
   vertical-align:middle;
 }
 .supp_login a {
-  width:25px;
+  width:100%;
   line-height:30px;
   text-align:center;
   font-size:24px;
   display:block;
-  padding-top:45px;
 }
 @media (min-width:600px){
 .supp_login a i{
@@ -2921,17 +2920,20 @@ h2.list_title{
 	overflow: hidden;
 	line-height:30px;
 	height:30px;
-	width:95%;
+	width:97%;
+	white-space: nowrap;
+	text-overflow:ellipsis;
 }
 
 
 /**资料下载*/
-.w150{
-	width:150px;
-}
 
 .w100{
 	width:100px;
+}
+
+.w150{
+	width:150px;
 }
 
 .font_line{
@@ -3088,9 +3090,12 @@ h2.list_title{
 	display: block;
 	text-align: right;
 }
-@media screen (min-width:1024px){
+@media (min-width:1024px){
 .service_btns{
 	margin-top:60px;
+}
+.supp_login a{
+  padding:45px 63px;
 }
 }
 @media (min-width:800px) and (max-width:1023px){
@@ -3100,6 +3105,9 @@ h2.list_title{
 .service_btns{
 	margin-top:60px;
 }
+.supp_login a {
+  padding:45px 33px;
+}
 }
 @media (max-width:800px){
 .service_btns .f18{
@@ -3108,7 +3116,17 @@ h2.list_title{
 .service_btns{
 	margin-top:20px;
 }
-
+.supp_login a {
+  padding:45px 23px;
+}
+.supp_login a i{
+	display: none;
+}
+}
+@media (min-width:300px) and (max-width:460px){
+.supp_login a {
+  padding:45px 0px;
+}
 }
 @media (min-width:800px){
 .supp_service .service_btns{

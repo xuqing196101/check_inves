@@ -558,10 +558,10 @@ function importAdd(){
 	          <%-- <a href="${pageContext.request.contextPath}/supplier/registration_page.html" > --%>
 	        
 	        <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
-	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0" >
+	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="" >
 	        <% } %>
 	        <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
-	              <a onclick="supplierRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
+	              <a onclick="supplierRegisterTip();" class="">
 	        <% } %>
 		     	供应商注册
 		     <i></i>
@@ -571,7 +571,7 @@ function importAdd(){
 	   <div class="headline-v2">
          <h2>供应商名录<a  href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=0" class="fr f14">更多>></a></h2>
         </div>
-         <div class="job-content col-md-12 col-sm-12 col-xs-12">
+         <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
 		    <div class="categories">
              <ul class="list-unstyled">
             
@@ -761,12 +761,12 @@ function importAdd(){
 			 <div class="drop_main">
 			  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
 	    		 <%-- <% if (environment != null && environment.equals("0")){ %>
-	    		    <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
+	    		    <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="">
 	   			  <% } %>
 	    		 <% if (environment != null && environment.equals("1")){ %>
 	    		    <a onclick="expertRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
 	    		 <% } %> --%>
-	     		<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
+	     		<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="">
 				   评审专家注册
 				 <i></i>
 				</a>	  
@@ -775,7 +775,7 @@ function importAdd(){
 			   <div class="headline-v2">
      		    <h2>专家名录<a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="fr f14">更多>></a></h2>
      		   </div>
-     		   <div class="job-content col-md-12 col-sm-12 col-xs-12">
+     		   <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
 		    		<div class="categories zhuanjia_list">
              		 <c:choose>
            			   <c:when test="${!empty my:getExpertList()}">
