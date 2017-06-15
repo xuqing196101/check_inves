@@ -48,6 +48,7 @@
 				$("#supplierType").val('');
 				$("#isProvisional").val('');
 				$("#creditCode").val('');
+				$("#orgName").val('');
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
 				$("#businessNature option:selected").removeAttr("selected");
@@ -513,6 +514,9 @@
 	         	<li>
 	          	<label class="fl">社会信用代码：</label><span><input class="w220" id="creditCode" name="creditCode" value="${supplier.creditCode }" type="text"></span>
 	          </li>
+	          <li>
+              <label class="fl">采购机构：</label><span><input class="w220" id="orgName" name="orgName" value="${supplier.orgName }" type="text"></span>
+            </li>
 	          <c:if test ="${sign == 1 }">
               <li>
                 <label class="fl">地区：</label>

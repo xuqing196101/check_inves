@@ -2513,12 +2513,11 @@ a.yjfk i{
   vertical-align:middle;
 }
 .supp_login a {
-  width:25px;
+  width:100%;
   line-height:30px;
   text-align:center;
   font-size:24px;
   display:block;
-  padding-top:45px;
 }
 @media (min-width:600px){
 .supp_login a i{
@@ -2921,17 +2920,20 @@ h2.list_title{
 	overflow: hidden;
 	line-height:30px;
 	height:30px;
-	width:95%;
+	width:97%;
+	white-space: nowrap;
+	text-overflow:ellipsis;
 }
 
 
 /**资料下载*/
-.w150{
-	width:150px;
-}
 
 .w100{
 	width:100px;
+}
+
+.w150{
+	width:150px;
 }
 
 .font_line{
@@ -3088,9 +3090,12 @@ h2.list_title{
 	display: block;
 	text-align: right;
 }
-@media screen (min-width:1024px){
+@media (min-width:1024px){
 .service_btns{
 	margin-top:60px;
+}
+.supp_login a{
+  padding:45px 63px;
 }
 }
 @media (min-width:800px) and (max-width:1023px){
@@ -3100,6 +3105,9 @@ h2.list_title{
 .service_btns{
 	margin-top:60px;
 }
+.supp_login a {
+  padding:45px 33px;
+}
 }
 @media (max-width:800px){
 .service_btns .f18{
@@ -3108,7 +3116,17 @@ h2.list_title{
 .service_btns{
 	margin-top:20px;
 }
-
+.supp_login a {
+  padding:45px 23px;
+}
+.supp_login a i{
+	display: none;
+}
+}
+@media (min-width:300px) and (max-width:460px){
+.supp_login a {
+  padding:45px 0px;
+}
 }
 @media (min-width:800px){
 .supp_service .service_btns{
@@ -3177,4 +3195,57 @@ h2.list_title{
     position: relative;
     top: auto;
     left: auto;
+}
+/* 访问量统计 */
+@media (max-width:767px){
+  .visit_count{
+	  font-size:11px;
+  }
+  .visit_count .visit_title{
+	padding:3px 5px;	
+  }
+	.visit_clip{
+	 margin-left:3px;
+  }
+}
+@media (min-width:768px){
+  .visit_count{
+	  font-size:14px;
+	}
+  .visit_count .visit_title{
+	padding:3px 15px;	
+    }
+  .visit_clip b{
+   	width:15px;
+   	height:15px;
+   	display:inline-block;
+   	background:url(../images/portal_icon.png) no-repeat -340px -239px;
+   	position: relative;
+   	top: 2px;
+   }
+}
+.visit_clip i{
+	color:#2C9FA6;
+	font-weight: normal;
+	font-style: normal;
+}
+.visit_count{
+	width:100%;
+	background-color: #fafafa;
+	line-height: 40px;
+	text-align: center;
+	float: left;
+	margin-top: 10px;
+}
+.visit_count .visit_title{
+	background-color: #2C9FA6;
+	color:#ffffff;	
+}
+.visit_count .visit_title i{
+	background: url(../images/portal_icon.png) no-repeat -1px -475px
+}
+
+/* 北京-开发-张淑彬修改 */
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    cursor: default !important;
 }

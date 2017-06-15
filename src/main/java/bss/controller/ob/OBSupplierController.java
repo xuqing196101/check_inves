@@ -715,9 +715,7 @@ public class OBSupplierController  {
     public String createtreeById(HttpServletResponse response, Category category,String name) throws UnsupportedEncodingException{
     	List<CategoryTree> jList=new ArrayList<CategoryTree>();
     	if((name!=null&&!"".equals(name))){
-				if(name!=null&&!"".equals(name)){
-					name=java.net.URLDecoder.decode(name, "UTF-8");
-				}	
+			name=java.net.URLDecoder.decode(name, "UTF-8");
     	}
 		DictionaryData data=new DictionaryData();
         data.setKind(6);

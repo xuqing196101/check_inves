@@ -24,7 +24,7 @@
 			jump : function(e, first) { //触发分页后的回调
 				if (!first) { //一定要加此判断，否则初始时会无限刷新
 					var servicecontent = $("#servicecontent").val();
-					window.location.href="${pageContext.request.contextPath }/serviceHotline/index_list.html?servicecontent="+servicecontent+"&&page="+e.curr;
+					window.location.href="${pageContext.request.contextPath }/index/index_hotLineList.html?servicecontent="+servicecontent+"&&page="+e.curr;
 				}
 			}
 		});
@@ -33,12 +33,12 @@
 	//查询
 	function query(){
 		var servicecontent = $("#servicecontent").val();
-		window.location.href="${pageContext.request.contextPath }/serviceHotline/index_list.html?servicecontent="+servicecontent;
+		window.location.href="${pageContext.request.contextPath }/index/index_hotLineList.html?servicecontent="+servicecontent;
 	}
 	
 	//重置
 	function res(){
-		window.location.href="${pageContext.request.contextPath }/serviceHotline/index_list.html";
+		window.location.href="${pageContext.request.contextPath }/index/index_hotLineList.html";
 	}
 </script>
 </head>

@@ -585,6 +585,8 @@ public class Supplier implements Serializable {
 	
 	private String auditor;//审核人
 	
+	private Integer auditTemporary; //审核暂存
+	
 	/**获取所有数据库address的省级单位名称*/
 	private String name;
 	
@@ -1968,5 +1970,14 @@ public class Supplier implements Serializable {
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
 	}
+
+	public Integer getAuditTemporary() {
+		return auditTemporary;
+	}
+
+	public void setAuditTemporary(Integer auditTemporary) {
+		this.auditTemporary = auditTemporary;
+	}
 	
+
 }

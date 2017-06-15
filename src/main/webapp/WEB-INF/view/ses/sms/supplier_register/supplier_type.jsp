@@ -1483,14 +1483,13 @@
 											<span class="font_line"><font class="red">*</font> 资质证书信息 </span>
 											<div class="col-md-12 col-sm-12 col-xs-12 mb10 p0">
 												<c:choose>
-                         	<c:when test="${currSupplier.status==2 }">
-                           	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
-                           </c:when>
-                           <c:otherwise>
-                             <button type="button" class="btn btn-windows add"
-															 onclick="openCertPro()">新增</button>
-                           </c:otherwise>
-                         </c:choose>
+						                         	<c:when test="${currSupplier.status==2 }">
+						                           	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+						                           </c:when>
+						                           <c:otherwise>
+						                             <button type="button" class="btn btn-windows add" onclick="openCertPro()">新增</button>
+						                           </c:otherwise>
+						                         </c:choose>
 												<button type="button" class="btn btn-windows delete"
 													onclick="deleteCertPro()">删除</button>
 												<span class="red">${cert_pro }</span>
@@ -1518,8 +1517,7 @@
 														<c:forEach
 															items="${currSupplier.supplierMatPro.listSupplierCertPros}"
 															var="certPro" varStatus="vs">
-															<tr
-																<c:if test="${fn:contains(proPageField,certPro.id)}"> onmouseover="errorMsg('${certPro.id}','mat_pro_page')"</c:if>>
+															<tr <c:if test="${fn:contains(proPageField,certPro.id)}"> onmouseover="errorMsg('${certPro.id}','mat_pro_page')"</c:if>>
 																<td class="tc">
 																	<input type="checkbox" class="border0"
 																	value="${certPro.id}" /> <input type="hidden"
@@ -1855,14 +1853,14 @@
 										<span class="font_line">取得注册资质的人员信息 </span>
 										<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
 											<c:choose>
-                       	<c:when test="${currSupplier.status==2 }">
-                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
-                         </c:when>
-                         <c:otherwise>
-                           <button type="button" class="btn" onclick="openRegPerson()">新增</button>
-                         </c:otherwise>
-                       </c:choose>
-											<button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
+						                       	<c:when test="${currSupplier.status==2 }">
+						                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+						                         </c:when>
+						                         <c:otherwise>
+						                           <button type="button" class="btn" onclick="openRegPerson()">新增</button>
+						                         </c:otherwise>
+						                       </c:choose>
+											 <button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
 											<span class="red">${eng_persons }</span>
 										</div>
 										<div

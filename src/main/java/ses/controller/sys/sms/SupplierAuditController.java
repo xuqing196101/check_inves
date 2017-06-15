@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -1212,7 +1213,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				}
 				if(status==1){
 					supplier.setStatus(4); //复核不通过
-					supplierAuditService.updateStatus(supplier);af
+					supplierAuditService.updateStatus(supplier);
 				}*/
 
 		//唯一检验
@@ -1303,8 +1304,10 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplier.setAuditDate(new Date());
 		//审核人
 		supplier.setAuditor(user.getRelName());
+		//还原审核暂存状态
+		supplier.setAuditTemporary(0);
 		supplierAuditService.updateStatus(supplier);
-		
+
 		if(supplier.getStatus() != null && supplier.getStatus() == 1){
 			// 供应商分级要素得分
 	        supplier.setLevelScoreProduct(SupplierLevelUtil.getScore(supplier.getId(), "PRODUCT"));
@@ -1487,51 +1490,35 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	/**
 	 * @Title: temporaryAudit
-	 * @author Xu Qing
 	 * @date 2016-10-28 下午3:29:51  
 	 * @Description: 暂存审核
 	 * @param @param request
 	 * @param @param supplier
 	 * @param @param supplierAudit
-	 * @param @throws IOException      
 	 * @return void
 	 */
-	@RequestMapping("temporaryAudit")
-		/*	public void temporaryAudit(HttpServletRequest request,HttpServletResponse response,Supplier supplier) throws IOException{
-				String supplierId  = supplier.getId();
-				supplier = supplierAuditService.supplierById(supplier.getId());
-				Integer status = supplier.getStatus();
-				//暂存审核（5：审核中）
-				if(status == 0 || status == 5 || status == 8 && status != null){
-					supplier.setStatus(5);
-					supplierAuditService.updateStatus(supplier);
-					
-					//更新待办任务
-					Todos todos = new Todos();
-					todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
-					todos.setName("供应商审核中");
-					todosService.updateByUrl(todos);
-					
-					String msg = "{\"msg\":\"success\"}";
-					super.writeJson(response, msg);
-				}
-				//暂存复核（6：复核中）
-				if(status == 1 || status == 6 && status != null){
-					supplier.setStatus(6);
-					supplierAuditService.updateStatus(supplier);
-					
-					//更新待办任务
-					Todos todos = new Todos();
-					todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
-					todos.setName("供应商复核中");
-					todosService.updateByUrl(todos);
-					
-					String msg = "{\"msg\":\"success\"}";
-					super.writeJson(response, msg);
-				}
-				
-				
-			}*/
+	@RequestMapping(value = "/temporaryAudit", produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String temporaryAudit(Model model, String supplierId){
+		Supplier supplierInfo = supplierAuditService.supplierById(supplierId);
+		Integer status = supplierInfo.getStatus();
+		Supplier supplier = new Supplier();
+		if(status !=null && (status == 0 || status == 4  || status ==5) ){
+			supplier.setId(supplierId);
+			if(status == 0){
+				//1：审核中
+				supplier.setAuditTemporary(1);
+			}else if(status == 4){
+				//2：复核中
+				supplier.setAuditTemporary(2);
+			}else if(status == 5){
+				//3：考察中
+				supplier.setAuditTemporary(3);
+			}
+		}
+		supplierAuditService.updateStatus(supplier);
+		return JSON.toJSONString("暂存成功");
+	}
 
 	/**
 	 * @Title: setExpertBlackListUpload

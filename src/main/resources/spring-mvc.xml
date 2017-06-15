@@ -77,9 +77,11 @@
 			<mvc:exclude-mapping path="/dataDownload/getIndexList.*" />
 			<mvc:exclude-mapping path="/templateDownload/getIndexList.*" />
 			<!-- 过滤定型产品列表 -->
-			<mvc:exclude-mapping path="/product/index_list.*" />
+			<mvc:exclude-mapping path="/index/index_productList.*" />
+			<!-- 过滤定型产品产品目录查询 -->
+			<mvc:exclude-mapping path="/obSupplier/createtreeByproduct.*" />
 			<!-- 过滤首页服务热线 -->
-			<mvc:exclude-mapping path="/serviceHotline/index_list.*" />
+			<mvc:exclude-mapping path="/index/index_hotLineList.*" />
 			
 			<!-- 过滤产品目录-->
 			<mvc:exclude-mapping path="/categorys/categoryList.*" />
@@ -87,8 +89,7 @@
 			<mvc:exclude-mapping path="/categorys/parameterList.*" />
 			
 			<!-- app首页访问过滤 -->
-			<mvc:exclude-mapping path="/indexApp/*" />
-			
+			<mvc:exclude-mapping path="/api/v1/*" />
 			
 <!-- 			专家注册 -->
  			<mvc:exclude-mapping path="/expert/toExpert.*" />

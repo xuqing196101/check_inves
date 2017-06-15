@@ -1119,7 +1119,7 @@ public class ProjectController extends BaseController {
      * @throws IOException 抛出异常
      */
     @RequestMapping("/checkDeail")
-    public void checkDeail(HttpServletResponse response, String id, Model model)
+    public void checkDeail(HttpServletResponse response, String id, Boolean flag, Model model)
         throws IOException {
         HashMap<String, Object> map = new HashMap<String, Object>();
         PurchaseDetail purchaseRequired = purchaseDetailService.queryById(id);
@@ -1134,10 +1134,19 @@ public class ProjectController extends BaseController {
         }else{
             map.put("id", purchaseRequired.getId());
             List<PurchaseDetail> list1 = new ArrayList<PurchaseDetail>();
-            List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
-            list1.addAll(list);
-            List<PurchaseDetail> lists = purchaseDetailService.selectByParentId(map);
-            list1.addAll(lists);
+            if(flag){
+                List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
+                list1.addAll(list);
+                List<PurchaseDetail> lists = purchaseDetailService.selectByParentId(map);
+                list1.addAll(lists);
+            } else {
+                if(purchaseRequired.getPrice() == null) {
+                    List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
+                    list1.addAll(list);
+                    List<PurchaseDetail> lists = purchaseDetailService.selectByParentId(map);
+                    list1.addAll(lists);
+                }
+            }
             removeSame(list1);
             String json = JSON.toJSONStringWithDateFormat(list1, "yyyy-MM-dd HH:mm:ss");
             response.setContentType("text/html;charset=utf-8");
