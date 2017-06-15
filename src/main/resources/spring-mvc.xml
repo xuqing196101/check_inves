@@ -78,6 +78,8 @@
 			<mvc:exclude-mapping path="/templateDownload/getIndexList.*" />
 			<!-- 过滤定型产品列表 -->
 			<mvc:exclude-mapping path="/index/index_productList.*" />
+			<!-- 过滤定型产品产品目录查询 -->
+			<mvc:exclude-mapping path="/obSupplier/createtreeByproduct.*" />
 			<!-- 过滤首页服务热线 -->
 			<mvc:exclude-mapping path="/index/index_hotLineList.*" />
 			

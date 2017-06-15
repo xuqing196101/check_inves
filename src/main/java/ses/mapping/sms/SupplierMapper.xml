@@ -1621,6 +1621,12 @@
 			<if test="status != null and status != ''">
 				and SUPPLIER_STATUS in (#{status})
 			</if>
+			<if test="size > 0">
+				and SUPPLIER_STATUS in 
+				<foreach item="item" index="index" collection="statusArray" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
 		</where>
 
 	</select>

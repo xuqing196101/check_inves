@@ -2069,9 +2069,13 @@ public class IndexNewsController extends BaseSupplierController{
 			}
 			String status=RequestTool.getParam(request,"status","");
 			if(!"".equals(status)){
-				sMap.put("status", status);
+				//sMap.put("status", status);
+				String [] statusArray= status.split(","); 
+				sMap.put("statusArray", statusArray);
+				sMap.put("size", statusArray.length);
 				model.addAttribute("status", status );
 			}
+			
 	        List<Supplier> list = suppService.query(page == null ? 1 : page,sMap);
 	        //return supplierList;
 	        //model.addAttribute("supplierList", supplierList);
@@ -2112,10 +2116,7 @@ public class IndexNewsController extends BaseSupplierController{
 	 * @return
 	 */
     @RequestMapping("/index_productList")
-    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-    @SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-    public String headlist(@CurrentUser User user,HttpServletRequest request,Model model, @RequestParam(defaultValue="1")Integer page) {
-        //判断是否 是资源服务中心 
+    public String headlist(HttpServletRequest request,Model model, @RequestParam(defaultValue="1")Integer page) {
         OBProduct example = new OBProduct();
         String name = request.getParameter("name") == null ? "" : request.getParameter("name");
         String code = request.getParameter("code") == null ? "" : request.getParameter("code");
@@ -2175,8 +2176,6 @@ public class IndexNewsController extends BaseSupplierController{
      * @return
      */
     @RequestMapping("/index_hotLineList")
-    @SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
-    @SystemServiceLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
     public String index_list(@RequestParam(defaultValue="1")Integer page, Model model,String servicecontent){
         ServiceHotline serviceHotline = new ServiceHotline();
         if(servicecontent != null){

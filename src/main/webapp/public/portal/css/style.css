@@ -3244,3 +3244,8 @@ h2.list_title{
 .visit_count .visit_title i{
 	background: url(../images/portal_icon.png) no-repeat -1px -475px
 }
+
+/* 北京-开发-张淑彬修改 */
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    cursor: default !important;
+}

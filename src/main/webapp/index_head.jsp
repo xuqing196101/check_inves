@@ -964,7 +964,7 @@ function importAdd(){
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic shfw">
 	    	<img src="${pageContext.request.contextPath}/public/portal/images/new_shfw.jpg" width="80%" height="80%;"/>
 	    </div>
-		<div class="tc f18 mt20 pt10 clear">售后服务</div>
+		<div class="tc f18 mt20 pt10 clear">服务热线</div>
 	  </a>
 	 </div>
 	</div>
