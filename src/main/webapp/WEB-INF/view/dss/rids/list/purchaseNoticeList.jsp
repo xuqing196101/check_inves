@@ -340,16 +340,13 @@
             <div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
             <button type="submit" class="btn">查询</button>
             <button type="button" class="btn" onclick="resetQuery()">重置</button>
+            <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
           </div>
           <div class="clear"></div>
         </form>
       </div>
 
       <input type="hidden" id="depid" name="depid">
-
-			<div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-      </div>
       <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>

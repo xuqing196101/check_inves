@@ -99,15 +99,13 @@
     	  <div class="fl col-md-12 tc mt10">
     	    <input type="submit" class="btn" value="查询"/>
     	    <input type="button" onclick="resetForm()" class="btn" value="重置"/>
+    	    <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
     	  </div>
     	</ul>
     	  <div class="clear"></div>
     	  </div>
       </form>
   
-   <div class="col-md-12 pl20 mt10">
-     <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-   </div>
    <div class="fr mt5 b">
     	项目总金额(万元)：${contractSum}
    </div>

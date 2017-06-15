@@ -89,13 +89,10 @@
           </ul>
           <input class="btn fl" type="submit" value="查询" />
           <input type="button" onclick="resetQuery()" class="btn fl" value="重置"/>
+          <button class="btn btn-windows back fl" onclick="back()" type="button">返回</button>
           <div class="clear"></div>
         </form>
       </h2>
-
-      <div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-      </div>
 
       <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover">

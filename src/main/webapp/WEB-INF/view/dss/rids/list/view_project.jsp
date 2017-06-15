@@ -97,13 +97,11 @@
       </li>
       <button class="btn fl mt1" type="submit">查询</button>
       <button type="reset" class="btn fl mt1" onclick="clearSearch();">重置</button>
+      <button class="btn btn-windows back fl mt1" onclick="back()" type="button">返回</button>
     </ul>
     <div class="clear"></div>
     </form>
     </h2>
-      <div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-      </div>
       <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>

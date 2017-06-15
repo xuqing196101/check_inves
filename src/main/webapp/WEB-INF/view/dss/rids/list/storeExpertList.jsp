@@ -125,13 +125,11 @@
       <div class="col-md-12 clear tc mt10">
        <input class="btn mt1" onclick="submitForm()" type="button" value="查询">
        <input class="btn mt1" onclick="clearSearch();" value="重置" type="reset">
+       <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
      </div>
      <div class="clear"></div>
     </form>
    </h2>
-   		<div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-      </div>
       <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>

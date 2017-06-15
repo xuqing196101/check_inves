@@ -168,7 +168,7 @@
 			
 			<!-- 缓存管理 -->
 			<mvc:exclude-mapping path="/cacheManage/clearStringCache.*" />
-			<!-- PV -->
+			<!-- 过滤PV -->
 			<mvc:exclude-mapping path="/cacheManage/getPVDate.*" />
 			
 			<!-- 竞价管理 -->

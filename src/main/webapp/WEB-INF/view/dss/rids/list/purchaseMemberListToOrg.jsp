@@ -84,15 +84,13 @@
 							</span>
 							</li>
 							<button type="button" onclick="submit();" class="btn fl mt1">查询</button>
-                 <button type="button" onclick="resetQuery();" class="btn fl mt1">重置</button>
+              <button type="button" onclick="resetQuery();" class="btn fl mt1">重置</button>
+              <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
 						</ul>
 						<div class="clear"></div>
 					</form>
 				</h2>
 			<!-- 表格开始-->
-			<div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-      </div>
 			<div class="content table_box">
                  <table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
