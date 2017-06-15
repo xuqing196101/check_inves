@@ -234,6 +234,16 @@
 					flag = false;
 				}
 				
+				// 校验信用代码
+				var creditCodeValue = $("#creditCode").val();
+				if(creditCodeValue == ""){
+					msg = "信用代码不能为空!";
+					flag = false;
+				}
+				if(!checkCreditCode($("#creditCode").val())){
+					return false;
+				}
+				
 				if(flag) {
 					$("input[name='flag']").val(obj);
 					// 提交的时候表单域设置成可编辑
@@ -244,6 +254,29 @@
 					layer.msg(msg, {
 						offset: '300px'
 					});
+				}
+			}
+			
+			// 统一社会信用代码校验
+			// 18位数字或18位数字+字母
+			function checkCreditCode(creditCodeValue){
+				if(creditCodeValue != ""){
+					var bool = false;
+					if(/[0-9]{18}/.test(creditCodeValue)){// 18位全数字
+						bool = true;
+					}
+					if(/^([a-zA-Z0-9]){18}$/.test(creditCodeValue)){// 18位数字+字母
+						if(/^([a-zA-Z])+$/.test(creditCodeValue)){// 全字母
+							bool = false;
+						}else{
+							bool = true;
+						}
+					}
+					if(!bool){
+						var msg = "信用代码18位，请按照实际社会信用代码填写!";
+						layer.msg(msg);
+					}
+					return bool;
 				}
 			}
 
@@ -1230,9 +1263,9 @@
 								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>统一社会信用代码</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="creditCode"  required maxlength="18" id="creditCode" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" value="${currSupplier.creditCode}" <c:if test="${!fn:contains(audit,'creditCode')&&currSupplier.status==2}">readonly="readonly"</c:if>  <c:if test="${fn:contains(audit,'creditCode')}">style="border: 1px solid red;" onmouseover="errorMsg('creditCode')"</c:if>/>
+										<input type="text" name="creditCode"  required maxlength="18" id="creditCode" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" onblur="checkCreditCode(this.value);" value="${currSupplier.creditCode}" <c:if test="${!fn:contains(audit,'creditCode')&&currSupplier.status==2}">readonly="readonly"</c:if>  <c:if test="${fn:contains(audit,'creditCode')}">style="border: 1px solid red;" onmouseover="errorMsg('creditCode')"</c:if>/>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，信用代码不超过18位，请按照实际社会信用代码填写</span>
+										<span class="input-tip">统一社会信用代码为18位数字或18位数字+字母的组合</span>
 										<div class="cue"> ${err_creditCide} </div>
 										<div class="cue">
 											<sf:errors path="creditCode" />
