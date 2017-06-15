@@ -1004,7 +1004,7 @@
 					var thisText = $(this).parent().text().trim();
 					if(thisText == "工程技术"){
 						//控制有无执业资格下拉的可选与否
-						$("#mySelect").attr('disabled',false);
+						//$("#mySelect").attr('disabled',false);
 					}
 				}
 			});
@@ -1019,7 +1019,7 @@
 					var thisText = $(this).parent().text().trim();
 					if(thisText == "工程经济"){
 						//控制有无执业资格下拉的可选与否
-						$("#mySelect").attr('disabled',false);
+						//$("#mySelect").attr('disabled',false);
 					}
 				}
 			});
