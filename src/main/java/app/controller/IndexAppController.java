@@ -747,6 +747,7 @@ public class IndexAppController {
             appImg.setData(appData);
             appImg.setStatus(true);
         }else {
+            appImg.setData(appData);
             appImg.setStatus(false);
             appImg.setMsg("暂无数据");
         }
