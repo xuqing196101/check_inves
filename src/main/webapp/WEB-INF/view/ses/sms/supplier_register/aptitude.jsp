@@ -204,6 +204,7 @@
 			//console.log(obj);
 			//console.log(number);
 			//console.log(flag);
+			//根据类型和证书编号获取等级
 			$.ajax({
                         url : "${pageContext.request.contextPath}/supplier/getLevel.do",
                         type:"post",
@@ -243,7 +244,7 @@
                                         if (flag == "1") {
                                             $(obj).parent().next().next().next().next().html(data);
                                         } else {
-                                            $(obj).parent().next().next().html(data);
+                                            $(obj).parent().next().next().next().html(data);
                                         }
                                         init_web_upload();
                                     }
@@ -399,116 +400,121 @@
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-3">
 										<h2 class="f16  ">
-										      	<font color="red">*</font> 上传工程资质文件
+											<font color="red">*</font> 上传工程资质文件
 										</h2>
 										<form id="item_form" method="post" class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
-										  <table class="table table-bordered table_input">
-											<thead>
+											<table class="table table-bordered table_input">
+												<thead>
 												<tr>
-											      <th class="info tc w50">序号</th>
-											      <%--<th class="info tc w50">类别</th>
-											      <th class="info tc">大类</th>
-											      <th class="info tc">中类</th>
-											      <th class="info tc">小类</th>--%>
-											      <th class="info tc">产品类别</th>
-											      <th class="info tc w200">资质类型</th>
-											      <th class="info tc w100">证书编号</th>
-											       <th class="info tc w100">专业类别</th>
-											      <th class="info tc w80">资质等级</th>
-											      <th class="info tc">证书图片</th>
-										   		</tr>
-										    </thead>
-										    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
-										      <tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg('${cate.itemsId}','aptitude_page')"</c:if>>
-										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										        <div class="w50"> ${vs.index + 1}</div>
-										          <input type="hidden" name="listSupplierItems[${vs.index}].id" value="${cate.itemsId}">
-										        </td>
-										        <%--<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										        	<div class="w80 lh30"> ${cate.rootNode}</div>
-										        </td>
-										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										            <div class="w150 lh30">${cate.firstNode}</div>
-										        </td>
-										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										            <div class="w200 lh30">${cate.secondNode}</div>
-										        </td>
-										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										            <div class="w200 lh30">${cate.thirdNode}</div>
-										        </td>--%>
-										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										            <div class="w200 lh30">
-                                                        <c:choose>
-                                                            <c:when test="${cate.fourthNode!=null}">
-                                                                ${cate.fourthNode}
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <c:choose>
-                                                                    <c:when test="${cate.thirdNode!=null}">
-                                                                        ${cate.thirdNode}
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        <c:choose>
-                                                                            <c:when test="${cate.secondNode!=null}">
-                                                                                ${cate.secondNode}
-                                                                            </c:when>
-                                                                            <c:otherwise>
-                                                                                ${cate.firstNode}
-                                                                            </c:otherwise>
-                                                                        </c:choose>
-                                                                    </c:otherwise>
-                                                                </c:choose>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </div>
-										        </td>
-										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										        	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].qualificationType" id="listSupplierItems${vs.index}qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')">
-										        		<c:forEach items="${cate.typeList}" var="type">
-										        			<option value="${type.id}" <c:if test="${cate.qualificationType eq type.id}">selected</c:if>>${type.name}</option>
-										        		</c:forEach>
-										        	</select>
+													<th class="info tc w50">序号</th>
+														<%--<th class="info tc w50">类别</th>
+                                                        <th class="info tc">大类</th>
+                                                        <th class="info tc">中类</th>
+                                                        <th class="info tc">小类</th>--%>
+													<th class="info tc">产品类别</th>
+													<th class="info tc w200">资质类型</th>
+													<th class="info tc w100">证书编号</th>
+													<th class="info tc w100">专业类别</th>
+													<th class="info tc w80">资质等级</th>
+													<th class="info tc">证书图片</th>
+												</tr>
+												</thead>
+												<c:forEach items="${allTreeList}" var="cate" varStatus="vs">
+													<tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg('${cate.itemsId}','aptitude_page')"</c:if>>
+														<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+															<div class="w50"> ${vs.index + 1}</div>
+															<input type="hidden" name="listSupplierItems[${vs.index}].id" value="${cate.itemsId}">
+														</td>
+															<%--<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+                                                                <div class="w80 lh30"> ${cate.rootNode}</div>
+                                                            </td>
+                                                            <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+                                                                <div class="w150 lh30">${cate.firstNode}</div>
+                                                            </td>
+                                                            <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+                                                                <div class="w200 lh30">${cate.secondNode}</div>
+                                                            </td>
+                                                            <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+                                                                <div class="w200 lh30">${cate.thirdNode}</div>
+                                                            </td>--%>
+														<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+															<div class="w200 lh30">
+																<c:choose>
+																	<c:when test="${cate.fourthNode!=null}">
+																		${cate.fourthNode}
+																	</c:when>
+																	<c:otherwise>
+																		<c:choose>
+																			<c:when test="${cate.thirdNode!=null}">
+																				${cate.thirdNode}
+																			</c:when>
+																			<c:otherwise>
+																				<c:choose>
+																					<c:when test="${cate.secondNode!=null}">
+																						${cate.secondNode}
+																					</c:when>
+																					<c:otherwise>
+																						${cate.firstNode}
+																					</c:otherwise>
+																				</c:choose>
+																			</c:otherwise>
+																		</c:choose>
+																	</c:otherwise>
+																</c:choose>
+															</div>
+														</td>
+														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+															<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].qualificationType" id="listSupplierItems${vs.index}qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')">
+																<c:forEach items="${cate.typeList}" var="type">
+																	<option value="${type.id}" <c:if test="${cate.qualificationType eq type.id}">selected</c:if>>${type.name}</option>
+																</c:forEach>
+															</select>
 
-										        </td>
-										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode"  value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
+														</td>
+														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+															<input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')">
+														</td>
 
-										    	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-											    	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType" onchange="getFileByCode(this, '${vs.index}', '3')">
-									        		<option value="${cate.proName}" selected="selected">${cate.proName}</option>
-									        	</select>
-<%-- 										    	<input type="text" class="border0" name="listSupplierItems[${vs.index}].professType" value="${cate.proName}" onblur="getFileByCode(this, '${vs.index}', '3')">
- --%>										  </td>
+														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+															<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType" onchange="getFileByCode(this, '${vs.index}', '3')">
+																<option value="${cate.proName}" selected="selected">${cate.proName}</option>
+															</select>
+															<%--
+															<input type="text" class="border0" name="listSupplierItems[${vs.index}].professType" value="${cate.proName}" onblur="getFileByCode(this, '${vs.index}', '3')">
+															 --%>
+														</td>
 
-										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" id ="listSupplierItems${vs.index}" value="${cate.level.id}" class="w80">
-										     		<input type="text" readonly="readonly"  class="border0" value="${cate.level.name}" onload="getFileByCode(this, '${vs.index}', '3')">
-										     	</td>
-										     	<c:if test="${currSupplier.status== -1 || currSupplier.status==2}">
-										     	 <script>
-                                                 function s(){
-	                                               var number=${vs.index};
-	                                                 //供应商
-	                                               var supplierId = "${currSupplier.id}";
-	                                                 //证书编号
-	                                               var certCode="${cate.certCode}";
-	                                                 //专业类别
-	                                               var professType="${cate.proName}";
-	                                                 //资质类型
-	                                               var typeId=$("#listSupplierItems${vs.index}qualificationType").val();
-                                                   if (typeId != null && typeId != "" && typeId != "undefined" && certCode != null && certCode != "" && certCode != "undefined"&&professType!=null&&professType!="") {
-                                                      getDate("#listSupplierItems"+number, typeId, certCode, supplierId, professType, number,0);
-                                                    }
-                                                 }
-                                                 s();
-                                                 </script>
-                                                 </c:if>
-										      	<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if> >
-										      	 <div class="w110 fl" >
-										      	  <u:show showId="eng_show_${vs.index}"  delete="false" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
-										         </div>
-										      	</td>
-										      </tr>
-										    </c:forEach>
+														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+															<input type="hidden" name="listSupplierItems[${vs.index}].level" id="listSupplierItems${vs.index}" value="${cate.level.id}" class="w80">
+															<input type="text" readonly="readonly" class="border0" value="${cate.level.name}" onload="getFileByCode(this, '${vs.index}', '3')">
+														</td>
+														<c:if test="${currSupplier.status== -1 || currSupplier.status==2}">
+															<script>
+                                                                function s() {
+                                                                    var number =${vs.index};
+                                                                    //供应商
+                                                                    var supplierId = "${currSupplier.id}";
+                                                                    //证书编号
+                                                                    var certCode = "${cate.certCode}";
+                                                                    //专业类别
+                                                                    var professType = "${cate.proName}";
+                                                                    //资质类型
+                                                                    var typeId = $("#listSupplierItems${vs.index}qualificationType").val();
+                                                                    if (typeId != null && typeId != "" && typeId != "undefined" && certCode != null && certCode != "" && certCode != "undefined" && professType != null && professType != "") {
+                                                                        getDate("#listSupplierItems" + number, typeId, certCode, supplierId, professType, number, 0);
+                                                                    }
+                                                                }
+                                                                s();
+															</script>
+														</c:if>
+														<td class="tc"
+															<c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if> >
+															<div class="w110 fl">
+																<u:show showId="eng_show_${vs.index}" delete="false" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
+															</div>
+														</td>
+													</tr>
+												</c:forEach>
 										  </table>
 										</form>
 										<c:set value="${divCount+1}" var="divCount" />
