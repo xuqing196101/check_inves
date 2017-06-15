@@ -109,13 +109,13 @@
 			}
 
 			/*获取内层div的最大高度赋予外层div*/
-			// function psize() {
-			// 	var temp_heights = []
-			// 	$(".fades").each(function() {
-			// 		temp_heights.push($(this).outerHeight());
-			// 	})
-			// 	$("#tab_content_div_id").outerHeight(Math.max.apply(null, temp_heights));
-			// }
+			function psize() {
+			var temp_heights = []
+			 	$(".fades").each(function() {
+			 		temp_heights.push($(this).outerHeight());
+			 	})
+			 	$("#tab_content_div_id").outerHeight(Math.max.apply(null, temp_heights));
+		 }
 
 			//显示不通过的理由
 			function errorMsg(auditField, auditType){
@@ -292,7 +292,7 @@
 
 	</head>
 
-	<body onload="psize()">
+	<body>
 		<div class="wrapper">
 			<div class="container clear margin-top-30">
 				<h2 class="step_flow">
@@ -344,7 +344,7 @@
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(cateList) > 0}">
 									<!-- 物资生产型 -->
 									<c:set value="0" var="prolength" />
-									<div class="fade tab-pane active" id="tab-1">
+									<div class="tab-pane active" id="tab-1">
 										<h2 class="f16  ">
 										      	<font color="red">*</font> 上传物资-生产型资质文件
 										</h2>
