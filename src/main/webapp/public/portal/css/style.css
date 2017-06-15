@@ -3196,3 +3196,51 @@ h2.list_title{
     top: auto;
     left: auto;
 }
+/* 访问量统计 */
+@media (max-width:767px){
+  .visit_count{
+	  font-size:11px;
+  }
+  .visit_count .visit_title{
+	padding:3px 5px;	
+  }
+	.visit_clip{
+	 margin-left:3px;
+  }
+}
+@media (min-width:768px){
+  .visit_count{
+	  font-size:14px;
+	}
+  .visit_count .visit_title{
+	padding:3px 15px;	
+    }
+  .visit_clip b{
+   	width:15px;
+   	height:15px;
+   	display:inline-block;
+   	background:url(../images/portal_icon.png) no-repeat -340px -239px;
+   	position: relative;
+   	top: 2px;
+   }
+}
+.visit_clip i{
+	color:#2C9FA6;
+	font-weight: normal;
+	font-style: normal;
+}
+.visit_count{
+	width:100%;
+	background-color: #fafafa;
+	line-height: 40px;
+	text-align: center;
+	float: left;
+	margin-top: 10px;
+}
+.visit_count .visit_title{
+	background-color: #2C9FA6;
+	color:#ffffff;	
+}
+.visit_count .visit_title i{
+	background: url(../images/portal_icon.png) no-repeat -1px -475px
+}

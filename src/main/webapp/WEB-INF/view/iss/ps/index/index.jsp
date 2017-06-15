@@ -1317,17 +1317,19 @@
                 --%></c:forEach>
               </ul>
             </div>
-          </div>
+         </div>
         </div>
+      <div class="visit_count">
+      	<span class="visit_title">访问量</span>
+      	<span class="visit_clip col-md-offset-1 col-sm-offset-1"><b></b>今日访问量：<i>12222</i>个</span>
+      	<span class="visit_clip col-md-offset-1 col-sm-offset-1"><b></b>总访问量：<i>33333</i>个</span>
       </div>
       <!-- <a href="${pageContext.request.contextPath}/index/init.html">初始化solr</a> -->
-    </div>
+
+	</div>
+	</div>
     <!--底部代码开始-->
     <jsp:include page="/index_bottom.jsp"></jsp:include>
-    </div>
-    </div>
-    
-
   </body>
 
 </html>
