@@ -905,7 +905,7 @@
 						<div>
 							<u:upload id="artice_file_up" buttonName="上传文档"
 								businessId="${articleId }" sysKey="${sysKey}"
-								typeId="${artiAttachTypeId }" multiple="false" auto="true" />
+								typeId="${artiAttachTypeId }" multiple="true" auto="true" />
 							<u:show showId="artice_file_show" businessId="${articleId }"
 								sysKey="${sysKey}" typeId="${artiAttachTypeId }" />
 						</div></li>
