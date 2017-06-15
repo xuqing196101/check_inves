@@ -1137,7 +1137,7 @@
             </div>
             <div class="ywbl_01 col-xs-6 col-sm-6">
               <!-- <a href="javascript:void(0)" onclick="hotLine()" class="fwrx"> -->
-              <a href="${pageContext.request.contextPath }/serviceHotline/index_list.html"  class="fwrx">
+              <a href="${pageContext.request.contextPath }/index/index_hotLineList.html"  class="fwrx">
                 <i></i>
                 <span>服务热线</span>
               </a>

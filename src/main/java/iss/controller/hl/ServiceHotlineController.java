@@ -228,33 +228,4 @@ public class ServiceHotlineController {
 			}
 		}
 	}
-	
-	/**
-	 * 
-	 * Description: 首页服务热线
-	 * 
-	 * @author  zhang shubin
-	 * @version  2017年5月25日 
-	 * @param  @param page
-	 * @param  @param model
-	 * @param  @param serviceHotline
-	 * @param  @return 
-	 * @return String 
-	 * @exception
-	 */
-	@RequestMapping("/index_list")
-	@SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
-	public String index_list(@RequestParam(defaultValue="1")Integer page, Model model,String servicecontent){
-		ServiceHotline serviceHotline = new ServiceHotline();
-		if(servicecontent != null){
-			serviceHotline.setServicecontent(servicecontent);
-		}
-		List<ServiceHotline> list = serviceHotlineService.selectAll(serviceHotline,page);
-		PageInfo<ServiceHotline> info = new PageInfo<>(list);
-		model.addAttribute("info", info);
-		model.addAttribute("serviceHotline", serviceHotline);
-		return "iss/hl/index_list";
-	}
-	
 }

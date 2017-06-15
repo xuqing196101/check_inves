@@ -960,7 +960,7 @@ function importAdd(){
 	  </a>
 	 </div>
 	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
-	  <a href="${pageContext.request.contextPath }/serviceHotline/index_list.html">
+	  <a href="${pageContext.request.contextPath }/index/index_hotLineList.html">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic shfw">
 	    	<img src="${pageContext.request.contextPath}/public/portal/images/new_shfw.jpg" width="80%" height="80%;"/>
 	    </div>

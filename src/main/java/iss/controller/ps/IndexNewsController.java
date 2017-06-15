@@ -2,10 +2,12 @@
 package iss.controller.ps;
 
 import gui.ava.html.image.generator.HtmlImageGenerator;
+import iss.model.hl.ServiceHotline;
 import iss.model.ps.Article;
 import iss.model.ps.ArticleAttachments;
 import iss.model.ps.ArticleType;
 import iss.model.ps.DownloadUser;
+import iss.service.hl.ServiceHotlineService;
 import iss.service.ps.ArticleAttachmentsService;
 import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
@@ -73,6 +75,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
+import sums.service.oc.ComplaintService;
 import synchro.util.SpringBeanUtil;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBSupplier;
@@ -146,6 +149,10 @@ public class IndexNewsController extends BaseSupplierController{
     /**采购目录管理接口Service**/
     @Autowired
     private CategoryService categoryService;
+    
+    /** 服务热线 **/
+    @Autowired
+	private ServiceHotlineService serviceHotlineService;
 	/**
 	 * 
 	* @Title: sign
@@ -2096,17 +2103,14 @@ public class IndexNewsController extends BaseSupplierController{
 	}
 	
 	/**
-     * Description: 列表查询
-     * 
-     * @author zhang shubin
-     * @version 2017年3月7日
-     * @param @param example
-     * @param @param model
-     * @param @param page
-     * @param @return
-     * @return String
-     * @exception
-     */
+	 * 
+	 * Description: 首页定型产品列表查询
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年6月15日
+	 * @param 
+	 * @return
+	 */
     @RequestMapping("/index_productList")
     @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
     @SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
@@ -2160,5 +2164,47 @@ public class IndexNewsController extends BaseSupplierController{
         model.addAttribute("numlist", numlist);
         return "bss/ob/finalize_DesignProduct/index_list";
     }
-	
+
+    /**
+     * 
+     * Description: 首页服务热线
+     * 
+     * @author zhang shubin
+     * @data 2017年6月15日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/index_hotLineList")
+    @SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
+    @SystemServiceLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
+    public String index_list(@RequestParam(defaultValue="1")Integer page, Model model,String servicecontent){
+        ServiceHotline serviceHotline = new ServiceHotline();
+        if(servicecontent != null){
+            serviceHotline.setServicecontent(servicecontent);
+        }
+        List<ServiceHotline> list = serviceHotlineService.selectAll(serviceHotline,page);
+        PageInfo<ServiceHotline> info = new PageInfo<>(list);
+        Map<String, Object> indexMapper = new HashMap<String, Object>();
+        topNews(indexMapper);
+        model.addAttribute("indexMapper", indexMapper);
+        model.addAttribute("info", info);
+        model.addAttribute("serviceHotline", serviceHotline);
+        return "iss/hl/index_list";
+    }
+
+    /**
+     * 
+     * Description: 加载首页导航栏公告信息
+     * 
+     * @author zhang shubin
+     * @data 2017年6月14日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/indexHeadInfo")
+    public void indexHeadInfo(Model model){
+        Map<String, Object> indexMapper = new HashMap<String, Object>();
+        topNews(indexMapper);
+        model.addAttribute("indexMapper", indexMapper);
+    }
 }
