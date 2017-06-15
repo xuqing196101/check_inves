@@ -144,7 +144,7 @@
 		});
 		$("#businessScope").val(areaIds);
 		// 提交的时候表单域设置成可编辑
-		$("input[type='text'],select,textarea").attr('disabled',false);
+		enableForm();
 		$.ajax({
 			url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
 			type : "post",
@@ -173,6 +173,7 @@
 				} else {
 					$("input[name='supplierMatSe.id']").val("");
 				}
+				controlForm();
 			},
 			error : function() {
 				layer.msg('暂存失败!');
@@ -198,7 +199,7 @@
 		});
 		$("#businessScope").val(areaIds);
 		// 提交的时候表单域设置成可编辑
-		$("input[type='text'],select,textarea").attr('disabled',false);
+		enableForm();
 		$.ajax({
 					url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
 					type : "post",  
@@ -226,6 +227,7 @@
 						} else {
 							$("input[name='supplierMatSe.id']").val("");
 						}
+						controlForm();
 					}
 				});
 	}
@@ -1561,14 +1563,14 @@
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	<input type="text" required="required" 
-																	readonly="readonly" <c:if test="${!fn:contains(proPageField,certPro.id)&&(currSupplier.status==2 || currSupplier.status==-1 || empty(currSupplier.status))}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
+																	readonly="readonly" <c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate"
 																	value="<fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd "/>"
 																	class="border0" /></td>
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	<input type="text" required="required"
-																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" <c:if test="${!fn:contains(proPageField,certPro.id)&&(currSupplier.status==2 || currSupplier.status==-1 || empty(currSupplier.status))}"> onClick="WdatePicker()"</c:if>
+																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" <c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}"> onClick="WdatePicker()"</c:if>
 																	 readonly="readonly"
 																	value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd "/>"
 																	class="border0" /></td>
@@ -1788,16 +1790,23 @@
 														承包合同主要页及保密协议：
 													</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<%-- 	<c:if test="${!fn:contains(engPageField,'supplierConAch')&&(currSupplier.status==2 || currSupplier.status==-1)}">  --%>
-														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+														<c:if test="${(fn:contains(engPageField,'supplierConAch')&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">
+														  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 																  businessId="${currSupplier.id}" sysKey="${sysKey}"
 																  typeId="${supplierDictionaryData.supplierConAch}"
 																  exts="${properties['file.picture.type']}" id="conAch_up"
 																  multiple="true" auto="true" maxcount="5"/>
-														<%-- </c:if> --%>
-														<u:show showId="conAch_show"
+														  </c:if>
+														<c:if test="${!fn:contains(engPageField,'supplierConAch')&&currSupplier.status==2}">
+														  <u:show showId="conAch_show" delete="false"
 																businessId="${currSupplier.id}" sysKey="${sysKey}"
 																typeId="${supplierDictionaryData.supplierConAch}"/>
+													 	</c:if>
+														<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,'supplierConAch')}">
+														  <u:show showId="conAch_show"
+																businessId="${currSupplier.id}" sysKey="${sysKey}"
+																typeId="${supplierDictionaryData.supplierConAch}"/>
+														</c:if>
 														<div class="cue">${err_conAch}</div>
 													</div>
 												</li>
@@ -2422,13 +2431,21 @@
 	function controlForm(){
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
 		var currSupplierSt = '${currSupplier.status}';
-		console.log(currSupplierSt);
+		//console.log(currSupplierSt);
 		if(currSupplierSt == '2'){
 			$("input[type='text'],select,textarea").attr('disabled',true);
 			$("input[type='text'],select,textarea").each(function(){
 				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
 				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
-				if($(this).css("border-color") == 'rgb(255, 0, 0)' || $(this).parents("td").css("border-color") == 'rgb(255, 0, 0)'){
+				if($(this).css("border-top-color") == 'rgb(255, 0, 0)' 
+					|| $(this).css("border-bottom-color") == 'rgb(255, 0, 0)' 
+					|| $(this).css("border-left-color") == 'rgb(255, 0, 0)' 
+					|| $(this).css("border-right-color") == 'rgb(255, 0, 0)' 
+					|| $(this).parents("td").css("border-top-color") == 'rgb(255, 0, 0)'
+					|| $(this).parents("td").css("border-bottom-color") == 'rgb(255, 0, 0)'
+					|| $(this).parents("td").css("border-left-color") == 'rgb(255, 0, 0)'
+					|| $(this).parents("td").css("border-right-color") == 'rgb(255, 0, 0)'
+				){
 					$(this).attr('disabled',false);
 				}
 			});
