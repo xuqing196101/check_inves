@@ -667,5 +667,14 @@
         connect by prior PARENT_ID = ID  
 	</select>
 	
+	<!-- instr条件搜索目录 -->
+	<select id="selectByCList" resultMap="CategoryMap" parameterType="java.lang.String">
+		SELECT ID, NAME, CODE, PARENT_ID
+			FROM T_SES_BMS_CATEGORY
+			WHERE IS_PUBLISH = 0
+			AND IS_DELETED = 0
+			AND INSTR(#{listID},PARENT_ID) > 0
+			ORDER BY CODE
+</select>
 	
 </mapper>

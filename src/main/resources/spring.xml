@@ -74,6 +74,9 @@
         <!-- 统计日登录、日注册、日上传文件(每天凌晨十二点半执行一次) -->
         <task:scheduled ref="analyzeTask" method="handlerAnalyze"  cron="0 30 0 * * ?"/>
         
+        <!-- 统计当天门户访问量(每天凌晨十二点半执行一次) -->
+        <task:scheduled ref="analyzeTask" method="handlerPV"  cron="0 30 0 * * ?"/>
+        
         <!-- 内网任务 -->
         <!-- <task:scheduled ref="innerInfoExportTask" method="innerInfoExportTask" cron="0 0 5/6 * * ?"/>  
         <task:scheduled ref="innerInfoImportTask" method="innerInfoImportTask" cron="0 0 7/6 * * ?"/>  

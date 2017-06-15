@@ -344,5 +344,16 @@ public interface CategoryMapper {
     * @throws
      */
     List<Category> getParentByChildren(@Param("id")String id);
+    
+    /**
+     * 
+     * Description:instr条件搜索目录
+     * 
+     * @author Easong
+     * @version 2017年6月15日
+     * @param cList
+     * @return
+     */
+    List<Category> selectByCList(@Param("listID") String listID);
 	
 }

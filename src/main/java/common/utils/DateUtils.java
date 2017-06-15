@@ -376,6 +376,23 @@ public class DateUtils {
     
     /**
      * 
+     * @Title: getDayOfYear 
+     * @Description: 获取当前所在天/月/日
+     *  如：20170511(天)  20170504
+     * @author Easong
+     * @param @param date
+     * @param @param dateFormat
+     * @param @return    设定文件 
+     * @return Integer    返回类型 
+     * @throws
+     */
+    public static String getDateOfFormat(Date date) {
+    	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+    	return dateFormat.format(date);
+    }
+    
+    /**
+     * 
     * @Title: getWeekOfYear 
     * @Description: 获取当前年的第几周
     * @author Easong

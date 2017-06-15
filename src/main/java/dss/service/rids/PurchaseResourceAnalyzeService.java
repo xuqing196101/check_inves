@@ -237,6 +237,16 @@ public interface PurchaseResourceAnalyzeService {
 	 * @return
 	 */
 	public BigDecimal selectPurContractTotalMoney();
+
+	/**
+	 * 
+	 * Description:采购合同-各产品类型签订采购合同数量
+	 * 
+	 * @author Easong
+	 * @version 2017年6月15日
+	 * @return
+	 */
+	public List<AnalyzeBigDecimal> selectpurContractByProductType();
 	
 	/**
 	 * 
@@ -348,7 +358,7 @@ public interface PurchaseResourceAnalyzeService {
      * @version 2017年6月8日
      * @return
      */
-    List<AnalyzeBigDecimal> selectOrgBudget();
+    public List<AnalyzeBigDecimal> selectOrgBudget();
     
     /**
      * 
@@ -369,7 +379,7 @@ public interface PurchaseResourceAnalyzeService {
      * @version 2017年6月8日
      * @return
      */
-    List<AnalyzeBigDecimal> selectManageBudget();
+    public List<AnalyzeBigDecimal> selectManageBudget();
     
     /**
      * 
@@ -390,5 +400,5 @@ public interface PurchaseResourceAnalyzeService {
      * @version 2017年6月9日
      * @return
      */
-    List<AnalyzeBigDecimal> selectPlanBudget();
+    public List<AnalyzeBigDecimal> selectPlanBudget();
 }

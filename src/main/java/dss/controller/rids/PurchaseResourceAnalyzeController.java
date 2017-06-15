@@ -405,6 +405,21 @@ public class PurchaseResourceAnalyzeController {
 	
 	/**
 	 * 
+	 * Description: 统计业务模块-采购合同-各产品类型签订采购合同数量
+	 * 
+	 * @author Easong
+	 * @version 2017年6月2日
+	 * @param dictType
+	 * @return
+	 */
+	@RequestMapping("/selectpurContractByProductType")
+	@ResponseBody
+	public List<AnalyzeBigDecimal> selectpurContractByProductTypes(){
+		return purchaseResourceAnalyzeService.selectpurContractByProductType();
+	}
+	
+	/**
+	 * 
 	 * Description: 当年各采购机构受领任务总金额
 	 * 
 	 * @author Easong

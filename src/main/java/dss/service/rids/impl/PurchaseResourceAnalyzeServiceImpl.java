@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import ses.dao.bms.CategoryMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.oms.OrgnizationMapper;
@@ -27,6 +28,7 @@ import ses.dao.sms.SupplierMapper;
 import ses.model.bms.Analyze;
 import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.bms.AnalyzeVo;
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.util.DictionaryDataUtil;
 import bss.dao.pms.CollectPlanMapper;
@@ -108,6 +110,9 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	@Autowired
 	private  CollectPlanMapper collectPlanMapper;
 	
+	// 注入品目Mapper
+	@Autowired
+	private CategoryMapper categoryMapper;
 
 	private static final String GOODS_SALES_NAME = "物资销售";
 
@@ -156,22 +161,6 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		return list;
 	}
 
-	/**
-	 * 
-	 * Description: 封装统计数据-饼图
-	 * 
-	 * @author Easong
-	 * @version 2017年5月23日
-	 * @param count
-	 * @param cateType
-	 */
-	private void setAnalyzeDate(Long count, String cateType, List<Analyze> list) {
-		Analyze analyze = new Analyze();
-		analyze.setGroup(cateType);
-		analyze.setValue(count);
-		list.add(analyze);
-	}
-	
 	/**
 	 * 
 	 * Description:封装统计大数据-饼图
@@ -715,18 +704,6 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	private void setPurCommonDate(List<AnalyzeVo> list,List<AnalyzeBigDecimal> listAnalyze, Integer type) {
 		if(list != null && !list.isEmpty()){
 			for (AnalyzeVo analyzeVo : list) {
-				AnalyzeBigDecimal analyzeProCount = new AnalyzeBigDecimal();
-				// 设置数量
-				if(type == 1){
-					analyzeProCount.setGroup("项目数量");
-				}
-				if(type == 2){
-					analyzeProCount.setGroup("合同数量");
-				}
-				analyzeProCount.setName(analyzeVo.getName());
-				analyzeProCount.setValue(analyzeVo.getCount());
-				analyzeProCount.setId(analyzeVo.getId());
-				listAnalyze.add(analyzeProCount);
 				AnalyzeBigDecimal analyzeProMoney = new AnalyzeBigDecimal();
 				// 设置总金额
 				if(type == 1){
@@ -739,6 +716,18 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 				analyzeProMoney.setValue(analyzeVo.getMoney());
 				analyzeProMoney.setId(analyzeVo.getId());
 				listAnalyze.add(analyzeProMoney);
+				AnalyzeBigDecimal analyzeProCount = new AnalyzeBigDecimal();
+				// 设置数量
+				if(type == 1){
+					analyzeProCount.setGroup("项目数量");
+				}
+				if(type == 2){
+					analyzeProCount.setGroup("合同数量");
+				}
+				analyzeProCount.setName(analyzeVo.getName());
+				analyzeProCount.setValue(analyzeVo.getCount());
+				analyzeProCount.setId(analyzeVo.getId());
+				listAnalyze.add(analyzeProCount);
 			}
 		}
 	}
@@ -980,4 +969,41 @@ public class PurchaseResourceAnalyzeServiceImpl implements
     public List<AnalyzeBigDecimal> selectPlanBudget(){
     	return collectPlanMapper.selectPlanBudget();
     }
+
+    /**
+     * 
+     * Description: 采购合同-各产品类型签订采购合同数量
+     * 
+     * @author Easong
+     * @version 2017年6月15日
+     * @return
+     */
+	@Override
+	public List<AnalyzeBigDecimal> selectpurContractByProductType() {
+		// 获取统计对象
+		List<AnalyzeBigDecimal> list = new ArrayList<>();
+		// 查询以及目录
+		// 物资、工程、服务 
+		List<DictionaryData> dictList = DictionaryDataUtil.find(6);
+		// 定义查询字符串
+		StringBuffer sb = new StringBuffer();
+		if(dictList != null && !dictList.isEmpty()){
+			for (int i = 0; i < dictList.size(); i++) {
+				if(dictList.size() - 1 == i){
+					sb.append(dictList.get(i).getId());
+					break;
+				}
+				sb.append(dictList.get(i).getId() + ",");
+			}
+		}
+		// 查询二级目录
+		List<Category> cList = categoryMapper.selectByCList(sb.toString());
+		// 封装品目信息
+		if(cList != null && !cList.isEmpty()){
+			for (Category category : cList) {
+				setAnalyzeBigDate(new BigDecimal(10), category.getName(), null, category.getId(), list);
+			}
+		}
+		return list;
+	}
 }

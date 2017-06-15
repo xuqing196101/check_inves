@@ -1,6 +1,8 @@
 package iss.filter;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -19,6 +21,9 @@ import org.springframework.stereotype.Repository;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+
+import common.service.SystemPvService;
+import common.utils.DateUtils;
 import common.utils.RedisUtils;
 
 /**
@@ -33,8 +38,7 @@ import common.utils.RedisUtils;
 @Repository
 public class CacheFilter implements Filter {
 
-	private static final Logger log = LoggerFactory
-			.getLogger(CacheFilter.class);
+	private static final Logger log = LoggerFactory.getLogger(CacheFilter.class);
 
 	// 连接池定义
 	private JedisPool cacheHomePage;
@@ -44,9 +48,15 @@ public class CacheFilter implements Filter {
 
 	// 设置缓存时间
 	private Integer homeCacheTime;
+	// 设置访问量缓存时间
+	private Integer pvCacheTime;
 
-	// 设置缓存项
+	// 设置缓存key
 	private String homeKey;
+	private String C_PV_TOTAL_KEY;
+	
+	// 注入PV Mapper
+	private SystemPvService systemPvService;
 
 	public JedisPool getCacheHomePage() {
 		return cacheHomePage;
@@ -80,8 +90,33 @@ public class CacheFilter implements Filter {
 		this.homeKey = homeKey;
 	}
 
+	public SystemPvService getSystemPvService() {
+		return systemPvService;
+	}
+
+	public void setSystemPvService(SystemPvService systemPvService) {
+		this.systemPvService = systemPvService;
+	}
+
 	@Override
 	public void init(FilterConfig config) throws ServletException {
+		
+	}
+
+	public Integer getPvCacheTime() {
+		return pvCacheTime;
+	}
+
+	public void setPvCacheTime(Integer pvCacheTime) {
+		this.pvCacheTime = pvCacheTime;
+	}
+
+	public String getC_PV_TOTAL_KEY() {
+		return C_PV_TOTAL_KEY;
+	}
+
+	public void setC_PV_TOTAL_KEY(String c_PV_TOTAL_KEY) {
+		C_PV_TOTAL_KEY = c_PV_TOTAL_KEY;
 	}
 
 	@Override
@@ -91,6 +126,7 @@ public class CacheFilter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) servletResponse;
 		HttpServletRequest req = (HttpServletRequest) servletRequest;
 
+		// 获取请求的URL
 		String reqURL = req.getRequestURI();
 
 		// 如果不是访问主页，放行
@@ -117,7 +153,8 @@ public class CacheFilter implements Filter {
 			putIntoCache(html);
 
 		}
-
+		// 调用用户访问量计数方法
+		putIntoPV();
 		// 返回响应
 		resp.setContentType("text/html; charset=utf-8");
 		resp.getWriter().print(html);
@@ -181,6 +218,65 @@ public class CacheFilter implements Filter {
 		} catch (Exception e) {
 			log.info("redis连接异常...");
 		} finally {
+			// 关闭资源
+			RedisUtils.returnResource(jedis, cacheHomePage);
+		}
+	}
+	
+	/**
+	 * 
+	 * Description: 访问量
+	 * 
+	 * @author Easong
+	 * @version 2017年6月13日
+	 */
+	private void putIntoPV(){
+		Jedis jedis = null;
+		try {
+			// 获取jedis
+			jedis = cacheHomePage.getResource();
+			// 获取当前日期作为key 格式20170613
+			String key = DateUtils.getDateOfFormat(new Date());
+			// 获取当前日期的key
+			String keyString = jedis.get(key);
+			// 存在key
+			if(StringUtils.isBlank(keyString)){
+				// 从数据库中获取
+				Integer count = systemPvService.selectCountById(Integer.parseInt(key));
+				if(count != null && count != 0){
+					jedis.set(key, count.toString());
+					jedis.incrBy(key, 1);
+					jedis.expire(key, pvCacheTime);
+				}else {
+					jedis.incrBy(key, 1);
+					jedis.expire(key, pvCacheTime);
+				}
+			}else {
+				// 设置每访问一次自增1
+				jedis.incrBy(key, 1);
+				// 保留7天
+				jedis.expire(key, pvCacheTime);
+			}
+			// 获取总的key
+			String pvTotal = jedis.get(C_PV_TOTAL_KEY);
+			if(StringUtils.isEmpty(pvTotal)){
+				// 不存在（第一次访问） 或者缓存被清除
+				// 查询数据库
+				BigDecimal count = systemPvService.selectPvTotalCount();
+				if(count == null){
+					count = new BigDecimal(0);
+				}
+				// 将count +1
+				BigDecimal addCount = count.add(new BigDecimal(1));
+				// 将此数存入到缓存中
+				jedis.set(C_PV_TOTAL_KEY, addCount.toString());
+			}else{
+				// 总数直接 +1
+				jedis.incrBy(C_PV_TOTAL_KEY, 1);
+			}
+		} catch (Exception e) {
+			log.info("redis连接异常...");
+		}finally {
 			// 关闭资源
 			RedisUtils.returnResource(jedis, cacheHomePage);
 		}

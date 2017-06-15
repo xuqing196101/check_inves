@@ -25,8 +25,13 @@
 		<constructor-arg index="4" name="password" value="${redis.pool.password}" />
 	</bean>
 
+	<!-- PV Service -->
+	<bean id="systemPvService" class="common.service.impl.SystemPvServiceImpl" />
+
+	<!-- 缓存过滤器 -->
 	<bean id="cacheFilter" class="iss.filter.CacheFilter">
 		<property name="cacheHomePage" ref="jedisPool" />
+		<property name="systemPvService" ref="systemPvService" />
 		<!-- 注入缓存首页url -->
 		<property name="homeUrl">
 			<list>
@@ -39,7 +44,9 @@
 
 		<!-- 设置缓存时间 -->
 		<property name="homeCacheTime" value="${homeCacheTime}" />
+		<property name="pvCacheTime" value="${pvCacheTime}" />
 		<!-- 首页缓存redis的key -->
 		<property name="homeKey" value="${homeKey}" />
+		<property name="C_PV_TOTAL_KEY" value="${C_PV_TOTAL_KEY}" />
 	</bean>
 </beans>

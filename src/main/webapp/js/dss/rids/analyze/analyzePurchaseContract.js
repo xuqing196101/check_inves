@@ -44,51 +44,7 @@ $(function() {
 		} ]
 	};
 
-	// 专家企业性质
-	optionNature = {
-		tooltip : {
-			trigger : 'item',
-			formatter : "{a} <br/>{b} : {c} ({d}%)"
-		},
-		toolbox : {
-			show : true,
-			feature : {
-				mark : {
-					show : true
-				},
-				dataView : {
-					show : true,
-					readOnly : false
-				},
-				magicType : {
-					show : true,
-					type : [ 'pie', 'funnel' ],
-					option : {
-						funnel : {
-							x : '25%',
-							width : '50%',
-							funnelAlign : 'center',
-							max : 1548
-						}
-					}
-				},
-				restore : {
-					show : true
-				},
-				saveAsImage : {
-					show : true
-				}
-			}
-		},
-		calculable : true,
-		series : [ {
-			name : '人员数量',
-			radius : ['50%', '70%']
-		} ]
-	};
-	
-	// 各采购机构人员数量
-	optionOrgSup = {
+	optionOrgContract = {
 		title : {
 			top : 0,
 			left : '43%'
@@ -178,9 +134,9 @@ $(function() {
 				groupField:'group',
 				chartType:'bar',
 				XTitle:'机构',
-				YTitle:'数量',
+				YTitle:'总金额',
 				customEchartsOptions:function(res,dataList,option){
-					return optionOrgSup;
+					return optionOrgContract;
 				}
 			});
 			// 获取echart对应的对象
@@ -193,7 +149,7 @@ $(function() {
 	
 	// 
 	$.ajax({
-		url : globalPath + "/resAnalyze/selectPurProjectByWay.do",
+		url : globalPath + "/resAnalyze/selectpurContractByProductType.do",
 		type : "POST", // 请求方式
 		dataType : "json", // 返回格式为json
 		success : function(data) {
@@ -210,21 +166,8 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierCateType = $("#purContractByProductType").echartsTemplate("getMyChart", null);
 			supplierCateType.on('click', function(params) {
-				$.ajax({
-					url : globalPath + "/resAnalyze/findDicts.do",
-					type : "POST", // 请求方式
-					data:{
-						dictType:"purProject"
-					},
-					dataType : "json", // 返回格式为json
-					success : function(data) {
-						$.each(data,function(index, ele){
-							if(ele.name == params.name){
-								window.location.href = globalPath + "/project/selectByProject.html?purchaseType="+ele.id;
-							}
-						})
-					}
-				});
+				layer.msg("请稍等...");
+				//window.location.href = globalPath + "/project/selectByProject.html?purchaseType="+ele.id;
 			});
 		}
 	});
