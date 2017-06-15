@@ -208,6 +208,25 @@
 			function trim(str){ 
 				return str.replace(/(^\s*)|(\s*$)/g, "");
 			}
+			
+			//暂存
+      function zhancun(){
+        var supplierId = $("#supplierId").val();
+        $.ajax({
+          url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
+          dataType: "json",
+          data:{supplierId : supplierId},
+          success : function (result) {
+            if(result == "暂存成功"){
+              layer.msg(result, {offset : [ '100px' ]});
+            }else{
+              layer.msg("重置失败", {offset : [ '100px' ]});
+            }
+          },error : function(){
+            layer.msg("重置失败", {offset : [ '100px' ]});
+          }
+        });
+      }
 		</script>
 	</head>
 
@@ -336,6 +355,7 @@
 				</div>
 			</div>
 			<div class="col-md-12 add_regist tc">
+			  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 				<a class="btn" type="button" onclick="lastStep();">上一步</a>
 				<a class="btn" type="button" onclick="nextStep();">下一步</a>
 			</div>

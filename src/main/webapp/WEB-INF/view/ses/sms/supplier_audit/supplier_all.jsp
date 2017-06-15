@@ -490,14 +490,17 @@
 									<c:if test="${list.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
 								</td>
 								<td class="tc" id="${list.id}" onclick="shenhe('${list.id }');">
-									<c:if test="${list.status == 0}"><span class="label rounded-2x label-u">待审核</span></c:if>
+									<c:if test="${list.status == 0 and list.auditTemporary != 1}"><span class="label rounded-2x label-u">待审核</span></c:if>
+									<c:if test="${list.status == 0 and list.auditTemporary == 1}"><span class="label rounded-2x label-u">审核中</span></c:if>
 									<c:if test="${list.status == 1}"><span class="label rounded-2x label-dark">审核通过</span></c:if>
 									<c:if test="${list.status == 2}"><span class="label rounded-2x label-dark">退回修改</span></c:if>
 									<c:if test="${list.status == 3}"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
-									<c:if test="${list.status == 4}"><span class="label rounded-2x label-u">待复核</span></c:if>
+									<c:if test="${list.status == 4 and list.auditTemporary != 2}"><span class="label rounded-2x label-u">待复核</span></c:if>
+									<c:if test="${list.status == 4 and list.auditTemporary == 2}"><span class="label rounded-2x label-u">复核中</span></c:if>
 									<c:if test="${list.status == 5 and sign == 2}"><span class="label rounded-2x label-dark">复核通过</span></c:if>
 									<c:if test="${list.status == 6}"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
-									<c:if test="${list.status == 5 and sign == 3}"><span class="label rounded-2x label-u">待考察</span></c:if>
+									<c:if test="${list.status == 5 and sign == 3 and list.auditTemporary != 3}"><span class="label rounded-2x label-u">待考察</span></c:if>
+									<c:if test="${list.status == 5 and list.auditTemporary == 3}"><span class="label rounded-2x label-u">考察中</span></c:if>
 									<c:if test="${list.status == 7}"><span class="label rounded-2x label-dark">合格</span></c:if>
 									<c:if test="${list.status == 8}"><span class="label rounded-2x label-dark">不合格</span></c:if>
 								</td>

@@ -172,7 +172,7 @@
 			
 			}
 			
-			//关闭重口
+			//关闭窗口
 	 		function cancel(){
 				layer.closeAll();
 			}
