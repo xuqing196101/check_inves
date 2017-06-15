@@ -23,39 +23,50 @@
     <script type="text/javascript">
         /**添加包信息*/
         function add(){
-            $.ajax({
-                cache: true,
-                type: "POST",
-                dataType : "json",
-                url:'${pageContext.request.contextPath}/SupplierExtracts/addPackage.do',
-                data:$('#form1').serialize(),// 你的formid
-                async: false,
-                success: function(data) {
-                    if(data.status != 'ERROR'){
-                        /* parent.$('#packageId').val(data.status);
-                         parent.$('#packageName').val(data.packagesName);
-                         */
-                        var cityObj = parent.$("#packageName");
-                        cityObj.attr("value", data.packagesName);
-                        cityObj.attr("title", data.packagesName);
-                        parent.$("#packageId").attr("value",data.status);
+        	if(!checkPackagetName()){
+        		layer.msg("不能为空");
+        		
+        	}else {
+        		$.ajax({
+                    cache: true,
+                    type: "POST",
+                    dataType : "json",
+                    url:'${pageContext.request.contextPath}/SupplierExtracts/addPackage.do',
+                    data:$('#form1').serialize(),// 你的formid
+                    async: false,
+                    success: function(data) {
+                        if(data.status != 'ERROR'){
+                            /* parent.$('#packageId').val(data.status);
+                             parent.$('#packageName').val(data.packagesName);
+                             */
+                            var cityObj = parent.$("#packageName");
+                            cityObj.attr("value", data.packagesName);
+                            cityObj.attr("title", data.packagesName);
+                            parent.$("#packageId").attr("value",data.status);
 
-                        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-                        parent.layer.close(index);
-                    }else{
+                            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                            parent.layer.close(index);
+                        }else{
+                            layer.msg("不能为空");
+                        }
+                    },
+                    error:function(data){
                         layer.msg("不能为空");
                     }
-                },
-                error:function(data){
-                    layer.msg("不能为空");
-                }
-            });
-            //
-
+                });
+        	}
 
         }
-
-
+		/**校验包不为空 */
+		function checkPackagetName() {
+			var flag = true;
+			$("input[name='packagesName']").each(function(){
+				if($(this).val() == null || $(this).val() == "") {
+					flag = false;
+				}
+			});
+			return flag;
+		}
         /**添加*/
         function addBranch(btn){
             var html = "<tr>"+
