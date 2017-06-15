@@ -34,6 +34,7 @@
 				$("#supplierTypeIds").val('');
 				$("#isProvisional").val('');
 				$("#creditCode").val('');
+				$("#orgName").val('');
 				$("#businessNature option:selected").removeAttr("selected");
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html";
 			}
@@ -480,7 +481,9 @@
 							<li>
 	          		<label class="fl">社会信用代码：</label><span><input class="w220" id="creditCode" name="creditCode" value="${supplier.creditCode }" type="text"></span>
 	         	 	</li>
-							
+							<li>
+                <label class="fl">采购机构：</label><span><input class="w220" id="orgName" name="orgName" value="${supplier.orgName }" type="text"></span>
+              </li>
 						</ul>
 		        <div class="col-md-12 clear tc mt10">
 	            <button type="button" onclick="submit()" class="btn">查询</button>

@@ -90,6 +90,7 @@
 		<result column="IS_DELETED" property="isDeleted" />
 		<result column="ORGNAME" property="orgName" />
 		<result column="AUDITOR" property="auditor" />
+		<result column="AUDIT_TEMPORARY" property="auditTemporary" />
         <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -121,7 +122,7 @@
 		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL,PURCHASE_EXPERIENCE,
-		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED, AUDITOR
+		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH, EXTRACT_ORGID, IS_DELETED, AUDITOR, AUDIT_TEMPORARY
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -1292,7 +1293,7 @@
 	      AND BUSINESS_NATURE =#{businessNature}
 	    </if>
 	    <if test="orgName != null and orgName != ''">
-	      AND ORG.SHORT_NAME = #{orgName}
+	      AND ORG.SHORT_NAME like CONCAT(CONCAT('%', #{orgName}), '%') 
 	    </if>
 	    <if test="orgId != null and orgId != ''">
 	      AND ORG.ID = #{orgId}
@@ -1423,6 +1424,9 @@
 			</if>
 			<if test="auditor !=null and auditor !=''">
         AUDITOR =#{auditor},
+      </if>
+      <if test="auditTemporary !=null">
+        AUDIT_TEMPORARY =#{auditTemporary}
       </if>
 		</set>
 		where ID = #{id}
