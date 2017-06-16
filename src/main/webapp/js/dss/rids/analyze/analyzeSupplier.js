@@ -144,7 +144,7 @@ $(function() {
 		                      label: {
 		                          show: true,
 		                          position: 'top',
-		                          formatter: '{b}\n{c}'
+		                          //formatter: '{b}\n{c}'
 		                      }
 		                  }
 		              },

@@ -167,7 +167,9 @@
 			<mvc:exclude-mapping path="/browser/*.*" />
 			
 			<!-- 缓存管理 -->
-			<mvc:exclude-mapping path="/cacheManage/clearStringCache.*" />	
+			<mvc:exclude-mapping path="/cacheManage/clearStringCache.*" />
+			<!-- 过滤PV -->
+			<mvc:exclude-mapping path="/cacheManage/getPVDate.*" />
 			
 			<!-- 竞价管理 -->
 			<mvc:exclude-mapping path="/obrule/addRule.*" />

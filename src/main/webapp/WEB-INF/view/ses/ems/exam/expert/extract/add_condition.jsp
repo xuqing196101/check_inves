@@ -691,7 +691,10 @@
                     formType: 2,
                     shade: 0.01,
                     offset: [y, x],
-                    title: '不参加理由'
+                    title: '不参加理由',
+                    cancel: function(index){
+                    	select.options[0].selected = true;
+                    }
                 }, function (value, ix, elem) {
                     ajaxs(select.value, value);
                     layer.close(ix);
@@ -711,6 +714,22 @@
     }
 
     function ajaxs(id, v) {
+    	
+    	var typeArr = id.split(",");
+    	var type = typeArr[2];
+    	if(type == "3") {
+    		if(v == null || v === undefined || v == '' ) {
+    			layer.msg("不参加理由不能为空");
+    			return false;
+        	} else {
+        		var strLen = chkStrLen(v);
+        		if(strLen >1000) {
+        			layer.msg("不参加理由不能大于500个汉字");	
+        			return false;
+        		}
+        	}
+    		
+    	}
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath}/ExpExtract/resultextract.do",
@@ -734,7 +753,7 @@
                                     html += "";
                                     if (list[0].conType[l].expertsType != null && list[0].conType[l].expertsType != '') {
                                         if (list[0].conType[l].expertsType.kind == 6) {
-                                            html += "专家类别：" + list[0].conType[l].expertsType.name + "技术";
+                                            html += "专家类别：" + list[0].conType[l].expertsType.name;
                                         } else {
                                             html += "专家类别：" + list[0].conType[l].expertsType.name;
                                         }
@@ -1127,5 +1146,17 @@
             $(select).parent().parent().parent().find("#extCategoryId").val("");
             $(select).parent().parent().parent().find("#extCategoryName").val("");
         }
+    }
+  	//检查字符串长度
+    function chkStrLen(str){
+		var strLen = 0;
+		for(var i = 0; i < str.length; i++) {
+			if(str.charCodeAt(i) > 255) {
+				strLen += 2;
+			} else {
+				strLen ++;
+			}
+		}
+		return strLen;
     }
 </script>

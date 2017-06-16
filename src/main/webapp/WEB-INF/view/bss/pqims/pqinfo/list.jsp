@@ -127,8 +127,8 @@
     }
 
     function clearSearch() {
-      $("#contractName").attr("value", "");
-      $("#contractCode").attr("value", "");
+      $("#contractName").val("");
+      $("#contractCode").val("");
       $("#searchType option:selected").removeAttr("selected");
       $("#searchConclusion option:selected").removeAttr("selected");
     }

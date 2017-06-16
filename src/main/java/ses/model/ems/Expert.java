@@ -307,6 +307,8 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private String auditor;//审核人
     
+    private Integer auditTemporary; //审核暂存状态0；未暂存，1：审核中，2：复审中，3复查中）
+    
     /** 专家提交审核时间 **/
     private Date submitAt;
     
@@ -871,6 +873,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
+	}
+
+	public Integer getAuditTemporary() {
+		return auditTemporary;
+	}
+
+	public void setAuditTemporary(Integer auditTemporary) {
+		this.auditTemporary = auditTemporary;
 	}
     
 }

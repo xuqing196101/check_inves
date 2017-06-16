@@ -84,15 +84,13 @@
 							</span>
 							</li>
 							<button type="button" onclick="submit();" class="btn fl mt1">查询</button>
-                 <button type="button" onclick="resetQuery();" class="btn fl mt1">重置</button>
+              <button type="button" onclick="resetQuery();" class="btn fl mt1">重置</button>
+              <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
 						</ul>
 						<div class="clear"></div>
 					</form>
 				</h2>
 			<!-- 表格开始-->
-			<div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-      </div>
 			<div class="content table_box">
                  <table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
@@ -117,7 +115,7 @@
 						<c:forEach items="${purchaseList}" var="p" varStatus="vs">
 							<tr class="cursor">
 								<td class="tc"><input type="checkbox" name="chkItem" value="${p.id}" /></td>
-								<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
+								<td class="tc" onclick="show('${p.id}');">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 								<td class="tc" onclick="show('${p.id}');">${p.relName}</td>
 								<td class="tl pl20" onclick="show('${p.id}');">${p.purchaseDepName}</td>
 								<td class="tc" onclick="show('${p.id}');">

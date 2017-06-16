@@ -1321,8 +1321,8 @@
         </div>
       <div class="visit_count">
       	<span class="visit_title">访问量</span>
-      	<span class="visit_clip col-md-offset-1 col-sm-offset-1"><b></b>今日访问量：<i id="pvThisDay"></i>个</span>
-      	<span class="visit_clip col-md-offset-1 col-sm-offset-1"><b></b>总访问量：<i id="pvTotal"></i>个</span>
+      	<span class="visit_clip col-md-offset-1 col-sm-offset-1"><b></b>今日访问量：<i id="pvThisDay"></i>次</span>
+      	<span class="visit_clip col-md-offset-1 col-sm-offset-1"><b></b>总访问量：<i id="pvTotal"></i>次</span>
       </div>
       <!-- <a href="${pageContext.request.contextPath}/index/init.html">初始化solr</a> -->
 

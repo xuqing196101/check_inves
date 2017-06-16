@@ -67,6 +67,7 @@
 				<result column="EXTRACT_ORGID" property="extractOrgid" />
 				<result column="ORGNAME" property="orgName" />
 				<result column="AUDITOR" property="auditor" />
+				<result column="AUDIT_TEMPORARY" property="auditTemporary" />
     </resultMap>
     
     <!-- 统计Analyze关系映射 -->
@@ -813,7 +814,6 @@ resultMap="BaseResultMap">
             <if test="isReferenceLftter != null">
                 IS_REFERENCE_LETTER = #{isReferenceLftter,jdbcType=CHAR},
             </if>
-
             <if test="professional != null">
                 PROFESSIONAL = #{professional,jdbcType=VARCHAR},
             </if>
@@ -837,6 +837,9 @@ resultMap="BaseResultMap">
             </if>
             <if test="auditor != null">
                 AUDITOR = #{auditor},
+            </if>
+            <if test="auditTemporary != null">
+                AUDIT_TEMPORARY = #{auditTemporary},
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}

@@ -160,12 +160,12 @@
 		       <div class="col-md-12 clear tc mt10">
 	           <button type="button" onclick="submit()" class="btn">查询</button>
 	           <button type="button" class="btn" onclick="chongzhi()">重置</button>
+	           <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
            </div>
            <div class="clear"></div>
 		     </form>
 		   </h2>
 			<div class="content table_box">
-				<button class="btn btn-windows back" onclick="back()" type="button">返回</button>
 				<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>

@@ -83,13 +83,11 @@
                       </li>
                   </ul>
                         <input class="btn fl mt1" onclick="submit()" type="button" value="查询">
-                        <input class="btn fl mt1" onclick="chongzhi()" type="button" value="重置"> 
+                        <input class="btn fl mt1" onclick="chongzhi()" type="button" value="重置">
+                        <input class="btn back fl mt1" onclick="back()" value="返回" type="button"/>
                    <div class="clear"></div>
 		     </form>
 		     </h2>
-		     <div class="col-md-12 pl20 mt10">
-		        <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-		     </div>
 		      <div class="content table_box">
                  <table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 		      <thead>

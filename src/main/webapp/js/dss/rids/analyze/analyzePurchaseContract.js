@@ -44,6 +44,7 @@ $(function() {
 		} ]
 	};
 
+	// 各采购机构签订合同数量及总金额
 	optionOrgContract = {
 		title : {
 			top : 0,
@@ -83,9 +84,8 @@ $(function() {
 				}
 		}
 		} ],
-		 series: [
+		series: [
 		          {
-		        	  //name: "人员数量",
 		              itemStyle: {
 		                  normal: {
 		                      color: function(params) {
@@ -100,11 +100,15 @@ $(function() {
 		                      label: {
 		                          show: true,
 		                          position: 'top',
-		                          formatter: '{b}\n{c}'
+		                          //formatter: '{b}\n{c}'
 		                      }
 		                  }
 		              },
 		              markPoint: {
+		            	  /*data : [
+	                          {type : 'max', name: '最大值'},
+	                          {type : 'min', name: '最小值'}
+	                      ],*/
 		                  tooltip: {
 		                      trigger: 'item',
 		                      backgroundColor: 'rgba(0,0,0,0)',
@@ -114,7 +118,6 @@ $(function() {
 		                                  + '"/>';
 		                      }
 		                  },
-		                  
 		              }
 		          }
 		      ]

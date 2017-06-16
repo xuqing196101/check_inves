@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
+import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ExpertTitleMapper;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
@@ -41,6 +42,9 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	@Autowired
 	private ExpertTitleMapper expertTitleMapper;
+	
+	@Autowired
+	private ExpertMapper expertMapper;
 	
 	/**
 	 * 
@@ -357,4 +361,35 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	public Integer findByObj(ExpertAudit expertAudit) {
 		return mapper.findByObj(expertAudit);
 	}
+	
+	/**
+     * @Title: temporaryAudit
+     * @date 2017-6-15 下午4:00:26  
+     * @Description:暂存审核
+     * @param @param expert      
+     * @return void
+     */
+	@Override
+	public boolean temporaryAudit(String expertId) {
+		Expert expert = new Expert();
+		expert.setId(expertId);
+		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
+		String status = expertInfo.getStatus();
+		if("0".equals(status)){
+			//初审中
+			expert.setAuditTemporary(1);
+		}else if("1".equals(status)){
+			//复审中
+			expert.setAuditTemporary(2);
+		}else if("6".equals(status)){
+			//复查中
+			expert.setAuditTemporary(3);
+		}else{
+			return false;
+		}
+		expertMapper.updateByPrimaryKeySelective(expert);
+		return true;
+	}
+	
+	
 }

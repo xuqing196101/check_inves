@@ -1503,18 +1503,18 @@ public class SupplierAuditController extends BaseSupplierController {
 		Supplier supplierInfo = supplierAuditService.supplierById(supplierId);
 		Integer status = supplierInfo.getStatus();
 		Supplier supplier = new Supplier();
-		if(status !=null && (status == 0 || status == 4  || status ==5) ){
-			supplier.setId(supplierId);
-			if(status == 0){
-				//1：审核中
-				supplier.setAuditTemporary(1);
-			}else if(status == 4){
-				//2：复核中
-				supplier.setAuditTemporary(2);
-			}else if(status == 5){
-				//3：考察中
-				supplier.setAuditTemporary(3);
-			}
+		supplier.setId(supplierId);
+		if(status == 0){
+			//1：审核中
+			supplier.setAuditTemporary(1);
+		}else if(status == 4){
+			//2：复核中
+			supplier.setAuditTemporary(2);
+		}else if(status == 5){
+			//3：考察中
+			supplier.setAuditTemporary(3);
+		}else{
+			return JSON.toJSONString("暂存失败");
 		}
 		supplierAuditService.updateStatus(supplier);
 		return JSON.toJSONString("暂存成功");

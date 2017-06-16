@@ -1196,7 +1196,7 @@ public class ExpertAuditController{
 		model.addAttribute("expert", expert);
 		
 		String type = expert.getExpertsTypeId();
-
+		model.addAttribute("expertType", type);
 		/*//工程下的执业资格
 		for(DictionaryData d : spList){
 			if(d.getCode().equals("PROJECT")){
@@ -1278,7 +1278,7 @@ public class ExpertAuditController{
 				modifyFiled.append(beforeField + ",");
 			}
 			model.addAttribute("modifyFiled", modifyFiled);
-				}
+		}
 		
 		
 		
@@ -1488,6 +1488,8 @@ public class ExpertAuditController{
 		
 		//审核人
 		expert.setAuditor(user.getRelName());
+		//还原暂存状态
+		expert.setAuditTemporary(0);
 		expertService.updateByPrimaryKeySelective(expert);
 
 		
@@ -2275,5 +2277,24 @@ public class ExpertAuditController{
 		expertAuditNot.setExpertName(expert.getRelName());
 		expertAuditNot.setIdCard(expert.getIdCardNumber());
 		expertAuditNotService.insertSelective(expertAuditNot);
+	}
+	
+	/**
+	 * @Title: temporaryAudit
+	 * @date 2017-6-15 下午3:58:28  
+	 * @Description:暂存审核
+	 * @param @param expertId
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value ="/temporaryAudit", produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String temporaryAudit(String expertId){
+		boolean temporaryAudit = expertAuditService.temporaryAudit(expertId);
+		if(temporaryAudit){
+			return JSON.toJSONString("暂存成功");
+		}else{
+			return JSON.toJSONString("暂存失败");
+		}
 	}
 }

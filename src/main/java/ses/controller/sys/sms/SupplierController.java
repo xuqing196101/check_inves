@@ -1037,6 +1037,54 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("supplieType", list);
 			List < DictionaryData > wlist = DictionaryDataUtil.find(8);
 			model.addAttribute("wlist", wlist);
+			
+			/**
+			 * 查询不通过的理由
+			 */
+			SupplierAudit supplierAudit = new SupplierAudit();
+			supplierAudit.setSupplierId(supplier.getId());;
+			//供应商勾选的类型
+			StringBuffer typePageField = new StringBuffer();
+			supplierAudit.setAuditType("supplierType_page");
+			List < SupplierAudit > typeAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			for(SupplierAudit audit: typeAuditList) {
+				typePageField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("typePageField", typePageField);
+			
+			//生产
+			StringBuffer proPageField = new StringBuffer();
+			supplierAudit.setAuditType("mat_pro_page");
+			List < SupplierAudit > proAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			for(SupplierAudit audit: proAuditList) {
+				proPageField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("proPageField", proPageField);
+			//销售
+			StringBuffer sellPageField = new StringBuffer();
+			supplierAudit.setAuditType("mat_sell_page");
+			List < SupplierAudit > sellAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			for(SupplierAudit audit: sellAuditList) {
+				sellPageField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("sellPageField", sellPageField);
+			//工程
+			StringBuffer engPageField = new StringBuffer();
+			supplierAudit.setAuditType("mat_eng_page");
+			List < SupplierAudit > engAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			for(SupplierAudit audit: engAuditList) {
+				engPageField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("engPageField", engPageField);
+			//服务
+			StringBuffer servePageField = new StringBuffer();
+			supplierAudit.setAuditType("mat_serve_page");
+			List < SupplierAudit > serveAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			for(SupplierAudit audit: serveAuditList) {
+				servePageField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("servePageField", servePageField);
+			
 			//初始化供应商注册附件类型
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
@@ -1050,6 +1098,9 @@ public class SupplierController extends BaseSupplierController {
             	findList.add(q);
             }
             model.addAttribute("typeList",  findList);
+            // 物资销售是否满足条件
+			String isSalePass = isPass(supplier.getId(), "SALES");
+			model.addAttribute("isSalePass", isSalePass);
 			return "ses/sms/supplier_register/supplier_type";
 		}
 	}
