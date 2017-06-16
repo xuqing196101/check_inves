@@ -187,28 +187,28 @@
 					// 非空校验
 					$(".cBranchName").each(function(index, element) {
 						if(element.value.trim().length <= 0) {
-							msg = "机构名称不能为空！";
+							msg = "境外分支机构名称不能为空！";
 							flag = false;
 						}
 					});
-                    $(".cOverseas").each(function(index, element) {
-                        if(element.value.trim().length <= 0) {
-                            msg = "所属国家（地区）不能为空！";
-                            flag = false;
-                        }
-                    });
-                    $(".cDetailAdddress").each(function(index, element) {
-                        if(element.value.trim().length <= 0) {
-                            msg = "详细信息不能为空！";
-                            flag = false;
-                        }
-                    });
-                    $(".cPrdArea").each(function(index, element) {
-                        if(element.value.trim().length <= 0) {
-                            msg = "生产经营范围不能为空！";
-                            flag = false;
-                        }
-                    });
+          $(".cOverseas").each(function(index, element) {
+              if(element.value.trim().length <= 0) {
+                  msg = "境外分支所属国家（地区）不能为空！";
+                  flag = false;
+              }
+          });
+          $(".cDetailAdddress").each(function(index, element) {
+              if(element.value.trim().length <= 0) {
+                  msg = "境外分支详细地址不能为空！";
+                  flag = false;
+              }
+          });
+          $(".cPrdArea").each(function(index, element) {
+              if(element.value.trim().length <= 0) {
+                  msg = "境外分支生产经营范围不能为空！";
+                  flag = false;
+              }
+          });
 				}
 				// 非空校验
 				$("#financeInfo").find("input[type='text']").each(function(index, element) {
