@@ -1196,7 +1196,7 @@ public class ExpertAuditController{
 		model.addAttribute("expert", expert);
 		
 		String type = expert.getExpertsTypeId();
-
+		model.addAttribute("expertType", type);
 		/*//工程下的执业资格
 		for(DictionaryData d : spList){
 			if(d.getCode().equals("PROJECT")){
@@ -1278,7 +1278,7 @@ public class ExpertAuditController{
 				modifyFiled.append(beforeField + ",");
 			}
 			model.addAttribute("modifyFiled", modifyFiled);
-				}
+		}
 		
 		
 		
