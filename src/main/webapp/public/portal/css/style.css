@@ -1809,7 +1809,7 @@ img.img-mouse {
           left: -14px;
           top: 26px;
 	   	  line-height:11px;
-	   	  min-width:60px;
+	   	  min-width:50px;
        }
      span.step_desc_02{
          font-size:12px;
@@ -1818,7 +1818,7 @@ img.img-mouse {
          left: -14px;
          top: -28px;
 	  	 line-height:11px;
-	   	 min-width:60px;
+	   	 min-width:50px;
       }
      .login_box h2 li a{
 		 font-size:14px;
