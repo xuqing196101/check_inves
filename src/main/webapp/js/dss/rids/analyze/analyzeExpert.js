@@ -144,7 +144,7 @@ $(function() {
 		                      label: {
 		                          show: true,
 		                          position: 'top',
-		                          formatter: '{b}\n{c}'
+		                          //formatter: '{b}\n{c}'
 		                      }
 		                  }
 		              },
@@ -235,7 +235,6 @@ $(function() {
 			// 获取echart对应的对象
 			var supplierOrg = $("#expertOrg").echartsTemplate("getMyChart", null);
 			supplierOrg.on('click', function(params) {
-				alert(params.data.id)
 				window.location.href = globalPath + "/expertQuery/readOnlyList.html?orgId="+params.data.id;
 			});
 		}

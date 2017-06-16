@@ -115,7 +115,7 @@
 						<c:forEach items="${purchaseList}" var="p" varStatus="vs">
 							<tr class="cursor">
 								<td class="tc"><input type="checkbox" name="chkItem" value="${p.id}" /></td>
-								<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
+								<td class="tc" onclick="show('${p.id}');">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 								<td class="tc" onclick="show('${p.id}');">${p.relName}</td>
 								<td class="tl pl20" onclick="show('${p.id}');">${p.purchaseDepName}</td>
 								<td class="tc" onclick="show('${p.id}');">
