@@ -191,7 +191,8 @@ public class ExpertController extends BaseController {
         // 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
         model.addAttribute("lyTypeList", lyTypeList);
-        String ipAddressType = PropUtil.getProperty("ipAddressType"); 
+        String ipAddressType = PropUtil.getProperty("ipAddressType");
+        model.addAttribute("ipType", ipAddressType);
         if ("0".equals(ipAddressType)) {
 
             ipAddressType = DictionaryDataUtil.getId("ARMY");
@@ -3894,6 +3895,7 @@ public class ExpertController extends BaseController {
             Category root = new Category();
             root.setId(data.getId());
             root.setName(data.getName());
+            root.setCode(data.getCode());
             allCateList.add(root);
             // 将筛选完的List转换为CategoryTreeList
             List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
@@ -3976,6 +3978,7 @@ public class ExpertController extends BaseController {
                 data.setName(data.getName() + "销售");
             }
             root.setName(data.getName());
+            root.setCode(data.getCode());
             allCateList.add(root);
             // 将筛选完的List转换为CategoryTreeList
             List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
@@ -3984,6 +3987,7 @@ public class ExpertController extends BaseController {
                 treeNode.setId(category.getId());
                 treeNode.setName(category.getName());
                 treeNode.setParentId(category.getParentId());
+                treeNode.setCode(category.getCode());
                 // 判断是否为父级节点
                 List < Category > nodesList = categoryService.findPublishTree(category.getId(), null);
                 if(nodesList != null && nodesList.size() > 0) {

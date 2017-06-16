@@ -111,7 +111,20 @@ function openViewDIvs(id){
 </script>
 </head>
 <body>
-    
+<!--面包屑导航开始-->
+<div class="margin-top-10 breadcrumbs ">
+	<div class="container">
+		<ul class="breadcrumb margin-left-0">
+			<li>
+				<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			</li>
+			<li><a href="javascript:void(0)">保障作业</a></li>
+			<li><a href="javascript:void(0)">网上竞价</a></li>
+			<li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/ob_project/biddingInfoList.html')">竞价看板</a></li>
+		</ul>
+		<div class="clear"></div>
+	</div>
+</div>
 <!-- 供应商列表页面开始 -->
 	<div class="container">
     <div class="search_detail">
@@ -140,7 +153,7 @@ function openViewDIvs(id){
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+		<a class="btn btn-windows back"  href="${pageContext.request.contextPath}/ob_project/biddingInfoList.html">返回</a>
 	</div>
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">

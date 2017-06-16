@@ -132,7 +132,7 @@ session.setAttribute("tokenSession", tokenValue);
 		       <input type="hidden" id="message" value="${message }"/>
 		       <em>
 		       <div class="col-md-10 col-xs-10 col-sm-10 p0" style="margin-left: 15px;font-size: 18px;font-style:normal">评审专家账号注册：
-		       <c:if test="${ipAddressType=='1'}">
+		       <c:if test="${ipType == 1}">
 		       </br><span class="red" style="font-size:16px">(军队单位人员请登录内网进行注册！)</span>
 		       </c:if>
 		       </div>

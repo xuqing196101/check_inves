@@ -166,7 +166,8 @@
 	   var orgid='${orgId}';
 	   if(orgid=='0'){
 	  if(checkID){
-	   window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?status=1&obProjectId="+checkID;
+	   //window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?status=1&obProjectId="+checkID;
+	   jumppage("${pageContext.request.contextPath}/ob_project/editOBProject.html?status=1&obProjectId="+checkID);
 	  }else{
 	  layer.alert("请选择暂存的竞价", {
 			offset: ['222px', '390px'],
@@ -202,10 +203,14 @@
 <!--面包屑导航开始-->
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-        <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">网上竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">竞价信息管理</a></li>
-		   </ul>
+		  <ul class="breadcrumb margin-left-0">
+			  <li>
+				  <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			  </li>
+			  <li><a href="javascript:void(0)">保障作业</a></li>
+			  <li><a href="javascript:void(0)">网上竞价</a></li>
+			  <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/ob_project/list.html')">竞价信息管理</a></li>
+		  </ul>
         <div class="clear"></div>
       </div>
     </div>

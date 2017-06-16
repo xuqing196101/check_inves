@@ -168,14 +168,19 @@
 </head>
 <body>
 <!--面包屑导航开始-->
-    <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-        <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">竞价看板</a></li><li class="active"><a href="javascript:void(0)">竞价信息列表</a></li>
+<div class="margin-top-10 breadcrumbs ">
+	<div class="container">
+		<ul class="breadcrumb margin-left-0">
+			<li>
+				<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			</li>
+			<li><a href="javascript:void(0)">保障作业</a></li>
+			<li><a href="javascript:void(0)">网上竞价</a></li>
+			<li><a href="javascript:jumppage('${pageContext.request.contextPath}/ob_project/biddingInfoList.html')">竞价看板</a></li>
+			<li class="active"><a href="javascript:void(0)">竞价信息列表</a></li>
 		</ul>
-        <div class="clear"></div>
-      </div>
+		<div class="clear"></div>
+	</div>
     </div>
     
 <!-- 竞价信息列表页面开始 -->
@@ -257,7 +262,7 @@
 			  		0
 			  	</c:if>
 			   	<c:if test="${obProject.qualifiedSupplier!=0}">
-			   		 <a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${obProject.id}">${obProject.qualifiedSupplier}</a>
+			   		 <a href="javascript:jumppage('${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${obProject.id}')">${obProject.qualifiedSupplier}</a>
 			 	</c:if>
 			  </td>
 			  <td class="tl">

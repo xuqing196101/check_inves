@@ -152,7 +152,6 @@
                 dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
                 success:function(data){
                     var _obj = eval(data);
-                    console.log(_obj);
                     var setting = {
                         check : {
                             enable : true,
@@ -302,7 +301,7 @@
 	    if(!treeNode.isParent){//末节点
 	        return _str;
         }
-        if(treeNode.children.length>0){
+        if(treeNode.children && treeNode.children.length>0){
             for(var i = 0;i<treeNode.children.length;i++){
                 var endStr = loadChildrenStr(treeNode.children[i]);
                 _str += treeNode.children[i].id + "," + endStr;
@@ -316,7 +315,7 @@
             if(treeNode.code.indexOf('B02') == 0 || treeNode.code.indexOf('B03') == 0){
                 var categoryIds = "";
                 //工程勘察不展开且勾选时,加载子节点
-                if(treeNode.children.length>0){
+                if(treeNode.children && treeNode.children.length>0){
                     categoryIds = loadChildrenStr(treeNode);
                 }else{
                     categoryIds = treeNode.id;

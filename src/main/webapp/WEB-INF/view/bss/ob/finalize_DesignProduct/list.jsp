@@ -381,9 +381,13 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">定型产品管理</a></li>
-		   </ul>
+			<li>
+				<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			</li>
+			<li><a href="javascript:void(0)">保障作业</a></li>
+			<li><a href="javascript:void(0)">网上竞价</a></li>
+			<li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/product/list.html')">定型产品管理</a></li>
+		</ul>
         <div class="clear"></div>
       </div>
     </div>
@@ -451,7 +455,7 @@
 		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 		  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 		  <td title="${product.name }">
-			  <a href="${pageContext.request.contextPath }/product/view.html?productId=${product.id }">
+			  <a href="javascript:jumppage('${pageContext.request.contextPath }/product/view.html?productId=${product.id }')">
 			  	<c:if test="${fn:length(product.name) > 25 }">${fn:substring(product.name, 0, 25)}...</c:if>
 				<c:if test="${fn:length(product.name) <= 25 }">${product.name }</c:if>
 			  </a>
@@ -465,7 +469,7 @@
 		  	<c:if test="${product.status == 4}">未发布</c:if>
 		  </td>
 		  <td class="tc">
-		  	<a href = "${pageContext.request.contextPath}/product/supplier.html?smallPointsId=${product.smallPointsId }">
+		  	<a href = "javascript:jumppage('${pageContext.request.contextPath}/product/supplier.html?smallPointsId=${product.smallPointsId }')">
 		  		<c:forEach items="${numlist }" var="num">
 		  			<c:if test="${num.smallPointsId == product.smallPointsId }">${num.nCount }</c:if>
 		  		</c:forEach>
