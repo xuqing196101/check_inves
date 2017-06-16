@@ -111,6 +111,7 @@ a:hover {
 	display: inline-block;
 	float: none;
 	text-align: left;
+	float:left;
 }
 
 @media (max-width: 992px) {
