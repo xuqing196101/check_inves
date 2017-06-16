@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -21,7 +23,6 @@ import org.springframework.stereotype.Repository;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-
 import common.service.SystemPvService;
 import common.utils.DateUtils;
 import common.utils.RedisUtils;
@@ -52,7 +53,9 @@ public class CacheFilter implements Filter {
 	private Integer pvCacheTime;
 
 	// 设置缓存key
+	// 首页缓存key
 	private String homeKey;
+	// 访问总量key
 	private String C_PV_TOTAL_KEY;
 	
 	// 注入PV Mapper
@@ -98,9 +101,42 @@ public class CacheFilter implements Filter {
 		this.systemPvService = systemPvService;
 	}
 
+	/**
+	 * 
+	 * Description:缓存过滤器初始化
+	 * 
+	 * @author Easong
+	 * @version 2017年6月16日
+	 * @param config
+	 * @throws ServletException
+	 */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
-		
+		Jedis jedis = null;
+		try {
+			// 获取当前日期作为key 格式20170613
+			String key = DateUtils.getDateOfFormat(new Date());
+			jedis = cacheHomePage.getResource();
+			String thisDayPvKey = jedis.get(key);
+			String pvTotalKey = jedis.get(C_PV_TOTAL_KEY);
+			if (StringUtils.isEmpty(thisDayPvKey)) {
+				jedis.set(key, "0");
+			}
+			if (StringUtils.isEmpty(pvTotalKey)) {
+				// 获取总值
+				BigDecimal count = systemPvService.selectPvTotalCount();
+				if (count == null) {
+					jedis.set(C_PV_TOTAL_KEY, "0");
+				} else {
+					jedis.set(C_PV_TOTAL_KEY, count.toString());
+				}
+			}
+		} catch (Exception e) {
+			log.info("redis连接异常...");
+		} finally {
+			// 关闭资源
+			RedisUtils.returnResource(jedis, cacheHomePage);
+		}
 	}
 
 	public Integer getPvCacheTime() {
@@ -225,14 +261,16 @@ public class CacheFilter implements Filter {
 	
 	/**
 	 * 
-	 * Description: 访问量
+	 * Description: 访问量统计
 	 * 
 	 * @author Easong
 	 * @version 2017年6月13日
 	 */
-	private void putIntoPV(){
+	// Lock lock = new ReentrantLock();
+ 	private void putIntoPV(){
 		Jedis jedis = null;
 		try {
+			// lock.lock(); 锁机制解决高并发
 			// 获取jedis
 			jedis = cacheHomePage.getResource();
 			// 获取当前日期作为key 格式20170613
@@ -240,7 +278,7 @@ public class CacheFilter implements Filter {
 			// 获取当前日期的key
 			String keyString = jedis.get(key);
 			// 存在key
-			if(StringUtils.isBlank(keyString)){
+			if(StringUtils.isEmpty(keyString)){
 				// 从数据库中获取
 				Integer count = systemPvService.selectCountById(Integer.parseInt(key));
 				if(count != null && count != 0){
@@ -277,6 +315,7 @@ public class CacheFilter implements Filter {
 		} catch (Exception e) {
 			log.info("redis连接异常...");
 		}finally {
+			// lock.unlock();
 			// 关闭资源
 			RedisUtils.returnResource(jedis, cacheHomePage);
 		}
