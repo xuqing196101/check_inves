@@ -691,7 +691,10 @@
                     formType: 2,
                     shade: 0.01,
                     offset: [y, x],
-                    title: '不参加理由'
+                    title: '不参加理由',
+                    cancel: function(index){
+                    	select.options[0].selected = true;
+                    }
                 }, function (value, ix, elem) {
                     ajaxs(select.value, value);
                     layer.close(ix);
