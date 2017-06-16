@@ -711,6 +711,22 @@
     }
 
     function ajaxs(id, v) {
+    	
+    	var typeArr = id.split(",");
+    	var type = typeArr[2];
+    	if(type == "3") {
+    		if(v == null || v === undefined || v == '' ) {
+    			layer.msg("不参加理由不能为空");
+    			return false;
+        	} else {
+        		var strLen = chkStrLen(v);
+        		if(strLen >1000) {
+        			layer.msg("不参加理由不能大于500个汉字");	
+        			return false;
+        		}
+        	}
+    		
+    	}
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath}/ExpExtract/resultextract.do",
@@ -1127,5 +1143,17 @@
             $(select).parent().parent().parent().find("#extCategoryId").val("");
             $(select).parent().parent().parent().find("#extCategoryName").val("");
         }
+    }
+  	//检查字符串长度
+    function chkStrLen(str){
+		var strLen = 0;
+		for(var i = 0; i < str.length; i++) {
+			if(str.charCodeAt(i) > 255) {
+				strLen += 2;
+			} else {
+				strLen ++;
+			}
+		}
+		return strLen;
     }
 </script>
