@@ -31,6 +31,7 @@
     SELECT * FROM (
       SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID FROM T_ISS_PS_ARTICLE
       WHERE STATUS = 2
+      AND RANGE = 2
       AND IS_DELETED = 0
       AND LAST_ARTICLE_TYPE_ID = #{articleTypeId}
       ORDER BY PUBLISHED_AT DESC)
@@ -42,6 +43,7 @@
     SELECT * FROM (
       SELECT ID,NAME,PUBLISHED_AT,ARTICLE_TYPE_ID FROM T_ISS_PS_ARTICLE
       WHERE STATUS = 2
+      AND RANGE = 2
       AND IS_DELETED = 0
       AND ARTICLE_TYPE_ID = #{articleTypeId}
       ORDER BY PUBLISHED_AT DESC)
@@ -54,6 +56,7 @@
       SELECT a.*,ROWNUM ROW_NUM FROM (
         SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID FROM T_ISS_PS_ARTICLE
         WHERE STATUS = 2
+        AND RANGE = 2
         AND IS_DELETED = 0
         AND LAST_ARTICLE_TYPE_ID = #{articleTypeId}
         ORDER BY PUBLISHED_AT DESC) a
@@ -67,6 +70,7 @@
       SELECT a.*,ROWNUM ROW_NUM FROM (
         SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID FROM T_ISS_PS_ARTICLE
         WHERE STATUS = 2
+        AND RANGE = 2
         AND IS_DELETED = 0
         AND LAST_ARTICLE_TYPE_ID in
       <foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
@@ -83,6 +87,7 @@
       SELECT a.*,ROWNUM ROW_NUM FROM (
         SELECT ID,NAME,PUBLISHED_AT,LAST_ARTICLE_TYPE_ID FROM T_ISS_PS_ARTICLE
         WHERE STATUS = 2
+        AND RANGE = 2
         AND IS_DELETED = 0
         AND ARTICLE_TYPE_ID = #{articleTypeId}
         ORDER BY PUBLISHED_AT DESC) a
@@ -101,6 +106,7 @@
           AND NAME LIKE CONCAT(CONCAT('%', #{key}), '%')
         </if>
         AND STATUS=2
+        AND RANGE = 2
         ORDER BY PUBLISHED_AT DESC) a
       ) b 
     WHERE b.ROW_NUM between #{start} AND #{end}

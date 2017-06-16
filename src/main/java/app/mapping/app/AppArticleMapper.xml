@@ -26,6 +26,7 @@
         #{item}
       </foreach>
       AND status=2
+      AND RANGE = 2
       AND IS_DELETED = 0
       ORDER BY PUBLISHED_AT DESC)
     WHERE ROWNUM = 1
@@ -43,7 +44,7 @@
              #{item}
           </foreach>
         )
-      AND STATUS = 2 AND IS_DELETED = 0
+      AND STATUS = 2 AND IS_DELETED = 0 AND RANGE = 2
       ORDER BY PUBLISHED_AT DESC)
     WHERE ROWNUM = 1
   </select>
@@ -61,7 +62,7 @@
              #{item}
           </foreach>
         )
-      AND STATUS = 2 AND IS_DELETED = 0
+      AND STATUS = 2 AND IS_DELETED = 0 AND RANGE = 2
       ORDER BY PUBLISHED_AT DESC) a
       ) b 
     WHERE b.ROW_NUM BETWEEN #{start} AND #{end}
