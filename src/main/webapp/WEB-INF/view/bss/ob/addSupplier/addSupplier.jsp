@@ -73,56 +73,56 @@
           hideMenu();
 	  }
     }
-	
-    function intiTree(){
-  	  /* 加载目录信息 */
-  		var datas;
-  		var setting={
-  				   async:{
-  							autoParam:["id"],
-  							enable:true,
-  							otherParam:{"otherParam":"zTreeAsyncTest"},  
-  							dataType:"json",
-  							type:"get",
-  						},
-  						callback:{
-  					    	onClick:zTreeOnClick,//点击节点触发的事件
-  		       			    
-  					    }, 
-  						data:{
-  							keep:{
-  								parent:true
-  							},
-  							key:{
-  								title:"title"
-  							},
-  							simpleData:{
-  								enable:true,
-  								idKey:"id",
-  								pIdKey:"pId",
-  								rootPId:"0",
-  							}
-  					    },
-  					   view:{
-  					        selectedMulti: false,
-  					        showTitle: false,
-  					         showLine: true
-  					   },
-  		         };
-  		$.ajax({
-			url: "${pageContext.request.contextPath}/obSupplier/createtreeByproduct.do",
-			async: false,
-			dataType: "json",
-			success: function(data){
-				if (data.length == 1) {
-					layer.msg("没有符合查询条件的产品类别信息！");
-				} else {
-					zNodes = data;
-					zTreeObj = $.fn.zTree.init($("#treeDemo"),setting,zNodes);
-				}
-			}
-		});
-  	    
+
+    function intiTree() {
+        /* 加载目录信息 */
+        var datas;
+        var setting = {
+            async: {
+                autoParam: ["id"],
+                enable: true,
+                otherParam: {"otherParam": "zTreeAsyncTest"},
+                dataType: "json",
+                type: "get",
+            },
+            callback: {
+                onClick: zTreeOnClick,//点击节点触发的事件
+
+            },
+            data: {
+                keep: {
+                    parent: true
+                },
+                key: {
+                    title: "title"
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "pId",
+                    rootPId: "0",
+                }
+            },
+            view: {
+                selectedMulti: false,
+                showTitle: false,
+                showLine: true
+            },
+        };
+        $.ajax({
+            url: "${pageContext.request.contextPath}/obSupplier/createtreeByproduct.do",
+            async: false,
+            dataType: "json",
+            success: function (data) {
+                if (data.length == 1) {
+                    layer.msg("没有符合查询条件的产品类别信息！");
+                } else {
+                    zNodes = data;
+                    zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                }
+            }
+        });
+
     }
    
       function showMenu() {

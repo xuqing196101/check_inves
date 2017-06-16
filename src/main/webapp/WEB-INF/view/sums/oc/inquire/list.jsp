@@ -75,19 +75,22 @@
 	
 	//查看详情
 	function doview(id){
-		window.location.href = "${pageContext.request.contextPath }/onlineComplaints/view.html?id="+id;
+        jumppage("${pageContext.request.contextPath }/onlineComplaints/view.html?id="+id);
 	}
 	</script>
 </head>
 <body>
 <!--面包屑导航开始-->
     <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-        <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">业务监管</a></li><li><a href="javascript:void(0)">网上投诉</a></li>
-		   </ul>
-        <div class="clear"></div>
-      </div>
+        <div class="container">
+            <ul class="breadcrumb margin-left-0">
+                <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+                <li><a href="javascript:void(0)">业务监管</a></li>
+                <li><a href="javascript:void(0)">网上投诉</a></li>
+                <li><a href="javascript:jumppage('${pageContext.request.contextPath }/onlineComplaints/complaints.html')">投诉记录查询</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
     </div>
     
     <!-- 网上投诉列表页面开始 -->

@@ -50,6 +50,7 @@
       //查看
       function view(id) {
         window.location.href = "${pageContext.request.contextPath}/supervision/demandSupervisionView.html?id=" + id;
+          jumppage("${pageContext.request.contextPath}/supervision/demandSupervisionView.html?id=" + id);
       }
 
       function resetQuery() {
@@ -63,7 +64,7 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
-            <a href="javascript:void(0);">首页</a>
+              <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
           </li>
           <li>
             <a href="javascript:void(0);">业务监管</a>
@@ -72,7 +73,7 @@
             <a href="javascript:void(0);">采购业务监督</a>
           </li>
           <li>
-            <a href="javascript:void(0);">采购需求监督</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/supervision/demandSupervisionList.html');">采购需求监督</a>
           </li>
         </ul>
         <div class="clear"></div>
