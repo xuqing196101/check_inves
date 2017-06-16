@@ -102,7 +102,7 @@ public class WordUtil {
 	        //关闭流
 	        out.flush();
 	        out.close();
-	        
+	        outFile.setWritable(false);
 	        filPath.delete();
 	        	
 	        //FileUtils.copyFile(outFile, new File(url+"/"+fileName));
