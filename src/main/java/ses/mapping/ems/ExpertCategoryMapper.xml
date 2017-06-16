@@ -14,17 +14,18 @@
   </sql>
   
   <!-- 根据专家id查询品目id集合 -->
-  <select id="selectListByExpertId" resultMap="BaseResultMap">
+ <select id="selectListByExpertId" resultMap="BaseResultMap">
     select 
-    <include refid="baseExpertSql"/>
-    from T_SES_EMS_EXPERT_CATEGORY
-    where   EXPERT_ID = #{param1,jdbcType=VARCHAR}
+    t1.EXPERT_ID, t1.CATEGORY_ID, t1.TYPE_ID, t1.LEVELS, t1.ENGIN_TYPE,t2.CODE
+    from T_SES_EMS_EXPERT_CATEGORY t1 , T_SES_BMS_CATEGORY t2 
+    where   t1.EXPERT_ID = #{param1,jdbcType=VARCHAR} and t1.CATEGORY_ID=t2.ID
     <if test="param2 != null">
-    and TYPE_ID = #{param2,jdbcType=VARCHAR}
+    and t1.TYPE_ID = #{param2,jdbcType=VARCHAR}
     </if>
     <if test="param3 != null">
-    and LEVELS = #{param3,jdbcType=VARCHAR}
+    and t1.LEVELS = #{param3,jdbcType=VARCHAR}
     </if>
+    order by t2.CODE ASC
   </select>
   
   <!-- 根据专家id查询品目id集合 -->

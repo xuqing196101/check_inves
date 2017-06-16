@@ -191,7 +191,8 @@ public class ExpertController extends BaseController {
         // 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
         model.addAttribute("lyTypeList", lyTypeList);
-        String ipAddressType = PropUtil.getProperty("ipAddressType"); 
+        String ipAddressType = PropUtil.getProperty("ipAddressType");
+        model.addAttribute("ipType", ipAddressType);
         if ("0".equals(ipAddressType)) {
 
             ipAddressType = DictionaryDataUtil.getId("ARMY");
