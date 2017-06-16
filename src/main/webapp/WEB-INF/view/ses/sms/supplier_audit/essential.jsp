@@ -313,13 +313,9 @@
             dataType: "json",
             data:{supplierId : supplierId},
             success : function (result) {
-              if(result == "暂存成功"){
                 layer.msg(result, {offset : [ '100px' ]});
-              }else{
-                layer.msg("重置失败", {offset : [ '100px' ]});
-              }
             },error : function(){
-              layer.msg("重置失败", {offset : [ '100px' ]});
+              layer.msg("暂存失败", {offset : [ '100px' ]});
             }
           });
         }

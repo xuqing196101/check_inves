@@ -385,8 +385,11 @@
                   <c:if test="${expert.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
                   <c:if test="${expert.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
                 </td>
-                <c:if test="${(sign == 1 and expert.status eq '0')}">
+                <c:if test="${(sign == 1 and expert.status eq '0' and expert.auditTemporary ne '1')}">
                   <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待初审</span></td>
+                </c:if>
+                <c:if test="${sign == 1 and expert.status eq '0' and expert.auditTemporary eq '1'}">
+                  <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">初审中</span></td>
                 </c:if>
                 <c:if test="${sign == 1 and expert.status eq '1' }">
                   <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">初审通过</span></td>
@@ -397,8 +400,11 @@
                 <c:if test="${sign == 1 and expert.status eq '3' }">
                   <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">退回修改</span></td>
                 </c:if>
-                <c:if test="${sign == 2 and expert.status eq '1' }">
+                <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary ne '2'}}">
                   <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复审</span></td>
+                </c:if>
+                <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary eq '2'}}">
+                  <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复审中</span></td>
                 </c:if>
                 <c:if test="${sign == 2 and expert.status eq '4' }">
                   <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审合格</span></td>
@@ -406,8 +412,11 @@
                 <c:if test="${sign == 2 and expert.status eq '5' }">
                   <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审不合格</span></td>
                 </c:if>
-                <c:if test="${sign == 3 and expert.status eq '6' }">
+                <c:if test="${sign == 3 and expert.status eq '6' and expert.auditTemporary ne '3'}">
                   <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复查</span></td>
+                </c:if>
+                <c:if test="${sign == 3 and expert.status eq '6' and expert.auditTemporary eq '3'}">
+                  <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复查中</span></td>
                 </c:if>
                 <c:if test="${sign == 3 and expert.status eq '7' }">
                   <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查通过</span></td>
