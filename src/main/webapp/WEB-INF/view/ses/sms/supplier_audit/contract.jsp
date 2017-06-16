@@ -210,23 +210,19 @@
 			}
 			
 			//暂存
-      function zhancun(){
-        var supplierId = $("#supplierId").val();
-        $.ajax({
-          url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
-          dataType: "json",
-          data:{supplierId : supplierId},
-          success : function (result) {
-            if(result == "暂存成功"){
-              layer.msg(result, {offset : [ '100px' ]});
-            }else{
-              layer.msg("重置失败", {offset : [ '100px' ]});
+        function zhancun(){
+         var supplierId = $("#id").val();
+          $.ajax({
+            url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
+            dataType: "json",
+            data:{supplierId : supplierId},
+            success : function (result) {
+                layer.msg(result, {offset : [ '100px' ]});
+            },error : function(){
+              layer.msg("暂存失败", {offset : [ '100px' ]});
             }
-          },error : function(){
-            layer.msg("重置失败", {offset : [ '100px' ]});
-          }
-        });
-      }
+          });
+        }
 		</script>
 	</head>
 
