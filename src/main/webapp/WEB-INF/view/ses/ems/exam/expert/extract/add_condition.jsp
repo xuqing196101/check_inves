@@ -753,7 +753,7 @@
                                     html += "";
                                     if (list[0].conType[l].expertsType != null && list[0].conType[l].expertsType != '') {
                                         if (list[0].conType[l].expertsType.kind == 6) {
-                                            html += "专家类别：" + list[0].conType[l].expertsType.name + "技术";
+                                            html += "专家类别：" + list[0].conType[l].expertsType.name;
                                         } else {
                                             html += "专家类别：" + list[0].conType[l].expertsType.name;
                                         }
