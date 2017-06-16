@@ -565,6 +565,10 @@
 					layer.msg("请填写手机号!");
 					return false;
 				}
+				if(!(/^1[3|4|5|7|8]\d{9}$/.test(mobile))){
+					layer.msg("手机号格式不正确!");
+                    return false;
+				}
 				var telephone = $("#telephone").val().trim();
 				if(!telephone) {
 					layer.msg("请填写固定电话!");

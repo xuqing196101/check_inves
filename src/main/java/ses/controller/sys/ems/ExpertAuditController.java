@@ -1639,9 +1639,13 @@ public class ExpertAuditController{
 			}
 		}
 		dataMap.put("professTechTitles", expert.getProfessTechTitles() == null ? "" : expert.getProfessTechTitles());
+		if(expertType.toString().trim().length() > 0 ){
+			String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+			dataMap.put("expertsTypeId", expertsType);
+		}else{
+			dataMap.put("expertsTypeId", "");
+		}
 		
-		String expertsType = expertType.toString().substring(0, expertType.length() - 1);
-		dataMap.put("expertsTypeId", expertsType);
 		
 		//获取最终意见
 		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
@@ -1902,7 +1906,7 @@ public class ExpertAuditController{
 			}
 			dataMap.put("professional", professional);
 		}else{
-			dataMap.put("professional", "");
+			dataMap.put("professional", "无");
 		}
 		
 		
