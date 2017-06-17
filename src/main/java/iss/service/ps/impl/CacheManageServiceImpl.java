@@ -251,6 +251,8 @@ public class CacheManageServiceImpl implements CacheManageService {
 			return JdcgResult.ok(systemPVVO);
 		} catch (Exception e) {
 			log.info("redis连接异常...");
+		} finally {
+			RedisUtils.returnResource(jedis, jedisPool);
 		}
 		// 如果发生异常
 		SystemPV systemPV = systemPVMapper.selectByPrimaryKey(Integer.parseInt(dateOfFormat));

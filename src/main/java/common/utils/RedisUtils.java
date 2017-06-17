@@ -31,11 +31,8 @@ public class RedisUtils {
 	 * @throws
 	 * @version 2017年2月23日
 	 */
-	@SuppressWarnings("deprecation")
-	public static void returnResource(final Jedis jedis, JedisPool jedisPool) {
-		if (jedis != null) {
-			jedisPool.returnResource(jedis);
-		}
+	public static void returnResource(Jedis jedis, JedisPool jedisPool) {
+		jedisPool.returnResourceObject(jedis);
 	}
 
 	/**
@@ -90,14 +87,7 @@ public class RedisUtils {
 	 * @version 2017年2月27日
 	 */
 	public static Jedis getResource(JedisPool jedisPool) {
-		Jedis jedis = null;
-		try {
-			jedis = jedisPool.getResource();
-		} catch (JedisException e) {
-			log.info("redis连接异常...");
-			jedisPool.returnBrokenResource(jedis);
-		}
-		return jedis;
+		return jedisPool.getResource();
 	}
 
 	/**
