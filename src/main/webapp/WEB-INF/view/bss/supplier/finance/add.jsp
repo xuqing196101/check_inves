@@ -49,12 +49,9 @@
 				<div class="clear"></div>
 			</div>
 		</div>
-		<div class="container">
+		<div class="container container_box">
 			<form id="form1" action="${pageContext.request.contextPath}/supplier_finance/save.html" method="post">
-				<div>
-			        <div class="headline-v2">
-						<h2>财务审计报告新增</h2>
-					</div>
+					<h2 class="list_title">财务审计报告新增</h2>
 					<ul class="ul_list">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>年份：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -141,7 +138,6 @@
 							</div>
 						</li>
 					</ul>
-				</div>
 				<div class="tc mt10 col-md-12 col-xs-12">
 					<button type="button" class="btn btn-windows save" onclick="saveOrBack(1)">暂存</button>
 					<button type="button" class="btn btn-windows save" onclick="saveOrBack(2)">提交</button>

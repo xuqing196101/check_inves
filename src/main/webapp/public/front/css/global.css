@@ -121,6 +121,7 @@ p, li, li a, label {
 	padding-right: 0;
 	background: none;
 	position: relative;
+	overflow: hidden;
 }
 
 .breadcrumb a {
