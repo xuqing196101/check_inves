@@ -196,7 +196,7 @@
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检详细情况:</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea class="h130 col-md-12 col-sm-12 col-xs-12 " required maxlength="100" name="detail" title="不超过100个字" placeholder="不超过100个字">${pqinfo.detail}</textarea>
+                <textarea class="h130 col-md-12 col-sm-12 col-xs-12 " required maxlength="800" name="detail" title="不超过800个字" placeholder="不超过800个字">${pqinfo.detail}</textarea>
               </div>
               <div class="clear red">${ERR_detail}</div>
             </li>
