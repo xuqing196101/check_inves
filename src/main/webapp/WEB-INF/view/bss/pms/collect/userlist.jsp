@@ -34,7 +34,6 @@
   
 	
 	function closeds(){
-		 
 		var nature=parent.nature;
 		var turn=parent.turns;
  		/* $("#aduit_nature").val(nature); */
@@ -92,9 +91,6 @@
 		 parent.layer.close(index);  
  	}
 	
- 	function ss(){
- 		
- 	}
  	
  	//保存
 /*  	function save(){
@@ -160,7 +156,7 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
-		  <th class="info w30"></th>
+		  <th class="info w50">选择</th>
 		  <th class="info w50">序号</th>
 		  <th class="info">姓名</th>
 		  <th class="info">电话</th>
@@ -169,7 +165,7 @@
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr class="pointer">
-			  <td class="tc w30"><input type="radio" value="${obj.id }" name="chkItem"></td>
+			  <td class="tc w50"><input type="radio" value="${obj.id }" name="chkItem"></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			    <td class="tl pl20">
 			  			${obj.relName}
@@ -188,8 +184,8 @@
 	  <input type="hidden" name="type" value="2">
 	  <input type="hidden" name="collectId" value="" id="cid">
 	  <input type="hidden" name="auditStaff" id="aduit_nature" value=""/>
-     <input type="hidden" name="auditRound" id="audit_turn" value="${type }"/>
-     <input type="hidden" value="${type }"  id="type" >
+     <input type="hidden" name="auditRound" id="audit_turn" value="${type}"/>
+     <input type="hidden" value="${type}"  id="type" >
      <input type="hidden" name="name"   value=""/>
       <input type="hidden" name="mobile"   value=""/>
       <input type="hidden" name="userId" id="user_id"  value=""/>

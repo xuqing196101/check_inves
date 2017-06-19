@@ -90,7 +90,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>合同编号:</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input class="span5 contractCode" id="contractCode" name="contract.code" onblur="selectByCode()" type="text" value="${pqinfo.contract.code }">
+                <input class="span5 contractCode" id="contractCode" name="contract.code" onblur="selectByCode()" required type="text" value="${pqinfo.contract.code }">
                 <span class="add-on">i</span>
                 <span class="input-tip">填写合同编号合同信息自动生成</span>
                 <div class="cue" id="contractCodeErr">${ERR_contract_code}</div>

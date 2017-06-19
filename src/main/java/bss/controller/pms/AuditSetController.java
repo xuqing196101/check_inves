@@ -76,10 +76,6 @@ import com.github.pagehelper.PageInfo;
 @RequestMapping("/set")
 public class AuditSetController {
 
-	
-	@Autowired
-	private UpdateFiledService updateFiledService;
-	
 	@Autowired
 	private ExpertService expertService;
 	
@@ -91,24 +87,6 @@ public class AuditSetController {
 	
 	@Autowired
 	private CollectPlanService collectPlanService;
-	
-	@Autowired
-	private PurchaseRequiredMapper purchaseRequiredMapper;
-	
-	@Autowired
-	private CollectPurchaseService collectPurchaseService;
-	
-	@Autowired
-	private AuditParameService auditParameService; 
-	
-	@Autowired
-	private PurchaseAuditService purchaseAuditService;
-	
-	@Autowired
-	private DictionaryDataServiceI dictionaryDataServiceI;
-
-	@Autowired
-	private OrgnizationMapper orgnizationMapper;
 	
 	@Autowired
 	private AuditPersonMapper auditPersonMapper;

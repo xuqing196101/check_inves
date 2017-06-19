@@ -666,7 +666,7 @@
 		<where>
 			HISTORY_STATUS='0'  and IS_DELETE='0' 
 			<if test="createdAt!=null">
-				and  to_char(CREATED_AT,'yy-MM-dd') =to_char(#{createdAt},'yyyy-MM-dd')
+				and  to_char(CREATED_AT,'yyyy-MM-dd') =to_char(#{createdAt},'yyyy-MM-dd')
 			</if>
 			<if test="planName!=null">
 				and PLAN_NAME like CONCAT(CONCAT('%', #{planName}), '%')

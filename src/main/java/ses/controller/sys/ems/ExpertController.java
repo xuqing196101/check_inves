@@ -4566,7 +4566,7 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping("/readExcelExpert")
     @ResponseBody
-    public String readExcelExpert(@RequestParam(value="excelFile") MultipartFile file, HttpServletRequest request, HttpServletResponse response){
+    public void readExcelExpert(@RequestParam(value="excelFile") MultipartFile file, HttpServletRequest request, HttpServletResponse response){
         JSONObject json = new JSONObject();
         String packageId = request.getParameter("packageId");
         String resultStr = "";
@@ -4574,7 +4574,7 @@ public class ExpertController extends BaseController {
             json.put("isSuccess",true);
             json.put("messageCode",10);
             resultStr = json.toString();
-            return resultStr;
+            super.printOutMsg(resultStr);
         }
         String fileName = file.getOriginalFilename();
         long fileSize = file.getSize();
@@ -4582,7 +4582,7 @@ public class ExpertController extends BaseController {
             json.put("isSuccess",true);
             json.put("messageCode",11);
             resultStr = json.toString();
-            return resultStr;
+            super.printOutMsg(resultStr);
         }
         //读取Excel数据到List中
         try {
@@ -4628,7 +4628,7 @@ public class ExpertController extends BaseController {
             logger.error("ExpertController.readExcelExpert is error. message= "+e);
             e.printStackTrace();
         }
-        return json.toString();
+        super.printOutMsg(json.toString());
     }
 
     /**

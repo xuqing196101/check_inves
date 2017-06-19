@@ -136,22 +136,7 @@
     
     var index;
     function add(){
-    	
-    	/* index=layer.open({
-			  type: 1, //page层
-			  area: ['300px', '200px'],
-			  title: '',
-			  closeBtn: 1,
-			  shade:0.01, //遮罩透明度
-			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
-			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: ['80px', '600px'],
-			  content: $('#content'),
-			}); */
-			
     	window.location.href="${pageContext.request.contextPath}/purchaser/add.html";
-    	
-   
     }
     
 	//鼠标移动显示全部内容
