@@ -43,7 +43,7 @@
 	<input type="hidden" id="projectId" value="${projectId}">
   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
  	<div class="magazine-page">
-	   	<div class="col-md-12 tab-v2">
+	   	<div class="col-md-12 tab-v2 p0">
 	        <div class="padding-top-10">
 	          <ul class="nav nav-tabs bgwhite">
 	            <li class="active" onclick="loadPageFirst('tab-1','saleTender/view.html')"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">登记供应商</a></li>
