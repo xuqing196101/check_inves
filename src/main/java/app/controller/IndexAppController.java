@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -996,6 +997,22 @@ public class IndexAppController {
                     e.printStackTrace();
                 }
         }
+    }
+    
+    /**
+     * 
+     * Description: 二维码App下载
+     * 
+     * @author zhang shubin
+     * @data 2017年6月15日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/qrCode")
+    public String qrCode(Model model){
+    	String apkURL = "";
+    	model.addAttribute("apkURL", apkURL);
+    	return "app/qrCode";
     }
     
 }
