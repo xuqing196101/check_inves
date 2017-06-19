@@ -292,12 +292,14 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		if(requList!=null){
+		  int count=0;
 			for(int i=0;i<requList.size();i++){
 				if(requList.get(i).getGoodsName()==null){
 					continue;
 				}
+				count++;
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("number", i+1);
+				map.put("number", count);
 				if(requList.get(i).getPlanNo()!=null && requList.get(i).getPlanNo()!=""){
 					map.put("planNo", requList.get(i).getPlanNo());
 				}else{

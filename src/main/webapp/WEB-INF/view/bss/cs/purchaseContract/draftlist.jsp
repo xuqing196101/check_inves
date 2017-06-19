@@ -289,8 +289,10 @@
 					offset: ['30%', '25%'],
 					shadeClose : true
 				   });
-				}else{
+				}else if(status==2){
 					window.location.href="${pageContext.request.contextPath}/purchaseContract/printContract.html?id="+ids+"&status="+status;
+				}else{
+					layer.alert("暂存合同不能打印",{offset: ['222px', '390px'], shade:0.01});
 				}
 			}
 		}else{

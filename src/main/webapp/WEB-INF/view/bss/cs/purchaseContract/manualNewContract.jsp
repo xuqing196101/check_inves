@@ -15,7 +15,6 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
   </head>
-    <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
   	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
@@ -176,9 +175,17 @@
 	 //BeginOpenFromURL成功回调
 	 function OnComplete(type,code,html)
 	 {
-		 var doc=obj.ActiveDocument;
+		 /* var doc=obj.ActiveDocument;
 		 var pageSetup=doc.PageSetup;
-		 pageSetup.TogglePortrait();
+		 pageSetup.TogglePortrait(); */
+		 var data= "合同名称:"+$("#contract_code").val()+"编号:"+$("#contract_codes").val();
+		 var doc=obj.ActiveDocument;
+		 var doca=doc.Application;
+		 var as=doca.Selection;
+		 //goto参数，1：不知道，2：不知道，3：页数，4：当前页里面存在的字符串
+		 as.GoTo(1,2,as.Information(4),"条形码");
+		 obj.Add2DCodePic(1, data, true, 35, 460, 1, 100, 1, true); 
+
 	 }
 	
 		function exportWord() {
@@ -461,31 +468,47 @@
 	  
 	  var trs=$('#trs').children();
 	  if(trs.length==0){
-		  html=htmlText(1);
+		  html=htmlText(1,null);
 		  $('#trs').append(html);
 	   }else{
 		   var tr=trs[trs.length-1];
 		   var index=parseInt($($(tr).children()[1]).text());
-		   html=htmlText(index+1);
+		   html=htmlText(index+1,null);
 		   $(tr).after(html);
 	   }
     }
-	function htmlText(index){
+	function htmlText(index,data){
 		var html="";
-			  html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
-        html += "<td class='tc w50'>"+index+"</td>";
-        html += "<td class='tc w50'><input type='text' name='proList["+index+"].planNo'  value='' class='w50'/></td>";
-        html += "<td class='tc'><input type='text' name='proList["+index+"].goodsName'  value=''/></td>";
-        html += "<td class='tc'><input type='text' name='proList["+index+"].brand'  value=''/></td>"
-        html += "<td class='tc'><input type='text' name='proList["+index+"].stand'  value='' class='w60'/></td>"
-        html += "<td class='tc w80'><input type='text' name='proList["+index+"].item'  value='' class='w50'/></td>"
-        html += "<td class='tc'><input type='text' name='proList["+index+"].purchaseCount' onchange='change(this,\"1\")'  value='' class='w50'/></td>"
-        html += "<td class='tc'><input type='text' name='proList["+index+"].price' onchange='change(this,\"2\")'   value='' class='w50'/></td>"
-        html += "<td class='tc'><input type='text' name='proList["+index+"].amount' readonly='readonly' value='' class='w50'/></td>"
-        html += "<td class='tc'><input type='text' name='proList["+index+"].deliverDate'  value='' class='w100'/></td>"
-        html += "<td class='tc'><input type='text' name='proList["+index+"].memo'  value=''/></td>"
-        html += "<td class='tnone'></td>";
-        return html;
+		if(data!=null){
+			html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
+	          html += "<td class='tc w50'>"+index+"</td>";
+	          html += "<td class='tc w50'><input type='text' name='proList["+index+"].planNo'  value='"+data.planNo+"' class='w50'/></td>";
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].goodsName'  value='"+data.goodsName+"'/></td>";
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].brand'  value='"+data.brand+"'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].stand'  value='"+data.stand+"' class='w60'/></td>"
+	          html += "<td class='tc w80'><input type='text' name='proList["+index+"].item'  value='"+data.item+"' class='w50'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].purchaseCount' value='"+data.purchaseCount+"' onchange='change(this,\"1\")'   class='w50'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].price' onchange='change(this,\"2\")'   value='"+data.price+"' class='w50'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].amount' readonly='readonly' value='"+data.amount+"' class='w50'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].deliverDate'  value='"+data.deliverDate+"' class='w100'/></td>"
+	          html += "<td class='tc'><input type='text' name='proList["+index+"].memo'  value='"+data.memo+"'/></td>"
+	          html += "<td class='tnone'></td></tr>";
+		}else{
+			html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
+	        html += "<td class='tc w50'>"+index+"</td>";
+	        html += "<td class='tc w50'><input type='text' name='proList["+index+"].planNo'  value='' class='w50'/></td>";
+	        html += "<td class='tc'><input type='text' name='proList["+index+"].goodsName'  value=''/></td>";
+	        html += "<td class='tc'><input type='text' name='proList["+index+"].brand'  value=''/></td>"
+	        html += "<td class='tc'><input type='text' name='proList["+index+"].stand'  value='' class='w60'/></td>"
+	        html += "<td class='tc w80'><input type='text' name='proList["+index+"].item'  value='' class='w50'/></td>"
+	        html += "<td class='tc'><input type='text' name='proList["+index+"].purchaseCount' onchange='change(this,\"1\")'  value='' class='w50'/></td>"
+	        html += "<td class='tc'><input type='text' name='proList["+index+"].price' onchange='change(this,\"2\")'   value='' class='w50'/></td>"
+	        html += "<td class='tc'><input type='text' name='proList["+index+"].amount' readonly='readonly' value='' class='w50'/></td>"
+	        html += "<td class='tc'><input type='text' name='proList["+index+"].deliverDate'  value='' class='w100'/></td>"
+	        html += "<td class='tc'><input type='text' name='proList["+index+"].memo'  value=''/></td>"
+	        html += "<td class='tnone'></td></tr>";
+		}
+    return html;
 	}
 	function change(objInput,index){
 		var count=0;
@@ -660,16 +683,44 @@
              fileElementId: 'fileName', 
              dataType: 'json',
              success: function (data) { 
-             	alert(JSON.stringify(data))
+            	 if(data!=null&&data!=''){
+            		 var html="";
+            		 var trs=$('#trs').children();
+            		 var tr="";
+            		 var index="";
+            		 if(trs.length>0){
+            			 tr=trs[trs.length-1];
+                   index=parseInt($($(tr).children()[1]).text());
+            		 }else{
+            			 index=0;
+            		 }
+            		 for(var i=0;i<data.length;i++){
+            			 html+=htmlText(index+i+1,data[i]);
+            		 }
+            		 if(trs.length==0){
+                    $('#trs').append(html);
+                    }else{
+                      $(tr).after(html);
+                   }
+            	 }
              }
          })
     }
 </script>
 <!-- ie中的回调 -->
 <script language="JScript" for="TANGER_OCX" event="ondocumentopened(File, Document)">
-	var activeDeoc=obj.ActiveDocument;
+	/* var activeDeoc=obj.ActiveDocument;
 	var pageSetup=activeDeoc.PageSetup;
-	pageSetup.TogglePortrait();
+	pageSetup.TogglePortrait();   改变页面方向*/
+	
+	
+	  var data= "合同名称:"+$("#contract_code").val()+"编号:"+$("#contract_codes").val();
+    var doc=obj.ActiveDocument;
+    var doca=doc.Application;
+    var as=doca.Selection;
+    //goto参数，1：不知道，2：不知道，3：页数，4：当前页里面存在的字符串
+    as.GoTo(1,2,as.Information(4),"条形码");
+    obj.Add2DCodePic(1, data, true, 35, 460, 1, 100, 1, true); 
 </script>
 
 <body>
@@ -718,7 +769,7 @@
 	    		 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同编号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<input class=" contract_name" name="code" value="" type="text">
+			        	<input id="contract_codes" class=" contract_name" name="code" value="" type="text">
 			        	<div class="cue">${ERR_code}</div>
 	       			</div>
 				 </li>
@@ -1257,7 +1308,7 @@
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
        <input type="button" class="btn input" onclick="fileup()"   value="导入" />
-     </div>
     </div>
+</div>
 </body>
 </html>

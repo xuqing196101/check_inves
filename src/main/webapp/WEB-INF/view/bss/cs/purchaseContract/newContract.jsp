@@ -158,9 +158,9 @@
 			}
 		return childNodes;
 	 }
-	 
+	 var obj="";
 	 function OpenFile(filePath) {
-			var obj = document.getElementById("TANGER_OCX");
+			obj = document.getElementById("TANGER_OCX");
 			var projectId = $("#contractId").val();
 			obj.Menubar = true;
 			obj.Caption = "( 双击可放大 ! )"
@@ -170,7 +170,21 @@
 			} 
 			//obj.OpenFromURL("http://localhost:8080/zhbj/contract/"+fileId);
 		}
-		
+	//BeginOpenFromURL成功回调
+	   function OnComplete(type,code,html)
+	   {
+	     /* var doc=obj.ActiveDocument;
+	     var pageSetup=doc.PageSetup;
+	     pageSetup.TogglePortrait(); */
+	     var data= "合同名称:"+$("#contract_code").val()+"编号:"+$("#contract_codes").val();
+	     var doc=obj.ActiveDocument;
+	     var doca=doc.Application;
+	     var as=doca.Selection;
+	     //goto参数，1：不知道，2：不知道，3：页数，4：当前页里面存在的字符串
+	     as.GoTo(1,2,as.Information(4),"条形码");
+	     obj.Add2DCodePic(1, data, true, 35, 460, 1, 100, 1, true); 
+
+	   }
 		
 		function exportWord() {
 			var obj = document.getElementById("TANGER_OCX");
@@ -567,6 +581,20 @@
 		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html";
 	}
 </script>
+<script language="JScript" for="TANGER_OCX" event="ondocumentopened(File, Document)">
+  /* var activeDeoc=obj.ActiveDocument;
+  var pageSetup=activeDeoc.PageSetup;
+  pageSetup.TogglePortrait();   改变页面方向*/
+  
+  
+    var data= "合同名称:"+$("#contract_code").val()+"编号:"+$("#contract_codes").val();
+    var doc=obj.ActiveDocument;
+    var doca=doc.Application;
+    var as=doca.Selection;
+    //goto参数，1：不知道，2：不知道，3：页数，4：当前页里面存在的字符串
+    as.GoTo(1,2,as.Information(4),"条形码");
+    obj.Add2DCodePic(1, data, true, 35, 460, 1, 100, 1, true); 
+</script>
 <body>
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -618,7 +646,7 @@
 	    		 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同编号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<input class=" contract_name" name="code" value="" type="text">
+			        	<input class=" contract_name" id="contract_codes" name="code" value="" type="text">
 			        	<div class="cue">${ERR_code}</div>
 	       			</div>
 				 </li>

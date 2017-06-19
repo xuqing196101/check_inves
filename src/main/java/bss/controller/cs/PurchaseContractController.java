@@ -2928,9 +2928,10 @@ public class PurchaseContractController extends BaseSupplierController{
         String url = "";
         PurchaseContract pur = purchaseContractService.selectById(id);
         List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(pur.getId());
-        Map<String, Object> map = purchaseContractService.createWord(pur, requList, req);
+       /* Map<String, Object> map = purchaseContractService.createWord(pur, requList, req);*/
         model.addAttribute("id", id);
-        model.addAttribute("filePath", map.get("filePath"));
+        model.addAttribute("pur", pur);
+       /* model.addAttribute("filePath", map.get("filePath"));*/
         if(status.equals("0")){
             url = "bss/cs/purchaseContract/printDraft";
         }else if(status.equals("1")){
@@ -3167,75 +3168,79 @@ public class PurchaseContractController extends BaseSupplierController{
            if(row.getRowNum()>0){
              purchaseRequired=new ContractRequired();
              for (Cell cell : row) {
-               if(cell.getColumnIndex()==1){
-                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
-                   purchaseRequired.setPlanNo(String.valueOf(cell.getNumericCellValue()));
-                 }else{
-                   purchaseRequired.setPlanNo(cell.getStringCellValue());
-                 }
-               }
-               if(cell.getColumnIndex()==2){
-                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
-                   purchaseRequired.setGoodsName(String.valueOf(cell.getNumericCellValue()));
-                 }else{
-                   purchaseRequired.setGoodsName(cell.getStringCellValue());
-                 }
-               }
-               if(cell.getColumnIndex()==3){
-                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
-                   purchaseRequired.setBrand(String.valueOf(cell.getNumericCellValue()));
-                 }else{
-                   purchaseRequired.setBrand(cell.getStringCellValue());
-                 }
-               }
-               if(cell.getColumnIndex()==4){
-                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
-                   purchaseRequired.setStand(String.valueOf(cell.getNumericCellValue()));
-                 }else{
-                   purchaseRequired.setStand(cell.getStringCellValue());
-                 }
-               }
-               if(cell.getColumnIndex()==5){
-                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
-                   purchaseRequired.setItem(String.valueOf(cell.getNumericCellValue()));
-                 }else{
-                   purchaseRequired.setItem(cell.getStringCellValue());
-                 }
-               }
-               if(cell.getColumnIndex()==6){
-                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
-                   purchaseRequired.setPurchaseCount(new BigDecimal(String.valueOf(cell.getNumericCellValue())));
-                 }
-               }
-               if(cell.getColumnIndex()==7){
-                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
-                   purchaseRequired.setPrice(new BigDecimal(String.valueOf(cell.getNumericCellValue())));
-                 }
-               }
-               if(cell.getColumnIndex()==8){
-                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
-                   purchaseRequired.setAmount(new BigDecimal(String.valueOf(cell.getNumericCellValue())));
-                 }
-               }
-               if(cell.getColumnIndex()==8){
-                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
-                   purchaseRequired.setDeliverDate(String.valueOf(cell.getNumericCellValue()));
-                 }else{
-                   purchaseRequired.setDeliverDate(cell.getStringCellValue());
-                 }
-               }
-               if(cell.getColumnIndex()==8){
-                 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
-                   purchaseRequired.setMemo(String.valueOf(cell.getNumericCellValue()));
-                 }else{
-                   purchaseRequired.setMemo(cell.getStringCellValue());
-                 }
-               }
+               extracted(purchaseRequired, cell);
              }
              list.add(purchaseRequired);
            }
          }
          super.writeJson(response,list);
       
+    }
+
+    private void extracted(ContractRequired purchaseRequired, Cell cell) {
+      if(cell.getColumnIndex()==1){
+         if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+           purchaseRequired.setPlanNo(String.valueOf(cell.getNumericCellValue()));
+         }else{
+           purchaseRequired.setPlanNo(cell.getStringCellValue());
+         }
+       }
+       if(cell.getColumnIndex()==2){
+         if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+           purchaseRequired.setGoodsName(String.valueOf(cell.getNumericCellValue()));
+         }else{
+           purchaseRequired.setGoodsName(cell.getStringCellValue());
+         }
+       }
+       if(cell.getColumnIndex()==3){
+         if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+           purchaseRequired.setBrand(String.valueOf(cell.getNumericCellValue()));
+         }else{
+           purchaseRequired.setBrand(cell.getStringCellValue());
+         }
+       }
+       if(cell.getColumnIndex()==4){
+         if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+           purchaseRequired.setStand(String.valueOf(cell.getNumericCellValue()));
+         }else{
+           purchaseRequired.setStand(cell.getStringCellValue());
+         }
+       }
+       if(cell.getColumnIndex()==5){
+         if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+           purchaseRequired.setItem(String.valueOf(cell.getNumericCellValue()));
+         }else{
+           purchaseRequired.setItem(cell.getStringCellValue());
+         }
+       }
+       if(cell.getColumnIndex()==6){
+         if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+           purchaseRequired.setPurchaseCount(new BigDecimal(String.valueOf(cell.getNumericCellValue())));
+         }
+       }
+       if(cell.getColumnIndex()==7){
+         if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+           purchaseRequired.setPrice(new BigDecimal(String.valueOf(cell.getNumericCellValue())));
+         }
+       }
+       if(cell.getColumnIndex()==8){
+         if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+           purchaseRequired.setAmount(new BigDecimal(String.valueOf(cell.getNumericCellValue())));
+         }
+       }
+       if(cell.getColumnIndex()==9){
+         if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+           purchaseRequired.setDeliverDate(String.valueOf(cell.getNumericCellValue()));
+         }else{
+           purchaseRequired.setDeliverDate(cell.getStringCellValue());
+         }
+       }
+       if(cell.getColumnIndex()==10){
+         if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+           purchaseRequired.setMemo(String.valueOf(cell.getNumericCellValue()));
+         }else{
+           purchaseRequired.setMemo(cell.getStringCellValue());
+         }
+       }
     }
 }
