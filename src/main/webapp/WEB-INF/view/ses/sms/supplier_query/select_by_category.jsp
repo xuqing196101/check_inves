@@ -57,7 +57,7 @@
 
 
 			function zTreeOnClick(event, treeId, treeNode){
-				 if(treeNode.level == 4){ 
+				 if(treeNode.level == 3){ 
 					var name = treeNode.name;
 					var categoryIds = treeNode.id;
 					$("#categoryIds").val(categoryIds);
