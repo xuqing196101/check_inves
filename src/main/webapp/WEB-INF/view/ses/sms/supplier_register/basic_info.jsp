@@ -2090,7 +2090,11 @@
 															<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].name" value="${finance.name}"  <c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid red;"</c:if>>
-															<input type="text" required="required" class="w100 border0" name="listSupplierFinances[${vs.index }].telephone" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${finance.telephone}" <c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
+															<input type="text" required="required" class="w100 border0" name="listSupplierFinances[${vs.index }].telephone" value="${finance.telephone}"
+																onkeyup="value=value.replace(/[^\d-]/g,'')" 
+																onpropertychange="value=value.replace(/[^\d-]/g,'')" 
+																oninput="value=value.replace(/[^\d-]/g,'')" 
+																<c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid red;"</c:if>>
 															<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].auditors" value="${finance.auditors}" <c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
