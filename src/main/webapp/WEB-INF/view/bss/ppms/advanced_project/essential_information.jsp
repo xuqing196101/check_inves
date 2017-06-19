@@ -34,10 +34,10 @@
           $(this).hide();
               }); 
       } */
-      $("#uploaderId").click(function(){
+     /*  $("#uploaderId").click(function(){
           var id = $(".web_uploader_class").prev()[0].value;
           init_uploader(eval("var  uploader_" + id),id);
-        });
+        }); */
 
         var isCharges = "${project.isCharge}";
         if(isCharges) {

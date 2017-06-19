@@ -1237,7 +1237,12 @@
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
            <div class="cgxx_report">
-		   <div class="report-tab">采购法规</div><a class="news_more" href="${pageContext.request.contextPath}/index/selectsumByParId.html">更多>></a>
+		   <div class="report-tab">采购法规
+		   		<c:if test="${articleCgfg != 0}">
+				      <b>${articleCgfg}</b>
+			      </c:if>
+		   </div>
+		   <a class="news_more" href="${pageContext.request.contextPath}/index/selectsumByParId.html">更多>></a>
            </div>
             <div class="categories">
               <ul class="p0_10">
