@@ -50,6 +50,7 @@ public interface ExpertMapper {
       * @return List<Expert>
      */
     List<Expert> selectAllExpert(Expert expert);
+    
     /**
      *〈简述〉
      * 查询所有待复审和复审通过未通过的专家
@@ -335,4 +336,26 @@ public interface ExpertMapper {
      * @return
      */
     Long selectStoreExpertCount();
+    
+    /**
+     * 
+     * Description: 首页专家名录查询
+     * 
+     * @author zhang shubin
+     * @data 2017年6月19日
+     * @param 
+     * @return
+     */
+    List<Expert> selectIndexExpert(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 页面异步验证身份证号唯一
+     * 
+     * @author zhang shubin
+     * @data 2017年6月19日
+     * @param 
+     * @return
+     */
+    List<Expert> yzCardNumber(Map<String, Object> map);
 }

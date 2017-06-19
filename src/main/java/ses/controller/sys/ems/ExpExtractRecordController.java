@@ -1231,8 +1231,10 @@ public class ExpExtractRecordController extends BaseController {
     if(StringUtils.isEmpty(mobile)){
         model.addAttribute("mobile", "不能为空");
     }else{
-        Boolean ajaxMoblie = userService.ajaxMoblie(mobile, null);
-        if(!ajaxMoblie){
+    	Map<String, Object> map = new HashMap<>();
+     	map.put("mobile", mobile);
+    	List<Expert> list = expertServices.yzCardNumber(map);
+    	if(list != null && list.size() != 0){
             model.addAttribute("mobile", "联系电话已存在");
         }
     }
@@ -1251,8 +1253,10 @@ public class ExpExtractRecordController extends BaseController {
     }
 
     if(expert.getIdCardNumber() != null && !"".equals(expert.getIdCardNumber())){
-      List<Expert> validateIdNumber = expertServices.validateIdCardNumber(expert.getIdCardNumber(), null);
-      if(validateIdNumber != null && validateIdNumber.size() != 0){
+        Map<String, Object> map = new HashMap<>();
+    	map.put("idCardNumber", expert.getIdCardNumber());
+   	  List<Expert> list = expertServices.yzCardNumber(map);
+      if(list != null && list.size() != 0){
         model.addAttribute("idCardNumberError", "已被占用");
         type = 1;
       }
@@ -1551,5 +1555,34 @@ public class ExpExtractRecordController extends BaseController {
     model.addAttribute("addressReson", addressReson);
     model.addAttribute("eCount", eCount);
     return "ses/ems/exam/expert/extract/reason_and_number";
+  }
+  
+  /**
+   * 
+   * Description: 页面异步验证身份证号和电话唯一
+   * 
+   * @author zhang shubin
+   * @data 2017年6月19日
+   * @param 
+   * @return
+   */
+  @RequestMapping("/yzCardNumber")
+  @ResponseBody
+  public String yzCardNumber(HttpServletRequest request){
+	  String cardNumber = request.getParameter("cardNumber") == null ? "" : request.getParameter("cardNumber");
+	  String mobile = request.getParameter("mobile") == null ? "" : request.getParameter("mobile");
+	  Map<String, Object> map = new HashMap<>();
+	  if(!mobile.equals("")){
+		  map.put("mobile", mobile);
+	  }
+	  if(!cardNumber.equals("")){
+		  map.put("idCardNumber", cardNumber);
+	  }
+	  List<Expert> list = expertServices.yzCardNumber(map);
+	  if(list != null && list.size() > 0){
+		  return "error";
+	  }else{
+		  return "success";
+	  }
   }
 }

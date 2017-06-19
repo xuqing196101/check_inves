@@ -63,7 +63,7 @@ function query(){
            	 	<option value="4,6,8" selected="selected" >复审通过</option>
            	 </c:when>
            	  <c:otherwise>
-				<option value="8" >复审通过</option>				       
+				<option value="4,6,8" >复审通过</option>				       
 			</c:otherwise>
            	 </c:choose>
   			 <c:choose>

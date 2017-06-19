@@ -516,4 +516,26 @@ public interface ExpertService {
    * @throws
     */
     public boolean isPublish(String id);
+    
+    /**
+     * 
+     * Description: 首页专家名录查询
+     * 
+     * @author zhang shubin
+     * @data 2017年6月19日
+     * @param 
+     * @return
+     */
+    List<Expert> selectIndexExpert(Integer pageNum,Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 页面异步验证身份证号唯一
+     * 
+     * @author zhang shubin
+     * @data 2017年6月19日
+     * @param 
+     * @return
+     */
+    List<Expert> yzCardNumber(Map<String, Object> map);
 }

@@ -2084,14 +2084,19 @@ public class IndexNewsController extends BaseSupplierController{
 		}
 		else {//专家名录 ：1
 			Expert expert=new Expert();
+			Map<String, Object> expertMap = new HashMap<>();
 			//处理查询参数
 			String relName=RequestTool.getParam(request,"relName","");
 			if(!"".equals(relName)){
 				expert.setRelName(relName);
+				expertMap.put("relName", relName);
 				model.addAttribute("relName", relName );
 			}
 			String status=RequestTool.getParam(request,"status","");
 			if(!"".equals(status)){
+				String [] statusArray= status.split(","); 
+				expertMap.put("statusArray", statusArray);
+				expertMap.put("size", statusArray.length);
 				expert.setStatus(status);
 				model.addAttribute("status", status );
 			}
@@ -2099,8 +2104,9 @@ public class IndexNewsController extends BaseSupplierController{
 			ExpertService expertService=SpringBeanUtil.getBean(ExpertService.class);
 			 //只显示公开的
 			expert.setIsPublish(1);
+			expertMap.put("isPublish", 1);
 			//分页
-	        List<Expert> list = expertService.selectAllExpert(page == null ? 1 : page, expert);
+	        List<Expert> list = expertService.selectIndexExpert(page == null ? 1 : page, expertMap);
 	        model.addAttribute("list",  new PageInfo<Expert>(list));
 	        return "iss/ps/index/sumByPubExpert";
 		}

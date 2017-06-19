@@ -1440,6 +1440,21 @@ public class ExpertServiceImpl implements ExpertService {
 	   
 		return bool;
 	}
+
+	/**
+	 * 首恶专家名录查询
+	 */
+	@Override
+	public List<Expert> selectIndexExpert(Integer pageNum,Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		return mapper.selectIndexExpert(map);
+	}
+
+	@Override
+	public List<Expert> yzCardNumber(Map<String, Object> map) {
+		return mapper.yzCardNumber(map);
+	}
 	
 }
 
