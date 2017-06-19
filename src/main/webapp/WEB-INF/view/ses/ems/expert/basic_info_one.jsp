@@ -628,6 +628,7 @@
 				}
 				
 				var teachTitle = $("#teachTitle").val();
+				
 				if(teachTitle==0){
 				}else if(teachTitle == 1){
 					var professTechTitles = $("#professTechTitles").val();
@@ -641,7 +642,7 @@
 						return false;
 					}
 				}else{
-					teachTitle=1;
+					teachTitle=0;
 				}
 
 				var hightEducation = $("#hightEducation").val();
@@ -911,6 +912,15 @@
 					document.getElementById("err_msg_" + name).innerHTML = "不能为空";
 				} else {
 					document.getElementById("err_msg_" + name).innerHTML = "";
+				}
+			}
+			function teachTitleSelected(opt,index){
+				if(index==1){
+					opt.attr("selected","selected");
+					$("#teachTitle2").attr("selected","");
+				}else if(index==2){
+					opt.attr("selected","selected");
+                    $("#teachTitle1").attr("selected","");
 				}
 			}
 		</script>
@@ -1309,8 +1319,8 @@
 		                        <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 		                            <select name="teachTitle" id="teachTitle"  <c:if test="${fn:contains(errorField,'有无专业技术职称')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('有无专业技术职称')"</c:if>>
 		                                <option value="">-请选择-</option>
-                                    <option <c:if test="${expert.teachTitle == 1}">selected="selected"</c:if>  value="1">有</option>
-                                    <option <c:if test="${expert.teachTitle == 2}">selected="selected"</c:if>  value="2">无</option>
+                                    <option <c:if test="${expert.teachTitle == 1}">selected="selected"</c:if> onclick="teachTitleSelected(this,1)" id="teachTitle1" value="1">有</option>
+                                    <option <c:if test="${expert.teachTitle == 2}">selected="selected"</c:if> onclick="teachTitleSelected(this,2)" id="teachTitle2" value="2">无</option>
 		                            </select>
 		                        </div>
 		                    </li>
