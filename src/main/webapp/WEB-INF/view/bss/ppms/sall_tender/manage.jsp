@@ -42,7 +42,7 @@
   <body>
 	<input type="hidden" id="projectId" value="${projectId}">
   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
- 	<div class="row magazine-page">
+ 	<div class="magazine-page">
 	   	<div class="col-md-12 tab-v2">
 	        <div class="padding-top-10">
 	          <ul class="nav nav-tabs bgwhite">

@@ -111,8 +111,8 @@
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
-							<th class="info">名称</th>
-							<th class="info">变更时间</th>
+							<th class="info" width="45%">名称</th>
+							<th class="info" width="25%">变更时间</th>
 							<th class="info">变更状态</th>
 						</tr>
 					</thead>
