@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -266,5 +265,12 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 			}
 		}
 		
+	}
+	/**
+	 * 实现根据供应商id 获取近三年的数据
+	 */
+	@Override
+	public List<SupplierFinance> findBySupplierIdYearThree(String supplierId) {
+		return supplierFinanceMapper.findBySupplierIdYearThree(supplierId);
 	}
 }

@@ -71,7 +71,7 @@ public class CategoryController extends BaseSupplierController {
 
     @Autowired
 	private ExpertService service;
-
+    
     public Map<String, Object> getListCategory() {
         return listCategory;
     }
@@ -237,7 +237,73 @@ public class CategoryController extends BaseSupplierController {
     	
     	
     }
-    
+    /**
+     * 
+     * Description:分物资 树 查询所有信息转换成json
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-16
+     * @param category
+     * @param param
+     * @param isCreate
+     * @param code
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/supplierCreatetree", produces = "application/json;charset=utf-8")
+    public String getSupplierAll(Category category,String param,Integer isCreate,String code){
+       List<CategoryTree> jList=new ArrayList<CategoryTree>();
+    	 //获取字典表中的根数据
+        if(category.getId()==null){
+            category.setId("0");
+            DictionaryData data=new DictionaryData();
+            data.setKind(8);
+            List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+            for (DictionaryData dictionaryData : listByPage) {
+                CategoryTree ct=new CategoryTree();
+                ct.setId(dictionaryData.getId());
+                ct.setName(dictionaryData.getName());
+                ct.setIsParent("true");
+                ct.setClassify(dictionaryData.getCode());
+                jList.add(ct);
+            }
+            data.setKind(6);
+            listByPage = dictionaryDataServiceI.listByPage(data, 1);
+            for (DictionaryData dictionaryData : listByPage) {
+            	//排除物资
+            	if("FC9528B2E74F4CB2A9E74735A8D6E90A".equals(dictionaryData.getId())){
+            		continue;
+            	}
+                CategoryTree ct=new CategoryTree();
+                ct.setId(dictionaryData.getId());
+                ct.setName(dictionaryData.getName());
+                ct.setIsParent("true");
+                ct.setClassify(dictionaryData.getCode());
+                jList.add(ct);
+            }
+          
+            return JSON.toJSONString(jList);
+          }
+          String list="";
+          List<Category> cateList=categoryService.disTreeGoodsData(category.getId());
+          for(Category cate:cateList){
+              List<Category> cList=categoryService.disTreeGoodsData(cate.getId());
+              CategoryTree ct=new CategoryTree();
+              if(!cList.isEmpty()){
+                  ct.setIsParent("true");
+              }else{
+                  ct.setIsParent("false");
+              }
+              ct.setId(cate.getId());
+              ct.setName(cate.getName());
+              ct.setpId(cate.getParentId());
+              ct.setKind(cate.getKind());
+              ct.setStatus(cate.getStatus());
+              jList.add(ct);
+          }
+         list = JSON.toJSONString(jList);
+         return list;
+    }
     /**
      * 
      * Description: 根据id查询目录树

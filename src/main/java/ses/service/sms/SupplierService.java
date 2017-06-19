@@ -399,4 +399,14 @@ public interface SupplierService {
 	   List<Supplier> getCreditCode(String creditCode,Integer isProvisional);
 	 public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
 	 public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);
+	 /**
+	  * 
+	  * Description:根据suppliers 获取供应商 最大的 成立时间 
+	  * 
+	  * @author YangHongLiang
+	  * @version 2017-6-16
+	  * @param supplierIds
+	  * @return
+	  */
+	Date findMaxFoundDate(List<String> supplierIds);
 }

@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.annotations.Param;
+
 import common.bean.ResBean;
 import ses.model.bms.Category;
 import ses.model.sms.SupplierTypeTree;
@@ -79,6 +81,16 @@ import ses.model.sms.SupplierTypeTree;
 	* @param @return
 	 */
 	public List<Category> findTreeByPid(String id);
+	/**
+	 * 
+	 * Description:分离 物资目录树  封装数据
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-16
+	 * @param id
+	 * @return
+	 */
+	public List<Category> disTreeGoodsData(String id);
 	
 	/**
 	 * 

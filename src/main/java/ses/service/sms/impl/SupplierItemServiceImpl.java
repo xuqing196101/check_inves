@@ -617,5 +617,10 @@ public class SupplierItemServiceImpl implements SupplierItemService {
           
 		return bool;
 	}
+
+	@Override
+	public List<String> findSupplierIdByCategoryId(String categoryId) {
+		return supplierItemMapper.findSupplierIdByCategoryId(categoryId);
+	}
 	
 }

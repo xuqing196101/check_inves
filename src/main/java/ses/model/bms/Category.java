@@ -59,7 +59,7 @@ public class Category {
     private String description;
 
     /**
-     *  物资分类
+     *  物资分类 null 其他，3物资生产/物资销售 2物质销售 1物资生产
      */
     private Integer classify;
 

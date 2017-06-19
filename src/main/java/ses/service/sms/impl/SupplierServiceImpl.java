@@ -30,27 +30,15 @@ import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.QualificationMapper;
-import ses.dao.bms.RoleMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.DeleteLogMapper;
-import ses.dao.sms.SupplierAddressMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
-import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
-import ses.dao.sms.SupplierBranchMapper;
 import ses.dao.sms.SupplierCertEngMapper;
-import ses.dao.sms.SupplierCertProMapper;
-import ses.dao.sms.SupplierCertSellMapper;
-import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierMapper;
-import ses.dao.sms.SupplierMatEngMapper;
-import ses.dao.sms.SupplierMatProMapper;
-import ses.dao.sms.SupplierMatSellMapper;
-import ses.dao.sms.SupplierMatServeMapper;
-import ses.dao.sms.SupplierRegPersonMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.formbean.ContractBean;
@@ -74,10 +62,6 @@ import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
-import ses.model.sms.SupplierMatEng;
-import ses.model.sms.SupplierMatPro;
-import ses.model.sms.SupplierMatSell;
-import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.model.sms.supplierExport;
@@ -91,14 +75,16 @@ import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierTypeRelateService;
+import ses.service.sms.SupplierTypeService;
 import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.SupplierLevelUtil;
+import ses.util.SupplierToolUtil;
 import ses.util.WfUtil;
 import common.constant.StaticVariables;
-import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 
 
@@ -178,52 +164,14 @@ public class SupplierServiceImpl implements SupplierService {
     private DeleteLogMapper  deleteLogMapper;
     
     @Autowired
-    private SupplierBranchMapper supplierBranchMapper;
-    
-    @Autowired 
-    private SupplierAddressMapper supplierAddressMapper; 
-    
-    @Autowired
-    private SupplierMatProMapper supplierMatProMapper;
-    
-    
-    @Autowired
-    private SupplierCertProMapper supplierCertProMapper;
-    
-    @Autowired
-    private SupplierMatSellMapper supplierMatSellMapper;
-
-    @Autowired
-    private SupplierCertSellMapper supplierCertSellMapper;
-    
-    @Autowired
-    private SupplierMatEngMapper supplierMatEngMapper;
-    
-    @Autowired
     private SupplierCertEngMapper supplierCertEngMapper;
     
-    @Autowired
-    private SupplierRegPersonMapper  supplierRegPersonMapper;
-    
-    @Autowired
-    private SupplierAptituteMapper supplierAptituteMapper;
-    
-    
-    @Autowired
-    private SupplierMatServeMapper supplierMatServeMapper;
-    
-    @Autowired
-    private SupplierCertServeMapper supplierCertServeMapper;
     
     @Autowired
     private SupplierItemMapper supplierItemMapper;
-    
+    /**供应商类型**/
     @Autowired
-    private RoleMapper roleMapper;
-     
-    @Autowired
-    private FileUploadMapper fileUploadMapper;
-    
+    private SupplierTypeRelateService supplierTypeRelateService;
     @Autowired
     private PurchaseOrgnizationServiceI purchaseOrgnizationService;
     
@@ -1124,130 +1072,93 @@ public class SupplierServiceImpl implements SupplierService {
 	 */
 	@Override
 	public List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier, String categoryIds, Integer page) {
-		 if(page!=null){
-	            PropertiesUtil config = new PropertiesUtil("config.properties");
-	            PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-	        }
-		 
-		 	//查询供应商
-			List<Supplier> listSupplier=supplierMapper.findSupplierbyCategoryId(supplier);
-			
-			//查询品目
-	        List<SupplierItem> selectByCategoryId = supplierItemMapper.selectByCategoryId(categoryIds);
-	        
-	        /**
-	         * 查询供应商类型code
-	         */
-	        String typeCode = "";
-	        if(!selectByCategoryId.isEmpty() && selectByCategoryId.size() > 0){
-	        	typeCode = selectByCategoryId.get(0).getSupplierTypeRelateId();
-	        }
-	    	BigDecimal score = null;
-	    	
-	    	/**
-	    	 * 遍历计算等级
-	    	 */
-	    	for(Supplier s : listSupplier){
-	    		try {
-	    			//获取分数
-					score = SupplierLevelUtil.getScore(s.getId(), typeCode);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-	    		
-	    		/**
-	    		 * 生产等级
-	    		 */
-	    		if(typeCode.equals("PRODUCT")){
-	    			BigDecimal ten = new BigDecimal(10);
-	    			BigDecimal twenty = new BigDecimal(20);
-	    			BigDecimal thirty = new BigDecimal(30);
-	    			BigDecimal forty = new BigDecimal(40);
-	    			BigDecimal fiftyFive = new BigDecimal(55);
-	    			BigDecimal seventy = new BigDecimal(70);
-	    			BigDecimal eightyFive = new BigDecimal(85);
-	    			BigDecimal oneHundred = new BigDecimal(100);
-	    			
-	    			//score <= 10
-	    			if(score.compareTo(ten) == -1 || score.compareTo(ten) == 0){
-	    				s.setGrade("一级");
-	    			}
-	    			//10 < score <= 20
-	    			if((score.compareTo(ten) == 1 && score.compareTo(twenty) == -1) || score.compareTo(twenty) == 0){
-	    				s.setGrade("二级");
-	    			}
-	    			//20 < score <= 30
-	    			if((score.compareTo(twenty) == 1 && score.compareTo(thirty) == -1) || score.compareTo(thirty) == 0){
-	    				s.setGrade("三级");
-	    			}
-	    			//30 < score <= 40
-	    			if((score.compareTo(thirty) == 1 && score.compareTo(forty) == -1) || score.compareTo(forty) == 0){
-	    				s.setGrade("四级");
-	    			}
-	    			//40 < score <= 55
-	    			if((score.compareTo(forty) == 1 && score.compareTo(fiftyFive) == -1) || score.compareTo(fiftyFive) == 0){
-	    				s.setGrade("五级");
-	    			}
-	    			//55 < score <= 70
-	    			if((score.compareTo(fiftyFive) == 1 && score.compareTo(seventy) == -1) || score.compareTo(seventy) == 0){
-	    				s.setGrade("六级");
-	    			}
-	    			//70 < score <= 85
-	    			if((score.compareTo(seventy) == 1 && score.compareTo(eightyFive) == -1) || score.compareTo(eightyFive) == 0){
-	    				s.setGrade("七级");
-	    			}
-	    			//85 < score <= 100
-	    			if((score.compareTo(eightyFive) == 1 && score.compareTo(oneHundred) == -1) || score.compareTo(oneHundred) == 0){
-	    				s.setGrade("八级");
-	    			}
-	    		}
-	    		/**
-	    		 * 销售和服务
-	    		 */
-	    		if(typeCode.equals("SALES") || typeCode.equals("SERVICE")){
-	    			BigDecimal twenty = new BigDecimal(20);
-	    			BigDecimal forty = new BigDecimal(40);
-	    			BigDecimal sixty = new BigDecimal(60);
-	    			BigDecimal eighty = new BigDecimal(80);
-	    			BigDecimal oneHundred = new BigDecimal(100);
-	    			//score <= 20
-	    			if(score.compareTo(twenty) == -1 || score.compareTo(twenty) == 0){
-	    				s.setGrade("一级");
-	    			}
-	    			//20 < score <= 40
-	    			if((score.compareTo(twenty) == 1 && score.compareTo(forty) == -1) || score.compareTo(forty) == 0){
-	    				s.setGrade("二级");
-	    			}
-	    			//40 < score <= 60
-	    			if((score.compareTo(forty) == 1 && score.compareTo(sixty) == -1) || score.compareTo(sixty) == 0){
-	    				s.setGrade("三级");
-	    			}
-	    			//60 < score <= 80
-	    			if((score.compareTo(sixty) == 1 && score.compareTo(eighty) == -1) || score.compareTo(eighty) == 0){
-	    				s.setGrade("四级");
-	    			}
-	    			//80 < score <= 100
-	    			if((score.compareTo(eighty) == 1 && score.compareTo(oneHundred) == -1) || score.compareTo(oneHundred) == 0){
-	    				s.setGrade("五级");
-	    			}
-	    		}
-	    		
-	    		//工程等级
-	        	if(typeCode.equals("PROJECT")){
-	        		List < SupplierCertEng > supplierCertEng = supplierCertEngMapper.findCertEngBySupplierId(s.getId());
-	    			for(int i = 0; i < supplierCertEng.size() - 1; i++) {
-	    				for(int j = supplierCertEng.size() - 1; j > i; j--) {
-	    					if(supplierCertEng.get(j).getId().equals(supplierCertEng.get(i).getId())) {
-	    						supplierCertEng.remove(j);
-	    					}
+		if(StringUtils.isBlank(supplier.getSupplierTypeId())){
+		 	return null;
+		}
+		DictionaryData util=DictionaryDataUtil.findById(supplier.getSupplierTypeId());
+		if(util ==null){
+			return null;
+		}
+		String supplierType=util.getCode();
+		if(supplierType ==null){
+			return null;
+		}
+		if(page!=null){
+	        PropertiesUtil config = new PropertiesUtil("config.properties");
+	        PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+	    }
+		//生产&& 销售
+		if(!SupplierToolUtil.PRODUCT_ID.equals(categoryIds) && !SupplierToolUtil.SALES_ID.equals(categoryIds)){
+			supplier.setSupplierTypeId(categoryIds);
+		}
+		supplier.setSupplierType(supplierType);
+		//查询供应商
+		List<Supplier> listSupplier=supplierMapper.findSupplierByCategoryId(supplier);
+		if(listSupplier.isEmpty()){
+			return null;
+		}
+		//目录下 根据类型 获取全部的供应商集合
+	    List<String> supplierIdList=supplierItemService.findSupplierIdByCategoryId(categoryIds);
+	    if(supplierIdList.isEmpty()){
+			return null;
+		}
+	    //判断 是否是工程
+        if(SupplierToolUtil.TOOL_PROJECT.equals(supplierType)){
+        	for (Supplier sup : listSupplier) {
+	        	//工程等级
+	        	List < SupplierCertEng > supplierCertEng = supplierCertEngMapper.findCertEngBySupplierId(sup.getId());
+	    		for(int i = 0; i < supplierCertEng.size() - 1; i++) {
+	    			for(int j = supplierCertEng.size() - 1; j > i; j--) {
+	    				if(supplierCertEng.get(j).getId().equals(supplierCertEng.get(i).getId())) {
+	    					supplierCertEng.remove(j);
 	    				}
 	    			}
-					for(SupplierCertEng eng : supplierCertEng){
-						s.setGrade(eng.getCertMaxLevel());
-	    			
-	        		}
+	    		}
+				for(SupplierCertEng eng : supplierCertEng){
+					sup.setGrade(eng.getCertMaxLevel());
 	        	}
-	    	}
+        	}
+	    }else{
+	    	//物资 服务等级
+		    //调用获取目录下 封装方法
+		    Map<String,BigDecimal> mapMax=elementMax(categoryIds, supplierIdList);
+		    //最高要素数值 近三年加权平均净资产
+		    BigDecimal maxNetAsset=mapMax.get("maxNetAsset");
+		    //最高要素数值 近三年加权平均营业收入
+		    BigDecimal maxTaking=mapMax.get("maxTaking");
+		    //最高要素数值 成立日期 格式：20450909
+		    BigDecimal maxDate=SupplierToolUtil.foundTimeFormat(findMaxFoundDate(supplierIdList));
+		    //合计要素数值
+		    BigDecimal sumElement=null;
+		    //临时等级
+		    String level=null;
+		    //临时要素数值
+		    BigDecimal temlElement=new BigDecimal(0);
+		    //获取近三年单个供应商 数据集合
+		    for (Supplier sup : listSupplier) {
+		    	sumElement=new BigDecimal(0);
+		    	//获取近三年单个供应商 数据集合
+		    	List<SupplierFinance> financeList=supplierFinanceService.findBySupplierIdYearThree(sup.getId());
+		    	if(financeList !=null && !financeList.isEmpty()){
+		    	//要素满分：生产供应商（成立时间20%，净资产40%，营业收入40%）销售和服务（成立时间20%，净资产 30% ，营业收入50%）
+		    	//要素 近三年净资产
+		    	temlElement=new BigDecimal(SupplierToolUtil.elementScore(supplierType, "totalNetAssets")).setScale(2,BigDecimal.ROUND_HALF_UP);
+		    	//近三年净资产要素得分=单个供应商近三年净资产平均/改目录下最高的近三年平均净资产* 要素满分
+		    	sumElement=sumElement.add(SupplierToolUtil.elementNetAsset(financeList).divide(maxNetAsset,4,BigDecimal.ROUND_HALF_UP).multiply(temlElement));
+		    	//要素 近三年加权平均营业
+		    	temlElement=new BigDecimal(SupplierToolUtil.elementScore(supplierType, "taking")).setScale(2,BigDecimal.ROUND_HALF_UP);
+		    	//近三年加权平均营业收入要素得分=单个供应商近三年加权平均营业收入/该目录下最高的近三年加权平均营业收入* 要素满分
+		    	sumElement=sumElement.add(SupplierToolUtil.elementTaking(financeList).divide(maxTaking,4,BigDecimal.ROUND_HALF_UP).multiply(temlElement));
+		    	//要素 成立日期要素
+		    	temlElement=new BigDecimal(SupplierToolUtil.elementScore(supplierType, "foundDate")).setScale(2,BigDecimal.ROUND_HALF_UP);
+		    	//成立日期要素得分=单个供应商的成立日期/该目录下最高的成立日期*要素满分
+		    	sumElement=sumElement.add(SupplierToolUtil.foundTimeFormat(sup.getFoundDate()).divide(maxDate,4,BigDecimal.ROUND_HALF_UP).multiply(temlElement));
+		    	//等级计算百分比=近三年净资产要素得分+近三年加权平均营业收入要素得分+成立日期要素得分
+		    	level=SupplierToolUtil.elementPercnet(supplierType, sumElement.setScale(0, BigDecimal.ROUND_HALF_UP).toString());
+		    	sup.setGrade(level);
+		    }
+		}
+	}
 		return listSupplier;
 	}
 
@@ -1276,5 +1187,50 @@ public class SupplierServiceImpl implements SupplierService {
 		PageHelper.startPage((Integer)map.get("pageEx"),Integer.parseInt(config.getString("pageSize")));
 		return supplierMapper.selectExpertNumber(map);
 	}
-
+   
+	/**
+	 * Description:根据 目录 获取
+	 * 要素数值 该目录下 最高要素数值 近三年加权平均净资产/  近三年加权平均营业收入
+	 * @author YangHongLiang
+	 * @version 2017-6-15
+	 *  type 供应商分类 PRODUCT物资生产  SALES销售 SERVICE 服务  PROJECT工程
+	 * @param categoryId
+	 * -1表示小于,0是等于,1是大于 BigDecimal
+	 * @return
+	 */
+    private Map<String,BigDecimal> elementMax(String categoryId,List<String> supplierIdList){
+    	Map<String,BigDecimal> returnDate=new HashMap<>();
+    	
+    	//目录下 最大的近三年净资产平均
+    	BigDecimal maxNetAsset=new BigDecimal(0);
+    	//目录下 最大的近三年加权平均营业收入
+    	BigDecimal maxTaking=new BigDecimal(0);
+    	if(supplierIdList !=null && !supplierIdList.isEmpty()){
+    		//临时存储 单个供应商的净资产，单个供应商加权营业收入
+    		BigDecimal tempNetAsset,tempTaking;
+    		for(String supplierId:supplierIdList){
+	    		//获取近三年单个供应商 数据集合
+	    		List<SupplierFinance> financeList=supplierFinanceService.findBySupplierIdYearThree(supplierId);
+	    		//近三年净资产平均
+	    		tempNetAsset=SupplierToolUtil.elementNetAsset(financeList);
+	    		if(maxNetAsset.compareTo(tempNetAsset)==-1){
+	    			maxNetAsset=tempNetAsset;
+	    		};
+	    		// 近三年加权平均营业收入
+	    		tempTaking=SupplierToolUtil.elementTaking(financeList);
+	    		if(maxTaking.compareTo(tempTaking)==-1){
+	    			maxTaking=tempTaking;
+	    		};
+    		}
+    		returnDate.put("maxNetAsset", maxNetAsset);
+    		returnDate.put("maxTaking", maxTaking);
+    	}
+		return returnDate;
+    }
+   
+	@Override
+	public Date findMaxFoundDate(List<String> supplierIds) {
+		return supplierMapper.findMaxFoundDate(supplierIds);
+	}
+   
 }

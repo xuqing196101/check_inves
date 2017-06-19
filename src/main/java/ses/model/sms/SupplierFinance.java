@@ -79,6 +79,7 @@ public class SupplierFinance implements Serializable {
 	/**
 	 * <pre>
 	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.TOTAL_NET_ASSETS
+	 * 净资产
 	 * </pre>
 	 */
 	private BigDecimal totalNetAssets;

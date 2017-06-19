@@ -1329,12 +1329,11 @@
       ORDER BY AUDIT_DATE  DESC NULLS LAST
   </select>
 
-	<!-- 按品目查询供应商 -->
 	<select id="findSupplierbyCategoryId" parameterType="ses.model.sms.Supplier"	resultMap="findSupplierMap">
 		SELECT
 			"NVL" (T4. NAME, T3. NAME) AS NAME,
 			t2.*,
-			org.NAME AS orgName
+			org.SHORT_NAME AS orgName
 		FROM
 			T_SES_SMS_SUPPLIER t2
 			LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS = T3. ID
@@ -1361,6 +1360,41 @@
 			</if>
 				ORDER BY AUDIT_DATE  DESC NULLS LAST
 	</select>
+	
+	<!-- 按品目查询供应商 -->
+    <select id="findSupplierByCategoryId" parameterType="ses.model.sms.Supplier"    resultMap="findSupplierMap">
+        SELECT DISTINCT
+            t2.*,
+            org.SHORT_NAME AS orgName
+        FROM
+            T_SES_SMS_SUPPLIER t2
+            LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON t2.PROCUREMENT_DEP_ID = dep.ID
+            LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+            RIGHT JOIN (SELECT SUPPLIER_TYPE_ID,supplier_ID  from T_SES_SMS_SUPPLIER_TYPE_RELATE 
+            <where>
+            <if test="supplierType != null and supplierType != ''">
+            SUPPLIER_TYPE_ID=#{supplierType}
+            </if>
+            </where> 
+            )str ON str.supplier_ID= t2.ID
+            <if test="supplierTypeId != null and supplierTypeId !=''">
+                RIGHT  JOIN (
+                    select supplier_id as id from T_SES_SMS_SUPPLIER_ITEM where category_id =#{supplierTypeId}
+                ) t5  on t2.ID = t5.ID
+            </if>
+            WHERE
+                (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS =6 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS =8)
+                and IS_PROVISIONAL = '0'
+                and IS_DELETED = 0
+            <if test="supplierName != null and supplierName !=''">
+                and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
+            </if>
+            <if test="armyBusinessName != null and armyBusinessName != ''">
+                AND ARMY_BUSINESS_NAME like CONCAT(CONCAT('%', #{armyBusinessName}), '%')
+            </if>
+                ORDER BY AUDIT_DATE  DESC NULLS LAST
+    </select>
+
 
 	<select id="querySupplier" parameterType="ses.model.sms.Supplier"
 		resultMap="findSupplierMap">
@@ -1905,5 +1939,15 @@
 	    and  o.short_name like CONCAT(CONCAT('%', #{nameEx}), '%')
 	  </if>
 	 group by o.id,o.name,o.short_name,d.id
+	</select>
+	<!-- 根据suppliers 获取供应商 最大的 成立时间 -->
+	<select id="findMaxFoundDate" parameterType="String" resultType="Date">
+	SELECT  MAX(FOUND_DATE) from T_SES_SMS_SUPPLIER 
+	<where>
+    <foreach collection="supplierIds" item="id" open="ID in ("
+                close=")" separator=",">
+                #{id}
+            </foreach>
+            </where> 
 	</select>
 </mapper>

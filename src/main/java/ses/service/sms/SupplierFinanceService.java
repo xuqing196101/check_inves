@@ -71,5 +71,16 @@ public interface SupplierFinanceService {
     * @throws
      */
    public void add(List<SupplierFinance> list,String supplierId);
+   
+   /**
+    * 
+    * Description:根据供应商id 获取近三年的数据
+    * 
+    * @author YangHongLiang
+    * @version 2017-6-13
+    * @param supplierId
+    * @return
+    */
+   public List<SupplierFinance> findBySupplierIdYearThree(String supplierId);
 	
 }
