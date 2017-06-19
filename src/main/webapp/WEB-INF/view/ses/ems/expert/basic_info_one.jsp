@@ -1318,7 +1318,7 @@
 		                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5" ><i class="red">*</i>有无专业技术职称</span>
 		                        <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 		                            <select name="teachTitle" id="teachTitle"  <c:if test="${fn:contains(errorField,'有无专业技术职称')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('有无专业技术职称')"</c:if>>
-		                                <option value="">-请选择-</option>
+		                              <!--   <option value="">-请选择-</option> -->
                                     <option <c:if test="${expert.teachTitle == 1}">selected="selected"</c:if> onclick="teachTitleSelected(this,1)" id="teachTitle1" value="1">有</option>
                                     <option <c:if test="${expert.teachTitle == 2}">selected="selected"</c:if> onclick="teachTitleSelected(this,2)" id="teachTitle2" value="2">无</option>
 		                            </select>
