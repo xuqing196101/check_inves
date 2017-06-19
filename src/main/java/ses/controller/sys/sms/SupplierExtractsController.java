@@ -1060,7 +1060,7 @@ public class SupplierExtractsController extends BaseController {
     @RequestMapping("/showTemporarySupplier")
     public  String showTemporaryExpert(Model model, HttpServletRequest request, String packageId,String projectId,String flowDefineId,String ix){
         //该环节设置为执行中状态
-        flowMangeService.flowExe(request, flowDefineId, projectId, 2);
+        //flowMangeService.flowExe(request, flowDefineId, projectId, 2);
         model.addAttribute("packageId", packageId);
         model.addAttribute("ix", ix);
         model.addAttribute("projectId", projectId);
@@ -1114,6 +1114,7 @@ public class SupplierExtractsController extends BaseController {
             map.put("armyBuinessTelephone", supplier.getArmyBuinessTelephone());
             map.put("creditCode", supplier.getCreditCode());
             map.put("isProvisional",1);
+            //查询临时供应商
             List<Supplier> tempList = supplierService.viewCreditCodeMobile(map);
             if (supplier.getCreditCode().length() > 36) {
                 model.addAttribute("creditCodeError", "不能为空或是字符过长!");
@@ -1185,6 +1186,7 @@ public class SupplierExtractsController extends BaseController {
             sb.append(ALLCHAR.charAt(random.nextInt(ALLCHAR.length())));
         }
         String randomCode = sb.toString();
+        flowMangeService.flowExe(request, flowDefineId, projectId, 2);
         return  "redirect:/saleTender/view.html?projectId=" + projectId + "&&flowDefineId=" + flowDefineId + "&ix=" + ix + "&randomCode=" + randomCode;
     }
 
