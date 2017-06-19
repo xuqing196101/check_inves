@@ -856,9 +856,11 @@ public class IndexNewsController extends BaseSupplierController{
 		BigDecimal articleTouSu = getcount("tousu");
 		BigDecimal articleChuFa = getcount("chufa");
 		BigDecimal articleZytz = getcount("zhongYaoTongZhi");
+		BigDecimal articleCgfg = getcount("caiGouFaGui");
 		model.addAttribute("articleTouSu",articleTouSu);
 		model.addAttribute("articleChuFa",articleChuFa);
 		model.addAttribute("articleZytz",articleZytz);
+		model.addAttribute("articleCgfg",articleCgfg);
 //		for(int i=0;i<articleTypeList.size();i++){
 //			List<Article> indexNewsList = null;
 //			if(articleTypeList.get(i).getName().equals("工作动态")){
@@ -1010,7 +1012,14 @@ public class IndexNewsController extends BaseSupplierController{
       timerMap.put("id", "109");
       BigDecimal zhongYaoTongZhiNum = articleService.selectByTypeIdTimer(timerMap);
       return zhongYaoTongZhiNum;
-    }else {
+    } else if ("caiGouFaGui".equals(str)) {
+      HashMap<String, String> timerMap = new HashMap<String, String>();
+      timerMap.put("firstday", firstday);
+      timerMap.put("lastday", lastday);
+      timerMap.put("id", "106");
+      BigDecimal caiGouFaGuiNum = articleService.selectByTypeIdTimer(timerMap);
+      return caiGouFaGuiNum;
+    } else {
       return new BigDecimal(0);
     }
   }
