@@ -1991,7 +1991,7 @@
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0" maxlength="10" <c:if test="${!fn:contains(engPageField,certEng.id)&&currSupplier.status==2}"> readonly='readonly' </c:if>
+																type="text" required="required" class="border0"   <c:if test="${!fn:contains(engPageField,certEng.id)&&currSupplier.status==2}"> readonly='readonly' </c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel"
 																value="${certEng.certMaxLevel}" />
 															</td>
