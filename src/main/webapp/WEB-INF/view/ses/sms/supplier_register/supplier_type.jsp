@@ -2409,7 +2409,6 @@
    		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
  </div>
 </body>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/commons.js"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/regex.js"></script>
 
