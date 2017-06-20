@@ -495,7 +495,7 @@ function getTaskTime(strDate) {
 	            <input type="button" class="btn btn-windows check_back " onclick="updateAudit('2')" value="退回重报 "></input>
 	            <input type="button" class="btn btn-windows edit " onclick="updateAudit('4')" value="修改报备 "></input> 
          	</c:if>
-	        <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
+			 <a class="btn btn-windows back " href="${pageContext.request.contextPath}/Auditbidding/list.html">返回 </a>
          </div>
          </div>
          </c:if>

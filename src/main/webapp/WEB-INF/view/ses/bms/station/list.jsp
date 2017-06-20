@@ -113,9 +113,7 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-          <li>
-            <a href="${pageContext.request.contextPath}/" target="_blank"> 首页</a>
-          </li>
+          <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
           <li>
             <a href="javascript:void(0);">支撑系统</a>
           </li>

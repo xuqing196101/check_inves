@@ -161,17 +161,21 @@
                 <li>
                     <a>供应商管理</a>
                 </li>
-                <li>
-                    <c:if test="${sign == 1}">
-                        <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1')">供应商审核</a>
-                    </c:if>
-                    <c:if test="${sign == 2}">
-                        <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2')">供应商复核</a>
-                    </c:if>
-                    <c:if test="${sign == 3}">
-                        <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3')">供应商实地考察</a>
-                    </c:if>
-                </li>
+				<c:if test="${sign == 1}">
+					<li>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1')">供应商审核</a>
+					</li>
+				</c:if>
+				<c:if test="${sign == 2}">
+					<li>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2')">供应商复核</a>
+					</li>
+				</c:if>
+				<c:if test="${sign == 3}">
+					<li>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3')">供应商实地考察</a>
+					</li>
+				</c:if>
             </ul>
         </div>
     </div>

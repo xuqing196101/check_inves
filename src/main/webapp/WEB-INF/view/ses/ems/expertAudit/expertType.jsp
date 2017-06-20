@@ -253,17 +253,21 @@
 					<li>
 						<a href="javascript:void(0)">专家管理</a>
 					</li>
-					<li>
-						<c:if test="${sign == 1}">
+					<c:if test="${sign == 1}">
+						<li>
 							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=1')">专家初审</a>
-						</c:if>
-						<c:if test="${sign == 2}">
+						</li>
+					</c:if>
+					<c:if test="${sign == 2}">
+						<li>
 							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=2')">专家复审</a>
-						</c:if>
-						<c:if test="${sign == 3}">
+						</li>
+					</c:if>
+					<c:if test="${sign == 3}">
+						<li>
 							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=3')">专家复查</a>
-						</c:if>
-					</li>
+						</li>
+					</c:if>
 				</ul>
 				<div class="clear"></div>
 			</div>

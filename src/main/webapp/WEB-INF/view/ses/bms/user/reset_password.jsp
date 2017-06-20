@@ -21,13 +21,13 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0);">首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
 						<a href="javascript:void(0);">个人中心</a>
 					</li>
 					<li>
-						<a href="javascript:void(0);">修改密码</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/user/resetPassword.html');">修改密码</a>
 					</li>
 				</ul>
 				<div class="clear"></div>
