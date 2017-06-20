@@ -241,9 +241,9 @@ public class PqInfoController extends BaseSupplierController{
 	        String[] id=ids.split(StaticVariables.COMMA_SPLLIT);
 	        for (String str : id) {
 	            PqInfo pqInfo = pqInfoService.get(str);
-	            String supplierId = pqInfoService.get(str).getContract().getSupplier().getId();
+	            pqInfoService.delete(pqInfo.getId());
+	            /*String supplierId = pqInfo.getContract().getSupplier().getId();
 	            String supplierName = pqInfoService.get(str).getContract().getSupplier().getSupplierName();
-	            pqInfoService.delete(str);
 	            int count = pqInfoService.queryByConut(supplierId);
 	            if (count == 0) {
 	                SupplierPqrecord sPqrecord = supplierPqrecordService.selectByName(supplierName);
@@ -269,7 +269,7 @@ public class PqInfoController extends BaseSupplierController{
 	                 supplierPqrecord.setFailedCount(countFail.intValue());
 	                 supplierPqrecord.setSuccessedAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
 	                 supplierPqrecordService.update(supplierPqrecord);
-	            }
+	            }*/
 	        }
 	    }
 		return "redirect:getAll.html";

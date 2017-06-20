@@ -204,7 +204,10 @@
 			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50"   >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  
-			  <td class="tl" onclick="view('${obj.id}')">${obj.fileName }</td>
+			  <td class="tl" title="${obj.fileName}" onclick="view('${obj.id}')">
+			    <c:if test="${fn:length (obj.fileName) > 50}">${fn:substring(obj.fileName,0,49)}...</c:if>
+          <c:if test="${fn:length(obj.fileName) <= 50}">${obj.fileName}</c:if>
+			  </td>
 			
 			
 			  <td class="tr w140" onclick="view('${obj.id}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>

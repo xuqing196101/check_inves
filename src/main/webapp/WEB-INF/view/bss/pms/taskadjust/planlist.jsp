@@ -251,8 +251,11 @@
             <tr class="pointer">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"></td>
               <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-              <td>
-                <a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.name}</a>
+              <td title="${obj.name}">
+                <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
+	                <c:if test="${fn:length (obj.name) > 20}">${fn:substring(obj.name,0,19)}...</c:if>
+	                <c:if test="${fn:length(obj.name) <= 20}">${obj.name}</c:if>
+                </a>
               </td>
               <td>
                 <a href="javascript:void(0)" onclick="viewd('${obj.id}');">

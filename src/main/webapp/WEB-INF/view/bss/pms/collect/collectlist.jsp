@@ -221,12 +221,13 @@
 				$("#uniqueId").val(id);
 				$("#dep").val(de);
 				var val=$('input[name="fileName"]').val();
-				if($.trim(val) == ""){
-					  layer.alert("计划名称不允许为空",{offset: ['222px', '390px'], shade:0.01});
+				val = $.trim(val);
+				if(val == ""){
+					  layer.alert("计划名称不允许为空");
 				}else{
 						$("#collect_form").submit();
+						layer.close(index);
 				}
-				layer.close(index);
 			}
 
 			function cancels() {
@@ -298,7 +299,7 @@
 			//重置
 			function resetQuery(){
 				$("#planName").val("");
-				$("#planNo").val("");
+				/* $("#planNo").val(""); */
 				var status = document.getElementById("status").options;
 				status[0].selected = true;
 			}
@@ -549,7 +550,7 @@
 					<input type="hidden" name="uniqueId" id="uniqueId" value="">
 					<input type="hidden" name="department" id="dep" value="">
 					<input type="hidden" name="goodsType" id="goodsType" value="">
-					<button class="btn padding-left-10 padding-right-10 btn_back" onclick="closeLayer()">生成采购计划</button>
+					<button type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="closeLayer()">生成采购计划</button>
 				</div>
 
 			</form>

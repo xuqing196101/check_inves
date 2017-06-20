@@ -1735,8 +1735,12 @@ public class ProjectController extends BaseController {
     @ResponseBody
     @RequestMapping("/verify")
     public String verify(Project project, Model model){
-        Boolean flag = projectService.SameNameCheck(project);
-        return JSON.toJSONString(flag);
+        if(StringUtils.isNotBlank(project.getProjectNumber())){
+            Boolean flag = projectService.SameNameCheck(project);
+            return JSON.toJSONString(flag);
+        }else{
+            return "1";
+        }
     }
     
     @RequestMapping("/verifyType")
