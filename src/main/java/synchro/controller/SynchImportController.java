@@ -482,11 +482,6 @@ public class SynchImportController {
 									}
 								}
 							}
-							if (f.isDirectory()) {
-								if (f.getName().equals(Constant.INNER_PRODUCT_LIBRARY_EXPERT)) {
-								 OperAttachment.moveFolder(f);
-								}
-							}
 						} else {
 							// 内网 只能 导入 外网 导出的 产品录入需要审核 的数据
 							if (f.getName().equals(

@@ -10,6 +10,7 @@ import ses.util.DictionaryDataUtil;
 import synchro.service.SynchRecordService;
 import synchro.util.Constant;
 import synchro.util.DateUtils;
+import synchro.util.MultiTaskUril;
 
 import common.constant.StaticVariables;
 /**
@@ -35,7 +36,7 @@ public class MultiExportTask {
 		//外网
 	   if("1".equals(StaticVariables.ipAddressType)){
 		    /**竞价结果导出  只能是外网导出内网**/
-		   String startTime= getSynchDate(Constant.DATA_TYPE_BIDDING_RESULT_CODE);
+		   String startTime= MultiTaskUril.getSynchDate(Constant.DATA_TYPE_BIDDING_RESULT_CODE,recordService);
 	        if(startTime!=null ){
 	           startTime = DateUtils.getCalcelDate(startTime);
 	           String endTime = DateUtils.getCurrentTime();
@@ -43,7 +44,7 @@ public class MultiExportTask {
 	           /**竞价结果导出  只能是外网导出内网**/
 		       OBProjectServer.exportProjectResult(startTime, endTime, synchDate);
 	        }
-	        startTime= getSynchDate(Constant.SYNCH_PRODUCT_LIBRARY);
+	        startTime= MultiTaskUril.getSynchDate(Constant.SYNCH_PRODUCT_LIBRARY,recordService);
 	        if(startTime!=null ){
 	           startTime = DateUtils.getCalcelDate(startTime);
 	           String endTime = DateUtils.getCurrentTime();
@@ -53,16 +54,4 @@ public class MultiExportTask {
 	        }
 	   }
 	}
-	//封装    获取 导出 时间
-    public String getSynchDate(String type){
-			String startTime=null;
-			String bidding_code = DictionaryDataUtil.getId(type);
-	        if(StringUtils.isNotBlank(bidding_code)){
-	          startTime = recordService.getSynchTime(Constant.OPER_TYPE_EXPORT,bidding_code);
-	          if (!StringUtils.isNotBlank(startTime)){
-	                 startTime = DateUtils.getCurrentDate() + " 00:00:00";
-	          }
-	        }
-	      return startTime;
-	    }
 }

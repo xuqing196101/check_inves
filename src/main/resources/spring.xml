@@ -53,7 +53,12 @@
      	 
      	  	 <!-- 供应商专家图片导出 -->
      	 <task:scheduled ref="ImageTask"  method="imageImportHandler" cron="0 0 6 * * ?"/> 
-     	  
+     	 
+     	 <!-- 每天凌晨1点内网导出数据 -->
+         <task:scheduled ref="innerMultiExportTask"  method="innerMultiExportTask" cron="0 0 1 * * ?"/> 
+          <!--每天早上5点外网导入  内网导出数据 -->
+         <task:scheduled ref="outerMultiImportTask"  method="importTask" cron="0 0 5 * * ?"/> 
+         
      	  <!-- 每天凌晨12点半导出专家 -->
 <!--      	 <task:scheduled ref="ExpertTask"  method="handlerExportExpert" cron="0 30 0 * * ?"/> 
  -->     	 
