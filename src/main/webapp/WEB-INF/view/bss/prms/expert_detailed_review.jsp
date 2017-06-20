@@ -154,14 +154,14 @@
 		</div>
 		<!--循环供应商  -->
 		<div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
-		<table class="table table-bordered table-condensed table-hover table-striped  p0 space_nowrap">
+		<table class="table table-bordered table-condensed table-hover table-striped  p0 m_resize_table_width">
 		  <thead>
 			<tr>
 			  <th><input type="checkbox" id="checkAll" onchange="selectAll(this)"></th>
-			  <th class="info">专家/供应商</th>
+			  <th class="info" width="120">专家/供应商</th>
 			  <c:forEach items="${supplierList}" var="supplier">
 			    <c:if test="${fn:contains(supplier.packages,packageId)}">
-			  	  <th class="info"><%-- <a title="查看评分详情" href="javascript:showViewBySupplierId('${supplier.suppliers.id}');"> --%>${supplier.suppliers.supplierName}<!-- </a> --></th>
+			  	  <th class="info" width="120"><%-- <a title="查看评分详情" href="javascript:showViewBySupplierId('${supplier.suppliers.id}');"> --%>${supplier.suppliers.supplierName}<!-- </a> --></th>
 			  	</c:if>
 			  </c:forEach>
 			</tr>	
@@ -170,7 +170,7 @@
 		  <c:forEach items="${expertList }" var="ext">
 			<tr>
 			  <td class="tc"><input type="checkbox" name="checkItem" value="${ext.expert.id}"></td>
-			  <td><a title="查看评分详情" href="javascript:showViewByExpertId('${ext.expert.id}');">${ext.expert.relName}</a></td>
+			  <td class="tc"><a title="查看评分详情" href="javascript:showViewByExpertId('${ext.expert.id}');">${ext.expert.relName}</a></td>
 			  <!-- 遍历该包供应商控制分数的显示 -->
 			  <c:forEach items="${supplierList}" var="supplier">
 			    <c:if test="${fn:contains(supplier.packages,packageId)}">
@@ -225,5 +225,25 @@
   <div class="clear col-md-12 pl20 mt10 tc">
 	<input type="button" class="btn btn-windows back" value="返回" onclick="goBack('${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">
   </div>
+  
+  <script type="text/javascript">
+		function resize_table_width() {
+	        $('.m_resize_table_width').each(function () {
+	            var table_width = 0;
+	            $(this).find('thead th').each(function () {
+	            	if(typeof($(this).attr('width')) != 'undefined') {
+	            		table_width +=  parseInt($(this).attr('width'));
+		            }
+	            });
+	            $(this).css({
+	                width: table_width,
+	                maxWidth: table_width
+	            });
+	        });
+	    }
+	    $(function () {
+	        resize_table_width();
+	    });
+	   	</script>
 </body>
 </html>
