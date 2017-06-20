@@ -1361,7 +1361,11 @@ public class ProjectController extends BaseController {
                 
                 //获取任务的受领时间
                 HashMap<String, Object> map = new HashMap<>();
-                map.put("projectId", project.getParentId());
+                if(StringUtils.isNotBlank(project.getParentId()) && !"1".equals(project.getParentId())){
+                	map.put("projectId", project.getParentId());
+                } else {
+                	map.put("projectId", project.getId());
+                }
                 List<ProjectTask> tasks = projectTaskService.queryByNo(map);
                 List<Task> listTask = new ArrayList<Task>();
                 if(tasks != null && tasks.size() > 0){
