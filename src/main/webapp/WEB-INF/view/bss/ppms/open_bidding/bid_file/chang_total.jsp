@@ -41,7 +41,7 @@
 		var priceStr = "";
 		var count = 0;
 		var i = 0;
-		if (count1 > 1) {
+		if (count1 > 0) {
 			i = count1;
 		}
 		for(i; i < allTable.length; i++) {
@@ -133,6 +133,17 @@
 			$(".p0" + i).addClass("hide");
 		};
 	});
+	
+	function show(){
+		var i = $('#sel option:selected').val();//选中的值
+		if(i == 2){
+			document.getElementById("fq1").style.display = "";
+			document.getElementById("fq2").style.display = "";
+		}else{
+			document.getElementById("fq1").style.display = "none";
+			document.getElementById("fq2").style.display = "none";
+		}
+	}
 </script>
 </head>
 <body>
@@ -164,7 +175,7 @@
 					<th class="info w100">交货期限</th>
 					<c:if test="${not empty count}">
 					<th class="info w100">状态</th>
-					<th class="info w100">放弃原因</th>
+					<th class="info w100" id = "fq1" style="display: none" >放弃原因</th>
 					</c:if>
 			    </tr>
 			</thead>
@@ -178,13 +189,13 @@
 					<td class="tc"><input   maxlength="16" type="text"/></td>
 					<td class="tc"><input type="text"/></td>
 					<c:if test="${not empty count}">
-					<td class="tc">
+					<td class="tc" onchange="show()" id = "sel">
 							<select>
 								<option value="">请选择</option>
 								<option value="2">放弃报价</option>
 							</select>
 					</td>
-					<td class="tc"><input /></td>
+					<td class="tc" id = "fq2" style="display: none"><input /></td>
 					</c:if>
 			    </tr>
 		</c:forEach>
@@ -195,7 +206,7 @@
 		<div class="col-md-12 col-sm-12 col-xs-12 tc">
 		    <c:if test="${not empty judgeTreemap}">
 		    	<c:if test="${not empty count}">
-		    	<input class="btn btn-windows save" value="结束报价" type="button" onclick="eachTable(this)">
+		    	<input class="btn btn-windows save" value="报价完成" type="button" onclick="eachTable(this)">
 		    	<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
 		    	</c:if>
 		    	<c:if test="${empty count}">

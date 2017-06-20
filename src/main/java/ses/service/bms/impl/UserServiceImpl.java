@@ -116,6 +116,9 @@ public class UserServiceImpl implements UserServiceI {
 	    	String loginName = u.getLoginName()+suffix.toString();
 	    	String mobile=u.getMobile() +suffix.toString();
 	    	String idNumber=u.getIdNumber() +suffix.toString();
+	    	if(!"".equals(u.getOfficerCertNo())){
+	    		u.setOfficerCertNo(u.getOfficerCertNo()+suffix.toString());
+	    	}
 		    u.setLoginName(loginName);
 		    u.setMobile(mobile);
 		    u.setIdNumber(idNumber);

@@ -154,5 +154,15 @@ public interface SupplierFinanceMapper {
      * @return String
      */
     String findSupplierIdById (String id);
+    /**
+     * 
+     * Description:根据供应商id 获取近三年的数据
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-13
+     * @param supplierId
+     * @return
+     */
+    List<SupplierFinance> findBySupplierIdYearThree(@Param("supplierId")String supplierId);
 	
 }

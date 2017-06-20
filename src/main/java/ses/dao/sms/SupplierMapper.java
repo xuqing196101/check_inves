@@ -144,6 +144,17 @@ public interface SupplierMapper {
      */
     List<Supplier> findSupplierbyCategoryId(Supplier record);
     
+    /**
+     * 
+     * Description:按品目查询供应商
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-14
+     * @param supplier
+     * @return
+     */
+    List<Supplier> findSupplierByCategoryId(Supplier supplier);
+    
     
     /**
      * @Title: querySupplierbyCategory
@@ -519,4 +530,15 @@ public interface SupplierMapper {
     
     public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
     public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);
+    
+    /**
+     * 
+     * Description:根据suppliers 获取供应商 最大的 成立时间 
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-16
+     * @param supplierIds
+     * @return
+     */
+    Date findMaxFoundDate(@Param("supplierIds")List<String> supplierIds);
 }

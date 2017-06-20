@@ -480,6 +480,7 @@ public class ExpertServiceImpl implements ExpertService {
         //先校验分配账号名称是否存在
         List<String> userNameList = new ArrayList<String>();
         int num = 0,ajaxNum = 0,ajaxMobile = 0,emptyNum = 0;
+        String idNumber = null,moblie=null,loginName=null;
         if(null != userList && !userList.isEmpty()){
             for(User user:userList){
                 userNameList.add(user.getLoginName());
@@ -490,11 +491,16 @@ public class ExpertServiceImpl implements ExpertService {
                 List<User> users = userMapper.ajaxIdNumber(user);
                 if(null != users && !users.isEmpty()){
                     ajaxNum = ajaxNum + 1;
-                    break;
+                    idNumber = user.getRelName();
                 }
                 List<User> userAjaxMoblie = userMapper.ajaxMoblie(user);
                 if(null != userAjaxMoblie && !userAjaxMoblie.isEmpty()){
                     ajaxMobile = ajaxMobile + 1;
+                    moblie = user.getRelName();
+                }
+                List<User> loginNames = userMapper.queryByLoginName(user.getLoginName());
+                if(loginNames != null && loginNames.size() > 0){
+                    loginName = user.getRelName();
                 }
             }
             //如果存在的化,num>0,反之不存在
@@ -503,6 +509,7 @@ public class ExpertServiceImpl implements ExpertService {
         if(num != 0){
             map.put("isSuccess", true);
             map.put("messageCode", 12);
+            map.put("loginName", loginName);
             return map;//账号存在
         }
         if(emptyNum != 0){
@@ -513,11 +520,13 @@ public class ExpertServiceImpl implements ExpertService {
         if(ajaxNum != 0){
             map.put("isSuccess", true);
             map.put("messageCode", 14);
+            map.put("loginName", idNumber);
             return map;//居民身份证已存在
         }
         if(ajaxMobile != 0){
             map.put("isSuccess", true);
             map.put("messageCode", 15);
+            map.put("loginName", moblie);
             return map;//联系电话已存在
         }
         try{
@@ -1439,6 +1448,21 @@ public class ExpertServiceImpl implements ExpertService {
 	   }
 	   
 		return bool;
+	}
+
+	/**
+	 * 首恶专家名录查询
+	 */
+	@Override
+	public List<Expert> selectIndexExpert(Integer pageNum,Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		return mapper.selectIndexExpert(map);
+	}
+
+	@Override
+	public List<Expert> yzCardNumber(Map<String, Object> map) {
+		return mapper.yzCardNumber(map);
 	}
 	
 }

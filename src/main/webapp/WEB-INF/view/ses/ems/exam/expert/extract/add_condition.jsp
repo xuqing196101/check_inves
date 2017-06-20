@@ -126,10 +126,10 @@
                         <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
 
                             <input class="col-md-5 col-sm-5 col-xs-5" maxlength="2" value="${listCon.ageMin}"
-                                   onchange="age();" id="ageMinC" name="ageMin" type="text">
+                                   onchange="age();" id="ageMinC" name="ageMin" type="number">
                             <span class="f14 fl col-md-2 col-sm-2 col-xs-2">至</span>
                             <input class="col-md-5 col-sm-5 col-xs-5" value="${listCon.ageMax}" maxlength="2"
-                                   onchange="age();" id="ageMaxC" name="ageMax" type="text">
+                                   onchange="age();" id="ageMaxC" name="ageMax" type="number">
 
                         </div>
                     </li>

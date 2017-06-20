@@ -12,7 +12,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -156,10 +160,27 @@ public class DownloadServiceImpl implements DownloadService {
         try {
             ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
             
+            // 重命名重复文件名
+            Map<String, Integer> fileNameMap = new HashMap<String, Integer>();
+            for (UploadFile file : list){
+            	String fileName = file.getName();
+            	if(fileNameMap.containsKey(fileName)){
+            		int index = fileNameMap.get(fileName) + 1;
+            		fileNameMap.put(fileName, index);
+            		String preffix = fileName.substring(0, fileName.lastIndexOf("."));
+            		String suffix = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+            		preffix = preffix + "-" + (index);
+            		file.setName(preffix + suffix);
+            	}else{
+            		fileNameMap.put(fileName, 0);
+            	}
+            }
+            
             for (UploadFile file :list){
-                 InputStream in = new BufferedInputStream(new FileInputStream(new File(file.getPath())));
-                 ZipEntry zipEntry = new ZipEntry(file.getName());
-                 zipOut.putNextEntry(zipEntry);
+                InputStream in = new BufferedInputStream(new FileInputStream(new File(file.getPath())));
+                //System.out.println(file.getName());
+                ZipEntry zipEntry = new ZipEntry(file.getName());
+                zipOut.putNextEntry(zipEntry);
                 UploadUtil.writeFile(in, zipOut);
             }
             zipOut.flush();   
@@ -265,5 +286,23 @@ public class DownloadServiceImpl implements DownloadService {
 	}
     
     
+	public static void main(String[] args) {
+		List<String> strs = new ArrayList<String>();
+        int index = 0;
+        List<String> list = new ArrayList<String>();
+        list.add("qqq");
+        list.add("ccc");
+        list.add("qqq");
+        list.add("111");
+        for (int i=0;i<list.size(); i++){
+        	String str = list.get(i);
+        	if(strs.contains(str)){
+        		str = str + "-" + (++index);
+        		list.set(i, str);
+        	}
+        	strs.add(str);
+        }
+        System.out.println(Arrays.toString(list.toArray()));
+	}
     
 }

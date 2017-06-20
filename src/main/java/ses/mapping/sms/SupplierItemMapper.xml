@@ -326,12 +326,22 @@
 	<!-- 品目id查询类型 -->
  	<select id="selectByCategoryId" parameterType="String" resultMap="BaseResultMap">
 		SELECT
-			*
+			<include refid="Base_Column_List"></include>
 		FROM
 			T_SES_SMS_SUPPLIER_ITEM
 		WHERE
 			CATEGORY_ID = #{categoryId}
 	</select>
+	
+	<!-- 品目id 供应商 类型 查询类型 -->
+    <select id="findSupplierIdByCategoryId" parameterType="String" resultType="String">
+        SELECT
+            SUPPLIER_ID
+        FROM
+            T_SES_SMS_SUPPLIER_ITEM
+        WHERE
+            CATEGORY_ID = #{categoryId} 
+    </select>
 	
 	<!-- 统计供应商类型数量 物资销售、物资生产、工程、服务 -->
 	<select id="findAnalyzeSupplierCateType" parameterType="String" resultType="java.math.BigDecimal">

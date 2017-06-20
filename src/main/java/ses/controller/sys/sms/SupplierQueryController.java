@@ -14,10 +14,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -75,6 +77,7 @@ import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
+import common.utils.JdcgResult;
 import dss.model.rids.SupplierAnalyzeVo;
 /**
  * 版权：(C) 版权所有 
@@ -179,6 +182,7 @@ public class SupplierQueryController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierPorjectQuaService supplierPorjectQuaService;
+	
     /**
      *〈简述〉供应商查询
      *〈详细描述〉按照各种条件来查询供应商信息
@@ -384,7 +388,7 @@ public class SupplierQueryController extends BaseSupplierController {
         return "ses/sms/supplier_query/select_by_category";
     }
 
-   /**
+  /* *//**
     * @Title: ajax_supplier
     * @date 2017-5-10 下午3:53:23  
     * @Description:查询供应商并计算等级
@@ -394,7 +398,7 @@ public class SupplierQueryController extends BaseSupplierController {
     * @param @param model
     * @param @return      
     * @return String
-    */
+    *//*
     @RequestMapping("/ajax_supplier")
     public String ajax_supplier(Supplier sup, Integer page, String categoryIds, Model model) {
     	 if (categoryIds != null && !"".equals(categoryIds)) {
@@ -402,14 +406,45 @@ public class SupplierQueryController extends BaseSupplierController {
              sup.setItem(listCategoryIds);
          }
         List<Supplier>  listSupplier = supplierService.querySupplierbytypeAndCategoryIds(sup, categoryIds, page == null ? 1 : page);
-
+        
         getSupplierType(listSupplier);
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
         model.addAttribute("supplier", sup);
         model.addAttribute("categoryIds", categoryIds);
         return "ses/sms/supplier_query/ajax_supplier";
+    }*/
+    /**
+     * 
+     * Description:根据 品目 查询供应商数据 和等级
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-14
+     * @param sup
+     * @param page
+     * @param categoryIds
+     * @param model
+     * @return
+     */
+    @RequestMapping("/ajaxSupplierData")
+    @ResponseBody
+    public JdcgResult ajaxSupplierData(Supplier supplier, Integer page, String categoryIds) {
+    	JdcgResult result=null;
+    	if (StringUtils.isNotBlank(categoryIds)) {
+             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
+             supplier.setItem(listCategoryIds);
+         
+        List<Supplier>  listSupplier = supplierService.querySupplierbytypeAndCategoryIds(supplier, categoryIds, page == null ? 1 : page);
+        if(listSupplier != null && !listSupplier.isEmpty()){
+        	result=new JdcgResult(500, "请求成功", new PageInfo<>(listSupplier));
+        }else{
+        	listSupplier=new ArrayList<>();
+        	result=new JdcgResult(501, "暂无数据", listSupplier);
+        }
+        }else{
+        	result=new JdcgResult(502, "参数错误", null);
+        }
+        return result;
     }
-    
     
     /**
      *〈简述〉供应商基本信息

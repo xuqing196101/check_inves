@@ -2355,5 +2355,73 @@ resultMap="BaseResultMap">
              AND T.IS_PROVISIONAL = '0'
              AND T.IS_DELETE = 0
 	</select>
-	
+	 <!-- 首页查询所有专家-->
+    <select id="selectIndexExpert" resultMap="BaseResultMap">
+      select
+        T1.ID,
+        T1.REAL_NAME,
+        T1.ID_CARD_NUMBER,
+        T1.GENDER,
+        T1.EXPERTS_TYPE_ID,
+        T1.GRADUATE_SCHOOL,
+        T1.STATUS,
+        T1.IS_PROVISIONAL,
+        T1.EXPERTS_FROM,
+        T1.MOBILE,
+        T1.IS_SUBMIT,
+        T2.LOGIN_NAME AS loginName,
+        org.SHORT_NAME AS orgName
+      from
+        T_SES_EMS_EXPERT t1
+        LEFT JOIN T_SES_BMS_USER t2 ON T1.ID = T2.TYPE_ID
+        LEFT JOIN T_SES_OMS_PURCHASE_DEP dep ON T1.PURCHASE_DEP_ID = dep.ID
+        LEFT JOIN T_SES_OMS_ORG org ON org.ID = dep.ORG_ID
+        where 1=1 and IS_DELETE = 0
+        <if test="relName != null and relName !=''">
+            AND T1.REAL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
+        </if>
+        <if test="mobile != null and mobile !=''">
+             AND T1.MOBILE like CONCAT(CONCAT('%', #{mobile}), '%')
+        </if>
+        <if test="expertsFrom != null and expertsFrom !=''">
+            AND T1.EXPERTS_FROM = #{expertsFrom}
+        </if>
+        <if test="status == 4">
+            AND IS_PROVISIONAL = '0'
+        </if>
+        <if test="size > 0">
+			AND T1.STATUS in 
+			<foreach item="item" index="index" collection="statusArray" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+        <if test="expertsTypeId != null and expertsTypeId !=''">
+          AND instr(T1.EXPERTS_TYPE_ID, #{expertsTypeId} )>0
+        </if>
+        <if test="isPublish != null and isPublish !=''">
+          AND T1.IS_PUBLISH = #{isPublish}
+        </if>
+        <if test="idCardNumber !=null and idCardNumber !=''">
+          and ID_CARD_NUMBER like CONCAT(CONCAT('%', #{idCardNumber}), '%')
+        </if>
+        <if test="graduateSchool !=null and graduateSchool !=''">
+          and GRADUATE_SCHOOL like CONCAT(CONCAT('%', #{graduateSchool}), '%')
+        </if>
+        <if test="orgName !=null and orgName !=''">
+          and org.SHORT_NAME like CONCAT(CONCAT('%',#{orgName}),'%')
+        </if>
+        ORDER BY T1.CREATED_AT DESC
+    </select>
+    
+    <!-- 页面异步验证唯一 -->
+     <select id="yzCardNumber" resultMap="BaseResultMap">
+        SELECT ID FROM T_SES_EMS_EXPERT
+        WHERE IS_DELETE = 0 AND IS_PROVISIONAL = 1
+        <if test="idCardNumber != null and idCardNumber != '' ">
+            AND ID_CARD_NUMBER = #{idCardNumber}
+        </if>
+        <if test="mobile != null and mobile !=''">
+            AND MOBILE = #{mobile}
+        </if>
+    </select>
 </mapper>

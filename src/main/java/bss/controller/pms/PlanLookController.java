@@ -86,9 +86,6 @@ public class PlanLookController extends BaseController {
 	@Autowired
 	private PurchaseRequiredMapper purchaseRequiredMapper;
 	
-//	@Autowired
-//	private OrgnizationServiceI orgnizationServiceI;
-	
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
 	
@@ -101,15 +98,6 @@ public class PlanLookController extends BaseController {
 	
 	@Autowired
 	private AuditParameService auditParameService; 
-	
-	@Autowired
-	private PurchaseAuditService purchaseAuditService;
-	
-//	@Autowired
-//	private OrgnizationMapper oargnizationMapper;
-	
-	@Autowired
-	private PurchaseRequiredMapper putchaseRequiredMapper;
 	
 	@Autowired
 	private CollectPlanMapper collectPlanMapper;
@@ -169,14 +157,14 @@ public class PlanLookController extends BaseController {
 		
 		List<Role> roles = user.getRoles();
 		boolean bool=false;
-		if(roles!=null&&roles.size()>0){
+		if(roles != null && roles.size()>0){
 			for(Role r:roles){
-				if(r.getCode().equals("MANAGE_M")){
+				if(("MANAGE_M").equals(r.getCode())){
 					bool=true;
 				}
 			}
 		}
-		if(bool!=true){
+		if(bool != true){
 			collectPlan.setUserId(user.getId());
 		} 
 		
@@ -193,9 +181,6 @@ public class PlanLookController extends BaseController {
 	
 	@RequestMapping("/view1")
     public String view1(String id, Model model,HttpServletRequest request){
-//        List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
-        List<String> list = conllectPurchaseService.getNo(id);
- 
         
     	List<PurchaseDetail> listp = purchaseDetailService.getUnique(id,null,null);
 		
@@ -234,7 +219,7 @@ public class PlanLookController extends BaseController {
 				pr.setDepartment(orgnization.getShortName());
 			}
 			
-			   model.addAttribute("detail", detail);
+			model.addAttribute("detail", detail);
             request.getSession().removeAttribute("NoCount");
         	model.addAttribute("kind", DictionaryDataUtil.find(5));
         	String typeId = DictionaryDataUtil.getId("PURCHASE_FILE");

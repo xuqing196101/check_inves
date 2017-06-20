@@ -37,6 +37,7 @@ import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
 import ses.util.PropertiesUtil;
 import ses.util.StringUtil;
+import ses.util.SupplierToolUtil;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
@@ -94,7 +95,6 @@ public class CategoryServiceImpl implements CategoryService {
     /** 最大输入值 **/
     private static final String CATEGORY_MAX_VALUE = "最多只能输入200个汉字";
 
-   
     
     public void insertSelective(Category category) {
         categoryMapper.insertSelective(category);
@@ -1038,5 +1038,19 @@ public class CategoryServiceImpl implements CategoryService {
 			}
 		}
 		return false;
+	}
+	@Override
+	public List<Category> disTreeGoodsData(String id) {
+		List<Category> cateList=null;
+		 //物质生产   1/3
+        if(SupplierToolUtil.PRODUCT_ID.equals(id) ){
+        	cateList=findPublishTree(SupplierToolUtil.GOODS_ID, 1);
+        }else if(SupplierToolUtil.SALES_ID.equals(id)){
+      	  //物质销售  3/2
+        	cateList=findPublishTree(SupplierToolUtil.GOODS_ID, 2);
+        }else{
+      	  cateList=findTreeByPid(id);
+        }
+		return cateList;
 	}
 }

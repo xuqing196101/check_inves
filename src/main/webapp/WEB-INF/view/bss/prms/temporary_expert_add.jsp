@@ -196,6 +196,47 @@
         cityObj.attr("title", v);
         $("#packageId").val(rid);
       }
+      
+      //验证身份证号唯一
+      function yzCardNumber(){
+        var cardNumber = $("#idCardNumber").val();
+        $.ajax({
+          url: "${pageContext.request.contextPath }/ExpExtract/yzCardNumber.do",
+          data:{
+            cardNumber : cardNumber
+          },
+          type: "POST", //请求方式           
+          success: function(data) {
+            if(data == "error"){
+              $("#error_cardNumber").html("已被占用");
+            }else{
+              $("#error_cardNumber").html("");
+              return;
+            }
+          }
+        });
+      }
+      
+    //验证电话号码唯一
+      function yzMobile(){
+        var mobile = $("#mobile").val();
+        $.ajax({
+          url: "${pageContext.request.contextPath }/ExpExtract/yzCardNumber.do",
+          data:{
+            mobile : mobile
+          },
+          type: "POST", //请求方式           
+          success: function(data) {
+            if(data == "error"){
+              $("#error_mobile").html("联系电话已存在");
+            }else{
+              $("#error_mobile").html("");
+              return;
+            }
+          }
+        });
+      }
+      
     </script>
 
 <body>
@@ -237,9 +278,9 @@
      <li class="col-md-3 col-sm-6 col-xs-12 ">
         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>居民身份证号码：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
-         <input class="title col-md-12" id="appendedInput" name="idCardNumber" value="${expert.idCardNumber}" maxlength="18" type="text">
+         <input class="title col-md-12" id="idCardNumber" name="idCardNumber" value="${expert.idCardNumber}" maxlength="18" type="text" onchange="yzCardNumber()">
          <span class="add-on">i</span>
-             <div class="cue" ><sf:errors path="idCardNumber"/>${idCardNumberError}</div>
+             <div class="cue" id = "error_cardNumber"><sf:errors path="idCardNumber"/>${idCardNumberError}</div>
         </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12 ">
@@ -281,9 +322,9 @@
      <li class="col-md-3 col-sm-6 col-xs-12 ">
        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>联系电话：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
-             <input class="title col-md-12" id="appendedInput" name="mobile" value="${expert.mobile}"  maxlength="11" type="text">
+             <input class="title col-md-12" id="mobile" name="mobile" value="${expert.mobile}"  maxlength="11" type="text" onchange="yzMobile()">
          <span class="add-on">i</span>
-          <div class="cue"><sf:errors path="mobile"/>${mobile}</div>
+          <div class="cue" id = "error_mobile"><sf:errors path="mobile"/>${mobile}</div>
         </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12 ">

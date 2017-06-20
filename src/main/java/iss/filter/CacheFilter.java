@@ -190,7 +190,7 @@ public class CacheFilter implements Filter {
 
 		}
 		// 调用用户访问量计数方法
-		putIntoPV();
+		// putIntoPV();
 		// 返回响应
 		resp.setContentType("text/html; charset=utf-8");
 		resp.getWriter().print(html);

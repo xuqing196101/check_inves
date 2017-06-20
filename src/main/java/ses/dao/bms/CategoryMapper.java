@@ -355,5 +355,4 @@ public interface CategoryMapper {
      * @return
      */
     List<Category> selectByCList(@Param("listID") String listID);
-	
 }

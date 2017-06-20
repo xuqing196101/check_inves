@@ -120,5 +120,16 @@ public interface SupplierItemMapper {
 	 * @return
 	 */
 	BigDecimal findAnalyzeSupplierCateType(@Param("cateType") String cateType);
+	/**
+	 * 
+	 * Description:品目id 供应商 类型 查询类型 --
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-15
+	 * @param categoryId
+	 * @param supplierTypeRelateId
+	 * @return
+	 */
+	List<String>  findSupplierIdByCategoryId(@Param("categoryId")String categoryId);
     
 }

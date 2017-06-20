@@ -44,15 +44,15 @@
 			     <table class="table table-bordered mt10">
 			      <tbody>
 			      <tr>
-                      <td class="info">投标人全称:</td>
-                      <td class="p0">${supplier.supplierName }</td>
-                      <td class="bggrey">项目名称:</td>
-                      <td class="p0">${project.name}</td>
+                      <td class="info div-center">投标人全称:</td>
+                      <td class="p0"><span title="${supplier.supplierName }">${supplier.supplierName }</span></td>
+                      <td class="bggrey div-center">项目名称:</td>
+                      <td class="p0"><span title="${project.name}">${project.name}</span></td>
                     </tr>
                     <tr>
-                      <td class="info">项目编号:</td>
-                      <td class="p0">${project.projectNumber}</td>
-                      <td class="info">金额单位:</td>
+                      <td class="info div-center">项目编号:</td>
+                      <td class="p0"><span title="${project.projectNumber}">${project.projectNumber}</span></td>
+                      <td class="bggrey div-center">金额单位:</td>
                       <td class="p0">元</td>
                     </tr>
 				 </tbody>
@@ -80,33 +80,33 @@
         <table class="table table-bordered left_table">
         </thead>
          <tr>
-            <th class="info">序号</th>
-            <th class="info">货物名称</th>
-            <th class="info">品牌</th>
-            <th class="info">规格型号</th>
-            <th class="info">计量单位</th>
+            <th class="info w50">序号</th>
+            <th class="info"><span class="red">*</span>货物名称</th>
+            <th class="info"><span class="red">*</span>品牌</th>
+            <th class="info"><span class="red">*</span>规格型号</th>
+            <th class="info"><span class="red">*</span>计量单位</th>
             <th class="info">数量</th>
-            <th class="info">单位（含税）</th>
-            <th class="info">金额（含税）</th>
-            <th class="info">交货时间</th>
-            <th class="info">备注</th>
+            <th class="info"><span class="red">*</span>单位（含税）</th>
+            <th class="info"><span class="red">*</span>金额（含税）</th>
+            <th class="info"><span class="red">*</span>交货时间</th>
+            <th class="info"><span class="red">*</span>备注</th>
           </tr>
         </thead>
           <c:forEach items="${list.projectDetail}" var="detail" varStatus="ls">
         <c:set var="index" value="${index+1 }"/>
           <tbody>
             <tr>
-            <td class="p0">${index+1 }</td>
-            <td class="p0"><input  class="m0" readonly="readonly" id="goodsName" value="${detail.goodsName}" type="text" class="m0" /></td>
+            <td class="info div-center">${index+1 }</td>
+            <td class="p0"><input  class="m0" id="goodsName" title="${detail.goodsName}" value="${detail.goodsName}" type="text" class="m0" /></td>
             <td class="p0"><input  class="m0" id="brand" value="${detail.brand}" type="text" /></td>
-            <td class="p0"><input type="text"  id="stand" readonly="readonly" value="${detail.stand}" /></td>
+            <td class="p0"><input type="text"  id="stand" readonly="readonly" title="${detail.stand}" value="${detail.stand}" /></td>
             <td class="p0"><input  id="item" class="m0" readonly="readonly" value="${detail.item}" type="text" /></td>
             <td class="p0"><input  class="m0" id="purchaseCount" value="${detail.purchaseCount}" type="text" readonly="readonly"/>
                       <input name="openBidInfoList[${index}].projectsDetailId"  type="hidden" value="${detail.id}" /></td>
             <td class="p0"><input name="openBidInfoList[${index}].unitPrice" class="m0" id="unitPrice" value="${detail.price}" type="text" /></td>
             <td class="p0"><input  class="m0" id="budget" value="" type="text" readonly="readonly"/></td>
-            <td class="p0"><input name="openBidInfoList[${index}].deliveryTheGoods" class="m0" id="deliveryTheGoods" value="${detail.deliverDate}" type="text" /></td>
-            <td class="p0"><input name="openBidInfoList[${index}].remark" id="remark" value="${detail.memo}" type="text" class="m0" /></td>
+            <td class="p0"><input name="openBidInfoList[${index}].deliveryTheGoods" class="m0" id="deliveryTheGoods" title="${detail.deliverDate}" value="${detail.deliverDate}" type="text" /></td>
+            <td class="p0"><input name="openBidInfoList[${index}].remark" id="remark" value="${detail.memo}" title="${detail.memo}" type="text" class="m0" /></td>
             </tr>
           </tbody>
                   <%-- <tbody>
@@ -151,7 +151,6 @@
                 </table>
 				    </div>
                 </c:forEach>
-				<!-- <span class="ml10">投标人全称：政法大学（盖章）</span><span class="ml100">法定代表人（或授权代表）：宋彪伟（签字）</span><span class="ml200">2016年  12月  13日</span> -->
 			      <div class="col-md-12 clear tc mt10">
 							  <button class="btn btn-windows save mb20" type="submit" onclick="isTemporary()">暂存</button>
 							  <button class="btn btn-windows apply mb20" type="submit" onclick="">确定</button>

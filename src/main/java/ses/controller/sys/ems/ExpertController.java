@@ -2841,12 +2841,16 @@ public class ExpertController extends BaseController {
         }
 
         // 境外分支地址
-        List < SupplierBranch > branchList = supplier.getBranchList();
-        for(SupplierBranch branch: branchList) {
-            // 国家(地区)
-            if(branch.getCountry() != null) {
-                branch.setCountry(DictionaryDataUtil.findById(branch.getCountry()).getName());
+        if(null != supplier.getOverseasBranch() && supplier.getOverseasBranch() == 1){// 如果有境外分支
+        	List < SupplierBranch > branchList = supplier.getBranchList();
+            for(SupplierBranch branch: branchList) {
+                // 国家(地区)
+                if(branch.getCountry() != null) {
+                    branch.setCountry(DictionaryDataUtil.findById(branch.getCountry()).getName());
+                }
             }
+        }else{// 如果有境外分支清除列表
+        	supplier.getBranchList().clear();
         }
 
         // 物资类,服务类资质证书
@@ -2867,30 +2871,34 @@ public class ExpertController extends BaseController {
             if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().contains("SERVICE")) {
                 List < SupplierCertServe >    listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
                 for(SupplierCertServe server: listSupplierCertSes) {
-                    SupplierCertPro pro = new SupplierCertPro();
-                    pro.setName(server.getName());
-                    pro.setCode(server.getCode());
-                    pro.setLevelCert(server.getLevelCert());
-                    pro.setLicenceAuthorith(server.getLicenceAuthorith());
-                    pro.setExpStartDate(server.getExpStartDate());
-                    pro.setExpEndDate(server.getExpEndDate());
-                    pro.setMot(server.getMot());
-                    listSupplierCertPros.add(pro);
+                	if(server.getCode() != null){
+                		SupplierCertPro pro = new SupplierCertPro();
+                        pro.setName(server.getName());
+                        pro.setCode(server.getCode());
+                        pro.setLevelCert(server.getLevelCert());
+                        pro.setLicenceAuthorith(server.getLicenceAuthorith());
+                        pro.setExpStartDate(server.getExpStartDate());
+                        pro.setExpEndDate(server.getExpEndDate());
+                        pro.setMot(server.getMot());
+                        listSupplierCertPros.add(pro);
+                	}
                 }
             }
             //		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
             if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null&&supplier.getSupplierTypeIds().contains("SALES")) {
                 List < SupplierCertSell >    listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
                 for(SupplierCertSell sell: listSupplierCertSells) {
-                    SupplierCertPro pro = new SupplierCertPro();
-                    pro.setName(sell.getName());
-                    pro.setCode(sell.getCode());
-                    pro.setLevelCert(sell.getLevelCert());
-                    pro.setLicenceAuthorith(sell.getLicenceAuthorith());
-                    pro.setExpStartDate(sell.getExpStartDate());
-                    pro.setExpEndDate(sell.getExpEndDate());
-                    pro.setMot(sell.getMot());
-                    listSupplierCertPros.add(pro);
+                	if(sell.getCode() != null){
+                		SupplierCertPro pro = new SupplierCertPro();
+                        pro.setName(sell.getName());
+                        pro.setCode(sell.getCode());
+                        pro.setLevelCert(sell.getLevelCert());
+                        pro.setLicenceAuthorith(sell.getLicenceAuthorith());
+                        pro.setExpStartDate(sell.getExpStartDate());
+                        pro.setExpEndDate(sell.getExpEndDate());
+                        pro.setMot(sell.getMot());
+                        listSupplierCertPros.add(pro);
+                	}
                 }
                
             }
@@ -4558,7 +4566,7 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping("/readExcelExpert")
     @ResponseBody
-    public String readExcelExpert(@RequestParam(value="excelFile") MultipartFile file, HttpServletRequest request, HttpServletResponse response){
+    public void readExcelExpert(@RequestParam(value="excelFile") MultipartFile file, HttpServletRequest request, HttpServletResponse response){
         JSONObject json = new JSONObject();
         String packageId = request.getParameter("packageId");
         String resultStr = "";
@@ -4566,7 +4574,7 @@ public class ExpertController extends BaseController {
             json.put("isSuccess",true);
             json.put("messageCode",10);
             resultStr = json.toString();
-            return resultStr;
+            super.printOutMsg(resultStr);
         }
         String fileName = file.getOriginalFilename();
         long fileSize = file.getSize();
@@ -4574,7 +4582,7 @@ public class ExpertController extends BaseController {
             json.put("isSuccess",true);
             json.put("messageCode",11);
             resultStr = json.toString();
-            return resultStr;
+            super.printOutMsg(resultStr);
         }
         //读取Excel数据到List中
         try {
@@ -4620,7 +4628,7 @@ public class ExpertController extends BaseController {
             logger.error("ExpertController.readExcelExpert is error. message= "+e);
             e.printStackTrace();
         }
-        return json.toString();
+        super.printOutMsg(json.toString());
     }
 
     /**

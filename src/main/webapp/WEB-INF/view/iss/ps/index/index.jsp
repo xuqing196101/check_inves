@@ -15,7 +15,7 @@
 <!--<![endif]-->
   <head>
     <jsp:include page="/index_head.jsp"></jsp:include>
-    <script type="text/javascript" src="${ pageContext.request.contextPath }/js/iss/ps/index/index.js"></script>
+    <%-- <script type="text/javascript" src="${ pageContext.request.contextPath }/js/iss/ps/index/index.js"></script> --%>
  
     <script type="text/javascript">
         var browser = navigator.appName;
@@ -1237,7 +1237,12 @@
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
            <div class="cgxx_report">
-		   <div class="report-tab">采购法规</div><a class="news_more" href="${pageContext.request.contextPath}/index/selectsumByParId.html">更多>></a>
+		   <div class="report-tab">采购法规
+		   		<c:if test="${articleCgfg != 0}">
+				      <b>${articleCgfg}</b>
+			      </c:if>
+		   </div>
+		   <a class="news_more" href="${pageContext.request.contextPath}/index/selectsumByParId.html">更多>></a>
            </div>
             <div class="categories">
               <ul class="p0_10">
@@ -1319,11 +1324,11 @@
             </div>
          </div>
         </div>
-      <div class="visit_count">
+      <!-- <div class="visit_count">
       	<span class="visit_title">访问量</span>
       	<span class="visit_clip col-md-offset-1 col-sm-offset-1"><b></b>今日访问量：<i id="pvThisDay"></i>次</span>
       	<span class="visit_clip col-md-offset-1 col-sm-offset-1"><b></b>总访问量：<i id="pvTotal"></i>次</span>
-      </div>
+      </div> -->
       <!-- <a href="${pageContext.request.contextPath}/index/init.html">初始化solr</a> -->
 
 	</div>

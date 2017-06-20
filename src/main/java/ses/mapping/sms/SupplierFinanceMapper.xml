@@ -349,4 +349,9 @@
 		where 
 			ID = #{id}
 	</select>
+	<!-- 根据供应商id 获取近三年的数据 -->
+	<select id="findBySupplierIdYearThree" parameterType="String" resultMap="BaseResultMap">
+	SELECT <include refid="Base_Column_List" /> FROM T_SES_SMS_SUPPLIER_FINANCE 
+    WHERE SUPPLIER_ID=#{supplierId} AND ROWNUM &lt;=3 ORDER BY YEAR DESC
+	</select>
 </mapper>

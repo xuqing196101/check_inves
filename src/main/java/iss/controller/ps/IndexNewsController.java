@@ -856,9 +856,11 @@ public class IndexNewsController extends BaseSupplierController{
 		BigDecimal articleTouSu = getcount("tousu");
 		BigDecimal articleChuFa = getcount("chufa");
 		BigDecimal articleZytz = getcount("zhongYaoTongZhi");
+		BigDecimal articleCgfg = getcount("caiGouFaGui");
 		model.addAttribute("articleTouSu",articleTouSu);
 		model.addAttribute("articleChuFa",articleChuFa);
 		model.addAttribute("articleZytz",articleZytz);
+		model.addAttribute("articleCgfg",articleCgfg);
 //		for(int i=0;i<articleTypeList.size();i++){
 //			List<Article> indexNewsList = null;
 //			if(articleTypeList.get(i).getName().equals("工作动态")){
@@ -1010,7 +1012,14 @@ public class IndexNewsController extends BaseSupplierController{
       timerMap.put("id", "109");
       BigDecimal zhongYaoTongZhiNum = articleService.selectByTypeIdTimer(timerMap);
       return zhongYaoTongZhiNum;
-    }else {
+    } else if ("caiGouFaGui".equals(str)) {
+      HashMap<String, String> timerMap = new HashMap<String, String>();
+      timerMap.put("firstday", firstday);
+      timerMap.put("lastday", lastday);
+      timerMap.put("id", "106");
+      BigDecimal caiGouFaGuiNum = articleService.selectByTypeIdTimer(timerMap);
+      return caiGouFaGuiNum;
+    } else {
       return new BigDecimal(0);
     }
   }
@@ -2084,14 +2093,19 @@ public class IndexNewsController extends BaseSupplierController{
 		}
 		else {//专家名录 ：1
 			Expert expert=new Expert();
+			Map<String, Object> expertMap = new HashMap<>();
 			//处理查询参数
 			String relName=RequestTool.getParam(request,"relName","");
 			if(!"".equals(relName)){
 				expert.setRelName(relName);
+				expertMap.put("relName", relName);
 				model.addAttribute("relName", relName );
 			}
 			String status=RequestTool.getParam(request,"status","");
 			if(!"".equals(status)){
+				String [] statusArray= status.split(","); 
+				expertMap.put("statusArray", statusArray);
+				expertMap.put("size", statusArray.length);
 				expert.setStatus(status);
 				model.addAttribute("status", status );
 			}
@@ -2099,8 +2113,9 @@ public class IndexNewsController extends BaseSupplierController{
 			ExpertService expertService=SpringBeanUtil.getBean(ExpertService.class);
 			 //只显示公开的
 			expert.setIsPublish(1);
+			expertMap.put("isPublish", 1);
 			//分页
-	        List<Expert> list = expertService.selectAllExpert(page == null ? 1 : page, expert);
+	        List<Expert> list = expertService.selectIndexExpert(page == null ? 1 : page, expertMap);
 	        model.addAttribute("list",  new PageInfo<Expert>(list));
 	        return "iss/ps/index/sumByPubExpert";
 		}

@@ -566,6 +566,12 @@ public class ExpertAuditController{
 		if(user != null) {
 			expertAudit.setAuditUserId(user.getId());
 			expertAudit.setAuditUserName(user.getRelName());
+			
+			//记录审核人
+			Expert expert = new Expert();
+			expert.setId(expertAudit.getExpertId());
+			expert.setAuditor(user.getRelName());
+			expertService.updateByPrimaryKeySelective(expert);
 		}
 		expertAudit.setAuditAt(new Date());
 
