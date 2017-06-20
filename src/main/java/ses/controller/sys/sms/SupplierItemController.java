@@ -601,6 +601,9 @@ public class SupplierItemController extends BaseController {
 				if(pro != null && city != null) {
 					org.setAddress(pro.getName() + city.getName());
 				}
+				// 统计待审核供应商数量
+                int pendingAuditCount = supplierService.countByPurchaseDepId(org.getId(), 0);
+                org.setPendingAuditCount(pendingAuditCount);
 			}
 			model.addAttribute("allPurList", list1);
 			return "ses/sms/supplier_register/procurement_dep";

@@ -1149,6 +1149,9 @@ public class SupplierController extends BaseSupplierController {
                     if(pro != null && city != null) {
                         purchaseDep.setAddress(pro.getName() + city.getName());
                     }
+                    // 统计待审核供应商数量
+                    int pendingAuditCount = supplierService.countByPurchaseDepId(purchaseDep.getId(), 0);
+                    purchaseDep.setPendingAuditCount(pendingAuditCount);
 			        purList.add(purchaseDep);
 			    }
 			}
@@ -3218,11 +3221,13 @@ public class SupplierController extends BaseSupplierController {
         int stepNumber = Integer.parseInt(step);
         if (stepNumber == 1) {
             model.addAttribute("id", supplierId);
-            return "redirect:register.html";
+            return "redirect:/supplier/register.html";
         } else if (stepNumber == 2) {
             model.addAttribute("flag", "3");
             model.addAttribute("supId", supplierId);
             return "redirect:/supplier_item/save_or_update.html";
+        	/*model.addAttribute("id", supplierId);
+            return "redirect:perfect_basic";*/
         } else if (stepNumber == 3) {
             model.addAttribute("flag", "1");
             model.addAttribute("supplierId", supplierId);

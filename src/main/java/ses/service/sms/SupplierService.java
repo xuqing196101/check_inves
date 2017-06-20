@@ -409,4 +409,12 @@ public interface SupplierService {
 	  * @return
 	  */
 	Date findMaxFoundDate(List<String> supplierIds);
+
+	/**
+	 * 根据采购机构id统计对应状态的供应商数量
+	 * @param purchaseDepId
+	 * @param status
+	 * @return
+	 */
+	public int countByPurchaseDepId(String purchaseDepId, int status);
 }
