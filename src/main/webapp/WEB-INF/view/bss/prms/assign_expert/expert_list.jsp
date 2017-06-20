@@ -203,7 +203,12 @@
                     if(!result.success){
                         layer.msg(result.msg,{offset: ['50px']});
                     }else{
+                    	//隐藏按钮
                     	$('button[name="addExp_btn"]').each(function(){ 
+                    		$(this).attr("class","dnone");
+                    	});
+                    	//隐藏引用临时专家按钮
+                    	$('button[name="citeExp_btn"]').each(function(){ 
                     		$(this).attr("class","dnone");
                     	});
                     	$("#end_submit").attr("class","dnone");
@@ -211,6 +216,9 @@
                     		$(this).removeAttr("class","dnone");
                     		$(this).attr("class","btn");
                     	});
+                    	
+                    	//隐藏导入临时专家按钮
+                    	$("#updateExcel").attr("class","dnone");
                         layer.msg(result.msg,{offset: ['50px']});
                     }
                 },

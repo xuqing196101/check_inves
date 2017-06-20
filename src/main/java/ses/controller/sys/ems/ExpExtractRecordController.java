@@ -1216,9 +1216,9 @@ public class ExpExtractRecordController extends BaseController {
     }
     if (loginName == null || "".equals(loginName)){
       model.addAttribute("loginNameError", "不能为空");
-      if (loginName == null || !loginName.matches("^\\w{6,20}$")) {
+      /*if (loginName == null || !loginName.matches("^\\w{6,20}$")) {
         model.addAttribute("loginNameError", "登录名由6-20位字母数字和下划线组成 !");
-      }
+      }*/
       type = 1;
     }else{
       //校验用户名是否存在
@@ -1240,9 +1240,9 @@ public class ExpExtractRecordController extends BaseController {
     }
     if (loginPwd == null || "".equals(loginPwd)) {
       model.addAttribute("loginPwdError", "不能为空");
-      if (loginPwd == null || !loginPwd.matches("^\\w{6,20}$")) {
+      /*if (loginPwd == null || !loginPwd.matches("^\\w{6,20}$")) {
         model.addAttribute("loginPwdError", "密码由6-20位字母数字和下划线组成 !");
-      }
+      }*/
       type = 1;
     }
 

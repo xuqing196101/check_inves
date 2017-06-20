@@ -1,6 +1,7 @@
 package ses.model.bms;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,8 +11,14 @@ import java.util.Date;
  * @author FengTian
  * @date 2016-9-7下午5:58:54
  */
-public class Area {
+public class Area implements Serializable{
+  
 	/**
+   * @Fields serialVersionUID : TODO(目的和意义)
+   */
+  private static final long serialVersionUID = 1L;
+  
+  /**
 	 * @Fields id : 主键
 	 */
     private String id;
