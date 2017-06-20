@@ -1950,4 +1950,11 @@
             </foreach>
             </where> 
 	</select>
+	
+	<!-- 根据采购机构id统计对应状态的供应商数量 -->
+	<select id="countByPurchaseDepId" resultType="int">
+		SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER 
+		WHERE PROCUREMENT_DEP_ID = #{purchaseDepId}
+		AND SUPPLIER_STATUS = #{status}
+	</select>
 </mapper>
