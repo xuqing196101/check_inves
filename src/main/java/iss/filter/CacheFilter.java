@@ -216,7 +216,7 @@ public class CacheFilter implements Filter {
 		Jedis jedis = null;
 		try {
 			// 获取连接
-			jedis = cacheHomePage.getResource();
+			jedis = RedisUtils.getResource(cacheHomePage);
 			String cachePage = jedis.get(homeKey);
 			if (cachePage != null) {
 				return cachePage;
@@ -246,7 +246,7 @@ public class CacheFilter implements Filter {
 		Jedis jedis = null;
 		try {
 			// 获取连接
-			jedis = cacheHomePage.getResource();
+			jedis = RedisUtils.getResource(cacheHomePage);
 			// 将查询的页面信息存放到缓存当中
 			jedis.set(homeKey, html);
 			// 设置缓存存储时间

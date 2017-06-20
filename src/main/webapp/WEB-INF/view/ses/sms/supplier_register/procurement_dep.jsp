@@ -141,6 +141,7 @@
 												<th class="info w50">序号</th>
 												<th class="info w300">采购机构</th>
 												<th class="info">地点</th>
+												<th class="info w100">待审核数量</th>
 											</tr>
 										</thead>
 										<tbody id="purchase_orgs2">
@@ -152,6 +153,7 @@
 													<td class="tc">${vs}</td>
 													<td class="tc">${org1.shortName}</td>
 													<td class="tc">${org1.address}</td>
+													<td class="tc">${org1.pendingAuditCount}</td>
 												</tr>
 												<c:set var="vs" value="${vs + 1}"/>
 											  </c:if>
@@ -168,6 +170,7 @@
 												<th class="info w50">序号</th>
 												<th class="info w300">采购机构</th>
 												<th class="info">地点</th>
+												<th class="info w100">待审核数量</th>
 											</tr>
 										</thead>
 										<tbody id="purchase_orgs2">
@@ -179,6 +182,7 @@
 													<td class="tc">${vs}</td>
 													<td class="tc">${org1.shortName}</td>
 													<td class="tc">${org1.address}</td>
+													<td class="tc">${org1.pendingAuditCount}</td>
 												</tr>
 												<c:set var="vs" value="${vs + 1}"/>
 											  </c:if>

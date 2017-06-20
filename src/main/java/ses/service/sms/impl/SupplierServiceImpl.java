@@ -1232,5 +1232,10 @@ public class SupplierServiceImpl implements SupplierService {
 	public Date findMaxFoundDate(List<String> supplierIds) {
 		return supplierMapper.findMaxFoundDate(supplierIds);
 	}
+
+	@Override
+	public int countByPurchaseDepId(String purchaseDepId, int status) {
+		return supplierMapper.countByPurchaseDepId(purchaseDepId, status);
+	}
    
 }
