@@ -349,7 +349,7 @@
 									<tbody>
 										<tr>
 											<td class="bggrey" width="20%">境外分支机构：</td>
-											<td width="30%">无</td>
+											<td width="80%">无</td>
 										</tr>
 									</tbody>
 								</table>
@@ -387,10 +387,10 @@
 								<thead>
 									<tr>
 										<th class="info w50">序号</th>
-										<th class="info">分支（或服务）机构名称</th>
-										<th class="info">类别</th>
-										<th class="info">所在省市</th>
-										<th class="info">负责人</th>
+										<th class="info" width="40%">分支（或服务）机构名称</th>
+										<th class="info" width="10%">类别</th>
+										<th class="info" width="20%">所在省市</th>
+										<th class="info" width="12%">负责人</th>
 										<th class="info">联系电话</th>
 									</tr>
 								</thead>
