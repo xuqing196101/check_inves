@@ -541,4 +541,13 @@ public interface SupplierMapper {
      * @return
      */
     Date findMaxFoundDate(@Param("supplierIds")List<String> supplierIds);
+
+    /**
+	 * 根据采购机构id统计对应状态的供应商数量
+	 * @param purchaseDepId
+	 * @param status
+	 * @return
+	 */
+	int countByPurchaseDepId(@Param("purchaseDepId")String purchaseDepId, 
+			@Param("status")int status);
 }

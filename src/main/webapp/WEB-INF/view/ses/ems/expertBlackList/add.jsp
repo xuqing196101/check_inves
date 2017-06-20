@@ -27,6 +27,11 @@
 		      });
 		    });
 		  });
+		  
+		//清除文件上传报错信息
+		function clearErrorMsg(){
+			$("#error_file").html("");
+		}
 		</script>
 	</head>
   <body>
@@ -110,13 +115,13 @@
 	       
 	      <h2 class="count_flow"><i>2</i>附件上传</h2>
         <ul class="ul_list">
-	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15" onclick = "clearErrorMsg()">
 	          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12" ><div class="star_red">*</div>批准文件:</span>
 	          <%-- <input class="span3" type="file" name="attachmentCertFile"/>
 	          <span class=" red">${err_attachmentCert}</span> --%>
 	          <u:upload id="id_up"  businessId="${uuid}" sysKey="${expertKey}" typeId="${typeId}" auto="true"/> 
           	<u:show showId="id_show" groups="a,b,c"  businessId="${uuid}" sysKey="${expertKey}" typeId="${typeId}" />
-	      	<span class=" red">  ${err_attachmentCert }</span>
+	      	<span class=" red" id = "error_file">  ${err_attachmentCert }</span>
 	      	</li>
         </ul>
         <div class="col-md-12 p0">

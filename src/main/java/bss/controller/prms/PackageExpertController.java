@@ -3793,7 +3793,9 @@ public class PackageExpertController {
             //所有专家对各小项的评审结果少数服从多数
             for (FirstAudit firstAudit2 : list) {
                 Map<String, Object> auditMap = new HashMap<>();
-                auditMap.put("supplierId", saleTender2.getSuppliers().getId());
+                if(saleTender2 != null && saleTender2.getSuppliers() != null){
+                    auditMap.put("supplierId", saleTender2.getSuppliers().getId());
+                }
                 auditMap.put("packageId", packageId);
                 auditMap.put("projectId", projectId);
                 auditMap.put("firstAuditId", firstAudit2.getId());

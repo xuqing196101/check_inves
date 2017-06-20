@@ -709,7 +709,6 @@ public class PurchaseContractController extends BaseSupplierController{
 		project.setOrgnization(org);*/
 		
 		//PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(project.getSectorOfDemand());
-		
 		model.addAttribute("project", project);
 		model.addAttribute("department", department);
 		model.addAttribute("transactionAmount", amounts);
@@ -754,12 +753,13 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(bookdata.size()>0){
 			model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
 		}
-		
+		PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(user.getOrg().getId());
 		String contractuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
 		model.addAttribute("id", contractuuid);
 		model.addAttribute("attachuuid", contractuuid);
 		model.addAttribute("kinds", DictionaryDataUtil.find(5));
 		model.addAttribute("user", user);
+		model.addAttribute("purchaseDep", purchaseDep);
 		return "bss/cs/purchaseContract/manualNewContract";
 	}
 	
@@ -2765,7 +2765,6 @@ public class PurchaseContractController extends BaseSupplierController{
     @RequestMapping(value="/changeXuqiu",produces="application/json;charest=utf-8")
     public void changeXuqiu(String id,HttpServletResponse response,HttpServletRequest request) throws Exception{
     	PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(id);
-    	
         super.writeJson(response, purchaseDep);
     }
     /**

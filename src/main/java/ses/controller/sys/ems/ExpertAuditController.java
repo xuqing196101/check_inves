@@ -438,7 +438,9 @@ public class ExpertAuditController{
 		StringBuffer content = new StringBuffer();
 		Expert expert = service.selectByPrimaryKey(expertId);
 		ExpertHistory oldExpert = service.selectOldExpertById(expertId);
-		oldExpert.setTimeToWork(new SimpleDateFormat("yyyy-MM").parse(new SimpleDateFormat("yyyy-MM").format(oldExpert.getTimeToWork())));
+		if(oldExpert.getTimeToWork() !=null){
+			oldExpert.setTimeToWork(new SimpleDateFormat("yyyy-MM").parse(new SimpleDateFormat("yyyy-MM").format(oldExpert.getTimeToWork())));
+		}
 		Map < String, Object > compareMap = compareExpert(oldExpert, (ExpertHistory) expert);
 		String value = (String) compareMap.get(field);
 		if("0".equals(type)) {

@@ -141,6 +141,9 @@ public class ExpertBlackListController extends BaseSupplierController{
 			model.addAttribute("punishType", expertBlackList.getPunishType());
 			model.addAttribute("dateOfPunishment", expertBlackList.getDateOfPunishment());
 			model.addAttribute("reason", expertBlackList.getReason());
+			model.addAttribute("typeId", DictionaryDataUtil.getId("EXPERT_BLACK_LIST"));
+			model.addAttribute("expertKey", Constant.EXPERT_SYS_KEY);
+			model.addAttribute("uuid", expertBlackList.getId());
 			return "ses/ems/expertBlackList/add";
 		}else {
 			User user=(User) request.getSession().getAttribute("loginUser");
@@ -280,6 +283,14 @@ public class ExpertBlackListController extends BaseSupplierController{
 			expertBlackList.setReason(expertBlackList.getReason());
 			model.addAttribute("relName", expertBlackList.getRelName());
 			model.addAttribute("expert", expertBlackList);
+			//文件
+			DictionaryData dd = new  DictionaryData();
+			dd.setCode("EXPERT_BLACK_LIST");
+			if(  dictionaryDataServiceI.find(dd) != null && dictionaryDataServiceI.find(dd).size()>0){
+				 DictionaryData dictionaryData = dictionaryDataServiceI.find(dd).get(0);
+				 model.addAttribute("expertDictionaryData", dictionaryData);
+			}
+			model.addAttribute("expertKey", Constant.EXPERT_SYS_KEY);
 			return "ses/ems/expertBlackList/edit";
 		}else {
 		

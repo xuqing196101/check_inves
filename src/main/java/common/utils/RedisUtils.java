@@ -31,7 +31,7 @@ public class RedisUtils {
 	 * @throws
 	 * @version 2017年2月23日
 	 */
-	public static void returnResource(Jedis jedis, JedisPool jedisPool) {
+	public synchronized static void returnResource(Jedis jedis, JedisPool jedisPool) {
 		jedisPool.returnResourceObject(jedis);
 	}
 
@@ -86,7 +86,7 @@ public class RedisUtils {
 	 * @throws
 	 * @version 2017年2月27日
 	 */
-	public static Jedis getResource(JedisPool jedisPool) {
+	public synchronized static Jedis getResource(JedisPool jedisPool) {
 		return jedisPool.getResource();
 	}
 

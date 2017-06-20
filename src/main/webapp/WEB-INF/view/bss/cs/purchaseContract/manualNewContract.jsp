@@ -888,62 +888,62 @@
 			     <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">甲方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <input class=" supplier_name" id="purchaseLegal" name="purchaseLegal" value="${project.purchaseDep.legal}" type="text">
+			        <input class=" supplier_name" id="purchaseLegal" name="purchaseLegal" value="${purchaseDep.legal}" type="text">
 			        <div class="cue">${ERR_purchaseLegal}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">甲方委托代理人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <input class=" supplier_name" id="purchaseAgent" name="purchaseAgent" value="${project.purchaseDep.agent}" type="text">
+			        <input class=" supplier_name" id="purchaseAgent" name="purchaseAgent" value="${purchaseDep.agent}" type="text">
 			        <div class="cue">${ERR_purchaseAgent}</div>
 			       </div>
 				 </li>
 	    		 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方联系人：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="purchaseContact" name="purchaseContact" value="${project.purchaseDep.contact}" type="text">
+			         <input class=" supplier_name" id="purchaseContact" name="purchaseContact" value="${purchaseDep.contact}" type="text">
 			         <div class="cue">${ERR_purchaseContact}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方联系电话：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="purchaseContactTelephone" name="purchaseContactTelephone" value="${project.purchaseDep.contactTelephone}" type="text">
+			         <input class=" supplier_name" id="purchaseContactTelephone" name="purchaseContactTelephone" value="${purchaseDep.contactTelephone}" type="text">
 			         <div class="cue">${ERR_purchaseContactTelephone}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12"><div class="red star_red">*</div>甲方通讯地址：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="purchaseContactAddress" name="purchaseContactAddress" value="${project.purchaseDep.contactAddress}" type="text">
+			         <input class=" supplier_name" id="purchaseContactAddress" name="purchaseContactAddress" value="${purchaseDep.contactAddress}" type="text">
 			         <div class="cue">${ERR_purchaseContactAddress}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方邮政编码：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="purchaseUnitpostCode" name="purchaseUnitpostCode" value="${project.purchaseDep.unitPostCode}" type="text">
+			         <input class=" supplier_name" id="purchaseUnitpostCode" name="purchaseUnitpostCode" value="${purchaseDep.unitPostCode}" type="text">
 			         <div class="cue">${ERR_purchaseUnitpostCode}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">甲方付款单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="purchasePayDep" name="purchasePayDep" value="${project.purchaseDep.payDep}" type="text">
+			         <input class=" supplier_name" id="purchasePayDep" name="purchasePayDep" value="${purchaseDep.payDep}" type="text">
 			         <div class="cue">${ERR_purchasePayDep}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方开户银行：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchaseBank" id="purchaseBank" value="${project.purchaseDep.bank}" type="text">
+			         <input class=" supplier_name" name="purchaseBank" id="purchaseBank" value="${purchaseDep.bank}" type="text">
 			         <div class="cue">${ERR_purchaseBank}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方银行账号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchaseBankAccount_string" id="purchaseBankAccount_string" value="${project.purchaseDep.bankAccount}" type="text">
+			         <input class=" supplier_name" name="purchaseBankAccount_string" id="purchaseBankAccount_string" value="${purchaseDep.bankAccount}" type="text">
 			         <div class="cue">${ERR_purchaseBankAccount}</div>
 			        </div>
 				 </li>
