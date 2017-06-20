@@ -1,5 +1,6 @@
 package iss.model.ps;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,12 @@ import java.util.Date;
 * @date 2017年3月24日 下午3:09:24 
 *
  */
-public class Cache {
+public class Cache implements Serializable{
+	/**
+	 * Cache.java
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 缓存名称
 	 */
