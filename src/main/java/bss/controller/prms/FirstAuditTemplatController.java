@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import common.annotation.CurrentUser;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.model.ppms.MarkTerm;
@@ -105,17 +108,21 @@ public class FirstAuditTemplatController extends BaseController{
 	  * @return String
 	 */
 	@RequestMapping("/list")
-	public String list(String name, String kind, Integer page, Model model){
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("name", name);
-		map.put("kind", kind);
-		List<FirstAuditTemplat> list = service.selectAll(map,page==null?1:page);
-		List<DictionaryData> kinds = DictionaryDataUtil.find(20);
-		model.addAttribute("list", new PageInfo<>(list));
-		model.addAttribute("kinds", kinds);
-		model.addAttribute("kind", kind);
-		model.addAttribute("name", name);
-		return "bss/prms/templat/list";
+	public String list(String name, String kind, Integer page, Model model, @CurrentUser User user){
+        Map<String, Object> map = new HashMap<String, Object>();
+        //判读是否是资源服务中心  支撑环境-后台管理-评审模板管理，权限所属角色是：资源服务中心，查看范围是：所有，操作范围是：所有，权限属性是：操作
+        String typeName = user.getTypeName();
+        if (StringUtils.isNotBlank(typeName)&&"4".equalsIgnoreCase(typeName )) {
+            map.put("name", name);
+            map.put("kind", kind);
+            List<FirstAuditTemplat> list = service.selectAll(map, page == null ? 1 : page);
+            List<DictionaryData> kinds = DictionaryDataUtil.find(20);
+            model.addAttribute("list", new PageInfo<>(list));
+            model.addAttribute("kinds", kinds);
+            model.addAttribute("kind", kind);
+            model.addAttribute("name", name);
+        }
+        return "bss/prms/templat/list";
 	}
 	
 	/**

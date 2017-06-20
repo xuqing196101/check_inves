@@ -1021,6 +1021,7 @@ public class SupplierController extends BaseSupplierController {
 
 			
 		if(pro == true && server == true && project == true && sale == true) {
+        	//TODO 此处产品类别在供应商审核处,没有开发,在退回修改时故没有红框验证
 			return "ses/sms/supplier_register/items";
 		} else {
 			List < DictionaryData > list = DictionaryDataUtil.find(6);
@@ -1042,7 +1043,7 @@ public class SupplierController extends BaseSupplierController {
 			 * 查询不通过的理由
 			 */
 			SupplierAudit supplierAudit = new SupplierAudit();
-			supplierAudit.setSupplierId(supplier.getId());;
+			supplierAudit.setSupplierId(supplier.getId());
 			//供应商勾选的类型
 			StringBuffer typePageField = new StringBuffer();
 			supplierAudit.setAuditType("supplierType_page");
