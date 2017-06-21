@@ -177,7 +177,6 @@
 									   	     	<div class="w200 fl">
 									   	     		<c:choose>
 									   	     			<c:when test="${!fn:contains(audit,'supplierRegList') && currSupplier.status==2}">
-											   		 			<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
 											   		 			<u:show showId="promise_show" delete="false" groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />
 									   	     			</c:when>
 									   	     			<c:otherwise>
@@ -190,8 +189,15 @@
 									   	     <td class="bggrey" width="15%" ><i class="red">*</i>供应商承诺书：</td>
 									   	     <td <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierPledge')"</c:if>>
 									   	       <div class="w200 fl">
-									   	     	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" maxcount="1"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
-											  	<u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
+									   	       	<c:choose>
+									   	     			<c:when test="${!fn:contains(audit,'supplierRegList') && currSupplier.status==2}">
+											   		 			<u:show showId="application_show" delete="false" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
+									   	     			</c:when>
+									   	     			<c:otherwise>
+									   	     				<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" maxcount="1"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
+											  					<u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
+									   	     			</c:otherwise>
+									   	     		</c:choose>
 									   	       </div>
 									   	     </td>
 									   	   </tr>

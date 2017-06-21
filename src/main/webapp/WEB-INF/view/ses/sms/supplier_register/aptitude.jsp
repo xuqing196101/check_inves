@@ -498,6 +498,7 @@
                                                                     var certCode = "${cate.certCode}";
                                                                     //专业类别
                                                                     var professType = "${cate.proName}";
+                                                                    console.log(professType+"===========");
                                                                     //资质类型
                                                                     var typeId = $("#listSupplierItems${vs.index}qualificationType").val();
                                                                     if (typeId != null && typeId != "" && typeId != "undefined" && certCode != null && certCode != "" && certCode != "undefined" && professType != null && professType != "") {
@@ -573,3 +574,57 @@
   		</div>
 	</body>
 </html>
+
+<script type="text/javascript">
+	controlForm();
+	function controlForm(){
+		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
+		var currSupplierSt = '${currSupplier.status}';
+		//console.log(currSupplierSt);
+		if(currSupplierSt == '2'){
+			$("input[type='text'],select,textarea").attr('disabled',true);
+			$("input[type='text'],select,textarea").each(function(){
+				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
+				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
+				if($(this).css("border-top-color") == 'rgb(255, 0, 0)' 
+					|| $(this).css("border-bottom-color") == 'rgb(255, 0, 0)' 
+					|| $(this).css("border-left-color") == 'rgb(255, 0, 0)' 
+					|| $(this).css("border-right-color") == 'rgb(255, 0, 0)' 
+					|| $(this).parents("td").css("border-top-color") == 'rgb(255, 0, 0)'
+					|| $(this).parents("td").css("border-bottom-color") == 'rgb(255, 0, 0)'
+					|| $(this).parents("td").css("border-left-color") == 'rgb(255, 0, 0)'
+					|| $(this).parents("td").css("border-right-color") == 'rgb(255, 0, 0)'
+				){
+					$(this).attr('disabled',false);
+				}
+			});
+			/* $("select").change(function(){
+				this.selectedIndex=this.defaultIndex;
+			}); */
+		}
+	}
+	
+	// 表单可编辑
+	function enableForm(){
+		var currSupplierSt = '${currSupplier.status}';
+		if(currSupplierSt == '2'){
+			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
+		}
+	}
+	
+	// 审核通过的项不能删除(列表)
+	function checkIsDelForTuihui(checkedObjs, audit){
+		var currSupplierSt = '${currSupplier.status}';
+		if(currSupplierSt == '2'){
+			var isDel = true;
+			$(checkedObjs).each(function(index) {
+				if(audit.indexOf($(this).val()) < 0){
+					isDel = false;
+					return false;
+				}
+			});
+			return isDel;
+		}
+		return true;
+	}
+</script>
