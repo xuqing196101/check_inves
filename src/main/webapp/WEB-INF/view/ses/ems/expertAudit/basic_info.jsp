@@ -569,56 +569,86 @@
                             </c:if>
                         </div>
                     </li>
-                    <c:if test="${expert.teachTitle eq '1'}">
-                        <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">有无专业技术职称：</span>
-                            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                                <input value="有" <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}"> style="border: 1px solid red;"</c:if>
-                                       <c:if test="${fn:contains(editFields,'getTeachTitle')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('teachTitle','getTeachTitle','0');"</c:if> id="teachTitle" type="text" onclick="reason(this);"/>
-                                <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}">
-                                    <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
-                                </c:if>
-                            </div>
-                        </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12">
-                            <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家技术职称：</span>
-                            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                                <input maxlength="20" <c:if test="${fn:contains(conditionStr,'专家技术职称')}"> style="border: 1px solid red;"</c:if>
-                                       <c:if test="${fn:contains(editFields,'getProfessTechTitles')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professTechTitles','getProfessTechTitles','0');"</c:if> value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
-                                <c:if test="${fn:contains(conditionStr,'专家技术职称')}">
-                                    <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
-                                </c:if>
-                            </div>
-                        </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12">
-                            <span <c:if test="${fn:contains(fileModify,'4')}"> style="border: 1px solid #FF8C00;"</c:if> class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" id="titleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reasonFile(this);" id="professTechTitlesFile">专业技术职称证书：</span>
-                            <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
-                                <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4"/>
-                                <a style="visibility:hidden" id="titleFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-                                <c:if test="${fn:contains(conditionStr,'专业技术职称证书')}"><p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
-                            </div>
-                        </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得技术职称时间：</span>
-                            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                                <input <c:if test="${fn:contains(conditionStr,'取得技术职称时间')}"> style="border: 1px solid red;"</c:if>
-                                        <c:if test="${fn:contains(editFields,'getMakeTechDate')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('makeTechDate','getMakeTechDate','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="makeTechDate" type="text" onclick="reason(this);"/>
-                                <c:if test="${fn:contains(conditionStr,'取得技术职称时间')}">
-                                    <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
-                                </c:if>
-                            </div>
-                        </li>
+                    <c:if test="${froms eq 'LOCAL'}">
+                      <li class="col-md-3 col-sm-6 col-xs-12">
+                        <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专业技术职称：</span>
+                        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                            <input maxlength="20" <c:if test="${fn:contains(conditionStr,'专业技术职称')}"> style="border: 1px solid red;"</c:if>
+                                   <c:if test="${fn:contains(editFields,'getProfessTechTitles')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professTechTitles','getProfessTechTitles','0');"</c:if> value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
+                            <c:if test="${fn:contains(conditionStr,'专业技术职称')}">
+                                <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+                            </c:if>
+                        </div>
+	                    </li>
+	                    <li class="col-md-3 col-sm-6 col-xs-12">
+	                        <span <c:if test="${fn:contains(fileModify,'4')}"> style="border: 1px solid #FF8C00;"</c:if> class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" id="titleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reasonFile(this);" id="professTechTitlesFile">专业技术职称证书：</span>
+	                        <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
+	                            <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4"/>
+	                            <a style="visibility:hidden" id="titleFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+	                            <c:if test="${fn:contains(conditionStr,'专业技术职称证书')}"><p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+	                        </div>
+	                    </li>
+	                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得技术职称时间：</span>
+	                       <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                           <input <c:if test="${fn:contains(conditionStr,'取得技术职称时间')}"> style="border: 1px solid red;"</c:if>
+	                                   <c:if test="${fn:contains(editFields,'getMakeTechDate')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('makeTechDate','getMakeTechDate','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="makeTechDate" type="text" onclick="reason(this);"/>
+	                           <c:if test="${fn:contains(conditionStr,'取得技术职称时间')}">
+	                               <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+	                           </c:if>
+	                       </div>
+	                    </li>
                     </c:if>
-                    <c:if test="${expert.teachTitle eq '2'}">
-                        <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">有无专业技术职称：</span>
-                            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                                <input value="无" <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}"> style="border: 1px solid red;"</c:if>
-                                       <c:if test="${fn:contains(editFields,'getTeachTitler')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('teachTitle','getTeachTitle','0');"</c:if> id="teachTitle" type="text" onclick="reason(this);"/>
-                                <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}">
-                                    <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
-                                </c:if>
-                            </div>
-                        </li>
+                    <c:if test="${froms eq 'ARMY'}">
+	                    <c:if test="${expert.teachTitle eq '1'}">
+		                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">有无专业技术职称：</span>
+		                       <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		                           <input value="有" <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}"> style="border: 1px solid red;"</c:if>
+		                                  <c:if test="${fn:contains(editFields,'getTeachTitle')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('teachTitle','getTeachTitle','0');"</c:if> id="teachTitle" type="text" onclick="reason(this);"/>
+		                           <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}">
+		                               <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+		                           </c:if>
+		                       </div>
+		                    </li>
+		                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专业技术职称：</span>
+                        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                            <input maxlength="20" <c:if test="${fn:contains(conditionStr,'专业技术职称')}"> style="border: 1px solid red;"</c:if>
+                                   <c:if test="${fn:contains(editFields,'getProfessTechTitles')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professTechTitles','getProfessTechTitles','0');"</c:if> value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
+                            <c:if test="${fn:contains(conditionStr,'专业技术职称')}">
+                                <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+                            </c:if>
+                        </div>
+                      </li>
+                      <li class="col-md-3 col-sm-6 col-xs-12">
+                          <span <c:if test="${fn:contains(fileModify,'4')}"> style="border: 1px solid #FF8C00;"</c:if> class="hand col-md-12 col-xs-12 col-sm-12 padding-left-5" id="titleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reasonFile(this);" id="professTechTitlesFile">专业技术职称证书：</span>
+                          <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25 h30">
+                              <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4"/>
+                              <a style="visibility:hidden" id="titleFile1" class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+                              <c:if test="${fn:contains(conditionStr,'专业技术职称证书')}"><p class='abolish'><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
+                          </div>
+                      </li>
+                      <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得技术职称时间：</span>
+                         <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                             <input <c:if test="${fn:contains(conditionStr,'取得技术职称时间')}"> style="border: 1px solid red;"</c:if>
+                                     <c:if test="${fn:contains(editFields,'getMakeTechDate')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('makeTechDate','getMakeTechDate','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="makeTechDate" type="text" onclick="reason(this);"/>
+                             <c:if test="${fn:contains(conditionStr,'取得技术职称时间')}">
+                                 <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+                             </c:if>
+                         </div>
+                      </li>
+		                  </c:if>
+		                  <c:if test="${expert.teachTitle eq '2'}">
+	                        <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">有无专业技术职称：</span>
+	                            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                                <input value="无" <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}"> style="border: 1px solid red;"</c:if>
+	                                       <c:if test="${fn:contains(editFields,'getTeachTitler')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('teachTitle','getTeachTitle','0');"</c:if> id="teachTitle" type="text" onclick="reason(this);"/>
+	                                <c:if test="${fn:contains(conditionStr,'有无专业技术职称')}">
+	                                    <div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>
+	                                </c:if>
+	                            </div>
+	                        </li>
+	                    </c:if>
                     </c:if>
-
                     <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">毕业院校及专业：</span>
                         <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                             <input value="${expert.graduateSchool}" <c:if test="${fn:contains(conditionStr,'毕业院校及专业')}"> style="border: 1px solid red;"</c:if>

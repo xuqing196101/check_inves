@@ -227,23 +227,46 @@
 								<td width="25%">
 									<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd' />
 								</td>
+								<c:if test="${expert.teachTitle eq '2'}">
+	                <td width="12%" class="bggrey">有无专业技术职称</td>
+	                <td width="25%">无</td>
+                </c:if>
 							</tr>
-							<c:if test="${expert.teachTitle eq '1'}">
-								<tr>
-									<td width="12%" class="bggrey">专家技术职称</td>
-									<td width="25%">${expert.professTechTitles}</td>
-									<td width="12%" class="bggrey">专业技术职称证书</td>
-									<td width="25%">
-										<up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
-									</td>
-								</tr>
-								<tr>
-									<td width="12%" class="bggrey">取得技术职称时间</td>
-									<td width="25%">
-										<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd' />
-									</td>
-								</tr>
+							<c:if test="${froms eq 'LOCAL'}">
+							  <tr>
+                  <td width="12%" class="bggrey">专家技术职称</td>
+                  <td width="25%">${expert.professTechTitles}</td>
+                  <td width="12%" class="bggrey">专业技术职称证书</td>
+                  <td width="25%">
+                    <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
+                  </td>
+                </tr>
+                <tr>
+                  <td width="12%" class="bggrey">取得技术职称时间</td>
+                  <td width="25%">
+                    <fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd' />
+                  </td>
+                </tr>
 							</c:if>
+							<c:if test="${froms eq 'ARMY'}">
+						    <c:if test="${expert.teachTitle eq '1'}">
+	                <tr>
+		                 <td width="12%" class="bggrey">专家技术职称</td>
+		                 <td width="25%">${expert.professTechTitles}</td>
+		                 <td width="12%" class="bggrey">专业技术职称证书</td>
+		                 <td width="25%">
+		                   <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
+		                 </td>
+	                </tr>
+	                <tr>
+	                  <td width="12%" class="bggrey">取得技术职称时间</td>
+	                  <td width="25%">
+	                    <fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd' />
+	                  </td>
+	                </tr>
+	               </c:if>
+							</c:if>
+							
 							<tr>
 								<td width="12%" class="bggrey">毕业院校及专业</td>
 								<td width="25%">${expert.graduateSchool}</td>
