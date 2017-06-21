@@ -134,11 +134,10 @@ public class CacheFilter implements Filter {
 				}
 			}
 		} catch (Exception e) {
-		  getCacheHomePage().getConnection().close();
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-			getCacheHomePage().getConnection().close();
+		  jedis.getClient().close();
 		}
 	}
 
@@ -225,11 +224,10 @@ public class CacheFilter implements Filter {
 				return cachePage;
 			}
 		} catch (Exception e) {
-		 getCacheHomePage().getConnection().close();
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-		 getCacheHomePage().getConnection().close();
+		  jedis.getClient().close();
 		}
 		return null;
 
@@ -256,11 +254,10 @@ public class CacheFilter implements Filter {
 			// 设置缓存存储时间
 			jedis.expire(homeKey, homeCacheTime);
 		} catch (Exception e) {
-		  getCacheHomePage().getConnection().close();
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-		 getCacheHomePage().getConnection().close();
+		  jedis.getClient().close();
 		}
 	}
 	
@@ -318,12 +315,11 @@ public class CacheFilter implements Filter {
 				jedis.incrBy(C_PV_TOTAL_KEY, 1);
 			}
 		} catch (Exception e) {
-		  getCacheHomePage().getConnection().close();
 			log.info("redis连接异常...");
 		}finally {
 			// lock.unlock();
 			// 关闭资源
-		  getCacheHomePage().getConnection().close();
+		  jedis.getClient().close();
 		}
 	}
 
