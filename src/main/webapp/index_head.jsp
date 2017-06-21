@@ -56,19 +56,20 @@ $(function(){
 			    	    $("#welcome_words").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
 			    	    $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>");
 			    	}
+		    	$.ajax({
+		              url: globalPath+"/cacheManage/getPVDate.do",
+		              type: "POST",
+		              dataType: "json",
+		              success: function(data){
+		                // 今日访问量
+		                $("#pvThisDay").text(data.data.dayNum);
+		                // 总访问量
+		                $("#pvTotal").text(data.data.totalCount);
+		              }
+		          });
 			    }
 		});
-		$.ajax({
-		      url: globalPath+"/cacheManage/getPVDate.do",
-		      type: "get",
-		      dataType: "json",
-		      success: function(data){
-		        // 今日访问量
-		        $("#pvThisDay").text(data.data.dayNum);
-		        // 总访问量
-		        $("#pvTotal").text(data.data.totalCount);
-		      }
-		  });
+		
 	
 	
 	if(user!=null && user!=''){
