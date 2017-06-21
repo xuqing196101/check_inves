@@ -1,7 +1,7 @@
 package iss.controller.ps;
 
 import iss.model.ps.Cache;
-import iss.model.ps.CachePage;
+import iss.model.ps.Page;
 import iss.service.ps.CacheManageService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +47,7 @@ public class CacheManageController {
 		if (page == null) {
 			page = 1;
 		}
-		CachePage<Cache> info = cacheManageService.cachemanage(page);
+		Page<Cache> info = cacheManageService.cachemanage(page);
 		model.addAttribute("info", info);
 		return "iss/ps/cache/cachemanage";
 	}

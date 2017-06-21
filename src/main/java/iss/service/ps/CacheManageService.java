@@ -1,10 +1,9 @@
 package iss.service.ps;
 
-import org.springframework.ui.Model;
+import iss.model.ps.Cache;
+import iss.model.ps.Page;
 
 import common.utils.JdcgResult;
-import iss.model.ps.Cache;
-import iss.model.ps.CachePage;
 
 /**
  * 
@@ -25,7 +24,7 @@ public interface CacheManageService {
 	 * @param page
 	 * @return
 	 */
-	public CachePage<Cache> cachemanage(Integer page);
+	public Page<Cache> cachemanage(Integer page);
 	
 	/**
 	 * 

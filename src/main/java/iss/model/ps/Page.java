@@ -6,13 +6,13 @@ import java.util.List;
 
 /**
  * 
-* @ClassName: Cache 
-* @Description: 封装缓存分页
+* @ClassName: Page 
+* @Description: 自定义分页
 * @author Easong
 * @date 2017年3月24日 下午3:09:24 
 *
  */
-public class CachePage<T> {
+public class Page<T> {
 	/**
 	 * 存储缓存信息
 	 */

@@ -1,5 +1,10 @@
 package iss.service.ps.impl;
 
+import iss.filter.CacheFilter;
+import iss.model.ps.Cache;
+import iss.model.ps.Page;
+import iss.service.ps.CacheManageService;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +20,6 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import ses.util.PropertiesUtil;
 import common.dao.SystemPVMapper;
 import common.model.SystemPV;
@@ -23,10 +27,6 @@ import common.model.SystemPVVO;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
 import common.utils.RedisUtils;
-import iss.filter.CacheFilter;
-import iss.model.ps.Cache;
-import iss.model.ps.CachePage;
-import iss.service.ps.CacheManageService;
 
 /**
  * 
@@ -39,12 +39,13 @@ import iss.service.ps.CacheManageService;
 @Service
 public class CacheManageServiceImpl implements CacheManageService {
 
-	private static final Logger log = LoggerFactory
-			.getLogger(CacheFilter.class);
+	// log
+	private static final Logger log = LoggerFactory.getLogger(CacheFilter.class);
 
 	// 定义缓存健类型
 	private static final Object STRING_TYPE = "string";
 	private static final Object HASH_TYPE = "hash";
+	private static final Object SET_TYPE = "set";
 
 	// 获取访问总量缓存key
 	@Value("${C_PV_TOTAL_KEY}")
@@ -67,14 +68,14 @@ public class CacheManageServiceImpl implements CacheManageService {
 	 * @return
 	 */
 	@Override
-	public CachePage<Cache> cachemanage(Integer page) {
+	public Page<Cache> cachemanage(Integer page) {
 		// 设置每页显示的条数
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		Integer pageSize = Integer.parseInt(config.getString("pageSize"));
 		// 获取jedis对象
 		Jedis jedis = null;
 		// 获取分页信息对象
-		CachePage<Cache> info = new CachePage<Cache>();
+		Page<Cache> info = new Page<Cache>();
 		try {
 			jedis = RedisUtils.getJedisByFactory(jedisConnectionFactory);
 			if (jedis != null) {
@@ -204,7 +205,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 		try {
 			jedis = RedisUtils.getJedisByFactory(jedisConnectionFactory);
 			Object cacheValue = null;
-			if (STRING_TYPE.equals(cacheType)) {
+			if (STRING_TYPE.equals(cacheType) || SET_TYPE.equals(cacheType)) {
 				cacheValue = jedis.get(cacheKey);
 			}
 			if (HASH_TYPE.equals(cacheType)) {
