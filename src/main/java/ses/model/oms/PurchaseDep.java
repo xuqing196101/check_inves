@@ -152,7 +152,19 @@ public class PurchaseDep extends Orgnization{
     private int pendingAuditCount;// 待审核数量
     
     private String flag;
-    public String getFlag() {
+    
+    private String shortName;
+    
+    public String getShortName() {
+			return shortName;
+		}
+		public void setShortName(String shortName) {
+			this.shortName = shortName;
+		}
+		public static long getSerialversionuid() {
+			return serialVersionUID;
+		}
+		public String getFlag() {
         return flag;
     }
     public void setFlag(String flag) {
