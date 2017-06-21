@@ -238,8 +238,8 @@
 										<option value="ten">10</option>
 									</c:if>
 								</select>
-								<div class="red fl clear">${ERR_option }</div>
 								<div class="col-md-12 col-sm-12 col-xs-12 clear p0" id="items"></div>
+								<div class="red fl clear">${ERR_option}</div>
 							</div>
 						</li>
 

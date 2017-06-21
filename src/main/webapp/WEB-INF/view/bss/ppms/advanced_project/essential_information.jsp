@@ -70,7 +70,7 @@
         supplierNumber = $.trim(supplierNumber);
         var purchaseType = $("#purchaseType").val();
         if(supplierNumber == '' || supplierNumber == null) {
-          layer.tips("请填写开标地点", "#supplierNumber");
+          layer.tips("不能为空", "#supplierNumber");
           flag = false;
         }
         if(purchaseType == "JZXTP" || purchaseType == "YQZB" || purchaseType == "XJCG" || purchaseType == "GKZB") {

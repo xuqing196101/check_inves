@@ -39,14 +39,14 @@
       });
 
       //重置
-      function resetResult() {
-        $("#name").val("");
-        $("#archiveCode").val("");
-        $("#contractCode").val("");
+      /* function resetResult() {
+        $("#planName").val("");
+        $("#planNo").val("");
+        $("#createdAt").val("");
         //$("#planCode").val("");
         var status = document.getElementById("status").options;
         status[0].selected = true;
-      }
+      } */
       //查看
       function view(id) {
         window.location.href = "${pageContext.request.contextPath}/supervision/demandSupervisionView.html?id=" + id;
@@ -54,7 +54,10 @@
       }
 
       function resetQuery() {
-        $("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        /* $("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected"); */
+        $("#planName").attr("value", "");
+        $("#planNo").attr("value", "");
+        $("#createdAt").attr("value", "");
       }
     </script>
   </head>
@@ -89,15 +92,15 @@
         <ul class="demand_list">
           <li>
             <label class="fl">采购需求名称：</label>
-            <span><input type="text" name="planName" value="${purchaseRequired.planName }" /></span>
+            <span><input type="text" name="planName" id="planName" value="${purchaseRequired.planName }" /></span>
            </li>
            <li>
              <label class="fl">采购需求编号：</label>
-             <span><input  type="text" name="planNo" value="${purchaseRequired.planNo }" /> </span>
+             <span><input  type="text" name="planNo" id="planNo" value="${purchaseRequired.planNo }" /> </span>
            </li>
            <li>
              <label class="fl">需求填报日期：</label>
-             <span><input style="width: 120px;" class="span2 Wdate w220"  value='<fmt:formatDate value="${purchaseRequired.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> </span>
+             <span><input style="width: 120px;" id="createdAt" class="span2 Wdate w220"  value='<fmt:formatDate value="${purchaseRequired.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> </span>
            </li>
            <li>
              <label class="fl">状态：</label>
@@ -111,7 +114,7 @@
          </ul>
          <div class="col-md-12 clear tc mt10">
            <input class="btn" type="submit" value="查询" /> 
-           <input class="btn" type="button" value="重置" onclick="resetQuery()" /> 
+           <input class="btn" type="reset" value="重置" onclick="resetQuery()" /> 
          </div>
          <div class="clear"></div>
        </form>

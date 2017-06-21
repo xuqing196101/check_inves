@@ -9,6 +9,7 @@
     <script src="${pageContext.request.contextPath}/public/webuploadFT/layui/layui.js"></script>
     <script type="text/javascript">
       var obj="";
+      var detailId = "";
       $(function() {
           layui.use('flow', function() {
             var flow = layui.flow;
@@ -18,7 +19,7 @@
                 var lis = [];
                 //以jQuery的Ajax请求为例，请求下一页数据
                 $.ajax({
-                  url: "${pageContext.request.contextPath}/project/viewPlanDetail.do?taskId=${taskId}&page=" + page,
+                  url: "${pageContext.request.contextPath}/project/viewPlanDetail.do?taskId=${taskId}&page=" + page+"&detailId="+detailId,
                   type: "get",
                   dataType: "json",
                   success: function(res) {
@@ -33,6 +34,7 @@
                      }
                    
                    }
+                   detailId=res.detailId;
                     layui.each(res.data, function(index, item) {
                       var code = "";
                       if(item.oneAdvice == "DYLY") {

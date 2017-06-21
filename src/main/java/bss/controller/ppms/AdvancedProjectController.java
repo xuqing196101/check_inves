@@ -49,6 +49,7 @@ import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.ComparatorDetails;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 
@@ -127,7 +128,7 @@ public class AdvancedProjectController extends BaseController {
      * @return
      */
     @RequestMapping("/list")
-    public String list(@CurrentUser User user, Model model, AdvancedProject advancedProject, @ModelAttribute PageInfo<AdvancedProject> page){
+    public String list(@CurrentUser User user, Model model, AdvancedProject advancedProject, Integer page){
         if(user != null && user.getOrg().getId() != null){
             HashMap<String,Object> map = new HashMap<String,Object>();
             //根据id查询部门
@@ -142,8 +143,10 @@ public class AdvancedProjectController extends BaseController {
                 map.put("status", advancedProject.getStatus());
             }
             map.put("userId", user.getId());
-            PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
-            
+            if(page == null){
+                page = 1;
+            }
+            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
             //判断如果是需求部门登录
             if("0".equals(orgnization.getTypeName())){
                 List<AdvancedProject> list = advancedProjectService.selectByDemand(map);

@@ -837,7 +837,7 @@
 
 
 				<li class="col-md-3 col-sm-6 col-xs-12"><span
-					class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
+					class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>类别</span>
 					<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 						<select name="planType" id="wtype" onchange="gtype(this)">
 							<c:forEach items="${types }" var="tp">

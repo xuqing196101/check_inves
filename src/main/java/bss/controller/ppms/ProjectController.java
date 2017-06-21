@@ -504,7 +504,7 @@ public class ProjectController extends BaseController {
       
       @RequestMapping(value="/viewPlanDetail",produces = "application/json;charset=UTF-8")
       @ResponseBody
-      public String viewPlanDetail(@CurrentUser User user, String taskId, Integer page){
+      public String viewPlanDetail(@CurrentUser User user, String taskId, Integer page, String detailId){
           JSONObject jsonObj = new JSONObject();
           if(StringUtils.isNotBlank(taskId)){
               Task task = taskservice.selectById(taskId);
@@ -512,7 +512,8 @@ public class ProjectController extends BaseController {
                   PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
                   List<PurchaseDetail> lists = purchaseDetailService.getUniques(task.getCollectId(), user.getOrg().getId());
                   if(lists != null && lists.size() > 0){
-                      sortPurchaseDetail(lists);
+                      sortPurchaseDetail(lists, detailId);
+                      jsonObj.put("detailId", lists.get(lists.size()-1).getSeq());
                   }
                   PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(lists);
                   jsonObj.put("pages", pageInfo.getPages());
@@ -2601,7 +2602,7 @@ public class ProjectController extends BaseController {
     @RequestMapping("/excute")
     public String execute(String id, Model model, Integer page, String type) {
         Project project = projectService.selectById(id);
-        String id2 = DictionaryDataUtil.getId("JYLX");
+        String id2 = DictionaryDataUtil.getId("YJLX");
         if(id2.equals(project.getStatus())){
             project.setStatus(DictionaryDataUtil.getId("SSZ_WWSXX"));
             projectService.update(project);
@@ -3596,7 +3597,7 @@ public class ProjectController extends BaseController {
     }
     
     
-    public List<PurchaseDetail> sortPurchaseDetail(List<PurchaseDetail> lists){
+    public List<PurchaseDetail> sortPurchaseDetail(List<PurchaseDetail> lists, String seq){
         HashMap<String, Object> map = new HashMap<>();
         int serialoneOne = 1;
         int serialtwoTwo = 1;

@@ -123,6 +123,8 @@
           ids.push($(this).val());
         });
         chkItems = $.trim(chkItems);
+        name = $.trim(name);
+        projectNumber = $.trim(projectNumber);
         if(flag == false){
           //$("#sps").html("项目编号已存在").css('color', 'red');
           $("#projectNumber").focus();

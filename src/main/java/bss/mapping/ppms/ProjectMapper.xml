@@ -1377,9 +1377,9 @@
       </if>
       AND e.IS_DELETED = 0 AND e.STATUS = 0)
       <if test="principal != null and principal != ''">
-        OR (p.PRINCIPAL = #{principal}) )
+        OR (p.PRINCIPAL = #{principal}) 
       </if>
-      AND p.IS_REHEARSE = 0
+      ) AND p.IS_REHEARSE = 0
       <if test="purchaseDepId != null and purchaseDepId != ''">
         AND  p.PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
