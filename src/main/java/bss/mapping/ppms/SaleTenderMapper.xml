@@ -336,8 +336,11 @@
 		<if test="isTurnUp != null">
 			and st.IS_TURN_UP=#{isTurnUp,jdbcType=DECIMAL}
 		</if>
+		<if test="isFirstPass != null">
+			AND st.IS_FIRST_PASS = #{isFirstPass}
+		</if>
 	</select>
-
+	
 	<select id="uploadCount" parameterType="java.lang.String"
 		resultType="java.lang.Integer">
 		SELECT "COUNT"(*) as count FROM
