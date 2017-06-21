@@ -7,7 +7,6 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.exceptions.JedisException;
 
 /**
  * 
@@ -138,8 +137,17 @@ public class RedisUtils {
 		return stata;
 	}
 	
- public synchronized static Jedis getJedisByFactory(JedisConnectionFactory jedisConnectionFactory) {
+	/**
+	 * 
+	 * Description: 通过工厂获取redis连接
+	 * 
+	 * @author 
+	 * @version 2017年6月21日
+	 * @param jedisConnectionFactory
+	 * @return
+	 */
+    public synchronized static Jedis getJedisByFactory(JedisConnectionFactory jedisConnectionFactory) {
         JedisConnection jedisConnection = jedisConnectionFactory.getConnection();  
-       return jedisConnection.getNativeConnection();  
- }
+        return jedisConnection.getNativeConnection();  
+    }
 }

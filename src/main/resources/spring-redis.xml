@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	   xmlns:context="http://www.springframework.org/schema/context" 
-	   xmlns:task="http://www.springframework.org/schema/task" 
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
-				  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-				  http://www.springframework.org/schema/context
-				  http://www.springframework.org/schema/context/spring-context-3.0.xsd
-				  http://www.springframework.org/schema/task
-				  http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<context:property-placeholder location="classpath:config.properties" />
 	<!-- redis单机 通过连接池 -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
@@ -28,37 +28,41 @@
     <property name="timeout" value="1800" />
     <property name="poolConfig" ref="jedisPoolConfig" />
     <property name="usePool" value="true" />
-</bean>
- 
-<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
-    <property name="connectionFactory" ref="jedisConnectionFactory" />
-</bean>
- 
-<!-- 将session放入redis -->
-<bean id="redisHttpSessionConfiguration"
-class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
-    <property name="maxInactiveIntervalInSeconds" value="1800" />
-</bean>
-<bean id="systemPvService" class="common.service.impl.SystemPvServiceImpl" />
-<!-- 缓存过滤器 -->
-  <bean id="cacheFilter" class="iss.filter.CacheFilter">
-    <property name="cacheHomePage" ref="jedisConnectionFactory" />
-    <property name="systemPvService" ref="systemPvService" />
-    <!-- 注入缓存首页url -->
-    <property name="homeUrl">
-      <list>
-        <value>${FirstURL}</value>
-        <value>${SecondURL}</value>
-        <value>${ThreeURL}</value>
-        <value>${FourURL}</value>
-      </list>
-    </property>
-
-    <!-- 设置缓存时间 -->
-    <property name="homeCacheTime" value="${homeCacheTime}" />
-    <property name="pvCacheTime" value="${pvCacheTime}" />
-    <!-- 首页缓存redis的key -->
-    <property name="homeKey" value="${homeKey}" />
-    <property name="C_PV_TOTAL_KEY" value="${C_PV_TOTAL_KEY}" />
   </bean>
+  
+  <!-- 配置Spring Session不再执行config命令
+		避免出现(Error creating bean with name 'enableRedisKeyspaceNotificationsInitializer')错误
+  -->
+  <util:constant static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP"/>
+ 
+  <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+   <property name="connectionFactory" ref="jedisConnectionFactory" />
+  </bean>
+  
+	<!-- 将session放入redis -->
+	<bean id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+	    <property name="maxInactiveIntervalInSeconds" value="1800" />
+	</bean>
+	<bean id="systemPvService" class="common.service.impl.SystemPvServiceImpl" />
+	<!-- 缓存过滤器 -->
+	  <bean id="cacheFilter" class="iss.filter.CacheFilter">
+	    <property name="cacheHomePage" ref="jedisConnectionFactory" />
+	    <property name="systemPvService" ref="systemPvService" />
+	    <!-- 注入缓存首页url -->
+	    <property name="homeUrl">
+	      <list>
+	        <value>${FirstURL}</value>
+	        <value>${SecondURL}</value>
+	        <value>${ThreeURL}</value>
+	        <value>${FourURL}</value>
+	      </list>
+	    </property>
+	
+	    <!-- 设置缓存时间 -->
+	    <property name="homeCacheTime" value="${homeCacheTime}" />
+	    <property name="pvCacheTime" value="${pvCacheTime}" />
+	    <!-- 首页缓存redis的key -->
+	    <property name="homeKey" value="${homeKey}" />
+	    <property name="C_PV_TOTAL_KEY" value="${C_PV_TOTAL_KEY}" />
+	  </bean>
 </beans>
