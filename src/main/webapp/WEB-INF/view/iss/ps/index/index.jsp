@@ -15,7 +15,7 @@
 <!--<![endif]-->
   <head>
     <jsp:include page="/index_head.jsp"></jsp:include>
-    <script type="text/javascript" src="${ pageContext.request.contextPath }/js/iss/ps/index/index.js"></script>
+    <%-- <script type="text/javascript" src="${ pageContext.request.contextPath }/js/iss/ps/index/index.js"></script> --%>
  
     <script type="text/javascript">
         var browser = navigator.appName;
