@@ -829,7 +829,7 @@
 									</ul> --%>
 									
 									<h2 class="count_flow"><i>1</i>产品研发能力</h2>
-									<ul class="ul_list count_flow">
+									<ul class="ul_list">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员数量比例(%)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -952,7 +952,7 @@
 									</ul> --%>
 									
 									<h2 class="count_flow"><i>2</i>资质证书信息</h2>
-									<div class="ul_list count_flow">
+									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
@@ -1037,7 +1037,7 @@
 									</ul> --%>
 								
 									<!-- <h2 class="count_flow"><i>2</i>供应商物资销售资质证书</h2> -->
-									<ul class="ul_list">
+									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
@@ -1081,7 +1081,7 @@
 												</tr>
 											</c:forEach>
 										</table>
-									</ul>
+									</div>
 								</div>
 							</c:if>
 
@@ -1122,7 +1122,7 @@
 									</ul> --%>
 									
 									<h2 class="count_flow"><i>1</i>保密工程业绩</h2>
-									<ul class="ul_list count_flow">
+									<ul class="ul_list">
 										<c:if test="${supplierMatEngs.isHavingConAchi eq '0'}">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" style="width: 230px;">是否有国家或军队保密工程业绩：</span>
@@ -1161,7 +1161,7 @@
 									</ul>
 									
 									<h2 class="count_flow"><i>3</i>取得注册资质的人员信息</h2>
-									<ul class="ul_list count_flow">
+									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
@@ -1187,10 +1187,10 @@
 												</tr>
 											</c:forEach>
 										</table>
-									</ul>
+									</div>
 									
 									<h2 class="count_flow"><i>4</i>供应商资质（认证）证书信息</h2>
-									<div class="ul_list count_flow">
+									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
@@ -1248,7 +1248,7 @@
 									</div>
 
 									<h2 class="count_flow"><i>5</i>供应商资质证书详细信息</h2>
-									<ul class="ul_list count_flow">
+									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
@@ -1317,7 +1317,7 @@
 												</tr>
 											</c:forEach>
 										</table>
-									</ul>
+									</div>
 								</div>
 							</c:if>
 							
@@ -1357,7 +1357,7 @@
 										</li>
 									</ul> --%>
 								
-									<ul class="ul_list count_flow">
+									<div class="ul_list count_flow">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
@@ -1401,7 +1401,7 @@
 												</tr>
 											</c:forEach>
 										</table>
-									</ul>					
+									</div>					
 								</div>
 							</c:if>
 
