@@ -94,7 +94,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	@Autowired
 	private OBProjectRuleMapper obProjectRuleMapper;
 	
-	@Autowired
+	/*@Autowired*/
 	private JedisPool jedisPool;
 	
 	private Logger log = LoggerFactory.getLogger(OBSupplierQuoteServiceImpl.class);

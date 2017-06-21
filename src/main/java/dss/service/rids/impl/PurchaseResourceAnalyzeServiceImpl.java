@@ -87,7 +87,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	private ArticleTypeMapper articleTypeMapper;
 	
 	// 注入JedisPool
-	@Autowired
+	/*@Autowired*/
 	private JedisPool jedisPool;
 	
 	// 注入组织机构Mapper

@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
@@ -50,7 +51,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 	private String C_PV_TOTAL_KEY;
 	
 	@Autowired
-	private JedisPool jedisPool;
+	private JedisConnectionFactory jedisConnectionFactory;
 
 	// 注入PV(访问量) Mapper
 	@Autowired
@@ -75,7 +76,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 		// 获取分页信息对象
 		CachePage<Cache> info = new CachePage<Cache>();
 		try {
-			jedis = RedisUtils.getResource(jedisPool);
+			jedis = RedisUtils.getJedisByFactory(jedisConnectionFactory);
 			if (jedis != null) {
 				String newKey = "*";
 				// 查询总条数
@@ -147,7 +148,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 			log.info("redis连接异常...");
 		} finally {
 			// 释放资源
-			RedisUtils.returnResource(jedis, jedisPool);
+		  jedisConnectionFactory.getConnection().close();
 		}
 		return info;
 	}
@@ -166,7 +167,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 	public JdcgResult clearCache(String cacheKey, String cacheType) {
 		Jedis jedis = null;
 		try {
-			jedis = RedisUtils.getResource(jedisPool);
+			jedis = RedisUtils.getJedisByFactory(jedisConnectionFactory);
 			// 判断缓存是否存在
 			boolean b = RedisUtils.isExist(jedis, cacheKey);
 			// 不存在
@@ -182,7 +183,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 			return JdcgResult.ok("缓存清除失败！");
 		} finally {
 			// 释放资源
-			RedisUtils.returnResource(jedis, jedisPool);
+		  jedisConnectionFactory.getConnection().close();
 		}
 	}
 
@@ -201,7 +202,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 		Jedis jedis = null;
 		Cache cache = new Cache();
 		try {
-			jedis = RedisUtils.getResource(jedisPool);
+			jedis = RedisUtils.getJedisByFactory(jedisConnectionFactory);
 			Object cacheValue = null;
 			if (STRING_TYPE.equals(cacheType)) {
 				cacheValue = jedis.get(cacheKey);
@@ -215,7 +216,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 			log.info("redis连接异常...");
 		} finally {
 			// 释放资源
-			RedisUtils.returnResource(jedis, jedisPool);
+		  jedisConnectionFactory.getConnection().close();
 		}
 		return cache;
 	}
@@ -241,7 +242,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 		// 查询出的总访问量
 		String pvTotal;
 		try {
-			jedis = RedisUtils.getResource(jedisPool);
+			jedis = RedisUtils.getJedisByFactory(jedisConnectionFactory);
 			// 获取日访问量
 			dayNumString = jedis.get(dateOfFormat);
 			systemPVVO.setDayNum(new BigDecimal(dayNumString));
@@ -252,7 +253,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 		} catch (Exception e) {
 			log.info("redis连接异常...");
 		} finally {
-			RedisUtils.returnResource(jedis, jedisPool);
+		  jedisConnectionFactory.getConnection().close();
 		}
 		// 如果发生异常
 		SystemPV systemPV = systemPVMapper.selectByPrimaryKey(Integer.parseInt(dateOfFormat));

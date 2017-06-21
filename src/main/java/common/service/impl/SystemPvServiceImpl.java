@@ -6,6 +6,7 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
@@ -30,7 +31,7 @@ public class SystemPvServiceImpl implements SystemPvService {
 	Logger logger = LoggerFactory.getLogger(SystemPvServiceImpl.class);
 	
 	@Autowired
-	private JedisPool jedisPool;
+	private JedisConnectionFactory jedisConnectionFactory;
 	
 	// 注入PV Mapper
 	@Autowired
@@ -64,7 +65,7 @@ public class SystemPvServiceImpl implements SystemPvService {
 		// 从缓存中获取数据
 		Jedis jedis = null;
 		try {
-			jedis = RedisUtils.getResource(jedisPool);
+			jedis = RedisUtils.getJedisByFactory(jedisConnectionFactory);
 			String dayNum = jedis.get(dateOfFormat);
 			if(dayNum != null){
 				// 先查询数据库是否有此记录

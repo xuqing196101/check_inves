@@ -4,6 +4,7 @@
 <html>
   <head>
     <jsp:include page="/index_head.jsp"></jsp:include>
+  <script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js" type="text/javascript"></script>
 	<link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet">
   	<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ppms/categoryparam/publish_index.js"></script>
   </head>

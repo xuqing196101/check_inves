@@ -2,6 +2,8 @@ package common.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnection;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -19,6 +21,7 @@ import redis.clients.jedis.exceptions.JedisException;
 public class RedisUtils {
 
 	private static Logger log = LoggerFactory.getLogger(RedisUtils.class);
+	private static Jedis jedis=null;
 
 	/**
 	 * 
@@ -135,4 +138,13 @@ public class RedisUtils {
 		}
 		return stata;
 	}
+	
+ public synchronized static Jedis getJedisByFactory(JedisConnectionFactory jedisConnectionFactory) {
+   if (jedis == null) {  
+        JedisConnection jedisConnection = jedisConnectionFactory.getConnection();  
+        jedis = jedisConnection.getNativeConnection();  
+     return jedis;  
+   }  
+   return jedis;  
+  }
 }

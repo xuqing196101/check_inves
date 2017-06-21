@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Repository;
 
 import redis.clients.jedis.Jedis;
@@ -42,7 +43,7 @@ public class CacheFilter implements Filter {
 	private static final Logger log = LoggerFactory.getLogger(CacheFilter.class);
 
 	// 连接池定义
-	private JedisPool cacheHomePage;
+	private JedisConnectionFactory cacheHomePage;
 
 	// 首页访问URL多值定义
 	private List<String> homeUrl;
@@ -61,15 +62,16 @@ public class CacheFilter implements Filter {
 	// 注入PV Mapper
 	private SystemPvService systemPvService;
 
-	public JedisPool getCacheHomePage() {
-		return cacheHomePage;
-	}
 
-	public void setCacheHomePage(JedisPool cacheHomePage) {
-		this.cacheHomePage = cacheHomePage;
-	}
+	public JedisConnectionFactory getCacheHomePage() {
+    return cacheHomePage;
+  }
 
-	public List<String> getHomeUrl() {
+  public void setCacheHomePage(JedisConnectionFactory cacheHomePage) {
+    this.cacheHomePage = cacheHomePage;
+  }
+
+  public List<String> getHomeUrl() {
 		return homeUrl;
 	}
 
@@ -116,7 +118,7 @@ public class CacheFilter implements Filter {
 		try {
 			// 获取当前日期作为key 格式20170613
 			String key = DateUtils.getDateOfFormat(new Date());
-			jedis = cacheHomePage.getResource();
+			jedis = RedisUtils.getJedisByFactory(getCacheHomePage());
 			String thisDayPvKey = jedis.get(key);
 			String pvTotalKey = jedis.get(C_PV_TOTAL_KEY);
 			if (StringUtils.isEmpty(thisDayPvKey)) {
@@ -132,10 +134,11 @@ public class CacheFilter implements Filter {
 				}
 			}
 		} catch (Exception e) {
+		  getCacheHomePage().getConnection().close();
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-			RedisUtils.returnResource(jedis, cacheHomePage);
+			getCacheHomePage().getConnection().close();
 		}
 	}
 
@@ -190,7 +193,7 @@ public class CacheFilter implements Filter {
 
 		}
 		// 调用用户访问量计数方法
-		// putIntoPV();
+		putIntoPV();
 		// 返回响应
 		resp.setContentType("text/html; charset=utf-8");
 		resp.getWriter().print(html);
@@ -216,16 +219,17 @@ public class CacheFilter implements Filter {
 		Jedis jedis = null;
 		try {
 			// 获取连接
-			jedis = RedisUtils.getResource(cacheHomePage);
+			jedis = RedisUtils.getJedisByFactory(cacheHomePage);
 			String cachePage = jedis.get(homeKey);
 			if (cachePage != null) {
 				return cachePage;
 			}
 		} catch (Exception e) {
+		 getCacheHomePage().getConnection().close();
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-			RedisUtils.returnResource(jedis, cacheHomePage);
+		 getCacheHomePage().getConnection().close();
 		}
 		return null;
 
@@ -246,16 +250,17 @@ public class CacheFilter implements Filter {
 		Jedis jedis = null;
 		try {
 			// 获取连接
-			jedis = RedisUtils.getResource(cacheHomePage);
+			jedis = RedisUtils.getJedisByFactory(cacheHomePage);
 			// 将查询的页面信息存放到缓存当中
 			jedis.set(homeKey, html);
 			// 设置缓存存储时间
 			jedis.expire(homeKey, homeCacheTime);
 		} catch (Exception e) {
+		  getCacheHomePage().getConnection().close();
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-			RedisUtils.returnResource(jedis, cacheHomePage);
+		 getCacheHomePage().getConnection().close();
 		}
 	}
 	
@@ -272,7 +277,7 @@ public class CacheFilter implements Filter {
 		try {
 			// lock.lock(); 锁机制解决高并发
 			// 获取jedis
-			jedis = cacheHomePage.getResource();
+			jedis = RedisUtils.getJedisByFactory(cacheHomePage);
 			// 获取当前日期作为key 格式20170613
 			String key = DateUtils.getDateOfFormat(new Date());
 			// 获取当前日期的key
@@ -313,11 +318,12 @@ public class CacheFilter implements Filter {
 				jedis.incrBy(C_PV_TOTAL_KEY, 1);
 			}
 		} catch (Exception e) {
+		  getCacheHomePage().getConnection().close();
 			log.info("redis连接异常...");
 		}finally {
 			// lock.unlock();
 			// 关闭资源
-			RedisUtils.returnResource(jedis, cacheHomePage);
+		  getCacheHomePage().getConnection().close();
 		}
 	}
 

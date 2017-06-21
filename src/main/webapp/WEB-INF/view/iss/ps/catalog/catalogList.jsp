@@ -5,6 +5,7 @@
 <html>
 <head>
 <jsp:include page="/index_head.jsp"></jsp:include>
+<script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet">
 <script type="text/javascript">
 	var treeid = null, nodeName = null, level = null, typesObj = null;

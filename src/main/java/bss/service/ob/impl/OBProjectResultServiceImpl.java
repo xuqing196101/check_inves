@@ -65,7 +65,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	private OBProjectMapper oBProjectMapper;
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
-	@Autowired
+	/*@Autowired*/
 	private JedisPool jedisPool;
 	@Autowired
 	private OBResultSubtabulationMapper OBResultSubtabulationMapper;
