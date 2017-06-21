@@ -21,7 +21,6 @@ import redis.clients.jedis.exceptions.JedisException;
 public class RedisUtils {
 
 	private static Logger log = LoggerFactory.getLogger(RedisUtils.class);
-	private static Jedis jedis=null;
 
 	/**
 	 * 
@@ -140,11 +139,7 @@ public class RedisUtils {
 	}
 	
  public synchronized static Jedis getJedisByFactory(JedisConnectionFactory jedisConnectionFactory) {
-   if (jedis == null) {  
         JedisConnection jedisConnection = jedisConnectionFactory.getConnection();  
-        jedis = jedisConnection.getNativeConnection();  
-     return jedis;  
-   }  
-   return jedis;  
-  }
+       return jedisConnection.getNativeConnection();  
+ }
 }
