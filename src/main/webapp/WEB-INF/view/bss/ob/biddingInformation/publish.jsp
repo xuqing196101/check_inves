@@ -934,7 +934,7 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>联系人</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactName" name="contactName"  value="${list.contactName }" maxlength="20" type="text">
+        <input class="input_group" id="contactName" name="contactName"  value="${list.contactName }" maxlength="20" readonly="readonly" type="text">
         <span class="add-on">i</span>
            <span class="input-tip">不能为空</span>
         <div class="cue" id="contactNameErr">${contactNameErr}</div>
@@ -943,7 +943,7 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactTel" name="contactTel" value="${list.contactTel }"  maxlength="20" type="text">
+        <input class="input_group" id="contactTel" name="contactTel" value="${list.contactTel }"  maxlength="20" readonly="readonly" type="text">
         <span class="add-on">i</span>
         <span class="input-tip">不能为空</span>
         <div class="cue" id="contactTelErr">${contactTelErr}</div>

@@ -200,7 +200,7 @@
 
       function back() {
         var id = $("#id").val();
-        var reason = $("#reason").val();
+        var reason = $("#reason").val().replace(/(^\s*)|(\s*$)/g, "");
         if (reason == null || reason == '') {
 			layer.msg("请填写退回理由", {offset: '222px',shade: 0.01});
 		} else {

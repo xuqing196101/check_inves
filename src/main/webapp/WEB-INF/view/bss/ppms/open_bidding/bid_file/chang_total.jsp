@@ -187,7 +187,7 @@
 			    		<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}','${flowDefineId}')" />
 				    </td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
-					<td class="tc"><input   maxlength="16" type="text"/></td>
+					<td class="tc"><input maxlength="16" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"/></td>
 					<td class="tc"><input type="text"/></td>
 					<c:if test="${not empty count}">
 					<td class="tc">
