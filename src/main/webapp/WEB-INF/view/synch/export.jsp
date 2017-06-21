@@ -3,10 +3,18 @@
 
 <!DOCTYPE HTML>
 <html>
-  <head>
-    <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/synch/export.js"></script>
-  </head>
+<head>
+	<style>
+		.dataType {
+			width: 200px;
+			float: left;
+			padding-right: 25px;
+			min-width: 50px;
+		}
+	</style>
+	<%@ include file="/WEB-INF/view/common.jsp" %>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/synch/export.js"></script>
+</head>
   <body>
    <!--面包屑导航开始-->
     <div class="margin-top-10 breadcrumbs ">
@@ -44,12 +52,22 @@
 		  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>同步类型</span>
 		  <div>
 			<c:forEach  items="${dataTypeList}" var="type">
-			  <input type="checkbox" name="dataType" value="${type.code}"/> ${type.name}
-			</c:forEach> 
-			  <input type="checkbox" name="dataType" value="inner_out"/> 供应商退回修改导出外网
-			  <input type="checkbox" name="dataType" value="temp_out"/> 临时供应商导出外网
-			  <input type="checkbox" name="dataType" value="expert_out"/> 专家退回修改导出外网
-			  <input type="checkbox" name="dataType" value="img_out"/> 供应商，专家图片导出
+				<div class="dataType">
+					<input type="checkbox" name="dataType" value="${type.code}"/> ${type.name}
+				</div>
+			</c:forEach>
+			  <div class="dataType">
+				  <input type="checkbox" name="dataType" value="inner_out"/> 供应商退回修改导出外网
+			  </div>
+			  <div class="dataType">
+				  <input type="checkbox" name="dataType" value="temp_out"/> 临时供应商导出外网
+			  </div>
+			  <div class="dataType">
+				  <input type="checkbox" name="dataType" value="expert_out"/> 专家退回修改导出外网
+			  </div>
+			  <div class="dataType">
+				  <input type="checkbox" name="dataType" value="img_out"/> 供应商，专家图片导出
+			  </div>
 		  </div>
 		</li>
 		
