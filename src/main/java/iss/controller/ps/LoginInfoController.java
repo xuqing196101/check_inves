@@ -32,6 +32,6 @@ public class LoginInfoController {
 		if (user != null) {
 			return JdcgResult.build(200, user.getLoginName());
 		}
-		return JdcgResult.build(404, "用户未登陆");
+		return JdcgResult.build(404, "用户未登录");
 	}
 }

@@ -248,12 +248,12 @@
     <ul id="treeExpertType" class="ztree" style="margin-top:0;"></ul>
   </div>
 <!-- 修改订列表开始-->
-   <div class="container container_box">
+   <div class="">
    <sf:form id="form" action="${pageContext.request.contextPath}/ExpExtract/AddtemporaryExpert.do" method="post" modelAttribute="expert">
      <input type="hidden" value="${projectId}" name="projectId"/>
      <input type="hidden" value="${flowDefineId}" name="flowDefineId"/>
    <div>
-    <h2 class="count_flow">添加临时专家</h2>
+    <h2 class="list_title">添加临时专家</h2>
    <ul class="ul_list">
       <li class="col-md-3 col-sm-6 col-xs-12 pl15">
          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>专家姓名：</span>

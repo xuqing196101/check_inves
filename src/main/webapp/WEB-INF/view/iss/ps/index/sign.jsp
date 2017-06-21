@@ -190,15 +190,15 @@
 				 	    	});
     					} else if (data == "firstNotPass") {
     						$("#divPrompt").removeClass("hide");
-    					    $("#spanPrompt").text("抱歉,您的审核没有通过,无法登陆！");
+    					    $("#spanPrompt").text("抱歉,您的审核没有通过,无法登录！");
     						layer.close(index);
     					} else if (data == "secondNotPass") {
     						$("#divPrompt").removeClass("hide");
-    					    $("#spanPrompt").text("抱歉,您的复核没有通过,无法登陆！");
+    					    $("#spanPrompt").text("抱歉,您的复核没有通过,无法登录！");
     						layer.close(index);
     					} else if (data == "thirdNotPass") {
     						$("#divPrompt").removeClass("hide");
-    					    $("#spanPrompt").text("抱歉,您的实地考察不合格,无法登陆！");
+    					    $("#spanPrompt").text("抱歉,您的实地考察不合格,无法登录！");
     						layer.close(index);
     					} else if(flag[0]=="commit"){
     						$.ajax({
