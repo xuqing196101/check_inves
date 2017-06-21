@@ -2016,7 +2016,7 @@ resultMap="BaseResultMap">
             and REAL_NAME LIKE CONCAT(CONCAT('%', #{expert.relName,jdbcType=VARCHAR}), '%')
         </if>
         <if test="expert.mobile != null">
-            and MOBILE LIKE CONCAT(CONCAT('%', #{expert.mobile,jdbcType=VARCHAR}, '%')
+            and MOBILE LIKE CONCAT(CONCAT('%', #{expert.mobile,jdbcType=VARCHAR}), '%')
         </if>
         ORDER BY CREATED_AT DESC
     </select>
