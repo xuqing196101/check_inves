@@ -494,6 +494,14 @@
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
 			layer
 					.confirm(
 							"已勾选" + size + "条记录, 确定删除 !",
@@ -538,7 +546,14 @@
 	}
 
 	function deleteAptitute() {
+		var all = $("#aptitute_list_tbody_id").find(":checkbox");
 		var checkboxs = $("#aptitute_list_tbody_id").find(":checkbox:checked");
+		
+		if(checkboxs.length == all.length){
+			layer.msg("供应商资质证书详细信息请至少保留一条！");
+			return;
+		}
+		
 		var aptituteIds = "";
 		var supplierId = $("input[name='id']").val();
 		$(checkboxs).each(function(index) {
@@ -549,6 +564,14 @@
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
 			layer.confirm(
 				"已勾选" + size + "条记录, 确定删除 !",
 				{
@@ -612,18 +635,24 @@
 	function deleteCertPro() {
 		var allCertProCount = 0;// 所有的质量管理体系认证证书数量
 		var checkedCertProCount = 0;// 已选的质量管理体系认证证书数量
-		var allCheckboxs = $("#cert_pro_list_tbody_id").find(":checkbox");
-		$(allCheckboxs).each(function(index) {
+		var all = $("#cert_pro_list_tbody_id").find(":checkbox");
+		var checkboxs = $("#cert_pro_list_tbody_id").find(":checkbox:checked");
+		
+		if(checkboxs.length == all.length){
+			layer.msg("资质证书信息请至少保留一条！");
+			return;
+		}
+		
+		$(all).each(function(index) {
 			var certPropName = $(this).parent().next().find("input").val();
       if(certPropName == '质量管理体系认证证书'){
-          allCertProCount++;
+        allCertProCount++;
       }
 		});
 	
-		var checkboxs = $("#cert_pro_list_tbody_id").find(":checkbox:checked");
 		var certProIds = "";
 		var supplierId = $("input[name='id']").val();
-		var delFlag = true;
+		var delFlag = true;	
 		$(checkboxs).each(function(index) {
 			if (index > 0) {
 				certProIds += ",";
@@ -639,28 +668,36 @@
 		}
 		var size = checkboxs.length;
 		if (size > 0) {
-		    var _certProNumber = $("#certProNumber").val();
-		    if(delFlag){//含有资质证书信息-质量管理体系认证证书不能删除(物资类型)
-                layer.confirm(
-                    "已勾选" + size + "条记录, 确定删除 !",
-                    {
-                        offset : '200px',
-                        scrollbar : false,
-                    },
-                    function(index) {
-                        window.location.href = "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.html?certProIds="
-                            + certProIds
-                            + "&supplierId="
-                            + supplierId;
-                        layer.close(index);
-
-                    });
-            }else{
-                layer.alert("质量管理体系认证证书不能删除，请至少保留一个!", {
-                    offset : '200px',
-                    scrollbar : false,
-                });
-            }
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${proPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
+	    var _certProNumber = $("#certProNumber").val();
+	    if(delFlag){//含有资质证书信息-质量管理体系认证证书不能删除(物资类型)
+        layer.confirm(
+          "已勾选" + size + "条记录, 确定删除 !",
+          {
+            offset : '200px',
+            scrollbar : false,
+          },
+          function(index) {
+            window.location.href = "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.html?certProIds="
+              + certProIds
+              + "&supplierId="
+              + supplierId;
+            layer.close(index);
+        	}
+        );
+      }else{
+        layer.alert("质量管理体系认证证书不能删除，请至少保留一个!", {
+          offset : '200px',
+          scrollbar : false,
+        });
+      }
 		} else {
 			layer.alert("请至少勾选一条记录 !", {
 				offset : '200px',
@@ -701,6 +738,14 @@
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${sellPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
 			layer
 					.confirm(
 							"已勾选" + size + "条记录, 确定删除 !",
@@ -747,7 +792,7 @@
 	function deleteCertSe() {
 		var checkboxs = $("#cert_se_list_tbody_id").find(":checkbox:checked");
 		var certSeIds = "";
-		var supplierId = $("input[name='id']").val();
+		var supplierId = $("input[name='id']").val();	
 		$(checkboxs).each(function(index) {
 			if (index > 0) {
 				certSeIds += ",";
@@ -756,6 +801,14 @@
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${servePageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
 			layer
 					.confirm(
 							"已勾选" + size + "条记录, 确定删除 !",
@@ -957,7 +1010,14 @@
 	}
 
 	function deleteCertEng() {
+		var all = $("#cert_eng_list_tbody_id").find(":checkbox");
 		var checkboxs = $("#cert_eng_list_tbody_id").find(":checkbox:checked");
+		
+		if(checkboxs.length == all.length){
+			layer.msg("供应商资质（认证）证书信息请至少保留一条！");
+			return;
+		}
+		
 		var certEngIds = "";
 		var supplierId = $("input[name='id']").val();
 		$(checkboxs).each(function(index) {
@@ -968,6 +1028,14 @@
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
 			layer.confirm(
 				"已勾选" + size + "条记录, 确定删除 !",
 				{
@@ -2431,7 +2499,7 @@
 	function controlForm(){
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
 		var currSupplierSt = '${currSupplier.status}';
-		console.log(currSupplierSt);
+		//console.log(currSupplierSt);
 		if(currSupplierSt == '2'){
 			$("input[type='text'],select,textarea").attr('disabled',true);
 			$("input[type='text'],select,textarea").each(function(){
@@ -2474,5 +2542,21 @@
 		if(currSupplierSt == '2'){
 			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
 		}
+	}
+	
+	// 审核通过的项不能删除(列表)
+	function checkIsDelForTuihui(checkedObjs, audit){
+		var currSupplierSt = '${currSupplier.status}';
+		if(currSupplierSt == '2'){
+			var isDel = true;
+			$(checkedObjs).each(function(index) {
+				if(audit.indexOf($(this).val()) < 0){
+					isDel = false;
+					return false;
+				}
+			});
+			return isDel;
+		}
+		return true;
 	}
 </script>

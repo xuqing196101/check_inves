@@ -224,14 +224,23 @@
 						flag = false;
 					}
 				});
-				// 出资人（股东）信息比例之和要大于50%
-				var proportionTotal = 0;
+				// 出资人（股东）信息比例之和要大于50%(old)
+				// 如果数量不超过10个，那占比必须100%，如果数量超过10个，那占比必须高于50%
+				var proportionTotal = 0;// 出资比例之和
+				var stockholderCount = 0;// 股东数量
 				$("input[name^='listSupplierStockholder'][name$='proportion']").each(function(){
 					proportionTotal += parseFloat($(this).val());
+					stockholderCount++;
 				});
-				if(proportionTotal < 50){
-					msg = "股东出资比例之和要大于50%!";
-					flag = false;
+				if(proportionTotal !=0 && stockholderCount != 0){
+					if(stockholderCount >= 10 && proportionTotal < 50){
+						msg = "出资人10个或以上，出资比例之和要高于50%!";
+						flag = false;
+					}
+					if(stockholderCount < 10 && proportionTotal != 100){
+						msg = "出资人不超过10个，出资比例之和必须为100%！";
+						flag = false;
+					}
 				}
 				
 				// 校验信用代码
@@ -315,13 +324,16 @@
                                     offset: '300px'
                                 });
                             }
-                        }
+                        },
+												error: function(){
+													controlForm();
+												}
                     });
 //                }
 			}
 			$(function() {
 				$("input").not("#supplierName_input_id").not(".address_zip_code").bind("blur", tempSave);
-//				$("input").not("#supplierName_input_id").not("input[name='legalName']").not("input[name='contactName']").bind("blur", tempSave);
+//			$("input").not("#supplierName_input_id").not("input[name='legalName']").not("input[name='contactName']").bind("blur", tempSave);
 				$("textarea").bind("blur", tempSave);
 				$("select").bind("change", tempSave);
 				/**供应商名称校验*/
@@ -391,28 +403,28 @@
 							});
 						}
 						if(msg=="repeat"){
-							 $("input[name='creditCode']").val("");
+					 		$("input[name='creditCode']").val("");
 							layer.msg('统一社会信用代码重复，请重新填写！', {
 								offset: '300px'
 							});
 						}
 						if(msg=="disabled_180"){
-                            $("input[name='creditCode']").val("");
-                            layer.msg('统一社会信用代码在180天内禁止再次注册，请重新填写！', {
-                                offset: '300px'
-                            });
-                        }
+              $("input[name='creditCode']").val("");
+              layer.msg('统一社会信用代码在180天内禁止再次注册，请重新填写！', {
+                  offset: '300px'
+              });
+            }
 						if(msg=="errIdentity"){
 							layer.msg('统一社会信用代码或身份证号重复，请重新填写！', {
 								offset: '300px'
 							});
 						}
 						if(msg=="supplierNameExists"){
-						    $("#supplierName_input_id").val("");
-                            layer.msg('供应商名称已存在，请重新填写！', {
-                                offset: '300px'
-                            });
-                        }
+					    $("#supplierName_input_id").val("");
+             	layer.msg('供应商名称已存在，请重新填写！', {
+               	offset: '300px'
+              });
+            }
 //                        if(msg=="legalNameExists"){
 //                            $("input[name='legalName']").val("");
 //                            layer.msg('姓名已存在，请重新填写！', {
@@ -425,10 +437,12 @@
 //                                offset: '300px'
 //                            });
 //                        }
+					},
+					error: function(){
+						controlForm();
 					}
 				});
 			}
-			//listSupplierStockholders
 
 			function openStockholder() {
 
@@ -493,25 +507,15 @@
 			}
 			
 			function deleteAfterSaleDep() {
+				var all = $("#afterSaleDep_list_tbody_id").find(":checkbox");
 				var checkboxs = $("#afterSaleDep_list_tbody_id").find(":checkbox:checked");
-				var afterSaleDepIds = "";
-				// 退回修改审核通过的项不能删除
-				var currSupplierSt = '${currSupplier.status}';
-				if(currSupplierSt == '2'){
-					var isDel = true;
-					$(checkboxs).each(function(index) {
-						if('${audit}'.indexOf($(this).val()) < 0){
-							isDel = false;
-							return false;
-						}
-					});
-					
-					if(!isDel){
-						layer.msg("审核通过项的不能删除！");
-						return;
-					}
+				
+				if(checkboxs.length == all.length){
+					layer.msg("售后服务机构请至少保留一条信息！");
+					return;
 				}
 				
+				var afterSaleDepIds = "";		
 				$(checkboxs).each(function(index) {
 					var tr = $(this).parent().parent();
 					$(tr).remove();
@@ -523,6 +527,14 @@
 				
 				var size = checkboxs.length;
 				if(size > 0) {
+					
+					// 退回修改审核通过的项不能删除
+					var isDel = checkIsDelForTuihui(checkboxs, '${audit}');
+					if(!isDel){
+						layer.msg("审核通过的项不能删除！");
+						return;
+					}
+				
 					$.ajax({
 						url: "${pageContext.request.contextPath}/supplier/deleteAfterSaleDep.do",
 						async: false,
@@ -542,26 +554,16 @@
 			}
 
 			function deleteStockholder() {
+				var all = $("#stockholder_list_tbody_id").find(":checkbox");
 				var checkboxs = $("#stockholder_list_tbody_id").find(":checkbox:checked");
-				var stockholderIds = "";
-				var supplierId = $("input[name='id']").val();
-				// 退回修改审核通过的项不能删除
-				var currSupplierSt = '${currSupplier.status}';
-				if(currSupplierSt == '2'){
-					var isDel = true;
-					$(checkboxs).each(function(index) {
-						if('${audit}'.indexOf($(this).val()) < 0){
-							isDel = false;
-							return false;
-						}
-					});
-					
-					if(!isDel){
-						layer.msg("审核通过项的不能删除！");
-						return;
-					}
+				
+				if(checkboxs.length == all.length){
+					layer.msg("出资人（股东）信息请至少保留一条信息！");
+					return;
 				}
 				
+				var stockholderIds = "";
+				var supplierId = $("input[name='id']").val();		
 				$(checkboxs).each(function(index) {
 					var tr = $(this).parent().parent();
 					$(tr).remove();
@@ -573,6 +575,14 @@
 				
 				var size = checkboxs.length;
 				if(size > 0) {
+				
+					// 退回修改审核通过的项不能删除
+					var isDel = checkIsDelForTuihui(checkboxs, '${audit}');
+					if(!isDel){
+						layer.msg("审核通过的项不能删除！");
+						return;
+					}
+				
 					$.ajax({
 						url: "${pageContext.request.contextPath}/supplier_stockholder/delete_stockholder.do",
 						async: false,
@@ -856,116 +866,60 @@
                 });
 			}
 			function delAddress(obj,id) {
+        var all = $("#address_list_tbody_id").find(":checkbox");
         var checkboxs = $("#address_list_tbody_id").find(":checkbox:checked");
-        var addressIds = "";
- 				// 退回修改审核通过的项不能删除
-				var currSupplierSt = '${currSupplier.status}';
-				if(currSupplierSt == '2'){
-					var isDel = true;
-					$(checkboxs).each(function(index) {
-						if('${audit}'.indexOf($(this).val()) < 0){
-							isDel = false;
-							return false;
-						}
-					});
-					
-					if(!isDel){
-						layer.msg("审核通过项的不能删除！");
-						return;
-					}
+        
+        if(checkboxs.length == all.length){
+					layer.msg("生产或经营地址请至少保留一条信息！");
+					return;
 				}
-				
+        
+        var addressIds = "";		
 				$(checkboxs).each(function(index) {
 					if(index > 0) {
-              addressIds += ",";
+            addressIds += ",";
           }
           addressIds += $(this).val();
 				});
 				
         var size = checkboxs.length;
         if(size > 0) {
-            var btmCount = 0;
-            $("#address_list_tbody_id").find("tr").each(function() {
-                btmCount++;
-            });
-            if(btmCount==size){//勾选的和总共数量对比
-                layer.msg("生产或经营地址必须至少保留一个!", {
-                    offset: '300px'
+        	
+        	// 退回修改审核通过的项不能删除
+					var isDel = checkIsDelForTuihui(checkboxs, '${audit}');
+					if(!isDel){
+						layer.msg("审核通过的项不能删除！");
+						return;
+					}
+        	
+          $.ajax({
+            url: "${pageContext.request.contextPath}/supplier/delAddress.do",
+            data: {
+              "id": addressIds
+            },
+            success: function(data) {
+              if(data=="ok"){
+                layer.msg("删除成功!", {
+                  offset: '300px'
                 });
-            }else{
-                $.ajax({
-                    url: "${pageContext.request.contextPath}/supplier/delAddress.do",
-                    data: {
-                        "id": addressIds
-                    },
-                    success: function(data) {
-                        if(data=="ok"){
-                            layer.msg("删除成功!", {
-                                offset: '300px'
-                            });
-                            $(checkboxs).each(function(index) {
-                                var tr = $(this).parent().parent();
-                                $(tr).remove();
-                            });
-                        }
-                    },
-                    error: function() {
-                        layer.msg("删除失败!", {
-                            offset: '300px'
-                        });
-                    }
+                $(checkboxs).each(function(index) {
+                  var tr = $(this).parent().parent();
+                  $(tr).remove();
                 });
+              }
+            },
+            error: function() {
+              layer.msg("删除失败!", {
+                offset: '300px'
+              });
             }
+        	});
         }else{
-            layer.alert("请至少勾选一条记录 !", {
-                offset: '200px',
-                scrollbar: false,
-            });
+          layer.alert("请至少勾选一条记录 !", {
+            offset: '200px',
+            scrollbar: false,
+          });
         }
-				/*var btmCount = 0;
-				$("#address_list_body").find("input[type='button']").each(function() {
-					btmCount++;
-				});
-				if(btmCount == 2) {
-					layer.msg("生产或经营地址必须至少保留一个!", {
-						offset: '300px'
-					});
-				} else {
-//                    $(li_1).prev().prev().remove(); //邮编
-//                    $(li_1).prev().remove(); //省市
-//                    $(li_1).remove(); //详细地址
-//                    $(tag).remove(); //按钮
-					$.ajax({
-						url: "${pageContext.request.contextPath}/supplier/delAddress.do",
-						data: {
-							"id": id
-						},
-						success: function(data) {
-						    if(data=="ok"){
-                                layer.msg("删除成功!", {
-                                    offset: '300px'
-                                });
-                                var id = $(obj).next().val();
-                                var tag = $(obj).parent().parent();
-                                var li_1 = $(obj).parent().parent().prev();//房产证明
-                                $(li_1).prev().prev().prev().remove(); //邮编
-                                $(li_1).prev().prev().remove(); //省市
-                                $(li_1).prev().remove(); //详细地址
-                                $(li_1).remove();
-                                $(tag).remove(); //按钮
-                            }else{
-                                layer.msg("删除失败!", {
-                                    offset: '300px'
-                                });
-                            }
-						},
-						error: function() {
-							layer.msg("删除失败!", {
-								offset: '300px'
-							});
-						}
-					});
-				}*/
 			}
 
 			function addBranch(obj) {
@@ -2509,6 +2463,22 @@
 		if(currSupplierSt == '2'){
 			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
 		}
+	}
+	
+	// 审核通过的项不能删除(列表)
+	function checkIsDelForTuihui(checkedObjs, audit){
+		var currSupplierSt = '${currSupplier.status}';
+		if(currSupplierSt == '2'){
+			var isDel = true;
+			$(checkedObjs).each(function(index) {
+				if(audit.indexOf($(this).val()) < 0){
+					isDel = false;
+					return false;
+				}
+			});
+			return isDel;
+		}
+		return true;
 	}
 </script>
 

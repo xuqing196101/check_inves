@@ -311,16 +311,6 @@ public class SupplierController extends BaseSupplierController {
 		}
 		//已注册供应商
 		if(sup != null) {
-			// 所有的不通过字段的名字
-			SupplierAudit s = new SupplierAudit();
-			s.setSupplierId(sup.getId());;
-			s.setAuditType("basic_page");
-			List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
-			StringBuffer errorField = new StringBuffer();
-			for(SupplierAudit audit: auditLists) {
-				errorField.append(audit.getAuditField() + ",");
-			}
-			model.addAttribute("audit", errorField);
 			//初始化近三年的财务信息
 			initFinance(sup);
 			//股东信息
@@ -399,6 +389,7 @@ public class SupplierController extends BaseSupplierController {
 			}
 			
 			initCompanyType(model, sup);
+			initBasicAudit(model, sup);
 			return "ses/sms/supplier_register/basic_info";
 		}
 		String id = WfUtil.createUUID();
@@ -463,31 +454,33 @@ public class SupplierController extends BaseSupplierController {
 		List < Area > privnce = areaService.findRootArea();
 		model.addAttribute("privnce", privnce);
 		//初始化当前供应商
-		List<SupplierStockholder> stockList = supplier.getListSupplierStockholders();
-		if (stockList == null || stockList.size() == 0) {
-		    SupplierStockholder stock = new SupplierStockholder();
-		    stock.setId(WfUtil.createUUID());
-		    stockList.add(stock);
-		    stock.setSupplierId(supplier.getId());
-		    supplier.setListSupplierStockholders(stockList);
+		if(supplier.getStatus() == null || supplier.getStatus() == -1){
+			List<SupplierStockholder> stockList = supplier.getListSupplierStockholders();
+			if (stockList == null || stockList.size() == 0) {
+			    SupplierStockholder stock = new SupplierStockholder();
+			    stock.setId(WfUtil.createUUID());
+			    stockList.add(stock);
+			    stock.setSupplierId(supplier.getId());
+			    supplier.setListSupplierStockholders(stockList);
+			}
+			List<SupplierAfterSaleDep> afterSaleDep = supplier.getListSupplierAfterSaleDep();
+	        if (afterSaleDep == null || afterSaleDep.size() == 0) {
+	            SupplierAfterSaleDep stock = new SupplierAfterSaleDep();
+	            stock.setId(WfUtil.createUUID());
+	            afterSaleDep.add(stock);
+	            stock.setSupplierId(supplier.getId());
+	            supplier.setListSupplierAfterSaleDep(afterSaleDep);
+	        }
+	        //地址信息
+	        List<SupplierAddress> supplierAddressList = supplier.getAddressList();
+	        if(supplierAddressList == null || supplierAddressList.isEmpty()){
+	            SupplierAddress address = new SupplierAddress();
+	            address.setId(WfUtil.createUUID());
+	            address.setSupplierId(supplier.getId());
+	            supplierAddressList.add(address);
+	            supplier.setAddressList(supplierAddressList);
+	        }
 		}
-		List<SupplierAfterSaleDep> afterSaleDep = supplier.getListSupplierAfterSaleDep();
-        if (afterSaleDep == null || afterSaleDep.size() == 0) {
-            SupplierAfterSaleDep stock = new SupplierAfterSaleDep();
-            stock.setId(WfUtil.createUUID());
-            afterSaleDep.add(stock);
-            stock.setSupplierId(supplier.getId());
-            supplier.setListSupplierAfterSaleDep(afterSaleDep);
-        }
-        //地址信息
-        List<SupplierAddress> supplierAddressList = supplier.getAddressList();
-        if(supplierAddressList == null || supplierAddressList.isEmpty()){
-            SupplierAddress address = new SupplierAddress();
-            address.setId(WfUtil.createUUID());
-            address.setSupplierId(supplier.getId());
-            supplierAddressList.add(address);
-            supplier.setAddressList(supplierAddressList);
-        }
 		model.addAttribute("currSupplier", supplier);
 		//初始化供应商注册附件类型
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
@@ -752,8 +745,9 @@ public class SupplierController extends BaseSupplierController {
 		    Supplier before = supplierService.get(supplier.getId());
 		    // 判断是否满足条件
 		    BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
-		    if (score.compareTo(BigDecimal.valueOf(100)) ==-1) {
+		    if (score.compareTo(BigDecimal.valueOf(100)) == -1) {
 	            initCompanyType(model, before);
+	            initBasicAudit(model, before);
 	            request.setAttribute("notPass", "notPass");
 	            return "ses/sms/supplier_register/basic_info";
 		    }
@@ -773,20 +767,24 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("supplieType", list);
 			List < DictionaryData > wlist = DictionaryDataUtil.find(8);
 			model.addAttribute("wlist", wlist);
-			//物资生产类型的必须有的证书
-			if(supplier.getSupplierMatPro() == null
-					|| supplier.getSupplierMatPro().getListSupplierCertPros() == null
-					|| supplier.getSupplierMatPro().getListSupplierCertPros().size() == 0) {
-				supplier.setSupplierMatPro(supplierMatProService.init());
-			}
-			if(supplier.getSupplierMatSell() == null) {
-			    supplier.setSupplierMatSell(supplierMatSellService.init());
-			}
-			if(supplier.getSupplierMatEng() == null) {
-			    supplier.setSupplierMatEng(supplierMatEngService.init());
-			}
-			if(supplier.getSupplierMatSe() == null) {
-			    supplier.setSupplierMatSe(supplierMatSeService.init());
+			
+			// 初始状态才初始化证书信息
+			if(supplier.getStatus() == null || supplier.getStatus() == -1){
+				//物资生产类型的必须有的证书
+				if(supplier.getSupplierMatPro() == null
+						|| supplier.getSupplierMatPro().getListSupplierCertPros() == null
+						|| supplier.getSupplierMatPro().getListSupplierCertPros().size() == 0) {
+					supplier.setSupplierMatPro(supplierMatProService.init());
+				}
+				if(supplier.getSupplierMatSell() == null) {
+				    supplier.setSupplierMatSell(supplierMatSellService.init());
+				}
+				if(supplier.getSupplierMatEng() == null) {
+				    supplier.setSupplierMatEng(supplierMatEngService.init());
+				}
+				if(supplier.getSupplierMatSe() == null) {
+				    supplier.setSupplierMatSe(supplierMatSeService.init());
+				}
 			}
 			String attid = DictionaryDataUtil.getId("SUPPLIER_PRODUCT");
 			model.addAttribute("currSupplier", supplier);
@@ -901,8 +899,31 @@ public class SupplierController extends BaseSupplierController {
 				supplier2.setArmyCity(armcity);
 			}
 			initCompanyType(model, supplier2);
+			
+			initBasicAudit(model, supplier2);
+			
 			return "ses/sms/supplier_register/basic_info";
 		}
+	}
+	
+	/**
+	 * 初始化基本信息的审核不通过字段
+	 * @param model
+	 * @param supplier
+	 */
+	private void initBasicAudit(Model model, Supplier supplier){
+		// 所有的不通过字段的名字
+		SupplierAudit s = new SupplierAudit();
+		s.setSupplierId(supplier.getId());
+		s.setAuditType("basic_page");
+		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
+
+		StringBuffer errorField = new StringBuffer();
+		for(SupplierAudit audit: auditLists) {
+			errorField.append(audit.getAuditField() + ",");
+		}
+
+		model.addAttribute("audit", errorField);
 	}
 
 	/**
@@ -2407,7 +2428,7 @@ public class SupplierController extends BaseSupplierController {
             stock.setSupplierId(supplier.getId());
             supplier.setListSupplierAfterSaleDep(afterSaleDep);
         }
-        System.out.println(supplier.getWebsite());
+        //System.out.println(supplier.getWebsite());
 		model.addAttribute("currSupplier", supplier);
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
