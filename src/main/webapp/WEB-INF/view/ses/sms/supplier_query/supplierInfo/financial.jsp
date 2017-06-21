@@ -91,7 +91,7 @@
 					</form>
 					<c:forEach items="${financial}" var="f" varStatus="vs">
 						<h2 class="count_flow"><i>${vs.index + 1}</i>${f.year }年财务（单位：万元）</h2>
-						<ul class="ul_list count_flow">
+						<div class="ul_list">
 							<table class="table table-bordered  table-condensed table-hover">
 								<thead>
 									<tr>
@@ -153,7 +153,7 @@
 									</tr>
 								</tbody>
 							</table>
-						</ul>
+						</div>
 					</c:forEach>
 				</div>
 			</div>

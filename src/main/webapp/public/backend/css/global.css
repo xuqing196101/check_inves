@@ -409,6 +409,7 @@ p, li, li a, label {
     line-height: 25px;
     margin-top: 20px;
     font-size: 16px;
+    float: left;
 }
 
 .count_flows {

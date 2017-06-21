@@ -1274,6 +1274,7 @@ public class OpenBiddingController {
       condition.setStatusBid(NUMBER_TWO);
       condition.setStatusBond(NUMBER_TWO);
       condition.setIsTurnUp(0);
+      condition.setIsFirstPass(1);
       List<SaleTender> stList = saleTenderService.find(condition);
       List<SaleTender> stList1 = new ArrayList<SaleTender>();
       stList1.addAll(stList);

@@ -134,14 +134,15 @@
 		};
 	});
 	
-	function show(){
-		var i = $('#sel option:selected').val();//选中的值
+	function show(ob){
+		var index=ob.selectedIndex;
+		var i = ob.options[index].value;
+		var val = $(ob).parent().next().find('input').val();
 		if(i == 2){
-			document.getElementById("fq1").style.display = "";
-			document.getElementById("fq2").style.display = "";
-		}else{
-			document.getElementById("fq1").style.display = "none";
-			document.getElementById("fq2").style.display = "none";
+			layer.prompt({title: '放弃原因', formType: 2, value : val ,shade: 0}, function(pass, index){
+				  layer.close(index);
+				  $(ob).parent().next().find('input').val(pass);
+				});
 		}
 	}
 </script>
@@ -175,7 +176,7 @@
 					<th class="info w100">交货期限</th>
 					<c:if test="${not empty count}">
 					<th class="info w100">状态</th>
-					<th class="info w100" id = "fq1" style="display: none" >放弃原因</th>
+					<th class="info w100" style="display: none;">放弃原因</th>
 					</c:if>
 			    </tr>
 			</thead>
@@ -189,13 +190,13 @@
 					<td class="tc"><input   maxlength="16" type="text"/></td>
 					<td class="tc"><input type="text"/></td>
 					<c:if test="${not empty count}">
-					<td class="tc" onchange="show()" id = "sel">
-							<select>
+					<td class="tc">
+							<select onchange="show(this)">
 								<option value="">请选择</option>
 								<option value="2">放弃报价</option>
 							</select>
 					</td>
-					<td class="tc" id = "fq2" style="display: none"><input /></td>
+					<td class="tc" style="display: none;"><input  /></td>
 					</c:if>
 			    </tr>
 		</c:forEach>

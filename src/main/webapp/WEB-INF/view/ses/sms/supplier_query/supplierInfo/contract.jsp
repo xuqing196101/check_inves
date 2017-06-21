@@ -140,7 +140,7 @@
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('updateHistory');">历史修改记录</a>
 						</li> -->
 					</ul>
-					<ul class="count_flow ul_list hand">
+					<div class="ul_list">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<c:set value="0" var="liCount" />
 							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT')}">
@@ -192,7 +192,7 @@
 								</c:if>
 							</div>
 						</div>
-					</ul>
+					</div>
 					<div class="col-md-12 tc">
 			    	<button class="btn btn-windows back" onclick="fanhui()">返回</button> 
 			   	</div>

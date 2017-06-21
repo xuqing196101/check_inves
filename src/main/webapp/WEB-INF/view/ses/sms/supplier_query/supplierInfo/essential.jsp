@@ -86,7 +86,7 @@
 						<input name="sign" value="${sign}" type="hidden">
 					</form>
 					<h2 class="count_flow"><i>1</i>供应商信息</h2>
-					<ul class="ul_list">
+					<div class="ul_list">
 						<table class="table table-bordered">
 							<tbody>
 								<tr>
@@ -119,7 +119,7 @@
 								</tr>
 							</tbody>
 						</table>
-					</ul>
+					</div>
 
 					<h2 class="count_flow"><i>2</i>地址信息</h2>
 					<ul class="ul_list">

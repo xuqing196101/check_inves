@@ -382,7 +382,7 @@
         </ul>
 
         <h2 class="count_flow"><i>3</i>产品研发能力</h2>
-        <ul class="ul_list count_flow">
+        <ul class="ul_list">
 	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员比例(%)：</span>
 	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -428,7 +428,7 @@
 	      </ul>
 
 	      <h2 class="count_flow"><i>4</i>供应商生产能力</h2>
-        <ul class="ul_list count_flow">
+        <ul class="ul_list">
 	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">生产线名称数量：</span>
 	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -444,7 +444,7 @@
         </ul>
 
 		    <h2 class="count_flow"><i>5</i>物资生产型供应商质量检测登记</h2>
-	      <ul class="ul_list count_flow">
+	      <ul class="ul_list">
 	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测部门：</span>
 	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">

@@ -66,7 +66,7 @@
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('updateHistory');">历史修改记录</a>
 						</li> -->
 					</ul>
-					<ul class="count_flow ul_list count_flow">
+					<div class="ul_list">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<c:set value="0" var="liCountPro" />
 							<c:set value="0" var="liCountSell" />
@@ -230,7 +230,7 @@
 								</div>
 							</c:if>
 						</div>
-					</ul>
+					</div>
 					<div class="col-md-12 tc">
 			    	<button class="btn btn-windows back" onclick="fanhui()">返回</button> 
 			   	</div>
