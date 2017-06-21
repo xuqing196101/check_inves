@@ -44,7 +44,7 @@
 
 	<!-- js校验 -->  
 	<script src="${pageContext.request.contextPath}/public/validate/jquery.validate.min.js"></script>
-	<%--<script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>--%>
+	<script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>
   
     <!--导航js-->
 
