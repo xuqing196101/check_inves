@@ -1491,6 +1491,18 @@ public class ExpertAuditController{
 			
 			expert.setIsSubmit("0");
 		}
+		
+		//初审不通过记录
+		if("2".equals(expert.getStatus())){
+			ExpertAuditNot expertAuditNot = new ExpertAuditNot();
+			Expert expertinfo = expertService.selectByPrimaryKey(expert.getId());
+			expertAuditNot.setCreatedAt(new Date());
+			expertAuditNot.setExpertId(expertinfo.getId());
+			expertAuditNot.setExpertName(expertinfo.getRelName());
+			expertAuditNot.setIdCard(expertinfo.getIdCardNumber());
+			expertAuditNotService.insertSelective(expertAuditNot);
+		}
+		
 		//提交审核，更新状态
 		expert.setAuditAt(new Date());
 		
@@ -2281,7 +2293,7 @@ public class ExpertAuditController{
 	 * @return void
 	 */
 	@RequestMapping(value="/saveAuditNot")
-	public void saveAuditNot(String expertId){
+	public String saveAuditNot(String expertId){
 		ExpertAuditNot expertAuditNot = new ExpertAuditNot();
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		expertAuditNot.setCreatedAt(new Date());
@@ -2289,6 +2301,8 @@ public class ExpertAuditController{
 		expertAuditNot.setExpertName(expert.getRelName());
 		expertAuditNot.setIdCard(expert.getIdCardNumber());
 		expertAuditNotService.insertSelective(expertAuditNot);
+		
+		return "redirect:list.html";
 	}
 	
 	/**

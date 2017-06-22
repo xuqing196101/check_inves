@@ -80,9 +80,9 @@
                     }
 
                     //初审不通过
-                    if (status == 2) {
+                    /* if (status == 2) {
                         window.location.href = "${pageContext.request.contextPath}/expertAudit/saveAuditNot.html?expertId=" + expertId;
-                    }
+                    } */
                 });
             } else {
                 //询问框
