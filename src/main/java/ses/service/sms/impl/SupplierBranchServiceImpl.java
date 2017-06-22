@@ -36,9 +36,9 @@ public class SupplierBranchServiceImpl implements SupplierBranchService{
 						supplierBranchMapper.updateByPrimaryKeySelective(s);
 					}
 				}else{
-					String id = WfUtil.createUUID();
-					s.setId(id);
-					supplierBranchMapper.insertSelective(s);
+					//String id = WfUtil.createUUID();
+					//s.setId(id);
+					//supplierBranchMapper.insertSelective(s);
 				}
 			}
 		}

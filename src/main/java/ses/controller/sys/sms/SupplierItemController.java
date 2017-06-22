@@ -404,20 +404,22 @@ public class SupplierItemController extends BaseController {
 		model.addAttribute("currSupplier", supplier);
 		model.addAttribute("supplierTypeIds", supplierTypeIds);
 		if(flag.equals("3")) {
-			//物资生产类型的必须有的证书
-			if(supplier.getSupplierMatPro() == null
-					|| supplier.getSupplierMatPro().getListSupplierCertPros() == null
-					|| supplier.getSupplierMatPro().getListSupplierCertPros().size() == 0) {
-				supplier.setSupplierMatPro(supplierMatProService.init());
-			}
-			if(supplier.getSupplierMatSell() == null) {
-			    supplier.setSupplierMatSell(supplierMatSellService.init());
-			}
-			if(supplier.getSupplierMatEng() == null) {
-			    supplier.setSupplierMatEng(supplierMatEngService.init());
-			}
-			if(supplier.getSupplierMatSe() == null) {
-			    supplier.setSupplierMatSe(supplierMatSeService.init());
+			if(supplier.getStatus() == null || supplier.getStatus() == -1){
+				//物资生产类型的必须有的证书
+				if(supplier.getSupplierMatPro() == null
+						|| supplier.getSupplierMatPro().getListSupplierCertPros() == null
+						|| supplier.getSupplierMatPro().getListSupplierCertPros().size() == 0) {
+					supplier.setSupplierMatPro(supplierMatProService.init());
+				}
+				if(supplier.getSupplierMatSell() == null) {
+				    supplier.setSupplierMatSell(supplierMatSellService.init());
+				}
+				if(supplier.getSupplierMatEng() == null) {
+				    supplier.setSupplierMatEng(supplierMatEngService.init());
+				}
+				if(supplier.getSupplierMatSe() == null) {
+				    supplier.setSupplierMatSe(supplierMatSeService.init());
+				}
 			}
 			
 			String attid = DictionaryDataUtil.getId("SUPPLIER_PRODUCT");
@@ -705,6 +707,7 @@ public class SupplierItemController extends BaseController {
 				break;
 			}
 		}
+		
 		if(isEng) {
 			SupplierMatEng matEng = supplierMatEngService.getMatEng(supId);
 			List < SupplierItem > listSupplierItems = getProject(supId, "PROJECT");

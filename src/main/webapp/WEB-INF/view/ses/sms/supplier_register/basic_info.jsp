@@ -515,16 +515,6 @@
 					return;
 				}
 				
-				var afterSaleDepIds = "";		
-				$(checkboxs).each(function(index) {
-					var tr = $(this).parent().parent();
-					$(tr).remove();
-					if(index > 0) {
-						afterSaleDepIds += ",";
-					}
-					afterSaleDepIds += $(this).val();
-				});
-				
 				var size = checkboxs.length;
 				if(size > 0) {
 					
@@ -534,15 +524,31 @@
 						layer.msg("审核通过的项不能删除！");
 						return;
 					}
+					
+					var afterSaleDepIds = "";
+					$(checkboxs).each(function(index) {
+						if(index > 0) {
+							afterSaleDepIds += ",";
+						}
+						afterSaleDepIds += $(this).val();
+					});
 				
 					$.ajax({
 						url: "${pageContext.request.contextPath}/supplier/deleteAfterSaleDep.do",
 						async: false,
+						type: "POST",
 						data: {
 							"afterSaleDepIds": afterSaleDepIds,
 						},
 						success: function(){
 							layer.msg("删除成功！");
+							$(checkboxs).each(function(index) {
+								var tr = $(this).parent().parent();
+								$(tr).remove();
+							});
+						},
+						error: function(){
+							layer.msg("删除失败！");
 						}
 					});
 				} else {
@@ -558,20 +564,9 @@
 				var checkboxs = $("#stockholder_list_tbody_id").find(":checkbox:checked");
 				
 				if(checkboxs.length == all.length){
-					layer.msg("出资人（股东）信息请至少保留一条信息！");
+					layer.msg("出资人（股东）信息请至少保留一条！");
 					return;
 				}
-				
-				var stockholderIds = "";
-				var supplierId = $("input[name='id']").val();		
-				$(checkboxs).each(function(index) {
-					var tr = $(this).parent().parent();
-					$(tr).remove();
-					if(index > 0) {
-						stockholderIds += ",";
-					}
-					stockholderIds += $(this).val();
-				});
 				
 				var size = checkboxs.length;
 				if(size > 0) {
@@ -582,17 +577,62 @@
 						layer.msg("审核通过的项不能删除！");
 						return;
 					}
-				
-					$.ajax({
-						url: "${pageContext.request.contextPath}/supplier_stockholder/delete_stockholder.do",
-						async: false,
-						data: {
-							"stockholderIds": stockholderIds,
-							"supplierId": supplierId
-						},
-						success: function(){
-							layer.msg("删除成功！");
+					
+					// 如果数量不超过10个，那占比必须100%，如果数量超过10个，那占比必须高于50%
+					var proportionTotal = 0;// 出资比例之和
+					var stockholderCount = 0;// 股东数量
+					$("input[name^='listSupplierStockholder'][name$='proportion']").each(function(){
+						if(!($(this).parent().parent().find(":checkbox").is(":checked"))){
+							proportionTotal += parseFloat($(this).val());
+							stockholderCount++;
 						}
+					});
+					var confirmMsg = "确认删除？";
+					if(proportionTotal !=0 && stockholderCount != 0){
+						if(stockholderCount >= 10 && proportionTotal < 50){
+							confirmMsg = "出资人10个或以上，出资比例之和要高于50%！确认删除？";
+						}
+						if(stockholderCount < 10 && proportionTotal != 100){
+							confirmMsg = "出资人不超过10个，出资比例之和必须为100%！确认删除？";
+						}
+					}
+					
+					layer.confirm(confirmMsg, {
+						offset: '200px',
+						scrollbar: false,
+						btn: ['确定','取消'] //按钮
+					}, function(index) {
+						var stockholderIds = "";
+						var supplierId = $("input[name='id']").val();		
+						$(checkboxs).each(function(index) {
+							if(index > 0) {
+								stockholderIds += ",";
+							}
+							stockholderIds += $(this).val();
+						});
+					
+						$.ajax({
+							url: "${pageContext.request.contextPath}/supplier_stockholder/delete_stockholder.do",
+							async: false,
+							type: "POST",
+							data: {
+								"stockholderIds": stockholderIds,
+								"supplierId": supplierId
+							},
+							success: function(){
+								layer.msg("删除成功！");
+								$(checkboxs).each(function(index) {
+									var tr = $(this).parent().parent();
+									$(tr).remove();
+								});
+							},
+							error: function(){
+								layer.msg("删除失败！");
+							}
+						});
+						layer.close(index);
+					}, function(index) {
+						layer.close(index);
 					});
 				} else {
 					layer.alert("请至少勾选一条记录 !", {
@@ -874,14 +914,6 @@
 					return;
 				}
         
-        var addressIds = "";		
-				$(checkboxs).each(function(index) {
-					if(index > 0) {
-            addressIds += ",";
-          }
-          addressIds += $(this).val();
-				});
-				
         var size = checkboxs.length;
         if(size > 0) {
         	
@@ -891,9 +923,19 @@
 						layer.msg("审核通过的项不能删除！");
 						return;
 					}
+					
+					var addressIds = "";
+					$(checkboxs).each(function(index) {
+						if(index > 0) {
+	            addressIds += ",";
+	          }
+	          addressIds += $(this).val();
+					});
         	
           $.ajax({
             url: "${pageContext.request.contextPath}/supplier/delAddress.do",
+            async: false,
+            type: "POST",
             data: {
               "id": addressIds
             },

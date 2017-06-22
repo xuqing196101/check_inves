@@ -1601,7 +1601,7 @@
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	 <div class="w200 fl"><input
-                                                                             required="required" type="text"   <c:if test="${certPro.name == '质量管理体系认证证书'}">readonly="readonly"</c:if>
+                                  required="required" type="text"   <c:if test="${certPro.name == '质量管理体系认证证书'}">readonly="readonly"</c:if>
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].name"
 																	value="${certPro.name}" class="border0" />
 																	</div>
@@ -1630,16 +1630,16 @@
 																</td>
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
-																	<input type="text" required="required" 
-																	readonly="readonly" <c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
+																	<input type="text" required="required" readonly="readonly" 
+																	<c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate"
 																	value="<fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd "/>"
 																	class="border0" /></td>
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
-																	<input type="text" required="required"
-																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" <c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}"> onClick="WdatePicker()"</c:if>
-																	 readonly="readonly"
+																	<input type="text" required="required" readonly="readonly"
+																	<c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})"</c:if>
+																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate"
 																	value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd "/>"
 																	class="border0" /></td>
 																<td class="tc"
@@ -1770,7 +1770,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="text" readonly="readonly"
-																required="required" <c:if test="${(fn:contains(sellPageField,certSell.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker()"</c:if> 
+																required="required" <c:if test="${(fn:contains(sellPageField,certSell.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})"</c:if> 
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate"
 																value="<fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd "/>"
 																class="border0" /></td>
@@ -2075,14 +2075,14 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly"  <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2 ) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker()"</c:if>
+																readonly="readonly"  <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2 ) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate"
 																value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly" <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker()"</c:if>
+																readonly="readonly" <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})"</c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate"
 																value="<fmt:formatDate value="${certEng.expEndDate}" pattern="yyyy-MM-dd"/>"
 																pattern="yyyy-MM-dd" />
@@ -2410,7 +2410,7 @@
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly" <c:if test="${(fn:contains(servePageField,certSe.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker()" </c:if>
+																readonly="readonly" <c:if test="${(fn:contains(servePageField,certSe.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate"
 																value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd "/>" />
 															</td>

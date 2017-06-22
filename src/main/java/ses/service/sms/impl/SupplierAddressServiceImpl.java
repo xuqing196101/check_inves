@@ -32,8 +32,8 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
 			    		 supplierAddressMapper.updateByPrimaryKeySelective(addr);
 			    	 }
 			     } else {
-			         addr.setId(WfUtil.createUUID());
-	                 supplierAddressMapper.insertSelective(addr);
+			         //addr.setId(WfUtil.createUUID());
+	                 //supplierAddressMapper.insertSelective(addr);
 			     }
 			}
 		}

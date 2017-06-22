@@ -201,7 +201,7 @@
 			}
 			//请求 获取 数据
 			function getDate(obj,typeId,certCode,supplierId,professType,number,flag){
-			//console.log(obj);
+			//console.log($(obj));
 			//console.log(number);
 			//console.log(flag);
 			//根据类型和证书编号获取等级
@@ -491,14 +491,13 @@
 														<c:if test="${currSupplier.status== -1 || currSupplier.status==2}">
 															<script>
                                                                 function s() {
-                                                                    var number =${vs.index};
+                                                                    var number = ${vs.index};
                                                                     //供应商
                                                                     var supplierId = "${currSupplier.id}";
                                                                     //证书编号
                                                                     var certCode = "${cate.certCode}";
                                                                     //专业类别
                                                                     var professType = "${cate.proName}";
-                                                                    console.log(professType+"===========");
                                                                     //资质类型
                                                                     var typeId = $("#listSupplierItems${vs.index}qualificationType").val();
                                                                     if (typeId != null && typeId != "" && typeId != "undefined" && certCode != null && certCode != "" && certCode != "undefined" && professType != null && professType != "") {

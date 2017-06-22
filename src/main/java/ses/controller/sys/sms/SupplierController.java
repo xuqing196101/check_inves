@@ -2376,93 +2376,56 @@ public class SupplierController extends BaseSupplierController {
             out.close(); 
         }else{
 	    
-		Supplier supp = supplierMapper.queryByName(name);
-		Supplier supplier = supplierService.get(supp.getId());
-		// 通过supplierId查询用户信息
-		if(supplier != null){
-			User existsUser = userService.findByTypeId(supplier.getId());
-			// 将用户信息存入登录日志
-			loginLogService.saveOnlineUser(existsUser, request);
-		}
-        
-		if(supplier.getAddress() != null) {
-			Area area = areaService.listById(supplier.getAddress());
-			List < Area > city = areaService.findAreaByParentId(area.getParentId());
-			model.addAttribute("city", city);
-			model.addAttribute("area", area);
-		}
-		List < DictionaryData > foregin = DictionaryDataUtil.find(24);
-
-		List < Area > privnce = areaService.findRootArea();
-		if(supplier.getListSupplierFinances() != null && supplier.getListSupplierFinances().size() < 1) {
-			List < SupplierFinance > list = supplierFinanceService.getYear();
-			supplier.setListSupplierFinances(list);
-		} else {
-
-			SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
-			if(finance1 == null) {
-				SupplierFinance fin1 = new SupplierFinance();
-				String id = UUID.randomUUID().toString().replaceAll("-", "");
-				fin1.setId(id);
-				fin1.setYear(String.valueOf(oneYear()));
-				supplier.getListSupplierFinances().add(fin1);
+			Supplier supp = supplierMapper.queryByName(name);
+			Supplier supplier = supplierService.get(supp.getId());
+			// 通过supplierId查询用户信息
+			if(supplier != null){
+				User existsUser = userService.findByTypeId(supplier.getId());
+				// 将用户信息存入登录日志
+				loginLogService.saveOnlineUser(existsUser, request);
 			}
-			SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
-			if(finance2 == null) {
-				SupplierFinance fin2 = new SupplierFinance();
-				String id = UUID.randomUUID().toString().replaceAll("-", "");
-				fin2.setId(id);
-				fin2.setYear(String.valueOf(twoYear()));
-				supplier.getListSupplierFinances().add(fin2);
+	        
+			if(supplier.getAddress() != null) {
+				Area area = areaService.listById(supplier.getAddress());
+				List < Area > city = areaService.findAreaByParentId(area.getParentId());
+				model.addAttribute("city", city);
+				model.addAttribute("area", area);
 			}
-			SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
-			if(finance3 == null) {
-				SupplierFinance fin3 = new SupplierFinance();
-				String id = UUID.randomUUID().toString().replaceAll("-", "");
-				fin3.setId(id);
-				fin3.setYear(String.valueOf(threeYear()));
-				supplier.getListSupplierFinances().add(fin3);
+	
+			if(supplier.getListSupplierFinances() != null && supplier.getListSupplierFinances().size() < 1) {
+				List < SupplierFinance > list = supplierFinanceService.getYear();
+				supplier.setListSupplierFinances(list);
+			} else {
+	
+				SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
+				if(finance1 == null) {
+					SupplierFinance fin1 = new SupplierFinance();
+					String id = UUID.randomUUID().toString().replaceAll("-", "");
+					fin1.setId(id);
+					fin1.setYear(String.valueOf(oneYear()));
+					supplier.getListSupplierFinances().add(fin1);
+				}
+				SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
+				if(finance2 == null) {
+					SupplierFinance fin2 = new SupplierFinance();
+					String id = UUID.randomUUID().toString().replaceAll("-", "");
+					fin2.setId(id);
+					fin2.setYear(String.valueOf(twoYear()));
+					supplier.getListSupplierFinances().add(fin2);
+				}
+				SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
+				if(finance3 == null) {
+					SupplierFinance fin3 = new SupplierFinance();
+					String id = UUID.randomUUID().toString().replaceAll("-", "");
+					fin3.setId(id);
+					fin3.setYear(String.valueOf(threeYear()));
+					supplier.getListSupplierFinances().add(fin3);
+				}
 			}
-		}
-
-		model.addAttribute("company", DictionaryDataUtil.find(17));
-        model.addAttribute("nature", DictionaryDataUtil.find(32));
-		List<SupplierStockholder> stockList = supplier.getListSupplierStockholders();
-        if (stockList == null || stockList.size() == 0) {
-            SupplierStockholder stock = new SupplierStockholder();
-            stock.setId(WfUtil.createUUID());
-            stockList.add(stock);
-            stock.setSupplierId(supplier.getId());
-            supplier.setListSupplierStockholders(stockList);
-        }
-        List<SupplierAfterSaleDep> afterSaleDep = supplier.getListSupplierAfterSaleDep();
-        if (afterSaleDep == null || afterSaleDep.size() == 0) {
-            SupplierAfterSaleDep stock = new SupplierAfterSaleDep();
-            stock.setId(WfUtil.createUUID());
-            afterSaleDep.add(stock);
-            stock.setSupplierId(supplier.getId());
-            supplier.setListSupplierAfterSaleDep(afterSaleDep);
-        }
-        //System.out.println(supplier.getWebsite());
-		model.addAttribute("currSupplier", supplier);
-		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
-		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-		model.addAttribute("supplierId", supplier.getId());
-		model.addAttribute("privnce", privnce);
-
-		// 所有的不通过字段的名字
-		SupplierAudit s = new SupplierAudit();
-		s.setSupplierId(supplier.getId());;
-		s.setAuditType("basic_page");
-		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
-
-		StringBuffer errorField = new StringBuffer();
-		for(SupplierAudit audit: auditLists) {
-			errorField.append(audit.getAuditField() + ",");
-		}
-
-		model.addAttribute("foregin", foregin);
-		model.addAttribute("audit", errorField);
+			
+			initCompanyType(model, supplier);
+			initBasicAudit(model, supplier);
+			model.addAttribute("supplierId", supplier.getId());
 		}
 		return "ses/sms/supplier_register/basic_info";
 	}
@@ -3262,8 +3225,6 @@ public class SupplierController extends BaseSupplierController {
             model.addAttribute("flag", "3");
             model.addAttribute("supId", supplierId);
             return "redirect:/supplier_item/save_or_update.html";
-        	/*model.addAttribute("id", supplierId);
-            return "redirect:perfect_basic";*/
         } else if (stepNumber == 3) {
             model.addAttribute("flag", "1");
             model.addAttribute("supplierId", supplierId);
