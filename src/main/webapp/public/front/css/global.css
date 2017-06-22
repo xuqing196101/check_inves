@@ -1002,7 +1002,9 @@ li:first-child {
 .done{
   display: none;
 }
-
+.over_auto{
+	overflow: auto;
+}
 /** 文件上传使用隐藏div */
 .dis_none{
  	position: absolute;

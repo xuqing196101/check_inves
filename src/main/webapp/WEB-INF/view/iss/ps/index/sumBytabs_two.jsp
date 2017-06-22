@@ -881,8 +881,8 @@ function myReSet(){
 		<div class="report_list_box">
             <h2 class="col-md-12 col-sm-12 col-xs-12 report_list_title">
           		<div class="col-md-7 col-xs-4 col-sm-6 tc f16 p0">标题</div>
-          		<div class="col-md-3 col-sm-3 col-xs-4 tc f16 p0">发布时间</div>
           		<div class="col-md-2 col-sm-3 col-xs-4 tc f16 p0" >产品类别</div>
+          		<div class="col-md-3 col-sm-3 col-xs-4 tc f16 p0">发布时间</div>
              </h2>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
                 <c:forEach items="${indexList}" var="i">
@@ -895,16 +895,15 @@ function myReSet(){
 					<c:if test="${length>36}">
 						<li>
 						<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-7 col-sm-6 col-xs-12" ><span class="f18 mr5 fl" >·</span>【${i.lastArticleType.name}】${fn:substring(name,0,36)}...</a>
+	                     <span  class="col-md-2 col-sm-3 col-xs-6">${i.categoryName }</span>
 	                     <span class="col-md-3 col-sm-3 col-xs-6 tc p0"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	                    <span  class="col-md-2 col-sm-3 col-xs-6">${i.categoryName }</span>
-	                   
 	                    </li>
 					</c:if>
 					<c:if test="${length<=36}">
 					   <li>
 					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-7 col-sm-6 col-xs-12"><span class="f18 mr5 fl">·</span>【${i.lastArticleType.name}】${i.name }</a>
-	                   <span class="col-md-3 col-sm-3 col-xs-6 tc p0"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                   <span class="col-md-2 col-sm-3 col-xs-6">${i.categoryName }</span>
+	                   <span class="col-md-3 col-sm-3 col-xs-6 tc p0"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                   </li>
 					</c:if>
 	                </c:forEach>         
