@@ -55,17 +55,49 @@
 				}
 			});
 
-
+            function init(){
+            $("#page").val(1);
+            $("#supplierTypeId").val();
+            $("#itemTypeName").val();
+            empty();
+            }
+            function getroot(){
+            var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+            var nodes =treeObj.getSelectedNodes();  
+            var selectNode;
+            var tempnode;
+            if(nodes.length>0){
+                selectNode = nodes[0];
+                var l = selectNode.level;
+                if(selectNode.level!=0){
+                    for(var i=0;i< l;i++){
+                        if(i==0){
+                            tempnode=selectNode.getParentNode();
+                        }else{
+                            tempnode = tempnode.getParentNode();
+                        }
+                    }
+                }
+            }
+           return tempnode;
+        }
 			function zTreeOnClick(event, treeId, treeNode){
 				 if(treeNode.level == 3){ 
 					var name = treeNode.name;
 					var categoryIds = treeNode.id;
 					$("#categoryIds").val(categoryIds);
-					var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-                   var nodes = treeObj.getNodes()[0].id;
-                    $("#supplierTypeId").val(nodes);
+					var tempnode= getroot();
+					if(tempnode){
+					 $("#page").val(1);
+					 $("#supplierTypeId").val(tempnode.id);
+                     $("#itemTypeName").val(tempnode.name); 
 					findSupplier();
-				 } 
+					}else{
+					   init();
+					}
+                    }else{
+                        init();
+                    }
 			}
 
 

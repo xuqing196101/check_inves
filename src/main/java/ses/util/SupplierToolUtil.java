@@ -1,10 +1,9 @@
 package ses.util;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+import common.utils.DateUtils;
 import ses.model.sms.SupplierFinance;
 
 /**
@@ -39,17 +38,17 @@ public class SupplierToolUtil {
 	 * @param year
 	 * @return
 	 */
-	public static Integer elementWeight(int year){
-		Integer elementDate=null;
+	public static Double elementWeight(int year){
+		Double elementDate=null;
 		switch (year) {
 			case 0 :
-				elementDate=50;
+				elementDate=0.50D;
 				break;
 			case 1:
-				elementDate=30;
+				elementDate=0.30D;
 				break;
 			case 2:
-				elementDate=20;
+				elementDate=0.20D;
 				break;
 		}
 		return elementDate;
@@ -111,7 +110,7 @@ public class SupplierToolUtil {
 		String elementData=null;
 		//产品 生产
 		if(TOOL_PRODUCT.equals(supplierType)){
-			if(percnet.matches("^\\b|10")){
+			if(percnet.matches("^[0-9]|10")){
 				// 1 -10
 				elementData="一级";
 			}else if(percnet.matches("^1[1-9]|20")){
@@ -216,7 +215,7 @@ public class SupplierToolUtil {
     }
 	 /**
      * 
-     * Description:封装 获取单个供应商 要素数值（成立时间）
+     * Description:封装 获取单个供应商 要素数值（成立月 ）
      * 
      * @author YangHongLiang
      * @version 2017-6-15
@@ -225,8 +224,7 @@ public class SupplierToolUtil {
      */
     public static BigDecimal foundTimeFormat(Date foundTime){
     	BigDecimal bd=null;
-    	SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
-    	bd=new BigDecimal(sdf.format(foundTime));
+    	bd=new BigDecimal(DateUtils.getDateMonth(foundTime, new Date()));
 		return bd;
     }
 }

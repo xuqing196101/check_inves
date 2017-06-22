@@ -1,3 +1,6 @@
+$(function(){
+	addButtonProject();
+});
 /** 分页* */
 function listPage(pages, total, startRow, endRow, pageNum) {
 	laypage({
@@ -20,15 +23,34 @@ function listPage(pages, total, startRow, endRow, pageNum) {
 		}
 	});
 }
+function addButton(){
+	$("#addButton").empty();
+	$("#addButton").append("<input class=\"btn fl mt1\" onclick=\"findSupplier()\" type=\"button\" value=\"查询\"> "
+			+" <input type=\"button\" class=\"btn fl mt1\" onclick=\"resetQuery()\" value=\"重置\">"
+			+" <input type=\"button\" class=\"btn fl mt1\" onclick=\"resetAgain()\" value=\"重新计算\">");
+}
+function addButtonProject(){
+	$("#addButton").empty();
+	$("#addButton").append("<input class=\"btn fl mt1\" onclick=\"findSupplier()\" type=\"button\" value=\"查询\"> "
+			+" <input type=\"button\" class=\"btn fl mt1\" onclick=\"resetQuery()\" value=\"重置\">"
+			);
+}
 /*******************************************************************************
  * 根据目录 查询供应商
  ******************************************************************************/
 function findSupplier() {
+	var supplierTypeName=$("#itemTypeName").val();
+    if (supplierTypeName != null && supplierTypeName !='' && supplierTypeName !='工程'){
+    	addButton();
+    }else{
+    	addButtonProject();
+    }
+    
 	if (!$("#supplierTypeId").val()) {
 		layer.msg("请选择目录");
 	} else if (!$("#categoryIds").val()) {
 		layer.msg("请先选择品目");
-	} else {
+	}else{
 		var index = layer.load(0, {
 			shade : [ 0.1, '#fff' ],
 			offset : [ '45%', '53%' ]
@@ -41,7 +63,7 @@ function findSupplier() {
 				if (obj.status == 500 || obj.status == 501) {
 					listPage(obj.data.pages, obj.data.total, obj.data.startRow,
 							obj.data.endRow, obj.data.pageNum);
-					showData(obj.data.list);
+					showData(obj.data);
 					if (obj.status == 501) {
 						layer.msg(obj.msg);
 					}
@@ -57,27 +79,61 @@ function findSupplier() {
 		});
 	}
 }
+
+//重新计算
+function resetAgain(){
+	if (!$("#supplierTypeId").val()) {
+		layer.msg("请选择目录");
+	} else if (!$("#categoryIds").val()) {
+		layer.msg("请先选择品目");
+	} else {
+		var index = layer.load(0, {
+			shade : [ 0.1, '#fff' ],
+			offset : [ '45%', '53%' ]
+		});
+		$.ajax({
+			type : "POST",
+			url : globalPath + "/supplierQuery/againSupplierData.do",
+			data : $("#form1").serializeArray(),
+			success : function(obj) {
+					layer.msg(obj.msg);
+				layer.close(index);
+				$("#page").val(1);
+				findSupplier();
+			},
+			error : function(data) {
+				layer.msg("请求异常!");
+				layer.close(index);
+			},
+		});
+	}
+}
+
 function resetQuery() {
 	$("#supplierName").val("");
 	$("#armyBusinessName").val("");
 	$("#categoryIds").val("");
 	$("#supplierTypeId").val("");
-	$("#form1").submit();
-	
+	$("#page").val(1);
+	$("#itemTypeName").val("");
 }
 function info(supplierId) {
 	window.location.href = globalPath +"/supplierQuery/essential.do?judge=2&supplierId="+ supplierId;
 }
+function empty(){
+	addButtonProject();
+	$("#tb1 tbody").empty();
+}
 // 封装填充 数据
 function showData(obj) {
 	$("#tb1 tbody").empty();
-	$(obj).each(
+	$(obj.list).each(
 			function(index, item) {
 				$("#tb1 tbody").append(
-						" <tr>" + "<td class=\"tc\">" + (index + 1) + "</td>"
+						" <tr>" + "<td class=\"tc\">" + ((index+1)+(obj.pageNum-1)*(obj.pageSize))+ "</td>"
 								+ "<td class=\"pl20\">"
-								+ "<a href=\"javascript:void(0);\" onclick=\"info('" + item.id+ "')\">" + item.supplierName + "</a>"
-								+ "</td>" + "<td class=\"tc\">" + item.grade
+								+ "<a href=\"javascript:void(0);\" onclick=\"info('" + item.supplierId+ "')\">" + item.supplierName + "</a>"
+								+ "</td>" + "<td class=\"tc\">" + item.supplierLevel
 								+ "</td>" + "<td class=\"tl\">"
 								+ item.armyBusinessName + "</td>"
 								+ "<td class=\"tc\">"

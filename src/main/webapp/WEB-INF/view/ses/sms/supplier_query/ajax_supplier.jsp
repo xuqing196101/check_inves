@@ -5,17 +5,16 @@
 		<input type="hidden" name="page" id="page"> 
 		<input type="hidden" name="categoryIds" id="categoryIds" />
 		<input type="hidden" name="supplierTypeId" id="supplierTypeId" />
+		<input type="hidden" name="itemTypeName" id="itemTypeName" />
 		<ul class="demand_list">
-			<li><label class="fl">供应商名称：</label><span class="w220"> <input
-					class="w220" id="supplierName" name="supplierName"
-					 type="text">
-			</span></li>
-			<li><label class="fl">联系人：</label> <input id="armyBusinessName"
-				class="w220" name="armyBusinessName"
-				 type="text"></li>
-			<li><input class="btn fl mt1" onclick="findSupplier()"
-				type="button" value="查询"> <input type="button"
-				class="btn fl mt1" onclick="resetQuery()" value="重置"></li>
+			<li><label class="fl">供应商名称：</label>
+			 <input	id="supplierName" name="supplierName" type="text">
+			</li>
+			<li><label class="fl">联系人：</label> 
+			 <input id="armyBusinessName"  name="armyBusinessName" type="text">
+				 </li>
+			<li id="addButton">
+			</li>
 		</ul>
 	</form>
 	<div class="clear"></div>

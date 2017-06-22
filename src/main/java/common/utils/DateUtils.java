@@ -445,4 +445,23 @@ public class DateUtils {
         calendar.add(Calendar.YEAR, -4);
         return calendar.getTime();
 	}
+	/**
+	 * 
+	 * Description:获取两个日期 之间的 月差
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-21
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public static Integer getDateMonth(Date start,Date end){
+	    Calendar bef = Calendar.getInstance();
+	    Calendar aft = Calendar.getInstance();
+	    bef.setTime(start);
+	    aft.setTime(end);
+	    int result = aft.get(Calendar.MONTH) - bef.get(Calendar.MONTH);
+	    int month = (aft.get(Calendar.YEAR) - bef.get(Calendar.YEAR)) * 12;
+		return Math.abs(month + result);
+	}
 }

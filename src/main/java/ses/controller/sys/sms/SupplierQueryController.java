@@ -39,6 +39,7 @@ import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierEdit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierItemLevel;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
@@ -59,6 +60,7 @@ import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierEditService;
 import ses.service.sms.SupplierHistoryService;
+import ses.service.sms.SupplierItemLevelServer;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierMatEngService;
@@ -182,6 +184,10 @@ public class SupplierQueryController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierPorjectQuaService supplierPorjectQuaService;
+	
+	/**供应商 等级**/
+	@Autowired
+	private SupplierItemLevelServer supplierItemLevelServer;
 	
     /**
      *〈简述〉供应商查询
@@ -427,18 +433,43 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/ajaxSupplierData")
     @ResponseBody
-    public JdcgResult ajaxSupplierData(Supplier supplier, Integer page, String categoryIds) {
+    public JdcgResult ajaxSupplierData(SupplierItemLevel supplier, Integer page, String categoryIds) {
     	JdcgResult result=null;
     	if (StringUtils.isNotBlank(categoryIds)) {
-             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
-             supplier.setItem(listCategoryIds);
-         
-        List<Supplier>  listSupplier = supplierService.querySupplierbytypeAndCategoryIds(supplier, categoryIds, page == null ? 1 : page);
+        List<SupplierItemLevel>  listSupplier = supplierItemLevelServer.findSupplierItemLevel(supplier, page, categoryIds);
         if(listSupplier != null && !listSupplier.isEmpty()){
         	result=new JdcgResult(500, "请求成功", new PageInfo<>(listSupplier));
         }else{
         	listSupplier=new ArrayList<>();
         	result=new JdcgResult(501, "暂无数据", listSupplier);
+        }
+        }else{
+        	result=new JdcgResult(502, "参数错误", null);
+        }
+        return result;
+    }
+    /**
+     * 
+     * Description:根据 品目 重新计算供应商数据 和等级
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-14
+     * @param sup
+     * @param page
+     * @param categoryIds
+     * @param model
+     * @return
+     */
+    @RequestMapping("/againSupplierData")
+    @ResponseBody
+    public JdcgResult againSupplierData(String supplierTypeId, String categoryIds) {
+    	JdcgResult result=null;
+    	if (StringUtils.isNotBlank(categoryIds)) {
+        int count = supplierService.againSupplierLevel(supplierTypeId, categoryIds);
+        if(count > 0){
+        	result=new JdcgResult(500, "重算成功", count);
+        }else{
+        	result=new JdcgResult(501, "暂无数据", count);
         }
         }else{
         	result=new JdcgResult(502, "参数错误", null);

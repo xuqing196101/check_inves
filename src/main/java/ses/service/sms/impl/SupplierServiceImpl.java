@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,8 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.github.pagehelper.PageHelper;
-
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
@@ -35,9 +31,7 @@ import ses.dao.bms.UserMapper;
 import ses.dao.sms.DeleteLogMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAuditMapper;
-import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierFinanceMapper;
-import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
@@ -58,7 +52,6 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierBranch;
-import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
@@ -73,15 +66,15 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierFinanceService;
+import ses.service.sms.SupplierItemLevelServer;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
-import ses.service.sms.SupplierTypeService;
 import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
-import ses.util.SupplierLevelUtil;
+import ses.util.SupplierLevelSort;
 import ses.util.SupplierToolUtil;
 import ses.util.WfUtil;
 import common.constant.StaticVariables;
@@ -163,17 +156,15 @@ public class SupplierServiceImpl implements SupplierService {
     @Autowired
     private DeleteLogMapper  deleteLogMapper;
     
-    @Autowired
-    private SupplierCertEngMapper supplierCertEngMapper;
-    
-    
-    @Autowired
-    private SupplierItemMapper supplierItemMapper;
     /**供应商类型**/
     @Autowired
     private SupplierTypeRelateService supplierTypeRelateService;
     @Autowired
     private PurchaseOrgnizationServiceI purchaseOrgnizationService;
+    
+    /**供应商等级**/
+    @Autowired
+    private SupplierItemLevelServer supplierItemLevelServer;
     
     @Override
     public Supplier get(String id) {
@@ -730,6 +721,9 @@ public class SupplierServiceImpl implements SupplierService {
 		for(int i = 0; i < list.size(); i++){
 		    Category category = list.get(i);
 			QualificationBean quaBean=new QualificationBean();
+			if(category.getId() ==null){
+				continue;
+			}
 			//根据品目id查询所要上传的资质文件
 			List<CategoryQua> categoryQua = categoryQuaMapper.findListSupplier(category.getId(), quaType);
 			if(null != categoryQua && StringUtils.isNotBlank(category.getParentId())){
@@ -1068,25 +1062,23 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 	
 	/**
-	 * 根据品目查询供应商并计算等级
+	 * 根据品目查询重新计算供应商并计算等级
 	 */
 	@Override
-	public List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier, String categoryIds, Integer page) {
-		if(StringUtils.isBlank(supplier.getSupplierTypeId())){
-		 	return null;
+	public int againSupplierLevel(String supplierTypeId, String categoryIds) {
+		int rutDate=0;
+		if(StringUtils.isBlank(supplierTypeId)){
+		 	return rutDate;
 		}
-		DictionaryData util=DictionaryDataUtil.findById(supplier.getSupplierTypeId());
+		DictionaryData util=DictionaryDataUtil.findById(supplierTypeId);
 		if(util ==null){
-			return null;
+			return rutDate;
 		}
 		String supplierType=util.getCode();
 		if(supplierType ==null){
-			return null;
+			return rutDate;
 		}
-		if(page!=null){
-	        PropertiesUtil config = new PropertiesUtil("config.properties");
-	        PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-	    }
+		Supplier supplier =new Supplier();
 		//生产&& 销售
 		if(!SupplierToolUtil.PRODUCT_ID.equals(categoryIds) && !SupplierToolUtil.SALES_ID.equals(categoryIds)){
 			supplier.setSupplierTypeId(categoryIds);
@@ -1095,30 +1087,15 @@ public class SupplierServiceImpl implements SupplierService {
 		//查询供应商
 		List<Supplier> listSupplier=supplierMapper.findSupplierByCategoryId(supplier);
 		if(listSupplier.isEmpty()){
-			return null;
+			return rutDate;
 		}
 		//目录下 根据类型 获取全部的供应商集合
 	    List<String> supplierIdList=supplierItemService.findSupplierIdByCategoryId(categoryIds);
 	    if(supplierIdList.isEmpty()){
-			return null;
+			return rutDate;
 		}
 	    //判断 是否是工程
-        if(SupplierToolUtil.TOOL_PROJECT.equals(supplierType)){
-        	for (Supplier sup : listSupplier) {
-	        	//工程等级
-	        	List < SupplierCertEng > supplierCertEng = supplierCertEngMapper.findCertEngBySupplierId(sup.getId());
-	    		for(int i = 0; i < supplierCertEng.size() - 1; i++) {
-	    			for(int j = supplierCertEng.size() - 1; j > i; j--) {
-	    				if(supplierCertEng.get(j).getId().equals(supplierCertEng.get(i).getId())) {
-	    					supplierCertEng.remove(j);
-	    				}
-	    			}
-	    		}
-				for(SupplierCertEng eng : supplierCertEng){
-					sup.setGrade(eng.getCertMaxLevel());
-	        	}
-        	}
-	    }else{
+        if(!SupplierToolUtil.TOOL_PROJECT.equals(supplierType)){
 	    	//物资 服务等级
 		    //调用获取目录下 封装方法
 		    Map<String,BigDecimal> mapMax=elementMax(categoryIds, supplierIdList);
@@ -1126,10 +1103,12 @@ public class SupplierServiceImpl implements SupplierService {
 		    BigDecimal maxNetAsset=mapMax.get("maxNetAsset");
 		    //最高要素数值 近三年加权平均营业收入
 		    BigDecimal maxTaking=mapMax.get("maxTaking");
-		    //最高要素数值 成立日期 格式：20450909
+		    //最高要素数值 成立月 数量 
 		    BigDecimal maxDate=SupplierToolUtil.foundTimeFormat(findMaxFoundDate(supplierIdList));
 		    //合计要素数值
 		    BigDecimal sumElement=null;
+		    //获取合计最大排名
+		    BigDecimal maxLevel=null;
 		    //临时等级
 		    String level=null;
 		    //临时要素数值
@@ -1139,29 +1118,56 @@ public class SupplierServiceImpl implements SupplierService {
 		    	sumElement=new BigDecimal(0);
 		    	//获取近三年单个供应商 数据集合
 		    	List<SupplierFinance> financeList=supplierFinanceService.findBySupplierIdYearThree(sup.getId());
-		    	if(financeList !=null && !financeList.isEmpty()){
-		    	//要素满分：生产供应商（成立时间20%，净资产40%，营业收入40%）销售和服务（成立时间20%，净资产 30% ，营业收入50%）
-		    	//要素 近三年净资产
-		    	temlElement=new BigDecimal(SupplierToolUtil.elementScore(supplierType, "totalNetAssets")).setScale(2,BigDecimal.ROUND_HALF_UP);
-		    	//近三年净资产要素得分=单个供应商近三年净资产平均/改目录下最高的近三年平均净资产* 要素满分
-		    	sumElement=sumElement.add(SupplierToolUtil.elementNetAsset(financeList).divide(maxNetAsset,4,BigDecimal.ROUND_HALF_UP).multiply(temlElement));
-		    	//要素 近三年加权平均营业
-		    	temlElement=new BigDecimal(SupplierToolUtil.elementScore(supplierType, "taking")).setScale(2,BigDecimal.ROUND_HALF_UP);
-		    	//近三年加权平均营业收入要素得分=单个供应商近三年加权平均营业收入/该目录下最高的近三年加权平均营业收入* 要素满分
-		    	sumElement=sumElement.add(SupplierToolUtil.elementTaking(financeList).divide(maxTaking,4,BigDecimal.ROUND_HALF_UP).multiply(temlElement));
-		    	//要素 成立日期要素
-		    	temlElement=new BigDecimal(SupplierToolUtil.elementScore(supplierType, "foundDate")).setScale(2,BigDecimal.ROUND_HALF_UP);
-		    	//成立日期要素得分=单个供应商的成立日期/该目录下最高的成立日期*要素满分
-		    	sumElement=sumElement.add(SupplierToolUtil.foundTimeFormat(sup.getFoundDate()).divide(maxDate,4,BigDecimal.ROUND_HALF_UP).multiply(temlElement));
-		    	//等级计算百分比=近三年净资产要素得分+近三年加权平均营业收入要素得分+成立日期要素得分
-		    	level=SupplierToolUtil.elementPercnet(supplierType, sumElement.setScale(0, BigDecimal.ROUND_HALF_UP).toString());
-		    	sup.setGrade(level);
+		    	//判断供应商 三年的 数据 是否满足
+		    	if(financeList !=null && !financeList.isEmpty() && financeList.size()>=3){
+			    	//要素满分：生产供应商（成立时间20，净资产40，营业收入40）销售和服务（成立时间20，净资产 30 ，营业收入50）
+			    	//要素 近三年净资产
+			    	temlElement=new BigDecimal(SupplierToolUtil.elementScore(supplierType, "totalNetAssets"));
+			    	//近三年净资产要素得分=单个供应商近三年净资产平均/改目录下最高的近三年平均净资产* 要素满分
+			    	sumElement=sumElement.add(SupplierToolUtil.elementNetAsset(financeList).divide(maxNetAsset,4,BigDecimal.ROUND_HALF_UP).multiply(temlElement));
+			    	//要素 近三年加权平均营业
+			    	temlElement=new BigDecimal(SupplierToolUtil.elementScore(supplierType, "taking"));
+			    	//近三年加权平均营业收入要素得分=单个供应商近三年加权平均营业收入/该目录下最高的近三年加权平均营业收入* 要素满分
+			    	sumElement=sumElement.add(SupplierToolUtil.elementTaking(financeList).divide(maxTaking,4,BigDecimal.ROUND_HALF_UP).multiply(temlElement));
+			    	//要素 成立日期要素
+			    	temlElement=new BigDecimal(SupplierToolUtil.elementScore(supplierType, "foundDate"));
+			    	//成立月 要素得分=单个供应商的成立月/该目录下最高的成立月*要素满分
+			    	sumElement=sumElement.add(SupplierToolUtil.foundTimeFormat(sup.getFoundDate()).divide(maxDate,4,BigDecimal.ROUND_HALF_UP).multiply(temlElement));
+			    	//等级计算百分比=近三年净资产要素得分+近三年加权平均营业收入要素得分+成立日期要素得分
+			    	//level=SupplierToolUtil.elementPercnet(supplierType, sumElement.setScale(0, BigDecimal.ROUND_DOWN).toString());
+			    	sup.setGrade(sumElement.setScale(0, BigDecimal.ROUND_DOWN).toString());
+		        }
 		    }
-		}
+		    SupplierLevelSort levelUtil= new SupplierLevelSort();
+		    //初始化排名 顺序
+		    Collections.sort(listSupplier, levelUtil);
+		    maxLevel=new BigDecimal(listSupplier.size());
+		    Supplier item=null;
+		    //初始化 排名
+		    int initLevel=1;
+		    //初始化日期
+		    Date date=new Date();
+		    //根据参数 清除数据
+		    supplierItemLevelServer.deleteItemLevel(categoryIds,supplierType);
+		    for (int i=maxLevel.intValue()-1;0<=i;i--) {
+		    	item=listSupplier.get(i);
+		    	item.setSupplierType(supplierType);
+		    	//计算等级  =单个要素总合分/最高的要素总分*100
+		    	if(item.getGrade() !=null){
+		    		//计算等级 排名
+		    		level=SupplierToolUtil.elementPercnet(supplierType,new BigDecimal(initLevel).divide(maxLevel,4,BigDecimal.ROUND_HALF_UP).
+			    			multiply(new BigDecimal(100)).setScale(0,BigDecimal.ROUND_DOWN).toString());
+		    		item.setGrade(level);
+		    	}else{
+		    		item.setGrade("无");
+		    	}
+		    	supplierItemLevelServer.saveItemLevel(item,categoryIds,date);
+		    	initLevel=initLevel+1;
+		    }
+	    }
+		return listSupplier.size();
 	}
-		return listSupplier;
-	}
-
+	
     @Override
     public List<Supplier> viewCreditCodeMobile(HashMap<String, Object> map) {
         
@@ -1236,6 +1242,11 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public int countByPurchaseDepId(String purchaseDepId, int status) {
 		return supplierMapper.countByPurchaseDepId(purchaseDepId, status);
+	}
+
+	@Override
+	public List<Supplier> findSupplierByCategoryId(Supplier supplier) {
+		return supplierMapper.findSupplierByCategoryId(supplier);
 	}
    
 }

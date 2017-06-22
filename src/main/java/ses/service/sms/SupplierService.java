@@ -14,6 +14,7 @@ import ses.formbean.QualificationBean;
 import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierItemLevel;
 import ses.model.sms.supplierExport;
 /**
  * @Title: SupplierInfoService
@@ -376,15 +377,23 @@ public interface SupplierService {
    
    /**
     * @Title: querysupplier
-    * @date 2016-10-5 上午10:23:29  
-    * @Description: 查询表
+    * @Description: 重新计算供应商等级
     * @param @param supplier
     * @param @param page
     * @param @return      
     * @return List<Supplier>
     */
-	 List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier, String categoryIds, Integer page);
-	 
+	 int againSupplierLevel(String supplierTypeId, String categoryIds);
+	 /**
+	  * 
+	  * Description:根据参数查询 数据
+	  * 
+	  * @author YangHongLiang
+	  * @version 2017-6-22
+	  * @param supplier
+	  * @return
+	  */
+	 List<Supplier> findSupplierByCategoryId(Supplier supplier);
 	 /**
 	  * 
 	  *〈根据社会信用代码和手机号查询临时供应商〉

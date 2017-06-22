@@ -1942,7 +1942,7 @@
 	</select>
 	<!-- 根据suppliers 获取供应商 最大的 成立时间 -->
 	<select id="findMaxFoundDate" parameterType="String" resultType="Date">
-	SELECT  MAX(FOUND_DATE) from T_SES_SMS_SUPPLIER 
+	SELECT  MIN(FOUND_DATE) from T_SES_SMS_SUPPLIER 
 	<where>
     <foreach collection="supplierIds" item="id" open="ID in ("
                 close=")" separator=",">
