@@ -974,7 +974,7 @@
         </c:if>
 				<div class="container container_box">
 					<h2 class="count_flow"><i>1</i>专家个人信息</h2>
-					<ul class="ul_list">
+					<ul class="ul_list m_ul_list">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
