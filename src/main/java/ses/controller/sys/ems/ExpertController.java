@@ -597,6 +597,8 @@ public class ExpertController extends BaseController {
             List < PurchaseDep > list = purchaseOrgnizationService
                 .findPurchaseDepList(map1);
             for (PurchaseDep org : list) {
+            	  int PendingAuditCount = purchaseOrgnizationService.findPendingAuditCount(org.getOrgId());
+            	  org.setPendingAuditCount(PendingAuditCount);
                 Area pro = areaServiceI.listById(org.getProvinceId());
                 Area city = areaServiceI.listById(org.getCityId());
                 if(pro != null && city != null) {

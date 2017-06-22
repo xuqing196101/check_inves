@@ -211,8 +211,8 @@
                     <th class="info w50">序号</th>
                     <th class="info w300">采购机构</th>
                     <th class="info w150">地点</th>
-                    <!-- <th class="info w150">联系人</th>
-                    <th class="info w150">联系电话</th>
+                    <th class="info w50">待审核数量</th>
+                    <!--<th class="info w150">联系电话</th>
                     <th class="info">联系地址</th> -->
                 </tr>
                 </thead>
@@ -228,6 +228,7 @@
                                 <%-- <td class="tc">${org1.supplierContact}</td>
                                 <td class="tc">${org1.supplierPhone}</td>--%>
                             <td class="tc">${org1.address}</td>
+                            <td class="tc">${org1.pendingAuditCount}</td>
                         </tr>
                     </c:if>
                 </c:forEach>
@@ -241,8 +242,8 @@
                     <th class="info w50">序号</th>
                     <th class="info w300">采购机构</th>
                     <th class="info w150">地点</th>
-                    <!-- <th class="info w150">联系人</th>
-                    <th class="info w150">联系电话</th>
+                    <th class="info w50">待审核数量</th>
+                    <!-- <th class="info w150">联系电话</th>
                     <th class="info">联系地址</th> -->
                 </tr>
                 </thead>
@@ -257,6 +258,7 @@
                                 <%-- <td class="tc">${org1.supplierContact}</td>
                                 <td class="tc">${org1.supplierPhone}</td>--%>
                             <td class="tc">${org1.address}</td>
+                            <td class="tc">${org1.pendingAuditCount}</td>
                         </tr>
                     </c:if>
                 </c:forEach>

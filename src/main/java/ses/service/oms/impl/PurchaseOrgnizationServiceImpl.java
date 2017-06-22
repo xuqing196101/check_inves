@@ -420,4 +420,10 @@ public List<PurchaseOrg> selectByOrgId(HashMap<String, Object> map) {
 	List<PurchaseOrg> list = purchaseOrgMapper.selectByOrgId(map);
     return list;
 }
+
+@Override
+public int findPendingAuditCount(String id) {
+	// TODO Auto-generated method stub
+	return purchaseOrgMapper.findPendingAuditCount(id);
+}
 }
