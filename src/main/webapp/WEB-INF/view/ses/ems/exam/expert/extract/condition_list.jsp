@@ -389,7 +389,7 @@
             <h2 class="count_flow"><i>1</i>项目信息</h2>
             <ul class="ul_list">
                 <li class="col-md-3 col-sm-4 col-xs-12 pl15">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red" id="red0">*</span> 项目名称:</span>
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span> 项目名称:</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <input class="span5" id="projectName" name="name" value="${projectName}" type="text">
                         <span class="add-on">i</span>
@@ -397,7 +397,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-4 col-xs-12">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red1">*</span> 项目编号:</span>
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" >*</span> 项目编号:</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <input class="span5" id="projectNumber" name="projectNumber" value="${projectNumber}" type="text">
                         <span class="add-on">i</span>
