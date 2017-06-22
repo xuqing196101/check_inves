@@ -11,12 +11,13 @@
 
       function openTr() {
         i++;
-        $("#list_tbody_id").before(
+        $("#list_tbody_id").after(
           "<tr>" +
           /* "<td class='tc'><input type='checkbox' name='expertSignatureList["+i+"].id'/></td>" + */
           "<td class='tc'><input type='text' name='expertSignatureList[" + i + "].name' value=''> </td>" +
           "<td class='tc'><input type='text' name='expertSignatureList[" + i + "].company' value=''> </td>" +
           "<td class='tc'><input type='text' name='expertSignatureList[" + i + "].job' value=''></td>" +
+          "<td onClick='del(this)'><button>删除</button></td>" +
           "</tr>");
       }
 
@@ -72,6 +73,11 @@
 
       function trim(str) { //删除左右两端的空格
         return str.replace(/(^\s*)|(\s*$)/g, "");
+      }
+      
+      //删除
+      function del(tr){
+        $(tr).parent().remove();     
       }
     </script>
 
