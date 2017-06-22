@@ -1383,11 +1383,14 @@ public class UserManageController extends BaseController{
 		          }
 			      if (count == 0) {
 			    	  if (!pwd.equals(pwd2)) {
-		                  msg = "两次密码不一致";
-		                  return JSON.toJSONString(msg);
+			    		  msg = "两次密码不一致";
+			    		  return JSON.toJSONString(msg);
 		              }else if(pwd.length() < 6){
 		            	  msg = "至少输入六位密码";
-		                  return JSON.toJSONString(msg);
+		            	  return JSON.toJSONString(msg);
+		              }else if(pwd.contains(" ")){
+		            	  msg = "输入密码不能包含空格";
+		            	  return JSON.toJSONString(msg);
 		              } else {
 		            	  String id = selectByTypeId.get(0).getId();
 		            	  user.setId(id);
