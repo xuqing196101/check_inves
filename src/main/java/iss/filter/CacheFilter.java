@@ -113,7 +113,7 @@ public class CacheFilter implements Filter {
 	 * @throws ServletException
 	 */
 	@Override
-	public void init(FilterConfig config) throws ServletException {
+	public synchronized void init(FilterConfig config) throws ServletException {
 		Jedis jedis = null;
 		try {
 			// 获取当前日期作为key 格式20170613
@@ -137,7 +137,10 @@ public class CacheFilter implements Filter {
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-		  jedis.getClient().close();
+		  jedis.quit();
+		  jedis.disconnect();
+		  
+		  
 		}
 	}
 
@@ -158,7 +161,7 @@ public class CacheFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest servletRequest,
+	public synchronized void doFilter(ServletRequest servletRequest,
 			ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
 		HttpServletResponse resp = (HttpServletResponse) servletResponse;
@@ -214,7 +217,7 @@ public class CacheFilter implements Filter {
 	 * @throws
 	 * @version 2017年2月23日
 	 */
-	private String getHtmlFromCache() {
+	private synchronized String getHtmlFromCache() {
 		Jedis jedis = null;
 		try {
 			// 获取连接
@@ -227,7 +230,9 @@ public class CacheFilter implements Filter {
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-			cacheHomePage.getConnection().close();
+		  jedis.quit();
+		  jedis.disconnect();
+		  
 		}
 		return null;
 
@@ -244,7 +249,7 @@ public class CacheFilter implements Filter {
 	 * @throws
 	 * @version 2017年2月23日
 	 */
-	private void putIntoCache(String html) {
+	private synchronized void putIntoCache(String html) {
 		Jedis jedis = null;
 		try {
 			// 获取连接
@@ -257,7 +262,9 @@ public class CacheFilter implements Filter {
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-			cacheHomePage.getConnection().close();
+		  jedis.quit();
+		  jedis.disconnect();
+		  
 		  
 		}
 	}
@@ -270,7 +277,7 @@ public class CacheFilter implements Filter {
 	 * @version 2017年6月13日
 	 */
 	// Lock lock = new ReentrantLock();
- 	private void putIntoPV(){
+ 	private synchronized void putIntoPV(){
 		Jedis jedis = null;
 		try {
 			// lock.lock(); 锁机制解决高并发
@@ -320,7 +327,8 @@ public class CacheFilter implements Filter {
 		}finally {
 			// lock.unlock();
 			// 关闭资源
-			cacheHomePage.getConnection().close();
+		  jedis.quit();
+		  jedis.disconnect();
 		}
 	}
 

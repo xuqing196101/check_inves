@@ -12,16 +12,16 @@
 	<context:property-placeholder location="classpath:config.properties" />
 	<!-- redis单机 通过连接池 -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-	  <property name="maxIdle" value="${redis.pool.maxIdle}" /> <!--最大空闲连接数 -->
-    <property name="maxTotal" value="${redis.pool.maxTotal}" /><!--设置最大连接数 -->
-    <property name="testOnBorrow" value="${redis.pool.testOnBorrow}" /><!--当调用borrow Oject方法时，是否进行有效性检查 -->
+	  <property name="maxIdle" value="${redis.pool.maxIdle}" /> <!-- 最大空闲连接数 -->
+    <property name="maxTotal" value="${redis.pool.maxTotal}" /><!-- 设置最大连接数 -->
+    <property name="testOnBorrow" value="${redis.pool.testOnBorrow}" /><!-- 当调用borrow Oject方法时，是否进行有效性检查 -->
     <property name="minEvictableIdleTimeMillis" value="${redis.pool.EvictableIdleTimeMillis}" /> <!-- 60s之后之后回收空闲连接 -->
     <property name="minIdle" value="${redis.pool.minIdle}" /> <!-- 最小空闲连接数或者说初始化连接数 -->
     <property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}" /> <!-- 设置最大等待时间 -->
 	</bean>
 
   <bean id="jedisConnectionFactory"
-    class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+    class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">
     <property name="hostName" value="${redis.pool.host}" />
     <property name="port" value="${redis.pool.port}" />
     <property name="password" value="${redis.pool.password}" />
