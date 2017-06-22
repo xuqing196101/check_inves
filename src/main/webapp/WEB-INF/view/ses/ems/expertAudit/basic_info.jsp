@@ -177,7 +177,8 @@
                 async: false,
                 success: function (response) {
                     layer.tips("原值:" + response, "#" + inputName, {
-                        tips: 3
+                        tips: 3,
+                        maxWidth : 650
                     });
                 }
             });
