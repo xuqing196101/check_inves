@@ -45,6 +45,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
+import ses.util.ValidateUtils;
 import bss.dao.pms.AuditPersonMapper;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.model.pms.AuditPerson;
@@ -895,6 +896,9 @@ public class AuditSetController {
 			if(auditPerson.getMobile()==null||auditPerson.getMobile().trim().equals("")){
 				str = "error";
 				map.put("phone"+ind, "电话不能为空");
+			} else if (!ValidateUtils.Number(auditPerson.getMobile())){
+			    str = "error";
+                map.put("phone"+ind, "请输入数字");
 			}
 			if(auditPerson.getDuty()==null||auditPerson.getDuty().trim().equals("")){
 				str = "error";
