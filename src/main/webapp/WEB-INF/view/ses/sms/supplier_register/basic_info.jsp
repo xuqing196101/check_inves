@@ -234,7 +234,7 @@
 				});
 				if(proportionTotal !=0 && stockholderCount != 0){
 					if(stockholderCount >= 10 && proportionTotal < 50){
-						msg = "出资人10个或以上，出资比例之和要高于50%!";
+						msg = "出资人10个或以上，出资比例之和要高于50%！";
 						flag = false;
 					}
 					if(stockholderCount < 10 && proportionTotal != 100){

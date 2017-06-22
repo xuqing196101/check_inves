@@ -1824,6 +1824,8 @@ public class SupplierController extends BaseSupplierController {
 		Set<String> set=new HashSet<String>();
 		if(supplier.getListSupplierStockholders() != null && supplier.getListSupplierStockholders().size() > 0) {
 			List < SupplierStockholder > stockList = supplier.getListSupplierStockholders();
+			int proportionTotal = 0;// 出资比例之和
+			int stockholderCount = 0;// 股东数量
 			for(SupplierStockholder stocksHolder: stockList) {
 				set.add(stocksHolder.getIdentity());
 				cardId++;
@@ -1843,6 +1845,19 @@ public class SupplierController extends BaseSupplierController {
 				if(stocksHolder.getProportion() == null || stocksHolder.getProportion() == "") {
 					count++;
 					model.addAttribute("stock", "比例不能为空！");
+				}
+				proportionTotal += Integer.parseInt(stocksHolder.getProportion());
+				stockholderCount++;
+			}
+			// 如果数量不超过10个，那占比必须100%，如果数量超过10个，那占比必须高于50%
+			if(proportionTotal !=0 && stockholderCount != 0){
+				if(stockholderCount >= 10 && proportionTotal < 50){
+					count++;
+					model.addAttribute("stock", "出资人10个或以上，出资比例之和要高于50%！");
+				}
+				if(stockholderCount < 10 && proportionTotal != 100){
+					count++;
+					model.addAttribute("stock", "出资人不超过10个，出资比例之和必须为100%！");
 				}
 			}
 		}
