@@ -137,8 +137,11 @@ public class CacheFilter implements Filter {
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-		  jedis.quit();
-		  jedis.disconnect();
+		  if(jedis!=null){
+		    jedis.quit();
+		    jedis.disconnect();
+		  }
+		  
 		  
 		  
 		}
@@ -230,8 +233,10 @@ public class CacheFilter implements Filter {
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-		  jedis.quit();
-		  jedis.disconnect();
+		  if(jedis!=null){
+      jedis.quit();
+      jedis.disconnect();
+    }
 		  
 		}
 		return null;
@@ -262,8 +267,10 @@ public class CacheFilter implements Filter {
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-		  jedis.quit();
-		  jedis.disconnect();
+		  if(jedis!=null){
+      jedis.quit();
+      jedis.disconnect();
+    }
 		  
 		  
 		}
@@ -327,8 +334,10 @@ public class CacheFilter implements Filter {
 		}finally {
 			// lock.unlock();
 			// 关闭资源
-		  jedis.quit();
-		  jedis.disconnect();
+		  if(jedis!=null){
+      jedis.quit();
+      jedis.disconnect();
+    }
 		}
 	}
 

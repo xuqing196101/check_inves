@@ -149,8 +149,10 @@ public class CacheManageServiceImpl implements CacheManageService {
 			log.info("redis连接异常...");
 		} finally {
 			// 释放资源
-		  jedis.quit();
-		  jedis.disconnect();
+		  if(jedis!=null){
+      jedis.quit();
+      jedis.disconnect();
+    }
 		}
 		return info;
 	}
@@ -185,8 +187,10 @@ public class CacheManageServiceImpl implements CacheManageService {
 			return JdcgResult.ok("缓存清除失败！");
 		} finally {
 			// 释放资源
-		  jedis.quit();
-		  jedis.disconnect();
+		  if(jedis!=null){
+      jedis.quit();
+      jedis.disconnect();
+    }
 		}
 	}
 
@@ -219,8 +223,10 @@ public class CacheManageServiceImpl implements CacheManageService {
 			log.info("redis连接异常...");
 		} finally {
 			// 释放资源
-		  jedis.quit();
-		  jedis.disconnect();
+		  if(jedis!=null){
+      jedis.quit();
+      jedis.disconnect();
+    }
 		}
 		return cache;
 	}
@@ -257,8 +263,10 @@ public class CacheManageServiceImpl implements CacheManageService {
 		} catch (Exception e) {
 			log.info("redis连接异常...");
 		} finally {
-		  jedis.quit();
-		  jedis.disconnect();
+		  if(jedis!=null){
+      jedis.quit();
+      jedis.disconnect();
+    }
 		}
 		// 如果发生异常
 		SystemPV systemPV = systemPVMapper.selectByPrimaryKey(Integer.parseInt(dateOfFormat));
