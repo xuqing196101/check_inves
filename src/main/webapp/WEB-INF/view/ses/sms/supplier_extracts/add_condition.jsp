@@ -179,7 +179,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-3 col-xs-3 dnone" id="productCount">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">物资生产:</span>
+                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>物资生产:</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input class="title col-md-12" id="product" name="productCount" onchange="chane();"
                                maxlength="11" type="text">
@@ -188,7 +188,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-3 col-xs-3 dnone" id="salesCount">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">物资销售:</span>
+                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>物资销售:</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input class="title col-md-12" id="sales" name="salesCount" onchange="chane();" maxlength="11"
                                type="text">
