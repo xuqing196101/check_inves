@@ -1,12 +1,16 @@
 package bss.controller.prms;
 
+import iss.service.ps.ArticleService;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -26,8 +30,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.service.bms.CategoryService;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.model.ppms.MarkTerm;
@@ -42,6 +49,7 @@ import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditTemitemService;
 import bss.service.prms.FirstAuditTemplatService;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -65,6 +73,12 @@ public class FirstAuditTemplatController extends BaseController{
 	    
 	@Autowired
 	private ParamIntervalService paramIntervalService;
+	
+	@Autowired
+  private ArticleService articleService;
+	
+	@Autowired
+	private CategoryService categoryService;
 	
 	@RequestMapping(value = "deleteScoreModel")
     public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId) {
@@ -108,16 +122,32 @@ public class FirstAuditTemplatController extends BaseController{
 	  * @return String
 	 */
 	@RequestMapping("/list")
-	public String list(String name, String kind, Integer page, Model model, @CurrentUser User user){
+	public String list(String name, String kind, String categoryId, Integer page, Model model, @CurrentUser User user){
         Map<String, Object> map = new HashMap<String, Object>();
         //判读是否是资源服务中心  支撑环境-后台管理-评审模板管理，权限所属角色是：资源服务中心，查看范围是：所有，操作范围是：所有，权限属性是：操作
         String typeName = user.getTypeName();
         if (StringUtils.isNotBlank(typeName)&&"4".equalsIgnoreCase(typeName )) {
             map.put("name", name);
             map.put("kind", kind);
+            map.put("categoryId", categoryId);
             List<FirstAuditTemplat> list = service.selectAll(map, page == null ? 1 : page);
+            for (FirstAuditTemplat firstAuditTemplat : list) {
+              if (firstAuditTemplat.getCategoryId() != null && !"".equals(firstAuditTemplat.getCategoryId())) {
+                Category category = categoryService.findById(firstAuditTemplat.getCategoryId());
+                if (category != null) {
+                  firstAuditTemplat.setCategoryName(category.getName());
+                }
+              }
+            }
             List<DictionaryData> kinds = DictionaryDataUtil.find(20);
             model.addAttribute("list", new PageInfo<>(list));
+            model.addAttribute("categoryId", categoryId);
+            if (categoryId != null) {
+              Category category = categoryService.findById(categoryId);
+              if (category != null) {
+                model.addAttribute("categoryName", category.getName());
+              }
+            }
             model.addAttribute("kinds", kinds);
             model.addAttribute("kind", kind);
             model.addAttribute("name", name);
@@ -156,6 +186,12 @@ public class FirstAuditTemplatController extends BaseController{
       List<DictionaryData> kinds = DictionaryDataUtil.find(20);
       model.addAttribute("kinds", kinds);
       model.addAttribute("templat", templat);
+      if (templat != null && templat.getCategoryId() != null) {
+        Category category = categoryService.findById(templat.getCategoryId());
+        if (category != null) {
+          model.addAttribute("categoryName", category.getName());
+        }
+      }
       return "bss/prms/templat/add_templat";
     }
 		service.save(templat);
@@ -177,6 +213,12 @@ public class FirstAuditTemplatController extends BaseController{
 	    List<DictionaryData> kinds = DictionaryDataUtil.find(20);
 	    model.addAttribute("kinds", kinds);
 	    model.addAttribute("templat", templat);
+	    if (templat != null && templat.getCategoryId() != null) {
+        Category category = categoryService.findById(templat.getCategoryId());
+        if (category != null) {
+          model.addAttribute("categoryName", category.getName());
+        }
+      }
 	    return "bss/prms/templat/edit";
 	  }
 		service.update(templat);
@@ -199,6 +241,12 @@ public class FirstAuditTemplatController extends BaseController{
 		List<DictionaryData> kinds = DictionaryDataUtil.find(20);
     model.addAttribute("kinds", kinds);
 		model.addAttribute("templat", templat);
+		if (templat != null && templat.getCategoryId() != null) {
+		  Category category = categoryService.findById(templat.getCategoryId());
+		  if (category != null) {
+		    model.addAttribute("categoryName", category.getName());
+		  }
+		}
 		return "bss/prms/templat/edit";
 	}
 	
@@ -843,4 +891,64 @@ public class FirstAuditTemplatController extends BaseController{
         response.getWriter().close();
     }
 	}
+	
+	/**
+	 *〈简述〉
+	 *〈详细描述〉查询产品目录树
+	 * @author Ye MaoLin
+	 * @param tempId
+	 * @param id
+	 * @param backCategoryIds
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/categoryTree", produces = "application/json;charset=UTF-8")
+  public String categoryTree(String tempId, String id, String backCategoryIds){
+	  List < CategoryTree > allCategories = new ArrayList < CategoryTree > ();
+	  if (id == null) {
+      List<DictionaryData> dictionaryDatas = DictionaryDataUtil.find(6);
+      for (DictionaryData dictionaryData : dictionaryDatas) {
+        CategoryTree ct=new CategoryTree();
+        ct.setId(dictionaryData.getId());
+        ct.setName(dictionaryData.getName());
+        ct.setIsParent("true");
+        ct.setClassify(dictionaryData.getCode());
+        allCategories.add(ct);
+      }
+    } else {
+      List < Category > tempNodes = articleService.getCategoryIsPublish(id);
+      for (Category category : tempNodes) {
+        CategoryTree ct = new CategoryTree();
+        ct.setName(category.getName());
+        ct.setId(category.getId());
+        ct.setParentId(id);
+        // 判断是否为父级节点
+        List < Category > nodesList = articleService.getCategoryIsPublish(category.getId());
+        if(nodesList != null && nodesList.size() > 0) {
+          ct.setIsParent("true");
+        }
+        // 判断是否被选中
+        HashMap<String, Object> map =  new HashMap<String, Object>();
+        map.put("id", tempId);
+        map.put("categoryId", category.getId());
+        List<FirstAuditTemplat> auditTemplats = service.find(map);
+        if (auditTemplats != null && auditTemplats.size() > 0) {
+          ct.setChecked(true);
+        }else {
+          ct.setChecked(false);
+        }
+        allCategories.add(ct);
+      }
+    }    
+	  return JSON.toJSONString(allCategories);
+	}
+	      
+	 @ResponseBody
+   @RequestMapping(value = "/searchCategory")
+   public String searchCategory(String name, String rootCode) throws UnsupportedEncodingException{
+       List<CategoryTree> jList = new ArrayList<CategoryTree>();
+       name = URLDecoder.decode(name,"UTF-8");
+       articleService.searchCategory(jList, name, rootCode);
+       return JSON.toJSONString(jList);
+   }
 }
