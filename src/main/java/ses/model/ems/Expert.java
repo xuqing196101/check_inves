@@ -321,13 +321,13 @@ public class Expert extends ExpertHistory implements Serializable {
     private String loginName;
     
     /**专家审核记录表*/
-    private List<ExpertAudit> expertAuditList;
+    private List<ExpertAudit> expertAuditList=new ArrayList<ExpertAudit>();
     /**工程执业资格历史表*/
-    private List<ExpertEngHistory> expertEngHistoryList;
+    private List<ExpertEngHistory> expertEngHistoryList=new ArrayList<ExpertEngHistory>();
     /**工程执业资格修改表*/
-    private List<ExpertEngHistory> expertEngModifyList;
+    private List<ExpertEngHistory> expertEngModifyList=new ArrayList<ExpertEngHistory>();
     /**工程执业资格文件修改表*/
-    private  List<ExpertAuditFileModify> expertAuditFileModifyList;
+    private  List<ExpertAuditFileModify> expertAuditFileModifyList=new ArrayList<ExpertAuditFileModify>();
     //步骤（用于区分第一步和其他几步）
     private String step;
     

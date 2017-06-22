@@ -2424,4 +2424,15 @@ resultMap="BaseResultMap">
             AND MOBILE = #{mobile}
         </if>
     </select>
+    
+    <update id="updateExpert">
+    	update
+  		T_SES_EMS_EXPERT
+  	set
+  		status=#{status},is_submit=#{isSubmit},audit_at=#{auditDate}
+  	where 
+  		ID = #{id}
+    
+    </update>
+    
 </mapper>

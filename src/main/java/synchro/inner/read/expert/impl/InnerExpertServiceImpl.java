@@ -69,6 +69,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     
     @Autowired
     private FileUploadMapper fileUploadMapper;
+    
+    @Autowired
+    private ExpertMapper expertMapper;
     /**
      * 
      * @see synchro.inner.read.expert.InnerExpertService#readNewExpertInfo(java.io.File)
@@ -182,6 +185,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
             try{
                 for(Expert expert:expertList){
                     //入库是对每个表进行插入数据
+                	expertMapper.updateExpert(expert.getId(), expert.getStatus(), expert.getIsSubmit(), expert.getAuditAt());
                     saveBackModifyOperation(expert);
                 }
             }catch (RuntimeException e){

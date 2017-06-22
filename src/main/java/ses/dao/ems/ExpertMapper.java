@@ -1,6 +1,7 @@
 package ses.dao.ems;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -358,4 +359,7 @@ public interface ExpertMapper {
      * @return
      */
     List<Expert> yzCardNumber(Map<String, Object> map);
+    
+    
+    void updateExpert(@Param("id")String id,@Param("status")String status,@Param("isSubmit")String isSubmit,@Param("auditDate")Date auditDate );
 }

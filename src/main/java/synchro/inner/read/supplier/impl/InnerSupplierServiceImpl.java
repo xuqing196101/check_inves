@@ -270,6 +270,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 	    		   } 
 	    		   if(matPro!=null){
 	    			   supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
+	    			   supplierCertProMapper.deleteByProId(matPro.getId()); //删除生产证书
 	    		   }
     		   		if(supplier.getSupplierMatPro().getListSupplierCertPros().size()>0){
     		   			for(SupplierCertPro sc:supplier.getSupplierMatPro().getListSupplierCertPros()){
@@ -298,7 +299,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   }
     		   if(matSell!=null){
     			   supplierMatSellMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSell());
+    			   supplierCertSellMapper.deleteById(matSell.getId());//删除供应商销售证书
     		   }
+    		  
     		   if(supplier.getSupplierMatSell().getListSupplierCertSells().size()>0){
     			   for(SupplierCertSell sc:supplier.getSupplierMatSell().getListSupplierCertSells()){
 //    				   if(sc.getFileList().size()>0){
@@ -308,6 +311,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 //  	    	    		   }
 //  		   				}
     				   SupplierCertSell certSell = supplierCertSellMapper.selectByPrimaryKey(sc.getId());
+    				   
     				   if(certSell==null){
     					   supplierCertSellMapper.insertSelective(sc);
     				   }else{
