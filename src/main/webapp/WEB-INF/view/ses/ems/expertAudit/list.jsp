@@ -400,10 +400,10 @@
                 <c:if test="${sign == 1 and expert.status eq '3' }">
                   <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">退回修改</span></td>
                 </c:if>
-                <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary ne '2'}}">
+                <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary ne '2'}">
                   <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复审</span></td>
                 </c:if>
-                <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary eq '2'}}">
+                <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary eq '2'}">
                   <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复审中</span></td>
                 </c:if>
                 <c:if test="${sign == 2 and expert.status eq '4' }">
