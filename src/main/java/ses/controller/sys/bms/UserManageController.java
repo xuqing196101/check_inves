@@ -1141,6 +1141,10 @@ public class UserManageController extends BaseController{
 	            msg = "请输入密码";
 	            count ++;
             }
+	        if(pwd.length()<6){
+	        	 msg = "密码位数要大于6位";
+	        	 count ++;
+	        }
 	        if (pwd2 == null || "".equals(pwd2)) {
                 if (count > 0) {
                     msg = "请输入密码和确认密码";
