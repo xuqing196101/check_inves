@@ -92,10 +92,10 @@ $(function() {
         </tr>
         <tr>
           <c:forEach items="${years}" var="year">
-            <td class="info tc">${year}</td>
+            <td class="info tc">${year}年度</td>
           </c:forEach>
           <c:forEach items="${years}" var="year">
-            <td class="info tc">${year}</td>
+            <td class="info tc">${year}年度</td>
           </c:forEach>
         </tr>
       <c:forEach items="${contract}" var="obj" varStatus="vs">
