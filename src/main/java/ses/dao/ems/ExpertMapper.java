@@ -306,7 +306,7 @@ public interface ExpertMapper {
      * @param @param id      
      * @return void
      */
-    void updateById (String id);
+    void updateById (Expert expert);
     
     /**
      * 

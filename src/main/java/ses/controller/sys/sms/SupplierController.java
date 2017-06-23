@@ -719,21 +719,27 @@ public class SupplierController extends BaseSupplierController {
 	    }
 	    supplier.setAddressList(addressList);
 		List < SupplierStockholder > stockHolders = supplier.getListSupplierStockholders();
-		for(int i = 0; i < stockHolders.size(); i++) {
-			SupplierStockholder stocker = stockHolders.get(i);
-			if(stocker != null && stocker.getSupplierId() == null) {
-				stockHolders.remove(i);
+		if(stockHolders != null && !stockHolders.isEmpty()){
+			for(int i = 0; i < stockHolders.size(); i++) {
+				SupplierStockholder stocker = stockHolders.get(i);
+				if(stocker != null && stocker.getSupplierId() == null) {
+					stockHolders.remove(i);
+				}
 			}
 		}
+		
 		supplier.setListSupplierStockholders(stockHolders);
 		List < SupplierAfterSaleDep > afterSaleDep = supplier.getListSupplierAfterSaleDep();
 		List < SupplierAfterSaleDep > afterSaleList = new ArrayList<SupplierAfterSaleDep>();
-		for(int i = 0; i < afterSaleDep.size(); i++) {
-		    SupplierAfterSaleDep afterSale = afterSaleDep.get(i);
-		    if(afterSale.getId() != null) {
-		        afterSaleList.add(afterSale);
-		    }
+		if(afterSaleDep != null && !afterSaleDep.isEmpty()){
+			for(int i = 0; i < afterSaleDep.size(); i++) {
+			    SupplierAfterSaleDep afterSale = afterSaleDep.get(i);
+			    if(afterSale.getId() != null) {
+			        afterSaleList.add(afterSale);
+			    }
+			}
 		}
+		
 		supplier.setListSupplierAfterSaleDep(afterSaleList);
 		boolean info = validateBasicInfo(request, model, supplier);
 		List < SupplierTypeRelate > relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
@@ -763,12 +769,15 @@ public class SupplierController extends BaseSupplierController {
 			supplier = supplierService.get(supplier.getId());
 
 			List < DictionaryData > list = DictionaryDataUtil.find(6);
-			for(int i = 0; i < list.size(); i++) {
-				String code = list.get(i).getCode();
-				if(code.equals("GOODS")) {
-					list.remove(list.get(i));
+			if(list != null && !list.isEmpty()){
+				for(int i = 0; i < list.size(); i++) {
+					String code = list.get(i).getCode();
+					if(code.equals("GOODS")) {
+						list.remove(list.get(i));
+					}
 				}
 			}
+			
 			model.addAttribute("supplieType", list);
 			List < DictionaryData > wlist = DictionaryDataUtil.find(8);
 			model.addAttribute("wlist", wlist);
@@ -814,8 +823,10 @@ public class SupplierController extends BaseSupplierController {
 			StringBuffer typePageField = new StringBuffer();
 			supplierAudit.setAuditType("supplierType_page");
 			List < SupplierAudit > typeAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-			for(SupplierAudit audit: typeAuditList) {
-				typePageField.append(audit.getAuditField() + ",");
+			if(typeAuditList != null && !typeAuditList.isEmpty()){
+				for(SupplierAudit audit: typeAuditList) {
+					typePageField.append(audit.getAuditField() + ",");
+				}
 			}
 			model.addAttribute("typePageField", typePageField);
 			
@@ -823,33 +834,42 @@ public class SupplierController extends BaseSupplierController {
 			StringBuffer proPageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_pro_page");
 			List < SupplierAudit > proAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-			for(SupplierAudit audit: proAuditList) {
-				proPageField.append(audit.getAuditField() + ",");
+			if(proAuditList != null && !proAuditList.isEmpty()){
+				for(SupplierAudit audit: proAuditList) {
+					proPageField.append(audit.getAuditField() + ",");
+				}
 			}
 			model.addAttribute("proPageField", proPageField);
 			//销售
 			StringBuffer sellPageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_sell_page");
 			List < SupplierAudit > sellAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-			for(SupplierAudit audit: sellAuditList) {
-				sellPageField.append(audit.getAuditField() + ",");
+			if(sellAuditList != null && !sellAuditList.isEmpty()){
+				for(SupplierAudit audit: sellAuditList) {
+					sellPageField.append(audit.getAuditField() + ",");
+				}
 			}
 			model.addAttribute("sellPageField", sellPageField);
 			//工程
 			StringBuffer engPageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_eng_page");
 			List < SupplierAudit > engAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-			for(SupplierAudit audit: engAuditList) {
-				engPageField.append(audit.getAuditField() + ",");
+			if(engAuditList != null && !engAuditList.isEmpty()){
+				for(SupplierAudit audit: engAuditList) {
+					engPageField.append(audit.getAuditField() + ",");
+				}
 			}
 			model.addAttribute("engPageField", engPageField);
 			//服务
 			StringBuffer servePageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_serve_page");
 			List < SupplierAudit > serveAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-			for(SupplierAudit audit: serveAuditList) {
-				servePageField.append(audit.getAuditField() + ",");
+			if(serveAuditList != null && !serveAuditList.isEmpty()){
+				for(SupplierAudit audit: serveAuditList) {
+					servePageField.append(audit.getAuditField() + ",");
+				}
 			}
+			
 			model.addAttribute("servePageField", servePageField);
 			
 			//初始化供应商注册附件类型
@@ -858,12 +878,14 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("rootArea", areaService.findRootArea());
 			List<Qualification> findList = qualificationService.findList(null, Integer.MAX_VALUE, null, 4);
 			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplier.getId());
-	         for(SupplierPorjectQua qua:supplierQua){
+			if(supplierQua != null && !supplierQua.isEmpty()){
+				for(SupplierPorjectQua qua:supplierQua){
 	            	Qualification	q=new Qualification();
 	            	q.setId(qua.getName());
 	            	q.setName(qua.getName());
 	            	findList.add(q);
 	            }
+			}
 			model.addAttribute("typeList", findList);
 			// 物资销售是否满足条件
 			String isSalePass = isPass(supplier.getId(), "SALES");
@@ -1829,30 +1851,32 @@ public class SupplierController extends BaseSupplierController {
 		Set<String> set=new HashSet<String>();
 		if(supplier.getListSupplierStockholders() != null && supplier.getListSupplierStockholders().size() > 0) {
 			List < SupplierStockholder > stockList = supplier.getListSupplierStockholders();
-			int proportionTotal = 0;// 出资比例之和
+			float proportionTotal = 0.00f;// 出资比例之和
 			int stockholderCount = 0;// 股东数量
-			for(SupplierStockholder stocksHolder: stockList) {
-				set.add(stocksHolder.getIdentity());
-				cardId++;
-				if(stocksHolder.getName() == null || stocksHolder.getName() == "") {
-					count++;
-					model.addAttribute("stock", "出资人名称或姓名不能为空！");
+			if(stockList != null && !stockList.isEmpty()){
+				for(SupplierStockholder stocksHolder: stockList) {
+					set.add(stocksHolder.getIdentity());
+					cardId++;
+					if(stocksHolder.getName() == null || stocksHolder.getName() == "") {
+						count++;
+						model.addAttribute("stock", "出资人名称或姓名不能为空！");
+					}
+					if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
+						count++;
+						model.addAttribute("stock", "统一社会信用代码或身份证号码不能为空或者格式不正确!");
+						
+					}
+					if(stocksHolder.getShares() == null || stocksHolder.getShares() == "") {
+						count++;
+						model.addAttribute("stock", "出资金额或股份不能为空！");
+					}
+					if(stocksHolder.getProportion() == null || stocksHolder.getProportion() == "") {
+						count++;
+						model.addAttribute("stock", "比例不能为空！");
+					}
+					proportionTotal += Float.parseFloat(stocksHolder.getProportion());
+					stockholderCount++;
 				}
-				if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
-					count++;
-					model.addAttribute("stock", "统一社会信用代码或身份证号码不能为空或者格式不正确!");
-					
-				}
-				if(stocksHolder.getShares() == null || stocksHolder.getShares() == "") {
-					count++;
-					model.addAttribute("stock", "出资金额或股份不能为空！");
-				}
-				if(stocksHolder.getProportion() == null || stocksHolder.getProportion() == "") {
-					count++;
-					model.addAttribute("stock", "比例不能为空！");
-				}
-				proportionTotal += Float.parseFloat(stocksHolder.getProportion());
-				stockholderCount++;
 			}
 			// 如果数量不超过10个，那占比必须100%，如果数量超过10个，那占比必须高于50%
 			if(proportionTotal !=0 && stockholderCount != 0){

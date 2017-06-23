@@ -118,8 +118,9 @@ li{
 .uploadFiles li{
 	float:left;
 	margin-left:3px;
-	line-height:24px;
+	line-height:25px;
 	border-bottom:0px;
+	height:25px;
 }
 .uploadFiles li a{
 	color:#2c9fa6;

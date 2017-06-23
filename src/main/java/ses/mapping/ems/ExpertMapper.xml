@@ -2307,11 +2307,24 @@ resultMap="BaseResultMap">
     
     
     	<!-- 假删除专家-->
-	<update id="updateById" parameterType="java.lang.String">
+	<update id="updateById" parameterType="ses.model.ems.Expert">
 		update
 			T_SES_EMS_EXPERT
-		SET
-			IS_DELETE = 1
+		<set>
+		  IS_DELETE = 1,
+		  <if test="relName !=null">
+		    REAL_NAME =#{relName},
+		  </if>
+		  <if test="idCardNumber !=null">
+		    ID_CARD_NUMBER =#{idCardNumber},
+		  </if>
+		  <if test="mobile !=null">
+        MOBILE =#{mobile},
+      </if>
+		  <if test="idNumber !=null">
+		    ID_NUMBER =#{idNumber},
+		  </if>
+		</set>
 		WHERE ID = #{id}
 	</update>
 	
