@@ -184,37 +184,39 @@ public class SupplierServiceImpl implements SupplierService {
         List<SupplierFinance> listSupplierFinances = supplier.getListSupplierFinances();
         for (SupplierFinance sf : listSupplierFinances) {
             List<UploadFile> listUploadFiles = sf.getListUploadFiles();
-            for (UploadFile uf : listUploadFiles) {
-                if (supplierDictionaryData.getSupplierProfit().equals(uf.getTypeId())) {
-                    sf.setProfitListId(uf.getId());
-                    sf.setProfitList(uf.getName());
-                    continue;
-                }
-                if (supplierDictionaryData.getSupplierAuditOpinion().equals(uf.getTypeId())) {
-                    sf.setAuditOpinionId(uf.getId());
-                    sf.setAuditOpinion(uf.getName());
-                    continue;
-                }
-                if (supplierDictionaryData.getSupplierLiabilities().equals(uf.getTypeId())) {
-                    sf.setLiabilitiesListId(uf.getId());
-                    sf.setLiabilitiesList(uf.getName());
-                    continue;
-                }
-                if (supplierDictionaryData.getSupplierCashFlow().equals(uf.getTypeId())) {
-                    sf.setCashFlowStatementId(uf.getId());
-                    sf.setCashFlowStatement(uf.getName());
-                    continue;
-                }
-                if (supplierDictionaryData.getSupplierOwnerChange().equals(uf.getTypeId())) {
-                    sf.setChangeListId(uf.getId());
-                    sf.setChangeList(uf.getName());
-                    continue;
+            if(listUploadFiles != null && !listUploadFiles.isEmpty()){
+            	for (UploadFile uf : listUploadFiles) {
+                    if (supplierDictionaryData.getSupplierProfit().equals(uf.getTypeId())) {
+                        sf.setProfitListId(uf.getId());
+                        sf.setProfitList(uf.getName());
+                        continue;
+                    }
+                    if (supplierDictionaryData.getSupplierAuditOpinion().equals(uf.getTypeId())) {
+                        sf.setAuditOpinionId(uf.getId());
+                        sf.setAuditOpinion(uf.getName());
+                        continue;
+                    }
+                    if (supplierDictionaryData.getSupplierLiabilities().equals(uf.getTypeId())) {
+                        sf.setLiabilitiesListId(uf.getId());
+                        sf.setLiabilitiesList(uf.getName());
+                        continue;
+                    }
+                    if (supplierDictionaryData.getSupplierCashFlow().equals(uf.getTypeId())) {
+                        sf.setCashFlowStatementId(uf.getId());
+                        sf.setCashFlowStatement(uf.getName());
+                        continue;
+                    }
+                    if (supplierDictionaryData.getSupplierOwnerChange().equals(uf.getTypeId())) {
+                        sf.setChangeListId(uf.getId());
+                        sf.setChangeList(uf.getName());
+                        continue;
+                    }
                 }
             }
         }
 
         List<SupplierBranch> list = supplierBranchService.findSupplierBranch(id);
-        if(list.size()>0){
+        if(list != null && list.size()>0){
         
         	supplier.setBranchList(list);
         }else{
