@@ -2180,14 +2180,14 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
-								<c:choose>
+								<%-- <c:choose>
                                       <c:when test="${currSupplier.status==2 }">
                                       <button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
                                       </c:when>
-                                      <c:otherwise>
+                                      <c:otherwise> --%>
                                         <button class="btn btn-windows add" type="button" onclick="openStockholder()">新增</button>
-                                      </c:otherwise>
-                                    </c:choose>
+                                 <%--      </c:otherwise>
+                                    </c:choose> --%>
 									<button class="btn btn-windows delete" type="button" onclick="deleteStockholder()">删除</button>
 									<span class="red">${stock }</span>
 								</div>
