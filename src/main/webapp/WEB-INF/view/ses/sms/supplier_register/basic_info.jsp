@@ -333,10 +333,10 @@
 //                }
 			}
 			$(function() {
-				$("input").not("#supplierName_input_id").not(".address_zip_code").bind("blur", tempSave);
+				$("input").not("#supplierName_input_id").not(".address_zip_code").not("#stockholder_list_tbody_id input").bind("blur", tempSave);
 //			$("input").not("#supplierName_input_id").not("input[name='legalName']").not("input[name='contactName']").bind("blur", tempSave);
 				$("textarea").bind("blur", tempSave);
-				$("select").bind("change", tempSave);
+				$("select").not("#stockholder_list_tbody_id select").bind("change", tempSave);
 				/**供应商名称校验*/
                 $("#supplierName_input_id").focus(function(){
                     $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
@@ -457,7 +457,7 @@
 						id = data;
 					}
 				});
-				$("#stockholder_list_tbody_id").append("<tr>" +
+				/* $("#stockholder_list_tbody_id").append("<tr>" +
 					"<td class='tc'><input type='checkbox' value='' /><input type='hidden' name='listSupplierStockholders[" + stocIndex + "].id' value=" + id + "><input type='hidden' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].supplierId' value=" + supplierId + ">" +
 					"</td>" +
 					"<td class='tc'>  <select class='w100p border0'onchange='tempSave()' name='listSupplierStockholders[" + stocIndex + "].nature'>" +
@@ -467,7 +467,19 @@
 					"<td class='tc'><input type='text' style='border:0px;' maxlength='50'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].name' value=''> </td>" +
 					"<td class='tc'><input type='text' style='border:0px;'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].identity' maxlength='18' onkeyup='validateIdentity(this)' value=''> </td>" +
 					"<td class='tc'> <input type='text' style='border:0px;'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].shares' value=''></td>" +
-					"<td class='tc'> <input type='text' style='border:0px;' class='proportion_vali' onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].proportion' value=''> </td>" + "</tr>");
+					"<td class='tc'> <input type='text' style='border:0px;' class='proportion_vali' onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].proportion' value=''> </td>" + "</tr>"); */
+
+				$("#stockholder_list_tbody_id").append("<tr>" +
+					"<td class='tc'><input type='checkbox' value='' /><input type='hidden' name='listSupplierStockholders[" + stocIndex + "].id' value=" + id + "><input type='hidden' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].supplierId' value=" + supplierId + ">" +
+					"</td>" +
+					"<td class='tc'>  <select class='w100p border0' name='listSupplierStockholders[" + stocIndex + "].nature'>" +
+					"<option value='1'>法人</option>" +
+					" <option value='2'>自然人</option>" +
+					"</select> </td>" +
+					"<td class='tc'><input type='text' style='border:0px;' maxlength='50' name='listSupplierStockholders[" + stocIndex + "].name' value=''> </td>" +
+					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].identity' maxlength='18' onkeyup='validateIdentity(this)' value=''> </td>" +
+					"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].shares' value=''></td>" +
+					"<td class='tc'> <input type='text' style='border:0px;' class='proportion_vali' name='listSupplierStockholders[" + stocIndex + "].proportion' value=''> </td>" + "</tr>");
 
 				stocIndex++;
 				$("#stockIndex").val(stocIndex);
