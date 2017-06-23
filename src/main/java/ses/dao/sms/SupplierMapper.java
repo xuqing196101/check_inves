@@ -502,7 +502,7 @@ public interface SupplierMapper {
      * @param @param id      
      * @return void
      */
-    void updateById (String id);
+    void updateById (Supplier  supplier);
     
     /**
      * 

@@ -1056,8 +1056,24 @@ public class SupplierServiceImpl implements SupplierService {
      * @return void
      */
 	@Override
-	public void updateById(String id) {
-		supplierMapper.updateById(id);
+	public void updateById(String supplierId) {
+		StringBuffer buff = new StringBuffer();
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
+    	String date = format.format(new Date());
+		buff.append("_del_bak_");
+	    buff.append(date);
+		 
+	    Supplier info = supplierMapper.getSupplier(supplierId);
+		String supplierName = info.getSupplierName();
+		String creditCode = info.getCreditCode();
+		
+		
+		Supplier supplier = new Supplier();
+		supplier.setId(supplierId);
+		supplier.setSupplierName(supplierName + buff);
+		supplier.setCreditCode(creditCode + buff);
+		supplier.setIsDeleted(1);
+		supplierMapper.updateById(supplier);
 		
 	}
 	
