@@ -1423,7 +1423,20 @@ public class ExpertServiceImpl implements ExpertService {
      */
 	@Override
 	public void updateById(String id) {
-		mapper.updateById(id);
+		Expert info = mapper.selectByPrimaryKey(id);
+		StringBuffer buff = new StringBuffer();
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
+    	String date = format.format(new Date());
+		buff.append("_del_bak_");
+	    buff.append(date);
+		
+		Expert expert = new Expert();
+		expert.setId(id);
+		expert.setRelName(info.getRelName() + buff);
+		expert.setMobile(info.getMobile() + buff);
+		expert.setIdCardNumber(info.getIdCardNumber() + buff);
+		expert.setIdNumber(info.getIdNumber() + buff);
+		mapper.updateById(expert);
 		
 	}
 	
