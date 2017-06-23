@@ -162,7 +162,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                     }
                     
                     //生产经营地址：
-    				if(address.getCode() !=null){
+    				if(address.getAddress() !=null){
     					List < Area > privnce = areaService.findRootArea();
     					Area area = new Area();
     					area = areaService.listById(address.getAddress());
@@ -179,7 +179,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
     				}
 
                     //生产经营详细地址
-    				if(address.getCode() !=null){
+    				if(address.getDetailAddress() !=null){
     					historyInfo.setBeforeField("detailedResidence");
     	                historyInfo.setBeforeContent(address.getDetailAddress());
     	                supplierHistoryMapper.insertSelective(historyInfo);              	          	
