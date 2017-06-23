@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -107,7 +108,7 @@ public class LoginController {
     public void login(User user, HttpServletRequest req, HttpServletResponse response, Model model, String rqcode) throws Exception {
         PrintWriter out = response.getWriter();
         user.setPassword(RSAEncrypt.decryptPrivate(user.getPassword()));
-        if (user.getLoginName() != null && !"".equals(user.getPassword().trim()) && user.getPassword() != null && !"".equals(user.getPassword().trim()) && rqcode != null && !"".equals(rqcode.trim())) {
+        if (StringUtils.isNotBlank(user.getLoginName()) && StringUtils.isNotBlank(user.getPassword()) && StringUtils.isNotBlank(rqcode)) {
             // 根据用户名查找
             List<User> list = userService.findByLoginName(user.getLoginName());
             // 获取当前登录用户名的随机码

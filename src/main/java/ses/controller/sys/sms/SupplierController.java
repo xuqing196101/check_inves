@@ -2721,8 +2721,8 @@ public class SupplierController extends BaseSupplierController {
 	 * @author WangHuijie
 	 * @param supplierId 供应商Id
 	 * @param model Model对象
-	 * @param supplierTypeid 供应商类型Id
-	 * @param flag
+	 * @param supplierTypeId 供应商类型Id
+	 * @param pageNum
 	 * @return
 	 */
 	@RequestMapping("/ajaxContract")
@@ -3097,10 +3097,6 @@ public class SupplierController extends BaseSupplierController {
      * 异步删除售后服务机构
      *〈详细描述〉
      * @author WangHuijie
-     * @param request
-     * @param stockholderIds
-     * @param supplierId
-     * @param model
      * @return
      */
     @ResponseBody
@@ -3115,7 +3111,6 @@ public class SupplierController extends BaseSupplierController {
      * @author WangHuijie
      * @param certCode
      * @param supplierId
-     * @param Model
      * @return
      */
     @ResponseBody
