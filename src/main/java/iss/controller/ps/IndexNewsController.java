@@ -1301,7 +1301,7 @@ public class IndexNewsController extends BaseSupplierController{
 		Integer pages = indexNewsService.selectCount(countMap);
 		Integer startRow = 0;
 		Integer endRow = 0;
-		if(indexNewsList!=null){
+		if(indexNewsList!=null && !indexNewsList.isEmpty()){
 			if(indexNewsList.size()>0){
 				startRow = (page-1)*Integer.parseInt(pageSize)+1;
 			}
@@ -1316,7 +1316,11 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("endRow", endRow);
 		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
 		model.addAttribute("indexList", indexNewsList);
-		model.addAttribute("typeName", articleTypeOne.getName());
+		String articleTypeName = null;
+		if(articleTypeOne != null){
+			articleTypeName = articleTypeOne.getName();
+		}
+		model.addAttribute("typeName", articleTypeName);
 		model.addAttribute("articleTypeId", articleTypeId);
 		model.addAttribute("title", title);
 		model.addAttribute("indexMapper", indexMapper);
