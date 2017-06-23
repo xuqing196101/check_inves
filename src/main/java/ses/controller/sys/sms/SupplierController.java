@@ -620,9 +620,12 @@ public class SupplierController extends BaseSupplierController {
 //                        }
 //                    }
 //                }
-                if(before.getStatus().equals(2)) {
+                /*if(before.getStatus().equals(2)) {
 					record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
-				}
+				}*/
+                if(before != null && before.getStatus() != null && before.getStatus() == 2){
+                	record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
+                }
 				
 				if(supplier.getCreditCode()!=null&&supplier.getCreditCode().trim().length()!=0){
 //                    //根据供应商统一社会信用代码判断是否注销或审核不通过且180天内再次注册
@@ -1846,7 +1849,7 @@ public class SupplierController extends BaseSupplierController {
 					count++;
 					model.addAttribute("stock", "比例不能为空！");
 				}
-				proportionTotal += Integer.parseInt(stocksHolder.getProportion());
+				proportionTotal += Float.parseFloat(stocksHolder.getProportion());
 				stockholderCount++;
 			}
 			// 如果数量不超过10个，那占比必须100%，如果数量超过10个，那占比必须高于50%
