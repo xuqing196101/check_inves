@@ -43,8 +43,33 @@ public class AppInfoServiceImpl implements AppInfoService{
     }
 
     @Override
-    public Integer fallbackByVersion(Date createAt) {
-        return appInfoMapper.fallbackByVersion(createAt);
+    public Integer fallbackByVersion() {
+        return appInfoMapper.fallbackByVersion();
+    }
+
+    @Override
+    public String selectPathByBusinessId(String businessId) {
+        List<String> list = appInfoMapper.selectPathByBusinessId(businessId);
+        if(list != null && list.size() > 0){
+            return list.get(0);
+        }else{
+            return "";
+        }
+    }
+
+    @Override
+    public void add(AppInfo appInfo) {
+        appInfoMapper.add(appInfo);
+    }
+
+    @Override
+    public String selectFileIdByBusinessId(String businessId) {
+        List<String> list = appInfoMapper.selectFileIdByBusinessId(businessId);
+        if(list != null && list.size() > 0){
+            return list.get(0);
+        }else{
+            return "";
+        }
     }
 
 }

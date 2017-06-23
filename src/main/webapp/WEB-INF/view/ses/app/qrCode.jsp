@@ -3,6 +3,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<%@ include file="/WEB-INF/view/common.jsp" %>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>App下载</title>
 <script type="text/javascript">
@@ -20,6 +22,21 @@
       win.addEventListener(resizeEvt, recalc, false);
       doc.addEventListener('DOMContentLoaded', recalc, false);
   })(document, window);
+  
+  /*文件下载*/
+  function download(bid,key,url){
+    var zipFileName = null;
+    var fileName = null;
+      if(bid != ""){
+        var id = bid;
+        var form = $("<form>");   
+        form.attr('style', 'display:none');   
+        form.attr('method', 'post');
+        form.attr('action', url + 'api/v1/download.html?id='+ id +'&key='+key + '&zipFileName=' + encodeURI(encodeURI(zipFileName)) + '&fileName=' + encodeURI(encodeURI(fileName)));
+        $('body').append(form); 
+        form.submit();
+      }
+  }
 </script>
 </head>
 <body>
@@ -30,9 +47,9 @@
     <div class="ewm_title">军队采购网公告App</div>
   </div>
   <div class="down_load">
-    <a href="${apkURL}">
+    <a >
       <div class="down_andrio down_main">
-        <p><img src="${pageContext.request.contextPath}/public/portal/images/android.png">安卓下载</p>
+        <p onclick = "download('${id}',${sysKey},'${tempContextUrl }')"><img src="${pageContext.request.contextPath}/public/portal/images/android.png">安卓下载</p>
         <div class="footer_tips">温馨提示：安卓下载，请从右上角浏览器打开此链接</div>
       </div>
     </a>

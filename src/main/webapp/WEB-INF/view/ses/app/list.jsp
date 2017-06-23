@@ -24,83 +24,37 @@
         }(),
         jump : function(e, first) { //触发分页后的回调
           if(!first){ //一定要加此判断，否则初始时会无限刷新
-            location.href = "${pageContext.request.contextPath }/appInfo/list.html?page=" + e.curr;
+        	var version = $("#version").val();
+            location.href = "${pageContext.request.contextPath }/appInfo/list.html?page=" + e.curr + "&&version="+version;
           }
         }
       });
     });
-
-/** 全选全不选 */
-  function selectAll(){
-    var checklist = document.getElementsByName ("chkItem");
-    var checkAll = document.getElementById("checkAll");
-    if(checkAll.checked){
-        for(var i=0;i<checklist.length;i++){
-          checklist[i].checked = true;
-        } 
-    }else{
-        for(var j=0;j<checklist.length;j++){
-          checklist[j].checked = false;
-        }
-      }
-  }
-
-  /** 单选 */
-  function check(){
-    var count=0;
-    var checklist = document.getElementsByName ("chkItem");
-    var checkAll = document.getElementById("checkAll");
-    for(var i=0;i<checklist.length;i++){
-      if(checklist[i].checked == false){
-        checkAll.checked = false;
-        break;
-      }
-      for(var j=0;j<checklist.length;j++){
-        if(checklist[j].checked == true){
-          checkAll.checked = true;
-          count++;
-        }
-      }
-    }
-  }
-
+  
   /* 回退 */
   function fallback(){
-    var version = [];
-    $('input[name="chkItem"]:checked').each(function() {
-      version.push($(this).val());
-    });
-    if(version.length == 1) {
-      layer.confirm('您确定要回退吗?', {
-        title: '提示',
-        offset: ['222px', '360px'],
-        shade: 0.01
-      }, function(index) {
-        layer.close(index);
-        $.ajax({
-          url: "${pageContext.request.contextPath }/appInfo/fallback.html",
-          type: "post",
-          data: {
-	        version: version
-          },
-          success: function() {
-             window.location.href = "${pageContext.request.contextPath }/appInfo/list.html";
-          },
-          error: function() {
+    layer.confirm('您确定要回退吗?', {
+      title: '提示',
+      offset: ['222px', '360px'],
+      shade: 0.01
+    }, function(index) {
+      layer.close(index);
+      $.ajax({
+        url: "${pageContext.request.contextPath }/appInfo/fallback.do",
+        type: "post",
+        data: {},
+        success: function(data) {
+          if(data == 'success'){
+            window.location.href = "${pageContext.request.contextPath }/appInfo/list.html";
+          }else{
+          	layer.msg("回退失败");
           }
-       });
-      });
-    } else if(version.length > 1){
-      layer.alert("只能选择一个版本", {
-        offset: ['222px', '390px'],
-        shade: 0.01
-      });
-    } else {
-      layer.alert("请选择要回退的版本", {
-        offset: ['222px', '390px'],
-        shade: 0.01
-      });
-    }
+        },
+        error: function() {
+      	  layer.msg("回退失败");
+        }
+     });
+    });
   }
 
   //重置
@@ -130,7 +84,7 @@
       <ul class="demand_list">
         <li>
           <label class="fl">版本号：</label>
-          <input type="text" id="" class="" name = "version" value="${appInfo.version }"/>
+          <input type="text" id="version" class="" name = "version" value="${appInfo.version }"/>
         </li>
         <input class="btn fl mt1" type="submit" value="查询" /> 
         <input class="btn fl mt1" type="button" onclick="resetQuery()" value="重置"/>  
@@ -156,11 +110,11 @@
         <tbody>
           <c:forEach items="${info.list }" var="appInfo" varStatus="vs">
             <tr class="tc">
-              <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${appInfo.version }" /></td>
+              <%-- <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${appInfo.version }" /></td> --%>
               <td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-              <td class="tl">${appInfo.version }</td>
+              <td class="tc">${appInfo.version }</td>
               <td class="tc">
-                <fmt:formatDate value="${appInfo.createAt }" pattern="yyyy-MM-dd" />
+                <fmt:formatDate value="${appInfo.createdAt }" pattern="yyyy-MM-dd" />
               </td>
             </tr>
           </c:forEach>

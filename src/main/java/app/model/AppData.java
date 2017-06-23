@@ -35,6 +35,28 @@ public class AppData {
     //公告title
     private String title;
     
+    //App版本号
+    private String version;
+    
+    //apk下载链接
+    private String downloadUrl;
+    
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
+    }
+
     public String getTitle() {
         return title;
     }

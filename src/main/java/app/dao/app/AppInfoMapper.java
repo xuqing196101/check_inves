@@ -48,5 +48,37 @@ public interface AppInfoMapper {
      * @param 
      * @return
      */
-    Integer fallbackByVersion(@Param("createAt")Date createAt);
+    Integer fallbackByVersion();
+    
+    /**
+     * 
+     * Description: 查询上传文件的路径
+     * 
+     * @author zhang shubin
+     * @data 2017年6月22日
+     * @param 
+     * @return
+     */
+    List<String> selectPathByBusinessId(@Param("businessId")String businessId);
+    
+    /**
+     * 
+     * Description: 查询文件存放id
+     * 
+     * @author zhang shubin
+     * @data 2017年6月22日
+     * @param 
+     * @return
+     */
+    List<String> selectFileIdByBusinessId(@Param("businessId")String businessId);
+    /**
+     * 
+     * Description: 新增
+     * 
+     * @author zhang shubin
+     * @data 2017年6月22日
+     * @param 
+     * @return
+     */
+    void add(AppInfo appInfo);
 }

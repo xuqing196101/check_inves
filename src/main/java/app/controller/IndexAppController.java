@@ -33,9 +33,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,14 +50,17 @@ import app.dao.app.IndexAppMapper;
 import app.model.AppData;
 import app.model.AppHotLine;
 import app.model.AppImg;
+import app.model.AppInfo;
 import app.model.AppSupplier;
 import app.model.Img;
+import app.service.AppInfoService;
 import app.service.IndexAppService;
 
 import com.alibaba.fastjson.JSON;
 
 import common.constant.Constant;
 import common.model.UploadFile;
+import common.service.DownloadService;
 import common.service.UploadService;
 import common.utils.CommonStringUtil;
 import common.utils.UploadUtil;
@@ -107,6 +110,14 @@ public class IndexAppController {
     //文件上传
     @Autowired
     private UploadService uploadService;
+    
+  //App版本管理
+    @Autowired
+    private AppInfoService appInfoService;
+    
+    /** 文件下载service */
+    @Autowired
+    private DownloadService downloadService;
 
     //工作动态typeId标识
     private static final String INDEX_DYNAMIC = "110"; 
@@ -265,6 +276,21 @@ public class IndexAppController {
             AppData appData = new AppData();
             appData.setImgUrl(imgList);
             appData.setIndexMsgList(indexMsgList);
+            String version = "";
+            //查询最新的版本号
+            List<AppInfo> appInfoList = appInfoService.list(null, 1);
+            if(appInfoList != null && appInfoList.size() > 0){
+                version = appInfoList.get(0).getVersion();
+            }
+            appData.setVersion(version);
+            //最新版本的apk下载链接
+            String businessId = "";
+            if(appInfoList != null && appInfoList.size() > 0){
+                businessId = appInfoList.get(0).getRemark();
+            }
+            String id = appInfoService.selectFileIdByBusinessId(businessId);
+            String downloadUrl = tempContextUrl + "api/v1/download.html?id="+id+"&key="+Constant.APP_APK_SYS_KEY+"&zipFileName="+null+"&fileName="+null;
+            appData.setDownloadUrl(downloadUrl);
             appImg.setData(appData);
         }else{
             appImg.setStatus(false);
@@ -1009,10 +1035,32 @@ public class IndexAppController {
      * @return
      */
     @RequestMapping("/qrCode")
-    public String qrCode(Model model){
-    	String apkURL = "";
-    	model.addAttribute("apkURL", apkURL);
-    	return "app/qrCode";
+    public String qrCode(Model model,HttpServletRequest request){
+        List<AppInfo> appInfoList = appInfoService.list(null, 1);
+        String businessId = "";
+        if(appInfoList != null && appInfoList.size() > 0){
+            businessId = appInfoList.get(0).getRemark();
+        }
+        String id = appInfoService.selectFileIdByBusinessId(businessId);
+        model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
+        model.addAttribute("id", id);
+        StringBuffer url = request.getRequestURL();  
+        String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString(); 
+        model.addAttribute("tempContextUrl", tempContextUrl);
+        return "ses/app/qrCode";
     }
     
+    /**
+     * 
+     *〈简述〉文件下载
+     *〈详细描述〉
+     * @author myc
+     * @param request  {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     */
+    @RequestMapping("/download")
+    @ResponseBody
+    public void download(HttpServletRequest request, HttpServletResponse response){
+        downloadService.download(request, response);
+    }
 }

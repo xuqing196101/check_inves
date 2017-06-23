@@ -39,7 +39,7 @@ public class AppInfo {
     }
 
     public void setVersion(String version) {
-        this.version = version;
+        this.version = version.trim();
     }
 
     public String getPath() {

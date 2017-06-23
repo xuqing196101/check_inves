@@ -1126,5 +1126,22 @@ function importAdd(){
       </div>
       </div>
       </div>
+      
+	<div class="m_app_code" id="m_app_code">
+		<span>A<br>P<br>P<br>下<br>载<br>二<br>维<br>码</span>
+		<div class="mac_img"><img src="${pageContext.request.contextPath}/public/portal/images/AppDownload.png" alt=""></div>
+	</div>
+	
+	<script>
+		$(function() {
+			$('#m_app_code span').on('click', function() {
+				if ($(this).parent().hasClass('hover')) {
+					$(this).parent().removeClass('hover');
+				} else {
+					$(this).parent().addClass('hover');
+				}
+			});
+		});
+	</script>
 </body>
 </html>

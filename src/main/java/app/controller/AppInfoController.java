@@ -1,5 +1,6 @@
 package app.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,16 +66,16 @@ public class AppInfoController {
      */
     @RequestMapping("/toAdd")
     public String toAdd(Model model){
-    	String uuid = UUID.randomUUID().toString().toUpperCase()
-  				.replace("-", "");
-  		model.addAttribute("businessId", uuid);
-  		model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
+        String uuid = UUID.randomUUID().toString().toUpperCase()
+                  .replace("-", "");
+          model.addAttribute("businessId", uuid);
+          model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
         return "ses/app/add";
     }
     
     /**
      * 
-     * Description: 添加
+     * Description: 新增
      * 
      * @author zhang shubin
      * @data 2017年6月16日
@@ -83,20 +84,52 @@ public class AppInfoController {
      */
     @RequestMapping("/add")
     public String add(AppInfo appInfo, Model model,HttpServletRequest request){
-    	String businessId = request.getParameter("businessId");
-    	System.out.println(businessId);
-    	return "redirect:list.html";
+        String businessId = request.getParameter("businessId");
+        String path = appInfoService.selectPathByBusinessId(businessId);
+        boolean flag = true;
+        if(appInfo.getVersion() == null || ("").equals(appInfo.getVersion())){
+            flag = false;
+            model.addAttribute("error_version","版本号不能为空");
+        }else if (appInfoService.selectByVersion(appInfo.getVersion()) != null){
+            flag = false;
+            model.addAttribute("error_version","版本号已存在");
+        }
+        if(path.equals("")){
+            flag = false;
+            model.addAttribute("errorShangchuan","请上传新版本");
+        }
+        if(flag == true){
+            appInfo.setPath(path);
+            appInfo.setCreatedAt(new Date());
+            appInfo.setRemark(businessId);
+            appInfoService.add(appInfo);
+            return "redirect:list.html";
+        }else{
+            model.addAttribute("appInfo",appInfo);
+            model.addAttribute("businessId", businessId);
+              model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
+              System.out.println(appInfoService.selectByVersion(appInfo.getVersion()));
+            return "ses/app/add";
+        }
     }
     
+    /**
+     * 
+     * Description: 回退
+     * 
+     * @author zhang shubin
+     * @data 2017年6月22日
+     * @param 
+     * @return
+     */
     @RequestMapping("/fallback")
     @ResponseBody
-    public String fallback(String version){
-    	AppInfo appInfo = appInfoService.selectByVersion(version);
-    	Integer i = appInfoService.fallbackByVersion(appInfo.getCreatedAt());
-    	if(i > 0){
-    		return "success";
-    	}else{
-    		return "error";
-    	}
+    public String fallback(){
+        Integer i = appInfoService.fallbackByVersion();
+        if(i > 0){
+            return "success";
+        }else{
+            return "error";
+        }
     }
 }
