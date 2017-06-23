@@ -14,6 +14,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
@@ -37,10 +38,10 @@ import bss.dao.ppms.ProjectMapper;
 import bss.dao.ppms.SupplierCheckPassMapper;
 
 import com.alibaba.fastjson.JSON;
+
 import common.constant.StaticVariables;
 import common.utils.DateUtils;
 import common.utils.JedisUtils;
-
 import dss.service.rids.PurchaseResourceAnalyzeService;
 
 /**
@@ -86,8 +87,8 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 	private ArticleTypeMapper articleTypeMapper;
 	
 	// 注入JedisPool
-	/*@Autowired*/
-	private JedisPool jedisPool;
+	@Autowired
+	private JedisConnectionFactory jedisConnectionFactory;
 	
 	// 注入组织机构Mapper
 	@Autowired
@@ -229,7 +230,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		// 从缓存中获取
 		Jedis jedis = null;
 		try {
-			jedis = JedisUtils.getResource(jedisPool);
+			jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 			String json = jedis.hget(StaticVariables.ANALYZE, ORG_SUP_NUM);
 			if(json != null){
 				return JSON.parseArray(json, AnalyzeBigDecimal.class);
@@ -237,7 +238,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		} catch (Exception e) {
 			logger.info("redis连接异常....");
 		}finally {
-			JedisUtils.returnResource(jedis, jedisPool);
+			JedisUtils.returnResourceOfFactory(jedis);
 		}
 		List<AnalyzeBigDecimal> list = orgnizationMapper.selectSupByOrg();
 		// 存入到缓存中
@@ -261,7 +262,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		// 从缓存中获取
 		Jedis jedis = null;
 		try {
-			jedis = JedisUtils.getResource(jedisPool);
+			jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 			String json = jedis.hget(StaticVariables.ANALYZE, AREA_EXP_NUM);
 			if(json != null){
 				return JSON.parseArray(json, AnalyzeBigDecimal.class);
@@ -269,7 +270,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		} catch (Exception e) {
 			logger.info("redis连接异常....");
 		}finally {
-			JedisUtils.returnResource(jedis, jedisPool);
+			JedisUtils.returnResourceOfFactory(jedis);
 		}
 		List<AnalyzeBigDecimal> list = expertMapper.selectExpertsByArea();
 		// 设置地区
@@ -367,7 +368,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		// 从缓存中获取
 		Jedis jedis = null;
 		try {
-			jedis = JedisUtils.getResource(jedisPool);
+			jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 			String json = jedis.hget(StaticVariables.ANALYZE, ORG_EXP_NUM);
 			if(json != null){
 				return JSON.parseArray(json, AnalyzeBigDecimal.class);
@@ -375,7 +376,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		} catch (Exception e) {
 			logger.info("redis连接异常....");
 		}finally {
-			JedisUtils.returnResource(jedis, jedisPool);
+			JedisUtils.returnResourceOfFactory(jedis);
 		}
 		List<AnalyzeBigDecimal> list = orgnizationMapper.selectExpByOrg();
 		// 存入到缓存中
@@ -399,7 +400,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		// 从缓存中获取
 		Jedis jedis = null;
 		try {
-			jedis = JedisUtils.getResource(jedisPool);
+			jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 			String json = jedis.hget(StaticVariables.ANALYZE, AREA_ORG_NUM);
 			if(json != null){
 				return JSON.parseArray(json, AnalyzeBigDecimal.class);
@@ -407,7 +408,7 @@ public class PurchaseResourceAnalyzeServiceImpl implements
 		} catch (Exception e) {
 			logger.info("redis连接异常....");
 		}finally {
-			JedisUtils.returnResource(jedis, jedisPool);
+			JedisUtils.returnResourceOfFactory(jedis);
 		}
 		List<AnalyzeBigDecimal> list = orgnizationMapper.selectOrgsByArea();
 		setArea(list);

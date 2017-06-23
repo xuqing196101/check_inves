@@ -11,10 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
@@ -94,8 +94,8 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	@Autowired
 	private OBProjectRuleMapper obProjectRuleMapper;
 	
-	/*@Autowired*/
-	private JedisPool jedisPool;
+	@Autowired
+	private JedisConnectionFactory jedisConnectionFactory;
 	
 	private Logger log = LoggerFactory.getLogger(OBSupplierQuoteServiceImpl.class);
 	
@@ -255,7 +255,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		Jedis jedis = null;
 		try {
 			// 获取Jedis对象
-			jedis = JedisUtils.getResource(jedisPool);
+			jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 			// 获取报价供应商临时存储  防止同一用户并发访问
 			Long count = jedis.incrBy("ob_quoto"+user.getId(), 1);
 			// 供应商只能报价一次
@@ -274,7 +274,8 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				return JdcgResult.build(500, "其他用户已完成本次报价！");
 			}
 		} finally{
-			JedisUtils.returnResource(jedis, jedisPool);
+			jedis.quit();
+			jedis.disconnect();
 		}
 		
 		// 报价前，判断截止时间是否已到

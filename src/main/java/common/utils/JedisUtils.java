@@ -150,4 +150,18 @@ public class JedisUtils {
         JedisConnection jedisConnection = jedisConnectionFactory.getConnection();  
         return jedisConnection.getNativeConnection();  
     }
+    
+    
+    /**
+     * 
+     * Description: 连接工厂方式归还资源
+     * 
+     * @author Easong
+     * @version 2017年6月23日
+     * @param jedis
+     */
+    public static void returnResourceOfFactory(Jedis jedis){
+    	jedis.quit();
+		jedis.disconnect();
+    }
 }

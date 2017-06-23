@@ -8,10 +8,10 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import ses.model.bms.User;
 import ses.util.PropertiesUtil;
 import bss.dao.ob.OBProjectMapper;
@@ -58,8 +58,8 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	private OBProjectMapper oBProjectMapper;
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
-	/*@Autowired*/
-	private JedisPool jedisPool;
+	@Autowired
+	private JedisConnectionFactory jedisConnectionFactory;
 	@Autowired
 	private OBResultSubtabulationMapper OBResultSubtabulationMapper;
 	@Autowired
@@ -68,37 +68,31 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	private static final Integer JEDIS_QUOTO_TIME = 50; // 存放报价用户缓存时间
 	@Override
 	public int countByExample(OBProjectResultExample example) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int deleteByExample(OBProjectResultExample example) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int deleteByPrimaryKey(String id) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int insert(OBProjectResult record) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int insertSelective(OBProjectResult record) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public List<OBProjectResult> selectByExample(OBProjectResultExample example) {
-		// TODO Auto-generated method stub
 		return oBProjectResultMapper.selectByExample(example);
 	}
 
@@ -109,25 +103,21 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 
 	@Override
 	public int updateByExampleSelective(OBProjectResult record, OBProjectResultExample example) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int updateByExample(OBProjectResult record, OBProjectResultExample example) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int updateByPrimaryKeySelective(OBProjectResult record) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int updateByPrimaryKey(OBProjectResult record) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -138,7 +128,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      */
 	@Override
 	public List<OBProjectResult> selectBySupplierId(String supplierId) {
-		// TODO Auto-generated method stub
 		return oBProjectResultMapper.selectBySupplierId(supplierId);
 	}
 
@@ -158,14 +147,12 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      */
 	@Override
 	public ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult,String confirmStatus) {
-		// TODO Auto-generated method stub
 		ConfirmInfoVo confirmInfoVo = oBProjectResultMapper.selectInfoByPSId(obProjectResult);
 		return confirmInfoVo;
 	}
 
 	@Override
 	public List<BidProductVo> selectProductBySupplierId(OBProjectResult obProjectResult) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -178,12 +165,11 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      */
 	@Override
 	public boolean updateBySupplierId(User users,String projectId,String supplierId, String confirmStatus,String projectResultId) {
-		// TODO Auto-generated method stub
 		boolean boo=false;
 		Jedis jedis = null;
 		try {
 			// 获取Jedis对象
-			jedis = JedisUtils.getResource(jedisPool);
+			jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 			// 获取供应商临时存储  防止同一用户并发访问
 			long count = jedis.incrBy("ob_confirmDrop"+users.getId(),1);
 			// 供应商只能操作一次
@@ -197,7 +183,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		} catch (Exception e) {
 			log.info("redis连接异常...");
 		} finally{
-			JedisUtils.returnResource(jedis, jedisPool);
+			JedisUtils.returnResourceOfFactory(jedis);
 		}
 	 
 		
@@ -268,7 +254,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      */
 	public int updateInfoBySPPIdList(User user,
 			List<OBProjectResult> projectResultList,String confirmNum) {
-		// TODO Auto-generated method stub
 		int flag = 0;
 		Date currentDate = new Date();
 		
@@ -381,14 +366,13 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      */
 	@Override
 	public List<SupplierProductVo> selectInfoByPID(String projectID, String supplierID) {
-		// TODO Auto-generated method stub
 		OBProjectResult oBProjectResult = new OBProjectResult();
 		oBProjectResult.setProjectId(projectID);
 		oBProjectResult.setProjectId(supplierID);
 		List<SupplierProductVo> spVo = oBProjectResultMapper.selectInfoByPID(projectID); 
-		for (SupplierProductVo supplierProductVo : spVo) {
+		/*for (SupplierProductVo supplierProductVo : spVo) {
 			List<BidProductVo> bidProductList = oBProjectResultMapper.selectProductBySupplierId(oBProjectResult);
-		}
+		}*/
 		return spVo;
 	}
 
@@ -412,7 +396,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	@Override
 	public ConfirmInfoVo selectSupplierDate(String supplierId,
 			String projectId,String status) {
-		// TODO Auto-generated method stub
 		//获取竞价结果 基础信息
 		ConfirmInfoVo info= oBProjectResultMapper.getBasic(projectId, supplierId);
 		if(info!=null){
@@ -458,13 +441,13 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		     }
 		    }
 		  }
-		OBProjectRule rule= OBProjectRuleMapper.selectByPrimaryKey(projectId);
+		//OBProjectRule rule= OBProjectRuleMapper.selectByPrimaryKey(projectId);
 		//第一轮确定时间
-		int time= rule.getConfirmTime();
+		//int time= rule.getConfirmTime();
 		//第二轮确定时间
-		int secoud=rule.getConfirmTimeSecond();
+		//int secoud=rule.getConfirmTimeSecond();
 		//报价信息
-		int quote=rule.getQuoteTime();
+		//int quote=rule.getQuoteTime();
 		// 当前的结束时间
 		info.setOBResultsInfo(or);
 			//取到的只是一个竞价的开始时间，下面依次根据取到规则的时间段设置确认各个段的时间值
@@ -480,7 +463,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      */
 	@Override
 	public String updateResult(User user,List<OBResultSubtabulation> projectResultList,String acceptNum) {
-		// TODO Auto-generated method stub
 		String reslt="";
 		 if(projectResultList!=null){
 			 
@@ -488,7 +470,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 				Jedis jedis = null;
 				try {
 					// 获取Jedis对象
-					jedis = JedisUtils.getResource(jedisPool);
+					jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 					// 获取供应商临时存储  防止同一用户并发访问
 					long flag = jedis.incrBy("ob_confirm"+user.getId(),1);
 					// 供应商只能操作一次
@@ -502,7 +484,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 				} catch (Exception e) {
 					log.info("redis连接异常...");
 				} finally{
-					JedisUtils.returnResource(jedis, jedisPool);
+					JedisUtils.returnResourceOfFactory(jedis);
 				}
 			 
 			 
@@ -586,7 +568,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 
 	@Override
 	public  List<OBProjectResult> selectSupplierStatus(OBProjectResult oBProjectResult) {
-		// TODO Auto-generated method stub
 		return oBProjectResultMapper.selectSupplierStatus(oBProjectResult);
 	}
 
@@ -630,7 +611,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      */
 	@Override
 	public List<OBProjectResult> selectByPID(String projectId) {
-		// TODO Auto-generated method stub
 		return oBProjectResultMapper.selectByPID(projectId);
 	}
     /**
@@ -639,7 +619,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	@Override
 	public Integer countByBidding(String projectId, String biddingId,
 			String supplierId) {
-		// TODO Auto-generated method stub
 		return OBResultsInfoMapper.countByBidding(projectId, biddingId, supplierId);
 	}
     /**
@@ -648,7 +627,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	@Override
 	public List<OBResultsInfo> getProductInfo(String projectId,
 			String supplierId, String bidding) {
-		// TODO Auto-generated method stub
 		return OBResultsInfoMapper.getProductInfo(projectId, supplierId, bidding);
 	}
     /**
@@ -656,7 +634,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      */
 	@Override
 	public List<String> isSecondBidding(String projectId) {
-		// TODO Auto-generated method stub
 		return OBResultsInfoMapper.isSecondBidding(projectId);
 	}
     /**
@@ -664,7 +641,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      */
 	@Override
 	public List<OBResultsInfo> selectResult(String projectId, String supplierId) {
-		// TODO Auto-generated method stub
 		return OBResultsInfoMapper.selectResult(projectId, supplierId);
 	}
     /**
@@ -672,7 +648,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      */
 	@Override
 	public List<OBProjectResult> getSecond(String projectId) {
-		// TODO Auto-generated method stub
 		return oBProjectResultMapper.getSecond(projectId);
 	}
     /**
@@ -680,7 +655,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      */
 	@Override
 	public String getProportionSum(String projectId) {
-		// TODO Auto-generated method stub
 		return oBProjectResultMapper.getProportionSum(projectId);
 	}
 
