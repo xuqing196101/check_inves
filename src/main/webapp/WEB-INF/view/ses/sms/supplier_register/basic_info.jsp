@@ -232,12 +232,12 @@
 					proportionTotal += parseFloat($(this).val());
 					stockholderCount++;
 				});
+				proportionTotal = proportionTotal.toFixed(2);
 				if(proportionTotal !=0 && stockholderCount != 0){
-					if(stockholderCount >= 10 && proportionTotal < 50){
+					if(stockholderCount >= 10 && proportionTotal < 50.00){
 						msg = "出资人10个或以上，出资比例之和要高于50%！";
 						flag = false;
 					}
-					proportionTotal = proportionTotal.toFixed(2);
 					if(stockholderCount < 10 && proportionTotal != 100.00){
 						msg = "出资人不超过10个，出资比例之和必须为100%！";
 						flag = false;
