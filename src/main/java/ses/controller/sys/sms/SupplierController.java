@@ -1851,7 +1851,7 @@ public class SupplierController extends BaseSupplierController {
 		Set<String> set=new HashSet<String>();
 		if(supplier.getListSupplierStockholders() != null && supplier.getListSupplierStockholders().size() > 0) {
 			List < SupplierStockholder > stockList = supplier.getListSupplierStockholders();
-			int proportionTotal = 0;// 出资比例之和
+			float proportionTotal = 0.00f;// 出资比例之和
 			int stockholderCount = 0;// 股东数量
 			if(stockList != null && !stockList.isEmpty()){
 				for(SupplierStockholder stocksHolder: stockList) {

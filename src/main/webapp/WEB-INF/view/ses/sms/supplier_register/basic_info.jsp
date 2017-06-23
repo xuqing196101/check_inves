@@ -237,7 +237,8 @@
 						msg = "出资人10个或以上，出资比例之和要高于50%！";
 						flag = false;
 					}
-					if(stockholderCount < 10 && proportionTotal != 100){
+					proportionTotal = proportionTotal.toFixed(2);
+					if(stockholderCount < 10 && proportionTotal != 100.00){
 						msg = "出资人不超过10个，出资比例之和必须为100%！";
 						flag = false;
 					}
