@@ -82,15 +82,18 @@
 		function resize_table_width() {
 	        $('.m_resize_table_width').each(function () {
 	            var table_width = 0;
+	            var parent_width = $(this).parent().width();
 	            $(this).find('thead th').each(function () {
 	            	if(typeof($(this).attr('width')) != 'undefined') {
 	            		table_width +=  parseInt($(this).attr('width'));
 		            }
 	            });
-	            $(this).css({
-	                width: table_width,
-	                maxWidth: table_width
-	            });
+	            if (table_width > parent_width) {
+		            $(this).css({
+		                width: table_width,
+		                maxWidth: table_width
+		            });
+	            }
 	        });
 	    }
 	    $(function () {

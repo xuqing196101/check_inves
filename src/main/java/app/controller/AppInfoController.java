@@ -107,8 +107,7 @@ public class AppInfoController {
         }else{
             model.addAttribute("appInfo",appInfo);
             model.addAttribute("businessId", businessId);
-              model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
-              System.out.println(appInfoService.selectByVersion(appInfo.getVersion()));
+            model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
             return "ses/app/add";
         }
     }
@@ -131,5 +130,28 @@ public class AppInfoController {
         }else{
             return "error";
         }
+    }
+    
+    /**
+     * 
+     * Description: 详情查看
+     * 
+     * @author zhang shubin
+     * @data 2017年6月23日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/view")
+    public String view(Model model,HttpServletRequest request){
+        String version = request.getParameter("version") == null ? "" : request.getParameter("version");
+        AppInfo appInfo = appInfoService.selectByVersion(version);
+        String businessId = "";
+        if(appInfo != null){
+            businessId = appInfo.getRemark();
+        }
+        model.addAttribute("appInfo",appInfo);
+        model.addAttribute("businessId", businessId);
+        model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
+        return "ses/app/view";
     }
 }

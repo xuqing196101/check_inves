@@ -62,6 +62,11 @@
     $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
     window.location.href = "${pageContext.request.contextPath }/appInfo/list.html";
   }
+  
+  //查看详情
+  function view(version){
+    window.location.href = "${pageContext.request.contextPath }/appInfo/view.html?version="+version;
+  }
 </script>
 </head>
 <body>
@@ -112,7 +117,7 @@
             <tr class="tc">
               <%-- <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${appInfo.version }" /></td> --%>
               <td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-              <td class="tc">${appInfo.version }</td>
+              <td class="tc" onclick = "view('${appInfo.version}')">${appInfo.version }</td>
               <td class="tc">
                 <fmt:formatDate value="${appInfo.createdAt }" pattern="yyyy-MM-dd" />
               </td>
