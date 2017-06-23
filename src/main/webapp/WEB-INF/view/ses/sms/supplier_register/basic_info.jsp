@@ -242,6 +242,10 @@
 						msg = "出资人不超过10个，出资比例之和必须为100%！";
 						flag = false;
 					}
+					if(proportionTotal > 100.00){
+						msg = "出资比例总和不能超过100%！";
+						flag = false;
+					}
 				}
 				
 				// 校验信用代码
@@ -479,11 +483,11 @@
 					"<td class='tc'><input type='text' style='border:0px;' maxlength='50' name='listSupplierStockholders[" + stocIndex + "].name' value=''> </td>" +
 					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].identity' maxlength='18' onkeyup='validateIdentity(this)' value=''> </td>" +
 					"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].shares' value=''></td>" +
-					"<td class='tc'> <input type='text' style='border:0px;' class='proportion_vali' name='listSupplierStockholders[" + stocIndex + "].proportion' value=''> </td>" + "</tr>");
+					"<td class='tc'> <input type='text' style='border:0px;' class='proportion_vali' name='listSupplierStockholders[" + stocIndex + "].proportion' value='' onkeyup=\"value=value.replace(/[^\d.]/g,'')\" onblur=\"validatePercentage2(this.value)\"> </td>" + "</tr>");
 
 				stocIndex++;
 				$("#stockIndex").val(stocIndex);
-                loadProportion();
+        //loadProportion();
 			}
 			
 			function validateIdentity(obj){
@@ -601,11 +605,12 @@
 						}
 					});
 					var confirmMsg = "确认删除？";
+					proportionTotal = proportionTotal.toFixed(2);
 					if(proportionTotal !=0 && stockholderCount != 0){
-						if(stockholderCount >= 10 && proportionTotal < 50){
+						if(stockholderCount >= 10 && proportionTotal < 50.00){
 							confirmMsg = "出资人10个或以上，出资比例之和要高于50%！确认删除？";
 						}
-						if(stockholderCount < 10 && proportionTotal != 100){
+						if(stockholderCount < 10 && proportionTotal != 100.00){
 							confirmMsg = "出资人不超过10个，出资比例之和必须为100%！确认删除？";
 						}
 					}
