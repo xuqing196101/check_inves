@@ -563,16 +563,16 @@ public class IntelligentScoringController extends BaseController{
     	        if (packages != null) {
     	          model.addAttribute("packages", packages.get(0));
     	        }
-    	        HashMap<String, Object> map2 = new HashMap<String, Object>();
+    	        /*HashMap<String, Object> map2 = new HashMap<String, Object>();
     	        map2.put("kind", DictionaryDataUtil.getId("REVIEW_CHECK_ET"));
     	        //获取经济技术评审模版
-    	        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+    	        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);*/
     	        model.addAttribute("dds", dds);
     	        model.addAttribute("items1", items1);
     	        model.addAttribute("items2", items2);
     	        model.addAttribute("packageId", packageId);
     	        model.addAttribute("projectId", projectId);
-    	        model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+    	        /*model.addAttribute("firstAuditTemplats", firstAuditTemplats);*/
     	        model.addAttribute("flowDefineId", flowDefineId);
     	        Project project = projectService.selectById(projectId);
     	        model.addAttribute("flag", project.getConfirmFile());
@@ -592,12 +592,12 @@ public class IntelligentScoringController extends BaseController{
     	        if (packages != null && packages.size() > 0) {
     	          model.addAttribute("packages", packages.get(0));
     	        }
-    	        //获取经济技术审查模版
+    	       /* //获取经济技术审查模版
     	        HashMap<String, Object> map2 = new HashMap<String, Object>();
     	        map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
     	        //获取资格性和符合性审查模版
     	        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
-    	        model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+    	        model.addAttribute("firstAuditTemplats", firstAuditTemplats);*/
     	        model.addAttribute("packageId", packageId);
     	        model.addAttribute("projectId", projectId);
     	        model.addAttribute("flowDefineId", flowDefineId);
@@ -635,18 +635,19 @@ public class IntelligentScoringController extends BaseController{
               if (packages != null) {
                 model.addAttribute("packages", packages.get(0));
               }
-              HashMap<String, Object> map2 = new HashMap<String, Object>();
+              /*HashMap<String, Object> map2 = new HashMap<String, Object>();
               map2.put("kind", DictionaryDataUtil.getId("REVIEW_CHECK_ET"));
               //获取经济技术评审模版
-              List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+              List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);*/
               model.addAttribute("dds", dds);
               model.addAttribute("items1", items1);
               model.addAttribute("items2", items2);
               model.addAttribute("packageId", packageId);
               model.addAttribute("projectId", projectId);
-              model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+              /*model.addAttribute("firstAuditTemplats", firstAuditTemplats);*/
               Project project = projectService.selectById(projectId);
               model.addAttribute("flag", project.getConfirmFile());
+              model.addAttribute("isView", "1");
               return "bss/prms/score/edit_package_check";
             }
             if ("OPEN_ZHPFF".equals(methodCode)) {
@@ -664,12 +665,12 @@ public class IntelligentScoringController extends BaseController{
               if (packages != null && packages.size() > 0) {
                 model.addAttribute("packages", packages.get(0));
               }
-              //获取经济技术审查模版
+             /* //获取经济技术审查模版
               HashMap<String, Object> map2 = new HashMap<String, Object>();
               map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
               //获取资格性和符合性审查模版
               List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
-              model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+              model.addAttribute("firstAuditTemplats", firstAuditTemplats);*/
               Project project = projectService.selectById(projectId);
               model.addAttribute("project", project);
               model.addAttribute("packageId", packageId);

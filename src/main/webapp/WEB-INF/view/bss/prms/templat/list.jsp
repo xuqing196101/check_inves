@@ -312,12 +312,12 @@
 		            </li>
 		            <li>
 						<label class="fl">所属产品目录：</label>
-						<div class="input_group">
+						<div class="input_group w200">
 							<input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
 					        <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
-							<div class="drop_up" onclick="showCategory();">
+							<%-- <div class="drop_up" onclick="showCategory();">
 							    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
-					        </div>
+					        </div> --%>
 						</div>
 					</li>
 				</ul>
