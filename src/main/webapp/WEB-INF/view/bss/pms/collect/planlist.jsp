@@ -428,7 +428,10 @@
                 <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
               </td>
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tl" width="35%" onclick="view('${obj.id}')">${obj.fileName }</td>
+              <td class="tl" width="35%" onclick="view('${obj.id}')" title="${obj.fileName}">
+              <c:if test="${fn:length(obj.fileName)>30}">${fn:substring(obj.fileName,0,29)}...</c:if>
+              <c:if test="${fn:length(obj.fileName) <= 30}">${obj.fileName}</c:if>
+              </td>
               <td class="tr" onclick="view('${obj.id}')">
                 <fmt:formatNumber type="number" pattern="#,##0.00" value="${obj.budget}" />
               </td>

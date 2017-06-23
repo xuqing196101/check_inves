@@ -48,6 +48,16 @@
                 $("#submitdiv").attr("disabled", false);
                 $("#principal").attr("disabled", false);
                 $("#currPrincipal").attr("disabled", false);
+                //环节结束
+			          if(data.isFes == 1) {
+			            $("#submitdiv").attr("disabled", true);
+			            $("#principal").attr("disabled", true);
+			            $("#currPrincipal").attr("disabled", true);
+			          } else {
+			            $("#submitdiv").attr("disabled", false);
+			            $("#principal").attr("disabled", false);
+			            $("#currPrincipal").attr("disabled", false);
+			          }
               }
               if(!data.isEnd) {
                 $("#nextHaunjie").show();

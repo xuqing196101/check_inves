@@ -27,13 +27,13 @@
     <script type="text/javascript">
       $(function() {
         //获取查看或操作权限
-        /*  var isOperate = $('#isOperate', window.parent.document).val();
+          var isOperate = $('#isOperate', window.parent.document).val();
           if(isOperate == 0) {
             //只具有查看权限，隐藏操作按钮
         $(":button").each(function(){ 
           $(this).hide();
               }); 
-      } */
+      } 
      /*  $("#uploaderId").click(function(){
           var id = $(".web_uploader_class").prev()[0].value;
           init_uploader(eval("var  uploader_" + id),id);
