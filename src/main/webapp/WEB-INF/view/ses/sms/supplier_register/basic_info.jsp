@@ -787,7 +787,7 @@
                 }
 			}
 			/**对于金额的小数判断*/
-			function checkNumsSale(obj,nonNum){alert(11);
+			function checkNumsSale(obj,nonNum){
 			    var _val = $(obj).val();
 			    if(_val!="" && nonNum!=3){//如果可以为负数的话设置3;净资产总额不进行负数校验
 			        if(parseInt(_val)<0){
