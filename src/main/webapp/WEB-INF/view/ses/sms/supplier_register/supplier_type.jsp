@@ -1498,7 +1498,7 @@
 													<div
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalResearch"
-															required onkeyup="checknums(this)"
+															required onkeyup="value=value.replace(/[^\d]/g,'')" onblur="return validatePositiveInteger(this.value);"
 															value="${currSupplier.supplierMatPro.totalResearch}" <c:if test="${!fn:contains(proPageField,'totalResearch')&&currSupplier.status==2}">readonly='readonly' </c:if>
 															<c:if test="${fn:contains(proPageField,'totalResearch')}">style="border: 1px solid red;" onmouseover="errorMsg('totalResearch','mat_pro_page')"</c:if> />
 														<span class="add-on cur_point">i</span> <span

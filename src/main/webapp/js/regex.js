@@ -85,3 +85,13 @@ function validateEmail(val) {
 	}
 	return true;
 }
+
+//验证正整数
+function validatePositiveInteger(val) {
+	var reg = /^(\d+)?$/g;
+	if(!reg.test(val)){
+		layer.msg("请输入正整数！");
+        return false;
+	}
+	return true;
+}
