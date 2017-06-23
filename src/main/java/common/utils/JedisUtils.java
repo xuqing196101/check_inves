@@ -10,16 +10,16 @@ import redis.clients.jedis.JedisPool;
 
 /**
  * 
- * @Title: RedisUtils.java
+ * @Title: JedisUtils.java
  * @Package common.utils
  * @Description: Redis工具类
  * @author SongDong
  * @date 2017年2月23日 下午5:45:19
  * @version 2017年2月23日
  */
-public class RedisUtils {
+public class JedisUtils {
 
-	private static Logger log = LoggerFactory.getLogger(RedisUtils.class);
+	private static Logger log = LoggerFactory.getLogger(JedisUtils.class);
 
 	/**
 	 * 
@@ -87,7 +87,7 @@ public class RedisUtils {
 	 * @throws
 	 * @version 2017年2月27日
 	 */
-	public synchronized static Jedis getResource(JedisPool jedisPool) {
+	public static Jedis getResource(JedisPool jedisPool) {
 		return jedisPool.getResource();
 	}
 
@@ -146,7 +146,7 @@ public class RedisUtils {
 	 * @param jedisConnectionFactory
 	 * @return
 	 */
-    public synchronized static Jedis getJedisByFactory(JedisConnectionFactory jedisConnectionFactory) {
+    public static Jedis getJedisByFactory(JedisConnectionFactory jedisConnectionFactory) {
         JedisConnection jedisConnection = jedisConnectionFactory.getConnection();  
         return jedisConnection.getNativeConnection();  
     }

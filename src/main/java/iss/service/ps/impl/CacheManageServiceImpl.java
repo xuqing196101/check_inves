@@ -21,12 +21,13 @@ import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
 import ses.util.PropertiesUtil;
+
 import common.dao.SystemPVMapper;
 import common.model.SystemPV;
 import common.model.SystemPVVO;
 import common.utils.DateUtils;
 import common.utils.JdcgResult;
-import common.utils.RedisUtils;
+import common.utils.JedisUtils;
 
 /**
  * 
@@ -77,7 +78,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 		// 获取分页信息对象
 		Page<Cache> info = new Page<Cache>();
 		try {
-			jedis = RedisUtils.getJedisByFactory(jedisConnectionFactory);
+			jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 			if (jedis != null) {
 				String newKey = "*";
 				// 查询总条数
@@ -171,15 +172,15 @@ public class CacheManageServiceImpl implements CacheManageService {
 	public JdcgResult clearCache(String cacheKey, String cacheType) {
 		Jedis jedis = null;
 		try {
-			jedis = RedisUtils.getJedisByFactory(jedisConnectionFactory);
+			jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 			// 判断缓存是否存在
-			boolean b = RedisUtils.isExist(jedis, cacheKey);
+			boolean b = JedisUtils.isExist(jedis, cacheKey);
 			// 不存在
 			if (!b) {
 				return JdcgResult.ok("缓存不存在！");
 			}
 			// 存在--执行删除
-			RedisUtils.del(cacheKey, jedis);
+			JedisUtils.del(cacheKey, jedis);
 			return JdcgResult.ok("清除缓存成功！");
 
 		} catch (Exception e) {
@@ -209,7 +210,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 		Jedis jedis = null;
 		Cache cache = new Cache();
 		try {
-			jedis = RedisUtils.getJedisByFactory(jedisConnectionFactory);
+			jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 			Object cacheValue = null;
 			if (STRING_TYPE.equals(cacheType) || SET_TYPE.equals(cacheType)) {
 				cacheValue = jedis.get(cacheKey);
@@ -252,7 +253,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 		// 查询出的总访问量
 		String pvTotal;
 		try {
-			jedis = RedisUtils.getJedisByFactory(jedisConnectionFactory);
+			jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 			// 获取日访问量
 			dayNumString = jedis.get(dateOfFormat);
 			systemPVVO.setDayNum(new BigDecimal(dayNumString));

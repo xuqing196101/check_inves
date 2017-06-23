@@ -1,8 +1,6 @@
 package bss.service.ob.impl;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,33 +14,28 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import ses.model.bms.User;
 import ses.util.PropertiesUtil;
-
-import com.github.pagehelper.PageHelper;
-
 import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
 import bss.dao.ob.OBResultSubtabulationMapper;
 import bss.dao.ob.OBResultsInfoMapper;
+import bss.dao.ob.OBRuleMapper;
 import bss.model.ob.BidProductVo;
 import bss.model.ob.ConfirmInfoVo;
-import bss.model.ob.OBProduct;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
 import bss.model.ob.OBProjectRule;
 import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.OBResultsInfo;
-import bss.model.ob.OBRule;
 import bss.model.ob.SupplierProductVo;
 import bss.service.ob.OBProjectResultService;
 import bss.util.BiddingStateUtil;
-import common.annotation.CurrentUser;
+
+import com.github.pagehelper.PageHelper;
 import common.utils.DateUtils;
-import common.utils.JdcgResult;
-import common.utils.RedisUtils;
-import bss.dao.ob.OBRuleMapper;
+import common.utils.JedisUtils;
 /**
  * 
  * @author Ma Mingwei
@@ -190,7 +183,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		Jedis jedis = null;
 		try {
 			// 获取Jedis对象
-			jedis = RedisUtils.getResource(jedisPool);
+			jedis = JedisUtils.getResource(jedisPool);
 			// 获取供应商临时存储  防止同一用户并发访问
 			long count = jedis.incrBy("ob_confirmDrop"+users.getId(),1);
 			// 供应商只能操作一次
@@ -204,7 +197,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		} catch (Exception e) {
 			log.info("redis连接异常...");
 		} finally{
-			RedisUtils.returnResource(jedis, jedisPool);
+			JedisUtils.returnResource(jedis, jedisPool);
 		}
 	 
 		
@@ -495,7 +488,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 				Jedis jedis = null;
 				try {
 					// 获取Jedis对象
-					jedis = RedisUtils.getResource(jedisPool);
+					jedis = JedisUtils.getResource(jedisPool);
 					// 获取供应商临时存储  防止同一用户并发访问
 					long flag = jedis.incrBy("ob_confirm"+user.getId(),1);
 					// 供应商只能操作一次
@@ -509,7 +502,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 				} catch (Exception e) {
 					log.info("redis连接异常...");
 				} finally{
-					RedisUtils.returnResource(jedis, jedisPool);
+					JedisUtils.returnResource(jedis, jedisPool);
 				}
 			 
 			 

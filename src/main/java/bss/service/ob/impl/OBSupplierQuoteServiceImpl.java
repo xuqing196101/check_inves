@@ -22,7 +22,6 @@ import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.util.DictionaryDataUtil;
 import bss.dao.ob.OBProductInfoMapper;
-import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBProjectRuleMapper;
@@ -41,11 +40,12 @@ import bss.model.ob.OBResultsInfoExt;
 import bss.model.ob.OBSupplier;
 import bss.service.ob.OBSupplierQuoteService;
 import bss.util.BiddingStateUtil;
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.JdcgResult;
-import common.utils.RedisUtils;
+import common.utils.JedisUtils;
 
 /**
  * 
@@ -255,7 +255,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		Jedis jedis = null;
 		try {
 			// 获取Jedis对象
-			jedis = RedisUtils.getResource(jedisPool);
+			jedis = JedisUtils.getResource(jedisPool);
 			// 获取报价供应商临时存储  防止同一用户并发访问
 			Long count = jedis.incrBy("ob_quoto"+user.getId(), 1);
 			// 供应商只能报价一次
@@ -274,7 +274,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				return JdcgResult.build(500, "其他用户已完成本次报价！");
 			}
 		} finally{
-			RedisUtils.returnResource(jedis, jedisPool);
+			JedisUtils.returnResource(jedis, jedisPool);
 		}
 		
 		// 报价前，判断截止时间是否已到

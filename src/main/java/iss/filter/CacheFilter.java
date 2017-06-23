@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -23,10 +21,10 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Repository;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+
 import common.service.SystemPvService;
 import common.utils.DateUtils;
-import common.utils.RedisUtils;
+import common.utils.JedisUtils;
 
 /**
  * 
@@ -113,12 +111,12 @@ public class CacheFilter implements Filter {
 	 * @throws ServletException
 	 */
 	@Override
-	public synchronized void init(FilterConfig config) throws ServletException {
+	public void init(FilterConfig config) throws ServletException {
 		Jedis jedis = null;
 		try {
 			// 获取当前日期作为key 格式20170613
 			String key = DateUtils.getDateOfFormat(new Date());
-			jedis = RedisUtils.getJedisByFactory(getCacheHomePage());
+			jedis = JedisUtils.getJedisByFactory(getCacheHomePage());
 			String thisDayPvKey = jedis.get(key);
 			String pvTotalKey = jedis.get(C_PV_TOTAL_KEY);
 			if (StringUtils.isEmpty(thisDayPvKey)) {
@@ -164,7 +162,7 @@ public class CacheFilter implements Filter {
 	}
 
 	@Override
-	public synchronized void doFilter(ServletRequest servletRequest,
+	public void doFilter(ServletRequest servletRequest,
 			ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
 		HttpServletResponse resp = (HttpServletResponse) servletResponse;
@@ -220,11 +218,11 @@ public class CacheFilter implements Filter {
 	 * @throws
 	 * @version 2017年2月23日
 	 */
-	private synchronized String getHtmlFromCache() {
+	private String getHtmlFromCache() {
 		Jedis jedis = null;
 		try {
 			// 获取连接
-			jedis = RedisUtils.getJedisByFactory(cacheHomePage);
+			jedis = JedisUtils.getJedisByFactory(cacheHomePage);
 			String cachePage = jedis.get(homeKey);
 			if (cachePage != null) {
 				return cachePage;
@@ -233,11 +231,11 @@ public class CacheFilter implements Filter {
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-		  if(jedis!=null){
-      jedis.quit();
-      jedis.disconnect();
-    }
-		  
+			if (jedis != null) {
+				jedis.quit();
+				jedis.disconnect();
+			}
+
 		}
 		return null;
 
@@ -254,11 +252,11 @@ public class CacheFilter implements Filter {
 	 * @throws
 	 * @version 2017年2月23日
 	 */
-	private synchronized void putIntoCache(String html) {
+	private void putIntoCache(String html) {
 		Jedis jedis = null;
 		try {
 			// 获取连接
-			jedis = RedisUtils.getJedisByFactory(cacheHomePage);
+			jedis = JedisUtils.getJedisByFactory(cacheHomePage);
 			// 将查询的页面信息存放到缓存当中
 			jedis.set(homeKey, html);
 			// 设置缓存存储时间
@@ -267,12 +265,10 @@ public class CacheFilter implements Filter {
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-		  if(jedis!=null){
-      jedis.quit();
-      jedis.disconnect();
-    }
-		  
-		  
+			if (jedis != null) {
+				jedis.quit();
+				jedis.disconnect();
+			}
 		}
 	}
 	
@@ -284,12 +280,12 @@ public class CacheFilter implements Filter {
 	 * @version 2017年6月13日
 	 */
 	// Lock lock = new ReentrantLock();
- 	private synchronized void putIntoPV(){
+ 	private void putIntoPV(){
 		Jedis jedis = null;
 		try {
 			// lock.lock(); 锁机制解决高并发
 			// 获取jedis
-			jedis = RedisUtils.getJedisByFactory(cacheHomePage);
+			jedis = JedisUtils.getJedisByFactory(cacheHomePage);
 			// 获取当前日期作为key 格式20170613
 			String key = DateUtils.getDateOfFormat(new Date());
 			// 获取当前日期的key
@@ -331,13 +327,13 @@ public class CacheFilter implements Filter {
 			}
 		} catch (Exception e) {
 			log.info("redis连接异常...");
-		}finally {
+		} finally {
 			// lock.unlock();
 			// 关闭资源
-		  if(jedis!=null){
-      jedis.quit();
-      jedis.disconnect();
-    }
+			if (jedis != null) {
+				jedis.quit();
+				jedis.disconnect();
+			}
 		}
 	}
 

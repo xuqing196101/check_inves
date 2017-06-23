@@ -10,12 +10,12 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+
 import common.dao.SystemPVMapper;
 import common.model.SystemPV;
 import common.service.SystemPvService;
 import common.utils.DateUtils;
-import common.utils.RedisUtils;
+import common.utils.JedisUtils;
 /**
  * 
  * Description:计数系统接口实现类
@@ -65,7 +65,7 @@ public class SystemPvServiceImpl implements SystemPvService {
 		// 从缓存中获取数据
 		Jedis jedis = null;
 		try {
-			jedis = RedisUtils.getJedisByFactory(jedisConnectionFactory);
+			jedis = JedisUtils.getJedisByFactory(jedisConnectionFactory);
 			String dayNum = jedis.get(dateOfFormat);
 			if(dayNum != null){
 				// 先查询数据库是否有此记录
