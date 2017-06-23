@@ -225,7 +225,7 @@ public class SupplierServiceImpl implements SupplierService {
             supplier.setBranchList(list);
         }
         List<SupplierAddress> addressList = supplierAddressService.getBySupplierId(id);
-        if(addressList.size()>0){
+        if(addressList != null && addressList.size()>0){
         	for(SupplierAddress b:addressList){
         	    if (StringUtils.isNotBlank(b.getProvinceId())){
         	        List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
