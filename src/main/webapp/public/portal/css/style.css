@@ -3251,15 +3251,6 @@ h2.list_title{
     cursor: default !important;
 }
 
-/* 北京-前端-马田力修改 */
-.m_ul_list li {
-	height: 80px;
-}
-@media screen and (max-width: 768px) {
-	.m_ul_list li {
-		height: 78px;
-	}
-}
 /* APP二维码 */
 .m_app_code {
 	position: fixed;
