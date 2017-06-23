@@ -367,7 +367,7 @@ public class SupplierController extends BaseSupplierController {
 				sup.setBranchList(branchList);
 			}
 			List < SupplierAddress > addressList = supplierAddressService.getBySupplierId(sup.getId());
-			if(addressList.size() > 0) {
+			if(addressList != null && !addressList.isEmpty()) {
 				for(SupplierAddress b: addressList) {
 					if(StringUtils.isNotBlank(b.getProvinceId())) {
 						List < Area > city = areaService.findAreaByParentId(b.getProvinceId());
@@ -709,11 +709,13 @@ public class SupplierController extends BaseSupplierController {
 	public String perfectBasic(HttpServletRequest request, Model model, Supplier supplier) throws Exception {
 		// 非空处理
 	    List < SupplierAddress > addressList = supplier.getAddressList();
-	    for(int i = 0; i < addressList.size(); i++) {
-	        SupplierAddress address = addressList.get(i);
-	        if(address != null && address.getId() == null) {
-	            addressList.remove(i);
-	        }
+	    if(addressList != null && addressList.isEmpty()){
+	    	for(int i = 0; i < addressList.size(); i++) {
+	    		SupplierAddress address = addressList.get(i);
+	    		if(address != null && address.getId() == null) {
+	    			addressList.remove(i);
+	    		}
+	    	}
 	    }
 	    supplier.setAddressList(addressList);
 		List < SupplierStockholder > stockHolders = supplier.getListSupplierStockholders();
