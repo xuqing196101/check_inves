@@ -100,18 +100,18 @@
 									<td>
 										<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd' />
 									</td>
-									<td class="bggrey" width="20%">营业执照登记类型：</td>
-									<td onmouseover="out('${suppliers.businessType }')">${suppliers.businessType}</td>
+									<td class="bggrey" width="20%">企业性质：</td>
+                  <td width="30%">${suppliers.businessNature}</td>
 								</tr>
 								<tr>
+								  <td class="bggrey" width="20%" width="20%"> 基本账户开户银行：</td>
+                  <td>${suppliers.bankName}</td>
 									<td class="bggrey" width="20%">银行账号：</td>
 									<td width="30%">${suppliers.bankAccount}</td>
-									<td class="bggrey" width="20%" width="20%"> 基本账户开户银行：</td>
-									<td>${suppliers.bankName}</td>
+									
 								</tr>
 								<tr>
-									<td class="bggrey" width="20%">企业性质：</td>
-									<td width="30%">${suppliers.businessNature}</td>
+									
 									<td class="bggrey" width="20%">基本账户开户许可证：</td>
 									<td width="30%">
 										<u:show showId="bank_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
@@ -120,8 +120,85 @@
 							</tbody>
 						</table>
 					</div>
+          
+          <div class="tab-pane fade active in">
+            <h2 class="count_flow"><i>2</i>营业执照</h2>
+            <ul class="ul_list">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td class="bggrey" width="20%">营业执照登记类型：</td>
+                    <td onmouseover="out('${suppliers.businessType }')">${suppliers.businessType}</td>
+                    <td class="bggrey" width="20%">统一社会信用代码：</td>
+                    <td width="30%">${suppliers.creditCode } </td>
+                    
+                  </tr>
 
-					<h2 class="count_flow"><i>2</i>地址信息</h2>
+                  <tr>
+                    <td class="bggrey" width="20%">登记机关：</td>
+                    <td width="30%">${suppliers.registAuthority}</td>
+                    <td class="bggrey" width="20%">注册资本（人民币：万元）：</td>
+                    <td width="30%">${suppliers.registFund }</td>
+                    
+                  </tr>
+
+                  <tr>
+                    <td class="bggrey" width="20%">有效期：</td>
+                    <td width="30%">
+                      <c:if test="${suppliers.branchName eq '1'}">长期有效</c:if>
+                      <c:if test="${suppliers.branchName eq '0'}">
+                        <fmt:formatDate value="${suppliers.businessStartDate}" pattern="yyyy-MM-dd" />
+                      </c:if>
+                    </td>
+                    <td class="bggrey" width="20%">营业执照：</td>
+                    <td class="hand" width="30%">
+                      <u:show showId="business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="bggrey" width="20%">经营范围：</td>
+                    <td colspan="3">${suppliers.businessScope } </td>
+                  </tr>
+                  <%-- <tr>
+                    <td class="bggrey" width="20%">邮编：</td>
+                    <td width="30%"> ${suppliers.businessPostCode } </td>
+                    <td class="bggrey" width="20%">营业范围：</td>
+                    <td width="30%">${suppliers.businessScope}</td>
+                  </tr> --%>
+                </tbody>
+              </table>
+            </ul>
+          </div>
+          
+          <div class="tab-pane fade active in">
+            <h2 class="count_flow"><i>3</i>法定代表人信息</h2>
+            <ul class="ul_list">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td class="bggrey" width="20%">姓名：</td>
+                    <td width="30%">${suppliers.legalName}</td>
+                    <td class="bggrey" width="20%">身份证号：</td>
+                    <td width="30%">${suppliers.legalIdCard}</td>
+                  </tr>
+                  <tr>
+                    <td class="bggrey" width="20%">固定电话：</td>
+                    <td width="30%">${suppliers.legalMobile}</td>
+                    <td class="bggrey" width="20%">手机：</td>
+                    <td width="30%">${suppliers.legalTelephone }</td>
+                  </tr>
+                  <tr>
+                    <td class="bggrey" width="20%">身份证复印件:</td>
+                    <td width="30%">
+                      <u:show showId="bearchcert_up_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </ul>
+          </div>
+          
+					<h2 class="count_flow"><i>4</i>地址信息</h2>
 					<ul class="ul_list">
 						<table class="table table-bordered">
 							<tbody>
@@ -159,7 +236,7 @@
 						</c:forEach>
 					</ul>
 					<div class="tab-pane fade active in">
-						<h2 class="count_flow"><i>3</i>资质资信</h2>
+						<h2 class="count_flow"><i>5</i>资质资信</h2>
 						<ul class="ul_list">
 							<table class="table table-bordered">
 								<tbody>
@@ -204,35 +281,9 @@
 						</ul>
 					</div>
 
+					
 					<div class="tab-pane fade active in">
-						<h2 class="count_flow"><i>4</i>法定代表人信息</h2>
-						<ul class="ul_list">
-							<table class="table table-bordered">
-								<tbody>
-									<tr>
-										<td class="bggrey" width="20%">姓名：</td>
-										<td width="30%">${suppliers.legalName}</td>
-										<td class="bggrey" width="20%">身份证号：</td>
-										<td width="30%">${suppliers.legalIdCard}</td>
-									</tr>
-									<tr>
-										<td class="bggrey" width="20%">固定电话：</td>
-										<td width="30%">${suppliers.legalMobile}</td>
-										<td class="bggrey" width="20%">手机：</td>
-										<td width="30%">${suppliers.legalTelephone }</td>
-									</tr>
-									<tr>
-										<td class="bggrey" width="20%">身份证复印件:</td>
-										<td width="30%">
-											<u:show showId="bearchcert_up_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</ul>
-					</div>
-					<div class="tab-pane fade active in">
-						<h2 class="count_flow"><i>5</i>注册联系人</h2>
+						<h2 class="count_flow"><i>6</i>注册联系人</h2>
 						<ul class="ul_list">
 							<table class="table table-bordered">
 								<tbody>
@@ -264,7 +315,7 @@
 					</div>
 
 					<div class="tab-pane fade active in">
-						<h2 class="count_flow"><i>6</i>本单位军队业务联系人</h2>
+						<h2 class="count_flow"><i>7</i>本单位军队业务联系人</h2>
 						<ul class="ul_list">
 							<table class="table table-bordered">
 								<tbody>
@@ -295,52 +346,6 @@
 							</table>
 						</ul>
 					</div>
-
-					<div class="tab-pane fade active in">
-						<h2 class="count_flow"><i>7</i>营业执照</h2>
-						<ul class="ul_list">
-							<table class="table table-bordered">
-								<tbody>
-									<tr>
-										<td class="bggrey" width="20%">统一社会信用代码：</td>
-										<td width="30%">${suppliers.creditCode } </td>
-										<td class="bggrey" width="20%">登记机关：</td>
-										<td width="30%">${suppliers.registAuthority}</td>
-									</tr>
-
-									<tr>
-										<td class="bggrey" width="20%">注册资本（人民币：万元）：</td>
-										<td width="30%">${suppliers.registFund }</td>
-										<td class="bggrey" width="20%">有效期：</td>
-										<td width="30%">
-											<c:if test="${suppliers.branchName eq '1'}">长期有效</c:if>
-											<c:if test="${suppliers.branchName eq '0'}">
-												<fmt:formatDate value="${suppliers.businessStartDate}" pattern="yyyy-MM-dd" />
-											</c:if>
-											<%-- <fmt:formatDate value="${suppliers.businessEndDate}" pattern="yyyy-MM-dd" /> </td> --%>
-									</tr>
-
-									<tr>
-										<td class="bggrey" width="20%">营业执照：</td>
-										<td class="hand" width="30%">
-											<u:show showId="business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
-										</td>
-									</tr>
-									<tr>
-										<td class="bggrey" width="20%">经营范围：</td>
-										<td colspan="3">${suppliers.businessScope } </td>
-									</tr>
-									<%-- <tr>
-									  <td class="bggrey" width="20%">邮编：</td>
-										<td width="30%"> ${suppliers.businessPostCode } </td>
-										<td class="bggrey" width="20%">营业范围：</td>
-										<td width="30%">${suppliers.businessScope}</td>
-									</tr> --%>
-								</tbody>
-							</table>
-						</ul>
-					</div>
-
 					<div class="tab-pane fade active in">
 						<h2 class="count_flow"><i>8</i>境外分支</h2>
 						<ul class="ul_list">
