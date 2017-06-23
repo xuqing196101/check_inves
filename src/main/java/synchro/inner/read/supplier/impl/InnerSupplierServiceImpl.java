@@ -235,6 +235,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   }
     	   }
     	   if(supplier.getListSupplierStockholders().size()>0){
+    		   supplierStockholderMapper.deleteStockholderBySupplierId(supplier.getId());
     		   for(SupplierStockholder ss:supplier.getListSupplierStockholders()){
     			   SupplierStockholder stockholder = supplierStockholderMapper.selectByPrimaryKey(ss.getId());
     			   if(stockholder==null){
