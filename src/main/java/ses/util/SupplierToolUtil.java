@@ -155,6 +155,67 @@ public class SupplierToolUtil {
 		}
 		return elementData;
 	}
+	/**
+	 * 
+	 * Description: 判断 供应商等级
+	 * 生产 9名排序下安装排名计算  服务销售 6名一下按照排名计算
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param supplierType
+	 * @param percnet
+	 * @return
+	 */
+	public static String elementPercnetSize(String supplierType ,String percnet){
+		String elementData=null;
+		//产品 生产
+		if(TOOL_PRODUCT.equals(supplierType)){
+			switch (percnet) {
+				case "1" :
+					elementData="一级";
+					break;
+				case "2":
+					elementData="二级";
+					break;
+				case "3":
+					elementData="三级";
+					break;
+				case "4":
+					elementData="四级";
+					break;
+				case "5":
+					elementData="五级";
+					break;
+				case "6":
+					elementData="六级";
+					break;
+				case "7":
+					elementData="七级";
+					break;
+				case "8":
+					elementData="八级";
+					break;
+			}
+		}else if(TOOL_SALES.equals(supplierType) && TOOL_SERVICE.equals(supplierType)){
+			switch (percnet) {
+				case "1" :
+					elementData="一级";
+					break;
+				case "2":
+					elementData="二级";
+					break;
+				case "3":
+					elementData="三级";
+					break;
+				case "4":
+					elementData="四级";
+					break;
+				case "5":
+					elementData="五级";
+					break;
+			}
+		}
+		return elementData;
+	}
 	 /**
      * 
      * Description:封装 获取单个供应商 要素数值（ 近三年净资产平均）
