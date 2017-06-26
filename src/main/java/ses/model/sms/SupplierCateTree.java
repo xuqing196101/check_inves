@@ -18,18 +18,28 @@ public class SupplierCateTree {
 
     /** 根节点 **/
     private String rootNode;
+    /** 根节点 ID**/
+    private String rootNodeID;
     
     /** 一级节点 **/
     private String firstNode;
+    /** 一级节点 ID**/
+    private String firstNodeID;
     
     /** 二级节点 **/
     private String secondNode;
+    /** 二级节点 ID**/
+    private String secondNodeID;
     
     /** 三级节点 **/
     private String thirdNode;
+    /** 三级节点 ID**/
+    private String thirdNodeID;
     
     /** 四级节点 **/
     private String fourthNode;
+    /** 四级节点 ID**/
+    private String fourthNodeID;
     
     /** 供应商品目ID **/
     private String itemsId;
@@ -53,8 +63,69 @@ public class SupplierCateTree {
     private String diyLevel;
     //专业类别名称
     private String proName;
+    //资质文件数量
+    private Long fileCount;
+    //合同文件数量
+    private Long contractCount;
     
-    public String getProName() {
+    
+    public String getRootNodeID() {
+		return rootNodeID;
+	}
+
+	public void setRootNodeID(String rootNodeID) {
+		this.rootNodeID = rootNodeID;
+	}
+
+	public String getFirstNodeID() {
+		return firstNodeID;
+	}
+
+	public void setFirstNodeID(String firstNodeID) {
+		this.firstNodeID = firstNodeID;
+	}
+
+	public String getSecondNodeID() {
+		return secondNodeID;
+	}
+
+	public void setSecondNodeID(String secondNodeID) {
+		this.secondNodeID = secondNodeID;
+	}
+
+	public String getThirdNodeID() {
+		return thirdNodeID;
+	}
+
+	public void setThirdNodeID(String thirdNodeID) {
+		this.thirdNodeID = thirdNodeID;
+	}
+
+	public String getFourthNodeID() {
+		return fourthNodeID;
+	}
+
+	public void setFourthNodeID(String fourthNodeID) {
+		this.fourthNodeID = fourthNodeID;
+	}
+
+	public Long getFileCount() {
+		return fileCount;
+	}
+
+	public void setFileCount(Long fileCount) {
+		this.fileCount = fileCount;
+	}
+
+	public Long getContractCount() {
+		return contractCount;
+	}
+
+	public void setContractCount(Long contractCount) {
+		this.contractCount = contractCount;
+	}
+
+	public String getProName() {
 		return proName;
 	}
 

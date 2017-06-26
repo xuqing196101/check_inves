@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Param;
 
 import common.bean.ResBean;
 import ses.model.bms.Category;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierTypeTree;
 
 
@@ -398,4 +399,24 @@ import ses.model.sms.SupplierTypeTree;
 	 * @return
 	 */
 	public boolean importCategoryQua(String synchType,File file);
+	/**
+	 * 
+	 * Description:获取目录的父 类
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param categoryId
+	 * @return
+	 */
+	public List<Category> getAllParentNode(String categoryId);
+	/**
+	 * 
+	 * Description:获取目录 类型大类 中类 小类 品种
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param parentNodeList
+	 * @return
+	 */
+	public SupplierCateTree addNode(List<Category> parentNodeList);
 }

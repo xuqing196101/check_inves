@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +69,7 @@ import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.EngCategoryService;
 import ses.service.bms.QualificationService;
 import ses.service.bms.TodosService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
@@ -100,6 +102,7 @@ import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
+import common.utils.JdcgResult;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -191,6 +194,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierCertEngService supplierCertEngService;
+	
+	@Autowired
+	private EngCategoryService engCategoryService;
 	
 	@Autowired
 	private  SupplierMatEngService supplierMatEngService;
@@ -2218,7 +2224,90 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		return JSON.toJSONString(supplierModify.getBeforeContent());
 	}
-
+	/**
+	 * 
+	 * Description:页面跳转
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-23
+	 * @param model
+	 * @param supplierId
+	 * @return
+	 */
+	@RequestMapping("goPageAptitude")
+	public String goPageAptitude(Model model,String supplierId){
+		model.addAttribute("supplierId", supplierId);
+		return "ses/sms/supplier_audit/Copyofaptitude";
+	}
+	/**
+	 * 
+	 * Description:封装 供应商审核（产品类别及资质合同）数据
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-23
+	 * @param model
+	 * @param supplierId
+	 * @param supplierStatus
+	 * @param sign
+	 * @param pageNum
+	 * @return
+	 */
+	@RequestMapping("overAptitude")
+	@ResponseBody
+	public JdcgResult overAptitude(Model model, String supplierId, Integer supplierStatus, Integer sign,Integer pageNum){
+		List<SupplierCateTree> cateTreeList = new ArrayList<>();
+		// 查询已选中的节点信息
+		List < SupplierItem > listSupplierItems = supplierItemService.findCategoryList(supplierId, null, pageNum == null ? 1 : pageNum);
+		SupplierCateTree cateTree=null;
+		long fileNumber=0,contractCount=0;
+		for (SupplierItem supplierItem : listSupplierItems) {
+			cateTree=new SupplierCateTree();
+			// 递归获取所有父节点
+			List < Category > parentNodeList = categoryService.getAllParentNode(supplierItem.getCategoryId());
+			// 加入根节点 物资
+			cateTree=categoryService.addNode(parentNodeList);
+			// 工程类等级
+			if("工程".equals(cateTree.getRootNode())) {
+				fileNumber=engCategoryService.countEngCategoyrId(cateTree, supplierId);
+			}else{ 
+				//供应商物资 资质文件上传
+				fileNumber=supplierService.countCategoyrId(cateTree,supplierId);
+			}
+			//是否有销售合同
+			contractCount=supplierService.contractCountCategoyrId(supplierItem.getId());
+			cateTree.setContractCount(contractCount);
+			cateTree.setFileCount(fileNumber);
+			cateTreeList.add(cateTree);
+		}
+		return new JdcgResult(new PageInfo<>(cateTreeList)); 
+	}
+	/**
+	 * 
+	 * Description:资质 文件查看
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param categoryId
+	 * @param categoryType
+	 * @param supplierId
+	 * @return
+	 */
+	@RequestMapping("showQualifications")
+	@ResponseBody
+	public JdcgResult showQualifications(String categoryId,String categoryType,String supplierId){
+		if(StringUtils.isBlank(categoryId)){
+			return null;
+		}
+		if(StringUtils.isBlank(categoryType)){
+			return null;
+		}
+		if(StringUtils.isBlank(supplierId)){
+			return null;
+		}
+		//cha
+		DictionaryData dicData=DictionaryDataUtil.findById(categoryId);
+		return null;
+	}
 	/**
 	 * @Title: aptitude
 	 * @author XuQing 

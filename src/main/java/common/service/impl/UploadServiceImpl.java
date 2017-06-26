@@ -695,9 +695,10 @@ public class UploadServiceImpl implements UploadService {
 	public List<UploadFile> substrBusniessI(String businessId) {
 		return uploadDao.substrBusinessId(businessId);
 	}
-
-    
-    
-
-
+	@Override
+	public Long countFileByBusinessId(String business_id, String type_id,
+			Integer syskey) {
+		String tableName = Constant.fileSystem.get(syskey);
+		return uploadDao.countFileByBusinessId(business_id, type_id, tableName);
+	}
 }

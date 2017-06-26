@@ -14,6 +14,7 @@ import ses.formbean.QualificationBean;
 import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItemLevel;
 import ses.model.sms.supplierExport;
 /**
@@ -426,4 +427,25 @@ public interface SupplierService {
 	 * @return
 	 */
 	public int countByPurchaseDepId(String purchaseDepId, int status);
+	/**
+	 * 
+	 * Description:获取资质文件 数量
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param cateTree
+	 * @param supplierId
+	 * @return
+	 */
+	public Long countCategoyrId(SupplierCateTree cateTree,String supplierId);
+	/**
+	 * 
+	 * Description:获取销售合同数量
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param supplierItemId
+	 * @return
+	 */
+	public Long contractCountCategoyrId(String supplierItemId);
 }

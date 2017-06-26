@@ -53,6 +53,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
@@ -80,6 +81,7 @@ import ses.util.SupplierToolUtil;
 import ses.util.WfUtil;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
+import common.service.UploadService;
 
 
 /**
@@ -114,6 +116,9 @@ public class SupplierServiceImpl implements SupplierService {
 
   @Autowired
   private CategoryMapper categoryMapper;
+  
+  @Autowired
+  private UploadService uploadService;
 
   @Autowired
   private UserServiceI userService;
@@ -1166,15 +1171,23 @@ public class SupplierServiceImpl implements SupplierService {
       Date date = new Date();
       //根据参数 清除数据
       supplierItemLevelServer.deleteItemLevel(categoryIds, supplierType);
+    //排名数量
+	  int listSize=maxLevel.intValue();
       for (int i = maxLevel.intValue() - 1; 0 <= i; i--) {
         item = listSupplier.get(i);
         item.setSupplierType(supplierType);
         //计算等级  =单个要素总合分/最高的要素总分*100
         if (item.getGrade() != null) {
-          //计算等级 排名
-          level = SupplierToolUtil.elementPercnet(supplierType, new BigDecimal(initLevel).divide(maxLevel, 4, BigDecimal.ROUND_HALF_UP).
-              multiply(new BigDecimal(100)).setScale(0, BigDecimal.ROUND_DOWN).toString());
-          item.setGrade(level);
+            if(listSize>8){
+	          //计算等级 排名
+	          level = SupplierToolUtil.elementPercnet(supplierType, new BigDecimal(initLevel).divide(maxLevel, 4, BigDecimal.ROUND_HALF_UP).
+	              multiply(new BigDecimal(100)).setScale(0, BigDecimal.ROUND_DOWN).toString());
+	          item.setGrade(level);
+            }else{
+            	//计算等级 排名
+	    		level=SupplierToolUtil.elementPercnetSize(supplierType,String.valueOf(initLevel));
+    			item.setGrade(level);
+            }
         } else {
           item.setGrade("无");
         }
@@ -1267,5 +1280,60 @@ public class SupplierServiceImpl implements SupplierService {
   public List<Supplier> findSupplierByCategoryId(Supplier supplier) {
     return supplierMapper.findSupplierByCategoryId(supplier);
   }
+
+@Override
+public Long countCategoyrId(SupplierCateTree cateTree, String supplierId) {
+	long rut=0;
+	//根据第三节目录节点 id(也就是中级目录 id) 品目id查询所要上传的资质文件
+	List<CategoryQua> categoryQuaList = categoryQuaMapper.findList(cateTree.getSecondNodeID());
+	if(null != categoryQuaList && !categoryQuaList.isEmpty()){
+		String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
+		Map<String, Object> map=new HashMap<>();
+		map.put("supplierId", supplierId);
+		map.put("categoryId", cateTree.getSecondNodeID());
+		//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id
+		List<SupplierItem> itemList=supplierItemService.findByMap(map);
+		if(null != itemList && !itemList.isEmpty()){
+			for (SupplierItem supplierItem : itemList) {
+	            for (CategoryQua categoryQua : categoryQuaList) {
+	            	//组合 资质文件上传的 business_id
+					String business_id=supplierItem.getId()+categoryQua.getId();
+					rut=rut+uploadService.countFileByBusinessId(business_id, type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
+				}
+			}
+		}
+    }
+	return rut;
+}
+
+@Override
+public Long contractCountCategoyrId(String supplierItemId) {
+	long rut=0;
+	//合同
+	String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+	String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+	String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+	//账单
+	String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+	String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+	String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+	rut=rut+uploadService.countFileByBusinessId(supplierItemId, id1, common.constant.Constant.SUPPLIER_SYS_KEY);
+	if(rut==0){
+		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id2, common.constant.Constant.SUPPLIER_SYS_KEY);
+	}
+	if(rut==0){
+		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id3, common.constant.Constant.SUPPLIER_SYS_KEY);
+	}
+	if(rut==0){
+		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id4, common.constant.Constant.SUPPLIER_SYS_KEY);
+	}
+	if(rut==0){
+		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id5, common.constant.Constant.SUPPLIER_SYS_KEY);
+	}
+	if(rut==0){
+		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id6, common.constant.Constant.SUPPLIER_SYS_KEY);
+	}
+	return rut;
+}
 
 }

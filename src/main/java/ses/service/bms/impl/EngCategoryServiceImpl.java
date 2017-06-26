@@ -20,20 +20,32 @@ import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.EngCategoryMapper;
 import ses.dao.bms.QualificationMapper;
 import ses.dao.sms.SupplierItemMapper;
+import ses.formbean.QualificationBean;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
+import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierPorjectQua;
 import ses.model.sms.SupplierTypeTree;
+import ses.service.bms.CategoryService;
 import ses.service.bms.EngCategoryService;
+import ses.service.sms.SupplierAptituteService;
+import ses.service.sms.SupplierMatEngService;
+import ses.service.sms.SupplierPorjectQuaService;
+import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.StringUtil;
 
 import com.github.pagehelper.PageHelper;
 import common.bean.ResBean;
 import common.constant.StaticVariables;
+import common.service.UploadService;
 
 /**
  * 
@@ -62,6 +74,19 @@ public class EngCategoryServiceImpl implements EngCategoryService {
     /** 企业资质 **/
     @Autowired
     private QualificationMapper quaMapper;
+    
+    @Autowired
+    private SupplierPorjectQuaService supplierPorjectQuaService;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private SupplierService supplierService;
+    @Autowired
+    private SupplierMatEngService supplierMatEngService;
+    @Autowired
+    private SupplierAptituteService supplierAptituteService;
+    @Autowired
+    private UploadService uploadService;
     
     /** 操作类型 - 添加 */
     private static final String OPERA_ADD = "add";
@@ -740,5 +765,70 @@ public class EngCategoryServiceImpl implements EngCategoryService {
 		List<Category> list = engCcategoryMapper.findCategory(map);
 		PageHelper.startPage(page,30);
 		return list;
+	}
+
+	@Override
+	public SupplierCateTree addNode(String categoryId, SupplierItem item) {
+		SupplierCateTree cateTree=new SupplierCateTree();
+		// 工程类等级
+		if(item != null) {
+			// 等级
+			if(item != null && item.getLevel() != null) {
+				DictionaryData data = DictionaryDataUtil.findById(item.getLevel());
+				if(data!=null){
+					cateTree.setLevel(data);
+				}else{		
+					List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(item.getQualificationType(), item.getSupplierId());
+				   if(projectData!=null&&projectData.size()>0){
+			        	DictionaryData dd=new DictionaryData();
+			        	dd.setName(projectData.get(0).getCertLevel());
+			        	dd.setId(projectData.get(0).getId());
+			        	cateTree.setLevel(dd); 
+			        }
+				}
+			}
+			// 证书编号
+			if(item != null && item.getCertCode() != null) {
+				cateTree.setCertCode(item.getCertCode());
+			}
+			// 资质等级
+			if(item != null && item.getQualificationType() != null) {
+				cateTree.setQualificationType(item.getQualificationType());
+			}
+			if(item != null && item.getProfessType()!= null) {
+				cateTree.setProName(item.getProfessType());
+			}
+			// 所有等级List
+			List < Category > cateList = new ArrayList < Category > ();
+			cateList.add(categoryService.selectByPrimaryKey(categoryId));
+			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
+			List < Qualification > typeList = new ArrayList < Qualification > ();
+			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
+				typeList = type.get(0).getList();
+			}
+			//自定义等级
+//					List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, item.getSupplierId());
+//					for(SupplierPorjectQua qua:supplierQua){
+//						Qualification q=new Qualification();
+//						q.setId(qua.getName());
+//						q.setName(qua.getName());
+//						typeList.add(q);
+//					}
+					
+			cateTree.setTypeList(typeList);
+		}
+		return cateTree;
+	}
+
+	@Override
+	public Long countEngCategoyrId(SupplierCateTree cateTree, String supplierId) {
+		long rut=0;
+		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+		String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
+		List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
+        if(certEng != null && certEng.size() > 0) {
+		  rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
+        }
+		return rut;
 	}
 }

@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import common.bean.ResBean;
 import ses.model.bms.Category;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierTypeTree;
 
 
@@ -310,4 +312,26 @@ import ses.model.sms.SupplierTypeTree;
     public Category getCategoryQuaById(String id);
 
 	public List<Category> selectParentId(String id);
+	/**
+	 * 
+	 * Description:获取 工程目录父节目录
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param categoryId
+	 * @param item
+	 * @return
+	 */
+	public SupplierCateTree addNode(String categoryId,SupplierItem item);
+	/**
+	 * 
+	 * Description:获取工程资质文件数量
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param cateTree
+	 * @param supplierId
+	 * @return
+	 */
+	public Long countEngCategoyrId(SupplierCateTree cateTree, String supplierId);
 }

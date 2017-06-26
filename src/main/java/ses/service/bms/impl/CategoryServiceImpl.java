@@ -32,9 +32,11 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.StringUtil;
 import ses.util.SupplierToolUtil;
@@ -1052,5 +1054,98 @@ public class CategoryServiceImpl implements CategoryService {
       	  cateList=findTreeByPid(id);
         }
 		return cateList;
+	}
+
+	@Override
+	public List<Category> getAllParentNode(String categoryId) {
+		List < Category > categoryList = new ArrayList < Category > ();
+		while(true) {
+			Category cate = findById(categoryId);
+			if(cate == null) {
+				DictionaryData root = DictionaryDataUtil.findById(categoryId);
+				Category rootNode = new Category();
+				rootNode.setId(root.getId());
+				rootNode.setName(root.getName());
+				categoryList.add(rootNode);
+				break;
+			} else {
+				categoryList.add(cate);
+				categoryId = cate.getParentId();
+			}
+		}
+		return categoryList;
+	}
+
+	@Override
+	public SupplierCateTree addNode(List<Category> parentNodeList) {
+		SupplierCateTree cateTree = new SupplierCateTree();
+		// 加入根节点
+		for(int i = 0; i < parentNodeList.size(); i++) {
+			DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
+			if(rootNode != null) {
+				cateTree.setRootNode(rootNode.getName());
+				cateTree.setItemsId(rootNode.getId());
+				cateTree.setRootNodeID(rootNode.getId());
+			}
+		}
+		// 加入一级节点
+		if(cateTree.getRootNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+				Category cate = findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					DictionaryData rootNode = DictionaryDataUtil.findById(cate.getParentId());
+					if(rootNode != null && cateTree.getRootNode().equals(rootNode.getName())) {
+						cateTree.setFirstNode(cate.getName());
+						cateTree.setItemsId(cate.getId());
+						cateTree.setFirstNodeID(cate.getId());
+					}
+				}
+			}
+		}
+		// 加入二级节点
+		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+				Category cate = findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					Category parentNode = findById(cate.getParentId());
+					if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
+					cateTree.setSecondNode(cate.getName());
+					cateTree.setItemsId(cate.getId());
+					cateTree.setSecondNodeID(cate.getId());
+					}
+				}
+			}
+		}
+		// 加入三级节点
+		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+	    		Category cate = findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					Category parentNode = findById(cate.getParentId());
+					if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
+						cateTree.setThirdNode(cate.getName());
+						cateTree.setItemsId(cate.getId());
+						cateTree.setThirdNodeID(cate.getId());
+					}
+				}
+		    }
+	    }
+		// 加入末级节点
+		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
+		    if(parentNodeList.size()>4){
+                for(int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = findById(parentNodeList.get(i).getId());
+	            if(cate != null && cate.getParentId() != null) {
+		            Category parentNode = findById(cate.getParentId());
+		            if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+		                cateTree.setFourthNode(cate.getName());
+		                cateTree.setItemsId(cate.getId());
+						cateTree.setFourthNodeID(cate.getId());
+	                }
+                }
+	        }
+		 }
+	  }
+		return cateTree;
 	}
 }
