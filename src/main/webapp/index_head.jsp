@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.plap.cn/functions" prefix="my" %>  
+<%@ taglib uri="http://www.plap.cn/functions" prefix="my" %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -13,29 +13,29 @@
 <!--导航js-->
 
 <%@ include file="/WEB-INF/view/portal.jsp" %>
-<script type="text/javascript"> 
+<script type="text/javascript">
   		$(function(){
   		    /* 导航延迟两秒 */
   		    var _width=$(window).width();
   		    if(_width>972){
   		        var id;
-			    var _self;	    
+			    var _self;
 			    $(".dropdown").each(function(){
 			    	$(this).hover(function(){
 			    		 _self = this;
 						id = setTimeout(function(){
 		                   $(_self).find(".drop_next").show();
-						},200);	    		
+						},200);
 					},function(){
 						if(id){
 						clearTimeout(id);
 						}
-		               $(_self).find(".drop_next").hide();		
+		               $(_self).find(".drop_next").hide();
 					});
 			    })
   		    }
-  		    
-  		    
+
+
 		   $("#close").click(function(){
 		   		$(".prompt_tips").hide();
 		   });
@@ -69,25 +69,25 @@ $(function(){
 		          });
 			    }
 		});
-		
-	
-	
+
+
+
 	if(user!=null && user!=''){
 		$("#welcome_words").html(user+"你好，欢迎来到军队采购网！");
 	}else {
 	    $("#exit").remove();
-	    
+
 	}
 	$(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){
 		$("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
 	});
-	
+
 })
 
 function myInfo(){
    window.location.href="${pageContext.request.contextPath}/login/index.html";
 }
-/* 
+/*
 function myInfo(){
 	if(user!=null && user!=''){
 		window.location.href="${pageContext.request.contextPath}/login/index.html";
@@ -103,14 +103,14 @@ function importAdd(){
 	}
 	window.location.href="${pageContext.request.contextPath}/importSupplier/register.html";
 }
-         
+
 </script>
 </head>
 <body>
 <div class="wrapper">
   <div class="head_top col-md-12 col-xs-12 col-sm-12">
    <div class="container p0">
-   
+
     <div class="row">
     <div class="col-md-5 col-sm-5 pl5 pr5 fl" id="welcome">
     	<span id="welcome_words">
@@ -119,25 +119,25 @@ function importAdd(){
     	</span>
        <% if (environment != null && environment.equals("1")){ %>
          <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
-           <a href="http://21.100.16.14" class="red">【旧系统登录】</a> 
+           <a href="http://21.100.16.14" class="red">【旧系统登录】</a>
          <%} %>
 	   <% } %>
-    </div> 
-       <div class="col-md-7 col-sm-7 head_right pr5 pl0 fr" id="properties"> 
+    </div>
+       <div class="col-md-7 col-sm-7 head_right pr5 pl0 fr" id="properties">
     <!-- 根据session判断 -->
          <c:if test="${properties['ipAddressType'] == 0}">
            <a class="web_number">网站编号：${properties['website.no']} &nbsp;</a>
         </c:if>
-    	 <c:if test="${not empty loginUser }"> 
+    	 <c:if test="${not empty loginUser }">
  	 		|<a id="my" onclick="myInfo()">我的信息</a>
- 	  </c:if>  
+ 	  </c:if>
     	 <a href="${pageContext.request.contextPath}/login/loginOut.html" id="exit">&nbsp;|&nbsp;退出</a>
-	  
-	  
+
+
 	   </div>
 	  </div>
-	  
-	  
+
+
     </div>
   </div>
   </div>
@@ -193,7 +193,7 @@ function importAdd(){
     </div>
     <div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
     <div class="container">
-      <ul class="nav navbar-nav" >
+      <ul class="nav navbar-nav m-navbar-nav" >
       <!-- 通知 -->
         <li id="firstPage" class="dropdown shouye_li mega-menu-fullwidth">
           <a class=" dropdown-toggle " href="${pageContext.request.contextPath}/"><i class="shouye nav_icon"></i>首 页</a>
@@ -223,7 +223,7 @@ function importAdd(){
 		</h2>
 		<div class="tab-content buyer_list">
 		    <div id="tab-21" class="categories articleover tab-pane fade active in">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['xinxicaiwuziList']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -238,7 +238,7 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=3&twoid=24&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-22" class="categories articleover tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['xinxicaigongchengList']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -253,7 +253,7 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=8&twoid=29&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("工程","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-23" class="categories articleover tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['xinxicaifuwuList']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -268,7 +268,7 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=13&twoid=34&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("服务","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-24" class="categories articleover tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['xinxicaijinkouList']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -301,7 +301,7 @@ function importAdd(){
 		</h2>
 		<div class="tab-content  buyer_list">
 		    <div id="tab-25" class="categories articleover tab-pane fade active in">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['xinxizhongwuziList']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -316,7 +316,7 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=46&twoid=67&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-26" class="categories articleover tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['xinxizhonggongchengList']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -331,7 +331,7 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=51&twoid=72&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("工程","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-27" class="categories articleover tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['xinxizhongfuwuList']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -346,7 +346,7 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=56&twoid=77&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("服务","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-28" class="categories articleover tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['xinxizhongjinkouList']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -378,7 +378,7 @@ function importAdd(){
 		</h2>
 		<div class="tab-content  buyer_list">
 		    <div id="tab-29" class="categories articleover tab-pane fade active in">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['xinxidanwuziList']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -393,7 +393,7 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=89&twoid=94&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("物资","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-30" class="categories tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['xinxidangongchengList']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -408,7 +408,7 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=90&twoid=95&tal=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("工程","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-31" class="categories tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['xinxidanfuwuList']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -423,7 +423,7 @@ function importAdd(){
          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=91&twoid=96&tab=<%=java.net.URLEncoder.encode(java.net.URLEncoder.encode("服务","utf-8"),"utf-8") %>">更多>></a>
         </div>
 		    <div id="tab-32" class="categories tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['xinxidanjinkouList']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -469,25 +469,25 @@ function importAdd(){
                <a href="javascript:void(0);" class="wssc">
            <%} %>
            	<i></i>
-            <span>网上商城</span> 
+            <span>网上商城</span>
 		   </a>
 	      </div>
 		  <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
 	       <a href="${pageContext.request.contextPath }/index/index_productList.html" class="dxcpjj">
             <i></i>
-            <span>定型产品</span> 
+            <span>定型产品</span>
 		   </a>
 	     </div>
 		 <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
 	      <a href="#" class="ypcg">
            <i></i>
-           <span>药品采购</span> 
+           <span>药品采购</span>
 		  </a>
 	     </div>
 		 <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
 	      <a href="#" class="fwcg">
            <i></i>
-           <span>服务采购</span> 
+           <span>服务采购</span>
 		  </a>
 	   </div>
 		</div>
@@ -502,7 +502,7 @@ function importAdd(){
 		</h2>
 		<div class="tab-content  buyer_list">
 		    <div id="tab-33" class="categories articleover tab-pane fade active in">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['select103List']}" var="sl">
                 	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -517,7 +517,7 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=103">更多>></a>
         </div>
 		    <div id="tab-34" class="categories tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['select104List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -532,7 +532,7 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=104">更多>></a>
         </div>
 		    <div id="tab-35" class="categories tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['select105List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -553,7 +553,7 @@ function importAdd(){
 	</div>
 	</div>
 	</div>
-	
+
         </li>
       <!-- End 公示 -->
 
@@ -567,7 +567,7 @@ function importAdd(){
 	      <div class="drop_main">
 	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login ">
 	          <%-- <a href="${pageContext.request.contextPath}/supplier/registration_page.html" > --%>
-	        
+
 	        <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
 	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="" >
 	        <% } %>
@@ -576,7 +576,7 @@ function importAdd(){
 	        <% } %>
 		     	供应商注册
 		     <i></i>
-		    </a>	  
+		    </a>
 	       </div>
 	  <div class="col-md-5 col-sm-5 col-xs-10 mt10">
 	   <div class="headline-v2">
@@ -585,7 +585,7 @@ function importAdd(){
          <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
 		    <div class="categories">
              <ul class="list-unstyled">
-            
+
              <c:choose>
             <c:when test="${!empty my:getSupplierList()}">
          <table class="table table-bordered " >
@@ -597,11 +597,11 @@ function importAdd(){
 			</tr>
 			</thead>
 			<tbody>
-			<c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="5" step="1" varStatus="status" > 
+			<c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="5" step="1" varStatus="status" >
 			<tr>
 			<td>${item.supplierName }</td>
 			<td class="tc"></td>
-			<td class="tc"> 
+			<td class="tc">
 			 <c:choose>
 						    <%-- <c:when test="${item.status == -1}">
 						           未未提交审核
@@ -642,21 +642,21 @@ function importAdd(){
                </c:choose>
                 </td>
 				</tr>
-				 </c:forEach> 
+				 </c:forEach>
 				</tbody>
 				</table>
                 	</c:when>
                 	<c:otherwise>
                 		<li class="tc">暂无数据</li>
                 	</c:otherwise>
-                </c:choose>   
-         
+                </c:choose>
+
 			 </ul>
 			</div>
-			
+
 		  </div>
 	  </div>
-	  
+
 		<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
 		 <h2 class="f17 bgwhite">
 		 <ul class="list-unstyled login_tab" style="padding: 0px 0px;">
@@ -688,7 +688,7 @@ function importAdd(){
 									<td class="tc">
 										<c:forEach items="${my:getSupplierCreditRecord()['data']}" var="dic">
 											<c:if test="${supplier.businessType==dic.id}">
-												${dic.name }									
+												${dic.name }
 											</c:if>
 										</c:forEach>
 									</td>
@@ -696,7 +696,7 @@ function importAdd(){
 							</c:forEach>
 						</tbody>
 					</table>
-				</ul> 
+				</ul>
 	          <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>--%>
 	          <a class="tab_more" href="javascript:;">更多>></a>
         	</div>
@@ -712,7 +712,7 @@ function importAdd(){
 				<c:if test="${length<=25}">
 					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 				</c:if>
-	        </c:forEach>     
+	        </c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/supplierPunishment.html">更多>></a>
         </div>
@@ -728,7 +728,7 @@ function importAdd(){
 				<c:if test="${length<=25}">
 					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 				</c:if>
-	        </c:forEach>   
+	        </c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=117">更多>></a>
         </div> --%>
@@ -749,7 +749,7 @@ function importAdd(){
 									<c:if test="${sl.punishType == 1}">不得参与采购活动</c:if>
 								</span>
 							</li>
-	        	</c:forEach>   
+	        	</c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/supplierBlackList.html">更多>></a>
         </div>
@@ -780,7 +780,7 @@ function importAdd(){
 	     		<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="">
 				   评审专家注册
 				 <i></i>
-				</a>	  
+				</a>
 	 		  </div>
 	 		  <div class="col-md-5 col-sm-5 col-xs-10 mt10 ">
 			   <div class="headline-v2">
@@ -799,7 +799,7 @@ function importAdd(){
 							 </tr>
 						 </thead>
 				     	 <tbody>
-							<c:forEach items="${my:getExpertList()}" var="item" begin="0" end="5" step="1" varStatus="status" > 
+							<c:forEach items="${my:getExpertList()}" var="item" begin="0" end="5" step="1" varStatus="status" >
 								<tr>
 									<td>${item.relName }</td>
 									<td class="tc"></td>
@@ -830,17 +830,17 @@ function importAdd(){
                					     </c:choose>
                				      </td>
 								</tr>
-							 </c:forEach> 
+							 </c:forEach>
 							</tbody>
 						  </table>
                 		</c:when>
                 		<c:otherwise>
                 			暂无数据
                 		</c:otherwise>
-               		</c:choose>   
+               		</c:choose>
 					</div>
 		  		</div>
-		
+
 	  </div>
 	    	<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
 		 <h2 class="f17 bgwhite">
@@ -852,12 +852,12 @@ function importAdd(){
 		</h2>
 		<div class="tab-content  buyer_list">
 		    <div id="tab-39" class="categories tab-pane fade active in">
-             <ul class="p0_10">   
+             <ul class="p0_10">
           </ul>
           <a class="tab_more" href="#">更多>></a>
           </div>
 		  <div id="tab-40" class="categories tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
              	<c:forEach items="${indexMapper['article115List']}" var="sl">
                	<c:set value="${sl.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -889,7 +889,7 @@ function importAdd(){
 									<c:if test="${sl.punishType == 3}">取消资格</c:if>
 								</span>
 							</li>
-	        	</c:forEach>   
+	        	</c:forEach>
           </ul>
         	<a class="tab_more" href="${pageContext.request.contextPath}/index/expertBlackList.html">更多>></a>
         </div>
@@ -897,7 +897,7 @@ function importAdd(){
 	  </div>
 	</div>
    </div>
-	
+
    </div>
    </div>
         </li>
@@ -965,7 +965,7 @@ function importAdd(){
 	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <a href="">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic yjfk">
-	    	<img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/> 
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/>
 	    </div>
 		<div class="tc f18 mt20 pt10 clear">意见反馈</div>
 	  </a>
@@ -982,7 +982,7 @@ function importAdd(){
     </div>
 	</div>
    </div>
-   
+
         </li>
       <!-- End 法规 -->
 
@@ -1010,7 +1010,7 @@ function importAdd(){
 		</h2>
 		<div class="tab-content  buyer_list">
 		    <div id="" class="categories tab-pane fade active in">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['select112List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -1021,16 +1021,16 @@ function importAdd(){
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
-          </ul>  
+          </ul>
         </div>
 		</div>
 	 </div>
 	 </div>
 	</div>
 	</div>
-	</div> 
+	</div>
    </div>
-   
+
         </li>
         <li class="dropdown other fagui_li mega-menu-fullwidth">
           <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="fagui nav_icon"></i>采购法规</a>
@@ -1049,7 +1049,7 @@ function importAdd(){
 		</h2>
 		<div class="tab-content buyer_list">
 		    <div id="tab-41" class="categories tab-pane fade active in">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['select107List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -1064,7 +1064,7 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=107">更多>></a>
         </div>
 		    <div id="tab-42" class="categories tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['select108List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -1079,7 +1079,7 @@ function importAdd(){
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=108">更多>></a>
         </div>
 		    <div id="tab-43" class="categories tab-pane fade">
-             <ul class="p0_10">   
+             <ul class="p0_10">
               <c:forEach items="${indexMapper['select109List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -1109,13 +1109,13 @@ function importAdd(){
 	  <div class="col-md-12 col-xs-12 col-sm-12 mt20">
          <div class="job-content col-md-12 col-xs-12 col-sm-12">
 		    <div class="categories">
-             <ul class="p0_10 list-unstyled">   
+             <ul class="p0_10 list-unstyled">
               <li></li>
 			 </ul>
 			</div>
 		  </div>
 	   </div>
-	  </div> --%>  
+	  </div> --%>
 	  </div>
 	 </div>
 	</div>
@@ -1132,7 +1132,7 @@ function importAdd(){
 		<span>A<br>P<br>P<br>下<br>载<br>二<br>维<br>码</span>
 		<div class="mac_img"><img src="${pageContext.request.contextPath}/public/portal/images/AppDownload.png" alt=""></div>
 	</div>
-	
+
 	<script>
 		$(function() {
 			$('#m_app_code span').on('click', function() {
