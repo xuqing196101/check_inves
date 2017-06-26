@@ -579,11 +579,11 @@
                       <th class="info">采购<br>数量</th>
                       <th class="info">交货期限</th>
                       <th class="info">供应商名称</th>
-                      <c:if test="${pack.isImport==1 }">
+                     <%--  <c:if test="${pack.isImport==1 }">
                         <th class="info">是否申请<br>办理免税</th>
                         <th class="info">物资用途<br>（进口）</th>
                         <th class="info">使用单位<br>（进口）</th>
-                      </c:if>
+                      </c:if> --%>
                       <th class="info" width="10%">备注</th>
                     </tr>
                   </thead>
@@ -592,7 +592,7 @@
                       <td class="tc w50">${vs.index+1}</td>
                       <td class="tl" width="15%">
                         <div class="goodsname">
-                          <a href="javascript:void(0)" onclick="view('${obj.requiredId}');">${obj.goodsName}</a>
+                          <a href="javascript:void(0)" onclick="view('${obj.parentId}');">${obj.goodsName}</a>
                         </div>
                       </td>
                       <td class="tl">
@@ -613,7 +613,7 @@
                       <td class="tl">
                         <div class="purchasename">${obj.supplier}</div>
                       </td>
-                      <c:if test="${pack.isImport==1 }">
+                     <%--  <c:if test="${pack.isImport==1 }">
                         <td class="tc">
                           <div class="freetax">${obj.isFreeTax}</div>
                         </td>
@@ -623,7 +623,7 @@
                         <td class="tl">
                           <div class="useunit">${obj.useUnit}</div>
                         </td>
-                      </c:if>
+                      </c:if> --%>
                       <td class="tl">
                         <div class="memo">${obj.memo}</div>
                       </td>
@@ -649,11 +649,11 @@
                         <th class="info">采购<br>数量</th>
                         <th class="info">交货期限</th>
                         <th class="info">供应商名称</th>
-                        <c:if test="${pack.isImport==1 }">
+                       <%--  <c:if test="${pack.isImport==1 }">
                           <th class="info">是否申请<br>办理免税</th>
                           <th class="info">物资用途<br>（进口）</th>
                           <th class="info">使用单位<br>（进口）</th>
-                        </c:if>
+                        </c:if> --%>
                         <th class="info">备注</th>
                       </tr>
                     </thead>
@@ -662,7 +662,7 @@
                         <td class="tc w50">${vs.index+1}</td>
                         <td class="tl">
                           <div class="goodsname">
-                            <a href="javascript:void(0)" onclick="view('${obj.requiredId}');">${obj.goodsName}</a>
+                            <a href="javascript:void(0)" onclick="view('${obj.parentId}');">${obj.goodsName}</a>
                           </div>
                         </td>
                         <td class="tl">
@@ -683,7 +683,7 @@
                         <td class="tl">
                           <div class="purchasename">${obj.supplier}</div>
                         </td>
-                        <c:if test="${pack.isImport==1 }">
+                        <%-- <c:if test="${pack.isImport==1 }">
                           <td class="tc">
                             <div class="freetax">${obj.isFreeTax}</div>
                           </td>
@@ -693,7 +693,7 @@
                           <td class="tl">
                             <div class="useunit">${obj.useUnit}</div>
                           </td>
-                        </c:if>
+                        </c:if> --%>
                         <td class="tl">
                           <div class="memo">${obj.memo}</div>
                         </td>

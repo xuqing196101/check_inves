@@ -1116,18 +1116,21 @@ public class ProjectController extends BaseController {
     
     @RequestMapping("/viewIdss")
     public String viewIdss(Model model, String id,String projectId) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("id", id);
-            map.put("projectId", projectId);
-            List<ProjectDetail> list = detailService.selectByParent(map);
-            for (int i = 0; i < list.size(); i++ ) {
-                if(list.get(i).getPrice() != null){
-                    list.remove(list.get(i));
+    		if(StringUtils.isNotBlank(projectId) && StringUtils.isNotBlank(id)){
+    			Project project = projectService.selectById(projectId);
+    			HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("id", id);
+                map.put("projectId", project.getParentId());
+                List<ProjectDetail> list = detailService.selectByParent(map);
+                for (int i = 0; i < list.size(); i++ ) {
+                    if(list.get(i).getPrice() != null){
+                        list.remove(list.get(i));
+                    }
+                    list.get(i).setDetailStatus(0);
                 }
-                list.get(i).setDetailStatus(0);
-            }
-            sorts(list);
-            model.addAttribute("lists", list);
+                sorts(list);
+                model.addAttribute("lists", list);
+    		}
             return "bss/ppms/project/view";
     }
 
@@ -1411,7 +1414,9 @@ public class ProjectController extends BaseController {
                 }
                 
                 //查看项目分包信息，没有进else
-                List<Packages> packages = packageService.findPackageById(map);
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("projectId", projectId);
+                List<Packages> packages = packageService.findPackageById(hashMap);
                 if(packages != null && packages.size() > 0){
                     for(Packages ps : packages){
                         HashMap<String,Object> packageId = new HashMap<String,Object>();
