@@ -376,12 +376,15 @@ public class ExpertController extends BaseController {
         	expert.setCoverNote("2");
         }
 //        model.addAttribute("expert", expert);
-        String stepNumber;
-        if("".equals(expert.getStepNumber()) || expert.getStepNumber() == null) {
+        String stepNumber=request.getParameter("stepNumber");
+        if("".equals(stepNumber)||stepNumber==null){
+        	if("".equals(expert.getStepNumber()) || expert.getStepNumber() == null) {
             stepNumber = "one";
-        } else {
-            stepNumber = expert.getStepNumber();
+	        } else {
+	            stepNumber = expert.getStepNumber();
+	        }
         }
+        
         if(expert != null)
             expertId = expert.getId();
         // 判断已提交 未审核的数据 跳转到查看页面
