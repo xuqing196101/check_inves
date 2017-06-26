@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.User;
+import common.annotation.CurrentUser;
 import common.utils.JdcgResult;
 
 /**
@@ -98,7 +100,7 @@ public class CacheManageController {
 	 */
 	@RequestMapping("/getPVDate")
 	@ResponseBody
-	public JdcgResult getPVDate() {
-		return cacheManageService.getPVDate();
+	public JdcgResult getPVDate(@CurrentUser User user) {
+		return cacheManageService.getPVDate(user);
 	}
 }

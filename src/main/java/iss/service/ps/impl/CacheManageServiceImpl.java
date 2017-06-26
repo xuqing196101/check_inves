@@ -20,8 +20,8 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
+import ses.model.bms.User;
 import ses.util.PropertiesUtil;
-
 import common.dao.SystemPVMapper;
 import common.model.SystemPV;
 import common.model.SystemPVVO;
@@ -241,7 +241,7 @@ public class CacheManageServiceImpl implements CacheManageService {
 	 * @return
 	 */
 	@Override
-	public JdcgResult getPVDate() {
+	public JdcgResult getPVDate(User user) {
 		// 获取jedis
 		Jedis jedis = null;
 		// 获取计数查询实体
@@ -260,6 +260,9 @@ public class CacheManageServiceImpl implements CacheManageService {
 			// 获取总访问量
 			pvTotal = jedis.get(C_PV_TOTAL_KEY);
 			systemPVVO.setTotalCount(new BigDecimal(pvTotal));
+			if(user != null){
+				systemPVVO.setLoginName(user.getLoginName());
+			}
 			return JdcgResult.ok(systemPVVO);
 		} catch (Exception e) {
 			log.info("redis连接异常...");
@@ -283,6 +286,9 @@ public class CacheManageServiceImpl implements CacheManageService {
 			pvTotalCount = new BigDecimal(0);
 		}
 		systemPVVO.setTotalCount(pvTotalCount);
+		if(user != null){
+			systemPVVO.setLoginName(user.getLoginName());
+		}
 		return JdcgResult.ok(systemPVVO);
 	}
 }

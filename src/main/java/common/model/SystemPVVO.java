@@ -20,6 +20,9 @@ public class SystemPVVO extends SystemPV implements Serializable{
 	
 	/**总访问量**/
 	private BigDecimal totalCount;
+	
+	/**登录人**/
+	private String loginName;
 
 	public BigDecimal getTotalCount() {
 		return totalCount;
@@ -29,4 +32,12 @@ public class SystemPVVO extends SystemPV implements Serializable{
 		this.totalCount = totalCount;
 	}
 
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+	
 }

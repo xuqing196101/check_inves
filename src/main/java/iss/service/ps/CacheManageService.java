@@ -1,8 +1,8 @@
 package iss.service.ps;
 
+import ses.model.bms.User;
 import iss.model.ps.Cache;
 import iss.model.ps.Page;
-
 import common.utils.JdcgResult;
 
 /**
@@ -58,5 +58,5 @@ public interface CacheManageService {
 	 * @version 2017年6月13日
 	 * @return
 	 */
-	public JdcgResult getPVDate();
+	public JdcgResult getPVDate(User user);
 }
