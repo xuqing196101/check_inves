@@ -163,7 +163,7 @@
 					data: {"field":fieldName,"type":type,"expertId":"${expert.id}"},
 					async: false,
 					success: function(response){
-						layer.tips("原值:" + response, "#" + inputName, {
+						layer.tips("修改前:" + response, "#" + inputName, {
 		    				tips : 3
 		    			});
 					}
