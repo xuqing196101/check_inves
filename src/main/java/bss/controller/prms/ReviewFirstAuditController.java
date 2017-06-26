@@ -583,7 +583,32 @@ public class ReviewFirstAuditController {
 		expertScoreService.saveScore(expertScore, null,scoreModelId);
 		return JSON.toJSONString(score);
 	}
-	
+
+	/**
+	 *〈简述〉获取当前专家给供应商的合计得分
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param supplierId
+	 * @param projectId
+	 * @param packageId
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("supplierTotal")
+	@ResponseBody
+	public String supplierTotal(String supplierIds, String projectId, String packageId, HttpSession session){
+	    //当前登录用户
+      User user = (User)session.getAttribute("loginUser");
+      String expertId = user.getTypeId();
+      HashMap<String, Object> map = new HashMap<String, Object>();
+      map.put("expertId", expertId);
+      map.put("projectId", projectId);
+      map.put("packageId", packageId);
+      map.put("supplierId", supplierIds);
+      BigDecimal score = expertScoreService.selectSumByMap(map);
+	    return JSON.toJSONString(score);
+	}
+	  
 	/**
 	 *〈简述〉
 	 * 专家后台判断是否可以进行查看

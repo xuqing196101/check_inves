@@ -103,12 +103,38 @@ $(document).ready(function() {
 					$(obj).parent().next().find("input[name='expertScore']").val(data);
 					// 修改,将input框改为直接显示,input设置为hidden,将input值传给span
 					$(obj).parent().next().find("input[name='expertScore']").next().html("<font color='red' class='f18'>" + data + "</font>");
+					
+					/* $.ajax({
+						url:'${pageContext.request.contextPath}/reviewFirstAudit/supplierTotal.html',
+						data:$("#score_form").serialize(),
+						type:"post",
+						dataType:"JSON",
+						success:function(data){
+							alert($("#"+supplierId+"_total").text());
+							$("#"+supplierId+"_total").html("12");
+						}
+						
+					}); */
+				
 				}
 				
 			});
 		}
-		}
-		
+	   }
+	   //获取合计得分
+		/* if(supplierId != null && supplierId != ""){
+			$("#supplierIds").val(supplierId);
+			$.ajax({
+					url:'${pageContext.request.contextPath}/reviewFirstAudit/supplierTotal.html',
+					data:$("#score_form").serialize(),
+					type:"post",
+					dataType:"JSON",
+					success:function(data){
+						alert(data);
+					}
+					
+				});
+		} */
 	}
 	//功能：将浮点数四舍五入，取小数点后2位    
     function toDecimal(x) {    
@@ -370,6 +396,14 @@ $(document).ready(function () {
 				 	  </c:if>
 				 	</c:forEach>
 				 </c:forEach>
+				 <%-- <tr>
+				 	<td class="tc">合计</td>
+				 	<td class="tc">--</td>
+				 	<td class="tc">--</td>
+				 	<c:forEach items="${supplierList}" var="supplier">
+				      <td colspan="2" class="tc" id="${supplier.suppliers.id}_total">0</td>
+				    </c:forEach>
+				 </tr> --%>
 				 </tbody>
 				 </table>
 				 </div>

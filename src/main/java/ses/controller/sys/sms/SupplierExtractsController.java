@@ -648,7 +648,7 @@ public class SupplierExtractsController extends BaseController {
     @ResponseBody
     @RequestMapping("/resultextract")
     public Object resultextract(Model model,String id,String reason,HttpServletRequest sq,HttpSession session,String[] packageId){
-        //		修改状态
+        //    修改状态
         String ids[]=id.split(",");
         if ("1".equals(ids[2]) || "2".equals(ids[2])){
             SupplierExtRelate expExtRelate = extRelateService.getSupplierExtRelate(ids[0]);
@@ -1068,7 +1068,7 @@ public class SupplierExtractsController extends BaseController {
         model.addAttribute("flowDefineId", flowDefineId);
         return "bss/ppms/sall_tender/temporary_supplier_add";
     }
-
+    
     /**
      * @Description:添加临时供应商
      *
@@ -1141,9 +1141,6 @@ public class SupplierExtractsController extends BaseController {
 
         if (loginName == null || "".equals(loginName)) {
             model.addAttribute("loginNameError", "不能为空");
-            if (loginName == null || !loginName.matches("^\\w{6,20}$")) {
-                model.addAttribute("loginNameError", "登录名由6-20位字母数字和下划线组成 !");
-            }
             type = 1;
         } else {
             //校验用户名是否存在
@@ -1157,15 +1154,12 @@ public class SupplierExtractsController extends BaseController {
         if (loginPwd == null || "".equals(loginPwd)) {
             model.addAttribute("loginPwdError", "不能为空");
             type = 1;
-        }else if(! loginPwd.matches("^\\w{6,20}$")){
-            model.addAttribute("loginPwdError", "密码由6-20位字母数字和下划线组成 !");
-            type = 1;
         }
 
         if (type == 1) {
             model.addAttribute("supplier", supplier);
             model.addAttribute("loginName", loginName);
-            model.addAttribute("loginPwd", loginPwd);
+            //model.addAttribute("loginPwd", loginPwd);
             model.addAttribute("projectId", projectId);
             model.addAttribute("packageId", packageId);
             model.addAttribute("flowDefineId", flowDefineId);
@@ -1189,8 +1183,6 @@ public class SupplierExtractsController extends BaseController {
         flowMangeService.flowExe(request, flowDefineId, projectId, 2);
         return  "redirect:/saleTender/view.html?projectId=" + projectId + "&&flowDefineId=" + flowDefineId + "&ix=" + ix + "&randomCode=" + randomCode;
     }
-
-
 
     /**
      *
@@ -1330,6 +1322,148 @@ public class SupplierExtractsController extends BaseController {
             map.put("status", status);
         }
         return JSON.toJSONString(map);
+    }
+
+    /**
+     *〈简述〉修改临时供应商
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param model
+     * @param request
+     * @param flowDefineId
+     * @param supplierId
+     * @param ix
+     * @return
+     */
+    @RequestMapping("/editTemporarySupplier")
+    public String editTemporarySupplier(Model model, HttpServletRequest request,String projectId, String flowDefineId, String supplierId, String ix){
+        if(supplierId != null && !"".equals(supplierId)){
+            model.addAttribute("ix", ix);
+            Supplier supplier = supplierService.selectById(supplierId);
+            if (supplier != null) {
+              model.addAttribute("supplier", supplier);
+              model.addAttribute("flowDefineId", flowDefineId);
+              model.addAttribute("projectId", projectId);
+              User user = userServicl.findByTypeId(supplier.getId());
+              if (user != null) {
+                model.addAttribute("loginName", user.getLoginName());
+              }
+            }
+        }
+        return "bss/ppms/sall_tender/temporary_supplier_edit";
+    }
+    
+    /**
+     *〈简述〉修改临时供应商
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param projectId
+     * @param supplier
+     * @param model
+     * @param loginName
+     * @param loginPwd
+     * @param flowDefineId
+     * @param sq
+     * @param ix
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    @RequestMapping(value="updateTemporarySupplier",produces = "text/html;charset=UTF-8")
+    public Object updateTemporarySupplier(String projectId, Supplier supplier, Model model, String loginName, String loginPwd,String flowDefineId, HttpServletRequest sq, String ix) throws UnsupportedEncodingException{
+        Integer type = 0;
+        //转码
+        if (supplier != null) {
+            supplier = JSON.parseObject(URLDecoder.decode(JSON.toJSONString(supplier),"UTF-8"), Supplier.class);
+        }
+        if (loginName != null && !"".equals(loginName)) {
+            loginName = URLDecoder.decode(loginName,"UTF-8");
+        }
+        if (loginPwd != null && !"".equals(loginPwd)) {
+            loginPwd = URLDecoder.decode(loginPwd,"UTF-8");
+        }
+
+        if (supplier.getSupplierName() == null || "".equals(supplier.getSupplierName())) {
+            model.addAttribute("supplierNameError", "不能为空");
+            type = 1;
+        }
+
+        if (supplier.getArmyBusinessName() == null || "".equals(supplier.getArmyBusinessName())) {
+            model.addAttribute("armyBusinessNameError", "不能为空");
+            type = 1;
+        }
+
+        if (supplier.getArmyBuinessTelephone() == null || "".equals(supplier.getArmyBuinessTelephone())) {
+            model.addAttribute("armyBuinessTelephoneError", "不能为空");
+            type = 1;
+        }
+        
+        if (StringUtils.isNotBlank(supplier.getCreditCode()) && StringUtils.isNotBlank(supplier.getArmyBuinessTelephone())) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("armyBuinessTelephone", supplier.getArmyBuinessTelephone());
+            map.put("creditCode", supplier.getCreditCode());
+            map.put("isProvisional",1);
+            //查询临时供应商
+            List<Supplier> tempList = supplierService.viewCreditCodeMobile(map);
+            if (supplier.getCreditCode().length() > 36) {
+                model.addAttribute("creditCodeError", "不能为空或是字符过长!");
+                type = 1;
+            }
+
+            if (supplier.getCreditCode().length() != 18) {
+                model.addAttribute("creditCodeError", "格式错误!");
+                type = 1;
+            }
+            if (tempList != null && tempList.size() > 0) {
+                for (Supplier supp : tempList) {
+                    if (!supp.getId().equals(supplier.getId())) {
+                        model.addAttribute("creditCodeError", "社会统一信用代码已被占用!");
+                        type = 1;
+                        break;
+                    }
+                }
+            }
+        } else {
+            model.addAttribute("creditCodeError", "不能为空");
+            type = 1;
+        }
+
+        if (loginName == null || "".equals(loginName)) {
+            model.addAttribute("loginNameError", "不能为空");
+            type = 1;
+        } else {
+            //校验用户名是否存在
+            List<User> users = userServicl.findByLoginName(loginName);
+            if (users != null && users.size() > 0 && !supplier.getId().equals(users.get(0).getTypeId())) {
+                type = 1;
+                model.addAttribute("loginNameError", "用户名已存在");
+            }
+        }
+
+        /*if (loginPwd == null || "".equals(loginPwd)) {
+            model.addAttribute("loginPwdError", "不能为空");
+            type = 1;
+        }*/
+
+        if (type == 1) {
+            model.addAttribute("supplier", supplier);
+            model.addAttribute("loginName", loginName);
+            //model.addAttribute("loginPwd", loginPwd);
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("flowDefineId", flowDefineId);
+            model.addAttribute("ix", ix);
+            return "bss/ppms/sall_tender/temporary_supplier_edit";
+        }
+
+        expExtractRecordService.updateTemporaryExpert(supplier, loginName, loginPwd,sq);
+        String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuffer sb = new StringBuffer();
+        Random random = new Random();
+        for (int i = 0; i < 15; i++) {
+            sb.append(ALLCHAR.charAt(random.nextInt(ALLCHAR.length())));
+        }
+        String randomCode = sb.toString();
+        flowMangeService.flowExe(request, flowDefineId, projectId, 2);
+        return  "redirect:/saleTender/view.html?projectId=" + projectId + "&&flowDefineId=" + flowDefineId + "&ix=" + ix + "&randomCode=" + randomCode;
     }
 
 }
