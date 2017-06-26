@@ -1156,9 +1156,9 @@ public class SupplierExtractsController extends BaseController {
 
         if (loginPwd == null || "".equals(loginPwd)) {
             model.addAttribute("loginPwdError", "不能为空");
-            if (loginPwd == null || !loginPwd.matches("^\\w{6,20}$")) {
-                model.addAttribute("loginPwdError", "密码由6-20位字母数字和下划线组成 !");
-            }
+            type = 1;
+        }else if(! loginPwd.matches("^\\w{6,20}$")){
+            model.addAttribute("loginPwdError", "密码由6-20位字母数字和下划线组成 !");
             type = 1;
         }
 

@@ -119,8 +119,14 @@ public class ExpertBlackListController extends BaseSupplierController{
 		if (expertBlackList.getReason() == null || expertBlackList.getReason().equals("")) {
 			model.addAttribute("err_reason", "不能为空！");
 			error = "error";
+		}else if(expertBlackList.getReason().length() > 200){
+			model.addAttribute("err_reason", "最多200个字");
+			error = "error";
 		}
-		
+		if(expertBlackList.getStorageTime() != null && expertBlackList.getDateOfPunishment() != null && expertBlackList.getDateOfPunishment().getTime() < expertBlackList.getStorageTime().getTime()){
+			model.addAttribute("err_dateOfPunishment", "处罚日期必须大于入库时间");
+			error = "error";
+		}
 		/*if (expertBlackList.getAttachmentCert() == null ) {
 			model.addAttribute("err_attachmentCert", "请上传附件！");
 			count ++;
@@ -266,6 +272,9 @@ public class ExpertBlackListController extends BaseSupplierController{
 		
 		if (expertBlackList.getReason() == null || expertBlackList.getReason().equals("")) {
 			model.addAttribute("err_reason", "不能为空！");
+			error = "error";
+		}else if(expertBlackList.getReason().length() > 200){
+			model.addAttribute("err_reason", "最多200个字");
 			error = "error";
 		}
 		

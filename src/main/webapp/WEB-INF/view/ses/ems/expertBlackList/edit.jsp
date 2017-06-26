@@ -116,8 +116,7 @@
           <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>处罚理由：</span>
           <div class="col-md-12 col-sm-12 col-xs-12 p0">
             <textarea class="col-md-12 col-sm-12 col-xs-12"
-              style="height: 130px" title="这是必填字段，字数不超过200个字"
-              required="required" maxlength="200" name="reason">${expert.reason }</textarea>
+              style="height: 130px" title="这是必填字段，字数不超过200个字" maxlength="200" name="reason">${expert.reason }</textarea>
             <div class="cue">
               <sf:errors path="reason" />
             </div>
