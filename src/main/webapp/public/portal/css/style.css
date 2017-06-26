@@ -106,7 +106,7 @@ a:hover {
 .step_flow{
 	margin: 15px auto 10px auto;
 	text-align: center;
-}
+} 
 .step_flow .new_step{
 	display: inline-block;
 	float: none;
@@ -1829,7 +1829,7 @@ img.img-mouse {
 	  }
 
  }
-
+ 
    @media only screen and (min-width: 640px) and (max-width: 767px) {
 	   	 .new_step {
 			    position: relative;
@@ -3203,7 +3203,7 @@ h2.list_title{
 	  font-size:11px;
   }
   .visit_count .visit_title{
-	padding:3px 5px;
+	padding:3px 5px;	
   }
 	.visit_clip{
 	 margin-left:3px;
@@ -3214,7 +3214,7 @@ h2.list_title{
 	  font-size:14px;
 	}
   .visit_count .visit_title{
-	padding:3px 15px;
+	padding:3px 15px;	
     }
   .visit_clip b{
    	width:15px;
@@ -3240,7 +3240,7 @@ h2.list_title{
 }
 .visit_count .visit_title{
 	background-color: #2C9FA6;
-	color:#ffffff;
+	color:#ffffff;	
 }
 .visit_count .visit_title i{
 	background: url(../images/portal_icon.png) no-repeat -1px -475px
@@ -3251,7 +3251,6 @@ h2.list_title{
     cursor: default !important;
 }
 
-/* 北京-前端-马田力修改 */
 /* APP二维码 */
 .m_app_code {
 	position: fixed;
@@ -3291,7 +3290,6 @@ h2.list_title{
 /* 首页-业务办理自适应错版修复 */
 @media screen (min-width: 1024px) and (max-width: 1199px) {
     .ywbl_01 {
-        width: 106px;
     }
     .ywbl_02 {
         width: 126px;
