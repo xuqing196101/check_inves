@@ -337,10 +337,20 @@
 //                }
 			}
 			$(function() {
-				$("input").not("#supplierName_input_id").not(".address_zip_code").not("#stockholder_list_tbody_id input").bind("blur", tempSave);
+				//$("input").not("#supplierName_input_id").not(".address_zip_code").not("#stockholder_list_tbody_id input").bind("blur", tempSave);
 //			$("input").not("#supplierName_input_id").not("input[name='legalName']").not("input[name='contactName']").bind("blur", tempSave);
-				$("textarea").bind("blur", tempSave);
-				$("select").not("#stockholder_list_tbody_id select").bind("change", tempSave);
+				//$("textarea").bind("blur", tempSave);
+				//$("select").not("#stockholder_list_tbody_id select").bind("change", tempSave);
+				
+				// 指定字段实时保存
+				if($(".txtTempSave")){
+					$(".txtTempSave").bind("blur", function(){
+						if($(this).val() && $.trim($(this).val()) != ""){
+							tempSave();
+						}
+					});
+				}
+				
 				/**供应商名称校验*/
                 $("#supplierName_input_id").focus(function(){
                     $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
@@ -349,7 +359,7 @@
                     var newVal=($(this).val()); //获取当前值
                     if (oldVal!=newVal){
                         $("#name_span").val(1);
-                        tempSave();
+                        //tempSave();
                     }
                 });
 				/**邮编校验*/
@@ -366,7 +376,7 @@
                                 offset: '300px'
                             });
                         }else{
-                            tempSave();
+                            //tempSave();
                         }
                     }
                 });
@@ -461,17 +471,6 @@
 						id = data;
 					}
 				});
-				/* $("#stockholder_list_tbody_id").append("<tr>" +
-					"<td class='tc'><input type='checkbox' value='' /><input type='hidden' name='listSupplierStockholders[" + stocIndex + "].id' value=" + id + "><input type='hidden' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].supplierId' value=" + supplierId + ">" +
-					"</td>" +
-					"<td class='tc'>  <select class='w100p border0'onchange='tempSave()' name='listSupplierStockholders[" + stocIndex + "].nature'>" +
-					"<option value='1'>法人</option>" +
-					" <option value='2'>自然人</option>" +
-					"</select> </td>" +
-					"<td class='tc'><input type='text' style='border:0px;' maxlength='50'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].name' value=''> </td>" +
-					"<td class='tc'><input type='text' style='border:0px;'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].identity' maxlength='18' onkeyup='validateIdentity(this)' value=''> </td>" +
-					"<td class='tc'> <input type='text' style='border:0px;'  onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].shares' value=''></td>" +
-					"<td class='tc'> <input type='text' style='border:0px;' class='proportion_vali' onblur='tempSave()' name='listSupplierStockholders[" + stocIndex + "].proportion' value=''> </td>" + "</tr>"); */
 
 				$("#stockholder_list_tbody_id").append("<tr>" +
 					"<td class='tc'><input type='checkbox' value='' /><input type='hidden' name='listSupplierStockholders[" + stocIndex + "].id' value=" + id + "><input type='hidden' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].supplierId' value=" + supplierId + ">" +
@@ -506,18 +505,18 @@
 						id = data;
 					}
 				});
-                var _onkeyup="value=value.replace(/[^\\d-]/g,\"\")";
+        var _onkeyup="value=value.replace(/[^\\d-]/g,\"\")";
 				$("#afterSaleDep_list_tbody_id").append("<tr>" +
 					"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].id' value='" + id + "'><input type='hidden' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].supplierId' value=" + supplierId + ">" +
 					"</td>" +
-					"<td class='tc'><input type='text' style='border:0px;' onblur='tempSave()' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].name' maxlength='90' value=''> </td>" +
-					"<td class='tc'> <div class='w120 fl'> <select onchange='tempSave()' class='w100p border0' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].type'>" +
+					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].name' maxlength='90' value=''> </td>" +
+					"<td class='tc'> <div class='w120 fl'> <select class='w100p border0' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].type'>" +
 					"<option value='1'>自营</option>" +
 					" <option value='2'>合作</option>" +
 					"</select></div> </td>" +
-					"<td class='tc'><input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].address' maxlength='30' value=''> </td>" +
-					"<td class='tc'> <input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].leadName' maxlength='20' value=''></td>" +
-					"<td class='tc'> <input type='text' onblur='tempSave()' style='border:0px;' onkeyup='"+_onkeyup+"' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].mobile' value=''> </td>" + "</tr>");
+					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].address' maxlength='30' value=''> </td>" +
+					"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].leadName' maxlength='20' value=''></td>" +
+					"<td class='tc'> <input type='text' style='border:0px;' onkeyup='"+_onkeyup+"' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].mobile' value=''> </td>" + "</tr>");
 
 				afterSaleIndex++;
 				$("#afterSaleIndex").val(afterSaleIndex);
@@ -809,42 +808,42 @@
 			    var _val = $(obj).val();
 			    if(_val!="" && nonNum!=3){//如果可以为负数的话设置3;净资产总额不进行负数校验
 			        if(parseInt(_val)<0){
-                        $(obj).val("");
-                        layer.msg("请输入正确的金额,非负数保留四位小数", {
-                            offset: '300px'
-                        });
-                        return false;
-                    }
-                }
-                if(_val.indexOf('.')!=-1){
-                    var reg = /\d+\.\d{0,2}?$/;
-                    if(!reg.test(_val)) {
-                        $(obj).val("");
-                        if(nonNum==3){
-                            layer.msg("请输入正确的金额,保留两位小数", {
-                                offset: '300px'
-                            });
-                        }else{
-                            layer.msg("请输入正确的金额,非负数保留两位小数", {
-                                offset: '300px'
-                            });
-                        }
-                    }
-                }else{
-                    if(!positiveRegular(_val)){
-                        $(obj).val("");
-                        if(nonNum==3){
-                            layer.msg("请输入正确的金额,保留两位小数", {
-                                offset: '300px'
-                            });
-                        }else{
-                            layer.msg("请输入正确的金额,非负数保留两位小数", {
-                                offset: '300px'
-                            });
-                        }
-                    }
-                }
-            }
+                   $(obj).val("");
+                   layer.msg("请输入正确的金额,非负数保留四位小数", {
+                       offset: '300px'
+                   });
+                   return false;
+               }
+           }
+           if(_val.indexOf('.')!=-1){
+               var reg = /\d+\.\d{0,2}?$/;
+               if(!reg.test(_val)) {
+                   $(obj).val("");
+                   if(nonNum==3){
+                       layer.msg("请输入正确的金额,保留两位小数", {
+                           offset: '300px'
+                       });
+                   }else{
+                       layer.msg("请输入正确的金额,非负数保留两位小数", {
+                           offset: '300px'
+                       });
+                   }
+               }
+           }else{
+               if(!positiveRegular(_val)){
+                   $(obj).val("");
+                   if(nonNum==3){
+                       layer.msg("请输入正确的金额,保留两位小数", {
+                           offset: '300px'
+                       });
+                   }else{
+                       layer.msg("请输入正确的金额,非负数保留两位小数", {
+                           offset: '300px'
+                       });
+                   }
+               }
+           }
+      }
 
 			function increaseAddress(obj) {
 				var ind = $("#index").val();
@@ -858,8 +857,8 @@
 						$(li).after("<li class='col-md-2 col-sm-6 col-xs-12 pl10'>" +
 								"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产或经营地址邮编</span>" +
 								"<div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-								"<input type='text' name='addressList[" + ind + "].code' value='' / onblur='tempSave()'>" +
-								"<input type='hidden' name='addressList[" + ind + "].id' value='" + id + "' / onblur='tempSave()'>" +
+								"<input type='text' name='addressList[" + ind + "].code' value='' / >" +
+								"<input type='hidden' name='addressList[" + ind + "].id' value='" + id + "' / >" +
 								"<span class='add-on cur_point'>i</span>" +
 								" <div class='cue'> </div>" +
 								"</div>" +
@@ -870,12 +869,12 @@
 								"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='root_area_select_id' onchange='loadChildren(this)'  name='addressList[" + ind + "].provinceId' >" +
 								" <option value=''>请选择</option>" +
 								" <c:forEach  items='${privnce }' var='prin'>" +
-								" <option value='${prin.id }' onchange='tempSave()' >${prin.name }</option>" +
+								" <option value='${prin.id }'>${prin.name }</option>" +
 								" </c:forEach>" +
 								" </select></div> " +
 								"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='children_area_select_id' name='addressList[" + ind + "].address'>" +
 								" <c:forEach  items='${city }' var='city'>" +
-								"<option value='${city.id }' onchange='tempSave()' >${city.name }</option>" +
+								"<option value='${city.id }'>${city.name }</option>" +
 								"</c:forEach>" +
 
 								" </select></div>" +
@@ -886,7 +885,7 @@
 								" <li class='col-md-2 col-sm-6 col-xs-12'>" +
 								"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产或经营详细地址</span>" +
 								" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-								"<input type='text' name='addressList[" + ind + "].detailAddress'  value='' onblur='tempSave()'>" +
+								"<input type='text' name='addressList[" + ind + "].detailAddress'  value='' >" +
 								"<span class='add-on cur_point'>i</span>" +
 								"<div class='cue'>  </div>" +
 								"</div>" +
@@ -995,14 +994,14 @@
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>机构名称</span>" +
 							" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 							//" <input type='hidden' name='branchList[" + inde + "].id'   value='"+branId+"' />" +
-							" <input class ='cBranchName' type='text' name='branchList[" + inde + "].organizationName' id='sup_branchName'  value='' / onblur='tempSave()'>" +
+							" <input class ='cBranchName' type='text' name='branchList[" + inde + "].organizationName' id='sup_branchName'  value='' / >" +
 							"   <span class='add-on cur_point'>i</span>" +
 							"   </div>" +
 							"  </li>" +
 							"<li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>所在国家（地区）</span>" +
 							"  <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-							"<select  class ='cOverseas' name='branchList[" + inde + "].country'  id='overseas_branch_select_id' onchange='tempSave()'>" +
+							"<select  class ='cOverseas' name='branchList[" + inde + "].country'  id='overseas_branch_select_id'>" +
 							"<option value=''>请选择</option>"+
 							"<c:forEach items='${foregin }' var='fr'>" +
 							"<option value='${fr.id }' <c:if test='${bran.country==fr.id}'> selected='selected' </c:if> >${fr.name }</option>" +
@@ -1013,7 +1012,7 @@
 							"  <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>详细地址</span>" +
 							" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-							" <input  class ='cDetailAdddress' type='text' name='branchList[" + inde + "].detailAddress'  id='sup_branchAddress' value='' / onblur='tempSave()'>" +
+							" <input  class ='cDetailAdddress' type='text' name='branchList[" + inde + "].detailAddress'  id='sup_branchAddress' value='' / >" +
 							"  <span class='add-on cur_point'>i</span>" +
 							" </div>" +
 							" </li>" +
@@ -1030,7 +1029,7 @@
 							"  <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>生产经营范围</span>" +
 							" <div class='col-md-12 col-xs-12 col-sm-12 p0'>" +
-							" <textarea class='cPrdArea col-md-12 col-xs-12 col-sm-12 h80' maxlength='1000' onkeyup=\"checkCharLimit('branchbusinessSope_"+inde+"','limit_char_branchbusinessSope_"+inde+"',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}\" id='branchbusinessSope_"+inde+"' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
+							" <textarea class='cPrdArea col-md-12 col-xs-12 col-sm-12 h80' maxlength='1000' onkeyup=\"checkCharLimit('branchbusinessSope_"+inde+"','limit_char_branchbusinessSope_"+inde+"',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}\" id='branchbusinessSope_"+inde+"' name='branchList[" + inde + "].businessSope'></textarea>" +
 							" <span class='sm_tip fr'>还可输入 <span id='limit_char_branchbusinessSope_"+inde+"'>1000</span> 个字</span>" +
 							" </div>" +
 							" </li>");
@@ -1169,9 +1168,12 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 									   <!-- onkeyup="replaceAndSetPos(this,/[^\u4e00-\u9fa5（）()\w]/g,'')"  修改-->
 										<%--<input id="supplierName_input_id" type="text" name="supplierName" required="required" onkeyup="value=value.replace(/[^\u4e00-\u9fa5（）()\w]/g,'')" manlength="50" value="${currSupplier.supplierName}" <c:if test="${fn:contains(audit,'supplierName')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierName')"</c:if> />--%>
-										<input id="supplierName_input_id" type="text" name="supplierName" required="required"   maxlength="300" value="${currSupplier.supplierName}"  <c:if test="${!fn:contains(audit,'supplierName')&&currSupplier.status==2}">readonly="readonly"</c:if>  <c:if test="${fn:contains(audit,'supplierName')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierName')"</c:if> />
+										<input id="supplierName_input_id" type="text" name="supplierName" required="required" maxlength="300" value="${currSupplier.supplierName}"
+											<c:if test="${!fn:contains(audit,'supplierName')&&currSupplier.status==2}">readonly="readonly"</c:if>
+											<c:if test="${fn:contains(audit,'supplierName')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierName')"</c:if>
+											class="txtTempSave"/>
 										<input type="hidden" id="name_span" name="name_flag"/>
-                                            <span class="add-on">i</span>
+                    <span class="add-on">i</span>
 										<span class="input-tip">不能为空</span>
 										<div class="cue"> ${err_msg_supplierName } </div>
 										<div class="cue">
@@ -1291,7 +1293,10 @@
 								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>统一社会信用代码</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="creditCode"  required maxlength="18" id="creditCode" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" onblur="checkCreditCode(this.value);" value="${currSupplier.creditCode}" <c:if test="${!fn:contains(audit,'creditCode')&&currSupplier.status==2}">readonly="readonly"</c:if>  <c:if test="${fn:contains(audit,'creditCode')}">style="border: 1px solid red;" onmouseover="errorMsg('creditCode')"</c:if>/>
+										<input type="text" name="creditCode" required maxlength="18" id="creditCode" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" onblur="checkCreditCode(this.value);" value="${currSupplier.creditCode}" 
+											<c:if test="${!fn:contains(audit,'creditCode')&&currSupplier.status==2}">readonly="readonly"</c:if>
+											<c:if test="${fn:contains(audit,'creditCode')}">style="border: 1px solid red;" onmouseover="errorMsg('creditCode')"</c:if>
+											class="txtTempSave"/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">统一社会信用代码为18位数字或18位数字+字母的组合</span>
 										<div class="cue"> ${err_creditCide} </div>
@@ -1317,7 +1322,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 注册资本（人民币：万元）</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="registFund" onchange="checkNumsSale(this, 5)" required value="${currSupplier.registFund}" <c:if test="${!fn:contains(audit,'registFund')&&currSupplier.status==2}">readonly="readonly"</c:if>   <c:if test="${fn:contains(audit,'registFund')}">style="border: 1px solid red;" onmouseover="errorMsg('registFund')"</c:if>/>
+										<input type="text" name="registFund" onchange="checkNumsSale(this, 5)" required maxlength="19" value="${currSupplier.registFund}" <c:if test="${!fn:contains(audit,'registFund')&&currSupplier.status==2}">readonly="readonly"</c:if>   <c:if test="${fn:contains(audit,'registFund')}">style="border: 1px solid red;" onmouseover="errorMsg('registFund')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，值不可小于零</span>
 										<div class="cue" id="err_fund"> ${err_fund } </div>
@@ -1392,7 +1397,10 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证号</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="legalIdCard" required value="${currSupplier.legalIdCard}" <c:if test="${!fn:contains(audit,'legalIdCard')&&currSupplier.status==2}">readonly="readonly"</c:if> <c:if test="${fn:contains(audit,'legalIdCard')}">style="border: 1px solid red;" onmouseover="errorMsg('legalIdCard')"</c:if>/>
+										<input type="text" name="legalIdCard" required value="${currSupplier.legalIdCard}" 
+											<c:if test="${!fn:contains(audit,'legalIdCard')&&currSupplier.status==2}">readonly="readonly"</c:if>
+											<c:if test="${fn:contains(audit,'legalIdCard')}">style="border: 1px solid red;" onmouseover="errorMsg('legalIdCard')"</c:if>
+											class="txtTempSave"/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，长度为18位</span>
 										<div class="cue"> ${err_legalCard } </div>
@@ -2133,11 +2141,9 @@
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid red;"</c:if>>
 															<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].auditors" value="${finance.auditors}" <c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
-
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid red;"</c:if>>
 															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 1)" name="listSupplierFinances[${vs.index }].totalAssets" value="${finance.totalAssets}" <c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
-
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid red;"</c:if>>
 															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 2)" name="listSupplierFinances[${vs.index }].totalLiabilities" value="${finance.totalLiabilities}" <c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
@@ -2146,7 +2152,9 @@
 															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 3)" name="listSupplierFinances[${vs.index }].totalNetAssets" value="${finance.totalNetAssets}" <c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if> >
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid red;"</c:if>>
-															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 4)" name="listSupplierFinances[${vs.index }].taking" value="${finance.taking}" <c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if>>
+															<input type="text" required="required" class="w80 border0" onchange="checkNumsSale(this, 4)" name="listSupplierFinances[${vs.index }].taking" value="${finance.taking}" 
+																<c:if test="${!fn:contains(audit,infoId)&&currSupplier.status==2}">readonly="readonly"</c:if>
+																class="txtTempSave"/>
 														</td>
 													</tr>
 												</tbody>
@@ -2263,7 +2271,7 @@
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' maxlength="18" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" value='${stockholder.identity}' <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if>  > </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' class="shares" name='listSupplierStockholders[${stockvs.index }].shares' onchange="checkNumsSale(this, 3)" value='${stockholder.shares}' <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if> > </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' class="proportion_vali" name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}' <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if> 
-													 	onkeyup="value=value.replace(/[^\d.]/g,'')" onblur="validatePercentage2(this.value)"></td>
+													 	onkeyup="value=value.replace(/[^\d.]/g,'')" onblur="validatePercentage2(this.value)" class="txtTempSave"/></td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -2569,9 +2577,16 @@
 					$(this).removeAttr("onchange");
 				}
 			}).change(function(){
-				// 特殊处理出资人信息
-				if(!boolColor(this) && $(this).attr("name").indexOf("listSupplierStockholders") < 0){
+				/* if(!boolColor(this)){
 					this.selectedIndex=this.defaultIndex;
+				} */
+				// 特殊处理出资人信息
+				if(!boolColor(this)){
+					if($(this).attr("name") && $(this).attr("name").indexOf("listSupplierStockholders") >= 0){
+						
+					}else{
+						this.selectedIndex=this.defaultIndex;
+					}
 				}
 			});
 		}
