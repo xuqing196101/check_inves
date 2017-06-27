@@ -103,6 +103,17 @@
      	<result column="ischeck"  property="checked" />
    	</association>
   </resultMap>
+  
+  	<select id="find" parameterType="bss.model.ppms.ScoreModel" resultMap="BaseMap">
+   		SELECT
+   			SM.*
+   		FROM
+   			T_BSS_PPMS_SCORE_MODEL SM
+   		WHERE nvl(SM.is_deleted,0)=0
+   		AND SM.ID = #{id}
+   		
+   </select> 
+  
    <select id="findListByScoreModel" parameterType="bss.model.ppms.ScoreModel" resultMap="BaseMap">
    		SELECT
    			sm.*,

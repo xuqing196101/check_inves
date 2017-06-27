@@ -24,6 +24,14 @@ public interface ScoreModelMapper {
    * @return
    */
   public List<ScoreModel> findListByScoreModelByTime(ScoreModel scoreModel);
+  /**
+   *〈简述〉查询
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param scoreModelId
+   * @return
+   */
+  public List<ScoreModel> find(ScoreModel scoreModel);
 	
 	/*public List<MarkTerm> findListByMarkTerm(MarkTerm markTerm);
 	public int saveMarkTerm(MarkTerm markTerm);
