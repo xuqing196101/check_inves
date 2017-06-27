@@ -1873,9 +1873,10 @@ public class SupplierController extends BaseSupplierController {
 					if(stocksHolder.getProportion() == null || stocksHolder.getProportion() == "") {
 						count++;
 						model.addAttribute("stock", "比例不能为空！");
+					}else{
+						proportionTotal += Float.parseFloat(stocksHolder.getProportion());
+						stockholderCount++;
 					}
-					proportionTotal += Float.parseFloat(stocksHolder.getProportion());
-					stockholderCount++;
 				}
 			}
 			// 如果数量不超过10个，那占比必须100%，如果数量超过10个，那占比必须高于50%
@@ -1892,7 +1893,7 @@ public class SupplierController extends BaseSupplierController {
 		}
 		if(set.size()!=cardId){
 			count++;
-			model.addAttribute("error_card", "身份证号码重复！");
+			model.addAttribute("stock", "统一社会信用代码或身份证号码重复！");
 		}
 		// 售后服务机构
         if(supplier.getListSupplierAfterSaleDep() == null || supplier.getListSupplierAfterSaleDep().size() < 1) {

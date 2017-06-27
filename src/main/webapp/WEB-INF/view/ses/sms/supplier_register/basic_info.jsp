@@ -229,7 +229,7 @@
 				var proportionTotal = 0;// 出资比例之和
 				var stockholderCount = 0;// 股东数量
 				$("input[name^='listSupplierStockholder'][name$='proportion']").each(function(){
-					proportionTotal += parseFloat($(this).val());
+					proportionTotal += parseFloat($(this).val()||0);
 					stockholderCount++;
 				});
 				proportionTotal = proportionTotal.toFixed(2);
@@ -261,7 +261,7 @@
 				if(flag) {
 					$("input[name='flag']").val(obj);
 					// 提交的时候表单域设置成可编辑
-					enableForm();
+					//enableForm();
 					$("#basic_info_form_id").submit();
 				} else {
 
@@ -311,14 +311,14 @@
 //                }else{
                     $("input[name='flag']").val("");
                     // 提交的时候表单域设置成可编辑
-										enableForm();
+										//enableForm();
                     $.ajax({
                         url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
                         type: "post",
                         data: $("#basic_info_form_id").serializeArray(),
                         contextType: "application/x-www-form-urlencoded",
                         success: function(msg) {
-                        	controlForm();
+                        	//controlForm();
                             if(msg == 'ok') {
                                 layer.msg('暂存成功', {
                                     offset: '300px'
@@ -331,7 +331,7 @@
                             }
                         },
 												error: function(){
-													controlForm();
+													//controlForm();
 												}
                     });
 //                }
@@ -392,7 +392,7 @@
 			/** 无提示实时保存 */
 			function tempSave() {
 				$("input[name='flag']").val("");
-				enableForm();
+				//enableForm();
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
 					type: "post",
@@ -400,7 +400,7 @@
 					data: $("#basic_info_form_id").serializeArray(),
 					contextType: "application/x-www-form-urlencoded",
 					success: function(msg) {
-						controlForm();
+						//controlForm();
             $("#name_span").val("");//名称校验标识初始化
 						if(msg=="notPass"){
 							layer.msg('近3年加权平均净资产不足100万元，不满足注册要求！', {
@@ -444,7 +444,7 @@
 //                        }
 					},
 					error: function(){
-						controlForm();
+						//controlForm();
 					}
 				});
 			}
@@ -600,7 +600,7 @@
 					var stockholderCount = 0;// 股东数量
 					$("input[name^='listSupplierStockholder'][name$='proportion']").each(function(){
 						if(!($(this).parent().parent().find(":checkbox").is(":checked"))){
-							proportionTotal += parseFloat($(this).val());
+							proportionTotal += parseFloat($(this).val()||0);
 							stockholderCount++;
 						}
 					});
@@ -1110,14 +1110,28 @@
 			sessionStorage.index=1;
 			
 			function check(obj){
+				if('${currSupplier.status}' == '2' && '${audit}'.indexOf('businessStartDate') < 0){
+					return false;
+				}
 				var ch=$(obj).is(":checked");
 				if(ch){
 					$(obj).val("1");
 					$("#expireDate").val("");
-					$("#expireDate").attr("disabled","disabled");
+					//$("#expireDate").attr("disabled","disabled");
 				}else{
 					$(obj).val("0");
-					$("#expireDate").removeAttr("disabled","disabled");
+					//$("#expireDate").removeAttr("disabled","disabled");
+				}
+			}
+			
+			// 控制营业期限
+			function controlExpireDate(){
+				if('${currSupplier.status}' == '2' && '${audit}'.indexOf('businessStartDate') < 0){
+					return;
+				}
+				var branchName = $("input[name='branchName']").val();
+				if(branchName != '1'){
+					WdatePicker();
 				}
 			}
 			
@@ -1183,7 +1197,7 @@
 									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 成立日期</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<fmt:formatDate value="${currSupplier.foundDate}" pattern="yyyy-MM-dd" var="foundDate" />
-										<input type="text" readonly="readonly" name="foundDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',startDate:'1970-01-01'})" value="${foundDate}" <c:if test="${fn:contains(audit,'foundDate')&&(currSupplier.status==2||currSupplier.status==-1)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'{%y-3}-%M-%d'})" </c:if> <c:if test="${fn:contains(audit,'foundDate')}">style="border: 1px solid red;" onmouseover="errorMsg('foundDate')"</c:if> />
+										<input type="text" readonly="readonly" name="foundDate" value="${foundDate}" <c:if test="${(fn:contains(audit,'foundDate')&&currSupplier.status==2)||currSupplier.status==-1}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'{%y-3}-%M-%d'})" </c:if> <c:if test="${fn:contains(audit,'foundDate')}">style="border: 1px solid red;" onmouseover="errorMsg('foundDate')"</c:if> />
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">成立时间须大于三年 </span>
 										<div class="cue"> ${err_msg_foundDate } </div>
@@ -1314,15 +1328,19 @@
 								</li>
 
 								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业期限   <input type="checkbox" name="branchName" onclick="check(this);" 
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业期限   <input type="checkbox" name="branchName" onclick="return check(this);" 
 										<c:if test="${currSupplier.branchName=='1'}"> checked='true'</c:if>
-										<c:if test="${currSupplier.status==2 && !fn:contains(audit,'businessStartDate')}"> disabled='disabled'</c:if>   
+										<%-- <c:if test="${currSupplier.status==2 && !fn:contains(audit,'businessStartDate')}"> disabled='disabled'</c:if> --%>   
 										value="${currSupplier.branchName }"> 长期</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<%-- <fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" /> --%>
-										<input id="expireDate" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd"/>" 
+										<input id="expireDate" type="text" readonly="readonly" 
+											<%-- <c:if test="${(fn:contains(audit,'businessStartDate')&&currSupplier.status==2) || currSupplier.status==-1 || currSupplier.branchName!='1'}">onClick="WdatePicker()"</c:if>  --%>
+											onclick="controlExpireDate();"
+											name="businessStartDate" value="<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd"/>" 
 											<c:if test="${fn:contains(audit,'businessStartDate')}">style="border: 1px solid red;" onmouseover="errorMsg('businessStartDate')"</c:if>
-											<c:if test="${currSupplier.branchName=='1'}">disabled="disabled"</c:if> />
+											<%-- <c:if test="${currSupplier.branchName=='1'}">disabled="disabled"</c:if> --%> 
+										/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">如果勾选长期,可不填写有效期</span>
 										<div class="cue"> ${err_sDate } </div>
@@ -1444,7 +1462,10 @@
 									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 住所地址（营业执照上的登记地址）</span>
 									<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-											<select id="root_area_select_id" onchange="loadChildren(this)" <c:if test="${!fn:contains(audit,'address')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>   <c:if test="${fn:contains(audit,'address')}">style="border: 1px solid red;" onmouseover="errorMsg('address')"</c:if>>
+											<select id="root_area_select_id"  
+												<c:if test="${(fn:contains(audit,'address')&&currSupplier.status==2)||currSupplier.status==-1}">onchange="loadChildren(this)"</c:if>
+												<c:if test="${!fn:contains(audit,'address')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>
+												<c:if test="${fn:contains(audit,'address')}">style="border: 1px solid red;" onmouseover="errorMsg('address')"</c:if>>
 												<option value="" >请选择</option>
 												<c:forEach items="${privnce }" var="prin">
 													<c:if test="${prin.id==area.parentId }">
@@ -2480,7 +2501,8 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/regex.js"></script>
 <script type="text/javascript">
-	controlForm();
+	//controlForm();
+	readOnlyForm();
 	function controlForm(){
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
 		var currSupplierSt = '${currSupplier.status}';
@@ -2525,6 +2547,48 @@
 		if(currSupplierSt == '2'){
 			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
 		}
+	}
+	
+	// 表单只读
+	function readOnlyForm(){
+		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
+		var currSupplierSt = '${currSupplier.status}';
+		//alert(currSupplierSt);
+		if(currSupplierSt == '2'){
+			//$("input[type='text'],textarea").attr('readonly', 'readonly');
+			$("input[type='text'],textarea").each(function(){
+				if(boolColor(this)){
+					$(this).removeAttr('readonly');
+				}else{
+					$(this).attr('readonly', 'readonly');
+				}
+			});
+			$("select").focus(function(){
+				if(!boolColor(this)){
+					this.defaultIndex=this.selectedIndex;
+					$(this).removeAttr("onchange");
+				}
+			}).change(function(){
+				// 特殊处理出资人信息
+				if(!boolColor(this) && $(this).attr("name").indexOf("listSupplierStockholders") < 0){
+					this.selectedIndex=this.defaultIndex;
+				}
+			});
+		}
+		// 特殊处理出资人信息
+		$("#stockholder_list_tbody_id input").removeAttr('readonly');
+	}
+	
+	function boolColor(_this){
+		var boolColor = $(_this).css("border-top-color") == 'rgb(255, 0, 0)' 
+				|| $(_this).css("border-bottom-color") == 'rgb(255, 0, 0)' 
+				|| $(_this).css("border-left-color") == 'rgb(255, 0, 0)' 
+				|| $(_this).css("border-right-color") == 'rgb(255, 0, 0)' 
+				|| $(_this).parents("td").css("border-top-color") == 'rgb(255, 0, 0)'
+				|| $(_this).parents("td").css("border-bottom-color") == 'rgb(255, 0, 0)'
+				|| $(_this).parents("td").css("border-left-color") == 'rgb(255, 0, 0)'
+				|| $(_this).parents("td").css("border-right-color") == 'rgb(255, 0, 0)';
+		return boolColor;
 	}
 	
 	// 审核通过的项不能删除(列表)
