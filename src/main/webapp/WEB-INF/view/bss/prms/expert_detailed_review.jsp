@@ -44,6 +44,7 @@
 								 layer.alert("已结束",{offset: [y, x], shade:0.01});
 								 $("#backId").attr("disabled",true);
 								 $("#endId").attr("disabled",true);
+								 $("#is_end").val(1);
 							 },
 							 error: function(){
 								 layer.alert("结束失败,请稍后重试!",{offset: [y, x], shade:0.01});
@@ -127,7 +128,7 @@
 	}
 	function printRank(){
 		var packageId = "${packageId}";
-		var isEnd = "${isEnd}";
+		var isEnd = $("#is_end").val();
 		if (isEnd != "1") {
 			layer.alert("该包暂未结束评分!", {
 				offset : [ y, x ],
@@ -141,6 +142,7 @@
 </head>
 <body>
 		<h2 class="list_title">${pack.name}经济技术评审管理</h2>
+		<input id="is_end" type="hidden" value="${isEnd}">
 	    <div class="mb5 fr">
 	      <c:if test="${isEnd != 1}">
 			  <button class="btn" id="endId" onclick="toTotal()" type="button">结束评审</button>

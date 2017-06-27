@@ -78,6 +78,21 @@ $(document).ready(function() {
 										var dataScore = toDecimal(data[i].score);
 										$(this).next().val(dataScore);
 										$(this).next().next().html("<font color='red' class='f18'>" + dataScore + "</font>");
+										//合计
+										var packageId = "${packageId}";
+										var projectId = "${projectId}";
+										var supplierId_sum = data[i].supplierId;
+										$.ajax({
+											url:'${pageContext.request.contextPath}/reviewFirstAudit/supplierTotal.html',
+											data:{supplierIds : supplierId_sum, projectId : projectId, packageId : packageId},
+											type:"post",
+											dataType:"JSON",
+											success:function(data){
+												$("input[name='"+supplierId_sum+"_total']").each(function(index,item){
+													$(this).next().html("<font color='red' class='f18'>" + data + "</font>");
+												});
+											}
+										});
 									}
 								});
 							}
@@ -104,17 +119,18 @@ $(document).ready(function() {
 					// 修改,将input框改为直接显示,input设置为hidden,将input值传给span
 					$(obj).parent().next().find("input[name='expertScore']").next().html("<font color='red' class='f18'>" + data + "</font>");
 					
-					/* $.ajax({
+					$.ajax({
 						url:'${pageContext.request.contextPath}/reviewFirstAudit/supplierTotal.html',
 						data:$("#score_form").serialize(),
 						type:"post",
 						dataType:"JSON",
 						success:function(data){
-							alert($("#"+supplierId+"_total").text());
-							$("#"+supplierId+"_total").html("12");
+							$("input[name='"+supplierId+"_total']").each(function(index,item){
+								$(this).next().html("<font color='red' class='f18'>" + data + "</font>");
+							});
 						}
 						
-					}); */
+					});
 				
 				}
 				
@@ -396,14 +412,26 @@ $(document).ready(function () {
 				 	  </c:if>
 				 	</c:forEach>
 				 </c:forEach>
-				 <%-- <tr>
+				 <tr>
 				 	<td class="tc">合计</td>
 				 	<td class="tc">--</td>
 				 	<td class="tc">--</td>
 				 	<c:forEach items="${supplierList}" var="supplier">
-				      <td colspan="2" class="tc" id="${supplier.suppliers.id}_total">0</td>
+				      <td colspan="2" class="tc" >
+				      	<input type="hidden" name="${supplier.suppliers.id}_total"/>
+				      	<span>
+				      		<c:set var="sum_score" value="0"/>
+				      		<c:forEach items="${scores}" var="sco">
+				 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id}">
+				 	          	<c:set var="sum_score" value="${sum_score+sco.score}"/>
+				 	          </c:if>
+				 	        </c:forEach>
+				 	        <font color="red" class="f18">${sum_score}</font>
+				 	        <c:set var="sum_score" value="0"/>
+				      	</span>
+				      </td>
 				    </c:forEach>
-				 </tr> --%>
+				 </tr>
 				 </tbody>
 				 </table>
 				 </div>

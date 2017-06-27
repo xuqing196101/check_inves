@@ -118,7 +118,26 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 				 	  </c:if>
 				 	</c:forEach>
 				 </c:forEach>
-				 
+		<tr>
+		 	<td style="border: 1px solid #ddd;padding: 5px 10px;">合计</td>
+		 	<td style="border: 1px solid #ddd;padding: 5px 10px;">--</td>
+		 	<td style="border: 1px solid #ddd;padding: 5px 10px;">--</td>
+		 	<c:forEach items="${extensions.supplierList}" var="supplier">
+		      <td style="border: 1px solid #ddd;padding: 5px 10px;">
+		      	<input type="hidden" name="${supplier.suppliers.id}_total"/>
+		      	<span>
+		      		<c:set var="sum_score" value="0"/>
+		      		<c:forEach items="${scores}" var="sco">
+		 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id}">
+		 	          	<c:set var="sum_score" value="${sum_score+sco.score}"/>
+		 	          </c:if>
+		 	        </c:forEach>
+		 	        <font color="red" class="f18">${sum_score}</font>
+		 	        <c:set var="sum_score" value="0"/>
+		      	</span>
+		      </td>
+		    </c:forEach>
+		 </tr>		 
    	</table>
   	
   	</c:forEach>
