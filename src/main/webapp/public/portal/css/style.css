@@ -3290,6 +3290,7 @@ h2.list_title{
 /* 首页-业务办理自适应错版修复 */
 @media screen (min-width: 1024px) and (max-width: 1199px) {
     .ywbl_01 {
+        width: 106px;
     }
     .ywbl_02 {
         width: 126px;

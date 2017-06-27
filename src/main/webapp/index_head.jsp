@@ -190,7 +190,7 @@ function importAdd(){
     </div>
     <div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
     <div class="container">
-      <ul class="nav navbar-nav" >
+      <ul class="nav navbar-nav m-navbar-nav" >
       <!-- 通知 -->
         <li id="firstPage" class="dropdown shouye_li mega-menu-fullwidth">
           <a class=" dropdown-toggle " href="${pageContext.request.contextPath}/"><i class="shouye nav_icon"></i>首 页</a>
