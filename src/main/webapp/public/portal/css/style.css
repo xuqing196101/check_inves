@@ -3276,7 +3276,7 @@ h2.list_title{
 .m_app_code.hover {
 	right: 0;
 }
-.m_app_code .mac_img img{
+.m_app_code .mac_img img {
 	height : 148px;
 	width : 148px;
 }
@@ -3295,4 +3295,11 @@ h2.list_title{
     .ywbl_02 {
         width: 126px;
     }
+}
+/* 主导航-供应商下拉菜单重新排版 */
+.m_login_tab li a {
+    border: solid 1px #EEE;
+    border-bottom: none;
+    border-radius: 10px;
+    overflow: hidden;
 }

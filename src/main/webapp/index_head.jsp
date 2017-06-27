@@ -555,209 +555,224 @@ function importAdd(){
       <!-- End 公示 -->
 
       <!-- 专家 -->
-        <li class="dropdown other zhuanjia_li mega-menu-fullwidth">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ><i class="zhuanjia nav_icon"></i>供应商</a>
-	<!--供应商鼠标移动开始-->
-		<div class="drop_next dropdown-menu" >
-	     <div class="magazine-page clear">
-	     <div class="col-md-12 col-sm-12 col-xs-12 drop_hover" >
-	      <div class="drop_main">
-	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login ">
-	          <%-- <a href="${pageContext.request.contextPath}/supplier/registration_page.html" > --%>
-	        
-	        <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
-	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="" >
-	        <% } %>
-	        <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
-	              <a onclick="supplierRegisterTip();" class="">
-	        <% } %>
-		     	供应商注册
-		     <i></i>
-		    </a>	  
-	       </div>
-	  <div class="col-md-5 col-sm-5 col-xs-10 mt10">
-	   <div class="headline-v2">
-         <h2>供应商名录<a  href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=0" class="fr f14">更多>></a></h2>
-        </div>
-         <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
-		    <div class="categories">
-             <ul class="list-unstyled">
-            
-             <c:choose>
-            <c:when test="${!empty my:getSupplierList()}">
-         <table class="table table-bordered " >
-        <thead>
-          <tr >
-			<th class="tc info" width="55%">供应商名称</th>
-			<th class="tc info" width="25%">编号</th>
-			<th class="tc info" width="20%">状态</th>
-			</tr>
-			</thead>
-			<tbody>
-			<c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="5" step="1" varStatus="status" > 
-			<tr>
-			<td>${item.supplierName }</td>
-			<td class="tc"></td>
-			<td class="tc"> 
-			 <c:choose>
-						    <%-- <c:when test="${item.status == -1}">
-						           未未提交审核
-						    </c:when>
-			          <c:when test="${item.status == 0}">
-						          待审核
-						    </c:when> --%>
-						    <c:when test="${item.status == 1 or item.status == 4 or item.status == 6}">
-						          审核通过
-						    </c:when>
-						   <%--  <c:when test="${item.status == 2}">
-						          审核退回修改
-						    </c:when>
-						    <c:when test="${item.status == 3}">
-						         审核未通过
-						    </c:when>
-						    <c:when test="${item.status == 4}">
-						          待复核
-						    </c:when> --%>
-						    <c:when test="${item.status == 5 or item.status == 7 or item.status == 9}">
-						         复核通过
-						    </c:when>
-						    <%-- <c:when test="${item.status == 6}">
-						          复核未通过
-						    </c:when>
-						    <c:when test="${item.status == 7}">
-						          待考察
-						    </c:when> --%>
-						    <c:when test="${item.status == 8}">
-						          考察合格
-						    </c:when>
-						   <%--  <c:when test="${item.status == 9}">
-						          考察不合格
-						    </c:when> --%>
-						    <c:otherwise>
-						          无状态
-						    </c:otherwise>
-               </c:choose>
-                </td>
-				</tr>
-				 </c:forEach> 
-				</tbody>
-				</table>
-                	</c:when>
-                	<c:otherwise>
-                		<li class="tc">暂无数据</li>
-                	</c:otherwise>
-                </c:choose>   
-         
-			 </ul>
-			</div>
-			
-		  </div>
-	  </div>
-	  
-		<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
-		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled login_tab" style="padding: 0px 0px;">
-		  <li class="active fl"><a aria-expanded="true" href="#tab-36" data-toggle="tab">诚信记录</a></li>
-		  <li class="fl"><a aria-expanded="false" href="#tab-37" data-toggle="tab">处罚公告</a></li>
-		  <!-- <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab">地方处罚公告</a></li> -->
-		  <li class="fl"><a aria-expanded="false" href="#tab-gyshmd" data-toggle="tab">供应商黑名单</a></li>
-		 </ul>
-		</h2>
-		<div class="tab-content buyer_list">
-			<!-- 供应商诚信记录 -->
-		    <div id="tab-36" class="categories tab-pane fade active in">
-				<%-- <ul class="p0_10 list-unstyled">
-					<table class="table table-bordered " >
-						<thead>
-							<tr>
-								<th class="tc info" width="50%">供应商名称</th>
-								<th class="tc info" width="20%">企业等级</th>
-								<th class="tc info" width="10%">分数</th>
-								<th class="tc info" width="20%">企业性质</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${my:getSupplierCreditRecord()['supplierCreditList']}" var="supplier" begin="0" end="3" step="1" varStatus="status">
-								<tr>
-									<td class="tc">${supplier.supplierName}</td>
-									<td class="tc">${supplier.level}</td>
-									<td class="tc">${supplier.score}</td>
-									<td class="tc">
-										<c:forEach items="${my:getSupplierCreditRecord()['data']}" var="dic">
-											<c:if test="${supplier.businessType==dic.id}">
-												${dic.name }									
-											</c:if>
-										</c:forEach>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</ul> 
-	          <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>--%>
-	          <a class="tab_more" href="javascript:;">更多>></a>
-        	</div>
-        	<!-- 供应商军队处罚公告 -->
-	    <div id="tab-37" class="categories tab-pane fade">
-          <ul class="p0_10">
-           	<c:forEach items="${indexMapper['article116List']}" var="sl">
-               	<c:set value="${sl.name}" var="name"></c:set>
-				<c:set value="${fn:length(name)}" var="length"></c:set>
-				<c:if test="${length>25}">
-					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,25)}...</a></li>
-				</c:if>
-				<c:if test="${length<=25}">
-					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-				</c:if>
-	        </c:forEach>     
-          </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/supplierPunishment.html">更多>></a>
-        </div>
-        <!-- 供应商地方处罚公告 -->
-		<%-- <div id="tab-38" class="categories tab-pane fade">
-          <ul class="p0_10">
-          	<c:forEach items="${indexMapper['article117List']}" var="sl">
-               	<c:set value="${sl.name}" var="name"></c:set>
-				<c:set value="${fn:length(name)}" var="length"></c:set>
-				<c:if test="${length>25}">
-					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,25)}...</a></li>
-				</c:if>
-				<c:if test="${length<=25}">
-					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-				</c:if>
-	        </c:forEach>   
-          </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=117">更多>></a>
+    <li class="dropdown other zhuanjia_li mega-menu-fullwidth">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ><i class="zhuanjia nav_icon"></i>供应商</a>
+        
+        <!-- 供应商鼠标移动开始 -->
+        <div class="drop_next dropdown-menu">
+        <div class="magazine-page clear">
+        <div class="col-md-12 col-sm-12 col-xs-12 drop_hover">
+        <div class="drop_main">
+        <%-- <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login "> --%>
+            <%-- <a href="${pageContext.request.contextPath}/supplier/registration_page.html" > --%>
+                <%-- <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
+                <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="" >
+                <% } %>
+                <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+                <a onclick="supplierRegisterTip();" class="">
+                <% } %>
+                供应商注册
+                <i></i>
+            </a>
         </div> --%>
-        <div id="tab-gyshmd" class="categories tab-pane fade">
-          <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
-          	<c:forEach items="${indexMapper['supplierBlackList']}" var="sl">
-              <c:set value="${sl.supplierName}" var="name"></c:set>
-							<c:set value="${fn:length(name)}" var="length"></c:set>
-							<c:set value="${sl.supplierName}" var="shortName"/>
-							<c:if test="${length>15}">
-								<c:set value="${fn:substring(name,0,15)}..." var="shortName"/>
-							</c:if>
-							<li>
-								<%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
-								<a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
-								<span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
-									<c:if test="${sl.punishType == 0}">警告</c:if>
-									<c:if test="${sl.punishType == 1}">不得参与采购活动</c:if>
-								</span>
-							</li>
-	        	</c:forEach>   
-          </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/supplierBlackList.html">更多>></a>
+        
+        <!-- 拟入库公示 -->
+        <div class="col-md-7 col-sm-7 col-xs-10 mt10">
+            <div class="headline-v2">
+                <h2>拟入库公示</h2>
+            </div>
+            
+            <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
+            <div class="categories">
+            <ul class="list-unstyled">
+                <c:choose>
+                <c:when test="${!empty my:getSupplierList()}">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="tc info">供应商名称</th>
+                            <th class="tc info">类型</th>
+                            <th class="tc info">企业性质</th>
+                            <th class="tc info">初审单位</th>
+                            <th class="tc info" width="50%">审核结果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="5" step="1" varStatus="status"> 
+                        <tr>
+                            <td>${item.supplierName}</td>
+                            <td class="tc"></td>
+                            <td class="tc"> 
+                            <c:choose>
+                                <%-- <c:when test="${item.status == -1}">
+                                未未提交审核
+                                </c:when>
+                                <c:when test="${item.status == 0}">
+                                待审核
+                                </c:when> --%>
+                                <c:when test="${item.status == 1 or item.status == 4 or item.status == 6}">
+                                审核通过
+                                </c:when>
+                                <%--  <c:when test="${item.status == 2}">
+                                审核退回修改
+                                </c:when>
+                                <c:when test="${item.status == 3}">
+                                审核未通过
+                                </c:when>
+                                <c:when test="${item.status == 4}">
+                                待复核
+                                </c:when> --%>
+                                <c:when test="${item.status == 5 or item.status == 7 or item.status == 9}">
+                                复核通过
+                                </c:when>
+                                <%-- <c:when test="${item.status == 6}">
+                                复核未通过
+                                </c:when>
+                                <c:when test="${item.status == 7}">
+                                待考察
+                                </c:when> --%>
+                                <c:when test="${item.status == 8}">
+                                考察合格
+                                </c:when>
+                                <%--  <c:when test="${item.status == 9}">
+                                考察不合格
+                                </c:when> --%>
+                                <c:otherwise>
+                                无状态
+                                </c:otherwise>
+                            </c:choose>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                </c:when>
+                <c:otherwise>
+                <li class="tc">暂无数据</li>
+                </c:otherwise>
+                </c:choose>
+            </ul>
+            </div>
+            </div>
         </div>
-		</div>
-	  </div>
-	</div>
-   </div>
-   </div>
-   </div>
-        </li>
-      <!-- End 专家 -->
+        <!-- End 拟入库公示 -->
+        
+        <div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+            <h2 class="f17 bgwhite">
+            <ul class="list-unstyled login_tab m_login_tab p0">
+                <li class="fl active"><a aria-expanded="true" href="#tab-36" data-toggle="tab">入库名单</a></li>
+                <li class="fl"><a aria-expanded="true" href="#tab-37" data-toggle="tab">诚信记录</a></li>
+                <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab">处罚公告</a></li>
+                <!-- <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab">地方处罚公告</a></li> -->
+                <li class="fl"><a aria-expanded="false" href="#tab-gyshmd" data-toggle="tab">黑名单</a></li>
+            </ul>
+            </h2>
+            
+            <div class="tab-content buyer_list">
+                <!-- 诚信记录 -->
+                <div id="tab-37" class="categories tab-pane fade">
+                <%-- <ul class="p0_10 list-unstyled">
+                <table class="table table-bordered " >
+                <thead>
+                <tr>
+                <th class="tc info" width="50%">供应商名称</th>
+                <th class="tc info" width="20%">企业等级</th>
+                <th class="tc info" width="10%">分数</th>
+                <th class="tc info" width="20%">企业性质</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${my:getSupplierCreditRecord()['supplierCreditList']}" var="supplier" begin="0" end="3" step="1" varStatus="status">
+                <tr>
+                <td class="tc">${supplier.supplierName}</td>
+                <td class="tc">${supplier.level}</td>
+                <td class="tc">${supplier.score}</td>
+                <td class="tc">
+                <c:forEach items="${my:getSupplierCreditRecord()['data']}" var="dic">
+                <c:if test="${supplier.businessType==dic.id}">
+                	${dic.name }									
+                </c:if>
+                </c:forEach>
+                </td>
+                </tr>
+                </c:forEach>
+                </tbody>
+                </table>
+                </ul> 
+                <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>--%>
+                <a class="tab_more" href="javascript:void(0)">更多&gt;&gt;</a>
+                </div>
+                <!-- End 诚信记录 -->
+            
+                <!-- 处罚公告 -->
+                <div id="tab-38" class="categories tab-pane fade">
+                <ul class="p0_10">
+                <c:forEach items="${indexMapper['article116List']}" var="sl">
+                <c:set value="${sl.name}" var="name"></c:set>
+                <c:set value="${fn:length(name)}" var="length"></c:set>
+                    <c:if test="${length>25}">
+                    <li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,25)}...</a></li>
+                    </c:if>
+                    
+                    <c:if test="${length<=25}">
+                    <li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+                    </c:if>
+                </c:forEach>     
+                </ul>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/supplierPunishment.html">更多>></a>
+                </div>
+                <!-- End 处罚公告 -->
+                
+                <!-- 供应商地方处罚公告 -->
+                <%-- <div id="tab-38" class="categories tab-pane fade">
+                <ul class="p0_10">
+                <c:forEach items="${indexMapper['article117List']}" var="sl">
+                <c:set value="${sl.name}" var="name"></c:set>
+                <c:set value="${fn:length(name)}" var="length"></c:set>
+                <c:if test="${length>25}">
+                <li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,25)}...</a></li>
+                </c:if>
+                <c:if test="${length<=25}">
+                <li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+                </c:if>
+                </c:forEach>   
+                </ul>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=117">更多>></a>
+                </div> --%>
+                
+                <!-- 专家黑名单 -->
+                <div id="tab-gyshmd" class="categories tab-pane fade">
+                <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
+                <c:forEach items="${indexMapper['supplierBlackList']}" var="sl">
+                <c:set value="${sl.supplierName}" var="name"></c:set>
+                <c:set value="${fn:length(name)}" var="length"></c:set>
+                <c:set value="${sl.supplierName}" var="shortName"/>
+                    <c:if test="${length>15}">
+                        <c:set value="${fn:substring(name,0,15)}..." var="shortName"/>
+                    </c:if>
+                    <li>
+                        <%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
+                        <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
+                        <span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
+                            <c:if test="${sl.punishType == 0}">警告</c:if>
+                            <c:if test="${sl.punishType == 1}">不得参与采购活动</c:if>
+                        </span>
+                    </li>
+                </c:forEach>
+                </ul>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/supplierBlackList.html">更多&gt;&gt;</a>
+                </div>
+                <!-- End 专家黑名单 -->
+            </div>
+        </div>
+        
+        </div>
+        </div>
+        </div>
+        </div>
+        <!-- 供应商鼠标移动结束 -->
+    </li>
+    <!-- End 专家 -->
 
       <!-- 投诉 -->
     <li class="dropdown other tousu_li mega-menu-fullwidth">
