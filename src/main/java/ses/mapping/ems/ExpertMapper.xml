@@ -2436,6 +2436,9 @@ resultMap="BaseResultMap">
         <if test="mobile != null and mobile !=''">
             AND MOBILE = #{mobile}
         </if>
+        <if test="id != null and id !=''">
+            AND ID &lt;&gt; #{id}
+        </if>
     </select>
     
     <update id="updateExpert">

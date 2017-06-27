@@ -1035,4 +1035,17 @@
 		TO_CHAR(DECODE(UPDATED_AT,'',CREATED_AT,UPDATED_AT),'YYYY-MM-DD') &gt; #{date}
 		AND LOGIN_NAME=#{loginName}
 		</select>
+		
+		
+<!-- 用户名重复验证 -->
+  <select id="yzLoginName" resultMap="UserBaseMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM T_SES_BMS_USER
+    WHERE IS_DELETED = 0 and
+    LOGIN_NAME = #{loginName}
+    <if test="typeId != null and typeId != ''">
+        AND TYPE_ID &lt;&gt; #{typeId}
+    </if>
+  </select>
 </mapper>

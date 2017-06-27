@@ -3,6 +3,7 @@ package ses.service.bms;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
@@ -334,4 +335,15 @@ public interface UserServiceI {
 	 * @return
 	 */
 	Integer isUpdateUser(String date,String loginName);
+	
+	/**
+	 * 
+	 * Description: 验证用户名唯一
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年6月27日
+	 * @param 
+	 * @return
+	 */
+	boolean yzLoginName(Map<String, Object> map);
 }

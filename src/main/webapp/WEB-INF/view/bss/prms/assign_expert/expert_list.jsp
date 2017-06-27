@@ -364,6 +364,23 @@
           $("#tab-1").load(path);
 
       })
+      
+      /* 修改临时专家 */
+      function editExpert(packId,index){
+    	  var projectId = $("input[name='projectId']").val();
+      	  var ids =[]; 
+          $('input[name="chkItemExpert'+index+'"]:checked').each(function(){ 
+            ids.push($(this).val()); 
+          }); 
+          if(ids.length==1){
+        	  id = ids.toString();
+        	  $("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/showEditTemporaryExpert.html?projectId="+projectId+"&&id="+id+"&&index="+index+"&&packageId="+packId);
+          }else if(ids.length>1){
+            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+          }else{
+            layer.alert("请选择要修改的临时专家",{offset: ['222px', '390px'], shade:0.01});
+          }
+    }
   </script>
   <body>
       <div id="packageContent" class="packageContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999; ">
@@ -392,6 +409,7 @@
 		             <button class="btn" name="addExp_btn" onclick="relate('${pack.id}','${vs.index}','${pack.name}')" type="button">设为组长</button>
 		             <button class="btn" name="viewExp_btn" onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
 		             <button class="btn" name="citeExp_btn"  type="button" package-id="${pack.id}">引用临时专家</button>
+		             <button class="btn" name="" onclick = "editExpert('${pack.id}','${vs.index}')" type="button">修改临时专家</button>
 		             <%-- <button class="btn" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button> --%>
 		           	</div>
 		        </div>

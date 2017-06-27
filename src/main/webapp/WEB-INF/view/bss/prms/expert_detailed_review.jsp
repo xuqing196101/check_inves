@@ -157,7 +157,7 @@
 		<table class="table table-bordered table-condensed table-hover table-striped  p0 m_resize_table_width">
 		  <thead>
 			<tr>
-			  <th><input type="checkbox" id="checkAll" onchange="selectAll(this)"></th>
+			  <th width="30"><input type="checkbox" id="checkAll" onchange="selectAll(this)"></th>
 			  <th class="info" width="120">专家/供应商</th>
 			  <c:forEach items="${supplierList}" var="supplier">
 			    <c:if test="${fn:contains(supplier.packages,packageId)}">

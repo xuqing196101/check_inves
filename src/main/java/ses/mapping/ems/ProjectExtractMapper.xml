@@ -436,4 +436,13 @@
             from dual
         </foreach>
     </insert>
+    
+    <!-- 修改临时专家的包id -->
+    <update id="updateProjectByExpertId">
+    	UPDATE
+		T_SES_EMS_PROJECT_EXTRACT
+		SET PROJECT_ID = #{newProjectId}
+		WHERE
+		PROJECT_ID = #{projectId} AND EXPERT_ID = #{expertId}
+    </update>
 </mapper>

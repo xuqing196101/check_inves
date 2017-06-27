@@ -1,10 +1,12 @@
 package ses.service.bms.impl;
 
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
@@ -442,6 +444,19 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
 	@Override
 	public Integer isUpdateUser(String date, String loginName) {
 		return userMapper.isUpdateUser(date, loginName);
+	}
+
+	/**
+	 * 验证用户名唯一
+	 */
+	@Override
+	public boolean yzLoginName(Map<String, Object> map) {
+		List<User> userList = userMapper.yzLoginName(map);
+		if(userList != null && userList.size() > 0){
+			return false;
+		}else{
+			return true;
+		}
 	}
 }
 

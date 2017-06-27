@@ -400,4 +400,15 @@ public interface UserMapper {
 	 * @return
 	 */
 	Integer  isUpdateUser(@Param("date")String date,@Param("loginName")String loginName);
+	
+	/**
+	 * 
+	 * Description: 验证用户名唯一
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年6月27日
+	 * @param 
+	 * @return
+	 */
+	List<User> yzLoginName(Map<String, Object> map);
 }

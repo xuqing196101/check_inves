@@ -6,7 +6,6 @@ package ses.controller.sys.ems;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,16 +13,9 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
-
-
-
-
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-
-import common.annotation.CurrentUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -35,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.ems.ProjectExtractMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -45,17 +38,11 @@ import ses.model.ems.ExpExtCondition;
 import ses.model.ems.ExpExtPackage;
 import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.Expert;
-import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExtConType;
 import ses.model.ems.ProExtSupervise;
 import ses.model.ems.ProjectExtract;
 import ses.model.oms.Orgnization;
-import ses.model.sms.Supplier;
-import ses.model.sms.SupplierCondition;
-import ses.model.sms.SupplierExtPackage;
-import ses.model.sms.SupplierExtRelate;
 import ses.model.sms.SupplierExtUser;
-import ses.model.sms.SupplierExtracts;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -65,7 +52,6 @@ import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpExtConditionService;
 import ses.service.ems.ExpExtPackageService;
 import ses.service.ems.ExpExtractRecordService;
-import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ExtConTypeService;
@@ -74,22 +60,20 @@ import ses.service.ems.ProjectSupervisorServicel;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierTypeService;
-import ses.util.DateUtil;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
-
-import com.alibaba.druid.stat.TableStat.Mode;
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import bss.controller.base.BaseController;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
-import bss.util.PropUtil;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
 
 /**
  * @Description:专家抽取
@@ -167,9 +151,8 @@ public class ExpExtractRecordController extends BaseController {
 
   @Autowired
   private SupplierExtUserServicel extUserServicel; //监督人员
-    @Autowired
-    private OrgnizationServiceI orgnizationService;
-
+  @Autowired
+  private OrgnizationServiceI orgnizationService;
 
   /**
    * 
@@ -1571,12 +1554,16 @@ public class ExpExtractRecordController extends BaseController {
   public String yzCardNumber(HttpServletRequest request){
 	  String cardNumber = request.getParameter("cardNumber") == null ? "" : request.getParameter("cardNumber");
 	  String mobile = request.getParameter("mobile") == null ? "" : request.getParameter("mobile");
+	  String id = request.getParameter("id") == null ? "" : request.getParameter("id");
 	  Map<String, Object> map = new HashMap<>();
 	  if(!mobile.equals("")){
 		  map.put("mobile", mobile);
 	  }
 	  if(!cardNumber.equals("")){
 		  map.put("idCardNumber", cardNumber);
+	  }
+	  if(!id.equals("")){
+		  map.put("id", id);
 	  }
 	  List<Expert> list = expertServices.yzCardNumber(map);
 	  if(list != null && list.size() > 0){
@@ -1585,4 +1572,157 @@ public class ExpExtractRecordController extends BaseController {
 		  return "success";
 	  }
   }
+  
+  /**
+   * 
+   * Description: 展示修改临时专家页面
+   * 
+   * @author zhang shubin
+   * @data 2017年6月27日
+   * @param 
+   * @return
+   */
+  @RequestMapping("/showEditTemporaryExpert")
+  public  String showEditTemporaryExpert(Model model,String packageId,String projectId,String flowDefineId,String id){
+    model.addAttribute("packageId", packageId);
+    model.addAttribute("projectId", projectId);
+    model.addAttribute("flowDefineId", flowDefineId);
+    //证件类型
+    model.addAttribute("idType", DictionaryDataUtil.find(9));
+    //专家类型
+    model.addAttribute("ddList", expExtractRecordService.ddList());
+    //获取专家
+    Packages packages = new Packages();
+    packages.setProjectId(projectId);
+    List<Packages> find = packagesService.find(packages);
+    model.addAttribute("packList", find);
+    Expert expert = ExpertService.selectByPrimaryKey(id);
+    model.addAttribute("expert", expert);
+    Packages packages2 = packagesService.selectByPrimaryKeyId(packageId);
+    if(packages2 != null){
+    	model.addAttribute("packageName", packages2.getName());
+    }
+    List<User> userList = userServiceI.selectByTypeId(id);
+    if(userList != null && userList.size() > 0){
+    	model.addAttribute("loginName", userList.get(0).getLoginName());
+    	//model.addAttribute("loginPwd", userList.get(0).getPassword());
+    }
+    return "bss/prms/temporary_expert_edit";
+  }
+  
+    /**
+      * 
+      * Description: 修改临时专家
+     * 
+     * @author zhang shubin
+     * @data 2017年6月27日
+     * @param 
+     * @return
+     */
+    @RequestMapping(value = "/editTemporaryExpert", produces = "text/html;charset=UTF-8")
+    public Object editTemporaryExpert(@Valid Expert expert, BindingResult result, Model model, String projectId, String packageId, String packageName, String loginName, String loginPwd, String flowDefineId, HttpServletRequest sq,String oldPackageId)throws UnsupportedEncodingException {
+        String mobile = sq.getParameter("mobile");
+        // 转码
+        if (expert != null) {
+            if (expert.getRelName() != null && !"".equals(expert.getRelName())) {
+                expert.setRelName(URLDecoder.decode(expert.getRelName(),
+                        "UTF-8"));
+            }
+            if (expert.getIdCardNumber() != null
+                    && !"".equals(expert.getIdCardNumber())) {
+                expert.setIdCardNumber(URLDecoder.decode(
+                        expert.getIdCardNumber(), "UTF-8"));
+            }
+            if (expert.getAtDuty() != null && !"".equals(expert.getAtDuty())) {
+                expert.setAtDuty(URLDecoder.decode(expert.getAtDuty(), "UTF-8"));
+            }
+            if (expert.getMobile() != null && !"".equals(expert.getMobile())) {
+                expert.setMobile(URLDecoder.decode(expert.getMobile(), "UTF-8"));
+            }
+            if (expert.getRemarks() != null && !"".equals(expert.getRemarks())) {
+                expert.setRemarks(URLDecoder.decode(expert.getRemarks(),
+                        "UTF-8"));
+            }
+        }
+        if (loginName != null && !"".equals(loginName)) {
+            loginName = URLDecoder.decode(loginName, "UTF-8");
+        }
+        if (packageName != null && !"".equals(packageName)) {
+            packageName = URLDecoder.decode(packageName, "UTF-8");
+        }
+        Integer type = 0;
+        // 校验字段
+        if (result.hasErrors()) {
+            type = 1;
+        }
+        if (loginName == null || "".equals(loginName)) {
+            model.addAttribute("loginNameError", "不能为空");
+            /*
+             * if (loginName == null || !loginName.matches("^\\w{6,20}$")) {
+             * model.addAttribute("loginNameError", "登录名由6-20位字母数字和下划线组成 !"); }
+             */
+            type = 1;
+        } else {
+            // 校验用户名是否存在
+        	Map<String, Object> umap = new HashMap<>();
+        	umap.put("loginName", loginName);
+        	umap.put("typeId", expert.getId());
+            if (!userServiceI.yzLoginName(umap)) {
+                type = 1;
+                model.addAttribute("loginNameError", "用户名已存在");
+            }
+        }
+        if (StringUtils.isEmpty(mobile)) {
+            model.addAttribute("mobile", "不能为空");
+        } else {
+            Map<String, Object> map = new HashMap<>();
+            map.put("mobile", mobile);
+            map.put("id", expert.getId());
+            List<Expert> list = expertServices.yzCardNumber(map);
+            if (list != null && list.size() != 0) {
+                model.addAttribute("mobile", "联系电话已存在");
+            }
+        }
+        if (packageId == null || "".equals(packageId)) {
+            model.addAttribute("packageIdError", "不能为空");
+            type = 1;
+        }
+        if (expert.getIdCardNumber() != null
+                && !"".equals(expert.getIdCardNumber())) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("idCardNumber", expert.getIdCardNumber());
+            map.put("id", expert.getId());
+            List<Expert> list = expertServices.yzCardNumber(map);
+            if (list != null && list.size() != 0) {
+                model.addAttribute("idCardNumberError", "已被占用");
+                type = 1;
+            }
+        }
+        if (type == 1) {
+            model.addAttribute("expert", expert);
+            model.addAttribute("loginName", loginName);
+            //model.addAttribute("loginPwd", loginPwd);
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("packageId", packageId);
+            model.addAttribute("packageName", packageName);
+            model.addAttribute("flowDefineId", flowDefineId);
+            // 专家类型
+            model.addAttribute("ddList", expExtractRecordService.ddList());
+            // 证件类型
+            model.addAttribute("idType", DictionaryDataUtil.find(9));
+            return "bss/prms/temporary_expert_edit";
+        }
+        expExtractRecordService.editTemporaryExpert(expert, projectId,
+                packageId, loginName, loginPwd, sq,oldPackageId);
+        String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuffer sb = new StringBuffer();
+        Random random = new Random();
+        for (int i = 0; i < 15; i++) {
+            sb.append(ALLCHAR.charAt(random.nextInt(ALLCHAR.length())));
+        }
+        String randomCode = sb.toString();
+        return "redirect:/packageExpert/assignedExpert.html?projectId="
+                + projectId + "&flowDefineId=" + flowDefineId
+                + "&randomCode = " + randomCode;
+    }
 }
