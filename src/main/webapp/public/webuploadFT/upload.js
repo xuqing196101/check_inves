@@ -159,7 +159,6 @@
 		  var bootstrap_tab = $('a[data-toggle="tab"]');
 		  if (bootstrap_tab.length > 0) {
 			  bootstrap_tab.on('shown.bs.tab', function (e) {
-				  console.log(uploader);
 				  uploader.refresh();
 			  })
 		  }
