@@ -3297,9 +3297,24 @@ h2.list_title{
     }
 }
 /* 主导航-供应商下拉菜单重新排版 */
-.m_login_tab li a {
-    border: solid 1px #EEE;
-    border-bottom: none;
-    border-radius: 10px;
+.m_login_box h2 ul {
+	padding-left: 1px !important;
+}
+.m_login_box h2 li {
+	margin-left: -1px;
+	border: solid 1px #EEE;
+	border-bottom: none;
+    border-radius: 10px 10px 0 0 !important;
     overflow: hidden;
+}
+.m_login_box h2 li:first-child {
+	border-left: solid 1px #EEE;
+}
+.m_login_box h2 li a {
+	display: block;
+    border: none !important;
+    padding: 0 10px;
+}
+.m_buyer_list {
+	height: 238px;
 }

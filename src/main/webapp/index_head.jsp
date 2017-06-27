@@ -554,7 +554,7 @@ function importAdd(){
         </li>
       <!-- End 公示 -->
 
-      <!-- 专家 -->
+    <!-- 供应商 -->
     <li class="dropdown other zhuanjia_li mega-menu-fullwidth">
         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ><i class="zhuanjia nav_icon"></i>供应商</a>
         
@@ -571,7 +571,7 @@ function importAdd(){
                 <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
                 <a onclick="supplierRegisterTip();" class="">
                 <% } %>
-                供应商注册
+                	供应商注册
                 <i></i>
             </a>
         </div> --%>
@@ -605,40 +605,40 @@ function importAdd(){
                             <td class="tc"> 
                             <c:choose>
                                 <%-- <c:when test="${item.status == -1}">
-                                未未提交审核
+                               		 未未提交审核
                                 </c:when>
                                 <c:when test="${item.status == 0}">
-                                待审核
+                               		 待审核
                                 </c:when> --%>
                                 <c:when test="${item.status == 1 or item.status == 4 or item.status == 6}">
-                                审核通过
+                                	审核通过
                                 </c:when>
                                 <%--  <c:when test="${item.status == 2}">
-                                审核退回修改
+                                	审核退回修改
                                 </c:when>
                                 <c:when test="${item.status == 3}">
-                                审核未通过
+                               	 	审核未通过
                                 </c:when>
                                 <c:when test="${item.status == 4}">
-                                待复核
+                              		  待复核
                                 </c:when> --%>
                                 <c:when test="${item.status == 5 or item.status == 7 or item.status == 9}">
-                                复核通过
+                                	复核通过
                                 </c:when>
                                 <%-- <c:when test="${item.status == 6}">
-                                复核未通过
+                                	复核未通过
                                 </c:when>
                                 <c:when test="${item.status == 7}">
-                                待考察
+                                	待考察
                                 </c:when> --%>
                                 <c:when test="${item.status == 8}">
-                                考察合格
+                                	考察合格
                                 </c:when>
                                 <%--  <c:when test="${item.status == 9}">
-                                考察不合格
+                                	考察不合格
                                 </c:when> --%>
                                 <c:otherwise>
-                                无状态
+                                	无状态
                                 </c:otherwise>
                             </c:choose>
                             </td>
@@ -654,12 +654,13 @@ function importAdd(){
             </ul>
             </div>
             </div>
+            <a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="tab_more">更多&gt;&gt;</a>
         </div>
         <!-- End 拟入库公示 -->
         
-        <div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+        <div class="login_box m_login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
             <h2 class="f17 bgwhite">
-            <ul class="list-unstyled login_tab m_login_tab p0">
+            <ul class="list-unstyled login_tab p0">
                 <li class="fl active"><a aria-expanded="true" href="#tab-36" data-toggle="tab">入库名单</a></li>
                 <li class="fl"><a aria-expanded="true" href="#tab-37" data-toggle="tab">诚信记录</a></li>
                 <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab">处罚公告</a></li>
@@ -668,7 +669,7 @@ function importAdd(){
             </ul>
             </h2>
             
-            <div class="tab-content buyer_list">
+            <div class="tab-content buyer_list m_buyer_list">
                 <!-- 诚信记录 -->
                 <div id="tab-37" class="categories tab-pane fade">
                 <%-- <ul class="p0_10 list-unstyled">
@@ -772,148 +773,157 @@ function importAdd(){
         </div>
         <!-- 供应商鼠标移动结束 -->
     </li>
-    <!-- End 专家 -->
+    <!-- End 供应商 -->
 
-      <!-- 投诉 -->
+   	<!-- 专家评审 -->
     <li class="dropdown other tousu_li mega-menu-fullwidth">
-          <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="tousu nav_icon"></i>评审专家</a>
-			<!--评审鼠标移动开始-->
-		  <div class="drop_next dropdown-menu" >
-		   <div class="magazine-page clear">
-			<div class="col-md-12 col-sm-12 col-xs-12 drop_hover"  id="drop-4">
-			 <div class="drop_main">
-			  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
-	    		 <%-- <% if (environment != null && environment.equals("0")){ %>
-	    		    <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="">
-	   			  <% } %>
-	    		 <% if (environment != null && environment.equals("1")){ %>
-	    		    <a onclick="expertRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
-	    		 <% } %> --%>
-	     		<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="">
-				   评审专家注册
-				 <i></i>
-				</a>	  
-	 		  </div>
-	 		  <div class="col-md-5 col-sm-5 col-xs-10 mt10 ">
-			   <div class="headline-v2">
-     		    <h2>专家名录<a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="fr f14">更多>></a></h2>
-     		   </div>
-     		   <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
-		    		<div class="categories zhuanjia_list">
-             		 <c:choose>
-           			   <c:when test="${!empty my:getExpertList()}">
-         				<table class="table table-bordered " >
-       					 <thead>
-         					 <tr >
-								<th class="tc info" width="55%">专家名称</th>
-								<th class="tc info" width="25%">编号</th>
-								<th class="tc info" width="20%">状态</th>
-							 </tr>
-						 </thead>
-				     	 <tbody>
-							<c:forEach items="${my:getExpertList()}" var="item" begin="0" end="5" step="1" varStatus="status" > 
-								<tr>
-									<td>${item.relName }</td>
-									<td class="tc"></td>
-									<td class="tc"> <c:choose>
-          						      <%-- <c:when test="${item.status == 0}">
-										          未审核
-									    </c:when>
-									     <c:when test="${item.status == 1}">
-											初审通过
-										 </c:when>
-									     <c:when test="${item.status == 2}">
-						       				 初审未通过
-						   				 </c:when>
-						   				 <c:when test="${item.status == 3}">
-						       				 退回修改
-						  				 </c:when>
-						   				 <c:when test="${item.status == 4}">
-						 					    待复审
-						  			     </c:when> --%>
-						  			     <c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
-						     		  	   复审通过
-						  			     </c:when>
-						  			     <c:when test="${item.status eq '7'}">
-						     			   复查通过
-						 			     </c:when>
-						   			    <c:otherwise>
-								       </c:otherwise>
-               					     </c:choose>
-               				      </td>
-								</tr>
-							 </c:forEach> 
-							</tbody>
-						  </table>
-                		</c:when>
-                		<c:otherwise>
-                			暂无数据
-                		</c:otherwise>
-               		</c:choose>   
-					</div>
-		  		</div>
-		
-	  </div>
-	    	<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
-		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled login_tab">
-		  <li class="active fl"><a aria-expanded="true" href="#tab-39" data-toggle="tab">诚信记录</a></li>
-		  <li class="fl"><a aria-expanded="false" href="#tab-40" data-toggle="tab">处罚公告</a></li>
-		  <li class="fl"><a aria-expanded="false" href="#tab-zjhmd" data-toggle="tab">专家黑名单</a></li>
-		 </ul>
-		</h2>
-		<div class="tab-content  buyer_list">
-		    <div id="tab-39" class="categories tab-pane fade active in">
-             <ul class="p0_10">   
-          </ul>
-          <a class="tab_more" href="#">更多>></a>
-          </div>
-		  <div id="tab-40" class="categories tab-pane fade">
-             <ul class="p0_10">   
-             	<c:forEach items="${indexMapper['article115List']}" var="sl">
-               	<c:set value="${sl.name}" var="name"></c:set>
-				<c:set value="${fn:length(name)}" var="length"></c:set>
-				<c:if test="${length>25}">
+		<a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="tousu nav_icon"></i>评审专家</a>
+		<!-- 评审鼠标移动开始 -->
+		<div class="drop_next dropdown-menu">
+		<div class="magazine-page clear">
+		<div class="col-md-12 col-sm-12 col-xs-12 drop_hover" id="drop-4">
+		<div class="drop_main">
+			<!--<div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">-->
+				<%-- <% if (environment != null && environment.equals("0")){ %>
+				<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="">
+				<% } %>
+				<% if (environment != null && environment.equals("1")){ %>
+				<a onclick="expertRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
+				<% } %> --%>
+				<!--<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html">评审专家注册<i></i></a>	  
+			</div>-->
+			
+			<div class="col-md-7 col-sm-7 col-xs-10 mt10">
+				<div class="headline-v2">
+					<h2>专家名录</h2>
+				</div>
+				
+				<div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
+				<div class="categories zhuanjia_list">
+				<c:choose>
+				<c:when test="${!empty my:getExpertList()}">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="tc info">专家名称</th>
+							<th class="tc info">类型</th>
+							<th class="tc info">初审单位</th>
+							<th class="tc info" width="50%">审核结果</th>
+						</tr>
+					</thead>
+					<tbody>
+					<c:forEach items="${my:getExpertList()}" var="item" begin="0" end="5" step="1" varStatus="status"> 
+					<tr>
+						<td>${item.relName }</td>
+						<td class="tc"></td>
+						<td class="tc"> <c:choose>
+						<%-- <c:when test="${item.status == 0}">
+						未审核
+						</c:when>
+						<c:when test="${item.status == 1}">
+						初审通过
+						</c:when>
+						<c:when test="${item.status == 2}">
+						初审未通过
+						</c:when>
+						<c:when test="${item.status == 3}">
+						退回修改
+						</c:when>
+						<c:when test="${item.status == 4}">
+						待复审
+						</c:when> --%>
+						<c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
+						复审通过
+						</c:when>
+						<c:when test="${item.status eq '7'}">
+						复查通过
+						</c:when>
+						<c:otherwise>
+						</c:otherwise>
+						</c:choose>
+						</td>
+					</tr>
+					</c:forEach> 
+					</tbody>
+				</table>
+				</c:when>
+				<c:otherwise>
+					暂无数据
+				</c:otherwise>
+				</c:choose>
+				</div>
+				<a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="tab_more">更多&gt;&gt;</a>
+				</div>
+			</div>
+			
+			<div class="login_box m_login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+			<h2 class="f17 bgwhite">
+			<ul class="list-unstyled login_tab">
+			<li class="fl active"><a aria-expanded="true" href="#tab-39" data-toggle="tab">入库名单</a></li>
+			<li class="fl"><a aria-expanded="true" href="#tab-40" data-toggle="tab">诚信记录</a></li>
+			<li class="fl"><a aria-expanded="false" href="#tab-41" data-toggle="tab">处罚公告</a></li>
+			<li class="fl"><a aria-expanded="false" href="#tab-zjhmd" data-toggle="tab">专家黑名单</a></li>
+			</ul>
+			</h2>
+			<div class="tab-content buyer_list m_buyer_list">
+				<div id="tab-39" class="categories tab-pane fade active in">
+					
+					<a class="tab_more" href="javascript:void(0)">更多&gt;&gt;</a>
+				</div>
+				
+				<div id="tab-40" class="categories tab-pane fade">
+					<ul class="p0_10">   
+					</ul>
+					<a class="tab_more" href="javascript:void(0)">更多&gt;&gt;</a>
+				</div>
+				
+				<div id="tab-41" class="categories tab-pane fade">
+				<ul class="p0_10">   
+					<c:forEach items="${indexMapper['article115List']}" var="sl">
+					<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>25}">
 					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,25)}...</a></li>
-				</c:if>
-				<c:if test="${length<=25}">
+					</c:if>
+					<c:if test="${length<=25}">
 					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-				</c:if>
-	        </c:forEach>
-          </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=115">更多>></a>
-        </div>
-        <div id="tab-zjhmd" class="categories tab-pane fade">
-        	<ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
-          	<c:forEach items="${indexMapper['expertBlackList']}" var="sl">
-              	<c:set value="${sl.relName}" var="name"></c:set>
-							<c:set value="${fn:length(name)}" var="length"></c:set>
-							<c:set value="${sl.relName}" var="shortName"/>
-							<c:if test="${length>15}">
-								<c:set value="${fn:substring(name,0,15)}..." var="shortName"/>
-							</c:if>
-							<li>
-								<%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
-								<a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
-								<span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
-									<c:if test="${sl.punishType == 1}">警告</c:if>
-									<c:if test="${sl.punishType == 2}">严重警告</c:if>
-									<c:if test="${sl.punishType == 3}">取消资格</c:if>
-								</span>
-							</li>
-	        	</c:forEach>   
-          </ul>
-        	<a class="tab_more" href="${pageContext.request.contextPath}/index/expertBlackList.html">更多>></a>
-        </div>
-		</div>
-	  </div>
+					</c:if>
+					</c:forEach>
+				</ul>
+				<a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=115">更多&gt;&gt;</a>
+				</div>
+				
+				<div id="tab-zjhmd" class="categories tab-pane fade">
+				<ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
+					<c:forEach items="${indexMapper['expertBlackList']}" var="sl">
+					<c:set value="${sl.relName}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:set value="${sl.relName}" var="shortName"/>
+					<c:if test="${length>15}">
+					<c:set value="${fn:substring(name,0,15)}..." var="shortName"/>
+					</c:if>
+					<li>
+					<%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
+					<a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
+					<span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
+					<c:if test="${sl.punishType == 1}">警告</c:if>
+					<c:if test="${sl.punishType == 2}">严重警告</c:if>
+					<c:if test="${sl.punishType == 3}">取消资格</c:if>
+					</span>
+					</li>
+					</c:forEach>   
+				</ul>
+				<a class="tab_more" href="${pageContext.request.contextPath}/index/expertBlackList.html">更多&gt;&gt;</a>
+				</div>
+			</div>
+			</div>
+	  
 	</div>
-   </div>
-	
-   </div>
-   </div>
-        </li>
-      <!-- End 投诉 -->
+   	</div>
+   	</div>
+   	</div>
+	</li>
+	<!-- End 评审专家 ->
 
       <!-- 法规 -->
         <li class="dropdown other cgfw_li mega-menu-fullwidth">
