@@ -357,9 +357,16 @@
 														<c:forEach items="${obj.list }" var="quaPro">
 															<c:set value="${prolength+1}" var="prolength"></c:set>
 															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaPro.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${quaPro.flag}','aptitude_page')"</c:if>>
-																<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="pUp${prolength}" multiple="true" buttonName="${quaPro.name}" groups="${saleUp}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-																<div class="clear"></div>
-																<u:show showId="pShow${prolength}" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																<c:choose>
+																	<c:when test="${!fn:contains(audit,quaPro.flag) && currSupplier.status==2}">
+																		<u:show showId="pShow${prolength}" delete="false" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																	</c:when>
+																	<c:otherwise>
+																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="pUp${prolength}" multiple="true" buttonName="${quaPro.name}" groups="${saleUp}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																		<div class="clear"></div>
+																		<u:show showId="pShow${prolength}" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																	</c:otherwise>
+																</c:choose>
 															</div>
 														</c:forEach>
 													</td>
@@ -385,9 +392,16 @@
 														<c:forEach items="${sale.list }" var="saua">
 															<c:set value="${length+1}" var="length"></c:set>
 															<div class="mr5 fl" <c:if test="${fn:contains(audit,saua.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${saua.flag}','aptitude_page')"</c:if>>
-																<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="saleUp${length}" multiple="true" buttonName="${saua.name}" groups="${saleUp}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-																<div class="clear"></div>
-																<u:show showId="saleShow${length}" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																<c:choose>
+																	<c:when test="${!fn:contains(audit,saua.flag) && currSupplier.status==2}">
+																		<u:show showId="saleShow${length}" delete="false" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																	</c:when>
+																	<c:otherwise>
+																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="saleUp${length}" multiple="true" buttonName="${saua.name}" groups="${saleUp}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																		<div class="clear"></div>
+																		<u:show showId="saleShow${length}" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																	</c:otherwise>
+																</c:choose>
 															</div>
 														</c:forEach>
 													</td>
@@ -536,9 +550,16 @@
 														<c:forEach items="${server.list }" var="ser">
 															<c:set value="${slength+1}" var="slength"></c:set>
 															<div class="fl mr5" <c:if test="${fn:contains(audit,ser.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${ser.flag}','aptitude_page')"</c:if>>
-																<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="serverUp${slength}" multiple="true" buttonName="${ser.name}" groups="${saleUp}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-																<div class="clear"></div>
-																<u:show showId="serverShow${slength}" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																<c:choose>
+																	<c:when test="${!fn:contains(audit,ser.flag) && currSupplier.status==2}">
+																		<u:show showId="serverShow${slength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																	</c:when>
+																	<c:otherwise>
+																		<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="serverUp${slength}" multiple="true" buttonName="${ser.name}" groups="${saleUp}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																		<div class="clear"></div>
+																		<u:show showId="serverShow${slength}" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																	</c:otherwise>
+																</c:choose>
 															</div>
 														</c:forEach>
 													</td>
