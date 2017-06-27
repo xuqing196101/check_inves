@@ -58,12 +58,12 @@
 				if (isGiveUp == "" || isGiveUp == undefined) {
 					if (total == "" || time == "") {
 						count ++;
-							layer.msg("表单未填写完整,单价和交货时间必须正确填写,请检查表单");
+							layer.msg("表单未填写完整,总价和交货时间必须填写,请检查表单");
 							return ;
 					}
 					if(!reg.exec(total)) {
 							count ++;
-							layer.msg("表单未填写完整,单价和交货时间必须正确填写,请检查表单");
+							layer.msg("表单未填写完整,总价和交货时间必须填写,请检查表单");
 							return ;
 				    }
 				}
