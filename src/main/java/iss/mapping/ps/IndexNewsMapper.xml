@@ -82,10 +82,7 @@
 							T_ISS_PS_ARTICLE
 						WHERE STATUS = 2
 						and is_deleted = 0
-						and LAST_ARTICLE_TYPE_ID in
-						<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
-						  #{item}
-						</foreach>
+						and LAST_ARTICLE_TYPE_ID = #{typeId}
 						<if test="title!=null and title!=''">
 						 	and name like   CONCAT(CONCAT('%', #{title}), '%')
 						</if>
@@ -139,10 +136,7 @@
 		T_ISS_PS_ARTICLE
 	WHERE STATUS = 2
 	and is_deleted = 0
-	and LAST_ARTICLE_TYPE_ID in
-	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
-						  #{item}
-						</foreach>
+	and LAST_ARTICLE_TYPE_ID = #{typeId}
 	<if test="title!=null and title!=''">
 	 	and name like   CONCAT(CONCAT('%', #{title}), '%')
 	</if>

@@ -573,7 +573,7 @@
               $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
           }
           if(TtypeId == "供应商处罚公告"){
-              $("#three").show();
+              $("#three").hide();
           }
           if(TtypeId == "专家处罚公告"){
               $("#three").hide();

@@ -33,6 +33,11 @@
   
   /* 回退 */
   function fallback(){
+    var authType = "${authType}";
+    if(authType != '4'){
+		layer.msg("只有资源服务中心才能操作");
+		return;
+	}
     layer.confirm('您确定要回退吗?', {
       title: '提示',
       offset: ['222px', '360px'],
@@ -65,7 +70,22 @@
   
   //查看详情
   function view(version){
+    var authType = "${authType}";
+    if(authType != '4'){
+      layer.msg("只有资源服务中心才能操作");
+      return;
+    }
     window.location.href = "${pageContext.request.contextPath }/appInfo/view.html?version="+version;
+  }
+  
+  //新增
+  function add(){
+    var authType = "${authType}";
+    if(authType != '4'){
+      layer.msg("只有资源服务中心才能操作");
+      return;
+    }
+    window.location.href = "${pageContext.request.contextPath }/appInfo/toAdd.html";
   }
 </script>
 </head>
@@ -99,7 +119,7 @@
     </div>
     <!-- 表格开始 -->
     <div class="col-md-12 pl20 mt10">
-      <button class="btn btn-windows add" type="button" onclick="window.location.href = '${pageContext.request.contextPath }/appInfo/toAdd.html'">新增</button>
+      <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
       <button class="btn btn-windows delete" type="button" onclick="fallback()">回退</button>
     </div>
     <div class="content table_box">

@@ -8,7 +8,7 @@
   <title>添加App版本信息页面</title>
   <script type="text/javascript">
     $(function(){
-    	$(".webuploader-pick").html("上传安装包");
+    	$(".webuploader-pick").html("上传附件");
     	$("#extensionId").val("apk");
     });
   </script>
@@ -43,7 +43,7 @@
         </li>
         <!-- 上传附件 -->
         <li class="col-md-6 col-sm-6 col-xs-12">
-          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>版本信息：</span>
+          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>App安装包上传：</span>
           <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
             <u:upload id="post_attach_up" businessId="${businessId }" sysKey="${sysKey }" typeId="" multiple="true" auto="true" />
             <u:show showId="post_attach_show" businessId="${businessId }" sysKey="${sysKey }" typeId=""/>

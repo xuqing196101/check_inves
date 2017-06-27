@@ -48,10 +48,17 @@ public class AppInfoController {
      */
     @RequestMapping("/list")
     public String list(@CurrentUser User user,AppInfo appInfo, Model model, @RequestParam(defaultValue="1")Integer page){
-        List<AppInfo> list = appInfoService.list(appInfo, page);
-        PageInfo<AppInfo> info = new PageInfo<>(list);
-        model.addAttribute("info", info);
-        model.addAttribute("appInfo", appInfo);
+        //声明标识是否是资源服务中心
+        String authType = null;
+        if(null != user && "4".equals(user.getTypeName())){
+            //判断是否 是资源服务中心 
+            authType = "4";
+            List<AppInfo> list = appInfoService.list(appInfo, page);
+            PageInfo<AppInfo> info = new PageInfo<>(list);
+            model.addAttribute("info", info);
+            model.addAttribute("appInfo", appInfo);
+            model.addAttribute("authType", authType);
+        }
         return "ses/app/list";
     }
 
@@ -65,12 +72,15 @@ public class AppInfoController {
      * @return
      */
     @RequestMapping("/toAdd")
-    public String toAdd(Model model){
-        String uuid = UUID.randomUUID().toString().toUpperCase()
+    public String toAdd(@CurrentUser User user,Model model){
+        if(null != user && "4".equals(user.getTypeName())){
+            String uuid = UUID.randomUUID().toString().toUpperCase()
                   .replace("-", "");
-          model.addAttribute("businessId", uuid);
-          model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
-        return "ses/app/add";
+            model.addAttribute("businessId", uuid);
+            model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
+            return "ses/app/add";
+        }
+        return "";
     }
     
     /**
@@ -83,33 +93,36 @@ public class AppInfoController {
      * @return
      */
     @RequestMapping("/add")
-    public String add(AppInfo appInfo, Model model,HttpServletRequest request){
-        String businessId = request.getParameter("businessId");
-        String path = appInfoService.selectPathByBusinessId(businessId);
-        boolean flag = true;
-        if(appInfo.getVersion() == null || ("").equals(appInfo.getVersion())){
-            flag = false;
-            model.addAttribute("error_version","版本号不能为空");
-        }else if (appInfoService.selectByVersion(appInfo.getVersion()) != null){
-            flag = false;
-            model.addAttribute("error_version","版本号已存在");
+    public String add(@CurrentUser User user,AppInfo appInfo, Model model,HttpServletRequest request){
+        if(null != user && "4".equals(user.getTypeName())){
+            String businessId = request.getParameter("businessId");
+            String path = appInfoService.selectPathByBusinessId(businessId);
+            boolean flag = true;
+            if(appInfo.getVersion() == null || ("").equals(appInfo.getVersion())){
+                flag = false;
+                model.addAttribute("error_version","版本号不能为空");
+            }else if (appInfoService.selectByVersion(appInfo.getVersion()) != null){
+                flag = false;
+                model.addAttribute("error_version","版本号已存在");
+            }
+            if(path.equals("")){
+                flag = false;
+                model.addAttribute("errorShangchuan","请上传新版本");
+            }
+            if(flag == true){
+                appInfo.setPath(path);
+                appInfo.setCreatedAt(new Date());
+                appInfo.setRemark(businessId);
+                appInfoService.add(appInfo);
+                return "redirect:list.html";
+            }else{
+                model.addAttribute("appInfo",appInfo);
+                model.addAttribute("businessId", businessId);
+                model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
+                return "ses/app/add";
+            }
         }
-        if(path.equals("")){
-            flag = false;
-            model.addAttribute("errorShangchuan","请上传新版本");
-        }
-        if(flag == true){
-            appInfo.setPath(path);
-            appInfo.setCreatedAt(new Date());
-            appInfo.setRemark(businessId);
-            appInfoService.add(appInfo);
-            return "redirect:list.html";
-        }else{
-            model.addAttribute("appInfo",appInfo);
-            model.addAttribute("businessId", businessId);
-            model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
-            return "ses/app/add";
-        }
+        return "";
     }
     
     /**
@@ -123,13 +136,16 @@ public class AppInfoController {
      */
     @RequestMapping("/fallback")
     @ResponseBody
-    public String fallback(){
-        Integer i = appInfoService.fallbackByVersion();
-        if(i > 0){
-            return "success";
-        }else{
-            return "error";
-        }
+    public String fallback(@CurrentUser User user){
+    	if(null != user && "4".equals(user.getTypeName())){
+    		Integer i = appInfoService.fallbackByVersion();
+            if(i > 0){
+                return "success";
+            }else{
+                return "error";
+            }
+    	}
+    	return "";
     }
     
     /**
@@ -142,16 +158,19 @@ public class AppInfoController {
      * @return
      */
     @RequestMapping("/view")
-    public String view(Model model,HttpServletRequest request){
-        String version = request.getParameter("version") == null ? "" : request.getParameter("version");
-        AppInfo appInfo = appInfoService.selectByVersion(version);
-        String businessId = "";
-        if(appInfo != null){
-            businessId = appInfo.getRemark();
-        }
-        model.addAttribute("appInfo",appInfo);
-        model.addAttribute("businessId", businessId);
-        model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
-        return "ses/app/view";
+    public String view(@CurrentUser User user,Model model,HttpServletRequest request){
+    	if(null != user && "4".equals(user.getTypeName())){
+	    	String version = request.getParameter("version") == null ? "" : request.getParameter("version");
+	        AppInfo appInfo = appInfoService.selectByVersion(version);
+	        String businessId = "";
+	        if(appInfo != null){
+	            businessId = appInfo.getRemark();
+	        }
+	        model.addAttribute("appInfo",appInfo);
+	        model.addAttribute("businessId", businessId);
+	        model.addAttribute("sysKey", Constant.APP_APK_SYS_KEY);
+	        return "ses/app/view";
+    	}
+    	return "";
     }
 }

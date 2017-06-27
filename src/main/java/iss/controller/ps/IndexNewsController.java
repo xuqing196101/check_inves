@@ -298,9 +298,9 @@ public class IndexNewsController extends BaseSupplierController{
     indexMapper.put("article115List", article115List);
     map.clear();
     //供应商处罚公告
-    String[] idArray116 = {"116","117"};
-	map.put("idArray", idArray116);
-    List<Article> article116List = articleService.selectAllByArticleType(map);
+    //String[] idArray116 = {"116","117"};
+    map.put("typeId","114");
+    List<Article> article116List = articleService.selectArticleByArticleType(map);
     indexMapper.put("article116List", article116List);
     /*map.clear();
     map.put("typeId","117");
@@ -500,9 +500,10 @@ public class IndexNewsController extends BaseSupplierController{
     indexMapper.put("article115List", article115List);
     //首页供应商处罚公告
     map.clear();
-    String[] idArray116 = {"116","117"};
-	map.put("idArray", idArray116);
-    List<Article> article116List = articleService.selectAllByArticleType(map);
+    /*String[] idArray116 = {"116","117"};
+	map.put("idArray", idArray116);*/
+	map.put("typeId","114");
+    List<Article> article116List = articleService.selectArticleByArticleType(map);
     indexMapper.put("article116List", article116List);
     /*map.clear();
     map.put("typeId","117");
@@ -1346,12 +1347,13 @@ public class IndexNewsController extends BaseSupplierController{
 			page=1;
 		}
 		String title = RequestTool.getParam(request, "title","");
-		String idArray[] = {"116","117"};
-		map.put("idArray",idArray);
+		/*String idArray[] = {"116","117"};
+		map.put("idArray",idArray);*/
+		map.put("typeId","114");
 		map.put("page", page);
 		map.put("pageSize", pageSize);
 		map.put("title", title);
-		countMap.put("idArray",idArray);
+		countMap.put("typeId","114");
 		countMap.put("title", title);
 		List<Article> indexNewsList = indexNewsService.selectSupplierAllNews(map);
 		Integer pages = indexNewsService.selectSupplierCount(countMap);
