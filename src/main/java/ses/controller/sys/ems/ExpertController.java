@@ -1,11 +1,15 @@
 package ses.controller.sys.ems;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -15,7 +19,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,11 +26,12 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bss.util.ExcelRead;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -61,9 +65,25 @@ import ses.model.bms.Qualification;
 import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
-import ses.model.ems.*;
+import ses.model.ems.Expert;
+import ses.model.ems.ExpertAttachment;
+import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertCategory;
+import ses.model.ems.ExpertPictureType;
+import ses.model.ems.ExpertTitle;
+import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
-import ses.model.sms.*;
+import ses.model.sms.Quote;
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatPro;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -73,7 +93,15 @@ import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.QualificationService;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
-import ses.service.ems.*;
+import ses.service.ems.DeleteLogService;
+import ses.service.ems.ExpExtractRecordService;
+import ses.service.ems.ExpertAttachmentService;
+import ses.service.ems.ExpertAuditNotService;
+import ses.service.ems.ExpertAuditService;
+import ses.service.ems.ExpertCategoryService;
+import ses.service.ems.ExpertService;
+import ses.service.ems.ExpertTitleService;
+import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierQuoteService;
@@ -98,16 +126,18 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
+import bss.util.ExcelRead;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-import com.mysql.jdbc.Blob;
+import com.google.zxing.WriterException;
 
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.LoginLogService;
 import common.service.UploadService;
+import common.utils.QRCodeUtil;
 import common.utils.RSAEncrypt;
 @Controller
 @RequestMapping("/expert")
@@ -2739,6 +2769,10 @@ public class ExpertController extends BaseController {
         /** 数据处理 **/
         handingData(supplier);
         
+        // 生成供应商二维码图片
+        BufferedImage bufferImg = QRCodeUtil.toBufferedImage(supplier.getId(), 222, 222);
+        supplier.setQrcodeImage(getImageStr(bufferImg));
+        
         // 文件存储地址
         String filePath = request.getSession().getServletContext()
             .getRealPath("/WEB-INF/upload_file/");
@@ -2747,8 +2781,10 @@ public class ExpertController extends BaseController {
             "UTF-8");
 //        Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
         /** 创建word文件 **/
-        String fileName = WordUtil.createWord(supplier, "supplier.ftl",
+        String fileName = WordUtil.createWord(supplier, "supplier2.ftl",
             name, request);
+//        String fileName = WordUtil.createWord(supplier, "test2.ftl",
+//        		name, request);
         // 下载后的文件名
         String downFileName = "军队供应商库入库申请表.doc";
         if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
@@ -2854,7 +2890,7 @@ public class ExpertController extends BaseController {
                     branch.setCountry(DictionaryDataUtil.findById(branch.getCountry()).getName());
                 }
             }
-        }else{// 如果有境外分支清除列表
+        }else{// 如果没有境外分支清除列表
         	supplier.getBranchList().clear();
         }
 
@@ -3247,6 +3283,30 @@ public class ExpertController extends BaseController {
 		 BASE64Encoder encoder = new BASE64Encoder();
 		 return encoder.encode(data);
 	 }
+	 
+	private String getImageStr(BufferedImage bufferImg) {
+		InputStream is = null;
+		byte[] data = null;
+		try {
+			ByteArrayOutputStream bs = new ByteArrayOutputStream();
+			ImageOutputStream imOut = ImageIO.createImageOutputStream(bs);
+			ImageIO.write(bufferImg, "jpg", imOut); // scaledImage1为BufferedImage，jpg为图像的类型
+			is = new ByteArrayInputStream(bs.toByteArray());
+			//data = new byte[is.available()];
+			int c = 0;
+			while((c = is.read()) >= 0){
+	            bs.write(c);
+	        }
+			data = bs.toByteArray();
+			bs.close();
+			is.read(data);
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		BASE64Encoder encoder = new BASE64Encoder();
+		return encoder.encode(data);
+	}
     
 	 /**
 	  * 
@@ -4750,4 +4810,19 @@ public class ExpertController extends BaseController {
 
         return "ses/ems/expert/common/attachment_control";
     }
+    
+    @RequestMapping("/getQrcode")
+    @ResponseBody
+    public void getQrcode(String id){
+    	//System.out.println(id+"=============");
+    	// 生成供应商二维码图片
+    	try {
+			QRCodeUtil.writeToStream(id, response.getOutputStream(), 222, 222);
+		} catch (WriterException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
 }

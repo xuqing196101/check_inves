@@ -703,7 +703,18 @@ public class Supplier implements Serializable {
     
     private  List<RoleUser> userRoles=new LinkedList<RoleUser>();
     
-    public List<RoleUser> getUserRoles() {
+    // 新添属性
+    private String qrcodeImage;// 供应商二维码图片
+    
+    public String getQrcodeImage() {
+		return qrcodeImage;
+	}
+
+	public void setQrcodeImage(String qrcodeImage) {
+		this.qrcodeImage = qrcodeImage;
+	}
+
+	public List<RoleUser> getUserRoles() {
 		return userRoles;
 	}
 

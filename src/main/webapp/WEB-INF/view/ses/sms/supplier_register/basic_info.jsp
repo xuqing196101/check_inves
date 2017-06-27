@@ -1317,7 +1317,7 @@
 											<c:if test="${fn:contains(audit,'creditCode')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'creditCode')"</c:if>
 											class="txtTempSave"/>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">统一社会信用代码为18位数字或18位数字+字母的组合</span>
+										<span class="input-tip">18位数字或数字字母</span>
 										<div class="cue"> ${err_creditCide} </div>
 										<div class="cue">
 											<sf:errors path="creditCode" />

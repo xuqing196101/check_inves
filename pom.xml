@@ -202,11 +202,11 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.2.2</version>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>3.9</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
@@ -323,6 +323,17 @@
             <artifactId>solr-solrj</artifactId>
             <version>4.10.3</version>
         </dependency>
+        
+        <dependency>
+				    <groupId>com.google.zxing</groupId>
+				    <artifactId>core</artifactId>
+				    <version>3.1.0</version>
+				</dependency>
+        <dependency>
+				    <groupId>com.google.zxing</groupId>
+				    <artifactId>javase</artifactId>
+				    <version>3.1.0</version>
+				</dependency>
 
 <dependency>
       <groupId>org.springframework.session</groupId>
