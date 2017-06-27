@@ -342,14 +342,7 @@
 				//$("textarea").bind("blur", tempSave);
 				//$("select").not("#stockholder_list_tbody_id select").bind("change", tempSave);
 				
-				// 指定字段实时保存
-				if($(".txtTempSave")){
-					$(".txtTempSave").bind("blur", function(){
-						if($(this).val() && $.trim($(this).val()) != ""){
-							tempSave();
-						}
-					});
-				}
+				toTempSave();// 实时保存
 				
 				/**供应商名称校验*/
                 $("#supplierName_input_id").focus(function(){
@@ -458,6 +451,21 @@
 					}
 				});
 			}
+			
+			function toTempSave(){
+				// 指定字段实时保存
+				if($(".txtTempSave")){
+					$(".txtTempSave").focus(function(){
+						$(this).attr("data-oval", $(this).val());
+					}).blur(function(){
+						var oldVal = $(this).attr("data-oval"); //获取原值
+            var newVal = $(this).val(); //获取当前值
+            if (newVal && $.trim(newVal) != "" && oldVal != newVal){
+            	tempSave();
+            }
+					});
+				}
+			}
 
 			function openStockholder() {
 
@@ -482,11 +490,12 @@
 					"<td class='tc'><input type='text' style='border:0px;' maxlength='50' name='listSupplierStockholders[" + stocIndex + "].name' value=''> </td>" +
 					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].identity' maxlength='18' onkeyup='validateIdentity(this)' value=''> </td>" +
 					"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].shares' value=''></td>" +
-					"<td class='tc'> <input type='text' style='border:0px;' class='proportion_vali' name='listSupplierStockholders[" + stocIndex + "].proportion' value='' onkeyup=\"value=value.replace(/[^\d.]/g,'')\" onblur=\"validatePercentage2(this.value)\"> </td>" + "</tr>");
+					"<td class='tc'> <input type='text' style='border:0px;' class='proportion_vali txtTempSave' name='listSupplierStockholders[" + stocIndex + "].proportion' value='' onkeyup=\"value=value.replace(/[^\\d.]/g,'')\" onblur=\"validatePercentage2(this.value)\"> </td>" + "</tr>");
 
 				stocIndex++;
 				$("#stockIndex").val(stocIndex);
         //loadProportion();
+        toTempSave();
 			}
 			
 			function validateIdentity(obj){
@@ -2270,8 +2279,8 @@
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' maxlength="50" name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'  <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if>  > </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' maxlength="18" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" value='${stockholder.identity}' <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if>  > </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' class="shares" name='listSupplierStockholders[${stockvs.index }].shares' onchange="checkNumsSale(this, 3)" value='${stockholder.shares}' <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if> > </td>
-													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' class="proportion_vali" name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}' <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if> 
-													 	onkeyup="value=value.replace(/[^\d.]/g,'')" onblur="validatePercentage2(this.value)" class="txtTempSave"/></td>
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' class="proportion_vali txtTempSave" name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}' <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if> 
+													 	onkeyup="value=value.replace(/[^\d.]/g,'')" onblur="validatePercentage2(this.value)"/></td>
 												</tr>
 											</c:forEach>
 										</tbody>
