@@ -68,6 +68,9 @@ public class SupplierCateTree {
     //合同文件数量
     private Long contractCount;
     
+    // 根节点类型（1：物质生产；2：物质销售；3：工程；4：服务）
+    private int rootNodeType;
+    
     
     public String getRootNodeID() {
 		return rootNodeID;
@@ -288,6 +291,13 @@ public class SupplierCateTree {
 	public void setThreeBil(String threeBil) {
 		this.threeBil = threeBil;
 	}
-    
-    
+
+	public int getRootNodeType() {
+		return rootNodeType;
+	}
+
+	public void setRootNodeType(int rootNodeType) {
+		this.rootNodeType = rootNodeType;
+	}
+	
 }

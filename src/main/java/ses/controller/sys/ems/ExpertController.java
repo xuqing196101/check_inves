@@ -137,6 +137,7 @@ import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.LoginLogService;
 import common.service.UploadService;
+import common.utils.ListSortUtil;
 import common.utils.QRCodeUtil;
 import common.utils.RSAEncrypt;
 @Controller
@@ -2952,10 +2953,30 @@ public class ExpertController extends BaseController {
             if(supplier.getSupplierTypeIds().contains(supplierItem.getSupplierTypeRelateId())){
                 SupplierCateTree cateTree = getTreeListByCategoryId(supplierItem);
                 if(cateTree != null && cateTree.getRootNode() != null) {
+                	//System.out.println(cateTree.getRootNode()+"============");
+                	switch (cateTree.getRootNode()) {
+					case "物资生产":
+						cateTree.setRootNodeType(1);
+						break;
+					case "物资销售":
+						cateTree.setRootNodeType(2);
+						break;
+					case "工程":
+						cateTree.setRootNodeType(3);
+						break;
+					case "服务":
+						cateTree.setRootNodeType(4);
+						break;
+					default:
+						break;
+					}
                     allTreeList.add(cateTree);
                 }
             }
         }
+        // 对品目信息按照 物资生产--物资销售--工程--服务 的顺序进行排序
+        ListSortUtil<SupplierCateTree> sortList = new ListSortUtil<SupplierCateTree>();
+        sortList.sort(allTreeList, "rootNodeType", "asc");
 
         // 工程类证书
         if (supplier.getIsEng() != null) {
