@@ -852,7 +852,7 @@ function importAdd(){
 				</table>
 				</c:when>
 				<c:otherwise>
-					暂无数据
+				<li class="tc">暂无数据</li>
 				</c:otherwise>
 				</c:choose>
 				</div>
