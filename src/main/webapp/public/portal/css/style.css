@@ -3289,19 +3289,19 @@ h2.list_title{
 	width : 148px;
 }
 /* 主导航1024下错版修复 */
-@media screen (min-width: 992px) and (max-width: 1199px) {
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
     .header-v4 .navbar-default .m-navbar-nav > li > a {
-        font-size: 16px;
-        padding: 0 9px;
+        font-size: 16px !important;
+        padding: 0 9px !important;
     }
 }
 /* 首页-业务办理自适应错版修复 */
-@media screen (min-width: 1024px) and (max-width: 1199px) {
+@media only screen and (min-width: 1024px) and (max-width: 1199px) {
     .ywbl_01 {
-        width: 106px;
+        width: 106px !important;
     }
     .ywbl_02 {
-        width: 126px;
+        width: 126px !important;
     }
 }
 /* 主导航-供应商下拉菜单重新排版 */
