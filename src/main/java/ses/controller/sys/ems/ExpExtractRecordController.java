@@ -1725,4 +1725,27 @@ public class ExpExtractRecordController extends BaseController {
                 + projectId + "&flowDefineId=" + flowDefineId
                 + "&randomCode = " + randomCode;
     }
+    
+    /**
+     * 
+     * Description: 判断是否为临时专家
+     * 
+     * @author zhang shubin
+     * @data 2017年6月28日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/isProvisional")
+    @ResponseBody
+    public String isProvisional(){
+    	String id = request.getParameter("id") == null ? "" : request.getParameter("id");
+    	Expert expert = ExpertService.selectByPrimaryKey(id);
+    	if(expert != null && expert.getIsProvisional() == 1){
+    		return "true";
+    	}else if(expert != null && expert.getIsProvisional() == 0){
+    		return "false";
+    	}else{
+    		return "";
+    	}
+    }
 }

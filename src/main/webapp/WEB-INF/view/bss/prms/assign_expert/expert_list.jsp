@@ -374,7 +374,24 @@
           }); 
           if(ids.length==1){
         	  id = ids.toString();
-        	  $("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/showEditTemporaryExpert.html?projectId="+projectId+"&&id="+id+"&&index="+index+"&&packageId="+packId);
+        	  //判断是否为临时专家
+        	  $.ajax({
+					url: "${pageContext.request.contextPath }/ExpExtract/isProvisional.html",
+					type: "post",
+					data: {
+						id : id
+					},
+					success: function(data) {
+						if(data == "true"){
+							$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/showEditTemporaryExpert.html?projectId="+projectId+"&&id="+id+"&&index="+index+"&&packageId="+packId);
+						}else if(data == "false"){
+							layer.alert("只能修改临时专家",{offset: ['222px', '390px'], shade:0.01});
+						}
+					},
+					error: function() {
+
+					}
+				});
           }else if(ids.length>1){
             layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
           }else{

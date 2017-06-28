@@ -140,11 +140,8 @@ public class IndexAppController {
     //废标公告typeId标识
     private static final String SCRAP = "105"; 
 
-    //供应商军队处罚公告typeId标识
-    private static final String MILITARY_PUNISHMENT = "116";
-
-    //供应商地方处罚公告typeId标识
-    private static final String PLACE_PUNISHMENT = "117";
+    //供应商处罚公告typeId标识
+    private static final String SUPPLIER_MILITARY_PUNISHMENT = "114";
 
     //专家处罚公告typeId标识
     private static final String EXPERT_PUNISHMENT = "115";
@@ -427,13 +424,7 @@ public class IndexAppController {
                 appImg.setMsg("暂无数据");
                 break;
             case 3 ://处罚公告
-                Map<String, Object> map1 = new HashMap<>();
-                String[] idArray = new String[2];
-                idArray[0] = MILITARY_PUNISHMENT;
-                idArray[1] = PLACE_PUNISHMENT;
-                map1.put("idArray",idArray);
-                map1.put("page", page);
-                List<Article> militaryPunishmentList = indexAppService.selectAppRegulations(map1);
+                List<Article> militaryPunishmentList = indexAppService.selectAppArticleListByTypeId(SUPPLIER_MILITARY_PUNISHMENT,page);
                 if(militaryPunishmentList != null && !militaryPunishmentList.isEmpty()){
                     for (Article article : militaryPunishmentList) {
                         article.setCreate_at(dataToString(article.getPublishedAt()));
