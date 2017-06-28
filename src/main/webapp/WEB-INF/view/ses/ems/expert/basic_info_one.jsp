@@ -84,36 +84,99 @@
 				$("select").bind("change", submitformExpert);
 				$("textarea").bind("blur", submitformExpert);
 			});
-
+			//校验军官证号
+            function checkCardNumber(){
+                var idNumber = $("#idNumber").val();
+                if(!idNumber) {
+                    layer.msg("请填写证件号码 !");
+                    return false;
+                }
+                // 军队人员身份证件号码唯一性验证
+                if(idNumber != "") {
+                    var isok = 0;
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/expert/validateIdNumber.do',
+                        type: "post",
+                        async: false,
+                        data: {
+                            "idNumber": idNumber,
+                            "expertId": $("#id").val()
+                        },
+                        success: function(obj) {
+                            if(obj == '1') {
+                                layer.msg("该证件号码已被占用!");
+                                isok = 1;
+                            }
+                        }
+                        })
+                        }
+            }
 			function submitformExpert() {
-				var idCardNumber = $("#idCardNumber").val().trim();
+				var idCard = $("#idCardNumber").val().trim();
 				// 身份证唯一性验证
-				if(idCardNumber != "") {
-					/*$.ajax({
-						url: '${pageContext.request.contextPath}/user/ajaxIdNumber.do',
-						type: "post",
-						dataType: "json",
-						data: {
-							"idNumber": $("#idCardNumber").val().trim(),
-							"id": $("#userId").val().trim()
-						},
-						success: function(obj) {
-							if(obj.success == false) {
-								//                                 layer.msg("居民身份证号码已被占用!");
-								return false;
-							} else {
-								validateIdCard();
-							}
+				if(idCard != "") {
+					//15位和18位身份证号码的正则表达式
+				    var regIdCard = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+				    //如果通过该验证，说明身份证格式正确，但准确性还需计算
+				    if (regIdCard.test(idCard)) {
+				        if (idCard.length == 18) {
+				            var idCardWi = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2); //将前17位加权因子保存在数组里
+				            var idCardY = new Array(1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2); //这是除以11后，可能产生的11位余数、验证码，也保存成数组
+				            var idCardWiSum = 0; //用来保存前17位各自乖以加权因子后的总和
+				            for (var i = 0; i < 17; i++) {
+				                idCardWiSum += idCard.substring(i, i + 1) * idCardWi[i];
+				            }
 
-						}
-					});*/
+				            var idCardMod = idCardWiSum % 11;//计算出校验码所在数组的位置
+				            var idCardLast = idCard.substring(17);//得到最后一位身份证号码
+
+				            //如果等于2，则说明校验码是10，身份证号码最后一位应该是X
+				            if (idCardMod == 2) {
+				                if (idCardLast == "X" || idCardLast == "x") {
+				                    //return "success";
+				                } else {
+				                	 layer.msg('身份证号码错误！', {
+                                         offset: '300px'
+                                     });
+                                    return false;
+				                }
+				            } else {
+				                //用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
+				                if (idCardLast == idCardY[idCardMod]) {
+				                    //return "success";
+				                } else {
+				                    layer.msg('身份证号码错误！', {
+		                                 offset: '300px'
+		                             });
+		                            return false;
+				                }
+				            }
+				        } else if (idCard.length > 0 && idCard.length < 18) {
+				            layer.msg('请输入正确的身份证号！', {
+	                             offset: '300px'
+	                         });
+	                        return false;
+				        } else if (idCard.length == 0) {
+				           // return "success";
+				        } else {
+				            //15
+				            //return "success";
+				        }
+				    } else if (idCard.trim().length==0){
+				       // return "success";
+				    }else {
+				    	 layer.msg('身份证格式不正确!', {
+                             offset: '300px'
+                         });
+				        return false;
+				    }
                     //校验专家表身份证
                     $.ajax({
                         url: '${pageContext.request.contextPath}/expert/validateIdNumber.do',
                         type: "post",
                         async: false,
                         data: {
-                            "idNumber": idCardNumber,
+                            "idNumber": idCard,
                             "expertId": $("#id").val()
                         },
                         success: function(obj) {
@@ -923,6 +986,7 @@
                     $("#teachTitle1").attr("selected","");
 				}
 			}
+			
 		</script>
 	</head>
 
@@ -1068,7 +1132,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                     	class="red">*</i> 居民身份证号码</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input required maxlength="18" value="${expert.idCardNumber}" name="idCardNumber" id="idCardNumber" type="text" <c:if test="${fn:contains(errorField,'居民身份证号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证号码')"
+								<input onblur="submitformExpert()" required maxlength="18" value="${expert.idCardNumber}" name="idCardNumber" id="idCardNumber" type="text" <c:if test="${fn:contains(errorField,'居民身份证号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证号码')"
 								</c:if>/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空，长度为15位或者18位</span>
@@ -1153,7 +1217,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 证件号码</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input maxlength="30" value="${expert.idNumber}" name="idNumber" id="idNumber" type="text" <c:if test="${fn:contains(errorField,'证件号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('证件号码')"
+								<input onblur="checkCardNumber()" maxlength="30" value="${expert.idNumber}" name="idNumber" id="idNumber" type="text" <c:if test="${fn:contains(errorField,'证件号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('证件号码')"
 								</c:if>/>
 								<c:if test="${fn:contains(errorField,'证件号码')}">
 									<!-- <span class="add-on"
