@@ -402,6 +402,26 @@
          	return is_error;
 		}
 		
+		function ajaxOfficerCertNo(){
+			 var is_error = 0;
+			 var officerCertNo = $("#officerCertNo").val();
+			 $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/user/ajaxOfficerCertNo.do?officerCertNo="+officerCertNo,
+             dataType: "json",
+             success: function(data){
+                     if (!data.success) {
+						$("#ajax_officerCertNo").html(data.msg);
+						is_error = 1;
+					 } else {
+					 	$("#ajax_officerCertNo").html("");
+					 }
+               }
+         	});
+         	return is_error;
+		}
+		
 		$(document).ready(function(){  
 		     viewOrgType();
     		$("#form1").bind("submit", function(){  
@@ -412,6 +432,9 @@
 				if (ajaxMoblie() == 1){
 					error += 1;
 				} 
+				if (ajaxOfficerCertNo() == 1){
+					error += 1;
+				}
 				if (isExist() == 1){
 					error += 1;
 				} 
@@ -553,14 +576,15 @@
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			        	<input id="idNumber"  name="idNumber" value="${user.idNumber}" onkeyup="ajaxIdNumber()"  maxlength="18" type="text">
 			        	<span class="add-on">i</span>
-						<div id="ajax_idNumber" class="cue">${ajax_idNumber }</div>
+						<div id="ajax_idNumber" class="cue">${ajax_idNumber}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">军官证号</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input  name="officerCertNo" value="${user.officerCertNo}" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5\uF900-\uFA2D]/g,'')" maxlength="20" type="text">
+			        	<input  name="officerCertNo" id="officerCertNo" value="${user.officerCertNo}" onblur="ajaxOfficerCertNo()" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5\uF900-\uFA2D]/g,'')" maxlength="20" type="text">
 			        	<span class="add-on">i</span>
+			        	<div id="ajax_officerCertNo" class="cue">${ajax_officerCertNo}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">

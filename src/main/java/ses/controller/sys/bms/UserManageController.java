@@ -1227,7 +1227,7 @@ public class UserManageController extends BaseController{
   }
 	
 	/**
-   *〈简述〉校验身份证号重复
+   *〈简述〉校验身份证号重复(仅校验后台用户)
    *〈详细描述〉
    * @author Ye MaoLin
 	 * @param idNumber
@@ -1248,6 +1248,43 @@ public class UserManageController extends BaseController{
                 + "\"}");
           } else {
             msg = "该身份证号可用";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter()
+            .print("{\"success\": " + true + ", \"msg\": \"" + msg
+                + "\"}");
+          }
+        }
+        response.getWriter().flush();
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally{
+        response.getWriter().close();
+      }
+  }
+	
+	/**
+	 *〈简述〉校验用户军官证号唯一，仅校验后台用户
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param officerCertNo
+	 * @param id
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping("/ajaxOfficerCertNo")
+  public void ajaxOfficerCertNo(String officerCertNo, String id, HttpServletResponse response) throws IOException {
+      try {
+        String msg = "";
+        if (officerCertNo != null && !"".equals(officerCertNo)) {
+          Boolean result = userService.ajaxOfficerCertNo(officerCertNo, id);
+          if (!result) {
+            msg = "该军官证号已注册";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().print(
+                "{\"success\": " + false + ", \"msg\": \"" + msg
+                + "\"}");
+          } else {
+            msg = "该军官证号可用";
             response.setContentType("text/html;charset=utf-8");
             response.getWriter()
             .print("{\"success\": " + true + ", \"msg\": \"" + msg

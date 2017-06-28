@@ -351,6 +351,27 @@
          	return is_error;
 		}
 		
+		function ajaxOfficerCertNo(){
+			 var is_error = 0;
+			 var officerCertNo = $("#officerCertNo").val();
+			 var id = $("#uId").val();
+			 $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/user/ajaxOfficerCertNo.do?officerCertNo="+officerCertNo+"&id="+id,
+             dataType: "json",
+             success: function(data){
+                     if (!data.success) {
+						$("#ajax_officerCertNo").html(data.msg);
+						is_error = 1;
+					 } else {
+					 	$("#ajax_officerCertNo").html("");
+					 }
+               }
+         	});
+         	return is_error;
+		}
+		
 		$(document).ready(function(){  
 		  viewOrgType(0);
     		$("#form1").bind("submit", function(){  
@@ -361,7 +382,9 @@
 				if (ajaxMoblie() == 1){
 					error += 1;
 				} 
-				
+				if (ajaxOfficerCertNo() == 1){
+					error += 1;
+				}
 				if (error > 0) {
 					return false;
 				} else {
@@ -502,7 +525,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">身份证号</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input id="idNumber" name="idNumber" value="${user.idNumber}" onblur="ajaxIdNumber()" maxlength="18" type="text">
+			        	<input id="idNumber" name="idNumber"   value="${user.idNumber}" onblur="ajaxIdNumber()" maxlength="18" type="text">
 			        	<span class="add-on">i</span>
 			        	<div id="ajax_idNumber" class="cue">
 			        	</div>
@@ -511,8 +534,9 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">军官证号</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input  name="officerCertNo" value="${user.officerCertNo}"  maxlength="20" type="text">
+			        	<input  name="officerCertNo" id="officerCertNo" value="${user.officerCertNo}" onblur="ajaxOfficerCertNo()"  maxlength="20" type="text">
 			        	<span class="add-on">i</span>
+			        	<div id="ajax_officerCertNo" class="cue">${ajax_officerCertNo}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3 ">

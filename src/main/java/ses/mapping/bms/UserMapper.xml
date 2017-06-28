@@ -636,9 +636,10 @@
     LEFT JOIN T_SES_BMS_USER_ROLE T2 ON u. ID = T2.USER_ID
     LEFT JOIN T_SES_BMS_ROLE t3 on T2.ROLE_ID = t3.ID
     WHERE
-    t3.CODE != 'SUPPLIER_R'
+    u.TYPE_NAME IS NOT NULL
+    <!-- t3.CODE != 'SUPPLIER_R'
     AND t3.CODE != 'EXPERT_R'
-    AND t3.CODE != 'IMPORT_AGENT_R'
+    AND t3.CODE != 'IMPORT_AGENT_R' -->
     )
     GROUP BY ID
     ) t4 ON u. ID = t4. ID
@@ -762,19 +763,20 @@
     u.LOGIN_NAME = #{loginName}
   </select>
 
-  <!-- 根据手机号查询 -->
+  <!-- 根据手机号查询,仅校验后台用户 -->
   <select id="ajaxMoblie" resultMap="UserBaseMap" parameterType="Object">
     select
     <include refid="Base_Column_List"/>
     from T_SES_BMS_USER u
     where u.IS_DELETED=0
     and u.MOBILE = #{mobile}
+    and u.TYPE_NAME IS NOT NULL
     <if test="id != null and id != ''">
       and u.ID != #{id}
     </if>
   </select>
 
-  <!-- 根据身份证号查询 -->
+  <!-- 根据身份证号查询,仅校验后台用户 -->
   <select id="ajaxIdNumber" resultMap="UserBaseMap" parameterType="Object">
     select
     <include refid="Base_Column_List"/>
@@ -782,6 +784,7 @@
     where u.IS_DELETED=0
     and (u.ID_NUMBER = lower(#{idNumber})
     or u.ID_NUMBER = Upper(#{idNumber}))
+    and u.TYPE_NAME IS NOT NULL
     <if test="id != null and id != ''">
       and u.ID != #{id}
     </if>
@@ -1046,6 +1049,19 @@
     LOGIN_NAME = #{loginName}
     <if test="typeId != null and typeId != ''">
         AND TYPE_ID &lt;&gt; #{typeId}
+    </if>
+  </select>
+  
+  <!-- 根据军官证号查询,仅校验后台用户 -->
+  <select id="ajaxOfficerCertNo" resultMap="UserBaseMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List"/>
+    from T_SES_BMS_USER u
+    where u.IS_DELETED=0
+    and u.OFFICER_CERT_NO = #{officerCertNo}
+    and u.TYPE_NAME IS NOT NULL
+    <if test="id != null and id != ''">
+      and u.ID != #{id}
     </if>
   </select>
 </mapper>

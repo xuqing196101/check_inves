@@ -250,7 +250,7 @@ public interface UserServiceI {
   void saveUser(User user);
 
   /**
-   *〈简述〉校验身份证号重复
+   *〈简述〉校验身份证号重复(仅校验后台用户)
    *〈详细描述〉
    * @author Ye MaoLin
    * @param idNumber
@@ -346,4 +346,14 @@ public interface UserServiceI {
 	 * @return
 	 */
 	boolean yzLoginName(Map<String, Object> map);
+
+  /**
+   *〈简述〉校验用户军官证号唯一，仅校验后台用户
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param officerCertNo
+   * @param id
+   * @return
+   */
+  Boolean ajaxOfficerCertNo(String officerCertNo, String id);
 }

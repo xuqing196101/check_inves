@@ -458,5 +458,18 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
 			return true;
 		}
 	}
+
+  @Override
+  public Boolean ajaxOfficerCertNo(String officerCertNo, String id) {
+    User user = new User();
+    user.setId(id);
+    user.setOfficerCertNo(officerCertNo);
+    List<User> users = userMapper.ajaxOfficerCertNo(user);
+    if (users != null && users.size() > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }
 
