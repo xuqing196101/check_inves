@@ -386,6 +386,7 @@
         var setting = {
           check: {
             enable: true,
+            autoCheckTrigger: true,
             chkStyle: "checkbox",
             chkboxType: {
               "Y": "ps",
@@ -395,6 +396,7 @@
           data: {
             simpleData: {
               enable: true,
+              autoCheckTrigger: true,
               idKey: "id",
               pIdKey: "parentId"
             }
