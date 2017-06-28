@@ -901,8 +901,9 @@
 						<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
 							<c:if test="${expert.status != 3}">
 								<input type="button" onclick="addPractice(2)" class="btn list_btn" value="十" />
+							    <input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
 							</c:if>
-							<input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
+							
 							<input type="hidden" name="ecoList[${vs.index }].id" value="${t.id}" />
 							<input type="hidden" name="ecoList[${vs.index }].expertId" value="${t.expertId}" />
 						</div>
