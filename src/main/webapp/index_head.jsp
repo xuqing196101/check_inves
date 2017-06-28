@@ -642,6 +642,8 @@ function importAdd(){
                                 </c:otherwise>
                             </c:choose>
                             </td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -654,11 +656,11 @@ function importAdd(){
             </ul>
             </div>
             </div>
-            <a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="tab_more">更多&gt;&gt;</a>
+            <a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="fr">更多&gt;&gt;</a>
         </div>
         <!-- End 拟入库公示 -->
         
-        <div class="login_box m_login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+        <div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
             <h2 class="f17 bgwhite">
             <ul class="list-unstyled login_tab p0">
                 <li class="fl active"><a aria-expanded="true" href="#tab-36" data-toggle="tab">入库名单</a></li>
@@ -701,7 +703,7 @@ function importAdd(){
                 </table>
                 </ul> 
                 <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>--%>
-                <a class="tab_more" href="javascript:void(0)">更多&gt;&gt;</a>
+                <a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
                 </div>
                 <!-- End 诚信记录 -->
             
@@ -720,7 +722,7 @@ function importAdd(){
                     </c:if>
                 </c:forEach>     
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/supplierPunishment.html">更多>></a>
+                <a class="fr" href="${pageContext.request.contextPath}/index/supplierPunishment.html">更多>></a>
                 </div>
                 <!-- End 处罚公告 -->
                 
@@ -761,7 +763,7 @@ function importAdd(){
                     </li>
                 </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/supplierBlackList.html">更多&gt;&gt;</a>
+                <a class="fr" href="${pageContext.request.contextPath}/index/supplierBlackList.html">更多&gt;&gt;</a>
                 </div>
                 <!-- End 专家黑名单 -->
             </div>
@@ -795,7 +797,7 @@ function importAdd(){
 			
 			<div class="col-md-7 col-sm-7 col-xs-10 mt10">
 				<div class="headline-v2">
-					<h2>专家名录</h2>
+					<h2>拟入库公示</h2>
 				</div>
 				
 				<div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
@@ -816,7 +818,8 @@ function importAdd(){
 					<tr>
 						<td>${item.relName }</td>
 						<td class="tc"></td>
-						<td class="tc"> <c:choose>
+						<td class="tc">
+						<c:choose>
 						<%-- <c:when test="${item.status == 0}">
 						未审核
 						</c:when>
@@ -842,6 +845,7 @@ function importAdd(){
 						</c:otherwise>
 						</c:choose>
 						</td>
+						<td></td>
 					</tr>
 					</c:forEach> 
 					</tbody>
@@ -852,29 +856,29 @@ function importAdd(){
 				</c:otherwise>
 				</c:choose>
 				</div>
-				<a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="tab_more">更多&gt;&gt;</a>
+				<a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="fr">更多&gt;&gt;</a>
 				</div>
 			</div>
 			
-			<div class="login_box m_login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+			<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
 			<h2 class="f17 bgwhite">
 			<ul class="list-unstyled login_tab">
 			<li class="fl active"><a aria-expanded="true" href="#tab-39" data-toggle="tab">入库名单</a></li>
 			<li class="fl"><a aria-expanded="true" href="#tab-40" data-toggle="tab">诚信记录</a></li>
 			<li class="fl"><a aria-expanded="false" href="#tab-41" data-toggle="tab">处罚公告</a></li>
-			<li class="fl"><a aria-expanded="false" href="#tab-zjhmd" data-toggle="tab">专家黑名单</a></li>
+			<li class="fl"><a aria-expanded="false" href="#tab-zjhmd" data-toggle="tab">黑名单</a></li>
 			</ul>
 			</h2>
 			<div class="tab-content buyer_list m_buyer_list">
 				<div id="tab-39" class="categories tab-pane fade active in">
 					
-					<a class="tab_more" href="javascript:void(0)">更多&gt;&gt;</a>
+					<a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
 				</div>
 				
 				<div id="tab-40" class="categories tab-pane fade">
 					<ul class="p0_10">   
 					</ul>
-					<a class="tab_more" href="javascript:void(0)">更多&gt;&gt;</a>
+					<a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
 				</div>
 				
 				<div id="tab-41" class="categories tab-pane fade">
@@ -890,7 +894,7 @@ function importAdd(){
 					</c:if>
 					</c:forEach>
 				</ul>
-				<a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=115">更多&gt;&gt;</a>
+				<a class="fr" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=115">更多&gt;&gt;</a>
 				</div>
 				
 				<div id="tab-zjhmd" class="categories tab-pane fade">
@@ -913,7 +917,7 @@ function importAdd(){
 					</li>
 					</c:forEach>   
 				</ul>
-				<a class="tab_more" href="${pageContext.request.contextPath}/index/expertBlackList.html">更多&gt;&gt;</a>
+				<a class="fr" href="${pageContext.request.contextPath}/index/expertBlackList.html">更多&gt;&gt;</a>
 				</div>
 			</div>
 			</div>
