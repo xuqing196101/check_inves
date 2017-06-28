@@ -217,13 +217,13 @@
     .header-v4 .navbar-default .navbar-nav > li > a {
 		color: #fff;
 		background-color:#157c82;
-		font-size: 18px;
+		font-size: 16px;
 		font-weight:400;
 		text-transform: uppercase;
 		height: 40px;
 	    line-height: 40px;
 	    display: block;
-		padding:0 18px;
+		padding:0 10px;
 }
 }
 
@@ -240,21 +240,55 @@
 .header-v4 .navbar-default .navbar-nav > .active > a {
 	color: #fff;
 }
-
-@media (min-width: 768px) {
+	.header-v4 .navbar-default .navbar-nav > li > a {
+		color: #fff;
+		background-color:#157c82;
+		font-weight:400;
+		text-transform: uppercase;
+	    display: block;
+}
+    .nav_icon{
+        float:left;
+        display: block;
+        background:url(../images/portal_icon.png);
+        background-repeat:no-repeat;
+        background-clip:border-box;
+}
+@media (min-width: 768px) and (max-width: 1200px) {
 	.navbar-nav.navbar-right:last-child {
 		margin-right: 0;
 	}
 	.header-v4 .navbar-default .navbar-nav > li > a {
 		color: #fff;
 		background-color:#157c82;
-		font-size: 18px;
+		font-size: 16px;
 		font-weight:400;
 		text-transform: uppercase;
-		height: 48px;
-	    line-height: 48px;
+		height: 40px;
+	    line-height: 40px;
 	    display: block;
+		padding:0 8px;
+}
+    .nav_icon{
+        width:25px;
+        height:25px;
+        margin:5px 9px 0px 5px;
+}
+}
+@media (min-width: 1200px){
+	.navbar-nav.navbar-right:last-child {
+		margin-right: 0;
+	}
+	.header-v4 .navbar-default .navbar-nav > li > a {
+		font-size: 18px;
 		padding:0 18px;
+		height: 48px;
+		line-height: 48px;
+}
+    .nav_icon{
+        width:25px;
+        height:25px;
+        margin:10px 9px 0px 5px;
 }
 }
 
@@ -403,12 +437,7 @@
     .nav_icon{
         width:25px;
         height:25px;
-        float:left;
         margin:5px 5px 0px 5px;
-        display: block;
-        background:url(../images/portal_icon.png);
-        background-repeat:no-repeat;
-        background-clip:border-box;
 }
 }
 
@@ -514,16 +543,7 @@
 	.header-v4 .navbar .search-open {
 		width: 330px;
 	}
-    .nav_icon{
-        width:25px;
-        height:25px;
-        float:left;
-        margin:10px 9px 0px 5px;
-        display: block;
-        background:url(../images/portal_icon.png);
-        background-repeat:no-repeat;
-        background-clip:border-box;
-}
+
 }
 
 
