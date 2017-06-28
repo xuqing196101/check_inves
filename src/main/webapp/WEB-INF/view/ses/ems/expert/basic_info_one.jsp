@@ -1135,7 +1135,7 @@
 								<input onblur="submitformExpert()" required maxlength="18" value="${expert.idCardNumber}" name="idCardNumber" id="idCardNumber" type="text" <c:if test="${fn:contains(errorField,'居民身份证号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证号码')"
 								</c:if>/>
 								<span class="add-on">i</span>
-								<span class="input-tip">不能为空，长度为15位或者18位</span>
+								<span class="input-tip">不能为空，长度为18位</span>
 								<div class="cue">${err_legalCard }</div>
 							</div>
 						</li>
