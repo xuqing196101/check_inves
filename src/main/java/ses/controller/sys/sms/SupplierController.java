@@ -913,7 +913,7 @@ public class SupplierController extends BaseSupplierController {
                 }
 			    supplier2.setListSupplierAfterSaleDep(supplier2.getListSupplierAfterSaleDep());
 			}
-			if(supplier2.getAddressList() != null && supplier2.getAddressList().size() > 0) {
+			/*if(supplier2.getAddressList() != null && supplier2.getAddressList().size() > 0) {
 				for(SupplierAddress b: supplier2.getAddressList()) {
 					if(StringUtils.isNotBlank(b.getProvinceId())) {
 						List < Area > city = areaService.findAreaByParentId(b.getProvinceId());
@@ -928,7 +928,8 @@ public class SupplierController extends BaseSupplierController {
 			if(supplier2.getArmyBuinessProvince() != null) {
 				List < Area > armcity = areaService.findAreaByParentId(supplier2.getArmyBuinessProvince());
 				supplier2.setArmyCity(armcity);
-			}
+			}*/
+			
 			initCompanyType(model, supplier2);
 			
 			initBasicAudit(model, supplier2);
