@@ -87,6 +87,7 @@ import common.service.LoginLogService;
 import common.service.UploadService;
 import common.utils.Arith;
 import common.utils.Base64;
+import common.utils.IDCardUtil;
 import common.utils.RSAEncrypt;
 
 /**
@@ -1577,6 +1578,11 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_legalCard", "身份证号码格式不正确 !");
 			count++;
 		}
+		// 身份证号码校验
+		if(StringUtils.isNotBlank(supplier.getLegalIdCard()) && !IDCardUtil.isIDCard(supplier.getLegalIdCard())){
+			model.addAttribute("err_legalCard", "身份证号码错误！请按实际身份证号码填写。");
+			count++;
+		}
 		if(supplier.getConcatCity() == null) {
 			model.addAttribute("err_city", "地址不能为空!");
 			count++;
@@ -1668,10 +1674,22 @@ public class SupplierController extends BaseSupplierController {
   		}*/
 
 		List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
-		if(supplier.getCreditCode() == null || supplier.getCreditCode().trim().length() > 36) {
-			model.addAttribute("err_creditCide", "不能为空或是字符过长!");
+		if(supplier.getCreditCode() == null || supplier.getCreditCode().trim().length() != 18) {
+			model.addAttribute("err_creditCide", "不能为空或是格式不正确 !");
 			count++;
 		}
+		
+		// 统一社会信用代码校验
+		String creditCode = supplier.getCreditCode();
+		if(creditCode != null){
+			if(creditCode.matches("^([a-zA-Z0-9]){18}$")){// 18位数字+字母
+				if(creditCode.matches("^([a-zA-Z])+$")){// 排除全字母
+					model.addAttribute("err_creditCide", "信用代码18位，请按照实际社会信用代码填写 !");
+					count++;
+				}
+			}
+		}
+		
         //根据供应商统一社会信用代码判断是否注销或审核不通过且180天内再次注册
         try{
 		    if(!StringUtils.isNotBlank(supplier.getCreditCode())){
@@ -1866,7 +1884,26 @@ public class SupplierController extends BaseSupplierController {
 					if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
 						count++;
 						model.addAttribute("stock", "统一社会信用代码或身份证号码不能为空或者格式不正确!");
-						
+					}
+					// 统一社会信用代码或身份证号码校验
+					String identity = stocksHolder.getIdentity();
+					if("1".equals(stocksHolder.getNature())){
+						// 统一社会信用代码校验
+						if(identity != null){
+							if(identity.matches("^([a-zA-Z0-9]){18}$")){// 18位数字+字母
+								if(identity.matches("^([a-zA-Z])+$")){// 排除全字母
+									model.addAttribute("stock", "信用代码18位，请按照实际社会信用代码填写 !");
+									count++;
+								}
+							}
+						}
+					}
+					if("2".equals(stocksHolder.getNature())){
+						// 身份证号码校验
+						if(StringUtils.isNotBlank(identity) && !IDCardUtil.isIDCard(identity)){
+							model.addAttribute("stock", "身份证号码错误！请按实际身份证号码填写。");
+							count++;
+						}
 					}
 					if(stocksHolder.getShares() == null || stocksHolder.getShares() == "") {
 						count++;

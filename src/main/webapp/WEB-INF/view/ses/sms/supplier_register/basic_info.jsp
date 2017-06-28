@@ -271,29 +271,6 @@
 				}
 			}
 			
-			// 统一社会信用代码校验
-			// 18位数字或18位数字+字母
-			function checkCreditCode(creditCodeValue){
-				if(creditCodeValue != ""){
-					var bool = false;
-					if(/[0-9]{18}/.test(creditCodeValue)){// 18位全数字
-						bool = true;
-					}
-					if(/^([a-zA-Z0-9]){18}$/.test(creditCodeValue)){// 18位数字+字母
-						if(/^([a-zA-Z])+$/.test(creditCodeValue)){// 全字母
-							bool = false;
-						}else{
-							bool = true;
-						}
-					}
-					if(!bool){
-						var msg = "信用代码18位，请按照实际社会信用代码填写!";
-						layer.msg(msg);
-					}
-					return bool;
-				}
-			}
-
 			/** 暂存 */
 			function temporarySave() {
 			    //进行出资金额或股份的数据校验
@@ -494,7 +471,7 @@
 
 				stocIndex++;
 				$("#stockIndex").val(stocIndex);
-        //loadProportion();
+        checkStockholdersID();
         toTempSave();
 			}
 			
@@ -597,11 +574,11 @@
 				if(size > 0) {
 				
 					// 退回修改审核通过的项不能删除
-					var isDel = checkIsDelForTuihui(checkboxs, '${audit}');
+					/* var isDel = checkIsDelForTuihui(checkboxs, '${audit}');
 					if(!isDel){
 						layer.msg("审核通过的项不能删除！");
 						return;
-					}
+					} */
 					
 					// 如果数量不超过10个，那占比必须100%，如果数量超过10个，那占比必须高于50%
 					var proportionTotal = 0;// 出资比例之和
@@ -1416,7 +1393,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证号</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="legalIdCard" required value="${currSupplier.legalIdCard}" 
+										<input type="text" name="legalIdCard" required value="${currSupplier.legalIdCard}" onblur="return checkIdCard(this.value);"
 											<c:if test="${!fn:contains(audit,'legalIdCard')&&currSupplier.status==2}">readonly="readonly"</c:if>
 											<c:if test="${fn:contains(audit,'legalIdCard')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'legalIdCard')"</c:if>
 											class="txtTempSave"/>
@@ -2527,6 +2504,57 @@
 </script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/regex.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
+<script type="text/javascript">
+	// 校验身份证号码
+	function checkIdCard(val){
+		var result = validateIdCard(val);
+		if(result != "success"){
+			layer.msg(result);
+			return false;
+		}
+	}
+	
+	// 统一社会信用代码校验
+	// 18位数字或18位数字+字母
+	function checkCreditCode(creditCodeValue){
+		if(creditCodeValue != ""){
+			var bool = false;
+			if(/[0-9]{18}/.test(creditCodeValue)){// 18位全数字
+				bool = true;
+			}
+			if(/^([a-zA-Z0-9]){18}$/.test(creditCodeValue)){// 18位数字+字母
+				if(/^([a-zA-Z])+$/.test(creditCodeValue)){// 全字母
+					bool = false;
+				}else{
+					bool = true;
+				}
+			}
+			if(!bool){
+				var msg = "信用代码18位，请按照实际社会信用代码填写!";
+				layer.msg(msg);
+			}
+			return bool;
+		}
+	}
+	
+	// 校验出资人统一社会信用代码或身份证号码
+	function checkStockholdersID(){
+		$("input[name^='listSupplierStockholders'][name$='identity']").blur(function(){
+			var index = $(this).attr("name").replace("listSupplierStockholders[", "").replace("].identity", "");
+			var nature = $("select[name='listSupplierStockholders["+index+"].nature'").val();
+			// 如果是法人
+			if(nature == 1){
+				checkCreditCode(this.value);
+			}
+			// 如果是自然人
+			if(nature == 2){
+				checkIdCard(this.value);
+			}
+		});
+	}
+	checkStockholdersID();
+</script>
 <script type="text/javascript">
 	//controlForm();
 	readOnlyForm();
