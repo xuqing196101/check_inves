@@ -1335,8 +1335,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplierAuditOpinion.setCreatedAt(new Date());
 		supplierAuditOpinionService.insertSelective(supplierAuditOpinion);
 		
-		//记录没有通过审核的供应商
-		if(supplier.getStatus() == 2 || supplier.getStatus() == 3 || supplier.getStatus() == 6 || supplier.getStatus() == 8){
+		//记录审核不通过的供应商
+		if(supplier.getStatus() == 3){
 			SupplierAuditNot supplierAuditNot = new SupplierAuditNot();
 			supplierAuditNot.setCreditCode(supplier.getCreditCode());
 			supplierAuditNot.setSupplierId(supplierId);
