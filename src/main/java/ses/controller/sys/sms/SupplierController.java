@@ -31,6 +31,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.maven.model.Organization;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
@@ -87,6 +88,7 @@ import common.service.LoginLogService;
 import common.service.UploadService;
 import common.utils.Arith;
 import common.utils.Base64;
+import common.utils.BeanUtilsExt;
 import common.utils.IDCardUtil;
 import common.utils.RSAEncrypt;
 
@@ -930,6 +932,28 @@ public class SupplierController extends BaseSupplierController {
 			initCompanyType(model, supplier2);
 			
 			initBasicAudit(model, supplier2);
+			
+			//校验未通过，信息回传
+			//BeanUtilsExt.copyPropertiesIgnoreNull(supplier2, supplier);
+			supplier.setStatus(supplier2.getStatus());
+			
+			if(supplier.getConcatProvince() != null) {
+				List < Area > concity = areaService.findAreaByParentId(supplier.getConcatProvince());
+				supplier.setConcatCityList(concity);
+			}
+			if(supplier.getArmyBuinessProvince() != null) {
+				List < Area > armcity = areaService.findAreaByParentId(supplier.getArmyBuinessProvince());
+				supplier.setArmyCity(armcity);
+			}
+			if(supplier.getAddressList() != null && supplier.getAddressList().size() > 0) {
+				for(SupplierAddress b: supplier.getAddressList()) {
+					if(StringUtils.isNotBlank(b.getProvinceId())) {
+						List < Area > city = areaService.findAreaByParentId(b.getProvinceId());
+						b.setAreaList(city);
+					}
+				}
+			}
+			model.addAttribute("currSupplier", supplier);
 			
 			return "ses/sms/supplier_register/basic_info";
 		}

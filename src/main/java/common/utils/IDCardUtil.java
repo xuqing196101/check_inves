@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 身份证验证的工具（支持5位或18位省份证）
+ * 身份证验证的工具（支持15位或18位身份证）
  * 身份证号码结构：
  * 17位数字和1位校验码：6位地址码数字，8位生日数字，3位出生时间顺序号，1位校验码。
  * 地址码（前6位）：表示对象常住户口所在县（市、镇、区）的行政区划代码，按GB/T2260的规定执行。
@@ -68,7 +68,8 @@ public class IDCardUtil {
      *@return 是否有效 null和"" 都是false 
      */
     public static boolean isIDCard(String certNo){
-        if(certNo == null || (certNo.length() != 15 && certNo.length() != 18))
+        //if(certNo == null || (certNo.length() != 15 && certNo.length() != 18))
+        if(certNo == null || (certNo.length() != 18))
             return false;
         final char[] cs = certNo.toUpperCase().toCharArray();
         //校验位数
@@ -89,7 +90,7 @@ public class IDCardUtil {
         }
          
         //校验年份
-        String year = certNo.length() == 15 ? getIdcardCalendar() + certNo.substring(6,8) :certNo.substring(6, 10);
+        String year = certNo.length() == 15 ? getIdcardCalendar() + certNo.substring(6,8) : certNo.substring(6, 10);
          
         final int iyear = Integer.parseInt(year);
         if(iyear < 1900 || iyear > Calendar.getInstance().get(Calendar.YEAR))
@@ -121,7 +122,7 @@ public class IDCardUtil {
          return  year2bit;
     }     
     
-     
+    
     
     public static void main(String[] args) {
          boolean mark = isIDCard("450981198802261753");
