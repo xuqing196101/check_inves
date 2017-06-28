@@ -3300,8 +3300,14 @@ h2.list_title{
     .ywbl_01 {
         width: 106px !important;
     }
+    .ywbl_01 a span{
+    	font-size:14px;
+    }
     .ywbl_02 {
         width: 126px !important;
+    }
+    .ywbl_02 a span{
+    	font-size:14px;
     }
 }
 /* 主导航-供应商下拉菜单重新排版 */
