@@ -389,7 +389,7 @@ public class SupplierController extends BaseSupplierController {
 			Object loginUser = request.getSession().getAttribute("loginName");
 			if(null == loginUser){
 				// 提示登录
-				alertLogin();
+				alertLogin("您未登录，请登录！");
 			}
 			
 			initCompanyType(model, sup);
@@ -897,12 +897,12 @@ public class SupplierController extends BaseSupplierController {
 			return "ses/sms/supplier_register/supplier_type";
 		} else {
 			Supplier supplier2 = supplierService.get(supplier.getId());
-			if(supplier2.getListSupplierFinances() != null && supplier2.getListSupplierFinances().size() > 0) {
+			/*if(supplier2.getListSupplierFinances() != null && supplier2.getListSupplierFinances().size() > 0) {
 				supplier.setListSupplierFinances(supplier2.getListSupplierFinances());
 			}
 			if(supplier2.getListSupplierStockholders() != null && supplier2.getListSupplierStockholders().size() > 0) {
 				supplier.setListSupplierStockholders(supplier2.getListSupplierStockholders());
-			}
+			}*/
 			List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplier2.getListSupplierAfterSaleDep();
 			if(listSupplierAfterSaleDep != null && listSupplierAfterSaleDep.size() > 0) {
 			    for (int i = 1; i < listSupplierAfterSaleDep.size(); i++) {
@@ -2421,54 +2421,11 @@ public class SupplierController extends BaseSupplierController {
         String user = (String) request.getSession().getAttribute("loginName");
         
         if(user==null){
-        	alertLogin();
-            /*String path = request.getContextPath();
-            String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
-            PrintWriter out = response.getWriter();
-            StringBuilder builder = new StringBuilder();
-            builder.append("<HTML><HEAD>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
-            builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
-            builder.append("</HEAD>");
-            builder.append("<script type=\"text/javascript\">"); 
-            builder.append("$(function() {");
-            builder.append("layer.confirm('您未登录，请登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
-            builder.append("window.top.location.href='"); 
-            builder.append(request.getContextPath()+"/index/sign.html");  
-            builder.append("';"); 
-            builder.append("});");
-            builder.append("});");
-            builder.append("</script>");  
-            builder.append("<BODY><div style='width:1000px; height: 1000px;'></div></BODY></HTML>");
-            out.print(builder.toString());
-            out.flush();  
-            out.close(); */
+        	alertLogin("您未登录，请登录！");
         }
      
         if(null != user && !user.equals(name)){
-            String path = request.getContextPath();
-            String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
-            PrintWriter out = response.getWriter();
-            StringBuilder builder = new StringBuilder();
-            builder.append("<HTML><HEAD>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
-            builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
-            builder.append("</HEAD>");
-            builder.append("<script type=\"text/javascript\">"); 
-            builder.append("$(function() {");
-            builder.append("layer.confirm('不是当前操作人，请登录修改！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
-            builder.append("window.top.location.href='"); 
-            builder.append(request.getContextPath()+"/index/sign.html");  
-            builder.append("';"); 
-            builder.append("});");
-            builder.append("});");
-            builder.append("</script>");  
-            builder.append("<BODY><div style='width:1000px; height: 1000px;'></div></BODY></HTML>");
-            out.print(builder.toString());
-            out.flush();  
-            out.close(); 
+        	alertLogin("不是当前操作人，请登录修改！");
         }else{
 	    
 			Supplier supp = supplierMapper.queryByName(name);
@@ -3446,7 +3403,7 @@ public class SupplierController extends BaseSupplierController {
     	return bool;
     }
     
-    private void alertLogin(){
+    private void alertLogin(String msg){
     	//String path = request.getContextPath();
         //String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
         StringBuilder builder = new StringBuilder();
@@ -3458,7 +3415,7 @@ public class SupplierController extends BaseSupplierController {
         builder.append("<script type=\"text/javascript\">"); 
         builder.append("$(function() {");
         //builder.append("layer.confirm('您未登录，请登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
-        builder.append("layer.alert('您未登录，请登录！',{ closeBtn: 0,title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
+        builder.append("layer.alert('"+msg+"',{ closeBtn: 0,title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
         builder.append("window.top.location.href='"); 
         builder.append(request.getContextPath()+"/index/sign.html");  
         builder.append("';"); 
