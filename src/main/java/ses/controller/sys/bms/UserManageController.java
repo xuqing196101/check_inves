@@ -792,10 +792,10 @@ public class UserManageController extends BaseController{
 					roleName += list.get(i).getName() + ",";
 				}
 			}
-			if("4".equals(u.getTypeName()) || "5".equals(u.getTypeName())){
+			/*if("4".equals(u.getTypeName()) || "5".equals(u.getTypeName())){
 				List<String> orgName= orgnizationServiceI.findByUserid(u.getId());
 				u.setOrgName(StringUtils.join(orgName,","));
-			}
+			}*/
 			
 			List<DictionaryData> genders = DictionaryDataUtil.find(13);
             List<DictionaryData> typeNames = DictionaryDataUtil.find(7);

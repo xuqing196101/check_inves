@@ -255,7 +255,7 @@
       <if test="randomCode != null and randomCode != ''">
         RANDOM_CODE,
       </if>
-      <if test="orgName != null">
+      <if test="orgName != null and orgName != ''">
         ORG_NAME,
       </if>
       <if test="publishType != null">

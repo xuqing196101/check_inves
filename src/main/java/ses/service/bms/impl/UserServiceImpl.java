@@ -287,17 +287,17 @@ public class UserServiceImpl implements UserServiceI {
     public List<User> findUserRole(User user, int pageNum) {
         PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
         List<User> users = userMapper.findUserRole(user);
-         if (users !=null && users.size()>0) {
-			for (User pro : users) {
-				if("4".equals(pro.getTypeName())||"5".equals(pro.getTypeName())){
-					//id集合
-					List<String> orgid= userDataRuleService.getOrgID(pro.getId());
-					pro.setOrgId(StringUtils.join(orgid,","));
-					List<String> orgName= orgnizationServiceI.findByUserid(pro.getId());
-					pro.setOrgName(StringUtils.join(orgName,","));
-				}
-			}
-		}
+        /*if (users !=null && users.size()>0) {
+    			for (User pro : users) {
+    				if("4".equals(pro.getTypeName())||"5".equals(pro.getTypeName())){
+    					//id集合
+    					List<String> orgid= userDataRuleService.getOrgID(pro.getId());
+    					pro.setOrgId(StringUtils.join(orgid,","));
+    					List<String> orgName= orgnizationServiceI.findByUserid(pro.getId());
+    					pro.setOrgName(StringUtils.join(orgName,","));
+    				}
+    			}
+        }*/
         return users;
     }
 

@@ -367,7 +367,7 @@
 					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${user.id}" /></td>
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					  <td class="tl hidden" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
-					  <td class="tl">${user.relName}</td>
+					  <td class="tl"><a href="#" onclick="view('${user.id}');">${user.relName}</a></td>
 					 <td class="tl"> <c:if test="${user.typeName == '1'}">采购机构</c:if>
 						        		<c:if test="${user.typeName == '2'}">采购管理部门</c:if>
 						        		<c:if test="${user.typeName == '0'}">需求部门</c:if>
@@ -376,29 +376,29 @@
 						        		<c:if test="${user.typeName == '3'}">其他</c:if>
 						        	</td>
 					  <td class="tl">
-					   <c:choose>
-					    <c:when test="${user.typeName=='0'}">
-                        <c:if test="${user.org != null && user.org.shortName != null }">
-                            ${user.org.shortName}
-                        </c:if>
-                        <c:if test="${user.org != null && (user.org.shortName == null || user.org.shortName == '')}">
-                            ${user.org.name} 
-                        </c:if>
-                        <c:if test="${user.org == null }">${user.orgName}</c:if>
-                        </c:when>
-                          <c:when test="${user.typeName!='4' && user.typeName!='5'}">
-					  	<c:if test="${user.org != null && user.org.fullName != null && user.org.fullName != ''}">
-					  		${user.org.fullName}
-					  	</c:if>
-					  	<c:if test="${user.org != null && (user.org.fullName == null || user.org.fullName == '')}">
-					  		${user.org.name}
-					  	</c:if>
-					  	<c:if test="${user.org == null }">${user.orgName}</c:if>
-					  	</c:when> 
-                          <c:otherwise>
-                           ${user.orgName}
-					  	   </c:otherwise>
-                          </c:choose>
+					   	<c:choose>
+						    <c:when test="${user.typeName=='0'}">
+		                        <c:if test="${user.org != null && user.org.shortName != null }">
+		                            ${user.org.shortName}
+		                        </c:if>
+		                        <c:if test="${user.org != null && (user.org.shortName == null || user.org.shortName == '')}">
+		                            ${user.org.name} 
+		                        </c:if>
+		                        <c:if test="${user.org == null }">${user.orgName}</c:if>
+	                        </c:when>
+	                        <c:when test="${user.typeName!='4' && user.typeName!='5'}">
+							  	<c:if test="${user.org != null && user.org.fullName != null && user.org.fullName != ''}">
+							  		${user.org.fullName}
+							  	</c:if>
+							  	<c:if test="${user.org != null && (user.org.fullName == null || user.org.fullName == '')}">
+							  		${user.org.name}
+							  	</c:if>
+							  	<c:if test="${user.org == null }">${user.orgName}</c:if>
+						  	</c:when> 
+	                        <c:otherwise>
+	                           ${user.orgName}
+						  	</c:otherwise>
+                        </c:choose>
 					  </td>
 					  <td class="tc">${user.mobile}</td>
 					  <td class="tl">

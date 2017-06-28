@@ -629,7 +629,7 @@
 				   	<c:if test="${typeName!=5&&typeName!=4 }">
 				   	<span class="red display-inline" id="isOrgShow">*</span><span id="orgTitle">所属机构</span>
 				   	</c:if>
-				   	<c:if test="${typeName==5&&typeName==4 }">
+				   	<c:if test="${typeName==5||typeName==4 }">
 				   	<span class="red display-inline" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
 				   	</c:if>
 				   	</span>
