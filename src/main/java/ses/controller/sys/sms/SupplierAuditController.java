@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -2234,10 +2236,12 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @param supplierId
 	 * @return
 	 */
-	@RequestMapping("goPageAptitude")
-	public String goPageAptitude(Model model,String supplierId){
+	@RequestMapping("toPageAptitude")
+	public String toPageAptitude(Model model,String supplierId,String supplierStatus,String sign){
 		model.addAttribute("supplierId", supplierId);
-		return "ses/sms/supplier_audit/Copyofaptitude";
+		model.addAttribute("sign", sign);
+		model.addAttribute("supplierStatus", supplierStatus);
+		return "ses/sms/supplier_audit/merge_aptitude";
 	}
 	/**
 	 * 
@@ -2277,9 +2281,79 @@ public class SupplierAuditController extends BaseSupplierController {
 			contractCount=supplierService.contractCountCategoyrId(supplierItem.getId());
 			cateTree.setContractCount(contractCount);
 			cateTree.setFileCount(fileNumber);
+			cateTree.setSupplierItemId(supplierItem.getId());
 			cateTreeList.add(cateTree);
 		}
 		return new JdcgResult(new PageInfo<>(cateTreeList)); 
+	}
+	/**
+	 * 
+	 * Description:
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-28
+	 * @param itemId
+	 * @param supplierId
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("showContract")
+	public String showContract(String itemId,String supplierId,Model model,String supplierItemId){
+		if(StringUtils.isBlank(itemId)){
+			return "ses/sms/supplier_audit/aptitude_contract_item";
+		}
+		//合同
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		//账单
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		SupplierCateTree cateTree=new SupplierCateTree();
+		// 递归获取所有父节点
+		List < Category > parentNodeList = categoryService.getAllParentNode(itemId);
+		// 加入根节点 物资
+		cateTree=categoryService.addNode(parentNodeList);
+		SupplierItem item = supplierItemService.selectByPrimaryKey(supplierItemId);
+		String type=item.getSupplierTypeRelateId();
+		String typeName = "";
+		if("PRODUCT".equals(type)) {
+			typeName = "生产";
+		} else if("SALES".equals(type)) {
+			typeName = "销售";
+		}
+		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+		cateTree.setOneContract(id1);
+		cateTree.setTwoContract(id2);
+		cateTree.setThreeContract(id3);
+		cateTree.setOneBil(id4);
+		cateTree.setTwoBil(id5);
+		cateTree.setThreeBil(id6);
+		cateTree.setRootNode(cateTree.getRootNode() == null ? "" : cateTree.getRootNode());
+		cateTree.setFirstNode(cateTree.getFirstNode() == null ? "" : cateTree.getFirstNode());
+		cateTree.setSecondNode(cateTree.getSecondNode() == null ? "" : cateTree.getSecondNode());
+		cateTree.setThirdNode(cateTree.getThirdNode() == null ? "" : cateTree.getThirdNode());
+		cateTree.setFourthNode(cateTree.getFourthNode() == null ? "" : cateTree.getFourthNode());
+		cateTree.setItemsId(supplierItemId);
+		cateTree.setRootNode(cateTree.getRootNode() + typeName);
+		allTreeList.add(cateTree);
+		
+		SupplierAudit audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getSecondNodeID());
+		audit.setAuditType("aptitude_page");
+		int count=supplierAuditService.countByPrimaryKey(audit);
+		model.addAttribute("auditType", count);
+		model.addAttribute("contract", allTreeList);
+			// 年份
+		List < Integer > years = supplierService.getThressYear();
+		model.addAttribute("years", years);
+		model.addAttribute("supplierTypeId", type);
+		model.addAttribute("supplierId", supplierId);
+		// 供应商附件sysKey参数
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		return "ses/sms/supplier_audit/aptitude_contract_item";
 	}
 	/**
 	 * 
@@ -2287,26 +2361,72 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * 
 	 * @author YangHongLiang
 	 * @version 2017-6-26
-	 * @param categoryId
-	 * @param categoryType
+	 * @param itemId
 	 * @param supplierId
 	 * @return
 	 */
 	@RequestMapping("showQualifications")
-	@ResponseBody
-	public JdcgResult showQualifications(String categoryId,String categoryType,String supplierId){
-		if(StringUtils.isBlank(categoryId)){
-			return null;
-		}
-		if(StringUtils.isBlank(categoryType)){
-			return null;
+	public String showQualifications(String itemId,String supplierId,Model model){
+		Set<QualificationBean> beanList=new HashSet<>();
+		if(StringUtils.isBlank(itemId)){
+			return "ses/sms/supplier_audit/aptitude_material_item";
 		}
 		if(StringUtils.isBlank(supplierId)){
-			return null;
+			return "ses/sms/supplier_audit/aptitude_material_item";
 		}
-		//cha
-		DictionaryData dicData=DictionaryDataUtil.findById(categoryId);
-		return null;
+		// 递归获取所有父节点
+		List <Category > parentNodeList = categoryService.getAllParentNode(itemId);
+		// 加入根节点 物资
+		SupplierCateTree cateTree=categoryService.addNode(parentNodeList);
+		String type=cateTree.getRootNode();
+		//封装 供应商id
+		cateTree.setItemsId(supplierId);
+		QualificationBean bean=new QualificationBean();
+		List<Qualification> list=new ArrayList<>();
+		Integer sysKey=Constant.SUPPLIER_SYS_KEY;
+		String typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
+		//封装 是否有审核记录数据
+		
+		SupplierAudit audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getSecondNodeID());
+		audit.setAuditType("aptitude_page");
+		int count=supplierAuditService.countByPrimaryKey(audit);
+		model.addAttribute("auditType", count);
+		// categoryQua type:4(工程) 3（销售） 2（生产）1（服务）
+		if("工程".equals(type)){
+			sysKey=common.constant.Constant.SUPPLIER_SYS_KEY;
+			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
+			List<SupplierCateTree> showProject=supplierAuditService.showProject(cateTree, 4, typeId, sysKey);
+			model.addAttribute("sysKey", sysKey);
+			model.addAttribute("typeId", typeId);
+			model.addAttribute("showProject", showProject);
+			return "ses/sms/supplier_audit/aptitude_project_item";
+		}else if("服务".equals(type)){
+			bean.setCategoryName(cateTree.getSecondNode()+"资质文件");
+			list= supplierAuditService.showQualifications(cateTree, 1,typeId,sysKey);
+			bean.setList(list);
+			beanList.add(bean);
+		}else{
+			bean.setCategoryName(cateTree.getSecondNode()+"-生产资质文件");
+			list= supplierAuditService.showQualifications(cateTree, 2,typeId,sysKey);
+			if(null!=list && !list.isEmpty()){
+				bean.setList(list);
+				beanList.add(bean);
+			}
+			QualificationBean bean2=new QualificationBean();
+			bean2.setCategoryName(cateTree.getSecondNode()+"-销售资质文件");
+			list= supplierAuditService.showQualifications(cateTree, 3,typeId,sysKey);
+			if(null!=list && !list.isEmpty()){
+				bean2.setList(list);
+				beanList.add(bean2);
+			}
+		}
+		model.addAttribute("sysKey", sysKey);
+		model.addAttribute("typeId", typeId);
+		model.addAttribute("beanList", beanList);
+		model.addAttribute("supplierId", supplierId);
+		return "ses/sms/supplier_audit/aptitude_material_item";
 	}
 	/**
 	 * @Title: aptitude

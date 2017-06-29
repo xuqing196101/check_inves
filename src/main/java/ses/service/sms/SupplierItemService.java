@@ -41,6 +41,17 @@ public interface SupplierItemService {
 	public List<SupplierItem> findCategoryList(String supplierId, String type, Integer pageNum);
 	/**
 	 * 
+	 * Description:根据id 查询数据
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-28
+	 * @param id
+	 * @param pageNum
+	 * @return
+	 */
+	public SupplierItem selectByPrimaryKey(String id);
+	/**
+	 * 
 	* @Title: getCategory
 	* @Description: 查询供应商选择的三级品目
 	* author: Li Xiaoxiao 

@@ -768,8 +768,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
 	}
 
 	@Override
-	public SupplierCateTree addNode(String categoryId, SupplierItem item) {
-		SupplierCateTree cateTree=new SupplierCateTree();
+	public SupplierCateTree addNode(SupplierCateTree cateTree, SupplierItem item) {
 		// 工程类等级
 		if(item != null) {
 			// 等级
@@ -800,7 +799,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
 			}
 			// 所有等级List
 			List < Category > cateList = new ArrayList < Category > ();
-			cateList.add(categoryService.selectByPrimaryKey(categoryId));
+			cateList.add(categoryService.selectByPrimaryKey(cateTree.getSecondNodeID()));
 			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
 			List < Qualification > typeList = new ArrayList < Qualification > ();
 			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {

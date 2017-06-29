@@ -1,5 +1,6 @@
 package ses.model.sms;
 
+import java.io.Serializable;
 import java.util.List;
 
 import ses.model.bms.DictionaryData;
@@ -14,9 +15,12 @@ import ses.model.bms.Qualification;
  * @since    2017年1月15日10:18:35
  * @see
  */
-public class SupplierCateTree {
-
-    /** 根节点 **/
+public class SupplierCateTree implements Serializable{
+    /**
+	 * SupplierCateTree.java
+	 */
+	private static final long serialVersionUID = 1L;
+	/** 根节点 **/
     private String rootNode;
     /** 根节点 ID**/
     private String rootNodeID;
@@ -67,12 +71,21 @@ public class SupplierCateTree {
     private Long fileCount;
     //合同文件数量
     private Long contractCount;
+    private String supplierItemId;
     
     // 根节点类型（1：物质生产；2：物质销售；3：工程；4：服务）
     private int rootNodeType;
     
     
-    public String getRootNodeID() {
+    public String getSupplierItemId() {
+		return supplierItemId;
+	}
+
+	public void setSupplierItemId(String supplierItemId) {
+		this.supplierItemId = supplierItemId;
+	}
+
+	public String getRootNodeID() {
 		return rootNodeID;
 	}
 

@@ -3,8 +3,10 @@ package ses.service.sms.impl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierCertEngMapper;
@@ -30,14 +33,18 @@ import ses.dao.sms.SupplierStarsMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.model.bms.CategoryQua;
+import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatServe;
@@ -45,12 +52,19 @@ import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.EngCategoryService;
+import ses.service.bms.QualificationService;
+import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierMatEngService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import common.service.UploadService;
 
 /**
  * <p>Title:SupplierAuditServliceImpl </p>
@@ -66,10 +80,12 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Autowired
 	private SupplierMapper supplierMapper;
-	
+	@Autowired
+    private SupplierAptituteService supplierAptituteService;
 	@Autowired
 	private SupplierStarsMapper supplierStarsMapper;
-	
+	@Autowired
+	private EngCategoryService engCategoryService;
 	/**
 	 * 供应商审核记录
 	 */
@@ -87,7 +103,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Autowired
 	private SupplierStockholderMapper supplierStockholderMapper;
-	
+	@Autowired
+	private SupplierMatEngService supplierMatEngService;
 	/**
 	 * 所有供应商类型
 	 */
@@ -153,6 +170,14 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Autowired
 	SupplierModifyMapper supplierModifyMapper;
+	@Autowired
+	private CategoryQuaMapper categoryQuaMapper;
+	@Autowired
+	private QualificationService qualificationService;
+	@Autowired
+	private SupplierItemService supplierItemService;
+	@Autowired
+	private UploadService uploadService;
 	
 	/**
 	 * @Title: supplierList
@@ -738,6 +763,71 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public void updateIsDeleteBySupplierId(SupplierAudit supplierAudit) {
 		supplierAuditMapper.updateIsDeleteBySupplierId(supplierAudit);
 		
+	}
+
+	@Override
+	public List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey) {
+		List<Qualification> list=new ArrayList<>();
+		List<CategoryQua> quaList= categoryQuaMapper.findListSupplier(cateTree.getSecondNodeID(), type);
+		Qualification qualification=null;
+		Map<String, Object> map=new HashMap<>();
+		map.put("supplierId", cateTree.getItemsId());
+		map.put("categoryId", cateTree.getSecondNodeID());
+		//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
+		List<SupplierItem> itemList=supplierItemService.findByMap(map);
+		long temp=0;
+		if(null!=itemList && !itemList.isEmpty()){
+			SupplierItem supplierItem=itemList.get(0);
+			if(null!=quaList && !quaList.isEmpty()){
+				for (CategoryQua categoryQua : quaList) {
+					qualification= qualificationService.getQualification(categoryQua.getQuaId());
+					if(null!=qualification){
+						temp=uploadService.countFileByBusinessId(supplierItem.getId()+categoryQua.getId(), type_id, syskey);
+						if(temp>0){
+						    qualification.setFlag(supplierItem.getId()+categoryQua.getId());
+						    list.add(qualification);
+						}
+					}
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<SupplierCateTree> showProject(SupplierCateTree cateTree,
+			Integer type, String type_id, Integer syskey) {
+		List<SupplierCateTree> cateList=new ArrayList<>();
+		Map<String, Object> map=new HashMap<>();
+		map.put("supplierId", cateTree.getItemsId());
+		map.put("categoryId", cateTree.getSecondNodeID());
+		//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
+		List<SupplierItem> itemList=supplierItemService.findByMap(map);
+		SupplierMatEng matEng = supplierMatEngService.getMatEng(cateTree.getItemsId());
+		if(null!=itemList && !itemList.isEmpty()){
+			for (SupplierItem supplierItem : itemList) {
+				cateTree=engCategoryService.addNode(cateTree, supplierItem);
+				if(cateTree != null && cateTree.getRootNode() != null) {
+					cateTree.setItemsId(supplierItem.getId());
+					cateTree.setDiyLevel(supplierItem.getLevel());
+					if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
+					if(cateTree!=null&&cateTree.getProName()!=null){
+						List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
+						if(certEng != null && certEng.size() > 0) {
+							cateTree.setFileId(certEng.get(0).getId());
+						}	
+					}
+				}
+					cateList.add(cateTree);
+				}
+			}
+		}
+		return cateList;
+	}
+
+	@Override
+	public int countByPrimaryKey(SupplierAudit audit) {
+		return supplierAuditMapper.countByPrimaryKey(audit);
 	}
 	
 }
