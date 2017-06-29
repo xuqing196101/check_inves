@@ -1375,7 +1375,7 @@
                                                         </div>
                                                     </td>
                                                     <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg('${addr.id }')"</c:if>>
-                                                        <input type="text" class="w200 border0" <c:if test="${!fn:contains(audit,'addr.id')&&currSupplier.status==2}">readonly="readonly"</c:if>  placeholder="街道名称，门牌号。" name="addressList[${vs.index }].detailAddress" required maxlength="50" value="${addr.detailAddress }" >
+                                                        <input type="text" class="w200 border0" <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  placeholder="街道名称，门牌号。" name="addressList[${vs.index }].detailAddress" required maxlength="50" value="${addr.detailAddress }" >
 
                                                     </td>
                                                     <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg('${addr.id }')"</c:if>>
