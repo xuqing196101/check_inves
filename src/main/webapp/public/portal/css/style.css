@@ -3314,7 +3314,3 @@ h2.list_title{
 .m_buyer_list {
 	height: 238px;
 }
-/* 后台-人员管理-采购机构人员管理，添加/修改页面错版修复 */
-.m_ul_list li {
-	height: 77px;
-}
