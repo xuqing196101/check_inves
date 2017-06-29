@@ -9,6 +9,22 @@
 <title>产品类别及资质合同</title>
 <script	src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude.js"></script>
 <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
+<script type="text/javascript">
+//暂存
+function zhancun(){
+  var supplierId = $("#supplierId").val();
+  $.ajax({
+    url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
+    dataType: "json",
+    data:{supplierId : supplierId},
+    success : function (result) {
+        layer.msg(result, {offset : [ '100px' ]});
+    },error : function(){
+      layer.msg("暂存失败", {offset : [ '100px' ]});
+    }
+  });
+}
+</script>
 </head>
 <body>
 	<!--面包屑导航开始-->
@@ -80,7 +96,7 @@
 				<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
 					  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> 
-						 <a class="btn" type="button"	onclick="nextStep();">下一步</a>
+						 <a class="btn" type="button" onclick="nextStep();">下一步</a>
 				</div>
 			</div>
 		</div>

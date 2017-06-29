@@ -166,24 +166,4 @@ function lastStep() {
 	$("#form_id").submit();
 }
 
-// 暂存
-function zhancun() {
-	var supplierId = $("#id").val();
-	$.ajax({
-				url : globalPath + "/supplierAudit/temporaryAudit.do",
-				dataType : "json",
-				data : {
-					supplierId : supplierId
-				},
-				success : function(result) {
-					layer.msg(result, {
-						offset : [ '100px' ]
-					});
-				},
-				error : function() {
-					layer.msg("暂存失败", {
-						offset : [ '100px' ]
-					});
-				}
-			});
-}
+
