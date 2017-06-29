@@ -297,18 +297,26 @@
                         success: function(msg) {
                         	//controlForm();
                             if(msg == 'ok') {
-                                layer.msg('暂存成功', {
-                                    offset: '300px'
-                                });
+                              layer.msg('暂存成功', {
+                                offset: '300px'
+                              });
                             }
-                            if(msg == 'failed') {
-                                layer.msg('暂存失败', {
-                                    offset: '300px'
-                                });
+                            else if(msg == 'failed') {
+                              layer.msg('暂存失败', {
+                                offset: '300px'
+                              });
+                            }
+                            else{
+                            	layer.msg('暂存失败，请仔细检查所填信息！', {
+                                offset: '300px'
+                              });
                             }
                         },
 												error: function(){
 													//controlForm();
+													layer.msg('暂存失败', {
+                            offset: '300px'
+                          });
 												}
                     });
 //                }
