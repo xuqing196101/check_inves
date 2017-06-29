@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
@@ -351,4 +353,36 @@ public interface SupplierAuditService {
      * @return void
      */
     void updateIsDeleteBySupplierId(SupplierAudit supplierAudit);
+    /**
+     * 
+     * Description:物资 资质 文件查看
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-27
+     * @param cateTree
+     * @param type
+     * @return
+     */
+    List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey);
+    /**
+     * 
+     * Description:工程 资质 文件查看
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-27
+     * @param cateTree
+     * @param type
+     * @return
+     */
+    List<SupplierCateTree> showProject(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey);
+    /**
+     * 
+     * Description:根据参数 查询数据是否存在
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-28
+     * @param audit
+     * @return
+     */
+    int countByPrimaryKey(SupplierAudit audit);
 } 

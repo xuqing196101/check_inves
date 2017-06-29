@@ -33,8 +33,8 @@ public class CategoryQua implements Serializable{
     private Date updatedAt;
     /**是否 有效 0 有效  1删除**/
     private Integer isDeleted;
-    
-    public Date getCreatedAt() {
+
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 

@@ -1075,7 +1075,7 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		return categoryList;
 	}
-
+	
 	@Override
 	public SupplierCateTree addNode(List<Category> parentNodeList) {
 		SupplierCateTree cateTree = new SupplierCateTree();
@@ -1083,9 +1083,10 @@ public class CategoryServiceImpl implements CategoryService {
 		for(int i = 0; i < parentNodeList.size(); i++) {
 			DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
 			if(rootNode != null) {
+				//其他，3物资生产/物资销售 2物质销售 1物资生产
 				cateTree.setRootNode(rootNode.getName());
-				cateTree.setItemsId(rootNode.getId());
 				cateTree.setRootNodeID(rootNode.getId());
+				cateTree.setItemsId(rootNode.getId());
 			}
 		}
 		// 加入一级节点
@@ -1096,8 +1097,8 @@ public class CategoryServiceImpl implements CategoryService {
 					DictionaryData rootNode = DictionaryDataUtil.findById(cate.getParentId());
 					if(rootNode != null && cateTree.getRootNode().equals(rootNode.getName())) {
 						cateTree.setFirstNode(cate.getName());
-						cateTree.setItemsId(cate.getId());
 						cateTree.setFirstNodeID(cate.getId());
+						cateTree.setItemsId(cate.getId());
 					}
 				}
 			}
@@ -1110,8 +1111,8 @@ public class CategoryServiceImpl implements CategoryService {
 					Category parentNode = findById(cate.getParentId());
 					if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
 					cateTree.setSecondNode(cate.getName());
-					cateTree.setItemsId(cate.getId());
 					cateTree.setSecondNodeID(cate.getId());
+					cateTree.setItemsId(cate.getId());
 					}
 				}
 			}
@@ -1124,8 +1125,8 @@ public class CategoryServiceImpl implements CategoryService {
 					Category parentNode = findById(cate.getParentId());
 					if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
 						cateTree.setThirdNode(cate.getName());
-						cateTree.setItemsId(cate.getId());
 						cateTree.setThirdNodeID(cate.getId());
+						cateTree.setItemsId(cate.getId());
 					}
 				}
 		    }
@@ -1139,8 +1140,8 @@ public class CategoryServiceImpl implements CategoryService {
 		            Category parentNode = findById(cate.getParentId());
 		            if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
 		                cateTree.setFourthNode(cate.getName());
-		                cateTree.setItemsId(cate.getId());
 						cateTree.setFourthNodeID(cate.getId());
+						cateTree.setItemsId(cate.getId());
 	                }
                 }
 	        }

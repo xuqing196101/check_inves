@@ -31,7 +31,7 @@ function listPage(pages, total, startRow, endRow, pageNum) {
 function findDate() {
 		var index = layer.load(0, {
 			shade : [ 0.1, '#fff' ],
-			offset : [ '45%', '53%' ]
+			offset : [ '40%', '50%' ]
 		});
 		$.ajax({
 			type : "POST",
@@ -65,33 +65,34 @@ function showData(obj) {
 	                            "<td class=\"tc info\">"+isNull(item.secondNode)+"</td>"+
 	                            "<td class=\"tc info\">"+isNull(item.thirdNode)+"</td>"+
 	                            "<td class=\"tc info\">"+isNull(item.fourthNode)+"</td>"+
-	                            "<td class=\"tc info\">"+isShow(item.fileCount,"qualifications",item.rootNode,item.rootNodeID,item.firstNodeID,item.secondNodeID,item.thirdNodeID,item.fourthNodeID)+"</td>"+
-	                            "<td class=\"tc info\">"+isShow(item.contractCount,"contract",item.rootNode,item.rootNodeID,item.firstNodeID,item.secondNodeID,item.thirdNodeID,item.fourthNodeID)+"</td></tr>"
+	                            "<td class=\"tc info\">"+isShow(item.fileCount,"qualifications",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>"+
+	                            "<td class=\"tc info\">"+isShow(item.contractCount,"contract",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td></tr>"
 				);
 			});
 }
 //判断显示相关内容 合同
-function onContractShow(rootNode,rootNodeID,firstNodeID,secondNodeID,thirdNodeID,fourthNodeID){
-	showFrame(rootNode+"-销售合同信息");
+function onContractShow(rootNode,itemId,id,secondNode,secondNodeId){
+	showFrame(rootNode+"-销售合同信息",itemId,2,id,secondNode,secondNodeId);
 }
 //判断显示相关内容 资质
-function onQualificationsShow(rootNode,rootNodeID,firstNodeID,secondNodeID,thirdNodeID,fourthNodeID){
-	showFrame(rootNode+"-资质文件信息");
+function onQualificationsShow(rootNode,itemId,secondNode,secondNodeId){
+	showFrame(rootNode+"-资质文件信息",itemId,0,'',secondNode,secondNodeId);
 }
-//是否有内容显示
-function isShow(obj,type,rootNode,rootNodeID,firstNodeID,secondNodeID,thirdNodeID,fourthNodeID){
+//是否有内容显示  
+function isShow(count,type,rootNode,itemId,id,secondNode,secondNodeId){
 	var rut="";
+	
 	//合同
 	if(type=='contract'){
-		if(obj>0){
-			rut= "<a href=\"javascript:void(0);\" onclick=\"onContractShow('"+rootNode+"','"+rootNodeID+"','"+firstNodeID+"','"+secondNodeID+"','"+thirdNodeID+"','"+fourthNodeID+"')\">查看</a>";
+		if(count>0){
+			rut= "<a href=\"javascript:void(0);\" onclick=\"onContractShow('"+rootNode+"','"+itemId+"','"+id+"','"+secondNode+"','"+secondNodeId+"')\">查看</a>";
 		}else {
 			rut= "";
 		}
 		//资质
 	}else if(type=='qualifications'){
-		if(obj>0){
-			rut="<a href=\"javascript:void(0);\" onclick=\"onQualificationsShow('"+rootNode+"','"+rootNodeID+"','"+firstNodeID+"','"+secondNodeID+"','"+thirdNodeID+"','"+fourthNodeID+"')\">查看</a>";
+		if(count>0){
+			rut="<a href=\"javascript:void(0);\" onclick=\"onQualificationsShow('"+rootNode+"','"+itemId+"','"+secondNode+"','"+secondNodeId+"')\">查看</a>";
 		}else{
 			rut= "";
 		};
@@ -99,19 +100,49 @@ function isShow(obj,type,rootNode,rootNodeID,firstNodeID,secondNodeID,thirdNodeI
 	return rut;
 }
 //弹出框
-function showFrame(obj){
-	 index = layer.open({
-		type: 1, //page层
-		area: ['800px', '430px'],
-		title: obj,//标题
-		closeBtn: 1,
-		shade: 0.01, //遮罩透明度
-		moveType: 1, //拖拽风格，0是默认，1是传统拖动
-		shift: 1, //0-6的动画形式，-1不开启
-		offset: ['40px', '280px'],
-		content: $('#show_div'),
-		});
+function showFrame(title,cateTree,flng,id,secondNode,secondNodeId){
+	var supplierId=$("#supplierId").val();
+	var content;
+	var auditType;
+	var auditContent;
+	if(flng==0){
+		//资质
+		auditContent='上传资质文件信息';
+		auditType='aptitude_page';
+	    content=globalPath + "/supplierAudit/showQualifications.do?itemId="+cateTree+"&supplierId="+supplierId;
+	}else{
+		//合同
+		auditContent='上传合同文件信息';
+		auditType='contract_page';
+		content=globalPath + "/supplierAudit/showContract.do?itemId="+cateTree+"&supplierId="+supplierId+"&supplierItemId="+id;
 	}
+	var iframeWin;
+	layer.open({
+	  type: 2, //page层
+	  area: ['900px', '450px'],
+	  title: title,
+	  closeBtn: 1,
+	  shade:0.01, //遮罩透明度
+	  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+	  shift: 1, //0-6的动画形式，-1不开启
+	  offset: '60px',
+	  shadeClose: false,
+	  content: content,
+	  success: function(layero, index){
+	    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+	  },
+	  btn: ['审核不通过原因','关闭'] 
+	  ,yes: function(){
+		if(iframeWin){
+	    iframeWin.reasonProject(secondNodeId, secondNode,auditType,auditContent);
+		}
+	  }
+	  ,btn2: function(){
+	    layer.closeAll();
+	  }
+	});
+}
+
 //是否为空
 function isNull(obj){
 	if(obj){
@@ -122,7 +153,7 @@ function isNull(obj){
 }
 // 下一步
 function nextStep() {
-	var action = globalPath + "/supplierAudit/contract.html";
+	var action = globalPath + "/supplierAudit/applicationForm.html";
 	$("#form_id").attr("action", action);
 	$("#form_id").submit();
 }
@@ -133,123 +164,6 @@ function lastStep() {
 	var action = globalPath + "/supplierAudit/supplierType.html";
 	$("#form_id").attr("action", action);
 	$("#form_id").submit();
-}
-
-/*
- * function reason(auditFieldName, auditContent, dex) { var supplierId =
- * $("#supplierId").val(); var index = layer.prompt({ title: '请填写不通过的理由：',
- * formType: 2, offset: '100px' }, function(text) { $.ajax({ url:
- * globalPath + "/supplierAudit/auditReasons.html", type:
- * "post", data: { "auditType": "aptitude_page", "auditFieldName":
- * auditFieldName, "auditContent": auditContent + "附件信息", "suggest": text,
- * "supplierId": supplierId, "auditField": auditContent }, dataType: "json",
- * success: function(result) { result = eval("(" + result + ")"); if(result.msg ==
- * "fail") { layer.msg('该条信息已审核过！', { shift: 6, //动画类型 offset: '100px' }); } }
- * });
- * 
- * $("#" + dex + "_hidden").hide(); $("#" + dex + "_show").show();
- * layer.close(index); }); }
- */
-
-function reason(auditField, auditFieldName, auditContent) {
-	var supplierId = $("#supplierId").val();
-	var index = layer
-			.prompt(
-					{
-						title : '请填写不通过的理由：',
-						formType : 2,
-						offset : '100px',
-						maxlength : '100',
-					},
-					function(text) {
-						var text = trim(text);
-						if (text != null && text != "") {
-							$
-									.ajax({
-										url : globalPath + "/supplierAudit/auditReasons.html",
-										type : "post",
-										data : "&auditFieldName="
-												+ auditFieldName + "&suggest="
-												+ text + "&supplierId="
-												+ supplierId
-												+ "&auditType=aptitude_page"
-												+ "&auditContent="
-												+ auditContent + "&auditField="
-												+ auditField,
-										dataType : "json",
-										success : function(result) {
-											result = eval("(" + result + ")");
-											if (result.msg == "fail") {
-												layer.msg('该条信息已审核过！', {
-													shift : 6, // 动画类型
-													offset : '100px',
-												});
-											};
-										},
-									});
-							$("#" + auditField + "").show(); // 显示叉
-							layer.close(index);
-						} else {
-							layer.msg('不能为空！', {
-								offset : '100px',
-							});
-						}
-						;
-					});
-}
-
-function reasonProject(auditField, auditFieldName, auditContent) {
-	var supplierId = $("#supplierId").val();
-	var index = layer
-			.prompt(
-					{
-						title : '请填写不通过的理由：',
-						formType : 2,
-						offset : '100px',
-						maxlength : '100',
-					},
-					function(text) {
-						var text = trim(text);
-						if (text != null && text != "") {
-							$
-									.ajax({
-										url : globalPath + "/supplierAudit/auditReasons.html",
-										type : "post",
-										data : "&auditFieldName="
-												+ auditFieldName + "&suggest="
-												+ text + "&supplierId="
-												+ supplierId
-												+ "&auditType=aptitude_page"
-												+ "&auditContent="
-												+ auditContent + "&auditField="
-												+ auditField,
-										dataType : "json",
-										success : function(result) {
-											result = eval("(" + result + ")");
-											if (result.msg == "fail") {
-												layer.msg('该条信息已审核过！', {
-													shift : 6, // 动画类型
-													offset : '100px',
-												});
-											}
-											;
-										}
-									});
-							$("#" + auditField + "_show").show();
-							$("#" + auditField + "_hidden").hide();
-							layer.close(index);
-						} else {
-							layer.msg('不能为空！', {
-								offset : '100px'
-							});
-						}
-						;
-					});
-}
-
-// 删除左右两端的空格
-function trim(str) {
-	return str.replace(/(^\s*)|(\s*$)/g, "");
 }
 
 // 暂存
@@ -272,33 +186,4 @@ function zhancun() {
 					});
 				}
 			});
-}
-function jump(str) {
-	var action;
-	if (str == "essential") {
-		action = globalPath + "/supplierAudit/essential.html";
-	}
-	if (str == "financial") {
-		action = globalPath + "/supplierAudit/financial.html";
-	}
-	if (str == "items") {
-		action = globalPath + "/supplierAudit/items.html";
-	}
-	if (str == "aptitude") {
-		action = globalPath + "/supplierAudit/goPageAptitude.html";
-	}
-	if (str == "contract") {
-		action = globalPath + "/supplierAudit/contract.html";
-	}
-	if (str == "applicationForm") {
-		action = globalPath + "/supplierAudit/applicationForm.html";
-	}
-	if (str == "reasonsList") {
-		action = globalPath + "/supplierAudit/reasonsList.html";
-	}
-	if (str == "supplierType") {
-		action = globalPath + "/supplierAudit/supplierType.html";
-	}
-	$("#form_id").attr("action", action);
-	$("#form_id").submit();
 }

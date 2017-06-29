@@ -429,7 +429,11 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	    List<SupplierItem> itemsList = supplierItemMapper.selectByMap(param);
 	    return itemsList;
 	}
-
+	@Override
+	public SupplierItem selectByPrimaryKey(String id) {
+	    SupplierItem itemsList = supplierItemMapper.selectByPrimaryKey(id);
+	    return itemsList;
+	}
     @Override
     public List<Category> getCategoryShenhe(String supplierId,String type) {
         List<Category> cateList=new ArrayList<Category>();

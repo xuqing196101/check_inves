@@ -1933,4 +1933,9 @@ table.lockout .extrafile{
 		    background-repeat: no-repeat;
 		    background-position: 0 0;
 		}
-		
+
+		/* 北京-前端-马田力修改 */
+		/* 后台-人员管理-采购机构人员管理，添加/修改页面错版修复*/
+		.m_ul_list li {
+			height: 77px;
+		}

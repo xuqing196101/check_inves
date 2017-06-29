@@ -35,6 +35,21 @@
     ORDER BY CREATED_AT DESC
   </select>
   
+   <select id="countByPrimaryKey"   parameterType="ses.model.sms.SupplierAudit" resultType="Integer">
+    select 
+    count(ID)
+    from T_SES_SMS_SUPPLIER_AUDIT
+    where SUPPLIER_ID = #{supplierId}
+    <if test="auditField!=null">
+        and  AUDIT_FIELD=#{auditField}
+    </if>
+    <if test="auditType!=null">
+        and  AUDIT_TYPE=#{auditType}
+    </if>
+    and IS_DELETED = 0
+    ORDER BY CREATED_AT DESC
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_SMS_SUPPLIER_AUDIT
     where ID = #{id}

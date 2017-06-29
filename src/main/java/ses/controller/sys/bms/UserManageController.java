@@ -317,17 +317,16 @@ public class UserManageController extends BaseController{
 			
 			model.addAttribute("user", user);
 			
-			List<DictionaryData> genders = DictionaryDataUtil.find(13);
-			model.addAttribute("genders", genders);
-			model.addAttribute("roleName", roleName);
-			model.addAttribute("orgName", orgName);
-			
 			if (StringUtils.isNotBlank(origin)){
 			  addAtt(request, model);
       
 			}
 			String item=CheckUtil.validateIdCard(user.getIdNumber());
 			if(!item.equals("success")){
+			  List<DictionaryData> genders = DictionaryDataUtil.find(13);
+	      model.addAttribute("genders", genders);
+	      model.addAttribute("roleName", roleName);
+	      model.addAttribute("orgName", orgName);
 				model.addAttribute("ajax_idNumber", item);
 				return "ses/bms/user/add";
 			}

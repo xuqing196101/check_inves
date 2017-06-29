@@ -322,7 +322,7 @@ import ses.model.sms.SupplierTypeTree;
 	 * @param item
 	 * @return
 	 */
-	public SupplierCateTree addNode(String categoryId,SupplierItem item);
+	public SupplierCateTree addNode(SupplierCateTree cateTree,SupplierItem item);
 	/**
 	 * 
 	 * Description:获取工程资质文件数量
