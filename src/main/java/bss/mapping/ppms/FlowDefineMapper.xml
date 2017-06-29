@@ -169,4 +169,11 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="getFlow" parameterType="java.lang.String" resultMap="FlowDefineResult">
+     select * from  T_BSS_PPMS_FLOW_DEFINE where STEP <![CDATA[ <= ]]> (select STEP from T_BSS_PPMS_FLOW_DEFINE fd
+    where IS_DELETED = 0 
+    and ID = #{id,jdbcType=VARCHAR}) and IS_DELETED = 0 and PURCHASE_TYPE_ID=(select PURCHASE_TYPE_ID from T_BSS_PPMS_FLOW_DEFINE fd
+    where IS_DELETED = 0 
+    and ID = #{id,jdbcType=VARCHAR})  order by STEP asc
+  </select>
 </mapper>

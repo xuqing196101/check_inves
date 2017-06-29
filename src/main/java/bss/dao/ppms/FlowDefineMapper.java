@@ -15,5 +15,7 @@ public interface FlowDefineMapper {
     int update(FlowDefine fd);
     
     List<FlowDefine> findList(FlowDefine fd);
+    
+    List<FlowDefine> getFlow(String flowDefineId);
 
 }

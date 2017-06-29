@@ -9,6 +9,118 @@
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/bss/ppms/main.js"></script>
+    <script type="text/javascript">
+      function termination(projectId){
+	 	  $.ajax({
+			url:"${pageContext.request.contextPath}/termination/package.do",
+			data:{"projectId":projectId},
+			type:"post",
+			dataType:"json",
+	   		success:function(data){
+	   			$("#openDiv_check").empty();
+	   			var html='';
+	   			if(data==null){
+	   				
+	   			}else if(data.length==1){
+	   				html+='<div class=" mt10 ml60 fl"><input type="checkbox" value="'+data[0].id+'" name="pack" />'+data[0].name+'</div>';
+	   			}else if(data.length>1){
+	   				for(var i=0;i<data.length;i++){
+		   				if((i+1)%2==0){
+		   					html+='<div class=" mt10 fl ml10"><input type="checkbox" value="'+data[i].id+'" name="pack" />'+data[i].name+'</div>';
+		   					html+='<div class=" clear"></div>';
+		   				}else{
+		   					html+='<div class=" mt10 ml40 fl"><input type="checkbox" value="'+data[i].id+'" name="pack" />'+data[i].name+'</div>';
+		   				}
+		   			}
+	   			}
+	   			$("#openDiv_check").append(html);
+	   			openDetail();
+	   		}
+	 	  });
+      }
+      var index;
+  	function openDetail(){
+  	  index =  layer.open({
+  	    shift: 1, //0-6的动画形式，-1不开启
+  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+  	    title: ['终止包','border-bottom:1px solid #e5e5e5'],
+  	    shade:0.01, //遮罩透明度
+	  		type : 1,
+	  		area : [ '20%', '200px'  ], //宽高
+	  		content : $('#openDiv'),
+	  	  });
+      }
+  	function cancel(){
+		  layer.close(index);
+	  }
+  	var ids="";
+  	function bynSub(){
+  		var val=[];
+  		$('input[type="checkbox"]:checked').each(function(){ 
+  			val.push($(this).val()); 
+  		});
+  		if(val.length==0){
+  			layer.alert("请选择一个或多个包");
+  			return false;
+  		}
+  		ids=val.join(',');
+  		$.ajax({
+			url:"${pageContext.request.contextPath}/termination/flowDefineId.do",
+			data:{"currFlowDefineId":$("#currHuanjieId").val()},
+			type:"post",
+			dataType:"json",
+	   	success:function(data){
+	   		$("#openDiv_checkFlw").empty();
+	   		var html='<div class="tl">';
+	   		if(data!=null){
+	   			for(var i=0;i<data.length;i++){
+	   				html+='<div class=" mt10 ml40"><input type="radio" name="flw" value="'+data[i].id+'"/>'+data[i].name+'</div>';
+	   			}
+	   		}
+	   		html+='</div>';
+	   		$("#openDiv_checkFlw").append(html);
+	   		openDetailFlw();
+	   	 }
+  		});
+  	}
+  	var indexFlw;
+  	function openDetailFlw(){
+  		indexFlw =  layer.open({
+  	    shift: 1, //0-6的动画形式，-1不开启
+  	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+  	    title: ['终止环节','border-bottom:1px solid #e5e5e5'],
+  	    shade:0.01, //遮罩透明度
+	  		type : 1,
+	  		area : [ '20%', '400px'  ], //宽高
+	  		content : $('#openDivFlw'),
+	  	  });
+      }
+  	function cancelFlw(){
+		  layer.close(indexFlw);
+	  }
+  	function bynSubFlw(){
+  		var val=[];
+  		$('input[type="radio"]:checked').each(function(){ 
+  			val.push($(this).val()); 
+  		});
+  		if(val.length==0){
+  			layer.alert("请选择终止流程");
+  			return false;
+  		}
+  		$.ajax({
+			url:"${pageContext.request.contextPath}/termination/ter_package.do",
+			data:{"packagesId":ids,"projectId":'${project.id}',"currFlowDefineId":val.join(',')},
+			type:"post",
+			dataType:"json",
+	   	success:function(data){
+	   		layer.close(index);
+	   		if(data=="ok"){
+	   			layer.alert("终止成功");
+	   			}
+	   		}
+  		});
+  	}
+    </script>
   </head>
 
   <body onload="initLoad()">
@@ -121,9 +233,27 @@
             <div class="mt5 mb5 tc">
               <%-- <button class="btn btn-windows delete" onclick="abandoned('${project.id}');" type="button">废标</button> --%>
               <button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>
+              <button class="btn btn-windows back" onclick="termination('${project.id}');" type="button">终止</button>
             </div>
           </div>
 	     </div>
+    </div>
+    <div id="openDiv" class="dnone layui-layer-wrap">
+        <div class="drop_window tc" id="openDiv_check">
+        </div>
+        <div class="tc  col-md-12 mt50">
+          <input class="btn"  id = "inputb" name="addr"  type="button" onclick="bynSub();" value="确定"> 
+	      <input class="btn"  id = "inputa" name="addr"  type="button" onclick="cancel();" value="取消"> 
+        </div>
+    </div>
+    <div id="openDivFlw" class="dnone layui-layer-wrap">
+        <div class="drop_window tc" id="openDiv_checkFlw">
+         
+        </div>
+        <div class="tc  col-md-12 mt350">
+          <input class="btn"  id = "inputbFLw" name="addr"  type="button" onclick="bynSubFlw();" value="确定"> 
+	      <input class="btn"  id = "inputaFlw" name="addr"  type="button" onclick="cancelFlw();" value="取消"> 
+        </div>
     </div>
     <!--/container-->
     <a id="as" class="dnone" target="open_bidding_main" class="son-menu"></a>
