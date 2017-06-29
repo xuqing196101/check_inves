@@ -802,6 +802,7 @@ function importAdd(){
 				
 				<div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
 				<div class="categories zhuanjia_list">
+				<ul class="list-unstyled">
 				<c:choose>
 				<c:when test="${!empty my:getExpertList()}">
 				<table class="table table-bordered">
@@ -855,6 +856,7 @@ function importAdd(){
 				<li class="tc">暂无数据</li>
 				</c:otherwise>
 				</c:choose>
+				</ul>
 				</div>
 				<a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="fr">更多&gt;&gt;</a>
 				</div>

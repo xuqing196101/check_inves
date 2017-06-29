@@ -74,10 +74,10 @@
 			  $("#form_id").submit();
 			} */
 			function lastStep(url) {
-                var action = "${pageContext.request.contextPath}/supplierAudit/toPageAptitude.html";
-                $("#form_id").attr("action", action);
-                $("#form_id").submit();
-            }
+          var action = "${pageContext.request.contextPath}/supplierAudit/toPageAptitude.html";
+          $("#form_id").attr("action", action);
+          $("#form_id").submit();
+      }
 
 
 		  //文件下載
@@ -93,7 +93,7 @@
 			
 			//暂存
         function zhancun(){
-         var supplierId = $("#id").val();
+         var supplierId = $("#supplierId").val();
           $.ajax({
             url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
             dataType: "json",
