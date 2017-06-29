@@ -1476,7 +1476,9 @@
 																		businessId="${certPro.id}"
 																		typeId="${supplierDictionaryData.supplierProCert}"
 																		sysKey="${sysKey}" auto="true" /> </c:if> 
-																		<u:show showId="pro_show_${certProNumber}" <c:if test="${(fn:contains(audit,'supplierBank')&&currSupplier.status==2) || currSupplier.status==-1}">  delete="false"</c:if>  businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" />
+																	<c:if test="${!fn:contains(proPageField,certPro.id)&&currSupplier.status==2}"> 	<u:show showId="pro_show_${certProNumber}"  delete="false" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
+																	<c:if test="${currSupplier.status==-1}"> 	<u:show showId="pro_show_${certProNumber}"  delete="false" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
+																	
 																	</div>
 																</td>
 															</tr>
@@ -1600,7 +1602,9 @@
 																		businessId="${certSell.id}"
 																		typeId="${supplierDictionaryData.supplierSellCert}"
 																		sysKey="${sysKey}" auto="true" /></c:if>
-																	<u:show showId="sale_show_${certSaleNumber}" <c:if test="${(fn:contains(audit,'supplierBank')&&currSupplier.status==2) || currSupplier.status==-1}">  delete="false"</c:if>   businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" />
+																<c:if test="${!fn:contains(audit,certSell.id)&&currSupplier.status==2}"> 	<u:show showId="sale_show_${certSaleNumber}" delete="false"    businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" /> </c:if>
+																<c:if test="${currSupplier.status==-1}"> 	<u:show showId="sale_show_${certSaleNumber}"     businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" /> </c:if>
+																
 																</div></td>
 														</tr>
 														<c:set var="certSaleNumber" value="${certSaleNumber + 1}" />
@@ -1716,7 +1720,9 @@
 													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>${area.name}</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<c:if test="${(fn:contains(engPageField,area.name)&&currSupplier.status==2) || currSupplier.status==-1}">  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" /></c:if>
-														<u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
+														<c:if test="${!fn:contains(engPageField,area.name)&&currSupplier.status==2}">  <u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
+														<c:if test="${currSupplier.status==-1}">  <u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
+														
 														<div class="cue">${area.errInfo}</div>
 													</div>
 												</li>
@@ -2174,7 +2180,9 @@
 																	businessId="${certSe.id}"
 																	typeId="${supplierDictionaryData.supplierServeCert}"
 																	sysKey="${sysKey}" auto="true" /></c:if> 
-																	 <u:show showId="se_show_${certSeNumber}" <c:if test="${(fn:contains(audit,'supplierBank')&&currSupplier.status==2) || currSupplier.status==-1}">  delete="false"</c:if>  businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" />
+																	<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2 }">	  <u:show showId="se_show_${certSeNumber}" delete="false"  businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" /> </c:if>
+																	<c:if test="${currSupplier.status==-1 }">	 <u:show showId="se_show_${certSeNumber}"   businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" /> </c:if>
+																
 																</div>
 															</td>
 														</tr>
