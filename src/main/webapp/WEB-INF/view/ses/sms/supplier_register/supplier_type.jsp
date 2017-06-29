@@ -1475,11 +1475,8 @@
 																		id="pro_up_${certProNumber}" multiple="true"
 																		businessId="${certPro.id}"
 																		typeId="${supplierDictionaryData.supplierProCert}"
-																		sysKey="${sysKey}" auto="true" /> </c:if> <u:show
-																		showId="pro_show_${certProNumber}"
-																		businessId="${certPro.id}"
-																		typeId="${supplierDictionaryData.supplierProCert}"
-																		sysKey="${sysKey}" />
+																		sysKey="${sysKey}" auto="true" /> </c:if> 
+																		<u:show showId="pro_show_${certProNumber}" <c:if test="${(fn:contains(audit,'supplierBank')&&currSupplier.status==2) || currSupplier.status==-1}">  delete="false"</c:if>  businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" />
 																	</div>
 																</td>
 															</tr>
@@ -1603,10 +1600,7 @@
 																		businessId="${certSell.id}"
 																		typeId="${supplierDictionaryData.supplierSellCert}"
 																		sysKey="${sysKey}" auto="true" /></c:if>
-																	<u:show showId="sale_show_${certSaleNumber}"
-																		businessId="${certSell.id}"
-																		typeId="${supplierDictionaryData.supplierSellCert}"
-																		sysKey="${sysKey}" />
+																	<u:show showId="sale_show_${certSaleNumber}" <c:if test="${(fn:contains(audit,'supplierBank')&&currSupplier.status==2) || currSupplier.status==-1}">  delete="false"</c:if>   businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" />
 																</div></td>
 														</tr>
 														<c:set var="certSaleNumber" value="${certSaleNumber + 1}" />
@@ -2179,11 +2173,8 @@
 																	id="se_up_${certSeNumber}" multiple="true"
 																	businessId="${certSe.id}"
 																	typeId="${supplierDictionaryData.supplierServeCert}"
-																	sysKey="${sysKey}" auto="true" /></c:if>  <u:show
-																	showId="se_show_${certSeNumber}"
-																	businessId="${certSe.id}"
-																	typeId="${supplierDictionaryData.supplierServeCert}"
-																	sysKey="${sysKey}" />
+																	sysKey="${sysKey}" auto="true" /></c:if> 
+																	 <u:show showId="se_show_${certSeNumber}" <c:if test="${(fn:contains(audit,'supplierBank')&&currSupplier.status==2) || currSupplier.status==-1}">  delete="false"</c:if>  businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" />
 																</div>
 															</td>
 														</tr>
