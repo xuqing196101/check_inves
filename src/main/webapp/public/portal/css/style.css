@@ -3310,25 +3310,11 @@ h2.list_title{
     	font-size:14px;
     }
 }
-/* 主导航-供应商下拉菜单重新排版 */
-/*.m_login_box h2 ul {
-	padding-left: 1px !important;
-}
-.m_login_box h2 li {
-	margin-left: -1px;
-	border: solid 1px #EEE;
-	border-bottom: none;
-    border-radius: 10px 10px 0 0 !important;
-    overflow: hidden;
-}
-.m_login_box h2 li:first-child {
-	border-left: solid 1px #EEE;
-}
-.m_login_box h2 li a {
-	display: block;
-    border: none !important;
-    padding: 0 10px;
-}*/
+/* 主导航-下拉内容高度设置 */
 .m_buyer_list {
 	height: 238px;
+}
+/* 后台-人员管理-采购机构人员管理，添加/修改页面错版修复 */
+.m_ul_list li {
+	height: 77px;
 }
