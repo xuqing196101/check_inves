@@ -76,7 +76,7 @@
 			     where IS_DELETED = 0
                  <trim suffixOverrides=","> 
                   <if test="replyCon!= null">
-                    and CONTENT Like concat(concat('%', '${replyCon}'), '%')
+                    and CONTENT Like concat(concat('%', '#{replyCon}'), '%')
                   </if> 
                   <if test="userId != null ">
                     and POST_ID IN (
