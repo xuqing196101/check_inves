@@ -151,4 +151,8 @@ public interface ExpertAuditMapper {
      * @return Integer
      */
     Integer findByObj (ExpertAudit expertAudit);
+    
+    
+    
+    void insertActive(ExpertAudit expertAudit);
 }

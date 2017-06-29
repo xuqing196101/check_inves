@@ -199,7 +199,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
             for(ExpertAudit expertAudit:expertAudits){
                 audit = expertAuditMapper.selectByPrimaryKey(expertAudit.getId());
                 if(null == audit){
-                    expertAuditMapper.insertSelective(expertAudit);
+                    expertAuditMapper.insertActive(expertAudit);
                 }
             }
         }
