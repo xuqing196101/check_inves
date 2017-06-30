@@ -2626,6 +2626,9 @@
 					$(this).attr('readonly', 'readonly');
 				}
 			});
+			// 营业期限
+			$("#expireDate").attr('readonly', 'readonly');
+			
 			$("select").focus(function(){
 				if(!boolColor(this)){
 					this.defaultIndex=this.selectedIndex;
