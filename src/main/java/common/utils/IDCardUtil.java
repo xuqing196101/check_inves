@@ -51,7 +51,8 @@ public class IDCardUtil {
         zoneNum.put(61, "陕西");
         zoneNum.put(62, "甘肃");
         zoneNum.put(63, "青海");
-        zoneNum.put(64, "新疆");
+        zoneNum.put(64, "宁夏");
+        zoneNum.put(65, "新疆");
         zoneNum.put(71, "台湾");
         zoneNum.put(81, "香港");
         zoneNum.put(82, "澳门");
