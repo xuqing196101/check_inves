@@ -138,7 +138,7 @@ public class Project {
     
     private String parentId; // 父节点
     
-    private String RelationId;
+    private String relationId;
     
     /**
      * @return Returns the auditReason.
@@ -682,12 +682,14 @@ public class Project {
 		this.parentId = parentId;
 	}
 
-	public String getRelationId() {
-		return RelationId;
-	}
+  public String getRelationId() {
+    return relationId;
+  }
 
-	public void setRelationId(String relationId) {
-		RelationId = relationId;
-	}
+  public void setRelationId(String relationId) {
+    this.relationId = relationId;
+  }
+
+	
     
 }

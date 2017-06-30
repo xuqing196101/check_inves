@@ -16,7 +16,7 @@ public interface ScoreModelMapper {
 	public int delSoftScoreModelByid(HashMap<String, Object> map);
 	public ScoreModel findScoreModelByScoreModel(ScoreModel scoreModel);
 	public void deleteScoreModelByMtId(String id);
-	
+	public List<ScoreModel>  findScoreModelByPackageId(ScoreModel model);
 	/*public List<MarkTerm> findListByMarkTerm(MarkTerm markTerm);
 	public int saveMarkTerm(MarkTerm markTerm);
 	public int updateMarkTerm(MarkTerm markTerm);

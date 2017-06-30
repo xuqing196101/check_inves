@@ -21,4 +21,5 @@ public interface FlowExecuteMapper {
     List<FlowExecute> findLists(FlowExecute fe);
     
     List<FlowExecute> findStatusDesc(FlowExecute fe);
+    List<FlowExecute> findExecutedByProjectIdAndFlowId(FlowExecute fl);
 }

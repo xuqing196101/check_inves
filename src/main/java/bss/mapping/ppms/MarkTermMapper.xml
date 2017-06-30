@@ -266,4 +266,32 @@
 		
 	</update>
 	<!--t_bss_ppms_mark_term 打分项表  -->
+	<select id="findMarkTermByPackageId" parameterType="bss.model.ppms.MarkTerm" resultType="bss.model.ppms.MarkTerm">
+	  select 
+        mt.id as id,
+   			mt.PID as pid,
+   			mt.NAME as name,
+   			mt.PNAME as pname,
+   			mt.URL as url,
+   			mt.CHECKED as checked,
+   			mt.IS_DELETED as isDeleted,
+   			mt.CREATED_AT as createdAt,
+   			mt.UPDATED_AT as updatedAt,
+   			mt.MAX_SCORE as maxScore,
+   			mt.PROJECT_ID as projectId,
+   			mt.PACKAGE_ID as packageId,
+   			mt.REMAIN_SCORE as remainScore,
+   			mt.TYPE_NAME as typeName,
+   			mt.BID_METHOD_ID  as bidMethodId
+      from T_BSS_PPMS_MARK_TERM mt where 1=1
+      <if test="packageId != null">
+         and mt.PACKAGE_ID = #{packageId}
+      </if>
+      <if test="projectId != null">
+         	and mt.PROJECT_ID = #{projectId}
+      	</if>
+      <if test="pid != null">
+        and mt.pid = #{pid}
+      </if>
+	</select>
 </mapper>

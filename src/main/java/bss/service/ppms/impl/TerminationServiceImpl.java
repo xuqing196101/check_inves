@@ -31,20 +31,32 @@ import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.dao.ppms.BidMethodMapper;
 import bss.dao.ppms.FlowDefineMapper;
+import bss.dao.ppms.FlowExecuteMapper;
+import bss.dao.ppms.MarkTermMapper;
 import bss.dao.ppms.PackageMapper;
+import bss.dao.ppms.ParamIntervalMapper;
 import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
 import bss.dao.ppms.SaleTenderMapper;
+import bss.dao.ppms.ScoreModelMapper;
+import bss.dao.ppms.SupplierCheckPassMapper;
+import bss.dao.ppms.theSubjectMapper;
 import bss.dao.prms.FirstAuditMapper;
 import bss.dao.prms.PackageExpertMapper;
 import bss.dao.prms.ReviewFirstAuditMapper;
 import bss.dao.prms.ReviewProgressMapper;
 import bss.model.ppms.BidMethod;
 import bss.model.ppms.FlowDefine;
+import bss.model.ppms.FlowExecute;
+import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
+import bss.model.ppms.ParamInterval;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
+import bss.model.ppms.ScoreModel;
+import bss.model.ppms.SupplierCheckPass;
+import bss.model.ppms.theSubject;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageExpert;
 import bss.model.prms.ReviewFirstAudit;
@@ -82,6 +94,18 @@ public class TerminationServiceImpl implements TerminationService {
   private ReviewFirstAuditMapper reviewFirstAuditMapper;
   @Autowired
   private ArticleTypeMapper articleTypeMapper;
+  @Autowired
+  private theSubjectMapper theSubjectMapper;
+  @Autowired
+  private SupplierCheckPassMapper supplierCheckPassMapper;
+  @Autowired
+  private FlowExecuteMapper flowExecuteMapper;
+  @Autowired
+  private MarkTermMapper markTermMapper;
+  @Autowired
+  private ScoreModelMapper scoreModelMapper;
+  @Autowired
+  private ParamIntervalMapper paramIntervalMapper;
   
   @Override
   /*
@@ -114,7 +138,7 @@ public class TerminationServiceImpl implements TerminationService {
     Map<String, String> mapId=new HashMap<String, String>();
     projectMapper.insertSelective(project);
     //生成包
-    insertPackages(packagesId, project, mapId);
+    insertPackages(packagesId, project, mapId,currFlowDefineId);
     //生成明细
     insertDetail(packagesId,projectId, project, mapId);
     //获取当前流程以前的所有步骤并复制一份
@@ -122,105 +146,26 @@ public class TerminationServiceImpl implements TerminationService {
     Map<String, Integer> IsTurnUpMap=new HashMap<String, Integer>();
     Map<String, String> firstAuditIdMap=new HashMap<String, String>();
     for(FlowDefine flw:flowDefines){
+      FlowExecute temp=new FlowExecute();
+      temp.setFlowDefineId(flw.getId());
+      temp.setProjectId(projectId);
+      List<FlowExecute> findExecuteds = flowExecuteMapper.findExecutedByProjectIdAndFlowId(temp);
+      if(findExecuteds!=null&&findExecuteds.size()>0){
+        FlowExecute flowExecute = findExecuteds.get(0);
+        flowExecute.setId(WfUtil.createUUID());
+        flowExecute.setProjectId(project.getId());
+        flowExecuteMapper.insert(flowExecute);
+      }
       flowDefine(flw,mapId,project,projectId,IsTurnUpMap,firstAuditIdMap);
     }
+    
   }
   private void flowDefine(FlowDefine flw,Map<String, String> mapId,Project project,String oldProjectId,Map<String, Integer> IsTurnUpMap,Map<String, String> firstAuditIdMap){
-    //判断是哪一种采购方式
+    //判断是采购方式
     DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(flw.getPurchaseTypeId());
     if(data.getCode().equals("GKZB")){//公开招标
-      
-      if(flw.getCode().equals("XMXX")){//项目信息
-        
-      }else if(flw.getCode().equals("NZCGWJ")){//拟制招标文件
-        //------拟制招标文件------
-        flw_nzcgwj(mapId, project, oldProjectId,firstAuditIdMap);
-      }else if(flw.getCode().equals("NZCGGG")){//拟制招标公告
-        
-        //------拟制招标公告---
-        flw_nzcggg(project, oldProjectId);
-        
-      }else if(flw.getCode().equals("FSBS")){//发售标书
-       
-        //---------发售标书---------
-        flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap);
-        
-      }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
-        
-      }else if(flw.getCode().equals("GYSQD")){//供应商签到
-        //-------供应商签到-----
-        flw_gysqd(IsTurnUpMap);
-        IsTurnUpMap=null;
-      }else if(flw.getCode().equals("KBCB")){//开标唱标
-        Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
-        while (iterator.hasNext()) {
-          Entry<String, String> next = iterator.next();
-          String newId=next.getValue();
-          String oldId=next.getKey();
-          Quote quote=new Quote();
-          quote.setProjectId(oldProjectId);
-          quote.setPackageId(oldId);
-          List<Quote> selectQuoteHistory = quoteMapper.selectQuoteHistory(quote);
-          for(Quote qt:selectQuoteHistory){
-            qt.setId(WfUtil.createUUID());
-            qt.setProjectId(project.getId());
-            qt.setPackageId(newId);
-            qt.setCreatedAt(new Timestamp(new Date().getTime()));
-            quoteMapper.insertSelective(qt);
-          }
-        }
-      }else if(flw.getCode().equals("ZZZJPS")){//组织专家评审
-        //专家
-        Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
-        while (iterator.hasNext()) {
-          Entry<String, String> next = iterator.next();
-          String newId=next.getValue();
-          String oldId=next.getKey();
-          Map<String, Object> map = new HashMap<String, Object>();
-          map.put("projectId", oldProjectId);
-          map.put("packageId", oldId);
-          List<PackageExpert> selectLists = packageExpertMapper.selectList(map);
-            for(PackageExpert sl:selectLists){
-              sl.setProjectId(project.getId());
-              sl.setPackageId(newId);
-              packageExpertMapper.insertSelective(sl);
-            }
-          
-        //符合性和资格性检查
-          Map<String, Object> map2 = new HashMap<String, Object>();
-          map2.put("projectId", oldProjectId);
-          map2.put("packageId", oldId);
-          List<ReviewProgress> rplist = reviewProgressMapper.selectByMap(map2);
-            for(ReviewProgress rp:rplist){
-              rp.setId(WfUtil.createUUID());
-              rp.setProjectId(project.getId());
-              rp.setPackageId(newId);
-              reviewProgressMapper.insertSelective(rp);
-            }
-          //检查项
-          FirstAudit firstAudit1 = new FirstAudit();
-          firstAudit1.setPackageId(oldId);
-          List<FirstAudit> firstAudits = firstAuditMapper.find(firstAudit1);
-            for (FirstAudit firstAudit2 : firstAudits) {
-              Map<String, Object> rfaMap = new HashMap<String, Object>();
-              rfaMap.put("packageId", oldId);
-              rfaMap.put("projectId", oldProjectId);
-              rfaMap.put("firstAuditId", firstAudit2.getId());
-              List<ReviewFirstAudit> reviewFirstAudit =  reviewFirstAuditMapper.selectList(rfaMap);
-              for (ReviewFirstAudit rfa : reviewFirstAudit) {
-                rfa.setProjectId(project.getId());
-                rfa.setPackageId(newId);
-                rfa.setFirstAuditId(firstAuditIdMap.get(rfa.getFirstAuditId()));
-                reviewFirstAuditMapper.insertSelective(rfa);
-              }
-           }
-        }
-      }else if(flw.getCode().equals("NZZBGS")){//拟制中标公告
-        flw_nzzbgs(project, oldProjectId);
-      }else if(flw.getCode().equals("QRZBGYS")){//确认中标供应商
-        
-      }
-      
+      project_gkzb(flw, mapId, project, oldProjectId, IsTurnUpMap,
+          firstAuditIdMap);
     }else if(data.getCode().equals("XJCG")){//询价采购
       
     }else if(data.getCode().equals("JZXTP")){//竞争性谈判
@@ -232,6 +177,119 @@ public class TerminationServiceImpl implements TerminationService {
       
     }
     
+  }
+  private void project_gkzb(FlowDefine flw, Map<String, String> mapId,
+      Project project, String oldProjectId, Map<String, Integer> IsTurnUpMap,
+      Map<String, String> firstAuditIdMap) {
+    if(flw.getCode().equals("XMXX")){//项目信息
+      
+    }else if(flw.getCode().equals("NZCGWJ")){//拟制招标文件
+      flw_nzcgwj(mapId, project, oldProjectId,firstAuditIdMap);
+    }else if(flw.getCode().equals("NZCGGG")){//拟制招标公告
+      flw_nzcggg(project, oldProjectId);
+    }else if(flw.getCode().equals("FSBS")){//发售标书
+      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap);
+    }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
+      
+    }else if(flw.getCode().equals("GYSQD")){//供应商签到
+      flw_gysqd(IsTurnUpMap);
+      IsTurnUpMap=null;
+    }else if(flw.getCode().equals("KBCB")){//开标唱标
+      flw_kbcb(mapId, project, oldProjectId);
+    }else if(flw.getCode().equals("ZZZJPS")){//组织专家评审
+      flw_zzzjps(mapId, project, oldProjectId, firstAuditIdMap);
+    }else if(flw.getCode().equals("NZZBGS")){//拟制中标公告
+      flw_nzzbgs(project, oldProjectId);
+    }else if(flw.getCode().equals("QRZBGYS")){//确认中标供应商
+      flw_qrzbgys(mapId, project);
+    }
+  }
+  private void flw_qrzbgys(Map<String, String> mapId, Project project) {
+    Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
+    while (iterator.hasNext()) {
+      Entry<String, String> next = iterator.next();
+      String newId=next.getValue();
+      String oldId=next.getKey();
+      List<SupplierCheckPass> supplierCheckPasss = supplierCheckPassMapper.getByCheck(oldId);
+      for(SupplierCheckPass scp:supplierCheckPasss){
+        scp.setId(WfUtil.createUUID());
+        scp.setPackageId(newId);
+        scp.setProjectId(project.getId());
+        supplierCheckPassMapper.insertSelective(scp);
+      }
+      List<theSubject> theSubjects = theSubjectMapper.selectByPackagesId(oldId);
+      for (theSubject ts : theSubjects) {
+        ts.setPackageId(newId);
+        theSubjectMapper.insertSelective(ts);
+      }
+    }
+  }
+  private void flw_zzzjps(Map<String, String> mapId, Project project,
+      String oldProjectId, Map<String, String> firstAuditIdMap) {
+    Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
+    while (iterator.hasNext()) {
+      Entry<String, String> next = iterator.next();
+      String newId=next.getValue();
+      String oldId=next.getKey();
+      Map<String, Object> map = new HashMap<String, Object>();
+      map.put("projectId", oldProjectId);
+      map.put("packageId", oldId);
+      List<PackageExpert> selectLists = packageExpertMapper.selectList(map);
+        for(PackageExpert sl:selectLists){
+          sl.setProjectId(project.getId());
+          sl.setPackageId(newId);
+          packageExpertMapper.insertSelective(sl);
+        }
+      
+    //符合性和资格性检查
+      Map<String, Object> map2 = new HashMap<String, Object>();
+      map2.put("projectId", oldProjectId);
+      map2.put("packageId", oldId);
+      List<ReviewProgress> rplist = reviewProgressMapper.selectByMap(map2);
+        for(ReviewProgress rp:rplist){
+          rp.setId(WfUtil.createUUID());
+          rp.setProjectId(project.getId());
+          rp.setPackageId(newId);
+          reviewProgressMapper.insertSelective(rp);
+        }
+      //检查项
+      FirstAudit firstAudit1 = new FirstAudit();
+      firstAudit1.setPackageId(oldId);
+      List<FirstAudit> firstAudits = firstAuditMapper.find(firstAudit1);
+        for (FirstAudit firstAudit2 : firstAudits) {
+          Map<String, Object> rfaMap = new HashMap<String, Object>();
+          rfaMap.put("packageId", oldId);
+          rfaMap.put("projectId", oldProjectId);
+          rfaMap.put("firstAuditId", firstAudit2.getId());
+          List<ReviewFirstAudit> reviewFirstAudit =  reviewFirstAuditMapper.selectList(rfaMap);
+          for (ReviewFirstAudit rfa : reviewFirstAudit) {
+            rfa.setProjectId(project.getId());
+            rfa.setPackageId(newId);
+            rfa.setFirstAuditId(firstAuditIdMap.get(rfa.getFirstAuditId()));
+            reviewFirstAuditMapper.insertSelective(rfa);
+          }
+       }
+    }
+  }
+  private void flw_kbcb(Map<String, String> mapId, Project project,
+      String oldProjectId) {
+    Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
+    while (iterator.hasNext()) {
+      Entry<String, String> next = iterator.next();
+      String newId=next.getValue();
+      String oldId=next.getKey();
+      Quote quote=new Quote();
+      quote.setProjectId(oldProjectId);
+      quote.setPackageId(oldId);
+      List<Quote> selectQuoteHistory = quoteMapper.selectQuoteHistory(quote);
+      for(Quote qt:selectQuoteHistory){
+        qt.setId(WfUtil.createUUID());
+        qt.setProjectId(project.getId());
+        qt.setPackageId(newId);
+        qt.setCreatedAt(new Timestamp(new Date().getTime()));
+        quoteMapper.insertSelective(qt);
+      }
+    }
   }
   private void flw_nzzbgs(Project project, String oldProjectId) {
     Article article = new Article();
@@ -264,7 +322,7 @@ public class TerminationServiceImpl implements TerminationService {
     Iterator<Entry<String, Integer>> iterator = IsTurnUpMap.entrySet().iterator();
     while (iterator.hasNext()) {
       Entry<String, Integer> next = iterator.next();
-      String id=next.getKey();
+      String id=next.getKey(); 
       Integer value=next.getValue();
       SaleTender saleTenders = saleTenderMapper.selectByPrimaryKey(id);
       saleTenders.setIsTurnUp(value);
@@ -326,6 +384,141 @@ public class TerminationServiceImpl implements TerminationService {
   }
   private void flw_nzcgwj(Map<String, String> mapId, Project project,
       String oldProjectId,Map<String, String> firstAuditIdMap) {
+    
+    
+    insert_firstAudit(project, firstAuditIdMap, mapId);
+    
+    Map<String, String> BidMethodId=new HashMap<String, String>();
+    insert_bidMethod(oldProjectId,project, mapId, BidMethodId);
+    
+    Map<String, String> markTermsId=new HashMap<String, String>();
+    Map<String, String> markTermsPId=new HashMap<String, String>();
+    insert_markTerms(oldProjectId,project, mapId, markTermsId, markTermsPId,BidMethodId);
+    
+    Map<String, String>  scoreModelId=new HashMap<String, String>();
+    insert_scoreModel(project, oldProjectId, mapId, markTermsId,
+        scoreModelId);
+    
+    insert_paramInterval(project, oldProjectId, mapId, scoreModelId);
+    //采购文件
+    String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+    Integer systemKey = Integer.parseInt(Constant.TENDER_SYS_KEY+"");
+    String tableName = Constant.fileSystem.get(systemKey);
+    List<UploadFile> files = uploadDao.getFiles(tableName, oldProjectId, typeId);
+    if (files != null && files.size() > 0){
+      
+    }
+    //采购管理部门审核意见附件
+    String pc_reason = DictionaryDataUtil.getId("PC_REASON");
+    //事业部门审核意见附件
+    String cause_reason = DictionaryDataUtil.getId("CAUSE_REASON");
+    //财务部门审核意见附件
+    String finance_reason = DictionaryDataUtil.getId("FINANCE_REASON");
+  }
+  private void insert_paramInterval(Project project, String oldProjectId,
+      Map<String, String> mapId, Map<String, String> scoreModelId) {
+    Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
+    while(iterator.hasNext()){
+      Map.Entry<String, String> entry = iterator.next();
+      String oldId=entry.getKey();
+      String newId=entry.getValue();
+      ParamInterval paramInterval=new ParamInterval();
+      paramInterval.setPackageId(oldId);
+      paramInterval.setProjectId(oldProjectId);
+      List<ParamInterval> paramIntervals = paramIntervalMapper.findListByParamInterval(paramInterval);
+      for (ParamInterval pt : paramIntervals) {
+        pt.setPackageId(newId);
+        pt.setProjectId(project.getId());
+        pt.setScoreModelId(scoreModelId.get(pt.getScoreModelId()));
+        paramIntervalMapper.saveParamInterval(pt);
+      }
+      
+    }
+  }
+  private void insert_scoreModel(Project project, String oldProjectId,
+      Map<String, String> mapId,
+      Map<String, String> markTermsId, Map<String, String> scoreModelId) {
+    Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
+    while(iterator.hasNext()){
+      Map.Entry<String, String> entry = iterator.next();
+      String oldId=entry.getKey();
+      String newId=entry.getValue();
+      ScoreModel model=new ScoreModel();
+      model.setPackageId(oldId);
+      model.setProjectId(oldProjectId);
+      List<ScoreModel> scoreModels = scoreModelMapper.findScoreModelByPackageId(model);
+      for (ScoreModel sm : scoreModels) {
+        String id=sm.getId();
+        sm.setPackageId(newId);
+        sm.setProjectId(project.getId());
+        sm.setMarkTermId(markTermsId.get(sm.getMarkTermId()));
+        scoreModelMapper.saveScoreModel(sm);
+        scoreModelId.put(id,sm.getId());
+      }
+    }
+  }
+  private void insert_markTerms(String oldprojectId,Project project,
+      Map<String, String> mapId,
+      Map<String, String> markTermsId, Map<String, String> markTermsPId,Map<String, String> bidMethodIds) {
+    Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
+    while(iterator.hasNext()){
+      Map.Entry<String, String> entry = iterator.next();
+      String oldId=entry.getKey();
+      String newId=entry.getValue();
+      MarkTerm markTerm=new MarkTerm();
+      markTerm.setPackageId(oldId);
+      markTerm.setProjectId(oldprojectId);
+      List<MarkTerm> markTerms = markTermMapper.findMarkTermByPackageId(markTerm);
+      List<MarkTerm> markTermslist=new ArrayList<MarkTerm>();
+      markTermslist.addAll(markTerms);
+      for (MarkTerm mt : markTerms) {
+        if(mt.getPid().equals("0")){
+          String id=mt.getId();
+          mt.setPackageId(newId);
+          mt.setProjectId(project.getId());
+          mt.setBidMethodId(bidMethodIds.get(mt.getBidMethodId()));
+          markTermMapper.saveMarkTerm(mt);
+          markTermsId.put(id, mt.getId());
+        }
+      }
+      for (MarkTerm mt : markTermslist) {
+        if(!mt.getPid().equals("0")){
+          String id=mt.getId();
+          mt.setPackageId(newId);
+          mt.setProjectId(project.getId());
+          mt.setPid(markTermsId.get(mt.getPid()));
+          mt.setBidMethodId(bidMethodIds.get(mt.getBidMethodId()));
+          markTermMapper.saveMarkTerm(mt);
+          markTermsId.put(id, mt.getId());
+        }
+      }
+    }
+  }
+  private void insert_bidMethod(String oldProjectId,Project project,
+      Map<String, String> mapId, Map<String, String> BidMethodId) {
+    Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
+    while(iterator.hasNext()){
+      Map.Entry<String, String> entry = iterator.next();
+      String oldId=entry.getKey();
+      String newId=entry.getValue();
+      //经济和技术评审
+      BidMethod condition = new BidMethod();
+      condition.setPackageId(oldId);
+      condition.setProjectId(oldProjectId);
+      List<BidMethod> bmList = bidMethodMapper.findScoreMethodByPackageId(condition);
+      for(BidMethod bm:bmList){
+        String id=bm.getId();
+        bm.setPackageId(newId);
+        bm.setProjectId(project.getId());
+        bm.setUpdatedAt(null);
+        bidMethodMapper.saveBidMethod(bm);
+        BidMethodId.put(id, bm.getId());
+      }
+    }
+  }
+  private void insert_firstAudit(Project project,
+      Map<String, String> firstAuditIdMap,
+      Map<String, String> mapId) {
     Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
     //资格性和符合性审查
     while(iterator.hasNext()){
@@ -345,32 +538,7 @@ public class TerminationServiceImpl implements TerminationService {
         fa.setProjectId(project.getId());
         firstAuditMapper.insertSelective(fa);
       }
-      
-      //经济和技术评审
-      BidMethod condition = new BidMethod();
-      condition.setPackageId(oldId);
-      List<BidMethod> bmList = bidMethodMapper.findScoreMethod(condition);
-      for(BidMethod bm:bmList){
-        bm.setPackageId(newId);
-        bm.setProjectId(project.getId());
-        bm.setUpdatedAt(null);
-        bidMethodMapper.saveBidMethod(bm);
-      }
     }
-    //采购文件
-    String typeId = DictionaryDataUtil.getId("PROJECT_BID");
-    Integer systemKey = Integer.parseInt(Constant.TENDER_SYS_KEY+"");
-    String tableName = Constant.fileSystem.get(systemKey);
-    List<UploadFile> files = uploadDao.getFiles(tableName, oldProjectId, typeId);
-    if (files != null && files.size() > 0){
-      
-    }
-    //采购管理部门审核意见附件
-    String pc_reason = DictionaryDataUtil.getId("PC_REASON");
-    //事业部门审核意见附件
-    String cause_reason = DictionaryDataUtil.getId("CAUSE_REASON");
-    //财务部门审核意见附件
-    String finance_reason = DictionaryDataUtil.getId("FINANCE_REASON");
   }
   private void insertDetail(String packagesId,String projectId, Project project,
       Map<String, String> mapId) {
@@ -392,12 +560,14 @@ public class TerminationServiceImpl implements TerminationService {
   }
 
   private void insertPackages(String packagesId, Project project,
-      Map<String, String> mapId) {
+      Map<String, String> mapId,String currFlowDefineId) {
     if(packagesId!=null){
       String[] split = packagesId.split(",");
       String pagId="";
       for(int i=0;i<split.length;i++){
         Packages pg = packageMapper.selectByPrimaryKeyId(split[i]);
+        pg.setFlowId(currFlowDefineId);
+        packageMapper.updateByPrimaryKeySelective(pg);
         if(pg!=null){
           pagId=pg.getId();
           pg.setProjectId(project.getId());

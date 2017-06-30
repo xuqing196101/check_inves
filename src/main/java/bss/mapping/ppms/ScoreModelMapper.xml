@@ -799,4 +799,13 @@
 		</foreach>
 	</update> -->
 	<!-- t_bss_ppms_param_interval 参数区间表 -->
+	<select id="findScoreModelByPackageId" parameterType="bss.model.ppms.ScoreModel" resultMap="BaseMap">
+	   select * from T_BSS_PPMS_SCORE_MODEL where 1=1
+	   <if test="projectId != null">
+         	and PROJECT_ID = #{projectId}
+      	</if>
+      	<if test="packageId != null">
+         	and package_id = #{packageId}
+      	</if>
+	</select>
 </mapper>
