@@ -369,10 +369,10 @@ public class SupplierServiceImpl implements SupplierService {
             
             /*if(supplier.getWebsite()==null){
                 supplier.setWebsite("");
-            }
+            }*/
             if(supplier.getBranchName()==null){
                 supplier.setBranchName("0");
-            }*/
+            }
 
       supplierMapper.updateByPrimaryKeySelective(supplier);
 
