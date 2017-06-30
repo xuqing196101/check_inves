@@ -5210,7 +5210,7 @@
 										<w:spacing w:line="240" w:lineRule="exact" />
 										<w:jc w:val="center" />
 										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
+											<w:rFonts w:hint="default" w:ascii="Calibri"
 												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
 											<w:kern w:val="2" />
 											<w:sz w:val="21" />
@@ -5227,19 +5227,6 @@
 										</w:rPr>
 										<w:t>境外分支机构</w:t>
 									</w:r>
-								</w:p>
-								<w:p>
-									<w:pPr>
-										<w:spacing w:line="240" w:lineRule="exact" />
-										<w:jc w:val="both" />
-										<w:rPr>
-											<w:rFonts w:hint="eastAsia" w:ascii="Calibri"
-												w:hAnsi="宋体" w:eastAsia="宋体" w:cs="Times New Roman" />
-											<w:kern w:val="2" />
-											<w:sz w:val="21" />
-											<w:szCs w:val="21" />
-										</w:rPr>
-									</w:pPr>
 								</w:p>
 							</w:tc>
 							<w:tc>
@@ -5699,6 +5686,7 @@
 						</w:tr>
 						</#if>
 						</#list>
+						<#if isEng?? && supplierMatEng??>
 						<w:tr>
 							<w:tblPrEx>
 								<w:tblBorders>
@@ -5904,6 +5892,7 @@
 								</w:p>
 							</w:tc>
 						</w:tr>
+						</#if>
 					</w:tbl>
 					<w:p>
 						<w:pPr>

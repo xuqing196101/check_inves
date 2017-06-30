@@ -111,6 +111,7 @@ import common.utils.JdcgResult;
  * <p>Description: 供应商审核控制类</p>
  * @author Xu Qing
  * @date 2016-9-12下午5:14:36
+ * 
  */
 @Controller
 @Scope("prototype")

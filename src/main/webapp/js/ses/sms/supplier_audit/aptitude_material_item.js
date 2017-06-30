@@ -1,5 +1,5 @@
 //审核不通过理由
-function reasonProject(auditField, auditFieldName,auditType,auditContent) {
+function reasonProject(auditField, auditFieldName,type,auditContent) {
 	var supplierId = $("#supplierId").val();
 	var auditType = $("#auditType").val();
 	if(auditType!=null && auditType !='' && auditType>'0' ){
@@ -17,7 +17,7 @@ function reasonProject(auditField, auditFieldName,auditType,auditContent) {
 			$.ajax({
 				url: globalPath+"/supplierAudit/auditReasons.do",
 				type: "post",
-				data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType="+auditType+"&auditContent=" + auditContent + "&auditField=" + auditField,
+				data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType="+type+"&auditContent=" + auditContent + "&auditField=" + auditField,
 				dataType: "json",
 				success: function(result) {
 					alert(result);
