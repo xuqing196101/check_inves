@@ -47,6 +47,8 @@ public class SupplierCateTree implements Serializable{
     
     /** 供应商品目ID **/
     private String itemsId;
+    /** 供应商品目ID **/
+    private String itemsName;
     
     /** 等级 **/
     private DictionaryData level;
@@ -72,12 +74,49 @@ public class SupplierCateTree implements Serializable{
     //合同文件数量
     private Long contractCount;
     private String supplierItemId;
-    
+    //目录 是否有审核记录
+    private Integer isItemsPageAudit; 
+    //资质文件 是否有审核记录
+    private Integer isAptitudePAgeAudit;
+    //合同文件 是否有资质审核记录
+    private Integer isContractPageAudit;
     // 根节点类型（1：物质生产；2：物质销售；3：工程；4：服务）
     private int rootNodeType;
     
     
-    public String getSupplierItemId() {
+    public String getItemsName() {
+		return itemsName;
+	}
+
+	public void setItemsName(String itemsName) {
+		this.itemsName = itemsName;
+	}
+
+	public Integer getIsItemsPageAudit() {
+		return isItemsPageAudit;
+	}
+
+	public void setIsItemsPageAudit(Integer isItemsPageAudit) {
+		this.isItemsPageAudit = isItemsPageAudit;
+	}
+
+	public Integer getIsAptitudePAgeAudit() {
+		return isAptitudePAgeAudit;
+	}
+
+	public void setIsAptitudePAgeAudit(Integer isAptitudePAgeAudit) {
+		this.isAptitudePAgeAudit = isAptitudePAgeAudit;
+	}
+
+	public Integer getIsContractPageAudit() {
+		return isContractPageAudit;
+	}
+
+	public void setIsContractPageAudit(Integer isContractPageAudit) {
+		this.isContractPageAudit = isContractPageAudit;
+	}
+
+	public String getSupplierItemId() {
 		return supplierItemId;
 	}
 
