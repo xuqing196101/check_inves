@@ -5,6 +5,10 @@
 <head>
 	<%@ include file="/WEB-INF/view/common.jsp"%>
 	<script type="text/javascript" src= "${pageContext.request.contextPath}/js/dss/rids/analyze/list.js"></script>
+	<script type="text/javascript">
+	  // 采购资源权限标识
+		var typeName = '${typeName}';
+	</script>
 </head>
 
 <body>
