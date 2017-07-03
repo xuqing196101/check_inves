@@ -1036,3 +1036,6 @@ a.redhover:hover{
 .div-center{
 text-align:center;
 }
+.table-border-color-red{
+ border-color:#FF0000!important;
+}
