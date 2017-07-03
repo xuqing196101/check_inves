@@ -1529,8 +1529,10 @@
 														承担国家军队科研项目：</span>
 													<div class="col-md-12 col-xs-12 col-sm-12 p0">
 														<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
-															maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" name="supplierMatPro.countryPro" <c:if test="${!fn:contains(proPageField,'countryPro')&&currSupplier.status==2}">readonly='readonly' </c:if>
+															name="supplierMatPro.countryPro" id="countryPro" maxlength="1000"
+															onkeyup="checkCharLimit('countryPro','limit_char_countryPro',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" <c:if test="${!fn:contains(proPageField,'countryPro')&&currSupplier.status==2}">readonly='readonly' </c:if>
 															<c:if test="${fn:contains(proPageField,'countryPro')}">style="border: 1px solid red;" onmouseover="errorMsg('countryPro','mat_pro_page')"</c:if>>${currSupplier.supplierMatPro.countryPro}</textarea>
+														<span class="sm_tip fr">还可输入 <span id="limit_char_countryPro">1000</span> 个字</span>
 														<div class="cue">
 															<sf:errors path="supplierMatPro.countryPro" />
 														</div>
@@ -1540,8 +1542,10 @@
 														获得国家军队科技奖项：</span>
 													<div class="col-md-12 col-xs-12 col-sm-12 p0">
 														<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
-															maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" name="supplierMatPro.countryReward" <c:if test="${!fn:contains(proPageField,'countryReward')&&currSupplier.status==2}">readonly='readonly' </c:if>
+															name="supplierMatPro.countryReward" id="countryReward" maxlength="1000"
+															onkeyup="checkCharLimit('countryReward','limit_char_countryReward',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" <c:if test="${!fn:contains(proPageField,'countryReward')&&currSupplier.status==2}">readonly='readonly' </c:if>
 															<c:if test="${fn:contains(proPageField,'countryReward')}">style="border: 1px solid red;" onmouseover="errorMsg('countryReward','mat_pro_page')"</c:if>>${currSupplier.supplierMatPro.countryReward}</textarea>
+														<span class="sm_tip fr">还可输入 <span id="limit_char_countryReward">1000</span> 个字</span>
 														<div class="cue">
 															<sf:errors path="supplierMatPro.countryReward" />
 														</div>
@@ -1883,10 +1887,12 @@
 														<i class="red">* </i>国家或军队保密工程业绩：</span>
 													<div class="col-md-12 col-xs-12 col-sm-12 p0">
 														<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
-															maxlength="1000" onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" id="conAchi"
+															name="supplierMatEng.confidentialAchievement" id="conAchi" maxlength="1000" 
+															onkeyup="checkCharLimit('conAchi','limit_char_conAchi',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" 
 															<c:if test="${currSupplier.supplierMatEng.isHavingConAchi == '1'}">required="required"</c:if>
-															name="supplierMatEng.confidentialAchievement"  <c:if test="${!fn:contains(engPageField,'confidentialAchievement')&&currSupplier.status==2}">readonly="readonly"</c:if>
+															<c:if test="${!fn:contains(engPageField,'confidentialAchievement')&&currSupplier.status==2}">readonly="readonly"</c:if>
 															<c:if test="${fn:contains(engPageField,'confidentialAchievement')}">style="border: 1px solid red;" onmouseover="errorMsg('confidentialAchievement','mat_eng_page')"</c:if>>${currSupplier.supplierMatEng.confidentialAchievement}</textarea>
+														<span class="sm_tip fr">还可输入 <span id="limit_char_conAchi">1000</span> 个字</span>
 														<div class="cue">
 															<span class="red">${secret }</span>
 															<sf:errors path="supplierMatEng.confidentialAchievement" />
@@ -2559,4 +2565,16 @@
 		}
 		return true;
 	}
+</script>
+
+<script type="text/javascript">
+	// 核对字符长度
+	function checkCharLimit(inputId,countId,limit){
+		var inputVal = $("#"+inputId).val();
+		var inputLen = inputVal ? inputVal.length : 0;
+		$("#"+countId).text(limit - inputLen);
+	}
+	checkCharLimit('countryPro','limit_char_countryPro',1000);// 承担国家军队科研项目
+	checkCharLimit('countryReward','limit_char_countryReward',1000);// 获得国家军队科技奖项
+	checkCharLimit('conAchi','limit_char_conAchi',1000);// 国家或军队保密工程业绩
 </script>
