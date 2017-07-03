@@ -247,6 +247,7 @@ public class SupplierServiceImpl implements SupplierService {
       supplier.setAddressList(addressList);
     } else {
       SupplierAddress address = new SupplierAddress();
+      address.setId(WfUtil.createUUID());
       addressList.add(address);
       supplier.setAddressList(addressList);
     }
