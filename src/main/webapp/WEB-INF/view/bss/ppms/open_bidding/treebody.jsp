@@ -20,11 +20,12 @@ System.out.print(scoreModel);
 		 $("#guding").before("<tr><td><span class='star_red'>*</span>选择项名称</td><td><input onkeyup='gernerator();' ></td><td><span class='star_red'>*</span>对应分数</td><td><input onkeyup='gernerator();'></td><td class='tc'><button class='btn btn-windows delete' type=button onclick=deleteRow(this)>删除</button></td></tr>");
 	}
 	function deleteRow(obj) {
-		  if ($("#show_table").get(0).rows.length == 5) {
+		  /* if ($("#show_table").get(0).rows.length == 5) {
 		  	layer.msg("请填写数据");
 		  } else {
 		  	$(obj).parent().parent().remove(); 
-		  }
+		  } */
+		  $(obj).parent().parent().remove(); 
 	}
 
 function judge(index) {
