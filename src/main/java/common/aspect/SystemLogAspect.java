@@ -92,10 +92,11 @@ public class SystemLogAspect {
     /**
      * 
      *〈简述〉controller切面结束
-     *〈详细描述〉
+     *〈详细描述〉异常 不执行
      * @author myc
      */
-    @After("controllerAspect()")
+   // @After("controllerAspect()")
+    @AfterReturning("controllerAspect()")
     public void doAfter(JoinPoint joinPoint){
         try {
             long endTimeMillis = System.currentTimeMillis();
@@ -106,7 +107,7 @@ public class SystemLogAspect {
             systemLog.setOperatePersonId(currentUser.getId());
             systemLog.setOperatePersonName(currentUser.getRelName() == null? currentUser.getLoginName() : currentUser.getRelName());
             systemLog.setOperateTime(new Date());
-            systemLog.setOperateType((Integer)getAnnotaControllerParam(joinPoint)[1]);
+            //systemLog.setOperateType((Integer)getAnnotaControllerParam(joinPoint)[1]);
             systemLog.setDescriptions((String)getAnnotaControllerParam(joinPoint)[0]);
             systemLog.setMethod(getOperMethod(joinPoint));
             systemLog.setOperateStartTime(DateUtils.longToDate(startTimeMillis));
@@ -123,25 +124,28 @@ public class SystemLogAspect {
     /**
      * 
      *〈简述〉异常处理
-     *〈详细描述〉
+     *〈详细描述〉异常执行
      * @author myc
      * @param joinPoint
      * @param e
      */
-    @AfterThrowing(pointcut ="serviceAspect()",throwing = "e")
+   // @ AfterThrowing(pointcut ="serviceAspect()",throwing = "e")
+    @AfterThrowing(pointcut="controllerAspect()",throwing ="e")
     public  void doAfterThrowing(JoinPoint joinPoint, Throwable e) {   
         try {
             long endTimeMillis = System.currentTimeMillis();
             HttpServletRequest request = getHttpServletRequest();
-            currentUser = (User) request.getSession().getAttribute("loginUser");
+            //currentUser = (User) request.getSession().getAttribute("loginUser");
             SystemLog systemLog = new SystemLog();
             systemLog.setLogType(LOG_TYPE_SERVICE);
             systemLog.setOperateIp(getIpAddress(request));
             systemLog.setOperatePersonId(currentUser.getId());
             systemLog.setOperatePersonName(currentUser.getRelName() == null? currentUser.getLoginName() : currentUser.getRelName());
             systemLog.setOperateTime(new Date());
-            systemLog.setOperateType((Integer)getAnnotaServiceParam(joinPoint)[1]);
-            systemLog.setDescriptions((String)getAnnotaServiceParam(joinPoint)[0]);
+            /*systemLog.setOperateType((Integer)getAnnotaServiceParam(joinPoint)[1]);
+            systemLog.setDescriptions((String)getAnnotaServiceParam(joinPoint)[0]);*/
+            //systemLog.setOperateType((Integer)getAnnotaControllerParam(joinPoint)[1]);
+            systemLog.setDescriptions((String)getAnnotaControllerParam(joinPoint)[0]);
             systemLog.setMethod(getOperMethod(joinPoint));
             systemLog.setOperateStartTime(DateUtils.longToDate(startTimeMillis));
             systemLog.setOperateEndTime(DateUtils.longToDate(endTimeMillis));
@@ -189,9 +193,9 @@ public class SystemLogAspect {
                Class<?>[] clazzs = method.getParameterTypes();    
                 if (clazzs.length == arguments.length) {  
                     String description = method.getAnnotation(SystemControllerLog.class).description();  
-                    int operateType = method.getAnnotation(SystemControllerLog.class).operType();
+                    //int operateType = method.getAnnotation(SystemControllerLog.class).operType();
                     params[0] = description;
-                    params[1] = operateType;
+                    //params[1] = operateType;
                     break;    
                }    
            }    
@@ -208,8 +212,7 @@ public class SystemLogAspect {
      * @return
      * @throws Exception
      */
-    private  static Object []  getAnnotaServiceParam(JoinPoint joinPoint)    
-            throws Exception {    
+    private  static Object []  getAnnotaServiceParam(JoinPoint joinPoint)throws Exception {    
        String targetName = joinPoint.getTarget().getClass().getName();    
        String methodName = joinPoint.getSignature().getName();    
        Object[] arguments = joinPoint.getArgs();    

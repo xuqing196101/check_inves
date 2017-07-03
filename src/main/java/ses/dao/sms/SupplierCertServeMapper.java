@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierCertServe;
 
 public interface SupplierCertServeMapper {
@@ -59,4 +61,18 @@ public interface SupplierCertServeMapper {
     List<SupplierCertServe> findCertSeBySupplierId(String supplierId);
     
     void deleteById(String id);
+    
+    
+    /**
+     * 
+    * @Title: deleteByServer
+    * @Description:根据服务ID删除对应的shuju
+    * author: Li Xiaoxiao 
+    * @param @param matEngId     
+    * @return void     
+    * @throws
+     */
+    void deleteByServer(@Param("matServeId")String matServeId);
+    
+    
 }

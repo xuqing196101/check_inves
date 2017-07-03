@@ -73,8 +73,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年5月23日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-供应商", operType=1)
-	@SystemServiceLog(description="采购资源展示-供应商", operType=1)
+	@SystemControllerLog(description="采购资源展示-供应商")
 	@RequestMapping("/analyzeSuppliers")
 	public String analyzeSupplier(@CurrentUser User user, Supplier sup, Model model) {
 		if(this.verifyPermission(user)){
@@ -128,8 +127,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年5月23日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-供应商", operType=1)
-	@SystemServiceLog(description="采购资源展示-供应商", operType=1)
+	@SystemControllerLog(description="采购资源展示-供应商")
 	@RequestMapping("/analyzeSupplierCateType")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> analyzeSupplierCateType() {
@@ -144,8 +142,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年5月23日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-供应商", operType=1)
-	@SystemServiceLog(description="采购资源展示-供应商", operType=1)
+	@SystemControllerLog(description="采购资源展示-供应商")
 	@RequestMapping("/analyzeSupplierByNature")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> analyzeSupplierByNature(){
@@ -160,8 +157,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年5月23日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-供应商", operType=1)
-	@SystemServiceLog(description="采购资源展示-供应商", operType=1)
+	@SystemControllerLog(description="采购资源展示-供应商")
 	@RequestMapping("/selectSupByOrg")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectSupByOrgS(){
@@ -176,8 +172,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年5月27日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-专家", operType=3)
-	@SystemServiceLog(description="采购资源展示-专家", operType=3)
+	@SystemControllerLog(description="采购资源展示-专家")
 	@RequestMapping("/analyzeExperts")
 	public String analyzeExpert(Model model, @CurrentUser User user){
 		if(this.verifyPermission(user)){
@@ -213,8 +208,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年5月27日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-专家", operType=3)
-	@SystemServiceLog(description="采购资源展示-专家", operType=3)
+	@SystemControllerLog(description="采购资源展示-专家")
 	@RequestMapping("/selectExpertCountByCategory")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectExpertCountByCategorys(){
@@ -229,8 +223,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-专家", operType=3)
-	@SystemServiceLog(description="采购资源展示-专家", operType=3)
+	@SystemControllerLog(description="采购资源展示-专家")
 	@RequestMapping("/selectExpertsCountByArmyType")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectExpertsCountByArmyTypes(){
@@ -245,8 +238,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-专家", operType=3)
-	@SystemServiceLog(description="采购资源展示-专家", operType=3)
+	@SystemControllerLog(description="采购资源展示-专家")
 	@RequestMapping("/selectExpByOrg")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectExpByOrgS(){
@@ -261,8 +253,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购机构", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购机构", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购机构")
 	@RequestMapping("/analyzeOrgs")
 	public String analyzeOrg(Model model, @CurrentUser User user){
 		if(this.verifyPermission(user)){
@@ -298,8 +289,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购机构", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购机构", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购机构")
 	@RequestMapping("/selectMemNumByOrg")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectMemNumByOrgS(){
@@ -314,8 +304,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购人员", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购人员", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购人员")
 	@RequestMapping("/purchaseMemList")
 	public String purchaseMemLists(Model model, @CurrentUser User user){
 		if(this.verifyPermission(user)){
@@ -335,8 +324,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年5月31日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购人员", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购人员", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购人员")
 	@RequestMapping("/selectMenberByType")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectMenberByType(){
@@ -351,8 +339,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月1日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购人员", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购人员", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购人员")
 	@RequestMapping("/selectMenberByGender")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectMenberByGenders(){
@@ -456,8 +443,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月6日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购项目", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购项目", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购项目")
 	@RequestMapping("/analyzePurchaseProject")
 	public String analyzePurchaseProjects(Model model, @CurrentUser User user) {
 		if(this.verifyPermission(user)){
@@ -477,8 +463,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月6日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购项目", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购项目", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购项目")
 	@RequestMapping("/selectPurProjectByWay")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectPurProjectByWays(){
@@ -493,8 +478,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月6日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购项目", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购项目", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购项目")
 	@RequestMapping("/selectPurProjectCountAndMoney")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectPurProjectCountAndMoneys(){
@@ -509,8 +493,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月6日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购合同", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购合同", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购合同")
 	@RequestMapping("/analyzePurchaseContract")
 	public String analyzePurchaseContracts(Model model, @CurrentUser User user) {
 		if(this.verifyPermission(user)){
@@ -530,8 +513,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月6日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购合同", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购合同", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购合同")
 	@RequestMapping("/selectPurContractCountAndMoney")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectPurContractCountAndMoneys(){
@@ -546,8 +528,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月7日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购需求", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购需求", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购需求")
 	@RequestMapping("/analyzePurchaseRequire")
 	public String analyzePurchaseRequires(Model model, @CurrentUser User user) {
 		if(this.verifyPermission(user)){
@@ -567,8 +548,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月7日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购计划", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购计划", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购计划")
 	@RequestMapping("/analyzePurchasePlan")
 	public String analyzePurchasePlans(Model model, @CurrentUser User user) {
 		if(this.verifyPermission(user)){
@@ -588,8 +568,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月7日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购公告", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购公告", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购公告")
 	@RequestMapping("/analyzePurchaseNotice")
 	public String analyzePurchaseNotices(Model model, @CurrentUser User user) {
 		if(this.verifyPermission(user)){
@@ -609,8 +588,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月7日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购公告", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购公告", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购公告")
 	@RequestMapping("/selectNearFiveYearPurchaseNoticeCount")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectNearFiveYearPurchaseNoticeCounts() {
@@ -625,8 +603,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月7日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购公告", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购公告", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购公告")
 	@RequestMapping("/selectNoticeByArticleType")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectNoticeByArticleTypes() {
@@ -641,8 +618,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月7日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购公告", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购公告", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购公告")
 	@RequestMapping("/selectNoticeByCateType")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectNoticeByCateTypes() {
@@ -657,8 +633,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月7日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购公告", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购公告", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购公告")
 	@RequestMapping("/selectNoticeByPurWay")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectNoticeByPurWays() {
@@ -673,8 +648,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月7日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购公告", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购公告", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购公告")
 	@RequestMapping("/selectNoticeByProductCate")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectNoticeByProductCates() {
@@ -689,8 +663,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月7日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购需求", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购需求", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购需求")
 	@RequestMapping("/selectNearFiveYearAllBudget")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectNearFiveYearAllBudgets() {
@@ -705,8 +678,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月8日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购需求", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购需求", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购需求")
 	@RequestMapping("/selectBudget")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectBudgets() {
@@ -721,8 +693,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月8日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购需求", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购需求", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购需求")
 	@RequestMapping("/selectOrgBudget")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectOrgBudgets() {
@@ -737,8 +708,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月8日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购计划", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购计划", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购计划")
 	@RequestMapping("/selectManageBudget")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectManageBudgets() {
@@ -753,8 +723,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月8日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购计划", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购计划", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购计划")
 	@RequestMapping("/selectNowFiveYearAllBudgetByPlan")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectNowFiveYearAllBudgetByPlans() {
@@ -769,8 +738,7 @@ public class PurchaseResourceAnalyzeController {
 	 * @version 2017年6月9日
 	 * @return
 	 */
-	@SystemControllerLog(description="采购资源展示-采购计划", operType=2)
-	@SystemServiceLog(description="采购资源展示-采购计划", operType=2)
+	@SystemControllerLog(description="采购资源展示-采购计划")
 	@RequestMapping("/selectPlanBudget")
 	@ResponseBody
 	public List<AnalyzeBigDecimal> selectPlanBudgets() {

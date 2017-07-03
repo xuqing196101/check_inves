@@ -61,8 +61,7 @@ public class OBRuleController {
 	 * @return
 	 */
 	@RequestMapping("/ruleList")
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public String ruleList(@CurrentUser User user, Model model, HttpServletRequest request, @RequestParam(defaultValue = "1") Integer page) {
 		String authType = null;
 		if (user != null && "4".equals(user.getTypeName())) {
@@ -121,8 +120,7 @@ public class OBRuleController {
 	 * @return
 	 */
 	@RequestMapping("/addRuleUI")
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public String addRuleUI(@CurrentUser User user, Model model) {
 		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
@@ -145,8 +143,7 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/addRule", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult addRule(OBRule obRule, @CurrentUser User user, Model model) throws Exception {
 		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
@@ -170,8 +167,7 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult delete(@CurrentUser User user, HttpServletRequest request, Model model) throws Exception {
 		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
@@ -197,8 +193,7 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/setDefaultRule", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult setDefaultRule(@CurrentUser User user, HttpServletRequest request, Model model) throws Exception {
 		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
@@ -223,8 +218,7 @@ public class OBRuleController {
 	 * @throws ParseException
 	 */
 	@RequestMapping("/holidayList")
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public String holidayList(@CurrentUser User user, Model model,
 			HttpServletRequest request,
 			@RequestParam(defaultValue = "1") Integer page)
@@ -271,8 +265,7 @@ public class OBRuleController {
 	 * @return
 	 */
 	@RequestMapping("createSpecialdateUI")
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public String createSpecialdateUI(@CurrentUser User user, Model model) {
 		String authType = null;
 		if (user != null&& "4".equals(user.getTypeName())) {
@@ -297,8 +290,7 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "addSpecialdate", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult addSpecialdate(@CurrentUser User user,OBSpecialDate obSpecialDate, HttpServletRequest request) throws Exception {
 		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
@@ -320,8 +312,7 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/deleteSpecialDate", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult deleteSpecialDate(@CurrentUser User user, HttpServletRequest request) throws Exception {
 		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
@@ -344,8 +335,7 @@ public class OBRuleController {
 	 * @return
 	 */
 	@RequestMapping("/editobRule")
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public String editobRule(@CurrentUser User user, Model model, String id) {
 		String authType = null;
 		if (user != null && "4".equals(user.getTypeName())) {
@@ -374,8 +364,7 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/updateobRule", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult updateobRule(@CurrentUser User user, OBRule obRule)
 			throws Exception {
 		if (user != null && "4".equals(user.getTypeName())) {
@@ -397,8 +386,7 @@ public class OBRuleController {
 	 * @return
 	 */
 	@RequestMapping("/editSpecialdate")
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public String editSpecialdate(@CurrentUser User user, Model model, String id) {
 		String authType = null;
 		if (user != null && "4".equals(user.getTypeName())) {
@@ -427,8 +415,7 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/updateSpecialdate", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult updateSpecialdate(@CurrentUser User user,
 			OBSpecialDate obSpecialDate) throws Exception {
 		if (user != null && "4".equals(user.getTypeName())) {
@@ -450,8 +437,7 @@ public class OBRuleController {
 	 */
 	@RequestMapping("/checkNameUnique")
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult checkNameUnique(@CurrentUser User user, String name) {
 		if (user != null && "4".equals(user.getTypeName())) { 
 			// 判断是否 是资源服务中心

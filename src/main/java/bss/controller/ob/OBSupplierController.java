@@ -131,8 +131,7 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/addSupplieri")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String addSupplieri(HttpServletRequest request,Model model) {
 		String supid = UUID.randomUUID().toString().replaceAll("-", "");
 		OBSupplier obSupplier = new OBSupplier();
@@ -154,8 +153,7 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/supplier")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String supplier(@CurrentUser User user,Model model, 
 			HttpServletRequest request,@RequestParam(defaultValue="1") Integer page) {
 		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
@@ -217,8 +215,7 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public void delete(HttpServletRequest request, @CurrentUser User user) {
 		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
@@ -248,8 +245,7 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/restore")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public void restore(HttpServletRequest request, @CurrentUser User user) {
 		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
@@ -279,8 +275,7 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/findAllSupplier")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public List<Supplier> findAllSupplier(@CurrentUser User user) {
 		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
@@ -306,8 +301,8 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/findUsccById")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN) String findUsccById(HttpServletRequest request){
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
+	public String findUsccById(HttpServletRequest request){
 		String id = request.getParameter("option") == null ? "" : request.getParameter("option");
 		Supplier supplier = supplierService.selectById(id);
 		String creditCode = "";
@@ -331,8 +326,7 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/add")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String add(Model model, HttpServletRequest request,
 			OBSupplier obSupplier, @CurrentUser User u) {
 		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
@@ -427,8 +421,7 @@ public class OBSupplierController  {
 	
 	
 	@RequestMapping("/toedit")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String toedit(Model model,HttpServletRequest request,@CurrentUser User user){
 		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
@@ -460,8 +453,7 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/edit")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String edit(Model model,HttpServletRequest request,OBSupplier obSupplier,
            @CurrentUser User u){
 		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
@@ -582,8 +574,7 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/download")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public ResponseEntity<byte[]> download(HttpServletRequest request,
 			String filename) throws IOException {
 		String path = PathUtil.getWebRoot() + "excel/添加供应商模板.xlsx";
@@ -616,8 +607,7 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@SuppressWarnings("unchecked")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	@RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String uploadFile(@CurrentUser User user,MultipartFile file,HttpServletRequest request) throws Exception {
@@ -676,8 +666,7 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/findBybusinessId")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String findBybusinessId(HttpServletRequest request){
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
 		Integer key = request.getParameter("key") == null ? 0 : Integer.parseInt(request.getParameter("key"));
@@ -710,8 +699,7 @@ public class OBSupplierController  {
      */
     @ResponseBody
     @RequestMapping(value="/createtreeByproduct", produces = "application/json;charset=utf-8")
-    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
     public String createtreeById(HttpServletResponse response, Category category,String name) throws UnsupportedEncodingException{
     	List<CategoryTree> jList=new ArrayList<CategoryTree>();
     	if((name!=null&&!"".equals(name))){
