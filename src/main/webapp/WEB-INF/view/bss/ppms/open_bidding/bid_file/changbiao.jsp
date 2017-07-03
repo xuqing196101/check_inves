@@ -17,7 +17,7 @@
 	function addTotal() {
 		var allTable = document.getElementsByTagName("table");
 		var i = 0;
-		if (count > 1) {
+		if (count > 0) {
 			i = count;
 		}
 		for(i; i < allTable.length; i++) {
@@ -55,7 +55,7 @@
 		var allTable = document.getElementsByTagName("table");
 		var error = 0;
 		var i = 0;
-		if (count > 1) {
+		if (count > 0) {
 			i = count;
 		}
 		for(i; i < allTable.length; i++) {

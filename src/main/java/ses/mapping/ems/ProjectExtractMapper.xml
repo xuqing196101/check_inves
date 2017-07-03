@@ -441,7 +441,8 @@
     <update id="updateProjectByExpertId">
     	UPDATE
 		T_SES_EMS_PROJECT_EXTRACT
-		SET PROJECT_ID = #{newProjectId}
+		SET PROJECT_ID = #{newProjectId},
+		REVIEW_TYPE = #{reviewType}
 		WHERE
 		PROJECT_ID = #{projectId} AND EXPERT_ID = #{expertId}
     </update>

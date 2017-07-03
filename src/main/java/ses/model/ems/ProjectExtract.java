@@ -85,7 +85,9 @@ public class ProjectExtract {
      */
     private String conTypeId;
     
-    
+    /**
+     * 专家类型
+     */
     private String reviewType;
 
     /**
