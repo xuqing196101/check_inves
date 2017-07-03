@@ -3406,8 +3406,13 @@ public class ExpertController extends BaseController {
             // 图片前缀路径
 //            String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
 //              + request.getContextPath()+"/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
-            String host ="https://www.plap.cn/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
-            System.out.println(host+"*********");
+             String ipAddressType= PropUtil.getProperty("ipAddressType");
+             String host=null;
+    			if("1".equals(ipAddressType)){
+    			      host ="https://www.plap.cn/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+    		    }else{
+    		    	 host ="https://21.100.16.12/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+    		    }
         	dataMap.put("image",host);
 //		}
         String faceId = expert.getPoliticsStatus();

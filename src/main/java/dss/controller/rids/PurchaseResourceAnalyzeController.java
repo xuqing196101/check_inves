@@ -14,15 +14,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.Analyze;
 import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierEditService;
 import bss.formbean.Maps;
 
 import com.alibaba.fastjson.JSON;
+
+import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
 import common.annotation.SystemServiceLog;
-
 import dss.service.rids.PurchaseResourceAnalyzeService;
 
 /**
@@ -58,7 +60,8 @@ public class PurchaseResourceAnalyzeController {
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public String list() {
+	public String list(Model model, @CurrentUser User user) {
+		model.addAttribute("typeName", user.getTypeName());
 		return "dss/rids/analyze/list";
 	}
 
@@ -72,7 +75,10 @@ public class PurchaseResourceAnalyzeController {
 	 */
 	@SystemControllerLog(description="采购资源展示-供应商")
 	@RequestMapping("/analyzeSuppliers")
-	public String analyzeSupplier(Supplier sup, Model model) {
+	public String analyzeSupplier(@CurrentUser User user, Supplier sup, Model model) {
+		if(this.verifyPermission(user)){
+			return "redirect:list.html";
+		}
 		List<Supplier> listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, null);
 
 		Map<String, Integer> map = supplierEditService.getMap();
@@ -168,7 +174,10 @@ public class PurchaseResourceAnalyzeController {
 	 */
 	@SystemControllerLog(description="采购资源展示-专家")
 	@RequestMapping("/analyzeExperts")
-	public String analyzeExpert(Model model){
+	public String analyzeExpert(Model model, @CurrentUser User user){
+		if(this.verifyPermission(user)){
+			return "redirect:list.html";
+		}
 		List<AnalyzeBigDecimal> list = purchaseResourceAnalyzeService.selectExpertsByArea();
 		String json = JSON.toJSONString(list);
 		BigDecimal maxCount = new BigDecimal(0);
@@ -246,7 +255,10 @@ public class PurchaseResourceAnalyzeController {
 	 */
 	@SystemControllerLog(description="采购资源展示-采购机构")
 	@RequestMapping("/analyzeOrgs")
-	public String analyzeOrg(Model model){
+	public String analyzeOrg(Model model, @CurrentUser User user){
+		if(this.verifyPermission(user)){
+			return "redirect:list.html";
+		}
 		List<AnalyzeBigDecimal> list = purchaseResourceAnalyzeService.selectOrgsByArea();
 		String json = JSON.toJSONString(list);
 		BigDecimal maxCount = new BigDecimal(0);
@@ -294,7 +306,10 @@ public class PurchaseResourceAnalyzeController {
 	 */
 	@SystemControllerLog(description="采购资源展示-采购人员")
 	@RequestMapping("/purchaseMemList")
-	public String purchaseMemLists(Model model){
+	public String purchaseMemLists(Model model, @CurrentUser User user){
+		if(this.verifyPermission(user)){
+			return "redirect:list.html";
+		}
 		// 查询采购机构总人员数量
 		Long memberNum = purchaseResourceAnalyzeService.selectMemberNum();
 		model.addAttribute("totalCount", memberNum);
@@ -430,7 +445,10 @@ public class PurchaseResourceAnalyzeController {
 	 */
 	@SystemControllerLog(description="采购资源展示-采购项目")
 	@RequestMapping("/analyzePurchaseProject")
-	public String analyzePurchaseProjects(Model model) {
+	public String analyzePurchaseProjects(Model model, @CurrentUser User user) {
+		if(this.verifyPermission(user)){
+			return "redirect:list.html";
+		}
 		// 查询全网采购项目总金额
 		BigDecimal totalMoney = purchaseResourceAnalyzeService.selectPurProjectTotalMoney();
 		model.addAttribute("totalMoney", totalMoney);
@@ -477,7 +495,10 @@ public class PurchaseResourceAnalyzeController {
 	 */
 	@SystemControllerLog(description="采购资源展示-采购合同")
 	@RequestMapping("/analyzePurchaseContract")
-	public String analyzePurchaseContracts(Model model) {
+	public String analyzePurchaseContracts(Model model, @CurrentUser User user) {
+		if(this.verifyPermission(user)){
+			return "redirect:list.html";
+		}
 		// 查询全网采购合同总金额
 		BigDecimal totalMoney = purchaseResourceAnalyzeService.selectPurContractTotalMoney();
 		model.addAttribute("totalMoney", totalMoney);
@@ -509,7 +530,10 @@ public class PurchaseResourceAnalyzeController {
 	 */
 	@SystemControllerLog(description="采购资源展示-采购需求")
 	@RequestMapping("/analyzePurchaseRequire")
-	public String analyzePurchaseRequires(Model model) {
+	public String analyzePurchaseRequires(Model model, @CurrentUser User user) {
+		if(this.verifyPermission(user)){
+			return "redirect:list.html";
+		}
 		// 查询上报采购需求总金额
 		BigDecimal totalMoney = purchaseResourceAnalyzeService.selectAllBudget();
 		model.addAttribute("totalMoney", totalMoney);
@@ -526,7 +550,10 @@ public class PurchaseResourceAnalyzeController {
 	 */
 	@SystemControllerLog(description="采购资源展示-采购计划")
 	@RequestMapping("/analyzePurchasePlan")
-	public String analyzePurchasePlans(Model model) {
+	public String analyzePurchasePlans(Model model, @CurrentUser User user) {
+		if(this.verifyPermission(user)){
+			return "redirect:list.html";
+		}
 		// 查询全网采购计划总金额
 		BigDecimal totalMoney = purchaseResourceAnalyzeService.selectAllBudgetByPlan();
 		model.addAttribute("totalMoney", totalMoney);
@@ -543,7 +570,10 @@ public class PurchaseResourceAnalyzeController {
 	 */
 	@SystemControllerLog(description="采购资源展示-采购公告")
 	@RequestMapping("/analyzePurchaseNotice")
-	public String analyzePurchaseNotices(Model model) {
+	public String analyzePurchaseNotices(Model model, @CurrentUser User user) {
+		if(this.verifyPermission(user)){
+			return "redirect:list.html";
+		}
 		// 查询全网采购公告总金额
 		BigDecimal totalMoney = purchaseResourceAnalyzeService.selectPurchaseNoticeCount();
 		model.addAttribute("totalMoney", totalMoney);
@@ -715,4 +745,21 @@ public class PurchaseResourceAnalyzeController {
 		return purchaseResourceAnalyzeService.selectPlanBudget();
 	}
 	
+	/**
+	 * 
+	 * Description: 权限校验
+	 * 
+	 * @author Easong
+	 * @version 2017年6月30日
+	 * @param user
+	 * @return
+	 */
+	public boolean verifyPermission(User user){
+		boolean flag = false;
+		if(user != null && !"4".equals(user.getTypeName())){
+			flag = true;
+			return flag;
+		}
+		return flag;
+	}
 }

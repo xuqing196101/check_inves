@@ -1011,11 +1011,12 @@ function judge(index) {
 </script>
     </head>
 <body onload="pageOnLoad();">
-	<input type="hidden" id="sm" value="${scoreModel.typeName }">
-	<input type="hidden" id="sm2" value="${scoreModel.addSubtractTypeName }">
-	<input type="hidden" id="sm7" value="${scoreModel.intervalTypeName }">
+	<input type="hidden" id="sm" value="${scoreModel.typeName}">
+	<input type="hidden" id="sm2" value="${scoreModel.addSubtractTypeName}">
+	<input type="hidden" id="sm7" value="${scoreModel.intervalTypeName}">
 	<div>
 		<form action="" method="post"  id="formID">
+		   <input type="hidden" name="flowDefineId" value="${flowDefineId}">
 		   <ul class="list-unstyled">
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
                     <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>评审指标名称：</div>

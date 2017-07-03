@@ -299,5 +299,13 @@
 		</if>
 	
 	</select>
+	<delete id="deleteByMatEngId">
+	
+	delete from T_SES_SMS_SUPPLIER_APTITUTE
+		where mat_eng_id = #{matEngId}
+	</delete>
+	
+	
+	
 	
 </mapper>

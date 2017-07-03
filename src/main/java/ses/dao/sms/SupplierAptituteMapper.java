@@ -68,5 +68,15 @@ public interface SupplierAptituteMapper {
     
     List<String> quertProType(@Param("certType")String certType,@Param("matEngId")String matEngId,@Param("code")String code); 
     
+    /**
+     * 
+    * @Title: deleteByMatEngId
+    * @Description: 根据对应的 
+    * author: Li Xiaoxiao 
+    * @param @param matEngId     
+    * @return void     
+    * @throws
+     */
+    void deleteByMatEngId(@Param("matEngId")String matEngId);
     
 }

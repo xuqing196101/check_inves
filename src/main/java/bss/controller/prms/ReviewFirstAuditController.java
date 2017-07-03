@@ -277,7 +277,7 @@ public class ReviewFirstAuditController {
         }
         model.addAttribute("scoreModelList", scoreModelList);
 		// 查出该包内所有的markTerm
-		MarkTerm markTerm = new MarkTerm();
+		/*MarkTerm markTerm = new MarkTerm();
 		markTerm.setProjectId(projectId);
 		markTerm.setPackageId(packageId);
 		List<MarkTerm> allMarkTerm = markTermService.findListByMarkTerm(markTerm);
@@ -287,7 +287,15 @@ public class ReviewFirstAuditController {
             if ("0".equals(mark.getPid()) && mark.getTypeName().equals(typeId)) {
                 markTermList.add(mark);
             }
-        }
+        }*/
+		
+		MarkTerm mt = new MarkTerm();
+    mt.setTypeName(typeId);
+    mt.setProjectId(projectId);
+    mt.setPackageId(packageId);
+    //默认顶级节点为0
+    mt.setPid("0");
+    List<MarkTerm> markTermList = markTermService.findListByMarkTerm(mt);
 		// 查询父节点的子节点个数
 		for (int i = 0; i < markTermList.size(); i++) {
 		    int count = 0;

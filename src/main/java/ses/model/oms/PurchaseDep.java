@@ -153,14 +153,7 @@ public class PurchaseDep extends Orgnization{
     
     private String flag;
     
-    private String shortName;
     
-    public String getShortName() {
-			return shortName;
-		}
-		public void setShortName(String shortName) {
-			this.shortName = shortName;
-		}
 		public static long getSerialversionuid() {
 			return serialVersionUID;
 		}

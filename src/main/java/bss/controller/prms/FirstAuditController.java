@@ -394,10 +394,11 @@ public class FirstAuditController {
    * @return
    */
   @RequestMapping("/editItem")
-  public String editItem(String id, Model model, Short isConfirm){
+  public String editItem(String id, Model model, Short isConfirm, String flowDefineId){
     FirstAudit firstAudit = service.get(id);
     model.addAttribute("item", firstAudit);
     model.addAttribute("isConfirm", isConfirm);
+    model.addAttribute("flowDefineId", flowDefineId);
     return "bss/prms/first_audit/qc_edit_item";
   }
   
@@ -539,12 +540,13 @@ public class FirstAuditController {
    * @return
    */
   @RequestMapping("/loadOtherPackage")
-  public String loadOtherPackage(Model model, Integer page, Packages packages, String oldPackageId, String oldProjectId){
+  public String loadOtherPackage(Model model, Integer page, Packages packages, String oldPackageId, String oldProjectId, String flowDefineId){
       List<Packages> list = packageService.findPackageByPage(packages, page == null ? 1 : page);
       model.addAttribute("list", new PageInfo<Packages>(list));
       model.addAttribute("packages", packages);
       model.addAttribute("oldPackageId", oldPackageId);
       model.addAttribute("oldProjectId", oldProjectId);
+      model.addAttribute("flowDefineId", flowDefineId);
       return "bss/prms/first_audit/load_other";
   }
   
