@@ -2465,12 +2465,12 @@ public class SupplierController extends BaseSupplierController {
 					fin2.setYear(String.valueOf(twoYear()));
 					supplier.getListSupplierFinances().add(fin2);
 				}
-				SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
+				SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear(supplier.getCreatedAt())));
 				if(finance3 == null) {
 					SupplierFinance fin3 = new SupplierFinance();
 					String id = UUID.randomUUID().toString().replaceAll("-", "");
 					fin3.setId(id);
-					fin3.setYear(String.valueOf(threeYear()));
+					fin3.setYear(String.valueOf(threeYear(supplier.getCreatedAt())));
 					supplier.getListSupplierFinances().add(fin3);
 				}
 			}
@@ -2683,7 +2683,7 @@ public class SupplierController extends BaseSupplierController {
 		return year3;
 	}
 
-	public Integer threeYear() {
+	public Integer threeYear(Date regDate) {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String mont = sdf.format(date).split("-")[1];
@@ -2691,10 +2691,22 @@ public class SupplierController extends BaseSupplierController {
 		Calendar cale = Calendar.getInstance();
 		int year = cale.get(Calendar.YEAR);
 		Integer yearThree = 0;
-		if(month < 7) {
+		
+		String regMon = sdf.format(regDate).split("-")[1];
+		Integer regMonth = Integer.valueOf(regMon);
+//		
+//		if(month < 7) {
+//			yearThree = year - 4; //2012
+//
+//		} else {
+//			yearThree = year - 1; //2015
+//
+//		}
+		
+		if(regMonth<7){
 			yearThree = year - 4; //2012
-
-		} else {
+		}
+		else {
 			yearThree = year - 1; //2015
 
 		}
