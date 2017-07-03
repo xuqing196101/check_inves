@@ -14,6 +14,8 @@
     <div class="tab-pane fade active in" >
     <input id="supplierId"  type="hidden" value="${supplierId }">
     <input id="auditType"  type="hidden" value="${auditType }">
+    <input id="ids"  type="hidden" value="${ids }">
+    <input id="count"  type="hidden" value="0">
       <c:choose>
       <c:when test="${not empty beanList }">
        <table class="table table-bordered">
@@ -29,6 +31,9 @@
             </div>
             </c:forEach>
             </td>
+             <td class="tc info" id="show_td" onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vs.index + 1}')">
+               <a href="javascript:void(0);">审核</a>
+             </td>
           </tr>
           </c:forEach>
          </tbody>
