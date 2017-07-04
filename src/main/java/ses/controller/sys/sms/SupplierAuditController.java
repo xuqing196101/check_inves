@@ -111,6 +111,7 @@ import common.utils.JdcgResult;
  * <p>Description: 供应商审核控制类</p>
  * @author Xu Qing
  * @date 2016-9-12下午5:14:36
+ * 
  */
 @Controller
 @Scope("prototype")
@@ -1202,9 +1203,12 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 
 	@RequestMapping("auditReasons")
-	public void auditReasons(SupplierAudit supplierAudit, HttpServletRequest request, HttpServletResponse response, Supplier supplier) throws IOException {
+	@ResponseBody
+	public JdcgResult auditReasons(SupplierAudit supplierAudit, HttpServletRequest request, HttpServletResponse response, Supplier supplier) throws IOException {
 		User user = (User) request.getSession().getAttribute("loginUser");
-
+		if(user ==null){
+			return null;
+		}
 		String id = supplierAudit.getSupplierId();
 		supplier = supplierAuditService.supplierById(id);
 
@@ -1239,10 +1243,16 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 		}
 		if(same) {
-			supplierAuditService.auditReasons(supplierAudit);
+			int i=supplierAuditService.auditReasons(supplierAudit);
+			if(i>0){
+				return new JdcgResult(500, "审核成功", null);
+			}else{
+				return new JdcgResult(502, "审核失败", null);
+			}
 		} else {
-			String msg = "{\"msg\":\"fail\"}";
-			super.writeJson(response, msg);
+			/*String msg = "{\"msg\":\"fail\"}";
+			super.writeJson(response, msg);*/
+			return new JdcgResult(503, "已审核", null);
 		}
 	}
 
@@ -2279,6 +2289,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			//是否有销售合同
 			contractCount=supplierService.contractCountCategoyrId(supplierItem.getId());
+			//封装 是否有审核数据
+			cateTree=supplierAuditService.potting(cateTree,supplierId);
 			cateTree.setContractCount(contractCount);
 			cateTree.setFileCount(fileNumber);
 			cateTree.setSupplierItemId(supplierItem.getId());
@@ -2298,7 +2310,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("showContract")
-	public String showContract(String itemId,String supplierId,Model model,String supplierItemId){
+	public String showContract(String itemId,String supplierId,Model model,String supplierItemId,Integer ids){
 		if(StringUtils.isBlank(itemId)){
 			return "ses/sms/supplier_audit/aptitude_contract_item";
 		}
@@ -2335,22 +2347,25 @@ public class SupplierAuditController extends BaseSupplierController {
 		cateTree.setSecondNode(cateTree.getSecondNode() == null ? "" : cateTree.getSecondNode());
 		cateTree.setThirdNode(cateTree.getThirdNode() == null ? "" : cateTree.getThirdNode());
 		cateTree.setFourthNode(cateTree.getFourthNode() == null ? "" : cateTree.getFourthNode());
-		cateTree.setItemsId(supplierItemId);
+		cateTree.setSupplierItemId(supplierItemId);
 		cateTree.setRootNode(cateTree.getRootNode() + typeName);
 		allTreeList.add(cateTree);
 		
+		//封装 合同 是否有审核 记录数据
 		SupplierAudit audit=new SupplierAudit();
+		audit=new SupplierAudit();
 		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getSecondNodeID());
-		audit.setAuditType("aptitude_page");
+		audit.setAuditField(cateTree.getItemsId());
+		audit.setAuditType("contract_page");
 		int count=supplierAuditService.countByPrimaryKey(audit);
-		model.addAttribute("auditType", count);
+		model.addAttribute("count", count);
 		model.addAttribute("contract", allTreeList);
-			// 年份
+		// 年份
 		List < Integer > years = supplierService.getThressYear();
 		model.addAttribute("years", years);
 		model.addAttribute("supplierTypeId", type);
 		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("ids", ids-1);
 		// 供应商附件sysKey参数
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		return "ses/sms/supplier_audit/aptitude_contract_item";
@@ -2366,7 +2381,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("showQualifications")
-	public String showQualifications(String itemId,String supplierId,Model model){
+	public String showQualifications(String itemId,String supplierId,Model model,Integer ids){
 		Set<QualificationBean> beanList=new HashSet<>();
 		if(StringUtils.isBlank(itemId)){
 			return "ses/sms/supplier_audit/aptitude_material_item";
@@ -2385,14 +2400,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		List<Qualification> list=new ArrayList<>();
 		Integer sysKey=Constant.SUPPLIER_SYS_KEY;
 		String typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
-		//封装 是否有审核记录数据
 		
-		SupplierAudit audit=new SupplierAudit();
-		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getSecondNodeID());
-		audit.setAuditType("aptitude_page");
-		int count=supplierAuditService.countByPrimaryKey(audit);
-		model.addAttribute("auditType", count);
 		// categoryQua type:4(工程) 3（销售） 2（生产）1（服务）
 		if("工程".equals(type)){
 			sysKey=common.constant.Constant.SUPPLIER_SYS_KEY;
@@ -2401,31 +2409,38 @@ public class SupplierAuditController extends BaseSupplierController {
 			model.addAttribute("sysKey", sysKey);
 			model.addAttribute("typeId", typeId);
 			model.addAttribute("showProject", showProject);
+			model.addAttribute("supplierId", supplierId);
+			model.addAttribute("ids", ids-1);
 			return "ses/sms/supplier_audit/aptitude_project_item";
 		}else if("服务".equals(type)){
-			bean.setCategoryName(cateTree.getSecondNode()+"资质文件");
+			bean.setCategoryName(cateTree.getItemsName()+"资质文件");
+			bean.setCategoryId(itemId);
 			list= supplierAuditService.showQualifications(cateTree, 1,typeId,sysKey);
 			bean.setList(list);
 			beanList.add(bean);
 		}else{
-			bean.setCategoryName(cateTree.getSecondNode()+"-生产资质文件");
+			bean.setCategoryName(cateTree.getItemsName()+"-生产资质文件");
+			bean.setCategoryId(itemId);
 			list= supplierAuditService.showQualifications(cateTree, 2,typeId,sysKey);
 			if(null!=list && !list.isEmpty()){
 				bean.setList(list);
 				beanList.add(bean);
 			}
 			QualificationBean bean2=new QualificationBean();
-			bean2.setCategoryName(cateTree.getSecondNode()+"-销售资质文件");
+			bean2.setCategoryName(cateTree.getItemsName()+"-销售资质文件");
+			bean.setCategoryId(itemId);
 			list= supplierAuditService.showQualifications(cateTree, 3,typeId,sysKey);
 			if(null!=list && !list.isEmpty()){
 				bean2.setList(list);
 				beanList.add(bean2);
 			}
 		}
+		
 		model.addAttribute("sysKey", sysKey);
 		model.addAttribute("typeId", typeId);
 		model.addAttribute("beanList", beanList);
 		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("ids", ids-1);
 		return "ses/sms/supplier_audit/aptitude_material_item";
 	}
 	/**

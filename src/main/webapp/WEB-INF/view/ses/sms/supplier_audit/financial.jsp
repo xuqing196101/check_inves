@@ -176,7 +176,7 @@
 			
 			//暂存
         function zhancun(){
-         var supplierId = $("#id").val();
+          var supplierId = $("#supplierId").val();
           $.ajax({
             url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
             dataType: "json",
@@ -349,7 +349,7 @@
 						<li onclick="jump('contract')">
 							<a aria-expanded="false" href="#tab-4">销售合同</a>
 							<i></i>
-						</li>-->
+						</li> -->
 						<li onclick="jump('aptitude')">
                             <a aria-expanded="false" href="#tab-4">产品类别及资质合同</a>
                             <i></i>

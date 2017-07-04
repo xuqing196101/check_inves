@@ -550,4 +550,18 @@ public interface SupplierMapper {
 	 */
 	int countByPurchaseDepId(@Param("purchaseDepId")String purchaseDepId, 
 			@Param("status")int status);
+
+	/**
+	 * 手机号校验：专家库+供应商库（除去临时供应商）
+	 * @param mobile
+	 * @return
+	 */
+	int countByMobile(String mobile);
+
+	/**
+	 * 通过供应商名称查询(去除临时供应商)
+	 * @param supplierName
+	 * @return
+	 */
+	List<Supplier> selByNameWithoutProvisional(String supplierName);
 }

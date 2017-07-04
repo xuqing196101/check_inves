@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -1505,6 +1506,13 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_msg_loginName", "登录名由6-20位字母数字和下划线组成 !");
 			count++;
 		}
+		if(StringUtils.isNotBlank(supplier.getLoginName())){
+			boolean flag = supplierService.checkLoginName(supplier.getLoginName());
+			if(!flag){
+				model.addAttribute("err_msg_loginName", "用户名已被使用，请更换重试！");
+				count++;
+			}
+		}
 		if(supplier.getPassword() == null || supplier.getPassword().length() < 6 || supplier.getPassword().length() > 20) {
 			model.addAttribute("err_msg_password", "密码长度为6-20位!");
 			count++;
@@ -1527,8 +1535,10 @@ public class SupplierController extends BaseSupplierController {
 		   count++;
 		 }*/
 		if(StringUtils.isNotBlank(supplier.getMobile())) {
-			Boolean ajaxMoblie = userService.ajaxMoblie(supplier.getMobile(), null);
-			if(!ajaxMoblie) {
+			// 手机号校验：专家库+供应商库（除去临时供应商）
+			boolean bool = supplierService.checkMobile(supplier.getMobile());
+			//Boolean ajaxMoblie = userService.ajaxMoblie(supplier.getMobile(), null);
+			if(!bool) {
 				count++;
 				model.addAttribute("err_msg_mobile", "手机号已存在 !");
 			}
@@ -1546,6 +1556,16 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_msg_supplierName", "不能为空!");
 			count++;
 		}
+		Supplier before = supplierService.get(supplier.getId());
+		//校验供应商名称是否存在(去除临时供应商)
+		//List<Supplier> suppliers = supplierService.selByName(supplier.getSupplierName());
+		List<Supplier> suppliers = supplierService.selByNameWithoutProvisional(supplier.getSupplierName());
+        if(null != suppliers && !suppliers.isEmpty()){
+            if(before != null && !before.getSupplierName().equals(suppliers.get(0).getSupplierName())){
+            	model.addAttribute("err_msg_supplierName", "供应商名称已存在，请重新填写！");
+    			count++;
+            }
+        }
 		//		if (supplier.getWebsite() == null || !ValidateUtils.Url(supplier.getWebsite())) {
 		//			model.addAttribute("err_msg_website", "格式错误 !");
 		//			count++;
@@ -2465,12 +2485,12 @@ public class SupplierController extends BaseSupplierController {
 					fin2.setYear(String.valueOf(twoYear()));
 					supplier.getListSupplierFinances().add(fin2);
 				}
-				SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
+				SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear(supplier.getCreatedAt())));
 				if(finance3 == null) {
 					SupplierFinance fin3 = new SupplierFinance();
 					String id = UUID.randomUUID().toString().replaceAll("-", "");
 					fin3.setId(id);
-					fin3.setYear(String.valueOf(threeYear()));
+					fin3.setYear(String.valueOf(threeYear(supplier.getCreatedAt())));
 					supplier.getListSupplierFinances().add(fin3);
 				}
 			}
@@ -2521,6 +2541,7 @@ public class SupplierController extends BaseSupplierController {
 
 				ct.setName(type.getName());
 				ct.setId(typeId);
+				System.out.println(typeId+"===============");
 				List < SupplierItem > s = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
 				if(s != null && s.size() > 0) {
 					ct.setChecked(true);
@@ -2683,7 +2704,7 @@ public class SupplierController extends BaseSupplierController {
 		return year3;
 	}
 
-	public Integer threeYear() {
+	public Integer threeYear(Date regDate) {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String mont = sdf.format(date).split("-")[1];
@@ -2691,10 +2712,22 @@ public class SupplierController extends BaseSupplierController {
 		Calendar cale = Calendar.getInstance();
 		int year = cale.get(Calendar.YEAR);
 		Integer yearThree = 0;
-		if(month < 7) {
+		
+		String regMon = sdf.format(regDate).split("-")[1];
+		Integer regMonth = Integer.valueOf(regMon);
+//		
+//		if(month < 7) {
+//			yearThree = year - 4; //2012
+//
+//		} else {
+//			yearThree = year - 1; //2015
+//
+//		}
+		
+		if(regMonth<7){
 			yearThree = year - 4; //2012
-
-		} else {
+		}
+		else {
 			yearThree = year - 1; //2015
 
 		}

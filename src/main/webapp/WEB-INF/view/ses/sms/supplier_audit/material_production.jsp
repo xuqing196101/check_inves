@@ -16,7 +16,6 @@
 				  cursor:pointer;
 				}
 			</style>
-<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
       <script type="text/javascript">
 				//默认不显示叉
 				 $(function() {
@@ -151,7 +150,7 @@
       </script>
 
 		<script type="text/javascript">
-			/* function jump(str){
+			 function jump(str){
 			  var action;
 			  if(str=="essential"){
 			     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -191,7 +190,7 @@
 			  }
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
-			} */
+			} 
 		</script>
   </head>
 

@@ -76,9 +76,10 @@
     function addModel(obj,kindId,status){
         var projectId = $("#projectId").val();
         var packageId = $("#packageId").val();
+        var flowDefineId = "${flowDefineId}";
         var name = encodeURI(obj);
 		name = encodeURI(name);
-    	window.location.href="${pageContext.request.contextPath}/intelligentScore/gettreebody.html?projectId="+projectId+"&packageId="+packageId+"&id="+kindId+"&name="+name+"&addStatus="+status;
+    	window.location.href="${pageContext.request.contextPath}/intelligentScore/gettreebody.html?projectId="+projectId+"&packageId="+packageId+"&id="+kindId+"&name="+name+"&addStatus="+status+"&flowDefineId="+flowDefineId;
     }
     
     
@@ -86,8 +87,9 @@
     function delItem(id,status){
      	var projectId = $("#projectId").val();
         var packageId = $("#packageId").val();
+        var flowDefineId = "${flowDefineId}";
     	//为2 为顶级结点     1 为子节点
-    	window.location.href="${pageContext.request.contextPath}/intelligentScore/deleteScoreModel.html?id="+id+"&deleteStatus="+status+"&projectId="+projectId+"&packageId="+packageId;
+    	window.location.href="${pageContext.request.contextPath}/intelligentScore/deleteScoreModel.html?id="+id+"&deleteStatus="+status+"&projectId="+projectId+"&packageId="+packageId+'&flowDefineId='+flowDefineId;
     }
     
     //关闭弹窗
@@ -102,6 +104,7 @@
     
     //保存评审项
     function saveItem(){
+    	var flowDefineId = "${flowDefineId}";
     	$.ajax({   
             type: "POST",  
             url: "${pageContext.request.contextPath}/intelligentScore/saveScore.html",        
@@ -113,7 +116,7 @@
                 }else{
                     var packageId = $("#packageId").val();
                     var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -126,12 +129,14 @@
     
     //引入模板内容
     function loadTemplat(projectId, packageId){
-        var index = layer.load(1, {
+        
+		var flowDefineId = "${flowDefineId}";
+    	var fatId = $("#fatId").val();
+    	if (fatId != null && fatId != "") {
+    		var index = layer.load(1, {
 					  shade: [0.2,'#BFBFBF'], //0.1透明度的白色背景
 					  offset: ['222px', '390px']
 					});
-    	var fatId = $("#fatId").val();
-    	if (fatId != null && fatId != "") {
     	    $('#loadTemp').attr("disabled",true); 
 	    	$.ajax({   
 	            type: "POST",  
@@ -145,7 +150,7 @@
 	                    $('#loadTemp').removeAttr("disabled");
 	                    var packageId = $("#packageId").val();
 	                    var projectId = $("#projectId").val();
-	                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+	                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
 	                    layer.closeAll();
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                }

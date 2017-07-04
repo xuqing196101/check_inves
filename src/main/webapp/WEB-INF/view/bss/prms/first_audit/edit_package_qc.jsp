@@ -39,6 +39,7 @@
     
     //修改评审项
     function editItem(obj,id){
+    	var flowDefineId = $("#flowDefineId_2").val();
     	//得到点击坐标。
         var y;  
         oRect = obj.getBoundingClientRect();  
@@ -53,12 +54,13 @@
             shift: 1, //0-6的动画形式，-1不开启
             offset: y,
             shadeClose: false,
-            content: '${pageContext.request.contextPath}/firstAudit/editItem.html?id='+id+'&isConfirm=0'
+            content: '${pageContext.request.contextPath}/firstAudit/editItem.html?id='+id+'&isConfirm=0'+'&flowDefineId='+flowDefineId
           });
     }
     
     //删除评审项 
     function delItem(id){
+    	var flowDefineId = $("#flowDefineId_2").val();
     	layer.confirm('您确定要删除吗?', {title:'提示',offset: '50px',shade:0.01}, function(index){
 	    	$.ajax({   
 	            type: "POST",  
@@ -70,7 +72,7 @@
 	                }else{
 	                	 var packageId = $("#packageId").val();
 	                	 var projectId = $("#projectId").val();
-	                     window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId; 
+	                     window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId; 
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                    layer.close(index);
 	                }
@@ -94,6 +96,7 @@
     
     //保存评审项
     function saveItem(){
+    	var flowDefineId = $("#flowDefineId").val();
     	$.ajax({   
             type: "POST",  
             url: "${pageContext.request.contextPath}/firstAudit/savePackageFirstAudit.html",        
@@ -105,7 +108,7 @@
                 }else{
                     var packageId = $("#packageId").val();
                     var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -118,12 +121,13 @@
     
     //引入模板内容
     function loadTemplat(projectId, packageId){
-    	var index = layer.load(1, {
+		var flowDefineId = $("#flowDefineId_2").val();
+    	var fatId = $("#fatId").val();
+    	if (fatId != null && fatId != '') {
+    		var index = layer.load(1, {
 					  shade: [0.2,'#BFBFBF'], //0.1透明度的白色背景
 					  offset: ['222px', '390px']
 					});
-    	var fatId = $("#fatId").val();
-    	if (fatId != null && fatId != '') {
 	    	$.ajax({   
 	            type: "POST",  
 	            url: "${pageContext.request.contextPath}/firstAudit/loadTemplat.html?isConfirm=0",   
@@ -135,7 +139,7 @@
 	                }else{
 	                    var packageId = $("#packageId").val();
 	                    var projectId = $("#projectId").val();
-	                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+	                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
 	                    layer.closeAll();
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                }
@@ -151,6 +155,7 @@
     
     //引入其他项目包的评审项
     function loadOtherPackage(packageId,projectId){
+    	var flowDefineId = $("#flowDefineId_2").val();
     	layer.open({
             type: 2,
             title: '引入模板',
@@ -161,7 +166,7 @@
             shift: 1, //0-6的动画形式，-1不开启
             offset: '20px',
             shadeClose: false,
-            content: '${pageContext.request.contextPath}/firstAudit/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId
+            content: '${pageContext.request.contextPath}/firstAudit/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId+'&flowDefineId='+flowDefineId
           });
     }
     
@@ -340,6 +345,7 @@
   </script>
 <body>  
     <h2 class="list_title">${packages.name}资格性符合性检查项编辑</h2>
+    <input type="hidden" name="flowDefineId" id="flowDefineId_2" value="${flowDefineId}">
     <div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 		<div class=" input_group col-md-3 col-sm-6 col-xs-6 col-lg-12 p0">
 		    <div class="w100p">

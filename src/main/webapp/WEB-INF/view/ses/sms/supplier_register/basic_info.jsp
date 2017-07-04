@@ -297,18 +297,26 @@
                         success: function(msg) {
                         	//controlForm();
                             if(msg == 'ok') {
-                                layer.msg('暂存成功', {
-                                    offset: '300px'
-                                });
+                              layer.msg('暂存成功', {
+                                offset: '300px'
+                              });
                             }
-                            if(msg == 'failed') {
-                                layer.msg('暂存失败', {
-                                    offset: '300px'
-                                });
+                            else if(msg == 'failed') {
+                              layer.msg('暂存失败', {
+                                offset: '300px'
+                              });
+                            }
+                            else{
+                            	layer.msg('暂存失败，请仔细检查所填信息！', {
+                                offset: '300px'
+                              });
                             }
                         },
 												error: function(){
 													//controlForm();
+													layer.msg('暂存失败', {
+                            offset: '300px'
+                          });
 												}
                     });
 //                }
@@ -1106,7 +1114,7 @@
 			
 			function check(obj){
 				if('${currSupplier.status}' == '2' && '${audit}'.indexOf('businessStartDate') < 0){
-					return false;
+					//return false;
 				}
 				var ch=$(obj).is(":checked");
 				if(ch){
@@ -1122,7 +1130,7 @@
 			// 控制营业期限
 			function controlExpireDate(){
 				if('${currSupplier.status}' == '2' && '${audit}'.indexOf('businessStartDate') < 0){
-					return;
+					//return;
 				}
 				var branchName = $("input[name='branchName']").val();
 				if(branchName != '1'){
@@ -2618,6 +2626,9 @@
 					$(this).attr('readonly', 'readonly');
 				}
 			});
+			// 营业期限
+			$("#expireDate").attr('readonly', 'readonly');
+			
 			$("select").focus(function(){
 				if(!boolColor(this)){
 					this.defaultIndex=this.selectedIndex;

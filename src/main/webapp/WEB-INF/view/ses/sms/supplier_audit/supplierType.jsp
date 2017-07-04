@@ -6,7 +6,6 @@
     <%@ include file="/WEB-INF/view/common.jsp" %>
       <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>供应商类型</title>
-<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 		<style type="text/css">
 			td {
 				cursor: pointer;
@@ -545,16 +544,11 @@
 			}
 
 			//下一步
-			/* function nextStep(url) {
+			 function nextStep(url) {
 				var action = "${pageContext.request.contextPath}/supplierAudit/aptitude.html";
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
-			} */
-			function nextStep(url) {
-                var action = "${pageContext.request.contextPath}/supplierAudit/toPageAptitude.html";
-                $("#form_id").attr("action", action);
-                $("#form_id").submit();
-            }
+			} 
 
 			/*  function nextStep(url) {
 				var action = "${pageContext.request.contextPath}/supplierAudit/aptitude.html";
@@ -631,9 +625,9 @@
 				});
 			}
 			
-			 //暂存
+		//暂存
         function zhancun(){
-         var supplierId = $("#id").val();
+         var supplierId = $("#supplierId").val();
           $.ajax({
             url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
             dataType: "json",

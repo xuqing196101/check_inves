@@ -404,7 +404,7 @@ public class IntelligentScoringController extends BaseController{
 	  }
 	
 	@RequestMapping(value = "deleteScoreModel")
-	public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId) {
+	public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId, String flowDefineId) {
 	    //为2为顶级结点     1 为子节点
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 	    HashMap<String, Object> conditionMap = new HashMap<String, Object>();
@@ -432,7 +432,7 @@ public class IntelligentScoringController extends BaseController{
 	        map.put("id", id);
 	        markTermService.delMarkTermByid(map);
 	    }
-	    return "redirect:editPackageScore.html?projectId=" + projectId + "&packageId=" + packageId;
+	    return "redirect:editPackageScore.html?projectId=" + projectId + "&packageId=" + packageId + "&flowDefineId=" + flowDefineId;
 	}
 	
 	@RequestMapping(value = "saveScore")
@@ -973,7 +973,7 @@ public class IntelligentScoringController extends BaseController{
 	}
 	
 	@RequestMapping("operatorScoreModel")
-	public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request, String judgeModel){
+	public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request, String judgeModel, String flowDefineId){
 		String[] startParam = request.getParameterValues("pi.startParam");
 		String[] endParam = request.getParameterValues("pi.endParam");
 		String[] score = request.getParameterValues("pi.score");
@@ -1050,7 +1050,7 @@ public class IntelligentScoringController extends BaseController{
 				}
 			}
 		}
-		return "redirect:editPackageScore.html?projectId="+scoreModel.getProjectId()+"&packageId="+scoreModel.getPackageId();
+		return "redirect:editPackageScore.html?projectId="+scoreModel.getProjectId()+"&packageId="+scoreModel.getPackageId()+"&flowDefineId="+flowDefineId;
 	}
 	
 	public String getShowTable(String id, String name ,String projectId, String packageId) {
@@ -1394,7 +1394,7 @@ public class IntelligentScoringController extends BaseController{
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("gettreebody")
-	public String gettreebody(@ModelAttribute MarkTerm markTerm,Model model,HttpServletRequest request ,String addStatus) throws UnsupportedEncodingException {
+	public String gettreebody(@ModelAttribute MarkTerm markTerm,Model model,HttpServletRequest request ,String addStatus, String flowDefineId) throws UnsupportedEncodingException {
 		String packageId = request.getParameter("packageId");
 		ScoreModel scoreModel = new ScoreModel();
 		scoreModel.setName(URLDecoder.decode(markTerm.getName(), "UTF-8"));
@@ -1474,6 +1474,7 @@ public class IntelligentScoringController extends BaseController{
 		}
 		model.addAttribute("projectId", markTerm.getProjectId());
 		model.addAttribute("addStatus", addStatus);
+		model.addAttribute("flowDefineId", flowDefineId);
 		return "bss/ppms/open_bidding/treebody";
 	}
 	@RequestMapping("quantizateScore")

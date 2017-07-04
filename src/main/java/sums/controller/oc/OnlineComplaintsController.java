@@ -53,8 +53,7 @@ public class OnlineComplaintsController {
 	 * @exception
 	 */
 	@RequestMapping("/complaints")
-	@SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME,operType=StaticVariables.OC_COMPLAINTS_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OC_COMPLAINTS_NAME,operType=StaticVariables.OC_COMPLAINTS_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
 	public String complaints(@CurrentUser User user,@RequestParam(defaultValue="1")Integer page,Complaint complaint, Model model) {
 		//声明标识是否是资源服务中心
 		String authType = null;
@@ -81,8 +80,7 @@ public class OnlineComplaintsController {
 	 * @exception
 	 */
 	@RequestMapping("/addoredit")
-	@SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME,operType=StaticVariables.OC_COMPLAINTS_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OC_COMPLAINTS_NAME,operType=StaticVariables.OC_COMPLAINTS_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
 	 public String addoredit(HttpServletRequest request,Model model){
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		Complaint complaint = new Complaint();
@@ -102,8 +100,7 @@ public class OnlineComplaintsController {
 	 * @exception
 	 */
 	@RequestMapping("/add")
-	@SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME,operType=StaticVariables.OC_COMPLAINTS_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OC_COMPLAINTS_NAME,operType=StaticVariables.OC_COMPLAINTS_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
 	public String add(@CurrentUser User user,Model model,Complaint complaint){
 		if(complaint != null){
 			boolean flag = yzError(complaint,model);
@@ -139,8 +136,7 @@ public class OnlineComplaintsController {
 	 * @exception
 	 */
 	@RequestMapping("/view")
-	@SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME,operType=StaticVariables.OC_COMPLAINTS_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OC_COMPLAINTS_NAME,operType=StaticVariables.OC_COMPLAINTS_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
 	public String view(Model model, String id){
 		Complaint complaint = complaintService.selectByPrimaryKey(id);
 		model.addAttribute("complaint", complaint);
@@ -161,8 +157,7 @@ public class OnlineComplaintsController {
 	 * @exception
 	 */
 	@RequestMapping("/index_add")
-	@SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME,operType=StaticVariables.OC_COMPLAINTS_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OC_COMPLAINTS_NAME,operType=StaticVariables.OC_COMPLAINTS_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
 	public String index_add(Model model){
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		Complaint complaint = new Complaint();
@@ -185,8 +180,7 @@ public class OnlineComplaintsController {
 	 * @exception
 	 */
 	@RequestMapping("/indexadd")
-	@SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME,operType=StaticVariables.OC_COMPLAINTS_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OC_COMPLAINTS_NAME,operType=StaticVariables.OC_COMPLAINTS_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OC_COMPLAINTS_NAME)
 	public String indexadd(@CurrentUser User user,Model model,Complaint complaint){
 		if(complaint != null){
 			boolean flag = yzError(complaint,model);

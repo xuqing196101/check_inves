@@ -155,7 +155,7 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("getTreeBody")
-	@SystemControllerLog(description="查询机构",operType=3)
+	@SystemControllerLog(description="查询机构")
 	public String getTreeBody(@ModelAttribute Orgnization orgnization,Model model) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		User user = new User();
@@ -284,7 +284,7 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping(value="create",method= RequestMethod.POST)
-	@SystemControllerLog(description="新增需求部门",operType=3)
+	@SystemControllerLog(description="新增需求部门")
 	public String create(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
 	    if(result.hasErrors()){
 	        List<Area> areaList = areaServiceI.findRootArea();

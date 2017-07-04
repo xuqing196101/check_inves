@@ -14,7 +14,6 @@
 		  cursor:pointer;
 		}
 		</style>
-		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 		<script type="text/javascript">
 		  //默认不显示叉
 		  $(function() {
@@ -109,7 +108,7 @@
 			
 			//暂存
         function zhancun(){
-         var supplierId = $("#id").val();
+          var supplierId = $("#supplierId").val();
           $.ajax({
             url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
             dataType: "json",
@@ -147,7 +146,7 @@
 			  if(str=="serviceInformation"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
 			  }* /
-			  if(str=="items"){
+ 			  if(str=="items"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 			  }
 			  if(str == "aptitude") {
@@ -167,7 +166,7 @@
 				}
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
-			}  */
+			} */
 		</script>
 
   </head>
@@ -283,9 +282,9 @@
 					  <i></i>
 					</li>-->
 					<li onclick="jump('aptitude')">
-                        <a aria-expanded="false" >产品类别及资质合同</a>
-                        <i></i>
-                    </li>
+                            <a aria-expanded="false" href="#tab-4">产品类别及资质合同</a>
+                            <i></i>
+                        </li>
           <li onclick = "jump('applicationForm')">
             <a aria-expanded="false" >承诺书和申请表</a>
             <i></i>

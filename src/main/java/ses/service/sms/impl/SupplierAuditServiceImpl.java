@@ -387,8 +387,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @return void
 	 */
 	@Override
-	public void auditReasons(SupplierAudit supplierAudit) {
-		supplierAuditMapper.insertSelective(supplierAudit);
+	public int auditReasons(SupplierAudit supplierAudit) {
+		return supplierAuditMapper.insertSelective(supplierAudit);
 		
 	}
 
@@ -775,6 +775,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		map.put("categoryId", cateTree.getSecondNodeID());
 		//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 		List<SupplierItem> itemList=supplierItemService.findByMap(map);
+		
 		long temp=0;
 		if(null!=itemList && !itemList.isEmpty()){
 			SupplierItem supplierItem=itemList.get(0);
@@ -793,7 +794,54 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		}
 		return list;
 	}
-
+	/**
+	 * 
+	 * Description:私有 封装 数据
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-30
+	 * @param catetree
+	 * @return
+	 */
+	public SupplierCateTree potting(SupplierCateTree cateTree,String supplierId){
+		//封装 目录 是否有审核记录数据
+		SupplierAudit audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getItemsId());
+		audit.setAuditType("items_page");
+		int count=countByPrimaryKey(audit);
+		cateTree.setIsItemsPageAudit(count);
+		
+		audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getItemsId());
+		audit.setAuditType("contract_page");
+		count=countByPrimaryKey(audit);
+		cateTree.setIsContractPageAudit(count);
+		
+		audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getItemsId());
+		audit.setAuditType("aptitude_page");
+		count=countByPrimaryKey(audit);
+		cateTree.setIsAptitudePAgeAudit(count);
+		
+	return cateTree;
+	}
+	/**
+	 * 
+	 * Description:私有 封装 数据
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-30
+	 * @param catetree
+	 * @return
+	 */
+	private SupplierCateTree pottingFile(SupplierCateTree cateTree,String supplierId){
+	
+		
+		return cateTree;
+	}
 	@Override
 	public List<SupplierCateTree> showProject(SupplierCateTree cateTree,
 			Integer type, String type_id, Integer syskey) {
@@ -804,6 +852,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 		List<SupplierItem> itemList=supplierItemService.findByMap(map);
 		SupplierMatEng matEng = supplierMatEngService.getMatEng(cateTree.getItemsId());
+	
 		if(null!=itemList && !itemList.isEmpty()){
 			for (SupplierItem supplierItem : itemList) {
 				cateTree=engCategoryService.addNode(cateTree, supplierItem);

@@ -13,6 +13,9 @@
 	<div class="margin-top-10  ">
 		<div class="tab-pane fade active in">
 		<input id="auditType"  type="hidden" value="${auditType }">
+		<input id="inds"  type="hidden" value="0">
+		<input id="ids"  type="hidden" value="${ids }">
+		<input id="supplierId"  type="hidden" value="${supplierId }">
 			<c:choose>
 				<c:when test="${not empty showProject }">
 					<table class="table table-bordered">
@@ -25,6 +28,7 @@
 								<th class="info tc" >专业类别</th>
 								<th class="info tc" >资质等级</th>
 								<th class="info tc">证书图片</th>
+								<th class="info tc">操作</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -66,6 +70,9 @@
 												sysKey="${sysKey}" delete="false" />
 										</div>
 									</td>
+									 <td class="tc info" id="show_td" onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vs.index + 1}')">
+                                      <a href="javascript:void(0);">审核</a>
+                                    </td>
 								</tr>
 							</c:forEach>
 						</tbody>

@@ -62,6 +62,7 @@
     function loadPackage(id){
     	var packageId = $("#oldpackageId").val();
     	var projectId = $("#oldprojectId").val();
+    	var flowDefineId = "${flowDefineId}";
     	$.ajax({  
             type: "POST",  
             url: "${pageContext.request.contextPath}/firstAudit/saveLoadPackage.html",  
@@ -72,7 +73,7 @@
                      layer.msg(result.msg,{offset: ['150px']});
                  }else{
                      parent.window.setTimeout(function(){
-                         parent.window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                         parent.window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;;
                      }, 1000);
                      layer.msg(result.msg,{offset: ['150px']});
                  }
@@ -91,6 +92,7 @@
         <input type="hidden" name="page" id="page">
         <input type="hidden" name="oldPackageId" id="oldpackageId" value="${oldPackageId}">
         <input type="hidden" name="oldProjectId" id="oldprojectId" value="${oldProjectId}">
+        
         <ul class="demand_list">
           <li>
             <label class="fl">包名：</label><span><input type="text" name="name" value="${packages.name}"/></span>
