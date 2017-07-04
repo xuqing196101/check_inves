@@ -78,7 +78,7 @@ function query(){
 function loadData(data,index,pageNum,pageSize){
 	var html = "<li> "
 		     + "  <span class='col-md-3 col-xs-3 col-sm-3'>"+data.relName+"</span>"
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+data.expertsTypeId+"</span>"
+		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+ data.expertsTypeId +">"+data.expertsTypeId+"</span>"
 		     + "  <span class='col-md-3 col-xs-3 col-sm-3'>"+data.orgName+"</span>"
 		     + "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个小类，通过了"+(data.passCateCount - data.noPassCateCount)+"个小类"+"</span>"
 		     html += "</li>";
