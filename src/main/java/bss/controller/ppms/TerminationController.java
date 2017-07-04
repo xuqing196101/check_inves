@@ -41,8 +41,8 @@ public class TerminationController extends BaseSupplierController {
 	super.writeJson(response, packages);
   }
   @RequestMapping("/ter_package")
-  public void terPackage(HttpServletResponse response, String packagesId,String projectId,String currFlowDefineId){
-    terminationService.updateTermination(packagesId, projectId,currFlowDefineId);
+  public void terPackage(HttpServletResponse response, String packagesId,String projectId,String currFlowDefineId,String oldCurrFlowDefineId){
+    terminationService.updateTermination(packagesId, projectId,currFlowDefineId,oldCurrFlowDefineId);
     super.writeJson(response, "ok");
   }
   @RequestMapping("/flowDefineId")

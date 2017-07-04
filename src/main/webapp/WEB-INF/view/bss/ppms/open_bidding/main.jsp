@@ -109,7 +109,7 @@
   		}
   		$.ajax({
 			url:"${pageContext.request.contextPath}/termination/ter_package.do",
-			data:{"packagesId":ids,"projectId":'${project.id}',"currFlowDefineId":val.join(',')},
+			data:{"packagesId":ids,"projectId":'${project.id}',"currFlowDefineId":val.join(','),"oldCurrFlowDefineId":$("#currHuanjieId").val()},
 			type:"post",
 			dataType:"json",
 	   	success:function(data){

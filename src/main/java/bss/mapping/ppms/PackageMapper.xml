@@ -244,6 +244,9 @@
 			<if test="isEndPrice != null">
 				IS_END_PRICE = #{isEndPrice},
 			</if>
+			<if test="flowId != null">
+				FLOW_ID = #{flowId},
+			</if>
 			<if test="techniqueTime != null">
         TECHNIQUE_TIME = #{techniqueTime,jdbcType=TIMESTAMP},
       </if>

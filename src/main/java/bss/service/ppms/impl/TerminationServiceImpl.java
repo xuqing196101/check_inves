@@ -33,6 +33,8 @@ import bss.dao.ppms.BidMethodMapper;
 import bss.dao.ppms.FlowDefineMapper;
 import bss.dao.ppms.FlowExecuteMapper;
 import bss.dao.ppms.MarkTermMapper;
+import bss.dao.ppms.NegotiationMapper;
+import bss.dao.ppms.NegotiationReportMapper;
 import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ParamIntervalMapper;
 import bss.dao.ppms.ProjectDetailMapper;
@@ -49,6 +51,8 @@ import bss.model.ppms.BidMethod;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.MarkTerm;
+import bss.model.ppms.Negotiation;
+import bss.model.ppms.NegotiationReport;
 import bss.model.ppms.Packages;
 import bss.model.ppms.ParamInterval;
 import bss.model.ppms.Project;
@@ -106,13 +110,17 @@ public class TerminationServiceImpl implements TerminationService {
   private ScoreModelMapper scoreModelMapper;
   @Autowired
   private ParamIntervalMapper paramIntervalMapper;
+  @Autowired
+  private NegotiationMapper negotiationMapper;
+  @Autowired
+  private NegotiationReportMapper negotiationReportMapper;
   
   @Override
   /*
    * (non-Javadoc)
    * @see bss.service.ppms.TerminationService#updateTermination(java.lang.String包的id集合, java.lang.String项目id，java.lang.String流程id)
    */
-  public void updateTermination(String packagesId, String projectId,String currFlowDefineId) {
+  public void updateTermination(String packagesId, String projectId,String currFlowDefineId,String oldCurrFlowDefineId) {
     Map<String, Integer> mapOrder=new HashMap<String, Integer>();
     List<Integer> number=new ArrayList<Integer>();
     HashMap<String, Object> map=new HashMap<String, Object>();
@@ -138,12 +146,12 @@ public class TerminationServiceImpl implements TerminationService {
     Map<String, String> mapId=new HashMap<String, String>();
     projectMapper.insertSelective(project);
     //生成包
-    insertPackages(packagesId, project, mapId,currFlowDefineId);
+    insertPackages(packagesId, project, mapId,currFlowDefineId,oldCurrFlowDefineId);
     //生成明细
     insertDetail(packagesId,projectId, project, mapId);
     //获取当前流程以前的所有步骤并复制一份
     List<FlowDefine> flowDefines = flowDefineMapper.getFlow(currFlowDefineId);
-    Map<String, Integer> IsTurnUpMap=new HashMap<String, Integer>();
+    Map<String, Map<String, Object>> IsTurnUpMap=new HashMap<String, Map<String, Object>>();
     Map<String, String> firstAuditIdMap=new HashMap<String, String>();
     for(FlowDefine flw:flowDefines){
       FlowExecute temp=new FlowExecute();
@@ -160,26 +168,153 @@ public class TerminationServiceImpl implements TerminationService {
     }
     
   }
-  private void flowDefine(FlowDefine flw,Map<String, String> mapId,Project project,String oldProjectId,Map<String, Integer> IsTurnUpMap,Map<String, String> firstAuditIdMap){
+  private void flowDefine(FlowDefine flw,Map<String, String> mapId,Project project,String oldProjectId,Map<String, Map<String, Object>> IsTurnUpMap,Map<String, String> firstAuditIdMap){
     //判断是采购方式
     DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(flw.getPurchaseTypeId());
     if(data.getCode().equals("GKZB")){//公开招标
       project_gkzb(flw, mapId, project, oldProjectId, IsTurnUpMap,
           firstAuditIdMap);
     }else if(data.getCode().equals("XJCG")){//询价采购
-      
+      project_xjcg(flw, mapId, project, oldProjectId, IsTurnUpMap,
+          firstAuditIdMap);
     }else if(data.getCode().equals("JZXTP")){//竞争性谈判
       
     }else if(data.getCode().equals("DYLY")){//单一来源
-      
+      project_dyly(flw, mapId, project, oldProjectId, IsTurnUpMap);
     }else if(data.getCode().equals("YQZB")){//邀请招标
-      
-      
+      if(flw.getCode().equals("XMXX")){//项目信息
+        
+      }else if(flw.getCode().equals("NZCGWJ")){//拟制招标文件
+        flw_nzcgwj(mapId, project, oldProjectId,firstAuditIdMap);
+      }else if(flw.getCode().equals("NZCGGG")){//拟制招标公告
+        flw_nzcggg(project, oldProjectId);
+      }else if(flw.getCode().equals("CQGYS")){//抽取供应商
+        flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,"YQZB");
+      }else if(flw.getCode().equals("FSBS")){//发售标书
+        flw_gysqd(IsTurnUpMap,"YQZB","one");
+      }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
+      }else if(flw.getCode().equals("GYSQD")){//供应商签到
+        flw_gysqd(IsTurnUpMap,"YQZB","two");
+        IsTurnUpMap=null;
+      }else if(flw.getCode().equals("KBCB")){//开标唱标
+        flw_kbcb(mapId, project, oldProjectId);
+      }else if(flw.getCode().equals("ZZZJPS")){//组织专家评审
+        flw_zzzjps(mapId, project, oldProjectId, firstAuditIdMap);
+      }else if(flw.getCode().equals("NZZBGS")){//拟制中标公示
+        flw_nzzbgs(project, oldProjectId);
+      }else if(flw.getCode().equals("QRZBGYS")){//确定中标供应商
+        flw_qrzbgys(mapId, project);
+      }
     }
     
   }
+  private void project_xjcg(FlowDefine flw, Map<String, String> mapId,
+      Project project, String oldProjectId,
+      Map<String, Map<String, Object>> IsTurnUpMap,
+      Map<String, String> firstAuditIdMap) {
+    if(flw.getCode().equals("XMXX")){//项目信息
+      
+    }else if(flw.getCode().equals("NZCGWJ")){//拟制询价文件
+      flw_nzcgwj(mapId, project, oldProjectId,firstAuditIdMap);
+    }else if(flw.getCode().equals("NZCGGG")){//拟制询价公告
+      flw_nzcggg(project, oldProjectId);
+    }else if(flw.getCode().equals("CQGYS")){//抽取供应商
+      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,"XJCG");
+    }else if(flw.getCode().equals("FSBS")){//发售标书
+      flw_gysqd(IsTurnUpMap,"XJCG","one");
+    }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
+      
+    }else if(flw.getCode().equals("GYSQD")){//供应商签到
+      flw_gysqd(IsTurnUpMap,"XJCG","two");
+      IsTurnUpMap=null;
+    }else if(flw.getCode().equals("KBCB")){//开标唱标
+      flw_kbcb(mapId, project, oldProjectId);
+    }else if(flw.getCode().equals("ZZZJPS")){//组织专家评审
+      flw_zzzjps(mapId, project, oldProjectId, firstAuditIdMap);
+    }else if(flw.getCode().equals("NZZBGS")){//拟定中标公告
+      flw_nzzbgs(project, oldProjectId);
+    }else if(flw.getCode().equals("QRZBGYS")){//确认中标供应商
+      flw_qrzbgys(mapId, project);
+    }
+  }
+  private void project_dyly(FlowDefine flw, Map<String, String> mapId,
+      Project project, String oldProjectId, Map<String, Map<String, Object>> IsTurnUpMap) {
+    if(flw.getCode().equals("XMXX")){//项目信息
+      
+    }else if(flw.getCode().equals("ZDGYS")){//指定供应商
+      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,null);
+    }else if(flw.getCode().equals("NZCGGG")){//编制单一来源公示
+      flw_nzcggg(project, oldProjectId);
+    }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
+      
+    }else if(flw.getCode().equals("GYSQD")){//供应商签到
+      flw_gysqd(IsTurnUpMap,null,null);
+      IsTurnUpMap=null;
+    }else if(flw.getCode().equals("KBCB")){//开标唱标
+      flw_kbcb(mapId, project, oldProjectId);
+    }else if(flw.getCode().equals("BZTPJL")){//编制谈判记录
+      flw_bztpjl(mapId, project, oldProjectId);
+    }else if(flw.getCode().equals("ZZZJTP")){//组织专家谈判
+      flw_zzzjtp(mapId, project, oldProjectId);
+    }else if(flw.getCode().equals("QRZBGYS")){//确定成交供应商
+      flw_qrzbgys(mapId, project);
+    }else if(flw.getCode().equals("DYLYTPBG")){//单一来源谈判报告
+      flw_dylytpbg(mapId, project);
+    }
+  }
+  private void flw_dylytpbg(Map<String, String> mapId, Project project) {
+    Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
+    while (iterator.hasNext()) {
+      Entry<String, String> next = iterator.next();
+      String newId=next.getValue();
+      String oldId=next.getKey();
+      NegotiationReport nr = negotiationReportMapper.selectByPackageId(oldId);
+      nr.setId(WfUtil.createUUID());
+      nr.setPackageId(newId);
+      nr.setProjectId(project.getId());
+      negotiationReportMapper.insertSelective(nr);
+    }
+  }
+  private void flw_zzzjtp(Map<String, String> mapId, Project project,
+      String oldProjectId) {
+    Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
+    while (iterator.hasNext()) {
+      Entry<String, String> next = iterator.next();
+      String newId=next.getValue();
+      String oldId=next.getKey();
+      Map<String, Object> map = new HashMap<String, Object>();
+      map.put("projectId", oldProjectId);
+      map.put("packageId", oldId);
+      List<PackageExpert> selectLists = packageExpertMapper.selectList(map);
+        for(PackageExpert sl:selectLists){
+          sl.setProjectId(project.getId());
+          sl.setPackageId(newId);
+          packageExpertMapper.insertSelective(sl);
+        }
+    }
+  }
+  private void flw_bztpjl(Map<String, String> mapId, Project project,
+      String oldProjectId) {
+    Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
+    while (iterator.hasNext()) {
+      Entry<String, String> next = iterator.next();
+      String newId=next.getValue();
+      String oldId=next.getKey();
+      HashMap<String, Object> hashMap=new HashMap<String, Object>();
+      hashMap.put("projectId", oldProjectId);
+      hashMap.put("packageId", oldId);
+      List<Negotiation> negotiations = negotiationMapper.listByNegotiation(hashMap);
+      for (Negotiation nt : negotiations) {
+        nt.setId(WfUtil.createUUID());
+        nt.setCreatedAt(new Date());
+        nt.setPackageId(newId);
+        nt.setProjectId(project.getId());
+        negotiationMapper.insertSelective(nt);
+      }
+    }
+  }
   private void project_gkzb(FlowDefine flw, Map<String, String> mapId,
-      Project project, String oldProjectId, Map<String, Integer> IsTurnUpMap,
+      Project project, String oldProjectId, Map<String, Map<String, Object>> IsTurnUpMap,
       Map<String, String> firstAuditIdMap) {
     if(flw.getCode().equals("XMXX")){//项目信息
       
@@ -188,11 +323,11 @@ public class TerminationServiceImpl implements TerminationService {
     }else if(flw.getCode().equals("NZCGGG")){//拟制招标公告
       flw_nzcggg(project, oldProjectId);
     }else if(flw.getCode().equals("FSBS")){//发售标书
-      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap);
+      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,null);
     }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
       
     }else if(flw.getCode().equals("GYSQD")){//供应商签到
-      flw_gysqd(IsTurnUpMap);
+      flw_gysqd(IsTurnUpMap,null,null);
       IsTurnUpMap=null;
     }else if(flw.getCode().equals("KBCB")){//开标唱标
       flw_kbcb(mapId, project, oldProjectId);
@@ -294,7 +429,7 @@ public class TerminationServiceImpl implements TerminationService {
   private void flw_nzzbgs(Project project, String oldProjectId) {
     Article article = new Article();
     DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(project.getPurchaseType());
-    if("GKZB".equals(data.getCode())){
+    if("GKZB".equals(data.getCode())||"XJCG".equals(data.getCode())||"YQZB".equals(data.getCode())){
       ArticleType at = articleTypeMapper.selectArticleTypeByCode("success_notice");
       article.setArticleType(new ArticleType(at.getId()));
     }
@@ -318,20 +453,29 @@ public class TerminationServiceImpl implements TerminationService {
       }
     }
   }
-  private void flw_gysqd(Map<String, Integer> IsTurnUpMap) {
-    Iterator<Entry<String, Integer>> iterator = IsTurnUpMap.entrySet().iterator();
+  private void flw_gysqd(Map<String, Map<String, Object>> IsTurnUpMap,String code,String step) {
+    Iterator<Entry<String, Map<String, Object>>> iterator = IsTurnUpMap.entrySet().iterator();
     while (iterator.hasNext()) {
-      Entry<String, Integer> next = iterator.next();
+      Entry<String, Map<String, Object>> next = iterator.next();
       String id=next.getKey(); 
-      Integer value=next.getValue();
+      Map<String, Object> value=next.getValue();
       SaleTender saleTenders = saleTenderMapper.selectByPrimaryKey(id);
-      saleTenders.setIsTurnUp(value);
+      if(code!=null&&("XJCG".equals(code)||"YQZB".equals(code))){
+        if(step!=null&&"one".equals(step)){
+          saleTenders.setStatusBid((Short) value.get("statusBid"));
+          saleTenders.setStatusBond((Short) value.get("statusBond"));
+        }else{
+          saleTenders.setIsTurnUp((Integer) value.get("isTurnUp"));
+        }
+      }else{
+        saleTenders.setIsTurnUp((Integer) value.get("isTurnUp"));
+      }
       saleTenderMapper.updateByPrimaryKeySelective(saleTenders);
     }
     //添加投标文件
   }
   private void flw_fsbs(Map<String, String> mapId, Project project,
-      String oldProjectId,Map<String, Integer> IsTurnUpMap) {
+      String oldProjectId,Map<String, Map<String, Object>> IsTurnUpMap,String code) {
     Iterator<Entry<String, String>> iterator = mapId.entrySet().iterator();
     while (iterator.hasNext()) {
       Entry<String, String> next = iterator.next();
@@ -349,8 +493,16 @@ public class TerminationServiceImpl implements TerminationService {
         st.setPackages(newId);
         st.setSupplierId(st.getSuppliers().getId());
         st.setUserId(st.getUser().getId());
-        IsTurnUpMap.put(st.getId(), st.getIsTurnUp());
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("isTurnUp", st.getIsTurnUp());
+        map.put("statusBid", st.getStatusBid());
+        map.put("statusBond", st.getStatusBond());
+        IsTurnUpMap.put(st.getId(), map);
         st.setIsTurnUp(null);
+        if(code!=null&&("XJCG".equals(code)||"YQZB".equals(code))){
+          st.setStatusBid(null);
+          st.setStatusBond(null);
+        }
         saleTenderMapper.insertSelective(st);
       }
     }
@@ -358,9 +510,12 @@ public class TerminationServiceImpl implements TerminationService {
   private void flw_nzcggg(Project project, String oldProjectId) {
   	Article article = new Article();
   	DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(project.getPurchaseType());
-  	if("GKZB".equals(data.getCode())){
+  	if("GKZB".equals(data.getCode())||"XJCG".equals(data.getCode())||"YQZB".equals(data.getCode())){
   	  ArticleType at = articleTypeMapper.selectArticleTypeByCode("purchase_notice");
   	  article.setArticleType(new ArticleType(at.getId()));
+  	}else if("DYLY".equals(data.getCode())){
+  	  ArticleType at = articleTypeMapper.selectArticleTypeByCode("single_source_notice");
+      article.setArticleType(new ArticleType(at.getId()));
   	}
     article.setProjectId(oldProjectId);
     List<Article> articles = articleMapper.selectArticleByProjectId(article);
@@ -560,19 +715,22 @@ public class TerminationServiceImpl implements TerminationService {
   }
 
   private void insertPackages(String packagesId, Project project,
-      Map<String, String> mapId,String currFlowDefineId) {
+      Map<String, String> mapId,String currFlowDefineId,String oldCurrFlowDefineId) {
     if(packagesId!=null){
       String[] split = packagesId.split(",");
       String pagId="";
       for(int i=0;i<split.length;i++){
         Packages pg = packageMapper.selectByPrimaryKeyId(split[i]);
-        pg.setFlowId(currFlowDefineId);
+        FlowDefine flowDefine = flowDefineMapper.get(oldCurrFlowDefineId);
+        pg.setFlowId(flowDefine.getCode());
         packageMapper.updateByPrimaryKeySelective(pg);
         if(pg!=null){
+          FlowDefine flowDefine1 = flowDefineMapper.get(currFlowDefineId);
           pagId=pg.getId();
           pg.setProjectId(project.getId());
           pg.setCreatedAt(new Date());
           pg.setUpdatedAt(null);
+          pg.setFlowId(flowDefine1.getCode());
           packageMapper.insertSelective(pg);
           mapId.put(pagId, pg.getId());
         }
