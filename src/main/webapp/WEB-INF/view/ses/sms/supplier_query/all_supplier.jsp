@@ -460,9 +460,9 @@
 									<option value="4">待复核</option>
 									<option value="5">复核通过</option>
 									<option value="6">复核未通过</option>
-									<option value="7">待考察</option>
-									<option value="8">考察合格</option>
-									<option value="9">考察不合格</option>
+									<!-- <option value="5">待考察</option> -->
+									<option value="7">考察合格</option>
+									<option value="8">考察不合格</option>
 								</select>
 							</li>
 							<%-- <li>

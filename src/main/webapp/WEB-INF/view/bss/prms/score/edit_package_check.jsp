@@ -118,12 +118,13 @@
     
     //引入模板内容
     function loadTemplat(projectId, packageId){
-   	 	var index = layer.load(1, {
+   	 	
+    	var fatId = $("#fatId").val();
+    	if (fatId != null && fatId != '') {
+    		var index = layer.load(1, {
 					  shade: [0.2,'#BFBFBF'], //0.1透明度的白色背景
 					  offset: ['222px', '390px']
 					});
-    	var fatId = $("#fatId").val();
-    	if (fatId != null && fatId != '') {
 	    	$.ajax({   
 	            type: "POST",  
 	            url: "${pageContext.request.contextPath}/firstAudit/loadTemplat.html?isConfirm=1",   

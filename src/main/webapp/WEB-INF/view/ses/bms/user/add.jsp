@@ -661,7 +661,7 @@
 				        <c:choose> 
 					        <c:when  test="${not empty origin}">
 					            <input id="oId" name="orgId" value="${orgId}" type="hidden" />
-					        	<input id="orgSel"  type="text" name="orgName"  value="${orgName}"  />
+					        	<input id="orgSel"  type="text" name="orgName"  value="${orgName}" onclick="showOrg();"  />
 					        </c:when >
 					        <c:otherwise>
 					        	<input id="oId" name="orgId" value="${user.orgId}" type="hidden" />
