@@ -25,8 +25,8 @@ public class ListSortUtil<T> {
 				int retVal = 0;
 				try {
 					//首字母转大写
-					String newStr=sortField.substring(0, 1).toUpperCase()+sortField.replaceFirst("\\w",""); 
-					String methodStr="get"+newStr;
+					String newStr = sortField.substring(0, 1).toUpperCase() + sortField.replaceFirst("\\w",""); 
+					String methodStr = "get"+newStr;
 					
 					Method method1 = ((T)obj1).getClass().getMethod(methodStr, null);
 					Method method2 = ((T)obj2).getClass().getMethod(methodStr, null);
