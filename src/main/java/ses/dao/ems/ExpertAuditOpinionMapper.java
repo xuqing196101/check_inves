@@ -1,5 +1,7 @@
 package ses.dao.ems;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.ems.ExpertAuditOpinion;
 
 /**
@@ -29,4 +31,15 @@ public interface ExpertAuditOpinionMapper {
 	 * @return void
 	 */
 	ExpertAuditOpinion selectByPrimaryKey (ExpertAuditOpinion expertAuditOpinion );
+	
+	/**
+	 * 
+	 * Description:根据专家ID查询信息
+	 * 
+	 * @author Easong
+	 * @version 2017年7月3日
+	 * @param expertId
+	 * @return
+	 */
+	ExpertAuditOpinion selectByExpertId(@Param("expertId") String expertId);
 }

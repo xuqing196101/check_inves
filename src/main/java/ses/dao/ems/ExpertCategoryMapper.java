@@ -83,4 +83,14 @@ public interface ExpertCategoryMapper {
 	 */
 	BigDecimal selectExpertCountByCategory(@Param("typeId") String typeId);
 
+	/**
+	 * 
+	 * Description: 查询专家注册品目类型（小类）的数量 
+	 * 
+	 * @author Easong
+	 * @version 2017年6月27日
+	 * @param expertId
+	 * @return
+	 */
+	Integer selectRegExpCateCount(@Param("expertId") String expertId);
 }

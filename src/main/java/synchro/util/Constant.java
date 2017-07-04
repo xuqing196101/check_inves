@@ -105,7 +105,10 @@ public class Constant {
     
     /** 供应商附件文件名称 **/
     public final static String ATTACH_FILE_SUPPLIER_NEW = "supplier_new";
-    
+    /**供应商审核附件**/
+    public final static String SUPPLIER_CHECK_ATTACHMENT = "SUPPLIER_CHECK_ATTACHMENT";
+    /**供应商审核附件**/
+    public final static String EXPERT_CHECK_ATTACHMENT = "EXPERT_CHECK_ATTACHMENT";
     
     
     /** 招标附件文件名称 **/

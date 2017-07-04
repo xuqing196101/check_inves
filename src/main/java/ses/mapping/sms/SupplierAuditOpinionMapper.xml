@@ -20,7 +20,7 @@
     AND CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_SMS_SUPPLIER_OPINION )
   </select>
 
-  <insert id="insertSelective" parameterType="ses.model.ems.ExpertAudit">
+  <insert id="insertSelective" parameterType="ses.model.sms.SupplierAuditOpinion">
     insert into T_SES_SMS_SUPPLIER_OPINION
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -54,4 +54,23 @@
 			select sys_guid() from dual
 		</selectKey>
   </insert>
+  
+  <!-- 根据供应商ID查询信息 -->
+  <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+       SELECT 
+        <include refid="Base_Column_List" />
+        FROM (SELECT <include refid="Base_Column_List" />
+         FROM T_SES_SMS_SUPPLIER_OPINION T
+         WHERE T.SUPPLIER_ID = #{supplierId}
+         ORDER BY T.CREATED_AT DESC)
+         WHERE ROWNUM = 1
+  </select>
+  
+  <!-- 根据专家Id修改 -->
+  <update id="updateOpinionByExpertId" parameterType="ses.model.sms.SupplierAuditOpinion">
+  	UPDATE T_SES_SMS_SUPPLIER_OPINION T
+     SET T.AUDIT_OPINION_ATTACH = #{auditOpinionAttach}
+     WHERE T.SUPPLIER_ID = #{supplierId}
+  </update>
+  
 </mapper>

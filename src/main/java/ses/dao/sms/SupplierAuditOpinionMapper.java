@@ -1,5 +1,7 @@
 package ses.dao.sms;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierAuditOpinion;
 
 /**
@@ -26,4 +28,15 @@ public interface SupplierAuditOpinionMapper {
 	 * @return void
 	 */
 	SupplierAuditOpinion selectByPrimaryKey (SupplierAuditOpinion supplierAuditOpinion );
+	
+	/**
+	 * 
+	 * Description:根据供应商ID查询信息
+	 * 
+	 * @author Easong
+	 * @version 2017年7月3日
+	 * @param supplierId
+	 * @return
+	 */
+	SupplierAuditOpinion selectByExpertId(@Param("supplierId") String supplierId);
 }

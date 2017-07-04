@@ -26,6 +26,15 @@
         /*  $("#tongguo").attr("disabled", true); */
          $("#hege").attr("disabled", true);
          };
+      		// 复审预通过状态
+         if('${supplierStatus}' == -2){
+         	  $("#checkWord").show();
+         }
+      		
+      	 // 审核意见
+      	 if('${opinion}' != ''){
+      		 $("#opinion").attr("disabled", true);
+      	 }
        });
        
        function trim(str) { //删除左右两端的空格
@@ -73,6 +82,23 @@
 						});
 	   			}else{ */
 		   			//询问框
+	   				if(status == -3){
+		   				layer.confirm('您确认吗？', {
+	              closeBtn: 0,
+	              offset: '100px',
+	              shift: 4,
+	              btn: ['确认','取消']
+	            }, function(index){
+	                //最终意见
+                	$("#status").val(status);
+                	$("#auditOpinion").val($("#auditOpinionFile").val());
+                	//$("input[name='opinion']").val(opinion);
+                	layer.close(index);
+                	$("#form_shen").submit();
+	            });
+		   			}
+	   			
+	   			  if(status != -3){
             var opinion = document.getElementById('opinion').value;
             opinion = trim(opinion);
 		   			if (opinion != null && opinion != "") {
@@ -82,12 +108,31 @@
 		              offset: '100px',
 		              shift: 4,
 		              btn: ['确认','取消']
-		            }, function(){
+		            }, function(index){
 		              //最终意见
-		               $("input[name='opinion']").val(opinion);
+                 	$("#status").val(status);
+                 	$("input[name='opinion']").val(opinion);
+		            	if(status == -2){
+                  	$.ajax({
+                          url: "${pageContext.request.contextPath}/supplierAudit/updateStatusOfPublictity.do",
+                          data: $("#form_shen").serialize(),
+                          success: function (data) {
+                          	if(data.status == 200){
+                          		layer.alert('完成操作，请公示！', function(index){
+                          			$("#opinion").attr("disabled", true);
+                          			$("#tongguoSpan").hide();
+                                $("#checkWord").show();
+                                $("#publicity").show();
+                                init_web_upload();
+                                layer.close(index);
+                          		});
+                          	}
+                          }
+                     });
+                     layer.close(index);
+                     return;
+                  }
 	                //提交审核
-	                $("#status").val(status);
-	                $("#status").val(status);
 	                $("#form_shen").submit();
 		            });
               } else {
@@ -97,6 +142,7 @@
 	             layer.msg("请填写最终意见", {offset: '100px'});
 	             return;
              }
+	   			  }
 	   			};
 				/* } */
 			
@@ -149,6 +195,13 @@
 			        layer.alert("请选择需要移除的信息！",{offset:'100px'});
 				 	  }
 	        }
+		  
+			  //下载审核/复核/意见函/考察表
+				function downloadTable(str) {
+          $("input[name='tableType']").val(str);
+          $("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/downloadTable.html");
+          $("#shenhe_form_id").submit();
+				}
     </script>
     <script type="text/javascript">
 			function jump(str){
@@ -304,6 +357,13 @@
               <input type="hidden" name="sign" value="${sign}">
           </form>
           
+          <!-- download check table -->
+          <form id="shenhe_form_id" action="" method="post">
+						<input name="supplierId" type="hidden" value="${supplierId}"/>
+						<input type="hidden" name="sign" value="${sign}">
+						<input type="hidden" name="tableType">
+					</form>
+          
           <c:if test="${supplierStatus == 3 }">
              <h2 class="count_flow"><i>1</i>问题汇总</h2>
           </c:if>
@@ -371,14 +431,35 @@
 	          </ul>
 	        </c:if> --%>
 	        
-	        <h2 class="count_flow"><i>2</i>最终意见</h2>
-          <ul class="ul_list">
-              <li class="col-md-12 col-sm-12 col-xs-12">
-                  <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                      <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80"></textarea>
-                  </div>
-              </li>
-          </ul>
+	        <div id="opinionDiv">
+		        <h2 class="count_flow"><i>2</i>最终意见</h2>
+	          <ul class="ul_list">
+	              <li class="col-md-12 col-sm-12 col-xs-12">
+	                  <div class="col-md-12 col-sm-12 col-xs-12 p0">
+	                      <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80">${ opinion }</textarea>
+	                  </div>
+	              </li>
+	          </ul>
+          </div>
+          <!-- 审核公示扫描件上传 -->
+          <div class="display-none" id="checkWord">
+	            <h2 class="count_flow"><i>3</i>审核表扫描件</h2>
+	            <ul class="ul_list">
+	            		<li class="col-md-6 col-sm-6 col-xs-6">
+	            			<span class="fl">下载审核表：</span>
+	            			<a href="javascript:;" onclick="downloadTable(3)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+	            		</li>
+	                <li class="col-md-6 col-sm-6 col-xs-6">
+			              <div>
+			              	<span class="fl">上传审核扫描件：</span>
+				              <% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
+				              <input id="auditOpinionFile" type="hidden" value="<%=uuidcheckword%>" />
+				              <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传审核扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
+				              <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
+			              </div>
+			            </li>
+	            </ul>
+          </div>  
           
 	        <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
 	         <a class="btn"  type="button" onclick="lastStep();">上一步</a>
@@ -387,15 +468,22 @@
 	            <input name="status" id="status" type="hidden">
 	            <input name="opinion" type="hidden">
 	            <input name="id" type="hidden">
+	            <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
 	            <div class="margin-bottom-0  categories">
 	              <div class="col-md-12 add_regist tc">
 	              <div class="col-md-12 add_regist tc">
           			<!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
 		            <c:if test="${supplierStatus == 0}">
-		              <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="审核通过 " id="tongguo">
+		              <span id="tongguoSpan"><input class="btn btn-windows git"  type="button" onclick="shenhe(-2)" value="审核预通过" id="tongguo"></span>
+		              <span class="display-none" id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
 		              <input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">
 		            </c:if>
+		            <c:if test="${supplierStatus == -2}">
+                  <span id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
+                  <input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
+		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">
+                </c:if>
 		            <c:if test="${supplierStatus == 4}">
 		              <input class="btn btn-windows git"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(6)" value="复核不通过" id="butongguo">

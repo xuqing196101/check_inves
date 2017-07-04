@@ -1,8 +1,11 @@
 package ses.service.sms.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -12,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
 import ses.dao.sms.ProductParamMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierProductsMapper;
@@ -27,6 +30,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
 import com.github.pagehelper.PageHelper;
+
 import ses.util.StringUtil;
 
 @Service(value = "supplierItemService")
@@ -116,6 +120,10 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                 item.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
                 item.setCategoryId(cate.getId());
                 item.setCreatedAt(new Date());
+                if(categoryId.equals(cate.getId())){
+                	// 设置末级
+                	item.setLevel("3");
+                }
                 supplierItemMapper.insertSelective(item);
             }
         }
@@ -145,7 +153,14 @@ public class SupplierItemServiceImpl implements SupplierItemService {
                 categoryList.add(cate);
                 categoryId = cate.getParentId();
             }
+            
         }
+        // 将集合倒序输出，获取小类
+        /*Collections.reverse(categoryList);
+        if(categoryList.size() >= 4){
+        	// 3：小类
+        	categoryList.get(3).setLevel("3");
+        }*/
         return categoryList;
     }
 	

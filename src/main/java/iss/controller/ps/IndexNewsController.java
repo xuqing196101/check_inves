@@ -62,20 +62,23 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListVO;
+import ses.model.ems.ExpertPublicity;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierBlacklist;
 import ses.model.sms.SupplierBlacklistVO;
+import ses.model.sms.SupplierPublicity;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertBlackListService;
 import ses.service.ems.ExpertService;
+import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBlacklistService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
-import sums.service.oc.ComplaintService;
 import synchro.util.SpringBeanUtil;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBSupplier;
@@ -84,12 +87,8 @@ import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
 
-import common.annotation.CurrentUser;
-import common.annotation.SystemControllerLog;
-import common.annotation.SystemServiceLog;
 import common.constant.Constant;
 import common.constant.OnlineBidding;
-import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.CommonStringUtil;
@@ -153,6 +152,14 @@ public class IndexNewsController extends BaseSupplierController{
     /** 服务热线 **/
     @Autowired
 	private ServiceHotlineService serviceHotlineService;
+    
+    // 注入专家审核Service
+    @Autowired
+    private ExpertAuditService expertAuditService;
+    
+    // 注入供应商审核Service
+    @Autowired
+    private SupplierAuditService supplierAuditService;
 	/**
 	 * 
 	* @Title: sign
@@ -2226,5 +2233,74 @@ public class IndexNewsController extends BaseSupplierController{
         Map<String, Object> indexMapper = new HashMap<String, Object>();
         topNews(indexMapper);
         model.addAttribute("indexMapper", indexMapper);
+    }
+    
+    /**
+     * 
+     * Description:加载首页导航栏专家公示列表
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param page
+     * @return
+     */
+    @RequestMapping("/indexExpPublicity")
+    public String indexExpPublicity(){
+    	return "iss/ps/index/index_expPublicity";
+    }
+    
+    /**
+     * 
+     * Description:加载首页导航栏供应商公示列表
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param page
+     * @return
+     */
+    @RequestMapping("/indexSupPublicity")
+    public String indexSupPublicity(){
+    	return "iss/ps/index/index_supPublicity";
+    }
+    
+    /**
+     * 
+     * Description:加载首页导航栏供应商公示列表数据
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param page
+     * @param supplierPublicity
+     * @return
+     */
+    @RequestMapping("/indexSupPublicityAjax")
+    @ResponseBody
+    public JdcgResult indexSupPublicityAjax(@RequestParam(value="page", defaultValue = "1") int page, SupplierPublicity supplierPublicity){
+    	Map<String, Object> map = new HashMap<>();
+    	map.put("page", page);
+    	map.put("supplierPublicity", supplierPublicity);
+    	List<SupplierPublicity> list = supplierAuditService.selectSupByPublictyList(map);
+    	PageInfo<SupplierPublicity> info = new PageInfo<>(list);
+    	return JdcgResult.ok(info);
+    }
+    /**
+     * 
+     * Description:加载首页导航栏专家公示列表数据
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param page
+     * @param expertPublicity
+     * @return
+     */
+    @RequestMapping("/indexExpPublicityAjax")
+    @ResponseBody
+    public JdcgResult indexExpPublicityAjax(@RequestParam(value="page", defaultValue = "1") int page, ExpertPublicity expertPublicity){
+    	Map<String, Object> map = new HashMap<>();
+    	map.put("page", page);
+    	map.put("expertPublicity", expertPublicity);
+    	List<ExpertPublicity> list = expertAuditService.selectExpByPublictyList(map);
+    	PageInfo<ExpertPublicity> info = new PageInfo<>(list);
+    	return JdcgResult.ok(info);
     }
 }

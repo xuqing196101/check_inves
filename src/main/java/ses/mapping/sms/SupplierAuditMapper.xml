@@ -344,4 +344,13 @@
   		SUPPLIER_ID =#{supplierId}
   </update>
 	
+	<!-- 查询注册供应商不通过的小类 -->
+	<select id="selectRegSupCateCount" resultType="java.lang.Integer" parameterType="Map">
+		SELECT COUNT(T.ID)
+		  FROM T_SES_SMS_SUPPLIER_AUDIT T
+		   WHERE T.SUPPLIER_ID = #{supplierId, jdbcType=VARCHAR}
+		   AND T.AUDIT_TYPE = #{regType, jdbcType=VARCHAR}
+		   AND T.STATUS = 0
+       AND T.IS_DELETED = 0
+	</select>
 </mapper>
