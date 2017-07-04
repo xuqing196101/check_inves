@@ -8,6 +8,7 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
+		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 		<style type="text/css">
 		td {
 		  cursor:pointer;
@@ -123,7 +124,7 @@
     </script>
 
 		<script type="text/javascript">
-			/* function jump(str){
+			/*  function jump(str){
 			  var action;
 			  if(str=="essential"){
 			     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -134,7 +135,7 @@
 			  if(str=="shareholder"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
 			  }
-			  /*if(str=="materialProduction"){
+			  / *if(str=="materialProduction"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/materialProduction.html";
 			  }
 			  if(str=="materialSales"){
@@ -145,7 +146,7 @@
 			  }
 			  if(str=="serviceInformation"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
-			  }
+			  }* /
 			  if(str=="items"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 			  }
@@ -166,7 +167,7 @@
 				}
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
-			} */
+			}  */
 		</script>
 
   </head>

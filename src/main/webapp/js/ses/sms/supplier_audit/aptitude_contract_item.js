@@ -1,9 +1,9 @@
 $(function(){
 	var ind = parseInt($("#ids").val());
 	ind=ind+1;
-	var auditCount = $("#isAptitudePAgeAudit"+ind+"",window.parent.document).val();
+	var auditCount = $("#isContractPageAudit"+ind+"",window.parent.document).val();
 	if(auditCount>0){
-		$("#qualifications"+ind+"",window.parent.document).css('border-color', '#FF0000');
+		$("#contract"+ind+"",window.parent.document).css('border-color', '#FF0000');
 		$("#show_td").css('border-color', '#FF0000');
 		$("#count").val(auditCount);
 	}
@@ -12,8 +12,8 @@ $(function(){
 function reasonProject(ind,auditField, auditFieldName) {
 	var supplierId = $("#supplierId").val();
 	var auditCount = $("#count").val();
-	var auditContent='上传资质文件信息';
-	var auditType='aptitude_page';
+	var auditContent='上传销售合同信息';
+	var auditType='contract_page';
 	if(auditCount!=null && auditCount !='' && auditCount>'0' ){
 		layer.msg('已审核', {offset:'100px'});
 		return;
@@ -37,8 +37,8 @@ function reasonProject(ind,auditField, auditFieldName) {
 							shift: 6, //动画类型
 							offset: '100px',
 						});    
-						$("#isAptitudePAgeAudit"+(parseInt(ind)+1)+"",window.parent.document).val('1');
-						$("#qualifications"+(parseInt(ind)+1)+"",window.parent.document).css('border-color', '#FF0000');
+						$("#isContractPageAudit"+(parseInt(ind)+1)+"",window.parent.document).val('1');
+						$("#contract"+(parseInt(ind)+1)+"",window.parent.document).css('border-color', '#FF0000');
 						$("#show_td").css('border-color', '#FF0000');
 						$("#count").val('1');
 					}else{

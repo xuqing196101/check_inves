@@ -16,7 +16,7 @@
 				cursor: pointer;
 			}
 		</style>
-
+<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 		<script type="text/javascript">
 			//默认不显示叉
 			$(function() {
@@ -556,6 +556,16 @@
                 $("#form_id").submit();
             }
 
+			/*  function nextStep(url) {
+				var action = "${pageContext.request.contextPath}/supplierAudit/aptitude.html";
+				$("#form_id").attr("action", action);
+				$("#form_id").submit();
+			} */ 
+           function nextStep(url) {
+                var action = "${pageContext.request.contextPath}/supplierAudit/toPageAptitude.html";
+                $("#form_id").attr("action", action);
+                $("#form_id").submit();
+            } 
 			//上一步
 			function lastStep() {
 				var action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
@@ -638,7 +648,7 @@
 		</script>
 
 		<script type="text/javascript">
-			/* function jump(str) {
+			 /* function jump(str) {
 				var action;
 				if(str == "essential") {
 					action = "${pageContext.request.contextPath}/supplierAudit/essential.html";

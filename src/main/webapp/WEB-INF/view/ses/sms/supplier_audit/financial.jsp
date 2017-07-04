@@ -9,12 +9,12 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
+		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 		<style type="text/css">
 			td {
 				cursor: pointer;
 			}
 		</style>
-		<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 		<script type="text/javascript">
 			//默认不显示叉
 			$(function() {
@@ -191,7 +191,7 @@
 		</script>
 
 		<script type="text/javascript">
-			/* function jump(str) {
+			/*  function jump(str) {
 				var action;
 				if(str == "essential") {
 					action = "${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -202,7 +202,7 @@
 				if(str == "shareholder") {
 					action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
 				}
-				/*if(str == "materialProduction") {
+				/ *if(str == "materialProduction") {
 					action = "${pageContext.request.contextPath}/supplierAudit/materialProduction.html";
 				}
 				if(str == "materialSales") {
@@ -213,7 +213,7 @@
 				}
 				if(str == "serviceInformation") {
 					action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
-				}
+				}* /
 				if(str=="items"){
 			        action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 			    }
@@ -341,7 +341,7 @@
 						<!-- <li onclick = "jump('items')">
 	              <a aria-expanded="false" href="#tab-4" >产品类别</a>
 	               <i></i>
-	          </li> 
+	          </li>
 	          <li onclick="jump('aptitude')">
 							<a aria-expanded="false" href="#tab-4">资质文件维护</a>
 							<i></i>

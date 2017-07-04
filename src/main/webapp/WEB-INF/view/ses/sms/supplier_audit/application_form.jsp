@@ -107,7 +107,7 @@
         }
 		</script>
 		<script type="text/javascript">
-			/* function jump(str){
+			 /* function jump(str){
 			  var action;
 			  if(str=="essential"){
 			     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -129,7 +129,7 @@
 			  }
 			  if(str=="serviceInformation"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
-			  }
+			  }* /
 			  if(str=="items"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 			  }
@@ -150,7 +150,7 @@
 			   }
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
-			} */
+			}  */
 		</script>
   </head>
     <body>
@@ -246,6 +246,7 @@
                                 <a aria-expanded="false">产品类别及资质合同</a>
                                 <i></i>
                             </li>
+                        </li>
 		          <li onclick = "jump('applicationForm')" class="active" >
 		            <a aria-expanded="false" href="#tab-4" data-toggle="tab">承诺书和申请表</a>
 		            <i></i>
