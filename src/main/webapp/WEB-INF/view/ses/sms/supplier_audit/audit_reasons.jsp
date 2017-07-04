@@ -19,8 +19,8 @@
        //审核按钮
        var num = ${num};
        if(num == 0){
-         $("#tuihui").attr("disabled", true);
-         $("#butongguo").attr("disabled", true);
+         //$("#tuihui").attr("disabled", true);
+         //$("#butongguo").attr("disabled", true);
          $("#buhege").attr("disabled", true);
        }
        if(num != 0){
@@ -29,6 +29,9 @@
          };
       		// 复审预通过状态
          if('${supplierStatus}' == -2){
+         	  $("#checkWord").show();
+         }
+         if('${supplierStatus}' == -3){
          	  $("#checkWord").show();
          }
       		
@@ -449,6 +452,15 @@
           <div class="display-none" id="checkWord">
 	            <h2 class="count_flow"><i>3</i>审核表扫描件</h2>
 	            <ul class="ul_list">
+	            <c:if test="${ supplierStatus == -3 }">
+	            	<li class="col-md-6 col-sm-6 col-xs-6">
+			              <div>
+			              	<span class="fl">审核扫描件：</span>
+				              <u:show showId="pic_checkword" businessId="${ suppliers.auditOpinionAttach }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
+			              </div>
+			            </li>
+	            </c:if>
+	            <c:if test="${ supplierStatus != -3 }">
 	            		<li class="col-md-6 col-sm-6 col-xs-6">
 	            			<span class="fl">下载审核表：</span>
 	            			<a href="javascript:;" onclick="downloadTable(3)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
@@ -462,7 +474,8 @@
 				              <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
 			              </div>
 			            </li>
-	            </ul>
+		            </c:if>
+		          </ul>
           </div>  
           
 	        <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
@@ -483,11 +496,14 @@
 		              <input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">
 		            </c:if>
-		            <c:if test="${supplierStatus == -2}">
-                  <span id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
+		            <c:if test="${supplierStatus == -2 || supplierStatus == -3}">
+		            	<c:if test="${supplierStatus != -3}">
+                    <span id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
+                  </c:if>
                   <input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">
                 </c:if>
+                
 		            <c:if test="${supplierStatus == 4}">
 		              <input class="btn btn-windows git"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(6)" value="复核不通过" id="butongguo">
