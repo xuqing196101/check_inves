@@ -7,7 +7,10 @@ function list(curr){
 	$.ajax({
 		url: globalPath + "/index/indexSupPublicityAjax.do",
 		type: "post",
-		data:{"supplierName":supplierName},
+		data:{
+			"supplierName":supplierName,
+			"page":curr
+		},
 		dataTYpe: "json",
 		success: function(res){
 			if (res.status == 200){
