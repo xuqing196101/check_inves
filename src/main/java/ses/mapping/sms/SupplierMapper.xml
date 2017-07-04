@@ -2007,7 +2007,6 @@
 		,
 		(SELECT COUNT(1) AS COUNT_EXPE FROM T_SES_EMS_EXPERT WHERE MOBILE = #{mobile} AND IS_DELETE = 0) T2
 	</select>
-<<<<<<< HEAD
 	
 	<!-- 查询公示的供应商 -->
 	<select id="selectSupByPublicty" resultMap="supplierOfPublicityMap">
@@ -2039,6 +2038,4 @@
 		   </if>
 		 ORDER BY T.UPDATED_AT DESC
 	</select>
-=======
->>>>>>> c96dde8d18544bfcde0139ff6bbf3bb726986f9e
 </mapper>
