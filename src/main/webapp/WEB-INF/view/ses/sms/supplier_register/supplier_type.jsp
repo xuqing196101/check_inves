@@ -1423,7 +1423,7 @@
 							<input type="hidden" name="defaultPage" value="${defaultPage}" />
 							<input type="hidden" name="old" value="">
 							<div id="tab_content_div_id"
-								class="tab-content p0 bgwhite border0 tab_repair">
+								class="tab-content p0 bgwhite border0">
 								<!-- 物资生产型专业信息 -->
 
 								<div class="tab-pane fades" id="production_div">
