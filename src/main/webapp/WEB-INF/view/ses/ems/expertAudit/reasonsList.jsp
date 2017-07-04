@@ -28,6 +28,9 @@
             if('${status}' == -2){
             	$("#checkWord").show();
             }
+            if('${status}' == -3){
+            	$("#checkWord").show();
+            }
             
             if('${opinion}' != ''){
             	$("#opinion").attr("disabled",true);
@@ -359,19 +362,29 @@
             <div class="display-none" id="checkWord">
 	            <h2 class="count_flow"><i>3</i>审核表扫描件</h2>
 	            <ul class="ul_list">
-	            		<li class="col-md-6 col-sm-6 col-xs-6">
-	            			<span class="fl">下载入库复审表：</span>
-	            			<a href="javascript:;" onclick="downloadTable(2)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
-	            		</li>
-	                <li class="col-md-6 col-sm-6 col-xs-6">
-			              <div>
-			              	<span class="fl">上传入库复审表扫描件：</span>
-				              <% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
-				              <input name="check_word_pic" id="auditOpinionFile" type="hidden" value="<%=uuidcheckword%>" />
-				              <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传入库复审表扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
-				              <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
-			              </div>
-			            </li>
+	                <c:if test="${ status == -3 }">
+	            	    <li class="col-md-6 col-sm-6 col-xs-6">
+			               <div>
+			              	 <span class="fl">入库复审表扫描件：</span>
+				               <u:show showId="pic_checkword" businessId="${ expert.auditOpinionAttach }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
+			               </div>
+			              </li>
+	                </c:if>
+	                <c:if test="${ status != -3 }">
+		            		<li class="col-md-6 col-sm-6 col-xs-6">
+		            			<span class="fl">下载入库复审表：</span>
+		            			<a href="javascript:;" onclick="downloadTable(2)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+		            		</li>
+		                <li class="col-md-6 col-sm-6 col-xs-6">
+				              <div>
+				              	<span class="fl">上传入库复审表扫描件：</span>
+					              <% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
+					              <input name="check_word_pic" id="auditOpinionFile" type="hidden" value="<%=uuidcheckword%>" />
+					              <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传入库复审表扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
+					              <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
+				              </div>
+				            </li>
+				           </c:if>
 	            </ul>
             </div>
 
@@ -392,8 +405,10 @@
                         <input class="btn btn-windows edit" type="button" onclick="shenhe(5);" value="复审不通过" id="tichu">
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>
-                    <c:if test="${status eq '-2'}">
-                        <span id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
+                    <c:if test="${status eq '-2' || status eq '-3'}">
+                        <c:if test="${ status eq '-2' }">
+                          <span id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
+                        </c:if>
                         <input class="btn btn-windows edit" type="button" onclick="shenhe(5);" value="复审不通过" id="tichu">
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>

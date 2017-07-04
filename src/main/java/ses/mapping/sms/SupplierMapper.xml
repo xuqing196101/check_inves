@@ -1725,7 +1725,8 @@
 		FROM T_SES_SMS_SUPPLIER
 		WHERE CREDIT_CODE = #{_parameter}
 		and
-		SUPPLIER_STATUS != 6 and IS_DELETED=0
+		IS_PROVISIONAL != 1 and IS_DELETED = 0
+		<!-- SUPPLIER_STATUS != 6 and IS_DELETED=0 -->
 	</select>
 	
 	<select id="queryAll" resultMap="BaseResultMap" >
@@ -1777,6 +1778,15 @@
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
 		WHERE IS_DELETED = 0 and SUPPLIER_NAME = #{supplierName}
+	</select>
+	
+	<!-- 通过供应商名称查询(去除临时供应商) -->
+	<select id="selByNameWithoutProvisional" resultMap="BaseResultMap" parameterType="String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER
+		WHERE IS_DELETED = 0 and SUPPLIER_NAME = #{supplierName}
+		and IS_PROVISIONAL != 1
 	</select>
 	
 	<select id="findQualifiedSupplier" resultMap="BaseResultMap">

@@ -51,7 +51,7 @@
         var state = $("#" + id + "").parent("tr").find("td").eq(11).text(); //.trim();
         state = trim(state);
         /* var isExtract = $("#" + id + "_isExtract").text(); */
-        if(state == "公示中" || state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "初审退回" || state == "复查通过" || state == "复查未通过" || state == "复审通过" || state == "复审不通过") {
+        if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "初审退回" || state == "复查通过" || state == "复查未通过" || state == "复审通过" || state == "复审不通过") {
           layer.msg("请选择待审核项 !", {
             offset: '100px',
           });

@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +91,7 @@ import common.utils.Arith;
 import common.utils.Base64;
 import common.utils.BeanUtilsExt;
 import common.utils.IDCardUtil;
+import common.utils.ListSortUtil;
 import common.utils.RSAEncrypt;
 
 /**
@@ -414,7 +416,7 @@ public class SupplierController extends BaseSupplierController {
 			List < SupplierFinance > finaceList = supplierFinanceService.getList(finace);
 			Collections.sort(finaceList, new Comparator < SupplierFinance > () {
 				public int compare(SupplierFinance finance1, SupplierFinance finance2) {
-					// 按照SupplierFinance的年份进行升序排列  
+					// 按照SupplierFinance的年份进行升序排列
 					if(Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())) {
 						return 1;
 					}
@@ -1505,6 +1507,13 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_msg_loginName", "登录名由6-20位字母数字和下划线组成 !");
 			count++;
 		}
+		if(StringUtils.isNotBlank(supplier.getLoginName())){
+			boolean flag = supplierService.checkLoginName(supplier.getLoginName());
+			if(!flag){
+				model.addAttribute("err_msg_loginName", "用户名已被使用，请更换重试！");
+				count++;
+			}
+		}
 		if(supplier.getPassword() == null || supplier.getPassword().length() < 6 || supplier.getPassword().length() > 20) {
 			model.addAttribute("err_msg_password", "密码长度为6-20位!");
 			count++;
@@ -1527,8 +1536,10 @@ public class SupplierController extends BaseSupplierController {
 		   count++;
 		 }*/
 		if(StringUtils.isNotBlank(supplier.getMobile())) {
-			Boolean ajaxMoblie = userService.ajaxMoblie(supplier.getMobile(), null);
-			if(!ajaxMoblie) {
+			// 手机号校验：专家库+供应商库（除去临时供应商）
+			boolean bool = supplierService.checkMobile(supplier.getMobile());
+			//Boolean ajaxMoblie = userService.ajaxMoblie(supplier.getMobile(), null);
+			if(!bool) {
 				count++;
 				model.addAttribute("err_msg_mobile", "手机号已存在 !");
 			}
@@ -1546,6 +1557,16 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_msg_supplierName", "不能为空!");
 			count++;
 		}
+		Supplier before = supplierService.get(supplier.getId());
+		//校验供应商名称是否存在(去除临时供应商)
+		//List<Supplier> suppliers = supplierService.selByName(supplier.getSupplierName());
+		List<Supplier> suppliers = supplierService.selByNameWithoutProvisional(supplier.getSupplierName());
+        if(null != suppliers && !suppliers.isEmpty()){
+            if(before != null && !before.getSupplierName().equals(suppliers.get(0).getSupplierName())){
+            	model.addAttribute("err_msg_supplierName", "供应商名称已存在，请重新填写！");
+    			count++;
+            }
+        }
 		//		if (supplier.getWebsite() == null || !ValidateUtils.Url(supplier.getWebsite())) {
 		//			model.addAttribute("err_msg_website", "格式错误 !");
 		//			count++;
@@ -2448,30 +2469,51 @@ public class SupplierController extends BaseSupplierController {
 				List < SupplierFinance > list = supplierFinanceService.getYear();
 				supplier.setListSupplierFinances(list);
 			} else {
-	
-				SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
-				if(finance1 == null) {
-					SupplierFinance fin1 = new SupplierFinance();
-					String id = UUID.randomUUID().toString().replaceAll("-", "");
-					fin1.setId(id);
-					fin1.setYear(String.valueOf(oneYear()));
-					supplier.getListSupplierFinances().add(fin1);
+				if(supplier.getStatus() == null || supplier.getStatus() == -1){// 暂存状态
+					SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
+					if(finance1 == null) {
+						SupplierFinance fin1 = new SupplierFinance();
+						String id = UUID.randomUUID().toString().replaceAll("-", "");
+						fin1.setId(id);
+						fin1.setYear(String.valueOf(oneYear()));
+						supplier.getListSupplierFinances().add(fin1);
+					}
+					SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
+					if(finance2 == null) {
+						SupplierFinance fin2 = new SupplierFinance();
+						String id = UUID.randomUUID().toString().replaceAll("-", "");
+						fin2.setId(id);
+						fin2.setYear(String.valueOf(twoYear()));
+						supplier.getListSupplierFinances().add(fin2);
+					}
+					//SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear(supplier.getCreatedAt())));
+					SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
+					if(finance3 == null) {
+						SupplierFinance fin3 = new SupplierFinance();
+						String id = UUID.randomUUID().toString().replaceAll("-", "");
+						fin3.setId(id);
+						fin3.setYear(String.valueOf(threeYear()));
+						supplier.getListSupplierFinances().add(fin3);
+					}
 				}
-				SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
-				if(finance2 == null) {
-					SupplierFinance fin2 = new SupplierFinance();
-					String id = UUID.randomUUID().toString().replaceAll("-", "");
-					fin2.setId(id);
-					fin2.setYear(String.valueOf(twoYear()));
-					supplier.getListSupplierFinances().add(fin2);
-				}
-				SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear(supplier.getCreatedAt())));
-				if(finance3 == null) {
-					SupplierFinance fin3 = new SupplierFinance();
-					String id = UUID.randomUUID().toString().replaceAll("-", "");
-					fin3.setId(id);
-					fin3.setYear(String.valueOf(threeYear(supplier.getCreatedAt())));
-					supplier.getListSupplierFinances().add(fin3);
+			}
+			
+			List<SupplierFinance> financeList = supplier.getListSupplierFinances();
+			if(financeList != null){
+				// 排序
+				ListSortUtil<SupplierFinance> sortList = new ListSortUtil<SupplierFinance>();
+				sortList.sort(financeList, "year", "asc");
+				// 如果近三年财务信息超过三年，则取最近三年
+				if(financeList.size() > 3){
+					Iterator<SupplierFinance> it = financeList.iterator();
+					int i = financeList.size();
+					while(it.hasNext()){
+						it.next();
+						if(i > 3){
+							it.remove();
+						}
+						i--;
+					}
 				}
 			}
 			
@@ -2521,6 +2563,7 @@ public class SupplierController extends BaseSupplierController {
 
 				ct.setName(type.getName());
 				ct.setId(typeId);
+				System.out.println(typeId+"===============");
 				List < SupplierItem > s = supplierItemService.getSupplierIdCategoryId(supplierId, typeId, code);
 				if(s != null && s.size() > 0) {
 					ct.setChecked(true);
@@ -2683,6 +2726,23 @@ public class SupplierController extends BaseSupplierController {
 		return year3;
 	}
 
+	public Integer threeYear() {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String mont = sdf.format(date).split("-")[1];
+		Integer month = Integer.valueOf(mont);
+		Calendar cale = Calendar.getInstance();
+		int year = cale.get(Calendar.YEAR);
+		Integer yearThree = 0;
+		
+		if(month < 6) {// 以6月份为基准
+			yearThree = year - 4; //2012
+		} else {
+			yearThree = year - 1; //2015
+		}
+		return yearThree;
+	}
+	
 	public Integer threeYear(Date regDate) {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -2708,7 +2768,7 @@ public class SupplierController extends BaseSupplierController {
 		}
 		else {
 			yearThree = year - 1; //2015
-
+			
 		}
 		return yearThree;
 	}

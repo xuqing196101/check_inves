@@ -17,7 +17,7 @@ System.out.print(scoreModel);
 <script src="${pageContext.request.contextPath}/public/validate/jquery.validate.min.js"></script>
 <script type="text/javascript">
 	function addRows() {
-		 $("#guding").before("<tr><td><span class='star_red'>*</span>选择项名称</td><td><input onkeyup='gernerator();' ></td><td><span class='star_red'>*</span>对应分数</td><td><input onkeyup='gernerator();'></td><td class='tc'><button class='btn btn-windows delete' type=button onclick=deleteRow(this)>删除</button></td></tr>");
+		 $("#guding").before("<tr><td><span class='star_red'>*</span>选择项名称</td><td><input onkeyup='gernerator();' ></td><td><span class='star_red'>*</span>对应分数</td><td><input onblur='gernerator();' onkeyup='this.value=this.value.replace(/[^\d+(\.\d{2})?]/g,"+'""'+")'></td><td class='tc'><button class='btn btn-windows delete' type=button onclick=deleteRow(this)>删除</button></td></tr>");
 	}
 	function deleteRow(obj) {
 		  /* if ($("#show_table").get(0).rows.length == 5) {
@@ -663,6 +663,10 @@ function judge(index) {
 	
 	function associate(){
 		var text = $("#show_table").find("tr").eq("1").find("td:last").text();
+		if (text == '添加一行') {
+			layer.msg("请至少添加一行");
+			return;
+		}
 		if (text == '删除') {
 			var result = "";
 			var standardScore = 0;
@@ -670,12 +674,12 @@ function judge(index) {
 				var name = $("#show_table").find("tr").eq(i).find("td").eq("1").find("input").val();
 				var score = $("#show_table").find("tr").eq(i).find("td").eq("3").find("input").val();
 				if (name == "" || score == "") {
-					layer.msg("请填写选择项名称");
+					layer.msg("请填写选择项名称和对应分数");
 					return;
 				}
 				
 				if (name.trim() == "" || score.trim() == "") {
-					layer.msg("请填写选择项名称");
+					layer.msg("请填写选择项名称和对应分数");
 					return;
 				}
 				
@@ -1660,7 +1664,7 @@ function judge(index) {
 					<td><span class="star_red">*</span>选择项名称</td>
 					<td><input value="${fn:substringBefore(se, '-')}" ></td>
 					<td><span class="star_red">*</span>对应分数</td>
-					<td><input value="${fn:substringAfter(se, '-')}" ></td>
+					<td><input value="${fn:substringAfter(se, '-')}" onblur='gernerator();' onkeyup="this.value=this.value.replace(/[^\d+(\.\d{2})?]/g,'')"></td>
 					<td class="tc"><button class="btn btn-windows delete" type="button" onclick="deleteRow(this)">删除</button></td>
 					</tr>
 				</c:forEach>
@@ -1670,7 +1674,7 @@ function judge(index) {
 					<td><span class="star_red">*</span>选择项名称</td>
 					<td><input onkeyup="gernerator();" ></td>
 					<td><span class="star_red">*</span>对应分数</td>
-					<td><input onkeyup="gernerator();"  ></td>
+					<td><input onkeyup="gernerator();" onblur='gernerator();' onkeyup="this.value=this.value.replace(/[^\d+(\.\d{2})?]/g,'')"></td>
 					<td class="tc"><button class="btn btn-windows delete" type="button" onclick="deleteRow(this)">删除</button></td>
 				</tr>
 			</c:if>

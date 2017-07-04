@@ -417,7 +417,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 
 		//回显未通过字段
-		if(supplier.getStatus() == -2 || supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5){
+		if(supplier.getStatus() == -3 || supplier.getStatus() == -2 || supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -475,7 +475,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -579,7 +579,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("url", url);
 		
 		//回显未通过字段
-		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -973,7 +973,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setAuditType("mat_sell_page");
 			List < SupplierAudit > reasonsSellList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			StringBuffer passedSellField = new StringBuffer();
@@ -1107,7 +1107,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setAuditType("mat_eng_page");
 			List < SupplierAudit > reasonsEngList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			StringBuffer passedEngField = new StringBuffer();
@@ -1152,7 +1152,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setAuditType("mat_serve_page");
 			List < SupplierAudit > reasonsServeList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			StringBuffer passedServeField = new StringBuffer();
@@ -1236,6 +1236,10 @@ public class SupplierAuditController extends BaseSupplierController {
 		String auditType = supplierAudit.getAuditType();
 		String auditFieldName = supplierAudit.getAuditFieldName();
 		String auditContent = supplierAudit.getAuditContent();
+		String suggest=supplierAudit.getSuggest().trim();
+		if(suggest.length()>900){
+			return new JdcgResult(504, "审核内容长度过长", null);
+		}
 		supplierAudit.setSupplierId(id);
 		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		boolean same = true;
@@ -1656,7 +1660,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierStatus", supplierStatus);
 		
 		//回显未通过字段
-		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("download_page");
 			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
@@ -2636,7 +2640,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("aptitude_page");
@@ -3128,7 +3132,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		
-		if(supplier.getStatus() !=null && (supplier.getStatus() == -2 || supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5)){
+		if(supplier.getStatus() !=null && (supplier.getStatus() == -3 || supplier.getStatus() == -2 || supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5)){
 			//回显未通过字段
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);

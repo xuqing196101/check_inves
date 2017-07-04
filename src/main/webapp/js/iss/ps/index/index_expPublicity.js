@@ -7,7 +7,10 @@ function list(curr){
 	$.ajax({
 		url: globalPath + "/index/indexExpPublicityAjax.do",
 		type: "post",
-		data:{"relName":relName},
+		data:{
+			"relName":relName,
+			"page":curr
+		},
 		dataTYpe: "json",
 		success: function(res){
 			if (res.status == 200){

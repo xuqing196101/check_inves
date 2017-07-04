@@ -227,6 +227,10 @@ function reasonProject(ind,auditField, auditFieldName,type,auditContent) {
 	}, function(text) {
 		var text = $.trim(text);
 	  if(text != null && text !=""){
+		  if($.trim(text)>900){
+			  layer.msg('审核内容长度过长！', {offset:'100px'});
+			  return;
+		  }
 			$.ajax({
 				url: globalPath+"/supplierAudit/auditReasons.do",
 				type: "post",
@@ -252,6 +256,7 @@ function reasonProject(ind,auditField, auditFieldName,type,auditContent) {
 						
 						$("#fourthNode"+ind+"").val('1');
 						$("#fourthNode"+ind+"").css('border-color', '#FF0000');
+						$("#isItemsPageAudit"+ind+"").val(1);
 					}else{
 						layer.msg(result.msg, {
 							shift: 6, //动画类型
@@ -260,7 +265,6 @@ function reasonProject(ind,auditField, auditFieldName,type,auditContent) {
 					}
 				}
 			});
-			
 				layer.close(index);
 			}else{
   		layer.msg('不能为空！', {offset:'100px'});

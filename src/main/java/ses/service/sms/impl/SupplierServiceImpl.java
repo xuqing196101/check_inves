@@ -1337,4 +1337,15 @@ public Long contractCountCategoyrId(String supplierItemId) {
 	return rut;
 }
 
+@Override
+public boolean checkMobile(String mobile) {
+	int count = supplierMapper.countByMobile(mobile);
+	return count > 0 ? false : true;
+}
+
+@Override
+public List<Supplier> selByNameWithoutProvisional(String supplierName) {
+	return supplierMapper.selByNameWithoutProvisional(supplierName);
+}
+
 }
