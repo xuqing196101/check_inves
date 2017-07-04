@@ -9,6 +9,7 @@
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">
+	<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
     <script type="text/javascript">
       //只读
        $(function() {
@@ -204,7 +205,7 @@
 				}
     </script>
     <script type="text/javascript">
-			function jump(str){
+			/* function jump(str){
 			  var action;
 			  if(str=="essential"){
 			     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -227,7 +228,7 @@
 			  if(str=="serviceInformation"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
 			  }
-			  */
+			  * /
 			  if(str=="items"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 			  }
@@ -248,7 +249,7 @@
 			   }
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
-			}
+			} */
 		</script>
   </head>
 
@@ -332,7 +333,7 @@
 		          <!-- <li onclick = "jump('items')">
 	            	<a aria-expanded="false" href="#tab-4" >产品类别</a>
 	            	<i></i>
-	          	</li>  -->
+	          	</li>  
 	          	<li onclick="jump('aptitude')">
 								<a aria-expanded="false">资质文件维护</a>
 								<i></i>
@@ -340,8 +341,11 @@
 		          <li onclick = "jump('contract')" >
 		            <a aria-expanded="false" href="#tab-4">销售合同</a>
 		             <i></i>
-		          </li>   
-		          
+		          </li>   -->
+		          <li onclick="jump('aptitude')">
+                            <a aria-expanded="false" href="#tab-4">产品类别及资质合同</a>
+                            <i></i>
+                        </li>
 		          <li onclick = "jump('applicationForm')" >
 		            <a aria-expanded="false" href="#tab-4" >承诺书和申请表</a>
 		            <i></i>

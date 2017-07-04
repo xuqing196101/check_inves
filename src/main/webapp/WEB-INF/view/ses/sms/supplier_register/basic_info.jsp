@@ -929,11 +929,11 @@
         if(size > 0) {
         	
         	// 退回修改审核通过的项不能删除
-					var isDel = checkIsDelForTuihui(checkboxs, '${audit}');
+					/* var isDel = checkIsDelForTuihui(checkboxs, '${audit}');
 					if(!isDel){
 						layer.msg("审核通过的项不能删除！");
 						return;
-					}
+					} */
 					
 					var addressIds = "";
 					$(checkboxs).each(function(index) {
@@ -1114,7 +1114,7 @@
 			
 			function check(obj){
 				if('${currSupplier.status}' == '2' && '${audit}'.indexOf('businessStartDate') < 0){
-					return false;
+					//return false;
 				}
 				var ch=$(obj).is(":checked");
 				if(ch){
@@ -1130,7 +1130,7 @@
 			// 控制营业期限
 			function controlExpireDate(){
 				if('${currSupplier.status}' == '2' && '${audit}'.indexOf('businessStartDate') < 0){
-					return;
+					//return;
 				}
 				var branchName = $("input[name='branchName']").val();
 				if(branchName != '1'){
@@ -1525,14 +1525,15 @@
 								</li>
 								<div id="address_list_body">
                                     <div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
-	                                    <c:choose>
+	                                    <%-- <c:choose>
 	                                    	<c:when test="${currSupplier.status==2 }">
 	                                      	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
 	                                      </c:when>
 	                                      <c:otherwise>
 	                                        <button class="btn btn-windows add" type="button" onclick="increaseAddHouseAddress()">新增</button>
 	                                      </c:otherwise>
-	                                    </c:choose>
+	                                    </c:choose> --%>
+	                                    <button class="btn btn-windows add" type="button" onclick="increaseAddHouseAddress()">新增</button>
 	                                    <button class="btn btn-windows delete" type="button" onclick="delAddress()">删除</button>
 	                                    <span class="red">${err_address_token}</span>
                                     </div>
@@ -1559,7 +1560,7 @@
                                                     </td>
                                                     <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
                                                         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0 ml20">
-                                                            <select id="root_area_select_id_${vs.index }" class="w100p" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId" <c:if test="${!fn:contains(audit,'addr.id')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>>
+                                                            <select id="root_area_select_id_${vs.index }" class="w100p" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId" <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>>
                                                                 <option value="">请选择</option>
                                                                 <c:forEach items="${privnce }" var="prin">
                                                                     <c:if test="${prin.id==addr.provinceId }">
@@ -1572,7 +1573,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-                                                            <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address" <c:if test="${!fn:contains(audit,'address')&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>>
+                                                            <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address" <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>>
                                                                 <c:forEach items="${addr.areaList }" var="city">
                                                                     <c:if test="${city.id==addr.address }">
                                                                         <option value="${city.id }" selected="selected">${city.name }</option>
@@ -2626,6 +2627,9 @@
 					$(this).attr('readonly', 'readonly');
 				}
 			});
+			// 营业期限
+			$("#expireDate").attr('readonly', 'readonly');
+			
 			$("select").focus(function(){
 				if(!boolColor(this)){
 					this.defaultIndex=this.selectedIndex;

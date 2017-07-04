@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Email;
 import ses.model.oms.Orgnization;
 
 /**
- * Description: 用户实体
+ * Description: 用户实体x
  *
  * @author Ye MaoLin
  * @version 2016-9-13

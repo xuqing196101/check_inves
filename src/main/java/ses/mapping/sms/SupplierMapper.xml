@@ -1725,7 +1725,8 @@
 		FROM T_SES_SMS_SUPPLIER
 		WHERE CREDIT_CODE = #{_parameter}
 		and
-		SUPPLIER_STATUS != 6 and IS_DELETED=0
+		IS_PROVISIONAL != 1 and IS_DELETED = 0
+		<!-- SUPPLIER_STATUS != 6 and IS_DELETED=0 -->
 	</select>
 	
 	<select id="queryAll" resultMap="BaseResultMap" >
@@ -1779,6 +1780,15 @@
 		WHERE IS_DELETED = 0 and SUPPLIER_NAME = #{supplierName}
 	</select>
 	
+	<!-- 通过供应商名称查询(去除临时供应商) -->
+	<select id="selByNameWithoutProvisional" resultMap="BaseResultMap" parameterType="String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER
+		WHERE IS_DELETED = 0 and SUPPLIER_NAME = #{supplierName}
+		and IS_PROVISIONAL != 1
+	</select>
+	
 	<select id="findQualifiedSupplier" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
@@ -1789,13 +1799,14 @@
 	<!-- 注销列表 -->
 	<select id="findLogoutList" resultMap="BaseResultMap">
 		SELECT
-		ID,
+		  ID,
 		  SUPPLIER_NAME,
 		  LOGIN_NAME,
 		  MOBILE,
 		  SUPPLIER_STATUS,
 		  CREATED_AT,
-		  CONTACT_NAME
+		  CONTACT_NAME,
+		  IS_PROVISIONAL
 		FROM T_SES_SMS_SUPPLIER
 		WHERE <!-- (SUPPLIER_STATUS = -1 or SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 2) -->
 		IS_DELETED = 0
@@ -1996,6 +2007,7 @@
 		,
 		(SELECT COUNT(1) AS COUNT_EXPE FROM T_SES_EMS_EXPERT WHERE MOBILE = #{mobile} AND IS_DELETE = 0) T2
 	</select>
+<<<<<<< HEAD
 	
 	<!-- 查询公示的供应商 -->
 	<select id="selectSupByPublicty" resultMap="supplierOfPublicityMap">
@@ -2027,4 +2039,6 @@
 		   </if>
 		 ORDER BY T.UPDATED_AT DESC
 	</select>
+=======
+>>>>>>> c96dde8d18544bfcde0139ff6bbf3bb726986f9e
 </mapper>

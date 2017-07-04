@@ -1087,6 +1087,7 @@ public class CategoryServiceImpl implements CategoryService {
 				cateTree.setRootNode(rootNode.getName());
 				cateTree.setRootNodeID(rootNode.getId());
 				cateTree.setItemsId(rootNode.getId());
+				cateTree.setItemsName(rootNode.getName());
 			}
 		}
 		// 加入一级节点
@@ -1099,6 +1100,7 @@ public class CategoryServiceImpl implements CategoryService {
 						cateTree.setFirstNode(cate.getName());
 						cateTree.setFirstNodeID(cate.getId());
 						cateTree.setItemsId(cate.getId());
+						cateTree.setItemsName(cate.getName());
 					}
 				}
 			}
@@ -1113,6 +1115,7 @@ public class CategoryServiceImpl implements CategoryService {
 					cateTree.setSecondNode(cate.getName());
 					cateTree.setSecondNodeID(cate.getId());
 					cateTree.setItemsId(cate.getId());
+					cateTree.setItemsName(cate.getName());
 					}
 				}
 			}
@@ -1127,6 +1130,7 @@ public class CategoryServiceImpl implements CategoryService {
 						cateTree.setThirdNode(cate.getName());
 						cateTree.setThirdNodeID(cate.getId());
 						cateTree.setItemsId(cate.getId());
+						cateTree.setItemsName(cate.getName());
 					}
 				}
 		    }
@@ -1142,6 +1146,7 @@ public class CategoryServiceImpl implements CategoryService {
 		                cateTree.setFourthNode(cate.getName());
 						cateTree.setFourthNodeID(cate.getId());
 						cateTree.setItemsId(cate.getId());
+						cateTree.setItemsName(cate.getName());
 	                }
                 }
 	        }

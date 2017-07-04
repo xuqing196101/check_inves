@@ -565,6 +565,7 @@ public interface SupplierMapper {
 	 * @return
 	 */
 	List<Supplier> selByNameWithoutProvisional(String supplierName);
+<<<<<<< HEAD
 	
 	/**
 	 * 
@@ -587,4 +588,6 @@ public interface SupplierMapper {
 	 * @return
 	 */
 	List<SupplierPublicity> selectSupByPublictyList(SupplierPublicity supplierPublicity);
+=======
+>>>>>>> c96dde8d18544bfcde0139ff6bbf3bb726986f9e
 }

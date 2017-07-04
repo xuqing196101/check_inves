@@ -443,6 +443,7 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
 		exmap.put("newProjectId", packageId);
 		exmap.put("projectId", oldPackageId);
 		exmap.put("expertId", expert.getId());
+		exmap.put("reviewType",expert.getExpertsTypeId());
 		projectExtractMapper.updateProjectByExpertId(exmap);
 		Map<String, String> map=new HashMap<String, String>();
 		map.put("sccuess", "sccuess");

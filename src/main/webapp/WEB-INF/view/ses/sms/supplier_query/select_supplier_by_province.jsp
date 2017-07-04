@@ -481,9 +481,9 @@
 									<option value="4">待复核</option>
 									<option value="5">复核通过</option>
 									<option value="6">复核未通过</option>
-									<option value="7">待考察</option>
-									<option value="8">考察合格</option>
-									<option value="9">考察不合格</option>
+									<!-- <option value="5">待考察</option> -->
+									<option value="7">考察合格</option>
+									<option value="8">考察不合格</option>
                 </select>
               </span>
             </li>
@@ -599,7 +599,7 @@
 								<td class="">${list.supplierType }</td>
 								<td class="tc">${list.businessNature }</td>
 								<td class="tc">
-									<c:if test="${list.status==5 and list.isProvisional == 1 }"><span class="label rounded-2x label-dark">临时</span></c:if>
+									<c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
 									<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
 									<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
 									<c:if test="${list.status==-3 }"><span class="label rounded-2x label-u">公示中</span></c:if>
@@ -609,9 +609,9 @@
 									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
 									<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核通过</span></c:if>
 									<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
-									<c:if test="${list.status==7 }"><span class="label rounded-2x label-dark">待考察</span></c:if>
-									<c:if test="${list.status==8 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
-									<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
+									<%-- <c:if test="${list.status==5 }"><span class="label rounded-2x label-dark">待考察</span></c:if> --%>
+									<c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
+									<c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
 								</td>
 							</tr>
 						</c:forEach>

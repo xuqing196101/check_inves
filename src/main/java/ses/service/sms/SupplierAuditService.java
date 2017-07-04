@@ -142,7 +142,7 @@ public interface SupplierAuditService {
 	 * @param @param supplierAudit      
 	 * @return void
 	 */
-	void auditReasons (SupplierAudit supplierAudit);
+	int auditReasons (SupplierAudit supplierAudit);
 	
 	/**
      * @Title: selectByPrimaryKey
@@ -333,7 +333,15 @@ public interface SupplierAuditService {
      * @return void
      */
     void deleteBySupplierId(String supplierId);
-    
+    /**
+     * 
+     * Description:service 封装 是否 有审核 数据
+     * 
+     * @version 2017-6-30
+     * @param cateTree
+     * @return
+     */
+    public SupplierCateTree potting(SupplierCateTree cateTree,String supplierId);
     /**
      * @Title: downloadFile
      * @author XuQing 

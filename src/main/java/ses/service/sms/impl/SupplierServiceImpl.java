@@ -247,6 +247,7 @@ public class SupplierServiceImpl implements SupplierService {
       supplier.setAddressList(addressList);
     } else {
       SupplierAddress address = new SupplierAddress();
+      address.setId(WfUtil.createUUID());
       addressList.add(address);
       supplier.setAddressList(addressList);
     }
@@ -369,10 +370,10 @@ public class SupplierServiceImpl implements SupplierService {
             
             /*if(supplier.getWebsite()==null){
                 supplier.setWebsite("");
-            }
+            }*/
             if(supplier.getBranchName()==null){
                 supplier.setBranchName("0");
-            }*/
+            }
 
       supplierMapper.updateByPrimaryKeySelective(supplier);
 
@@ -1334,6 +1335,17 @@ public Long contractCountCategoyrId(String supplierItemId) {
 		rut=rut+uploadService.countFileByBusinessId(supplierItemId, id6, common.constant.Constant.SUPPLIER_SYS_KEY);
 	}
 	return rut;
+}
+
+@Override
+public boolean checkMobile(String mobile) {
+	int count = supplierMapper.countByMobile(mobile);
+	return count > 0 ? false : true;
+}
+
+@Override
+public List<Supplier> selByNameWithoutProvisional(String supplierName) {
+	return supplierMapper.selByNameWithoutProvisional(supplierName);
 }
 
 }
