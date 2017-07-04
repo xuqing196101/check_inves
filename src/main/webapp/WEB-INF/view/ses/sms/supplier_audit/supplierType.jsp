@@ -15,7 +15,7 @@
 				cursor: pointer;
 			}
 		</style>
-
+<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
 		<script type="text/javascript">
 			//默认不显示叉
 			$(function() {
@@ -550,6 +550,16 @@
 				$("#form_id").submit();
 			} 
 
+			/*  function nextStep(url) {
+				var action = "${pageContext.request.contextPath}/supplierAudit/aptitude.html";
+				$("#form_id").attr("action", action);
+				$("#form_id").submit();
+			} */ 
+           function nextStep(url) {
+                var action = "${pageContext.request.contextPath}/supplierAudit/toPageAptitude.html";
+                $("#form_id").attr("action", action);
+                $("#form_id").submit();
+            } 
 			//上一步
 			function lastStep() {
 				var action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
@@ -632,7 +642,7 @@
 		</script>
 
 		<script type="text/javascript">
-			 function jump(str) {
+			 /* function jump(str) {
 				var action;
 				if(str == "essential") {
 					action = "${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -663,7 +673,7 @@
 				}
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
-			} 
+			} */
 		</script>
 	</head>
 
@@ -722,7 +732,7 @@
 						<!-- <li onclick="jump('items')">
 							<a aria-expanded="false">产品类别</a>
 							<i></i>
-						</li> -->
+						</li> 
 						<li onclick="jump('aptitude')">
 							<a aria-expanded="false">资质文件维护</a>
 							<i></i>
@@ -730,7 +740,11 @@
 						<li onclick="jump('contract')">
 							<a aria-expanded="false">销售合同</a>
 							<i></i>
-						</li>
+						</li>-->
+						<li onclick="jump('aptitude')">
+                            <a aria-expanded="false">产品类别及资质合同</a>
+                            <i></i>
+                        </li>
 						<li onclick="jump('applicationForm')">
 							<a aria-expanded="false">承诺书和申请表</a>
 							<i></i>
