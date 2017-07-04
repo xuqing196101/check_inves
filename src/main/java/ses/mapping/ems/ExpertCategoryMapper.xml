@@ -163,4 +163,12 @@
 			    AND T2.IS_PROVISIONAL = '0'
 			    AND T2.IS_DELETE = 0
    </select>
+   
+   <!-- 查询专家注册品目类型（小类）的数量 -->
+   <select id="selectRegExpCateCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+     SELECT COUNT(T.EXPERT_ID)
+		  FROM T_SES_EMS_EXPERT_CATEGORY T
+		 	WHERE T.LEVELS = 1
+   		AND T.EXPERT_ID = #{expertId}
+   </select>
 </mapper>

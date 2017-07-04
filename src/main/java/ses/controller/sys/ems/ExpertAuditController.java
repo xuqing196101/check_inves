@@ -19,6 +19,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -41,6 +42,7 @@ import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
+import ses.model.ems.ExpertPublicity;
 import ses.model.ems.ExpertSignature;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
@@ -74,6 +76,7 @@ import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
+import common.utils.JdcgResult;
 
 /**
  * <p>Title:ExpertAuditController </p>
@@ -251,10 +254,30 @@ public class ExpertAuditController{
 		model.addAttribute("relName", relName);
 		model.addAttribute("state", status);
 		model.addAttribute("auditAt", expert.getAuditAt());
-
 		return "ses/ems/expertAudit/list";
 	}
 
+	/**
+	 * 
+	 * @Title: fileUploadItem
+	 * @Description: 获取文件上传配置
+	 * @author Easong
+	 * @param @param model 设定文件
+	 * @return void 返回类型
+	 * @throws
+	 */
+	public void fileUploadItem(Model model) {
+		// 供应商系统key文件上传key
+		Integer sysKey = common.constant.Constant.EXPERT_SYS_KEY;
+		// 定义文件上传类型
+		DictionaryData dictionaryData = DictionaryDataUtil
+				.get(synchro.util.Constant.EXPERT_CHECK_ATTACHMENT);
+		if (dictionaryData != null) {
+			model.addAttribute("typeId", dictionaryData.getId());
+		}
+		model.addAttribute("sysKey", sysKey);
+	}
+	
 	/**
 	 * @Title: basicInfo
 	 * @author XuQing 
@@ -386,7 +409,7 @@ public class ExpertAuditController{
 		}
 		
 		
-		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+		if( expert.getStatus().equals("0") || expert.getStatus().equals("-2") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
 			/**
 			 * 回显未通过的字段
 			 */
@@ -1078,7 +1101,7 @@ public class ExpertAuditController{
 		model.addAttribute("expert", expert);
 		model.addAttribute("expertId", expertId);
 		//回显不通过的字段
-		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+		if(expert.getStatus().equals("-2") || expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
 			ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("five");
@@ -1324,7 +1347,7 @@ public class ExpertAuditController{
 		model.addAttribute("typeMap", typeMap);
 		
 		//回显不通过的字段
-		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
+		if(expert.getStatus().equals("-2") || expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
 			/*ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
@@ -1435,6 +1458,8 @@ public class ExpertAuditController{
 		model.addAttribute("sign", sign);
 		
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
+		// 查询审核最终意见
+		ExpertAuditOpinion auditOpinion = expertAuditOpinionService.selectByExpertId(expertId);
 		model.addAttribute("reasonsList", reasonsList);
 		//查看是否有记录
 		model.addAttribute("num", reasonsList.size());
@@ -1444,6 +1469,13 @@ public class ExpertAuditController{
 		model.addAttribute("isSubmit", expert.getIsSubmit());
 
 		model.addAttribute("expertId", expertId);
+		String opinion = "";
+		if(auditOpinion != null){
+			opinion = auditOpinion.getOpinion();
+		}
+		model.addAttribute("opinion", opinion);
+		// 审核表附件
+		fileUploadItem(model);
 		return "ses/ems/expertAudit/reasonsList";
 	}
 
@@ -1459,7 +1491,7 @@ public class ExpertAuditController{
 	 * @return String
 	 */
 	@RequestMapping("/updateStatus")
-	public String updateStatus(@CurrentUser User user, Expert expert, Model model, HttpServletRequest request) {
+	public String updateStatus(@CurrentUser User user, Expert expert, Model model, HttpServletRequest request, ExpertAuditOpinion expertAuditOpinion) {
 		/**
 		 *  如果是退回修改就保存历史信息
 		 */
@@ -1510,12 +1542,15 @@ public class ExpertAuditController{
 		expert.setAuditor(user.getRelName());
 		//还原暂存状态
 		expert.setAuditTemporary(0);
+		// 设置修改时间
+		expert.setUpdatedAt(new Date());
 		expertService.updateByPrimaryKeySelective(expert);
 
 		
 		String expertId = expert.getId();
 		expert = expertService.selectByPrimaryKey(expertId);
 		String status = expert.getStatus();
+		
 		/*Todos todos = new Todos();
 		String expertName = expert.getRelName();
 		User user=(User) request.getSession().getAttribute("loginUser");*/
@@ -1523,7 +1558,8 @@ public class ExpertAuditController{
 		/**
 		 * 更新待办（已完成）
 		 */
-		if(status.equals("1") || status.equals("2") || status.equals("3") || status.equals("4") || status.equals("5") || status.equals("7") || status.equals("8")) {
+		if(status.equals("1") || status.equals("2") || status.equals("3") || status.equals("4") || status.equals("5") || status.equals("7") || status.equals("8")
+				|| "-3".equals(status)) {
 			todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
 
 		}
@@ -1559,6 +1595,21 @@ public class ExpertAuditController{
 		return "redirect:list.html";
 	}
 
+	/**
+	 * 
+	 * Description:公示操作
+	 * 
+	 * @author Easong
+	 * @version 2017年6月27日
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping("/publicity")
+	@ResponseBody
+	public JdcgResult publicity(String ids[]){
+		return expertAuditService.updatePublicityStatus(ids);
+	}
+	
 	public void writeJson(HttpServletResponse response, Object object) {
 		try {
 			String json = JSON.toJSONStringWithDateFormat(object, "yyyy-MM-dd HH:mm:ss");
@@ -2323,4 +2374,30 @@ public class ExpertAuditController{
 			return JSON.toJSONString("暂存失败");
 		}
 	}
+	
+	/**
+	 * @Title: updateStatus
+	 * @date 2016-12-19 下午7:38:19  
+	 * @Description:提交审核
+	 * @param @param expert
+	 * @param @param model
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/updateStatusOfPublictity")
+	@ResponseBody
+	public JdcgResult updateStatusOfPublictity(@CurrentUser User user, Expert expert) {
+		//提交审核，更新状态
+		expert.setAuditAt(new Date());
+		//审核人
+		expert.setAuditor(user.getRelName());
+		//还原暂存状态
+		expert.setAuditTemporary(0);
+		// 设置修改时间
+		expert.setUpdatedAt(new Date());
+		expertService.updateByPrimaryKeySelective(expert);
+		return JdcgResult.ok();
+	}
+	
 }

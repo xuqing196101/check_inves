@@ -91,6 +91,7 @@
 		<result column="ORGNAME" property="orgName" />
 		<result column="AUDITOR" property="auditor" />
 		<result column="AUDIT_TEMPORARY" property="auditTemporary" />
+		<result column="AUDIT_OPINION_ATTACH" property="auditOpinionAttach" />
         <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
@@ -100,6 +101,17 @@
 			select="ses.dao.sms.SupplierTypeRelateMapper.findSupplierTypeBySupplierId"
 			column="ID" />
 	</resultMap>
+	
+	<!-- 供应商公示 -->
+	<resultMap id="supplierOfPublicityMap" type="ses.model.sms.Supplier">
+		<id column="ID" property="id" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 供应商公示列表查询 -->
+  <resultMap id="supplierOfPublicityMapList" type="ses.model.sms.SupplierPublicity" extends="BaseResultMap">
+  </resultMap>
+	
 	<sql id="Base_Column_List">
 		ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, WEBSITE,
 		FOUND_DATE, BUSINESS_TYPE,
@@ -1181,7 +1193,7 @@
 		AND IS_DELETED = '0'
 		<if test="sign == 1">
 			and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or
-			SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3)
+			SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3　or SUPPLIER_STATUS = -2 or SUPPLIER_STATUS = -3)
 			<if test="procurementDepId !=null">
 				and PROCUREMENT_DEP_ID = #{procurementDepId}
 			</if>
@@ -1460,7 +1472,10 @@
         AUDITOR =#{auditor},
       </if>
       <if test="auditTemporary !=null">
-        AUDIT_TEMPORARY =#{auditTemporary}
+        AUDIT_TEMPORARY =#{auditTemporary},
+      </if>
+      <if test="auditOpinionAttach !=null">
+        AUDIT_OPINION_ATTACH =#{auditOpinionAttach}
       </if>
 		</set>
 		where ID = #{id}
@@ -1965,5 +1980,51 @@
 		SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER 
 		WHERE PROCUREMENT_DEP_ID = #{purchaseDepId}
 		AND SUPPLIER_STATUS = #{status}
+	</select>
+	
+	<!-- 手机号校验：专家库+供应商库（除去临时供应商） -->
+	<select id="countByMobile" resultType="int" parameterType="string">
+		<!-- SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER SUPP,
+		T_SES_EMS_EXPERT EXPE
+		WHERE SUPP.MOBILE = #{mobile}
+		AND EXPE.MOBILE = #{mobile}
+		AND SUPP.IS_PROVISIONAL != 1 AND SUPP.IS_DELETED = 0
+		AND EXPE.IS_DELETE = 0 -->
+		
+		SELECT (T1.COUNT_SUPP + T2.COUNT_EXPE) FROM
+		(SELECT COUNT(1) AS COUNT_SUPP FROM T_SES_SMS_SUPPLIER WHERE MOBILE = #{mobile} AND IS_PROVISIONAL != 1 AND IS_DELETED = 0) T1
+		,
+		(SELECT COUNT(1) AS COUNT_EXPE FROM T_SES_EMS_EXPERT WHERE MOBILE = #{mobile} AND IS_DELETE = 0) T2
+	</select>
+	
+	<!-- 查询公示的供应商 -->
+	<select id="selectSupByPublicty" resultMap="supplierOfPublicityMap">
+		  SELECT
+		   ID, UPDATED_AT
+		   FROM T_SES_SMS_SUPPLIER
+		   WHERE
+		   IS_PROVISIONAL = '0'
+		   AND IS_DELETED = '0'
+		   AND SUPPLIER_STATUS = -3
+		   ORDER BY AUDIT_DATE DESC NULLS LAST
+	</select>
+	
+	<!-- 查询公示的供应商 列表 -->
+	<select id="selectSupByPublictyList" resultMap="supplierOfPublicityMapList" parameterType="ses.model.sms.SupplierPublicity">
+		SELECT T.ID, T.SUPPLIER_NAME, DT.NAME AS BUSINESS_NATURE, ORG.SHORT_NAME AS ORGNAME
+		  FROM T_SES_SMS_SUPPLIER T
+		  LEFT JOIN T_SES_BMS_DICTIONARY_DATA DT
+		    ON T.BUSINESS_NATURE = DT.ID
+		  LEFT JOIN T_SES_OMS_PURCHASE_DEP DEP
+		    ON T.PROCUREMENT_DEP_ID = DEP.ID
+		  LEFT JOIN T_SES_OMS_ORG ORG
+		    ON ORG.ID = DEP.ORG_ID
+		 WHERE T.SUPPLIER_STATUS = -3
+		   AND T.IS_PROVISIONAL = '0'
+		   AND T.IS_DELETED = 0
+		   <if test="supplierName != null and supplierName != ''">
+		     AND INSTR(T.SUPPLIER_NAME,#{supplierName}) >0
+		   </if>
+		 ORDER BY T.UPDATED_AT DESC
 	</select>
 </mapper>

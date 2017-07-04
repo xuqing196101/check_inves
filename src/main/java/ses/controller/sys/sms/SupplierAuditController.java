@@ -1,6 +1,7 @@
 package ses.controller.sys.sms;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -99,6 +101,7 @@ import bss.formbean.PurchaseRequiredFormBean;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -414,7 +417,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 
 		//回显未通过字段
-		if(supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5){
+		if(supplier.getStatus() == -2 || supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -472,7 +475,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -576,7 +579,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("url", url);
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("basic_page");
@@ -921,7 +924,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		//回显未通过字段
 		SupplierAudit supplierAudit = new SupplierAudit();
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("mat_pro_page");
 			List < SupplierAudit > reasonsProList = supplierAuditService.selectByPrimaryKey(supplierAudit);
@@ -970,7 +973,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setAuditType("mat_sell_page");
 			List < SupplierAudit > reasonsSellList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			StringBuffer passedSellField = new StringBuffer();
@@ -1104,7 +1107,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setAuditType("mat_eng_page");
 			List < SupplierAudit > reasonsEngList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			StringBuffer passedEngField = new StringBuffer();
@@ -1149,7 +1152,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setAuditType("mat_serve_page");
 			List < SupplierAudit > reasonsServeList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			StringBuffer passedServeField = new StringBuffer();
@@ -1256,7 +1259,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("reasonsList")
-	public String reasonsList(HttpServletRequest request, SupplierAudit supplierAudit, Integer supplierStatus, Integer sign) {
+	public String reasonsList(Model model, HttpServletRequest request, SupplierAudit supplierAudit, Integer supplierStatus, Integer sign) {
 		request.setAttribute("sign", sign);
 		
 		String supplierId = supplierAudit.getSupplierId();
@@ -1273,8 +1276,13 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
-		request.setAttribute("supplierStatus", supplierStatus);
+		if(supplier != null){
+			request.setAttribute("supplierStatus", supplier.getStatus());
+		}
 
+		// 查询最终审核意见
+		SupplierAuditOpinion supplierAuditOpinion = supplierAuditOpinionService.selectByExpertId(supplierId);
+		
 		//文件
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
@@ -1282,6 +1290,13 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		request.setAttribute("supplierId", supplierId);
 		request.getSession().removeAttribute("supplierId");
+		String opinion = "";
+		if(supplierAuditOpinion != null){
+			opinion = supplierAuditOpinion.getOpinion();
+		}
+		model.addAttribute("opinion", opinion);
+		// 设置文件上传项
+		fileUploadItem(model);
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
 
@@ -1304,7 +1319,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("updateStatus")
-	public String updateStatus(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit, String opinion) throws IOException {
+	public String updateStatus(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit, SupplierAuditOpinion supplierAuditOpinion) throws IOException {
 		String supplierId = supplierAudit.getSupplierId();
 		Todos todos = new Todos();
 		/*User user = (User) request.getSession().getAttribute("loginUser");*/
@@ -1315,6 +1330,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplier.setAuditor(user.getRelName());
 		//还原审核暂存状态
 		supplier.setAuditTemporary(0);
+		// 设置修改时间
+		supplier.setUpdatedAt(new Date());
 		supplierAuditService.updateStatus(supplier);
 
 		if(supplier.getStatus() != null && supplier.getStatus() == 1){
@@ -1332,11 +1349,10 @@ public class SupplierAuditController extends BaseSupplierController {
 		String supplierName = supplier.getSupplierName();
 		
 		//记录最终意见
-		SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
-		supplierAuditOpinion.setOpinion(opinion);
-		supplierAuditOpinion.setSupplierId(supplierId);
-		supplierAuditOpinion.setCreatedAt(new Date());
-		supplierAuditOpinionService.insertSelective(supplierAuditOpinion);
+		if(StringUtils.isNotEmpty(supplierAuditOpinion.getOpinion())){
+			supplierAuditOpinion.setCreatedAt(new Date());
+			supplierAuditOpinionService.insertSelective(supplierAuditOpinion);
+		}
 		
 		//记录审核不通过的供应商
 		if(supplier.getStatus() == 3){
@@ -1350,7 +1366,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		/**
 		 * 更新待办(已完成)
 		 */
-		if(supplier.getStatus() != null && supplier.getStatus() == 1 || supplier.getStatus() == 2 || supplier.getStatus() == 3 || supplier.getStatus() == 5 || supplier.getStatus() == 6 || supplier.getStatus() == 7 || supplier.getStatus() == 8) {
+		if(supplier.getStatus() != null && supplier.getStatus() == -3 || supplier.getStatus() == 1 || supplier.getStatus() == 2 || supplier.getStatus() == 3 || supplier.getStatus() == 5 || supplier.getStatus() == 6 || supplier.getStatus() == 7 || supplier.getStatus() == 8) {
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId=" + supplierId);
 		}
 
@@ -1498,6 +1514,20 @@ public class SupplierAuditController extends BaseSupplierController {
 	}
 
 	/**
+	 * 
+	 * Description:公示操作
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 * @return
+	 */
+	@RequestMapping("/publicity")
+	@ResponseBody
+	public JdcgResult publicity(String ids[]){
+		return supplierAuditService.updatePublicityStatus(ids);
+	}
+	
+	/**
 	 * @Title: temporaryAudit
 	 * @date 2016-10-28 下午3:29:51  
 	 * @Description: 暂存审核
@@ -1617,7 +1647,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierStatus", supplierStatus);
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("download_page");
 			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
@@ -2031,7 +2061,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value = "supplierAll")
-	public String supplierAll(@CurrentUser User user, HttpServletRequest request, Supplier supplier, Integer page) {
+	public String supplierAll(@CurrentUser User user, Model model, HttpServletRequest request, Supplier supplier, Integer page) {
 		if(supplier.getSign() == null) {
 			Integer sign = (Integer) request.getSession().getAttribute("signs");
 			supplier.setSign(sign);
@@ -2093,6 +2123,27 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.getSession().getAttribute("sign");
 
 		return "ses/sms/supplier_audit/supplier_all";
+	}
+	
+	/**
+	 * 
+	 * @Title: fileUploadItem
+	 * @Description: 获取文件上传配置
+	 * @author Easong
+	 * @param @param model 设定文件
+	 * @return void 返回类型
+	 * @throws
+	 */
+	public void fileUploadItem(Model model) {
+		// 供应商系统key文件上传key
+		Integer sysKey = common.constant.Constant.SUPPLIER_SYS_KEY;
+		// 定义文件上传类型
+		DictionaryData dictionaryData = DictionaryDataUtil
+				.get(synchro.util.Constant.SUPPLIER_CHECK_ATTACHMENT);
+		if (dictionaryData != null) {
+			model.addAttribute("typeId", dictionaryData.getId());
+		}
+		model.addAttribute("sysKey", sysKey);
 	}
 
 	/**
@@ -2571,7 +2622,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+		if(supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("aptitude_page");
@@ -3063,7 +3114,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		
-		if(supplier.getStatus() !=null && (supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5)){
+		if(supplier.getStatus() !=null && (supplier.getStatus() == -2 || supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 5)){
 			//回显未通过字段
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplierId);
@@ -3541,4 +3592,37 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplierAuditOpinion.setCreatedAt(new Date());
 		supplierAuditOpinionService.insertSelective(supplierAuditOpinion);
 	}*/
+	
+	/**
+	 * @Title: updateStatus
+	 * @date 2016-9-20 下午7:32:49  
+	 * @Description: 根据供应商id更新审核状态
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 * @throws IOException 
+	 */
+	@RequestMapping("/updateStatusOfPublictity")
+	@ResponseBody
+	public JdcgResult updateStatusOfPublictity(@CurrentUser User user, HttpServletRequest request, Supplier supplier, SupplierAudit supplierAudit, String opinion) throws IOException {
+		String supplierId = supplierAudit.getSupplierId();
+		//更新状态
+		supplier.setId(supplierId);
+		supplier.setAuditDate(new Date());
+		//审核人
+		supplier.setAuditor(user.getRelName());
+		//还原审核暂存状态
+		supplier.setAuditTemporary(0);
+		// 设置修改时间
+		supplier.setUpdatedAt(new Date());
+		supplierAuditService.updateStatus(supplier);
+		//记录最终意见
+		SupplierAuditOpinion supplierAuditOpinion = new SupplierAuditOpinion();
+		supplierAuditOpinion.setOpinion(opinion);
+		supplierAuditOpinion.setSupplierId(supplierId);
+		supplierAuditOpinion.setCreatedAt(new Date());
+		supplierAuditOpinionService.insertSelective(supplierAuditOpinion);
+		
+		return JdcgResult.ok();
+	}
 }

@@ -291,6 +291,12 @@
 								<c:if test="${list.status eq '3' }">
 									<span class="label rounded-2x label-dark">退回修改</span>
 								</c:if>
+								<c:if test="${list.status eq '-2'}">
+									<span class="label rounded-2x label-dark">复审预通过</span>
+								</c:if>
+								<c:if test="${list.status eq '-3'}">
+									<span class="label rounded-2x label-dark">公示中</span>
+								</c:if>
 								<c:if test="${list.status eq '4' and list.isProvisional eq '0'}">
 									<span class="label rounded-2x label-u">复审通过</span>
 								</c:if>

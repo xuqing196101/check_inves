@@ -61,4 +61,14 @@
 			select sys_guid() from dual
 		</selectKey>
   </insert>
+  
+  <!-- 根据专家ID查询信息 -->
+  <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+       SELECT <include refid="Base_Column_List" />
+        FROM (SELECT <include refid="Base_Column_List" />
+          FROM T_SES_EMS_EXPERT_AUDIT_OPINION T
+          WHERE T.EXPERT_ID = #{expertId}
+          ORDER BY CREATED_AT DESC)
+          WHERE ROWNUM = 1
+  </select>
 </mapper>

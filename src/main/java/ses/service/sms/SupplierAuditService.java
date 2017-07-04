@@ -1,6 +1,7 @@
 package ses.service.sms;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
@@ -17,10 +18,12 @@ import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierPublicity;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 
 import com.github.pagehelper.PageInfo;
+import common.utils.JdcgResult;
 /**
  * <p>Title:SupplierAuditServlice </p>
  * <p>Description: 供应商审核接口</p>
@@ -385,4 +388,34 @@ public interface SupplierAuditService {
      * @return
      */
     int countByPrimaryKey(SupplierAudit audit);
+    
+    /**
+     * 
+     * Description:修改公示状态
+     * 
+     * @author Easong
+     * @version 2017年6月26日
+     * @return
+     */
+    JdcgResult updatePublicityStatus(String[] ids);
+    
+    /**
+     * 
+     * Description: 查询公示供应商，公示7天后自动入库
+     * 
+     * @author Easong
+     * @version 2017年6月26日
+     */
+    void handlerPublictySup();
+    
+    /**
+     * 
+     * Description:供应商公示列表
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param map
+     * @return
+     */
+    List<SupplierPublicity> selectSupByPublictyList(Map<String, Object> map);
 } 

@@ -418,5 +418,13 @@
     </trim>
   </insert>
   
+  <!-- 查询专家注册品目类型（小类）的数量（未通过审核的）  -->
+  <select id="selectRegExpCateCount" parameterType="Map" resultType="java.lang.Integer">
+  	SELECT COUNT(T.ID)
+     FROM T_SES_EMS_EXPERT_AUDIT T
+     WHERE T.EXPERT_ID = #{expertId, jdbcType=VARCHAR}
+     AND T.SUGGEST_TYPE=#{regType, jdbcType=VARCHAR}
+     AND T.IS_DELETED = 0
+  </select>
   
 </mapper>

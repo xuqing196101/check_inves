@@ -1,8 +1,14 @@
 package ses.model.ems;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ExpertAuditOpinion {
+public class ExpertAuditOpinion implements Serializable{
+	/**
+	 * ExpertAuditOpinion.java
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String id;
 	private String expertId;
 	private String opinion;
@@ -39,6 +45,5 @@ public class ExpertAuditOpinion {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
 	
 }
