@@ -3411,7 +3411,7 @@ public class ExpertController extends BaseController {
     			if("1".equals(ipAddressType)){
     			      host ="https://www.plap.cn/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
     		    }else{
-    		    	 host ="https://21.100.16.12/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+    		    	 host ="http://21.100.16.12/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
     		    }
         	dataMap.put("image",host);
 //		}
