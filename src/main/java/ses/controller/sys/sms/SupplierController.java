@@ -1437,6 +1437,18 @@ public class SupplierController extends BaseSupplierController {
 		}
 		super.writeJson(response, msg);
 	}
+	
+	@RequestMapping(value = "check_mobile")
+	public void checkMobile(HttpServletResponse response, String mobile) {
+		boolean flag = supplierService.checkMobile(mobile);
+		String msg = "";
+		if(flag) {
+			msg = "{\"msg\":\"success\"}";
+		} else {
+			msg = "{\"msg\":\"fail\"}";
+		}
+		super.writeJson(response, msg);
+	}
 
 	@RequestMapping(value = "return_edit")
 	public String returnEdit(HttpServletRequest request, Supplier supplier, Model model) {
@@ -1504,7 +1516,7 @@ public class SupplierController extends BaseSupplierController {
 		//String identifyCode = (String) request.getSession().getAttribute("img-identity-code");// 验证码
 		int count = 0;
 		if(supplier.getLoginName() == null || !supplier.getLoginName().matches("^\\w{6,20}$")) {
-			model.addAttribute("err_msg_loginName", "登录名由6-20位字母数字和下划线组成 !");
+			model.addAttribute("err_msg_loginName", "登录名由6-20位字母数字和下划线组成！");
 			count++;
 		}
 		if(StringUtils.isNotBlank(supplier.getLoginName())){
@@ -1515,15 +1527,15 @@ public class SupplierController extends BaseSupplierController {
 			}
 		}
 		if(supplier.getPassword() == null || supplier.getPassword().length() < 6 || supplier.getPassword().length() > 20) {
-			model.addAttribute("err_msg_password", "密码长度为6-20位!");
+			model.addAttribute("err_msg_password", "密码长度为6-20位！");
 			count++;
 		}
 		if(supplier.getConfirmPassword() == null || !supplier.getPassword().equals(supplier.getConfirmPassword())) {
-			model.addAttribute("err_msg_ConfirmPassword", "密码和重复密码不一致 !");
+			model.addAttribute("err_msg_ConfirmPassword", "密码和确认密码不一致！");
 			count++;
 		}
 		if(supplier.getMobile() == null || !supplier.getMobile().matches("^1[0-9]{10}$")) {
-			model.addAttribute("err_msg_mobile", "手机格式不正确 !");
+			model.addAttribute("err_msg_mobile", "手机格式不正确！");
 			count++;
 		}
 
@@ -1538,10 +1550,9 @@ public class SupplierController extends BaseSupplierController {
 		if(StringUtils.isNotBlank(supplier.getMobile())) {
 			// 手机号校验：专家库+供应商库（除去临时供应商）
 			boolean bool = supplierService.checkMobile(supplier.getMobile());
-			//Boolean ajaxMoblie = userService.ajaxMoblie(supplier.getMobile(), null);
 			if(!bool) {
 				count++;
-				model.addAttribute("err_msg_mobile", "手机号已存在 !");
+				model.addAttribute("err_msg_mobile", "手机号已被使用，请更换重试！");
 			}
 		}
 		if(count > 0) {
