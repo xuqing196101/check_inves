@@ -16,8 +16,10 @@
             //审核按钮状态
             var num = ${num};
             if (num == 0) {
-                $("#tuihui").attr("disabled", true);
-                $("#butongguo").attr("disabled", true);
+            	  if('${status}' != -2 && '${status}' != -3){
+            		  $("#tuihui").attr("disabled", true);
+                  $("#butongguo").attr("disabled", true);
+            	  }
                 $("#tichu").attr("disabled", true);
             }
             if (num != 0) {

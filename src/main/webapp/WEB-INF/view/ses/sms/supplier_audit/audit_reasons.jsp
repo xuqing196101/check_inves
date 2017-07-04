@@ -19,8 +19,10 @@
        //审核按钮
        var num = ${num};
        if(num == 0){
-         //$("#tuihui").attr("disabled", true);
-         //$("#butongguo").attr("disabled", true);
+         if('${supplierStatus}' != -2 && '${supplierStatus}' != -3){
+        	   $("#tuihui").attr("disabled", true);
+             $("#butongguo").attr("disabled", true);
+         }
          $("#buhege").attr("disabled", true);
        }
        if(num != 0){
@@ -497,7 +499,7 @@
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">
 		            </c:if>
 		            <c:if test="${supplierStatus == -2 || supplierStatus == -3}">
-		            	<c:if test="${supplierStatus != -3}">
+		            	<c:if test="${supplierStatus == -2}">
                     <span id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
                   </c:if>
                   <input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
