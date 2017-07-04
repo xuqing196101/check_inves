@@ -1114,7 +1114,7 @@
 			
 			function check(obj){
 				if('${currSupplier.status}' == '2' && '${audit}'.indexOf('businessStartDate') < 0){
-					return false;
+					//return false;
 				}
 				var ch=$(obj).is(":checked");
 				if(ch){
@@ -1130,7 +1130,7 @@
 			// 控制营业期限
 			function controlExpireDate(){
 				if('${currSupplier.status}' == '2' && '${audit}'.indexOf('businessStartDate') < 0){
-					return;
+					//return;
 				}
 				var branchName = $("input[name='branchName']").val();
 				if(branchName != '1'){

@@ -1710,7 +1710,8 @@
 		FROM T_SES_SMS_SUPPLIER
 		WHERE CREDIT_CODE = #{_parameter}
 		and
-		SUPPLIER_STATUS != 6 and IS_DELETED=0
+		IS_PROVISIONAL != 1 and IS_DELETED = 0
+		<!-- SUPPLIER_STATUS != 6 and IS_DELETED=0 -->
 	</select>
 	
 	<select id="queryAll" resultMap="BaseResultMap" >
@@ -1762,6 +1763,15 @@
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
 		WHERE IS_DELETED = 0 and SUPPLIER_NAME = #{supplierName}
+	</select>
+	
+	<!-- 通过供应商名称查询(去除临时供应商) -->
+	<select id="selByNameWithoutProvisional" resultMap="BaseResultMap" parameterType="String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER
+		WHERE IS_DELETED = 0 and SUPPLIER_NAME = #{supplierName}
+		and IS_PROVISIONAL != 1
 	</select>
 	
 	<select id="findQualifiedSupplier" resultMap="BaseResultMap">
@@ -1966,5 +1976,20 @@
 		SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER 
 		WHERE PROCUREMENT_DEP_ID = #{purchaseDepId}
 		AND SUPPLIER_STATUS = #{status}
+	</select>
+	
+	<!-- 手机号校验：专家库+供应商库（除去临时供应商） -->
+	<select id="countByMobile" resultType="int" parameterType="string">
+		<!-- SELECT COUNT(1) FROM T_SES_SMS_SUPPLIER SUPP,
+		T_SES_EMS_EXPERT EXPE
+		WHERE SUPP.MOBILE = #{mobile}
+		AND EXPE.MOBILE = #{mobile}
+		AND SUPP.IS_PROVISIONAL != 1 AND SUPP.IS_DELETED = 0
+		AND EXPE.IS_DELETE = 0 -->
+		
+		SELECT (T1.COUNT_SUPP + T2.COUNT_EXPE) FROM
+		(SELECT COUNT(1) AS COUNT_SUPP FROM T_SES_SMS_SUPPLIER WHERE MOBILE = #{mobile} AND IS_PROVISIONAL != 1 AND IS_DELETED = 0) T1
+		,
+		(SELECT COUNT(1) AS COUNT_EXPE FROM T_SES_EMS_EXPERT WHERE MOBILE = #{mobile} AND IS_DELETE = 0) T2
 	</select>
 </mapper>
