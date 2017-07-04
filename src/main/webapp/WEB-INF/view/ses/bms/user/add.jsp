@@ -303,10 +303,13 @@
 		}
 		
 		//控制显示输入框和下来框
-		function viewOrgType(){
+		function viewOrgType(type){
 			//获取机构类型
 			var orgType = $("#org_type").val();
-			$("#orgSel").attr("value", "");
+			if(type=='1'){
+			   $("#orgSel").attr("value", "");
+			}
+			
 			$("#orgParent").val("");
 			$("#oId").val("");
 			if (orgType == '3' ) {
@@ -423,7 +426,7 @@
 		}
 		
 		$(document).ready(function(){  
-		     viewOrgType();
+		     viewOrgType(0);
     		$("#form1").bind("submit", function(){  
     			var error = 0;
     			if (ajaxIdNumber() == 1) {
@@ -635,7 +638,7 @@
 						        </select>
 					        </c:when >
 					        <c:otherwise>
-					        	<select id="org_type" name="typeName" onchange="viewOrgType()" >
+					        	<select id="org_type" name="typeName" onchange="viewOrgType(1)" >
 						        	<option value="1" <c:if test="${user.typeName == '1'}">selected</c:if>>采购机构</option>
 						        	<option value="2" <c:if test="${user.typeName == '2'}">selected</c:if>>采购管理部门</option>
 						        	<option value="0" <c:if test="${user.typeName == '0'}">selected</c:if>>需求部门</option>
