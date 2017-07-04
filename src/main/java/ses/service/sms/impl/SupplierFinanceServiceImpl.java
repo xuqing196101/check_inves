@@ -171,9 +171,9 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 		Calendar cale = Calendar.getInstance();
 		int year = cale.get(Calendar.YEAR);
 		
-		 int year2=year-2;//2014
-		 int year3=year-3;//2013
-		if(month<7){
+		int year2=year-2;//2014
+		int year3=year-3;//2013
+		if(month<6){
 			int yera4=year-4;//2012
 			yearList.add(yera4);
 		}else{

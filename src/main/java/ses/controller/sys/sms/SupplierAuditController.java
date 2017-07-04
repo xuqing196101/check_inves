@@ -1233,6 +1233,10 @@ public class SupplierAuditController extends BaseSupplierController {
 		String auditType = supplierAudit.getAuditType();
 		String auditFieldName = supplierAudit.getAuditFieldName();
 		String auditContent = supplierAudit.getAuditContent();
+		String suggest=supplierAudit.getSuggest().trim();
+		if(suggest.length()>900){
+			return new JdcgResult(504, "审核内容长度过长", null);
+		}
 		supplierAudit.setSupplierId(id);
 		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		boolean same = true;
