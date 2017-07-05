@@ -38,5 +38,5 @@ public interface ExpertAuditOpinionService {
 	 * @param expertId
 	 * @return
 	 */
-	ExpertAuditOpinion selectByExpertId(String expertId);
+	ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion);
 }

@@ -452,12 +452,12 @@
           </div>
           <!-- 审核公示扫描件上传 -->
           <div class="display-none" id="checkWord">
-	            <h2 class="count_flow"><i>3</i>审核表扫描件</h2>
+	            <h2 class="count_flow"><i>3</i>供应商审批表</h2>
 	            <ul class="ul_list">
 	            <c:if test="${ supplierStatus == -3 }">
 	            	<li class="col-md-6 col-sm-6 col-xs-6">
 			              <div>
-			              	<span class="fl">审核扫描件：</span>
+			              	<span class="fl">彩色扫描件：</span>
 				              <u:show showId="pic_checkword" businessId="${ suppliers.auditOpinionAttach }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
 			              </div>
 			            </li>
@@ -469,10 +469,10 @@
 	            		</li>
 	                <li class="col-md-6 col-sm-6 col-xs-6">
 			              <div>
-			              	<span class="fl">上传审核扫描件：</span>
+			              	<span class="fl">上传彩色扫描件：</span>
 				              <% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
 				              <input id="auditOpinionFile" type="hidden" value="<%=uuidcheckword%>" />
-				              <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传审核扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
+				              <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
 				              <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
 			              </div>
 			            </li>
@@ -481,9 +481,8 @@
           </div>  
           
 	        <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
-	         <a class="btn"  type="button" onclick="lastStep();">上一步</a>
-	          <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
-	            <input name="supplierId" value="${supplierId}" type="hidden">
+				<form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
+				<input name="supplierId" value="${supplierId}" type="hidden">
 	            <input name="status" id="status" type="hidden">
 	            <input name="opinion" type="hidden">
 	            <input name="id" type="hidden">
@@ -491,6 +490,7 @@
 	            <div class="margin-bottom-0  categories">
 	              <div class="col-md-12 add_regist tc">
 	              <div class="col-md-12 add_regist tc">
+					<a class="btn"  type="button" onclick="lastStep();">上一步</a>
           			<!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
 		            <c:if test="${supplierStatus == 0}">
 		              <span id="tongguoSpan"><input class="btn btn-windows git"  type="button" onclick="shenhe(-2)" value="审核预通过" id="tongguo"></span>

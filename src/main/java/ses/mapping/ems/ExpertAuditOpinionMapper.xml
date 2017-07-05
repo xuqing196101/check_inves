@@ -7,11 +7,12 @@
     <result column="OPINION"  property="opinion" />
     <result column="CREATED_AT"  property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="FLAG_TIME"  property="flagTime" />
 
 
   </resultMap>
   <sql id="Base_Column_List">
-    ID, EXPERT_ID, OPINION, CREATED_AT, UPDATED_AT
+    ID, EXPERT_ID, OPINION, CREATED_AT, UPDATED_AT, FLAG_TIME
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -39,6 +40,9 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="flagTime != null">
+        FLAG_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -56,6 +60,9 @@
       <if test="updatedAt != null">
         #{updatedAt},
       </if>
+      <if test="flagTime != null">
+        #{flagTime},
+      </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
@@ -63,11 +70,12 @@
   </insert>
   
   <!-- 根据专家ID查询信息 -->
-  <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByExpertId" parameterType="ses.model.ems.ExpertAuditOpinion" resultMap="BaseResultMap">
        SELECT <include refid="Base_Column_List" />
         FROM (SELECT <include refid="Base_Column_List" />
           FROM T_SES_EMS_EXPERT_AUDIT_OPINION T
           WHERE T.EXPERT_ID = #{expertId}
+          AND T.FLAG_TIME = #{flagTime}
           ORDER BY CREATED_AT DESC)
           WHERE ROWNUM = 1
   </select>

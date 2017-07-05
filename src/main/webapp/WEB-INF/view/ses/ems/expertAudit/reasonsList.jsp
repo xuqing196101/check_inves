@@ -43,11 +43,15 @@
         function checkOpinion(status, expertId){
         	 var opinion = document.getElementById('opinion').value;
              opinion = trim(opinion);
+             var flagTime;
+             if(status == -2){
+                 flagTime = 1;
+             }
              if (opinion != null && opinion != "") {
                  if (opinion.length <= 200) {
                      $.ajax({
                          url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
-                         data: {"opinion": opinion, "expertId": expertId},
+                         data: {"opinion": opinion, "expertId": expertId,"flagTime":flagTime},
                          success: function () {
                              //$("#status").val(status);
                              //$("#form_shenhe").submit();
@@ -84,8 +88,7 @@
                      offset: '100px',
                      }, function(text) {
                      $.ajax({
-                     url: "
-                    ${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
+                     url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
                      data: {"opinion" : text , "expertId" : expertId},
                      success: function() {
                      //提交审核
@@ -96,6 +99,16 @@
                      }); */
                      if(checkOpinion(status, expertId)){
                     	 return;
+                     }else{
+                         $.ajax({
+                             url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
+                             data: {"expertId" : expertId},
+                             success: function() {
+                                 //提交审核
+                                 $("#status").val(status);
+                                 $("#form_shenhe").submit()
+                             }
+                         });
                      }
 
                     //初审不通过
@@ -362,12 +375,12 @@
             </div>
             <!-- 审核公示扫描件上传 -->
             <div class="display-none" id="checkWord">
-	            <h2 class="count_flow"><i>3</i>审核表扫描件</h2>
+	            <h2 class="count_flow"><i>3</i>专家审批表</h2>
 	            <ul class="ul_list">
 	                <c:if test="${ status == -3 }">
 	            	    <li class="col-md-6 col-sm-6 col-xs-6">
 			               <div>
-			              	 <span class="fl">入库复审表扫描件：</span>
+			              	 <span class="fl">彩色扫描件：</span>
 				               <u:show showId="pic_checkword" businessId="${ expert.auditOpinionAttach }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
 			               </div>
 			              </li>
@@ -379,10 +392,10 @@
 		            		</li>
 		                <li class="col-md-6 col-sm-6 col-xs-6">
 				              <div>
-				              	<span class="fl">上传入库复审表扫描件：</span>
+				              	<span class="fl">上传彩色扫描件：</span>
 					              <% String uuidcheckword = UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
 					              <input name="check_word_pic" id="auditOpinionFile" type="hidden" value="<%=uuidcheckword%>" />
-					              <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传入库复审表扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
+					              <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
 					              <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
 				              </div>
 				            </li>
@@ -391,8 +404,9 @@
             </div>
 
             <div class="col-md-12 add_regist tc">
-                <a class="btn" type="button" onclick="lastStep();">上一步</a>
+
                 <form id="form_shenhe" action="${pageContext.request.contextPath}/expertAudit/updateStatus.html">
+                    <a class="btn" type="button" onclick="lastStep();">上一步</a>
                     <input name="id" value="${expertId}" type="hidden">
                     <input type="hidden" name="status" id="status"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />

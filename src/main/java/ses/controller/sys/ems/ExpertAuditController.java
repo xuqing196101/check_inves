@@ -1459,7 +1459,10 @@ public class ExpertAuditController{
 		
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
 		// 查询审核最终意见
-		ExpertAuditOpinion auditOpinion = expertAuditOpinionService.selectByExpertId(expertId);
+		ExpertAuditOpinion selectEao = new ExpertAuditOpinion();
+		selectEao.setExpertId(expertId);
+		selectEao.setFlagTime(1);
+		ExpertAuditOpinion auditOpinion = expertAuditOpinionService.selectByExpertId(selectEao);
 		model.addAttribute("reasonsList", reasonsList);
 		//查看是否有记录
 		model.addAttribute("num", reasonsList.size());
