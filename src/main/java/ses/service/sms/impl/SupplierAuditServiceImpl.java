@@ -817,13 +817,21 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @return
 	 */
 	public SupplierCateTree potting(SupplierCateTree cateTree,String supplierId){
-		//封装 目录 是否有审核记录数据
+		//封装 目录 物资生产 是否有审核记录数据
 		SupplierAudit audit=new SupplierAudit();
 		audit.setSupplierId(supplierId);
 		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType("items_page");
+		audit.setAuditType("items_product_page");
 		int count=countByPrimaryKey(audit);
-		cateTree.setIsItemsPageAudit(count);
+		cateTree.setIsItemsProductPageAudit(count);
+		
+		//封装 目录 物资销售 是否有审核记录数据
+		audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getItemsId());
+		audit.setAuditType("items_sales_page");
+		count=countByPrimaryKey(audit);
+		cateTree.setIsItemsSalesPageAudit(count);
 		
 		audit=new SupplierAudit();
 		audit.setSupplierId(supplierId);

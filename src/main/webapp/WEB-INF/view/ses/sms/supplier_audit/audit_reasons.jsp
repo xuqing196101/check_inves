@@ -406,6 +406,8 @@
                      <c:if test="${reasons.auditType eq 'mat_pro_page' || reasons.auditType eq 'mat_sell_page' || reasons.auditType eq 'mat_eng_page' || reasons.auditType eq 'mat_serve_page' || reasons.auditType eq 'supplierType_page'}">供应商类型</c:if>
                      <%-- <c:if test="${reasons.auditType == 'mat_serve_page' || reasons.auditType == 'item_sell_page' || reasons.auditType == 'item_eng_page' || reasons.auditType == 'item_serve_page'}">品目信息</c:if> --%>
                      <c:if test="${reasons.auditType eq 'items_page'}">品目信息</c:if>
+                     <c:if test="${reasons.auditType eq 'items_product_page'}">物资生产目录信息</c:if>
+                     <c:if test="${reasons.auditType eq 'items_sales_page'}">物资销售目录信息</c:if>
                      <c:if test="${reasons.auditType eq 'aptitude_page'}">资质文件</c:if>
                      <c:if test="${reasons.auditType eq 'contract_page'}">品目合同</c:if>
                      <c:if test="${reasons.auditType eq 'download_page'}">申请表</c:if>
