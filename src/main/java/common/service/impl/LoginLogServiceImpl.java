@@ -16,7 +16,6 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.sms.Supplier;
 import ses.service.ems.ExpertService;
-import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 import common.dao.LoginLogMapper;
@@ -60,8 +59,12 @@ public class LoginLogServiceImpl implements LoginLogService {
 		if(user != null){
 			Integer typeFlag = null;
 			// 查询此用户所属类型 1：专家  2：供应商 3：后台管理员 **/
-			Expert expertUser = expertService.selectByPrimaryKey(user.getTypeId());
-			Supplier supplierUser = supplierService.selectById(user.getTypeId());
+			Expert expertUser = null;
+			Supplier supplierUser = null;
+			if(user.getTypeId() != null){
+				expertUser = expertService.selectByPrimaryKey(user.getTypeId());
+				supplierUser = supplierService.selectById(user.getTypeId());
+			}
 			LoginLog loginLog = new LoginLog();
 			if (expertUser != null) {
 				// 专家登录

@@ -347,7 +347,11 @@
 	    var startDate = null;
 	    var endDate = null;
 	  	var secondArticleTypeId = "${secondArticleTypeId}";
-	  	 window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name+"&secondArticleTypeId="+secondArticleTypeId;
+	  	if('${reqType}' != ''){
+		  	window.location.href = "${ pageContext.request.contextPath }/article/readOnlyList.html?publishYear=${ articleAnalyzeVo.publishYear }&threeArticleTypeId=${articleAnalyzeVo.threeArticleTypeId}&fourArticleTypeId=${articleAnalyzeVo.fourArticleTypeId}&categoryId=${articleAnalyzeVo.categoryId}&page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name+"&secondArticleTypeId="+secondArticleTypeId;
+  	  }else{
+		  	window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name+"&secondArticleTypeId="+secondArticleTypeId;
+  	  }
 	  }
     </script>
   </head>
@@ -432,7 +436,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15" id="artCategory">
-              <span class="ol-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>产品类别：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>产品类别：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input type="text"  disabled="disabled"  value="${categoryNames}">
               </div>

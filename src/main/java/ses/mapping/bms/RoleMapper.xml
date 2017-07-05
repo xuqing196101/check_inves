@@ -83,7 +83,7 @@
         and UPDATED_AT = #{updatedAt}
       </if>
       <if test="description != null and description != ''">
-        and DESCRIPTION like concat(concat('%', '${description}'), '%')
+        and DESCRIPTION like concat(concat('%', '#{description}'), '%')
       </if>
       <if test="code != null and code != ''">
         and CODE = #{code}
@@ -263,7 +263,7 @@
      where IS_DELETED=0
     AND STATUS = 0
      <if test="name != null and name != ''">
-        and NAME LIKE '%${name}%'
+        and NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
       </if>
       <if test="status != null and status !=''">
         and STATUS = #{status}

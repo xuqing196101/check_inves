@@ -87,10 +87,10 @@
 		      <td class="info tc">小类</td>
 		      <td class="info tc">名称</td>
 					<c:forEach items="${years}" var="year">
-						<td class="tc info">${year}</td>
+						<td class="tc info">${year}年度</td>
 					</c:forEach>
 					<c:forEach items="${years}" var="year">
-						<td class="tc info">${year}</td>
+						<td class="tc info">${year}年度</td>
 					</c:forEach>
 				</tr>
 				<c:forEach items="${contract}" var="obj" varStatus="vs">

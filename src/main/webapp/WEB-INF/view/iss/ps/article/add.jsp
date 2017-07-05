@@ -121,7 +121,7 @@
 				},
 				dataFilter: ajaxDataFilter,
 				dataType: "json",
-				type: "get"
+				type: "post"
 			},
 			/* check: {
 				enable: true,
@@ -203,7 +203,7 @@
 						},
 						dataFilter: ajaxDataFilter,
 						dataType: "json",
-						type: "get"
+						type: "post"
 					},
 				view: {
 					dblClickExpand: false
@@ -371,7 +371,7 @@
 					"col-md-6 col-sm-6 col-xs-12 mt10");
 		}
 		if (TtypeId == "供应商处罚公告") {
-			$("#three").show();
+			$("#three").hide();
 		}
 		if (TtypeId == "专家处罚公告") {
 			$("#three").hide();
@@ -905,7 +905,7 @@
 						<div>
 							<u:upload id="artice_file_up" buttonName="上传文档"
 								businessId="${articleId }" sysKey="${sysKey}"
-								typeId="${artiAttachTypeId }" multiple="false" auto="true" />
+								typeId="${artiAttachTypeId }" multiple="true" auto="true" />
 							<u:show showId="artice_file_show" businessId="${articleId }"
 								sysKey="${sysKey}" typeId="${artiAttachTypeId }" />
 						</div></li>

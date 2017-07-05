@@ -120,6 +120,10 @@
 		});
 	}
 	
+	function back(typeName){
+     location.href = '${pageContext.request.contextPath}/purchaseManage/list.do?typeName='+typeName;
+  }
+	
 	//全选
 	function selectAll(){
 		if ($("#checkAll").prop("checked")) {  
@@ -331,7 +335,8 @@
 					</c:if>
 				  </tr>
 				</thead>
-				<tbody></tbody>
+				<tbody>
+				</tbody>
               </table>
             </div>
 		  </ul>
@@ -341,7 +346,7 @@
 	  <div class="col-md-12">
 		<div class="mt40 tc mb50">
 		  <button type="button" class="btn btn-windows save" onclick="save()">保存</button>
-		  <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回"/>
+		  <input type="button" class="btn btn-windows back" onclick="back('${orgnization.typeName}')" value="返回"/>
 		</div>
 	  </div>
 	</sf:form>

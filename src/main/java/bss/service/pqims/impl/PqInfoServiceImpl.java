@@ -16,6 +16,7 @@ import com.github.pagehelper.PageHelper;
 
 import ses.model.sms.Supplier;
 import ses.util.PropertiesUtil;
+import ses.util.WfUtil;
 
 import bss.dao.pqims.PqInfoMapper;
 import bss.model.pqims.PqInfo;
@@ -42,10 +43,10 @@ public class PqInfoServiceImpl implements PqInfoService {
 	 * 1.获取所有质检信息对象
 	 */
 	@Override
-	public List<PqInfo> getAll(Integer pageNum) {
+	public List<PqInfo> getAll(Integer pageNum, HashMap<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return pqInfoMapper.queryByList();
+		return pqInfoMapper.queryByList(map);
 	}
 
 	/** 
@@ -149,5 +150,6 @@ public class PqInfoServiceImpl implements PqInfoService {
         
         return pqInfoMapper.selectByContract(map);
     }
+
 
 }

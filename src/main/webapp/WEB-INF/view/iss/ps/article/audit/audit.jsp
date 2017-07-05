@@ -119,7 +119,7 @@
 				},
 				dataFilter: ajaxDataFilter,
 				dataType: "json",
-				type: "get"
+				type: "post"
 			},
 			/* check: {
 				enable: true,
@@ -200,7 +200,7 @@
 
       function back() {
         var id = $("#id").val();
-        var reason = $("#reason").val();
+        var reason = $("#reason").val().replace(/(^\s*)|(\s*$)/g, "");
         if (reason == null || reason == '') {
 			layer.msg("请填写退回理由", {offset: '222px',shade: 0.01});
 		} else {
@@ -299,7 +299,7 @@
               $("#second").show();
               var secId = "${article.secondArticleTypeId}";
 	           if (secId == '114') {
-			     $("#three").show();
+			     $("#three").hide();
 			   }
 			   if (secId == '115') {
                  $("#three").hide();
@@ -507,7 +507,7 @@
             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
         }
         if(TtypeId == "供应商处罚公告"){
-              $("#three").show();
+              $("#three").hide();
           }
           if(TtypeId == "专家处罚公告"){
               $("#three").hide();
@@ -664,7 +664,7 @@
 						},
 						dataFilter: ajaxDataFilter,
 						dataType: "json",
-						type: "get"
+						type: "post"
 					},
 				view: {
 					dblClickExpand: false

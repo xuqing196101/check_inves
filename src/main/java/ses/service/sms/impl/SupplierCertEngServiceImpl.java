@@ -81,4 +81,9 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
         return null;
     }
 
+	@Override
+	public List<SupplierCertEng> findCertEngBySupplierId(String supplierId) {
+		return supplierCertEngMapper.findCertEngBySupplierId(supplierId);
+	}
+
 }

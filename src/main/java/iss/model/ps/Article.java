@@ -155,7 +155,21 @@ public class Article{
     
     private String lastArticleTypeName;
     
-    public String getLastArticleTypeName() {
+    //string类型发布时间
+    private String create_at;
+    
+    //APP公告标识
+    private Integer type_id;
+    
+    public Integer getType_id() {
+		return type_id;
+	}
+
+	public void setType_id(Integer type_id) {
+		this.type_id = type_id;
+	}
+
+	public String getLastArticleTypeName() {
 		return lastArticleTypeName;
 	}
 
@@ -529,6 +543,14 @@ public class Article{
     public void setCancelPublishAt(Date cancelPublishAt) {
         this.cancelPublishAt = cancelPublishAt;
     }
+
+	public String getCreate_at() {
+		return create_at;
+	}
+
+	public void setCreate_at(String create_at) {
+		this.create_at = create_at;
+	}
 
    
     

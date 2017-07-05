@@ -300,10 +300,10 @@ function getTaskTime(strDate) {
   <div class="margin-top-10 breadcrumbs ">
     <div class="container">
     <ul class="breadcrumb margin-left-0">
-      <li><a href="javascript:void(0)">首页</a></li>
+      <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
     <li><a href="javascript:void(0)">保障作业系统</a></li>
     <li><a href="javascript:void(0)">采购项目管理</a></li>
-    <li class="active"><a href="javascript:void(0)">采购文件审核</a></li>
+    <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/Auditbidding/list.html')">采购文件审核</a></li>
     </ul>
     <div class="clear"></div>
     </div>
@@ -495,7 +495,7 @@ function getTaskTime(strDate) {
 	            <input type="button" class="btn btn-windows check_back " onclick="updateAudit('2')" value="退回重报 "></input>
 	            <input type="button" class="btn btn-windows edit " onclick="updateAudit('4')" value="修改报备 "></input> 
          	</c:if>
-	        <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
+			 <a class="btn btn-windows back " href="${pageContext.request.contextPath}/Auditbidding/list.html">返回 </a>
          </div>
          </div>
          </c:if>

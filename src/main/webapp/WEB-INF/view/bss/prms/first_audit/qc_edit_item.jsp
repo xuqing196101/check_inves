@@ -23,6 +23,7 @@
 	  
 	  //保存更新
 	  function updateItem(){
+	  	  var flowDefineId = "${flowDefineId}";
           var pattern = /^[1-9]\d*$/;
           var _val = $("#itemPosition").val();
           if(!pattern.test(_val)){
@@ -42,9 +43,9 @@
                           parent.window.setTimeout(function(){
                               var flag = $("#isConfirm").val();
                               if (flag == 1) {
-                                  parent.window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+                                  parent.window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
                               } else {
-                                  parent.window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                                  parent.window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
                               }
                           }, 1000);
                           layer.msg(result.msg,{offset: ['150px']});

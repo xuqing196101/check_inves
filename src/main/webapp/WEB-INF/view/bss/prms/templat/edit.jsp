@@ -64,6 +64,149 @@ function submit1(){
 	function goBack(){
 	    window.location.href = '${pageContext.request.contextPath}/auditTemplat/list.html';
 	}
+	
+	var treeid = null;
+	function beforeClick(treeId, treeNode) {
+		var zTree = $.fn.zTree.getZTreeObj("treeCategory");
+		zTree.checkNode(treeNode, !treeNode.checked, null, true);
+		return false;
+	}
+	
+	function zTreeBeforeCheck(treeId, treeNode) {
+      if (treeNode.isParent == true) {
+          layer.msg("请选择末节点");
+          return false;
+        } else {
+        return true;        
+        }
+    }
+	
+	
+	/*点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+  	  if (treeNode.isParent == true) {
+          layer.msg("请选择末节点");
+          return false;
+      }
+	  if (!treeNode.isParent) {
+	  	$("#cId").val(treeNode.id);
+        $("#categorySel").val(treeNode.name);
+	    hideCategory();
+	  }
+    }
+	
+	function showCategory(tempId) {
+		var rootCode = null;
+		var zTreeObj;
+		var zNodes;
+		var setting = {
+			async: {
+				autoParam: ["id"],
+				enable: true,
+				url: "${pageContext.request.contextPath}/auditTemplat/categoryTree.do",
+				otherParam: {
+					"tempId": tempId,
+					"rootCode":rootCode,
+				},
+				dataFilter: ajaxDataFilter,
+				dataType: "json",
+				type: "post"
+			},
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				onClick:zTreeOnClick,
+			}
+		};
+		zTreeObj = $.fn.zTree.init($("#treeCategory"), setting, zNodes);
+		zTreeObj.expandAll(true); //全部展开
+		var cityObj = $("#categorySel");
+		var cityOffset = $("#categorySel").offset();
+		$("#categoryContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+		$("body").bind("mousedown", onBodyDownOrg);
+	}
+	
+	function ajaxDataFilter(treeId, parentNode, childNodes) {
+		// 判断是否为空
+		if(childNodes) {
+			// 判断如果父节点是第二级,则将查询出来的子节点全部改为isParent = false
+			if(parentNode != null && parentNode != "undefined" && parentNode.level == 1) {
+				for(var i = 0; i < childNodes.length; i++) {
+					childNodes[i].isParent += false;
+				}
+			}
+		}
+		return childNodes;
+	}
+	function hideCategory() {
+		$("#categoryContent").fadeOut("fast");
+		$("body").unbind("mousedown", onBodyDownOrg);
+	}
+	function onBodyDownOrg(event) {
+		if (!(event.target.id == "menuBtn" || event.target.id == "categorySel" || event.target.id == "categoryContent" || $(event.target).parents("#categoryContent").length>0)) {
+			hideCategory();
+		}
+	}
+	
+	function searchs(tempId){
+		var name=$("#search").val();
+		if(name!=""){
+		 	var zNodes;
+			var zTreeObj;
+			var setting = {
+				async: {
+						autoParam: ["id"],
+						enable: true,
+						url: "${pageContext.request.contextPath}/auditTemplat/categoryTree.do",
+						otherParam: {
+							"tempId": tempId,
+						},
+						dataFilter: ajaxDataFilter,
+						dataType: "json",
+						type: "post"
+					},
+				view: {
+					dblClickExpand: false
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					onClick:zTreeOnClick,
+				}
+			};
+			// 加载中的菊花图标
+			var loading = layer.load(1);
+			
+			$.ajax({
+				url: "${pageContext.request.contextPath}/auditTemplat/searchCategory.do",
+				data: { "name" : encodeURI(name)},
+				async: false,
+				dataType: "json",
+				success: function(data){
+					if (data.length == 1) {
+						layer.msg("没有符合查询条件的产品类别信息！");
+					} else {
+						zNodes = data;
+						zTreeObj = $.fn.zTree.init($("#treeCategory"), setting, zNodes);
+						zTreeObj.expandAll(true);//全部展开
+					}
+					// 关闭加载中的菊花图标
+					layer.close(loading);
+				}
+			});
+		}else{
+			showCategory();
+		}
+	}
 </script>
 </head>
 <body>
@@ -84,6 +227,15 @@ function submit1(){
 		</div>
 	</div>
 <div class="container container_box">
+	<div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+			<div class=" input_group col-md-3 col-sm-6 col-xs-12 col-lg-12 p0">
+			    <div class="w100p">
+			    	<input type="text" id="search" class="fl m0">
+				      <img alt="" style="position:absolute; top:8px;right:10px;" src="${pageContext.request.contextPath }/public/backend/images/view.png"  onclick="searchs('${templat.id}')">
+			    </div>
+			    <ul id="treeCategory" class="ztree" style="margin-top:0;"></ul>
+			</div>
+	   	</div>
 	<sf:form action="${pageContext.request.contextPath}/auditTemplat/edit.html" method="post" id="form1" modelAttribute="firstAuditTemplat">
                  <h2 class="list_title">修改模板</h2>
                  <input type="hidden" name="isUse" value="${templat.isUse}">
@@ -112,6 +264,18 @@ function submit1(){
                  <div class="cue"><sf:errors path="kind"/></div>
                  </div>
              </li>
+             <li class="col-md-3 col-sm-6 col-xs-12" id="choseCategory">
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
+				<div class="star_red">*</div>所属产品目录：</span>
+				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
+					<input id="cId" name="categoryId"  type="hidden" value="${templat.categoryId}">
+			        <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory('${templat.id}');" />
+					<div class="drop_up" onclick="showCategory('${templat.id}');">
+					    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
+			        </div>
+					<div class="cue"><sf:errors path="categoryId"/></div>
+				</div>
+			</li>
             <%-- <li class="col-md-3 margin-0 padding-0 "><span class="">是否公开</span>
                     <div class="select_check">
                         <input name="isOpen" maxlength="10" type="radio" value="0" <c:if test="${templat.isOpen eq '0' }">checked="true"</c:if> >公开

@@ -258,30 +258,35 @@
 		}
 		
 		//控制显示输入框和下来框
-		function viewOrgType(){
+		function viewOrgType(flag){
 			//获取机构类型
 			var orgType = $("#org_type").val();
-			$("#orgSel").attr("value", "");
-			$("#orgParent").val("");
-			$("#oId").val("");
+			if (flag == 1) {
+				$("#orgSel").attr("value", "");
+				$("#orgParent").val("");
+				$("#oId").val("");
+			}
 		    
 			if (orgType == '3') {
 			   $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").hide();
                 $("#ajax_orgId").html("");
+                $("#tempOrg").hide();
 				$("#oId").attr("type","text");
 			} else if (orgType =='5'|| orgType == '4' ) {
 			   $("#isOrgShow").hide();
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
                 $("#ajax_orgId").html("");
+                $("#tempOrg").show();
 			   $("#oId").attr("type","hidden");
 			}else{
 			  $("#isOrgShow").show();
 			   $("#orgTitle").html("所属机构");
 				$("#orgSel").show();
                 $("#ajax_orgId").html("");
+                $("#tempOrg").hide();
 				$("#oId").attr("type","hidden");
 			}
 		}
@@ -346,7 +351,29 @@
          	return is_error;
 		}
 		
+		function ajaxOfficerCertNo(){
+			 var is_error = 0;
+			 var officerCertNo = $("#officerCertNo").val();
+			 var id = $("#uId").val();
+			 $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/user/ajaxOfficerCertNo.do?officerCertNo="+officerCertNo+"&id="+id,
+             dataType: "json",
+             success: function(data){
+                     if (!data.success) {
+						$("#ajax_officerCertNo").html(data.msg);
+						is_error = 1;
+					 } else {
+					 	$("#ajax_officerCertNo").html("");
+					 }
+               }
+         	});
+         	return is_error;
+		}
+		
 		$(document).ready(function(){  
+		  viewOrgType(0);
     		$("#form1").bind("submit", function(){  
     			var error = 0;
     			if (ajaxIdNumber() == 1) {
@@ -355,7 +382,9 @@
 				if (ajaxMoblie() == 1){
 					error += 1;
 				} 
-				
+				if (ajaxOfficerCertNo() == 1){
+					error += 1;
+				}
 				if (error > 0) {
 					return false;
 				} else {
@@ -496,7 +525,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">身份证号</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input id="idNumber" name="idNumber" value="${user.idNumber}" onblur="ajaxIdNumber()" maxlength="18" type="text">
+			        	<input id="idNumber" name="idNumber"   value="${user.idNumber}" onblur="ajaxIdNumber()" maxlength="18" type="text">
 			        	<span class="add-on">i</span>
 			        	<div id="ajax_idNumber" class="cue">
 			        	</div>
@@ -505,8 +534,9 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">军官证号</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input  name="officerCertNo" value="${user.officerCertNo}"  maxlength="20" type="text">
+			        	<input  name="officerCertNo" id="officerCertNo" value="${user.officerCertNo}" onblur="ajaxOfficerCertNo()"  maxlength="20" type="text">
 			        	<span class="add-on">i</span>
+			        	<div id="ajax_officerCertNo" class="cue">${ajax_officerCertNo}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3 ">
@@ -534,7 +564,7 @@
 							        </select>
 						        </c:when >
 						        <c:otherwise>
-						        	<select id="org_type" name="typeName" onchange="viewOrgType()">
+						        	<select id="org_type" name="typeName" onchange="viewOrgType(1)">
 						        	<option value="1" <c:if test="${user.typeName == '1'}">selected</c:if>>采购机构</option>
 						        	<option value="2" <c:if test="${user.typeName == '2'}">selected</c:if>>采购管理部门</option>
 						        	<option value="0" <c:if test="${user.typeName == '0'}">selected</c:if>>需求部门</option>
@@ -550,7 +580,7 @@
 			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">
 					  <c:if test="${ user.typeName == '5' }">
-					    <span class="red display-none" id="isOrgShow">*</span><span id="orgTitle">监管对象2</span>
+					    <span class="red display-none" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
 					  </c:if>
 					    <c:if test="${user.typeName == '4' }">
 					   <span class="red display-none" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
@@ -589,6 +619,13 @@
 							 <div id="ajax_orgId" class="cue">${ajax_orgId }</div>
 						</div>
 			 		</li>
+			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="tempOrg">
+	                    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">单位</span>
+	                    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+	                        <input  name="tempOrgName" value="${user.orgName}" maxlength="400" type="text">
+	                        <span class="add-on">i</span>
+	                    </div>
+                    </li> 
 					<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3 ">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>角色</span>
 					    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">

@@ -142,14 +142,14 @@ function sumbits(){
     <ul id="treeExpertType" class="ztree" style="margin-top:0;"></ul>
   </div>
 <!-- 修改订列表开始-->
-   <div class="container container_box">
+   <div class="">
    <form id="form"  method="post" >
      <input type="hidden" value="${projectId}" name="projectId"/>
      <input type="hidden" value="${packageId}" name="packageId"/>
      <input type="hidden" value="${flowDefineId}" name="flowDefineId"/>
      <input type="hidden" value="${ix}" name="ix">
    <div>
-    <h2 class="count_flow">添加临时供应商</h2>
+    <h2 class="list_title">添加临时供应商</h2>
    <ul class="ul_list">
       <li class="col-md-3 col-sm-6 col-xs-12 pl15">
          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>供应商名称：</span>
@@ -162,7 +162,7 @@ function sumbits(){
 	    <li class="col-md-3 col-sm-6 col-xs-12 ">
         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>统一社会信用代码：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
-         <input class="title col-md-12" id="appendedInput" name="creditCode" value="${supplier.creditCode}" maxlength="18" type="text">
+         <input class="title col-md-12" id="appendedInput" name="creditCode" onkeyup="this.value=this.value.replace(/[\W]/g,'')" value="${supplier.creditCode}" maxlength="18" type="text">
          <span class="add-on">i</span>
          <span class="input-tip">不能为空，长度为18位</span>
          <div class="cue" >${creditCodeError}</div>
@@ -179,7 +179,7 @@ function sumbits(){
      <li class="col-md-3 col-sm-6 col-xs-12 ">
        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>本单位军队业务联系人电话：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
-             <input class="title col-md-12" id="appendedInput" name="armyBuinessTelephone" value="${supplier.armyBuinessTelephone}"  maxlength="11" type="text">
+             <input class="title col-md-12" id="appendedInput" name="armyBuinessTelephone" onkeyup="this.value=this.value.replace(/\D/g,'')" value="${supplier.armyBuinessTelephone}"  maxlength="11" type="text">
          <span class="add-on">i</span>
           <div class="cue">${armyBuinessTelephoneError}</div>
         </div>
@@ -188,7 +188,7 @@ function sumbits(){
 	  <li class="col-md-3 col-sm-6 col-xs-12 ">
 	    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>登录名：</span>
 	      <div class="input-append input_group col-sm-12 col-xs-12 p0">
-              <input class="title col-md-12" id="appendedInput" name="loginName" value="${loginName}"  maxlength="30" type="text">
+              <input class="title col-md-12" id="appendedInput" name="loginName" onkeyup="value=value.replace(/[^a-zA-Z\-_@\.0-9]/g,'')" value="${loginName}"  maxlength="30" type="text">
          <span class="add-on">i</span>
          <div class="cue" >${loginNameError}</div>
         </div>

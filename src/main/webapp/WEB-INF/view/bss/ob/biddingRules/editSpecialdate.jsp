@@ -47,8 +47,11 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">竞价规则管理</a></li><li class="active"><a href="javascript:void(0)">修改特殊日期</a></li>
+			<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+			<li><a href="javascript:void(0)">保障作业</a></li>
+			<li><a href="javascript:void(0)">网上竞价</a></li>
+			<li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/obrule/holidayList.html')">节假日管理</a></li>
+			<li class="active"><a href="javascript:void(0)">修改特殊日期</a></li>
 		</ul>
         <div class="clear"></div>
       </div>
@@ -65,7 +68,7 @@
 		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>设置日期</span>
 			   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-					<input name="specialDate" id="specialDate" value='<fmt:formatDate value="${ specialDate.specialDate }" pattern="yyyy-MM-dd"/>' class="Wdate w200 mb0" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
+					<input name="specialDate" id="specialDate" value='<fmt:formatDate value="${ specialDate.specialDate }" pattern="yyyy-MM-dd"/>' class="Wdate w100p mb0" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
 		        <div class="cue"><span><font id="specialDateErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
@@ -73,7 +76,7 @@
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>类型</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			        <select class="w200" id="dateType" name="dateType">
+			        <select class="w100p" id="dateType" name="dateType">
 	               		<option value="">--请选择--</option>
 	               		<option value="1" <c:if test="${ specialDate.dateType == 1 }">selected</c:if>>上班</option>
 	              		<option value="0" <c:if test="${ specialDate.dateType == 0 }">selected</c:if>>放假</option>

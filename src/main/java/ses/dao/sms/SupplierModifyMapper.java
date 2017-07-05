@@ -39,7 +39,7 @@ public interface SupplierModifyMapper {
 	 * @param @return      
 	 * @return SupplierModify
 	 */
-	SupplierModify findBySupplierId (SupplierModify supplierModify);
+	List<SupplierModify> findBySupplierId (SupplierModify supplierModify);
 	
 	/**
 	 * @Title: delete

@@ -99,7 +99,7 @@
 <body>
 	<div class="wrapper">
 		<div class="container clear margin-top-30">
-			<h2 class="padding-20 mt40 ml30">
+			<h2 class="step_flow">
 				<span id="sp1" class="new_step current fl" onclick="updateStep('1')"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
 	            <span id="sp2" class="new_step current fl" onclick="updateStep('2')"><i class="">2</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
 	            <span id="ty3" class="new_step current fl" onclick="updateStep('3')"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
@@ -107,8 +107,8 @@
 	            <span id="sp5" class="new_step current fl" onclick="updateStep('5')"><i class="">5</i><div class="line"></div> <span class="step_desc_02">销售合同</span> </span>
 	            <span id="sp6" class="new_step current fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
 	            <span id="sp7" class="new_step fl"><i class="">7</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
-	            <span id="sp8" class="new_step fl"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
-	            <div class="clear"></div>
+	            <span id="sp8" class="new_step fl new_step_last"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
+	            <div class="clear"></div> 
 			</h2>
 		</div>
 
@@ -141,6 +141,7 @@
 												<th class="info w50">序号</th>
 												<th class="info w300">采购机构</th>
 												<th class="info">地点</th>
+												<th class="info w100">待审核数量</th>
 											</tr>
 										</thead>
 										<tbody id="purchase_orgs2">
@@ -152,6 +153,7 @@
 													<td class="tc">${vs}</td>
 													<td class="tc">${org1.shortName}</td>
 													<td class="tc">${org1.address}</td>
+													<td class="tc">${org1.pendingAuditCount}</td>
 												</tr>
 												<c:set var="vs" value="${vs + 1}"/>
 											  </c:if>
@@ -168,6 +170,7 @@
 												<th class="info w50">序号</th>
 												<th class="info w300">采购机构</th>
 												<th class="info">地点</th>
+												<th class="info w100">待审核数量</th>
 											</tr>
 										</thead>
 										<tbody id="purchase_orgs2">
@@ -179,6 +182,7 @@
 													<td class="tc">${vs}</td>
 													<td class="tc">${org1.shortName}</td>
 													<td class="tc">${org1.address}</td>
+													<td class="tc">${org1.pendingAuditCount}</td>
 												</tr>
 												<c:set var="vs" value="${vs + 1}"/>
 											  </c:if>

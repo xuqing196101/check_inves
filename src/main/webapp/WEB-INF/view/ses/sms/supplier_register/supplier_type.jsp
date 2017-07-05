@@ -15,6 +15,7 @@
 .current {
 	cursor: pointer;
 }
+
 </style>
 <script type="text/javascript">
 	$().ready(function() {
@@ -142,6 +143,8 @@
 			}
 		});
 		$("#businessScope").val(areaIds);
+		// 提交的时候表单域设置成可编辑
+		enableForm();
 		$.ajax({
 			url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
 			type : "post",
@@ -170,6 +173,7 @@
 				} else {
 					$("input[name='supplierMatSe.id']").val("");
 				}
+				controlForm();
 			},
 			error : function() {
 				layer.msg('暂存失败!');
@@ -194,6 +198,8 @@
 			}
 		});
 		$("#businessScope").val(areaIds);
+		// 提交的时候表单域设置成可编辑
+		enableForm();
 		$.ajax({
 					url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
 					type : "post",  
@@ -221,6 +227,7 @@
 						} else {
 							$("input[name='supplierMatSe.id']").val("");
 						}
+						controlForm();
 					}
 				});
 	}
@@ -255,10 +262,10 @@
 			}
 		}
 		// 判断有没有勾选物资生产
-		var isProCheck = false;
-		var isSaleCheck = false;
-		var isEngCheck = false;
-		var isServerCheck = false;
+		var isProCheck = false;// 物资生产
+		var isSaleCheck = false;// 物资销售
+		var isEngCheck = false;// 工程
+		var isServerCheck = false;// 服务
 		$("input[name='chkItem']").each(function(index, element) {
 			if (element.value == "PRODUCT" && element.checked == true) {
 				isProCheck = true;
@@ -313,14 +320,90 @@
 						}
 					});
 		}
+		
+		// 判断物资销售专业信息是否填写完整
+		if (isSaleCheck == true) {
+			/* $("#cert_sell_list_tbody_id").find("input[type='text']").each(
+			function(index, element) {
+				if (element.value == "" || !isSaleCheck) {
+					flag = false;
+					layer.msg("物资销售资质证书信息没有填写完整!");
+				}
+			}); */
+			// 要填则必须填写完整
+			$("#cert_sell_list_tbody_id").find("tr").each(
+			function(index, element) {
+				var count = 0;// 统计没有填写的数量
+				var size = 0; // 总共需要填写的数量
+				$(this).find("td").not(":first").each(function(n, e){
+					var txt = $(this).find("input[type='text']").val();// 文本
+					var pic = $(this).find("ul[id^='sale_show_'][id$='_disFileId']").html();// 图片
+					if(txt == "" || pic == ""){
+						count++;
+					}
+					size++;
+				});
+				//console.log(count+","+size);
+				if(count != 0 && count < size){
+					flag = false;
+					layer.msg("物资销售资质证书信息没有填写完整(第"+(index+1)+"行)!");
+					return false;
+				}
+			});
+		}
+		
+		// 判断服务专业信息是否填写完整
+		if (isServerCheck == true) {
+			/* $("#cert_se_list_tbody_id").find("input[type='text']").each(
+			function(index, element) {
+				if (element.value == "" || !isServerCheck) {
+					flag = false;
+					layer.msg("服务资质证书信息没有填写完整!");
+				}
+			}); */
+			// 要填则必须填写完整
+			$("#cert_se_list_tbody_id").find("tr").each(
+			function(index, element) {
+				var count = 0;// 统计没有填写的数量
+				var size = 0; // 总共需要填写的数量
+				$(this).find("td").not(":first").each(function(n, e){
+					var txt = $(this).find("input[type='text']").val();// 文本
+					var pic = $(this).find("ul[id^='se_show_'][id$='_disFileId']").html();// 图片
+					if(txt == "" || pic == ""){
+						count++;
+					}
+					size++;
+				});
+				//console.log(count+","+size);
+				if(count != 0 && count < size){
+					flag = false;
+					layer.msg("服务资质证书信息没有填写完整(第"+(index+1)+"行)!");
+					return false;
+				}
+			});
+		}
+		
 		$("input[name$='expEndDate']").each(
 				function() {
 					var startDate = $(this).parent().prev().children(
 							"input[name$='expStartDate']").val();
+					var tbody_id = $(this).parents("tbody").attr("id");
 					if ($(this).val() != "" && startDate != ""
 							&& $(this).val() <= startDate) {
 						flag = false;
-						layer.msg("结束时间应大于开始时间!");
+						if(tbody_id == "cert_pro_list_tbody_id"){
+							layer.msg("物资生产资质证书-结束时间应大于开始时间!");
+						}
+						if(tbody_id == "cert_sell_list_tbody_id"){
+							layer.msg("物资销售资质证书-结束时间应大于开始时间!");
+						}
+						if(tbody_id == "cert_eng_list_tbody_id"){
+							layer.msg("工程资质证书-结束时间应大于开始时间!");
+						}
+						if(tbody_id == "cert_se_list_tbody_id"){
+							layer.msg("服务资质证书-结束时间应大于开始时间!");
+						}
+						//layer.msg("结束时间应大于开始时间!");
 					}
 				});
 		if (flag == true) {
@@ -335,6 +418,8 @@
 				type: "post",
 				success: function(data) {
 					if (data == "1") {
+						// 提交的时候表单域设置成可编辑
+						enableForm();
 						$("#save_pro_form_id").submit();
 						layer.close(index); 
 					} else {
@@ -345,6 +430,8 @@
 											},
 											function(index) {
 												$("input[name='old']").val("old");
+												// 提交的时候表单域设置成可编辑
+												enableForm();
 												$("#save_pro_form_id").submit();
 												/* $.ajax({
 													url: "${pageContext.request.contextPath}/supplier/deleteOld.do",
@@ -407,6 +494,14 @@
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
 			layer
 					.confirm(
 							"已勾选" + size + "条记录, 确定删除 !",
@@ -451,7 +546,14 @@
 	}
 
 	function deleteAptitute() {
+		var all = $("#aptitute_list_tbody_id").find(":checkbox");
 		var checkboxs = $("#aptitute_list_tbody_id").find(":checkbox:checked");
+		
+		if(checkboxs.length == all.length){
+			layer.msg("供应商资质证书详细信息请至少保留一条！");
+			return;
+		}
+		
 		var aptituteIds = "";
 		var supplierId = $("input[name='id']").val();
 		$(checkboxs).each(function(index) {
@@ -462,6 +564,14 @@
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
 			layer.confirm(
 				"已勾选" + size + "条记录, 确定删除 !",
 				{
@@ -509,6 +619,8 @@
 	/** 供应商保存专业生产信息 */
 	function savePro(jsp) {
 		$("input[name='jsp']").val(jsp);
+		// 提交的时候表单域设置成可编辑
+		enableForm();
 		$("#save_pro_form_id").submit();
 	}
 
@@ -521,44 +633,71 @@
 	}
 
 	function deleteCertPro() {
+		var allCertProCount = 0;// 所有的质量管理体系认证证书数量
+		var checkedCertProCount = 0;// 已选的质量管理体系认证证书数量
+		var all = $("#cert_pro_list_tbody_id").find(":checkbox");
 		var checkboxs = $("#cert_pro_list_tbody_id").find(":checkbox:checked");
+		
+		if(checkboxs.length == all.length){
+			layer.msg("资质证书信息请至少保留一条！");
+			return;
+		}
+		
+		$(all).each(function(index) {
+			var certPropName = $(this).parent().next().find("input").val();
+      if(certPropName == '质量管理体系认证证书'){
+        allCertProCount++;
+      }
+		});
+	
 		var certProIds = "";
 		var supplierId = $("input[name='id']").val();
-		var delFlag = true;
+		var delFlag = true;	
 		$(checkboxs).each(function(index) {
 			if (index > 0) {
 				certProIds += ",";
 			}
 			certProIds += $(this).val();
-            var certPropName = $(this).parent().next().find("input").val();
-            if(certPropName == '质量管理体系认证证书'){
-                delFlag = false;
-            }
+      var certPropName = $(this).parent().next().find("input").val();
+      if(certPropName == '质量管理体系认证证书'){
+      	checkedCertProCount++;
+      }
 		});
+		if(checkedCertProCount == allCertProCount){
+			delFlag = false;
+		}
 		var size = checkboxs.length;
 		if (size > 0) {
-		    var _certProNumber = $("#certProNumber").val();
-		    if(delFlag){//含有资质证书信息-质量管理体系认证证书不能删除(物资类型)
-                layer.confirm(
-                    "已勾选" + size + "条记录, 确定删除 !",
-                    {
-                        offset : '200px',
-                        scrollbar : false,
-                    },
-                    function(index) {
-                        window.location.href = "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.html?certProIds="
-                            + certProIds
-                            + "&supplierId="
-                            + supplierId;
-                        layer.close(index);
-
-                    });
-            }else{
-                layer.alert("质量管理体系认证证书不能删除!", {
-                    offset : '200px',
-                    scrollbar : false,
-                });
-            }
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${proPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
+	    var _certProNumber = $("#certProNumber").val();
+	    if(delFlag){//含有资质证书信息-质量管理体系认证证书不能删除(物资类型)
+        layer.confirm(
+          "已勾选" + size + "条记录, 确定删除 !",
+          {
+            offset : '200px',
+            scrollbar : false,
+          },
+          function(index) {
+            window.location.href = "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.html?certProIds="
+              + certProIds
+              + "&supplierId="
+              + supplierId;
+            layer.close(index);
+        	}
+        );
+      }else{
+        layer.alert("质量管理体系认证证书不能删除，请至少保留一个!", {
+          offset : '200px',
+          scrollbar : false,
+        });
+      }
 		} else {
 			layer.alert("请至少勾选一条记录 !", {
 				offset : '200px',
@@ -599,6 +738,14 @@
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${sellPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
 			layer
 					.confirm(
 							"已勾选" + size + "条记录, 确定删除 !",
@@ -645,7 +792,7 @@
 	function deleteCertSe() {
 		var checkboxs = $("#cert_se_list_tbody_id").find(":checkbox:checked");
 		var certSeIds = "";
-		var supplierId = $("input[name='id']").val();
+		var supplierId = $("input[name='id']").val();	
 		$(checkboxs).each(function(index) {
 			if (index > 0) {
 				certSeIds += ",";
@@ -654,6 +801,14 @@
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${servePageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
 			layer
 					.confirm(
 							"已勾选" + size + "条记录, 确定删除 !",
@@ -721,7 +876,7 @@
 			$("input").not(".validatebox-text").bind("blur", tempSave);
 			$("textarea").bind("blur", tempSave);
 			$("select").bind("change", tempSave);
-            $(".certTypeSelect").unbind("blur", tempSave);
+     	$(".certTypeSelect").unbind("blur", tempSave);
 			var pro = "${pro}";
 			var server = "${server}";
 			var sale = "${sale}";
@@ -752,13 +907,14 @@
 			var checkedArray = [];
 			var checkBoxAll = $("input[name='chkItem']");
 			var supplierId = "${currSupplier.id}";
-			$.ajax({
+			/* $.ajax({
 				url: "${pageContext.request.contextPath}/supplier/isPass.do",
 				data: {
 					"supplierId": supplierId,
-					 "stype":"SALES"
+					"stype":"SALES"
 				},
 				type: "post",
+				//async: false,// 同步
 				success: function(data) {
 					if (data == "1") {
 					} else {
@@ -770,7 +926,7 @@
 						});
 					}
 				}
-			});
+			}); */
 			
 			
 			if (arrays.length > 0) {
@@ -854,7 +1010,14 @@
 	}
 
 	function deleteCertEng() {
+		var all = $("#cert_eng_list_tbody_id").find(":checkbox");
 		var checkboxs = $("#cert_eng_list_tbody_id").find(":checkbox:checked");
+		
+		if(checkboxs.length == all.length){
+			layer.msg("供应商资质（认证）证书信息请至少保留一条！");
+			return;
+		}
+		
 		var certEngIds = "";
 		var supplierId = $("input[name='id']").val();
 		$(checkboxs).each(function(index) {
@@ -865,6 +1028,14 @@
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
+		
+			// 退回修改审核通过的项不能删除
+			var isDel = checkIsDelForTuihui(checkboxs, '${engPageField}');
+			if(!isDel){
+				layer.msg("审核通过的项不能删除！");
+				return;
+			}
+		
 			layer.confirm(
 				"已勾选" + size + "条记录, 确定删除 !",
 				{
@@ -1120,7 +1291,16 @@
 	}
 
 	//显示不通过的理由
-	function errorMsg(auditField, auditType) {
+	function errorMsg(_this, auditField, auditType) {
+		// 如果加载过错误信息，则不再加载
+		var errorMsg = $(_this).attr("data-errorMsg");
+		if(errorMsg){
+			layer.msg("不通过理由：" + errorMsg, {
+				offset: '300px'
+			});
+			return;
+		}
+		
 		var supplierId = "${currSupplier.id}";
 		$.ajax({
 			url : "${pageContext.request.contextPath}/supplier/audit.html",
@@ -1131,6 +1311,7 @@
 			},
 			dataType : "json",
 			success : function(data) {
+				$(_this).attr("data-errorMsg", data.suggest);
 				layer.msg("不通过理由：" + data.suggest, {
 					offset : '200px'
 				});
@@ -1186,7 +1367,7 @@
 	<div class="wrapper">
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
-			<h2 class="padding-20 mt40 ml30">
+			<h2 class="step_flow">
 				<span id="sp1" class="new_step current fl" onclick="updateStep('1')"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
 	            <span id="sp2" class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
 	            <span id="ty3" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
@@ -1194,7 +1375,7 @@
 	            <span id="sp5" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">销售合同</span> </span>
 	            <span id="sp6" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
 	            <span id="sp7" class="new_step fl"><i class="">7</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
-	            <span id="sp8" class="new_step fl"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
+	            <span id="sp8" class="new_step fl new_step_last"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
 	            <div class="clear"></div>
 			</h2>
 		</div>
@@ -1205,14 +1386,15 @@
 				<div class="col-md-5 col-sm-6 col-xs-6 title tr"></div>
 				<div class="col-md-7 col-sm-6 col-xs-12 service_list">
 					<c:forEach items="${wlist }" var="obj">
-						<span
-							<c:if test="${fn:contains(typePageField,obj.id)}">style="color: red;" onmouseover="errorMsg('${obj.id }','supplierType_page')"</c:if>><input
+						<span id="${obj.id}"
+							<c:if test="${fn:contains(typePageField,obj.id)}">style="color: red;" onmouseover="errorMsg(this,'${obj.id }','supplierType_page')"</c:if>><input
 							type="checkbox" name="chkItem" onclick="checks(this)"
+							<c:if test="${isSalePass=='0' and obj.code=='SALES'}">disabled="disabled"</c:if>
 							value="${obj.code}" /> ${obj.name }</span>
 					</c:forEach>
 					<c:forEach items="${supplieType }" var="obj">
-						<span
-							<c:if test="${fn:contains(typePageField,obj.id)}">style="color: red;" onmouseover="errorMsg('${obj.id }','supplierType_page')"</c:if>><input
+						<span id="${obj.id}"
+							<c:if test="${fn:contains(typePageField,obj.id)}">style="color: red;" onmouseover="errorMsg(this,'${obj.id }','supplierType_page')"</c:if>><input
 							type="checkbox" name="chkItem" onclick="checks(this)"
 							value="${obj.code }" />${obj.name } </span>
 					</c:forEach>
@@ -1251,7 +1433,7 @@
 							<input type="hidden" name="defaultPage" value="${defaultPage}" />
 							<input type="hidden" name="old" value="">
 							<div id="tab_content_div_id"
-								class="tab-content p0 bgwhite border0 tab_repair">
+								class="tab-content p0 bgwhite border0">
 								<!-- 物资生产型专业信息 -->
 
 								<div class="tab-pane fades" id="production_div">
@@ -1272,9 +1454,12 @@
 														class="red">*</i> 技术人员数量比例(%)：</span>
 													<div
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.scaleTech"
-															required value="${currSupplier.supplierMatPro.scaleTech}" <c:if test="${!fn:contains(audit,'scaleTech')&&currSupplier.status==2}">readonly='readonly' </c:if>
-															<c:if test="${fn:contains(proPageField,'scaleTech')}">style="border: 1px solid red;" onmouseover="errorMsg('scaleTech','mat_pro_page')"</c:if> />
+														<input type="text" name="supplierMatPro.scaleTech" maxlength="10"
+															required value="${currSupplier.supplierMatPro.scaleTech}" 
+															<c:if test="${!fn:contains(proPageField,'scaleTech')&&currSupplier.status==2}">readonly='readonly'</c:if>
+															<c:if test="${fn:contains(proPageField,'scaleTech')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'scaleTech','mat_pro_page')"</c:if> 
+															onkeyup="value=value.replace(/[^\d.]/g,'')"
+															onblur="validatePercentage2(this.value)"/>
 														<span class="add-on cur_point">i</span> <span
 															class="input-tip">不能为空</span>
 														<div class="cue">${stech }</div>
@@ -1287,10 +1472,12 @@
 														class="red">*</i> 高级技术人员数量比例(%)：</span>
 													<div
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.scaleHeightTech"
-															required
-															value="${currSupplier.supplierMatPro.scaleHeightTech}" <c:if test="${!fn:contains(audit,'scaleHeightTech')&&currSupplier.status==2}">readonly='readonly' </c:if>
-															<c:if test="${fn:contains(proPageField,'scaleHeightTech')}">style="border: 1px solid red;" onmouseover="errorMsg('scaleHeightTech','mat_pro_page')"</c:if> />
+														<input type="text" name="supplierMatPro.scaleHeightTech" maxlength="10"
+															required value="${currSupplier.supplierMatPro.scaleHeightTech}" 
+															<c:if test="${!fn:contains(proPageField,'scaleHeightTech')&&currSupplier.status==2}">readonly='readonly'</c:if>
+															<c:if test="${fn:contains(proPageField,'scaleHeightTech')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'scaleHeightTech','mat_pro_page')"</c:if> 
+															onkeyup="value=value.replace(/[^\d.]/g,'')"
+															onblur="validatePercentage2(this.value)"/>
 														<span class="add-on cur_point">i</span> <span
 															class="input-tip">不能为空</span>
 														<div class="cue">${height }</div>
@@ -1306,8 +1493,8 @@
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.researchName"
 															required maxlength="20"
-															value="${currSupplier.supplierMatPro.researchName}" <c:if test="${!fn:contains(audit,'researchName')&&currSupplier.status==2}">readonly='readonly' </c:if>
-															<c:if test="${fn:contains(proPageField,'researchName')}">style="border: 1px solid red;" onmouseover="errorMsg('researchName','mat_pro_page')"</c:if> />
+															value="${currSupplier.supplierMatPro.researchName}" <c:if test="${!fn:contains(proPageField,'researchName')&&currSupplier.status==2}">readonly='readonly' </c:if>
+															<c:if test="${fn:contains(proPageField,'researchName')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'researchName','mat_pro_page')"</c:if> />
 														<span class="add-on cur_point">i</span> <span
 															class="input-tip">不能为空</span>
 														<div class="cue">${reName }</div>
@@ -1321,9 +1508,9 @@
 													<div
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalResearch"
-															required onkeyup="checknums(this)"
-															value="${currSupplier.supplierMatPro.totalResearch}" <c:if test="${!fn:contains(audit,'totalResearch')&&currSupplier.status==2}">readonly='readonly' </c:if>
-															<c:if test="${fn:contains(proPageField,'totalResearch')}">style="border: 1px solid red;" onmouseover="errorMsg('totalResearch','mat_pro_page')"</c:if> />
+															required onkeyup="value=value.replace(/[^\d]/g,'')" onblur="return validatePositiveInteger(this.value);"
+															value="${currSupplier.supplierMatPro.totalResearch}" <c:if test="${!fn:contains(proPageField,'totalResearch')&&currSupplier.status==2}">readonly='readonly' </c:if>
+															<c:if test="${fn:contains(proPageField,'totalResearch')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'totalResearch','mat_pro_page')"</c:if> />
 														<span class="add-on cur_point">i</span> <span
 															class="input-tip">不能为空，且为数字</span>
 														<div class="cue">${tRe }</div>
@@ -1338,8 +1525,8 @@
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.researchLead"
 															required maxlength="20"
-															value="${currSupplier.supplierMatPro.researchLead}" <c:if test="${!fn:contains(audit,'researchLead')&&currSupplier.status==2}">readonly='readonly' </c:if>
-															<c:if test="${fn:contains(proPageField,'researchLead')}">style="border: 1px solid red;" onmouseover="errorMsg('researchLead','mat_pro_page')"</c:if> />
+															value="${currSupplier.supplierMatPro.researchLead}" <c:if test="${!fn:contains(proPageField,'researchLead')&&currSupplier.status==2}">readonly='readonly' </c:if>
+															<c:if test="${fn:contains(proPageField,'researchLead')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'researchLead','mat_pro_page')"</c:if> />
 														<span class="add-on cur_point">i</span> <span
 															class="input-tip">不能为空</span>
 														<div class="cue">${leader }</div>
@@ -1352,8 +1539,10 @@
 														承担国家军队科研项目：</span>
 													<div class="col-md-12 col-xs-12 col-sm-12 p0">
 														<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
-															maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" name="supplierMatPro.countryPro" <c:if test="${!fn:contains(audit,'countryPro')&&currSupplier.status==2}">readonly='readonly' </c:if>
-															<c:if test="${fn:contains(proPageField,'countryPro')}">style="border: 1px solid red;" onmouseover="errorMsg('countryPro','mat_pro_page')"</c:if>>${currSupplier.supplierMatPro.countryPro}</textarea>
+															name="supplierMatPro.countryPro" id="countryPro" maxlength="1000"
+															onkeyup="checkCharLimit('countryPro','limit_char_countryPro',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" <c:if test="${!fn:contains(proPageField,'countryPro')&&currSupplier.status==2}">readonly='readonly' </c:if>
+															<c:if test="${fn:contains(proPageField,'countryPro')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'countryPro','mat_pro_page')"</c:if>>${currSupplier.supplierMatPro.countryPro}</textarea>
+														<span class="sm_tip fr">还可输入 <span id="limit_char_countryPro">1000</span> 个字</span>
 														<div class="cue">
 															<sf:errors path="supplierMatPro.countryPro" />
 														</div>
@@ -1363,8 +1552,10 @@
 														获得国家军队科技奖项：</span>
 													<div class="col-md-12 col-xs-12 col-sm-12 p0">
 														<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
-															maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" name="supplierMatPro.countryReward" <c:if test="${!fn:contains(audit,'countryReward')&&currSupplier.status==2}">readonly='readonly' </c:if>
-															<c:if test="${fn:contains(proPageField,'countryReward')}">style="border: 1px solid red;" onmouseover="errorMsg('countryReward','mat_pro_page')"</c:if>>${currSupplier.supplierMatPro.countryReward}</textarea>
+															name="supplierMatPro.countryReward" id="countryReward" maxlength="1000"
+															onkeyup="checkCharLimit('countryReward','limit_char_countryReward',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" <c:if test="${!fn:contains(proPageField,'countryReward')&&currSupplier.status==2}">readonly='readonly' </c:if>
+															<c:if test="${fn:contains(proPageField,'countryReward')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'countryReward','mat_pro_page')"</c:if>>${currSupplier.supplierMatPro.countryReward}</textarea>
+														<span class="sm_tip fr">还可输入 <span id="limit_char_countryReward">1000</span> 个字</span>
 														<div class="cue">
 															<sf:errors path="supplierMatPro.countryReward" />
 														</div>
@@ -1375,8 +1566,14 @@
 										<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 											<span class="font_line"><font class="red">*</font> 资质证书信息 </span>
 											<div class="col-md-12 col-sm-12 col-xs-12 mb10 p0">
-												<button type="button" class="btn btn-windows add"
-													onclick="openCertPro()">新增</button>
+												<c:choose>
+						                         	<c:when test="${currSupplier.status==2 }">
+						                           	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+						                           </c:when>
+						                           <c:otherwise>
+						                             <button type="button" class="btn btn-windows add" onclick="openCertPro()">新增</button>
+						                           </c:otherwise>
+						                         </c:choose>
 												<button type="button" class="btn btn-windows delete"
 													onclick="deleteCertPro()">删除</button>
 												<span class="red">${cert_pro }</span>
@@ -1404,8 +1601,7 @@
 														<c:forEach
 															items="${currSupplier.supplierMatPro.listSupplierCertPros}"
 															var="certPro" varStatus="vs">
-															<tr
-																<c:if test="${fn:contains(proPageField,certPro.id)}"> onmouseover="errorMsg('${certPro.id}','mat_pro_page')"</c:if>>
+															<tr <c:if test="${fn:contains(proPageField,certPro.id)}"> onmouseover="errorMsg(this,'${certPro.id}','mat_pro_page')"</c:if>>
 																<td class="tc">
 																	<input type="checkbox" class="border0"
 																	value="${certPro.id}" /> <input type="hidden"
@@ -1419,7 +1615,7 @@
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	 <div class="w200 fl"><input
-                                                                             required="required" type="text"   <c:if test="${certPro.name == '质量管理体系认证证书'}">readonly="readonly"</c:if>
+                                  required="required" type="text"   <c:if test="${certPro.name == '质量管理体系认证证书'}">readonly="readonly"</c:if>
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].name"
 																	value="${certPro.name}" class="border0" />
 																	</div>
@@ -1448,16 +1644,16 @@
 																</td>
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
-																	<input type="text" required="required" 
-																	readonly="readonly" <c:if test="${!fn:contains(proPageField,certPro.id)&&(currSupplier.status==2 || currSupplier.status==-1)}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
+																	<input type="text" required="required" readonly="readonly" 
+																	<c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate"
 																	value="<fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd "/>"
 																	class="border0" /></td>
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
-																	<input type="text" required="required"
-																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" <c:if test="${!fn:contains(proPageField,certPro.id)&&(currSupplier.status==2 || currSupplier.status==-1)}"> onClick="WdatePicker()"</c:if>
-																	 readonly="readonly"
+																	<input type="text" required="required" readonly="readonly"
+																	<c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}"> onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})"</c:if>
+																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate"
 																	value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd "/>"
 																	class="border0" /></td>
 																<td class="tc"
@@ -1468,17 +1664,16 @@
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																	<div class="fl w200">
-																	<c:if test="${!fn:contains(proPageField,'certPro.id')&&(currSupplier.status==2 || currSupplier.status==-1)}">  <u:upload
+																	<c:if test="${(fn:contains(proPageField,certPro.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">  <u:upload
 																		singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 																		exts="${properties['file.picture.type']}"
 																		id="pro_up_${certProNumber}" multiple="true"
 																		businessId="${certPro.id}"
 																		typeId="${supplierDictionaryData.supplierProCert}"
-																		sysKey="${sysKey}" auto="true" /> </c:if> <u:show
-																		showId="pro_show_${certProNumber}"
-																		businessId="${certPro.id}"
-																		typeId="${supplierDictionaryData.supplierProCert}"
-																		sysKey="${sysKey}" />
+																		sysKey="${sysKey}" auto="true" /> </c:if> 
+																	<c:if test="${!fn:contains(proPageField,certPro.id)&&currSupplier.status==2}"> 	<u:show showId="pro_show_${certProNumber}"  delete="false" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
+																	<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) ||fn:contains(proPageField,certPro.id)}"> <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" /></c:if>
+																	
 																	</div>
 																</td>
 															</tr>
@@ -1505,7 +1700,14 @@
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line"> 资质证书信息 </span>
 										<div class="col-md-12 col-sm-12 col-xs-12 p0">
-											<button type="button" class="btn" onclick="openCertSell()">新增</button>
+											<c:choose>
+                       	<c:when test="${currSupplier.status==2 }">
+                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                         </c:when>
+                         <c:otherwise>
+                           <button type="button" class="btn" onclick="openCertSell()">新增</button>
+                         </c:otherwise>
+                       </c:choose>
 											<button type="button" class="btn" onclick="deleteCertSell()">删除</button>
 											<span class="red">${sale_cert }</span>
 										</div>
@@ -1533,79 +1735,76 @@
 														items="${currSupplier.supplierMatSell.listSupplierCertSells}"
 														var="certSell" varStatus="vs">
 														<tr
-															<c:if test="${fn:contains(sellPageField,certSell.id)}"> onmouseover="errorMsg('${certSell.id}','mat_sell_page')"</c:if>>
+															<c:if test="${fn:contains(sellPageField,certSell.id)}"> onmouseover="errorMsg(this,'${certSell.id}','mat_sell_page')"</c:if>>
 															<td class="tc"
-																<c:if test="${!fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
+																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="checkbox" value="${certSell.id}"
 																class="border0" /> <input type="hidden"
 																required="required"
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].id"
 																value="${certSell.id}" class="border0"></td>
 															<td class="tc"
-																<c:if test="${!fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
-																 <div class="w200 fl">
-																    <input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name"
-																<c:if test="${fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  value="${certSell.name}" class="border0" />
-															     </div>
+																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
+																<div class="w200 fl">
+																	<input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name"
+																		<c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}">readonly="readonly"</c:if>  value="${certSell.name}" class="border0" />
+															  </div>
 															</td> 
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
-																 <div class="w150 fl">
-																   <input
-																required="required" type="text" maxlength="150" <c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2 }">readonly="readonly"</c:if>
-																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].code"
-																value="${certSell.code}" class="border0" />
-																  </div>
+																<div class="w150 fl">
+																	<input type="text" maxlength="150" <c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2 }">readonly="readonly"</c:if>
+																		name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].code"
+																		value="${certSell.code}" class="border0" />
+																</div>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>><input
-																required="required" type="text" maxlength="30" <c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}">readonly="readonly"</c:if>
+																type="text" maxlength="30" <c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}">readonly="readonly"</c:if>
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert"
 																value="${certSell.levelCert}" class="border0" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
-																  <div class="w200 fl">
-																  <input
-																required="required" type="text" maxlength="30" <c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}">readonly="readonly"</c:if>
-																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith"
-																value="${certSell.licenceAuthorith}" class="border0" />
-																  </div>
+																<div class="w200 fl">
+																  <input type="text" maxlength="30" <c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}">readonly="readonly"</c:if>
+																	name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith"
+																	value="${certSell.licenceAuthorith}" class="border0" />
+																</div>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="text" readonly="readonly"
-																required="required"   <c:if test="${!fn:contains(sellPageField,certSell.id)&&(currSupplier.status==2 || currSupplier.status==-1)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if> 
+																<c:if test="${(fn:contains(sellPageField,certSell.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if> 
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate"
 																value="<fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd "/>"
 																class="border0" /></td>
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="text" readonly="readonly"
-																required="required" <c:if test="${!fn:contains(sellPageField,certSell.id)&&(currSupplier.status==2 || currSupplier.status==-1)}">onClick="WdatePicker()"</c:if> 
+																<c:if test="${(fn:contains(sellPageField,certSell.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})"</c:if> 
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate"
 																value="<fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd "/>"
 																class="border0" /></td>
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>><input
-																required="required" type="text" maxlength="15" <c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}">readonly="readonly"</c:if>
+																type="text" maxlength="15" <c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}">readonly="readonly"</c:if>
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot"
 																value="${certSell.mot}" class="border0" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200 fl">
-																	<c:if test="${!fn:contains(audit,'certSell.id')&&(currSupplier.status==2 || currSupplier.status==-1)}">  	<u:upload
+																	<c:if test="${(fn:contains(sellPageField,certSell.id)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">  	<u:upload
 																		singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 																		exts="${properties['file.picture.type']}"
 																		id="sale_up_${certSaleNumber}" multiple="true"
 																		businessId="${certSell.id}"
 																		typeId="${supplierDictionaryData.supplierSellCert}"
 																		sysKey="${sysKey}" auto="true" /></c:if>
-																	<u:show showId="sale_show_${certSaleNumber}"
-																		businessId="${certSell.id}"
-																		typeId="${supplierDictionaryData.supplierSellCert}"
-																		sysKey="${sysKey}" />
+																<c:if test="${!fn:contains(sellPageField,certSell.id)&&currSupplier.status==2}"> 	<u:show showId="sale_show_${certSaleNumber}" delete="false"    businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" /> </c:if>
+																<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(sellPageField,certSell.id)}"> <u:show showId="sale_show_${certSaleNumber}"     businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" /> </c:if>
+																
 																</div></td>
 														</tr>
 														<c:set var="certSaleNumber" value="${certSaleNumber + 1}" />
@@ -1631,14 +1830,17 @@
 									<fieldset
 										class="col-md-12 col-sm-12 col-xs-12 border_font mt10">
 										<legend> 保密工程业绩 </legend>
+										<div class="red" style="font-size: 16px;">注：合同一律不得上传涉军涉密合同和对账单，仅有涉军涉密合同和对账单的，上传情况说明（<a href="${pageContext.request.contextPath}/supplier/download_report.html"> 下载模板</a>），将合同电子版以光盘送采购机构。</div>
+										
 										<ul class="list-unstyled overflow_h">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span
 												class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i
 													class="red">*</i> 是否有国家或军队保密工程业绩</span>
+													
 												<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 													<select name="supplierMatEng.isHavingConAchi"
 														id="isHavingConAchi" onchange="disConAchi()"
-														<c:if test="${fn:contains(audit,'isHavingConAchi')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isHavingConAchi')"</c:if>>
+														<c:if test="${fn:contains(engPageField,'isHavingConAchi')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg(this,'isHavingConAchi')"</c:if>>
 														<option value="0"
 															<c:if test="${currSupplier.supplierMatEng.isHavingConAchi == '0'}">selected</c:if>>无</option>
 														<option value="1"
@@ -1661,33 +1863,44 @@
 
 												</div></li>
 											<div id="conAchiDiv">
-												<li class="col-md-3 col-sm-6 col-xs-12 pl10" <c:if test="${fn:contains(audit,'supplierConAch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierConAch')"</c:if>><span
-													class="col-md-12 col-sm-12 col-xs-12 padding-left-5"
-													<c:if test="${fn:contains(engPageField,'supplierConAch')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierConAch','mat_eng_page')"</c:if>><i
-														class="red">*</i> 承包合同主要页及保密协议：</span>
-													<div
-														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<c:if test="${!fn:contains(audit,'supplierConAch')&&(currSupplier.status==2 || currSupplier.status==-1)}"> 	<u:upload
-															singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-															businessId="${currSupplier.id}" sysKey="${sysKey}"
-															typeId="${supplierDictionaryData.supplierConAch}"
-															exts="${properties['file.picture.type']}" id="conAch_up"
-															multiple="true" auto="true" /></c:if>
-														<u:show showId="conAch_show"
-															businessId="${currSupplier.id}" sysKey="${sysKey}"
-															typeId="${supplierDictionaryData.supplierConAch}" />
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
+														<i class="red">*</i>
+														承包合同主要页及保密协议：
+													</span>
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0"
+														<c:if test="${fn:contains(engPageField,'supplierConAch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg(this,'supplierConAch')"</c:if>>
+														<c:if test="${(fn:contains(engPageField,'supplierConAch')&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">
+														  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+																  businessId="${currSupplier.id}" sysKey="${sysKey}"
+																  typeId="${supplierDictionaryData.supplierConAch}"
+																  exts="${properties['file.picture.type']}" id="conAch_up"
+																  multiple="true" auto="true" maxcount="5"/>
+														  </c:if>
+														<c:if test="${!fn:contains(engPageField,'supplierConAch')&&currSupplier.status==2}">
+														  <u:show showId="conAch_show" delete="false"
+																businessId="${currSupplier.id}" sysKey="${sysKey}"
+																typeId="${supplierDictionaryData.supplierConAch}"/>
+													 	</c:if>
+														<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,'supplierConAch')}">
+														  <u:show showId="conAch_show"
+																businessId="${currSupplier.id}" sysKey="${sysKey}"
+																typeId="${supplierDictionaryData.supplierConAch}"/>
+														</c:if>
 														<div class="cue">${err_conAch}</div>
 													</div>
-													</li>
+												</li>
 												<li class="col-md-12 col-xs-12 col-sm-12 mb25"><span
 													class="col-md-12 col-xs-12 col-sm-12 padding-left-5">
 														<i class="red">* </i>国家或军队保密工程业绩：</span>
 													<div class="col-md-12 col-xs-12 col-sm-12 p0">
 														<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
-															maxlength="1000" onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" id="conAchi"
+															name="supplierMatEng.confidentialAchievement" id="conAchi" maxlength="1000" 
+															onkeyup="checkCharLimit('conAchi','limit_char_conAchi',1000);if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" 
 															<c:if test="${currSupplier.supplierMatEng.isHavingConAchi == '1'}">required="required"</c:if>
-															name="supplierMatEng.confidentialAchievement"  <c:if test="${!fn:contains(engPageField,'confidentialAchievement')&&currSupplier.status==2}">readonly="readonly"</c:if>
-															<c:if test="${fn:contains(engPageField,'confidentialAchievement')}">style="border: 1px solid red;" onmouseover="errorMsg('confidentialAchievement','mat_eng_page')"</c:if>>${currSupplier.supplierMatEng.confidentialAchievement}</textarea>
+															<c:if test="${!fn:contains(engPageField,'confidentialAchievement')&&currSupplier.status==2}">readonly="readonly"</c:if>
+															<c:if test="${fn:contains(engPageField,'confidentialAchievement')}">style="border: 1px solid red;" onmouseover="errorMsg(this,'confidentialAchievement','mat_eng_page')"</c:if>>${currSupplier.supplierMatEng.confidentialAchievement}</textarea>
+														<span class="sm_tip fr">还可输入 <span id="limit_char_conAchi">1000</span> 个字</span>
 														<div class="cue">
 															<span class="red">${secret }</span>
 															<sf:errors path="supplierMatEng.confidentialAchievement" />
@@ -1700,9 +1913,11 @@
 									<fieldset
 										class="col-md-12 col-sm-12 col-xs-12 border_font mt10">
 										<span class="font_line"> <font class="red">*</font> 承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</span>
+										<div class="red" style="font-size: 16px;">注：合同一律不得上传涉军涉密合同和对账单，仅有涉军涉密合同和对账单的，上传情况说明（<a href="${pageContext.request.contextPath}/supplier/download_report.html"> 下载模板</a>），将合同电子版以光盘送采购机构。</div>
+										
 										<div class="ml20">
 											省、直辖市：
-										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)" title="按住CTRL+鼠标左键可多选和取消选择">
+										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)" <c:if test="${currSupplier.status==2}"> disabled="disabled" </c:if> title="按住CTRL+鼠标左键可多选和取消选择">
 										    	<c:forEach items="${rootArea}" var="area" varStatus="st">
 										    	  	<option value="${area.id}">${area.name}</option>
 										    	</c:forEach>
@@ -1713,10 +1928,12 @@
 											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}">
 											<c:forEach items="${rootArea}" var="area" varStatus="st">
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}" >
-													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>${area.name}</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<c:if test="${!fn:contains(engPageField,area.name)&&(currSupplier.status==2 || currSupplier.status==-1)}">  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" /></c:if>
-														<u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
+													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">${area.name}</span>
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0"
+														<c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${area.name}','mat_eng_page')"</c:if>>
+														<c:if test="${(fn:contains(engPageField,area.name)&&currSupplier.status==2) || currSupplier.status==-1 || empty(currSupplier.status)}">  	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" /></c:if>
+														<c:if test="${!fn:contains(engPageField,area.name)&&currSupplier.status==2}">  <u:show showId="area_show_${st.index+1}" delete="false" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
+														<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,area.name)}">  <u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" /></c:if>
 														<div class="cue">${area.errInfo}</div>
 													</div>
 												</li>
@@ -1727,8 +1944,15 @@
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line">取得注册资质的人员信息 </span>
 										<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
-											<button type="button" class="btn" onclick="openRegPerson()">新增</button>
-											<button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
+											<c:choose>
+                       	<c:when test="${currSupplier.status==2 }">
+                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                         </c:when>
+                         <c:otherwise>
+                           <button type="button" class="btn" onclick="openRegPerson()">新增</button>
+                         </c:otherwise>
+                       </c:choose>
+											 <button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
 											<span class="red">${eng_persons }</span>
 										</div>
 										<div
@@ -1750,7 +1974,7 @@
 														items="${currSupplier.supplierMatEng.listSupplierRegPersons}"
 														var="regPerson" varStatus="vs">
 														<tr
-															<c:if test="${fn:contains(engPageField,regPerson.id)}"> onmouseover="errorMsg('${regPerson.id}','mat_eng_page')"</c:if>>
+															<c:if test="${fn:contains(engPageField,regPerson.id)}"> onmouseover="errorMsg(this,'${regPerson.id}','mat_eng_page')"</c:if>>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,regPerson.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="checkbox" class="border0"
@@ -1785,7 +2009,14 @@
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line"><font class="red">*</font> 供应商资质（认证）证书信息</span>
 										<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
-											<button type="button" class="btn" onclick="openCertEng()">新增</button>
+											<c:choose>
+                       	<c:when test="${currSupplier.status==2 }">
+                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                         </c:when>
+                         <c:otherwise>
+                           <button type="button" class="btn" onclick="openCertEng()">新增</button>
+                         </c:otherwise>
+                       </c:choose>
 											<button type="button" class="btn" onclick="deleteCertEng()">删除</button>
 											<span class="red">${eng_cert}</span>
 										</div>
@@ -1815,7 +2046,7 @@
 														items="${currSupplier.supplierMatEng.listSupplierCertEngs}"
 														var="certEng" varStatus="vs">
 														<tr
-															<c:if test="${fn:contains(engPageField,certEng.id)}"> onmouseover="errorMsg('${certEng.id}','mat_eng_page')"</c:if>>
+															<c:if test="${fn:contains(engPageField,certEng.id)}"> onmouseover="errorMsg(this,'${certEng.id}','mat_eng_page')"</c:if>>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="checkbox" class="border0"
@@ -1842,7 +2073,7 @@
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0" maxlength="10" <c:if test="${!fn:contains(engPageField,certEng.id)&&currSupplier.status==2}"> readonly='readonly' </c:if>
+																type="text" required="required" class="border0"   <c:if test="${!fn:contains(engPageField,certEng.id)&&currSupplier.status==2}"> readonly='readonly' </c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel"
 																value="${certEng.certMaxLevel}" />
 															</td>
@@ -1850,7 +2081,7 @@
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
 																 <div class="w200">
 																 	<input <c:if test="${!fn:contains(engPageField,certEng.id)&&currSupplier.status==2}"> readonly='readonly' </c:if>
-																type="text" required="required" class="border0" maxlength="30"
+																type="text" required="required" class="border0"
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith"
 																value="${certEng.licenceAuthorith}" />
 															     </div>
@@ -1858,16 +2089,16 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly"  <c:if test="${!fn:contains(engPageField,certEng.id)&&(currSupplier.status==2 ||currSupplier.status==-1)}">onClick="WdatePicker()"</c:if>
+																readonly="readonly"  <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2 ) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate"
-																value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd "/>" />
+																value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																readonly="readonly" <c:if test="${!fn:contains(engPageField,certEng.id)&&(currSupplier.status==2 ||currSupplier.status==-1) }">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"</c:if>
+																readonly="readonly" <c:if test="${(fn:contains(engPageField,certEng.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})"</c:if>
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate"
-																value="<fmt:formatDate value="${certEng.expEndDate}"/>"
+																value="<fmt:formatDate value="${certEng.expEndDate}" pattern="yyyy-MM-dd"/>"
 																pattern="yyyy-MM-dd" />
 															</td>
 															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
@@ -1901,7 +2132,14 @@
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line"><font class="red">*</font> 供应商资质证书详细信息 </span>
 										<div class="col-md-12 col-md-12 col-xs-12 col-sm-12 p0">
-											<button type="button" class="btn" onclick="openAptitute()">新增</button>
+											<c:choose>
+                       	<c:when test="${currSupplier.status==2 }">
+                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                         </c:when>
+                         <c:otherwise>
+                           <button type="button" class="btn" onclick="openAptitute()">新增</button>
+                         </c:otherwise>
+                       </c:choose>
 											<button type="button" class="btn" onclick="deleteAptitute()">删除</button>
 											<span class="red">${eng_aptitutes }</span>
 										</div>
@@ -1928,7 +2166,7 @@
 													<c:forEach
 														items="${currSupplier.supplierMatEng.listSupplierAptitutes}"
 														var="aptitute" varStatus="vs">
-														<tr <c:if test="${fn:contains(engPageField,aptitute.id)}"> onmouseover="errorMsg('${aptitute.id}','mat_eng_page')"</c:if>>
+														<tr <c:if test="${fn:contains(engPageField,aptitute.id)}"> onmouseover="errorMsg(this,'${aptitute.id}','mat_eng_page')"</c:if>>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="checkbox" class="border0"
@@ -1961,6 +2199,7 @@
 																</select> -->
 																<select title="cnjewfn" id="certType_${certAptNumber}" class="w100p border0 certTypeSelect" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" style="width:200px;border: none;">
 																    <c:set var="tempForShowOption" value="go" scope="page"/>
+																    <option value="-1" selected="selected">请选择</option>
 																    <c:forEach items="${typeList}" var="type">
 																		<option value="${type.id}" <c:if test="${aptitute.certType eq type.id}">selected</c:if>>${type.name}</option>
 																		<c:if test="${aptitute.certType eq type.id}">
@@ -2003,9 +2242,9 @@
 																	<c:set var="tempForShowOption" value="notgo"/>
 																</select>
 																<script type="text/javascript">
+																	var currSupplierSt = '${currSupplier.status}';
 																	$("select[title='cnjewfn']").each(function() {
-																		var $obj = $(this);
-																		$obj.combobox({
+																		var options = {
 																			panelHeight : 240,
 																			onSelect : function(record) {
 																				getAptLevelSelect(record);
@@ -2013,24 +2252,41 @@
 																			onChange : function() {
 																				getAptLevel($obj);
 																			},
-																		});
+																		};
+																		if(currSupplierSt == '2'){
+																			options.disabled = true;
+																			//$(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'
+																			if($(this).parent("td").css("border-color") == 'rgb(255, 0, 0)'){
+																				options.disabled = false;
+																			}
+																		}
+																		var $obj = $(this);
+																		$obj.combobox(options);
 																	});
 																	$("select[title='cnjewfnGrade']").each(function() {
+																		var options = {
+																			onChange : function() {
+                                          //console.log($obj.combobox("getText"));
+                                          //tempSave();
+                                      },
+																		};
+																		if(currSupplierSt == '2'){
+																			options.disabled = true;
+																			//$(this).parent("td").css("border") == '1px solid rgb(255, 0, 0)'
+																			if($(this).parent("td").css("border-color") == 'rgb(255, 0, 0)'){
+																				options.disabled = false;
+																			}
+																		}
 																		var $obj = $(this);
-																		$obj.combobox({
-                                                                            onChange : function() {
-                                                                                //console.log($obj.combobox("getText"));
-                                                                                //tempSave();
-                                                                            },
-																		});
+																		$obj.combobox(options);
 																	});
 																	var _obj${certAptNumber} = $("select[name='supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel']")
-                                                                    _obj${certAptNumber}.combobox({
-                                                                        /*onChange : function() {
-                                                                            var _text = _obj${certAptNumber}.combobox("getText");
-                                                                            $("input[name='supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel']").val(_text);
-                                                                        },*/
-                                                                    });
+                                   _obj${certAptNumber}.combobox({
+                                       /*onChange : function() {
+                                           var _text = _obj${certAptNumber}.combobox("getText");
+                                           $("input[name='supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel']").val(_text);
+                                       },*/
+                                   });
 																</script>
 															</td>
 															<td class="tc"
@@ -2046,8 +2302,15 @@
 															
 															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="w200 fl">
-                                                                    <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="eng_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" auto="true" />
-                                                                    <u:show showId="eng_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
+																	<c:if test="${(fn:contains(engPageField,aptitute.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">
+																		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="eng_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" auto="true" />
+																	</c:if>
+																	<c:if test="${!fn:contains(engPageField,aptitute.id)&&currSupplier.status==2 }">
+																		<u:show showId="eng_show_${certAptNumber}" delete="false" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
+																	</c:if>
+																	<c:if test="${currSupplier.status==-1 || empty(currSupplier.status) || fn:contains(engPageField,aptitute.id)}">
+																		<u:show showId="eng_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
+																	</c:if>
 																</div></td>
 																
 																
@@ -2075,7 +2338,14 @@
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 										<span class="font_line"> 资质证书信息 </span>
 										<div class="col-md-12 col-xs-12 col-sm-12 p0">
-											<button type="button" class="btn" onclick="openCertSe()">新增</button>
+											<c:choose>
+                       	<c:when test="${currSupplier.status==2 }">
+                         	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                         </c:when>
+                         <c:otherwise>
+                           <button type="button" class="btn" onclick="openCertSe()">新增</button>
+                         </c:otherwise>
+                       </c:choose>
 											<button type="button" class="btn" onclick="deleteCertSe()">删除</button>
 											<span class="red">${fw_cert }</span>
 										</div>
@@ -2103,81 +2373,80 @@
 														items="${currSupplier.supplierMatSe.listSupplierCertSes}"
 														var="certSe" varStatus="vs">
 														<tr
-															<c:if test="${fn:contains(servePageField,certSe.id)}"> onmouseover="errorMsg('${certSe.id}','mat_serve_page')"</c:if>>
+															<c:if test="${fn:contains(servePageField,certSe.id)}"> onmouseover="errorMsg(this,'${certSe.id}','mat_serve_page')"</c:if>>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="checkbox" class="border0" 
-																value="${certSe.id}" /> <input type="hidden"
-																required="required"  <c:if test="${fn:contains(servePageField,certSe.id)}">readonly='readonly' </c:if> 
-																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].id"
-																value="${certSe.id}"></td>
+																	value="${certSe.id}" /> <input type="hidden"
+																	<c:if test="${fn:contains(servePageField,certSe.id)}">readonly='readonly' </c:if> 
+																	name="supplierMatSe.listSupplierCertSes[${certSeNumber}].id"
+																	value="${certSe.id}"></td>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
-																 <div class="w200">
-																 	<input
-																type="text" required="required" class="border0"   <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
-																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name"
-																value="${certSe.name}" />
+																<div class="w200">
+																 	<input type="text" class="border0"  
+																 		<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																		name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name"
+																		value="${certSe.name}" />
 																 </div>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
-																 <div class="w150">
-																 	<input
-																type="text" required="required" class="border0" maxlength="150"  <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
-																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].code"
-																value="${certSe.code}" />
-																 </div>
+																<div class="w150">
+															 		<input type="text" class="border0" maxlength="150"  
+																 		<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																		name="supplierMatSe.listSupplierCertSes[${certSeNumber}].code"
+																		value="${certSe.code}" />
+																</div>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0" maxlength="10" <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																type="text" class="border0" maxlength="10" <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert"
 																value="${certSe.levelCert}" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
-																 <div class="w200">
-																    <input
-																type="text" required="required" class="border0"  <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
-																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith"
-																value="${certSe.licenceAuthorith}" />
-																 </div>
+																<div class="w200">
+															 		<input type="text" class="border0" 
+															    <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																	name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith"
+																	value="${certSe.licenceAuthorith}" />
+																</div>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0"
-																readonly="readonly"  <c:if test="${!fn:contains(servePageField,certSe.id)&&(currSupplier.status==2 ||currSupplier.status==-1)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" </c:if>
+																type="text" class="border0"
+																readonly="readonly"  <c:if test="${(fn:contains(servePageField,certSe.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate"
 																value="<fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd "/>" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0"
-																readonly="readonly" <c:if test="${!fn:contains(servePageField,certSe.id)&&(currSupplier.status==2 ||currSupplier.status==-1)}">onClick="WdatePicker()" </c:if>
+																type="text" class="border0"
+																readonly="readonly" <c:if test="${(fn:contains(servePageField,certSe.id)&&currSupplier.status==2) ||currSupplier.status==-1 || empty(currSupplier.status)}">onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate"
 																value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd "/>" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0" maxlength="15"  <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
+																type="text" class="border0" maxlength="15"  <c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2}">readonly='readonly' </c:if>
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot"
 																value="${certSe.mot}" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																<div class="fl w200">
-																<c:if test="${!fn:contains(servePageField,certSe.id)&&(currSupplier.status==2 ||currSupplier.status==-1)}">	 <u:upload
+																<c:if test="${(fn:contains(servePageField,certSe.id)&&currSupplier.status==2 ) || currSupplier.status==-1 || empty(currSupplier.status)}">	 <u:upload
 																	singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 																	exts="${properties['file.picture.type']}"
 																	id="se_up_${certSeNumber}" multiple="true"
 																	businessId="${certSe.id}"
 																	typeId="${supplierDictionaryData.supplierServeCert}"
-																	sysKey="${sysKey}" auto="true" /></c:if>  <u:show
-																	showId="se_show_${certSeNumber}"
-																	businessId="${certSe.id}"
-																	typeId="${supplierDictionaryData.supplierServeCert}"
-																	sysKey="${sysKey}" />
+																	sysKey="${sysKey}" auto="true" /></c:if> 
+																	<c:if test="${!fn:contains(servePageField,certSe.id)&&currSupplier.status==2 }">	 <u:show showId="se_show_${certSeNumber}" delete="false"  businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" /> </c:if>
+																	<c:if test="${currSupplier.status==-1  || empty(currSupplier.status)||fn:contains(servePageField,certSe.id)}">	 <u:show showId="se_show_${certSeNumber}"   businessId="${certSe.id}" 	typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" /> </c:if>
+																
 																</div>
 															</td>
 														</tr>
@@ -2222,7 +2491,8 @@
    		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
  </div>
 </body>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/commons.js"></script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/regex.js"></script>
 
 </html>
 <script type="text/javascript">
@@ -2230,11 +2500,89 @@
         var _$select = $("select[title='cnjewfnGrade']");
         $("#huoqu").bind('click',function () {
             console.log(_$select.combobox('getText'));
-        })
+        });
 //        _$select.combobox({
 //            onChange: function (n,o) {
 //                console.log(_$select.combobox('getText'));
 //            }
 //        });
-    })
+    });
+</script>
+<script type="text/javascript">
+	controlForm();
+	function controlForm(){
+		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
+		var currSupplierSt = '${currSupplier.status}';
+		//console.log(currSupplierSt);
+		if(currSupplierSt == '2'){
+			$("input[type='text'],select,textarea").attr('disabled',true);
+			$("input[type='text'],select,textarea").each(function(){
+				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
+				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
+				if($(this).css("border-top-color") == 'rgb(255, 0, 0)' 
+					|| $(this).css("border-bottom-color") == 'rgb(255, 0, 0)' 
+					|| $(this).css("border-left-color") == 'rgb(255, 0, 0)' 
+					|| $(this).css("border-right-color") == 'rgb(255, 0, 0)' 
+					|| $(this).parents("td").css("border-top-color") == 'rgb(255, 0, 0)'
+					|| $(this).parents("td").css("border-bottom-color") == 'rgb(255, 0, 0)'
+					|| $(this).parents("td").css("border-left-color") == 'rgb(255, 0, 0)'
+					|| $(this).parents("td").css("border-right-color") == 'rgb(255, 0, 0)'
+				){
+					$(this).attr('disabled',false);
+				}
+			});
+			/* $("select").change(function(){
+				this.selectedIndex=this.defaultIndex;
+			}); */
+			
+			// 控制4大类别的编辑性
+			$("input[type='checkbox'][name='chkItem']").attr('disabled',true);
+			$("input[type='checkbox'][name='chkItem']").each(function(){
+				/* if($(this).parent().css("color") == 'rgb(239, 0, 0)'){
+					$(this).attr('disabled',false);
+				} */
+				// 或者
+				var typeErrorField = '${typePageField}';
+				if(typeErrorField.indexOf($(this).parent().attr("id")) >= 0){
+					$(this).attr('disabled',false);
+				}
+			});
+		}
+	}
+	
+	// 表单可编辑
+	function enableForm(){
+		var currSupplierSt = '${currSupplier.status}';
+		if(currSupplierSt == '2'){
+			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
+		}
+	}
+	
+	// 审核通过的项不能删除(列表)
+	function checkIsDelForTuihui(checkedObjs, audit){
+		var currSupplierSt = '${currSupplier.status}';
+		if(currSupplierSt == '2'){
+			var isDel = true;
+			$(checkedObjs).each(function(index) {
+				if(audit.indexOf($(this).val()) < 0){
+					isDel = false;
+					return false;
+				}
+			});
+			return isDel;
+		}
+		return true;
+	}
+</script>
+
+<script type="text/javascript">
+	// 核对字符长度
+	function checkCharLimit(inputId,countId,limit){
+		var inputVal = $("#"+inputId).val();
+		var inputLen = inputVal ? inputVal.length : 0;
+		$("#"+countId).text(limit - inputLen);
+	}
+	checkCharLimit('countryPro','limit_char_countryPro',1000);// 承担国家军队科研项目
+	checkCharLimit('countryReward','limit_char_countryReward',1000);// 获得国家军队科技奖项
+	checkCharLimit('conAchi','limit_char_conAchi',1000);// 国家或军队保密工程业绩
 </script>

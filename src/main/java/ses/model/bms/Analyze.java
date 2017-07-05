@@ -1,5 +1,8 @@
 package ses.model.bms;
 
+import java.io.Serializable;
+
+
 /**
  * 
  * @ClassName: Analyze
@@ -8,7 +11,12 @@ package ses.model.bms;
  * @date 2017年5月3日 下午3:42:24
  * 
  */
-public class Analyze {
+public class Analyze implements Serializable{
+
+	/**
+	 * Analyze.java
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** 分组名称 1：专家 2：供应商 3：后台管理员 **/
 	private String group;
@@ -18,7 +26,7 @@ public class Analyze {
 
 	/** 渲染值 **/
 	private Long value;
-
+	
 	public String getGroup() {
 		return group;
 	}

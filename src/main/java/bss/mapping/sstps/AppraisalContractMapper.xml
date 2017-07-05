@@ -53,13 +53,13 @@
     from T_BSS_SSTPS_APPRAISAL_CONTRACT
     where <!-- APPRAISAL = 1 -->1=1 
     <if test="name != null and name != ''">
-        AND NAME LIKE #{name} 
+        AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
     </if>
     <if test="code != null and code != ''">
-        AND CODE LIKE #{code} 
+        AND CODE LIKE CONCAT(CONCAT('%', #{code}), '%')
     </if>
     <if test="supplierName != null and supplierName != ''">
-        AND SUPPLIER_NAME LIKE #{supplierName} 
+        AND SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{supplierName}), '%')
     </if>
     ORDER BY UPDATED_AT DESC
   </select>
@@ -71,13 +71,13 @@
     from T_BSS_SSTPS_APPRAISAL_CONTRACT
     where <!-- APPRAISAL = 2 -->1=1 
     <if test="name != null and name != ''">
-        AND NAME LIKE #{name} 
+        AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
     </if>
     <if test="code != null and code != ''">
-        AND CODE LIKE #{code} 
+        AND CODE LIKE CONCAT(CONCAT('%', #{code}), '%')
     </if>
     <if test="supplierName != null and supplierName != ''">
-        AND SUPPLIER_NAME LIKE #{supplierName} 
+        AND SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{supplierName}), '%')
     </if>
     ORDER BY UPDATED_AT DESC
   </select>
@@ -88,13 +88,13 @@
     from T_BSS_SSTPS_APPRAISAL_CONTRACT
     where APPRAISAL = 3
     <if test="name != null and name != ''">
-        AND NAME LIKE #{name} 
+        AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
     </if>
     <if test="code != null and code != ''">
-        AND CODE LIKE #{code} 
+        AND CODE LIKE CONCAT(CONCAT('%', #{code}), '%')
     </if>
     <if test="supplierName != null and supplierName != ''">
-        AND SUPPLIER_NAME LIKE #{supplierName} 
+        AND SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{supplierName}), '%')
     </if>
     ORDER BY UPDATED_AT DESC
   </select>
@@ -106,13 +106,13 @@
   	from T_BSS_SSTPS_APPRAISAL_CONTRACT
   	where 1=1
       <if test="name != null and name != ''">
-        AND NAME LIKE #{name} 
+        AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
       </if>
       <if test="code != null and code != ''">
         AND CODE LIKE #{code} 
       </if>
       <if test="supplierName != null and supplierName != ''">
-        AND SUPPLIER_NAME LIKE #{supplierName} 
+        AND SUPPLIER_NAME LIKE  CONCAT(CONCAT('%', #{supplierName}), '%')
       </if>
       <if test="appraisal != null and appraisal != ''">
         AND APPRAISAL = #{appraisal} 
@@ -287,13 +287,13 @@
     from T_BSS_SSTPS_APPRAISAL_CONTRACT
     where  APPRAISAL=2
     <if test="name != null and name != ''">
-        AND NAME LIKE #{name} 
+        AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
       </if>
       <if test="code != null and code != ''">
-        AND CODE LIKE #{code} 
+        AND CODE LIKE CONCAT(CONCAT('%', #{code}), '%')
       </if>
       <if test="purchaseDepName != null and purchaseDepName != ''">
-        AND PURCHASE_DEP_NAME LIKE #{purchaseDepName} 
+        AND PURCHASE_DEP_NAME LIKE CONCAT(CONCAT('%', #{purchaseDepName}), '%')
       </if>
       ORDER BY UPDATED_AT DESC
   </select>
@@ -352,13 +352,13 @@
     from T_BSS_SSTPS_APPRAISAL_CONTRACT
     where APPRAISAL = 1
     <if test="name != null and name != ''">
-        AND NAME LIKE '%'||#{name}||'%'
+        AND NAME LIKE  CONCAT(CONCAT('%', #{name}), '%')
     </if>
     <if test="code != null and code != ''">
-        AND CODE LIKE '%'||#{code}||'%'
+        AND CODE LIKE  CONCAT(CONCAT('%', #{code}), '%')
     </if>
     <if test="supplier.supplierName != null and supplier.supplierName != ''">
-    	AND SUPPLIER_NAME IN (SELECT ID SUPPLIER_NAME FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplier.supplierName}%')
+    	AND SUPPLIER_NAME IN (SELECT ID SUPPLIER_NAME FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE  CONCAT(CONCAT('%', #{supplierName}), '%')
     </if>
     <if test="user != null">
         AND USER_ID = #{user.id}

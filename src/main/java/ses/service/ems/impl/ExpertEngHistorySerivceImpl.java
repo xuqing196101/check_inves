@@ -51,31 +51,33 @@ public class ExpertEngHistorySerivceImpl implements ExpertEngHistorySerivce{
 		String goodsProjectId = DictionaryDataUtil.getId("GOODS_PROJECT");
 		
 		Expert expert = mapper.selectByPrimaryKey(expertId);
-		if(expert.getExpertsTypeId().contains(engCodeId)){
-			expertTitleList = expertTitleMapper.queryByExpertId(expertId,engCodeId);
-		}
-		if(expert.getExpertsTypeId().contains(goodsProjectId)){
-			expertTitleList = expertTitleMapper.queryByExpertId(expertId,goodsProjectId);	
-		}
-        
-		if(!expertTitleList.isEmpty() && expertTitleList.size() > 0){
-			for(ExpertTitle e : expertTitleList){
-				if(e !=null ){
-					expertEngHistory.setCreatedAt(date);
-					expertEngHistory.setExpertId(expertId);
-					expertEngHistory.setRelationId(e.getId());
-					//插入历史表
-					if(e.getQualifcationTitle() !=null){
-						expertEngHistory.setContent(e.getQualifcationTitle());
-						expertEngHistory.setField("qualifcationTitle");
-						expertEngHistoryMapper.insertSelective(expertEngHistory);
-					}
-					
-					if(e.getTitleTime() !=null){
+		if(expert.getExpertsTypeId() !=null){
+			if(expert.getExpertsTypeId().contains(engCodeId)){
+				expertTitleList = expertTitleMapper.queryByExpertId(expertId,engCodeId);
+			}
+			if(expert.getExpertsTypeId().contains(goodsProjectId)){
+				expertTitleList = expertTitleMapper.queryByExpertId(expertId,goodsProjectId);	
+			}
+	        
+			if(!expertTitleList.isEmpty() && expertTitleList.size() > 0){
+				for(ExpertTitle e : expertTitleList){
+					if(e !=null ){
+						expertEngHistory.setCreatedAt(date);
+						expertEngHistory.setExpertId(expertId);
+						expertEngHistory.setRelationId(e.getId());
 						//插入历史表
-						expertEngHistory.setContent(format.format(e.getTitleTime()));
-						expertEngHistory.setField("titleTime");
-						expertEngHistoryMapper.insertSelective(expertEngHistory);
+						if(e.getQualifcationTitle() !=null){
+							expertEngHistory.setContent(e.getQualifcationTitle());
+							expertEngHistory.setField("qualifcationTitle");
+							expertEngHistoryMapper.insertSelective(expertEngHistory);
+						}
+						
+						if(e.getTitleTime() !=null){
+							//插入历史表
+							expertEngHistory.setContent(format.format(e.getTitleTime()));
+							expertEngHistory.setField("titleTime");
+							expertEngHistoryMapper.insertSelective(expertEngHistory);
+						}
 					}
 				}
 			}

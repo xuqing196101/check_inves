@@ -48,6 +48,7 @@
 				$("#supplierType").val('');
 				$("#isProvisional").val('');
 				$("#creditCode").val('');
+				$("#orgName option:selected").removeAttr("selected");
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
 				$("#businessNature option:selected").removeAttr("selected");
@@ -479,9 +480,9 @@
 									<option value="4">待复核</option>
 									<option value="5">复核通过</option>
 									<option value="6">复核未通过</option>
-									<option value="7">待考察</option>
-									<option value="8">考察合格</option>
-									<option value="9">考察不合格</option>
+									<!-- <option value="5">待考察</option> -->
+									<option value="7">考察合格</option>
+									<option value="8">考察不合格</option>
                 </select>
               </span>
             </li>
@@ -513,6 +514,19 @@
 	         	<li>
 	          	<label class="fl">社会信用代码：</label><span><input class="w220" id="creditCode" name="creditCode" value="${supplier.creditCode }" type="text"></span>
 	          </li>
+	          <%-- <li>
+              <label class="fl">采购机构：</label><span><input class="w220" id="orgName" name="orgName" value="${supplier.orgName }" type="text"></span>
+            </li> --%>
+            <li>
+              <label class="fl">采购机构：</label>
+              <select name="orgName" id="orgName" class="w220">
+                <option value=''>全部</option>
+                <c:forEach items="${allOrg}" var="org">
+                  <option value="${org.name}" <c:if test="${supplier.orgName eq org.name}">selected</c:if>>${org.name}</option>
+                </c:forEach>
+              </select>
+            </li>
+            
 	          <c:if test ="${sign == 1 }">
               <li>
                 <label class="fl">地区：</label>
@@ -573,10 +587,10 @@
 								<td>
 									<c:choose>
 							       <c:when test="${list.status ==5 and list.isProvisional == 1 }">
-							       	 <a href="${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
+							       	 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/temporarySupplier.html?supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a>
 							       </c:when>
 							       <c:otherwise>
-							       	 <a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
+							       	 <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a>
 							       </c:otherwise>
 									</c:choose>
 								</td>
@@ -594,7 +608,7 @@
 								<td class="">${list.supplierType }</td>
 								<td class="tc">${list.businessNature }</td>
 								<td class="tc">
-									<c:if test="${list.status==5 and list.isProvisional == 1 }"><span class="label rounded-2x label-dark">临时</span></c:if>
+									<c:if test="${list.status==5 and list.isProvisional == 1}"><span class="label rounded-2x label-dark">临时</span></c:if>
 									<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
 									<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
 									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
@@ -603,9 +617,9 @@
 									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
 									<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核通过</span></c:if>
 									<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
-									<c:if test="${list.status==7 }"><span class="label rounded-2x label-dark">待考察</span></c:if>
-									<c:if test="${list.status==8 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
-									<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
+									<%-- <c:if test="${list.status==5 }"><span class="label rounded-2x label-dark">待考察</span></c:if> --%>
+									<c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
+									<c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
 								</td>
 							</tr>
 						</c:forEach>

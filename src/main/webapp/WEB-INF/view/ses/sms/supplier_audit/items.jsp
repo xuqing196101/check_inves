@@ -218,34 +218,34 @@
 							
 				//加载默认的页签
 				$(function() {
-				var supplierId = $("#supplierId").val();
+				  var supplierId = $("#supplierId").val();
 					var PRODUCT = $("#a_id_1").text();
 					var SALES = $("#a_id_2").text();
 					var PROJECT = $("#a_id_3").text();
 					var SERVICE = $("#a_id_4").text();
 					//加载默认的页签
-					if(PRODUCT == "物资-生产型品目信息") {
+					if(PRODUCT == "物资-生产型产品类别信息") {
 						// 加载已选品目列表
 						loading = layer.load(1);
 						var path = "${pageContext.request.contextPath}/supplierAudit/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=PRODUCT";
 						$("#tbody_category").load(path);
 						return;
 					}
-				 	if(SALES == "物资-销售型品目信息") {
+				 	if(SALES == "物资-销售型产品类别信息") {
 					 	// 加载已选品目列表
 						loading = layer.load(1);
 						var path = "${pageContext.request.contextPath}/supplierAudit/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=SALES";
 						$("#tbody_category").load(path);
 						return;
 					}
-					if(PROJECT == "工程品目信息") {
+					if(PROJECT == "工程产品类别信息") {
 						// 加载已选品目列表
 						loading = layer.load(1);
 						var path = "${pageContext.request.contextPath}/supplierAudit/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=PROJECT";
 						$("#tbody_category").load(path);
 						return;
 					}
-					if(SERVICE == "服务品目信息") {
+					if(SERVICE == "服务产品类别信息") {
 						// 加载已选品目列表
 						loading = layer.load(1);
 						var path = "${pageContext.request.contextPath}/supplierAudit/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=SERVICE";
@@ -371,16 +371,16 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0);"> 首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
-						<a href="javascript:void(0);">支撑环境</a>
+						<a  href="javascript:void(0)">支撑环境</a>
 					</li>
 					<li>
-						<a href="javascript:void(0);">供应商管理</a>
+						<a  href="javascript:void(0)">供应商管理</a>
 					</li>
 					<li>
-						<a href="javascript:void(0);">供应商审核</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html')">供应商审核</a>
 					</li>
 				</ul>
 			</div>
@@ -523,7 +523,7 @@
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
 					<!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-					<a class="btn" type="button" onclick="lastStep('${lastUrl}');">上一步</a>
+					<a class="btn" type="button" onclick="lastStep();">上一步</a>
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>
 				</div>
 			</div>

@@ -37,17 +37,32 @@
 		<script type="text/javascript">
 			function jump(str) {
 				var action;
-				if(str == "basicInfo") {
-					action = "${pageContext.request.contextPath}/expertQuery/view.html";
-				}
-				if(str == "expertType") {
-					action = "${pageContext.request.contextPath}/expertQuery/expertType.html";
-				}
-				if(str == "product") {
-					action = "${pageContext.request.contextPath}/expertQuery/product.html";
-				}
-				if(str == "expertFile") {
-					action = "${pageContext.request.contextPath}/expertQuery/expertFile.html";
+				if('${reqType}' != ''){
+					if(str == "basicInfo") {
+						action = "${pageContext.request.contextPath}/expertQuery/view.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}&expertsFrom=${expertAnalyzeVo.expertsFrom}&orgId=${expertAnalyzeVo.orgId}";
+					}
+					if(str == "expertType") {
+						action = "${pageContext.request.contextPath}/expertQuery/expertType.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}&expertsFrom=${expertAnalyzeVo.expertsFrom}&orgId=${expertAnalyzeVo.orgId}";
+					}
+					if(str == "product") {
+						action = "${pageContext.request.contextPath}/expertQuery/product.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}&expertsFrom=${expertAnalyzeVo.expertsFrom}&orgId=${expertAnalyzeVo.orgId}";
+					}
+					if(str == "expertFile") {
+						action = "${pageContext.request.contextPath}/expertQuery/expertFile.html?reqType=${reqType}&address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}&expertsFrom=${expertAnalyzeVo.expertsFrom}&orgId=${expertAnalyzeVo.orgId}";
+					}
+				}else{
+					if(str == "basicInfo") {
+						action = "${pageContext.request.contextPath}/expertQuery/view.html";
+					}
+					if(str == "expertType") {
+						action = "${pageContext.request.contextPath}/expertQuery/expertType.html";
+					}
+					if(str == "product") {
+						action = "${pageContext.request.contextPath}/expertQuery/product.html";
+					}
+					if(str == "expertFile") {
+						action = "${pageContext.request.contextPath}/expertQuery/expertFile.html";
+					}
 				}
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
@@ -180,7 +195,7 @@
 								<tr>
 									<td width="12%" class="bggrey">军队人员身份证件</td>
 									<td width="25%">
-										<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+										<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
 									</td>
 								</tr>
 							</c:if>
@@ -212,23 +227,46 @@
 								<td width="25%">
 									<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd' />
 								</td>
+								<c:if test="${expert.teachTitle eq '2'}">
+	                <td width="12%" class="bggrey">有无专业技术职称</td>
+	                <td width="25%">无</td>
+                </c:if>
 							</tr>
-							<c:if test="${expert.teachTitle eq '1'}">
-								<tr>
-									<td width="12%" class="bggrey">专家技术职称</td>
-									<td width="25%">${expert.professTechTitles}</td>
-									<td width="12%" class="bggrey">专业技术职称证书</td>
-									<td width="25%">
-										<up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
-									</td>
-								</tr>
-								<tr>
-									<td width="12%" class="bggrey">取得技术职称时间</td>
-									<td width="25%">
-										<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd' />
-									</td>
-								</tr>
+							<c:if test="${froms eq 'LOCAL'}">
+							  <tr>
+                  <td width="12%" class="bggrey">专家技术职称</td>
+                  <td width="25%">${expert.professTechTitles}</td>
+                  <td width="12%" class="bggrey">专业技术职称证书</td>
+                  <td width="25%">
+                    <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
+                  </td>
+                </tr>
+                <tr>
+                  <td width="12%" class="bggrey">取得技术职称时间</td>
+                  <td width="25%">
+                    <fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd' />
+                  </td>
+                </tr>
 							</c:if>
+							<c:if test="${froms eq 'ARMY'}">
+						    <c:if test="${expert.teachTitle eq '1'}">
+	                <tr>
+		                 <td width="12%" class="bggrey">专家技术职称</td>
+		                 <td width="25%">${expert.professTechTitles}</td>
+		                 <td width="12%" class="bggrey">专业技术职称证书</td>
+		                 <td width="25%">
+		                   <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
+		                 </td>
+	                </tr>
+	                <tr>
+	                  <td width="12%" class="bggrey">取得技术职称时间</td>
+	                  <td width="25%">
+	                    <fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd' />
+	                  </td>
+	                </tr>
+	               </c:if>
+							</c:if>
+							
 							<tr>
 								<td width="12%" class="bggrey">毕业院校及专业</td>
 								<td width="25%">${expert.graduateSchool}</td>
@@ -309,12 +347,18 @@
 						</table>
 					</ul>
 					<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
-						<c:if test="${sign == 1}">
-							<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expert/findAllExpert.html">返回列表</a>
+						<c:if test="${ empty reqType }">
+							<c:if test="${sign == 1}">
+								<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expert/findAllExpert.html">返回列表</a>
+							</c:if>
+							<c:if test="${sign == 2}">
+								<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/list.html">返回列表</a>
+							</c:if>
 						</c:if>
-						<c:if test="${sign == 2}">
-							<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/list.html">返回列表</a>
+						<c:if test="${not empty reqType }">
+								<a class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertQuery/readOnlyList.html?address=${expertAnalyzeVo.address}&expertsTypeId=${expertAnalyzeVo.expertsTypeId}&expertsFrom=${expertAnalyzeVo.expertsFrom}&orgId=${expertAnalyzeVo.orgId}">返回列表</a>
 						</c:if>
+						
 					</div>
 				</div>
 			</div>

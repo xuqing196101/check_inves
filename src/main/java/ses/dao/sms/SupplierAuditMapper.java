@@ -26,6 +26,16 @@ public interface SupplierAuditMapper {
      * @return int
      */
     int insertSelective(SupplierAudit record);
+    /**
+     * 
+     * Description:根据参数 查询 数据是否存在
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-28
+     * @param record
+     * @return
+     */
+    int countByPrimaryKey(SupplierAudit record);
     
     /**
      * 

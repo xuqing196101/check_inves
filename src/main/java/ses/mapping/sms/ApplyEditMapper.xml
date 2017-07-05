@@ -29,10 +29,10 @@
     from T_SES_SMS_SUPPLIER_APPLY_EDIT
     where 1=1
      <if test="supplierName!=null">
-    	and SUPPLIER_NAME like '%${supplierName}%'
-    </if>
+    	and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
+     </if>
      <if test="auditStatus!=null">
-    	and AUDIT_STATUS != ${auditStatus}
+    	and AUDIT_STATUS != #{auditStatus}
     </if>
     order by CREATED_AT desc
   </select>

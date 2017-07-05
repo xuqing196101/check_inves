@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -172,8 +171,8 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 		Calendar cale = Calendar.getInstance();
 		int year = cale.get(Calendar.YEAR);
 		
-		 int year2=year-2;//2014
-		 int year3=year-3;//2013
+		int year2=year-2;//2014
+		int year3=year-3;//2013
 		if(month<6){
 			int yera4=year-4;//2012
 			yearList.add(yera4);
@@ -216,7 +215,7 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 		
 		 int year2=year-2;//2014
 		 int year3=year-3;//2013
-		if(month<6){
+		if(month<7){
 			int yera4=year-4;//2012
 			yearList.add(yera4);
 		}else{
@@ -266,5 +265,12 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 			}
 		}
 		
+	}
+	/**
+	 * 实现根据供应商id 获取近三年的数据
+	 */
+	@Override
+	public List<SupplierFinance> findBySupplierIdYearThree(String supplierId) {
+		return supplierFinanceMapper.findBySupplierIdYearThree(supplierId);
 	}
 }

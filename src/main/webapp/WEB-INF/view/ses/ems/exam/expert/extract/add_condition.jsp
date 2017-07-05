@@ -36,7 +36,7 @@
         <div class="container">
             <ul class="breadcrumb margin-left-0">
                 <li>
-                    <a href="javascript:void(0);"> 首页</a>
+                    <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
                 </li>
                 <li>
                     <a href="javascript:void(0);">支撑环境系统</a>
@@ -45,7 +45,7 @@
                     <a href="javascript:void(0);">专家管理</a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);">专家抽取</a>
+                    <a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/ExpExtract/projectList.html?typeclassId=typeclassId')">专家抽取</a>
                 </li>
                 <li class="active">
                     <a href="javascript:void(0);">添加专家抽取</a>
@@ -55,6 +55,7 @@
         </div>
     </div>
 </c:if>
+<div class="container">
 <div class="col-md-12 col-sm-12 col-xs-12 container_box">
     <div id="supplierTypeContent" class="supplierTypeContent"
          style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
@@ -125,10 +126,10 @@
                         <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
 
                             <input class="col-md-5 col-sm-5 col-xs-5" maxlength="2" value="${listCon.ageMin}"
-                                   onchange="age();" id="ageMinC" name="ageMin" type="text">
+                                   onchange="age();" id="ageMinC" name="ageMin" type="number">
                             <span class="f14 fl col-md-2 col-sm-2 col-xs-2">至</span>
                             <input class="col-md-5 col-sm-5 col-xs-5" value="${listCon.ageMax}" maxlength="2"
-                                   onchange="age();" id="ageMaxC" name="ageMax" type="text">
+                                   onchange="age();" id="ageMaxC" name="ageMax" type="number">
 
                         </div>
                     </li>
@@ -168,7 +169,7 @@
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12 ">
-                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">专家类别：</span>
+                        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>专家类别：</span>
                         <div class="input-append input_group col-sm-12 col-xs-12 p0">
                             <c:set value="" var="typeName"></c:set>
                             <c:set value="" var="typeCode"></c:set>
@@ -690,7 +691,10 @@
                     formType: 2,
                     shade: 0.01,
                     offset: [y, x],
-                    title: '不参加理由'
+                    title: '不参加理由',
+                    cancel: function(index){
+                    	select.options[0].selected = true;
+                    }
                 }, function (value, ix, elem) {
                     ajaxs(select.value, value);
                     layer.close(ix);
@@ -710,6 +714,22 @@
     }
 
     function ajaxs(id, v) {
+    	
+    	var typeArr = id.split(",");
+    	var type = typeArr[2];
+    	if(type == "3") {
+    		if(v == null || v === undefined || v == '' ) {
+    			layer.msg("不参加理由不能为空");
+    			return false;
+        	} else {
+        		var strLen = chkStrLen(v);
+        		if(strLen >1000) {
+        			layer.msg("不参加理由不能大于500个汉字");	
+        			return false;
+        		}
+        	}
+    		
+    	}
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath}/ExpExtract/resultextract.do",
@@ -733,7 +753,7 @@
                                     html += "";
                                     if (list[0].conType[l].expertsType != null && list[0].conType[l].expertsType != '') {
                                         if (list[0].conType[l].expertsType.kind == 6) {
-                                            html += "专家类别：" + list[0].conType[l].expertsType.name + "技术";
+                                            html += "专家类别：" + list[0].conType[l].expertsType.name;
                                         } else {
                                             html += "专家类别：" + list[0].conType[l].expertsType.name;
                                         }
@@ -1126,5 +1146,17 @@
             $(select).parent().parent().parent().find("#extCategoryId").val("");
             $(select).parent().parent().parent().find("#extCategoryName").val("");
         }
+    }
+  	//检查字符串长度
+    function chkStrLen(str){
+		var strLen = 0;
+		for(var i = 0; i < str.length; i++) {
+			if(str.charCodeAt(i) > 255) {
+				strLen += 2;
+			} else {
+				strLen ++;
+			}
+		}
+		return strLen;
     }
 </script>

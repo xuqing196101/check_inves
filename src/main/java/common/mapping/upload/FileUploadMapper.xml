@@ -235,5 +235,14 @@
   	 WHERE 
   	   ID = #{id}
   </select>
+   <!-- 根据参数 查询数量 -->
+  <select id="countFileByBusinessId" resultType="java.lang.Long">
+     SELECT 
+     COUNT(ID)
+     FROM ${tableName}
+     WHERE IS_DELETED = 0 
+      AND BUSINESS_ID = #{businessId,jdbcType=VARCHAR}
+      AND TYPE_ID = #{typeId,jdbcType=VARCHAR}
+  </select>
   
 </mapper>

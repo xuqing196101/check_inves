@@ -83,7 +83,7 @@
 					  <th class="info">操作时间</th>
 					  <th class="info">请求IP</th>
 					  <c:if test="${type == 1}">
-					    <th class="info">响应时间（ms）</th>
+					    <th class="info" width="15%">响应时间（ms）</th>
 					  </c:if>
 					  <th class="info">详情</th>
 					</tr>

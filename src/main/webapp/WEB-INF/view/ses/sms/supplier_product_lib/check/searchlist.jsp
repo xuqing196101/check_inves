@@ -50,7 +50,6 @@
 						}
 					});
 				} 
-				$("#supplierId").show();
 				$("#supplierId").select2();
 				// 设置被选中的值
 				$("#supplierId").select2("val","${createrId}");
@@ -146,7 +145,7 @@
 			   </li>
 			   <li>
 			   		<label class="fl">供应商名称：</label>
-					<select style="width: 200px" id="supplierId" name="createrId" class="hide">
+					<select style="width: 200px" id="supplierId" name="createrId">
 			  			<option value="">--请选择--</option>
 					</select>
 				</li>

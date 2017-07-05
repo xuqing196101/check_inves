@@ -169,6 +169,26 @@ function printResult(expertId,projectId,packageId){
 				 	  </c:if>
 				 	</c:forEach>
 				 </c:forEach>
+				 <tr>
+				 	<td class="tc">合计</td>
+				 	<td class="tc">--</td>
+				 	<td class="tc">--</td>
+				 	<c:forEach items="${supplierList}" var="supplier">
+				      <td class="tc" >
+				      	<input type="hidden" name="${supplier.suppliers.id}_total"/>
+				      	<span>
+				      		<c:set var="sum_score" value="0"/>
+				      		<c:forEach items="${scores}" var="sco">
+				 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id}">
+				 	          	<c:set var="sum_score" value="${sum_score+sco.score}"/>
+				 	          </c:if>
+				 	        </c:forEach>
+				 	        <font color="red" class="f18">${sum_score}</font>
+				 	        <c:set var="sum_score" value="0"/>
+				      	</span>
+				      </td>
+				    </c:forEach>
+				 </tr>
 				 </table>
 				 </div></div>
   </div>

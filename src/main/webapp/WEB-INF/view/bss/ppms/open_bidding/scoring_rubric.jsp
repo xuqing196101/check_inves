@@ -110,8 +110,12 @@
     function show(packageId, projectId) {
     	window.location.href = "${pageContext.request.contextPath}/intelligentScore/showScoreMethod.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+'${flowDefineId}';
     }
-    function view(packageId,projectId){
-    	window.open("${pageContext.request.contextPath}/intelligentScore/viewModel.html?packageId="+packageId+"&projectId="+projectId);   
+    function view(packageId,projectId,flag){
+    	if (flag == 0) {
+			layer.msg("未选择评分办法",{offset: '222px'});
+		} else {
+	    	window.open("${pageContext.request.contextPath}/intelligentScore/viewModel.html?packageId="+packageId+"&projectId="+projectId);   
+		}
     }
 </script>
   </head>
@@ -266,7 +270,7 @@
 								   </c:if>
 								   <!-- 采购文件提交后不可修改 -->
 								   <c:if test="${project.confirmFile == 1}">
-				                       <button class="btn" type="button" onclick="view('${p.id}','${projectId}')">查看</button>
+				                       <button class="btn" type="button" onclick="view('${p.id}','${projectId}','${p.isEditSecond}')">查看</button>
 								   </c:if>
 				                </td>
 								<%-- <td align="center">

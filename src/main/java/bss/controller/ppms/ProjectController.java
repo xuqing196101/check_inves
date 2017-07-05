@@ -58,7 +58,6 @@ import ses.service.sms.SupplierQuoteService;
 import ses.util.ComparatorDetail;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
-import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.controller.base.BaseController;
@@ -75,8 +74,6 @@ import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.Task;
-import bss.service.pms.CollectPlanService;
-import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.FlowMangeService;
@@ -514,7 +511,7 @@ public class ProjectController extends BaseController {
       
       @RequestMapping(value="/viewPlanDetail",produces = "application/json;charset=UTF-8")
       @ResponseBody
-      public String viewPlanDetail(@CurrentUser User user, String taskId, Integer page){
+      public String viewPlanDetail(@CurrentUser User user, String taskId, Integer page, String detailId){
           JSONObject jsonObj = new JSONObject();
           if(StringUtils.isNotBlank(taskId)){
               Task task = taskservice.selectById(taskId);
@@ -522,7 +519,8 @@ public class ProjectController extends BaseController {
                   PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
                   List<PurchaseDetail> lists = purchaseDetailService.getUniques(task.getCollectId(), user.getOrg().getId());
                   if(lists != null && lists.size() > 0){
-                      sortPurchaseDetail(lists);
+                      sortPurchaseDetail(lists, detailId);
+                      jsonObj.put("detailId", lists.get(lists.size()-1).getSeq());
                   }
                   PageInfo<PurchaseDetail> pageInfo = new PageInfo<PurchaseDetail>(lists);
                   jsonObj.put("pages", pageInfo.getPages());
@@ -1144,7 +1142,7 @@ public class ProjectController extends BaseController {
      * @throws IOException 抛出异常
      */
     @RequestMapping("/checkDeail")
-    public void checkDeail(HttpServletResponse response, String id, Model model)
+    public void checkDeail(HttpServletResponse response, String id, Boolean flag, Model model)
         throws IOException {
         HashMap<String, Object> map = new HashMap<String, Object>();
         PurchaseDetail purchaseRequired = purchaseDetailService.queryById(id);
@@ -1159,10 +1157,19 @@ public class ProjectController extends BaseController {
         }else{
             map.put("id", purchaseRequired.getId());
             List<PurchaseDetail> list1 = new ArrayList<PurchaseDetail>();
-            List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
-            list1.addAll(list);
-            List<PurchaseDetail> lists = purchaseDetailService.selectByParentId(map);
-            list1.addAll(lists);
+            if(flag){
+                List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
+                list1.addAll(list);
+                List<PurchaseDetail> lists = purchaseDetailService.selectByParentId(map);
+                list1.addAll(lists);
+            } else {
+                if(purchaseRequired.getPrice() == null) {
+                    List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
+                    list1.addAll(list);
+                    List<PurchaseDetail> lists = purchaseDetailService.selectByParentId(map);
+                    list1.addAll(lists);
+                }
+            }
             removeSame(list1);
             String json = JSON.toJSONStringWithDateFormat(list1, "yyyy-MM-dd HH:mm:ss");
             response.setContentType("text/html;charset=utf-8");
@@ -1591,8 +1598,12 @@ public class ProjectController extends BaseController {
     @ResponseBody
     @RequestMapping("/verify")
     public String verify(Project project, Model model){
-        Boolean flag = projectService.SameNameCheck(project);
-        return JSON.toJSONString(flag);
+        if(StringUtils.isNotBlank(project.getProjectNumber())){
+            Boolean flag = projectService.SameNameCheck(project);
+            return JSON.toJSONString(flag);
+        }else{
+            return "1";
+        }
     }
     
     @RequestMapping("/verifyType")
@@ -2168,7 +2179,7 @@ public class ProjectController extends BaseController {
     @RequestMapping("/excute")
     public String execute(String id, Model model, Integer page, String type) {
         Project project = projectService.selectById(id);
-        String id2 = DictionaryDataUtil.getId("JYLX");
+        String id2 = DictionaryDataUtil.getId("YJLX");
         if(id2.equals(project.getStatus())){
             project.setStatus(DictionaryDataUtil.getId("SSZ_WWSXX"));
             projectService.update(project);
@@ -3165,7 +3176,7 @@ public class ProjectController extends BaseController {
     
     
     
-    public List<PurchaseDetail> sortPurchaseDetail(List<PurchaseDetail> lists){
+    public List<PurchaseDetail> sortPurchaseDetail(List<PurchaseDetail> lists, String seq){
         HashMap<String, Object> map = new HashMap<>();
         int serialoneOne = 1;
         int serialtwoTwo = 1;
@@ -3270,6 +3281,92 @@ public class ProjectController extends BaseController {
             }
         }
         return lists;
+    }
+    
+    /**
+     * 
+     *〈资源展示查看项目〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param model
+     * @param project
+     * @param page
+     * @return
+     */
+    @RequestMapping("/selectByProject")
+    public String selectByProject(Model model, Project project, Integer page){
+        HashMap<String, Object> map = new HashMap<>();
+        if(StringUtils.isNotBlank(project.getName())){
+            map.put("name", project.getName());
+        }
+        if(StringUtils.isNotBlank(project.getProjectNumber())){
+            map.put("projectNumber", project.getProjectNumber());
+        }
+        if(StringUtils.isNotBlank(project.getStatus())){
+            map.put("status", project.getStatus());
+        }
+        if(StringUtils.isNotBlank(project.getPurchaseType())){
+            map.put("purchaseType", project.getPurchaseType());
+        }
+        if(StringUtils.isNotBlank(project.getPurchaseDepId())){
+            map.put("purchaseDepId", project.getPurchaseDepId());
+        }
+        if(page == null){
+            page = 1;
+        }
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+        List<Project> list = projectService.selectByProject(map);
+        if(list != null && list.size() > 0){
+            for (int i = 0; i < list.size(); i++ ) {
+                try {
+                    User contractor = userService.getUserById(list.get(i).getPrincipal());
+                    list.get(i).setProjectContractor(contractor.getRelName());
+                } catch (Exception e) {
+                    list.get(i).setProjectContractor("");
+                }
+                model.addAttribute("info", new PageInfo<Project>(list));
+            }
+        }
+        model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+        model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
+        model.addAttribute("projects", project);
+        return "dss/rids/list/view_project";
+    }
+    
+    /**
+     * 
+     *〈资源展示查看项目详细〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param model
+     * @param id
+     * @return
+     */
+    @RequestMapping("/particulars")
+    public String particulars(Model model, String id){
+        if(StringUtils.isNotBlank(id)){
+            Project project = projectService.selectById(id);
+            if(project != null){
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("id", project.getId());
+                List<ProjectDetail> selectById = detailService.selectById(map);
+                if(selectById != null && selectById.size() > 0){
+                    for (ProjectDetail detail : selectById) {
+                        if(detail.getPrice() != null){
+                            DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                            detail.setPurchaseType(findById.getName());
+                            detail.setDepartment(null);
+                        } else {
+                            detail.setPurchaseType(null);
+                        }
+                    }
+                    List<ProjectDetail> paixu = paixu(selectById,project.getId());
+                    model.addAttribute("list", paixu);
+                }
+                model.addAttribute("project", project);
+            }
+        }
+        return "dss/rids/detail/particulars";
     }
     
     @InitBinder  

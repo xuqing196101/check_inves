@@ -19,7 +19,7 @@
 	</sql>
 	
 	<sql id="Base_Column">
-		s.ID, s.SUPPLIER_ID, s.CATEGORY_ID, s.SUPPLIER_TYPE_RELATE_ID, s.STATUS, s.CREATED_AT, s.UPDATED_AT, s.CATE_LEVEL, s.CERT_CODE, s.DIY_LEVEL, s.QUALIFICATION_TYPE,s.PROFESS_TYPE
+		s.ID, s.SUPPLIER_ID, s.CATEGORY_ID, s.SUPPLIER_TYPE_RELATE_ID, s.STATUS, s.CREATED_AT, s.UPDATED_AT, s.CATE_LEVEL, s.CERT_CODE, s.DIY_LEVEL, s.QUALIFICATION_TYPE,s.PROFESS_TYPE, c.CODE
 	</sql>
 	
 	<select id="getSupplierItem" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -281,9 +281,8 @@
 			<if test="type != null">
 				AND s.SUPPLIER_TYPE_RELATE_ID = #{type}
 			</if>
-			<if test="type == null">
-				order by s.SUPPLIER_TYPE_RELATE_ID
-			</if>
+			
+			order by c.CODE ASC
 	</select>
 	
 	<delete id="deleteByMap" parameterType="java.util.Map">
@@ -327,10 +326,44 @@
 	<!-- 品目id查询类型 -->
  	<select id="selectByCategoryId" parameterType="String" resultMap="BaseResultMap">
 		SELECT
-			*
+			<include refid="Base_Column_List"></include>
 		FROM
 			T_SES_SMS_SUPPLIER_ITEM
 		WHERE
 			CATEGORY_ID = #{categoryId}
 	</select>
+	
+	<!-- 品目id 供应商 类型 查询类型 -->
+    <select id="findSupplierIdByCategoryId" parameterType="String" resultType="String">
+        SELECT
+            SUPPLIER_ID
+        FROM
+            T_SES_SMS_SUPPLIER_ITEM
+        WHERE
+            CATEGORY_ID = #{categoryId} 
+    </select>
+	
+	<!-- 统计供应商类型数量 物资销售、物资生产、工程、服务 -->
+	<select id="findAnalyzeSupplierCateType" parameterType="String" resultType="java.math.BigDecimal">
+	     SELECT COUNT(DISTINCT(T.SUPPLIER_ID))
+		      FROM T_SES_SMS_SUPPLIER S
+		      LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T
+		        ON T.SUPPLIER_ID = S.ID
+		     WHERE T.SUPPLIER_TYPE_ID = #{cateType}
+		       AND (S.SUPPLIER_STATUS = 1 OR S.SUPPLIER_STATUS = 4 OR
+		           S.SUPPLIER_STATUS = 5 OR S.SUPPLIER_STATUS = 6 OR
+		           S.SUPPLIER_STATUS = 7 OR S.SUPPLIER_STATUS = 8)
+		       AND S.IS_PROVISIONAL = '0'
+		       AND S.IS_DELETED = 0
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectSupByCateType" parameterType="Map">
+			SELECT DISTINCT (T.SUPPLIER_ID)
+			  FROM T_SES_SMS_SUPPLIER_ITEM T
+			  LEFT JOIN T_BSS_OB_SUPPLIER S
+			    ON T.SUPPLIER_ID = S.ID
+			 WHERE T.SUPPLIER_TYPE_RELATE_ID = 'PROJECT'
+	</select>
+
 </mapper>

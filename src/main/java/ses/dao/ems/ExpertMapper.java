@@ -1,11 +1,14 @@
 package ses.dao.ems;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertHistory;
@@ -48,6 +51,7 @@ public interface ExpertMapper {
       * @return List<Expert>
      */
     List<Expert> selectAllExpert(Expert expert);
+    
     /**
      *〈简述〉
      * 查询所有待复审和复审通过未通过的专家
@@ -302,5 +306,60 @@ public interface ExpertMapper {
      * @param @param id      
      * @return void
      */
-    void updateById (String id);
+    void updateById (Expert expert);
+    
+    /**
+     * 
+     * Description: 查询地区下所对应的专家
+     * 
+     * @author Easong
+     * @version 2017年5月27日
+     * @return
+     */
+    List<AnalyzeBigDecimal> selectExpertsByArea();
+    
+    /**
+     * 
+     * Description: 查询军地专家数量  分为：军队、地方
+     * 
+     * @author Easong
+     * @version 2017年5月31日
+     * @return
+     */
+    BigDecimal selectExpertsCountByArmyType(@Param("expertsFrom") String expertsFrom);
+    
+    /**
+     * 
+     * Description: 查询入库专家数量
+     * 
+     * @author Easong
+     * @version 2017年6月2日
+     * @return
+     */
+    Long selectStoreExpertCount();
+    
+    /**
+     * 
+     * Description: 首页专家名录查询
+     * 
+     * @author zhang shubin
+     * @data 2017年6月19日
+     * @param 
+     * @return
+     */
+    List<Expert> selectIndexExpert(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 页面异步验证身份证号唯一
+     * 
+     * @author zhang shubin
+     * @data 2017年6月19日
+     * @param 
+     * @return
+     */
+    List<Expert> yzCardNumber(Map<String, Object> map);
+    
+    
+    void updateExpert(@Param("id")String id,@Param("status")String status,@Param("isSubmit")String isSubmit,@Param("auditDate")Date auditDate );
 }

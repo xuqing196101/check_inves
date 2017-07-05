@@ -112,8 +112,8 @@
   <body>
   	<input type="hidden" id="projectId" value="${projectId}">
   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
- 	<div class="row magazine-page">
-	   	<div class="col-md-12 tab-v2">
+ 	<div class="magazine-page">
+	   	<div class="col-md-12 tab-v2 p0">
 	        <div class="padding-top-10">
 	          <ul class="nav nav-tabs bgwhite expert_tab">
 	            <li class="active" onclick="loadPageOne('tab-1','packageExpert/assignedExpert.html')"><a aria-expanded="true" href="#tab-1" data-toggle="tab">专家名单</a></li>

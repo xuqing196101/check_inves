@@ -7684,7 +7684,7 @@
                     '<param name="flashvars" value="uid=' + this.uid +
                     '&jsreciver=' + this.jsreciver + '" />' +
                     '<param name="wmode" value="transparent" />' +
-                    '<param name="allowscriptaccess" value="always" />' +
+                    '<param name="allowscriptaccess" value="sameDomain" />' +
                 '</object>';
     
                 container.html( html );

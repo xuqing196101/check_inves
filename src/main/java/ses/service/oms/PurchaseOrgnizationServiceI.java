@@ -28,6 +28,7 @@ public interface PurchaseOrgnizationServiceI {
 	PurchaseDep selectByOrgId(String id);
 	
 	Map<String, String> findPIDandCIDByOrgId(String purDepId);
+	int findPendingAuditCount(String id);
 	
 	/**
 	 * 

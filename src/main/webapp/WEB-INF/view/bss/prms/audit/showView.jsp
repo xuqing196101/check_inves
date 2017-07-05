@@ -203,7 +203,7 @@
       </div>
       <div class="clear"></div>
       <c:if test="${markTermList ne null}">
-      <h2 onclick="ycDiv(this,'${2}')" class="count_flow spread hand" id="clear">商务技术评审</h2>
+      <h2 onclick="ycDiv(this,'${2}')" class="count_flow spread hand" id="clear">经济技术评审</h2>
       <div class="p0${2}">
         <div class="content" id="content">
           <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px" border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
@@ -270,6 +270,26 @@
               </c:if>
             </c:forEach>
             </c:forEach>
+            <tr>
+			 	<td class="tc">合计</td>
+			 	<td class="tc">--</td>
+			 	<td class="tc">--</td>
+			 	<c:forEach items="${supplierList}" var="supplier">
+			      <td class="tc" >
+			      	<input type="hidden" name="${supplier.suppliers.id}_total"/>
+			      	<span>
+			      		<c:set var="sum_score" value="0"/>
+			      		<c:forEach items="${scores}" var="sco">
+			 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id}">
+			 	          	<c:set var="sum_score" value="${sum_score+sco.score}"/>
+			 	          </c:if>
+			 	        </c:forEach>
+			 	        <font color="red" class="f18">${sum_score}</font>
+			 	        <c:set var="sum_score" value="0"/>
+			      	</span>
+			      </td>
+			    </c:forEach>
+			 </tr>
           </table>
         </div>
       </div>

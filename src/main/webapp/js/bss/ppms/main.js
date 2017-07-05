@@ -341,6 +341,8 @@ function submitcurr() {
 						success: function(data2) {
 							if(data2.success) {
 								jumpLoad(data2.url, projectId, currFlowDefineId);
+								$("#"+currFlowDefineId+"_exe").removeClass("executed");
+								$("#"+currFlowDefineId+"_exe").addClass("executed");
 								layer.msg("提交成功", {
 									offset: '100px'
 								});

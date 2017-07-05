@@ -318,7 +318,7 @@
 			AND p.ID = #{id}
 		</if>
 		<if test="name != null and name !=''">
-			AND p.NAME like '%'||#{name}||'%'
+			AND p.NAME like CONCAT(CONCAT('%', #{name}), '%')
 		</if>
 		ORDER BY p.CREATED_AT ASC
 	</select>
@@ -411,13 +411,13 @@
 		select pc.id
 		from T_BSS_PPMS_PROJECTS pc where 1=1
 		<if test="projectName != null and projectName != ''">
-			and pc.NAME like '%'||#{projectName}||'%'
+			and pc.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
 		</if>
 		<if test="projectCode != null and projectCode != ''">
-			and pc.PROJECT_NUMBER like '%'||#{projectCode}||'%'
+			and pc.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectCode}), '%')
 		</if>
 		<if test="purchaseDep != null and purchaseDep != ''">
-			and pc.PURCHASE_DEP_ID like '%'||#{purchaseDep}||'%'
+			and pc.PURCHASE_DEP_ID like CONCAT(CONCAT('%', #{purchaseDep}), '%')
 		</if>
 		) and pa.id = ch.package_id
 		and ch.is_won_bid = 1
@@ -632,10 +632,10 @@
 		WHERE
 		nvl(pa.IS_DELETED,0)=0
 		<if test="projectId != null and projectId !=''">
-			AND pr.PROJECT_NUMBER like '%${projectId}%'
+			AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectId}), '%')
 		</if>
 		<if test="projectName != null and projectName !=''">
-			AND pr.NAME like '%${projectName}%'
+			AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
 		</if>
 		<if test="id != null and id !=''">
 			AND pa.ID = #{id}

@@ -149,8 +149,15 @@ public class PurchaseDep extends Orgnization{
     
     private String videoSurveillance;
     
+    private int pendingAuditCount;// 待审核数量
+    
     private String flag;
-    public String getFlag() {
+    
+    
+		public static long getSerialversionuid() {
+			return serialVersionUID;
+		}
+		public String getFlag() {
         return flag;
     }
     public void setFlag(String flag) {
@@ -602,5 +609,11 @@ public class PurchaseDep extends Orgnization{
     public void setExperPostcode(String experPostcode) {
         this.experPostcode = experPostcode;
     }
-   
+	public int getPendingAuditCount() {
+		return pendingAuditCount;
+	}
+	public void setPendingAuditCount(int pendingAuditCount) {
+		this.pendingAuditCount = pendingAuditCount;
+	}
+    
 }

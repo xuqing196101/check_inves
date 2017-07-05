@@ -27,13 +27,17 @@
     <script type="text/javascript">
       $(function() {
         //获取查看或操作权限
-        /*  var isOperate = $('#isOperate', window.parent.document).val();
+          var isOperate = $('#isOperate', window.parent.document).val();
           if(isOperate == 0) {
             //只具有查看权限，隐藏操作按钮
         $(":button").each(function(){ 
           $(this).hide();
               }); 
-      } */
+      } 
+     /*  $("#uploaderId").click(function(){
+          var id = $(".web_uploader_class").prev()[0].value;
+          init_uploader(eval("var  uploader_" + id),id);
+        }); */
 
         var isCharges = "${project.isCharge}";
         if(isCharges) {
@@ -65,6 +69,10 @@
         var supplierNumber = $("#supplierNumber").val();
         supplierNumber = $.trim(supplierNumber);
         var purchaseType = $("#purchaseType").val();
+        if(supplierNumber == '' || supplierNumber == null) {
+          layer.tips("不能为空", "#supplierNumber");
+          flag = false;
+        }
         if(purchaseType == "JZXTP" || purchaseType == "YQZB" || purchaseType == "XJCG" || purchaseType == "GKZB") {
           if(supplierNumber < 3) {
             layer.tips("供应商人数不能小于3人", "#supplierNumber");

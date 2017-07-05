@@ -17,6 +17,23 @@ public interface ScoreModelMapper {
 	public ScoreModel findScoreModelByScoreModel(ScoreModel scoreModel);
 	public void deleteScoreModelByMtId(String id);
 	public List<ScoreModel>  findScoreModelByPackageId(ScoreModel model);
+  /**
+   *〈简述〉根据创建时间倒序查询
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param scoreModel
+   * @return
+   */
+  public List<ScoreModel> findListByScoreModelByTime(ScoreModel scoreModel);
+  /**
+   *〈简述〉查询
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param scoreModelId
+   * @return
+   */
+  public List<ScoreModel> find(ScoreModel scoreModel);
+	
 	/*public List<MarkTerm> findListByMarkTerm(MarkTerm markTerm);
 	public int saveMarkTerm(MarkTerm markTerm);
 	public int updateMarkTerm(MarkTerm markTerm);

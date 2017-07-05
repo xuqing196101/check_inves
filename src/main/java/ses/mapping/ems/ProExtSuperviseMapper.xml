@@ -63,8 +63,14 @@
 	</delete>
 	<insert id="insertSelective" parameterType="ses.model.ems.ProExtSupervise">
 		<!-- @mbggenerated -->
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
 		insert into T_SES_EMS_PRO_EXT_SUPERVISOR
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">
+		       	ID,
+		    </if>
 			<if test="projectId != null">
 				PROJECT_ID,
 			</if>
@@ -91,6 +97,9 @@
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">
+        		#{id},
+      		</if>
 			<if test="projectId != null">
 				#{projectId,jdbcType=VARCHAR},
 			</if>
@@ -120,9 +129,7 @@
 			</if>
 
 		</trim>
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-			select sys_guid() from dual
-		</selectKey>
+		
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ProExtSupervise">
 		<!-- @mbggenerated -->

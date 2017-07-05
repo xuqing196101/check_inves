@@ -6,6 +6,7 @@
 	<head>
 		<%@ include file="/reg_head.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp" %>
+		<%-- <jsp:include page="/WEB-INF/view/common/webupload.jsp"/> --%>
 		<title>评审专家注册</title>
 		<script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
@@ -31,7 +32,7 @@
 					dataType: "json",
 					async: false,
 					success: function(response) {
-						$("#add").empty();
+						$("#add").empty(); 
 						$("#add").append("<option value=''>-请选择-</option>");
 						$.each(response, function(i, result) {
 							$("#add").append("<option value='" + result.id + "'>" + result.name + "</option>");
@@ -83,36 +84,99 @@
 				$("select").bind("change", submitformExpert);
 				$("textarea").bind("blur", submitformExpert);
 			});
-
+			//校验军官证号
+            function checkCardNumber(){
+                var idNumber = $("#idNumber").val();
+                if(!idNumber) {
+                    layer.msg("请填写证件号码 !");
+                    return false;
+                }
+                // 军队人员身份证件号码唯一性验证
+                if(idNumber != "") {
+                    var isok = 0;
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/expert/validateIdNumber.do',
+                        type: "post",
+                        async: false,
+                        data: {
+                            "idNumber": idNumber,
+                            "expertId": $("#id").val()
+                        },
+                        success: function(obj) {
+                            if(obj == '1') {
+                                layer.msg("该证件号码已被占用!");
+                                isok = 1;
+                            }
+                        }
+                        })
+                        }
+            }
 			function submitformExpert() {
-				var idCardNumber = $("#idCardNumber").val().trim();
+				var idCard = $("#idCardNumber").val().trim();
 				// 身份证唯一性验证
-				if(idCardNumber != "") {
-					/*$.ajax({
-						url: '${pageContext.request.contextPath}/user/ajaxIdNumber.do',
-						type: "post",
-						dataType: "json",
-						data: {
-							"idNumber": $("#idCardNumber").val().trim(),
-							"id": $("#userId").val().trim()
-						},
-						success: function(obj) {
-							if(obj.success == false) {
-								//                                 layer.msg("居民身份证号码已被占用!");
-								return false;
-							} else {
-								validateIdCard();
-							}
+				if(idCard != "") {
+					//15位和18位身份证号码的正则表达式
+				    var regIdCard = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+				    //如果通过该验证，说明身份证格式正确，但准确性还需计算
+				    if (regIdCard.test(idCard)) {
+				        if (idCard.length == 18) {
+				            var idCardWi = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2); //将前17位加权因子保存在数组里
+				            var idCardY = new Array(1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2); //这是除以11后，可能产生的11位余数、验证码，也保存成数组
+				            var idCardWiSum = 0; //用来保存前17位各自乖以加权因子后的总和
+				            for (var i = 0; i < 17; i++) {
+				                idCardWiSum += idCard.substring(i, i + 1) * idCardWi[i];
+				            }
 
-						}
-					});*/
+				            var idCardMod = idCardWiSum % 11;//计算出校验码所在数组的位置
+				            var idCardLast = idCard.substring(17);//得到最后一位身份证号码
+
+				            //如果等于2，则说明校验码是10，身份证号码最后一位应该是X
+				            if (idCardMod == 2) {
+				                if (idCardLast == "X" || idCardLast == "x") {
+				                    //return "success";
+				                } else {
+				                	 layer.msg('身份证号码错误！', {
+                                         offset: '300px'
+                                     });
+                                    return false;
+				                }
+				            } else {
+				                //用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
+				                if (idCardLast == idCardY[idCardMod]) {
+				                    //return "success";
+				                } else {
+				                    layer.msg('身份证号码错误！', {
+		                                 offset: '300px'
+		                             });
+		                            return false;
+				                }
+				            }
+				        } else if (idCard.length > 0 && idCard.length < 18) {
+				            layer.msg('请输入正确的身份证号！', {
+	                             offset: '300px'
+	                         });
+	                        return false;
+				        } else if (idCard.length == 0) {
+				           // return "success";
+				        } else {
+				            //15
+				            //return "success";
+				        }
+				    } else if (idCard.trim().length==0){
+				       // return "success";
+				    }else {
+				    	 layer.msg('身份证格式不正确!', {
+                             offset: '300px'
+                         });
+				        return false;
+				    }
                     //校验专家表身份证
                     $.ajax({
                         url: '${pageContext.request.contextPath}/expert/validateIdNumber.do',
                         type: "post",
                         async: false,
                         data: {
-                            "idNumber": idCardNumber,
+                            "idNumber": idCard,
                             "expertId": $("#id").val()
                         },
                         success: function(obj) {
@@ -172,9 +236,14 @@
 			function submitForm2() {
 				updateStepNumber("seven");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+				var fromList=$("#formExpert").serialize()
+				if('${expert.status}'==3){
+					$("input[type='text'],select,textarea").attr('disabled',true);
+				}
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: false,
 					success: function(result) {
@@ -182,14 +251,20 @@
 						window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 					}
 				});
+				
 			}
 			//无提示暂存
 			function submitForm22() {
 				updateStepNumber("two");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+                var fromList=$("#formExpert").serialize()
+                if('${expert.status}'==3){
+                    $("input[type='text'],select,textarea").attr('disabled',true);
+                }
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: true,
 					success: function(result) {
@@ -202,9 +277,14 @@
 			function submitForm3() {
 				updateStepNumber("three");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+                var fromList=$("#formExpert").serialize()
+                if('${expert.status}'==3){
+                    $("input[type='text'],select,textarea").attr('disabled',true);
+                }
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: true,
 					success: function(result) {
@@ -217,9 +297,14 @@
 			function submitForm4() {
 				updateStepNumber("four");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+                var fromList=$("#formExpert").serialize()
+                if('${expert.status}'==3){
+                    $("input[type='text'],select,textarea").attr('disabled',true);
+                }
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: true,
 					success: function(result) {
@@ -232,9 +317,14 @@
 			function submitForm5() {
 				updateStepNumber("five");
 				getChildren();
+				$("input[type='text'],select,textarea").attr('disabled',false);
+                var fromList=$("#formExpert").serialize()
+                if('${expert.status}'==3){
+                    $("input[type='text'],select,textarea").attr('disabled',true);
+                }
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/zanCun.do",
-					data: $("#formExpert").serialize(),
+					data: fromList,
 					type: "post",
 					async: true,
 					success: function(result) {
@@ -520,11 +610,11 @@
 									layer.msg("该证件号码已被占用!");
 									isok = 1;
 								}else if(obj == 'disabled_180'){
-                                    layer.msg('该身份证号码在180天内禁止再次注册，请重新填写！', {
-                                        offset: '300px'
-                                    });
-                                    isok = 1;
-                                }
+                  layer.msg('该身份证号码在180天内禁止再次注册，请重新填写！', {
+                      offset: '300px'
+                  });
+                  isok = 1;
+              	}
 							}
 						});
 					}
@@ -537,6 +627,10 @@
 				if(!mobile) {
 					layer.msg("请填写手机号!");
 					return false;
+				}
+				if(!(/^1[3|4|5|7|8]\d{9}$/.test(mobile))){
+					layer.msg("手机号格式不正确!");
+                    return false;
 				}
 				var telephone = $("#telephone").val().trim();
 				if(!telephone) {
@@ -595,17 +689,23 @@
 					layer.msg("请填写从事专业起始年月!");
 					return false;
 				}
-
-				var makeTechDate = $("#makeTechDate").val().trim();
-				if(!makeTechDate) {
-					layer.msg("请填写取得技术职称时间!");
-					return false;
-				}
-
-				var professTechTitles = $("#professTechTitles").val();
-				if(!professTechTitles) {
-					layer.msg("请填写专业技术职称!");
-					return false;
+				
+				var teachTitle = $("#teachTitle").val();
+				
+				if(teachTitle==0){
+				}else if(teachTitle == 1){
+					var professTechTitles = $("#professTechTitles").val();
+					if(!professTechTitles) {
+						layer.msg("请填写专业技术职称!");
+						return false;
+					}
+					var makeTechDate = $("#makeTechDate").val();
+					if(!makeTechDate) {
+						layer.msg("请填写取得技术职称时间!");
+						return false;
+					}
+				}else{
+					teachTitle=0;
 				}
 
 				var hightEducation = $("#hightEducation").val();
@@ -633,18 +733,20 @@
 				}
 
 				/* if (telephone != "") {
-				 var reg = /^(\d{3,4}-{0,1})?\d{7,8}$/
-				 if (!reg.test(telephone)) {
-				 layer.msg("固定电话格式有误!");
-				 return false;
-				 }
-				 }*/
+					//var reg = /^(\d{3,4}-{0,1})?\d{7,8}$/;
+					var reg = /^0\d{2,3}-\d{7,8}(-\d{1,6})?$/;
+					if (!reg.test(telephone)) {
+						//layer.msg("固定电话格式有误！正确格式为：010-12345678或010-12345678-123456，分机号1~6位");
+						return false;
+					}
+			 	}
 				var fax = $("#fax").val();
-				var faxReg = /^(\d{3,4}-{0,1})?\d{7,8}$/
-					/* if (fax != "" && !faxReg.test(fax)) {
-					 layer.msg("传真电话格式有误 !");
-					 return false;
-					 }*/
+				//var faxReg = /^(\d{3,4}-{0,1})?\d{7,8}$/;
+				var faxReg = /^0\d{2,3}-\d{7,8}(-\d{1,6})?$/;
+				if (fax != "" && !faxReg.test(fax)) {
+					layer.msg("传真电话格式有误！正确格式为：010-12345678或010-12345678-123456，分机号1~6位");
+					return false;
+			 	} */
 				var postCode = $("#postCode").val();
 				if(idNumber != "" && isNaN(postCode)) {
 					layer.msg("邮编格式只能输入数字 !");
@@ -738,6 +840,7 @@
 
 				var sysId = $("#sysId").val();
 				var coverNote = $("#coverNote option:selected") .val();
+				//var teachTitle = $("#teachTitle").val();
 				//图片上传
 				var flag = true;
 				$.ajax({
@@ -745,7 +848,8 @@
 					data: {
 						"sysId": sysId,
 						"from": from,
-                        "coverNote":coverNote,
+            "coverNote": coverNote || 1,
+            "teachTitle": teachTitle,
 						"isReferenceLftter": $("#isReferenceLftter").val()
 					},
 					cache: false,
@@ -758,7 +862,7 @@
 							flag = true;
 						}
 					},
-					dataType: "json"
+					dataType: "json",
 				});
 				return flag;
 			}
@@ -854,8 +958,9 @@
 						"auditField": auditField
 					},
 					dataType: "json",
+					type: "post",
 					success: function(response) {
-						layer.msg("不通过理由:" + response.auditReason);
+						layer.msg("不通过理由：" + response.auditReason);
 					}
 				});
 			}
@@ -872,6 +977,16 @@
 					document.getElementById("err_msg_" + name).innerHTML = "";
 				}
 			}
+			function teachTitleSelected(opt,index){
+				if(index==1){
+					opt.attr("selected","selected");
+					$("#teachTitle2").attr("selected","");
+				}else if(index==2){
+					opt.attr("selected","selected");
+                    $("#teachTitle1").attr("selected","");
+				}
+			}
+			
 		</script>
 	</head>
 
@@ -881,7 +996,7 @@
 			<input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}" />
 			<input type="hidden" name="id" id="id" value="${expert.id}" />
 			<input type="hidden" name="zancun" id="zancun" value="" />
-			<input type="hidden" name="sysId" id="sysId" value="${sysId}" />
+			<input type="hidden" name="step"  value="1" />
 			<input type="hidden" name="sysId" id="sysId" value="${sysId}" />
 			<input type="hidden" value="${errorMap.realName}" id="error1">
 			<input type="hidden" value="${errorMap.nation}" id="error2">
@@ -899,22 +1014,31 @@
 			<input type="hidden" value="${errorMap.mobile2}" id="error15">
 			<input type="hidden" value="${errorMap.idNumber2}" id="error16">
 			<input type="hidden" name="range" value="${errorMap.range}" id="range" />
+			
+			<input type="hidden" value="${errorMap.att1}" id="error_att1">
+			<input type="hidden" value="${errorMap.att2}" id="error_att2">
+			<input type="hidden" value="${errorMap.att3}" id="error_att3">
+			<input type="hidden" value="${errorMap.att4}" id="error_att4">
+			
 			<input type="hidden" id="categoryId" name="categoryId" value="" />
 			<input type="hidden" id="expertsTypeId" name="expertsTypeId" value="" />
 			<input type="hidden" name="token2" value="<%=tokenValue%>" />
 			<div id="reg_box_id_3" class="container clear margin-top-30 job-content">
-				<h2 class="padding-20 mt40">
+				<h2 class="step_flow">
             <span id="sp1" class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
             <span id="sp7" class="new_step fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
             <span id="ty6" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
             <span id="sp3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
             <span id="sp4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
-            <span id="sp5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span>
+            <span id="sp5" class="new_step fl new_step_last"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span>
             <div class="clear"></div>
         </h2>
+        <c:if test="${ipAddressType==0 }">
+            <div class="w100p f16 mt40"><span class="red">提示：上传的彩色扫描件需要去除标签水印。</span></div>
+        </c:if>
 				<div class="container container_box">
 					<h2 class="count_flow"><i>1</i>专家个人信息</h2>
-					<ul class="ul_list">
+					<ul class="ul_list m_ul_list">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -928,8 +1052,15 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 近期免冠彩色证件照</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'近期免冠彩色证件照')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('近期免冠彩色证件照')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert50" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8,expert50"  businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="50" auto="true" />
-								<u:show showId="show50" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show50" businessId="${sysId}" sysKey="${expertKey}" typeId="50" />
+								<c:choose>
+									<c:when test="${expert.status == 3 and !fn:contains(errorField,'近期免冠彩色证件照')}">
+										<u:show showId="show50" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show50" businessId="${sysId}" sysKey="${expertKey}" typeId="50" />
+									</c:when>
+									<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert50" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8,expert50"  businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="50" auto="true" />
+										<u:show showId="show50"  groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show50" businessId="${sysId}" sysKey="${expertKey}" typeId="50" />
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
@@ -949,7 +1080,7 @@
                         class="red">*</i> 出生日期</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'出生日期')}"> style="border: 1px solid #ef0000;" onmouseover="errorMsg('出生日期')"</c:if>
-								readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd' />" name="birthday" onblur="notNull('birthday')" id="birthday" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',startDate:'1970-01-01'})"/>
+								readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd' />" name="birthday" onblur="notNull('birthday')" id="birthday" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_birthday').innerHTML = '';},dateFmt:'yyyy-MM-dd',startDate:'1970-01-01'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空，年龄不大于70周岁</span>
 								<div class="cue" id="err_msg_birthday"></div>
@@ -1001,19 +1132,26 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                     	class="red">*</i> 居民身份证号码</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input required maxlength="18" value="${expert.idCardNumber}" name="idCardNumber" id="idCardNumber" type="text" <c:if test="${fn:contains(errorField,'居民身份证号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证号码')"
+								<input onblur="submitformExpert()" required maxlength="18" value="${expert.idCardNumber}" name="idCardNumber" id="idCardNumber" type="text" <c:if test="${fn:contains(errorField,'居民身份证号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证号码')"
 								</c:if>/>
 								<span class="add-on">i</span>
-								<span class="input-tip">不能为空，长度为15位或者18位</span>
+								<span class="input-tip">不能为空，长度为18位</span>
 								<div class="cue">${err_legalCard }</div>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i> 身份证复印件（正反面在一张上）</span>
-							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'居民身份证')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证')"
+                        class="red">*</i> 身份证扫描件（正反面在一张上）</span>
+							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'身份证复印件（正反面）')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('身份证复印件（正反面）')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="3" auto="true" />
-								<u:show showId="show3" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
+								<c:choose>
+									<c:when test="${expert.status == 3 and !fn:contains(errorField,'身份证复印件（正反面）')}">
+										<u:show showId="show3" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
+									</c:when>
+									<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="3" auto="true" />
+										<u:show showId="show3"  groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="3" />
+									</c:otherwise>
+								</c:choose>
 								<!--typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }" -->
 							</div>
 						</li>
@@ -1035,16 +1173,30 @@
                             	<c:if test="${expert.coverNote eq '1'}">缴纳社会保险证明</c:if>
                             	<c:if test="${expert.coverNote eq '2'}">退休证书或退休证明</c:if>
                             </span>
-							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0 converNoteDiv" <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明 ')"</c:if>  <c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
+							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0 converNoteDiv" <c:if test="${fn:contains(errorField,'缴纳社会保险证明') or fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明 ')"</c:if>  <c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
 								<%--图片的大小   图片的类型  --%>
 								<c:if test="${expert.coverNote eq '1'}">
-                                    <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" auto="true" />
-                                    <u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
-                                </c:if>
-                                <c:if test="${expert.coverNote eq '2'}">
-                                    <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1_2" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" auto="true" />
-                                    <u:show showId="show1_2" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
-                                </c:if>
+									<c:choose>
+										<c:when test="${expert.status == 3 and !fn:contains(errorField,'缴纳社会保险证明')}">
+											<u:show showId="show1" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+										</c:when>
+										<c:otherwise>
+											<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" auto="true" />
+	                  	<u:show showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+										</c:otherwise>
+									</c:choose>
+                </c:if>
+                <c:if test="${expert.coverNote eq '2'}">
+                	<c:choose>
+										<c:when test="${expert.status == 3 and !fn:contains(errorField,'退休证书或退休证明')}">
+											<u:show showId="show1_2" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
+										</c:when>
+										<c:otherwise>
+											<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert1_2" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" auto="true" />
+                    	<u:show showId="show1_2"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="2" />
+										</c:otherwise>
+									</c:choose>
+                </c:if>
 							</div>
 						</li>
 						</c:if>
@@ -1065,7 +1217,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 证件号码</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input maxlength="30" value="${expert.idNumber}" name="idNumber" id="idNumber" type="text" <c:if test="${fn:contains(errorField,'证件号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('证件号码')"
+								<input onblur="checkCardNumber()" maxlength="30" value="${expert.idNumber}" name="idNumber" id="idNumber" type="text" <c:if test="${fn:contains(errorField,'证件号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('证件号码')"
 								</c:if>/>
 								<c:if test="${fn:contains(errorField,'证件号码')}">
 									<!-- <span class="add-on"
@@ -1081,8 +1233,15 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 军队人员身份证件</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'军队人员身份证件')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('军队人员身份证件')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert12" businessId="${sysId}" sysKey="${expertKey}" typeId="1" maxcount="1" auto="true" />
-								<u:show showId="show12" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+								<c:choose>
+									<c:when test="${expert.status == 3 and !fn:contains(errorField,'军队人员身份证件')}">
+										<u:show showId="show12" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
+									</c:when>
+									<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert12" businessId="${sysId}" sysKey="${expertKey}" typeId="12" maxcount="12" auto="true" />
+										<u:show showId="show12"  businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
+									</c:otherwise>
+								</c:choose>
 							</div>
 
 							<%-- <div class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -1112,7 +1271,7 @@
 								<input onblur="notNull('telephone')" maxlength="50" value="${expert.telephone}" name="telephone" id="telephone" type="text" <c:if test="${fn:contains(errorField,'固定电话')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('固定电话')"
 								</c:if>/>
 								<span class="add-on">i</span>
-								<span class="input-tip">如: 010 - 1234567</span>
+								<span class="input-tip">如: 010-12345678</span>
 								<div class="cue" id="err_msg_telephone"></div>
 							</div>
 						</li>
@@ -1122,7 +1281,7 @@
 								<input value="${expert.fax}" name="fax" id="fax" type="text" maxlength="50" <c:if test="${fn:contains(errorField,'传真电话')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('传真电话')"
 								</c:if>/>
 								<span class="add-on">i</span>
-								<span class="input-tip">如: 010 - 1234567</span>
+								<span class="input-tip">如: 010-12345678</span>
 							</div>
 						</li>
 
@@ -1143,7 +1302,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 所在单位</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input onblur="notNull('workUnit')" maxlength="40" value="${expert.workUnit}" name="workUnit" id="workUnit" type="text" <c:if test="${fn:contains(errorField,'所在单位')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('所在单位')"
+								<input onblur="notNull('workUnit')" maxlength="20" value="${expert.workUnit}" name="workUnit" id="workUnit" type="text" <c:if test="${fn:contains(errorField,'所在单位')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('所在单位')"
 								</c:if>/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空</span>
@@ -1171,7 +1330,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 单位地址</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input onblur="notNull('unitAddress')" maxlength="40" value="${expert.unitAddress}" name="unitAddress" id="unitAddress" type="text" placeholder="街道名称，门牌号" <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('单位地址')"
+								<input onblur="notNull('unitAddress')" maxlength="30" value="${expert.unitAddress}" name="unitAddress" id="unitAddress" type="text" placeholder="街道名称，门牌号" <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('单位地址')"
 								</c:if>/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空</span>
@@ -1209,9 +1368,9 @@
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 从事专业起始年月</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input <c:if test="${fn:contains(errorField,'从事专业起始年月')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('从事专业起始年月')"
+								<input <c:if test="${fn:contains(errorField,'专业起始年月')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专业起始年月')"
 								</c:if>
-								value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" onblur="notNull('timeStartWork')" name="timeStartWork" id="timeStartWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+								value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" onblur="notNull('timeStartWork')" name="timeStartWork" id="timeStartWork" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_timeStartWork').innerHTML = '';},lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">如：2017-03</span>
 								<div class="cue" id="err_msg_timeStartWork"></div>
@@ -1222,18 +1381,18 @@
 		                    <li class="col-md-3 col-sm-6 col-xs-12"><span
 		                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5" ><i class="red">*</i>有无专业技术职称</span>
 		                        <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-		                            <select name="teachTitle" id="teachTitle"  >
-		                                <option  value="">-请选择-</option>
-		                                    <option <c:if test="${expert.teachTitle == 1}">selected="selected"</c:if>  value="1">有</option>
-		                                     <option <c:if test="${expert.teachTitle == 2}">selected="selected"</c:if>  value="2">无</option>
+		                            <select name="teachTitle" id="teachTitle"  <c:if test="${fn:contains(errorField,'有无专业技术职称')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('有无专业技术职称')"</c:if>>
+		                              <!--   <option value="">-请选择-</option> -->
+                                    <option <c:if test="${expert.teachTitle == 1}">selected="selected"</c:if> onclick="teachTitleSelected(this,1)" id="teachTitle1" value="1">有</option>
+                                    <option <c:if test="${expert.teachTitle == 2}">selected="selected"</c:if> onclick="teachTitleSelected(this,2)" id="teachTitle2" value="2">无</option>
 		                            </select>
 		                        </div>
 		                    </li>
 		                </c:if>
                 
                 
-					<li class="col-md-3 col-sm-6 col-xs-12" id="profession_title"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i>专业技术职称</span>
+					<li class="col-md-3 col-sm-6 col-xs-12" id="profession_title">
+						<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>专业技术职称</span>
 							<!--/执业资格  -->
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'专业技术职称')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专业技术职称')"
@@ -1247,8 +1406,15 @@
                         class="red">*</i> 专业技术职称证书</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'专业技术职称证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专业技术职称证书')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert4" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="4" auto="true" />
-								<u:show showId="show4" groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
+								<c:choose>
+									<c:when test="${expert.status == 3 and !fn:contains(errorField,'专业技术职称证书')}">
+										<u:show showId="show4" delete="false" groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
+									</c:when>
+									<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert4" maxcount="1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="4" auto="true" />
+										<u:show showId="show4"  groups="show9,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="4" />
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12" id="profession_date"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
@@ -1257,7 +1423,7 @@
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"
 								</c:if>
-								value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" onblur="notNull('makeTechDate')" name="makeTechDate" id="makeTechDate" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span class="add-on">i</span> <span class="input-tip">如：2017-03</span>
+								value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" onblur="notNull('makeTechDate')" name="makeTechDate" id="makeTechDate" type="text" onclick="WdatePicker({onpicking:function() {document.getElementById('err_msg_makeTechDate').innerHTML = '';},lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span class="add-on">i</span> <span class="input-tip">如：2017-03</span>
 								<div class="cue" id="err_msg_makeTechDate"></div>
 							</div>
 						</li>
@@ -1270,10 +1436,15 @@
                         class="red">*</i> 毕业院校及专业</span>
 						</c:if>
 						<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-							<input onblur="notNull('graduateSchool')" maxlength="50" value="${expert.graduateSchool}" name="graduateSchool" id="graduateSchool" type="text" <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业院校及专业')"
+							<input <c:if test="${expert.expertsFrom eq 'LOCAL'}">onblur="notNull('graduateSchool')"</c:if> maxlength="50" value="${expert.graduateSchool}" name="graduateSchool" id="graduateSchool" type="text" <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业院校及专业')"
 							</c:if>/>
 							<span class="add-on">i</span>
-							<span class="input-tip">不能为空，如：北京大学计算机专业</span>
+							<c:if test="${expert.expertsFrom eq 'ARMY'}">
+								<span class="input-tip">如：北京大学计算机专业</span>
+							</c:if>
+							<c:if test="${expert.expertsFrom eq 'LOCAL'}">
+								<span class="input-tip">不能为空，如：北京大学计算机专业</span>
+							</c:if>
 							<div class="cue" id="err_msg_graduateSchool"></div>
 						</div>
 						</li>
@@ -1301,8 +1472,15 @@
 						</c:if>
 						<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'毕业证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业证书')"
 							</c:if>>
-							<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="5" auto="true" />
-							<u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="5" />
+							<c:choose>
+								<c:when test="${expert.status == 3 and !fn:contains(errorField,'毕业证书')}">
+									<u:show showId="show5" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="5" />
+								</c:when>
+								<c:otherwise>
+									<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="5" auto="true" />
+									<u:show showId="show5"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="5" />
+								</c:otherwise>
+							</c:choose>
 						</div>
 						</li>
 						<c:if test="${expert.expertsFrom eq 'ARMY'}">
@@ -1330,8 +1508,15 @@
 						</c:if>
 						<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'学位证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('学位证书')"
 							</c:if>>
-							<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert6" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="6" auto="true" />
-							<u:show showId="show6" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="6" />
+							<c:choose>
+								<c:when test="${expert.status == 3 and !fn:contains(errorField,'学位证书')}">
+									<u:show showId="show6" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="6" />
+								</c:when>
+								<c:otherwise>
+									<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert6" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="6" auto="true" />
+									<u:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="6" />
+								</c:otherwise>
+							</c:choose>
 						</div>
 						</li>
 						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
@@ -1342,7 +1527,7 @@
                      </div>
                  </li>--%>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
-							<div class="input-append  col-sm-12 col-xs-12 col-md-12 p0">
+							<div class="input-append input_group  col-sm-12 col-xs-12 col-md-12 p0">
 								<input <c:if test="${fn:contains(errorField,'参加工作时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('参加工作时间')"
 								</c:if> readonly="readonly" value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM' />" name="timeToWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
 								<span class="add-on">i</span>
@@ -1356,9 +1541,9 @@
 
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red"></i>相关机关事业部门推荐信</span>
-							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+							<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 								<span class="input-tip">相关机关事业部门推荐信</span>
-								<select style="width:100%" name="isReferenceLftter" id="isReferenceLftter" <c:if test="${fn:contains(errorField,'相关机关事业部门推荐信')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('相关机关事业部门推荐信')"
+								<select  name="isReferenceLftter" id="isReferenceLftter" <c:if test="${fn:contains(errorField,'相关机关事业部门推荐信')}">style="border: 1px solid red;" onmouseover="errorMsg('相关机关事业部门推荐信')"
 									</c:if>>
 									<option <c:if test="${expert.isReferenceLftter eq '2'}">selected="selected"</c:if>
 										value="2">无
@@ -1374,13 +1559,20 @@
                         class="red">*</i> 推荐信</span>
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'推荐信')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('推荐信')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert8" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="8" auto="true" />
-								<u:show showId="show8" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="8" />
+								<c:choose>
+									<c:when test="${expert.status == 3 and !fn:contains(errorField,'推荐信')}">
+										<u:show showId="show8" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="8" />
+									</c:when>
+									<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert8" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1" typeId="8" auto="true" />
+										<u:show showId="show8"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="8" />
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</li>
 					</ul>
 
-					<h2 class="count_flow"><i>4</i><font color=red>*</font> 主要工作经历（还可输入 <span id="limit_char_jobExperiences">1000</span> 个字）</h2>
+					<h2 class="count_flow"><i>4</i><font color=red>*</font> 主要工作经历</h2>
 					<ul class="ul_list">
 					<div class="padding-top-10 clear">
 						<%-- <h2 class="count_flow"><i>1</i><font color=red>*</font> 主要工作经历</h2>--%>
@@ -1393,6 +1585,7 @@
 								placeholder="包括时间、工作单位、职务、工作内容等"
 								onkeyup="checkCharLimit('jobExperiences','limit_char_jobExperiences',1000);">${expert.jobExperiences}</textarea>
 						</li>
+						<h2 class="count_flow fr">（还可输入 <span id="limit_char_jobExperiences">1000</span> 个字）</h2>
 
 					</div>
 				</ul>
@@ -1404,13 +1597,20 @@
 						<div class="padding-top-10 clear">
 							<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'获奖证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('获奖证书')"
 								</c:if>>
-								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="7" auto="true" />
-								<u:show showId="show7" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
+								<c:choose>
+									<c:when test="${expert.status == 3 and !fn:contains(errorField,'获奖证书')}">
+										<u:show showId="show7" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
+									</c:when>
+									<c:otherwise>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="7" auto="true" />
+										<u:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="7" />
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 					</ul>
 
-					<h2 class="count_flow"><i>6</i><font color=red></font>专业学术成果（还可输入 <span id="limit_char_academicAchievement">1000</span> 个字）</h2>
+					<h2 class="count_flow"><i>6</i><font color=red></font>专业学术成果</h2>
 					<ul class="ul_list">
 						<!-- 专业学术成果 -->
 						<div class="padding-top-10 clear">
@@ -1424,11 +1624,12 @@
 								placeholder=""
 								onkeyup="checkCharLimit('academicAchievement','limit_char_academicAchievement',1000);">${expert.academicAchievement}</textarea>
 						</li>
+						<h2 class="count_flow fr">（还可输入 <span id="limit_char_academicAchievement">1000</span> 个字）</h2>
 
 					</div>
 				</ul>
 
-					<h2 class="count_flow"><i>7</i><font color=red></font>参加军队地方采购评审情况（还可输入 <span id="limit_char_reviewSituation">1000</span> 个字）</h2>
+					<h2 class="count_flow"><i>7</i><font color=red></font>参加军队地方采购评审情况</h2>
 					<ul class="ul_list">
 					<div class="padding-top-10 clear">
 						<%-- <h2 class="count_flow"><i>4</i><font color=red></font> 参加军队地方采购评审情况</h2>--%>
@@ -1441,11 +1642,12 @@
 								placeholder=""
 								onkeyup="checkCharLimit('reviewSituation','limit_char_reviewSituation',1000);">${expert.reviewSituation}</textarea>
 						</li>
+						<h2 class="count_flow fr">（还可输入 <span id="limit_char_reviewSituation">1000</span> 个字）</h2>
 
 					</div>
 				</ul>
 
-					<h2 class="count_flow"><i>8</i><font color=red></font>需要申请回避的情况（还可输入 <span id="limit_char_avoidanceSituation">1000</span> 个字）</h2>
+					<h2 class="count_flow"><i>8</i><font color=red></font>需要申请回避的情况</h2>
 					<ul class="ul_list">
 					<div class="padding-top-10 clear">
 						<%-- <h2 class="count_flow"><i>5</i><font color=red></font> 需要申请回避的情况</h2>--%>
@@ -1458,6 +1660,7 @@
 								placeholder="近3年内,存在劳动关系的供应商,或者担任过供应商的董事、监事,或者是供应商的控股股东（实际控制人）；与供应商法定代表人或者主要负责人有夫妻、直系血亲、三代以内旁系血亲或者近姻亲关系；发生过法律纠纷的供应商；其它需要回避的情况。"
 								onkeyup="checkCharLimit('avoidanceSituation','limit_char_avoidanceSituation',1000);">${expert.avoidanceSituation}</textarea>
 						</li>
+						<h2 class="count_flow fr">（还可输入 <span id="limit_char_avoidanceSituation">1000</span> 个字）</h2>
 
 					</div>
 				</ul>
@@ -1564,6 +1767,19 @@
 		checkCharLimit('academicAchievement','limit_char_academicAchievement',1000);
 		checkCharLimit('reviewSituation','limit_char_reviewSituation',1000);
 		checkCharLimit('avoidanceSituation','limit_char_avoidanceSituation',1000);
+		
+		// 如果专家状态是退回修改，控制表单域的编辑与不可编辑
+		var expertSt = '${expert.status}';
+		if(expertSt == '3'){
+			$("input[type='text'],select,textarea").attr('disabled',true);
+			$("input[type='text'],select,textarea").each(function(){
+				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
+				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
+				if(this.style.border == '1px solid rgb(239, 0, 0)'||this.style.border == '1px solid red'){
+					$(this).attr('disabled',false);
+				}
+			});
+		}
 	</script>
 
 </html>

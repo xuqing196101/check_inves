@@ -46,10 +46,10 @@ function hid(){
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a href="javascript:void(0)"> 首页</a></li>
-				<li><a href="javascript:void(0)">业务监管</a></li>
-				<li><a href="javascript:void(0)">网上投诉处理</a></li>
-				<li class="active"><a href="javascript:void(0)">网上投诉</a></li>
+                <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+                <li><a href="javascript:void(0)">业务监管</a></li>
+                <li><a href="javascript:void(0)">网上投诉处理</a></li>
+                <li><a href="javascript:jumppage('${pageContext.request.contextPath }/onlineComplaints/complaints.html')">投诉记录查询</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -107,8 +107,7 @@ function hid(){
 					</li>
 		</ul>  
 		<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
-			<button class="btn btn-windows back" type="button"
-					onclick="javascript:history.go(-1);">返回</button>
+			<a class="btn btn-windows back"  href="${pageContext.request.contextPath }/onlineComplaints/complaints.html">返回</a>
 		</div>
 		</form>
 	</div>

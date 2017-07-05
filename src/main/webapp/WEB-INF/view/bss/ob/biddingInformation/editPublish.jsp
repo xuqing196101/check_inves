@@ -287,13 +287,18 @@
 <body>
 <!--面包屑导航开始-->
     <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-        <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">网上竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">竞价信息管理</a></li><li class="active"><a href="javascript:void(0)">查看竞价信息</a></li>
-		   </ul>
-        <div class="clear"></div>
-      </div>
+		<div class="container">
+			<ul class="breadcrumb margin-left-0">
+				<li>
+					<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+				</li>
+				<li><a href="javascript:void(0)">保障作业</a></li>
+				<li><a href="javascript:void(0)">网上竞价</a></li>
+				<li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/ob_project/list.html')">竞价信息管理</a></li>
+				<li class="active"><a href="javascript:void(0)">查看竞价信息</a></li>
+			</ul>
+			<div class="clear"></div>
+		</div>
     </div>
     <!-- 修改订列表开始-->
   <div class="container container_box">
@@ -301,7 +306,7 @@
   <c:if test="${ list.status==3 or  list.status==4}">
    <button class="btn btn-windows print" onclick="printWord()">打印</button>
    </c:if>
-	   <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+	  <a class="btn btn-windows back"  href="${pageContext.request.contextPath}/ob_project/list.html">返回</a>
    </div>
   <form id="myForm" action="" method="post" class="mb0">
   <input type="hidden" id="status" name="status">
@@ -383,8 +388,8 @@
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			<select id="demandUnit" name="demandUnit" disabled="disabled" onchange="changDemandUnit()" >
 			  <option value="">--请选择--</option>
-			</select></div>
-        <div class="cue" id="demandUnitErr">${demandUnitErr}</div>
+			</select>
+        <div class="cue" id="demandUnitErr">${demandUnitErr}</div></div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>联系人</span>

@@ -1,15 +1,11 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
-
-	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
-		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+  <head>
+    <%@ include file="/WEB-INF/view/common.jsp" %>
+      <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>供应商类型</title>
-		<meta http-equiv="pragma" content="no-cache">
-		<meta http-equiv="cache-control" content="no-cache">
-		<meta http-equiv="expires" content="0">
-
 		<style type="text/css">
 			td {
 				cursor: pointer;
@@ -19,7 +15,7 @@
 				cursor: pointer;
 			}
 		</style>
-
+<%-- <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script> --%>
 		<script type="text/javascript">
 			//默认不显示叉
 			$(function() {
@@ -548,12 +544,22 @@
 			}
 
 			//下一步
+			/*  function nextStep(url) {
+				var action = "${pageContext.request.contextPath}/supplierAudit/aptitude.html";
+				$("#form_id").attr("action", action);
+				$("#form_id").submit();
+			}  */
+
 			function nextStep(url) {
 				var action = "${pageContext.request.contextPath}/supplierAudit/aptitude.html";
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
-			}
-
+			}  
+           /* function nextStep(url) {
+                var action = "${pageContext.request.contextPath}/supplierAudit/toPageAptitude.html";
+                $("#form_id").attr("action", action);
+                $("#form_id").submit();
+            }  */
 			//上一步
 			function lastStep() {
 				var action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
@@ -618,10 +624,25 @@
 					}
 				});
 			}
+			
+		//暂存
+        function zhancun(){
+         var supplierId = $("#supplierId").val();
+          $.ajax({
+            url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
+            dataType: "json",
+            data:{supplierId : supplierId},
+            success : function (result) {
+                layer.msg(result, {offset : [ '100px' ]});
+            },error : function(){
+              layer.msg("暂存失败", {offset : [ '100px' ]});
+            }
+          });
+        }
 		</script>
 
 		<script type="text/javascript">
-			function jump(str) {
+			  function jump(str) {
 				var action;
 				if(str == "essential") {
 					action = "${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -652,7 +673,7 @@
 				}
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
-			}
+			} 
 		</script>
 	</head>
 
@@ -662,25 +683,29 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a> 首页</a>
-					</li>
+					<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+				</li>
 					<li>
 						<a>支撑环境</a>
 					</li>
 					<li>
 						<a>供应商管理</a>
 					</li>
-					<li>
-						<c:if test="${sign == 1}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1" >供应商审核</a>
-						</c:if>
-						<c:if test="${sign == 2}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2">供应商复核</a>
-						</c:if>
-						<c:if test="${sign == 3}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3">供应商实地考察</a>
-						</c:if>
-					</li>
+					<c:if test="${sign == 1}">
+						<li>
+							<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1')">供应商审核</a>
+						</li>
+					</c:if>
+					<c:if test="${sign == 2}">
+						<li>
+							<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2')">供应商复核</a>
+						</li>
+					</c:if>
+					<c:if test="${sign == 3}">
+						<li>
+							<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3')">供应商实地考察</a>
+						</li>
+					</c:if>
 				</ul>
 			</div>
 		</div>
@@ -716,6 +741,10 @@
 							<a aria-expanded="false">销售合同</a>
 							<i></i>
 						</li>
+						<!-- <li onclick="jump('aptitude')">
+                            <a aria-expanded="false">产品类别及资质合同</a>
+                            <i></i>
+                        </li> -->
 						<li onclick="jump('applicationForm')">
 							<a aria-expanded="false">承诺书和申请表</a>
 							<i></i>
@@ -730,14 +759,14 @@
 						<li>
 							<div class="tc">
 						       <c:forEach items="${wlist }" var="obj" >
-								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_1" value="${obj.code}"/> ${obj.name }</span>
+								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" <c:if test="${fn:contains(supplierTypeCode,obj.code)}">onclick="reasonType('${obj.id }','${obj.name }');"</c:if>><input type="checkbox" disabled="disabled" name="chkItem_1" value="${obj.code}"/> ${obj.name }</span>
 						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 						     		<c:if test="${fn:contains(passedTypeField,obj.id)}">
 						     			<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 						     		</c:if>
 						      </c:forEach>
 						      <c:forEach items="${supplieType }" var="obj" >
-								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_2" value="${obj.code }"/>${obj.name } </span>
+								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" <c:if test="${fn:contains(supplierTypeCode,obj.code)}">onclick="reasonType('${obj.id }','${obj.name }');"</c:if>><input type="checkbox" disabled="disabled" name="chkItem_2" value="${obj.code }"/>${obj.name } </span>
 						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 						      	<c:if test="${fn:contains(passedTypeField,obj.id)}">
 						     			<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
@@ -813,11 +842,17 @@
 									</ul> --%>
 									
 									<h2 class="count_flow"><i>1</i>产品研发能力</h2>
-									<ul class="ul_list count_flow">
+									<ul class="ul_list">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员数量比例(%)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="scaleTech" type="text" value="${supplierMatPros.scaleTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'scaleTech')}">style="border: 1px solid red;"</c:if>/>
+												<input id="scaleTech" type="text" value="${supplierMatPros.scaleTech }" 
+													<c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','mat_pro_page');"</c:if> 
+													<c:if test="${fn:contains(passedProField,'scaleTech')}">style="border: 1px solid red;"</c:if>
+													onclick="reasonProduction1(this)" maxlength="10"
+													onkeyup="value=value.replace(/[^\d.]/g,'')"
+													onblur="validatePercentage2(this.value)"
+												/>
 												<c:if test="${fn:contains(passedProField,'scaleTech')}">
 													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
@@ -826,7 +861,13 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级技术人员数量比例(%)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="scaleHeightTech" type="text" value="${supplierMatPros.scaleHeightTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','mat_pro_page');"</c:if> <c:if test="${fn:contains(passedProField,'scaleHeightTech')}">style="border: 1px solid red;"</c:if>/>
+												<input id="scaleHeightTech" type="text" value="${supplierMatPros.scaleHeightTech }" 
+													<c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','mat_pro_page');"</c:if> 
+													<c:if test="${fn:contains(passedProField,'scaleHeightTech')}">style="border: 1px solid red;"</c:if>
+													onclick="reasonProduction1(this)" maxlength="10"
+													onkeyup="value=value.replace(/[^\d.]/g,'')"
+													onblur="validatePercentage2(this.value)"
+												/>
 												<c:if test="${fn:contains(passedProField,'scaleHeightTech')}">
 													<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 												</c:if>
@@ -924,7 +965,7 @@
 									</ul> --%>
 									
 									<h2 class="count_flow"><i>2</i>资质证书信息</h2>
-									<div class="ul_list count_flow">
+									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
@@ -1009,7 +1050,7 @@
 									</ul> --%>
 								
 									<!-- <h2 class="count_flow"><i>2</i>供应商物资销售资质证书</h2> -->
-									<ul class="ul_list">
+									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
@@ -1053,7 +1094,7 @@
 												</tr>
 											</c:forEach>
 										</table>
-									</ul>
+									</div>
 								</div>
 							</c:if>
 
@@ -1094,7 +1135,7 @@
 									</ul> --%>
 									
 									<h2 class="count_flow"><i>1</i>保密工程业绩</h2>
-									<ul class="ul_list count_flow">
+									<ul class="ul_list">
 										<c:if test="${supplierMatEngs.isHavingConAchi eq '0'}">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" style="width: 230px;">是否有国家或军队保密工程业绩：</span>
@@ -1106,7 +1147,8 @@
 										<c:if test="${supplierMatEngs.isHavingConAchi eq '1'}">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 												<span <c:if test="${fn:contains(fileModifyField,supplierDictionaryData.supplierConAch)}">style="border: 1px solid #FF8C00;"</c:if> class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
-												<u:show showId="conAch_show" delete="false" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
+												<u:upload singleFileSize="300" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" id="conAch_up" multiple="true" auto="true" maxcount="5"/>
+												<u:show showId="conAch_show"  businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
 												<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 											</li>
 										
@@ -1124,14 +1166,15 @@
 										<c:forEach items="${rootArea}" var="area" varStatus="st">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'${area.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,area.name)}">style="border: 1px solid red;"</c:if>>${area.name}：</span>
-													<u:show showId="area_show_${st.index+1}" delete="false" businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
+													<u:upload singleFileSize="300" maxcount="5"  id="area_show_${st.index+1}" multiple="true" businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" auto="true" />
+													<u:show showId="area_show_${st.index+1}"  businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
 													<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 											</li>
 										</c:forEach>
 									</ul>
 									
 									<h2 class="count_flow"><i>3</i>取得注册资质的人员信息</h2>
-									<ul class="ul_list count_flow">
+									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
@@ -1157,10 +1200,10 @@
 												</tr>
 											</c:forEach>
 										</table>
-									</ul>
+									</div>
 									
 									<h2 class="count_flow"><i>4</i>供应商资质（认证）证书信息</h2>
-									<div class="ul_list count_flow">
+									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
@@ -1218,7 +1261,7 @@
 									</div>
 
 									<h2 class="count_flow"><i>5</i>供应商资质证书详细信息</h2>
-									<ul class="ul_list count_flow">
+									<div class="ul_list">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
@@ -1287,7 +1330,7 @@
 												</tr>
 											</c:forEach>
 										</table>
-									</ul>
+									</div>
 								</div>
 							</c:if>
 							
@@ -1327,7 +1370,7 @@
 										</li>
 									</ul> --%>
 								
-									<ul class="ul_list count_flow">
+									<div class="ul_list count_flow">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
 												<tr>
@@ -1371,12 +1414,13 @@
 												</tr>
 											</c:forEach>
 										</table>
-									</ul>					
+									</div>					
 								</div>
 							</c:if>
 
 							<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
 								<a class="btn" type="button" onclick="lastStep();">上一步</a>
+								<a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 								<a class="btn" type="button" onclick="nextStep();">下一步</a>
 							</div>
 						</div>
@@ -1391,5 +1435,7 @@
 					<input type="hidden" name="sign" value="${sign}">
 				</form>
 	</body>
+	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/regex.js"></script>
 
 </html>

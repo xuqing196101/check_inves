@@ -119,9 +119,7 @@
             <ul id="treeDemo" class="ztree"  style="width: 220px"></ul>
        </div>
        <div>
-       <div class="headline-v2">
-	     <h2>修改地区</h2>
-	   </div>
+	     <h2 class="list_title">修改地区</h2>
        <form action="" id="form1" method="post">
            <div>
                <input type="hidden" name="id" id="pid" value="${area.id }">

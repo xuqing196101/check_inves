@@ -125,32 +125,50 @@
     	  $('#armyBuinessTelephone').val("");
       }
       
+     //添加临时供应商 
      function provisional(packId,index) {
          var kindName = $("#kindName").val();
     	   var projectId = $("#projectId").val();
     	   var ide = $("input[name = 'chkItem']").val();
     	   ide = $.trim(ide);
     	   if(kindName == "DYLY"){
-    	     if(ide){
-             layer.msg("只能添加一个");
-           }else{
-	           var path = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix="+index;
-	           $("#tab-1").load(path);
-           }
+    	       if(ide){
+	             layer.msg("只能添加一个");
+	           }else{
+		           var path = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix="+index;
+		           $("#tab-1").load(path);
+	           }
     	   }else{
     	     var path = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix="+index;
-           $("#tab-1").load(path);
+           	  $("#tab-1").load(path);
     	   }
-    	   
+     }
+     
+     //修改临时供应商
+     function editSupp(index){
+     	 var projectId = $("#projectId").val();
+     	 var ids =[]; 
+         $('input[name="chkItem_'+index+'"]:checked').each(function(){ 
+           ids.push($(this).val()); 
+         }); 
+         if(ids.length==1){
+           var supplierId = $("#"+ids).parent().parent().find("#supplierId").val();
+           var path = "${pageContext.request.contextPath }/SupplierExtracts/editTemporarySupplier.html?supplierId=" + supplierId + "&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix="+index;
+           $("#tab-1").load(path);
+         }else if(ids.length>1){
+           layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+         }else{
+           layer.alert("请选择要修改的供应商",{offset: ['222px', '390px'], shade:0.01});
+         }
      }
      
      /**删除供应商*/
-     function del(id,btn){
+     function del(id,index){
              var ids =[]; 
-           $('input[name="chkItem"]:checked').each(function(){ 
+           $('input[name="chkItem_'+index+'"]:checked').each(function(){ 
              ids.push($(this).val()); 
            }); 
-           if(ids.length>0){
+           if(ids.length==1){
              layer.confirm('您确定要移除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
                layer.close(index);
                var supplierId = $("#"+ids).parent().parent().find("#supplierId").val();
@@ -170,7 +188,9 @@
                
                
              });
-           }else{
+           }else if(ids.length>1){
+	         layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+	       }else{
              layer.alert("请选择要移除的供应商",{offset: ['222px', '390px'], shade:0.01});
            }
     
@@ -190,10 +210,6 @@
         $("#package"+index).removeClass("shrink");        
         $("#package"+index).addClass("spread");
       });
-     
-    
-      
-      
     </script>
   </head>
 
@@ -251,7 +267,8 @@
           <div class="fl mt20 ml10">
              <button class="btn btn-windows add" onclick="add('${pack.id }',${index})" type="button">登记</button>
              <button class="btn btn-windows add" onclick="provisional('${pack.id}',${index});" type="button">添加临时供应商</button>
-             <button class="btn btn-windows delete" onclick="del('${pack.id}');" type="button">移除供应商</button>
+             <button class="btn btn-windows edit" onclick="editSupp(${index});" type="button">修改临时供应商</button>
+             <button class="btn btn-windows delete" onclick="del('${pack.id}',${index});" type="button">移除供应商</button>
            </div>
              
           <input type="hidden" id="packId" value="${pack.id }" />
@@ -273,7 +290,7 @@
             <tbody>
               <c:forEach items="${pack.saleTenderList}" var="obj" varStatus="vs">
                 <tr>
-                  <td class="tc opinter w50"><input onclick="check()" type="checkbox" id="${obj.id}" name="chkItem" value="${obj.id}" /></td>
+                  <td class="tc opinter w50"><input onclick="check()" type="checkbox" id="${obj.id}" name="chkItem_${index}" value="${obj.id}" /></td>
                   <td class="tc opinter " title="${obj.suppliers.supplierName}">
                   <c:choose>
 			              <c:when test="${fn:length(obj.suppliers.supplierName) > 12}">

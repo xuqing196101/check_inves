@@ -155,7 +155,7 @@
 		select * from T_SES_SMS_SUPPLIER_BLACKLIST
 		<where>
 			<if test="supplierName != null and supplierName != ''">
-				and SUPPLIER_NAME like #{supplierName}
+				and SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 			</if>
 			<if test="startTime != null and startTime != ''">
 				and START_TIME &gt;= #{startTime,jdbcType=TIMESTAMP}
@@ -189,7 +189,7 @@
 		LEFT JOIN T_SES_BMS_DICTIONARY_DATA dd ON dd.CODE = str.SUPPLIER_TYPE_ID
 		<where>
 			<if test="supplierBlacklist.supplierName != null and supplierBlacklist.supplierName != ''">
-				AND sb.SUPPLIER_NAME like #{supplierBlacklist.supplierName}
+				AND sb.SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierBlacklist.supplierName}), '%')
 			</if>
 			<if test="supplierBlacklist.startTime != null and supplierBlacklist.startTime != ''">
 				AND sb.START_TIME &gt;= #{supplierBlacklist.startTime,jdbcType=TIMESTAMP}

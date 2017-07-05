@@ -84,11 +84,12 @@
                    <select name="kind" class="">
                    		<c:forEach items="${dds}" var="dd" varStatus="vs">
                    			<option value="${dd.id}" <c:if test="${dd.id eq role.kind}">selected</c:if>>
-	                   			<c:if test="${'PURCHASE_BACK' eq dd.code}">采购后台</c:if>
+                   				${dd.name}
+	                   			<%-- <c:if test="${'PURCHASE_BACK' eq dd.code}">采购后台</c:if>
 	                   			<c:if test="${'EXPERT_BACK' eq dd.code}">专家后台</c:if>
 	                   			<c:if test="${'SUPPLIER_BACK' eq dd.code}">供应商后台</c:if>
 	                   			<c:if test="${'IMPORT_SUPPLIER_BACK' eq dd.code}">进口供应商后台</c:if>
-	                   			<c:if test="${'IMPORT_AGENT_BACK' eq dd.code}">进口代理商后台</c:if>
+	                   			<c:if test="${'IMPORT_AGENT_BACK' eq dd.code}">进口代理商后台</c:if> --%>
 	                   		</option>
                    		</c:forEach>
                     </select>

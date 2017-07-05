@@ -53,7 +53,7 @@
                     and T.PARK_ID = #{parkId}
                 </if> 
                 <if test="content!= null">
-                    and T.CONTENT Like concat(concat('%', '${content}'), '%')
+                    and T.CONTENT Like concat(concat('%', '#{content}'), '%')
                 </if>  
 			    ORDER BY T.CREATED_AT DESC
 		  	</select>
@@ -181,10 +181,10 @@
 			    from T_ISS_FS_TOPIC
 			    where PARK_ID = #{parkId} 
 			    <if test="name != null and name != ''">
-		        	AND NAME LIKE #{name}
+		        	AND NAME LIKE  CONCAT(CONCAT('%', #{name}), '%')
 		      	</if>
 		      	<if test="content != null and content != ''">
-		        	AND CONTENT LIKE #{content}
+		        	AND CONTENT LIKE  CONCAT(CONCAT('%', #{content}), '%')
 		      	</if>	
 			    AND IS_DELETED = 0
 			    ORDER BY CREATED_AT DESC

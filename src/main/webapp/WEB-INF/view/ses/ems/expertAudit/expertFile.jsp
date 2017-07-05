@@ -86,6 +86,21 @@
 			      }
 			    });
 		  	}
+		  	
+		  	//暂存
+       function zhancun(){
+         var expertId = $("#expertId").val();
+         $.ajax({
+           url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
+           dataType: "json",
+           data:{expertId : expertId},
+           success : function (result) {
+               layer.msg(result, {offset : [ '100px' ]});
+           },error : function(){
+             layer.msg("暂存失败", {offset : [ '100px' ]});
+           }
+         });
+       }
 		</script>
 	</head>
 
@@ -95,7 +110,7 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0)">首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">支撑系统</a>
@@ -103,17 +118,21 @@
 					<li>
 						<a href="javascript:void(0)">专家管理</a>
 					</li>
-					<li>
-						<c:if test="${sign == 1}">
-							<a href="${pageContext.request.contextPath}/expertAudit/list.html?sign=1">专家初审</a>
-						</c:if>
-						<c:if test="${sign == 2}">
-							<a href="${pageContext.request.contextPath}/expertAudit/list.html?sign=2">专家复审</a>
-						</c:if>
-						<c:if test="${sign == 3}">
-							<a href="${pageContext.request.contextPath}/expertAudit/list.html?sign=3">专家复查</a>
-						</c:if>
-					</li>
+					<c:if test="${sign == 1}">
+						<li>
+							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=1')">专家初审</a>
+						</li>
+					</c:if>
+					<c:if test="${sign == 2}">
+						<li>
+							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=2')">专家复审</a>
+						</li>
+					</c:if>
+					<c:if test="${sign == 3}">
+						<li>
+							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=3')">专家复查</a>
+						</li>
+					</c:if>
 				</ul>
 				<div class="clear"></div>
 			</div>
@@ -146,18 +165,27 @@
 						<li class="col-md-6 col-sm-6 col-xs-12 p0 mt10 mb25">
 							<span <c:if test="${fn:contains(fileModify,'14')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="application" onclick="reason(this);">军队评审专家承诺书：</span>
 								<up:show showId="14" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="14" />
-								<a style="visibility:hidden" id="application1"><img class="pl10" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								<c:if test="${fn:contains(conditionStr,'军队评审专家承诺书')}"> <img class="pl10" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
+								<a style="visibility:hidden" id="application1" class='abolish'><img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								<c:if test="${fn:contains(conditionStr,'军队评审专家承诺书')}">
+								  <a class='abolish'>
+								    <img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+								  </a>
+								</c:if>
 						</li>
 						<li class="col-md-6 col-sm-6 col-xs-12  p0 mt10 mb25">
 							<span <c:if test="${fn:contains(fileModify,'13')}"> style="border: 1px solid #FF8C00;"</c:if> class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="contract" onclick="reason(this);">军队评审专家入库申请表：</span>
 								<up:show showId="13"  delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="13" />
-								<a style="visibility:hidden" id="contract1"><img class="pl10" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-								<c:if test="${fn:contains(conditionStr,'军队评审专家入库申请表')}"> <img class="pl10" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
+								<a style="visibility:hidden" id="contract1" class='abolish'><img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								<c:if test="${fn:contains(conditionStr,'军队评审专家入库申请表')}"> 
+								  <a class='abolish'>
+								    <img style="padding-right: 120px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
+								  </a>
+								</c:if>
 						</li>
 					</ul>
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12  add_regist tc">
+				  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>
 				</div>

@@ -37,12 +37,10 @@ import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
-import bss.model.ppms.Packages;
 import bss.model.ppms.ParamInterval;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplyMark;
 import bss.model.prms.FirstAudit;
-import bss.model.prms.FirstAuditTemplat;
 import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.BidMethodService;
@@ -50,7 +48,6 @@ import bss.service.ppms.MarkTermService;
 import bss.service.ppms.ParamIntervalService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
-import bss.service.prms.FirstAuditTemplatService;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -84,8 +81,6 @@ public class AdIntelligentScoringController extends BaseController{
 	private BidMethodService bidMethodService;
 	@Autowired
 	private AdvancedProjectService projectService;
-	@Autowired
-	private FirstAuditTemplatService firstAuditTemplatService;
 	
 	@Autowired
 	private FirstAuditService auditService;
@@ -161,6 +156,39 @@ public class AdIntelligentScoringController extends BaseController{
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("ddList", ddList);
         return "bss/ppms/advanced_project/advanced_bid_file/add_score_method";
+    }
+	
+	@RequestMapping(value = "checkIsCheck")
+    @ResponseBody
+    public Integer checkIsCheck(String projectId, String packageId){
+        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+        Integer result = 0;
+        int checkCount = 0;
+        for (DictionaryData dictionaryData : ddList) {
+            MarkTerm mt = new MarkTerm();
+            mt.setTypeName(dictionaryData.getId());
+            mt.setProjectId(projectId);
+            mt.setPackageId(packageId);
+            //默认顶级节点为0
+            mt.setPid("0");
+            List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
+            for (MarkTerm mtKey : mtList) {
+                MarkTerm mt1 = new MarkTerm();
+                mt1.setPid(mtKey.getId());
+                mt1.setProjectId(projectId);
+                mt1.setPackageId(packageId);
+                List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+                for (MarkTerm markTerm : mtValue) {
+                    if ("1".equals(markTerm.isChecked())) {
+                        checkCount ++;
+                    }
+                }
+            }
+        }
+        if (checkCount == 0) {
+            result = 1;
+        }
+        return result;
     }
 	
 	@RequestMapping(value = "showScoreMethod")
@@ -519,16 +547,16 @@ public class AdIntelligentScoringController extends BaseController{
                 if (packages != null) {
                     model.addAttribute("packages", packages.get(0));
                 }
-                HashMap<String, Object> map2 = new HashMap<String, Object>();
+                /*HashMap<String, Object> map2 = new HashMap<String, Object>();
                 map2.put("kind", DictionaryDataUtil.getId("REVIEW_CHECK_ET"));
                 //获取经济技术评审模版
-                List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+                List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);*/
                 model.addAttribute("dds", dds);
                 model.addAttribute("items1", items1);
                 model.addAttribute("items2", items2);
                 model.addAttribute("packageId", packageId);
                 model.addAttribute("projectId", projectId);
-                model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+               // model.addAttribute("firstAuditTemplats", firstAuditTemplats);
                 model.addAttribute("flowDefineId", flowDefineId);
                 AdvancedProject project = projectService.selectById(projectId);
                 model.addAttribute("flag", project.getConfirmFile());
@@ -551,11 +579,11 @@ public class AdIntelligentScoringController extends BaseController{
                   model.addAttribute("packages", packages.get(0));
                 }
                 //获取经济技术审查模版
-                HashMap<String, Object> map2 = new HashMap<String, Object>();
+                /*HashMap<String, Object> map2 = new HashMap<String, Object>();
                 map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
                 //获取资格性和符合性审查模版
                 List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
-                model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+                model.addAttribute("firstAuditTemplats", firstAuditTemplats);*/
                 model.addAttribute("packageId", packageId);
                 model.addAttribute("projectId", projectId);
                 model.addAttribute("flowDefineId", flowDefineId);
@@ -1799,32 +1827,78 @@ public class AdIntelligentScoringController extends BaseController{
 	
 	@RequestMapping("/viewModel")
     public String viewModel(String packageId, Model model, String projectId){    
-	    //显示经济技术 和子节点  子节点的子节点就是模型
-        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
-        String str ="";
-        for (DictionaryData dictionaryData : ddList) {
-            str += getShowTable(dictionaryData.getId(), dictionaryData.getName(), projectId, packageId);
+        //获取该包的评分办法
+        String methodCode = bidMethodService.getMethod(projectId, packageId);
+        if (methodCode != null && !"".equals(methodCode)) {
+            if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
+              //基准价法和最低价法
+              List<DictionaryData> dds = DictionaryDataUtil.find(23);
+              //经济审查项
+              FirstAudit firstAudit1 = new FirstAudit();
+              firstAudit1.setKind(DictionaryDataUtil.getId("ECONOMY"));
+              firstAudit1.setPackageId(packageId);
+              firstAudit1.setIsConfirm((short)1);
+              List<FirstAudit> items1 = auditService.findBykind(firstAudit1);
+              //技术审查项
+              FirstAudit firstAudit2 = new FirstAudit();
+              firstAudit2.setKind(DictionaryDataUtil.getId("TECHNOLOGY"));
+              firstAudit2.setPackageId(packageId);
+              firstAudit2.setIsConfirm((short)1);
+              List<FirstAudit> items2 = auditService.findBykind(firstAudit2);
+              HashMap<String, Object> map = new HashMap<String, Object>();
+              map.put("id", packageId);
+              List<AdvancedPackages> packages = packageService.selectByAll(map);
+              if (packages != null) {
+                model.addAttribute("packages", packages.get(0));
+              }
+              /*HashMap<String, Object> map2 = new HashMap<String, Object>();
+              map2.put("kind", DictionaryDataUtil.getId("REVIEW_CHECK_ET"));
+              //获取经济技术评审模版
+              List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);*/
+              model.addAttribute("dds", dds);
+              model.addAttribute("items1", items1);
+              model.addAttribute("items2", items2);
+              model.addAttribute("packageId", packageId);
+              model.addAttribute("projectId", projectId);
+              /*model.addAttribute("firstAuditTemplats", firstAuditTemplats);*/
+              AdvancedProject project = projectService.selectById(projectId);
+              model.addAttribute("flag", project.getConfirmFile());
+              model.addAttribute("isView", "1");
+              return "bss/prms/score/edit_package_check";
+            }
+            if ("OPEN_ZHPFF".equals(methodCode)) {
+              //综合评分法 
+              //显示经济技术 和子节点  子节点的子节点就是模型
+              List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+              String str ="";
+              for (DictionaryData dictionaryData : ddList) {
+                str += getShowTable(dictionaryData.getId(), dictionaryData.getName(), projectId, packageId);
+              }
+              //页面需要显示包
+              HashMap<String, Object> condition = new HashMap<String, Object>();
+              condition.put("id", packageId);
+              List<AdvancedPackages> packages = packageService.selectByAll(condition);
+              if (packages != null && packages.size() > 0) {
+                model.addAttribute("packages", packages.get(0));
+              }
+             /* //获取经济技术审查模版
+              HashMap<String, Object> map2 = new HashMap<String, Object>();
+              map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
+              //获取资格性和符合性审查模版
+              List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+              model.addAttribute("firstAuditTemplats", firstAuditTemplats);*/
+              AdvancedProject project = projectService.selectById(projectId);
+              model.addAttribute("project", project);
+              model.addAttribute("packageId", packageId);
+              model.addAttribute("projectId", projectId);
+              model.addAttribute("ddList", ddList);
+              model.addAttribute("str", str);
+              model.addAttribute("isView", "1");
+              return "bss/prms/score/edit_package_qc";
+            }
         }
-        //页面需要显示包
-        HashMap<String, Object> condition = new HashMap<String, Object>();
-        condition.put("id", packageId);
-        List<AdvancedPackages> packages = packageService.selectByAll(condition);
-        if (packages != null && packages.size() > 0) {
-            model.addAttribute("packages", packages.get(0));
-        }
-        //获取经济技术审查模版
-        HashMap<String, Object> map2 = new HashMap<String, Object>();
-        map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
-        //获取资格性和符合性审查模版
-        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
-        model.addAttribute("firstAuditTemplats", firstAuditTemplats);
-        AdvancedProject project = projectService.selectById(projectId);
-        model.addAttribute("project", project);
-        model.addAttribute("packageId", packageId);
-        model.addAttribute("projectId", projectId);
-        model.addAttribute("ddList", ddList);
-        model.addAttribute("str", str);
-        return "bss/prms/score/edit_package_qc";
+        return null;
+    
     }
 	
 	public String getShowTable(String id, String name ,String projectId, String packageId){

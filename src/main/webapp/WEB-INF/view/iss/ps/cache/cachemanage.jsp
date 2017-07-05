@@ -196,12 +196,15 @@
       } ();
     
       // 获取对应的值
-      function detail(key){
+      function detail(obj){
+    	  var types = obj.split(",");
+    	  var key = types[0];
+    	  var type = types[1];
     		layer.open({
     			type: 2,
     			title: '详情',
     			area: [$(document).width() - 100 +'px', '400px'],
-    			content: globalPath+'/cacheManage/getValueByKey.html?cacheKey=' + key
+    			content: globalPath+'/cacheManage/getValueByKey.html?cacheKey=' + key +"&cacheType=" + type
     		});
     	}
     </script>
@@ -254,7 +257,7 @@
 		        <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${cache.name},${cache.type}" /></td>
            		<td class="tc">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 	          	<td class="tl">
-	          		<a href="javascript:;" onclick="detail('${cache.name}')">${cache.name}</a>
+	          		<a href="javascript:;" onclick="detail('${cache.name},${ cache.type }')">${cache.name}</a>
 	          	</td>
 	          	<td class="tl">${cache.type}</td>
 	          	<td class="tc" id=${ cache.name }>

@@ -166,7 +166,8 @@
 	   var orgid='${orgId}';
 	   if(orgid=='0'){
 	  if(checkID){
-	   window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?status=1&obProjectId="+checkID;
+	   //window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?status=1&obProjectId="+checkID;
+	   jumppage("${pageContext.request.contextPath}/ob_project/editOBProject.html?status=1&obProjectId="+checkID);
 	  }else{
 	  layer.alert("请选择暂存的竞价", {
 			offset: ['222px', '390px'],
@@ -202,10 +203,14 @@
 <!--面包屑导航开始-->
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-        <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">网上竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">竞价信息管理</a></li>
-		   </ul>
+		  <ul class="breadcrumb margin-left-0">
+			  <li>
+				  <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			  </li>
+			  <li><a href="javascript:void(0)">保障作业</a></li>
+			  <li><a href="javascript:void(0)">网上竞价</a></li>
+			  <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/ob_project/list.html')">竞价信息管理</a></li>
+		  </ul>
         <div class="clear"></div>
       </div>
     </div>
@@ -248,11 +253,11 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info" width="20%">竞价项目名称</th>
-		  <th class="info" width="15%">竞价项目编号</th>
-		  <th class="info" width="15%">竞价开始时间</th>
-		  <th class="info" width="15%">中标供应商</th>
-		  <th class="info" width="15%">报价供应商</th>
+		  <th class="info" width="25%">竞价项目名称</th>
+		  <th class="info" width="20%">竞价项目编号</th>
+		  <th class="info" width="16%">竞价开始时间</th>
+		  <th class="info" width="10%">中标供应商</th>
+		  <th class="info" width="10%">报价供应商</th>
 		  <th class="info">竞价状态</th>
 		</tr>
 		</thead>
@@ -261,9 +266,9 @@
 		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
 		  <td class="tc w50">${(v.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 		  <td class="tl"><a onclick="releaseHref('${list.id}')" style="cursor:pointer "/> ${list.name}</a></td>
-		  <td class="tl">${list.projectNumber}</td>
+		  <td class="tc">${list.projectNumber}</td>
 		  <td class="tc"><fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-		  <td class="tl">
+		  <td class="tc">
 		  <c:if test="${list.closingSupplier==0}">
 		   0
 		  </c:if>
@@ -275,7 +280,7 @@
 		  </c:if>
 		  </td>
 		  
-		  <td class="tl">
+		  <td class="tc">
 		  <c:if test="${list.status==3 || list.status==4 }">
 		  	<c:if test="${list.offerSupplierNumber==0}">0</c:if>
 		  	<c:if test="${list.offerSupplierNumber==null}">0</c:if>
@@ -316,7 +321,7 @@
 		              第二轮待确认
 		    </c:if>
 		     <c:if test="${list.status==7}">
-		              第二次  竞价中
+		              第二次 竞价中
 		    </c:if>
 		  
 		  </td>

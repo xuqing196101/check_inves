@@ -17,7 +17,7 @@
 	function addTotal() {
 		var allTable = document.getElementsByTagName("table");
 		var i = 0;
-		if (count > 1) {
+		if (count > 0) {
 			i = count;
 		}
 		for(i; i < allTable.length; i++) {
@@ -55,7 +55,7 @@
 		var allTable = document.getElementsByTagName("table");
 		var error = 0;
 		var i = 0;
-		if (count > 1) {
+		if (count > 0) {
 			i = count;
 		}
 		for(i; i < allTable.length; i++) {
@@ -71,11 +71,11 @@
 					remark = null;
 				}
 				if(deliveryTime == "") {
-					 layer.msg("表单未填写完整,总价和交货时间必须填写,请检查表单",{offset: [y, x]});
+					 layer.msg("表单未填写完整,单价和交货时间必须填写,请检查表单",{offset: [y, x]});
 					return;
 				}
 				if(price == "" || price.trim() == "") {
-					layer.msg("表单未填写完整,总价和交货时间必须填写,请检查表单",{offset: [y, x]});
+					layer.msg("表单未填写完整,单价和交货时间必须填写,请检查表单",{offset: [y, x]});
 					return;
 					error++;
 				} else {

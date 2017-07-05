@@ -103,10 +103,10 @@
   <div class="margin-top-10 breadcrumbs ">
     <div class="container">
 	  <ul class="breadcrumb margin-left-0">
-	    <li><a href="javascript:void(0)">首页</a></li>
+	    <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
 		<li><a href="javascript:void(0)">保障作业系统</a></li>
 		<li><a href="javascript:void(0)">采购项目管理</a></li>
-		<li class="active"><a href="javascript:void(0)">采购文件审核</a></li>
+		<li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/Auditbidding/list.html')">采购文件审核</a></li>
 	  </ul>
 	  <div class="clear"></div>
     </div>
@@ -139,7 +139,7 @@
         <select class="w178" id="status" name="confirmFile" >
             <option value="">全部</option>
             <option value="1">待审核</option>
-            <option value="2">审核未通过</option>
+            <option value="2">退回重报</option>
             <option value="3">审核通过</option>
             <option value="4">修改报备</option>
         </select>

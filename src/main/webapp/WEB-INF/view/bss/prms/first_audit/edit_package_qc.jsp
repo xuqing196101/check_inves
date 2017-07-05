@@ -39,6 +39,7 @@
     
     //修改评审项
     function editItem(obj,id){
+    	var flowDefineId = $("#flowDefineId_2").val();
     	//得到点击坐标。
         var y;  
         oRect = obj.getBoundingClientRect();  
@@ -53,12 +54,13 @@
             shift: 1, //0-6的动画形式，-1不开启
             offset: y,
             shadeClose: false,
-            content: '${pageContext.request.contextPath}/firstAudit/editItem.html?id='+id+'&isConfirm=0'
+            content: '${pageContext.request.contextPath}/firstAudit/editItem.html?id='+id+'&isConfirm=0'+'&flowDefineId='+flowDefineId
           });
     }
     
     //删除评审项 
     function delItem(id){
+    	var flowDefineId = $("#flowDefineId_2").val();
     	layer.confirm('您确定要删除吗?', {title:'提示',offset: '50px',shade:0.01}, function(index){
 	    	$.ajax({   
 	            type: "POST",  
@@ -70,7 +72,7 @@
 	                }else{
 	                	 var packageId = $("#packageId").val();
 	                	 var projectId = $("#projectId").val();
-	                     window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId; 
+	                     window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId; 
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                    layer.close(index);
 	                }
@@ -94,6 +96,7 @@
     
     //保存评审项
     function saveItem(){
+    	var flowDefineId = $("#flowDefineId").val();
     	$.ajax({   
             type: "POST",  
             url: "${pageContext.request.contextPath}/firstAudit/savePackageFirstAudit.html",        
@@ -105,7 +108,7 @@
                 }else{
                     var packageId = $("#packageId").val();
                     var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -118,8 +121,13 @@
     
     //引入模板内容
     function loadTemplat(projectId, packageId){
+		var flowDefineId = $("#flowDefineId_2").val();
     	var fatId = $("#fatId").val();
     	if (fatId != null && fatId != '') {
+    		var index = layer.load(1, {
+					  shade: [0.2,'#BFBFBF'], //0.1透明度的白色背景
+					  offset: ['222px', '390px']
+					});
 	    	$.ajax({   
 	            type: "POST",  
 	            url: "${pageContext.request.contextPath}/firstAudit/loadTemplat.html?isConfirm=0",   
@@ -131,7 +139,7 @@
 	                }else{
 	                    var packageId = $("#packageId").val();
 	                    var projectId = $("#projectId").val();
-	                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+	                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
 	                    layer.closeAll();
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                }
@@ -147,6 +155,7 @@
     
     //引入其他项目包的评审项
     function loadOtherPackage(packageId,projectId){
+    	var flowDefineId = $("#flowDefineId_2").val();
     	layer.open({
             type: 2,
             title: '引入模板',
@@ -157,28 +166,219 @@
             shift: 1, //0-6的动画形式，-1不开启
             offset: '20px',
             shadeClose: false,
-            content: '${pageContext.request.contextPath}/firstAudit/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId
+            content: '${pageContext.request.contextPath}/firstAudit/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId+'&flowDefineId='+flowDefineId
           });
     }
     
+    /*点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+  	  if (treeNode.isParent == true) {
+          layer.msg("请选择末节点",{offset: ['150px']});
+          return false;
+      }
+	  if (!treeNode.isParent) {
+	  	$("#cId").val(treeNode.id);
+        $("#categorySel").val(treeNode.name);
+	    hideCategory();
+	    findTem();
+	  }
+    }
+	
+	function showCategory(tempId) {
+		var rootCode = null;
+		var zTreeObj;
+		var zNodes;
+		var setting = {
+			async: {
+				autoParam: ["id"],
+				enable: true,
+				url: "${pageContext.request.contextPath}/auditTemplat/categoryTree.do",
+				otherParam: {
+					"tempId": tempId,
+					"rootCode":rootCode,
+				},
+				dataFilter: ajaxDataFilter,
+				dataType: "json",
+				type: "post"
+			},
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				onClick:zTreeOnClick,
+			}
+		};
+		zTreeObj = $.fn.zTree.init($("#treeCategory"), setting, zNodes);
+		zTreeObj.expandAll(true); //全部展开
+		var cityObj = $("#categorySel");
+		var cityOffset = $("#categorySel").offset();
+		$("#categoryContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+		$("body").bind("mousedown", onBodyDownOrg);
+	}
+	
+	function ajaxDataFilter(treeId, parentNode, childNodes) {
+		// 判断是否为空
+		if(childNodes) {
+			// 判断如果父节点是第二级,则将查询出来的子节点全部改为isParent = false
+			if(parentNode != null && parentNode != "undefined" && parentNode.level == 1) {
+				for(var i = 0; i < childNodes.length; i++) {
+					childNodes[i].isParent += false;
+				}
+			}
+		}
+		return childNodes;
+	}
+	function hideCategory() {
+		$("#categoryContent").fadeOut("fast");
+		$("body").unbind("mousedown", onBodyDownOrg);
+	}
+	function onBodyDownOrg(event) {
+		if (!(event.target.id == "menuBtn" || event.target.id == "categorySel" || event.target.id == "categoryContent" || $(event.target).parents("#categoryContent").length>0)) {
+			hideCategory();
+		}
+	}
+	
+	function searchs(tempId){
+		var name=$("#search").val();
+		if(name!=""){
+		 	var zNodes;
+			var zTreeObj;
+			var setting = {
+				async: {
+						autoParam: ["id"],
+						enable: true,
+						url: "${pageContext.request.contextPath}/auditTemplat/categoryTree.do",
+						otherParam: {
+							"tempId": tempId,
+						},
+						dataFilter: ajaxDataFilter,
+						dataType: "json",
+						type: "post"
+					},
+				view: {
+					dblClickExpand: false
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					onClick:zTreeOnClick,
+				}
+			};
+			// 加载中的菊花图标
+			var loading = layer.load(1);
+			
+			$.ajax({
+				url: "${pageContext.request.contextPath}/auditTemplat/searchCategory.do",
+				data: { "name" : encodeURI(name)},
+				async: false,
+				dataType: "json",
+				success: function(data){
+					if (data.length == 3) {
+						layer.msg("没有符合查询条件的产品类别信息！",{offset: ['150px']});
+					} else {
+						zNodes = data;
+						zTreeObj = $.fn.zTree.init($("#treeCategory"), setting, zNodes);
+						zTreeObj.expandAll(true);//全部展开
+					}
+					// 关闭加载中的菊花图标
+					layer.close(loading);
+				}
+			});
+		}else{
+			showCategory();
+		}
+	}
+	
+	$(function() {
+		var html = "<option value=''>请选择</option>";
+		$.ajax({
+				url: "${pageContext.request.contextPath}/firstAudit/find.do",
+				data: {"type" : "REVIEW_QC"},
+				dataType: 'json',
+				success: function(result){
+					$("#fatId").empty();	
+					if (result.success == false && typeof(result.success) != "undefined") {
+						//layer.msg(result.msg,{offset: ['150px']});
+					} else {
+						if (result.length > 0) {
+							for (var i = 0; i < result.length; i++) {
+								html += "<option value='"+result[i].id+"'>"+result[i].name+"</option>";	
+							}
+						}
+					}
+					$("#fatId").append(html);
+				}
+			});
+	});
+	
+	function findTem(){
+		var categoryId = $("#cId").val();
+		var html = "<option value=''>请选择</option>";
+		$.ajax({
+				url: "${pageContext.request.contextPath}/firstAudit/find.do",
+				data: {"categoryId" : categoryId, "type" : "REVIEW_QC"},
+				dataType: 'json',
+				success: function(result){
+					$("#fatId").empty();	
+					if (result.success == false && typeof(result.success) != "undefined") {
+						layer.msg(result.msg,{offset: ['150px']});
+					} else {
+						if (result.length > 0) {
+							for (var i = 0; i < result.length; i++) {
+								html += "<option value='"+result[i].id+"'>"+result[i].name+"</option>";	
+							}
+						}
+					}
+					$("#fatId").append(html);
+				}
+			});
+		
+	}
   </script>
 <body>  
-    <h2 class="list_title">${packages.name}符合性审查项编辑</h2>
+    <h2 class="list_title">${packages.name}资格性符合性检查项编辑</h2>
+    <input type="hidden" name="flowDefineId" id="flowDefineId_2" value="${flowDefineId}">
+    <div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+		<div class=" input_group col-md-3 col-sm-6 col-xs-6 col-lg-12 p0">
+		    <div class="w100p">
+		    	<input type="text" id="search" class="fl m0">
+			      <img alt="" style="position:absolute; top:8px;right:10px;" src="${pageContext.request.contextPath }/public/backend/images/view.png"  onclick="searchs()">
+		    </div>
+		    <ul id="treeCategory" class="ztree" style="margin-top:0;"></ul>
+		</div>
+   	</div>
     <c:if test="${flag != '1' }">
 	    <div class="search_detail ml0">
 	        <ul class="demand_list">
 	          <li>
-	            <label class="fl">选择模板：</label>
-	              <select id="fatId">
-	                <option value="">请选择</option>
-	                <c:forEach items="${firstAuditTemplats}" var="fat">
-	                    <option value="${fat.id}">${fat.name}</option>
-	                </c:forEach>
-	              </select>
+	            <label class="fl">模板选择--></label>
+	             <label class="fl">所属产品目录：</label>
+	            	<div class="input_group w200">
+						<input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
+				        <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
+						<%-- <div class="drop_up" onclick="showCategory();">
+						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
+				        </div> --%>
+					</div>
+		       </li>
+		       <li>
+					<select id="fatId" class="w180">
+		               <%-- <c:forEach items="${firstAuditTemplats}" var="fat">
+		                    <option value="${fat.id}">${fat.name}</option>
+		                </c:forEach> --%>
+		            </select>
 	           </li>
-	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定</button>
+	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定选择</button>
 	           <div class="pull-right">
-	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
+	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入包模板</button>
 	           </div>
 	        </ul>
 	        <div class="clear"></div>
@@ -307,20 +507,20 @@
               <ul class="list-unstyled">
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
                     <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审名称</label>
-	                <span class="col-md-12 col-sm-12 col-xs-12 p0">
+	                <span class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
 	                   <input name="name" id="itemName" maxlength="30" type="text">
 	                </span>
                   </li>
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                     <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>序号</label>
-	                <div class="col-md-12 col-sm-12 col-xs-12 p0">
+	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
 	                   <input  name="position" id="itemPosition" maxlength="10" type="text">
 	                </div>
                  </li>
                  <li class="col-md-12 col-sm-12 col-xs-12 mb20">
                    <label class="col-md-12 pl20 col-xs-12 padding-left-5"><div class="star_red">*</div>评审内容</label>
                    <span class="col-md-12 col-sm-12 col-xs-12 p0">
-                    <textarea class="col-md-12 col-sm-12 col-xs-12 h80" id="itemContent" name="content" maxlength="200" title="" placeholder=""></textarea>
+                    <textarea class="w100p h80" id="itemContent" name="content" maxlength="200" title="" placeholder=""></textarea>
                    </span>
                  </li>
               </ul>

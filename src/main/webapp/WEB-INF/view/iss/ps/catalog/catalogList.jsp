@@ -5,6 +5,7 @@
 <html>
 <head>
 <jsp:include page="/index_head.jsp"></jsp:include>
+<script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js" type="text/javascript"></script>
 <link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet">
 <script type="text/javascript">
 	var treeid = null, nodeName = null, level = null, typesObj = null;
@@ -20,7 +21,7 @@
 				},
 				dataType : "json",
 				datafilter : filter,
-				type : "get",
+				type : "post",
 			},
 			callback : {
 				onClick : zTreeOnClick,//点击节点触发的事件
@@ -79,6 +80,7 @@
 						data : {
 							"param" : encodeURI(param)
 						},
+						type : "post",
 						async : false,
 						dataType : "json",
 						success : function(data) {
@@ -246,7 +248,7 @@
 			<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
 		</div>
 		<div class="content table_box">
-			<div class="col-md-3 col-sm-4 col-xs-12">
+			<div class="col-md-3 col-sm-4 col-xs-12 pl0">
 				<div class="tag-box tag-box-v3 mt15">
 					<ul id="ztree" class="ztree s_ztree"></ul>
 				</div>

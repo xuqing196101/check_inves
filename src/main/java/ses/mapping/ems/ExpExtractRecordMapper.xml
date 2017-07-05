@@ -211,7 +211,7 @@
 		FROM T_SES_EMS_EXP_EXTRACT_RECORD
 		WHERE 1=1
 		<if test="projectName!=null and projectName!='' ">
-			AND PROJECT_NAME = #{projectName,jdbcType=VARCHAR}
+			AND PROJECT_NAME like CONCAT(CONCAT('%', #{projectName,jdbcType=VARCHAR}), '%')
 		</if>
 		<if test="extractionTime!=null and extractionTime!='' ">
 			AND to_date(to_char(EXTRACTION_TIME,'yyyy-MM-dd'),'yyyy-MM-dd') = to_date(to_char(#{extractionTime,jdbcType=TIMESTAMP},'yyyy-MM-dd'),'yyyy-MM-dd')

@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -27,11 +28,12 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
+import ses.model.bms.User;
+import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
-import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
@@ -42,6 +44,7 @@ import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierEdit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierItemLevel;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
@@ -55,6 +58,7 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.QualificationService;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditService;
@@ -62,6 +66,7 @@ import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierEditService;
 import ses.service.sms.SupplierHistoryService;
+import ses.service.sms.SupplierItemLevelServer;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierMatEngService;
@@ -76,9 +81,12 @@ import bss.formbean.Maps;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
+import common.utils.JdcgResult;
+import dss.model.rids.SupplierAnalyzeVo;
 /**
  * 版权：(C) 版权所有 
  * <简述>
@@ -182,6 +190,14 @@ public class SupplierQueryController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierPorjectQuaService supplierPorjectQuaService;
+	
+	/**供应商 等级**/
+	@Autowired
+	private SupplierItemLevelServer supplierItemLevelServer;
+	
+	@Autowired
+	private PurChaseDepOrgService purChaseDepOrgService;
+	
     /**
      *〈简述〉供应商查询
      *〈详细描述〉按照各种条件来查询供应商信息
@@ -244,7 +260,11 @@ public class SupplierQueryController extends BaseSupplierController {
             mp.setValue(new BigDecimal(entry.getValue()));
             mp.setName(entry.getKey());
             listMap.add(mp);
-        }   
+        }
+        //全部机构
+        List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();
+        model.addAttribute("allOrg", allOrg);
+        
         String json = JSON.toJSONString(listMap);
         model.addAttribute("listMap", listMap);
         model.addAttribute("data", json);
@@ -278,7 +298,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @throws UnsupportedEncodingException 异常处理
      */
     @RequestMapping("/findSupplierByPriovince")
-    public String findSupplierByPriovince(Integer judge, Integer sign, Supplier sup, Integer page, Model model, String supplierTypeIds, String supplierType, String categoryNames, String categoryIds) throws UnsupportedEncodingException{
+    public String findSupplierByPriovince(Integer judge, Integer sign, Supplier sup, Integer page, Model model, String supplierTypeIds, String supplierType, String categoryNames, String categoryIds, String reqType) throws UnsupportedEncodingException{
         /*if (judge != null) {
             sup.setStatus(judge);
         }*/
@@ -330,6 +350,10 @@ public class SupplierQueryController extends BaseSupplierController {
         	}
         }
         
+        //全部机构
+        List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();
+        model.addAttribute("allOrg", allOrg);
+        
         this.getSupplierType(listSupplier);
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
         model.addAttribute("supplier", sup);
@@ -338,6 +362,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("supplierTypeIds", supplierTypeIds);
         model.addAttribute("categoryIds", categoryIds);
         model.addAttribute("judge", judge);
+        model.addAttribute("reqType", reqType);
         //judge等于5说明是入库供应商
         if ((judge != null && judge == NUMBER_FIVE) || (sign != null && sign == 2)) {
         	if(sign !=null && sign == 2){
@@ -386,7 +411,7 @@ public class SupplierQueryController extends BaseSupplierController {
         return "ses/sms/supplier_query/select_by_category";
     }
 
-   /**
+  /* *//**
     * @Title: ajax_supplier
     * @date 2017-5-10 下午3:53:23  
     * @Description:查询供应商并计算等级
@@ -396,7 +421,7 @@ public class SupplierQueryController extends BaseSupplierController {
     * @param @param model
     * @param @return      
     * @return String
-    */
+    *//*
     @RequestMapping("/ajax_supplier")
     public String ajax_supplier(Supplier sup, Integer page, String categoryIds, Model model) {
     	 if (categoryIds != null && !"".equals(categoryIds)) {
@@ -404,21 +429,76 @@ public class SupplierQueryController extends BaseSupplierController {
              sup.setItem(listCategoryIds);
          }
         List<Supplier>  listSupplier = supplierService.querySupplierbytypeAndCategoryIds(sup, categoryIds, page == null ? 1 : page);
-
+        
         getSupplierType(listSupplier);
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
         model.addAttribute("supplier", sup);
         model.addAttribute("categoryIds", categoryIds);
         return "ses/sms/supplier_query/ajax_supplier";
+    }*/
+    /**
+     * 
+     * Description:根据 品目 查询供应商数据 和等级
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-14
+     * @param sup
+     * @param page
+     * @param categoryIds
+     * @param model
+     * @return
+     */
+    @RequestMapping("/ajaxSupplierData")
+    @ResponseBody
+    public JdcgResult ajaxSupplierData(SupplierItemLevel supplier, Integer page, String categoryIds) {
+    	JdcgResult result=null;
+    	if (StringUtils.isNotBlank(categoryIds)) {
+        List<SupplierItemLevel>  listSupplier = supplierItemLevelServer.findSupplierItemLevel(supplier, page, categoryIds);
+        if(listSupplier != null && !listSupplier.isEmpty()){
+        	result=new JdcgResult(500, "请求成功", new PageInfo<>(listSupplier));
+        }else{
+        	listSupplier=new ArrayList<>();
+        	result=new JdcgResult(501, "暂无数据", listSupplier);
+        }
+        }else{
+        	result=new JdcgResult(502, "参数错误", null);
+        }
+        return result;
     }
-    
+    /**
+     * 
+     * Description:根据 品目 重新计算供应商数据 和等级
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-14
+     * @param sup
+     * @param page
+     * @param categoryIds
+     * @param model
+     * @return
+     */
+    @RequestMapping("/againSupplierData")
+    @ResponseBody
+    public JdcgResult againSupplierData(String supplierTypeId, String categoryIds) {
+    	JdcgResult result=null;
+    	if (StringUtils.isNotBlank(categoryIds)) {
+        int count = supplierService.againSupplierLevel(supplierTypeId, categoryIds);
+        if(count > 0){
+        	result=new JdcgResult(500, "重算成功", count);
+        }else{
+        	result=new JdcgResult(501, "暂无数据", count);
+        }
+        }else{
+        	result=new JdcgResult(502, "参数错误", null);
+        }
+        return result;
+    }
     
     /**
      *〈简述〉供应商基本信息
      *〈详细描述〉
      * @author Song Biaowei
      * @param request request
-     * @param isRuku 和person一起 判断返回这三个页面（供应商查询、入库供应商查询、品目查询供应商）中的一个
      * @param supplier 供应商实体类
      * @param supplierId 供应商id
      * @param person 和isRuku一起判断返回这三个页面（供应商查询、入库供应商查询、品目查询供应商）中的一个
@@ -426,8 +506,16 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/essential")
-    public String essentialInformation(HttpServletRequest request, Integer judge, Integer sign, Supplier supplier, String supplierId, Integer person, Model model) {
-        /*User user = (User) request.getSession().getAttribute("loginUser");
+    public String essentialInformation(HttpServletRequest request, Integer judge, Integer sign, Supplier supplier, String supplierId, Integer person, Model model, String reqType) {
+    	// 获取查询条件
+    	// 获取地址
+    	String addressCond = supplier.getAddress();
+    	String businessNatureCond = supplier.getBusinessNature();
+    	String orgIdCond = supplier.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplier.getSupplierTypeIds();
+    	// 查询条件结束
+        User user = (User) request.getSession().getAttribute("loginUser");
         Integer ps = (Integer) request.getSession().getAttribute("ps");
         if (user.getTypeId() != null && ps != null) {
             person = ps;
@@ -435,11 +523,11 @@ public class SupplierQueryController extends BaseSupplierController {
         if (user.getTypeId() != null && person != null) {
             request.getSession().setAttribute("ps", person);
             supplierId = user.getTypeId();
-        }*/
+        }
         supplier = supplierAuditService.supplierById(supplierId);
+        String provinceName = "";
+        String cityName = "";
         try {
-            String provinceName = "";
-            String cityName = "";
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -520,6 +608,11 @@ public class SupplierQueryController extends BaseSupplierController {
         }*/
         model.addAttribute("judge", judge);
         model.addAttribute("sign", sign);
+        model.addAttribute("reqType", reqType);
+        model.addAttribute("provinceName", addressCond);
+        model.addAttribute("businessNature", businessNatureCond);
+        model.addAttribute("orgId", orgIdCond);
+        model.addAttribute("supplierTypeIds", supplierTypeIdsCond);
         
        /* model.addAttribute("person", person);*/
         
@@ -540,8 +633,17 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/financial")
-    public String financialInformation(HttpServletRequest request, Integer judge, Integer sign, SupplierFinance supplierFinance, Supplier supplier) {
-        String supplierId = supplierFinance.getSupplierId();
+    public String financialInformation(HttpServletRequest request, Integer judge, Integer sign, SupplierFinance supplierFinance, Supplier supplier, String reqType) {
+    	// 获取查询条件
+    	// 获取地址
+    	String addressCond = supplier.getAddress();
+    	String businessNatureCond = supplier.getBusinessNature();
+    	String orgIdCond = supplier.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplier.getSupplierTypeIds();
+    	// 查询条件结束
+
+    	String supplierId = supplierFinance.getSupplierId();
         //勾选的供应商类型
         String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
         request.setAttribute("supplierTypeNames", supplierTypeName);
@@ -558,9 +660,9 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("supplierId", supplierId);
         
         supplier = supplierAuditService.supplierById(supplierId);
+        String provinceName = "";
+        String cityName = "";
         try {
-            String provinceName = "";
-            String cityName = "";
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -578,6 +680,11 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("suppliers", supplier);
         request.setAttribute("judge", judge);
         request.setAttribute("sign", sign);
+        request.setAttribute("provinceName", addressCond);
+        request.setAttribute("businessNature", businessNatureCond);
+        request.setAttribute("orgId", orgIdCond);
+        request.setAttribute("reqType", reqType);
+        request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
         return "ses/sms/supplier_query/supplierInfo/financial";
     }
     
@@ -590,15 +697,24 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/shareholder")
-    public String shareholderInformation(HttpServletRequest request, Integer judge, Integer sign, SupplierStockholder supplierStockholder) {
+    public String shareholderInformation(HttpServletRequest request, Supplier supplierQuery, Integer judge, Integer sign, SupplierStockholder supplierStockholder, String reqType) {
+    	// 获取查询条件
+    	// 获取地址
+    	String addressCond = supplierQuery.getAddress();
+    	String businessNatureCond = supplierQuery.getBusinessNature();
+    	String orgIdCond = supplierQuery.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();
+    	// 查询条件结束
+    	
         String supplierId = supplierStockholder.getSupplierId();
         List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
         request.setAttribute("supplierId", supplierId);
         request.setAttribute("shareholder", list);
         Supplier supplier = supplierAuditService.supplierById(supplierId);
+        String provinceName = "";
+        String cityName = "";
         try {
-            String provinceName = "";
-            String cityName = "";
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -615,6 +731,11 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("suppliers", supplier);
         request.setAttribute("judge", judge);
         request.setAttribute("sign", sign);
+        request.setAttribute("provinceName", addressCond);
+        request.setAttribute("businessNature", businessNatureCond);
+        request.setAttribute("orgId", orgIdCond);
+        request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
+        request.setAttribute("reqType", reqType);
         return "ses/sms/supplier_query/supplierInfo/shareholder";
     }
     
@@ -708,31 +829,42 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/item")
-    public String item(String supplierId, Integer judge, Model model, Integer sign,  HttpServletRequest request) {
+    public String item(String supplierId, Integer judge, Model model, Integer sign,  HttpServletRequest request, Supplier supplierQuery, String reqType) {
+    	// 获取查询条件
+    	// 获取地址
+    	String addressCond = supplierQuery.getAddress();
+    	String businessNatureCond = supplierQuery.getBusinessNature();
+    	String orgIdCond = supplierQuery.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();
+    	// 查询条件结束
+    	
         //勾选的供应商类型
         String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
         request.setAttribute("supplierTypeNames", supplierTypeName);
         request.setAttribute("supplierId", supplierId);
         
         Supplier supplier = supplierService.get(supplierId);
-        /*try {
-            String provinceName = "";
-            String cityName = "";
+        String provinceName = "";
+        try {
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
-                cityName = area.getName();
                 Area area1 = areaService.listById(area.getParentId());
                 if (area1 != null) {
                     provinceName = area1.getName();
                 }
             }
-            supplier.setAddress(provinceName + cityName);
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
         request.setAttribute("judge", judge);
         request.setAttribute("sign", sign);
         request.setAttribute("currSupplier", supplier);
+        request.setAttribute("provinceName", addressCond);
+        request.setAttribute("businessNature", businessNatureCond);
+        request.setAttribute("orgId", orgIdCond);
+        request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
+        request.setAttribute("reqType", reqType);
         return "ses/sms/supplier_query/supplierInfo/item";
     }
 
@@ -843,7 +975,16 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping(value = "aptitude")
-    public String aptitude(Model model, Integer judge, Integer sign, String supplierId, Integer supplierStatus) {
+    public String aptitude(Model model, Integer judge, Integer sign,Supplier supplierQuery, String supplierId, Integer supplierStatus,String reqType) {
+    	// 获取查询条件
+    	// 获取地址
+    	String addressCond = supplierQuery.getAddress();
+    	String businessNatureCond = supplierQuery.getBusinessNature();
+    	String orgIdCond = supplierQuery.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();
+    	// 查询条件结束
+    	
 		model.addAttribute("supplierStatus", supplierStatus);
 		model.addAttribute("sign", sign);
 		model.addAttribute("supplierId", supplierId);
@@ -976,9 +1117,9 @@ public class SupplierQueryController extends BaseSupplierController {
 		}
 		
 		Supplier supplier = supplierService.get(supplierId);
+		String provinceName = "";
+		String cityName = "";
         try {
-            String provinceName = "";
-            String cityName = "";
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -994,6 +1135,11 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("judge", judge);
         model.addAttribute("sign", sign);
         model.addAttribute("suppliers", supplier);
+        model.addAttribute("provinceName", addressCond);
+        model.addAttribute("businessNature", businessNatureCond);
+        model.addAttribute("orgId", orgIdCond);
+        model.addAttribute("supplierTypeIds", supplierTypeIdsCond);
+        model.addAttribute("reqType", reqType);
 		
        return "ses/sms/supplier_query/supplierInfo/aptitude";
     }
@@ -1547,7 +1693,16 @@ public class SupplierQueryController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value = "/contract")
-	public String contractUp(String supplierId, Model model, Integer judge, Integer sign) {
+	public String contractUp(String supplierId, Model model,Supplier supplierQuery, Integer judge, Integer sign, String reqType) {
+		// 获取查询条件
+    	// 获取地址
+    	String addressCond = supplierQuery.getAddress();
+    	String businessNatureCond = supplierQuery.getBusinessNature();
+    	String orgIdCond = supplierQuery.getOrgId();
+    	// 所属类别
+    	/*String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();*/
+    	
+    	// 查询条件结束
 		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
 		String supplierTypeIds = "";
 		for(SupplierTypeRelate s: typeIds) {
@@ -1557,9 +1712,9 @@ public class SupplierQueryController extends BaseSupplierController {
 		model.addAttribute("supplierId", supplierId);
 		
 		Supplier supplier = supplierService.get(supplierId);
+		String provinceName = "";
+		String cityName = "";
         try {
-            String provinceName = "";
-            String cityName = "";
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -1575,6 +1730,11 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("judge", judge);
         model.addAttribute("sign", sign);
         model.addAttribute("suppliers", supplier);
+        model.addAttribute("reqType", reqType);
+        model.addAttribute("provinceName", addressCond);
+        model.addAttribute("businessNature", businessNatureCond);
+        /*model.addAttribute("supplierTypeIds", supplierTypeIdsCond);*/
+        model.addAttribute("orgId", orgIdCond);
 		return "ses/sms/supplier_query/supplierInfo/contract";
 	}
     
@@ -1715,7 +1875,16 @@ public class SupplierQueryController extends BaseSupplierController {
  	}
        
     @RequestMapping("supplierType")
-   	public String supplierType(HttpServletRequest request, Integer judge, Integer sign, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus) {
+   	public String supplierType(HttpServletRequest request, Supplier supplierQuery, Integer judge, Integer sign, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus, String reqType) {
+    	// 获取查询条件
+    	// 获取地址
+    	String addressCond = supplierQuery.getAddress();
+    	String businessNatureCond = supplierQuery.getBusinessNature();
+    	String orgIdCond = supplierQuery.getOrgId();
+    	// 所属类别
+    	String supplierTypeIdsCond = supplierQuery.getSupplierTypeIds();
+    	// 查询条件结束
+    	
    		request.setAttribute("supplierStatus", supplierStatus);
    		
    		//勾选的供应商类型
@@ -1870,9 +2039,9 @@ public class SupplierQueryController extends BaseSupplierController {
    		request.setAttribute("supplierMatSes", supplierMatSe);
    		
    		Supplier supplier = supplierAuditService.supplierById(supplierId);
+   		String provinceName = "";
+   		String cityName = "";
         try {
-            String provinceName = "";
-            String cityName = "";
             Area area = areaService.listById(supplier.getAddress());
             if (area != null) {
                 cityName = area.getName();
@@ -1888,6 +2057,11 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("suppliers", supplier);
         request.setAttribute("judge", judge);
         request.setAttribute("sign", sign);
+        request.setAttribute("provinceName", addressCond);
+        request.setAttribute("businessNature", businessNatureCond);
+        request.setAttribute("orgId", orgIdCond);
+        request.setAttribute("supplierTypeIds", supplierTypeIdsCond);
+        request.setAttribute("reqType", reqType);
    		return "ses/sms/supplier_query/supplierInfo/supplierType";
    	}
        
@@ -1941,4 +2115,92 @@ public class SupplierQueryController extends BaseSupplierController {
     	model.addAttribute("sign", sign);
     	return "ses/sms/supplier_query/supplierInfo/temporary_supplier_info";
     }
+    
+   /**
+    * 
+    * Description: 入库供应商统计
+    * 
+    * @author Easong
+    * @version 2017年6月5日
+    * @param sup
+    * @param model
+    * @param status
+    * @param judge
+    * @param supplierTypeIds
+    * @param supplierType
+    * @param categoryNames
+    * @param categoryIds
+    * @return
+    */
+    @RequestMapping("/readOnlyList")
+	public String readOnlyList(Integer judge, Integer sign, Supplier sup,
+			Integer page, Model model, String supplierTypeIds,
+			String supplierType, String categoryNames, String categoryIds,
+			SupplierAnalyzeVo supplierAnalyzeVo) throws UnsupportedEncodingException {
+		if (sup.getAddress() != null) {
+			model.addAttribute("address", sup.getAddress());
+			String address = supplierEditService.getProvince(sup.getAddress());
+			if ("".equals(address)) {
+				String addressName = URLDecoder.decode(sup.getAddress(),
+						"UTF-8");
+				if (addressName.length() > NUMBER_TWO) {
+					sup.setAddress(addressName.substring(0, NUMBER_THREE)
+							.replace(",", ""));
+					model.addAttribute("address", sup.getAddress());
+				} else {
+					sup.setAddress(addressName.substring(0, NUMBER_TWO)
+							.replace(",", ""));
+					model.addAttribute("address", sup.getAddress());
+				}
+			} else {
+				sup.setAddress(address);
+			}
+		}
+
+		if (categoryIds != null && !"".equals(categoryIds)) {
+			List<String> listCategoryIds = Arrays
+					.asList(categoryIds.split(","));
+			sup.setItem(listCategoryIds);
+		}
+		if (supplierTypeIds != null && !"".equals(supplierTypeIds)) {
+			List<String> listSupplierTypeIds = Arrays.asList(supplierTypeIds
+					.split(","));
+			sup.setItemType(listSupplierTypeIds);
+		}
+
+		// 地区
+		List<Area> privnce = areaService.findRootArea();
+		model.addAttribute("privnce", privnce);
+
+		// 在数据字典里查询企业性质
+		List<DictionaryData> businessNature = DictionaryDataUtil.find(32);
+		model.addAttribute("businessNature", businessNature);
+
+		List<Supplier> listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
+
+		// 企业性质
+		for (Supplier s : listSupplier) {
+			if (s.getBusinessNature() != null) {
+				for (int i = 0; i < businessNature.size(); i++) {
+					if (s.getBusinessNature().equals(
+							businessNature.get(i).getId())) {
+						String business = businessNature.get(i).getName();
+						s.setBusinessNature(business);
+					}
+				}
+			}
+		}
+
+		this.getSupplierType(listSupplier);
+		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+		model.addAttribute("supplier", sup);
+		model.addAttribute("categoryNames", categoryNames);
+		model.addAttribute("supplierType", supplierType);
+		model.addAttribute("supplierTypeIds", supplierTypeIds);
+		model.addAttribute("categoryIds", categoryIds);
+		model.addAttribute("judge", judge);
+		model.addAttribute("supplierAnalyzeVo", supplierAnalyzeVo);
+		return "dss/rids/list/storeSupplierList";
+	}
+
 }

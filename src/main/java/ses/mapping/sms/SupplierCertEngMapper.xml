@@ -289,4 +289,12 @@
 		AND 
 			t2."MAT_ENG_ID" = #{param3}
 	</select>
+	
+	
+	
+	<delete id="deleteByMatEngId">
+	
+	delete from T_SES_SMS_SUPPLIER_CERT_ENG
+		where mat_eng_id = #{matEngId}
+	</delete>
 </mapper>

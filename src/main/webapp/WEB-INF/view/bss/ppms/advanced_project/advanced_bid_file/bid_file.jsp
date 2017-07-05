@@ -261,20 +261,20 @@
           <ul class="list-unstyled">
             <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
               <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审名称</label>
-              <span class="col-md-12 col-sm-12 col-xs-12 p0">
+              <span class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
                        <input name="name" id="itemName" maxlength="30" type="text">
                     </span>
             </li>
             <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
               <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>序号</label>
-              <div class="col-md-12 col-sm-12 col-xs-12 p0">
+              <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
                 <input name="position" id="itemPosition" maxlength="10" type="text">
               </div>
             </li>
             <li class="col-md-12 col-sm-12 col-xs-12 mb20">
               <label class="col-md-12 pl20 col-xs-12 padding-left-5"><div class="star_red">*</div>评审内容</label>
               <span class="col-md-12 col-sm-12 col-xs-12 p0">
-                    <textarea class="col-md-12 col-sm-12 col-xs-12 h80" id="itemContent" name="content" maxlength="200" title="" placeholder=""></textarea>
+                    <textarea class="w100p h80" id="itemContent" name="content" maxlength="200" title="" placeholder=""></textarea>
                    </span>
             </li>
           </ul>

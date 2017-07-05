@@ -1,12 +1,18 @@
 package ses.model.sms;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import ses.model.bms.Area;
 
-public class SupplierAddress {
+public class SupplierAddress implements Serializable{
     /**
+	 * SupplierAddress.java
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * <pre>
      * 表字段 : T_SES_SMS_SUPPLIER_ADDRESS.ID
      * </pre>

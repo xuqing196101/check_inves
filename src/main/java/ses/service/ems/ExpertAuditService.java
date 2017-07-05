@@ -231,4 +231,13 @@ public interface ExpertAuditService {
      * @return Integer
      */
     Integer findByObj (ExpertAudit expertAudit);
+    
+    /**
+     * @Title: temporaryAudit
+     * @date 2017-6-15 下午4:00:26  
+     * @Description:暂存审核
+     * @param @param expert      
+     * @return void
+     */
+    boolean temporaryAudit (String expertId);
 }

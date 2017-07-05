@@ -18,10 +18,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="author" content="">
 	<jsp:include page="backend_common.jsp"></jsp:include>	
 	
-	<script src="<%=basePath%>public/ZHQ/js/hm.js"></script><script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/hm.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 <!--导航js-->
-<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -35,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div class="row container margin-bottom-10">
             <div class="col-md-8">
               <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/ZHQ/images/logo.png" id="logo-header">
+                 <img alt="Logo" src="${pageContext.request.contextPath}/public/ZHQ/images/logo.png" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->

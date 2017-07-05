@@ -121,49 +121,47 @@
     	window.location.href="${ pageContext.request.contextPath }/noticeDocument/add.do";
     }
     
-    function search(){
-    var orgTyp = "${authType}";
-		if(orgTyp != '4'){
-			layer.msg("只有资源服务中心才能操作");
-			return;
+   
+		function search() {
+			var orgTyp = "${authType}";
+			if (orgTyp != '4') {
+				layer.msg("只有资源服务中心才能操作");
+				return;
+			}
+			$("#submitForm").submit();
 		}
-	    var tname = $("#tname").val();
-	    var docType = $("#searchType  option:selected").val();
-	    location.href = "${ pageContext.request.contextPath }/noticeDocument/search.html?name="+tname+"&docType="+docType;
 
-	 }
-
-	 function resets(){
-	 var orgTyp = "${authType}";
-		if(orgTyp != '4'){
-			layer.msg("只有资源服务中心才能操作");
-			return;
+		function resets() {
+			var orgTyp = "${authType}";
+			if (orgTyp != '4') {
+				layer.msg("只有资源服务中心才能操作");
+				return;
+			}
+			window.location.href = "${ pageContext.request.contextPath }/noticeDocument/getAll.do";
 		}
-		 window.location.href = "${ pageContext.request.contextPath }/noticeDocument/getAll.do";
-	 }
-	 
-	 /* 不知道这个谁写的  也没看懂要干啥 */
-	 /* $(function(){
-		 $.ajax({
-				contentType: "application/json;charset=UTF-8",
-				  url:"${pageContext.request.contextPath}/pqinfo/selectContract.do?purchaseType="+type,
-			      type:"POST",
-			      dataType: "json",
-			      success:function(purchaseContracts) {
-		              if (purchaseContracts) {
-		                $("#contract").html("<option></option>");
-		                $.each(purchaseContracts, function(i, purchaseContract) {
-		              	  if(purchaseContract.name != null && purchaseContract.name!=''){
-		              		  $("#contract").append("<option  value="+purchaseContract.id+">"+purchaseContract.name+"</option>");
-		              	  }
-		                });
-		              }
-		              $("#contract").select2("val", "${pqinfo.contract.id}");
-		          }
 
-			});
-	 }); */
-  </script>
+			/* 不知道这个谁写的  也没看懂要干啥 */
+			/* $(function(){
+			 $.ajax({
+					contentType: "application/json;charset=UTF-8",
+					  url:"${pageContext.request.contextPath}/pqinfo/selectContract.do?purchaseType="+type,
+				      type:"POST",
+				      dataType: "json",
+				      success:function(purchaseContracts) {
+			              if (purchaseContracts) {
+			                $("#contract").html("<option></option>");
+			                $.each(purchaseContracts, function(i, purchaseContract) {
+			              	  if(purchaseContract.name != null && purchaseContract.name!=''){
+			              		  $("#contract").append("<option  value="+purchaseContract.id+">"+purchaseContract.name+"</option>");
+			              	  }
+			                });
+			              }
+			              $("#contract").select2("val", "${pqinfo.contract.id}");
+			          }
+
+				});
+			}); */
+		</script>
   </head>
   <body>
 	<!--面包屑导航开始-->
@@ -183,7 +181,7 @@
 
     <!-- 查询 -->
        <div class="search_detail">
-       	<form action="${ pageContext.request.contextPath }/noticeDocument/search.html"
+       	<form id="submitForm" action="${ pageContext.request.contextPath }/noticeDocument/search.html"
 				method="post" enctype="multipart/form-data" class="mb0">
        	<ul class="demand_list">
     	  <li>
@@ -203,7 +201,7 @@
  				 </select>
 	  		</span>
 	      </li>
-	    	<button type="submit" class="btn fl mt1">查询</button>
+	    	<button type="button" class="btn fl mt1" onclick="search()">查询</button>
 	    	<button type="reset" onclick="resets()" class="btn fl mt1">重置</button>  	
     	</ul>
     	</form>

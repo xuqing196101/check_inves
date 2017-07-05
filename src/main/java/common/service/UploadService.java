@@ -230,5 +230,18 @@ public interface UploadService {
 	* @throws
 	 */
 	public List<UploadFile> substrBusniessI(String businessId);
+	/**
+	 * 
+	 * Description:查询文件 数量
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param business_id
+	 * @param type_id
+	 * @param syskey
+	 * @return
+	 */
+	public Long countFileByBusinessId(String business_id, String type_id, Integer syskey);
+
 
 }

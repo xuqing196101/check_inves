@@ -14,6 +14,9 @@ import ses.formbean.QualificationBean;
 import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierItemLevel;
+import ses.model.sms.supplierExport;
 /**
  * @Title: SupplierInfoService
  * @Description: Supplier 接口
@@ -375,15 +378,23 @@ public interface SupplierService {
    
    /**
     * @Title: querysupplier
-    * @date 2016-10-5 上午10:23:29  
-    * @Description: 查询表
+    * @Description: 重新计算供应商等级
     * @param @param supplier
     * @param @param page
     * @param @return      
     * @return List<Supplier>
     */
-	 List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier, String categoryIds, Integer page);
-	 
+	 int againSupplierLevel(String supplierTypeId, String categoryIds);
+	 /**
+	  * 
+	  * Description:根据参数查询 数据
+	  * 
+	  * @author YangHongLiang
+	  * @version 2017-6-22
+	  * @param supplier
+	  * @return
+	  */
+	 List<Supplier> findSupplierByCategoryId(Supplier supplier);
 	 /**
 	  * 
 	  *〈根据社会信用代码和手机号查询临时供应商〉
@@ -396,4 +407,65 @@ public interface SupplierService {
 	 
 	 
 	   List<Supplier> getCreditCode(String creditCode,Integer isProvisional);
+	 public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
+	 public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);
+	 /**
+	  * 
+	  * Description:根据suppliers 获取供应商 最大的 成立时间 
+	  * 
+	  * @author YangHongLiang
+	  * @version 2017-6-16
+	  * @param supplierIds
+	  * @return
+	  */
+	Date findMaxFoundDate(List<String> supplierIds);
+
+	/**
+	 * 根据采购机构id统计对应状态的供应商数量
+	 * @param purchaseDepId
+	 * @param status
+	 * @return
+	 */
+	public int countByPurchaseDepId(String purchaseDepId, int status);
+	/**
+	 * 
+	 * Description:获取资质文件 数量
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param cateTree
+	 * @param supplierId
+	 * @return
+	 */
+	public Long countCategoyrId(SupplierCateTree cateTree,String supplierId);
+	/**
+	 * 
+	 * Description:获取销售合同数量
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-26
+	 * @param supplierItemId
+	 * @return
+	 */
+	public Long contractCountCategoyrId(String supplierItemId);
+
+	/**
+	 * 手机号校验：专家库+供应商库（除去临时供应商）
+	 * @param mobile
+	 * @return
+	 */
+	public boolean checkMobile(String mobile);
+
+	/**
+	 * 通过供应商名称查询(去除临时供应商)
+	 * @param supplierName
+	 * @return
+	 */
+	public List<Supplier> selByNameWithoutProvisional(String supplierName);
+
+	/**
+	 * 初始化财务信息
+	 * @param supplier
+	 */
+	public void initFinance(Supplier supplier);
 }

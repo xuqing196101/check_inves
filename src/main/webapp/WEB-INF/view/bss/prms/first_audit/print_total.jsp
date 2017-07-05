@@ -35,14 +35,14 @@
 	   		<h2>${project.name}--${pack.name}</h2>
 	   	</div>
 	   	<div class="content table_box over_scroll">
-	  	<table id="tabId" class="table table-bordered table-condensed table-hover table-striped  p0 space_nowrap">
+	  	<table id="tabId" class="table table-bordered table-condensed table-hover table-striped  p0 m_resize_table_width">
  		  <thead>
 		      <tr>
-		        <th class="info">评审内容/供应商</th>
+		        <th class="info" width = "120">评审内容/供应商</th>
 		        <c:set var="suppliers" value="0" />
 		        <c:forEach items="${saleTenderList}" var="supplier" varStatus="vs">
 		        	<c:set var="suppliers" value="${suppliers+1}" />
-		        	<th class="info">${supplier.suppliers.supplierName}</th>
+		        	<th class="info" width = "120">${supplier.suppliers.supplierName}</th>
 		        </c:forEach>
 		      </tr>
 	      </thead>
@@ -77,5 +77,28 @@
   		<h4>专家签名：</h4>
   	  </div>
   	</div>
+  	
+  	<script type="text/javascript">
+		function resize_table_width() {
+	        $('.m_resize_table_width').each(function () {
+	            var table_width = 0;
+	            var parent_width = $(this).parent().width();
+	            $(this).find('thead th').each(function () {
+	            	if(typeof($(this).attr('width')) != 'undefined') {
+	            		table_width +=  parseInt($(this).attr('width'));
+		            }
+	            });
+	            if (table_width > parent_width) {
+		            $(this).css({
+		                width: table_width,
+		                maxWidth: table_width
+		            });
+	            }
+	        });
+	    }
+	    $(function () {
+	        resize_table_width();
+	    });
+	   	</script>
   </body>
 </html>

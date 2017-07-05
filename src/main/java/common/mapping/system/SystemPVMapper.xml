@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="common.dao.SystemPVMapper" >
+  <resultMap id="BaseResultMap" type="common.model.SystemPV" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="DAY_NUM" property="dayNum" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DAY_NUM
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYSTEM_PV
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYSTEM_PV
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="common.model.SystemPV" >
+    insert into T_SYSTEM_PV (ID, DAY_NUM)
+    values (#{id,jdbcType=DECIMAL}, #{dayNum,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="common.model.SystemPV" >
+    insert into T_SYSTEM_PV
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="dayNum != null" >
+        DAY_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="dayNum != null" >
+        #{dayNum,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="common.model.SystemPV" >
+    update T_SYSTEM_PV
+    <set >
+      <if test="dayNum != null" >
+        DAY_NUM = #{dayNum,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="common.model.SystemPV" >
+    update T_SYSTEM_PV
+    set DAY_NUM = #{dayNum,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- 查询总访问数 -->
+  <select id="selectPvTotalCount" resultType="java.math.BigDecimal">
+  	SELECT SUM(T.DAY_NUM) FROM T_SYSTEM_PV T
+  </select>
+  
+  <!-- 根据id查询此记录数 -->
+  <select id="selectCountById" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+  	SELECT COUNT(ID) FROM T_SYSTEM_PV T WHERE T.ID=#{id}
+  </select>
+</mapper>

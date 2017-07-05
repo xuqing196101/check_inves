@@ -11,6 +11,7 @@
 <script src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
 <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>	
 <script type="text/javascript">
+  var flag = true;
   function start(){
     layer.confirm('您确认要启动项目吗?',{
       shade:0.01,
@@ -21,12 +22,17 @@
         name = $.trim(name);
         if(name == ""){
           $("#sps").html("负责人不能为空").css('color', 'red');
+          flag = false;
         }else{
           $("#att").submit();
         }
       },function(){
-        var index=parent.layer.getFrameIndex(window.name);
-        parent.layer.close(index);
+        if(flag){
+          var index=parent.layer.getFrameIndex(window.name);
+          parent.layer.close(index);
+        } else {
+           layer.close();
+        }
       }
     ); 
   }

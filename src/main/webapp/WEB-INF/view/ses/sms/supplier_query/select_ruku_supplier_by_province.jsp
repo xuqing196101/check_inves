@@ -50,6 +50,7 @@
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
 				$("#businessNature option:selected").removeAttr("selected");
+				$("#orgName option:selected").removeAttr("selected");
 				
 				/* var address = '${address}';
 				address = encodeURI(address);
@@ -344,6 +345,8 @@
   			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html" method="post">
 		    	<input type="hidden" name="page" id="page">
 		      <input type="hidden" name="judge" value="5">
+		      <%-- <input type="hidden" name="orgName" value="${ supplier.orgName }"> --%>
+		      <input type="hidden" name="reqType" value="${ reqType }">
 		      <c:if test="${sign != 2 }">
 		      	<input type="hidden" name="address" value="${address }">
 		      </c:if>
@@ -400,9 +403,9 @@
 								<option value="4">待复核</option>
 								<option value="5">复核通过</option>
 								<option value="6">复核未通过</option>
-								<option value="7">待考察</option>
-								<option value="8">考察合格</option>
-								<option value="9">考察不合格</option>
+								<!-- <option value="5">待考察</option> -->
+								<option value="7">考察合格</option>
+								<option value="8">考察不合格</option>
 							</select>
 						 </li>
              <%-- <li>
@@ -419,6 +422,15 @@
 	            <input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
 	            </span>
 	          </li>
+	          <li>
+              <label class="fl">采购机构：</label>
+              <select name="orgName" id="orgName" class="w220">
+                <option value=''>全部</option>
+                <c:forEach items="${allOrg}" var="org">
+                  <option value="${org.name}" <c:if test="${supplier.orgName eq org.name}">selected</c:if>>${org.name}</option>
+                </c:forEach>
+              </select>
+            </li>
 	          <c:if test ="${sign == 2 }">
               <li>
                 <label class="fl">地区：</label>
@@ -433,15 +445,20 @@
 		       </ul>
 		       <div class="col-md-12 clear tc mt10">
 	           <button type="button" onclick="submit()" class="btn">查询</button>
-	           <button type="button" class="btn" onclick="chongzhi()">重置</button> 
-	           <c:choose>
-				 			<c:when test="${sign == 2 }">
-					 				<button class="btn" type="button" onclick="fanhui();">切换到地图</button>
-				 			</c:when>
-				 			<c:otherwise>
-				 					<button class="btn btn-windows back" type="button" onclick="fanhui();">返回</button>
-				 			</c:otherwise>
-				 		</c:choose>
+	           <button type="button" class="btn" onclick="chongzhi()">重置</button>
+	           <c:if test="${ empty reqType }">
+		           <c:choose>
+						 			<c:when test="${sign == 2 }">
+							 				<button class="btn" type="button" onclick="fanhui();">切换到地图</button>
+						 			</c:when>
+						 			<c:otherwise>
+						 					<button class="btn btn-windows back" type="button" onclick="fanhui();">返回</button>
+						 			</c:otherwise>
+					 		</c:choose>
+	           </c:if> 
+	           <c:if test="${ not empty reqType }">
+	           	<a class="btn btn-windows reset" onclick="history.go(-1)">返回</a>
+	           </c:if> 
            </div>
            <div class="clear"></div>
 		     </form>
@@ -469,7 +486,7 @@
 							<tr>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
-									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
+									<a half="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a>
 								</td>
 								<%-- <td class="">${list.loginName }</td> --%>
 								<td class="">${list.contactName }</td>
@@ -487,9 +504,9 @@
 									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
 									<c:if test="${list.status==5 and list.isProvisional == 0 }"><span class="label rounded-2x label-u">复核通过</span></c:if>
 									<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
-									<c:if test="${list.status==7 }"><span class="label rounded-2x label-dark">待考察</span></c:if>
-									<c:if test="${list.status==8 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
-									<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
+									<%-- <c:if test="${list.status==5 }"><span class="label rounded-2x label-dark">待考察</span></c:if> --%>
+									<c:if test="${list.status==7 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
+									<c:if test="${list.status==8 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
 								</td>
 							</tr>
 						</c:forEach>

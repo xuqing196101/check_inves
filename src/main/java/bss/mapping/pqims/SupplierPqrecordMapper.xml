@@ -47,7 +47,7 @@
     <include refid="Base_Column_List" />
     from T_BSS_PQIMS_SUPPLIER_PQRECORD p LEFT JOIN T_SES_SMS_SUPPLIER s on p.SUPPLIER_ID = s.ID
     <if test="supplier != null and supplier != ''">
-   		where s.SUPPLIER_NAME LIKE '%'||#{supplier.supplierName}||'%'
+   		where s.SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{supplier.supplierName}), '%')
     </if>
     order by SUCCESSED_COUNT DESC
   </select>

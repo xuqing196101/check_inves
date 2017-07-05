@@ -17,6 +17,7 @@
 	border-radius: 3px;
 	overflow: hidden;
 	display: block;
+	white-space: nowrap;
 }
 .webuploader-pick-hover {
 	background-color: #48bbef;

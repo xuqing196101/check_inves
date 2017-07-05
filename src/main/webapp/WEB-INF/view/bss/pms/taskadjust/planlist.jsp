@@ -116,12 +116,17 @@
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		});
+		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).find("input").val();
+		status = $.trim(status);
 		
 		if (id.length == 0){
 			layer.msg("请选择需要取消的任务记录");
 			return ;
 		}
-		
+		if(status == '2'){
+		  layer.msg("任务已取消");
+		  return;
+		}
 		layer.confirm('您确定要取消？', {
 			  btn: ['确定','取消'] 
 			}, function(){
@@ -175,9 +180,12 @@
 <!--面包屑导航开始-->
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业系统</a></li><li><a href="javascript:void(0)">采购计划管理</a></li><li class="active"><a href="javascript:void(0)">采购任务调整</a></li>
-		   </ul>
+          <ul class="breadcrumb margin-left-0">
+              <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+              <li><a href="javascript:void(0)">保障作业系统</a></li>
+              <li><a href="javascript:void(0)">采购项目管理</a></li>
+              <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/adjust/list.html');">采购任务调整</a></li>
+          </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -243,8 +251,11 @@
             <tr class="pointer">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"></td>
               <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-              <td>
-                <a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.name}</a>
+              <td title="${obj.name}">
+                <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
+	                <c:if test="${fn:length (obj.name) > 20}">${fn:substring(obj.name,0,19)}...</c:if>
+	                <c:if test="${fn:length(obj.name) <= 20}">${obj.name}</c:if>
+                </a>
               </td>
               <td>
                 <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
@@ -266,6 +277,7 @@
                 <c:if test="${'2'==obj.status}">
                  		 已取消 
                 </c:if>
+                <input type="hidden" value="${obj.status}"/>
               </td>
               <td class="tc">
                 <c:if test="${'1'==obj.taskNature}">

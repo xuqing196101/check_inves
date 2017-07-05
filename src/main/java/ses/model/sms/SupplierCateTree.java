@@ -1,5 +1,6 @@
 package ses.model.sms;
 
+import java.io.Serializable;
 import java.util.List;
 
 import ses.model.bms.DictionaryData;
@@ -14,25 +15,40 @@ import ses.model.bms.Qualification;
  * @since    2017年1月15日10:18:35
  * @see
  */
-public class SupplierCateTree {
-
-    /** 根节点 **/
+public class SupplierCateTree implements Serializable{
+    /**
+	 * SupplierCateTree.java
+	 */
+	private static final long serialVersionUID = 1L;
+	/** 根节点 **/
     private String rootNode;
+    /** 根节点 ID**/
+    private String rootNodeID;
     
     /** 一级节点 **/
     private String firstNode;
+    /** 一级节点 ID**/
+    private String firstNodeID;
     
     /** 二级节点 **/
     private String secondNode;
+    /** 二级节点 ID**/
+    private String secondNodeID;
     
     /** 三级节点 **/
     private String thirdNode;
+    /** 三级节点 ID**/
+    private String thirdNodeID;
     
     /** 四级节点 **/
     private String fourthNode;
+    /** 四级节点 ID**/
+    private String fourthNodeID;
     
     /** 供应商品目ID **/
     private String itemsId;
+    /** 供应商品目ID **/
+    private String itemsName;
     
     /** 等级 **/
     private DictionaryData level;
@@ -53,8 +69,121 @@ public class SupplierCateTree {
     private String diyLevel;
     //专业类别名称
     private String proName;
+    //资质文件数量
+    private Long fileCount;
+    //合同文件数量
+    private Long contractCount;
+    private String supplierItemId;
+    //目录 是否有审核记录
+    private Integer isItemsPageAudit; 
+    //资质文件 是否有审核记录
+    private Integer isAptitudePAgeAudit;
+    //合同文件 是否有资质审核记录
+    private Integer isContractPageAudit;
+    // 根节点类型（1：物质生产；2：物质销售；3：工程；4：服务）
+    private int rootNodeType;
     
-    public String getProName() {
+    // 类别id
+    private String categoryId;
+    
+    
+    public String getItemsName() {
+		return itemsName;
+	}
+
+	public void setItemsName(String itemsName) {
+		this.itemsName = itemsName;
+	}
+
+	public Integer getIsItemsPageAudit() {
+		return isItemsPageAudit;
+	}
+
+	public void setIsItemsPageAudit(Integer isItemsPageAudit) {
+		this.isItemsPageAudit = isItemsPageAudit;
+	}
+
+	public Integer getIsAptitudePAgeAudit() {
+		return isAptitudePAgeAudit;
+	}
+
+	public void setIsAptitudePAgeAudit(Integer isAptitudePAgeAudit) {
+		this.isAptitudePAgeAudit = isAptitudePAgeAudit;
+	}
+
+	public Integer getIsContractPageAudit() {
+		return isContractPageAudit;
+	}
+
+	public void setIsContractPageAudit(Integer isContractPageAudit) {
+		this.isContractPageAudit = isContractPageAudit;
+	}
+
+	public String getSupplierItemId() {
+		return supplierItemId;
+	}
+
+	public void setSupplierItemId(String supplierItemId) {
+		this.supplierItemId = supplierItemId;
+	}
+
+	public String getRootNodeID() {
+		return rootNodeID;
+	}
+
+	public void setRootNodeID(String rootNodeID) {
+		this.rootNodeID = rootNodeID;
+	}
+
+	public String getFirstNodeID() {
+		return firstNodeID;
+	}
+
+	public void setFirstNodeID(String firstNodeID) {
+		this.firstNodeID = firstNodeID;
+	}
+
+	public String getSecondNodeID() {
+		return secondNodeID;
+	}
+
+	public void setSecondNodeID(String secondNodeID) {
+		this.secondNodeID = secondNodeID;
+	}
+
+	public String getThirdNodeID() {
+		return thirdNodeID;
+	}
+
+	public void setThirdNodeID(String thirdNodeID) {
+		this.thirdNodeID = thirdNodeID;
+	}
+
+	public String getFourthNodeID() {
+		return fourthNodeID;
+	}
+
+	public void setFourthNodeID(String fourthNodeID) {
+		this.fourthNodeID = fourthNodeID;
+	}
+
+	public Long getFileCount() {
+		return fileCount;
+	}
+
+	public void setFileCount(Long fileCount) {
+		this.fileCount = fileCount;
+	}
+
+	public Long getContractCount() {
+		return contractCount;
+	}
+
+	public void setContractCount(Long contractCount) {
+		this.contractCount = contractCount;
+	}
+
+	public String getProName() {
 		return proName;
 	}
 
@@ -217,6 +346,25 @@ public class SupplierCateTree {
 	public void setThreeBil(String threeBil) {
 		this.threeBil = threeBil;
 	}
-    
-    
+
+	public int getRootNodeType() {
+		return rootNodeType;
+	}
+
+	public void setRootNodeType(int rootNodeType) {
+		this.rootNodeType = rootNodeType;
+	}
+
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 }

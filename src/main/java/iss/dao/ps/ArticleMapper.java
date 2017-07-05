@@ -5,6 +5,7 @@ import iss.model.ps.Article;
 import iss.model.ps.ArticleCategory;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -462,5 +463,15 @@ public interface ArticleMapper {
     
     //根据产品目录查询文章
     List<Article> findArtByCategory(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description:查询已发布采购公告数量 
+     * 
+     * @author Easong
+     * @version 2017年6月7日
+     * @return
+     */
+    BigDecimal selectPurchaseNoticeCount(@Param("year") Date year);
     
 }
