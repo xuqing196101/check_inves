@@ -1,10 +1,11 @@
 $(function(){
+	var tablerId=$("#tablerId").val();
 	var ind = parseInt($("#ids").val());
 	ind=ind+1;
-	var auditCount = $("#isAptitudePAgeAudit"+ind+"",window.parent.document).val();
+	var auditCount = $("#"+tablerId+" #isAptitudePAgeAudit"+ind+"",window.parent.document).val();
 	if(auditCount>0){
-		$("#qualifications"+ind+"",window.parent.document).css('border-color', '#FF0000');
-		$("#show_td").css('border-color', '#FF0000');
+		$("#"+tablerId+" #qualifications"+ind+"",window.parent.document).css('border-color', '#FF0000');
+		$("#show_td").attr('src', globalPath+'/public/backend/images/sc.png');
 		$("#count").val(auditCount);
 	}
 });
@@ -24,8 +25,12 @@ function reasonProject(ind,auditField, auditFieldName) {
 		offset: '30px',
 		maxlength: '100',
 	}, function(text) {
-		var text = $.trim(text);
 	  if(text != null && text !=""){
+		    if($.trim(text).length>900){
+		    	layer.msg('审核理由内容太长', {offset:'100px'});
+		    	return;
+		    }
+		     
 			$.ajax({
 				url: globalPath+"/supplierAudit/auditReasons.do",
 				type: "post",
@@ -37,9 +42,10 @@ function reasonProject(ind,auditField, auditFieldName) {
 							shift: 6, //动画类型
 							offset: '100px',
 						});    
-						$("#isAptitudePAgeAudit"+(parseInt(ind)+1)+"",window.parent.document).val('1');
-						$("#qualifications"+(parseInt(ind)+1)+"",window.parent.document).css('border-color', '#FF0000');
-						$("#show_td").css('border-color', '#FF0000');
+						var tablerId=$("#tablerId").val();
+						$("#"+tablerId+" #isAptitudePAgeAudit"+(parseInt(ind)+1)+"",window.parent.document).val('1');
+						$("#"+tablerId+" #qualifications"+(parseInt(ind)+1)+"",window.parent.document).css('border-color', '#FF0000');
+						$("#show_td").attr('src', globalPath+'/public/backend/images/sc.png');
 						$("#count").val('1');
 					}else{
 						layer.msg(result.msg, {

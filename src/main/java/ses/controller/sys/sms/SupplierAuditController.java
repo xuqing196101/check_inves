@@ -1,7 +1,6 @@
 package ses.controller.sys.sms;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,9 +24,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -83,7 +80,6 @@ import ses.service.sms.SupplierAuditNotService;
 import ses.service.sms.SupplierAuditOpinionService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
-import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
@@ -197,9 +193,6 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@Autowired
 	private QualificationService qualificationService; 
-	
-	@Autowired
-	private SupplierCertEngService supplierCertEngService;
 	
 	@Autowired
 	private EngCategoryService engCategoryService;
@@ -1243,10 +1236,12 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplierAudit.setSupplierId(id);
 		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		boolean same = true;
-		for(int i = 0; i < reasonsList.size(); i++) {
-			if(reasonsList.get(i).getAuditField().equals(auditField) && reasonsList.get(i).getAuditType().equals(auditType) && reasonsList.get(i).getAuditFieldName().equals(auditFieldName) && reasonsList.get(i).getAuditContent().equals(auditContent)) {
-				same = false;
-				break;
+		if(null !=reasonsList && !reasonsList.isEmpty()){
+			for(int i = 0; i < reasonsList.size(); i++) {
+				if(reasonsList.get(i).getAuditField().equals(auditField) && reasonsList.get(i).getAuditType().equals(auditType) && reasonsList.get(i).getAuditFieldName().equals(auditFieldName) && reasonsList.get(i).getAuditContent().equals(auditContent)) {
+					same = false;
+					break;
+				}
 			}
 		}
 		if(same) {
@@ -2293,7 +2288,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	}
 	/**
 	 * 
-	 * Description:页面跳转
+	 * Description:页面跳转 产品类别及资质合同
 	 * 
 	 * @author YangHongLiang
 	 * @version 2017-6-23
@@ -2306,6 +2301,11 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("sign", sign);
 		model.addAttribute("supplierStatus", supplierStatus);
+		//封装 目录分类 分别显示相关的数据
+		if(StringUtils.isNotBlank(supplierId)){
+			List<String> supplierTypes=supplierItemService.findSupplierTypeBySupplierId(supplierId);
+			model.addAttribute("supplierTypes", StringUtils.join(supplierTypes,","));
+		}
 		return "ses/sms/supplier_audit/merge_aptitude";
 	}
 	/**
@@ -2323,10 +2323,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("overAptitude")
 	@ResponseBody
-	public JdcgResult overAptitude(Model model, String supplierId, Integer supplierStatus, Integer sign,Integer pageNum){
+	public JdcgResult overAptitude(Model model, String supplierId,String supplierType, Integer supplierStatus, Integer sign,Integer pageNum){
 		List<SupplierCateTree> cateTreeList = new ArrayList<>();
 		// 查询已选中的节点信息
-		List < SupplierItem > listSupplierItems = supplierItemService.findCategoryList(supplierId, null, pageNum == null ? 1 : pageNum);
+		List < SupplierItem > listSupplierItems = supplierItemService.findCategoryList(supplierId, supplierType, pageNum == null ? 1 : pageNum);
 		SupplierCateTree cateTree=null;
 		long fileNumber=0,contractCount=0;
 		for (SupplierItem supplierItem : listSupplierItems) {
@@ -2355,7 +2355,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	}
 	/**
 	 * 
-	 * Description:
+	 * Description:销售合同
 	 * 
 	 * @author YangHongLiang
 	 * @version 2017-6-28
@@ -2365,7 +2365,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("showContract")
-	public String showContract(String itemId,String supplierId,Model model,String supplierItemId,Integer ids){
+	public String showContract(String itemId,String supplierId,Model model,String supplierItemId,Integer ids,String tablerId){
 		if(StringUtils.isBlank(itemId)){
 			return "ses/sms/supplier_audit/aptitude_contract_item";
 		}
@@ -2421,6 +2421,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("supplierTypeId", type);
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("ids", ids-1);
+		model.addAttribute("tablerId", tablerId);
 		// 供应商附件sysKey参数
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		return "ses/sms/supplier_audit/aptitude_contract_item";
@@ -2436,7 +2437,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("showQualifications")
-	public String showQualifications(String itemId,String supplierId,Model model,Integer ids){
+	public String showQualifications(String itemId,String supplierId,Model model,Integer ids,String tablerId){
 		Set<QualificationBean> beanList=new HashSet<>();
 		if(StringUtils.isBlank(itemId)){
 			return "ses/sms/supplier_audit/aptitude_material_item";
@@ -2466,6 +2467,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			model.addAttribute("showProject", showProject);
 			model.addAttribute("supplierId", supplierId);
 			model.addAttribute("ids", ids-1);
+			model.addAttribute("tablerId", tablerId);
 			return "ses/sms/supplier_audit/aptitude_project_item";
 		}else if("服务".equals(type)){
 			bean.setCategoryName(cateTree.getItemsName()+"资质文件");
@@ -2496,6 +2498,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("beanList", beanList);
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("ids", ids-1);
+		model.addAttribute("tablerId", tablerId);
 		return "ses/sms/supplier_audit/aptitude_material_item";
 	}
 	/**

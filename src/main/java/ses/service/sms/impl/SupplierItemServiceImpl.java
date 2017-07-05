@@ -40,12 +40,6 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	private SupplierItemMapper supplierItemMapper;
 	
 	@Autowired
-	private SupplierProductsMapper supplierProductsMapper;
-	
-	@Autowired
-	private ProductParamMapper productParamMapper;
-
-	@Autowired
 	private CategoryService categoryService;
 	
 	@Override
@@ -640,6 +634,11 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	@Override
 	public List<String> findSupplierIdByCategoryId(String categoryId) {
 		return supplierItemMapper.findSupplierIdByCategoryId(categoryId);
+	}
+
+	@Override
+	public List<String> findSupplierTypeBySupplierId(String supplierId) {
+		return supplierItemMapper.findSupplierTypeBySupplierId(supplierId);
 	}
 	
 }
