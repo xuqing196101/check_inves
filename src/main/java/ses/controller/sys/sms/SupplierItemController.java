@@ -141,6 +141,7 @@ public class SupplierItemController extends BaseController {
 			SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, null);
 			if(cateTree != null && cateTree.getRootNode() != null) {
 				cateTree.setItemsId(item.getId());
+				cateTree.setCategoryId(categoryId);
 				allTreeList.add(cateTree);
 			}
 		}
@@ -614,7 +615,7 @@ public class SupplierItemController extends BaseController {
 		List < Category > listPro = getSupplier(supplier.getId(), supplierTypeIds);
 		removeSame(listPro);
 		//根据品目id查询所有的证书信息
-		List < QualificationBean > list3 = supplierService.queryCategoyrId(listPro, 2);
+		List < QualificationBean > proQua = supplierService.queryCategoyrId(listPro, 2);
 
 		//查询所有的三级品目销售
 		List < Category > listSlae = getSale(supplier.getId(), supplierTypeIds);
@@ -629,13 +630,13 @@ public class SupplierItemController extends BaseController {
 		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 1);
 
 		//生产证书
-		List < Qualification > qaList = new ArrayList < Qualification > ();
+		List < Qualification > proList = new ArrayList < Qualification > ();
 		List < Qualification > saleList = new ArrayList < Qualification > ();
 		List < Qualification > serviceList = new ArrayList < Qualification > ();
 
-		if(list3 != null && list3.size() > 0) {
-			for(QualificationBean qb: list3) {
-				qaList.addAll(qb.getList());
+		if(proQua != null && proQua.size() > 0) {
+			for(QualificationBean qb: proQua) {
+				proList.addAll(qb.getList());
 			}
 		}
 		//销售
@@ -654,7 +655,7 @@ public class SupplierItemController extends BaseController {
 		//生产
 		StringBuffer sbUp = new StringBuffer("");
 		StringBuffer sbShow = new StringBuffer("");
-		int len = qaList.size() + 1;
+		int len = proList.size() + 1;
 		for(int i = 1; i < len; i++) {
 			sbUp.append("pUp" + i + ",");
 			sbShow.append("pShow" + i + ",");
@@ -678,7 +679,7 @@ public class SupplierItemController extends BaseController {
 		}
 		model.addAttribute("saleUp", sbUp.toString());
 		model.addAttribute("saleShow", sbShow.toString());
-		model.addAttribute("cateList", list3);
+		model.addAttribute("proQua", proQua);
 		model.addAttribute("saleQua", saleQua);
 		model.addAttribute("serviceQua", serviceQua);
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
