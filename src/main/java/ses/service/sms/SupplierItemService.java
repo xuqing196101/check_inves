@@ -157,4 +157,14 @@ public interface SupplierItemService {
 	 * @return
 	 */
 	public List<String> findSupplierIdByCategoryId(String categoryId);
+	/**
+	 * 
+	 * Description:查询供应商品目的 类型
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-4
+	 * @param supplierId
+	 * @return
+	 */
+	public List<String> findSupplierTypeBySupplierId(String supplierId);
 	}

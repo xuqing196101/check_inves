@@ -142,5 +142,15 @@ public interface SupplierItemMapper {
 	 * @return
 	 */
 	Integer selectRegSupCateCount(@Param("supplierId") String supplierId);
+	/**
+	 * 
+	 * Description:查询供应商的 类型
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-4
+	 * @param supplierId
+	 * @return
+	 */
+	List<String> findSupplierTypeBySupplierId(@Param("supplierId")String supplierId);
     
 }

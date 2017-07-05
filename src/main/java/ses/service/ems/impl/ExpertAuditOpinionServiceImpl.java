@@ -40,8 +40,8 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	 * @return
 	 */
 	@Override
-	public ExpertAuditOpinion selectByExpertId(String expertId) {
-		return mapper.selectByExpertId(expertId);
+	public ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion) {
+		return mapper.selectByExpertId(expertAuditOpinion);
 	}
 	
 }

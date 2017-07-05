@@ -747,7 +747,7 @@ public class IndexAppController {
         Article article = indexAppService.selectContentById(id);
         StringBuffer url = request.getRequestURL();  
         String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append(request.getServletContext().getContextPath()).append("/").toString(); 
-        getContentImg(article, request);
+        indexAppService.getContentImg(article, request);
         String content = null;
         if(article != null){
             content = "<div style='width: 100%;overflow: hidden;'><h3 style = 'text-align: center;font-size: 60px;'>"
@@ -910,104 +910,6 @@ public class IndexAppController {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
         String time = simpleDateFormat.format(date);
         return time;
-    }
-
-    /**
-     * 
-     * Description: 生成公告内容图片
-     * 
-     * @author zhang shubin
-     * @data 2017年6月7日
-     * @param 
-     * @return
-     */
-    public void getContentImg(Article articleDetail,HttpServletRequest request){
-        String filePath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "Appzanpic";
-        String glisteningPath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "Appglistening"; 
-        File glisteningFile = new File(glisteningPath+"/"+articleDetail.getId()+".jpg");
-        UploadUtil.createDir(filePath);
-        UploadUtil.createDir(glisteningPath);
-        String proWaterPath = request.getSession().getServletContext().getRealPath("/")+"/proWatermark/shuiyin.png";
-        File stagingFile = new File(filePath);
-        File glisFile = new File(glisteningPath);
-        //判读图片是否存在
-        if(glisteningFile.exists()){
-        } else {
-            if(!stagingFile.exists()){
-                stagingFile.mkdir();
-            }
-            if(!glisFile.exists()){
-                glisFile.mkdir();
-            }
-            HtmlImageGenerator imageGenerator = new HtmlImageGenerator();
-            StringBuffer divStyle = new StringBuffer();
-            divStyle.append("<div class='article_content' style='font-size: 20px; line-height: 35px; padding: 35px;width: 400px;'>");
-            String content = articleDetail.getContent();
-            if (StringUtils.isNotBlank(content)){
-                content = content.replaceAll(CommonStringUtil.getAppendString("&nbsp;", 30), "");
-                content = content.replaceAll(":=\"\"", "=\"\"");
-            }
-            divStyle.append(content);
-            divStyle.append("</div>");
-            String htmlstr = divStyle.toString();
-            imageGenerator.loadHtml(htmlstr);
-            imageGenerator.getBufferedImage();
-            imageGenerator.saveAsImage(filePath+"/"+articleDetail.getId()+".png");
-            String zancunPicPath = filePath+"/"+articleDetail.getId()+".png";
-            String srcImgPath = zancunPicPath;  
-            String iconPath = proWaterPath;
-            String targerPath2 = glisteningPath+"/"+articleDetail.getId()+".jpg";
-            //给图片添加水印，水印旋转-45
-            markByText(iconPath, srcImgPath,targerPath2,0);
-        }
-    }
-
-    /**
-     * 
-     * Description: 给图片添加水印
-     * 
-     * @author zhang shubin
-     * @data 2017年6月7日
-     * @param 
-     * @return
-     */
-    public static void markByText(String logoText,String srcImgPath,String targetPath,Integer degree){
-        //主图片路径
-        InputStream is = null;
-        FileOutputStream os = null;
-        try {
-            Image srcImg = ImageIO.read(new File(srcImgPath));
-            BufferedImage buffImg = new BufferedImage(srcImg.getWidth(null),srcImg.getHeight(null), BufferedImage.TYPE_INT_RGB);
-            //得到画笔对象
-            Graphics2D g = buffImg.createGraphics();
-            //设置对线段的锯齿状边缘处理
-            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g.drawImage(srcImg.getScaledInstance(srcImg.getWidth(null), srcImg.getHeight(null), Image.SCALE_SMOOTH),0,0,null);
-            if(null!=degree){
-                //设置水印旋转
-                g.rotate(Math.toRadians(degree),(double) buffImg.getWidth()/2,(double) buffImg.getHeight()/2);
-            }
-            ImageIcon imgIcon = new ImageIcon(logoText);
-            Image img = imgIcon.getImage();
-            float alpha = 0.5f;
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha));
-            g.drawImage(img,200,10,null);
-            g.dispose();
-            os = new FileOutputStream(targetPath);
-            //生成图片
-            ImageIO.write(buffImg, "jpg", os);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if(null!=is)
-                    is.close();
-                if(null!=os)
-                    os.close();
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
     }
 
     /**

@@ -41,5 +41,5 @@ public interface ExpertAuditOpinionMapper {
 	 * @param expertId
 	 * @return
 	 */
-	ExpertAuditOpinion selectByExpertId(@Param("expertId") String expertId);
+	ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion);
 }
