@@ -46,28 +46,28 @@
             	<input type="hidden" name="id"  value="${fd.id }">
             	<input type="hidden" name="currpage" id="currpage"  value="${currpage }">
 				<ul class="list-unstyled">
-                    <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                        <label class="col-md-12 pl20 col-xs-12 col-xs-12"><a class="star_red">*</a>流程环节编码</label>
-                        <span class="col-md-12 col-xs-12">
-                            <input class="title col-md-12" name="code" disabled="disabled" value="${fd.code }" maxlength="30" type="text">
+                    <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                        <label class="col-md-12 pl5 col-xs-12 col-xs-12"><a class="star_red">*</a>流程环节编码</label>
+                        <span class="col-md-12 col-xs-12 col-sm-12 p0">
+                            <input class="title w100p" name="code" disabled="disabled" value="${fd.code }" maxlength="30" type="text">
                         </span>
 					</li>
 					<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                        <label class="col-md-12 pl20 col-xs-12 col-xs-12"><a class="star_red">*</a>流程环节步骤</label>
-                        <span class="col-md-12 col-xs-12">
-                            <input  class="title col-md-12" name="step" value="${fd.step }" maxlength="10" type="text">
+                        <label class="col-md-12 pl5 col-sm-12 col-xs-12"><a class="star_red">*</a>流程环节步骤</label>
+                        <span class="col-md-12 col-xs-12 col-sm-12 p0">
+                            <input  class="title w100p" name="step" value="${fd.step }" maxlength="10" type="text">
                         </span>
                     </li>
-                    <li class="mt10 col-md-12 p0 col-xs-12">
-                        <label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>流程环节名称</label>
-                        <span class="col-md-12 col-xs-12">
-                        <input class="col-xs-12 h80 mt6" name="name" value="${fd.name }" maxlength="30" type="text">
+                    <li class="mt10 col-md-12 col-xs-12">
+                        <label class="col-md-12 pl5 col-sm-12 col-xs-12"><a class="star_red">*</a>流程环节名称</label>
+                        <span class="col-md-12 col-xs-12 col-sm-12 p0">
+                        <input class="w100p" name="name" value="${fd.name }" maxlength="30" type="text">
                         </span>
                     </li>
-                    <li class="mt10 col-md-12 p0 col-xs-12">
-                        <label class="col-md-12 pl20 col-xs-12">流程跳转路径</label>
-                        <span class="col-md-12 col-xs-12">
-                        <input class="col-xs-12 h80 mt6" name="url" value="${fd.url }" maxlength="300" type="text">
+                    <li class="mt10 col-md-12 col-xs-12 col-sm-12">
+                        <label class="col-md-12 pl5 col-sm-12 col-xs-12">流程跳转路径</label>
+                        <span class="col-md-12 col-xs-12 col-sm-12 p0">
+                        <input class="w100p" name="url" value="${fd.url }" maxlength="300" type="text">
                         </span>
                     </li>
                     <div class="clear"></div>

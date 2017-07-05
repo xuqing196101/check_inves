@@ -242,23 +242,28 @@
       </if>
     </trim>
   </sql>
+
+	<!--根据供应商id  获取 有效的招标数据 -->
    <select id="selectProject" parameterType="java.util.Map" resultMap="BaseResultMap">
-   select t1.* from 
-    (SELECT * FROM T_BSS_PPMS_SALE_TENDER  where STATUS_BID =2 and STATUS_BOND=2) t2
+   SELECT <include refid="Base_Column_List"/> FROM 
+    (SELECT DISTINCT project_id FROM T_BSS_PPMS_SALE_TENDER  
+    <where>IS_REMOVED=0
+     <if test="supplierId != null">
+        AND supplier_id = #{supplierId}
+     </if> 
+    </where>) t2
      LEFT JOIN
-    ( select * from T_BSS_PPMS_PROJECTS t ) t1
-    on  t1.id=t2.project_id
-        where 1=1 and IS_PROVISIONAL=0 and t1.id is not null
-    <if test="supplierId != null">
-        AND t2.supplier_id = #{supplierId}
-    </if> 
+    T_BSS_PPMS_PROJECTS t1 ON  t1.id=t2.project_id
+     <where>t1.IS_PROVISIONAL=0
     <if test="name != null and name !=''">
-        AND name = #{name}
+        AND t1.name = #{name}
     </if> 
     <if test="projectNumber != null and projectNumber !=''">
-        AND PROJECT_NUMBER = #{projectNumber}
+        AND t1.PROJECT_NUMBER = #{projectNumber}
      </if> 
+     </where> 
    </select>
+   
   <select id="selectProjectByPrimaryKey" flushCache="true" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -273,13 +278,13 @@
     from T_BSS_PPMS_PROJECTS
     where STATUS = 2 and IS_PROVISIONAL=0
     <if test="projectName != null and projectName != ''">
-       and NAME like '%'||#{projectName}||'%'
+       and NAME like CONCAT(CONCAT('%', #{projectName}), '%')
       </if>
        <if test="projectCode != null and projectCode != ''">
-       and PROJECT_NUMBER like '%'||#{projectCode}||'%'
+       and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectCode}), '%')
       </if>
       <if test="purchaseDep != null and purchaseDep != ''">
-       and PURCHASE_DEP_NAME like '%'||#{purchaseDep}||'%'
+       and PURCHASE_DEP_NAME like CONCAT(CONCAT('%', #{purchaseDep}), '%')
       </if>
     ORDER BY DATE_OF_ENTRUSTMENT DESC
   </select>
@@ -290,13 +295,13 @@
     from T_BSS_PPMS_PROJECTS
     where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
      <if test="name != null and name != ''">
-       and NAME like '%${name}%'
+       and NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
        <if test="projectNumber != null and projectNumber != ''">
-       and PROJECT_NUMBER like '%${projectNumber}%'
+       and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
       </if>
       <if test="status != null">
-       and STATUS like '%${status}%'
+       and STATUS like CONCAT(CONCAT('%', #{status}), '%')
       </if>
       <if test="purchaseDep != null">
        and PURCHASE_DEP_ID = #{purchaseDep.id}
@@ -305,7 +310,7 @@
        and ( PURCHASE_DEP_ID in (${purchaseDepId}) or principal = #{principal}) 
        and (
        <foreach collection="statusArray" item="ay" separator="or" >
-          STATUS like '%${ay}%'
+          STATUS like CONCAT(CONCAT('%', #{ay}), '%')
        </foreach> 
        )
       </if>
@@ -327,7 +332,7 @@
        and PROJECT_NUMBER = #{projectNumber}
       </if>
       <if test="status != null">
-       and STATUS like '%${status}%'
+       and STATUS like CONCAT(CONCAT('%', #{status}), '%')
       </if>
       ORDER BY CREATED_AT DESC
   </select>
@@ -933,13 +938,13 @@
         from T_BSS_PPMS_PROJECTS
         where 1=1 and IS_PROVISIONAL=1
         <if test="name != null and name != ''">
-            and NAME like '%${name}%'
+            and NAME like CONCAT(CONCAT('%', #{name}), '%')
         </if>
         <if test="projectNumber != null and projectNumber != ''">
-            and PROJECT_NUMBER like '%${projectNumber}%'
+            and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
         </if>
         <if test="status != null">
-            and STATUS like '%${status}%'
+            and STATUS like CONCAT(CONCAT('%', #{status}), '%')
         </if>
         ORDER BY CREATED_AT DESC
     </select>
@@ -1323,10 +1328,13 @@
       <if test="purchaseDepId != null and purchaseDepId != ''">
         and  PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
-     <if test="name != null and name != ''">
+       <!-- <if test="appointMan != null and appointMan != ''">
+        and (APPOINT_MAN = #{appointMan} OR APPOINT_MAN IS NULL)
+      </if> --> 
+      <if test="name != null and name != ''">
        and NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
-       <if test="projectNumber != null and projectNumber != ''">
+     <if test="projectNumber != null and projectNumber != ''">
        and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
       </if>
       <if test="status != null and status != ''">
@@ -1367,10 +1375,10 @@
         and (p.PRINCIPAL = #{principal} OR p.PRINCIPAL IS NULL) 
       </if>  -->
       <if test="name != null and name != ''">
-       and NAME like CONCAT(CONCAT('%', #{name}), '%')
+       and p.NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
-       <if test="projectNumber != null and projectNumber != ''">
-       and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+     <if test="projectNumber != null and projectNumber != ''">
+       and p.PROJECT_NUMBER like  CONCAT(CONCAT('%', #{projectNumber}), '%')
       </if>
       <if test="status != null and status != ''">
        and p.STATUS = #{status}
@@ -1382,7 +1390,7 @@
   </select> 
   
   <!-- 实施需求部门登录 -->
-   <select id="selectByDemand" parameterType="java.util.Map" resultMap="BaseResultMap">
+   <!-- <select id="selectByDemand" parameterType="java.util.Map" resultMap="BaseResultMap">
         SELECT p.* FROM (
 				    SELECT
 				  d.PROJECT_ID
@@ -1414,7 +1422,7 @@
        AND p.PARENT_ID = #{parentId}
       </if>
       ORDER BY p.CREATED_AT DESC
-   </select>
+   </select> -->
    
    <!-- 实施采购机构登录 -->
   <select id="selectByConition" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -1433,17 +1441,17 @@
       </if>
       AND e.IS_DELETED = 0 AND e.STATUS = 0)
       <if test="principal != null and principal != ''">
-        OR (p.PRINCIPAL = #{principal}) )
+        OR (p.PRINCIPAL = #{principal}) 
       </if>
-      AND p.IS_REHEARSE = 0 AND (p.PARENT_ID != '1' OR p.PARENT_ID IS NULL)
+      ) AND p.IS_REHEARSE = 0
       <if test="purchaseDepId != null and purchaseDepId != ''">
         AND  p.PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
       <if test="name != null and name != ''">
-       and NAME like CONCAT(CONCAT('%', #{name}), '%')
+       AND p.NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
-       <if test="projectNumber != null and projectNumber != ''">
-       and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+      <if test="projectNumber != null and projectNumber != ''">
+       AND p.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
       </if>
       <if test="status != null and status != ''">
        AND p.STATUS = #{status}
@@ -1455,7 +1463,7 @@
   </select> 
   
   <!-- 立项管理部门登录 -->
-  <select id="selectByOrgnization" parameterType="java.util.Map" resultMap="BaseResultMap">
+ <!--  <select id="selectByOrgnization" parameterType="java.util.Map" resultMap="BaseResultMap">
       SELECT
       p.*
       FROM
@@ -1476,34 +1484,101 @@
 	      )
       )
        and IS_REHEARSE = 0 and (PARENT_ID ！= '1' OR PARENT_ID IS NULL)
-      <!-- <if test="principal != null and principal != ''">
+      <if test="principal != null and principal != ''">
         and (p.PRINCIPAL = #{principal} OR p.PRINCIPAL IS NULL) 
-      </if>  -->
-     <if test="name != null and name != ''">
-       and NAME like CONCAT(CONCAT('%', #{name}), '%')
-      </if>
-       <if test="projectNumber != null and projectNumber != ''">
-       and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
-      </if>
-      <if test="status != null and status != ''">
-       and p.STATUS = #{status}
-      </if>
-      <if test="parentId != null and parentId != ''">
-       AND p.PARENT_ID = #{parentId}
-      </if>
-      ORDER BY p.CREATED_AT DESC
-  </select> 
-  
+      </if> 
+      </select> -->
   <select id="selectByList" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
-    where 1=1 and STATUS != '4'
-      <if test="name != null and name != ''">
-       AND NAME like CONCAT(CONCAT('%', #{name}), '%')
+    where 1=1 AND STATUS != '4' AND IS_REHEARSE = 0
+     <if test="name != null and name != ''">
+       and NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
        <if test="projectNumber != null and projectNumber != ''">
-       AND PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
+       and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%') 
+      </if>
+      <if test="status != null and status != ''">
+       and STATUS = #{status}
+      </if>
+      <if test="purchaseType != null and purchaseType != ''">
+       and PURCHASE_TYPE = #{purchaseType}
+      </if>
+      ORDER BY p.CREATED_AT DESC
+  </select> 
+  
+  <!-- 资源管理查看已经完成的项目 -->
+  <select id="selectByProject" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+			  p.ID,p.NAME, p.PURCHASE_TYPE,p.STATUS,p.PRINCIPAL,p.CREATED_AT,p.PROJECT_NUMBER,p.PURCHASE_DEP_ID
+			FROM
+			  T_BSS_PPMS_PROJECTS p
+			WHERE
+			  p.STATUS != '4'
+			AND p.IS_REHEARSE = 0
+			AND p.ID IN (
+			  SELECT
+			    CP.PROJECT_ID
+			  FROM
+			    (
+			      SELECT
+			        T .PROJECT_ID,
+			        T .CONTRACT_ID
+			      FROM
+			        T_BSS_PPMS_SUPPLIER_CHECK_PASS T
+			      WHERE
+			        T .IS_WON_BID = 1
+			      GROUP BY
+			        T .PROJECT_ID,
+			        T .CONTRACT_ID
+			    ) CP
+			  LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT PC ON CP.CONTRACT_ID = PC. ID
+			  WHERE
+			    PC.MANUAL_TYPE = 0
+			)
+      <if test="name != null and name != ''">
+        and p.NAME like CONCAT(CONCAT('%', #{name}), '%')
+      </if>
+      <if test="projectNumber != null and projectNumber != ''">
+        and p.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%') 
+      </if>
+      <if test="status != null and status != ''">
+        and p.STATUS = #{status}
+      </if>
+      <if test="purchaseType != null and purchaseType != ''">
+        and p.PURCHASE_TYPE = #{purchaseType}
+      </if>
+      <if test="purchaseDepId != null and purchaseDepId != ''">
+        and p.PURCHASE_DEP_ID = #{purchaseDepId}
+      </if>
+      ORDER BY p.CREATED_AT DESC
+  </select>
+  
+  <!-- 需求部门登录 -->
+  <!--  <select id="selectByDemand" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT p.* FROM (
+				    SELECT
+				  d.PROJECT_ID
+				FROM
+				  T_BSS_PPMS_PROJECTS_DETAIL d
+				WHERE d.DEPARTMENT IN (
+				  SELECT
+				    o. NAME
+				  FROM
+				    T_SES_OMS_ORG o
+				  LEFT JOIN T_SES_BMS_USER u ON o. ID = u .ORG_ID
+				  WHERE
+				    <if test="userId != null and userId != ''">
+               u.ID = #{userId}
+            </if>
+				) GROUP BY d.PROJECT_ID
+				) p LEFT JOIN T_BSS_PPMS_PROJECTS ps ON p.PROJECT_ID = ps.ID
+      <if test="name != null and name != ''">
+       AND p.NAME like CONCAT(CONCAT('%', #{name}), '%')
+      </if>
+      <if test="projectNumber != null and projectNumber != ''">
+       AND p.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
       </if>
       <if test="status != null and status != ''">
        AND STATUS = #{status}
@@ -1512,7 +1587,7 @@
        AND PARENT_ID = #{parentId}
       </if>
       ORDER BY CREATED_AT DESC
-  </select>
+  </select> -->
   
   <update id="updatePurchaseDep" parameterType="bss.model.ppms.Project">
     	update T_BSS_PPMS_PROJECTS
@@ -1530,13 +1605,13 @@
     from T_BSS_PPMS_PROJECTS
     where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
      <if test="name != null and name != ''">
-       and NAME like '%${name}%'
+       and NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
        <if test="projectNumber != null and projectNumber != ''">
-       and PROJECT_NUMBER like '%${projectNumber}%'
+       and PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectNumber}), '%')
       </if>
       <if test="status != null">
-       and STATUS like '%${status}%'
+       and STATUS like CONCAT(CONCAT('%', #{status}), '%')
       </if>
       <if test="purchaseDep != null">
        and PURCHASE_DEP_ID = #{purchaseDep.id}
@@ -1549,7 +1624,7 @@
        <if test="statusArray != null">
 	       and (
 		       <foreach collection="statusArray" item="ay" separator="or" >
-		          STATUS like '%${ay}%'
+		          STATUS like  CONCAT(CONCAT('%', #{ay}), '%')
 		       </foreach> 
 	       )
        </if>
@@ -1558,4 +1633,20 @@
       ORDER BY APPROVAL_TIME DESC
   </select>
   
+   <!-- 五种采购方式项目比例 --> 
+   <select id="selectPurProjectByWay" resultType="java.math.BigDecimal" parameterType="java.lang.String">
+   		SELECT COUNT(DISTINCT(P.ID))
+			  FROM (SELECT DISTINCT (CP.PROJECT_ID)
+			          FROM (SELECT T.PROJECT_ID, T.CONTRACT_ID
+			                  FROM T_BSS_PPMS_SUPPLIER_CHECK_PASS T
+			                 WHERE T.IS_WON_BID = 1
+			                 GROUP BY T.PROJECT_ID, T.CONTRACT_ID) CP
+			          LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT PC
+			            ON CP.CONTRACT_ID = PC.ID
+			         WHERE PC.MANUAL_TYPE = 0) T
+			  LEFT JOIN T_BSS_PPMS_PROJECTS P
+			    ON P.ID = T.PROJECT_ID
+			 WHERE P.PURCHASE_TYPE = #{dictId}
+   </select>
+	 
 </mapper>

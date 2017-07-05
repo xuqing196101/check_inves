@@ -86,11 +86,11 @@
 							return;
 						}
 					}
-					var state = $("#" + id + "").parents("tr").find("td").eq(8).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
 					state = trim(state);
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
-					if(state == "审核通过" || state == "审核退回" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
+					if(state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
 						layer.msg("请选择待审核项 !", {
 							offset: '100px',
 						});
@@ -185,10 +185,10 @@
 				function publish(){
 			  	var id = $(":checkbox:checked").val();
 			  	var size = $(":checkbox:checked").size();
-					var state = $("#" + id + "").parents("tr").find("td").eq(8).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
 					state = trim(state);
 					if(size == 1){
-			  			if(state != "待审核" && state != "审核退回" && state != "审核未通过"){
+			  			if(state != "待审核" && state != "退回修改" && state != "审核未通过"){
 			  	 			$.ajax({
 			  	 				url:"${pageContext.request.contextPath}/supplierAudit/publish.html",
 			  	 				data:"supplierId=" +id,
@@ -243,19 +243,27 @@
 						} 
 					};
 			  	
-			//下载
+			
+			//下载审核/复核/意见函/考察表
 			function downloadTable(str) {
 				var size = $(":checkbox:checked").size();
+				var id = $(":checkbox:checked").val();
+				var state = $("#" + id + "").parents("tr").find("td").eq(10).text();//.trim();
+        state = trim(state);
 				if(size == 0) {
 					layer.msg("请选供应商 !", {offset: '100px',});
 				}else if(size > 1){
 					layer.msg("只能选择一项 !", {offset: '100px',});
 				}else{
-					var id = $(":checkbox:checked").val();
-					$("input[name='supplierId']").val(id);
-					$("input[name='tableType']").val(str);
-					$("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/downloadTable.html");
-					$("#shenhe_form_id").submit();
+				  if(state == "审核通过" || state == "退回修改" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state=="合格" || state=="不合格"){
+				    var id = $(":checkbox:checked").val();
+	          $("input[name='supplierId']").val(id);
+	          $("input[name='tableType']").val(str);
+	          $("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/downloadTable.html");
+	          $("#shenhe_form_id").submit();
+				  }else{
+				    layer.msg("请选择审核过的供应商！", {offset: '100px',});
+				  }
 				}
 			}
 			
@@ -291,7 +299,21 @@
 					}	    	
 		   };
 			
-			</script>
+				//入库申请表下载
+				function downloadApplication(){
+				  var size = $(":checkbox:checked").size();
+	        if(size == 0) {
+	          layer.msg("请选供应商 !", {offset: '100px',});
+	        }else if(size > 1){
+	          layer.msg("只能选择一项 !", {offset: '100px',});
+	        }else{
+	          var supplierId = $(":checkbox:checked").val();
+		        $("#supplierJson").val(supplierId);
+            $("#download_form").submit();
+	        }
+				}
+			
+		  </script>
 		</head>
 
 		<body>
@@ -355,7 +377,7 @@
 		        	<c:if test="${sign eq '1' }">
 		        		<option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
 		            <option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
-		            <option <c:if test="${state == 2 }">selected</c:if> value="2">审核退回</option>
+		            <option <c:if test="${state == 2 }">selected</c:if> value="2">退回修改</option>
 		            <option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option>
 		        	</c:if>
 		        	<c:if test="${sign eq '2' }">
@@ -415,9 +437,16 @@
 						<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载意见函</a>
 						<button class="btn btn-windows add" type="button" onclick="tianjia();">添加签字人员</button>
 					</c:if>
-					<%-- <c:if test="${sign == 1}">
+				  <c:if test="${sign == 1}">
 					  <a class="btn btn-windows input" onclick='downloadTable(3)' href="javascript:void(0)">下载审核表</a>
-					</c:if> --%>
+					</c:if>
+					<c:if test="${sign == 2}">
+            <a class="btn btn-windows input" onclick='downloadTable(4)' href="javascript:void(0)">下载复核表</a>
+          </c:if>
+					<c:if test="${sign == 2 || sign == 3}">
+					  <a class="btn btn-windows input" onclick="downloadApplication()" href="javascript:void(0)">下载入库申请表</a>
+					</c:if>
+					
 				</div>
 				<div class="content table_box">
 					<table class="table table-bordered table-condensed table-hover hand">
@@ -425,11 +454,13 @@
 							<tr>
 								<th class="info w50">选择</th>
 								<th class="info w50">序号</th>
-								<th class="info" width="25%">供应商名称</th>
-								<th class="info" width="10%">手机号</th>
-								<th class="info" width="20%">企业类型</th>
-								<th class="info" width="10%">企业性质</th>
-								<th class="info" width="12%">审核时间</th>
+								<th class="info">供应商名称</th>
+								<th class="info">手机号</th>
+								<th class="info">企业类型</th>
+								<th class="info">企业性质</th>
+								<th class="info">审核时间</th>
+								<th class="info">注册时间</th>
+								<th class="info">审核人</th>
 								<th class="info">发布</th>
 								<th class="info">状态</th>
 							</tr>
@@ -445,19 +476,31 @@
 								<td class="tc" onclick="shenhe('${list.id }');">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
+								<td class="tc">
+                  <fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
+                </td>
+								<td class="tc" onclick="shenhe('${list.id }');">
+								  <c:choose>
+			              <c:when test="${list.auditor ==null or list.auditor == ''}">无</c:when>
+			              <c:otherwise>${list.auditor}</c:otherwise>
+			            </c:choose>
+								</td>
 								<td class="tc" onclick="shenhe('${list.id }');">
 									<c:if test="${list.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
 									<c:if test="${list.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
 								</td>
 								<td class="tc" id="${list.id}" onclick="shenhe('${list.id }');">
-									<c:if test="${list.status == 0}"><span class="label rounded-2x label-u">待审核</span></c:if>
+									<c:if test="${list.status == 0 and list.auditTemporary != 1}"><span class="label rounded-2x label-u">待审核</span></c:if>
+									<c:if test="${list.status == 0 and list.auditTemporary == 1}"><span class="label rounded-2x label-u">审核中</span></c:if>
 									<c:if test="${list.status == 1}"><span class="label rounded-2x label-dark">审核通过</span></c:if>
-									<c:if test="${list.status == 2}"><span class="label rounded-2x label-dark">审核退回</span></c:if>
+									<c:if test="${list.status == 2}"><span class="label rounded-2x label-dark">退回修改</span></c:if>
 									<c:if test="${list.status == 3}"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
-									<c:if test="${list.status == 4}"><span class="label rounded-2x label-u">待复核</span></c:if>
+									<c:if test="${list.status == 4 and list.auditTemporary != 2}"><span class="label rounded-2x label-u">待复核</span></c:if>
+									<c:if test="${list.status == 4 and list.auditTemporary == 2}"><span class="label rounded-2x label-u">复核中</span></c:if>
 									<c:if test="${list.status == 5 and sign == 2}"><span class="label rounded-2x label-dark">复核通过</span></c:if>
 									<c:if test="${list.status == 6}"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
-									<c:if test="${list.status == 5 and sign == 3}"><span class="label rounded-2x label-u">待考察</span></c:if>
+									<c:if test="${list.status == 5 and sign == 3 and list.auditTemporary != 3}"><span class="label rounded-2x label-u">待考察</span></c:if>
+									<c:if test="${list.status == 5 and list.auditTemporary == 3}"><span class="label rounded-2x label-u">考察中</span></c:if>
 									<c:if test="${list.status == 7}"><span class="label rounded-2x label-dark">合格</span></c:if>
 									<c:if test="${list.status == 8}"><span class="label rounded-2x label-dark">不合格</span></c:if>
 								</td>
@@ -473,6 +516,10 @@
 				<input type="hidden" name="sign" value="${sign}">
 				<input type="hidden" name="tableType">
 			</form>
-		</body>
+			
+			<form action="${pageContext.request.contextPath}/expert/downloadSupplier.html" method="post" id="download_form">
+        <input type="hidden" value="" name="supplierJson" id="supplierJson">
+      </form>
+	</body>
 
 </html>

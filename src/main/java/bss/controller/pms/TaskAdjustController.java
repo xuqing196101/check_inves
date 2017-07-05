@@ -556,15 +556,21 @@ public class TaskAdjustController extends BaseController{
 	            HashMap<String, Object> map = new HashMap<>(); 
 	            for (String id: strArray){
 	            	Task task = taskService.selectById(id);
-	            	task.setStatus(2);
-	            	taskService.update(task);
-	            	map.put("taskId", task.getId());
-	            	List<ProjectTask> projectTask = projectTaskService.queryByNo(map);
-	            	if(projectTask != null && projectTask.size() > 0){
-	            	    for (ProjectTask projectTask2 : projectTask) {
-	                        Project project = projectService.selectById(projectTask2.getProjectId());
-	                        project.setStatus(DictionaryDataUtil.getId("YQX"));
-	                        projectService.update(project);
+	            	if(task != null){
+	            	    task.setStatus(2);
+	                    taskService.update(task);
+	                    map.put("taskId", task.getId());
+	                    List<ProjectTask> projectTask = projectTaskService.queryByNo(map);
+	                    if(projectTask != null && projectTask.size() > 0){
+	                        for (ProjectTask projectTask2 : projectTask) {
+	                            Project project = projectService.selectById(projectTask2.getProjectId());
+	                            if(project != null){
+	                                if(StringUtils.isNotBlank(project.getStatus()) && !"4".equals(project.getStatus())){
+	                                    project.setStatus(DictionaryDataUtil.getId("YQX"));
+	                                    projectService.update(project);
+	                                }
+	                            }
+	                        }
 	                    }
 	            	}
 	            }

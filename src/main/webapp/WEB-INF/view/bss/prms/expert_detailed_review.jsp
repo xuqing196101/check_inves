@@ -44,6 +44,7 @@
 								 layer.alert("已结束",{offset: [y, x], shade:0.01});
 								 $("#backId").attr("disabled",true);
 								 $("#endId").attr("disabled",true);
+								 $("#is_end").val(1);
 							 },
 							 error: function(){
 								 layer.alert("结束失败,请稍后重试!",{offset: [y, x], shade:0.01});
@@ -127,7 +128,7 @@
 	}
 	function printRank(){
 		var packageId = "${packageId}";
-		var isEnd = "${isEnd}";
+		var isEnd = $("#is_end").val();
 		if (isEnd != "1") {
 			layer.alert("该包暂未结束评分!", {
 				offset : [ y, x ],
@@ -141,6 +142,7 @@
 </head>
 <body>
 		<h2 class="list_title">${pack.name}经济技术评审管理</h2>
+		<input id="is_end" type="hidden" value="${isEnd}">
 	    <div class="mb5 fr">
 	      <c:if test="${isEnd != 1}">
 			  <button class="btn" id="endId" onclick="toTotal()" type="button">结束评审</button>
@@ -154,14 +156,14 @@
 		</div>
 		<!--循环供应商  -->
 		<div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
-		<table class="table table-bordered table-condensed table-hover table-striped  p0 space_nowrap">
+		<table class="table table-bordered table-condensed table-hover table-striped  p0 m_resize_table_width">
 		  <thead>
 			<tr>
-			  <th><input type="checkbox" id="checkAll" onchange="selectAll(this)"></th>
-			  <th class="info">专家/供应商</th>
+			  <th width="30"><input type="checkbox" id="checkAll" onchange="selectAll(this)"></th>
+			  <th class="info" width="120">专家/供应商</th>
 			  <c:forEach items="${supplierList}" var="supplier">
 			    <c:if test="${fn:contains(supplier.packages,packageId)}">
-			  	  <th class="info"><%-- <a title="查看评分详情" href="javascript:showViewBySupplierId('${supplier.suppliers.id}');"> --%>${supplier.suppliers.supplierName}<!-- </a> --></th>
+			  	  <th class="info" width="120"><%-- <a title="查看评分详情" href="javascript:showViewBySupplierId('${supplier.suppliers.id}');"> --%>${supplier.suppliers.supplierName}<!-- </a> --></th>
 			  	</c:if>
 			  </c:forEach>
 			</tr>	
@@ -170,7 +172,7 @@
 		  <c:forEach items="${expertList }" var="ext">
 			<tr>
 			  <td class="tc"><input type="checkbox" name="checkItem" value="${ext.expert.id}"></td>
-			  <td><a title="查看评分详情" href="javascript:showViewByExpertId('${ext.expert.id}');">${ext.expert.relName}</a></td>
+			  <td class="tc"><a title="查看评分详情" href="javascript:showViewByExpertId('${ext.expert.id}');">${ext.expert.relName}</a></td>
 			  <!-- 遍历该包供应商控制分数的显示 -->
 			  <c:forEach items="${supplierList}" var="supplier">
 			    <c:if test="${fn:contains(supplier.packages,packageId)}">
@@ -225,5 +227,28 @@
   <div class="clear col-md-12 pl20 mt10 tc">
 	<input type="button" class="btn btn-windows back" value="返回" onclick="goBack('${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">
   </div>
+  
+  <script type="text/javascript">
+		function resize_table_width() {
+	        $('.m_resize_table_width').each(function () {
+	            var table_width = 0;
+	            var parent_width = $(this).parent().width();
+	            $(this).find('thead th').each(function () {
+	            	if(typeof($(this).attr('width')) != 'undefined') {
+	            		table_width +=  parseInt($(this).attr('width'));
+		            }
+	            });
+	            if (table_width > parent_width) {
+		            $(this).css({
+		                width: table_width,
+		                maxWidth: table_width
+		            });
+	            }
+	        });
+	    }
+	    $(function () {
+	        resize_table_width();
+	    });
+	   	</script>
 </body>
 </html>

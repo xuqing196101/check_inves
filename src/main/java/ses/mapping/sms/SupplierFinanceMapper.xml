@@ -281,7 +281,7 @@
 		from T_SES_SMS_SUPPLIER_FINANCE
 		where 1=1 and IS_DELETED = 0
 		<if test="name != null and name != ''">
-			and NAME like '%${name}%'
+			and NAME like CONCAT(CONCAT('%', #{name}), '%')
 		</if>
 		<if test="supplierId !=null and supplierId !=''">
 		    and SUPPLIER_ID = #{supplierId}
@@ -348,5 +348,10 @@
 			T_SES_SMS_SUPPLIER_FINANCE
 		where 
 			ID = #{id}
+	</select>
+	<!-- 根据供应商id 获取近三年的数据 -->
+	<select id="findBySupplierIdYearThree" parameterType="String" resultMap="BaseResultMap">
+	SELECT <include refid="Base_Column_List" /> FROM T_SES_SMS_SUPPLIER_FINANCE 
+    WHERE SUPPLIER_ID=#{supplierId} AND ROWNUM &lt;=3 ORDER BY YEAR DESC
 	</select>
 </mapper>

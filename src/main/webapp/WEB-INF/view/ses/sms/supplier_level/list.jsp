@@ -99,7 +99,7 @@
 					<li><a href="javascript:void(0);">支撑系统</a></li>
 					<li><a href="javascript:void(0);">供应商管理</a></li>
 					<li><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplier_level/list.html')">供应商诚信管理</a></li>
-					<li class="active"><a href="javascript:void(0);">供应商诚信列表</a></li>
+					<%--<li class="active"><a href="javascript:void(0);">供应商诚信列表</a></li>--%>
 				</ul>
 				<div class="clear"></div>
 			</div>

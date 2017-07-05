@@ -9,13 +9,13 @@
   $(function() {
 		laypage({
 		 	cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-			pages: "${listAfterSaleSerlists.pages}", //总页数
+			pages: "${list.pages}", //总页数
 			skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 			skip: true, //是否开启跳页
-			total: "${listAfterSaleSerlists.total}",
-			startRow: "${listAfterSaleSerlists.startRow}",
-			endRow: "${listAfterSaleSerlists.endRow}",
-			groups: "${listAfterSaleSerlists.pages}">=5?5:"${listAfterSaleSerlists.pages}", //连续显示分页数
+			total: "${list.total}",
+			startRow: "${list.startRow}",
+			endRow: "${list.endRow}",
+			groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 			curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 			    var page = location.search.match(/page=(\d+)/);
 			    return page ? page[1] : 1;
@@ -137,6 +137,7 @@
 			<div class="headline-v2">
         <h2>售后服务登记列表</h2>
       </div>
+      <c:if test="${'1' ne type}">
       <h2 class="search_detail ">
       <form id="form" action="${pageContext.request.contextPath}/after_sale_ser/list.html" method="post" class="mb0" > 
       <ul class="demand_list">
@@ -155,6 +156,7 @@
         <div class="clear"></div>
        </form>
      </h2>
+     </c:if>
       <div class="content table_box">
 		  <div class="col-md-12 pl20 mt10">
 		  <c:choose>

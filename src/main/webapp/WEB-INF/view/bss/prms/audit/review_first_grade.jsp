@@ -78,6 +78,21 @@ $(document).ready(function() {
 										var dataScore = toDecimal(data[i].score);
 										$(this).next().val(dataScore);
 										$(this).next().next().html("<font color='red' class='f18'>" + dataScore + "</font>");
+										//合计
+										var packageId = "${packageId}";
+										var projectId = "${projectId}";
+										var supplierId_sum = data[i].supplierId;
+										$.ajax({
+											url:'${pageContext.request.contextPath}/reviewFirstAudit/supplierTotal.html',
+											data:{supplierIds : supplierId_sum, projectId : projectId, packageId : packageId},
+											type:"post",
+											dataType:"JSON",
+											success:function(data){
+												$("input[name='"+supplierId_sum+"_total']").each(function(index,item){
+													$(this).next().html("<font color='red' class='f18'>" + data + "</font>");
+												});
+											}
+										});
 									}
 								});
 							}
@@ -103,12 +118,39 @@ $(document).ready(function() {
 					$(obj).parent().next().find("input[name='expertScore']").val(data);
 					// 修改,将input框改为直接显示,input设置为hidden,将input值传给span
 					$(obj).parent().next().find("input[name='expertScore']").next().html("<font color='red' class='f18'>" + data + "</font>");
+					
+					$.ajax({
+						url:'${pageContext.request.contextPath}/reviewFirstAudit/supplierTotal.html',
+						data:$("#score_form").serialize(),
+						type:"post",
+						dataType:"JSON",
+						success:function(data){
+							$("input[name='"+supplierId+"_total']").each(function(index,item){
+								$(this).next().html("<font color='red' class='f18'>" + data + "</font>");
+							});
+						}
+						
+					});
+				
 				}
 				
 			});
 		}
-		}
-		
+	   }
+	   //获取合计得分
+		/* if(supplierId != null && supplierId != ""){
+			$("#supplierIds").val(supplierId);
+			$.ajax({
+					url:'${pageContext.request.contextPath}/reviewFirstAudit/supplierTotal.html',
+					data:$("#score_form").serialize(),
+					type:"post",
+					dataType:"JSON",
+					success:function(data){
+						alert(data);
+					}
+					
+				});
+		} */
 	}
 	//功能：将浮点数四舍五入，取小数点后2位    
     function toDecimal(x) {    
@@ -264,7 +306,7 @@ $(document).ready(function () {
 			 <thead>
 			 <tr>
 			      <th class="tc w60" rowspan="2">评审项目</th>
-		   	      <th class="tc w100" rowspan="2">评审指标</th>
+		   	      <th class="tc w80" rowspan="2">评审指标</th>
 		   	      <th class="tc w30" rowspan="2">标准<br/>分值</th>
 			      <c:forEach items="${supplierList}" var="supplier">
 				      <th colspan="2" class="tc">${supplier.suppliers.supplierName}</th>
@@ -370,6 +412,26 @@ $(document).ready(function () {
 				 	  </c:if>
 				 	</c:forEach>
 				 </c:forEach>
+				 <tr>
+				 	<td class="tc">合计</td>
+				 	<td class="tc">--</td>
+				 	<td class="tc">--</td>
+				 	<c:forEach items="${supplierList}" var="supplier">
+				      <td colspan="2" class="tc" >
+				      	<input type="hidden" name="${supplier.suppliers.id}_total"/>
+				      	<span>
+				      		<c:set var="sum_score" value="0"/>
+				      		<c:forEach items="${scores}" var="sco">
+				 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id}">
+				 	          	<c:set var="sum_score" value="${sum_score+sco.score}"/>
+				 	          </c:if>
+				 	        </c:forEach>
+				 	        <font color="red" class="f18">${sum_score}</font>
+				 	        <c:set var="sum_score" value="0"/>
+				      	</span>
+				      </td>
+				    </c:forEach>
+				 </tr>
 				 </tbody>
 				 </table>
 				 </div>

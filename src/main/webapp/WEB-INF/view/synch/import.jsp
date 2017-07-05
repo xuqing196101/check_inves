@@ -90,6 +90,8 @@
 			<input type="checkbox" name="dataType" value="temp_in"/> 临时供应商退回修改导入内网
 			<input type="checkbox" name="dataType" value="expert_out"/> 专家退回修改导出外网
 			<input type="checkbox" name="dataType" value="expert_again_inner"/> 专家退回修改导入内网
+			
+			<input type="checkbox" name="dataType" value="img_inner"/> 供应商，专家图片导入
 		  </div>
 		</li>
 		

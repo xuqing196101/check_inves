@@ -48,6 +48,16 @@
                 $("#submitdiv").attr("disabled", false);
                 $("#principal").attr("disabled", false);
                 $("#currPrincipal").attr("disabled", false);
+                //环节结束
+			          if(data.isFes == 1) {
+			            $("#submitdiv").attr("disabled", true);
+			            $("#principal").attr("disabled", true);
+			            $("#currPrincipal").attr("disabled", true);
+			          } else {
+			            $("#submitdiv").attr("disabled", false);
+			            $("#principal").attr("disabled", false);
+			            $("#currPrincipal").attr("disabled", false);
+			          }
               }
               if(!data.isEnd) {
                 $("#nextHaunjie").show();
@@ -370,7 +380,7 @@
                 </div>
               </div>
             </form>
-            <iframe frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="auto" marginheight="0" width="100%" onLoad="iFrameHeight()" src="${pageContext.request.contextPath}/${url}"></iframe>
+            <iframe frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="auto" marginheight="0" width="100%" onLoad="iFrameHeight('open_bidding_iframe')" src="${pageContext.request.contextPath}/${url}"></iframe>
           </div>
           <div id="onmouse" onmouseover="bigImg(this)" onmouseout="normalImg(this)">
             <div class="mt5 mb5 tc">

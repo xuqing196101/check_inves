@@ -213,7 +213,7 @@
 		</if>
 		<if test="packages != null">
 			<if test="packages.name != null and packages.name != ''">
-				AND PP."NAME" LIKE '%${packages.name}%'
+				AND PP."NAME" LIKE  CONCAT(CONCAT('%', #{packages.name}), '%')
 			</if>
 		</if>
 	</select>

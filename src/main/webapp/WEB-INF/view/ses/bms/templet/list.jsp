@@ -206,7 +206,7 @@
 									onclick="selectAll()" />
 								</th>
 								<th class="info w50">序号</th>
-								<th class="info">模板类型</th>
+								<th class="info" width="45%">模板类型</th>
 								<th class="info">模板名称</th>
 							</tr>
 						</thead>
@@ -217,9 +217,9 @@
 									type="checkbox" name="chkItem" value="${templet.id}" />
 								</td>
 
-								<td class="tc pointer" onclick="view('${templet.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+								<td class="tl pointer" onclick="view('${templet.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 
-								<td class="tc pointer" onclick="view('${templet.id}')">
+								<td class="tl pointer" onclick="view('${templet.id}')">
 									<c:if test="${templet.temType ==0}">
 	                  					采购公告-公开招标
 	                  				</c:if>
@@ -249,7 +249,7 @@
 	                  				</c:if>
 								</td>
 
-								<td class="tc pointer" onclick="view('${templet.id}')">${templet.name}</td>
+								<td class="tl pointer" onclick="view('${templet.id}')">${templet.name}</td>
 
 							</tr>
 						</c:forEach>

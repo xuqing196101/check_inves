@@ -67,16 +67,16 @@
         and PROCUREMENT_METHOD = #{procurementMethod} 
       </if>
       <if test="year != null">
-        and YEAR like '%${year}%'
+        and YEAR like CONCAT(CONCAT('%', #{year}), '%')
       </if>
       <if test="giveTime != null">
         and GIVE_TIME =  #{giveTime}
       </if>
       <if test="purchaseId != null and purchaseId !=''">
-        and PURCHASE_ID like '%${purchaseId}%'
+        and PURCHASE_ID like  CONCAT(CONCAT('%', #{purchaseId}), '%')
       </if> 
       <if test="documentNumber != null and documentNumber !=''">
-        and DOCUMENT_NUMBER like '%${documentNumber}%'
+        and DOCUMENT_NUMBER like  CONCAT(CONCAT('%', #{documentNumber}), '%')
       </if>
        <if test="purchaseRequiredId != null">
         and PURCHASE_REQUIRED_ID = #{purchaseRequiredId}
@@ -168,7 +168,7 @@
         and PROCUREMENT_METHOD = #{procurementMethod} 
       </if>
       <if test="year != null">
-        and YEAR like '%${year}%'
+        and YEAR like CONCAT(CONCAT('%', #{year}), '%')
       </if>
       <if test="giveTime != null">
         and GIVE_TIME =  #{giveTime}
@@ -177,7 +177,7 @@
         and PURCHASE_ID  = #{purchaseId}
       </if> 
       <if test="documentNumber != null and documentNumber !=''">
-        and DOCUMENT_NUMBER like '%${documentNumber}%'
+        and DOCUMENT_NUMBER like  CONCAT(CONCAT('%', #{documentNumber}), '%')
       </if>
        <if test="purchaseRequiredId != null">
         and PURCHASE_REQUIRED_ID = #{purchaseRequiredId}
@@ -211,13 +211,13 @@
         and PROCUREMENT_METHOD = #{procurementMethod} 
       </if>
       <if test="year != null">
-        and YEAR like '%${year}%'
+        and YEAR like  CONCAT(CONCAT('%', #{year}), '%')
       </if>
       <if test="giveTime != null">
         and GIVE_TIME =  #{giveTime}
       </if>
       <if test="purchaseId != null and purchaseId !=''">
-        and PURCHASE_ID like '%${purchaseId}%'
+        and PURCHASE_ID like  CONCAT(CONCAT('%', #{purchaseId}), '%')
       </if> 
       <if test="documentNumber != null and documentNumber !=''">
         and DOCUMENT_NUMBER = #{documentNumber}

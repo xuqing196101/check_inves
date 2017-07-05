@@ -2,10 +2,12 @@
 package iss.controller.ps;
 
 import gui.ava.html.image.generator.HtmlImageGenerator;
+import iss.model.hl.ServiceHotline;
 import iss.model.ps.Article;
 import iss.model.ps.ArticleAttachments;
 import iss.model.ps.ArticleType;
 import iss.model.ps.DownloadUser;
+import iss.service.hl.ServiceHotlineService;
 import iss.service.ps.ArticleAttachmentsService;
 import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
@@ -50,9 +52,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
@@ -61,6 +65,7 @@ import ses.model.ems.ExpertBlackListVO;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierBlacklist;
 import ses.model.sms.SupplierBlacklistVO;
+import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertBlackListService;
 import ses.service.ems.ExpertService;
@@ -70,10 +75,21 @@ import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
+import sums.service.oc.ComplaintService;
 import synchro.util.SpringBeanUtil;
+import bss.model.ob.OBProduct;
+import bss.model.ob.OBSupplier;
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBSupplierService;
 
 import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
+import common.annotation.SystemControllerLog;
+import common.annotation.SystemServiceLog;
 import common.constant.Constant;
+import common.constant.OnlineBidding;
+import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.CommonStringUtil;
@@ -122,6 +138,21 @@ public class IndexNewsController extends BaseSupplierController{
 	@Autowired
 	private ExpertBlackListService expertBlackListService;
 	
+    /**竞价产品Service**/
+    @Autowired
+    private OBProductService oBProductService;
+    
+    /**竞价供应商Service**/
+    @Autowired
+    private OBSupplierService oBSupplierService;
+    
+    /**采购目录管理接口Service**/
+    @Autowired
+    private CategoryService categoryService;
+    
+    /** 服务热线 **/
+    @Autowired
+	private ServiceHotlineService serviceHotlineService;
 	/**
 	 * 
 	* @Title: sign
@@ -266,13 +297,15 @@ public class IndexNewsController extends BaseSupplierController{
     List<Article> article115List = articleService.selectArticleByArticleType(map);
     indexMapper.put("article115List", article115List);
     map.clear();
-    map.put("typeId","116");
+    //供应商处罚公告
+    //String[] idArray116 = {"116","117"};
+    map.put("typeId","114");
     List<Article> article116List = articleService.selectArticleByArticleType(map);
     indexMapper.put("article116List", article116List);
-    map.clear();
+    /*map.clear();
     map.put("typeId","117");
     List<Article> article117List = articleService.selectArticleByArticleType(map);
-    indexMapper.put("article117List", article117List);
+    indexMapper.put("article117List", article117List);*/
 	}
 	
 	/**
@@ -465,14 +498,17 @@ public class IndexNewsController extends BaseSupplierController{
     map.put("typeId","115");
     List<Article> article115List = articleService.selectArticleByArticleType(map);
     indexMapper.put("article115List", article115List);
+    //首页供应商处罚公告
     map.clear();
-    map.put("typeId","116");
+    /*String[] idArray116 = {"116","117"};
+	map.put("idArray", idArray116);*/
+	map.put("typeId","114");
     List<Article> article116List = articleService.selectArticleByArticleType(map);
     indexMapper.put("article116List", article116List);
-    map.clear();
+    /*map.clear();
     map.put("typeId","117");
     List<Article> article117List = articleService.selectArticleByArticleType(map);
-    indexMapper.put("article117List", article117List);
+    indexMapper.put("article117List", article117List);*/
 		map.clear();
 		String[] idArray = {"3","24"};
 		map.put("idArray", idArray);
@@ -821,9 +857,11 @@ public class IndexNewsController extends BaseSupplierController{
 		BigDecimal articleTouSu = getcount("tousu");
 		BigDecimal articleChuFa = getcount("chufa");
 		BigDecimal articleZytz = getcount("zhongYaoTongZhi");
+		BigDecimal articleCgfg = getcount("caiGouFaGui");
 		model.addAttribute("articleTouSu",articleTouSu);
 		model.addAttribute("articleChuFa",articleChuFa);
 		model.addAttribute("articleZytz",articleZytz);
+		model.addAttribute("articleCgfg",articleCgfg);
 //		for(int i=0;i<articleTypeList.size();i++){
 //			List<Article> indexNewsList = null;
 //			if(articleTypeList.get(i).getName().equals("工作动态")){
@@ -975,7 +1013,14 @@ public class IndexNewsController extends BaseSupplierController{
       timerMap.put("id", "109");
       BigDecimal zhongYaoTongZhiNum = articleService.selectByTypeIdTimer(timerMap);
       return zhongYaoTongZhiNum;
-    }else {
+    } else if ("caiGouFaGui".equals(str)) {
+      HashMap<String, String> timerMap = new HashMap<String, String>();
+      timerMap.put("firstday", firstday);
+      timerMap.put("lastday", lastday);
+      timerMap.put("id", "106");
+      BigDecimal caiGouFaGuiNum = articleService.selectByTypeIdTimer(timerMap);
+      return caiGouFaGuiNum;
+    } else {
       return new BigDecimal(0);
     }
   }
@@ -1257,6 +1302,63 @@ public class IndexNewsController extends BaseSupplierController{
 		Integer pages = indexNewsService.selectCount(countMap);
 		Integer startRow = 0;
 		Integer endRow = 0;
+		if(indexNewsList!=null && !indexNewsList.isEmpty()){
+			if(indexNewsList.size()>0){
+				startRow = (page-1)*Integer.parseInt(pageSize)+1;
+			}
+			if(indexNewsList.size()>0){
+				endRow = startRow+(indexNewsList.size()-1);
+			}
+		}
+		Map<String, Object> indexMapper = new HashMap<String, Object>();
+		topNews(indexMapper);
+		model.addAttribute("total", pages);
+		model.addAttribute("startRow", startRow);
+		model.addAttribute("endRow", endRow);
+		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
+		model.addAttribute("indexList", indexNewsList);
+		String articleTypeName = null;
+		if(articleTypeOne != null){
+			articleTypeName = articleTypeOne.getName();
+		}
+		model.addAttribute("typeName", articleTypeName);
+		model.addAttribute("articleTypeId", articleTypeId);
+		model.addAttribute("title", title);
+		model.addAttribute("indexMapper", indexMapper);
+		return "iss/ps/index/index_two";
+	}
+	
+	/**
+	 * 
+	 * Description: 供应商处罚公告
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年6月13日
+	 * @param 
+	 * @return
+	 */
+	@RequestMapping("/supplierPunishment")
+	public String supplierPunishment(Model model,Integer page,HttpServletRequest request){
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> countMap = new HashMap<String, Object>();
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		String pageSize = config.getString("pageSize");
+		if(page==null){
+			page=1;
+		}
+		String title = RequestTool.getParam(request, "title","");
+		/*String idArray[] = {"116","117"};
+		map.put("idArray",idArray);*/
+		map.put("typeId","114");
+		map.put("page", page);
+		map.put("pageSize", pageSize);
+		map.put("title", title);
+		countMap.put("typeId","114");
+		countMap.put("title", title);
+		List<Article> indexNewsList = indexNewsService.selectSupplierAllNews(map);
+		Integer pages = indexNewsService.selectSupplierCount(countMap);
+		Integer startRow = 0;
+		Integer endRow = 0;
 		if(indexNewsList!=null){
 			if(indexNewsList.size()>0){
 				startRow = (page-1)*Integer.parseInt(pageSize)+1;
@@ -1272,13 +1374,11 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("endRow", endRow);
 		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
 		model.addAttribute("indexList", indexNewsList);
-		model.addAttribute("typeName", articleTypeOne.getName());
-		model.addAttribute("articleTypeId", articleTypeId);
+		model.addAttribute("typeName", "供应商处罚公告");
 		model.addAttribute("title", title);
 		model.addAttribute("indexMapper", indexMapper);
 		return "iss/ps/index/index_two";
 	}
-	
 	
 	public static void markByText(String logoText, String srcImgPath,String targerPath) {
 		markByText(logoText, srcImgPath, targerPath, null);
@@ -1492,6 +1592,7 @@ public class IndexNewsController extends BaseSupplierController{
           
           if (StringUtils.isNotBlank(content)){
             content = content.replaceAll(CommonStringUtil.getAppendString("&nbsp;", 30), "");
+            content = content.replaceAll(":=\"\"", "=\"\"");
           }
           
           divStyle.append(content);
@@ -1983,9 +2084,13 @@ public class IndexNewsController extends BaseSupplierController{
 			}
 			String status=RequestTool.getParam(request,"status","");
 			if(!"".equals(status)){
-				sMap.put("status", status);
+				//sMap.put("status", status);
+				String [] statusArray= status.split(","); 
+				sMap.put("statusArray", statusArray);
+				sMap.put("size", statusArray.length);
 				model.addAttribute("status", status );
 			}
+			
 	        List<Supplier> list = suppService.query(page == null ? 1 : page,sMap);
 	        //return supplierList;
 	        //model.addAttribute("supplierList", supplierList);
@@ -1994,14 +2099,19 @@ public class IndexNewsController extends BaseSupplierController{
 		}
 		else {//专家名录 ：1
 			Expert expert=new Expert();
+			Map<String, Object> expertMap = new HashMap<>();
 			//处理查询参数
 			String relName=RequestTool.getParam(request,"relName","");
 			if(!"".equals(relName)){
 				expert.setRelName(relName);
+				expertMap.put("relName", relName);
 				model.addAttribute("relName", relName );
 			}
 			String status=RequestTool.getParam(request,"status","");
 			if(!"".equals(status)){
+				String [] statusArray= status.split(","); 
+				expertMap.put("statusArray", statusArray);
+				expertMap.put("size", statusArray.length);
 				expert.setStatus(status);
 				model.addAttribute("status", status );
 			}
@@ -2009,13 +2119,112 @@ public class IndexNewsController extends BaseSupplierController{
 			ExpertService expertService=SpringBeanUtil.getBean(ExpertService.class);
 			 //只显示公开的
 			expert.setIsPublish(1);
+			expertMap.put("isPublish", 1);
 			//分页
-	        List<Expert> list = expertService.selectAllExpert(page == null ? 1 : page, expert);
+	        List<Expert> list = expertService.selectIndexExpert(page == null ? 1 : page, expertMap);
 	        model.addAttribute("list",  new PageInfo<Expert>(list));
 	        return "iss/ps/index/sumByPubExpert";
 		}
 	}
 	
-	
-	
+	/**
+	 * 
+	 * Description: 首页定型产品列表查询
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年6月15日
+	 * @param 
+	 * @return
+	 */
+    @RequestMapping("/index_productList")
+    public String headlist(HttpServletRequest request,Model model, @RequestParam(defaultValue="1")Integer page) {
+        OBProduct example = new OBProduct();
+        String name = request.getParameter("name") == null ? "" : request.getParameter("name");
+        String code = request.getParameter("code") == null ? "" : request.getParameter("code");
+        String smallPointsId = request.getParameter(OnlineBidding.SMALL_POINTS_ID) == null ? "" : request.getParameter(OnlineBidding.SMALL_POINTS_ID);
+        example.setName(name);
+        example.setCode(code);
+        example.setSmallPointsId(smallPointsId);
+        List<OBProduct> list = oBProductService.selectPublishProduct(example, page);
+        if(list != null){
+            for (OBProduct oBProduct : list) {
+                String id = oBProduct.getSmallPointsId();
+                if(id != null){
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("id", id);
+                    List<Category> clist = categoryService.findCategoryByParentNode(map);
+                    StringBuilder sb = new StringBuilder();
+                    for (Category category : clist) {
+                        if(!oBProduct.getSmallPoints().getName().equals(category.getName())){
+                            sb.append(category.getName());
+                            sb.append("/");
+                        }
+                    }
+                    if(oBProduct.getSmallPoints() != null){
+                        sb.append(oBProduct.getSmallPoints().getName());
+                        oBProduct.setPointsName(sb.toString());
+                    }
+                }
+            }
+        }
+        Category cl = categoryService.findById(smallPointsId);
+        if(cl != null){
+            model.addAttribute("catName", cl.getName());
+        }
+        PageInfo<OBProduct> info = new PageInfo<>(list);
+        List<OBSupplier> numlist = oBSupplierService.selectSupplierNum();
+        for (OBSupplier ob : numlist) {
+            if(null != ob && null == ob.getnCount()){
+                ob.setnCount(0);
+            }
+        }
+        Map<String, Object> indexMapper = new HashMap<String, Object>();
+        topNews(indexMapper);
+        model.addAttribute("indexMapper", indexMapper);
+        model.addAttribute("info", info);
+        model.addAttribute("product", example);
+        model.addAttribute("numlist", numlist);
+        return "bss/ob/finalize_DesignProduct/index_list";
+    }
+
+    /**
+     * 
+     * Description: 首页服务热线
+     * 
+     * @author zhang shubin
+     * @data 2017年6月15日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/index_hotLineList")
+    public String index_list(@RequestParam(defaultValue="1")Integer page, Model model,String servicecontent){
+        ServiceHotline serviceHotline = new ServiceHotline();
+        if(servicecontent != null){
+            serviceHotline.setServicecontent(servicecontent);
+        }
+        List<ServiceHotline> list = serviceHotlineService.selectAll(serviceHotline,page);
+        PageInfo<ServiceHotline> info = new PageInfo<>(list);
+        Map<String, Object> indexMapper = new HashMap<String, Object>();
+        topNews(indexMapper);
+        model.addAttribute("indexMapper", indexMapper);
+        model.addAttribute("info", info);
+        model.addAttribute("serviceHotline", serviceHotline);
+        return "iss/hl/index_list";
+    }
+
+    /**
+     * 
+     * Description: 加载首页导航栏公告信息
+     * 
+     * @author zhang shubin
+     * @data 2017年6月14日
+     * @param 
+     * @return
+     */
+    @RequestMapping("/indexHeadInfo")
+    public void indexHeadInfo(Model model){
+        Map<String, Object> indexMapper = new HashMap<String, Object>();
+        topNews(indexMapper);
+        model.addAttribute("indexMapper", indexMapper);
+    }
 }

@@ -9,6 +9,7 @@ session.setAttribute("tokenSession", tokenValue);
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 
 <%@ include file="/reg_head.jsp"%>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
  <script type="text/javascript">
    $(function(){
@@ -112,6 +113,8 @@ session.setAttribute("tokenSession", tokenValue);
    		validataPwd2();
    		validatePhone();
 	 	if(flag==2 && flag2==2 && flag3==2&&flag4==2){
+	 	$("#password1").val(setPublicKey($("#password1").val()));
+        $("#password2").val(setPublicKey($("#password2").val()));
 			$("#formExpert").submit();
 	 	}
    	}
@@ -127,7 +130,13 @@ session.setAttribute("tokenSession", tokenValue);
    			<form action="${pageContext.request.contextPath}/expert/register.html" method="post"  id="formExpert">
 			   <input type="hidden"  name="token2" value="<%=tokenValue%>">
 		       <input type="hidden" id="message" value="${message }"/>
-		       <em><span class="red ml20" style="font-size:16px">注：军队单位人员请登录内网进行注册！</span></em>
+		       <em>
+		       <div class="col-md-10 col-xs-10 col-sm-10 p0" style="margin-left: 15px;font-size: 18px;font-style:normal">评审专家账号注册：
+		       <c:if test="${ipType == 1}">
+		       </br><span class="red" style="font-size:16px">(军队单位人员请登录内网进行注册！)</span>
+		       </c:if>
+		       </div>
+		       </em>
             <ul class="list-unstyled overflow_h mt20 col-md-12 col-sm-12 col-xs-12">
 			 <li class="login_item col-md-12  col-sm-12 col-xs-12 pl10">
 			  <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>专家类型：</span>
@@ -153,14 +162,14 @@ session.setAttribute("tokenSession", tokenValue);
 		     <li class="login_item col-md-12  col-sm-12 col-xs-12">
 			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>密码：</span>
 			   <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-		        <input name="password" placeholder="密码由6~20位字母或数字组成" maxlength="20" id="password1" onkeyup="validataPassword();"  type="password" >
+		        <input name="password" placeholder="密码由6~20位字母或数字组成" maxlength="20" id="password1" autocomplete="off" onkeyup="validataPassword();"  type="password" >
 		        <div id="pwd1" class="cue"></div>
 		       </div>
 			 </li> 
 	 		 <li class="login_item col-md-12  col-sm-12 col-xs-12">
 			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>确认密码：</span>
 			   <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-		        <input id="password2"  maxlength="20" onkeyup="validataPwd2();" type="password" value="">
+		        <input id="password2"  maxlength="20" onkeyup="validataPwd2();" type="password" autocomplete="off" value="">
 		        <div class="cue" id="pwd2">
 		       </div>
 			 </li> 

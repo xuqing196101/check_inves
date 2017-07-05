@@ -75,19 +75,22 @@
 	
 	//查看详情
 	function doview(id){
-		window.location.href = "${pageContext.request.contextPath }/onlineComplaints/view.html?id="+id;
+        jumppage("${pageContext.request.contextPath }/onlineComplaints/view.html?id="+id);
 	}
 	</script>
 </head>
 <body>
 <!--面包屑导航开始-->
     <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-        <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">业务监管</a></li><li><a href="javascript:void(0)">网上投诉</a></li>
-		   </ul>
-        <div class="clear"></div>
-      </div>
+        <div class="container">
+            <ul class="breadcrumb margin-left-0">
+                <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+                <li><a href="javascript:void(0)">业务监管</a></li>
+                <li><a href="javascript:void(0)">网上投诉</a></li>
+                <li><a href="javascript:jumppage('${pageContext.request.contextPath }/onlineComplaints/complaints.html')">投诉记录查询</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
     </div>
     
     <!-- 网上投诉列表页面开始 -->
@@ -125,7 +128,7 @@
 			<tr class="info">
 				<!-- <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th> -->
 				<th class="w50">序号</th>
-				<th width="">标题</th>
+				<th width="33%">标题</th>
 				<th width="">投诉人姓名</th>
 				<!-- <th width="12%">投诉人类型</th>
 				<th width="16%">投诉对象</th> -->
@@ -138,8 +141,8 @@
 			<tr class="tc">
 				<%-- <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${complaint.id }" /></td> --%>
 				<td class="w50" onclick="doview('${complaint.id }')">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-				<td class="tl pl20" onclick="doview('${complaint.id }')">${complaint.title }</td>
-				<td class="tc" onclick="doview('${complaint.id }')">${complaint.name }</td>
+				<td class="tl" onclick="doview('${complaint.id }')">${complaint.title }</td>
+				<td class="tl" onclick="doview('${complaint.id }')">${complaint.name }</td>
 				<%-- <td class="tl" onclick="doview('${complaint.id }')">${complaint.complaintObject }</td> --%>
 				
 				<td class="tl" title="${complaint.complaintContent }" onclick="doview('${complaint.id }')">  

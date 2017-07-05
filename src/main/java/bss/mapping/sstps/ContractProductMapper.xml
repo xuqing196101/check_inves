@@ -33,7 +33,7 @@
     from T_BSS_SSTPS_CONTRACT_PRODUCT
     WHERE CONTRACT_ID = #{appraisalContractId}
     <if test="name != null and name != ''" >
-    AND NAME LIKE #{name}
+    AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
     </if>
   </select>
   

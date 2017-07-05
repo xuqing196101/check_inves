@@ -63,7 +63,7 @@ function hid(){
 	<!-- 投诉页面 -->
 	<div class="container container_box">
 			<form action="${pageContext.request.contextPath }/onlineComplaints/add.html" method="post" class="mb0">
-			  <h2 class="list_title">网上投诉处理系统</h2>
+			  <h2 class="list_title">网上投诉</h2>
 			  <input name = "id" type = "text" value="${complaint.id }" style="display: none;">
 				<ul class="ul_list">
 					<%-- <li class="col-md-3 col-sm-6 col-xs-12  pl15" >
@@ -80,18 +80,22 @@ function hid(){
 				  </li> --%>
 				  
 				  <!-- 标题 -->
-				  <li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
+				  <li class="col-md-12 col-sm-6 col-xs-12 pl15"   >
           	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>标题</span>
-          	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 m0">
+          	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
             	<input class="" name="title" type="text" value="${complaint.title }">
-          		<div class="star_red">${error_title }</div>
+            	<span class="add-on">i</span>
+            	<span class="input-tip">不能为空</span>
+          		<div class="cue">${error_title }</div>
           	</div>
 	        </li>
 				  <li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
 	        	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人名称（姓名）</span>
-	        	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 m0">
+	        	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
             	<input class="" name="name" type="text" value="${complaint.name }">
-              <div class="star_red">${error_name }</div>
+            	<span class="add-on">i</span>
+            	<span class="input-tip">不能为空</span>
+              <div class="cue">${error_name }</div>
            	</div>
 	        </li>	
 				  <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15" >
@@ -104,27 +108,33 @@ function hid(){
 				  <!-- 投诉人联系电话 -->
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人电话</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 m0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="" name="telephone" type="text" value="${complaint.telephone }">
-              <div class="star_red">${error_telephone }</div>
+							<span class="add-on">i</span>
+							<span class="input-tip">不能为空</span>
+              <div class="cue">${error_telephone }</div>
 						</div>
 					</li>
 	        <li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人联系地址</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="" name="adress" type="text" value="${complaint.adress }">
-              <div class="star_red">${error_adress }</div>
+							<span class="add-on">i</span>
+							<span class="input-tip">不能为空</span>
+              <div class="cue">${error_adress }</div>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉人邮箱</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="" name="email" type="text" value="${complaint.email }">
-              <div class="star_red">${error_email }</div>
+							<span class="add-on">i</span>
+							<span class="input-tip">不能为空</span>
+              <div class="cue">${error_email }</div>
 						</div>
 					</li>
 				  <li class="col-md-12 col-sm-12 col-xs-12">
-						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉内容</span>
+						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>投诉内容</span>
 						<div class="col-md-12 col-sm-12 col-xs-12 p0">
 							<textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" title="不超过1000个字" name="complaintContent">${complaint.complaintContent }</textarea>
 						</div>
@@ -149,8 +159,6 @@ function hid(){
 				</ul>
 			<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
 				<button type="submit" class="btn">投诉</button>
-				<button class="btn btn-windows back" type="button"
-						onclick="window.location.href = '${pageContext.request.contextPath}/onlineComplaints/complaints.html'">返回</button>
 			</div>
 			</form>
 		</div>

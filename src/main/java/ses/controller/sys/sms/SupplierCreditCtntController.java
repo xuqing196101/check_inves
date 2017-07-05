@@ -16,6 +16,8 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageInfo;
 import common.utils.JdcgResult;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @Scope("prototype")
 @RequestMapping("/supplier_credit_ctnt")
@@ -34,15 +36,22 @@ public class SupplierCreditCtntController {
 	}
 	
 	@RequestMapping(value = "add_credit_ctnt")
-	public String addCreditCtnt(Model model, SupplierCreditCtnt supplierCreditCtnt) throws Exception {
+	public String addCreditCtnt(Model model, SupplierCreditCtnt supplierCreditCtnt, HttpServletRequest request) throws Exception {
+		// 解决中文乱码
+		String encoding = request.getCharacterEncoding();
 		if(supplierCreditCtnt.getName() != null){
-			supplierCreditCtnt.setName(new String(supplierCreditCtnt.getName().getBytes("ISO8859-1"), "UTF-8"));
+			if ("UTF-8".equals(encoding)){
+				supplierCreditCtnt.setName(supplierCreditCtnt.getName());
+			}
+			if ("ISO8859-1".equals(encoding)){
+				supplierCreditCtnt.setName(new String(supplierCreditCtnt.getName().getBytes("ISO8859-1"), "UTF-8"));
+			}
 		}
 		model.addAttribute("supplierCreditCtnt", supplierCreditCtnt);
-		
+
 		return "ses/sms/supplier_credit_ctnt/add_credit_ctnt";
 	}
-	
+
 	@RequestMapping(value = "save_or_update_supplier_credit_ctnt")
 	@ResponseBody
 	public JdcgResult saveOrUpdateSupplierCredit(SupplierCreditCtnt supplierCreditCtnt) {

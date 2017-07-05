@@ -376,6 +376,23 @@ public class DateUtils {
     
     /**
      * 
+     * @Title: getDayOfYear 
+     * @Description: 获取当前所在天/月/日
+     *  如：20170511(天)  20170504
+     * @author Easong
+     * @param @param date
+     * @param @param dateFormat
+     * @param @return    设定文件 
+     * @return Integer    返回类型 
+     * @throws
+     */
+    public static String getDateOfFormat(Date date) {
+    	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+    	return dateFormat.format(date);
+    }
+    
+    /**
+     * 
     * @Title: getWeekOfYear 
     * @Description: 获取当前年的第几周
     * @author Easong
@@ -405,5 +422,46 @@ public class DateUtils {
 		cal.setTime(currDate);
 		cal.add(Calendar.MONTH, month);// 对月份进行计算
 		return cal.getTime();
+	}
+	
+	/**
+	 * 
+	 * Description: 获取前一年 yyyy
+	 * 
+	 * @author Easong
+	 * @version 2017年6月7日
+	 * @param currDate
+	 * @return
+	 */
+	public static Date getBeforeYear(Date currDate){
+		Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currDate);
+        calendar.add(Calendar.YEAR, 1);
+        return calendar.getTime();
+	}
+	public static Date getBeforeFiveYear(Date currDate){
+		Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currDate);
+        calendar.add(Calendar.YEAR, -4);
+        return calendar.getTime();
+	}
+	/**
+	 * 
+	 * Description:获取两个日期 之间的 月差
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-21
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public static Integer getDateMonth(Date start,Date end){
+	    Calendar bef = Calendar.getInstance();
+	    Calendar aft = Calendar.getInstance();
+	    bef.setTime(start);
+	    aft.setTime(end);
+	    int result = aft.get(Calendar.MONTH) - bef.get(Calendar.MONTH);
+	    int month = (aft.get(Calendar.YEAR) - bef.get(Calendar.YEAR)) * 12;
+		return Math.abs(month + result);
 	}
 }

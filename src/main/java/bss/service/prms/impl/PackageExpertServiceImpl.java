@@ -319,15 +319,26 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             }
             // 判断如果包内的专家所给出的分数不同的话不能汇总
             List<ExpertScore> expertScoreList = expertScoreMapper.selectByMap(mapSearch);
+            int flag = 0;
+            String msg = "";
             for (int i = 0; i < expertScoreList.size() - 1; i++ ) {
                 ExpertScore scoreExp1 = expertScoreList.get(i);
                 for (int j = i+ 1; j < expertScoreList.size(); j++ ) {
                     ExpertScore scoreExp2 = expertScoreList.get(j);
                     if (scoreExp1.getSupplierId().equals(scoreExp2.getSupplierId()) && scoreExp1.getScoreModelId().equals(scoreExp2.getScoreModelId()) && !scoreExp1.getExpertId().equals(scoreExp2.getExpertId()) && !scoreExp1.getScore().equals(scoreExp2.getScore())) {
-                        notPass = "各专家打分不一致,无法汇总!"; 
+                      ScoreModel scoreModel = new ScoreModel();
+                      scoreModel.setId(scoreExp2.getScoreModelId());
+                      List<ScoreModel> scoreModels = scoreModelMapper.find(scoreModel);
+                      if (scoreModels != null && scoreModels.size() > 0) {
+                        msg += "【" + scoreModels.get(0).getName() + "】";
+                        flag = 1;
+                      }
                     }
-                } 
+                }
             } 
+            if (flag == 1) {
+              notPass += msg + "评审项各专家打分不一致,无法结束!";
+            }
         }
         if (!"".equals(notPass)) {
             return notPass;

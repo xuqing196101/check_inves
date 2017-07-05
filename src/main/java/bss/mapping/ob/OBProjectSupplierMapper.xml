@@ -292,7 +292,7 @@
  			WHERE S.SUPPLIER_ID = #{supplier_id} AND TS.CERT_VALID_PERIOD > #{date}
  			AND TS.SUPPLIER_ID=#{supplier_id}
  		<if test="name != null and name != ''">
-        	AND P.NAME LIKE '%${name}%'
+        	AND P.NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
       	</if>
       	<if test="createTime != null and createTime != ''">
         	AND P.CREATED_AT = #{createTime}

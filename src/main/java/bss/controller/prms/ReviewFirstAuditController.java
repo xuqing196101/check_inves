@@ -265,7 +265,7 @@ public class ReviewFirstAuditController {
         ScoreModel scoreModel = new ScoreModel();
         scoreModel.setPackageId(packageId);
         scoreModel.setProjectId(projectId);
-        List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
+        List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModelByTime(scoreModel);
         for (ScoreModel score : scoreModelList) {
             if (score.getStandardScore() == null || "".equals(score.getStandardScore())) {
                 score.setStandardScore(score.getMaxScore());
@@ -277,7 +277,7 @@ public class ReviewFirstAuditController {
         }
         model.addAttribute("scoreModelList", scoreModelList);
 		// 查出该包内所有的markTerm
-		MarkTerm markTerm = new MarkTerm();
+		/*MarkTerm markTerm = new MarkTerm();
 		markTerm.setProjectId(projectId);
 		markTerm.setPackageId(packageId);
 		List<MarkTerm> allMarkTerm = markTermService.findListByMarkTerm(markTerm);
@@ -287,7 +287,15 @@ public class ReviewFirstAuditController {
             if ("0".equals(mark.getPid()) && mark.getTypeName().equals(typeId)) {
                 markTermList.add(mark);
             }
-        }
+        }*/
+		
+		MarkTerm mt = new MarkTerm();
+    mt.setTypeName(typeId);
+    mt.setProjectId(projectId);
+    mt.setPackageId(packageId);
+    //默认顶级节点为0
+    mt.setPid("0");
+    List<MarkTerm> markTermList = markTermService.findListByMarkTerm(mt);
 		// 查询父节点的子节点个数
 		for (int i = 0; i < markTermList.size(); i++) {
 		    int count = 0;
@@ -583,7 +591,32 @@ public class ReviewFirstAuditController {
 		expertScoreService.saveScore(expertScore, null,scoreModelId);
 		return JSON.toJSONString(score);
 	}
-	
+
+	/**
+	 *〈简述〉获取当前专家给供应商的合计得分
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param supplierId
+	 * @param projectId
+	 * @param packageId
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("supplierTotal")
+	@ResponseBody
+	public String supplierTotal(String supplierIds, String projectId, String packageId, HttpSession session){
+	    //当前登录用户
+      User user = (User)session.getAttribute("loginUser");
+      String expertId = user.getTypeId();
+      HashMap<String, Object> map = new HashMap<String, Object>();
+      map.put("expertId", expertId);
+      map.put("projectId", projectId);
+      map.put("packageId", packageId);
+      map.put("supplierId", supplierIds);
+      BigDecimal score = expertScoreService.selectSumByMap(map);
+	    return JSON.toJSONString(score);
+	}
+	  
 	/**
 	 *〈简述〉
 	 * 专家后台判断是否可以进行查看

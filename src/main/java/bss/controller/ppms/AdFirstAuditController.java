@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import bss.model.ppms.AdvancedDetail;
@@ -290,16 +291,16 @@ public class AdFirstAuditController {
         if (packages != null) {
           model.addAttribute("packages", packages.get(0));
         }
-        HashMap<String, Object> map2 = new HashMap<String, Object>();
+       /* HashMap<String, Object> map2 = new HashMap<String, Object>();
         map2.put("kind", DictionaryDataUtil.getId("REVIEW_QC"));
         //获取资格性和符合性审查模版
-        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);*/
         model.addAttribute("dds", dds);
         model.addAttribute("items1", items1);
         model.addAttribute("items2", items2);
         model.addAttribute("packageId", packageId);
         model.addAttribute("projectId", projectId);
-        model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+        //model.addAttribute("firstAuditTemplats", firstAuditTemplats);
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("flag", flag);
 	  return "bss/ppms/advanced_project/advanced_bid_file/edit_package_qc";
@@ -559,6 +560,47 @@ public class AdFirstAuditController {
     } finally{
         response.getWriter().close();
     }
+    
+  }
+  
+  
+  /**
+   *〈简述〉查询模板
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param response
+   * @param categoryId
+   * @param type
+   * @throws IOException
+   */
+  @RequestMapping("/find")
+  public void find(HttpServletResponse response, String categoryId, String type) throws IOException{
+    try {
+      String data = "";
+      HashMap<String, Object> map2 = new HashMap<String, Object>();;
+      map2.put("kind", DictionaryDataUtil.getId(type));
+      if (categoryId != null && !"".equals(categoryId)) {
+        map2.put("categoryId", categoryId);
+      }
+      List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+      if (firstAuditTemplats != null && firstAuditTemplats.size() > 0) {
+        data = JSON.toJSONString(firstAuditTemplats);
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter()
+        .print(data);
+      }else {
+        data += "没有该产品目录的模板";
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter()
+                .print("{\"success\": " + false + ", \"msg\": \"" + data+ "\"}");
+      }
+      response.getWriter().flush();
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally{
+        response.getWriter().close();
+    }
+    
     
   }
 

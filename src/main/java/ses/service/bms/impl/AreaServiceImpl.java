@@ -176,7 +176,7 @@ public class AreaServiceImpl implements AreaServiceI {
 	 *  异步查询
 	 *〈详细描述〉
 	 * @author myc
-	 * @param list List<Area>集合
+	 * @param areaList List<Area>集合
 	 * @return
 	 */
 	private List<AreaZtree> asynchrous(List<Area> areaList){
@@ -265,6 +265,20 @@ public class AreaServiceImpl implements AreaServiceI {
 	@Override
 	public List<Area> findAreaByParentId(String id) {
 		return areaMapper.findAreaByParentId(id);
+	}
+
+	/**
+	 * 
+	 * Description: 通过省名称模糊查询地区ID
+	 * 
+	 * @author Easong
+	 * @version 2017年6月1日
+	 * @param name
+	 * @return
+	 */
+	@Override
+	public String selectByName(String name) {
+		return areaMapper.selectByName(name);
 	}
 
 }

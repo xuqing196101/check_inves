@@ -1962,6 +1962,8 @@ public class PackageExpertController {
                         } else {
                             exp.setCount(0);
                         };
+                    } else {
+                        exp.setCount(0);
                     }
                     flag++;
                 }
@@ -2209,7 +2211,9 @@ public class PackageExpertController {
         List<SupplierRank> rankList = new ArrayList<SupplierRank>();
         for (SaleTender supp : supplierList) {
             SupplierRank rank = new SupplierRank();
-            rank.setSupplierId(supp.getSuppliers().getId());
+            if(supp != null && supp.getSuppliers() != null){
+                rank.setSupplierId(supp.getSuppliers().getId());
+            }
             rank.setPackageId(supp.getPackages());
             BigDecimal es = supp.getEconomicScore();
             if (es == null) {
@@ -2240,7 +2244,10 @@ public class PackageExpertController {
             Supplier supplier = new Supplier();
             supplier.setId(rank.getSupplierId());
             saleTend.setSuppliers(supplier);
-            String reviewResult = saleTenderService.findByCon(saleTend).get(0).getReviewResult();
+            String reviewResult = null;
+            if(saleTenderService.findByCon(saleTend) != null && saleTenderService.findByCon(saleTend).size() > 0){
+                reviewResult = saleTenderService.findByCon(saleTend).get(0).getReviewResult();
+            }
             rank.setReviewResult(reviewResult);
         }
         model.addAttribute("rankList", rankList);
@@ -3715,6 +3722,8 @@ public class PackageExpertController {
                     } else {
                         exp.setCount(0);
                     };
+                } else {
+                    exp.setCount(0);
                 }
                 flag++;
             }
@@ -3789,7 +3798,9 @@ public class PackageExpertController {
             //所有专家对各小项的评审结果少数服从多数
             for (FirstAudit firstAudit2 : list) {
                 Map<String, Object> auditMap = new HashMap<>();
-                auditMap.put("supplierId", saleTender2.getSuppliers().getId());
+                if(saleTender2 != null && saleTender2.getSuppliers() != null){
+                    auditMap.put("supplierId", saleTender2.getSuppliers().getId());
+                }
                 auditMap.put("packageId", packageId);
                 auditMap.put("projectId", projectId);
                 auditMap.put("firstAuditId", firstAudit2.getId());

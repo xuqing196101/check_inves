@@ -132,7 +132,7 @@
 		<!--面包屑导航开始-->
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
-				<ul class="breadcrumb margin-left-0">
+				<ul class="breadcrumb m0">
 					<li>
 						<a href="${pageContext.request.contextPath }/park/getIndex.html">论坛首页</a>
 					</li>

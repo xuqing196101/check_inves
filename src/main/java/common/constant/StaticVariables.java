@@ -86,6 +86,10 @@ public class StaticVariables {
     public static final String GOODS_PRODUCT = "PRODUCT";
     /** 销售 **/
     public static final String GOODS_SALES = "SALES";
+    /** 工程 **/
+    public static final String PROJECT = "PROJECT";
+    /** 服务 **/
+    public static final String SERVICE = "SERVICE";
     
     
     /** 物资生产状态 **/
@@ -158,8 +162,7 @@ public class StaticVariables {
     
     /***日志 标识 网上竞价 名称****/
     public static final String OB_PROJECT_NAME="网上竞价";
-    /***日志 标识 网上竞价***/
-    public static final int OB_PROJECT_NAME_SIGN=5;
+    
     /***提示信息***/
     public static final String OB_PROJECT_SHOW="只有资源服务中心才能操作";
 
@@ -176,12 +179,18 @@ public class StaticVariables {
     public static final int HL_SERVICEHOTLINE_NAME_SIGN=7;
     /***提示信息***/
     public static final String HL_SERVICEHOTLINE="只有资源服务中心才能操作";
-    
+    /***日志 标识 供应商在线 名称****/
+    public static final String SUPPLIER_ONLINE_BIDDING="供应商在线投标";
+    /***日志 标识 供应商在线***/
+    public static final int SUPPLIER_ONLINE_BIDDING_SIGN=8;
     //获取是否内网标识 1外网 0内网
     public static final String ipAddressType= PropUtil.getProperty("ipAddressType");
     /**
      * 默认页
      */
     public static final Integer DEFAULT_PAGE = 1;
+    
+    /***定义统计缓存健***/
+ 	public static final String ANALYZE = "analyze";
     
 }

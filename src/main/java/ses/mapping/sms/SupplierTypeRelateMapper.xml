@@ -98,7 +98,7 @@
 		
 		from T_SES_SMS_SUPPLIER_TYPE_RELATE 
 		<where>
-		<if test="supplierId!=null">
+		<if test="supplierId!=null and supplierId!=''">
 	     	SUPPLIER_ID = #{supplierId}
 		</if>
 		</where>

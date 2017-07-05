@@ -2,6 +2,7 @@ package ses.service.oms.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,5 +55,14 @@ public List<PurchaseDep> getDep() {
 	// TODO Auto-generated method stub
 	return purchaseDepMapper.getDep();
 }
+	
+	/**
+	 * 查询全部机构
+	 * @return
+	 */
+	@Override
+	public List<PurchaseDep> findAllOrg() {
+		return purchaseDepMapper.findAllOrg();
+	}
 
 }

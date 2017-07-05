@@ -23,7 +23,12 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            var url = "${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?page="+e.curr+"&id="+articleTypeId+"&title="+title;
+		        	var url;
+		        	if(articleTypeId != null && articleTypeId != ''){
+			          url = "${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?page="+e.curr+"&id="+articleTypeId+"&title="+title;
+		        	}else{
+		        	  url = "${pageContext.request.contextPath}/index/supplierPunishment.html?page="+e.curr+"&title="+title;
+		        	}
 		            window.location.href = encodeURI(encodeURI(url));
 		        }
 		    }
@@ -32,7 +37,12 @@ $(function(){
 
 function query(){
 	var title = $("#title").val().replace(/\s/g,"");
-	var url="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id="+articleTypeId+"&title="+title;
+	var url;
+	if(articleTypeId != null && articleTypeId != ''){
+	  url="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id="+articleTypeId+"&title="+title;
+  	}else{
+  	  url="${pageContext.request.contextPath}/index/supplierPunishment.html?title="+title;
+  	}
 	window.location.href = encodeURI(encodeURI(url));
 }
 </script>
@@ -54,11 +64,11 @@ function query(){
          	标题：<input name="title" type="text" id="title" value="${title}"/>
         	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
       </div>
-          <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
-            <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+          <div class="col-md-12 col-sm-12 col-xs-12 report_list_box">
+            <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
           		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">标题</div>
                    <div class="fr mr25 f16">发布时间</div>
-             </h2>
+             </div>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
                 <c:forEach items="${indexList}" var="i">
 	                  <%--<li>

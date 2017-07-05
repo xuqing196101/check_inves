@@ -82,7 +82,7 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 		PageHelper.startPage(page, Integer.parseInt(config.getString("pageSize")));
 		String supplierName = supplierBlacklist.getSupplierName();
 		if (supplierName != null && !"".equals(supplierName)) {
-			supplierBlacklist.setSupplierName("%" + supplierName + "%");
+			supplierBlacklist.setSupplierName(supplierName);
 		}
 		List<SupplierBlacklist> listSupplierBlacklists = supplierBlacklistMapper.findSupplierBlacklist(supplierBlacklist);
 		return listSupplierBlacklists;

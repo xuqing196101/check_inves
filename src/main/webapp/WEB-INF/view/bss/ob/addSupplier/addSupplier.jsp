@@ -73,56 +73,56 @@
           hideMenu();
 	  }
     }
-	
-    function intiTree(){
-  	  /* 加载目录信息 */
-  		var datas;
-  		var setting={
-  				   async:{
-  							autoParam:["id"],
-  							enable:true,
-  							otherParam:{"otherParam":"zTreeAsyncTest"},  
-  							dataType:"json",
-  							type:"get",
-  						},
-  						callback:{
-  					    	onClick:zTreeOnClick,//点击节点触发的事件
-  		       			    
-  					    }, 
-  						data:{
-  							keep:{
-  								parent:true
-  							},
-  							key:{
-  								title:"title"
-  							},
-  							simpleData:{
-  								enable:true,
-  								idKey:"id",
-  								pIdKey:"pId",
-  								rootPId:"0",
-  							}
-  					    },
-  					   view:{
-  					        selectedMulti: false,
-  					        showTitle: false,
-  					         showLine: true
-  					   },
-  		         };
-  		$.ajax({
-			url: "${pageContext.request.contextPath}/obSupplier/createtreeByproduct.do",
-			async: false,
-			dataType: "json",
-			success: function(data){
-				if (data.length == 1) {
-					layer.msg("没有符合查询条件的产品类别信息！");
-				} else {
-					zNodes = data;
-					zTreeObj = $.fn.zTree.init($("#treeDemo"),setting,zNodes);
-				}
-			}
-		});
-  	    
+
+    function intiTree() {
+        /* 加载目录信息 */
+        var datas;
+        var setting = {
+            async: {
+                autoParam: ["id"],
+                enable: true,
+                otherParam: {"otherParam": "zTreeAsyncTest"},
+                dataType: "json",
+                type: "get",
+            },
+            callback: {
+                onClick: zTreeOnClick,//点击节点触发的事件
+
+            },
+            data: {
+                keep: {
+                    parent: true
+                },
+                key: {
+                    title: "title"
+                },
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "pId",
+                    rootPId: "0",
+                }
+            },
+            view: {
+                selectedMulti: false,
+                showTitle: false,
+                showLine: true
+            },
+        };
+        $.ajax({
+            url: "${pageContext.request.contextPath}/obSupplier/createtreeByproduct.do",
+            async: false,
+            dataType: "json",
+            success: function (data) {
+                if (data.length == 1) {
+                    layer.msg("没有符合查询条件的产品类别信息！");
+                } else {
+                    zNodes = data;
+                    zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                }
+            }
+        });
+
     }
    
       function showMenu() {
@@ -211,10 +211,14 @@
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">添加质检供应商</a></li><li class="active"><a href="javascript:void(0)">添加质检供应商</a></li>
-		   </ul>
+		  <ul class="breadcrumb margin-left-0">
+			  <li>
+				  <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			  </li>
+			  <li><a href="javascript:void(0)">保障作业</a></li>
+			  <li><a href="javascript:void(0)">网上竞价</a></li>
+			  <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/obSupplier/supplier.html')">添加质检供应商</a></li>
+		  </ul>
 		<div class="clear"></div>
 	  </div>
    </div>

@@ -1,11 +1,15 @@
 package ses.controller.sys.ems;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -15,7 +19,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,11 +26,12 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bss.util.ExcelRead;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -61,9 +65,25 @@ import ses.model.bms.Qualification;
 import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
-import ses.model.ems.*;
+import ses.model.ems.Expert;
+import ses.model.ems.ExpertAttachment;
+import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertCategory;
+import ses.model.ems.ExpertPictureType;
+import ses.model.ems.ExpertTitle;
+import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
-import ses.model.sms.*;
+import ses.model.sms.Quote;
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatPro;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -73,7 +93,16 @@ import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.QualificationService;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
-import ses.service.ems.*;
+import ses.service.ems.DeleteLogService;
+import ses.service.ems.ExpExtractRecordService;
+import ses.service.ems.ExpertAttachmentService;
+import ses.service.ems.ExpertAuditNotService;
+import ses.service.ems.ExpertAuditService;
+import ses.service.ems.ExpertCategoryService;
+import ses.service.ems.ExpertService;
+import ses.service.ems.ExpertTitleService;
+import ses.service.ems.ProjectExtractService;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierQuoteService;
@@ -98,16 +127,20 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
+import bss.util.ExcelRead;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-import com.mysql.jdbc.Blob;
+import com.google.zxing.WriterException;
 
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
 import common.service.LoginLogService;
 import common.service.UploadService;
+import common.utils.ListSortUtil;
+import common.utils.QRCodeUtil;
+import common.utils.RSAEncrypt;
 @Controller
 @RequestMapping("/expert")
 public class ExpertController extends BaseController {
@@ -176,6 +209,9 @@ public class ExpertController extends BaseController {
     @Autowired
     private LoginLogService loginLogService;
     
+    @Autowired
+    private PurChaseDepOrgService purChaseDepOrgService;
+    
     /**
      * 
      * @Title: toExpert
@@ -190,7 +226,8 @@ public class ExpertController extends BaseController {
         // 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
         model.addAttribute("lyTypeList", lyTypeList);
-        String ipAddressType = PropUtil.getProperty("ipAddressType"); 
+        String ipAddressType = PropUtil.getProperty("ipAddressType");
+        model.addAttribute("ipType", ipAddressType);
         if ("0".equals(ipAddressType)) {
 
             ipAddressType = DictionaryDataUtil.getId("ARMY");
@@ -236,11 +273,12 @@ public class ExpertController extends BaseController {
      * @param expert
      * @param model
      * @return String
+     * @throws Exception 
      */
     @RequestMapping("/register")
     public String register(User user, HttpSession session, Model model,
                            HttpServletRequest request, @RequestParam String token2,
-                           RedirectAttributes attr, String expertsFrom) {
+                           RedirectAttributes attr, String expertsFrom) throws Exception {
         Object tokenValue = session.getAttribute("tokenSession");
         if(tokenValue != null && tokenValue.equals(token2)) {
             // 正常提交
@@ -249,6 +287,8 @@ public class ExpertController extends BaseController {
             String loginName = user.getLoginName();
 
             String password = user.getPassword();
+            password = RSAEncrypt.decryptPrivate(password) ;
+            user.setPassword(password);
             String regex = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
             Pattern p = Pattern.compile(regex);
             Pattern p2 = Pattern.compile("[\u4e00-\u9fa5]");
@@ -371,12 +411,15 @@ public class ExpertController extends BaseController {
         	expert.setCoverNote("2");
         }
 //        model.addAttribute("expert", expert);
-        String stepNumber;
-        if("".equals(expert.getStepNumber()) || expert.getStepNumber() == null) {
+        String stepNumber=request.getParameter("stepNumber");
+        if("".equals(stepNumber)||stepNumber==null){
+        	if("".equals(expert.getStepNumber()) || expert.getStepNumber() == null) {
             stepNumber = "one";
-        } else {
-            stepNumber = expert.getStepNumber();
+	        } else {
+	            stepNumber = expert.getStepNumber();
+	        }
         }
+        
         if(expert != null)
             expertId = expert.getId();
         // 判断已提交 未审核的数据 跳转到查看页面
@@ -507,6 +550,7 @@ public class ExpertController extends BaseController {
                 }
             }
         }
+        model.addAttribute("ipAddressType", type);
         // 查询数据字典中的性别配置数据
         List < DictionaryData > sexList = DictionaryDataUtil.find(13);
         model.addAttribute("sexList", sexList);
@@ -591,6 +635,8 @@ public class ExpertController extends BaseController {
             List < PurchaseDep > list = purchaseOrgnizationService
                 .findPurchaseDepList(map1);
             for (PurchaseDep org : list) {
+            	  int PendingAuditCount = purchaseOrgnizationService.findPendingAuditCount(org.getOrgId());
+            	  org.setPendingAuditCount(PendingAuditCount);
                 Area pro = areaServiceI.listById(org.getProvinceId());
                 Area city = areaServiceI.listById(org.getCityId());
                 if(pro != null && city != null) {
@@ -644,7 +690,10 @@ public class ExpertController extends BaseController {
     @ResponseBody
     public String findErrorReason(ExpertAudit expertAudit) {
         List < ExpertAudit > audit = expertAuditService.selectFailByExpertId(expertAudit);
-        return JSON.toJSONString(audit.get(0));
+        if(null != audit){
+        	return JSON.toJSONString(audit.get(0));
+        }
+        return null;
     }
 
     
@@ -747,7 +796,12 @@ public class ExpertController extends BaseController {
 //              没有同级节点删除父级节点
                     boolean bool = sameCategory(expertId,parentId,typeId);
                     if(!bool){
-                        Category category = categoryService.findById(parentId);
+                        Category category = null;
+                        if(StringUtils.isEmpty(flag)){
+                        	category = categoryService.findById(parentId);
+                        }else{//工程专业属性
+                        	category = engCategoryService.findById(parentId);
+                        }
                         if(null != category){
                             List<ExpertCategory> bySupplierIdCategoryId = expertCategoryService.getListCategory(expertId, category.getId(), typeId);
                             if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
@@ -2083,8 +2137,7 @@ public class ExpertController extends BaseController {
         List < Expert > allExpert = service.selectAllExpert(page == null ? 0 :
             page, expert);
         for(Expert exp: allExpert) {
-            DictionaryData dictionaryData = dictionaryDataServiceI
-                .getDictionaryData(exp.getGender());
+            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(exp.getGender());
             exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
             StringBuffer expertType = new StringBuffer();
             if(exp.getExpertsTypeId() != null) {
@@ -2106,6 +2159,12 @@ public class ExpertController extends BaseController {
             } else {
                 exp.setExpertsTypeId("");
             }
+            
+          //专家来源
+      		if(exp.getExpertsFrom() != null) {
+      			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(exp.getExpertsFrom());
+      			exp.setExpertsFrom(expertsFrom.getName());
+      		}
         }
         // 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
@@ -2116,6 +2175,11 @@ public class ExpertController extends BaseController {
             data.setName(data.getName() + "技术");
         }
         List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
+        
+        //全部机构
+        List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();
+        request.setAttribute("allOrg", allOrg);
+        
         jsTypeList.addAll(jjTypeList);
         request.setAttribute("expTypeList", jsTypeList);
         request.setAttribute("result", new PageInfo < Expert > (allExpert));
@@ -2714,6 +2778,10 @@ public class ExpertController extends BaseController {
         /** 数据处理 **/
         handingData(supplier);
         
+        // 生成供应商二维码图片
+        BufferedImage bufferImg = QRCodeUtil.toBufferedImage(supplier.getId(), 222, 222);
+        supplier.setQrcodeImage(getImageStr(bufferImg));
+        
         // 文件存储地址
         String filePath = request.getSession().getServletContext()
             .getRealPath("/WEB-INF/upload_file/");
@@ -2722,8 +2790,10 @@ public class ExpertController extends BaseController {
             "UTF-8");
 //        Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
         /** 创建word文件 **/
-        String fileName = WordUtil.createWord(supplier, "supplier.ftl",
+        String fileName = WordUtil.createWord(supplier, "supplier2.ftl",
             name, request);
+//        String fileName = WordUtil.createWord(supplier, "test2.ftl",
+//        		name, request);
         // 下载后的文件名
         String downFileName = "军队供应商库入库申请表.doc";
         if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
@@ -2821,12 +2891,16 @@ public class ExpertController extends BaseController {
         }
 
         // 境外分支地址
-        List < SupplierBranch > branchList = supplier.getBranchList();
-        for(SupplierBranch branch: branchList) {
-            // 国家(地区)
-            if(branch.getCountry() != null) {
-                branch.setCountry(DictionaryDataUtil.findById(branch.getCountry()).getName());
+        if(null != supplier.getOverseasBranch() && supplier.getOverseasBranch() == 1){// 如果有境外分支
+        	List < SupplierBranch > branchList = supplier.getBranchList();
+            for(SupplierBranch branch: branchList) {
+                // 国家(地区)
+                if(branch.getCountry() != null) {
+                    branch.setCountry(DictionaryDataUtil.findById(branch.getCountry()).getName());
+                }
             }
+        }else{// 如果没有境外分支清除列表
+        	supplier.getBranchList().clear();
         }
 
         // 物资类,服务类资质证书
@@ -2847,30 +2921,34 @@ public class ExpertController extends BaseController {
             if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().contains("SERVICE")) {
                 List < SupplierCertServe >    listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
                 for(SupplierCertServe server: listSupplierCertSes) {
-                    SupplierCertPro pro = new SupplierCertPro();
-                    pro.setName(server.getName());
-                    pro.setCode(server.getCode());
-                    pro.setLevelCert(server.getLevelCert());
-                    pro.setLicenceAuthorith(server.getLicenceAuthorith());
-                    pro.setExpStartDate(server.getExpStartDate());
-                    pro.setExpEndDate(server.getExpEndDate());
-                    pro.setMot(server.getMot());
-                    listSupplierCertPros.add(pro);
+                	if(server.getCode() != null){
+                		SupplierCertPro pro = new SupplierCertPro();
+                        pro.setName(server.getName());
+                        pro.setCode(server.getCode());
+                        pro.setLevelCert(server.getLevelCert());
+                        pro.setLicenceAuthorith(server.getLicenceAuthorith());
+                        pro.setExpStartDate(server.getExpStartDate());
+                        pro.setExpEndDate(server.getExpEndDate());
+                        pro.setMot(server.getMot());
+                        listSupplierCertPros.add(pro);
+                	}
                 }
             }
             //		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
             if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null&&supplier.getSupplierTypeIds().contains("SALES")) {
                 List < SupplierCertSell >    listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
                 for(SupplierCertSell sell: listSupplierCertSells) {
-                    SupplierCertPro pro = new SupplierCertPro();
-                    pro.setName(sell.getName());
-                    pro.setCode(sell.getCode());
-                    pro.setLevelCert(sell.getLevelCert());
-                    pro.setLicenceAuthorith(sell.getLicenceAuthorith());
-                    pro.setExpStartDate(sell.getExpStartDate());
-                    pro.setExpEndDate(sell.getExpEndDate());
-                    pro.setMot(sell.getMot());
-                    listSupplierCertPros.add(pro);
+                	if(sell.getCode() != null){
+                		SupplierCertPro pro = new SupplierCertPro();
+                        pro.setName(sell.getName());
+                        pro.setCode(sell.getCode());
+                        pro.setLevelCert(sell.getLevelCert());
+                        pro.setLicenceAuthorith(sell.getLicenceAuthorith());
+                        pro.setExpStartDate(sell.getExpStartDate());
+                        pro.setExpEndDate(sell.getExpEndDate());
+                        pro.setMot(sell.getMot());
+                        listSupplierCertPros.add(pro);
+                	}
                 }
                
             }
@@ -2883,10 +2961,30 @@ public class ExpertController extends BaseController {
             if(supplier.getSupplierTypeIds().contains(supplierItem.getSupplierTypeRelateId())){
                 SupplierCateTree cateTree = getTreeListByCategoryId(supplierItem);
                 if(cateTree != null && cateTree.getRootNode() != null) {
+                	//System.out.println(cateTree.getRootNode()+"============");
+                	switch (cateTree.getRootNode()) {
+					case "物资生产":
+						cateTree.setRootNodeType(1);
+						break;
+					case "物资销售":
+						cateTree.setRootNodeType(2);
+						break;
+					case "工程":
+						cateTree.setRootNodeType(3);
+						break;
+					case "服务":
+						cateTree.setRootNodeType(4);
+						break;
+					default:
+						break;
+					}
                     allTreeList.add(cateTree);
                 }
             }
         }
+        // 对品目信息按照 物资生产--物资销售--工程--服务 的顺序进行排序
+        ListSortUtil<SupplierCateTree> sortList = new ListSortUtil<SupplierCateTree>();
+        sortList.sort(allTreeList, "rootNodeType", "asc");
 
         // 工程类证书
         if (supplier.getIsEng() != null) {
@@ -2903,6 +3001,9 @@ public class ExpertController extends BaseController {
             }
         }
         supplier.setAllTreeList(allTreeList);
+        
+        // 处理财务信息
+        supplierService.initFinance(supplier);
     }
 
     /**
@@ -3214,6 +3315,30 @@ public class ExpertController extends BaseController {
 		 BASE64Encoder encoder = new BASE64Encoder();
 		 return encoder.encode(data);
 	 }
+	 
+	private String getImageStr(BufferedImage bufferImg) {
+		InputStream is = null;
+		byte[] data = null;
+		try {
+			ByteArrayOutputStream bs = new ByteArrayOutputStream();
+			ImageOutputStream imOut = ImageIO.createImageOutputStream(bs);
+			ImageIO.write(bufferImg, "jpg", imOut); // scaledImage1为BufferedImage，jpg为图像的类型
+			is = new ByteArrayInputStream(bs.toByteArray());
+			//data = new byte[is.available()];
+			int c = 0;
+			while((c = is.read()) >= 0){
+	            bs.write(c);
+	        }
+			data = bs.toByteArray();
+			bs.close();
+			is.read(data);
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		BASE64Encoder encoder = new BASE64Encoder();
+		return encoder.encode(data);
+	}
     
 	 /**
 	  * 
@@ -3290,10 +3415,15 @@ public class ExpertController extends BaseController {
             String image= gen+listImage.get(0).getPath();
             
             // 图片前缀路径
-            String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
-              + request.getContextPath()+"/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
-            
-            System.out.println(host+"*********");
+//            String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
+//              + request.getContextPath()+"/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+             String ipAddressType= PropUtil.getProperty("ipAddressType");
+             String host=null;
+    			if("1".equals(ipAddressType)){
+    			      host ="https://www.plap.cn/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+    		    }else{
+    		    	 host ="http://21.100.16.12/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+    		    }
         	dataMap.put("image",host);
 //		}
         String faceId = expert.getPoliticsStatus();
@@ -3875,6 +4005,7 @@ public class ExpertController extends BaseController {
             Category root = new Category();
             root.setId(data.getId());
             root.setName(data.getName());
+            root.setCode(data.getCode());
             allCateList.add(root);
             // 将筛选完的List转换为CategoryTreeList
             List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
@@ -3957,6 +4088,7 @@ public class ExpertController extends BaseController {
                 data.setName(data.getName() + "销售");
             }
             root.setName(data.getName());
+            root.setCode(data.getCode());
             allCateList.add(root);
             // 将筛选完的List转换为CategoryTreeList
             List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
@@ -3965,6 +4097,7 @@ public class ExpertController extends BaseController {
                 treeNode.setId(category.getId());
                 treeNode.setName(category.getName());
                 treeNode.setParentId(category.getParentId());
+                treeNode.setCode(category.getCode());
                 // 判断是否为父级节点
                 List < Category > nodesList = categoryService.findPublishTree(category.getId(), null);
                 if(nodesList != null && nodesList.size() > 0) {
@@ -4259,15 +4392,15 @@ public class ExpertController extends BaseController {
             PrintWriter out = response.getWriter();
             StringBuilder builder = new StringBuilder();
             builder.append("<HTML><HEAD>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
-            builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
+            builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
             builder.append("</HEAD>");
             builder.append("<script type=\"text/javascript\">"); 
             builder.append("$(function() {");
             builder.append("layer.confirm('您未登录，请登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
             builder.append("window.top.location.href='"); 
-            builder.append(basePath+"index/sign.html");  
+            builder.append(request.getContextPath()+"/index/sign.html");  
             builder.append("';"); 
             builder.append("});");
             builder.append("});");
@@ -4285,15 +4418,15 @@ public class ExpertController extends BaseController {
             PrintWriter out = response.getWriter();
             StringBuilder builder = new StringBuilder();
             builder.append("<HTML><HEAD>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
-            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
-            builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
+            builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
             builder.append("</HEAD>");
             builder.append("<script type=\"text/javascript\">"); 
             builder.append("$(function() {");
             builder.append("layer.confirm('不是当前操作人，请登录修改！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");
             builder.append("window.top.location.href='"); 
-            builder.append(basePath+"index/sign.html");  
+            builder.append(request.getContextPath()+"/index/sign.html");  
             builder.append("';"); 
             builder.append("});");
             builder.append("});");
@@ -4312,24 +4445,30 @@ public class ExpertController extends BaseController {
 
     @RequestMapping(value = "findAttachment2", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String findAttachment2(@RequestParam("sysId") String sysId,@RequestParam("from") String from,@RequestParam("coverNote") String coverNote, @RequestParam("isReferenceLftter") int isReferenceLftter ) {
+    public String findAttachment2(
+    		@RequestParam("sysId") String sysId,
+    		@RequestParam("from") String from,
+    		@RequestParam("coverNote") String coverNote, 
+    		@RequestParam("isReferenceLftter") int isReferenceLftter,
+    		@RequestParam("teachTitle") String teachTitle) {
         List<UploadFile> SOCIAL_SECURITY_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.SOCIAL_SECURITY_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> RETIRE_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.RETIRE_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> IDENTITY_CARD_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.IDENTITY_CARD_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> TECHNOLOGY_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.TECHNOLOGY_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> GRADUATE_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.GRADUATE_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
-        List<UploadFile> QUALIFICATIONS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.QUALIFICATIONS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+//        List<UploadFile> QUALIFICATIONS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.QUALIFICATIONS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> RECOMMENDATION_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.RECOMMENDATION_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
-        List<UploadFile> PRACTICING_REQUIREMENTS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.PRACTICING_REQUIREMENTS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+//        List<UploadFile> PRACTICING_REQUIREMENTS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.PRACTICING_REQUIREMENTS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> APPLICATION_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.APPLICATION_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> COMMITMENT_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.COMMITMENT_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> HEADPORTRAIT_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.HEADPORTRAIT_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> ARMY_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.ARMY_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         String imgInfo="cg";
         if(IDENTITY_CARD_PROOF.size()<1 && IDENTITY_CARD_PROOF!=null){
             imgInfo="身份证复印件未上传";
             return JSON.toJSONString(imgInfo);
         }
-        if( HEADPORTRAIT_PROOF.size()<1 && HEADPORTRAIT_PROOF!=null){
+        if(HEADPORTRAIT_PROOF.size()<1 && HEADPORTRAIT_PROOF!=null){
         	imgInfo="近期免冠彩色证件照未上传";
         	return JSON.toJSONString(imgInfo);
         }
@@ -4355,7 +4494,7 @@ public class ExpertController extends BaseController {
 //            }
 
         }else if(from.equals("ARMY")){
-            if(SOCIAL_SECURITY_PROOF.size()<1 && SOCIAL_SECURITY_PROOF !=null ){
+            if(ARMY_PROOF.size()<1 && ARMY_PROOF !=null ){
                 imgInfo="军队人员的身份证件未上传";
                 return JSON.toJSONString(imgInfo);
             }
@@ -4369,15 +4508,15 @@ public class ExpertController extends BaseController {
             imgInfo="推荐信未上传";
             return JSON.toJSONString(imgInfo);
         }
-        if(TECHNOLOGY_PROOF.size()<1 && TECHNOLOGY_PROOF!=null){
+        if("1".equals(teachTitle) && TECHNOLOGY_PROOF.size()<1 && TECHNOLOGY_PROOF!=null){
             imgInfo="专业技术职称证书未上传";
             return JSON.toJSONString(imgInfo);
         }
-        if( APPLICATION_PROOF.size()<1 && isReferenceLftter==5 && APPLICATION_PROOF!=null){
+        if(APPLICATION_PROOF.size()<1 && isReferenceLftter==5 && APPLICATION_PROOF!=null){
             imgInfo="专家申请未上传";
             return JSON.toJSONString(imgInfo);
         }
-        if( COMMITMENT_PROOF.size()<1 && isReferenceLftter==5    &&  COMMITMENT_PROOF!=null){
+        if(COMMITMENT_PROOF.size()<1 && isReferenceLftter==5    &&  COMMITMENT_PROOF!=null){
             imgInfo="专家承诺未上传";
             return JSON.toJSONString(imgInfo);
         }
@@ -4529,7 +4668,7 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping("/readExcelExpert")
     @ResponseBody
-    public String readExcelExpert(@RequestParam(value="excelFile") MultipartFile file, HttpServletRequest request, HttpServletResponse response){
+    public void readExcelExpert(@RequestParam(value="excelFile") MultipartFile file, HttpServletRequest request, HttpServletResponse response){
         JSONObject json = new JSONObject();
         String packageId = request.getParameter("packageId");
         String resultStr = "";
@@ -4537,7 +4676,7 @@ public class ExpertController extends BaseController {
             json.put("isSuccess",true);
             json.put("messageCode",10);
             resultStr = json.toString();
-            return resultStr;
+            super.printOutMsg(resultStr);
         }
         String fileName = file.getOriginalFilename();
         long fileSize = file.getSize();
@@ -4545,7 +4684,7 @@ public class ExpertController extends BaseController {
             json.put("isSuccess",true);
             json.put("messageCode",11);
             resultStr = json.toString();
-            return resultStr;
+            super.printOutMsg(resultStr);
         }
         //读取Excel数据到List中
         try {
@@ -4591,7 +4730,7 @@ public class ExpertController extends BaseController {
             logger.error("ExpertController.readExcelExpert is error. message= "+e);
             e.printStackTrace();
         }
-        return json.toString();
+        super.printOutMsg(json.toString());
     }
 
     /**
@@ -4708,4 +4847,19 @@ public class ExpertController extends BaseController {
 
         return "ses/ems/expert/common/attachment_control";
     }
+    
+    @RequestMapping("/getQrcode")
+    @ResponseBody
+    public void getQrcode(String id){
+    	//System.out.println(id+"=============");
+    	// 生成供应商二维码图片
+    	try {
+			QRCodeUtil.writeToStream(id, response.getOutputStream(), 222, 222);
+		} catch (WriterException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
 }

@@ -252,7 +252,7 @@
 			)
 		</if>
 		<if test="message.name != null and message.name != ''">
-			AND SM.NAME like '%${message.name}%'
+			AND SM.NAME like CONCAT(CONCAT('%', #{message.name}), '%')
 		</if>
 		ORDER BY SM.CREATED_AT
 	</select>

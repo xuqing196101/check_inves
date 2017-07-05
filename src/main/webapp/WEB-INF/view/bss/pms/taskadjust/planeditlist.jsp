@@ -148,9 +148,12 @@
 <!--面包屑导航开始-->
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0);"> 首页</a></li><li><a href="javascript:void(0);">保障作业系统</a></li><li><a href="javascript:void(0);">采购计划管理</a></li><li class="active"><a href="javascript:void(0);">采购计划修改</a></li>
-		   </ul>
+		  <ul class="breadcrumb margin-left-0">
+			  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+			  <li><a href="javascript:void(0);">保障作业系统</a></li>
+			  <li><a href="javascript:void(0);">采购计划管理</a></li>
+			  <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/adjust/edit.html');">采购计划修改</a></li>
+		  </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -201,7 +204,10 @@
 			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50"   >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  
-			  <td class="tl" onclick="view('${obj.id}')">${obj.fileName }</td>
+			  <td class="tl" title="${obj.fileName}" onclick="view('${obj.id}')">
+			    <c:if test="${fn:length (obj.fileName) > 50}">${fn:substring(obj.fileName,0,49)}...</c:if>
+          <c:if test="${fn:length(obj.fileName) <= 50}">${obj.fileName}</c:if>
+			  </td>
 			
 			
 			  <td class="tr w140" onclick="view('${obj.id}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>

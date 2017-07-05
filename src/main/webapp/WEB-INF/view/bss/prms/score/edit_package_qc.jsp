@@ -76,9 +76,10 @@
     function addModel(obj,kindId,status){
         var projectId = $("#projectId").val();
         var packageId = $("#packageId").val();
+        var flowDefineId = "${flowDefineId}";
         var name = encodeURI(obj);
 		name = encodeURI(name);
-    	window.location.href="${pageContext.request.contextPath}/intelligentScore/gettreebody.html?projectId="+projectId+"&packageId="+packageId+"&id="+kindId+"&name="+name+"&addStatus="+status;
+    	window.location.href="${pageContext.request.contextPath}/intelligentScore/gettreebody.html?projectId="+projectId+"&packageId="+packageId+"&id="+kindId+"&name="+name+"&addStatus="+status+"&flowDefineId="+flowDefineId;
     }
     
     
@@ -86,8 +87,9 @@
     function delItem(id,status){
      	var projectId = $("#projectId").val();
         var packageId = $("#packageId").val();
+        var flowDefineId = "${flowDefineId}";
     	//为2 为顶级结点     1 为子节点
-    	window.location.href="${pageContext.request.contextPath}/intelligentScore/deleteScoreModel.html?id="+id+"&deleteStatus="+status+"&projectId="+projectId+"&packageId="+packageId;
+    	window.location.href="${pageContext.request.contextPath}/intelligentScore/deleteScoreModel.html?id="+id+"&deleteStatus="+status+"&projectId="+projectId+"&packageId="+packageId+'&flowDefineId='+flowDefineId;
     }
     
     //关闭弹窗
@@ -102,6 +104,7 @@
     
     //保存评审项
     function saveItem(){
+    	var flowDefineId = "${flowDefineId}";
     	$.ajax({   
             type: "POST",  
             url: "${pageContext.request.contextPath}/intelligentScore/saveScore.html",        
@@ -113,7 +116,7 @@
                 }else{
                     var packageId = $("#packageId").val();
                     var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -127,8 +130,13 @@
     //引入模板内容
     function loadTemplat(projectId, packageId){
         
+		var flowDefineId = "${flowDefineId}";
     	var fatId = $("#fatId").val();
     	if (fatId != null && fatId != "") {
+    		var index = layer.load(1, {
+					  shade: [0.2,'#BFBFBF'], //0.1透明度的白色背景
+					  offset: ['222px', '390px']
+					});
     	    $('#loadTemp').attr("disabled",true); 
 	    	$.ajax({   
 	            type: "POST",  
@@ -142,7 +150,7 @@
 	                    $('#loadTemp').removeAttr("disabled");
 	                    var packageId = $("#packageId").val();
 	                    var projectId = $("#projectId").val();
-	                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+	                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId+'&flowDefineId='+flowDefineId;
 	                    layer.closeAll();
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                }
@@ -172,6 +180,133 @@
           });
     	
     }
+    
+    /*点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+  	  if (treeNode.isParent == true) {
+          layer.msg("请选择末节点",{offset: ['150px']});
+          return false;
+      }
+	  if (!treeNode.isParent) {
+	  	$("#cId").val(treeNode.id);
+        $("#categorySel").val(treeNode.name);
+	    hideCategory();
+	    findTem();
+	  }
+    }
+	
+	function showCategory(tempId) {
+		var rootCode = null;
+		var zTreeObj;
+		var zNodes;
+		var setting = {
+			async: {
+				autoParam: ["id"],
+				enable: true,
+				url: "${pageContext.request.contextPath}/auditTemplat/categoryTree.do",
+				otherParam: {
+					"tempId": tempId,
+					"rootCode":rootCode,
+				},
+				dataFilter: ajaxDataFilter,
+				dataType: "json",
+				type: "post"
+			},
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				onClick:zTreeOnClick,
+			}
+		};
+		zTreeObj = $.fn.zTree.init($("#treeCategory"), setting, zNodes);
+		zTreeObj.expandAll(true); //全部展开
+		var cityObj = $("#categorySel");
+		var cityOffset = $("#categorySel").offset();
+		$("#categoryContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+		$("body").bind("mousedown", onBodyDownOrg);
+	}
+	
+	function ajaxDataFilter(treeId, parentNode, childNodes) {
+		// 判断是否为空
+		if(childNodes) {
+			// 判断如果父节点是第二级,则将查询出来的子节点全部改为isParent = false
+			if(parentNode != null && parentNode != "undefined" && parentNode.level == 1) {
+				for(var i = 0; i < childNodes.length; i++) {
+					childNodes[i].isParent += false;
+				}
+			}
+		}
+		return childNodes;
+	}
+	function hideCategory() {
+		$("#categoryContent").fadeOut("fast");
+		$("body").unbind("mousedown", onBodyDownOrg);
+	}
+	function onBodyDownOrg(event) {
+		if (!(event.target.id == "menuBtn" || event.target.id == "categorySel" || event.target.id == "categoryContent" || $(event.target).parents("#categoryContent").length>0)) {
+			hideCategory();
+		}
+	}
+	
+	function searchs(tempId){
+		var name=$("#search").val();
+		if(name!=""){
+		 	var zNodes;
+			var zTreeObj;
+			var setting = {
+				async: {
+						autoParam: ["id"],
+						enable: true,
+						url: "${pageContext.request.contextPath}/auditTemplat/categoryTree.do",
+						otherParam: {
+							"tempId": tempId,
+						},
+						dataFilter: ajaxDataFilter,
+						dataType: "json",
+						type: "post"
+					},
+				view: {
+					dblClickExpand: false
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					onClick:zTreeOnClick,
+				}
+			};
+			// 加载中的菊花图标
+			var loading = layer.load(1);
+			
+			$.ajax({
+				url: "${pageContext.request.contextPath}/auditTemplat/searchCategory.do",
+				data: { "name" : encodeURI(name)},
+				async: false,
+				dataType: "json",
+				success: function(data){
+					if (data.length == 3) {
+						layer.msg("没有符合查询条件的产品类别信息！",{offset: ['150px']});
+					} else {
+						zNodes = data;
+						zTreeObj = $.fn.zTree.init($("#treeCategory"), setting, zNodes);
+						zTreeObj.expandAll(true);//全部展开
+					}
+					// 关闭加载中的菊花图标
+					layer.close(loading);
+				}
+			});
+		}else{
+			showCategory();
+		}
+	}
     
     function getTotal(){
 		var allTr = document.getElementsByTagName("tr");
@@ -205,22 +340,79 @@
         }
     }
        
+    $(function() {
+		var html = "<option value=''>请选择</option>";
+		$.ajax({
+				url: "${pageContext.request.contextPath}/firstAudit/find.do",
+				data: {"type" : "REVIEW_ET"},
+				dataType: 'json',
+				success: function(result){
+					$("#fatId").empty();	
+					if (result.success == false && typeof(result.success) != "undefined") {
+						//layer.msg(result.msg,{offset: ['150px']});
+					} else {
+						if (result.length > 0) {
+							for (var i = 0; i < result.length; i++) {
+								html += "<option value='"+result[i].id+"'>"+result[i].name+"</option>";	
+							}
+						}
+					}
+					$("#fatId").append(html);
+				}
+			});
+	});
+	
+	function findTem(){
+		var categoryId = $("#cId").val();
+		var html = "<option value=''>请选择</option>";
+		$.ajax({
+				url: "${pageContext.request.contextPath}/firstAudit/find.do",
+				data: {"categoryId" : categoryId, "type" : "REVIEW_ET"},
+				dataType: 'json',
+				success: function(result){
+					$("#fatId").empty();	
+					if (result.success == false && typeof(result.success) != "undefined") {
+						layer.msg(result.msg,{offset: ['150px']});
+					} else {
+						if (result.length > 0) {
+							for (var i = 0; i < result.length; i++) {
+								html += "<option value='"+result[i].id+"'>"+result[i].name+"</option>";	
+							}
+						}
+					}
+					$("#fatId").append(html);
+				}
+			});
+	}
  </script>
 <body onload="getTotal()">  
+	<div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+		<div class=" input_group col-md-3 col-sm-6 col-xs-6 col-lg-12 p0">
+		    <div class="w100p">
+		    	<input type="text" id="search" class="fl m0">
+			      <img alt="" style="position:absolute; top:8px;right:10px;" src="${pageContext.request.contextPath }/public/backend/images/view.png"  onclick="searchs()">
+		    </div>
+		    <ul id="treeCategory" class="ztree" style="margin-top:0;"></ul>
+		</div>
+   	</div>
     <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>
-    <c:if test="${project.confirmFile != 1 }">
+    <c:if test="${project.confirmFile != 1 && isView != 1}">
   <div class="search_detail ml0">
 	        <ul class="demand_list">
 	          <li>
-	            <label class="fl">选择模板：</label>
-	              <select id="fatId">
-	                <option value="">请选择</option>
-	                <c:forEach items="${firstAuditTemplats}" var="fat">
-	                    <option value="${fat.id}">${fat.name}</option>
-	                </c:forEach>
-	              </select>
+	           <label class="fl">模板选择--></label>
+	             <label class="fl">所属产品目录：</label>
+	            	<div class="input_group w200">
+						<input id="cId" name="categoryId"  type="hidden" value="${categoryId}">
+				        <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryName}"  onclick="showCategory();" />
+					</div>
+		       </li>
+		       <li>
+					<select id="fatId" class="w180">
+		            </select>
 	           </li>
-	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" id="loadTemp" class="btn">确定</button>
+	           
+	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" id="loadTemp" class="btn">确定选择</button>
 	          <%--  <div class="pull-right">
 	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
 	           </div> --%>
@@ -260,7 +452,7 @@
         </div>
     </div>
 	    <div class="mt40 tc mb50">
-	    <c:if test="${project.confirmFile != 1 }">
+	    <c:if test="${project.confirmFile != 1  && isView != 1}">
 	        <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}'">返回</button>
 	        </c:if>
 	    </div>

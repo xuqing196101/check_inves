@@ -462,5 +462,20 @@ public class CollectPlanServiceImpl implements CollectPlanService{
         List<CollectPlan> list = collectPlanMapper.querySupervision(collectPlan);
         return list;
     }
+    @Override
+    public List<CollectPlan> selectManagePlan(HashMap<String, Object> map) {
+        
+        return collectPlanMapper.selectManagePlan(map);
+    }
+    @Override
+    public List<CollectPlan> selectDatePlan(HashMap<String, Object> map) {
+
+        return collectPlanMapper.selectDatePlan(map);
+    }
+    @Override
+    public List<CollectPlan> selectOrgPlan(HashMap<String, Object> map) {
+        
+        return collectPlanMapper.selectOrgPlan(map);
+    }
 	
 }

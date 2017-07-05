@@ -5,6 +5,7 @@ package ses.service.ems.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,9 @@ import bss.util.PropUtil;
 
 import com.github.pagehelper.PageHelper;
 
+import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpExtractRecordMapper;
+import ses.dao.ems.ProjectExtractMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
@@ -80,6 +83,12 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
 
     @Autowired
     ExpExtConditionService conditionService;//条件
+    
+    @Autowired
+	private UserMapper userMapper;//用户
+    
+    @Autowired
+    private ProjectExtractMapper projectExtractMapper;
 
     public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     /**
@@ -400,6 +409,46 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
             conTypeService.delete(listCondition.get(0).getConTypes().get(0).getId());
         }
     }
+
+    /**
+     * 修改临时专家
+     */
+	@Override
+	public Map<String, String> editTemporaryExpert(Expert expert,
+			String projectId, String packageId, String loginName,
+			String loginPwd, HttpServletRequest request,String oldPackageId) {
+		//修改专家表数据
+		expert.setUpdatedAt(new Date());
+		expert.setLoginName(loginName);
+		ExpertService.updateByPrimaryKeySelective(expert);
+		//修改用户表数据
+		User user = userServiceI.findByTypeId(expert.getId());
+		if(user != null){
+			user.setLoginName(loginName);
+			user.setRelName(expert.getRelName());
+	        user.setMobile(expert.getMobile());
+	        user.setIdNumber(expert.getIdCardNumber());
+	        user.setDuites(expert.getAtDuty());
+			if(loginPwd != null && !("").equals(loginPwd)){
+				Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
+	            // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
+	            md5.setEncodeHashAsBase64(false);     
+	            String pwd = md5.encodePassword(loginPwd, user.getRandomCode());
+				user.setPassword(pwd);
+			}
+		}
+		userMapper.updateByPrimaryKeySelective(user);
+		//修改包Id
+		Map<String, Object> exmap=new HashMap<>();
+		exmap.put("newProjectId", packageId);
+		exmap.put("projectId", oldPackageId);
+		exmap.put("expertId", expert.getId());
+		exmap.put("reviewType",expert.getExpertsTypeId());
+		projectExtractMapper.updateProjectByExpertId(exmap);
+		Map<String, String> map=new HashMap<String, String>();
+		map.put("sccuess", "sccuess");
+        return map;
+	}
 
 
 }

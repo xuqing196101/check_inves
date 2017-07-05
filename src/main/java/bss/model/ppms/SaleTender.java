@@ -110,7 +110,7 @@ public class SaleTender {
     
     /**
      * <pre>
-     *  默认0 投标完成 0:未开始 1：投标文件保存服务器完成 2：绑定指标完成  3：报价完成  4：投标结束  
+     *  默认0：开标一览表   1：价格构成表 2：货物材料、部件、工具价格明细表  3：编制标书  4：绑定指标    5：完成
      * 表字段 : T_BSS_PPMS_SALE_TENDER.BID_FINISH
      * </pre>
      */
@@ -191,7 +191,8 @@ public class SaleTender {
     private String bidFileId;
     //基准价法展示字段
     private Jzjf jzjf;
-    
+    //项目详细
+    private List<ProjectDetail> projectDetail;
     /**
      * 多次报价时间（查询报价历史的时候用得到）
      */
@@ -201,6 +202,16 @@ public class SaleTender {
     
     public Integer getIsEndPrice() {
         return isEndPrice;
+    }
+
+
+    public List<ProjectDetail> getProjectDetail() {
+      return projectDetail;
+    }
+
+
+    public void setProjectDetail(List<ProjectDetail> projectDetail) {
+      this.projectDetail = projectDetail;
     }
 
 

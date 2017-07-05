@@ -39,7 +39,7 @@
       AND p.ID = #{id}
     </if>
     <if test="name != null and name !=''">
-      AND p.NAME like '%'||#{name}||'%'
+      AND p.NAME like CONCAT(CONCAT('%', #{name}), '%') 
     </if>
     ORDER BY p.CREATED_AT ASC
   </select>
@@ -78,21 +78,21 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_ADVANCED_PACKAGE
-    where 
+    where IS_DELETED = 0
     <if test="id != null and id != ''">
-      ID = #{id}
+     AND ID = #{id}
     </if>
     <if test="name != null and name != ''">
-      NAME = #{name}
+     AND NAME = #{name}
     </if>
     <if test="projectId != null and projectId != ''">
-      AD_PROJECT_ID = #{projectId}
+     AND AD_PROJECT_ID = #{projectId}
     </if>
     <if test="purchaseType != null and purchaseType != ''">
-      PURCHASE_TYPE = #{purchaseType}
+     AND PURCHASE_TYPE = #{purchaseType}
     </if>
     <if test="isImport != null and isImport != ''">
-      IS_IMPORT = #{isImport}
+     AND IS_IMPORT = #{isImport}
     </if>
     ORDER BY
     CREATED_AT ASC

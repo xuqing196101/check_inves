@@ -49,7 +49,9 @@
 	   <div class="margin-top-10 breadcrumbs ">
 	      <div class="container">
 			   <ul class="breadcrumb margin-left-0">
-			   <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')" target="_blank"> 首页</a></li><li><a href="javascript:void(0);">支撑系统</a></li><li><a href="javascript:void(0);">后台管理</a></li><li class="active"><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/role/list.html')">角色管理</a></li>
+                   <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')" target="_blank"> 首页</a></li>
+                   <li><a href="javascript:void(0);">支撑系统</a></li><li><a href="javascript:void(0);">后台管理</a></li>
+                   <li class="active"><a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/role/list.html')">角色管理</a></li>
 			   </ul>
 			<div class="clear"></div>
 		  </div>
@@ -85,10 +87,10 @@
             <thead>
 					<tr>
 					  <th class="info w50">序号</th>
-					  <th class="info">用户名</th>
-					  <th class="info">姓名</th>
-					  <th class="info">单位</th>
-					  <th class="info">联系电话</th>
+					  <th class="info" width="12%">用户名</th>
+					  <th class="info" width="15%">姓名</th>
+					  <th class="info" width="23%">单位</th>
+					  <th class="info" width="140">联系电话</th>
 					  <th class="info">角色</th>
 					</tr>
 		      </thead>
@@ -96,14 +98,14 @@
 				<c:forEach items="${list.list}" var="user" varStatus="vs">
 					<tr>
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-					  <td class="tl pl20" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
-					  <td class="tc w150">${user.relName}</td>
-					  <td class="tl pl20">
+					  <td class="tl" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
+					  <td class="tl">${user.relName}</td>
+					  <td class="tl">
 					  	<c:if test="${user.org != null }">${user.org.name}</c:if>
 					  	<c:if test="${user.org == null }">${user.orgName}</c:if>
 					  </td>
 					  <td class="tc">${user.mobile}</td>
-					  <td class="tc w150">
+					  <td class="tl">
 					  	<c:set var="roleCode" value=""/>
 					  	<c:forEach items="${user.roles}" var="r" varStatus="vs">
 			        		<c:if test="${vs.index == 0 }">

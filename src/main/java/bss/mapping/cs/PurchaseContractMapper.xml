@@ -140,28 +140,28 @@
   	where STATUS = '1'
   	and IS_DELETED = '0'
   	<if test="projectName != null and projectName != ''">
-  		and PROJECT_NAME like '%'||#{projectName}||'%'
+  		and PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%') 
   	</if>
   	<if test="code != null and code != ''">
-  		and CODE like '%'||#{code}||'%'
+  		and CODE like CONCAT(CONCAT('%', #{code}), '%') 
   	</if>
   	<if test="supplierDepName != null and supplierDepName != ''">
-  		and SUPPLIER_DEP_NAME like '%'||#{supplierDepName}||'%'
+  		and SUPPLIER_DEP_NAME like  CONCAT(CONCAT('%', #{supplierDepName}), '%') 
   	</if>
   	<if test="purchaseDepName != null and purchaseDepName != ''">
-  		and PURCHASE_DEP_NAME like '%'||#{purchaseDepName}||'%'
+  		and PURCHASE_DEP_NAME like  CONCAT(CONCAT('%', #{purchaseDepName}), '%') 
   	</if>
   	<if test="demandSector != null and demandSector != ''">
-  		and DEMAND_SECTOR like '%'||#{demandSector}||'%'
+  		and DEMAND_SECTOR like  CONCAT(CONCAT('%', #{demandSector}), '%') 
   	</if>
   	<if test="documentNumber != null and documentNumber != ''">
-  		and DOCUMENT_NUMBER like '%'||#{documentNumber}||'%'
+  		and DOCUMENT_NUMBER like  CONCAT(CONCAT('%', #{documentNumber}), '%') 
   	</if>
   	<if test="year != null and year != ''">
   		and YEAR = #{year}
   	</if>
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
-  		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
+  		and BUDGET_SUBJECT_ITEM like  CONCAT(CONCAT('%', #{budgetSubjectItem}), '%') 
   	</if>
   	order by UPDATED_AT DESC
   </select>
@@ -180,32 +180,32 @@
   	where IS_DELETED = '0'
   	and status in (1,2,0)
   </select>
-  
+   <!--  IN (SELECT ID FROM T_SES_OMS_ORG WHERE NAME like  CONCAT(CONCAT('%', #{purchaseDepName}), '%')) -->
   <select id="selectAllContractByStatus" parameterType="Map" resultMap="purContractMap">
   	select 
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT where
   	IS_DELETED = '0'
   	<if test="projectName != null and projectName != ''">
-  		and PROJECT_NAME like '%'||#{projectName}||'%'
+  		and PROJECT_NAME like  CONCAT(CONCAT('%', #{projectName}), '%') 
   	</if>
   	<if test="status != null ">
   		and status = #{status}
   	</if>
   	<if test="code != null and code != ''">
-  		and CODE like '%'||#{code}||'%'
+  		and CODE like  CONCAT(CONCAT('%', #{code}), '%') 
   	</if>
   	<if test="supplierDepName != null and supplierDepName != ''">
-  		and SUPPLIER_DEP_NAME like '%'||#{supplierDepName}||'%'
-  	</if>
-  	<if test="purchaseDepName != null and purchaseDepName != ''">
-  		and PURCHASE_DEP_NAME like '%'||#{purchaseDepName}||'%'
-  	</if>
+      and SUPPLIER_DEP_NAME IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME like  CONCAT(CONCAT('%', #{supplierDepName}), '%'))
+    </if>
+    <if test="purchaseDepName != null and purchaseDepName != ''">
+      and PURCHASE_DEP_NAME like CONCAT(CONCAT('%', #{purchaseDepName}), '%')
+    </if>
   	<if test="demandSector != null and demandSector != ''">
-  		and DEMAND_SECTOR like '%'||#{demandSector}||'%'
+  		and DEMAND_SECTOR like CONCAT(CONCAT('%', #{demandSector}), '%') 
   	</if>
   	<if test="documentNumber != null and documentNumber != ''">
-  		and DOCUMENT_NUMBER like '%'||#{documentNumber}||'%'
+  		and DOCUMENT_NUMBER like  CONCAT(CONCAT('%', #{documentNumber}), '%') 
   	</if>
   	<if test="year != null and year != ''">
   		and YEAR = #{year}
@@ -214,42 +214,45 @@
   		and DEMAND_SECTOR = #{deptname}
   	</if>
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
-  		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
+  		and BUDGET_SUBJECT_ITEM like  CONCAT(CONCAT('%', #{budgetSubjectItem}), '%') 
   	</if>
   	order by status
   </select>
-  
+  <!-- IN (SELECT ID FROM T_SES_OMS_ORG WHERE NAME like  CONCAT(CONCAT('%', #{purchaseDepName}), '%')) -->
   <select id="selectAllContractByCode" parameterType="Map" resultMap="purContractMap">
   	select 
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT where
   	IS_DELETED = '0'
   	<if test="projectName != null and projectName != ''">
-  		and PROJECT_NAME like '%'||#{projectName}||'%'
+  		and PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%') 
   	</if>
   	<if test="code != null and code != ''">
-  		and CODE like '%'||#{code}||'%'
+  		and CODE like  CONCAT(CONCAT('%', #{code}), '%') 
   	</if>
   	<if test="supplierDepName != null and supplierDepName != ''">
-  		and SUPPLIER_DEP_NAME IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME like '%'||#{supplierDepName}||'%') 
+  		and SUPPLIER_DEP_NAME IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME like  CONCAT(CONCAT('%', #{supplierDepName}), '%'))
   	</if>
   	<if test="purchaseDepName != null and purchaseDepName != ''">
-  		and PURCHASE_DEP_NAME like '%'||#{purchaseDepName}||'%'
+  		and PURCHASE_DEP_NAME like CONCAT(CONCAT('%', #{purchaseDepName}), '%')
+  	</if>
+  	<if test="purchaseDepShortName != null and purchaseDepShortName != ''">
+  		and PURCHASE_DEP_NAME IN (SELECT ID FROM T_SES_OMS_ORG WHERE NAME like  CONCAT(CONCAT('%', #{purchaseDepShortName}), '%'))
   	</if>
   	<if test="demandSector != null and demandSector != ''">
-  		and DEMAND_SECTOR like '%'||#{demandSector}||'%'
+  		and DEMAND_SECTOR like CONCAT(CONCAT('%', #{demandSector}), '%') 
   	</if>
   	<if test="documentNumber != null and documentNumber != ''">
-  		and DOCUMENT_NUMBER like '%'||#{documentNumber}||'%'
+  		and DOCUMENT_NUMBER like CONCAT(CONCAT('%', #{documentNumber}), '%') 
   	</if>
   	<if test="deptname != null and deptname != ''">
   		and DEMAND_SECTOR = #{deptname}
   	</if>
   	<if test="year != null and year != ''">
-  		and YEAR like '%'||#{year}||'%'
+  		and YEAR like CONCAT(CONCAT('%', #{year}), '%') 
   	</if>
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
-  		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
+  		and BUDGET_SUBJECT_ITEM like CONCAT(CONCAT('%', #{budgetSubjectItem}), '%') 
   	</if>
   	and status in (0,1,2)
   	order by status,CREATED_AT desc
@@ -260,28 +263,28 @@
   	from T_BSS_CS_PURCHASE_CONTRACT where
   	IS_DELETED = '0'
   	<if test="projectName != null and projectName != ''">
-  		and PROJECT_NAME like '%'||#{projectName}||'%'
+  		and PROJECT_NAME like  CONCAT(CONCAT('%', #{projectName}), '%') 
   	</if>
   	<if test="code != null and code != ''">
-  		and CODE like '%'||#{code}||'%'
+  		and CODE like  CONCAT(CONCAT('%', #{code}), '%') 
   	</if>
   	<if test="supplierDepName != null and supplierDepName != ''">
-  		and SUPPLIER_DEP_NAME like '%'||#{supplierDepName}||'%'
+  		and SUPPLIER_DEP_NAME like  CONCAT(CONCAT('%', #{supplierDepName}), '%') 
   	</if>
   	<if test="purchaseDepName != null and purchaseDepName != ''">
-  		and PURCHASE_DEP_NAME like '%'||#{purchaseDepName}||'%'
+  		and PURCHASE_DEP_NAME like  CONCAT(CONCAT('%', #{purchaseDepName}), '%')
   	</if>
   	<if test="demandSector != null and demandSector != ''">
-  		and DEMAND_SECTOR like '%'||#{demandSector}||'%'
+  		and DEMAND_SECTOR like  CONCAT(CONCAT('%', #{demandSector}), '%')
   	</if>
   	<if test="documentNumber != null and documentNumber != ''">
-  		and DOCUMENT_NUMBER like '%'||#{documentNumber}||'%'
+  		and DOCUMENT_NUMBER like  CONCAT(CONCAT('%', #{documentNumber}), '%')
   	</if>
   	<if test="year != null and year != ''">
   		and YEAR = #{year}
   	</if>
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
-  		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
+  		and BUDGET_SUBJECT_ITEM like CONCAT(CONCAT('%', #{budgetSubjectItem}), '%')
   	</if>
   	and status in (0,1,2) and SUPPLIER_DEP_NAME=#{supplierId}
   	order by status
@@ -293,28 +296,28 @@
   	where STATUS = '0'
   	and IS_DELETED = '0'
   	<if test="projectName != null and projectName != ''">
-  		and PROJECT_NAME like '%'||#{projectName}||'%'
+  		and PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')
   	</if>
   	<if test="code != null and code != ''">
-  		and CODE like '%'||#{code}||'%'
+  		and CODE like  CONCAT(CONCAT('%', #{code}), '%')
   	</if>
   	<if test="supplierDepName != null and supplierDepName != ''">
-  		and SUPPLIER_DEP_NAME like '%'||#{supplierDepName}||'%'
+  		and SUPPLIER_DEP_NAME like  CONCAT(CONCAT('%', #{supplierDepName}), '%')
   	</if>
   	<if test="purchaseDepName != null and purchaseDepName != ''">
-  		and PURCHASE_DEP_NAME like '%'||#{purchaseDepName}||'%'
+  		and PURCHASE_DEP_NAME like  CONCAT(CONCAT('%', #{purchaseDepName}), '%')
   	</if>
   	<if test="demandSector != null and demandSector != ''">
-  		and DEMAND_SECTOR like '%'||#{demandSector}||'%'
+  		and DEMAND_SECTOR like  CONCAT(CONCAT('%', #{demandSector}), '%')
   	</if>
   	<if test="documentNumber != null and documentNumber != ''">
-  		and DOCUMENT_NUMBER like '%'||#{documentNumber}||'%'
+  		and DOCUMENT_NUMBER like CONCAT(CONCAT('%', #{documentNumber}), '%')
   	</if>
   	<if test="year != null and year != ''">
   		and YEAR = #{year}
   	</if>
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
-  		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
+  		and BUDGET_SUBJECT_ITEM like CONCAT(CONCAT('%', #{budgetSubjectItem}), '%')
   	</if>
   	order by UPDATED_AT DESC
   </select>
@@ -325,28 +328,28 @@
   	from T_BSS_CS_PURCHASE_CONTRACT
   	where STATUS = '2'
   	<if test="projectName != null and projectName != ''">
-  		and PROJECT_NAME like '%'||#{projectName}||'%'
+  		and PROJECT_NAME like CONCAT(CONCAT('%', #{projectName}), '%')
   	</if>
   	<if test="code != null and code != ''">
-  		and CODE like '%'||#{code}||'%'
+  		and CODE like CONCAT(CONCAT('%', #{code}), '%')
   	</if>
   	<if test="supplierDepName != null and supplierDepName != ''">
-  		and SUPPLIER_DEP_NAME like '%'||#{supplierDepName}||'%'
+  		and SUPPLIER_DEP_NAME like CONCAT(CONCAT('%', #{supplierDepName}), '%')
   	</if>
   	<if test="purchaseDepName != null and purchaseDepName != ''">
-  		and PURCHASE_DEP_NAME like '%'||#{purchaseDepName}||'%'
+  		and PURCHASE_DEP_NAME like CONCAT(CONCAT('%', #{purchaseDepName}), '%')
   	</if>
   	<if test="demandSector != null and demandSector != ''">
-  		and DEMAND_SECTOR like '%'||#{demandSector}||'%'
+  		and DEMAND_SECTOR like CONCAT(CONCAT('%', #{demandSector}), '%')
   	</if>
   	<if test="documentNumber != null and documentNumber != ''">
-  		and DOCUMENT_NUMBER like '%'||#{documentNumber}||'%'
+  		and DOCUMENT_NUMBER like CONCAT(CONCAT('%', #{documentNumber}), '%')
   	</if>
   	<if test="year != null and year != ''">
   		and YEAR = #{year}
   	</if>
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
-  		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
+  		and BUDGET_SUBJECT_ITEM like CONCAT(CONCAT('%', #{budgetSubjectItem}), '%')
   	</if>
   	order by UPDATED_AT DESC
   </select>
@@ -1379,7 +1382,7 @@
 				and t1.IS_DECLARE = #{isDeclare}
 			</if>
 			<if test="projectName != null and projectName !=''">
-				and t1.PROJECT_NAME like '%' || #{projectName} || '%'
+				and t1.PROJECT_NAME like  CONCAT(CONCAT('%', #{projectName}), '%')
 			</if>
 		</where>
 	</select>

@@ -14,10 +14,10 @@
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a href="javascript:void(0)"> 首页</a></li>
+				<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
 				<li><a href="javascript:void(0)">保障作业</a></li>
-				<li><a href="javascript:void(0)">定型产品竞价</a></li>
-				<li class="active"><a href="javascript:void(0)">定型产品管理</a></li>
+				<li><a href="javascript:void(0)">网上竞价</a></li>
+				<li><a href="javascript:jumppage('${pageContext.request.contextPath}/product/list.html')">定型产品管理</a></li>
 				<li class="active"><a href="javascript:void(0)">定型产品详情</a></li>
 			</ul>
 			<div class="clear"></div>
@@ -70,8 +70,7 @@
 				</table>
 			</div>
 			<div class="col-md-12 clear tc mt10">
-				<button class="btn btn-windows back" type="button"
-					onclick="javascript:history.go(-1);">返回</button>
+				<a class="btn btn-windows back" href="${pageContext.request.contextPath}/product/list.html">返回</a>
 			</div>
 		</div>
 	</div>

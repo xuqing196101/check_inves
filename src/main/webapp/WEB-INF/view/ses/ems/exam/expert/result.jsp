@@ -135,12 +135,12 @@
 				<table class="table table-bordered table-condensed table-hover">
 					<thead>
 						<tr class="info">
-							<th class="w50">序号</th>
-							<th width="15%">专家姓名</th>
-							<th width="15%">专家类型</th>
+							<th>序号</th>
+							<th width="10%">专家姓名</th>
+							<th width="10%">专家类型</th>
 							<th width="10%">证件类型</th>
-							<th width="15%">证件号</th>
-							<th width="15%">考试时间</th>
+							<th width="10%">证件号</th>
+							<th width="10%">考试时间</th>
 							<th width="10%">得分</th>
 							<th>考试状态</th>
 						</tr>

@@ -418,10 +418,10 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info" width="22%">竞价标题</th>
+		  <th class="info" width="25%">竞价标题</th>
 		  <th class="info" width="18%">竞价项目编号</th>
-		  <th class="info" width="15%">报价开始时间</th>
-		  <th class="info" width="15%">报价截止时间</th>
+		  <th class="info" width="16%">报价开始时间</th>
+		  <th class="info" width="16%">报价截止时间</th>
 		  <th class="info">状态</th>
 		</tr>
 		</thead>

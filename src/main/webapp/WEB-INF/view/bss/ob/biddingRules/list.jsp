@@ -240,8 +240,10 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">竞价规则管理</a></li>
+			<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+			<li><a href="javascript:void(0)">保障作业</a></li>
+			<li><a href="javascript:void(0)">网上竞价</a></li>
+			<li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/obrule/ruleList.html')">竞价规则管理</a></li>
 		   </ul>
         <div class="clear"></div>
       </div>
@@ -285,7 +287,7 @@
 		<button class="btn btn-windows edit" onclick="edit()">修改 </button>
 		<button class="btn btn-windows delete" onclick="del()">删除</button>
 	</div>  
-	<div class="content table_box">
+	<div class="content table_box over_auto">
     	<table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
@@ -307,22 +309,24 @@
 		<tbody>
 		<c:forEach items="${ info.list }" var="obRule" varStatus="vs">
 			<tr>
-			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obRule.id }" /></td>
-			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td class="tl">${obRule.name}</td>
-			  <td class="tc">${obRule.intervalWorkday}</td>
-			  <td class="tc"><fmt:formatDate value="${obRule.definiteTime}" pattern="HH:mm:ss"/></td>
-			  <td class="tc">${obRule.quoteTime}</td>
-			  <td class="tc">${obRule.quoteTimeSecond}</td>
-			  <td class="tc">${obRule.confirmTime}</td>
-			  <td class="tc">${obRule.confirmTimeSecond}</td>
-			  <td class="tc">${obRule.leastSupplierNum}</td>
-			  <td class="tc">${obRule.percent}%</td>
-			  <td class="tc">${obRule.bidingCount}</td>
+			  <td class="tc"><div class="w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obRule.id }" /></div></td>
+			  <td class="tc"><div class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</div></td>
+			  <td class="tl"><div class="w200">${obRule.name}</div></td>
+			  <td class="tc"><div class="w150">${obRule.intervalWorkday}</div></td>
+			  <td class="tc"><div class="w150"><fmt:formatDate value="${obRule.definiteTime}" pattern="HH:mm:ss"/></div></td>
+			  <td class="tc"><div class="w150">${obRule.quoteTime}</div></td>
+			  <td class="tc"><div class="w150">${obRule.quoteTimeSecond}</div></td>
+			  <td class="tc"><div class="w150">${obRule.confirmTime}</div></td>
+			  <td class="tc"><div class="w150">${obRule.confirmTimeSecond}</div></td>
+			  <td class="tc"><div class="w150">${obRule.leastSupplierNum}</div></td>
+			  <td class="tc"><div class="w150">${obRule.percent}%</div></td>
+			  <td class="tc"><div class="w150">${obRule.bidingCount}</div></td>
 			  <td class="tc">
+			  	<div class="w30">
 				<c:if test="${ obRule.status == 1 }">
 					默认
 				</c:if>
+				</div>
 			  </td>
 			</tr>		
 		</c:forEach>

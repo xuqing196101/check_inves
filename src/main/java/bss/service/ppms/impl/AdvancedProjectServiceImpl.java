@@ -161,6 +161,18 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
             dictionaryData = dataMapper.selectByPrimaryKey(flowDefineId);
         }
         jsonObj.put("currFlowDefineId", dictionaryData.getId());
+        
+        //获取环节是否结束
+        FlowExecute fe = new FlowExecute();
+        fe.setFlowDefineId(dictionaryData.getId());
+        fe.setProjectId(projectId);
+        fe.setStatus(3);
+        List<FlowExecute> fes = flowExecuteMapper.findList(fe);
+        if(fes != null && fes.size() > 0){
+            jsonObj.put("isFes", 1);
+        }else{
+            jsonObj.put("isFes", 0);
+        }
         //当前登录人对当前环节的操作权限
         FlowExecute execute = new FlowExecute();
         execute.setFlowDefineId(dictionaryData.getId());
@@ -175,13 +187,20 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
                 jsonObj.put("currOperatorId", users.get(0).getId());
             }
             if (executes.get(0).getOperatorId().equals(user.getId())) {
-                //具有操作权限
-                jsonObj.put("isOperate", 1);
+                //环节是否结束
+                if(fes != null && fes.size() > 0){
+                    jsonObj.put("isOperate", 0);
+                } else {
+                  //具有操作权限
+                    jsonObj.put("isOperate", 1);
+                }
+                
             } else {
                 //具有查看权限
                 jsonObj.put("isOperate", 0);
             }
         }
+        
         
         DictionaryData di = new DictionaryData();
         di.setCode(dictionaryData.getCode());

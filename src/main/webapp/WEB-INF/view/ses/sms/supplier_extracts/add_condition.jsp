@@ -35,7 +35,7 @@
         <div class="container">
             <ul class="breadcrumb margin-left-0">
                 <li>
-                    <a href="javascript:void(0);"> 首页</a>
+                    <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
                 </li>
                 <li>
                     <a href="javascript:void(0);">支撑环境系统</a>
@@ -44,7 +44,7 @@
                     <a href="javascript:void(0);">供应商管理</a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);">供应商抽取</a>
+                    <a href="javascript:jumppage('${pageContext.request.contextPath}/SupplierExtracts/projectList.html?typeclassId=${typeclassId}');">供应商抽取</a>
                 </li>
                 <li class="active">
                     <a href="javascript:void(0);">添加供应商抽取</a>
@@ -131,7 +131,8 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取类型：</span>
+                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div
+                            class="star_red">*</div>抽取类型：</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input id="supplierType" class="" type="text" readonly
                                value="${listCon.conTypes[0].supplierTypeName }" name="supplierTypeName"
@@ -141,8 +142,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div
-                            class="star_red">*</div>抽取级别：</span>
+                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取级别：</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input id="levelType" class="" type="text" readonly name="supplierLevel"
                                value="${listCon.supplierLevel}" onclick="showLevel();"/>
@@ -161,7 +161,7 @@
                 </li>
 
                 <li class="col-md-3 col-sm-3 col-xs-3 dnone clear" id="projectCount">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程供应商：</span>
+                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>工程供应商数量：</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input class="title col-md-12" id='project' name="projectCount" onchange="chane();"
                                maxlength="11" type="text">
@@ -179,7 +179,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-3 col-xs-3 dnone" id="productCount">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">物资生产:</span>
+                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>物资生产:</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input class="title col-md-12" id="product" name="productCount" onchange="chane();"
                                maxlength="11" type="text">
@@ -188,7 +188,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-3 col-xs-3 dnone" id="salesCount">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">物资销售:</span>
+                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>物资销售:</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input class="title col-md-12" id="sales" name="salesCount" onchange="chane();" maxlength="11"
                                type="text">

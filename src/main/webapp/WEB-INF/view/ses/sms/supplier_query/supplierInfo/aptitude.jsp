@@ -7,63 +7,8 @@
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>资质文件</title>
-		<script type="text/javascript">
-			function tijiao(str) {
-				var action;
-				if(str == "essential") {
-					action = "${pageContext.request.contextPath}/supplierQuery/essential.html";
-				}
-				if(str == "financial") {
-					action = "${pageContext.request.contextPath}/supplierQuery/financial.html";
-				}
-				if(str == "shareholder") {
-					action = "${pageContext.request.contextPath}/supplierQuery/shareholder.html";
-				}
-
-				if(str == "chengxin") {
-					action = "${pageContext.request.contextPath}/supplierQuery/list.html";
-				}
-				if(str == "item") {
-					action = "${pageContext.request.contextPath}/supplierQuery/item.html";
-				}
-				if(str == "product") {
-					action = "${pageContext.request.contextPath}/supplierQuery/product.html";
-				}
-				if(str == "updateHistory") {
-					action = "${pageContext.request.contextPath}/supplierQuery/showUpdateHistory.html";
-				}
-				if(str == "zizhi") {
-					action = "${pageContext.request.contextPath}/supplierQuery/aptitude.html";
-				}
-				if(str == "contract") {
-					action = "${pageContext.request.contextPath}/supplierQuery/contract.html";
-				}
-				if(str == "supplierType") {
-					action = "${pageContext.request.contextPath}/supplierQuery/supplierType.html";
-				}
-				$("#form_id").attr("action", action);
-				$("#form_id").submit();
-			}
-			
-			
-			/* function fanhui() {
-				if('${judge}' == 2) {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
-				} else {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&judge=${judge}";
-				}
-			} */
-			
-			function fanhui() {
-				if('${judge}' == 2) {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
-				} else {
-					var action = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html";
-					$("#form_back").attr("action", action);
-					$("#form_back").submit();
-				};
-			};
-		</script>
+		<%@ include file="/WEB-INF/view/ses/sms/supplier_query/supplierInfo/common.jsp"%>
+		<script type="text/javascript" src="${ pageContext.request.contextPath }/js/ses/ems/expertQuery/common.js"></script>
 	</head>
 
 	<body>
@@ -72,13 +17,16 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0);"> 首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
 						<a href="javascript:void(0);">支撑环境</a>
 					</li>
 					<li>
 						<a href="javascript:void(0);">供应商管理</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=1')">供应商列表</a>
 					</li>
 					<li>
 						<a href="javascript:void(0);">供应商查看</a>
@@ -118,7 +66,7 @@
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('updateHistory');">历史修改记录</a>
 						</li> -->
 					</ul>
-					<ul class="count_flow ul_list count_flow">
+					<div class="ul_list">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<c:set value="0" var="liCountPro" />
 							<c:set value="0" var="liCountSell" />
@@ -282,7 +230,7 @@
 								</div>
 							</c:if>
 						</div>
-					</ul>
+					</div>
 					<div class="col-md-12 tc">
 			    	<button class="btn btn-windows back" onclick="fanhui()">返回</button> 
 			   	</div>
@@ -299,7 +247,7 @@
 		<form id="form_back" action="" method="post">
 			<input name="judge" value="${judge}" type="hidden">
 			<c:if test="${sign!=1 and sign!=2 }">
-				<input name="address" value="${suppliers.address}" type="hidden">
+				<input name="address" id="address" value="${suppliers.address}" type="hidden">
 			</c:if>
 			<input name="sign" value="${sign}" type="hidden">
 		</form>

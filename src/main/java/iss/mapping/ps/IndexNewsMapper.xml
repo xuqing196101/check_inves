@@ -27,6 +27,8 @@
   <resultMap extends="IndexNewsWithBlobMapper" type="iss.model.ps.Article" id="IndexNewsWithBlobAttachMapper">
   	<collection property="articleAttachments" ofType="iss.model.ps.ArticleAttachments"/>
   </resultMap>
+  
+  
   <sql id="IndexNews_Column_List">
     ID, NAME, LAST_ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, 
     STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED
@@ -55,7 +57,34 @@
 						 	and LAST_ARTICLE_TYPE_ID = #{articleTypeId}
 						</if>
 						<if test="title!=null and title!=''">
-						 	and name like '%'||#{title}||'%'
+						 	and name like   CONCAT(CONCAT('%', #{title}), '%')
+						</if>
+						order by PUBLISHED_AT desc
+					) t
+				WHERE 
+					ROWNUM &lt;=#{page}*#{pageSize} 
+			) where rownum_ &gt;(#{page}-1)*#{pageSize}
+  </select>
+  
+  <!-- 查询供应商处罚公告二级页信息 -->
+  <select id="selectSupplierAllNews" resultMap="IndexNewsMapper" parameterType="Map">
+	  SELECT
+			*
+			FROM
+			(
+				SELECT
+					t.*, ROWNUM rownum_
+				FROM
+					(
+						SELECT
+							*
+						FROM
+							T_ISS_PS_ARTICLE
+						WHERE STATUS = 2
+						and is_deleted = 0
+						and LAST_ARTICLE_TYPE_ID = #{typeId}
+						<if test="title!=null and title!=''">
+						 	and name like   CONCAT(CONCAT('%', #{title}), '%')
 						</if>
 						order by PUBLISHED_AT desc
 					) t
@@ -95,7 +124,21 @@
 	 	and LAST_ARTICLE_TYPE_ID = #{articleTypeId}
 	</if>
 	<if test="title!=null and title!=''">
-	 	and name like '%'||#{title}||'%'
+	 	and name like   CONCAT(CONCAT('%', #{title}), '%')
+	</if>
+  </select>
+    
+    <!-- 查询供应商处罚公告二级页信息数量 -->
+  <select id="selectSupplierCount" parameterType="Object" resultType="java.lang.Integer">
+  	SELECT
+		count(*)
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE STATUS = 2
+	and is_deleted = 0
+	and LAST_ARTICLE_TYPE_ID = #{typeId}
+	<if test="title!=null and title!=''">
+	 	and name like   CONCAT(CONCAT('%', #{title}), '%')
 	</if>
   </select>
   
@@ -105,7 +148,7 @@
   	from t_iss_ps_article
   	where is_deleted =0 
   	<if test="title!=null and title!=''">
-  	and name like '%'||#{title}||'%'
+  	and name like CONCAT(CONCAT('%', #{title}), '%')
   	</if>
   	and status=2
   	order by published_at desc
@@ -131,7 +174,7 @@
 						 	and ARTICLE_TYPE_ID = #{articleTypeId}
 						</if>
 						<if test="title!=null and title!=''">
-						 	and name like '%'||#{title}||'%'
+						 	and name like CONCAT(CONCAT('%', #{title}), '%')
 						</if>
 						order by PUBLISHED_AT desc
 					) t
@@ -152,7 +195,8 @@
 	 	and ARTICLE_TYPE_ID = #{articleTypeId}
 	</if>
 	<if test="title!=null and title!=''">
-	 	and name like '%'||#{title}||'%'
+	 	and name like CONCAT(CONCAT('%', #{title}), '%')
 	</if>
   </select>
+  
 </mapper>

@@ -102,6 +102,17 @@ public interface ExpExtractRecordService {
      */
     void showResultProjectExt(ExpExtCondition condition, Map<String, Object> map,
                               Map<String, Integer> mapcount, List<ProjectExtract> list);
+    
+    /**
+     * 
+     * Description: 修改临时专家
+     * 
+     * @author zhang shubin
+     * @data 2017年6月27日
+     * @param 
+     * @return
+     */
+    Map<String, String> editTemporaryExpert(Expert expert,String projectId,String packageId,String loginName,String loginPwd,HttpServletRequest request,String oldPackageId);
 
 
 }

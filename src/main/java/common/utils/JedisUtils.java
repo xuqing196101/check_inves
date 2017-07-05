@@ -2,23 +2,24 @@ package common.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnection;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.exceptions.JedisException;
 
 /**
  * 
- * @Title: RedisUtils.java
+ * @Title: JedisUtils.java
  * @Package common.utils
  * @Description: Redis工具类
  * @author SongDong
  * @date 2017年2月23日 下午5:45:19
  * @version 2017年2月23日
  */
-public class RedisUtils {
+public class JedisUtils {
 
-	private static Logger log = LoggerFactory.getLogger(RedisUtils.class);
+	private static Logger log = LoggerFactory.getLogger(JedisUtils.class);
 
 	/**
 	 * 
@@ -31,11 +32,8 @@ public class RedisUtils {
 	 * @throws
 	 * @version 2017年2月23日
 	 */
-	@SuppressWarnings("deprecation")
-	public static void returnResource(final Jedis jedis, JedisPool jedisPool) {
-		if (jedis != null) {
-			jedisPool.returnResource(jedis);
-		}
+	public synchronized static void returnResource(Jedis jedis, JedisPool jedisPool) {
+		jedisPool.returnResourceObject(jedis);
 	}
 
 	/**
@@ -90,14 +88,7 @@ public class RedisUtils {
 	 * @version 2017年2月27日
 	 */
 	public static Jedis getResource(JedisPool jedisPool) {
-		Jedis jedis = null;
-		try {
-			jedis = jedisPool.getResource();
-		} catch (JedisException e) {
-			log.info("redis连接异常...");
-			jedisPool.returnBrokenResource(jedis);
-		}
-		return jedis;
+		return jedisPool.getResource();
 	}
 
 	/**
@@ -145,4 +136,32 @@ public class RedisUtils {
 		}
 		return stata;
 	}
+	
+	/**
+	 * 
+	 * Description: 通过工厂获取redis连接
+	 * 
+	 * @author 
+	 * @version 2017年6月21日
+	 * @param jedisConnectionFactory
+	 * @return
+	 */
+    public static Jedis getJedisByFactory(JedisConnectionFactory jedisConnectionFactory) {
+        JedisConnection jedisConnection = jedisConnectionFactory.getConnection();  
+        return jedisConnection.getNativeConnection();  
+    }
+    
+    
+    /**
+     * 
+     * Description: 连接工厂方式归还资源
+     * 
+     * @author Easong
+     * @version 2017年6月23日
+     * @param jedis
+     */
+    public static void returnResourceOfFactory(Jedis jedis){
+    	jedis.quit();
+		jedis.disconnect();
+    }
 }

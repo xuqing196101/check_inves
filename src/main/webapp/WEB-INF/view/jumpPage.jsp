@@ -4,7 +4,6 @@
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-    String url=request.getParameter("returnUrl");
 %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -30,7 +29,7 @@
 </script>
 <!-- 后台管理内容开始-->
 <div>
-    <iframe  frameborder="0" name="home" id="iframepage" scrolling="auto" marginheight="0"  width="100%" onLoad="getContentSize()" src="<%=url%>"></iframe>
+    <iframe  frameborder="0" name="home" id="iframepage" scrolling="auto" marginheight="0"  width="100%" onLoad="getContentSize()" src="${returnUrl}"></iframe>
 </div>
 
 <!--底部代码开始-->

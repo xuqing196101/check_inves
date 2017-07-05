@@ -38,6 +38,11 @@ public final class Constant {
     public static final Integer OB_PROJECT_SYS_KEY = 5;
     /** 网上竞价系统value */
     public static final String OB_PROJECT_SYS_VALUE = "T_BSS_OB_ATTACHMENT";
+    
+    /** App安装包key */
+    public static final Integer APP_APK_SYS_KEY = 6;
+    /** App安装包value */
+    public static final String APP_APK_SYS_VALUE = "T_SES_APP_ATTACHMENT";
        
     /**竞价比例分成**/
     public static final Integer [] OB_PROJECT_ONE={100};
@@ -58,5 +63,6 @@ public final class Constant {
         fileSystem.put(EXPERT_SYS_KEY, EXPERT_SYS_VALUE);
         fileSystem.put(FORUM_SYS_KEY, FORUM_SYS_VALUE);
         fileSystem.put(OB_PROJECT_SYS_KEY, OB_PROJECT_SYS_VALUE);
+        fileSystem.put(APP_APK_SYS_KEY, APP_APK_SYS_VALUE);
     }
 }

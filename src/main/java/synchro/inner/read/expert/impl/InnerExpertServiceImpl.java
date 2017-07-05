@@ -69,6 +69,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     
     @Autowired
     private FileUploadMapper fileUploadMapper;
+    
+    @Autowired
+    private ExpertMapper expertMapper;
     /**
      * 
      * @see synchro.inner.read.expert.InnerExpertService#readNewExpertInfo(java.io.File)
@@ -107,7 +110,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                    
                    if(expert.getAttchList().size()>0){
                    	for(UploadFile uf:expert.getAttchList()){
-        				   UploadFile ufile = fileUploadMapper.queryById(uf.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+        				   UploadFile ufile = fileUploadMapper.queryById(uf.getId(), "T_SES_EMS_EXPERT_ATTACHMENT");
         				   if(ufile==null){
         					   uf.setTableName("T_SES_EMS_EXPERT_ATTACHMENT");
         	    			   fileUploadMapper.saveFile(uf);
@@ -182,6 +185,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
             try{
                 for(Expert expert:expertList){
                     //入库是对每个表进行插入数据
+                	expertMapper.updateExpert(expert.getId(), expert.getStatus(), expert.getIsSubmit(), expert.getAuditAt());
                     saveBackModifyOperation(expert);
                 }
             }catch (RuntimeException e){
@@ -199,7 +203,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
             for(ExpertAudit expertAudit:expertAudits){
                 audit = expertAuditMapper.selectByPrimaryKey(expertAudit.getId());
                 if(null == audit){
-                    expertAuditMapper.insertSelective(expertAudit);
+                    expertAuditMapper.insertActive(expertAudit);
                 }
             }
         }

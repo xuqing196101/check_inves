@@ -334,6 +334,7 @@
 		  "<td class=\"p0\"  width=\"40%\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" title=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
 		  "  </td>"+
 		"</tr>").clone(true); 
+		   
 		//加载数据
 	//	loads(number,productId);
 		/* var hehe = [];
@@ -343,8 +344,10 @@
 		     			  }
 		     		  });
 		        	productIds = hehe.toString(); */
+		        	if(productName != null && productName != ''){
+		        		$('#productName_'+number).val(productName);
+		        	}
 		loadProduct(number);
-		
 	}
 	 function loadProduct(number){
 		 $('#productName_'+number).combobox({  
@@ -440,12 +443,11 @@
 	    return;
 	    }
 	 $.ajaxFileUpload ({
-	               url: "${pageContext.request.contextPath}/ob_project/upload.do?",  
+	               url: "${pageContext.request.contextPath}/ob_project/upload.do",  
 	               secureuri: false,  
 	               fileElementId: 'fileName', 
 	               dataType: 'json',
 	               success: function (data) { 
-	             
 	               var bool=true;
 	               var chars = ['A','B','C','D'];
 	               if(data=="1"){
@@ -831,12 +833,17 @@
 <!--面包屑导航开始-->
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-        <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">网上竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">竞价信息管理</a></li><li class="active"><a href="javascript:void(0)">发布竞价信息</a></li>
-		   </ul>
-        <div class="clear"></div>
-      </div>
+		  <ul class="breadcrumb margin-left-0">
+			  <li>
+				  <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			  </li>
+			  <li><a href="javascript:void(0)">保障作业</a></li>
+			  <li><a href="javascript:void(0)">网上竞价</a></li>
+			  <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/ob_project/list.html')">竞价信息管理</a></li>
+			  <li class="active"><a href="javascript:void(0)">发布竞价信息</a></li>
+		  </ul>
+		  <div class="clear"></div>
+	  </div>
     </div>
     <div class="tab-content">
     <!-- 修改订列表开始-->
@@ -921,13 +928,13 @@
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			<select id="demandUnit" name="demandUnit" onchange="changDemandUnit()" >
 			  <option value="">--请选择--</option>
-			</select></div>
-        <div class="cue" id="demandUnitErr">${demandUnitErr}</div>
+			</select>
+        <div class="cue" id="demandUnitErr">${demandUnitErr}</div></div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>联系人</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactName" name="contactName"  value="${list.contactName }" maxlength="20" type="text">
+        <input class="input_group" id="contactName" name="contactName"  value="${list.contactName }" maxlength="20" readonly="readonly" type="text">
         <span class="add-on">i</span>
            <span class="input-tip">不能为空</span>
         <div class="cue" id="contactNameErr">${contactNameErr}</div>
@@ -936,7 +943,7 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactTel" name="contactTel" value="${list.contactTel }"  maxlength="20" type="text">
+        <input class="input_group" id="contactTel" name="contactTel" value="${list.contactTel }"  maxlength="20" readonly="readonly" type="text">
         <span class="add-on">i</span>
         <span class="input-tip">不能为空</span>
         <div class="cue" id="contactTelErr">${contactTelErr}</div>

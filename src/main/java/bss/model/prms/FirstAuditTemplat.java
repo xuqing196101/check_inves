@@ -33,7 +33,18 @@ public class FirstAuditTemplat implements Serializable{
     private Short isUse;
 
     private Short isOpen;
+    
+    /**
+     * @Fields categoryId : 所属产品目录
+     */
+    @NotNull(message = "所属产品目录不能为空")
+    private String categoryId;
 
+    /**
+     * @Fields categoryName : 所属产品目录名称，不做数据存储
+     */
+    private String categoryName;
+    
     public String getId() {
         return id;
     }
@@ -105,4 +116,21 @@ public class FirstAuditTemplat implements Serializable{
     public void setIsOpen(Short isOpen) {
         this.isOpen = isOpen;
     }
+
+    public String getCategoryId() {
+      return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+      this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+      return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+      this.categoryName = categoryName;
+    }
+    
 }

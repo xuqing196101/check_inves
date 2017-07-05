@@ -114,11 +114,14 @@ function resetQuery() {
 <!--面包屑导航开始-->
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-        <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">定型产品管理</a></li><li class="active"><a href="javascript:void(0)">供应商列表</a></li>
-		</ul>
-        <div class="clear"></div>
+		  <ul class="breadcrumb margin-left-0">
+			  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+			  <li><a href="javascript:void(0)">保障作业</a></li>
+			  <li><a href="javascript:void(0)">网上竞价</a></li>
+			  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/product/list.html')">定型产品管理</a></li>
+			  <li class="active"><a href="javascript:void(0)">供应商列表</a></li>
+		  </ul>
+		  <div class="clear"></div>
       </div>
     </div>
     
@@ -185,7 +188,7 @@ function resetQuery() {
 				<td class="tc">
 				<c:set var="nowDate" value="<%=System.currentTimeMillis()%>"></c:set>
 					<c:choose>  
-         	 			<c:when test="${nowDate-supplier.certValidPeriod.getTime() > 0}">过期</c:when>  
+         	 			<c:when test="${nowDate-supplier.certValidPeriod.getTime() > 0}">已过期</c:when>  
           				<c:when test="${nowDate-supplier.certValidPeriod.getTime() < 0}">未过期</c:when>  
           			</c:choose> 
 				</td>

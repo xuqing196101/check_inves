@@ -163,7 +163,7 @@
 					data: {"field":fieldName,"type":type,"expertId":"${expert.id}"},
 					async: false,
 					success: function(response){
-						layer.tips("原值:" + response, "#" + inputName, {
+						layer.tips("修改前:" + response, "#" + inputName, {
 		    				tips : 3
 		    			});
 					}
@@ -199,6 +199,21 @@
 					}
 				});
 			}
+			
+			//暂存
+       function zhancun(){
+         var expertId = $("#expertId").val();
+         $.ajax({
+           url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
+           dataType: "json",
+           data:{expertId : expertId},
+           success : function (result) {
+               layer.msg(result, {offset : [ '100px' ]});
+           },error : function(){
+             layer.msg("暂存失败", {offset : [ '100px' ]});
+           }
+         });
+       }
 		</script>
 		<script type="text/javascript">
 			function jump(str){
@@ -230,7 +245,7 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0)">首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">支撑系统</a>
@@ -238,17 +253,21 @@
 					<li>
 						<a href="javascript:void(0)">专家管理</a>
 					</li>
-					<li>
-						<c:if test="${sign == 1}">
-							<a href="${pageContext.request.contextPath}/expertAudit/list.html?sign=1">专家初审</a>
-						</c:if>
-						<c:if test="${sign == 2}">
-							<a href="${pageContext.request.contextPath}/expertAudit/list.html?sign=2">专家复审</a>
-						</c:if>
-						<c:if test="${sign == 3}">
-							<a href="${pageContext.request.contextPath}/expertAudit/list.html?sign=3">专家复查</a>
-						</c:if>
-					</li>
+					<c:if test="${sign == 1}">
+						<li>
+							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=1')">专家初审</a>
+						</li>
+					</c:if>
+					<c:if test="${sign == 2}">
+						<li>
+							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=2')">专家复审</a>
+						</li>
+					</c:if>
+					<c:if test="${sign == 3}">
+						<li>
+							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=3')">专家复查</a>
+						</li>
+					</c:if>
 				</ul>
 				<div class="clear"></div>
 			</div>
@@ -284,13 +303,14 @@
 					<!-- 专家专业信息 -->
 					<ul class="ul_list count_flow">
 						<li>
+						
 								<c:forEach items="${spList}" var="sp">
-									<span <c:if test="${fn:contains(editFields,sp.id)}">style="color:#FF8C00"</c:if>   class="margin-left-30 hand" onclick="reason('${sp.id}','${sp.name}技术');"><input type="checkbox"  disabled="disabled"  name="chkItem_1" value="${sp.id}" />${sp.name}技术 </span>
+									<span <c:if test="${fn:contains(editFields,sp.id)}">style="color:#FF8C00"</c:if>   class="margin-left-30 hand" <c:if test="${fn:contains(expertType,sp.id)}">onclick="reason('${sp.id}','${sp.name}技术');"</c:if>><input type="checkbox"  disabled="disabled"  name="chkItem_1" value="${sp.id}" />${sp.name}技术 </span>
 									<a class="b f18 ml10 red" id="${sp.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 									<c:if test="${fn:contains(typeErrorField,sp.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if> 
 								</c:forEach>
 								<c:forEach items="${jjList}" var="jj">
-									<span  <c:if test="${fn:contains(editFields,jj.id)}">style="color:#FF8C00" </c:if>  class="margin-left-30 hand" onclick="reason('${jj.id}','${jj.name}');"><input type="checkbox"  disabled="disabled" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
+									<span  <c:if test="${fn:contains(editFields,jj.id)}">style="color:#FF8C00" </c:if>  class="margin-left-30 hand" <c:if test="${fn:contains(expertType,jj.id)}">onclick="reason('${jj.id}','${jj.name}');"</c:if>><input type="checkbox"  disabled="disabled" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
 									<a class="b f18 ml10 red" id="${jj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 									<c:if test="${fn:contains(typeErrorField,jj.id)}"> <img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
 								</c:forEach>
@@ -325,6 +345,7 @@
 					</ul>
 				</div>
 				<div class="col-md-12 add_regist tc">
+				  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>
 				</div>

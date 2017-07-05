@@ -5,7 +5,6 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
-	   <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
 		<script type="text/javascript">
 		      var clickState = 0;
       $(function() {
@@ -22,6 +21,16 @@
             }
           }
         });
+        
+        //获取查看或操作权限
+          var isOperate = $('#isOperate', window.parent.document).val();
+          alert(isOperate);
+          if(isOperate == 0) {
+            //只具有查看权限，隐藏操作按钮
+        $(":button").each(function(){ 
+          $(this).hide();
+              }); 
+      } 
       });
 
       //全选方法

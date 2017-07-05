@@ -26,4 +26,25 @@ public interface SynchService {
      * @return
      */
     public List<SynchRecord> getList(Integer optype, Integer page, String searchType, String startTime, String endTime);
+    
+    /**
+     * 
+    * @Title: imageHandler
+    * @Description: 定时导出专家，供应商的昨天的图片
+    * author: Li Xiaoxiao 
+    * @param      
+    * @return void     
+    * @throws
+     */
+	public void imageHandler();
+	/**
+	 * 
+	* @Title: imageImportHandler
+	* @Description:  定时专家，供应商导入内网 
+	* author: Li Xiaoxiao 
+	* @param      
+	* @return void     
+	* @throws
+	 */
+	public void imageImportHandler();
 }

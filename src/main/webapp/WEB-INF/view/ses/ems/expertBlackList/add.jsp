@@ -27,6 +27,11 @@
 		      });
 		    });
 		  });
+		  
+		//清除文件上传报错信息
+		function clearErrorMsg(){
+			$("#error_file").html("");
+		}
 		</script>
 	</head>
   <body>
@@ -52,7 +57,7 @@
 	          	<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>专家姓名：</span>
 	            <div class="input-append input_group col-sm-12 col-xs-12 p0">
 	            	<input type="hidden" name="id" readonly="readonly" value="${uuid }">
-		           	<input type="hidden" name="expertId" readonly="readonly" value="${expertId }">
+		           	<input id = "expert_id" type="hidden" name="expertId" readonly="readonly" value="${expertId }">
 		            <input class="input_group"  name="relName"  type="text" id="expert_name" required="required" readonly="readonly" value="${relName }">
 		            <span class="add-on cur_point cur_point">i</span>
 		            <div class="cue"> ${err_relName } </div>
@@ -101,22 +106,22 @@
 		       <li class="col-md-12 col-sm-12 col-xs-12 ">
 		         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>处罚理由：</span>
              <div class="col-md-12 col-sm-12 col-xs-12 p0">
-               <textarea class="col-md-12 col-sm-12 col-xs-12 p0" style="height:130px" title="这是必填字段，字数不超过200个字" name="reason" required="required" maxlength="200">${reason }</textarea>
-             		<div class="cue"><sf:errors path="reason"/></div>
+               <textarea class="col-md-12 col-sm-12 col-xs-12 p0" style="height:130px" title="这是必填字段，字数不超过200个字" name="reason" maxlength="200">${reason }</textarea>
+            <div class="cue"><sf:errors path="reason"/></div>
              </div>
-             <span class=" red">${err_reason}</span>
+             <span class="red">${err_reason}</span>
           </li> 
 	      </ul>
 	       
 	      <h2 class="count_flow"><i>2</i>附件上传</h2>
         <ul class="ul_list">
-	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15" onclick = "clearErrorMsg()">
 	          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12" ><div class="star_red">*</div>批准文件:</span>
 	          <%-- <input class="span3" type="file" name="attachmentCertFile"/>
 	          <span class=" red">${err_attachmentCert}</span> --%>
 	          <u:upload id="id_up"  businessId="${uuid}" sysKey="${expertKey}" typeId="${typeId}" auto="true"/> 
           	<u:show showId="id_show" groups="a,b,c"  businessId="${uuid}" sysKey="${expertKey}" typeId="${typeId}" />
-	      	<span class=" red">  ${err_attachmentCert }</span>
+	      	<span class=" red" id = "error_file">  ${err_attachmentCert }</span>
 	      	</li>
         </ul>
         <div class="col-md-12 p0">

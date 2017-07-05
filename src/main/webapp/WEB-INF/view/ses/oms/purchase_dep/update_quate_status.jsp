@@ -58,7 +58,7 @@
          <div class="drop_window" id="delTask">
            <ul>
 				<li class="col-md-12 col-sm-12 col-xs-12 pl15">
-				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">理由:</span>
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>理由:</span>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
 						<textarea class="w100p h80"  title="不超过800个字" name="quaStashReason"></textarea>
 					</div>

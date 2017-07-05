@@ -1,5 +1,6 @@
 package ses.controller.sys.sms;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierPorjectQua;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -40,8 +42,12 @@ import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
+import ses.service.sms.SupplierMatProService;
+import ses.service.sms.SupplierMatSeService;
+import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 
@@ -92,8 +98,19 @@ public class SupplierItemController extends BaseController {
 	
 	@Autowired
 	private SupplierAptituteService supplierAptituteService;
+	
+	/** 供应商关联类型 */
 	@Autowired
-	private  SupplierMatEngService supplierMatEngService;
+	private SupplierTypeRelateService supplierTypeRelateService;
+	
+	@Autowired
+	private SupplierMatProService supplierMatProService; // 供应商物资生产专业信息
+	@Autowired
+	private SupplierMatSellService supplierMatSellService; // 供应商物资销售专业信息
+	@Autowired
+	private SupplierMatSeService supplierMatSeService; // 供应商服务专业信息
+	@Autowired
+	private SupplierMatEngService supplierMatEngService; // 供应商工程专业信息
 	
 	@ResponseBody
 	@RequestMapping(value = "/saveCategory")
@@ -124,6 +141,7 @@ public class SupplierItemController extends BaseController {
 			SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, null);
 			if(cateTree != null && cateTree.getRootNode() != null) {
 				cateTree.setItemsId(item.getId());
+				cateTree.setCategoryId(categoryId);
 				allTreeList.add(cateTree);
 			}
 		}
@@ -363,8 +381,8 @@ public class SupplierItemController extends BaseController {
 
 		}
 		List < Area > privnce = areaService.findRootArea();
-
 		model.addAttribute("privnce", privnce);
+		
 		Map < String, Object > maps = supplierService.getCategory(supplier.getId());
 		model.addAttribute("server", maps.get("server"));
 		model.addAttribute("product", maps.get("product"));
@@ -387,6 +405,77 @@ public class SupplierItemController extends BaseController {
 		model.addAttribute("currSupplier", supplier);
 		model.addAttribute("supplierTypeIds", supplierTypeIds);
 		if(flag.equals("3")) {
+			if(supplier.getStatus() == null || supplier.getStatus() == -1){
+				//物资生产类型的必须有的证书
+				if(supplier.getSupplierMatPro() == null
+						|| supplier.getSupplierMatPro().getListSupplierCertPros() == null
+						|| supplier.getSupplierMatPro().getListSupplierCertPros().size() == 0) {
+					supplier.setSupplierMatPro(supplierMatProService.init());
+				}
+				if(supplier.getSupplierMatSell() == null) {
+				    supplier.setSupplierMatSell(supplierMatSellService.init());
+				}
+				if(supplier.getSupplierMatEng() == null) {
+				    supplier.setSupplierMatEng(supplierMatEngService.init());
+				}
+				if(supplier.getSupplierMatSe() == null) {
+				    supplier.setSupplierMatSe(supplierMatSeService.init());
+				}
+			}
+			
+			String attid = DictionaryDataUtil.getId("SUPPLIER_PRODUCT");
+			model.addAttribute("attid", attid);
+			
+			model.addAttribute("company", DictionaryDataUtil.find(17));
+	        model.addAttribute("nature", DictionaryDataUtil.find(32));
+			
+			/**
+			 * 查询不通过的理由
+			 */
+			SupplierAudit supplierAudit = new SupplierAudit();
+			supplierAudit.setSupplierId(supplier.getId());;
+			//供应商勾选的类型
+			StringBuffer typePageField = new StringBuffer();
+			supplierAudit.setAuditType("supplierType_page");
+			List < SupplierAudit > typeAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			for(SupplierAudit audit: typeAuditList) {
+				typePageField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("typePageField", typePageField);
+			
+			//生产
+			StringBuffer proPageField = new StringBuffer();
+			supplierAudit.setAuditType("mat_pro_page");
+			List < SupplierAudit > proAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			for(SupplierAudit audit: proAuditList) {
+				proPageField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("proPageField", proPageField);
+			//销售
+			StringBuffer sellPageField = new StringBuffer();
+			supplierAudit.setAuditType("mat_sell_page");
+			List < SupplierAudit > sellAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			for(SupplierAudit audit: sellAuditList) {
+				sellPageField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("sellPageField", sellPageField);
+			//工程
+			StringBuffer engPageField = new StringBuffer();
+			supplierAudit.setAuditType("mat_eng_page");
+			List < SupplierAudit > engAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			for(SupplierAudit audit: engAuditList) {
+				engPageField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("engPageField", engPageField);
+			//服务
+			StringBuffer servePageField = new StringBuffer();
+			supplierAudit.setAuditType("mat_serve_page");
+			List < SupplierAudit > serveAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			for(SupplierAudit audit: serveAuditList) {
+				servePageField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("servePageField", servePageField);
+			
 			//初始化供应商注册附件类型
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
@@ -401,9 +490,10 @@ public class SupplierItemController extends BaseController {
 					findList.add(q);
 				}
 			}
-			
-			
 			model.addAttribute("typeList", findList);
+			// 物资销售是否满足条件
+			String isSalePass = isPass(supplier.getId(), "SALES");
+			model.addAttribute("isSalePass", isSalePass);
 			return "ses/sms/supplier_register/supplier_type";
 		}
 		if(supplier.getSupplierTypeIds().trim().length()!=0){
@@ -450,7 +540,23 @@ public class SupplierItemController extends BaseController {
 			// 实际上传数量
 			List < UploadFile > filesList;
 			boolean isOk = true;
+			String errContractFiles = "";
 			for(SupplierItem item: itemsList) {
+				String supplierType = item.getSupplierTypeRelateId();
+				switch (supplierType) {
+				case "PRODUCT":
+					errContractFiles = "还有物资生产合同附件未上传!";
+					break;
+				case "SALES":
+					errContractFiles = "还有物资销售合同附件未上传!";
+					break;
+				case "SERVICE":
+					errContractFiles = "还有服务合同附件未上传!";
+					break;
+				default:
+					errContractFiles = "还有合同附件未上传!";
+					break;
+				}
 				filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_ONE_YEAR"), Constant.SUPPLIER_SYS_KEY.toString());
 				if(filesList.size() == 0) {
 					isOk = false;
@@ -483,7 +589,8 @@ public class SupplierItemController extends BaseController {
 				}
 			}
 			if(!isOk) {
-				model.addAttribute("err_contract_files", "还有附件未上传!");
+				//model.addAttribute("err_contract_files", "还有附件未上传!");
+				model.addAttribute("err_contract_files", errContractFiles);
 				model.addAttribute("supplierTypeIds", supplierTypeIds);
 				model.addAttribute("supplierId", supplierId);
 				return "ses/sms/supplier_register/contract";
@@ -497,6 +604,9 @@ public class SupplierItemController extends BaseController {
 				if(pro != null && city != null) {
 					org.setAddress(pro.getName() + city.getName());
 				}
+				// 统计待审核供应商数量
+                int pendingAuditCount = supplierService.countByPurchaseDepId(org.getId(), 0);
+                org.setPendingAuditCount(pendingAuditCount);
 			}
 			model.addAttribute("allPurList", list1);
 			return "ses/sms/supplier_register/procurement_dep";
@@ -505,7 +615,7 @@ public class SupplierItemController extends BaseController {
 		List < Category > listPro = getSupplier(supplier.getId(), supplierTypeIds);
 		removeSame(listPro);
 		//根据品目id查询所有的证书信息
-		List < QualificationBean > list3 = supplierService.queryCategoyrId(listPro, 2);
+		List < QualificationBean > proQua = supplierService.queryCategoyrId(listPro, 2);
 
 		//查询所有的三级品目销售
 		List < Category > listSlae = getSale(supplier.getId(), supplierTypeIds);
@@ -520,13 +630,13 @@ public class SupplierItemController extends BaseController {
 		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 1);
 
 		//生产证书
-		List < Qualification > qaList = new ArrayList < Qualification > ();
+		List < Qualification > proList = new ArrayList < Qualification > ();
 		List < Qualification > saleList = new ArrayList < Qualification > ();
 		List < Qualification > serviceList = new ArrayList < Qualification > ();
 
-		if(list3 != null && list3.size() > 0) {
-			for(QualificationBean qb: list3) {
-				qaList.addAll(qb.getList());
+		if(proQua != null && proQua.size() > 0) {
+			for(QualificationBean qb: proQua) {
+				proList.addAll(qb.getList());
 			}
 		}
 		//销售
@@ -545,7 +655,7 @@ public class SupplierItemController extends BaseController {
 		//生产
 		StringBuffer sbUp = new StringBuffer("");
 		StringBuffer sbShow = new StringBuffer("");
-		int len = qaList.size() + 1;
+		int len = proList.size() + 1;
 		for(int i = 1; i < len; i++) {
 			sbUp.append("pUp" + i + ",");
 			sbShow.append("pShow" + i + ",");
@@ -569,7 +679,7 @@ public class SupplierItemController extends BaseController {
 		}
 		model.addAttribute("saleUp", sbUp.toString());
 		model.addAttribute("saleShow", sbShow.toString());
-		model.addAttribute("cateList", list3);
+		model.addAttribute("proQua", proQua);
 		model.addAttribute("saleQua", saleQua);
 		model.addAttribute("serviceQua", serviceQua);
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
@@ -598,6 +708,7 @@ public class SupplierItemController extends BaseController {
 				break;
 			}
 		}
+		
 		if(isEng) {
 			SupplierMatEng matEng = supplierMatEngService.getMatEng(supId);
 			List < SupplierItem > listSupplierItems = getProject(supId, "PROJECT");
@@ -906,6 +1017,23 @@ public class SupplierItemController extends BaseController {
     	return "1";
     }
     
-    
+    private String isPass(String supplierId,String stype) {
+        BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
+        List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
+        if(stype!=null&&stype.trim().length()!=0){
+        	if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
+                return "0";
+            }	
+	   	}
+        
+        for (SupplierTypeRelate type : relate) {
+            if (type.getSupplierTypeId().equals("SALES")) {
+                if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
+                    return "0";
+                }
+            }
+        }
+        return "1";
+    }
 
 }

@@ -920,6 +920,74 @@ public class ArticleServiceImpl implements ArticleService {
                   }
               }
           }
+      }else {
+        List<DictionaryData> dictionaryDatas = DictionaryDataUtil.find(6);
+        if (dictionaryDatas != null && dictionaryDatas.size() > 0) {
+            for (DictionaryData dictionaryData : dictionaryDatas) {
+              //一级
+              CategoryTree ct=new CategoryTree();
+              ct.setId(dictionaryData.getId());
+              ct.setName(dictionaryData.getName());
+              ct.setIsParent("true");
+              ct.setClassify(dictionaryData.getCode());
+              jList.add(ct);
+              //二级
+              HashMap<String, Object> map = new HashMap<String, Object>();
+              map.put("name", name);
+              map.put("isPublish", 0);
+              map.put("parentId", dictionaryData.getId());
+              List<Category> Categorys = categoryMapper.listByKeywordIsPublish(map);
+              if (Categorys != null && Categorys.size() > 0) {
+                for (Category category : Categorys) {
+                  CategoryTree ct2=new CategoryTree();
+                  ct2.setId(category.getId());
+                  ct2.setName(category.getName());
+                  ct2.setIsParent("true");
+                  ct2.setParentId(dictionaryData.getId());
+                  jList.add(ct2);
+                  //三级
+                  HashMap<String, Object> map2 = new HashMap<String, Object>();
+                  map2.put("name", name);
+                  map2.put("isPublish", 0);
+                  map2.put("parentId", category.getId());
+                  List<Category> Categorys2 = categoryMapper.listByKeywordIsPublish(map2);
+                  for (Category category2 : Categorys2) {
+                    CategoryTree ct3=new CategoryTree();
+                    ct3.setId(category2.getId());
+                    ct3.setName(category2.getName());
+                    ct3.setIsParent("false");
+                    jList.add(ct3);
+                  }
+                }
+              } else {
+                List<Category> twoCategories = categoryMapper.findByParentId(dictionaryData.getId());
+                for (Category category : twoCategories) {
+                  //三级
+                  HashMap<String, Object> map2 = new HashMap<String, Object>();
+                  map2.put("name", name);
+                  map2.put("isPublish", 0);
+                  map2.put("parentId", category.getId());
+                  List<Category> Categorys2 = categoryMapper.listByKeywordIsPublish(map2);
+                  if (Categorys2 != null && Categorys2.size() > 0) {
+                    CategoryTree pct3=new CategoryTree();
+                    pct3.setId(category.getId());
+                    pct3.setName(category.getName());
+                    pct3.setIsParent("true");
+                    pct3.setParentId(dictionaryData.getId());
+                    jList.add(pct3);
+                    for (Category category2 : Categorys2) {
+                      CategoryTree ct3=new CategoryTree();
+                      ct3.setId(category2.getId());
+                      ct3.setName(category2.getName());
+                      ct3.setIsParent("false");
+                      ct3.setParentId(category2.getParentId());
+                      jList.add(ct3);
+                    }
+                  }
+                }
+              }
+            }
+        }
       }
   }
 

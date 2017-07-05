@@ -80,7 +80,7 @@
 	<select id="">
 		<include refid="Base_Column_List" />
 		from T_SES_BMS_CATEGORY
-		where NAME like '%'||#{name}||'%'
+		where NAME like CONCAT(CONCAT('%', #{name}), '%')
 	</select>
 
 	<!-- 根据pid生成列表 -->
@@ -108,7 +108,7 @@
 		where IS_DELETED=0 and PARENT_ID=#{id} and name like '%'||#{name}||'%' order by CODE -->
 		 select <include refid="Base_Column_List" /> from 
 		 ( SELECT * from T_SES_BMS_CATEGORY  WHERE  IS_DELETED = 0 START WITH 
-         PARENT_ID=#{id} CONNECT BY PRIOR id=PARENT_ID) where name like '%'||#{name}||'%'
+         PARENT_ID=#{id} CONNECT BY PRIOR id=PARENT_ID) where name like CONCAT(CONCAT('%', #{name}), '%')
 	</select>
 	<!-- 根据参数状态和是否公开查询参数列表 -->
 	<select id="findByStatus" parameterType="Map" resultMap="CateMap">
@@ -153,7 +153,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from T_SES_BMS_CATEGORY
-		where IS_DELETED=0 and NAME like '%'||#{name}||'%'
+		where IS_DELETED=0 and NAME like CONCAT(CONCAT('%', #{name}), '%')
 
 	</select>
 	<!-- 根据产品名称和参数状态查询 -->
@@ -161,7 +161,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from T_SES_BMS_CATEGORY
-		where IS_DELETED=0 and  NAME like '%'||#{name}||'%'
+		where IS_DELETED=0 and  NAME like CONCAT(CONCAT('%', #{name}), '%')
 		AND
 		PARAM_STATUS = '3'
 	</select>
@@ -412,7 +412,7 @@
 		resultMap="CateMap">
 		select * from T_SES_BMS_CATEGORY where IS_DELETED=0
 		<if test="kind!=null and kind != ''">
-			and KIND like #{kind}
+			and KIND like CONCAT(CONCAT('%', #{kind}), '%')
 		</if>
 		<if test="parentId!=null and parentId != ''">
 			and PARENT_ID = #{parentId}
@@ -532,7 +532,7 @@
 		FROM T_SES_BMS_CATEGORY
 		WHERE 1 = 1 AND IS_DELETED=0
 		<if test="param1 != null">
-			AND NAME like '%${param1}%'
+			AND NAME like CONCAT(CONCAT('%', #{param1}), '%')
 		</if> 
 		<if test="param2 != null">
 			AND CODE = #{param2}
@@ -545,10 +545,10 @@
 		FROM T_SES_BMS_CATEGORY
 		WHERE 1 = 1 AND IS_DELETED=0
 		<if test="param1 != null">
-			AND NAME like '%${param1}%'
+			AND NAME like CONCAT(CONCAT('%', #{param1}), '%')
 		</if> 
 		<if test="param2 != null">
-			AND CODE  like '%${param2}%'
+			AND CODE  like CONCAT(CONCAT('%', #{param2}), '%')
 		</if> 
 		<if test="param3 != null">
 			AND IS_PUBLISH = #{param3}
@@ -579,7 +579,7 @@
   	FROM T_SES_BMS_CATEGORY 
   	WHERE IS_DELETED = 0 and IS_PUBLISH=0
   	<if test="name != null and name !=''">
-	      AND NAME LIKE '%'||#{name}||'%'
+	      AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
 	  </if>
 	  ORDER BY CODE
   </select>
@@ -592,13 +592,13 @@
 	INNER JOIN T_SES_BMS_DICTIONARY_DATA  ON T_SES_BMS_CATEGORY_PARAMETER.PARAM_TYPE_ID=T_SES_BMS_DICTIONARY_DATA.ID
 	AND T_SES_BMS_CATEGORY.PARAM_STATUS=4 AND T_SES_BMS_CATEGORY_PARAMETER.IS_DELETED=0
 	<if test="name != null and name !=''">
-	      AND T_SES_BMS_CATEGORY.NAME LIKE '%'||#{name}||'%'
+	      AND T_SES_BMS_CATEGORY.NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
 	  </if> 
 	ORDER BY T_SES_BMS_CATEGORY.CODE
   </select>
   <select id="findCategoryByChildrenAndWuZi" parameterType="Map" resultMap="CateMap">
 		 SELECT <include refid="Base_Column_List" /> 
-		 FROM T_SES_BMS_CATEGORY WHERE IS_PUBLISH = 0 AND IS_DELETED = 0 AND NAME LIKE '%'||#{name}||'%'  START WITH 
+		 FROM T_SES_BMS_CATEGORY WHERE IS_PUBLISH = 0 AND IS_DELETED = 0 AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')  START WITH
          PARENT_ID=#{id} CONNECT BY PRIOR ID=PARENT_ID ORDER BY CODE
 	</select>
 	
@@ -619,7 +619,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from T_SES_BMS_CATEGORY
-		where IS_DELETED=0 and NAME like '%'||#{name}||'%'
+		where IS_DELETED=0 and NAME like CONCAT(CONCAT('%', #{name}), '%')
 		<if test="isPublish != null">
 			and IS_PUBLISH = #{isPublish}
 		</if>
@@ -659,5 +659,22 @@
 		from T_SES_BMS_CATEGORY
 		where ID = #{id}
 	</select>
+	
+	
+		<select id="getParentByChildren" parameterType="String" resultMap="CategoryMap">
+	 select * from T_SES_BMS_CATEGORY 
+        start with ID = #{id} 
+        connect by prior PARENT_ID = ID  
+	</select>
+	
+	<!-- instr条件搜索目录 -->
+	<select id="selectByCList" resultMap="CategoryMap" parameterType="java.lang.String">
+		SELECT ID, NAME, CODE, PARENT_ID
+			FROM T_SES_BMS_CATEGORY
+			WHERE IS_PUBLISH = 0
+			AND IS_DELETED = 0
+			AND INSTR(#{listID},PARENT_ID) > 0
+			ORDER BY CODE
+</select>
 	
 </mapper>

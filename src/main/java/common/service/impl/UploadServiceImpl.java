@@ -37,6 +37,7 @@ import common.utils.UploadUtil;
 import ses.service.ems.ExpertAuditService;
 import ses.service.sms.SupplierModifyService;
 import ses.util.PropUtil;
+import synchro.util.FileEncryption;
 
 /**
  * 
@@ -201,7 +202,7 @@ public class UploadServiceImpl implements UploadService {
         }
 
 
-        String[] file = moveFile(systemKey, filePath, fileRealName);
+        String[] file = moveFile(systemKey, FileEncryption.getDecrypted(filePath), fileRealName);
 
         if (file != null && file.length == 2){
             UploadFile model = new UploadFile();
@@ -694,9 +695,10 @@ public class UploadServiceImpl implements UploadService {
 	public List<UploadFile> substrBusniessI(String businessId) {
 		return uploadDao.substrBusinessId(businessId);
 	}
-
-    
-    
-
-
+	@Override
+	public Long countFileByBusinessId(String business_id, String type_id,
+			Integer syskey) {
+		String tableName = Constant.fileSystem.get(syskey);
+		return uploadDao.countFileByBusinessId(business_id, type_id, tableName);
+	}
 }

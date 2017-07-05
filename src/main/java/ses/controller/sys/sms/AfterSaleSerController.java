@@ -92,7 +92,7 @@ public class AfterSaleSerController extends BaseSupplierController{
      * @return
      */
     @RequestMapping(value="/list")
-    public String getAll(Model model, String code, String type, Integer page){
+    public String getAll(@CurrentUser User user, Model model, String code, String type, Integer page){
     	if(page==null){
             page=1;
         }
@@ -333,6 +333,46 @@ public class AfterSaleSerController extends BaseSupplierController{
 	public String updateAfterSaleSer(AfterSaleSer AfterSaleSer) {
 		afterSaleSerService.saveOrUpdateAfterSaleSer(AfterSaleSer);
 		return "redirect:list.html";
+	}
+	
+	/**
+	 * 
+	 *〈根据合同编号查看售后〉
+	 *〈详细描述〉
+	 * @author FengTian
+	 * @param model
+	 * @param code
+	 * @param type
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/viewAfter")
+	public String viewAfter(Model model, String code, String type, Integer page){
+	    if(StringUtils.isNotBlank(type) && StringUtils.isNotBlank(code)){
+	        PurchaseContract contract = purchaseContractService.selectByCode(code);
+	        if(contract != null && StringUtils.isNotBlank(contract.getId())){
+	            if(page == null){
+	                page = 1;
+	            }
+	            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+	            HashMap<String, Object> map = new HashMap<>();
+                map.put("contractId", contract.getId());
+                List<AfterSaleSer> selectByAll = afterSaleSerService.selectByAll(map);
+                if(selectByAll != null && selectByAll.size() > 0){
+                    for(AfterSaleSer after:selectByAll){
+                        ContractRequired selectConRequByPrimaryKey = contractRequiredService.selectConRequByPrimaryKey(after.getRequiredId());
+                        PurchaseContract selectById = purchaseContractService.selectById(selectConRequByPrimaryKey.getContractId());
+                        after.setContractCode(selectById.getCode());
+                        after.setMoney(selectById.getMoney());
+                        after.setRequiredId(selectConRequByPrimaryKey.getGoodsName());
+                    }
+                    PageInfo<AfterSaleSer> list = new PageInfo<AfterSaleSer>(selectByAll);
+                    model.addAttribute("list", list);
+                }
+	        }
+	        model.addAttribute("type", type);
+	    }
+	    return "ses/sms/after_sale_ser/list";
 	}
 
 }

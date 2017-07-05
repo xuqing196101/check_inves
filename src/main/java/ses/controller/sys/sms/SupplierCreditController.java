@@ -16,6 +16,8 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageInfo;
 import common.utils.JdcgResult;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @Scope("prototype")
 @RequestMapping("/supplier_credit")
@@ -34,10 +36,16 @@ public class SupplierCreditController {
 	}
 	
 	@RequestMapping(value = "add_credit")
-	public String addCredit(Model model, SupplierCredit supplierCredit) throws Exception {
+	public String addCredit(Model model, SupplierCredit supplierCredit, HttpServletRequest request) throws Exception {
 		// 解决中文乱码
+		String encoding = request.getCharacterEncoding();
 		if(supplierCredit.getName() != null){
-			supplierCredit.setName(new String(supplierCredit.getName().getBytes("ISO8859-1"), "UTF-8"));
+			if ("UTF-8".equals(encoding)) {
+				supplierCredit.setName(supplierCredit.getName());
+			}
+			if ("ISO8859-1".equals(encoding)){
+				supplierCredit.setName(new String(supplierCredit.getName().getBytes("ISO8859-1"), "UTF-8"));
+			}
 		}
 		if (supplierCredit.getId() != null && !"".equals(supplierCredit.getId())) {
 			model.addAttribute("supplierCredit", supplierCredit);

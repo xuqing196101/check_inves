@@ -1,5 +1,6 @@
 package bss.dao.ppms;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -109,4 +110,24 @@ public interface SupplierCheckPassMapper {
     List<SupplierCheckPass> selectPackageIdWonBid(String packageId);
     List<SupplierCheckPass> listsupplier(HashMap<String, Object> map);
     List<SupplierCheckPass> listCheckPassOrderRanking(String packId);
+    
+    /**
+     * 
+     * Description: 全网已完成采购项目总金额
+     * 
+     * @author Easong
+     * @version 2017年6月6日
+     * @return
+     */
+    BigDecimal selectPurProjectTotalMoney();
+    
+    /**
+     * 
+     * Description: 全网已完成采购合同总金额
+     * 
+     * @author Easong
+     * @version 2017年6月6日
+     * @return
+     */
+    BigDecimal selectPurContractTotalMoney();
 }

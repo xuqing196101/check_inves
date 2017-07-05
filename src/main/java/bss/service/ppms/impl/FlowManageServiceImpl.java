@@ -123,18 +123,20 @@ public class FlowManageServiceImpl implements FlowMangeService {
         } else {
             //如果该项目该环节流程没有执行过
             FlowDefine flowDefine = getFlowDefine(flowDefineId);
-            FlowExecute flowExecute = new FlowExecute();
-            flowExecute.setCreatedAt(new Date());
-            flowExecute.setFlowDefineId(flowDefineId);
-            flowExecute.setIsDeleted(0);
-            User currUser = (User) request.getSession().getAttribute("loginUser");
-            flowExecute.setOperatorId(currUser.getId());
-            flowExecute.setOperatorName(currUser.getRelName());
-            flowExecute.setProjectId(projectId);
-            flowExecute.setStatus(status);
-            flowExecute.setId(WfUtil.createUUID());
-            flowExecute.setStep(flowDefine.getStep());
-            saveExecute(flowExecute);
+            if (flowDefine != null) {
+                FlowExecute flowExecute = new FlowExecute();
+                flowExecute.setCreatedAt(new Date());
+                flowExecute.setFlowDefineId(flowDefineId);
+                flowExecute.setIsDeleted(0);
+                User currUser = (User) request.getSession().getAttribute("loginUser");
+                flowExecute.setOperatorId(currUser.getId());
+                flowExecute.setOperatorName(currUser.getRelName());
+                flowExecute.setProjectId(projectId);
+                flowExecute.setStatus(status);
+                flowExecute.setId(WfUtil.createUUID());
+                flowExecute.setStep(flowDefine.getStep());
+                saveExecute(flowExecute);
+            }
         }
     }
     

@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -63,11 +64,22 @@
        <span class="close_icon" id="close"></span>
      </div>
       <div class="prompt_main">
-                   <a class="red" href="javascript:void(0);" onclick="indexTip('7C5808A4C4B34C9CA86F661AF6B6E989')">${properties['indexTip3']}</a>
-                   <br />
-                  <a class="red" href="javascript:void(0);" onclick="indexTip('712706E631194823AEF0E77A3FD2807C')">${properties['indexTip2']}</a>
-                  <br />
-                  <a href="javascript:void(0);" onclick="indexTip('8B96764A39E64F5CADDA0013DE6B4719')">${properties['indexTip']}</a>
+		   <c:choose> 
+		     <c:when test="${fn:length(properties['indexTip5']) > 13}"> 
+		       <a class="red" href="javascript:void(0);" title="${properties['indexTip5']}" onclick="indexTip('581DD6335F95404BBB325760B86E6E82')">${fn:substring(properties['indexTip5'], 0, 13)}...</a>
+		     </c:when> 
+		     <c:otherwise> 
+		      <a class="red" href="javascript:void(0);" title="${properties['indexTip5']}" onclick="indexTip('581DD6335F95404BBB325760B86E6E82')">${properties['indexTip5']}</a>
+		     </c:otherwise>
+		    </c:choose>
+           <br />
+           <a class="red" href="javascript:void(0);" onclick="indexTip('06615ACC3B38463CA76AA93BFF2A99B2')">${properties['indexTip4']}</a>
+           <br />
+           <a  href="javascript:void(0);" onclick="indexTip('7C5808A4C4B34C9CA86F661AF6B6E989')">${properties['indexTip3']}</a>
+           <br />
+           <a  href="javascript:void(0);" onclick="indexTip('712706E631194823AEF0E77A3FD2807C')">${properties['indexTip2']}</a>
+           <br />
+           <a href="javascript:void(0);" onclick="indexTip('8B96764A39E64F5CADDA0013DE6B4719')">${properties['indexTip']}</a>
       </div>
       <div class="prompt_btn">
         <button class="btn" onclick="indexTip('712706E631194823AEF0E77A3FD2807C')">了解详情</button>

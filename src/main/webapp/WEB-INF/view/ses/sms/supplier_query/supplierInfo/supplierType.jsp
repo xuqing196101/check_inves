@@ -9,6 +9,8 @@
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
+		<%@ include file="/WEB-INF/view/ses/sms/supplier_query/supplierInfo/common.jsp"%>
+		<script type="text/javascript" src="${ pageContext.request.contextPath }/js/ses/ems/expertQuery/common.js"></script>
 		<script type="text/javascript">
 			//文件下載
 			/*  function downloadFile(fileName) {
@@ -31,62 +33,6 @@
 				});
 			});
 		</script>
-
-		<script type="text/javascript">
-			function tijiao(str) {
-				var action;
-				if(str == "essential") {
-					action = "${pageContext.request.contextPath}/supplierQuery/essential.html";
-				}
-				if(str == "financial") {
-					action = "${pageContext.request.contextPath}/supplierQuery/financial.html";
-				}
-				if(str == "shareholder") {
-					action = "${pageContext.request.contextPath}/supplierQuery/shareholder.html";
-				}
-				if(str == "chengxin") {
-					action = "${pageContext.request.contextPath}/supplierQuery/list.html";
-				}
-				if(str == "item") {
-					action = "${pageContext.request.contextPath}/supplierQuery/item.html";
-				}
-				if(str == "product") {
-					action = "${pageContext.request.contextPath}/supplierQuery/product.html";
-				}
-				if(str == "updateHistory") {
-					action = "${pageContext.request.contextPath}/supplierQuery/showUpdateHistory.html";
-				}
-				if(str == "zizhi") {
-					action = "${pageContext.request.contextPath}/supplierQuery/aptitude.html";
-				}
-				if(str == "contract") {
-					action = "${pageContext.request.contextPath}/supplierQuery/contract.html";
-				}
-				if(str == "supplierType") {
-					action = "${pageContext.request.contextPath}/supplierQuery/supplierType.html";
-				}
-				$("#form_id").attr("action", action);
-				$("#form_id").submit();
-			}
-			
-			/* function fanhui() {
-				if('${judge}' == 2) {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
-				} else {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&judge=${judge}";
-				}
-			} */
-			
-			function fanhui() {
-				if('${judge}' == 2) {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
-				} else {
-					var action = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html";
-					$("#form_back").attr("action", action);
-					$("#form_back").submit();
-				};
-			};
-		</script>
 	</head>
 
 	<!--面包屑导航开始-->
@@ -96,13 +42,16 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0);"> 首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
 						<a href="javascript:void(0);">支撑环境</a>
 					</li>
 					<li>
 						<a href="javascript:void(0);">供应商管理</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=1')">供应商列表</a>
 					</li>
 					<li>
 						<a href="javascript:void(0);">供应商查看</a>
@@ -178,19 +127,29 @@
 										<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 											<div class="tab-pane fade active in height-300" id="tab-1">
 												<h2 class="count_flow"><i>1</i>产品研发能力</h2>
-												<ul class="ul_list count_flow">
+												<ul class="ul_list">
 													<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 														<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员数量比例(%)：</span>
 														<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-															<input id="scaleTech_production" type="text" value="${supplierMatPros.scaleTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','mat_pro_page');"</c:if>/>
-										</div>
-										</li>
-										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级技术人员数量比例(%)：</span>
-											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="scaleHeightTech_production" type="text" value="${supplierMatPros.scaleHeightTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','mat_pro_page');"</c:if>/>
-											</div>
-										</li>
+															<input id="scaleTech_production" type="text" value="${supplierMatPros.scaleTech }" 
+																<c:if test="${fn:contains(fieldProOne,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','mat_pro_page');"</c:if>
+																onclick="reasonProduction1(this)" maxlength="10"
+																onkeyup="value=value.replace(/[^\d.]/g,'')"
+																onblur="validatePercentage2(this.value)"
+															/>
+														</div>
+													</li>
+													<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级技术人员数量比例(%)：</span>
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+														<input id="scaleHeightTech_production" type="text" value="${supplierMatPros.scaleHeightTech }" 
+															<c:if test="${fn:contains(fieldProOne,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','mat_pro_page');"</c:if>
+															onclick="reasonProduction1(this)" maxlength="10"
+															onkeyup="value=value.replace(/[^\d.]/g,'')"
+															onblur="validatePercentage2(this.value)"
+														/>
+													</div>
+													</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this)">研发部门名称：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -224,7 +183,7 @@
 										</ul>
 
 										<h2 class="count_flow"><i>2</i>资质证书信息</h2>
-										<div class="ul_list count_flow">
+										<div class="ul_list">
 											<table class="table table-bordered table-condensed table-hover">
 												<thead>
 													<tr>
@@ -265,7 +224,7 @@
 
 										<c:if test="${fn:contains(supplierTypeNames, '销售')}">
 											<div class="tab-pane <c:if test="${liCountSell==1}">active in</c:if> fade  in height-200" id="tab-2">
-												<ul class="ul_list">
+												<div class="ul_list">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
 															<tr>
@@ -300,14 +259,14 @@
 															</tr>
 														</c:forEach>
 													</table>
-												</ul>
+												</div>
 											</div>
 										</c:if>
 
 										<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 											<div class="tab-pane <c:if test="${liCountEng==1}">active in</c:if> fade height-200" id="tab-3">
 												<h2 class="count_flow"><i>1</i>保密工程业绩</h2>
-												<ul class="ul_list count_flow">
+												<ul class="ul_list">
 													<c:if test="${supplierMatEngs.isHavingConAchi eq '0'}">
 														<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 															<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" style="width: 230px;">是否有国家或军队保密工程业绩：</span>
@@ -341,7 +300,7 @@
 												</ul>
 
 												<h2 class="count_flow"><i>3</i>取得注册资质的人员信息</h2>
-												<ul class="ul_list count_flow">
+												<div class="ul_list">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
 															<tr>
@@ -358,10 +317,10 @@
 															</tr>
 														</c:forEach>
 													</table>
-												</ul>
+												</div>
 
 												<h2 class="count_flow"><i>4</i>供应商资质（认证）证书信息</h2>
-												<div class="ul_list count_flow">
+												<div class="ul_list">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
 															<tr>
@@ -397,7 +356,7 @@
 												</div>
 
 												<h2 class="count_flow"><i>5</i>供应商资质证书详细信息</h2>
-												<ul class="ul_list count_flow">
+												<div class="ul_list">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
 															<tr>
@@ -433,13 +392,13 @@
 															</tr>
 														</c:forEach>
 													</table>
-												</ul>
+												</div>
 											</div>
 										</c:if>
 
 										<c:if test="${fn:contains(supplierTypeNames, '服务')}">
 											<div class="tab-pane <c:if test="${liCountSer==1}">active in</c:if> fade height-200" id="tab-4">
-												<ul class="ul_list count_flow">
+												<div class="ul_list">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
 															<tr>
@@ -476,8 +435,7 @@
 															</tr>
 														</c:forEach>
 													</table>
-												</ul>
-												
+												</div>
 											</div>
 										</c:if>		
 									</div>
@@ -502,10 +460,12 @@
 		<form id="form_back" action="" method="post">
 			<input name="judge" value="${judge}" type="hidden">
 			<c:if test="${sign!=1 and sign!=2 }">
-				<input name="address" value="${suppliers.address}" type="hidden">
+				<input name="address" id="address" value="${suppliers.address}" type="hidden">
 			</c:if>
 			<input name="sign" value="${sign}" type="hidden">
 		</form>
 	</body>
+	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/regex.js"></script>
 
 </html>

@@ -404,7 +404,7 @@ public class IntelligentScoringController extends BaseController{
 	  }
 	
 	@RequestMapping(value = "deleteScoreModel")
-	public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId) {
+	public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId, String flowDefineId) {
 	    //为2为顶级结点     1 为子节点
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 	    HashMap<String, Object> conditionMap = new HashMap<String, Object>();
@@ -432,7 +432,7 @@ public class IntelligentScoringController extends BaseController{
 	        map.put("id", id);
 	        markTermService.delMarkTermByid(map);
 	    }
-	    return "redirect:editPackageScore.html?projectId=" + projectId + "&packageId=" + packageId;
+	    return "redirect:editPackageScore.html?projectId=" + projectId + "&packageId=" + packageId + "&flowDefineId=" + flowDefineId;
 	}
 	
 	@RequestMapping(value = "saveScore")
@@ -563,16 +563,16 @@ public class IntelligentScoringController extends BaseController{
     	        if (packages != null) {
     	          model.addAttribute("packages", packages.get(0));
     	        }
-    	        HashMap<String, Object> map2 = new HashMap<String, Object>();
+    	        /*HashMap<String, Object> map2 = new HashMap<String, Object>();
     	        map2.put("kind", DictionaryDataUtil.getId("REVIEW_CHECK_ET"));
     	        //获取经济技术评审模版
-    	        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+    	        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);*/
     	        model.addAttribute("dds", dds);
     	        model.addAttribute("items1", items1);
     	        model.addAttribute("items2", items2);
     	        model.addAttribute("packageId", packageId);
     	        model.addAttribute("projectId", projectId);
-    	        model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+    	        /*model.addAttribute("firstAuditTemplats", firstAuditTemplats);*/
     	        model.addAttribute("flowDefineId", flowDefineId);
     	        Project project = projectService.selectById(projectId);
     	        model.addAttribute("flag", project.getConfirmFile());
@@ -592,12 +592,12 @@ public class IntelligentScoringController extends BaseController{
     	        if (packages != null && packages.size() > 0) {
     	          model.addAttribute("packages", packages.get(0));
     	        }
-    	        //获取经济技术审查模版
+    	       /* //获取经济技术审查模版
     	        HashMap<String, Object> map2 = new HashMap<String, Object>();
     	        map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
     	        //获取资格性和符合性审查模版
     	        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
-    	        model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+    	        model.addAttribute("firstAuditTemplats", firstAuditTemplats);*/
     	        model.addAttribute("packageId", packageId);
     	        model.addAttribute("projectId", projectId);
     	        model.addAttribute("flowDefineId", flowDefineId);
@@ -635,18 +635,19 @@ public class IntelligentScoringController extends BaseController{
               if (packages != null) {
                 model.addAttribute("packages", packages.get(0));
               }
-              HashMap<String, Object> map2 = new HashMap<String, Object>();
+              /*HashMap<String, Object> map2 = new HashMap<String, Object>();
               map2.put("kind", DictionaryDataUtil.getId("REVIEW_CHECK_ET"));
               //获取经济技术评审模版
-              List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+              List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);*/
               model.addAttribute("dds", dds);
               model.addAttribute("items1", items1);
               model.addAttribute("items2", items2);
               model.addAttribute("packageId", packageId);
               model.addAttribute("projectId", projectId);
-              model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+              /*model.addAttribute("firstAuditTemplats", firstAuditTemplats);*/
               Project project = projectService.selectById(projectId);
               model.addAttribute("flag", project.getConfirmFile());
+              model.addAttribute("isView", "1");
               return "bss/prms/score/edit_package_check";
             }
             if ("OPEN_ZHPFF".equals(methodCode)) {
@@ -664,18 +665,19 @@ public class IntelligentScoringController extends BaseController{
               if (packages != null && packages.size() > 0) {
                 model.addAttribute("packages", packages.get(0));
               }
-              //获取经济技术审查模版
+             /* //获取经济技术审查模版
               HashMap<String, Object> map2 = new HashMap<String, Object>();
               map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
               //获取资格性和符合性审查模版
               List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
-              model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+              model.addAttribute("firstAuditTemplats", firstAuditTemplats);*/
               Project project = projectService.selectById(projectId);
               model.addAttribute("project", project);
               model.addAttribute("packageId", packageId);
               model.addAttribute("projectId", projectId);
               model.addAttribute("ddList", ddList);
               model.addAttribute("str", str);
+              model.addAttribute("isView", "1");
               return "bss/prms/score/edit_package_qc";
             }
         }
@@ -971,7 +973,7 @@ public class IntelligentScoringController extends BaseController{
 	}
 	
 	@RequestMapping("operatorScoreModel")
-	public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request, String judgeModel){
+	public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request, String judgeModel, String flowDefineId){
 		String[] startParam = request.getParameterValues("pi.startParam");
 		String[] endParam = request.getParameterValues("pi.endParam");
 		String[] score = request.getParameterValues("pi.score");
@@ -1048,7 +1050,7 @@ public class IntelligentScoringController extends BaseController{
 				}
 			}
 		}
-		return "redirect:editPackageScore.html?projectId="+scoreModel.getProjectId()+"&packageId="+scoreModel.getPackageId();
+		return "redirect:editPackageScore.html?projectId="+scoreModel.getProjectId()+"&packageId="+scoreModel.getPackageId()+"&flowDefineId="+flowDefineId;
 	}
 	
 	public String getShowTable(String id, String name ,String projectId, String packageId) {
@@ -1392,7 +1394,7 @@ public class IntelligentScoringController extends BaseController{
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("gettreebody")
-	public String gettreebody(@ModelAttribute MarkTerm markTerm,Model model,HttpServletRequest request ,String addStatus) throws UnsupportedEncodingException {
+	public String gettreebody(@ModelAttribute MarkTerm markTerm,Model model,HttpServletRequest request ,String addStatus, String flowDefineId) throws UnsupportedEncodingException {
 		String packageId = request.getParameter("packageId");
 		ScoreModel scoreModel = new ScoreModel();
 		scoreModel.setName(URLDecoder.decode(markTerm.getName(), "UTF-8"));
@@ -1472,6 +1474,7 @@ public class IntelligentScoringController extends BaseController{
 		}
 		model.addAttribute("projectId", markTerm.getProjectId());
 		model.addAttribute("addStatus", addStatus);
+		model.addAttribute("flowDefineId", flowDefineId);
 		return "bss/ppms/open_bidding/treebody";
 	}
 	@RequestMapping("quantizateScore")

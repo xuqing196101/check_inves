@@ -813,12 +813,12 @@ session.setAttribute("tokenSession", tokenValue);
   <input type="hidden" id="categoryId" name="categoryId" value=""/>
   <input type="hidden"  name="token2" value="<%=tokenValue%>"/>
     <div id="reg_box_id_3" class="container clear margin-top-30 job-content">
-	  <h2 class="padding-20 mt40">
+	  <h2 class="step_flow">
 	    <span id="sp1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 	    <span id="sp2" class="new_step <c:if test="${expert.expertsTypeId != null}">current</c:if> fl"   onclick='tab2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
 	    <span id="sp3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl" onclick='tab3()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
 	    <span id="sp4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab4()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-	    <span id="sp5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+	    <span id="sp5" class="new_step new_step_last <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 	    <div class="clear"></div>
 	  </h2>
 	<div class="container container_box">
@@ -1077,12 +1077,12 @@ session.setAttribute("tokenSession", tokenValue);
 					</div>
 					  </div>
 		<div id="reg_box_id_4" class="container clear margin-top-30 yinc" style="display: none;">
-	  		<h2 class="padding-20 mt40">
+	  		<h2 class="step_flow">
 				<span id="ty1" class="new_step current fl"  onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 				<span id="ty2" class="new_step <c:if test="${expert.expertsTypeId != null}">current</c:if> fl"   onclick='tab2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
 				<span id="ty3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl" onclick='tab3()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
 				<span id="ty4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab4()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-				<span id="ty5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+				<span id="ty5" class="new_step new_step_last <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2>
 			<div class="container container_box">
@@ -1134,12 +1134,12 @@ session.setAttribute("tokenSession", tokenValue);
 		</div>
 		<!-- 项目戳开始 -->
 		<div id="reg_box_id_5" class="container clear margin-top-30 yinc" style="display: none;">
-		  		<h2 class="padding-20 mt40">
+		  		<h2 class="step_flow">
 					<span id="jg1" class="new_step current fl"  onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 					<span id="jg2" class="new_step <c:if test="${expert.expertsTypeId != null}">current</c:if> fl"   onclick='tab2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
 					<span id="jg3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl" onclick='tab3()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
 					<span id="jg4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab4()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-					<span id="jg5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+					<span id="jg5" class="new_step new_step_last <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2>
 			<div class="container container_box">
@@ -1188,12 +1188,12 @@ session.setAttribute("tokenSession", tokenValue);
 		</div>
 	  </div>
 	<div id="reg_box_id_6" class="container clear margin-top-30 yinc" style="display: none;">
-		  <h2 class="padding-20 mt40">
+		  <h2 class="step_flow">
 			<span id="dy1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 			<span id="dy2" class="new_step current fl" onclick='tab2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
 			<span id="dy3" class="new_step current fl" onclick='tab3()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
 			<span id="dy4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab4()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-			<span id="dy5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+			<span id="dy5" class="new_step new_step_last <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 			<div class="clear"></div>
 		  </h2>
 <div class="tab-content padding-top-20">
@@ -1367,12 +1367,12 @@ session.setAttribute("tokenSession", tokenValue);
 	    </div>
 	      </div>
 		<div id="reg_box_id_7" class="container clear margin-top-30 yinc" style="display: none;">
-		   <h2 class="padding-20 mt40">
+		   <h2 class="step_flow">
 			 <span id="sc1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 			 <span id="sc2" class="new_step current fl" onclick='tab2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
 			 <span id="sc3" class="new_step current fl" onclick='tab3()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
 			 <span id="sc4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab4()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-			 <span id="sc5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+			 <span id="sc5" class="new_step new_step_last <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 			 <div class="clear"></div>
 		  </h2>
 		<div class="tab-content padding-top-20">

@@ -1,11 +1,11 @@
 package ses.dao.ems;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import ses.model.bms.DictionaryData;
 import ses.model.ems.ExpertCategory;
 
 public interface ExpertCategoryMapper {
@@ -71,5 +71,16 @@ public interface ExpertCategoryMapper {
 	
 	List<ExpertCategory> getCategory(@Param("expertId")String expertId, @Param("categoryId")String categoryId,@Param("typeId")String typeId );
 	
+	/**
+	 * 
+	 * Description:根据TYPE_ID查询专家所属各类型数量：
+  	 * 1、物资技术  2、工程技术 3、服务技术 4、物资服务经济 5、工程经济
+	 * 
+	 * @author Easong
+	 * @version 2017年5月31日
+	 * @param typeId
+	 * @return
+	 */
+	BigDecimal selectExpertCountByCategory(@Param("typeId") String typeId);
 
 }

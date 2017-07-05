@@ -22,7 +22,7 @@
 			   <li><a href="javascript:void(0);">后台管理</a></li>
 			   <li class="active"><a href="javascript:void(0);">数据字典</a></li>
 			   <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/dictionaryData/dictionaryDataList.html')">数据字典管理</a></li>
-			   <li class="active"><a href="${pageContext.request.contextPath}/dictionaryData/add.do">增加数据字典</a></li>
+			   <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/dictionaryData/add.html')">增加数据字典</a></li>
 		   </ul>
 		   <div class="clear"></div>
 	   </div>

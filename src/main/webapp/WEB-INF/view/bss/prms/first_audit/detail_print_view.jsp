@@ -74,14 +74,14 @@
 				<form action="" method="post" class="mt50">
 				   <h4>评审人员：${extension.expert.relName}</h4>
 			   	   <div class="content table_box over_scroll">
-					   <table class="table table-bordered table-condensed table-hover space_nowrap" id="table2">
+					   <table class="table table-bordered table-condensed table-hover m_resize_table_width" id="table2">
 					   		<thead>
-					   		  <th class="info space_nowrap">资格性和符合性检查项</th>
+					   		  <th class="info space_nowrap" >资格性和符合性检查项</th>
 					   		  <c:set var="suppliers" value="0" />
 					   		  <c:forEach items="${extension.supplierList}" var="supplier" varStatus="vs">
 					   		  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
 						   		    <c:set var="suppliers" value="${suppliers+1}" />
-						   		    <th class="info">
+						   		    <th class="info" width="120">
 						   		      ${supplier.suppliers.supplierName }
 						   		    </th>
 					   		    </c:if>
@@ -118,5 +118,28 @@
 		   	</c:forEach>
 		</div> 
 	</div>
+	
+	<script type="text/javascript">
+		function resize_table_width() {
+	        $('.m_resize_table_width').each(function () {
+	            var table_width = 0;
+	            var parent_width = $(this).parent().width();
+	            $(this).find('thead th').each(function () {
+	            	if(typeof($(this).attr('width')) != 'undefined') {
+	            		table_width +=  parseInt($(this).attr('width'));
+		            }
+	            });
+	            if (table_width > parent_width) {
+		            $(this).css({
+		                width: table_width,
+		                maxWidth: table_width
+		            });
+	            }
+	        });
+	    }
+	    $(function () {
+	        resize_table_width();
+	    });
+	   	</script>
   </body>
 </html>

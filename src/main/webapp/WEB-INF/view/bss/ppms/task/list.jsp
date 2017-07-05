@@ -314,6 +314,7 @@
         $("#purchaseId").attr("value", "");
         //还原select下拉列表只需要这一句
         $("#status option:selected").removeAttr("selected");
+        $("#taskNature option:selected").removeAttr("selected");
       }
 
       /** 上传附件 */
@@ -350,7 +351,7 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
-            <a href="javascript:void(0)">首页</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
           </li>
           <li>
             <a href="javascript:void(0)">保障作业系统</a>
@@ -359,7 +360,7 @@
             <a href="javascript:void(0)">采购任务管理</a>
           </li>
           <li class="active">
-            <a href="javascript:void(0)">采购任务管理</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/task/list.html')">采购任务受领</a>
           </li>
         </ul>
         <div class="clear"></div>
@@ -443,8 +444,11 @@
             <tr class="pointer">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"></td>
               <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-              <td>
-                <a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.name}</a>
+              <td title="${obj.name}">
+                <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
+                <c:if test="${fn:length (obj.name) > 20}">${fn:substring(obj.name,0,19)}...</c:if>
+                <c:if test="${fn:length(obj.name) <= 20}">${obj.name}</c:if>
+                </a>
               </td>
               <td>
                 <a href="javascript:void(0)" onclick="viewd('${obj.id}');">

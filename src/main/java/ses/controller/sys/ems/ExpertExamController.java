@@ -411,7 +411,7 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestion.setQuestionTypeId(Integer.parseInt(queType));
 		examQuestion.setTopic(topic.trim());
 		examQuestion.setPersonType(1);
-		examQuestion.setKind(2);
+		examQuestion.setKind("2");
 		examQuestion.setCreatedAt(new Date());
 		examQuestion.setUpdatedAt(new Date());
 		examQuestion.setAnswer(sb.toString());
@@ -528,7 +528,7 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestion.setQuestionTypeId(Integer.parseInt(queType));
 		examQuestion.setTopic(topic.trim());
 		examQuestion.setPersonType(1);
-		examQuestion.setKind(0);
+		examQuestion.setKind("0");
 		examQuestion.setCreatedAt(new Date());
 		examQuestion.setUpdatedAt(new Date());
 		examQuestion.setAnswer(sb.toString());
@@ -646,7 +646,7 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestion.setQuestionTypeId(Integer.parseInt(queType));
 		examQuestion.setTopic(topic.trim());
 		examQuestion.setPersonType(1);
-		examQuestion.setKind(1);
+		examQuestion.setKind("1");
 		examQuestion.setCreatedAt(new Date());
 		examQuestion.setUpdatedAt(new Date());
 		examQuestion.setAnswer(sb.toString());
@@ -2254,7 +2254,7 @@ public class ExpertExamController extends BaseSupplierController{
 				Cell queAnswer = row.getCell(2);
 				ExamQuestion examQuestion = new ExamQuestion();
 				examQuestion.setPersonType(1);
-				examQuestion.setKind(0);
+				examQuestion.setKind("0");
 				StringBuffer sb_items = new StringBuffer();
 				String item = items[row.getPhysicalNumberOfCells()-3];
 				String[] opt = item.split(",");
@@ -2357,7 +2357,7 @@ public class ExpertExamController extends BaseSupplierController{
 				Cell queAnswer = row.getCell(2);
 				ExamQuestion examQuestion = new ExamQuestion();
 				examQuestion.setPersonType(1);
-				examQuestion.setKind(2);
+				examQuestion.setKind("2");
 				StringBuffer sb_items = new StringBuffer();
 				String item = items[row.getPhysicalNumberOfCells()-3];
 				String[] opt = item.split(",");
@@ -2465,7 +2465,7 @@ public class ExpertExamController extends BaseSupplierController{
 				Cell queAnswer = row.getCell(2);
 				ExamQuestion examQuestion = new ExamQuestion();
 				examQuestion.setPersonType(1);
-				examQuestion.setKind(1);
+				examQuestion.setKind("1");
 				StringBuffer sb_items = new StringBuffer();
 				String item = items[row.getPhysicalNumberOfCells()-3];
 				String[] opt = item.split(",");

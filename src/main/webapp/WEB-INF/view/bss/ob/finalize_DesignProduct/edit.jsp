@@ -189,21 +189,52 @@ $(document).ready(function(){
 	
 	/* 发布 */
 	function sub(i){
-	    var authType='${authType}'; 
-	    if(authType=='4'){
-		var id = $("#productId").val();
-		var code = $("#code").val();
-		var name = $("#name").val();
-		var procurementId = $("#orgId option:selected").val();
-		var category = $("#categorieId4").val();
-		var categoryLevel = $("#categoryLevel").val();
-		var standardModel = $("#standardModel").val();
-		var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
-		window.location.href = "${pageContext.request.contextPath}/product/edit.html?code="+code+"&&name="+name+"&&procurementId="+procurementId
-				+"&&category="+category+"&&standardModel="+standardModel+"&&qualityTechnicalStandard="+qualityTechnicalStandard+"&&i="+i+"&&id="+id+"&&categoryLevel="+categoryLevel;
-	  }else{
-	  layer.msg("只有资源服务中心才能操作");
-	}
+    var authType='${authType}'; 
+    if(authType=='4'){
+			var id = $("#productId").val();
+			var code = $("#code").val();
+			var name = $("#name").val();
+			var procurementId = $("#orgId option:selected").val();
+			var category = $("#categorieId4").val();
+			var categoryLevel = $("#categoryLevel").val();
+			var standardModel = $("#standardModel").val();
+			var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
+			if(standardModel.length > 1000){
+				$("#errStandardModel").html("不能超过1000个字");
+				return;
+			}
+			if(qualityTechnicalStandard.length > 1000){
+				$("#errQualityTechnicalStandard").html("不能超过1000个字");
+				return;
+			}
+			$.ajax({
+				url: "${pageContext.request.contextPath }/product/edit.do",
+				type: "post",
+				data: {
+					code:code,
+					name:name,
+					procurementId:procurementId,
+					category:category,
+					standardModel:standardModel,
+					qualityTechnicalStandard:qualityTechnicalStandard,
+					i:i,
+					id:id,
+					categoryLevel:categoryLevel
+				},
+				success: function(data) {
+					if(data == 'success'){
+						window.location.href = "${pageContext.request.contextPath }/product/list.html";
+					}else{
+						
+					}
+				},
+				error: function() {
+					
+				}
+			});
+		  }else{
+		  layer.msg("只有资源服务中心才能操作");
+		}
 	}
 </script>
 </head>
@@ -212,10 +243,12 @@ $(document).ready(function(){
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a href="javascript:void(0)"> 首页</a></li>
+				<li>
+					<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+				</li>
 				<li><a href="javascript:void(0)">保障作业</a></li>
-				<li><a href="javascript:void(0)">定型产品竞价</a></li>
-				<li class="active"><a href="javascript:void(0)">定型产品管理</a></li>
+				<li><a href="javascript:void(0)">网上竞价</a></li>
+				<li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/product/list.html')">定型产品管理</a></li>
 				<li class="active"><a href="javascript:void(0)">修改产品信息</a></li>
 			</ul>
 			<div class="clear"></div>
@@ -275,7 +308,7 @@ $(document).ready(function(){
 									<textarea id="standardModel" name=""
 										class="col-md-12 col-sm-12 col-xs-12" style="height: 130px">${obProduct.standardModel }</textarea>
 								</div>
-								<div class="star_red">${error_standardModel }</div>
+								<div class="star_red" id = "errStandardModel">${error_standardModel }</div>
 							</td>
 						</tr>
 						<tr>
@@ -285,7 +318,7 @@ $(document).ready(function(){
 									<textarea id="qualityTechnicalStandard" name=""
 										class="col-md-12 col-sm-12 col-xs-12" style="height: 130px">${obProduct.qualityTechnicalStandard }</textarea>
 								</div>
-								<div class="star_red">${error_quality }</div>
+								<div class="star_red" id="errQualityTechnicalStandard">${error_quality }</div>
 							</td>
 						</tr>
 					</tbody>
@@ -293,7 +326,7 @@ $(document).ready(function(){
 			</div>
 			<div class="col-md-12 clear tc mt10">
 				<button class="btn btn-windows save" type="button" onclick="sub(1)">暂存</button>
-				<button class="btn btn-windows apply" type="button" onclick="sub(2)">发布</button>
+				<button class="btn btn-windows apply" type="button" onclick="sub(4)">添加</button>
 				<button class="btn btn-windows back" type="button"
 					onclick="window.location.href = '${pageContext.request.contextPath}/product/list.html'">返回</button>
 			</div>

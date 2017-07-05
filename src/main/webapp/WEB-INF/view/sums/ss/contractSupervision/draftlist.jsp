@@ -61,7 +61,7 @@
   	}
   	
   	function onclickDetail(id){
-  		location.href="${pageContext.request.contextPath }/contractSupervision/contSupervision.html?id="+id;
+        jumppage("${pageContext.request.contextPath }/contractSupervision/contSupervision.html?id="+id);
   	}
 	function openFile(id){
 		location.href="${pageContext.request.contextPath }/contractSupervision/filePage.html?id="+id;
@@ -74,8 +74,11 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0);"> 首页</a></li><li><a href="javascript:void(0);">业务监管系统</a></li><li><a href="javascript:void(0);">采购业务监督</a></li><li><a href="javascript:void(0);">采购合同监督</a></li>
-		   </ul>
+               <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+               <li><a href="javascript:void(0);">业务监管系统</a></li>
+               <li><a href="javascript:void(0);">采购业务监督</a></li>
+               <li><a href="javascript:jumppage('${pageContext.request.contextPath}/contractSupervision/list.html');">采购合同监督</a></li>
+           </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -87,6 +90,7 @@
 <!-- 项目戳开始 -->
     <form id="form1" action="${pageContext.request.contextPath}/contractSupervision/list.html" method="post">
     <input type="hidden" value="" name="page" id="page"/>
+    <input type="hidden" value="${ purCon.purchaseDepShortName }" name="purchaseDepShortName" />
      <div class="search_detail">
     	<ul class="demand_list">
           <li class="fl"><label class="fl">采购项目：</label><span><input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="mb0 mt5 w200"/></span></li>

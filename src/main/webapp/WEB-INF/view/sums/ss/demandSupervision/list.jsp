@@ -39,21 +39,25 @@
       });
 
       //重置
-      function resetResult() {
-        $("#name").val("");
-        $("#archiveCode").val("");
-        $("#contractCode").val("");
+      /* function resetResult() {
+        $("#planName").val("");
+        $("#planNo").val("");
+        $("#createdAt").val("");
         //$("#planCode").val("");
         var status = document.getElementById("status").options;
         status[0].selected = true;
-      }
+      } */
       //查看
       function view(id) {
         window.location.href = "${pageContext.request.contextPath}/supervision/demandSupervisionView.html?id=" + id;
+          jumppage("${pageContext.request.contextPath}/supervision/demandSupervisionView.html?id=" + id);
       }
 
       function resetQuery() {
-        $("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        /* $("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected"); */
+        $("#planName").attr("value", "");
+        $("#planNo").attr("value", "");
+        $("#createdAt").attr("value", "");
       }
     </script>
   </head>
@@ -63,7 +67,7 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
-            <a href="javascript:void(0);">首页</a>
+              <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
           </li>
           <li>
             <a href="javascript:void(0);">业务监管</a>
@@ -72,7 +76,7 @@
             <a href="javascript:void(0);">采购业务监督</a>
           </li>
           <li>
-            <a href="javascript:void(0);">采购需求监督</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/supervision/demandSupervisionList.html');">采购需求监督</a>
           </li>
         </ul>
         <div class="clear"></div>
@@ -82,21 +86,21 @@
       <div class="headline-v2">
         <h2>采购需求列表</h2>
       </div>
-      <h2 class="search_detail">
+      <div class="search_detail">
       <form id="add_form" action="${pageContext.request.contextPath }/supervision/demandSupervisionList.html" class="mb0" method="post" >
         <input type="hidden" name="page" id="page">
         <ul class="demand_list">
           <li>
             <label class="fl">采购需求名称：</label>
-            <span><input type="text" name="planName" value="${purchaseRequired.planName }" /></span>
+            <span><input type="text" name="planName" id="planName" value="${purchaseRequired.planName }" /></span>
            </li>
            <li>
              <label class="fl">采购需求编号：</label>
-             <span><input  type="text" name="planNo" value="${purchaseRequired.planNo }" /> </span>
+             <span><input  type="text" name="planNo" id="planNo" value="${purchaseRequired.planNo }" /> </span>
            </li>
            <li>
              <label class="fl">需求填报日期：</label>
-             <span><input style="width: 120px;" class="span2 Wdate w220"  value='<fmt:formatDate value="${purchaseRequired.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> </span>
+             <span><input style="width: 120px;" id="createdAt" class="span2 Wdate w220"  value='<fmt:formatDate value="${purchaseRequired.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> </span>
            </li>
            <li>
              <label class="fl">状态：</label>
@@ -110,11 +114,11 @@
          </ul>
          <div class="col-md-12 clear tc mt10">
            <input class="btn" type="submit" value="查询" /> 
-           <input class="btn" type="button" value="重置" onclick="resetQuery()" /> 
+           <input class="btn" type="reset" value="重置" onclick="resetQuery()" /> 
          </div>
          <div class="clear"></div>
        </form>
-     </h2>
+     </div>
 
       <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover">
@@ -125,7 +129,7 @@
               <th width="15%">采购需求文号</th>
               <th width="15%">需求单位</th>
               <th width="13%">预算总金额（万元）</th>
-              <th class="info" width="10%">编制时间</th>
+              <th class="info" width="12%">编制时间</th>
               <th>填报人</th>
               <!-- <th>状态</th> -->
             </tr>

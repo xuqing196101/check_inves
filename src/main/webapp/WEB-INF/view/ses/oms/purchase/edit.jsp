@@ -191,7 +191,7 @@ function onCheck(e, treeId, treeNode) {
 	  <input type="hidden" name = "typeName" value="1">
 	  <div>
 	    <h2 class="count_flow"><i>1</i>基本信息</h2>
-		  <ul class="ul_list">
+		  <ul class="ul_list m_ul_list">
 			<li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
 			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>用户名</span>
 			  <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
@@ -269,7 +269,7 @@ function onCheck(e, treeId, treeNode) {
 		
 		<div class="padding-top-10 clear">
 		  <h2 class="count_flow"><i>2</i>专业信息</h2>
-		  <ul class="ul_list">
+		  <ul class="ul_list m_ul_list">
 			<li class="col-md-3 col-sm-6 col-xs-12 pl15">  
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">学历</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -304,7 +304,7 @@ function onCheck(e, treeId, treeNode) {
 		
 		<div class="padding-top-10 clear">
 		  <h2 class="count_flow"><i>3</i>资质信息</h2>
-		  <ul class="ul_list">
+		  <ul class="ul_list m_ul_list">
 			<li class="col-md-3 col-sm-6 col-xs-12 pl15">  
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">资质编号</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -360,7 +360,7 @@ function onCheck(e, treeId, treeNode) {
 		
 		<div class="padding-top-10 clear">
 		  <h2 class="count_flow"><i>4</i>个人信息</h2>
-			<ul class="ul_list">
+			<ul class="ul_list m_ul_list">
 			  <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
 				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>姓名</span>
 				<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">

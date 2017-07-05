@@ -798,10 +798,10 @@
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a href="javascript:void(0);"> 首页</a></li>
+				<li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
 				<li><a href="javascript:void(0);">保障作业系统</a></li>
 				<li><a href="javascript:void(0);">采购计划管理</a></li>
-				<li class="active"><a href="javascript:void(0);">采购需求编报</a></li>
+				<li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/purchaser/list.html');">采购需求编报</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -837,7 +837,7 @@
 
 
 				<li class="col-md-3 col-sm-6 col-xs-12"><span
-					class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
+					class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>类别</span>
 					<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 						<select name="planType" id="wtype" onchange="gtype(this)">
 							<c:forEach items="${types }" var="tp">

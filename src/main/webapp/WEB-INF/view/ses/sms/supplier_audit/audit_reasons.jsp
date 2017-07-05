@@ -9,13 +9,13 @@
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">
+	<%-- <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script> --%>
     <script type="text/javascript">
       //只读
-      $(function() {
-        $(":input").each(function() {
+       $(function() {
+       /*$(":input").each(function() {
         $(this).attr("readonly", "readonly");
-      });
-        
+      }); */
        //审核按钮
        var num = ${num};
        if(num == 0){
@@ -28,7 +28,10 @@
          $("#hege").attr("disabled", true);
          };
        });
-
+       
+       function trim(str) { //删除左右两端的空格
+            return str.replace(/(^\s*)|(\s*$)/g, "");
+        }
 	   /* function tijiao(status){
 	     $("#supplierStatus").val(status);
 		 form1.submit();
@@ -44,7 +47,7 @@
 	   //审核
 	   function shenhe(status){
 	   			var supplierId = $("input[name='supplierId']").val();
-	   			if(status == 3){
+	   			/* if(status == 3){
 	   				//询问框
 						layer.confirm('您确认吗？', {
 							closeBtn: 0,
@@ -69,21 +72,34 @@
 								});
 							});
 						});
-	   			}else{
+	   			}else{ */
 		   			//询问框
-						layer.confirm('您确认吗？', {
-							closeBtn: 0,
-							offset: '100px',
-							shift: 4,
-						  btn: ['确认','取消']
-						}, function(){
-							//提交审核
-						  $("#status").val(status);
-		   				$("#status").val(status);
-							$("#form_shen").submit();
-						});
+            var opinion = document.getElementById('opinion').value;
+            opinion = trim(opinion);
+		   			if (opinion != null && opinion != "") {
+              if (opinion.length <= 200) {
+                layer.confirm('您确认吗？', {
+		              closeBtn: 0,
+		              offset: '100px',
+		              shift: 4,
+		              btn: ['确认','取消']
+		            }, function(){
+		              //最终意见
+		               $("input[name='opinion']").val(opinion);
+	                //提交审核
+	                $("#status").val(status);
+	                $("#status").val(status);
+	                $("#form_shen").submit();
+		            });
+              } else {
+                layer.msg("不能超过200字", {offset: '100px'});
+              }
+             } else {
+	             layer.msg("请填写最终意见", {offset: '100px'});
+	             return;
+             }
 	   			};
-				}
+				/* } */
 			
 		/** 全选全不选 */
 	    function selectAll(){
@@ -136,7 +152,7 @@
 	        }
     </script>
     <script type="text/javascript">
-			function jump(str){
+			 function jump(str){
 			  var action;
 			  if(str=="essential"){
 			     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -180,39 +196,43 @@
 			   }
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
-			}
+			} 
 		</script>
   </head>
 
   <body>
-		<!--面包屑导航开始-->
-		<div class="margin-top-10 breadcrumbs ">
-		  <div class="container">
-		    <ul class="breadcrumb margin-left-0">
-					<li>
-						<a> 首页</a>
-					</li>
-					<li>
-						<a>支撑环境</a>
-					</li>
-					<li>
-						<a>供应商管理</a>
-					</li>
-					<li>
-						<c:if test="${sign == 1}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1" >供应商审核</a>
-						</c:if>
-						<c:if test="${sign == 2}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2">供应商复核</a>
-						</c:if>
-						<c:if test="${sign == 3}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3">供应商实地考察</a>
-						</c:if>
-					</li>
-				</ul>
-		  </div>
-		</div> 
-    <div class="container container_box">
+  <!--面包屑导航开始-->
+  <div class="margin-top-10 breadcrumbs ">
+	  <div class="container">
+		  <ul class="breadcrumb margin-left-0">
+			  <li>
+				  <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			  </li>
+			  <li>
+				  <a>支撑环境</a>
+			  </li>
+			  <li>
+				  <a>供应商管理</a>
+			  </li>
+			  <c:if test="${sign == 1}">
+				  <li>
+					  <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1')">供应商审核</a>
+				  </li>
+			  </c:if>
+			  <c:if test="${sign == 2}">
+				  <li>
+					  <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2')">供应商复核</a>
+				  </li>
+			  </c:if>
+			  <c:if test="${sign == 3}">
+				  <li>
+					  <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3')">供应商实地考察</a>
+				  </li>
+			  </c:if>
+		  </ul>
+	  </div>
+  </div>
+  <div class="container container_box">
       <div class="content">
         <div class="col-md-12 tab-v2 job-content">
 	          <ul class="flow_step">
@@ -260,7 +280,7 @@
 		          <!-- <li onclick = "jump('items')">
 	            	<a aria-expanded="false" href="#tab-4" >产品类别</a>
 	            	<i></i>
-	          	</li> -->
+	          	</li>  -->
 	          	<li onclick="jump('aptitude')">
 								<a aria-expanded="false">资质文件维护</a>
 								<i></i>
@@ -268,7 +288,11 @@
 		          <li onclick = "jump('contract')" >
 		            <a aria-expanded="false" href="#tab-4">销售合同</a>
 		             <i></i>
-		          </li>    
+		          </li>   
+		          <!--  <li onclick="jump('aptitude')">
+                            <a aria-expanded="false" href="#tab-4">产品类别及资质合同</a>
+                            <i></i>
+                        </li> --> 
 		          <li onclick = "jump('applicationForm')" >
 		            <a aria-expanded="false" href="#tab-4" >承诺书和申请表</a>
 		            <i></i>
@@ -287,9 +311,8 @@
           <c:if test="${supplierStatus == 3 }">
              <h2 class="count_flow"><i>1</i>问题汇总</h2>
           </c:if>
-          
+           <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
           <div class="ul_list count_flow">
-
             <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
             <table class="table table-bordered table-condensed table-hover">
              <thead>
@@ -351,11 +374,22 @@
 		          </li>
 	          </ul>
 	        </c:if> --%>
+	        
+	        <h2 class="count_flow"><i>2</i>最终意见</h2>
+          <ul class="ul_list">
+              <li class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="col-md-12 col-sm-12 col-xs-12 p0">
+                      <textarea id="opinion" class="col-md-12 col-xs-12 col-sm-12 h80"></textarea>
+                  </div>
+              </li>
+          </ul>
+          
 	        <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc mt20">
 	         <a class="btn"  type="button" onclick="lastStep();">上一步</a>
 	          <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
 	            <input name="supplierId" value="${supplierId}" type="hidden">
 	            <input name="status" id="status" type="hidden">
+	            <input name="opinion" type="hidden">
 	            <input name="id" type="hidden">
 	            <div class="margin-bottom-0  categories">
 	              <div class="col-md-12 add_regist tc">

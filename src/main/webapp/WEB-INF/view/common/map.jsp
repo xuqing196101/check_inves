@@ -6,3 +6,4 @@
 <script src="${pageContext.request.contextPath}/public/highmap/js/modules/drilldown.js"></script>
 <script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
 <script src="${pageContext.request.contextPath}/public/highmap/js/cn-china-by-peng8.js"></script>
+<script src="${pageContext.request.contextPath}/public/echarts/china.js"></script>

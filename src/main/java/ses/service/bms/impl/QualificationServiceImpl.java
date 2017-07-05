@@ -1,5 +1,7 @@
 package ses.service.bms.impl;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -7,13 +9,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
 import common.constant.StaticVariables;
 import ses.dao.bms.QualificationMapper;
+import ses.model.bms.CategoryQua;
 import ses.model.bms.Qualification;
 import ses.service.bms.QualificationService;
 import ses.util.PropUtil;
+import synchro.service.SynchRecordService;
+import synchro.util.Constant;
+import synchro.util.FileUtils;
 
 /**
  * 
@@ -31,6 +38,11 @@ public class QualificationServiceImpl implements QualificationService {
     /** 资质Mapper **/
     @Autowired
     private QualificationMapper mapper;
+    /**
+     * 同步service
+     */
+    @Autowired
+    private SynchRecordService recordService;
     
     /**
      * 
@@ -148,5 +160,61 @@ public class QualificationServiceImpl implements QualificationService {
         }
         return flag;
     }
-
+	/**
+	 * 实现导出目录资质关联表录 根据时间范围
+	 */
+	@Override
+	public boolean exportQualification(String start, String end, Date synchDate) {
+		//根据时间获取创建 数据范围
+		List<Qualification> createList=mapper.selectByCreatedAt(start, end);
+		List<Qualification> updateList=mapper.selectByUpdatedAt(start, end);
+		List<Qualification> list=new ArrayList<>();
+		if(createList!=null  && createList.size()>0){
+			list.addAll(createList);
+		}
+		if(updateList!=null  && updateList.size()>0){
+			list.addAll(updateList);
+		  }
+		if(list!=null  && !list.isEmpty()){
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_QUALIFICATION, 22),JSON.toJSONString(list));
+		}
+	    if(list!=null){
+	    	recordService.synchBidding(synchDate, String.valueOf(list.size()), synchro.util.Constant.DATA_SYNCH_QUALIFICATION, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.IMPORT_COMMIT_SYNCH_QUALIFICATION);
+	    }
+		return false;
+	}
+	/**
+	 * 导入目录资质关联表录数据 
+	 */
+	private boolean importDate(File file) {
+		List<Qualification> list = FileUtils.getBeans(file, Qualification.class); 
+		 if(list!=null  && !list.isEmpty()){
+			 for(Qualification category:list){
+			 Integer isExist=mapper.countByPrimaryKey(category.getId());
+			  if(isExist!=null && isExist >0){
+				  mapper.update(category);
+			  }else{
+				  mapper.insertSelective(category);
+			  }
+			 }
+			 recordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.DATA_SYNCH_QUALIFICATION, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.EXPORT_COMMIT_SYNCH_QUALIFICATION);
+		 }
+		return false;
+	}
+	/**
+	 * 导入目录资质关联表录数据 
+	 */
+	@Override
+	public boolean importQualification(String synchType,File file) {
+		if(synchType.contains(Constant.DATA_SYNCH_QUALIFICATION)){
+			if (Constant.FILE_SYNCH_QUALIFICATION_PATH.equals(file.getName())) {
+				for (File file2 : file.listFiles()) {
+					if (file2.getName().contains(FileUtils.C_SYNCH_QUALIFICATION)) {
+						importDate(file2);
+					}
+				}
+			}
+		}
+		return false;
+	}
 }

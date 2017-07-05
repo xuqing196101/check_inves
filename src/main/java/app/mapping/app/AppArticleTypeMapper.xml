@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.dao.app.AppArticleTypeMapper">
+
+  <resultMap id="AppArticleTypeMapper" type="iss.model.ps.ArticleType">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+  </resultMap>
+  
+  <!-- app查询栏目类型 -->
+  <select id="selectTypeApp" parameterType="Object" resultMap="AppArticleTypeMapper">
+    SELECT ID,NAME
+    FROM T_ISS_PS_ARTICLE_TYPE
+    WHERE ID = #{id}
+  </select>
+
+</mapper>

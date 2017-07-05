@@ -151,4 +151,16 @@ public interface ExpertAuditMapper {
      * @return Integer
      */
     Integer findByObj (ExpertAudit expertAudit);
+    
+    
+    /**
+     * 
+    * @Title: insertActive
+    * @Description:无ID返回插入
+    * author: Li Xiaoxiao 
+    * @param @param expertAudit     
+    * @return void     
+    * @throws
+     */
+    void insertActive(ExpertAudit expertAudit);
 }

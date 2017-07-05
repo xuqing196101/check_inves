@@ -123,6 +123,8 @@
           ids.push($(this).val());
         });
         chkItems = $.trim(chkItems);
+        name = $.trim(name);
+        projectNumber = $.trim(projectNumber);
         if(flag == false){
           //$("#sps").html("项目编号已存在").css('color', 'red');
           $("#projectNumber").focus();
@@ -186,13 +188,16 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
-            <a href="javascript:void(0)">首页</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
           </li>
           <li>
             <a href="javascript:void(0)">保障作业系统</a>
           </li>
           <li>
             <a href="javascript:void(0)">采购项目管理</a>
+          </li>
+          <li>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/project/listProject.html')">立项管理</a>
           </li>
           <li class="active">
             <a href="javascript:void(0)">新建采购项目</a>

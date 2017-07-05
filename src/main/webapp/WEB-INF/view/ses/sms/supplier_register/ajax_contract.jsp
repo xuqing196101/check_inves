@@ -78,6 +78,7 @@ $(function() {
   <div class="col-xs-12 col-sm-12 col-md-12 p0 over_auto mb20">
 	<h2 class="f16  ">
       	<font color="red">*</font> 上传<c:if test="${supplierTypeId eq 'PRODUCT'}">物资-生产型</c:if><c:if test="${supplierTypeId eq 'SALES'}">物资-销售型</c:if><c:if test="${supplierTypeId eq 'PROJECT'}">工程</c:if><c:if test="${supplierTypeId eq 'SERVICE'}">服务</c:if>合同信息
+      	<div class="red">注：合同一律不得上传涉军涉密合同和对账单，仅有涉军涉密合同和对账单的，上传情况说明（<a href="${pageContext.request.contextPath}/supplier/download_report.html"> 下载模板</a>），将合同电子版以光盘送采购机构。</div>
 	</h2>
     <form id="formSearch" action="${pageContext.request.contextPath}/supplier/ajaxContract.html">
       <input type="hidden" name="pageNum" id="pageNum">
@@ -91,10 +92,10 @@ $(function() {
         </tr>
         <tr>
           <c:forEach items="${years}" var="year">
-            <td class="info tc">${year}</td>
+            <td class="info tc">${year}年度</td>
           </c:forEach>
           <c:forEach items="${years}" var="year">
-            <td class="info tc">${year}</td>
+            <td class="info tc">${year}年度</td>
           </c:forEach>
         </tr>
       <c:forEach items="${contract}" var="obj" varStatus="vs">
@@ -102,39 +103,81 @@ $(function() {
           <td class="tl pl20" <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>${obj.name }</td>
           <td <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
             <div class="w130 fl">
-	        	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-1}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
-	       	 	<u:show showId="${fileShow}${(vs.index + 1)*6-1}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
+            <c:choose>
+            	<c:when test="${currSupplier.status==2 && !fn:contains(audit,obj.id)}">
+            		<u:show showId="${fileShow}${(vs.index + 1)*6-1}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
+            	</c:when>
+            	<c:otherwise>
+            		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-1}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
+	       	 			<u:show showId="${fileShow}${(vs.index + 1)*6-1}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
+            	</c:otherwise>
+            </c:choose>
 		    </div>
 		  </td>
 		  <td <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
 		  	<div class="w130 fl">
-		   		 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-2}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
-		  		 <u:show showId="${fileShow}${(vs.index + 1)*6-2}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
-	     	</div>
-	      </td>
+		  		<c:choose>
+           	<c:when test="${currSupplier.status==2 && !fn:contains(audit,obj.id)}">
+           		<u:show showId="${fileShow}${(vs.index + 1)*6-2}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
+           	</c:when>
+           	<c:otherwise>
+           		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-2}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
+		  		 		<u:show showId="${fileShow}${(vs.index + 1)*6-2}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
+           	</c:otherwise>
+          </c:choose>
+     		</div>
+      </td>
 		  <td <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
 		  	<div class="w130 fl">
-				<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-3}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
-				<u:show showId="${fileShow}${(vs.index + 1)*6-3}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
+		  		<c:choose>
+	         	<c:when test="${currSupplier.status==2 && !fn:contains(audit,obj.id)}">
+	         		<u:show showId="${fileShow}${(vs.index + 1)*6-3}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
+	         	</c:when>
+	         	<c:otherwise>
+	         		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-3}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-3}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
+         		</c:otherwise>
+        	</c:choose>
 		    </div>
 		  </td>
 		  <td <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>> 
 			<div class="w130 fl">
-				<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-4}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
-				<u:show showId="${fileShow}${(vs.index + 1)*6-4}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
-		    </div>
+				<c:choose>
+         	<c:when test="${currSupplier.status==2 && !fn:contains(audit,obj.id)}">
+         		<u:show showId="${fileShow}${(vs.index + 1)*6-4}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
+         	</c:when>
+         	<c:otherwise>
+         		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-4}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
+						<u:show showId="${fileShow}${(vs.index + 1)*6-4}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
+       		</c:otherwise>
+       	</c:choose>
+		  </div>
 		  </td>
 		  <td <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
 			<div class="w130 fl">
-				<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-5}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
-				<u:show showId="${fileShow}${(vs.index + 1)*6-5}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
-		    </div>
+				<c:choose>
+         	<c:when test="${currSupplier.status==2 && !fn:contains(audit,obj.id)}">
+         		<u:show showId="${fileShow}${(vs.index + 1)*6-5}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
+         	</c:when>
+         	<c:otherwise>
+         		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-5}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
+						<u:show showId="${fileShow}${(vs.index + 1)*6-5}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
+       		</c:otherwise>
+       	</c:choose>
+		  </div>
 		  </td>
 		  <td <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
 			<div class="w130 fl">
-				<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-6}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
-				<u:show showId="${fileShow}${(vs.index + 1)*6-6}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
-		    </div>
+				<c:choose>
+         	<c:when test="${currSupplier.status==2 && !fn:contains(audit,obj.id)}">
+         		<u:show showId="${fileShow}${(vs.index + 1)*6-6}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
+         	</c:when>
+         	<c:otherwise>
+         		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-6}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
+						<u:show showId="${fileShow}${(vs.index + 1)*6-6}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
+       		</c:otherwise>
+       	</c:choose>
+	    </div>
 		  </td>
 	    </tr>
       </c:forEach>

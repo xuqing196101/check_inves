@@ -113,4 +113,15 @@ public interface AreaServiceI {
 	 * @return: List<Area>
 	 */
 	List<Area> findAreaByParentId(String id);
+	
+	/**
+	 * 
+	 * Description: 通过省名称模糊查询地区ID
+	 * 
+	 * @author Easong
+	 * @version 2017年6月1日
+	 * @param name
+	 * @return
+	 */
+	String selectByName(String name);
 }

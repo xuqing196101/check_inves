@@ -63,7 +63,7 @@
 	<select id="">
 		<include refid="Base_Column_List" />
 		from T_SES_BMS_ENG_CATEGORY
-		where NAME like '%'||#{name}||'%'
+		where NAME like CONCAT(CONCAT('%', #{name}), '%')
 	</select>
 
 	<!-- 根据pid生成列表 -->
@@ -113,7 +113,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from T_SES_BMS_ENG_CATEGORY
-		where IS_DELETED=0 and NAME like '%'||#{name}||'%'
+		where IS_DELETED=0 and NAME like CONCAT(CONCAT('%', #{name}), '%')
 
 	</select>
 	<!-- 根据产品名称和参数状态查询 -->
@@ -121,7 +121,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from T_SES_BMS_ENG_CATEGORY
-		where IS_DELETED=0 and  NAME like '%'||#{name}||'%'
+		where IS_DELETED=0 and  NAME like CONCAT(CONCAT('%', #{name}), '%')
 		AND
 		PARAM_STATUS = '3'
 	</select>
@@ -363,7 +363,7 @@
 		resultMap="CateMap">
 		select * from T_SES_BMS_ENG_CATEGORY where IS_DELETED=0
 		<if test="kind!=null and kind != ''">
-			and KIND like #{kind}
+			and KIND like CONCAT(CONCAT('%', #{kind}), '%')
 		</if>
 		<if test="parentId!=null and parentId != ''">
 			and PARENT_ID = #{parentId}
@@ -445,7 +445,7 @@
 				and PARENT_ID= #{parentId}
 			</if>
 			
-		</where>
+		</where> 
 	</select>
 	
 	<!-- 根据主键id查询 -->
@@ -463,10 +463,10 @@
 		FROM T_SES_BMS_ENG_CATEGORY
 		WHERE 1 = 1
 		<if test="param1 != null">
-			AND NAME like '%${param1}%'
+			AND NAME like  CONCAT(CONCAT('%', #{param1}), '%')
 		</if> 
 		<if test="param2 != null">
-			AND CODE like '%${param2}%'
+			AND CODE like  CONCAT(CONCAT('%', #{param2}), '%')
 		</if> 
 	</select>
 </mapper>

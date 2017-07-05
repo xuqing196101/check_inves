@@ -130,16 +130,16 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
-            <a href="javascript:void(0);">首页</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
           </li>
           <li>
-            <a href="">保障作业</a>
+            <a href="javascript:void(0)">保障作业</a>
           </li>
           <li>
-            <a href="">采购项目管理</a>
+            <a href="javascript:void(0)">采购项目管理</a>
           </li>
           <li>
-            <a href="">采购项目实施</a>
+            <a href="javascript:void(0)">采购项目实施</a>
           </li>
         </ul>
       </div>
@@ -156,25 +156,25 @@
                 <!-- 已执行 -->
                 <c:if test="${fd.status == 1}">
                   <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active "</c:if>>
-                <a class="executed son-menu">${fd.name }</a>
+                <a class="executed son-menu" id='${fd.id}_exe'>${fd.name }</a>
                 </li>
                 </c:if>
                 <!-- 执行中 -->
                 <c:if test="${fd.status == 2}">
                   <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active "</c:if>>
-                <a class="son-menu">${fd.name }</a>
+                <a class="son-menu" id='${fd.id}_exe'>${fd.name }</a>
                 </li>
                 </c:if>
                 <!-- 环节结束，不可在操作 -->
                 <c:if test="${fd.status == 3}">
                   <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
-                <a class="executed son-menu ">${fd.name }</a>
+                <a class="executed son-menu " id='${fd.id}_exe'>${fd.name }</a>
                 </li>
                 </c:if>
                 <!-- 未执行 -->
                 <c:if test="${fd.status == 0}">
                   <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
-                <a class="son-menu">${fd.name }</a>
+                <a class="son-menu" id='${fd.id}_exe'>${fd.name }</a>
                 </li>
                 </c:if>
               </c:forEach>

@@ -31,7 +31,7 @@
   		and ARTICLE_ID = #{articleId}
   	</if>
   	<if test="userName!=null and userName!=''">
-  		and USER_NAME like '%'||#{userName}||'%'
+  		and USER_NAME like CONCAT(CONCAT('%', #{userName}), '%')
   	</if>
   </select>
   
@@ -54,7 +54,7 @@
 					 	and ARTICLE_ID = #{articleId}
 					</if>
 					<if test="userName!=null and userName!=''">
-						and USER_NAME like '%'||#{userName}||'%'
+						and USER_NAME like CONCAT(CONCAT('%', #{userName}), '%')
 					</if>
 					order by UPDATED_AT desc
 				) t
@@ -70,7 +70,7 @@
   	from T_ISS_PS_DOWNLOAD_INFO where
   	   ARTICLE_ID = #{article.id}
   	  <if test="userName != null">
-       and USER_NAME like '%'||#{userName}||'%'
+       and USER_NAME like CONCAT(CONCAT('%', #{userName}), '%')
       </if>
   </select>
   
