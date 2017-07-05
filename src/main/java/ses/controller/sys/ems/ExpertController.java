@@ -2993,6 +2993,9 @@ public class ExpertController extends BaseController {
             }
         }
         supplier.setAllTreeList(allTreeList);
+        
+        // 处理财务信息
+        supplierService.initFinance(supplier);
     }
 
     /**

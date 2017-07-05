@@ -21,21 +21,6 @@
 			}
 
 			function chongzhi() {
-				$("#supplierName").val('');
-				/* $("#loginName").val(''); */
-				$("#startDate").val('');
-				$("#endDate").val('');
-				$("#contactName").val('');
-				$("option")[0].selected = true;
-				$("option")[7].selected = true;
-				$("#category").val('');
-				$("#supplierType").val('');
-				$("#categoryIds").val('');
-				$("#supplierTypeIds").val('');
-				$("#isProvisional").val('');
-				$("#creditCode").val('');
-				$("#orgName").val('');
-				$("#businessNature option:selected").removeAttr("selected");
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html";
 			}
 			$(function() {
@@ -481,9 +466,19 @@
 							<li>
 	          		<label class="fl">社会信用代码：</label><span><input class="w220" id="creditCode" name="creditCode" value="${supplier.creditCode }" type="text"></span>
 	         	 	</li>
-							<li>
+							<%-- <li>
                 <label class="fl">采购机构：</label><span><input class="w220" id="orgName" name="orgName" value="${supplier.orgName }" type="text"></span>
-              </li>
+              </li> --%>
+              
+              <li>
+	              <label class="fl">采购机构：</label>
+	              <select name="orgName" id="orgName" class="w220">
+	                <option value=''>全部</option>
+	                <c:forEach items="${allOrg}" var="org">
+	                  <option value="${org.name}" <c:if test="${supplier.orgName eq org.name}">selected</c:if>>${org.name}</option>
+	                </c:forEach>
+	              </select>
+	            </li>
 						</ul>
 		        <div class="col-md-12 clear tc mt10">
 	            <button type="button" onclick="submit()" class="btn">查询</button>
