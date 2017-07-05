@@ -134,7 +134,7 @@
         $("#mobile").attr("value", "");
         $("#graduateSchool").val("");
         $("#idCardNumber").val("");
-        $("#orgName").val("");
+        $("#orgName option:selected").removeAttr("selected");
         $("#formSearch").submit();
       }
       //查看信息
@@ -323,8 +323,14 @@
           <label class="fl">身份证号：</label><span><input class="w220" type="text" id="idCardNumber" name="idCardNumber" value="${expert.idCardNumber }"></span>
         </li>
         <li>
-          <label class="fl">采购机构：</label><span><input class="w220" type="text" id="orgName" name="orgName" value="${expert.orgName }"></span>
-        </li>
+         <label class="fl">采购机构：</label>
+         <select name="orgName" id="orgName" class="w220">
+           <option value=''>全部</option>
+           <c:forEach items="${allOrg}" var="org">
+             <option value="${org.name}" <c:if test="${expert.orgName eq org.name}">selected</c:if>>${org.name}</option>
+           </c:forEach>
+         </select>
+       </li>
        <%--  <li>
           <label class="fl">毕业院校：</label><span><input class="w220"type="text" id="graduateSchool" name="graduateSchool" value="${expert.graduateSchool }"></span>
         </li> --%>

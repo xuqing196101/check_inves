@@ -39,6 +39,7 @@
         $("#orgName").attr("value", "");
         $("#expertsFrom option:selected").removeAttr("selected");
         $("#expertsTypeId option:selected").removeAttr("selected");
+        $("#orgName option:selected").removeAttr("selected");
         $("#formSearch").submit();
       }
     </script>
@@ -107,9 +108,19 @@
            </select>
         </span>
        </li>
-       <li>
+       <%-- <li>
           <label class="fl">采购机构：</label><span><input class="w220" type="text" id="orgName" name="orgName" value="${expert.orgName }"></span>
-        </li>
+        </li> --%>
+        <li>
+         <label class="fl">采购机构：</label>
+         <select name="orgName" id="orgName" class="w220">
+           <option value=''>全部</option>
+           <c:forEach items="${allOrg}" var="org">
+             <option value="${org.name}" <c:if test="${expert.orgName eq org.name}">selected</c:if>>${org.name}</option>
+           </c:forEach>
+         </select>
+       </li>
+        
         <!-- 专家类别查询 -->
         <li>
           <label class="fl">专家类别：</label>

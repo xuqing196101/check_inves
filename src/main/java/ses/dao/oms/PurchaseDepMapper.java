@@ -76,4 +76,10 @@ public interface PurchaseDepMapper {
 
 	
 	List<PurchaseDep> getDep();
+	
+	/**
+	 * 查询全部机构
+	 * @return
+	 */
+	List<PurchaseDep> findAllOrg();
 }
