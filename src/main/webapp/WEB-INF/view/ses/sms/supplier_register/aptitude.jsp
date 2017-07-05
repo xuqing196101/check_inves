@@ -9,10 +9,10 @@
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>供应商注册</title>
 		<style type="text/css">
-.current {
-	cursor: pointer;
-}
-</style>
+			.current {
+				cursor: pointer;
+			}
+		</style>
 		<script type="text/javascript">
 			function saveItems() {
 				$("input[name='flag']").val("file");
@@ -52,9 +52,9 @@
 							url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
 							type: "post",
 							data: $("#item_form").serializeArray(),
-                            success: function(msg) {
-                                return "0";
-                            }
+              success: function(msg) {
+                return "0";
+              }
 						});
 					}
 				});
@@ -75,23 +75,23 @@
 							sessionStorage.formE=JSON.stringify($("#items_info_form_id").serializeArray());
 							var flag=isAptitue();
 							if(flag==true){
-                                $("input[name='flag']").val("file");
-                                $.ajax({
-                                    url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
-                                    type: "post",
-                                    data: $("#items_info_form_id").serializeArray(),
-                                    contextType: "application/x-www-form-urlencoded",
-                                    success: function(msg) {
-                                        $.ajax({
-                                            url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
-                                            type: "post",
-                                            data: $("#item_form").serializeArray(),
-                                            success: function(msg) {
-                                                $("#items_info_form_id").submit();
-                                            }
-                                        });
-                                    }
-                                });
+                $("input[name='flag']").val("file");
+                $.ajax({
+                  url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
+                  type: "post",
+                  data: $("#items_info_form_id").serializeArray(),
+                  contextType: "application/x-www-form-urlencoded",
+                  success: function(msg) {
+                    $.ajax({
+                      url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
+                      type: "post",
+                      data: $("#item_form").serializeArray(),
+                      success: function(msg) {
+                        $("#items_info_form_id").submit();
+                      }
+                    });
+                  }
+                });
 							}else{
 								layer.alert("请完善工程资质证书信息！");
 							}
@@ -110,7 +110,7 @@
 
 			/*获取内层div的最大高度赋予外层div*/
 			function psize() {
-			var temp_heights = []
+				var temp_heights = []
 			 	$(".fades").each(function() {
 			 		temp_heights.push($(this).outerHeight());
 			 	})
@@ -118,14 +118,24 @@
 		 }
 
 			//显示不通过的理由
-			function errorMsg(auditField, auditType){
+			function errorMsg(_this, auditField, auditType){
+				// 如果加载过错误信息，则不再加载
+				var errorMsg = $(_this).attr("data-errorMsg");
+				if(errorMsg){
+					layer.msg("不通过理由：" + errorMsg, {
+						offset: '300px'
+					});
+					return;
+				}
+				
 				var supplierId = "${currSupplier.id}";
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/audit.html",
 					data: {"supplierId": supplierId, "auditField": auditField, "auditType": auditType},
 					dataType: "json",
 					success: function(data){
-					layer.msg("不通过理由：" + data.suggest , {offset: '200px'});
+						$(_this).attr("data-errorMsg", data.suggest);
+						layer.msg("不通过理由：" + data.suggest , {offset: '200px'});
 					}
 				});
 			}
@@ -142,20 +152,19 @@
 					$(obj).parent().next().next().find("input[type='text']").val("");
 
 					$(obj).parent().next().next().next().find("input[type='text']").val("");
-				    $(obj).parent().next().next().next().find("input[type='hidden']").val("");
-
+				  $(obj).parent().next().next().next().find("input[type='hidden']").val("");
 
 					$(obj).parent().next().next().next().next().html("");
 					professType=$(obj).parent().next().next().children().val();
-				} else if(flag=="2"){
+				} else if(flag=="2") {
 					certCode = $(obj).val();
 					typeId = $(obj).parent().prev().find("select").val();
 					// 清空等级和附件
 					///$(obj).parent().next().find("input[type='text']").val("");
-						$(obj).parent().next().children().empty();
+					$(obj).parent().next().children().empty();
 					//清空资质等级
 					$(obj).parent().next().next().find("input[type='text']").val("");
-				    $(obj).parent().next().next().find("input[type='hidden']").val("");
+				  $(obj).parent().next().next().find("input[type='hidden']").val("");
 
 					$.ajax({
 						url : "${pageContext.request.contextPath}/supplier/getProType.do",
@@ -178,9 +187,9 @@
 					$(obj).parent().next().next().next().html("");
 					// professType=$(obj).parent().next().children().val();
 				}else{
-					 $(obj).parent().next().find("input[type='text']").val("");
-					 $(obj).parent().next().find("input[type='hidden']").val("");
-					 $(obj).parent().next().next().html("");
+					$(obj).parent().next().find("input[type='text']").val("");
+					$(obj).parent().next().find("input[type='hidden']").val("");
+					$(obj).parent().next().next().html("");
 					certCode = $(obj).parent().prev().children().val();
 					professType=$(obj).val();
 				}
@@ -201,67 +210,63 @@
 			}
 			//请求 获取 数据
 			function getDate(obj,typeId,certCode,supplierId,professType,number,flag){
-			//console.log($(obj));
-			//console.log(number);
-			//console.log(flag);
-			//根据类型和证书编号获取等级
-			$.ajax({
-                        url : "${pageContext.request.contextPath}/supplier/getLevel.do",
-                        type:"post",
-                        data: {
-                            "typeId": typeId,
-                            "certCode": certCode,
-                            "supplierId": supplierId,
-                            "professType":professType
-                        },
-                        dataType: "json",
-                        success: function(result){
-                            if (result != null && result != "") {
-                                if (flag == "1") {
-                                    $(obj).parent().next().next().find("input[type='text']").val(result.name);
-                                    $(obj).parent().next().next().find("input[type='hidden']").val(result.id);
-                                } else if(flag == "0"){
-                                    $(obj).parent().find("input[type='text']").val(result.name);
-                                    $(obj).parent().next().find("input[type='hidden']").val(result.id);
-                                }else{
-                                    $(obj).parent().next().find("input[type='text']").val(result.name);
-                                    $(obj).parent().next().find("input[type='hidden']").val(result.id);
-                                }
-                                // 通过append将附件信息追加到指定位置
-                                $.ajax({
-                                    url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
-                                    type:"post",
-                                    async : false,
-                                    dataType : "html",
-                                    data : {
-                                        "typeId": typeId,
-                                        "certCode" : certCode,
-                                        "supplierId" : supplierId,
-                                        "number" : number,
-                                        "professType":professType
-                                    },
-                                    success : function(data) {
-                                        if (flag == "1") {
-                                            $(obj).parent().next().next().next().next().html(data);
-                                        } else {
-                                            $(obj).parent().next().next().next().html(data);
-                                        }
-                                        init_web_upload();
-                                    }
-                                });
-                            }
-                        }
-                    });
+				//根据类型和证书编号获取等级
+				$.ajax({
+          url : "${pageContext.request.contextPath}/supplier/getLevel.do",
+          type : "post",
+          data : {
+            "typeId" : typeId,
+            "certCode" : certCode,
+            "supplierId" : supplierId,
+            "professType" : professType
+          },
+          dataType: "json",
+          success: function(result){
+            if (result != null && result != "") {
+              if (flag == "1") {
+                $(obj).parent().next().next().find("input[type='text']").val(result.name);
+                $(obj).parent().next().next().find("input[type='hidden']").val(result.id);
+              } else if(flag == "0"){
+                $(obj).parent().find("input[type='text']").val(result.name);
+                $(obj).parent().next().find("input[type='hidden']").val(result.id);
+              }else{
+                $(obj).parent().next().find("input[type='text']").val(result.name);
+                $(obj).parent().next().find("input[type='hidden']").val(result.id);
+              }
+              // 通过append将附件信息追加到指定位置
+              $.ajax({
+                url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
+                type : "post",
+                async : false,
+                dataType : "html",
+                data : {
+                  "typeId" : typeId,
+                  "certCode" : certCode,
+                  "supplierId" : supplierId,
+                  "number" : number,
+                  "professType" : professType
+                },
+                success : function(data) {
+                  if (flag == "1") {
+                    $(obj).parent().next().next().next().next().html(data);
+                  } else {
+                    $(obj).parent().next().next().next().html(data);
+                  }
+                  init_web_upload();
+                }
+              });
+            }
+          }
+      });
 			}
 			function isAptitue(){
 				var flag=true;
 				$("input[type='text']").each(function() {
-							if ($(this).val() == "") {
-								flag = false;
-							}
-						});
+					if ($(this).val() == "") {
+						flag = false;
+					}
+				});
 				return flag;
-
 			}
 
 			// 控制其它等级的显示和影藏
@@ -287,8 +292,8 @@
 				}
 			});
 
-				sessionStorage.locationD=true;
-				sessionStorage.index=4;
+			sessionStorage.locationD=true;
+			sessionStorage.index=4;
 		</script>
 
 	</head>
@@ -315,7 +320,7 @@
 						<div class="padding-top-10">
 							<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 								<c:set value="0" var="liCount" />
-								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(cateList) > 0}">
+								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(proQua) > 0}">
 									<c:set value="${liCount+1}" var="liCount" />
 									<li id="li_id_1" class="active">
 										<a aria-expanded="true" onmouseup="init_web_upload_in('#tab-1')" href="#tab-1" data-toggle="tab" class="f18">物资-生产型资质信息</a>
@@ -342,7 +347,7 @@
 							</ul>
 							<div class="tab-content padding-top-20 pr border0 p0" id="tab_content_div_id">
 								<c:set value="0" var="divCount" />
-								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(cateList) > 0}">
+								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(proQua) > 0}">
 									<!-- 物资生产型 -->
 									<c:set value="0" var="prolength" />
 									<div class="tab-pane active" id="tab-1">
@@ -350,13 +355,13 @@
 										      	<font color="red">*</font> 上传物资-生产型资质文件
 										</h2>
 										<table class="table table-bordered">
-											<c:forEach items="${cateList }" var="obj">
+											<c:forEach items="${proQua }" var="obj">
 												<tr>
 													<td width="18%">${obj.categoryName }</td>
 													<td>
 														<c:forEach items="${obj.list }" var="quaPro">
 															<c:set value="${prolength+1}" var="prolength"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaPro.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${quaPro.flag}','aptitude_page')"</c:if>>
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaPro.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaPro.flag}','aptitude_page')"</c:if>>
 																<c:choose>
 																	<c:when test="${!fn:contains(audit,quaPro.flag) && currSupplier.status==2}">
 																		<u:show showId="pShow${prolength}" delete="false" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
@@ -391,7 +396,7 @@
 
 														<c:forEach items="${sale.list }" var="saua">
 															<c:set value="${length+1}" var="length"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,saua.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${saua.flag}','aptitude_page')"</c:if>>
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,saua.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${saua.flag}','aptitude_page')"</c:if>>
 																<c:choose>
 																	<c:when test="${!fn:contains(audit,saua.flag) && currSupplier.status==2}">
 																		<u:show showId="saleShow${length}" delete="false" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
@@ -434,7 +439,7 @@
 												</tr>
 												</thead>
 												<c:forEach items="${allTreeList}" var="cate" varStatus="vs">
-													<tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg('${cate.itemsId}','aptitude_page')"</c:if>>
+													<tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg(this, '${cate.itemsId}','aptitude_page')"</c:if>>
 														<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 															<div class="w50"> ${vs.index + 1}</div>
 															<input type="hidden" name="listSupplierItems[${vs.index}].id" value="${cate.itemsId}">
@@ -504,21 +509,21 @@
 														</td>
 														<c:if test="${currSupplier.status== -1 || currSupplier.status==2}">
 															<script>
-                                                                function s() {
-                                                                    var number = ${vs.index};
-                                                                    //供应商
-                                                                    var supplierId = "${currSupplier.id}";
-                                                                    //证书编号
-                                                                    var certCode = "${cate.certCode}";
-                                                                    //专业类别
-                                                                    var professType = "${cate.proName}";
-                                                                    //资质类型
-                                                                    var typeId = $("#listSupplierItems${vs.index}qualificationType").val();
-                                                                    if (typeId != null && typeId != "" && typeId != "undefined" && certCode != null && certCode != "" && certCode != "undefined" && professType != null && professType != "") {
-                                                                        getDate("#listSupplierItems" + number, typeId, certCode, supplierId, professType, number, 0);
-                                                                    }
-                                                                }
-                                                                s();
+		                            function s() {
+		                                var number = ${vs.index};
+		                                //供应商
+		                                var supplierId = "${currSupplier.id}";
+		                                //证书编号
+		                                var certCode = "${cate.certCode}";
+		                                //专业类别
+		                                var professType = "${cate.proName}";
+		                                //资质类型
+		                                var typeId = $("#listSupplierItems${vs.index}qualificationType").val();
+		                                if (typeId != null && typeId != "" && typeId != "undefined" && certCode != null && certCode != "" && certCode != "undefined" && professType != null && professType != "") {
+		                                    getDate("#listSupplierItems" + number, typeId, certCode, supplierId, professType, number, 0);
+		                                }
+		                            }
+		                            s();
 															</script>
 														</c:if>
 														<td class="tc"
@@ -549,7 +554,7 @@
 													<td>
 														<c:forEach items="${server.list }" var="ser">
 															<c:set value="${slength+1}" var="slength"></c:set>
-															<div class="fl mr5" <c:if test="${fn:contains(audit,ser.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${ser.flag}','aptitude_page')"</c:if>>
+															<div class="fl mr5" <c:if test="${fn:contains(audit,ser.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${ser.flag}','aptitude_page')"</c:if>>
 																<c:choose>
 																	<c:when test="${!fn:contains(audit,ser.flag) && currSupplier.status==2}">
 																		<u:show showId="serverShow${slength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
@@ -596,7 +601,8 @@
 </html>
 
 <script type="text/javascript">
-	controlForm();
+	//controlForm();
+	readOnlyForm();
 	function controlForm(){
 		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
 		var currSupplierSt = '${currSupplier.status}';
@@ -630,6 +636,47 @@
 		if(currSupplierSt == '2'){
 			$("input[type='text'],input[type='checkbox'],select,textarea").attr('disabled',false);
 		}
+	}
+	
+		// 表单只读
+	function readOnlyForm(){
+		// 如果供应商状态是退回修改，控制表单域的编辑与不可编辑
+		var currSupplierSt = '${currSupplier.status}';
+		//alert(currSupplierSt);
+		if(currSupplierSt == '2'){
+			//$("input[type='text'],textarea").attr('readonly', 'readonly');
+			$("input[type='text'],textarea").each(function(){
+				if(boolColor(this)){
+					$(this).removeAttr('readonly');
+				}else{
+					$(this).attr('readonly', 'readonly');
+					$(this).removeAttr("onblur").removeAttr("onchange");
+				}
+			});
+			
+			$("select").focus(function(){
+				if(!boolColor(this)){
+					this.defaultIndex=this.selectedIndex;
+					$(this).removeAttr("onchange");
+				}
+			}).change(function(){
+				if(!boolColor(this)){
+					this.selectedIndex=this.defaultIndex;
+				}
+			});
+		}
+	}
+	
+	function boolColor(_this){
+		var boolColor = $(_this).css("border-top-color") == 'rgb(255, 0, 0)' 
+				|| $(_this).css("border-bottom-color") == 'rgb(255, 0, 0)' 
+				|| $(_this).css("border-left-color") == 'rgb(255, 0, 0)' 
+				|| $(_this).css("border-right-color") == 'rgb(255, 0, 0)' 
+				|| $(_this).parents("td").css("border-top-color") == 'rgb(255, 0, 0)'
+				|| $(_this).parents("td").css("border-bottom-color") == 'rgb(255, 0, 0)'
+				|| $(_this).parents("td").css("border-left-color") == 'rgb(255, 0, 0)'
+				|| $(_this).parents("td").css("border-right-color") == 'rgb(255, 0, 0)';
+		return boolColor;
 	}
 	
 	// 审核通过的项不能删除(列表)
