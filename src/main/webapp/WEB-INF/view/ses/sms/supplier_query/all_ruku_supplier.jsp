@@ -104,19 +104,6 @@
 			}
 
 			function chongzhi() {
-				$("#supplierName").val('');
-				/* $("#loginName").val(''); */
-				$("#startAuditDate").val('');
-				$("#endAuditDate").val('');
-				$("#contactName").val('');
-				$("#category").val('');
-				$("#supplierType").val('');
-				$("#categoryIds").val('');
-				$("#supplierTypeIds").val('');
-				$("#mobile").val('');
-				$("#isProvisional").val('');
-				$("#orgName").val('');
-				/* $("option")[0].selected = true; */
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=5";
 			}
 			$(function() {
@@ -475,9 +462,18 @@
 	            <input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
 	            </span>
 	          </li>
-	          <li>
+	          <%-- <li>
               <label class="fl">采购机构：</label><span><input class="w220" id="orgName" name="orgName" value="${supplier.orgName }" type="text"></span>
-            </li>
+            </li> --%>
+            <li>
+                <label class="fl">采购机构：</label>
+                <select name="orgName" id="orgName" class="w220">
+                  <option value=''>全部</option>
+                  <c:forEach items="${allOrg}" var="org">
+                    <option value="${org.name}" <c:if test="${supplier.orgName eq org.name}">selected</c:if>>${org.name}</option>
+                  </c:forEach>
+                </select>
+              </li>
           </ul>
           <div class="col-md-12 clear tc">
 	          <button type="button" onclick="submit()" class="btn">查询</button>

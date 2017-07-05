@@ -462,4 +462,10 @@ public interface SupplierService {
 	 * @return
 	 */
 	public List<Supplier> selByNameWithoutProvisional(String supplierName);
+
+	/**
+	 * 初始化财务信息
+	 * @param supplier
+	 */
+	public void initFinance(Supplier supplier);
 }

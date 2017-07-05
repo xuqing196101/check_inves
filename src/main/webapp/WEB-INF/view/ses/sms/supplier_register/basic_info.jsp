@@ -1591,10 +1591,7 @@
                                                     </td>
                                                     <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
                                                         <div class="w200 fl">
-                                                           <%-- <c:if test="${(fn:contains(audit,addr.id)&&currSupplier.status==2 )|| currSupplier.status==-1 || currSupplier.status==1}"> <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" /></c:if>
-                                                            <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2 }"> <u:show showId="house_show_${certSaleNumber}" delete="false" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" /></c:if>
-                                                            <c:if test="${currSupplier.status==-1 || currSupplier.status==1 || fn:contains(audit,addr.id)}"> <u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" /></c:if> --%>
-                                                            <c:choose>
+                                                            <%-- <c:choose>
                                                             	<c:when test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">
                                                             		<u:show showId="house_show_${certSaleNumber}" delete="false" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
                                                             	</c:when>
@@ -1602,7 +1599,9 @@
                                                             		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
                                                             		<u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
                                                             	</c:otherwise>
-                                                            </c:choose>
+                                                            </c:choose> --%>
+                                                            <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="house_up_${certSaleNumber}" multiple="true" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" auto="true" />
+                                                         		<u:show showId="house_show_${certSaleNumber}" businessId="${addr.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierHousePoperty}" />
                                                             <c:if test="${vs.index == err_house_token}">
                                                                 <div class="cue">  </div>
                                                             </c:if>

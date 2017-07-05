@@ -48,7 +48,7 @@
 				$("#supplierType").val('');
 				$("#isProvisional").val('');
 				$("#creditCode").val('');
-				$("#orgName").val('');
+				$("#orgName option:selected").removeAttr("selected");
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
 				$("#businessNature option:selected").removeAttr("selected");
@@ -514,9 +514,19 @@
 	         	<li>
 	          	<label class="fl">社会信用代码：</label><span><input class="w220" id="creditCode" name="creditCode" value="${supplier.creditCode }" type="text"></span>
 	          </li>
-	          <li>
+	          <%-- <li>
               <label class="fl">采购机构：</label><span><input class="w220" id="orgName" name="orgName" value="${supplier.orgName }" type="text"></span>
+            </li> --%>
+            <li>
+              <label class="fl">采购机构：</label>
+              <select name="orgName" id="orgName" class="w220">
+                <option value=''>全部</option>
+                <c:forEach items="${allOrg}" var="org">
+                  <option value="${org.name}" <c:if test="${supplier.orgName eq org.name}">selected</c:if>>${org.name}</option>
+                </c:forEach>
+              </select>
             </li>
+            
 	          <c:if test ="${sign == 1 }">
               <li>
                 <label class="fl">地区：</label>
