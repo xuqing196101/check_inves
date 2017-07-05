@@ -1,5 +1,6 @@
 package bss.dao.ppms;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.ppms.FlowDefine;
@@ -16,6 +17,6 @@ public interface FlowDefineMapper {
     
     List<FlowDefine> findList(FlowDefine fd);
     
-    List<FlowDefine> getFlow(String flowDefineId);
+    List<FlowDefine> getFlow(FlowDefine flowDefine);
 
 }
