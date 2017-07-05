@@ -41,6 +41,38 @@
                 }
             }
         });
+        
+		/** ajax 校验手机号是否存在 */
+        $("#mobile").focus(function(){
+            $(this).attr("data-oval",$(this).val()); //将当前值存入自定义属性
+        }).blur(function(){
+            var oldVal=($(this).attr("data-oval")); //获取原值
+            var newVal=($(this).val()); //获取当前值
+            if (oldVal!=newVal){
+                //值改变
+                var mobile = $(this).val();
+                if (mobile != null && mobile != "" && mobile !="null" && mobile !="undefined"){
+                    $.ajax({
+                        url : "${pageContext.request.contextPath}/supplier/check_mobile.do",
+                        type : "post",
+                        data : {
+                            mobile : mobile
+                        },
+                        dataType : "json",
+                        success : function(result) {
+                            result = eval("(" + result + ")");
+                            if (result.msg == "fail") {
+                                $("#mobile").next().text("手机号已被使用，请更换重试！");
+                                $("#submit_button_id").prop("disabled", true);
+                            } else {
+                                $("#mobile").next().text("");
+                                $("#submit_button_id").prop("disabled", false);
+                            }
+                        }
+                    });
+                }
+            }
+        });
 
     });
 	var count = 0;
@@ -74,7 +106,7 @@
 							<div class="login_item col-md-12  col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"> <i class="red mr5">*</i>用户名：</label>
 								<div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-							       <input id="login_input_id" type="text" name="loginName" placeholder="由6-20位字母和数字组成" value="${supplier.loginName}"  class="col-md-12 col-sm-12 col-xs-12">
+							     <input id="login_input_id" type="text" name="loginName" placeholder="由6-20位字母和数字组成" value="${supplier.loginName}"  class="col-md-12 col-sm-12 col-xs-12">
 								   <span class="cue">${err_msg_loginName }</span> 
 								</div>
 							</div>
@@ -96,7 +128,7 @@
 							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>手机号码：</label> 
 								 <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-								   <input type="text" name="mobile" value="${supplier.mobile}" class="col-md-12 col-sm-12 col-xs-12">
+								   <input type="text" id="mobile" name="mobile" value="${supplier.mobile}" class="col-md-12 col-sm-12 col-xs-12">
 								   <!-- <button type="button" class="btn ml10">发送验证码</button> -->
 								   <span class="cue">${err_msg_mobile }</span> 
 								</div>

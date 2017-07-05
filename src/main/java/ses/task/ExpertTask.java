@@ -86,4 +86,43 @@ public class ExpertTask {
 		expertAuditService.handlerPublictyExp();
 	}
   
+   /**
+    * 
+   * @Title: expportReturnExpert
+   * @Description: 专家退回修改内网导出 
+   * author: Li Xiaoxiao 
+   * @param      
+   * @return void     
+   * @throws
+    */
+    public void expportReturnExpert(){
+       	Date date=new Date();
+    		Date addDate = supplierService.addDate(date, 3, -1);
+    		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+    		String fat = sdf.format(addDate);
+    		String startTime=fat+" 00:00:00";
+    		String endTime=fat+" 23:59:59";
+        	outerExpertService.backModifyExpert(startTime, endTime);
+    }
+    /**
+     * 
+    * @Title: importReturnExpert
+    * @Description: 专家退回修改外网导入 
+    * author: Li Xiaoxiao 
+    * @param      
+    * @return void     
+    * @throws
+     */
+    public void importReturnExpert(){
+     	 File file = FileUtils.getImportFile();
+     	if (file != null && file.exists()){
+             File [] files = file.listFiles();
+             for (File f : files){
+            		if (f.getName().contains(FileUtils.C_EXPERT_ALL_NOT)) {
+						innerExpertService.saveBackModifyExpertForOut(f);
+					}
+             }
+         }
+    }
+    
 }

@@ -195,7 +195,7 @@
 								<tr>
 									<td width="12%" class="bggrey">军队人员身份证件</td>
 									<td width="25%">
-										<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1" />
+										<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="12" />
 									</td>
 								</tr>
 							</c:if>

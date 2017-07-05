@@ -54,8 +54,8 @@ public class ImageTask {
 		String supplierPath=PropUtil.getProperty("file.base.path")+PropUtil.getProperty("file.supplier.system.path");//供应商专路径
 //		String expertPath=PropUtil.getProperty("file.base.path")+PropUtil.getProperty("file.expert.system.path")+"/"+src;//专家路径
 		String supplier=PropUtil.getProperty("file.sync.base")+PropUtil.getProperty("file.sync.import")+"/"+PropUtil.getProperty("file.supplier.system.path")+"/"+src;//供应商图片
-		String expert=PropUtil.getProperty("file.sync.base")+PropUtil.getProperty("file.sync.import")+"/"+PropUtil.getProperty("file.expert.system.path")+"/"+src;//专家图片
-		FileUtil.copyFolder(supplier, supplierPath);
+//		String expert=PropUtil.getProperty("file.sync.base")+PropUtil.getProperty("file.sync.import")+"/"+PropUtil.getProperty("file.expert.system.path")+"/"+src;//专家图片
+		FileUtil.copyFolder(supplierPath, supplier);
 //		FileUtil.copyFolder(expert, expertPath);
 		
 	}

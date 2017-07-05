@@ -50,6 +50,7 @@
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
 				$("#businessNature option:selected").removeAttr("selected");
+				$("#orgName option:selected").removeAttr("selected");
 				
 				/* var address = '${address}';
 				address = encodeURI(address);
@@ -344,7 +345,7 @@
   			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html" method="post">
 		    	<input type="hidden" name="page" id="page">
 		      <input type="hidden" name="judge" value="5">
-		      <input type="hidden" name="orgName" value="${ supplier.orgName }">
+		      <%-- <input type="hidden" name="orgName" value="${ supplier.orgName }"> --%>
 		      <input type="hidden" name="reqType" value="${ reqType }">
 		      <c:if test="${sign != 2 }">
 		      	<input type="hidden" name="address" value="${address }">
@@ -421,6 +422,15 @@
 	            <input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
 	            </span>
 	          </li>
+	          <li>
+              <label class="fl">采购机构：</label>
+              <select name="orgName" id="orgName" class="w220">
+                <option value=''>全部</option>
+                <c:forEach items="${allOrg}" var="org">
+                  <option value="${org.name}" <c:if test="${supplier.orgName eq org.name}">selected</c:if>>${org.name}</option>
+                </c:forEach>
+              </select>
+            </li>
 	          <c:if test ="${sign == 2 }">
               <li>
                 <label class="fl">地区：</label>
