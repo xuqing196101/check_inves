@@ -1746,6 +1746,9 @@ public class SupplierController extends BaseSupplierController {
 					model.addAttribute("err_creditCide", "信用代码18位，请按照实际社会信用代码填写 !");
 					count++;
 				}
+			}else{// 非18位数字+字母
+				model.addAttribute("err_creditCide", "信用代码18位，请按照实际社会信用代码填写 !");
+				count++;
 			}
 		}
 		
@@ -1921,56 +1924,71 @@ public class SupplierController extends BaseSupplierController {
                 }
             }
         }
-		if(supplier.getListSupplierStockholders() == null || supplier.getListSupplierStockholders().size() < 1) {
+		// 股东信息
+		List < SupplierStockholder > stockList = supplier.getListSupplierStockholders();
+		if(stockList == null || stockList.isEmpty()) {
 			count++;
 			model.addAttribute("stock", "请添加股东信息!");
 		}
-		int cardId=0;
-		Set<String> set=new HashSet<String>();
-		if(supplier.getListSupplierStockholders() != null && supplier.getListSupplierStockholders().size() > 0) {
-			List < SupplierStockholder > stockList = supplier.getListSupplierStockholders();
+		if(stockList != null && !stockList.isEmpty()) {
+			int identityCount = 0;
+			Set<String> identitySet = new HashSet<String>();
 			//float proportionTotal = 0.00f;// 出资比例之和
 			double proportionTotal = 0.00d;// 出资比例之和
 			int stockholderCount = 0;// 股东数量
-			if(stockList != null && !stockList.isEmpty()){
-				for(SupplierStockholder stocksHolder: stockList) {
-					set.add(stocksHolder.getIdentity());
-					cardId++;
-					if(stocksHolder.getName() == null || stocksHolder.getName() == "") {
-						count++;
-						model.addAttribute("stock", "出资人名称或姓名不能为空！");
-					}
-					if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
-						count++;
-						model.addAttribute("stock", "统一社会信用代码或身份证号码不能为空或者格式不正确!");
-					}
-					// 统一社会信用代码或身份证号码校验
-					String identity = stocksHolder.getIdentity();
-					if("1".equals(stocksHolder.getNature())){
-						// 统一社会信用代码校验
-						if(identity != null){
-							if(identity.matches("^([a-zA-Z0-9]){18}$")){// 18位数字+字母
-								if(identity.matches("^([a-zA-Z])+$")){// 排除全字母
-									model.addAttribute("stock", "信用代码18位，请按照实际社会信用代码填写 !");
-									count++;
-								}
+			String errorIdentity = "";// 错误信用代码或身份证号码
+			for(SupplierStockholder stocksHolder: stockList) {
+				identitySet.add(stocksHolder.getIdentity());
+				identityCount++;
+				if(stocksHolder.getName() == null || stocksHolder.getName() == "") {
+					count++;
+					model.addAttribute("stock", "出资人名称或姓名不能为空！");
+				}
+				if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
+					count++;
+					model.addAttribute("stock", "统一社会信用代码或身份证号码不能为空或者格式不正确！");
+				}
+				// 统一社会信用代码或身份证号码校验
+				String identity = stocksHolder.getIdentity();
+				if("1".equals(stocksHolder.getNature())){
+					// 统一社会信用代码校验
+					if(identity != null){
+						if(identity.matches("^([a-zA-Z0-9]){18}$")){// 18位数字+字母
+							if(identity.matches("^([a-zA-Z])+$")){// 排除全字母
+								errorIdentity += identity + "、";
+								errorIdentity = errorIdentity.substring(0, errorIdentity.lastIndexOf("、"));
+								model.addAttribute("stock", "信用代码18位，请按照实际社会信用代码填写！错误代码：【"+errorIdentity+"】");
+								count++;
 							}
-						}
-					}
-					if("2".equals(stocksHolder.getNature())){
-						// 身份证号码校验
-						if(StringUtils.isNotBlank(identity) && !IDCardUtil.isIDCard(identity)){
-							model.addAttribute("stock", "身份证号码错误！请按实际身份证号码填写。");
+						}else{// 非18位数字+字母
+							errorIdentity += identity + "、";
+							errorIdentity = errorIdentity.substring(0, errorIdentity.lastIndexOf("、"));
+							model.addAttribute("stock", "信用代码18位，请按照实际社会信用代码填写！错误代码：【"+errorIdentity+"】");
 							count++;
 						}
 					}
-					if(stocksHolder.getShares() == null || stocksHolder.getShares() == "") {
+				}
+				if("2".equals(stocksHolder.getNature())){
+					// 身份证号码校验
+					if(StringUtils.isNotBlank(identity) && !IDCardUtil.isIDCard(identity)){
+						errorIdentity += identity + "、";
+						errorIdentity = errorIdentity.substring(0, errorIdentity.lastIndexOf("、"));
+						model.addAttribute("stock", "身份证号码错误！请按实际身份证号码填写。错误号码：【"+errorIdentity+"】");
 						count++;
-						model.addAttribute("stock", "出资金额或股份不能为空！");
 					}
-					if(stocksHolder.getProportion() == null || stocksHolder.getProportion() == "") {
+				}
+				if(stocksHolder.getShares() == null || stocksHolder.getShares() == "") {
+					count++;
+					model.addAttribute("stock", "出资金额或股份不能为空！");
+				}
+				if(stocksHolder.getProportion() == null || stocksHolder.getProportion() == "") {
+					count++;
+					model.addAttribute("stock", "比例不能为空！");
+				}else{
+					String regex = "^(([1-9]\\d{0,1}|0|100)(\\.\\d{1,2})?)?$";
+					if(!stocksHolder.getProportion().matches(regex)){
 						count++;
-						model.addAttribute("stock", "比例不能为空！");
+						model.addAttribute("stock", "百分比格式不对，正确格式为0-100的数字，最多两位小数！");
 					}else{
 						//proportionTotal += Float.parseFloat(stocksHolder.getProportion());// 这样丢失精度
 						proportionTotal = Arith.add(proportionTotal, Double.parseDouble(stocksHolder.getProportion()));
@@ -1989,10 +2007,10 @@ public class SupplierController extends BaseSupplierController {
 					model.addAttribute("stock", "出资人不超过10个，出资比例之和必须为100%！");
 				}
 			}
-		}
-		if(set.size()!=cardId){
-			count++;
-			model.addAttribute("stock", "统一社会信用代码或身份证号码重复！");
+			if(identitySet.size() != identityCount){
+				count++;
+				model.addAttribute("stock", "统一社会信用代码或身份证号码重复！");
+			}
 		}
 		// 售后服务机构
         if(supplier.getListSupplierAfterSaleDep() == null || supplier.getListSupplierAfterSaleDep().size() < 1) {
