@@ -62,7 +62,7 @@
 				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
                     </ul>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
-					<table class="table table-bordered table-condensed table-hover" id="content_1">
+					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
 						 <thead>
 							<tr>
 							  <td class="tc info">序号</td>
