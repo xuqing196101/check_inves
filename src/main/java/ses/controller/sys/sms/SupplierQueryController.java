@@ -19,12 +19,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.formbean.QualificationBean;
-import ses.model.bms.*;
+import ses.model.bms.Area;
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
+import ses.model.bms.User;
+import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
@@ -53,6 +58,7 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.QualificationService;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditService;
@@ -189,6 +195,9 @@ public class SupplierQueryController extends BaseSupplierController {
 	@Autowired
 	private SupplierItemLevelServer supplierItemLevelServer;
 	
+	@Autowired
+	private PurChaseDepOrgService purChaseDepOrgService;
+	
     /**
      *〈简述〉供应商查询
      *〈详细描述〉按照各种条件来查询供应商信息
@@ -251,7 +260,11 @@ public class SupplierQueryController extends BaseSupplierController {
             mp.setValue(new BigDecimal(entry.getValue()));
             mp.setName(entry.getKey());
             listMap.add(mp);
-        }   
+        }
+        //全部机构
+        List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();
+        model.addAttribute("allOrg", allOrg);
+        
         String json = JSON.toJSONString(listMap);
         model.addAttribute("listMap", listMap);
         model.addAttribute("data", json);
@@ -336,6 +349,10 @@ public class SupplierQueryController extends BaseSupplierController {
         		}
         	}
         }
+        
+        //全部机构
+        List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();
+        model.addAttribute("allOrg", allOrg);
         
         this.getSupplierType(listSupplier);
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
