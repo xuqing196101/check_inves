@@ -219,8 +219,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping(value = "/listProject")
-    @SystemControllerLog(description=StaticVariables.SUPPLIER_ONLINE_BIDDING,operType=StaticVariables.SUPPLIER_ONLINE_BIDDING_SIGN)
-    @SystemServiceLog(description=StaticVariables.SUPPLIER_ONLINE_BIDDING,operType=StaticVariables.SUPPLIER_ONLINE_BIDDING_SIGN)
+    @SystemControllerLog(description=StaticVariables.SUPPLIER_ONLINE_BIDDING)
     public String listProject(@CurrentUser User user, Project project,Integer page, Model model){
     	if(user != null){
 	        HashMap<String, Object> map = new HashMap<>();

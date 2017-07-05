@@ -19,11 +19,11 @@
     SELECT a1.*,rownum rn FROM (
     SELECT ID,SUPPLIER_NAME,SUPPLIER_STATUS
     FROM T_SES_SMS_SUPPLIER
-    WHERE SUPPLIER_STATUS in 
+    WHERE <!-- SUPPLIER_STATUS in 
     <foreach item="item" index="index" collection="statusArray" open="(" separator="," close=")">
       #{item}
     </foreach>
-    AND IS_PUBLISH = 1 AND IS_DELETED = 0 AND ROWNUM &lt;= #{end}
+    AND  -->IS_PUBLISH = 1 AND IS_DELETED = 0 AND ROWNUM &lt;= #{end}
     ) a1
   ) WHERE rn &gt;= #{start}
   </select>
@@ -35,11 +35,11 @@
     SELECT a.*,ROWNUM ROW_NUM FROM (
     SELECT ID,REAL_NAME,STATUS
     FROM T_SES_EMS_EXPERT
-    WHERE STATUS in 
+    WHERE <!-- STATUS in 
     <foreach item="item" index="index" collection="statusArray" open="(" separator="," close=")">
       #{item}
     </foreach>
-    AND IS_PUBLISH = 1 AND IS_DELETE = 0 ORDER BY STATUS ASC, CREATED_AT DESC) a
+    AND  -->IS_PUBLISH = 1 AND IS_DELETE = 0 ORDER BY STATUS ASC, CREATED_AT DESC) a
     ) b 
   WHERE b.ROW_NUM between #{start} AND #{end}
   </select>

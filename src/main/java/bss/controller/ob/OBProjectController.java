@@ -74,7 +74,6 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
-import common.annotation.SystemServiceLog;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -140,8 +139,7 @@ public class OBProjectController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", produces = "text/html;charset=UTF-8")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String list(@CurrentUser User user, Model model,@RequestParam(defaultValue="1")Integer page,
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTime,String name) {
 		    //定义 页面传值 判断 是否有权限 0：操作有效 2 无效
@@ -179,8 +177,7 @@ public class OBProjectController {
 	 * @return
 	 */
 	@RequestMapping(value = "/supplierList", produces = "text/html;charset=UTF-8")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String supplierList(@CurrentUser User user, Model model,@RequestParam(defaultValue="1") Integer page,String obProjectId,
 			String name,String status,String result) {
 		if (user != null) {
@@ -234,8 +231,7 @@ public class OBProjectController {
 	 * @exception
 	 */
 	@RequestMapping(value = "/offerSupplierList", produces = "text/html;charset=UTF-8")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String offerSupplierList(Model model,
 			HttpServletRequest request, @RequestParam(defaultValue="1")Integer page,String obProjectId,
 			String name,Integer status) {
@@ -291,8 +287,7 @@ public class OBProjectController {
 	 * @return
 	 */
 	@RequestMapping("/add")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String addBidding(@CurrentUser User user, Model model,
 			HttpServletRequest request) {
 	    //定义 页面传值 判断 是否有权限 0：操作有效 2 无效
@@ -330,8 +325,7 @@ public class OBProjectController {
 	 * @throws IOException
 	 */
 	@RequestMapping("mechanism")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public void getMechanism(@CurrentUser User user, Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
@@ -348,8 +342,7 @@ public class OBProjectController {
 	 */
 	@RequestMapping(value = "/transportFeesType", produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String getTransportFeesType(@CurrentUser User user, Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
@@ -372,8 +365,7 @@ public class OBProjectController {
 	 * @throws
 	 */
 	@RequestMapping("/biddingInfoList")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String biddingInfoList(@CurrentUser User user, Model model,
 			HttpServletRequest request,@RequestParam(defaultValue="1") Integer page,@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date startTimeStr,
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date endTimeStr) throws ParseException {
@@ -407,8 +399,7 @@ public class OBProjectController {
 	 *  #内外网判定 1外网 0内网
 	 */
 	@RequestMapping("/changeStatus")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
     public void changeStatus( HttpServletRequest request,String projectId){
 			 //获取是否内网标识 1外网 0内网
 		 String ipAddressType= PropUtil.getProperty("ipAddressType");
@@ -430,8 +421,7 @@ public class OBProjectController {
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/findBiddingResult")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String findBiddingResult(Model model, HttpServletRequest request) {
 		// 获取竞价标题的id
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
@@ -518,8 +508,7 @@ public class OBProjectController {
 	 * @throws IOException
 	 */
 	@RequestMapping("product")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public void getProduct(@CurrentUser User user, Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
@@ -559,8 +548,7 @@ public class OBProjectController {
 	 * @throws
 	 */
 	@RequestMapping("download")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public ResponseEntity<byte[]> download(HttpServletRequest request,
 			String filename) throws IOException {
 		String path = PathUtil.getWebRoot() + "excel/定型产品.xls";
@@ -584,8 +572,7 @@ public class OBProjectController {
 	 */
 	@RequestMapping(value = "/addProject", produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String addProject(@CurrentUser User user, OBProject obProject,String fileid) {
 		String msg = null;
 		if (user != null && "0".equals(user.getTypeName())) {
@@ -604,8 +591,7 @@ public class OBProjectController {
 	 */
 	@RequestMapping("unionSupplier")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult unionSupplier(HttpServletRequest request, HttpServletResponse response,String productid){
 			List<OBSupplier> getlist=null;
 			JdcgResult jdcg=new JdcgResult();
@@ -639,8 +625,7 @@ public class OBProjectController {
 	 */
 	@RequestMapping("checkCatalog")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String checkCatalog(@RequestBody List<String> productid){
 	  return oBProjectServer.verifyCatalog(productid);
 	}
@@ -652,8 +637,7 @@ public class OBProjectController {
 	* @throws Exception
 	*/
 	@RequestMapping(value="/editOBProject", produces="text/html;charset=UTF-8" )
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String editOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
 		if(user !=null && "0".equals(user.getTypeName())){
 			 //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
@@ -785,8 +769,7 @@ public class OBProjectController {
 	* @throws Exception
 	*/
 	@RequestMapping(value="/delOBProject", produces="text/html;charset=UTF-8" )
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String delOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
 		if(user !=null && "0".equals(user.getTypeName()) && StringUtils.isNotBlank(obProjectId)){
 		  //竞价信息管理，权限所属角色是：需求部门，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
@@ -813,8 +796,7 @@ public class OBProjectController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("proportion")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public void proportion(HttpServletRequest request, HttpServletResponse response, Integer supplierCount) throws IOException{
 		String combination="";
 			if(supplierCount !=null){
@@ -859,8 +841,7 @@ public class OBProjectController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String uploadFile(@CurrentUser User user, String planDepName,
 			MultipartFile file, String type, String planName, String planNo,
 			Model model) throws  InvalidFormatException, IOException  {
@@ -893,8 +874,7 @@ public class OBProjectController {
 	 * @throws
 	 */
 	@RequestMapping("/printResult")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String printResult(Model model, HttpServletRequest request,HttpServletResponse response,
 			@RequestParam(defaultValue="1")Integer page) throws UnsupportedEncodingException {
 		// 获取打印结果标识
@@ -946,8 +926,7 @@ public class OBProjectController {
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/findBiddingIssueInfo")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String findBiddingInfo(Model model, HttpServletRequest request){
 		// 获取查看标识--为了区别不同角色查看的信息不同
 		String flag = request.getParameter("flag");
@@ -1037,8 +1016,7 @@ public class OBProjectController {
      * @exception
      */
     @RequestMapping("selInfo")
-    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-    @SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
     public String selInfo(Model model, HttpServletRequest request){
     	String projectId = request.getParameter("id") == null ? "" : request.getParameter("id");
     	// 调用获取竞价结果信息

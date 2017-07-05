@@ -129,12 +129,12 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierMatServe">
 		update T_SES_SMS_SUPPLIER_MAT_SERVE
-		set SUPPLIER_ID = #{supplierId},
-		ORG_NAME = #{orgName},
-		TOTAL_PERSON = #{totalPerson},
-		TOTAL_MANAGE = #{totalMange},
-		TOTAL_TECH = #{totalTech},
-		TOTAL_WORKER = #{totalWorker},
+		set SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+		ORG_NAME = #{orgName,jdbcType=VARCHAR},
+		TOTAL_PERSON = #{totalPerson,jdbcType=INTEGER},
+		TOTAL_MANAGE = #{totalMange,jdbcType=INTEGER},
+		TOTAL_TECH = #{totalTech,jdbcType=INTEGER},
+		TOTAL_WORKER = #{totalWorker,jdbcType=INTEGER},
 		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
 		where ID = #{id}

@@ -42,6 +42,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.ems.ExpertAuditService;
+import ses.service.sms.SupplierAuditService;
 import ses.util.PropUtil;
 import app.dao.app.AppArticleMapper;
 import app.dao.app.AppSupplierBlackListMapper;
@@ -114,6 +116,14 @@ public class IndexAppController {
   //App版本管理
     @Autowired
     private AppInfoService appInfoService;
+    
+    // 注入专家审核Service
+    @Autowired
+    private ExpertAuditService expertAuditService;
+    
+    // 注入供应商审核Service
+    @Autowired
+    private SupplierAuditService supplierAuditService;
     
     /** 文件下载service */
     @Autowired
@@ -404,10 +414,10 @@ public class IndexAppController {
         AppData appData = new AppData();
         AppImg appImg = new AppImg();
         switch(id){
-            case 1 ://供应商名录  //1465798
+            case 1 ://入库名单 //1465798
                 Map<String, Object> map = new HashMap<>();
-                String[] statusArray = new String[] {"1","4","6","5","7","9","8"};
-                map.put("statusArray",statusArray);
+                /*String[] statusArray = new String[] {"1","4","6","5","7","9","8"};
+                map.put("statusArray",statusArray);*/
                 map.put("page", page);
                 List<AppSupplier> supplierList = indexAppService.selectAppSupplierList(map);
                 if(supplierList != null && !supplierList.isEmpty()){
@@ -447,6 +457,18 @@ public class IndexAppController {
                     appImg.setMsg("暂无数据");
                 }
                 break;
+            case 6 ://供应商拟入库公示
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("page", page);
+                appData.setSupplierPublicityList(supplierAuditService.selectSupByPublictyList(map1));
+                if(appData.getSupplierPublicityList() != null && !appData.getSupplierPublicityList().isEmpty()){
+                    appImg.setData(appData);
+                    appImg.setStatus(true);
+                }else {
+                    appImg.setStatus(false);
+                    appImg.setMsg("暂无数据");
+                }
+                break;
         }
         return JSON.toJSONString(appImg);
     }
@@ -466,10 +488,10 @@ public class IndexAppController {
         AppData appData = new AppData();
         AppImg appImg = new AppImg();
         switch(id){
-            case 1 ://专家名录  //4 6 8 复审通过  7 复查通过
+            case 1 ://入库名单   //4 6 8 复审通过  7 复查通过
                 Map<String, Object> map = new HashMap<>();
-                String[] statusArray = new String[] {"4","6","8","7"};
-                map.put("statusArray",statusArray);
+                /*String[] statusArray = new String[] {"4","6","8","7"};
+                map.put("statusArray",statusArray);*/
                 map.put("page", page);
                 List<AppSupplier> expertList = indexAppService.selectAppExpertList(map);
                 if(expertList != null && !expertList.isEmpty()){
@@ -502,6 +524,18 @@ public class IndexAppController {
             case 4 ://专家黑名单
                 appData.setBlackList(indexAppService.findAppExpertBlacklist(page));
                 if(appData.getBlackList() != null && !appData.getBlackList().isEmpty()){
+                    appImg.setData(appData);
+                    appImg.setStatus(true);
+                }else {
+                    appImg.setStatus(false);
+                    appImg.setMsg("暂无数据");
+                }
+                break;
+            case 6 ://专家拟入库公示
+                Map<String, Object> map2 = new HashMap<>();
+                map2.put("page", page);
+                appData.setExpertPublicityList(expertAuditService.selectExpByPublictyList(map2));
+                if(appData.getExpertPublicityList() != null && !appData.getExpertPublicityList().isEmpty()){
                     appImg.setData(appData);
                     appImg.setStatus(true);
                 }else {

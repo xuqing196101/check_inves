@@ -448,4 +448,18 @@ public interface SupplierService {
 	 * @return
 	 */
 	public Long contractCountCategoyrId(String supplierItemId);
+
+	/**
+	 * 手机号校验：专家库+供应商库（除去临时供应商）
+	 * @param mobile
+	 * @return
+	 */
+	public boolean checkMobile(String mobile);
+
+	/**
+	 * 通过供应商名称查询(去除临时供应商)
+	 * @param supplierName
+	 * @return
+	 */
+	public List<Supplier> selByNameWithoutProvisional(String supplierName);
 }

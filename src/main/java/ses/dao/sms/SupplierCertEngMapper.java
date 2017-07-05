@@ -3,6 +3,8 @@ package ses.dao.sms;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierCertEng;
 
 public interface SupplierCertEngMapper {
@@ -91,4 +93,15 @@ public interface SupplierCertEngMapper {
      * @return
      */
     Map<String, String> getLevel(String typeId, String certCode, String supplierId);
+    
+    /**
+     * 
+    * @Title: deleteByMatEngId
+    * @Description: 根据工程ID删除 
+    * author: Li Xiaoxiao 
+    * @param @param matEngId     
+    * @return void     
+    * @throws
+     */
+    void deleteByMatEngId(@Param("matEngId")String matEngId);
 }

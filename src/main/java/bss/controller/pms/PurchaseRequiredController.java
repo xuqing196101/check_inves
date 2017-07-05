@@ -924,7 +924,7 @@ public class PurchaseRequiredController extends BaseController {
 	}
 
 	@RequestMapping("/submanage")
-	@SystemControllerLog(description = "提交管理部门", operType = 3)
+	@SystemControllerLog(description = "提交管理部门")
 	public String submanage(String uniqueId, String managementId) {
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		PurchaseManagement pm = new PurchaseManagement();

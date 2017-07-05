@@ -175,9 +175,9 @@
             t2.SUPPLIER_ID = #{supplierId}
 	</select>
 	
-	<delete id="deleteById" parameterType="java.lang.String">
+	<delete id="deleteByServer" >
 		delete from T_SES_SMS_SUPPLIER_CERT_SERVE
-		where ID = #{id}
+		where MAT_SERVE_ID = #{matServeId}
 	</delete>
 	
 	

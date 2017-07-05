@@ -365,5 +365,13 @@
 			    ON T.SUPPLIER_ID = S.ID
 			 WHERE T.SUPPLIER_TYPE_RELATE_ID = 'PROJECT'
 	</select>
-
+	
+	<!-- 查询供应商选择了多少个产品类别 -->
+	<select id="selectRegSupCateCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(T.ID)
+		  FROM T_SES_SMS_SUPPLIER_ITEM T
+		   WHERE T.SUPPLIER_ID = #{supplierId}
+		   AND T.CATE_LEVEL = '3'
+	</select>
+	
 </mapper>

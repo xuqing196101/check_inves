@@ -57,8 +57,7 @@ public class ServiceHotlineController {
 	 * @exception
 	 */
 	@RequestMapping("/list")
-	@SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME)
 	public String list(@CurrentUser User user,@RequestParam(defaultValue="1")Integer page, Model model,ServiceHotline serviceHotline){
 		//声明标识是否是资源服务中心
 		String authType = null;
@@ -89,8 +88,7 @@ public class ServiceHotlineController {
 	 * @exception
 	 */
 	@RequestMapping("/addoredit")
-	@SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME)
 	public String addoredit(HttpServletRequest request,Model model){
 		String type = request.getParameter("type") == null ? "" : request.getParameter("type");
 		if(type.equals("1")){
@@ -119,8 +117,7 @@ public class ServiceHotlineController {
 	 * @exception
 	 */
 	@RequestMapping("/add")
-	@SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME)
 	public String add(Model model,@CurrentUser User user,ServiceHotline serviceHotline){
 		if(serviceHotline != null){
 			boolean flag = true;
@@ -170,8 +167,7 @@ public class ServiceHotlineController {
 	 * @exception
 	 */
 	@RequestMapping("/edit")
-	@SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME)
 	public String edit(Model model,ServiceHotline serviceHotline){
 		if(serviceHotline != null){
 			boolean flag = true;
@@ -216,8 +212,7 @@ public class ServiceHotlineController {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME,operType=StaticVariables.HL_SERVICEHOTLINE_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.HL_SERVICEHOTLINE_NAME)
 	public void delete(HttpServletRequest request){
 		String ids = request.getParameter("ids");
 		String id = ids.trim();

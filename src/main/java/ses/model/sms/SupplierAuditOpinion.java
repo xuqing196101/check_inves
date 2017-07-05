@@ -1,12 +1,19 @@
 package ses.model.sms;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SupplierAuditOpinion {
+public class SupplierAuditOpinion implements Serializable{
+	/**
+	 * SupplierAuditOpinion.java
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String id;
 	private String supplierId;
 	private String opinion;
 	private Date createdAt;
+	
 	public String getId() {
 		return id;
 	}
@@ -31,6 +38,5 @@ public class SupplierAuditOpinion {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
 	
 }

@@ -25,4 +25,18 @@ public class SupplierAuditOpinionServiceImpl implements SupplierAuditOpinionServ
 		return supplierAuditOpinionMapper.selectByPrimaryKey(supplierAuditOpinion);
 	}
 
+	/**
+	 * 
+	 * Description:根据供应商ID查询信息
+	 * 
+	 * @author Easong
+	 * @version 2017年7月3日
+	 * @param supplierId
+	 * @return
+	 */
+	@Override
+	public SupplierAuditOpinion selectByExpertId(String supplierId) {
+		return supplierAuditOpinionMapper.selectByExpertId(supplierId);
+	}
+
 }
