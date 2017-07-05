@@ -75,7 +75,7 @@ function zhancun(){
 					<a aria-expanded="false" href="#tab-4">审核汇总</a></li>
 				</ul>
 				<div class="tab-content padding-top-20" id="tab_content_div_id">
-					<table class="table table-bordered table-condensed table-hover table-striped" id="tab_content_2">
+					<table class="table table-bordered table-condensed table-hover table-striped m_table_fixed_border" id="tab_content_2">
 						 <thead>
 							<tr>
 							  <td class="tc info">序号</td>

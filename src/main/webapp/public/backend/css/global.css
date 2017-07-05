@@ -1925,17 +1925,22 @@ table.lockout .extrafile{
 		    background-image: url(../images/mdw/mdw10.png);
 		}
 		.m-chart-icon {
-				display: inline-block;
-				vertical-align: middle;
-				width: 33px;
+			display: inline-block;
+			vertical-align: middle;
+			width: 33px;
 		    height: 45px;
 		    background-image: url(../images/mdw/mdw1.png);
 		    background-repeat: no-repeat;
 		    background-position: 0 0;
 		}
-
-		/* 北京-前端-马田力修改 */
 		/* 后台-人员管理-采购机构人员管理，添加/修改页面错版修复*/
 		.m_ul_list li {
 			height: 77px;
+		}
+		/* 修复表格红色边框显示不全问题 */
+		.m_table_fixed_border {
+			border-collapse: inherit;
+		}
+		.m_table_fixed_border td, .m_table_fixed_border th {
+			
 		}
