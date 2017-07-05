@@ -5,6 +5,8 @@ import iss.model.ps.Article;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import app.model.AppBlackList;
 import app.model.AppHotLine;
 import app.model.AppSupplier;
@@ -139,4 +141,15 @@ public interface IndexAppService {
      * @return
      */
     List<AppHotLine> selectHotLineList(Integer page);
+    
+    /**
+     * 
+     * Description: 生成公告图片
+     * 
+     * @author zhang shubin
+     * @data 2017年7月5日
+     * @param 
+     * @return
+     */
+    void getContentImg(Article articleDetail,HttpServletRequest request);
 }
