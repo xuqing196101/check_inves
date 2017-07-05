@@ -142,7 +142,7 @@
 										<th class="info" width="30%">采购机构</th>
 										<th class="info">注册数量</th>
 										<th class="info">待审核数量</th>
-										<th class="info">已审核数量</th>
+										<th class="info">审核通过数量</th>
 										<th class="info">退回修改数量</th>
 										<th class="info">审核不通过数量</th>
 									</tr>
@@ -189,7 +189,7 @@
 										<th class="info" width="20%">采购机构</th>
 										<th class="info">注册数量</th>
 										<th class="info">待审核数量</th>
-										<th class="info">已审核数量</th>
+										<th class="info">审核通过数量</th>
 										<th class="info">退回修改数量</th>
 										<th class="info">审核不通过数量</th>
 										<th class="info">军队数量</th>
