@@ -317,8 +317,9 @@ public class SupplierController extends BaseSupplierController {
 		}
 		//已注册供应商
 		if(sup != null) {
+			sup = supplierService.get(supplier.getId());
 			//初始化近三年的财务信息
-			initFinance(sup);
+			supplierService.initFinance(sup);
 			//股东信息
 			List < SupplierStockholder > stock = supplierStockholderMapper.findStockholderBySupplierId(sup.getId());
 			if(stock != null && stock.size() > 0) {
@@ -410,6 +411,7 @@ public class SupplierController extends BaseSupplierController {
 	 * @author myc
 	 * @param sup {@link Supplier}
 	 */
+	@SuppressWarnings("unused")
 	private void initFinance(Supplier sup) {
 		List < SupplierFinance > finace = supplierFinanceMapper.findFinanceBySupplierId(sup.getId());
 		if(finace != null && finace.size() > 0) {
@@ -2475,58 +2477,9 @@ public class SupplierController extends BaseSupplierController {
 				model.addAttribute("city", city);
 				model.addAttribute("area", area);
 			}
-	
-			if(supplier.getListSupplierFinances() != null && supplier.getListSupplierFinances().size() < 1) {
-				List < SupplierFinance > list = supplierFinanceService.getYear();
-				supplier.setListSupplierFinances(list);
-			} else {
-				if(supplier.getStatus() == null || supplier.getStatus() == -1){// 暂存状态
-					SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
-					if(finance1 == null) {
-						SupplierFinance fin1 = new SupplierFinance();
-						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						fin1.setId(id);
-						fin1.setYear(String.valueOf(oneYear()));
-						supplier.getListSupplierFinances().add(fin1);
-					}
-					SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
-					if(finance2 == null) {
-						SupplierFinance fin2 = new SupplierFinance();
-						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						fin2.setId(id);
-						fin2.setYear(String.valueOf(twoYear()));
-						supplier.getListSupplierFinances().add(fin2);
-					}
-					//SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear(supplier.getCreatedAt())));
-					SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
-					if(finance3 == null) {
-						SupplierFinance fin3 = new SupplierFinance();
-						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						fin3.setId(id);
-						fin3.setYear(String.valueOf(threeYear()));
-						supplier.getListSupplierFinances().add(fin3);
-					}
-				}
-			}
 			
-			List<SupplierFinance> financeList = supplier.getListSupplierFinances();
-			if(financeList != null){
-				// 排序
-				ListSortUtil<SupplierFinance> sortList = new ListSortUtil<SupplierFinance>();
-				sortList.sort(financeList, "year", "asc");
-				// 如果近三年财务信息超过三年，则取最近三年
-				if(financeList.size() > 3){
-					Iterator<SupplierFinance> it = financeList.iterator();
-					int i = financeList.size();
-					while(it.hasNext()){
-						it.next();
-						if(i > 3){
-							it.remove();
-						}
-						i--;
-					}
-				}
-			}
+			// 初始化财务信息
+			supplierService.initFinance(supplier);
 			
 			initCompanyType(model, supplier);
 			initBasicAudit(model, supplier);
@@ -2717,71 +2670,6 @@ public class SupplierController extends BaseSupplierController {
 		Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(supplier.getProcurementDepId());
 		model.addAttribute("purchaseDep", orgnization);
 		return "ses/sms/supplier_register/audit_org";
-	}
-
-	public Integer oneYear() {
-		//	List<Integer> yearList=new ArrayList<Integer>();
-
-		Calendar cale = Calendar.getInstance();
-		int year = cale.get(Calendar.YEAR);
-		int year2 = year - 2; //2014
-		return year2;
-	}
-
-	public Integer twoYear() {
-		//	List<Integer> yearList=new ArrayList<Integer>();
-
-		Calendar cale = Calendar.getInstance();
-		int year = cale.get(Calendar.YEAR);
-		int year3 = year - 3; //2013
-		return year3;
-	}
-
-	public Integer threeYear() {
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String mont = sdf.format(date).split("-")[1];
-		Integer month = Integer.valueOf(mont);
-		Calendar cale = Calendar.getInstance();
-		int year = cale.get(Calendar.YEAR);
-		Integer yearThree = 0;
-		
-		if(month < 6) {// 以6月份为基准
-			yearThree = year - 4; //2012
-		} else {
-			yearThree = year - 1; //2015
-		}
-		return yearThree;
-	}
-	
-	public Integer threeYear(Date regDate) {
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String mont = sdf.format(date).split("-")[1];
-		Integer month = Integer.valueOf(mont);
-		Calendar cale = Calendar.getInstance();
-		int year = cale.get(Calendar.YEAR);
-		Integer yearThree = 0;
-		
-		String regMon = sdf.format(regDate).split("-")[1];
-		Integer regMonth = Integer.valueOf(regMon);
-//		
-//		if(month < 7) {
-//			yearThree = year - 4; //2012
-//
-//		} else {
-//			yearThree = year - 1; //2015
-//
-//		}
-		
-		if(regMonth<7){
-			yearThree = year - 4; //2012
-		}
-		else {
-			yearThree = year - 1; //2015
-			
-		}
-		return yearThree;
 	}
 
 	@RequestMapping(value = "/audit", produces = "text/html;charset=UTF-8")
