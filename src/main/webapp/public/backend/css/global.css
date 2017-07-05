@@ -1941,6 +1941,15 @@ table.lockout .extrafile{
 		.m_table_fixed_border {
 			border-collapse: inherit;
 		}
-		.m_table_fixed_border td, .m_table_fixed_border th {
-			
+		.p20 { padding: 20px; }
+		.m_inline { display: inline-block; vertical-align: middle; }
+		.m_upload_file .wuexample, .m_upload_file .m_uploadFiles {
+			float: none !important;
+			display: block !important;
+			width: 100% !important;
+			overflow: hidden;
+		}
+		.m_upload_file .btns {
+			float: none;
+			text-align: center;
 		}
