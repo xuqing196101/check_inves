@@ -16,6 +16,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertTitle;
+import ses.model.oms.PurchaseDep;
 import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -24,6 +25,7 @@ import ses.service.bms.EngCategoryService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ExpertTitleService;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
@@ -64,6 +66,9 @@ public class ExpertQueryController {
     
 	@Autowired
 	private EngCategoryService engCategoryService; //工程专业信息
+	
+	@Autowired
+	private PurChaseDepOrgService purChaseDepOrgService;
 	
 	/**
      * 
@@ -204,6 +209,9 @@ public class ExpertQueryController {
         model.addAttribute("expTypeList", jsTypeList);
         // 专家类型
         List < DictionaryData > expertFromList = DictionaryDataUtil.find(12);
+        //全部机构
+        List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();
+        model.addAttribute("allOrg", allOrg);
         model.addAttribute("expertFromList", expertFromList);
         model.addAttribute("expert", expert);
         PageInfo<Expert> pageInfo = new PageInfo < Expert > (allExpert);
