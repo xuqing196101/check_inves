@@ -94,15 +94,19 @@
     					} else if(data == "expert_waitOnceCheck"){
                             $("#divPrompt").removeClass("hide");
                             $("#spanPrompt").text("对不起，您处于待复审状态");
+                            layer.close(index);
                         } else if(data == "onceCheckNoPass"){
                             $("#divPrompt").removeClass("hide");
                             $("#spanPrompt").text("对不起，您的复审未通过");
+                            layer.close(index);
                         } else if(data == "prepass"){
                             $("#divPrompt").removeClass("hide");
-                            $("#spanPrompt").text("对不起，您处于预通过期间");
+                            $("#spanPrompt").text("对不起，您处于预审核通过期间");
+                            layer.close(index);
                         }else if(data == "publicity"){
                             $("#divPrompt").removeClass("hide");
                             $("#spanPrompt").text("对不起，您处于公示期间");
+                            layer.close(index);
                         } else if (flag[0] == "firset") {
     						//询问框
     						layer.confirm('您还未完善个人信息，是否前去完善？', {

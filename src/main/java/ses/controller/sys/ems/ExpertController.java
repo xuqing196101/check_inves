@@ -102,6 +102,7 @@ import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ExpertTitleService;
 import ses.service.ems.ProjectExtractService;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierQuoteService;
@@ -207,6 +208,9 @@ public class ExpertController extends BaseController {
     // 注入登录日志Service
     @Autowired
     private LoginLogService loginLogService;
+    
+    @Autowired
+    private PurChaseDepOrgService purChaseDepOrgService;
     
     /**
      * 
@@ -2171,7 +2175,11 @@ public class ExpertController extends BaseController {
             data.setName(data.getName() + "技术");
         }
         List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
-
+        
+        //全部机构
+        List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();
+        request.setAttribute("allOrg", allOrg);
+        
         jsTypeList.addAll(jjTypeList);
         request.setAttribute("expTypeList", jsTypeList);
         request.setAttribute("result", new PageInfo < Expert > (allExpert));
@@ -2993,6 +3001,9 @@ public class ExpertController extends BaseController {
             }
         }
         supplier.setAllTreeList(allTreeList);
+        
+        // 处理财务信息
+        supplierService.initFinance(supplier);
     }
 
     /**
@@ -3411,7 +3422,7 @@ public class ExpertController extends BaseController {
     			if("1".equals(ipAddressType)){
     			      host ="https://www.plap.cn/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
     		    }else{
-    		    	 host ="https://21.100.16.12/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+    		    	 host ="http://21.100.16.12/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
     		    }
         	dataMap.put("image",host);
 //		}

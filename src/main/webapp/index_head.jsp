@@ -598,13 +598,43 @@ function importAdd(){
                         </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
+                    <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status">
+                        <c:set value="${item.supplierName}" var="supplierName"></c:set>
+                        <c:set value="${item.supplierTypeNames}" var="supplierTypeNames"></c:set>
+                        <c:set value="${item.businessNature}" var="businessNature"></c:set>
                         <tr>
-                            <td>${item.supplierName}</td>
-														<td class="tc">${ item.supplierTypeNames }</td>
-														<td class="tc">${ item.businessNature }</td>
-														<td class="tc">${ item.orgName }</td>
-														<td class="tl">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${fn:length(supplierName) > 4}">
+                                        <c:out value="${fn:substring(supplierName, 0, 4)}.." />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="${supplierName}"></c:out>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td class="tc">
+                                <c:choose>
+                                    <c:when test="${fn:length(supplierTypeNames) > 4}">
+                                        <c:out value="${fn:substring(supplierTypeNames, 0, 4)}..." />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="${supplierTypeNames}"></c:out>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td class="tc">
+                                <c:choose>
+                                    <c:when test="${fn:length(businessNature) > 2}">
+                                        <c:out value="${fn:substring(businessNature, 0, 2)}..." />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="${businessNature}"></c:out>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td class="tc">${ item.orgName }</td>
+                            <td class="tl">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
                         </tr>
                     </c:forEach>
                     </tbody>

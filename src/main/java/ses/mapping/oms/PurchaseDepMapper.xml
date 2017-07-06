@@ -1093,4 +1093,16 @@
 	  select * from T_SES_OMS_PURCHASE_DEP  where IS_AUDIT_SUPPLIER=1
 	</select>
 	
+	<!-- 全部机构 -->
+	<select id="findAllOrg" resultType="ses.model.oms.PurchaseDep">
+	  SELECT
+		  ORG.SHORT_NAME AS name,
+		  DEP. ID
+		FROM
+		  T_SES_OMS_PURCHASE_DEP dep,
+		  T_SES_OMS_ORG org
+		WHERE
+		  DEP.ORG_ID = ORG. ID
+		ORDER BY ORG.POSITION
+	</select>
 </mapper>

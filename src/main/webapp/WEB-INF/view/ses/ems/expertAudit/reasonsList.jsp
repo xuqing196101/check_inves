@@ -26,7 +26,7 @@
                 //$("#tongguo").attr("disabled", true);
             }
             
-            // 复审预通过状态
+            // 预复审合格状态
             if('${status}' == -2){
             	$("#checkWord").show();
             }
@@ -111,7 +111,7 @@
                          });
                      }
 
-                    //初审不通过
+                    //初审不合格
                     /* if (status == 2) {
                         window.location.href = "${pageContext.request.contextPath}/expertAudit/saveAuditNot.html?expertId=" + expertId;
                     } */
@@ -335,7 +335,7 @@
                         <th class="info">审批类型</th>
                         <th class="info">审批字段</th>
                         <th class="info">审批内容</th>
-                        <th class="info">不通过理由</th>
+                        <th class="info">不合格理由</th>
                     </tr>
                     </thead>
                     <c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
@@ -411,26 +411,26 @@
                     <input type="hidden" name="status" id="status"/>
                     <input name="auditOpinionAttach" id="auditOpinion" type="hidden" />
                     <c:if test="${status eq '0'}">
-                        <input class="btn btn-windows git" type="button" onclick="shenhe(1);" value="初审通过 " id="tongguo">
-                        <input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不通过" id="butongguo">
+                        <input class="btn btn-windows git" type="button" onclick="shenhe(1);" value="初审合格 " id="tongguo">
+                        <input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo">
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>
                     <c:if test="${status eq '1'}">
-                        <span id="tongguoSpan"><input class="btn btn-windows git" type="button" onclick="shenhe(-2);" value="复审预通过 " id="tongguo"></span>
+                        <span id="tongguoSpan"><input class="btn btn-windows git" type="button" onclick="shenhe(-2);" value="预复审合格 " id="tongguo"></span>
                         <span class="display-none" id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
-                        <input class="btn btn-windows edit" type="button" onclick="shenhe(5);" value="复审不通过" id="tichu">
+                        <input class="btn btn-windows edit" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu">
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>
                     <c:if test="${status eq '-2' || status eq '-3'}">
                         <c:if test="${ status eq '-2' }">
                           <span id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
                         </c:if>
-                        <input class="btn btn-windows edit" type="button" onclick="shenhe(5);" value="复审不通过" id="tichu">
+                        <input class="btn btn-windows edit" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu">
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>
                     <c:if test="${status eq '6'}">
-                        <input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查通过 " id="tongguo">
-                        <input class="btn btn-windows edit" type="button" onclick="shenhe(8);" value="复查不通过" id="tichu">
+                        <input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查合格 " id="tongguo">
+                        <input class="btn btn-windows edit" type="button" onclick="shenhe(8);" value="复查不合格" id="tichu">
                     </c:if>
                 </form>
             </div>

@@ -74,8 +74,10 @@ public class SupplierCateTree implements Serializable{
     //合同文件数量
     private Long contractCount;
     private String supplierItemId;
-    //目录 是否有审核记录
-    private Integer isItemsPageAudit; 
+    //目录 是否有审核记录 物资生产
+    private Integer isItemsProductPageAudit; 
+  //目录 是否有审核记录 物资销售
+    private Integer isItemsSalesPageAudit; 
     //资质文件 是否有审核记录
     private Integer isAptitudePAgeAudit;
     //合同文件 是否有资质审核记录
@@ -83,21 +85,32 @@ public class SupplierCateTree implements Serializable{
     // 根节点类型（1：物质生产；2：物质销售；3：工程；4：服务）
     private int rootNodeType;
     
+    // 类别id
+    private String categoryId;
     
-    public String getItemsName() {
+
+	public String getItemsName() {
 		return itemsName;
 	}
 
 	public void setItemsName(String itemsName) {
 		this.itemsName = itemsName;
 	}
-
-	public Integer getIsItemsPageAudit() {
-		return isItemsPageAudit;
+	
+	public Integer getIsItemsProductPageAudit() {
+		return isItemsProductPageAudit;
 	}
 
-	public void setIsItemsPageAudit(Integer isItemsPageAudit) {
-		this.isItemsPageAudit = isItemsPageAudit;
+	public void setIsItemsProductPageAudit(Integer isItemsProductPageAudit) {
+		this.isItemsProductPageAudit = isItemsProductPageAudit;
+	}
+
+	public Integer getIsItemsSalesPageAudit() {
+		return isItemsSalesPageAudit;
+	}
+
+	public void setIsItemsSalesPageAudit(Integer isItemsSalesPageAudit) {
+		this.isItemsSalesPageAudit = isItemsSalesPageAudit;
 	}
 
 	public Integer getIsAptitudePAgeAudit() {
@@ -350,6 +363,18 @@ public class SupplierCateTree implements Serializable{
 
 	public void setRootNodeType(int rootNodeType) {
 		this.rootNodeType = rootNodeType;
+	}
+
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 }

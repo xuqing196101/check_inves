@@ -210,7 +210,7 @@
 				}
     </script>
     <script type="text/javascript">
-			/* function jump(str){
+			/*  function jump(str){
 			  var action;
 			  if(str=="essential"){
 			     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -254,7 +254,7 @@
 			   }
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
-			} */
+			}  */
 		</script>
   </head>
 
@@ -345,12 +345,12 @@
 							</li>
 		          <li onclick = "jump('contract')" >
 		            <a aria-expanded="false" href="#tab-4">销售合同</a>
-		             <i></i>
-		          </li>   -->
+		             <i></i>-->
+		          </li>   
 		          <li onclick="jump('aptitude')">
                             <a aria-expanded="false" href="#tab-4">产品类别及资质合同</a>
                             <i></i>
-                        </li>
+                        </li> 
 		          <li onclick = "jump('applicationForm')" >
 		            <a aria-expanded="false" href="#tab-4" >承诺书和申请表</a>
 		            <i></i>
@@ -406,6 +406,8 @@
                      <c:if test="${reasons.auditType eq 'mat_pro_page' || reasons.auditType eq 'mat_sell_page' || reasons.auditType eq 'mat_eng_page' || reasons.auditType eq 'mat_serve_page' || reasons.auditType eq 'supplierType_page'}">供应商类型</c:if>
                      <%-- <c:if test="${reasons.auditType == 'mat_serve_page' || reasons.auditType == 'item_sell_page' || reasons.auditType == 'item_eng_page' || reasons.auditType == 'item_serve_page'}">品目信息</c:if> --%>
                      <c:if test="${reasons.auditType eq 'items_page'}">品目信息</c:if>
+                     <c:if test="${reasons.auditType eq 'items_product_page'}">物资生产目录信息</c:if>
+                     <c:if test="${reasons.auditType eq 'items_sales_page'}">物资销售目录信息</c:if>
                      <c:if test="${reasons.auditType eq 'aptitude_page'}">资质文件</c:if>
                      <c:if test="${reasons.auditType eq 'contract_page'}">品目合同</c:if>
                      <c:if test="${reasons.auditType eq 'download_page'}">申请表</c:if>
@@ -493,7 +495,7 @@
 					<a class="btn"  type="button" onclick="lastStep();">上一步</a>
           			<!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
 		            <c:if test="${supplierStatus == 0}">
-		              <span id="tongguoSpan"><input class="btn btn-windows git"  type="button" onclick="shenhe(-2)" value="审核预通过" id="tongguo"></span>
+		              <span id="tongguoSpan"><input class="btn btn-windows git"  type="button" onclick="shenhe(-2)" value="预审核通过" id="tongguo"></span>
 		              <span class="display-none" id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
 		              <input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">

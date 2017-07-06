@@ -322,7 +322,7 @@
     </script>
 
     <script type="text/javascript">
-      /*    function jump(str) {
+          /* function jump(str) {
             var action;
             if (str == "essential") {
                 action = "${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -365,7 +365,7 @@
             }
             $("#form_id").attr("action", action);
             $("#form_id").submit();
-        } */
+        }  */
     </script>
 </head>
 
@@ -480,10 +480,10 @@
                     <a aria-expanded="false">销售合同</a>
                     <i></i>
                 </li>-->
-                 <li onclick="jump('aptitude')">
+                  <li onclick="jump('aptitude')">
                     <a aria-expanded="false">产品类别及资质合同</a>
                     <i></i>
-                </li>
+                </li> 
                 <li onclick="jump('applicationForm')">
                     <a aria-expanded="false">承诺书和申请表</a>
                     <i></i>

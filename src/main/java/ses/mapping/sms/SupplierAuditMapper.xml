@@ -350,7 +350,7 @@
 		  FROM T_SES_SMS_SUPPLIER_AUDIT T
 		   WHERE T.SUPPLIER_ID = #{supplierId, jdbcType=VARCHAR}
 		   AND T.AUDIT_TYPE = #{regType, jdbcType=VARCHAR}
-		   AND T.STATUS = 0
+		   AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
        AND T.IS_DELETED = 0
 	</select>
 </mapper>

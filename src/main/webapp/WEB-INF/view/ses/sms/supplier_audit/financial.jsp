@@ -191,7 +191,7 @@
 		</script>
 
 		<script type="text/javascript">
-			/*  function jump(str) {
+			  /* function jump(str) {
 				var action;
 				if(str == "essential") {
 					action = "${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -202,7 +202,7 @@
 				if(str == "shareholder") {
 					action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
 				}
-				/ *if(str == "materialProduction") {
+				/*if(str == "materialProduction") {
 					action = "${pageContext.request.contextPath}/supplierAudit/materialProduction.html";
 				}
 				if(str == "materialSales") {
@@ -234,7 +234,7 @@
 				}
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
-			} */
+			}  */
 		</script>
 
 	</head>

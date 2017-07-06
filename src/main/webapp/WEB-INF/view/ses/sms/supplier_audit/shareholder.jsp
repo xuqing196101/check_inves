@@ -123,7 +123,7 @@
     </script>
 
 		<script type="text/javascript">
-			/*  function jump(str){
+			 /* function jump(str){
 			  var action;
 			  if(str=="essential"){
 			     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -134,7 +134,7 @@
 			  if(str=="shareholder"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
 			  }
-			  / *if(str=="materialProduction"){
+			  /*if(str=="materialProduction"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/materialProduction.html";
 			  }
 			  if(str=="materialSales"){
@@ -166,7 +166,7 @@
 				}
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
-			} */
+			}  */
 		</script>
 
   </head>
@@ -272,7 +272,7 @@
           <!-- <li onclick = "jump('items')">
             <a aria-expanded="false" >产品类别</a>
             <i></i>
-	        </li> 
+	        </li>
 	        <li onclick="jump('aptitude')">
 						<a aria-expanded="false" >资质文件维护</a>
 						<i></i>
@@ -280,7 +280,7 @@
           <li onclick="jump('contract')">
 					  <a aria-expanded="false" >销售合同</a>
 					  <i></i>
-					</li>-->
+					</li> -->
 					<li onclick="jump('aptitude')">
                             <a aria-expanded="false" href="#tab-4">产品类别及资质合同</a>
                             <i></i>

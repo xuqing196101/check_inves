@@ -317,8 +317,9 @@ public class SupplierController extends BaseSupplierController {
 		}
 		//已注册供应商
 		if(sup != null) {
+			sup = supplierService.get(supplier.getId());
 			//初始化近三年的财务信息
-			initFinance(sup);
+			supplierService.initFinance(sup);
 			//股东信息
 			List < SupplierStockholder > stock = supplierStockholderMapper.findStockholderBySupplierId(sup.getId());
 			if(stock != null && stock.size() > 0) {
@@ -410,6 +411,7 @@ public class SupplierController extends BaseSupplierController {
 	 * @author myc
 	 * @param sup {@link Supplier}
 	 */
+	@SuppressWarnings("unused")
 	private void initFinance(Supplier sup) {
 		List < SupplierFinance > finace = supplierFinanceMapper.findFinanceBySupplierId(sup.getId());
 		if(finace != null && finace.size() > 0) {
@@ -1437,6 +1439,18 @@ public class SupplierController extends BaseSupplierController {
 		}
 		super.writeJson(response, msg);
 	}
+	
+	@RequestMapping(value = "check_mobile")
+	public void checkMobile(HttpServletResponse response, String mobile) {
+		boolean flag = supplierService.checkMobile(mobile);
+		String msg = "";
+		if(flag) {
+			msg = "{\"msg\":\"success\"}";
+		} else {
+			msg = "{\"msg\":\"fail\"}";
+		}
+		super.writeJson(response, msg);
+	}
 
 	@RequestMapping(value = "return_edit")
 	public String returnEdit(HttpServletRequest request, Supplier supplier, Model model) {
@@ -1504,7 +1518,7 @@ public class SupplierController extends BaseSupplierController {
 		//String identifyCode = (String) request.getSession().getAttribute("img-identity-code");// 验证码
 		int count = 0;
 		if(supplier.getLoginName() == null || !supplier.getLoginName().matches("^\\w{6,20}$")) {
-			model.addAttribute("err_msg_loginName", "登录名由6-20位字母数字和下划线组成 !");
+			model.addAttribute("err_msg_loginName", "登录名由6-20位字母数字和下划线组成！");
 			count++;
 		}
 		if(StringUtils.isNotBlank(supplier.getLoginName())){
@@ -1515,15 +1529,15 @@ public class SupplierController extends BaseSupplierController {
 			}
 		}
 		if(supplier.getPassword() == null || supplier.getPassword().length() < 6 || supplier.getPassword().length() > 20) {
-			model.addAttribute("err_msg_password", "密码长度为6-20位!");
+			model.addAttribute("err_msg_password", "密码长度为6-20位！");
 			count++;
 		}
 		if(supplier.getConfirmPassword() == null || !supplier.getPassword().equals(supplier.getConfirmPassword())) {
-			model.addAttribute("err_msg_ConfirmPassword", "密码和重复密码不一致 !");
+			model.addAttribute("err_msg_ConfirmPassword", "密码和确认密码不一致！");
 			count++;
 		}
 		if(supplier.getMobile() == null || !supplier.getMobile().matches("^1[0-9]{10}$")) {
-			model.addAttribute("err_msg_mobile", "手机格式不正确 !");
+			model.addAttribute("err_msg_mobile", "手机格式不正确！");
 			count++;
 		}
 
@@ -1538,10 +1552,9 @@ public class SupplierController extends BaseSupplierController {
 		if(StringUtils.isNotBlank(supplier.getMobile())) {
 			// 手机号校验：专家库+供应商库（除去临时供应商）
 			boolean bool = supplierService.checkMobile(supplier.getMobile());
-			//Boolean ajaxMoblie = userService.ajaxMoblie(supplier.getMobile(), null);
 			if(!bool) {
 				count++;
-				model.addAttribute("err_msg_mobile", "手机号已存在 !");
+				model.addAttribute("err_msg_mobile", "手机号已被使用，请更换重试！");
 			}
 		}
 		if(count > 0) {
@@ -1733,6 +1746,9 @@ public class SupplierController extends BaseSupplierController {
 					model.addAttribute("err_creditCide", "信用代码18位，请按照实际社会信用代码填写 !");
 					count++;
 				}
+			}else{// 非18位数字+字母
+				model.addAttribute("err_creditCide", "信用代码18位，请按照实际社会信用代码填写 !");
+				count++;
 			}
 		}
 		
@@ -1908,56 +1924,71 @@ public class SupplierController extends BaseSupplierController {
                 }
             }
         }
-		if(supplier.getListSupplierStockholders() == null || supplier.getListSupplierStockholders().size() < 1) {
+		// 股东信息
+		List < SupplierStockholder > stockList = supplier.getListSupplierStockholders();
+		if(stockList == null || stockList.isEmpty()) {
 			count++;
 			model.addAttribute("stock", "请添加股东信息!");
 		}
-		int cardId=0;
-		Set<String> set=new HashSet<String>();
-		if(supplier.getListSupplierStockholders() != null && supplier.getListSupplierStockholders().size() > 0) {
-			List < SupplierStockholder > stockList = supplier.getListSupplierStockholders();
+		if(stockList != null && !stockList.isEmpty()) {
+			int identityCount = 0;
+			Set<String> identitySet = new HashSet<String>();
 			//float proportionTotal = 0.00f;// 出资比例之和
 			double proportionTotal = 0.00d;// 出资比例之和
 			int stockholderCount = 0;// 股东数量
-			if(stockList != null && !stockList.isEmpty()){
-				for(SupplierStockholder stocksHolder: stockList) {
-					set.add(stocksHolder.getIdentity());
-					cardId++;
-					if(stocksHolder.getName() == null || stocksHolder.getName() == "") {
-						count++;
-						model.addAttribute("stock", "出资人名称或姓名不能为空！");
-					}
-					if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
-						count++;
-						model.addAttribute("stock", "统一社会信用代码或身份证号码不能为空或者格式不正确!");
-					}
-					// 统一社会信用代码或身份证号码校验
-					String identity = stocksHolder.getIdentity();
-					if("1".equals(stocksHolder.getNature())){
-						// 统一社会信用代码校验
-						if(identity != null){
-							if(identity.matches("^([a-zA-Z0-9]){18}$")){// 18位数字+字母
-								if(identity.matches("^([a-zA-Z])+$")){// 排除全字母
-									model.addAttribute("stock", "信用代码18位，请按照实际社会信用代码填写 !");
-									count++;
-								}
+			String errorIdentity = "";// 错误信用代码或身份证号码
+			for(SupplierStockholder stocksHolder: stockList) {
+				identitySet.add(stocksHolder.getIdentity());
+				identityCount++;
+				if(stocksHolder.getName() == null || stocksHolder.getName() == "") {
+					count++;
+					model.addAttribute("stock", "出资人名称或姓名不能为空！");
+				}
+				if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
+					count++;
+					model.addAttribute("stock", "统一社会信用代码或身份证号码不能为空或者格式不正确！");
+				}
+				// 统一社会信用代码或身份证号码校验
+				String identity = stocksHolder.getIdentity();
+				if("1".equals(stocksHolder.getNature())){
+					// 统一社会信用代码校验
+					if(identity != null){
+						if(identity.matches("^([a-zA-Z0-9]){18}$")){// 18位数字+字母
+							if(identity.matches("^([a-zA-Z])+$")){// 排除全字母
+								errorIdentity += identity + "、";
+								errorIdentity = errorIdentity.substring(0, errorIdentity.lastIndexOf("、"));
+								model.addAttribute("stock", "信用代码18位，请按照实际社会信用代码填写！错误代码：【"+errorIdentity+"】");
+								count++;
 							}
-						}
-					}
-					if("2".equals(stocksHolder.getNature())){
-						// 身份证号码校验
-						if(StringUtils.isNotBlank(identity) && !IDCardUtil.isIDCard(identity)){
-							model.addAttribute("stock", "身份证号码错误！请按实际身份证号码填写。");
+						}else{// 非18位数字+字母
+							errorIdentity += identity + "、";
+							errorIdentity = errorIdentity.substring(0, errorIdentity.lastIndexOf("、"));
+							model.addAttribute("stock", "信用代码18位，请按照实际社会信用代码填写！错误代码：【"+errorIdentity+"】");
 							count++;
 						}
 					}
-					if(stocksHolder.getShares() == null || stocksHolder.getShares() == "") {
+				}
+				if("2".equals(stocksHolder.getNature())){
+					// 身份证号码校验
+					if(StringUtils.isNotBlank(identity) && !IDCardUtil.isIDCard(identity)){
+						errorIdentity += identity + "、";
+						errorIdentity = errorIdentity.substring(0, errorIdentity.lastIndexOf("、"));
+						model.addAttribute("stock", "身份证号码错误！请按实际身份证号码填写。错误号码：【"+errorIdentity+"】");
 						count++;
-						model.addAttribute("stock", "出资金额或股份不能为空！");
 					}
-					if(stocksHolder.getProportion() == null || stocksHolder.getProportion() == "") {
+				}
+				if(stocksHolder.getShares() == null || stocksHolder.getShares() == "") {
+					count++;
+					model.addAttribute("stock", "出资金额或股份不能为空！");
+				}
+				if(stocksHolder.getProportion() == null || stocksHolder.getProportion() == "") {
+					count++;
+					model.addAttribute("stock", "比例不能为空！");
+				}else{
+					String regex = "^(([1-9]\\d{0,1}|0|100)(\\.\\d{1,2})?)?$";
+					if(!stocksHolder.getProportion().matches(regex)){
 						count++;
-						model.addAttribute("stock", "比例不能为空！");
+						model.addAttribute("stock", "百分比格式不对，正确格式为0-100的数字，最多两位小数！");
 					}else{
 						//proportionTotal += Float.parseFloat(stocksHolder.getProportion());// 这样丢失精度
 						proportionTotal = Arith.add(proportionTotal, Double.parseDouble(stocksHolder.getProportion()));
@@ -1976,10 +2007,10 @@ public class SupplierController extends BaseSupplierController {
 					model.addAttribute("stock", "出资人不超过10个，出资比例之和必须为100%！");
 				}
 			}
-		}
-		if(set.size()!=cardId){
-			count++;
-			model.addAttribute("stock", "统一社会信用代码或身份证号码重复！");
+			if(identitySet.size() != identityCount){
+				count++;
+				model.addAttribute("stock", "统一社会信用代码或身份证号码重复！");
+			}
 		}
 		// 售后服务机构
         if(supplier.getListSupplierAfterSaleDep() == null || supplier.getListSupplierAfterSaleDep().size() < 1) {
@@ -2464,58 +2495,9 @@ public class SupplierController extends BaseSupplierController {
 				model.addAttribute("city", city);
 				model.addAttribute("area", area);
 			}
-	
-			if(supplier.getListSupplierFinances() != null && supplier.getListSupplierFinances().size() < 1) {
-				List < SupplierFinance > list = supplierFinanceService.getYear();
-				supplier.setListSupplierFinances(list);
-			} else {
-				if(supplier.getStatus() == null || supplier.getStatus() == -1){// 暂存状态
-					SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
-					if(finance1 == null) {
-						SupplierFinance fin1 = new SupplierFinance();
-						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						fin1.setId(id);
-						fin1.setYear(String.valueOf(oneYear()));
-						supplier.getListSupplierFinances().add(fin1);
-					}
-					SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
-					if(finance2 == null) {
-						SupplierFinance fin2 = new SupplierFinance();
-						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						fin2.setId(id);
-						fin2.setYear(String.valueOf(twoYear()));
-						supplier.getListSupplierFinances().add(fin2);
-					}
-					//SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear(supplier.getCreatedAt())));
-					SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
-					if(finance3 == null) {
-						SupplierFinance fin3 = new SupplierFinance();
-						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						fin3.setId(id);
-						fin3.setYear(String.valueOf(threeYear()));
-						supplier.getListSupplierFinances().add(fin3);
-					}
-				}
-			}
 			
-			List<SupplierFinance> financeList = supplier.getListSupplierFinances();
-			if(financeList != null){
-				// 排序
-				ListSortUtil<SupplierFinance> sortList = new ListSortUtil<SupplierFinance>();
-				sortList.sort(financeList, "year", "asc");
-				// 如果近三年财务信息超过三年，则取最近三年
-				if(financeList.size() > 3){
-					Iterator<SupplierFinance> it = financeList.iterator();
-					int i = financeList.size();
-					while(it.hasNext()){
-						it.next();
-						if(i > 3){
-							it.remove();
-						}
-						i--;
-					}
-				}
-			}
+			// 初始化财务信息
+			supplierService.initFinance(supplier);
 			
 			initCompanyType(model, supplier);
 			initBasicAudit(model, supplier);
@@ -2706,71 +2688,6 @@ public class SupplierController extends BaseSupplierController {
 		Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(supplier.getProcurementDepId());
 		model.addAttribute("purchaseDep", orgnization);
 		return "ses/sms/supplier_register/audit_org";
-	}
-
-	public Integer oneYear() {
-		//	List<Integer> yearList=new ArrayList<Integer>();
-
-		Calendar cale = Calendar.getInstance();
-		int year = cale.get(Calendar.YEAR);
-		int year2 = year - 2; //2014
-		return year2;
-	}
-
-	public Integer twoYear() {
-		//	List<Integer> yearList=new ArrayList<Integer>();
-
-		Calendar cale = Calendar.getInstance();
-		int year = cale.get(Calendar.YEAR);
-		int year3 = year - 3; //2013
-		return year3;
-	}
-
-	public Integer threeYear() {
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String mont = sdf.format(date).split("-")[1];
-		Integer month = Integer.valueOf(mont);
-		Calendar cale = Calendar.getInstance();
-		int year = cale.get(Calendar.YEAR);
-		Integer yearThree = 0;
-		
-		if(month < 6) {// 以6月份为基准
-			yearThree = year - 4; //2012
-		} else {
-			yearThree = year - 1; //2015
-		}
-		return yearThree;
-	}
-	
-	public Integer threeYear(Date regDate) {
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String mont = sdf.format(date).split("-")[1];
-		Integer month = Integer.valueOf(mont);
-		Calendar cale = Calendar.getInstance();
-		int year = cale.get(Calendar.YEAR);
-		Integer yearThree = 0;
-		
-		String regMon = sdf.format(regDate).split("-")[1];
-		Integer regMonth = Integer.valueOf(regMon);
-//		
-//		if(month < 7) {
-//			yearThree = year - 4; //2012
-//
-//		} else {
-//			yearThree = year - 1; //2015
-//
-//		}
-		
-		if(regMonth<7){
-			yearThree = year - 4; //2012
-		}
-		else {
-			yearThree = year - 1; //2015
-			
-		}
-		return yearThree;
 	}
 
 	@RequestMapping(value = "/audit", produces = "text/html;charset=UTF-8")

@@ -59,35 +59,10 @@
 					<li onclick="jump('reasonsList')">
 					<a aria-expanded="false" href="#tab-4">审核汇总</a></li>
 				</ul>
-				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
-                        <%-- <c:set value="0" var="liCountPro" />
-                        <c:set value="0" var="liCountSell" />
-                        <c:set value="0" var="liCountEng" />
-                        <c:set value="0" var="liCountSer" />
-                       <c:if test="${fn:contains(supplierTypes, 'PRODUCT')}"> 
-                            <li class="active">
-                                <a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型专业信息</a>
-                                <c:set value="${liCountPro+1}" var="liCountPro"/>
-                            </li>
-                            </c:if>
-                       <c:if test="${fn:contains(supplierTypes, 'SALES')}"> 
-                            <li class='active'>
-                                <a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型专业信息</a>
-                            </li>
-                        </c:if> 
-                        <c:if test="${fn:contains(supplierTypes, 'PROJECT')}">
-                            <li class='active <c:set value="${liCountEng+1}" var="liCountEng"/></c:if>'>
-                                <a aria-expanded="false" href="#tab-3" data-toggle="tab">工程专业信息</a>
-                            </li>
-                         </c:if> 
-                        <c:if test="${fn:contains(supplierTypes, 'SERVICE')}"> 
-                            <li class='<c:if test="${liCountEng == 0 && liCountPro == 0 && liCountEng == 0}">active <c:set value="${liCountSer+1}" var="liCountSer"/></c:if>'>
-                                <a aria-expanded="false" href="#tab-4" data-toggle="tab">服务专业信息</a>
-                            </li>
-                         </c:if>  --%>
+				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
                     </ul>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
-					<table class="table table-bordered table-condensed table-hover" id="content_1">
+					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
 						 <thead>
 							<tr>
 							  <td class="tc info">序号</td>
@@ -105,7 +80,7 @@
 					</table>
 				</div>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_2">
-                    <table class="table table-bordered table-condensed table-hover" id="content_2">
+                    <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_2">
                          <thead>
                             <tr>
                               <td class="tc info">序号</td>
@@ -123,7 +98,7 @@
                     </table>
                 </div>
                 <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_3">
-                    <table class="table table-bordered table-condensed table-hover " id="content_3">
+                    <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_3">
                          <thead>
                             <tr>
                               <td class="tc info">序号</td>
@@ -140,10 +115,10 @@
                     </table>
                 </div>
                 <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_4">
-                    <table class="table table-bordered table-condensed table-hover table-striped" id="content_4">
+                    <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_4">
                          <thead>
                             <tr>
-                              <td class="tc info">序号444444444</td>
+                              <td class="tc info">序号</td>
                               <td class="tc info">类别</td>
                               <td class="tc info">大类</td>
                               <td class="tc info">中类</td>
