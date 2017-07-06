@@ -2335,7 +2335,7 @@ a.news_more{
     text-align: center;
     font-weight: normal;
     display: block;
-    z-index:10000;
+    z-index:10;
     background:url(../images/report_round.png) no-repeat center;
 }
 
