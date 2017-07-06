@@ -4,10 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +36,6 @@ import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.Qualification;
 import ses.model.bms.DictionaryData;
-import ses.model.ems.ExpertPublicity;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
@@ -817,27 +814,51 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @return
 	 */
 	public SupplierCateTree potting(SupplierCateTree cateTree,String supplierId){
-		//封装 目录 是否有审核记录数据
+		//封装 目录 物资生产 是否有审核记录数据  如果是其他的 类型 也是该字段存储
 		SupplierAudit audit=new SupplierAudit();
 		audit.setSupplierId(supplierId);
 		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType("items_page");
+		audit.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
 		int count=countByPrimaryKey(audit);
-		cateTree.setIsItemsPageAudit(count);
+		cateTree.setIsItemsProductPageAudit(count);
 		
+		//封装 目录 物资销售 是否有审核记录数据
 		audit=new SupplierAudit();
 		audit.setSupplierId(supplierId);
 		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType("contract_page");
-		count=countByPrimaryKey(audit);
-		cateTree.setIsContractPageAudit(count);
+		audit.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
+		count=countByPrimaryKey(audit); 
+		cateTree.setIsItemsSalesPageAudit(count);
 		
+		//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
 		audit=new SupplierAudit();
 		audit.setSupplierId(supplierId);
 		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType("aptitude_page");
+		audit.setAuditType(ses.util.Constant.CONTRACT_PRODUCT_PAGE);
 		count=countByPrimaryKey(audit);
-		cateTree.setIsAptitudePAgeAudit(count);
+		cateTree.setIsContractProductPageAudit(count);
+		//封装 物资销售 记录 资质文件
+		audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getItemsId());
+		audit.setAuditType(ses.util.Constant.CONTRACT_SALES_PAGE);
+		count=countByPrimaryKey(audit);
+		cateTree.setIsContractSalesPageAudit(count);
+		
+		//封装 物资生产 销售合同文件  如果是其他的 类型 也是该字段存储
+		audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getItemsId());
+		audit.setAuditType(ses.util.Constant.APTITUDE_PRODUCT_PAGE);
+		count=countByPrimaryKey(audit);
+		cateTree.setIsAptitudeProductPageAudit(count);
+		//封装 物资销售 记录 销售合同
+		audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getItemsId());
+		audit.setAuditType(ses.util.Constant.APTITUDE_SALES_PAGE);
+		count=countByPrimaryKey(audit);
+		cateTree.setIsAptitudeSalesPageAudit(count);
 		
 	return cateTree;
 	}
@@ -986,7 +1007,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 				supplierPublicity.setPassCateCount(count);
 				// 查询供应商未通过类别数量
 				selectMap.put("supplierId", supplierPublicity.getId());
-				selectMap.put("regType", "contract_page");
+				selectMap.put("regType", "items_page");
 				Integer noPassCount = supplierAuditMapper.selectRegSupCateCount(selectMap);
 				supplierPublicity.setNoPassCateCount(noPassCount);
 			}

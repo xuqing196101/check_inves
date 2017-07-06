@@ -77,11 +77,49 @@ function query(){
  */
 function loadData(data,index,pageNum,pageSize){
 	var html = "<li> "
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+data.supplierName+"</span>"
-		     + "  <span class='col-md-3 col-xs-3 col-sm-3' title="+data.supplierTypeNames+">"+data.supplierTypeNames+"</span>"
+		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.supplierName+"</span>"
+		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+data.supplierTypeNames+">"+data.supplierTypeNames+"</span>"
 		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.businessNature+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+data.orgName+"</span>"
 		     + "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个产品类别，通过了"+(data.passCateCount - data.noPassCateCount)+"个产品类别"+"</span>"
+		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd hh:mm:ss', data.updatedAt)+"</span>"
 		     html += "</li>";
 	$("#supPublicityList").append(html);
+}
+
+/**
+ * 时间戳转时间格式
+ * @param format
+ * @param timestamp
+ * @returns
+ */
+function timestampToDate(format, timestamp){
+    var date = new Date(timestamp);
+    return date.format(format);
+}
+
+/**
+ * 时间格式化
+ * @param format
+ * @returns
+ */
+Date.prototype.format = function(fmt){
+    var o = {
+        "M+" : this.getMonth()+1,                 //月份
+        "d+" : this.getDate(),                    //日
+        "h+" : this.getHours(),                   //小时
+        "m+" : this.getMinutes(),                 //分
+        "s+" : this.getSeconds(),                 //秒
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度
+        "S"  : this.getMilliseconds()             //毫秒
+    };
+    if(/(y+)/.test(fmt)) {
+        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    }
+    for(var k in o) {
+        if(new RegExp("("+ k +")").test(fmt)){
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        }
+    }
+    return fmt;
 }

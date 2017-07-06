@@ -1844,7 +1844,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS in(1,2,3,4,5,6,7,8)
+		WHERE SUPPLIER_STATUS in(1,2,3,4,5,6,7,8,-3)
 		AND AUDIT_DATE &gt;=
 		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND
@@ -2024,7 +2024,7 @@
 	
 	<!-- 查询公示的供应商 列表 -->
 	<select id="selectSupByPublictyList" resultMap="supplierOfPublicityMapList" parameterType="ses.model.sms.SupplierPublicity">
-		SELECT T.ID, T.SUPPLIER_NAME, DT.NAME AS BUSINESS_NATURE, ORG.SHORT_NAME AS ORGNAME
+		SELECT T.ID, T.SUPPLIER_NAME, DT.NAME AS BUSINESS_NATURE, T.UPDATED_AT, ORG.SHORT_NAME AS ORGNAME
 		  FROM T_SES_SMS_SUPPLIER T
 		  LEFT JOIN T_SES_BMS_DICTIONARY_DATA DT
 		    ON T.BUSINESS_NATURE = DT.ID
@@ -2038,6 +2038,6 @@
 		   <if test="supplierName != null and supplierName != ''">
 		     AND INSTR(T.SUPPLIER_NAME,#{supplierName}) >0
 		   </if>
-		 ORDER BY T.UPDATED_AT DESC
+		 ORDER BY T.UPDATED_AT
 	</select>
 </mapper>

@@ -3315,3 +3315,46 @@ h2.list_title{
 .m_buyer_list {
 	height: 238px;
 }
+/* 主导航供应商和专家滚动表格 */
+.m_nav_scroll {
+	height: 190px;
+	overflow: hidden;
+}
+.m_nav_scroll table td a {
+	width: auto !important;
+}
+.m_nav_scroll ul, .m_nav_scroll li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.m_nav_scroll .bx-wrapper {
+	margin: 0 auto;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: none;
+}
+.m_nav_scroll .bx-wrapper .bx-viewport {
+	-moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none;
+	left: 0;
+	background: none;
+}
+.m_nav_scroll .bx-wrapper .bx-pager {
+	padding: 0;
+	font-size: 0px;
+}
+.m_nav_scroll .bx-wrapper .bx-pager, .m_nav_scroll .bx-wrapper .bx-controls-auto {
+	bottom: 0;
+}
+.m_nav_scroll .bx-wrapper .bx-controls-direction a {
+	z-index: 1;
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.headline-v2 h2 {
+		font-size: 12px !important;
+	}
+}

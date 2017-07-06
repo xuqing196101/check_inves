@@ -1,5 +1,6 @@
 package synchro.util;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -419,12 +420,23 @@ public class FileUtils {
      * @param str 字符串
      */
     public static final void writeFile(final File file , final String str){
+        // 定义高速缓冲流
+        BufferedWriter bw = null;
         try {
-            FileWriter  fw = new FileWriter(file);
-            fw.write(str);
-            fw.close();
+             bw = new BufferedWriter(new FileWriter(file));
+             bw.write(str, 0, str.length());
+             // 将缓存中的内容刷进文件中
+             bw.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if(bw != null){
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
     

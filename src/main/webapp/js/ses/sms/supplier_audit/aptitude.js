@@ -110,7 +110,7 @@ function findDate(type,tablerId) {
 				if (obj) {
 					listPage(obj.data.pages, obj.data.total, obj.data.startRow,
 							obj.data.endRow, obj.data.pageNum,type);
-					showData(obj.data,tablerId);
+					showData(obj.data,tablerId,type);
 				} else {
 					layer.msg(obj.msg);
 				}
@@ -123,30 +123,78 @@ function findDate(type,tablerId) {
 		});
 }
 //封装填充 数据
-function showData(obj,tablerId) {
+function showData(obj,tablerId,typeId) {
 	var itemsStyle,aptitudeStyle,contractStyle,projectDiv;
 	$("#"+tablerId+" tbody").empty();
 	$(obj.list).each(
 			function(index, item) {
 				var ind=((index+1)+(obj.pageNum-1)*(obj.pageSize));
-				var isItemsPageAudit=isNumber(item.isItemsPageAudit);
-				var isAptitudePAgeAudit=isNumber(item.isAptitudePAgeAudit);
-				var isContractPageAudit=isNumber(item.isContractPageAudit);
-				//判断 是否 有审核 记录 采用不同的样式
-				if(isItemsPageAudit > 0){
-					itemsStyle=" class=\"tc info table-border-color-red\" ";
-				}else{
-					itemsStyle=" class=\"tc info\" ";
-				}
-				if(isAptitudePAgeAudit>0){
-					aptitudeStyle="class=\"tc info table-border-color-red\"";
-				}else{
-					aptitudeStyle=" class=\"tc info\" ";
-				}
-				if(isContractPageAudit>0){
-					contractStyle=" class=\"tc info table-border-color-red\" ";
-				}else{
-					contractStyle=" class=\"tc info\" ";
+				//物资 生产 目录
+				var isItemsProductPageAudit=isNumber(item.isItemsProductPageAudit);
+				//物资 销售 目录
+				var setIsItemsSalesPageAudit=isNumber(item.isItemsSalesPageAudit);
+				//物资 生产 资质
+				var isContractProductPageAudit=isNumber(item.isContractProductPageAudit);
+				//物资 销售 资质
+				var isContractSalesPageAudit=isNumber(item.isContractSalesPageAudit);
+				//物资 生产 合同
+				var isAptitudeProductPageAudit=isNumber(item.isAptitudeProductPageAudit);
+				//物资 销售 合同
+				var isAptitudeSalesPageAudit=isNumber(item.isAptitudeSalesPageAudit);
+				// 根据类型 判断 
+				switch (typeId) {
+				case 'PRODUCT':
+					//判断 是否 有审核 记录 采用不同的样式
+					if(isItemsProductPageAudit > 0){
+						itemsStyle=" class=\"tc info table-border-color-red\" ";
+					}else{
+						itemsStyle=" class=\"tc info\" ";
+					}
+					if(isContractProductPageAudit > 0){
+						contractStyle=" class=\"tc info table-border-color-red\" ";
+					}else{
+						contractStyle=" class=\"tc info\" ";
+					}
+					if(isAptitudeProductPageAudit > 0){
+						aptitudeStyle=" class=\"tc info table-border-color-red\" ";
+					}else{
+						aptitudeStyle=" class=\"tc info\" ";
+					}
+					break;
+				case 'SALES':
+					if(setIsItemsSalesPageAudit > 0){
+						itemsStyle=" class=\"tc info table-border-color-red\" ";
+					}else{
+						itemsStyle=" class=\"tc info\" ";
+					}
+					if(isContractSalesPageAudit > 0){
+						contractStyle=" class=\"tc info table-border-color-red\" ";
+					}else{
+						contractStyle=" class=\"tc info\" ";
+					}
+					if(isAptitudeSalesPageAudit > 0){
+						aptitudeStyle=" class=\"tc info table-border-color-red\" ";
+					}else{
+						aptitudeStyle=" class=\"tc info\" ";
+					}
+					break;
+				default:
+					if(isItemsProductPageAudit > 0){
+						itemsStyle=" class=\"tc info table-border-color-red\" ";
+					}else{
+						itemsStyle=" class=\"tc info\" ";
+					}
+					if(isContractProductPageAudit > 0){
+						contractStyle=" class=\"tc info table-border-color-red\" ";
+					}else{
+						contractStyle=" class=\"tc info\" ";
+					}
+					if(isAptitudeProductPageAudit > 0){
+						aptitudeStyle=" class=\"tc info table-border-color-red\" ";
+					}else{
+						aptitudeStyle=" class=\"tc info\" ";
+					}
+					break;
 				}
 				if("content_3" !=tablerId){
 					projectDiv="<td "+contractStyle+" id=\"contract"+ind+"\" >"+isShow(tablerId,ind,item.contractCount,"contract",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>";
@@ -155,14 +203,17 @@ function showData(obj,tablerId) {
 				}
 				$("#"+tablerId+" tbody").append("<tr>"+
 								"<td class=\"tc info\">" + ind+ "</td>"+
-								"<input type=\"hidden\" id=\"isItemsPageAudit"+ind+"\" value=\""+isItemsPageAudit+"\">"+
-								"<input type=\"hidden\" id=\"isAptitudePAgeAudit"+ind+"\" value=\""+isAptitudePAgeAudit+"\">"+
-								"<input type=\"hidden\" id=\"isContractPageAudit"+ind+"\" value=\""+isContractPageAudit+"\">"+
-	                            "<td "+itemsStyle+" id=\"rootNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"')\" >"+isNull(item.rootNode)+"</td>"+
-	                            "<td "+itemsStyle+" id=\"firstNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"')\">"+isNull(item.firstNode)+"</td>"+
-	                            "<td "+itemsStyle+" id=\"secondNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"')\">"+isNull(item.secondNode)+"</td>"+
-	                            "<td "+itemsStyle+" id=\"thirdNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"')\">"+isNull(item.thirdNode)+"</td>"+
-	                            "<td "+itemsStyle+" id=\"fourthNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"')\">"+isNull(item.fourthNode)+"</td>"+
+								"<input type=\"hidden\" id=\"isItemsProductPageAudit"+ind+"\" value=\""+isItemsProductPageAudit+"\">"+
+								"<input type=\"hidden\" id=\"setIsItemsSalesPageAudit"+ind+"\" value=\""+setIsItemsSalesPageAudit+"\">"+
+								"<input type=\"hidden\" id=\"isAptitudeProductPageAudit"+ind+"\" value=\""+isAptitudeProductPageAudit+"\">"+
+								"<input type=\"hidden\" id=\"isContractProductPageAudit"+ind+"\" value=\""+isContractProductPageAudit+"\">"+
+								"<input type=\"hidden\" id=\"isAptitudeSalesPageAudit"+ind+"\" value=\""+isAptitudeSalesPageAudit+"\">"+
+								"<input type=\"hidden\" id=\"isContractSalesPageAudit"+ind+"\" value=\""+isContractSalesPageAudit+"\">"+
+	                            "<td "+itemsStyle+" id=\"rootNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"','"+typeId+"')\" >"+isNull(item.rootNode)+"</td>"+
+	                            "<td "+itemsStyle+" id=\"firstNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"','"+typeId+"')\">"+isNull(item.firstNode)+"</td>"+
+	                            "<td "+itemsStyle+" id=\"secondNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"','"+typeId+"')\">"+isNull(item.secondNode)+"</td>"+
+	                            "<td "+itemsStyle+" id=\"thirdNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"','"+typeId+"')\">"+isNull(item.thirdNode)+"</td>"+
+	                            "<td "+itemsStyle+" id=\"fourthNode"+ind+"\" onclick=\"onCategory('"+tablerId+"','"+ind+"','"+item.itemsName+"','"+item.itemsId+"','"+typeId+"')\">"+isNull(item.fourthNode)+"</td>"+
 	                            "<td "+aptitudeStyle+" id=\"qualifications"+ind+"\" >"+isShow(tablerId,ind,item.fileCount,"qualifications",item.rootNode,item.itemsId,item.supplierItemId,item.secondNode,item.secondNodeID)+"</td>"+
 	                            projectDiv+"</tr>"
 				);
@@ -170,16 +221,39 @@ function showData(obj,tablerId) {
 }
 var is=true;
 //审核 目录
-function onCategory(tablerId,ind,secondNode,secondNodeId){
+function onCategory(tablerId,ind,secondNode,secondNodeId,wzType){
 	if(!is){
 		return;
 	}
 	is=false;
-	var showin=$("#"+tablerId+" #isItemsPageAudit"+ind+"").val();
+	var showin;
+	var auditContent;
+	var auditType;
+	switch (wzType) {
+	case 'PRODUCT':
+		secondNode='物资-生产目录信息';
+		auditType='items_product_page';
+		showin=$("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val();
+		break;
+	case 'SALES':
+		secondNode='物资-销售目录信息';
+		auditType='items_sales_page';
+		showin=$("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val();
+		break;
+	case 'PROJECT':
+		secondNode='工程-目录信息';
+		auditType='items_product_page';
+		showin=$("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val();
+		break;
+	case 'SERVICE':
+		secondNode='服务-目录信息';
+		auditType='items_product_page';
+		showin=$("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val();
+		break;
+	}
 	if(showin==0){
-		var auditContent='品目信息';
-		var auditType='items_page';
-		reasonProject(tablerId,ind,secondNodeId, secondNode,auditType,auditContent);
+		auditContent=contentParent(tablerId,ind,'目录信息');
+		reasonProject(tablerId,ind,secondNodeId, secondNode,auditType,auditContent,wzType);
 	}else{
 		layer.msg('已审核！', {offset:'100px'});
 	}
@@ -231,7 +305,7 @@ function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
 	}
 	layer.open({
 	  type: 2, //page层
-	  area: ['980px', '430px'],
+	  area: ['880px', '330px'],
 	  title: title,
 	  closeBtn: 1,
 	  shade:0.01, //遮罩透明度
@@ -240,11 +314,11 @@ function showFrame(tablerId,ind,title,cateTree,flng,id,secondNode,secondNodeId){
 	  offset: '60px',
 	  shadeClose: false,
 	  content: content,
-	  btn: ['关闭'],yes: function(){
+	 /* btn: ['关闭'],yes: function(){
 		  layer.closeAll();
 	  },btn2: function(){
 	    layer.closeAll();
-	  }
+	  }*/
 	});
 }
 //是否为空
@@ -276,10 +350,18 @@ function lastStep() {
 	$("#form_id").attr("action", action);
 	$("#form_id").submit();
 }
-//目录 审核不通过理由
-function reasonProject(tablerId,ind,auditField, auditFieldName,type,auditContent) {
+//目录 审核不通过理由  物资 生产 
+function reasonProject(tablerId,ind,auditField, auditFieldName,type,auditContent,wzType) {
 	var supplierId = $("#supplierId").val();
-	var auditType = $("#"+tablerId+" #isItemsPageAudit"+ind+"").val();
+	var auditType;
+	
+	if('PRODUCT'==wzType){
+		auditType = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val();
+	}else if('SALES'==wzType){
+		auditType = $("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val();
+	}else{
+		auditType = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val();
+	}
 	if(auditType!=null && auditType !='' && auditType>'0' ){
 		layer.msg('已审核', {offset:'100px'});
 		return;
@@ -292,7 +374,7 @@ function reasonProject(tablerId,ind,auditField, auditFieldName,type,auditContent
 	}, function(text) {
 		var text = $.trim(text);
 	  if(text != null && text !=""){
-		  if($.trim(text)>900){
+		  if($.trim(text).length>900){
 			  layer.msg('审核内容长度过长！', {offset:'100px'});
 			  return;
 		  }
@@ -321,7 +403,13 @@ function reasonProject(tablerId,ind,auditField, auditFieldName,type,auditContent
 						
 						$("#"+tablerId+" #fourthNode"+ind+"").val('1');
 						$("#"+tablerId+" #fourthNode"+ind+"").css('border-color', '#FF0000');
-						$("#"+tablerId+" #isItemsPageAudit"+ind+"").val(1);
+						if('PRODUCT'==wzType){
+							$("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val(1);
+						}else if('SALES'==wzType){
+							$("#"+tablerId+" #setIsItemsSalesPageAudit"+ind+"").val(1);
+						}else{
+							$("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val(1);
+						}
 					}else{
 						layer.msg(result.msg, {
 							shift: 6, //动画类型

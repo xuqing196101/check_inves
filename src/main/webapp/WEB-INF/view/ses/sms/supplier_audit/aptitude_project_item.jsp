@@ -5,6 +5,7 @@
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_items.js"></script>
 <script
 	src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_material_item.js"></script>
 <title>产品类别工程</title>

@@ -7,6 +7,7 @@
         <%@ include file="/WEB-INF/view/common.jsp"%>
         <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
         <title>品目合同</title>
+        <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_items.js"></script>
         <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_contract_item.js"></script>
     </head>
     <body>
@@ -42,29 +43,29 @@
                         <td class="info tc">${obj.secondNode}</td>
                         <td class="info tc">${obj.thirdNode}</td>
                         <td class="info tc">${obj.fourthNode}</td> --%>
-                        <td class="">
+                        <td class="m_upload_file">
                             <u:upload id="${fileShow}${(vs.index + 1)*6-1}" buttonName="上传附件" multiple="true" auto="true" businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
-                            <u:show showId="${fileShow}${(vs.index + 1)*6-1}"  businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
+                            <div class="m_uploadFiles"><u:show showId="${fileShow}${(vs.index + 1)*6-1}"  businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.oneContract}" /></div>
                         </td>
-                        <td class="">
+                        <td class="m_upload_file">
                          <u:upload id="${fileShow}${(vs.index + 1)*6-2}" buttonName="上传附件" multiple="true" auto="true" businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
-                            <u:show showId="${fileShow}${(vs.index + 1)*6-2}"  businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
+                            <u:show showId="${fileShow}${(vs.index + 1)*6-2}"  businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.twoContract}" /></div>
                         </td>
-                        <td class="">
+                        <td class="m_upload_file">
                          <u:upload id="${fileShow}${(vs.index + 1)*6-3}" buttonName="上传附件" multiple="true" auto="true" businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
-                            <u:show showId="${fileShow}${(vs.index + 1)*6-3}"  businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
+                            <div class="m_uploadFiles"><u:show showId="${fileShow}${(vs.index + 1)*6-3}"  businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.threeContract}" /></div>
                         </td>
-                        <td class="">
+                        <td class="m_upload_file">
                          <u:upload id="${fileShow}${(vs.index + 1)*6-4}" buttonName="上传附件" multiple="true" auto="true" businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
-                            <u:show showId="${fileShow}${(vs.index + 1)*6-4}"  businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
+                            <div class="m_uploadFiles"><u:show showId="${fileShow}${(vs.index + 1)*6-4}"  businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.oneBil}" /></div>
                         </td>
-                        <td class="">
+                        <td class="m_upload_file">
                          <u:upload id="${fileShow}${(vs.index + 1)*6-5}" buttonName="上传附件" multiple="true" auto="true" businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
-                            <u:show showId="${fileShow}${(vs.index + 1)*6-5}"  businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
+                            <div class="m_uploadFiles"><u:show showId="${fileShow}${(vs.index + 1)*6-5}"  businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.twoBil}" /></div>
                         </td>
-                        <td class="">
+                        <td class="m_upload_file">
                          <u:upload id="${fileShow}${(vs.index + 1)*6-6}" buttonName="上传附件" multiple="true" auto="true" businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
-                            <u:show showId="${fileShow}${(vs.index + 1)*6-6}"  businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
+                            <div class="m_uploadFiles"><u:show showId="${fileShow}${(vs.index + 1)*6-6}"  businessId="${obj.supplierItemId}" sysKey="${sysKey}" typeId="${obj.threeBil}" /></div>
                        <td class="tc info"  onclick="reasonProject('${ids }','${obj.itemsId }','${obj.itemsName }')">
                           <a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>
                        </td>

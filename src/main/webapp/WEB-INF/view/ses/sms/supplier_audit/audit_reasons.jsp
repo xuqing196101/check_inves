@@ -9,7 +9,7 @@
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">
-	<%-- <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script> --%>
+	<script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
     <script type="text/javascript">
       //只读
        $(function() {
@@ -210,7 +210,7 @@
 				}
     </script>
     <script type="text/javascript">
-			 function jump(str){
+			/*  function jump(str){
 			  var action;
 			  if(str=="essential"){
 			     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -233,7 +233,7 @@
 			  if(str=="serviceInformation"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
 			  }
-			  */
+			  * /
 			  if(str=="items"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 			  }
@@ -254,7 +254,7 @@
 			   }
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
-			} 
+			}  */
 		</script>
   </head>
 
@@ -338,19 +338,19 @@
 		          <!-- <li onclick = "jump('items')">
 	            	<a aria-expanded="false" href="#tab-4" >产品类别</a>
 	            	<i></i>
-	          	</li>  -->
+	          	</li>  
 	          	<li onclick="jump('aptitude')">
 								<a aria-expanded="false">资质文件维护</a>
 								<i></i>
 							</li>
 		          <li onclick = "jump('contract')" >
 		            <a aria-expanded="false" href="#tab-4">销售合同</a>
-		             <i></i>
+		             <i></i>-->
 		          </li>   
-		          <!--  <li onclick="jump('aptitude')">
+		          <li onclick="jump('aptitude')">
                             <a aria-expanded="false" href="#tab-4">产品类别及资质合同</a>
                             <i></i>
-                        </li> --> 
+                        </li> 
 		          <li onclick = "jump('applicationForm')" >
 		            <a aria-expanded="false" href="#tab-4" >承诺书和申请表</a>
 		            <i></i>
@@ -406,6 +406,7 @@
                      <c:if test="${reasons.auditType eq 'mat_pro_page' || reasons.auditType eq 'mat_sell_page' || reasons.auditType eq 'mat_eng_page' || reasons.auditType eq 'mat_serve_page' || reasons.auditType eq 'supplierType_page'}">供应商类型</c:if>
                      <%-- <c:if test="${reasons.auditType == 'mat_serve_page' || reasons.auditType == 'item_sell_page' || reasons.auditType == 'item_eng_page' || reasons.auditType == 'item_serve_page'}">品目信息</c:if> --%>
                      <c:if test="${reasons.auditType eq 'items_page'}">品目信息</c:if>
+                     <c:if test="${reasons.auditType eq ('items_product_page' or 'items_sales_page' or 'contract_product_page' or 'contract_sales_page' or 'aptitude_product_page' or 'aptitude_sales_page')}">产品类别及资质合同</c:if>
                      <c:if test="${reasons.auditType eq 'aptitude_page'}">资质文件</c:if>
                      <c:if test="${reasons.auditType eq 'contract_page'}">品目合同</c:if>
                      <c:if test="${reasons.auditType eq 'download_page'}">申请表</c:if>
