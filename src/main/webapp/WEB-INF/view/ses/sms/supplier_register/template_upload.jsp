@@ -176,7 +176,7 @@
 									   	     <td <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierPledge')"</c:if>>
 									   	       <div class="w200 fl">
 									   	       	<c:choose>
-									   	     			<c:when test="${!fn:contains(audit,'supplierRegList') && currSupplier.status==2}">
+									   	     			<c:when test="${!fn:contains(audit,'supplierPledge') && currSupplier.status==2}">
 											   		 			<u:show showId="application_show" delete="false" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
 									   	     			</c:when>
 									   	     			<c:otherwise>

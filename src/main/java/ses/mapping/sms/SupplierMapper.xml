@@ -1937,6 +1937,7 @@
 	from 
 	 T_SES_OMS_ORG o inner join T_SES_OMS_PURCHASE_DEP d  on o.id =d.org_id LEFT JOIN T_SES_SMS_SUPPLIER s
 	 on o.id=s.PROCUREMENT_DEP_ID where 1=1
+	 and o.TYPE_NAME=1 and o.is_deleted =0 and d.is_deleted= 0
 	  <if test="name != null and name !=''">
 	    and  o.short_name like CONCAT(CONCAT('%', #{name}), '%')
 	  </if>
@@ -1955,6 +1956,7 @@
 	from 
 	 T_SES_OMS_ORG o inner join T_SES_OMS_PURCHASE_DEP d  on o.id =d.org_id LEFT JOIN T_SES_EMS_EXPERT s
 	 on o.id=s.PURCHASE_DEP_ID where 1=1
+	 and o.TYPE_NAME=1 and o.is_deleted =0 and d.is_deleted= 0
 	  <if test="nameEx != null and nameEx !=''">
 	    and  o.short_name like CONCAT(CONCAT('%', #{nameEx}), '%')
 	  </if>

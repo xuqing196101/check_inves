@@ -186,7 +186,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
     public String list(@CurrentUser User user,Project project,Integer page, Model model, HttpServletRequest request) {      
-        if(user != null && user.getOrg() != null){
+        if(user != null && StringUtils.isNotBlank(user.getTypeName()) && user.getOrg() != null){
             //根据id查询部门
             Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
             HashMap<String,Object> map = new HashMap<String,Object>();
@@ -204,7 +204,7 @@ public class ProjectController extends BaseController {
                 page = 1;
             }
             PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            //判断如果是管理部门
+           /* //判断如果是管理部门
             if("2".equals(orgnization.getTypeName())){
                 map.put("orgId", user.getOrg().getId());
                 List<Project> list = projectService.selectByOrg(map);
@@ -219,7 +219,7 @@ public class ProjectController extends BaseController {
                 model.addAttribute("info", new PageInfo<Project>(list));
             }
             
-            
+            */
           //判断如果是采购机构
             if("1".equals(orgnization.getTypeName())){
                 map.put("purchaseDepId", user.getOrg().getId());
@@ -237,7 +237,7 @@ public class ProjectController extends BaseController {
                 model.addAttribute("info", new PageInfo<Project>(list));
             }
             
-            //判断如果是需求部门
+           /* //判断如果是需求部门
             if("0".equals(orgnization.getTypeName())){
                 map.put("userId", user.getId());
                 List<Project> list = projectService.selectByDemand(map);
@@ -250,7 +250,7 @@ public class ProjectController extends BaseController {
                     }
                 }
                 model.addAttribute("info", new PageInfo<Project>(list));
-            }
+            }*/
                 
             model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
             model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
@@ -277,7 +277,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping(value="/listProject",produces = "text/html;charset=UTF-8")
     public String listProject(@CurrentUser User user,Project project,Integer page, Model model, HttpServletRequest request) {      
-        if(user != null && user.getOrg() != null){
+        if(user != null && StringUtils.isNotBlank(user.getTypeName()) && user.getOrg() != null){
             //根据id查询部门
             Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
             HashMap<String,Object> map = new HashMap<String,Object>();
@@ -295,7 +295,7 @@ public class ProjectController extends BaseController {
                 page = 1;
             }
             PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-          //判断如果是管理部门
+        /*  //判断如果是管理部门
             if("2".equals(orgnization.getTypeName())){
                 map.put("orgId", user.getOrg().getId());
                 List<Project> list = projectService.selectByOrg(map);
@@ -308,7 +308,7 @@ public class ProjectController extends BaseController {
                     }
                 }
                 model.addAttribute("info", new PageInfo<Project>(list));
-            }
+            }*/
             
             //判断如果是采购机构
             if("1".equals(orgnization.getTypeName())){
@@ -326,7 +326,7 @@ public class ProjectController extends BaseController {
                 model.addAttribute("info", new PageInfo<Project>(list));
             }
             
-            //判断如果是需求部门
+           /* //判断如果是需求部门
             if("0".equals(orgnization.getTypeName())){
                 HashMap<String, Object> mop = new HashMap<>();
                 List<Project> list = new ArrayList<Project>();
@@ -346,7 +346,7 @@ public class ProjectController extends BaseController {
                     }
                 }
                 model.addAttribute("info", new PageInfo<Project>(list));
-            }
+            }*/
                 
             model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
             model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据

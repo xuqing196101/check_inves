@@ -371,7 +371,7 @@
 						<a href="javascript:void(0);">供应商管理</a>
 					</li>
 					<li class="active">
-						<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/highmaps.html')">供应商查询</a>
+						<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/highmaps.html')">全部供应商查询</a>
 					</li>
 				</ul>
 				<div class="clear"></div>
