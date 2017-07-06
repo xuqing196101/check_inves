@@ -2022,7 +2022,7 @@
 	
 	<!-- 查询公示的供应商 列表 -->
 	<select id="selectSupByPublictyList" resultMap="supplierOfPublicityMapList" parameterType="ses.model.sms.SupplierPublicity">
-		SELECT T.ID, T.SUPPLIER_NAME, DT.NAME AS BUSINESS_NATURE, ORG.SHORT_NAME AS ORGNAME
+		SELECT T.ID, T.SUPPLIER_NAME, DT.NAME AS BUSINESS_NATURE, T.UPDATED_AT, ORG.SHORT_NAME AS ORGNAME
 		  FROM T_SES_SMS_SUPPLIER T
 		  LEFT JOIN T_SES_BMS_DICTIONARY_DATA DT
 		    ON T.BUSINESS_NATURE = DT.ID

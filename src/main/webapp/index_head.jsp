@@ -595,6 +595,7 @@ function importAdd(){
                             <th class="tc info">企业性质</th>
                             <th class="tc info">初审单位</th>
                             <th class="tc info" width="55%">审核结果</th>
+                            <th class="tc info">公示时间</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -635,6 +636,9 @@ function importAdd(){
                             </td>
                             <td class="tc">${ item.orgName }</td>
                             <td class="tl">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
+                            <td class="tl">
+                                <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatDate>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -803,6 +807,7 @@ function importAdd(){
 							<th class="tc info">类别</th>
 							<th class="tc info">初审单位</th>
 							<th class="tc info" width="50%">审核结果</th>
+							<th class="tc info">公示时间/th>
 						</tr>
 					</thead>
 					<tbody>
@@ -812,6 +817,9 @@ function importAdd(){
 						<td class="tc">${ item.expertsTypeId }</td>
 						<td class="tc">${ item.orgName }</td>
 						<td class="tl">同意入库，选择了${ item.passCateCount }小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</td>
+                        <td class="tl">
+                            <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatDate>
+                        </td>
 					</tr>
 					</c:forEach> 
 					</tbody>

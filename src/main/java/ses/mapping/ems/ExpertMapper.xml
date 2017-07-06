@@ -2313,7 +2313,7 @@ resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
         FROM T_SES_EMS_EXPERT
-        WHERE STATUS in(1,2,3,4,5,6,7,8) and EXPERTS_FROM=#{netType} AND
+        WHERE STATUS in(1,2,3,4,5,6,7,8,-3) and EXPERTS_FROM=#{netType} AND
         AUDIT_AT &gt;=
         to_date(#{startDate,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
         AND
@@ -2478,7 +2478,7 @@ resultMap="BaseResultMap">
 	
 	<!-- 查询公示专家列表 -->
 	<select id="selectExpByPublictyList" resultMap="expertOfPublicityMapList" parameterType="ses.model.ems.ExpertPublicity">
-		SELECT T.ID, T.EXPERTS_TYPE_ID, T.REAL_NAME, ORG.SHORT_NAME AS ORGNAME
+		SELECT T.ID, T.EXPERTS_TYPE_ID, T.REAL_NAME, T.UPDATED_AT, ORG.SHORT_NAME AS ORGNAME
 		  FROM T_SES_EMS_EXPERT T
 		  LEFT JOIN T_SES_OMS_PURCHASE_DEP DEP
 		    ON T.PURCHASE_DEP_ID = DEP.ID
