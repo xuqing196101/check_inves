@@ -559,7 +559,7 @@ function importAdd(){
         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ><i class="zhuanjia nav_icon"></i>供应商</a>
         
         <!-- 供应商鼠标移动开始 -->
-        <div class="drop_next dropdown-menu" style="display: block">
+        <div class="drop_next dropdown-menu">
         <div class="magazine-page clear">
         <div class="col-md-12 col-sm-12 col-xs-12 drop_hover">
         <div class="drop_main">
