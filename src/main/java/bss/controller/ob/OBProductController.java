@@ -95,7 +95,6 @@ public class OBProductController {
     @RequestMapping("/list")
     @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
     public String list(@CurrentUser User user,OBProduct example, Model model, @RequestParam(defaultValue="1")Integer page) {
-    	System.out.println(2/0);
     	//声明标识是否是资源服务中心
         String authType = null;
         if(null != user && "4".equals(user.getTypeName())){

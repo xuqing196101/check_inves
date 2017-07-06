@@ -139,7 +139,7 @@
         <select class="w178" id="status" name="confirmFile" >
             <option value="">全部</option>
             <option value="1">待审核</option>
-            <option value="2">审核未通过</option>
+            <option value="2">退回重报</option>
             <option value="3">审核通过</option>
             <option value="4">修改报备</option>
         </select>
