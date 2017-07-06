@@ -131,5 +131,26 @@ public interface SupplierItemMapper {
 	 * @return
 	 */
 	List<String>  findSupplierIdByCategoryId(@Param("categoryId")String categoryId);
+	
+	/**
+	 * 
+	 * Description:查询注册供应商选择了多少个产品类别
+	 * 
+	 * @author Easong
+	 * @version 2017年6月28日
+	 * @param supplierId
+	 * @return
+	 */
+	Integer selectRegSupCateCount(@Param("supplierId") String supplierId);
+	/**
+	 * 
+	 * Description:查询供应商的 类型
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-4
+	 * @param supplierId
+	 * @return
+	 */
+	List<String> findSupplierTypeBySupplierId(@Param("supplierId")String supplierId);
     
 }

@@ -25,4 +25,15 @@ public interface SupplierAuditOpinionService {
 	 * @return void
 	 */
 	SupplierAuditOpinion selectByPrimaryKey (SupplierAuditOpinion supplierAuditOpinion );
+	
+	/**
+	 * 
+	 * Description:
+	 * 
+	 * @author Easong
+	 * @version 2017年7月3日
+	 * @param supplierId
+	 * @return
+	 */
+	SupplierAuditOpinion selectByExpertId(String supplierId);
 }

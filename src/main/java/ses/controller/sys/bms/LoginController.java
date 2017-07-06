@@ -1,14 +1,9 @@
 package ses.controller.sys.bms;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import common.constant.Constant;
+import common.service.LoginLogService;
+import common.utils.AuthUtil;
+import common.utils.RSAEncrypt;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +12,6 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.StationMessage;
@@ -25,22 +19,20 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
-import ses.service.bms.PreMenuServiceI;
-import ses.service.bms.RoleServiceI;
-import ses.service.bms.StationMessageService;
-import ses.service.bms.TodosService;
-import ses.service.bms.UserDataRuleService;
-import ses.service.bms.UserServiceI;
+import ses.service.bms.*;
 import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 
-import common.constant.Constant;
-import common.service.LoginLogService;
-import common.utils.AuthUtil;
-import common.utils.RSAEncrypt;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -184,12 +176,24 @@ public class LoginController {
                                     out.print("weed,"+u.getId());
                                 } else if (object.equals("7")) {
                                     out.print("notLogin");
+                                } else if (("1").equals(object)){
+                                    // 待复审状态
+                                    out.print("expert_waitOnceCheck");
+                                }else if (("5").equals(object)){
+                                    // 复审未通过状态
+                                    out.print("onceCheckNoPass");
+                                } else if (("-2").equals(object)){
+                                    // 审核预通过状态
+                                    out.print("prepass");
+                                } else if (("-3").equals(object)){
+                                    // 公示中状态
+                                    out.print("publicity");
                                 }
                             } else {
                                 req.getSession().setAttribute("loginUser", u);
                                 // loginLog记录
                                 loginLog(u, req);
-                                List<PreMenu> resource = preMenuService.getMenu(u);
+                               List<PreMenu> resource = preMenuService.getMenu(u);
                                 req.getSession().setAttribute("resource", resource);
                                 //req.getSession().setAttribute("resource", u.getMenus());
                                 req.getSession().setAttribute("loginUserType", "expert");
@@ -242,6 +246,12 @@ public class LoginController {
                                 out.print("commit," + u.getId());
                             } else  if("reject".equals(msg)){
                                 out.print("reject," + u.getLoginName());
+                            } else if("prepass".equals(msg)){
+                                // 预通过状态
+                                out.print("prepass");
+                            } else if (("publicity").equals(msg)){
+                                // 公示中状态
+                                out.print("publicity");
                             }
 //                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
 //                            out.print("supplier_logout," + validateDay);

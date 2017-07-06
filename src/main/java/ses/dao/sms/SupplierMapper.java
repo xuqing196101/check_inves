@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
+import ses.model.sms.SupplierPublicity;
 import ses.model.sms.supplierExport;
 
 /**
@@ -564,4 +565,26 @@ public interface SupplierMapper {
 	 * @return
 	 */
 	List<Supplier> selByNameWithoutProvisional(String supplierName);
+	
+	/**
+	 * 
+	 * Description:查询公示的供应商
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 * @param status
+	 * @return
+	 */
+	List<Supplier> selectSupByPublicty();
+	
+	/**
+	 * 
+	 * Description:查询公示的供应商列表
+	 * 
+	 * @author Easong
+	 * @version 2017年6月28日
+	 * @param supplierPublicity
+	 * @return
+	 */
+	List<SupplierPublicity> selectSupByPublictyList(SupplierPublicity supplierPublicity);
 }

@@ -11,28 +11,30 @@
 </head>
 <body>
     <div class="margin-top-10  ">
-    <div class="tab-pane fade active in" >
+    <div class="tab-pane fade active in p20" >
     <input id="supplierId"  type="hidden" value="${supplierId }">
     <input id="auditType"  type="hidden" value="${auditType }">
     <input id="ids"  type="hidden" value="${ids }">
     <input id="count"  type="hidden" value="0">
+    <input id="tablerId"  type="hidden" value="${tablerId}">
       <c:choose>
       <c:when test="${not empty beanList }">
        <table class="table table-bordered">
          <tbody>
          <c:forEach items="${beanList }" var="obj" varStatus="vs">
-         <tr><td class="tc info">${obj.categoryName}</td> 
+         <tr><%-- <td class="tc info">${obj.categoryName}</td>  --%>
          <td class="tc info">
          <c:forEach items="${obj.list }" var="qua">
-            <div class="tc info fl w200">
-            <span class="tc info fl">${qua.name}
-            <u:show showId="showfile${qua.flag}" delete="false" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId }"/>
+            <div class="tc info fl w400">
+            <span class="tc info fl">
+            <div class="m_inline">${qua.name}</div>
+            <div class="m_inline"><u:show showId="showfile${qua.flag}" delete="false" businessId="${qua.flag}" sysKey="${sysKey}" typeId="${typeId }"/></div>
             </span>
             </div>
             </c:forEach>
             </td>
-             <td class="tc info" id="show_td" onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vs.index + 1}')">
-               <a href="javascript:void(0);">审核</a>
+             <td class="tc info"  onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vs.index + 1}')">
+               <a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>
              </td>
           </tr>
           </c:forEach>

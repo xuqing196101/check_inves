@@ -396,7 +396,19 @@ public class ExpertServiceImpl implements ExpertService {
                 }else if(expert.getStatus().equals("7") && 1 == expert.getIsProvisional()){
                     // 临时专家,并且参加的评审项目已结束
                     map.put("expert", "7");
-                }
+                }else if (("1").equals(expert.getStatus())){
+					// 待复审状态
+					map.put("expert", "1");
+				}else if (("5").equals(expert.getStatus())){
+					// 复审未通过状态
+					map.put("expert", "5");
+				}else if (("-2").equals(expert.getStatus())){
+                	// 审核预通过状态
+					map.put("expert", "-2");
+				}else if (("-3").equals(expert.getStatus())){
+					// 公示中状态
+					map.put("expert", "-3");
+				}
 			}else{
 				//如果专家信息为空 证明还没有填写过个人信息
 				map.put("expert", "4");

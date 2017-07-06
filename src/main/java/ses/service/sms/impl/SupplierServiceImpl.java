@@ -575,6 +575,12 @@ public class SupplierServiceImpl implements SupplierService {
     } else if (status == 7) {
       map.put("status", "success");
       map.put("supplier", supplier);
+    } else if (status == -2){
+      // 审核预通过状态
+      map.put("status", "prepass");
+    }else if (status == -3){
+      // 公示中状态
+      map.put("status", "publicity");
     }
     if (supplier.getProcurementDepId() != null) {
       PurchaseDep dep = purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId());

@@ -1463,7 +1463,7 @@
   </select> 
   
   <!-- 立项管理部门登录 -->
- <!--  <select id="selectByOrgnization" parameterType="java.util.Map" resultMap="BaseResultMap">
+  <!-- <select id="selectByOrgnization" parameterType="java.util.Map" resultMap="BaseResultMap">
       SELECT
       p.*
       FROM
@@ -1505,7 +1505,10 @@
       <if test="purchaseType != null and purchaseType != ''">
        and PURCHASE_TYPE = #{purchaseType}
       </if>
-      ORDER BY p.CREATED_AT DESC
+      <if test="parentId != null and parentId != ''">
+       AND PARENT_ID = #{parentId}
+      </if>
+      ORDER BY CREATED_AT DESC
   </select> 
   
   <!-- 资源管理查看已经完成的项目 -->
@@ -1556,7 +1559,7 @@
   </select>
   
   <!-- 需求部门登录 -->
-  <!--  <select id="selectByDemand" parameterType="java.util.Map" resultMap="BaseResultMap">
+   <!-- <select id="selectByDemand" parameterType="java.util.Map" resultMap="BaseResultMap">
         SELECT p.* FROM (
 				    SELECT
 				  d.PROJECT_ID

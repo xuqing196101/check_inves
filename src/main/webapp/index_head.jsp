@@ -586,7 +586,7 @@ function importAdd(){
             <div class="categories">
             <ul class="list-unstyled">
                 <c:choose>
-                <c:when test="${!empty my:getSupplierList()}">
+                <c:when test="${!empty my:getPublicitySupplier()}">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -594,56 +594,17 @@ function importAdd(){
                             <th class="tc info">类型</th>
                             <th class="tc info">企业性质</th>
                             <th class="tc info">初审单位</th>
-                            <th class="tc info" width="50%">审核结果</th>
+                            <th class="tc info" width="55%">审核结果</th>
                         </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="5" step="1" varStatus="status"> 
+                    <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
                         <tr>
                             <td>${item.supplierName}</td>
-                            <td class="tc"></td>
-                            <td class="tc"> 
-                            <c:choose>
-                                <%-- <c:when test="${item.status == -1}">
-                               		 未未提交审核
-                                </c:when>
-                                <c:when test="${item.status == 0}">
-                               		 待审核
-                                </c:when> --%>
-                                <c:when test="${item.status == 1 or item.status == 4 or item.status == 6}">
-                                	审核通过
-                                </c:when>
-                                <%--  <c:when test="${item.status == 2}">
-                                	审核退回修改
-                                </c:when>
-                                <c:when test="${item.status == 3}">
-                               	 	审核未通过
-                                </c:when>
-                                <c:when test="${item.status == 4}">
-                              		  待复核
-                                </c:when> --%>
-                                <c:when test="${item.status == 5 or item.status == 7 or item.status == 9}">
-                                	复核通过
-                                </c:when>
-                                <%-- <c:when test="${item.status == 6}">
-                                	复核未通过
-                                </c:when>
-                                <c:when test="${item.status == 7}">
-                                	待考察
-                                </c:when> --%>
-                                <c:when test="${item.status == 8}">
-                                	考察合格
-                                </c:when>
-                                <%--  <c:when test="${item.status == 9}">
-                                	考察不合格
-                                </c:when> --%>
-                                <c:otherwise>
-                                	无状态
-                                </c:otherwise>
-                            </c:choose>
-                            </td>
-                            <td></td>
-                            <td></td>
+														<td class="tc">${ item.supplierTypeNames }</td>
+														<td class="tc">${ item.businessNature }</td>
+														<td class="tc">${ item.orgName }</td>
+														<td class="tl">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -656,7 +617,7 @@ function importAdd(){
             </ul>
             </div>
             </div>
-            <a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="fr">更多&gt;&gt;</a>
+            <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html" class="tab_more">更多&gt;&gt;</a>
         </div>
         <!-- End 拟入库公示 -->
         
@@ -804,49 +765,23 @@ function importAdd(){
 				<div class="categories zhuanjia_list">
 				<ul class="list-unstyled">
 				<c:choose>
-				<c:when test="${!empty my:getExpertList()}">
+				<c:when test="${!empty my:getPublicityExpert()}">
 				<table class="table table-bordered">
 					<thead>
 						<tr>
 							<th class="tc info">专家名称</th>
-							<th class="tc info">类型</th>
+							<th class="tc info">类别</th>
 							<th class="tc info">初审单位</th>
 							<th class="tc info" width="50%">审核结果</th>
 						</tr>
 					</thead>
 					<tbody>
-					<c:forEach items="${my:getExpertList()}" var="item" begin="0" end="5" step="1" varStatus="status"> 
+					<c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
 					<tr>
-						<td>${item.relName }</td>
-						<td class="tc"></td>
-						<td class="tc">
-						<c:choose>
-						<%-- <c:when test="${item.status == 0}">
-						未审核
-						</c:when>
-						<c:when test="${item.status == 1}">
-						初审通过
-						</c:when>
-						<c:when test="${item.status == 2}">
-						初审未通过
-						</c:when>
-						<c:when test="${item.status == 3}">
-						退回修改
-						</c:when>
-						<c:when test="${item.status == 4}">
-						待复审
-						</c:when> --%>
-						<c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
-						复审通过
-						</c:when>
-						<c:when test="${item.status eq '7'}">
-						复查通过
-						</c:when>
-						<c:otherwise>
-						</c:otherwise>
-						</c:choose>
-						</td>
-						<td></td>
+						<td>${ item.relName }</td>
+						<td class="tc">${ item.expertsTypeId }</td>
+						<td class="tc">${ item.orgName }</td>
+						<td class="tl">同意入库，选择了${ item.passCateCount }小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</td>
 					</tr>
 					</c:forEach> 
 					</tbody>
@@ -858,7 +793,7 @@ function importAdd(){
 				</c:choose>
 				</ul>
 				</div>
-				<a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="fr">更多&gt;&gt;</a>
+				<a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="tab_more">更多&gt;&gt;</a>
 				</div>
 			</div>
 			

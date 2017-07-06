@@ -9,22 +9,6 @@
 <title>产品类别及资质合同</title>
 <script	src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude.js"></script>
 <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/merge_aptitude.js"></script>
-<script type="text/javascript">
-//暂存
-function zhancun(){
-  var supplierId = $("#supplierId").val();
-  $.ajax({
-    url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
-    dataType: "json",
-    data:{supplierId : supplierId},
-    success : function (result) {
-        layer.msg(result, {offset : [ '100px' ]});
-    },error : function(){
-      layer.msg("暂存失败", {offset : [ '100px' ]});
-    }
-  });
-}
-</script>
 </head>
 <body>
 	<!--面包屑导航开始-->
@@ -54,6 +38,7 @@ function zhancun(){
 			</ul>
 		</div>
 	</div>
+	
 	<div class="container container_box">
 		<div class="content ">
 			<div class="col-md-12 tab-v2 job-content">
@@ -74,8 +59,10 @@ function zhancun(){
 					<li onclick="jump('reasonsList')">
 					<a aria-expanded="false" href="#tab-4">审核汇总</a></li>
 				</ul>
-				<div class="tab-content padding-top-20" id="tab_content_div_id">
-					<table class="table table-bordered table-condensed table-hover table-striped m_table_fixed_border" id="tab_content_2">
+				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
+                    </ul>
+				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
+					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
 						 <thead>
 							<tr>
 							  <td class="tc info">序号</td>
@@ -92,6 +79,59 @@ function zhancun(){
 						</tbody>
 					</table>
 				</div>
+				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_2">
+                    <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_2">
+                         <thead>
+                            <tr>
+                              <td class="tc info">序号</td>
+                              <td class="tc info">类别</td>
+                              <td class="tc info">大类</td>
+                              <td class="tc info">中类</td>
+                              <td class="tc info">小类</td>
+                              <td class="tc info">品种名称</td>
+                              <td class="tc info">资质文件</td>
+                              <td class="tc info">销售合同</td>
+                            </tr>
+                        </thead> 
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_3">
+                    <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_3">
+                         <thead>
+                            <tr>
+                              <td class="tc info">序号</td>
+                              <td class="tc info">类别</td>
+                              <td class="tc info">大类</td>
+                              <td class="tc info">中类</td>
+                              <td class="tc info">小类</td>
+                              <td class="tc info">品种名称</td>
+                              <td class="tc info">资质文件</td>
+                            </tr>
+                        </thead> 
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_4">
+                    <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_4">
+                         <thead>
+                            <tr>
+                              <td class="tc info">序号</td>
+                              <td class="tc info">类别</td>
+                              <td class="tc info">大类</td>
+                              <td class="tc info">中类</td>
+                              <td class="tc info">小类</td>
+                              <td class="tc info">品种名称</td>
+                              <td class="tc info">资质文件</td>
+                              <td class="tc info">销售合同</td>
+                            </tr>
+                        </thead> 
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
 				<div id="pagediv" align="right"></div>
 				<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
@@ -104,6 +144,8 @@ function zhancun(){
 	<form id="form_id" action="" method="post">
 		<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden"> 
 		<input name="supplierStatus" value="${supplierStatus}" type="hidden">
+		<input type="hidden" id="supplierTypes" value="${supplierTypes}">
+		<input type="hidden" name="supplierType" >
 		<input type="hidden" name="sign" value="${sign}">
 	</form>
 </body>

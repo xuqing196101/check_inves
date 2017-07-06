@@ -67,7 +67,7 @@ import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ReviewProgress;
 import bss.service.ppms.TerminationService;
 @Service("terminationService")
-public class TerminationServiceImpl implements TerminationService {
+public class TerminationServiceImpl<V> implements TerminationService {
   @Autowired
   private PackageMapper packageMapper;
   @Autowired
@@ -150,7 +150,10 @@ public class TerminationServiceImpl implements TerminationService {
     //生成明细
     insertDetail(packagesId,projectId, project, mapId);
     //获取当前流程以前的所有步骤并复制一份
-    List<FlowDefine> flowDefines = flowDefineMapper.getFlow(currFlowDefineId);
+    FlowDefine define=new FlowDefine();
+    define.setId(currFlowDefineId);
+    define.setUrl("gt");
+    List<FlowDefine> flowDefines = flowDefineMapper.getFlow(define);
     Map<String, Map<String, Object>> IsTurnUpMap=new HashMap<String, Map<String, Object>>();
     Map<String, String> firstAuditIdMap=new HashMap<String, String>();
     for(FlowDefine flw:flowDefines){
@@ -171,42 +174,70 @@ public class TerminationServiceImpl implements TerminationService {
   private void flowDefine(FlowDefine flw,Map<String, String> mapId,Project project,String oldProjectId,Map<String, Map<String, Object>> IsTurnUpMap,Map<String, String> firstAuditIdMap){
     //判断是采购方式
     DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(flw.getPurchaseTypeId());
-    if(data.getCode().equals("GKZB")){//公开招标
+    if("GKZB".equals(data.getCode())){//公开招标
       project_gkzb(flw, mapId, project, oldProjectId, IsTurnUpMap,
           firstAuditIdMap);
-    }else if(data.getCode().equals("XJCG")){//询价采购
+    }else if("XJCG".equals(data.getCode())){//询价采购
       project_xjcg(flw, mapId, project, oldProjectId, IsTurnUpMap,
           firstAuditIdMap);
-    }else if(data.getCode().equals("JZXTP")){//竞争性谈判
-      
-    }else if(data.getCode().equals("DYLY")){//单一来源
-      project_dyly(flw, mapId, project, oldProjectId, IsTurnUpMap);
-    }else if(data.getCode().equals("YQZB")){//邀请招标
+    }else if("JZXTP".equals(data.getCode())){//竞争性谈判
       if(flw.getCode().equals("XMXX")){//项目信息
-        
-      }else if(flw.getCode().equals("NZCGWJ")){//拟制招标文件
+      }else if(flw.getCode().equals("NZCGWJ")){//拟制竞谈文件
         flw_nzcgwj(mapId, project, oldProjectId,firstAuditIdMap);
-      }else if(flw.getCode().equals("NZCGGG")){//拟制招标公告
+      }else if(flw.getCode().equals("NZCGGG")){//发布竞谈公告
         flw_nzcggg(project, oldProjectId);
       }else if(flw.getCode().equals("CQGYS")){//抽取供应商
-        flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,"YQZB");
+        flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,"JZXTP");
       }else if(flw.getCode().equals("FSBS")){//发售标书
-        flw_gysqd(IsTurnUpMap,"YQZB","one");
+        flw_gysqd(IsTurnUpMap,"JZXTP","one");
       }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
       }else if(flw.getCode().equals("GYSQD")){//供应商签到
-        flw_gysqd(IsTurnUpMap,"YQZB","two");
+        flw_gysqd(IsTurnUpMap,"JZXTP","two");
         IsTurnUpMap=null;
       }else if(flw.getCode().equals("KBCB")){//开标唱标
         flw_kbcb(mapId, project, oldProjectId);
       }else if(flw.getCode().equals("ZZZJPS")){//组织专家评审
         flw_zzzjps(mapId, project, oldProjectId, firstAuditIdMap);
-      }else if(flw.getCode().equals("NZZBGS")){//拟制中标公示
+      }else if(flw.getCode().equals("NZZBGS")){//发布成交公示
         flw_nzzbgs(project, oldProjectId);
-      }else if(flw.getCode().equals("QRZBGYS")){//确定中标供应商
+      }else if(flw.getCode().equals("QRZBGYS")){//确定成交供应商
         flw_qrzbgys(mapId, project);
       }
+    }else if("DYLY".equals(data.getCode())){//单一来源
+      project_dyly(flw, mapId, project, oldProjectId, IsTurnUpMap);
+    }else if("YQZB".equals(data.getCode())){//邀请招标
+      project_yqzb(flw, mapId, project, oldProjectId, IsTurnUpMap,
+          firstAuditIdMap);
     }
     
+  }
+  private void project_yqzb(FlowDefine flw, Map<String, String> mapId,
+      Project project, String oldProjectId,
+      Map<String, Map<String, Object>> IsTurnUpMap,
+      Map<String, String> firstAuditIdMap) {
+    if(flw.getCode().equals("XMXX")){//项目信息
+      
+    }else if(flw.getCode().equals("NZCGWJ")){//拟制招标文件
+      flw_nzcgwj(mapId, project, oldProjectId,firstAuditIdMap);
+    }else if(flw.getCode().equals("NZCGGG")){//拟制招标公告
+      flw_nzcggg(project, oldProjectId);
+    }else if(flw.getCode().equals("CQGYS")){//抽取供应商
+      flw_fsbs(mapId, project, oldProjectId,IsTurnUpMap,"YQZB");
+    }else if(flw.getCode().equals("FSBS")){//发售标书
+      flw_gysqd(IsTurnUpMap,"YQZB","one");
+    }else if(flw.getCode().equals("CQPSZJ")){//抽取评审专家
+    }else if(flw.getCode().equals("GYSQD")){//供应商签到
+      flw_gysqd(IsTurnUpMap,"YQZB","two");
+      IsTurnUpMap=null;
+    }else if(flw.getCode().equals("KBCB")){//开标唱标
+      flw_kbcb(mapId, project, oldProjectId);
+    }else if(flw.getCode().equals("ZZZJPS")){//组织专家评审
+      flw_zzzjps(mapId, project, oldProjectId, firstAuditIdMap);
+    }else if(flw.getCode().equals("NZZBGS")){//拟制中标公示
+      flw_nzzbgs(project, oldProjectId);
+    }else if(flw.getCode().equals("QRZBGYS")){//确定中标供应商
+      flw_qrzbgys(mapId, project);
+    }
   }
   private void project_xjcg(FlowDefine flw, Map<String, String> mapId,
       Project project, String oldProjectId,
@@ -429,7 +460,7 @@ public class TerminationServiceImpl implements TerminationService {
   private void flw_nzzbgs(Project project, String oldProjectId) {
     Article article = new Article();
     DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(project.getPurchaseType());
-    if("GKZB".equals(data.getCode())||"XJCG".equals(data.getCode())||"YQZB".equals(data.getCode())){
+    if("GKZB".equals(data.getCode())||"XJCG".equals(data.getCode())||"YQZB".equals(data.getCode())||"JZXTP".equals(data.getCode())){
       ArticleType at = articleTypeMapper.selectArticleTypeByCode("success_notice");
       article.setArticleType(new ArticleType(at.getId()));
     }
@@ -460,7 +491,7 @@ public class TerminationServiceImpl implements TerminationService {
       String id=next.getKey(); 
       Map<String, Object> value=next.getValue();
       SaleTender saleTenders = saleTenderMapper.selectByPrimaryKey(id);
-      if(code!=null&&("XJCG".equals(code)||"YQZB".equals(code))){
+      if(code!=null&&("XJCG".equals(code)||"YQZB".equals(code))||"JZXTP".equals(code)){
         if(step!=null&&"one".equals(step)){
           saleTenders.setStatusBid((Short) value.get("statusBid"));
           saleTenders.setStatusBond((Short) value.get("statusBond"));
@@ -499,7 +530,7 @@ public class TerminationServiceImpl implements TerminationService {
         map.put("statusBond", st.getStatusBond());
         IsTurnUpMap.put(st.getId(), map);
         st.setIsTurnUp(null);
-        if(code!=null&&("XJCG".equals(code)||"YQZB".equals(code))){
+        if(code!=null&&("XJCG".equals(code)||"YQZB".equals(code))||"JZXTP".equals(code)){
           st.setStatusBid(null);
           st.setStatusBond(null);
         }
@@ -510,7 +541,7 @@ public class TerminationServiceImpl implements TerminationService {
   private void flw_nzcggg(Project project, String oldProjectId) {
   	Article article = new Article();
   	DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(project.getPurchaseType());
-  	if("GKZB".equals(data.getCode())||"XJCG".equals(data.getCode())||"YQZB".equals(data.getCode())){
+  	if("GKZB".equals(data.getCode())||"XJCG".equals(data.getCode())||"YQZB".equals(data.getCode())||"JZXTP".equals(data.getCode())){
   	  ArticleType at = articleTypeMapper.selectArticleTypeByCode("purchase_notice");
   	  article.setArticleType(new ArticleType(at.getId()));
   	}else if("DYLY".equals(data.getCode())){
@@ -777,7 +808,10 @@ public class TerminationServiceImpl implements TerminationService {
   }
   @Override
   public List<FlowDefine> selectFlowDefineTermination(String currFlowDefineId) {
-    List<FlowDefine> flow = flowDefineMapper.getFlow(currFlowDefineId);
+    FlowDefine define=new FlowDefine();
+    define.setId(currFlowDefineId);
+    define.setUrl("gt");
+    List<FlowDefine> flow = flowDefineMapper.getFlow(define);
     return flow;
   }
 }

@@ -796,7 +796,18 @@ public class Supplier implements Serializable {
     //入库查询列表的标记（5）
     private Integer judge;
     
-    public List<ProjectDetail> getPdList() {
+    /**审核意见附件**/
+	private String auditOpinionAttach;
+	
+    public String getAuditOpinionAttach() {
+		return auditOpinionAttach;
+	}
+
+	public void setAuditOpinionAttach(String auditOpinionAttach) {
+		this.auditOpinionAttach = auditOpinionAttach;
+	}
+
+	public List<ProjectDetail> getPdList() {
         return pdList;
     }
 

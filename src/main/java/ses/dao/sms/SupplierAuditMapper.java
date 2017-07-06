@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import ses.model.sms.SupplierAudit;
-import ses.model.sms.SupplierHistory;
 
 public interface SupplierAuditMapper {
     int deleteByPrimaryKey(String id);
@@ -103,4 +102,15 @@ public interface SupplierAuditMapper {
      * @return void
      */
     void updateIsDeleteBySupplierId(SupplierAudit supplierAudit);
+    
+    /**
+     * 
+     * Description:查询注册供应商不通过的小类
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param map
+     * @return
+     */
+    Integer selectRegSupCateCount(Map<String, Object> map);
 } 

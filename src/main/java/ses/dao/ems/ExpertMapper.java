@@ -12,6 +12,7 @@ import ses.model.bms.AnalyzeBigDecimal;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertHistory;
+import ses.model.ems.ExpertPublicity;
 
 
 public interface ExpertMapper {
@@ -362,4 +363,24 @@ public interface ExpertMapper {
     
     
     void updateExpert(@Param("id")String id,@Param("status")String status,@Param("isSubmit")String isSubmit,@Param("auditDate")Date auditDate );
+    
+    /**
+     * 
+     * Description:查询公示专家
+     * 
+     * @author Easong
+     * @version 2017年6月27日
+     * @return
+     */
+    List<Expert> selectExpByPublicty();
+    
+    /**
+     * 
+     * Description:查询公示专家列表
+     * 
+     * @author Easong
+     * @version 2017年6月27日
+     * @return
+     */
+    List<ExpertPublicity> selectExpByPublictyList(ExpertPublicity expertPublicity);
 }
