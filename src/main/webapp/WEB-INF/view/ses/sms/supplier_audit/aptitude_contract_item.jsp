@@ -7,6 +7,7 @@
         <%@ include file="/WEB-INF/view/common.jsp"%>
         <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
         <title>品目合同</title>
+        <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_items.js"></script>
         <script src="${pageContext.request.contextPath}/js/ses/sms/supplier_audit/aptitude_contract_item.js"></script>
     </head>
     <body>
