@@ -193,4 +193,12 @@ public interface OrgnizationServiceI {
      * @return
      */
     public List<String> findByUserid(String userId);
+    /**
+     *〈简述〉如果是采购机构，按排序查询
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param map
+     * @return
+     */
+    public List<Orgnization> findPurchaseOrgByPosition(HashMap<String, Object> map);
 }
