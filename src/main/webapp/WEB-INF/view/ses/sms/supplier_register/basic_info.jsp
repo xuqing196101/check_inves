@@ -1560,7 +1560,7 @@
                                                     </td>
                                                     <td class="tc" <c:if test="${fn:contains(audit,addr.id)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${addr.id }')"</c:if>>
                                                         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0 ml20">
-                                                            <select id="root_area_select_id_${vs.index }" class="w100p" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId" <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>>
+                                                            <select id="root_area_select_id_${vs.index }" class="w100p" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId">
                                                                 <option value="">请选择</option>
                                                                 <c:forEach items="${privnce }" var="prin">
                                                                     <c:if test="${prin.id==addr.provinceId }">
@@ -1573,7 +1573,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-                                                            <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address" <c:if test="${!fn:contains(audit,addr.id)&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if>>
+                                                            <select id="children_area_select_id_${vs.index }" class="w100p" name="addressList[${vs.index }].address">
                                                                 <c:forEach items="${addr.areaList }" var="city">
                                                                     <c:if test="${city.id==addr.address }">
                                                                         <option value="${city.id }" selected="selected">${city.name }</option>
@@ -2264,7 +2264,7 @@
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>><input type="checkbox" value="${stockholder.id}" <c:if test="${fn:contains(audit,stockholder.id)}">readonly='readonly'</c:if>  />
 													</td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>>
-														<select name="listSupplierStockholders[${stockvs.index }].nature" class="w100p border0" <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">onchange="this.selectedIndex=this.defaultIndex;"</c:if> >
+														<select name="listSupplierStockholders[${stockvs.index }].nature" class="w100p border0">
 															<option value="1" <c:if test="${stockholder.nature==1}"> selected="selected"</c:if> >法人</option>
 															<option value="2" <c:if test="${stockholder.nature==2}"> selected="selected" </c:if> >自然人</option>
 														</select>
@@ -2629,27 +2629,24 @@
 			// 营业期限
 			$("#expireDate").attr('readonly', 'readonly');
 			
-			$("select").focus(function(){
+			$("select")
+			.not("#stockholder_list_tbody_id select")// 特殊处理出资人信息
+			.not("#address_list_tbody_id select")// 特殊处理生产经营地址
+			.focus(function(){
 				if(!boolColor(this)){
 					this.defaultIndex=this.selectedIndex;
 					$(this).removeAttr("onchange");
 				}
 			}).change(function(){
-				/* if(!boolColor(this)){
-					this.selectedIndex=this.defaultIndex;
-				} */
-				// 特殊处理出资人信息
 				if(!boolColor(this)){
-					if($(this).attr("name") && $(this).attr("name").indexOf("listSupplierStockholders") >= 0){
-						
-					}else{
-						this.selectedIndex=this.defaultIndex;
-					}
+					this.selectedIndex=this.defaultIndex;
 				}
 			});
 		}
 		// 特殊处理出资人信息
 		$("#stockholder_list_tbody_id input").removeAttr('readonly');
+		// 特殊处理生产经营地址
+		$("#address_list_tbody_id input").removeAttr('readonly');
 	}
 	
 	function boolColor(_this){
