@@ -1530,6 +1530,14 @@ table.lockout .extrafile{
       color:#ffffff;
       z-index:1000;
     }
+    .flow_tips.current_red .tip_btn{
+      background-color: #ef0000;
+      color:#ffffff;
+      z-index:1000;
+    }
+    .flow_tips.current_red .tip_btn a p{
+      color:#ffffff;
+    }
     .tip_btn a p{
       margin-bottom:0px;
       text-align:center;
@@ -1543,6 +1551,9 @@ table.lockout .extrafile{
     }
     .flow_tips.current_btn .tip_line{
       border:2px solid #ffb522;
+    }
+    .flow_tips.current_red .tip_line,.flow_tips.current_red .tip_down{
+      border:2px solid #ef0000;
     }
     .flow_tips.pre_btn .tip_line{
       border:2px solid #009fa1;

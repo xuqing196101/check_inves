@@ -753,7 +753,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
       for(int i=0;i<split.length;i++){
         Packages pg = packageMapper.selectByPrimaryKeyId(split[i]);
         FlowDefine flowDefine = flowDefineMapper.get(oldCurrFlowDefineId);
-        pg.setFlowId(flowDefine.getCode());
+        pg.setOldFlowId(flowDefine.getCode());
         packageMapper.updateByPrimaryKeySelective(pg);
         if(pg!=null){
           FlowDefine flowDefine1 = flowDefineMapper.get(currFlowDefineId);
@@ -761,7 +761,7 @@ public class TerminationServiceImpl<V> implements TerminationService {
           pg.setProjectId(project.getId());
           pg.setCreatedAt(new Date());
           pg.setUpdatedAt(null);
-          pg.setFlowId(flowDefine1.getCode());
+          pg.setNewFlowId(flowDefine1.getCode());
           packageMapper.insertSelective(pg);
           mapId.put(pagId, pg.getId());
         }

@@ -334,7 +334,7 @@ public class DemandSupervisionController extends BaseController{
                                 if(packages2.getId().equals(details.get(i).getPackageId())){
                                     DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
                                     details.get(i).setPurchaseType(findById.getName());
-                                    String[] progressBarPlan = supervisionService.progressBar(details.get(i).getRequiredId());
+                                    String[] progressBarPlan = supervisionService.progressBar(details.get(i).getRequiredId(),id);
                                     details.get(i).setProgressBar(progressBarPlan[0]);
                                     details.get(i).setStatus(progressBarPlan[1]);
                                     list.add(details.get(i));
@@ -357,7 +357,7 @@ public class DemandSupervisionController extends BaseController{
                             if(detail.getPrice() != null){
                                 DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
                                 detail.setPurchaseType(findById.getName());
-                                String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId());
+                                String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId(),id);
                                 detail.setProgressBar(progressBarPlan[0]);
                                 detail.setStatus(progressBarPlan[1]);
                                 list.add(detail);
@@ -526,7 +526,7 @@ public class DemandSupervisionController extends BaseController{
                     if(findById != null){
                         detail.setPurchaseType(findById.getName());
                     }
-                    String[] progressBarPlan = supervisionService.progressBar(detail.getId());
+                    String[] progressBarPlan = supervisionService.progressBar(detail.getId(), null);
                     detail.setProgressBar(progressBarPlan[0]);
                     detail.setStatus(progressBarPlan[1]);
                     detail.setOneAdvice(findById.getCode());
@@ -551,7 +551,7 @@ public class DemandSupervisionController extends BaseController{
                         if(findById != null){
                             purchaseRequired.setPurchaseType(findById.getName());
                         }
-                        String[] progressBarPlan = supervisionService.progressBar(purchaseRequired.getId());
+                        String[] progressBarPlan = supervisionService.progressBar(purchaseRequired.getId(), null);
                         purchaseRequired.setProgressBar(progressBarPlan[0]);
                         purchaseRequired.setStatus(progressBarPlan[1]);
                         purchaseRequired.setOneAdvice(findById.getCode());

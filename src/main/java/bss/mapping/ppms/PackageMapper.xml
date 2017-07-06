@@ -15,7 +15,8 @@
 		<result column="IS_IMPORT" property="isImport" />
 		<result column="IS_END_PRICE" property="isEndPrice" />
 		<result column="PROJECT_STATUS" property="projectStatus" />
-		<result column="FLOW_ID" property="flowId" />
+		<result column="OLD_FLOW_ID" property="oldFlowId" />
+		<result column="NEW_FLOW_ID" property="newFlowId" />
 		<result column="TECHNIQUE_TIME" property="techniqueTime" jdbcType="TIMESTAMP" />
 		<result column="QUALIFICATION_TIME" property="qualificationTime" jdbcType="TIMESTAMP" />
 		<association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
@@ -31,7 +32,8 @@
 		<result column="MARK_TERM_TREE" property="markTermTree" />
 		<result column="IS_END_PRICE" property="isEndPrice" />
 		<result column="PROJECT_STATUS" property="projectStatus" />
-		<result column="FLOW_ID" property="flowId" />
+		<result column="OLD_FLOW_ID" property="oldFlowId" />
+		<result column="NEW_FLOW_ID" property="newFlowId" />
 		<association property="project" column="PROJECT_ID"
 			select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
 	</resultMap>
@@ -99,7 +101,7 @@
 	<sql id="Base_Column_List">
 		ID, NAME,PROJECT_ID,IS_DELETED,CREATED_AT,
 		UPDATED_AT,STATUS,MARK_TERM_TREE,BID_METHOD_ID,
-		PURCHASE_TYPE,IS_IMPORT,IS_END_PRICE,TECHNIQUE_TIME,QUALIFICATION_TIME,PROJECT_STATUS,FLOW_ID
+		PURCHASE_TYPE,IS_IMPORT,IS_END_PRICE,TECHNIQUE_TIME,QUALIFICATION_TIME,PROJECT_STATUS,OLD_FLOW_ID,NEW_FLOW_ID
 	</sql>
 
 	<insert id="insertSelective" parameterType="bss.model.ppms.Packages">
@@ -153,8 +155,11 @@
       <if test="projectStatus != null">
         PROJECT_STATUS,
       </if>
-      <if test="flowId != null">
-        FLOW_ID,
+      <if test="oldFlowId != null">
+        OLD_FLOW_ID,
+      </if>
+      <if test="newFlowId != null">
+        NEW_FLOW_ID,
       </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -203,8 +208,11 @@
       <if test="projectStatus != null">
         #{projectStatus},
       </if>
-      <if test="flowId != null">
-        #{flowId},
+      <if test="oldFlowId != null">
+        #{oldFlowId},
+      </if>
+      <if test="newFlowId != null">
+        #{newFlowId},
       </if>
 		</trim>
 	</insert>
@@ -244,8 +252,11 @@
 			<if test="isEndPrice != null">
 				IS_END_PRICE = #{isEndPrice},
 			</if>
-			<if test="flowId != null">
-				FLOW_ID = #{flowId},
+			<if test="oldFlowId != null">
+				OLD_FLOW_ID = #{oldFlowId},
+			</if>
+			<if test="newFlowId != null">
+				NEW_FLOW_ID = #{newFlowId},
 			</if>
 			<if test="techniqueTime != null">
         TECHNIQUE_TIME = #{techniqueTime,jdbcType=TIMESTAMP},

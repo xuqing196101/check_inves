@@ -139,11 +139,13 @@ public class ProjectSupervisionController {
                 map.put("purchaseType", project.getPurchaseType());
             }
             map.put("purchaseDepId", user.getOrg().getId());
+            map.put("userId", user.getId());
+            map.put("principal", user.getId());
             if (page == null) {
                 page = 1;
             }
             PageHelper.startPage(page, Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            List<Project> list = projectService.selectProjectsByConition(map);
+            List<Project> list = projectService.selectByConition(map);
             for (int i = 0; i < list.size(); i++ ) {
                 Orgnization org = orgnizationService.getOrgByPrimaryKey(list.get(i).getPurchaseDepId());
                 if(org != null && StringUtils.isNotBlank(org.getName())){
@@ -275,7 +277,7 @@ public class ProjectSupervisionController {
                         if(detail.getPrice() != null){
                             DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
                             detail.setPurchaseType(findById.getName());
-                            String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId());
+                            String[] progressBarPlan = supervisionService.progressBar(detail.getRequiredId(), project.getId());
                             detail.setProgressBar(progressBarPlan[0]);
                             detail.setStatus(progressBarPlan[1]);
                         } else {
@@ -284,7 +286,7 @@ public class ProjectSupervisionController {
                         }
                         lists.add(detail);
                     }
-                    model.addAttribute("details", list);
+                    model.addAttribute("details", lists);
         		}
         		DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
                 project.setStatus(findById.getName());
@@ -308,8 +310,13 @@ public class ProjectSupervisionController {
     @RequestMapping("/planList")
     public String planList(Model model, String projectId){
         if(StringUtils.isNotBlank(projectId)){
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("projectId", projectId);
+        	Project project = projectService.selectById(projectId);
+        	HashMap<String, Object> map = new HashMap<>();
+        	if(StringUtils.isNotBlank(project.getParentId()) && !"1".equals(project.getParentId())){
+        		map.put("projectId", project.getParentId());
+        	} else {
+        		map.put("projectId", project.getId());
+        	}
             List<ProjectTask> projectTasks = projectTaskService.queryByNo(map);
             List<CollectPlan> list = new ArrayList<CollectPlan>();
             if(projectTasks != null && projectTasks.size() > 0){

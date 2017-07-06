@@ -149,7 +149,7 @@ public class ProjectSupervisionServiceImpl implements ProjectSupervisionService 
                 	for (ProjectDetail projectDetail : detailList) {
                 		DictionaryData findById = DictionaryDataUtil.findById(projectDetail.getPurchaseType());
                 		projectDetail.setPurchaseType(findById.getName());
-                        String[] progressBarPlan = supervisionService.progressBar(projectDetail.getRequiredId());
+                        String[] progressBarPlan = supervisionService.progressBar(projectDetail.getRequiredId(), projectId);
                         projectDetail.setProgressBar(progressBarPlan[0]);
                         projectDetail.setStatus(progressBarPlan[1]);
 					}
@@ -209,7 +209,7 @@ public class ProjectSupervisionServiceImpl implements ProjectSupervisionService 
                     if(detail.getPrice() != null){
                         DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
                         detail.setPurchaseType(findById.getName());
-                        String[] progressBarPlan = supervisionService.progressBar(detail.getId());
+                        String[] progressBarPlan = supervisionService.progressBar(detail.getId(), projectId);
                         detail.setProgressBar(progressBarPlan[0]);
                         detail.setStatus(progressBarPlan[1]);
                         //model.addAttribute("code", findById.getCode());
@@ -259,7 +259,7 @@ public class ProjectSupervisionServiceImpl implements ProjectSupervisionService 
                     if(detail.getPrice() != null){
                         DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
                         detail.setPurchaseType(findById.getName());
-                        String[] progressBarPlan = supervisionService.progressBar(detail.getId());
+                        String[] progressBarPlan = supervisionService.progressBar(detail.getId(), projectId);
                         detail.setProgressBar(progressBarPlan[0]);
                         detail.setStatus(progressBarPlan[1]);
                         //model.addAttribute("code", findById.getCode());

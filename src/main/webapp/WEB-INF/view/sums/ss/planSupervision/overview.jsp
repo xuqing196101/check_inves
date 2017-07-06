@@ -44,6 +44,14 @@
             $(this).parent().parent().parent().addClass("pre_btn");
           }
         });
+        $("input[name='flowName']").each(function(){
+        	var name = $(this).val();
+          name = $.trim(name);
+          if(name.indexOf("XMFB") >= 0){
+            $(this).parent().parent().parent().removeClass("pre_btn");
+            $(this).parent().parent().parent().addClass("current_red");
+          }
+        });
         $('.pre_btn').last().addClass("current_btn");
         $('.pre_btn').last().removeClass("pre_btn");
         $(".flow_tips").children(":last").hide();
@@ -65,11 +73,11 @@
       function viewUpload(id) {
         var projectId = "${project.id}";
         var uploadFile = "${uploadFile}";
-        if(uploadFile == 0){
-          var a = "2";
-          openViewDIv(projectId, id, a, null, null);
+        if(uploadFile == 1){
+          layer.msg("未上传附件!");
         }else{
-          layer.msg("未上传附件");
+        	var a = "2";
+          openViewDIv(projectId, id, a, null, null);
         }
       }
 
@@ -275,272 +283,21 @@
           <h2 class="count_flow"><i>2</i>流程进度</h2>
           <ul class="ul_list">
           <div class="container">
-            <div class="col-md-12 col-xs-12 col-sm-12 flow_more" id="main-1">
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12">
+          	<c:forEach items="${sortsMap}" var="obj" varStatus="vs">
+          		<div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-${vs.index+1}">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-1">
-                    <p class="tip_main">采购需求编报</p>
+                  <a href="#tab-${vs.index+1}">
+                    <input type="hidden" name="flowName" value="${obj.key}"/>
+                    <p class="tip_main">${obj.value.name}</p>
                     <p class="tip_time">
-                      <fmt:formatDate value='${purchaseRequired.createdAt}' pattern='yyyy-MM-dd' />
-                    </p>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3"></div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_small" id="main-2">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-2">
-                    <p class="tip_main">采购需求受理</p>
-                    <p class="tip_time">
-                     <fmt:formatDate value='${auditPerson.createDate}' pattern='yyyy-MM-dd' />
-                    </p>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3"></div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-
-              <c:if test="${advancedProject != null}">
-                <div class="flow_tips col-md-2 col-sm-2 col-xs-12 small_r" id="main-3">
-                  <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                    <a href="#tab-3">
-                      <p class="tip_main">预研任务下达</p>
-                      <p class="tip_time">
-                        <fmt:formatDate value='${tasks.giveTime}' pattern='yyyy-MM-dd' />
-                      </p>
-                    </a>
-                  </div>
-                  <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                  <div class="tip_down col-xs-offset-6"></div>
-                </div>
-              </c:if>
-
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 small_r" id="main-4">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-4">
-                    <p class="tip_main">采购计划审核</p>
-                    <c:if test="${listAuditPerson ne null}">
-                      <p class="tip_time">
-                        <fmt:formatDate value='${listAuditPerson[0].createDate}' pattern='yyyy-MM-dd' />
-                      </p>
-                    </c:if>
-                    <c:if test="${listAuditPerson eq null}">
-                      <p class="tip_time"><fmt:formatDate value='${collectPlan.createdAt}' pattern='yyyy-MM-dd' /></p>
-                    </c:if>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-
-                <c:if test="${collectPlan ne null}">
-                <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-5">
-                  <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                    <a href="#tab-5">
-                      <p class="tip_main">采购计划下达</p>
-                      <p class="tip_time">
-                        <fmt:formatDate value='${collectPlan.updatedAt}' pattern='yyyy-MM-dd' />
-                      </p>
-                    </a>
-                  </div>
-                  <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                  <div class="tip_down col-xs-offset-6"></div>
-                </div>
-                </c:if>
-
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12  round_tips" id="main-6">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-6">
-                    <p class="tip_main">采购任务受领</p>
-                    <p class="tip_time">
-                      <fmt:formatDate value='${task.acceptTime}' pattern='yyyy-MM-dd' />
-                    </p>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                <div class="tip_down col-xs-offset-6 col-sm-offset-1 col-md-offset-1  col-md-offset-0"></div>
-              </div>
-
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-7">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-7">
-                    <p class="tip_main">采购项目立项</p>
-                    <p class="tip_time">
-                      <fmt:formatDate value='${project.createAt}' pattern='yyyy-MM-dd' />
-                    </p>
-                  </a>
-                </div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-8">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-8">
-                    <p class="tip_main">采购文件编报</p>
-                    <p class="tip_time">
-                      <fmt:formatDate value='${project.approvalTime}' pattern='yyyy-MM-dd' />
+                      <fmt:formatDate value='${obj.value.updatedAt}' pattern='yyyy-MM-dd' />
                     </p>
                   </a>
                 </div>
                 <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
-
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-9">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-9">
-                    <p class="tip_main">采购公告发布</p>
-                    <p class="tip_time">
-                      <fmt:formatDate value='${articles.createdAt}' pattern='yyyy-MM-dd' />
-                    </p>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-
-              <c:if test="${'GKZB' ne code.code && 'DYLY' ne code.code}">
-                <c:if test="${extUserNames ne null}">
-                <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-10">
-                  <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                    <a href="#tab-10">
-                      <p class="tip_main">供应商抽取</p>
-                      <p class="tip_time"><fmt:formatDate value='${extUserDate}' pattern='yyyy-MM-dd' /></p>
-                    </a>
-                  </div>
-                  <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                  <div class="tip_down col-xs-offset-6"></div>
-                </div>
-                </c:if>
-              </c:if>
-
-              <c:if test="${'DYLY' ne code.code}">
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-11">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-11">
-                    <p class="tip_main">采购文件发售</p>
-                    <p class="tip_time">${begin}</p>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-              </c:if>
-              
-              <c:if test="${userNames ne null}">
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-12">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-12">
-                    <p class="tip_main">评审专家抽取</p>
-                    <p class="tip_time">
-                      <fmt:formatDate value='${userDate}' pattern='yyyy-MM-dd' />
-                    </p>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-              </c:if>
-              
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-13">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-13">
-                    <p class="tip_main">开标</p>
-                    <p class="tip_time">
-                      <c:if test="${operName ne null}">
-                      <fmt:formatDate value='${project.bidDate}' pattern='yyyy-MM-dd' />
-                      </c:if>
-                    </p>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-15">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-14">
-                    <p class="tip_main">采购项目评审</p>
-                    <p class="tip_time">
-                      <c:choose>
-                        <c:when test="${packages.qualificationTime ne null}">
-                          <fmt:formatDate value='${packages.qualificationTime}' pattern='yyyy-MM-dd' />
-                        </c:when>
-                        <c:otherwise>
-                          <fmt:formatDate value='${packages.techniqueTime}' pattern='yyyy-MM-dd' />
-                        </c:otherwise>
-                      </c:choose>
-                    </p>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-16">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-15">
-                    <p class="tip_main">中标公示发布</p>
-                    <p class="tip_time">
-                      <fmt:formatDate value='${articleList.createdAt}' pattern='yyyy-MM-dd' />
-                    </p>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 " id="main-17">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-16">
-                    <p class="tip_main">预中标供应商确定</p>
-                    <p class="tip_time">
-                      <fmt:formatDate value='${listCheckPass[0].confirmTime}' pattern='yyyy-MM-dd' />
-                    </p>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12" id="main-18">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-17">
-                    <p class="tip_main">采购合同签订</p>
-                    <p class="tip_time">
-                      <fmt:formatDate value='${purchaseContract.formalAt}' pattern='yyyy-MM-dd' />
-                    </p>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-
-              <!-- <div class="flow_tips col-md-2 col-sm-2 col-xs-12 current_btn round_tips round_r">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-18">
-                    <p class="tip_main">采购合同履约</p>
-                    <p class="tip_time">2016-08-08</p>
-                  </a>
-                </div>
-                <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
-                <div class="tip_down col-xs-offset-6 col-sm-offset-1 col-md-offset-1  col-md-offset-0"></div>
-              </div> -->
-
-              <div class="flow_tips col-md-2 col-sm-2 col-xs-12 last_r" id="main-19">
-                <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
-                  <a href="#tab-18">
-                    <p class="tip_main">采购质检验收</p>
-                    <p class="tip_time">
-                      <fmt:formatDate value='${PqInfo.createdAt}' pattern='yyyy-MM-dd' />
-                    </p>
-                  </a>
-                </div>
-                <div class="tip_down col-xs-offset-6"></div>
-              </div>
-            </div>
+          	</c:forEach>
           </div>
           </ul>
         </div>
@@ -700,7 +457,7 @@
                 <tr>
                   <td>${tasks.name}</td>
                   <td>${tasks.purchaseId}</td>
-                  <td class="tc">预研<c:if test="${YYYBYY eq '0'}">(已终止)</c:if><c:if test="${YYYBYY eq '1'}">(已引用)</c:if>
+                  <td class="tc">预研<c:if test="${advancedProject.isRehearse eq 0}">(已终止)</c:if><c:if test="${advancedProject.isRehearse eq 1}">(已引用)</c:if>
                   </td>
                   <td class="tc">${tasks.userId}</td>
                   <td class="tc">
@@ -743,7 +500,7 @@
                   <td>${advancedProject.name}</td>
                   <td class="tc"><button class="btn" onclick="viewUpload('${uploadId}');" type="button">查看</button></td>
                   <td>${advancedProject.purchaseDepName}</td>
-                  <td class="tc">预研<c:if test="${YYYBYY eq '0'}">(已终止)</c:if><c:if test="${YYYBYY eq '1'}">(已引用)</c:if></td>
+                  <td class="tc">预研<c:if test="${advancedProject.isRehearse eq 0}">(已终止)</c:if><c:if test="${advancedProject.isRehearse eq 1}">(已引用)</c:if></td>
                   <td class="tc">${advancedProject.appointMan}</td>
                   <td class="tc">
                     <fmt:formatDate value='${advancedProject.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
@@ -955,7 +712,7 @@
 		                    <fmt:formatDate value='${packages.techniqueTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
 		                  </td>
 		                </tr>
-		                <c:if test="${DYLY != null}">
+		                <c:if test="${reviewTime ne null}">
 		                  <tr>
 		                    <td>专家评审报告</td>
 		                    <td>

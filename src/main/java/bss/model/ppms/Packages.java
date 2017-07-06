@@ -104,7 +104,9 @@ public class Packages {
 
   private BigDecimal wonPrice;
   
-  private String flowId;//终止流程id  默认null
+  private String oldFlowId;//终止流程id  默认null
+  
+  private String newFlowId;//终止流程id  默认null
 
   /**
    * 是否维护符合性审查项 0 未维护 1:维护中 2：已维护
@@ -625,12 +627,20 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
 		this.projectStatus = projectStatus;
 	}
 
-  public String getFlowId() {
-    return flowId;
-  }
+	public String getOldFlowId() {
+		return oldFlowId;
+	}
 
-  public void setFlowId(String flowId) {
-    this.flowId = flowId;
-  }
+	public void setOldFlowId(String oldFlowId) {
+		this.oldFlowId = oldFlowId;
+	}
+
+	public String getNewFlowId() {
+		return newFlowId;
+	}
+
+	public void setNewFlowId(String newFlowId) {
+		this.newFlowId = newFlowId;
+	}
 
 }

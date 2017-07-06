@@ -10,7 +10,7 @@ public interface SupervisionService {
      * @param id
      * @return
      */
-    String[] progressBar(String id);
+    String[] progressBar(String id, String projectId);
     
     /**
      * 
