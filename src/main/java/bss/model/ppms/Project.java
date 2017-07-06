@@ -10,7 +10,7 @@ import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 
 public class Project {
-    private String id; //主键
+    private String id; //主键   xxx
     
     @NotBlank(message="不能为空")
     private String name; //项目名称
