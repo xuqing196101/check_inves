@@ -412,7 +412,10 @@
 					<a href="javascript:void(0);">支撑系统</a>
 				</li>
 				<li>
-					<a href="javascript:void(0);">供应商管理</a>
+            <a href="javascript:void(0);">供应商管理</a>
+          </li>
+				<li>
+					<a href="javascript:void(0);">全部供应商查询</a>
 				</li>
 				<li class="active">
 					<a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=1')">供应商列表</a>
