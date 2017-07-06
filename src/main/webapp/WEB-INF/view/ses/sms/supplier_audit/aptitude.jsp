@@ -165,10 +165,10 @@
 				if(str == "financial") {
 					action = "${pageContext.request.contextPath}/supplierAudit/financial.html";
 				}
-				/*if(str == "shareholder") {
+				if(str == "shareholder") {
 					action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
 				}
-				if(str == "materialProduction") {
+				/*if(str == "materialProduction") {
 					action = "${pageContext.request.contextPath}/supplierAudit/materialProduction.html";
 				}
 				if(str == "materialSales") {

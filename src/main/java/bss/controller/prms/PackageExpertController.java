@@ -2362,13 +2362,13 @@ public class PackageExpertController {
          record.setIsTurnUp(0);
          
          List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
-         int supplierListSize=supplierList.size()%2==0?supplierList.size()/2:supplierList.size()/2+1;
+         int supplierListSize=supplierList.size()%8==0?supplierList.size()/8:supplierList.size()/8+1;
          List<Extension> extensionList=new ArrayList<Extension>();
          List<SaleTender> saleTenders=null;
          for(int i=1;i<=supplierListSize;i++){
          	Extension extension=new Extension();
          	saleTenders=new ArrayList<SaleTender>();
-         	for(int j=(i-1)*2;j<i*2;j++){
+         	for(int j=(i-1)*8;j<i*8;j++){
          		if(j==supplierList.size()){
        			  break;
        		   }
@@ -3099,7 +3099,7 @@ public class PackageExpertController {
       }
       model.addAttribute("expertId", expertId);
       List<SaleTender> supplierList = saleTenderService.findByCon(saleTender);
-      int supplierListSize=supplierList.size()%4==0?supplierList.size()/4:supplierList.size()/4+1;
+      int supplierListSize=supplierList.size()%8==0?supplierList.size()/8:supplierList.size()/8+1;
       List<SaleTender> saleTenderListJ=null;
       List<Extension> extensions=new ArrayList<Extension>();
       for(int i=1;i<=supplierListSize;i++){
@@ -3135,7 +3135,7 @@ public class PackageExpertController {
     	      List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
     	        //放入初审项集合
     	      extensionJ.setFirstAuditList(fas);
-    	  for(int j=(i-1)*4;j<i*4;j++){
+    	  for(int j=(i-1)*8;j<i*8;j++){
     		  if(j==supplierList.size()){
     			  break;
     		  }
@@ -3414,7 +3414,6 @@ public class PackageExpertController {
                 suppList.add(supp);
             }
         }
-        
         
         int supplierListSize=suppList.size()%3==0?suppList.size()/3:suppList.size()/3+1;
         List<Extension> extensionList=new ArrayList<Extension>();
@@ -3870,14 +3869,14 @@ public class PackageExpertController {
         saleTender.setIsTurnUp(0);
         //查询该包下参与的供应商
         List<SaleTender> sl = saleTenderService.findByCon(saleTender);
-        int supplierListSize=sl.size()%4==0?sl.size()/4:sl.size()/4+1;
+        int supplierListSize=sl.size()%8==0?sl.size()/8:sl.size()/8+1;
         List<Extension> extensions=new ArrayList<Extension>();
         List<SaleTender> sleTenders=null;
         for(int i=1;i<=supplierListSize;i++){
         	sleTenders=new ArrayList<SaleTender>();
         	Extension extensionJ = new Extension();
         	
-        	for(int j=(i-1)*4;j<i*4;j++){
+        	for(int j=(i-1)*8;j<i*8;j++){
         		if(j==sl.size()){
         			  break;
         		  }
@@ -4081,7 +4080,7 @@ public class PackageExpertController {
              }
              saleTender.setIsTurnUp(0);
              List<SaleTender> supplierList = saleTenderService.findByCon(saleTender);
-             int supplierListSize=supplierList.size()%4==0?supplierList.size()/4:supplierList.size()/4+1;
+             int supplierListSize=supplierList.size()%8==0?supplierList.size()/8:supplierList.size()/8+1;
              List<SaleTender> saleTenders=null;
              for(int i=1;i<=supplierListSize;i++){
             	
@@ -4120,7 +4119,7 @@ public class PackageExpertController {
                  //放入初审项集合
                  extension.setFirstAuditList(fas);
             	 
-                 for(int j=(i-1)*4;j<i*4;j++){
+                 for(int j=(i-1)*8;j<i*8;j++){
                 	 if(j==supplierList.size()){
            			  break;
            		  }

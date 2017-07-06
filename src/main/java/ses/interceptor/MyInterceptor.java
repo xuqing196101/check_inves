@@ -1,20 +1,18 @@
 package ses.interceptor;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import ses.model.bms.PreMenu;
+import ses.util.AuthorityUtil;
 
 
 /**
@@ -76,8 +74,8 @@ public class MyInterceptor implements HandlerInterceptor {
 		String reqUrl = request.getServletPath();
 			if (session.getAttribute("loginUser") == null) {
 				//系统的根url
-                String path = request.getContextPath();
-                String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
+        String path = request.getContextPath();
+        String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
 				PrintWriter out = response.getWriter();
 				StringBuilder builder = new StringBuilder();
 				builder.append("<HTML><HEAD>");
@@ -100,7 +98,47 @@ public class MyInterceptor implements HandlerInterceptor {
 				out.close(); 
 				return false;
 			} else {
-				return true;
+			  //判断该请求是否在权限菜单表
+			  PreMenu preMenu = new PreMenu();
+			  preMenu.setUrl(reqUrl.substring(1));
+			  List<PreMenu> menus = AuthorityUtil.find(preMenu);
+			  if (menus != null && menus.size() > 0) {
+			      PreMenu menu = menus.get(0);
+            //如果该请求是在权限菜单表
+			      //判断该用户的权限中是否包含改权限菜单
+  			    List<PreMenu> userMenus = (List<PreMenu>) session.getAttribute("resource");
+  			    if (userMenus != null && userMenus.size() > 0) {
+  			        boolean isExist = userMenus.contains(menu);
+  			        if (isExist) {
+  			            return true;
+                } else {
+                    //系统的根url
+                    String path = request.getContextPath();
+                    String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
+                    PrintWriter out = response.getWriter();
+                    StringBuilder builder = new StringBuilder();
+                    builder.append("<HTML><HEAD>");
+                    builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/backend/js/jquery.min.js'></script>");
+                    builder.append("<script language='javascript' type='text/javascript' src='"+request.getContextPath()+"/public/layer/layer.js'></script>");
+                    builder.append("<link href='"+request.getContextPath()+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+                    builder.append("</HEAD>");
+                    builder.append("<script type=\"text/javascript\">"); 
+                    builder.append("$(function() {");
+                    builder.append("layer.alert('权限不足',{title:'提示',area : '240px',offset: ['30%' , '40%'],shade:0.01 })");  
+                    builder.append("});");
+                    builder.append("</script>");  
+                    builder.append("<BODY><div style='width:1000px; height: 1000px;'></div></BODY></HTML>");
+                    out.print(builder.toString());
+                    out.flush();  
+                    out.close(); 
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }else {
+          return true;
+        }
 			}
 	}
 }
