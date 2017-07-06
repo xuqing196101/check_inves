@@ -2490,6 +2490,6 @@ resultMap="BaseResultMap">
 		   <if test="relName != null and relName != ''">
 		     AND INSTR(T.REAL_NAME,#{relName}) >0
 		   </if>
-		 ORDER BY T.UPDATED_AT DESC
+		 ORDER BY T.UPDATED_AT
 	</select>
 </mapper>

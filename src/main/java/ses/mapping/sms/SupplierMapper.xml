@@ -2036,6 +2036,6 @@
 		   <if test="supplierName != null and supplierName != ''">
 		     AND INSTR(T.SUPPLIER_NAME,#{supplierName}) >0
 		   </if>
-		 ORDER BY T.UPDATED_AT DESC
+		 ORDER BY T.UPDATED_AT
 	</select>
 </mapper>

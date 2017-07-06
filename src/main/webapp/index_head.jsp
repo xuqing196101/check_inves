@@ -642,7 +642,9 @@ function importAdd(){
                                 </c:choose>
                             </td>
                             <td class="tc" width="15%">${ item.orgName }</td>
-                            <td class="tl" width="20%">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
+                            <td class="tl" width="20%">
+                                <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</a>
+                            </td>
                             <td class="tl" width="15%">
                                 <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatDate>
                             </td>
@@ -831,7 +833,9 @@ function importAdd(){
 						<td width="25%">${ item.relName }</td>
 						<td class="tc" width="15%">${ item.expertsTypeId }</td>
 						<td class="tc" width="15%">${ item.orgName }</td>
-						<td class="tl" width="30%">同意入库，选择了${ item.passCateCount }小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</td>
+						<td class="tl" width="30%">
+                            <a href="${pageContext.request.contextPath}/index/indexExpPublicity.html">同意入库，选择了${ item.passCateCount }小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</a>
+                        </td>
                         <td class="tl" width="25%">
                             <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatDate>
                         </td>
