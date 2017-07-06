@@ -2335,7 +2335,8 @@ a.news_more{
     text-align: center;
     font-weight: normal;
     display: block;
-    z-index:10000;
+    /* 张淑彬修改首页工作动态新增消息红钮 */
+    z-index:98;
     background:url(../images/report_round.png) no-repeat center;
 }
 
