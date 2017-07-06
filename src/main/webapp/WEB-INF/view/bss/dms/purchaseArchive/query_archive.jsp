@@ -67,13 +67,16 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0);">首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
 						<a href="javascript:void(0);">保障作业</a>
 					</li>
 					<li>
-						<a href="javascript:void(0);">采购档案查询</a>
+						<a href="javascript:void(0)">产品质量管理</a>
+					</li>
+					<li>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/purchaseArchive/queryArchive.html');">采购档案查询</a>
 					</li>
 				</ul>
 				<div class="clear"></div>
@@ -140,7 +143,7 @@
 	  	</h2>
 			</form>
 
-			<div class="content table_box">
+			<div class="content table_box over_auto">
 				<table class="table table-bordered table-condensed table-hover">
 					<thead>
 						<tr class="info">
@@ -167,53 +170,67 @@
 					<tbody>
 						<c:forEach items="${archiveList.list }" var="archive" varStatus="vs">
 							<tr class="tc">
-								<td class="w50">${(vs.index+1)+(archiveList.pageNum-1)*(archiveList.pageSize)}</td>
-								<td class="tl pl20">${archive.name }</td>
-								<td class="tl pl20">${archive.code }</td>
-								<td class="tl pl20">${archive.contractCode }</td>
-								<td class="tl pl20">${archive.year }</td>
-								<td class="tl pl20">${archive.purchaseDep }</td>
+								<td><div class="w30">${(vs.index+1)+(archiveList.pageNum-1)*(archiveList.pageSize)}</div></td>
+								<td class="tl"><div class="w200">${archive.name }</div></td>
+								<td class="tl"><div class="w100">${archive.code }</div></td>
+								<td class="tl"><div class="w100">${archive.contractCode }</div></td>
+								<td class="tl"><div class="w100">${archive.year }</div></td>
+								<td class="tl"><div class="w100">${archive.purchaseDep }</div></td>
 								<td>
+									<div class="w100">
 									<c:forEach items="${kind}" var="kind">
 										<c:if test="${kind.id == archive.purchaseType}">${kind.name}</c:if>
 									</c:forEach>
+									</div>
 								</td>
-								<td class="tl pl20">${archive.productName }</td>
-								<td class="tl pl20">${archive.supplierName }</td>
-								<td class="tl pl20">
-								  <fmt:formatDate value='${archive.reportAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								<td class="tl"><div class="w100">${archive.productName }</div></td>
+								<td class="tl"><div class="w100">${archive.supplierName }</div></td>
+								<td class="tl">
+									<div class="w100">
+								  	<fmt:formatDate value='${archive.reportAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								  	</div>
 								</td>
-								<td class="tl pl20">
-								  <fmt:formatDate value='${archive.applyAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								<td class="tl">
+									<div class="w100">
+								  	<fmt:formatDate value='${archive.applyAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								  	</div>
 								</td>
-								<td class="tl pl20">
-								  <fmt:formatDate value='${archive.draftGitAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								<td class="tl">
+									<div class="w100">
+								  	<fmt:formatDate value='${archive.draftGitAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								  	</div>
 								</td>
-								<td class="tl pl20">
-								  <fmt:formatDate value='${archive.draftReviewedAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								<td class="tl">
+									<div class="w100">
+								  	<fmt:formatDate value='${archive.draftReviewedAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								  	</div>
 								</td>
-								<td class="tl pl20">
-								  <fmt:formatDate value='${archive.formalGitAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								<td class="tl">
+									<div class="w100">
+								  	<fmt:formatDate value='${archive.formalGitAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								  	</div>
 								</td>
-								<td class="tl pl20">
-								  <fmt:formatDate value='${archive.formalReviewedAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								<td class="tl">
+									<div class="w100">
+								  	<fmt:formatDate value='${archive.formalReviewedAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+								  	</div>
 								</td>
-								<td></td>
-								<td></td>
+								<td><div class="w100"></div></td>
+								<td><div class="w100"></div></td>
 								<c:if test="${archive.status==1 }">
-									<td>暂存</td>
+									<td><div class="w30">暂存</div></td>
 								</c:if>
 								<c:if test="${archive.status==2 }">
-									<td>审核通过</td>
+									<td><div class="w100">审核通过</div></td>
 								</c:if>
 								<c:if test="${archive.status==3 }">
-									<td>审核不通过</td>
+									<td><div class="w100">审核不通</div>过</td>
 								</c:if>
 								<c:if test="${archive.status==4 }">
-									<td>已归档</td>
+									<td><div class="w100">已归档</div></td>
 								</c:if>
 								<c:if test="${archive.status==5 }">
-									<td>已提交</td>
+									<td><div class="w100">已提交</div></td>
 								</c:if>
 							</tr>
 						</c:forEach>

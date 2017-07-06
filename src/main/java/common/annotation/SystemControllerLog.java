@@ -25,5 +25,5 @@ public @interface SystemControllerLog {
     String description() default "";
     
     /** 操作类型 **/
-    int operType() default 3; 
+   /* int operType() default 3; */
 }

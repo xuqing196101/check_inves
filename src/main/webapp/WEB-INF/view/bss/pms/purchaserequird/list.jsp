@@ -136,22 +136,7 @@
     
     var index;
     function add(){
-    	
-    	/* index=layer.open({
-			  type: 1, //page层
-			  area: ['300px', '200px'],
-			  title: '',
-			  closeBtn: 1,
-			  shade:0.01, //遮罩透明度
-			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
-			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: ['80px', '600px'],
-			  content: $('#content'),
-			}); */
-			
     	window.location.href="${pageContext.request.contextPath}/purchaser/add.html";
-    	
-   
     }
     
 	//鼠标移动显示全部内容
@@ -238,9 +223,12 @@
 <!--面包屑导航开始-->
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0);">首页</a></li><li><a href="javascript:void(0);">保障作业系统</a></li><li><a href="javascript:void(0);">采购计划管理</a></li><li class="active"><a href="javascript:void(0);">采购需求管理</a></li>
-		   </ul>
+		  <ul class="breadcrumb margin-left-0">
+			  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+			  <li><a href="javascript:void(0);">保障作业系统</a></li>
+			  <li><a href="javascript:void(0);">采购计划管理</a></li>
+			  <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/purchaser/list.html');">采购需求编报</a></li>
+		  </ul>
 		<div class="clear"></div>
 	  </div>
    </div>

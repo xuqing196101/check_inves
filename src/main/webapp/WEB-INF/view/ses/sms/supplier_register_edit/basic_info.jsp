@@ -743,7 +743,7 @@
 		<div class="wrapper">
 			<!-- 项目戳开始 -->
 			<div class="container clear margin-top-30">
-				<h2 class="padding-20 mt40 ml30">
+				<h2 class="step_flow">
 					<span id="sp1" class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
 		            <span id="sp2" class="new_step fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
 		            <span id="ty3" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
@@ -751,7 +751,7 @@
 		            <span id="sp5" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">销售合同</span> </span>
 		            <span id="sp6" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
 		            <span id="sp7" class="new_step fl"><i class="">7</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
-		            <span id="sp8" class="new_step fl"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
+		            <span id="sp8" class="new_step fl new_step_last"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
 		            <div class="clear"></div>
 				</h2>
 			</div>
@@ -1247,7 +1247,7 @@
 						</fieldset>
 
 						<fieldset class="col-md-12 border_font mt20">
-							<legend>本单位军队业务联系人</legend>
+							<legend>本单位负责军队业务的人员信息</legend>
 							<ul class="list-unstyled f14">
 								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><i class="red">*</i> 姓名</span>

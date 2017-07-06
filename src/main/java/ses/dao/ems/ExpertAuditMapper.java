@@ -1,6 +1,9 @@
 package ses.dao.ems;
 
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 
 import ses.model.ems.ExpertAudit;
 
@@ -151,4 +154,26 @@ public interface ExpertAuditMapper {
      * @return Integer
      */
     Integer findByObj (ExpertAudit expertAudit);
+    
+    
+    /**
+     * 
+    * @Title: insertActive
+    * @Description:无ID返回插入
+    * author: Li Xiaoxiao 
+    * @param @param expertAudit     
+    * @return void     
+    * @throws
+     */
+    void insertActive(ExpertAudit expertAudit);
+    
+    /**
+     * 
+     * Description:查询专家注册品目类型（小类）的数量（未通过审核的）
+     * 
+     * @author Easong
+     * @version 2017年6月27日
+     * @return
+     */
+    Integer selectRegExpCateCount(Map<String, Object> map);
 }

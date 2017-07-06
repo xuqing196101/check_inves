@@ -65,8 +65,18 @@ public class AfterSaleSer implements Serializable{
     /**合同编号**/
     private String contractCode;
     
+    /**供应商ID**/
+    private String supplierId;
     
-    private BigDecimal money;
+    public String getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	private BigDecimal money;
    
     
 	public BigDecimal getMoney() {

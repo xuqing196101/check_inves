@@ -49,13 +49,11 @@ function OnComplete2(type,code,html)
 	//alert(html);
 	//alert("SaveToURL成功回调");
 }
-function OnComplete(type,code,html)
+//页面上重写了，所以需要注释如果需要回调请在页面上重写此方法
+/*function OnComplete(type,code,html)
 {
-	//alert(type);
-	//alert(code);
-	//alert(html);
 	//alert("BeginOpenFromURL成功回调");
-}
+}*/
 function OnComplete3(str,doc)
 {
 	TANGER_OCX_OBJ.activeDocument.saved=true;//saved属性用来判断文档是否被修改过,文档打开的时候设置成ture,当文档被修改,自动被设置为false,该属性由office提供.
@@ -140,7 +138,7 @@ if (browser=="IE"){
 	//alert(window.navigator.platform);
 	//alert(navigator.userAgent);
 	if(window.navigator.platform=="Win32"){
-//		alert(32);
+		//alert(32);
 		document.write('<!-- 用来产生编辑状态的ActiveX控件的JS脚本-->   ');
 		document.write('<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   ');
 		document.write('<object id="TANGER_OCX" classid="clsid:'+classid+'"');
@@ -172,11 +170,11 @@ document.write('<param name="ProductKey" value="AB579623F5B4E11E5F61C06579A21F84
 		document.write('</object>');	
 	}
 	if(window.navigator.platform=="Win64"){
-//		alter(64);
+		//alter(64);
 		document.write('<!-- 用来产生编辑状态的ActiveX控件的JS脚本-->   ');
 		document.write('<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   ');
 		document.write('<object id="TANGER_OCX" classid="clsid:'+classidx64+'"');
-		document.write('codebase="'+codebase64+'" width="100%" height="100%">   ');
+		document.write('codebase="'+codebase64+'" width="100%" height="100%">    ');
 		document.write('<param name="IsUseUTF8URL" value="-1">   ');
 		document.write('<param name="IsUseUTF8Data" value="-1">   ');
 		document.write('<param name="BorderStyle" value="1">   ');

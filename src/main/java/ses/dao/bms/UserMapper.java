@@ -389,4 +389,35 @@ public interface UserMapper {
 	 * @return void
 	 */
 	void updateDelUserByTypeId (User user);
+	/**
+	 * 
+	 * Description:查询 是否 是2017-06-05 之前修改的用户
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-5
+	 * @param date
+	 * @param loginName
+	 * @return
+	 */
+	Integer  isUpdateUser(@Param("date")String date,@Param("loginName")String loginName);
+	
+	/**
+	 * 
+	 * Description: 验证用户名唯一
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年6月27日
+	 * @param 
+	 * @return
+	 */
+	List<User> yzLoginName(Map<String, Object> map);
+
+  /**
+   *〈简述〉校验用户军官证号唯一，仅校验后台用户
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param user
+   * @return
+   */
+  List<User> ajaxOfficerCertNo(User user);
 }

@@ -59,5 +59,17 @@ public interface SupplierExtractsService {
    */
   Map<String, String> addTemporaryExpert(Supplier supplier,String projectId,String packageId,String loginName,String loginPwd,HttpServletRequest request);
 
+  /**
+   *〈简述〉修改临时供应商
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param supplier
+   * @param loginName
+   * @param loginPwd
+   * @param sq
+   */
+  void updateTemporaryExpert(Supplier supplier, String loginName, String loginPwd,
+      HttpServletRequest sq);
+
 
 }

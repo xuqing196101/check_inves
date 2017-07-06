@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -51,6 +52,7 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.utils.JdcgResult;
+import common.utils.RSAEncrypt;
 
 /**
  * Description: 用户管理控制类 
@@ -193,15 +195,19 @@ public class UserManageController extends BaseController{
 	 * @param user
 	 * @param roleId
 	 * @return String
+	 * @throws Exception 
 	 * @exception IOException
 	 */
 	@RequestMapping("/save")
-	public String save(@Valid User user, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws NoSuchFieldException, SecurityException {
+	public String save(@Valid User user, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws Exception {
   		//校验字段
   		String origin = request.getParameter("origin");
   		String orgId = request.getParameter("org_orgId");
   		String deptTypeName = request.getParameter("deptTypeName");
   		String typeName = request.getParameter("typeName");
+  	//解密 密码
+    	user.setPassword(RSAEncrypt.decryptPrivate(user.getPassword()));
+    	user.setPassword2(RSAEncrypt.decryptPrivate(user.getPassword2()));
 	    if(result.hasErrors()){
 	      List<DictionaryData> genders = DictionaryDataUtil.find(13);
 //	    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
@@ -270,7 +276,24 @@ public class UserManageController extends BaseController{
           
           return "ses/bms/user/add";
   		}*/
-		//校验确认密码
+  		
+		//校验密码是否满足6位
+  	if(user.getPassword().length()<6){
+  		model.addAttribute("user", user);
+			model.addAttribute("password_msg", "密码不能小于6位");
+			List<DictionaryData> genders = DictionaryDataUtil.find(13);
+			model.addAttribute("genders", genders);
+			model.addAttribute("roleName", roleName);
+			model.addAttribute("orgName", orgName);
+			
+			if (StringUtils.isNotBlank(origin)){
+			  addAtt(request, model);
+      }
+			
+			return "ses/bms/user/add";
+  	}
+  	
+  //校验确认密码
 		if (!user.getPassword().equals(user.getPassword2())){
 			model.addAttribute("user", user);
 			model.addAttribute("password2_msg", "两次输入密码不一致");
@@ -294,17 +317,16 @@ public class UserManageController extends BaseController{
 			
 			model.addAttribute("user", user);
 			
-			List<DictionaryData> genders = DictionaryDataUtil.find(13);
-			model.addAttribute("genders", genders);
-			model.addAttribute("roleName", roleName);
-			model.addAttribute("orgName", orgName);
-			
 			if (StringUtils.isNotBlank(origin)){
 			  addAtt(request, model);
       
 			}
 			String item=CheckUtil.validateIdCard(user.getIdNumber());
 			if(!item.equals("success")){
+			  List<DictionaryData> genders = DictionaryDataUtil.find(13);
+	      model.addAttribute("genders", genders);
+	      model.addAttribute("roleName", roleName);
+	      model.addAttribute("orgName", orgName);
 				model.addAttribute("ajax_idNumber", item);
 				return "ses/bms/user/add";
 			}
@@ -353,7 +375,12 @@ public class UserManageController extends BaseController{
 				}
 			}
 			user.setOrgId(null);
-			user.setOrgName(null);
+			//判断 临时 单位是否有输入 如果有那么赋值 orgName
+			if(StringUtils.isNotBlank(user.getTempOrgName())){
+				user.setOrgName(user.getTempOrgName());
+			}else{
+				user.setOrgName("");
+			}
 		}
 	
 		userService.save(user, currUser);
@@ -652,7 +679,12 @@ public class UserManageController extends BaseController{
 					}
 				}
 				u.setOrgId(null);
-				u.setOrgName(null);
+				//判断 临时 单位是否有输入 如果有那么赋值 orgName
+				if(StringUtils.isNotBlank(u.getTempOrgName())){
+					u.setOrgName(u.getTempOrgName());
+				}else{
+					u.setOrgName("");
+				}
 			}
 			userService.update(u);
 			
@@ -759,10 +791,10 @@ public class UserManageController extends BaseController{
 					roleName += list.get(i).getName() + ",";
 				}
 			}
-			if("4".equals(u.getTypeName()) || "5".equals(u.getTypeName())){
+			/*if("4".equals(u.getTypeName()) || "5".equals(u.getTypeName())){
 				List<String> orgName= orgnizationServiceI.findByUserid(u.getId());
 				u.setOrgName(StringUtils.join(orgName,","));
-			}
+			}*/
 			
 			List<DictionaryData> genders = DictionaryDataUtil.find(13);
             List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
@@ -1057,9 +1089,11 @@ public class UserManageController extends BaseController{
 	 * @throws IOException
 	 */
 	@RequestMapping("/ajaxOldPassword")
-  public void ajaxOldPassword(HttpServletResponse response, User u) throws IOException{
+  public void ajaxOldPassword(HttpServletResponse response,@RequestBody User u) throws IOException{
 	    try {
 	      String msg = "";
+	    //私密 解密
+      	u.setPassword(RSAEncrypt.decryptPrivate(u.getPassword())) ;
         if (u.getPassword() == null || "".equals(u.getPassword())) {
             msg = "请输入原密码";
             response.setContentType("text/html;charset=utf-8");
@@ -1097,12 +1131,19 @@ public class UserManageController extends BaseController{
 	    try{
 	        int count = 0;
 	        String msg = "";
-	        String pwd2 = u.getPassword2();
-	        String pwd = u.getPassword();
+	        //私密 解密
+	        String pwd2 = RSAEncrypt.decryptPrivate(u.getPassword2()) ;
+	        u.setPassword2(pwd2);
+	        String pwd = RSAEncrypt.decryptPrivate(u.getPassword());
+	        u.setPassword(pwd);
 	        if (pwd == null || "".equals(pwd)) {
 	            msg = "请输入密码";
 	            count ++;
             }
+	        if(pwd.length()<6){
+	        	 msg = "密码位数要大于6位";
+	        	 count ++;
+	        }
 	        if (pwd2 == null || "".equals(pwd2)) {
                 if (count > 0) {
                     msg = "请输入密码和确认密码";
@@ -1185,7 +1226,7 @@ public class UserManageController extends BaseController{
   }
 	
 	/**
-   *〈简述〉校验身份证号重复
+   *〈简述〉校验身份证号重复(仅校验后台用户)
    *〈详细描述〉
    * @author Ye MaoLin
 	 * @param idNumber
@@ -1206,6 +1247,43 @@ public class UserManageController extends BaseController{
                 + "\"}");
           } else {
             msg = "该身份证号可用";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter()
+            .print("{\"success\": " + true + ", \"msg\": \"" + msg
+                + "\"}");
+          }
+        }
+        response.getWriter().flush();
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally{
+        response.getWriter().close();
+      }
+  }
+	
+	/**
+	 *〈简述〉校验用户军官证号唯一，仅校验后台用户
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param officerCertNo
+	 * @param id
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping("/ajaxOfficerCertNo")
+  public void ajaxOfficerCertNo(String officerCertNo, String id, HttpServletResponse response) throws IOException {
+      try {
+        String msg = "";
+        if (officerCertNo != null && !"".equals(officerCertNo)) {
+          Boolean result = userService.ajaxOfficerCertNo(officerCertNo, id);
+          if (!result) {
+            msg = "该军官证号已注册";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().print(
+                "{\"success\": " + false + ", \"msg\": \"" + msg
+                + "\"}");
+          } else {
+            msg = "该军官证号可用";
             response.setContentType("text/html;charset=utf-8");
             response.getWriter()
             .print("{\"success\": " + true + ", \"msg\": \"" + msg
@@ -1307,15 +1385,19 @@ public class UserManageController extends BaseController{
 	  * @param @param user
 	  * @param @return      
 	  * @return String
+	 * @throws Exception 
 	  */
 	  @RequestMapping(value = "/setPassword", produces = "text/html;charset=UTF-8")
 	  @ResponseBody
-	  public String setPassword(Model model, User user){
+	  public String setPassword(Model model, User user) throws Exception{
 		  String typeId = user.getTypeId();
 		  int count = 0;
 		  String msg = "";
-		  String pwd = user.getPassword();
-		  String pwd2 = user.getPassword2();
+		  //私密 解密
+	      String pwd2 = RSAEncrypt.decryptPrivate(user.getPassword2()) ;
+	        user.setPassword2(pwd2);
+	      String pwd = RSAEncrypt.decryptPrivate(user.getPassword());
+	        user.setPassword(pwd);
 		  if(typeId != null && typeId != ""){
 			  List<User> selectByTypeId = userService.selectByTypeId(typeId);
 			  if(!selectByTypeId.isEmpty() && selectByTypeId.size() > 0){
@@ -1337,11 +1419,14 @@ public class UserManageController extends BaseController{
 		          }
 			      if (count == 0) {
 			    	  if (!pwd.equals(pwd2)) {
-		                  msg = "两次密码不一致";
-		                  return JSON.toJSONString(msg);
+			    		  msg = "两次密码不一致";
+			    		  return JSON.toJSONString(msg);
 		              }else if(pwd.length() < 6){
 		            	  msg = "至少输入六位密码";
-		                  return JSON.toJSONString(msg);
+		            	  return JSON.toJSONString(msg);
+		              }else if(pwd.contains(" ")){
+		            	  msg = "输入密码不能包含空格";
+		            	  return JSON.toJSONString(msg);
 		              } else {
 		            	  String id = selectByTypeId.get(0).getId();
 		            	  user.setId(id);

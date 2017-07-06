@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
+import ses.dao.sms.SupplierAddressMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
@@ -174,6 +175,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     @Autowired
     private SupplierSignatureMapper supplierSignatureMapper;
     
+    @Autowired
+    private SupplierAddressMapper supplierAddressMapper;
     
     /**
      * 
@@ -222,9 +225,11 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 		   }
 		   
     	   if(supplier.getAddressList().size()>0){
+    		   supplierAddressMapper.deleteBySupplierId(supplier.getId());
     			   supplierAddressService.addList(supplier.getAddressList(), supplier.getId());
     	   }
     	   if(supplier.getBranchList().size()>0){
+    		   supplierBranchMapper.deleteBySupplierId(supplier.getId());
     		   for(SupplierBranch sb:supplier.getBranchList()){
     			   SupplierBranch branch = supplierBranchMapper.queryById(sb.getId());
     			   if(branch==null){
@@ -235,6 +240,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   }
     	   }
     	   if(supplier.getListSupplierStockholders().size()>0){
+    		   supplierStockholderMapper.deleteStockholderBySupplierId(supplier.getId());
     		   for(SupplierStockholder ss:supplier.getListSupplierStockholders()){
     			   SupplierStockholder stockholder = supplierStockholderMapper.selectByPrimaryKey(ss.getId());
     			   if(stockholder==null){
@@ -270,6 +276,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 	    		   } 
 	    		   if(matPro!=null){
 	    			   supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
+	    			   supplierCertProMapper.deleteByProId(matPro.getId()); //删除生产证书
 	    		   }
     		   		if(supplier.getSupplierMatPro().getListSupplierCertPros().size()>0){
     		   			for(SupplierCertPro sc:supplier.getSupplierMatPro().getListSupplierCertPros()){
@@ -298,7 +305,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   }
     		   if(matSell!=null){
     			   supplierMatSellMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSell());
+    			   supplierCertSellMapper.deleteById(matSell.getId());//删除供应商销售证书
     		   }
+    		  
     		   if(supplier.getSupplierMatSell().getListSupplierCertSells().size()>0){
     			   for(SupplierCertSell sc:supplier.getSupplierMatSell().getListSupplierCertSells()){
 //    				   if(sc.getFileList().size()>0){
@@ -308,6 +317,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 //  	    	    		   }
 //  		   				}
     				   SupplierCertSell certSell = supplierCertSellMapper.selectByPrimaryKey(sc.getId());
+    				   
     				   if(certSell==null){
     					   supplierCertSellMapper.insertSelective(sc);
     				   }else{
@@ -323,6 +333,10 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   }
     		   if(matEng!=null){
     			   supplierMatEngMapper.updateByPrimaryKeySelective(supplier.getSupplierMatEng());
+    			   supplierAptituteMapper.deleteByMatEngId(matEng.getId());
+    			   supplierCertEngMapper.deleteByMatEngId(matEng.getId());
+    			   supplierRegPersonMapper.deleteByMatEngId(matEng.getId());
+    			   //删除工程的相关证书
     		   }
     		   if(supplier.getSupplierMatEng().getListSupplierAptitutes().size()>0){
     			   for(SupplierAptitute sb:supplier.getSupplierMatEng().getListSupplierAptitutes()){
@@ -364,6 +378,9 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     			   supplierMatServeMapper.insertSelective(supplier.getSupplierMatSe());
     		   }else if(serve!=null){
     			   supplierMatServeMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSe());
+    			   supplierCertServeMapper.deleteByServer(serve.getId());
+    			   
+    			   //删除服务的相关帧数
     		   }
     		   
 			   if(supplier.getSupplierMatSe().getListSupplierCertSes().size()>0){

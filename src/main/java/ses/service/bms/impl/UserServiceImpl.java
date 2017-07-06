@@ -1,10 +1,12 @@
 package ses.service.bms.impl;
 
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
@@ -116,6 +118,9 @@ public class UserServiceImpl implements UserServiceI {
 	    	String loginName = u.getLoginName()+suffix.toString();
 	    	String mobile=u.getMobile() +suffix.toString();
 	    	String idNumber=u.getIdNumber() +suffix.toString();
+	    	if(!"".equals(u.getOfficerCertNo())){
+	    		u.setOfficerCertNo(u.getOfficerCertNo()+suffix.toString());
+	    	}
 		    u.setLoginName(loginName);
 		    u.setMobile(mobile);
 		    u.setIdNumber(idNumber);
@@ -282,17 +287,17 @@ public class UserServiceImpl implements UserServiceI {
     public List<User> findUserRole(User user, int pageNum) {
         PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
         List<User> users = userMapper.findUserRole(user);
-         if (users !=null && users.size()>0) {
-			for (User pro : users) {
-				if("4".equals(pro.getTypeName())||"5".equals(pro.getTypeName())){
-					//id集合
-					List<String> orgid= userDataRuleService.getOrgID(pro.getId());
-					pro.setOrgId(StringUtils.join(orgid,","));
-					List<String> orgName= orgnizationServiceI.findByUserid(pro.getId());
-					pro.setOrgName(StringUtils.join(orgName,","));
-				}
-			}
-		}
+        /*if (users !=null && users.size()>0) {
+    			for (User pro : users) {
+    				if("4".equals(pro.getTypeName())||"5".equals(pro.getTypeName())){
+    					//id集合
+    					List<String> orgid= userDataRuleService.getOrgID(pro.getId());
+    					pro.setOrgId(StringUtils.join(orgid,","));
+    					List<String> orgName= orgnizationServiceI.findByUserid(pro.getId());
+    					pro.setOrgName(StringUtils.join(orgName,","));
+    				}
+    			}
+        }*/
         return users;
     }
 
@@ -433,5 +438,38 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
 			// TODO Auto-generated method stub
 			return userMapper.findByTypeName(typeId);
 		}
+	/**
+	 * 实现根据日期 和账户 查询 是否是该日期之前修改
+	 */
+	@Override
+	public Integer isUpdateUser(String date, String loginName) {
+		return userMapper.isUpdateUser(date, loginName);
 	}
+
+	/**
+	 * 验证用户名唯一
+	 */
+	@Override
+	public boolean yzLoginName(Map<String, Object> map) {
+		List<User> userList = userMapper.yzLoginName(map);
+		if(userList != null && userList.size() > 0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+  @Override
+  public Boolean ajaxOfficerCertNo(String officerCertNo, String id) {
+    User user = new User();
+    user.setId(id);
+    user.setOfficerCertNo(officerCertNo);
+    List<User> users = userMapper.ajaxOfficerCertNo(user);
+    if (users != null && users.size() > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
 

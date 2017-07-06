@@ -276,10 +276,16 @@
 	     <form  action="${pageContext.request.contextPath}/mulQuo/listProject.html" id="form1" method="post" class="mb0">
 			     <ul class="demand_list">
 				       <li class="fl">
-				           <label class="fl">项目名称：<span><input type="hidden" name="page" id="page"><input type="text" name="name" id="name" value="${project.name }"/></span></label>
+				           <label class="fl">
+				           <span>项目名称：</span><input type="hidden" name="page" id="page">
+				           <input type="text" name="name" id="name" value="${project.name }"/>
+				           
+				           </label>
 				       </li>
 				       <li class="fl">
-				           <label class="fl">项目编号：<input type="text" name="projectNumber" id="projectNumber" value="${project.projectNumber }"/> </label> 
+				           <label class="fl"><span>项目编号：</span>
+				           <input type="text" name="projectNumber" id="projectNumber" value="${project.projectNumber }"/> 
+				           </label> 
 				       </li>
 			         <button class="btn" type="submit">查询</button>
 			         <button type="reset" class="btn" onclick="clearSearch();">重置</button> 
@@ -312,7 +318,7 @@
 									<a href="#" onclick="view('${obj.id}');">${obj.name}</a>
 								</td>
 								<td>${obj.projectNumber }</td>
-								<td class="tc">${obj.purchaseType }
+								<td class="tc">${obj.dictionary.name }
 
 								</td>
 							</tr>

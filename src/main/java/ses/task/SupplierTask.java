@@ -7,6 +7,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.outer.back.service.expert.OuterExpertService;
@@ -40,6 +41,10 @@ public class SupplierTask {
 
     @Autowired
     private OuterAttachService attachService;
+    
+    // 注入供应商审核Service
+    @Autowired
+    private SupplierAuditService supplierAuditService;
     
     
 	public void handlerExportSupplier(){
@@ -222,6 +227,24 @@ public class SupplierTask {
 	}
 	
 	
+		
 	
+	public void handlerExportSupplier68(){
+		String startTime="2017-06-08 00:00:00";
+		String endTime="2017-06-08 23:59:59";
+		outerSupplierService.exportCommitSupplier(startTime, endTime,new Date());
+	}
+	
+	/**
+	 * 
+	 * Description:定时处理供应商拟入库公示
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 */
+	public void handleSupplierPublicity(){
+		// 调用7天后自动入库公示
+		supplierAuditService.handlerPublictySup();
+	}
 	
 }

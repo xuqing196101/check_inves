@@ -2,9 +2,12 @@ package ses.service.sms.impl;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierCertEngMapper;
@@ -21,6 +25,7 @@ import ses.dao.sms.SupplierCertProMapper;
 import ses.dao.sms.SupplierCertSellMapper;
 import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierFinanceMapper;
+import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierMatProMapper;
@@ -30,28 +35,45 @@ import ses.dao.sms.SupplierStarsMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.model.bms.CategoryQua;
+import ses.model.bms.Qualification;
+import ses.model.bms.DictionaryData;
+import ses.model.ems.ExpertPublicity;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatServe;
-import ses.model.sms.SupplierModify;
+import ses.model.sms.SupplierPublicity;
 import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.EngCategoryService;
+import ses.service.bms.QualificationService;
+import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierMatEngService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import common.service.UploadService;
+
+import common.constant.StaticVariables;
+import common.utils.DateUtils;
+import common.utils.JdcgResult;
 
 /**
  * <p>Title:SupplierAuditServliceImpl </p>
@@ -67,10 +89,12 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Autowired
 	private SupplierMapper supplierMapper;
-	
+	@Autowired
+    private SupplierAptituteService supplierAptituteService;
 	@Autowired
 	private SupplierStarsMapper supplierStarsMapper;
-	
+	@Autowired
+	private EngCategoryService engCategoryService;
 	/**
 	 * 供应商审核记录
 	 */
@@ -88,7 +112,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Autowired
 	private SupplierStockholderMapper supplierStockholderMapper;
-	
+	@Autowired
+	private SupplierMatEngService supplierMatEngService;
 	/**
 	 * 所有供应商类型
 	 */
@@ -154,6 +179,18 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Autowired
 	SupplierModifyMapper supplierModifyMapper;
+	@Autowired
+	private CategoryQuaMapper categoryQuaMapper;
+	@Autowired
+	private QualificationService qualificationService;
+	@Autowired
+	private SupplierItemService supplierItemService;
+	@Autowired
+	private UploadService uploadService;
+	
+	// 注入供应商和供应商类别对应关系Mapper
+	@Autowired
+	private SupplierItemMapper supplierItemMapper;
 	
 	/**
 	 * @Title: supplierList
@@ -363,8 +400,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @return void
 	 */
 	@Override
-	public void auditReasons(SupplierAudit supplierAudit) {
-		supplierAuditMapper.insertSelective(supplierAudit);
+	public int auditReasons(SupplierAudit supplierAudit) {
+		return supplierAuditMapper.insertSelective(supplierAudit);
 		
 	}
 
@@ -739,6 +776,230 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public void updateIsDeleteBySupplierId(SupplierAudit supplierAudit) {
 		supplierAuditMapper.updateIsDeleteBySupplierId(supplierAudit);
 		
+	}
+
+	@Override
+	public List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey) {
+		List<Qualification> list=new ArrayList<>();
+		List<CategoryQua> quaList= categoryQuaMapper.findListSupplier(cateTree.getSecondNodeID(), type);
+		Qualification qualification=null;
+		Map<String, Object> map=new HashMap<>();
+		map.put("supplierId", cateTree.getItemsId());
+		map.put("categoryId", cateTree.getSecondNodeID());
+		//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
+		List<SupplierItem> itemList=supplierItemService.findByMap(map);
+		
+		long temp=0;
+		if(null!=itemList && !itemList.isEmpty()){
+			SupplierItem supplierItem=itemList.get(0);
+			if(null!=quaList && !quaList.isEmpty()){
+				for (CategoryQua categoryQua : quaList) {
+					qualification= qualificationService.getQualification(categoryQua.getQuaId());
+					if(null!=qualification){
+						temp=uploadService.countFileByBusinessId(supplierItem.getId()+categoryQua.getId(), type_id, syskey);
+						if(temp>0){
+						    qualification.setFlag(supplierItem.getId()+categoryQua.getId());
+						    list.add(qualification);
+						}
+					}
+				}
+			}
+		}
+		return list;
+	}
+	/**
+	 * 
+	 * Description:私有 封装 数据
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-30
+	 * @param catetree
+	 * @return
+	 */
+	public SupplierCateTree potting(SupplierCateTree cateTree,String supplierId){
+		//封装 目录 物资生产 是否有审核记录数据
+		SupplierAudit audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getItemsId());
+		audit.setAuditType("items_product_page");
+		int count=countByPrimaryKey(audit);
+		cateTree.setIsItemsProductPageAudit(count);
+		
+		//封装 目录 物资销售 是否有审核记录数据
+		audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getItemsId());
+		audit.setAuditType("items_sales_page");
+		count=countByPrimaryKey(audit);
+		cateTree.setIsItemsSalesPageAudit(count);
+		
+		audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getItemsId());
+		audit.setAuditType("contract_page");
+		count=countByPrimaryKey(audit);
+		cateTree.setIsContractPageAudit(count);
+		
+		audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(cateTree.getItemsId());
+		audit.setAuditType("aptitude_page");
+		count=countByPrimaryKey(audit);
+		cateTree.setIsAptitudePAgeAudit(count);
+		
+	return cateTree;
+	}
+	/**
+	 * 
+	 * Description:私有 封装 数据
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-30
+	 * @param catetree
+	 * @return
+	 */
+	private SupplierCateTree pottingFile(SupplierCateTree cateTree,String supplierId){
+	
+		
+		return cateTree;
+	}
+	@Override
+	public List<SupplierCateTree> showProject(SupplierCateTree cateTree,
+			Integer type, String type_id, Integer syskey) {
+		List<SupplierCateTree> cateList=new ArrayList<>();
+		Map<String, Object> map=new HashMap<>();
+		map.put("supplierId", cateTree.getItemsId());
+		map.put("categoryId", cateTree.getSecondNodeID());
+		//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
+		List<SupplierItem> itemList=supplierItemService.findByMap(map);
+		SupplierMatEng matEng = supplierMatEngService.getMatEng(cateTree.getItemsId());
+	
+		if(null!=itemList && !itemList.isEmpty()){
+			for (SupplierItem supplierItem : itemList) {
+				cateTree=engCategoryService.addNode(cateTree, supplierItem);
+				if(cateTree != null && cateTree.getRootNode() != null) {
+					cateTree.setItemsId(supplierItem.getId());
+					cateTree.setDiyLevel(supplierItem.getLevel());
+					if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
+					if(cateTree!=null&&cateTree.getProName()!=null){
+						List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
+						if(certEng != null && certEng.size() > 0) {
+							cateTree.setFileId(certEng.get(0).getId());
+						}	
+					}
+				}
+					cateList.add(cateTree);
+				}
+			}
+		}
+		return cateList;
+	}
+
+	@Override
+	public int countByPrimaryKey(SupplierAudit audit) {
+		return supplierAuditMapper.countByPrimaryKey(audit);
+	}
+	/**
+	 * 
+	 * Description:修改公示状态
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 * @param ids
+	 * @return
+	 */
+	@Override
+	public JdcgResult updatePublicityStatus(String[] ids) {
+		if(ids != null){
+			Supplier supplier = null;
+			for (int i = 0; i < ids.length; i++) {
+				supplier = new Supplier();
+				supplier.setId(ids[i]);
+				// 设置公示状态
+				supplier.setStatus(-3);
+				supplier.setUpdatedAt(new Date());
+				supplierMapper.updateStatus(supplier);
+			}
+		}
+		return JdcgResult.ok();
+	}
+
+	/**
+	 * 
+	 * Description:查询公示供应商，公示7天后自动入库
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 */
+	@Override
+	public void handlerPublictySup() {
+		// 获取当前时间
+	    Date nowDate = new Date();
+	    // 查询所有公示供应商
+	    String nowDateString = DateUtils.getDateOfFormat(nowDate);
+	    List<Supplier> list = supplierMapper.selectSupByPublicty();
+	    if(list != null && !list.isEmpty()){
+	        for (Supplier supplier : list) {
+	            // 将公示7天的拟入库供应商入库 
+	            // 获取七天后的今天
+	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(supplier.getUpdatedAt(), 7));
+	            if(nowDateString.equals(afterDateString)){
+	                // 审核通过，自动入库
+	                supplier.setStatus(1);
+	                // 修改
+	                supplierMapper.updateStatus(supplier);
+	            }
+	        }
+         }
+	}
+
+	/**
+	 * 
+	 * Description:供应商公示列表
+	 * 
+	 * @author Easong
+	 * @version 2017年6月28日
+	 * @param map
+	 * @return
+	 */
+	@Override
+	public List<SupplierPublicity> selectSupByPublictyList(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer) (map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		// 查询公示专家列表
+		SupplierPublicity supplierPublicityQuery = (SupplierPublicity) map.get("supplierPublicity");
+		List<SupplierPublicity> list = supplierMapper.selectSupByPublictyList(supplierPublicityQuery);
+		if(list != null && !list.isEmpty()){
+			// 封装查询map集合
+			Map<String, Object> selectMap = new HashMap<>(); 
+			// 封装供应商类型
+			StringBuffer sb = new StringBuffer(); 
+			for (SupplierPublicity supplierPublicity : list) {
+				// 查询供应商类型
+				List<SupplierTypeRelate> supplierTypes = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(supplierPublicity.getId());
+				if(supplierTypes != null && !supplierTypes.isEmpty()){
+					for (SupplierTypeRelate supplierType : supplierTypes) {
+						// 封装注册供应商类型
+						DictionaryData dict = DictionaryDataUtil.get(supplierType.getSupplierTypeId());
+						if(dict != null) {
+							sb.append(dict.getName()).append(StaticVariables.COMMA_SPLLIT);
+						}
+					}
+					supplierPublicity.setSupplierTypeNames(sb.toString().substring(0, sb.toString().length() - 1));
+					// 清空sb
+					sb.delete(0, sb.toString().length());
+				}
+				// 查询供应商申请类别数量
+				Integer count = supplierItemMapper.selectRegSupCateCount(supplierPublicity.getId());
+				supplierPublicity.setPassCateCount(count);
+				// 查询供应商未通过类别数量
+				selectMap.put("supplierId", supplierPublicity.getId());
+				selectMap.put("regType", "contract_page");
+				Integer noPassCount = supplierAuditMapper.selectRegSupCateCount(selectMap);
+				supplierPublicity.setNoPassCateCount(noPassCount);
+			}
+		}
+		return list;
 	}
 	
 }

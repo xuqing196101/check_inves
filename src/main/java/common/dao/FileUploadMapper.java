@@ -219,6 +219,16 @@ public interface FileUploadMapper {
     * @throws
      */
     UploadFile queryById(@Param("id")String id,@Param("tableName")String tableName);
-    
-    
+    /**
+     * 
+     * Description:根据参数查询文件数量
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-26
+     * @param businessId
+     * @param typeId
+     * @param tableName
+     * @return
+     */
+    public Long countFileByBusinessId(@Param("businessId")String businessId,@Param("typeId")String typeId, @Param("tableName")String tableName);
 }

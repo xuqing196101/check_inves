@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Param;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
+import ses.model.sms.SupplierPublicity;
+import ses.model.sms.supplierExport;
 
 /**
  * @Title: SupplierMapper
@@ -142,6 +144,17 @@ public interface SupplierMapper {
      * @return List<Supplier>
      */
     List<Supplier> findSupplierbyCategoryId(Supplier record);
+    
+    /**
+     * 
+     * Description:按品目查询供应商
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-14
+     * @param supplier
+     * @return
+     */
+    List<Supplier> findSupplierByCategoryId(Supplier supplier);
     
     
     /**
@@ -490,7 +503,7 @@ public interface SupplierMapper {
      * @param @param id      
      * @return void
      */
-    void updateById (String id);
+    void updateById (Supplier  supplier);
     
     /**
      * 
@@ -505,4 +518,73 @@ public interface SupplierMapper {
     
     List<Supplier> getCreditCode(@Param("creditCode")String creditCode,@Param("isProvisional")Integer isProvisional);
     
+    /**
+     * 
+     * Description:根据企业类型不同统计入库供应商数量
+     * 
+     * @author Easong
+     * @version 2017年5月24日
+     * @param business_nature
+     * @return
+     */
+    BigDecimal getSupplierCountByNature(@Param("business_nature") String business_nature);
+    
+    public List<supplierExport> selectSupplierNumber(HashMap<String, Object> map);
+    public List<supplierExport> selectExpertNumber(HashMap<String, Object> map);
+    
+    /**
+     * 
+     * Description:根据suppliers 获取供应商 最大的 成立时间 
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-16
+     * @param supplierIds
+     * @return
+     */
+    Date findMaxFoundDate(@Param("supplierIds")List<String> supplierIds);
+
+    /**
+	 * 根据采购机构id统计对应状态的供应商数量
+	 * @param purchaseDepId
+	 * @param status
+	 * @return
+	 */
+	int countByPurchaseDepId(@Param("purchaseDepId")String purchaseDepId, 
+			@Param("status")int status);
+
+	/**
+	 * 手机号校验：专家库+供应商库（除去临时供应商）
+	 * @param mobile
+	 * @return
+	 */
+	int countByMobile(String mobile);
+
+	/**
+	 * 通过供应商名称查询(去除临时供应商)
+	 * @param supplierName
+	 * @return
+	 */
+	List<Supplier> selByNameWithoutProvisional(String supplierName);
+	
+	/**
+	 * 
+	 * Description:查询公示的供应商
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 * @param status
+	 * @return
+	 */
+	List<Supplier> selectSupByPublicty();
+	
+	/**
+	 * 
+	 * Description:查询公示的供应商列表
+	 * 
+	 * @author Easong
+	 * @version 2017年6月28日
+	 * @param supplierPublicity
+	 * @return
+	 */
+	List<SupplierPublicity> selectSupByPublictyList(SupplierPublicity supplierPublicity);
 }

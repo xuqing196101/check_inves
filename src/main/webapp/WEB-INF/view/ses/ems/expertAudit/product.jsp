@@ -289,6 +289,21 @@
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
+			
+			//暂存
+       function zhancun(){
+         var expertId = $("#expertId").val();
+         $.ajax({
+           url: "${pageContext.request.contextPath}/expertAudit/temporaryAudit.do",
+           dataType: "json",
+           data:{expertId : expertId},
+           success : function (result) {
+               layer.msg(result, {offset : [ '100px' ]});
+           },error : function(){
+             layer.msg("暂存失败", {offset : [ '100px' ]});
+           }
+         });
+       }
 		</script>
 
 	</head>
@@ -299,7 +314,7 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a href="javascript:void(0)">首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">支撑系统</a>
@@ -307,17 +322,21 @@
 					<li>
 						<a href="javascript:void(0)">专家管理</a>
 					</li>
-					<li>
-						<c:if test="${sign == 1}">
-							<a href="${pageContext.request.contextPath}/expertAudit/list.html?sign=1">专家初审</a>
-						</c:if>
-						<c:if test="${sign == 2}">
-							<a href="${pageContext.request.contextPath}/expertAudit/list.html?sign=2">专家复审</a>
-						</c:if>
-						<c:if test="${sign == 3}">
-							<a href="${pageContext.request.contextPath}/expertAudit/list.html?sign=3">专家复查</a>
-						</c:if>
-					</li>
+					<c:if test="${sign == 1}">
+						<li>
+							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=1')">专家初审</a>
+						</li>
+					</c:if>
+					<c:if test="${sign == 2}">
+						<li>
+							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=2')">专家复审</a>
+						</li>
+					</c:if>
+					<c:if test="${sign == 3}">
+						<li>
+							<a href="javascript:void(0)" onclick="jumppage('${pageContext.request.contextPath}/expertAudit/list.html?sign=3')">专家复查</a>
+						</li>
+					</c:if>
 				</ul>
 				<div class="clear"></div>
 			</div>
@@ -440,6 +459,7 @@
 							<div id="pagediv" align="right" class="mb50"></div>
 					</div>
 					<div class="col-md-12 add_regist tc">
+					  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 						<a class="btn" type="button" onclick="lastStep();">上一步</a>
 						<a class="btn" type="button" onclick="nextStep();">下一步</a>
 					</div>

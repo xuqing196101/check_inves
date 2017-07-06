@@ -577,10 +577,15 @@ public class Supplier implements Serializable {
 	private String extractOrgid;//抽取的机构id
 	
 	private String orgName; //机构名称
+	private String orgId; // 机构ID
 	
 	private Integer isDeleted; //0未删除，1已删除
 	
 	private String grade; //等级
+	
+	private String auditor;//审核人
+	
+	private Integer auditTemporary; //审核暂存
 	
 	/**获取所有数据库address的省级单位名称*/
 	private String name;
@@ -698,7 +703,18 @@ public class Supplier implements Serializable {
     
     private  List<RoleUser> userRoles=new LinkedList<RoleUser>();
     
-    public List<RoleUser> getUserRoles() {
+    // 新添属性
+    private String qrcodeImage;// 供应商二维码图片
+    
+    public String getQrcodeImage() {
+		return qrcodeImage;
+	}
+
+	public void setQrcodeImage(String qrcodeImage) {
+		this.qrcodeImage = qrcodeImage;
+	}
+
+	public List<RoleUser> getUserRoles() {
 		return userRoles;
 	}
 
@@ -780,7 +796,18 @@ public class Supplier implements Serializable {
     //入库查询列表的标记（5）
     private Integer judge;
     
-    public List<ProjectDetail> getPdList() {
+    /**审核意见附件**/
+	private String auditOpinionAttach;
+	
+    public String getAuditOpinionAttach() {
+		return auditOpinionAttach;
+	}
+
+	public void setAuditOpinionAttach(String auditOpinionAttach) {
+		this.auditOpinionAttach = auditOpinionAttach;
+	}
+
+	public List<ProjectDetail> getPdList() {
         return pdList;
     }
 
@@ -1949,9 +1976,30 @@ public class Supplier implements Serializable {
 	public void setEndAuditDate(Date endAuditDate) {
 		this.endAuditDate = endAuditDate;
 	}
+
+	public String getAuditor() {
+		return auditor;
+	}
+
+	public void setAuditor(String auditor) {
+		this.auditor = auditor;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+	public Integer getAuditTemporary() {
+		return auditTemporary;
+	}
+
+	public void setAuditTemporary(Integer auditTemporary) {
+		this.auditTemporary = auditTemporary;
+	}
 	
-	
-	
-	
-	
+
 }

@@ -80,6 +80,7 @@ function fileExist(params,id,del){
 	$.ajax({
 		url: globalPath + '/file/fileExist.do',
 		data: params,
+		type:'post',
 		async: true,
 		dataType: 'json',
 		success:function(data){
@@ -202,9 +203,10 @@ function disFiles(data,key,id){
  * @param key  对应的系统key
  */
 function disFile(html,obj,key){
-	var fileName = obj.path;
-	var fileExt = fileName.substring(fileName.indexOf(".")+1,fileName.length).toLowerCase();
-	if (/(gif|jpg|jpeg|png|bmp)$/.test(fileExt)) {
+	/*var fileName = obj.path;*/
+	/*var fileExt = fileName.substring(fileName.indexOf(".")+1,fileName.length).toLowerCase();*/
+	var fileExt=obj.path;
+	if (/(gif|jpg|jpeg|png|bmp|GIF|JPG|JPEG|PNG|BMP)$/.test(fileExt)) {
 		var url = globalPath + '/file/viewFile.html?id=' + obj.id +'&key=' + key;
 		var li = '<li><div class="col-md-2 padding-0 fl"><div class="fl suolue"><a href="javascript:upPicture();" class="thumbnail mb0 suolue">'
 			+'<img data-original="'+url+'"  src="'+url+'" height="120px"/></a></div></div></li>';

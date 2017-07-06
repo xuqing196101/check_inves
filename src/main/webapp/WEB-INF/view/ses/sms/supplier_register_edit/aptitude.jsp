@@ -267,7 +267,7 @@
 	<body onload="psize()">
 		<div class="wrapper">
 			<div class="container clear margin-top-30">
-				<h2 class="padding-20 mt40 ml30">
+				<h2 class="step_flow">
 					<span id="sp1" class="new_step current fl" onclick="updateStep('1')"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
 		            <span id="sp2" class="new_step current fl" onclick="updateStep('2')"><i class="">2</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
 		            <span id="ty3" class="new_step current fl" onclick="updateStep('3')"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
@@ -275,7 +275,7 @@
 		            <span id="sp5" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">销售合同</span> </span>
 		            <span id="sp6" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
 		            <span id="sp7" class="new_step fl"><i class="">7</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
-		            <span id="sp8" class="new_step fl"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
+		            <span id="sp8" class="new_step fl new_step_last"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
 		            <div class="clear"></div>
 				</h2>
 			</div>
@@ -343,7 +343,7 @@
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}">
 									<!-- 物资销售型 -->
 									<c:set value="0" var="length"> </c:set>
-									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if>fade height-300" id="tab-2">
+									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fades height-300" id="tab-2">
 										<h2 class="f16  ">
 										      	<font color="red">*</font> 上传物资-销售型资质文件
 										</h2>
@@ -369,7 +369,7 @@
 									</div>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
-									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-3">
+									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fades height-300" id="tab-3">
 										<h2 class="f16  ">
 										      	<font color="red">*</font> 上传工程资质文件
 										</h2>
@@ -437,7 +437,7 @@
 									</div>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}">
-									<div class="tab-pane <c:if test="${divCount==0 } ">active in</c:if> fade height-300" id="tab-4">
+									<div class="tab-pane <c:if test="${divCount==0 } ">active in</c:if> fades height-300" id="tab-4">
 										<h2 class="f16  ">
 										      	<font color="red">*</font> 上传服务资质文件
 										</h2>

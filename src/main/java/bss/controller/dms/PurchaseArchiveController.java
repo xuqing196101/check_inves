@@ -823,6 +823,7 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		model.addAttribute("name", name);
 		model.addAttribute("code", code);
 		model.addAttribute("id", id);
+		model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
 		return "bss/dms/purchaseArchive/authorize_archive";
 	}
 

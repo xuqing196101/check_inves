@@ -58,7 +58,7 @@ var condition = $("#k").val();
    <div class="margin-top-10 breadcrumbs">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="${pageContext.request.contextPath}/">首页</a></li><li><a href="javascript:void(0)">信息公告</a></li>
+		   <li><a href="${pageContext.request.contextPath}/">首页</a></li><li><a href="javascript:void(0)">搜索结果</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -66,7 +66,7 @@ var condition = $("#k").val();
   <div class="container job-content ">
           <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
             <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
-          		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">标题</div>
+          		<div class="col-md-10 col-sm-7 col-xs-12 tc f16">标题</div>
                    <div class="fr mr25 f16">发布时间</div>
              </h2>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
@@ -89,13 +89,13 @@ var condition = $("#k").val();
 						<c:if test="${length>50}">
 							<li>
 							<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>${fn:substring(name,0,50)}...</a>
-		                    <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+		                    <span class="col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 		                    </li>
 						</c:if>
 						<c:if test="${length<=50}">
 						   <li>
 						   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>${i.name }</a>
-		                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+		                   <span class="col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 		                   </li>
 						</c:if>
 	                </c:forEach>         

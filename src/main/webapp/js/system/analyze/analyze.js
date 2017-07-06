@@ -37,6 +37,15 @@ $(function() {
 			type : 'value',
 			name : '数量/人'
 		} ],*/
+		/*xAxis  : [ {
+			axisLabel:{
+				//interval: 0,
+				rotate: 60,//60度角倾斜显示
+				formatter:function(val){
+				    return val.split("").join("\n");
+				}
+		}
+		} ],*/
 	};
 	// 使用刚指定的配置项和数据显示图表
 	// 用户登录统计

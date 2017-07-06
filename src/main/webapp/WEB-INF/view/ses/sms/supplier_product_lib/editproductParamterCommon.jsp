@@ -60,7 +60,6 @@
 	                <input name="productArguments[${ vs.index }].parameterValue" value='${ categoryParam.parameterValue }' onkeyup="this.value=this.value.replace(/\D/g,'')" type="text" />
 	                <input name="productArguments[${ vs.index }].parameterType" type="hidden" value="${ categoryParam.parameterType }">
 	                <input name="productArguments[${ vs.index }].required" value='${ categoryParam.categoryParameter.paramRequired }' type="hidden">
-	                <input value='${ categoryParam.parameterValue }' type="text" />
 	                <span class="add-on">i</span>
 	                <span class="input-tip">${ categoryParam.categoryParameter.paramName }</span>
 	                <div class="cue"></div>

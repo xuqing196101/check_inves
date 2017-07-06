@@ -106,7 +106,7 @@
         CODE=#{code} AND 
     </if>
     <if test="name != null and name != ''">
-        NAME LIKE '%'||#{name}||'%' AND
+        NAME LIKE CONCAT(CONCAT('%', #{name}), '%') AND
     </if> 
     NAME IS NOT NULL 
     <!-- ORDER BY KIND -->

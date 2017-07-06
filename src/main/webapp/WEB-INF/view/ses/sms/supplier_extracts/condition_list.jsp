@@ -31,7 +31,7 @@
                 }(),
                 jump: function(e, first) { //触发分页后的回调
                     if(!first) { //一定要加此判断，否则初始时会无限刷新
-                        //                      location.href = '${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id=${projectId}&page='+e.curr;
+                        //location.href = '${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id=${projectId}&page='+e.curr;
                     }
                 }
             });
@@ -323,13 +323,13 @@
                     <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);">支撑环境系统</a>
+                    <a href="javascript:void(0);">支撑环境</a>
                 </li>
                 <li>
                     <a href="javascript:void(0);">供应商管理</a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/SupplierExtracts/projectList.html?typeclassId=typeclassId')">供应商抽取</a>
+                    <a href="javascript:void(0);" onclick="jumppage('${pageContext.request.contextPath}/SupplierExtracts/projectList.html?typeclassId=${typeclassId}')">供应商抽取</a>
                 </li>
                 <li class="active">
                     <a href="javascript:void(0);">供应商抽取列表</a>
@@ -341,6 +341,7 @@
 </c:if>
 
 <!-- 项目戳开始 -->
+<div class="container">
 <div class="container_box col-md-12 col-sm-12 col-xs-12">
     <form id="form">
         <!-- 监督人员 -->

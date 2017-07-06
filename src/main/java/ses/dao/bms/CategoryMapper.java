@@ -332,5 +332,27 @@ public interface CategoryMapper {
      * @return Category 集合
      */
     public List<Category> findTreeByStatusIndex(@Param("id")String id, @Param("status")Integer status);
-	
+    
+    /**
+     * 
+    * @Title: getParentByChildren
+    * @Description: 根据当前第查询所有的父节点 
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @return     
+    * @return List<Category>     
+    * @throws
+     */
+    List<Category> getParentByChildren(@Param("id")String id);
+    
+    /**
+     * 
+     * Description:instr条件搜索目录
+     * 
+     * @author Easong
+     * @version 2017年6月15日
+     * @param cList
+     * @return
+     */
+    List<Category> selectByCList(@Param("listID") String listID);
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="app.dao.app.AppInfoMapper" >
+  <resultMap id="BaseResultMap" type="app.model.AppInfo" >
+    <id column="VERSION" property="version" jdbcType="VARCHAR" />
+     <result column="PATH" property="path" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    VERSION, PATH, REMARK, IS_DELETED, CREATED_AT ,UPDATED_AT
+  </sql>
+  
+  <!-- 查询所有 -->
+  <select id="list" resultMap="BaseResultMap" parameterType="app.model.AppInfo">
+    SELECT <include refid="Base_Column_List"/>
+    FROM T_SES_APP_INFO 
+    WHERE IS_DELETED=0
+    <if test="version != null and version != ''">
+      AND VERSION LIKE CONCAT(CONCAT('%', #{version}), '%')
+    </if>
+    ORDER BY CREATED_AT DESC
+  </select>
+
+  <!-- 通过主键查询 -->
+  <select id="selectByVersion" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT <include refid="Base_Column_List"/>
+    FROM T_SES_APP_INFO 
+    WHERE IS_DELETED=0 AND VERSION = #{version}
+  </select>
+
+  <!-- 回退 -->
+  <update id="fallbackByVersion" parameterType="app.model.AppInfo">
+    UPDATE T_SES_APP_INFO SET IS_DELETED = 1 WHERE VERSION = (
+      SELECT VERSION FROM (
+        SELECT VERSION FROM T_SES_APP_INFO WHERE IS_DELETED = 0 ORDER BY CREATED_AT DESC 
+      ) WHERE ROWNUM = 1
+    )
+  </update>
+  
+  <!-- 查询上传文件的路径 -->
+  <select id="selectPathByBusinessId" parameterType="String" resultType="String">
+    SELECT PATH FROM T_SES_APP_ATTACHMENT WHERE IS_DELETED = 0 AND BUSINESS_ID = #{businessId}
+  </select>
+  
+  <!-- 新增 -->
+  <insert id="add" parameterType="app.model.AppInfo">
+    INSERT INTO T_SES_APP_INFO (VERSION,PATH,CREATED_AT,IS_DELETED,REMARK)
+    VALUES (#{version},#{path},#{createdAt},0,#{remark})
+  </insert>
+  
+  <!-- 查询上传文件的路径 -->
+  <select id="selectFileIdByBusinessId" parameterType="String" resultType="String">
+    SELECT ID FROM T_SES_APP_ATTACHMENT WHERE IS_DELETED = 0 AND BUSINESS_ID = #{businessId}
+  </select>
+  
+</mapper>

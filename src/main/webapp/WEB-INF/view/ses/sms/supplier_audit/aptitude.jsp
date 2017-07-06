@@ -140,6 +140,21 @@
 			function trim(str){ 
 				return str.replace(/(^\s*)|(\s*$)/g, "");
 			}
+			
+		//暂存
+        function zhancun(){
+        	var supplierId = $("#supplierId").val();
+          $.ajax({
+            url: "${pageContext.request.contextPath}/supplierAudit/temporaryAudit.do",
+            dataType: "json",
+            data:{supplierId : supplierId},
+            success : function (result) {
+                layer.msg(result, {offset : [ '100px' ]});
+            },error : function(){
+              layer.msg("暂存失败", {offset : [ '100px' ]});
+            }
+          });
+        }
 		</script>
 		<script type="text/javascript">
 			function jump(str) {
@@ -196,7 +211,7 @@
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
 					<li>
-						<a> 首页</a>
+						<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
 					</li>
 					<li>
 						<a>支撑环境</a>
@@ -204,17 +219,21 @@
 					<li>
 						<a>供应商管理</a>
 					</li>
-					<li>
-						<c:if test="${sign == 1}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1" >供应商审核</a>
-						</c:if>
-						<c:if test="${sign == 2}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2">供应商复核</a>
-						</c:if>
-						<c:if test="${sign == 3}">
-							<a href="${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3">供应商实地考察</a>
-						</c:if>
-					</li>
+					<c:if test="${sign == 1}">
+						<li>
+							<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=1')">供应商审核</a>
+						</li>
+					</c:if>
+					<c:if test="${sign == 2}">
+						<li>
+							<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=2')">供应商复核</a>
+						</li>
+					</c:if>
+					<c:if test="${sign == 3}">
+						<li>
+							<a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html?sign=3')">供应商实地考察</a>
+						</li>
+					</c:if>
 				</ul>
 			</div>
 		</div>
@@ -456,7 +475,7 @@
 								      		</div>
 								      	</td>
 								      	<td class="tc w50">
-													<a id="${cate.itemsId}_hidden" onclick="reasonProject('${cate.itemsId}','${cate.secondNode }','工程-${cate.secondNode}');"><c:if test="${!fn:contains(passedField,cate.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedField,cate.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>
+													<a id="${cate.itemsId}_hidden" onclick="reasonProject('${cate.itemsId}','${cate.firstNode }','工程-${cate.firstNode}');"><c:if test="${!fn:contains(passedField,cate.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedField,cate.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>
 													<p id="${cate.itemsId}_show"><img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 													<c:if test="${fn:contains(passedField,cate.itemsId)}">
 														<img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
@@ -532,8 +551,9 @@
 						
 						</ul>
 						<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
-						<a class="btn" type="button" onclick="lastStep();">上一步</a>
-						<a class="btn" type="button" onclick="nextStep();">下一步</a>
+							<a class="btn" type="button" onclick="lastStep();">上一步</a>
+							<a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+							<a class="btn" type="button" onclick="nextStep();">下一步</a>
 					</div>
 				</div>
 			</div>

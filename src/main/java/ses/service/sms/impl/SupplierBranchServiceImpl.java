@@ -25,7 +25,24 @@ public class SupplierBranchServiceImpl implements SupplierBranchService{
 	
 	@Override
 	public void addBatch(List<SupplierBranch> list,String supplierId) {
-		supplierBranchMapper.deleteBySupplierId(supplierId);
+		if(null != list){
+			for(SupplierBranch s : list){
+				s.setSupplierId(supplierId);
+				if(s.getId() != null){// 对比id进行添加和修改的操作
+					SupplierBranch branch = supplierBranchMapper.queryById(s.getId());
+					if(branch == null){
+						supplierBranchMapper.insertSelective(s);
+					}else{
+						supplierBranchMapper.updateByPrimaryKeySelective(s);
+					}
+				}else{
+					//String id = WfUtil.createUUID();
+					//s.setId(id);
+					//supplierBranchMapper.insertSelective(s);
+				}
+			}
+		}
+		/*supplierBranchMapper.deleteBySupplierId(supplierId);
 		 for(SupplierBranch s:list){
 			 if(s.getId()!=null){
                  SupplierBranch branch = supplierBranchMapper.queryById(s.getId());
@@ -46,7 +63,7 @@ public class SupplierBranchServiceImpl implements SupplierBranchService{
                  s.setSupplierId(supplierId);
                  supplierBranchMapper.insertSelective(s);
              }
-		 }
+		 }*/
 	}
 
 

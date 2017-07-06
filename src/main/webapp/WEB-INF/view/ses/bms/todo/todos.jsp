@@ -18,6 +18,7 @@
 <link href="${pageContext.request.contextPath}/public/accordion/SpryAccordion.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath}/public/accordion/SpryAccordion.js"></script>
 <script src="${pageContext.request.contextPath}/public/webuploadFT/layui/layui.js"></script>
+<%@ include file="/WEB-INF/view/common.jsp" %>
     <script type="text/javascript">
     $(function(){
   	  /* laypage({
@@ -131,9 +132,12 @@
      
 
       function view(url) {
-        $("#a").attr("href", url);
+        /*$("#a").attr("href", url);
         var el = document.getElementById('a');
-        el.click(); //触发打开事件
+        el.click(); //触发打开事件*/
+        url+="&sign=1";//sign=1 供应商审核
+        console.log(url);
+        jumppage(url);
       }
     </script>
 

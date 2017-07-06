@@ -111,7 +111,7 @@
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_AUDIT_NOT
     where 
-    SUPPLIER_ID = #{id}
+    ID = #{id}
   </select>
   
   <select id="selectQueryBySupplierId" resultMap="BaseResultMap">

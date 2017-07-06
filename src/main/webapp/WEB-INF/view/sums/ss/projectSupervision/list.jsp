@@ -53,7 +53,7 @@
       
       
       function view(id){
-        window.location.href = "${pageContext.request.contextPath}/projectSupervision/view.html?id="+id;
+        jumppage("${pageContext.request.contextPath}/projectSupervision/view.html?id="+id);
       }
       
     </script>
@@ -65,7 +65,7 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
-            <a href="javascript:void(0)">首页</a>
+              <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
           </li>
           <li>
             <a href="javascript:void(0)">业务监管系统</a>
@@ -74,7 +74,7 @@
             <a href="javascript:void(0)">采购业务监督</a>
           </li>
           <li class="active">
-            <a href="javascript:void(0)">采购项目监督</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/projectSupervision/list.html')">采购项目监督</a>
           </li>
         </ul>
         <div class="clear"></div>

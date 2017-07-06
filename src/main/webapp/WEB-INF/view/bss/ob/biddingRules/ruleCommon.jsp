@@ -5,11 +5,11 @@
 				<table class="table table-bordered">
 				 <tbody>
 				 <tr>
-				  <td class="bggrey"> 竞价规则名称：</td>
-				  <td >${obRule.name}</td>
-				  <td class="bggrey ">间隔工作日（天）：</td>
-				  <td width="10%">${ obRule.intervalWorkday }</td>
-				  <td class="bggrey ">竞价开始时间：</td>
+				  <td class="bggrey" width="18%"> 竞价规则名称：</td>
+				  <td width="20%">${obRule.name}</td>
+				  <td class="bggrey"  width="17%">间隔工作日（天）：</td>
+				  <td with="10%">${ obRule.intervalWorkday}</td>
+				  <td class="bggrey"  width="25%">竞价开始时间：</td>
 				  <td width="10%"><fmt:formatDate value="${ obRule.definiteTime }" pattern="HH:mm:ss"/></td>
 				 </tr> 
 				 <tr>

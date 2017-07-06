@@ -98,7 +98,7 @@
 			T_SES_SMS_SUPPLIER_CREDIT
 		<where>
 			<if test="name != null and name != ''">
-				and NAME like #{name}
+				and NAME like CONCAT(CONCAT('%', #{name}), '%') 
 			</if>
 		</where>
 		 order by STATUS desc, CREATED_AT desc

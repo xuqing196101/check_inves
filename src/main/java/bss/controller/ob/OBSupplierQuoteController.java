@@ -108,8 +108,7 @@ public class OBSupplierQuoteController {
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/list")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String list(@CurrentUser User user, Model model, HttpServletRequest request, Integer page)
 			throws ParseException {
 		if (page == null) {
@@ -192,8 +191,7 @@ public class OBSupplierQuoteController {
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/beginQuoteInfo")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String beginQuoteInfo(@CurrentUser User user, Model model, HttpServletRequest request) throws ParseException {
 		// 获取第一次报价截止时间
 		String quotoEndTimeMillStr = request.getParameter("quotoEndTimeMill");
@@ -299,8 +297,7 @@ public class OBSupplierQuoteController {
 	 */
 	@RequestMapping(value="/checkConfirmResult")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult checkConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
 			String supplierId, String projectId) throws ParseException {
 		supplierId = user.getTypeId();
@@ -405,8 +402,7 @@ public class OBSupplierQuoteController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping(value="/confirmResult",produces = "text/html;charset=UTF-8")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String quoteConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
 			String supplierId, String projectId) throws ParseException {
 		supplierId = user.getTypeId();
@@ -510,8 +506,7 @@ public class OBSupplierQuoteController {
 	 */
 	@RequestMapping("/saveQuoteInfo")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult saveQuoteInfo(@CurrentUser User user,
 			OBResultInfoList obResultsInfoExt, Model model,
 			HttpServletRequest request) {
@@ -545,8 +540,7 @@ public class OBSupplierQuoteController {
 	 */
 	@RequestMapping(value="/uptConfirmAccept")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult uptConfirmQuoteInfoAccept(@CurrentUser User user,@RequestBody List<OBResultSubtabulation> projectResultList,
 			Model model,HttpServletRequest request) throws ParseException{
 		String acceptNum = request.getParameter("acceptNum");
@@ -597,8 +591,7 @@ public class OBSupplierQuoteController {
 	 */
 	@RequestMapping("uptConfirmDrop")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult uptConfirmQuoteInfoDrop(@CurrentUser User user,
 			String projectId,Model model,
 			String projectResultId,String roundNum,
@@ -667,8 +660,7 @@ public class OBSupplierQuoteController {
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping("queryBiddingResult")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String queryBiddingResult(Model model,
 			@CurrentUser User user,
 			HttpServletRequest request,
@@ -764,8 +756,7 @@ public class OBSupplierQuoteController {
 	 * @return string 视图页面
 	 */
 	@RequestMapping("saveConfirmQuoteInfo")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String saveConfirmQuoteInfo(Model model, HttpServletRequest request){
 		return "";
 	}
@@ -783,8 +774,7 @@ public class OBSupplierQuoteController {
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/findQuotoIssueInfo")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String findQuotoIssueInfo(@CurrentUser User user, Model model, HttpServletRequest request){
 		// 获取标题id
 		String projectId = request.getParameter("id");
@@ -1013,8 +1003,7 @@ public class OBSupplierQuoteController {
 	* @throws
 	 */
 	@RequestMapping("/findBiddingResult")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String findBiddingResult(Model model, HttpServletRequest request){
 		// 获取标题id
 		String projectId = request.getParameter("id");
@@ -1043,8 +1032,7 @@ public class OBSupplierQuoteController {
 	 */
 	@RequestMapping("/findSupplierUnBidding")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult findSupplierUnBidding(@CurrentUser User user, HttpServletRequest request){
 		String projectId = request.getParameter("projectId");
 		// 获取供应商的id
@@ -1082,8 +1070,7 @@ public class OBSupplierQuoteController {
 	 */
 	@RequestMapping("/checkQuotoSecond")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult checkQuotoSecond(@CurrentUser User user, HttpServletRequest req){
 		// 获取竞价id
 		String id = req.getParameter("id");
@@ -1106,8 +1093,7 @@ public class OBSupplierQuoteController {
      */
     @RequestMapping("/getSysTime")
     @ResponseBody()
-    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
     public Long getSysTime(){
     	// 获取当前系统时间  毫米值
     	Date date = new Date();

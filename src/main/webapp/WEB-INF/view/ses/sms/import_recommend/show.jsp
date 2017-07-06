@@ -132,7 +132,7 @@
 				<table class="table table-bordered">
 					<tbody>
 						<tr>
-							<td class="bggrey">登陆名：</td>
+							<td class="bggrey">登录名：</td>
 							<td>${ir.loginName }</td>
 							<td class="bggrey ">密码：</td>
 							<td>******</td>

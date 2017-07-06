@@ -248,7 +248,7 @@
                  <li class="col-md-12 col-sm-12 col-xs-12 mb20">
                    <label class="col-md-12 pl20 col-xs-12 padding-left-5"><div class="star_red">*</div>评审内容</label>
                    <span class="col-md-12 col-sm-12 col-xs-12 p0">
-                    <textarea class="col-md-12 col-sm-12 col-xs-12 h80" id="itemContent" name="content" maxlength="200" title="" placeholder=""></textarea>
+                    <textarea class="w100p h80" id="itemContent" name="content" maxlength="200" title="" placeholder=""></textarea>
                    </span>
                  </li>
               </ul>

@@ -193,5 +193,9 @@
 		where MAT_PRO_ID = #{matProId}
 	</select>
 	
+	<delete id="deleteByProId" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_CERT_PRO
+		where MAT_PRO_ID = #{matProId}
+	</delete>
 	
 </mapper>

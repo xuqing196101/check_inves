@@ -7,6 +7,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import ses.service.ems.ExpertAuditService;
 import ses.service.sms.SupplierService;
 import synchro.inner.read.expert.InnerExpertService;
 import synchro.outer.back.service.expert.OuterExpertService;
@@ -36,6 +37,10 @@ public class ExpertTask {
     
     @Autowired
 	private SupplierService supplierService;
+    
+    // 注入专家审核Service
+    @Autowired
+    private ExpertAuditService expertAuditService;
     
     public void handlerExportExpert(){
     	Date date=new Date();
@@ -69,5 +74,55 @@ public class ExpertTask {
     	   
     }
   
+    /**
+	 * 
+	 * Description:定时处理供应商拟入库公示
+	 * 
+	 * @author Easong
+	 * @version 2017年6月26日
+	 */
+	public void handleExpertPublicity(){
+		// 调用7天后自动入库公示
+		expertAuditService.handlerPublictyExp();
+	}
   
+   /**
+    * 
+   * @Title: expportReturnExpert
+   * @Description: 专家退回修改内网导出 
+   * author: Li Xiaoxiao 
+   * @param      
+   * @return void     
+   * @throws
+    */
+    public void expportReturnExpert(){
+       	Date date=new Date();
+    		Date addDate = supplierService.addDate(date, 3, -1);
+    		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+    		String fat = sdf.format(addDate);
+    		String startTime=fat+" 00:00:00";
+    		String endTime=fat+" 23:59:59";
+        	outerExpertService.backModifyExpert(startTime, endTime);
+    }
+    /**
+     * 
+    * @Title: importReturnExpert
+    * @Description: 专家退回修改外网导入 
+    * author: Li Xiaoxiao 
+    * @param      
+    * @return void     
+    * @throws
+     */
+    public void importReturnExpert(){
+     	 File file = FileUtils.getImportFile();
+     	if (file != null && file.exists()){
+             File [] files = file.listFiles();
+             for (File f : files){
+            		if (f.getName().contains(FileUtils.C_EXPERT_ALL_NOT)) {
+						innerExpertService.saveBackModifyExpertForOut(f);
+					}
+             }
+         }
+    }
+    
 }

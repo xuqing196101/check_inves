@@ -158,9 +158,9 @@
 			}
 		return childNodes;
 	 }
-	 
+	 var obj="";
 	 function OpenFile(filePath) {
-			var obj = document.getElementById("TANGER_OCX");
+			obj = document.getElementById("TANGER_OCX");
 			var projectId = $("#contractId").val();
 			obj.Menubar = true;
 			obj.Caption = "( 双击可放大 ! )"
@@ -170,7 +170,21 @@
 			} 
 			//obj.OpenFromURL("http://localhost:8080/zhbj/contract/"+fileId);
 		}
-		
+	//BeginOpenFromURL成功回调
+	   function OnComplete(type,code,html)
+	   {
+	     /* var doc=obj.ActiveDocument;
+	     var pageSetup=doc.PageSetup;
+	     pageSetup.TogglePortrait(); */
+	     var data= "合同名称:"+$("#contract_code").val()+"编号:"+$("#contract_codes").val();
+	     var doc=obj.ActiveDocument;
+	     var doca=doc.Application;
+	     var as=doca.Selection;
+	     //goto参数，1：不知道，2：不知道，3：页数，4：当前页里面存在的字符串
+	     as.GoTo(1,2,as.Information(4),"条形码");
+	     obj.Add2DCodePic(1, data, true, 35, 460, 1, 100, 1, true); 
+
+	   }
 		
 		function exportWord() {
 			var obj = document.getElementById("TANGER_OCX");
@@ -567,13 +581,31 @@
 		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html";
 	}
 </script>
+<script language="JScript" for="TANGER_OCX" event="ondocumentopened(File, Document)">
+  /* var activeDeoc=obj.ActiveDocument;
+  var pageSetup=activeDeoc.PageSetup;
+  pageSetup.TogglePortrait();   改变页面方向*/
+  
+  
+    var data= "合同名称:"+$("#contract_code").val()+"编号:"+$("#contract_codes").val();
+    var doc=obj.ActiveDocument;
+    var doca=doc.Application;
+    var as=doca.Selection;
+    //goto参数，1：不知道，2：不知道，3：页数，4：当前页里面存在的字符串
+    as.GoTo(1,2,as.Information(4),"条形码");
+    obj.Add2DCodePic(1, data, true, 35, 460, 1, 100, 1, true); 
+</script>
 <body>
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">采购合同管理</a></li><li class="active"><a href="#">合同文本修改</a></li>
-		   </ul>
+		  <ul class="breadcrumb margin-left-0">
+			  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+			  <li><a href="#">保障作业</a></li>
+			  <li><a href="#">采购合同管理</a></li>
+			  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html');">采购项目列表</a></li>
+			  <li class="active"><a href="#">合同文本修改</a></li>
+		  </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -614,7 +646,7 @@
 	    		 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同编号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<input class=" contract_name" name="code" value="" type="text">
+			        	<input class=" contract_name" id="contract_codes" name="code" value="" type="text">
 			        	<div class="cue">${ERR_code}</div>
 	       			</div>
 				 </li>
@@ -721,14 +753,14 @@
 			        </div> --%>
 				 </li>
 			     <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方法人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->甲方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" id="purchaseLegal" name="purchaseLegal" value="${project.purchaseDep.legal}" type="text">
 			        <div class="cue">${ERR_purchaseLegal}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方委托代理人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->甲方委托代理人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" id="purchaseAgent" name="purchaseAgent" value="${project.purchaseDep.agent}" type="text">
 			        <div class="cue">${ERR_purchaseAgent}</div>
@@ -762,7 +794,7 @@
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方付款单位：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->甲方付款单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			         <input class=" supplier_name" id="purchasePayDep" name="purchasePayDep" value="${project.purchaseDep.payDep}" type="text">
 			         <div class="cue">${ERR_purchasePayDep}</div>
@@ -798,14 +830,14 @@
 				 </li> 
 				 
 			     <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方法人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->乙方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" id="supplierLegal" name="supplierLegal" type="text" value="${project.dealSupplier.legalName}">
 			        <div class="cue">${ERR_supplierLegal}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方委托代理人：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><!-- <div class="red star_red">*</div> -->乙方委托代理人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			        <input class=" supplier_name" name="supplierAgent" value="" type="text">
 			        <div class="cue">${ERR_supplierAgent}</div>

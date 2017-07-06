@@ -15,6 +15,27 @@
 <%@ include file="/WEB-INF/view/portal.jsp" %>
 <script type="text/javascript"> 
   		$(function(){
+  		    /* 导航延迟两秒 */
+  		    var _width=$(window).width();
+  		    if(_width>972){
+  		        var id;
+			    var _self;	    
+			    $(".dropdown").each(function(){
+			    	$(this).hover(function(){
+			    		 _self = this;
+						id = setTimeout(function(){
+		                   $(_self).find(".drop_next").show();
+						},200);	    		
+					},function(){
+						if(id){
+						clearTimeout(id);
+						}
+		               $(_self).find(".drop_next").hide();		
+					});
+			    })
+  		    }
+  		    
+  		    
 		   $("#close").click(function(){
 		   		$(".prompt_tips").hide();
 		   });
@@ -23,18 +44,25 @@
 <script type="text/javascript">
 var user = "${sessionScope.loginUser.relName}";
 $(function(){
-	
 		$.ajax({
-			    url: "${pageContext.request.contextPath}/userInfo/loginInfo.do",
+			    url: "${pageContext.request.contextPath}/cacheManage/getPVDate.do",
 			    type: "POST",
 			    dataType: "json",
 			    success: function(data) {
-			    	if(data!=null&&data.status==200){
-			    	   $("#welcome_words").html(data.msg+"你好，欢迎来到军队采购网！");
+			    	if(data.data.loginName != null && data.status==200){
+			    	   $("#welcome_words").html(data.data.loginName+"你好，欢迎来到军队采购网！");
 			    	   $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>|<a id=\"my\" onclick=\"myInfo()\">我的信息</a><a href=\"${pageContext.request.contextPath}/login/loginOut.html\" id=\"exit\">&nbsp;|&nbsp;退出</a>")
+			    	   // 今日访问量
+		           $("#pvThisDay").text(data.data.dayNum);
+			    	   // 总访问量
+		           $("#pvTotal").text(data.data.totalCount);
 			    	}else{
-			    	    $("#welcome_words").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
-			    	    $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>");
+			    	   $("#welcome_words").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
+			    	   $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>");
+			    	   // 今日访问量
+				       $("#pvThisDay").text(data.data.dayNum);
+					    // 总访问量
+				       $("#pvTotal").text(data.data.totalCount);
 			    	}
 			    }
 		});
@@ -72,6 +100,7 @@ function importAdd(){
 	}
 	window.location.href="${pageContext.request.contextPath}/importSupplier/register.html";
 }
+         
 </script>
 </head>
 <body>
@@ -161,7 +190,7 @@ function importAdd(){
     </div>
     <div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
     <div class="container">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav m-navbar-nav" >
       <!-- 通知 -->
         <li id="firstPage" class="dropdown shouye_li mega-menu-fullwidth">
           <a class=" dropdown-toggle " href="${pageContext.request.contextPath}/"><i class="shouye nav_icon"></i>首 页</a>
@@ -173,7 +202,7 @@ function importAdd(){
           <a class="dropdown-toggle " href="javascript:void(0);" data-toggle="dropdown"><i class="gonggao nav_icon"></i>信息公告</a>
 	  <!--	信息公告鼠标移动开始   -->
 	  <div class="drop_next dropdown-menu" >
-	   <div class="row magazine-page clear">
+	   <div class="magazine-page clear">
 	    <div class="col-md-12 col-xs-12 col-sm-12 drop_hover">
 	    <div class="drop_main">
 	    <div class="col-md-4 col-sm-12 col-xs-12">
@@ -420,11 +449,11 @@ function importAdd(){
           <a data-toggle="dropdown" class="dropdown-toggle " href="javascript:void(0);"><i class="gongshi nav_icon"></i>网上采购</a>
 <!--	网上采购鼠标移动开始   -->
 		  <div class="drop_next dropdown-menu" >
-	   <div class="row magazine-page clear">
+	   <div class="magazine-page clear">
       <div class="col-md-12 col-sm-12 col-xs-12 drop_hover">
 	   <div class="drop_main ">
 	    <div class="col-md-4 col-sm-6 col-xs-12 mt25" id="drop-1">
-		  <div class="ywbl_01 col-sm-6 col-xs-6">
+		  <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
 		   <% if (environment != null && environment.equals("1")){ %>
              <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
                <a href="http://21.100.16.6" class="wssc">
@@ -436,21 +465,25 @@ function importAdd(){
 	       <% if (environment != null && environment.equals("0")){ %>
                <a href="javascript:void(0);" class="wssc">
            <%} %>
+           	<i></i>
             <span>网上商城</span> 
 		   </a>
 	      </div>
-		  <div class="ywbl_01 col-sm-6 col-xs-6">
-	       <a href="${pageContext.request.contextPath }/product/index_list.html" class="dxcpjj">
+		  <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
+	       <a href="${pageContext.request.contextPath }/index/index_productList.html" class="dxcpjj">
+            <i></i>
             <span>定型产品</span> 
 		   </a>
 	     </div>
-		 <div class="ywbl_01 col-sm-6 col-xs-6">
+		 <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
 	      <a href="#" class="ypcg">
+           <i></i>
            <span>药品采购</span> 
 		  </a>
 	     </div>
-		 <div class="ywbl_01 col-sm-6 col-xs-6">
+		 <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
 	      <a href="#" class="fwcg">
+           <i></i>
            <span>服务采购</span> 
 		  </a>
 	   </div>
@@ -521,410 +554,391 @@ function importAdd(){
         </li>
       <!-- End 公示 -->
 
-      <!-- 专家 -->
-        <li class="dropdown other zhuanjia_li mega-menu-fullwidth">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ><i class="zhuanjia nav_icon"></i>供应商</a>
-	<!--供应商鼠标移动开始-->
-		<div class="drop_next dropdown-menu" >
-	     <div class="row magazine-page clear">
-	     <div class="col-md-12 col-sm-12 col-xs-12 drop_hover" >
-	      <div class="drop_main">
-	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login ">
-	          <%-- <a href="${pageContext.request.contextPath}/supplier/registration_page.html" > --%>
-	        
-	        <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
-	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0" >
-	        <% } %>
-	        <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
-	              <a onclick="supplierRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
-	        <% } %>
-		     	供应商注册
-		     <i></i>
-		    </a>	  
-	       </div>
-	  <div class="col-md-5 col-sm-5 col-xs-10 mt10">
-	   <div class="headline-v2">
-         <h2>供应商名录<a  href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=0" class="fr f14">更多>></a></h2>
-        </div>
-         <div class="job-content col-md-12">
-		    <div class="categories">
-             <ul class="p0_10 list-unstyled">
+    <!-- 供应商 -->
+    <li class="dropdown other zhuanjia_li mega-menu-fullwidth">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ><i class="zhuanjia nav_icon"></i>供应商</a>
+        
+        <!-- 供应商鼠标移动开始 -->
+        <div class="drop_next dropdown-menu">
+        <div class="magazine-page clear">
+        <div class="col-md-12 col-sm-12 col-xs-12 drop_hover">
+        <div class="drop_main">
+        <%-- <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login "> --%>
+            <%-- <a href="${pageContext.request.contextPath}/supplier/registration_page.html" > --%>
+                <%-- <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
+                <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="" >
+                <% } %>
+                <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+                <a onclick="supplierRegisterTip();" class="">
+                <% } %>
+                	供应商注册
+                <i></i>
+            </a>
+        </div> --%>
+        
+        <!-- 拟入库公示 -->
+        <div class="col-md-7 col-sm-7 col-xs-10 mt10">
+            <div class="headline-v2">
+                <h2>拟入库公示</h2>
+            </div>
             
-             <c:choose>
-            <c:when test="${!empty my:getSupplierList()}">
-         <table class="table table-bordered " >
-        <thead>
-          <tr >
-			<th class="tc info" width="55%">供应商名称</th>
-			<th class="tc info" width="25%">编号</th>
-			<th class="tc info" width="20%">状态</th>
-			</tr>
-			</thead>
-			<tbody>
-			<c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="5" step="1" varStatus="status" > 
-			<tr>
-			<td>${item.supplierName }</td>
-			<td class="tc"></td>
-			<td class="tc"> 
-			 <c:choose>
-						    <%-- <c:when test="${item.status == -1}">
-						           未未提交审核
-						    </c:when>
-			          <c:when test="${item.status == 0}">
-						          待审核
-						    </c:when> --%>
-						    <c:when test="${item.status == 1 or item.status == 4 or item.status == 6}">
-						          审核通过
-						    </c:when>
-						   <%--  <c:when test="${item.status == 2}">
-						          审核退回修改
-						    </c:when>
-						    <c:when test="${item.status == 3}">
-						         审核未通过
-						    </c:when>
-						    <c:when test="${item.status == 4}">
-						          待复核
-						    </c:when> --%>
-						    <c:when test="${item.status == 5 or item.status == 7 or item.status == 9}">
-						         复核通过
-						    </c:when>
-						    <%-- <c:when test="${item.status == 6}">
-						          复核未通过
-						    </c:when>
-						    <c:when test="${item.status == 7}">
-						          待考察
-						    </c:when> --%>
-						    <c:when test="${item.status == 8}">
-						          考察合格
-						    </c:when>
-						   <%--  <c:when test="${item.status == 9}">
-						          考察不合格
-						    </c:when> --%>
-						    <c:otherwise>
-						          无状态
-						    </c:otherwise>
-               </c:choose>
+            <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
+            <div class="categories">
+            <ul class="list-unstyled">
+                <c:choose>
+                <c:when test="${!empty my:getPublicitySupplier()}">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="tc info">供应商名称</th>
+                            <th class="tc info">类型</th>
+                            <th class="tc info">企业性质</th>
+                            <th class="tc info">初审单位</th>
+                            <th class="tc info" width="55%">审核结果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
+                        <tr>
+                            <td>${item.supplierName}</td>
+														<td class="tc">${ item.supplierTypeNames }</td>
+														<td class="tc">${ item.businessNature }</td>
+														<td class="tc">${ item.orgName }</td>
+														<td class="tl">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                </c:when>
+                <c:otherwise>
+                <li class="tc">暂无数据</li>
+                </c:otherwise>
+                </c:choose>
+            </ul>
+            </div>
+            </div>
+            <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html" class="tab_more">更多&gt;&gt;</a>
+        </div>
+        <!-- End 拟入库公示 -->
+        
+        <div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+            <h2 class="f17 bgwhite">
+            <ul class="list-unstyled login_tab p0">
+                <li class="fl active"><a aria-expanded="true" href="#tab-36" data-toggle="tab">入库名单</a></li>
+                <li class="fl"><a aria-expanded="true" href="#tab-37" data-toggle="tab">诚信记录</a></li>
+                <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab">处罚公告</a></li>
+                <!-- <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab">地方处罚公告</a></li> -->
+                <li class="fl"><a aria-expanded="false" href="#tab-gyshmd" data-toggle="tab">黑名单</a></li>
+            </ul>
+            </h2>
+            
+            <div class="tab-content buyer_list m_buyer_list">
+                <!-- 诚信记录 -->
+                <div id="tab-37" class="categories tab-pane fade">
+                <%-- <ul class="p0_10 list-unstyled">
+                <table class="table table-bordered " >
+                <thead>
+                <tr>
+                <th class="tc info" width="50%">供应商名称</th>
+                <th class="tc info" width="20%">企业等级</th>
+                <th class="tc info" width="10%">分数</th>
+                <th class="tc info" width="20%">企业性质</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${my:getSupplierCreditRecord()['supplierCreditList']}" var="supplier" begin="0" end="3" step="1" varStatus="status">
+                <tr>
+                <td class="tc">${supplier.supplierName}</td>
+                <td class="tc">${supplier.level}</td>
+                <td class="tc">${supplier.score}</td>
+                <td class="tc">
+                <c:forEach items="${my:getSupplierCreditRecord()['data']}" var="dic">
+                <c:if test="${supplier.businessType==dic.id}">
+                	${dic.name }									
+                </c:if>
+                </c:forEach>
                 </td>
-				</tr>
-				 </c:forEach> 
-				</tbody>
+                </tr>
+                </c:forEach>
+                </tbody>
+                </table>
+                </ul> 
+                <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>--%>
+                <a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
+                </div>
+                <!-- End 诚信记录 -->
+            
+                <!-- 处罚公告 -->
+                <div id="tab-38" class="categories tab-pane fade">
+                <ul class="p0_10">
+                <c:forEach items="${indexMapper['article116List']}" var="sl">
+                <c:set value="${sl.name}" var="name"></c:set>
+                <c:set value="${fn:length(name)}" var="length"></c:set>
+                    <c:if test="${length>25}">
+                    <li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,25)}...</a></li>
+                    </c:if>
+                    
+                    <c:if test="${length<=25}">
+                    <li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+                    </c:if>
+                </c:forEach>     
+                </ul>
+                <a class="fr" href="${pageContext.request.contextPath}/index/supplierPunishment.html">更多>></a>
+                </div>
+                <!-- End 处罚公告 -->
+                
+                <!-- 供应商地方处罚公告 -->
+                <%-- <div id="tab-38" class="categories tab-pane fade">
+                <ul class="p0_10">
+                <c:forEach items="${indexMapper['article117List']}" var="sl">
+                <c:set value="${sl.name}" var="name"></c:set>
+                <c:set value="${fn:length(name)}" var="length"></c:set>
+                <c:if test="${length>25}">
+                <li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,25)}...</a></li>
+                </c:if>
+                <c:if test="${length<=25}">
+                <li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+                </c:if>
+                </c:forEach>   
+                </ul>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=117">更多>></a>
+                </div> --%>
+                
+                <!-- 专家黑名单 -->
+                <div id="tab-gyshmd" class="categories tab-pane fade">
+                <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
+                <c:forEach items="${indexMapper['supplierBlackList']}" var="sl">
+                <c:set value="${sl.supplierName}" var="name"></c:set>
+                <c:set value="${fn:length(name)}" var="length"></c:set>
+                <c:set value="${sl.supplierName}" var="shortName"/>
+                    <c:if test="${length>15}">
+                        <c:set value="${fn:substring(name,0,15)}..." var="shortName"/>
+                    </c:if>
+                    <li>
+                        <%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
+                        <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
+                        <span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
+                            <c:if test="${sl.punishType == 0}">警告</c:if>
+                            <c:if test="${sl.punishType == 1}">不得参与采购活动</c:if>
+                        </span>
+                    </li>
+                </c:forEach>
+                </ul>
+                <a class="fr" href="${pageContext.request.contextPath}/index/supplierBlackList.html">更多&gt;&gt;</a>
+                </div>
+                <!-- End 专家黑名单 -->
+            </div>
+        </div>
+        
+        </div>
+        </div>
+        </div>
+        </div>
+        <!-- 供应商鼠标移动结束 -->
+    </li>
+    <!-- End 供应商 -->
+
+   	<!-- 专家评审 -->
+    <li class="dropdown other tousu_li mega-menu-fullwidth">
+		<a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="tousu nav_icon"></i>评审专家</a>
+		<!-- 评审鼠标移动开始 -->
+		<div class="drop_next dropdown-menu">
+		<div class="magazine-page clear">
+		<div class="col-md-12 col-sm-12 col-xs-12 drop_hover" id="drop-4">
+		<div class="drop_main">
+			<!--<div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">-->
+				<%-- <% if (environment != null && environment.equals("0")){ %>
+				<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="">
+				<% } %>
+				<% if (environment != null && environment.equals("1")){ %>
+				<a onclick="expertRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
+				<% } %> --%>
+				<!--<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html">评审专家注册<i></i></a>	  
+			</div>-->
+			
+			<div class="col-md-7 col-sm-7 col-xs-10 mt10">
+				<div class="headline-v2">
+					<h2>拟入库公示</h2>
+				</div>
+				
+				<div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
+				<div class="categories zhuanjia_list">
+				<ul class="list-unstyled">
+				<c:choose>
+				<c:when test="${!empty my:getPublicityExpert()}">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="tc info">专家名称</th>
+							<th class="tc info">类别</th>
+							<th class="tc info">初审单位</th>
+							<th class="tc info" width="50%">审核结果</th>
+						</tr>
+					</thead>
+					<tbody>
+					<c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
+					<tr>
+						<td>${ item.relName }</td>
+						<td class="tc">${ item.expertsTypeId }</td>
+						<td class="tc">${ item.orgName }</td>
+						<td class="tl">同意入库，选择了${ item.passCateCount }小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</td>
+					</tr>
+					</c:forEach> 
+					</tbody>
 				</table>
-                	</c:when>
-                	<c:otherwise>
-                		<li class="tc">暂无数据</li>
-                	</c:otherwise>
-                </c:choose>   
-         
-			 </ul>
+				</c:when>
+				<c:otherwise>
+				<li class="tc">暂无数据</li>
+				</c:otherwise>
+				</c:choose>
+				</ul>
+				</div>
+				<a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="tab_more">更多&gt;&gt;</a>
+				</div>
 			</div>
 			
-		  </div>
-	  </div>
+			<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+			<h2 class="f17 bgwhite">
+			<ul class="list-unstyled login_tab">
+			<li class="fl active"><a aria-expanded="true" href="#tab-39" data-toggle="tab">入库名单</a></li>
+			<li class="fl"><a aria-expanded="true" href="#tab-40" data-toggle="tab">诚信记录</a></li>
+			<li class="fl"><a aria-expanded="false" href="#tab-41" data-toggle="tab">处罚公告</a></li>
+			<li class="fl"><a aria-expanded="false" href="#tab-zjhmd" data-toggle="tab">黑名单</a></li>
+			</ul>
+			</h2>
+			<div class="tab-content buyer_list m_buyer_list">
+				<div id="tab-39" class="categories tab-pane fade active in">
+					
+					<a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
+				</div>
+				
+				<div id="tab-40" class="categories tab-pane fade">
+					<ul class="p0_10">   
+					</ul>
+					<a class="fr" href="javascript:void(0)">更多&gt;&gt;</a>
+				</div>
+				
+				<div id="tab-41" class="categories tab-pane fade">
+				<ul class="p0_10">   
+					<c:forEach items="${indexMapper['article115List']}" var="sl">
+					<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>25}">
+					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,25)}...</a></li>
+					</c:if>
+					<c:if test="${length<=25}">
+					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+					</c:forEach>
+				</ul>
+				<a class="fr" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=115">更多&gt;&gt;</a>
+				</div>
+				
+				<div id="tab-zjhmd" class="categories tab-pane fade">
+				<ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
+					<c:forEach items="${indexMapper['expertBlackList']}" var="sl">
+					<c:set value="${sl.relName}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:set value="${sl.relName}" var="shortName"/>
+					<c:if test="${length>15}">
+					<c:set value="${fn:substring(name,0,15)}..." var="shortName"/>
+					</c:if>
+					<li>
+					<%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
+					<a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
+					<span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
+					<c:if test="${sl.punishType == 1}">警告</c:if>
+					<c:if test="${sl.punishType == 2}">严重警告</c:if>
+					<c:if test="${sl.punishType == 3}">取消资格</c:if>
+					</span>
+					</li>
+					</c:forEach>   
+				</ul>
+				<a class="fr" href="${pageContext.request.contextPath}/index/expertBlackList.html">更多&gt;&gt;</a>
+				</div>
+			</div>
+			</div>
 	  
-		<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
-		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled login_tab" style="padding: 0px 0px;">
-		  <li class="active fl"><a aria-expanded="true" href="#tab-36" data-toggle="tab">诚信记录</a></li>
-		  <li class="fl"><a aria-expanded="false" href="#tab-37" data-toggle="tab">军队处罚公告</a></li>
-		  <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab">地方处罚公告</a></li>
-		  <li class="fl"><a aria-expanded="false" href="#tab-gyshmd" data-toggle="tab">供应商黑名单</a></li>
-		 </ul>
-		</h2>
-		<div class="tab-content buyer_list">
-			<!-- 供应商诚信记录 -->
-		    <div id="tab-36" class="categories tab-pane fade active in">
-				<%-- <ul class="p0_10 list-unstyled">
-					<table class="table table-bordered " >
-						<thead>
-							<tr>
-								<th class="tc info" width="50%">供应商名称</th>
-								<th class="tc info" width="20%">企业等级</th>
-								<th class="tc info" width="10%">分数</th>
-								<th class="tc info" width="20%">企业性质</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${my:getSupplierCreditRecord()['supplierCreditList']}" var="supplier" begin="0" end="3" step="1" varStatus="status">
-								<tr>
-									<td class="tc">${supplier.supplierName}</td>
-									<td class="tc">${supplier.level}</td>
-									<td class="tc">${supplier.score}</td>
-									<td class="tc">
-										<c:forEach items="${my:getSupplierCreditRecord()['data']}" var="dic">
-											<c:if test="${supplier.businessType==dic.id}">
-												${dic.name }									
-											</c:if>
-										</c:forEach>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</ul> 
-	          <a class="tab_more" href="${pageContext.request.contextPath}/supplier_level/indexList.html">更多>></a>--%>
-	          <a class="tab_more" href="javascript:;">更多>></a>
-        	</div>
-	    <div id="tab-37" class="categories tab-pane fade">
-          <ul class="p0_10">
-           	<c:forEach items="${indexMapper['article116List']}" var="sl">
-               	<c:set value="${sl.name}" var="name"></c:set>
-				<c:set value="${fn:length(name)}" var="length"></c:set>
-				<c:if test="${length>25}">
-					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,25)}...</a></li>
-				</c:if>
-				<c:if test="${length<=25}">
-					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-				</c:if>
-	        </c:forEach>     
-          </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=116">更多>></a>
-        </div>
-		<div id="tab-38" class="categories tab-pane fade">
-          <ul class="p0_10">
-          	<c:forEach items="${indexMapper['article117List']}" var="sl">
-               	<c:set value="${sl.name}" var="name"></c:set>
-				<c:set value="${fn:length(name)}" var="length"></c:set>
-				<c:if test="${length>25}">
-					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,25)}...</a></li>
-				</c:if>
-				<c:if test="${length<=25}">
-					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-				</c:if>
-	        </c:forEach>   
-          </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=117">更多>></a>
-        </div>
-        <div id="tab-gyshmd" class="categories tab-pane fade">
-          <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
-          	<c:forEach items="${indexMapper['supplierBlackList']}" var="sl">
-              <c:set value="${sl.supplierName}" var="name"></c:set>
-							<c:set value="${fn:length(name)}" var="length"></c:set>
-							<c:set value="${sl.supplierName}" var="shortName"/>
-							<c:if test="${length>15}">
-								<c:set value="${fn:substring(name,0,15)}..." var="shortName"/>
-							</c:if>
-							<li>
-								<%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
-								<a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
-								<span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
-									<c:if test="${sl.punishType == 0}">警告</c:if>
-									<c:if test="${sl.punishType == 1}">不得参与采购活动</c:if>
-								</span>
-							</li>
-	        	</c:forEach>   
-          </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/supplierBlackList.html">更多>></a>
-        </div>
-		</div>
-	  </div>
 	</div>
-   </div>
-   </div>
-   </div>
-        </li>
-      <!-- End 专家 -->
-
-      <!-- 投诉 -->
-    <li class="dropdown other tousu_li mega-menu-fullwidth">
-          <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="tousu nav_icon"></i>评审专家</a>
-			<!--评审鼠标移动开始-->
-		  <div class="drop_next dropdown-menu" >
-		   <div class="row magazine-page clear">
-			<div class="col-md-12 col-sm-12 col-xs-12 drop_hover"  id="drop-4">
-			 <div class="drop_main">
-			  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
-	    		 <%-- <% if (environment != null && environment.equals("0")){ %>
-	    		    <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
-	   			  <% } %>
-	    		 <% if (environment != null && environment.equals("1")){ %>
-	    		    <a onclick="expertRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
-	    		 <% } %> --%>
-	     		<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
-				   评审专家注册
-				 <i></i>
-				</a>	  
-	 		  </div>
-	 		  <div class="col-md-5 col-sm-5 col-xs-10 mt10 ">
-			   <div class="headline-v2">
-     		    <h2>专家名录<a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="fr f14">更多>></a></h2>
-     		   </div>
-     		   <div class="job-content col-md-12 col-sm-12 col-xs-12">
-		    		<div class="categories zhuanjia_list">
-             		 <c:choose>
-           			   <c:when test="${!empty my:getExpertList()}">
-         				<table class="table table-bordered " >
-       					 <thead>
-         					 <tr >
-								<th class="tc info" width="55%">专家名称</th>
-								<th class="tc info" width="25%">编号</th>
-								<th class="tc info" width="20%">状态</th>
-							 </tr>
-						 </thead>
-				     	 <tbody>
-							<c:forEach items="${my:getExpertList()}" var="item" begin="0" end="5" step="1" varStatus="status" > 
-								<tr>
-									<td>${item.relName }</td>
-									<td class="tc"></td>
-									<td class="tc"> <c:choose>
-          						      <%-- <c:when test="${item.status == 0}">
-										          未审核
-									    </c:when>
-									     <c:when test="${item.status == 1}">
-											初审通过
-										 </c:when>
-									     <c:when test="${item.status == 2}">
-						       				 初审未通过
-						   				 </c:when>
-						   				 <c:when test="${item.status == 3}">
-						       				 退回修改
-						  				 </c:when>
-						   				 <c:when test="${item.status == 4}">
-						 					    待复审
-						  			     </c:when> --%>
-						  			     <c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
-						     		  	   复审通过
-						  			     </c:when>
-						  			     <c:when test="${item.status eq '7'}">
-						     			   复查通过
-						 			     </c:when>
-						   			    <c:otherwise>
-								       </c:otherwise>
-               					     </c:choose>
-               				      </td>
-								</tr>
-							 </c:forEach> 
-							</tbody>
-						  </table>
-                		</c:when>
-                		<c:otherwise>
-                			暂无数据
-                		</c:otherwise>
-               		</c:choose>   
-					</div>
-		  		</div>
-		
-	  </div>
-	    	<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
-		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled login_tab">
-		  <li class="active fl"><a aria-expanded="true" href="#tab-39" data-toggle="tab">诚信记录</a></li>
-		  <li class="fl"><a aria-expanded="false" href="#tab-40" data-toggle="tab">处罚公告</a></li>
-		  <li class="fl"><a aria-expanded="false" href="#tab-zjhmd" data-toggle="tab">专家黑名单</a></li>
-		 </ul>
-		</h2>
-		<div class="tab-content  buyer_list">
-		    <div id="tab-39" class="categories tab-pane fade active in">
-             <ul class="p0_10">   
-          </ul>
-          <a class="tab_more" href="#">更多>></a>
-          </div>
-		  <div id="tab-40" class="categories tab-pane fade">
-             <ul class="p0_10">   
-             	<c:forEach items="${indexMapper['article115List']}" var="sl">
-               	<c:set value="${sl.name}" var="name"></c:set>
-				<c:set value="${fn:length(name)}" var="length"></c:set>
-				<c:if test="${length>25}">
-					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,25)}...</a></li>
-				</c:if>
-				<c:if test="${length<=25}">
-					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-				</c:if>
-	        </c:forEach>
-          </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=115">更多>></a>
-        </div>
-        <div id="tab-zjhmd" class="categories tab-pane fade">
-        	<ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
-          	<c:forEach items="${indexMapper['expertBlackList']}" var="sl">
-              	<c:set value="${sl.relName}" var="name"></c:set>
-							<c:set value="${fn:length(name)}" var="length"></c:set>
-							<c:set value="${sl.relName}" var="shortName"/>
-							<c:if test="${length>15}">
-								<c:set value="${fn:substring(name,0,15)}..." var="shortName"/>
-							</c:if>
-							<li>
-								<%-- <a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="f18 mr5 fl">·</span>${shortName}</a> --%>
-								<a class="col-md-8 col-sm-7 col-xs-12" title="${name}" href="javascript:;"><span class="f18 mr5 fl">·</span>${shortName}</a>
-								<span class="hex pull-right col-md-4 col-sm-5 col-xs-12">
-									<c:if test="${sl.punishType == 1}">警告</c:if>
-									<c:if test="${sl.punishType == 2}">严重警告</c:if>
-									<c:if test="${sl.punishType == 3}">取消资格</c:if>
-								</span>
-							</li>
-	        	</c:forEach>   
-          </ul>
-        	<a class="tab_more" href="${pageContext.request.contextPath}/index/expertBlackList.html">更多>></a>
-        </div>
-		</div>
-	  </div>
-	</div>
-   </div>
-	
-   </div>
-   </div>
-        </li>
-      <!-- End 投诉 -->
+   	</div>
+   	</div>
+   	</div>
+	</li>
+	<!-- End 评审专家 ->
 
       <!-- 法规 -->
         <li class="dropdown other cgfw_li mega-menu-fullwidth">
           <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="cgfw nav_icon"></i>采购服务</a>
 	<!--采购服务鼠标移动开始-->
 		  <div class="drop_next dropdown-menu" >
-	   <div class="row magazine-page clear">
+	   <div class="magazine-page clear">
 
 	<div class="col-md-12 col-xs-12 col-sm-12 drop_hover">
 	 <div class="drop_main supp_service">
-	 <div class="service_btns col-sm-4 col-xs-6 mt60">
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <a href="${pageContext.request.contextPath}/categorys/categoryList.html">
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cpml.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cpml">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/cpml.jpg" width="80%" height="80%;"/>
+	    </div>
 		<div class="tc f18 mt20 pt10 clear">产品目录</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-sm-4 col-xs-6 mt60">
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <a href="${pageContext.request.contextPath}/categorys/parameterList.html">
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/jscsk.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic jscsk">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/jscsk.jpg" width="80%" height="80%;"/>
+	    </div>
 		<div class="tc f18 mt20 pt10 clear">技术参数库</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-sm-4 col-xs-6 mt60">
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <a href="${pageContext.request.contextPath}/park/getIndex.html">
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cglt.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cglt">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/cglt.jpg" width="80%" height="80%;"/>
+	    </div>
 		<div class="tc f18 mt20 pt10 clear">采购论坛</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-sm-4 col-xs-6 mt60">
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <%-- <% if (ipAddressType != null && ipAddressType.equals("0")){ %> --%>
 	       <a href="${pageContext.request.contextPath }/dataDownload/getIndexList.html">
 	 <%--  <% } %> --%>
 	  <%-- <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
 	      <a href="javascript:void(0);">
 	  <% } %> --%>
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc">
-	    <img src="${pageContext.request.contextPath}/public/portal/images/new_zlxz.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic zlxz">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/new_zlxz.jpg" width="80%" height="80%;"/>
+	    </div>
 		<div class="tc f18 mt20 pt10 clear">资料下载</div>
 	  </a>
 	 </div>
-	  <div class="service_btns col-sm-4 col-xs-6 mt60">
+	  <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <%-- <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
 	  <% } %>
 	  <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
 	      <a href="javascript:void(0);">
 	  <% } %> --%>
         <a href="${pageContext.request.contextPath }/templateDownload/getIndexList.html">
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/mb_pic.png" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic cgmb">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/mb_pic.png" width="80%" height="80%;"/>
+	    </div>
 		<div class="tc f18 mt20 pt10 clear">采购模板</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-sm-4 col-xs-6 mt60">
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
 	  <a href="">
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic yjfk">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/> 
+	    </div>
 		<div class="tc f18 mt20 pt10 clear">意见反馈</div>
 	  </a>
 	 </div>
-	 <div class="service_btns col-sm-4 col-xs-6 mt60">
-	  <a href="">
-	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/new_shfw.jpg" width="80%" height="80%;"/></div>
-		<div class="tc f18 mt20 pt10 clear">售后服务</div>
+	 <div class="service_btns col-md-2 col-sm-2 col-xs-3 ">
+	  <a href="${pageContext.request.contextPath }/index/index_hotLineList.html">
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc service_btns_pic shfw">
+	    	<img src="${pageContext.request.contextPath}/public/portal/images/new_shfw.jpg" width="80%" height="80%;"/>
+	    </div>
+		<div class="tc f18 mt20 pt10 clear">服务热线</div>
 	  </a>
 	 </div>
 	</div>
@@ -939,14 +953,14 @@ function importAdd(){
           <a href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle " ><i class="luntan nav_icon"></i>投诉处理</a>
 	<!-- 投诉处理鼠标移动开始-->
 	<div class="drop_next dropdown-menu" >
-	 <div class="row magazine-page clear">
+	 <div class="magazine-page clear">
      <div class="col-md-12 col-xs-12 col-sm-12 col-xs-12 col-sm-12 drop_hover"  id="drop-6">
 	  <div class="drop_main">
 	   <div class="col-md-4 col-sm-4 col-xs-12 mt20">
 	    <a href="${pageContext.request.contextPath}/onlineComplaints/index_add.html">
 	     <div class="col-md-12 col-xs-12 col-sm-12 tc p0">
 	     <img src="${pageContext.request.contextPath}/public/portal/images/tou_pic.jpg"/></div>
-		 <div class="col-md-12 col-xs-12 col-sm-12 f22 tc mt20 p0">在线投诉</div>
+		 <div class="col-md-12 col-xs-12 col-sm-12 f22 tc mt20 p0">网上投诉</div>
 		</a>
 	  </div>
 	  <div class="col-md-8 col-sm-8 col-xs-12 mt10">
@@ -985,7 +999,7 @@ function importAdd(){
           <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="fagui nav_icon"></i>采购法规</a>
     <!--采购法规鼠标动开始-->
 	<div class="drop_next dropdown-menu" >
-	   <div class="row magazine-page clear">
+	   <div class="magazine-page clear">
       <div class="col-md-12 col-xs-12 col-sm-12 drop_hover"  id="drop-7">
 	   <div class="drop_main">
 		<div class="margin-bottom-10 login_box job-content col-md-5 col-sm-12 col-xs-12 mt10">
@@ -1075,5 +1089,25 @@ function importAdd(){
       </div>
       </div>
       </div>
+     <!-- 首页APP下载二维码 -->
+     <% if (environment != null && environment.equals("0")){ %>
+         <div class="m_app_code" id="m_app_code">
+		<span>A<br>P<br>P<br>下<br>载<br>二<br>维<br>码</span>
+		<div class="mac_img"><img src="${pageContext.request.contextPath}/public/portal/images/AppDownload.png" alt=""></div>
+	</div>
+	
+	<script>
+		$(function() {
+			$('#m_app_code span').on('click', function() {
+				if ($(this).parent().hasClass('hover')) {
+					$(this).parent().removeClass('hover');
+				} else {
+					$(this).parent().addClass('hover');
+				}
+			});
+		});
+	</script>
+	<% } %>
+
 </body>
 </html>

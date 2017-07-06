@@ -1,45 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	   xmlns:context="http://www.springframework.org/schema/context" 
-	   xmlns:task="http://www.springframework.org/schema/task" 
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
-				  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-				  http://www.springframework.org/schema/context
-				  http://www.springframework.org/schema/context/spring-context-3.0.xsd
-				  http://www.springframework.org/schema/task
-				  http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<context:property-placeholder location="classpath:config.properties" />
 	<!-- redis单机 通过连接池 -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-		<property name="maxIdle" value="${redis.pool.maxIdle}" /> <!--最大能够保持idel状态的对象数 -->
-		<property name="maxTotal" value="${redis.pool.maxTotal}" /><!--最大分配的对象数 -->
-		<property name="testOnBorrow" value="${redis.pool.testOnBorrow}" /><!--当调用borrow Oject方法时，是否进行有效性检查 -->
+	  <property name="maxIdle" value="${redis.pool.maxIdle}" /> <!-- 最大空闲连接数 -->
+    <property name="maxTotal" value="${redis.pool.maxTotal}" /><!-- 设置最大连接数 -->
+    <property name="testOnBorrow" value="${redis.pool.testOnBorrow}" /><!-- 当调用borrow Oject方法时，是否进行有效性检查 -->
+    <property name="minEvictableIdleTimeMillis" value="${redis.pool.EvictableIdleTimeMillis}" /> <!-- 60s之后之后回收空闲连接 -->
+    <property name="minIdle" value="${redis.pool.minIdle}" /> <!-- 最小空闲连接数或者说初始化连接数 -->
+    <property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}" /> <!-- 设置最大等待时间 -->
 	</bean>
 
-	<bean id="jedisPool" class="redis.clients.jedis.JedisPool"
-		destroy-method="close">
- 		<constructor-arg index="0" ref="jedisPoolConfig"/>
-		<constructor-arg index="1" name="host" value="${redis.pool.host}" />
-		<constructor-arg index="2" name="port" value="${redis.pool.port}" type="int" />
-		<constructor-arg index="3" name="timeout" value="${redis.pool.timeout}" type="int" />
-		<constructor-arg index="4" name="password" value="${redis.pool.password}" />
+  <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+    <property name="hostName" value="${redis.pool.host}" />
+    <property name="port" value="${redis.pool.port}" />
+    <property name="password" value="${redis.pool.password}" />
+    <property name="timeout" value="1800" />
+    <property name="poolConfig" ref="jedisPoolConfig" />
+    <property name="usePool" value="true" />
+  </bean>
+  
+  <!-- 配置Spring Session不再执行config命令
+		避免出现(Error creating bean with name 'enableRedisKeyspaceNotificationsInitializer')错误
+  -->
+  <util:constant static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP"/>
+ 
+  <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+   <property name="connectionFactory" ref="jedisConnectionFactory" />
+  </bean>
+  
+	<!-- 将session放入redis -->
+	<bean id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+	    <property name="maxInactiveIntervalInSeconds" value="1800" />
 	</bean>
-
-	<bean id="cacheFilter" class="iss.filter.CacheFilter">
-		<property name="cacheHomePage" ref="jedisPool" />
-		<!-- 注入缓存首页url -->
-		<property name="homeUrl">
-			<list>
-				<value>${FirstURL}</value>
-				<value>${SecondURL}</value>
-				<value>${ThreeURL}</value>
-				<value>${FourURL}</value>
-			</list>
-		</property>
-
-		<!-- 设置缓存时间 -->
-		<property name="homeCacheTime" value="${homeCacheTime}" />
-		<!-- 首页缓存redis的key -->
-		<property name="homeKey" value="${homeKey}" />
-	</bean>
+	<bean id="systemPvService" class="common.service.impl.SystemPvServiceImpl" />
+	<!-- 缓存过滤器 -->
+	  <bean id="cacheFilter" class="iss.filter.CacheFilter">
+	    <property name="cacheHomePage" ref="jedisConnectionFactory" />
+	    <property name="systemPvService" ref="systemPvService" />
+	    <!-- 注入缓存首页url -->
+	    <property name="homeUrl">
+	      <list>
+	        <value>${FirstURL}</value>
+	        <value>${SecondURL}</value>
+	        <value>${ThreeURL}</value>
+	        <value>${FourURL}</value>
+	      </list>
+	    </property>
+	
+	    <!-- 设置缓存时间 -->
+	    <property name="homeCacheTime" value="${homeCacheTime}" />
+	    <property name="pvCacheTime" value="${pvCacheTime}" />
+	    <!-- 首页缓存redis的key -->
+	    <property name="homeKey" value="${homeKey}" />
+	    <property name="C_PV_TOTAL_KEY" value="${C_PV_TOTAL_KEY}" />
+	  </bean>
 </beans>

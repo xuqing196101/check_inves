@@ -138,7 +138,7 @@
             shade: 0.01,
           });
         } else {
-          layer.alert("请选择需要启动的项目", {
+          layer.alert("请选择项目", {
             offset: ['222px', '390px'],
             shade: 0.01,
           });
@@ -284,7 +284,7 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
-            <a href="javascript:void(0)">首页</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
           </li>
           <li>
             <a href="javascript:void(0)">保障作业系统</a>
@@ -293,7 +293,7 @@
             <a href="javascript:void(0)">采购项目管理</a>
           </li>
           <li class="active">
-            <a href="javascript:void(0)">项目实施</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/project/list.html')">项目实施</a>
           </li>
         </ul>
         <div class="clear"></div>

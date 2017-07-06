@@ -201,47 +201,49 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		supplierModify.setSupplierId(supplierId);
 		supplierModify.setListType(1);
 		supplierModify.setModifyType("basic_page");
-		for(SupplierHistory history : addressList){
-			for(SupplierAddress address: supplierAddress){
-				if(address.getId() !=null){
-					if(history.getRelationId().equals(address.getId())){
-						supplierModify.setRelationId(address.getId());
-						if(history.getBeforeField() != null && history.getBeforeContent() !=null){
-							//生产经营地址邮编：
-							if (history.getBeforeField().equals("code") && !history.getBeforeContent().equals(address.getCode())) {
-								supplierModify.setBeforeField("code");
-								supplierModify.setBeforeContent(history.getBeforeContent());
-								supplierModifyMapper.insertSelective(supplierModify);
-							}
-							
-							//生产经营地址：
-							if(history.getBeforeField().equals("residence")){
-								List < Area > privnce = areaService.findRootArea();
-								Area area = new Area();
-								area = areaService.listById(address.getAddress());
-								String sonAddress = area.getName();
-								String parentAddress = null;
-								for(int i = 0; i < privnce.size(); i++) {
-									if(area.getParentId().equals(privnce.get(i).getId())) {
-										parentAddress = privnce.get(i).getName();
+		if(addressList != null && !addressList.isEmpty()){
+			for(SupplierHistory history : addressList){
+				for(SupplierAddress address: supplierAddress){
+					if(address.getId() !=null){
+						if(history.getRelationId().equals(address.getId())){
+							supplierModify.setRelationId(address.getId());
+							if(history.getBeforeField() != null && history.getBeforeContent() !=null){
+								//生产经营地址邮编：
+								if (history.getBeforeField().equals("code") && !history.getBeforeContent().equals(address.getCode())) {
+									supplierModify.setBeforeField("code");
+									supplierModify.setBeforeContent(history.getBeforeContent());
+									supplierModifyMapper.insertSelective(supplierModify);
+								}
+								
+								//生产经营地址：
+								if(history.getBeforeField().equals("residence")){
+									List < Area > privnce = areaService.findRootArea();
+									Area area = new Area();
+									area = areaService.listById(address.getAddress());
+									String sonAddress = area.getName();
+									String parentAddress = null;
+									for(int i = 0; i < privnce.size(); i++) {
+										if(area.getParentId().equals(privnce.get(i).getId())) {
+											parentAddress = privnce.get(i).getName();
+										}
+									}
+									if (!history.getBeforeContent().equals(parentAddress + sonAddress)) {
+										supplierModify.setBeforeField("residence");
+										supplierModify.setBeforeContent(history.getBeforeContent());
+										supplierModifyMapper.insertSelective(supplierModify);
 									}
 								}
-								if (!history.getBeforeContent().equals(parentAddress + sonAddress)) {
-									supplierModify.setBeforeField("residence");
+								
+								//生产经营详细地址：
+								if (history.getBeforeField().equals("detailedResidence") && !history.getBeforeContent().equals(address.getDetailAddress())) {
+									supplierModify.setBeforeField("detailedResidence");
 									supplierModify.setBeforeContent(history.getBeforeContent());
 									supplierModifyMapper.insertSelective(supplierModify);
 								}
 							}
-		
-							//生产经营详细地址：
-							if (history.getBeforeField().equals("detailedResidence") && !history.getBeforeContent().equals(address.getDetailAddress())) {
-								supplierModify.setBeforeField("detailedResidence");
-								supplierModify.setBeforeContent(history.getBeforeContent());
-								supplierModifyMapper.insertSelective(supplierModify);
-							}
 						}
-					}
-				}	
+					}	
+				}
 			}
 		}
 		
@@ -1028,8 +1030,11 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	 */
 	@Override
 	public SupplierModify findBySupplierId(SupplierModify supplierModify) {
-		
-		return supplierModifyMapper.findBySupplierId(supplierModify);
+		List<SupplierModify> findBySupplierId = supplierModifyMapper.findBySupplierId(supplierModify);
+		if(findBySupplierId!=null&&findBySupplierId.size()>0){
+			return findBySupplierId.get(0);
+		}
+		return null;
 	}
 
 	/**

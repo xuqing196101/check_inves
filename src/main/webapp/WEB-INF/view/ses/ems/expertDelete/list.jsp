@@ -5,6 +5,8 @@
 
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/bms/user/initPWD.js"></script>
 		<title>专家列表</title>
 		<script type="text/javascript">
 			$(function() {
@@ -17,7 +19,7 @@
 					startRow: "${result.startRow}",
 					endRow: "${result.endRow}",
 					groups: "${result.pages}" >= 3 ? 3 : "${result.pages}", //连续显示分页数
-					curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
+					curr: function() { //合格url获取当前页，也可以同上（pages）方式获取
 						return "${result.pageNum}";
 					}(),
 					jump: function(e, first) { //触发分页后的回调
@@ -171,24 +173,6 @@
 			
 			}
 			
-			//重置密码
-			function resetPasswSubmit(){				
-				$.ajax({   
-	        type: "POST",  
-	        url: "${pageContext.request.contextPath}/user/setPassword.html",        
-	       	data : $('#form2').serializeArray(),
-	  			dataType:'json',
-			    success:function(result){
-			    	if(result == "重置密码成功" || result == "重置失败"){
-			    		layer.closeAll();
-			    	}
-			    	layer.msg(result,{offset: ['222px']});
-          },
-           error: function(result){
-           	 layer.msg("重置失败",{offset: ['222px']});
-         		}
-	    	 });
-			}
 			
 			//关闭重口
 	 		function cancel(){
@@ -299,28 +283,34 @@
 									<span class="label rounded-2x label-dark">待初审</span>
 								</c:if>
 								<c:if test="${list.status eq '1' }">
-									<span class="label rounded-2x label-u">初审通过</span>
+									<span class="label rounded-2x label-u">初审合格</span>
 								</c:if>
 								<c:if test="${list.status eq '2' }">
-									<span class="label rounded-2x label-dark">初审未通过</span>
+									<span class="label rounded-2x label-dark">初审未合格</span>
 								</c:if>
 								<c:if test="${list.status eq '3' }">
 									<span class="label rounded-2x label-dark">退回修改</span>
 								</c:if>
+								<c:if test="${list.status eq '-3'}">
+									<span class="label rounded-2x label-dark">公示中</span>
+								</c:if>
+								<c:if test="${list.status eq '-2'}">
+									<span class="label rounded-2x label-dark">预复审合格</span>
+								</c:if>
 								<c:if test="${list.status eq '4' and list.isProvisional eq '0'}">
-									<span class="label rounded-2x label-u">复审通过</span>
+									<span class="label rounded-2x label-u">复审合格</span>
 								</c:if>
 								<c:if test="${e.status eq '5' }">
-									<span class="label rounded-2x label-dark">复审未通过</span>
+									<span class="label rounded-2x label-dark">复审未合格</span>
 								</c:if>
 								<c:if test="${list.status eq '6' }">
 									<span class="label rounded-2x label-dark">待复查</span>
 								</c:if>
 								<c:if test="${list.status eq '7' }">
-									<span class="label rounded-2x label-u">复查通过</span>
+									<span class="label rounded-2x label-u">复查合格</span>
 								</c:if>
 								<c:if test="${list.status eq '8' }">
-									<span class="label rounded-2x label-dark">复查未通过</span>
+									<span class="label rounded-2x label-dark">复查未合格</span>
 								</c:if>
 							</td>
 						</tr>
@@ -339,18 +329,18 @@
        	  <div class="col-md-6 col-sm-6 col-xs-12 pl15">
 	          <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>输入新密码：</label> 
 	          <div class="col-md-12 col-sm-12 col-xs-12 input-append input_group p0">
-	           	<input type="password" name="password" type="text">
+	           	<input type="password" name="password" id="password" maxlength="50">
 	          </div>
           </div>
           	<div class="col-md-6  col-sm-6 col-xs-12 ">
             	<label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>确认新密码：</label> 
             	<div class="col-md-12 col-sm-12 col-xs-12 input-append input_group p0">
-              	<input type="password" name="password2"  class="">
+              	<input type="password" name="password2"  id="password2" maxlength="50">
             	</div>
           	</div>
 				  </ul>
 	          <div class="tc col-md-12 col-sm-12 col-xs-12 mt10">
-	            <input class="btn" id="inputb" name="addr" onclick="resetPasswSubmit();" value="确定" type="button"> 
+	            <input class="btn" id="inputb" name="addr" onclick="supplierResetPasswSubmit();" value="确定" type="button"> 
 							<input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
 	        	</div>
 			    </div>

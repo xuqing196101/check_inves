@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -44,6 +45,7 @@ import ses.model.sms.DeleteLog;
 import ses.model.sms.Supplier;
 import ses.service.bms.RoleServiceI;
 import ses.service.ems.ExpExtractRecordService;
+import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -394,7 +396,19 @@ public class ExpertServiceImpl implements ExpertService {
                 }else if(expert.getStatus().equals("7") && 1 == expert.getIsProvisional()){
                     // 临时专家,并且参加的评审项目已结束
                     map.put("expert", "7");
-                }
+                }else if (("1").equals(expert.getStatus())){
+					// 待复审状态
+					map.put("expert", "1");
+				}else if (("5").equals(expert.getStatus())){
+					// 复审未通过状态
+					map.put("expert", "5");
+				}else if (("-2").equals(expert.getStatus())){
+                	// 审核预通过状态
+					map.put("expert", "-2");
+				}else if (("-3").equals(expert.getStatus())){
+					// 公示中状态
+					map.put("expert", "-3");
+				}
 			}else{
 				//如果专家信息为空 证明还没有填写过个人信息
 				map.put("expert", "4");
@@ -478,6 +492,7 @@ public class ExpertServiceImpl implements ExpertService {
         //先校验分配账号名称是否存在
         List<String> userNameList = new ArrayList<String>();
         int num = 0,ajaxNum = 0,ajaxMobile = 0,emptyNum = 0;
+        String idNumber = null,moblie=null,loginName=null;
         if(null != userList && !userList.isEmpty()){
             for(User user:userList){
                 userNameList.add(user.getLoginName());
@@ -488,11 +503,16 @@ public class ExpertServiceImpl implements ExpertService {
                 List<User> users = userMapper.ajaxIdNumber(user);
                 if(null != users && !users.isEmpty()){
                     ajaxNum = ajaxNum + 1;
-                    break;
+                    idNumber = user.getRelName();
                 }
                 List<User> userAjaxMoblie = userMapper.ajaxMoblie(user);
                 if(null != userAjaxMoblie && !userAjaxMoblie.isEmpty()){
                     ajaxMobile = ajaxMobile + 1;
+                    moblie = user.getRelName();
+                }
+                List<User> loginNames = userMapper.queryByLoginName(user.getLoginName());
+                if(loginNames != null && loginNames.size() > 0){
+                    loginName = user.getRelName();
                 }
             }
             //如果存在的化,num>0,反之不存在
@@ -501,6 +521,7 @@ public class ExpertServiceImpl implements ExpertService {
         if(num != 0){
             map.put("isSuccess", true);
             map.put("messageCode", 12);
+            map.put("loginName", loginName);
             return map;//账号存在
         }
         if(emptyNum != 0){
@@ -511,11 +532,13 @@ public class ExpertServiceImpl implements ExpertService {
         if(ajaxNum != 0){
             map.put("isSuccess", true);
             map.put("messageCode", 14);
+            map.put("loginName", idNumber);
             return map;//居民身份证已存在
         }
         if(ajaxMobile != 0){
             map.put("isSuccess", true);
             map.put("messageCode", 15);
+            map.put("loginName", moblie);
             return map;//联系电话已存在
         }
         try{
@@ -888,79 +911,108 @@ public class ExpertServiceImpl implements ExpertService {
 	public Map<String,Object> Validate(Expert expert, int flag, String gitFlag){
 		Map<String,Object> map = new HashMap<>();
 		if (expert != null) {
-		if(!ValidateUtils.isNotNull(expert.getRelName())){
-			map.put("realName", "姓名不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getNation())){
-			map.put("nation", "民族不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getGender())){
-			map.put("gender", "姓别不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getIdType())){
-			map.put("idType", "证件类型不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getIdNumber())){
-			map.put("idNumber", "证件号码不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getAddress())){
-			map.put("address", "地区不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getHightEducation())){
-			map.put("hightEducation", "学历不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getGraduateSchool())){
-			map.put("graduateSchool", "毕业院校不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getMajor())){
-			map.put("major", "专业不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getExpertsFrom())){
-			map.put("expertsFrom", "来源不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getUnitAddress())){
-			map.put("unitAddress", "单位地址不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getTelephone())){
-			map.put("telephone", "联系电话不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getMobile())){
-			map.put("mobile", "手机不能为空！");
-		}
-		if(!ValidateUtils.isNotNull(expert.getHealthState())){
-			map.put("healthState", "健康状态不能为空！");
-		}
-		
-		if(!ValidateUtils.Mobile(expert.getMobile())){
-			map.put("mobile2", "手机号码不符合规则！");
-		}
-		String idType = expert.getIdType();
-		DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(idType);
-		if(data != null){
-		    if("ID_CARD".equals(data.getCode())){
-		        if(expert.getIdNumber() != null && !ValidateUtils.IDcard(expert.getIdNumber())){
-		            map.put("idNumber2", "证件号码无效！");
-		         }
-		    }
-		}
-		if(gitFlag != null){
-      //修改
-      mapper.updateByPrimaryKeySelective(expert);
-    }
-		if(map.isEmpty()){
-			if(flag==1){
-				//新增
-				mapper.insert(expert);
-			}else if(flag==2){
+			if(!ValidateUtils.isNotNull(expert.getRelName())){
+				map.put("realName", "姓名不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getNation())){
+				map.put("nation", "民族不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getGender())){
+				map.put("gender", "姓别不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getIdType())){
+				map.put("idType", "证件类型不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getIdNumber())){
+				map.put("idNumber", "证件号码不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getAddress())){
+				map.put("address", "地区不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getHightEducation())){
+				map.put("hightEducation", "学历不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getGraduateSchool())){
+				map.put("graduateSchool", "毕业院校不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getMajor())){
+				map.put("major", "专业不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getExpertsFrom())){
+				map.put("expertsFrom", "来源不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getUnitAddress())){
+				map.put("unitAddress", "单位地址不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getTelephone())){
+				map.put("telephone", "联系电话不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getMobile())){
+				map.put("mobile", "手机不能为空！");
+			}
+			if(!ValidateUtils.isNotNull(expert.getHealthState())){
+				map.put("healthState", "健康状态不能为空！");
+			}
+			
+			if(!ValidateUtils.Mobile(expert.getMobile())){
+				map.put("mobile2", "手机号码不符合规则！");
+			}
+			String idType = expert.getIdType();
+			DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(idType);
+			if(data != null){
+			    if("ID_CARD".equals(data.getCode())){
+			        if(expert.getIdNumber() != null && !ValidateUtils.IDcard(expert.getIdNumber())){
+			            map.put("idNumber2", "证件号码无效！");
+			         }
+			    }
+			}
+			
+			// ========== 验证证件图片是否上传start ==========
+			
+			String businessId = expert.getId();
+			
+			// 近期免冠彩色证件照
+			List<ExpertAttachment> att1 = getExpertAttachmentList(businessId, ExpertPictureType.HEADPORTRAIT_PROOF.getSign() + "");//50
+			// 身份证复印件
+			List<ExpertAttachment> att2 = getExpertAttachmentList(businessId, ExpertPictureType.IDENTITY_CARD_PROOF.getSign() + "");//3
+			// 军队人员身份证件
+			List<ExpertAttachment> att3 = getExpertAttachmentList(businessId, ExpertPictureType.ARMY_PROOF.getSign() + "");//12
+			// 专业技术职称证书
+			List<ExpertAttachment> att4 = getExpertAttachmentList(businessId, ExpertPictureType.TECHNOLOGY_PROOF.getSign() + "");//4
+			
+			if(att1 == null){
+				map.put("att1", "近期免冠彩色证件照必须上传！");
+			}
+			if(att2 == null){
+				map.put("att2", "身份证复印件必须上传！");
+			}
+			if(att3 == null){
+				map.put("att3", "军队人员身份证件必须上传！");
+			}
+			if(att4 == null){
+				map.put("att4", "专业技术职称证书必须上传！");
+			}
+			
+			// ========== 验证证件图片是否上传end ==========
+			
+			if(gitFlag != null){
 				//修改
 				mapper.updateByPrimaryKeySelective(expert);
+		    }
+			if(map.isEmpty()){
+				if(flag==1){
+					//新增
+					mapper.insert(expert);
+				}else if(flag==2){
+					//修改
+					mapper.updateByPrimaryKeySelective(expert);
+				}
+				return null;
+			}else{
+				return map;
 			}
+		}else{
 			return null;
-		}else{
-			return map;
-		}
-		}else{
-		  return null;
 		}
 	}
 
@@ -1160,7 +1212,16 @@ public class ExpertServiceImpl implements ExpertService {
     @Override
     public List<Category> searchByName(String cateName, String flag, String codeName) {
         if (flag == null) {
-            return categoryMapper.searchByName(cateName, codeName);
+        	List<Category> list = categoryMapper.searchByName(cateName, codeName);
+        	List<Category> listNot =new  LinkedList<Category>();
+        	for(Category cate:list){
+        		boolean bool = isPublish(cate.getId());
+        		if(bool!=true){
+        			listNot.add(cate);
+        		}
+        	}
+        	list.removeAll(listNot);
+            return list;
         } else {
             return engCategoryMapper.searchByName(cateName, codeName);
         }
@@ -1374,9 +1435,61 @@ public class ExpertServiceImpl implements ExpertService {
      */
 	@Override
 	public void updateById(String id) {
-		mapper.updateById(id);
+		Expert info = mapper.selectByPrimaryKey(id);
+		StringBuffer buff = new StringBuffer();
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
+    	String date = format.format(new Date());
+		buff.append("_del_bak_");
+	    buff.append(date);
+		
+		Expert expert = new Expert();
+		expert.setId(id);
+		expert.setRelName(info.getRelName() + buff);
+		expert.setMobile(info.getMobile() + buff);
+		expert.setIdCardNumber(info.getIdCardNumber() + buff);
+		expert.setIdNumber(info.getIdNumber() + buff);
+		mapper.updateById(expert);
 		
 	}
+	
+	// 获取专家上传的附件
+	private List<ExpertAttachment> getExpertAttachmentList(String businessId, String typeId){
+		Map<String, Object> attachmentMap = new HashMap<>();
+		attachmentMap.put("isDeleted", 0);
+		attachmentMap.put("businessId", businessId);
+		attachmentMap.put("typeId", typeId);
+		List<ExpertAttachment> attList = attachmentMapper.selectListByMap(attachmentMap);
+		return attList;
+	}
+
+	@Override
+	public boolean isPublish(String id) {
+		boolean bool=true;
+	   List<Category> categorys = categoryMapper.getParentByChildren(id);
+	   for(Category cate:categorys ){
+		   if(cate.getIsPublish().equals(1)){
+			   bool=false;
+		   }
+	   }
+	   
+		return bool;
+	}
+
+	/**
+	 * 首恶专家名录查询
+	 */
+	@Override
+	public List<Expert> selectIndexExpert(Integer pageNum,Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		return mapper.selectIndexExpert(map);
+	}
+
+	@Override
+	public List<Expert> yzCardNumber(Map<String, Object> map) {
+		return mapper.yzCardNumber(map);
+	}
+	
 }
 
 

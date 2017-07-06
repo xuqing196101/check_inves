@@ -22,7 +22,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   <!-- 条件查询 -->
-  <select id="selectListByMap" resultMap="BaseResultMap">
+  <select id="selectListByMap" resultMap="BaseResultMap" parameterType="map">
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_ATTACHMENT

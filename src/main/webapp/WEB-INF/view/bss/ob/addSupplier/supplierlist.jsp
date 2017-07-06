@@ -24,7 +24,10 @@ $(function() {
       }(),
       jump : function(e, first) { //触发分页后的回调
     	if(!first){ //一定要加此判断，否则初始时会无限刷新
-      		location.href = "${pageContext.request.contextPath}/obSupplier/supplier.do?page=" + e.curr;
+    		var categoryId = $("#categorieId4").val();
+    		var name = $("#supplierName").val();
+    		var status = $('#supplierStatus option:selected').val();
+      		location.href = "${pageContext.request.contextPath}/obSupplier/supplier.do?page=" +e.curr+"&&status="+status+"&&supplierName="+name+"&&smallPointsId="+categoryId;
         }
       }
     });
@@ -243,7 +246,7 @@ function openViewDIvs(id){
 	    layer.msg("只有采购机构才能操作");
 	    return;
 	    }
-	var params={"businessId":id,"typeId":46,"key":2};
+	var params={"businessId":id,"typeId":46,"key":5};
 	$.ajax({
 		url: globalPath + '/file/displayFile.do',
 		data: params,
@@ -252,7 +255,7 @@ function openViewDIvs(id){
 		success:function(datas){
 			var html ="<ul>";
 			for(var i = 0;i < datas.length;i++){
-				var url='${pageContext.request.contextPath }/file/viewFile.html?id='+datas[i].id+'&key=2';
+				var url='${pageContext.request.contextPath }/file/viewFile.html?id='+datas[i].id+'&key=5';
 				html+='<li><div class="col-md-2 padding-0 fl"><div class="fl suolue"><a href="javascript:upPicture();" class="thumbnail mb0 suolue">'
 				+'<img data-original="'+url+'"  src="'+url+'" height="120px"/></a></div></div></li>';
 			}
@@ -283,7 +286,7 @@ function download(bid){
 	    layer.msg("只有采购机构才能操作");
 	    return;
 	    }
-	var key = 2;
+	var key = 5;
 	var zipFileName = null;
 	var fileName = null;
 	$.ajax({
@@ -563,11 +566,12 @@ var authType='${authType}';
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li>
-		   <li><a href="javascript:void(0)">保障作业</a></li>
-		   <li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">定型产品管理</a></li>
-		   <li class="active"><a href="javascript:void(0)">质检供应商列表</a></li>
+			<li>
+				<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			</li>
+			<li><a href="javascript:void(0)">保障作业</a></li>
+			<li><a href="javascript:void(0)">网上竞价</a></li>
+			<li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/obSupplier/supplier.html')">添加质检供应商</a></li>
 		</ul>
         <div class="clear"></div>
       </div>
@@ -584,7 +588,7 @@ var authType='${authType}';
     	<ul class="demand_list">
     	<li>
 	    	<label class="fl">供应商名称：</label>
-			<input type="text" id="" class="" name = "supplierName" value="${supplierName }"/>
+			<input type="text" id="supplierName" class="" name = "supplierName" value="${supplierName }"/>
 	     </li>
 	     <li>
 	    	<label class="fl">产品目录：</label>
@@ -603,7 +607,7 @@ var authType='${authType}';
 	     </li>
 		<li>
 			<label class="fl">供应商证书状态：</label>
-			<select class="w178" name = "status">
+			<select class="w178" name = "status" id = "supplierStatus">
 				<option value="0" <c:if test="${'0'==status}">selected="selected"</c:if>>-请选择-</option>
 	    	    <option value="1" <c:if test="${'1'==status}">selected="selected"</c:if>>已过期</option>
 	    	    <option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>未过期</option>

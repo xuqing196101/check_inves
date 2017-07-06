@@ -1,14 +1,10 @@
 package ses.controller.sys.bms;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import common.constant.Constant;
+import common.service.LoginLogService;
+import common.utils.AuthUtil;
+import common.utils.RSAEncrypt;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -16,7 +12,6 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.StationMessage;
@@ -24,21 +19,20 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
-import ses.service.bms.PreMenuServiceI;
-import ses.service.bms.RoleServiceI;
-import ses.service.bms.StationMessageService;
-import ses.service.bms.TodosService;
-import ses.service.bms.UserDataRuleService;
-import ses.service.bms.UserServiceI;
+import ses.service.bms.*;
 import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
 
-import common.constant.Constant;
-import common.service.LoginLogService;
-import common.utils.AuthUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -87,7 +81,8 @@ public class LoginController {
     private UserDataRuleService UserDataRuleService;
 
     private static Logger logger = Logger.getLogger(LoginController.class); 
-
+    //定义修改强制修改时间
+    private static String modifyDate="2017-06-05";
     /**
      * Description: 用户登录
      * 
@@ -98,13 +93,14 @@ public class LoginController {
      * @param response
      * @param model
      * @param rqcode
-     * @throws IOException
      * @exception IOException
+     * @throws Exception 
      */
     @RequestMapping("/login")
-    public void login(User user, HttpServletRequest req, HttpServletResponse response, Model model, String rqcode) throws IOException {
+    public void login(User user, HttpServletRequest req, HttpServletResponse response, Model model, String rqcode) throws Exception {
         PrintWriter out = response.getWriter();
-        if (user.getLoginName() != null && !"".equals(user.getPassword().trim()) && user.getPassword() != null && !"".equals(user.getPassword().trim()) && rqcode != null && !"".equals(rqcode.trim())) {
+        user.setPassword(RSAEncrypt.decryptPrivate(user.getPassword()));
+        if (StringUtils.isNotBlank(user.getLoginName()) && StringUtils.isNotBlank(user.getPassword()) && StringUtils.isNotBlank(rqcode)) {
             // 根据用户名查找
             List<User> list = userService.findByLoginName(user.getLoginName());
             // 获取当前登录用户名的随机码
@@ -177,15 +173,27 @@ public class LoginController {
                                 } else if (object.equals("4")) {
                                     out.print("firset," + u.getId());
                                 } else if (object.equals("6")) {
-                                    out.print("weed");
+                                    out.print("weed,"+u.getId());
                                 } else if (object.equals("7")) {
                                     out.print("notLogin");
+                                } else if (("1").equals(object)){
+                                    // 待复审状态
+                                    out.print("expert_waitOnceCheck");
+                                }else if (("5").equals(object)){
+                                    // 复审未通过状态
+                                    out.print("onceCheckNoPass");
+                                } else if (("-2").equals(object)){
+                                    // 审核预通过状态
+                                    out.print("prepass");
+                                } else if (("-3").equals(object)){
+                                    // 公示中状态
+                                    out.print("publicity");
                                 }
                             } else {
                                 req.getSession().setAttribute("loginUser", u);
                                 // loginLog记录
                                 loginLog(u, req);
-                                List<PreMenu> resource = preMenuService.getMenu(u);
+                               List<PreMenu> resource = preMenuService.getMenu(u);
                                 req.getSession().setAttribute("resource", resource);
                                 //req.getSession().setAttribute("resource", u.getMenus());
                                 req.getSession().setAttribute("loginUserType", "expert");
@@ -238,6 +246,12 @@ public class LoginController {
                                 out.print("commit," + u.getId());
                             } else  if("reject".equals(msg)){
                                 out.print("reject," + u.getLoginName());
+                            } else if("prepass".equals(msg)){
+                                // 预通过状态
+                                out.print("prepass");
+                            } else if (("publicity").equals(msg)){
+                                // 公示中状态
+                                out.print("publicity");
                             }
 //                        }else if(0 < validateDay){//未按规定时间提交审核,注销信息
 //                            out.print("supplier_logout," + validateDay);
@@ -308,6 +322,9 @@ public class LoginController {
     public String index(HttpServletRequest req,String type,String page,String id){
         User user = (User) req.getSession().getAttribute("loginUser");
         if (user != null){
+        	//判断 该用户 是否是6.5号之前注册  修改日期不是6.5号的 用户 强制修改密码
+        	Integer ischeck=userService.isUpdateUser(modifyDate, user.getLoginName());
+        	if(ischeck>0){
             //站内
             StationMessage message=new StationMessage();
             message.setIsFinish((short)0);
@@ -322,6 +339,11 @@ public class LoginController {
             req.setAttribute("stationMessage", listStationMessage);
             Integer tenderKey = Constant.TENDER_SYS_KEY;
             req.setAttribute("sysId",tenderKey);
+        	}else{
+        		req.setAttribute("uid",user.getId());
+        		//跳转自定义 强制修改密码页面
+        		return "initPassword";
+        	}
         }
         return "index";    
     }

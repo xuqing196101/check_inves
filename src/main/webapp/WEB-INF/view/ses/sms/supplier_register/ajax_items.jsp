@@ -34,20 +34,21 @@
 	});
 	
 	//显示不通过的理由
-			function errorMsg(auditField, auditType){
-				var supplierId = "${supplierId}";
-				$.ajax({
-					url: "${pageContext.request.contextPath}/supplier/audit.html",
-					data: {"supplierId": supplierId, "auditField": auditField, "auditType": auditType},
-					dataType: "json",
-					success: function(data){
-					layer.msg("不通过理由：" + data.suggest , {offset: '200px'});
-					}
-				});
+	function errorMsg(auditField, auditType){
+		var supplierId = "${supplierId}";
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/audit.html",
+			data: {"supplierId": supplierId, "auditField": auditField, "auditType": auditType},
+			dataType: "json",
+			success: function(data){
+			layer.msg("不通过理由：" + data.suggest , {offset: '200px'});
 			}
+		});
+	}
 </script>
 </head>
 <body>
+	<input type="hidden" value="${audit}" id="errorField" >
   <h2 class="f16">已选产品类别</h2>
   <table class="table table-bordered table-hover">
     <tr>
@@ -59,13 +60,13 @@
       <td class="info tc">品种名称</td>
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
-      <tr <c:if test="${fn:contains(audit,item.itemsId)}"> onmouseover="errorMsg('${item.itemsId}','items_page')"</c:if>>
-        <td class="tc" <c:if test="${fn:contains(audit,item.itemsId)}">style="border: 1px solid red;" </c:if>>${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
-		    <td class="tc" <c:if test="${fn:contains(audit,item.itemsId)}">style="border: 1px solid red;" </c:if>>${item.rootNode}</td>
-		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.itemsId)}">style="border: 1px solid red;" </c:if>>${item.firstNode}</td>
-		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.itemsId)}">style="border: 1px solid red;" </c:if>>${item.secondNode}</td>
-		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.itemsId)}">style="border: 1px solid red;" </c:if>>${item.thirdNode}</td>
-		    <td class="tl pl20" data-id="${item.itemsId}" <c:if test="${fn:contains(audit,item.itemsId)}">style="border: 1px solid red;" </c:if>>${item.fourthNode}</td>
+      <tr <c:if test="${fn:contains(audit,item.categoryId)}"> onmouseover="errorMsg('${item.categoryId}','items_page')"</c:if>>
+        <td class="tc" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
+		    <td class="tc" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.rootNode}</td>
+		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.firstNode}</td>
+		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.secondNode}</td>
+		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.thirdNode}</td>
+		    <td class="tl pl20" data-id="${item.itemsId}" data-catId = "${item.categoryId}" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.fourthNode}</td>
       </tr>
     </c:forEach>
   </table> 

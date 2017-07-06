@@ -176,6 +176,14 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		
 		return projectDetailList;
 	}
+	/**
+	 * 实现 获取项目明细
+	 */
+  @Override
+  public List<ProjectDetail> findByIdPackageId(HashMap<String, Object> map) {
+    // TODO Auto-generated method stub
+    return projectDetailMapper.selectById(map);
+  }
 
 	@Override
 	public List<ProjectDetail> viewDetail(String projectId) {

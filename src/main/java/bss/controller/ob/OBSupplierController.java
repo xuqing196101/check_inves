@@ -131,8 +131,7 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/addSupplieri")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String addSupplieri(HttpServletRequest request,Model model) {
 		String supid = UUID.randomUUID().toString().replaceAll("-", "");
 		OBSupplier obSupplier = new OBSupplier();
@@ -154,16 +153,14 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/supplier")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String supplier(@CurrentUser User user,Model model, 
 			HttpServletRequest request,@RequestParam(defaultValue="1") Integer page) {
 		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		int authType=2;
 		 //竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
-		if(user!= null){
-		 if("1".equals(user.getTypeName())){
-				authType=0;
+		if(user!= null && "1".equals(user.getTypeName())){
+			authType=0;
 		int status = request.getParameter("status") == null ? 0 : Integer
 				.parseInt(request.getParameter("status"));
 		String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
@@ -201,7 +198,6 @@ public class OBSupplierController  {
 		//model.addAttribute("orgTyp", orgTyp);
 		model.addAttribute("supplierName", supplierName);
 		model.addAttribute("smallPointsId", smallPointsId);
-			}
 		}
 		model.addAttribute("authType", authType);
 		return "bss/ob/addSupplier/supplierlist";
@@ -219,8 +215,7 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public void delete(HttpServletRequest request, @CurrentUser User user) {
 		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
@@ -250,8 +245,7 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/restore")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public void restore(HttpServletRequest request, @CurrentUser User user) {
 		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
@@ -281,8 +275,7 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/findAllSupplier")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public List<Supplier> findAllSupplier(@CurrentUser User user) {
 		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
@@ -308,8 +301,8 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/findUsccById")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN) String findUsccById(HttpServletRequest request){
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
+	public String findUsccById(HttpServletRequest request){
 		String id = request.getParameter("option") == null ? "" : request.getParameter("option");
 		Supplier supplier = supplierService.selectById(id);
 		String creditCode = "";
@@ -333,8 +326,7 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/add")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String add(Model model, HttpServletRequest request,
 			OBSupplier obSupplier, @CurrentUser User u) {
 		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
@@ -429,8 +421,7 @@ public class OBSupplierController  {
 	
 	
 	@RequestMapping("/toedit")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String toedit(Model model,HttpServletRequest request,@CurrentUser User user){
 		// 定义 页面传值 判断 是否有权限 0：操作有效 2 无效
 		// 竞价信息管理，权限所属角色是：采购机构，查看范围是：本部门，操作范围是 ：本部门，权限属性是：操作。
@@ -462,8 +453,7 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/edit")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String edit(Model model,HttpServletRequest request,OBSupplier obSupplier,
            @CurrentUser User u){
 		//定义 页面传值 判断 是否有权限 0：操作有效 2 无效
@@ -584,8 +574,7 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/download")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public ResponseEntity<byte[]> download(HttpServletRequest request,
 			String filename) throws IOException {
 		String path = PathUtil.getWebRoot() + "excel/添加供应商模板.xlsx";
@@ -618,8 +607,7 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@SuppressWarnings("unchecked")
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	@RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String uploadFile(@CurrentUser User user,MultipartFile file,HttpServletRequest request) throws Exception {
@@ -632,9 +620,8 @@ public class OBSupplierController  {
 		if (!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
 			return "1";
 		}
-		List<OBSupplier> list = new ArrayList<OBSupplier>();
-		Map<String, Object> maps = (Map<String, Object>) ExcelUtil
-				.readOBSupplierExcel(file);
+		List<OBSupplier> list = new ArrayList<>();
+		Map<String, Object> maps = (Map<String, Object>) ExcelUtil.readOBSupplierExcel(file);
 		list = (List<OBSupplier>) maps.get("list");
 		
 		String errMsg = (String) maps.get("errMsg");
@@ -679,8 +666,7 @@ public class OBSupplierController  {
 	 */
 	@RequestMapping("/findBybusinessId")
 	@ResponseBody
-	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
 	public String findBybusinessId(HttpServletRequest request){
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
 		Integer key = request.getParameter("key") == null ? 0 : Integer.parseInt(request.getParameter("key"));
@@ -700,6 +686,7 @@ public class OBSupplierController  {
 	}
 	
     /**
+     * @throws UnsupportedEncodingException 
      * 
      * Description: 根据id查询目录树
      * 
@@ -712,18 +699,11 @@ public class OBSupplierController  {
      */
     @ResponseBody
     @RequestMapping(value="/createtreeByproduct", produces = "application/json;charset=utf-8")
-    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description=StaticVariables.OB_PROJECT_NAME,operType=StaticVariables.OB_PROJECT_NAME_SIGN)
-    public String createtreeById(HttpServletResponse response, Category category,String name){
+    @SystemControllerLog(description=StaticVariables.OB_PROJECT_NAME)
+    public String createtreeById(HttpServletResponse response, Category category,String name) throws UnsupportedEncodingException{
     	List<CategoryTree> jList=new ArrayList<CategoryTree>();
     	if((name!=null&&!"".equals(name))){
-			try {
-				if(name!=null&&!"".equals(name)){
-					name=java.net.URLDecoder.decode(name, "UTF-8");
-				}	
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
+			name=java.net.URLDecoder.decode(name, "UTF-8");
     	}
 		DictionaryData data=new DictionaryData();
         data.setKind(6);
@@ -748,7 +728,6 @@ public class OBSupplierController  {
         				set.add(list.get(i).getSmallPointsId());
         			}
     			}
-    			
     		}
     	}
 		

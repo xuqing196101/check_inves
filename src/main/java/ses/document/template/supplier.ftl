@@ -1,7 +1,7 @@
 <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
 
 	<head>
-		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<meta http-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8">
 		<meta name=ProgId content=Word.Document>
 		<meta name=Generator content="Microsoft Word 14">
 		<meta name=Originator content="Microsoft Word 14">
@@ -1272,6 +1272,11 @@
 				</tr>
 			</table>
 			<p class=MsoNormal><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
+			
+			<!--<p class=MsoNormal align=center style="text-align:center;">
+				<img src="http://localhost:8080/zhbj/expert/getQrcode.html?id=${id}" width="160px" height="160px" />
+			</p>-->
+			
 		</div>
 		<!--EndFragment-->
 	</body>

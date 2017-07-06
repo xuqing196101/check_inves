@@ -26,6 +26,7 @@
 			        }
 			    }
 			});
+        appendSubLi();
 	  });
 	  
 	/** 全选全不选 */
@@ -125,16 +126,50 @@
 	function resetQuery(){
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
+
+	/*面包屑根据掺入参数动态显示 start*/
+	function getUrlParam() {
+	    var urlParam = window.location.search;
+	    if(urlParam.indexOf("?")!=-1) {
+            urlParam = urlParam.substr(1);
+            urlParam = urlParam.split("=");
+		}
+		return urlParam[1];
+	}
+
+	function appendSubLi() {
+	    var flag = getUrlParam();
+        console.log("*********flag: " + flag);
+	    var parentEl = $(".breadcrumb");
+	    if(flag == 'YQZB') {
+            parentEl.append('<li class=\"active\"><a href=\"javascript:jumppage(\'${pageContext.request.contextPath}/flow/list.html?typeCode=YQZB\')">邀请招标流程</a></li>');
+		} else if(flag == 'GKZB') {
+            parentEl.append('<li class=\"active\"><a href=\"javascript:jumppage(\'${pageContext.request.contextPath}/flow/list.html?typeCode=GKZB\')">公开招标流程</a></li>');
+		} else if(flag == 'XJCG') {
+            parentEl.append('<li class=\"active\"><a href=\"javascript:jumppage(\'${pageContext.request.contextPath}/flow/list.html?typeCode=XJCG\')">询价招标流程</a></li>');
+		} else if(flag == 'DYLY') {
+            parentEl.append('<li class=\"active\"><a href=\"javascript:jumppage(\'${pageContext.request.contextPath}/flow/list.html?typeCode=DYLY\')">单一来源流程</a></li>');
+		}else if(flag == 'JZXTP') {
+            parentEl.append('<li class=\"active\"><a href=\"javascript:jumppage(\'${pageContext.request.contextPath}/flow/list.html?typeCode=JZXTP\')">竞争性谈判流程</a></li>');
+        }
+	}
+	/* end 面包屑根据掺入参数动态显示*/
+
 </script>
 <body>
 	<!--面包屑导航开始-->
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a href="javascript:void(0);"> 首页</a></li>
-				<li><a href="javascript:void(0);">保障作业</a></li>
-				<li><a href="javascript:void(0);">采购项目管理</a></li>
-				<li class="active"><a href="javascript:void(0);">采购流程管理</a></li>
+				<li>
+					<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">保障作业</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">采购流程管理</a>
+				</li>
 			</ul>
 			<div class="clear"></div>
 		</div>

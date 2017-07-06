@@ -4,22 +4,6 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-<script type="text/javascript">
-    /** 全选全不选 */
-    $(function(){
-        if(${templet.temType!=null}&&${templet.temType!=""} && ${templet.temType!="-请选择-"}){
-            $("#temType").val("${templet.temType}");
-        }else{
-            $("#temType").val('-请选择-');
-        }
-        
-    });
-    
-    function goback(){
-    	window.location.href="${pageContext.request.contextPath}/templet/getAll.html";
-    }
-  </script>
-
 </head>
 <body>
     <!--面包屑导航开始-->
@@ -44,16 +28,14 @@
 
     <!-- 新增模板开始-->
     <div class="container container_box">
-        <form action="${pageContext.request.contextPath}/templet/save.do"
-            method="post">
+        <form id="editContentForm" action="${pageContext.request.contextPath}/templet/save.do" method="post">
             <div>
 			   <h2 class="list_title">新增模板</h2>
                 <ul class="ul_list">
                     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板名称</span>
                         <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                            <input name="name" type="text"
-                                value="${templet.name}">
+                            <input id="name" name="name" type="text"  value="${templet.name}">
                             <span class="add-on">i</span>
                             <div id="contractCodeErr" class="cue">${ERR_name}</div>
                         </div>
@@ -61,7 +43,7 @@
                      <li class="col-md-3 col-sm-6 col-xs-12">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板类型</span>
                        <div class="col-md-12 col-sm-12 col-xs-12 p0 select_common">
-                            <select id="temType" name=temType>
+                            <select id="temType" name="temType" >
                                 <option value="">-请选择-</option>
 								<option value="0">采购公告-公开招标</option>
 								<option value="1">采购公告-邀请招标</option>
@@ -109,9 +91,8 @@
                 </ul>
 
                 <div class="col-md-12 col-sm-12 col-xs-12 tc">
-                    <button class="btn btn-windows save" type="submit">保存</button>
-                    <button class="btn btn-windows back" onclick="goback()"
-                        type="button">返回</button>
+                    <input type="button" id="btnSave" value="保 存" class="btn btn-windows save" onclick="formSubmit();"/>
+                    <input type="button" id="btnBack" value="返 回" class="btn btn-windows back"  onclick="goback();" />
                 </div>
             </div>
         </form>
@@ -123,8 +104,44 @@
     var ue = UE.getEditor('editor');
     var content='${templet.content}';
     ue.ready(function(){
-        ue.setContent(content);    
+        ue.setContent(content);
     });
+
+    /** 全选全不选 */
+    $(function(){
+        if(${templet.temType!=null}&&${templet.temType!=""} && ${templet.temType!="-请选择-"}){
+            $("#temType").val("${templet.temType}");
+        }else{
+            $("#temType").val('-请选择-');
+        }
+    });
+
+    /*校验内容是否为空*/
+    function checkForm(){
+        if($("#name").val()=="") {
+            layer.msg("请输入模板名称.");
+            return false;
+        }
+        /*if(!UE.getEditor('editor').hasContent()){
+            layer.msg("请输入模板内容.");
+            return false;
+        }*/
+        if($("#temType").val()==null || $("#temType").val()=="") {
+            layer.msg("请输入模板类型.");
+            return false;
+        }
+        return true;
+    }
+
+    function formSubmit(){
+        if(checkForm()) {
+            $("#editContentForm").submit();
+        }
+    }
+
+    function goback(){
+        window.location.href="${pageContext.request.contextPath}/templet/getAll.html";
+    }
 </script>
 </body>
 </html>

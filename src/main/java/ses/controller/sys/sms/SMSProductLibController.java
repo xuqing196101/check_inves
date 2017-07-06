@@ -167,8 +167,7 @@ public class SMSProductLibController {
 	 * @return JdcgResult 返回类型
 	 * @throws
 	 */
-	@SystemControllerLog(description= USER_TYPE_SUPPLIER,operType = 1)
-	@SystemServiceLog(description = USER_TYPE_SUPPLIER,operType = 1)
+	@SystemControllerLog(description= USER_TYPE_SUPPLIER)
 	@RequestMapping("/addProductLibInfo")
 	@ResponseBody
 	public JdcgResult addProductLibInfo(@CurrentUser User user,
@@ -189,8 +188,7 @@ public class SMSProductLibController {
 	 * @return JdcgResult 返回类型
 	 * @throws
 	 */
-	@SystemControllerLog(description=USER_TYPE_SUPPLIER,operType = 1)
-	@SystemServiceLog(description = USER_TYPE_SUPPLIER,operType = 1)
+	@SystemControllerLog(description=USER_TYPE_SUPPLIER)
 	@RequestMapping("/deleteProductLibInfo")
 	@ResponseBody
 	public JdcgResult deleteProductLibInfo(
@@ -237,8 +235,7 @@ public class SMSProductLibController {
 	 * @return String 返回类型
 	 * @throws
 	 */
-	@SystemControllerLog(description= USER_TYPE_SUPPLIER,operType = 1)
-	@SystemServiceLog(description = USER_TYPE_SUPPLIER,operType = 1)
+	@SystemControllerLog(description= USER_TYPE_SUPPLIER)
 	@RequestMapping("/updateSignalProductInfo")
 	@ResponseBody
 	public JdcgResult updateSignalProductInfo(@CurrentUser User user,
@@ -353,9 +350,7 @@ public class SMSProductLibController {
 		map.put("status", status);
 		String createrId = smsProductQueryVO.getCreaterId();
 		// 获取供应商ID 根据需求修改全部人 可以查询
-		/*
-		map.put("createrId", createrId);*/
-		
+		map.put("createrId", createrId);
 
 		map.put("page", page);
 		List<SMSProductBasic> list = smsProductLibService.findAllWaitCheck(map);

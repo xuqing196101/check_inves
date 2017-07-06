@@ -61,13 +61,11 @@ public class OBRuleController {
 	 * @return
 	 */
 	@RequestMapping("/ruleList")
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public String ruleList(@CurrentUser User user, Model model, HttpServletRequest request, @RequestParam(defaultValue = "1") Integer page) {
 		String authType = null;
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				authType = user.getTypeName();
 				// 竞价规则名称
 				String name = (String) request.getParameter("name");
@@ -81,11 +79,9 @@ public class OBRuleController {
 					if (quoteTimeStr.matches("^[0-9]+$")) {
 						quoteTime = Integer.parseInt(quoteTimeStr);
 					}
-					quoteTime = Integer.parseInt(quoteTimeStr);
 				}
 				Integer intervalWorkday = null;
-				String intervalWorkdayStr = request
-						.getParameter("intervalWorkday");
+				String intervalWorkdayStr = request.getParameter("intervalWorkday");
 				if (StringUtils.isNotEmpty(intervalWorkdayStr)) {
 					if (intervalWorkdayStr.matches("^[0-9]+$")) {
 						intervalWorkday = Integer.parseInt(intervalWorkdayStr);
@@ -108,7 +104,6 @@ public class OBRuleController {
 				model.addAttribute("name", name);
 				model.addAttribute("quoteTime", quoteTimeStr);
 				model.addAttribute("intervalWorkday", intervalWorkdayStr);
-			}
 		}
 		model.addAttribute("authType", authType);
 		return "bss/ob/biddingRules/list";
@@ -125,14 +120,11 @@ public class OBRuleController {
 	 * @return
 	 */
 	@RequestMapping("/addRuleUI")
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public String addRuleUI(@CurrentUser User user, Model model) {
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				model.addAttribute("authType", user.getTypeName());
-			}
 		}
 		return "bss/ob/biddingRules/create";
 	}
@@ -151,15 +143,12 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/addRule", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult addRule(OBRule obRule, @CurrentUser User user, Model model) throws Exception {
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				model.addAttribute("authType", user.getTypeName());
 				return service.addRule(obRule, user);
-			}
 		}
 		return JdcgResult.build(500, StaticVariables.OB_PROJECT_SHOW);
 	}
@@ -178,17 +167,14 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult delete(@CurrentUser User user, HttpServletRequest request, Model model) throws Exception {
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				String id = request.getParameter("id");
 				String[] ids = id.split(",");
 				model.addAttribute("authType", user.getTypeName());
 				return service.delete(ids);
-			}
 		}
 		return JdcgResult.build(500, StaticVariables.OB_PROJECT_SHOW);
 	}
@@ -207,16 +193,13 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/setDefaultRule", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult setDefaultRule(@CurrentUser User user, HttpServletRequest request, Model model) throws Exception {
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				String id = request.getParameter("id");
 				model.addAttribute("authType", user.getTypeName());
 				return service.updateDefaultRule(id);
-			}
 		}
 		return JdcgResult.build(500, StaticVariables.OB_PROJECT_SHOW);
 	}
@@ -235,16 +218,14 @@ public class OBRuleController {
 	 * @throws ParseException
 	 */
 	@RequestMapping("/holidayList")
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public String holidayList(@CurrentUser User user, Model model,
 			HttpServletRequest request,
 			@RequestParam(defaultValue = "1") Integer page)
 			throws ParseException {
 		String authType = null;
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				authType = user.getTypeName();
 				// 设置日期
 				String specialDateStr = request.getParameter("specialDate");
@@ -256,19 +237,18 @@ public class OBRuleController {
 				}
 				// 类型
 				String dateType = request.getParameter("dateType");
-				Map<String, Object> map = new HashMap<String, Object>();
+				Map<String, Object> map = new HashMap<>();
 				map.put("specialDate", specialDate);
 				map.put("dateType", dateType);
 				map.put("page", page);
 				List<OBSpecialDate> list = service.selectAllOBSpecialDate(map);
-				PageInfo<OBSpecialDate> info = new PageInfo<OBSpecialDate>(list);
+				PageInfo<OBSpecialDate> info = new PageInfo<>(list);
 
 				// 将查询的所有信息存放到model域中
 				model.addAttribute("info", info);
 				// 查询数据回显
 				model.addAttribute("specialDateStr", specialDateStr);
 				model.addAttribute("dateType", dateType);
-			}
 		}
 		model.addAttribute("authType", authType);
 		return "bss/ob/biddingRules/holiday";
@@ -285,15 +265,12 @@ public class OBRuleController {
 	 * @return
 	 */
 	@RequestMapping("createSpecialdateUI")
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public String createSpecialdateUI(@CurrentUser User user, Model model) {
 		String authType = null;
-		if (user != null) {
+		if (user != null&& "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				authType = user.getTypeName();
-			}
 		}
 		model.addAttribute("authType", authType);
 		return "bss/ob/biddingRules/createSpecialdate";
@@ -313,14 +290,11 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "addSpecialdate", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult addSpecialdate(@CurrentUser User user,OBSpecialDate obSpecialDate, HttpServletRequest request) throws Exception {
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				return service.addSpecialdate(obSpecialDate, request, user);
-			}
 		}
 		return JdcgResult.build(500, StaticVariables.OB_PROJECT_SHOW);
 	}
@@ -338,16 +312,13 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/deleteSpecialDate", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult deleteSpecialDate(@CurrentUser User user, HttpServletRequest request) throws Exception {
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				String id = request.getParameter("id");
 				String[] ids = id.split(",");
 				return service.deleteSpecialDate(ids);
-			}
 		}
 		return JdcgResult.build(500, StaticVariables.OB_PROJECT_SHOW);
 	}
@@ -364,20 +335,17 @@ public class OBRuleController {
 	 * @return
 	 */
 	@RequestMapping("/editobRule")
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public String editobRule(@CurrentUser User user, Model model, String id) {
 		String authType = null;
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				authType = user.getTypeName();
 				if (StringUtils.isEmpty(id)) {
 				} else {
 					OBRule obRule = service.editObRule(id);
 					model.addAttribute("obRule", obRule);
 				}
-			}
 		}
 		model.addAttribute("authType", authType);
 		return "bss/ob/biddingRules/editRule";
@@ -396,15 +364,12 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/updateobRule", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult updateobRule(@CurrentUser User user, OBRule obRule)
 			throws Exception {
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				return service.updateobRule(obRule);
-			}
 		}
 		return JdcgResult.build(500, StaticVariables.OB_PROJECT_SHOW);
 	}
@@ -421,19 +386,16 @@ public class OBRuleController {
 	 * @return
 	 */
 	@RequestMapping("/editSpecialdate")
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public String editSpecialdate(@CurrentUser User user, Model model, String id) {
 		String authType = null;
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				authType = user.getTypeName();
 				if (StringUtils.isEmpty(id)) {
 				} else {
 					OBSpecialDate specialDate = service.editSpecialdate(id);
 					model.addAttribute("specialDate", specialDate);
-				}
 			}
 		}
 		model.addAttribute("authType", authType);
@@ -453,15 +415,12 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/updateSpecialdate", method = RequestMethod.POST)
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult updateSpecialdate(@CurrentUser User user,
 			OBSpecialDate obSpecialDate) throws Exception {
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) {
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				return service.updateobSpecialDate(obSpecialDate);
-			}
 		}
 		return JdcgResult.build(500, StaticVariables.OB_PROJECT_SHOW);
 	}
@@ -478,14 +437,11 @@ public class OBRuleController {
 	 */
 	@RequestMapping("/checkNameUnique")
 	@ResponseBody
-	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
-	@SystemServiceLog(description = StaticVariables.OB_PROJECT_NAME, operType = StaticVariables.OB_PROJECT_NAME_SIGN)
+	@SystemControllerLog(description = StaticVariables.OB_PROJECT_NAME)
 	public JdcgResult checkNameUnique(@CurrentUser User user, String name) {
-		if (user != null) {
+		if (user != null && "4".equals(user.getTypeName())) { 
 			// 判断是否 是资源服务中心
-			if ("4".equals(user.getTypeName())) {
 				return service.checkNameUnique(name);
-			}
 		}
 		return JdcgResult.build(500, StaticVariables.OB_PROJECT_SHOW);
 	}

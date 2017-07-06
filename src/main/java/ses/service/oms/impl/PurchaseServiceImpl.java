@@ -10,13 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import common.constant.StaticVariables;
 import ses.dao.oms.PurchaseInfoMapper;
 import ses.model.bms.DictionaryData;
-import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.User;
-import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseInfo;
@@ -26,6 +23,8 @@ import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
+
+import common.constant.StaticVariables;
 @Service("purchaseService")
 public class PurchaseServiceImpl implements PurchaseServiceI{
 	

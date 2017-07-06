@@ -2,7 +2,7 @@
  * 文件上传插件
  * 
  */
-(function ($) { 
+(function ($) {
 	var  GUID = WebUploader.Base.guid();
 	var $wrap = $('#uploaderId');
 	$(function(){
@@ -112,7 +112,7 @@
                         html += 'width="100%" height="100%" style="outline:0">' +
                             '<param name="movie" value="' + swf + '" />' +
                             '<param name="wmode" value="transparent" />' +
-                            '<param name="allowscriptaccess" value="always" />' +
+                            '<param name="allowscriptaccess" value="sameDomain" />' +
                             '</object>';
                         container.html(html);
                     })($wrap);
@@ -255,7 +255,8 @@
 			});
 			//上传成功后
 			uploader.on( 'uploadSuccess', function(file,res) {
-			   	$.post(globalPath + '/file/finished.html'
+				if(file && res){
+					$.post(globalPath + '/file/finished.html'
 			   			,{fileName: file.name, path: res._raw , businessId: $("#"+$base+"_businessId").val(),
 			   			  typeId: $("#"+$base+"_typeId").val(), key: $("#"+$base+"_sysKeyId").val() ,mutiple: $("#"+$base+"_multipleId").val()
 			   			},
@@ -270,9 +271,9 @@
 			   					showInitAfterUpload(sid);
 			   					// showInit();
 			   				}
-			   				
-			   				
-			   	});
+			   			}
+			   		);
+				}
 			});
 			
 			//判断文件类型

@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <%@ page import="ses.model.bms.User" %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -10,12 +11,13 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
 <head>
-	<script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
 	<link href="${pageContext.request.contextPath}/public/backend/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="${pageContext.request.contextPath}/public/backend/css/common.css" media="screen" rel="stylesheet" type="text/css">  
-	<link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
-<script type="text/javascript">
+    <link href="${pageContext.request.contextPath}/public/backend/css/common.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
+    <%@ include file="/WEB-INF/view/common.jsp" %>
+    <script type="text/javascript">
 
   
 $(function(){$("#menu a").click(function() {
@@ -48,8 +50,9 @@ if('downloadabiddocument' == uri[0] ){
     <div class="margin-top-10 breadcrumbs ">
         <div class="container">
             <ul class="breadcrumb margin-left-0">
-                <li><a href="javascript:void(0);"> 首页</a></li>
-                <li><a href="#" class="active">后台管理</a></li>
+                <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+                <li><a href="javascript:void(0);">个人中心</a></li>
+                <li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 我的通知</a></li>
             </ul>
             <div class="clear"></div>
         </div>

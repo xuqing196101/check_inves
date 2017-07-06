@@ -6,7 +6,7 @@
 	<head>
 		<%@ include file="../../../common.jsp"%>
 		<%@ include file="/WEB-INF/view/common/map.jsp"%>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/js/FusionCharts.js"></script>
+		<%--<script type="text/javascript" src="${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/js/FusionCharts.js"></script>
 		<script src="${pageContext.request.contextPath}/public/highmap/js/highcharts.js"></script>
 		<script src="${pageContext.request.contextPath}/public/highmap/js/modules/map.js"></script>
 		<script src="${pageContext.request.contextPath}/public/highmap/js/modules/data.js"></script>
@@ -14,7 +14,7 @@
 		<script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
 		<script src="${pageContext.request.contextPath}/public/highmap/js/cn-china-by-peng8.js"></script>
 		<script src="${pageContext.request.contextPath}/public/echarts/china.js"></script>
-		<link href="${pageContext.request.contextPath}/public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
+		<link href="${pageContext.request.contextPath}/public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">--%>
 		<script type="text/javascript">
 			$(function() {
 				option = {
@@ -92,7 +92,7 @@
 				myChart.hideLoading();
 				myChart.on('click', function(params) {
 					var address = encodeURI(params.name);
-					address = encodeURI(address);
+					//address = encodeURI(address);
 					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + address + "&judge=5";
 				});
 
@@ -104,18 +104,6 @@
 			}
 
 			function chongzhi() {
-				$("#supplierName").val('');
-				/* $("#loginName").val(''); */
-				$("#startAuditDate").val('');
-				$("#endAuditDate").val('');
-				$("#contactName").val('');
-				$("#category").val('');
-				$("#supplierType").val('');
-				$("#categoryIds").val('');
-				$("#supplierTypeIds").val('');
-				$("#mobile").val('');
-				$("#isProvisional").val('');
-				/* $("option")[0].selected = true; */
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=5";
 			}
 			$(function() {
@@ -455,9 +443,9 @@
 								<option value="4">待复核</option>
 								<option value="5">复核通过</option>
 								<option value="6">复核未通过</option>
-								<option value="7">待考察</option>
-								<option value="8">考察合格</option>
-								<option value="9">考察不合格</option>
+								<!-- <option value="5">待考察</option> -->
+								<option value="7">考察合格</option>
+								<option value="8">考察不合格</option>
 							</select>
 						 </li>
              <%-- <li>
@@ -474,6 +462,18 @@
 	            <input id="endAuditDate" name="endAuditDate" value='<fmt:formatDate value="${supplier.endAuditDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'endAuditDate\')}'})"/>
 	            </span>
 	          </li>
+	          <%-- <li>
+              <label class="fl">采购机构：</label><span><input class="w220" id="orgName" name="orgName" value="${supplier.orgName }" type="text"></span>
+            </li> --%>
+            <li>
+                <label class="fl">采购机构：</label>
+                <select name="orgName" id="orgName" class="w220">
+                  <option value=''>全部</option>
+                  <c:forEach items="${allOrg}" var="org">
+                    <option value="${org.name}" <c:if test="${supplier.orgName eq org.name}">selected</c:if>>${org.name}</option>
+                  </c:forEach>
+                </select>
+              </li>
           </ul>
           <div class="col-md-12 clear tc">
 	          <button type="button" onclick="submit()" class="btn">查询</button>

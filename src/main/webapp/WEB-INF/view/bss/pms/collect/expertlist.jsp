@@ -154,6 +154,7 @@
   <h2 class="search_detail">
     <form id="add_form" class="mb0" action="${pageContext.request.contextPath }/set/expert.html" method="post" >
     <input type="hidden" name="page" id="page">
+    <input type="hidden" value="${type }"  name="type" >
     <ul class="demand_list">
           <li>
             <label class="fl"> 姓名：</label><span><input type="text" id="topic" name="relName" value="${expert.relName }"/></span>

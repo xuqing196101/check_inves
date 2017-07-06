@@ -34,7 +34,7 @@
     <div class="container">
       <ul class="breadcrumb margin-left-0">
         <li>
-          <a href="javascript:void(0);"> 首页</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
         </li>
         <li>
           <a href="javascript:void(0);">业务监管系统</a>
@@ -43,7 +43,7 @@
           <a href="javascript:void(0);">采购业务监督</a>
         </li>
         <li>
-          <a href="javascript:void(0);">采购合同监督</a>
+          <a href="javascript:jumppage('${pageContext.request.contextPath}/contractSupervision/list.html');">采购合同监督</a>
         </li>
       </ul>
       <div class="clear"></div>
@@ -88,7 +88,7 @@
         </tbody>
       </table>
       <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
-        <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
+        <a class="btn btn-windows back"  href="${pageContext.request.contextPath}/contractSupervision/list.html">返回</a>
       </div>
     </div>
   </div>

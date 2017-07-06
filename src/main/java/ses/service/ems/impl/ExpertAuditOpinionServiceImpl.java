@@ -29,5 +29,19 @@ public class ExpertAuditOpinionServiceImpl implements ExpertAuditOpinionService{
 	public ExpertAuditOpinion selectByPrimaryKey(ExpertAuditOpinion expertAuditOpinion) {
 		return mapper.selectByPrimaryKey(expertAuditOpinion);
 	}
+
+	/**
+	 * 
+	 * Description:根据专家ID查询信息
+	 * 
+	 * @author Easong
+	 * @version 2017年7月3日
+	 * @param expertId
+	 * @return
+	 */
+	@Override
+	public ExpertAuditOpinion selectByExpertId(ExpertAuditOpinion expertAuditOpinion) {
+		return mapper.selectByExpertId(expertAuditOpinion);
+	}
 	
 }

@@ -21,6 +21,12 @@
 	<link href="${pageContext.request.contextPath}/public/front/css/global.css" rel="stylesheet"  type="text/css" />
 	<!-- 前端论坛Css颜色样式 -->
 	<link href="${pageContext.request.contextPath}/public/front/css/forum.css" rel="stylesheet" type="text/css">
+	
+	<style type="text/css">
+		.new_step.current i{
+			cursor: pointer;
+		}
+	</style>
 		
 	<script>
 		var globalPath = "${pageContext.request.contextPath}";
@@ -36,12 +42,9 @@
       <script src="${pageContext.request.contextPath}/public/front/js/main-menu.js"></script>
       <script src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 
-	<!-- 文本编辑器 -->  
-	<script src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
-	<script src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.js"> </script>
-	<script src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<!-- js校验 -->  
 	<script src="${pageContext.request.contextPath}/public/validate/jquery.validate.min.js"></script>
-	<%--<script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>--%>
+	<script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>
   
     <!--导航js-->
 

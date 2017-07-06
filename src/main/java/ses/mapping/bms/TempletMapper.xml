@@ -163,7 +163,7 @@
         TEM_TYPE=#{temType} AND 
     </if>
     <if test="name != null and name != ''">
-        NAME LIKE '%'||#{name}||'%' AND
+        NAME LIKE CONCAT(CONCAT('%', #{name}), '%')  AND
      </if> 
     IS_DELETED !=1 
      

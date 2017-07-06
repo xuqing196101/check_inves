@@ -14,8 +14,8 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
   <head>
-
     <jsp:include page="/index_head.jsp"></jsp:include>
+    <%-- <script type="text/javascript" src="${ pageContext.request.contextPath }/js/iss/ps/index/index.js"></script> --%>
  
     <script type="text/javascript">
         var browser = navigator.appName;
@@ -1076,6 +1076,7 @@
 	        <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
 	             <a onclick="supplierRegisterTip();" class="qyzc">
 	        <% } %>
+	        	<i></i>
                 <span>供应商注册</span>
               </a>
             </div>
@@ -1087,11 +1088,13 @@
 	             <a onclick="expertRegisterTip();" class="zjzc">
 	        <% } %> --%>
 	        	<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc">
+                <i></i>
                 <span>评审专家注册</span>
               </a>
             </div>
             <div class="ywbl_01 col-xs-4 col-sm-4">
               <a href="${pageContext.request.contextPath}/index/sign.html" onclick="importAdd()" class="jksdj">
+                <i></i>
                 <span>进口商登记</span>
               </a>
             </div>
@@ -1110,27 +1113,32 @@
 	       <% if (environment != null && environment.equals("0")){ %>
                <a href="javascript:void(0);" class="wssc">
            <%} %>
+                <i></i>
                 <span>网上商城</span>
               </a>
             </div>
             <div class="ywbl_01 col-xs-4 col-sm-4">
-              <a href="${pageContext.request.contextPath }/product/index_list.html" class="dxcpjj"><!--  onclick="setting()" -->
+              <a href="${pageContext.request.contextPath }/index/index_productList.html" class="dxcpjj"><!--  onclick="setting()" -->
+                <i></i>
                 <span>定型产品</span>
               </a>
             </div>
             <div class="ywbl_01 col-xs-4 col-sm-4">
               <a href="javascript:void(0)" onclick="drugs()" class="ypcg">
+                <i></i>
                 <span>药品采购</span>
               </a>
             </div>
             <div class="ywbl_01 col-xs-6 col-sm-6">
               <a href="javascript:void(0)" class="fwcg">
+                <i></i>
                 <span>服务采购</span>
               </a>
             </div>
             <div class="ywbl_01 col-xs-6 col-sm-6">
               <!-- <a href="javascript:void(0)" onclick="hotLine()" class="fwrx"> -->
-              <a href="${pageContext.request.contextPath }/serviceHotline/index_list.html"  class="fwrx">
+              <a href="${pageContext.request.contextPath }/index/index_hotLineList.html"  class="fwrx">
+                <i></i>
                 <span>服务热线</span>
               </a>
             </div>
@@ -1138,11 +1146,13 @@
           <div class="border1 flow_btn clear">
             <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="${pageContext.request.contextPath }/categorys/categoryList.html" class="cpml">
+                <i></i>
                 <span>产品目录</span>
               </a>
             </div>
             <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="${pageContext.request.contextPath }/categorys/parameterList.html" class="jscsk">
+                <i></i>
                 <span>技术参数库</span>
               </a>
             </div>
@@ -1153,26 +1163,31 @@
 	        <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
 	             <a onclick="javascript:void(0);" class="zjzc">
 	        <% } %>
+                <i></i>
                 <span>资料下载</span>
               </a>
             </div>
             <div class="ywbl_02 col-xs-12 col-sm-12">
               <a href="javascript:void(0)" class="cpshfw">
+                <i></i>
                 <span>产品售后服务</span>
               </a>
             </div>
             <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="${pageContext.request.contextPath}/onlineComplaints/index_add.html" class="zxts">
-                <span>在线投诉</span>
+                <i></i>
+                <span>网上投诉</span>
               </a>
             </div>
             <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="${pageContext.request.contextPath}/park/getIndex.html" class="cglt">
+                <i></i>
                 <span>采购论坛</span>
               </a>
             </div>
             <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="javascript:void(0)" class="yjfk">
+                <i></i>
                 <span>意见反馈</span>
               </a>
             </div>
@@ -1222,7 +1237,12 @@
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
            <div class="cgxx_report">
-		   <div class="report-tab">采购法规</div><a class="news_more" href="${pageContext.request.contextPath}/index/selectsumByParId.html">更多>></a>
+		   <div class="report-tab">采购法规
+		   		<c:if test="${articleCgfg != 0}">
+				      <b>${articleCgfg}</b>
+			      </c:if>
+		   </div>
+		   <a class="news_more" href="${pageContext.request.contextPath}/index/selectsumByParId.html">更多>></a>
            </div>
             <div class="categories">
               <ul class="p0_10">
@@ -1302,17 +1322,19 @@
                 --%></c:forEach>
               </ul>
             </div>
-          </div>
+         </div>
         </div>
+      <div class="visit_count">
+      	<span class="visit_title">访问量</span>
+      	<span class="visit_clip col-md-offset-1 col-sm-offset-1"><b></b>今日访问量：<i id="pvThisDay"></i>次</span>
+      	<span class="visit_clip col-md-offset-1 col-sm-offset-1"><b></b>总访问量：<i id="pvTotal"></i>次</span>
       </div>
       <!-- <a href="${pageContext.request.contextPath}/index/init.html">初始化solr</a> -->
-    </div>
+
+	</div>
+	</div>
     <!--底部代码开始-->
     <jsp:include page="/index_bottom.jsp"></jsp:include>
-    </div>
-    </div>
-    
-
   </body>
 
 </html>

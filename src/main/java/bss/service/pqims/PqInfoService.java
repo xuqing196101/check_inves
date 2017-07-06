@@ -24,7 +24,7 @@ public interface PqInfoService {
 	/**
 	 * 1.获取所有模板对象
 	 */
-	List<PqInfo> getAll(Integer pageNum);
+	List<PqInfo> getAll(Integer pageNum,HashMap<String, Object> map);
 	
 	/**
 	 * 2.添加模板

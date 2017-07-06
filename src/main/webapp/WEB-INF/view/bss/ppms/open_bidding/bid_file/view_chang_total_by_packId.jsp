@@ -34,10 +34,12 @@
 						<th class="info w100">放弃原因</th>
 				    </tr>
 				</thead>
+				<c:set value="0" var = "index"> </c:set>
 			<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
 				<c:if test="${not empty treemapValue.total or treemapValue.isRemoved eq '放弃报价' }">
+					<c:set value="${index + 1}" var = "index"> </c:set>
 					<tr>
-					    <td class="tc w50">${vs.index+1 }</td>
+					    <td class="tc w50">${index}</td>
 					    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 					    <td class="tr">${treemapValue.total}</td>
 					    <td class="tc">${treemapValue.deliveryTime }</td>

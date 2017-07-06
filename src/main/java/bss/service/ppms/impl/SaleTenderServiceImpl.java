@@ -40,6 +40,7 @@ import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
 import bss.model.prms.FirstAudit;
+import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.SaleTenderService;
 
 import com.alibaba.fastjson.JSON;
@@ -91,6 +92,11 @@ public class SaleTenderServiceImpl implements SaleTenderService {
      */
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
+    /**
+     * 项目明细
+     */
+    @Autowired
+    private ProjectDetailService projectDetailService;
     /**
      * @Description:插入记录
      *
@@ -617,6 +623,31 @@ public class SaleTenderServiceImpl implements SaleTenderService {
                 batchSqlSession.close();
             }
         }
+    }
+    /**
+     * 实现 参数 获取项目状态
+     */
+    @Override
+    public List<String> getBidFinish(String projectId, String supplierId) {
+      return saleTenderMapper.findBySupplierIdProjectId(supplierId, projectId);
+    }
+    /**
+     * 实现根据供应商id 和项目id获取参与项目的有效包数据
+     */
+    @Override
+    public List<SaleTender> findPackages(String supplierId, String projectId) {
+      List<SaleTender> saleTenderList =saleTenderMapper.findPackageBySupplierIdProjectId(supplierId, projectId);
+      HashMap<String, Object> map=null;
+      if(saleTenderList!=null && !saleTenderList.isEmpty()){
+          for (SaleTender saleTender : saleTenderList) {
+            map=new HashMap<String,Object>();
+            map.put("projectId", saleTender.getProjectId());
+            map.put("packageId", saleTender.getId());
+            List<ProjectDetail> pd=projectDetailService.findByIdPackageId(map);
+            saleTender.setProjectDetail(pd);
+         }
+      }
+      return saleTenderList;
     }
 }
 

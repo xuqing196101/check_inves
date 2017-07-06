@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div class="row container">
             <div class="col-md-4 padding-bottom-30 mt10">
               <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/backend/images/logo_2.png" id="logo-header">
+                 <img alt="Logo" src="${pageContext.request.contextPath}/public/backend/images/logo_2.png" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->

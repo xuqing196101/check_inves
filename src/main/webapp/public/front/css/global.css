@@ -118,10 +118,10 @@ p, li, li a, label {
 }
 
 .breadcrumb {
-	top: 10px;
 	padding-right: 0;
 	background: none;
 	position: relative;
+	overflow: hidden;
 }
 
 .breadcrumb a {
@@ -1002,7 +1002,9 @@ li:first-child {
 .done{
   display: none;
 }
-
+.over_auto{
+	overflow: auto;
+}
 /** 文件上传使用隐藏div */
 .dis_none{
  	position: absolute;

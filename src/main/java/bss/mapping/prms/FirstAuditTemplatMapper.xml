@@ -11,9 +11,10 @@
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
     <result column="IS_USE" jdbcType="DECIMAL" property="isUse" />
     <result column="IS_OPEN" jdbcType="DECIMAL" property="isOpen" />
+    <result column="CATEGORYID" jdbcType="VARCHAR" property="categoryId" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, NAME, KIND, CREATER, CREATED_AT, UPDATED_AT, USER_ID, IS_USE, IS_OPEN
+    ID, NAME, KIND, CREATER, CREATED_AT, UPDATED_AT, USER_ID, IS_USE, IS_OPEN, CATEGORYID
   </sql>
   <!--查询所有公开模板和自己私有的模板 -->
   <select id="selectAllTemplat"  resultMap="BaseResultMap">
@@ -26,10 +27,13 @@
     </if>
     )
    <if test="name != null and name !=''">
-    and NAME like '%${name}%'
+    and NAME like CONCAT(CONCAT('%', #{name}), '%')
    </if>
    <if test="kind != null and kind !=''">
     and KIND = #{kind}
+   </if>
+   <if test="categoryId != null">
+    and CATEGORYID = #{categoryId}
    </if>
    ORDER BY CREATED_AT DESC 
   </select>
@@ -40,10 +44,16 @@
     from T_BSS_PRMS_FIRST_AUDIT_TEMPLAT 
     where  IS_USE = 0 
      <if test="name != null and name!=''">
-        and NAME like '%${name}%'
+        and NAME like CONCAT(CONCAT('%', #{name}), '%')
       </if>
       <if test="kind != null and kind !=''">
 	    and KIND = #{kind}
+	   </if>
+	   <if test="categoryId != null">
+	    and CATEGORYID = #{categoryId}
+	   </if>
+	   <if test="id != null">
+	    and ID = #{id}
 	   </if>
        ORDER BY CREATED_AT DESC 
   </select>
@@ -60,11 +70,11 @@
   <insert id="insert" parameterType="bss.model.prms.FirstAuditTemplat">
     insert into T_BSS_PRMS_FIRST_AUDIT_TEMPLAT (ID, NAME, KIND, 
       CREATER, CREATED_AT, UPDATED_AT, 
-      USER_ID, IS_USE, IS_OPEN
+      USER_ID, IS_USE, IS_OPEN, CATEGORYID
       )
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{kind,jdbcType=VARCHAR}, 
       #{creater,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
-      #{userId,jdbcType=VARCHAR}, #{isUse,jdbcType=DECIMAL}, #{isOpen,jdbcType=DECIMAL}
+      #{userId,jdbcType=VARCHAR}, #{isUse,jdbcType=DECIMAL}, #{isOpen,jdbcType=DECIMAL}, #{categoryId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.prms.FirstAuditTemplat">
@@ -97,6 +107,9 @@
       <if test="isOpen != null">
         IS_OPEN,
       </if>
+      <if test="categoryId != null">
+        CATEGORYID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -125,6 +138,9 @@
       </if>
       <if test="isOpen != null">
         #{isOpen,jdbcType=DECIMAL},
+      </if>
+       <if test="categoryId != null">
+        #{categoryId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -155,6 +171,9 @@
       <if test="isOpen != null">
         IS_OPEN = #{isOpen,jdbcType=DECIMAL},
       </if>
+      <if test="categoryId != null">
+        CATEGORYID = #{categoryId,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -167,7 +186,8 @@
       UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       USER_ID = #{userId,jdbcType=VARCHAR},
       IS_USE = #{isUse,jdbcType=DECIMAL},
-      IS_OPEN = #{isOpen,jdbcType=DECIMAL}
+      IS_OPEN = #{isOpen,jdbcType=DECIMAL},
+      CATEGORYID = #{categoryId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

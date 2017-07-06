@@ -38,9 +38,6 @@
       <div class="headline-v2">
         <h2>采购需求列表</h2>
       </div>
-      <div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
-      </div>
       <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
@@ -66,6 +63,9 @@
             </c:forEach>
           </tbody>
         </table>
+        <div class="w100p tc pl20 mt10">
+        	<button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
+        </div>
       </div>
     </div>
   </body>

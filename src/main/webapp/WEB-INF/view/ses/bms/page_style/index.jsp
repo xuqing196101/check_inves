@@ -80,7 +80,7 @@ function kaptcha(){
           <div class="row container margin-bottom-10">
             <div class="col-md-8">
               <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/ZHQ/images/logo.png" id="logo-header">
+                 <img alt="Logo" src="${pageContext.request.contextPath}/public/ZHQ/images/logo.png" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->
@@ -178,7 +178,7 @@ function kaptcha(){
            <c:forEach items="${indexMapper['select1List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-           	<span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=1" target="_self">更多>></a></span>
+           	<span class="pull-right"><a href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.do?id=1" target="_self">更多>></a></span>
 		  </h2>
         </div>
           <div class="tab-content">
@@ -204,7 +204,7 @@ function kaptcha(){
             <c:forEach items="${indexMapper['select2List']}" begin="0" end="0" var="i">
            		${i.articleType.name }
             </c:forEach>
-            <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=2" target="_self">更多>></a></span>
+            <span class="pull-right"><a href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.do?id=2" target="_self">更多>></a></span>
 		  </h2>
 		  </div>
           <div class="tab-content">
@@ -236,7 +236,7 @@ function kaptcha(){
           <c:forEach items="${indexMapper['select3List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-           <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=3" target="_self">更多>></a></span>
+           <span class="pull-right"><a href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.do?id=3" target="_self">更多>></a></span>
           </h2>
           <ul class="list-unstyled categories tab-content margin-0">
 	             <c:forEach items="${indexMapper['select3List']}" var="i">
@@ -255,7 +255,7 @@ function kaptcha(){
            <c:forEach items="${indexMapper['select4List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-          <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=4" target="_self">更多>></a></span>
+          <span class="pull-right"><a href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.do?id=4" target="_self">更多>></a></span>
           </h2>
           <ul class="list-unstyled categories tab-content">
 	             <c:forEach items="${indexMapper['select4List']}" var="i">
@@ -274,7 +274,7 @@ function kaptcha(){
 
     <div class="tag-box-v6 margin-bottom-10 tag-box-v1 padding-bottom-30">
       <div class=""><h2 class=""> 用户登录</h2></div>
-      <form class="form-horizontal p15_0" action="<%=basePath %>login/login.do" method="post">
+      <form class="form-horizontal p15_0" action="${pageContext.request.contextPath}/login/login.do" method="post">
         <div class="control-group margin-top-15">
           <label class="control-label" for="inputEmail">用户名：</label>
 			  <div class="controls padding-right-10">
@@ -309,7 +309,7 @@ function kaptcha(){
   <!--/*中间图片*/-->
   <div class="container content">
    <div class="margin-bottom-10">
-	  <img src="<%=basePath%>public/ZHQ/images/center_pic.jpg" class="img-responsive full-width"/>
+	  <img src="${pageContext.request.contextPath}/public/ZHQ/images/center_pic.jpg" class="img-responsive full-width"/>
     </div>
 </div>
   <div class="container content height-350">
@@ -324,7 +324,7 @@ function kaptcha(){
            <c:forEach items="${indexMapper['select5List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-          <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=5" target="_self">更多>></a></span>
+          <span class="pull-right"><a href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.do?id=5" target="_self">更多>></a></span>
          </h2>
           <ul class="list-unstyled categories tab-content">
              <c:forEach items="${indexMapper['select5List']}" var="i">
@@ -343,7 +343,7 @@ function kaptcha(){
            <c:forEach items="${indexMapper['select6List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-      <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=6" target="_self">更多>></a></span>
+      <span class="pull-right"><a href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.do?id=6" target="_self">更多>></a></span>
     </h2>
           <ul class="list-unstyled categories tab-content">
             <c:forEach items="${indexMapper['select6List']}" var="i">
@@ -365,9 +365,9 @@ function kaptcha(){
 	  <div class="padding-top-13 padding-bottom-10">
 	  <ul class="list-inline blog-photostream ">
       <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm qyzc"></i>企业注册</span></a></li>
-	  <li class="fl margin-5"><a href="<%=basePath %>expert/toExpert.do" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjzc"></i>专家注册</span></a></li>
+	  <li class="fl margin-5"><a href="${pageContext.request.contextPath}/expert/toExpert.do" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjzc"></i>专家注册</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm qyml"></i>企业名录</span></a></li>
-	  <li class="fl margin-5"><a href="<%=basePath %>expert/findAllExpert.do" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjmd"></i>专家名单</span></a></li>
+	  <li class="fl margin-5"><a href="${pageContext.request.contextPath}/expert/findAllExpert.do" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjmd"></i>专家名单</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm xzzq"></i>下载专区</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm gjfg"></i>国家法规</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm jgzs"></i>价格指数</span></a></li>
@@ -415,7 +415,7 @@ function kaptcha(){
 	                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
 	                    </li>
 	           		 </c:forEach>
-                 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=7" target="_self">更多>></a></span>
+                 <span class="pull-right"><a href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.do?id=7" target="_self">更多>></a></span>
                 </ul>
               </div>
             </div>
@@ -428,7 +428,7 @@ function kaptcha(){
 	                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
 	                 </li>   
 	           		 </c:forEach>
-	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=8" target="_self">更多>></a></span>
+	           		 <span class="pull-right"><a href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.do?id=8" target="_self">更多>></a></span>
 			   </ul>
               </div>
             </div>
@@ -442,7 +442,7 @@ function kaptcha(){
 	                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
 	                 </li>
 	           		 </c:forEach>
-	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=9" target="_self">更多>></a></span>
+	           		 <span class="pull-right"><a href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.do?id=9" target="_self">更多>></a></span>
                 </ul>
               </div>
             </div>
@@ -478,7 +478,7 @@ function kaptcha(){
 	                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
 	                 </li>
 	           		 </c:forEach>
-	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=10" target="_self">更多>></a></span>
+	           		 <span class="pull-right"><a href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.do?id=10" target="_self">更多>></a></span>
                 </ul>
               </div>
             </div>
@@ -491,7 +491,7 @@ function kaptcha(){
 	                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
 	                 </li>
 	           		 </c:forEach>
-	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=11" target="_self">更多>></a></span>
+	           		 <span class="pull-right"><a href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.do?id=11" target="_self">更多>></a></span>
                 </ul>
               </div>
             </div>
@@ -504,7 +504,7 @@ function kaptcha(){
 	                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
 	                 </li>
 	           		 </c:forEach>
-	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=12" target="_self">更多>></a></span>
+	           		 <span class="pull-right"><a href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.do?id=12" target="_self">更多>></a></span>
                 </ul>
               </div>
             </div>
@@ -525,28 +525,33 @@ function kaptcha(){
        <ul class="list-inline our-clients margin-top-20" id="effect-2">
 
     <li>
-        <a href="http://www.ctba.org.cn/" target="_blank">
-		  <img src="<%=basePath%>public/ZHQ/images/friend_01.jpg"/>
+        <!-- <a href="http://www.ctba.org.cn/" target="_blank"> -->
+      <a href="/" target="_blank">
+		   <img src="${pageContext.request.contextPath}/public/ZHQ/images/friend_01.jpg"/>
+      </a>
+    </li>
+    <li>
+        <!-- <a href="http://ecp.sgcc.com.cn/" target="_blank"> -->
+        <a href="/" target="_blank">
+		  <img src="${pageContext.request.contextPath}/public/ZHQ/images/friend_02.jpg"/>
         </a>
     </li>
     <li>
-        <a href="http://ecp.sgcc.com.cn/" target="_blank">
-		  <img src="<%=basePath%>public/ZHQ/images/friend_02.jpg"/>
+        <!-- <a href="http://www.bidding.csg.cn/" target="_blank"> -->
+        <a href="/" target="_blank">
+		  <img src="${pageContext.request.contextPath}/public/ZHQ/images/friend_03.jpg"/>
         </a>
     </li>
     <li>
-        <a href="http://www.bidding.csg.cn/" target="_blank">
-		  <img src="<%=basePath%>public/ZHQ/images/friend_03.jpg"/>
+        <!-- <a href="http://eportal.energyahead.com/" target="_blank"> -->
+        <a href="/" target="_blank">
+		  <img src="${pageContext.request.contextPath}/public/ZHQ/images/friend_04.jpg"/>
         </a>
     </li>
     <li>
-        <a href="http://eportal.energyahead.com/" target="_blank">
-		  <img src="<%=basePath%>public/ZHQ/images/friend_04.jpg"/>
-        </a>
-    </li>
-    <li>
-        <a href="http://www.sinograin.com.cn/" target="_blank">
-          <img src="<%=basePath%>public/ZHQ/images/friend_05.jpg"/>
+        <!-- <a href="http://www.sinograin.com.cn/" target="_blank"> -->
+        <a href="/" target="_blank">
+          <img src="${pageContext.request.contextPath}/public/ZHQ/images/friend_05.jpg"/>
         </a>
     </li>
   </ul>

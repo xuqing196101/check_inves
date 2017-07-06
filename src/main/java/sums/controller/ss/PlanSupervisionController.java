@@ -890,15 +890,17 @@ public class PlanSupervisionController {
                             fd.setPurchaseTypeId(project.getPurchaseType());
                             fd.setCode("ZZZJPS");
                             List<FlowDefine> fds = flowMangeService.find(fd);
-                            FlowExecute fe = new FlowExecute();
-                            fe.setProjectId(project.getId());
-                            fe.setFlowDefineId(fds.get(0).getId());
-                            fe.setStatus(3);
-                            List<FlowExecute> fes = flowMangeService.findFlowExecute(fe);
-                            if(fes != null && fes.size() > 0){
-                                model.addAttribute("fes", "0");
-                            } else {
-                                model.addAttribute("fes", "1");
+                            if(fds != null && fds.size() > 0){
+                                FlowExecute fe = new FlowExecute();
+                                fe.setProjectId(project.getId());
+                                fe.setFlowDefineId(fds.get(0).getId());
+                                fe.setStatus(3);
+                                List<FlowExecute> fes = flowMangeService.findFlowExecute(fe);
+                                if(fes != null && fes.size() > 0){
+                                    model.addAttribute("fes", "0");
+                                } else {
+                                    model.addAttribute("fes", "1");
+                                }
                             }
                             
                             //确认中标供应商
@@ -1716,6 +1718,8 @@ public class PlanSupervisionController {
                                 } else {
                                     exp.setCount(0);
                                 };
+                            } else {
+                                exp.setCount(0);
                             }
                             flag++;
                         }
@@ -1732,6 +1736,7 @@ public class PlanSupervisionController {
                     // 专家给每个供应商打得分
                     searchMap.put("projectId", pack.getProjectId());
                     searchMap.put("packageId", pack.getId());
+                    searchMap.put("supplierId", suppList.get(0).getSuppliers().getId());
                     List<ExpertSuppScore> expertScoreList = expertScoreService.getScoreByMap(searchMap);
                     model.addAttribute("expertScoreList", expertScoreList);
                     model.addAttribute("expertList", expertList);

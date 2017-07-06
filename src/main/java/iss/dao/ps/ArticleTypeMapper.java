@@ -4,6 +4,8 @@ import iss.model.ps.ArticleType;
 
 import java.util.List;
 
+import ses.model.bms.AnalyzeBigDecimal;
+
 
 /**
 * @Title:ArticleTypeMapper 
@@ -113,4 +115,45 @@ public interface ArticleTypeMapper {
       * @return ArticleType
        */
      List<ArticleType> selectShowNumByParId(String parentId);
+     
+     /**
+      * 
+      * Description:根据各栏目信息查询公告
+      * 
+      * @author Easong
+      * @version 2017年6月7日
+      * @return
+      */
+     List<AnalyzeBigDecimal>  selectNoticeByArticleType();
+     
+     /**
+      * 
+      * Description:根据各类型公告查询
+      * 
+      * @author Easong
+      * @version 2017年6月7日
+      * @return
+      */
+     List<AnalyzeBigDecimal>  selectNoticeByCateType();
+     
+     /**
+      * 
+      * Description:根据各采购方式公告查询
+      * 
+      * @author Easong
+      * @version 2017年6月7日
+      * @return
+      */
+     List<AnalyzeBigDecimal>  selectNoticeByPurWay();
+     
+     /**
+      * 
+      * Description:发布排名前10的产品类别数量
+      * 
+      * @author Easong
+      * @version 2017年6月7日
+      * @return
+      */
+     List<AnalyzeBigDecimal>  selectNoticeByProductCate();
+     
 }

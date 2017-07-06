@@ -648,16 +648,16 @@
 		<where>
 			HISTORY_STATUS='0'  and IS_DELETE='0' 
 			<if test="createdAt!=null">
-				and CREATED_AT like '%${createdAt}%'
+				and CREATED_AT like CONCAT(CONCAT('%', #{createdAt}), '%') 
 			</if>
 			<if test="planName!=null">
-				and PLAN_NAME like '%${planName}%'
+				and PLAN_NAME like CONCAT(CONCAT('%', #{planName}), '%') 
 			</if>
 			<if test="planNo !=null">
-				and PLAN_NO like '%${planNo}%'
+				and PLAN_NO like CONCAT(CONCAT('%', #{planNo}), '%') 
 			</if>
 			<if test="referenceNo !=null">
-				and REFERENCE_NO like '%${referenceNo}%'
+				and REFERENCE_NO like CONCAT(CONCAT('%', #{referenceNo}), '%') 
 			</if>
 			<if test="isMaster != null">
 				and IS_MASTER = #{isMaster}
@@ -686,7 +686,7 @@
 			</if>
 			
 			<if test="department != null">
-			   and DEPARTMENT like '%${department}%'
+			   and DEPARTMENT like CONCAT(CONCAT('%', #{department}), '%') 
 			</if>
 			<if test="budget != null">
 				and BUDGET = #{budget}
@@ -1048,10 +1048,10 @@
 				and e.PLAN_TYPE = #{planType}
 		</if>
 	 	<if test="planName!=null and planName!=''">
-	 	   and p.file_name like '%'||#{planName}||'%'
+	 	   and p.file_name like CONCAT(CONCAT('%', #{planName}), '%') 
 	 	</if>
 	 	<if test="planNo !=null and planNo!=''">
-	 	    and e.plan_no like '%'||#{planNo}||'%'
+	 	    and e.plan_no like CONCAT(CONCAT('%', #{planNo}), '%') 
 	 	</if>
 	
 	

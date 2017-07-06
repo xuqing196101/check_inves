@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.CategoryQua;
 import ses.model.bms.Qualification;
 
 /**
@@ -58,5 +59,35 @@ public interface QualificationMapper {
     
     String getIdByName(@Param("name")String name);
     
-    
+	/**
+	 * 
+	 * Description:添加关联资质信息
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-12
+	 * @param qua
+	 */
+	void insertSelective(Qualification qua);
+	/**
+	 * 判断是否存在
+	 * @param id
+	 * @return
+	 */
+	Integer countByPrimaryKey(String id);
+	/**
+	 * 根据更新 时间 获取范围数据
+	 * @author YangHongLiang
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<Qualification> selectByUpdatedAt(@Param("start")String start,@Param("end")String end);
+	/**
+	 * 根据创建  时间 获取范围数据
+	 * @author YangHongLiang
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<Qualification> selectByCreatedAt(@Param("start")String start,@Param("end")String end);
 }

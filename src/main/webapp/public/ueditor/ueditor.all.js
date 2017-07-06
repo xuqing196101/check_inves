@@ -26201,7 +26201,6 @@ UE.ui = baidu.editor.ui = {};
     /**
      * 该参数将新增一个参数： selected， 参数类型为一个Object， 形如{ 'align': 'center', 'valign': 'top' }， 表示单元格的初始
      * 对齐状态为： 竖直居上，水平居中; 其中 align的取值为：'center', 'left', 'right'; valign的取值为: 'top', 'middle', 'bottom'
-     * @update 2013/4/2 hancong03@baidu.com
      */
     var CellAlignPicker = baidu.editor.ui.CellAlignPicker = function (options) {
         this.initOptions(options);

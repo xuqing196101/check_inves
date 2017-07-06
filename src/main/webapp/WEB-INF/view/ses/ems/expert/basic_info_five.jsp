@@ -24,17 +24,19 @@
 				dataType: "json",
 				async: false,
 				success: function(response){
-				console.info(response)
+					//console.info(response)
 					//询问框
-  						layer.confirm("您选择的是" + response.purchaseDep.shortName + "，联系人：" + response.purchaseDep.experContact + ",电话：" + response.purchaseDep.experPhone + "，地址：" + response.purchaseDep.experAddress + "。", {
-  							btn : [ '确定' ],
-  							shade: false //不显示遮罩
-                            //按钮
-                        }, function() {
-                            window.location.href = '${pageContext.request.contextPath}/';
-                        });
-				}
-			});
+					layer.confirm("您选择的是" + response.purchaseDep.shortName + "，联系人：" + response.purchaseDep.experContact + ",电话：" + response.purchaseDep.experPhone + "，地址：" + response.purchaseDep.experAddress +"，邮编："+response.purchaseDep.experPostcode+ "。", {
+					//layer.confirm("您选择的是" + response.purchaseDep.shortName + "，联系人：" + response.purchaseDep.contact + ",电话：" + response.purchaseDep.contactMobile + "，地址：" + response.purchaseDep.contactAddress + "。", {
+						btn : [ '确定' ],
+						shade: false ,//不显示遮罩
+						closeBtn: 0
+              //按钮
+            }, function() {
+              window.location.href = '${pageContext.request.contextPath}/';
+            });
+					}
+				});
     	}
         //提交
         function addSubmitForm() {
@@ -73,6 +75,7 @@
                         }
                         else {
                             layer.confirm('您已提交,请勿重复操作!', {
+                            	closeBtn: 0,
                                 btn: ['确定'],
                                 shade: false //不显示遮罩
                                 //按钮
@@ -208,13 +211,13 @@
     <input type="hidden" name="token2" value="<%=tokenValue%>" />
     <div id="reg_box_id_7" class="container clear margin-top-30">
       <div class="col-md-12 col-xs-12 col-sm-12 p0 mb10">
-        <h2 class="padding-20 mt40">
+        <h2 class="step_flow">
             <span id="sc1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
             <span id="sp7" class="new_step current fl" onclick='tab7()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类别</span> </span>
             <span id="ty6" class="new_step current fl" onclick='tab6()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
             <span id="sc3" class="new_step current fl" onclick='tab3()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
             <span id="sc4" class="new_step current fl" onclick='tab4()'><i class="">5</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
-            <span id="sc5" class="new_step current fl"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span>
+            <span id="sc5" class="new_step current fl new_step_last"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span>
             <div class="clear"></div>
         </h2>
       </div>
@@ -227,15 +230,31 @@
                 	<td class="bggrey" width="17%"><i class="red">*</i>军队评审专家承诺书：</td>
                     <td <c:if test="${fn:contains(errorField,'军队评审专家承诺书')}">style="border: 1px solid red;" onmouseover="errorMsg('军队评审专家承诺书')"</c:if>>
                       <div class="w200 fl">
-                        <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" id="expert14" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" exts="jpg,jpeg,gif,png,bmp" businessId="${sysId}" multiple="true" sysKey="${expertKey}" typeId="14" maxcount="1"   auto="true" />
-                        <u:show showId="show7" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="14" />
+                      	<c:choose>
+													<c:when test="${expert.status == 3 and !fn:contains(errorField,'军队评审专家承诺书')}">
+														<u:show showId="show7" delete="false" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="14" />
+													</c:when>
+													<c:otherwise>
+														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" id="expert14" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" exts="jpg,jpeg,gif,png,bmp" businessId="${sysId}" multiple="true" sysKey="${expertKey}" typeId="14" maxcount="1"   auto="true" />
+                        		<u:show showId="show7" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="14" />
+													</c:otherwise>
+												</c:choose>
                       </div>
                     </td>
                     <td class="bggrey" width="19%"><i class="red">*</i>军队评审专家入库申请表：</td>
                     <td <c:if test="${fn:contains(errorField,'军队评审专家入库申请表')}">style="border: 1px solid red;" onmouseover="errorMsg('军队评审专家入库申请表')"</c:if>>
                        <div class="w200 fl">
-                        <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"  id="expert13" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" exts="jpg,jpeg,gif,png,bmp"  businessId="${sysId}" multiple="true"  sysKey="${expertKey}" typeId="13" maxcount="8" auto="true" />
-                        <u:show showId="show6" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="13"  />
+                       	<c:choose>
+													<c:when test="${expert.status == 3 and !fn:contains(errorField,'军队评审专家入库申请表')}">
+														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"  id="expert13" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" exts="jpg,jpeg,gif,png,bmp"  businessId="${sysId}" multiple="true"  sysKey="${expertKey}" typeId="13" maxcount="8" auto="true" />
+                                <u:show showId="show6" groups="show1,show2,show3,show4,show5,show6,show7,show8"  businessId="${sysId}" sysKey="${expertKey}" typeId="13" />
+                                
+													</c:when>
+													<c:otherwise>
+														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"  id="expert13" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" exts="jpg,jpeg,gif,png,bmp"  businessId="${sysId}" multiple="true"  sysKey="${expertKey}" typeId="13" maxcount="8" auto="true" />
+                        		<u:show showId="show6" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="13" />
+													</c:otherwise>
+												</c:choose>
                        </div>
                     </td>
                 </tr>

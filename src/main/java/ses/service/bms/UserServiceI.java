@@ -3,6 +3,7 @@ package ses.service.bms;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
@@ -249,7 +250,7 @@ public interface UserServiceI {
   void saveUser(User user);
 
   /**
-   *〈简述〉校验身份证号重复
+   *〈简述〉校验身份证号重复(仅校验后台用户)
    *〈详细描述〉
    * @author Ye MaoLin
    * @param idNumber
@@ -323,4 +324,36 @@ public interface UserServiceI {
 	 * @return void
 	 */
 	void updateByTypeId (String typeId);
+	/**
+	 * 
+	 * Description:查询 是否 是2017-06-05 之前修改的用户
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-5
+	 * @param date
+	 * @param loginName
+	 * @return
+	 */
+	Integer isUpdateUser(String date,String loginName);
+	
+	/**
+	 * 
+	 * Description: 验证用户名唯一
+	 * 
+	 * @author zhang shubin
+	 * @data 2017年6月27日
+	 * @param 
+	 * @return
+	 */
+	boolean yzLoginName(Map<String, Object> map);
+
+  /**
+   *〈简述〉校验用户军官证号唯一，仅校验后台用户
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param officerCertNo
+   * @param id
+   * @return
+   */
+  Boolean ajaxOfficerCertNo(String officerCertNo, String id);
 }

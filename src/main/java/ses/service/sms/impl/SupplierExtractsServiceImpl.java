@@ -8,10 +8,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -192,5 +194,26 @@ public class SupplierExtractsServiceImpl implements SupplierExtractsService {
     
     }
 
+    @Override
+    public void updateTemporaryExpert(Supplier supplier, String loginName, String loginPwd,
+        HttpServletRequest sq) {
+        supplier.setUpdatedAt(new Date());
+        supplier.setLoginName(loginName);
+        User user = userServiceI.findByTypeId(supplier.getId());
+        user.setLoginName(loginName);
+        if (loginPwd != null && !"".equals(loginPwd)) {
+            Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
+            // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
+            md5.setEncodeHashAsBase64(false);     
+            String pwd = md5.encodePassword(loginPwd, user.getRandomCode());
+            user.setPassword(pwd);
+            supplier.setPassword(pwd);
+        }
+        supplierMapper.updateByPrimaryKeySelective(supplier);
+        user.setOrgName(supplier.getSupplierName());
+        user.setRelName(supplier.getArmyBusinessName());
+        user.setMobile(supplier.getArmyBuinessTelephone());
+        userServiceI.update(user);
+    }
 
 }

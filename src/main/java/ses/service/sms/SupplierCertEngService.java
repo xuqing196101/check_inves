@@ -44,4 +44,14 @@ public interface SupplierCertEngService {
      * @return
      */
     String getLevel(String typeId, String certCode, String supplierId);
+    /**
+	 * 
+	 * Description:根据供应商id 查询目录数据
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-22
+	 * @param supplierId
+	 * @return
+	 */
+	public List<SupplierCertEng> findCertEngBySupplierId(String supplierId);
 }

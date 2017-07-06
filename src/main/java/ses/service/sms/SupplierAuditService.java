@@ -1,26 +1,29 @@
 package ses.service.sms;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
-import com.github.pagehelper.PageInfo;
-
+import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
-import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
-import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatServe;
-import ses.model.sms.SupplierModify;
+import ses.model.sms.SupplierPublicity;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
+
+import com.github.pagehelper.PageInfo;
+import common.utils.JdcgResult;
 /**
  * <p>Title:SupplierAuditServlice </p>
  * <p>Description: 供应商审核接口</p>
@@ -139,7 +142,7 @@ public interface SupplierAuditService {
 	 * @param @param supplierAudit      
 	 * @return void
 	 */
-	void auditReasons (SupplierAudit supplierAudit);
+	int auditReasons (SupplierAudit supplierAudit);
 	
 	/**
      * @Title: selectByPrimaryKey
@@ -330,7 +333,15 @@ public interface SupplierAuditService {
      * @return void
      */
     void deleteBySupplierId(String supplierId);
-    
+    /**
+     * 
+     * Description:service 封装 是否 有审核 数据
+     * 
+     * @version 2017-6-30
+     * @param cateTree
+     * @return
+     */
+    public SupplierCateTree potting(SupplierCateTree cateTree,String supplierId);
     /**
      * @Title: downloadFile
      * @author XuQing 
@@ -353,4 +364,66 @@ public interface SupplierAuditService {
      * @return void
      */
     void updateIsDeleteBySupplierId(SupplierAudit supplierAudit);
+    /**
+     * 
+     * Description:物资 资质 文件查看
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-27
+     * @param cateTree
+     * @param type
+     * @return
+     */
+    List<Qualification> showQualifications(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey);
+    /**
+     * 
+     * Description:工程 资质 文件查看
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-27
+     * @param cateTree
+     * @param type
+     * @return
+     */
+    List<SupplierCateTree> showProject(SupplierCateTree cateTree,Integer type,String type_id,Integer syskey);
+    /**
+     * 
+     * Description:根据参数 查询数据是否存在
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-28
+     * @param audit
+     * @return
+     */
+    int countByPrimaryKey(SupplierAudit audit);
+    
+    /**
+     * 
+     * Description:修改公示状态
+     * 
+     * @author Easong
+     * @version 2017年6月26日
+     * @return
+     */
+    JdcgResult updatePublicityStatus(String[] ids);
+    
+    /**
+     * 
+     * Description: 查询公示供应商，公示7天后自动入库
+     * 
+     * @author Easong
+     * @version 2017年6月26日
+     */
+    void handlerPublictySup();
+    
+    /**
+     * 
+     * Description:供应商公示列表
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param map
+     * @return
+     */
+    List<SupplierPublicity> selectSupByPublictyList(Map<String, Object> map);
 } 

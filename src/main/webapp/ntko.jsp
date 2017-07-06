@@ -18,7 +18,7 @@
 		var obj = document.getElementById("TANGER_OCX");
 		obj.Menubar = true;
 		obj.Caption = "( 双击可放大 ! )";
-		obj.BeginOpenFromURL("<%=basePath%>stash/bidFileTemp.doc");// 异步加载, 服务器文件路径
+		obj.BeginOpenFromURL("${pageContext.request.contextPath}/stash/bidFileTemp.doc");// 异步加载, 服务器文件路径
 		// obj.OpenFromURL("http://localhost:8080/${pageContext.request.contextPath}/stash/1.doc");
 	}
 	

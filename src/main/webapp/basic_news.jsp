@@ -18,21 +18,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-<script src="<%=basePath%>public/ZHQ/js/hm.js"></script><script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/hm.js"></script><script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 <!--导航js-->
-<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div class="row container margin-bottom-10">
             <div class="col-md-8">
               <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/ZHQ/images/logo.png" id="logo-header">
+                 <img alt="Logo" src="${pageContext.request.contextPath}/public/ZHQ/images/logo.png" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->
@@ -141,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
-   <h2 class="padding-20 mt40">
+   <h2 class="step_flow">
      <span class="new_step current fl"><i class="">1</i><div class="line"></div><span class="step_desc_01">用户名密码</span></span>
 	 <span class="new_step current fl"><i class="">2</i><div class="line"></div><span class="step_desc_02">基本信息</span></span>
 	 <span class="new_step fl"><i class="">3</i><div class="line"></div><span class="step_desc_01">供应商类型</span></span>
@@ -150,7 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 <span class="new_step fl"><i class="">6</i><div class="line"></div><span class="step_desc_02">产品信息</span></span>
 	 <span class="new_step fl"><i class="">7</i><div class="line"></div><span class="step_desc_01">初审采购机构</span></span>
 	 <span class="new_step fl"><i class="">8</i><div class="line"></div><span class="step_desc_02">打印申请表</span></span>
-	 <span class="new_step fl"><i class="">9</i><span class="step_desc_01">申请表承诺书上传</span></span>
+	 <span class="new_step fl new_step_last"><i class="">9</i><span class="step_desc_01">申请表承诺书上传</span></span>
 	 <div class="clear"></div>
    </h2>
   </div>
@@ -186,7 +186,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	              <span class=""><i class="red">＊</i>成立日期：</span>
 	              <div class="input-append">
                    <input class="span2" id="appendedInput" type="text" >
-                   <span class="add-on"><img src="<%=basePath%>public/ZHQ/images/time_icon.png" class="mb10"/></span>
+                   <span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10"/></span>
                   </div>
 	           </li> 
                <li class="col-md-6 p0">
@@ -195,7 +195,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    <input class="span2" id="appendedInput" type="text">
 		           <div class="btn-group ">
                     <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		              <img src="<%=basePath%>public/ZHQ/images/down.png" class="margin-bottom-5"/>
+		              <img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5"/>
                     </button>
                     <ul class="dropdown-menu list-unstyled">
                     </ul>
@@ -210,7 +210,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    <input class="span4" id="appendedInput" type="text">
 		           <div class="btn-group ">
                     <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		              <img src="<%=basePath%>public/ZHQ/images/down.png" class="margin-bottom-5"/>
+		              <img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5"/>
                     </button>
                     <ul class="dropdown-menu list-unstyled">
                     </ul>
@@ -220,7 +220,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    <input class="span4" id="appendedInput" type="text">
 		           <div class="btn-group ">
                     <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		              <img src="<%=basePath%>public/ZHQ/images/down.png" class="margin-bottom-5"/>
+		              <img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5"/>
                     </button>
                     <ul class="dropdown-menu list-unstyled">
                     </ul>
@@ -490,7 +490,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                          <input class="span4" id="appendedInput" type="text">
 		                 <div class="btn-group ">
                              <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		                      <img src="<%=basePath%>public/ZHQ/images/down.png" class="margin-bottom-5">
+		                      <img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5">
                              </button>
                              <ul class="dropdown-menu list-unstyled">
                              </ul>
@@ -530,7 +530,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                          <input class="span4" id="appendedInput" type="text">
 		                 <div class="btn-group ">
                              <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		                      <img src="<%=basePath%>public/ZHQ/images/down.png" class="margin-bottom-5">
+		                      <img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5">
                              </button>
                              <ul class="dropdown-menu list-unstyled">
                              </ul>
@@ -570,7 +570,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                          <input class="span4" id="appendedInput" type="text">
 		                 <div class="btn-group ">
                              <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		                      <img src="<%=basePath%>public/ZHQ/images/down.png" class="margin-bottom-5">
+		                      <img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5">
                              </button>
                              <ul class="dropdown-menu list-unstyled">
                              </ul>

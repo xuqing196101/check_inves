@@ -62,7 +62,58 @@
 		</set>
 			WHERE  ID = #{id,jdbcType=VARCHAR}
 	</update >
+	<insert id="insertSelective" parameterType="ses.model.bms.Qualification">
+        insert into T_SES_BMS_QUALIFICATION
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="name != null">
+                NAME,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED,
+            </if>
+             <if test="createdAt != null">
+                CREATED_AT,
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
 	
+<!-- 根据id查询 -->
+    <select id="countByPrimaryKey" parameterType="String"
+        resultType="java.lang.Integer">
+        select count(*)  
+        from T_SES_BMS_QUALIFICATION
+        where ID = #{id}
+    </select>
+    
 	<!-- 根据Id查询 -->
 	<select id="getQualification" parameterType="java.lang.String" resultMap="qualificationMap" flushCache="true">
 	  SELECT
@@ -76,7 +127,22 @@
 	  FROM T_SES_BMS_QUALIFICATION
 	  WHERE NAME = #{name} and IS_DELETED=0
 	</select>
-	
+<!-- 根据更新时间获取 范围数据 -->
+    <select id="selectByUpdatedAt" parameterType="String" resultMap="qualificationMap">
+     select 
+     <include refid="BASE_COLUMN_SQL" />
+      from T_SES_BMS_QUALIFICATION where 
+    to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+    and to_char(UPDATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR}
+    </select>
+    <!-- 根据创建时间获取 范围数据   -->
+    <select id="selectByCreatedAt" parameterType="String" resultMap="qualificationMap">
+     select 
+     <include refid="BASE_COLUMN_SQL" />
+     from T_SES_BMS_QUALIFICATION where 
+     to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{start,jdbcType=VARCHAR}
+     and to_char(CREATED_AT,'yyyy-MM-dd hh24:mi:ss') &lt;=#{end,jdbcType=VARCHAR}
+    </select>
 	
 	
 </mapper>

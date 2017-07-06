@@ -5,7 +5,6 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<title>物资-销售型专业信息</title>
-		
     <script type="text/javascript">
 	   //默认不显示叉
 			$(function() {
@@ -136,7 +135,7 @@
     </script>
     
 		<script type="text/javascript">
-			function jump(str){
+			 function jump(str){
 			  var action;
 			  if(str=="essential"){
 			     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
@@ -176,28 +175,31 @@
 			  }
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
-			}
+			} 
 		</script>
   </head>
 
   <body>
-	  <!--面包屑导航开始-->
-	  <div class="margin-top-10 breadcrumbs ">
-	    <div class="container">
-	      <ul class="breadcrumb margin-left-0">
-	        <li>
-	          <a href="javascript:void(0);"> 首页</a>
-	        </li>
-	        <li>
-	          <a href="javascript:void(0);">供应商管理</a>
-	        </li>
-	        <li>
-	          <a href="javascript:void(0);">供应商审核</a>
-	        </li>
-	      </ul>
-	    </div>
-	  </div> 
-    <div class="container container_box">
+  <!--面包屑导航开始-->
+  <div class="margin-top-10 breadcrumbs ">
+	  <div class="container">
+		  <ul class="breadcrumb margin-left-0">
+			  <li>
+				  <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			  </li>
+			  <li>
+				  <a  href="javascript:void(0)">支撑环境</a>
+			  </li>
+			  <li>
+				  <a  href="javascript:void(0)">供应商管理</a>
+			  </li>
+			  <li>
+				  <a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/supplierAll.html')">供应商审核</a>
+			  </li>
+		  </ul>
+	  </div>
+  </div>
+  <div class="container container_box">
       <div class="content height-350">
         <div class="col-md-12 tab-v2 job-content">
 		      <ul class="nav nav-tabs bgdd">
@@ -247,7 +249,7 @@
 						</li>
 						<li onclick="jump('contract')">
 							<a aria-expanded="false" href="#tab-4">品目合同</a>
-						</li>
+						</li> 
 	          <li onclick = "jump('contract')">
 	            <a aria-expanded="false" href="#tab-4" >产品信息</a>
 	             <i></i>

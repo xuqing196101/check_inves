@@ -1,6 +1,8 @@
 package iss.filter;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -15,11 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Repository;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import common.utils.RedisUtils;
+
+import common.service.SystemPvService;
+import common.utils.DateUtils;
+import common.utils.JedisUtils;
 
 /**
  * 
@@ -33,30 +38,38 @@ import common.utils.RedisUtils;
 @Repository
 public class CacheFilter implements Filter {
 
-	private static final Logger log = LoggerFactory
-			.getLogger(CacheFilter.class);
+	private static final Logger log = LoggerFactory.getLogger(CacheFilter.class);
 
 	// 连接池定义
-	private JedisPool cacheHomePage;
+	private JedisConnectionFactory cacheHomePage;
 
 	// 首页访问URL多值定义
 	private List<String> homeUrl;
 
 	// 设置缓存时间
 	private Integer homeCacheTime;
+	// 设置访问量缓存时间
+	private Integer pvCacheTime;
 
-	// 设置缓存项
+	// 设置缓存key
+	// 首页缓存key
 	private String homeKey;
+	// 访问总量key
+	private String C_PV_TOTAL_KEY;
+	
+	// 注入PV Mapper
+	private SystemPvService systemPvService;
 
-	public JedisPool getCacheHomePage() {
-		return cacheHomePage;
-	}
 
-	public void setCacheHomePage(JedisPool cacheHomePage) {
-		this.cacheHomePage = cacheHomePage;
-	}
+	public JedisConnectionFactory getCacheHomePage() {
+    return cacheHomePage;
+  }
 
-	public List<String> getHomeUrl() {
+  public void setCacheHomePage(JedisConnectionFactory cacheHomePage) {
+    this.cacheHomePage = cacheHomePage;
+  }
+
+  public List<String> getHomeUrl() {
 		return homeUrl;
 	}
 
@@ -80,8 +93,72 @@ public class CacheFilter implements Filter {
 		this.homeKey = homeKey;
 	}
 
+	public SystemPvService getSystemPvService() {
+		return systemPvService;
+	}
+
+	public void setSystemPvService(SystemPvService systemPvService) {
+		this.systemPvService = systemPvService;
+	}
+
+	/**
+	 * 
+	 * Description:缓存过滤器初始化
+	 * 
+	 * @author Easong
+	 * @version 2017年6月16日
+	 * @param config
+	 * @throws ServletException
+	 */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
+		Jedis jedis = null;
+		try {
+			// 获取当前日期作为key 格式20170613
+			String key = DateUtils.getDateOfFormat(new Date());
+			jedis = JedisUtils.getJedisByFactory(getCacheHomePage());
+			String thisDayPvKey = jedis.get(key);
+			String pvTotalKey = jedis.get(C_PV_TOTAL_KEY);
+			if (StringUtils.isEmpty(thisDayPvKey)) {
+				jedis.set(key, "0");
+			}
+			if (StringUtils.isEmpty(pvTotalKey)) {
+				// 获取总值
+				BigDecimal count = systemPvService.selectPvTotalCount();
+				if (count == null) {
+					jedis.set(C_PV_TOTAL_KEY, "0");
+				} else {
+					jedis.set(C_PV_TOTAL_KEY, count.toString());
+				}
+			}
+		} catch (Exception e) {
+			log.info("redis连接异常...");
+		} finally {
+			// 关闭资源
+		  if(jedis!=null){
+		    jedis.quit();
+		    jedis.disconnect();
+		  }
+		  
+		  
+		  
+		}
+	}
+
+	public Integer getPvCacheTime() {
+		return pvCacheTime;
+	}
+
+	public void setPvCacheTime(Integer pvCacheTime) {
+		this.pvCacheTime = pvCacheTime;
+	}
+
+	public String getC_PV_TOTAL_KEY() {
+		return C_PV_TOTAL_KEY;
+	}
+
+	public void setC_PV_TOTAL_KEY(String c_PV_TOTAL_KEY) {
+		C_PV_TOTAL_KEY = c_PV_TOTAL_KEY;
 	}
 
 	@Override
@@ -91,6 +168,7 @@ public class CacheFilter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) servletResponse;
 		HttpServletRequest req = (HttpServletRequest) servletRequest;
 
+		// 获取请求的URL
 		String reqURL = req.getRequestURI();
 
 		// 如果不是访问主页，放行
@@ -117,7 +195,8 @@ public class CacheFilter implements Filter {
 			putIntoCache(html);
 
 		}
-
+		// 调用用户访问量计数方法
+		putIntoPV();
 		// 返回响应
 		resp.setContentType("text/html; charset=utf-8");
 		resp.getWriter().print(html);
@@ -143,7 +222,7 @@ public class CacheFilter implements Filter {
 		Jedis jedis = null;
 		try {
 			// 获取连接
-			jedis = cacheHomePage.getResource();
+			jedis = JedisUtils.getJedisByFactory(cacheHomePage);
 			String cachePage = jedis.get(homeKey);
 			if (cachePage != null) {
 				return cachePage;
@@ -152,7 +231,11 @@ public class CacheFilter implements Filter {
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-			RedisUtils.returnResource(jedis, cacheHomePage);
+			if (jedis != null) {
+				jedis.quit();
+				jedis.disconnect();
+			}
+
 		}
 		return null;
 
@@ -173,7 +256,7 @@ public class CacheFilter implements Filter {
 		Jedis jedis = null;
 		try {
 			// 获取连接
-			jedis = cacheHomePage.getResource();
+			jedis = JedisUtils.getJedisByFactory(cacheHomePage);
 			// 将查询的页面信息存放到缓存当中
 			jedis.set(homeKey, html);
 			// 设置缓存存储时间
@@ -182,7 +265,75 @@ public class CacheFilter implements Filter {
 			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
-			RedisUtils.returnResource(jedis, cacheHomePage);
+			if (jedis != null) {
+				jedis.quit();
+				jedis.disconnect();
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * Description: 访问量统计
+	 * 
+	 * @author Easong
+	 * @version 2017年6月13日
+	 */
+	// Lock lock = new ReentrantLock();
+ 	private void putIntoPV(){
+		Jedis jedis = null;
+		try {
+			// lock.lock(); 锁机制解决高并发
+			// 获取jedis
+			jedis = JedisUtils.getJedisByFactory(cacheHomePage);
+			// 获取当前日期作为key 格式20170613
+			String key = DateUtils.getDateOfFormat(new Date());
+			// 获取当前日期的key
+			String keyString = jedis.get(key);
+			// 存在key
+			if(StringUtils.isEmpty(keyString)){
+				// 从数据库中获取
+				Integer count = systemPvService.selectCountById(Integer.parseInt(key));
+				if(count != null && count != 0){
+					jedis.set(key, count.toString());
+					jedis.incrBy(key, 1);
+					jedis.expire(key, pvCacheTime);
+				}else {
+					jedis.incrBy(key, 1);
+					jedis.expire(key, pvCacheTime);
+				}
+			}else {
+				// 设置每访问一次自增1
+				jedis.incrBy(key, 1);
+				// 保留7天
+				jedis.expire(key, pvCacheTime);
+			}
+			// 获取总的key
+			String pvTotal = jedis.get(C_PV_TOTAL_KEY);
+			if(StringUtils.isEmpty(pvTotal)){
+				// 不存在（第一次访问） 或者缓存被清除
+				// 查询数据库
+				BigDecimal count = systemPvService.selectPvTotalCount();
+				if(count == null){
+					count = new BigDecimal(0);
+				}
+				// 将count +1
+				BigDecimal addCount = count.add(new BigDecimal(1));
+				// 将此数存入到缓存中
+				jedis.set(C_PV_TOTAL_KEY, addCount.toString());
+			}else{
+				// 总数直接 +1
+				jedis.incrBy(C_PV_TOTAL_KEY, 1);
+			}
+		} catch (Exception e) {
+			log.info("redis连接异常...");
+		} finally {
+			// lock.unlock();
+			// 关闭资源
+			if (jedis != null) {
+				jedis.quit();
+				jedis.disconnect();
+			}
 		}
 	}
 

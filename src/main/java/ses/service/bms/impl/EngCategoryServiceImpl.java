@@ -20,19 +20,32 @@ import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.EngCategoryMapper;
 import ses.dao.bms.QualificationMapper;
 import ses.dao.sms.SupplierItemMapper;
+import ses.formbean.QualificationBean;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
+import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierPorjectQua;
 import ses.model.sms.SupplierTypeTree;
+import ses.service.bms.CategoryService;
 import ses.service.bms.EngCategoryService;
+import ses.service.sms.SupplierAptituteService;
+import ses.service.sms.SupplierMatEngService;
+import ses.service.sms.SupplierPorjectQuaService;
+import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.StringUtil;
 
 import com.github.pagehelper.PageHelper;
 import common.bean.ResBean;
 import common.constant.StaticVariables;
+import common.service.UploadService;
 
 /**
  * 
@@ -61,6 +74,19 @@ public class EngCategoryServiceImpl implements EngCategoryService {
     /** 企业资质 **/
     @Autowired
     private QualificationMapper quaMapper;
+    
+    @Autowired
+    private SupplierPorjectQuaService supplierPorjectQuaService;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private SupplierService supplierService;
+    @Autowired
+    private SupplierMatEngService supplierMatEngService;
+    @Autowired
+    private SupplierAptituteService supplierAptituteService;
+    @Autowired
+    private UploadService uploadService;
     
     /** 操作类型 - 添加 */
     private static final String OPERA_ADD = "add";
@@ -280,10 +306,11 @@ public class EngCategoryServiceImpl implements EngCategoryService {
                 category.setIsPublish(isPublished);;
             }
             insertSelective(category);
-            saveGeneral(id, generalIds);
-            saveProfile(id, profileIds);
+            Date date=new Date();
+            saveGeneral(id, generalIds,date);
+            saveProfile(id, profileIds,date);
             //保存物资销售型资质文件id
-            saveProfileSales(id, profileSalesIds);
+            saveProfileSales(id, profileSalesIds,date);
             res.setSuccess(true);
         }
         /**
@@ -304,11 +331,12 @@ public class EngCategoryServiceImpl implements EngCategoryService {
                     category.setIsPublish(isPublished);;
                 }
                 updateByPrimaryKeySelective(category);
-                delCategoryQua(id);
-                saveGeneral(id, generalIds);
-                saveProfile(id, profileIds);
+                Date date=new Date();
+                delCategoryQua(id,date);
+                saveGeneral(id, generalIds,date);
+                saveProfile(id, profileIds,date);
                 //保存物资销售型资质文件id
-                saveProfileSales(id, profileSalesIds);
+                saveProfileSales(id, profileSalesIds,date);
                 res.setSuccess(true);
             }
         }
@@ -322,15 +350,15 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      * @param categorId 品目Id
      * @param profileSalesIds 物资销售型资质Id
      */
-    private void saveProfileSales(String categorId, String profileSalesIds){
+    private void saveProfileSales(String categorId, String profileSalesIds,Date date){
         if (StringUtils.isNotBlank(profileSalesIds)){
             if (profileSalesIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] profileArray = profileSalesIds.split(",");
                 for (String profileId : profileArray){
-                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE);
+                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE,date);
                 }
             } else {
-                saveCategoryQua(categorId, profileSalesIds, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE);
+                saveCategoryQua(categorId, profileSalesIds, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE,date);
             }
         }
     }
@@ -342,8 +370,11 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      * @author myc
      * @param categoryId 品目Id
      */
-    private void delCategoryQua(String categoryId){
-        categoryQuaMapper.delQuaByCategoryId(categoryId);
+    private void delCategoryQua(String categoryId,Date date){
+    	HashMap<String,Object> map=new HashMap<>();
+    	map.put("categoryId", categoryId);
+    	map.put("updateDate", date);
+        categoryQuaMapper.updateQuaByCategoryId(map);
     }
     
     
@@ -353,15 +384,15 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      *〈详细描述〉
      * @author myc
      */
-    private void saveGeneral(String categorId,String generalIds){
+    private void saveGeneral(String categorId,String generalIds,Date date){
         if (StringUtils.isNotBlank(generalIds)){
             if (generalIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] generalArray = generalIds.split(",");
                 for (String generalId : generalArray){
-                    saveCategoryQua(categorId, generalId, StaticVariables.CATEGORY_QUALIFICATION_GENERAL);
+                    saveCategoryQua(categorId, generalId, StaticVariables.CATEGORY_QUALIFICATION_GENERAL,date);
                 }
             } else {
-                saveCategoryQua(categorId, generalIds, StaticVariables.CATEGORY_QUALIFICATION_GENERAL);
+                saveCategoryQua(categorId, generalIds, StaticVariables.CATEGORY_QUALIFICATION_GENERAL,date);
             }
         }
     }
@@ -374,15 +405,15 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      * @param categorId 品目Id
      * @param profileIds 资质Id
      */
-    private void saveProfile(String categorId, String profileIds){
+    private void saveProfile(String categorId, String profileIds,Date date){
         if (StringUtils.isNotBlank(profileIds)){
             if (profileIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] profileArray = profileIds.split(",");
                 for (String profileId : profileArray){
-                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROFILE,date);
                 }
             } else {
-                saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROFILE,date);
             }
         }
     }
@@ -396,11 +427,13 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      * @param generalId 资质Id
      * @param quraType  资质类型
      */
-    private void saveCategoryQua(String categorId, String generalId, Integer quraType) {
+    private void saveCategoryQua(String categorId, String generalId, Integer quraType,Date date) {
         CategoryQua cq = new CategoryQua();
         cq.setCategoryId(categorId);
         cq.setQuaId(generalId);
         cq.setQuaType(quraType);
+        cq.setCreatedAt(date);
+        cq.setIsDeleted(StaticVariables.ISNOT_DELETED);
         categoryQuaMapper.save(cq);
     }
     
@@ -734,4 +767,67 @@ public class EngCategoryServiceImpl implements EngCategoryService {
 		return list;
 	}
 
+	@Override
+	public SupplierCateTree addNode(SupplierCateTree cateTree, SupplierItem item) {
+		// 工程类等级
+		if(item != null) {
+			// 等级
+			if(item != null && item.getLevel() != null) {
+				DictionaryData data = DictionaryDataUtil.findById(item.getLevel());
+				if(data!=null){
+					cateTree.setLevel(data);
+				}else{		
+					List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(item.getQualificationType(), item.getSupplierId());
+				   if(projectData!=null&&projectData.size()>0){
+			        	DictionaryData dd=new DictionaryData();
+			        	dd.setName(projectData.get(0).getCertLevel());
+			        	dd.setId(projectData.get(0).getId());
+			        	cateTree.setLevel(dd); 
+			        }
+				}
+			}
+			// 证书编号
+			if(item != null && item.getCertCode() != null) {
+				cateTree.setCertCode(item.getCertCode());
+			}
+			// 资质等级
+			if(item != null && item.getQualificationType() != null) {
+				cateTree.setQualificationType(item.getQualificationType());
+			}
+			if(item != null && item.getProfessType()!= null) {
+				cateTree.setProName(item.getProfessType());
+			}
+			// 所有等级List
+			List < Category > cateList = new ArrayList < Category > ();
+			cateList.add(categoryService.selectByPrimaryKey(cateTree.getSecondNodeID()));
+			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
+			List < Qualification > typeList = new ArrayList < Qualification > ();
+			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
+				typeList = type.get(0).getList();
+			}
+			//自定义等级
+//					List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, item.getSupplierId());
+//					for(SupplierPorjectQua qua:supplierQua){
+//						Qualification q=new Qualification();
+//						q.setId(qua.getName());
+//						q.setName(qua.getName());
+//						typeList.add(q);
+//					}
+					
+			cateTree.setTypeList(typeList);
+		}
+		return cateTree;
+	}
+
+	@Override
+	public Long countEngCategoyrId(SupplierCateTree cateTree, String supplierId) {
+		long rut=0;
+		SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+		String type_id=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
+		List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
+        if(certEng != null && certEng.size() > 0) {
+		  rut=rut+uploadService.countFileByBusinessId(certEng.get(0).getId(), type_id, common.constant.Constant.SUPPLIER_SYS_KEY);
+        }
+		return rut;
+	}
 }

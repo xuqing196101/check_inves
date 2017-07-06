@@ -32,7 +32,7 @@
   	FROM T_ISS_PS_TEMPLATE_DOWNLOAD 
   	WHERE IS_DELETED = 0
   	  <if test="name != null and name !=''">
-	      AND NAME LIKE '%'||#{name}||'%'
+	      AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
 	  </if>
 	  <if test="ipAddressType != null and ipAddressType !=''">
 	      AND IP_ADDRESS_TYPE = #{ipAddressType}
@@ -47,7 +47,7 @@
   	FROM T_ISS_PS_TEMPLATE_DOWNLOAD 
   	WHERE IS_DELETED = 0
   	<if test="name != null and name !=''">
-	      AND NAME LIKE '%'||#{name}||'%'
+	      AND NAME LIKE CONCAT(CONCAT('%', #{name}), '%')
 	  </if>
 	  AND STATUS = 2
 	  ORDER BY CREATED_AT DESC

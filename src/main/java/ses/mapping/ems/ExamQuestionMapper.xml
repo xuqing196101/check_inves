@@ -9,8 +9,8 @@
 		<result column="KIND" property="kind" />
 		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
 		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
-		<result column="TOPIC" property="topic" />
-		<result column="ITEMS" property="items" />
+		<result column="TOPIC" jdbcType="CLOB" javaType="String" property="topic" />
+    <result column="ITEMS" jdbcType="CLOB" javaType="String" property="items" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -51,7 +51,7 @@
 		from T_SES_EMS_EXAM_QUESTION
 		WHERE
 		PERSON_TYPE = 1
-		AND KIND = 0
+		AND KIND = '0'
 		AND QUESTION_TYPE_ID = #{questionTypeId}
 		AND dbms_lob.instr(TOPIC,#{topic})>0
 	</select>
@@ -144,10 +144,10 @@
 				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="topic != null">
-				#{topic},
+				#{topic,jdbcType=CLOB},
 			</if>
 			<if test="items != null">
-				#{items},
+				#{items,jdbcType=CLOB},
 			</if>
 		</trim>
 	</insert>
@@ -190,9 +190,9 @@
 		<result column="ANSWER" property="answer" />
 		<result column="QUESTION_TYPE_ID" property="questionTypeId" />
 		<result column="PERSON_TYPE" property="personType" />
-		<result column="KIND" property="kind" />
-		<result column="TOPIC" property="topic" />
-		<result column="ITEMS" property="items" />
+		<result column="KIND"  property="kind" />
+		<result column="TOPIC" jdbcType="CLOB" javaType="String" property="topic" />
+		<result column="ITEMS" jdbcType="CLOB" javaType="String" property="items" />
 		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
 		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
 		<association property="examQuestionType" resultMap="resultType" />
@@ -220,7 +220,7 @@
 		AND E.KIND = #{kind}
 		AND E.QUESTION_TYPE_ID = T.ID
 		<if test="topic != null and '' != topic">
-			AND E.TOPIC LIKE #{topic}
+			AND E.TOPIC LIKE CONCAT(CONCAT('%', #{topic}), '%')
 		</if>
 		<if test="questionTypeId != null and '' != questionTypeId">
 			AND E.QUESTION_TYPE_ID = #{questionTypeId}
@@ -298,7 +298,7 @@
 			E.QUESTION_TYPE_ID = T.ID
 			AND E.PERSON_TYPE = 2
 			<if test="topic != null and '' != topic">
-				AND E.TOPIC LIKE #{topic}
+				AND E.TOPIC LIKE CONCAT(CONCAT('%', #{topic}), '%')
 			</if>
 			<if test="questionTypeId != null and '' != questionTypeId">
 				AND E.QUESTION_TYPE_ID = #{questionTypeId}

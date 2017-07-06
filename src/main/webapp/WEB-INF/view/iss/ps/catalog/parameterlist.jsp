@@ -4,6 +4,7 @@
 <html>
   <head>
     <jsp:include page="/index_head.jsp"></jsp:include>
+  <script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js" type="text/javascript"></script>
 	<link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet">
   	<script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/ppms/categoryparam/publish_index.js"></script>
   </head>
@@ -20,7 +21,7 @@
 	   	<div class="container content">
 	   		<!-- left -->
 		    <div class="col-md-3 col-sm-4 col-xs-12">
-			  	<div class="tag-box tag-box-v3 mt15">
+			  	<div class="tag-box tag-box-v3">
 			    <div>
 				  <ul id="ztree" class="ztree" />
 				</div>
@@ -30,7 +31,7 @@
 			<!-- right -->
 		    <div class="tag-box tag-box-v4 col-md-9 col-sm-8 col-xs-12" >
 				  <div class="col-md-12 col-sm-12 col-xs-12 mt20 clear">
-					  <table class="table table-bordered mt10" id="uListId">
+					  <table class="table table-bordered" id="uListId">
 					  	
 					  </table>
 				  </div>
@@ -40,8 +41,10 @@
 				    	<table class="table table-bordered" >
 				    		<tbody id="baseInfoTbody">
 				    			<tr id="trs">
-				    				<td class="bggrey w50">产品名称：</td><td class="productName w100"></td>
-				    				<td class="bggrey w50">类型：</td><td class="type w100"></td>
+				    				<th class="bggrey" width="20%">产品名称：</td>
+				    				<td class="productName" width="30%"></td>
+				    				<th class="bggrey" width="20%">类型：</td>
+				    				<td class="type" width="30%"></td>
 				    			</tr>
 				    		</tbody>
 					  	</table>

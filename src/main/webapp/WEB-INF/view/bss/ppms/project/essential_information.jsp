@@ -25,6 +25,10 @@
     <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
     <script type="text/javascript">
       $(function() {
+        /* $("#uploaderId").click(function(){
+          var id = $(".web_uploader_class").prev()[0].value;
+          init_uploader(eval("var  uploader_" + id),id);
+        }); */
         //获取查看或操作权限
         var isOperate = $('#isOperate', window.parent.document).val();
         if(isOperate == 0) {
@@ -60,6 +64,7 @@
             layer.close(index);
             debugger;
             var flag = true;
+            var bidAddress = $("#bidAddress").val();
             var projectNumber = $("#projectNumber").val();//项目编号
             var name = $("#name").val();//项目名称
             var supplierNumber = $("#supplierNumber").val();//供应商人数
@@ -91,6 +96,10 @@
                 flag = false;
               }
             }
+            if(bidAddress == '' || bidAddress == null) {
+		          layer.tips("请填写开标地点", "#bidAddress");
+		          flag = false;
+		        }
             if(!deadline) {
 	            layer.tips("时间不能为空", "#deadline");
 	            flag = false;

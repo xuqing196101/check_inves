@@ -74,14 +74,20 @@
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <c:if test="${flag == 0}">
-		   	<li><a href="javascript:void(0);"> 首页</a></li><li><a href="javascript:void(0);">个人中心</a></li><li><a href="javascript:void(0);">个人信息</a></li>
-		   </c:if>
-		   <c:if test="${flag == 1}">
-			   <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')" target="_blank"> 首页</a></li><li><a href="javascript:void(0);">支撑系统</a></li><li><a href="javascript:void(0);">后台管理</a></li><li class="active"><a href="javascript:void(0) " onclick="jumppage('${pageContext.request.contextPath}/user/list.html')">用户管理</a></li><li class="active"><a href="javascript:void(0);">查看用户</a></li>
-		   </c:if>
-		   </ul>
+		  <ul class="breadcrumb margin-left-0">
+			  <c:if test="${flag == 0}">
+				  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+				  <li><a href="javascript:void(0);">个人中心</a></li>
+				  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/user/personalInfo.html');">个人信息</a></li>
+			  </c:if>
+			  <c:if test="${flag == 1}">
+				  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a></li>
+				  <li><a href="javascript:void(0);">支撑系统</a></li>
+				  <li><a href="javascript:void(0);">后台管理</a></li>
+				  <li class="active"><a href="javascript:void(0) " onclick="jumppage('${pageContext.request.contextPath}/user/list.html')">用户管理</a></li>
+				  <li class="active"><a href="javascript:void(0);">查看用户</a></li>
+			  </c:if>
+		  </ul>
 		<div class="clear"></div>
 	  </div>
    </div>

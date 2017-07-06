@@ -2,7 +2,7 @@
  * 文件上传插件
  * 
  */
-(function ($) { 
+(function ($) {
 	var  GUID = WebUploader.Base.guid();
 	var $wrap = $('#uploaderId');
 	$(function(){
@@ -153,6 +153,16 @@
 			    fileSizeLimit: $("#maxSizeId").val(),
 			    fileSingleSizeLimit: $("#singlSizeId").val()
 			});
+		  
+		  // 北京-前端-马田力修改
+		  // 页面如果用到bootstrap的tab插件，reset上传插件，以防止按钮失效
+		  var bootstrap_tab = $('a[data-toggle="tab"]');
+		  if (bootstrap_tab.length > 0) {
+			  bootstrap_tab.on('shown.bs.tab', function (e) {
+				  uploader.refresh();
+			  })
+		  }
+		  
 			
 			//上传前准备
 			uploader.on( 'beforeFileQueued', function(file) {

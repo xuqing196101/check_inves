@@ -66,9 +66,10 @@ public class SupplierStockholderController extends BaseController{
 	@ResponseBody
 	public String deleteCertEng(HttpServletRequest request, String stockholderIds, String supplierId,Model model) {
 		supplierStockholderService.deleteStockholder(stockholderIds);
-		Supplier supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("currSupplier", supplier);
-		return "ses/sms/supplier_register/basic_info";
+		return "ok";
+		//Supplier supplier = supplierService.get(supplierId);
+		//request.getSession().setAttribute("currSupplier", supplier);
+		//return "ses/sms/supplier_register/basic_info";
 	}
 	
 	

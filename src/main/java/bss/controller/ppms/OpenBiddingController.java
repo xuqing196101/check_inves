@@ -520,7 +520,7 @@ public class OpenBiddingController {
     //单一来源公告
     if (PURCHASE_NOTICE.equals(noticeType)) {
       article.setArticleType(articelTypeService.selectArticleTypeByCode("single_source_notice"));
-      if(user.getPublishType() == 0 || user.getPublishType() == null){
+      if(user.getPublishType() == null || user.getPublishType() == 0){
         //集中采购
         ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("single_source_notice_centralized");
         if (articleType2 != null) {
@@ -1233,11 +1233,14 @@ public class OpenBiddingController {
       //如果有明细就是查看了
       return "redirect:viewChangtotal.html?projectId=" + projectId;
     }
+    //记录报价的轮次
+    Integer countBid = 0;
     if (packId != null) {
       //显示第几轮次报价
       quoteCondition.setPackageId(packId);
       List<Date> listDate1 =  supplierQuoteService.selectQuoteCount(quoteCondition);
       if (listDate1 != null) {
+    	countBid = listDate1.size();
         model.addAttribute("count", listDate1.size());
       }
     }
@@ -1274,6 +1277,10 @@ public class OpenBiddingController {
       condition.setStatusBid(NUMBER_TWO);
       condition.setStatusBond(NUMBER_TWO);
       condition.setIsTurnUp(0);
+      //condition.setIsFirstPass(1);
+      if(countBid > 0){
+    	condition.setIsFirstPass(1);
+      }
       List<SaleTender> stList = saleTenderService.find(condition);
       List<SaleTender> stList1 = new ArrayList<SaleTender>();
       stList1.addAll(stList);
@@ -1942,7 +1949,9 @@ public class OpenBiddingController {
         //如果有明细就是查看了
       return "redirect:viewMingxi.html?projectId=" + projectId;
     }
+    Integer countBid = 0;
     if (listDate != null && listDate.size() > 0) {
+    	countBid = listDate.size();
         model.addAttribute("listDate", listDate.size());
     }
     //该环节设置为执行中状态
@@ -1952,6 +1961,9 @@ public class OpenBiddingController {
     map.put("projectId", projectId);
     SaleTender st = new SaleTender();
     st.setProjectId(projectId);
+    if(countBid > 0){
+    	st.setIsFirstPass(1);
+      }
     StringBuilder sb = new StringBuilder("");
     List<SaleTender> saleTenderList = saleTenderService.find(st);
     for (SaleTender saleTender : saleTenderList) {
@@ -1995,7 +2007,7 @@ public class OpenBiddingController {
       }
       pk.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
       for (SaleTender saleTender : saleTenderList) {
-        if (saleTender.getPackages().indexOf(pk.getId()) != -1 && saleTender.getIsTurnUp() != null && saleTender.getIsTurnUp() == 0) {
+        if (saleTender.getPackages().indexOf(pk.getId()) != -1 && saleTender.getIsTurnUp() != null && saleTender.getIsTurnUp() == 0 && saleTender.getIsRemoved().equals("0")) {
           Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
           supplier.setPdList(detailList);
           Supplier supplierNew = new Supplier();
@@ -2129,7 +2141,7 @@ public class OpenBiddingController {
     StringBuilder sb = new StringBuilder("");
     List<SaleTender> saleTenderList = saleTenderService.find(st);
     for (SaleTender saleTender : saleTenderList) {
-      sb.append(saleTender.getPackages());
+    	sb.append(saleTender.getPackages());
     }
     List<Packages> listPack = supplierQuoteService.selectByPrimaryKey(map, null);
     List<Packages> listPackage = new ArrayList<Packages>();
@@ -2159,7 +2171,7 @@ public class OpenBiddingController {
           quote1.setProjectId(projectId);
           quote1.setPackageId(pk.getId());
           if (timestamp == null) {
-            quote1.setCreatedAt(new Timestamp(listDate.get(listDate.size()-1).getTime()));
+            quote1.setCreatedAt(new Timestamp(listDate.get(0).getTime()));
           } else {
             quote1.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
           }
@@ -2172,7 +2184,13 @@ public class OpenBiddingController {
       }
       quote.setPackageId(pk.getId());
       List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
-      List<Supplier> suList = setField(listQuote);
+      List<Supplier> suList = new ArrayList<Supplier>();
+      //判断每轮报价的供应商z
+      if(listDate != null && listDate.size() > 1){
+    	  suList = setField(listQuotebyPackage);
+      }else{
+    	  suList = setField(listQuote);
+      }
       //每个包有几个供应商
       List<Supplier> suListNew = new ArrayList<Supplier>();
       for (Supplier supplier : suList) {
@@ -2317,9 +2335,22 @@ public class OpenBiddingController {
       SaleTender str = new SaleTender();
       str.setProjectId(quote.getProjectId());
       List<SaleTender> stl= saleTenderService.find(str);
+      Quote condition = new Quote();
+      condition.setProjectId(quote.getProjectId());
+      List<Date> listDate =  supplierQuoteService.selectQuoteCount(condition);
+      if(listDate != null && listDate.size() > 0){
+    	  
+      }
       for (SaleTender saleTender : stl) {
-        if (saleTender.getPackages().indexOf(pk.getId()) != -1) {
-          count1++;
+        if (saleTender.getPackages().indexOf(pk.getId()) != -1 && saleTender.getIsTurnUp() != null) {
+          if(listDate != null && listDate.size() > 0){
+        	 //判断是否为第一次报价
+        	  if(saleTender.getIsFirstPass() != null && saleTender.getIsFirstPass() == 1 && saleTender.getIsRemoved().equals("0")){
+        		  count1++;
+        	  }
+          }else{
+        	  count1++;
+          }
         }
       }
       Integer count2 = detailList.size();
@@ -2330,7 +2361,7 @@ public class OpenBiddingController {
       JSONArray json=JSONArray.fromObject(quoteList);
       JSONObject jsonQuote = new JSONObject();
       for (int i = 0; i < count2; i++) {
-        jsonQuote = json.getJSONObject(count); 
+        jsonQuote = json.getJSONObject(count);
         count ++ ;
         Quote quoteInsert = new Quote();
         quoteInsert.setProjectId(quote.getProjectId());

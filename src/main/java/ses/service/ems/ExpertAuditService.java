@@ -1,13 +1,16 @@
 package ses.service.ems;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
+import common.utils.JdcgResult;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
+import ses.model.ems.ExpertPublicity;
 /**
  * 
   * <p>Title:ExpertAuditService </p>
@@ -231,4 +234,43 @@ public interface ExpertAuditService {
      * @return Integer
      */
     Integer findByObj (ExpertAudit expertAudit);
+    
+    /**
+     * @Title: temporaryAudit
+     * @date 2017-6-15 下午4:00:26  
+     * @Description:暂存审核
+     * @param @param expert      
+     * @return void
+     */
+    boolean temporaryAudit (String expertId);
+    
+    /**
+     * 
+     * Description:修改公示状态
+     * 
+     * @author Easong
+     * @version 2017年6月27日
+     * @param ids
+     * @return
+     */
+    JdcgResult updatePublicityStatus(String[] ids);
+    
+    /**
+     * 
+     * Description:查询公示专家，公示7天后自动入库
+     * 
+     * @author Easong
+     * @version 2017年6月27日
+     */
+    void handlerPublictyExp();
+    
+    /**
+     * 
+     * Description:专家公示列表
+     * 
+     * @author Easong
+     * @version 2017年6月27日
+     * @return
+     */
+    List<ExpertPublicity> selectExpByPublictyList(Map<String, Object> map);
 }

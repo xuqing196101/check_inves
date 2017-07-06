@@ -3,6 +3,8 @@ package system.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import common.service.SystemPvService;
+
 import ses.service.ems.AnalyzeService;
 
 /**
@@ -19,6 +21,10 @@ public class AnalyzeTask {
 	// 注入统计Service
 	@Autowired
 	private AnalyzeService analyzeService;
+	
+	// 注入计数Service
+	@Autowired
+	private SystemPvService systemPvService;
 	/**
 	 * 
 	* @Title: handlerAnalyze 
@@ -36,4 +42,15 @@ public class AnalyzeTask {
 		// 执行文件上传统计任务
 		analyzeService.taskAnalyzeAttUpload(null);
     }
+	
+	/**
+	 * 
+	 * Description: 定时执行统计访问量
+	 * 
+	 * @author Easong
+	 * @version 2017年6月13日
+	 */
+	public void handlerPV(){
+		systemPvService.handlePvSync();
+	}
 }

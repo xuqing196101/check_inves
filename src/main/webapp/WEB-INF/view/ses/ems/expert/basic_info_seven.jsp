@@ -385,7 +385,8 @@
     	 if(isTitle==1&&bool==true){
     		 $("#pro_div").show();
     	 }
-        	
+    	 // 选中专家类别
+       checkZjlb();	
         	
 //绑定工程技术的切换事件
          /*    isIs = bja.some(function (item, index, array) {
@@ -442,7 +443,8 @@
         function zc() {
             layer.msg("已暂存");
         }
-        function checks(obj){
+        
+         function checks(obj){
         	var flag=true;
         	 var expertId=$("#id").val();
         	$("input[name='chkItem_1']").each(function() {
@@ -456,7 +458,7 @@
             		$("input[name='chkItem_2']").each(function() {
                 		var val=$(this).parent().text();
                     	if(val.trim()=="工程经济"){	
-                    	// $(this).prop("disabled",true);
+                    		$(this).prop("disabled",true);
                     	}
             		});
             		
@@ -510,17 +512,36 @@
                       }
                  	}
          		}); 
-        	 }  
-        /* 	if(objVal=="工程经济"&&flagValue=="工程技术"){
-        		alert("不能同时选择");
-        		 return false;  
-        	} 
-        	
-        	if(objVal=="工程技术"&&flagValue=="工程经济"){
-        		alert("不能同时选择");
-        	}  */
-        	
+        	 }
+        	 checkZjlb();
         }
+        
+       	// 选中专家类别
+				function checkZjlb() {
+					$("input[name='chkItem_1']").each(function() {
+						if ($(this).prop("checked")) {
+							$("input[name='chkItem_2']").prop("disabled", true);
+						}
+					});
+					$("input[name='chkItem_2']").each(function() {
+						if ($(this).prop("checked")) {
+							$("input[name='chkItem_1']").prop("disabled", true);
+						}
+					});
+					var notCheckedCount = 0;// 没有选中的checkbox
+					var allCheckboxCount = 0;// 所有的checkbox
+					$("input[name='chkItem_1'],input[name='chkItem_2']").each(function() {
+						allCheckboxCount++;
+						if (!$(this).prop("checked")) {
+							notCheckedCount++;
+						}
+					});
+					if (notCheckedCount == allCheckboxCount) {
+						$("input[name='chkItem_1'],input[name='chkItem_2']").prop(
+								"disabled", false);
+					}
+				}
+        
         function  isZhiye(obj){
         	submitformExpert();
         	var val=$(obj).val();
@@ -552,18 +573,25 @@
           	 }
         	 });
     
-    	 if(val==1&&flag==true){
-    		 init_web_upload_in("#pro_div");
-    		 $("#pro_div").show();
-    	 }
-    	 if(val==2){
-    		 $("#pro_div").hide();
-    			$("#server_div").hide();
-    	 }
-    	 if(val==1&&bool==true){
+    	 if(val==1&&flag==true&&bool==true){
     		 init_web_upload_in("#server_div");
     		 $("#server_div").show();
+    	 }else{
+    		 if(val==1&&flag==true){
+        		 init_web_upload_in("#pro_div");
+        		 $("#pro_div").show();
+        	 }
+        	 if(val==2){
+        		 $("#pro_div").hide();
+        			$("#server_div").hide();
+        	 }
+        	 if(val==1&&bool==true){
+        		 init_web_upload_in("#server_div");
+        		 $("#server_div").show();
+        	 }
     	 }
+    	 
+    	
      
     	 
         }
@@ -608,63 +636,59 @@
         }
         
         function delPractice(obj){
-        	var btmCount = 0;
-        	var proCount=0;
-        	var flag=false;
-        	var bool=false;
-       	 $("input[name='chkItem_2']").each(function() {
-       		var val=$(this).parent().text();
-         	if(val.trim()=="工程经济"){	
-         	 if ($(this).prop("checked")) {
-         		  flag=true;
-         	    }
-         	 }
-       	 });
+        	var bool1 = false;// 工程技术是否选择
+        	var bool2 = false;// 工程经济是否选择
+        	var zyzgCount1 = 0;// 工程技术执业资格数量统计
+        	var zyzgCount2 = 0;// 工程经济执业资格数量统计
+        	zyzgCount1 = $("#server_div input[name$='qualifcationTitle']").length;
+        	zyzgCount2 = $("#pro_div input[name$='qualifcationTitle']").length;
         	
-    	 $("input[name='chkItem_1']").each(function() {
+    	 		$("input[name='chkItem_1']").each(function() {
         		var val=$(this).parent().text();
           	if(val.trim()=="工程技术"){	
-          	 if ($(this).prop("checked")) {
-          		 bool=true;
-          	    } 
-          	 }
-        	 });
+          		if ($(this).prop("checked")) {
+          			bool1 = true;
+          	  } 
+          	}
+       	 	});
+       	 	
+       	 	$("input[name='chkItem_2']").each(function() {
+       			var val=$(this).parent().text();
+	         	if(val.trim()=="工程经济"){
+	         		if ($(this).prop("checked")) {
+	         		  bool2 = true;
+	       	    }
+	       	 	}
+       	 	});
     	 
-        	
-			$("#pro_div").find("input[type='button']").each(function() {
-				btmCount++;
-			});
-			$("#server_div").find("input[type='button']").each(function() {
-				proCount++;
-			});
-			
-			if(btmCount == 2&&flag==true) {
-				layer.msg("执业资格信息至少保留一个!", {
-					offset: '300px'
-				});
-			}  
-			
-			else if(proCount == 2&&bool==true) {
-				layer.msg("执业资格信息至少保留一个!", {
-					offset: '300px'
-				});
-			} 
-			
-			else{
-				var id=$(obj).next().val();
+					if(zyzgCount1 == 1 && bool1 == true) {
+						layer.msg("工程技术-执业资格信息至少保留一个!", {
+							offset: '300px'
+						});
+					}  
+					
+					else if(zyzgCount2 == 1 && bool2 == true) {
+						layer.msg("工程经济-执业资格信息至少保留一个!", {
+							offset: '300px'
+						});
+					}
+					
+					else{
+						var id=$(obj).next().val();
 	        	$.ajax({
-					url: "${pageContext.request.contextPath}/expert/deleteprofessional.do",
-					type: "post",
-					data:{"id":id},
-					success: function(data) {
-						$(obj).parent().parent().prev().prev().prev().remove();
+							url: "${pageContext.request.contextPath}/expert/deleteprofessional.do",
+							type: "post",
+							data:{"id":id},
+							success: function(data) {
+								$(obj).parent().parent().prev().prev().prev().remove();
 			        	$(obj).parent().parent().prev().prev().remove();
 			        	$(obj).parent().parent().prev().remove();
 			        	$(obj).parent().parent().remove();
-					}
-				});
-			 }
+							}
+						});
+			 		}
         }
+        
         function tempSave(){
         	 $.ajax({
                  url: "${pageContext.request.contextPath}/expert/addprofessional.do",
@@ -726,13 +750,13 @@
     <input type="hidden" id="isType" name="isType" value=""/>
     <input type="hidden" name="token2" value="<%=tokenValue%>"/>
     <div id="reg_box_id_3" class="container clear margin-top-30 job-content">
-        <h2 class="padding-20 mt40">
+        <h2 class="step_flow">
             <span id="sp1" class="new_step current fl" onclick="pre1()"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
             <span id="sp7" class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类别</span> </span>
             <span id="ty6" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
             <span id="sp3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
             <span id="sp4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
-            <span id="sp5" class="new_step fl"><i class="">6</i><span class="step_desc_01">提交审核</span> </span>
+            <span id="sp5" class="new_step fl new_step_last"><i class="">6</i><span class="step_desc_01">提交审核</span> </span>
             <div class="clear"></div>
         </h2>
         <div class="container container_box">
@@ -758,37 +782,45 @@
 						<li  id="zhiyezige" style="display: none;" class="col-md-3 col-sm-6 col-xs-12 pl10">
 						<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>有无执业资格</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<select style="width:100%" name="isTitle" id="mySelect" onchange="isZhiye(this)" >
+								<select class="w100p" name="isTitle" id="mySelect" onchange="isZhiye(this)" >
 									<option  value="2" <c:if test="${expert.isTitle==2}">selected="selected"</c:if> >无 </option>
 									<option  value="1" <c:if test="${expert.isTitle==1}">selected="selected"</c:if> >有 </option>
 								</select>
 							</div>
 						</li>
-				</ul>	
+				</ul>
+				
 				<div style="display: none;" id="server_div" class="clear">
 					<ul class="list-unstyled f14" id="addUl">
 						<c:forEach items="${proList }" var="t"  varStatus="vs" >
 							<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> <!--/执业资格  -->
-            			        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                       			 <input  <c:if test="${fn:contains(engErrorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
-                                maxlength="20" value="${t.qualifcationTitle}"
-                                name="titles[${vs.index }].qualifcationTitle"  type="text"/>
-                       				 <span class="add-on">i</span> <span class="input-tip">不能为空</span>
-                    			</div>
-             				   </li>
-               					<li class="col-md-3 col-sm-6 col-xs-12">
-	               					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格</span>
-                    				<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
-                    		    <u:upload
-                                singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                exts="${properties['file.picture.type']}" id="pro_${vs.index}"
-                                groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
-                                multiple="true" businessId="${t.id}" sysKey="${expertKey}"
-                                typeId="9" auto="true"/>
-                        <u:show showId="pro_${vs.index}"     businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
-                    </div>
-                </li>
+   			        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+            				<input  <c:if test="${fn:contains(engErrorField,t.id.concat('_qualifcationTitle'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('qualifcationTitle','${t.id }')"</c:if>
+                     maxlength="20" value="${t.qualifcationTitle}"
+                     name="titles[${vs.index }].qualifcationTitle"  type="text"/>
+          				 	<span class="add-on">i</span> <span class="input-tip">不能为空</span>
+           			</div>
+     				  </li>
+							<li class="col-md-3 col-sm-6 col-xs-12">
+	     				  <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格</span>
+	       				<div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
+	         		    <c:choose>
+										<c:when test="${expert.status == 3 and !fn:contains(engErrorField,t.id.concat('_tieleFile'))}">
+											<u:show showId="pro_${vs.index}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+										</c:when>
+										<c:otherwise>
+											<u:upload
+                        singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+                        exts="${properties['file.picture.type']}" id="pro_${vs.index}"
+                        groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
+                        multiple="true" businessId="${t.id}" sysKey="${expertKey}"
+                        typeId="9" auto="true" maxcount="20"/>
+           	   				<u:show showId="pro_${vs.index}" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+										</c:otherwise>
+									</c:choose>
+               	</div>
+               </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>取得执业资格时间</span>
                     <!--/职业资格时间  -->
@@ -804,21 +836,23 @@
                     </div>
                 </li>
                 
-                <li class="col-md-3 col-sm-6 col-xs-12">
+        <li class="col-md-3 col-sm-6 col-xs-12">
 					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
-						<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
+					<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
+						<c:if test="${expert.status != 3}">
 							<input type="button" onclick="addPractice(1)" class="btn list_btn" value="十" />
-							<input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
-								<input type="hidden" name="titles[${vs.index }].id" value="${t.id}" />
-								<input type="hidden" name="titles[${vs.index }].expertId" value="${t.expertId}" />
-						</div>
+						</c:if>
+						<input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
+						<input type="hidden" name="titles[${vs.index }].id" value="${t.id}" />
+						<input type="hidden" name="titles[${vs.index }].expertId" value="${t.expertId}" />
+					</div>
 			  </li>
 			</c:forEach>
 			</ul>	
 		 </div>	
 		 			
 	 <div style="display: none;" id="pro_div">
-		<ul class="list-unstyled f14" id="jingji_ul">
+		<ul class="list-unstyled f14 clear" id="jingji_ul">
 		<c:forEach items="${ecoList}" var="t"  varStatus="vs" >
 		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格职称</span> <!--/执业资格  -->
@@ -832,13 +866,20 @@
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>执业资格</span>
                     <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(engErrorField,t.id.concat('_tieleFile'))}">style="border: 1px solid #ef0000;" onmouseover="errorFileMsg('tieleFile','${t.id }')"</c:if>>
-                        <u:upload
-                                singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                exts="${properties['file.picture.type']}" id="eco_${vs.index}"
-                                groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
-                                multiple="true" businessId="${t.id}" sysKey="${expertKey}"
-                                typeId="9" auto="true"/>
-                        <u:show showId="eco_${vs.index}"     businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+                      <c:choose>
+												<c:when test="${expert.status == 3 and !fn:contains(engErrorField,t.id.concat('_tieleFile'))}">
+													<u:show showId="pro_${vs.index}" delete="false" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+												</c:when>
+												<c:otherwise>
+													<u:upload
+                            singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+                            exts="${properties['file.picture.type']}" id="eco_${vs.index}"
+                            groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
+                            multiple="true" businessId="${t.id}" sysKey="${expertKey}"
+                            typeId="9" auto="true" maxcount="20"/>
+                        	<u:show showId="eco_${vs.index}" businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
+												</c:otherwise>
+											</c:choose>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
@@ -858,10 +899,13 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
 					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 						<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-							<input type="button" onclick="addPractice(2)" class="btn list_btn" value="十" />
-							<input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
-								<input type="hidden" name="ecoList[${vs.index }].id" value="${t.id}" />
-								<input type="hidden" name="ecoList[${vs.index }].expertId" value="${t.expertId}" />
+							<c:if test="${expert.status != 3}">
+								<input type="button" onclick="addPractice(2)" class="btn list_btn" value="十" />
+							    <input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
+							</c:if>
+							
+							<input type="hidden" name="ecoList[${vs.index }].id" value="${t.id}" />
+							<input type="hidden" name="ecoList[${vs.index }].expertId" value="${t.expertId}" />
 						</div>
 			  </li>
 			</c:forEach>
@@ -935,5 +979,51 @@
 <input type="hidden" id="ecoIndex" value="1">
 <jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
-
+<script type="text/javascript">
+		// 如果专家状态是退回修改，控制表单域的编辑与不可编辑
+		var expertSt = '${expert.status}';
+		if(expertSt == '3'){
+			$("input[type='text'],select,textarea").attr('disabled',true);
+			$("input[type='text'],select,textarea").each(function(){
+				// 或者$(this).attr("style").indexOf("border: 1px solid #ef0000;") > 0
+				// 或者$(this).css("border") == '1px solid rgb(239, 0, 0)'
+				if(this.style.border == '1px solid rgb(239, 0, 0)'){
+					$(this).attr('disabled',false);
+				}
+			});
+			// 控制5大类别的编辑性
+			$("input[type='checkbox'][name='chkItem_1']").attr('disabled',true);
+			$("input[type='checkbox'][name='chkItem_2']").attr('disabled',true);
+			$("input[type='checkbox'][name='chkItem_1']").each(function(){
+				/* if($(this).parent().css("color") == 'rgb(239, 0, 0)'){
+					$(this).attr('disabled',false);
+				} */
+				// 或者
+				var typeErrorField = '${typeErrorField}';
+				if(typeErrorField.indexOf($(this).val()) >= 0){
+					$(this).attr('disabled',false);
+					var thisText = $(this).parent().text().trim();
+					if(thisText == "工程技术"){
+						//控制有无执业资格下拉的可选与否
+						//$("#mySelect").attr('disabled',false);
+					}
+				}
+			});
+			$("input[type='checkbox'][name='chkItem_2']").each(function(){
+				/* if($(this).parent().css("color") == 'rgb(239, 0, 0)'){
+					$(this).attr('disabled',false);
+				} */
+				// 或者
+				var typeErrorField = '${typeErrorField}';
+				if(typeErrorField.indexOf($(this).val()) >= 0){
+					$(this).attr('disabled',false);
+					var thisText = $(this).parent().text().trim();
+					if(thisText == "工程经济"){
+						//控制有无执业资格下拉的可选与否
+						//$("#mySelect").attr('disabled',false);
+					}
+				}
+			});
+		}
+</script>
 </html>

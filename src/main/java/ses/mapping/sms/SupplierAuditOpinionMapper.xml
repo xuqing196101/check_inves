@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierAuditOpinionMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierAuditOpinion">
+    <id column="ID"  property="id" />
+    <result column="SUPPLIER_ID"  property="supplierId" />
+    <result column="OPINION"  property="opinion" />
+    <result column="CREATED_AT"  property="createdAt" />
+
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SUPPLIER_ID, OPINION, CREATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_OPINION
+    where SUPPLIER_ID = #{supplierId}
+    AND CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_SMS_SUPPLIER_OPINION )
+  </select>
+
+  <insert id="insertSelective" parameterType="ses.model.sms.SupplierAuditOpinion">
+    insert into T_SES_SMS_SUPPLIER_OPINION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="opinion != null">
+        OPINION,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId},
+      </if>
+      <if test="opinion != null">
+        #{opinion},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+    </trim>
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+  </insert>
+  
+  <!-- 根据供应商ID查询信息 -->
+  <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+       SELECT 
+        <include refid="Base_Column_List" />
+        FROM (SELECT <include refid="Base_Column_List" />
+         FROM T_SES_SMS_SUPPLIER_OPINION T
+         WHERE T.SUPPLIER_ID = #{supplierId}
+         ORDER BY T.CREATED_AT DESC)
+         WHERE ROWNUM = 1
+  </select>
+  
+  <!-- 根据专家Id修改 -->
+  <update id="updateOpinionByExpertId" parameterType="ses.model.sms.SupplierAuditOpinion">
+  	UPDATE T_SES_SMS_SUPPLIER_OPINION T
+     SET T.AUDIT_OPINION_ATTACH = #{auditOpinionAttach}
+     WHERE T.SUPPLIER_ID = #{supplierId}
+  </update>
+  
+</mapper>

@@ -4,7 +4,8 @@
 <html>
 <head>
 	<%@ include file="/WEB-INF/view/common.jsp" %>
-  
+  <script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/ses/bms/user/initPWD.js"></script>
   	<script type="text/javascript">
 	  $(function(){
 		  laypage({
@@ -236,26 +237,6 @@
 		layer.closeAll();
 	}
 	
-	function resetPasswSubmit(){
-		$.ajax({   
-	            type: "POST",  
-	            url: "${pageContext.request.contextPath}/user/resetPwd.html",        
-	           	data : $('#form2').serializeArray(),
-			    dataType:'json',
-			    success:function(result){
-			    	if(!result.success){
-                    	layer.msg(result.msg,{offset: ['150px']});
-			    	}else{
-			    		layer.closeAll();
-			    		layer.msg(result.msg,{offset: ['222px']});
-			    	}
-                },
-                error: function(result){
-                    layer.msg("重置失败",{offset: ['222px']});
-                }
-	     });    
-	}
-	
 	function viewPermission(id){
 		layer.open({
 			  type: 2, //page层
@@ -368,15 +349,15 @@
             <table class="table table-bordered table-condensed table-hover table-striped">
             <thead>
 					<tr>
-					  <th class="info w30 col-md-1 col-sm-1 col-xs-1 col-lg-1" ><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-					  <th class="info w50 col-md-1 col-sm-1 col-xs-1 col-lg-1">序号</th>
-					  <th class="info hidden col-md-1 col-sm-1 col-xs-1 col-lg-1">用户名</th>
-					  <th class="info col-md-1 col-sm-1 col-xs-1 col-lg-1">姓名</th>
-					  <th class="info col-md-1 col-sm-1 col-xs-1 col-lg-1">机构类型</th>
-					  <th class="info col-md-4 col-sm-4 col-xs-4 col-lg-4">单位</th>
-					  <th class="info col-md-2 col-sm-2 col-xs-2 col-lg-2">联系电话</th>
-					  <th class="info col-md-2 col-sm-2 col-xs-2 col-lg-2">角色</th>
-					  <th class="info w80 col-md-1 col-sm-1 col-xs-1 col-lg-1">权限</th>
+					  <th class="info w30" ><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+					  <th class="info w50">序号</th>
+					  <th class="info hidden">用户名</th>
+					  <th class="info" width="12%">姓名</th>
+					  <th class="info" width="13%">机构类型</th>
+					  <th class="info"  width="25%">单位</th>
+					  <th class="info"  width="140">联系电话</th>
+					  <th class="info"  width="">角色</th>
+					  <th class="info w50">权限</th>
 					  <!-- <th class="info w80">数据权限</th> -->
 					</tr>
 		      </thead>
@@ -385,42 +366,42 @@
 					<tr>
 					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${user.id}" /></td>
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-					  <td class="tl pl20 hidden" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
-					  <td class="tc">${user.relName}</td>
-					 <td class="tc"> <c:if test="${user.typeName == '1'}">采购机构</c:if>
+					  <td class="tl hidden" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
+					  <td class="tl"><a href="#" onclick="view('${user.id}');">${user.relName}</a></td>
+					 <td class="tl"> <c:if test="${user.typeName == '1'}">采购机构</c:if>
 						        		<c:if test="${user.typeName == '2'}">采购管理部门</c:if>
 						        		<c:if test="${user.typeName == '0'}">需求部门</c:if>
 						        		<c:if test="${user.typeName == '4'}">资源服务中心</c:if>
 						        		<c:if test="${user.typeName == '5'}">监管部门</c:if>
 						        		<c:if test="${user.typeName == '3'}">其他</c:if>
 						        	</td>
-					  <td class="tl pl20">
-					   <c:choose>
-					    <c:when test="${user.typeName=='0'}">
-                        <c:if test="${user.org != null && user.org.shortName != null }">
-                            ${user.org.shortName}
-                        </c:if>
-                        <c:if test="${user.org != null && (user.org.shortName == null || user.org.shortName == '')}">
-                            ${user.org.name} 
-                        </c:if>
-                        <c:if test="${user.org == null }">${user.orgName}</c:if>
-                        </c:when>
-                          <c:when test="${user.typeName!='4' && user.typeName!='5'}">
-					  	<c:if test="${user.org != null && user.org.fullName != null && user.org.fullName != ''}">
-					  		${user.org.fullName}
-					  	</c:if>
-					  	<c:if test="${user.org != null && (user.org.fullName == null || user.org.fullName == '')}">
-					  		${user.org.name}
-					  	</c:if>
-					  	<c:if test="${user.org == null }">${user.orgName}</c:if>
-					  	</c:when> 
-                          <c:otherwise>
-                           ${user.orgName}
-					  	   </c:otherwise>
-                          </c:choose>
+					  <td class="tl">
+					   	<c:choose>
+						    <c:when test="${user.typeName=='0'}">
+		                        <c:if test="${user.org != null && user.org.shortName != null }">
+		                            ${user.org.shortName}
+		                        </c:if>
+		                        <c:if test="${user.org != null && (user.org.shortName == null || user.org.shortName == '')}">
+		                            ${user.org.name} 
+		                        </c:if>
+		                        <c:if test="${user.org == null }">${user.orgName}</c:if>
+	                        </c:when>
+	                        <c:when test="${user.typeName!='4' && user.typeName!='5'}">
+							  	<c:if test="${user.org != null && user.org.fullName != null && user.org.fullName != ''}">
+							  		${user.org.fullName}
+							  	</c:if>
+							  	<c:if test="${user.org != null && (user.org.fullName == null || user.org.fullName == '')}">
+							  		${user.org.name}
+							  	</c:if>
+							  	<c:if test="${user.org == null }">${user.orgName}</c:if>
+						  	</c:when> 
+	                        <c:otherwise>
+	                           ${user.orgName}
+						  	</c:otherwise>
+                        </c:choose>
 					  </td>
 					  <td class="tc">${user.mobile}</td>
-					  <td class="tc">
+					  <td class="tl">
 					  	<c:set var="roleCode" value=""/>
 					  	<c:forEach items="${user.roles}" var="r" varStatus="vs">
 			        		<c:if test="${vs.index == 0 }">
@@ -456,18 +437,18 @@
 	          	  <div class="col-md-6 col-sm-6 col-xs-12 pl15">
 	                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>输入新密码：</label> 
 	                <div class="col-md-12 col-sm-12 col-xs-12 input-append input_group p0">
-	                 	<input type="password" name="password" type="text">
+	                 	<input type="password" name="password" id="password" maxlength="50">
 	                </div>
 	              </div>
 	              <div class="col-md-6  col-sm-6 col-xs-12 ">
 	                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>确认新密码：</label> 
 	                <div class="col-md-12 col-sm-12 col-xs-12 input-append input_group p0">
-	                  <input type="password" name="password2"  class="">
+	                  <input type="password" name="password2"  id="password2" maxlength="50">
 	                </div>
 	              </div>
 			  </ul>
               <div class="tc col-md-12 col-sm-12 col-xs-12 mt10">
-                <input class="btn" id="inputb" name="addr" onclick="resetPasswSubmit();" value="确定" type="button"> 
+                <input class="btn" id="inputb" name="addr" onclick="userResetPasswSubmit();" value="确定" type="button"> 
 				<input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
               </div>
 		    </div>

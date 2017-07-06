@@ -131,4 +131,15 @@ public interface ProjectExtractMapper {
      * @param list
      */
     void insertBatch(List<ProjectExtract> list);
+    
+    /**
+     * 
+     * Description: 修改临时专家的包Id
+     * 
+     * @author zhang shubin
+     * @data 2017年6月27日
+     * @param 
+     * @return
+     */
+    void updateProjectByExpertId(Map<String, Object> map);
 }

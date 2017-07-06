@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/public/common/RSA.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ses/bms/user/add.js"></script>
 	<script type="text/javascript">
         //验证登陆用户名
@@ -302,10 +303,13 @@
 		}
 		
 		//控制显示输入框和下来框
-		function viewOrgType(){
+		function viewOrgType(type){
 			//获取机构类型
 			var orgType = $("#org_type").val();
-			$("#orgSel").attr("value", "");
+			if(type=='1'){
+			   $("#orgSel").attr("value", "");
+			}
+			
 			$("#orgParent").val("");
 			$("#oId").val("");
 			if (orgType == '3' ) {
@@ -313,6 +317,8 @@
 			   $("#orgTitle").html("所属机构");
 			   $("#orgSel").show();
 				$("#oId").attr("type","hidden");
+				$("#select_org").show();
+				$("#tempOrg").hide();
 				/* $("#orgSel").hide();
 				$("#oId").attr("type","text"); */
 			} else if (  orgType == '5'||orgType == '4') {
@@ -320,11 +326,13 @@
 			   $("#orgTitle").html("监管对象");
 			   $("#orgSel").show();
 			   $("#oId").attr("type","hidden");
+			   $("#tempOrg").show();
 			}else{
 			    $("#isOrgShow").show();
 			    $("#orgTitle").html("所属机构");
 				$("#orgSel").show();
 				$("#oId").attr("type","hidden");
+				$("#tempOrg").hide();
 			}
 		 
 		}
@@ -397,7 +405,28 @@
          	return is_error;
 		}
 		
+		function ajaxOfficerCertNo(){
+			 var is_error = 0;
+			 var officerCertNo = $("#officerCertNo").val();
+			 $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/user/ajaxOfficerCertNo.do?officerCertNo="+officerCertNo,
+             dataType: "json",
+             success: function(data){
+                     if (!data.success) {
+						$("#ajax_officerCertNo").html(data.msg);
+						is_error = 1;
+					 } else {
+					 	$("#ajax_officerCertNo").html("");
+					 }
+               }
+         	});
+         	return is_error;
+		}
+		
 		$(document).ready(function(){  
+		     viewOrgType(0);
     		$("#form1").bind("submit", function(){  
     			var error = 0;
     			if (ajaxIdNumber() == 1) {
@@ -406,6 +435,9 @@
 				if (ajaxMoblie() == 1){
 					error += 1;
 				} 
+				if (ajaxOfficerCertNo() == 1){
+					error += 1;
+				}
 				if (isExist() == 1){
 					error += 1;
 				} 
@@ -416,6 +448,19 @@
 				}
     		})
     	})
+    	//校验密码位数是否满足6位
+    	function checkPassword() {
+			var password=$("#password1").val();
+			if(password.length<6){
+				$("#is_error").html("密码不能小于6位").css('color','red');
+			}else{
+				$("#is_error").html("");
+			}
+		}
+	function encrypt(){
+		$("#password11").val(setPublicKey($("#password1").val()));
+        $("#password22").val(setPublicKey($("#password2").val()));
+	}
 	</script>
 </head>
 <body>
@@ -467,15 +512,18 @@
 			 	 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			   		<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>密码</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input  name="password" value="${user.password}" maxlength="30" id="password1" type="password">
+				        <input    maxlength="30" id="password1" value="${user.password}" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false" onblur="checkPassword()" type="password">
+				        <input type="hidden" name="password" id="password11"/>
 				        <span class="add-on">i</span>
 				        <div class="cue"><sf:errors path="password"/></div>
+				        <div id="is_error" class="cue">${password_msg}</div>
 			        </div>
 			 	</li> 
 		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 col-lg-12"><span class="star_red">*</span>确认密码</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input  id="password2" value="${user.password2}" maxlength="30" name="password2" type="password">
+				        <input  id="password2"  maxlength="30" value="${user.password2}" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false" type="password">
+				        <input type="hidden" name="password2" id="password22"/>
 				        <span class="add-on">i</span>
 				        <div class="cue"><sf:errors path="password2"/></div>
 				        <div class="cue">${password2_msg}</div>
@@ -531,14 +579,15 @@
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			        	<input id="idNumber"  name="idNumber" value="${user.idNumber}" onkeyup="ajaxIdNumber()"  maxlength="18" type="text">
 			        	<span class="add-on">i</span>
-						<div id="ajax_idNumber" class="cue">${ajax_idNumber }</div>
+						<div id="ajax_idNumber" class="cue">${ajax_idNumber}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">军官证号</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input  name="officerCertNo" value="${user.officerCertNo}" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5\uF900-\uFA2D]/g,'')" maxlength="20" type="text">
+			        	<input  name="officerCertNo" id="officerCertNo" value="${user.officerCertNo}" onblur="ajaxOfficerCertNo()" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5\uF900-\uFA2D]/g,'')" maxlength="20" type="text">
 			        	<span class="add-on">i</span>
+			        	<div id="ajax_officerCertNo" class="cue">${ajax_officerCertNo}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
@@ -589,7 +638,7 @@
 						        </select>
 					        </c:when >
 					        <c:otherwise>
-					        	<select id="org_type" name="typeName" onchange="viewOrgType()" >
+					        	<select id="org_type" name="typeName" onchange="viewOrgType(1)" >
 						        	<option value="1" <c:if test="${user.typeName == '1'}">selected</c:if>>采购机构</option>
 						        	<option value="2" <c:if test="${user.typeName == '2'}">selected</c:if>>采购管理部门</option>
 						        	<option value="0" <c:if test="${user.typeName == '0'}">selected</c:if>>需求部门</option>
@@ -607,7 +656,7 @@
 				   	<c:if test="${typeName!=5&&typeName!=4 }">
 				   	<span class="red display-inline" id="isOrgShow">*</span><span id="orgTitle">所属机构</span>
 				   	</c:if>
-				   	<c:if test="${typeName==5&&typeName==4 }">
+				   	<c:if test="${typeName==5||typeName==4 }">
 				   	<span class="red display-inline" id="isOrgShow">*</span><span id="orgTitle">监管对象</span>
 				   	</c:if>
 				   	</span>
@@ -615,7 +664,7 @@
 				        <c:choose> 
 					        <c:when  test="${not empty origin}">
 					            <input id="oId" name="orgId" value="${orgId}" type="hidden" />
-					        	<input id="orgSel"  type="text" name="orgName"  value="${orgName}"  />
+					        	<input id="orgSel"  type="text" name="orgName"  value="${orgName}" onclick="showOrg();"  />
 					        </c:when >
 					        <c:otherwise>
 					        	<input id="oId" name="orgId" value="${user.orgId}" type="hidden" />
@@ -629,6 +678,13 @@
 				        <div id="ajax_orgId" class="cue">${ajax_orgId }</div>
 			        </div>
 			 	</li>
+                 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" id="tempOrg">
+                    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">单位</span>
+                    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+                        <input  name="tempOrgName" value="${user.orgName}" maxlength="400" type="text">
+                        <span class="add-on">i</span>
+                    </div>
+                </li> 
 				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>角色</span>
 				    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
@@ -649,7 +705,7 @@
 			   </ul>
 		   </div> 
 	       <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 tc mt20" >
-			   <button class="btn btn-windows save"  type="submit">保存</button>
+			   <button class="btn btn-windows save"  type="submit" onclick="encrypt()">保存</button>
 			   <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
        	   </div>
   	   </sf:form>

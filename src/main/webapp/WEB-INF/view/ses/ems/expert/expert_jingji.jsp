@@ -14,8 +14,8 @@
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                exts="${properties['file.picture.type']}" id="eco_${index}" maxcount="1"   businessId="${id}" sysKey="${expertKey}"
-                                typeId="9" auto="true"/>
+                                exts="${properties['file.picture.type']}" id="eco_${index}"    businessId="${id}" sysKey="${expertKey}"
+                                typeId="9" auto="true" multiple="true" maxcount="20"/>
                         <u:show showId="eco_${index }"  businessId="${id}" sysKey="${expertKey}"
                                 typeId="9"/>
                     </div>

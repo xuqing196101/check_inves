@@ -1,5 +1,7 @@
 package bss.service.prms;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -123,4 +125,11 @@ public interface ExpertScoreService {
          * @return
          */
         List<ExpertSuppScore> getScoreByMap(Map<String, Object> map);
+        /**
+         *〈简述〉计算供应商总得分
+         *〈详细描述〉
+         * @author Ye MaoLin
+         * @param map
+         */
+        BigDecimal selectSumByMap(HashMap<String, Object> map);
 }

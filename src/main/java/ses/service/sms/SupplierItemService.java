@@ -3,6 +3,8 @@ package ses.service.sms;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.Category;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItem;
@@ -37,6 +39,17 @@ public interface SupplierItemService {
 	 * @return
 	 */
 	public List<SupplierItem> findCategoryList(String supplierId, String type, Integer pageNum);
+	/**
+	 * 
+	 * Description:根据id 查询数据
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-28
+	 * @param id
+	 * @param pageNum
+	 * @return
+	 */
+	public SupplierItem selectByPrimaryKey(String id);
 	/**
 	 * 
 	* @Title: getCategory
@@ -132,4 +145,26 @@ public interface SupplierItemService {
 	* @throws
 	 */
 	public List<SupplierItem> queryBySupplierAndType(String supplierId,String type);
-}
+	
+	/**
+	 * 
+	 * Description:品目id 供应商 类型 查询类型 --
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-6-15
+	 * @param categoryId
+	 * @param supplierTypeRelateId
+	 * @return
+	 */
+	public List<String> findSupplierIdByCategoryId(String categoryId);
+	/**
+	 * 
+	 * Description:查询供应商品目的 类型
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-4
+	 * @param supplierId
+	 * @return
+	 */
+	public List<String> findSupplierTypeBySupplierId(String supplierId);
+	}

@@ -24,7 +24,10 @@
 	      }(),
 	      jump : function(e, first) { //触发分页后的回调
         	if(!first){ //一定要加此判断，否则初始时会无限刷新
-	      		location.href = "${pageContext.request.contextPath }/product/list.do?page=" + e.curr;
+        		var name = $("#name").val();
+        		var code = $("#code").val();
+        		var status = $('#status option:selected').val();
+	      		location.href = "${pageContext.request.contextPath }/product/list.do?page=" + e.curr+"&&name="+name+"&&code="+code+"&&status="+status;
 	        }
 	      }
 	    });
@@ -128,7 +131,7 @@
 			id.push($(this).val());
 		});
 		if(id.length == 1) {
-			if($("#"+id).html().replace(/\s+/g,"") == "暂存" || $("#"+id).html().replace(/\s+/g,"") == "已撤回"){
+			if($("#"+id).html().replace(/\s+/g,"") == "暂存" || $("#"+id).html().replace(/\s+/g,"") == "已撤回" || $("#"+id).html().replace(/\s+/g,"") == "未发布"){
 			layer.confirm('您确定要发布吗?', {
 				title: '提示',
 				offset: ['222px', '360px'],
@@ -378,9 +381,13 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">定型产品管理</a></li>
-		   </ul>
+			<li>
+				<a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
+			</li>
+			<li><a href="javascript:void(0)">保障作业</a></li>
+			<li><a href="javascript:void(0)">网上竞价</a></li>
+			<li class="active"><a href="javascript:jumppage('${pageContext.request.contextPath}/product/list.html')">定型产品管理</a></li>
+		</ul>
         <div class="clear"></div>
       </div>
     </div>
@@ -395,18 +402,19 @@
     	<ul class="demand_list">
     	<li>
 	    	<label class="fl">产品名称：</label>
-			<input type="text" id="topic" class="" name = "name" value="${productExample.name }"/>
+			<input type="text" id="name" class="" name = "name" value="${productExample.name }"/>
 	      </li>
     	  <li>
 	    	<label class="fl">产品代码：</label>
-			<input type="text" id="topic" class="" name = "code" value="${productExample.code }"/>
+			<input type="text" id="code" class="" name = "code" value="${productExample.code }"/>
 	      </li>
     	  <li>
 	    	<label class="fl">产品状态：</label>
-	    	  <select class="w178" name="status">
+	    	  <select class="w178" name="status" id = "status">
 	    	    <option value="0">全部</option>
 	    	    <option value="1" <c:if test="${'1'==productExample.status}">selected="selected"</c:if>>暂存</option>
 	    	    <option value="2" <c:if test="${'2'==productExample.status}">selected="selected"</c:if>>已发布</option>
+	    	    <option value="4" <c:if test="${'4'==productExample.status}">selected="selected"</c:if>>未发布</option>
 	    	    <option value="3" <c:if test="${'3'==productExample.status}">selected="selected"</c:if>>已撤回</option>
 	    	  </select>
 	      </li>
@@ -447,7 +455,7 @@
 		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 		  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 		  <td title="${product.name }">
-			  <a href="${pageContext.request.contextPath }/product/view.html?productId=${product.id }">
+			  <a href="javascript:jumppage('${pageContext.request.contextPath }/product/view.html?productId=${product.id }')">
 			  	<c:if test="${fn:length(product.name) > 25 }">${fn:substring(product.name, 0, 25)}...</c:if>
 				<c:if test="${fn:length(product.name) <= 25 }">${product.name }</c:if>
 			  </a>
@@ -458,9 +466,10 @@
 		  	<c:if test="${product.status == 1}">暂存</c:if>
 		  	<c:if test="${product.status == 2}">已发布</c:if>
 		  	<c:if test="${product.status == 3}">已撤回</c:if>
+		  	<c:if test="${product.status == 4}">未发布</c:if>
 		  </td>
 		  <td class="tc">
-		  	<a href = "${pageContext.request.contextPath}/product/supplier.html?smallPointsId=${product.smallPointsId }">
+		  	<a href = "javascript:jumppage('${pageContext.request.contextPath}/product/supplier.html?smallPointsId=${product.smallPointsId }')">
 		  		<c:forEach items="${numlist }" var="num">
 		  			<c:if test="${num.smallPointsId == product.smallPointsId }">${num.nCount }</c:if>
 		  		</c:forEach>

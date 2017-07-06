@@ -2,6 +2,7 @@ package ses.service.oms;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
@@ -30,5 +31,11 @@ public interface PurChaseDepOrgService {
   * @throws
    */
   List<PurchaseDep> getDep();
+  
+  	/**
+	 * 查询全部机构
+	 * @return
+	 */
+  List<PurchaseDep> findAllOrg();
   
 }

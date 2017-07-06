@@ -33,14 +33,14 @@
            			tabhtml +='<thead><tr><th class="info w30 tc"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';
 					tabhtml +='<th class="info w50">序号</th>';
 					/* tabhtml +='<th class="info w50">排序</th>'; */
-					tabhtml +='<th class="info">编码</th>';
+					tabhtml +='<th class="info" width="40%">编码</th>';
 					tabhtml +='<th class="info">名称</th></tr></thead>';
 					for(var i =0;i<list.length;i++){
 						tabhtml +='<tr><td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="'+list[i].id+'" /></td>';
 						tabhtml +='<td class="tc">'+(i+1+(pageInfo.pageNum-1)*(pageInfo.pageSize))+'</td>';
 						/* tabhtml +='<td class="tc" >'+list[i].position+'</td>'; */
-						tabhtml +='<td class="tc" >'+list[i].code+'</td>';
-						tabhtml +='<td class="tc">'+list[i].name+'</td>';
+						tabhtml +='<td class="tl" >'+list[i].code+'</td>';
+						tabhtml +='<td class="tl">'+list[i].name+'</td>';
 						tabhtml +='</tr>';
 					}
 					tabhtml +='</table></div>';

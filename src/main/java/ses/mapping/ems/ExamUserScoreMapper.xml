@@ -181,7 +181,7 @@
 		s.USER_TYPE = 1
     	AND s.IS_MAX=1  
         <if test="relName != null and '' != relName">
-           AND U.REL_NAME LIKE #{relName}
+           AND U.REL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
         </if> 
         <if test="status != null and '' != status">
            AND s.STATUS = #{status}
@@ -213,13 +213,13 @@
 			AND d.USER_ID = U.ID
 			AND s.IS_MAX = 1
 			<if test="relName != null and '' != relName">
-	           	AND U.REL_NAME LIKE #{relName}
+	           	AND U.REL_NAME LIKE CONCAT(CONCAT('%', #{relName}), '%')
 	        </if>
 	        <if test="status != null and '' != status">
 	           	AND s.STATUS = #{status}
 	        </if>
 	        <if test="code != null and '' != code">
-	           	AND D.CODE LIKE #{code} 
+	           	AND D.CODE LIKE CONCAT(CONCAT('%', #{code}), '%')
 	        </if>
 			ORDER BY
 				testDate nulls last
@@ -267,7 +267,7 @@
 		AND
 			s.USER_ID = #{userId}
 		<if test="code != null and '' != code">
-           AND P.CODE LIKE #{code}
+           AND P.CODE LIKE CONCAT(CONCAT('%', #{code}), '%')
         </if> 
         ORDER BY
     	s.CREATED_AT DESC

@@ -15,9 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import bss.model.ob.OBProject;
-
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
@@ -35,11 +32,14 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.StringUtil;
+import ses.util.SupplierToolUtil;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
@@ -97,7 +97,6 @@ public class CategoryServiceImpl implements CategoryService {
     /** 最大输入值 **/
     private static final String CATEGORY_MAX_VALUE = "最多只能输入200个汉字";
 
-   
     
     public void insertSelective(Category category) {
         categoryMapper.insertSelective(category);
@@ -322,10 +321,10 @@ public class CategoryServiceImpl implements CategoryService {
                 category.setIsPublish(isPublished);;
             }
             insertSelective(category);
-            saveGeneral(id, generalIds);
-            saveProfile(id, profileIds, isProjected);
+            saveGeneral(id, generalIds,new Date());
+            saveProfile(id, profileIds, isProjected,new Date());
             //保存物资销售型资质文件id
-            saveProfileSales(id, profileSalesIds);
+            saveProfileSales(id, profileSalesIds,new Date());
             res.setSuccess(true);
         }
         /**
@@ -386,11 +385,11 @@ public class CategoryServiceImpl implements CategoryService {
                 }
                
                 updateByPrimaryKeySelective(category);
-                delCategoryQua(id);
-                saveGeneral(id, generalIds);
-                saveProfile(id, profileIds, isProjected);
+                delCategoryQua(id,new Date());
+                saveGeneral(id, generalIds,new Date());
+                saveProfile(id, profileIds, isProjected,new Date());
                 //保存物资销售型资质文件id
-                saveProfileSales(id, profileSalesIds);
+                saveProfileSales(id, profileSalesIds,new Date());
                 res.setSuccess(true);
             }
         }
@@ -404,15 +403,15 @@ public class CategoryServiceImpl implements CategoryService {
      * @param categorId 品目Id
      * @param profileSalesIds 物资销售型资质Id
      */
-    private void saveProfileSales(String categorId, String profileSalesIds){
+    private void saveProfileSales(String categorId, String profileSalesIds,Date date){
         if (StringUtils.isNotBlank(profileSalesIds)){
             if (profileSalesIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] profileArray = profileSalesIds.split(",");
                 for (String profileId : profileArray){
-                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE);
+                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE,date);
                 }
             } else {
-                saveCategoryQua(categorId, profileSalesIds, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE);
+                saveCategoryQua(categorId, profileSalesIds, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE,date);
             }
         }
     }
@@ -424,8 +423,11 @@ public class CategoryServiceImpl implements CategoryService {
      * @author myc
      * @param categoryId 品目Id
      */
-    private void delCategoryQua(String categoryId){
-        categoryQuaMapper.delQuaByCategoryId(categoryId);
+    private void delCategoryQua(String categoryId,Date date){
+    	HashMap<String,Object> map=new HashMap<>();
+    	map.put("categoryId", categoryId);
+    	map.put("updateDate", date);
+        categoryQuaMapper.updateQuaByCategoryId(map);
     }
     
     
@@ -435,15 +437,15 @@ public class CategoryServiceImpl implements CategoryService {
      *〈详细描述〉
      * @author myc
      */
-    private void saveGeneral(String categorId,String generalIds){
+    private void saveGeneral(String categorId,String generalIds,Date date){
         if (StringUtils.isNotBlank(generalIds)){
             if (generalIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] generalArray = generalIds.split(",");
                 for (String generalId : generalArray){
-                    saveCategoryQua(categorId, generalId, StaticVariables.CATEGORY_QUALIFICATION_GENERAL);
+                    saveCategoryQua(categorId, generalId, StaticVariables.CATEGORY_QUALIFICATION_GENERAL,date);
                 }
             } else {
-                saveCategoryQua(categorId, generalIds, StaticVariables.CATEGORY_QUALIFICATION_GENERAL);
+                saveCategoryQua(categorId, generalIds, StaticVariables.CATEGORY_QUALIFICATION_GENERAL,date);
             }
         }
     }
@@ -457,23 +459,23 @@ public class CategoryServiceImpl implements CategoryService {
      * @param profileIds 资质Id
      * @param isProjected 
      */
-    private void saveProfile(String categorId, String profileIds, Integer isProjected){
+    private void saveProfile(String categorId, String profileIds, Integer isProjected,Date date){
         if (StringUtils.isNotBlank(profileIds)){
             if (profileIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] profileArray = profileIds.split(",");
                 for (String profileId : profileArray){
                     if (isProjected != null && isProjected == 1) {
                         //如果是工程品目
-                        saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROJECT_PROFILE);
+                        saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROJECT_PROFILE,date);
                     } else {
-                        saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                        saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROFILE,date);
                     }
                 }
             } else {
                 if (isProjected != null && isProjected == 1) {
-                    saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROJECT_PROFILE);
+                    saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROJECT_PROFILE,date);
                 } else {
-                    saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                    saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROFILE,date);
                 }
             }
         }
@@ -488,11 +490,13 @@ public class CategoryServiceImpl implements CategoryService {
      * @param generalId 资质Id
      * @param quraType  资质类型
      */
-    private void saveCategoryQua(String categorId, String generalId, Integer quraType) {
+    private void saveCategoryQua(String categorId, String generalId, Integer quraType,Date date) {
         CategoryQua cq = new CategoryQua();
         cq.setCategoryId(categorId);
         cq.setQuaId(generalId);
         cq.setQuaType(quraType);
+        cq.setCreatedAt(date);
+        cq.setIsDeleted(StaticVariables.ISNOT_DELETED);
         categoryQuaMapper.save(cq);
     }
     
@@ -920,8 +924,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
 	@Override
 	public boolean exportCategory(String start, String end, Date synchDate) {
-		// TODO Auto-generated method stub
-		//根据时间获取创建 数据范围
+	  //根据时间获取创建 数据范围
 	  List<Category> createList=categoryMapper.selectByCreatedAt(start, end);
 	  List<Category> updateList=categoryMapper.selectByUpdatedAt(start, end);
 	  List<Category> list=new ArrayList<>();
@@ -956,7 +959,7 @@ public class CategoryServiceImpl implements CategoryService {
           }
       }
       if(list!=null){
-      recordService.synchBidding(synchDate, String.valueOf(list), synchro.util.Constant.SYNCH_CATEGORY, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_CATEGORY);
+      recordService.synchBidding(synchDate, String.valueOf(list.size()), synchro.util.Constant.SYNCH_CATEGORY, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.COMMIT_SYNCH_CATEGORY);
       }
 		return false;
 	}
@@ -980,7 +983,175 @@ public class CategoryServiceImpl implements CategoryService {
 		 }
 		return false;
 	}
+	/**
+	 * 实现导出目录资质关联表录 根据时间范围
+	 */
+	@Override
+	public boolean exportCategoryQua(String start, String end, Date synchDate) {
+		//根据时间获取创建 数据范围
+		List<CategoryQua> createList=categoryQuaMapper.selectByCreatedAt(start, end);
+		List<CategoryQua> updateList=categoryQuaMapper.selectByUpdatedAt(start, end);
+		List<CategoryQua> list=new ArrayList<>();
+		if(createList!=null  && createList.size()>0){
+			list.addAll(createList);
+		}
+		if(updateList!=null  && updateList.size()>0){
+			list.addAll(updateList);
+		  }
+		if(list!=null  && !list.isEmpty()){
+			FileUtils.writeFile(FileUtils.getExporttFile(FileUtils.C_SYNCH_CATEGORY_QUA, 21),JSON.toJSONString(list));
+		}
+	    if(list!=null){
+	    	recordService.synchBidding(synchDate, String.valueOf(list.size()), synchro.util.Constant.DATA_SYNCH_CATEGORY_QUA, synchro.util.Constant.OPER_TYPE_EXPORT, synchro.util.Constant.IMPORT_COMMIT_SYNCH_CATEGORY_QUA);
+	    }
+		return false;
+	}
+	/**
+	 * 导入目录资质关联表录数据 
+	 */
+	private boolean importDate(File file){
+		List<CategoryQua> list = FileUtils.getBeans(file, CategoryQua.class); 
+		 if(list!=null  && !list.isEmpty()){
+			 for(CategoryQua category:list){
+			 Integer isExist=categoryQuaMapper.countByPrimaryKey(category.getId());
+			  if(isExist!=null && isExist >0){
+				  categoryQuaMapper.updateByPrimaryKeySelective(category);
+			  }else{
+				  categoryQuaMapper.insertSelective(category);
+			  }
+			 }
+			 recordService.synchBidding(new Date(), list.size()+"", synchro.util.Constant.DATA_SYNCH_CATEGORY_QUA, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.EXPORT_COMMIT_SYNCH_CATEGORY_QUA);
+		 }
+		return false;
+	}
+	/**
+	 * 导入目录资质关联表录数据 
+	 */
+	@Override
+	public boolean importCategoryQua(String synchType,File file) {
+		 /**目录资质关联表*/
+        if(synchType.contains(synchro.util.Constant.DATA_SYNCH_CATEGORY_QUA)){
+			if (synchro.util.Constant.FILE_SYNCH_CATEGORY_QUA_PATH.equals(file.getName())) {
+				for (File file2 : file.listFiles()) {
+					if (file2.getName().contains(FileUtils.C_SYNCH_CATEGORY_QUA)) {
+						importDate(file2);
+					}
+				}
+			}
+		}
+		return false;
+	}
+	@Override
+	public List<Category> disTreeGoodsData(String id) {
+		List<Category> cateList=null;
+		 //物质生产   1/3
+        if(SupplierToolUtil.PRODUCT_ID.equals(id) ){
+        	cateList=findPublishTree(SupplierToolUtil.GOODS_ID, 1);
+        }else if(SupplierToolUtil.SALES_ID.equals(id)){
+      	  //物质销售  3/2
+        	cateList=findPublishTree(SupplierToolUtil.GOODS_ID, 2);
+        }else{
+      	  cateList=findTreeByPid(id);
+        }
+		return cateList;
+	}
 
+	@Override
+	public List<Category> getAllParentNode(String categoryId) {
+		List < Category > categoryList = new ArrayList < Category > ();
+		while(true) {
+			Category cate = findById(categoryId);
+			if(cate == null) {
+				DictionaryData root = DictionaryDataUtil.findById(categoryId);
+				Category rootNode = new Category();
+				rootNode.setId(root.getId());
+				rootNode.setName(root.getName());
+				categoryList.add(rootNode);
+				break;
+			} else {
+				categoryList.add(cate);
+				categoryId = cate.getParentId();
+			}
+		}
+		return categoryList;
+	}
 	
-
+	@Override
+	public SupplierCateTree addNode(List<Category> parentNodeList) {
+		SupplierCateTree cateTree = new SupplierCateTree();
+		// 加入根节点
+		for(int i = 0; i < parentNodeList.size(); i++) {
+			DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
+			if(rootNode != null) {
+				//其他，3物资生产/物资销售 2物质销售 1物资生产
+				cateTree.setRootNode(rootNode.getName());
+				cateTree.setRootNodeID(rootNode.getId());
+				cateTree.setItemsId(rootNode.getId());
+				cateTree.setItemsName(rootNode.getName());
+			}
+		}
+		// 加入一级节点
+		if(cateTree.getRootNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+				Category cate = findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					DictionaryData rootNode = DictionaryDataUtil.findById(cate.getParentId());
+					if(rootNode != null && cateTree.getRootNode().equals(rootNode.getName())) {
+						cateTree.setFirstNode(cate.getName());
+						cateTree.setFirstNodeID(cate.getId());
+						cateTree.setItemsId(cate.getId());
+						cateTree.setItemsName(cate.getName());
+					}
+				}
+			}
+		}
+		// 加入二级节点
+		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+				Category cate = findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					Category parentNode = findById(cate.getParentId());
+					if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
+					cateTree.setSecondNode(cate.getName());
+					cateTree.setSecondNodeID(cate.getId());
+					cateTree.setItemsId(cate.getId());
+					cateTree.setItemsName(cate.getName());
+					}
+				}
+			}
+		}
+		// 加入三级节点
+		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+	    		Category cate = findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					Category parentNode = findById(cate.getParentId());
+					if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
+						cateTree.setThirdNode(cate.getName());
+						cateTree.setThirdNodeID(cate.getId());
+						cateTree.setItemsId(cate.getId());
+						cateTree.setItemsName(cate.getName());
+					}
+				}
+		    }
+	    }
+		// 加入末级节点
+		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
+		    if(parentNodeList.size()>4){
+                for(int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = findById(parentNodeList.get(i).getId());
+	            if(cate != null && cate.getParentId() != null) {
+		            Category parentNode = findById(cate.getParentId());
+		            if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+		                cateTree.setFourthNode(cate.getName());
+						cateTree.setFourthNodeID(cate.getId());
+						cateTree.setItemsId(cate.getId());
+						cateTree.setItemsName(cate.getName());
+	                }
+                }
+	        }
+		 }
+	  }
+		return cateTree;
+	}
 }

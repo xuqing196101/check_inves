@@ -8,6 +8,8 @@
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script src="${pageContext.request.contextPath}/public/webuploadFT/layui/layui.js"></script>
     <script type="text/javascript">
+      var obj="";
+      var detailId = "";
       $(function() {
           layui.use('flow', function() {
             var flow = layui.flow;
@@ -17,10 +19,22 @@
                 var lis = [];
                 //以jQuery的Ajax请求为例，请求下一页数据
                 $.ajax({
-                  url: "${pageContext.request.contextPath}/project/viewPlanDetail.do?taskId=${taskId}&page=" + page,
+                  url: "${pageContext.request.contextPath}/project/viewPlanDetail.do?taskId=${taskId}&page=" + page+"&detailId="+detailId,
                   type: "get",
                   dataType: "json",
                   success: function(res) {
+                   var ch=$("#tb_id").children();
+                   if(ch.length>1){
+                     for(var i=0;i<ch.length;i++){
+                        var tds=$(ch[i]).children()[0];
+                        if($(tds).children()[0]==obj){
+                          check($(tds).children()[0])
+                          break;
+                        }
+                     }
+                   
+                   }
+                   detailId=res.detailId;
                     layui.each(res.data, function(index, item) {
                       var code = "";
                       if(item.oneAdvice == "DYLY") {
@@ -29,7 +43,7 @@
                       if(item.purchaseCount == 0) {
                         item.purchaseCount = "";
                       }
-                      var html = "<tr class='pointer'><td><div class='choose'><input type='checkbox' value='"+item.id+"' name='chkItem' onclick='check(this)' alt=''></div></td><td><div class='seq'>" + item.seq + "</div></td><td><div class='department'>" +
+                      var html = "<tr class='pointer'><td><input type='checkbox' value='"+item.id+"' name='chkItem' onclick='check(this)'  alt=''></td><td><div class='seq'>" + item.seq + "</div></td><td><div class='department'>" +
                         item.department + "</div></td><td><div class='goodsname'>" + item.goodsName + "</div></td><td><div class='stand'>" + item.stand + "</div></td><td><div class='qualitStand'>" +item.qualitStand + "</div></td><td><div class='item'>" + 
                         item.item + "</div></td><td><div class='purchaseCount'>" + item.purchaseCount + "</div></td><td><div class='deliverDate'>" + item.deliverDate + "</div></td><td><div class='purchaseType tc'>" + item.purchaseType + 
                         "</div></td><td><div class='purchasename'>" + code + "</div></td><td><div class='memo'>"+item.memo+"</div><input type='hidden' id='planType' value='"+item.planType+"' /></td></tr>";
@@ -45,11 +59,12 @@
         
         
         function check(ele) {
+          obj=ele;
           var flag = $(ele).prop("checked");
           var id = $(ele).val();
           $.ajax({
             url: "${pageContext.request.contextPath}/project/checkDeail.html",
-            data: "id=" + id,
+            data: {"id" : id, "flag" : flag},
             type: "post",
             dataType: "json",
             success: function(result) {
@@ -129,13 +144,19 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
-            <a href="javascript:void(0)"> 首页</a>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/login/home.html')"> 首页</a>
           </li>
           <li>
             <a href="javascript:void(0)">保障作业</a>
           </li>
           <li>
             <a href="javascript:void(0)">项目管理</a>
+          </li>
+          <li>
+            <a href="javascript:jumppage('${pageContext.request.contextPath}/project/listProject.html')">立项管理</a>
+          </li>
+          <li class="active">
+            <a href="javascript:void(0)">新建采购项目</a>
           </li>
           <li class="active">
             <a href="javascript:void(0)">选择明细</a>

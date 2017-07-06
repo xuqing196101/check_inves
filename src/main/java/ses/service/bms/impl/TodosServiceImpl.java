@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
+import ses.dao.bms.RoleMapper;
 import ses.dao.bms.TodosMapper;
 import ses.model.bms.PreMenu;
+import ses.model.bms.Role;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.service.bms.PreMenuServiceI;
@@ -38,6 +40,8 @@ public class TodosServiceImpl implements TodosService {
 
   @Autowired
   PreMenuServiceI preMenuServiceI;
+  @Autowired
+  private RoleMapper roleMapper;
   /**
    * @Description:插入待办事项
    *
@@ -125,7 +129,53 @@ public class TodosServiceImpl implements TodosService {
     Map<String, Object> pMap = new HashMap<String, Object>();
     List<String> listUserPermission = new ArrayList<String>();
     if (gyscs != null && zjcs != null && gysfs != null && zjfs != null&&zjfc!=null){
-      String[] db = {gyscs, gysfs, zjcs,gysjk,zjfs,zbwjsh,zjfc};
+      String[] db = {gyscs, gysfs, zjcs,gysjk,zbwjsh,zjfc,zjfs};
+      pMap.put("id", userId);
+      pMap.put("db", db);
+      User user = new User();
+      user.setId(userId);
+      List<PreMenu> menu = preMenuServiceI.getMenu(user);
+      if (menu != null && menu.size() != 0) {
+        for (String str : db) {
+          for (PreMenu preMenu : menu) {
+            if(preMenu != null){
+              if(str.equals(preMenu.getId())){
+                listUserPermission.add(str);
+              }
+            }
+
+          }
+        }
+      }
+
+    }
+
+    if (listUserPermission != null && listUserPermission.size() != 0){
+      return listUserPermission;
+    }else{
+      return  null;  
+    }
+  }
+  public  List<String> getPermisssions(String userId,User users,Short type) {
+    PropertiesUtil config = new PropertiesUtil("config.properties");
+    String gyscs = config.getString("gyscs");
+    String gysfs = config.getString("gysfs");
+    String gysjk = config.getString("gysjk");
+    String zjcs = config.getString("zjcs");
+    String zjfs = config.getString("zjfs");
+    String zjfc = config.getString("zjfc");
+    String zbwjsh = config.getString("zbwjsh");
+    Map<String, Object> pMap = new HashMap<String, Object>();
+    List<String> listUserPermission = new ArrayList<String>();
+    if (gyscs != null && zjcs != null && gysfs != null && zjfs != null&&zjfc!=null){
+      String[] db = null;
+      String relName = users.getRelName();
+      if(type==2&&"4".equals(users.getTypeName())){
+        db = new String[]{zjfs};
+      }else{
+        db = new String[]{gyscs, gysfs,gysjk,zbwjsh,zjfc,zjcs};
+      }
+      
       pMap.put("id", userId);
       pMap.put("db", db);
       User user = new User();
@@ -187,9 +237,9 @@ public class TodosServiceImpl implements TodosService {
   }
 
 @Override
-public List<Todos> listUrlTodoPage(Todos todos,Short types,Integer page) {
+public List<Todos> listUrlTodoPage(Todos todos,Short types,Integer page,User user) {
 	
-	  List<String> listUserPermission = getPermisssion(todos.getReceiverId());
+	  List<String> listUserPermission = getPermisssions(todos.getReceiverId(),user,types);
       Map<String, Object> map = new HashMap<String, Object>();
       todos.setUndoType(types);
       map = new HashMap<String, Object>();

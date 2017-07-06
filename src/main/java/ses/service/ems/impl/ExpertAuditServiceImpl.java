@@ -2,7 +2,9 @@ package ses.service.ems.impl;
 
 import java.io.File;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +14,27 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
+import common.constant.StaticVariables;
+import common.utils.DateUtils;
+import common.utils.JdcgResult;
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
+import ses.dao.ems.ExpertCategoryMapper;
+import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ExpertTitleMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditFileModify;
+import ses.model.ems.ExpertPublicity;
+import ses.model.sms.Supplier;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
+import ses.util.DictionaryDataUtil;
+import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 /**
  * <p>Title:ExpertAuditServiceImpl </p>
@@ -41,6 +55,17 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	
 	@Autowired
 	private ExpertTitleMapper expertTitleMapper;
+	
+	@Autowired
+	private ExpertMapper expertMapper;
+	
+	// 注入专家品目关联数据Mapper
+	@Autowired
+	private ExpertCategoryMapper expertCategoryMapper;
+	
+	// 注入专家审核Mapper
+	@Autowired
+	private ExpertAuditMapper expertAuditMapper;
 	
 	/**
 	 * 
@@ -310,13 +335,13 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	public void addFileInfo(String businessId, String fileTypeId){
 		ExpertAuditFileModify expertAuditFileModify = new ExpertAuditFileModify();
 		Expert expert;
-		/*expert = expertService.selectByPrimaryKey(businessId);
+		expert = expertService.selectByPrimaryKey(businessId);
 		if(expert !=null && expert.getStatus().equals("3")){
 			expertAuditFileModify.setExpertId(businessId);
 			expertAuditFileModify.setTypeId(fileTypeId);
 			fileModifyMapper.insert(expertAuditFileModify);
 		}
-		*/
+		
 		String expertId = expertTitleMapper.findExpertIdById(businessId);
 		if(expertId !=null){
 			expert = expertService.selectByPrimaryKey(expertId);
@@ -357,4 +382,144 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	public Integer findByObj(ExpertAudit expertAudit) {
 		return mapper.findByObj(expertAudit);
 	}
+	
+	/**
+     * @Title: temporaryAudit
+     * @date 2017-6-15 下午4:00:26  
+     * @Description:暂存审核
+     * @param @param expert      
+     * @return void
+     */
+	@Override
+	public boolean temporaryAudit(String expertId) {
+		Expert expert = new Expert();
+		expert.setId(expertId);
+		Expert expertInfo = expertMapper.selectByPrimaryKey(expertId);
+		String status = expertInfo.getStatus();
+		if("0".equals(status)){
+			//初审中
+			expert.setAuditTemporary(1);
+		}else if("1".equals(status)){
+			//复审中
+			expert.setAuditTemporary(2);
+		}else if("6".equals(status)){
+			//复查中
+			expert.setAuditTemporary(3);
+		}else{
+			return false;
+		}
+		expertMapper.updateByPrimaryKeySelective(expert);
+		return true;
+	}
+	
+	/**
+	 * 
+	 * Description:修改公示状态
+	 * 
+	 * @author Easong
+	 * @version 2017年6月27日
+	 * @param ids
+	 * @return
+	 */
+	@Override
+	public JdcgResult updatePublicityStatus(String[] ids) {
+		if(ids != null){
+			Expert expert = null;
+			for (int i = 0; i < ids.length; i++) {
+				expert = new Expert();
+				expert.setId(ids[i]);
+				// 设置公示状态
+				expert.setStatus("-3");
+				expert.setUpdatedAt(new Date());
+				expertMapper.updateByPrimaryKey(expert);
+			}
+		}
+		return JdcgResult.ok();
+	}
+	
+	/**
+	 * 
+	 * Description:查询公示专家，公示7天后自动入库
+	 * 
+	 * @author Easong
+	 * @version 2017年6月27日
+	 */
+	@Override
+	public void handlerPublictyExp() {
+		// 获取当前时间
+	    Date nowDate = new Date();
+	    // 查询所有公示供应商
+	    String nowDateString = DateUtils.getDateOfFormat(nowDate);
+	    List<Expert> list = expertMapper.selectExpByPublicty();
+	    if(list != null && !list.isEmpty()){
+	        for (Expert expert : list) {
+	            // 将公示7天的拟入库供应商入库 
+	            // 获取七天后的今天
+	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(expert.getUpdatedAt(), 7));
+	            if(nowDateString.equals(afterDateString)){
+	                // 审核通过，自动入库
+	            	expert.setStatus("4");
+	                // 修改
+	            	expertMapper.updateByPrimaryKeySelective(expert);
+	            }
+	        }
+         }
+	}
+	
+	/**
+	 * 
+	 * Description:专家公示列表
+	 * 
+	 * @author Easong
+	 * @version 2017年6月27日
+	 * @return
+	 */
+	@Override
+	public List<ExpertPublicity> selectExpByPublictyList(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer) (map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		// 查询公示专家列表
+		ExpertPublicity expertPublicityQuery = (ExpertPublicity) map.get("expertPublicity");
+		List<ExpertPublicity> list = expertMapper.selectExpByPublictyList(expertPublicityQuery);
+		Map<String, Object> selectMap = new HashMap<>();
+		StringBuffer sb = new StringBuffer();
+		if(list != null && !list.isEmpty()){
+			for (ExpertPublicity expertPublicity : list) {
+				// 查询专家类别
+				if(expertPublicity.getExpertsTypeId() != null){
+					for(String typeId: expertPublicity.getExpertsTypeId().split(",")) {
+	                    DictionaryData data = DictionaryDataUtil.findById(typeId);
+	                    if(data != null){
+	                    	if(6 == data.getKind()) {
+	                    		sb.append(data.getName() + "技术" + StaticVariables.COMMA_SPLLIT);
+	                        } else {
+	                        	sb.append(data.getName() + StaticVariables.COMMA_SPLLIT);
+	                        }
+	                    }
+	                    
+	                }
+					if(sb.length() > 0){
+						String expertsType = sb.toString().substring(0, sb.length() - 1);
+						expertPublicity.setExpertsTypeId(expertsType);
+						// 清空sb
+						sb.delete(0, sb.length());
+	                }
+				}else{
+					expertPublicity.setExpertsTypeId("");
+				}
+				// 封装改专家选择了多少小类目录，通过了多少小类目录
+				// 通过审核数量
+				Integer passCount = expertCategoryMapper.selectRegExpCateCount(expertPublicity.getId());
+				expertPublicity.setPassCateCount(passCount);
+				// 未通过审核数量
+				selectMap.put("expertId", expertPublicity.getId());
+				selectMap.put("regType", "six");
+				Integer noPassCount = expertAuditMapper.selectRegExpCateCount(selectMap);
+				expertPublicity.setNoPassCateCount(noPassCount);
+			}
+		}
+		return list;
+	}
+	
+	
 }

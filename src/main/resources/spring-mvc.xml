@@ -26,7 +26,7 @@
 	
     <task:annotation-driven />
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
-	<context:component-scan base-package="ses.controller, iss.controller,bss.controller,common.controller,synchro.controller,common.aspect,system.controller,sums.controller" />
+	<context:component-scan base-package="ses.controller, iss.controller,bss.controller,common.controller,synchro.controller,common.aspect,system.controller,sums.controller,app.controller,dss.controller" />
   
   	<aop:aspectj-autoproxy proxy-target-class="true" />
 
@@ -69,7 +69,8 @@
 			<mvc:exclude-mapping path="/userInfo/loginInfo.*" />
 			<mvc:exclude-mapping path="/index/selectsumByDirectory.*" />
 	        <mvc:exclude-mapping path="/article/categoryTree.*" />
-				
+			<mvc:exclude-mapping path="/index/indexSupPublicity*.*" />
+			<mvc:exclude-mapping path="/index/indexExpPublicity*.*" />
 
 <!-- 			首页登录 -->
 			<mvc:exclude-mapping path="/index/sign.*" />			
@@ -77,11 +78,19 @@
 			<mvc:exclude-mapping path="/dataDownload/getIndexList.*" />
 			<mvc:exclude-mapping path="/templateDownload/getIndexList.*" />
 			<!-- 过滤定型产品列表 -->
-			<mvc:exclude-mapping path="/product/index_list.*" />
+			<mvc:exclude-mapping path="/index/index_productList.*" />
+			<!-- 过滤定型产品产品目录查询 -->
+			<mvc:exclude-mapping path="/obSupplier/createtreeByproduct.*" />
+			<!-- 过滤首页服务热线 -->
+			<mvc:exclude-mapping path="/index/index_hotLineList.*" />
+			
 			<!-- 过滤产品目录-->
 			<mvc:exclude-mapping path="/categorys/categoryList.*" />
 			<!-- 过滤技术参数库 -->
 			<mvc:exclude-mapping path="/categorys/parameterList.*" />
+			
+			<!-- app首页访问过滤 -->
+			<mvc:exclude-mapping path="/api/v1/*" />
 			
 <!-- 			专家注册 -->
  			<mvc:exclude-mapping path="/expert/toExpert.*" />
@@ -159,7 +168,9 @@
 			<mvc:exclude-mapping path="/browser/*.*" />
 			
 			<!-- 缓存管理 -->
-			<mvc:exclude-mapping path="/cacheManage/clearStringCache.*" />	
+			<mvc:exclude-mapping path="/cacheManage/clearStringCache.*" />
+			<!-- 过滤PV -->
+			<mvc:exclude-mapping path="/cacheManage/getPVDate.*" />
 			
 			<!-- 竞价管理 -->
 			<mvc:exclude-mapping path="/obrule/addRule.*" />

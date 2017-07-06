@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import ses.model.sms.SupplierAudit;
-import ses.model.sms.SupplierHistory;
 
 public interface SupplierAuditMapper {
     int deleteByPrimaryKey(String id);
@@ -26,6 +25,16 @@ public interface SupplierAuditMapper {
      * @return int
      */
     int insertSelective(SupplierAudit record);
+    /**
+     * 
+     * Description:根据参数 查询 数据是否存在
+     * 
+     * @author YangHongLiang
+     * @version 2017-6-28
+     * @param record
+     * @return
+     */
+    int countByPrimaryKey(SupplierAudit record);
     
     /**
      * 
@@ -93,4 +102,15 @@ public interface SupplierAuditMapper {
      * @return void
      */
     void updateIsDeleteBySupplierId(SupplierAudit supplierAudit);
+    
+    /**
+     * 
+     * Description:查询注册供应商不通过的小类
+     * 
+     * @author Easong
+     * @version 2017年6月28日
+     * @param map
+     * @return
+     */
+    Integer selectRegSupCateCount(Map<String, Object> map);
 } 
