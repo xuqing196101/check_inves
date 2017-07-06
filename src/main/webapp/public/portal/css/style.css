@@ -3345,3 +3345,8 @@ h2.list_title{
 .m_nav_scroll .bx-wrapper .bx-controls-direction a {
 	z-index: 1;
 }
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.headline-v2 h2 {
+		font-size: 12px !important;
+	}
+}

@@ -579,7 +579,7 @@ function importAdd(){
         <!-- 拟入库公示 -->
         <div class="col-md-7 col-sm-7 col-xs-10 mt10">
             <div class="headline-v2">
-                <h2 class="fl">拟入库公示</h2>
+                <h2 class="fl">拟入库公示&nbsp;<span class="red">（如果对公示内容有异议，请拨打举报电话：010-66880147）</span></h2>
                 <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html" class="news_more">更多&gt;&gt;</a>
                 <div class="clear"></div>
             </div>
@@ -800,7 +800,7 @@ function importAdd(){
 			
 			<div class="col-md-7 col-sm-7 col-xs-10 mt10">
 				<div class="headline-v2">
-					<h2 class="fl">拟入库公示</h2>
+					<h2 class="fl">拟入库公示&nbsp;<span class="red">（如果对公示内容有异议，请拨打举报电话：010-66880147）</span></h2>
 					<a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="news_more">更多&gt;&gt;</a>
 					<div class="clear"></div>
 				</div>
