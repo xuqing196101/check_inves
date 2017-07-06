@@ -527,16 +527,16 @@
 		var zTreeObj;
 		var setting = {
 			async : {
-          autoParam: ["id","code"],
-          enable : true,
-          url : "${pageContext.request.contextPath}/supplier/category_type.do",
-          otherParam : {
-          "code" : code,
-          "supplierId" : "${currSupplier.id}",
-          "status" : seq
-          },
-          dataType : "json",
-          type : "post",
+        autoParam: ["id","code"],
+        enable : true,
+        url : "${pageContext.request.contextPath}/supplier/category_type.do",
+        otherParam : {
+        "code" : code,
+        "supplierId" : "${currSupplier.id}",
+        "status" : seq
+        },
+        dataType : "json",
+        type : "post",
       },
 			check : {
 				enable : true,
