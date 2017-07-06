@@ -3326,6 +3326,10 @@ h2.list_title{
 }
 .m_nav_scroll .bx-wrapper {
 	margin: 0 auto;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: none;
 }
 .m_nav_scroll .bx-wrapper .bx-viewport {
 	-moz-box-shadow: none;

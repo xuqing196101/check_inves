@@ -559,7 +559,7 @@ function importAdd(){
         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ><i class="zhuanjia nav_icon"></i>供应商</a>
         
         <!-- 供应商鼠标移动开始 -->
-        <div class="drop_next dropdown-menu">
+        <div class="drop_next dropdown-menu" style="display: block">
         <div class="magazine-page clear">
         <div class="col-md-12 col-sm-12 col-xs-12 drop_hover">
         <div class="drop_main">
@@ -1173,8 +1173,9 @@ function importAdd(){
 				mode: 'vertical',   // 垂直模式
 				minSlides: 1,       // 最小显示个数
 				maxSlides: 1,       // 最大显示个数
-				ticker: true,       // 小图模式，类似新闻图文列表
+				ticker: true,
 				tickerHover: true,  // 鼠标移动上停止滚动
+				autoHover: true,    // 鼠标移动上停止滚动
 				speed: 4000         // 滚动速度
 			});
 		});
