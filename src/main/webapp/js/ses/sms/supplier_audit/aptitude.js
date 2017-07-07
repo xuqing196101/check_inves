@@ -150,12 +150,12 @@ function showData(obj,tablerId,typeId) {
 					}else{
 						itemsStyle=" class=\"tc info\" ";
 					}
-					if(isContractProductPageAudit > 0){
+					if(isContractProductPageAudit > 0 || isItemsProductPageAudit > 0){
 						contractStyle=" class=\"tc info table-border-color-red\" ";
 					}else{
 						contractStyle=" class=\"tc info\" ";
 					}
-					if(isAptitudeProductPageAudit > 0){
+					if(isAptitudeProductPageAudit > 0 || isItemsProductPageAudit > 0){
 						aptitudeStyle=" class=\"tc info table-border-color-red\" ";
 					}else{
 						aptitudeStyle=" class=\"tc info\" ";
@@ -167,12 +167,12 @@ function showData(obj,tablerId,typeId) {
 					}else{
 						itemsStyle=" class=\"tc info\" ";
 					}
-					if(isContractSalesPageAudit > 0){
+					if(isContractSalesPageAudit > 0 || setIsItemsSalesPageAudit > 0){
 						contractStyle=" class=\"tc info table-border-color-red\" ";
 					}else{
 						contractStyle=" class=\"tc info\" ";
 					}
-					if(isAptitudeSalesPageAudit > 0){
+					if(isAptitudeSalesPageAudit > 0 || setIsItemsSalesPageAudit > 0){
 						aptitudeStyle=" class=\"tc info table-border-color-red\" ";
 					}else{
 						aptitudeStyle=" class=\"tc info\" ";
@@ -184,12 +184,12 @@ function showData(obj,tablerId,typeId) {
 					}else{
 						itemsStyle=" class=\"tc info\" ";
 					}
-					if(isContractProductPageAudit > 0){
+					if(isContractProductPageAudit > 0 || isItemsProductPageAudit > 0){
 						contractStyle=" class=\"tc info table-border-color-red\" ";
 					}else{
 						contractStyle=" class=\"tc info\" ";
 					}
-					if(isAptitudeProductPageAudit > 0){
+					if(isAptitudeProductPageAudit > 0 || isItemsProductPageAudit > 0){
 						aptitudeStyle=" class=\"tc info table-border-color-red\" ";
 					}else{
 						aptitudeStyle=" class=\"tc info\" ";
@@ -201,7 +201,7 @@ function showData(obj,tablerId,typeId) {
 				}else{
 					projectDiv="";
 				}
-				$("#"+tablerId+" tbody").append("<tr>"+
+				$("#"+tablerId+" tbody").append("<tr id=\"showTr"+ind+"\">"+
 								"<td class=\"tc info\">" + ind+ "</td>"+
 								"<input type=\"hidden\" id=\"isItemsProductPageAudit"+ind+"\" value=\""+isItemsProductPageAudit+"\">"+
 								"<input type=\"hidden\" id=\"setIsItemsSalesPageAudit"+ind+"\" value=\""+setIsItemsSalesPageAudit+"\">"+
@@ -403,6 +403,9 @@ function reasonProject(tablerId,ind,auditField, auditFieldName,type,auditContent
 						
 						$("#"+tablerId+" #fourthNode"+ind+"").val('1');
 						$("#"+tablerId+" #fourthNode"+ind+"").css('border-color', '#FF0000');
+						
+						$("#"+tablerId+" #qualifications"+ind+"").css('border-color', '#FF0000');
+						$("#"+tablerId+" #contract"+ind+"").css('border-color', '#FF0000');
 						if('PRODUCT'==wzType){
 							$("#"+tablerId+" #isItemsProductPageAudit"+ind+"").val(1);
 						}else if('SALES'==wzType){

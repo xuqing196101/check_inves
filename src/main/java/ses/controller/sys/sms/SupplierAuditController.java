@@ -22,14 +22,68 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import ses.formbean.QualificationBean;
-import ses.model.bms.*;
+import ses.model.bms.Area;
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
+import ses.model.bms.Todos;
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
-import ses.model.sms.*;
-import ses.service.bms.*;
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAfterSaleDep;
+import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierAuditNot;
+import ses.model.sms.SupplierAuditOpinion;
+import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierDictionaryData;
+import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierHistory;
+import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierModify;
+import ses.model.sms.SupplierPorjectQua;
+import ses.model.sms.SupplierRegPerson;
+import ses.model.sms.SupplierSignature;
+import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.AreaServiceI;
+import ses.service.bms.CategoryService;
+import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.EngCategoryService;
+import ses.service.bms.QualificationService;
+import ses.service.bms.TodosService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
-import ses.service.sms.*;
-import ses.util.*;
+import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierAptituteService;
+import ses.service.sms.SupplierAuditNotService;
+import ses.service.sms.SupplierAuditOpinionService;
+import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierBranchService;
+import ses.service.sms.SupplierHistoryService;
+import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierMatEngService;
+import ses.service.sms.SupplierModifyService;
+import ses.service.sms.SupplierPorjectQuaService;
+import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierSignatureService;
+import ses.service.sms.SupplierTypeRelateService;
+import ses.util.DictionaryDataUtil;
+import ses.util.FtpUtil;
+import ses.util.PropUtil;
+import ses.util.SupplierLevelUtil;
+import ses.util.WordUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +91,16 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -2374,7 +2437,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		QualificationBean bean=new QualificationBean();
 		List<Qualification> list=new ArrayList<>();
 		Integer sysKey=Constant.SUPPLIER_SYS_KEY;
-		String typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
+		String typeId=null;
 		
 		// categoryQua type:4(工程) 3（销售） 2（生产）1（服务）
 		if("工程".equals(type)){
@@ -2389,12 +2452,14 @@ public class SupplierAuditController extends BaseSupplierController {
 			model.addAttribute("tablerId", tablerId);
 			return "ses/sms/supplier_audit/aptitude_project_item";
 		}else if("服务".equals(type)){
+			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
 			bean.setCategoryName(cateTree.getItemsName()+"专业资质要求");
 			bean.setCategoryId(itemId);
 			list= supplierAuditService.showQualifications(cateTree, 1,typeId,sysKey);
 			bean.setList(list);
 			beanList.add(bean);
 		}else{
+			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
 			bean.setCategoryName(cateTree.getItemsName()+"-生产专业资质要求");
 			bean.setCategoryId(itemId);
 			list= supplierAuditService.showQualifications(cateTree, 2,typeId,sysKey);

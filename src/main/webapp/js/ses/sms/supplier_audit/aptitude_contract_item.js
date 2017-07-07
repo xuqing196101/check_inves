@@ -34,12 +34,28 @@ $(function(){
 //审核 销售合同不通过理由
 function reasonProject(ind,auditField, auditFieldName,ids) {
 	var businessId=$("#fileId"+ids+"").val();
-	auditField=auditField+businessId;
+	auditField=auditField+"_"+businessId;
 	var supplierId = $("#supplierId").val();
 	var auditCount = $("#count"+ids+"").val();
 	ind=parseInt(ind)+1;
 	var tablerId=$("#tablerId").val();
 	var auditContent=content(tablerId,ind,'销售合同_'+showData(ids));
+	
+	var audits;
+	switch (tablerId) {
+	case 'content_1'://物资生产
+	case 'content_3'://工程
+	case 'content_4'://服务
+		audits = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"",window.parent.document).val();
+		break;
+	case 'content_2'://物资销售
+		audits = $("#"+tablerId+" #isItemsSalesPageAudit"+ind+"",window.parent.document).val();
+		break;
+	}if(audits!=null && audits !='' && audits>'0' ){
+		layer.msg('产品目录审核不通过,该销售合同不可审核', {offset:'100px'});
+		return;
+	}
+	
 	var auditType;
 	if(auditCount!=null && auditCount !='' && auditCount>'0' ){
 		layer.msg('已审核', {offset:'100px'});

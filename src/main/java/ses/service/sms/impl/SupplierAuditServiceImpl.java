@@ -1018,22 +1018,22 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		}
 		//封装 合同 是否有审核 记录数据
 		// 合同 1 
-		int count=countData(supplierId, cateTree.getItemsId()+id1, typeName);
+		int count=countData(supplierId, cateTree.getItemsId()+"_"+id1, typeName);
 		cateTree.setIsAptitudeProductPageAudit(count);
 		// 合同 2 
-		count=countData(supplierId, cateTree.getItemsId()+id2, typeName);
+		count=countData(supplierId, cateTree.getItemsId()+"_"+id2, typeName);
 		cateTree.setIsAptitudeSalesPageAudit(count);
 		// 合同 3 
-		count=countData(supplierId, cateTree.getItemsId()+id3, typeName);
+		count=countData(supplierId, cateTree.getItemsId()+"_"+id3, typeName);
 		cateTree.setIsContractProductPageAudit(count);
 		// 账单 4 
-		count=countData(supplierId, cateTree.getItemsId()+id4, typeName);
+		count=countData(supplierId, cateTree.getItemsId()+"_"+id4, typeName);
 		cateTree.setIsContractSalesPageAudit(count);
 		// 账单5 
-		count=countData(supplierId, cateTree.getItemsId()+id5, typeName);
+		count=countData(supplierId, cateTree.getItemsId()+"_"+id5, typeName);
 		cateTree.setIsItemsProductPageAudit(count);
 		// 账单 6 
-		count=countData(supplierId, cateTree.getItemsId()+id6, typeName);
+		count=countData(supplierId, cateTree.getItemsId()+"_"+id6, typeName);
 		cateTree.setIsItemsSalesPageAudit(count);
 		allTreeList.add(cateTree);		
 		return allTreeList;
@@ -1059,22 +1059,22 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
 		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
 		// 合同 1 物资生产
-		int count=countData(supplierId, auditField+id1, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		int count=countData(supplierId, auditField+"_"+id1, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
 		rut=rut+count;
 		// 合同 2 物资生产
-		count=countData(supplierId, auditField+id2, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		count=countData(supplierId, auditField+"_"+id2, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
 		rut=rut+count;
 		// 合同 3 物资生产
-		count=countData(supplierId, auditField+id3, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		count=countData(supplierId, auditField+"_"+id3, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
 		rut=rut+count;
 		// 账单 4 物资生产
-		count=countData(supplierId, auditField+id4, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		count=countData(supplierId, auditField+"_"+id4, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
 		rut=rut+count;
 		// 账单5 物资生产
-		count=countData(supplierId, auditField+id5, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		count=countData(supplierId, auditField+"_"+id5, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
 		rut=rut+count;
 		// 账单 6 物资生产
-		count=countData(supplierId, auditField+id6, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		count=countData(supplierId, auditField+"_"+id6, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
 		rut=rut+count;
 		return rut;
 	}
@@ -1099,22 +1099,22 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
 		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
 		// 合同 1 物资销售
-		int count=countData(supplierId, auditField+id1, ses.util.Constant.CONTRACT_SALES_PAGE);
+		int count=countData(supplierId, auditField+"_"+id1, ses.util.Constant.CONTRACT_SALES_PAGE);
 		rut=rut+count;
 		// 合同 2 物资销售
-		count=countData(supplierId, auditField+id2, ses.util.Constant.CONTRACT_SALES_PAGE);
+		count=countData(supplierId, auditField+"_"+id2, ses.util.Constant.CONTRACT_SALES_PAGE);
 		rut=rut+count;
 		// 合同 3 物资销售
-		count=countData(supplierId, auditField+id3, ses.util.Constant.CONTRACT_SALES_PAGE);
+		count=countData(supplierId, auditField+"_"+id3, ses.util.Constant.CONTRACT_SALES_PAGE);
 		rut=rut+count;
 		// 账单 4 物资销售
-		count=countData(supplierId, auditField+id4, ses.util.Constant.CONTRACT_SALES_PAGE);
+		count=countData(supplierId, auditField+"_"+id4, ses.util.Constant.CONTRACT_SALES_PAGE);
 		rut=rut+count;
 		// 账单5 物资销售
-		count=countData(supplierId, auditField+id5, ses.util.Constant.CONTRACT_SALES_PAGE);
+		count=countData(supplierId, auditField+"_"+id5, ses.util.Constant.CONTRACT_SALES_PAGE);
 		rut=rut+count;
 		// 账单 6 物资销售
-		count=countData(supplierId, auditField+id6, ses.util.Constant.CONTRACT_SALES_PAGE);
+		count=countData(supplierId, auditField+"_"+id6, ses.util.Constant.CONTRACT_SALES_PAGE);
 		rut=rut+count;
 		return rut;
 	}

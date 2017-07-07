@@ -26,6 +26,22 @@ function reasonProject(ind,auditField, auditFieldName) {
 	ind=parseInt(ind)+1;
 	var tablerId=$("#tablerId").val();
 	var auditContent=content(tablerId,ind,'专业资质要求');
+	
+	var audits;
+	switch (tablerId) {
+	case 'content_1'://物资生产
+	case 'content_3'://工程
+	case 'content_4'://服务
+		audits = $("#"+tablerId+" #isItemsProductPageAudit"+ind+"",window.parent.document).val();
+		break;
+	case 'content_2'://物资销售
+		audits = $("#"+tablerId+" #isItemsSalesPageAudit"+ind+"",window.parent.document).val();
+		break;
+	}if(audits!=null && audits !='' && audits>'0' ){
+		layer.msg('产品目录审核不通过,该专业资质要求不可审核', {offset:'100px'});
+		return;
+	}
+	
 	var auditType;
 	switch (tablerId) {
 	case 'content_1'://物资生产
