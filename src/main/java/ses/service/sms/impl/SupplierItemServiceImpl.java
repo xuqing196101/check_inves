@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import common.utils.JdcgResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -640,5 +641,33 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	public List<String> findSupplierTypeBySupplierId(String supplierId) {
 		return supplierItemMapper.findSupplierTypeBySupplierId(supplierId);
 	}
-	
+
+	/**
+	 *
+	 * Description:查询供应商选择的小类节点
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param supplierId
+	 * @since JDK1.7
+	 */
+    @Override
+    public JdcgResult selectRegSupCateOfLastNode(String supplierId) {
+        // 查询供应商选择的小类节点
+        // 封装集合
+        List<List<Category>> list = new ArrayList<>();
+        List<SupplierItem> supplierItemsOfLastNode = supplierItemMapper.selectRegSupCateOfLastNode(supplierId);
+        if(supplierItemsOfLastNode != null && !supplierItemsOfLastNode.isEmpty()){
+            for (SupplierItem supplierItem : supplierItemsOfLastNode){
+                // 获取categoryId
+                String categoryId = supplierItem.getCategoryId();
+                List<Category> allParentNode = categoryService.getAllParentNode(categoryId);
+                // 将集合按照品目从大到小排序
+                Collections.reverse(allParentNode);
+                list.add(allParentNode);
+            }
+        }
+        return JdcgResult.ok(list);
+    }
+
 }

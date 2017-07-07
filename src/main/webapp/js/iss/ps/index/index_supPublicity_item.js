@@ -2,13 +2,12 @@
  * 加载list
  */
 function list(curr){
-	// 供应商名称
-	var supplierName = $("#supplierName").val();
+	var supplierId = $("#supplierId").val();
 	$.ajax({
-		url: globalPath + "/index/indexSupPublicityAjax.do",
+		url: globalPath + "/index/indexSupPublicityItemAjax.do",
 		type: "post",
 		data:{
-			"supplierName":supplierName,
+			"supplierId":supplierId,
 			"page":curr
 		},
 		dataTYpe: "json",
@@ -55,7 +54,7 @@ function loadPage(pages,total,start,end, current){
  */
 function loadList(data, pageNum, pageSize){
 	// 将原先的内容清空
-	$("#supPublicityList").empty();
+	$("#expPublicityList").empty();
 	if(data != null && data.length > 0){
 		for(var i = 0; i < data.length; i++){
 			loadData(data[i], i, pageNum, pageSize);
@@ -77,16 +76,13 @@ function query(){
  */
 function loadData(data,index,pageNum,pageSize){
 	var html = "<li> "
-		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.supplierName+"</span>"
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+data.supplierTypeNames+">"+data.supplierTypeNames+"</span>"
-		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.businessNature+"</span>"
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+data.orgName+"</span>"
-             //+ "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个产品类别，通过了"
-             //+ "  <a href="+ globalPath + "/index/indexSupPublicityItem.html?supplierId="+data.id+">"+(data.passCateCount - data.noPassCateCount)+"个产品类别"+"</a></span>"
-             + "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个产品类别，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个产品类别"+"</span>"
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd', data.updatedAt)+"</span>"
+		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.relName+"</span>"
+		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+ data.expertsTypeId +">"+data.expertsTypeId+"</span>"
+		     + "  <span class='col-md-3 col-xs-3 col-sm-3'>"+data.orgName+"</span>"
+		     + "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个小类，通过了"+(data.passCateCount - data.noPassCateCount)+"个小类"+"</span>"
+             + "  <span class='col-md-2 col-xs-1 col-sm-2'>"+timestampToDate('yyyy-MM-dd hh:mm:ss', data.updatedAt)+"</span>"
 		     html += "</li>";
-	$("#supPublicityList").append(html);
+	$("#expPublicityList").append(html);
 }
 
 /**
@@ -124,12 +120,4 @@ Date.prototype.format = function(fmt){
         }
     }
     return fmt;
-}
-
-/**
- * 加载产品类别
- * @param id
- */
-function loadItem(id){
-    window.location.href = globalPath + "/index/indexSupPublicityItem.html?supplierId="+id;
 }

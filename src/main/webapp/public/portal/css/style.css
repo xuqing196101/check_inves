@@ -3358,3 +3358,7 @@ h2.list_title{
 		font-size: 12px !important;
 	}
 }
+.list_new li a.publicityCss{
+	display: inline-block;
+	vertical-align: top;
+}

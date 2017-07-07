@@ -1,6 +1,19 @@
 
 package iss.controller.ps;
 
+import bss.model.ob.OBProduct;
+import bss.model.ob.OBSupplier;
+import bss.service.ob.OBProductService;
+import bss.service.ob.OBSupplierService;
+import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
+import common.constant.OnlineBidding;
+import common.model.UploadFile;
+import common.service.UploadService;
+import common.utils.CommonStringUtil;
+import common.utils.JdcgResult;
+import common.utils.RequestTool;
+import common.utils.UploadUtil;
 import gui.ava.html.image.generator.HtmlImageGenerator;
 import iss.model.hl.ServiceHotline;
 import iss.model.ps.Article;
@@ -8,43 +21,7 @@ import iss.model.ps.ArticleAttachments;
 import iss.model.ps.ArticleType;
 import iss.model.ps.DownloadUser;
 import iss.service.hl.ServiceHotlineService;
-import iss.service.ps.ArticleAttachmentsService;
-import iss.service.ps.ArticleService;
-import iss.service.ps.ArticleTypeService;
-import iss.service.ps.DownloadUserService;
-import iss.service.ps.IndexNewsService;
-import iss.service.ps.SearchService;
-
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.ImageIcon;
-
+import iss.service.ps.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -54,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
@@ -74,27 +50,26 @@ import ses.service.ems.ExpertBlackListService;
 import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBlacklistService;
+import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import synchro.util.SpringBeanUtil;
-import bss.model.ob.OBProduct;
-import bss.model.ob.OBSupplier;
-import bss.service.ob.OBProductService;
-import bss.service.ob.OBSupplierService;
 
-import com.github.pagehelper.PageInfo;
-
-import common.constant.Constant;
-import common.constant.OnlineBidding;
-import common.model.UploadFile;
-import common.service.UploadService;
-import common.utils.CommonStringUtil;
-import common.utils.JdcgResult;
-import common.utils.RequestTool;
-import common.utils.UploadUtil;
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.math.BigDecimal;
+import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.List;
 
 
 /*
@@ -160,6 +135,11 @@ public class IndexNewsController extends BaseSupplierController{
     // 注入供应商审核Service
     @Autowired
     private SupplierAuditService supplierAuditService;
+
+    // 注入供应商产品类别
+    @Autowired
+    private SupplierItemService supplierItemService;
+
 	/**
 	 * 
 	* @Title: sign
@@ -2303,4 +2283,65 @@ public class IndexNewsController extends BaseSupplierController{
     	PageInfo<ExpertPublicity> info = new PageInfo<>(list);
     	return JdcgResult.ok(info);
     }
+
+	/**
+	 *
+	 * Description:专家小类到根节点查询页面
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param
+	 * @since JDK1.7
+	 */
+	@RequestMapping("/indexExpPublicityItem")
+    public String indexExpPublicityItem(Model model, String expertId){
+		model.addAttribute("expertId",expertId);
+		return "iss/ps/index/index_expPublicity_item";
+	}
+
+	/**
+	 *
+	 * Description:专家小类到根节点查询列表
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param
+	 * @since JDK1.7
+	 */
+    @RequestMapping("/indexExpPublicityItemAjax")
+    @ResponseBody
+    public JdcgResult indexExpPublicityItemAjax(){
+
+    	return JdcgResult.ok();
+	}
+
+	/**
+	 *
+	 * Description:供应商产品类别到根节点查询页面
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param
+	 * @since JDK1.7
+	 */
+	@RequestMapping("/indexSupPublicityItem")
+    public String indexSupPublicityItem(Model model, String supplierId){
+		model.addAttribute("supplierId",supplierId);
+		return "iss/ps/index/index_supPublicity_item";
+	}
+
+	/**
+	 *
+	 * Description:供应商产品类别到根节点查询列表
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param
+	 * @since JDK1.7
+	 */
+    @RequestMapping("/indexSupPublicityItemAjax")
+    @ResponseBody
+    public JdcgResult indexSupPublicityItemAjax(String supplierId){
+    	return supplierItemService.selectRegSupCateOfLastNode(supplierId);
+	}
 }

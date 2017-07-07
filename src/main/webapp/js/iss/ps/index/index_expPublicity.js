@@ -80,8 +80,9 @@ function loadData(data,index,pageNum,pageSize){
 		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.relName+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+ data.expertsTypeId +">"+data.expertsTypeId+"</span>"
 		     + "  <span class='col-md-3 col-xs-3 col-sm-3'>"+data.orgName+"</span>"
-		     + "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个小类，通过了"+(data.passCateCount - data.noPassCateCount)+"个小类"+"</span>"
-             + "  <span class='col-md-2 col-xs-1 col-sm-2'>"+timestampToDate('yyyy-MM-dd hh:mm:ss', data.updatedAt)+"</span>"
+		     //+ "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个小类，通过了"+"<a href="+ globalPath + "/index/indexExpPublicityItem.html?expertId="+data.id+">"+(data.passCateCount - data.noPassCateCount)+"</a>个小类"+" </span>"
+             + "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个小类，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个小类"+"</span>"
+             + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd', data.updatedAt)+"</span>"
 		     html += "</li>";
 	$("#expPublicityList").append(html);
 }
@@ -121,4 +122,12 @@ Date.prototype.format = function(fmt){
         }
     }
     return fmt;
+}
+
+/**
+ * 加载小类
+ * @param id
+ */
+function loadItem(id){
+    window.location.href = globalPath + "/index/indexExpPublicityItem.html?expertId="+id;
 }

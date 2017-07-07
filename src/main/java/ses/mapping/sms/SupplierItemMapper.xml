@@ -379,4 +379,13 @@
 	SELECT SUPPLIER_TYPE_RELATE_ID from T_SES_SMS_SUPPLIER_ITEM where SUPPLIER_ID='5324f8f9e33d43af915c99aafc19d4e7'
      GROUP BY SUPPLIER_TYPE_RELATE_ID
 	</select>
+
+	<!-- 查询供应商选择的小类节点 -->
+	<select id="selectRegSupCateOfLastNode" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM T_SES_SMS_SUPPLIER_ITEM T
+		WHERE T.SUPPLIER_ID = #{supplierId}
+		AND T.CATE_LEVEL = '3'
+	</select>
 </mapper>

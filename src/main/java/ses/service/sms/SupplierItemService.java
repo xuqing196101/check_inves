@@ -3,6 +3,7 @@ package ses.service.sms;
 import java.util.List;
 import java.util.Map;
 
+import common.utils.JdcgResult;
 import org.apache.ibatis.annotations.Param;
 
 import ses.model.bms.Category;
@@ -167,4 +168,15 @@ public interface SupplierItemService {
 	 * @return
 	 */
 	public List<String> findSupplierTypeBySupplierId(String supplierId);
+
+	/**
+	 *
+	 * Description:
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param supplierId
+	 * @since JDK1.7
+	 */
+	JdcgResult selectRegSupCateOfLastNode(String supplierId);
 	}

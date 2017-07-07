@@ -152,5 +152,16 @@ public interface SupplierItemMapper {
 	 * @return
 	 */
 	List<String> findSupplierTypeBySupplierId(@Param("supplierId")String supplierId);
+
+	/**
+	 *
+	 * Description:查询供应商选择的小类节点
+	 *
+	 * @author Easong
+	 * @version 2017/7/6
+	 * @param supplierId
+	 * @since JDK1.7
+	 */
+	List<SupplierItem> selectRegSupCateOfLastNode(@Param("supplierId")String supplierId);
     
 }

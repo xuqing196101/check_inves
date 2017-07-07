@@ -643,10 +643,10 @@ function importAdd(){
                             </td>
                             <td class="tc" width="15%">${ item.orgName }</td>
                             <td class="tl" width="20%">
-                                <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</a>
+                                同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别
                             </td>
                             <td class="tl" width="15%">
-                                <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatDate>
+                                <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
                             </td>
                         </tr>
                     </c:forEach>
@@ -834,10 +834,10 @@ function importAdd(){
 						<td class="tc" width="15%">${ item.expertsTypeId }</td>
 						<td class="tc" width="15%">${ item.orgName }</td>
 						<td class="tl" width="30%">
-                            <a href="${pageContext.request.contextPath}/index/indexExpPublicity.html">同意入库，选择了${ item.passCateCount }小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</a>
+                            同意入库，选择了${ item.passCateCount }小类，通过了${ item.passCateCount - item.noPassCateCount }个小类
                         </td>
                         <td class="tl" width="25%">
-                            <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatDate>
+                            <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
                         </td>
 					</tr>
 					</c:forEach> 
@@ -1180,7 +1180,7 @@ function importAdd(){
 				ticker: true,
 				tickerHover: true,  // 鼠标移动上停止滚动
 				autoHover: true,    // 鼠标移动上停止滚动
-				speed: 4000         // 滚动速度
+				speed: 5000         // 滚动速度
 			});
 		});
 		
