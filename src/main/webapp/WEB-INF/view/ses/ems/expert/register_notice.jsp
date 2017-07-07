@@ -38,15 +38,15 @@
 				<div class="tab-content margin-bottom-20 margin-top-20 lh24">
 				${doc}
 					<div class="mt40 col-md-12 col-xs-12 col-sm-12 p0">
-					  <div class="lh30" > 	<span >文件下载：</span></div>
-						<div class="fl">
-							<span >《${docName }》（第二版）</span><a onclick="downNotice()" href="javascript:void(0)" class="download"></a>
+					  <div class="lh30 font-20"> 	<span >文件下载：</span></div>
+						<div class="font-20 mt10">
+							<span >《${docName }》（第二版）</span><a onclick="downNotice()" href="javascript:void(0)" class="m_download"></a>
 						</div>
-						<div class="fl">
-							《军队物资工程服务采购评审专家参评产品分类目录》（第三版）<a href="${pageContext.request.contextPath}/supplier/download_category.html" class="download"></a>
+						<div class="font-20 mt10">
+							《军队物资工程服务采购评审专家参评产品分类目录》（第三版）<a href="${pageContext.request.contextPath}/supplier/download_category.html" class="m_download"></a>
 						</div>
-						<div class="fl">
-							《军队评审专家注册操作手册》<a href="${pageContext.request.contextPath}/expert/downloadReghandbook.html" class="download"></a>
+						<div class="font-20 mt10">
+							《军队评审专家注册操作手册》<a href="${pageContext.request.contextPath}/expert/downloadReghandbook.html" class="m_download"></a>
 						</div>
 						<div class="clear"></div>
 					</div>
