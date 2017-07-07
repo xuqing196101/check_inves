@@ -3354,11 +3354,11 @@ h2.list_title{
 	z-index: 1;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-	.headline-v2 h2 {
+	.m-headline-v2 h2 {
 		font-size: 12px !important;
 	}
 }
-.list_new li a.publicityCss{
+.list_new li a.publicityCss {
 	display: inline-block;
 	vertical-align: top;
 }
