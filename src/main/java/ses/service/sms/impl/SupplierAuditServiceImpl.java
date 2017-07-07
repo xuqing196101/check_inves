@@ -963,7 +963,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 				supplierPublicity.setPassCateCount(count);
 				// 查询供应商未通过类别数量
 				selectMap.put("supplierId", supplierPublicity.getId());
-				selectMap.put("regType", "items_page");
+				selectMap.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+				selectMap.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
 				Integer noPassCount = supplierAuditMapper.selectRegSupCateCount(selectMap);
 				supplierPublicity.setNoPassCateCount(noPassCount);
 			}

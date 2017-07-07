@@ -559,7 +559,7 @@ function importAdd(){
         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ><i class="zhuanjia nav_icon"></i>供应商</a>
         
         <!-- 供应商鼠标移动开始 -->
-        <div class="drop_next dropdown-menu">
+        <div class="drop_next dropdown-menu" style="display: block;">
         <div class="magazine-page clear">
         <div class="col-md-12 col-sm-12 col-xs-12 drop_hover">
         <div class="drop_main">
@@ -577,7 +577,7 @@ function importAdd(){
         </div> --%>
         
         <!-- 拟入库公示 -->
-        <div class="col-md-7 col-sm-7 col-xs-10 mt10">
+        <div class="col-md-8 col-sm-8 col-xs-10 mt10">
             <div class="headline-v2 m-headline-v2">
                 <h2 class="fl">拟入库公示&nbsp;<span class="red">（如果对公示内容有异议，请拨打举报电话：010-66880147）</span></h2>
                 <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html" class="news_more">更多&gt;&gt;</a>
@@ -588,18 +588,20 @@ function importAdd(){
             <div class="categories">
                 <c:choose>
                 <c:when test="${!empty my:getPublicitySupplier()}">
+                <div class="m_nav_scroll_head">
                 <table class="table table-bordered mb0">
-                    <thead>
+                    <tbody>
                         <tr>
-                            <th class="tc info" width="15%">供应商名称</th>
-                            <th class="tc info" width="15%">类型</th>
-                            <th class="tc info" width="20%">企业性质</th>
-                            <th class="tc info" width="15%">初审单位</th>
-                            <th class="tc info" width="20%">审核结果</th>
-                            <th class="tc info" width="15%">公示时间</th>
+                            <td class="tc info" width="15%">供应商名称</td>
+                            <td class="tc info" width="12%">类型</td>
+                            <td class="tc info" width="12%">企业性质</td>
+                            <td class="tc info" width="12%">初审单位</td>
+                            <td class="tc info" width="34%">审核结果</td>
+                            <td class="tc info" width="15%">公示时间</td>
                         </tr>
-                    </thead>
+                    </tbody>
                 </table>
+                </div>
                 <div class="m_nav_scroll">
                 <input type="hidden" value="0" name="ishover">
                 <ul class="mns_bxslider">
@@ -621,7 +623,7 @@ function importAdd(){
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td class="tc" width="15%">
+                            <td class="tc" width="12%">
                                 <c:choose>
                                     <c:when test="${fn:length(supplierTypeNames) > 4}">
                                         <c:out value="${fn:substring(supplierTypeNames, 0, 4)}..." />
@@ -631,7 +633,7 @@ function importAdd(){
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td class="tc" width="20%">
+                            <td class="tc" width="12%">
                                 <c:choose>
                                     <c:when test="${fn:length(businessNature) > 2}">
                                         <c:out value="${fn:substring(businessNature, 0, 2)}..." />
@@ -641,8 +643,8 @@ function importAdd(){
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td class="tc" width="15%">${ item.orgName }</td>
-                            <td class="tl" width="20%">
+                            <td class="tc" width="12%">${ item.orgName }</td>
+                            <td class="tl" width="34%">
                                 同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别
                             </td>
                             <td class="tl" width="15%">
@@ -665,7 +667,7 @@ function importAdd(){
         </div>
         <!-- End 拟入库公示 -->
         
-        <div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+        <div class="login_box job-content col-md-4 col-sm-4 col-xs-12 mt10">
             <h2 class="f17 bgwhite">
             <ul class="list-unstyled login_tab p0">
                 <li class="fl active"><a aria-expanded="true" href="#tab-36" data-toggle="tab">入库名单</a></li>
@@ -800,7 +802,7 @@ function importAdd(){
 				<!--<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html">评审专家注册<i></i></a>	  
 			</div>-->
 			
-			<div class="col-md-7 col-sm-7 col-xs-10 mt10">
+			<div class="col-md-8 col-sm-8 col-xs-10 mt10">
 				<div class="headline-v2 m-headline-v2">
 					<h2 class="fl">拟入库公示&nbsp;<span class="red">（如果对公示内容有异议，请拨打举报电话：010-66880147）</span></h2>
 					<a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="news_more">更多&gt;&gt;</a>
@@ -834,7 +836,7 @@ function importAdd(){
 						<td class="tc" width="15%">${ item.expertsTypeId }</td>
 						<td class="tc" width="15%">${ item.orgName }</td>
 						<td class="tl" width="30%">
-                            同意入库，选择了${ item.passCateCount }小类，通过了${ item.passCateCount - item.noPassCateCount }个小类
+                            同意入库，选择了${ item.passCateCount }个小类，通过了${ item.passCateCount - item.noPassCateCount }个小类
                         </td>
                         <td class="tl" width="25%">
                             <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
@@ -855,7 +857,7 @@ function importAdd(){
 				</div>
 			</div>
 			
-			<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+			<div class="login_box job-content col-md-4 col-sm-4 col-xs-12 mt10">
 			<h2 class="f17 bgwhite">
 			<ul class="list-unstyled login_tab">
 			<li class="fl active"><a aria-expanded="true" href="#tab-39" data-toggle="tab">入库名单</a></li>

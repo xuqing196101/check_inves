@@ -26,8 +26,9 @@
 
   <div class="container job-content ">
       <div class="report_list_box">
-          <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
-              <thead>
+          <div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_3">
+              <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_3">
+                  <thead>
                   <tr>
                       <td class="tc info">序号</td>
                       <td class="tc info">类别</td>
@@ -36,9 +37,11 @@
                       <td class="tc info">小类</td>
                       <td class="tc info">品种名称</td>
                   </tr>
-              </thead>
-              <tbody>
-              </tbody>
+                  </thead>
+                  <tbody>
+                  </tbody>
+              </table>
+          </div>
           </table>
       </div>
   </div>

@@ -380,6 +380,27 @@
      GROUP BY SUPPLIER_TYPE_RELATE_ID
 	</select>
 
+	<!-- 获取该供应商通过的类型 -->
+	<select id="findPassSupplierTypeBySupplierId" resultType="String" parameterType="Map">
+		SELECT A.SUPPLIER_TYPE_RELATE_ID
+		  FROM (SELECT S.SUPPLIER_TYPE_RELATE_ID
+			FROM (SELECT T.CATEGORY_ID, T.SUPPLIER_TYPE_RELATE_ID
+			FROM T_SES_SMS_SUPPLIER_ITEM T
+			WHERE T.SUPPLIER_ID = #{supplierId}
+			AND CATE_LEVEL = '3') S,
+			(SELECT T.SUPPLIER_ID, T.AUDIT_FIELD
+			FROM T_SES_SMS_SUPPLIER_AUDIT T
+			WHERE T.SUPPLIER_ID = #{supplierId}
+			AND (T.AUDIT_TYPE = #{items_sales_page} OR
+			T.AUDIT_TYPE = #{items_product_page})
+			AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
+			AND T.IS_DELETED = 0) T
+			WHERE S.CATEGORY_ID
+			<![CDATA[ <> ]]>
+			T.AUDIT_FIELD) A
+			GROUP BY A.SUPPLIER_TYPE_RELATE_ID
+	</select>
+
 	<!-- 查询供应商选择的小类节点 -->
 	<select id="selectRegSupCateOfLastNode" resultMap="BaseResultMap" parameterType="java.lang.String">
 		SELECT
@@ -388,4 +409,25 @@
 		WHERE T.SUPPLIER_ID = #{supplierId}
 		AND T.CATE_LEVEL = '3'
 	</select>
+
+    <!--通过条件查询供应商审核通过的产品类别-->
+    <select id="selectPassItemByCond" resultMap="BaseResultMap" parameterType="Map">
+        SELECT S.ID, S.SUPPLIER_TYPE_RELATE_ID, S.CATEGORY_ID
+        FROM (SELECT T.ID, T.CATEGORY_ID, T.SUPPLIER_TYPE_RELATE_ID
+            FROM T_SES_SMS_SUPPLIER_ITEM T
+            WHERE T.SUPPLIER_ID = #{supplierId}
+            AND CATE_LEVEL = '3'
+            <if test="type != null and type !=''">
+                AND T.SUPPLIER_TYPE_RELATE_ID = #{type}
+            </if>
+             ) S,
+            (SELECT T.SUPPLIER_ID, T.AUDIT_FIELD
+            FROM T_SES_SMS_SUPPLIER_AUDIT T
+            WHERE T.SUPPLIER_ID = #{supplierId}
+            AND (T.AUDIT_TYPE = #{items_sales_page} OR
+            T.AUDIT_TYPE = #{items_product_page})
+            AND (T.STATUS = 0 OR T.STATUS = -2 OR T.STATUS = -3)
+            AND T.IS_DELETED = 0) T
+        WHERE S.CATEGORY_ID <![CDATA[ <> ]]> T.AUDIT_FIELD
+    </select>
 </mapper>
