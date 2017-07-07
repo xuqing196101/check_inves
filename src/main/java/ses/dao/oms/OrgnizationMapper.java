@@ -338,4 +338,13 @@ public interface OrgnizationMapper {
 	 */
 	List<AnalyzeVo> selectPurContractCountAndMoney();
 
+  /**
+   *〈简述〉如果是采购机构，按排序查询
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param map
+   * @return
+   */
+  List<Orgnization> findPurchaseOrgByPosition(HashMap<String, Object> map);
+
 }

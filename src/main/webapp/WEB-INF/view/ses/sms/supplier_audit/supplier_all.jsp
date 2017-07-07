@@ -460,7 +460,7 @@
 								<th class="info">企业类型</th>
 								<th class="info">企业性质</th>
 								<th class="info">审核时间</th>
-								<th class="info">注册时间</th>
+								<th class="info">提交时间</th>
 								<th class="info">审核人</th>
 								<th class="info">发布</th>
 								<th class="info">状态</th>
@@ -478,7 +478,7 @@
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
 								<td class="tc">
-                  <fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
+                  <fmt:formatDate value="${list.submitAt}" pattern="yyyy-MM-dd" />
                 </td>
 								<td class="tc" onclick="shenhe('${list.id }');">
 								  <c:choose>

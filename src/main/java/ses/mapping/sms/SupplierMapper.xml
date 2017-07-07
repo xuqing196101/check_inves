@@ -1222,13 +1222,14 @@
 			AND BUSINESS_TYPE = #{businessType}
 		</if>
 		<if test="businessNature != null and businessNature !=''">
-            AND BUSINESS_NATURE = #{businessNature}
-        </if>
+      AND BUSINESS_NATURE = #{businessNature}
+    </if>
 		<if test="auditDate !=null and auditDate != ''">
 			AND to_char(AUDIT_DATE,'yyyy-mm-dd')=to_char(#{auditDate},'yyyy-mm-dd')
 		</if>
 		<!-- ORDER BY SUPPLIER_STATUS ASC, UPDATED_AT DESC -->
-		ORDER BY AUDIT_DATE DESC NULLS LAST
+		<!-- ORDER BY AUDIT_DATE DESC NULLS LAST -->
+		ORDER BY SUBMIT_AT 
 	</select>
 
 	<!--  -->
