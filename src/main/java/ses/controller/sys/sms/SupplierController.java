@@ -763,11 +763,13 @@ public class SupplierController extends BaseSupplierController {
 		if(info) {
 		    Supplier before = supplierService.get(supplier.getId());
 		    // 判断是否满足条件
-		    BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
+		    //BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
+		    BigDecimal score = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
 		    if (score.compareTo(BigDecimal.valueOf(100)) == -1) {
 	            initCompanyType(model, before);
 	            initBasicAudit(model, before);
 	            request.setAttribute("notPass", "notPass");
+	            returnInfo(model, before, supplier);
 	            return "ses/sms/supplier_register/basic_info";
 		    }
 			if(before.getStatus().equals(2)) {
@@ -939,29 +941,33 @@ public class SupplierController extends BaseSupplierController {
 			initBasicAudit(model, supplier2);
 			
 			//校验未通过，信息回传
-			//BeanUtilsExt.copyPropertiesIgnoreNull(supplier2, supplier);
-			supplier.setStatus(supplier2.getStatus());
-			
-			if(supplier.getConcatProvince() != null) {
-				List < Area > concity = areaService.findAreaByParentId(supplier.getConcatProvince());
-				supplier.setConcatCityList(concity);
-			}
-			if(supplier.getArmyBuinessProvince() != null) {
-				List < Area > armcity = areaService.findAreaByParentId(supplier.getArmyBuinessProvince());
-				supplier.setArmyCity(armcity);
-			}
-			if(supplier.getAddressList() != null && supplier.getAddressList().size() > 0) {
-				for(SupplierAddress b: supplier.getAddressList()) {
-					if(StringUtils.isNotBlank(b.getProvinceId())) {
-						List < Area > city = areaService.findAreaByParentId(b.getProvinceId());
-						b.setAreaList(city);
-					}
-				}
-			}
-			model.addAttribute("currSupplier", supplier);
+			returnInfo(model, supplier2, supplier);
 			
 			return "ses/sms/supplier_register/basic_info";
 		}
+	}
+	
+	private void returnInfo(Model model, Supplier persistentSup, Supplier supplier){
+		//BeanUtilsExt.copyPropertiesIgnoreNull(persistentSup, supplier);
+		supplier.setStatus(persistentSup.getStatus());
+		
+		if(supplier.getConcatProvince() != null) {
+			List < Area > concity = areaService.findAreaByParentId(supplier.getConcatProvince());
+			supplier.setConcatCityList(concity);
+		}
+		if(supplier.getArmyBuinessProvince() != null) {
+			List < Area > armcity = areaService.findAreaByParentId(supplier.getArmyBuinessProvince());
+			supplier.setArmyCity(armcity);
+		}
+		if(supplier.getAddressList() != null && supplier.getAddressList().size() > 0) {
+			for(SupplierAddress b: supplier.getAddressList()) {
+				if(StringUtils.isNotBlank(b.getProvinceId())) {
+					List < Area > city = areaService.findAreaByParentId(b.getProvinceId());
+					b.setAreaList(city);
+				}
+			}
+		}
+		model.addAttribute("currSupplier", supplier);
 	}
 	
 	/**
