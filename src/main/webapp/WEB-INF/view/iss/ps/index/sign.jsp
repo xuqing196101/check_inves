@@ -312,6 +312,7 @@
   				<img src="${pageContext.request.contextPath}/public/portal/images/logo.png" width="50%" height="90%" />
   			  </a>
   			</div>
+        <div class="clear"></div>
 
   			<div class="col-md-4 col-sm-5 col-xs-12"></div>
 
@@ -325,7 +326,7 @@
   						<div class="col-md-10 col-sm-12 col-xs-12 clear">
   							<div class="shadow-effect-2 opacity-80 sign_box">
 
-  								<header class="margin-top-10 ofh">
+  								<header class="mt10 overflow_h">
   									<ul class="list-unstyled sign_kinds col-md-12 p0">
   										<li class="active fl col-md-5"><a aria-expanded="true"
   											href="#tab-1" data-toggle="tab" class="col-md-12"> <!--<span class="icon-user common_user"></span> -->
