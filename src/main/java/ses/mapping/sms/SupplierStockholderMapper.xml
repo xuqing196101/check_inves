@@ -6,6 +6,7 @@
 		<result column="SUPPLIER_ID" property="supplierId" />
 		<result column="NAME" property="name" />
 		<result column="NATURE" property="nature" />
+		<result column="IDENTITY_TYPE" property="identityType" jdbcType="TINYINT"/>
 		<result column="IDENTITY" property="identity" />
 		<result column="SHARES" property="shares" />
 		<result column="PROPORTION" property="proportion" />
@@ -27,11 +28,11 @@
 	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierStockholder">
 		insert into T_SES_SMS_SUPPLIER_STOCKHOLDER (ID, SUPPLIER_ID, NAME,
-		NATURE, IDENTITY, SHARES,
+		NATURE, IDENTITY_TYPE, IDENTITY, SHARES,
 		PROPORTION, CREATED_AT, UPDATED_AT
 		)
 		values (#{id}, #{supplierId}, #{name},
-		#{nature}, #{identity}, #{shares},
+		#{nature}, #{identityType,jdbcType=TINYINT}, #{identity}, #{shares},
 		#{proportion}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
 		)
 	</insert>
@@ -49,6 +50,9 @@
 			</if>
 			<if test="nature != null">
 				NATURE,
+			</if>
+			<if test="identityType != null">
+				IDENTITY_TYPE,
 			</if>
 			<if test="identity != null">
 				IDENTITY,
@@ -78,6 +82,9 @@
 			</if>
 			<if test="nature != null">
 				#{nature},
+			</if>
+			<if test="identityType != null">
+				#{identityType},
 			</if>
 			<if test="identity != null">
 				#{identity},
@@ -111,6 +118,9 @@
 			<if test="nature != null">
 				NATURE = #{nature},
 			</if>
+			<if test="identityType != null">
+				IDENTITY_TYPE = #{identityType},
+			</if>
 			<if test="identity != null">
 				IDENTITY = #{identity},
 			</if>
@@ -134,6 +144,7 @@
 		set SUPPLIER_ID = #{supplierId},
 		NAME = #{name},
 		NATURE = #{nature},
+		IDENTITY_TYPE = #{identityType},
 		IDENTITY = #{identity},
 		SHARES = #{shares},
 		PROPORTION = #{proportion},

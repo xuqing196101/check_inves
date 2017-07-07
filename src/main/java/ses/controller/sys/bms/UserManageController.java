@@ -1046,9 +1046,15 @@ public class UserManageController extends BaseController{
 		    //采购机构
 		    typeName = "1";
 		}*/
+		List<Orgnization> oList = new ArrayList<Orgnization>();
 		HashMap<String,Object> map = new HashMap<String,Object>();
     map.put("typeName", orgType);
-    List<Orgnization> oList = orgnizationService.findOrgnizationList(map);
+    if ("1".equals(orgType)) {
+      //如果是采购机构，按排序查询
+      oList = orgnizationService.findPurchaseOrgByPosition(map);
+    } else {
+      oList = orgnizationService.findOrgnizationList(map);
+    }
 		List<Ztree> treeList = new ArrayList<Ztree>();  
 		for(Orgnization o : oList){
 			Ztree z = new Ztree();

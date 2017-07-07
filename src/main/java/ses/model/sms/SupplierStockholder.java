@@ -15,15 +15,15 @@ public class SupplierStockholder implements Serializable {
 	/**
 	 * <pre>
 	 * 主键
-	 * 表字段 : T_SES_SMS_SUPPLIER_SHARE.ID
+	 * 表字段 : T_SES_SMS_SUPPLIER_STOCKHOLDER.ID
 	 * </pre>
 	 */
 	private String id;
 
 	/**
 	 * <pre>
-	 * 供应商ID T_SES_SMS_SUPPLIER_INFO
-	 * 表字段 : T_SES_SMS_SUPPLIER_SHARE.SUPPLIER_ID
+	 * 供应商ID T_SES_SMS_SUPPLIER
+	 * 表字段 : T_SES_SMS_SUPPLIER_STOCKHOLDER.SUPPLIER_ID
 	 * </pre>
 	 */
 	private String supplierId;
@@ -31,7 +31,7 @@ public class SupplierStockholder implements Serializable {
 	/**
 	 * <pre>
 	 * 出资人名称或姓名
-	 * 表字段 : T_SES_SMS_SUPPLIER_SHARE.NAME
+	 * 表字段 : T_SES_SMS_SUPPLIER_STOCKHOLDER.NAME
 	 * </pre>
 	 */
 	private String name;
@@ -39,15 +39,23 @@ public class SupplierStockholder implements Serializable {
 	/**
 	 * <pre>
 	 * 出资人性质
-	 * 表字段 : T_SES_SMS_SUPPLIER_SHARE.NATURE
+	 * 表字段 : T_SES_SMS_SUPPLIER_STOCKHOLDER.NATURE
 	 * </pre>
 	 */
 	private String nature;
+	/**
+	 * <pre>
+	 * 身份类型
+	 * 表字段 : T_SES_SMS_SUPPLIER_STOCKHOLDER.IDENTITY_TYPE
+	 * 说明 : (1:统一社会信用代码或身份证号码; 2:其他)
+	 * </pre>
+	 */
+	private Byte identityType;
 
 	/**
 	 * <pre>
 	 * 统一社会信用代码或身份证号码
-	 * 表字段 : T_SES_SMS_SUPPLIER_SHARE.IDENTITY
+	 * 表字段 : T_SES_SMS_SUPPLIER_STOCKHOLDER.IDENTITY
 	 * </pre>
 	 */
 	private String identity;
@@ -55,7 +63,7 @@ public class SupplierStockholder implements Serializable {
 	/**
 	 * <pre>
 	 * 出资金额或股份
-	 * 表字段 : T_SES_SMS_SUPPLIER_SHARE.SHARES
+	 * 表字段 : T_SES_SMS_SUPPLIER_STOCKHOLDER.SHARES
 	 * </pre>
 	 */
 	private String shares;
@@ -63,7 +71,7 @@ public class SupplierStockholder implements Serializable {
 	/**
 	 * <pre>
 	 * 比例
-	 * 表字段 : T_SES_SMS_SUPPLIER_SHARE.PROPORTION
+	 * 表字段 : T_SES_SMS_SUPPLIER_STOCKHOLDER.PROPORTION
 	 * </pre>
 	 */
 	private String proportion;
@@ -71,7 +79,7 @@ public class SupplierStockholder implements Serializable {
 	/**
 	 * <pre>
 	 * 创建时间 格式年月日时分秒
-	 * 表字段 : T_SES_SMS_SUPPLIER_SHARE.CREATED_AT
+	 * 表字段 : T_SES_SMS_SUPPLIER_STOCKHOLDER.CREATED_AT
 	 * </pre>
 	 */
 	private Date createdAt;
@@ -79,7 +87,7 @@ public class SupplierStockholder implements Serializable {
 	/**
 	 * <pre>
 	 * 更新时间 格式年月日时分秒
-	 * 表字段 : T_SES_SMS_SUPPLIER_SHARE.UPDATED_AT
+	 * 表字段 : T_SES_SMS_SUPPLIER_STOCKHOLDER.UPDATED_AT
 	 * </pre>
 	 */
 	private Date updatedAt;
@@ -121,6 +129,14 @@ public class SupplierStockholder implements Serializable {
 
 	public void setNature(String nature) {
 		this.nature = nature;
+	}
+
+	public Byte getIdentityType() {
+		return identityType;
+	}
+
+	public void setIdentityType(Byte identityType) {
+		this.identityType = identityType;
 	}
 
 	public String getIdentity() {

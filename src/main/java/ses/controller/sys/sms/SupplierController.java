@@ -763,11 +763,13 @@ public class SupplierController extends BaseSupplierController {
 		if(info) {
 		    Supplier before = supplierService.get(supplier.getId());
 		    // 判断是否满足条件
-		    BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
+		    //BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
+		    BigDecimal score = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
 		    if (score.compareTo(BigDecimal.valueOf(100)) == -1) {
 	            initCompanyType(model, before);
 	            initBasicAudit(model, before);
 	            request.setAttribute("notPass", "notPass");
+	            returnInfo(model, before, supplier);
 	            return "ses/sms/supplier_register/basic_info";
 		    }
 			if(before.getStatus().equals(2)) {
@@ -939,29 +941,33 @@ public class SupplierController extends BaseSupplierController {
 			initBasicAudit(model, supplier2);
 			
 			//校验未通过，信息回传
-			//BeanUtilsExt.copyPropertiesIgnoreNull(supplier2, supplier);
-			supplier.setStatus(supplier2.getStatus());
-			
-			if(supplier.getConcatProvince() != null) {
-				List < Area > concity = areaService.findAreaByParentId(supplier.getConcatProvince());
-				supplier.setConcatCityList(concity);
-			}
-			if(supplier.getArmyBuinessProvince() != null) {
-				List < Area > armcity = areaService.findAreaByParentId(supplier.getArmyBuinessProvince());
-				supplier.setArmyCity(armcity);
-			}
-			if(supplier.getAddressList() != null && supplier.getAddressList().size() > 0) {
-				for(SupplierAddress b: supplier.getAddressList()) {
-					if(StringUtils.isNotBlank(b.getProvinceId())) {
-						List < Area > city = areaService.findAreaByParentId(b.getProvinceId());
-						b.setAreaList(city);
-					}
-				}
-			}
-			model.addAttribute("currSupplier", supplier);
+			returnInfo(model, supplier2, supplier);
 			
 			return "ses/sms/supplier_register/basic_info";
 		}
+	}
+	
+	private void returnInfo(Model model, Supplier persistentSup, Supplier supplier){
+		//BeanUtilsExt.copyPropertiesIgnoreNull(persistentSup, supplier);
+		supplier.setStatus(persistentSup.getStatus());
+		
+		if(supplier.getConcatProvince() != null) {
+			List < Area > concity = areaService.findAreaByParentId(supplier.getConcatProvince());
+			supplier.setConcatCityList(concity);
+		}
+		if(supplier.getArmyBuinessProvince() != null) {
+			List < Area > armcity = areaService.findAreaByParentId(supplier.getArmyBuinessProvince());
+			supplier.setArmyCity(armcity);
+		}
+		if(supplier.getAddressList() != null && supplier.getAddressList().size() > 0) {
+			for(SupplierAddress b: supplier.getAddressList()) {
+				if(StringUtils.isNotBlank(b.getProvinceId())) {
+					List < Area > city = areaService.findAreaByParentId(b.getProvinceId());
+					b.setAreaList(city);
+				}
+			}
+		}
+		model.addAttribute("currSupplier", supplier);
 	}
 	
 	/**
@@ -1944,13 +1950,17 @@ public class SupplierController extends BaseSupplierController {
 					count++;
 					model.addAttribute("stock", "出资人名称或姓名不能为空！");
 				}
-				if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
+				/*if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
 					count++;
 					model.addAttribute("stock", "统一社会信用代码或身份证号码不能为空或者格式不正确！");
+				}*/
+				if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "") {
+					count++;
+					model.addAttribute("stock", "统一社会信用代码或身份证号码不能为空！");
 				}
 				// 统一社会信用代码或身份证号码校验
 				String identity = stocksHolder.getIdentity();
-				if("1".equals(stocksHolder.getNature())){
+				if("1".equals(stocksHolder.getNature()) && "1".equals(stocksHolder.getIdentityType()+"")){
 					// 统一社会信用代码校验
 					if(identity != null){
 						if(identity.matches("^([a-zA-Z0-9]){18}$")){// 18位数字+字母
@@ -1968,7 +1978,7 @@ public class SupplierController extends BaseSupplierController {
 						}
 					}
 				}
-				if("2".equals(stocksHolder.getNature())){
+				if("2".equals(stocksHolder.getNature()) && "1".equals(stocksHolder.getIdentityType()+"")){
 					// 身份证号码校验
 					if(StringUtils.isNotBlank(identity) && !IDCardUtil.isIDCard(identity)){
 						errorIdentity += identity + "、";

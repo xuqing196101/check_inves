@@ -1471,4 +1471,29 @@ private Integer threeYear(Date regDate) {
 	return yearThree;
 }
 
+@Override
+public BigDecimal getScoreByFinances(List<SupplierFinance> listSupplierFinances) {
+	BigDecimal score = new BigDecimal(0);
+    if (null != listSupplierFinances && !listSupplierFinances.isEmpty()) {
+    	// 对年份进行排序
+        Collections.sort(listSupplierFinances, new Comparator<SupplierFinance>() {
+          public int compare(SupplierFinance finance1, SupplierFinance finance2) {
+            // 按照SupplierFinance的年份进行升序排列
+            if (Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())) {
+              return 1;
+            }
+            if (finance1.getYear().equals(finance2.getYear())) {
+              return 0;
+            } else {
+              return -1;
+            }
+          }
+        });
+        if (null != listSupplierFinances.get(0) && null != listSupplierFinances.get(0).getTotalNetAssets()) score = score.add(listSupplierFinances.get(0).getTotalNetAssets().multiply(BigDecimal.valueOf(0.2)));
+        if (null != listSupplierFinances.get(1) && null != listSupplierFinances.get(1).getTotalNetAssets()) score = score.add(listSupplierFinances.get(1).getTotalNetAssets().multiply(BigDecimal.valueOf(0.3)));
+        if (null != listSupplierFinances.get(2) && null != listSupplierFinances.get(2).getTotalNetAssets()) score = score.add(listSupplierFinances.get(2).getTotalNetAssets().multiply(BigDecimal.valueOf(0.5)));
+    }
+    return score;
+}
+
 }

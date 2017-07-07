@@ -62,28 +62,29 @@
 							}
 						});
 					}
-
-					// loadRootArea();
-					autoSelected("business_select_id", "${currSupplier.businessType}");
-					autoSelected("nature_select_id", "${currSupplier.businessNature}");
-					autoSelected("overseas_branch_select_id", "${currSupplier.overseasBranch}");
-					if($("#overseas_branch_select_id").val() == "1") {
-						$("li[name='branch']").show();
-					}
-					autoSelected("isHavingConCert", "${currSupplier.isHavingConCert}");
-					if($("#isHavingConCert").val() == "1") {
-						$("#bearchCertDiv").show();
-					} else {
-						$("#bearchCertDiv").hide();
-					}
-
-					if("${currSupplier.status}" == 7) {
-						showReason();
-					}
-					if("${currSupplier.overseasBranch}" == '0' || "${currSupplier.overseasBranch}" == null) {
-						$("li[name='branch']").hide();
-					}
 				}
+				
+				// loadRootArea();
+				autoSelected("business_select_id", "${currSupplier.businessType}");
+				autoSelected("nature_select_id", "${currSupplier.businessNature}");
+				autoSelected("overseas_branch_select_id", "${currSupplier.overseasBranch}");
+				if("${currSupplier.overseasBranch}" == "1") {
+					$("li[name='branch']").show();
+				}
+				if("${currSupplier.overseasBranch}" == "0" || "${currSupplier.overseasBranch}" == "null") {
+					$("li[name='branch']").hide();
+				}
+				autoSelected("isHavingConCert", "${currSupplier.isHavingConCert}");
+				if($("#isHavingConCert").val() == "1") {
+					$("#bearchCertDiv").show();
+				} else {
+					$("#bearchCertDiv").hide();
+				}
+
+				if("${currSupplier.status}" == 7) {
+					showReason();
+				}
+				
 			});
 
 			/** 加载地区根节点 */
@@ -468,12 +469,20 @@
 				$("#stockholder_list_tbody_id").append("<tr>" +
 					"<td class='tc'><input type='checkbox' value='' /><input type='hidden' name='listSupplierStockholders[" + stocIndex + "].id' value=" + id + "><input type='hidden' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].supplierId' value=" + supplierId + ">" +
 					"</td>" +
-					"<td class='tc'>  <select class='w100p border0' name='listSupplierStockholders[" + stocIndex + "].nature'>" +
+					"<td class='tc'>" +
+					"<select class='w100p border0' name='listSupplierStockholders[" + stocIndex + "].nature' onchange='onchangeNature(this.value,"+stocIndex+")'>" +
 					"<option value='1'>法人</option>" +
-					" <option value='2'>自然人</option>" +
-					"</select> </td>" +
+					"<option value='2'>自然人</option>" +
+					"</select>" +
+					"</td>" +
 					"<td class='tc'><input type='text' style='border:0px;' maxlength='50' name='listSupplierStockholders[" + stocIndex + "].name' value=''> </td>" +
-					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].identity' maxlength='18' onkeyup='validateIdentity(this)' value=''> </td>" +
+					"<td class='tc'>" +
+					"<select class='w100p border0' name='listSupplierStockholders[" + stocIndex + "].identityType'>" +
+					"<option value='1'>统一社会信用代码</option>" +
+					"<option value='2'>其他</option>" +
+					"</select>" +
+					"</td>" +
+					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].identity' maxlength='18' onkeyup='validateIdentity(this)' onchange='validateIdentity(this)' value=''> </td>" +
 					"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierStockholders[" + stocIndex + "].shares' value=''></td>" +
 					"<td class='tc'> <input type='text' style='border:0px;' class='proportion_vali txtTempSave' name='listSupplierStockholders[" + stocIndex + "].proportion' value='' onkeyup=\"value=value.replace(/[^\\d.]/g,'')\" onblur=\"validatePercentage2(this.value)\"> </td>" + "</tr>");
 
@@ -708,14 +717,15 @@
 
 			function autoSelected(id, v) {
 				if(v) {
-					$("#" + id).find("option").each(function() {
+					$("#" + id).val(v);
+					/* $("#" + id).find("option").each(function() {
 						var value = $(this).val();
 						if(value == v) {
 							$(this).prop("selected", true);
 						} else {
 							$(this).prop("selected", false);
 						}
-					});
+					}); */
 				}
 			}
 
@@ -2250,7 +2260,7 @@
 												</th>
 												<th class="info">出资人性质</th>
 												<th class="info">出资人名称或姓名</th>
-
+												<th class="info">身份类型</th>
 												<th class="info">统一社会信用代码或身份证号码</th>
 												<th class="info">出资金额或股份（万元/万份）</th>
 												<th class="info">比例（%）</th>
@@ -2259,20 +2269,29 @@
 										<tbody id="stockholder_list_tbody_id">
 											<c:forEach items="${currSupplier.listSupplierStockholders}" var="stockholder" varStatus="stockvs">
 												<tr <c:if test="${fn:contains(audit,stockholder.id)}"> onmouseover="errorMsg(this,'${stockholder.id}')"</c:if>>
-													<input type="hidden" name='listSupplierStockholders[${stockvs.index }].id' value="${stockholder.id}" />
-													<input type="hidden" name='listSupplierStockholders[${stockvs.index }].supplierId' value="${stockholder.supplierId}" />
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>><input type="checkbox" value="${stockholder.id}" <c:if test="${fn:contains(audit,stockholder.id)}">readonly='readonly'</c:if>  />
+														<input type="hidden" name='listSupplierStockholders[${stockvs.index }].id' value="${stockholder.id}" />
+														<input type="hidden" name='listSupplierStockholders[${stockvs.index }].supplierId' value="${stockholder.supplierId}" />
 													</td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>>
-														<select name="listSupplierStockholders[${stockvs.index }].nature" class="w100p border0">
+														<select name="listSupplierStockholders[${stockvs.index }].nature" class="w100p border0" onchange="onchangeNature(this.value,'${stockvs.index}')">
 															<option value="1" <c:if test="${stockholder.nature==1}"> selected="selected"</c:if> >法人</option>
-															<option value="2" <c:if test="${stockholder.nature==2}"> selected="selected" </c:if> >自然人</option>
+															<option value="2" <c:if test="${stockholder.nature==2}"> selected="selected"</c:if> >自然人</option>
 														</select>
-
 													</td>
-
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' maxlength="50" name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'  <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if>  > </td>
-													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' maxlength="18" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" value='${stockholder.identity}' <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if>  > </td>
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>>
+														<select name="listSupplierStockholders[${stockvs.index }].identityType" class="w100p border0">
+															<option value="1" <c:if test="${stockholder.identityType==1}"> selected="selected"</c:if> >
+																<c:if test="${stockholder.nature==1}">统一社会信用代码</c:if>
+																<c:if test="${stockholder.nature==2}">居民二代身份证</c:if>
+															</option>
+															<option value="2" <c:if test="${stockholder.identityType==2}"> selected="selected"</c:if> >其他</option>
+														</select>
+													</td>
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>>
+														<input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' maxlength="${stockholder.identityType==1?18:60}" onkeyup="value=value.replace(/[^\d|a-zA-Z]/g,'')" onchange="value=value.replace(/[^\d|a-zA-Z]/g,'')" value='${stockholder.identity}' <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if>>
+													</td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' class="shares" name='listSupplierStockholders[${stockvs.index }].shares' onchange="checkNumsSale(this, 3)" value='${stockholder.shares}' <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if> > </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid red;" </c:if>> <input type='text' style='border:0px;' class="proportion_vali txtTempSave" name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}' <c:if test="${!fn:contains(audit,stockholder.id)&&currSupplier.status==2}">readonly='readonly'</c:if> 
 													 	onkeyup="value=value.replace(/[^\d.]/g,'')" onblur="validatePercentage2(this.value)"/></td>
@@ -2551,17 +2570,50 @@
 		$("input[name^='listSupplierStockholders'][name$='identity']").blur(function(){
 			var index = $(this).attr("name").replace("listSupplierStockholders[", "").replace("].identity", "");
 			var nature = $("select[name='listSupplierStockholders["+index+"].nature'").val();
+			var identityType = $("select[name='listSupplierStockholders["+index+"].identityType'").val();
 			// 如果是法人
-			if(nature == 1){
+			if(nature == 1 && identityType == 1){
 				checkCreditCode(this.value);
 			}
 			// 如果是自然人
-			if(nature == 2){
+			if(nature == 2 && identityType == 1){
 				checkIdCard(this.value);
 			}
 		});
+		$("select[name^='listSupplierStockholders'][name$='identityType']").each(function(){
+			setIdentityMaxLength(this);
+		});
+		$("select[name^='listSupplierStockholders'][name$='identityType']").change(function(){
+			setIdentityMaxLength(this);
+		});
 	}
 	checkStockholdersID();
+	
+	function setIdentityMaxLength(_this){
+		var index = $(_this).attr("name").replace("listSupplierStockholders[", "").replace("].identityType", "");
+		var identity = $("input[name='listSupplierStockholders["+index+"].identity']");
+		if($(_this).val() == 1){
+			identity.attr("maxlength", 18);
+		}
+		if($(_this).val() == 2){
+			identity.attr("maxlength", 60);
+		}
+	}
+	
+	// 出资人性质下拉事件
+	function onchangeNature(value, index){
+		var selIdentityType = $("select[name='listSupplierStockholders["+index+"].identityType']");
+		if(value == 1){
+			selIdentityType.html("");
+			selIdentityType.append("<option value='1'>统一社会信用代码</option>");
+			selIdentityType.append("<option value='2'>其他</option>");
+		}
+		if(value == 2){
+			selIdentityType.html("");
+			selIdentityType.append("<option value='1'>居民二代身份证</option>");
+			selIdentityType.append("<option value='2'>其他</option>");
+		}
+	}
 </script>
 <script type="text/javascript">
 	//controlForm();
