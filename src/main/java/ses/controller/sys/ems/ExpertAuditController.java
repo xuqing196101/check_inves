@@ -683,7 +683,7 @@ public class ExpertAuditController{
 	public String product(Expert expert, Model model, String expertId, Integer sign) {
 		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
-		
+
 		expert = expertService.selectByPrimaryKey(expertId);
 
 		List < DictionaryData > allCategoryList = new ArrayList < DictionaryData > ();
@@ -695,35 +695,35 @@ public class ExpertAuditController{
                 allTypeId.add(id);
             }
         }
-        
+
         a: for(int i = 0; i < allTypeId.size(); i++) {
             DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
             /*if(dictionaryData != null && dictionaryData.getKind() == 19) {
 				allTypeId.remove(i);
 				continue a;
 			};*/
-            
+
             allCategoryList.add(dictionaryData);
         }
         //expertCategoryService.delNoTree(expert.getId(), allCategoryList);
         model.addAttribute("allCategoryList", allCategoryList);
 
 		model.addAttribute("expertId", expertId);
-		
+
 		//查询品目类型id
 		String matCodeId=DictionaryDataUtil.getId("GOODS");
 		String engCodeId=DictionaryDataUtil.getId("PROJECT");
 		String serCodeId=DictionaryDataUtil.getId("SERVICE");
 		String engInfoId=DictionaryDataUtil.getId("ENG_INFO_ID");
-		
+
 		String goodsServerId=DictionaryDataUtil.getId("GOODS_SERVER");
 		String goodsProjectId=DictionaryDataUtil.getId("GOODS_PROJECT");
-		
+
 		model.addAttribute("matCodeId", matCodeId);
 		model.addAttribute("engCodeId", engCodeId);
 		model.addAttribute("serCodeId", serCodeId);
 		model.addAttribute("engInfoId", engInfoId);
-		
+
 		model.addAttribute("goodsServerId", goodsServerId);
 		model.addAttribute("goodsProjectId", goodsProjectId);
 		
@@ -743,7 +743,7 @@ public class ExpertAuditController{
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
-	public String getCategories(String expertId, String typeId, Model model, Integer pageNum) {
+	public String getCategories(String expertId, String typeId, Model model, Integer pageNum, String flags) {
 		String code = DictionaryDataUtil.findById(typeId).getCode();
         String flag = null;
         if (code != null && code.equals("GOODS_PROJECT")) {
@@ -754,26 +754,33 @@ public class ExpertAuditController{
             flag = "ENG_INFO";
         }
         // 查询已选中的节点信息(所有子节点)
-        List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+        List<ExpertCategory> items = null;
+        if(StringUtils.isEmpty(flags)){
+            items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+        }else {
+            items = expertCategoryService.selectPassCateByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+        }
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
         int count=0;
-        for (ExpertCategory expertCategory : items) {
-        	count++;
-            if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
-                Category data = categoryService.findById(expertCategory.getCategoryId());
-                List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                if (findPublishTree.size() == 0) {
-                    expertItems.add(expertCategory);
-                } else if (data != null && data.getCode().length() == 7) {
-                    expertItems.add(expertCategory);
-                }
-            } else {
-                Category data = engCategoryService.findById(expertCategory.getCategoryId());
-                List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
-                if (findPublishTree.size() == 0) {
-                    expertItems.add(expertCategory);
-                } else if (data != null && data.getCode().length() == 7) {
-                    expertItems.add(expertCategory);
+        if(items != null && !items.isEmpty()){
+            for (ExpertCategory expertCategory : items) {
+                count++;
+                if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
+                    Category data = categoryService.findById(expertCategory.getCategoryId());
+                    List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                    if (findPublishTree.size() == 0) {
+                        expertItems.add(expertCategory);
+                    } else if (data != null && data.getCode().length() == 7) {
+                        expertItems.add(expertCategory);
+                    }
+                } else {
+                    Category data = engCategoryService.findById(expertCategory.getCategoryId());
+                    List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                    if (findPublishTree.size() == 0) {
+                        expertItems.add(expertCategory);
+                    } else if (data != null && data.getCode().length() == 7) {
+                        expertItems.add(expertCategory);
+                    }
                 }
             }
         }
@@ -818,7 +825,11 @@ public class ExpertAuditController{
 			conditionStr.append(expertAudit2.getAuditFieldId() + ",");
 		}
 		model.addAttribute("conditionStr", conditionStr);
-        
+		// 首页公示显示专家小类详情
+		if(StringUtils.isNotEmpty(flags)){
+			return "iss/ps/index/index_expPublicity_item_ajax";
+		}
+
         return "ses/ems/expertAudit/ajax_items";
 	}
 	

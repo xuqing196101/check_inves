@@ -171,4 +171,37 @@
 		 	WHERE T.LEVELS = 1
    		AND T.EXPERT_ID = #{expertId}
    </select>
+
+    <!--查询专家审核通过的类型-->
+    <select id="selectCateByExpertId" parameterType="Map" resultType="java.lang.String">
+        SELECT C.TYPE_ID
+            FROM (SELECT EC.TYPE_ID
+            FROM (SELECT T.CATEGORY_ID, T.TYPE_ID, T.LEVELS
+            FROM T_SES_EMS_EXPERT_CATEGORY T
+            WHERE T.EXPERT_ID = #{expertId}
+            AND T.LEVELS = '1') EC,
+        (SELECT T.AUDIT_FIELD_ID
+            FROM T_SES_EMS_EXPERT_AUDIT T
+            WHERE T.EXPERT_ID = #{expertId}
+            AND SUGGEST_TYPE = #{type}
+            AND T.IS_DELETED = 0) A
+            WHERE EC.CATEGORY_ID <![CDATA[ <> ]]> A.AUDIT_FIELD_ID) C
+        GROUP BY C.TYPE_ID
+    </select>
+
+    <!--查询专家审核通过的类型—根据类型查询-->
+    <select id="selectPassCateByExpertId" parameterType="Map" resultMap="BaseResultMap">
+        SELECT EC.TYPE_ID, EC.CATEGORY_ID
+        FROM (SELECT T.CATEGORY_ID, T.TYPE_ID, T.LEVELS
+        FROM T_SES_EMS_EXPERT_CATEGORY T
+        WHERE T.EXPERT_ID = #{expertId}
+        AND T.TYPE_ID = #{typeId}
+        AND T.LEVELS = '1') EC,
+        (SELECT T.AUDIT_FIELD_ID
+        FROM T_SES_EMS_EXPERT_AUDIT T
+        WHERE T.EXPERT_ID = #{expertId}
+        AND SUGGEST_TYPE = #{type}
+        AND T.IS_DELETED = 0) A
+        WHERE EC.CATEGORY_ID <![CDATA[ <> ]]> A.AUDIT_FIELD_ID
+    </select>
 </mapper>

@@ -48,6 +48,7 @@ import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertBlackListService;
+import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBlacklistService;
@@ -140,6 +141,13 @@ public class IndexNewsController extends BaseSupplierController{
     // 注入供应商产品类别
     @Autowired
     private SupplierItemService supplierItemService;
+
+    @Autowired
+    private ExpertService expertService;
+
+    @Autowired
+    private ExpertCategoryService expertCategoryService;
+
 
 	/**
 	 * 
@@ -2295,8 +2303,52 @@ public class IndexNewsController extends BaseSupplierController{
 	 * @since JDK1.7
 	 */
 	@RequestMapping("/indexExpPublicityItem")
-    public String indexExpPublicityItem(Model model, String expertId){
-		model.addAttribute("expertId",expertId);
+    public String indexExpPublicityItem(Model model, String expertId, Expert expert, String sign){
+		//初审复审标识（1初审，3复查，2复审）
+		model.addAttribute("sign", sign);
+
+		expert = expertService.selectByPrimaryKey(expertId);
+
+		List <DictionaryData> allCategoryList = new ArrayList <> ();
+
+		// 查询审核通过的专家类型
+        List<String> stringList = expertCategoryService.selectCateByExpertId(expertId);
+
+        // 获取专家类别
+		List < String > allTypeId = new ArrayList <> ();
+		if(expert.getExpertsTypeId() !=null && !"".equals(expert.getExpertsTypeId())){
+			for(String id: expert.getExpertsTypeId().split(",")) {
+			    if(stringList != null && stringList.contains(id)){
+                    allTypeId.add(id);
+                }
+			}
+		}
+
+		a: for(int i = 0; i < allTypeId.size(); i++) {
+			DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
+			allCategoryList.add(dictionaryData);
+		}
+		model.addAttribute("allCategoryList", allCategoryList);
+
+		model.addAttribute("expertId", expertId);
+
+		//查询品目类型id
+		String matCodeId=DictionaryDataUtil.getId("GOODS");
+		String engCodeId=DictionaryDataUtil.getId("PROJECT");
+		String serCodeId=DictionaryDataUtil.getId("SERVICE");
+		String engInfoId=DictionaryDataUtil.getId("ENG_INFO_ID");
+
+		String goodsServerId=DictionaryDataUtil.getId("GOODS_SERVER");
+		String goodsProjectId=DictionaryDataUtil.getId("GOODS_PROJECT");
+
+		model.addAttribute("matCodeId", matCodeId);
+		model.addAttribute("engCodeId", engCodeId);
+		model.addAttribute("serCodeId", serCodeId);
+		model.addAttribute("engInfoId", engInfoId);
+
+		model.addAttribute("goodsServerId", goodsServerId);
+		model.addAttribute("goodsProjectId", goodsProjectId);
+
 		return "iss/ps/index/index_expPublicity_item";
 	}
 
