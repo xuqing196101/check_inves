@@ -1944,13 +1944,17 @@ public class SupplierController extends BaseSupplierController {
 					count++;
 					model.addAttribute("stock", "出资人名称或姓名不能为空！");
 				}
-				if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
+				/*if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
 					count++;
 					model.addAttribute("stock", "统一社会信用代码或身份证号码不能为空或者格式不正确！");
+				}*/
+				if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "") {
+					count++;
+					model.addAttribute("stock", "统一社会信用代码或身份证号码不能为空！");
 				}
 				// 统一社会信用代码或身份证号码校验
 				String identity = stocksHolder.getIdentity();
-				if("1".equals(stocksHolder.getNature())){
+				if("1".equals(stocksHolder.getNature()) && "1".equals(stocksHolder.getIdentityType()+"")){
 					// 统一社会信用代码校验
 					if(identity != null){
 						if(identity.matches("^([a-zA-Z0-9]){18}$")){// 18位数字+字母
@@ -1968,7 +1972,7 @@ public class SupplierController extends BaseSupplierController {
 						}
 					}
 				}
-				if("2".equals(stocksHolder.getNature())){
+				if("2".equals(stocksHolder.getNature()) && "1".equals(stocksHolder.getIdentityType()+"")){
 					// 身份证号码校验
 					if(StringUtils.isNotBlank(identity) && !IDCardUtil.isIDCard(identity)){
 						errorIdentity += identity + "、";
