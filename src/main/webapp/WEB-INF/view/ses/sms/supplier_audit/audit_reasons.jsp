@@ -456,18 +456,22 @@
 	            <h2 class="count_flow"><i>3</i>供应商审批表</h2>
 	            <ul class="ul_list">
 	            <c:if test="${ supplierStatus == -3 }">
+					<li class="col-md-6 col-sm-6 col-xs-6">
+						<span class="fl">下载审核表：</span>
+						<a href="javascript:;" onclick="downloadTable(3)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+					</li>
 	            	<li class="col-md-6 col-sm-6 col-xs-6">
 			              <div>
-			              	<span class="fl">彩色扫描件：</span>
+			              	<span class="fl">供应商审批表：</span>
 				              <u:show showId="pic_checkword" businessId="${ suppliers.auditOpinionAttach }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
 			              </div>
-			            </li>
+					</li>
 	            </c:if>
 	            <c:if test="${ supplierStatus != -3 }">
-	            		<li class="col-md-6 col-sm-6 col-xs-6">
-	            			<span class="fl">下载审核表：</span>
-	            			<a href="javascript:;" onclick="downloadTable(3)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
-	            		</li>
+					<li class="col-md-6 col-sm-6 col-xs-6">
+						<span class="fl">下载审核表：</span>
+						<a href="javascript:;" onclick="downloadTable(3)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+					</li>
 	                <li class="col-md-6 col-sm-6 col-xs-6">
 			              <div>
 			              	<span class="fl">上传彩色扫描件：</span>
@@ -476,7 +480,7 @@
 				              <u:upload id="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${ typeId }" buttonName="上传彩色扫描件" auto="true" exts="png,jpeg,jpg,bmp,git" />
 				              <u:show showId="pic_checkword" businessId="<%=uuidcheckword %>" sysKey="${ sysKey }" typeId="${typeId }" />
 			              </div>
-			            </li>
+					</li>
 		            </c:if>
 		          </ul>
           </div>  

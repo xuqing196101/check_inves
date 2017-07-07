@@ -378,9 +378,13 @@
 	            <h2 class="count_flow"><i>3</i>专家审批表</h2>
 	            <ul class="ul_list">
 	                <c:if test="${ status == -3 }">
+                        <li class="col-md-6 col-sm-6 col-xs-6">
+                            <span class="fl">下载入库复审表：</span>
+                            <a href="javascript:;" onclick="downloadTable(2)"><img src="${ pageContext.request.contextPath }/public/webupload/css/download.png"/></a>
+                        </li>
 	            	    <li class="col-md-6 col-sm-6 col-xs-6">
 			               <div>
-			              	 <span class="fl">彩色扫描件：</span>
+			              	 <span class="fl">专家审批表：</span>
 				               <u:show showId="pic_checkword" businessId="${ expert.auditOpinionAttach }" sysKey="${ sysKey }" typeId="${typeId }" delete="false" />
 			               </div>
 			              </li>
