@@ -612,7 +612,7 @@
                                onclick="reason(this)"
                                <c:if test="${fn:contains(field,'businessType')}">style="border: 1px solid #FF8C00;"
                                onMouseOver="isCompare('businessType');"</c:if>
-                               <c:if test="${fn:contains(passedField,'website')}">style="border: 1px solid red;"</c:if>>
+                               <c:if test="${fn:contains(passedField,'businessType')}">style="border: 1px solid red;"</c:if>>
                         <c:if test="${fn:contains(passedField,'businessType')}">
                             <a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
                         </c:if>
