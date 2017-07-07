@@ -1,14 +1,12 @@
 package ses.service.sms;
 
-import java.util.List;
-import java.util.Map;
-
 import common.utils.JdcgResult;
-import org.apache.ibatis.annotations.Param;
-
 import ses.model.bms.Category;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItem;
+
+import java.util.List;
+import java.util.Map;
 
 public interface SupplierItemService {
 	public void saveOrUpdate(SupplierItem supplierItem);
@@ -171,6 +169,17 @@ public interface SupplierItemService {
 
 	/**
 	 *
+	 * Description:查询供应商审核通过的产品类别
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param map
+	 * @since JDK1.7
+	 */
+	public List<String> findPassSupplierTypeBySupplierId(Map<String, Object> map);
+
+	/**
+	 *
 	 * Description:
 	 *
 	 * @author Easong
@@ -179,4 +188,16 @@ public interface SupplierItemService {
 	 * @since JDK1.7
 	 */
 	JdcgResult selectRegSupCateOfLastNode(String supplierId);
+
+	/**
+	 *
+	 * Description:
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param supplierId type pageNum
+	 * @since JDK1.7
+	 */
+	 public List<SupplierItem> selectPassItemByCond(String supplierId, String type, Integer pageNum);
+
 	}

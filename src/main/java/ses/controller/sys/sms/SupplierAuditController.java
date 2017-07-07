@@ -1,23 +1,15 @@
 package ses.controller.sys.sms;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import bss.formbean.PurchaseRequiredFormBean;
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
+import common.utils.JdcgResult;
+import common.utils.ListSortUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -29,82 +21,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
 import ses.formbean.QualificationBean;
-import ses.model.bms.Area;
-import ses.model.bms.Category;
-import ses.model.bms.CategoryTree;
-import ses.model.bms.DictionaryData;
-import ses.model.bms.Qualification;
-import ses.model.bms.Todos;
-import ses.model.bms.User;
+import ses.model.bms.*;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
-import ses.model.sms.Supplier;
-import ses.model.sms.SupplierAddress;
-import ses.model.sms.SupplierAfterSaleDep;
-import ses.model.sms.SupplierAptitute;
-import ses.model.sms.SupplierAudit;
-import ses.model.sms.SupplierAuditNot;
-import ses.model.sms.SupplierAuditOpinion;
-import ses.model.sms.SupplierBranch;
-import ses.model.sms.SupplierCateTree;
-import ses.model.sms.SupplierCertEng;
-import ses.model.sms.SupplierCertPro;
-import ses.model.sms.SupplierCertSell;
-import ses.model.sms.SupplierCertServe;
-import ses.model.sms.SupplierDictionaryData;
-import ses.model.sms.SupplierFinance;
-import ses.model.sms.SupplierHistory;
-import ses.model.sms.SupplierItem;
-import ses.model.sms.SupplierMatEng;
-import ses.model.sms.SupplierMatPro;
-import ses.model.sms.SupplierMatSell;
-import ses.model.sms.SupplierMatServe;
-import ses.model.sms.SupplierModify;
-import ses.model.sms.SupplierPorjectQua;
-import ses.model.sms.SupplierRegPerson;
-import ses.model.sms.SupplierSignature;
-import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierTypeRelate;
-import ses.service.bms.AreaServiceI;
-import ses.service.bms.CategoryService;
-import ses.service.bms.DictionaryDataServiceI;
-import ses.service.bms.EngCategoryService;
-import ses.service.bms.QualificationService;
-import ses.service.bms.TodosService;
+import ses.model.sms.*;
+import ses.service.bms.*;
 import ses.service.oms.PurchaseOrgnizationServiceI;
-import ses.service.sms.SupplierAddressService;
-import ses.service.sms.SupplierAptituteService;
-import ses.service.sms.SupplierAuditNotService;
-import ses.service.sms.SupplierAuditOpinionService;
-import ses.service.sms.SupplierAuditService;
-import ses.service.sms.SupplierBranchService;
-import ses.service.sms.SupplierHistoryService;
-import ses.service.sms.SupplierItemService;
-import ses.service.sms.SupplierMatEngService;
-import ses.service.sms.SupplierModifyService;
-import ses.service.sms.SupplierPorjectQuaService;
-import ses.service.sms.SupplierService;
-import ses.service.sms.SupplierSignatureService;
-import ses.service.sms.SupplierTypeRelateService;
-import ses.util.DictionaryDataUtil;
-import ses.util.FtpUtil;
-import ses.util.PropUtil;
-import ses.util.SupplierLevelUtil;
-import ses.util.WordUtil;
-import bss.formbean.PurchaseRequiredFormBean;
+import ses.service.sms.*;
+import ses.util.*;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import common.annotation.CurrentUser;
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.UploadService;
-import common.utils.JdcgResult;
-import common.utils.ListSortUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -2346,35 +2279,42 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("overAptitude")
 	@ResponseBody
-	public JdcgResult overAptitude(Model model, String supplierId,String supplierType, Integer supplierStatus, Integer sign,Integer pageNum){
+	public JdcgResult overAptitude(Model model, String supplierId,String supplierType, Integer supplierStatus, Integer sign,Integer pageNum, String flag){
 		List<SupplierCateTree> cateTreeList = new ArrayList<>();
 		// 查询已选中的节点信息
-		List < SupplierItem > listSupplierItems = supplierItemService.findCategoryList(supplierId, supplierType, pageNum == null ? 1 : pageNum);
+		List < SupplierItem > listSupplierItems = null;
+		if(StringUtils.isEmpty(flag)){
+            listSupplierItems = supplierItemService.findCategoryList(supplierId, supplierType, pageNum == null ? 1 : pageNum);
+        }else {
+            listSupplierItems = supplierItemService.selectPassItemByCond(supplierId, supplierType, pageNum == null ? 1 : pageNum);
+        }
 		SupplierCateTree cateTree=null;
 		long fileNumber=0,contractCount=0;
-		for (SupplierItem supplierItem : listSupplierItems) {
-			cateTree=new SupplierCateTree();
-			// 递归获取所有父节点
-			List < Category > parentNodeList = categoryService.getAllParentNode(supplierItem.getCategoryId());
-			// 加入根节点 物资
-			cateTree=categoryService.addNode(parentNodeList);
-			// 工程类等级
-			if("工程".equals(cateTree.getRootNode())) {
-				fileNumber=engCategoryService.countEngCategoyrId(cateTree, supplierId);
-			}else{ 
-				//供应商物资 专业资质要求上传
-				fileNumber=supplierService.countCategoyrId(cateTree,supplierId);
-			}
-			//是否有销售合同
-			contractCount=supplierService.contractCountCategoyrId(supplierItem.getId());
-			//封装 是否有审核数据
-			cateTree=supplierAuditService.potting(cateTree,supplierId);
-			cateTree.setContractCount(contractCount);
-			cateTree.setFileCount(fileNumber);
-			cateTree.setSupplierItemId(supplierItem.getId());
-			cateTreeList.add(cateTree);
-		}
-		return new JdcgResult(new PageInfo<>(cateTreeList)); 
+		if(listSupplierItems != null && !listSupplierItems.isEmpty()){
+            for (SupplierItem supplierItem : listSupplierItems) {
+                cateTree=new SupplierCateTree();
+                // 递归获取所有父节点
+                List < Category > parentNodeList = categoryService.getAllParentNode(supplierItem.getCategoryId());
+                // 加入根节点 物资
+                cateTree=categoryService.addNode(parentNodeList);
+                // 工程类等级
+                if("工程".equals(cateTree.getRootNode())) {
+                    fileNumber=engCategoryService.countEngCategoyrId(cateTree, supplierId);
+                }else{
+                    //供应商物资 专业资质要求上传
+                    fileNumber=supplierService.countCategoyrId(cateTree,supplierId);
+                }
+                //是否有销售合同
+                contractCount=supplierService.contractCountCategoyrId(supplierItem.getId());
+                //封装 是否有审核数据
+                cateTree=supplierAuditService.potting(cateTree,supplierId);
+                cateTree.setContractCount(contractCount);
+                cateTree.setFileCount(fileNumber);
+                cateTree.setSupplierItemId(supplierItem.getId());
+                cateTreeList.add(cateTree);
+            }
+        }
+		return new JdcgResult(new PageInfo<>(cateTreeList));
 	}
 	/**
 	 * 

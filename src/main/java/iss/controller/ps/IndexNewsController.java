@@ -22,6 +22,7 @@ import iss.model.ps.ArticleType;
 import iss.model.ps.DownloadUser;
 import iss.service.hl.ServiceHotlineService;
 import iss.service.ps.*;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -2325,8 +2326,19 @@ public class IndexNewsController extends BaseSupplierController{
 	 * @since JDK1.7
 	 */
 	@RequestMapping("/indexSupPublicityItem")
-    public String indexSupPublicityItem(Model model, String supplierId){
-		model.addAttribute("supplierId",supplierId);
+    public String indexSupPublicityItem(Model model, String supplierId, String supplierStatus){
+        model.addAttribute("supplierId", supplierId);
+        model.addAttribute("supplierStatus", supplierStatus);
+        //封装 目录分类 分别显示相关的数据
+        if(StringUtils.isNotBlank(supplierId)){
+            // 封装查询数据
+            Map<String, Object> map = new HashedMap();
+            map.put("supplierId", supplierId);
+            map.put("items_sales_page", ses.util.Constant.ITEMS_SALES_PAGE);
+            map.put("items_product_page", ses.util.Constant.ITMES_PRODUCT_PAGE);
+            List<String> supplierTypes=supplierItemService.findPassSupplierTypeBySupplierId(map);
+            model.addAttribute("supplierTypes", StringUtils.join(supplierTypes,","));
+        }
 		return "iss/ps/index/index_supPublicity_item";
 	}
 

@@ -834,7 +834,7 @@ function importAdd(){
 						<td class="tc" width="15%">${ item.expertsTypeId }</td>
 						<td class="tc" width="15%">${ item.orgName }</td>
 						<td class="tl" width="30%">
-                            同意入库，选择了${ item.passCateCount }小类，通过了${ item.passCateCount - item.noPassCateCount }个小类
+                            同意入库，选择了${ item.passCateCount }个小类，通过了${ item.passCateCount - item.noPassCateCount }个小类
                         </td>
                         <td class="tl" width="25%">
                             <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
