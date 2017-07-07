@@ -376,7 +376,7 @@
 	
 	<!-- 获取该供应商品目的类型 -->
 	<select id="findSupplierTypeBySupplierId" resultType="String" parameterType="String">
-	SELECT SUPPLIER_TYPE_RELATE_ID from T_SES_SMS_SUPPLIER_ITEM where SUPPLIER_ID='5324f8f9e33d43af915c99aafc19d4e7'
+	SELECT SUPPLIER_TYPE_RELATE_ID from T_SES_SMS_SUPPLIER_ITEM where SUPPLIER_ID=#{supplierId}
      GROUP BY SUPPLIER_TYPE_RELATE_ID
 	</select>
 

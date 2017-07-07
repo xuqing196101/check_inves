@@ -133,13 +133,13 @@ function showData(obj,tablerId,typeId) {
 				var isItemsProductPageAudit=isNumber(item.isItemsProductPageAudit);
 				//物资 销售 目录
 				var setIsItemsSalesPageAudit=isNumber(item.isItemsSalesPageAudit);
-				//物资 生产 资质
+				//物资 生产 合同 	
 				var isContractProductPageAudit=isNumber(item.isContractProductPageAudit);
-				//物资 销售 资质
-				var isContractSalesPageAudit=isNumber(item.isContractSalesPageAudit);
-				//物资 生产 合同
-				var isAptitudeProductPageAudit=isNumber(item.isAptitudeProductPageAudit);
 				//物资 销售 合同
+				var isContractSalesPageAudit=isNumber(item.isContractSalesPageAudit);
+				//物资 生产 资质
+				var isAptitudeProductPageAudit=isNumber(item.isAptitudeProductPageAudit);
+				//物资 销售 资质
 				var isAptitudeSalesPageAudit=isNumber(item.isAptitudeSalesPageAudit);
 				// 根据类型 判断 
 				switch (typeId) {
@@ -265,7 +265,7 @@ function onContractShow(tablerId,ind,rootNode,itemId,id,secondNode,secondNodeId)
 }
 //判断显示相关内容 资质
 function onQualificationsShow(tablerId,ind,rootNode,itemId,secondNode,secondNodeId){
-	showFrame(tablerId,ind,rootNode+"-资质文件信息",itemId,0,'',secondNode,secondNodeId);
+	showFrame(tablerId,ind,rootNode+"-专业资质要求信息",itemId,0,'',secondNode,secondNodeId);
 }
 //是否有内容显示  
 function isShow(tablerId,ind,count,type,rootNode,itemId,id,secondNode,secondNodeId){
@@ -274,14 +274,14 @@ function isShow(tablerId,ind,count,type,rootNode,itemId,id,secondNode,secondNode
 	//合同
 	if(type=='contract'){
 		if(count>0){
-			rut= "<a href=\"javascript:void(0);\" onclick=\"onContractShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+id+"','"+secondNode+"','"+secondNodeId+"')\">查看</a>";
+			rut= "<a href=\"javascript:void(0);\" onclick=\"onContractShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+id+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
 		}else {
 			rut= "";
 		}
 		//资质
 	}else if(type=='qualifications'){
 		if(count>0){
-			rut="<a href=\"javascript:void(0);\" onclick=\"onQualificationsShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+secondNode+"','"+secondNodeId+"')\">查看</a>";
+			rut="<a href=\"javascript:void(0);\" onclick=\"onQualificationsShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
 		}else{
 			rut= "";
 		};

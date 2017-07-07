@@ -33,6 +33,7 @@ import ses.dao.sms.SupplierStarsMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.Qualification;
 import ses.model.bms.DictionaryData;
@@ -54,6 +55,7 @@ import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.CategoryService;
 import ses.service.bms.EngCategoryService;
 import ses.service.bms.QualificationService;
 import ses.service.sms.SupplierAptituteService;
@@ -92,6 +94,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	private SupplierStarsMapper supplierStarsMapper;
 	@Autowired
 	private EngCategoryService engCategoryService;
+	@Autowired
+	private CategoryService categoryService;
 	/**
 	 * 供应商审核记录
 	 */
@@ -815,66 +819,18 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	public SupplierCateTree potting(SupplierCateTree cateTree,String supplierId){
 		//封装 目录 物资生产 是否有审核记录数据  如果是其他的 类型 也是该字段存储
-		SupplierAudit audit=new SupplierAudit();
-		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType(ses.util.Constant.ITMES_PRODUCT_PAGE);
-		int count=countByPrimaryKey(audit);
-		cateTree.setIsItemsProductPageAudit(count);
-		
+		cateTree.setIsItemsProductPageAudit(countData(supplierId, cateTree.getItemsId(), ses.util.Constant.ITMES_PRODUCT_PAGE));
 		//封装 目录 物资销售 是否有审核记录数据
-		audit=new SupplierAudit();
-		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType(ses.util.Constant.ITEMS_SALES_PAGE);
-		count=countByPrimaryKey(audit); 
-		cateTree.setIsItemsSalesPageAudit(count);
-		
+		cateTree.setIsItemsSalesPageAudit(countData(supplierId, cateTree.getItemsId(), ses.util.Constant.ITEMS_SALES_PAGE));
 		//封装 物资生产 记录 资质文件  如果是其他的 类型 也是该字段存储
-		audit=new SupplierAudit();
-		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType(ses.util.Constant.CONTRACT_PRODUCT_PAGE);
-		count=countByPrimaryKey(audit);
-		cateTree.setIsContractProductPageAudit(count);
+		cateTree.setIsAptitudeProductPageAudit(countData(supplierId, cateTree.getItemsId(), ses.util.Constant.APTITUDE_PRODUCT_PAGE));
 		//封装 物资销售 记录 资质文件
-		audit=new SupplierAudit();
-		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType(ses.util.Constant.CONTRACT_SALES_PAGE);
-		count=countByPrimaryKey(audit);
-		cateTree.setIsContractSalesPageAudit(count);
-		
+		cateTree.setIsAptitudeSalesPageAudit(countData(supplierId, cateTree.getItemsId(), ses.util.Constant.APTITUDE_SALES_PAGE));
 		//封装 物资生产 销售合同文件  如果是其他的 类型 也是该字段存储
-		audit=new SupplierAudit();
-		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType(ses.util.Constant.APTITUDE_PRODUCT_PAGE);
-		count=countByPrimaryKey(audit);
-		cateTree.setIsAptitudeProductPageAudit(count);
+		cateTree.setIsContractProductPageAudit(countAptitudeProuct(supplierId, cateTree.getItemsId()));
 		//封装 物资销售 记录 销售合同
-		audit=new SupplierAudit();
-		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType(ses.util.Constant.APTITUDE_SALES_PAGE);
-		count=countByPrimaryKey(audit);
-		cateTree.setIsAptitudeSalesPageAudit(count);
-		
+		cateTree.setIsContractSalesPageAudit(countAptitudeSales(supplierId, cateTree.getItemsId()));
 	return cateTree;
-	}
-	/**
-	 * 
-	 * Description:私有 封装 数据
-	 * 
-	 * @author YangHongLiang
-	 * @version 2017-6-30
-	 * @param catetree
-	 * @return
-	 */
-	private SupplierCateTree pottingFile(SupplierCateTree cateTree,String supplierId){
-	
-		
-		return cateTree;
 	}
 	@Override
 	public List<SupplierCateTree> showProject(SupplierCateTree cateTree,
@@ -1014,5 +970,169 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		}
 		return list;
 	}
-	
+
+	@Override
+	public List<SupplierCateTree> showContractData(String itemId,String supplierId,String supplierItemId) {
+		//合同
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		//账单
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		SupplierCateTree cateTree=new SupplierCateTree();
+		// 递归获取所有父节点
+		List < Category > parentNodeList = categoryService.getAllParentNode(itemId);
+		// 加入根节点 物资
+		cateTree=categoryService.addNode(parentNodeList);
+		SupplierItem item = supplierItemService.selectByPrimaryKey(supplierItemId);
+		String type=item.getSupplierTypeRelateId();
+		String typeName = "";
+		if("PRODUCT".equals(type)) {
+			typeName = "生产";
+		} else if("SALES".equals(type)) {
+			typeName = "销售";
+		}
+		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+		cateTree.setOneContract(id1);
+		cateTree.setTwoContract(id2);
+		cateTree.setThreeContract(id3);
+		cateTree.setOneBil(id4);
+		cateTree.setTwoBil(id5);
+		cateTree.setThreeBil(id6);
+		cateTree.setRootNode(cateTree.getRootNode() == null ? "" : cateTree.getRootNode());
+		cateTree.setFirstNode(cateTree.getFirstNode() == null ? "" : cateTree.getFirstNode());
+		cateTree.setSecondNode(cateTree.getSecondNode() == null ? "" : cateTree.getSecondNode());
+		cateTree.setThirdNode(cateTree.getThirdNode() == null ? "" : cateTree.getThirdNode());
+		cateTree.setFourthNode(cateTree.getFourthNode() == null ? "" : cateTree.getFourthNode());
+		cateTree.setSupplierItemId(supplierItemId);
+		cateTree.setRootNode(cateTree.getRootNode() + typeName);
+		if("PRODUCT".equals(type)) {
+			typeName = ses.util.Constant.CONTRACT_PRODUCT_PAGE;
+		} else if("SALES".equals(type)) {
+			typeName = ses.util.Constant.CONTRACT_SALES_PAGE;
+		}else{
+			typeName = ses.util.Constant.CONTRACT_PRODUCT_PAGE;
+		}
+		//封装 合同 是否有审核 记录数据
+		// 合同 1 
+		int count=countData(supplierId, cateTree.getItemsId()+id1, typeName);
+		cateTree.setIsAptitudeProductPageAudit(count);
+		// 合同 2 
+		count=countData(supplierId, cateTree.getItemsId()+id2, typeName);
+		cateTree.setIsAptitudeSalesPageAudit(count);
+		// 合同 3 
+		count=countData(supplierId, cateTree.getItemsId()+id3, typeName);
+		cateTree.setIsContractProductPageAudit(count);
+		// 账单 4 
+		count=countData(supplierId, cateTree.getItemsId()+id4, typeName);
+		cateTree.setIsContractSalesPageAudit(count);
+		// 账单5 
+		count=countData(supplierId, cateTree.getItemsId()+id5, typeName);
+		cateTree.setIsItemsProductPageAudit(count);
+		// 账单 6 
+		count=countData(supplierId, cateTree.getItemsId()+id6, typeName);
+		cateTree.setIsItemsSalesPageAudit(count);
+		allTreeList.add(cateTree);		
+		return allTreeList;
+	}
+	/**
+	 * 
+	 * Description:封装 合计 销售合同 物资 生产
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-6
+	 * @param supplierId
+	 * @param auditField
+	 * @return
+	 */
+	private Integer countAptitudeProuct(String supplierId, String auditField){
+		int rut=0;
+		//合同
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		//账单
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		// 合同 1 物资生产
+		int count=countData(supplierId, auditField+id1, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		rut=rut+count;
+		// 合同 2 物资生产
+		count=countData(supplierId, auditField+id2, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		rut=rut+count;
+		// 合同 3 物资生产
+		count=countData(supplierId, auditField+id3, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		rut=rut+count;
+		// 账单 4 物资生产
+		count=countData(supplierId, auditField+id4, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		rut=rut+count;
+		// 账单5 物资生产
+		count=countData(supplierId, auditField+id5, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		rut=rut+count;
+		// 账单 6 物资生产
+		count=countData(supplierId, auditField+id6, ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		rut=rut+count;
+		return rut;
+	}
+	/**
+	 * 
+	 * Description:封装 合计 销售合同 物资 销售
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-6
+	 * @param supplierId
+	 * @param auditField
+	 * @return
+	 */
+	private Integer countAptitudeSales(String supplierId, String auditField){
+		int rut=0;
+		//合同
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		//账单
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		// 合同 1 物资销售
+		int count=countData(supplierId, auditField+id1, ses.util.Constant.CONTRACT_SALES_PAGE);
+		rut=rut+count;
+		// 合同 2 物资销售
+		count=countData(supplierId, auditField+id2, ses.util.Constant.CONTRACT_SALES_PAGE);
+		rut=rut+count;
+		// 合同 3 物资销售
+		count=countData(supplierId, auditField+id3, ses.util.Constant.CONTRACT_SALES_PAGE);
+		rut=rut+count;
+		// 账单 4 物资销售
+		count=countData(supplierId, auditField+id4, ses.util.Constant.CONTRACT_SALES_PAGE);
+		rut=rut+count;
+		// 账单5 物资销售
+		count=countData(supplierId, auditField+id5, ses.util.Constant.CONTRACT_SALES_PAGE);
+		rut=rut+count;
+		// 账单 6 物资销售
+		count=countData(supplierId, auditField+id6, ses.util.Constant.CONTRACT_SALES_PAGE);
+		rut=rut+count;
+		return rut;
+	}
+	/**
+	 * 
+	 * Description:封装私有  方法 简化 查询审核 记录
+	 * 
+	 * @author YangHongLiang
+	 * @version 2017-7-6
+	 * @param supplierId
+	 * @param auditField
+	 * @param auditType
+	 * @return
+	 */
+	private Integer countData(String supplierId, String auditField,String auditType ){
+		SupplierAudit audit=new SupplierAudit();
+		audit.setSupplierId(supplierId);
+		audit.setAuditField(auditField);
+		audit.setAuditType(auditType);
+		return countByPrimaryKey(audit);
+	}
 }

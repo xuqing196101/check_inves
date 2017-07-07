@@ -426,4 +426,16 @@ public interface SupplierAuditService {
      * @return
      */
     List<SupplierPublicity> selectSupByPublictyList(Map<String, Object> map);
+    /**
+     * 
+     * Description:封装 销售合同 数据
+     * 
+     * @author YangHongLiang
+     * @version 2017-7-6
+     * @param itemId
+     * @param supplierId
+     * @param supplierItemId
+     * @return
+     */
+    List<SupplierCateTree> showContractData(String itemId,String supplierId,String supplierItemId);
 } 

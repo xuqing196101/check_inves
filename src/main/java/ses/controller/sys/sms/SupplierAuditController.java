@@ -2362,7 +2362,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			if("工程".equals(cateTree.getRootNode())) {
 				fileNumber=engCategoryService.countEngCategoyrId(cateTree, supplierId);
 			}else{ 
-				//供应商物资 资质文件上传
+				//供应商物资 专业资质要求上传
 				fileNumber=supplierService.countCategoyrId(cateTree,supplierId);
 			}
 			//是否有销售合同
@@ -2392,56 +2392,12 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(StringUtils.isBlank(itemId)){
 			return "ses/sms/supplier_audit/aptitude_contract_item";
 		}
-		//合同
-		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
-		//账单
-		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
-		SupplierCateTree cateTree=new SupplierCateTree();
-		// 递归获取所有父节点
-		List < Category > parentNodeList = categoryService.getAllParentNode(itemId);
-		// 加入根节点 物资
-		cateTree=categoryService.addNode(parentNodeList);
-		SupplierItem item = supplierItemService.selectByPrimaryKey(supplierItemId);
-		String type=item.getSupplierTypeRelateId();
-		String typeName = "";
-		if("PRODUCT".equals(type)) {
-			typeName = "生产";
-		} else if("SALES".equals(type)) {
-			typeName = "销售";
-		}
-		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
-		cateTree.setOneContract(id1);
-		cateTree.setTwoContract(id2);
-		cateTree.setThreeContract(id3);
-		cateTree.setOneBil(id4);
-		cateTree.setTwoBil(id5);
-		cateTree.setThreeBil(id6);
-		cateTree.setRootNode(cateTree.getRootNode() == null ? "" : cateTree.getRootNode());
-		cateTree.setFirstNode(cateTree.getFirstNode() == null ? "" : cateTree.getFirstNode());
-		cateTree.setSecondNode(cateTree.getSecondNode() == null ? "" : cateTree.getSecondNode());
-		cateTree.setThirdNode(cateTree.getThirdNode() == null ? "" : cateTree.getThirdNode());
-		cateTree.setFourthNode(cateTree.getFourthNode() == null ? "" : cateTree.getFourthNode());
-		cateTree.setSupplierItemId(supplierItemId);
-		cateTree.setRootNode(cateTree.getRootNode() + typeName);
-		allTreeList.add(cateTree);
 		
-		//封装 合同 是否有审核 记录数据
-		SupplierAudit audit=new SupplierAudit();
-		audit=new SupplierAudit();
-		audit.setSupplierId(supplierId);
-		audit.setAuditField(cateTree.getItemsId());
-		audit.setAuditType("contract_page");
-		int count=supplierAuditService.countByPrimaryKey(audit);
-		model.addAttribute("count", count);
+		List<SupplierCateTree> allTreeList=supplierAuditService.showContractData(itemId, supplierId, supplierItemId);
 		model.addAttribute("contract", allTreeList);
 		// 年份
 		List < Integer > years = supplierService.getThressYear();
 		model.addAttribute("years", years);
-		model.addAttribute("supplierTypeId", type);
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("ids", ids-1);
 		model.addAttribute("tablerId", tablerId);
@@ -2493,13 +2449,13 @@ public class SupplierAuditController extends BaseSupplierController {
 			model.addAttribute("tablerId", tablerId);
 			return "ses/sms/supplier_audit/aptitude_project_item";
 		}else if("服务".equals(type)){
-			bean.setCategoryName(cateTree.getItemsName()+"资质文件");
+			bean.setCategoryName(cateTree.getItemsName()+"专业资质要求");
 			bean.setCategoryId(itemId);
 			list= supplierAuditService.showQualifications(cateTree, 1,typeId,sysKey);
 			bean.setList(list);
 			beanList.add(bean);
 		}else{
-			bean.setCategoryName(cateTree.getItemsName()+"-生产资质文件");
+			bean.setCategoryName(cateTree.getItemsName()+"-生产专业资质要求");
 			bean.setCategoryId(itemId);
 			list= supplierAuditService.showQualifications(cateTree, 2,typeId,sysKey);
 			if(null!=list && !list.isEmpty()){
@@ -2507,7 +2463,7 @@ public class SupplierAuditController extends BaseSupplierController {
 				beanList.add(bean);
 			}
 			QualificationBean bean2=new QualificationBean();
-			bean2.setCategoryName(cateTree.getItemsName()+"-销售资质文件");
+			bean2.setCategoryName(cateTree.getItemsName()+"-销售专业资质要求");
 			bean.setCategoryId(itemId);
 			list= supplierAuditService.showQualifications(cateTree, 3,typeId,sysKey);
 			if(null!=list && !list.isEmpty()){

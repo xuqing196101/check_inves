@@ -1,31 +1,45 @@
 $(function(){
-	var tablerId=$("#tablerId").val();
+	var count1=$("#count1").val();
+	var count2=$("#count2").val();
+	var count3=$("#count3").val();
+	var count4=$("#count4").val();
+	var count5=$("#count5").val();
+	var count6=$("#count6").val();
 	var ind = parseInt($("#ids").val());
-	ind=ind+1;
-	var auditCount ;
-	switch (tablerId) {
-	case 'content_1'://物资生产
-	case 'content_3'://工程
-	case 'content_4'://服务
-		auditCount = $("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val();
-		break;
-	case 'content_2'://物资销售
-		auditCount = $("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val();
-		break;
+	if(parseInt(count1)>0){
+		$("#td11").css('border-color', '#FF0000');
+		$("#show_td1").attr('src', globalPath+'/public/backend/images/sc.png');
 	}
-	if(auditCount>0){
-		$("#"+tablerId+" #contract"+ind+"",window.parent.document).css('border-color', '#FF0000');
-		$("#show_td").attr('src', globalPath+'/public/backend/images/sc.png');
-		$("#count").val(auditCount);
+	if(parseInt(count2)>0){
+		$("#td12").css('border-color', '#FF0000');
+		$("#show_td2").attr('src', globalPath+'/public/backend/images/sc.png');
+	}
+	if(parseInt(count3)>0){
+		$("#td13").css('border-color', '#FF0000');
+		$("#show_td3").attr('src', globalPath+'/public/backend/images/sc.png');
+	}
+	if(parseInt(count4)>0){
+		$("#td14").css('border-color', '#FF0000');
+		$("#show_td4").attr('src', globalPath+'/public/backend/images/sc.png');
+	}
+	if(parseInt(count5)>0){
+		$("#td15").css('border-color', '#FF0000');
+		$("#show_td5").attr('src', globalPath+'/public/backend/images/sc.png');
+	}
+	if(parseInt(count6)>0){
+		$("#td16").css('border-color', '#FF0000');
+		$("#show_td6").attr('src', globalPath+'/public/backend/images/sc.png');
 	}
 });
 //审核 销售合同不通过理由
-function reasonProject(ind,auditField, auditFieldName) {
+function reasonProject(ind,auditField, auditFieldName,ids) {
+	var businessId=$("#fileId"+ids+"").val();
+	auditField=auditField+businessId;
 	var supplierId = $("#supplierId").val();
-	var auditCount = $("#count").val();
+	var auditCount = $("#count"+ids+"").val();
 	ind=parseInt(ind)+1;
 	var tablerId=$("#tablerId").val();
-	var auditContent=content(tablerId,ind,'销售合同');
+	var auditContent=content(tablerId,ind,'销售合同_'+showData(ids));
 	var auditType;
 	if(auditCount!=null && auditCount !='' && auditCount>'0' ){
 		layer.msg('已审核', {offset:'100px'});
@@ -76,15 +90,18 @@ function reasonProject(ind,auditField, auditFieldName) {
 						case 'content_1'://物资生产
 						case 'content_3'://工程
 						case 'content_4'://服务
-							$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val('1');
+							var old=$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val();
+							$("#"+tablerId+" #isContractProductPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
 							break;
 						case 'content_2'://物资销售
-							$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val('1');
+							var old=$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val();;
+							$("#"+tablerId+" #isContractSalesPageAudit"+ind+"",window.parent.document).val(parseInt(old)+1);
 							break;
 						}
 						$("#"+tablerId+" #contract"+ind+"",window.parent.document).css('border-color', '#FF0000');
-						$("#show_td").attr('src', globalPath+'/public/backend/images/sc.png');
-						$("#count").val('1');
+						$("#td1"+ids+"").css('border-color', '#FF0000');
+						$("#show_td"+ids+"").attr('src', globalPath+'/public/backend/images/sc.png');
+						$("#count"+ids+"").val('1');
 					}else{
 						layer.msg(result.msg, {
 							shift: 6, //动画类型
@@ -98,4 +115,16 @@ function reasonProject(ind,auditField, auditFieldName) {
   		layer.msg('不能为空！', {offset:'100px'});
   	};
 	});
+}
+function showData(index){
+	var rut;
+	index=parseInt(index);
+	var parents=$("#td1"+index+"").parent().parent();
+	if(index<=3){
+		rut=parents.find("td").eq(0).text();
+	}else if(index>=4){
+		rut=parents.find("td").eq(1).text();
+	}
+	rut=rut+"_"+parents.find("td").eq(index+1).text();
+	return rut;
 }

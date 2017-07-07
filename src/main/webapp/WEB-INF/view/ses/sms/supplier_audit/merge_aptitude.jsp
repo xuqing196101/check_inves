@@ -62,6 +62,7 @@
 				</ul>
 				<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
                     </ul>
+                <div class="red">提示:点击产品目录即可对该条产品目录进行审核不通过操作</div>
 				<div class="tab-content padding-top-20 tab-pane fade display-none"   id="tab_1">
 					<table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
 						 <thead>
@@ -72,7 +73,7 @@
 							  <td class="tc info">中类</td>
 							  <td class="tc info">小类</td>
 							  <td class="tc info">品种名称</td>
-							  <td class="tc info">资质文件</td>
+							  <td class="tc info">专业资质要求</td>
 							  <td class="tc info">销售合同</td>
 							</tr>
 						</thead> 
@@ -90,7 +91,7 @@
                               <td class="tc info">中类</td>
                               <td class="tc info">小类</td>
                               <td class="tc info">品种名称</td>
-                              <td class="tc info">资质文件</td>
+                              <td class="tc info">专业资质要求</td>
                               <td class="tc info">销售合同</td>
                             </tr>
                         </thead> 
@@ -108,7 +109,7 @@
                               <td class="tc info">中类</td>
                               <td class="tc info">小类</td>
                               <td class="tc info">品种名称</td>
-                              <td class="tc info">资质文件</td>
+                              <td class="tc info">专业资质要求</td>
                             </tr>
                         </thead> 
                         <tbody>
@@ -125,7 +126,7 @@
                               <td class="tc info">中类</td>
                               <td class="tc info">小类</td>
                               <td class="tc info">品种名称</td>
-                              <td class="tc info">资质文件</td>
+                              <td class="tc info">专业资质要求</td>
                               <td class="tc info">销售合同</td>
                             </tr>
                         </thead> 

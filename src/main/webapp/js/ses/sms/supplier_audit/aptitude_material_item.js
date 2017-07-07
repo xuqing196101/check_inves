@@ -25,24 +25,24 @@ function reasonProject(ind,auditField, auditFieldName) {
 	var auditCount = $("#count").val();
 	ind=parseInt(ind)+1;
 	var tablerId=$("#tablerId").val();
-	var auditContent=content(tablerId,ind,'资质文件');
+	var auditContent=content(tablerId,ind,'专业资质要求');
 	var auditType;
 	switch (tablerId) {
 	case 'content_1'://物资生产
-		auditFieldName='物资-生产资质文件';
+		auditFieldName='物资-生产专业资质要求';
 		auditType="aptitude_product_page";
 		break;
 	case 'content_3'://工程
-		auditFieldName='工程-资质文件';
+		auditFieldName='工程-专业资质要求';
 		auditType="aptitude_product_page";
 		break;
 	case 'content_4'://服务
 		auditType="aptitude_product_page";
-		auditFieldName='服务-资质文件';
+		auditFieldName='服务-专业资质要求';
 		break;
 	case 'content_2'://物资销售
 		auditType="aptitude_sales_page";
-		auditFieldName='物资-销售资质文件';
+		auditFieldName='物资-销售专业资质要求';
 		break;
 	}
 	if(auditCount!=null && auditCount !='' && auditCount>'0' ){
