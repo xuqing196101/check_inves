@@ -353,11 +353,14 @@ a.fwcg i {
   background-position: -812px 0px;
 }
 a.news_more {
-  color: #555555!important;
+  color: #555555 !important;
   float: right;
   background: none;
-  font-size: 14px!important;
-  padding: 0px!important;
+  font-size: 14px !important;
+  padding: 0px !important;
+}
+a.news_more:hover {
+  color: #2C9FA6 !important;
 }
 /* 投诉处理结束*/
 
@@ -492,6 +495,7 @@ background: none;
 transition: all 0.1s ease-in-out;
 } */
 .header-v4 .dropdown-menu li a {
+  font-size: 16px;
   color: #687074;
   font-weight: 400;
 }
@@ -505,11 +509,14 @@ transition: all 0.1s ease-in-out;
     height: 45px;
     line-height: 45px;
   }
+  .header-v4 .dropdown-menu li a {
+    font-size: 14px;
+  }
   .nav_icon {
     margin: 9px 9px 0px 5px;
   }
 }
-@media (max-width: 991px){
+@media (max-width: 991px) {
   .header-v4 .navbar-collapse.collapse {
     display: none!important;
   }
@@ -635,14 +642,14 @@ transition: all 0.1s ease-in-out;
 /*页面信息提示框样式开始*/
 .prompt_tips {
   width: 260px;
-  border: 1px solid #dddddd;
+  border: 1px solid #DDD;
   -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
   box-shadow: 0 5px 10px rgba(0,0,0,.2);
   position: fixed;
   z-index: 10000;
   font-size: 16px;
-  background-color: #ffffff;
-  height: 210px;
+  background-color: #FFF;
+  height: 180px;
   bottom: 0px;
   right: 0px;
 }
@@ -666,7 +673,7 @@ transition: all 0.1s ease-in-out;
   background: url(../images/close_icon.png) no-repeat center;
 }
 .prompt_main {
-  padding: 5px 10px;
+  padding:15px 10px;
 }
 .prompt_tips .prompt_main a:hover {
   color: #ef0000;
@@ -706,15 +713,6 @@ transition: all 0.1s ease-in-out;
   display: inline-block;
   text-decoration: none;
   background: #CFD3E6;
-}
-.prompt_main a {
-  display: block;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  height: 25px;
-  line-height: 25px;
 }
 .prompt_main a:hover{
   color:#ef0000;
@@ -915,6 +913,10 @@ span.list_squre {
   font-size: 16px;
   padding: 0 10px;
 }
+.floor_kind h2 li a {
+  padding: 8px 12px;
+  position: relative;
+}
 .floor_kind h2 li a:hover {
   color:#2C9FA6;
 }
@@ -932,7 +934,7 @@ span.list_squre {
   text-decoration: none;
 }
 /* 栏目右上角标开始 */
-.floor_kind h2 li a b, #redground {
+.floor_kind h2 li a b, .cgxx_report .report-tab b, #redground {
   width: 21px;
   height: 21px;
   border-radius: 100% !important;
@@ -947,17 +949,13 @@ span.list_squre {
   z-index: 1;
   background: url(../images/report_round.png) no-repeat center;
 }
-.floor_kind h2 li a b {
+.floor_kind h2 li a b, .cgxx_report .report-tab b {
   right: -7px;
   top: -7px;
 }
 #redground {
   left: 85px;
   top: -10px;
-}
-/* 栏目右上角标结束 */
-.floor_news h2 li a b {
-  display: none;
 }
 
 @media (min-width: 768px) and (max-width: 1200px) {
@@ -1591,11 +1589,34 @@ img.sign_left_image {
 /* 注册登录结束 */
 
 /* 主导航供应商和专家滚动表格开始 */
+.m_nav_scroll_head table {
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-collapse: separate;
+}
+.m_nav_scroll_head table tr td {
+  border: none;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
 .m_nav_scroll {
+  width: 100%;
   height: 190px;
   overflow: hidden;
 }
-.m_nav_scroll table td a {
+.m_nav_scroll table {
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-collapse: separate;
+}
+.m_nav_scroll table tr td {
+  border: none;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+.m_nav_scroll table tr td a {
   width: auto !important;
 }
 .m_nav_scroll ul, .m_nav_scroll li {
@@ -1605,16 +1626,16 @@ img.sign_left_image {
 }
 .m_nav_scroll .bx-wrapper {
   margin: 0 auto;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    border: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: none;
 }
 .m_nav_scroll .bx-wrapper .bx-viewport {
   -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: none;
   left: 0;
   background: none;
 }
