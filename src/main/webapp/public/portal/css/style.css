@@ -3315,3 +3315,13 @@ h2.list_title{
 .m_buyer_list {
 	height: 238px;
 }
+
+/* 供应商、专家注册须知页面文件下载修改 */
+.m_download {
+	padding: 12px 24px;
+  background: url(../images/download.png) no-repeat 0px;
+  margin-left: 5px;
+}
+.font-20 {
+	font-size: 20px;
+}
