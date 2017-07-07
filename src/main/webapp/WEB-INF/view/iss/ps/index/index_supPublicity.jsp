@@ -31,13 +31,14 @@
       </div>
      </form>
         <div class="report_list_box">
-            <div class="col-md-12 col-sm-12 col-xs-12 report_list_title">
-          		<div class="col-md-2 col-xs-2 col-sm-2 f16">供应商名称</div>
+            <div class="report_list_title">
+          	  <div class="col-md-2 col-xs-2 col-sm-2 f16">供应商名称</div>
               <div class="col-md-1 col-xs-1 col-sm-1 f16">类型</div>
               <div class="col-md-1 col-xs-1 col-sm-1 f16">企业性质</div>
               <div class="col-md-2 col-xs-2 col-sm-2 f16">初审单位</div>
               <div class="col-md-4 col-xs-4 col-sm-4 f16">审核结果</div>
-                <div class="col-md-2 col-xs-2 col-sm-2 f16">公示时间</div>
+              <div class="col-md-2 col-xs-2 col-sm-2 f16">公示时间</div>
+              <div class="clear"></div>
             </div>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new" id="supPublicityList">
                 </ul>
