@@ -2513,6 +2513,153 @@ a.yjfk i{
  border:1px solid #fdaf0f;
 }
 
+/* 业务办理样式 */
+.ywbl_02 a i, .ywbl_01 a i {
+  width: 60px;
+  height: 50px;
+  display: inline-block;
+  margin: 10px auto 2px auto;
+}
+.ywbl_02:hover, .ywbl_01:hover {
+  box-shadow: 3px 3px 5px #c0c0c0;
+  border: 1px solid #fdaf0f;
+}
+.ywbl_01 {
+  height: 104px;
+  background: url(../images/flow_bg.jpg) center;
+  float: left;
+  margin: 4px;
+}
+.ywbl_01 a,.ywbl_02 a {
+  width: 100%;
+  height: 100%;
+  display: block;
+  color: #555;
+  text-align: center;
+}
+.ywbl_01 a span, .ywbl_02 a span {
+  display: block;
+  font-size: 14px;
+  width: 100%;
+  text-align: center;
+}
+.ywbl_02 {
+  height: 104px;
+  background: url(../images/flow_bg.jpg);
+  float: left;
+  margin: 4px;
+}
+.flow_one {
+  margin-right: 14px;
+}
+.flow_btn {
+  padding: 3px 5px;
+  border: 1px solid #eee;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.flow_btn a i {
+  background-image: url(../images/portal_icon.png);
+  background-repeat: no-repeat;
+}
+a.qyzc i {
+  background-position: 0px -340px;
+}
+a.nrkgyshgsh i {
+  background-position: -125px -340px;
+}
+a.zjzc i {
+  background-position: -240px -340px;
+}
+a.nrkzhjgsh i {
+  background-position: -375px -340px;
+}
+a.jksdj i {
+  background-position: -522px -340px;
+}
+a.wssc i {
+  background-position: -675px -340px;
+}
+a.dxcpjj i {
+  background-position: -820px -340px;
+}
+a.ypcg i {
+  background-position: -965px -340px;
+}
+a.fwcg i {
+  background-position: 5px -475px;
+}
+a.fwrx i {
+  background-position: -100px -475px;
+}
+a.cpml i {
+  background-position: -205px -475px;
+}
+a.jscsk i {
+  background-position: -330px -475px;
+}
+a.zlxz i {
+  background-position: -455px -475px;
+}
+a.cpshfw i {
+  background-position: -580px -475px;
+}
+a.zxts i {
+  background-position: -730px -475px;
+}
+a.cglt i {
+  background-position: -855px -475px;
+}
+a.yjfk i {
+  background-position: -975px -475px;
+}
+@media (min-width:1200px) {
+  .ywbl_01 {
+    width: 131px;
+    padding: 0 5px;
+  }
+  .ywbl_02 {
+    width: 118px;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .ywbl_01 {
+    width: 106px;
+    padding: 0 5px;
+  }
+  .ywbl_02 {
+    width: 96px;
+  }
+  .ywbl_01 a span, .ywbl_02 a span {
+    font-size: 12px;
+  }
+}
+@media (max-width: 992px) {
+  .flow_btn{
+    width:100%;
+    padding:0px;
+    border:0px;
+    margin: 0px;
+  }
+  .ywbl_01,.ywbl_02{
+    margin: 0px;
+    border: 1px solid #CCC;
+    margin-bottom: 5px;
+  }
+}
+@media (max-width:480px) {
+  .ywbl_01 a span, .ywbl_02 a span {
+    font-size: 12px;
+  }
+  .ywbl_01,.ywbl_02 {
+    height: 84px;
+  }
+  .ywbl_02 a i, .ywbl_01 a i {
+    margin-top: 3px;
+  }
+}
+/* 业务办理样式结束 */
+
 
 /* supp_login */
 
@@ -3296,26 +3443,85 @@ h2.list_title{
         padding: 0 9px !important;
     }
 }
-/* 首页-业务办理自适应错版修复 */
-@media only screen and (min-width: 1024px) and (max-width: 1199px) {
-    .ywbl_01 {
-        width: 106px !important;
-    }
-    .ywbl_01 a span{
-    	font-size:14px;
-    }
-    .ywbl_02 {
-        width: 126px !important;
-    }
-    .ywbl_02 a span{
-    	font-size:14px;
-    }
-}
 /* 主导航-下拉内容高度设置 */
 .m_buyer_list {
 	height: 238px;
 }
-
+/* 主导航供应商和专家滚动表格开始 */
+.m_nav_scroll_head table {
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-collapse: separate;
+}
+.m_nav_scroll_head table tr td {
+  border: none;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+.m_nav_scroll {
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+}
+.m_nav_scroll table {
+  border: none;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-collapse: separate;
+}
+.m_nav_scroll table tr td {
+  border: none;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+.m_nav_scroll table tr td a {
+  width: auto !important;
+}
+.m_nav_scroll ul, .m_nav_scroll li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.m_nav_scroll .bx-wrapper {
+  margin: 0 auto;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: none;
+}
+.m_nav_scroll .bx-wrapper .bx-viewport {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: none;
+  left: 0;
+  background: none;
+}
+.m_nav_scroll .bx-wrapper .bx-pager {
+  padding: 0;
+  font-size: 0px;
+}
+.m_nav_scroll .bx-wrapper .bx-pager, .m_nav_scroll .bx-wrapper .bx-controls-auto {
+  bottom: 0;
+}
+.m_nav_scroll .bx-wrapper .bx-controls-direction a {
+  z-index: 1;
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .m-headline-v2 h2 {
+    font-size: 12px !important;
+  }
+  .header-v4 .dropdown-menu li a {
+    font-size: 14px;
+    padding: 9px 6px 7px 6px;
+  }
+}
+/* 主导航供应商和专家滚动表格结束 */
+.list_new li a.publicityCss {
+	display: inline-block;
+	vertical-align: top;
+}
 /* 供应商、专家注册须知页面文件下载修改 */
 .m_download {
 	padding: 12px 24px;
