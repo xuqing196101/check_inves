@@ -1952,6 +1952,7 @@
 	from 
 	 T_SES_OMS_ORG o inner join T_SES_OMS_PURCHASE_DEP d  on o.id =d.org_id LEFT JOIN T_SES_SMS_SUPPLIER s
 	 on o.id=s.PROCUREMENT_DEP_ID where 1=1
+	 and o.TYPE_NAME=1 and o.is_deleted =0 and d.is_deleted= 0
 	  <if test="name != null and name !=''">
 	    and  o.short_name like CONCAT(CONCAT('%', #{name}), '%')
 	  </if>
@@ -1970,6 +1971,7 @@
 	from 
 	 T_SES_OMS_ORG o inner join T_SES_OMS_PURCHASE_DEP d  on o.id =d.org_id LEFT JOIN T_SES_EMS_EXPERT s
 	 on o.id=s.PURCHASE_DEP_ID where 1=1
+	 and o.TYPE_NAME=1 and o.is_deleted =0 and d.is_deleted= 0
 	  <if test="nameEx != null and nameEx !=''">
 	    and  o.short_name like CONCAT(CONCAT('%', #{nameEx}), '%')
 	  </if>
@@ -2022,7 +2024,7 @@
 	
 	<!-- 查询公示的供应商 列表 -->
 	<select id="selectSupByPublictyList" resultMap="supplierOfPublicityMapList" parameterType="ses.model.sms.SupplierPublicity">
-		SELECT T.ID, T.SUPPLIER_NAME, DT.NAME AS BUSINESS_NATURE, ORG.SHORT_NAME AS ORGNAME
+		SELECT T.ID, T.SUPPLIER_NAME, DT.NAME AS BUSINESS_NATURE, T.UPDATED_AT, ORG.SHORT_NAME AS ORGNAME
 		  FROM T_SES_SMS_SUPPLIER T
 		  LEFT JOIN T_SES_BMS_DICTIONARY_DATA DT
 		    ON T.BUSINESS_NATURE = DT.ID
@@ -2036,6 +2038,6 @@
 		   <if test="supplierName != null and supplierName != ''">
 		     AND INSTR(T.SUPPLIER_NAME,#{supplierName}) >0
 		   </if>
-		 ORDER BY T.UPDATED_AT DESC
+		 ORDER BY T.UPDATED_AT
 	</select>
 </mapper>

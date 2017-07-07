@@ -40,7 +40,7 @@
   
 	<!-- 将session放入redis -->
 	<bean id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
-	    <property name="maxInactiveIntervalInSeconds" value="1800" />
+	    <property name="maxInactiveIntervalInSeconds" value="21600" />
 	</bean>
 	<bean id="systemPvService" class="common.service.impl.SystemPvServiceImpl" />
 	<!-- 缓存过滤器 -->

@@ -2641,6 +2641,7 @@ public class SupplierController extends BaseSupplierController {
                 jsonArray.add(jsonObject);
             }
         }
+        //System.out.println(jsonArray.toString());
 	    return jsonArray.toString();
     }
     public JSONArray loadChildCategory(String id, Integer status, String supplierId, String code){
@@ -2672,10 +2673,10 @@ public class SupplierController extends BaseSupplierController {
             List < Category > cList = categoryService.findTreeByPid(c.getId());
             if(cList != null && cList.size() > 0) {
                 jsonObject.put("isParent", true);
+                jsonObject.put("children", loadChildCategory(c.getId(), status, supplierId, code));
             } else {
                 jsonObject.put("isParent", false);
             }
-            jsonObject.put("children", loadChildCategory(c.getId(), status, supplierId, code));
             jsonArray.add(jsonObject);
         }
         return jsonArray;

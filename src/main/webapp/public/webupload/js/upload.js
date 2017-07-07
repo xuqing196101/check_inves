@@ -374,6 +374,7 @@
 			 */
 			uploader.on('uploadFinished',function(){
 				fileCount = 0;
+				fileSize = 0;
 				if (percentLayer != null){
 					layer.close(percentLayer);
 				}
