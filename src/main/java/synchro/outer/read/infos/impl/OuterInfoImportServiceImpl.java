@@ -3,10 +3,15 @@ package synchro.outer.read.infos.impl;
 import java.io.File;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import app.service.IndexAppService;
 import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
 import ses.util.PropUtil;
@@ -36,6 +41,10 @@ public class OuterInfoImportServiceImpl implements OuterInfoImportService {
     @Autowired
     private SynchRecordService  recordService; 
     
+    //App接口Service注入
+    @Autowired
+    private IndexAppService indexAppService;
+    
     /**
      * 
      * @see synchro.outer.read.infos.OuterInfoImportService#importInfos(java.io.File)
@@ -61,10 +70,29 @@ public class OuterInfoImportServiceImpl implements OuterInfoImportService {
                         if(zanPicFile.exists()){
                             zanPicFile.delete();
                         }
+                        
+                        //如果App公告图片存在 如果存在 就执行删除
+                        String appFilePath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "Appzanpic";
+                        String appGlisteningPath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "Appglistening";
+                        File appGlisteningFile = new File(appGlisteningPath+"/"+article.getId()+".jpg");
+                        File appZanPicFile = new File(appFilePath+"/"+article.getId()+".png");
+                        //判断图片是否存在
+                        if(appGlisteningFile.exists()){
+                            appGlisteningFile.delete();
+                        }
+                        if(appZanPicFile.exists()){
+                            appZanPicFile.delete();
+                        }
                     }
                 } else {
                     articleService.insertArticle(article);
+                    //生成App公告图片
+                  //获取到request对象
+                    ServletRequestAttributes attr = (ServletRequestAttributes)  
+                            RequestContextHolder.currentRequestAttributes();  
+                    indexAppService.getContentImg(article, attr.getRequest());
                 }
+                
             }
             recordService.importInfos(new Integer(list.size()).toString());
         }
