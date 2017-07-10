@@ -166,7 +166,7 @@ public class SupplierItemController extends BaseController {
 
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
-		s.setSupplierId(supplierItem.getSupplierId());;
+		s.setSupplierId(supplierItem.getSupplierId());
 		s.setAuditType("items_page");
 		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
 
@@ -510,11 +510,11 @@ public class SupplierItemController extends BaseController {
 					}
 				if(items!=null&&items.size()<1&&s.equals("SALES")){
 					model.addAttribute("sellError", "sellError");
-					 return "ses/sms/supplier_register/items";
+					return "ses/sms/supplier_register/items";
 				}
 				if(items!=null&&items.size()<1&&s.equals("SERVICE")){
 					model.addAttribute("serverError", "serverError");
-					 return "ses/sms/supplier_register/items";
+					return "ses/sms/supplier_register/items";
 				}
 			}
 		}
@@ -684,13 +684,14 @@ public class SupplierItemController extends BaseController {
 		model.addAttribute("serviceQua", serviceQua);
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("businessId", supplier.getId());
-		 String id = DictionaryDataUtil.getId("SUPPLIER_APTITUD");
+		String id = DictionaryDataUtil.getId("SUPPLIER_APTITUD");
 		model.addAttribute("typeId", id);
 
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
-		s.setSupplierId(supplier.getId());;
+		s.setSupplierId(supplier.getId());
 		s.setAuditType("aptitude_page");
+		
 		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
 
 		StringBuffer errorField = new StringBuffer();

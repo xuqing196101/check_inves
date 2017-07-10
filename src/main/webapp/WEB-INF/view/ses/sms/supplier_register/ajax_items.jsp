@@ -34,14 +34,24 @@
 	});
 	
 	//显示不通过的理由
-	function errorMsg(auditField, auditType){
+	function errorMsg(_this, auditField, auditType){
+		// 如果加载过错误信息，则不再加载
+		var errorMsg = $(_this).attr("data-errorMsg");
+		if(errorMsg){
+			layer.msg("不通过理由：" + errorMsg, {
+				offset: '300px'
+			});
+			return;
+		}
+	
 		var supplierId = "${supplierId}";
 		$.ajax({
 			url: "${pageContext.request.contextPath}/supplier/audit.html",
 			data: {"supplierId": supplierId, "auditField": auditField, "auditType": auditType},
 			dataType: "json",
 			success: function(data){
-			layer.msg("不通过理由：" + data.suggest , {offset: '200px'});
+				$(_this).attr("data-errorMsg", data.suggest);
+				layer.msg("不通过理由：" + data.suggest , {offset: '200px'});
 			}
 		});
 	}
@@ -60,7 +70,7 @@
       <td class="info tc">品种名称</td>
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
-      <tr <c:if test="${fn:contains(audit,item.categoryId)}"> onmouseover="errorMsg('${item.categoryId}','items_page')"</c:if>>
+      <tr <c:if test="${fn:contains(audit,item.categoryId)}"> onmouseover="errorMsg(this,'${item.categoryId}','items_page')"</c:if>>
         <td class="tc" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
 		    <td class="tc" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.rootNode}</td>
 		    <td class="tl pl20" <c:if test="${fn:contains(audit,item.categoryId)}">style="border: 1px solid red;" </c:if>>${item.firstNode}</td>
