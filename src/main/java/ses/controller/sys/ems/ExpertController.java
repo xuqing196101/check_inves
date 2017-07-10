@@ -3423,12 +3423,18 @@ public class ExpertController extends BaseController {
 //            String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
 //              + request.getContextPath()+"/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
              String ipAddressType= PropUtil.getProperty("ipAddressType");
+             String environment= PropUtil.getProperty("environment");
              String host=null;
-    			if("1".equals(ipAddressType)){
-    			      host ="https://www.plap.cn/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
-    		    }else{
-    		    	 host ="http://21.100.16.12/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
-    		    }
+             if("1".equals(environment)){
+ 	          	if("1".equals(ipAddressType)){
+ 	  			      host ="https://www.plap.cn/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+ 	  		    }else{
+ 	  		    	 host ="http://21.100.16.12/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+ 	  		    }
+            }else{
+	           	  host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
+	                + request.getContextPath()+"/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+            }
         	dataMap.put("image",host);
 //		}
         String faceId = expert.getPoliticsStatus();
