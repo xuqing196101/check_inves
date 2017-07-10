@@ -203,5 +203,11 @@ public List<Packages> selectByProjectKey(HashMap<String, Object> map) {
 	return packageMapper.selectByPrimaryKey(map);
 }
 
+@Override
+public List<Packages> findPackage(HashMap<String, Object> map, int pageNum) {
+  PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
+  return packageMapper.selectPackageOrderByCreated(map);
+}
+
 }
 

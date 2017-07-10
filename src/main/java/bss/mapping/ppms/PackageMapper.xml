@@ -612,4 +612,40 @@
 		ORDER BY
 		pr.BID_DATE DESC
 	</select>
+	
+	<!-- 查询包 按照创建时间-->
+	<select id="selectPackageOrderByCreated" parameterType="java.util.Map"
+		resultType="bss.model.ppms.Packages">
+		SELECT
+		pa.ID AS id,
+		pa.NAME AS name,
+		pa.PROJECT_ID AS project,
+		pr.NAME AS projectName,
+		pa.STATUS AS status,
+		pa.CREATED_AT AS createdAt,
+		pa.MARK_TERM_TREE AS markTermTree,
+		pa.PURCHASE_TYPE AS purchaseType,
+		pa.IS_IMPORT AS isImport,
+		pa.IS_END_PRICE AS isEndPrice
+		FROM
+		T_BSS_PPMS_PACKAGE pa
+		inner join T_BSS_PPMS_PROJECTS pr
+		on pa.PROJECT_ID = pr.ID
+		WHERE
+		nvl(pa.IS_DELETED,0)=0
+		<if test="projectId != null and projectId !=''">
+			AND pr.PROJECT_NUMBER like CONCAT(CONCAT('%', #{projectId}), '%')
+		</if>
+		<if test="projectName != null and projectName !=''">
+			AND pr.NAME like CONCAT(CONCAT('%', #{projectName}), '%')
+		</if>
+		<if test="id != null and id !=''">
+			AND pa.ID = #{id}
+		</if>
+		<if test="packageName != null and packageName !=''">
+			AND pa.NAME like CONCAT(CONCAT('%', #{packageName}), '%')
+		</if>
+		ORDER BY
+		pa.CREATED_AT DESC
+	</select>
 </mapper>
