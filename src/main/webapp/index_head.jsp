@@ -1240,23 +1240,23 @@
   </script>
   <% } %>
   <!-- End 首页APP下载二维码 -->
-	
-	<!-- 供应商和专家下拉菜单列表滚动效果 -->
-	<script>
-		var m_nav_scroll = []; // 设置保存滚动插件的数组
-		
-		// 循环所有插件并初始化
-		$('.mns_bxslider').each(function (index) {
-			m_nav_scroll[index] = $(this).bxSlider({
-				mode: 'vertical',   // 垂直模式
-				minSlides: 1,       // 最小显示个数
-				maxSlides: 1,       // 最大显示个数
-				ticker: true,
-				tickerHover: true,  // 鼠标移动上停止滚动
-				autoHover: true,    // 鼠标移动上停止滚动
-				speed: 5000         // 滚动速度
-			});
-		});
+
+  <!-- 供应商和专家下拉菜单列表滚动效果 -->
+  <script>
+    var m_nav_scroll = []; // 设置保存滚动插件的数组
+
+    // 循环所有插件并初始化
+    $('.mns_bxslider').each(function (index) {
+      m_nav_scroll[index] = $(this).bxSlider({
+        mode: 'vertical',   // 垂直模式
+        minSlides: 1,       // 最小显示个数
+        maxSlides: 1,       // 最大显示个数
+        ticker: true,
+        tickerHover: true,  // 鼠标移动上停止滚动
+        autoHover: true,    // 鼠标移动上停止滚动
+        speed: 5000         // 滚动速度
+     });
+    });
 
     // 设置下拉菜单出现后重置插件，防止display: none时候插件失效
     $('.navbar-nav > li').mouseenter(function () {
