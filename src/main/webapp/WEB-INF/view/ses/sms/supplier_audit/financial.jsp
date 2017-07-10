@@ -35,6 +35,10 @@
 	    } else {
 	      offset = "200px";
 	    } */
+	     var supplierStatus= $("input[name='supplierStatus']").val();
+       var sign = $("input[name='sign']").val();
+        //只有审核的状态能审核
+       if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
 				var supplierId = $("#supplierId").val();
 				if(auditFieldName == "财务信息") {
 					var auditContent = year + "年财务信息"; //审批的字段内容
@@ -79,6 +83,7 @@
 		      			layer.msg('不能为空！', {offset:'100px'});
 		      		}
 					});
+        }
 			}
 
 			/* function reason1(year, ele,auditField){
@@ -497,7 +502,9 @@
 				</div>
 				<div class="col-md-12 add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
-					<a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+					<c:if test="${supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+          </c:if>
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>
 				</div>
 			</div>

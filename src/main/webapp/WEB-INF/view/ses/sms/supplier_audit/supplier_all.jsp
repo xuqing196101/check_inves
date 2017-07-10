@@ -470,7 +470,7 @@
 							<tr>
 								<td class="tc w30"><input name="id" type="checkbox" value="${list.id}"></td>
 								<td class="tc w50" onclick="shenhe('${list.id }');">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
-								<td class="tl" onclick="shenhe('${list.id }');">${list.supplierName }</td>
+								<td class="tl"><a href="javascript:jumppage('${pageContext.request.contextPath}/supplierAudit/essential.html?supplierId=${list.id}&sign=${sign}')">${list.supplierName }</a></td>
 								<td class="tc" onclick="shenhe('${list.id }');">${list.mobile }</td>
 								<td class="tl" onclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
 								<td class="tc" onclick="shenhe('${list.id }');">${list.businessNature}</td>
