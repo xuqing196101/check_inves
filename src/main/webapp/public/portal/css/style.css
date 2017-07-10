@@ -3361,4 +3361,6 @@ h2.list_title{
 .list_new li a.publicityCss {
 	display: inline-block;
 	vertical-align: top;
+	color: #2c9fa6;
+	text-decoration: none;
 }

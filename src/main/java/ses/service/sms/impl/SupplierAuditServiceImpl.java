@@ -1,12 +1,11 @@
 package ses.service.sms.impl;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import common.constant.StaticVariables;
+import common.service.UploadService;
+import common.utils.DateUtils;
+import common.utils.JdcgResult;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
@@ -35,8 +33,8 @@ import ses.dao.sms.SupplierTypeMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
-import ses.model.bms.Qualification;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
@@ -66,13 +64,13 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import common.service.UploadService;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import common.constant.StaticVariables;
-import common.utils.DateUtils;
-import common.utils.JdcgResult;
 
 /**
  * <p>Title:SupplierAuditServliceImpl </p>
@@ -868,6 +866,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public int countByPrimaryKey(SupplierAudit audit) {
 		return supplierAuditMapper.countByPrimaryKey(audit);
 	}
+
 	/**
 	 * 
 	 * Description:修改公示状态
@@ -935,7 +934,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public List<SupplierPublicity> selectSupByPublictyList(Map<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage((Integer) (map.get("page")),Integer.parseInt(config.getString("pageSize")));
-		// 查询公示专家列表
+		// 查询公示供应商列表
 		SupplierPublicity supplierPublicityQuery = (SupplierPublicity) map.get("supplierPublicity");
 		List<SupplierPublicity> list = supplierMapper.selectSupByPublictyList(supplierPublicityQuery);
 		if(list != null && !list.isEmpty()){

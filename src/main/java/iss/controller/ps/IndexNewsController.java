@@ -21,7 +21,12 @@ import iss.model.ps.ArticleAttachments;
 import iss.model.ps.ArticleType;
 import iss.model.ps.DownloadUser;
 import iss.service.hl.ServiceHotlineService;
-import iss.service.ps.*;
+import iss.service.ps.ArticleAttachmentsService;
+import iss.service.ps.ArticleService;
+import iss.service.ps.ArticleTypeService;
+import iss.service.ps.DownloadUserService;
+import iss.service.ps.IndexNewsService;
+import iss.service.ps.SearchService;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,20 +45,24 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListVO;
 import ses.model.ems.ExpertPublicity;
+import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierBlacklist;
 import ses.model.sms.SupplierBlacklistVO;
 import ses.model.sms.SupplierPublicity;
+import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertBlackListService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBlacklistService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierTypeService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
@@ -66,12 +75,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /*
@@ -148,21 +170,29 @@ public class IndexNewsController extends BaseSupplierController{
     @Autowired
     private ExpertCategoryService expertCategoryService;
 
+    // 注入供应商类型Service
+    @Autowired
+    private SupplierTypeService supplierTypeService;
+
+	// 注入采购机构Service
+	@Autowired
+	private PurChaseDepOrgService purChaseDepOrgService;
+
 
 	/**
-	 * 
+	 *
 	* @Title: sign
 	* @author Peng Zhongjun
-	* @date 2016-11-10 上午8:50:09  
-	* @Description: 跳转登录页面 
-	* @param @return      
+	* @date 2016-11-10 上午8:50:09
+	* @Description: 跳转登录页面
+	* @param @return
 	* @return String
 	 */
 	@RequestMapping("/sign")
 	public String sign(){
 		return "iss/ps/index/sign";
 	}
-	
+
 	public void topNews(Map<String, Object> indexMapper){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.clear();
@@ -2223,7 +2253,7 @@ public class IndexNewsController extends BaseSupplierController{
         topNews(indexMapper);
         model.addAttribute("indexMapper", indexMapper);
     }
-    
+
     /**
      * 
      * Description:加载首页导航栏专家公示列表
@@ -2234,7 +2264,19 @@ public class IndexNewsController extends BaseSupplierController{
      * @return
      */
     @RequestMapping("/indexExpPublicity")
-    public String indexExpPublicity(){
+    public String indexExpPublicity(Model model){
+        // 查询数据字典中的专家类别数据
+        // 专家基类型
+        List < DictionaryData > basicTypeList = DictionaryDataUtil.find(6);
+        for(DictionaryData data: basicTypeList) {
+            data.setName(data.getName() + "技术");
+        }
+        List < DictionaryData > economyTypeList = DictionaryDataUtil.find(19);
+        basicTypeList.addAll(economyTypeList);
+        model.addAttribute("expTypeList", basicTypeList);
+        //全部机构
+        List<PurchaseDep>  orgDepList = purChaseDepOrgService.findAllOrg();
+        model.addAttribute("orgDepList", orgDepList);
     	return "iss/ps/index/index_expPublicity";
     }
     
@@ -2248,8 +2290,24 @@ public class IndexNewsController extends BaseSupplierController{
      * @return
      */
     @RequestMapping("/indexSupPublicity")
-    public String indexSupPublicity(){
-    	return "iss/ps/index/index_supPublicity";
+    public String indexSupPublicity(Model model){
+        // 类型
+		List<SupplierTypeTree> listSupplierTypes = supplierTypeService.findSupplierType(null);
+		for(SupplierTypeTree t : listSupplierTypes){
+			if("物资".equals(t.getName())){
+                listSupplierTypes.remove(t);
+				break;
+			}
+		}
+        // 查询企业性质
+        List<DictionaryData> businessNatureList = DictionaryDataUtil.find(32);
+		// 获取所有采购机构
+		//全部机构
+		List<PurchaseDep>  orgDepList = purChaseDepOrgService.findAllOrg();
+		model.addAttribute("orgDepList", orgDepList);
+        model.addAttribute("businessNatureList",businessNatureList);
+        model.addAttribute("listSupplierTypes",listSupplierTypes);
+        return "iss/ps/index/index_supPublicity";
     }
     
     /**
@@ -2364,7 +2422,6 @@ public class IndexNewsController extends BaseSupplierController{
     @RequestMapping("/indexExpPublicityItemAjax")
     @ResponseBody
     public JdcgResult indexExpPublicityItemAjax(){
-
     	return JdcgResult.ok();
 	}
 

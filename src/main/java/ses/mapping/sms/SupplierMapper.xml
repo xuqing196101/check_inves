@@ -1845,7 +1845,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS in(1,2,3,4,5,6,7,8,-3)
+		WHERE SUPPLIER_STATUS in(1,2,3,4,5,6,7,8)
 		AND AUDIT_DATE &gt;=
 		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND
@@ -2010,7 +2010,7 @@
 		,
 		(SELECT COUNT(1) AS COUNT_EXPE FROM T_SES_EMS_EXPERT WHERE MOBILE = #{mobile} AND IS_DELETE = 0) T2
 	</select>
-	
+
 	<!-- 查询公示的供应商 -->
 	<select id="selectSupByPublicty" resultMap="supplierOfPublicityMap">
 		  SELECT
@@ -2027,6 +2027,11 @@
 	<select id="selectSupByPublictyList" resultMap="supplierOfPublicityMapList" parameterType="ses.model.sms.SupplierPublicity">
 		SELECT T.ID, T.SUPPLIER_NAME, DT.NAME AS BUSINESS_NATURE, T.UPDATED_AT, ORG.SHORT_NAME AS ORGNAME
 		  FROM T_SES_SMS_SUPPLIER T
+		  LEFT JOIN (SELECT T.SUPPLIER_ID,
+		    	WM_CONCAT(SUPPLIER_TYPE_ID) AS SUPPLIER_TYPE_ID
+		    	FROM T_SES_SMS_SUPPLIER_TYPE_RELATE T
+		    	GROUP BY T.SUPPLIER_ID) SC
+		    	ON T.ID = SC.SUPPLIER_ID
 		  LEFT JOIN T_SES_BMS_DICTIONARY_DATA DT
 		    ON T.BUSINESS_NATURE = DT.ID
 		  LEFT JOIN T_SES_OMS_PURCHASE_DEP DEP
@@ -2039,6 +2044,28 @@
 		   <if test="supplierName != null and supplierName != ''">
 		     AND INSTR(T.SUPPLIER_NAME,#{supplierName}) >0
 		   </if>
+		   <if test="businessNature != null and businessNature != ''">
+				AND T.BUSINESS_NATURE = #{businessNature}
+		   </if>
+		   <if test="supplierTypeId != null and supplierTypeId != ''">
+				AND INSTR(SC.SUPPLIER_TYPE_ID, #{supplierTypeId}) > 0
+		   </if>
+		   <if test="orgId != null and orgId != ''">
+			   AND DEP.ID = #{orgId}
+		   </if>
 		 ORDER BY T.UPDATED_AT
+	</select>
+
+	<!-- 根据公示时间查询公示的供应商 -->
+	<select id="selectSupByPublictyOfExport" resultMap="BaseResultMap" parameterType="Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER T
+		WHERE T.SUPPLIER_STATUS = #{status}
+		AND T.UPDATED_AT &gt;=
+		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+		AND
+		T.UPDATED_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd
+		hh24:mi:ss')
 	</select>
 </mapper>

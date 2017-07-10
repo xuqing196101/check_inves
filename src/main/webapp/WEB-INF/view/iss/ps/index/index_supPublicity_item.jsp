@@ -22,11 +22,11 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-  <div class="container job-content ">
+  <div class="tab-v2 container job-content ">
       <div class="report_list_box">
-          <ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow ">
+          <ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab hand">
           </ul>
-          <div class="tab-content padding-top-20 tab-pane fade display-none"  id="tab_1">
+          <div class="padding-top-20 tab-pane fade display-none"  id="tab_1">
               <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_1">
                   <thead>
                   <tr>
@@ -42,7 +42,7 @@
                   </tbody>
               </table>
           </div>
-          <div class="tab-content padding-top-20 tab-pane fade display-none"  id="tab_2">
+          <div class="padding-top-20 tab-pane fade display-none"  id="tab_2">
               <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_2">
                   <thead>
                   <tr>
@@ -58,7 +58,7 @@
                   </tbody>
               </table>
           </div>
-          <div class="tab-content padding-top-20 tab-pane fade display-none"  id="tab_3">
+          <div class="padding-top-20 tab-pane fade display-none"  id="tab_3">
               <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_3">
                   <thead>
                   <tr>
@@ -74,7 +74,7 @@
                   </tbody>
               </table>
           </div>
-          <div class="tab-content padding-top-20 tab-pane fade display-none"  id="tab_4">
+          <div class="padding-top-20 tab-pane fade display-none"  id="tab_4">
               <table class="table table-bordered table-condensed table-hover m_table_fixed_border" id="content_4">
                   <thead>
                   <tr>

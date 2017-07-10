@@ -22,27 +22,27 @@
             if(mat == "mat_page"){
                 // 物资品目信息
                 loading = layer.load(1);
-                var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?flags=publicity&expertId=" + expertId + "&typeId=" + matCodeId;
+                var path = "${pageContext.request.contextPath}/expertAudit/getCategories.do?flags=publicity&expertId=" + expertId + "&typeId=" + matCodeId;
                 $("#tbody_category").load(path);
             }else if(eng == "eng_page"){
                 // 工程品目信息
                 loading = layer.load(1);
-                var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?flags=publicity&expertId=" + expertId + "&typeId=" + engCodeId;
+                var path = "${pageContext.request.contextPath}/expertAudit/getCategories.do?flags=publicity&expertId=" + expertId + "&typeId=" + engCodeId;
                 $("#tbody_category").load(path);
             }else if(ser == "ser_page"){
                 // 服务
                 loading = layer.load(1);
-                var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?flags=publicity&expertId=" + expertId + "&typeId=" + serCodeId;
+                var path = "${pageContext.request.contextPath}/expertAudit/getCategories.do?flags=publicity&expertId=" + expertId + "&typeId=" + serCodeId;
                 $("#tbody_category").load(path);
             }else if(goodsProject == "goodsProject_page"){
                 // 工程产品类别信息
                 loading = layer.load(1);
-                var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?flags=publicity&expertId=" + expertId + "&typeId=" + goodsProjectId;
+                var path = "${pageContext.request.contextPath}/expertAudit/getCategories.do?flags=publicity&expertId=" + expertId + "&typeId=" + goodsProjectId;
                 $("#tbody_category").load(path);
             }else if(goodsEngInfo == "goodsEngInfo_page"){
                 // 工程专业属性信息
                 loading = layer.load(1);
-                var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?flags=publicity&expertId=" + expertId + "&typeId=" + goodsEngInfoId;
+                var path = "${pageContext.request.contextPath}/expertAudit/getCategories.do?flags=publicity&expertId=" + expertId + "&typeId=" + goodsEngInfoId;
                 $("#tbody_category").load(path);
             }
         });
@@ -51,7 +51,7 @@
             // 加载已选品目列表
             loading = layer.load(1);
             var expertId = $("#expertId").val();
-            var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?flags=publicity&expertId=" + expertId + "&typeId=" + code;
+            var path = "${pageContext.request.contextPath}/expertAudit/getCategories.do?flags=publicity&expertId=" + expertId + "&typeId=" + code;
             $("#tbody_category").load(path);
         };
     </script>

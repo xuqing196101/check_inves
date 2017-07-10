@@ -2,13 +2,21 @@
  * 加载list
  */
 function list(curr){
+    var index = layer.load(0, {
+        shade : [ 0.1, '#fff' ],
+        offset : [ '40%', '50%' ]
+    });
 	// 供应商名称
 	var relName = $("#relName").val();
+	var expertsTypeId = $("#expertsTypeId option:selected").val();
+	var orgId = $("#orgId option:selected").val();
 	$.ajax({
 		url: globalPath + "/index/indexExpPublicityAjax.do",
 		type: "post",
 		data:{
 			"relName":relName,
+			"expertsTypeId":expertsTypeId,
+			"orgId":orgId,
 			"page":curr
 		},
 		dataTYpe: "json",
@@ -18,6 +26,8 @@ function list(curr){
 				loadList(obj.list,obj.pageNum,obj.pageSize);
 				loadPage(obj.pages,obj.total,obj.startRow,obj.endRow,curr);
 			}
+			// 关闭旋转图标
+            layer.close(index);
 		}
 	});
 }
@@ -71,6 +81,16 @@ function query(){
 }
 
 /**
+ * 重置按钮
+ */
+function resetAll(){
+    $("#relName").val("");
+    $("#expertsTypeId option[value='']").prop("selected",true);
+    $("#orgId option[value='']").prop("selected",true);
+    list(1);
+}
+
+/**
  * 新增加载数据
  * @param data 
  * @returns
@@ -80,7 +100,6 @@ function loadData(data,index,pageNum,pageSize){
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+data.relName+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+ data.expertsTypeId +">"+data.expertsTypeId+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+data.orgName+"</span>"
-		     //+ "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个小类，通过了"+"<a href="+ globalPath + "/index/indexExpPublicityItem.html?expertId="+data.id+">"+(data.passCateCount - data.noPassCateCount)+"</a>个小类"+" </span>"
              + "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个小类，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个小类"+"</span>"
              + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd', data.updatedAt)+"</span>"
 		     html += "</li>";

@@ -11,8 +11,8 @@ function init(){
     if(supplierTypes.indexOf('PRODUCT') !='-1'){
         i++;
         $("#tab_1").addClass("active in");
-        $("#page_ul_id").append("<li class=\"active\"   id=\"productId\"> "+
-            " <a aria-expanded=\"true\" href=\"#tab_1\" onclick=\"initDivHide('tab_1','productId','PRODUCT','content_1')\" data-toggle=\"tab\">物资-生产型专业信息</a>"+
+        $("#page_ul_id").append("<li class=\"active\"   id=\"productId\" onclick=\"initDivHide('tab_1','productId','PRODUCT','content_1')\"> "+
+            " <a aria-expanded=\"true\" href=\"#tab_1\" class=\"f18\"  data-toggle=\"tab\">物资-生产型专业信息</a>"+
             " </li>");
         initDivHide('tab_1','productId','PRODUCT','content_1');
     }
@@ -25,7 +25,7 @@ function init(){
             liclass=" class='activeliCountEng'  ";
         }
         $("#page_ul_id").append("<li "+liclass+" id=\"salesId\"> "+
-            " <a aria-expanded=\"false\" href=\"#tab_2\" onclick=\"initDivHide('tab_2','salesId','SALES','content_2')\"  data-toggle=\"tab\">物资-销售型专业信息</a>"+
+            " <a aria-expanded=\"false\" href=\"#tab_2\" class=\"f18\" onclick=\"initDivHide('tab_2','salesId','SALES','content_2')\"  data-toggle=\"tab\">物资-销售型专业信息</a>"+
             " </li>");
         if(i==0){
             initDivHide('tab_2','productId','SALES','content_2');
@@ -40,7 +40,7 @@ function init(){
             liclass=" class='activeliCountEng' ";
         }
         $("#page_ul_id").append(" <li "+liclass+" id='projectId' > "+
-            " <a aria-expanded=\"false\" href=\"#tab_3\" onclick=\"initDivHide('tab_3','projectId','PROJECT','content_3')\" data-toggle=\"tab\">工程专业信息</a>"+
+            " <a aria-expanded=\"false\" href=\"#tab_3\" class=\"f18\" onclick=\"initDivHide('tab_3','projectId','PROJECT','content_3')\" data-toggle=\"tab\">工程专业信息</a>"+
             " </li>");
         if(i==0){
             initDivHide('tab_3','projectId','PROJECT','content_3');
@@ -55,7 +55,7 @@ function init(){
             liclass=" class='activeliCountEng' ";
         }
         $("#page_ul_id").append("<li "+liclass+" id=\"serviecId\" >"+
-            " <a aria-expanded=\"false\" href=\"#tab_4\" onclick=\"initDivHide('tab_4','serviecId','SERVICE','content_4')\" data-toggle=\"tab\">服务专业信息</a>"+
+            " <a aria-expanded=\"false\" href=\"#tab_4\" class=\"f18\" onclick=\"initDivHide('tab_4','serviecId','SERVICE','content_4')\" data-toggle=\"tab\">服务专业信息</a>"+
             " </li>");
         if(i==0){
             initDivHide('tab_4','serviecId','SERVICE','content_4');

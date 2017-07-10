@@ -25,11 +25,32 @@
 
   <div class="container job-content ">
      <form id="queryForm" method="get">
-      <div class="search_box col-md-12 col-sm-12 col-xs-12">
-          专家名称 :
-          <input name="relName" type="text" id="relName"/>
-          <button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
-      </div>
+         <div class="search_box form-inline">
+             <div class="form-group">
+                 <label>专家名称：</label>
+                 <input type="text" name="relName" id="relName" class="form-control"/>
+             </div>
+             <div class="form-group">
+                 <label>类型：</label>
+                 <select id="expertsTypeId" name="expertsTypeId">
+                     <option value="">--请选择--</option>
+                     <c:forEach var="b" items="${expTypeList}">
+                         <option value="${b.id}">${b.name}</option>
+                     </c:forEach>
+                 </select>
+             </div>
+             <div class="form-group">
+                 <label>初审单位：</label>
+                 <select id="orgId" name="orgId">
+                     <option value="">--请选择--</option>
+                     <c:forEach var="b" items="${orgDepList}">
+                         <option value="${b.id}">${b.name}</option>
+                     </c:forEach>
+                 </select>
+             </div>
+             <button type="button" onclick="query()"  class="btn btn-u-light-grey">查询</button>
+             <input onclick="resetAll()" type="button" class="btn btn-u-light-grey" value="重置"></input>
+         </div>
      </form>
         <div class="report_list_box">
             <div class="report_list_title">

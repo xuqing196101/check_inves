@@ -2,13 +2,26 @@
  * 加载list
  */
 function list(curr){
+    var index = layer.load(0, {
+        shade : [ 0.1, '#fff' ],
+        offset : [ '40%', '50%' ]
+    });
 	// 供应商名称
 	var supplierName = $("#supplierName").val();
+	// 类型ID
+	var supplierTypeId = $("#supplierTypeId option:selected").val();
+	// 企业性质
+	var businessNature = $("#businessNature option:selected").val();
+	// 采购机构ID
+	var orgId = $("#orgId option:selected").val();
 	$.ajax({
 		url: globalPath + "/index/indexSupPublicityAjax.do",
 		type: "post",
 		data:{
 			"supplierName":supplierName,
+			"businessNature":businessNature,
+			"supplierTypeId":supplierTypeId,
+			"orgId":orgId,
 			"page":curr
 		},
 		dataTYpe: "json",
@@ -18,6 +31,7 @@ function list(curr){
 				loadList(obj.list,obj.pageNum,obj.pageSize);
 				loadPage(obj.pages,obj.total,obj.startRow,obj.endRow,curr);
 			}
+			layer.close(index);
 		}
 	});
 }
@@ -68,6 +82,17 @@ function loadList(data, pageNum, pageSize){
  */
 function query(){
 	list(1);
+}
+
+/**
+ * 重置按钮
+ */
+function resetAll(){
+    $("#supplierName").val("");
+    $("#businessNature option[value='']").prop("selected",true);
+    $("#supplierTypeId option[value='']").prop("selected",true);
+    $("#orgId option[value='']").prop("selected",true);
+    list(1);
 }
 
 /**
