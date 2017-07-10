@@ -326,7 +326,7 @@
          <select name="orgName" id="orgName" class="w220">
            <option value=''>全部</option>
            <c:forEach items="${allOrg}" var="org">
-             <option value="${org.name}" <c:if test="${expert.orgName eq org.name}">selected</c:if>>${org.name}</option>
+             <option value="${org.shortName}" <c:if test="${expert.orgName eq org.shortName}">selected</c:if>>${org.shortName}</option>
            </c:forEach>
          </select>
        </li>
