@@ -81,7 +81,9 @@ import bss.service.ppms.theSubjectService;
 import bss.service.ppms.impl.theSubjectServiceImpl;
 import bss.service.sstps.AppraisalContractService;
 import bss.util.ExportExcel;
+
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -177,8 +179,9 @@ public class PurchaseContractController extends BaseSupplierController{
 		List<SupplierCheckPass> listpass=new ArrayList<SupplierCheckPass>();
 		List<SupplierCheckPass> listCheckPassBD=null;
 		Orgnization or = user.getOrg();
-		if(or!=null){
-			if(or.getTypeName().equals("1")){
+		String typeName = user.getTypeName();
+		if(typeName!=null){
+			if(("1").equals(typeName)){
 				hashMap.put("purchaseDepId", or.getId());
 				listCheckPassBD= supplierCheckPassService.listsupplier(hashMap);
 				if(listCheckPassBD!=null&&listCheckPassBD.size()>0){
@@ -215,7 +218,7 @@ public class PurchaseContractController extends BaseSupplierController{
 				}
 			   }
 			}
-			if(or.getTypeName().equals("2")){
+			if(("2").equals(typeName)){
 				
 				List<PurchaseOrg> list = purchaseOrgnizationServiceI.get(or.getId());
 				
@@ -1686,7 +1689,8 @@ public class PurchaseContractController extends BaseSupplierController{
       //采购机构
         Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
         boolean roleflag = true;
-        if("1".equals(orgnization.getTypeName())){
+        String typeName = user.getTypeName();
+        if("1".equals(typeName)){
         	map.put("purchaseDepName", user.getOrg().getId());
         	if(purCon.getStatus()!=null){
         		draftConList = purchaseContractService.selectAllContractByStatus(map);
@@ -1697,7 +1701,7 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         /*
          *判断如果是管理部门*/
-        if("2".equals(orgnization.getTypeName())){
+        if("2".equals(typeName)){
             
             List<PurchaseOrg> list = purchaseOrgnizationServiceI.get(user.getOrg().getId());
             if(list!=null&&list.size()>0){
@@ -1714,7 +1718,7 @@ public class PurchaseContractController extends BaseSupplierController{
             }
         }
       //判断如果是需求部门
-        if("0".equals(orgnization.getTypeName())){
+        if("0".equals(typeName)){
         	String name=orgnization.getName();
         	map.put("deptname", name);
         	if(purCon.getStatus()!=null){

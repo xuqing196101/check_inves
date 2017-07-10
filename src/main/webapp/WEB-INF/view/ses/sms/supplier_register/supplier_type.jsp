@@ -510,12 +510,30 @@
 								scrollbar : false,
 							},
 							function(index) {
-								window.location.href = "${pageContext.request.contextPath}/supplier_reg_person/delete_reg_person.html?regPersonIds="
+								/* window.location.href = "${pageContext.request.contextPath}/supplier_reg_person/delete_reg_person.html?regPersonIds="
 										+ regPersonIds
 										+ "&supplierId="
 										+ supplierId;
-								layer.close(index);
-
+								layer.close(index); */
+								// 采用ajax post方式删除
+								$.ajax({
+									url: "${pageContext.request.contextPath}/supplier_reg_person/delete_reg_person.do",
+									async: false,
+									type: "POST",
+									data: {
+										"regPersonIds": regPersonIds
+									},
+									success: function(){
+										layer.msg("删除成功！");
+										$(checkboxs).each(function(index) {
+											var tr = $(this).parent().parent();
+											$(tr).remove();
+										});
+									},
+									error: function(){
+										layer.msg("删除失败！");
+									}
+								});
 							});
 		} else {
 			layer.alert("请至少勾选一条记录 !", {
@@ -579,11 +597,30 @@
 					scrollbar : false,
 				},
 				function(index) {
-					window.location.href = "${pageContext.request.contextPath}/supplier_aptitute/delete_aptitute.html?aptituteIds="
+					/* window.location.href = "${pageContext.request.contextPath}/supplier_aptitute/delete_aptitute.html?aptituteIds="
 							+ aptituteIds
 							+ "&supplierId="
 							+ supplierId;
-					layer.close(index);
+					layer.close(index); */
+					// 采用ajax post方式删除
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplier_aptitute/delete_aptitute.do",
+						async: false,
+						type: "POST",
+						data: {
+							"aptituteIds": aptituteIds
+						},
+						success: function(){
+							layer.msg("删除成功！");
+							$(checkboxs).each(function(index) {
+								var tr = $(this).parent().parent();
+								$(tr).remove();
+							});
+						},
+						error: function(){
+							layer.msg("删除失败！");
+						}
+					});
 				});
 		} else {
 			layer.alert("请至少勾选一条记录 !", {
@@ -685,11 +722,30 @@
             scrollbar : false,
           },
           function(index) {
-            window.location.href = "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.html?certProIds="
+            /* window.location.href = "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.html?certProIds="
               + certProIds
               + "&supplierId="
               + supplierId;
-            layer.close(index);
+            layer.close(index); */
+            // 采用ajax post方式删除
+						$.ajax({
+							url: "${pageContext.request.contextPath}/supplier_cert_pro/delete_cert_pro.do",
+							async: false,
+							type: "POST",
+							data: {
+								"certProIds": certProIds
+							},
+							success: function(){
+								layer.msg("删除成功！");
+								$(checkboxs).each(function(index) {
+									var tr = $(this).parent().parent();
+									$(tr).remove();
+								});
+							},
+							error: function(){
+								layer.msg("删除失败！");
+							}
+						});
         	}
         );
       }else{
@@ -754,12 +810,30 @@
 								scrollbar : false,
 							},
 							function(index) {
-								window.location.href = "${pageContext.request.contextPath}/supplier_cert_sell/delete_cert_sell.html?certSellIds="
+								/* window.location.href = "${pageContext.request.contextPath}/supplier_cert_sell/delete_cert_sell.html?certSellIds="
 										+ certSellIds
 										+ "&supplierId="
 										+ supplierId;
-								layer.close(index);
-
+								layer.close(index); */
+								// 采用ajax post方式删除
+								$.ajax({
+									url: "${pageContext.request.contextPath}/supplier_cert_sell/delete_cert_sell.do",
+									async: false,
+									type: "POST",
+									data: {
+										"certSellIds": certSellIds
+									},
+									success: function(){
+										layer.msg("删除成功！");
+										$(checkboxs).each(function(index) {
+											var tr = $(this).parent().parent();
+											$(tr).remove();
+										});
+									},
+									error: function(){
+										layer.msg("删除失败！");
+									}
+								});
 							});
 		} else {
 			layer.alert("请至少勾选一条记录 !", {
@@ -817,12 +891,30 @@
 								scrollbar : false,
 							},
 							function(index) {
-								window.location.href = "${pageContext.request.contextPath}/supplier_cert_se/delete_cert_se.html?certSeIds="
+								/* window.location.href = "${pageContext.request.contextPath}/supplier_cert_se/delete_cert_se.html?certSeIds="
 										+ certSeIds
 										+ "&supplierId="
 										+ supplierId;
-								layer.close(index);
-
+								layer.close(index); */
+								// 采用ajax post方式删除
+								$.ajax({
+									url: "${pageContext.request.contextPath}/supplier_cert_se/delete_cert_se.do",
+									async: false,
+									type: "POST",
+									data: {
+										"certSeIds": certSeIds
+									},
+									success: function(){
+										layer.msg("删除成功！");
+										$(checkboxs).each(function(index) {
+											var tr = $(this).parent().parent();
+											$(tr).remove();
+										});
+									},
+									error: function(){
+										layer.msg("删除失败！");
+									}
+								});
 							});
 		} else {
 			layer.alert("请至少勾选一条记录 !", {
@@ -1043,12 +1135,30 @@
 					scrollbar : false,
 				},
 				function(index) {
-					window.location.href = "${pageContext.request.contextPath}/supplier_cert_eng/delete_cert_eng.html?certEngIds="
+					/* window.location.href = "${pageContext.request.contextPath}/supplier_cert_eng/delete_cert_eng.html?certEngIds="
 							+ certEngIds
 							+ "&supplierId="
 							+ supplierId;
-					layer.close(index);
-	
+					layer.close(index); */
+					// 采用ajax post方式删除
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplier_cert_eng/delete_cert_eng.do",
+						async: false,
+						type: "POST",
+						data: {
+							"certEngIds": certEngIds
+						},
+						success: function(){
+							layer.msg("删除成功！");
+							$(checkboxs).each(function(index) {
+								var tr = $(this).parent().parent();
+								$(tr).remove();
+							});
+						},
+						error: function(){
+							layer.msg("删除失败！");
+						}
+					});
 				});
 		} else {
 			layer.alert("请至少勾选一条记录 !", {
@@ -1567,13 +1677,13 @@
 											<span class="font_line"><font class="red">*</font> 资质证书信息 </span>
 											<div class="col-md-12 col-sm-12 col-xs-12 mb10 p0">
 												<c:choose>
-						                         	<c:when test="${currSupplier.status==2 }">
-						                           	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
-						                           </c:when>
-						                           <c:otherwise>
-						                             <button type="button" class="btn btn-windows add" onclick="openCertPro()">新增</button>
-						                           </c:otherwise>
-						                         </c:choose>
+                         	<c:when test="${currSupplier.status==2 }">
+                           	<button class="btn btn-Invalid"  type="button" disabled="disabled">新增</button>
+                           </c:when>
+                           <c:otherwise>
+                             <button type="button" class="btn btn-windows add" onclick="openCertPro()">新增</button>
+                           </c:otherwise>
+                         </c:choose>
 												<button type="button" class="btn btn-windows delete"
 													onclick="deleteCertPro()">删除</button>
 												<span class="red">${cert_pro }</span>

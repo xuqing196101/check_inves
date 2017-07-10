@@ -3415,13 +3415,13 @@ public class PackageExpertController {
             }
         }
         
-        int supplierListSize=suppList.size()%3==0?suppList.size()/3:suppList.size()/3+1;
+        int supplierListSize=suppList.size()%8==0?suppList.size()/8:suppList.size()/8+1;
         List<Extension> extensionList=new ArrayList<Extension>();
         List<SaleTender> saleTenders=null;
         for(int i=1;i<=supplierListSize;i++){
         	Extension extension=new Extension();
         	saleTenders=new ArrayList<SaleTender>();
-        	for(int j=(i-1)*3;j<i*3;j++){
+        	for(int j=(i-1)*8;j<i*8;j++){
         		if(j==suppList.size()){
       			  break;
       		   }

@@ -264,7 +264,7 @@
 			var flag = true;
 			if(text.length<=0){
 				flag = false;
-				layer.alert("请先上传附件",{offset: ['222px', '390px'], shade:0.01});
+				layer.alert("请先上传授权书",{offset: ['222px', '390px'], shade:0.01});
 			}
 			if(flag){
 			 $("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/createTransFormal.html?ids=${id}");
@@ -604,7 +604,7 @@
 			  <li><a href="#">保障作业</a></li>
 			  <li><a href="#">采购合同管理</a></li>
 			  <li><a href="javascript:jumppage('${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html');">采购项目列表</a></li>
-			  <li class="active"><a href="#">合同文本修改</a></li>
+			  <li class="active"><a href="#">合同文本生成</a></li>
 		  </ul>
 		<div class="clear"></div>
 	  </div>
@@ -1105,7 +1105,7 @@
 		<div  class="col-md-12 tc mt20">
    			<input type="button" class="btn btn-windows save mb20" onclick="staging()" value="暂存"/>
    			<input type="button" class="btn btn-windows save mb20" onclick="protocol()" value="生成草案"/>
-   			<input type="button" class="btn btn-windows save mb20" onclick="createContract()" value="生成合同"/>
+   			<input type="button" class="btn btn-windows save mb20" onclick="createContract()" value="生成正式合同"/>
    			<%--<input type="button" class="btn btn-windows save mb20" onclick="printContract()" value="打印"/>
    			--%><input type="button" class="btn btn-windows cancel mb20" onclick="abandoned()" value="取消">
   		</div>

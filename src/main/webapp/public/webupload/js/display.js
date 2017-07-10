@@ -101,7 +101,10 @@ function displayName(params,data,id,del){
 	$ul.empty();
 	if (data != null){
 		if (data.picture){
-			var li = '<li class="file_view"><a href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'></a></li>';
+			//var li = '<li class="file_view"><a href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'></a></li>';
+			//var li = '<li class="file_view"><a target=\'_blank\' href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'></a></li>';
+			//
+			var li = '<li class="file_view"><a target="__blank" href=\'../openPic.jsp?bid='+params.businessId+'&tid='+params.typeId+'&key='+key+'&id='+id+'\'\></a></li>';
 			$ul.append(li);
 		}
 		if (data.success){
@@ -145,6 +148,9 @@ function removeFile(ids,key,id){
  */
 var view;
 function openViewDIv(businessId,typeId,key,id,obj){
+	
+	//window.open('../openPic.jsp','newwindow');
+	//window.location.replace('openPic.jsp');
 	var html ="<iframe frameborder= '0' scrolling='no' style='background-color:transparent; position: absolute; z-index: -1; width: 100%; height: 100%; top: 0; left:0;'></iframe><ul id='"+id+"showPicId'></ul>";
 	var height = document.documentElement.clientHeight;
 	var index = layer.open({
@@ -154,7 +160,7 @@ function openViewDIv(businessId,typeId,key,id,obj){
 		  shadeClose: true,
 		  area: [$(document).width() +'px',height + "px"],
 		  offset:['0px','0px'],
-		  content: html
+		  content: html,
 		});
 	display(businessId,typeId,key,id);
 	
@@ -168,6 +174,7 @@ function openViewDIv(businessId,typeId,key,id,obj){
  * 显示附件
  * @param params
  */
+//TODO
 function display(businessId,typeId,key,id){
 	var params = {businessId: businessId,typeId: typeId,key: key};
 	$.ajax({

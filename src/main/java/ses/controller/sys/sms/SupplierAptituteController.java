@@ -148,7 +148,7 @@ public class SupplierAptituteController extends BaseSupplierController {
 	 * @param: @return
 	 * @return: String
 	 */
-	@RequestMapping(value = "delete_aptitute")
+/*	@RequestMapping(value = "delete_aptitute")
 	public String deleteAptitute(Model model, String aptituteIds, String supplierId) {
 		supplierAptituteService.deleteAptitute(aptituteIds);
 		Supplier supplier = supplierService.get(supplierId);
@@ -173,6 +173,18 @@ public class SupplierAptituteController extends BaseSupplierController {
         model.addAttribute("rootArea", areaList);
         model.addAttribute("typeList", qualificationService.findList(null, Integer.MAX_VALUE,null, 4));
 		return "ses/sms/supplier_register/supplier_type";	
+	}*/
+	
+	/**
+	 * 异步删除工程资质证书详细信息
+	 * @param aptituteIds
+	 * @return
+	 */
+	@RequestMapping(value = "delete_aptitute")
+	@ResponseBody
+	public String deleteAptitute(String aptituteIds) {
+		supplierAptituteService.deleteAptitute(aptituteIds);
+		return "ok";	
 	}
 	
 	/**
