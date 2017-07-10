@@ -1227,18 +1227,18 @@
     <span>A<br>P<br>P<br>下<br>载<br>二<br>维<br>码</span>
     <div class="mac_img"><img src="${pageContext.request.contextPath}/public/portal/images/AppDownload.png" alt=""></div>
   </div>
-	<script>
-		$(function() {
-			$('#m_app_code span').on('click', function() {
-				if ($(this).parent().hasClass('hover')) {
-					$(this).parent().removeClass('hover');
-				} else {
-					$(this).parent().addClass('hover');
-				}
-			});
-		});
-	</script>
-	<% } %>
+  <script>
+    $(function() {
+      $('#m_app_code span').on('click', function() {
+        if ($(this).parent().hasClass('hover')) {
+          $(this).parent().removeClass('hover');
+        } else {
+          $(this).parent().addClass('hover');
+        }
+      });
+    });
+  </script>
+  <% } %>
   <!-- End 首页APP下载二维码 -->
 	
 	<!-- 供应商和专家下拉菜单列表滚动效果 -->
@@ -1257,30 +1257,30 @@
 				speed: 5000         // 滚动速度
 			});
 		});
-		
-		// 设置下拉菜单出现后重置插件，防止display: none时候插件失效
-		$('.navbar-nav > li').mouseenter(function () {
-			var ishover = parseInt($(this).find('input[name=ishover]').val());  // 下拉菜单是否出现
-			// 如果下拉菜单已经出现防止多次重置插件导致滚动列表抖动
-			if (ishover == 0) {
-				$(this).find('input[name=ishover]').val(1);
-				// 加入延时防止下拉菜单还未出现程序已经执行的bug
-				setTimeout(function () {
-					for (var i in m_nav_scroll) {
-						m_nav_scroll[i].reloadSlider();
-					}
-				}, 500);
-			}
-		});
-		// 鼠标移除注销插件并初始化判断参数，以便下次打开重新生成
-		$('.navbar-nav > li').mouseleave(function () {
-			$(this).find('input[name=ishover]').val(0);
-			for (var i in m_nav_scroll) {
-				m_nav_scroll[i].destroySlider();
-			}
-		});
-	</script>
-	<!-- End 供应商和专家下拉菜单列表滚动效果 -->
+
+    // 设置下拉菜单出现后重置插件，防止display: none时候插件失效
+    $('.navbar-nav > li').mouseenter(function () {
+      var ishover = parseInt($(this).find('input[name=ishover]').val());  // 下拉菜单是否出现
+      // 如果下拉菜单已经出现防止多次重置插件导致滚动列表抖动
+      if (ishover == 0) {
+        $(this).find('input[name=ishover]').val(1);
+        // 加入延时防止下拉菜单还未出现程序已经执行的bug
+        setTimeout(function () {
+          for (var i in m_nav_scroll) {
+            m_nav_scroll[i].reloadSlider();
+          }
+        }, 500);
+      }
+    });
+    // 鼠标移除注销插件并初始化判断参数，以便下次打开重新生成
+    $('.navbar-nav > li').mouseleave(function () {
+      $(this).find('input[name=ishover]').val(0);
+      for (var i in m_nav_scroll) {
+        m_nav_scroll[i].destroySlider();
+      }
+    });
+    </script>
+    <!-- End 供应商和专家下拉菜单列表滚动效果 -->
 
 </body>
 </html>
