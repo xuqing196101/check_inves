@@ -257,7 +257,7 @@
 			var flag = true;
 			if(text.length<=0){
 				flag = false;
-				layer.alert("请先上传附件",{offset: ['222px', '390px'], shade:0.01});
+				layer.alert("请先上传授权书",{offset: ['222px', '390px'], shade:0.01});
 			}
 			if(flag){
 			 $("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/createTransFormal.html?ids=${id}");
@@ -1275,7 +1275,7 @@
 		<div  class="col-md-12 tc mt20">
    			<input type="button" class="btn btn-windows save mb20" onclick="staging()" value="暂存"/>
    			<input type="button" class="btn btn-windows save mb20" onclick="protocol()" value="生成草案"/>
-   			<input type="button" class="btn btn-windows save mb20" onclick="createContract()" value="生成合同"/>
+   			  <input type="button" class="btn btn-windows save mb20" onclick="createContract()" value="生成正式合同"/>
    			<%--<input type="button" class="btn btn-windows save mb20" onclick="printContract()" value="打印"/>
    			--%><input type="button" class="btn btn-windows cancel mb20" onclick="abandoned()" value="取消">
   		</div>

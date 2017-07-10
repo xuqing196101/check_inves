@@ -3,6 +3,7 @@ package ses.service.bms.impl;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,9 +19,12 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.UserMapper;
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
+import ses.model.oms.Orgnization;
+import ses.model.oms.util.Ztree;
 import ses.service.bms.UserDataRuleService;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -46,15 +50,12 @@ public class UserServiceImpl implements UserServiceI {
 	private UserMapper userMapper;
 	
 	@Autowired
+  private OrgnizationMapper orgniztionMapper;
+	
+	@Autowired
     private SqlSessionFactory sqlSessionFactory; 
 	
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	
-	@Autowired
-	private UserDataRuleService userDataRuleService;
-	
-	@Autowired
-	private OrgnizationServiceI orgnizationServiceI;
 	
 	@Override
 	public String save(User user, User currUser) {
@@ -470,6 +471,47 @@ public List<String> getUserId(List<String> OrgID,String typeName) {
     } else {
       return true;
     }
+  }
+
+  @Override
+  public List<Ztree> getOrgTree(User user, String typeNameId, String orgType) {
+    List<Orgnization> oList = new ArrayList<Orgnization>();
+    HashMap<String,Object> map = new HashMap<String,Object>();
+    map.put("typeName", orgType);
+    if ("1".equals(orgType)) {
+      //如果是采购机构，按排序查询
+      oList = orgniztionMapper.findPurchaseOrgByPosition(map);
+    } else {
+      oList = orgniztionMapper.findOrgnizationList(map);
+    }
+    List<Ztree> treeList = new ArrayList<Ztree>();  
+    for(Orgnization o : oList){
+      Ztree z = new Ztree();
+      z.setId(o.getId());
+      z.setName(o.getName());
+      z.setpId(o.getParentId() == null ? "-1":o.getParentId());
+      z.setLevel(o.getOrgLevel() + "");
+      HashMap<String,Object> chimap = new HashMap<String,Object>();
+      chimap.put("pid", o.getId());
+      List<Orgnization> chiildList = orgniztionMapper.findOrgnizationList(chimap);
+      if(chiildList != null && chiildList.size() > 0){
+        z.setIsParent("true");
+        //z.setNocheck(true);
+      } else {
+        z.setIsParent("false");
+      }
+      if(user != null ){
+        Orgnization orgnization = user.getOrg();
+        if(orgnization != null){
+          if(o.getId().equals(orgnization.getId())){
+            z.setChecked(true);
+          }
+        }
+      } 
+      //z.setIsParent(o.getParentId()==null?"true":"false");
+      treeList.add(z);
+    }
+    return treeList;
   }
 }
 
