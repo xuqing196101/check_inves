@@ -42,7 +42,6 @@ import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
-import ses.model.ems.ExpertPublicity;
 import ses.model.ems.ExpertSignature;
 import ses.model.ems.ExpertTitle;
 import ses.model.oms.Orgnization;
@@ -72,7 +71,6 @@ import bss.formbean.PurchaseRequiredFormBean;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -685,6 +683,7 @@ public class ExpertAuditController{
 		model.addAttribute("sign", sign);
 
 		expert = expertService.selectByPrimaryKey(expertId);
+		model.addAttribute("status", expert.getStatus());
 
 		List < DictionaryData > allCategoryList = new ArrayList < DictionaryData > ();
 
@@ -1111,6 +1110,7 @@ public class ExpertAuditController{
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
 		model.addAttribute("expertId", expertId);
+		model.addAttribute("status", expert.getStatus());
 		//回显不通过的字段
 		if(expert.getStatus().equals("-3") || expert.getStatus().equals("-2") || expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
 			ExpertAudit expertAuditFor = new ExpertAudit();
