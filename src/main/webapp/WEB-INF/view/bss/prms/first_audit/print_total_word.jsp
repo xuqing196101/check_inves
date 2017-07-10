@@ -57,18 +57,27 @@ div.Section1
 
 <%
 
-String fileName = "评审结果.doc"; 
+String fileName = "评审结果"; 
 
 //对中文文件名编码 
-
-fileName = URLEncoder.encode(fileName, "utf-8"); 
-
-byte[] yte = fileName.getBytes("GB2312"); 
-
-String unicoStr = new String(yte, "utf-8");
-
-response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);     
-
+String UserAgent = request.getHeader("USER-AGENT").toLowerCase();  
+String tem="";
+  if (UserAgent != null) {  
+      if (UserAgent.indexOf("msie") >= 0)  
+           tem="IE";  
+      if (UserAgent.indexOf("firefox") >= 0)  
+          tem= "FF";  
+      if (UserAgent.indexOf("safari") >= 0)  
+          tem= "SF";  
+  }
+  if ("FF".equals(tem)) {  
+      // 针对火狐浏览器处理方式不一样了  
+      fileName = new String(fileName.getBytes("UTF-8"),"iso-8859-1") + ".doc";  
+  }else{
+  fileName = URLEncoder.encode(fileName, "UTF-8")+ ".doc";
+  }    
+//对中文文件名编码 
+response.setHeader("Content-disposition", "attachment; filename=" + fileName);     
 %>
 
 </head>

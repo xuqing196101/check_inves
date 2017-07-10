@@ -2,7 +2,7 @@
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
 
-<%@page contentType="application/vnd.ms-word;charset=GBK"%>
+<%@page contentType="application/vnd.ms-word;charset=utf-8"%>
 
 <%
 
@@ -38,26 +38,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 -->
 
+<style>
+
+@page
+    {mso-page-border-surround-header:no;
+    mso-page-border-surround-footer:no;}
+@page Section1
+    {size:841.9pt 595.3pt;
+    mso-page-orientation:landscape;
+    margin:89.85pt 72.0pt 89.85pt 72.0pt;
+    mso-header-margin:42.55pt;
+    mso-footer-margin:49.6pt;
+    mso-paper-source:0;
+    layout-grid:15.6pt;}
+div.Section1
+    {page:Section1;}
+
+</style>
+
 <%
 
-String fileName = "评审结果.doc"; 
+String fileName = "评审结果"; 
+String UserAgent = request.getHeader("USER-AGENT").toLowerCase();  
+String tem="";
+  if (UserAgent != null) {  
+      if (UserAgent.indexOf("msie") >= 0)  
+           tem="IE";  
+      if (UserAgent.indexOf("firefox") >= 0)  
+          tem= "FF";  
+      if (UserAgent.indexOf("safari") >= 0)  
+          tem= "SF";  
+  }
+  if ("FF".equals(tem)) {  
+      // 针对火狐浏览器处理方式不一样了  
+      fileName = new String(fileName.getBytes("UTF-8"),"iso-8859-1") + ".doc";  
+  }else{
+  fileName = URLEncoder.encode(fileName, "UTF-8")+ ".doc";
+  }    
+//对中文文件名编码 
+response.setHeader("Content-disposition", "attachment; filename=" + fileName);     
 
 //对中文文件名编码 
 
-fileName = URLEncoder.encode(fileName, "utf-8"); 
+/* fileName = URLEncoder.encode(fileName, "utf-8"); 
 
 byte[] yte = fileName.getBytes("GB2312"); 
 
 String unicoStr = new String(yte, "utf-8");
 
-response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);     
+response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);   */   
 
 %>
 
 </head>
 <body>
 
-<div style="width:85%;margin:auto;">
+<div style="width:85%;margin:auto;" class = "Section1">
     <div align="center" style="display: block;background: #fff;padding: 1px 10px;margin: 10px 0 10px 20px;border-left: 4px solid #2c9fa6;">
    		<h2>${pack.name}供应商排名</h2>
    	</div>
@@ -75,21 +111,20 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 	   		        </th>
                   </c:if>	   		    		    
    		  </c:forEach>
-   		   <c:if test="${fn:length(extensions.supplierList)<3}">
-		        <c:forEach begin="1" end="${3-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
+   		   <c:if test="${fn:length(extensions.supplierList)<8}">
+		        <c:forEach begin="1" end="${8-fn:length(extensions.supplierList)}"  step="1" varStatus="i">
 		            <th width="180" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
 		            </th>
 		         </c:forEach>
 		  </c:if>
 		  </tr>
+		  <c:set value="0" var="number"></c:set>
    		  <c:forEach items="${expertList}" var="expert">
                 <c:if test="${expert.packageId eq pack.id}">
+                <c:set value="${number+1}" var="number"></c:set>
                   <tr>
-                  
-                     <c:if test="${expert.count ==0}">
-                     </c:if>
-                  	<c:if test="${expert.count != 0}">
-                     <td width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;" rowspan="${expert.count}"  >${expert.reviewTypeId}</td>
+                  	<c:if test="${expert.count != 0 and number == 1}">
+                     <td rowspan="${expert.count}" width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">${expert.reviewTypeId}</td>
                      </c:if>
                     <td width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">${expert.expert.relName}</td>
                     <c:forEach items="${extensions.supplierList}" var="supplier">

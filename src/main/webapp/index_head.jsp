@@ -6,8 +6,8 @@
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
-<html class="js cssanimations csstransitions" lang="en"><!--<![endif]-->
+<!--[if !IE]><!--> 
+<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <title>${properties['system.title']}</title>
 <head>
 <!--导航js-->
