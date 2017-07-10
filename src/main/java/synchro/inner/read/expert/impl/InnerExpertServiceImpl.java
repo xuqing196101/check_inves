@@ -194,6 +194,41 @@ public class InnerExpertServiceImpl implements InnerExpertService {
 
         }
     }
+
+    /**
+     *
+     * Description: 导入公示的专家 到外网展示
+     *
+     * @author Easong
+     * @version 2017/7/10
+     * @param [file]
+     * @since JDK1.7
+     */
+    @Override
+    public void importExpOfPublicity(File file) {
+        List<Expert> expertList = getExpert(file);
+        if(null != expertList && !expertList.isEmpty()){
+            try{
+                for(Expert expert:expertList){
+                    //入库是对每个表进行插入数据
+                    Expert existsExpert = expertMapper.selectByPrimaryKey(expert.getId());
+                    if(existsExpert != null){
+                        // 修改基本数据
+                        expertMapper.updateByPrimaryKeySelective(expert);
+                    }else {
+                       // 保存基本数据
+                        expertMapper.insertSelective(expert);
+                    }
+                    // 保存相关联的数据
+                    saveBackModifyOperation(expert);
+                }
+            }catch (RuntimeException e){
+                e.printStackTrace();
+            }
+            synchRecordService.synchBidding(null, new Integer(expertList.size()).toString(), synchro.util.Constant.SYNCH_PUBLICITY_EXPERT, synchro.util.Constant.OPER_TYPE_IMPORT, synchro.util.Constant.IMPORT_SYNCH_PUBLICITY_EXPERT);
+        }
+    }
+
     @Transactional
     public void saveBackModifyOperation(Expert expert) throws RuntimeException{
         //专家审核记录表

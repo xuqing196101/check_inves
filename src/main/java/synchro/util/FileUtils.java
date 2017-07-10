@@ -1,18 +1,17 @@
 package synchro.util;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.StringUtils;
-
-import com.alibaba.fastjson.JSON;
-
 import ses.util.PropUtil;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -162,8 +161,7 @@ public class FileUtils {
     public final static String C_FILE_TEMPLATE_DOWNLOAD_FILENAME="_c_file_template_download.dat";
     /***门户模板管理 附件数据导出路径***/
     public final static String C_FILE_TEMPLATE_DOWNLOAD_ATTFILE_FILENAME=PropUtil.getProperty("attfile.file_t_iss_ps_template_download_path.system.path");
-    
-    
+
     /***目录资质关联表录 导出创建数据名称***/
     public final static String C_SYNCH_CATEGORY_QUA="_c_category_qua.dat";
     /***目录资质关联表录 导出路径***/
@@ -173,7 +171,17 @@ public class FileUtils {
     public final static String C_SYNCH_QUALIFICATION="_c_qualification.dat";
     /***产品资质 导出路径***/
     public final static String FILE_SYNCH_QUALIFICATION_PATH=PropUtil.getProperty("file.synch_qualification.system.path");
-    
+
+    /**供应商公示 导出创建数据名称**/
+    public final static String C_SYNCH_PUBLICITY_SUPPLIER_FILENAME = "_c_publicity_supplier.dat";
+    /**导出文件目录**/
+    public final static String C_SYNCH_PUBLICITY_SUPPLIER_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_supplier_publicity_path.system.path");
+
+    /**专家公示 导出创建数据名称**/
+    public final static String C_SYNCH_PUBLICITY_EXPERT_FILENAME = "_c_publicity_expert.dat";
+    /**导出文件目录**/
+    public final static String C_SYNCH_PUBLICITY_EXPERT_FILE_DIRECTORY= PropUtil.getProperty("file.t_ses_sms_expert_publicity_path.system.path");
+
     /**
      * 
      *〈简述〉创建根目录
@@ -423,7 +431,7 @@ public class FileUtils {
         // 定义高速缓冲流
         BufferedWriter bw = null;
         try {
-             bw = new BufferedWriter(new FileWriter(file));
+             bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
              bw.write(str, 0, str.length());
              // 将缓存中的内容刷进文件中
              bw.flush();
@@ -747,6 +755,8 @@ public class FileUtils {
           case 20:  filePath=C_FILE_TEMPLATE_DOWNLOAD_ATTFILE_FILENAME;break;
           case 21:  filePath=FILE_SYNCH_CATEGORY_QUA_PATH;break;
           case 22:  filePath=FILE_SYNCH_QUALIFICATION_PATH;break;
+          case 23:  filePath=C_SYNCH_PUBLICITY_SUPPLIER_FILE_DIRECTORY;break;
+          case 24:  filePath=C_SYNCH_PUBLICITY_EXPERT_FILE_DIRECTORY;break;
         }
         return filePath;
     }
