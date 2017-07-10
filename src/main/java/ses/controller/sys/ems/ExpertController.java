@@ -72,6 +72,7 @@ import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertPictureType;
 import ses.model.ems.ExpertTitle;
 import ses.model.ems.ProjectExtract;
+import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
@@ -102,6 +103,7 @@ import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ExpertTitleService;
 import ses.service.ems.ProjectExtractService;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
@@ -211,6 +213,9 @@ public class ExpertController extends BaseController {
     
     @Autowired
     private PurChaseDepOrgService purChaseDepOrgService;
+    
+    @Autowired
+	private OrgnizationServiceI orgnizationServiceI;
     
     /**
      * 
@@ -2177,7 +2182,7 @@ public class ExpertController extends BaseController {
         List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
         
         //全部机构
-        List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();
+        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
         request.setAttribute("allOrg", allOrg);
         
         jsTypeList.addAll(jjTypeList);
@@ -3418,12 +3423,18 @@ public class ExpertController extends BaseController {
 //            String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
 //              + request.getContextPath()+"/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
              String ipAddressType= PropUtil.getProperty("ipAddressType");
+             String environment= PropUtil.getProperty("environment");
              String host=null;
-    			if("1".equals(ipAddressType)){
-    			      host ="https://www.plap.cn/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
-    		    }else{
-    		    	 host ="http://21.100.16.12/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
-    		    }
+             if("1".equals(environment)){
+ 	          	if("1".equals(ipAddressType)){
+ 	  			      host ="https://www.plap.cn/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+ 	  		    }else{
+ 	  		    	 host ="http://21.100.16.12/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+ 	  		    }
+            }else{
+	           	  host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
+	                + request.getContextPath()+"/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
+            }
         	dataMap.put("image",host);
 //		}
         String faceId = expert.getPoliticsStatus();
