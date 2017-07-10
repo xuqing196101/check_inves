@@ -986,6 +986,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		//回显未通过字段
 		if(supplierStatus == -3 || supplierStatus == -2 || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 5){
+			supplierAudit.setSupplierId(supplierId);
 			supplierAudit.setAuditType("mat_sell_page");
 			List < SupplierAudit > reasonsSellList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 			StringBuffer passedSellField = new StringBuffer();
@@ -2316,7 +2317,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return
 	 */
 	@RequestMapping("toPageAptitude")
-	public String toPageAptitude(Model model,String supplierId,String supplierStatus,String sign){
+	public String toPageAptitude(Model model,String supplierId, Integer supplierStatus, Integer sign){
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("sign", sign);
 		model.addAttribute("supplierStatus", supplierStatus);

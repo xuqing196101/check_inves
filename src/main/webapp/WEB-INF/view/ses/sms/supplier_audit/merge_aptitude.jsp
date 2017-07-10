@@ -137,7 +137,9 @@
 				<div id="pagediv" align="right"></div>
 				<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
-					  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> 
+					  <c:if test="${supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+					    <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+					  </c:if>
 						 <a class="btn" type="button" onclick="nextStep();">下一步</a>
 				</div>
 			</div>

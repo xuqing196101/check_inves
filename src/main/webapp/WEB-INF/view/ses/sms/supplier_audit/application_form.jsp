@@ -23,41 +23,46 @@
 
 
 			function reason1(ele,auditField){
-			  var supplierId=$("#supplierId").val();
-			  var auditFieldName = $(ele).parents("li").find("span").text().replace("：","");//审批的字段名字
-			  var index = layer.prompt({
-				  title: '请填写不通过的理由：',
-				  formType: 2,
-				  offset: '100px',
-				  maxlength: '100'
-			  },
-		    function(text){
-		    	var text = trim(text);
-					if(text != null && text !=""){
-			      $.ajax({
-			        url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-			        type: "post",
-			          data: {"auditType":"download_page","auditFieldName":auditFieldName,"auditContent":"附件","suggest":text,"supplierId":supplierId,"auditField":auditField},
-			          dataType: "json",
-				        success:function(result){
-				        result = eval("(" + result + ")");
-				        if(result.msg == "fail"){
-				          layer.msg('该条信息已审核过！', {
-			            shift: 6, //动画类型
-			            offset:'100px'
-			           });
-			         }
-			       }
-			     });
-				  /* $(ele).parent("li").find("div").eq(1).show(); //显示叉
-				     layer.close(index); */
-
-					   $(ele).parents("li").find("p").show(); //显示叉
-				     layer.close(index);
-			     }else{
-		      		layer.msg('不能为空！', {offset:'100px'});
-		      	}
-		    });
+				var supplierStatus= $("input[name='supplierStatus']").val();
+	      var sign = $("input[name='sign']").val();
+	        //只有审核的状态能审核
+	      if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
+				  var supplierId=$("#supplierId").val();
+				  var auditFieldName = $(ele).parents("li").find("span").text().replace("：","");//审批的字段名字
+				  var index = layer.prompt({
+					  title: '请填写不通过的理由：',
+					  formType: 2,
+					  offset: '100px',
+					  maxlength: '100'
+				  },
+			    function(text){
+			    	var text = trim(text);
+						if(text != null && text !=""){
+				      $.ajax({
+				        url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+				        type: "post",
+				          data: {"auditType":"download_page","auditFieldName":auditFieldName,"auditContent":"附件","suggest":text,"supplierId":supplierId,"auditField":auditField},
+				          dataType: "json",
+					        success:function(result){
+					        result = eval("(" + result + ")");
+					        if(result.msg == "fail"){
+					          layer.msg('该条信息已审核过！', {
+				            shift: 6, //动画类型
+				            offset:'100px'
+				           });
+				         }
+				       }
+				     });
+					  /* $(ele).parent("li").find("div").eq(1).show(); //显示叉
+					     layer.close(index); */
+	
+						   $(ele).parents("li").find("p").show(); //显示叉
+					     layer.close(index);
+				     }else{
+			      		layer.msg('不能为空！', {offset:'100px'});
+			      	}
+			    });
+	      }
 		  }
 
 			//下一步
@@ -314,7 +319,9 @@
            </div>
 	         <div class="col-md-12 add_regist tc">
 	           <a class="btn"  type="button" onclick="lastStep();">上一步</a>
-	           <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+	           <c:if test="${supplierStatus == 0 or supplierStatus ==4 or (sign ==3 and supplierStatus ==5)}">
+	             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+	           </c:if>
 	           <a class="btn"  type="button" onclick="nextStep();">下一步</a>
 	         </div>
          </div>

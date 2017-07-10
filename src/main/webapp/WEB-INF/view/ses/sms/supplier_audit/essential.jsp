@@ -53,9 +53,12 @@
 
         //审核input框
         function reason(obj) {
+	       	var supplierStatus= $("input[name='supplierStatus']").val();
+	        var sign = $("input[name='sign']").val();
+	       	//只有审核的状态能审核
+	       	if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
             var supplierId = $("#id").val();
             var auditField = obj.id;
-            ;
             var auditContent;
             var auditFieldName;
             var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
@@ -104,6 +107,7 @@
                         layer.msg('不能为空！', {offset: '100px'});
                     }
                 });
+        	 }
         }
 
 
@@ -159,6 +163,10 @@
          } */
 
         function reason1(ele, auditField) {
+       	  var supplierStatus= $("input[name='supplierStatus']").val();
+          var sign = $("input[name='sign']").val();
+           //只有审核的状态能审核
+          if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
             var supplierId = $("#id").val();
             var auditFieldName = $(ele).parents("li").find("span").text().replace("：", "").replace("view", ""); //审批的字段名字
             var index = layer.prompt({
@@ -190,10 +198,15 @@
                     layer.msg('不能为空！', {offset: '100px'});
                 }
             });
+          }
         }
 
         //审核列表
         function auditList(id, str, type) {
+        	var supplierStatus= $("input[name='supplierStatus']").val();
+          var sign = $("input[name='sign']").val();
+           //只有审核的状态能审核
+          if(supplierStatus == -2 || supplierStatus == -3 || supplierStatus == 0 || supplierStatus == 4 || (sign == 3 && supplierStatus == 5)){
             var supplierId = $("#id").val();
             var auditContent;
             var auditFieldName;
@@ -243,6 +256,7 @@
                         layer.msg('不能为空！', {offset: '100px'});
                     }
                 });
+          }
         }
 
         function nextStep() {
@@ -1450,8 +1464,10 @@
         </div>
 
         <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
+          <c:if test="${suppliers.status == 0 or suppliers.status ==4 or (sign ==3 and suppliers.status ==5)}">
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
-            <a class="btn" type="button" onclick="nextStep();">下一步</a>
+          </c:if>
+          <a class="btn" type="button" onclick="nextStep();">下一步</a>
         </div>
     </div>
     <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html"
