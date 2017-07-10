@@ -2222,6 +2222,9 @@ a.news_more{
   font-size: 14px!important;
   padding: 0px!important;
 }
+a.news_more:hover {
+  color: #2C9FA6 !important;
+}
 .buyer_news{
 	margin-top: 0px!important;
 	padding:0px;
