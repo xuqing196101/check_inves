@@ -29,7 +29,7 @@ import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.bms.User;
-import ses.model.oms.PurchaseDep;
+import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
@@ -58,6 +58,7 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.QualificationService;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAptituteService;
@@ -81,11 +82,11 @@ import bss.formbean.Maps;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.JdcgResult;
+
 import dss.model.rids.SupplierAnalyzeVo;
 /**
  * 版权：(C) 版权所有 
@@ -198,6 +199,9 @@ public class SupplierQueryController extends BaseSupplierController {
 	@Autowired
 	private PurChaseDepOrgService purChaseDepOrgService;
 	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
+	
     /**
      *〈简述〉供应商查询
      *〈详细描述〉按照各种条件来查询供应商信息
@@ -262,7 +266,7 @@ public class SupplierQueryController extends BaseSupplierController {
             listMap.add(mp);
         }
         //全部机构
-        List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();
+        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
         model.addAttribute("allOrg", allOrg);
         
         String json = JSON.toJSONString(listMap);
@@ -351,7 +355,8 @@ public class SupplierQueryController extends BaseSupplierController {
         }
         
         //全部机构
-        List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();
+        /*List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();*/
+        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
         model.addAttribute("allOrg", allOrg);
         
         this.getSupplierType(listSupplier);

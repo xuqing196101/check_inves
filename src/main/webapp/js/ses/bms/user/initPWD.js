@@ -92,11 +92,14 @@ function resetPasswSubmit() {
 		shade : [ 0.1, '#fff' ],
 		offset : [ '45%', '53%' ]
 	});
-	var is_error = ajaxOldPassword();
+	//var is_error = ajaxOldPassword();
+	var is_error = 0;
 	if (is_error == 1) {
 		layer.close(inde);
 		return false;
 	} else {
+		
+		$("#oldPassword").val(setPublicKey($("#oldPassword").val()));
 		$("#password").val(setPublicKey($("#password").val()));
 		$("#password2").val(setPublicKey($("#password2").val()));
 		$.ajax({
@@ -138,11 +141,12 @@ function userResetPasswSubmit() {
 		shade : [ 0.1, '#fff' ],
 		offset : [ '45%', '53%' ]
 	});
+	$("#oldPassword").val(setPublicKey($("#oldPassword").val()));
 	$("#password").val(setPublicKey($("#password").val()));
 	$("#password2").val(setPublicKey($("#password2").val()));
 	$.ajax({
 		type : "POST",
-		url : globalPath + "/user/resetPwd.do",
+		url : globalPath + "/user/resetPwdForUser.do",
 		data : $('#form2').serializeArray(),
 		dataType : 'json',
 		success : function(result) {
@@ -177,6 +181,7 @@ function supplierResetPasswSubmit() {
 		shade : [ 0.1, '#fff' ],
 		offset : [ '45%', '53%' ]
 	});
+	$("#oldPassword").val(setPublicKey($("#oldPassword").val()));
 	$("#password").val(setPublicKey($("#password").val()));
 	$("#password2").val(setPublicKey($("#password2").val()));
 	$.ajax({

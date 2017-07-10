@@ -16,6 +16,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertTitle;
+import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
@@ -25,6 +26,7 @@ import ses.service.bms.EngCategoryService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ExpertTitleService;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -69,6 +71,9 @@ public class ExpertQueryController {
 	
 	@Autowired
 	private PurChaseDepOrgService purChaseDepOrgService;
+	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
 	
 	/**
      * 
@@ -210,7 +215,7 @@ public class ExpertQueryController {
         // 专家类型
         List < DictionaryData > expertFromList = DictionaryDataUtil.find(12);
         //全部机构
-        List<PurchaseDep>  allOrg = purChaseDepOrgService.findAllOrg();
+        List<Orgnization>  allOrg = orgnizationServiceI.findPurchaseOrgByPosition(null);
         model.addAttribute("allOrg", allOrg);
         model.addAttribute("expertFromList", expertFromList);
         model.addAttribute("expert", expert);

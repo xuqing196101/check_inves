@@ -1064,7 +1064,7 @@ public class UserManageController extends BaseController{
   public void ajaxOldPassword(HttpServletResponse response,@RequestBody User u) throws IOException{
 	    try {
 	      String msg = "";
-	    //私密 解密
+	      //私密 解密
       	u.setPassword(RSAEncrypt.decryptPrivate(u.getPassword())) ;
         if (u.getPassword() == null || "".equals(u.getPassword())) {
             msg = "请输入原密码";
@@ -1091,7 +1091,7 @@ public class UserManageController extends BaseController{
 	}
 	
 	/**
-	 *〈简述〉重置密码
+	 *〈简述〉重置密码（个人重置自己的）
 	 *〈详细描述〉
 	 * @author Ye MaoLin
 	 * @param response
@@ -1099,38 +1099,60 @@ public class UserManageController extends BaseController{
 	 * @throws IOException 
 	 */
 	@RequestMapping("/resetPwd")
-	public void resetPwd(HttpServletResponse response, User u) throws IOException{
+	public void resetPwd(HttpServletResponse response,HttpServletRequest request, User u) throws IOException{
 	    try{
+  	      User user = (User) session.getAttribute("loginUser");
+          if (user != null) {
+            u.setId(user.getId());
+          }
 	        int count = 0;
 	        String msg = "";
+	        //原密码校验
 	        //私密 解密
-	        String pwd2 = RSAEncrypt.decryptPrivate(u.getPassword2()) ;
-	        u.setPassword2(pwd2);
-	        String pwd = RSAEncrypt.decryptPrivate(u.getPassword());
-	        u.setPassword(pwd);
-	        if (pwd == null || "".equals(pwd)) {
-	            msg = "请输入密码";
+	        String pwd2 = RSAEncrypt.decryptPrivate(u.getPassword2());
+          String pwd = RSAEncrypt.decryptPrivate(u.getPassword());
+	        String oldPassword0 = request.getParameter("oldPassword");
+	        String oldPassword = RSAEncrypt.decryptPrivate(oldPassword0);
+	        if (oldPassword == null || "".equals(oldPassword)) {
+	            msg = "请输入原密码";
 	            count ++;
-            }
-	        if(pwd.length()<6){
-	        	 msg = "密码位数要大于6位";
-	        	 count ++;
+	        } else {
+	            u.setPassword(oldPassword);
+	            Boolean result = userService.ajaxOldPassword(u);
+	            if (result) {
+  	              //校验新密码
+	                //私密 解密
+  	              u.setPassword2(pwd2);
+  	              u.setPassword(pwd);
+  	              if (pwd == null || "".equals(pwd)) {
+  	                  msg = "请输入新密码";
+  	                  count ++;
+  	                }
+  	              if(pwd.length()<6){
+  	                 msg = "密码位数要大于6位";
+  	                 count ++;
+  	              }
+  	              if (pwd2 == null || "".equals(pwd2)) {
+  	                    if (count > 0) {
+  	                        msg = "请输入新密码和确认新密码";
+  	                        count ++;
+  	                    } else {
+  	                        msg = "请输入确认新密码";
+  	                        count ++;
+  	                    }
+  	              }
+	            } else {
+	                msg = "原密码输入有误";
+	                count ++;
+	            }
 	        }
-	        if (pwd2 == null || "".equals(pwd2)) {
-                if (count > 0) {
-                    msg = "请输入密码和确认密码";
-                    count ++;
-                } else {
-                    msg = "请输入确认密码";
-                    count ++;
-                }
-            }
+	        
 	        if (count > 0) {
 	            response.setContentType("text/html;charset=utf-8");
 	            response.getWriter()
 	                    .print("{\"success\": " + false + ", \"msg\": \"" + msg
 	                            + "\"}");
-            }
+          }
 	        if (count == 0) {
                 if (!pwd.equals(pwd2)) {
                     msg = "两次密码不一致";
@@ -1155,6 +1177,74 @@ public class UserManageController extends BaseController{
         }
 	}
 	
+	
+	/**
+   *〈简述〉重置密码（用户管理重置）
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param response
+   * @param user
+   * @throws IOException 
+   */
+  @RequestMapping("/resetPwdForUser")
+  public void resetPwdForUser(HttpServletResponse response,HttpServletRequest request, User u) throws IOException{
+      try{
+          int count = 0;
+          String msg = "";
+          //私密 解密
+          String pwd2 = RSAEncrypt.decryptPrivate(u.getPassword2());
+          String pwd = RSAEncrypt.decryptPrivate(u.getPassword());
+         
+          if (pwd == null || "".equals(pwd)) {
+              msg = "请输入新密码";
+              count ++;
+            }
+          if(pwd.length()<6){
+             msg = "密码位数要大于6位";
+             count ++;
+          }
+          if (pwd2 == null || "".equals(pwd2)) {
+                if (count > 0) {
+                    msg = "请输入新密码和确认新密码";
+                    count ++;
+                } else {
+                    msg = "请输入确认新密码";
+                    count ++;
+                }
+          }
+          
+          if (count > 0) {
+              response.setContentType("text/html;charset=utf-8");
+              response.getWriter()
+                      .print("{\"success\": " + false + ", \"msg\": \"" + msg
+                              + "\"}");
+          }
+          if (count == 0) {
+                if (!pwd.equals(pwd2)) {
+                    msg = "两次密码不一致";
+                    response.setContentType("text/html;charset=utf-8");
+                    response.getWriter()
+                            .print("{\"success\": " + false + ", \"msg\": \"" + msg
+                                    + "\"}");
+                } else {
+                    u.setPassword2(pwd2);
+                    u.setPassword(pwd);
+                    userService.resetPwd(u);
+                    msg = "重置密码成功";
+                    response.setContentType("text/html;charset=utf-8");
+                    response.getWriter()
+                            .print("{\"success\": " + true + ", \"msg\": \"" + msg
+                                    + "\"}");
+                }
+            }
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            response.getWriter().close();
+        }
+  }
+  
 	/**
    *〈简述〉校验手机号重复
    *〈详细描述〉
