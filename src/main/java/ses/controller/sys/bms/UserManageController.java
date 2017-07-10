@@ -1046,42 +1046,8 @@ public class UserManageController extends BaseController{
 		    //采购机构
 		    typeName = "1";
 		}*/
-		List<Orgnization> oList = new ArrayList<Orgnization>();
-		HashMap<String,Object> map = new HashMap<String,Object>();
-    map.put("typeName", orgType);
-    if ("1".equals(orgType)) {
-      //如果是采购机构，按排序查询
-      oList = orgnizationService.findPurchaseOrgByPosition(map);
-    } else {
-      oList = orgnizationService.findOrgnizationList(map);
-    }
-		List<Ztree> treeList = new ArrayList<Ztree>();  
-		for(Orgnization o : oList){
-			Ztree z = new Ztree();
-			z.setId(o.getId());
-			z.setName(o.getName());
-			z.setpId(o.getParentId() == null ? "-1":o.getParentId());
-			z.setLevel(o.getOrgLevel() + "");
-			HashMap<String,Object> chimap = new HashMap<String,Object>();
-			chimap.put("pid", o.getId());
-			List<Orgnization> chiildList = orgnizationService.findOrgnizationList(chimap);
-			if(chiildList != null && chiildList.size() > 0){
-				z.setIsParent("true");
-				//z.setNocheck(true);
-			} else {
-				z.setIsParent("false");
-			}
-			if(user != null ){
-				Orgnization orgnization = user.getOrg();
-				if(orgnization != null){
-					if(o.getId().equals(orgnization.getId())){
-						z.setChecked(true);
-					}
-				}
-			} 
-			//z.setIsParent(o.getParentId()==null?"true":"false");
-			treeList.add(z);
-		}
+		
+		List<Ztree> treeList = userService.getOrgTree(user, typeNameId, orgType);
 		JSONArray jObject = JSONArray.fromObject(treeList);
 		return jObject.toString();
 	}

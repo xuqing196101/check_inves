@@ -16,6 +16,10 @@
 <link href="${pageContext.request.contextPath}/public/portal/css/app.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/portal/css/blocks.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/bxslider/jquery.bxslider.min.css" media="screen" rel="stylesheet">
+<!-- <link href="${pageContext.request.contextPath}/public/portal/css/portal.bootstrap.min.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/bxslider/jquery.bxslider.min.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/portal/css/portal_common.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/portal/css/portal_style.css" media="screen" rel="stylesheet"> -->
 <!-- js -->
 <script>
   var globalPath = "${pageContext.request.contextPath}";

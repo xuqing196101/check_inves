@@ -290,18 +290,6 @@ li {
 .header-v4 .navbar-default .navbar-nav > li > a:focus .gongshi, .navbar-nav .gongshi_li:hover .gongshi{
   background-position: -240px 0px;
 }
-a.wssc i {
-  background: url(../images/portal_icon.png) no-repeat -410px -344px;
-}
-a.dxcpjj i {
-  background: url(../images/portal_icon.png) no-repeat -545px -345px;
-}
-a.ypcg i {
-  background: url(../images/portal_icon.png) no-repeat -685px -343px;
-}
-a.fwcg i {
-  background: url(../images/portal_icon.png) no-repeat -835px -343px;
-}
 /* 网上采购结束 */
 
 /* 供应商 */
@@ -995,9 +983,9 @@ span.list_squre {
   color: #555;
   text-align: center;
 }
-.ywbl_01 a span,.ywbl_02 a span {
+.ywbl_01 a span, .ywbl_02 a span {
   display: block;
-  font-size: 16px;
+  font-size: 14px;
   width: 100%;
   text-align: center;
 }
@@ -1016,59 +1004,80 @@ span.list_squre {
   overflow: hidden;
   margin-bottom: 10px;
 }
+.flow_btn a i {
+  background-image: url(../images/portal_icon.png);
+  background-repeat: no-repeat;
+}
 a.qyzc i {
-  background: url(../images/portal_icon.png) no-repeat -1px -340px;
+  background-position: 0px -340px;
+}
+a.nrkgyshgsh i {
+  background-position: -125px -340px;
 }
 a.zjzc i {
-  background: url(../images/portal_icon.png) no-repeat -115px -340px;
+  background-position: -240px -340px;
+}
+a.nrkzhjgsh i {
+  background-position: -375px -340px;
 }
 a.jksdj i {
-  background: url(../images/portal_icon.png) no-repeat -265px -341px;
+  background-position: -522px -340px;
 }
 a.wssc i {
-  background: url(../images/portal_icon.png) no-repeat -410px -344px;
+  background-position: -675px -340px;
+}
+a.dxcpjj i {
+  background-position: -820px -340px;
+}
+a.ypcg i {
+  background-position: -965px -340px;
+}
+a.fwcg i {
+  background-position: 5px -475px;
 }
 a.fwrx i {
-  background: url(../images/portal_icon.png) no-repeat -955px -340px;
+  background-position: -100px -475px;
 }
 a.cpml i {
-  background: url(../images/portal_icon.png) no-repeat -1px -475px;
+  background-position: -205px -475px;
 }
 a.jscsk i {
-  background: url(../images/portal_icon.png) no-repeat -115px -475px;
-}
-a.cpshfw i {
-  background: url(../images/portal_icon.png) no-repeat -415px -475px;
+  background-position: -330px -475px;
 }
 a.zlxz i {
-  background: url(../images/portal_icon.png) no-repeat -115px -340px;
+  background-position: -455px -475px;
+}
+a.cpshfw i {
+  background-position: -580px -475px;
 }
 a.zxts i {
-  background: url(../images/portal_icon.png) no-repeat -556px -475px;
+  background-position: -730px -475px;
 }
 a.cglt i {
-  background: url(../images/portal_icon.png) no-repeat -685px -475px;
+  background-position: -855px -475px;
 }
 a.yjfk i {
-  background: url(../images/portal_icon.png) no-repeat -838px -482px;
+  background-position: -975px -475px;
 }
 @media (min-width:1200px) {
   .ywbl_01 {
     width: 131px;
+    padding: 0 5px;
   }
   .ywbl_02 {
-    width: 154px;
+    width: 118px;
   }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   .ywbl_01 {
     width: 106px;
+    padding: 0 5px;
   }
   .ywbl_02 {
-    width: 126px;
+    width: 96px;
   }
-  .ywbl_01 a span,.ywbl_01 a span {
-    font-size: 14px!important;
+  .ywbl_01 a span, .ywbl_02 a span {
+    font-size: 12px;
   }
 }
 @media (max-width: 992px) {
@@ -1085,8 +1094,8 @@ a.yjfk i {
   }
 }
 @media (max-width:480px) {
-  .ywbl_01 a span,.ywbl_02 a span {
-    font-size: 13px;
+  .ywbl_01 a span, .ywbl_02 a span {
+    font-size: 12px;
   }
   .ywbl_01,.ywbl_02 {
     height: 84px;
@@ -1654,4 +1663,5 @@ img.sign_left_image {
     font-size: 12px !important;
   }
 }
+	
 /* 主导航供应商和专家滚动表格结束 */
