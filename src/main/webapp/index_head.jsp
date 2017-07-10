@@ -559,7 +559,7 @@ function importAdd(){
         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ><i class="zhuanjia nav_icon"></i>供应商</a>
         
         <!-- 供应商鼠标移动开始 -->
-        <div class="drop_next dropdown-menu" style="display: block;">
+        <div class="drop_next dropdown-menu">
         <div class="magazine-page clear">
         <div class="col-md-12 col-sm-12 col-xs-12 drop_hover">
         <div class="drop_main">
@@ -580,14 +580,14 @@ function importAdd(){
         <div class="col-md-8 col-sm-8 col-xs-10 mt10">
             <div class="headline-v2 m-headline-v2">
                 <h2 class="fl">拟入库公示&nbsp;<span class="red">（如果对公示内容有异议，请拨打举报电话：010-66880147）</span></h2>
-                <%-- <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html" class="news_more">更多&gt;&gt;</a> --%>
+                <a href="${pageContext.request.contextPath}/index/indexSupPublicity.html" class="news_more">更多&gt;&gt;</a>
                 <div class="clear"></div>
             </div>
             
             <div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
             <div class="categories">
-                <%-- <c:choose> --%>
-                <%-- <c:when test="${!empty my:getPublicitySupplier()}"> --%>
+                <c:choose>
+                <c:when test="${!empty my:getPublicitySupplier()}">
                 <div class="m_nav_scroll_head">
                 <table class="table table-bordered mb0">
                     <tbody>
@@ -608,7 +608,7 @@ function importAdd(){
                 <li>
                 <table class="table table-bordered mb0">
                     <tbody>
-                    <%-- <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status">
+                    <c:forEach items="${my:getPublicitySupplier()}" var="item" begin="0" end="4" step="1" varStatus="status">
                         <c:set value="${item.supplierName}" var="supplierName"></c:set>
                         <c:set value="${item.supplierTypeNames}" var="supplierTypeNames"></c:set>
                         <c:set value="${item.businessNature}" var="businessNature"></c:set>
@@ -651,17 +651,17 @@ function importAdd(){
                                 <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
                             </td>
                         </tr>
-                    </c:forEach> --%>
+                    </c:forEach>
                     </tbody>
                 </table>
                 </li>
                 </ul>
                 </div>
-                <%-- </c:when> --%>
-               <%--  <c:otherwise> --%>
-                <!-- <div class="tc">暂无数据</div> -->
-                <%-- </c:otherwise>
-                </c:choose> --%>
+                </c:when>
+                <c:otherwise>
+                <div class="tc">暂无数据</div>
+                </c:otherwise>
+                </c:choose>
             </div>
             </div>
         </div>
@@ -805,14 +805,14 @@ function importAdd(){
 			<div class="col-md-8 col-sm-8 col-xs-10 mt10">
 				<div class="headline-v2 m-headline-v2">
 					<h2 class="fl">拟入库公示&nbsp;<span class="red">（如果对公示内容有异议，请拨打举报电话：010-66880147）</span></h2>
-					<%-- <a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="news_more">更多&gt;&gt;</a> --%>
+					<a href="${pageContext.request.contextPath}/index/indexExpPublicity.html" class="news_more">更多&gt;&gt;</a>
 					<div class="clear"></div>
 				</div>
 				
 				<div class="job-content col-md-12 col-sm-12 col-xs-12 p0">
 				<div class="categories zhuanjia_list">
-				<%-- <c:choose> --%>
-				<%-- <c:when test="${!empty my:getPublicityExpert()}"> --%>
+				<c:choose>
+				<c:when test="${!empty my:getPublicityExpert()}">
 				<table class="table table-bordered mb0">
 					<thead>
 						<tr>
@@ -830,7 +830,7 @@ function importAdd(){
                 <li>
                 <table class="table table-bordered mb0">
 					<tbody>
-					<%-- <c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
+					<c:forEach items="${my:getPublicityExpert()}" var="item" begin="0" end="4" step="1" varStatus="status"> 
 					<tr>
 						<td width="25%">${ item.relName }</td>
 						<td class="tc" width="15%">${ item.expertsTypeId }</td>
@@ -842,17 +842,17 @@ function importAdd(){
                             <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
                         </td>
 					</tr>
-					</c:forEach>  --%>
+					</c:forEach> 
 					</tbody>
 				</table>
 				</li>
 				</ul>
 				</div>
-				<%-- </c:when> --%>
-				<%-- <c:otherwise> --%>
-				<!-- <div class="tc">暂无数据</div> -->
-				<%-- </c:otherwise> --%>
-				<%-- </c:choose> --%>
+				</c:when>
+				<c:otherwise>
+				<div class="tc">暂无数据</div>
+				</c:otherwise>
+				</c:choose>
 				</div>
 				</div>
 			</div>
