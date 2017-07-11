@@ -1763,3 +1763,34 @@ img.sign_left_image {
   }
 }
 /* 主导航供应商和专家滚动表格结束 */
+
+/* APP二维码开始 */
+.m_app_code {
+  position: fixed;
+  top: 10%;
+  right: -148px;
+  z-index: 100;
+  overflow: hidden;
+}
+.m_app_code span {
+  display: block;
+  padding: 10px 12px;
+  overflow: hidden;
+  background-color: #FCBE3F;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  float: left;
+  cursor: pointer;
+}
+.m_app_code .mac_img {
+  float: left;
+}
+.m_app_code.hover {
+  right: 0;
+}
+.m_app_code .mac_img img {
+  height : 148px;
+  width : 148px;
+}
+/* APP二维码结束 */
