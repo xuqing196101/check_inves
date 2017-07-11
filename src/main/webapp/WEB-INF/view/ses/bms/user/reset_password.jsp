@@ -35,13 +35,13 @@
 		</div>
 		<div class="container container_box">
 			<form method="post" id="form2" >
-			<input type="hidden" name="id" id="userId" value="${user.id}">
+			<%-- <input type="hidden" name="id" id="userId" value="${user.id}"> --%>
 			<h2 class="list_title">修改密码</h2>
 			<ul class="ul_list">
 				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>原密码</span>
 					<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-						<input class="input_group" type="password" id="oldPassword" name="oldPassword"  onblur="ajaxOldPassword()" maxlength="50">
+						<input class="input_group" type="password" id="oldPassword" name="oldPassword" maxlength="50">
 						<span class="add-on">i</span>
 						<div id="ajaxOldPassword" class="cue"></div>
 					</div>
