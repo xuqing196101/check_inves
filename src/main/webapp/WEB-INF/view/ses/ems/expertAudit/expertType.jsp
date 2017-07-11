@@ -126,42 +126,47 @@
 			  	
 		  	//审核附件
 		  	function reasonFile(obj,id,auditFieldName){
-				  var expertId = $("#expertId").val();
-				  var showId =  id+ "_" +obj.id;
-			    $("#"+obj.id+"").each(function() {
-			      auditField = $(this).parents("li").find("span").text().replace("：","");
-	    		});
-	    		var auditContent = auditField + "附件信息";
-					var index = layer.prompt({
-				    title : '请填写不通过的理由：', 
-				    formType : 2, 
-				    offset : '100px',
-				     maxlength : '50'
-					}, 
-			    function(text){
-			    	var text = trim(text);
-				  	if(text != null && text !=""){
-						    $.ajax({
-						      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
-						      type:"post",
-						      dataType:"json",
-						      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"+"&auditFieldId="+id +"&auditFieldName="+auditFieldName,
-						      success:function(result){
-						        result = eval("(" + result + ")");
-						        if(result.msg == "fail"){
-						           layer.msg('该条信息已审核过！', {	            
-						             shift: 6, //动画类型
-						             offset:'100px'
-						          });
-						        }
-						      }
-						    });
-								 $("#"+showId+"").css('visibility', 'visible');
-					       layer.close(index);
-			       }else{
-			       	layer.msg('不能为空！', {offset:'100px'});
-			       }
-				  });
+		  		var status = ${expert.status};
+          var sign = $("input[name='sign']").val();
+          //只能审核可以审核的状态
+          if(status ==-2 || status == -3 || status == 0 || (sign ==2 && status ==1) || status ==6){
+					  var expertId = $("#expertId").val();
+					  var showId =  id+ "_" +obj.id;
+				    $("#"+obj.id+"").each(function() {
+				      auditField = $(this).parents("li").find("span").text().replace("：","");
+		    		});
+		    		var auditContent = auditField + "附件信息";
+						var index = layer.prompt({
+					    title : '请填写不通过的理由：', 
+					    formType : 2, 
+					    offset : '100px',
+					     maxlength : '50'
+						}, 
+				    function(text){
+				    	var text = trim(text);
+					  	if(text != null && text !=""){
+							    $.ajax({
+							      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+							      type:"post",
+							      dataType:"json",
+							      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=2"+"&auditFieldId="+id +"&auditFieldName="+auditFieldName,
+							      success:function(result){
+							        result = eval("(" + result + ")");
+							        if(result.msg == "fail"){
+							           layer.msg('该条信息已审核过！', {	            
+							             shift: 6, //动画类型
+							             offset:'100px'
+							          });
+							        }
+							      }
+							    });
+									 $("#"+showId+"").css('visibility', 'visible');
+						       layer.close(index);
+				       }else{
+				       	layer.msg('不能为空！', {offset:'100px'});
+				       }
+					  });
+          }
 		  	}
 		  	
 		  	
@@ -356,7 +361,7 @@
 				</div>
 				<div class="col-md-12 add_regist tc">
 					<a class="btn" type="button" onclick="lastStep();">上一步</a>
-					<c:if test="${status == 0 || (sign ==2 && status ==1) || status ==6}">
+					<c:if test="${expert.status == 0 || (sign ==2 && expert.status ==1) || expert.status ==6}">
 					  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
 					</c:if>
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>
