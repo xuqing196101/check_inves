@@ -85,5 +85,4 @@ public class Qualification {
         this.flag = flag;
     }
     
-    
 }

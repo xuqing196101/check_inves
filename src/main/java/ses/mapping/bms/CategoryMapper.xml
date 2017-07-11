@@ -661,10 +661,10 @@
 	</select>
 	
 	
-		<select id="getParentByChildren" parameterType="String" resultMap="CategoryMap">
-	 select * from T_SES_BMS_CATEGORY 
-        start with ID = #{id} 
-        connect by prior PARENT_ID = ID  
+	<select id="getParentByChildren" parameterType="String" resultMap="CategoryMap">
+    select * from T_SES_BMS_CATEGORY 
+    start with ID = #{id} 
+    connect by prior PARENT_ID = ID  
 	</select>
 	
 	<!-- instr条件搜索目录 -->
@@ -675,6 +675,54 @@
 			AND IS_DELETED = 0
 			AND INSTR(#{listID},PARENT_ID) > 0
 			ORDER BY CODE
-</select>
+  </select>
+  
+  <!-- 根据ID查询所有子节点 -->
+  <select id="selectCListById" resultMap="CategoryMap" parameterType="java.lang.String">
+    SELECT ID, NAME, CODE, PARENT_ID
+		FROM T_SES_BMS_CATEGORY 
+		WHERE 1 = 1
+		AND IS_PUBLISH = 0 
+		AND IS_DELETED = 0 
+		START WITH (ID = #{id}) 
+		CONNECT BY PRIOR ID = PARENT_ID 
+		ORDER BY CODE
+  </select>
+  
+  <!-- 根据ID查询所有父节点 -->
+  <select id="selectPListById" resultMap="CategoryMap" parameterType="java.lang.String">
+    SELECT ID, NAME, CODE, PARENT_ID
+		FROM T_SES_BMS_CATEGORY 
+		WHERE 1 = 1
+		AND IS_PUBLISH = 0 
+		AND IS_DELETED = 0 
+		START WITH (ID = #{id})  
+		CONNECT BY PRIOR PARENT_ID = ID 
+		ORDER BY CODE
+  </select>
+  
+  <!-- 根据CODE查询所有子节点 -->
+  <select id="selectCListByCode" resultMap="CategoryMap" parameterType="java.lang.String">
+    SELECT ID, NAME, CODE, PARENT_ID
+    FROM T_SES_BMS_CATEGORY 
+    WHERE 1 = 1
+    AND IS_PUBLISH = 0 
+    AND IS_DELETED = 0 
+    START WITH (CODE = #{code}) 
+    CONNECT BY PRIOR ID = PARENT_ID 
+    ORDER BY CODE
+  </select>
+  
+  <!-- 根据CODE查询所有父节点 -->
+  <select id="selectPListByCode" resultMap="CategoryMap" parameterType="java.lang.String">
+    SELECT ID, NAME, CODE, PARENT_ID
+    FROM T_SES_BMS_CATEGORY 
+    WHERE 1 = 1
+    AND IS_PUBLISH = 0 
+    AND IS_DELETED = 0 
+    START WITH (CODE = #{code}) 
+    CONNECT BY PRIOR PARENT_ID = ID 
+    ORDER BY CODE
+  </select>
 	
 </mapper>

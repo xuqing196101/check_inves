@@ -2759,13 +2759,13 @@ public class SupplierController extends BaseSupplierController {
 		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
 		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
 
-		List < Category > category = new ArrayList < Category > ();
+		/*List < Category > categoryList = new ArrayList < Category > ();
 		List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
 		for(SupplierItem item: itemsList) {
 			Category cate = categoryService.findById(item.getCategoryId());
 			if(cate!=null){
 				cate.setId(item.getId());
-				category.add(cate);
+				categoryList.add(cate);
 			}
 			
 		}
@@ -2778,11 +2778,31 @@ public class SupplierController extends BaseSupplierController {
 			con.setOneBil(id4);
 			con.setTwoBil(id5);
 			con.setThreeBil(id6);
+		}*/
+		List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
+		List<ContractBean> contractList = new ArrayList<ContractBean>();
+		for (SupplierItem item : itemsList) {
+			ContractBean con = new ContractBean();
+		    con.setId(item.getId());
+		    Category cate = categoryService.findById(item.getCategoryId());
+			if(cate!=null){
+				con.setName(cate.getName());
+				con.setCategoryId(cate.getId());
+			}
+		    
+		    con.setOneContract(id1);
+			con.setTwoContract(id2);
+			con.setThreeContract(id3);
+			con.setOneBil(id4);
+			con.setTwoBil(id5);
+			con.setThreeBil(id6);
+			
+			contractList.add(con);
 		}
 		// 分页,pageSize == 10
 		PageInfo < SupplierItem > pageInfo = new PageInfo < SupplierItem > (itemsList);
 		model.addAttribute("result", pageInfo);
-		model.addAttribute("contract", contract);
+		model.addAttribute("contract", contractList);
 		// 年份
 		List < Integer > years = supplierService.getThressYear();
 		model.addAttribute("years", years);
@@ -2794,7 +2814,14 @@ public class SupplierController extends BaseSupplierController {
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
 		s.setSupplierId(supplierId);;
-		s.setAuditType("contract_page");
+		//s.setAuditType("contract_page");
+		s.setAuditType(ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		if(ses.util.Constant.SUPPLIER_PRODUCT.equals(supplierTypeId)){
+			s.setAuditType(ses.util.Constant.CONTRACT_PRODUCT_PAGE);
+		}
+		if(ses.util.Constant.SUPPLIER_SALES.equals(supplierTypeId)){
+			s.setAuditType(ses.util.Constant.CONTRACT_SALES_PAGE);
+		}
 		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
 
 		StringBuffer errorField = new StringBuffer();
@@ -2802,6 +2829,7 @@ public class SupplierController extends BaseSupplierController {
 			errorField.append(audit.getAuditField() + ",");
 		}
 		model.addAttribute("audit", errorField);
+		model.addAttribute("auditType", s.getAuditType());
 		
 		// 查询供应商get(supplierId)
 		Supplier currSupplier = supplierService.selectById(supplierId);

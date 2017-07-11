@@ -344,7 +344,7 @@
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
-							</ul>
+							</ul>${audit}==${auditType}
 							<div class="tab-content padding-top-20 pr border0 p0" id="tab_content_div_id">
 								<c:set value="0" var="divCount" />
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(proQua) > 0}">
@@ -358,12 +358,12 @@
 											<c:forEach items="${proQua }" var="obj">
 												<tr>
 													<td width="18%">${obj.categoryName }</td>
-													<td>
+													<td>${obj.categoryId}
 														<c:forEach items="${obj.list }" var="quaPro">
 															<c:set value="${prolength+1}" var="prolength"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaPro.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${quaPro.flag}','aptitude_page')"</c:if>>
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,obj.categoryId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${obj.categoryId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,quaPro.flag) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,obj.categoryId) && currSupplier.status==2}">
 																		<u:show showId="pShow${prolength}" delete="false" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -393,12 +393,11 @@
 												<tr>
 													<td class="w200">${sale.categoryName } </td>
 													<td>
-
 														<c:forEach items="${sale.list }" var="saua">
 															<c:set value="${length+1}" var="length"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,saua.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${saua.flag}','aptitude_page')"</c:if>>
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,sale.categoryId)}">style="border: 1px solid red;" onmouseover="errorMsg(this,'${sale.categoryId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,saua.flag) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,sale.categoryId) && currSupplier.status==2}">
 																		<u:show showId="saleShow${length}" delete="false" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>
@@ -418,7 +417,7 @@
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-3">
-										<h2 class="f16  ">
+										<h2 class="f16">
 											<font color="red">*</font> 上传工程资质文件
 										</h2>
 										<form id="item_form" method="post" class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
@@ -439,8 +438,8 @@
 												</tr>
 												</thead>
 												<c:forEach items="${allTreeList}" var="cate" varStatus="vs">
-													<tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg(this, '${cate.itemsId}','aptitude_page')"</c:if>>
-														<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+													<tr <c:if test="${fn:contains(audit,cate.categoryId)}">onmouseover="errorMsg(this, '${cate.categoryId}','${auditType}')"</c:if>>
+														<td class="tc" <c:if test="${fn:contains(audit,cate.categoryId)}">style="border: 1px solid red;" </c:if>>${cate.categoryId }
 															<div class="w50"> ${vs.index + 1}</div>
 															<input type="hidden" name="listSupplierItems[${vs.index}].id" value="${cate.itemsId}">
 														</td>
@@ -456,7 +455,7 @@
                                                             <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
                                                                 <div class="w200 lh30">${cate.thirdNode}</div>
                                                             </td>--%>
-														<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+														<td class="tc" <c:if test="${fn:contains(audit,cate.categoryId)}">style="border: 1px solid red;" </c:if>>
 															<div class="w200 lh30">
 																<c:choose>
 																	<c:when test="${cate.fourthNode!=null}">
@@ -482,7 +481,7 @@
 																</c:choose>
 															</div>
 														</td>
-														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+														<td <c:if test="${fn:contains(audit,cate.categoryId)}">style="border: 1px solid red;" </c:if>>
 															<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].qualificationType" id="listSupplierItems${vs.index}qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')">
 																<c:forEach items="${cate.typeList}" var="type">
 																	<option value="${type.id}" <c:if test="${cate.qualificationType eq type.id}">selected</c:if>>${type.name}</option>
@@ -490,11 +489,11 @@
 															</select>
 
 														</td>
-														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+														<td <c:if test="${fn:contains(audit,cate.categoryId)}">style="border: 1px solid red;" </c:if>>
 															<input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')">
 														</td>
 
-														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+														<td <c:if test="${fn:contains(audit,cate.categoryId)}">style="border: 1px solid red;" </c:if>>
 															<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].professType" onchange="getFileByCode(this, '${vs.index}', '3')">
 																<option value="${cate.proName}" selected="selected">${cate.proName}</option>
 															</select>
@@ -503,7 +502,7 @@
 															 --%>
 														</td>
 
-														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+														<td <c:if test="${fn:contains(audit,cate.categoryId)}">style="border: 1px solid red;" </c:if>>
 															<input type="hidden" name="listSupplierItems[${vs.index}].level" id="listSupplierItems${vs.index}" value="${cate.level.id}" class="w80">
 															<input type="text" readonly="readonly" class="border0" value="${cate.level.name}" onload="getFileByCode(this, '${vs.index}', '3')">
 														</td>
@@ -527,7 +526,7 @@
 															</script>
 														</c:if>
 														<td class="tc"
-															<c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if> >
+															<c:if test="${fn:contains(audit,cate.categoryId)}">style="border: 1px solid red;" </c:if> >
 															<div class="w110 fl">
 																<u:show showId="eng_show_${vs.index}" delete="false" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
 															</div>
@@ -554,9 +553,9 @@
 													<td>
 														<c:forEach items="${server.list }" var="ser">
 															<c:set value="${slength+1}" var="slength"></c:set>
-															<div class="fl mr5" <c:if test="${fn:contains(audit,ser.flag)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${ser.flag}','aptitude_page')"</c:if>>
+															<div class="fl mr5" <c:if test="${fn:contains(audit,server.categoryId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${server.categoryId}','${auditType}')"</c:if>>
 																<c:choose>
-																	<c:when test="${!fn:contains(audit,ser.flag) && currSupplier.status==2}">
+																	<c:when test="${!fn:contains(audit,server.categoryId) && currSupplier.status==2}">
 																		<u:show showId="serverShow${slength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 																	</c:when>
 																	<c:otherwise>

@@ -748,6 +748,7 @@ public class SupplierServiceImpl implements SupplierService {
         List<Qualification> qua = get(categoryQua, category.getParentId());
         if (qua.size() != 0) {
           newList.add(list.get(i));
+          quaBean.setCategoryId(category.getId());
           quaBean.setCategoryName(category.getName());
           quaBean.setList(qua);
           quaList.add(quaBean);

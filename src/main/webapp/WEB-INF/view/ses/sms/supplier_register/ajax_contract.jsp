@@ -132,16 +132,17 @@
 					</c:forEach>
 				</tr>
 				<c:forEach items="${contract}" var="obj" varStatus="vs">
-					<tr
-						<c:if test="${fn:contains(audit,obj.id)}"> onmouseover="errorMsg(this,'${obj.id}','contract_page')"</c:if>>
-						<td class="tl pl20"
-							<c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>${obj.name}</td>
+					<tr>
+						<%-- <td class="tl pl20"
+							<c:if test="${fn:contains(audit,obj.categoryId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${obj.categoryId}','${auditType}')"</c:if>>${obj.name}</td> --%>
+						<td class="tl pl20">${obj.name}</td>
+						<c:set var="cateIdAndTypeId" value="${obj.categoryId}_${obj.oneContract}"/>
 						<td
-							<c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
+							<c:if test="${fn:contains(audit,cateIdAndTypeId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${cateIdAndTypeId}','${auditType}')"</c:if>>
 							<div class="w130 fl">
 								<c:choose>
 									<c:when
-										test="${currSupplier.status==2 && !fn:contains(audit,obj.id)}">
+										test="${currSupplier.status==2 && !fn:contains(audit,cateIdAndTypeId)}">
 										<u:show showId="${fileShow}${(vs.index + 1)*6-1}"
 											delete="false" businessId="${obj.id}" sysKey="${sysKey}"
 											typeId="${obj.oneContract}" />
@@ -160,12 +161,13 @@
 								</c:choose>
 							</div>
 						</td>
+						<c:set var="cateIdAndTypeId" value="${obj.categoryId}_${obj.twoContract}"/>
 						<td
-							<c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
+							<c:if test="${fn:contains(audit,cateIdAndTypeId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${cateIdAndTypeId}','${auditType}')"</c:if>>
 							<div class="w130 fl">
 								<c:choose>
 									<c:when
-										test="${currSupplier.status==2 && !fn:contains(audit,obj.id)}">
+										test="${currSupplier.status==2 && !fn:contains(audit,cateIdAndTypeId)}">
 										<u:show showId="${fileShow}${(vs.index + 1)*6-2}"
 											delete="false" businessId="${obj.id}" sysKey="${sysKey}"
 											typeId="${obj.twoContract}" />
@@ -184,12 +186,13 @@
 								</c:choose>
 							</div>
 						</td>
+						<c:set var="cateIdAndTypeId" value="${obj.categoryId}_${obj.threeContract}"/>
 						<td
-							<c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
+							<c:if test="${fn:contains(audit,cateIdAndTypeId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${cateIdAndTypeId}','${auditType}')"</c:if>>
 							<div class="w130 fl">
 								<c:choose>
 									<c:when
-										test="${currSupplier.status==2 && !fn:contains(audit,obj.id)}">
+										test="${currSupplier.status==2 && !fn:contains(audit,cateIdAndTypeId)}">
 										<u:show showId="${fileShow}${(vs.index + 1)*6-3}"
 											delete="false" businessId="${obj.id}" sysKey="${sysKey}"
 											typeId="${obj.threeContract}" />
@@ -208,12 +211,13 @@
 								</c:choose>
 							</div>
 						</td>
+						<c:set var="cateIdAndTypeId" value="${obj.categoryId}_${obj.oneBil}"/>
 						<td
-							<c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
+							<c:if test="${fn:contains(audit,cateIdAndTypeId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${cateIdAndTypeId}','${auditType}')"</c:if>>
 							<div class="w130 fl">
 								<c:choose>
 									<c:when
-										test="${currSupplier.status==2 && !fn:contains(audit,obj.id)}">
+										test="${currSupplier.status==2 && !fn:contains(audit,cateIdAndTypeId)}">
 										<u:show showId="${fileShow}${(vs.index + 1)*6-4}"
 											delete="false" businessId="${obj.id}" sysKey="${sysKey}"
 											typeId="${obj.oneBil}" />
@@ -232,12 +236,13 @@
 								</c:choose>
 							</div>
 						</td>
+						<c:set var="cateIdAndTypeId" value="${obj.categoryId}_${obj.twoBil}"/>
 						<td
-							<c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
+							<c:if test="${fn:contains(audit,cateIdAndTypeId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${cateIdAndTypeId}','${auditType}')"</c:if>>
 							<div class="w130 fl">
 								<c:choose>
 									<c:when
-										test="${currSupplier.status==2 && !fn:contains(audit,obj.id)}">
+										test="${currSupplier.status==2 && !fn:contains(audit,cateIdAndTypeId)}">
 										<u:show showId="${fileShow}${(vs.index + 1)*6-5}"
 											delete="false" businessId="${obj.id}" sysKey="${sysKey}"
 											typeId="${obj.twoBil}" />
@@ -256,12 +261,13 @@
 								</c:choose>
 							</div>
 						</td>
+						<c:set var="cateIdAndTypeId" value="${obj.categoryId}_${obj.threeBil}"/>
 						<td
-							<c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
+							<c:if test="${fn:contains(audit,cateIdAndTypeId)}">style="border: 1px solid red;" onmouseover="errorMsg(this, '${cateIdAndTypeId}','${auditType}')"</c:if>>
 							<div class="w130 fl">
 								<c:choose>
 									<c:when
-										test="${currSupplier.status==2 && !fn:contains(audit,obj.id)}">
+										test="${currSupplier.status==2 && !fn:contains(audit,cateIdAndTypeId)}">
 										<u:show showId="${fileShow}${(vs.index + 1)*6-6}"
 											delete="false" businessId="${obj.id}" sysKey="${sysKey}"
 											typeId="${obj.threeBil}" />
