@@ -693,7 +693,7 @@
                     <td class="tc" width="12%">${ item.orgName }</td>
                     <td class="tl" width="34%">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
                     <td class="tl" width="15%">
-                      <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
+                      <fmt:formatDate value="${item.auditDate}" pattern="yyyy-MM-dd"></fmt:formatDate>
                     </td>
                   </tr>
                   </c:forEach>
@@ -888,7 +888,7 @@
                   <td class="tc" width="15%">${ item.orgName }</td>
                   <td class="tl" width="30%">同意入库，选择了${ item.passCateCount }个小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</td>
                   <td class="tl" width="25%">
-                  <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
+                  <fmt:formatDate value="${item.auditAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
                   </td>
                 </tr>
               </c:forEach> 

@@ -263,6 +263,21 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
         return mapper.selectPassCateByExpertId(map);
     }
 
+	/**
+	 *
+	 * Description:保存专家选择的小类
+	 *
+	 * @author Easong
+	 * @version 2017/7/11
+	 * @param [expertCategory]
+	 * @since JDK1.7
+	 */
+	@Override
+	public void insertSelective(ExpertCategory expertCategory) {
+    	mapper.insertSelective(expertCategory);
+
+	}
+
 
 }
  

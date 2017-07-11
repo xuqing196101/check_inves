@@ -2014,7 +2014,7 @@
 	<!-- 查询公示的供应商 -->
 	<select id="selectSupByPublicty" resultMap="supplierOfPublicityMap">
 		  SELECT
-		   ID, UPDATED_AT
+		   ID, AUDIT_DATE
 		   FROM T_SES_SMS_SUPPLIER
 		   WHERE
 		   IS_PROVISIONAL = '0'
@@ -2025,7 +2025,7 @@
 	
 	<!-- 查询公示的供应商 列表 -->
 	<select id="selectSupByPublictyList" resultMap="supplierOfPublicityMapList" parameterType="ses.model.sms.SupplierPublicity">
-		SELECT T.ID, T.SUPPLIER_NAME, DT.NAME AS BUSINESS_NATURE, T.UPDATED_AT, ORG.SHORT_NAME AS ORGNAME
+		SELECT T.ID, T.SUPPLIER_NAME, DT.NAME AS BUSINESS_NATURE, T.AUDIT_DATE, ORG.SHORT_NAME AS ORGNAME
 		  FROM T_SES_SMS_SUPPLIER T
 		  LEFT JOIN (SELECT T.SUPPLIER_ID,
 		    	WM_CONCAT(SUPPLIER_TYPE_ID) AS SUPPLIER_TYPE_ID
@@ -2053,7 +2053,7 @@
 		   <if test="orgId != null and orgId != ''">
 			   AND DEP.ID = #{orgId}
 		   </if>
-		 ORDER BY T.UPDATED_AT
+		 ORDER BY T.AUDIT_DATE
 	</select>
 
 	<!-- 根据公示时间查询公示的供应商 -->
@@ -2062,10 +2062,10 @@
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER T
 		WHERE T.SUPPLIER_STATUS = #{status}
-		AND T.UPDATED_AT &gt;=
+		AND T.AUDIT_DATE &gt;=
 		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND
-		T.UPDATED_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd
+		T.AUDIT_DATE &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd
 		hh24:mi:ss')
 	</select>
 </mapper>

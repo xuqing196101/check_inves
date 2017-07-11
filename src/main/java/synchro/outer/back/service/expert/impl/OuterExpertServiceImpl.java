@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertAuditFileModifyMapper;
 import ses.dao.ems.ExpertAuditMapper;
+import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertEngHistoryMapper;
 import ses.dao.ems.ExpertEngModifyMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ExpertTitleMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
@@ -27,6 +29,7 @@ import ses.model.ems.ExpertTitle;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
+import ses.util.DictionaryDataUtil;
 import synchro.outer.back.service.expert.OuterExpertService;
 import synchro.service.SynchRecordService;
 import synchro.util.DateUtils;
@@ -92,10 +95,13 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     @Autowired
     private ExpertMapper expertMapper;
 
+    @Autowired
+    private ExpertCategoryMapper expertCategoryMapper;
+
     /**
      * @see synchro.outer.back.service.supplier.OuterReadExpertService#backupCreated()
      */
-    
+
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -223,6 +229,11 @@ public class OuterExpertServiceImpl implements OuterExpertService {
                     expert.setExpertAuditFileModifyList(expertAuditFileModifyList);
                 }
                 expert.setAttchList(getAttch(expert.getId()));
+                // 查询专家选择的小类
+                // 查询军队专家类型
+                DictionaryData dict = DictionaryDataUtil.get("ARMY");
+                if(dict != null && dict.getId().equals(expert.getExpertsFrom()))
+                expert.setExpertCategory(expertCategoryMapper.findByExpertId(expert.getId()));
                 experts.add(expert);
             }
         }
