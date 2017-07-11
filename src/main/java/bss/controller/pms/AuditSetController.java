@@ -117,8 +117,8 @@ public class AuditSetController {
 		String type = "";
 		String auditRound="";
 		if(plan.getStatus()==1&&plan.getAuditTurn()!=null){
-			plan.setStatus(3);
-			collectPlanService.update(plan);
+			//plan.setStatus(3);
+			//collectPlanService.update(plan);
 			type = DictionaryDataUtil.getId("SH_1");
 			auditRound="第一轮审核设置";
 		}
@@ -156,7 +156,11 @@ public class AuditSetController {
 		model.addAttribute("id", id);
 		model.addAttribute("kind", DictionaryDataUtil.find(4));
 		model.addAttribute("type", type);
-		model.addAttribute("staff", staff);
+		if (listAudit != null && listAudit.size() > 0 && staff == null) {
+		  model.addAttribute("staff", listAudit.get(0).getAuditStaff());
+    }else {
+      model.addAttribute("staff", staff);
+    }
 		return "bss/pms/collect/auditset";
 	}
 	/**
@@ -252,7 +256,7 @@ public class AuditSetController {
 	/**
 	 * 
 	* @Title: getExpert
-	* @Description: 查询所有专家
+	* @Description: 查询所有入库专家
 	* author: Li Xiaoxiao 
 	* @param @param page
 	* @param @param expert
@@ -264,6 +268,7 @@ public class AuditSetController {
 	@RequestMapping("/expert")
 	public String getExpert(Integer page,Expert expert,Model model,HttpServletRequest request,String satff){
 		String type = request.getParameter("type");
+		expert.setStatus("4");
 		List<Expert> list = expertService.selectAllExpert(page==null?1:page, expert);
 		PageInfo<Expert> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
@@ -287,7 +292,7 @@ public class AuditSetController {
 	@RequestMapping("/user")
 	public String getUser(Integer page,User user,Model model,HttpServletRequest request){
 		String type = request.getParameter("type");
-		List<User> list = userServiceI.list(user, page==null?1:page);
+		List<User> list = userServiceI.queryBackendUser(user, page==null?1:page);
 		PageInfo<User> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("user", user);
@@ -309,12 +314,12 @@ public class AuditSetController {
 	public String add(AuditPerson auditPerson,String id,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		Integer num=0;
-		 Expert expert = expertService.selectByPrimaryKey(id);
+		Expert expert = expertService.selectByPrimaryKey(id);
 //		 if(auditPerson.getType()==1){
-			 map.put("auditRound", auditPerson.getAuditRound());
-			 map.put("collectId", auditPerson.getCollectId());
-			 map.put("userId", expert.getId());
-			 num = auditPersonService.findUserByCondition(map);
+	  map.put("auditRound", auditPerson.getAuditRound());
+	  map.put("collectId", auditPerson.getCollectId());
+	  map.put("userId", expert.getId());
+	  num = auditPersonService.findUserByCondition(map);
 		
 //		 }
 //		 if(auditPerson.getType()==2){
@@ -324,8 +329,8 @@ public class AuditSetController {
 //			 map.put("userId", user.getId());
 //			 num = auditPersonService.findUserByCondition(map);
 //		 }
-		 if(num==1){
-			 return "error";
+		if(num==1){
+			 return JSON.toJSONString("error");
 		}else{
 			auditPerson.setName(expert.getRelName());
 			auditPerson.setMobile(expert.getMobile());

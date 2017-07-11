@@ -145,13 +145,14 @@
       function beforeExperts() {
         var ap = $("#userList tr:last td:first input:last").val();
         var tp = Number($(".tempPersonIndex:first").val());
+        experts();
         if(isNaN(ap) && isNaN(tp)) {
-          experts();
+          //experts();
         } else {
-          cleanErr();
+          /* cleanErr();
           layer.alert("只能有一个审核人员", {
             offset: ['30%', '40%']
-          });
+          }); */
           /*  var index = Number($(".tempPersonIndex:first").val());
             var auditNature = $("#audit_nature").val();
             var turns=$("#auditRound").val();
@@ -224,13 +225,14 @@
       function beforeUsers() {
         var ap = $("#userList tr:last td:first input:last").val();
         var tp = Number($(".tempPersonIndex:first").val());
+        users();
         if(isNaN(ap) && isNaN(tp)) {
-          users();
+          //users();
         } else {
-          cleanErr();
-          layer.alert("只能有一个审核人员", {
+          /*cleanErr();
+           layer.alert("只能有一个审核人员", {
             offset: ['30%', '40%']
-          });
+          }); */
           //        var index = Number($(".tempPersonIndex:first").val());
           //      var auditNature = $("#audit_nature").val();
           //      var turns=$("#auditRound").val();
@@ -306,13 +308,14 @@
           type: "POST",
           dataType: "json",
           success: function(msg) {
-            if(msg == 1) {
+            /* if(msg == 1) {
               layer.alert("只能有一个审核人员", {
                 offset: ['30%', '40%']
               });
             } else {
               temp();
-            }
+            } */
+            temp();
           }
         })
       }
@@ -489,6 +492,8 @@
               });
             }
           });
+        }else{
+        	layer.msg('请选择要删除的人员', {offset: ['40%', '45%']});
         }
 
       }

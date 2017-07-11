@@ -137,10 +137,15 @@
             dataType: "json",
             url: "${pageContext.request.contextPath }/look/auditStatus.do?id=" + id,
             success: function(data) {
-              if(data == 0) {
-                layer.alert("请设置审核人员");
-              }
-              if(data == 1) {
+              if(data == 3 || data == 5 || data == 7){
+              	layer.alert("已设置审核轮次，请审核");
+              } else if(data == 0 || data == 4 || data == 6){
+              	layer.alert("已设置审核轮次，请设置审核人员");
+              } else if(data == 8){
+              	layer.alert("审核结束");
+              } else if(data == 12){
+              	layer.alert("已直接下达");
+              } else if(data == 1) {
                 index = layer.open({
                   type: 1, //page层
                   area: ['300px', '200px'],
@@ -152,6 +157,8 @@
                   offset: ['80px', '600px'],
                   content: $('#content'),
                 });
+              }else{
+              	layer.alert("已设置审核轮次");
               }
             }
           });

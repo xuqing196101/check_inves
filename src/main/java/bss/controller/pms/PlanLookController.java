@@ -609,11 +609,16 @@ public class PlanLookController extends BaseController {
 		String str = null;
 		String id = request.getParameter("id");
 		CollectPlan plan = collectPlanService.queryById(id);
-		if(plan.getStatus()==1){
+		/*if(plan.getStatus()==1){
 			str = "1";
 		}else{
 			str = "0";
-		}
+		}*/
+		if(plan.getStatus() != null && plan.getStatus() == 1 && plan.getAuditTurn() != null){
+      str = "0";
+    } else {
+      str = plan.getStatus().toString();
+    }
 		return str;
 	}
 	@RequestMapping("/auditByDepartment")
