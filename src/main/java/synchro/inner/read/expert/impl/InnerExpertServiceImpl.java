@@ -1,27 +1,37 @@
 package synchro.inner.read.expert.impl;
 
-import java.io.File;
-import java.util.List;
-
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
-
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
 import ses.dao.bms.UserMapper;
-import ses.dao.ems.*;
+import ses.dao.ems.ExpertAuditFileModifyMapper;
+import ses.dao.ems.ExpertAuditMapper;
+import ses.dao.ems.ExpertEngHistoryMapper;
+import ses.dao.ems.ExpertEngModifyMapper;
+import ses.dao.ems.ExpertMapper;
+import ses.dao.ems.ExpertTitleMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.RoleUser;
 import ses.model.bms.User;
-import ses.model.bms.Userrole;
-import ses.model.ems.*;
+import ses.model.ems.Expert;
+import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertAuditFileModify;
+import ses.model.ems.ExpertCategory;
+import ses.model.ems.ExpertEngHistory;
+import ses.model.ems.ExpertHistory;
+import ses.model.ems.ExpertTitle;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
+import ses.util.DictionaryDataUtil;
 import synchro.inner.read.expert.InnerExpertService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * 
@@ -283,6 +293,18 @@ public class InnerExpertServiceImpl implements InnerExpertService {
                 }
             }
         }
+        // 查询军队专家类型
+        DictionaryData dict = DictionaryDataUtil.get("ARMY");
+        if(dict != null && dict.getId().equals(expert.getExpertsFrom())){
+            // 将军地专家选择小类插入到数据库中
+            List<ExpertCategory> expertCategoryList = expert.getExpertCategory();
+            if(expertCategoryList != null && !expertCategoryList.isEmpty()){
+                for (ExpertCategory expertCategory: expertCategoryList){
+                    expertCategoryService.insertSelective(expertCategory);
+                }
+            }
+        }
+
     }
 
     /**

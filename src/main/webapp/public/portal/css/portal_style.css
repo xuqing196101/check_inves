@@ -33,8 +33,16 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
   font-family: "Open Sans", Arial, sans-serif;
 }
+h2 {
+  font-size: 24px;
+  line-height: 33px;
+}
 li {
   text-decoration: none;
+}
+/* 表单input提示语隐藏 */
+.input-tip {
+  display: none;
 }
 
 /*
@@ -313,6 +321,23 @@ li {
 }
 /* 评审专家结束*/
 
+/* 供应商、专家注册须知页面文件下载修改 */
+.m_download {
+  padding: 12px 24px;
+  background: url(../images/download.png) no-repeat 0px;
+  margin-left: 5px;
+}
+.font-20 {
+  font-size: 20px;
+}
+.list_new li a.publicityCss {
+  display: inline-block;
+  vertical-align: top;
+  color: #2c9fa6;
+  text-decoration: none;
+}
+/* 供应商、专家注册须知页面文件下载修改结束 */
+
 /* 采购服务 */
 .navbar-nav > .cgfw_li > a > .cgfw {
   background-position: -671px -122px;
@@ -349,6 +374,32 @@ a.news_more {
 }
 a.news_more:hover {
   color: #2C9FA6 !important;
+}
+.container_box {
+  margin-top: 20px;
+  padding-bottom: 20px;
+  border: 1px solid #eeeeee;
+  background-color: #FBFBFB!important;
+}
+.ul_list {
+  list-style-type: none;
+  font-size: 14px;
+  background: rgb(255, 255, 255) !important;
+  border-width: 1px !important;
+  border-style: dashed !important;
+  border-color: rgb(214, 204, 204) !important;
+  border-image:  !important;
+  padding: 20px 20px 10px !important;
+  width:100%;
+  float: left;
+}
+.star_red {
+  height: 20px;
+  line-height: 20px;
+  margin-right: 5px;
+  display: inline-block;
+  font-size: small;
+  color: #ef0000;
 }
 /* 投诉处理结束*/
 
@@ -998,13 +1049,20 @@ span.list_squre {
 .flow_one {
   margin-right: 14px;
 }
+.drop_main .ywbl_01 {
+  width: 131px;
+  height: 104px;
+  background: url(../images/flow_bg.jpg) center;
+  float: left;
+  margin: 4px;
+}
 .flow_btn {
   padding: 3px 5px;
   border: 1px solid #eee;
   overflow: hidden;
   margin-bottom: 10px;
 }
-.flow_btn a i {
+.flow_btn a i, .drop_main a i {
   background-image: url(../images/portal_icon.png);
   background-repeat: no-repeat;
 }
@@ -1238,6 +1296,20 @@ a.yjfk i {
 .new_content {
   line-height: 30px;
 }
+.li_square {
+  list-style-type: none;
+  padding: 0px;
+  clear: both;
+  margin-top: 10px;
+}
+.li_square li {
+  border-bottom: 1px dashed #e2e2e2;
+  font-size: 14px!important;
+  overflow: hidden;
+}
+.li_square a:hover {
+  color: #ff9000;
+}
 @media (max-width:768px) {
   .details_box .f22{
     font-size:16px;
@@ -1282,6 +1354,11 @@ a.yjfk i {
 /*
 * 采购论坛样式开始
 */
+.avatar-48 {
+  width: 48px;
+  height: 48px;
+  border-radius: 120px!important;
+}
 .home-icons .item {
   text-align: center;
   margin-bottom: 15px;
@@ -1304,6 +1381,15 @@ a.yjfk i {
   width:100%;
   height:auto;
 }
+.home-icons .item .text {
+  display: block;
+  text-align: center;
+  background: #F5F5F5;
+  border-top: 1px solid #E9E9E9;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 0 0 3px 3px;
+}
 .home-icons .item .text a {
   display: block;
   color: #666;
@@ -1321,6 +1407,19 @@ a.yjfk i {
 .panel .panel-heading {
   padding: 5px 15px;
   color: #333;
+}
+.to_top{
+  margin-top: 15px;
+  background: #6d6afb;
+  line-height: 11px;
+  color: #fff;
+  text-align: center;
+  border-radius: 40px!important;
+  padding: 0px 7px!important;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 12px!important;
+  margin-right: 0px!important;
 }
 /*
 * 采购论坛样式结束
@@ -1663,5 +1762,35 @@ img.sign_left_image {
     font-size: 12px !important;
   }
 }
-	
 /* 主导航供应商和专家滚动表格结束 */
+
+/* APP二维码开始 */
+.m_app_code {
+  position: fixed;
+  top: 10%;
+  right: -148px;
+  z-index: 100;
+  overflow: hidden;
+}
+.m_app_code span {
+  display: block;
+  padding: 10px 12px;
+  overflow: hidden;
+  background-color: #FCBE3F;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  float: left;
+  cursor: pointer;
+}
+.m_app_code .mac_img {
+  float: left;
+}
+.m_app_code.hover {
+  right: 0;
+}
+.m_app_code .mac_img img {
+  height : 148px;
+  width : 148px;
+}
+/* APP二维码结束 */

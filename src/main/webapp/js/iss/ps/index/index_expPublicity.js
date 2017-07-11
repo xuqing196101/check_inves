@@ -101,7 +101,7 @@ function loadData(data,index,pageNum,pageSize){
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2' title="+ data.expertsTypeId +">"+data.expertsTypeId+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+data.orgName+"</span>"
              + "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个小类，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个小类"+"</span>"
-             + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd', data.updatedAt)+"</span>"
+             + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd', data.auditAt)+"</span>"
 		     html += "</li>";
 	$("#expPublicityList").append(html);
 }

@@ -11,7 +11,7 @@
 <title>${properties['system.title']}</title>
 <head>
 <!--导航js-->
-<%@ include file="/WEB-INF/view/portal.jsp" %>
+<%@ include file="/WEB-INF/view/portal_only.jsp" %>
 <script type="text/javascript"> 
   $(function(){
     /* 导航延迟两秒 */
@@ -487,7 +487,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12 drop_hover">
         <div class="drop_main">
           
-          <div class="col-md-4 col-sm-6 col-xs-12 mt25" id="drop-1">
+          <div class="col-md-4 col-sm-6 col-xs-12 mt25 m_nav_btn" id="drop-1">
             <div class="ywbl_01 col-md-6 col-sm-6 col-xs-6">
               <% if (environment != null && environment.equals("1")){ %>
               <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
@@ -693,7 +693,7 @@
                     <td class="tc" width="12%">${ item.orgName }</td>
                     <td class="tl" width="34%">同意入库，选择了${ item.passCateCount }个产品类别，通过了${ item.passCateCount - item.noPassCateCount }个产品类别</td>
                     <td class="tl" width="15%">
-                      <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
+                      <fmt:formatDate value="${item.auditDate}" pattern="yyyy-MM-dd"></fmt:formatDate>
                     </td>
                   </tr>
                   </c:forEach>
@@ -888,7 +888,7 @@
                   <td class="tc" width="15%">${ item.orgName }</td>
                   <td class="tl" width="30%">同意入库，选择了${ item.passCateCount }个小类，通过了${ item.passCateCount - item.noPassCateCount }个小类</td>
                   <td class="tl" width="25%">
-                  <fmt:formatDate value="${item.updatedAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
+                  <fmt:formatDate value="${item.auditAt}" pattern="yyyy-MM-dd"></fmt:formatDate>
                   </td>
                 </tr>
               </c:forEach> 

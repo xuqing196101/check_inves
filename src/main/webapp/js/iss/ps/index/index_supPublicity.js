@@ -107,7 +107,7 @@ function loadData(data,index,pageNum,pageSize){
 		     + "  <span class='col-md-1 col-xs-1 col-sm-1'>"+data.businessNature+"</span>"
 		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+data.orgName+"</span>"
              + "  <span class='col-md-4 col-xs-4 col-sm-4'>"+"同意入库，选择了"+data.passCateCount+"个产品类别，通过了<a class='publicityCss' href=\"javascript:;\" onclick=\"loadItem('"+data.id+"')\">"+(data.passCateCount - data.noPassCateCount)+"</a>个产品类别"+"</span>"
-		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd', data.updatedAt)+"</span>"
+		     + "  <span class='col-md-2 col-xs-2 col-sm-2'>"+timestampToDate('yyyy-MM-dd', data.auditDate)+"</span>"
 		     html += "</li>";
 	$("#supPublicityList").append(html);
 }
