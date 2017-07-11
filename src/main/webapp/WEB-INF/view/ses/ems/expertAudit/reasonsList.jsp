@@ -326,7 +326,9 @@
             </ul>
             <h2 class="count_flow"><i>1</i>审核汇总信息</h2>
             <ul class="ul_list count_flow">
+              <c:if test="${status == 0 || (sign ==2 && status ==1) || status ==6}">
                 <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
+              </c:if>  
                 <table class="table table-bordered table-condensed table-hover">
                     <thead>
                     <tr>
@@ -419,7 +421,7 @@
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不合格" id="butongguo">
                         <input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
                     </c:if>
-                    <c:if test="${status eq '1'}">
+                    <c:if test="${status eq '1' && sign eq '2'}">
                         <span id="tongguoSpan"><input class="btn btn-windows git" type="button" onclick="shenhe(-2);" value="预复审合格 " id="tongguo"></span>
                         <span class="display-none" id="publicity"><input class="btn btn-windows apply" type="button" onclick="shenhe(-3);" value="公示 "></span>
                         <input class="btn btn-windows edit" type="button" onclick="shenhe(5);" value="复审不合格" id="tichu">

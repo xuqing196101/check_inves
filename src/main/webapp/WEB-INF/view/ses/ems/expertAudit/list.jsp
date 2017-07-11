@@ -360,83 +360,84 @@
           <c:forEach items="${expertList}" var="expert" varStatus="vs">
             <tr>
               <td class="tc w50"><input name="id" type="checkbox" value="${expert.id}"></td>
-              <td class="tc w50" onclick="shenhe('${expert.id}');">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
-              <td class="tl" onclick="shenhe('${expert.id}');" title="${expert.relName}">
-                <c:if test="${fn:length(expert.relName) >4 }">${fn:substring(expert.relName,0,4)}...</c:if>
-                <c:if test="${fn:length(expert.relName) <=4}">${expert.relName}</c:if>
-                <td class="tc" onclick="shenhe('${expert.id}');">${expert.sex}</td>
-                <td class="tc" onclick="shenhe('${expert.id}');">${expert.mobile}</td>
-                <%--<td class="tl">${expert.expertsTypeId}</td>--%>
-                <td class="tl" onclick="shenhe('${expert.id}');" title="${expert.graduateSchool }">
-                  <c:if test="${fn:length(expert.graduateSchool) >8 }">${fn:substring(expert.graduateSchool,0,8)}...</c:if>
-                  <c:if test="${fn:length(expert.graduateSchool) <=8}">${expert.graduateSchool}</c:if>
-                </td>
-                <td class="tl" onclick="shenhe('${expert.id}');" title="${expert.workUnit }">
-                  <c:if test="${fn:length(expert.workUnit) >8}">${fn:substring(expert.workUnit,0,8)}...</c:if>
-                  <c:if test="${fn:length(expert.workUnit) <=8}">${expert.workUnit}</c:if>
-                </td>
-                <td class="tc" onclick="shenhe('${expert.id}');">
-                  <fmt:formatDate type='date' value='${expert.auditAt }' dateStyle="default" pattern="yyyy-MM-dd" />
-                </td>
-                <td class="tc" onclick="shenhe('${expert.id}');">
-                  <fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
-                </td>
-                <td class="tl" onclick="shenhe('${expert.id}');">${expert.orgName }</td>
-                <td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">
-                  <c:if test="${expert.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
-                  <c:if test="${expert.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
-                </td>
-                <c:if test="${(sign == 1 and expert.status eq '0' and expert.auditTemporary ne '1')}">
-                  <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待初审</span></td>
-                </c:if>
-                <c:if test="${sign == 1 and expert.status eq '0' and expert.auditTemporary eq '1'}">
-                  <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">初审中</span></td>
-                </c:if>
-                <c:if test="${sign == 1 and expert.status eq '1' }">
-                  <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">初审合格</span></td>
-                </c:if>
-                <c:if test="${sign == 1 and expert.status eq '2' }">
-                  <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">初审未合格</span></td>
-                </c:if>
-                <c:if test="${sign == 1 and expert.status eq '3' }">
-                  <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">退回修改</span></td>
-                </c:if>
-                <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary ne '2'}">
-                  <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复审</span></td>
-                </c:if>
-                <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary eq '2'}">
-                  <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复审中</span></td>
-                </c:if>
-                <c:if test="${sign == 2 and expert.status eq '4' }">
-                  <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审合格</span></td>
-                </c:if>
-                <c:if test="${sign == 2 and expert.status eq '-2' }">
-                  <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审预合格</span></td>
-                </c:if>
-                <c:if test="${sign == 2 and expert.status eq '-3' }">
-                  <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">公示中</span></td>
-                 </c:if>
-                <c:if test="${sign == 2 and expert.status eq '5' }">
-                  <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审不合格</span></td>
-                </c:if>
-                <c:if test="${sign == 3 and expert.status eq '6' and expert.auditTemporary ne '3'}">
-                  <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复查</span></td>
-                </c:if>
-                <c:if test="${sign == 3 and expert.status eq '6' and expert.auditTemporary eq '3'}">
-                  <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复查中</span></td>
-                </c:if>
-                <c:if test="${sign == 3 and expert.status eq '7' }">
-                  <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查合格</span></td>
-                </c:if>
-                <c:if test="${sign == 3 and expert.status eq '8' }">
-                  <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查未合格</span></td>
-                </c:if>
-                <td class="" onclick="shenhe('${expert.id}');">
-                  <c:choose>
-                    <c:when test="${expert.auditor ==null or expert.auditor == ''}">无</c:when>
-                    <c:otherwise>${expert.auditor}</c:otherwise>
-                  </c:choose>
-                </td>
+              <td class="tc w50">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
+              <td class="tl" title="${expert.relName}">
+                <c:if test="${fn:length(expert.relName) >4 }"><a href="${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId=${expert.id}&sign=${sign}">${fn:substring(expert.relName,0,4)}...</a></c:if>
+                <c:if test="${fn:length(expert.relName) <=4}"><a href="${pageContext.request.contextPath}/expertAudit/basicInfo.html?expertId=${expert.id}&sign=${sign}">${expert.relName}</a></c:if>
+              </td>
+              <td class="tc" onclick="shenhe('${expert.id}');">${expert.sex}</td>
+              <td class="tc" onclick="shenhe('${expert.id}');">${expert.mobile}</td>
+              <%--<td class="tl">${expert.expertsTypeId}</td>--%>
+              <td class="tl" onclick="shenhe('${expert.id}');" title="${expert.graduateSchool }">
+                <c:if test="${fn:length(expert.graduateSchool) >8 }">${fn:substring(expert.graduateSchool,0,8)}...</c:if>
+                <c:if test="${fn:length(expert.graduateSchool) <=8}">${expert.graduateSchool}</c:if>
+              </td>
+              <td class="tl" onclick="shenhe('${expert.id}');" title="${expert.workUnit }">
+                <c:if test="${fn:length(expert.workUnit) >8}">${fn:substring(expert.workUnit,0,8)}...</c:if>
+                <c:if test="${fn:length(expert.workUnit) <=8}">${expert.workUnit}</c:if>
+              </td>
+              <td class="tc" onclick="shenhe('${expert.id}');">
+                <fmt:formatDate type='date' value='${expert.auditAt }' dateStyle="default" pattern="yyyy-MM-dd" />
+              </td>
+              <td class="tc" onclick="shenhe('${expert.id}');">
+                <fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
+              </td>
+              <td class="tl" onclick="shenhe('${expert.id}');">${expert.orgName }</td>
+              <td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">
+                <c:if test="${expert.isPublish == 1 }"><span class="label rounded-2x label-u">已发布</span></c:if>
+                <c:if test="${expert.isPublish == 0 }"><span class="label rounded-2x label-dark">未发布</span></c:if>
+              </td>
+              <c:if test="${(sign == 1 and expert.status eq '0' and expert.auditTemporary ne '1')}">
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待初审</span></td>
+              </c:if>
+              <c:if test="${sign == 1 and expert.status eq '0' and expert.auditTemporary eq '1'}">
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">初审中</span></td>
+              </c:if>
+              <c:if test="${sign == 1 and expert.status eq '1' }">
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">初审合格</span></td>
+              </c:if>
+              <c:if test="${sign == 1 and expert.status eq '2' }">
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">初审未合格</span></td>
+              </c:if>
+              <c:if test="${sign == 1 and expert.status eq '3' }">
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">退回修改</span></td>
+              </c:if>
+              <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary ne '2'}">
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复审</span></td>
+              </c:if>
+              <c:if test="${sign == 2 and expert.status eq '1' and expert.auditTemporary eq '2'}">
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复审中</span></td>
+              </c:if>
+              <c:if test="${sign == 2 and expert.status eq '4' }">
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审合格</span></td>
+              </c:if>
+              <c:if test="${sign == 2 and expert.status eq '-2' }">
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审预合格</span></td>
+              </c:if>
+              <c:if test="${sign == 2 and expert.status eq '-3' }">
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">公示中</span></td>
+               </c:if>
+              <c:if test="${sign == 2 and expert.status eq '5' }">
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审不合格</span></td>
+              </c:if>
+              <c:if test="${sign == 3 and expert.status eq '6' and expert.auditTemporary ne '3'}">
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复查</span></td>
+              </c:if>
+              <c:if test="${sign == 3 and expert.status eq '6' and expert.auditTemporary eq '3'}">
+                <td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">复查中</span></td>
+              </c:if>
+              <c:if test="${sign == 3 and expert.status eq '7' }">
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查合格</span></td>
+              </c:if>
+              <c:if test="${sign == 3 and expert.status eq '8' }">
+                <td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查未合格</span></td>
+              </c:if>
+              <td class="" onclick="shenhe('${expert.id}');">
+                <c:choose>
+                  <c:when test="${expert.auditor ==null or expert.auditor == ''}">无</c:when>
+                  <c:otherwise>${expert.auditor}</c:otherwise>
+                </c:choose>
+              </td>
             </tr>
           </c:forEach>
         </table>

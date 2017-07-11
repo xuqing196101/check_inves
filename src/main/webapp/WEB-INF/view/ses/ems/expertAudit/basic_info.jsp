@@ -50,7 +50,11 @@
 
         //审核input框
         function reason(obj, str) {
-            var expertId = $("#expertId").val();
+        	var status = ${expert.status};
+        	var sign = $("input[name='sign']").val();
+        	//只能审核可以审核的状态
+        	if(status ==-2 || status == -3 || status == 0 || (sign ==2 && status ==1) || status ==6){
+        		var expertId = $("#expertId").val();
             var auditField;
             var auditContent;
             var html = "<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>";
@@ -75,31 +79,36 @@
                     var text = trim(text);
                     if (text != null && text != "") {
                         $.ajax({
-                            url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
-                            type: "post",
-                            dataType: "json",
-                            data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField,
-                            success: function (result) {
-                                result = eval("(" + result + ")");
-                                if (result.msg == "fail") {
-                                    layer.msg('该条信息已审核过！', {
-                                        shift: 6, //动画类型
-                                        offset: '100px'
-                                    });
-                                }
-                            }
-                        });
-                        $("#" + obj.id + "").css('border-color', '#FF0000');
-                        $(obj).after(html);
-                        layer.close(index);
-                    } else {
-                        layer.msg('不能为空！', {offset: '100px'});
-                    }
-                });
+                          url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+                          type: "post",
+                          dataType: "json",
+                          data: "suggestType=one" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField,
+                          success: function (result) {
+                              result = eval("(" + result + ")");
+                              if (result.msg == "fail") {
+                                  layer.msg('该条信息已审核过！', {
+                                      shift: 6, //动画类型
+                                      offset: '100px'
+                                  });
+                              }
+                          }
+                      });
+                      $("#" + obj.id + "").css('border-color', '#FF0000');
+                      $(obj).after(html);
+                      layer.close(index);
+                  } else {
+                      layer.msg('不能为空！', {offset: '100px'});
+                  }
+              });
+          }
         }
 
         //审核附件
         function reasonFile(obj, str) {
+        	var status = ${expert.status};
+          var sign = $("input[name='sign']").val();
+          //只能审核可以审核的状态
+          if(status ==-2 || status == -3 || status == 0 || (sign ==2 && status ==1) || status ==6){
             var expertId = $("#expertId").val();
             var showId = obj.id + "1";
 
@@ -137,6 +146,7 @@
                         layer.msg('不能为空！', {offset: '100px'});
                     }
                 });
+           }
         }
 
 
@@ -824,8 +834,10 @@
             </ul> --%>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
+          <c:if test="${status == 0 || (sign ==2 && status ==1) || status ==6}">
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
-            <a class="btn" type="button" onclick="nextStep();">下一步</a>
+          </c:if>
+          <a class="btn" type="button" onclick="nextStep();">下一步</a>
         </div>
     </div>
 </div>
