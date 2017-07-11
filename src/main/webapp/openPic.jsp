@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<%@ include file="/WEB-INF/view/common.jsp" %>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Picture Viewer</title>
@@ -13,8 +16,7 @@
 
 
 </body>
-<%@ include file="/WEB-INF/view/common.jsp" %>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+
 <script type="text/javascript">
 	
 	window.onload=function(){ 
