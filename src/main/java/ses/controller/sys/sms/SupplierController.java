@@ -686,8 +686,9 @@ public class SupplierController extends BaseSupplierController {
 				if(finances.get(0).getTotalNetAssets()!=null&&finances.get(1).getTotalNetAssets()!=null&&finances.get(2).getTotalNetAssets()!=null){
 
 				//判断注册资金是否足够
-			    BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
-				if (score.compareTo(BigDecimal.valueOf(100)) ==-1) {
+			    //BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
+			    BigDecimal score = supplierService.getScoreByFinances(supplier.getListSupplierFinances());
+				if (score.compareTo(BigDecimal.valueOf(100)) == -1) {
 					res="notPass";
 				//	return "notPass";	            
 				 } 
@@ -715,40 +716,7 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_basic")
 	public String perfectBasic(HttpServletRequest request, Model model, Supplier supplier) throws Exception {
-		// 非空处理
-	    List < SupplierAddress > addressList = supplier.getAddressList();
-	    if(addressList != null && addressList.isEmpty()){
-	    	for(int i = 0; i < addressList.size(); i++) {
-	    		SupplierAddress address = addressList.get(i);
-	    		if(address != null && address.getId() == null) {
-	    			addressList.remove(i);
-	    		}
-	    	}
-	    }
-	    supplier.setAddressList(addressList);
-		List < SupplierStockholder > stockHolders = supplier.getListSupplierStockholders();
-		if(stockHolders != null && !stockHolders.isEmpty()){
-			for(int i = 0; i < stockHolders.size(); i++) {
-				SupplierStockholder stocker = stockHolders.get(i);
-				if(stocker != null && stocker.getSupplierId() == null) {
-					stockHolders.remove(i);
-				}
-			}
-		}
 		
-		supplier.setListSupplierStockholders(stockHolders);
-		List < SupplierAfterSaleDep > afterSaleDep = supplier.getListSupplierAfterSaleDep();
-		List < SupplierAfterSaleDep > afterSaleList = new ArrayList<SupplierAfterSaleDep>();
-		if(afterSaleDep != null && !afterSaleDep.isEmpty()){
-			for(int i = 0; i < afterSaleDep.size(); i++) {
-			    SupplierAfterSaleDep afterSale = afterSaleDep.get(i);
-			    if(afterSale.getId() != null) {
-			        afterSaleList.add(afterSale);
-			    }
-			}
-		}
-		
-		supplier.setListSupplierAfterSaleDep(afterSaleList);
 		boolean info = validateBasicInfo(request, model, supplier);
 		List < SupplierTypeRelate > relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
 		model.addAttribute("relate", relate);
@@ -903,38 +871,6 @@ public class SupplierController extends BaseSupplierController {
 			return "ses/sms/supplier_register/supplier_type";
 		} else {
 			Supplier supplier2 = supplierService.get(supplier.getId());
-			/*if(supplier2.getListSupplierFinances() != null && supplier2.getListSupplierFinances().size() > 0) {
-				supplier.setListSupplierFinances(supplier2.getListSupplierFinances());
-			}
-			if(supplier2.getListSupplierStockholders() != null && supplier2.getListSupplierStockholders().size() > 0) {
-				supplier.setListSupplierStockholders(supplier2.getListSupplierStockholders());
-			}*/
-			List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplier2.getListSupplierAfterSaleDep();
-			if(listSupplierAfterSaleDep != null && listSupplierAfterSaleDep.size() > 0) {
-			    for (int i = 1; i < listSupplierAfterSaleDep.size(); i++) {
-			        SupplierAfterSaleDep afterSale = listSupplierAfterSaleDep.get(i);
-                    if (afterSale.getId() == null) {
-                        listSupplierAfterSaleDep.remove(i);
-                    }
-                }
-			    supplier2.setListSupplierAfterSaleDep(supplier2.getListSupplierAfterSaleDep());
-			}
-			/*if(supplier2.getAddressList() != null && supplier2.getAddressList().size() > 0) {
-				for(SupplierAddress b: supplier2.getAddressList()) {
-					if(StringUtils.isNotBlank(b.getProvinceId())) {
-						List < Area > city = areaService.findAreaByParentId(b.getProvinceId());
-						b.setAreaList(city);
-					}
-				}
-			}
-			if(supplier2.getConcatProvince() != null) {
-				List < Area > concity = areaService.findAreaByParentId(supplier2.getConcatProvince());
-				supplier2.setConcatCityList(concity);
-			}
-			if(supplier2.getArmyBuinessProvince() != null) {
-				List < Area > armcity = areaService.findAreaByParentId(supplier2.getArmyBuinessProvince());
-				supplier2.setArmyCity(armcity);
-			}*/
 			
 			initCompanyType(model, supplier2);
 			
@@ -967,6 +903,55 @@ public class SupplierController extends BaseSupplierController {
 				}
 			}
 		}
+		
+		// 去掉空的生产经营地址
+		List<SupplierAddress> addressList = supplier.getAddressList();
+		if(addressList != null && addressList.size() > 0) {
+			Iterator<SupplierAddress> itr = addressList.iterator();
+			while(itr.hasNext()){
+				SupplierAddress address = itr.next();
+				if (address.getId() == null) {
+					itr.remove();
+				}
+			}
+		}
+		
+		// 去掉空的境外分支
+		List<SupplierBranch> branchList = supplier.getBranchList();
+		if(branchList != null && branchList.size() > 0) {
+		    Iterator<SupplierBranch> itr = branchList.iterator();
+			while(itr.hasNext()){
+				SupplierBranch branch = itr.next();
+				if (branch.getId() == null) {
+					itr.remove();
+				}
+			}
+		}
+		
+		// 去掉空的股东信息
+		List<SupplierStockholder> listSupplierStockholders = supplier.getListSupplierStockholders();
+		if(listSupplierStockholders != null && listSupplierStockholders.size() > 0) {
+		    Iterator<SupplierStockholder> itr = listSupplierStockholders.iterator();
+			while(itr.hasNext()){
+				SupplierStockholder stockholder = itr.next();
+				if (stockholder.getId() == null) {
+					itr.remove();
+				}
+			}
+		}
+		
+		// 去掉空的售后服务机构信息
+		List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplier.getListSupplierAfterSaleDep();
+		if(listSupplierAfterSaleDep != null && listSupplierAfterSaleDep.size() > 0) {
+            Iterator<SupplierAfterSaleDep> itr = listSupplierAfterSaleDep.iterator();
+			while(itr.hasNext()){
+				SupplierAfterSaleDep afterSale = itr.next();
+				if (afterSale.getId() == null) {
+					itr.remove();
+				}
+			}
+		}
+		
 		model.addAttribute("currSupplier", supplier);
 	}
 	
@@ -1944,8 +1929,10 @@ public class SupplierController extends BaseSupplierController {
 			int stockholderCount = 0;// 股东数量
 			String errorIdentity = "";// 错误信用代码或身份证号码
 			for(SupplierStockholder stocksHolder: stockList) {
-				identitySet.add(stocksHolder.getIdentity());
-				identityCount++;
+				if(stocksHolder.getIdentity() != null){
+					identitySet.add(stocksHolder.getIdentity());
+					identityCount++;
+				}
 				if(stocksHolder.getName() == null || stocksHolder.getName() == "") {
 					count++;
 					model.addAttribute("stock", "出资人名称或姓名不能为空！");
@@ -2050,6 +2037,7 @@ public class SupplierController extends BaseSupplierController {
         }
 
 		if(count > 0) {
+			model.addAttribute("status", "0");
 			return false;
 		}
 		return true;
@@ -2859,25 +2847,29 @@ public class SupplierController extends BaseSupplierController {
 				}
 			}
 			String[] spl = sb.toString().split(";");
-			if(spl[0].trim().length() != 0) {
-				for(String sss: spl) {
-					SupplierModify supplierModify = new SupplierModify();
-					String[] ss = sss.split(",");
-					String id = UUID.randomUUID().toString().replaceAll("-", "");
-					supplierModify.setId(id);
-					supplierModify.setSupplierId(supplierId);
-					supplierModify.setBeforeField(ss[0]);
-					supplierModify.setBeforeContent(ss[1]);
-					// sh.setAfterContent(ss[1]);
-					/*sh.setCreatedAt(new Date());*/
-					supplierModify.setModifyType("basic_page");
-					supplierModify.setListType(0);
-					SupplierModify mo = supplierModifyService.findBySupplierId(supplierModify);
-					// 删除之前的记录
-					 if(mo != null) {
-						 supplierModifyService.delete(mo);
+			if(spl != null && spl.length > 0){
+				if(spl[0].trim().length() != 0) {
+					for(String sss: spl) {
+						SupplierModify supplierModify = new SupplierModify();
+						String[] ss = sss.split(",");
+						String id = UUID.randomUUID().toString().replaceAll("-", "");
+						supplierModify.setId(id);
+						supplierModify.setSupplierId(supplierId);
+						if(ss != null && ss.length > 1){
+							supplierModify.setBeforeField(ss[0]);
+							supplierModify.setBeforeContent(ss[1]);
+							// sh.setAfterContent(ss[1]);
+						}
+						/*sh.setCreatedAt(new Date());*/
+						supplierModify.setModifyType("basic_page");
+						supplierModify.setListType(0);
+						SupplierModify mo = supplierModifyService.findBySupplierId(supplierModify);
+						// 删除之前的记录
+						 if(mo != null) {
+							 supplierModifyService.delete(mo);
+						}
+						supplierModifyService.add(supplierModify);
 					}
-					supplierModifyService.add(supplierModify);
 				}
 			}
 		}
