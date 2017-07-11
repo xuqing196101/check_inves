@@ -218,11 +218,16 @@
             dataType: "json",
             url: "${pageContext.request.contextPath }/look/auditId.do?id=" + id,
             success: function(data) {
-              if(data != 1) {
-                layer.alert("请设置审核人员", {
+              if(data == 0) {
+                layer.alert("请点击审核人员设置", {
                   offset: ['30%', '40%']
                 });
               }
+              if(data == 2) {
+                  layer.alert("已审核结束", {
+                    offset: ['30%', '40%']
+                  });
+                }
               if(data == 1) {
                 window.location.href = "${pageContext.request.contextPath }/look/auditlook.html?id=" + id;
               }
