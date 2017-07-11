@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<%@ include file="/WEB-INF/view/common.jsp" %>
+	<%-- <%@ include file="/WEB-INF/view/common.jsp" %> --%>
 	<jsp:include page="/index_head.jsp"></jsp:include>
 	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 	<script type="text/javascript">
