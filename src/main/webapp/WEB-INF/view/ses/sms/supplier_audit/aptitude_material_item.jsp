@@ -34,7 +34,7 @@
             </div>
             </c:forEach>
             </td>
-             <td class="tc info"  onclick="reasonProject('${ids }','${obj.categoryId }','${obj.categoryName }','${vs.index + 1}')">
+             <td class="tc info"  onclick="reasonProject('${ids }','${obj.supplierItemId }','${obj.categoryName }','${vs.index + 1}')">
                <a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>
              </td>
           </tr>

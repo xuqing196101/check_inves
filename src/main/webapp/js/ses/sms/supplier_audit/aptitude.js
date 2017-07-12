@@ -268,13 +268,13 @@ function onQualificationsShow(tablerId,ind,rootNode,itemId,secondNode,secondNode
 	showFrame(tablerId,ind,rootNode+"-专业资质要求信息",itemId,0,'',secondNode,secondNodeId);
 }
 //是否有内容显示  
-function isShow(tablerId,ind,count,type,rootNode,itemId,id,secondNode,secondNodeId){
+function isShow(tablerId,ind,count,type,rootNode,itemId,supplierItemid,secondNode,secondNodeId){
 	var rut="";
 	
 	//合同
 	if(type=='contract'){
 		if(count>0){
-			rut= "<a href=\"javascript:void(0);\" onclick=\"onContractShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+id+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
+			rut= "<a href=\"javascript:void(0);\" onclick=\"onContractShow('"+tablerId+"','"+ind+"','"+rootNode+"','"+itemId+"','"+supplierItemid+"','"+secondNode+"','"+secondNodeId+"')\">审核</a>";
 		}else {
 			rut= "";
 		}

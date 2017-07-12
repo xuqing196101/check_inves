@@ -108,5 +108,16 @@ public interface ExpertCategoryService {
      */
 	List<ExpertCategory> selectPassCateByExpertId(String expertId, String typeId, Integer pageNum);
 
+	/**
+	 *
+	 * Description:保存专家选择的类型（小类）
+	 *
+	 * @author Easong
+	 * @version 2017/7/7
+	 * @param expertCategory
+	 * @since JDK1.7
+	 */
+	void insertSelective(ExpertCategory expertCategory);
+
 
 }

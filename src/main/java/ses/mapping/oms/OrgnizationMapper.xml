@@ -1203,7 +1203,7 @@
 		    WHERE ROWNUM &lt;= 10
 	</select>
 	
-	<!-- 排序查询采购机构 -->
+	<!-- 排序查询采购机构typeName=1 -->
 	<select id="findPurchaseOrgByPosition" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
 	  select d.id  as id,
 		       d.NAME         as name,
@@ -1238,6 +1238,7 @@
 		  pd.ORG_ID = d.id
 		  where d.IS_DELETED = 0
 		  and pd.IS_DELETED = 0
+		  and d.TYPE_NAME= 1
 		 <if test="id != null and id != ''">
 			and d.id= #{id}
 		</if>

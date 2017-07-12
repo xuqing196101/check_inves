@@ -391,7 +391,7 @@ public class LoginController {
      */
     @RequestMapping("/loginOut")
     public String loginOut(HttpServletRequest req){
-        req.getSession().removeAttribute("loginUser");
+        req.getSession().invalidate();
         return "redirect:/";
     }
     

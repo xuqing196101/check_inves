@@ -42,7 +42,7 @@
 			//按条件查询
 			function queryResult() {
 				var name = $("#name").val();
-				var depName = $("#depName").val();
+				var depName = $("#depName option:selected").val();
 				if((name == null || name == "") && (depName == null || depName == "")) {
 					window.location.href = "${pageContext.request.contextPath }/purchaseArchive/archiveAuthorize.html";
 					return;
@@ -197,7 +197,15 @@
 			    	<label class="fl">姓名：</label><span><input type="text" id="name" name="name" class=""/></span>
 			    </li>
 		  		<li>
-			    	<label class="fl">采购机构：</label><span><input type="text" id="depName" name="depName" class=""/></span>
+			    	<label class="fl">采购机构：</label>
+					<span>
+			    		<select id="depName" name="depName">
+		  					<option value="">--请选择--</option>
+                            <c:forEach items="${purchaseOrgList}" var="p">
+                                <option value="${p.id}">${p.name}</option>
+                            </c:forEach>
+		  				</select>
+			    	</span>
 			    </li>
 		  		<button class="btn" type="button" onclick="queryResult()">查询</button>
 		  		<button class="btn" type="button" onclick="resetResult()">重置</button>

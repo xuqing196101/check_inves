@@ -292,7 +292,7 @@ public class SynchImportController {
                   */
                  if(synchType.contains("inner_out")){
 					if (f.getName().contains(FileUtils.C_SUPPLIER_ALL_FILE)) {
-						innerSupplierService.immportInner(f);
+						innerSupplierService.immportInner(f, null);
 					}
 					if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
 						attachService.importSupplierAttach(f);
@@ -621,7 +621,7 @@ public class SynchImportController {
 				if(synchType.contains(Constant.SYNCH_PUBLICITY_SUPPLIER)){
 					for (File file2 : f.listFiles()){
 						if(file2.getName().contains(FileUtils.C_SYNCH_PUBLICITY_SUPPLIER_FILENAME)){
-							innerSupplierService.immportInner(file2);
+							innerSupplierService.immportInner(file2, "publicity");
 						}
 					}
 					if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)) {
