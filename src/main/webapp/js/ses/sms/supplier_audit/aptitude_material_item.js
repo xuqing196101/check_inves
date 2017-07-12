@@ -26,7 +26,6 @@ function reasonProject(ind,auditField, auditFieldName) {
 	ind=parseInt(ind)+1;
 	var tablerId=$("#tablerId").val();
 	var auditContent=content(tablerId,ind,'专业资质要求');
-	
 	var audits;
 	switch (tablerId) {
 	case 'content_1'://物资生产

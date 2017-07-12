@@ -335,13 +335,13 @@ public interface SupplierAuditService {
     void deleteBySupplierId(String supplierId);
     /**
      * 
-     * Description:service 封装 是否 有审核 数据
+     * Description:service 封装 是否 有目录审核 数据
      * 
      * @version 2017-6-30
      * @param cateTree
      * @return
      */
-    public SupplierCateTree potting(SupplierCateTree cateTree,String supplierId);
+    public SupplierCateTree cateTreePotting(SupplierCateTree cateTree,String supplierId);
     /**
      * @Title: downloadFile
      * @author XuQing 

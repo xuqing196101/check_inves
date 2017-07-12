@@ -13,11 +13,11 @@
 <body>
 	<div class="margin-top-10  ">
 		<div class="tab-pane fade active in">
-		<input id="auditType"  type="hidden" value="${auditType }">
-		<input id="inds"  type="hidden" value="0">
-		<input id="ids"  type="hidden" value="${ids }">
 		<input id="supplierId"  type="hidden" value="${supplierId }">
-		<input id="tablerId"  type="hidden" value="${tablerId}">
+        <input id="auditType"  type="hidden" value="${auditType }">
+        <input id="ids"  type="hidden" value="${ids }">
+        <input id="count"  type="hidden" value="0">
+        <input id="tablerId"  type="hidden" value="${tablerId}">
 			<c:choose>
 				<c:when test="${not empty showProject }">
 					<table class="table table-bordered">
@@ -72,7 +72,7 @@
 												sysKey="${sysKey}" delete="false" />
 										</div>
 									</td>
-									 <td class="tc info"  onclick="reasonProject('${ids }','${cate.itemsId }','${cate.itemsName }','${vs.index + 1}')">
+									 <td class="tc info"  onclick="reasonProject('${ids }','${cate.supplierItemId}','${cate.itemsName }','${vs.index + 1}')">
                                       <a href="javascript:void(0);"><img id="show_td" src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></a>
                                     </td>
 								</tr>
