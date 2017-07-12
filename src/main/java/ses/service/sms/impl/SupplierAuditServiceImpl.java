@@ -932,7 +932,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	        for (Supplier supplier : list) {
 	            // 将公示7天的拟入库供应商入库 
 	            // 获取七天后的今天
-	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(supplier.getUpdatedAt(), 7));
+	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(supplier.getAuditDate(), 7));
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
 	                supplier.setStatus(1);

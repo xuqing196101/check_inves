@@ -455,7 +455,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	        for (Expert expert : list) {
 	            // 将公示7天的拟入库供应商入库 
 	            // 获取七天后的今天
-	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(expert.getUpdatedAt(), 7));
+	            String afterDateString = DateUtils.getDateOfFormat(DateUtils.addDayDate(expert.getAuditAt(), 7));
 	            if(nowDateString.equals(afterDateString)){
 	                // 审核通过，自动入库
 	            	expert.setStatus("4");
