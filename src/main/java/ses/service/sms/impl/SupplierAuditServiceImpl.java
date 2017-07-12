@@ -787,7 +787,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		map.put("categoryId", cateTree.getSecondNodeID());
 		//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 		List<SupplierItem> itemList=supplierItemService.findByMap(map);
-		
+		//资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
 		long temp=0;
 		if(null!=itemList && !itemList.isEmpty()){
 			SupplierItem supplierItem=itemList.get(0);
@@ -798,7 +798,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 						temp=uploadService.countFileByBusinessId(supplierItem.getId()+categoryQua.getId(), type_id, syskey);
 						if(temp>0){
 							//资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
-							cateTree.setSupplierItemId(supplierItem.getId());
+							qualification.setSupplierItemId(supplierItem.getId());
 						    qualification.setFlag(supplierItem.getId()+categoryQua.getId());
 						    list.add(qualification);
 						}
@@ -846,7 +846,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			map.put("categoryId", cateTree.getSecondNodeID());
 			//根据第三节目录节点 id(也就是中级目录 id) 获取目录中间表id  获取文件的business_id
 			List<SupplierItem> itemList=supplierItemService.findByMap(map);
-			String supplierItemId="";
+			String supplierItemId="0";
 			if(null != itemList && !itemList.isEmpty()){
 				supplierItemId=itemList.get(0).getId();
 			}

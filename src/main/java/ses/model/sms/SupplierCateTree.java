@@ -90,7 +90,6 @@ public class SupplierCateTree implements Serializable{
     private String auditType;
     // 根节点类型（1：物质生产；2：物质销售；3：工程；4：服务）
     private int rootNodeType;
-    
     // 类别id
     private String categoryId;
     

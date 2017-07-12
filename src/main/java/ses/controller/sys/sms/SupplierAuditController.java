@@ -2450,8 +2450,6 @@ public class SupplierAuditController extends BaseSupplierController {
 		String typeId=null;
 		
 		// categoryQua type:4(工程) 3（销售） 2（生产）1（服务）
-		//资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
-		
 		if("工程".equals(type)){
 			//封装 供应商id
 			cateTree.setSupplierItemId(supplierId);
@@ -2470,26 +2468,28 @@ public class SupplierAuditController extends BaseSupplierController {
 			cateTree.setItemsId(supplierId);
 			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
 			bean.setCategoryName(cateTree.getItemsName()+"专业资质要求");
-			bean.setCategoryId(itemId);
 			list= supplierAuditService.showQualifications(cateTree, 1,typeId,sysKey);
-			bean.setList(list);
-			beanList.add(bean);
+			if(null!=list && !list.isEmpty()){
+				bean.setCategoryId(list.get(0).getSupplierItemId());
+				bean.setList(list);
+				beanList.add(bean);
+			}
 		}else{
 			//封装 供应商id
 			cateTree.setItemsId(supplierId);
 			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
 			bean.setCategoryName(cateTree.getItemsName()+"-生产专业资质要求");
-			bean.setCategoryId(itemId);
 			list= supplierAuditService.showQualifications(cateTree, 2,typeId,sysKey);
 			if(null!=list && !list.isEmpty()){
+				bean.setCategoryId(list.get(0).getSupplierItemId());
 				bean.setList(list);
 				beanList.add(bean);
 			}
 			QualificationBean bean2=new QualificationBean();
 			bean2.setCategoryName(cateTree.getItemsName()+"-销售专业资质要求");
-			bean.setCategoryId(itemId);
 			list= supplierAuditService.showQualifications(cateTree, 3,typeId,sysKey);
 			if(null!=list && !list.isEmpty()){
+				bean.setCategoryId(list.get(0).getSupplierItemId());
 				bean2.setList(list);
 				beanList.add(bean2);
 			}
