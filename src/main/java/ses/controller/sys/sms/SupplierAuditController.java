@@ -2330,6 +2330,14 @@ public class SupplierAuditController extends BaseSupplierController {
 	/**
 	 * 
 	 * Description:封装 供应商审核（产品类别及资质合同）数据
+	 * 产品目录：审核字段存储：目录末级节点ID
+	 * 资质文件：--物资生产/物资销售/服务
+     * 审核字段存储：三级节点ID关联的SupplierItem的ID
+     *    --工程
+     * 审核字段存储：末级节点ID关联的SupplierItem的ID
+     * 销售合同：
+     * --物资生产/物资销售/服务
+     * 审核字段存储：末级节点ID关联的SupplierItem的ID_附件typeId
 	 * 
 	 * @author YangHongLiang
 	 * @version 2017-6-23
@@ -2362,13 +2370,16 @@ public class SupplierAuditController extends BaseSupplierController {
                 cateTree=categoryService.addNode(parentNodeList);
                 // 工程类等级
                 if("工程".equals(cateTree.getRootNode())) {
+                	//--工程  	审核字段存储：末级节点ID关联的SupplierItem的ID
                     fileNumber=engCategoryService.countEngCategoyrId(cateTree, supplierId);
                 }else{
                     //供应商物资 专业资质要求上传
+                	//--物资生产/物资销售/服务 	审核字段存储：三级节点ID关联的SupplierItem的ID
                     fileNumber=supplierService.countCategoyrId(cateTree,supplierId);
                 }
                 //是否有销售合同
                 contractCount=supplierService.contractCountCategoyrId(supplierItem.getId());
+                cateTree.setSupplierItemId(supplierItem.getId());
                 //封装 是否有审核数据
                 cateTree=supplierAuditService.cateTreePotting(cateTree,supplierId);
                 cateTree.setContractCount(contractCount);
@@ -2381,7 +2392,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	/**
 	 * 
 	 * Description:销售合同
-	 * 
+	 * 销售合同：--物资生产/物资销售/服务  审核字段存储：目录末级节点ID关联的SupplierItem的ID_附件typeId
 	 * @author YangHongLiang
 	 * @version 2017-6-28
 	 * @param itemId
@@ -2410,7 +2421,8 @@ public class SupplierAuditController extends BaseSupplierController {
 	/**
 	 * 
 	 * Description:资质 文件查看
-	 * 
+	 * 资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
+	 * --工程 审核字段存储：目录末级节点ID关联的SupplierItem的ID
 	 * @author YangHongLiang
 	 * @version 2017-6-26
 	 * @param itemId
@@ -2431,15 +2443,18 @@ public class SupplierAuditController extends BaseSupplierController {
 		// 加入根节点 物资
 		SupplierCateTree cateTree=categoryService.addNode(parentNodeList);
 		String type=cateTree.getRootNode();
-		//封装 供应商id
-		cateTree.setItemsId(supplierId);
+		
 		QualificationBean bean=new QualificationBean();
 		List<Qualification> list=new ArrayList<>();
 		Integer sysKey=Constant.SUPPLIER_SYS_KEY;
 		String typeId=null;
 		
 		// categoryQua type:4(工程) 3（销售） 2（生产）1（服务）
+		//资质文件：物资生产/物资销售/服务  审核字段存储：目录三级节点ID关联的SupplierItem的ID
+		
 		if("工程".equals(type)){
+			//封装 供应商id
+			cateTree.setSupplierItemId(supplierId);
 			sysKey=common.constant.Constant.SUPPLIER_SYS_KEY;
 			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_ENG_CERT);
 			List<SupplierCateTree> showProject=supplierAuditService.showProject(cateTree, 4, typeId, sysKey);
@@ -2451,6 +2466,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			model.addAttribute("tablerId", tablerId);
 			return "ses/sms/supplier_audit/aptitude_project_item";
 		}else if("服务".equals(type)){
+			//封装 供应商id
+			cateTree.setItemsId(supplierId);
 			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
 			bean.setCategoryName(cateTree.getItemsName()+"专业资质要求");
 			bean.setCategoryId(itemId);
@@ -2458,6 +2475,8 @@ public class SupplierAuditController extends BaseSupplierController {
 			bean.setList(list);
 			beanList.add(bean);
 		}else{
+			//封装 供应商id
+			cateTree.setItemsId(supplierId);
 			typeId=DictionaryDataUtil.getId(ses.util.Constant.SUPPLIER_APTITUD);
 			bean.setCategoryName(cateTree.getItemsName()+"-生产专业资质要求");
 			bean.setCategoryId(itemId);
