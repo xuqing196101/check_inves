@@ -282,6 +282,8 @@
 				var supplierId = "${currSupplier.id}";
 				location.href = "${pageContext.request.contextPath}/supplier/updateStep.html?step=" + step + "&supplierId=" + supplierId;
 			}
+			
+			//TODO 预加载函数
 			$(function(){
 				var cateList = "${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(cateList) > 0}";
 				var saleQua = "${fn:contains(currSupplier.supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}";
@@ -290,12 +292,22 @@
 				if (cateList == "false" && saleQua == "false" && projectQua == "false" && serviceQua == "false") {
 					layer.alert("没有需要上传的资质文件，请直接点击下一步！");
 				}
+				
+				//第二步 被修改过的证书编号
+				var modifiedCertCodes = "${modifiedCertCodes}";
+				if(modifiedCertCodes){
+					 var modifiedCertCodesArray = modifiedCertCodes.split("-");
+					 for ( var i = 0; i < modifiedCertCodesArray.length; i++) {
+					 	var obj = $("[value='"+modifiedCertCodesArray[i]+"']");
+					 	var index = obj.attr("label");
+					 	getFileByCode(obj,index,"2");
+					}
+				}
 			});
 
 			sessionStorage.locationD=true;
 			sessionStorage.index=4;
 		</script>
-
 	</head>
 
 	<body>
@@ -491,7 +503,7 @@
 
 														</td>
 														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-															<input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')">
+															<input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" label="${vs.index}" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')">
 														</td>
 
 														<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>

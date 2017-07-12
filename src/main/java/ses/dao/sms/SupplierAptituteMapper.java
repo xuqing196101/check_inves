@@ -78,5 +78,7 @@ public interface SupplierAptituteMapper {
     * @throws
      */
     void deleteByMatEngId(@Param("matEngId")String matEngId);
+
+	int selectByCertCode(String certCode);
     
 }
